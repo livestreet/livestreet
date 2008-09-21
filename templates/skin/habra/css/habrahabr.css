@@ -1,0 +1,58 @@
+#unread { color: 339900; }
+img.starr { margin-left: 5px; }
+blockquote {border-left:1px solid #e1e1e1;margin:3px 32px;padding:0px 16px}
+
+
+.help_header {
+font-family: Verdana, sans-serif;
+color: #999999;
+font-size: 20px;
+line-height: 25px;
+letter-spacing: -1px;
+}
+
+
+a.small {font-size:11px; font-family:tahoma; color:#333399; line-height: 14px;}
+.small {font-size:11px; font-family:tahoma; line-height: 14px; color:#000000;}
+
+
+
+/*** img border ********************************************************/
+
+.img_border { border: 1px solid #ddd; }
+
+
+
+
+/*** Main Components ********************************************************/
+
+
+.header {
+font-family: Verdana, sans-serif;
+color: #999999;
+font-size: 26px;
+line-height: 25px;
+letter-spacing: -1px;
+}
+
+.txt {font-size:13px; font-family:verdana,arial; color:#000000; margin-bottom:5px;}
+.txt_small {font-size:12px; font-family:arial; color:#000000; margin-bottom:5px;}
+.form {font-size:13px; font-family:arial; color:#000000; margin-bottom:5px;}
+.form_note {font-size:11px; font-family:arial; color:#999999; margin-bottom:5px;}
+.form_note_red {font-size:13px; font-family:arial; color:#ff3300; margin-bottom:5px;}
+
+
+.text {font-size:13px; font-family:arial; color:#000000; line-height: 20px;}
+.text_lenta {font-size:13px; font-family:arial; color:#000000; line-height: 20px;}
+
+
+.story_text {
+color: #000000;
+font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+font-size: 13px
+}
+
+
+.bodycopy {margin-top: 15px; font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;}
+
+.small {font-size:10px; font-family:tahoma,arial; color:#363636;}

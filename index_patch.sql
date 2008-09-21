@@ -1,0 +1,16 @@
+ ALTER TABLE `prefix_blog` ADD INDEX `blog_type` ( `blog_type` )  ;
+ ALTER TABLE `prefix_blog` ADD INDEX `blog_url` ( `blog_url` )  ;
+ ALTER TABLE `prefix_talk_comment` ADD INDEX `talk_comment_date` ( `talk_comment_date` )  ;
+ ALTER TABLE `prefix_talk_comment` ADD INDEX `talk_id_user_id` ( `talk_id` , `user_id` )  ;
+ ALTER TABLE `prefix_talk_user` ADD INDEX `date_last` ( `date_last` )  ;
+ ALTER TABLE `prefix_topic` ADD INDEX `topic_date_add` ( `topic_date_add` )  ;
+ ALTER TABLE `prefix_topic` ADD INDEX `topic_rating` ( `topic_rating` )  ;
+ ALTER TABLE `prefix_topic` ADD INDEX `topic_publish` ( `topic_publish` )  ;
+ ALTER TABLE `prefix_topic_comment` ADD INDEX `comment_date_rating` ( `comment_date` , `comment_rating` )  ;
+ ALTER TABLE `prefix_topic_read` ADD INDEX `topic_id_user_id` ( `topic_id` , `user_id` )  ;
+ ALTER TABLE `prefix_topic_tag` ADD INDEX `topic_tag_text` ( `topic_tag_text` )  ;
+ ALTER TABLE `prefix_user` ADD INDEX `user_activate_key` ( `user_activate_key` )  ;
+ ALTER TABLE `prefix_user` ADD INDEX `user_activate` ( `user_activate` )  ;
+ ALTER TABLE `prefix_user` ADD INDEX `user_rating` ( `user_rating` )  ;
+ ALTER TABLE `prefix_user` ADD INDEX `user_date_last` ( `user_date_last` , `user_activate` )  ;
+ ALTER TABLE `prefix_user` ADD INDEX `user_profile_sex` ( `user_profile_sex` )  ;

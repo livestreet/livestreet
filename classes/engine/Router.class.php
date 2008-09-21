@@ -1,0 +1,262 @@
+<?
+/*-------------------------------------------------------
+*
+*   LiveStreet Engine Social Networking
+*   Copyright © 2008 Mzhelskiy Maxim
+*
+*--------------------------------------------------------
+*
+*   Official site: www.livestreet.ru
+*   Contact e-mail: rus.engine@gmail.com
+*
+*   GNU General Public License, version 2:
+*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+---------------------------------------------------------
+*/
+
+
+/**
+ * Класс роутинга(контроллера)
+ * Инициализирует ядро, определяет какой экшен запустить согласно URL'у и запускает его.
+ */
+set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
+require_once("Object.class.php");
+require_once("Action.class.php");
+require_once("Block.class.php");
+require_once("Module.class.php");
+require_once("Engine.class.php");
+
+require_once("Entity.class.php");
+require_once("Mapper.class.php");
+
+
+class Router extends Object {
+	
+	protected $aConfigRoute=array();
+	static protected $sAction=null;
+	static protected $sActionEvent=null;
+	static protected $sActionClass=null;
+	static protected $aParams=array();
+	protected $oAction=null;
+	protected $oEngine=null;	
+	
+	static protected $oInstance=null;
+	
+	/**
+	 * Делает возможным только один экземпляр этого класса
+	 *
+	 * @return Router
+	 */
+	static public function getInstance() {
+		if (isset(self::$oInstance) and (self::$oInstance instanceof self)) {
+			return self::$oInstance;
+		} else {
+			self::$oInstance= new self();
+			return self::$oInstance;
+		}
+	}
+	
+	/**
+	 * В конструкторе парсим URL 
+	 * Пример: http://site.ru/action/event/param1/param2/  на выходе получим:
+	 *  self::$sAction='action';
+	 *	self::$sActionEvent='event';
+	 *	self::$aParams=array('param1','param2');
+	 *
+	 */
+	protected function __construct() {
+		//Конфиг роутинга, содержит соответствия URL и классов экшенов
+		$this->aConfigRoute=include("./config/config.route.php");		
+		
+		if (get_magic_quotes_gpc()) {
+			func_stripslashes($_REQUEST);
+		}
+		
+		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
+		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);			
+		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);
+		
+		for ($i=0;$i<SYS_OFFSET_REQUEST_URL;$i++) {
+			array_shift($aRequestUrl);
+		}		
+		self::$sAction=array_shift($aRequestUrl);
+		self::$sActionEvent=array_shift($aRequestUrl);
+		self::$aParams=$aRequestUrl;
+	}
+	
+	/**
+	 * Запускает весь процесс :)
+	 *
+	 */
+	public function Exec() {
+		$this->oEngine=Engine::getInstance();
+		$this->oEngine->InitModules();		
+		$this->ExecAction();		
+		$this->AssignVars();
+		$this->Viewer_VarAssign();	
+		/**
+		 * тут такое дело: модуль Viewer сначала шатдаунится а потом выполняет метод дисплей
+		 */
+		$this->oEngine->ShutdownModules();		
+		$this->Viewer_Display($this->oAction->GetTemplate());		
+	}
+	
+	public function getStats() {
+		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->oEngine->iTimeLoadModule,3)));
+	}
+	
+	/**
+	 * Загружает в шаблонизатор Smarty необходимые переменные
+	 *
+	 */
+	protected function AssignVars() {		
+		$this->Viewer_Assign('sAction',self::$sAction);
+		$this->Viewer_Assign('sEvent',self::$sActionEvent);
+		$this->Viewer_Assign('aParams',self::$aParams);
+	}
+	
+	/**
+	 * Запускает на выполнение экшен
+	 * Может запускаться рекурсивно если в одном экшене стоит переадресация на другой
+	 *
+	 */
+	public function ExecAction() {
+		$sActionClass=$this->DefineActionClass();
+		require_once('./classes/actions/'.$sActionClass.'.class.php');
+		$this->oAction=new $sActionClass($this->oEngine,self::$sAction);
+		if ($this->oAction->Init()==='next') {
+			$this->ExecAction();
+		} else {
+			$res=$this->oAction->ExecEvent();
+			$this->oAction->EventShutdown();			
+			if ($res==='next') {
+				$this->ExecAction();
+			}
+		}
+	}
+
+	/**
+	 * Определяет какой класс соответствует текущему экшену
+	 *
+	 * @return string
+	 */
+	protected function DefineActionClass() {		
+		if (isset($this->aConfigRoute['page'][self::$sAction])) {
+			
+		} elseif (self::$sAction===null) {
+			self::$sAction=$this->aConfigRoute['config']['action_default'];			
+		} else {
+			//Если не находим нужного класса то отправляем на страницу ошибки	
+			$this->Message_AddError('К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было.','404');		
+			self::$sAction=$this->aConfigRoute['config']['action_not_found'];		
+		}
+		self::$sActionClass=$this->aConfigRoute['page'][self::$sAction];
+		return self::$sActionClass;
+	}
+	
+	/**
+	 * Функция переадресации на другой экшен
+	 * Если ею завершить евент в экшене то запуститься новый экшен
+	 * Пример: return Router::Action('error');
+	 *
+	 * @param string $sAction
+	 * @param string $sEvent
+	 * @param array $aParams
+	 * @return 'next'
+	 */
+	static public function Action($sAction,$sEvent=null,$aParams=null) {
+		self::$sAction=$sAction;
+		self::$sActionEvent=$sEvent;	
+		if (is_array($aParams)) {
+			self::$aParams=$aParams;
+		}
+		return 'next';
+	}
+	
+	/**
+	 * Получить текущий экшен
+	 *
+	 * @return string
+	 */
+	static public function GetAction() {
+		return self::$sAction;		
+	}
+	
+	/**
+	 * Получить текущий евент
+	 *
+	 * @return string
+	 */
+	static public function GetActionEvent() {
+		return self::$sActionEvent;		
+	}
+	
+	/**
+	 * Получить класс текущего экшена
+	 *
+	 * @return string
+	 */
+	static public function GetActionClass() {
+		return self::$sActionClass;		
+	}
+	
+	/**
+	 * Установить новый текущий евент
+	 *
+	 * @param string $sEvent
+	 */
+	static public function SetActionEvent($sEvent) {
+		self::$sActionEvent=$sEvent;		
+	}	
+	
+	/**
+	 * Получить параметры(те которые передаются в URL)
+	 *
+	 * @return array
+	 */
+	static public function GetParams() {
+		return self::$aParams;
+	}
+	
+	/**
+	 * Получить параметр по номеру, если его нет то возвращается null
+	 *
+	 * @param int $iOffset
+	 * @return string
+	 */
+	static public function GetParam($iOffset) {
+		$iOffset=(int)$iOffset;
+		return isset(self::$aParams[$iOffset]) ? self::$aParams[$iOffset] : null;
+	}
+	
+	/**
+	 * Установить значение параметра
+	 *
+	 * @param int $iOffset - по идеи может быть не только числом
+	 * @param unknown_type $value	 
+	 */
+	static public function SetParam($iOffset,$value) {		
+		self::$aParams[$iOffset]=$value;
+	}
+	
+	/**
+	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
+	 *
+	 * @param string $sName
+	 * @param array $aArgs
+	 * @return unknown
+	 */
+	public function __call($sName,$aArgs) {
+		return $this->oEngine->_CallModule($sName,$aArgs);
+	}
+	
+	/**
+	 * Блокируем копирование/клонирование объекта роутинга
+	 *
+	 */
+	protected function __clone() {
+		
+	}
+}
+?>

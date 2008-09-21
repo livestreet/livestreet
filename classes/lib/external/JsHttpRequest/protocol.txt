@@ -1,0 +1,163 @@
+JsHttpRequest: JavaScript "AJAX" data loader
+
+@license LGPL
+@author Dmitry Koterov, http://en.dklab.ru/lib/JsHttpRequest/
+@version 5.x $Id$
+
+This document describes the protocol used by JsHttpRequest library.
+
+
+Backend -> Frontend
+-------------------
+
+JsHttpRequest library uses 3 slightly different version of output protocol
+depending on the loader used.
+
+- SCRIPT loader:
+ 
+    Content-type: text/javascript; charset=...
+    JsHttpRequest.dataReady({ id: ..., js: ..., text: ...})
+   
+  The charset is always set equal to the base backend charset.
+   
+- XML loader:
+
+    Content-type: text/plain; charset=...
+    { id: ..., js: ..., text: ...}   
+   
+  The charset may be UTF-8 (of the backend supports JSON conversion
+  functions) or the base backend charset. We have to use text/plain
+  because of some Opera 8 bugs.
+
+- FORM loader:
+
+    Content-type: text/html; charset=...
+    <script type="text/javascript" language="JavaScript"><!--
+    top && top.JsHttpRequestGlobal &&
+    top.JsHttpRequestGlobal.dataReady({ id: ..., js: ..., text: ...})
+    //--></script>
+    
+  The charset is always set equal to the base backend charset. Note
+  that we use text/html Content-type, because the result is loaded
+  into dynamically created IFRAME and must be valid HTML.
+
+(Note that you may always use a fixed charset in your backends,
+e.g. UTF-8. The frontend is a fully Unicode supporting library.)
+
+The common part of all these constructions is always represented as
+a plain JavaScript object:
+
+{
+  id:   <loading ID>,
+  js:   <JavaScript resulting object>,
+  text: <text data, e.g. - debug STDOUT content>
+}
+
+Meanings of object properties are:
+
+- id: ID of the loading passed by a frontend. This ID is used to
+  associate the resulting data with corresponding onreadystatechange
+  handler and generated automatically.
+- js: a JavaScript object representing multi-dimensional array
+  passed from the backend to a frontend. If null is passed here,
+  we treat it as 500 Internal Server Error in the frontend.
+- text: other backend data (usually captured STDOUT).
+
+Note that for XML the loader ID is always equals to 0, because we
+do not need an explicit binding between a result data and a loader:
+binding is performed automatically by ActiveX or XMLHttpRequest.
+
+ATTENTION! If you want to create your own backend, you should guarantee
+that the following formats are satisfied, else you may get a JavaScript
+backend exception. E.g., if your script dies with some error, it should
+pass the message to the "text" property, not write it to the output
+directly. In PHP backend it is done via ob_start() handlers.
+
+
+
+Frontend -> Backend
+-------------------
+
+The protocol is very simple and fully compatible with standard PHP's features.
+Frontend passes to backend a list of key=value pairs using GET or POST method.
+
+
+1. Auxiliary information
+
+Each loading process is supplied with a piece of information appended to the
+end of QUERY_STRING:
+
+  PHPSESSID=<sid>&JsHttpRequest=<id>-<loader>
+
+- PHPSESSID=<sid> is the session information. (Of course you may use another
+  name instead of PHPSESSID, it is tuned inside the JsHttpRequest object.)
+  Here <sid> is the session identifier extracted from document cookies or
+  from the current document URL. This method is fully comatible with PHP
+  sessions support.
+ 
+- <loader> is the name of a loader used. E.g.: "xml", "script", "form".
+
+- <id> is the loading ID. It is generated automatically and unique for
+  each of the loading process. (Exception is the XML loader: it always
+  uses zero ID.) This ID is passed back by a backend to determine which
+  result is binded to which callback action (see above).
+
+
+2. Character conversions
+
+Each character of a key/value is encoded by JavaScript standard escape()
+function (with exception for "+": it is converted to "%2B"). That means:
+
+- Unicode non-ASCII character (e.g. with code 0x1234) is encoded to e.g. %u1234.
+- Character "+" is converted to "%2B".
+- URL-allowed characters (e.g. letters, digits etc.) remain unchanged.
+- Other ASCII character (e.g. 0x15) is converted to e.g. %15.
+
+Samples:
+
+- "проба" -> "%u043F%u0440%u043E%u0431%u0430"
+- "abcde" -> "abcde"
+- "a[x]"  -> "a%5Bx%5D"
+- "a+b"   -> "a%2Bb"
+
+
+3. Array conversions
+
+JsHttpRequest supports multi-dimensional associative arrays created from
+standard JavaScript objects. Each key of the key=value pair is created
+based on all parents of the corresponding object property. PHP notation
+of multi-dimensional arrays is used.
+
+Samples:
+
+- JavaScript:     { a: 123, b: { c: 456, d: 789 } }
+- GET/POST data:  a=123&b[c]=456&b[d]=789
+- PHP's array:    array('a' => 123, 'b' => array('c' => 456, 'd' => 789))  
+ 
+- JavaScript:     { a: 123, b: [4, 5] }
+- GET/POST data:  a=123&b[]=4&b[]=5
+- PHP's array:    array('a' => 123, 'b' => array(4, 5))
+
+You see that JavaScript objects are 1:1 converted to PHP's arrays, and
+an array encoding format is compatible with such behaviour.
+ 
+
+4. Content-type header
+
+Available Content-type headers generated by a frontend depend on a loader
+and a method used.
+
+Samples (format: <loader>.<method>):
+
+- application/x-www-form-urlencoded:  script.*, xml.GET, form.GET
+- multipart/form-data:                form.POST
+- application/octet-stream:           xml.POST
+
+Please note that xml.POST generates application/octet-stream, but
+NOT application/x-www-form-urlencoded. It is needed to avoid the standard
+PHP behavior of POST data parsing, because we have to process the
+data encoding manually (PHP does not support JavaScript escape() encoding
+directly).
+
+Also note that multipart/form-data format used for FORM loader, because
+this is the only way to support file uploads.

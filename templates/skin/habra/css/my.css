@@ -1,0 +1,119 @@
+#system_messages_error, #system_messages_notice { padding-top: 3px; border: 1px solid #c5c5c5; margin-bottom: 10px; background: #F8F8F8;  color: #ff0000;}
+#system_messages_error ul, #system_messages_notice ul { list-style-type: none }
+#system_messages_error ul li , #system_messages_notice ul li { line-height: 16px }
+
+
+#system_messages_notice { padding-top: 3px; border: 1px solid #c5c5c5; margin-bottom: 10px; background: #F8F8F8; color: #1c8221;}
+
+ul, ol { margin: 0; padding: 10px 10px 0 27px }
+ul li, ol li { padding: 0 0 5px 0; text-align: left; line-height: 100%; margin: 0 0 10px 0 }
+
+
+.padding {
+	padding: 15px 15px 10px 15px;
+}
+
+
+.panel_topic_form {
+	padding-top: 0px;
+	padding-left: 3px;
+	padding-bottom: 2px;
+	/*
+	 display: table-cell;
+ 	 vertical-align: top;
+*/
+	
+
+}
+
+.panel_topic_form a.button img { 
+	margin-top: 2px;
+}
+.panel_topic_form a.button:hover img { 	
+	background: #ffffff;
+}
+
+.panel_topic_form select {
+	height: 20px;
+	margin-bottom: 0px;
+}
+
+.panel_topic_form select option {
+	background:#eaecea;
+}
+.panel_topic_form select option.title {
+	background:#fff;
+}
+
+#window_load_img { z-index: 100; position: absolute; display: none; padding-top: 0px; 
+	padding-left: 0px;
+	padding-bottom: 2px; 
+	border: 1px solid #c5c5c5; 
+	background:#eaecea;
+}
+
+#window_load_img td{ 
+	padding: 5px 5px 5px 5px;
+}
+#window_load_img th{ 
+	padding: 5px 5px 5px 5px;
+	background:#c5c5c5;	
+}
+
+
+#window_status { z-index: 1000; position: absolute; border: 1px solid #c5c5c5; background:#eaecea; display: none;}
+#window_status td {
+	padding: 5px 5px 5px 5px;
+}
+
+
+table.inbox th {
+	padding: 3px 3px 3px 3px;
+	text-align: left;
+	font-size: 14px;
+	color: #999;
+	background:#F0F0E7;
+	margin-bottom: 2px;
+	border-bottom: 4px solid #ffffff;
+}
+table.inbox td {
+	padding: 0px 0px 0px 3px;
+	background:#F0F0E7;
+	border-bottom: 2px solid #ffffff;
+}
+
+td.date  {
+			font-size: 10px;
+			line-height: 160%;
+			text-align: left;
+			color: #666;
+		}
+		
+.addressee, .subj {
+			text-align: left;
+			font-size: 12px;
+			color: #999;
+		}
+		
+div.comment_text2 {
+  font-size:13px;
+  padding:6px 0 16px 0;
+  font-family:Arial;
+ 
+}
+
+.comment_item_self {
+  position:relative;
+  padding-bottom:3px;
+  margin-top:3px;
+  font-family:Arial;
+   background:#fdf5e6;
+}
+
+.comment_item_new2 {
+	position:relative;
+  padding-bottom:3px;
+  margin-top:3px;
+  font-family:Arial;
+   background:#e7eefe;
+}
