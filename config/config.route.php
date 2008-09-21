@@ -38,6 +38,7 @@ return array(
 		'tag' => 'ActionTag',
 		'comments' => 'ActionComments',
 		'talk' => 'ActionTalk',
+		'rss' => 'ActionRss',
 	),
 	'config' => array(
 		'action_default' => 'index',

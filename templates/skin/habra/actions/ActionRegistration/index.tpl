@@ -26,7 +26,7 @@
 	
 	<p><label for="pass"><span class="form">Пароль:</span></label><br />
 	<input type="password" id="pass" value="" name="password" size="25" tabindex="4" /><br />
-	<span class="form_note">Должен содержать не менее 4 символов и не может совпадать с логином. Не используйте простые пароли, будьте разумны.</span><br />
+	<span class="form_note">Должен содержать не менее 5 символов и не может совпадать с логином. Не используйте простые пароли, будьте разумны.</span><br />
 	</p>
 	
 	<p><label for="repass"><span class="form">Повторите пароль:</span></label><br />
