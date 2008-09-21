@@ -77,7 +77,7 @@ class ActionRegistration extends Action {
 			 * Проверка мыла
 			 */
 			if (!func_check(getRequest('mail'),'mail')) {
-				$this->Message_AddError('Неверный мыло','Ошибка');
+				$this->Message_AddError('Неверный формат e-mail','Ошибка');
 				$bError=true;
 			}
 			/**

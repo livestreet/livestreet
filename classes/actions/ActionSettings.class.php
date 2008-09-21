@@ -80,6 +80,20 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileName(null);
 			}
 			/**
+			 * Проверка мыла
+			 */
+			if (func_check(getRequest('mail'),'mail')) {
+				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
+					$this->Message_AddError('Этот емайл уже занять','Ошибка');
+					$bError=true;
+				} else {
+					$this->oUserCurrent->setMail(getRequest('mail'));
+				}				
+			} else {
+				$this->Message_AddError('Неверный формат e-mail','Ошибка');
+				$bError=true;
+			}
+			/**
 			 * Проверяем пол
 			 */
 			if (in_array(getRequest('profile_sex'),array('man','woman','other'))) {

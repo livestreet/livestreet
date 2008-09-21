@@ -19,6 +19,10 @@
 	<span class="form_note">Может состоять только из букв (A-Z a-z), цифр (0-9). Длина имени не может быть меньше 2 и больше 20 символов.</span><br />
 	<br>
 
+	<label for="mail"><span class="form">E-mail:</span></label><br />
+	<input  style="width: 60%;" type="text" name="mail" tabindex="1" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" size="20" />	<br>
+	<span class="form_note">Ваш реальный почтовый адрес, на него будут приходить уведомления</span><br />
+	<br>
 
 	<span class="form">Пол:</span><br />
 	<input type="radio" name="profile_sex" id="profile_sex_m" value="man" {if $oUserCurrent->getProfileSex()=='man'}checked{/if}> &mdash; <span class="form"><label for="profile_sex_m">мужской</label></span> <br />

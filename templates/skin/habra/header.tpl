@@ -62,7 +62,7 @@ var msgNoticeBox=new Roar({
 		<nobr>У вас нет <A class=hello_exit href="{$DIR_WEB_ROOT}/talk/">новых сообщений</a></nobr><br>
 		{/if}
 
-		Настройки <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/">профиля</a>
+		Изменить <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/">настройки профиля</a>
 	{else}
 		<DIV class=hello>		
 			<form action="{$DIR_WEB_ROOT}/login/" method="POST" id="loginform">		
