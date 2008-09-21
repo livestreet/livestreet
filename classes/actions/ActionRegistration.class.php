@@ -151,7 +151,7 @@ class ActionRegistration extends Action {
 						 * По хорошему тескт письма нужно вынести в отдельный шаблон
 						 */
 						$this->Mail_SetAdress($oUser->getMail());
-						$this->Mail_SetSubject(SITE_NAME.': регистрация');
+						$this->Mail_SetSubject('Регистрация');
 						$this->Mail_SetBody('
 							Вы зарегистрировались на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
 							Ваши регистрационные данные:<br>
@@ -169,7 +169,7 @@ class ActionRegistration extends Action {
 						func_header_location(DIR_WEB_ROOT.'/registration/confirm/');						
 					} else {
 						$this->Mail_SetAdress($oUser->getMail());
-						$this->Mail_SetSubject(SITE_NAME.': регистрация');
+						$this->Mail_SetSubject('Регистрация');
 						$this->Mail_SetBody('
 							Вы зарегистрировались на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
 							Ваши регистрационные данные:<br>

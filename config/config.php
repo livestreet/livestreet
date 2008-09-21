@@ -75,13 +75,15 @@ define('SYS_SESSION_PATH',SYS_COOKIE_PATH); // путь сессии в кука
  * Настройки почтовых уведомлений
  */
 define('SYS_MAIL_TYPE','mail'); // Какой тип отправки использовать
-define('SYS_MAIL_FROM_EMAIL','admin@site.com'); // Мыло с которого отправляются все уведомления
-define('SYS_MAIL_FROM_NAME','Admin'); // Имя с которого отправляются все уведомления
+define('SYS_MAIL_FROM_EMAIL','rus.engine@gmail.com'); // Мыло с которого отправляются все уведомления
+define('SYS_MAIL_FROM_NAME','Почтовик LiveStreet'); // Имя с которого отправляются все уведомления
 define('SYS_MAIL_CHARSET','UTF-8'); // Какую кодировку использовать в письмах
 define('SYS_MAIL_SMTP_HOST','localhost'); // Настройки SMTP - хост
 define('SYS_MAIL_SMTP_PORT',25); // Настройки SMTP - порт
 define('SYS_MAIL_SMTP_USER',''); // Настройки SMTP - пользователь
 define('SYS_MAIL_SMTP_PASSWORD',''); // Настройки SMTP - пароль
+define('SYS_MAIL_INCLUDE_COMMENT_TEXT',true); // Включает в уведомление о новых комментах текст коммента
+define('SYS_MAIL_INCLUDE_TALK_TEXT',true); // Включает в уведомление о новых личных сообщениях текст сообщения
 
 
 /**
@@ -98,7 +100,7 @@ define('ACL_CAN_VOTE_USER',-1); // порог рейтинга при котор
 /**
  * Прочие настройки
  */
-define('SITE_NAME','Блого-социальный движок'); // название сайта
+define('SITE_NAME','LiveStreet - бесплатный движок социальной сети'); // название сайта
 define('USER_USE_ACTIVATION',false); // использовать активацию при регистрации или нет
 define('BLOG_PERSONAL_LIMIT_GOOD',-5); // Рейтинг топика в персональном блоге ниже которого он считается плохим
 define('BLOG_COLLECTIVE_LIMIT_GOOD',-3); // рейтинг топика в коллективных блогах ниже которого он считается плохим

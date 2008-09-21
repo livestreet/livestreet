@@ -904,16 +904,20 @@ class ActionBlog extends Action {
 			 * Добавляем коммент
 			 */
 			if ($this->Comment_AddComment($oCommentNew)) {
+				$sCommentText='';
+				if (SYS_MAIL_INCLUDE_COMMENT_TEXT) {
+					$sCommentText='Текст комментария: <i>'.$oCommentNew->getText().'</i><br>';
+				}
 				/**
 				 * Отправка уведомления автору топика
 				 */
 				if ($oCommentNew->getUserId()!=$oTopic->getUserId()) {
 					$oUserAuthor=$this->User_GetUserById($oTopic->getUserId());
 					$this->Mail_SetAdress($oUserAuthor->getMail(),$oUserAuthor->getLogin());
-					$this->Mail_SetSubject(SITE_NAME.': к вашему топику оставили новый комментарий');
+					$this->Mail_SetSubject('К вашему топику оставили новый комментарий');
 					$this->Mail_SetBody('
 							Получен новый комментарий к вашему топику <b>«'.htmlspecialchars($oTopic->getTitle()).'»</b>, прочитать его можно перейдя по <a href="'.$oTopic->getUrl().'#comment'.$oCommentNew->getId().'">этой ссылке</a><br>							
-														
+							'.$sCommentText.'							
 							<br>
 							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
 						');
@@ -926,10 +930,10 @@ class ActionBlog extends Action {
 				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {
 					$oUserAuthorComment=$this->User_GetUserById($oCommentParent->getUserId());
 					$this->Mail_SetAdress($oUserAuthorComment->getMail(),$oUserAuthorComment->getLogin());
-					$this->Mail_SetSubject(SITE_NAME.': вам ответили на ваш комментарий');
+					$this->Mail_SetSubject('Вам ответили на ваш комментарий');
 					$this->Mail_SetBody('
 							Получен ответ на ваш комментарий в топике <b>«'.htmlspecialchars($oTopic->getTitle()).'»</b>, прочитать его можно перейдя по <a href="'.$oTopic->getUrl().'#comment'.$oCommentNew->getId().'">этой ссылке</a><br>							
-														
+							'.$sCommentText.'							
 							<br>
 							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
 						');

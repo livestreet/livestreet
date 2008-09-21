@@ -136,12 +136,17 @@ class ActionTalk extends Action {
 				 * Отправляем уведомления
 				 */
 				if ($iUserId!=$this->oUserCurrent->getId()) {
+					$sTalkText='';
+					if (SYS_MAIL_INCLUDE_TALK_TEXT) {
+						$sTalkText='Текст письма: <i>'.$oTalk->getText().'</i><br>';
+					}
 					$oUserToMail=$this->User_GetUserById($iUserId);
 					$this->Mail_SetAdress($oUserToMail->getMail(),$oUserToMail->getLogin());
-					$this->Mail_SetSubject(SITE_NAME.': у вас новое письмо');
+					$this->Mail_SetSubject('У вас новое письмо');
 					$this->Mail_SetBody('
 							Вам пришло новое письмо, прочитать и ответить на него можно перейдя по <a href="'.DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/">этой ссылке</a><br>
 							Тема письма: <b>'.htmlspecialchars($oTalk->getTitle()).'</b><br>
+							'.$sTalkText.'
 							Не забудьте предварительно авторизоваться!<br>
 							
 							<br>
@@ -305,10 +310,16 @@ class ActionTalk extends Action {
 				$aUsersTalk=$this->Talk_GetTalkUsers($oCommentNew->getTalkId());
 				foreach ($aUsersTalk as $oUserTalk) {
 					if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {
+						$sTalkText='';
+						if (SYS_MAIL_INCLUDE_TALK_TEXT) {
+							$sTalkText='Текст: <i>'.$oCommentNew->getText().'</i><br>';
+						}
+						
 						$this->Mail_SetAdress($oUserTalk->getMail(),$oUserTalk->getLogin());
-						$this->Mail_SetSubject(SITE_NAME.': у вас новый комментарий к письму');
+						$this->Mail_SetSubject('У вас новый комментарий к письму');
 						$this->Mail_SetBody('
 							Получен новый комментарий на письмо <b>«'.htmlspecialchars($oTalk->getTitle()).'»</b>, прочитать его можно перейдя по <a href="'.DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/#comment'.$oCommentNew->getId().'">этой ссылке</a><br>							
+							'.$sTalkText.'
 							Не забудьте предварительно авторизоваться!<br>
 							
 							<br>
