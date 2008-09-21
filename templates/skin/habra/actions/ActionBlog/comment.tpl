@@ -115,8 +115,15 @@ function showCommentForm(reply) {
 					{/if}													
 					
    				</div>
-   				<div class="comment_text">
-         			{$oComment->getText()}
+   				<div class="comment_text">         			
+         			{if $oComment->isBad()}
+						<div style="display: none;" id="comment_text_{$oComment->getId()}">
+					    	{$oComment->getText()}
+					    </div>
+					    <a href="#" onclick="$('comment_text_{$oComment->getId()}').style.display='block';$(this).style.display='none';return false;">раскрыть комментарий</a>
+					{else}	
+					    {$oComment->getText()}
+					{/if}
        			</div>
        			{if $oUserCurrent}
        			<div class="comments_reply">

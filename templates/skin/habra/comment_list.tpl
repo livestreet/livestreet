@@ -24,8 +24,15 @@
 						 <div class="rating_comment_holder">
 						 	<span class="comments_rating_off" style="color: {if $oComment->getRating()<0}#d00000{else}#008000{/if};">{$oComment->getRating()}</span>&nbsp;&nbsp;
 						 </div>
-						<div class="comment_text">
-					        {$oComment->getText()}
+						<div class="comment_text" >					        
+					        {if $oComment->isBad()}
+					        	<div style="display: none;" id="comment_text_{$oComment->getId()}">
+					        		{$oComment->getText()}
+					        	</div>
+					         	<a href="#" onclick="$('comment_text_{$oComment->getId()}').style.display='block';$(this).style.display='none';return false;">раскрыть комментарий</a>
+					        {else}	
+					        	{$oComment->getText()}
+					        {/if}
       					</div>
 					</div>
 				</div>

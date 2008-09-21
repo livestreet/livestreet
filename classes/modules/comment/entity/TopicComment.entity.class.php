@@ -101,8 +101,13 @@ class CommentEntity_TopicComment extends Entity
     }
     public function getUserVoteDelta() {
         return $this->_aData['user_vote_delta'];
+    }    
+    public function isBad() {    	
+        if ($this->getRating()<=BLOG_COMMENT_BAD) {
+        	return true;
+        } 
+        return false;
     }
-    
     
     
     
