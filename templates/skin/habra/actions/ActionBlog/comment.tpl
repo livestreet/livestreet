@@ -44,6 +44,7 @@ function showCommentForm(reply) {
 	div_reply.innerHTML=s;		
 	div_reply.style.display='block';	
 	currentShowForm=reply;
+	document.getElementById('form_comment_text').focus();
 }
 </script>
 {/literal}

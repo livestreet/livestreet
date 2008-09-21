@@ -118,6 +118,7 @@ var msgNoticeBox=new Roar({
 				<A href="{$DIR_WEB_ROOT}/people/">Люди</A> 
 				<A href="{$DIR_WEB_ROOT}/page/about/">О проекте</A>				
 				<A href="{$DIR_WEB_ROOT}/page/download/">Скачать</A>
+				<A href="http://trac.assembla.com/livestreet/timeline" target="_blank" style="color: #d00;">SVN</A>
 			</DIV>
 			<!--
 			<DIV class=submenu>
