@@ -47,7 +47,7 @@ class ActionLogin extends Action {
 			/**
 			 * Проверяем есть ли такой юзер по логину
 			 */
-			if ($oUser=$this->User_GetUserByLogin(getRequest('login'))) {	
+			if ((func_check(getRequest('login'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('login')))  or  $oUser=$this->User_GetUserByLogin(getRequest('login'))) {	
 				/**
 				 * Сверяем хеши паролей и проверяем активен ли юзер
 				 */
