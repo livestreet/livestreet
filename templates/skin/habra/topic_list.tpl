@@ -19,6 +19,7 @@
       			{if $oTopic->getTextShort()!=$oTopic->getText()}
       			<br><br>( <a href="{$oTopic->getUrl()}" title="Прочитать топик полностью">Читать дальше</a> )
       			{/if}
+      			<div style="clear: both;"></div>
 				<div class="posttags">
 					{$oTopic->getTagsLink()}					
 				</div>

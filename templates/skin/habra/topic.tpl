@@ -12,7 +12,8 @@
   				{/if}
   			</h1>
     	<div class="groups_topic_text">
-		    {$oTopic->getText()}    
+		    {$oTopic->getText()}   
+		    <div style="clear: both;"></div>
     		<div class="posttags">
     			{$oTopic->getTagsLink()}
     		</div>
