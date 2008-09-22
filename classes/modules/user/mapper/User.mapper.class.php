@@ -288,12 +288,13 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
+		$sUserLogin=mb_strtolower($sUserLogin,"UTF-8");
 		$sql = "SELECT 
 				user_login					 
 			FROM 
 				".DB_TABLE_USER."	
 			WHERE
-				user_login LIKE ?		
+				LOWER(user_login) LIKE ?		
 				and 
 				user_activate = 1								
 			LIMIT 0, ?d		

@@ -22,11 +22,23 @@
  * @return unknown
  */
 if (!function_exists('mb_strlen')) {
-	function mb_strlen($s) {
-		return strlen($s);
+	function mb_strlen($s,$sEncode="UTF-8") {		
+		$length = strlen(iconv($sEncode, 'Windows-1251', $s));
+      	return (int)$length;
 	}
 }
 
+/**
+ * Если не стоит расширения mb
+ */
+if (!function_exists('mb_strtolower')) {
+	function mb_strtolower($s,$sEncode="UTF-8") {		
+		$s=iconv($sEncode,"Windows-1251",$s);
+		$s=strtolower($s);
+		$s=iconv("Windows-1251",$sEncode,$s);
+		return $s;
+	}
+}
 
 /**
  * функция вывода отладочных сообщений через "хакерскую" консоль Дмитрия Котерова

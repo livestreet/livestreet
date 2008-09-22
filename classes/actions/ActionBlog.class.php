@@ -854,7 +854,7 @@ class ActionBlog extends Action {
 			 * Проверяем текст комментария
 			 */
 			$sText=$this->Text_Parser(getRequest('comment_text'));
-			if (!func_check($sText,'text',2,3000)) {
+			if (!func_check($sText,'text',2,10000)) {
 				$this->Message_AddError('Текст комментария должен быть от 2 до 3000 символов и не содержать разного рода каку','Ошибка');
 				return false;
 			}

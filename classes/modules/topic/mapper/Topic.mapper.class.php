@@ -547,12 +547,13 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function GetTopicTagsByLike($sTag,$iLimit) {
+		$sTag=mb_strtolower($sTag,"UTF-8");		
 		$sql = "SELECT 
 				topic_tag_text					 
 			FROM 
 				".DB_TABLE_TOPIC_TAG."	
 			WHERE
-				topic_tag_text LIKE ?			
+				LOWER(topic_tag_text) LIKE ?			
 			GROUP BY 
 				topic_tag_text					
 			LIMIT 0, ?d		
