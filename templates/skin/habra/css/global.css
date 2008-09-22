@@ -1408,7 +1408,8 @@ div.comment_text p {
   padding:2px 4px;
 }
 .comments_reply {
-	padding-left:20px;		
+	padding-left: 20px;		
+	clear: both;
 }
 .button_reply_holder {
   padding-top:15px;
