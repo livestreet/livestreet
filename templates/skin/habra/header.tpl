@@ -3,6 +3,9 @@
 <HEAD>
 	<TITLE>{$sHtmlTitle}</TITLE>
 	<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+	<META name="DESCRIPTION" content="LiveStreet - официальный сайт бесплатного движка социальной сети">
+	<META name="KEYWORDS" content="движок, livestreet, блоги, социальная сеть, бесплатный, php">
+
 	<LINK href="{$DIR_STATIC_SKIN}/img/favicon.ico" rel="shortcut icon">
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/habrahabr.css?v=1" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/backoffice.css?v=1" type=text/css rel=stylesheet>
