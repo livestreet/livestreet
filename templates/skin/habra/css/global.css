@@ -826,8 +826,9 @@ div.rating .company_position_up, div.rating .company_position_down {
 
 /* blogg ���� */
 .blogposts{
-  padding-top: 1em;
-
+	padding-top: 1em;
+	width: 100%;
+	float: left;
 }
 .text {
   padding:0;
@@ -841,7 +842,7 @@ div.rating .company_position_up, div.rating .company_position_down {
   /*margin-left:40px;*/
   padding-left:20px;
   background:url(http://www.habrahabr.ru/i/tags.gif) no-repeat 0 8px;
-
+  clear: both;
 }
 .voice {
   font-family: arial, sans-serif;
@@ -3238,7 +3239,9 @@ div.link a:hover {
 	background:white;
 }
 .entry_item {
-	clear:left;
+	clear: both;
+	float: left;
+	width: 100%;
 }
 .entry_item table {
 	width:100%;
