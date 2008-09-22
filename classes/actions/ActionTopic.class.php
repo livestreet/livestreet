@@ -288,7 +288,7 @@ class ActionTopic extends Action {
 		 */
 		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не сотоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;
 			}
 		}		
@@ -338,6 +338,26 @@ class ActionTopic extends Action {
 		 * Добавляем топик
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
+			//Делаем рассылку спама всем, кто состоит в этом блоге
+			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
+				$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
+				foreach ($aBlogUsers as $oBlogUser) {
+					if ($oBlogUser->getUserId()==$this->oUserCurrent->getId()) {
+						continue;
+					}
+					$this->Mail_SetAdress($oBlogUser->getUserMail(),$oBlogUser->getUserLogin());
+					$this->Mail_SetSubject('Новый топик в блоге «'.htmlspecialchars($oBlog->getTitle()).'»');
+					$this->Mail_SetBody('
+							В блоге <b>«'.htmlspecialchars($oBlog->getTitle()).'»</b> опубликован топик -  <a href="'.DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html">'.htmlspecialchars($oTopic->getTitle()).'</a><br>						
+														
+							<br>
+							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
+						');
+					$this->Mail_setHTML();
+					$this->Mail_Send();
+				}
+			}
+			
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении топика, пожалуйста повторите позже.','Внутреняя ошибка');

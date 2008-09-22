@@ -106,6 +106,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					bu.*,
 					u.user_login as user_login,
+					u.user_mail as user_mail,
 					u.user_profile_avatar as user_profile_avatar,
 					u.user_profile_avatar_type as user_profile_avatar_type,
 					b.blog_title as blog_title,	

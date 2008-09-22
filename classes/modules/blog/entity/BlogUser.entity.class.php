@@ -41,6 +41,9 @@ class BlogEntity_BlogUser extends Entity
     public function getUserLogin() {
         return $this->_aData['user_login'];
     }   
+    public function getUserMail() {
+        return $this->_aData['user_mail'];
+    }
 	public function getUserProfileAvatar() {
         return $this->_aData['user_profile_avatar'];
     }
