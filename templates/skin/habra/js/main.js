@@ -236,6 +236,23 @@ function ajaxUploadImg(value) {
     req.send( { value: value } );
 }
 
+function ajaxTextPreview(text) {    
+    var req = new JsHttpRequest();    
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {         
+            document.getElementById('debug').innerHTML = req.responseText;  
+            closeWindowStatus();         
+            if (req.responseJS.bStateError) {
+            	msgErrorBox.alert('Ошибка','Возникли проблемы при обработке предпросмотра');            	
+            } else {               	
+            	document.getElementById('text_preview').innerHTML = req.responseJS.sText;         	
+            }
+        }
+    }      
+    showWindowStatus('Обработка предпросмотра...');
+    req.open(null, DIR_WEB_ROOT+'/include/ajax/textPreview.php', true);    
+    req.send( { text: text } );
+}
 
 function submitTags(sTag) {		
 	window.location=DIR_WEB_ROOT+'/tag/'+sTag+'/';

@@ -1,4 +1,6 @@
 <div id="form_comment" style="display: none;">
+	<div class="comment_text" id="text_preview"></div>
+	<div style="clear: both;"></div><br>
 	<div class="panel_topic_form" style="background: #eaecea; ">   				
 	 			<a href="#" onclick="voidPutB('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/bold_ru.gif" width="20" height="20" title="жирный"></a>
 	 			<a href="#" onclick="voidPutI('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
@@ -10,7 +12,7 @@
 	 </div>
  	<form action="" method="POST">
     	<textarea class="input_comments_reply" name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
-    	<input type="submit" name="submit_comment" value="добавить">    	
+    	<input type="submit" name="submit_comment" value="добавить">  <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview(document.getElementById('form_comment_text').value); return false;">  	
     	<input type="hidden" name="reply" value="" id="form_comment_reply">
     </form>
 </div>
@@ -19,11 +21,6 @@
 {literal}
 <script type="text/javascript">
 var currentShowForm=-1;
-
-function addB() {
-	var form_comment_text=document.getElementById('form_comment_text');
-	form_comment_text.value=form_comment_text.value+'-B';
-}
 
 function showCommentForm(reply) {	
 	if (document.getElementById('reply_'+currentShowForm)) {		
@@ -36,7 +33,7 @@ function showCommentForm(reply) {
 	
 	var form_comment_reply=document.getElementById('form_comment_reply');
 	
-	
+	document.getElementById('text_preview').innerHTML='';
 	
 	form_comment_reply.value=reply;
 	var s=div_form_comment.innerHTML;
@@ -124,10 +121,10 @@ function showCommentForm(reply) {
 					{else}	
 					    {$oComment->getText()}
 					{/if}
-       			</div>
+       			</div>       			
        			{if $oUserCurrent}
        			<div class="comments_reply">
-    				<div class="reply_word_holder">(<a href="javascript:showCommentForm({$oComment->getId()});">ответить</a>)</div>
+    				<div class="reply_word_holder">(<a href="javascript:showCommentForm({$oComment->getId()});">ответить</a>)</div>    				
     				<div style="display: none;" id="reply_{$oComment->getId()}"></div>
     			</div>
     			{/if}

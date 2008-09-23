@@ -4,6 +4,9 @@
 .backoffice{
 	padding-bottom: 20px;
 	margin-top: 40px;
+	
+	float: left;
+	width: 100%
 }
 .backoffice form{
 	margin-left: 0px;

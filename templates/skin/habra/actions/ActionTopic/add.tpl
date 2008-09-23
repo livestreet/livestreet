@@ -12,7 +12,7 @@ document.addEvent('domready', function() {
  
 	new Autocompleter.Request.HTML(inputTags, DIR_WEB_ROOT+'/include/ajax/tagAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
-		'minLength': 1, // We need at least 1 character
+		'minLength': 2, // We need at least 1 character
 		'selectMode': 'type-ahead', // Instant completion
 		'multiple': true // Tag support, by default comma separated
 	}); 
@@ -64,7 +64,9 @@ document.addEvent('domready', function() {
 
 <div class="backoffice">
 
-   
+
+		<div class="groups_topic_text" id="text_preview"></div>
+   		<div style="clear: both;"></div>
        <form action="" method="POST" id="thisform" enctype="multipart/form-data">
 
        <label for="blog_id">В какой блог публикуем?</label>
@@ -138,6 +140,7 @@ document.addEvent('domready', function() {
     <p class="l-bot">     
      <input type="submit" name="submit_topic_publish" value="опубликовать">&nbsp;
      <input type="submit" name="submit_topic_save" value="сохранить в черновиках">&nbsp;
+     <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview(document.getElementById('topic_text').value); return false;">&nbsp;
     </p>
 
     <div class="form_note">Если нажать кнопку &laquo;Сохранить в черновиках&raquo;, текст топика 
