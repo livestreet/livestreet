@@ -141,9 +141,11 @@ class Mapper_Topic extends Mapper {
 		if (is_object($this->oUserCurrent)) {
 			$iCurrentUserId=$this->oUserCurrent->getId();
 		}	
-		$sWhere=$this->buildFilter($aFilter);		
+		$sWhere=$this->buildFilter($aFilter);	
+			
 		$sql = "SELECT 
 					t.*,
+					tc.*,
 					u.user_login as user_login,
 					b.blog_title as blog_title,
 					b.blog_type as blog_type,
@@ -159,8 +161,11 @@ class Mapper_Topic extends Mapper {
 							vote_delta												
 						FROM ".DB_TABLE_TOPIC_VOTE." 
 						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id,
-					
+					) AS tv ON tv.topic_id = t.topic_id
+					LEFT JOIN  
+						".DB_TABLE_TOPIC_CONTENT." 
+					 AS tc ON tc.topic_id = t.topic_id,
+					 
 					".DB_TABLE_USER." as u,
 					".DB_TABLE_BLOG." as b 
 				WHERE 
@@ -176,12 +181,59 @@ class Mapper_Topic extends Mapper {
 				LIMIT ?d, ?d
 				;	
 					";
+		
+		/**
+		 * запрос немного оптимизирован, почуствуй разницу :)
+		 * на самом деле его еще можно ускорить - во вложеном запросе убрать условие по типу блога и вынести его в JOIN + изменив фильтр(вынести из него тип блога)
+		 * и вообще от фильтра нужно избавляться, т.к. эта универсальной сказывается на быстродействии из-за разных комбинаций ключей
+		 * 
+		 * при таком запросе приходиться отдельно запрашивать общее число записей
+		 */
+		$sql = "
+				SELECT 
+					t_fast.*, 
+					tc.*,
+					u.user_login as user_login,
+					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+					tv.vote_delta as user_vote_delta
+				FROM (
+					SELECT 
+						t.*,	
+						b.blog_title as blog_title,
+						b.blog_type as blog_type,
+						b.blog_url as blog_url									
+					FROM 
+						".DB_TABLE_TOPIC." as t,	
+						".DB_TABLE_BLOG." as b				
+					WHERE 
+						1=1
+					
+						".$sWhere."								
+					
+						AND
+						t.blog_id=b.blog_id											
+					ORDER by t.topic_date_add desc
+					LIMIT ?d, ?d
+				) as t_fast
+				JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id
+				LEFT JOIN (
+						SELECT
+							topic_id,
+							vote_delta												
+						FROM ".DB_TABLE_TOPIC_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tv ON t_fast.topic_id=tv.topic_id 
+				JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
+				;	
+					";
+		
 		$aTopics=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iCurrentUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
 		}
+		$iCount=$this->GetCountTopics($aFilter);		
 		return $aTopics;
 	}
 	
@@ -414,11 +466,19 @@ class Mapper_Topic extends Mapper {
 	
 	protected function buildFilter($aFilter) {
 		$sWhere='';
-		if (isset($aFilter['blog_type']) and is_array($aFilter['blog_type'])) {
-			$sWhere.=" AND b.blog_type in ('".join("','",$aFilter['blog_type'])."') ";
-		}
+		
 		if (isset($aFilter['topic_publish'])) {
 			$sWhere.=" AND t.topic_publish =  ".(int)$aFilter['topic_publish'];
+		}	
+		if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
+			if ($aFilter['topic_rating']['type']=='top') {
+				$sWhere.=" AND t.topic_rating >= ".(float)$aFilter['topic_rating']['value'];
+			} else {
+				$sWhere.=" AND t.topic_rating < ".(float)$aFilter['topic_rating']['value'];
+			}			
+		}
+		if (isset($aFilter['topic_new'])) {
+			$sWhere.=" AND t.topic_date_add >=  '".$aFilter['topic_new']."'";
 		}
 		if (isset($aFilter['user_id'])) {
 			$sWhere.=" AND t.user_id =  ".(int)$aFilter['user_id'];
@@ -426,15 +486,8 @@ class Mapper_Topic extends Mapper {
 		if (isset($aFilter['blog_id'])) {
 			$sWhere.=" AND t.blog_id =  ".(int)$aFilter['blog_id'];
 		}
-		if (isset($aFilter['topic_new'])) {
-			$sWhere.=" AND t.topic_date_add >=  '".$aFilter['topic_new']."'";
-		}
-		if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
-			if ($aFilter['topic_rating']['type']=='top') {
-				$sWhere.=" AND t.topic_rating >= ".(float)$aFilter['topic_rating']['value'];
-			} else {
-				$sWhere.=" AND t.topic_rating < ".(float)$aFilter['topic_rating']['value'];
-			}			
+		if (isset($aFilter['blog_type']) and is_array($aFilter['blog_type'])) {
+			$sWhere.=" AND b.blog_type in ('".join("','",$aFilter['blog_type'])."') ";
 		}
 		return $sWhere;
 	}
