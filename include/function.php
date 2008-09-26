@@ -435,15 +435,19 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
  * @param unknown_type $sNewDir
  */
 function func_mkdir($sBasePath,$sNewDir) {
-    	$sTempPath=$sBasePath;
-    	$aNewDir=explode('/',$sNewDir);
-    	foreach ($aNewDir as $sDir) {
-    		if ($sDir!='.') {    			
-    			@mkdir($sTempPath.$sDir.'/');
-    			@chmod($sTempPath.$sDir.'/',0777);
-    			$sTempPath=$sTempPath.$sDir.'/';
-    		}
-    	}    	
+	$sBasePath=rtrim($sBasePath,'/');
+	$sBasePath.='/';
+	$sTempPath=$sBasePath;
+	$aNewDir=explode('/',$sNewDir);
+	foreach ($aNewDir as $sDir) {
+		if ($sDir!='.' and $sDir!='') {
+			if (!file_exists($sTempPath.$sDir.'/'))	{
+				@mkdir($sTempPath.$sDir.'/');
+				@chmod($sTempPath.$sDir.'/',0755);
+			}
+			$sTempPath=$sTempPath.$sDir.'/';
+		}
+	}   	
 }
 
 /**
