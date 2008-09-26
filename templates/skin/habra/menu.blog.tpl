@@ -59,11 +59,11 @@
     <TD vAlign=bottom width=10><IMG height=10 src="{$DIR_STATIC_SKIN}/img/green2_bl.gif" width=10></TD>
     
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='good'} active_personal{/if}" noWrap align=middle>
-    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/">Хорошие</A>
+    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/">Хорошие</A> <a href="{$DIR_WEB_ROOT}/rss/index/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
     </TD>   
     
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='new'} active_personal{/if}" noWrap align=middle>
-    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='new'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/new/">Новые</A> {if ($iCountTopicsNew)>0}<span style="color: #339900;">+{$iCountTopicsNew}</span>{/if}
+    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='new'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/new/">Новые</A> {if ($iCountTopicsNew)>0}<span style="color: #339900;">+{$iCountTopicsNew}</span>{/if} <a href="{$DIR_WEB_ROOT}/rss/new/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
     </TD>   
     
     <TD style="BORDER-RIGHT: white 2px solid" vAlign=bottom width=10><IMG height=10 src="{$DIR_STATIC_SKIN}/img/green2_br.gif" width=10></TD>
@@ -79,7 +79,7 @@
     <TD vAlign=bottom width=10><IMG height=10 src="{$DIR_STATIC_SKIN}/img/green2_bl.gif" width=10></TD>
     
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='good'} active_personal{/if}" noWrap align=middle>
-    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$sMenuSubBlogUrl}/">Хорошие</A>
+    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$sMenuSubBlogUrl}/">Хорошие</A> 
     </TD>   
     
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='new'} active_personal{/if}" noWrap align=middle>
@@ -104,7 +104,7 @@
     <TD vAlign=bottom width=10><IMG height=10 src="{$DIR_STATIC_SKIN}/img/green2_bl.gif" width=10></TD>
     
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='good'} active_personal{/if}" noWrap align=middle>
-    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/log/">Хорошие</A>
+    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuSubItemSelect=='good'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/log/">Хорошие</A> 
     </TD>   
         
     <TD class="subitem2 three_columns{if $sMenuSubItemSelect=='new'} active_personal{/if}" noWrap align=middle>

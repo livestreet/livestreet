@@ -16,7 +16,7 @@
 */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-define('SYS_HACKER_CONSOLE',true);
+define('SYS_HACKER_CONSOLE',false);
 header('Content-Type: text/html; charset=utf-8');
 
 $t1=microtime(true);
@@ -38,7 +38,7 @@ $t2=microtime(true);
 
 <? 
 $oUser=$oRouter->User_GetUserCurrent();
-if ($oUser and $oUser->getId()==2) { 
+if (Router::GetIsShowStats() and $oUser and $oUser->getId()==2) { 
 ?>
 <fieldset>
 <legend>Статистика выполнения</legend>

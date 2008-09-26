@@ -78,6 +78,7 @@
 					<a href="#" onclick="ajaxJoinLeaveBlog({$oBlog->getId()},'leave'); return false;" title="покинуть блог"><img src="{$DIR_STATIC_SKIN}/img/blog_leave.gif" border="0" alt="покинуть"></a>
 			</span>			
 		{/if}
+		<a href="{$DIR_WEB_ROOT}/rss/blog/{$oBlog->getUrl()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
 		{if $oUserCurrent and $oUserCurrent->getId()==$oBlog->getOwnerId()}
   					<a href="{$DIR_WEB_ROOT}/blog/edit/{$oBlog->getId()}/" title="отредактировать блог"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать блог"></a>
   		{/if}

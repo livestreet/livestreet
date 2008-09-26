@@ -39,7 +39,8 @@ class Router extends Object {
 	static protected $sActionClass=null;
 	static protected $aParams=array();
 	protected $oAction=null;
-	protected $oEngine=null;	
+	protected $oEngine=null;
+	static protected $bShowStats=true;	
 	
 	static protected $oInstance=null;
 	
@@ -238,6 +239,25 @@ class Router extends Object {
 	 */
 	static public function SetParam($iOffset,$value) {		
 		self::$aParams[$iOffset]=$value;
+	}
+	
+	/**
+	 * Показывать или нет статистику выполение скрипта
+	 * Иногда бывает отключить показ, например, при выводе RSS ленты
+	 *
+	 * @param unknown_type $bState
+	 */
+	static public function SetIsShowStats($bState) {
+		self::$bShowStats=$bState;
+	}
+	
+	/**
+	 * Получить статус показывать или нет статистику
+	 *
+	 * @return unknown
+	 */
+	static public function GetIsShowStats() {
+		return self::$bShowStats;
 	}
 	
 	/**

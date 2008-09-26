@@ -10,6 +10,7 @@
   				{if $oUserCurrent and $oUserCurrent->getId()==$oTopic->getUserId()}
   					<a href="{$DIR_WEB_ROOT}/topic/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
+  				<a href="{$DIR_WEB_ROOT}/rss/comments/{$oTopic->getId()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
   			</h1>
     	<div class="groups_topic_text">
 		    {$oTopic->getText()}   

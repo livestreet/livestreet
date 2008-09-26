@@ -24,6 +24,7 @@ class ActionRss extends Action {
 
 	public function Init() {		
 		$this->SetDefaultEvent('index');
+		Router::SetIsShowStats(false);
 	}
 
 	protected function RegisterEvent() {
@@ -91,7 +92,7 @@ class ActionRss extends Action {
 	}
 
 	protected function RssComments() {
-		$aResult=$this->Comment_GetCommentsAll(0,1,BLOG_TOPIC_PER_PAGE*2);
+		$aResult=$this->Comment_GetCommentsAll(0,1,BLOG_COMMENT_PER_PAGE*2);
 		$aComments=$aResult['collection'];
 		
 		$aChannel['title']=SITE_NAME;
@@ -119,7 +120,12 @@ class ActionRss extends Action {
 
 	protected function RssTopicComments() {
 		$sTopicId=$this->GetParam(0);
-		$aComments=$this->Comment_GetCommentsByTopicId($sTopicId);
+		
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId))) {
+			return parent::EventNotFound();
+		}
+		
+		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());
 		
 		$aChannel['title']=SITE_NAME;
 		$aChannel['link']=DIR_WEB_ROOT;
@@ -130,9 +136,9 @@ class ActionRss extends Action {
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
-			$item['title']='коментар до: '.$oComment->getTopicTitle();
-			$item['guid']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
-			$item['link']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
+			$item['title']='коментар до: '.$oTopic->getTitle();
+			$item['guid']=$oTopic->getUrl().'#comment'.$oComment->getId();
+			$item['link']=$oTopic->getUrl().'#comment'.$oComment->getId();
 			$item['description']=$oComment->getText();
 			$item['pubDate']=$oComment->getDate();
 			$item['author']=$oComment->getUserLogin();
@@ -174,16 +180,16 @@ class ActionRss extends Action {
 
 	protected function RssColectiveBlog() {
 		$sBlogUrl=$this->GetParam(0);		
-		if (!$sBlogUrl or !($sBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {			
-			$aResult['collection']=array();
+		if (!$sBlogUrl or !($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {			
+			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsByBlogGood($sBlog,0,1,BLOG_TOPIC_PER_PAGE*2);
+			$aResult=$this->Topic_GetTopicsByBlogGood($oBlog,0,1,BLOG_TOPIC_PER_PAGE*2);
 		}
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=SITE_NAME;
 		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['description']=SITE_NAME.' / '.$oBlog->getTitle().' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
 		$aChannel['generator']=SITE_NAME;
@@ -206,16 +212,16 @@ class ActionRss extends Action {
 
 	protected function RssPersonalBlog() {
 		$this->sUserLogin=$this->GetParam(0);		
-		if (!$this->sUserLogin or !($this->oUserProfile=$this->User_GetUserByLogin($this->sUserLogin))) {			
-			$aResult['collection']=array();
+		if (!$this->sUserLogin or !($oUser=$this->User_GetUserByLogin($this->sUserLogin))) {			
+			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,0,1,BLOG_TOPIC_PER_PAGE*2);
+			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,0,1,BLOG_TOPIC_PER_PAGE*2);
 		}
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=SITE_NAME;
 		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['description']=SITE_NAME.' / '.$oUser->getLogin().' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
 		$aChannel['generator']=SITE_NAME;

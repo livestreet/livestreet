@@ -13,6 +13,6 @@
 	</div>	
    
 	<div class="live_section_title_all" align="right">
-		<span style="color:#666666">&#187;</span> <a href="{$DIR_WEB_ROOT}/comments/">весь прямой эфир</a>
+		<span style="color:#666666">&#187;</span> <a href="{$DIR_WEB_ROOT}/comments/">весь прямой эфир</a> <a href="{$DIR_WEB_ROOT}/rss/allcomments/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
 	</div>
 </div>

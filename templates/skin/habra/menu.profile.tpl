@@ -138,7 +138,7 @@
     <TD vAlign=bottom width=10><IMG height=10 src="{$DIR_STATIC_SKIN}/img/green2_bl.gif" width=10></TD>
     
     <TD class="subitem2 three_columns{if $aParams[0]=='blog' or $aParams[0]==''} active_personal{/if}" noWrap align=middle>
-    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $aParams[0]=='blog' or $aParams[0]==''}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/my/{$oUserProfile->getLogin()}/">Блог{if $iCountTopicUser} ({$iCountTopicUser}){/if}</A>
+    	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $aParams[0]=='blog' or $aParams[0]==''}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/my/{$oUserProfile->getLogin()}/">Блог{if $iCountTopicUser} ({$iCountTopicUser}){/if}</A> <a href="{$DIR_WEB_ROOT}/rss/log/{$oUserProfile->getLogin()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
     </TD>   
     
     <TD class="subitem2 three_columns{if $aParams[0]=='comment'} active_personal{/if}" noWrap align=middle>

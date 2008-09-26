@@ -474,8 +474,8 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
-		if (!func_check(getRequest('topic_text'),'text',2,3000)) {
-			$this->Message_AddError('Текст топика должен быть от 2 до 3000 символов','Ошибка');
+		if (!func_check(getRequest('topic_text'),'text',2,15000)) {
+			$this->Message_AddError('Текст топика должен быть от 2 до 15000 символов','Ошибка');
 			$bOk=false;
 		}
 		/**
