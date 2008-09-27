@@ -49,7 +49,41 @@ class Mapper_TopicComment extends Mapper {
 				ORDER by c.comment_rating desc, c.comment_date desc
 				LIMIT 0, ?d 
 				;	
-					";		
+					";	
+		/**
+		 * оптимизирован
+		 */
+		$sql = "SELECT 
+					c_full.*,
+					t.topic_title as topic_title,
+					t.topic_count_comment as topic_count_comment,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_login as user_login,
+					b.blog_title as blog_title,
+					b.blog_type as blog_type,
+					b.blog_url as blog_url,
+					u_owner.user_login	as blog_owner_login
+				FROM (					
+					SELECT 
+						c.comment_id										
+					FROM 
+						".DB_TABLE_TOPIC_COMMENT." as c	force INDEX(rating_date_id)				
+					WHERE 	
+						c.comment_rating >= 0	
+						AND		
+						c.comment_date >= ? 											
+					ORDER by c.comment_rating desc, c.comment_date desc
+					LIMIT 0, ?d 
+					) as c_fast
+					JOIN ".DB_TABLE_TOPIC_COMMENT." AS c_full ON c_fast.comment_id=c_full.comment_id
+					JOIN ".DB_TABLE_USER." AS u ON c_full.user_id=u.user_id
+					JOIN ".DB_TABLE_TOPIC." AS t ON c_full.topic_id=t.topic_id					
+					JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id
+					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id
+				;	
+					";
+			
 		$aComments=array();
 		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit)) {
 			foreach ($aRows as $aTopicComment) {
@@ -98,17 +132,75 @@ class Mapper_TopicComment extends Mapper {
 				ORDER by c.comment_date desc
 				LIMIT ?d, ?d
 				;	
-					";		
+					";	
+		/**
+		 * оптимизирован
+		 */
+		$sql = "SELECT
+					c_fast.*,
+					c_full.*,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_login as user_login,
+					b.blog_title as blog_title,
+					b.blog_type as blog_type,
+					b.blog_url as blog_url,
+					u_owner.user_login	as blog_owner_login
+				FROM (
+					SELECT 					
+						c.comment_id,
+						t.topic_title as topic_title,
+						t.topic_count_comment as topic_count_comment,
+						t.blog_id									
+					FROM 
+						".DB_TABLE_TOPIC_COMMENT." as c,
+						".DB_TABLE_TOPIC." as t					 
+					WHERE 								
+						c.topic_id=t.topic_id
+						AND
+						t.topic_publish = 1					
+					ORDER by c.comment_id desc
+					LIMIT ?d, ?d
+					) AS c_fast
+					JOIN ".DB_TABLE_TOPIC_COMMENT." AS c_full ON c_fast.comment_id=c_full.comment_id
+					JOIN ".DB_TABLE_USER." AS u ON c_full.user_id=u.user_id
+					JOIN ".DB_TABLE_BLOG." AS b ON c_fast.blog_id=b.blog_id
+					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id
+										
+					";
+			
 		$aComments=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopicComment) {
 				$aComments[]=new CommentEntity_TopicComment($aTopicComment);
 			}
+			$iCount=$this->GetCountCommentsAll();
 		}
 		return $aComments;
 	}
 	
+	public function GetCountCommentsAll() {
+		$sql = "SELECT 					
+						count(c.comment_id) as count															
+					FROM 
+						".DB_TABLE_TOPIC_COMMENT." as c,
+						".DB_TABLE_TOPIC." as t					 
+					WHERE 								
+						c.topic_id=t.topic_id
+						AND
+						t.topic_publish = 1					
+					";		
+		if ($aRow=$this->oDb->selectRow($sql)) {
+			return $aRow['count'];
+		}
+		return false;
+	}
+	
 	public function GetCommentsAllGroup($iLimit) {
+		/**
+		 * это ацкий запрос
+		 * для его оптимизации нужно создавать отдельную таблицу с прямым эфиром
+		 */
 		$sql = "SELECT 					
 					c.*,
 					t.topic_title as topic_title,

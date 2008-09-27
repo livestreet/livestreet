@@ -19,9 +19,10 @@ ALTER TABLE `prefix_topic_content`
 
   
   
-  
-  
-  
+-- Меняем индекс в таблице комментов  
+ALTER TABLE `prefix_topic_comment` DROP INDEX `comment_date_rating`    ;
+ALTER TABLE `prefix_topic_comment` ADD INDEX `rating_date_id` ( `comment_rating` , `comment_date` , `comment_id` ) ;   
+ALTER TABLE `prefix_topic_comment` ADD INDEX ( `comment_date` )  ;
   
   
    

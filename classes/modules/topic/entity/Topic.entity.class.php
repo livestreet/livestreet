@@ -41,6 +41,9 @@ class TopicEntity_Topic extends Entity
     public function getTextSource() {
         return $this->_aData['topic_text_source'];
     }
+    public function getExtra() {
+        return $this->_aData['topic_extra'];
+    } 
     public function getTags() {
         return $this->_aData['topic_tags'];
     }
@@ -131,6 +134,9 @@ class TopicEntity_Topic extends Entity
     public function setText($data) {
         $this->_aData['topic_text']=$data;
     }    
+    public function setExtra($data) {
+        $this->_aData['topic_extra']=$data;
+    }
     public function setTextShort($data) {
         $this->_aData['topic_text_short']=$data;
     }

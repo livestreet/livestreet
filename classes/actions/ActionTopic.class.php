@@ -323,6 +323,7 @@ class ActionTopic extends Action {
 		$oTopic->setText($sText);
 		$oTopic->setTextShort($sTestShort);
 		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setExtra('');
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());

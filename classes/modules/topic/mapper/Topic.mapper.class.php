@@ -27,19 +27,36 @@ class Mapper_Topic extends Mapper {
 			(blog_id,
 			user_id,
 			topic_type,
-			topic_title,
-			topic_text,
-			topic_text_short,
-			topic_text_source,
+			topic_title,			
 			topic_tags,
 			topic_date_add,
 			topic_user_ip,
 			topic_publish			
 			)
-			VALUES(?d,  ?d,	?,	?,	?,  ?,	?,	?, ?, ?, ?d)
+			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d)
 		";			
-		if ($iId=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getUserId(),$oTopic->getType(),$oTopic->getTitle(),$oTopic->getText(),
-			$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish())) 
+		if ($iId=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getUserId(),$oTopic->getType(),$oTopic->getTitle(),
+			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish())) 
+		{
+			$oTopic->setId($iId);
+			$this->AddTopicContent($oTopic);
+			return $iId;
+		}		
+		return false;
+	}
+	
+	public function AddTopicContent(TopicEntity_Topic $oTopic) {
+		$sql = "INSERT INTO ".DB_TABLE_TOPIC_CONTENT." 
+			(topic_id,			
+			topic_text,
+			topic_text_short,
+			topic_text_source,
+			topic_extra			
+			)
+			VALUES(?d,  ?,	?,	?, ? )
+		";			
+		if ($iId=$this->oDb->query($sql,$oTopic->getId(),$oTopic->getText(),
+			$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra())) 
 		{
 			return $iId;
 		}		
@@ -130,7 +147,44 @@ class Mapper_Topic extends Mapper {
 					AND
 					t.blog_id=b.blog_id
 					";
-		if ($aRow=$this->oDb->selectRow($sql,$iCurrentUserId,$sId,$iPublish)) {
+		/**
+		 * оптимизированный запрос
+		 */
+		$sql = "SELECT 
+					t_fast.*,
+					tc.*,
+					u.user_login as user_login,
+					b.blog_type as blog_type,	
+					b.blog_url as blog_url,
+					b.blog_title as blog_title,
+					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+					tv.vote_delta as user_vote_delta 
+				FROM
+					(
+						SELECT 
+							t.*							 
+						FROM 
+							".DB_TABLE_TOPIC." as t					
+						WHERE 
+								t.topic_id = ?d 
+							AND 					
+							(
+								t.topic_publish = ?d 
+								".$sWhereUser."
+							)					
+					) AS t_fast
+					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id 
+					JOIN ".DB_TABLE_BLOG." AS b ON t_fast.blog_id=b.blog_id	
+					LEFT JOIN (
+						SELECT
+							topic_id,
+							vote_delta												
+						FROM ".DB_TABLE_TOPIC_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tv ON t_fast.topic_id=tv.topic_id
+					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
+					";
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$iPublish,$iCurrentUserId)) {
 			return new TopicEntity_Topic($aRow);
 		}
 		return null;
@@ -242,8 +296,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					count(t.topic_id) as count									
 				FROM 
-					".DB_TABLE_TOPIC." as t,
-					".DB_TABLE_USER." as u,
+					".DB_TABLE_TOPIC." as t,					
 					".DB_TABLE_BLOG." as b 
 				WHERE 
 					1=1
@@ -251,9 +304,8 @@ class Mapper_Topic extends Mapper {
 					".$sWhere."								
 					
 					AND
-					t.blog_id=b.blog_id					
-					AND			
-					t.user_id=u.user_id					
+					t.blog_id=b.blog_id		
+										
 				;	
 					";		
 		if ($aRow=$this->oDb->selectRow($sql)) {
@@ -305,13 +357,64 @@ class Mapper_Topic extends Mapper {
 				LIMIT ?d, ?d
 				;	
 					";
+		/**
+		 * оптимизирован
+		 */
+		$sql = "	SELECT
+						t.*,
+                        tc.*,
+                        u.user_login as user_login,
+                        b.blog_title as blog_title,
+						b.blog_type as blog_type,
+						b.blog_url as blog_url,
+                        IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+						tv.vote_delta as user_vote_delta
+					FROM (				
+							SELECT 		
+								topic_id										
+							FROM 
+								".DB_TABLE_TOPIC_TAG."								
+							WHERE 
+							topic_tag_text = ? 	
+                            ORDER BY topic_id DESC	
+                            LIMIT ?d, ?d				
+						 ) as tt
+						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id
+						 JOIN ".DB_TABLE_USER." AS u ON t.user_id=u.user_id
+						 JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id	
+						 LEFT JOIN (
+								SELECT
+									topic_id,
+									vote_delta												
+								FROM ".DB_TABLE_TOPIC_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tv ON tt.topic_id=tv.topic_id
+                         LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
+				;	
+					";
+		
 		$aTopics=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iCurrentUserId,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
+			$iCount=$this->GetCountTopicsByTag($sTag);
 		}
 		return $aTopics;
+	}
+	
+	public function GetCountTopicsByTag($sTag) {
+		$sql = "SELECT 		
+					count(topic_id) as count									
+				FROM 
+					".DB_TABLE_TOPIC_TAG."								
+				WHERE 
+					topic_tag_text = ? ;	
+					";				
+		if ($aRow=$this->oDb->selectRow($sql,$sTag)) {
+			return $aRow['count'];
+		}
+		return false;
 	}
 	
 	public function GetTopicsRatingByDate($sDate,$iLimit) {		
@@ -355,8 +458,50 @@ class Mapper_Topic extends Mapper {
 				ORDER by t.topic_rating desc, t.topic_date_add desc
 				LIMIT 0, ?d ;	
 					";
+		/**
+		 * оптимизирован
+		 */
+		$sql = "SELECT
+					t_fast.*,
+					tc.*,
+					u.user_login as user_login,
+					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+					tv.vote_delta as user_vote_delta
+				FROM (
+					SELECT 
+						t.*,
+						b.blog_title as blog_title,
+						b.blog_type as blog_type,
+						b.blog_url as blog_url										
+					FROM 
+						".DB_TABLE_TOPIC." as t,					
+						".DB_TABLE_BLOG." as b 
+					WHERE 					
+						t.topic_publish = 1
+						AND
+						t.topic_date_add >= ? 								
+						AND
+						t.topic_rating >= 0
+						AND
+						t.blog_id=b.blog_id
+						AND					
+						b.blog_type in ('personal','open')											
+					ORDER by t.topic_rating desc, t.topic_id desc
+					LIMIT 0, ?d 	
+					) AS t_fast
+					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id
+					LEFT JOIN (
+								SELECT
+									topic_id,
+									vote_delta												
+								FROM ".DB_TABLE_TOPIC_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tv ON t_fast.topic_id=tv.topic_id
+					JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
+					";
+		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$iCurrentUserId,$sDate,$iLimit)) {
+		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -443,10 +588,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "UPDATE ".DB_TABLE_TOPIC." 
 			SET 
 				blog_id= ?d,
-				topic_title= ?,
-				topic_text= ?,
-				topic_text_short= ?,
-				topic_text_source= ?,
+				topic_title= ?,				
 				topic_tags= ?,
 				topic_date_edit = ?,
 				topic_user_ip= ?,
@@ -458,7 +600,24 @@ class Mapper_Topic extends Mapper {
 			WHERE
 				topic_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getText(),$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getId())) {
+		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getId())) {
+			$this->UpdateTopicContent($oTopic);
+			return true;
+		}		
+		return false;
+	}
+	
+	public function UpdateTopicContent(TopicEntity_Topic $oTopic) {		
+		$sql = "UPDATE ".DB_TABLE_TOPIC_CONTENT." 
+			SET 				
+				topic_text= ?,
+				topic_text_short= ?,
+				topic_text_source= ?,
+				topic_extra= ?
+			WHERE
+				topic_id = ?d
+		";			
+		if ($this->oDb->query($sql,$oTopic->getText(),$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra(),$oTopic->getId())) {
 			return true;
 		}		
 		return false;
