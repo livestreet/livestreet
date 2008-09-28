@@ -44,14 +44,7 @@ class ActionLink extends Action {
 	 *
 	 * @return unknown
 	 */
-	public function Init() {	
-		/**
-		 * Проверяем авторизован ли юзер
-		 */
-		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
-			return Router::Action('error'); 
-		}
+	public function Init() {			
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle('Ссылки');
@@ -109,6 +102,13 @@ class ActionLink extends Action {
 	 * @return unknown
 	 */
 	protected function EventEdit() {
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			return Router::Action('error'); 
+		}
 		/**
 		 * Меню
 		 */
@@ -181,6 +181,13 @@ class ActionLink extends Action {
 	 * @return unknown
 	 */
 	protected function EventAdd() {
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			return Router::Action('error'); 
+		}
 		/**
 		 * Меню
 		 */
