@@ -13,7 +13,6 @@
 {/if}
 
 <form action="{$DIR_WEB_ROOT}/login/" method="POST" id="loginform">
-<input type="hidden" name="backto" value="http://habrahabr.ru/">
 
 <p><span class="form">Логин или e-mail:</span><br />
 <input type="text" name="login" id="name" value="" size="25" /><br />

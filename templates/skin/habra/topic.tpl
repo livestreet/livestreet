@@ -3,12 +3,15 @@
   		<!--medialand_ru_context_start-->    	
     	<h1 class="blog_headline">
   				<a href="{$oTopic->getBlogUrlFull()}" class="blog_headline_group">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&#8594;&nbsp;
+  				{if $oTopic->getType()=='link'}
+  					<img src="{$DIR_STATIC_SKIN}/img/link_url_big.gif" border="0" title="топик-ссылка" width="16" height="16" alt="ссылка">
+  				{/if}
   				{if $oTopic->getPublish()==0}
   					<img src="{$DIR_STATIC_SKIN}/img/topic_unpublish.gif" border="0" title="топик находится в черновиках">
   				{/if}
   				{$oTopic->getTitle()|escape:'html'}
   				{if $oUserCurrent and $oUserCurrent->getId()==$oTopic->getUserId()}
-  					<a href="{$DIR_WEB_ROOT}/topic/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
+  					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
   				<a href="{$DIR_WEB_ROOT}/rss/comments/{$oTopic->getId()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
   			</h1>
@@ -72,6 +75,11 @@
 						<a href="#" title="удалить из избранного" onclick="ajaxTopicFavourite({$oTopic->getId()},0); return false;"><img src="{$DIR_STATIC_SKIN}/img/favourite.gif" width="16" height="16"></a>
 					</span>&nbsp;		
 				</div>  
+				{/if}
+				{if $oTopic->getType()=='link'}
+				<div class="link_url">						
+						<a href="{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/" title="переходов по ссылке: {$oTopic->getLinkCountJump()}"><span>{$oTopic->getLinkUrl(true)}</span></a>							
+				</div>
 				{/if}
 			<div class="user">
 				<a href="{$DIR_WEB_ROOT}/profile/{$oTopic->getUserLogin()}/" title="авторский текст"><span>{$oTopic->getUserLogin()}</span></a>

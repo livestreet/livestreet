@@ -39,6 +39,7 @@ return array(
 		'comments' => 'ActionComments',
 		'talk' => 'ActionTalk',
 		'rss' => 'ActionRss',
+		'link' => 'ActionLink',
 	),
 	'config' => array(
 		'action_default' => 'index',

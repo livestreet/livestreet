@@ -432,15 +432,9 @@ h3{
 #screen{
   position: absolute; top: 0; left: 0; right: 0; width: 100%; height: 100%; z-index: 98;
   display: none;
-  background: url(http://www.habrahabr.ru/i/0-3.png);
+  
 }
-* html #screen{
-    background-color: #333;
-    background-color: transparent;
-    background-image: url(http://www.habrahabr.ru/i/spacer.gif);
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
-        src="http://www.habrahabr.ru/i/0-3.png", sizingMethod="scale");
-}
+
 
 /* content */
 #content{
@@ -841,7 +835,7 @@ div.rating .company_position_up, div.rating .company_position_down {
   padding: 0.5em 0;
   /*margin-left:40px;*/
   padding-left:20px;
-  background:url(http://www.habrahabr.ru/i/tags.gif) no-repeat 0 8px;
+  
   clear: both;
 }
 .voice {
@@ -3072,10 +3066,7 @@ div.date a:hover span {
 	background-color:#336699!important;
 	color:white;
 }
-*html div.date a:hover span {
-	background-color:white;
-	color:#336699;
-}
+
 div.date a:hover {
 
 	background:url(../img/date.gif) center left no-repeat;
@@ -3095,16 +3086,29 @@ div.user a:hover span {
 	background:#CC0000;
 	color:white;
 }
-*html div.user a:hover span {
-	background:white;
-	color:#CC0000;
-}
+
 div.user a:hover {
 	background:url(../img/user.gif) left center  no-repeat;
 }
+
+div.link_url a {
+	padding-left:14px;
+	background:url(../img/link_url.gif) center left no-repeat;
+	color:#CC0000;
+	text-decoration:none;
+}
+div.link_url a:hover span {
+	background:#CC0000;
+	color:white;
+}
+
+div.link_url a:hover {
+	background:url(../img/link_url.gif) left center  no-repeat;
+}
+
 div.down a {
 	padding-left:14px;
-	background:url(../img/user.giff) left center no-repeat;
+	background:url(../img/user.gif) left center no-repeat;
 	text-decoration:none;
 	color:#339900;
 }
@@ -3112,10 +3116,7 @@ div.down a:hover span {
 	background:#339900;
 	color:white;
 }
-*html div.down a:hover span {
-	background:white;
-	color:#339900;
-}
+
 div.down a:hover {
 	background:url(http://habrahabr.ru/i/plashka_down_hover.gif) center left no-repeat;
 }
@@ -3155,10 +3156,7 @@ div.comment_plashka a:hover span.green {
 	background-color:#339900!important;
 	color:white;
 }
-*html div.comment_plashka a:hover span {
-	background-color:white!important;
-	color:#336699!important;
-}
+
 
 div.link {
 	

@@ -17,6 +17,13 @@
 
 class TopicEntity_Topic extends Entity 
 {    
+	/**
+	 * массив объектов(не всегда) для дополнительных типов топиков(линки, опросы, подкасты и т.п.)
+	 *
+	 * @var unknown_type
+	 */
+	protected $aExtra=null;
+	
     public function getId() {
         return $this->_aData['topic_id'];
     }  
@@ -42,7 +49,10 @@ class TopicEntity_Topic extends Entity
         return $this->_aData['topic_text_source'];
     }
     public function getExtra() {
-        return $this->_aData['topic_extra'];
+    	if (isset($this->_aData['topic_extra'])) {
+        	return $this->_aData['topic_extra'];
+    	}
+    	return serialize('');
     } 
     public function getTags() {
         return $this->_aData['topic_tags'];
@@ -72,6 +82,7 @@ class TopicEntity_Topic extends Entity
         return $this->_aData['topic_count_comment'];
     }
     
+        
     public function getTagsLink() {
     	$aTags=explode(',',$this->getTags());
     	foreach ($aTags as $key => $value) {
@@ -115,7 +126,69 @@ class TopicEntity_Topic extends Entity
     
 
     
+    /***************************************************************************************************************************************************
+     * методы расширения типов топика
+     ***************************************************************************************************************************************************     
+     */
     
+    protected function extractExtra() {
+    	if (is_null($this->aExtra)) {
+    		$this->aExtra=unserialize($this->getExtra());
+    	}
+    }
+    
+    public function getLinkUrl($bShort=false) {
+    	if ($this->getType()!='link') {
+    		return null;
+    	}
+    	$this->extractExtra();
+    	if (isset($this->aExtra['url'])) {     		    		
+    		if ($bShort) {
+    			$sUrl=ltrim($this->aExtra['url'],'http://');
+    			$sUrlShort=substr($sUrl,0,30);
+    			if (strlen($sUrlShort)!=strlen($sUrl)) {
+    				return $sUrlShort.'...';
+    			}
+    			return $sUrl;
+    		}
+    		$sUrl='http://'.ltrim($this->aExtra['url'],'http://');
+    		return $sUrl;
+    	}
+    	return null;
+    }    
+    public function setLinkUrl($data) {
+        if ($this->getType()!='link') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['url']=$data;
+    	$this->setExtra($this->aExtra);
+    }
+    public function getLinkCountJump() {
+    	if ($this->getType()!='link') {
+    		return null;
+    	}
+    	$this->extractExtra();
+    	if (isset($this->aExtra['count_jump'])) {
+    		return (int)$this->aExtra['count_jump'];
+    	}
+    	return 0;
+    }
+    public function setLinkCountJump($data) {
+        if ($this->getType()!='link') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['count_jump']=$data;
+    	$this->setExtra($this->aExtra);
+    }
+    
+    
+    
+    
+    
+    
+    //*************************************************************************************************************************************************
 	public function setId($data) {
         $this->_aData['topic_id']=$data;
     }
@@ -135,7 +208,7 @@ class TopicEntity_Topic extends Entity
         $this->_aData['topic_text']=$data;
     }    
     public function setExtra($data) {
-        $this->_aData['topic_extra']=$data;
+        $this->_aData['topic_extra']=serialize($data);
     }
     public function setTextShort($data) {
         $this->_aData['topic_text_short']=$data;

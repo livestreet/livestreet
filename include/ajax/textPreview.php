@@ -24,10 +24,15 @@ chdir(dirname(dirname(dirname(__FILE__))));
 require_once("./config/config.ajax.php");
 
 $sText=@$_REQUEST['text'];
+$bSave=@$_REQUEST['save'];
 $bStateError=true;
 $sTextResult='';
 if ($oEngine->User_IsAuthorization()) {
-	$sTextResult=$oEngine->Text_Parser($sText);
+	if ($bSave) {
+		$sTextResult=htmlspecialchars($sText);
+	} else {
+		$sTextResult=$oEngine->Text_Parser($sText);
+	}
 	$bStateError=false;
 }
 

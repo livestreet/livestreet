@@ -11,7 +11,7 @@
     	{/if}
     	<TD class="{$sel}width10"></TD>
     	<TD class="{$sel}subitem1 center">
-    		<A class=tags_f href="{$DIR_WEB_ROOT}/topic/add/">Новые</A>
+    		<A class=tags_f href="{$DIR_WEB_ROOT}/{if $sMenuItemSelect=='add_blog'}topic{else}{$sMenuItemSelect}{/if}/add/">Новые</A>
     	</TD>
     	<TD class="{$sel}border2px width10"></TD>
     	
@@ -40,7 +40,7 @@
 </TABLE>
 
 
-
+{if $sMenuSubItemSelect=='add'}
 <TABLE {if $sEvent=='published'}class="pagesubmenu toright" id="pagemenuszd2"{else}class="pagesubmenu" id="pagemenuszd"{/if}>
   <TBODY>
   <TR>
@@ -53,11 +53,11 @@
     <TD class="subitem2 three_columns{if $sMenuItemSelect=='question'} active_personal{/if}" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='question'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/question/{$sMenuSubItemSelect}/">Вопрос</A>
     </TD>
-    
+    -->
     <TD class="subitem2 three_columns{if $sMenuItemSelect=='link'} active_personal{/if}" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='link'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/link/{$sMenuSubItemSelect}/">Ссылка</A>
     </TD>
-    -->
+    
     <TD class="subitem2 three_columns" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='add_blog'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/blog/add/" style="color: #d00;">Создать блог</A>
     </TD>
@@ -66,5 +66,5 @@
   </TR>
   </TBODY>
 </TABLE>
-
+{/if}
 

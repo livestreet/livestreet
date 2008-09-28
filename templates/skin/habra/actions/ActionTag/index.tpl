@@ -8,7 +8,7 @@
     <tr>
 
      <td nowrap align="left"><span class="headline_tags">
-     <img src="http://www.habrahabr.ru/i/tagcloud.gif" border="0" width="19" height="17" title="облачко" alt="" >&nbsp;&#8594;</span></td>
+     <img src="{$DIR_STATIC_SKIN}/img/tagcloud.gif" border="0" width="19" height="17" title="облачко" alt="" >&nbsp;&#8594;</span></td>
      <form action="" method="GET" style="margin: 0px;"  onsubmit="return submitTags(this.tag.value);">
      <input type="hidden" name="mode" value="blog">
      <td width="100%"><input type="text" name="tag" value="{$sTag|escape:'html'}" style="width: 100%; padding-left: 4px; padding-right: 4px;" class="tag_form"></td>

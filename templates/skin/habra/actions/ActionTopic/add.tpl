@@ -140,7 +140,7 @@ document.addEvent('domready', function() {
     <p class="l-bot">     
      <input type="submit" name="submit_topic_publish" value="опубликовать">&nbsp;
      <input type="submit" name="submit_topic_save" value="сохранить в черновиках">&nbsp;
-     <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview(document.getElementById('topic_text').value); return false;">&nbsp;
+     <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview(document.getElementById('topic_text').value,false); return false;">&nbsp;
     </p>
 
     <div class="form_note">Если нажать кнопку &laquo;Сохранить в черновиках&raquo;, текст топика 

@@ -72,7 +72,7 @@ function showCommentForm(reply) {
 		{if count($aComments)}
 		
   			<div class="head_comments_holder">
-  				<a name="comments"><img src="http://habrahabr.ru/i/comments.gif"></a>
+  				<a name="comments"><img src="{$DIR_STATIC_SKIN}/img/comment.gif"></a>
   				<span class="news_page_comments_title">ответы({$oTalk->getCountComment()}):</span>&nbsp;  				
   			</div> 
   			
@@ -99,7 +99,7 @@ function showCommentForm(reply) {
       			
       				
 			<div class="WriteCommentHolder">
-  				<img src="http://habrahabr.ru/i/add_comment.gif"><a name="comment" href="javascript:showCommentForm(0);" class="news_page_comments_title">ответить</a>
+  				<img src="{$DIR_STATIC_SKIN}/img/comment.gif"> <a name="comment" href="javascript:showCommentForm(0);" class="news_page_comments_title">ответить</a>
   				<br />
   				<span class="form_note">
   					<a href="{$DIR_WEB_ROOT}/profile/{$oUserCurrent->getLogin()}/"><img  class="img_border" src="{if $oUserCurrent->getProfileAvatar()}{$oUserCurrent->getProfileAvatarPath(24)}{else}{$DIR_STATIC_SKIN}/img/avatar_24x24.jpg{/if}" width="24" height="24" alt="" title=" это я! " border="0"></a>

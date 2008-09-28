@@ -236,7 +236,7 @@ function ajaxUploadImg(value) {
     req.send( { value: value } );
 }
 
-function ajaxTextPreview(text) {    
+function ajaxTextPreview(text,save) {    
     var req = new JsHttpRequest();    
     req.onreadystatechange = function() {
         if (req.readyState == 4) {         
@@ -251,7 +251,7 @@ function ajaxTextPreview(text) {
     }      
     showWindowStatus('Обработка предпросмотра...');
     req.open(null, DIR_WEB_ROOT+'/include/ajax/textPreview.php', true);    
-    req.send( { text: text } );
+    req.send( { text: text, save: save } );
 }
 
 function submitTags(sTag) {		

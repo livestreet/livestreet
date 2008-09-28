@@ -6,12 +6,15 @@
  		<div class="text">
   			<h1 class="blog_headline">
   				<a href="{$oTopic->getBlogUrlFull()}" class="blog_headline_group">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&#8594;&nbsp;
+  				{if $oTopic->getType()=='link'}
+  					<img src="{$DIR_STATIC_SKIN}/img/link_url_big.gif" border="0" title="топик-ссылка" width="16" height="16" alt="ссылка">
+  				{/if}
   				{if $oTopic->getPublish()==0}
   					<img src="{$DIR_STATIC_SKIN}/img/topic_unpublish.gif" border="0" title="топик находится в черновиках">
   				{/if}
-  				<a href="{$oTopic->getUrl()}" class="headline_l">{$oTopic->getTitle()|escape:'html'}</a>
+  				<a href="{if $oTopic->getType()=='link'}{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/{else}{$oTopic->getUrl()}{/if}" class="headline_l">{$oTopic->getTitle()|escape:'html'}</a>
   				{if $oUserCurrent and $oUserCurrent->getId()==$oTopic->getUserId()}
-  					<a href="{$DIR_WEB_ROOT}/topic/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
+  					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
   			</h1>
   			<div class="groups_topic_text">
@@ -66,7 +69,12 @@
      				</div>
      				<div class="date">
      					<a href="#" title="дата" onclick="return false;"><span>{date_format date=$oTopic->getDateAdd()}</span></a>
-     				</div>             			
+     				</div>    
+     				{if $oTopic->getType()=='link'}
+						<div class="link_url">						
+							<a href="{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/" title="переходов по ссылке: {$oTopic->getLinkCountJump()}"><span>{$oTopic->getLinkUrl(true)}</span></a>							
+						</div>
+					{/if}         			
      				<div class="user">
      					<a href="{$DIR_WEB_ROOT}/profile/{$oTopic->getUserLogin()}/" title="авторский текст"><span>{$oTopic->getUserLogin()}</span></a>
      				</div>     

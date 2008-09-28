@@ -16,16 +16,16 @@
 */
 
 /**
- * Обработка УРЛа вида /topic/ - управление своими топиками
+ * Обработка УРЛа вида /link/ - управление своими топиками(тип: ссылка)
  *
  */
-class ActionTopic extends Action {
+class ActionLink extends Action {
 	/**
 	 * Меню
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuItemSelect='topic';
+	protected $sMenuItemSelect='link';
 	/**
 	 * СубМеню
 	 *
@@ -54,17 +54,16 @@ class ActionTopic extends Action {
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
-		$this->Viewer_AddHtmlTitle('Топики');
+		$this->Viewer_AddHtmlTitle('Ссылки');
 	}
 	/**
 	 * Регистрируем евенты
 	 *
 	 */
 	protected function RegisterEvent() {		
-		$this->AddEvent('add','EventAdd');	
-		$this->AddEvent('saved','EventSaved');
-		$this->AddEvent('published','EventPublished');		
-		$this->AddEvent('edit','EventEdit');	
+		$this->AddEvent('add','EventAdd');					
+		$this->AddEvent('edit','EventEdit');
+		$this->AddEvent('go','EventGo');	
 	}
 		
 	
@@ -74,7 +73,38 @@ class ActionTopic extends Action {
 	 */
 	
 	/**
-	 * Редактирование топика
+	 * Переход по ссылке
+	 *
+	 * @return unknown
+	 */
+	protected function EventGo() {
+		/**
+		 * Получаем номер топика из УРЛ и проверяем существует ли он
+		 */
+		$sTopicId=$this->GetParam(0);
+		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,$this->oUserCurrent)) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * проверяем является ли топик ссылкой
+		 */
+		if ($oTopic->getType()!='link') {
+			return parent::EventNotFound();
+		}
+		/**
+		 * увелививаем число переходов по ссылке
+		 */
+		$oTopic->setLinkCountJump($oTopic->getLinkCountJump()+1);
+		$this->Topic_UpdateTopic($oTopic);
+		/**
+		 * собственно сам переход по ссылке
+		 */
+		func_header_location($oTopic->getLinkUrl());
+	}
+	
+	
+	/**
+	 * Редактирование ссылки
 	 *
 	 * @return unknown
 	 */
@@ -119,7 +149,7 @@ class ActionTopic extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
-		$this->Viewer_AddHtmlTitle('Редактирование топика');
+		$this->Viewer_AddHtmlTitle('Редактирование ссылки');
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -138,6 +168,7 @@ class ActionTopic extends Action {
 		 	* Только перед отправкой формы!
 		 	*/
 			$_REQUEST['topic_title']=$oTopic->getTitle();
+			$_REQUEST['topic_link_url']=$oTopic->getLinkUrl();
 			$_REQUEST['topic_text']=$oTopic->getTextSource();
 			$_REQUEST['topic_tags']=$oTopic->getTags();
 			$_REQUEST['blog_id']=$oTopic->getBlogId();
@@ -145,7 +176,7 @@ class ActionTopic extends Action {
 		}	
 	}
 	/**
-	 * Добавление топика
+	 * Добавление ссылки
 	 *
 	 * @return unknown
 	 */
@@ -175,80 +206,13 @@ class ActionTopic extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);		
-		$this->Viewer_AddHtmlTitle('Добавление топика');
+		$this->Viewer_AddHtmlTitle('Добавление ссылки');
 		/**
 		 * Обрабатываем отправку формы
 		 */
 		return $this->SubmitAdd();		
 	}
-	/**
-	 * Выводит список сохранёных топиков
-	 *
-	 */
-	protected function EventSaved() {	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='saved';
-		/**
-		 * Передан ли номер страницы
-		 */	
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}	
-		/**
-		 * Получаем список топиков
-		 */	
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),0,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/topic/saved');
-		/**
-		 * Загружаем переменные в шаблон
-		 */					
-		$this->Viewer_Assign('aPaging',$aPaging);							
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Сохранённые');
-	}
-	/**
-	 * Выводит список опубликованых топиков
-	 *
-	 */
-	protected function EventPublished() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='published';
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
-		/**
-		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),1,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/topic/published');
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign('aPaging',$aPaging);						
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Опубликованные');
-	}
+	
 	/**
 	 * Обработка добавлени топика
 	 *
@@ -305,24 +269,12 @@ class ActionTopic extends Action {
 		$oTopic=new TopicEntity_Topic();
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setUserId($this->oUserCurrent->getId());
-		$oTopic->setType('topic');
-		$oTopic->setTitle(getRequest('topic_title'));	
-		/**
-		 * Парсим на предмет ХТМЛ тегов
-		 */
-		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		/**
-		 * Создаёт анонс топика(обрезаем по тег <cut>)
-		 */
-		$sTestShort=$sText;
-		$sTextTemp=str_replace("\r\n",'[<n>]',$sText);
-		if (preg_match("/^(.*)<cut>(.*)$/i",$sTextTemp,$aMatch)) {
-			$sTestShort=$aMatch[1];			
-		}
-		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);		
-		$oTopic->setText($sText);
-		$oTopic->setTextShort($sTestShort);
-		$oTopic->setTextSource(getRequest('topic_text'));		
+		$oTopic->setType('link');
+		$oTopic->setTitle(getRequest('topic_title'));								
+		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
+		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setLinkUrl(getRequest('topic_link_url'));		
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
@@ -416,20 +368,10 @@ class ActionTopic extends Action {
 		 */		
 		$oTopic->setBlogId($oBlog->getId());		
 		$oTopic->setTitle(getRequest('topic_title'));			
-		/**
-		 * Парсим на предмет ХТМЛ тегов
-		 */
-		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		$sTestShort=$sText;
-		$sTextTemp=str_replace("\r\n",'[<n>]',$sText);
-		if (preg_match("/^(.*)<cut>(.*)$/i",$sTextTemp,$aMatch)) {			
-			$sTestShort=$aMatch[1];			
-		}
-		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);
-		
-		$oTopic->setText($sText);
-		$oTopic->setTextShort($sTestShort);
+		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
+		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
 		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setLinkUrl(getRequest('topic_link_url'));
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());
 		/**
@@ -472,10 +414,17 @@ class ActionTopic extends Action {
 			$bOk=false;
 		}
 		/**
-		 * Проверяем есть ли содержание топика
+		 * Проверяем есть ли ссылка
 		 */
-		if (!func_check(getRequest('topic_text'),'text',2,15000)) {
-			$this->Message_AddError('Текст топика должен быть от 2 до 15000 символов','Ошибка');
+		if (!func_check(getRequest('topic_link_url'),'text',3,200)) {
+			$this->Message_AddError('Название топика должно быть от 2 до 200 символов','Ошибка');
+			$bOk=false;
+		}
+		/**
+		 * Проверяем есть ли описание топика-ссылки
+		 */
+		if (!func_check(getRequest('topic_text'),'text',10,500)) {
+			$this->Message_AddError('Описание ссылки должно быть от 10 до 500 символов','Ошибка');
 			$bOk=false;
 		}
 		/**
