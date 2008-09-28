@@ -388,5 +388,18 @@ class User extends Module {
 		}
 		return $data;		 
 	}
+	/**
+	 * Получает список тех у кого в друзьях
+	 *
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetUsersSelfFrend($sUserId) {
+		if (false === ($data = $this->Cache_Get("user_self_frend_{$sUserId}"))) {			
+			$data = $this->oMapper->GetUsersSelfFrend($sUserId);
+			$this->Cache_Set($data, "user_self_frend_{$sUserId}", array("frend_change_frend_{$sUserId}"), 60*5);
+		}
+		return $data;		 
+	}
 }
 ?>

@@ -129,6 +129,10 @@ class ActionProfile extends Action {
 		 */
 		$aUsersFrend=$this->User_GetUsersFrend($this->oUserProfile->getId());
 		/**
+		 * Получаем список тех у кого в друзьях
+		 */
+		$aUsersSelfFrend=$this->User_GetUsersSelfFrend($this->oUserProfile->getId());
+		/**
 		 * Получаем список блогов в которых состоит юзер
 		 */
 		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId());	
@@ -142,6 +146,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogsUser',$aBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);
+		$this->Viewer_Assign('aUsersSelfFrend',$aUsersSelfFrend);
 		$this->Viewer_AddHtmlTitle('Профиль '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle('Whois');
 		/**

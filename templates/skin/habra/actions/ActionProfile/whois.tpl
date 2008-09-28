@@ -103,6 +103,22 @@
 		</div>
 	</div>
     {/if}
+    
+    
+    {if $aUsersSelfFrend}
+	<div class="logicgroup_menu">		  
+  		<div class="userinfo_line">
+  			<div class="left">
+  				В друзьях у:
+  			</div>
+			<div class="right">
+				{foreach from=$aUsersSelfFrend item=oUserFrend}
+        			<span class="nowrap"><a href="{$DIR_WEB_ROOT}/profile/{$oUserFrend->getLogin()}/"><img src="{$DIR_STATIC_SKIN}/img/user.gif" border="0" alt="посмотреть профиль" title="посмотреть профиль"></a><a href="{$DIR_WEB_ROOT}/profile/{$oUserFrend->getLogin()}/" class="userinfo_nickname_normal">{$oUserFrend->getLogin()}</a></span>
+        		{/foreach}        		
+       		</div>
+		</div>
+	</div>
+    {/if}
      
 	
 	{if $aBlogsOwner}
