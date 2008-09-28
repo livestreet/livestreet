@@ -59,12 +59,13 @@ class ActionLogin extends Action {
 					/**
 					 * Перенаправляем на страницу с которой произошла авторизация
 					 */
-					$sBackUrl=$_SERVER['HTTP_REFERER'];					
-					if (strpos($sBackUrl,DIR_WEB_ROOT.'/login')===false) {
-						func_header_location($sBackUrl);
-					} else {
-						func_header_location(DIR_WEB_ROOT.'/');
-					}
+					if (isset($_SERVER['HTTP_REFERER'])) {
+						$sBackUrl=$_SERVER['HTTP_REFERER'];
+						if (strpos($sBackUrl,DIR_WEB_ROOT.'/login')===false) {
+							func_header_location($sBackUrl);
+						}
+					}					 
+					func_header_location(DIR_WEB_ROOT.'/');
 				}
 			}			
 			$this->Viewer_Assign('bLoginError',true);
