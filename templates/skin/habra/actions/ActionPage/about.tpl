@@ -49,7 +49,7 @@ LiveStreet представляет из себя <strong>бесплатный</
 <li><a href="http://livestreet.ru/profile/Fanta/">Fanta</a>(Dlya novogo dizauna :)!), сайт <a href="http://sarny.info/">Sarny.Info</a> &mdash; перечислил <b>10 WMZ</b></li>
 <li><a href="http://livestreet.ru/profile/V2NEK/">V2NEK</a>(from V2NEK :)) &mdash; перечислил <b>8 WMZ</b></li>
 <li><a href="http://livestreet.ru/profile/benone/">benone</a>(На развитие livestreet.ru) &mdash; перечислил <b>200 рублей</b></li>
-<li><a href="http://livestreet.ru/profile/hejioshin/">hejioshin</a>(На развитие), сайт <a href="http://www.skvsk.net/">skvsk.net</a> &mdash; перечислил <b>15 WMZ</b></li>
+<li><a href="http://livestreet.ru/profile/hejioshin/">hejioshin</a>(На развитие) &mdash; перечислил <b>15 WMZ</b></li>
 <li><a href="http://livestreet.ru/profile/Adam_B/">Adam_B</a>(Плодитесь и развивайтесь! Немного, но от чистого сердца :)) &mdash; перечислил <b>350 рублей</b></li>
 <li>Cherneen(На благое дело. Замечательный проект. Уже использую сам. Спасибо.) &mdash; перечислил <b>500 рублей</b></li>
 <li><a href="http://livestreet.ru/profile/zaigraeff/">zaigraeff</a>(На развитие замечательног проекта.), сайт <a href="http://jam.redjam.ru">Блог для тех, кто умеет читать и думать</a> &mdash; перечислил <b>20 WMZ</b></li>
