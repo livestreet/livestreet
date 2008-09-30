@@ -83,7 +83,7 @@ class ActionTopic extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='';
+		$this->sMenuItemSelect='topic';
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
@@ -421,10 +421,12 @@ class ActionTopic extends Action {
 		 */
 		$sText=$this->Text_Parser(getRequest('topic_text'));	
 		$sTestShort=$sText;
-		$sTextTemp=str_replace("\r\n",'[<n>]',$sText);
+		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
+		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
 		if (preg_match("/^(.*)<cut>(.*)$/i",$sTextTemp,$aMatch)) {			
 			$sTestShort=$aMatch[1];			
 		}
+		$sTestShort=str_replace('[<rn>]',"\r\n",$sTestShort);
 		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);
 		
 		$oTopic->setText($sText);
