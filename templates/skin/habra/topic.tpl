@@ -15,7 +15,33 @@
   				{/if}
   				<a href="{$DIR_WEB_ROOT}/rss/comments/{$oTopic->getId()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
   			</h1>
-    	<div class="groups_topic_text">
+    	<div class="groups_topic_text">    	
+    		{if $oTopic->getType()=='question'}   
+    		
+    		<div class="poll" style="margin-top:20px;" id="topic_question_area_{$oTopic->getId()}">
+    		{if !$oTopic->getUserQuestionIsVote()} 			
+				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
+					<input type="radio" name="topic_answer_{$oTopic->getId()}" value="{$key}" id="topic_answer_{$oTopic->getId()}_{$key}" onchange="document.getElementById('topic_answer_{$oTopic->getId()}_value').value=this.value;"> <label for="topic_answer_{$oTopic->getId()}_{$key}">{$aAnswer.text}</label> <br>
+				{/foreach}
+				<br>
+				<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="77">
+				<input type="submit"  value="голосовать" onclick="ajaxQuestionVote({$oTopic->getId()},document.getElementById('topic_answer_{$oTopic->getId()}_value').value)">
+				<input type="submit"  value="воздержаться"  onclick="ajaxQuestionVote({$oTopic->getId()},-1)">
+				<br><br>
+				<span class="total">Проголосовало: {$oTopic->getQuestionCountVote()}. Воздержалось: {$oTopic->getQuestionCountVoteAbstain()}</span><br>			
+			{else}							
+				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}			
+					<dl>
+					<dt><strong>{$oTopic->getQuestionAnswerPercent($key)}%</strong><br/>({$aAnswer.count})</dt>
+					<dd>{$aAnswer.text}<br/><img width="{$oTopic->getQuestionAnswerPercent($key)}%" height="5" alt="" src="{$DIR_STATIC_SKIN}/img/vote_space.gif"/></dd>
+					</dl>
+				{/foreach}							
+				<span class="total">Проголосовало: {$oTopic->getQuestionCountVote()}. Воздержалось: {$oTopic->getQuestionCountVoteAbstain()}</span><br>
+			{/if}
+			</div>
+			<br>	
+						
+    		{/if}
 		    {$oTopic->getText()}   
 		    <div style="clear: left;"></div>
     		<div class="posttags">

@@ -10,7 +10,7 @@
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/habrahabr.css?v=1" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/backoffice.css?v=2" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/global.css?v=4" type=text/css rel=stylesheet>
-	<LINK media=all href="{$DIR_STATIC_SKIN}/css/my.css?v=2" type=text/css rel=stylesheet>	
+	<LINK media=all href="{$DIR_STATIC_SKIN}/css/my.css?v=3" type=text/css rel=stylesheet>	
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Roar.css" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" type=text/css rel=stylesheet>
 </HEAD>
@@ -22,7 +22,7 @@
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/main.js?v=9"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/main.js?v=10"></script>
 <BODY>
 
 {literal}

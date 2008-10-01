@@ -49,11 +49,11 @@
     <TD class="subitem2 three_columns{if $sMenuItemSelect=='topic'} active_personal{/if}" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='topic'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/topic/{$sMenuSubItemSelect}/">Топик</A>
     </TD>   
-    <!--
+    
     <TD class="subitem2 three_columns{if $sMenuItemSelect=='question'} active_personal{/if}" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='question'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/question/{$sMenuSubItemSelect}/">Вопрос</A>
     </TD>
-    -->
+    
     <TD class="subitem2 three_columns{if $sMenuItemSelect=='link'} active_personal{/if}" noWrap align=middle>
     	<IMG class=arrow_cc height=7 src="{$DIR_STATIC_SKIN}/img/{if $sMenuItemSelect=='link'}arrow_menu_main.gif{else}arrow_menu_main_un.gif{/if}" width=10><A href="{$DIR_WEB_ROOT}/link/{$sMenuSubItemSelect}/">Ссылка</A>
     </TD>

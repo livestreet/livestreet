@@ -123,7 +123,9 @@ class TopicEntity_Topic extends Entity
     public function getUserVoteDelta() {
         return $this->_aData['user_vote_delta'];
     }
-    
+    public function getUserQuestionIsVote() {
+        return $this->_aData['user_question_is_vote'];
+    }
 
     
     /***************************************************************************************************************************************************
@@ -136,7 +138,7 @@ class TopicEntity_Topic extends Entity
     		$this->aExtra=unserialize($this->getExtra());
     	}
     }
-    
+    // методы для топика-ссылки
     public function getLinkUrl($bShort=false) {
     	if ($this->getType()!='link') {
     		return null;
@@ -182,9 +184,90 @@ class TopicEntity_Topic extends Entity
     	$this->aExtra['count_jump']=$data;
     	$this->setExtra($this->aExtra);
     }
-    
-    
-    
+    //методы для топика-вопроса
+    public function addQuestionAnswer($data) {
+    	if ($this->getType()!='question') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['answers'][]=array('text'=>$data,'count'=>0);
+    	$this->setExtra($this->aExtra);
+    }
+    public function clearQuestionAnswer() {
+    	if ($this->getType()!='question') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['answers']=array();
+    	$this->setExtra($this->aExtra);
+    }
+    public function getQuestionAnswers() {
+    	if ($this->getType()!='question') {
+    		return null;
+    	}
+    	$this->extractExtra();
+    	if (isset($this->aExtra['answers'])) {
+    		return $this->aExtra['answers'];
+    	}
+    	return array();
+    }
+    public function increaseQuestionAnswerVote($sIdAnswer) {
+    	if ($aAnswers=$this->getQuestionAnswers()) {
+    		if (isset($aAnswers[$sIdAnswer])) {
+    			$aAnswers[$sIdAnswer]['count']++;
+    			$this->aExtra['answers']=$aAnswers;
+    			$this->setExtra($this->aExtra);
+    		}
+    	}
+    }
+    public function getQuestionAnswerPercent($sIdAnswer) {
+    	if ($aAnswers=$this->getQuestionAnswers()) {
+    		if (isset($aAnswers[$sIdAnswer])) {    			
+    			$iCountAll=$this->getQuestionCountVote()-$this->getQuestionCountVoteAbstain();
+    			if ($iCountAll==0) {
+    				return 0;
+    			} else {
+    				return round($aAnswers[$sIdAnswer]['count']*100/$iCountAll,2);
+    			}
+    		}
+    	}
+    }
+    public function getQuestionCountVote() {
+    	if ($this->getType()!='question') {
+    		return null;
+    	}
+    	$this->extractExtra();
+    	if (isset($this->aExtra['count_vote'])) {
+    		return (int)$this->aExtra['count_vote'];
+    	}
+    	return 0;
+    }
+    public function setQuestionCountVote($data) {
+        if ($this->getType()!='question') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['count_vote']=$data;
+    	$this->setExtra($this->aExtra);
+    }
+    public function getQuestionCountVoteAbstain() {
+    	if ($this->getType()!='question') {
+    		return null;
+    	}
+    	$this->extractExtra();
+    	if (isset($this->aExtra['count_vote_abstain'])) {
+    		return (int)$this->aExtra['count_vote_abstain'];
+    	}
+    	return 0;
+    }
+    public function setQuestionCountVoteAbstain($data) {
+        if ($this->getType()!='question') {
+    		return;
+    	}
+    	$this->extractExtra();
+    	$this->aExtra['count_vote_abstain']=$data;
+    	$this->setExtra($this->aExtra);
+    }
     
     
     

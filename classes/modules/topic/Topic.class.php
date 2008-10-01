@@ -653,5 +653,23 @@ class Topic extends Module {
 	public function GetDateRead($sTopicId,$sUserId) {
 		return $this->oMapperTopic->GetDateRead($sTopicId,$sUserId);
 	}
+	/**
+	 * Проверяет голосовал ли юзер за топик-вопрос
+	 *
+	 * @param unknown_type $sTopicId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetTopicQuestionVote($sTopicId,$sUserId) {
+		return $this->oMapperTopic->GetTopicQuestionVote($sTopicId,$sUserId);
+	}
+	/**
+	 * Добавляет факт голосования за топик-вопрос
+	 *
+	 * @param TopicEntity_TopicQuestionVote $oTopicQuestionVote
+	 */
+	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
+		return $this->oMapperTopic->AddTopicQuestionVote($oTopicQuestionVote);
+	}
 }
 ?>

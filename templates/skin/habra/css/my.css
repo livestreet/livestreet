@@ -117,3 +117,39 @@ div.comment_text2 {
   font-family:Arial;
    background:#e7eefe;
 }
+
+/*Опросы*/
+
+.poll dl {
+	float: left;
+	clear: both;
+	width: 100%;
+	border: .5em solid #fff;
+	
+	margin: 0px 0px 0px 0px;
+}
+
+	.poll dl dt {
+		float: left;
+		width: 8%;
+		font-size: 97.6%;
+		text-align: right;
+		margin-left: -20px;
+		color: #ccc;
+	}
+		.poll dl dt strong {
+			color:#404040;
+			text-align: right;
+		}
+	.poll dl dd {
+		width: 91%;
+		float: left;
+		margin-left: 20px;
+	}
+
+.poll .total {
+	font-size: 97.6%;
+	clear: both;
+	margin-top: 1em;
+	color: #999;
+}

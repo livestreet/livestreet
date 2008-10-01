@@ -40,6 +40,7 @@ return array(
 		'talk' => 'ActionTalk',
 		'rss' => 'ActionRss',
 		'link' => 'ActionLink',
+		'question' => 'ActionQuestion',
 	),
 	'config' => array(
 		'action_default' => 'index',

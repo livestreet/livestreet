@@ -19,6 +19,34 @@ ALTER TABLE `prefix_topic_content`
 
   
   
+  
+--
+-- Структура таблицы `prefix_topic_question_vote`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_topic_question_vote` (
+  `topic_id` int(11) unsigned NOT NULL,
+  `user_voter_id` int(11) unsigned NOT NULL,
+  `answer` tinyint(4) NOT NULL,
+  UNIQUE KEY `topic_id_user_id` (`topic_id`,`user_voter_id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `user_voter_id` (`user_voter_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_topic_question_vote`
+--
+ALTER TABLE `prefix_topic_question_vote`
+  ADD CONSTRAINT `prefix_topic_question_vote_fk1` FOREIGN KEY (`user_voter_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_topic_question_vote_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+  
+  
+  
 -- Меняем индекс в таблице комментов  
 ALTER TABLE `prefix_topic_comment` DROP INDEX `comment_date_rating`    ;
 ALTER TABLE `prefix_topic_comment` ADD INDEX `rating_date_id` ( `comment_rating` , `comment_date` , `comment_id` ) ;   

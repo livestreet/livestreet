@@ -121,7 +121,8 @@ class Mapper_Topic extends Mapper {
 				b.blog_url as blog_url,
 				b.blog_title as blog_title,
 				IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-				tv.vote_delta as user_vote_delta			 
+				tv.vote_delta as user_vote_delta,
+				IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote			 
 				FROM 
 					".DB_TABLE_TOPIC." as t
 					
@@ -131,7 +132,14 @@ class Mapper_Topic extends Mapper {
 							vote_delta												
 						FROM ".DB_TABLE_TOPIC_VOTE." 
 						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id,
+					) AS tv ON tv.topic_id = t.topic_id
+					
+					LEFT JOIN (
+						SELECT
+							topic_id																			
+						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tqv ON tqv.topic_id = t.topic_id,
 					
 					".DB_TABLE_USER." as u,
 					".DB_TABLE_BLOG." as b
@@ -158,7 +166,8 @@ class Mapper_Topic extends Mapper {
 					b.blog_url as blog_url,
 					b.blog_title as blog_title,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta 
+					tv.vote_delta as user_vote_delta,
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
 				FROM
 					(
 						SELECT 
@@ -182,9 +191,15 @@ class Mapper_Topic extends Mapper {
 						FROM ".DB_TABLE_TOPIC_VOTE." 
 						WHERE user_voter_id = ?d
 					) AS tv ON t_fast.topic_id=tv.topic_id
+					LEFT JOIN (
+						SELECT
+							topic_id																			
+						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tqv ON t_fast.topic_id=tqv.topic_id
 					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
 					";
-		if ($aRow=$this->oDb->selectRow($sql,$sId,$iPublish,$iCurrentUserId)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$iPublish,$iCurrentUserId,$iCurrentUserId)) {
 			return new TopicEntity_Topic($aRow);
 		}
 		return null;
@@ -249,7 +264,8 @@ class Mapper_Topic extends Mapper {
 					tc.*,
 					u.user_login as user_login,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta
+					tv.vote_delta as user_vote_delta,
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
 				FROM (
 					SELECT 
 						t.*,	
@@ -277,12 +293,18 @@ class Mapper_Topic extends Mapper {
 						FROM ".DB_TABLE_TOPIC_VOTE." 
 						WHERE user_voter_id = ?d
 					) AS tv ON t_fast.topic_id=tv.topic_id 
+				LEFT JOIN (
+						SELECT
+							topic_id																			
+						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tqv ON t_fast.topic_id=tqv.topic_id
 				JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
 				;	
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId)) {			
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -368,7 +390,8 @@ class Mapper_Topic extends Mapper {
 						b.blog_type as blog_type,
 						b.blog_url as blog_url,
                         IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-						tv.vote_delta as user_vote_delta
+						tv.vote_delta as user_vote_delta,
+						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
 					FROM (				
 							SELECT 		
 								topic_id										
@@ -389,12 +412,18 @@ class Mapper_Topic extends Mapper {
 								FROM ".DB_TABLE_TOPIC_VOTE." 
 								WHERE user_voter_id = ?d
 								) AS tv ON tt.topic_id=tv.topic_id
+						 LEFT JOIN (
+								SELECT
+									topic_id																			
+								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tqv ON tt.topic_id=tqv.topic_id
                          LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
 				;	
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -466,7 +495,8 @@ class Mapper_Topic extends Mapper {
 					tc.*,
 					u.user_login as user_login,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta
+					tv.vote_delta as user_vote_delta,
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote
 				FROM (
 					SELECT 
 						t.*,
@@ -497,11 +527,17 @@ class Mapper_Topic extends Mapper {
 								FROM ".DB_TABLE_TOPIC_VOTE." 
 								WHERE user_voter_id = ?d
 								) AS tv ON t_fast.topic_id=tv.topic_id
+					LEFT JOIN (
+								SELECT
+									topic_id																			
+								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tqv ON t_fast.topic_id=tqv.topic_id
 					JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -822,6 +858,29 @@ class Mapper_Topic extends Mapper {
 			return $aRow['date_read'];
 		}
 		return false;
+	}
+	
+	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
+		$sql = "INSERT INTO ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+			(topic_id,
+			user_voter_id,
+			answer		
+			)
+			VALUES(?d,  ?d,	?f)
+		";			
+		if ($this->oDb->query($sql,$oTopicQuestionVote->getTopicId(),$oTopicQuestionVote->getVoterId(),$oTopicQuestionVote->getAnswer())===0) 
+		{
+			return true;
+		}		
+		return false;
+	}
+	
+	public function GetTopicQuestionVote($sTopicId,$sUserId) {
+		$sql = "SELECT * FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." WHERE topic_id = ?d and user_voter_id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
+			return new TopicEntity_TopicQuestionVote($aRow);
+		}
+		return null;
 	}
 }
 ?>

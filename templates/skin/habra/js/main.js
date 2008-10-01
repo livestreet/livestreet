@@ -183,6 +183,27 @@ function ajaxBlogInfo(idBlog) {
     req.send( { idBlog: idBlog } );
 }
 
+function ajaxQuestionVote(idTopic,idAnswer) {    
+    var req = new JsHttpRequest();    
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {         
+            document.getElementById('debug').innerHTML = req.responseText; 
+            closeWindowStatus();          
+            if (req.responseJS.bStateError) {
+            	msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            } else {            	
+            	msgNoticeBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            	if (document.getElementById('topic_question_area_'+idTopic)) {
+            		document.getElementById('topic_question_area_'+idTopic).innerHTML='<p>'+req.responseJS.sText+'</p>';
+            	}  
+            }
+        }
+    }    
+    showWindowStatus('Обработка голосования...');
+    req.open(null, DIR_WEB_ROOT+'/include/ajax/questionVote.php', true);    
+    req.send( { idTopic: idTopic, idAnswer: idAnswer } );
+}
+
 
 function ajaxVoteUser(idUser,value) {    
     var req = new JsHttpRequest();    
@@ -344,4 +365,30 @@ function hideUserVoteAll(idUser) {
 function showUserVote(vote,idUser) {
 	hideUserVoteAll(idUser);	
 	document.getElementById(vote+'_'+idUser).style.display='inline';
+}
+
+
+ 
+// для опроса
+function addField(btn){
+        tr = btn;
+        while (tr.tagName != 'TR') tr = tr.parentNode;
+        var newTr = tr.parentNode.insertBefore(tr.cloneNode(true),tr.nextSibling);
+        checkFieldForLast();
+}
+function checkFieldForLast(){	
+        btns = document.getElementsByName('drop_answer');      
+        for (i = 0; i < btns.length; i++){
+        	btns[i].disabled = false;            
+        }
+        if (btns.length<=2) {
+        	btns[0].disabled = true;
+        	btns[1].disabled = true;
+        }
+}
+function dropField(btn){	
+        tr = btn;
+        while (tr.tagName != 'TR') tr = tr.parentNode;
+        tr.parentNode.removeChild(tr);
+        checkFieldForLast();
 }

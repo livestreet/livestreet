@@ -113,7 +113,7 @@ class ActionLink extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='';
+		$this->sMenuItemSelect='link';
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
