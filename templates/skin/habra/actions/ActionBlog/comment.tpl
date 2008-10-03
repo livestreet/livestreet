@@ -68,7 +68,7 @@ function showCommentForm(reply) {
    					<a href="{$DIR_WEB_ROOT}/profile/{$oComment->getUserLogin()}/" class="comments_nickname">{$oComment->getUserLogin()}</a>  
    					<span class="comments_date">{date_format date=$oComment->getDate()}</span> 
    					<a href="#comment{$oComment->getId()}" class="small" title=" ссылка ">#</a> 
-   					{if !$oComment->getDelete()}
+   					{if !$oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
    						<span id="comment_delete_{$oComment->getId()}">&nbsp;<a href="#" title="удалить комментарий" onclick="ajaxCommentDelete({$oComment->getId()}); return false;"><img src="{$DIR_STATIC_SKIN}/img/comment_del.gif" border="0" alt="удалить"></a></span>
    					{/if}
 				</div>
