@@ -22,7 +22,7 @@
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/main.js?v=10"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/main.js?v=11"></script>
 <BODY>
 
 {literal}

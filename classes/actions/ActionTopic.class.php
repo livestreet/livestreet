@@ -94,7 +94,7 @@ class ActionTopic extends Action {
 		/**
 		 * проверяем кто владелец топика
 		 */
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId()) {
+		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -103,17 +103,24 @@ class ActionTopic extends Action {
 		$this->Viewer_AddBlocksRight(array('block.blogInfo.tpl'));
 		/**
 		 * Получаем данные для отображения формы
+		 * Если админ то делаем доступными все блоги
 		 */
-		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());		
-		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());
 		$aAllowBlogsUser=array();
-		foreach ($aBlogsUser as $oBlogUser) {
-			$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-			// делаем через "or" чтоб дать возможность юзеру отредактировать свой топик в блоге в котором он уже не может постить, т.е. для тех топиков что были запощены раньше и был доступ в блог
-			if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) or $oTopic->getBlogId()==$oBlog->getId()) {
-				$aAllowBlogsUser[]=$oBlogUser;
+		$aBlogsOwner=array();
+		if ($this->oUserCurrent->isAdministrator()) {
+			$aBlogsOwner=$this->Blog_GetBlogs();
+		} else {
+			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());		
+			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
+			foreach ($aBlogsUser as $oBlogUser) {
+				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
+				// делаем через "or" чтоб дать возможность юзеру отредактировать свой топик в блоге в котором он уже не может постить, т.е. для тех топиков что были запощены раньше и был доступ в блог
+				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) or $oTopic->getBlogId()==$oBlog->getId()) {
+					$aAllowBlogsUser[]=$oBlogUser;
+				}
 			}
 		}
+		
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -161,13 +168,18 @@ class ActionTopic extends Action {
 		/**
 		 * Получаем данные для отображения формы
 		 */
-		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());		
-		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());		
 		$aAllowBlogsUser=array();
-		foreach ($aBlogsUser as $oBlogUser) {
-			$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-			if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog)) {
-				$aAllowBlogsUser[]=$oBlogUser;
+		$aBlogsOwner=array();
+		if ($this->oUserCurrent->isAdministrator()) {
+			$aBlogsOwner=$this->Blog_GetBlogs();
+		} else {
+			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());
+			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
+			foreach ($aBlogsUser as $oBlogUser) {
+				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
+				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog)) {
+					$aAllowBlogsUser[]=$oBlogUser;
+				}
 			}
 		}
 		/**
@@ -272,7 +284,7 @@ class ActionTopic extends Action {
 		 */
 		$iBlogId=getRequest('blog_id');	
 		if ($iBlogId==0) {
-			$oBlog=$this->Blog_GetPersonalBlogByUser($this->oUserCurrent);
+			$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
 		} else {
 			$oBlog=$this->Blog_GetBlogById($iBlogId);
 		}	
@@ -286,7 +298,7 @@ class ActionTopic extends Action {
 		/**
 		 * Проверка состоит ли юзер в блоге в который постит
 		 */
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())  and !$this->oUserCurrent->isAdministrator()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
 				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;
@@ -295,7 +307,7 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем есть ли права на постинг топика в этот блог
 		 */
-		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog)) {
+		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
 			return false;
 		}						
@@ -382,7 +394,7 @@ class ActionTopic extends Action {
 		 */
 		$iBlogId=getRequest('blog_id');	
 		if ($iBlogId==0) {
-			$oBlog=$this->Blog_GetPersonalBlogByUser($this->oUserCurrent);
+			$oBlog=$this->Blog_GetPersonalBlogByUserId($oTopic->getUserId());
 		} else {
 			$oBlog=$this->Blog_GetBlogById($iBlogId);
 		}	
@@ -397,9 +409,9 @@ class ActionTopic extends Action {
 		 * Проверка состоит ли юзер в блоге в который постит
 		 * Если нужно разрешить редактировать топик в блоге в котором юзер уже не стоит
 		 */
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не сотоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;
 			}
 		}		
@@ -407,7 +419,7 @@ class ActionTopic extends Action {
 		 * Проверяем есть ли права на постинг топика в этот блог
 		 * Условие $oBlog->getId()!=$oTopic->getBlogId()  для того чтоб разрешить отредактировать топик в блоге в который сейчас юзер не имеет права на постинг, но раньше успел в него запостить этот топик
 		 */
-		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and $oBlog->getId()!=$oTopic->getBlogId()) {
+		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) and $oBlog->getId()!=$oTopic->getBlogId() and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
 			return false;
 		}						

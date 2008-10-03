@@ -68,8 +68,12 @@ function showCommentForm(reply) {
    					<a href="{$DIR_WEB_ROOT}/profile/{$oComment->getUserLogin()}/" class="comments_nickname">{$oComment->getUserLogin()}</a>  
    					<span class="comments_date">{date_format date=$oComment->getDate()}</span> 
    					<a href="#comment{$oComment->getId()}" class="small" title=" ссылка ">#</a> 
+   					{if !$oComment->getDelete()}
+   						<span id="comment_delete_{$oComment->getId()}">&nbsp;<a href="#" title="удалить комментарий" onclick="ajaxCommentDelete({$oComment->getId()}); return false;"><img src="{$DIR_STATIC_SKIN}/img/comment_del.gif" border="0" alt="удалить"></a></span>
+   					{/if}
 				</div>
    				<div class="rating_comment_holder" id="voter{$oComment->getId()}">
+   				{if !$oComment->getDelete()}
    					<span class="comments_rating_off" style="color: {if $oComment->getRating()<0}#d00000{else}#008000{/if};"  id="comment_rating_{$oComment->getId()}">{$oComment->getRating()}</span>&nbsp;
    					
    					<span id="comment_vote_self_{$oComment->getId()}" style="display: none;">
@@ -110,9 +114,12 @@ function showCommentForm(reply) {
 					{else}
 						<script>showCommentVote('comment_vote_anonim',{$oComment->getId()});</script>					
 					{/if}													
-					
+				{/if}	
    				</div>
-   				<div class="comment_text">         			
+   				<div class="comment_text" id="comment_content_{$oComment->getId()}">  
+   				{if $oComment->getDelete()}
+   				   	<font color="#c5c5c5">комментарий был удален</font>		
+   				{else}
          			{if $oComment->isBad()}
 						<div style="display: none;" id="comment_text_{$oComment->getId()}">
 					    	{$oComment->getText()}
@@ -121,8 +128,9 @@ function showCommentForm(reply) {
 					{else}	
 					    {$oComment->getText()}
 					{/if}
+				{/if}
        			</div>       			
-       			{if $oUserCurrent}
+       			{if $oUserCurrent and !$oComment->getDelete()}
        			<div class="comments_reply">
     				<div class="reply_word_holder">(<a href="javascript:showCommentForm({$oComment->getId()});">ответить</a>)</div>    				
     				<div style="display: none;" id="reply_{$oComment->getId()}"></div>

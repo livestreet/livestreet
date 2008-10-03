@@ -207,7 +207,7 @@ class ActionBlog extends Action {
 		/**
 		 * Явлется ли авторизованный пользователь хозяином блога
 		 */
-		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}			
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());

@@ -124,7 +124,9 @@ class UserEntity_User extends Entity {
     public function getUserIsFrend() {
         return $this->_aData['user_is_frend'];
     }
-    
+    public function isAdministrator() {
+        return $this->_aData['user_is_administrator'];
+    }
     
     
     

@@ -44,6 +44,9 @@ class CommentEntity_TopicComment extends Entity
     public function getCountVote() {
         return $this->_aData['comment_count_vote'];
     }
+    public function getDelete() {
+        return $this->_aData['comment_delete'];
+    }
     
     public function getUserLogin() {
         return $this->_aData['user_login'];
@@ -138,6 +141,9 @@ class CommentEntity_TopicComment extends Entity
     }
     public function setCountVote($data) {
         $this->_aData['comment_count_vote']=$data;
+    }
+    public function setDelete($data) {
+        $this->_aData['comment_delete']=$data;
     }
 
 }

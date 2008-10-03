@@ -45,15 +45,16 @@ ALTER TABLE `prefix_topic_question_vote`
   ADD CONSTRAINT `prefix_topic_question_vote_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
   
-  
-  
+   
 -- Меняем индекс в таблице комментов  
 ALTER TABLE `prefix_topic_comment` DROP INDEX `comment_date_rating`    ;
 ALTER TABLE `prefix_topic_comment` ADD INDEX `rating_date_id` ( `comment_rating` , `comment_date` , `comment_id` ) ;   
 ALTER TABLE `prefix_topic_comment` ADD INDEX ( `comment_date` )  ;
   
   
-   
+
+ALTER TABLE `prefix_topic_comment` ADD `comment_delete` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_topic_comment` ADD INDEX ( `comment_delete` )  ;
   
   
   

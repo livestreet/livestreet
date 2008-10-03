@@ -72,7 +72,9 @@ class Mapper_TopicComment extends Mapper {
 					WHERE 	
 						c.comment_rating >= 0	
 						AND		
-						c.comment_date >= ? 											
+						c.comment_date >= ? 		
+						AND
+						c.comment_delete = 0									
 					ORDER by c.comment_rating desc, c.comment_date desc
 					LIMIT 0, ?d 
 					) as c_fast
@@ -155,7 +157,9 @@ class Mapper_TopicComment extends Mapper {
 					FROM 
 						".DB_TABLE_TOPIC_COMMENT." as c,
 						".DB_TABLE_TOPIC." as t					 
-					WHERE 								
+					WHERE 					
+						c.comment_delete = 0
+						AND			
 						c.topic_id=t.topic_id
 						AND
 						t.topic_publish = 1					
@@ -185,7 +189,9 @@ class Mapper_TopicComment extends Mapper {
 					FROM 
 						".DB_TABLE_TOPIC_COMMENT." as c,
 						".DB_TABLE_TOPIC." as t					 
-					WHERE 								
+					WHERE 		
+						c.comment_delete = 0
+						AND						
 						c.topic_id=t.topic_id
 						AND
 						t.topic_publish = 1					
@@ -220,6 +226,8 @@ class Mapper_TopicComment extends Mapper {
 					".DB_TABLE_USER." as u_owner 
 				WHERE 	
 					c.comment_id=(SELECT comment_id FROM ".DB_TABLE_TOPIC_COMMENT." WHERE topic_id=t.topic_id AND t.topic_publish=1 ORDER BY comment_date DESC LIMIT 0,1)
+					AND
+					c.comment_delete = 0
 					AND				
 					c.topic_id=t.topic_id
 					AND
@@ -271,7 +279,7 @@ class Mapper_TopicComment extends Mapper {
 					".DB_TABLE_USER." as u 					
 				WHERE 
 					c.topic_id = ?d 
-					AND
+					AND					
 					c.user_id=u.user_id
 				ORDER by c.comment_id asc;	
 					";
@@ -301,6 +309,8 @@ class Mapper_TopicComment extends Mapper {
 					".DB_TABLE_USER." as u_owner 
 				WHERE 
 					c.user_id = ?d 
+					AND
+					c.comment_delete = 0
 					AND
 					c.topic_id=t.topic_id
 					AND
@@ -332,6 +342,8 @@ class Mapper_TopicComment extends Mapper {
 					".DB_TABLE_TOPIC." as t
 				WHERE 
 					c.user_id = ?d 
+					AND
+					c.comment_delete = 0
 					AND
 					c.topic_id=t.topic_id
 					AND
@@ -389,11 +401,12 @@ class Mapper_TopicComment extends Mapper {
 			SET 
 				comment_text= ?,
 				comment_rating= ?f,
-				comment_count_vote= ?d
+				comment_count_vote= ?d,
+				comment_delete = ?d
 			WHERE
 				comment_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopicComment->getText(),$oTopicComment->getRating(),$oTopicComment->getCountVote(),$oTopicComment->getId())) {
+		if ($this->oDb->query($sql,$oTopicComment->getText(),$oTopicComment->getRating(),$oTopicComment->getCountVote(),$oTopicComment->getDelete(),$oTopicComment->getId())) {
 			return true;
 		}		
 		return false;

@@ -39,4 +39,5 @@ define('DB_TABLE_TALK_COMMENT',DB_PREFIX_TABLE.'talk_comment');
 define('DB_TABLE_FREND',DB_PREFIX_TABLE.'frend');
 define('DB_TABLE_TOPIC_CONTENT',DB_PREFIX_TABLE.'topic_content');
 define('DB_TABLE_TOPIC_QUESTION_VOTE',DB_PREFIX_TABLE.'topic_question_vote');
+define('DB_TABLE_USER_ADMINISTRATOR',DB_PREFIX_TABLE.'user_administrator');
 ?>

@@ -13,9 +13,11 @@
   					<img src="{$DIR_STATIC_SKIN}/img/topic_unpublish.gif" border="0" title="топик находится в черновиках">
   				{/if}
   				<a href="{if $oTopic->getType()=='link'}{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/{else}{$oTopic->getUrl()}{/if}" class="headline_l">{$oTopic->getTitle()|escape:'html'}</a>
-  				{if $oUserCurrent and $oUserCurrent->getId()==$oTopic->getUserId()}
+  				
+  				{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator())}
   					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
+  				
   			</h1>
   			<div class="groups_topic_text">
   			

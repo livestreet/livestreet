@@ -134,9 +134,9 @@ class Mapper_Blog extends Mapper {
 	}
 	
 	
-	public function GetPersonalBlogByUser(UserEntity_User $oUser) {
+	public function GetPersonalBlogByUserId($sUserId) {
 		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";
-		if ($aRow=$this->oDb->selectRow($sql,$oUser->getId())) {
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return new BlogEntity_Blog($aRow);
 		}
 		return null;
@@ -216,7 +216,22 @@ class Mapper_Blog extends Mapper {
 		return $aBlogs;
 	}
 	
-
+	public function GetBlogs() {
+		$sql = "SELECT 
+			b.*			 
+			FROM 
+				".DB_TABLE_BLOG." as b				
+			WHERE 				
+				b.blog_type<>'personal'				
+				";	
+		$aBlogs=array();
+		if ($aRows=$this->oDb->select($sql)) {
+			foreach ($aRows as $aBlog) {
+				$aBlogs[]=new BlogEntity_Blog($aBlog);
+			}
+		}
+		return $aBlogs;
+	}
 	
 	public function AddBlogVote(BlogEntity_BlogVote $oBlogVote) {
 		$sql = "INSERT INTO ".DB_TABLE_BLOG_VOTE." 

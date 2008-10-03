@@ -204,6 +204,30 @@ function ajaxQuestionVote(idTopic,idAnswer) {
     req.send( { idTopic: idTopic, idAnswer: idAnswer } );
 }
 
+function ajaxCommentDelete(idComment) {    
+    var req = new JsHttpRequest();    
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {         
+            document.getElementById('debug').innerHTML = req.responseText; 
+            closeWindowStatus();          
+            if (req.responseJS.bStateError) {
+            	msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            } else {            	
+            	msgNoticeBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            	if (document.getElementById('comment_content_'+idComment)) {
+            		document.getElementById('comment_content_'+idComment).innerHTML='<font color="#c5c5c5">комментарий был удален</font>';
+            	}  
+            	if (document.getElementById('comment_delete_'+idComment)) {
+            		document.getElementById('comment_delete_'+idComment).style.display='none';
+            	} 
+            }
+        }
+    }    
+    showWindowStatus('Удаление комментария...');
+    req.open(null, DIR_WEB_ROOT+'/include/ajax/commentDelete.php', true);    
+    req.send( { idComment: idComment } );
+}
+
 
 function ajaxVoteUser(idUser,value) {    
     var req = new JsHttpRequest();    

@@ -115,7 +115,14 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetUserById($sKey) {
-		$sql = "SELECT * FROM ".DB_TABLE_USER." WHERE user_id = ? ";
+		$sql = "SELECT 
+				u.*,
+				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+				FROM 
+					".DB_TABLE_USER." as u
+					LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+				WHERE 
+					u.user_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
 			return new UserEntity_User($aRow);
 		}

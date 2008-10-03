@@ -41,8 +41,8 @@ class Blog extends Module {
 	 * @param Entity_User $oUser
 	 * @return unknown
 	 */
-	public function GetPersonalBlogByUser(UserEntity_User $oUser) {
-		return $this->oMapperBlog->GetPersonalBlogByUser($oUser);
+	public function GetPersonalBlogByUserId($sUserId) {
+		return $this->oMapperBlog->GetPersonalBlogByUserId($sUserId);
 	}
 	/**
 	 * Получить блог по айдишнику(номеру)
@@ -165,6 +165,14 @@ class Blog extends Module {
 	 */
 	public function GetBlogsByOwnerId($sUserId) {
 		return $this->oMapperBlog->GetBlogsByOwnerId($sUserId);
+	}
+	/**
+	 * Получает список всех НЕ персональных блогов
+	 *
+	 * @return unknown
+	 */
+	public function GetBlogs() {
+		return $this->oMapperBlog->GetBlogs();
 	}
 	/**
 	 * Получает список отновшений блога к юзеру(пользователей блога)

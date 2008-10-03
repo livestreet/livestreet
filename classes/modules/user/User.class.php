@@ -40,7 +40,7 @@ class User extends Module {
 			$this->oUserCurrent=$oUser;
 		}		
 		/**
-		 * Запускаем атозалогинивание
+		 * Запускаем автозалогинивание
 		 * В куках стоит время на сколько запоминать юзера
 		 */
 		$this->AutoLogin();

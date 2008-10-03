@@ -10,7 +10,7 @@
   					<img src="{$DIR_STATIC_SKIN}/img/topic_unpublish.gif" border="0" title="топик находится в черновиках">
   				{/if}
   				{$oTopic->getTitle()|escape:'html'}
-  				{if $oUserCurrent and $oUserCurrent->getId()==$oTopic->getUserId()}
+  				{if $oUserCurrent and ( $oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() )}
   					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
   				<a href="{$DIR_WEB_ROOT}/rss/comments/{$oTopic->getId()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
