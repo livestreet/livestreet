@@ -23,6 +23,7 @@ abstract class Action extends Object {
 	
 	protected $aRegisterEvent=array();
 	protected $aParams=array();
+	protected $aParamsEventMatch=array('event'=>array(),'params'=>array());
 	protected $oEngine=null;
 	protected $sActionTemplate=null;
 	protected $sDefaultEvent=null;
@@ -44,19 +45,35 @@ abstract class Action extends Object {
 
 	/**
 	 * Добавляет евент в экшен
+	 * По сути является оберткой для AddEventPreg(), оставлен для простоты и совместимости с прошлыми версиями ядра
 	 *
 	 * @param string $sEventName Название евента
 	 * @param string $sEventFunction Какой метод ему соответствует
-	 */
+	 */	
 	protected function AddEvent($sEventName,$sEventFunction) {
-		$sEventName=strtolower($sEventName);
-		if (!isset($this->aRegisterEvent[$sEventName])) {
-			if (method_exists($this,$sEventFunction)) {
-				$this->aRegisterEvent[$sEventName]=$sEventFunction;
-			} else {
-				throw new Exception("Добавляемый метод евента не найден: ".$sEventFunction);
-			}			
+		$this->AddEventPreg("/^{$sEventName}$/i",$sEventFunction);
+	}
+	
+	/**
+	 * Добавляет евент в экшен, используя регулярное вырожение для евента и параметров
+	 *
+	 */
+	protected function AddEventPreg() {		
+		$iCountArgs=func_num_args();
+		if ($iCountArgs<2) {
+			throw new Exception("Некорректное число аргументов при добавлении евента");
 		}
+		$aEvent=array();
+		$aEvent['method']=func_get_arg($iCountArgs-1);
+		if (!method_exists($this,$aEvent['method'])) {			
+			throw new Exception("Добавляемый метод евента не найден: ".$aEvent['method']);
+		}
+		$aEvent['preg']=func_get_arg(0);		
+		$aEvent['params_preg']=array();
+		for ($i=1;$i<$iCountArgs-1;$i++) {
+			$aEvent['params_preg'][]=func_get_arg($i);
+		}
+		$this->aRegisterEvent[]=$aEvent;		
 	}
 	
 	/**
@@ -66,19 +83,30 @@ abstract class Action extends Object {
 	 * @return unknown
 	 */
 	public function ExecEvent() {
+		dump($this->aRegisterEvent);
 		$this->sCurrentEvent=Router::GetActionEvent();
 		if ($this->sCurrentEvent==null) {
 			$this->sCurrentEvent=$this->GetDefaultEvent();
 			Router::SetActionEvent($this->sCurrentEvent);
+		}				
+		foreach ($this->aRegisterEvent as $aEvent) {
+			if (preg_match($aEvent['preg'],$this->sCurrentEvent,$aMatch)) {
+				$this->aParamsEventMatch['event']=$aMatch;
+				$this->aParamsEventMatch['params']=array();
+				foreach ($aEvent['params_preg'] as $iKey => $sParamPreg) {
+					if (preg_match($sParamPreg,$this->GetParam($iKey,''),$aMatch)) {
+						$this->aParamsEventMatch['params'][$iKey]=$aMatch;
+					} else {
+						continue 2;
+					}
+				}				
+				$sCmd='$result=$this->'.$aEvent['method'].'();';
+				eval($sCmd);			
+				return $result;
+			}
 		}
-		if (isset($this->aRegisterEvent[$this->sCurrentEvent])) {						
-			$sCmd='$result=$this->'.$this->aRegisterEvent[$this->sCurrentEvent].'();';
-			eval($sCmd);			
-			return $result;
-		} else {
-			return $this->EventNotFound();
-		}		
-	}
+		return $this->EventNotFound();
+	}	
 	
 	/**
 	 * Устанавливает евент по умолчанию
@@ -97,16 +125,56 @@ abstract class Action extends Object {
 	public function GetDefaultEvent() {
 		return $this->sDefaultEvent;
 	}
-		
+
+	/**
+	 * Возвращает элементы совпадения по регулярному выражению для евента
+	 *
+	 * @param unknown_type $iItem
+	 * @return unknown
+	 */
+	protected function GetEventMatch($iItem=null) {
+		if ($iItem) {
+			if (isset($this->aParamsEventMatch['event'][$iItem])) {
+				return $this->aParamsEventMatch['event'][$iItem];
+			} else {
+				return null;
+			}
+		} else {
+			return $this->aParamsEventMatch['event'];
+		}
+	}
+	/**
+	 * Возвращает элементы совпадения по регулярному выражению для параметров евента
+	 *
+	 * @param unknown_type $iParamNum
+	 * @param unknown_type $iItem
+	 * @return unknown
+	 */
+	protected function GetParamEventMatch($iParamNum,$iItem=null) {
+		if ($iItem) {
+			if (isset($this->aParamsEventMatch['params'][$iParamNum][$iItem])) {
+				return $this->aParamsEventMatch['params'][$iParamNum][$iItem];
+			} else {
+				return null;
+			}
+		} else {
+			if (isset($this->aParamsEventMatch['event'][$iParamNum])) {
+				return $this->aParamsEventMatch['event'][$iParamNum];
+			} else {
+				return null;
+			}			
+		}
+	}
+	
 	/**
 	 * Получает параметр из URL по его номеру, если его нет то null
 	 *
 	 * @param unknown_type $iOffset
 	 * @return unknown
 	 */
-	public function GetParam($iOffset) {
+	public function GetParam($iOffset,$default=null) {
 		$iOffset=(int)$iOffset;
-		return isset($this->aParams[$iOffset]) ? $this->aParams[$iOffset] : null;
+		return isset($this->aParams[$iOffset]) ? $this->aParams[$iOffset] : $default;
 	}
 	
 	/**

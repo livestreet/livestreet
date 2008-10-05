@@ -113,6 +113,21 @@ class ActionBlog extends Action {
 		$this->AddEvent('new','EventNew');
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
+		
+		$this->AddEventPreg('/^(\d+)\.html$/i','EventShowTopicPersonal');
+		$this->AddEventPreg('/^\w+$/i','/^(\d+)\.html$/i','EventShowTopic');
+		
+		$this->AddEventPreg('/^\w+$/i','/^$/i','EventShowBlogGood');
+		$this->AddEventPreg('/^\w+$/i','/^page(\d+)$/i','EventShowBlogGood');
+		
+		$this->AddEventPreg('/^\w+$/i','/^bad$/i','/^$/i','EventShowBlogBad');
+		$this->AddEventPreg('/^\w+$/i','/^bad$/i','/^page(\d+)$/i','EventShowBlogBad');
+		
+		$this->AddEventPreg('/^\w+$/i','/^new$/i','/^$/i','EventShowBlogNew');
+		$this->AddEventPreg('/^\w+$/i','/^new$/i','/^page(\d+)$/i','EventShowBlogNew');
+		
+		$this->AddEventPreg('/^\w+$/i','/^profile$/i','/^$/i','EventShowBlogProfile');
+		$this->AddEventPreg('/^\w+$/i','/^profile$/i','/^page(\d+)$/i','EventShowBlogProfile');		
 	}
 		
 	
@@ -440,7 +455,8 @@ class ActionBlog extends Action {
 	 * @param unknown_type $iTopicId
 	 * @return unknown
 	 */
-	protected function ShowTopicPersonal($iTopicId) {
+	protected function EventShowTopicPersonal() {		
+		$iTopicId=$this->GetEventMatch(1);
 		/**
 		 * Меню
 		 */
@@ -512,7 +528,9 @@ class ActionBlog extends Action {
 	 * @param unknown_type $iTopicId
 	 * @return unknown
 	 */
-	protected function ShowTopic($sBlogUrl,$iTopicId) {	
+	protected function EventShowTopic() {	
+		$sBlogUrl=$this->sCurrentEvent;
+		$iTopicId=$this->GetParamEventMatch(0,1);
 		/**
 		 * Меню
 		 */
@@ -589,7 +607,9 @@ class ActionBlog extends Action {
 	 * @param unknown_type $sPage
 	 * @return unknown
 	 */
-	protected function ShowBlogGood($sBlogUrl,$sPage) {		
+	protected function EventShowBlogGood() {
+		$sBlogUrl=$this->sCurrentEvent;
+		$sPage=$this->GetParam(0);
 		/**
 		 * Меню
 		 */
@@ -653,7 +673,9 @@ class ActionBlog extends Action {
 	 * @param unknown_type $sPage
 	 * @return unknown
 	 */
-	protected function ShowBlogBad($sBlogUrl,$sPage) {	
+	protected function EventShowBlogBad() {	
+		$sBlogUrl=$this->sCurrentEvent;
+		$sPage=$this->GetParam(1);
 		/**
 		 * Меню
 		 */
@@ -717,7 +739,9 @@ class ActionBlog extends Action {
 	 * @param unknown_type $sPage
 	 * @return unknown
 	 */
-	protected function ShowBlogNew($sBlogUrl,$sPage) {		
+	protected function EventShowBlogNew() {	
+		$sBlogUrl=$this->sCurrentEvent;
+		$sPage=$this->GetParam(1);	
 		/**
 		 * Меню
 		 */
@@ -782,7 +806,9 @@ class ActionBlog extends Action {
 	 * @param unknown_type $iPage
 	 * @return unknown
 	 */
-	protected function ShowBlogProfile($sBlogUrl,$iPage) {	
+	protected function EventShowBlogProfile() {	
+		$sBlogUrl=$this->sCurrentEvent;
+		$iPage=$this->GetParam(1);
 		/**
 		 * Меню
 		 */
@@ -947,71 +973,7 @@ class ActionBlog extends Action {
 			}
 		}
 	}
-
-	/**
-	 * Обрабатывает динамический УРЛ, т.е. когда евент не определен заранее
-	 *
-	 * @return unknown
-	 */
-	protected function EventNotFound() {		
-		/**
-		 * Для топика из персонального блога		  
-		 */		
-		if (preg_match("/^(\d+)\.html$/i",$this->sCurrentEvent,$aMatch)) {						
-			return $this->ShowTopicPersonal($aMatch[1]);			
-		}				
-		/**
-		 * Для топика из коллективного блога		  
-		 */
-		if (preg_match("/^(\d+)\.html$/i",$this->getParam(0),$aMatch)) {
-			return $this->ShowTopic($this->sCurrentEvent,$aMatch[1]);
-		}			
-		/**
-		 * Для списка хороших топиков из коллективного блога 		
-		 * site.ru/blog/blog_name/
-		 * site.ru/blog/blog_name/page1/		  
-		 */
-		if (preg_match("/^\w+$/i",$this->sCurrentEvent) 			
-			and (is_null($this->getParam(0)) or preg_match("/^page(\d+)$/i",$this->getParam(0)))			
-			) 
-		{
-			return $this->ShowBlogGood($this->sCurrentEvent,$this->getParam(0));
-		}			
-		/**
-		 * Для списка плохих топиков из коллективного блога
-		 * site.ru/blog/blog_name/bad/
-		 * site.ru/blog/blog_name/bad/page1/
-		 */
-		if (preg_match("/^\w+$/i",$this->sCurrentEvent) 
-			and $this->getParam(0)=='bad'
-			and (is_null($this->getParam(1)) or preg_match("/^page(\d+)$/i",$this->getParam(1)))			
-			) 
-		{
-			return $this->ShowBlogBad($this->sCurrentEvent,$this->getParam(1));
-		}		
-		/**
-		 * Для списка новых топиков из коллективного блога
-		 * site.ru/blog/blog_name/new/
-		 * site.ru/blog/blog_name/new/page1/
-		 */
-		if (preg_match("/^\w+$/i",$this->sCurrentEvent) 
-			and $this->getParam(0)=='new'
-			and (is_null($this->getParam(1)) or preg_match("/^page(\d+)$/i",$this->getParam(1)))			
-			) 
-		{
-			return $this->ShowBlogNew($this->sCurrentEvent,$this->getParam(1));
-		}		
-		/**
-		 * Для профиля блога		  
-		 */
-		if (preg_match("/^\w+$/i",$this->sCurrentEvent) and $this->getParam(0)=='profile' and (is_null($this->getParam(1)) or preg_match("/^page(\d+)$/i",$this->getParam(1)))) {
-			return $this->ShowBlogProfile($this->sCurrentEvent,$this->getParam(1));
-		}				
-		/**
-		 * Иначе на страницу ошибки
-		 */
-		return parent::EventNotFound();				
-	}	
+	
 	
 	/**
 	 * Выполняется при завершении работы экшена
