@@ -505,10 +505,12 @@ class ActionTopic extends Action {
 		$sTags=getRequest('topic_tags');
 		$aTags=explode(',',$sTags);
 		$aTagsNew=array();
+		$aTagsNewLow=array();
 		foreach ($aTags as $sTag) {
 			$sTag=trim($sTag);
-			if (func_check($sTag,'text',2,50)) {
+			if (func_check($sTag,'text',2,50) and !in_array(mb_strtolower($sTag,'UTF-8'),$aTagsNewLow)) {
 				$aTagsNew[]=$sTag;
+				$aTagsNewLow[]=mb_strtolower($sTag,'UTF-8');
 			}
 		}
 		if (!count($aTagsNew)) {

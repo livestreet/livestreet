@@ -13,7 +13,7 @@ document.addEvent('domready', function() {
 	new Autocompleter.Request.HTML(inputTags, DIR_WEB_ROOT+'/include/ajax/tagAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
 		'minLength': 2, // We need at least 1 character
-		'selectMode': 'type-ahead', // Instant completion
+		'selectMode': 'pick', // Instant completion
 		'multiple': true // Tag support, by default comma separated
 	}); 
 });
