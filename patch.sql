@@ -85,7 +85,18 @@ ALTER TABLE `prefix_topic_comment_online`
   ADD CONSTRAINT `prefix_topic_comment_online_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
-
+-- перевод некоторых полей в регистронезависимую кодировку
+ ALTER TABLE `prefix_topic_comment` CHANGE `comment_text` `comment_text` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_topic` CHANGE `topic_tags` `topic_tags` VARCHAR( 250 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'через запятую перечислены теги' ;
+ ALTER TABLE `prefix_topic_content` CHANGE `topic_text` `topic_text` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_topic_content` CHANGE `topic_text_short` `topic_text_short` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_topic_content` CHANGE `topic_text_source` `topic_text_source` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_topic_content` CHANGE `topic_extra` `topic_extra` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_topic_tag` CHANGE `topic_tag_text` `topic_tag_text` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_user` CHANGE `user_mail` `user_mail` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_user` CHANGE `user_login` `user_login` VARCHAR( 30 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_blog` CHANGE `blog_title` `blog_title` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ ALTER TABLE `prefix_blog` CHANGE `blog_url` `blog_url` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
   
   
   
