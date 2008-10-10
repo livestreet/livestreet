@@ -30,7 +30,7 @@ $oBlog=null;
 if ($sBlogId==0) {
 	if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
-		$oBlog=$oEngine->Blog_GetPersonalBlogByUser($oUserCurrent);
+		$oBlog=$oEngine->Blog_GetPersonalBlogByUserId($oUserCurrent->getId());
 	}	
 } else {
 	$oBlog=$oEngine->Blog_GetBlogById($sBlogId);
