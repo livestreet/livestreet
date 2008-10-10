@@ -135,7 +135,14 @@ document.addEvent('domready', function() {
 
      </p>
 
-     
+     {if $oUserCurrent->isAdministrator()}
+     <p>
+     <input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/>
+      <label for="topic_publish_index"> &mdash; принудительно вывести на главную</label>	
+     <br />
+            <span class="form_note">Если отметить эту галку, то топик сразу попадёт на главную страницу(опция доступна только администраторам)</span>
+     </p>
+     {/if}
 
     <p class="l-bot">     
      <input type="submit" name="submit_topic_publish" value="опубликовать">&nbsp;

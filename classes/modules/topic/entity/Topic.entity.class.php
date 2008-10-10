@@ -69,6 +69,9 @@ class TopicEntity_Topic extends Entity
     public function getPublish() {
         return $this->_aData['topic_publish'];
     }
+    public function getPublishIndex() {
+        return $this->_aData['topic_publish_index'];
+    }
     public function getRating() {            
         return number_format(round($this->_aData['topic_rating'],2), 0, '.', '');
     }
@@ -313,6 +316,9 @@ class TopicEntity_Topic extends Entity
     }
     public function setPublish($data) {
         $this->_aData['topic_publish']=$data;
+    }
+    public function setPublishIndex($data) {
+        $this->_aData['topic_publish_index']=$data;
     }
     public function setRating($data) {
         $this->_aData['topic_rating']=$data;

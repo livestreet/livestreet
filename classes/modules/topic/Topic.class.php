@@ -211,6 +211,7 @@ class Topic extends Module {
 			'topic_rating'  => array(
 				'value' => BLOG_INDEX_LIMIT_GOOD,
 				'type'  => 'top',
+				'publish_index'  => 1,
 			),
 		);			
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);

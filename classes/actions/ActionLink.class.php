@@ -179,6 +179,7 @@ class ActionLink extends Action {
 			$_REQUEST['topic_tags']=$oTopic->getTags();
 			$_REQUEST['blog_id']=$oTopic->getBlogId();
 			$_REQUEST['topic_id']=$oTopic->getId();
+			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
 		}	
 	}
 	/**
@@ -305,6 +306,15 @@ class ActionLink extends Action {
 			$oTopic->setPublish(0);
 		}				
 		/**
+		 * Принудительный вывод на главную
+		 */
+		$oTopic->setPublishIndex(0);
+		if ($this->oUserCurrent->isAdministrator())	{
+			if (getRequest('topic_publish_index')) {
+				$oTopic->setPublishIndex(1);
+			} 
+		}
+		/**
 		 * Добавляем топик
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
@@ -399,7 +409,17 @@ class ActionLink extends Action {
 			$oTopic->setPublish(1);
 		} else {
 			$oTopic->setPublish(0);
-		}				
+		}		
+		/**
+		 * Принудительный вывод на главную
+		 */
+		if ($this->oUserCurrent->isAdministrator())	{
+			if (getRequest('topic_publish_index')) {
+				$oTopic->setPublishIndex(1);
+			} else {
+				$oTopic->setPublishIndex(0);
+			}
+		}		
 		/**
 		 * Сохраняем топик
 		 */

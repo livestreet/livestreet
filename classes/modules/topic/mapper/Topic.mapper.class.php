@@ -31,12 +31,13 @@ class Mapper_Topic extends Mapper {
 			topic_tags,
 			topic_date_add,
 			topic_user_ip,
-			topic_publish			
+			topic_publish,
+			topic_publish_index			
 			)
-			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d)
+			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d)
 		";			
 		if ($iId=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getUserId(),$oTopic->getType(),$oTopic->getTitle(),
-			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish())) 
+			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex())) 
 		{
 			$oTopic->setId($iId);
 			$this->AddTopicContent($oTopic);
@@ -629,6 +630,7 @@ class Mapper_Topic extends Mapper {
 				topic_date_edit = ?,
 				topic_user_ip= ?,
 				topic_publish= ? ,
+				topic_publish_index= ?,
 				topic_rating= ?f,
 				topic_count_vote= ?d,
 				topic_count_read= ?d,
@@ -636,7 +638,7 @@ class Mapper_Topic extends Mapper {
 			WHERE
 				topic_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getId())) {
+		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getId())) {
 			$this->UpdateTopicContent($oTopic);
 			return true;
 		}		
@@ -666,10 +668,14 @@ class Mapper_Topic extends Mapper {
 			$sWhere.=" AND t.topic_publish =  ".(int)$aFilter['topic_publish'];
 		}	
 		if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
+			$sPublishIndex='';
+			if (isset($aFilter['topic_rating']['publish_index']) and $aFilter['topic_rating']['publish_index']==1) {
+				$sPublishIndex=" or topic_publish_index=1 ";
+			}
 			if ($aFilter['topic_rating']['type']=='top') {
-				$sWhere.=" AND t.topic_rating >= ".(float)$aFilter['topic_rating']['value'];
+				$sWhere.=" AND ( t.topic_rating >= ".(float)$aFilter['topic_rating']['value']." {$sPublishIndex} ) ";
 			} else {
-				$sWhere.=" AND t.topic_rating < ".(float)$aFilter['topic_rating']['value'];
+				$sWhere.=" AND ( t.topic_rating < ".(float)$aFilter['topic_rating']['value']."  ) ";
 			}			
 		}
 		if (isset($aFilter['topic_new'])) {
