@@ -101,6 +101,12 @@ class Topic extends Module {
 					$this->oMapperTopic->AddTopicTag($oTag);
 				}
 			}
+			/**
+			 * Удаляем комментарий топика из прямого эфира
+			 */
+			if ($oTopic->getPublish()==0) {
+				$this->Comment_deleteTopicCommentOnline($oTopic->getId());
+			}
 			//чистим зависимые кеши			
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$oTopic->getId()}","topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));			
 			return true;

@@ -242,6 +242,30 @@ class Mapper_TopicComment extends Mapper {
 				*/
 				ORDER by c.comment_date desc limit 0, ?d ;	
 					";		
+		/**
+		 * оптимизирован
+		 */
+		$sql = "SELECT 					
+					c.*,
+					t.topic_title as topic_title,
+					t.topic_count_comment as topic_count_comment,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_login as user_login,
+					b.blog_title as blog_title,
+					b.blog_type as blog_type,
+					b.blog_url as blog_url,
+					u_owner.user_login	as blog_owner_login				
+				FROM 
+					".DB_TABLE_TOPIC_COMMENT_ONLINE." as co
+					JOIN ".DB_TABLE_TOPIC_COMMENT." AS c ON co.comment_id=c.comment_id
+					JOIN ".DB_TABLE_TOPIC." AS t ON co.topic_id=t.topic_id
+					JOIN ".DB_TABLE_USER." AS u ON c.user_id=u.user_id
+					JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id
+					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id					
+				ORDER by co.comment_online_id desc limit 0, ?d ;	
+					";
+		
 		$aComments=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aTopicComment) {
@@ -382,6 +406,29 @@ class Mapper_TopicComment extends Mapper {
 			VALUES(?d,  ?d,	?f)
 		";			
 		if ($this->oDb->query($sql,$oTopicCommentVote->getCommentId(),$oTopicCommentVote->getVoterId(),$oTopicCommentVote->getDelta())===0) 
+		{
+			return true;
+		}		
+		return false;
+	}
+	
+	public function AddTopicCommentOnline(CommentEntity_TopicCommentOnline $oTopicCommentOnline) {
+		$sql = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
+			(topic_id,			
+			comment_id		
+			)
+			VALUES(?d,  ?d)
+		";			
+		if ($iId=$this->oDb->query($sql,$oTopicCommentOnline->getTopicId(),$oTopicCommentOnline->getCommentId())) 
+		{
+			return $iId;
+		}		
+		return false;
+	}
+	
+	public function deleteTopicCommentOnline($sTopicId) {
+		$sql = "DELETE FROM ".DB_TABLE_TOPIC_COMMENT_ONLINE." WHERE topic_id = ?d ";			
+		if ($this->oDb->query($sql,$sTopicId)) 
 		{
 			return true;
 		}		

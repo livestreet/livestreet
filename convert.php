@@ -17,6 +17,11 @@ mysql_select_db($aConfig['dbname'],$link);
 mysql_query("set character_set_client='utf8'",$link);
 mysql_query("set character_set_results='utf8'",$link);
 mysql_query("set collation_connection='utf8_bin'",$link);
+
+/**
+ * Конвертирует топики из старой структуры в новую
+ */
+
 $sql = "SELECT 
 			*										
 		FROM 			
@@ -32,6 +37,4 @@ while ($row=mysql_fetch_assoc($res)) {
 	";
 	mysql_query($sql2,$link);
 }
-
-
 ?>

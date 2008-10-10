@@ -57,6 +57,39 @@ ALTER TABLE `prefix_topic_comment` ADD `comment_delete` TINYINT NOT NULL DEFAULT
 ALTER TABLE `prefix_topic_comment` ADD INDEX ( `comment_delete` )  ;
   
   
+
+
+
+--
+-- Структура таблицы `prefix_topic_comment_online`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_topic_comment_online` (
+  `comment_online_id` int(11) unsigned NOT NULL auto_increment,
+  `topic_id` int(11) unsigned NOT NULL,
+  `comment_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`comment_online_id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `comment_id` (`comment_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_topic_comment_online`
+--
+ALTER TABLE `prefix_topic_comment_online`
+  ADD CONSTRAINT `prefix_topic_comment_online_fk1` FOREIGN KEY (`comment_id`) REFERENCES `prefix_topic_comment` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_topic_comment_online_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+  
+  
+  
+
   
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!
