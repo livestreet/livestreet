@@ -102,6 +102,38 @@ ALTER TABLE `prefix_topic_comment_online`
 -- новое поле для принудительного вывода топика на главную страницу
 ALTER TABLE `prefix_topic` ADD `topic_publish_index` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `topic_publish` ; 
 
+
+
+--
+-- Структура таблицы `prefix_invite`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_invite` (
+  `invite_id` int(11) unsigned NOT NULL auto_increment,
+  `invite_code` varchar(32) collate utf8_bin NOT NULL,
+  `user_from_id` int(11) unsigned NOT NULL,
+  `user_to_id` int(11) unsigned default NULL,
+  `invite_date_add` datetime NOT NULL,
+  `invite_date_used` datetime NOT NULL,
+  `invite_used` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`invite_id`),
+  UNIQUE KEY `invite_code` (`invite_code`),
+  KEY `user_from_id` (`user_from_id`),
+  KEY `user_to_id` (`user_to_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_invite`
+--
+ALTER TABLE `prefix_invite`
+  ADD CONSTRAINT `prefix_invite_fk` FOREIGN KEY (`user_from_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_invite_fk1` FOREIGN KEY (`user_to_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+
+
+
   
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!

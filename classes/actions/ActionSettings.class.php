@@ -49,7 +49,8 @@ class ActionSettings extends Action {
 	}
 	
 	protected function RegisterEvent() {		
-		$this->AddEvent('profile','EventProfile');						
+		$this->AddEvent('profile','EventProfile');		
+		$this->AddEvent('invite','EventInvite');				
 	}
 		
 	
@@ -57,6 +58,38 @@ class ActionSettings extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+	
+	
+	protected function EventInvite() {
+		if (!USER_USE_INVITE) {
+			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
+			return Router::Action('error');
+		}
+		
+		if (!isset($_REQUEST['submit_invite'])) {
+			return ;
+		}
+		
+		if (!func_check(getRequest('invite_mail'),'mail')) {			
+			$this->Message_AddError('Неверный формат e-mail','Ошибка');
+			return ;
+		}
+		
+		$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
+		$this->Mail_SetAdress(getRequest('invite_mail'));
+		$this->Mail_SetSubject('Приглашение на регистрацию');
+		$this->Mail_SetBody('
+							Пользователь <a href="'.DIR_WEB_ROOT.'/profile/'.$this->oUserCurrent->getLogin().'/">'.$this->oUserCurrent->getLogin().'</a>  пригласил вас зарегистрироваться на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
+							Код приглашения:  <b>'.$oInvite->getCode().'</b><br>
+							Для регистрации вам будет необходимо ввести код приглашения на <a href="'.DIR_WEB_ROOT.'">странице входа</a><br>													
+							<br>
+							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
+						');
+		$this->Mail_setHTML();
+		$this->Mail_Send();		
+		
+		$this->Message_AddNoticeSingle('Приглашение отправлено');
+	}
 	
 	/**
 	 * Выводит форму для редактирования профиля и обрабатывает её

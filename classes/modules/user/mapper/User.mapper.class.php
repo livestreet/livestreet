@@ -397,5 +397,41 @@ class Mapper_User extends Mapper {
 		}
 		return $aUsers;
 	}
+	
+	public function GetInviteByCode($sCode,$iUsed=0) {
+		$sql = "SELECT * FROM ".DB_TABLE_INVITE." WHERE invite_code = ? and invite_used = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$sCode,$iUsed)) {
+			return new UserEntity_Invite($aRow);
+		}
+		return null;
+	}
+	
+	public function AddInvite(UserEntity_Invite $oInvite) {
+		$sql = "INSERT INTO ".DB_TABLE_INVITE." 
+			(invite_code,
+			user_from_id,
+			invite_date_add			
+			)
+			VALUES(?,  ?,	?)
+		";			
+		if ($iId=$this->oDb->query($sql,$oInvite->getCode(),$oInvite->getUserFromId(),$oInvite->getDateAdd())) {
+			return $iId;
+		}		
+		return false;
+	}
+	
+	public function UpdateInvite(UserEntity_Invite $oInvite) {
+		$sql = "UPDATE ".DB_TABLE_INVITE." 
+			SET 
+				user_to_id = ? ,
+				invite_date_used = ? ,	
+				invite_used =? 		
+			WHERE invite_id = ?
+		";			
+		if ($this->oDb->query($sql,$oInvite->getUserToId(), $oInvite->getDateUsed(), $oInvite->getUsed(), $oInvite->getId())) {
+			return true;
+		}		
+		return false;
+	}
 }
 ?>

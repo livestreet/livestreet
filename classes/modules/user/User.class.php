@@ -401,5 +401,50 @@ class User extends Module {
 		}
 		return $data;		 
 	}
+	/**
+	 * Получает инвайт по его коду
+	 *
+	 * @param unknown_type $sCode
+	 * @param unknown_type $iUsed
+	 * @return unknown
+	 */
+	public function GetInviteByCode($sCode,$iUsed=0) {
+		return $this->oMapper->GetInviteByCode($sCode,$iUsed);
+	}
+	/**
+	 * Добавляет новый инвайт
+	 *
+	 * @param UserEntity_Invite $oInvite
+	 * @return unknown
+	 */
+	public function AddInvite(UserEntity_Invite $oInvite) {
+		if ($sId=$this->oMapper->AddInvite($oInvite)) {
+			$oInvite->setId($sId);
+			return $oInvite;
+		}
+		return false;
+	}
+	/**
+	 * Обновляет инвайт
+	 *
+	 * @param UserEntity_Invite $oInvite
+	 * @return unknown
+	 */
+	public function UpdateInvite(UserEntity_Invite $oInvite) {
+		return $this->oMapper->UpdateInvite($oInvite);
+	}
+	/**
+	 * Генерирует новый инвайт
+	 *
+	 * @param unknown_type $oUser
+	 * @return unknown
+	 */
+	public function GenerateInvite($oUser) {
+		$oInvite=new UserEntity_Invite();
+		$oInvite->setCode(func_generator(32));
+		$oInvite->setDateAdd(date("Y-m-d H:i:s"));
+		$oInvite->setUserFromId($oUser->getId());
+		return $this->AddInvite($oInvite);
+	}
 }
 ?>

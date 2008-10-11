@@ -91,6 +91,8 @@ class Viewer extends Module {
 		$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
 		$this->Assign("SITE_NAME",SITE_NAME);
 		$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
+		
+		$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
 		/**
 		 * Загружаем список блоков
 		 */

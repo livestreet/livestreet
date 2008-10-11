@@ -123,7 +123,15 @@ class Router extends Object {
 	 *
 	 */
 	public function ExecAction() {
-		$sActionClass=$this->DefineActionClass();
+		$this->DefineActionClass();		
+		/**
+		 * Сначала запускаем инициализирующий экшен
+		 */
+		require_once('./classes/actions/Init.class.php');		
+		$oActionInit=new Init($this->oEngine);		
+		$oActionInit->InitAction();			
+				
+		$sActionClass=$this->DefineActionClass();		
 		require_once('./classes/actions/'.$sActionClass.'.class.php');
 		$this->oAction=new $sActionClass($this->oEngine,self::$sAction);
 		if ($this->oAction->Init()==='next') {

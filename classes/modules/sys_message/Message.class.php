@@ -54,7 +54,7 @@ class Message extends Module {
 	 * @param string $sMsg
 	 * @param string $sTitle
 	 */
-	public function AddError($sMsg,$sTitle) {
+	public function AddError($sMsg,$sTitle=null) {
 		$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
 	}
 	
@@ -64,7 +64,7 @@ class Message extends Module {
 	 * @param string $sMsg
 	 * @param string $sTitle
 	 */
-	public function AddErrorSingle($sMsg,$sTitle) {
+	public function AddErrorSingle($sMsg,$sTitle=null) {
 		$this->aMsgError=array();
 		$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
 	}
@@ -74,7 +74,7 @@ class Message extends Module {
 	 * @param string $sMsg
 	 * @param string $sTitle
 	 */
-	public function AddNotice($sMsg,$sTitle) {
+	public function AddNotice($sMsg,$sTitle=null) {
 		$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
 	}
 	
@@ -84,7 +84,7 @@ class Message extends Module {
 	 * @param string $sMsg
 	 * @param string $sTitle
 	 */
-	public function AddNoticeSingle($sMsg,$sTitle) {
+	public function AddNoticeSingle($sMsg,$sTitle=null) {
 		$this->aMsgNotice=array();
 		$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
 	}

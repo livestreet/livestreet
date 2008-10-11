@@ -41,4 +41,5 @@ define('DB_TABLE_TOPIC_CONTENT',DB_PREFIX_TABLE.'topic_content');
 define('DB_TABLE_TOPIC_QUESTION_VOTE',DB_PREFIX_TABLE.'topic_question_vote');
 define('DB_TABLE_USER_ADMINISTRATOR',DB_PREFIX_TABLE.'user_administrator');
 define('DB_TABLE_TOPIC_COMMENT_ONLINE',DB_PREFIX_TABLE.'topic_comment_online');
+define('DB_TABLE_INVITE',DB_PREFIX_TABLE.'invite');
 ?>

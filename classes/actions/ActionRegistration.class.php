@@ -33,6 +33,13 @@ class ActionRegistration extends Action {
 			$this->Message_AddErrorSingle('Вы уже зарегистрированы у нас и даже авторизованы!','Упс!');
 			return Router::Action('error'); 
 		}
+		/**
+		 * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
+		 */
+		if (!$this->User_IsAuthorization() and USER_USE_INVITE and Router::GetActionEvent()!='invite' and !$this->CheckInviteRegister()) {			
+			return Router::Action('registration','invite');			
+		}
+		
 		$this->SetDefaultEvent('index');
 		$this->Viewer_AddHtmlTitle('Регистрация на сайте');
 	}
@@ -45,6 +52,7 @@ class ActionRegistration extends Action {
 		$this->AddEvent('ok','EventOk');	
 		$this->AddEvent('confirm','EventConfirm');
 		$this->AddEvent('activate','EventActivate');
+		$this->AddEvent('invite','EventInvite');
 	}
 	
 	
@@ -142,6 +150,17 @@ class ActionRegistration extends Action {
 					 * Создаем персональный блог
 					 */
 					$this->Blog_CreatePersonalBlog($oUser);		
+					
+					
+					/**
+					 * Если юзер зарегистрировался по приглашению то обновляем инвайт
+					 */
+					if (USER_USE_INVITE and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
+						$oInvite->setUserToId($oUser->getId());
+						$oInvite->setDateUsed(date("Y-m-d H:i:s"));
+						$oInvite->setUsed(1);
+						$this->User_UpdateInvite($oInvite);
+					}
 					/**
 					 * Если стоит регистрация с активацией то проводим её
 					 */
@@ -225,10 +244,62 @@ class ActionRegistration extends Action {
 		 * Сохраняем юзера
 		 */
 		if ($this->User_Update($oUser)) {
+			$this->DropInviteRegister();
 			return;
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки при активации, пожалуйста повторите активацию позже.','Внутреняя ошибка');
 			return Router::Action('error');
+		}
+	}
+	/**
+	 * Обработка кода приглашения при включеном режиме инвайтов
+	 *
+	 */
+	protected function EventInvite() {	
+		if (!USER_USE_INVITE) {
+			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
+			return Router::Action('error');
+		}
+			
+		if (isset($_REQUEST['submit_invite'])) {				
+			/**
+			 * проверяем код приглашения на валидность
+			 */
+			if ($this->CheckInviteRegister()) {
+				$sInviteId=$this->GetInviteRegister();
+			} else {
+				$sInviteId=getRequest('invite_code');
+			}			
+			$oInvate=$this->User_GetInviteByCode($sInviteId);
+			if ($oInvate) {
+				if (!$this->CheckInviteRegister()) {
+					$this->Session_Set('invite_code',$oInvate->getCode());
+				}
+				return Router::Action('registration');
+			} else {
+				$this->Message_AddError('Неверный код приглашения','Ошибка');				
+			}
+		}									
+	}
+	/**
+	 * Путается ли юзер зарегистрироваться с помощью кода приглашения
+	 *
+	 * @return unknown
+	 */
+	protected function CheckInviteRegister() {		
+		if ($this->Session_Get('invite_code')) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected function GetInviteRegister() {		
+		return $this->Session_Get('invite_code');
+	}
+	
+	protected function DropInviteRegister() {
+		if (USER_USE_INVITE) {
+			$this->Session_Drop('invite_code');
 		}
 	}
 	
@@ -236,7 +307,8 @@ class ActionRegistration extends Action {
 	 * Просто выводит шаблон
 	 *
 	 */
-	protected function EventOk() {											
+	protected function EventOk() {
+		$this->DropInviteRegister();
 	}
 	/**
 	 * Просто выводит шаблон

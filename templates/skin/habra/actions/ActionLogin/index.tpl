@@ -27,6 +27,18 @@
 <p><input type="submit" name="submit_login" value="войти" /></p>
 </form>
 
+
+{if $USER_USE_INVITE} 
+<br>
+
+<p><span class="header">Регистрация по приглашению</span><br />
+<form action="{$DIR_WEB_ROOT}/registration/invite/" method="POST">
+<p><span class="form">Код приглашения: </span> <input type="text" value="" name="invite_code" size="29"> <input type="submit" name="submit_invite" value="проверить код"></p>
+</form>
+
+{/if}
+
+
 </td>
 </tr>
 </table>

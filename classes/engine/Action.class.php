@@ -40,7 +40,7 @@ abstract class Action extends Object {
 		$this->RegisterEvent();
 		$this->oEngine=$oEngine;
 		$this->sCurrentAction=$sAction;
-		$this->aParams=Router::GetParams();
+		$this->aParams=Router::GetParams();	
 	}
 
 	/**
@@ -82,8 +82,7 @@ abstract class Action extends Object {
 	 *
 	 * @return unknown
 	 */
-	public function ExecEvent() {
-		dump($this->aRegisterEvent);
+	public function ExecEvent() {		
 		$this->sCurrentEvent=Router::GetActionEvent();
 		if ($this->sCurrentEvent==null) {
 			$this->sCurrentEvent=$this->GetDefaultEvent();

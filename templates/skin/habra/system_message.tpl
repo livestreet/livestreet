@@ -5,7 +5,10 @@
 <ul>
 {foreach from=$aMsgError item=aMsg}
 	<li>
-		<b>{$aMsg.title}</b>: {$aMsg.msg}
+		{if $aMsg.title!=''}
+			<b>{$aMsg.title}</b>:
+		{/if}
+		{$aMsg.msg}
 	</li>
 {/foreach}
 </ul>
@@ -19,7 +22,10 @@
 <ul>
 {foreach from=$aMsgNotice item=aMsg}
 	<li>
-		<b>{$aMsg.title}</b>: {$aMsg.msg}
+		{if $aMsg.title!=''}
+			<b>{$aMsg.title}</b>:
+		{/if}
+		{$aMsg.msg}
 	</li>
 {/foreach}
 </ul>
