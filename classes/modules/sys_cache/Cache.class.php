@@ -63,7 +63,7 @@ class Cache extends Module {
 			$oCahe = new Zend_Cache_Backend_File(
 				array(
 					'cache_dir' => SYS_CACHE_DIR,
-					'file_name_prefix'	=> 'livestreet_cache',
+					'file_name_prefix'	=> SYS_CACHE_PREFIX,
 					'read_control_type' => 'crc32',
 					'read_control' => true,
 					'file_locking' => true,
@@ -101,7 +101,7 @@ class Cache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5($sName);		
+		$sName=md5(SYS_CACHE_PREFIX.$sName);		
 		return $this->oBackendCache->load($sName);
 	}	
 	/**
@@ -120,7 +120,7 @@ class Cache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5($sName);		
+		$sName=md5(SYS_CACHE_PREFIX.$sName);		
 		return $this->oBackendCache->save($data,$sName,$aTags,$iTimeLife);
 	}
 	/**
@@ -136,7 +136,7 @@ class Cache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5($sName);
+		$sName=md5(SYS_CACHE_PREFIX.$sName);
 		return $this->oBackendCache->remove($sName);
 	}
 	/**
