@@ -74,7 +74,7 @@ class ActionBlog extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $aBadBlogUrl=array('new','good','bad');
+	protected $aBadBlogUrl=array('new','good','bad','edit','add');
 	
 	/**
 	 * Инизиализация экшена
@@ -115,19 +115,19 @@ class ActionBlog extends Action {
 		$this->AddEvent('edit','EventEditBlog');
 		
 		$this->AddEventPreg('/^(\d+)\.html$/i','EventShowTopicPersonal');
-		$this->AddEventPreg('/^\w+$/i','/^(\d+)\.html$/i','EventShowTopic');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
 		
-		$this->AddEventPreg('/^\w+$/i','/^$/i','EventShowBlogGood');
-		$this->AddEventPreg('/^\w+$/i','/^page(\d+)$/i','EventShowBlogGood');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^$/i','EventShowBlogGood');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^page(\d+)$/i','EventShowBlogGood');
 		
-		$this->AddEventPreg('/^\w+$/i','/^bad$/i','/^$/i','EventShowBlogBad');
-		$this->AddEventPreg('/^\w+$/i','/^bad$/i','/^page(\d+)$/i','EventShowBlogBad');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^$/i','EventShowBlogBad');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^page(\d+)$/i','EventShowBlogBad');
 		
-		$this->AddEventPreg('/^\w+$/i','/^new$/i','/^$/i','EventShowBlogNew');
-		$this->AddEventPreg('/^\w+$/i','/^new$/i','/^page(\d+)$/i','EventShowBlogNew');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^$/i','EventShowBlogNew');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^page(\d+)$/i','EventShowBlogNew');
 		
-		$this->AddEventPreg('/^\w+$/i','/^profile$/i','/^$/i','EventShowBlogProfile');
-		$this->AddEventPreg('/^\w+$/i','/^profile$/i','/^page(\d+)$/i','EventShowBlogProfile');		
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^profile$/i','/^$/i','EventShowBlogProfile');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^profile$/i','/^page(\d+)$/i','EventShowBlogProfile');		
 	}
 		
 	
@@ -617,7 +617,7 @@ class ActionBlog extends Action {
 		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/blog/'.$sBlogUrl;
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
-		 */
+		 */		
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
 		}			
