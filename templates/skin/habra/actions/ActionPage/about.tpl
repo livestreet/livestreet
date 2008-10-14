@@ -57,7 +57,8 @@ LiveStreet представляет из себя <strong>бесплатный</
 <li>kabachok(проекту) &mdash; перечислил <b>1 WMZ</b></li>
 <li><a href="http://livestreet.ru/profile/g15rus/">g15rus</a>(На хороший дизайн для интересного проекта) &mdash; перечислил <b>1001 рубль</b></li>
 <li><a href="http://livestreet.ru/profile/radioact/">radioact</a>(На удачу :)) &mdash; перечислил <b>190 рублей</b></li>
-
+<li>Аноним(live!) &mdash; перечислил <b>199 WMR</b></li>
+<li><a href="http://livestreet.ru/profile/serega/">serega</a>(все круто = )) &mdash; перечислил <b>20 WMZ</b></li>
 </ul>
 </DIV>
 

@@ -21,6 +21,18 @@
  */
 class ActionSettings extends Action {
 	/**
+	 * Какое меню активно
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuItemSelect='settings';
+	/**
+	 * Какое подменю активно
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuSubItemSelect='profile';
+	/**
 	 * Текущий юзер
 	 *
 	 * @var unknown_type
@@ -45,12 +57,13 @@ class ActionSettings extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('profile');	
-		$this->Viewer_AddHtmlTitle('Настройки профиля');	
+		$this->Viewer_AddHtmlTitle('Настройки');	
 	}
 	
 	protected function RegisterEvent() {		
 		$this->AddEvent('profile','EventProfile');		
-		$this->AddEvent('invite','EventInvite');				
+		$this->AddEvent('invite','EventInvite');	
+		$this->AddEvent('tuning','EventTuning');			
 	}
 		
 	
@@ -59,8 +72,37 @@ class ActionSettings extends Action {
 	 **********************************************************************************
 	 */
 	
+	protected function EventTuning() {
+		$this->sMenuItemSelect='settings';
+		$this->sMenuSubItemSelect='tuning';
+		
+		$this->Viewer_AddHtmlTitle('Тюнинг');
+		
+		if (isset($_REQUEST['submit_settings_tuning'])) {			
+			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
+			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
+			$this->oUserCurrent->setSettingsNoticeNewTalk( getRequest('settings_notice_new_talk') ? 1 : 0 );
+			$this->oUserCurrent->setSettingsNoticeReplyComment( getRequest('settings_notice_reply_comment') ? 1 : 0 );
+			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			if ($this->User_Update($this->oUserCurrent)) {
+				$this->Message_AddNoticeSingle('Настройки успешно сохранены');
+			} else {
+				$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+			}
+		}
+	}
 	
+	/**
+	 * Показ и обработка формы приглаешний
+	 *
+	 * @return unknown
+	 */
 	protected function EventInvite() {
+		$this->sMenuItemSelect='invite';
+		$this->sMenuSubItemSelect='';
+		
+		$this->Viewer_AddHtmlTitle('Инвайты');
+		
 		if (!USER_USE_INVITE) {
 			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
 			return Router::Action('error');
@@ -96,6 +138,7 @@ class ActionSettings extends Action {
 	 *
 	 */
 	protected function EventProfile() {
+		$this->Viewer_AddHtmlTitle('Профиль');
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
@@ -264,5 +307,17 @@ class ActionSettings extends Action {
 			}
 		}
 	}	
+	
+	/**
+	 * Выполняется при завершении работы экшена
+	 *
+	 */
+	public function EventShutdown() {		
+		/**
+		 * Загружаем в шаблон необходимые переменные
+		 */
+		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);		
+	}
 }
 ?>

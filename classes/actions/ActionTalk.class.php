@@ -141,9 +141,10 @@ class ActionTalk extends Action {
 						$sTalkText='Текст письма: <i>'.$oTalk->getText().'</i><br>';
 					}
 					$oUserToMail=$this->User_GetUserById($iUserId);
-					$this->Mail_SetAdress($oUserToMail->getMail(),$oUserToMail->getLogin());
-					$this->Mail_SetSubject('У вас новое письмо');
-					$this->Mail_SetBody('
+					if ($oUserToMail->getSettingsNoticeNewTalk()) {
+						$this->Mail_SetAdress($oUserToMail->getMail(),$oUserToMail->getLogin());
+						$this->Mail_SetSubject('У вас новое письмо');
+						$this->Mail_SetBody('
 							Вам пришло новое письмо, прочитать и ответить на него можно перейдя по <a href="'.DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/">этой ссылке</a><br>
 							Тема письма: <b>'.htmlspecialchars($oTalk->getTitle()).'</b><br>
 							'.$sTalkText.'
@@ -152,8 +153,9 @@ class ActionTalk extends Action {
 							<br>
 							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
 						');
-					$this->Mail_setHTML();
-					$this->Mail_Send();
+						$this->Mail_setHTML();
+						$this->Mail_Send();
+					}
 				}
 			}			
 			func_header_location(DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/');
@@ -309,7 +311,7 @@ class ActionTalk extends Action {
 				 */
 				$aUsersTalk=$this->Talk_GetTalkUsers($oCommentNew->getTalkId());
 				foreach ($aUsersTalk as $oUserTalk) {
-					if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {
+					if ($oUserTalk->getId()!=$oCommentNew->getUserId() and $oUserTalk->getSettingsNoticeNewTalk()) {
 						$sTalkText='';
 						if (SYS_MAIL_INCLUDE_TALK_TEXT) {
 							$sTalkText='Текст: <i>'.$oCommentNew->getText().'</i><br>';

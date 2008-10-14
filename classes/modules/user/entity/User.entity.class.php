@@ -105,8 +105,21 @@ class UserEntity_User extends Entity {
     }
     public function getProfileAvatarType() {
         return $this->_aData['user_profile_avatar_type'];
+    }    
+    public function getSettingsNoticeNewTopic() {
+        return $this->_aData['user_settings_notice_new_topic'];
     }
-   
+    public function getSettingsNoticeNewComment() {
+        return $this->_aData['user_settings_notice_new_comment'];
+    }
+    public function getSettingsNoticeNewTalk() {
+        return $this->_aData['user_settings_notice_new_talk'];
+    }
+    public function getSettingsNoticeReplyComment() {
+        return $this->_aData['user_settings_notice_reply_comment'];
+    }
+    
+    
     
     public function getProfileAvatarPath($iSize=100) {   
     	if ($this->getProfileAvatar()) { 	
@@ -213,6 +226,18 @@ class UserEntity_User extends Entity {
     }
     public function setProfileAvatarType($data) {
     	$this->_aData['user_profile_avatar_type']=$data;
+    }    
+    public function setSettingsNoticeNewTopic($data) {
+    	$this->_aData['user_settings_notice_new_topic']=$data;
+    }
+    public function setSettingsNoticeNewComment($data) {
+    	$this->_aData['user_settings_notice_new_comment']=$data;
+    }
+    public function setSettingsNoticeNewTalk($data) {
+    	$this->_aData['user_settings_notice_new_talk']=$data;
+    }
+    public function setSettingsNoticeReplyComment($data) {
+    	$this->_aData['user_settings_notice_reply_comment']=$data;
     }
 }
 ?>

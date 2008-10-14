@@ -109,6 +109,10 @@ class Mapper_Blog extends Mapper {
 					u.user_mail as user_mail,
 					u.user_profile_avatar as user_profile_avatar,
 					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_settings_notice_new_topic,
+					u.user_settings_notice_new_comment,
+					u.user_settings_notice_new_talk,
+					u.user_settings_notice_reply_comment,
 					b.blog_title as blog_title,	
 					b.blog_url as blog_url				
 				FROM 

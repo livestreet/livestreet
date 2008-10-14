@@ -1,5 +1,7 @@
 {include file='header.tpl'}
 
+{include file='menu.settings.tpl'}
+
 {include file='system_message.tpl'}
 
 <BR>
@@ -23,7 +25,7 @@
 	<p class="l-bot"><input type="submit" name="submit_invite" tabindex="6" value="отправить приглашение" /></p>
 </form>
 
-<p><span class="txt_small">Может быть, перейти на <a href="{$DIR_WEB_ROOT}/">заглавную страницу</a>?</span><br />
+
 
 </td>
 </tr>

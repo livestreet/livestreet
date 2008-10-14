@@ -937,7 +937,8 @@ class ActionBlog extends Action {
 				/**
 				 * Отправка уведомления автору топика
 				 */
-				if ($oCommentNew->getUserId()!=$oTopic->getUserId()) {
+				$oUserTopic=$this->User_GetUserById($oTopic->getUserId());
+				if ($oCommentNew->getUserId()!=$oUserTopic->getId() and $oUserTopic->getSettingsNoticeNewComment()) {
 					$oUserAuthor=$this->User_GetUserById($oTopic->getUserId());
 					$this->Mail_SetAdress($oUserAuthor->getMail(),$oUserAuthor->getLogin());
 					$this->Mail_SetSubject('К вашему топику оставили новый комментарий');
@@ -953,18 +954,20 @@ class ActionBlog extends Action {
 				/**
 				 * Отправляем уведомление тому на чем коммент ответили
 				 */
-				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {
+				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {					
 					$oUserAuthorComment=$this->User_GetUserById($oCommentParent->getUserId());
-					$this->Mail_SetAdress($oUserAuthorComment->getMail(),$oUserAuthorComment->getLogin());
-					$this->Mail_SetSubject('Вам ответили на ваш комментарий');
-					$this->Mail_SetBody('
+					if ($oUserAuthorComment->getSettingsNoticeReplyComment()) {
+						$this->Mail_SetAdress($oUserAuthorComment->getMail(),$oUserAuthorComment->getLogin());
+						$this->Mail_SetSubject('Вам ответили на ваш комментарий');
+						$this->Mail_SetBody('
 							Получен ответ на ваш комментарий в топике <b>«'.htmlspecialchars($oTopic->getTitle()).'»</b>, прочитать его можно перейдя по <a href="'.$oTopic->getUrl().'#comment'.$oCommentNew->getId().'">этой ссылке</a><br>							
 							'.$sCommentText.'							
 							<br>
 							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
 						');
-					$this->Mail_setHTML();
-					$this->Mail_Send();
+						$this->Mail_setHTML();
+						$this->Mail_Send();
+					}
 				}
 				func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html#comment'.$oCommentNew->getId());
 			} else {

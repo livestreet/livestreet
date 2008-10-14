@@ -132,6 +132,14 @@ ALTER TABLE `prefix_invite`
 
 
 
+-- Дополнительные поля настройки у юзера  
+ALTER TABLE `prefix_user` ADD `user_settings_notice_new_topic` TINYINT( 1 ) NOT NULL DEFAULT '1';  
+ALTER TABLE `prefix_user` ADD `user_settings_notice_new_comment` TINYINT( 1 ) NOT NULL DEFAULT '1';
+ALTER TABLE `prefix_user` ADD `user_settings_notice_new_talk` TINYINT( 1 ) NOT NULL DEFAULT '1';
+ALTER TABLE `prefix_user` ADD `user_settings_notice_reply_comment` TINYINT( 1 ) NOT NULL DEFAULT '1';
+
+  
+  
 
 
   

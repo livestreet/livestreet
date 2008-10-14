@@ -364,7 +364,7 @@ class ActionTopic extends Action {
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
 				foreach ($aBlogUsers as $oBlogUser) {
-					if ($oBlogUser->getUserId()==$this->oUserCurrent->getId()) {
+					if ($oBlogUser->getUserId()==$this->oUserCurrent->getId() or !$oBlogUser->getUserSettingsNoticeNewTopic()) {
 						continue;
 					}
 					$this->Mail_SetAdress($oBlogUser->getUserMail(),$oBlogUser->getUserLogin());

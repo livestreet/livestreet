@@ -57,7 +57,18 @@ class BlogEntity_BlogUser extends Entity
     		return DIR_STATIC_SKIN.'/img/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
-    
+    public function getUserSettingsNoticeNewTopic() {
+        return $this->_aData['user_settings_notice_new_topic'];
+    }
+    public function getUserSettingsNoticeNewComment() {
+        return $this->_aData['user_settings_notice_new_comment'];
+    }
+    public function getUserSettingsNoticeNewTalk() {
+        return $this->_aData['user_settings_notice_new_talk'];
+    }
+    public function getUserSettingsNoticeReplyComment() {
+        return $this->_aData['user_settings_notice_reply_comment'];
+    }
   
     
 	public function setBlogId($data) {

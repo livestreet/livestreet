@@ -65,7 +65,11 @@ class Mapper_User extends Mapper {
 				user_profile_about = ? ,
 				user_profile_date = ? ,
 				user_profile_avatar = ?	,
-				user_profile_avatar_type = ?		
+				user_profile_avatar_type = ? ,	
+				user_settings_notice_new_topic = ?	,
+				user_settings_notice_new_comment = ? ,
+				user_settings_notice_new_talk = ?	,
+				user_settings_notice_reply_comment = ?		
 			WHERE user_id = ?
 		";			
 		if ($this->oDb->query($sql,$oUser->getPassword(),
@@ -90,7 +94,11 @@ class Mapper_User extends Mapper {
 								   $oUser->getProfileAbout(),	
 								   $oUser->getProfileDate(),	
 								   $oUser->getProfileAvatar(),	
-								   $oUser->getProfileAvatarType(),				   
+								   $oUser->getProfileAvatarType(),
+								   $oUser->getSettingsNoticeNewTopic(),
+								   $oUser->getSettingsNoticeNewComment(),
+								   $oUser->getSettingsNoticeNewTalk(),
+								   $oUser->getSettingsNoticeReplyComment(),				   
 								   $oUser->getId())) {
 			return true;
 		}		

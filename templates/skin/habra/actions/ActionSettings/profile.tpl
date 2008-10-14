@@ -1,5 +1,7 @@
 {include file='header.tpl'}
 
+{include file='menu.settings.tpl'}
+
 {include file='system_message.tpl'}
 
 <BR>
