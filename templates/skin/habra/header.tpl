@@ -164,8 +164,8 @@ var msgNoticeBox=new Roar({
 		<DIV id=content>
 			<DIV id=right>
 			
-			
-				{foreach from=$aBlockRight item=aBlock}															
+			{if isset($aBlocks.right)}
+				{foreach from=$aBlocks.right item=aBlock}															
 					{if $aBlock.type=='block'}
 						{insert name="block" block=`$aBlock.name` params=`$aBlock.params`} 
 					{/if}
@@ -173,7 +173,7 @@ var msgNoticeBox=new Roar({
 						{include file=`$aBlock.name` params=`$aBlock.params`}
 					{/if}					
 				{/foreach}			
-				
+			{/if}	
 				
 				
 			</DIV>

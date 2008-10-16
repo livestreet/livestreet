@@ -56,7 +56,7 @@ class ActionIndex extends Action {
 	 *
 	 */
 	public function Init() {			
-		$this->Viewer_AddBlocksRight(array('comments','tags','blogs'));
+		$this->Viewer_AddBlocks('right',array('comments','tags','blogs'));
 		/**
 		 * Подсчитываем новые топики
 		 */

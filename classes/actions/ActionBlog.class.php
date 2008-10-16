@@ -93,7 +93,7 @@ class ActionBlog extends Action {
 		/**
 		 * Определяем какие блоки нужно выводить справа
 		 */
-		$this->Viewer_AddBlocksRight(array('comments','tags','blogs'));		
+		$this->Viewer_AddBlocks('right',array('comments','tags','blogs'));		
 		/**
 		 * Подсчитываем новые топики
 		 */

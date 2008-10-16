@@ -100,7 +100,7 @@ class ActionTopic extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */
-		$this->Viewer_AddBlocksRight(array('block.blogInfo.tpl'));
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
 		/**
 		 * Получаем данные для отображения формы
 		 * Если админ то делаем доступными все блоги
@@ -165,7 +165,7 @@ class ActionTopic extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */		
-		$this->Viewer_AddBlocksRight(array('block.blogInfo.tpl'));
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
 		/**
 		 * Получаем данные для отображения формы
 		 */

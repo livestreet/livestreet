@@ -98,7 +98,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */
-		$this->Viewer_AddBlocksRight(array('block.blogInfo.tpl'));
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
 		/**
 		 * Получаем данные для отображения формы
 		 */
@@ -168,7 +168,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */		
-		$this->Viewer_AddBlocksRight(array('block.blogInfo.tpl'));
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
 		/**
 		 * Получаем данные для отображения формы
 		 */

@@ -27,14 +27,13 @@ class Viewer extends Module {
 	 *
 	 * @var Smarty
 	 */
-	protected $oSmarty;
+	protected $oSmarty;		
 	/**
-	 * Коллекция(массив) блоков. 
-	 * Обозначение $aBlockRight вместо $aBlock исключительно с целью дальнейшего расширения :)
+	 * Коллекция(массив) блоков
 	 *
 	 * @var array
 	 */
-	protected $aBlockRight=array();	
+	protected $aBlocks=array();	
 	/**
 	 * Заголовок HTML страницы
 	 *
@@ -91,12 +90,12 @@ class Viewer extends Module {
 		$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
 		$this->Assign("SITE_NAME",SITE_NAME);
 		$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
-		
+				
 		$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
 		/**
 		 * Загружаем список блоков
 		 */
-		$this->Assign("aBlockRight",$this->aBlockRight);	
+		$this->Assign("aBlocks",$this->aBlocks);	
 		/**
 		 * Загружаем HTML заголовки
 		 */
@@ -156,7 +155,7 @@ class Viewer extends Module {
 	 * @param string $sName
 	 * @param arra $aParams - параметры блока, которые будут переданы обработчику блока
 	 */
-	public function AddBlockRight($sName,$aParams=array()) {
+	public function AddBlock($sGroup,$sName,$aParams=array()) {
 		/**
 		 * Если смогли определить тип блока то добавляем его
 		 */
@@ -164,7 +163,7 @@ class Viewer extends Module {
 		if ($sType=='undefined') {
 			return false;
 		}
-		$this->aBlockRight[]=array(
+		$this->aBlocks[$sGroup][]=array(
 			'type' => $sType,
 			'name' => $sName,
 			'params' => $aParams,
@@ -177,22 +176,32 @@ class Viewer extends Module {
 	 *
 	 * @param array $aBlocks
 	 */
-	public function AddBlocksRight($aBlocks) {
+	public function AddBlocks($sGroup,$aBlocks) {
 		/**
 		 * Удаляем ранее добавленые блоки
 		 */
-		$this->ClearBlocksRight();
+		$this->ClearBlocks($sGroup);
 		foreach ($aBlocks as $sBlock) {
-			$this->AddBlockRight($sBlock);
+			$this->AddBlock($sGroup,$sBlock);
 		}
 	}
 	
 	/**
-	 * Удаляет блоки
+	 * Удаляет блоки группы
 	 *
 	 */
-	public function ClearBlocksRight() {
-		$this->aBlockRight=array();
+	public function ClearBlocks($sGroup) {
+		$this->aBlocks[$sGroup]=array();
+	}
+	/**
+	 * Удаляет блоки всех групп
+	 *
+	 * @param unknown_type $sGroup
+	 */
+	public function ClearBlocksAll() {
+		foreach ($this->aBlocks as $sGroup => $aBlock) {
+			$this->aBlocks[$sGroup]=array();
+		}
 	}
 	
 	/**
