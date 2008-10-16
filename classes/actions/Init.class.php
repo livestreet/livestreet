@@ -56,7 +56,7 @@ class Init {
 	 *
 	 */
 	public function InitAction() {		
-		if (!$this->oUserCurrent and USER_USE_INVITE and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
+		if (!$this->oUserCurrent and SITE_CLOSE_MODE and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
 			Router::Action('login');			
 		}
 	}
