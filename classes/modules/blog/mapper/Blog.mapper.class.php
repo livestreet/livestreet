@@ -154,7 +154,13 @@ class Mapper_Blog extends Mapper {
 		return null;
 	}
 	
-	
+	public function GetBlogByTitle($sTitle) {
+		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE blog_title = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sTitle)) {
+			return new BlogEntity_Blog($aRow);
+		}
+		return null;
+	}
 	
 	public function GetBlogVote($sBlogId,$sUserId) {
 		$sql = "SELECT * FROM ".DB_TABLE_BLOG_VOTE." WHERE blog_id = ?d and user_voter_id = ?d ";

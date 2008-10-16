@@ -140,6 +140,7 @@ ALTER TABLE `prefix_user` ADD `user_settings_notice_reply_comment` TINYINT( 1 ) 
 
   
   
+ ALTER TABLE `prefix_blog` ADD INDEX ( `blog_title` )  
 
 
   

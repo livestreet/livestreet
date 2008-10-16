@@ -74,6 +74,22 @@ class Blog extends Module {
 		return $data;		
 	}
 	/**
+	 * Получить блог по названию
+	 *
+	 * @param unknown_type $sTitle
+	 * @return unknown
+	 */
+	public function GetBlogByTitle($sTitle) {		
+		if (false === ($data = $this->Cache_Get("blog_url_{$sTitle}"))) {						
+			if ($data = $this->oMapperBlog->GetBlogByTitle($sTitle)) {				
+				$this->Cache_Set($data, "blog_url_{$sTitle}", array("blog_update_{$data->getId()}",'blog_new'), 60*5);				
+			} else {
+				$this->Cache_Set($data, "blog_url_{$sTitle}", array('blog_update','blog_new'), 60*5);
+			}
+		}
+		return $data;		
+	}
+	/**
 	 * Создаёт персональный блог
 	 *
 	 * @param Entity_User $oUser

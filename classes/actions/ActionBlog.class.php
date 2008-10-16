@@ -238,7 +238,7 @@ class ActionBlog extends Action {
 			/**
 			 * Запускаем проверку корректности ввода полей при редактировании блога
 			 */
-			if (!$this->checkBlogFields()) {
+			if (!$this->checkBlogFields($oBlog)) {
 				return false;
 			}			
 			$oBlog->setTitle(getRequest('blog_title'));
@@ -279,7 +279,7 @@ class ActionBlog extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function checkBlogFields() {
+	protected function checkBlogFields($oBlog=null) {
 		/**
 		 * Проверяем только если была отправлена форма с данными
 		 */
@@ -297,6 +297,15 @@ class ActionBlog extends Action {
 			$bOk=false;
 		}
 		/**
+		 * Проверяем есть ли уже блог с таким названием
+		 */
+		if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
+			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
+				$this->Message_AddError('Блог с таким названием уже существует','Ошибка');
+				$bOk=false;
+			}
+		}
+		/**
 		* Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
 		*/		
 		$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
@@ -311,6 +320,15 @@ class ActionBlog extends Action {
 		if (in_array(getRequest('blog_url'),$this->aBadBlogUrl)) {
 			$this->Message_AddError('URL блога должен отличаться от: '.join(',',$this->aBadBlogUrl),'Ошибка');
 			$bOk=false;
+		}
+		/**
+		 * Проверяем есть ли уже блог с таким URL
+		 */
+		if ($oBlogExists=$this->Blog_GetBlogByUrl(getRequest('blog_url'))) {
+			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
+				$this->Message_AddError('Блог с таким URL уже существует','Ошибка');
+				$bOk=false;
+			}
 		}
 		/**
 		 * Проверяем есть ли описание блога
