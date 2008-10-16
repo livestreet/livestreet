@@ -129,7 +129,7 @@ ALTER TABLE `prefix_invite`
   ADD CONSTRAINT `prefix_invite_fk` FOREIGN KEY (`user_from_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_invite_fk1` FOREIGN KEY (`user_to_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-
+ALTER TABLE `prefix_invite` ADD INDEX ( `invite_date_add` )  
 
 
 -- Дополнительные поля настройки у юзера  

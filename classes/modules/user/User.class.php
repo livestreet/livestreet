@@ -431,6 +431,8 @@ class User extends Module {
 	 * @return unknown
 	 */
 	public function UpdateInvite(UserEntity_Invite $oInvite) {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("invate_new_to_{$oInvite->getUserToId()}","invate_new_from_{$oInvite->getUserFromId()}"));
 		return $this->oMapper->UpdateInvite($oInvite);
 	}
 	/**
@@ -445,6 +447,66 @@ class User extends Module {
 		$oInvite->setDateAdd(date("Y-m-d H:i:s"));
 		$oInvite->setUserFromId($oUser->getId());
 		return $this->AddInvite($oInvite);
+	}
+	/**
+	 * Получает число использованых приглашений юзером за определенную дату
+	 *
+	 * @param unknown_type $sUserIdFrom
+	 * @param unknown_type $sDate
+	 * @return unknown
+	 */
+	public function GetCountInviteUsedByDate($sUserIdFrom,$sDate) {
+		return $this->oMapper->GetCountInviteUsedByDate($sUserIdFrom,$sDate);
+	}
+	/**
+	 * Получает полное число использованных приглашений юзера
+	 *
+	 * @param unknown_type $sUserIdFrom
+	 * @return unknown
+	 */
+	public function GetCountInviteUsed($sUserIdFrom) {
+		return $this->oMapper->GetCountInviteUsed($sUserIdFrom);
+	}
+	/**
+	 * Получаем число доступных приглашений для юзера
+	 *
+	 * @param unknown_type $oUserFrom
+	 * @return unknown
+	 */
+	public function GetCountInviteAvailable(UserEntity_User $oUserFrom) {
+		$sDay=7;
+		$iCountUsed=$this->GetCountInviteUsedByDate($oUserFrom->getId(),date("Y-m-d 00:00:00",mktime(0,0,0,date("m"),date("d")-$sDay,date("Y"))));
+		$iCountAllAvailable=round($oUserFrom->getRating()+$oUserFrom->getSkill());
+		$iCountAllAvailable = $iCountAllAvailable<0 ? 0 : $iCountAllAvailable;
+		$iCountAvailable=$iCountAllAvailable-$iCountUsed;
+		$iCountAvailable = $iCountAvailable<0 ? 0 : $iCountAvailable;
+		return $iCountAvailable;
+	}
+	/**
+	 * Получает список приглашенных юзеров
+	 *
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetUsersInvite($sUserId) {
+		if (false === ($data = $this->Cache_Get("users_invite_{$sUserId}"))) {			
+			$data = $this->oMapper->GetUsersInvite($sUserId);
+			$this->Cache_Set($data, "users_invite_{$sUserId}", array("user_update","invate_new_from_{$sUserId}"), 60*5);
+		}
+		return $data;		
+	}
+	/**
+	 * Получает юзера который пригласил
+	 *
+	 * @param unknown_type $sUserIdTo
+	 * @return unknown
+	 */
+	public function GetUserInviteFrom($sUserIdTo) {
+		if (false === ($data = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {			
+			$data = $this->oMapper->GetUserInviteFrom($sUserIdTo);
+			$this->Cache_Set($data, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
+		}
+		return $data;		
 	}
 }
 ?>

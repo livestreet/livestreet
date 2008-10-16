@@ -154,5 +154,17 @@ class ACL extends Module {
 		}
 		return false;
 	}
+	/**
+	 * Проверяет можно ли юзеру слать инвайты
+	 *
+	 * @param UserEntity_User $oUser
+	 * @return unknown
+	 */
+	public function CanSendInvite(UserEntity_User $oUser) {
+		if ($this->User_GetCountInviteAvailable($oUser)==0) {
+			return false;
+		}
+		return true;
+	}
 }
 ?>

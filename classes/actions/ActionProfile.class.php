@@ -132,6 +132,19 @@ class ActionProfile extends Action {
 		 * Получаем список тех у кого в друзьях
 		 */
 		$aUsersSelfFrend=$this->User_GetUsersSelfFrend($this->oUserProfile->getId());
+		
+		if (USER_USE_INVITE) {
+			/**
+			 * Получаем список тех кого пригласил юзер
+			 */
+			$aUsersInvite=$this->User_GetUsersInvite($this->oUserProfile->getId());	
+			$this->Viewer_Assign('aUsersInvite',$aUsersInvite);
+			/**
+			 * Получаем того юзера, кто пригласил текущего
+			 */
+			$oUserInviteFrom=$this->User_GetUserInviteFrom($this->oUserProfile->getId());			
+			$this->Viewer_Assign('oUserInviteFrom',$oUserInviteFrom);
+		}		
 		/**
 		 * Получаем список блогов в которых состоит юзер
 		 */
@@ -145,7 +158,7 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
-		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);
+		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);		
 		$this->Viewer_Assign('aUsersSelfFrend',$aUsersSelfFrend);
 		$this->Viewer_AddHtmlTitle('Профиль '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle('Whois');

@@ -441,5 +441,64 @@ class Mapper_User extends Mapper {
 		}		
 		return false;
 	}
+	
+	public function GetCountInviteUsedByDate($sUserIdFrom,$sDate) {
+		$sql = "SELECT count(invite_id) as count FROM ".DB_TABLE_INVITE." WHERE user_from_id = ?d and invite_date_add >= ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom,$sDate)) {
+			return $aRow['count'];
+		}
+		return 0;
+	}
+	
+	public function GetCountInviteUsed($sUserIdFrom) {
+		$sql = "SELECT count(invite_id) as count FROM ".DB_TABLE_INVITE." WHERE user_from_id = ?d";
+		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom)) {
+			return $aRow['count'];
+		}
+		return 0;
+	}
+	
+	public function GetUsersInvite($sUserId) {					
+		$sql = "SELECT 
+					u.*										
+				FROM 
+					".DB_TABLE_INVITE." as i,
+					".DB_TABLE_USER." as u					
+				WHERE 	
+					i.user_from_id = ?d	
+					AND
+					i.user_to_id = u.user_id
+					AND			
+					u.user_activate = 1												
+				ORDER BY u.user_login;	
+					";
+		$aUsers=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId)) {
+			foreach ($aRows as $aUser) {
+				$aUsers[]=new UserEntity_User($aUser);
+			}
+		}
+		return $aUsers;
+	}
+	
+	public function GetUserInviteFrom($sUserIdTo) {
+		$sql = "SELECT 
+					u.*										
+				FROM 
+					".DB_TABLE_INVITE." as i,
+					".DB_TABLE_USER." as u					
+				WHERE 	
+					i.user_to_id = ?d	
+					AND
+					i.user_from_id = u.user_id
+					AND			
+					u.user_activate = 1												
+				LIMIT 0,1;	
+					";
+		if ($aRow=$this->oDb->selectRow($sql,$sUserIdTo)) {
+			return new UserEntity_User($aRow);
+		}
+		return null;
+	}
 }
 ?>

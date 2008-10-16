@@ -13,7 +13,11 @@
 
 
 <p><span class="header">Управление приглашениями</span>
-
+<BR>
+<BR>Доступно: {if $oUserCurrent->isAdministrator()}много{else}{$iCountInviteAvailable}{/if}
+<BR>Использовано: {$iCountInviteUsed}
+<BR>
+<BR>
 <form action="{$DIR_WEB_ROOT}/settings/invite/" method="POST" enctype="multipart/form-data">
 
 	<label for="invite_mail"><span class="form">Пригласить по e-mail адресу:</span></label><br />

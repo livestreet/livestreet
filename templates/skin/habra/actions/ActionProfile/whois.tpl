@@ -120,6 +120,33 @@
 	</div>
     {/if}
      
+    {if $USER_USE_INVITE and $oUserInviteFrom}
+	<div class="logicgroup_menu">		  
+  		<div class="userinfo_line">
+  			<div class="left">
+  				Пригласил:
+  			</div>
+			<div class="right">				
+        		<span class="nowrap"><a href="{$DIR_WEB_ROOT}/profile/{$oUserInviteFrom->getLogin()}/"><img src="{$DIR_STATIC_SKIN}/img/user.gif" border="0" alt="посмотреть профиль" title="посмотреть профиль"></a><a href="{$DIR_WEB_ROOT}/profile/{$oUserInviteFrom->getLogin()}/" class="userinfo_nickname_normal">{$oUserInviteFrom->getLogin()}</a></span>        		       		
+       		</div>
+		</div>
+	</div>
+    {/if}
+    
+    {if $USER_USE_INVITE and $aUsersInvite}
+	<div class="logicgroup_menu">		  
+  		<div class="userinfo_line">
+  			<div class="left">
+  				Приглашенные:
+  			</div>
+			<div class="right">
+				{foreach from=$aUsersInvite item=oUserInvite}
+        			<span class="nowrap"><a href="{$DIR_WEB_ROOT}/profile/{$oUserInvite->getLogin()}/"><img src="{$DIR_STATIC_SKIN}/img/user.gif" border="0" alt="посмотреть профиль" title="посмотреть профиль"></a><a href="{$DIR_WEB_ROOT}/profile/{$oUserInvite->getLogin()}/" class="userinfo_nickname_normal">{$oUserInvite->getLogin()}</a></span>
+        		{/foreach}        		
+       		</div>
+		</div>
+	</div>
+    {/if}
 	
 	{if $aBlogsOwner}
  	<div class="logicgroup">

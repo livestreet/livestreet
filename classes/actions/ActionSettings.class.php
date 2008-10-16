@@ -97,18 +97,25 @@ class ActionSettings extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function EventInvite() {
-		$this->sMenuItemSelect='invite';
-		$this->sMenuSubItemSelect='';
-		
-		$this->Viewer_AddHtmlTitle('Инвайты');
-		
+	protected function EventInvite() {		
 		if (!USER_USE_INVITE) {
 			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
 			return Router::Action('error');
 		}
 		
+		$this->sMenuItemSelect='invite';
+		$this->sMenuSubItemSelect='';		
+		$this->Viewer_AddHtmlTitle('Инвайты');
+		
+		$this->Viewer_Assign('iCountInviteAvailable',$this->User_GetCountInviteAvailable($this->oUserCurrent));
+		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
+		
 		if (!isset($_REQUEST['submit_invite'])) {
+			return ;
+		}
+		
+		if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
+			$this->Message_AddError('У вас пока нет доступных инвайтов','Ошибка');
 			return ;
 		}
 		
