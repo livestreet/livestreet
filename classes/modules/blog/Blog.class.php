@@ -205,7 +205,7 @@ class Blog extends Module {
 		return $this->oMapperBlog->GetRelationBlogUsers($aFilter);
 	}
 	/**
-	 * Получает отношение юзера к блогу(сотосит в блоге или нет)
+	 * Получает отношение юзера к блогу(состоит в блоге или нет)
 	 *
 	 * @param unknown_type $sUserId
 	 * @return unknown
@@ -260,6 +260,22 @@ class Blog extends Module {
 			'is_administrator' => 1,
 		);
 		return $this->oMapperBlog->GetRelationBlogUsers($aFilter);
+	}
+	/**
+	 * Список тех кто состоит в блоге
+	 *
+	 * @param unknown_type $sBlogId
+	 * @return unknown
+	 */
+	public function GetRelationBlog($sBlogId) {
+		$aFilter=array(
+			'blog_id'=> $sBlogId,			
+		);
+		return $this->oMapperBlog->GetRelationBlogUsers($aFilter);
+	}
+	
+	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+		return $this->oMapperBlog->UpdateRelationBlogUser($oBlogUser);
 	}
 	/**
 	 * Получает список блогов по рейтингу

@@ -1,8 +1,12 @@
 {include file='header.tpl'}
 
-{include file='menu.action.tpl'}
 
-
+{if $sEvent=='add'}
+	<h1>Создание нового блога</h1>
+{else}
+	<h1>Управление блогом: <a href="{$DIR_WEB_ROOT}/blog/{$oBlogEdit->getUrl()}/"  class="blog_headline_group">{$oBlogEdit->getTitle()}</a></h1>
+	{include file='menu.blog_edit.tpl'}
+{/if}
 
 {include file='system_message.tpl'}
 

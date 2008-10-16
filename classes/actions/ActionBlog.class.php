@@ -74,7 +74,7 @@ class ActionBlog extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $aBadBlogUrl=array('new','good','bad','edit','add');
+	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin');
 	
 	/**
 	 * Инизиализация экшена
@@ -113,6 +113,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('new','EventNew');
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
+		$this->AddEvent('admin','EventAdminBlog');
 		
 		$this->AddEventPreg('/^(\d+)\.html$/i','EventShowTopicPersonal');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
@@ -202,8 +203,8 @@ class ActionBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect='saved';
-		$this->sMenuItemSelect='';
+		$this->sMenuSubItemSelect='';
+		$this->sMenuItemSelect='profile';
 		
 		/**
 		 * Проверяем передан ли в УРЛе номер блога
@@ -227,6 +228,8 @@ class ActionBlog extends Action {
 		}			
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle('Редактирование блога');
+		
+		$this->Viewer_Assign('oBlogEdit',$oBlog);
 		/**
 		 * Устанавливаем шалон для вывода
 		 */		
@@ -270,6 +273,87 @@ class ActionBlog extends Action {
 			$_REQUEST['blog_limit_rating_topic']=$oBlog->getLimitRatingTopic();
 			$_REQUEST['blog_id']=$oBlog->getId();
 		}
+		
+		
+	}
+	/**
+	 * Управление пользователями блога
+	 *
+	 * @return unknown
+	 */
+	protected function EventAdminBlog() {		
+		/**
+		 * Меню
+		 */		
+		$this->sMenuItemSelect='admin';
+		$this->sMenuSubItemSelect='';		
+		/**
+		 * Проверяем передан ли в УРЛе номер блога
+		 */
+		$sBlogId=$this->GetParam(0);
+		if (!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Проверям авторизован ли пользователь
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle('Для того чтобы изменить блог, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			return Router::Action('error');
+		}
+		/**
+		 * Явлется ли авторизованный пользователь хозяином блога
+		 */
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator()) {
+			return parent::EventNotFound();
+		}					
+		/**
+		 * Обрабатываем сохранение формы
+		 */
+		if (isset($_REQUEST['submit_blog_admin'])) {
+			$aUserRank=getRequest('user_rank',array());
+			if (!is_array($aUserRank)) {
+				$aUserRank=array();
+			}
+			foreach ($aUserRank as $sUserId => $sRank) {
+				if (!($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$sUserId))) {
+					$this->Message_AddError('Что то не так','Ошибка');
+					break;
+				}
+				
+				switch ($sRank) {
+					case 'administrator':
+						$oBlogUser->setIsAdministrator(1);
+						$oBlogUser->setIsModerator(0);
+						break;
+					case 'moderator':
+						$oBlogUser->setIsAdministrator(0);
+						$oBlogUser->setIsModerator(1);
+						break;
+					default:
+						$oBlogUser->setIsAdministrator(0);
+						$oBlogUser->setIsModerator(0);
+						break;
+				}
+				$this->Blog_UpdateRelationBlogUser($oBlogUser);
+				$this->Message_AddNoticeSingle('Права сохранены');
+			}
+		}
+		/**
+		 * Получаем список подписчиков блога
+		 */
+		$aBlogUsers=$this->Blog_GetRelationBlog($oBlog->getId());		
+		
+		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
+		$this->Viewer_AddHtmlTitle('Управление блогом');
+		
+		$this->Viewer_Assign('oBlogEdit',$oBlog);
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
+		/**
+		 * Устанавливаем шалон для вывода
+		 */		
+		$this->SetTemplateAction('admin');
+		
 		
 		
 	}

@@ -88,6 +88,21 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 		
+	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {		
+		$sql = "UPDATE ".DB_TABLE_BLOG_USER." 
+			SET 
+				is_moderator= ?,
+				is_administrator= ?				
+			WHERE
+				blog_id = ?d 
+				AND
+				user_id = ?d
+		";			
+		if ($this->oDb->query($sql,$oBlogUser->getIsModerator(),$oBlogUser->getIsAdministrator(),$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
+			return true;
+		}		
+		return false;
+	}
 	
 	public function GetRelationBlogUsers($aFilter) {
 		$sWhere=' 1=1 ';
