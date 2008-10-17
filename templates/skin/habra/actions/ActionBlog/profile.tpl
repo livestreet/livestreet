@@ -81,7 +81,7 @@
 			</span>			
 		{/if}	
 		<a href="{$DIR_WEB_ROOT}/rss/blog/{$oBlog->getUrl()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>		
-		{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() )}
+		{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or ($oBlogUser and $oBlogUser->getIsAdministrator()) )}
   					<a href="{$DIR_WEB_ROOT}/blog/edit/{$oBlog->getId()}/" title="отредактировать блог"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать блог"></a>
   		{/if}	
 	</div>
@@ -112,7 +112,7 @@
   
     <div id="userslist">
     	<div class="company_part">
- 	<h1>Пользователи ({$oBlog->getCountUser()})</h1>
+ 	<h1>Читатели ({$iCountBlogUsers})</h1>
 
  	<table class="part_company_01"><tr><td>
  	{if $aBlogUsers}
@@ -120,7 +120,7 @@
   		<p class="groups_contacts_list"><a href="{$DIR_WEB_ROOT}/profile/{$oBlogUser->getUserLogin()}/" class="auth"><img  class="img_border" src="{$oBlogUser->getUserProfileAvatarPath(48)}" width="48" height="48" alt="" title="{$oBlogUser->getUserLogin()}" border="0"></a><br><a href="{$DIR_WEB_ROOT}/profile/{$oBlogUser->getUserLogin()}/" class="groups_auth">{$oBlogUser->getUserLogin()}</a></p>
    	{/foreach}  
    	{else}
-   	 	Пользователей здесь не замеченно
+   	 	Читателей здесь не замеченно
     {/if}
   </td></tr></table>
 

@@ -88,13 +88,17 @@ class ActionTopic extends Action {
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
-		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,$this->oUserCurrent)) {
+		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,null,-1)) {
 			return parent::EventNotFound();
 		}
 		/**
-		 * проверяем кто владелец топика
+		 * проверяем кто владелец топика, либо модератор и администратор блога
 		 */
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
+		
+		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -418,8 +422,13 @@ class ActionTopic extends Action {
 		/**
 		 * Проверка состоит ли юзер в блоге в который постит
 		 * Если нужно разрешить редактировать топик в блоге в котором юзер уже не стоит
+		 * Если юзер является администратором либо модератором блога, то разрешаем ему перенос в другой блог
 		 */
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
+		
+		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
 				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;

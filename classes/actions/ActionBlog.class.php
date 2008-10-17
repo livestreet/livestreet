@@ -221,9 +221,11 @@ class ActionBlog extends Action {
 			return Router::Action('error');
 		}
 		/**
-		 * Явлется ли авторизованный пользователь хозяином блога
+		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
 		}			
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
@@ -302,9 +304,11 @@ class ActionBlog extends Action {
 			return Router::Action('error');
 		}
 		/**
-		 * Явлется ли авторизованный пользователь хозяином блога
+		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
 		}					
 		/**
@@ -567,11 +571,17 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли такой топик
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,$this->oUserCurrent,1))) {
+		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,null,-1))) {
 			return parent::EventNotFound();
 		}
 		/**
-		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллектиного топика
+		 * Проверяем права на просмотр топика
+		 */
+		if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
 		 */
 		if ($oTopic->getBlogType()!='personal') {
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getBlogUrl().'/'.$oTopic->getId().'.html');
@@ -639,12 +649,18 @@ class ActionBlog extends Action {
 		$this->sMenuSubItemSelect='';	
 		/**
 		 * Проверяем есть ли такой топик
-		 */		
-		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,$this->oUserCurrent,1))) {
+		 */
+		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,null,-1))) {
 			return parent::EventNotFound();
 		}
 		/**
-		 * Если запросили топик из персонального блогато перенаправляем на страницу вывода коллективного топика
+		 * Проверяем права на просмотр топика
+		 */
+		if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
 		if ($oTopic->getBlogType()=='personal') {
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
@@ -727,8 +743,9 @@ class ActionBlog extends Action {
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
 		$bNeedJoin=true;
+		$oBlogUser=null;
 		if ($this->oUserCurrent) {
-			if ($this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+			if ($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 				$bNeedJoin=false;
 			}
 		}
@@ -757,6 +774,7 @@ class ActionBlog extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */				
+		$this->Viewer_Assign('oBlogUser',$oBlogUser);
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);
@@ -792,9 +810,10 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
+		$oBlogUser=null;
 		$bNeedJoin=true;
 		if ($this->oUserCurrent) {
-			if ($this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+			if ($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 				$bNeedJoin=false;
 			}
 		}
@@ -823,6 +842,7 @@ class ActionBlog extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
+		$this->Viewer_Assign('oBlogUser',$oBlogUser);
 		$this->Viewer_Assign('aPaging',$aPaging);		
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);
@@ -859,8 +879,9 @@ class ActionBlog extends Action {
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
 		$bNeedJoin=true;
+		$oBlogUser=null;
 		if ($this->oUserCurrent) {
-			if ($this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+			if ($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 				$bNeedJoin=false;
 			}
 		}
@@ -889,7 +910,8 @@ class ActionBlog extends Action {
 		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
 		/**
 		 * Загружаем переменные в шаблон
-		 */		
+		 */
+		$this->Viewer_Assign('oBlogUser',$oBlogUser);		
 		$this->Viewer_Assign('aPaging',$aPaging);			
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);
@@ -932,8 +954,9 @@ class ActionBlog extends Action {
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
 		$bNeedJoin=true;
+		$oBlogUser=null;
 		if ($this->oUserCurrent) {
-			if ($this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+			if ($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 				$bNeedJoin=false;
 			}
 		}
@@ -941,7 +964,9 @@ class ActionBlog extends Action {
 		 * Загружаем переменные в шаблон
 		 */			
 		$this->Viewer_Assign('oBlog',$oBlog);
-		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);		
+		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);	
+		$this->Viewer_Assign('oBlogUser',$oBlogUser);		
 		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('bNeedJoin',$bNeedJoin);

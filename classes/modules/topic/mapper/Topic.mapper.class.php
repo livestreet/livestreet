@@ -111,9 +111,12 @@ class Mapper_Topic extends Mapper {
 		if (is_object($this->oUserCurrent)) {
 			$iCurrentUserId=$this->oUserCurrent->getId();
 		}
-		$sWhereUser='';
-		if ($oUser) {
-			$sWhereUser=' OR t.user_id = '.(int)$oUser->getId();
+		$sWhereUser=' 1=1 ';
+		if ($iPublish!=-1) { //можно считать это костылём..
+			$sWhereUser=' t.topic_publish = '.(int)$iPublish.' ';
+			if ($oUser) {
+				$sWhereUser.=' OR t.user_id = '.(int)$oUser->getId();
+			}
 		}
 		$sql = "SELECT 
 				t.*,
@@ -147,8 +150,7 @@ class Mapper_Topic extends Mapper {
 				WHERE 
 					t.topic_id = ?d 
 					AND 					
-						(
-							t.topic_publish = ?d 
+						(							
 							".$sWhereUser."
 						)
 					AND
@@ -168,7 +170,9 @@ class Mapper_Topic extends Mapper {
 					b.blog_title as blog_title,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+					bu.is_moderator as user_is_blog_moderator,
+					bu.is_administrator as user_is_blog_administrator
 				FROM
 					(
 						SELECT 
@@ -178,8 +182,7 @@ class Mapper_Topic extends Mapper {
 						WHERE 
 								t.topic_id = ?d 
 							AND 					
-							(
-								t.topic_publish = ?d 
+							(								 
 								".$sWhereUser."
 							)					
 					) AS t_fast
@@ -194,13 +197,21 @@ class Mapper_Topic extends Mapper {
 					) AS tv ON t_fast.topic_id=tv.topic_id
 					LEFT JOIN (
 						SELECT
+							is_moderator,
+							is_administrator,
+							blog_id												
+						FROM ".DB_TABLE_BLOG_USER." 
+						WHERE user_id = ?d
+					) AS bu ON t_fast.blog_id=bu.blog_id
+					LEFT JOIN (
+						SELECT
 							topic_id																			
 						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
 						WHERE user_voter_id = ?d
 					) AS tqv ON t_fast.topic_id=tqv.topic_id
 					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
 					";
-		if ($aRow=$this->oDb->selectRow($sql,$sId,$iPublish,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
 			return new TopicEntity_Topic($aRow);
 		}
 		return null;
@@ -266,7 +277,9 @@ class Mapper_Topic extends Mapper {
 					u.user_login as user_login,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+					bu.is_moderator as user_is_blog_moderator,
+					bu.is_administrator as user_is_blog_administrator 
 				FROM (
 					SELECT 
 						t.*,	
@@ -300,12 +313,20 @@ class Mapper_Topic extends Mapper {
 						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
 						WHERE user_voter_id = ?d
 					) AS tqv ON t_fast.topic_id=tqv.topic_id
+				LEFT JOIN (
+						SELECT
+							is_moderator,
+							is_administrator,
+							blog_id												
+						FROM ".DB_TABLE_BLOG_USER." 
+						WHERE user_id = ?d
+					) AS bu ON t_fast.blog_id=bu.blog_id
 				JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
 				;	
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId)) {			
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId, $iCurrentUserId)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}

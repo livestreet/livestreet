@@ -12,6 +12,7 @@
 
 <div class="backoffice">
 
+{if $aBlogUsers}
    
        <form action="" method="POST" id="thisform" enctype="multipart/form-data">
        
@@ -25,6 +26,9 @@
 			{foreach from=$aBlogUsers item=oBlogUser}
 			<tr>
 				<td><a href="{$DIR_WEB_ROOT}/profile/{$oBlogUser->getUserLogin()}/">{$oBlogUser->getUserLogin()}</a></td>
+				{if $oBlogUser->getUserId()==$oUserCurrent->getId()}
+				<td colspan="3" align="center">это вы &mdash; настоящий администратор!</td>
+				{else}
 				<td align="center">
 					<input type="radio" name="user_rank[{$oBlogUser->getUserId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if}>
 				</td>				
@@ -34,6 +38,7 @@
 				<td  align="center">
 					<input type="radio" name="user_rank[{$oBlogUser->getUserId()}]" value="reader" {if !$oBlogUser->getIsAdministrator() and !$oBlogUser->getIsModerator()}checked{/if}>
 				</td>
+				{/if}
 			</tr>
 			{/foreach}		
 					
@@ -46,7 +51,10 @@
     </p>
 
     <div class="form_note">После нажатия на кнопку &laquo;Сохранить&raquo;, права пользователей будут сохранены</div>
-
+{else}
+	в блоге никто не состоит  
+{/if}  
+    
     <p>Может быть, перейти на <a href="{$DIR_WEB_ROOT}/topic/add/">страницу создания топиков</a>?</p>
 	<input type="hidden" name="blog_id" value="{$_aRequest.blog_id}">
     </form>

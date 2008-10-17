@@ -114,7 +114,8 @@ class Topic extends Module {
 		return false;
 	}	
 	/**
-	 * Получить топик по айдишнику
+	 * Получить топик по айдишнику учитывая его доступность(publish)
+	 * если publish=-1 то publish не учитывается при выборке
 	 *
 	 * @param unknown_type $sId
 	 * @param unknown_type $oUser
@@ -131,14 +132,12 @@ class Topic extends Module {
 			$s2=$this->oUserCurrent->getId();
 		}
 		if (false === ($data = $this->Cache_Get("topic_{$sId}_{$s}_{$s2}_{$iPublish}"))) {			
-			if ($data = $this->oMapperTopic->GetTopicById($sId,$oUser,$iPublish)) {
-				dump("get topic from DB");
-				dump("topic_update_{$data->getId()}");
+			if ($data = $this->oMapperTopic->GetTopicById($sId,$oUser,$iPublish)) {				
 				$this->Cache_Set($data, "topic_{$sId}_{$s}_{$s2}_{$iPublish}", array("topic_update_{$data->getId()}","blog_update_{$data->getBlogId()}"), 60*5);
 			}			
 		}		
 		return $data;		
-	}
+	}	
 	/**
 	 * Получает список топиков из избранного
 	 *

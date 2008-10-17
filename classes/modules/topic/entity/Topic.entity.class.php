@@ -129,7 +129,12 @@ class TopicEntity_Topic extends Entity
     public function getUserQuestionIsVote() {
         return $this->_aData['user_question_is_vote'];
     }
-
+	public function getUserIsBlogAdministrator() {
+        return $this->_aData['user_is_blog_administrator'];
+    }
+    public function getUserIsBlogModerator() {
+        return $this->_aData['user_is_blog_moderator'];
+    }
     
     /***************************************************************************************************************************************************
      * методы расширения типов топика

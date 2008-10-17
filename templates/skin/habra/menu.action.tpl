@@ -21,7 +21,7 @@
     	{/if}
     	<TD class="{$sel}width10"></TD>
     	<TD class="{$sel}subitem1 center">
-    		<A class=tags_f href="{$DIR_WEB_ROOT}/topic/saved/">Сохранённые</A>
+    		<A class=tags_f href="{$DIR_WEB_ROOT}/topic/saved/">Черновики</A>
     	</TD>
     	<TD class="{$sel}border2px width10"></TD>   	
     	
