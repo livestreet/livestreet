@@ -98,7 +98,7 @@ class ActionTopic extends Action {
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
 		
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog) {
+		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -428,7 +428,7 @@ class ActionTopic extends Action {
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
 		
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog) {
+		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
 				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;

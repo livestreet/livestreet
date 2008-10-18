@@ -135,6 +135,9 @@ class TopicEntity_Topic extends Entity
     public function getUserIsBlogModerator() {
         return $this->_aData['user_is_blog_moderator'];
     }
+    public function getBlogOwnerId() {
+        return $this->_aData['blog_owner_id'];
+    }
     
     /***************************************************************************************************************************************************
      * методы расширения типов топика

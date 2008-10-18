@@ -14,7 +14,7 @@
   				{/if}
   				<a href="{if $oTopic->getType()=='link'}{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/{else}{$oTopic->getUrl()}{/if}" class="headline_l">{$oTopic->getTitle()|escape:'html'}</a>
   				
-  				{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getUserIsBlogModerator())}
+  				{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getUserIsBlogModerator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
   					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="отредактировать топик"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="отредактировать топик"></a>
   				{/if}
   				

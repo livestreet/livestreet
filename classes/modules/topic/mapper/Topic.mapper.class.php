@@ -168,6 +168,7 @@ class Mapper_Topic extends Mapper {
 					b.blog_type as blog_type,	
 					b.blog_url as blog_url,
 					b.blog_title as blog_title,
+					b.user_owner_id as blog_owner_id,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 					tv.vote_delta as user_vote_delta,
 					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
@@ -285,7 +286,8 @@ class Mapper_Topic extends Mapper {
 						t.*,	
 						b.blog_title as blog_title,
 						b.blog_type as blog_type,
-						b.blog_url as blog_url									
+						b.blog_url as blog_url,
+						b.user_owner_id as blog_owner_id									
 					FROM 
 						".DB_TABLE_TOPIC." as t,	
 						".DB_TABLE_BLOG." as b				

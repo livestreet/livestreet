@@ -21,7 +21,7 @@ mysql_query("set collation_connection='utf8_bin'",$link);
 /**
  * Конвертирует топики из старой структуры в новую
  */
-
+/*
 $sql = "SELECT 
 			*										
 		FROM 			
@@ -33,6 +33,60 @@ while ($row=mysql_fetch_assoc($res)) {
 	$sql2 = "INSERT INTO ".DB_TABLE_TOPIC_CONTENT." 
 			(topic_id,topic_text,topic_text_short,topic_text_source)
 			values(".$row['topic_id'].",'".mysql_escape_string($row['topic_text'])."','".mysql_escape_string($row['topic_text_short'])."','".mysql_escape_string($row['topic_text_source'])."')		
+	
+	";
+	mysql_query($sql2,$link);
+}
+*/
+
+/**
+ * Конвертируем комментариии в новую структуру
+ * Если комментариев много, то может занять много времени
+ */
+$sql = "SELECT res.* FROM (		
+
+				SELECT 					
+					c.*,
+					t.topic_title as topic_title,
+					t.topic_count_comment as topic_count_comment,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_login as user_login,
+					b.blog_title as blog_title,
+					b.blog_type as blog_type,
+					b.blog_url as blog_url,
+					u_owner.user_login	as blog_owner_login				
+				FROM 
+					".DB_TABLE_TOPIC_COMMENT." as c,
+					".DB_TABLE_TOPIC." as t,
+					".DB_TABLE_USER." as u,					
+					".DB_TABLE_BLOG." as b,
+					".DB_TABLE_USER." as u_owner 
+				WHERE 	
+					c.comment_id=(SELECT comment_id FROM ".DB_TABLE_TOPIC_COMMENT." WHERE topic_id=t.topic_id AND t.topic_publish=1 ORDER BY comment_date DESC LIMIT 0,1)
+					AND
+					c.comment_delete = 0
+					AND				
+					c.topic_id=t.topic_id
+					AND
+					t.topic_publish = 1
+					AND			
+					c.user_id=u.user_id					
+					AND
+					t.blog_id=b.blog_id
+					AND
+					b.user_owner_id=u_owner.user_id				
+				ORDER by c.comment_date desc limit 0, 50 
+				
+				) as res
+		ORDER BY comment_date asc	
+					";
+$res=mysql_query($sql,$link);
+while ($row=mysql_fetch_assoc($res)) {
+	//var_dump($row);
+	$sql2 = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
+			(topic_id,comment_id)
+			values(".$row['topic_id'].",'".mysql_escape_string($row['comment_id'])."')		
 	
 	";
 	mysql_query($sql2,$link);
