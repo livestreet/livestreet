@@ -92,6 +92,8 @@ class Viewer extends Module {
 		$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
 				
 		$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
+		$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
+		$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
 		/**
 		 * Загружаем список блоков
 		 */

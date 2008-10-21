@@ -297,17 +297,8 @@ class ActionQuestion extends Action {
 				foreach ($aBlogUsers as $oBlogUser) {
 					if ($oBlogUser->getUserId()==$this->oUserCurrent->getId()) {
 						continue;
-					}
-					$this->Mail_SetAdress($oBlogUser->getUserMail(),$oBlogUser->getUserLogin());
-					$this->Mail_SetSubject('Новый топик в блоге «'.htmlspecialchars($oBlog->getTitle()).'»');
-					$this->Mail_SetBody('
-							В блоге <b>«'.htmlspecialchars($oBlog->getTitle()).'»</b> опубликован топик -  <a href="'.DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html">'.htmlspecialchars($oTopic->getTitle()).'</a><br>						
-														
-							<br>
-							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
-						');
-					$this->Mail_setHTML();
-					$this->Mail_Send();
+					}				
+					$this->Notify_SendTopicNewToSubscribeBlog($oBlogUser,$oTopic,$oBlog,$this->oUserCurrent);
 				}
 			}
 			

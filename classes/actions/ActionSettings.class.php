@@ -105,39 +105,27 @@ class ActionSettings extends Action {
 		
 		$this->sMenuItemSelect='invite';
 		$this->sMenuSubItemSelect='';		
-		$this->Viewer_AddHtmlTitle('Инвайты');
+		$this->Viewer_AddHtmlTitle('Инвайты');		
+		
+		if (isset($_REQUEST['submit_invite'])) {
+			$bError=false;
+			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
+				$this->Message_AddError('У вас пока нет доступных инвайтов','Ошибка');		
+				$bError=true;		
+			}
+			if (!func_check(getRequest('invite_mail'),'mail')) {
+				$this->Message_AddError('Неверный формат e-mail','Ошибка');		
+				$bError=true;		
+			}
+			if (!$bError) {
+				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
+				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
+				$this->Message_AddNoticeSingle('Приглашение отправлено');
+			}
+		}
 		
 		$this->Viewer_Assign('iCountInviteAvailable',$this->User_GetCountInviteAvailable($this->oUserCurrent));
-		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
-		
-		if (!isset($_REQUEST['submit_invite'])) {
-			return ;
-		}
-		
-		if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddError('У вас пока нет доступных инвайтов','Ошибка');
-			return ;
-		}
-		
-		if (!func_check(getRequest('invite_mail'),'mail')) {			
-			$this->Message_AddError('Неверный формат e-mail','Ошибка');
-			return ;
-		}
-		
-		$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
-		$this->Mail_SetAdress(getRequest('invite_mail'));
-		$this->Mail_SetSubject('Приглашение на регистрацию');
-		$this->Mail_SetBody('
-							Пользователь <a href="'.DIR_WEB_ROOT.'/profile/'.$this->oUserCurrent->getLogin().'/">'.$this->oUserCurrent->getLogin().'</a>  пригласил вас зарегистрироваться на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
-							Код приглашения:  <b>'.$oInvite->getCode().'</b><br>
-							Для регистрации вам будет необходимо ввести код приглашения на <a href="'.DIR_WEB_ROOT.'">странице входа</a><br>													
-							<br>
-							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
-						');
-		$this->Mail_setHTML();
-		$this->Mail_Send();		
-		
-		$this->Message_AddNoticeSingle('Приглашение отправлено');
+		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));		
 	}
 	
 	/**

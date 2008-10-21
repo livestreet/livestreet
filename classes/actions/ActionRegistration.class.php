@@ -166,39 +166,12 @@ class ActionRegistration extends Action {
 					 */
 					if (USER_USE_ACTIVATION) {
 						/**
-						 * Отправляем на мыло письмо о подтверждении регистрации
-						 * По хорошему тескт письма нужно вынести в отдельный шаблон
-						 */
-						$this->Mail_SetAdress($oUser->getMail());
-						$this->Mail_SetSubject('Регистрация');
-						$this->Mail_SetBody('
-							Вы зарегистрировались на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
-							Ваши регистрационные данные:<br>
-							&nbsp;&nbsp;&nbsp;логин: <b>'.$oUser->getLogin().'</b><br>
-							&nbsp;&nbsp;&nbsp;пароль: <b>'.getRequest('password').'</b><br>
-							<br>
-							Для завершения регистрации вам необходимо активировать аккаунт пройдя по ссылке: 
-							<a href="'.DIR_WEB_ROOT.'/registration/activate/'.$oUser->getActivateKey().'/">'.DIR_WEB_ROOT.'/registration/activate/'.$oUser->getActivateKey().'/</a>
-							<br>
-							<br>
-							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
-						');
-						$this->Mail_setHTML();
-						$this->Mail_Send();
+						 * Отправляем на мыло письмо о подтверждении регистрации						 
+						 */					
+						$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
 						func_header_location(DIR_WEB_ROOT.'/registration/confirm/');						
 					} else {
-						$this->Mail_SetAdress($oUser->getMail());
-						$this->Mail_SetSubject('Регистрация');
-						$this->Mail_SetBody('
-							Вы зарегистрировались на сайте <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a><br>
-							Ваши регистрационные данные:<br>
-							&nbsp;&nbsp;&nbsp;логин: <b>'.$oUser->getLogin().'</b><br>
-							&nbsp;&nbsp;&nbsp;пароль: <b>'.getRequest('password').'</b><br>							
-							<br>
-							С уважением, администрация сайта <a href="'.DIR_WEB_ROOT.'">'.SITE_NAME.'</a>
-						');
-						$this->Mail_setHTML();
-						$this->Mail_Send();
+						$this->Notify_SendRegistration($oUser,getRequest('password'));
 					}
 					func_header_location(DIR_WEB_ROOT.'/registration/ok/');			
 				} else {

@@ -157,15 +157,21 @@ class TopicEntity_Topic extends Entity
     	$this->extractExtra();
     	if (isset($this->aExtra['url'])) {     		    		
     		if ($bShort) {
-    			$sUrl=ltrim($this->aExtra['url'],'http://');
+    			$sUrl=$this->aExtra['url'];
+    			if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
+    				$sUrl=$aMatch[1];
+    			}
     			$sUrlShort=substr($sUrl,0,30);
     			if (strlen($sUrlShort)!=strlen($sUrl)) {
     				return $sUrlShort.'...';
     			}
     			return $sUrl;
     		}
-    		$sUrl='http://'.ltrim($this->aExtra['url'],'http://');
-    		return $sUrl;
+    		$sUrl=$this->aExtra['url'];
+    		if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
+    			$sUrl=$aMatch[1];
+    		}
+    		return 'http://'.$sUrl;
     	}
     	return null;
     }    
