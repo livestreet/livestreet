@@ -177,6 +177,16 @@ abstract class Action extends Object {
 	}
 	
 	/**
+	 * Получает список параметров из УРЛ
+	 *
+	 * @return unknown
+	 */
+	public function GetParams() {		
+		return $this->aParams;
+	}
+	
+	
+	/**
 	 * Установить значение параметра(эмуляция параметра в URL). 
 	 * После установки занова считывает параметры из роутера - для корректной работы
 	 *

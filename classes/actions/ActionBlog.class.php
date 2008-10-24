@@ -394,7 +394,7 @@ class ActionBlog extends Action {
 			}
 		}
 		/**
-		* Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
+		* Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 		*/		
 		$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
 		$_REQUEST['blog_url']=$blogUrl;	

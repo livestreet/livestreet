@@ -3,14 +3,14 @@
 <HEAD>
 	<TITLE>{$sHtmlTitle}</TITLE>
 	<META http-equiv=Content-Type content="text/html; charset=UTF-8">
-	<META name="DESCRIPTION" content="LiveStreet - официальный сайт бесплатного движка социальной сети">
-	<META name="KEYWORDS" content="движок, livestreet, блоги, социальная сеть, бесплатный, php">
+	<META name="DESCRIPTION" content="{$sHtmlDescription}">
+	<META name="KEYWORDS" content="{$sHtmlKeywords}">
 
 	<LINK href="{$DIR_STATIC_SKIN}/img/favicon.ico" rel="shortcut icon">
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/habrahabr.css?v=1" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/backoffice.css?v=2" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/global.css?v=4" type=text/css rel=stylesheet>
-	<LINK media=all href="{$DIR_STATIC_SKIN}/css/my.css?v=3" type=text/css rel=stylesheet>	
+	<LINK media=all href="{$DIR_STATIC_SKIN}/css/my.css?v=4" type=text/css rel=stylesheet>	
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Roar.css" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" type=text/css rel=stylesheet>
 </HEAD>

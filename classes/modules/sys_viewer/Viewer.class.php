@@ -41,6 +41,19 @@ class Viewer extends Module {
 	 */
 	protected $sHtmlTitle=SITE_NAME;
 	/**
+	 * SEO ключевые слова страницы
+	 *
+	 * @var unknown_type
+	 */
+	protected $sHtmlKeywords=SITE_KYEWORDS;
+	/**
+	 * SEO описание страницы
+	 *
+	 * @var unknown_type
+	 */
+	protected $sHtmlDescription=SITE_DESCRIPTION;
+	
+	/**
 	 * Разделитель заголовка HTML страницы
 	 *
 	 * @var unknown_type
@@ -102,6 +115,8 @@ class Viewer extends Module {
 		 * Загружаем HTML заголовки
 		 */
 		$this->Assign("sHtmlTitle",htmlspecialchars($this->sHtmlTitle));
+		$this->Assign("sHtmlKeywords",htmlspecialchars($this->sHtmlKeywords));
+		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
 				
 	}
 	
@@ -254,6 +269,22 @@ class Viewer extends Module {
 	 */
 	public function GetHtmlTitle() {
 		return $this->sHtmlTitle;
+	}	
+	/**
+	 * Устанавливает ключевые слова keywords
+	 *
+	 * @param string $sText
+	 */
+	public function SetHtmlKeywords($sText) {
+		$this->sHtmlKeywords=$sText;
+	}
+	/**
+	 * Устанавливает описание страницы desciption
+	 *
+	 * @param string $sText
+	 */
+	public function SetHtmlDescription($sText) {
+		$this->sHtmlDescription=$sText;
 	}
 	/**
 	 * Формирует постраничный вывод

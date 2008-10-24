@@ -142,6 +142,39 @@ ALTER TABLE `prefix_user` ADD `user_settings_notice_reply_comment` TINYINT( 1 ) 
   
  ALTER TABLE `prefix_blog` ADD INDEX ( `blog_title` )  
 
+ 
+--
+-- Структура таблицы `prefix_page`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_page` (
+  `page_id` int(11) unsigned NOT NULL auto_increment,
+  `page_pid` int(11) unsigned default NULL,
+  `page_url` varchar(50) NOT NULL,
+  `page_url_full` varchar(254) NOT NULL,
+  `page_title` varchar(200) NOT NULL,
+  `page_text` text NOT NULL,
+  `page_date_add` datetime NOT NULL,
+  `page_date_edit` datetime default NULL,
+  `page_seo_keywords` varchar(250) default NULL,
+  `page_seo_description` varchar(250) default NULL,
+  `page_active` tinyint(1) unsigned NOT NULL default '1',
+  PRIMARY KEY  (`page_id`),
+  KEY `page_pid` (`page_pid`),
+  KEY `page_url_full` (`page_url_full`,`page_active`),
+  KEY `page_title` (`page_title`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_page`
+--
+ALTER TABLE `prefix_page`
+  ADD CONSTRAINT `prefix_page_fk` FOREIGN KEY (`page_pid`) REFERENCES `prefix_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE; 
+ 
 
   
 --

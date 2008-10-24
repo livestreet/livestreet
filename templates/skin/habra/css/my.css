@@ -153,3 +153,51 @@ div.comment_text2 {
 	margin-top: 1em;
 	color: #999;
 }
+
+table.tbl th
+    {
+      
+      vertical-align:bottom;
+      
+      border: none;
+      border-bottom: solid #B0C1D3 1px;
+      
+      	padding:.2em .6em .2em .65em;
+    	background:#e2e4e4;
+    	
+    	font-size:0.9em;
+    	font-weight:normal;
+    	color:#6e6e6e;
+     }
+  table.tbl td
+     {
+       padding:6px 8px 6px 8px;
+       border: none;
+       border-right: solid #B0C1D3 1px;
+     }
+  table.tbl tr.colored td
+     {
+       background-color:#EEF6FB;
+      
+     }
+  table.tbl tr.colored_sel td
+     {
+       background-color:#D9FBC2;
+      
+     }
+  table.tbl
+     {
+       font-size:0.9em;
+       border:none;
+       margin:20px 0px 30px 0px;
+       border-bottom:solid 1px #B0C1D3;
+     }  
+  table.tbl td:first-child
+    {
+      border-left: solid #B0C1D3 1px
+    }
+  table.tbl td
+    {
+      /* ��� IE: */
+      border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit');
+    }
