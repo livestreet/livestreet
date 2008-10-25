@@ -43,6 +43,7 @@ if ($oEngine->User_IsAuthorization()) {
 					$sMsgTitle='Поздравляем!';
 					$sMsg='У вас появился новый друг';
 					$bState=true;
+					$oEngine->Notify_SendUserFriendNew($oUser,$oUserCurrent);
 				} else {
 					$sMsgTitle='Ошибка!';
 					$sMsg='Внутреняя ошибка, попробуйте позже';

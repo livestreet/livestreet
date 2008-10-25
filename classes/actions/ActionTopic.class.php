@@ -154,6 +154,7 @@ class ActionTopic extends Action {
 			$_REQUEST['blog_id']=$oTopic->getBlogId();
 			$_REQUEST['topic_id']=$oTopic->getId();
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
+			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 		}	
 	}
 	/**
@@ -323,20 +324,27 @@ class ActionTopic extends Action {
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('topic');
-		$oTopic->setTitle(getRequest('topic_title'));	
+		$oTopic->setTitle(getRequest('topic_title'));
+		$oTopic->setCutText(null);	
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
 		$sText=$this->Text_Parser(getRequest('topic_text'));	
 		/**
 		 * Создаёт анонс топика(обрезаем по тег <cut>)
-		 */
+		 */		
 		$sTestShort=$sText;
-		$sTextTemp=str_replace("\r\n",'[<n>]',$sText);
-		if (preg_match("/^(.*)<cut>(.*)$/i",$sTextTemp,$aMatch)) {
-			$sTestShort=$aMatch[1];			
+		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
+		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
+		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
+			$sTestShort=$aMatch[1];				
+			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*$/Ui',$aMatch[2],$aMatchCut)) {				
+				$oTopic->setCutText(trim($aMatchCut[1]));
+			}				
 		}
-		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);		
+		$sTestShort=str_replace('[<rn>]',"\r\n",$sTestShort);
+		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);
+					
 		$oTopic->setText($sText);
 		$oTopic->setTextShort($sTestShort);
 		$oTopic->setTextSource(getRequest('topic_text'));		
@@ -359,7 +367,14 @@ class ActionTopic extends Action {
 			if (getRequest('topic_publish_index')) {
 				$oTopic->setPublishIndex(1);
 			} 
-		}		
+		}	
+		/**
+		 * Запрет на комментарии к топику
+		 */
+		$oTopic->setForbidComment(0);
+		if (getRequest('topic_forbid_comment')) {
+			$oTopic->setForbidComment(1);
+		}	
 		/**
 		 * Добавляем топик
 		 */
@@ -437,7 +452,8 @@ class ActionTopic extends Action {
 		 * Теперь можно смело редактировать топик
 		 */		
 		$oTopic->setBlogId($oBlog->getId());		
-		$oTopic->setTitle(getRequest('topic_title'));			
+		$oTopic->setTitle(getRequest('topic_title'));	
+		$oTopic->setCutText(null);		
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
@@ -445,8 +461,11 @@ class ActionTopic extends Action {
 		$sTestShort=$sText;
 		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
 		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
-		if (preg_match("/^(.*)<cut>(.*)$/i",$sTextTemp,$aMatch)) {			
-			$sTestShort=$aMatch[1];			
+		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
+			$sTestShort=$aMatch[1];				
+			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*$/Ui',$aMatch[2],$aMatchCut)) {				
+				$oTopic->setCutText(trim($aMatchCut[1]));
+			}				
 		}
 		$sTestShort=str_replace('[<rn>]',"\r\n",$sTestShort);
 		$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);
@@ -473,6 +492,13 @@ class ActionTopic extends Action {
 			} else {
 				$oTopic->setPublishIndex(0);
 			}
+		}
+		/**
+		 * Запрет на комментарии к топику
+		 */
+		$oTopic->setForbidComment(0);
+		if (getRequest('topic_forbid_comment')) {
+			$oTopic->setForbidComment(1);
 		}
 		/**
 		 * Сохраняем топик

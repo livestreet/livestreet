@@ -103,6 +103,23 @@ class Mapper_TopicComment extends Mapper {
 		return null;
 	}
 	
+	public function GetCommentUnique($sTopicId,$sUserId,$sCommentPid,$sHash) {
+		$sql = "SELECT * FROM ".DB_TABLE_TOPIC_COMMENT." 
+			WHERE 
+				topic_id = ?d 
+				AND
+				user_id = ?d
+				AND
+				(comment_pid = ?) or (? is NULL and comment_pid is NULL)
+				AND
+				comment_text_hash =?
+				";
+		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId,$sCommentPid,$sCommentPid,$sHash)) {
+			return new CommentEntity_TopicComment($aRow);
+		}
+		return null;
+	}
+	
 	public function GetCommentsAll(&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT 					
 					c.*,
@@ -386,11 +403,12 @@ class Mapper_TopicComment extends Mapper {
 			user_id,
 			comment_text,
 			comment_date,
-			comment_user_ip		
+			comment_user_ip,
+			comment_text_hash	
 			)
-			VALUES(?,  ?d,	?d,	?,	?,	?)
+			VALUES(?,  ?d,	?d,	?,	?,	?, ?)
 		";			
-		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTopicId(),$oComment->getUserId(),$oComment->getText(),$oComment->getDate(),$oComment->getUserIp())) 
+		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTopicId(),$oComment->getUserId(),$oComment->getText(),$oComment->getDate(),$oComment->getUserIp(),$oComment->getTextHash())) 
 		{
 			return $iId;
 		}		
@@ -449,11 +467,12 @@ class Mapper_TopicComment extends Mapper {
 				comment_text= ?,
 				comment_rating= ?f,
 				comment_count_vote= ?d,
-				comment_delete = ?d
+				comment_delete = ?d ,
+				comment_text_hash = ?
 			WHERE
 				comment_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopicComment->getText(),$oTopicComment->getRating(),$oTopicComment->getCountVote(),$oTopicComment->getDelete(),$oTopicComment->getId())) {
+		if ($this->oDb->query($sql,$oTopicComment->getText(),$oTopicComment->getRating(),$oTopicComment->getCountVote(),$oTopicComment->getDelete(),$oTopicComment->getTextHash(),$oTopicComment->getId())) {
 			return true;
 		}		
 		return false;

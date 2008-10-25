@@ -113,6 +113,7 @@ class Topic extends Module {
 		}
 		return false;
 	}	
+		
 	/**
 	 * Получить топик по айдишнику учитывая его доступность(publish)
 	 * если publish=-1 то publish не учитывается при выборке
@@ -647,6 +648,19 @@ class Topic extends Module {
 		$res=$this->oMapperTopic->SetDateRead($sTopicId,$sUserId);
 		if ($res===0) {
 			$this->oMapperTopic->AddTopicRead($sTopicId,$sUserId);
+		}
+	}
+	/**
+	 * Запоминаем число комментов при чтении топика
+	 *
+	 * @param unknown_type $sTopicId
+	 * @param unknown_type $sUserId
+	 * @param unknown_type $iCountComment
+	 */
+	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
+		$res=$this->oMapperTopic->SetCountCommentLast($sTopicId,$sUserId,$iCountComment);
+		if ($res===0) {
+			$this->oMapperTopic->AddTopicCommentLast($sTopicId,$sUserId,$iCountComment);
 		}
 	}
 	/**

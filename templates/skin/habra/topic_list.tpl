@@ -50,7 +50,13 @@
     		
       			{$oTopic->getTextShort()}
       			{if $oTopic->getTextShort()!=$oTopic->getText()}
-      			<br><br>( <a href="{$oTopic->getUrl()}" title="Прочитать топик полностью">Читать дальше</a> )
+      				<br><br>( <a href="{$oTopic->getUrl()}" title="Прочитать топик полностью">
+      				{if $oTopic->getCutText()}
+      					{$oTopic->getCutText()}
+      				{else}
+      					Читать дальше
+      				{/if}      			
+      				</a> )
       			{/if}
       			<div style="clear: left;"></div>
 				<div class="posttags">
@@ -110,7 +116,7 @@
      				</div>     
           			<div class="comment_plashka">
           				{if $oTopic->getCountComment()>0}
-          					<a href="{$DIR_WEB_ROOT}/blog/{if $oTopic->getBlogUrl()}{$oTopic->getBlogUrl()}/{/if}{$oTopic->getId()}.html#comments" title="читать комментарии"><span class="red">{$oTopic->getCountComment()}</span></a>
+          					<a href="{$DIR_WEB_ROOT}/blog/{if $oTopic->getBlogUrl()}{$oTopic->getBlogUrl()}/{/if}{$oTopic->getId()}.html#comments" title="читать комментарии"><span class="red">{$oTopic->getCountComment()}{if $oTopic->getCountCommentNew()} <font color="Green">+{$oTopic->getCountCommentNew()}</font>{/if}</span></a>
           				{else}
           					<a href="{$DIR_WEB_ROOT}/blog/{if $oTopic->getBlogUrl()}{$oTopic->getBlogUrl()}/{/if}{$oTopic->getId()}.html#comments" title="написать комментарий"><span class="red">комментировать</span></a>
           				{/if}

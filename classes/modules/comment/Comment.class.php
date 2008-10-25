@@ -42,6 +42,17 @@ class Comment extends Module {
 		return $this->oMapperTopicComment->GetCommentById($sId);
 	}	
 	/**
+	 * Получает уникальный коммент, это помогает спастись от дублей комментов
+	 *
+	 * @param unknown_type $sTopicId
+	 * @param unknown_type $sUserId
+	 * @param unknown_type $sCommentPid
+	 * @param unknown_type $sHash
+	 */
+	public function GetCommentUnique($sTopicId,$sUserId,$sCommentPid,$sHash) {
+		return $this->oMapperTopicComment->GetCommentUnique($sTopicId,$sUserId,$sCommentPid,$sHash);
+	}
+	/**
 	 * Получить все комменты
 	 *
 	 * @param unknown_type $iCount

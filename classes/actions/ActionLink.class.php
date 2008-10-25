@@ -180,6 +180,7 @@ class ActionLink extends Action {
 			$_REQUEST['blog_id']=$oTopic->getBlogId();
 			$_REQUEST['topic_id']=$oTopic->getId();
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
+			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 		}	
 	}
 	/**
@@ -315,6 +316,13 @@ class ActionLink extends Action {
 			} 
 		}
 		/**
+		 * Запрет на комментарии к топику
+		 */
+		$oTopic->setForbidComment(0);
+		if (getRequest('topic_forbid_comment')) {
+			$oTopic->setForbidComment(1);
+		}
+		/**
 		 * Добавляем топик
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
@@ -411,6 +419,13 @@ class ActionLink extends Action {
 				$oTopic->setPublishIndex(0);
 			}
 		}		
+		/**
+		 * Запрет на комментарии к топику
+		 */
+		$oTopic->setForbidComment(0);
+		if (getRequest('topic_forbid_comment')) {
+			$oTopic->setForbidComment(1);
+		}
 		/**
 		 * Сохраняем топик
 		 */

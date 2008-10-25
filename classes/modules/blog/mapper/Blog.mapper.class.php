@@ -30,11 +30,13 @@ class Mapper_Blog extends Mapper {
 			blog_type,			
 			blog_date_add,
 			blog_limit_rating_topic,
-			blog_url
+			blog_url,
+			blog_avatar,
+			blog_avatar_type
 			)
-			VALUES(?d,  ?,	?,	?,	?,	?, ?)
+			VALUES(?d,  ?,	?,	?,	?,	?, ?, ?, ?)
 		";			
-		if ($iId=$this->oDb->query($sql,$oBlog->getOwnerId(),$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateAdd(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl())) {
+		if ($iId=$this->oDb->query($sql,$oBlog->getOwnerId(),$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateAdd(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getAvatarType())) {
 			return $iId;
 		}		
 		return false;
@@ -51,11 +53,13 @@ class Mapper_Blog extends Mapper {
 				blog_count_vote = ?d,
 				blog_count_user= ?d,
 				blog_limit_rating_topic= ?f ,
-				blog_url= ?
+				blog_url= ?,
+				blog_avatar= ?,
+				blog_avatar_type= ?
 			WHERE
 				blog_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getId())) {
+		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getAvatarType(),$oBlog->getId())) {
 			return true;
 		}		
 		return false;

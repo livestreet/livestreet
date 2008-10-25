@@ -86,6 +86,12 @@ class ACL extends Module {
 	 * @return bool
 	 */
 	public function CanPostCommentTime(UserEntity_User $oUser) {
+		if (ACL_CAN_POST_COMMENT_TIME>0 and $oUser->getDateCommentLast()) {
+			$sDateCommentLast=strtotime($oUser->getDateCommentLast());
+			if ($oUser->getRating()<ACL_CAN_POST_COMMENT_TIME_RATING and ((time()-$sDateCommentLast)<ACL_CAN_POST_COMMENT_TIME)) {
+				return false;
+			}
+		}
 		return true;
 	}
 	

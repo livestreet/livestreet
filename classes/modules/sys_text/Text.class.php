@@ -56,7 +56,8 @@ class Text extends Module {
 		// Разрешённые параметры тегов
 		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt', 'title', 'align'));
 		$this->oJevix->cfgAllowTagParams('a', array('title', 'href'));		
-		// Параметры тегов являющиеся обязяательными
+		$this->oJevix->cfgAllowTagParams('cut', array('name'));
+		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
 		$this->oJevix->cfgSetTagParamsRequired('a', 'href');
 		// Теги которые необходимо вырезать из текста вместе с контентом

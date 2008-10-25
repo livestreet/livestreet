@@ -47,6 +47,9 @@ class CommentEntity_TopicComment extends Entity
     public function getDelete() {
         return $this->_aData['comment_delete'];
     }
+    public function getTextHash() {
+        return $this->_aData['comment_text_hash'];
+    }
     
     public function getUserLogin() {
         return $this->_aData['user_login'];
@@ -145,6 +148,8 @@ class CommentEntity_TopicComment extends Entity
     public function setDelete($data) {
         $this->_aData['comment_delete']=$data;
     }
-
+	public function setTextHash($data) {
+        $this->_aData['comment_text_hash']=$data;
+    }
 }
 ?>

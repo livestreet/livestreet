@@ -84,8 +84,17 @@ class TopicEntity_Topic extends Entity
     public function getCountComment() {
         return $this->_aData['topic_count_comment'];
     }
+    public function getCutText() {
+        return $this->_aData['topic_cut_text'];
+    }
+    public function getForbidComment() {
+        return $this->_aData['topic_forbid_comment'];
+    }
     
-        
+    
+    public function getCountCommentNew() {
+        return $this->_aData['count_comment_new'];
+    }       
     public function getTagsLink() {
     	$aTags=explode(',',$this->getTags());
     	foreach ($aTags as $key => $value) {
@@ -345,6 +354,12 @@ class TopicEntity_Topic extends Entity
     }
     public function setCountComment($data) {
         $this->_aData['topic_count_comment']=$data;
+    }
+    public function setCutText($data) {
+        $this->_aData['topic_cut_text']=$data;
+    }
+    public function setForbidComment($data) {
+        $this->_aData['topic_forbid_comment']=$data;
     }
 }
 ?>

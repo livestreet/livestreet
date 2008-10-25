@@ -2,7 +2,7 @@
 
 
 <DIV class=footer>
-	<DIV style="FLOAT: left">© Сайт работает на базе движка <a href="http://livestreet.ru" title="Бесплатный блого-социальный движок LiveStreet">LiveStreet</a>		 	
+	<DIV style="FLOAT: left">© Сайт работает на базе движка <a href="http://livestreet.ru" title="Бесплатный движок социальной сети LiveStreet">LiveStreet</a>		 	
 	</DIV>
 	
 	<DIV style="FLOAT: right">© 2008&nbsp;|&nbsp; 

@@ -35,8 +35,8 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	 * Устанавливаем шаблон
 	 */
 	$sTemplate=$aParams['block'];
-	$aPath=pathinfo($sTemplate);
-	$sBlock=ucfirst($aPath['filename']);
+	$aPath=pathinfo($sTemplate);	
+	$sBlock=ucfirst($aPath['basename']);
 	/**
 	 * Подключаем необходимый обработчик
 	 */

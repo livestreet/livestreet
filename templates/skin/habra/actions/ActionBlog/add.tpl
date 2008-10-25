@@ -23,8 +23,8 @@
        
        <p>
        <label for="blog_url">URL блога:</label>
-       <input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" style="width: 100%;" /><br />
-       <span class="form_note">URL блога по которому он будет доступен, по смыслу должен совпадать с названием блога и быть на латинице. Пробелы заменяться на "_"</span><br />
+       <input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" style="width: 100%;" {if $_aRequest.blog_id}disabled{/if} /><br />
+       <span class="form_note">URL блога по которому он будет доступен, по смыслу должен совпадать с названием блога и быть на латинице. Пробелы заменяться на "_". Внимание! URL нельзя изменить после создания блога!</span><br />
        <span class="form_note_red"></span>
        </p>
        
@@ -49,8 +49,13 @@
       	<input type="text" id="blog_limit_rating_topic" name="blog_limit_rating_topic" value="{$_aRequest.blog_limit_rating_topic}" style="width: 100%;" /><br />
         <span class="form_note">Рейтинг который необходим пользователю, чтобы написать в этот блог</span>
     	</p>
-
-     
+    	
+	{if $oBlogEdit and $oBlogEdit->getAvatar()}
+		<img src="{$oBlogEdit->getAvatarPath(48)}" border="0">
+		<img src="{$oBlogEdit->getAvatarPath(24)}" border="0">
+		<input type="checkbox" id="avatar_delete" name="avatar_delete" value="on"> &mdash; <label for="avatar_delete"><span class="form">удалить</span></label><br /><br>
+	{/if}
+     <span class="form">Аватар:</span><br /> <input type="file" name="avatar" ><br>
 
     <p class="l-bot">     
      <input type="submit" name="submit_blog_add" value="сохранить">&nbsp;    

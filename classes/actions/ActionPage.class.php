@@ -149,6 +149,10 @@ class ActionPage extends Action {
 		 * Получаем и загружаем список всех страниц
 		 */
 		$aPages=$this->Page_GetPages();
+		if (count($aPages)==0 and $this->Page_GetCountPage()) {
+			$this->Page_SetPagesPidToNull();
+			$aPages=$this->Page_GetPages();
+		}
 		$this->Viewer_Assign('aPages',$aPages);
 	}
 	/**
@@ -163,10 +167,15 @@ class ActionPage extends Action {
 		if (!$this->CheckPageFields()) {
 			return ;
 		}
+		
+		if ($oPageEdit->getId()==getRequest('page_pid')) {
+			$this->Message_AddError('Пытаетесь вложить страницу саму в себя?','Ошибка');
+			return;
+		}
+		
 		/**
 		 * Обновляем свойства страницы
-		 */
-		$oPage=new PageEntity_Page();
+		 */		
 		$oPageEdit->setActive(getRequest('page_active') ? 1 : 0);
 		$oPageEdit->setDateEdit(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {

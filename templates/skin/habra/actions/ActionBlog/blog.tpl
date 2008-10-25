@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	<div class="blog_page">
-		<img class="blog_avatar"   src="{$DIR_STATIC_SKIN}/img/stub-user-middle.gif" width="48" height="48" alt="" title="{$oBlog->getTitle()|escape:'html'}" border="0"> 
+		<img class="blog_avatar"   src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="" title="{$oBlog->getTitle()|escape:'html'}" border="0"> 
 		<a href="{$DIR_WEB_ROOT}/blog/{$oBlog->getUrl()}/profile/">{$oBlog->getTitle()|escape:'html'}</a> 
 		(<a id="groupuserscnt" href="{$DIR_WEB_ROOT}/blog/{$oBlog->getUrl()}/profile/"><span  id="blog_user_count">{$oBlog->getCountUser()}</span></a>) 
 		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}			

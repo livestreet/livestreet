@@ -130,7 +130,7 @@ function showCommentForm(reply) {
 					{/if}
 				{/if}
        			</div>       			
-       			{if $oUserCurrent and !$oComment->getDelete()}
+       			{if $oUserCurrent and !$oComment->getDelete() and !$oTopic->getForbidComment()}
        			<div class="comments_reply">
     				<div class="reply_word_holder">(<a href="javascript:showCommentForm({$oComment->getId()});">ответить</a>)</div>    				
     				<div style="display: none;" id="reply_{$oComment->getId()}"></div>
@@ -141,6 +141,12 @@ function showCommentForm(reply) {
       		{/foreach}
       		{/if}
       			
+      {if $oTopic->getForbidComment()}
+      		<div class="text">
+  				<br />
+				Автор топика запретил оставлять комментарии.
+			</div>
+      {else}
       	{if $oUserCurrent}			
 			<div class="WriteCommentHolder">
   				<img src="{$DIR_STATIC_SKIN}/img/comment.gif"> <a name="comment" href="javascript:showCommentForm(0);" class="news_page_comments_title">написать комментарий</a>
@@ -159,8 +165,8 @@ function showCommentForm(reply) {
   				<a href="{$DIR_WEB_ROOT}/login/">Авторизуйтесь</a>, пожалуйста, или 
   				<a href="{$DIR_WEB_ROOT}/registration/">зарегистрируйтесь</a>, если не зарегистрированы.<br><br>
 			</div>			
-		{/if}
-			
+		{/if}      		
+      {/if}			
 			
 		</div>
 	</div>

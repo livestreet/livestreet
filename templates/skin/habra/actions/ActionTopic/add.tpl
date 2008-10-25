@@ -135,6 +135,13 @@ document.addEvent('domready', function() {
 
      </p>
 
+     <p>
+     <input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/>
+      <label for="topic_forbid_comment"> &mdash; запретить комментировать</label>	
+     <br />
+            <span class="form_note">Если отметить эту галку, то нельзя будет оставлять комментарии к топику </span>
+     </p>
+     
      {if $oUserCurrent->isAdministrator()}
      <p>
      <input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/>

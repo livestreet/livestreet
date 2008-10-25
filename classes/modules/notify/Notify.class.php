@@ -28,6 +28,9 @@ class Notify extends Module {
 	 *
 	 */
 	public function Init() {		
+		if (!class_exists('Viewer')) {
+			require_once("./classes/modules/sys_viewer/Viewer.class.php");
+		}
 		$this->oViewerLocal=new Viewer(Engine::getInstance());
 		$this->oViewerLocal->Init();
 		$this->oViewerLocal->VarAssign();
@@ -278,6 +281,26 @@ class Notify extends Module {
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
 		$this->Mail_SetSubject('У вас новый комментарий к письму');
+		$this->Mail_SetBody($sBody);
+		$this->Mail_setHTML();
+		$this->Mail_Send();
+	}
+	
+	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom) {		
+		/**
+		 * Передаём в шаблон переменные
+		 */
+		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
+		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);		
+		/**
+		 * Формируем шаблон
+		 */
+		$sBody=$this->oViewerLocal->Fetch("notify.user_friend_new.tpl");
+		/**
+		 * Отправляем мыло
+		 */
+		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
+		$this->Mail_SetSubject('Вас добавили в друзья');
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();

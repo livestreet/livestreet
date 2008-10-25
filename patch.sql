@@ -129,7 +129,7 @@ ALTER TABLE `prefix_invite`
   ADD CONSTRAINT `prefix_invite_fk` FOREIGN KEY (`user_from_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_invite_fk1` FOREIGN KEY (`user_to_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `prefix_invite` ADD INDEX ( `invite_date_add` )  
+ALTER TABLE `prefix_invite` ADD INDEX ( `invite_date_add` )  ;
 
 
 -- Дополнительные поля настройки у юзера  
@@ -140,7 +140,7 @@ ALTER TABLE `prefix_user` ADD `user_settings_notice_reply_comment` TINYINT( 1 ) 
 
   
   
- ALTER TABLE `prefix_blog` ADD INDEX ( `blog_title` )  
+ ALTER TABLE `prefix_blog` ADD INDEX ( `blog_title` )  ;
 
  
 --
@@ -176,6 +176,37 @@ ALTER TABLE `prefix_page`
   ADD CONSTRAINT `prefix_page_fk` FOREIGN KEY (`page_pid`) REFERENCES `prefix_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE; 
  
 
+  
+
+-- делаем индекс уникальным, а не просто индексом  
+ALTER TABLE `prefix_topic_read` DROP INDEX `topic_id_user_id` ,
+ADD UNIQUE `topic_id_user_id` ( `topic_id` , `user_id` ) ; 
+  
+-- новое поле для текста КАТа  
+ALTER TABLE `prefix_topic` ADD `topic_cut_text` VARCHAR( 100 ) NULL ; 
+  
+
+-- новое поле для запрета комментов в топике
+ALTER TABLE `prefix_topic` ADD `topic_forbid_comment` TINYINT( 1 ) NOT NULL DEFAULT '0';  
+  
+  
+-- новое поле для хранения хеша текста коммента
+ALTER TABLE `prefix_topic_comment` ADD `comment_text_hash` VARCHAR( 32 ) NOT NULL AFTER `comment_text` ;
+  
+
+ALTER TABLE `prefix_user` CHANGE `user_profile_avatar_type` `user_profile_avatar_type` VARCHAR( 5 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
+
+-- поля для аватара блога
+ALTER TABLE `prefix_blog` ADD `blog_avatar` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_blog` ADD `blog_avatar_type` VARCHAR( 5 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ; 
+  
+  
+-- поле для хранения даты последнего коммента, оставленого юзером
+ALTER TABLE `prefix_user` ADD `user_date_comment_last` DATETIME NULL AFTER `user_date_activate` ;
+
+
+  
+  
   
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!

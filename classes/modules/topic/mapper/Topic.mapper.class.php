@@ -32,12 +32,14 @@ class Mapper_Topic extends Mapper {
 			topic_date_add,
 			topic_user_ip,
 			topic_publish,
-			topic_publish_index			
+			topic_publish_index,
+			topic_cut_text,
+			topic_forbid_comment			
 			)
-			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d)
+			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?, ?)
 		";			
 		if ($iId=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getUserId(),$oTopic->getType(),$oTopic->getTitle(),
-			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex())) 
+			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex(),$oTopic->getCutText(),$oTopic->getForbidComment())) 
 		{
 			$oTopic->setId($iId);
 			$this->AddTopicContent($oTopic);
@@ -280,7 +282,8 @@ class Mapper_Topic extends Mapper {
 					tv.vote_delta as user_vote_delta,
 					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
 					bu.is_moderator as user_is_blog_moderator,
-					bu.is_administrator as user_is_blog_administrator 
+					bu.is_administrator as user_is_blog_administrator,
+					IF(tcl.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tcl.comment_count_last) as count_comment_new 
 				FROM (
 					SELECT 
 						t.*,	
@@ -311,6 +314,13 @@ class Mapper_Topic extends Mapper {
 					) AS tv ON t_fast.topic_id=tv.topic_id 
 				LEFT JOIN (
 						SELECT
+							topic_id,
+							comment_count_last												
+						FROM ".DB_TABLE_TOPIC_COMMENT_LAST." 
+						WHERE user_id = ?d
+					) AS tcl ON t_fast.topic_id=tcl.topic_id
+				LEFT JOIN (
+						SELECT
 							topic_id																			
 						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
 						WHERE user_voter_id = ?d
@@ -328,7 +338,7 @@ class Mapper_Topic extends Mapper {
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId, $iCurrentUserId)) {			
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -657,11 +667,13 @@ class Mapper_Topic extends Mapper {
 				topic_rating= ?f,
 				topic_count_vote= ?d,
 				topic_count_read= ?d,
-				topic_count_comment= ?d
+				topic_count_comment= ?d, 
+				topic_cut_text = ? ,
+				topic_forbid_comment = ? 
 			WHERE
 				topic_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getId())) {
+		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getId())) {
 			$this->UpdateTopicContent($oTopic);
 			return true;
 		}		
@@ -871,6 +883,38 @@ class Mapper_Topic extends Mapper {
 		}		
 		return false;
 	}
+	
+	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
+		$sDate=date("Y-m-d H:i:s");
+		$sql = "UPDATE ".DB_TABLE_TOPIC_COMMENT_LAST." 
+			SET 
+				comment_count_last = ? ,
+				date_last = ? 
+			WHERE
+				user_id = ?
+				and
+				topic_id = ? 			 
+		";			
+		return $this->oDb->query($sql,$iCountComment,$sDate,$sUserId,$sTopicId);
+	}
+	
+	public function AddTopicCommentLast($sTopicId,$sUserId,$iCountComment) {
+		$sDate=date("Y-m-d H:i:s");
+		$sql = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_LAST." 
+			(topic_id,
+			user_id,
+			comment_count_last,
+			date_last		
+			)
+			VALUES(?d,  ?d, ?d, ?)
+		";			
+		if ($this->oDb->query($sql,$sTopicId,$sUserId,$iCountComment,$sDate)===0) 
+		{
+			return true;
+		}		
+		return false;
+	}
+		
 	
 	public function GetDateRead($sTopicId,$sUserId) {			
 		$sql = "SELECT 

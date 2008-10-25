@@ -185,6 +185,22 @@ class ActionBlog extends Action {
 		$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 		$oBlog->setUrl(getRequest('blog_url'));
 		/**
+		* Загрузка аватара, делаем ресайзы
+		*/			
+		if (is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+			$sFileTmp=$_FILES['avatar']['tmp_name'];
+			if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {
+				func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
+				func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+				$oBlog->setAvatar(1);
+				$aFileInfo=pathinfo($sFileAvatar);
+				$oBlog->setAvatarType($aFileInfo['extension']);
+			} else {
+				$this->Message_AddError('Не удалось загрузить аватар','Ошибка');
+				return false;
+			}
+		}		
+		/**
 		 * Создаём блог
 		 */
 		if ($this->Blog_AddBlog($oBlog)) {
@@ -254,7 +270,33 @@ class ActionBlog extends Action {
 			$oBlog->setDescription($sText);
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
-			$oBlog->setUrl(getRequest('blog_url'));		
+			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога	
+			/**
+			 * Загрузка аватара, делаем ресайзы
+			 */			
+			if (is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
+				$sFileTmp=$_FILES['avatar']['tmp_name'];
+				if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {					
+					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
+					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+					$oBlog->setAvatar(1);
+					$aFileInfo=pathinfo($sFileAvatar);
+					$oBlog->setAvatarType($aFileInfo['extension']);
+				} else {					
+					$this->Message_AddError('Не удалось загрузить аватар','Ошибка');
+					return false;
+				}
+			}
+			/**
+			 * Удалить аватар
+			 */
+			if (isset($_REQUEST['avatar_delete'])) {
+				$oBlog->setAvatar(0);				
+				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
+				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
+				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());
+				$oBlog->setAvatarType(null);
+			}
 			/**
 			 * Обновляем блог
 			 */
@@ -393,14 +435,18 @@ class ActionBlog extends Action {
 				$bOk=false;
 			}
 		}
-		/**
-		* Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
-		*/		
-		$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
-		$_REQUEST['blog_url']=$blogUrl;	
-		if (!func_check(getRequest('blog_url'),'login',2,50)) {
-			$this->Message_AddError('URL блога должен быть от 2 до 50 символов и только на латинице + цифры и знаки "-", "_"','Ошибка');
-			$bOk=false;
+		
+		if (!$oBlog) {
+			/**
+			* Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
+			* Проверка только в том случаи если создаём новый блог, т.к при редактировании URL нельзя менять
+			*/		
+			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
+			$_REQUEST['blog_url']=$blogUrl;
+			if (!func_check(getRequest('blog_url'),'login',2,50)) {
+				$this->Message_AddError('URL блога должен быть от 2 до 50 символов и только на латинице + цифры и знаки "-", "_"','Ошибка');
+				$bOk=false;
+			}
 		}
 		/**
 		 * Проверяем на счет плохих УРЛов
@@ -619,6 +665,12 @@ class ActionBlog extends Action {
 			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId());
 		}
 		/**
+		 * Запоминаем число комментов в топике для юзера, это понадобится при показе числа новых комментов
+		 */
+		if ($this->oUserCurrent) {
+			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
+		}
+		/**
 		 * Загружаем переменные в шаблон
 		 */		
 		$this->Viewer_Assign('bInFavourite',$bInFavourite);
@@ -702,6 +754,12 @@ class ActionBlog extends Action {
 		 */
 		if ($this->oUserCurrent) {
 			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId());
+		}
+		/**
+		 * Запоминаем число комментов в топике для юзера, это понадобится при показе числа новых комментов
+		 */
+		if ($this->oUserCurrent) {
+			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
 		}
 		/**
 		 * Загружаем переменные в шаблон
@@ -1004,13 +1062,27 @@ class ActionBlog extends Action {
 				return false;
 			}
 			/**
+			 * Проверяем разрешено ли постить комменты по времени
+			 */
+			if (!$this->ACL_CanPostCommentTime($this->oUserCurrent)) {
+				$this->Message_AddError('Вам нельзя писать комментарии слишком часто','Ошибка');
+				return false;
+			}
+			/**
+			 * Проверяем запрет на добавления коммента автором топика
+			 */
+			if ($oTopic->getForbidComment()) {
+				$this->Message_AddError('Автор топика запретил добавлять комментарии','Ошибка');
+				return false;
+			}
+			/**
 			 * Проверяем текст комментария
 			 */
 			$sText=$this->Text_Parser(getRequest('comment_text'));
 			if (!func_check($sText,'text',2,10000)) {
 				$this->Message_AddError('Текст комментария должен быть от 2 до 3000 символов и не содержать разного рода каку','Ошибка');
 				return false;
-			}
+			}			
 			/**
 			 * Проверям на какой коммент отвечаем
 			 */
@@ -1040,6 +1112,14 @@ class ActionBlog extends Action {
 				$sParentId=null;
 			}
 			/**
+			 * Проверка на дублирующий коммент
+			 */
+			if ($this->Comment_GetCommentUnique($oTopic->getId(),$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
+				$this->Message_AddError('Стоп! Спам!','Ошибка');
+				return false;
+			}
+			//exit();
+			/**
 			 * Создаём коммент
 			 */
 			$oCommentNew=new CommentEntity_TopicComment();
@@ -1053,10 +1133,16 @@ class ActionBlog extends Action {
 			$oCommentNew->setDate(date("Y-m-d H:i:s"));
 			$oCommentNew->setUserIp(func_getIp());
 			$oCommentNew->setPid($sParentId);
+			$oCommentNew->setTextHash(md5($sText));
 			/**
 			 * Добавляем коммент
 			 */
-			if ($this->Comment_AddComment($oCommentNew)) {				
+			if ($this->Comment_AddComment($oCommentNew)) {
+				/**
+				 * Сохраняем дату последнего коммента для юзера
+				 */
+				$this->oUserCurrent->setDateCommentLast(date("Y-m-d H:i:s"));
+				$this->User_Update($this->oUserCurrent);
 				/**
 				 * Отправка уведомления автору топика
 				 */

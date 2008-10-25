@@ -58,6 +58,19 @@ class Mapper_Page extends Mapper {
 		return false;
 	}
 	
+	public function SetPagesPidToNull() {
+		$sql = "UPDATE ".DB_TABLE_PAGE." 
+			SET 
+				page_pid = null,
+				page_url_full = page_url 			 				
+		";			
+		if ($this->oDb->query($sql)) 
+		{
+			return true;
+		}		
+		return false;
+	}
+	
 	public function GetPageByUrlFull($sUrlFull,$iActive) {
 		$sql = "SELECT * FROM ".DB_TABLE_PAGE." WHERE page_url_full = ? and page_active = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUrlFull,$iActive)) {
@@ -93,6 +106,14 @@ class Mapper_Page extends Mapper {
 					";
 		if ($aRows=$this->oDb->select($sql)) {
 			return $aRows;
+		}
+		return null;
+	}
+	
+	public function GetCountPage() {
+		$sql = "SELECT count(*) as count FROM ".DB_TABLE_PAGE." ";
+		if ($aRow=$this->oDb->selectRow($sql)) {
+			return $aRow['count'];
 		}
 		return null;
 	}

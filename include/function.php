@@ -396,8 +396,10 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
 	$sFileFullPath=DIR_SERVER_ROOT.'/'.$sDirDest.'/'.$sFileDest;
 	@func_mkdir(DIR_SERVER_ROOT,$sDirDest);
 	if ($iWidthDest and $iWidthDest!=$aSize[0]) {
-		$img_dest=imagecreatetruecolor($iWidthNew,$iHeightNew);
-		if (imagecopyresampled($img_dest,$img_src,0,0,0,0,$iWidthNew,$iHeightNew,$aSize[0],$aSize[1])) {						
+		$img_dest=imagecreatetruecolor($iWidthNew,$iHeightNew);		
+		imagesavealpha($img_dest,true);
+		imagealphablending($img_dest,false);
+		if (imagecopyresampled($img_dest,$img_src,0,0,0,0,$iWidthNew,$iHeightNew,$aSize[0],$aSize[1])) {				
 			imagedestroy($img_src);
 			switch ($aSize['mime']) {
 				case 'image/png':

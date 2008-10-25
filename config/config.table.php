@@ -43,4 +43,5 @@ define('DB_TABLE_USER_ADMINISTRATOR',DB_PREFIX_TABLE.'user_administrator');
 define('DB_TABLE_TOPIC_COMMENT_ONLINE',DB_PREFIX_TABLE.'topic_comment_online');
 define('DB_TABLE_INVITE',DB_PREFIX_TABLE.'invite');
 define('DB_TABLE_PAGE',DB_PREFIX_TABLE.'page');
+define('DB_TABLE_TOPIC_COMMENT_LAST',DB_PREFIX_TABLE.'topic_comment_last');
 ?>

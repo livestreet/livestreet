@@ -24,6 +24,7 @@ require_once('mapper/Page.mapper.class.php');
  */
 class Page extends Module {		
 	protected $oMapper;
+	protected $aRebuildIds=array();
 		
 	/**
 	 * Инициализация
@@ -39,7 +40,12 @@ class Page extends Module {
 	 * @return unknown
 	 */
 	public function AddPage(PageEntity_Page $oPage) {
-		return $this->oMapper->AddPage($oPage);
+		if ($this->oMapper->AddPage($oPage)) {
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Обновляет страницу
@@ -48,7 +54,12 @@ class Page extends Module {
 	 * @return unknown
 	 */
 	public function UpdatePage(PageEntity_Page $oPage) {
-		return $this->oMapper->UpdatePage($oPage);
+		if ($this->oMapper->UpdatePage($oPage)) {
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));
+			return true;
+		}
+		return false;
 	}	
 	/**
 	 * Получает страницу по полному УРЛу
@@ -56,7 +67,15 @@ class Page extends Module {
 	 * @param unknown_type $sUrlFull
 	 */
 	public function GetPageByUrlFull($sUrlFull,$iActive=1) {
-		return $this->oMapper->GetPageByUrlFull($sUrlFull,$iActive);
+		if (false === ($data = $this->Cache_Get("page_{$sUrlFull}_{$iActive}"))) {			
+			$data = $this->oMapper->GetPageByUrlFull($sUrlFull,$iActive);
+			if ($data) {
+				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_{$data->getId()}"), 60*60*1);
+			} else {
+				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_urlfull_{$sUrlFull}"), 60*60*1);
+			}
+		}
+		return $data;		
 	}
 	/**
 	 * Получает страницу по её айдишнику
@@ -115,6 +134,13 @@ class Page extends Module {
 	public function RebuildUrlFull($oPageStart) {		
 		$aPages=$this->GetPagesByPid($oPageStart->getId());
 		foreach ($aPages as $oPage) {
+			if ($oPage->getId()==$oPageStart->getId()) {
+				continue;
+			}
+			if (in_array($oPage->getId(),$this->aRebuildIds)) {
+				continue;
+			}
+			$this->aRebuildIds[]=$oPage->getId();
 			$oPage->setUrlFull($oPageStart->getUrlFull().'/'.$oPage->getUrl());
 			$this->UpdatePage($oPage);
 			$this->RebuildUrlFull($oPage);
@@ -137,7 +163,29 @@ class Page extends Module {
 	 * @return unknown
 	 */
 	public function deletePageById($sId) {
-		return $this->oMapper->deletePageById($sId);
+		if ($this->oMapper->deletePageById($sId)) {
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$sId}"));
+			return true;
+		}
+		return false;		
+	}
+	/**
+	 * Получает число статических страниц
+	 *
+	 * @return unknown
+	 */
+	public function GetCountPage() {
+		return $this->oMapper->GetCountPage();
+	}
+	/**
+	 * Устанавливает ВСЕМ страницам PID = NULL
+	 * Это бывает нужно, когда особо "умный" админ зациклит страницы сами на себя..
+	 *
+	 * @return unknown
+	 */
+	public function SetPagesPidToNull() {
+		return $this->oMapper->SetPagesPidToNull();
 	}
 }
 ?>

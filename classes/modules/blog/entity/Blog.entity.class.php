@@ -53,6 +53,12 @@ class BlogEntity_Blog extends Entity
 	public function getUrl() {
         return $this->_aData['blog_url'];
     }
+    public function getAvatar() {
+        return $this->_aData['blog_avatar'];
+    }
+    public function getAvatarType() {
+        return $this->_aData['blog_avatar_type'];
+    }
     
     public function getUserLogin() {
         return $this->_aData['user_login'];
@@ -76,7 +82,13 @@ class BlogEntity_Blog extends Entity
     public function getUserVoteDelta() {
         return $this->_aData['user_vote_delta'];
     }
-    
+    public function getAvatarPath($iSize=48) {   
+    	if ($this->getAvatar()) { 	
+        	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getOwnerId()."/avatar_blog_{$this->getUrl()}_".$iSize.'x'.$iSize.'.'.$this->getAvatarType();
+    	} else {
+    		return DIR_STATIC_SKIN.'/img/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
+    	}
+    }
     
     
        
@@ -116,6 +128,12 @@ class BlogEntity_Blog extends Entity
     }
     public function setUrl($data) {
         $this->_aData['blog_url']=$data;
+    }
+    public function setAvatar($data) {
+        $this->_aData['blog_avatar']=$data;
+    }
+    public function setAvatarType($data) {
+        $this->_aData['blog_avatar_type']=$data;
     }
 }
 ?>
