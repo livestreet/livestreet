@@ -264,6 +264,7 @@ class ActionQuestion extends Action {
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
+		$oTopic->setCutText(null);
 		/**
 		 * Варианты ответов
 		 */

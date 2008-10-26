@@ -184,6 +184,8 @@ class ActionBlog extends Action {
 		$oBlog->setDateAdd(date("Y-m-d H:i:s"));
 		$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 		$oBlog->setUrl(getRequest('blog_url'));
+		$oBlog->setAvatar(0);
+		$oBlog->setAvatarType(null);
 		/**
 		* Загрузка аватара, делаем ресайзы
 		*/			
