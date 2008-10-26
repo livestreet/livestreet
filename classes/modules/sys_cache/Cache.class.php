@@ -85,6 +85,13 @@ class Cache extends Module {
 			throw new Exception("Неверный тип кеширования: ".$this->sCacheType." Доступны: file, memory");
 		}
 		$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
+		
+		/**
+		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
+		 */
+		if (rand(1,50)==33) {			
+			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);
+		}
 	}
 
 

@@ -807,16 +807,77 @@ class Mapper_Topic extends Mapper {
 				ORDER BY t.topic_date_add desc
 				LIMIT ?d, ?d ;	
 					";
-		$aTopics=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iCurrentUserId,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		
+		
+		
+		
+		
+		$sql = "	SELECT
+						t.*,
+                        tc.*,
+                        u.user_login as user_login,
+                        b.blog_title as blog_title,
+						b.blog_type as blog_type,
+						b.blog_url as blog_url,
+                        IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+						tv.vote_delta as user_vote_delta,
+						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
+					FROM (				
+							SELECT 		
+								topic_id										
+							FROM 
+								".DB_TABLE_FAVOURITE_TOPIC."								
+							WHERE 
+								user_id = ? 	
+                            ORDER BY topic_id DESC	
+                            LIMIT ?d, ?d				
+						 ) as tt
+						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id
+						 JOIN ".DB_TABLE_USER." AS u ON t.user_id=u.user_id
+						 JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id	
+						 LEFT JOIN (
+								SELECT
+									topic_id,
+									vote_delta												
+								FROM ".DB_TABLE_TOPIC_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tv ON tt.topic_id=tv.topic_id
+						 LEFT JOIN (
+								SELECT
+									topic_id																			
+								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+								WHERE user_voter_id = ?d
+								) AS tqv ON tt.topic_id=tqv.topic_id
+                         LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
+				;	
+					";
+		
+		$aTopics=array();		
+		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
+			$iCount=$this->GetCountTopicsFavouriteByUserId($sUserId);
 		}
+		
 		return $aTopics;
 	}
 	
-	public function GetCountTopicsFavouriteByUserId($sUserId) {					
+	public function GetCountTopicsFavouriteByUserId($sUserId) {
+		$sql = "SELECT 		
+					count(topic_id) as count									
+				FROM 
+					".DB_TABLE_FAVOURITE_TOPIC."								
+				WHERE 
+					user_id = ?;	
+					";				
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
+			return $aRow['count'];
+		}
+		return false;
+	}
+	
+	public function GetCountTopicsFavouriteByUserId_($sUserId) {					
 		$sql = "SELECT 
 					count(t.topic_id) as count										
 				FROM 
