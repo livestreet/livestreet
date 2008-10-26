@@ -70,13 +70,13 @@
 	<div class="blog_page">
 		<img class="blog_avatar"   src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="" title="{$oBlog->getTitle()|escape:'html'}" border="0"> 
 		<a href="{$DIR_WEB_ROOT}/blog/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a> 		
-		(<a id="groupuserscnt" href="{$DIR_WEB_ROOT}/blog/{$oBlog->getUrl()}/profile/" title="подписчиков"><span  id="blog_user_count">{$oBlog->getCountUser()}</span></a>) 
+		(<a id="groupuserscnt" href="{$DIR_WEB_ROOT}/blog/{$oBlog->getUrl()}/profile/" title="подписчиков"><span  id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</span></a>) 
 		
 		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}			
-			<span id="blog_action_join" {if !$bNeedJoin}style="display: none;"{/if}>
+			<span id="blog_action_join_{$oBlog->getId()}" {if !$bNeedJoin}style="display: none;"{/if}>
 				<a href="#" onclick="ajaxJoinLeaveBlog({$oBlog->getId()},'join'); return false;" title="вступить в блог"><img src="{$DIR_STATIC_SKIN}/img/blog_join.gif" border="0" alt="вступить"></a>
 			</span>			
-			<span id="blog_action_leave" {if $bNeedJoin}style="display: none;"{/if}>
+			<span id="blog_action_leave_{$oBlog->getId()}" {if $bNeedJoin}style="display: none;"{/if}>
 					<a href="#" onclick="ajaxJoinLeaveBlog({$oBlog->getId()},'leave'); return false;" title="покинуть блог"><img src="{$DIR_STATIC_SKIN}/img/blog_leave.gif" border="0" alt="покинуть"></a>
 			</span>			
 		{/if}	

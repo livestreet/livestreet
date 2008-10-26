@@ -285,10 +285,14 @@ class Blog extends Module {
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	public function GetBlogsRating($iLimit=20) { 
-		if (false === ($data = $this->Cache_Get("blog_rating_{$iLimit}"))) {			
-			$data = $this->oMapperBlog->GetBlogsRating($iLimit);
-			$this->Cache_Set($data, "blog_rating_{$iLimit}", array("blog_update","blog_new"), 60*5);
+	public function GetBlogsRating($iCurrPage,$iPerPage) { 
+		$s1=-1;		
+		if ($this->oUserCurrent) {
+			$s1=$this->oUserCurrent->getId();
+		}
+		if (false === ($data = $this->Cache_Get("blog_rating_{$iCurrPage}_{$iPerPage}_$s1"))) {				
+			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}_$s1", array("blog_update","blog_new"), 60*15);
 		}
 		return $data;		
 	}

@@ -96,15 +96,15 @@ function ajaxJoinLeaveBlog(idBlog,type) {
             } else {            	
             	msgNoticeBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);     
             	       	
-            	document.getElementById('blog_user_count').innerHTML=req.responseJS.iCountUser;
+            	document.getElementById('blog_user_count_'+idBlog).innerHTML=req.responseJS.iCountUser;
             	
             	if (req.responseJS.sState=='join') {
-            		document.getElementById('blog_action_join').style.display="none";
-            		document.getElementById('blog_action_leave').style.display="inline";
+            		document.getElementById('blog_action_join_'+idBlog).style.display="none";
+            		document.getElementById('blog_action_leave_'+idBlog).style.display="inline";
             	} 
             	if (req.responseJS.sState=='leave') {
-            		document.getElementById('blog_action_join').style.display="inline";
-            		document.getElementById('blog_action_leave').style.display="none";
+            		document.getElementById('blog_action_join_'+idBlog).style.display="inline";
+            		document.getElementById('blog_action_leave_'+idBlog).style.display="none";
             	}
             	
             }

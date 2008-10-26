@@ -41,6 +41,7 @@ return array(
 		'rss' => 'ActionRss',
 		'link' => 'ActionLink',
 		'question' => 'ActionQuestion',
+		'blogs' => 'ActionBlogs',
 	),
 	'config' => array(
 		'action_default' => 'index',

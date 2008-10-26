@@ -279,14 +279,27 @@ class Mapper_Blog extends Mapper {
 	
 
 	
-	public function GetBlogsRating($iLimit) {
+	public function GetBlogsRating(&$iCount,$iCurrPage,$iPerPage) {
+		$iCurrentUserId=-1;
+		if (is_object($this->oUserCurrent)) {
+			$iCurrentUserId=$this->oUserCurrent->getId();
+		}
 		$sql = "SELECT 
 					b.*,					
 					u.user_profile_avatar as user_profile_avatar,
 					u.user_profile_avatar_type as user_profile_avatar_type,
-					u.user_login as user_login													
+					u.user_login as user_login,
+					IF(bu.blog_id IS NULL,0,1) as current_user_is_join													
 				FROM 
-					".DB_TABLE_BLOG." as b,					
+					".DB_TABLE_BLOG." as b
+					
+					LEFT JOIN (
+						SELECT
+							blog_id																			
+						FROM ".DB_TABLE_BLOG_USER." 
+						WHERE user_id = ?d
+					) AS bu ON  b.blog_id = bu.blog_id,
+										
 					".DB_TABLE_USER." as u					 
 				WHERE 						
 					b.blog_rating >= 0
@@ -295,11 +308,11 @@ class Mapper_Blog extends Mapper {
 					AND		
 					b.user_owner_id=u.user_id								
 				ORDER by b.blog_rating desc
-				LIMIT 0, ?d 
+				LIMIT ?d, ?d 
 				;	
 					";		
 		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iCurrentUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
 				$aReturn[]=new BlogEntity_Blog($aRow);
 			}

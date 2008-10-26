@@ -140,7 +140,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetUserByMail($sMail) {
-		$sql = "SELECT * FROM ".DB_TABLE_USER." WHERE LOWER(user_mail) = ? ";
+		$sql = "SELECT * FROM ".DB_TABLE_USER." WHERE user_mail = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,strtolower($sMail))) {
 			return new UserEntity_User($aRow);
 		}
@@ -177,7 +177,7 @@ class Mapper_User extends Mapper {
 					) AS uf ON uf.user_frend_id = u.user_id
 				
 			WHERE 
-				LOWER(u.user_login) = ? ";
+				u.user_login = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$iCurrentUserId,$iCurrentUserId,strtolower($sLogin))) {
 			return new UserEntity_User($aRow);
 		}
@@ -304,14 +304,13 @@ class Mapper_User extends Mapper {
 		return $result;
 	}
 	
-	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
-		$sUserLogin=mb_strtolower($sUserLogin,"UTF-8");
+	public function GetUsersByLoginLike($sUserLogin,$iLimit) {		
 		$sql = "SELECT 
 				user_login					 
 			FROM 
 				".DB_TABLE_USER."	
 			WHERE
-				LOWER(user_login) LIKE ?		
+				user_login LIKE ?		
 				and 
 				user_activate = 1								
 			LIMIT 0, ?d		

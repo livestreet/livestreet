@@ -16,5 +16,9 @@
 					{/foreach}
 				  </table>	<br>
 				
-			</div>				
+			</div>	
+
+			<div class="live_section_title_all" align="right">
+				<span style="color:#666666">&#187;</span> <a href="{$DIR_WEB_ROOT}/blogs/">все блоги</a>
+			</div>		
 		</div>

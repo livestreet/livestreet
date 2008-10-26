@@ -89,6 +89,9 @@ class BlogEntity_Blog extends Entity
     		return DIR_STATIC_SKIN.'/img/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
     }
+    public function getCurrentUserIsJoin() {
+        return $this->_aData['current_user_is_join'];
+    }
     
     
        

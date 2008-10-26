@@ -69,7 +69,8 @@ class ActionTop extends Action {
 		/**
 		 * Получаем список блогов
 		 */
-		$aBlogs=$this->Blog_GetBlogsRating(20);	
+		$aResult=$this->Blog_GetBlogsRating(1,20);	
+		$aBlogs=$aResult['collection'];	
 		/**
 		 * Загружаем переменные в шаблон
 		 */		
