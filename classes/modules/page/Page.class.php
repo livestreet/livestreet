@@ -40,7 +40,8 @@ class Page extends Module {
 	 * @return unknown
 	 */
 	public function AddPage(PageEntity_Page $oPage) {
-		if ($this->oMapper->AddPage($oPage)) {
+		if ($sId=$this->oMapper->AddPage($oPage)) {			
+			$oPage->setId($sId);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));
 			return true;

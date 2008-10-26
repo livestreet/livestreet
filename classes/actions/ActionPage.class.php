@@ -24,7 +24,6 @@ class ActionPage extends Action {
 	protected $aBadPageUrl=array('admin');
 
 	public function Init() {
-
 	}
 	/**
 	 * Регистрируем евенты
@@ -104,8 +103,8 @@ class ActionPage extends Action {
 		 * Обработка создания новой странички
 		 */
 		if (getRequest('submit_page_save')) {
-			if (!getRequest('page_id')) {			
-				$this->SubmitAddPage();
+			if (!getRequest('page_id')) {							
+				$this->SubmitAddPage();				
 			}
 		}
 		/**
@@ -235,7 +234,7 @@ class ActionPage extends Action {
 		$oPage->setUrl(getRequest('page_url'));
 		/**
 		 * Добавляем страницу
-		 */
+		 */		
 		if ($this->Page_AddPage($oPage)) {
 			$this->Message_AddNotice('Новая страница добавлена');
 			$this->SetParam(0,null);
