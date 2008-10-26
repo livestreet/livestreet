@@ -205,6 +205,34 @@ ALTER TABLE `prefix_blog` ADD `blog_avatar_type` VARCHAR( 5 ) CHARACTER SET utf8
 ALTER TABLE `prefix_user` ADD `user_date_comment_last` DATETIME NULL AFTER `user_date_activate` ;
 
 
+--
+-- Структура таблицы `prefix_topic_comment_last`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_topic_comment_last` (
+  `topic_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `comment_count_last` int(11) unsigned NOT NULL,
+  `date_last` datetime NOT NULL,
+  UNIQUE KEY `user_id_topic_id` (`user_id`,`topic_id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_topic_comment_last`
+--
+ALTER TABLE `prefix_topic_comment_last`
+  ADD CONSTRAINT `prefix_topic_comment_new_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_topic_comment_new_fk1` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+  
+  
+  
   
   
   

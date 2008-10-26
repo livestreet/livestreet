@@ -103,7 +103,9 @@ class Blog extends Module {
 		$oBlog->setDescription('Это ваш персональный блог.');
 		$oBlog->setDateAdd(date("Y-m-d H:i:s")); 
 		$oBlog->setLimitRatingTopic(-1000);
-		$oBlog->setUrl(null);		
+		$oBlog->setUrl(null);	
+		$oBlog->setAvatar(0);
+		$oBlog->setAvatarType(null);	
 		return $this->AddBlog($oBlog);		
 	}
 	/**
