@@ -510,4 +510,32 @@ function func_date_smarty($aParams)
 	}
 }
 
+/**
+ * Возвращает обрезанный текст по заданное число слов
+ *
+ * @param unknown_type $sText
+ * @param unknown_type $iCountWords
+ */
+function func_text_words($sText,$iCountWords) {
+	$sText=str_replace("\r\n",'[<rn>]',$sText);
+	$sText=str_replace("\n",'[<n>]',$sText);
+		
+	$iCount=0;
+	$aWordsResult=array();
+	$aWords=preg_split("/\s+/",$sText);	
+	for($i=0;$i<count($aWords);$i++) {
+		if ($iCount>=$iCountWords) {
+			break;
+		}
+		if ($aWords[$i]!='[<rn>]' and $aWords[$i]!='[<n>]') {
+			$aWordsResult[]=$aWords[$i];
+			$iCount++;
+		}
+	}
+	$sText=join(' ',$aWordsResult);	
+	$sText=str_replace('[<rn>]'," ",$sText);
+	$sText=str_replace('[<n>]'," ",$sText);	
+	return $sText;	
+}
+
 ?>

@@ -59,6 +59,8 @@ LiveStreet представляет из себя <strong>бесплатный</
 <li><a href="http://livestreet.ru/profile/radioact/">radioact</a>(На удачу :)) &mdash; перечислил <b>190 рублей</b></li>
 <li>Аноним(live!) &mdash; перечислил <b>199 WMR</b></li>
 <li><a href="http://livestreet.ru/profile/serega/">serega</a>(все круто = )) &mdash; перечислил <b>20 WMZ</b></li>
+<li>dust(От сайта game66.ru), сайт <a href="http://game66.ru">game66.ru</a> &mdash; перечислил <b>10 WMZ</b></li>
+
 </ul>
 </DIV>
 

@@ -118,6 +118,14 @@ div.comment_text2 {
    background:#e7eefe;
 }
 
+.comment_item_del_admin {
+  position:relative;
+  padding-bottom:3px;
+  margin-top:3px;
+  font-family:Arial;
+   background:#c5c5c5;
+}
+
 /*Опросы*/
 
 .poll dl {

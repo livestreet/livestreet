@@ -670,6 +670,13 @@ class ActionBlog extends Action {
 		if ($this->oUserCurrent) {
 			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
 		}
+		
+		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oTopic->getText());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
+		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
 		/**
 		 * Загружаем переменные в шаблон
 		 */		
@@ -762,6 +769,12 @@ class ActionBlog extends Action {
 			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
 		}
 		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oTopic->getText());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
+		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
+		/**
 		 * Загружаем переменные в шаблон
 		 */		
 		$this->Viewer_Assign('bInFavourite',$bInFavourite);
@@ -828,7 +841,12 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */
-		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);		
+		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);	
+		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */				
@@ -897,6 +915,11 @@ class ActionBlog extends Action {
 		 * Получаем число новых топиков в текущем блоге
 		 */		
 		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
+		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -967,6 +990,11 @@ class ActionBlog extends Action {
 		 */
 		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
 		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
+		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('oBlogUser',$oBlogUser);		
@@ -1018,6 +1046,11 @@ class ActionBlog extends Action {
 				$bNeedJoin=false;
 			}
 		}
+		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			

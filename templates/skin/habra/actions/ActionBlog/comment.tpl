@@ -62,7 +62,18 @@ function showCommentForm(reply) {
   			
   			{foreach from=$aComments item=oComment}
   			
-			<div class="{if $oUserCurrent and $oComment->getUserId()==$oUserCurrent->getId()}comment_item_self{else}{if $dDateTopicRead<=$oComment->getDate()}comment_item_new2{else}comment_item{/if}{/if}" style="margin-left: {$oComment->getLevel()*30}px;">  
+			<div class=
+			 {if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
+				"comment_item_del_admin"
+			 {elseif $oUserCurrent and $oComment->getUserId()==$oUserCurrent->getId()}	
+			 	"comment_item_self"
+			 {elseif $dDateTopicRead<=$oComment->getDate()}			 	
+			 	"comment_item_new2"
+			 {else}
+			 	"comment_item"			 
+			 {/if} 
+				 style="margin-left: {$oComment->getLevel()*30}px;">  
+				
 				<a name="comment{$oComment->getId()}" href="{$DIR_WEB_ROOT}/profile/{$oComment->getUserLogin()}/"><img class="comments_avatar"   src="{$oComment->getUserProfileAvatarPath(24)}" width="24" height="24" alt="" title="{$oComment->getUserLogin()}" border="0"></a>
    				<div class="service_text_comments_holder">
    					<a href="{$DIR_WEB_ROOT}/profile/{$oComment->getUserLogin()}/" class="comments_nickname">{$oComment->getUserLogin()}</a>  
@@ -70,6 +81,9 @@ function showCommentForm(reply) {
    					<a href="#comment{$oComment->getId()}" class="small" title=" ссылка ">#</a> 
    					{if !$oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
    						<span id="comment_delete_{$oComment->getId()}">&nbsp;<a href="#" title="удалить комментарий" onclick="ajaxCommentDelete({$oComment->getId()}); return false;"><img src="{$DIR_STATIC_SKIN}/img/comment_del.gif" border="0" alt="удалить"></a></span>
+   					{/if}
+   					{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
+   						<span id="comment_repair_{$oComment->getId()}">&nbsp;<a href="#" title="восстановить комментарий" onclick="ajaxCommentRepair({$oComment->getId()}); return false;"><img src="{$DIR_STATIC_SKIN}/img/comment_repair.gif" border="0" alt="восстановить"></a></span>
    					{/if}
 				</div>
    				<div class="rating_comment_holder" id="voter{$oComment->getId()}">
@@ -116,19 +130,21 @@ function showCommentForm(reply) {
 					{/if}													
 				{/if}	
    				</div>
-   				<div class="comment_text" id="comment_content_{$oComment->getId()}">  
-   				{if $oComment->getDelete()}
-   				   	<font color="#c5c5c5">комментарий был удален</font>		
-   				{else}
-         			{if $oComment->isBad()}
+   				<div class="comment_text" id="comment_content_{$oComment->getId()}"> 
+   				
+   				{if !$oComment->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
+   				   	{if $oComment->isBad()}
 						<div style="display: none;" id="comment_text_{$oComment->getId()}">
 					    	{$oComment->getText()}
 					    </div>
 					    <a href="#" onclick="$('comment_text_{$oComment->getId()}').style.display='block';$(this).style.display='none';return false;">раскрыть комментарий</a>
 					{else}	
 					    {$oComment->getText()}
-					{/if}
-				{/if}
+					{/if}	
+   				{else}
+         			<font color="#c5c5c5">комментарий был удален</font>
+				{/if}   				
+   				
        			</div>       			
        			{if $oUserCurrent and !$oComment->getDelete() and !$oTopic->getForbidComment()}
        			<div class="comments_reply">

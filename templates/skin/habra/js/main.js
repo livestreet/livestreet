@@ -219,6 +219,9 @@ function ajaxCommentDelete(idComment) {
             	}  
             	if (document.getElementById('comment_delete_'+idComment)) {
             		document.getElementById('comment_delete_'+idComment).style.display='none';
+            	}
+            	if (document.getElementById('comment_repair_'+idComment)) {
+            		document.getElementById('comment_repair_'+idComment).style.display='inline';
             	} 
             }
         }
@@ -228,6 +231,32 @@ function ajaxCommentDelete(idComment) {
     req.send( { idComment: idComment } );
 }
 
+function ajaxCommentRepair(idComment) {    
+    var req = new JsHttpRequest();    
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {         
+            document.getElementById('debug').innerHTML = req.responseText; 
+            closeWindowStatus();          
+            if (req.responseJS.bStateError) {
+            	msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            } else {            	
+            	msgNoticeBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);
+            	if (document.getElementById('comment_content_'+idComment)) {
+            		document.getElementById('comment_content_'+idComment).innerHTML=req.responseJS.sCommentText;
+            	}  
+            	if (document.getElementById('comment_delete_'+idComment)) {
+            		document.getElementById('comment_delete_'+idComment).style.display='inline';
+            	} 
+            	if (document.getElementById('comment_repair_'+idComment)) {
+            		document.getElementById('comment_repair_'+idComment).style.display='none';
+            	}
+            }
+        }
+    }    
+    showWindowStatus('Восстановление комментария...');
+    req.open(null, DIR_WEB_ROOT+'/include/ajax/commentRepair.php', true);    
+    req.send( { idComment: idComment } );
+}
 
 function ajaxVoteUser(idUser,value) {    
     var req = new JsHttpRequest();    

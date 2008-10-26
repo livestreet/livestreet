@@ -109,14 +109,14 @@ class ActionRegistration extends Action {
 			 * А не занят ли логин?
 			 */
 			if ($this->User_GetUserByLogin(getRequest('login'))) {
-				$this->Message_AddError('Этот логин уже занять','Ошибка');
+				$this->Message_AddError('Этот логин уже занят','Ошибка');
 				$bError=true;
 			}
 			/**
 			 * А не занято ли мыло?
 			 */
 			if ($this->User_GetUserByMail(getRequest('mail'))) {
-				$this->Message_AddError('Этот емайл уже занять','Ошибка');
+				$this->Message_AddError('Этот емайл уже занят','Ошибка');
 				$bError=true;
 			}
 			/**
