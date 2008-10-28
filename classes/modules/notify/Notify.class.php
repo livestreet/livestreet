@@ -288,6 +288,12 @@ class Notify extends Module {
 	
 	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom) {		
 		/**
+		 * Проверяем можно ли юзеру рассылать уведомление
+		 */
+		if (!$oUserTo->getSettingsNoticeNewFriend()) {
+			return ;
+		}
+		/**
 		 * Передаём в шаблон переменные
 		 */
 		$this->oViewerLocal->Assign('oUserTo',$oUserTo);

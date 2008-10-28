@@ -231,7 +231,8 @@ ALTER TABLE `prefix_topic_comment_last`
   ADD CONSTRAINT `prefix_topic_comment_new_fk1` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
   
-  
+-- новое поля для настройки уведомления о новом друге  
+ALTER TABLE `prefix_user` ADD `user_settings_notice_new_friend` TINYINT( 1 ) NOT NULL DEFAULT '1';  
   
   
   

@@ -34,6 +34,10 @@
 	<input {if $oUserCurrent->getSettingsNoticeReplyComment()}checked{/if} type="checkbox" id="settings_notice_reply_comment" name="settings_notice_reply_comment" value="1" {if $_aRequest.settings_notice_reply_comment==1}checked{/if}/>
       <label for="settings_notice_reply_comment"> &mdash; при ответе на комментарий</label>
 	<br>
+	
+	<input {if $oUserCurrent->getSettingsNoticeNewFriend()}checked{/if} type="checkbox" id="settings_notice_new_friend" name="settings_notice_new_friend" value="1" {if $_aRequest.settings_notice_new_friend==1}checked{/if}/>
+      <label for="settings_notice_new_friend"> &mdash; при добавлении вас в друзья</label>
+	<br>
 </fieldset>
 
 	<p class="l-bot"><input type="submit" name="submit_settings_tuning" tabindex="6" value="сохранить настройки" /></p>

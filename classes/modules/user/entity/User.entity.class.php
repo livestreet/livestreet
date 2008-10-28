@@ -121,6 +121,9 @@ class UserEntity_User extends Entity {
     public function getSettingsNoticeReplyComment() {
         return $this->_aData['user_settings_notice_reply_comment'];
     }
+    public function getSettingsNoticeNewFriend() {
+        return $this->_aData['user_settings_notice_new_friend'];
+    }
     
     
     
@@ -244,6 +247,9 @@ class UserEntity_User extends Entity {
     }
     public function setSettingsNoticeReplyComment($data) {
     	$this->_aData['user_settings_notice_reply_comment']=$data;
+    }
+    public function setSettingsNoticeNewFriend($data) {
+    	$this->_aData['user_settings_notice_new_friend']=$data;
     }
 }
 ?>

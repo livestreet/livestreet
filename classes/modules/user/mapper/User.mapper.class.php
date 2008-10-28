@@ -70,7 +70,8 @@ class Mapper_User extends Mapper {
 				user_settings_notice_new_topic = ?	,
 				user_settings_notice_new_comment = ? ,
 				user_settings_notice_new_talk = ?	,
-				user_settings_notice_reply_comment = ?		
+				user_settings_notice_reply_comment = ? ,
+				user_settings_notice_new_friend = ? 		
 			WHERE user_id = ?
 		";			
 		if ($this->oDb->query($sql,$oUser->getPassword(),
@@ -100,7 +101,8 @@ class Mapper_User extends Mapper {
 								   $oUser->getSettingsNoticeNewTopic(),
 								   $oUser->getSettingsNoticeNewComment(),
 								   $oUser->getSettingsNoticeNewTalk(),
-								   $oUser->getSettingsNoticeReplyComment(),				   
+								   $oUser->getSettingsNoticeReplyComment(),	
+								   $oUser->getSettingsNoticeNewFriend(),			   
 								   $oUser->getId())) {
 			return true;
 		}		

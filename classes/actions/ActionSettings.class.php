@@ -83,6 +83,7 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewTalk( getRequest('settings_notice_new_talk') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeReplyComment( getRequest('settings_notice_reply_comment') ? 1 : 0 );
+			$this->oUserCurrent->setSettingsNoticeNewFriend( getRequest('settings_notice_new_friend') ? 1 : 0 );
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			if ($this->User_Update($this->oUserCurrent)) {
 				$this->Message_AddNoticeSingle('Настройки успешно сохранены');
