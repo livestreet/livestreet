@@ -444,7 +444,7 @@ class Mapper_TopicComment extends Mapper {
 		return false;
 	}
 	
-	public function deleteTopicCommentOnline($sTopicId) {
+	public function DeleteTopicCommentOnline($sTopicId) {
 		$sql = "DELETE FROM ".DB_TABLE_TOPIC_COMMENT_ONLINE." WHERE topic_id = ?d ";			
 		if ($this->oDb->query($sql,$sTopicId)) 
 		{

@@ -159,7 +159,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
 		 */
-		if (!$this->ACL_CanCreateBlog($this->User_GetUserCurrent())) {
+		if (!$this->ACL_CanCreateBlog($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы создавать свой блог','Ошибка');
 			return Router::Action('error');
 		}		
@@ -1092,14 +1092,14 @@ class ActionBlog extends Action {
 			/**
 			 * Проверяем разрешено ли постить комменты
 			 */
-			if (!$this->ACL_CanPostComment($this->oUserCurrent)) {
+			if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError('Ваш рейтинг слишком мал для написания комментариев','Ошибка');
 				return false;
 			}
 			/**
 			 * Проверяем разрешено ли постить комменты по времени
 			 */
-			if (!$this->ACL_CanPostCommentTime($this->oUserCurrent)) {
+			if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError('Вам нельзя писать комментарии слишком часто','Ошибка');
 				return false;
 			}
@@ -1173,6 +1173,16 @@ class ActionBlog extends Action {
 			 * Добавляем коммент
 			 */
 			if ($this->Comment_AddComment($oCommentNew)) {
+				if ($oTopic->getPublish()) {
+					/**
+			 		* Добавляем коммент в прямой эфир если топик не в черновиках
+			 		*/
+					$this->Comment_DeleteTopicCommentOnline($oCommentNew->getTopicId());
+					$oTopicCommentOnline=new CommentEntity_TopicCommentOnline();
+					$oTopicCommentOnline->setTopicId($oCommentNew->getTopicId());
+					$oTopicCommentOnline->setCommentId($oCommentNew->getId());
+					$this->Comment_AddTopicCommentOnline($oTopicCommentOnline);
+				}
 				/**
 				 * Сохраняем дату последнего коммента для юзера
 				 */

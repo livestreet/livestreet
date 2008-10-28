@@ -160,14 +160,6 @@ class Comment extends Module {
 	public function AddComment(CommentEntity_TopicComment $oComment) {
 		if ($sId=$this->oMapperTopicComment->AddComment($oComment)) {
 			$this->Topic_increaseTopicCountComment($oComment->getTopicId());
-			/**
-			 * Добавляем коммент в прямой эфир
-			 */
-			$this->oMapperTopicComment->deleteTopicCommentOnline($oComment->getTopicId());
-			$oTopicCommentOnline=new CommentEntity_TopicCommentOnline();
-			$oTopicCommentOnline->setTopicId($oComment->getTopicId());
-			$oTopicCommentOnline->setCommentId($sId);
-			$this->oMapperTopicComment->AddTopicCommentOnline($oTopicCommentOnline);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('comment_new',"comment_new_user_{$oComment->getUserId()}","comment_new_topic_{$oComment->getTopicId()}"));
 			$oComment->setId($sId);
@@ -207,8 +199,16 @@ class Comment extends Module {
 	 * @param unknown_type $sTopicId
 	 * @return unknown
 	 */
-	public function deleteTopicCommentOnline($sTopicId) {
-		return $this->oMapperTopicComment->deleteTopicCommentOnline($sTopicId);
+	public function DeleteTopicCommentOnline($sTopicId) {
+		return $this->oMapperTopicComment->DeleteTopicCommentOnline($sTopicId);
+	}
+	/**
+	 * Добавляет новый коммент в прямой эфир
+	 *
+	 * @param CommentEntity_TopicCommentOnline $oTopicCommentOnline
+	 */
+	public function AddTopicCommentOnline(CommentEntity_TopicCommentOnline $oTopicCommentOnline) {
+		return $this->oMapperTopicComment->AddTopicCommentOnline($oTopicCommentOnline);
 	}
 	/**
 	 * Строит дерево комментариев
