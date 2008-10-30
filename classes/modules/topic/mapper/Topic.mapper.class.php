@@ -919,64 +919,27 @@ class Mapper_Topic extends Mapper {
 	
 	public function SetDateRead($sTopicId,$sUserId) {
 		$sDate=date("Y-m-d H:i:s");
-		$sql = "UPDATE ".DB_TABLE_TOPIC_READ." 
-			SET date_read = ? 
-			WHERE
-				topic_id = ? 
-				and
+		$sql = "REPLACE ".DB_TABLE_TOPIC_READ." 
+			SET 
+				date_read = ? ,
+				topic_id = ? ,				
 				user_id = ? 
 		";			
 		return $this->oDb->query($sql,$sDate,$sTopicId,$sUserId);
 	}
-	
-	public function AddTopicRead($sTopicId,$sUserId) {
-		$sDate=date("Y-m-d H:i:s");
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_READ." 
-			(topic_id,
-			user_id,
-			date_read		
-			)
-			VALUES(?d,  ?d, ?)
-		";			
-		if ($this->oDb->query($sql,$sTopicId,$sUserId,$sDate)===0) 
-		{
-			return true;
-		}		
-		return false;
-	}
-	
+			
 	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
 		$sDate=date("Y-m-d H:i:s");
-		$sql = "UPDATE ".DB_TABLE_TOPIC_COMMENT_LAST." 
+		$sql = "REPLACE INTO ".DB_TABLE_TOPIC_COMMENT_LAST." 
 			SET 
 				comment_count_last = ? ,
-				date_last = ? 
-			WHERE
-				user_id = ?
-				and
+				date_last = ? ,			
+				user_id = ? ,				
 				topic_id = ? 			 
 		";			
 		return $this->oDb->query($sql,$iCountComment,$sDate,$sUserId,$sTopicId);
 	}
-	
-	public function AddTopicCommentLast($sTopicId,$sUserId,$iCountComment) {
-		$sDate=date("Y-m-d H:i:s");
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_LAST." 
-			(topic_id,
-			user_id,
-			comment_count_last,
-			date_last		
-			)
-			VALUES(?d,  ?d, ?d, ?)
-		";			
-		if ($this->oDb->query($sql,$sTopicId,$sUserId,$iCountComment,$sDate)===0) 
-		{
-			return true;
-		}		
-		return false;
-	}
-		
-	
+			
 	public function GetDateRead($sTopicId,$sUserId) {			
 		$sql = "SELECT 
 					date_read									

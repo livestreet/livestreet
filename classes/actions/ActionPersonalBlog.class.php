@@ -19,7 +19,7 @@
  * Обработка персональных блогов, т.е. УРла вида /log/
  *
  */
-class ActionLog extends Action {
+class ActionPersonalBlog extends Action {
 	/**
 	 * Меню
 	 *

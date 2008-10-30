@@ -646,15 +646,10 @@ class Topic extends Module {
 	 */
 	public function SetDateRead($sTopicId,$sUserId) {
 		$res=$this->oMapperTopic->SetDateRead($sTopicId,$sUserId);
-		if ($res===0) {
-			try {
-				$this->oMapperTopic->AddTopicRead($sTopicId,$sUserId);
-			} catch (Exception $e) {
-    			/**
-    			 * Отлавливаем исключение, т.к. при больших нагрузках может быть конфликт при вставке. Вернее даже просто подавляем ошибку
-    			 */
-			}			
+		if ($res==1 or $res==2) {			
+			return true;
 		}
+		return false;
 	}
 	/**
 	 * Запоминаем число комментов при чтении топика
@@ -665,15 +660,10 @@ class Topic extends Module {
 	 */
 	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
 		$res=$this->oMapperTopic->SetCountCommentLast($sTopicId,$sUserId,$iCountComment);
-		if ($res===0) {			
-			try {
-				$this->oMapperTopic->AddTopicCommentLast($sTopicId,$sUserId,$iCountComment);
-			} catch (Exception $e) {
-    			/**
-    			 * Отлавливаем исключение, т.к. при больших нагрузках может быть конфликт при вставке. Вернее даже просто подавляем ошибку
-    			 */
-			}
+		if ($res==1 or $res==2) {			
+			return true;
 		}
+		return false;
 	}
 	/**
 	 * Получаем дату прочтения топика юзером

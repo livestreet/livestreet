@@ -16,10 +16,7 @@
 */
 
 class CommentEntity_TopicCommentOnline extends Entity 
-{    
-    public function getCommentOnlineId() {
-        return $this->_aData['comment_online_id'];
-    }  
+{          
     public function getTopicId() {
         return $this->_aData['topic_id'];
     }
@@ -27,10 +24,7 @@ class CommentEntity_TopicCommentOnline extends Entity
         return $this->_aData['comment_id'];
     }
     
-    
-	public function setCommentOnlineId($data) {
-        $this->_aData['comment_online_id']=$data;
-    }
+    	
     public function setTopicId($data) {
         $this->_aData['topic_id']=$data;
     }

@@ -84,10 +84,8 @@ $sql = "SELECT res.* FROM (
 $res=mysql_query($sql,$link);
 while ($row=mysql_fetch_assoc($res)) {
 	//var_dump($row);
-	$sql2 = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
-			(topic_id,comment_id)
-			values(".$row['topic_id'].",'".mysql_escape_string($row['comment_id'])."')		
-	
+	$sql2 = "REPLACE INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
+			SET topic_id = ".$row['topic_id']." ,comment_id = ".$row['comment_id']."
 	";
 	mysql_query($sql2,$link);
 }

@@ -235,8 +235,15 @@ ALTER TABLE `prefix_topic_comment_last`
 ALTER TABLE `prefix_user` ADD `user_settings_notice_new_friend` TINYINT( 1 ) NOT NULL DEFAULT '1';  
   
   
+-- изменяем имя таблицы на правильное с точки зрения грамотеев английского языка..
+RENAME TABLE `social`.`prefix_frend`  TO `social`.`prefix_friend` ;
   
-  
+
+-- добавляем уникальный индекс
+  ALTER TABLE `prefix_topic_comment_online` DROP INDEX `topic_id` ,
+ADD UNIQUE `topic_id` ( `topic_id` ) ;
+
+
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!
 --  

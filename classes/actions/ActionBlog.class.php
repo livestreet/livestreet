@@ -1176,8 +1176,7 @@ class ActionBlog extends Action {
 				if ($oTopic->getPublish()) {
 					/**
 			 		* Добавляем коммент в прямой эфир если топик не в черновиках
-			 		*/
-					$this->Comment_DeleteTopicCommentOnline($oCommentNew->getTopicId());
+			 		*/					
 					$oTopicCommentOnline=new CommentEntity_TopicCommentOnline();
 					$oTopicCommentOnline->setTopicId($oCommentNew->getTopicId());
 					$oTopicCommentOnline->setCommentId($oCommentNew->getId());

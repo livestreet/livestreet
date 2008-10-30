@@ -110,7 +110,7 @@ class Mapper_TopicComment extends Mapper {
 				AND
 				user_id = ?d
 				AND
-				(comment_pid = ?) or (? is NULL and comment_pid is NULL)
+				((comment_pid = ?) or (? is NULL and comment_pid is NULL))
 				AND
 				comment_text_hash =?
 				";
@@ -431,11 +431,10 @@ class Mapper_TopicComment extends Mapper {
 	}
 	
 	public function AddTopicCommentOnline(CommentEntity_TopicCommentOnline $oTopicCommentOnline) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
-			(topic_id,			
-			comment_id		
-			)
-			VALUES(?d,  ?d)
+		$sql = "REPLACE INTO ".DB_TABLE_TOPIC_COMMENT_ONLINE." 
+			SET 
+				topic_id= ?d ,			
+				comment_id= ?d				
 		";			
 		if ($iId=$this->oDb->query($sql,$oTopicCommentOnline->getTopicId(),$oTopicCommentOnline->getCommentId())) 
 		{

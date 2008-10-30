@@ -26,7 +26,7 @@ return array(
 		'profile' => 'ActionProfile',
 		'my' => 'ActionMy',
 		'blog' => 'ActionBlog',
-		'log' => 'ActionLog',
+		'log' => 'ActionPersonalBlog',
 		'top' => 'ActionTop',
 		'index' => 'ActionIndex',
 		'new' => 'ActionNew',

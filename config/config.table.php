@@ -36,7 +36,7 @@ define('DB_TABLE_FAVOURITE_TOPIC',DB_PREFIX_TABLE.'favourite_topic');
 define('DB_TABLE_TALK',DB_PREFIX_TABLE.'talk');
 define('DB_TABLE_TALK_USER',DB_PREFIX_TABLE.'talk_user');
 define('DB_TABLE_TALK_COMMENT',DB_PREFIX_TABLE.'talk_comment');
-define('DB_TABLE_FREND',DB_PREFIX_TABLE.'frend');
+define('DB_TABLE_FRIEND',DB_PREFIX_TABLE.'friend');
 define('DB_TABLE_TOPIC_CONTENT',DB_PREFIX_TABLE.'topic_content');
 define('DB_TABLE_TOPIC_QUESTION_VOTE',DB_PREFIX_TABLE.'topic_question_vote');
 define('DB_TABLE_USER_ADMINISTRATOR',DB_PREFIX_TABLE.'user_administrator');

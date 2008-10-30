@@ -104,7 +104,7 @@ define('ACL_CAN_VOTE_USER',-1); // порог рейтинга при котор
  * Прочие настройки
  */
 define('SITE_NAME','LiveStreet - бесплатный движок социальной сети'); // название сайта
-define('SITE_KYEWORDS','движок, livestreet, блоги, социальная сеть, бесплатный, php'); // seo keywords
+define('SITE_KEYWORDS','движок, livestreet, блоги, социальная сеть, бесплатный, php'); // seo keywords
 define('SITE_DESCRIPTION','LiveStreet - официальный сайт бесплатного движка социальной сети'); // seo description
 define('SITE_CLOSE_MODE',false); // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
 define('USER_USE_ACTIVATION',false); // использовать активацию при регистрации или нет

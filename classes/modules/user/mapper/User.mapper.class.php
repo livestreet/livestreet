@@ -174,7 +174,7 @@ class Mapper_User extends Mapper {
 						SELECT
 							user_id,
 							user_frend_id												
-						FROM ".DB_TABLE_FREND." 
+						FROM ".DB_TABLE_FRIEND." 
 						WHERE user_id = ?d
 					) AS uf ON uf.user_frend_id = u.user_id
 				
@@ -328,7 +328,7 @@ class Mapper_User extends Mapper {
 	
 	
 	public function AddFrend(UserEntity_Frend $oFrend) {
-		$sql = "INSERT INTO ".DB_TABLE_FREND." 
+		$sql = "INSERT INTO ".DB_TABLE_FRIEND." 
 			(user_id,
 			user_frend_id		
 			)
@@ -342,7 +342,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function DeleteFrend(UserEntity_Frend $oFrend) {
-		$sql = "DELETE FROM ".DB_TABLE_FREND." 
+		$sql = "DELETE FROM ".DB_TABLE_FRIEND." 
 			WHERE
 				user_id = ?d
 				AND
@@ -356,7 +356,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetFrend($sFrendId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_FREND." WHERE user_id = ?d and user_frend_id = ?d ";
+		$sql = "SELECT * FROM ".DB_TABLE_FRIEND." WHERE user_id = ?d and user_frend_id = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId,$sFrendId)) {
 			return new UserEntity_Frend($aRow);
 		}
@@ -367,7 +367,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					u.*										
 				FROM 
-					".DB_TABLE_FREND." as uf,
+					".DB_TABLE_FRIEND." as uf,
 					".DB_TABLE_USER." as u					
 				WHERE 	
 					uf.user_id = ?d	
@@ -390,7 +390,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					u.*										
 				FROM 
-					".DB_TABLE_FREND." as uf,
+					".DB_TABLE_FRIEND." as uf,
 					".DB_TABLE_USER." as u					
 				WHERE 	
 					uf.user_frend_id = ?d	

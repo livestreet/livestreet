@@ -45,7 +45,7 @@ class Viewer extends Module {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sHtmlKeywords=SITE_KYEWORDS;
+	protected $sHtmlKeywords=SITE_KEYWORDS;
 	/**
 	 * SEO описание страницы
 	 *
