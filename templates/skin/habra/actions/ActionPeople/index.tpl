@@ -91,8 +91,8 @@
 		<div class="statsblock">
    			<h4 class="people_stat_header"><img src="{$DIR_STATIC_SKIN}/img/people_arrow_2.gif">Откуда мы?</h4>
    			<ul>
-   				{foreach from=$aStat.count_country item=aValue key=sCountry}
-        			<li>{$sCountry|escape:'html'}: {$aValue.count}</li>
+   				{foreach from=$aStat.count_country item=aValue}
+        			<li>{$aValue.name|escape:'html'}: {$aValue.count}</li>
         		{/foreach}
        		</ul>
 		</div>
@@ -100,8 +100,8 @@
 		<div class="statsblock">
 			<h4 class="people_stat_header"><img src="{$DIR_STATIC_SKIN}/img/people_arrow_2.gif">Где мы?</h4>
 			<ul>
-        		{foreach from=$aStat.count_city item=aValue key=sCity}
-        			<li>{$sCity|escape:'html'}: {$aValue.count}</li>
+        		{foreach from=$aStat.count_city item=aValue}
+        			<li>{$aValue.name|escape:'html'}: {$aValue.count}</li>
         		{/foreach}
        		</ul>
 		</div>

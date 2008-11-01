@@ -12,7 +12,7 @@ document.addEvent('domready', function() {
 	new Autocompleter.Request.HTML(inputUsers, DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
 		'minLength': 1, // We need at least 1 character
-		'selectMode': 'type-ahead', // Instant completion
+		'selectMode': 'pick', // Instant completion
 		'multiple': true // Tag support, by default comma separated
 	});
 });

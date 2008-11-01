@@ -245,6 +245,75 @@ ADD UNIQUE `topic_id` ( `topic_id` ) ;
 
 
 --
+-- Структура таблицы `prefix_city`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_city` (
+  `city_id` int(11) unsigned NOT NULL auto_increment,
+  `city_name` varchar(30) NOT NULL,
+  PRIMARY KEY  (`city_id`),
+  KEY `city_name` (`city_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_city_user`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_city_user` (
+  `city_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  UNIQUE KEY `user_id` (`user_id`),
+  KEY `city_id` (`city_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_country`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_country` (
+  `country_id` int(11) unsigned NOT NULL auto_increment,
+  `country_name` varchar(30) NOT NULL,
+  PRIMARY KEY  (`country_id`),
+  KEY `country_name` (`country_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_country_user`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_country_user` (
+  `country_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  UNIQUE KEY `user_id` (`user_id`),
+  KEY `country_id` (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_city_user`
+--
+ALTER TABLE `prefix_city_user`
+  ADD CONSTRAINT `prefix_city_user_fk` FOREIGN KEY (`city_id`) REFERENCES `prefix_city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_city_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_country_user`
+--
+ALTER TABLE `prefix_country_user`
+  ADD CONSTRAINT `prefix_country_user_fk` FOREIGN KEY (`country_id`) REFERENCES `prefix_country` (`country_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_country_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+--
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!
 --  
 

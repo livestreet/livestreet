@@ -294,15 +294,41 @@ class Mapper_User extends Mapper {
 		return $result;
 	}
 	
-	public function GetCountUsersCountry() {
-		$sql = "SELECT user_profile_country  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." WHERE NOT user_profile_country IS NULL and user_profile_country<>'' GROUP BY user_profile_country ";			
-		$result=$this->oDb->select($sql);
+	public function GetCountUsersCountry($sLimit) {
+		$sql = "
+			SELECT 
+				cu.count,
+				c.country_name as name
+			FROM ( 
+					SELECT 
+						count(user_id) as count,
+						country_id 
+					FROM 
+						".DB_TABLE_COUNTRY_USER."
+					GROUP BY country_id ORDER BY count LIMIT 0, ?d
+				) as cu
+				JOIN ".DB_TABLE_COUNTRY." as c on cu.country_id=c.country_id			
+		";		
+		$result=$this->oDb->select($sql,$sLimit);
 		return $result;
 	}
 	
-	public function GetCountUsersCity() {
-		$sql = "SELECT user_profile_city  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." WHERE NOT user_profile_city IS NULL and user_profile_city<>'' GROUP BY user_profile_city ";			
-		$result=$this->oDb->select($sql);
+	public function GetCountUsersCity($sLimit) {
+		$sql = "
+			SELECT 
+				cu.count,
+				c.city_name as name
+			FROM ( 
+					SELECT 
+						count(user_id) as count,
+						city_id 
+					FROM 
+						".DB_TABLE_CITY_USER."
+					GROUP BY city_id ORDER BY count LIMIT 0, ?d
+				) as cu
+				JOIN ".DB_TABLE_CITY." as c on cu.city_id=c.city_id			
+		";		
+		$result=$this->oDb->select($sql,$sLimit);
 		return $result;
 	}
 	
@@ -502,6 +528,99 @@ class Mapper_User extends Mapper {
 			return new UserEntity_User($aRow);
 		}
 		return null;
+	}
+	
+	public function SetCountryUser($sCountryId,$sUserId) {		
+		$sql = "REPLACE ".DB_TABLE_COUNTRY_USER." 
+			SET 
+				country_id = ? ,
+				user_id = ? 
+		";			
+		return $this->oDb->query($sql,$sCountryId,$sUserId);
+	}
+	
+	public function GetCountryByName($sName) {
+		$sql = "SELECT * FROM ".DB_TABLE_COUNTRY." WHERE country_name = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
+			return new UserEntity_Country($aRow);
+		}
+		return null;
+	}
+	
+	public function AddCountry(UserEntity_Country $oCountry) {
+		$sql = "INSERT INTO ".DB_TABLE_COUNTRY." 
+			(country_name)
+			VALUES(?)
+		";			
+		if ($iId=$this->oDb->query($sql,$oCountry->getName())) {
+			return $iId;
+		}		
+		return false;
+	}
+	
+	
+	public function SetCityUser($sCityId,$sUserId) {		
+		$sql = "REPLACE ".DB_TABLE_CITY_USER." 
+			SET 
+				city_id = ? ,
+				user_id = ? 
+		";			
+		return $this->oDb->query($sql,$sCityId,$sUserId);
+	}
+	
+	public function GetCityByName($sName) {
+		$sql = "SELECT * FROM ".DB_TABLE_CITY." WHERE city_name = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
+			return new UserEntity_City($aRow);
+		}
+		return null;
+	}
+	
+	public function AddCity(UserEntity_City $oCity) {
+		$sql = "INSERT INTO ".DB_TABLE_CITY." 
+			(city_name)
+			VALUES(?)
+		";			
+		if ($iId=$this->oDb->query($sql,$oCity->getName())) {
+			return $iId;
+		}		
+		return false;
+	}
+	
+	public function GetCityByNameLike($sName,$iLimit) {		
+		$sql = "SELECT 
+				*					 
+			FROM 
+				".DB_TABLE_CITY."	
+			WHERE
+				city_name LIKE ?														
+			LIMIT 0, ?d		
+				";	
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new UserEntity_City($aRow);
+			}
+		}
+		return $aReturn;
+	}
+	
+	public function GetCountryByNameLike($sName,$iLimit) {		
+		$sql = "SELECT 
+				*					 
+			FROM 
+				".DB_TABLE_COUNTRY."	
+			WHERE
+				country_name LIKE ?														
+			LIMIT 0, ?d		
+				";	
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new UserEntity_Country($aRow);
+			}
+		}
+		return $aReturn;
 	}
 }
 ?>

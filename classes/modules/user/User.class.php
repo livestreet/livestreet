@@ -322,8 +322,8 @@ class User extends Module {
 			$aStat['count_sex_man']=(isset($aSex['man']) ? $aSex['man']['count'] : 0);
 			$aStat['count_sex_woman']=(isset($aSex['woman']) ? $aSex['woman']['count'] : 0);
 			$aStat['count_sex_other']=(isset($aSex['other']) ? $aSex['other']['count'] : 0);
-			$aStat['count_country']=$this->oMapper->GetCountUsersCountry();
-			$aStat['count_city']=$this->oMapper->GetCountUsersCity();
+			$aStat['count_country']=$this->oMapper->GetCountUsersCountry(15);
+			$aStat['count_city']=$this->oMapper->GetCountUsersCity(15);
 			
 			$this->Cache_Set($aStat, "user_stats", array("user_update","user_new"), 60*5);
 		}
@@ -505,6 +505,102 @@ class User extends Module {
 		if (false === ($data = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {			
 			$data = $this->oMapper->GetUserInviteFrom($sUserIdTo);
 			$this->Cache_Set($data, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
+		}
+		return $data;		
+	}
+	/**
+	 * Привязывает страну к пользователю
+	 *
+	 * @param unknown_type $sCountryId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function SetCountryUser($sCountryId,$sUserId) {
+		return $this->oMapper->SetCountryUser($sCountryId,$sUserId);
+	}
+	/**
+	 * Получает страну по имени
+	 *
+	 * @param unknown_type $sName
+	 * @return unknown
+	 */
+	public function GetCountryByName($sName) {
+		return $this->oMapper->GetCountryByName($sName);
+	}
+	/**
+	 * Добавляет страну
+	 *
+	 * @param UserEntity_Country $oCountry
+	 * @return unknown
+	 */
+	public function AddCountry(UserEntity_Country $oCountry) {
+		if ($sId=$this->oMapper->AddCountry($oCountry)) {
+			$oCountry->setId($sId);
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("country_new"));
+			return $oCountry;
+		}
+		return false;
+	}
+	/**
+	 * Привязывает город к пользователю
+	 *
+	 * @param unknown_type $sCityId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function SetCityUser($sCityId,$sUserId) {
+		return $this->oMapper->SetCityUser($sCityId,$sUserId);
+	}
+	/**
+	 * Получает город по имени
+	 *
+	 * @param unknown_type $sName
+	 * @return unknown
+	 */
+	public function GetCityByName($sName) {
+		return $this->oMapper->GetCityByName($sName);
+	}
+	/**
+	 * Добавляет город
+	 *
+	 * @param UserEntity_City $oCity
+	 * @return unknown
+	 */
+	public function AddCity(UserEntity_City $oCity) {
+		if ($sId=$this->oMapper->AddCity($oCity)) {
+			$oCity->setId($sId);
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("city_new"));
+			return $oCity;
+		}
+		return false;
+	}
+	/**
+	 * Получает список похожих городов
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $iLimit
+	 * @return unknown
+	 */
+	public function GetCityByNameLike($sName,$iLimit) {
+		if (false === ($data = $this->Cache_Get("city_like_{$sName}_{$iLimit}"))) {			
+			$data = $this->oMapper->GetCityByNameLike($sName,$iLimit);
+			$this->Cache_Set($data, "city_like_{$sName}_{$iLimit}", array("city_new"), 60*15);
+		}
+		return $data;		
+	}
+	/**
+	 * Получает список похожих стран
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $iLimit
+	 * @return unknown
+	 */
+	public function GetCountryByNameLike($sName,$iLimit) {
+		if (false === ($data = $this->Cache_Get("country_like_{$sName}_{$iLimit}"))) {			
+			$data = $this->oMapper->GetCountryByNameLike($sName,$iLimit);
+			$this->Cache_Set($data, "country_like_{$sName}_{$iLimit}", array("country_new"), 60*15);
 		}
 		return $data;		
 	}

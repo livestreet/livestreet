@@ -191,12 +191,15 @@ class ActionSettings extends Action {
 			}
 			/**
 			 * Проверяем регион
+			 * пока отключим регион, т.к. не понятно нужен ли он вообще =)
 			 */
+			/*
 			if (func_check(getRequest('profile_region'),'text',1,30)) {
 				$this->oUserCurrent->setProfileRegion(getRequest('profile_region'));
 			} else {
 				$this->oUserCurrent->setProfileRegion(null);
 			}
+			*/
 			/**
 			 * Проверяем город
 			 */
@@ -296,6 +299,29 @@ class ActionSettings extends Action {
 		 	*/		
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
+					/**
+					 * Добавляем страну
+					 */
+					if ($this->oUserCurrent->getProfileCountry()) {
+						if (!($oCountry=$this->User_GetCountryByName($this->oUserCurrent->getProfileCountry()))) {
+							$oCountry=new UserEntity_Country();
+							$oCountry->setName($this->oUserCurrent->getProfileCountry());
+							$this->User_AddCountry($oCountry);
+						}
+						$this->User_SetCountryUser($oCountry->getId(),$this->oUserCurrent->getId());
+					}
+					/**
+					 * Добавляем город
+					 */
+					if ($this->oUserCurrent->getProfileCity()) {
+						if (!($oCity=$this->User_GetCityByName($this->oUserCurrent->getProfileCity()))) {
+							$oCity=new UserEntity_City();
+							$oCity->setName($this->oUserCurrent->getProfileCity());
+							$this->User_AddCity($oCity);
+						}
+						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
+					}
+					
 					$this->Message_AddNoticeSingle('Профиль успешно сохранён','Ура');
 				} else {
 					$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');

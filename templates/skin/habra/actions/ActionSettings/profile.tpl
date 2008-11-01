@@ -4,6 +4,32 @@
 
 {include file='system_message.tpl'}
 
+{literal}
+<script>
+document.addEvent('domready', function() {	
+
+	var inputCity = $('profile_city');
+ 
+	new Autocompleter.Request.HTML(inputCity, DIR_WEB_ROOT+'/include/ajax/cityAutocompleter.php', {
+		'indicatorClass': 'autocompleter-loading', // class added to the input during request
+		'minLength': 2, // We need at least 1 character
+		'selectMode': 'pick', // Instant completion
+		'multiple': false // Tag support, by default comma separated
+	});
+	
+	
+	var inputCountry = $('profile_country');
+ 
+	new Autocompleter.Request.HTML(inputCountry, DIR_WEB_ROOT+'/include/ajax/countryAutocompleter.php', {
+		'indicatorClass': 'autocompleter-loading', // class added to the input during request
+		'minLength': 2, // We need at least 1 character
+		'selectMode': 'pick', // Instant completion
+		'multiple': false // Tag support, by default comma separated
+	});
+});
+</script>
+{/literal}
+
 <BR>
 <table width="100%"  border="0" cellspacing="4" cellpadding="4">
 <tr>
@@ -67,9 +93,8 @@
 	<br><br>
 	
 	
-	<span class="form">Страна: </span><br /><input  style="width: 60%;" type="text"	name="profile_country" value="{$oUserCurrent->getProfileCountry()|escape:'html'}"><br>
-	<span class="form">Регион: </span><br /><input  style="width: 60%;" type="text"	name="profile_region" value="{$oUserCurrent->getProfileRegion()|escape:'html'}"><br>
-	<span class="form">Город:  </span><br /><input  style="width: 60%;" type="text"	name="profile_city" value="{$oUserCurrent->getProfileCity()|escape:'html'}"><br>
+	<span class="form">Страна: </span><br /><input  style="width: 60%;" type="text"	id="profile_country" name="profile_country" value="{$oUserCurrent->getProfileCountry()|escape:'html'}"><br>
+	<span class="form">Город:  </span><br /><input  style="width: 60%;" type="text"	id="profile_city" name="profile_city" value="{$oUserCurrent->getProfileCity()|escape:'html'}"><br>
 	<br>
 
 	
