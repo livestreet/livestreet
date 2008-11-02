@@ -59,7 +59,7 @@ document.addEvent('domready', function() {
             <label for="topic_text">Текст:</label>
             
             <div class="panel_topic_form" style="background: #eaecea; ">    
-            	<select onchange="voidPutTag2('topic_text',this.value);" tabindex="-1">
+            	<select onchange="voidPutTag2('topic_text',this.value);  this.value='';"  tabindex="-1">
 					<option value="" class="title">Заголовок</option>
 					<option value="h4">H4</option>
 					<option value="h5">H5</option>

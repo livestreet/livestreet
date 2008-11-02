@@ -116,7 +116,7 @@ class ActionPage extends Action {
 					$_REQUEST['page_title']=$oPageEdit->getTitle();
 					$_REQUEST['page_pid']=$oPageEdit->getPid();
 					$_REQUEST['page_url']=$oPageEdit->getUrl();
-					$_REQUEST['topic_text']=$oPageEdit->getText();
+					$_REQUEST['page_text']=$oPageEdit->getText();
 					$_REQUEST['page_seo_keywords']=$oPageEdit->getSeoKyewords();
 					$_REQUEST['page_seo_description']=$oPageEdit->getSeoDescription();
 					$_REQUEST['page_active']=$oPageEdit->getActive();	
@@ -187,7 +187,7 @@ class ActionPage extends Action {
 		}		
 		$oPageEdit->setSeoDescription(getRequest('page_seo_description'));
 		$oPageEdit->setSeoKyewords(getRequest('page_seo_keywords'));
-		$oPageEdit->setText(getRequest('topic_text'));
+		$oPageEdit->setText(getRequest('page_text'));
 		$oPageEdit->setTitle(getRequest('page_title'));
 		$oPageEdit->setUrl(getRequest('page_url'));
 		/**
@@ -229,7 +229,7 @@ class ActionPage extends Action {
 		}		
 		$oPage->setSeoDescription(getRequest('page_seo_description'));
 		$oPage->setSeoKyewords(getRequest('page_seo_keywords'));
-		$oPage->setText(getRequest('topic_text'));
+		$oPage->setText(getRequest('page_text'));
 		$oPage->setTitle(getRequest('page_title'));
 		$oPage->setUrl(getRequest('page_url'));
 		/**
@@ -275,7 +275,7 @@ class ActionPage extends Action {
 			/**
 		 	* Проверяем есть ли содержание страницы
 		 	*/
-			if (!func_check(getRequest('topic_text'),'text',1,50000)) {
+			if (!func_check(getRequest('page_text'),'text',1,50000)) {
 				$this->Message_AddError('Текст страницы должен быть от 1 до 50000 символов','Ошибка');
 				$bOk=false;
 			}
