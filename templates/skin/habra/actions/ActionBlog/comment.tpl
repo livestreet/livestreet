@@ -2,13 +2,15 @@
 	<div class="comment_text" id="text_preview"></div>
 	<div style="clear: both;"></div><br>
 	<div class="panel_topic_form" style="background: #eaecea; ">   				
-	 			<a href="#" onclick="voidPutB('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/bold_ru.gif" width="20" height="20" title="жирный"></a>
-	 			<a href="#" onclick="voidPutI('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
-	 			<a href="#" onclick="voidPutU('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
-	 			<a href="#" onclick="voidPutS('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('form_comment_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/bold_ru.gif" width="20" height="20" title="жирный"></a>
+	 			<a href="#" onclick="voidPutTag2('form_comment_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('form_comment_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('form_comment_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
 	 			&nbsp;
 	 			<a href="#" onclick="voidPutURL('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/link.gif" width="20" height="20"  title="вставить ссылку"></a>
-	 			<a href="#" onclick="voidPutCode('form_comment_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/code.gif" width="30" height="20" title="код"></a>
+	 			<a href="#" onclick="voidPutTag2('form_comment_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/code.gif" width="30" height="20" title="код"></a>
+	 			<a href="#" onclick="showWindow('window_load_img'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/img.gif" width="20" height="20" title="изображение"></a>
+	 			
 	 </div>
  	<form action="" method="POST">
     	<textarea class="input_comments_reply" name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
@@ -17,6 +19,7 @@
     </form>
 </div>
 
+{include file='window_load_img.tpl' sToLoad='form_comment_text'}
 
 {literal}
 <script type="text/javascript">

@@ -290,7 +290,7 @@ function ajaxVoteUser(idUser,value) {
     req.send( { idUser: idUser, value: value } );
 }
 
-function ajaxUploadImg(value) {    
+function ajaxUploadImg(value,sToLoad) {    
     var req = new JsHttpRequest();    
     req.onreadystatechange = function() {
         if (req.readyState == 4) {         
@@ -300,7 +300,7 @@ function ajaxUploadImg(value) {
             	msgErrorBox.alert('Ошибка','Возникли проблемы при загрузке изображения, попробуйте еще разок. И на всякий случай проверьте правильность URL картинки');
             	showWindow('window_load_img');
             } else {   
-            	voidPutTag('topic_text',req.responseJS.sText);            	
+            	voidPutTag(sToLoad,req.responseJS.sText);            	
             }
         }
     }    

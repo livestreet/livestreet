@@ -21,44 +21,7 @@ document.addEvent('domready', function() {
 {/literal}
 
 
-<div id="window_load_img">
-	<form method="POST" action="" enctype="multipart/form-data" id="form_upload_img" >
-	<table width="500px"  border="0">
-		<tr>
-			<th align="center" colspan="2">Вставка изображения</th>			
-		</tr>
-		<tr>
-			<td align="right">Файл:</td>
-			<td width="100%"><input type="file" name="img_file" style="width: 100%;" value=""></td>
-		</tr>
-		<tr>
-			<td align="right">Ссылка:</td>
-			<td><input type="text" name="img_url" value="http://" style="width: 100%;">
-		</tr>
-		<tr>
-			<td align="right">Выравнивание:</td>
-
-			<td>
-				<select name="align">
-					<option value="">нет</option>
-					<option value="left">слева</option>
-					<option value="right">справа</option>
-				</select>
-		</tr>
-		<tr>
-			<td align="right">Описание:</td>
-			<td><input type="text" name="title" style="width: 100%;"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="button" value="Загрузить" onclick="ajaxUploadImg(document.getElementById('form_upload_img'));">
-				<input type="button" value="Отмена" onclick="closeWindow('window_load_img'); return false;">
-			</td>
-		</tr>
-	</table>
-	</form>
-</div>
+{include file='window_load_img.tpl' sToLoad='topic_text'}
 
 
 
@@ -103,13 +66,13 @@ document.addEvent('domready', function() {
 					<option value="h6">H6</option>
 				</select>  
 				
-	 			<a href="#" onclick="voidPutB('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/bold_ru.gif" width="20" height="20" title="жирный"></a>
-	 			<a href="#" onclick="voidPutI('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
-	 			<a href="#" onclick="voidPutU('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
-	 			<a href="#" onclick="voidPutS('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('topic_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/bold_ru.gif" width="20" height="20" title="жирный"></a>
+	 			<a href="#" onclick="voidPutTag2('topic_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('topic_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
+	 			<a href="#" onclick="voidPutTag2('topic_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
 	 			&nbsp;
 	 			<a href="#" onclick="voidPutURL('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/link.gif" width="20" height="20"  title="вставить ссылку"></a>
-	 			<a href="#" onclick="voidPutCode('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/code.gif" width="30" height="20" title="код"></a>
+	 			<a href="#" onclick="voidPutTag2('topic_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/code.gif" width="30" height="20" title="код"></a>
 	 			<a href="#" onclick="voidPutTag2('topic_text','video'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/img/video.gif" width="20" height="20" title="видео"></a>
 	 			
 	 			

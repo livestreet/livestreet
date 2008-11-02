@@ -32,7 +32,7 @@ if ($oEngine->User_IsAuthorization()) {
 	if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
 		$sFileTmp=$_FILES['img_file']['tmp_name'];
 		$sDirSave=DIR_UPLOADS_IMAGES.'/'.$oUserCurrent->getId();
-		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,800,null,false)) {
+		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 			$sFile=$sDirSave.'/'.$sFileImg;
 		}
 	}
@@ -58,7 +58,7 @@ if ($oEngine->User_IsAuthorization()) {
 					fwrite($fp,$sContent);
 					fclose($fp);
 					$sDirSave=DIR_UPLOADS_IMAGES.'/'.$oUserCurrent->getId();
-					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,null,null,false)) {
+					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 						$sFile=$sDirSave.'/'.$sFileImg;
 					}
 					@unlink($sFileTmp);
