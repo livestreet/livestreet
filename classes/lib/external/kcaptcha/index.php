@@ -29,7 +29,7 @@
 include('kcaptcha.php');
 
 if(isset($_REQUEST[session_name()])){
-	session_start();
+	//session_start();
 }
 
 foreach ($_REQUEST as $key => $value) {

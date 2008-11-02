@@ -236,7 +236,7 @@ ALTER TABLE `prefix_user` ADD `user_settings_notice_new_friend` TINYINT( 1 ) NOT
   
   
 -- изменяем имя таблицы на правильное с точки зрения грамотеев английского языка..
-RENAME TABLE `social`.`prefix_frend`  TO `social`.`prefix_friend` ;
+RENAME TABLE `prefix_frend`  TO `prefix_friend` ;
   
 
 -- добавляем уникальный индекс
