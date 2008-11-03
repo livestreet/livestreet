@@ -305,7 +305,7 @@ class Mapper_User extends Mapper {
 						country_id 
 					FROM 
 						".DB_TABLE_COUNTRY_USER."
-					GROUP BY country_id ORDER BY count LIMIT 0, ?d
+					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d
 				) as cu
 				JOIN ".DB_TABLE_COUNTRY." as c on cu.country_id=c.country_id			
 		";		
@@ -324,7 +324,7 @@ class Mapper_User extends Mapper {
 						city_id 
 					FROM 
 						".DB_TABLE_CITY_USER."
-					GROUP BY city_id ORDER BY count LIMIT 0, ?d
+					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
 				) as cu
 				JOIN ".DB_TABLE_CITY." as c on cu.city_id=c.city_id			
 		";		
