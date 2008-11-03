@@ -301,9 +301,7 @@ class Mapper_Blog extends Mapper {
 					) AS bu ON  b.blog_id = bu.blog_id,
 										
 					".DB_TABLE_USER." as u					 
-				WHERE 						
-					b.blog_rating >= 0
-					AND					
+				WHERE 									
 					b.blog_type<>'personal'
 					AND		
 					b.user_owner_id=u.user_id								
