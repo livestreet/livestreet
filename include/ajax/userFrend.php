@@ -16,7 +16,7 @@
 */
 
 /**
- * Добавление/удаление топика в избранное
+ * Добавление/удаление друзей
  */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FILE__))));

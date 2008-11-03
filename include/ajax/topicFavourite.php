@@ -38,6 +38,7 @@ if ($oEngine->User_IsAuthorization()) {
 				$oFavouriteTopicNew=new TopicEntity_FavouriteTopic();
 				$oFavouriteTopicNew->setTopicId($oTopic->getId());
 				$oFavouriteTopicNew->setUserId($oUserCurrent->getId());
+				$oFavouriteTopicNew->setTopicPublish($oTopic->getPublish());
 				if ($oEngine->Topic_AddFavouriteTopic($oFavouriteTopicNew)) {
 					$bStateError=false;
 					$sMsgTitle='Поздравляем!';
