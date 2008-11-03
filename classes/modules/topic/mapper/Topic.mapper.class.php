@@ -283,7 +283,7 @@ class Mapper_Topic extends Mapper {
 					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
 					bu.is_moderator as user_is_blog_moderator,
 					bu.is_administrator as user_is_blog_administrator,
-					IF(tcl.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tcl.comment_count_last) as count_comment_new 
+					IF(tr.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tr.comment_count_last) as count_comment_new 
 				FROM (
 					SELECT 
 						t.*,	
@@ -316,9 +316,9 @@ class Mapper_Topic extends Mapper {
 						SELECT
 							topic_id,
 							comment_count_last												
-						FROM ".DB_TABLE_TOPIC_COMMENT_LAST." 
+						FROM ".DB_TABLE_TOPIC_READ." 
 						WHERE user_id = ?d
-					) AS tcl ON t_fast.topic_id=tcl.topic_id
+					) AS tr ON t_fast.topic_id=tr.topic_id
 				LEFT JOIN (
 						SELECT
 							topic_id																			
@@ -913,29 +913,18 @@ class Mapper_Topic extends Mapper {
 		return $aReturn;
 	}
 	
-	public function SetDateRead($sTopicId,$sUserId) {
+	public function SetDateRead($sTopicId,$sUserId,$iCountComment) {
 		$sDate=date("Y-m-d H:i:s");
 		$sql = "REPLACE ".DB_TABLE_TOPIC_READ." 
 			SET 
+				comment_count_last = ? ,
 				date_read = ? ,
 				topic_id = ? ,				
 				user_id = ? 
 		";			
-		return $this->oDb->query($sql,$sDate,$sTopicId,$sUserId);
-	}
-			
-	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
-		$sDate=date("Y-m-d H:i:s");
-		$sql = "REPLACE INTO ".DB_TABLE_TOPIC_COMMENT_LAST." 
-			SET 
-				comment_count_last = ? ,
-				date_last = ? ,			
-				user_id = ? ,				
-				topic_id = ? 			 
-		";			
-		return $this->oDb->query($sql,$iCountComment,$sDate,$sUserId,$sTopicId);
-	}
-			
+		return $this->oDb->query($sql,$iCountComment,$sDate,$sTopicId,$sUserId);
+	}			
+				
 	public function GetDateRead($sTopicId,$sUserId) {			
 		$sql = "SELECT 
 					date_read									

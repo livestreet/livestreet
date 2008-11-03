@@ -317,7 +317,10 @@ ALTER TABLE `prefix_favourite_topic` ADD `topic_publish` TINYINT( 1 ) NOT NULL D
 
 ALTER TABLE `prefix_favourite_topic` ADD INDEX ( `topic_publish` ) ;
 
-
+-- удаляем табличку, она оказалась лишней :)
+ DROP TABLE `prefix_topic_comment_last`  ;
+-- новое поле для определения количества новых комментов
+ALTER TABLE `prefix_topic_read` ADD `comment_count_last` INT UNSIGNED NOT NULL DEFAULT '0';
 
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!

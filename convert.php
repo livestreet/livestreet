@@ -7,7 +7,7 @@ set_time_limit(0);
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
 
-require_once("./config/config.table.php");
+require_once("./config/config.ajax.php");
 
 $aConfig=include("./config/config.db.php");
 
@@ -30,12 +30,14 @@ $sql = "SELECT
 $res=mysql_query($sql,$link);
 while ($row=mysql_fetch_assoc($res)) {
 	//var_dump($row);
-	$sql2 = "INSERT INTO ".DB_TABLE_TOPIC_CONTENT." 
+	if (isset($row['topic_text'])) {
+		$sql2 = "REPLACE INTO ".DB_TABLE_TOPIC_CONTENT." 
 			(topic_id,topic_text,topic_text_short,topic_text_source)
 			values(".$row['topic_id'].",'".mysql_escape_string($row['topic_text'])."','".mysql_escape_string($row['topic_text_short'])."','".mysql_escape_string($row['topic_text_source'])."')		
 	
-	";
-	mysql_query($sql2,$link);
+		";		
+		mysql_query($sql2,$link);
+	}	
 }
 */
 
@@ -43,6 +45,7 @@ while ($row=mysql_fetch_assoc($res)) {
  * Конвертируем комментариии в новую структуру
  * Если комментариев много, то может занять много времени
  */
+/*
 $sql = "SELECT res.* FROM (		
 
 				SELECT 					
@@ -88,5 +91,62 @@ while ($row=mysql_fetch_assoc($res)) {
 			SET topic_id = ".$row['topic_id']." ,comment_id = ".$row['comment_id']."
 	";
 	mysql_query($sql2,$link);
+}
+
+*/
+/**
+ * конвертируем страны и города в новую структуру
+ */
+$aData=$oEngine->User_GetUsersRating('good',0,1,10000);
+$aUsers=$aData['collection'];
+foreach ($aUsers as $oUser) {
+	/**
+	* Добавляем страну
+	*/
+	if ($oUser->getProfileCountry()) {
+		if (!($oCountry=$oEngine->User_GetCountryByName($oUser->getProfileCountry()))) {
+			$oCountry=new UserEntity_Country();
+			$oCountry->setName($oUser->getProfileCountry());
+			$oEngine->User_AddCountry($oCountry);
+		}
+		$oEngine->User_SetCountryUser($oCountry->getId(),$oUser->getId());
+	}
+	/**
+	* Добавляем город
+	*/
+	if ($oUser->getProfileCity()) {
+		if (!($oCity=$oEngine->User_GetCityByName($oUser->getProfileCity()))) {
+			$oCity=new UserEntity_City();
+			$oCity->setName($oUser->getProfileCity());
+			$oEngine->User_AddCity($oCity);
+		}
+		$oEngine->User_SetCityUser($oCity->getId(),$oUser->getId());
+	}
+}
+$aData=$oEngine->User_GetUsersRating('bad',0,1,10000);
+$aUsers=$aData['collection'];
+foreach ($aUsers as $oUser) {
+	/**
+	* Добавляем страну
+	*/
+	if ($oUser->getProfileCountry()) {
+		if (!($oCountry=$oEngine->User_GetCountryByName($oUser->getProfileCountry()))) {
+			$oCountry=new UserEntity_Country();
+			$oCountry->setName($oUser->getProfileCountry());
+			$oEngine->User_AddCountry($oCountry);
+		}
+		$oEngine->User_SetCountryUser($oCountry->getId(),$oUser->getId());
+	}
+	/**
+	* Добавляем город
+	*/
+	if ($oUser->getProfileCity()) {
+		if (!($oCity=$oEngine->User_GetCityByName($oUser->getProfileCity()))) {
+			$oCity=new UserEntity_City();
+			$oCity->setName($oUser->getProfileCity());
+			$oEngine->User_AddCity($oCity);
+		}
+		$oEngine->User_SetCityUser($oCity->getId(),$oUser->getId());
+	}
 }
 ?>

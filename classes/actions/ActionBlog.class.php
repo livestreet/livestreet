@@ -664,15 +664,8 @@ class ActionBlog extends Action {
 		 * Отмечаем дату прочтения топика
 		 */
 		if ($this->oUserCurrent) {
-			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId());
-		}
-		/**
-		 * Запоминаем число комментов в топике для юзера, это понадобится при показе числа новых комментов
-		 */
-		if ($this->oUserCurrent) {
-			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
-		}
-		
+			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
+		}		
 		/**
 		 * Выставляем SEO данные
 		 */
@@ -762,14 +755,8 @@ class ActionBlog extends Action {
 		 * Отмечаем дату прочтения топика
 		 */
 		if ($this->oUserCurrent) {
-			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId());
-		}
-		/**
-		 * Запоминаем число комментов в топике для юзера, это понадобится при показе числа новых комментов
-		 */
-		if ($this->oUserCurrent) {
-			$this->Topic_SetCountCommentLast($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
-		}
+			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
+		}		
 		/**
 		 * Выставляем SEO данные
 		 */

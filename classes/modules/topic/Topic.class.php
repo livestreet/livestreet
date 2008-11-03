@@ -648,27 +648,13 @@ class Topic extends Module {
 	 * @param unknown_type $sTopicId
 	 * @param unknown_type $sUserId
 	 */
-	public function SetDateRead($sTopicId,$sUserId) {
-		$res=$this->oMapperTopic->SetDateRead($sTopicId,$sUserId);
+	public function SetDateRead($sTopicId,$sUserId,$iCountComment) {
+		$res=$this->oMapperTopic->SetDateRead($sTopicId,$sUserId,$iCountComment);
 		if ($res==1 or $res==2) {			
 			return true;
 		}
 		return false;
-	}
-	/**
-	 * Запоминаем число комментов при чтении топика
-	 *
-	 * @param unknown_type $sTopicId
-	 * @param unknown_type $sUserId
-	 * @param unknown_type $iCountComment
-	 */
-	public function SetCountCommentLast($sTopicId,$sUserId,$iCountComment) {
-		$res=$this->oMapperTopic->SetCountCommentLast($sTopicId,$sUserId,$iCountComment);
-		if ($res==1 or $res==2) {			
-			return true;
-		}
-		return false;
-	}
+	}	
 	/**
 	 * Получаем дату прочтения топика юзером
 	 *
