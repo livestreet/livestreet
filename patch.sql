@@ -312,6 +312,12 @@ ALTER TABLE `prefix_country_user`
   ADD CONSTRAINT `prefix_country_user_fk` FOREIGN KEY (`country_id`) REFERENCES `prefix_country` (`country_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_country_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+-- Дополнительное поле для избранного  
+ALTER TABLE `prefix_favourite_topic` ADD `topic_publish` TINYINT( 1 ) NOT NULL DEFAULT '1';
+
+ALTER TABLE `prefix_favourite_topic` ADD INDEX ( `topic_publish` ) ;
+
+
 
 --
 -- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!

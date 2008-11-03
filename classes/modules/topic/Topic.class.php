@@ -102,6 +102,10 @@ class Topic extends Module {
 				}
 			}
 			/**
+			 * Обновляем избранное
+			 */
+			$this->oMapperTopic->SetFavouriteTopicPublish($oTopic->getId(),$oTopic->getPublish());
+			/**
 			 * Удаляем комментарий топика из прямого эфира
 			 */
 			if ($oTopic->getPublish()==0) {

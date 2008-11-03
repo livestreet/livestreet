@@ -54,7 +54,9 @@ define('SYS_LOGS_SQL_ERROR_FILE','sql_error.log'); // файл лога ошиб
  */
 define('SYS_CACHE_USE',true); // использовать кеширование или нет
 define('SYS_CACHE_TYPE','file'); // тип кеширования: file и memory. memory использует мемкеш
-define('SYS_CACHE_DIR','/tmp/'); // каталог для файлового кеша, также используется для временных картинок
+$aTmpDir=explode(';',session_save_path());
+$sTmpDir = count($aTmpDir)>1 ? $aTmpDir[1] : $aTmpDir[0];
+define('SYS_CACHE_DIR',$sTmpDir.'/'); // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 define('SYS_CACHE_PREFIX','livestreet_cache'); // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
 
 /**

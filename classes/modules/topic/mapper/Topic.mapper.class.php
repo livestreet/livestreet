@@ -732,11 +732,12 @@ class Mapper_Topic extends Mapper {
 	public function AddFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
 		$sql = "INSERT INTO ".DB_TABLE_FAVOURITE_TOPIC." 
 			(user_id,
-			topic_id		
+			topic_id,
+			topic_publish		
 			)
-			VALUES(?d,  ?d)
+			VALUES(?d,  ?d, ?d)
 		";			
-		if ($this->oDb->query($sql,$oFavouriteTopic->getUserId(),$oFavouriteTopic->getTopicId())===0) 
+		if ($this->oDb->query($sql,$oFavouriteTopic->getUserId(),$oFavouriteTopic->getTopicId(),$oFavouriteTopic->getTopicPublish())===0) 
 		{
 			return true;
 		}		
@@ -755,6 +756,16 @@ class Mapper_Topic extends Mapper {
 			return true;
 		}		
 		return false;
+	}
+	
+	public function SetFavouriteTopicPublish($sTopicId,$iPublish) {
+		$sql = "UPDATE ".DB_TABLE_FAVOURITE_TOPIC." 
+			SET 
+				topic_publish = ?d
+			WHERE				
+				topic_id = ?d				
+		";			
+		return $this->oDb->query($sql,$iPublish,$sTopicId); 		
 	}
 	
 	public function GetFavouriteTopic($sTopicId,$sUserId) {
@@ -828,7 +839,9 @@ class Mapper_Topic extends Mapper {
 							FROM 
 								".DB_TABLE_FAVOURITE_TOPIC."								
 							WHERE 
-								user_id = ? 	
+								user_id = ?
+								and
+								topic_publish = 1 	
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d				
 						 ) as tt
@@ -869,27 +882,10 @@ class Mapper_Topic extends Mapper {
 				FROM 
 					".DB_TABLE_FAVOURITE_TOPIC."								
 				WHERE 
-					user_id = ?;	
+					user_id = ?
+					and
+					topic_publish = 1;	
 					";				
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
-			return $aRow['count'];
-		}
-		return false;
-	}
-	
-	public function GetCountTopicsFavouriteByUserId_($sUserId) {					
-		$sql = "SELECT 
-					count(t.topic_id) as count										
-				FROM 
-					".DB_TABLE_FAVOURITE_TOPIC." as ft,
-					".DB_TABLE_TOPIC." as t
-				WHERE 
-					ft.user_id = ? 								
-					AND
-					ft.topic_id=t.topic_id
-					AND
-					t.topic_publish = 1;	
-					";		
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['count'];
 		}
@@ -903,7 +899,7 @@ class Mapper_Topic extends Mapper {
 			FROM 
 				".DB_TABLE_TOPIC_TAG."	
 			WHERE
-				LOWER(topic_tag_text) LIKE ?			
+				topic_tag_text LIKE ?			
 			GROUP BY 
 				topic_tag_text					
 			LIMIT 0, ?d		

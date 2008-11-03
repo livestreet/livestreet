@@ -23,6 +23,9 @@ class TopicEntity_FavouriteTopic extends Entity
     public function getUserId() {
         return $this->_aData['user_id'];
     }
+    public function getTopicPublish() {
+        return $this->_aData['topic_publish'];
+    }
     
     
 	public function setTopicId($data) {
@@ -30,6 +33,9 @@ class TopicEntity_FavouriteTopic extends Entity
     }
     public function setUserId($data) {
         $this->_aData['user_id']=$data;
+    }
+    public function setTopicPublish($data) {
+        $this->_aData['topic_publish']=$data;
     }
 }
 ?>
