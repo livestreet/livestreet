@@ -176,8 +176,8 @@ ALTER TABLE `prefix_page`
   ADD CONSTRAINT `prefix_page_fk` FOREIGN KEY (`page_pid`) REFERENCES `prefix_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE; 
  
 
-  
-
+-- очищаем перед созданием уникального индекса
+ TRUNCATE TABLE `prefix_topic_read`  ;
 -- делаем индекс уникальным, а не просто индексом  
 ALTER TABLE `prefix_topic_read` DROP INDEX `topic_id_user_id` ,
 ADD UNIQUE `topic_id_user_id` ( `topic_id` , `user_id` ) ; 
@@ -322,11 +322,3 @@ ALTER TABLE `prefix_favourite_topic` ADD INDEX ( `topic_publish` ) ;
 -- новое поле для определения количества новых комментов
 ALTER TABLE `prefix_topic_read` ADD `comment_count_last` INT UNSIGNED NOT NULL DEFAULT '0';
 
---
--- ВНИМАНИЕ!!! То что ниже нужно выполнить только после запуска скрипта convert.php !!!! иначе УДАЛЯТСЯ ВСЕ ТОПИКИ!!!!!
---  
-
-ALTER TABLE `prefix_topic` DROP `topic_text`  ;
-ALTER TABLE `prefix_topic` DROP `topic_text_short`  ;
-ALTER TABLE `prefix_topic` DROP `topic_text_source`  ;
-ALTER TABLE `prefix_topic` CHANGE `topic_tags` `topic_tags` VARCHAR( 250 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'через запятую перечислены теги' ;
