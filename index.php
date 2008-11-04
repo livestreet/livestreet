@@ -30,15 +30,13 @@ require_once("./classes/engine/Router.class.php");
 $oRouter=Router::getInstance();
 $oRouter->Exec();
 $aStats=$oRouter->getStats();
-//var_dump($aStats);
 $t2=microtime(true);
-
 ?>
 
 
 <? 
 $oUser=$oRouter->User_GetUserCurrent();
-if (Router::GetIsShowStats() and $oUser and $oUser->getId()==2) { 
+if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) { 
 ?>
 <fieldset>
 <legend>Статистика выполнения</legend>
@@ -77,4 +75,3 @@ if (Router::GetIsShowStats() and $oUser and $oUser->getId()==2) {
 </table>
 </fieldset>
 <? } ?>
-

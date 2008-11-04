@@ -255,6 +255,10 @@ CREATE TABLE IF NOT EXISTS `prefix_page` (
 -- Дамп данных таблицы `prefix_page`
 --
 
+INSERT INTO `prefix_page` (`page_id`, `page_pid`, `page_url`, `page_url_full`, `page_title`, `page_text`, `page_date_add`, `page_date_edit`, `page_seo_keywords`, `page_seo_description`, `page_active`) VALUES
+(1, NULL, 'about', 'about', 'О проекте', 'это страница о проекте, отредактировать эту страницу можно по адресу http://ваш_сайт/page/admin/', '2008-11-05 01:03:46', NULL, '', '', 1);
+
+
 
 -- --------------------------------------------------------
 
