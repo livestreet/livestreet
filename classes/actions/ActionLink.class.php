@@ -379,9 +379,14 @@ class ActionLink extends Action {
 		}			
 		/**
 		 * Проверка состоит ли юзер в блоге в который постит
-		 * Если нужно разрешить редактировать топик в блоге в котором юзер уже не стоит
+		 * Если нужно разрешить редактировать топик в блоге в котором юзер уже не состоит
+		 * Если юзер является администратором либо модератором блога, то разрешаем ему перенос в другой блог
 		 */
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
+		
+		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
 				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
 				return false;
