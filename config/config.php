@@ -27,10 +27,13 @@ define('DIR_SMARTY_PLUG','classes/modules/sys_viewer/plugs');
 
 /**
  * Настройка путей
+ * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
+ * define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST'].'/subdir');
+ * define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT'].'/subdir');
  */
-define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST']);
+define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST']); // полный WEB адрес сайта
 define('DIR_STATIC_ROOT',DIR_WEB_ROOT); // чтоб можно было статику засунуть на отдельный сервер
-define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT']);
+define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT']); // полный путь до сайта в файловой системе
 define('DIR_STATIC_SKIN',DIR_STATIC_ROOT.'/'.DIR_SMARTY_TEMPLATE); 
 define('DIR_UPLOADS','/uploads');
 define('DIR_UPLOADS_IMAGES',DIR_UPLOADS.'/images');

@@ -6,7 +6,7 @@
 <BR>
 <DIV class=tagsblock>
 	
-{$oPage->getText()}
+{$oPage->getText()|nl2br}
 
 </DIV>
 

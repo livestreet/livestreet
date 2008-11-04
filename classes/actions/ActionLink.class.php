@@ -122,9 +122,13 @@ class ActionLink extends Action {
 			return parent::EventNotFound();
 		}
 		/**
-		 * проверяем кто владелец топика
+		 * проверяем кто владелец топика, либо модератор и администратор блога
 		 */
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator()) {
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
+		
+		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -430,7 +434,10 @@ class ActionLink extends Action {
 		/**
 		 * Сохраняем топик
 		 */
-		if ($this->Topic_UpdateTopic($oTopic)) {
+		if ($this->Topic_UpdateTopic($oTopic)) {			
+			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
+				func_header_location($oTopic->getBlogUrlFull());
+			}
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки при изменении топика, пожалуйста повторите позже.','Внутреняя ошибка');

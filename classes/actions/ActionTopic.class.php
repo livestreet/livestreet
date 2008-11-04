@@ -503,7 +503,10 @@ class ActionTopic extends Action {
 		/**
 		 * Сохраняем топик
 		 */
-		if ($this->Topic_UpdateTopic($oTopic)) {
+		if ($this->Topic_UpdateTopic($oTopic)) {			
+			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
+				func_header_location($oTopic->getBlogUrlFull());
+			}
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки при изменении топика, пожалуйста повторите позже.','Внутреняя ошибка');
