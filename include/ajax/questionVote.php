@@ -84,7 +84,7 @@ if ($oEngine->User_IsAuthorization()) {
 	}
 } else {
 	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосоввания необходимо авторизоваться!';
+	$sMsg='Для голосования необходимо авторизоваться!';
 }
 
 $GLOBALS['_RESULT'] = array(
