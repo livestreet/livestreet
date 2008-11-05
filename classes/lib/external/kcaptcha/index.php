@@ -33,7 +33,7 @@ if(isset($_REQUEST[session_name()])){
 }
 
 foreach ($_REQUEST as $key => $value) {
-	if (preg_match("/^[\w\d]{32}$/",$value)) {
+	if (preg_match("/^[\w\d]{5,40}$/",$value)) {
 		session_name($key);
 		session_start();
 		break;
