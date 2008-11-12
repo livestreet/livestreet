@@ -220,6 +220,84 @@ class Mapper_Topic extends Mapper {
 		return null;
 	}
 	
+	
+	public function GetTopicsByArrayId($aArrayId,$oUser,$iPublish) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+		
+		$iCurrentUserId=-1;
+		if (is_object($this->oUserCurrent)) {
+			$iCurrentUserId=$this->oUserCurrent->getId();
+		}
+		$sWhereUser=' 1=1 ';
+		if ($iPublish!=-1) { //можно считать это костылём..
+			$sWhereUser=' t.topic_publish = '.(int)$iPublish.' ';
+			if ($oUser) {
+				$sWhereUser.=' OR t.user_id = '.(int)$oUser->getId();
+			}
+		}		
+		$sql = "SELECT 
+					t_fast.*,
+					tc.*,
+					u.user_login as user_login,
+					b.blog_type as blog_type,	
+					b.blog_url as blog_url,
+					b.blog_title as blog_title,
+					b.user_owner_id as blog_owner_id,
+					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
+					tv.vote_delta as user_vote_delta,
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+					bu.is_moderator as user_is_blog_moderator,
+					bu.is_administrator as user_is_blog_administrator
+				FROM
+					(
+						SELECT 
+							t.*							 
+						FROM 
+							".DB_TABLE_TOPIC." as t					
+						WHERE 
+								t.topic_id IN(?a) 
+							AND 					
+							(								 
+								".$sWhereUser."
+							)					
+					) AS t_fast
+					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id 
+					JOIN ".DB_TABLE_BLOG." AS b ON t_fast.blog_id=b.blog_id	
+					LEFT JOIN (
+						SELECT
+							topic_id,
+							vote_delta												
+						FROM ".DB_TABLE_TOPIC_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tv ON t_fast.topic_id=tv.topic_id
+					LEFT JOIN (
+						SELECT
+							is_moderator,
+							is_administrator,
+							blog_id												
+						FROM ".DB_TABLE_BLOG_USER." 
+						WHERE user_id = ?d
+					) AS bu ON t_fast.blog_id=bu.blog_id
+					LEFT JOIN (
+						SELECT
+							topic_id																			
+						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS tqv ON t_fast.topic_id=tqv.topic_id
+					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
+					";
+		$aTopics=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+			foreach ($aRows as $aTopic) {
+				$aTopics[]=new TopicEntity_Topic($aTopic);
+			}
+		}		
+		return $aTopics;
+	}
+	
+	
 	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {	
 		$iCurrentUserId=-1;
 		if (is_object($this->oUserCurrent)) {

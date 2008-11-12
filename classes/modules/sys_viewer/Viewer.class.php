@@ -294,9 +294,10 @@ class Viewer extends Module {
 	 * @param int $iCountPerPage
 	 * @param int $iCountPageLine
 	 * @param string $sBaseUrl
+	 * @param array(name=>value) $aGetParamsList
 	 * @return array()
 	 */
-	public function MakePaging($iCount,$iCurrentPage,$iCountPerPage,$iCountPageLine,$sBaseUrl) {		
+	public function MakePaging($iCount,$iCurrentPage,$iCountPerPage,$iCountPageLine,$sBaseUrl,$aGetParamsList=array()) {		
 		if ($iCount==0) {
 			return false;
 		}
@@ -324,6 +325,14 @@ class Viewer extends Module {
 		$iNextPage = $iCurrentPage<$iCountPage ? $iCurrentPage+1 : false;
 		$iPrevPage = $iCurrentPage>1 ? $iCurrentPage-1 : false;
 		
+		$sGetParams='';
+		foreach ($aGetParamsList as $sName => $sValue) {
+			$sGetParams.=$sName.'='.urlencode($sValue).'&';
+		}
+		if ($sGetParams!='') {
+			$sGetParams='?'.trim($sGetParams,'&');
+		}
+		
 		$aPaging=array(
 			'aPagesLeft' => $aPagesLeft,
 			'aPagesRight' => $aPagesRight,
@@ -332,6 +341,7 @@ class Viewer extends Module {
 			'iNextPage' => $iNextPage,
 			'iPrevPage' => $iPrevPage,
 			'sBaseUrl' => $sBaseUrl,
+			'sGetParams' => $sGetParams,
 		);
 		return $aPaging;
 	}

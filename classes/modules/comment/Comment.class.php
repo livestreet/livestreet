@@ -68,7 +68,21 @@ class Comment extends Module {
 		return $data;		 	
 	}	
 	/**
-	 * Получть все комменты сгрупировваные по топику(для вывода прямого эфира)
+	 * Получисть список комментов по списку айдишников
+	 *
+	 * @param unknown_type $aArrayId
+	 * @return unknown
+	 */
+	public function GetCommentsByArrayId($aArrayId) {
+		$sIds=serialize($aArrayId);
+		if (false === ($data = $this->Cache_Get("comment_list_{$sIds}"))) {			
+			$data = $this->oMapperTopicComment->GetCommentsByArrayId($aArrayId);
+			$this->Cache_Set($data, "comment_list_{$sIds}", array("comment_update",'topic_update'), 60*5);
+		}
+		return $data;
+	}
+	/**
+	 * Получть все комменты сгрупированные по топику(для вывода прямого эфира)
 	 *
 	 * @param unknown_type $iLimit
 	 * @return unknown
@@ -188,7 +202,7 @@ class Comment extends Module {
 	public function UpdateTopicComment(CommentEntity_TopicComment $oTopicComment) {		
 		if ($this->oMapperTopicComment->UpdateTopicComment($oTopicComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('comment_update',"comment_update_topic_{$oTopicComment->getTopicId()}"));				
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('comment_update',"comment_update_{$oTopicComment->getId()}","comment_update_topic_{$oTopicComment->getTopicId()}"));				
 			return true;
 		}
 		return false;

@@ -200,6 +200,56 @@ class Mapper_TopicComment extends Mapper {
 		return $aComments;
 	}
 	
+	public function GetCommentsByArrayId($aArrayId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+		
+		$sql = "SELECT
+					c_fast.*,
+					c_full.*,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					u.user_login as user_login,
+					b.blog_title as blog_title,
+					b.blog_type as blog_type,
+					b.blog_url as blog_url,
+					u_owner.user_login	as blog_owner_login
+				FROM (
+					SELECT 					
+						c.comment_id,
+						t.topic_title as topic_title,
+						t.topic_count_comment as topic_count_comment,
+						t.blog_id									
+					FROM 
+						".DB_TABLE_TOPIC_COMMENT." as c,
+						".DB_TABLE_TOPIC." as t					 
+					WHERE 	
+						c.comment_id IN(?a) 		
+						AND		
+						c.comment_delete = 0
+						AND			
+						c.topic_id=t.topic_id
+						AND
+						t.topic_publish = 1					
+					ORDER by c.comment_id desc					
+					) AS c_fast
+					JOIN ".DB_TABLE_TOPIC_COMMENT." AS c_full ON c_fast.comment_id=c_full.comment_id
+					JOIN ".DB_TABLE_USER." AS u ON c_full.user_id=u.user_id
+					JOIN ".DB_TABLE_BLOG." AS b ON c_fast.blog_id=b.blog_id
+					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id										
+					";
+			
+		$aComments=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId)) {
+			foreach ($aRows as $aTopicComment) {
+				$aComments[]=new CommentEntity_TopicComment($aTopicComment);
+			}
+			$iCount=$this->GetCountCommentsAll();
+		}
+		return $aComments;
+	}
+	
 	public function GetCountCommentsAll() {
 		$sql = "SELECT 					
 						count(c.comment_id) as count															

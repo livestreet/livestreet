@@ -144,6 +144,30 @@ class Topic extends Module {
 		return $data;		
 	}	
 	/**
+	 * Получить список топиков по списку айдишников
+	 *
+	 * @param unknown_type $aArrayId
+	 * @param unknown_type $oUser
+	 * @param unknown_type $iPublish
+	 */
+	public function GetTopicsByArrayId($aArrayId,$oUser=null,$iPublish=1) {
+		$s='';
+		if (is_object($oUser)) {
+			$s=$oUser->getId();		
+		}
+		$s2=-1;		
+		if ($this->oUserCurrent) {
+			$s2=$this->oUserCurrent->getId();
+		}
+		$sIds=serialize($aArrayId);
+		if (false === ($data = $this->Cache_Get("topic_list_{$sIds}_{$s}_{$s2}_{$iPublish}"))) {			
+			if ($data = $this->oMapperTopic->GetTopicsByArrayId($aArrayId,$oUser,$iPublish)) {				
+				$this->Cache_Set($data, "topic_list_{$sIds}_{$s}_{$s2}_{$iPublish}", array("topic_update"), 60*5);
+			}			
+		}		
+		return $data;
+	}
+	/**
 	 * Получает список топиков из избранного
 	 *
 	 * @param unknown_type $sUserId
