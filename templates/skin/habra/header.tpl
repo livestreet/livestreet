@@ -118,10 +118,10 @@ var msgNoticeBox=new Roar({
 		<DIV class=left>
 			<A href="{$DIR_WEB_ROOT}/"><IMG class=sitelogo title="{$SITE_NAME}" height=130 alt="{$SITE_NAME}" src="{$DIR_STATIC_SKIN}/img/logo.gif" width=240 border=0></A> 
 			<DIV class=menu>
-				<A href="{$DIR_WEB_ROOT}/blog/">Блоги</A> 
-				<A href="{$DIR_WEB_ROOT}/people/">Люди</A> 
-				<A href="{$DIR_WEB_ROOT}/page/about/">О проекте</A>				
-				<A href="{$DIR_WEB_ROOT}/page/download/">Скачать</A>
+				<A href="{$DIR_WEB_ROOT}/blog/">{$aLang.blogs}</A> 
+				<A href="{$DIR_WEB_ROOT}/people/">{$aLang.people}</A> 
+				<A href="{$DIR_WEB_ROOT}/page/about/">{$aLang.page_about}</A>				
+				<A href="{$DIR_WEB_ROOT}/page/download/">{$aLang.page_download}</A>
 				<A href="http://trac.assembla.com/livestreet/timeline" target="_blank" style="color: #d00;">SVN</A>
 				<A href="http://test.livestreet.ru" target="_blank" style="color: #d00;">DEMO</A>
 			</DIV>

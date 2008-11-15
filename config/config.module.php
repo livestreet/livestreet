@@ -22,7 +22,8 @@ return array(
 	'autoLoad' => array(
 		'Cache',
 		'Session',
-		'User',		
+		'User',
+		'Lang',		
 	),
 );
 ?>

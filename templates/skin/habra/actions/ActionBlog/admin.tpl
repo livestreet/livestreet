@@ -2,9 +2,9 @@
 
 
 {if $sEvent=='add'}
-	<h1>Создание нового блога</h1>
+	<h1>{$aLang.blog_create}</h1>
 {else}
-	<h1>Управление блогом: <a href="{$DIR_WEB_ROOT}/blog/{$oBlogEdit->getUrl()}/"  class="blog_headline_group">{$oBlogEdit->getTitle()}</a></h1>
+	<h1>{$aLang.blog_admin}: <a href="{$DIR_WEB_ROOT}/blog/{$oBlogEdit->getUrl()}/"  class="blog_headline_group">{$oBlogEdit->getTitle()}</a></h1>
 	{include file='menu.blog_edit.tpl'}
 {/if}
 
@@ -19,15 +19,15 @@
       	<table width="100%" bgcolor="White" border="0" cellspacing="0" cellpadding="0" class="inbox">
 			<tr>
 				<td width="200px"></td>
-				<td align="center">администратор</td>				
-				<td align="center">модератор</td>
-				<td align="center">читатель</td>
+				<td align="center">{$aLang.blog_admin_users_administrator}</td>				
+				<td align="center">{$aLang.blog_admin_users_moderator}</td>
+				<td align="center">{$aLang.blog_admin_users_reader}</td>
 			</tr>	
 			{foreach from=$aBlogUsers item=oBlogUser}
 			<tr>
 				<td><a href="{$DIR_WEB_ROOT}/profile/{$oBlogUser->getUserLogin()}/">{$oBlogUser->getUserLogin()}</a></td>
 				{if $oBlogUser->getUserId()==$oUserCurrent->getId()}
-				<td colspan="3" align="center">это вы &mdash; настоящий администратор!</td>
+				<td colspan="3" align="center">{$aLang.blog_admin_users_current_administrator}</td>
 				{else}
 				<td align="center">
 					<input type="radio" name="user_rank[{$oBlogUser->getUserId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if}>
@@ -47,15 +47,14 @@
      
 
     <p class="l-bot">     
-     <input type="submit" name="submit_blog_admin" value="сохранить">&nbsp;    
+     <input type="submit" name="submit_blog_admin" value="{$aLang.blog_admin_users_submit}">&nbsp;    
     </p>
 
-    <div class="form_note">После нажатия на кнопку &laquo;Сохранить&raquo;, права пользователей будут сохранены</div>
+    <div class="form_note">{$aLang.blog_admin_users_submit_notice}</div>
 {else}
-	в блоге никто не состоит  
+	{$aLang.blog_admin_users_empty} 
 {/if}  
-    
-    <p>Может быть, перейти на <a href="{$DIR_WEB_ROOT}/topic/add/">страницу создания топиков</a>?</p>
+        
 	<input type="hidden" name="blog_id" value="{$_aRequest.blog_id}">
     </form>
      </div>

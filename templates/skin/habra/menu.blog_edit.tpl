@@ -16,7 +16,7 @@
     	{/if}
     	<TD class="{$sel}width10"></TD>
     	<TD class="{$sel}subitem1 center">
-    		<A class=tags_f href="{$DIR_WEB_ROOT}/blog/edit/{$oBlogEdit->getId()}/">Профиль</A>
+    		<A class=tags_f href="{$DIR_WEB_ROOT}/blog/edit/{$oBlogEdit->getId()}/">{$aLang.blog_admin_profile}</A>
     	</TD>
     	<TD class="{$sel}border2px width10"></TD>
     	
@@ -26,7 +26,7 @@
     	{/if}
     	<TD class="{$sel}width10"></TD>
     	<TD class="{$sel}subitem1 center">
-    		<A class=tags_f href="{$DIR_WEB_ROOT}/blog/admin/{$oBlogEdit->getId()}/">Пользователи</A>
+    		<A class=tags_f href="{$DIR_WEB_ROOT}/blog/admin/{$oBlogEdit->getId()}/">{$aLang.blog_admin_users}</A>
     	</TD>
     	<TD class="{$sel}border2px width10"></TD>   	
     	
