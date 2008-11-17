@@ -44,14 +44,16 @@ class Topic extends Module {
 	public function AddTopic(TopicEntity_Topic $oTopic) {
 		if ($sId=$this->oMapperTopic->AddTopic($oTopic)) {
 			$oTopic->setId($sId);
-			$aTags=explode(',',$oTopic->getTags());
-			foreach ($aTags as $sTag) {
-				$oTag=new TopicEntity_TopicTag();
-				$oTag->setTopicId($oTopic->getId());
-				$oTag->setUserId($oTopic->getUserId());
-				$oTag->setBlogId($oTopic->getBlogId());
-				$oTag->setText($sTag);
-				$this->oMapperTopic->AddTopicTag($oTag);
+			if ($oTopic->getPublish()) {
+				$aTags=explode(',',$oTopic->getTags());
+				foreach ($aTags as $sTag) {
+					$oTag=new TopicEntity_TopicTag();
+					$oTag->setTopicId($oTopic->getId());
+					$oTag->setUserId($oTopic->getUserId());
+					$oTag->setBlogId($oTopic->getBlogId());
+					$oTag->setText($sTag);
+					$this->oMapperTopic->AddTopicTag($oTag);
+				}
 			}
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_new',"topic_new_user_{$oTopic->getUserId()}","topic_new_blog_{$oTopic->getBlogId()}"));						
