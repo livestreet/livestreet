@@ -45,7 +45,7 @@ var msgNoticeBox=new Roar({
 <div id="window_status">
 <table>
 	<tr>
-		<td><IMG class=sitelogo title="закрыть"  alt="закрыть" src="{$DIR_STATIC_SKIN}/img/loader.gif" border=0 style="cursor: pointer;" onclick="closeWindowStatus();"></td>
+		<td><IMG class=sitelogo title="{$aLang.window_close}"  alt="{$aLang.window_close}" src="{$DIR_STATIC_SKIN}/img/loader.gif" border=0 style="cursor: pointer;" onclick="closeWindowStatus();"></td>
 		<td><div id="window_status_text"></div></td>
 	</tr>
 </table>
@@ -55,17 +55,17 @@ var msgNoticeBox=new Roar({
 	<DIV class=right>
 		
 	{if $oUserCurrent}
-		<A href="{$DIR_WEB_ROOT}/profile/{$oUserCurrent->getLogin()}/"><IMG class=img_border title=" это я! " aheight=64 alt="" src="{$oUserCurrent->getProfileAvatarPath(64)}" width=64 border=0></A> 
+		<A href="{$DIR_WEB_ROOT}/profile/{$oUserCurrent->getLogin()}/"><IMG class=img_border aheight=64 alt="" src="{$oUserCurrent->getProfileAvatarPath(64)}" width=64 border=0></A> 
 		<DIV class=hello>
-			<A class=hello_nickname href="{$DIR_WEB_ROOT}/profile/{$oUserCurrent->getLogin()}/">{$oUserCurrent->getLogin()}</A> ( <A class=hello_exit href="{$DIR_WEB_ROOT}/login/exit/">выход</a> ) <BR>			
+			<A class=hello_nickname href="{$DIR_WEB_ROOT}/profile/{$oUserCurrent->getLogin()}/">{$oUserCurrent->getLogin()}</A> ( <A class=hello_exit href="{$DIR_WEB_ROOT}/login/exit/">{$aLang.exit}</a> ) <BR>			
 		</DIV>
 		{if $iUserCurrentCountTalkNew}
-		<nobr>У вас есть <IMG vspace="0" title="Проверьте почту!" align="middle" height=12 alt="" src="{$DIR_STATIC_SKIN}/img/mail.gif" width=12 border=0> <A class=hello_exit href="{$DIR_WEB_ROOT}/talk/">новые сообщения({$iUserCurrentCountTalkNew})</a></nobr><br>
+		<nobr><IMG vspace="0" title="Проверьте почту!" align="middle" height=12 alt="" src="{$DIR_STATIC_SKIN}/img/mail.gif" width=12 border=0> <A class=hello_exit href="{$DIR_WEB_ROOT}/talk/">{$aLang.user_privat_messages_new}({$iUserCurrentCountTalkNew})</a></nobr><br>
 		{else}
-		<nobr>У вас нет <A class=hello_exit href="{$DIR_WEB_ROOT}/talk/">новых сообщений</a></nobr><br>
+		<nobr><A class=hello_exit href="{$DIR_WEB_ROOT}/talk/">{$aLang.user_privat_messages}</a></nobr><br>
 		{/if}
 
-		Настройки <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/profile/">профиля</a> | <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/tuning/">сайта</a><br>
+		{$aLang.user_settings} <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/profile/">{$aLang.user_settings_profile}</a> | <A class=hello_exit href="{$DIR_WEB_ROOT}/settings/tuning/">{$aLang.user_settings_tuning}</a><br>
 		
 	{else}
 		<DIV class=hello>		
@@ -73,7 +73,7 @@ var msgNoticeBox=new Roar({
 			<table  border="0">
 				<tr>
 					<td align="right" width="100%">
-					Логин:
+					{$aLang.user_login}:
 					</td>
 					<td>
 					<input type="text" name="login" value="" size="15">
@@ -81,7 +81,7 @@ var msgNoticeBox=new Roar({
 				</tr>
 				<tr>
 					<td align="right" >
-					Пароль:
+					{$aLang.user_password}:
 					</td>
 					<td>
 					<input type="password" name="password" value="" size="15">
@@ -92,12 +92,12 @@ var msgNoticeBox=new Roar({
 					
 					</td>
 					<td  align="right" >
-					<input type="submit" name="submit_login" value="Войти" size="15">
+					<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" size="15">
 					</td>
 				</tr>
 			</table>	
 			</form>	
-			<A href="{$DIR_WEB_ROOT}/registration/">Регистрация</A> &nbsp;	
+			<A href="{$DIR_WEB_ROOT}/registration/">{$aLang.user_registration}</A> &nbsp;	
 		</DIV>		
 	{/if}
 		
@@ -146,18 +146,18 @@ var msgNoticeBox=new Roar({
 		{if ($sAction=='profile' or $sAction=='my') and $oUserProfile}
 		<DIV id=usermegadata>
 			<DIV class=biguserinfo>
-				<A class=userinfo_name_superbig href="{$DIR_WEB_ROOT}/profile/{$oUserProfile->getLogin()}/"><IMG class=img_border title=" это я! " height=48 alt="" src="{$oUserProfile->getProfileAvatarPath(48)}" width=48 align=absMiddle border=0> {$oUserProfile->getLogin()}</A> 				
+				<A class=userinfo_name_superbig href="{$DIR_WEB_ROOT}/profile/{$oUserProfile->getLogin()}/"><IMG class=img_border  height=48 alt="" src="{$oUserProfile->getProfileAvatarPath(48)}" width=48 align=absMiddle border=0> {$oUserProfile->getLogin()}</A> 				
 				
 			</DIV>
 		</DIV>
 			{if $oUserCurrent and $oUserCurrent->getId()!=$oUserProfile->getId()}
-				<a href="{$DIR_WEB_ROOT}/talk/add/?talk_users={$oUserProfile->getLogin()}"><img class=userinfo_name_superbig src="{$DIR_STATIC_SKIN}/img/mail_big.gif" border="0" title="Написать письмо" alt="Написать письмо" align="top"></a>
+				<a href="{$DIR_WEB_ROOT}/talk/add/?talk_users={$oUserProfile->getLogin()}"><img class=userinfo_name_superbig src="{$DIR_STATIC_SKIN}/img/mail_big.gif" border="0" title="{$aLang.user_write_prvmsg}" alt="{$aLang.user_write_prvmsg}" align="top"></a>
 				
 				<span id="user_frend_add" {if $oUserProfile->getUserIsFrend()}style="display: none;"{/if}>
-					<a href="#" title="добавить в друзья" onclick="ajaxUserFrend({$oUserProfile->getId()},1); return false;"><img src="{$DIR_STATIC_SKIN}/img/frend_add.gif" width="24" height="24"></a>
+					<a href="#" title="{$aLang.user_friend_add}" onclick="ajaxUserFrend({$oUserProfile->getId()},1); return false;"><img src="{$DIR_STATIC_SKIN}/img/frend_add.gif" width="24" height="24"></a>
 				</span>	
 				<span id="user_frend_del" {if !$oUserProfile->getUserIsFrend()}style="display: none;"{/if}>
-					<a href="#" title="удалить из друзей" onclick="ajaxUserFrend({$oUserProfile->getId()},0); return false;"><img src="{$DIR_STATIC_SKIN}/img/frend_del.gif" width="24" height="24"></a>
+					<a href="#" title="{$aLang.user_friend_del}" onclick="ajaxUserFrend({$oUserProfile->getId()},0); return false;"><img src="{$DIR_STATIC_SKIN}/img/frend_del.gif" width="24" height="24"></a>
 				</span>
 				
 			{/if}

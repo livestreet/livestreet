@@ -90,7 +90,7 @@ return array(
 	'blog_create_url_error' => 'URL блога должен быть от 2 до 50 символов и только на латинице + цифры и знаки "-", "_"_$$',
 	'blog_create_url_error_badword' => 'URL блога должен отличаться от:_$$',
 	'blog_create_url_error_unique' => 'Блог с таким URL уже существует_$$',
-	'blog_create_description' => 'Блог с таким URL уже существует_$$',
+	'blog_create_description' => 'Описание блога_$$',
 	'blog_create_description_notice' => 'Между прочим, можно использовать html-теги_$$',
 	'blog_create_description_error' => 'Текст описания блога должен быть от 10 до 3000 символов_$$',
 	'blog_create_type' => 'Тип блога_$$',
@@ -130,7 +130,9 @@ return array(
 	'topic_comment_read' => 'читать комментарии_$$',
 	'topic_comment_add' => 'комментировать_$$',
 	'topic_comment_add_title' => 'написать комментарий_$$',
-	'topic_comment_add_title' => 'написать комментарий_$$',
+	'topic_unpublish' => 'топик находится в черновиках_$$',
+	'topic_favourite_add' => 'добавить в избранное_$$',
+	'topic_favourite_del' => 'удалить из избранного_$$',
 	/**
 	 * Меню топиков
 	 */
@@ -143,6 +145,7 @@ return array(
 	/**
 	 * Создание топика
 	 */
+	'topic_create' => 'написать_$$',
 	'topic_create_blog' => 'В какой блог публикуем?_$$',
 	'topic_create_blog_personal' => 'мой персональный блог_$$',
 	'topic_create_title' => 'Заголовок_$$',
@@ -158,21 +161,36 @@ return array(
 	'topic_create_forbid_comment' => 'запретить комментировать_$$',
 	'topic_create_forbid_comment_notice' => 'Если отметить эту галку, то нельзя будет оставлять комментарии к топику_$$',
 	'topic_create_publish_index' => 'принудительно вывести на главную_$$',
-	'topic_create_publish_index' => 'Если отметить эту галку, то топик сразу попадёт на главную страницу(опция доступна только администраторам)_$$',
+	'topic_create_publish_index_notice' => 'Если отметить эту галку, то топик сразу попадёт на главную страницу(опция доступна только администраторам)_$$',
 	'topic_create_submit_publish' => 'опубликовать_$$',
 	'topic_create_submit_save' => 'сохранить в черновиках_$$',
 	'topic_create_submit_preview' => 'предпросмотр_$$',
 	'topic_create_submit_notice' => 'Если нажать кнопку «Сохранить в черновиках», текст топика будет виден только Вам, а рядом с его заголовком будет отображаться замочек. Чтобы топик был виден всем, нажмите «Опубликовать»._$$',
 	'topic_create_notice' => 'Не забывайте: тег <cut> сокращает длинные записи, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика._$$',
+	
+	'topic_edit' => 'отредактировать топик_$$',
 	/**
 	 * Топик-ссылка
 	 */
 	'topic_link' => 'топик-ссылка_$$',
 	'topic_link_count_jump' => 'переходов по ссылке:_$$',
 	/**
+	 * Топик-опрос
+	 */
+	'topic_question_vote' => 'голосовать_$$',
+	'topic_question_vote_result' => 'Проголосовало_$$',
+	'topic_question_abstain' => 'воздержаться_$$',
+	'topic_question_abstain_result' => 'Воздержалось_$$',
+	/**
 	 * Голосование за топик
 	 */
-	
+	'topic_vote_up' => 'нравится_$$',
+	'topic_vote_down' => 'не нравится_$$',	
+	'topic_vote_already' => 'вы уже голосовали за этот топик_$$',
+	'topic_vote_self' => 'нельзя голосовать за свой топик_$$',
+	'topic_vote_guest' => 'для голосования необходимо авторизоваться_$$',
+	'topic_vote_no' => 'пока никто не голосовал_$$',
+	'topic_vote_count' => 'всего проголосовало_$$',
 	
 	/**
 	 * Люди
@@ -192,7 +210,49 @@ return array(
 	 */
 	
 	
+	/**
+	 * Пользователь
+	 */
+	'user_privat_messages' => 'Личные сообщения_$$',
+	'user_privat_messages_new' => 'У вас есть новые сообщения_$$',
+	'user_settings' => 'Настройки_$$',
+	'user_settings_profile' => 'профиля_$$',
+	'user_settings_tuning' => 'сайта_$$',
+	'user_login' => 'логин_$$',
+	'user_login_submit' => 'Войти_$$',
+	'user_password' => 'пароль_$$',
+	'user_registration' => 'Регистрация_$$',
+	'user_write_prvmsg' => 'Написать письмо_$$',
+	'user_friend_add' => 'добавить в друзья_$$',
+	'user_friend_del' => 'удалить из друзей_$$',
+	'user_rating' => 'рейтинг_$$',
+	'user_skill' => 'сила_$$',
+	/**
+	 * Голосование за пользователя
+	 */
+	'user_vote_up' => 'нравится_$$',
+	'user_vote_down' => 'не нравится_$$',	
+	'user_vote_already' => 'вы уже голосовали за этого пользователя_$$',
+	'user_vote_self' => 'нельзя голосовать за себя_$$',
+	'user_vote_guest' => 'для голосования необходимо авторизоваться_$$',	
+	'user_vote_count' => 'голосов_$$',
+	/**
+	 * Меню профиля пользователя
+	 */
+	'user_menu_profile' => 'Профиль_$$',
+	'user_menu_profile_whois' => 'Whois_$$',
+	'user_menu_profile_favourites' => 'Избранное_$$',
+	'user_menu_profile_tags' => 'Метки_$$',
+	'user_menu_publication' => 'Публикации_$$',
+	'user_menu_publication_blog' => 'Блог_$$',
+	'user_menu_publication_comment' => 'Комментарии_$$',
+	'user_menu_publication_comment_rss' => 'RSS лента_$$',
+	
+	
+	
 	'error' => 'Ошибка_$$',
+	'exit' => 'выход_$$',
+	'window_close' => 'закрыть_$$',
 	'not_access' => 'Нет доступа_$$',
 	'page_next' => 'туда_$$',
 	'page_previos' => 'сюда_$$',

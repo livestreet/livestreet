@@ -110,7 +110,7 @@ document.addEvent('domready', function() {
      <input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/>
       <label for="topic_publish_index"> &mdash; {$aLang.topic_create_publish_index}</label>	
      <br />
-            <span class="form_note">{$aLang.topic_create_publish_index}</span>
+            <span class="form_note">{$aLang.topic_create_publish_index_notice}</span>
      </p>
      {/if}
 

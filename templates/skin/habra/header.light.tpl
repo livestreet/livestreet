@@ -20,7 +20,7 @@
 
 <table width="830" border="0" cellspacing="0" cellpadding="0" valign="top">
 <tr>
-<td width="220" bgcolor="#ffffff" align="center" valign="top"><a href="{$DIR_WEB_ROOT}/"><IMG class=sitelogo title="Ваш логотип" height=130 alt="Ваш логотип" src="{$DIR_STATIC_SKIN}/img/logo.gif" width=240 border=0></a></td>
+<td width="220" bgcolor="#ffffff" align="center" valign="top"><a href="{$DIR_WEB_ROOT}/"><IMG class=sitelogo title="{$SITE_NAME}" height=130 alt="{$SITE_NAME}" src="{$DIR_STATIC_SKIN}/img/logo.gif" width=240 border=0></a></td>
 <td width="10" bgcolor="#ffffff" valign="top"></td>
 <td width="600" bgcolor="#ffffff" valign="top">
 
