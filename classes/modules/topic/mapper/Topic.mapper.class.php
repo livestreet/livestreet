@@ -412,6 +412,7 @@ class Mapper_Topic extends Mapper {
 						WHERE user_id = ?d
 					) AS bu ON t_fast.blog_id=bu.blog_id
 				JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
+				order by t_fast.topic_date_add desc
 				;	
 					";
 		
@@ -531,6 +532,7 @@ class Mapper_Topic extends Mapper {
 								WHERE user_voter_id = ?d
 								) AS tqv ON tt.topic_id=tqv.topic_id
                          LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
+                         order by t.topic_id desc
 				;	
 					";
 		
@@ -645,7 +647,8 @@ class Mapper_Topic extends Mapper {
 								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
 								WHERE user_voter_id = ?d
 								) AS tqv ON t_fast.topic_id=tqv.topic_id
-					JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
+					JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id 
+					order by t_fast.topic_rating desc
 					";
 		
 		$aTopics=array();
@@ -940,6 +943,7 @@ class Mapper_Topic extends Mapper {
 								WHERE user_voter_id = ?d
 								) AS tqv ON tt.topic_id=tqv.topic_id
                          LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
+                         order by t.topic_id DESC
 				;	
 					";
 		
