@@ -287,9 +287,10 @@ class Mapper_Topic extends Mapper {
 						WHERE user_voter_id = ?d
 					) AS tqv ON t_fast.topic_id=tqv.topic_id
 					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
+					ORDER BY FIELD(t_fast.topic_id,?a)
 					";
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$aArrayId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}

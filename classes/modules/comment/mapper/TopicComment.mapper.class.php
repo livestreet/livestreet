@@ -237,11 +237,12 @@ class Mapper_TopicComment extends Mapper {
 					JOIN ".DB_TABLE_TOPIC_COMMENT." AS c_full ON c_fast.comment_id=c_full.comment_id
 					JOIN ".DB_TABLE_USER." AS u ON c_full.user_id=u.user_id
 					JOIN ".DB_TABLE_BLOG." AS b ON c_fast.blog_id=b.blog_id
-					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id										
+					JOIN ".DB_TABLE_USER." AS u_owner ON b.user_owner_id=u_owner.user_id	
+					ORDER BY FIELD(c_fast.comment_id,?a)									
 					";
 			
 		$aComments=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aTopicComment) {
 				$aComments[]=new CommentEntity_TopicComment($aTopicComment);
 			}
