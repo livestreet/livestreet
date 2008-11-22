@@ -83,6 +83,18 @@ class Topic extends Module {
 		return $this->oMapperTopic->DeleteTopicTagsByTopicId($sTopicId);
 	}	
 	/**
+	 * Удаляет топик.
+	 * Если тип таблиц в БД InnoDB, то удалятся всё связи по топику(комменты,голосования,избранное)
+	 *
+	 * @param unknown_type $sTopicId
+	 * @return unknown
+	 */
+	public function DeleteTopic($sTopicId) {
+		//чистим зависимые кеши			
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$oTopic->getId()}","topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));						
+		return $this->oMapperTopic->DeleteTopic($sTopicId);
+	}
+	/**
 	 * Обновляет топик
 	 *
 	 * @param TopicEntity_Topic $oTopic

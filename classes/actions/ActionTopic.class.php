@@ -65,6 +65,7 @@ class ActionTopic extends Action {
 		$this->AddEvent('saved','EventSaved');
 		$this->AddEvent('published','EventPublished');		
 		$this->AddEvent('edit','EventEdit');	
+		$this->AddEvent('delete','EventDelete');
 	}
 		
 	
@@ -156,6 +157,38 @@ class ActionTopic extends Action {
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
 			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 		}	
+	}
+	/**
+	 * Удаление топика
+	 *
+	 * @return unknown
+	 */
+	protected function EventDelete() {		
+		/**
+		 * Получаем номер топика из УРЛ и проверяем существует ли он
+		 */
+		$sTopicId=$this->GetParam(0);
+		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,null,-1)) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * проверяем есть ли право на удаление топика
+		 */
+		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
+		
+		if (!$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Удаляем топик
+		 */
+		$this->Topic_DeleteTopic($oTopic->getId());
+		/**
+		 * Перенаправляем на страницу со списком топиков из блога этого топика
+		 */
+		func_header_location($oTopic->getBlogUrlFull());
 	}
 	/**
 	 * Добавление топика

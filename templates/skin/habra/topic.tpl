@@ -13,6 +13,9 @@
   				{if $oUserCurrent and ( $oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getUserIsBlogModerator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
   					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="{$aLang.topic_edit}"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="{$aLang.topic_edit}"></a>
   				{/if}
+  				{if $oUserCurrent and ($oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+  					<a href="{$DIR_WEB_ROOT}/topic/delete/{$oTopic->getId()}/" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');"><img src="{$DIR_STATIC_SKIN}/img/delete_16x16.gif" border="0" title="{$aLang.topic_delete}"></a>
+  				{/if}
   				<a href="{$DIR_WEB_ROOT}/rss/comments/{$oTopic->getId()}/" title="RSS лента"><IMG  height=12 src="{$DIR_STATIC_SKIN}/img/rss_small.gif" width=12></a>
   			</h1>
     	<div class="groups_topic_text">    	

@@ -18,6 +18,10 @@
   					<a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="{$aLang.topic_edit}"><img src="{$DIR_STATIC_SKIN}/img/blog_edit.gif" border="0" title="{$aLang.topic_edit}"></a>
   				{/if}
   				
+  				{if $oUserCurrent and ($oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+  					<a href="{$DIR_WEB_ROOT}/topic/delete/{$oTopic->getId()}/" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');"><img src="{$DIR_STATIC_SKIN}/img/delete_16x16.gif" border="0" title="{$aLang.topic_delete}"></a>
+  				{/if}
+  				
   			</h1>
   			<div class="groups_topic_text">
   			

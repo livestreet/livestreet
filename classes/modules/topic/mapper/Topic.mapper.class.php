@@ -108,6 +108,17 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
+	public function DeleteTopic($sTopicId) {
+		$sql = "DELETE FROM ".DB_TABLE_TOPIC." 
+			WHERE
+				topic_id = ?d				
+		";			
+		if ($this->oDb->query($sql,$sTopicId)) {
+			return true;
+		}		
+		return false;
+	}
+	
 	public function GetTopicById($sId,$oUser,$iPublish) {
 		$iCurrentUserId=-1;
 		if (is_object($this->oUserCurrent)) {

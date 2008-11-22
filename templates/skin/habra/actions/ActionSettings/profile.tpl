@@ -44,7 +44,7 @@ document.addEvent('domready', function() {
 
 	<label for="profile_name"><span class="form">Имя:</span></label><br />
 	<input  style="width: 60%;" type="text" name="profile_name" tabindex="1" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" size="20" />	<br>
-	<span class="form_note">Может состоять только из букв (A-Z a-z), цифр (0-9). Длина имени не может быть меньше 2 и больше 20 символов.</span><br />
+	<span class="form_note">Длина имени не может быть меньше 2 и больше 20 символов.</span><br />
 	<br>
 
 	<label for="mail"><span class="form">E-mail:</span></label><br />
