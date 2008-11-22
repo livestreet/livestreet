@@ -1186,7 +1186,7 @@ class ActionBlog extends Action {
 				 */
 				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {					
 					$oUserAuthorComment=$this->User_GetUserById($oCommentParent->getUserId());					
-					$this->Notify_SendCommentNewToAuthorTopic($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);					
+					$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);					
 				}
 				func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html#comment'.$oCommentNew->getId());
 			} else {
