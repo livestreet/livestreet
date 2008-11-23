@@ -90,6 +90,7 @@ class Topic extends Module {
 	 * @return unknown
 	 */
 	public function DeleteTopic($sTopicId) {
+		$oTopic = $this->oMapperTopic->GetTopicById($sTopicId,null,-1); 
 		//чистим зависимые кеши			
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$oTopic->getId()}","topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));						
 		return $this->oMapperTopic->DeleteTopic($sTopicId);
