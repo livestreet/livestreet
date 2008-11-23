@@ -101,7 +101,7 @@ class ActionRegistration extends Action {
 			/**
 			 * Проверка капчи(циферки с картинки)
 			 */
-			if ($_SESSION['captcha_keystring']!=strtolower(getRequest('captcha'))) {
+			if (!isset($_SESSION['captcha_keystring']) or $_SESSION['captcha_keystring']!=strtolower(getRequest('captcha'))) {
 				$this->Message_AddError('Неверный код','Ошибка');
 				$bError=true;
 			}
@@ -146,6 +146,10 @@ class ActionRegistration extends Action {
 				 * Регистрируем
 				 */
 				if ($this->User_Add($oUser)) {	
+					/**
+					 * Убиваем каптчу
+					 */
+					unset($_SESSION['captcha_keystring']);
 					/**
 					 * Создаем персональный блог
 					 */
