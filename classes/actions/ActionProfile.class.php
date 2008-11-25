@@ -106,7 +106,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */					
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/my/'.$this->oUserProfile->getLogin());		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/profile/'.$this->oUserProfile->getLogin().'/favourites');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			

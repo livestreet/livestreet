@@ -16,22 +16,22 @@
      						<img src="{$DIR_STATIC_SKIN}/img/vote_down_gray.gif" width="16" height="16" alt="{$aLang.user_vote_down}" title="{$aLang.user_vote_self}" />
      					</span>
      					<span id="user_vote_anonim_{$oUserProfile->getId()}" style="display: none;" >
-     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="$aLang.user_vote_up}" title="{$aLang.user_vote_guest}" />
+     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="{$aLang.user_vote_up}" title="{$aLang.user_vote_guest}" />
      						<span id="user_rating_anonim_{$oUserProfile->getId()}" style="color: {if $oUserProfile->getRating()<0}#d00000{else}#008000{/if};">{$oUserProfile->getRating()}</span>
      						<img src="{$DIR_STATIC_SKIN}/img/vote_down_gray.gif" width="16" height="16" alt="{$aLang.user_vote_down}" title="{$aLang.user_vote_guest}" />
      					</span>
      					<span id="user_vote_is_vote_down_{$oUserProfile->getId()}" style="display: none;" >
-     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="$aLang.user_vote_up}" title="{$aLang.user_vote_already}" />
+     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="{$aLang.user_vote_up}" title="{$aLang.user_vote_already}" />
      						<span id="user_rating_is_vote_down_{$oUserProfile->getId()}" style="color: {if $oUserProfile->getRating()<0}#d00000{else}#008000{/if};">{$oUserProfile->getRating()}</span>
      						<img src="{$DIR_STATIC_SKIN}/img/vote_down.gif" width="16" height="16" alt="{$aLang.user_vote_down}" title="{$aLang.user_vote_already}" />
      					</span>
      					<span id="user_vote_is_vote_up_{$oUserProfile->getId()}" style="display: none;" >
-     						<img src="{$DIR_STATIC_SKIN}/img/vote_up.gif" width="16" height="16" alt="$aLang.user_vote_up}" title="{$aLang.user_vote_already}" />
+     						<img src="{$DIR_STATIC_SKIN}/img/vote_up.gif" width="16" height="16" alt="{$aLang.user_vote_up}" title="{$aLang.user_vote_already}" />
      						<span id="user_rating_is_vote_up_{$oUserProfile->getId()}" style="color: {if $oUserProfile->getRating()<0}#d00000{else}#008000{/if};">{$oUserProfile->getRating()}</span>
      						<img src="{$DIR_STATIC_SKIN}/img/vote_down_gray.gif" width="16" height="16" alt="{$aLang.user_vote_down}" title="{$aLang.user_vote_already}" />
      					</span>
      					<span id="user_vote_ok_{$oUserProfile->getId()}" style="display: none;" >
-     						<a href="#" onclick="ajaxVoteUser({$oUserProfile->getId()},1); return false;"><img src="{$DIR_STATIC_SKIN}/img/vote_up.gif" width="16" height="16" alt="$aLang.user_vote_up}" title="$aLang.user_vote_up}" /></a>
+     						<a href="#" onclick="ajaxVoteUser({$oUserProfile->getId()},1); return false;"><img src="{$DIR_STATIC_SKIN}/img/vote_up.gif" width="16" height="16" alt="{$aLang.user_vote_up}" title="{$aLang.user_vote_up}" /></a>
      						<span id="user_rating_ok_{$oUserProfile->getId()}" style="color: {if $oUserProfile->getRating()<0}#d00000{else}#008000{/if};">{$oUserProfile->getRating()}</span>
      						<a href="#" onclick="ajaxVoteUser({$oUserProfile->getId()},-1); return false;"><img src="{$DIR_STATIC_SKIN}/img/vote_down.gif" width="16" height="16" alt="{$aLang.user_vote_down}" title="{$aLang.user_vote_down}" /></a>
      					</span>

@@ -61,7 +61,7 @@
      						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="{$aLang.topic_vote_up}" title="{$aLang.topic_vote_guest}" /><img src="{$DIR_STATIC_SKIN}/img/vote_down_gray.gif" width="16" height="16" alt="{$aLang.topic_vote_down}" title="{$aLang.topic_vote_guest}" />
      					</span>
      					<span id="topic_vote_is_vote_down_{$oTopic->getId()}" style="display: none;" class="{$aLang.topic_vote_up}">
-     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="нравится" title="{$aLang.topic_vote_already}" /><img src="{$DIR_STATIC_SKIN}/img/vote_down.gif" width="16" height="16" alt="{$aLang.topic_vote_down}" title="{$aLang.topic_vote_already}" />
+     						<img src="{$DIR_STATIC_SKIN}/img/vote_up_gray.gif" width="16" height="16" alt="{$aLang.topic_vote_up}" title="{$aLang.topic_vote_already}" /><img src="{$DIR_STATIC_SKIN}/img/vote_down.gif" width="16" height="16" alt="{$aLang.topic_vote_down}" title="{$aLang.topic_vote_already}" />
      					</span>
      					<span id="topic_vote_is_vote_up_{$oTopic->getId()}" style="display: none;" class="arrows_vote">
      						<img src="{$DIR_STATIC_SKIN}/img/vote_up.gif" width="16" height="16" alt="{$aLang.topic_vote_up}" title="{$aLang.topic_vote_already}" /><img src="{$DIR_STATIC_SKIN}/img/vote_down_gray.gif" width="16" height="16" alt="{$aLang.topic_vote_down}" title="{$aLang.topic_vote_already}" />
