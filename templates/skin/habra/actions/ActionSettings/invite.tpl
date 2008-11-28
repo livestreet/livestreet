@@ -12,21 +12,21 @@
 
 
 
-<p><span class="header">Управление приглашениями</span>
+<p><span class="header">{$aLang.settings_invite}</span>
 <BR>
-<BR>Доступно: {if $oUserCurrent->isAdministrator()}много{else}{$iCountInviteAvailable}{/if}
-<BR>Использовано: {$iCountInviteUsed}
+<BR>{$aLang.settings_invite_available}: {if $oUserCurrent->isAdministrator()}{$aLang.settings_invite_many}{else}{$iCountInviteAvailable}{/if}
+<BR>{$aLang.settings_invite_used}: {$iCountInviteUsed}
 <BR>
 <BR>
 <form action="{$DIR_WEB_ROOT}/settings/invite/" method="POST" enctype="multipart/form-data">
 
-	<label for="invite_mail"><span class="form">Пригласить по e-mail адресу:</span></label><br />
+	<label for="invite_mail"><span class="form">{$aLang.settings_invite_mail}:</span></label><br />
 	<input  style="width: 60%;" type="text" name="invite_mail" tabindex="1" id="invite_mail" value="" size="20" />	<br>
-	<span class="form_note">На этот e-mail будет высланно приглашение для регистрации</span><br />
+	<span class="form_note">{$aLang.settings_invite_mail_notice}</span><br />
 	<br>
 
 
-	<p class="l-bot"><input type="submit" name="submit_invite" tabindex="6" value="отправить приглашение" /></p>
+	<p class="l-bot"><input type="submit" name="submit_invite" tabindex="6" value="{$aLang.settings_invite_submit}" /></p>
 </form>
 
 

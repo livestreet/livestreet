@@ -250,6 +250,57 @@ return array(
 	'user_menu_publication_comment' => 'Комментарии_$$',
 	'user_menu_publication_comment_rss' => 'RSS лента_$$',
 	
+	/**
+	 * Настройки
+	 */
+	'settings_profile_edit' => 'Изменение профиля_$$',
+	'settings_profile_name' => 'Имя_$$',
+	'settings_profile_name_notice' => 'Длина имени не может быть меньше 2 и больше 20 символов._$$',
+	'settings_profile_mail' => 'E-mail_$$',
+	'settings_profile_mail_notice' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления_$$',
+	'settings_profile_sex' => 'Пол_$$',
+	'settings_profile_sex_man' => 'мужской_$$',
+	'settings_profile_sex_woman' => 'женский_$$',
+	'settings_profile_sex_other' => 'не скажу_$$',
+	'settings_profile_birthday' => 'Дата рождения_$$',
+	'settings_profile_country' => 'Страна_$$',
+	'settings_profile_city' => 'Город_$$',
+	'settings_profile_icq' => 'ICQ_$$',
+	'settings_profile_site' => 'Сайт_$$',
+	'settings_profile_site_url' => 'URL сайта_$$',
+	'settings_profile_site_name' => 'название сайта_$$',
+	'settings_profile_about' => 'О себе_$$',
+	'settings_profile_password_current' => 'Текущий пароль_$$',
+	'settings_profile_password_new' => 'Новый пароль_$$',
+	'settings_profile_password_confirm' => 'Еще раз новый пароль_$$',
+	'settings_profile_avatar' => 'Аватар_$$',
+	'settings_profile_avatar_delete' => 'удалить_$$',
+	'settings_profile_submit' => 'сохранить профиль_$$',
+	'settings_invite' => 'Управление приглашениями_$$',
+	'settings_invite_available' => 'Доступно_$$',
+	'settings_invite_used' => 'Использовано_$$',
+	'settings_invite_mail' => 'Пригласить по e-mail адресу_$$',
+	'settings_invite_mail_notice' => 'На этот e-mail будет высланно приглашение для регистрации_$$',
+	'settings_invite_many' => 'много_$$',
+	'settings_invite_submit' => 'отправить приглашение_$$',
+	'settings_tuning' => 'Настройки сайта_$$',
+	'settings_tuning_notice' => 'Уведомления на e-mail_$$',
+	'settings_tuning_notice_new_topic' => 'при новом топике в блоге_$$',
+	'settings_tuning_notice_new_comment' => 'при новом комментарии в топике_$$',
+	'settings_tuning_notice_new_talk' => 'при новом личном сообщении_$$',
+	'settings_tuning_notice_reply_comment' => 'при ответе на комментарий_$$',
+	'settings_tuning_notice_new_friend' => 'при добавлении вас в друзья_$$',
+	'settings_tuning_submit' => 'сохранить настройки_$$',
+	
+	
+	/**
+	 * Меню настроек
+	 */
+	'settings_menu' => 'Настройки_$$',
+	'settings_menu_profile' => 'Профиль_$$',
+	'settings_menu_tuning' => 'Тюнинг_$$',
+	'settings_menu_invite' => 'Инвайты_$$',
+	
 	
 	
 	'error' => 'Ошибка_$$',
@@ -258,6 +309,22 @@ return array(
 	'not_access' => 'Нет доступа_$$',
 	'page_next' => 'туда_$$',
 	'page_previos' => 'сюда_$$',
+	'date_day' => 'день_$$',
+	'date_month' => 'месяц_$$',
+	'date_month_1' => 'января_$$',
+	'date_month_2' => 'февраля_$$',
+	'date_month_3' => 'марта_$$',
+	'date_month_4' => 'апреля_$$',
+	'date_month_5' => 'мая_$$',
+	'date_month_6' => 'июня_$$',
+	'date_month_7' => 'июля_$$',
+	'date_month_8' => 'августа_$$',
+	'date_month_9' => 'сентября_$$',
+	'date_month_10' => 'октября_$$',
+	'date_month_11' => 'ноября_$$',
+	'date_month_12' => 'декабря_$$',	
+	'date_year' => 'год_$$',
+	
 );
 
 ?>
