@@ -604,5 +604,32 @@ class User extends Module {
 		}
 		return $data;		
 	}
+	/**
+	 * Добавляем воспоминание(восстановление) пароля
+	 *
+	 * @param unknown_type $oReminder
+	 * @return unknown
+	 */
+	public function AddReminder(UserEntity_Reminder $oReminder) {
+		return $this->oMapper->AddReminder($oReminder);
+	}
+	/**
+	 * Сохраняем воспомнинание(восстановление) пароля
+	 *
+	 * @param unknown_type $oReminder
+	 * @return unknown
+	 */
+	public function UpdateReminder(UserEntity_Reminder $oReminder) {
+		return $this->oMapper->UpdateReminder($oReminder);
+	}
+	/**
+	 * Получаем запись восстановления пароля по коду
+	 *
+	 * @param unknown_type $sCode
+	 * @return unknown
+	 */
+	public function GetReminderByCode($sCode) {
+		return $this->oMapper->GetReminderByCode($sCode);
+	}
 }
 ?>

@@ -628,5 +628,35 @@ class Mapper_User extends Mapper {
 		}
 		return $aReturn;
 	}
+	
+	public function AddReminder(UserEntity_Reminder $oReminder) {		
+		$sql = "REPLACE ".DB_TABLE_REMINDER." 
+			SET 
+				reminder_code = ? ,
+				user_id = ? ,
+				reminder_date_add = ? ,
+				reminder_date_used = ? ,
+				reminder_date_expire = ? ,
+				reminde_is_used = ? 				
+		";			
+		return $this->oDb->query($sql,$oReminder->getCode(),$oReminder->getUserId(),$oReminder->getDateAdd(),$oReminder->getDateUsed(),$oReminder->getDateExpire(),$oReminder->getIsUsed());
+	}
+	
+	public function UpdateReminder(UserEntity_Reminder $oReminder) {
+		return $this->AddReminder($oReminder);
+	}
+	
+	public function GetReminderByCode($sCode) {
+		$sql = "SELECT 
+					*										
+				FROM 
+					".DB_TABLE_REMINDER." 				
+				WHERE 	
+					reminder_code = ?";
+		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {
+			return new UserEntity_Reminder($aRow);
+		}
+		return null;
+	}
 }
 ?>

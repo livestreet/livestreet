@@ -311,5 +311,55 @@ class Notify extends Module {
 		$this->Mail_setHTML();
 		$this->Mail_Send();
 	}
+	/**
+	 * Уведомление при восстановлении пароля
+	 *
+	 * @param UserEntity_User $oUser
+	 * @param UserEntity_Reminder $oReminder
+	 */
+	public function SendReminderCode(UserEntity_User $oUser,UserEntity_Reminder $oReminder) {		
+		/**
+		 * Передаём в шаблон переменные
+		 */
+		$this->oViewerLocal->Assign('oUser',$oUser);		
+		$this->oViewerLocal->Assign('oReminder',$oReminder);
+		/**
+		 * Формируем шаблон
+		 */
+		$sBody=$this->oViewerLocal->Fetch("notify.reminder_code.tpl");
+		/**
+		 * Отправляем мыло
+		 */
+		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
+		$this->Mail_SetSubject('Восстановление пароля');
+		$this->Mail_SetBody($sBody);
+		$this->Mail_setHTML();
+		$this->Mail_Send();
+	}
+	/**
+	 * Уведомление с новым паролем после его восставновления
+	 *
+	 * @param UserEntity_User $oUser
+	 * @param unknown_type $sNewPassword
+	 */
+	public function SendReminderPassword(UserEntity_User $oUser,$sNewPassword) {		
+		/**
+		 * Передаём в шаблон переменные
+		 */
+		$this->oViewerLocal->Assign('oUser',$oUser);		
+		$this->oViewerLocal->Assign('sNewPassword',$sNewPassword);
+		/**
+		 * Формируем шаблон
+		 */
+		$sBody=$this->oViewerLocal->Fetch("notify.reminder_password.tpl");
+		/**
+		 * Отправляем мыло
+		 */
+		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
+		$this->Mail_SetSubject('Новый пароль');
+		$this->Mail_SetBody($sBody);
+		$this->Mail_setHTML();
+		$this->Mail_Send();
+	}
 }
 ?>
