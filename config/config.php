@@ -129,6 +129,7 @@ define('BLOG_COMMENT_PER_PAGE',20); // число комментариев на 
 define('BLOG_COMMENT_BAD',-5); // рейтинг комментария, начиная с которого он будет скрыт
 define('BLOG_BLOGS_PER_PAGE',20); // число блогов на страницу
 define('BLOG_IMG_RESIZE_WIDTH',500); // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
+define('BLOG_USE_TINYMCE',false); // использовать или нет визуальный редактор TinyMCE
 define('USER_PER_PAGE',15); // число юзеров на страницу на странице статистики
 define('RSS_EDITOR_MAIL',SYS_MAIL_FROM_EMAIL); // мыло редактора РСС
 

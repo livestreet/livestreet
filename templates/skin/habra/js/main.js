@@ -310,7 +310,7 @@ function ajaxUploadImg(value,sToLoad) {
     req.send( { value: value } );
 }
 
-function ajaxTextPreview(text,save) {    
+function ajaxTextPreview(textId,save) {    
     var req = new JsHttpRequest();    
     req.onreadystatechange = function() {
         if (req.readyState == 4) {         
@@ -319,10 +319,18 @@ function ajaxTextPreview(text,save) {
             if (req.responseJS.bStateError) {
             	msgErrorBox.alert('Ошибка','Возникли проблемы при обработке предпросмотра');            	
             } else {               	
-            	document.getElementById('text_preview').innerHTML = req.responseJS.sText;         	
+            	document.getElementById('text_preview').innerHTML = req.responseJS.sText;    
+            	//$('text_preview2').set('text', req.responseJS.sText);    	
             }
         }
     }      
+    var text;
+	if (tinyMCE && (ed=tinyMCE.get(textId))) {
+		text = ed.getContent();
+	} else {
+		text = $(textId).value;
+	}
+    
     showWindowStatus('Обработка предпросмотра...');
     req.open(null, DIR_WEB_ROOT+'/include/ajax/textPreview.php', true);    
     req.send( { text: text, save: save } );

@@ -4,49 +4,75 @@
  * наделённое способностью унифицировать разметку HTML/XML документов, 
  * контролировать перечень допустимых тегов и аттрибутов, 
  * предотвращать возможные XSS-атаки в коде документов.
- * @author ur001 <ur001ur001@gmail.com>, http://jevix.ru/
- * @version 0.92 (beta)
+ * http://code.google.com/p/jevix/
+ * 
+ * @author ur001 <ur001ur001@gmail.com>, http://ur001.habrahabr.ru
+ * @version 1.00
  * 
  * История версий:
+ * 1.00
+ *  + Исправлен баг с закрывающимися тегами приводящий к созданию непарного тега рушащего вёрстку
+ * 1.00 RC2
+ *  + Небольшая чистка кода
+ * 1.00 RC1
+ *  + Добавлен символьный класс Jevix::RUS для определния русских символов 
+ *  + Авторасстановка пробелов после пунктуации только для кирилицы 
+ *  + Добавлена настройка cfgSetTagNoTypography() отключающая типографирование в указанном теге
+ *  + Немного переделан алгоритм обработки кавычек. Он стал более строгим
+ *  + Знак дюйма 33" больше не превращается в открывающуюся кавычку. Однако варриант "мой 24" монитор" - парсер не переварит.
+ * 0.99
+ *  + Расширена функциональность для проверки атрибутов тега: 
+ *    можно указать тип атрибута ( 'colspan'=>'#int', 'value' => '#text' )
+ *    в Jevix, по-умолчанию, определён массив типов для нескольких стандартных атрибутов (src, href, width, height)
+ * 0.98
+ *  + Расширена функциональность для проверки атрибутов тега: 
+ *    можно задавать список дозможных значений атрибута (  'align'=>array('left', 'right', 'center') )
+ * 0.97
+ *  + Обычные "кавычки" сохраняются как &quote; если они были так написаны
+ * 0.96
+ *  + Добавлены разрешённые протоколы https и ftp для ссылок (a href="https://...)
+ * 0.95
+ *  + Исправлено типографирование ?.. и !.. (две точки в конце больше не превращаются в троеточие)
+ *  + Отключено автоматическое добавление пробела после точки для латиницы из-за чего невозможно было написать 
+ *    index.php или .htaccess
+ * 0.94
+ *  + Добавлена настройка автодобавления параметров тегов. Непример rel = "nofolow" для ссылок. 
+ *    Спасибо Myroslav Holyak (vbhjckfd@gmail.com)
+ * 0.93
+ * 	+ Исправлен баг с удалением пробелов (например в "123 &mdash; 123")
+ *  + Исправлена ошибка из-за которой иногда не срабатывало автоматическое преобразования URL в ссылу
+ *  + Добавлена настройка cfgSetAutoLinkMode для отключения автоматического преобразования URL в ссылки
+ *  + Автодобавление пробела после точки, если после неё идёт русский символ
  * 0.92
  * 	+ Добавлена настройка cfgSetAutoBrMode. При установке в false, переносы строк не будут автоматически заменяться на BR
  * 	+ Изменена обработка HTML-сущностей. Теперь все сущности имеющие эквивалент в Unicode (за исключением <>)
  *    автоматически преобразуются в символ
- *  + 
  * 0.91
  * 	+ Добавлена обработка преформатированных тегов <pre>, <code>. Для задания используйте cfgSetTagPreformatted()
  *  + Добавлена настройка cfgSetXHTMLMode. При отключении пустые теги будут оформляться как <br>, при включенном - <br/> 
-* 	+ Несколько незначительных багфиксов
+ *	+ Несколько незначительных багфиксов
  * 0.9
  * 	+ Первый бета-релиз
- * 
- * Известные баги и нереализованные фитчи:
- * 	+ При распознавании URL может захватить лишние символы
- *  + Не заменяет ' на апостроф
- *  + Знак дюйма "
- *  + Возможность задания списка разрешённых классов
  */
 
 class Jevix{
-	const PRINATABLE  = 0x8;	
-	const SPACE       = 0x10;
-	const ALPHA       = 0x20;
-	const NUMERIC     = 0x40;
-	const LAT         = 0x100;
+	const PRINATABLE  = 0x1;
+	const ALPHA       = 0x2;
+	const LAT         = 0x4;	
+	const RUS         = 0x8;		
+	const NUMERIC     = 0x10;	
+	const SPACE       = 0x20;
+	const NAME        = 0x40;
+	const URL         = 0x100;
 	const NOPRINT     = 0x200;
-	const URL         = 0x400;
-	const PUNCTUATUON = 0x800;
-	const NAME        = 0x1000;
+	const PUNCTUATUON = 0x400;
+	//const           = 0x800;
+	//const           = 0x1000;
 	const HTML_QUOTE  = 0x2000;
 	const TAG_QUOTE   = 0x4000;
 	const QUOTE_CLOSE = 0x8000;	
 	const NL          = 0x10000;
 	const QUOTE_OPEN  = 0;
-	
-	const QUOTE_1     = 1;
-	const QUOTE_2     = 2;
-	const QUOTE_3     = 3;
-	const QUOTE_4     = 4;
 	
 	const STATE_TEXT = 0;
 	const STATE_TAG_PARAMS = 1;	
@@ -55,17 +81,16 @@ class Jevix{
 	const STATE_INSIDE_NOTEXT_TAG = 4;
 	const STATE_INSIDE_PREFORMATTED_TAG = 5;
 	
-	//protected 
 	public $tagsRules = array();
-
 	public $entities0 = array('"'=>'&quot;', "'"=>'&#39;', '&'=>'&amp;', '<'=>'&lt;', '>'=>'&gt;');	
 	public $entities1 = array();	
-	public $entities2 = array('<'=>'&lt;', '>'=>'&gt;');	
+	public $entities2 = array('<'=>'&lt;', '>'=>'&gt;', '"'=>'&quot;');	
 	public $textQuotes = array(array('«', '»'), array('„', '“'));
 	public $dash = " — ";
 	public $apostrof = "’";
 	public $dotes = "…";
 	public $nl = "\r\n";
+	public $defaultTagParamRules = array('href' => '#link', 'src' => '#image', 'width' => '#int', 'height' => '#int', 'text' => '#text', 'title' => '#text');
 	
 	protected $text;
 	protected $textBuf;
@@ -81,9 +106,12 @@ class Jevix{
 	protected $tagsStack;
 	protected $openedTag;
 	protected $autoReplace; // Автозамена
-	protected $isXHTMLMode  = false; // <br/>, <img/>
+	protected $isXHTMLMode  = true; // <br/>, <img/>
 	protected $isAutoBrMode = true; // \n = <br/>
-	protected $br = "<br>"; // сделал пустым чтоб не съедал переносы строк
+	protected $isAutoLinkMode = true;
+	protected $br = "<br/>";
+	
+	protected $noTypoMode = false;
 	
 	public    $outBuffer = '';
 	public    $errors;
@@ -93,19 +121,27 @@ class Jevix{
 	 * Константы для класификации тегов
 	 *
 	 */
-	const TR_TAG_ALLOWED = 1; 		// Тег позволен
-	const TR_PARAM_ALLOWED = 2; 	// Параметр тега позволен (a->title, a->src, i->alt)
-	const TR_PARAM_REQUIRED = 3; 	// Параметр тега влятся необходимым (a->href, img->src)
-	const TR_TAG_SHORT = 4;   		// Тег может быть коротким (img, br)
-	const TR_TAG_CUT = 5;			// Тег необходимо вырезать вместе с контентом (script, iframe)
-	const TR_TAG_CHILD = 6;			// Тег может содержать другие теги
-	const TR_TAG_CONTAINER = 7;     // Тег может содержать лишь указанные теги. В нём не может быть текста
-	const TR_TAG_CHILD_TAGS = 8;	// Теги которые может содержать внутри себя другой тег
-	const TR_TAG_PARENT = 9;		// Тег в котором должен содержаться данный тег
-	const TR_TAG_PREFORMATTED = 10;	// Преформатированные тег, в котором всё заменяется на HTML сущности типа <pre>, <code>
+	const TR_TAG_ALLOWED = 1; 		 // Тег позволен
+	const TR_PARAM_ALLOWED = 2; 	 // Параметр тега позволен (a->title, a->src, i->alt)
+	const TR_PARAM_REQUIRED = 3; 	 // Параметр тега влятся необходимым (a->href, img->src)
+	const TR_TAG_SHORT = 4;   		 // Тег может быть коротким (img, br)
+	const TR_TAG_CUT = 5;			 // Тег необходимо вырезать вместе с контентом (script, iframe)
+	const TR_TAG_CHILD = 6;			 // Тег может содержать другие теги
+	const TR_TAG_CONTAINER = 7;      // Тег может содержать лишь указанные теги. В нём не может быть текста
+	const TR_TAG_CHILD_TAGS = 8;	 // Теги которые может содержать внутри себя другой тег
+	const TR_TAG_PARENT = 9;		 // Тег в котором должен содержаться данный тег
+	const TR_TAG_PREFORMATTED = 10;	 // Преформатированные тег, в котором всё заменяется на HTML сущности типа <pre> сохраняя все отступы и пробелы
+	const TR_PARAM_AUTO_ADD = 11;    // Auto add parameters + default values (a->rel[=nofollow]) 
+	const TR_TAG_NO_TYPOGRAPHY = 12; // Отключение типографирования для тега
+	const TR_TAG_IS_EMPTY = 13; // Не короткий тег с пустым содержанием имеет право существовать
 	
-	protected $chClasses = array(0=>512,1=>512,2=>512,3=>512,4=>512,5=>512,6=>512,7=>512,8=>512,9=>16,10=>66048,11=>512,12=>512,13=>66048,14=>512,15=>512,16=>512,17=>512,18=>512,19=>512,20=>512,21=>512,22=>512,23=>512,24=>512,25=>512,26=>512,27=>512,28=>512,29=>512,30=>512,31=>512,32=>16,97=>4392,98=>4392,99=>4392,100=>4392,101=>4392,102=>4392,103=>4392,104=>4392,105=>4392,106=>4392,107=>4392,108=>4392,109=>4392,110=>4392,111=>4392,112=>4392,113=>4392,114=>4392,115=>4392,116=>4392,117=>4392,118=>4392,119=>4392,120=>4392,121=>4392,122=>4392,65=>4392,66=>4392,67=>4392,68=>4392,69=>4392,70=>4392,71=>4392,72=>4392,73=>4392,74=>4392,75=>4392,76=>4392,77=>4392,78=>4392,79=>4392,80=>4392,81=>4392,82=>4392,83=>4392,84=>4392,85=>4392,86=>4392,87=>4392,88=>4392,89=>4392,90=>4392,1072=>40,1073=>40,1074=>40,1075=>40,1076=>40,1077=>40,1078=>40,1079=>40,1080=>40,1081=>40,1082=>40,1083=>40,1084=>40,1085=>40,1086=>40,1087=>40,1088=>40,1089=>40,1090=>40,1091=>40,1092=>40,1093=>40,1094=>40,1095=>40,1096=>40,1097=>40,1098=>40,1099=>40,1100=>40,1101=>40,1102=>40,1103=>40,1040=>40,1041=>40,1042=>40,1043=>40,1044=>40,1045=>40,1046=>40,1047=>40,1048=>40,1049=>40,1050=>40,1051=>40,1052=>40,1053=>40,1054=>40,1055=>40,1056=>40,1057=>40,1058=>40,1059=>40,1060=>40,1061=>40,1062=>40,1063=>40,1064=>40,1065=>40,1066=>40,1067=>40,1068=>40,1069=>40,1070=>40,1071=>40,48=>5192,49=>5192,50=>5192,51=>5192,52=>5192,53=>5192,54=>5192,55=>5192,56=>5192,57=>5192,34=>57353,39=>16394,171=>8203,187=>40971,8222=>8204,8220=>40974,8221=>40970,46=>3080,44=>2056,33=>2056,63=>3080,58=>2056,59=>3080,1105=>40,1025=>40,47=>1032,38=>1032,37=>1032,45=>1032,95=>1032,61=>1032,43=>1032,35=>1032,124=>1032,);
-		
+	/**
+	 * Классы символов генерируются symclass.php
+	 *
+	 * @var array
+	 */
+	protected $chClasses = array(0=>512,1=>512,2=>512,3=>512,4=>512,5=>512,6=>512,7=>512,8=>512,9=>32,10=>66048,11=>512,12=>512,13=>66048,14=>512,15=>512,16=>512,17=>512,18=>512,19=>512,20=>512,21=>512,22=>512,23=>512,24=>512,25=>512,26=>512,27=>512,28=>512,29=>512,30=>512,31=>512,32=>32,97=>71,98=>71,99=>71,100=>71,101=>71,102=>71,103=>71,104=>71,105=>71,106=>71,107=>71,108=>71,109=>71,110=>71,111=>71,112=>71,113=>71,114=>71,115=>71,116=>71,117=>71,118=>71,119=>71,120=>71,121=>71,122=>71,65=>71,66=>71,67=>71,68=>71,69=>71,70=>71,71=>71,72=>71,73=>71,74=>71,75=>71,76=>71,77=>71,78=>71,79=>71,80=>71,81=>71,82=>71,83=>71,84=>71,85=>71,86=>71,87=>71,88=>71,89=>71,90=>71,1072=>11,1073=>11,1074=>11,1075=>11,1076=>11,1077=>11,1078=>11,1079=>11,1080=>11,1081=>11,1082=>11,1083=>11,1084=>11,1085=>11,1086=>11,1087=>11,1088=>11,1089=>11,1090=>11,1091=>11,1092=>11,1093=>11,1094=>11,1095=>11,1096=>11,1097=>11,1098=>11,1099=>11,1100=>11,1101=>11,1102=>11,1103=>11,1040=>11,1041=>11,1042=>11,1043=>11,1044=>11,1045=>11,1046=>11,1047=>11,1048=>11,1049=>11,1050=>11,1051=>11,1052=>11,1053=>11,1054=>11,1055=>11,1056=>11,1057=>11,1058=>11,1059=>11,1060=>11,1061=>11,1062=>11,1063=>11,1064=>11,1065=>11,1066=>11,1067=>11,1068=>11,1069=>11,1070=>11,1071=>11,48=>337,49=>337,50=>337,51=>337,52=>337,53=>337,54=>337,55=>337,56=>337,57=>337,34=>57345,39=>16385,46=>1281,44=>1025,33=>1025,63=>1281,58=>1025,59=>1281,1105=>11,1025=>11,47=>257,38=>257,37=>257,45=>257,95=>257,61=>257,43=>257,35=>257,124=>257,);
+			
 	/**
 	 * Установка конфигурационного флага для одного или нескольких тегов
 	 *
@@ -146,12 +182,28 @@ class Jevix{
 	}
 	
 	/**
-	 * КОНФИГУРАЦИЯ: Преформатированные теги, в которых всё заменяется на HTML сущности типа <pre>, <code>
+	 * КОНФИГУРАЦИЯ: Преформатированные теги, в которых всё заменяется на HTML сущности типа <pre>
 	 * @param array|string $tags тег(и)
 	 */
 	function cfgSetTagPreformatted($tags){
 		$this->_cfgSetTagsFlag($tags, self::TR_TAG_PREFORMATTED, true, false);
 	}	
+	
+	/**
+	 * КОНФИГУРАЦИЯ: Теги в которых отключено типографирование типа <code>
+	 * @param array|string $tags тег(и)
+	 */
+	function cfgSetTagNoTypography($tags){
+		$this->_cfgSetTagsFlag($tags, self::TR_TAG_NO_TYPOGRAPHY, true, false);
+	}		
+	
+	/**
+	 * КОНФИГУРАЦИЯ: Не короткие теги которые не нужно удалять с пустым содержанием, например, <param name="code" value="die!"></param>
+	 * @param array|string $tags тег(и)
+	 */
+	function cfgSetTagIsEmpty($tags){
+		$this->_cfgSetTagsFlag($tags, self::TR_TAG_IS_EMPTY, true, false);
+	}
 	
 	/**
 	 * КОНФИГУРАЦИЯ: Тег необходимо вырезать вместе с контентом (script, iframe)
@@ -173,8 +225,12 @@ class Jevix{
 		if(!isset($this->tagsRules[$tag][self::TR_PARAM_ALLOWED])) {
 			$this->tagsRules[$tag][self::TR_PARAM_ALLOWED] = array();
 		}
-		foreach($params as $param){
-			$this->tagsRules[$tag][self::TR_PARAM_ALLOWED][$param] = true;
+		foreach($params as $key => $value){
+			if(is_string($key)){
+				$this->tagsRules[$tag][self::TR_PARAM_ALLOWED][$key] = $value;
+			} else {
+				$this->tagsRules[$tag][self::TR_PARAM_ALLOWED][$value] = true;
+			}			
 		}
 	}	
 	
@@ -198,6 +254,8 @@ class Jevix{
 	/* КОНФИГУРАЦИЯ: Установка тегов которые может содержать тег-контейнер
 	 * @param string $tag тег
 	 * @param string|array $childs разрешённые теги
+	 * @param boolean $isContainerOnly тег является только контейнером других тегов и не может содержать текст
+	 * @param boolean $isChildOnly вложенные теги не могут присутствовать нигде кроме указанного тега
 	 */
 	function cfgSetTagChilds($tag, $childs, $isContainerOnly = false, $isChildOnly = false){
 		if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
@@ -217,7 +275,24 @@ class Jevix{
 			// Указанные разрешённые теги могут находится только внтутри тега-контейнера			
 			if($isChildOnly) $this->tagsRules[$child][self::TR_TAG_CHILD] = true;
 		}
-	}	
+	}
+	
+    /** 
+     * CONFIGURATION: Adding autoadd attributes and their values to tag 
+     * @param string $tag tag 
+     * @param string|array $params array of pairs attributeName => attributeValue 
+     */ 
+    function cfgSetTagParamsAutoAdd($tag, $params){ 
+        if(!isset($this->tagsRules[$tag])) throw new Exception("Tag $tag is missing in allowed tags list"); 
+        if(!is_array($params)) $params = array($params); 
+        if(!isset($this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD])) { 
+            $this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD] = array(); 
+        } 
+        foreach($params as $param => $value){ 
+            $this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD][$param] = $value; 
+        } 
+    }
+	
 
 	/**
 	 * Автозамена
@@ -232,7 +307,7 @@ class Jevix{
 	/**
 	 * Включение или выключение режима XTML
 	 *
-	 * @param unknown_type $isXHTMLMode
+	 * @param boolean $isXHTMLMode
 	 */
 	function cfgSetXHTMLMode($isXHTMLMode){
 		$this->br = $isXHTMLMode ? '<br/>' : '<br>';
@@ -242,11 +317,20 @@ class Jevix{
 	/**
 	 * Включение или выключение режима замены новых строк на <br/>
 	 *
-	 * @param unknown_type $isXHTMLMode
+	 * @param boolean $isAutoBrMode
 	 */
 	function cfgSetAutoBrMode($isAutoBrMode){
 		$this->isAutoBrMode = $isAutoBrMode;
 	}	
+	
+	/**
+	 * Включение или выключение режима автоматического определения ссылок
+	 *
+	 * @param boolean $isAutoLinkMode
+	 */
+	function cfgSetAutoLinkMode($isAutoLinkMode){
+		$this->isAutoLinkMode = $isAutoLinkMode;
+	}		
 	
 	protected function &strToArray($str){
 		$chars = null;
@@ -255,13 +339,14 @@ class Jevix{
 	}
 		
 	
-	function parse($text, &$errors){
+	function parse($text, &$errors){		
 		$this->curPos = -1;
 		$this->curCh = null;
 		$this->curChOrd = 0;
 		$this->state = self::STATE_TEXT;
 		$this->states = array();
 		$this->quotesOpened = 0;
+		$this->noTypoMode = false;
 		
 		// Авто растановка BR?
 		if($this->isAutoBrMode) {
@@ -285,16 +370,12 @@ class Jevix{
 		$this->errors = array();
 		$this->skipSpaces();
 		$this->anyThing($content);
-		/*if($this->quotesOpened>0){
-			$content.=$this->fixQuotes();
-		}*/	
 		$errors = $this->errors;
 		return $content;
 	}
 	
 	/**
 	 * Получение следующего символа из входной строки
-	 * @param bool $entityToChar автоматически превращать сущности в символы
 	 * @return string считанный символ
 	 */
 	protected function getCh(){
@@ -303,7 +384,6 @@ class Jevix{
 	
 	/**
 	 * Перемещение на указанную позицию во входной строке и считывание символа
-	 * @param bool $entityToChar автоматически превращать сущности в символы
 	 * @return string символ в указанной позиции
 	 */	
 	protected function goToPosition($position){
@@ -534,6 +614,7 @@ class Jevix{
 		// Сохраняем кавычки и состояние
 		//$oldQuotesopen = $this->quotesOpened;
 		$oldState = $this->state;
+		$oldNoTypoMode = $this->noTypoMode;
 		//$this->quotesOpened = 0;
 		
 		
@@ -543,6 +624,9 @@ class Jevix{
 			$this->state = self::STATE_INSIDE_PREFORMATTED_TAG;
 		} elseif(!empty($this->tagsRules[$tag][self::TR_TAG_CONTAINER])){
 			$this->state = self::STATE_INSIDE_NOTEXT_TAG;
+		} elseif(!empty($this->tagsRules[$tag][self::TR_TAG_NO_TYPOGRAPHY])) {
+			$this->noTypoMode = true;
+			$this->state = self::STATE_INSIDE_TAG;
 		} else {
 			$this->state = self::STATE_INSIDE_TAG;
 		}
@@ -556,8 +640,9 @@ class Jevix{
 		} else {
 			$this->anyThing($content, $tag);
 		}
-
-		$this->openedTag = array_pop($this->tagsStack);
+		
+		array_pop($this->tagsStack);
+		$this->openedTag = !empty($this->tagsStack) ? array_pop($this->tagsStack) : null;
 		
 		$isTagClose = $this->tagClose($closeTag);
 		if($isTagClose && ($tag != $closeTag)) {
@@ -567,18 +652,10 @@ class Jevix{
 		
 		// Восстанавливаем предыдущее состояние и счетчик кавычек
 		$this->state = $oldState;
+		$this->noTypoMode = $oldNoTypoMode;
 		//$this->quotesOpened = $oldQuotesopen;
 		
 		return true;
-	}
-	
-	protected function fixQuotes(){
-		$text = '';
-		while($this->quotesOpened>0){
-			$this->quotesOpened-=1;
-			$text.= $this->makeQuote(true, $this->quotesOpened);
-		}	
-		return $text;	
 	}
 	
 	protected function preformatted(&$content = '', $insideTag = null){
@@ -608,14 +685,21 @@ class Jevix{
 			$this->restoreState();
 			return false;
 		}
-		
+		$name=strtolower($name);
 		// Пробуем получить список атрибутов тега
 		if($this->curCh != '>' && $this->curCh != '/') $this->tagParams($params);
 		
 		// Короткая запись тега
-		if($this->matchCh('/') || !empty($this->tagsRules[$name][self::TR_TAG_SHORT])) {
-			if(!$short) $short = true;
+		$short = !empty($this->tagsRules[$name][self::TR_TAG_SHORT]);
+
+		// Short && XHTML && !Slash || Short && !XHTML && !Slash = ERROR
+		$slash = $this->matchCh('/');
+		//if(($short && $this->isXHTMLMode && !$slash) || (!$short && !$this->isXHTMLMode && $slash)){
+		if(!$short && $slash){
+			$this->restoreState();
+			return false;
 		}
+
 		$this->skipSpaces();
 
 		// Закрытие	
@@ -640,7 +724,7 @@ class Jevix{
 	}	
 		
 	protected function tagParam(&$name, &$value){
-		$this->saveState();
+    $this->saveState();
 		if(!$this->name($name, true)) return false;
 		
 		if(!$this->matchCh('=', true)){
@@ -707,6 +791,7 @@ class Jevix{
 			$this->restoreState();
 			return false;
 		}
+		$name=strtolower($name);
 		$this->skipSpaces();
 		if(!$this->matchCh('>')) {
 			$this->restoreState();
@@ -743,63 +828,68 @@ class Jevix{
 		
 		$resParams = array();
 		foreach($params as $param=>$value){
-			// Пустое значение параметра
-			if(empty($value)) continue;
 			$param = strtolower($param);
-			// Параметр разрешён
-			$paramAllowed = isset($tagRules[self::TR_PARAM_ALLOWED][$param]);
-			if(!$paramAllowed) continue;
 			$value = trim($value);
-
-			switch($param){
-				case 'src': 
-					// Расширение должно точно соответствовать
-					// GET запросы типа ...jpg?A=6 не допускаются
-					/*if(!preg_match('/\.(jpg|gif|png|jpeg)$/ui', $value)) {
-						$this->eror('img src: Неверное расширение файла в пути к изображению');
-						continue(2);
-					}*/
-					// Ява-скрипт в пути к картинке
-					if(preg_match('/javascript:/ui', $value)) {
-						$this->eror('img src: Попытка вставить JavaScript');
-						continue(2);
-					}
-					// HTTP в начале если нет
-					if(!preg_match('/^http:\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;						
-					break;
-					
-				case 'href':
-					// Ява-скрипт в ссылке
-					if(preg_match('/javascript:/ui', $value)) {
-						$this->eror('a href: Попытка вставить JavaScript');
-						continue(2);
-					}
-					// Спец символынедопустимые в URL
-					//$value = preg_replace('/[^\x20-\xFF]/u', "", $value);
-					// Первый символ должен быть a-z0-9!
-					if(!preg_match('/^[a-z0-9\/]/ui', $value)) {
-						$this->eror('a href: Первый символ адреса должен быть буквой или цифрой');
-						continue(2);
-					}
-					// HTTP в начале если нет
-					if(!preg_match('/^http:\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
-					break;	
-					
-				case 'text':
-					// Параметр yext в <acut>-е
-					$value = htmlspecialchars($value);
-					break;	
-					
-				case 'width':
-				case 'height':	
-					// Ява-скрипт в ссылке
-					if(!is_numeric($value)) {
-						$this->eror('img width,size: Неверный размер изображения');
-						continue(2);
-					}						
-					break;
-										
+			if(empty($value)) continue;
+			
+			// Атрибут тега разрешён? Какие возможны значения? Получаем список правил
+			$paramAllowedValues = isset($tagRules[self::TR_PARAM_ALLOWED][$param]) ? $tagRules[self::TR_PARAM_ALLOWED][$param] : false;
+			if(empty($paramAllowedValues)) continue;
+			
+			// Если есть список разрешённых параметров тега
+			if(is_array($paramAllowedValues) && !in_array($value, $paramAllowedValues)) {
+				$this->eror("Недопустимое значение для атрибута тега $tag $param=$value");
+				continue;
+			// Если атрибут тега помечен как разрешённый, но правила не указаны - смотрим в массив стандартных правил для атрибутов
+			} elseif($paramAllowedValues === true && !empty($this->defaultTagParamRules[$param])){
+				$paramAllowedValues = $this->defaultTagParamRules[$param];
 			}
+			
+			if(is_string($paramAllowedValues)){
+				switch($paramAllowedValues){
+					case '#int':
+						if(!is_numeric($value)) {
+							$this->eror("Недопустимое значение для атрибута тега $tag $param=$value. Ожидалось число");
+							continue(2);
+						}	
+						break;
+						
+					case '#text':
+						$value = htmlspecialchars($value);
+						break;						
+						
+					case '#link':
+						// Ява-скрипт в ссылке
+						if(preg_match('/javascript:/ui', $value)) {
+							$this->eror('Попытка вставить JavaScript в URI');
+							continue(2);
+						}
+						// Первый символ должен быть a-z0-9!
+						if(!preg_match('/^[a-z0-9\/]/ui', $value)) {
+							$this->eror('URI: Первый символ адреса должен быть буквой или цифрой');
+							continue(2);
+						}
+						// HTTP в начале если нет
+						if(!preg_match('/^(http|https|ftp):\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;						
+						break;
+						
+					case '#image': 
+						// Ява-скрипт в пути к картинке
+						if(preg_match('/javascript:/ui', $value)) {
+							$this->eror('Попытка вставить JavaScript в пути к изображению');
+							continue(2);
+						}
+						// HTTP в начале если нет
+						if(!preg_match('/^http:\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;						
+						break;
+						
+					default:
+						$this->eror("Неверное описание атрибута тега в настройке Jevix: $param => $paramAllowedValues");
+						continue(2);
+						break;					
+				}
+			}
+
 			$resParams[$param] = $value;
 		}
 		
@@ -812,8 +902,20 @@ class Jevix{
 			}
 		}
 		
-		// Пустой некороткий тег удаляем
-		if(!$short && empty($content)) return '';
+		// Автодобавляемые параметры
+		if(!empty($tagRules[self::TR_PARAM_AUTO_ADD])){
+	        foreach($tagRules[self::TR_PARAM_AUTO_ADD] as $name => $value) { 
+	            // If there isn't such attribute - setup it 
+	            if(!array_key_exists($name, $resParams)) { 
+	                $resParams[$name] = $value; 
+	            } 
+	        } 
+		}
+		
+		// Пустой некороткий тег удаляем кроме исключений
+		if (!isset($tagRules[self::TR_TAG_IS_EMPTY]) or !$tagRules[self::TR_TAG_IS_EMPTY]) {
+			if(!$short && empty($content)) return '';
+		}		
 		// Собираем тег
 		$text='<'.$tag;	
 		// Параметры
@@ -849,10 +951,14 @@ class Jevix{
 			
 			// <Тег> кекст </Тег>
 			if($this->curCh == '<' && $this->tag($tag, $params, $text, $shortTag)){
+				// Преобразуем тег в текст
 				$tagText = $this->makeTag($tag, $params, $text, $shortTag, $parentTag);
 				$content.=$tagText;
-				if(empty($tagText) || $tag=='br'){
+				// Пропускаем пробелы после <br> и запрещённых тегов, которые вырезаются парсером
+				if ($tag=='br') {
 					$this->skipNL();
+				} elseif (empty($tagText)){
+					$this->skipSpaces();
 				}
 			
 			// Коментарий <!-- -->	
@@ -932,18 +1038,21 @@ class Jevix{
 		$punctuation = $this->curCh;
 		$this->getCh();
 		
-		// Проверяем ... и !!!
+		// Проверяем ... и !!! и ?.. и !..
 		if($punctuation == '.' && $this->curCh == '.'){
 			while($this->curCh == '.') $this->getCh();
 			$punctuation = $this->dotes;
 		} elseif($punctuation == '!' && $this->curCh == '!'){
 			while($this->curCh == '!') $this->getCh();
 			$punctuation = '!!!';
+		} elseif (($punctuation == '?' || $punctuation == '!') && $this->curCh == '.'){
+			while($this->curCh == '.') $this->getCh();
+			$punctuation.= '..';
 		}
 		
 		// Далее идёт слово - добавляем пробел
-		if($this->curChClass & self::ALPHA && $punctuation != '.') {
-			//$punctuation.= ' ';
+		if($this->curChClass & self::RUS) {
+			if($punctuation != '.') $punctuation.= ' ';
 			return true;
 		// Далее идёт пробел, перенос строки, конец текста
 		} elseif(($this->curChClass & self::SPACE) || ($this->curChClass & self::NL) || !$this->curChClass){
@@ -991,15 +1100,25 @@ class Jevix{
 	/**
 	 * Кавычка
 	 *
+	 * @param boolean $spacesBefore были до этого пробелы
 	 * @param string $quote кавычка
 	 * @param boolean $closed закрывающаяся
 	 * @return boolean
 	 */
-	protected function quote($spacesBefore, &$quote, &$closed, $class){
-		if(($this->curChClass & $class) != $class) return false;
+	protected function quote($spacesBefore,  &$quote, &$closed){
+		$this->saveState();
 		$quote = $this->curCh;
 		$this->getCh();
-		$closed = (($this->curCh & self::SPACE) == self::SPACE) || !$spacesBefore || (($this->curChClass & self::QUOTE_CLOSE) == self::QUOTE_CLOSE);
+		// Если не одна кавычка ещё не была открыта и следующий символ - не буква - то это нифига не кавычка
+		if($this->quotesOpened == 0 && !(($this->curChClass & self::ALPHA) || ($this->curChClass & self::NUMERIC))) {
+			$this->restoreState();
+			return false;
+		}
+		// Закрывается тогда, одна из кавычек была открыта и (до кавычки не было пробела или пробел или пунктуация есть после кавычки)
+		// Или, если открыто больше двух кавычек - точно закрываем
+		$closed =  ($this->quotesOpened >= 2) || 
+		          (($this->quotesOpened >  0) && 
+		           (!$spacesBefore || $this->curChClass & self::SPACE || $this->curChClass & self::PUNCTUATUON));
 		return true;
 	}
 	
@@ -1019,6 +1138,10 @@ class Jevix{
 		$url = null;
 		$href = null;
 		
+		// Включено типографирование?
+		//$typoEnabled = true;
+		$typoEnabled = !$this->noTypoMode;
+		
 		// Первый символ может быть <, это значит что tag() вернул false
 		// и < к тагу не относится
 		while(($this->curCh != '<') && $this->curChClass){
@@ -1028,39 +1151,40 @@ class Jevix{
 			$closed = false;
 			$punctuation = null;
 			$entity = null;
-
+			
 			$this->skipSpaces($spCount);
-			if(!$spCount) $newWord = true;
-						
+
 			// автопреобразование сущностей...
-			if($this->curCh == '&' && $this->htmlEntity($entity)){
+			if (!$spCount && $this->curCh == '&' && $this->htmlEntity($entity)){
 				$text.= isset($this->entities2[$entity]) ? $this->entities2[$entity] : $entity;
-			} elseif(($this->curChClass & self::PUNCTUATUON) && $this->punctuation($punctuation)){
+			} elseif ($typoEnabled && ($this->curChClass & self::PUNCTUATUON) && $this->punctuation($punctuation)){
 				// Автопунктуация выключена
 				// Если встретилась пунктуация - добавляем ее
+				// Сохраняем пробел перед точкой если класс следующий символ - латиница
+				if($spCount && $punctuation == '.' && ($this->curChClass & self::LAT)) $punctuation = ' '.$punctuation;
 				$text.=$punctuation;	
 				$newWord = true;			
-			} elseif(($spCount || $newLine) && $this->curCh == '-' && $this->dash($dash)){
+			} elseif ($typoEnabled && ($spCount || $newLine) && $this->curCh == '-' && $this->dash($dash)){
 				// Тире
 				$text.=$dash; 	
 				$newWord = true;
-			} elseif($this->quote($spCount, $quote, $closed, self::HTML_QUOTE)){
+			} elseif ($typoEnabled && ($this->curChClass & self::HTML_QUOTE) && $this->quote($spCount, $quote, $closed)){
 				// Кавычки
 				$this->quotesOpened+=$closed ? -1 : 1;
 				// Исправляем ситуацию если кавычка закрыввается раньше чем открывается
 				if($this->quotesOpened<0){
 					$closed = false;
 					$this->quotesOpened=1;
-				}
+				} 
 				$quote = $this->makeQuote($closed, $closed ? $this->quotesOpened : $this->quotesOpened-1);
 				if($spCount) $quote = ' '.$quote;
 				$text.= $quote;
 				$newWord = true;
-			} elseif($spCount>0){
+			} elseif ($spCount>0){
 				$text.=' ';
 				// после пробелов снова возможно новое слово
 				$newWord = true;
-			} elseif($this->isAutoBrMode && $this->skipNL($brCount)){
+			} elseif ($this->isAutoBrMode && $this->skipNL($brCount)){
 				// Перенос строки
 				$br = $this->br.$this->nl;
 				$text.= $brCount == 1 ? $br : $br.$br;
@@ -1068,21 +1192,15 @@ class Jevix{
 				$newLine = true;
 				$newWord = true;
 				// !!!Добавление слова
-			} elseif($newWord && ($this->curChClass & self::LAT)){
-				// начало слова на латинскую букву. Возможно начало URL
-				if($this->openedTag!='a' && false && $this->url($url, $href)){
-					$text.= $this->makeTag('a' , array('href' => $href), $url, false);
-				} else {
-					$text.=$this->curCh;
-					$newLine = false;
-					$newWord = false;
-					$this->getCh();
-				}
+			} elseif ($newWord && $this->isAutoLinkMode && ($this->curChClass & self::LAT) && $this->openedTag!='a' && $this->url($url, $href)){
+				// URL
+				$text.= $this->makeTag('a' , array('href' => $href), $url, false);
 			} elseif($this->curChClass & self::PRINATABLE){
 				// Экранируем символы HTML которые нельзя сувать внутрь тега (но не те? которые не могут быть в параметрах)
 				$text.=isset($this->entities2[$this->curCh]) ? $this->entities2[$this->curCh] : $this->curCh;
 				$this->getCh();
 				$newWord = false;
+				$newLine = false;
 				// !!!Добавление к слова
 			} else {
 				// Совершенно непечатаемые символы которые никуда не годятся
@@ -1199,8 +1317,4 @@ function unichr($c) {
         return false;
     }
 }
-
-/**
- * @todo eror, аппостроф', дюйм, запятая в url (обработка доменов до слэша), фильтрция class
- */
 ?>

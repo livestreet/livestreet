@@ -14,7 +14,7 @@
 	 </div>
  	<form action="" method="POST">
     	<textarea class="input_comments_reply" name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
-    	<input type="submit" name="submit_comment" value="добавить">  <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview(document.getElementById('form_comment_text').value,false); return false;">  	
+    	<input type="submit" name="submit_comment" value="добавить">  <input type="submit" name="submit_preview" value="предпросмотр" onclick="ajaxTextPreview('form_comment_text',false); return false;">  	
     	<input type="hidden" name="reply" value="" id="form_comment_reply">
     </form>
 </div>

@@ -37,7 +37,10 @@ var msgNoticeBox=new Roar({
 		});	
 </script>
 {/literal}
-<script>var DIR_WEB_ROOT='{$DIR_WEB_ROOT}';</script>
+<script>
+var DIR_WEB_ROOT='{$DIR_WEB_ROOT}';
+var DIR_STATIC_SKIN='{$DIR_STATIC_SKIN}';
+</script>
 
 
 <div id="debug" style="border: 2px #dd0000 solid; display: none;"></div>
@@ -102,11 +105,16 @@ var msgNoticeBox=new Roar({
 	{/if}
 		
 		
-		<!--
+		
 		<DIV class=search_form>
-			форма поиска
+			<form action="{$DIR_WEB_ROOT}/search/topics/" method="GET">
+	<p>
+		<input type="text" value="" name="q" size="20">
+		<input type="submit" value="Найти">
+	</p>
+</form>
 		</DIV>
-		-->
+		
 		
 		
 		

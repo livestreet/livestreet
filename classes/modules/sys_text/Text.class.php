@@ -48,28 +48,37 @@ class Text extends Module {
 	 */
 	protected function JevixConfig() {
 		// Разрешённые теги
-		$this->oJevix->cfgAllowTags(array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code'));
+		$this->oJevix->cfgAllowTags(array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed'));
 		// Коротие теги типа
 		$this->oJevix->cfgSetTagShort(array('br','img', 'hr', 'cut'));
 		// Преформатированные теги
 		$this->oJevix->cfgSetTagPreformatted(array('pre','code'));
-		// Разрешённые параметры тегов
-		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt', 'title', 'align'));
+		// Разрешённые параметры тегов		
+		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
 		$this->oJevix->cfgAllowTagParams('a', array('title', 'href'));		
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
+		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link'));
+		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
+		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int'));
 		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
 		$this->oJevix->cfgSetTagParamsRequired('a', 'href');
 		// Теги которые необходимо вырезать из текста вместе с контентом
-		$this->oJevix->cfgSetTagCutWithContent(array('script', 'object', 'iframe', 'style'));
+		$this->oJevix->cfgSetTagCutWithContent(array('script', 'iframe', 'style'));
 		// Вложенные теги
 		$this->oJevix->cfgSetTagChilds('ul', array('li'), false, true);
 		$this->oJevix->cfgSetTagChilds('ol', array('li'), false, true);
+		$this->oJevix->cfgSetTagChilds('object', 'param', false, true);
+		$this->oJevix->cfgSetTagChilds('object', 'embed', false, true);
+		// Если нужно оставлять пустые не короткие теги
+		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
 		// Отключение авто-добавления <br>
 		//$this->oJevix->cfgSetAutoBrMode(false);
 		// Автозамена
 		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(r)', '(C)', '(R)'), array('±', '©', '®', '©', '®'));
 		//$this->oJevix->cfgSetXHTMLMode(false);
+		$this->oJevix->cfgSetTagNoTypography('code');
+
 	}
 	
 	/**
@@ -80,7 +89,7 @@ class Text extends Module {
 	 * @return string
 	 */
 	public function JevixParser($sText,&$aError=null) {		
-		$sResult=$this->oJevix->parse($sText,$aError);		
+		$sResult=$this->oJevix->parse($sText,$aError);
 		return $sResult;
 	}
 	
@@ -145,10 +154,24 @@ class Text extends Module {
 	 * @param string $sText
 	 */
 	public function Parser($sText) {
-		$sResult=$this->JevixParser($sText);	
+		$sResult=$this->FlashParamParser($sText);
+		$sResult=$this->JevixParser($sResult);	
 		$sResult=$this->VideoParser($sResult);		
 		$sResult=$this->GeshiParser($sResult);
 		return $sResult;
+	}
+	/**
+	 * Заменяет все вхождения короткого тега <param/> на длиную версию <param></param>
+	 * 
+	 */
+	protected function FlashParamParser($sText) {		
+		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/\s*>@Ui",$sText,$aMatch)) {				
+			foreach ($aMatch[1] as $key => $str) {
+				$str_new=$str.'></param>';				
+				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
+			}	
+		}		
+		return $sText;
 	}
 }
 ?>
