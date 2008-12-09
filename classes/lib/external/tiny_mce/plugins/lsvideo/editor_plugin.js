@@ -22,7 +22,7 @@
 					plugin_url : url,
 					DIR_WEB_ROOT: DIR_WEB_ROOT,
 					msgErrorBox: msgErrorBox,
-					msgNoticeBox: msgNoticeBox,
+					msgNoticeBox: msgNoticeBox
 				});        		
 			});		
 			ed.addButton('lsvideo', {title : 'lsvideo.lsvideo_desc', cmd : 'mceLsVideo', image : url + '/img/video.gif'});			

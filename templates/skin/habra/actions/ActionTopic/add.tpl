@@ -44,7 +44,7 @@ tinyMCE.init({
     force_p_newlines : false,    
     plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media",
     convert_urls : false,
-    extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]", 
+    extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]" 
     
 });
 </script>
