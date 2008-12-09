@@ -325,12 +325,13 @@ function ajaxTextPreview(textId,save) {
         }
     }      
     var text;
-	if (tinyMCE && (ed=tinyMCE.get(textId))) {
+    
+	if (BLOG_USE_TINYMCE && (ed=tinyMCE.get(textId))) {
 		text = ed.getContent();
 	} else {
 		text = $(textId).value;
-	}
-    
+	
+	} 
     showWindowStatus('Обработка предпросмотра...');
     req.open(null, DIR_WEB_ROOT+'/include/ajax/textPreview.php', true);    
     req.send( { text: text, save: save } );

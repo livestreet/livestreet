@@ -40,6 +40,7 @@ var msgNoticeBox=new Roar({
 <script>
 var DIR_WEB_ROOT='{$DIR_WEB_ROOT}';
 var DIR_STATIC_SKIN='{$DIR_STATIC_SKIN}';
+var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 </script>
 
 
