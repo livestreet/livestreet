@@ -1,8 +1,8 @@
 <HTML>
 
 <HEAD>
-	<TITLE>{$sHtmlTitle}</TITLE>
 	<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+	<TITLE>{$sHtmlTitle}</TITLE>	
 	<META name="DESCRIPTION" content="{$sHtmlDescription}">
 	<META name="KEYWORDS" content="{$sHtmlKeywords}">
 
