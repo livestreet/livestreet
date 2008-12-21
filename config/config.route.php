@@ -42,6 +42,7 @@ return array(
 		'link' => 'ActionLink',
 		'question' => 'ActionQuestion',
 		'blogs' => 'ActionBlogs',
+		'search' => 'ActionSearch',
 	),
 	'config' => array(
 		'action_default' => 'index',

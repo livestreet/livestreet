@@ -13,6 +13,8 @@
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/my.css?v=4" type=text/css rel=stylesheet>	
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Roar.css" type=text/css rel=stylesheet>
 	<LINK media=all href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" type=text/css rel=stylesheet>
+	
+	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/search/opensearch/" title="{$SITE_NAME}"> 
 </HEAD>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/panel.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/windows.js"></script>
@@ -109,11 +111,11 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 		
 		<DIV class=search_form>
 			<form action="{$DIR_WEB_ROOT}/search/topics/" method="GET">
-	<p>
-		<input type="text" value="" name="q" size="20">
-		<input type="submit" value="Найти">
-	</p>
-</form>
+			<p>
+				<input type="text" value="" name="q" size="20">
+				<input type="submit" value="Найти">
+			</p>
+			</form>
 		</DIV>
 		
 		

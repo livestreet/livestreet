@@ -209,3 +209,46 @@ table.tbl th
       /* ��� IE: */
       border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit');
     }
+    
+    
+ /* Поиск... */
+.searched-item { background: #fffacd; }
+#sub-nav {
+        clear: both;
+}
+#sub-nav li {
+        display: inline;
+        margin-right: 3px;
+}
+#sub-nav li a {
+        font-family: Arial, sans-serif;
+        font-size:1.083em; /*13px*/
+        text-decoration: none;
+        color:#093;
+        padding: 0 2px;
+}
+#sub-nav .current a {
+        color:#fff;
+        background-color: #ff9525;
+}
+
+a.voter {
+	float:left;
+	font-size:0;
+	height:13px;
+	width:14px;
+}
+
+.vote_down {		
+	background:transparent url(../img/vote_comment_down.gif) no-repeat scroll left top;
+}
+.vote_down_gray {		
+	background:transparent url(../img/vote_comment_down_gray.gif) no-repeat scroll left top;
+}
+.vote_up {	
+	background:transparent url(../img/vote_comment_up.gif) no-repeat scroll left top;
+}
+.vote_up_gray {	
+	background:transparent url(../img/vote_comment_up_gray.gif) no-repeat scroll left top;
+}
+
