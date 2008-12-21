@@ -29,6 +29,7 @@
 
 {literal}
 <script language="JavaScript" type="text/javascript">
+var tinyMCE=false;
 var msgErrorBox=new Roar({
 			position: 'upperRight',
 			className: 'roar-error'
