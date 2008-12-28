@@ -1007,17 +1007,31 @@ class Mapper_Topic extends Mapper {
 		return $aReturn;
 	}
 	
-	public function SetDateRead($sTopicId,$sUserId,$iCountComment) {
+	public function UpdateDateRead($sTopicId,$sUserId,$iCountComment) {
 		$sDate=date("Y-m-d H:i:s");
-		$sql = "REPLACE ".DB_TABLE_TOPIC_READ." 
+		$sql = "UPDATE ".DB_TABLE_TOPIC_READ." 
 			SET 
 				comment_count_last = ? ,
-				date_read = ? ,
-				topic_id = ? ,				
+				date_read = ? 
+			WHERE
+				topic_id = ? 
+				AND				
 				user_id = ? 
 		";			
 		return $this->oDb->query($sql,$iCountComment,$sDate,$sTopicId,$sUserId);
-	}			
+	}	
+
+	public function AddDateRead($sTopicId,$sUserId,$iCountComment) {
+		$sDate=date("Y-m-d H:i:s");
+		$sql = "INSERT INTO ".DB_TABLE_TOPIC_READ." 
+			SET 
+				comment_count_last = ? ,
+				date_read = ? ,
+				topic_id = ? ,							
+				user_id = ? 
+		";			
+		return $this->oDb->query($sql,$iCountComment,$sDate,$sTopicId,$sUserId);
+	}
 				
 	public function GetDateRead($sTopicId,$sUserId) {			
 		$sql = "SELECT 

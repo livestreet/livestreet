@@ -682,17 +682,18 @@ class Topic extends Module {
 		return $data;		
 	}
 	/**
-	 * Обновляем дату прочтения топика, если читаем его первый раз то добавляем
+	 * Обновляем/устанавливаем дату прочтения топика, если читаем его первый раз то добавляем
 	 *
 	 * @param unknown_type $sTopicId
 	 * @param unknown_type $sUserId
 	 */
 	public function SetDateRead($sTopicId,$sUserId,$iCountComment) {
-		$res=$this->oMapperTopic->SetDateRead($sTopicId,$sUserId,$iCountComment);
-		if ($res==1 or $res==2) {			
-			return true;
+		if ($this->GetDateRead($sTopicId,$sUserId)) {
+			$this->oMapperTopic->UpdateDateRead($sTopicId,$sUserId,$iCountComment);
+		} else {
+			$this->oMapperTopic->AddDateRead($sTopicId,$sUserId,$iCountComment);
 		}
-		return false;
+		return true;		
 	}	
 	/**
 	 * Получаем дату прочтения топика юзером
