@@ -143,7 +143,7 @@ class ActionBlog extends Action {
 	 * @return unknown
 	 */
 	protected function EventAddBlog() {
-		$this->Viewer_AddHtmlTitle('Создание блога');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_create'));
 		/**
 		 * Меню
 		 */
@@ -153,14 +153,14 @@ class ActionBlog extends Action {
 		 * Проверяем авторизован ли пользователь
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы создать блог, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}		
 		/**
 		 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
 		 */
 		if (!$this->ACL_CanCreateBlog($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы создавать свой блог','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('blog_create_acl'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}		
 		/**
@@ -198,7 +198,7 @@ class ActionBlog extends Action {
 				$aFileInfo=pathinfo($sFileAvatar);
 				$oBlog->setAvatarType($aFileInfo['extension']);
 			} else {
-				$this->Message_AddError('Не удалось загрузить аватар','Ошибка');
+				$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 				return false;
 			}
 		}		
@@ -208,7 +208,7 @@ class ActionBlog extends Action {
 		if ($this->Blog_AddBlog($oBlog)) {
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oBlog->getUrl().'/');
 		} else {
-			$this->Message_AddError('Внутреняя ошибка, повторите позже','Ошибка');
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}
 	
@@ -235,7 +235,7 @@ class ActionBlog extends Action {
 		 * Проверям авторизован ли пользователь
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы изменить блог, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
@@ -247,7 +247,7 @@ class ActionBlog extends Action {
 			return parent::EventNotFound();
 		}			
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
-		$this->Viewer_AddHtmlTitle('Редактирование блога');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_edit'));
 		
 		$this->Viewer_Assign('oBlogEdit',$oBlog);
 		/**
@@ -285,7 +285,7 @@ class ActionBlog extends Action {
 					$aFileInfo=pathinfo($sFileAvatar);
 					$oBlog->setAvatarType($aFileInfo['extension']);
 				} else {					
-					$this->Message_AddError('Не удалось загрузить аватар','Ошибка');
+					$this->Message_AddError($this->Lang_Get('blog_create_avatar_delete'),$this->Lang_Get('error'));
 					return false;
 				}
 			}
@@ -305,7 +305,7 @@ class ActionBlog extends Action {
 			if ($this->Blog_UpdateBlog($oBlog)) {
 				func_header_location(DIR_WEB_ROOT.'/blog/'.$oBlog->getUrl().'/');
 			} else {
-				$this->Message_AddErrorSingle('Возникли технические неполадки при изменении блога, пожалуйста повторите позже.','Внутреняя ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return Router::Action('error');
 			}
 		} else {
@@ -344,7 +344,7 @@ class ActionBlog extends Action {
 		 * Проверям авторизован ли пользователь
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы изменить блог, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
@@ -365,7 +365,7 @@ class ActionBlog extends Action {
 			}
 			foreach ($aUserRank as $sUserId => $sRank) {
 				if (!($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$sUserId))) {
-					$this->Message_AddError('Что то не так','Ошибка');
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					break;
 				}
 				
@@ -384,7 +384,7 @@ class ActionBlog extends Action {
 						break;
 				}
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
-				$this->Message_AddNoticeSingle('Права сохранены');
+				$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_users_submit_ok'));
 			}
 		}
 		/**
@@ -393,7 +393,7 @@ class ActionBlog extends Action {
 		$aBlogUsers=$this->Blog_GetRelationBlog($oBlog->getId());		
 		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
-		$this->Viewer_AddHtmlTitle('Управление блогом');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
 		
 		$this->Viewer_Assign('oBlogEdit',$oBlog);
 		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
@@ -425,7 +425,7 @@ class ActionBlog extends Action {
 		* Проверяем есть ли название блога
 		*/
 		if (!func_check(getRequest('blog_title'),'text',2,200)) {
-			$this->Message_AddError('Название блога должно быть от 2 до 200 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('blog_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
@@ -433,7 +433,7 @@ class ActionBlog extends Action {
 		 */
 		if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
 			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
-				$this->Message_AddError('Блог с таким названием уже существует','Ошибка');
+				$this->Message_AddError($this->Lang_Get('blog_create_title_error_unique'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 		}
@@ -446,7 +446,7 @@ class ActionBlog extends Action {
 			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {
-				$this->Message_AddError('URL блога должен быть от 2 до 50 символов и только на латинице + цифры и знаки "-", "_"','Ошибка');
+				$this->Message_AddError($this->Lang_Get('blog_create_url_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 		}
@@ -454,7 +454,7 @@ class ActionBlog extends Action {
 		 * Проверяем на счет плохих УРЛов
 		 */
 		if (in_array(getRequest('blog_url'),$this->aBadBlogUrl)) {
-			$this->Message_AddError('URL блога должен отличаться от: '.join(',',$this->aBadBlogUrl),'Ошибка');
+			$this->Message_AddError($this->Lang_Get('blog_create_url_error_badword').' '.join(',',$this->aBadBlogUrl),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
@@ -462,7 +462,7 @@ class ActionBlog extends Action {
 		 */
 		if ($oBlogExists=$this->Blog_GetBlogByUrl(getRequest('blog_url'))) {
 			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
-				$this->Message_AddError('Блог с таким URL уже существует','Ошибка');
+				$this->Message_AddError($this->Lang_Get('blog_create_url_error_unique'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 		}
@@ -470,21 +470,21 @@ class ActionBlog extends Action {
 		 * Проверяем есть ли описание блога
 		 */
 		if (!func_check(getRequest('blog_description'),'text',10,3000)) {
-			$this->Message_AddError('Текст описания блога должен быть от 10 до 3000 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('blog_create_description_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем доступные типы блога для создания, пока доступен только один тип - open
 		 */
 		if (!in_array(getRequest('blog_type'),array('open'))) {
-			$this->Message_AddError('Неизвестный тип блога','Ошибка');
+			$this->Message_AddError($this->Lang_Get('blog_create_type_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Преобразуем ограничение по рейтингу в число 
 		 */				
 		if (!func_check(getRequest('blog_limit_rating_topic'),'float')) {
-			$this->Message_AddError('Значение ограничения рейтинга должно быть числом','Ошибка');
+			$this->Message_AddError($this->Lang_Get('blog_create_rating_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}		
 		return $bOk;
@@ -641,7 +641,7 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём комменты к топику
 		 */
-		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());		
 		/**
 		 * Проверяем находится ли топик в избранном у текущего юзера
 		 */
@@ -1073,28 +1073,28 @@ class ActionBlog extends Action {
 			 * Проверяем авторизованл ли пользователь
 			 */
 			if (!$this->oUserCurrent) {
-				$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
+				$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 				return Router::Action('error');
 			}
 			/**
 			 * Проверяем разрешено ли постить комменты
 			 */
 			if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError('Ваш рейтинг слишком мал для написания комментариев','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
 			 * Проверяем разрешено ли постить комменты по времени
 			 */
 			if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError('Вам нельзя писать комментарии слишком часто','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
 			 * Проверяем запрет на добавления коммента автором топика
 			 */
 			if ($oTopic->getForbidComment()) {
-				$this->Message_AddError('Автор топика запретил добавлять комментарии','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
@@ -1102,7 +1102,7 @@ class ActionBlog extends Action {
 			 */
 			$sText=$this->Text_Parser(getRequest('comment_text'));
 			if (!func_check($sText,'text',2,10000)) {
-				$this->Message_AddError('Текст комментария должен быть от 2 до 3000 символов и не содержать разного рода каку','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
 				return false;
 			}			
 			/**
@@ -1110,7 +1110,7 @@ class ActionBlog extends Action {
 			 */
 			$sParentId=getRequest('reply',0);
 			if (!func_check($sParentId,'id')) {
-				$this->Message_AddError('Что то не так..','Ошибка');
+				$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return false;
 			}
 			$oCommentParent=null;
@@ -1137,7 +1137,7 @@ class ActionBlog extends Action {
 			 * Проверка на дублирующий коммент
 			 */
 			if ($this->Comment_GetCommentUnique($oTopic->getId(),$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
-				$this->Message_AddError('Стоп! Спам!','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
 				return false;
 			}
 			//exit();
@@ -1190,7 +1190,7 @@ class ActionBlog extends Action {
 				}
 				func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html#comment'.$oCommentNew->getId());
 			} else {
-				$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении комментария, пожалуйста повторите позже.','Внутреняя ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return false;
 			}
 		}
