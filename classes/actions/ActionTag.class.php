@@ -28,7 +28,7 @@ class ActionTag extends Action {
 		/**
 		 * Определяем какие блоки выводить
 		 */
-		$this->Viewer_AddBlocks('right',array('tags','comments'));	
+		$this->Viewer_AddBlocks('right',array('tags','stream'));	
 	}
 	
 	protected function RegisterEvent() {						
