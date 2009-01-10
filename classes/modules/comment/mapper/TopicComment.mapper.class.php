@@ -381,6 +381,46 @@ class Mapper_TopicComment extends Mapper {
 		return null;
 	}
 	
+	public function GetCommentsNewByTopicId($sId,$oUserCurrent,$sIdCommentLast) {
+		$iCurrentUserId=-1;
+		if (is_object($oUserCurrent)) {
+			$iCurrentUserId=$oUserCurrent->getId();
+		}
+		$sql = "SELECT 
+					c.*,
+					u.user_login as user_login,
+					u.user_profile_avatar as user_profile_avatar,
+					u.user_profile_avatar_type as user_profile_avatar_type,
+					c.comment_id as ARRAY_KEY,
+					c.comment_pid as PARENT_KEY,
+					IF(cv.comment_id IS NULL,0,1) as user_is_vote,
+					cv.vote_delta as user_vote_delta
+				FROM 
+					".DB_TABLE_TOPIC_COMMENT." as c
+					
+					LEFT JOIN (
+						SELECT
+							comment_id,
+							vote_delta												
+						FROM ".DB_TABLE_TOPIC_COMMENT_VOTE." 
+						WHERE user_voter_id = ?d
+					) AS cv ON cv.comment_id = c.comment_id,
+					
+					".DB_TABLE_USER." as u 					
+				WHERE 
+					c.topic_id = ?d 
+					AND			
+					c.comment_id > ?d
+					AND		
+					c.user_id=u.user_id
+				ORDER by c.comment_id asc;	
+					";
+		if ($aRows=$this->oDb->select($sql,$iCurrentUserId,$sId,$sIdCommentLast)) {
+			return $aRows;
+		}
+		return null;
+	}
+	
 	public function GetCommentsByUserId($sId,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT 
 					c.*,

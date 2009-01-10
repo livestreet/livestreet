@@ -50,7 +50,7 @@ var msgNoticeBox=new Roar({
 
 
 
-<body onload="sh_highlightDocument();">
+<body>
 
 
 
