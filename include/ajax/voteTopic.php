@@ -33,14 +33,16 @@ if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oTopic->getUserId()!=$oUserCurrent->getId()) {
 			if (!($oTopicVote=$oEngine->Topic_GetTopicVote($oTopic->getId(),$oUserCurrent->getId()))) {
-				if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic)) {
-					if (in_array($iValue,array('1','-1'))) {
+				if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic) or $iValue==0) {
+					if (in_array($iValue,array('1','-1','0'))) {
 						$oTopicVote=new TopicEntity_TopicVote();
 						$oTopicVote->setTopicId($oTopic->getId());
 						$oTopicVote->setVoterId($oUserCurrent->getId());
 						$oTopicVote->setDelta($iValue);
 						//$oTopic->setRating($oTopic->getRating()+$iValue);
-						$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
+						if ($iValue!=0) {
+							$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
+						}
 						$oTopic->setCountVote($oTopic->getCountVote()+1);
 						if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
 							$bStateError=false;
@@ -53,7 +55,7 @@ if ($oEngine->User_IsAuthorization()) {
 						}
 					} else {
 						$sMsgTitle='Внимание!';
-						$sMsg='Голосовать можно только +1 либо -1!';
+						$sMsg='Голосовать можно только +1, 0, либо -1!';
 					}
 				} else {
 					$sMsgTitle='Внимание!';

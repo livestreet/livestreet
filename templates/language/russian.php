@@ -59,6 +59,7 @@ return array(
 	'blog_menu_all' => 'Все_$$',
 	'blog_menu_all_good' => 'Хорошие_$$',
 	'blog_menu_all_new' => 'Новые_$$',
+	'blog_menu_all_list' => 'Все блоги_$$',
 	'blog_menu_collective' => 'Коллективные_$$',
 	'blog_menu_collective_good' => 'Хорошие_$$',
 	'blog_menu_collective_new' => 'Новые_$$',
@@ -139,6 +140,8 @@ return array(
 	'topic_unpublish' => 'топик находится в черновиках_$$',
 	'topic_favourite_add' => 'добавить в избранное_$$',
 	'topic_favourite_del' => 'удалить из избранного_$$',
+	
+	'comments' => 'Весь прямой эфир_$$',
 	/**
 	 * Меню топиков
 	 */
@@ -233,8 +236,8 @@ return array(
 	'user_write_prvmsg' => 'Написать письмо_$$',
 	'user_friend_add' => 'добавить в друзья_$$',
 	'user_friend_del' => 'удалить из друзей_$$',
-	'user_rating' => 'рейтинг_$$',
-	'user_skill' => 'сила_$$',
+	'user_rating' => 'Рейтинг_$$',
+	'user_skill' => 'Сила_$$',
 	/**
 	 * Голосование за пользователя
 	 */
@@ -307,7 +310,15 @@ return array(
 	'settings_menu_tuning' => 'Тюнинг_$$',
 	'settings_menu_invite' => 'Инвайты_$$',
 	
+	/**
+	 * Восстановление пароля
+	 */
+	'password_reminder' => 'Восстановление пароля_$$',
+	'password_reminder_bad_code' => 'Неверный код на восстановление пароля._$$',
+	'password_reminder_bad_email' => 'Неверный код на восстановление пароля._$$',
 	
+	
+	'search' => 'Поиск_$$',
 	
 	'error' => 'Ошибка_$$',
 	'system_error' => 'Системная ошибка, повторите позже_$$',
@@ -316,6 +327,7 @@ return array(
 	'not_access' => 'Нет доступа_$$',
 	'page_next' => 'туда_$$',
 	'page_previos' => 'сюда_$$',
+	'login' => 'Вход на сайт_$$',	
 	'date_day' => 'день_$$',
 	'date_month' => 'месяц_$$',
 	'date_month_1' => 'января_$$',

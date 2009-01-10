@@ -52,16 +52,10 @@ if ($oEngine->User_IsAuthorization()) {
 					if ($oEngine->Topic_AddTopicQuestionVote($oTopicQuestionVote) and $oEngine->Topic_updateTopic($oTopic)) {
 						$bStateError=false;
 						$sMsgTitle='Поздравляем!';
-						$sMsg='Ваш голос учтен.';
+						$sMsg='Ваш голос учтен.';						
 						
-						foreach ($oTopic->getQuestionAnswers() as $key => $aAnswer) {
-							$sTextResult.='<dl><dt><strong>'.$oTopic->getQuestionAnswerPercent($key).'%</strong><br/>('.$aAnswer['count'].')</dt>';
-							$sTextResult.='<dd>'.$aAnswer['text'].'<br/><img width="'.$oTopic->getQuestionAnswerPercent($key).'%" height="5" alt="" src="'.DIR_STATIC_SKIN.'/img/vote_space.gif"/></dd></dl>';
-						}
-						$sTextResult.='<span class="total">Проголосовало: '.$oTopic->getQuestionCountVote().'. Воздержалось: '.$oTopic->getQuestionCountVoteAbstain().'</span>';
-						
-			
-						
+						$oEngine->Viewer_Assign('oTopic',$oTopic);								
+						$sTextResult=$oEngine->Viewer_Fetch("topic_question.tpl");	
 					} else {
 						$sMsgTitle='Ошибка!';
 						$sMsg='Возникли проблемы, повторите позже.';

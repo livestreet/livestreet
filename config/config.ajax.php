@@ -21,6 +21,7 @@
 error_reporting(E_ALL);
 define('SYS_HACKER_CONSOLE',false);
 require_once("./config/config.php");
+require_once("./config/config.route.php");
 require_once("./include/function.php");
 require_once("./classes/engine/Router.class.php");
 require_once("./classes/lib/external/JsHttpRequest/JsHttpRequest.php");
