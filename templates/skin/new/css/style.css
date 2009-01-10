@@ -188,6 +188,8 @@ a:hover { text-decoration: none; }
 .topic .voting li.comments-total a:hover span.red { background: #f00; }
 
 /* Generic Style of Topic */
+.topic .content { font-size: 14px; line-height: 20px; margin-bottom: 15px; font-family: Verdana, sans-serif;}
+.topic .content img { margin: 5px; }
 .topic .content p { margin-bottom: 15px; }
 
 .topic .content ul, ol { margin-bottom: 15px; margin-left: 20px; }
