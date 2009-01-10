@@ -42,7 +42,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Добавляем блоки для отображения
 		 */
-		$this->Viewer_AddBlocks('right',array('comments','tags'));	
+		$this->Viewer_AddBlocks('right',array('stream','tags'));	
 	}
 	
 	/**
