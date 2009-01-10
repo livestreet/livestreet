@@ -54,7 +54,7 @@ class ActionBlogs extends Action {
 		 */					
 		$this->Viewer_Assign('aPaging',$aPaging);					
 		$this->Viewer_Assign("aBlogs",$aBlogs);
-		$this->Viewer_AddHtmlTitle('Список блогов');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_menu_all_list'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

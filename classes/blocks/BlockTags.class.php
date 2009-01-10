@@ -30,8 +30,8 @@ class BlockTags extends Block {
 		 * Расчитываем логарифмическое облако тегов
 		 */
 		if ($aTags) {
-			$iMinSize=12; // минимальный размер шрифта
-			$iMaxSize=22; // максимальный размер шрифта
+			$iMinSize=1; // минимальный размер шрифта
+			$iMaxSize=10; // максимальный размер шрифта
 			$iSizeRange=$iMaxSize-$iMinSize;
 			
 			$iMin=10000;

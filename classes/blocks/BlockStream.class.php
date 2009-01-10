@@ -19,16 +19,9 @@
  * Обработка блока с комментариями
  *
  */
-class BlockComments extends Block {
+class BlockStream extends Block {
 	public function Exec() {
-		/**
-		 * Получаем список комментов
-		 */
-		$aComments=$this->oEngine->Comment_GetCommentsAllGroup(20);		
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign("aComments",$aComments);
+		
 	}
 }
 ?>

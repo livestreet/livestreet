@@ -93,7 +93,7 @@ class ActionBlog extends Action {
 		/**
 		 * Определяем какие блоки нужно выводить справа
 		 */
-		$this->Viewer_AddBlocks('right',array('comments','tags','blogs'));		
+		$this->Viewer_AddBlocks('right',array('stream','tags','blogs'));		
 		/**
 		 * Подсчитываем новые топики
 		 */
@@ -641,7 +641,16 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём комменты к топику
 		 */
-		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());		
+		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$iMaxIdComment=$aReturn['iMaxIdComment'];	
+		$aComments=$aReturn['comments'];	
+		$aCommentsNew=array();
+		foreach ($aComments as $oCom) {
+			$array=$oCom->_getData();
+			$array['obj']=$oCom;
+			$aCommentsNew[]=$array;
+		}
+			
 		/**
 		 * Проверяем находится ли топик в избранном у текущего юзера
 		 */
@@ -679,6 +688,8 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('dDateTopicRead',$dDate);
 		$this->Viewer_Assign('oTopic',$oTopic);
 		$this->Viewer_Assign('aComments',$aComments);
+		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
+		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
 		/**
@@ -731,8 +742,16 @@ class ActionBlog extends Action {
 		$this->SubmitComment($oTopic);
 		/**
 		 * Достаём комменты к топику
-		 */
-		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		 */		
+		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$iMaxIdComment=$aReturn['iMaxIdComment'];	
+		$aComments=$aReturn['comments'];	
+		$aCommentsNew=array();
+		foreach ($aComments as $oCom) {
+			$array=$oCom->_getData();
+			$array['obj']=$oCom;
+			$aCommentsNew[]=$array;
+		}
 		/**
 		 * Проверяем находится ли топик в избранном у текущего юзера
 		 */
@@ -770,6 +789,8 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('dDateTopicRead',$dDate);
 		$this->Viewer_Assign('oTopic',$oTopic);
 		$this->Viewer_Assign('aComments',$aComments);	
+		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
+		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
 		/**

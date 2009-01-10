@@ -21,15 +21,7 @@
  */
 class BlockBlogs extends Block {
 	public function Exec() {
-		/**
-		 * Получаем список блогов
-		 */
-		$aResult=$this->Blog_GetBlogsRating(1,20);	
-		$aBlogs=$aResult['collection'];	
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign("aBlogs",$aBlogs);
+		
 	}
 }
 ?>

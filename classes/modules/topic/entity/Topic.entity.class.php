@@ -98,10 +98,17 @@ class TopicEntity_Topic extends Entity
     public function getTagsLink() {
     	$aTags=explode(',',$this->getTags());
     	foreach ($aTags as $key => $value) {
-    		$aTags[$key]='<a href="'.DIR_WEB_ROOT.'/tag/'.htmlspecialchars($value).'/" class="smalltags">'.htmlspecialchars($value).'</a>';
+    		$aTags[$key]='<a href="'.DIR_WEB_ROOT.'/tag/'.htmlspecialchars($value).'/">'.htmlspecialchars($value).'</a>';
     	}
         return trim(join(', ',$aTags));
-    }
+    }  
+    public function getTagsLinkNew() {
+    	$aTags=explode(',',$this->getTags());
+    	foreach ($aTags as $key => $value) {
+    		$aTags[$key]='<li><a href="'.DIR_WEB_ROOT.'/tag/'.htmlspecialchars($value).'/">'.htmlspecialchars($value).'</a></li>';
+    	}
+        return trim(join(', ',$aTags));
+    }   
     public function getUserLogin() {
         return $this->_aData['user_login'];
     }
@@ -245,6 +252,16 @@ class TopicEntity_Topic extends Entity
     			$this->setExtra($this->aExtra);
     		}
     	}
+    }
+    public function getQuestionAnswerMax() {
+    	$aAnswers=$this->getQuestionAnswers();
+    	$iMax=0;
+    	foreach ($aAnswers as $aAns) {
+    		if ($aAns['count']>$iMax) {
+    			$iMax=$aAns['count'];
+    		}
+    	}
+    	return $iMax;
     }
     public function getQuestionAnswerPercent($sIdAnswer) {
     	if ($aAnswers=$this->getQuestionAnswers()) {

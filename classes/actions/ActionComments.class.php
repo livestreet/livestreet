@@ -61,7 +61,7 @@ class ActionComments extends Action {
 		 */					
 		$this->Viewer_Assign('aPaging',$aPaging);					
 		$this->Viewer_Assign("aComments",$aComments);
-		$this->Viewer_AddHtmlTitle('Прямой эфир');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('comments'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

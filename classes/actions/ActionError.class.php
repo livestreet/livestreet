@@ -46,7 +46,7 @@ class ActionError extends Action {
 		if ($aError[0]['title']=='404') {			
 			header("HTTP/1.1 404 Not Found");
 		}
-		$this->Viewer_AddHtmlTitle('Ошибка');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
 	}
 }
 ?>

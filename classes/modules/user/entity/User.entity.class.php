@@ -146,7 +146,9 @@ class UserEntity_User extends Entity {
     public function isAdministrator() {
         return $this->_aData['user_is_administrator'];
     }
-    
+    public function getUserWebPath() {   
+    	return DIR_WEB_ROOT.'/'.ROUTE_PAGE_PROFILE.'/'.$this->getLogin().'/';
+    }
     
     
     public function setId($data) {

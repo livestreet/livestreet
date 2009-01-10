@@ -109,6 +109,31 @@ class Viewer extends Module {
 		$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
 		$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
 		/**
+		 * Константы роутинга страниц
+		 */
+		$this->Assign("ROUTE_PAGE_ERROR",ROUTE_PAGE_ERROR);
+		$this->Assign("ROUTE_PAGE_REGISTRATION",ROUTE_PAGE_REGISTRATION);
+		$this->Assign("ROUTE_PAGE_PROFILE",ROUTE_PAGE_PROFILE);
+		$this->Assign("ROUTE_PAGE_MY",ROUTE_PAGE_MY);
+		$this->Assign("ROUTE_PAGE_BLOG",ROUTE_PAGE_BLOG);
+		$this->Assign("ROUTE_PAGE_PERSONAL_BLOG",ROUTE_PAGE_PERSONAL_BLOG);
+		$this->Assign("ROUTE_PAGE_TOP",ROUTE_PAGE_TOP);
+		$this->Assign("ROUTE_PAGE_INDEX",ROUTE_PAGE_INDEX);
+		$this->Assign("ROUTE_PAGE_NEW",ROUTE_PAGE_NEW);
+		$this->Assign("ROUTE_PAGE_TOPIC",ROUTE_PAGE_TOPIC);
+		$this->Assign("ROUTE_PAGE_PAGE",ROUTE_PAGE_PAGE);
+		$this->Assign("ROUTE_PAGE_LOGIN",ROUTE_PAGE_LOGIN);
+		$this->Assign("ROUTE_PAGE_PEOPLE",ROUTE_PAGE_PEOPLE);
+		$this->Assign("ROUTE_PAGE_SETTINGS",ROUTE_PAGE_SETTINGS);
+		$this->Assign("ROUTE_PAGE_TAG",ROUTE_PAGE_TAG);
+		$this->Assign("ROUTE_PAGE_COMMENTS",ROUTE_PAGE_COMMENTS);
+		$this->Assign("ROUTE_PAGE_TALK",ROUTE_PAGE_TALK);
+		$this->Assign("ROUTE_PAGE_RSS",ROUTE_PAGE_RSS);
+		$this->Assign("ROUTE_PAGE_LINK",ROUTE_PAGE_LINK);
+		$this->Assign("ROUTE_PAGE_QUESTION",ROUTE_PAGE_QUESTION);
+		$this->Assign("ROUTE_PAGE_BLOGS",ROUTE_PAGE_BLOGS);
+		$this->Assign("ROUTE_PAGE_SEARCH",ROUTE_PAGE_SEARCH);		
+		/**
 		 * Загружаем список блоков
 		 */
 		$this->Assign("aBlocks",$this->aBlocks);	

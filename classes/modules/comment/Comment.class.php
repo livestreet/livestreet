@@ -149,10 +149,13 @@ class Comment extends Module {
 			$aComments=array();
 			$aCommentsRow=$this->oMapperTopicComment->GetCommentsByTopicId($sId,$oUserCurrent);
 			if (count($aCommentsRow)) {
-				$aComments=$this->BuildCommentsRecursive($aCommentsRow);
+				$aComments=$this->BuildCommentsRecursive($aCommentsRow);				
 			}
 			$this->Cache_Set($aComments, "comment_topic_{$sId}_{$s}", array("comment_update_topic_{$sId}","comment_new_topic_{$sId}"), 60*5);
-		}		
+		}			
+		if (!isset($aComments['comments'])) {
+			return array('comments'=>array(),'iMaxIdComment'=>0);
+		}
 		return $aComments;		
 	}	
 	/**
@@ -224,6 +227,58 @@ class Comment extends Module {
 	public function AddTopicCommentOnline(CommentEntity_TopicCommentOnline $oTopicCommentOnline) {
 		return $this->oMapperTopicComment->AddTopicCommentOnline($oTopicCommentOnline);
 	}
+	
+	
+	
+	/**
+	 * Получить комменты для топика
+	 *
+	 * @param unknown_type $sId
+	 * @return unknown
+	 */
+	public function GetCommentsNewByTopicId($sId,$sIdCommentLast) {	
+		$s=-1;
+		$oUserCurrent=$this->User_GetUserCurrent();
+		if ($oUserCurrent) {
+			$s=$oUserCurrent->getId();
+		}		
+		if (false === ($aComments = $this->Cache_Get("comment_topic_{$sId}_{$s}_{$sIdCommentLast}"))) {
+			$aComments=array();
+			$aCommentsRow=$this->oMapperTopicComment->GetCommentsNewByTopicId($sId,$oUserCurrent,$sIdCommentLast);
+			if (count($aCommentsRow)) {
+				$aComments=$this->BuildCommentsRecursive($aCommentsRow);				
+			}
+			$this->Cache_Set($aComments, "comment_topic_{$sId}_{$s}_{$sIdCommentLast}", array("comment_update_topic_{$sId}","comment_new_topic_{$sId}"), 60*5);
+		}			
+		if (!isset($aComments['comments'])) {
+			return array('comments'=>array(),'iMaxIdComment'=>0);
+		}
+		$aCmts=$aComments['comments'];
+		
+		if (!class_exists('Viewer')) {
+			require_once("./classes/modules/sys_viewer/Viewer.class.php");
+		}
+		$oViewerLocal=new Viewer(Engine::getInstance());
+		$oViewerLocal->Init();
+		$oViewerLocal->VarAssign();
+		
+		$aCmt=array();
+		foreach ($aCmts as $oComment) {			
+			$oViewerLocal->Assign('oComment',$oComment);
+			$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());			
+			$sText=$oViewerLocal->Fetch("comment.tpl");
+			$aCmt[]=array(
+				'html' => $sText,
+				'obj'  => $oComment,
+			);
+			//var_dump($sText);
+		}
+			
+		return array('comments'=>$aCmt,'iMaxIdComment'=>$aComments['iMaxIdComment']);		
+	}
+	
+	
+	
 	/**
 	 * Строит дерево комментариев
 	 *
@@ -234,12 +289,17 @@ class Comment extends Module {
 	protected function BuildCommentsRecursive($aComments,$bBegin=true) {
 		static $aResultCommnets;
 		static $iLevel;
+		static $iMaxIdComment;
 		if ($bBegin) {
 			$aResultCommnets=array();
 			$iLevel=0;
+			$iMaxIdComment=0;
 		}		
 		foreach ($aComments as $aComment) {
 			$aTemp=$aComment;
+			if ($aComment['comment_id']>$iMaxIdComment) {
+				$iMaxIdComment=$aComment['comment_id'];
+			}
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
 			$aResultCommnets[]=new CommentEntity_TopicComment($aTemp);			
@@ -249,7 +309,7 @@ class Comment extends Module {
 			}
 		}
 		$iLevel--;		
-		return $aResultCommnets;
+		return array('comments'=>$aResultCommnets,'iMaxIdComment'=>$iMaxIdComment);
 	}
 
 }

@@ -71,7 +71,7 @@ class ActionLogin extends Action {
 			}			
 			$this->Viewer_Assign('bLoginError',true);
 		}
-		$this->Viewer_AddHtmlTitle('Вход на сайт');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('login'));
 	}
 	/**
 	 * Обрабатываем процесс разлогинивания
@@ -86,7 +86,7 @@ class ActionLogin extends Action {
 	 *
 	 */
 	protected function EventReminder() {
-		$this->Viewer_AddHtmlTitle('Восстановление пароля');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('password_reminder'));
 		
 		if ($this->GetParam(0)=='send') {
 			$this->SetTemplateAction('reminder_send');
@@ -111,7 +111,7 @@ class ActionLogin extends Action {
 					}					
 				}
 			}
-			$this->Message_AddErrorSingle('Неверный код на восстановление пароля.','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_code'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**

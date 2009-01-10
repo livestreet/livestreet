@@ -279,6 +279,26 @@ class Topic extends Module {
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	/**
+	 * Получает заданое число последних топиков
+	 *
+	 * @param unknown_type $iCount
+	 * @return unknown
+	 */
+	public function GetTopicsLast($iCount) {		
+		$aFilter=array(
+			'blog_type' => array(
+				'personal',
+				'open',
+			),
+			'topic_publish' => 1,			
+		);			
+		$aReturn=$this->GetTopicsByFilter($aFilter,1,$iCount);
+		if (isset($aReturn['collection'])) {
+			return $aReturn['collection'];
+		}
+		return false;
+	}
+	/**
 	 * Получает список топиков хороших из персональных блогов
 	 *
 	 * @param unknown_type $iCount
