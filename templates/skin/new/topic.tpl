@@ -7,7 +7,7 @@
   						<img src="{$DIR_STATIC_SKIN}/images/link_url_big.gif" border="0" title="{$aLang.topic_link}" width="16" height="16" alt="{$aLang.topic_link}">
   					{/if}
 				</h1>
-				<ul class="blog">
+				<ul class="action">
 					<li><a href="{$oTopic->getBlogUrlFull()}">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&nbsp;</li>
 					<li class="rss"><a href="#" onclick="return false;"></a></li>
 					<li class="plus"><a href="#" onclick="return false;"></a></li>
