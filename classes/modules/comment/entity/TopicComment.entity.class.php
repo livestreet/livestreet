@@ -67,7 +67,7 @@ class CommentEntity_TopicComment extends Entity
     	if ($this->getUserProfileAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getUserId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getUserProfileAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/img/avatar_'.$iSize.'x'.$iSize.'.jpg';
+    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
 	public function getTopicTitle() {

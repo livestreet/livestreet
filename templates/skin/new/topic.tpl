@@ -52,7 +52,7 @@
 					<li class="minus"><a href="#" onclick="lsVote.vote({$oTopic->getId()},this,-1,'topic'); return false;"></a></li>
 					<li class="date">{date_format date=$oTopic->getDateAdd()}</li>
 					{if $oTopic->getType()=='link'}
-						<li class="link"><a href="{$DIR_WEB_ROOT}/link/go/{$oTopic->getId()}/" title="{$aLang.topic_link_count_jump}: {$oTopic->getLinkCountJump()}">{$oTopic->getLinkUrl(true)}</a></li>						
+						<li class="link"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LINK}/go/{$oTopic->getId()}/" title="{$aLang.topic_link_count_jump}: {$oTopic->getLinkCountJump()}">{$oTopic->getLinkUrl(true)}</a></li>						
 					{/if}
 					<li class="author"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oTopic->getUserLogin()}/">{$oTopic->getUserLogin()}</a></li>					
 				</ul>

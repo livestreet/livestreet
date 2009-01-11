@@ -73,7 +73,7 @@ class BlogEntity_Blog extends Entity
     	if ($this->getUserProfileAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getOwnerId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getUserProfileAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/img/avatar_'.$iSize.'x'.$iSize.'.jpg';
+    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
     public function getUserIsVote() {
@@ -86,7 +86,7 @@ class BlogEntity_Blog extends Entity
     	if ($this->getAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getOwnerId()."/avatar_blog_{$this->getUrl()}_".$iSize.'x'.$iSize.'.'.$this->getAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/img/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
+    		return DIR_STATIC_SKIN.'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
     }
     public function getCurrentUserIsJoin() {

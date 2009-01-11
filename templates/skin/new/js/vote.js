@@ -30,6 +30,10 @@ var lsVoteClass = new Class({
                 topic: {
                         url: DIR_WEB_ROOT+'/include/ajax/voteTopic.php',
                         targetName: 'idTopic'
+                },
+                blog: {
+                        url: DIR_WEB_ROOT+'/include/ajax/voteBlog.php',
+                        targetName: 'idBlog'
                 }
         },
 
@@ -80,6 +84,10 @@ var lsVoteClass = new Class({
                 if(this.value<0) {
                         divVoting.addClass(thisObj.options.classes_action.minus);
                 }              
+                var divCount=divVoting.getChildren('.'+thisObj.options.classes_element.count);
+                if (divCount && divCount[0]) {
+                	divCount.set('text',result.iCountVote);
+                }
                
                 var divTotal=divVoting.getChildren('.'+thisObj.options.classes_element.total);              
                 result.iRating=parseInt(result.iRating);  

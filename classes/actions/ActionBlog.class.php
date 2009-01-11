@@ -125,10 +125,7 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^page(\d+)$/i','EventShowBlogBad');
 		
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^$/i','EventShowBlogNew');
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^page(\d+)$/i','EventShowBlogNew');
-		
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^profile$/i','/^$/i','EventShowBlogProfile');
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^profile$/i','/^page(\d+)$/i','EventShowBlogProfile');		
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^page(\d+)$/i','EventShowBlogNew');			
 	}
 		
 	
@@ -858,8 +855,20 @@ class ActionBlog extends Action {
 		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
 		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));	
 		/**
+		 * Получаем список юзеров блога
+		 */
+		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
+		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
+		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());		
+		/**
 		 * Загружаем переменные в шаблон
 		 */				
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);		
+		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
+		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
+		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
+		$this->Viewer_Assign('iCountBlogModerators',count($aBlogModerators));
+		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);
 		$this->Viewer_Assign('oBlogUser',$oBlogUser);
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
@@ -931,8 +940,20 @@ class ActionBlog extends Action {
 		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
 		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
 		/**
+		 * Получаем список юзеров блога
+		 */
+		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
+		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
+		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());
+		/**
 		 * Загружаем переменные в шаблон
 		 */
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);			
+		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
+		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
+		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
+		$this->Viewer_Assign('iCountBlogModerators',count($aBlogModerators));
+		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);
 		$this->Viewer_Assign('oBlogUser',$oBlogUser);
 		$this->Viewer_Assign('aPaging',$aPaging);		
 		$this->Viewer_Assign('aTopics',$aTopics);
@@ -1005,8 +1026,20 @@ class ActionBlog extends Action {
 		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
 		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
 		/**
+		 * Получаем список юзеров блога
+		 */
+		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
+		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
+		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());
+		/**
 		 * Загружаем переменные в шаблон
 		 */
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);			
+		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
+		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
+		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
+		$this->Viewer_Assign('iCountBlogModerators',count($aBlogModerators));
+		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);
 		$this->Viewer_Assign('oBlogUser',$oBlogUser);		
 		$this->Viewer_Assign('aPaging',$aPaging);			
 		$this->Viewer_Assign('aTopics',$aTopics);
@@ -1018,67 +1051,6 @@ class ActionBlog extends Action {
 		 */
 		$this->SetTemplateAction('blog');
 	}
-	
-	/**
-	 * Показать профайл блога
-	 *
-	 * @param unknown_type $sBlogUrl
-	 * @param unknown_type $iPage
-	 * @return unknown
-	 */
-	protected function EventShowBlogProfile() {	
-		$sBlogUrl=$this->sCurrentEvent;
-		$iPage=$this->GetParam(1);
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='';
-		/**
-		 * Проверяем есть ли блог с таким УРЛ
-		 */
-		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
-			return parent::EventNotFound();
-		}
-		/**
-		 * Получаем список юзеров блога
-		 */
-		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
-		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
-		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());		
-		/**
-		 * Проверяем является ли текущий пользователь пользователем блога
-		 */
-		$bNeedJoin=true;
-		$oBlogUser=null;
-		if ($this->oUserCurrent) {
-			if ($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
-				$bNeedJoin=false;
-			}
-		}
-		/**
-		 * Выставляем SEO данные
-		 */
-		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
-		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));		
-		/**
-		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('oBlog',$oBlog);
-		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
-		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);	
-		$this->Viewer_Assign('oBlogUser',$oBlogUser);		
-		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
-		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
-		$this->Viewer_Assign('bNeedJoin',$bNeedJoin);
-		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
-		$this->Viewer_AddHtmlTitle('Профиль блога');
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('profile');
-	}
-	
 	/**
 	 * Обработка добавление комментария к топику
 	 *

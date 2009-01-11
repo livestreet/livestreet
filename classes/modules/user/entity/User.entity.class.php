@@ -131,7 +131,7 @@ class UserEntity_User extends Entity {
     	if ($this->getProfileAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/img/avatar_'.$iSize.'x'.$iSize.'.jpg';
+    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
     public function getUserIsVote() {
