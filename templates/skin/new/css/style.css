@@ -2,7 +2,7 @@
 -------------------------------------------------------------------
 Project:		livestreet.ru
 Version:		1.0
-Last change:	09/01/09
+Last change:	11/01/09
 ------------------------------------------------------------------- 
 */
 
@@ -39,7 +39,9 @@ a:hover { text-decoration: none; }
 #sidebar { width: 31.5%; float: left; margin-left: 1%; margin-top: -6px; }
 #footer { clear: both; background: url(../images/footer-bg.gif) repeat-x; padding: 20px 40px; color: #999; overflow: hidden; }
 
-.update-hide { padding: 20px 10px 0 20px !important; } /* Full Width of Wrapper */
+#wrapper.update-hide { padding: 20px 10px 0 20px !important; }
+#wrapper.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px !important; _height: 1%; }
+#wrapper.white-back #content { padding-top: 0; }
 
 
 /* Header
@@ -128,18 +130,18 @@ a:hover { text-decoration: none; }
 .topic .favorite.guest a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
 
 /* Blogline */
-.topic .blog { overflow: hidden; margin-bottom: 20px; }
-.topic .blog li { float: left; margin-right: 3px; }
-.topic .blog li a { color: #aaa; outline: none; }
-.topic .blog li.rss a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -70px -250px; margin-top: 5px; }
-.topic .blog li.plus a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -30px -250px; margin-top: 5px; }
-.topic .blog li.plus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -250px; }
-.topic .blog li.join a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; margin-top: 5px; }
-.topic .blog li.join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.topic .blog li.join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.topic .blog li.edit a { background: transparent url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
-.topic .blog li.delete a { background: transparent url(../images/delete.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 5px; text-decoration: none; font-size: 11px; color: #f00; }
-.topic .blog li a:hover { text-decoration: underline; }
+.topic .action { overflow: hidden; margin-bottom: 20px; }
+.topic .action li { float: left; margin-right: 3px; }
+.topic .action li a { color: #aaa; outline: none; }
+.topic .action li.rss a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -70px -250px; margin-top: 5px; }
+.topic .action li.plus a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -30px -250px; margin-top: 5px; }
+.topic .action li.plus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -250px; }
+.topic .action li.join a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; margin-top: 5px; }
+.topic .action li.join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.topic .action li.join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.topic .action li.edit a { background: transparent url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
+.topic .action li.delete a { background: transparent url(../images/delete.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 5px; text-decoration: none; font-size: 11px; color: #f00; }
+.topic .action li a:hover { text-decoration: underline; }
 
 /* Tags of Topic */
 .topic .tags { background: transparent url(../images/icons.gif) no-repeat scroll -70px -225px; padding-left: 15px; margin-bottom: 3px; clear: both; }
@@ -237,42 +239,42 @@ a:hover { text-decoration: none; }
 .tags .cl { background: url(../images/sidebar-tags-cl.gif) repeat-y left; }
 .tags .cr { padding: 0px 25px; background: url(../images/sidebar-tags-cr.gif) repeat-y right; }
 
-#sidebar .navigation { font-size: 11px; color: #888; }
-#sidebar .navigation ul li { padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dotted #ddd; }
-#sidebar .navigation ul li.last { border: 0; }
-#sidebar .navigation .blog { color: #999; }
+.block.navigation { font-size: 11px; color: #888; }
+.block.navigation ul li { padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dotted #ddd; }
+.block.navigation ul li.last { border: 0; }
+.block.navigation .blog { color: #999; }
 
-#sidebar .tags { background: #f7f8f9; }
-#sidebar .tags ul { text-align: center; }
-#sidebar .tags ul li { display: inline; margin-right: 5px; line-height: 22px; }
-#sidebar .tags ul li a { color: #8b8b8b; text-decoration: none; font-size: 18px; }
-#sidebar .tags ul li a:hover { background: #777; color: #fff; }
-#sidebar .tags ul li a.w1 { font-size: 11px; }
-#sidebar .tags ul li a.w2 { font-size: 12px; }
-#sidebar .tags ul li a.w3 { font-size: 14px; }
-#sidebar .tags ul li a.w4 { font-size: 16px; }
-#sidebar .tags ul li a.w5 { font-size: 18px; }
-#sidebar .tags ul li a.w6 { font-size: 20px; }
-#sidebar .tags ul li a.w7 { font-size: 22px; }
-#sidebar .tags ul li a.w8 { font-size: 24px; }
-#sidebar .tags ul li a.w9 { font-size: 26px; }
-#sidebar .tags ul li a.w10 { font-size: 28px; }
+.block.tags { background: #f7f8f9; }
+.block.tags ul.cloud { text-align: center; }
+.block.tags ul.cloud li { display: inline; margin-right: 5px; line-height: 22px; }
+.block.tags ul.cloud li a { color: #8b8b8b; text-decoration: none; font-size: 18px; }
+.block.tags ul.cloud li a:hover { background: #777; color: #fff; }
+.block.tags ul.cloud li a.w1 { font-size: 11px; }
+.block.tags ul.cloud li a.w2 { font-size: 12px; }
+.block.tags ul.cloud li a.w3 { font-size: 14px; }
+.block.tags ul.cloud li a.w4 { font-size: 16px; }
+.block.tags ul.cloud li a.w5 { font-size: 18px; }
+.block.tags ul.cloud li a.w6 { font-size: 20px; }
+.block.tags ul.cloud li a.w7 { font-size: 22px; }
+.block.tags ul.cloud li a.w8 { font-size: 24px; }
+.block.tags ul.cloud li a.w9 { font-size: 26px; }
+.block.tags ul.cloud li a.w10 { font-size: 28px; }
 
-#sidebar .blogs .block-nav li { line-height: 18px !important; }
-#sidebar .blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
-#sidebar .blogs ul.list li a { padding-right: 50px; color: #777; }
-#sidebar .blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
-#sidebar .blogs ul.list li .up { background: url(../images/blog-rating-up.gif) no-repeat right 5px; }
-#sidebar .blogs ul.list li .down { background: url(../images/blog-rating-down.gif) no-repeat right 5px; }
+.block.blogs .block-nav li { line-height: 18px !important; }
+.block.blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
+.block.blogs ul.list li a { padding-right: 50px; color: #777; }
+.block.blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
+.block.blogs ul.list li .up { background: url(../images/blog-rating-up.gif) no-repeat right 5px; }
+.block.blogs ul.list li .down { background: url(../images/blog-rating-down.gif) no-repeat right 5px; }
 
-.stream { font-size: 11px; color: #999; }
-.stream li { padding: 5px 5px; }
-.stream li.even { background: #f8f8f8; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background:transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left:13px; }
-.stream a.stream-topic { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -189px;margin:0 5px;padding-left:14px; }
-.stream a.stream-comment { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -146px;margin:0 5px;padding-left:14px; }
-.stream a.stream-blog { color: #999; }
-.stream span { color:#66b746; }
+.block.stream { font-size: 11px; color: #999; }
+.block.stream li { padding: 5px 5px; }
+.block.stream li.even { background: #f8f8f8; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background:transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left:13px; }
+.block.stream a.stream-topic { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -189px;margin:0 5px;padding-left:14px; }
+.block.stream a.stream-comment { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -146px;margin:0 5px;padding-left:14px; }
+.block.stream a.stream-blog { color: #999; }
+.block.stream span { color:#66b746; }
 
 .block-nav { overflow: hidden; margin-bottom: 3px; }
 .block-nav li { font-size: 11px; line-height: 16px; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; color: #fff; float: left; height: 21px; padding: 0; }
@@ -283,6 +285,32 @@ a:hover { text-decoration: none; }
 .block-nav li.active em { background: transparent url(../images/bg.gif) no-repeat scroll -14px -555px; }
 .block-nav li.active { background:#81da5e url(../images/bg.gif) repeat-x scroll 0 -513px; }
 .block-nav li.active a { color: #fff; background: transparent url(../images/bg.gif) no-repeat scroll -19px -555px; margin: 0 8px 0 8px; }
+
+.block.white { background: #fff !important; }
+.block.white .tl { height: 19px; background: url(../images/sidebar-profile-tl.gif) no-repeat top left; }
+.block.white .tr { height: 19px; background: url(../images/sidebar-profile-tr.gif) no-repeat top right; }
+.block.white .bl { height: 19px; background: url(../images/sidebar-profile-bl.gif) no-repeat bottom left; }
+.block.white .br { height: 19px; background: url(../images/sidebar-profile-br.gif) no-repeat bottom right; }
+.block.white .cl { background: url(../images/sidebar-profile-cl.gif) repeat-y left; }
+.block.white .cr { padding: 0px 25px; background: url(../images/sidebar-profile-cr.gif) repeat-y right; }
+
+.block.nostyle { padding: 20px 25px; }
+
+.block.actions li { color: #4ccc1b; padding-bottom: 3px; }
+.block.actions li.add { color: #4ccc1b; padding-bottom: 15px; }
+.block.actions li.add a { color: #4ccc1b; }
+
+.block.contacts strong { color: #999; }
+.block.contacts img { padding: 7px; border: 1px solid #ccc; margin: 20px 0 0 0; }
+.block.contacts ul { margin-top: 5px; }
+.block.contacts ul li { padding: 3px 0 3px 25px; }
+.block.contacts ul li.icq { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px 2px; }
+.block.contacts ul li.jabber { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -23px; }
+.block.contacts ul li.skype { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -47px; margin-bottom: 10px; }
+.block.contacts ul li.lj { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -73px; }
+.block.contacts ul li.vk { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -99px; margin-bottom: 10px; }
+.block.contacts ul li.email { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -122px; }
+.block.contacts ul li.phone { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -145px; }
 
 
 
@@ -450,6 +478,43 @@ a:hover { text-decoration: none; }
 
 .profile-blog .about .content ul.reader-list { overflow: hidden; _height: 1%; }
 .profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background:transparent url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
+
+
+/* Profile of user
+-------------------------------------------------------------------*/
+.profile-user { padding-right: 20px; }
+
+.profile-user .voting { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; }
+.profile-user .voting .clear { clear: both; color: #aaa; }
+.profile-user .voting .plus { float: left; margin-right: 5px; }
+.profile-user .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
+.profile-user .voting .minus { float: left; margin-right: 0; }
+.profile-user .voting a.plus  { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
+.profile-user .voting a.plus :hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
+.profile-user .voting a.minus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-user .voting.plus a.plus { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting.minus a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-user .voting.guest a.plus { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
+.profile-user .voting.guest a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.profile-user .voting.positive .total { background: #68bf46; }
+.profile-user .voting.negative .total { background: #ff3b3c; }
+
+.profile-user .strength { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; margin-left: 15px; }
+.profile-user .strength .clear { clear: both; color: #aaa; }
+.profile-user .strength .total { float: left; color: #fff; padding: 5px 10px; font-size: 14px; background: #70aae0; }
+
+.profile-user h1.title { border-bottom: 1px solid #ccc; font-size: 18px; padding: 0 0 1px 2px; margin-bottom: 3px; }
+
+.profile-user .name { overflow: hidden; _height: 1%; color: #999;  margin-bottom: 20px; }
+.profile-user .name img.avatar { float: left; margin-right: 15px; }
+.profile-user .name p.nickname { font-size: 24px; margin-top: 2px; margin-bottom: 10px; color: #333; }
+.profile-user .name p.realname { font-size: 18px; margin-bottom: 15px; }
+
+.profile-user  table { width: 500px; }
+.profile-user  td.var { color: #999; font-weight: bold; width: 150px; padding: 5px 0; }
+.profile-user  td.friends { color: #999; }
+.profile-user  td.friends a { color: #999; padding: 5px 0; background: transparent url(../images/icons.gif) no-repeat scroll 0 -101px; padding-left: 12px; }
 
 
 /* Footer
