@@ -277,7 +277,7 @@ a:hover { text-decoration: none; }
 .block.stream span { color:#66b746; }
 
 .block-nav { overflow: hidden; margin-bottom: 3px; }
-.block-nav li { font-size: 11px; line-height: 16px; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; color: #fff; float: left; height: 21px; padding: 0; }
+.block-nav li { font-size: 11px; line-height: 16px; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; color: #fff; float: left; height: 21px; padding: 0 !important; }
 .block-nav li a { outline: none; display: block; float: left; color: #a2a2a2; height: 21px; margin: 0 8px; text-decoration: none; }
 .block-nav li strong { background: transparent url(../images/bg.gif) no-repeat scroll -9px -555px; float: left; height: 21px; width: 5px; }
 .block-nav li em { background:transparent url(../images/bg.gif) no-repeat scroll -5px -555px; float: left; height: 21px; width: 5px; }
