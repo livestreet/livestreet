@@ -20,15 +20,16 @@ function toggleBlogInfo(id,link) {
 				<div class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oBlog->getUserIsVote()} voted {if $oBlog->getUserVoteDelta()>0}plus{elseif $oBlog->getUserVoteDelta()<0}minus{/if}{/if}">
 					<div class="clear">Рейтинг</div>
 					
-						<a href="#" class="plus" onclick="lsVote.vote({$oBlog->getId()},this,1,'blog'); return false;"></a>
-						<div class="total">{if $oBlog->getRating()>0}+{/if}{$oBlog->getRating()}</div>
-						<a href="#" class="minus" onclick="lsVote.vote({$oBlog->getId()},this,-1,'blog'); return false;"></a>
+					<a href="#" class="plus" onclick="lsVote.vote({$oBlog->getId()},this,1,'blog'); return false;"></a>
+					<div class="total">{if $oBlog->getRating()>0}+{/if}{$oBlog->getRating()}</div>
+					<a href="#" class="minus" onclick="lsVote.vote({$oBlog->getId()},this,-1,'blog'); return false;"></a>
 					
-					<div class="clear">голосов: <span class="count">{$oBlog->getCountVote()}</span></div>
+					<div class="clear"></div>
+					<div class="text">голосов:</div><div class="count">{$oBlog->getCountVote()}</div>
 				</div>
 
 				<img src="{$oBlog->getAvatarPath(24)}" alt="avatar" class="avatar" />
-				<h1 class="title"><a href="#" class="title-link" onclick="toggleBlogInfo('blog_about_{$oBlog->getId()}',this); return false;">{$oBlog->getTitle()|escape:'html'}</a><a href="#"><img src="{$DIR_STATIC_SKIN}/images/profile-blog-info.gif" alt="" /></a></h1>
+				<h1 class="title"><a href="#" class="title-link" onclick="toggleBlogInfo('blog_about_{$oBlog->getId()}',this); return false;"><span>{$oBlog->getTitle()|escape:'html'}</span><strong>&nbsp;&nbsp;</strong></a></h1>
 				<ul class="action">
 					<li class="rss"><a href="#"></a></li>
 					<li class="join"><a href="#"></a></li>

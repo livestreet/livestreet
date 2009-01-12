@@ -27,6 +27,8 @@ h3 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
 a { color: #70aae0; }
 a:hover { text-decoration: none; }
 
+.voting a { outline: none; }
+
 
 
 /* Generic Blocks
@@ -421,12 +423,14 @@ a:hover { text-decoration: none; }
 
 /* Profile of Blog
 -------------------------------------------------------------------*/
-.profile-blog { padding: 0 15px 0 8px; overflow: hidden; _height: 1%; }
-.profile-blog img.avatar { float: left; position: relative; top: 3px; margin-right: 7px; }
-.profile-blog h1.title { font-size: 24px; color: #b0b0b0; }
-.profile-blog h1.title a.title-link { border-bottom: 1px dashed #70aae0; text-decoration: none; }
-.profile-blog h1.title a.inactive { border-bottom: 1px dashed #aaa; color: #b0b0b0; text-decoration: none; }
-.profile-blog h1.title img { margin-left: 7px; position: relative; top: 3px; }
+.profile-blog { padding: 0 15px 0 8px; overflow: hidden; _height: 1%; position: relative; }
+.profile-blog img.avatar { float: left; position: absolute; top: 4px; left: 10px; }
+.profile-blog h1.title { font-size: 24px; line-height: 30px; color: #b0b0b0; padding-left: 33px; }
+.profile-blog h1.title a.title-link { text-decoration: none; outline: none; }
+.profile-blog h1.title a.title-link span { border-bottom: 1px dashed #70aae0; }
+.profile-blog h1.title a.inactive span { border-bottom: 1px dashed #aaa; color: #b0b0b0; text-decoration: none; }
+.profile-blog h1.title strong { background: url(../images/profile-blog-info.gif) no-repeat scroll 0px 6px; padding-right: 12px; margin-left: 7px; }
+.profile-blog h1.title a.inactive strong { background: url(../images/profile-blog-info-inactive.gif) no-repeat scroll 0px 6px;  }
 
 .profile-blog .action { overflow: hidden; margin: 0 0 20px 0; padding-left: 34px; }
 .profile-blog .action li { float: left; margin-right: 3px; }
@@ -477,15 +481,17 @@ a:hover { text-decoration: none; }
 .profile-blog .about .content h1.readers a.inactive { border-bottom: 1px dashed #aaa; color: #b0b0b0; text-decoration: none;}
 
 .profile-blog .about .content ul.reader-list { overflow: hidden; _height: 1%; }
-.profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background:transparent url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
+.profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
 
 
 /* Profile of user
 -------------------------------------------------------------------*/
 .profile-user { padding-right: 20px; }
 
-.profile-user .voting { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; }
-.profile-user .voting .clear { clear: both; color: #aaa; }
+.profile-user .voting { float: right; font-size: 10px; position: relative; top: -5px; }
+.profile-user .voting .clear { clear: both; color: #aaa; text-align: center;  }
+.profile-user .voting .count { position: absolute; top: 46px; left: 69%; color: #aaa; }
+.profile-user .voting .text { position: absolute; top: 46px; right: 33%; color: #aaa; }
 .profile-user .voting .plus { float: left; margin-right: 5px; }
 .profile-user .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-user .voting .minus { float: left; margin-right: 0; }
