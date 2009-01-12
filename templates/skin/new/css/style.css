@@ -442,6 +442,8 @@ a:hover { text-decoration: none; }
 
 .profile-blog .voting { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; }
 .profile-blog .voting .clear { clear: both; color: #aaa; }
+.profile-blog .voting .count { position: absolute; top: 46px; left: 69%; color: #aaa; }
+.profile-blog .voting .text { position: absolute; top: 46px; right: 33%; color: #aaa; }
 .profile-blog .voting .plus { float: left; margin-right: 5px; }
 .profile-blog .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-blog .voting .minus { float: left; margin-right: 0; }
