@@ -459,6 +459,8 @@ a:hover { text-decoration: none; }
 .profile-blog .voting.negative .total { background: #ff3b3c; }
 .profile-blog .voting.voted a.plus { cursor: default; }
 .profile-blog .voting.voted a.minus { cursor: default; }
+.profile-blog .voting.voted.plus a.minus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.profile-blog .voting.voted.minus a.plus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
 
 .profile-blog .about { background: #f4f4f6; margin-bottom: 40px; clear: both; _position: relative; _top: -15px; }
 
@@ -511,6 +513,8 @@ a:hover { text-decoration: none; }
 .profile-user .voting.negative .total { background: #ff3b3c; }
 .profile-user .voting.voted a.plus { cursor: default; }
 .profile-user .voting.voted a.minus { cursor: default; }
+.profile-user .voting.voted.plus a.minus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.profile-user .voting.voted.minus a.plus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
 
 .profile-user .strength { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; margin-left: 15px; }
 .profile-user .strength .clear { clear: both; color: #aaa; }
