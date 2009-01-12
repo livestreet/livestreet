@@ -90,7 +90,7 @@ var lsVoteClass = new Class({
                 }
                
                 var divTotal=divVoting.getChildren('.'+thisObj.options.classes_element.total);              
-                result.iRating=parseInt(result.iRating);  
+                result.iRating=parseFloat(result.iRating);  
                 divVoting.removeClass(thisObj.options.classes_action.negative);    
                 divVoting.removeClass(thisObj.options.classes_action.positive);         
                 if (result.iRating>0) {                        
