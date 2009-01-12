@@ -448,7 +448,7 @@ a:hover { text-decoration: none; }
 .profile-blog .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-blog .voting .minus { float: left; margin-right: 0; }
 .profile-blog .voting a.plus  { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
-.profile-blog .voting a.plus :hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-blog .voting a.plus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
 .profile-blog .voting a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
 .profile-blog .voting a.minus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
 .profile-blog .voting.plus a.plus { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
@@ -457,8 +457,8 @@ a:hover { text-decoration: none; }
 .profile-blog .voting.guest a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
 .profile-blog .voting.positive .total { background: #68bf46; }
 .profile-blog .voting.negative .total { background: #ff3b3c; }
-.profile-blog .voting.voted a.plus { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
-.profile-blog .voting.voted a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.profile-blog .voting.voted a.plus { cursor: default; }
+.profile-blog .voting.voted a.minus { cursor: default; }
 
 .profile-blog .about { background: #f4f4f6; margin-bottom: 40px; clear: both; _position: relative; _top: -15px; }
 
@@ -509,8 +509,8 @@ a:hover { text-decoration: none; }
 .profile-user .voting.guest a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
 .profile-user .voting.positive .total { background: #68bf46; }
 .profile-user .voting.negative .total { background: #ff3b3c; }
-.profile-user .voting.voted a.plus { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
-.profile-user .voting.voted a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.profile-user .voting.voted a.plus { cursor: default; }
+.profile-user .voting.voted a.minus { cursor: default; }
 
 .profile-user .strength { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; margin-left: 15px; }
 .profile-user .strength .clear { clear: both; color: #aaa; }
