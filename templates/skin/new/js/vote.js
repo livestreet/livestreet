@@ -34,6 +34,10 @@ var lsVoteClass = new Class({
                 blog: {
                         url: DIR_WEB_ROOT+'/include/ajax/voteBlog.php',
                         targetName: 'idBlog'
+                },
+                user: {
+                        url: DIR_WEB_ROOT+'/include/ajax/voteUser.php',
+                        targetName: 'idUser'
                 }
         },
 
@@ -103,6 +107,10 @@ var lsVoteClass = new Class({
                 }
                 if (result.iRating==0) {
                         divTotal.set('text','0');
+                }
+                
+                if (thisObj.type=='user' && $('user_skill_'+thisObj.idTarget)) {
+                	$('user_skill_'+thisObj.idTarget).set('text',result.iSkill);
                 }
         	}      
         }

@@ -93,6 +93,13 @@ function showCommentForm(reply) {
    				{if !$oComment->getDelete()}
    					<span class="comments_rating_off" style="color: {if $oComment->getRating()<0}#d00000{else}#008000{/if};"  id="comment_rating_{$oComment->getId()}">{$oComment->getRating()}</span>&nbsp;
    					
+   					<span class="voter">
+   					<a class="vote_down" href="#" onclick="ajaxVoteComment2({$oComment->getId()},this,-1); return false;"></a>
+   					<a class="vote_up" href="#" onclick="ajaxVoteComment2({$oComment->getId()},this,1); return false;"></a>
+   					</span>
+   					
+   					
+   					
    					<span id="comment_vote_self_{$oComment->getId()}" style="display: none;">
 						<img src="{$DIR_STATIC_SKIN}/img/vote_comment_down_gray.gif" border="0" alt="-" title="нельзя голосовать за свой комментарий"> 
 						<img src="{$DIR_STATIC_SKIN}/img/vote_comment_up_gray.gif" border="0" alt="+" title="нельзя голосовать за свой комментарий">

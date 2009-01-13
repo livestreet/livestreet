@@ -20,7 +20,7 @@ require_once("./config/config.table.php");
  * Настройки шаблонизатора Smarty
  *
  */
-define('DIR_SMARTY_TEMPLATE','templates/skin/habra');
+define('DIR_SMARTY_TEMPLATE','templates/skin/new');
 define('DIR_SMARTY_COMPILED','templates/compiled');
 define('DIR_SMARTY_CACHE','templates/cache');
 define('DIR_SMARTY_PLUG','classes/modules/sys_viewer/plugs');
@@ -119,7 +119,7 @@ define('SITE_KEYWORDS','движок, livestreet, блоги, социальна
 define('SITE_DESCRIPTION','LiveStreet - официальный сайт бесплатного движка социальной сети'); // seo description
 define('SITE_CLOSE_MODE',false); // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
 define('USER_USE_ACTIVATION',false); // использовать активацию при регистрации или нет
-define('USER_USE_INVITE',false); // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
+define('USER_USE_INVITE',true); // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 define('BLOG_PERSONAL_LIMIT_GOOD',-5); // Рейтинг топика в персональном блоге ниже которого он считается плохим
 define('BLOG_COLLECTIVE_LIMIT_GOOD',-3); // рейтинг топика в коллективных блогах ниже которого он считается плохим
 define('BLOG_INDEX_LIMIT_GOOD',8); // рейтинг топика выше которого(включительно) он попадает на главную

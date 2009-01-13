@@ -157,7 +157,8 @@ class Text extends Module {
 		$sResult=$this->FlashParamParser($sText);
 		$sResult=$this->JevixParser($sResult);	
 		$sResult=$this->VideoParser($sResult);		
-		$sResult=$this->GeshiParser($sResult);
+	//	$sResult=$this->GeshiParser($sResult);
+		$sResult=$this->CodeSourceParser($sResult);
 		return $sResult;
 	}
 	/**
@@ -171,6 +172,12 @@ class Text extends Module {
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
 			}	
 		}		
+		return $sText;
+	}
+	
+	public function CodeSourceParser($sText) {
+		$sText=str_replace("<code>",'<pre class="sh_php"><code>',$sText);
+		$sText=str_replace("</code>",'</code></pre>',$sText);
 		return $sText;
 	}
 }

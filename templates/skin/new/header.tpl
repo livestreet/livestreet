@@ -123,7 +123,7 @@ var msgNoticeBox=new Roar({
 	</div>
 	-->
 	
-	<div id="wrapper" {if !$showUpdateButton}class="update-hide"{/if}>
+	<div id="wrapper" class="{if !$showUpdateButton}update-hide{/if} {if $showWhiteBack}white-back{/if}">
 		
 	
 		<!-- Content -->
