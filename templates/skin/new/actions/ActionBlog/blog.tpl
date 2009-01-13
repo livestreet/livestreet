@@ -4,6 +4,7 @@
 {literal}
 <script>
 function toggleBlogInfo(id,link) {
+	link=$(link);
 	var obj=$(id);	
 	var slideObj = new Fx.Slide(obj);
 	if (obj.getStyle('display')=='none') {
@@ -12,6 +13,7 @@ function toggleBlogInfo(id,link) {
 	}	
 	link.toggleClass('inactive');
 	slideObj.toggle();
+	
 }
 </script>
 {/literal}
