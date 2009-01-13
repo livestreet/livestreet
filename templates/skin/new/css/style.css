@@ -502,7 +502,7 @@ a:hover { text-decoration: none; }
 .profile-user .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-user .voting .minus { float: left; margin-right: 0; }
 .profile-user .voting a.plus  { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
-.profile-user .voting a.plus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting a.plus :hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
 .profile-user .voting a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
 .profile-user .voting a.minus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
 .profile-user .voting.plus a.plus { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
@@ -520,15 +520,15 @@ a:hover { text-decoration: none; }
 .profile-user .strength .clear { clear: both; color: #aaa; }
 .profile-user .strength .total { float: left; color: #fff; padding: 5px 10px; font-size: 14px; background: #70aae0; }
 
-.profile-user h1.title { border-bottom: 1px solid #ccc; font-size: 18px; padding: 0 0 1px 2px; margin-bottom: 3px; }
+.profile-user h1.title { border-bottom: 1px solid #ccc; font-size: 18px; padding: 0 0 1px 2px; margin-bottom: 7px; }
 
 .profile-user .name { overflow: hidden; _height: 1%; color: #999;  margin-bottom: 20px; }
 .profile-user .name img.avatar { float: left; margin-right: 15px; }
 .profile-user .name p.nickname { font-size: 24px; margin-top: 2px; margin-bottom: 10px; color: #333; }
 .profile-user .name p.realname { font-size: 18px; margin-bottom: 15px; }
 
-.profile-user  table { width: 500px; }
-.profile-user  td.var { color: #999; font-weight: bold; width: 150px; padding: 5px 0; }
+.profile-user  td { vertical-align: top; }
+.profile-user  td.var { color: #999; font-weight: bold; width: 150px; padding: 0 0 5px; }
 .profile-user  td.friends { color: #999; }
 .profile-user  td.friends a { color: #999; padding: 5px 0; background: transparent url(../images/icons.gif) no-repeat scroll 0 -101px; padding-left: 12px; }
 
