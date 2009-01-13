@@ -2,3 +2,5 @@
 #header .nav-main { padding-top: 31px; }
 #nav .search .text { margin-top: -1px; }
 .comment .info img.avatar { margin: 2px 7px 0 0; }
+#sidebar .blogs .block-nav li { line-height: 16px !important; }
+#nav .nav-blog li ul li a { padding: 4px 11px 4px 0; }
