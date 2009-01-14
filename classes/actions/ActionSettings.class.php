@@ -291,6 +291,26 @@ class ActionSettings extends Action {
 				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->oUserCurrent->getId().'/avatar.'.$this->oUserCurrent->getProfileAvatarType());
 			}
 			/**
+			 * Загрузка фото, делаем ресайзы
+			 */			
+			if (is_uploaded_file($_FILES['foto']['tmp_name'])) {	
+				$sDirUpload=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$this->oUserCurrent->getId();			
+				$sFileTmp=$_FILES['foto']['tmp_name'];
+				if ($sFileFoto=func_img_resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250)) {	
+					$this->oUserCurrent->setProfileFoto($sDirUpload.'/'.$sFileFoto);			
+				} else {
+					$bError=true;
+					$this->Message_AddError('Не удалось загрузить фото','Ошибка');
+				}
+			}
+			/**
+			 * Удалить фото
+			 */
+			if (isset($_REQUEST['foto_delete'])) {				
+				@unlink(DIR_SERVER_ROOT.$this->oUserCurrent->getProfileFoto());
+				$this->oUserCurrent->setProfileFoto(null);
+			}
+			/**
 			 * Ставим дату последнего изменения профиля
 			 */
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));

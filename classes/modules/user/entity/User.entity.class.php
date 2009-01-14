@@ -109,6 +109,9 @@ class UserEntity_User extends Entity {
     public function getProfileAvatarType() {
         return $this->_aData['user_profile_avatar_type'];
     }    
+    public function getProfileFoto() {
+        return $this->_aData['user_profile_foto'];
+    }    
     public function getSettingsNoticeNewTopic() {
         return $this->_aData['user_settings_notice_new_topic'];
     }
@@ -237,7 +240,10 @@ class UserEntity_User extends Entity {
     }
     public function setProfileAvatarType($data) {
     	$this->_aData['user_profile_avatar_type']=$data;
-    }    
+    }  
+    public function setProfileFoto($data) {
+    	$this->_aData['user_profile_foto']=$data;
+    }  
     public function setSettingsNoticeNewTopic($data) {
     	$this->_aData['user_settings_notice_new_topic']=$data;
     }

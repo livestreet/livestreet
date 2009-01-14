@@ -26,3 +26,10 @@ CREATE TABLE IF NOT EXISTS `prefix_reminder` (
 --
 ALTER TABLE `prefix_reminder`
   ADD CONSTRAINT `prefix_reminder_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+
+
+
+ALTER TABLE `prefix_user` ADD `user_profile_foto` VARCHAR( 250 ) NULL AFTER `user_profile_avatar_type` ;

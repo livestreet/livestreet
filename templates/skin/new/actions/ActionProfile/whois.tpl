@@ -130,8 +130,8 @@
 					<tr>
 						<td class="var">Администрирует:</td>
 						<td>							
-							{foreach from=$aBlogsOwner item=oBlog}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>        		
+							{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
         					{/foreach}
 						</td>
 					</tr>
@@ -141,8 +141,8 @@
 					<tr>
 						<td class="var">Состоит в:</td>
 						<td>
-							{foreach from=$aBlogsUser item=oBlogUser}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>
+							{foreach from=$aBlogsUser item=oBlogUser name=blog_user}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 							{/foreach}
 						</td>
 					</tr>
