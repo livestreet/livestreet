@@ -42,7 +42,7 @@ a:hover { text-decoration: none; }
 #footer { clear: both; background: url(../images/footer-bg.gif) repeat-x; padding: 20px 40px; color: #999; overflow: hidden; }
 
 #wrapper.update-hide { padding: 20px 10px 0 20px !important; }
-#wrapper.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px !important; _height: 1%; }
+#wrapper.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px !important; }
 #wrapper.white-back #content { padding-top: 0; }
 
 
@@ -319,12 +319,16 @@ a:hover { text-decoration: none; }
 .block.stat ul.users { font-size: 11px; color: #999; width: 150px; }
 .block.stat ul.users li { border-bottom: 1px solid #eee; padding-bottom: 2px; }
 .block.stat ul.users li.last { border-bottom: 0; }
-.block.stat .gender { overflow: hidden; _height: 1%; }
+.block.stat .gender { overflow: hidden; }
 .block.stat .gender ul { font-size: 11px; color: #999; width: 150px; float: left; padding-top: 50px; }
 .block.stat .gender ul li { border-bottom: 1px solid #eee; padding-bottom: 2px; }
 .block.stat .gender ul li.last { border-bottom: 0; }
 .block.stat .gender ul li .mark { width: 8px; height: 8px; float: right; position: relative; top: 4px; left: -5px; overflow: hidden; border: 1px solid #ddd; }
 .block.stat .chart { width: 160px; float: left; }
+
+.block.view ul li { padding-bottom: 2px; }
+.block.view ul li a { padding: 2px 4px; }
+.block.view ul li.active a { background: #eee; color: #333; font-weight: bold; text-decoration: none; }
 
 
 
@@ -355,7 +359,6 @@ a:hover { text-decoration: none; }
 .comments .new { background: #e4fbf1; }
 
 /* Single Comment */
-.comment {  }
 .comment .folding { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
 .comment .folding-open { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
 .comment .folding.off { display: none; }
@@ -370,7 +373,7 @@ a:hover { text-decoration: none; }
 .comment .content .br { height: 15px; background: transparent url(../images/comment-br.gif) no-repeat right bottom; }
 
 /* Text of Comment */
-.comment .content .text { border-left: 1px solid #dddede; border-right: 1px solid #dddede; padding: 5px 25px 5px 10px; }
+.comment .content .text { border-left: 1px solid #dddede; border-right: 1px solid #dddede; padding: 5px 25px 5px 10px; overflow: hidden; }
 
 /* Vote Block */
 .comment .voting { width: 48px; height: 30px; float: right; position: relative; left: -20px; top: 8px; z-index: 10; overflow: hidden; }
@@ -417,7 +420,7 @@ a:hover { text-decoration: none; }
 ---------------------------------- */
 .poll { margin: 0 0 15px 0 !important; }
 .poll li { list-style: none !important; }
-.poll li dl { overflow: hidden; _height: 1%; }
+.poll li dl { overflow: hidden; }
 .poll li dl dt { float: left; font-weight: normal !important; color: #999; font-size: 11px; width: 50px; }
 .poll li dl dt span { font-size: 12px; color: #333; }
 .poll li dl dd { float: left; font-style: normal !important; width: 70%; }
@@ -435,7 +438,7 @@ a:hover { text-decoration: none; }
 
 /* Profile of Blog
 -------------------------------------------------------------------*/
-.profile-blog { padding: 0 15px 0 8px; overflow: hidden; _height: 1%; position: relative; }
+.profile-blog { padding: 0 15px 0 8px; overflow: hidden; position: relative; }
 .profile-blog img.avatar { float: left; position: absolute; top: 4px; left: 10px; }
 .profile-blog h1.title { font-size: 24px; line-height: 30px; color: #b0b0b0; padding-left: 33px; }
 .profile-blog h1.title a.title-link { text-decoration: none; outline: none; }
@@ -474,14 +477,14 @@ a:hover { text-decoration: none; }
 .profile-blog .voting.voted.plus a.minus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
 .profile-blog .voting.voted.minus a.plus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
 
-.profile-blog .about { background: #f4f4f6; margin-bottom: 40px; clear: both; _position: relative; _top: -15px; }
+.profile-blog .about { background: #f4f4f6; margin-bottom: 40px; clear: both; }
 
 .profile-blog .about .tl { background: transparent url(../images/profile-blog-tl.gif) no-repeat left top; height: 10px; }
 .profile-blog .about .tr { background: transparent url(../images/profile-blog-tr.gif) no-repeat right top; height: 10px; }
 .profile-blog .about .bl { background: transparent url(../images/profile-blog-bl.gif) no-repeat left bottom; height: 10px; }
 .profile-blog .about .br { background: transparent url(../images/profile-blog-br.gif) no-repeat right bottom; height: 10px; }
 
-.profile-blog .about .content { padding: 5px 32px; color: #666; overflow: hidden; _height: 1%; }
+.profile-blog .about .content { padding: 5px 32px; color: #666; overflow: hidden; }
 .profile-blog .about .content h1 { color: #555; }
 .profile-blog .about .content p { margin-bottom: 15px; }
 .profile-blog .about .content p.note { color: #aaa; margin-bottom: 25px; }
@@ -490,7 +493,7 @@ a:hover { text-decoration: none; }
 
 .profile-blog .about .content .admins { float: left; width: 50%; }
 .profile-blog .about .content .moderators { float: left; width: 50%; }
-.profile-blog .about .content ul.admin-list { overflow: hidden; _height: 1%; text-align: center; }
+.profile-blog .about .content ul.admin-list { overflow: hidden; text-align: center; }
 .profile-blog .about .content ul.admin-list li { float: left; margin-right: 10px; margin-bottom: 10px; }
 .profile-blog .about .content ul.admin-list li dt img { width: 48px; height: 48px; }
 
@@ -498,7 +501,7 @@ a:hover { text-decoration: none; }
 .profile-blog .about .content h1.readers a { text-decoration: none; border-bottom: 1px dashed #70aae0; }
 .profile-blog .about .content h1.readers a.inactive { border-bottom: 1px dashed #aaa; color: #b0b0b0; text-decoration: none;}
 
-.profile-blog .about .content ul.reader-list { overflow: hidden; _height: 1%; }
+.profile-blog .about .content ul.reader-list { overflow: hidden; }
 .profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
 
 
@@ -534,7 +537,7 @@ a:hover { text-decoration: none; }
 
 .profile-user h1.title { border-bottom: 1px solid #ccc; font-size: 18px; padding: 0 0 1px 2px; margin-bottom: 7px; }
 
-.profile-user .name { overflow: hidden; _height: 1%; color: #999;  margin-bottom: 20px; }
+.profile-user .name { overflow: hidden; color: #999;  margin-bottom: 20px; }
 .profile-user .name img.avatar { float: left; margin-right: 15px; }
 .profile-user .name p.nickname { font-size: 24px; margin-top: 2px; margin-bottom: 10px; color: #333; }
 .profile-user .name p.realname { font-size: 18px; margin-bottom: 15px; }
@@ -564,6 +567,13 @@ a:hover { text-decoration: none; }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 3px; }
 .people table tbody td.rating.down span { background: url(../images/blog-rating-down.gif) no-repeat right 3px; }
 .people table tbody td.rating strong { background: #ff68cf; color: #fff; padding: 5px 10px; }
+
+
+/* Top
+-------------------------------------------------------------------*/
+.top { margin-bottom: 5px; }
+.top h1 span { color: #6ec80d; }
+.top .block-nav { margin-bottom: 5px; }
 
 
 
