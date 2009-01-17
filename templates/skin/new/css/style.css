@@ -330,6 +330,9 @@ a:hover { text-decoration: none; }
 .block.view ul li a { padding: 2px 4px; }
 .block.view ul li.active a { background: #eee; color: #333; font-weight: bold; text-decoration: none; }
 
+.block.view-blogs { margin-top: 77px; }
+.block.view-comments { margin-top: 98px; }
+
 
 
 /* Update Comments
@@ -377,7 +380,6 @@ a:hover { text-decoration: none; }
 
 /* Vote Block */
 .comment .voting { width: 48px; height: 30px; float: right; position: relative; left: -20px; top: 8px; z-index: 10; overflow: hidden; }
-.comment .voting a { outline: none; }
 .comment .voting a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
 .comment .voting a.minus { width: 9px; height: 11px; display: block; position: relative; top: 5px; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 .comment .voting .total { float: right; position: relative; top: 3px; }
@@ -395,7 +397,7 @@ a:hover { text-decoration: none; }
 .comment .voting.plus a.minus:hover {background: transparent url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 
 /* Info Block */
-.comment .info { font-size: 11px; line-height: 14px; margin-left: 14px; margin-bottom: 20px; overflow: hidden; }
+.comment .info { font-size: 11px; line-height: 14px; margin-left: 14px; margin-bottom: 25px; overflow: hidden; }
 .comment .info p { font-size: 10px; }
 .comment .info p a.author { font-size: 11px; font-weight: bold; color: #000; text-decoration: none; }
 .comment .info p a.author:hover { color: #555; }
@@ -410,6 +412,14 @@ a:hover { text-decoration: none; }
 .comment .info a.favorite:hover { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info a.favorite-active { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info a.off { color: #999; }
+
+.comment .comment-topic { font-size: 11px; color: #999; padding-bottom: 3px; padding-left: 2px; }
+.comment .comment-topic a { font-weight: bold; }
+.comment .comment-topic a.comment-blog { color: #999; }
+.comment .comment-topic a.comment-total { background: transparent url(../images/comment-total.gif) no-repeat 0 4px; padding-left: 10px; margin-left: 10px; text-decoration: none; font-weight: normal; color: #78c658; }
+
+.comments.top { padding-left: 0; }
+.comments.top .comment .content, .comments.top .comment .info { margin-left: 0; }
 
 .reply-title { margin-left: 10px; }
 .reply { padding: 0 50px 10px 10px; }
@@ -548,7 +558,7 @@ a:hover { text-decoration: none; }
 .profile-user td.friends a { color: #999; padding: 5px 0; background: transparent url(../images/icons.gif) no-repeat scroll 0 -101px; padding-left: 12px; }
 
 
-/* People
+/* People & Top
 -------------------------------------------------------------------*/
 .people .block-nav { margin-bottom: 20px; }
 .people h1 span { color: #6ec80d; }
@@ -567,6 +577,18 @@ a:hover { text-decoration: none; }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 3px; }
 .people table tbody td.rating.down span { background: url(../images/blog-rating-down.gif) no-repeat right 3px; }
 .people table tbody td.rating strong { background: #ff68cf; color: #fff; padding: 5px 10px; }
+
+.people.top-blogs thead td.user { padding-left: 32px; }
+.people.top-blogs thead td.join-head { width: 40px; text-align: center; }
+.people.top-blogs tbody td { padding: 7px 0; }
+.people.top-blogs td.name { overflow: hidden; }
+.people.top-blogs td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }
+.people.top-blogs td.name a.title { font-size: 18px; line-height: 14px; }
+.people.top-blogs td.name a.author { line-height: 18px; background:transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 12px; color: #999; font-weight: bold; }
+.people.top-blogs .join { text-align: center; }
+.people.top-blogs .join a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; }
+.people.top-blogs .join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.people.top-blogs .join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
 
 
 /* Top
