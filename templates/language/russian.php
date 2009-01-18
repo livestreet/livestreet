@@ -72,10 +72,10 @@ return array(
 	'blog_menu_top_blog' => 'Блоги_$$',
 	'blog_menu_top_topic' => 'Топики_$$',
 	'blog_menu_top_comment' => 'Комментарии_$$',
-	'blog_menu_top_period_24h' => 'Популярные, за последние 24 часа_$$',
-	'blog_menu_top_period_7d' => 'Популярные, за последние 7 дней_$$',
-	'blog_menu_top_period_30d' => 'Популярные, за последние 30 дней_$$',
-	'blog_menu_top_period_all' => 'Популярные навсегда, за все время_$$',	
+	'blog_menu_top_period_24h' => 'За 24 часа_$$',
+	'blog_menu_top_period_7d' => 'За 7 дней_$$',
+	'blog_menu_top_period_30d' => 'За 30 дней_$$',
+	'blog_menu_top_period_all' => 'За все время_$$',	
 	'blog_menu_create' => 'Создать блог_$$',
 	/**
 	 * Создание/редактирование блога

@@ -23,15 +23,14 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 chdir(dirname(dirname(dirname(__FILE__))));
 require_once("./config/config.ajax.php");
 
-$sType=@$_REQUEST['type'];
 $idBlog=@$_REQUEST['idBlog'];
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';
-$sState='';
+$bState='';
 $iCountUser=0;
 if ($oEngine->User_IsAuthorization()) {
-	if (in_array($sType,array('join','leave'))) {
+	
 		if ($oBlog=$oEngine->Blog_GetBlogById($idBlog)) {
 			/**
 			 * Как только заработают другие виды блогов(кроме open) тут нужно внести коррективы, чтоб можно было покинуть блог по приглашениям
@@ -39,7 +38,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			if ($oBlog->getType()=='open') {
 				$oBlogUser=$oEngine->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$oUserCurrent->getId());				
-				if (!$oBlogUser and $sType=='join') {
+				if (!$oBlogUser) {
 					if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 						/**
 					 	* Присоединяем юзера к блогу
@@ -51,7 +50,7 @@ if ($oEngine->User_IsAuthorization()) {
 							$bStateError=false;
 							$sMsgTitle='Поздравляем!';
 							$sMsg='Вы вступили в блог';
-							$sState='join';
+							$bState=true;
 							/**
 							 * Увеличиваем число читателей блога
 							 */
@@ -66,16 +65,8 @@ if ($oEngine->User_IsAuthorization()) {
 						$sMsgTitle='Внимание!';
 						$sMsg='Зачем вы хотите вступить в этот блог? Вы и так его хозяин!';
 					}
-				}
-				if (!$oBlogUser and $sType=='leave') {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Вы точно когда то состояли в этом блоге?';
-				}
-				if ($oBlogUser and $sType=='join') {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Вы уже состоите в этом блоге';
-				}
-				if ($oBlogUser and $sType=='leave') {
+				}				
+				if ($oBlogUser) {
 					/**
 					 * Покидаем блог
 					 */					
@@ -83,7 +74,7 @@ if ($oEngine->User_IsAuthorization()) {
 						$bStateError=false;
 						$sMsgTitle='Внимание!';
 						$sMsg='Вы покинули в блог';
-						$sState='leave';
+						$bState=false;
 						/**
 						 * Уменьшаем число читателей блога
 						 */
@@ -103,10 +94,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$sMsgTitle='Ошибка!';
 			$sMsg='Блог не найден!';
 		}
-	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Что вы пытаетесь сделать с этим блогом?!';
-	}
+	
 } else {
 	$sMsgTitle='Ошибка!';
 	$sMsg='Для подключения/отключения от блога необходимо авторизоваться!';
@@ -115,7 +103,7 @@ if ($oEngine->User_IsAuthorization()) {
 
 $GLOBALS['_RESULT'] = array(
 "bStateError"     => $bStateError,
-"sState"   => $sState,
+"bState"   => $bState,
 "iCountUser" => $iCountUser,
 "sMsgTitle"   => $sMsgTitle,
 "sMsg"   => $sMsg,

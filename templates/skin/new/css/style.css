@@ -590,7 +590,7 @@ a:hover { text-decoration: none; }
 .people.top-blogs .join { text-align: center; }
 .people.top-blogs .join a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; }
 .people.top-blogs .join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.people.top-blogs .join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.people.top-blogs .join.active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
 
 
 /* Top
