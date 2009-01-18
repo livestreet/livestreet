@@ -28,6 +28,8 @@ class ActionPeople extends Action {
 	public function Init() {		
 		$this->SetDefaultEvent('good');	
 		$this->Viewer_AddHtmlTitle('Люди');	
+		
+		$this->Viewer_AddBlocks('right',array('actions/ActionPeople/sidebar.tpl'));
 	}
 	/**
 	 * Регистрируем евенты
