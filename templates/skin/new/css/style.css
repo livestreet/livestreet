@@ -598,6 +598,7 @@ a:hover { text-decoration: none; }
 .top { margin-bottom: 5px; }
 .top h1 span { color: #6ec80d; }
 .top .block-nav { margin-bottom: 5px; }
+.top-topics .topic { padding-left: 0 !important; }
 
 
 
