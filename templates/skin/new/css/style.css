@@ -303,6 +303,8 @@ a:hover { text-decoration: none; }
 .block.actions li { color: #4ccc1b; padding-bottom: 3px; }
 .block.actions li.add { color: #4ccc1b; padding-bottom: 15px; }
 .block.actions li.add a { color: #4ccc1b; }
+.block.actions li.del { color: #dd0000; padding-bottom: 15px; }
+.block.actions li.del a { color: #dd0000; }
 
 .block.contacts strong { color: #999; }
 .block.contacts img { padding: 7px; border: 1px solid #ccc; margin: 20px 0 0 0; }

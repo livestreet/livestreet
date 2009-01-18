@@ -32,6 +32,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/favourites.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/questions.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/block_loader.js"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/friend.js"></script>
 
 
 {literal}

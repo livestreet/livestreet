@@ -234,8 +234,8 @@ return array(
 	'user_password' => 'пароль_$$',
 	'user_registration' => 'Регистрация_$$',
 	'user_write_prvmsg' => 'Написать письмо_$$',
-	'user_friend_add' => 'добавить в друзья_$$',
-	'user_friend_del' => 'удалить из друзей_$$',
+	'user_friend_add' => 'Добавить в друзья_$$',
+	'user_friend_del' => 'Удалить из друзей_$$',
 	'user_rating' => 'Рейтинг_$$',
 	'user_skill' => 'Сила_$$',
 	/**

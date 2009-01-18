@@ -23,18 +23,18 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 chdir(dirname(dirname(dirname(__FILE__))));
 require_once("./config/config.ajax.php");
 
-$iType=@$_REQUEST['type'];
 $idUser=@$_REQUEST['idUser'];
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';
+$sToggleText='';
 $bState=false;
 if ($oEngine->User_IsAuthorization()) {
-	if (in_array($iType,array('1','0'))) {
-		if ($oUser=$oEngine->User_GetUserById($idUser)) {
-			$oUserCurrent=$oEngine->User_GetUserCurrent();
+	$oUserCurrent=$oEngine->User_GetUserCurrent();
+	if ($oUserCurrent->getId()!=$idUser) {
+		if ($oUser=$oEngine->User_GetUserById($idUser)) {			
 			$oFrend=$oEngine->User_GetFrend($oUser->getId(),$oUserCurrent->getId());
-			if (!$oFrend and $iType) {
+			if (!$oFrend) {
 				$oFrendNew=new UserEntity_Frend();
 				$oFrendNew->setFrendId($oUser->getId());
 				$oFrendNew->setUserId($oUserCurrent->getId());
@@ -43,26 +43,20 @@ if ($oEngine->User_IsAuthorization()) {
 					$sMsgTitle='Поздравляем!';
 					$sMsg='У вас появился новый друг';
 					$bState=true;
+					$sToggleText=$oEngine->Lang_Get('user_friend_del');
 					$oEngine->Notify_SendUserFriendNew($oUser,$oUserCurrent);
 				} else {
 					$sMsgTitle='Ошибка!';
 					$sMsg='Внутреняя ошибка, попробуйте позже';
 				}
-			}
-			if (!$oFrend and !$iType) {
-				$sMsgTitle='Ошибка!';
-				$sMsg='У вас нет такого друга';
-			}
-			if ($oFrend and $iType) {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Он уже и так ваш друг';
-			}
-			if ($oFrend and !$iType) {
+			}			
+			if ($oFrend) {
 				if ($oEngine->User_DeleteFrend($oFrend)) {
 					$bStateError=false;
 					$sMsgTitle='Внимание!';
 					$sMsg='У вас больше нет этого друга';
 					$bState=false;
+					$sToggleText=$oEngine->Lang_Get('user_friend_add');
 				} else {
 					$sMsgTitle='Ошибка!';
 					$sMsg='Внутреняя ошибка, попробуйте позже';
@@ -74,7 +68,7 @@ if ($oEngine->User_IsAuthorization()) {
 		}
 	} else {
 		$sMsgTitle='Ошибка!';
-		$sMsg='Что вы пытаетесь сделать с этим пользователем?!';
+		$sMsg='Ваш друг - это вы!';
 	}
 } else {
 	$sMsgTitle='Ошибка!';
@@ -87,6 +81,7 @@ $GLOBALS['_RESULT'] = array(
 "bState"   => $bState,
 "sMsgTitle"   => $sMsgTitle,
 "sMsg"   => $sMsg,
+"sToggleText"   => $sToggleText,
 );
 
 ?>
