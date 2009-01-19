@@ -8,13 +8,20 @@
 				</ul>
 
 				<div class="gender">
-					<ul>
-						<li><div class="mark" style="background: #70aae0;"></div>Мужчины: {$aStat.count_sex_man}</li>
-						<li><div class="mark" style="background: #ff68cf;"></div>Женщины: {$aStat.count_sex_woman}</li>
-						<li class="last"><div class="mark" style="background: #fff;"></div>Пол не указан: {$aStat.count_sex_other}</li>
+					<ul id="chart_gender_data">
+						<li><div class="mark" style="background: #70aae0;"></div>Мужчины: <span>{$aStat.count_sex_man}</span></li>
+						<li><div class="mark" style="background: #ff68cf;"></div>Женщины: <span>{$aStat.count_sex_woman}</span></li>
+						<li class="last"><div class="mark" style="background: #c5c5c5;"></div>Пол не указан: <span>{$aStat.count_sex_other}</span></li>
 					</ul>
-					<div class="chart">
-						<img src="{$DIR_STATIC_SKIN}/images/chart.gif" alt="" />
+					<div class="chart">						
+						<div id="chart_gender_area"></div>	
+						{literal}
+						<script>
+							window.addEvent('domready', function(){
+								new PieChart($('chart_gender_data'),$('chart_gender_area'));
+							});
+						</script>
+						{/literal}					
 					</div>
 				</div>
 			</div>

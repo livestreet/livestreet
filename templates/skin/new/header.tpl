@@ -12,6 +12,7 @@
 	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie6.css" /><![endif]-->
 	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie7.css" /><![endif]-->	
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Roar.css" />
+	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/search/opensearch/" title="{$SITE_NAME}" />
@@ -28,6 +29,11 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/mootools-more.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Clientcide.js"></script>
+<!--[if IE]>
+	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
+<![endif]-->	
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
+
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/vote.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/favourites.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/questions.js"></script>
