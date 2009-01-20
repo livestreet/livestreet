@@ -38,6 +38,8 @@ class ActionPeople extends Action {
 	protected function RegisterEvent() {		
 		$this->AddEvent('good','EventGood');		
 		$this->AddEvent('bad','EventBad');	
+		$this->AddEvent('online','EventOnline');	
+		$this->AddEvent('new','EventNew');	
 	}
 		
 	
@@ -46,6 +48,26 @@ class ActionPeople extends Action {
 	 **********************************************************************************
 	 */
 	
+	/**
+	 * Показываем последних на сайте
+	 *
+	 */
+	protected function EventOnline() {
+		/**
+		 * Получаем статистику
+		 */
+		$this->GetStats();		
+	}
+	/**
+	 * Показываем новых на сайте
+	 *
+	 */
+	protected function EventNew() {
+		/**
+		 * Получаем статистику
+		 */
+		$this->GetStats();		
+	}
 	/**
 	 * Показываем хороших юзеров
 	 *

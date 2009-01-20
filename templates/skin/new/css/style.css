@@ -597,6 +597,7 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .people table thead td { background: #f0f1f1; font-weight: bold; padding: 5px 0; }
 .people table thead td.user { padding-left: 10px; }
 .people table thead td.strength, .people table thead td.rating { width: 80px; text-align: center; }
+.people table thead td.date { width: 150px; text-align: center; }
 .people table tbody td { padding: 5px 0; font-size: 11px; color: #999; border-bottom: 1px solid #ddd; }
 .people table tbody td span { color: #6ec80d; }
 .people table tbody td.user { padding-left: 10px; overflow: hidden; _height: 1%; }
@@ -604,6 +605,7 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .people table tbody td.user a.link { color: #999; font-weight: bold; position: relative; top: 1px; }
 .people table tbody td.karma { color: #6ec80d; font-weight: bold; }
 .people table tbody td.strength { color: #70aae0; font-weight: bold; text-align: center; }
+.people table tbody td.date { text-align: center; }
 .people table tbody td.rating { text-align: center; }
 .people table tbody td.rating span { padding-right: 12px; }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 3px; }
