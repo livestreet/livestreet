@@ -15,8 +15,8 @@
 					<thead>
 						<tr>
 							<td class="user">Пользователь</td>													
-							<td>Сила</td>
-							<td>Рейтинг</td>
+							<td class="strength">Сила</td>
+							<td class="rating">Рейтинг</td>
 						</tr>
 					</thead>
 					
@@ -24,7 +24,7 @@
 					{foreach from=$aUsersRating item=oUser}
 						<tr>
 							<td class="user"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
-							<td class="mana">{$oUser->getSkill()}</td>
+							<td class="strength">{$oUser->getSkill()}</td>
 							<td class="rating"><strong>{$oUser->getRating()}</strong></td>
 						</tr>
 					{/foreach}						

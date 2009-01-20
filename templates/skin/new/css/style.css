@@ -44,6 +44,18 @@ a:hover { text-decoration: none; }
 #wrapper.update-hide { padding: 20px 10px 0 20px !important; }
 #wrapper.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px !important; }
 #wrapper.white-back #content { padding-top: 0; }
+#wrapper.page-talk { padding-left: 3px !important; margin-right: 50px !important; }
+
+
+/* Forms
+-------------------------------------------------------------------*/
+.input-text { width: 100%; padding: 2px; }
+label { display: block; margin-bottom: 2px; }
+form {  }
+form p { margin-bottom: 20px; }
+form .note { float: right; font-size: 11px; }
+textarea { width: 100%; height: 100px; margin-bottom: 5px; }
+
 
 
 /* Header
@@ -209,6 +221,20 @@ a:hover { text-decoration: none; }
 
 
 
+/* Talk
+-------------------------------------------------------------------*/
+/* Add to Favorite Icon */
+.talk .favorite { position: absolute; top: 7px; left: 10px; }
+.talk .favorite a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
+.talk .favorite a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.talk .favorite.active a { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.talk .favorite.guest a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
+
+.tal-table .favorite { }
+
+
+
+
 /* Pagination
 -------------------------------------------------------------------*/
 #pagination { padding-left: 40px; }
@@ -219,6 +245,20 @@ a:hover { text-decoration: none; }
 #pagination ul li.active { background: url(../images/pagination-bg.gif) no-repeat top right; padding: 0 6px 1px 3px; border-left: 1px solid #eee; }
 #pagination ul li.active { background: url(../images/pagination-bg.gif) no-repeat top right; padding: 0 6px 1px 3px; border-left: 1px solid #eee; }
 #pagination.onpage { padding-left: 0px; }
+
+
+
+/* Block Nav
+-------------------------------------------------------------------*/
+.block-nav { overflow: hidden; margin-bottom: 5px; }
+.block-nav li { font-size: 11px; line-height: 11px; float: left; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; padding: 0 !important; }
+.block-nav li a { color: #a2a2a2; text-decoration: none; outline: none; padding: 3px 0 7px 0; margin: 0 8px; display: block; float: left; }
+.block-nav li strong { float: left; display: block; width: 5px; height: 21px; margin-right: -5px; background: transparent url(../images/bg.gif) no-repeat scroll -9px -555px; }
+.block-nav li em { float: left; display: block; width: 5px; height: 21px; margin-left: -5px; background: transparent url(../images/bg.gif) no-repeat scroll -5px -555px; }
+.block-nav li.active strong { background: transparent url(../images/bg.gif) no-repeat scroll 0 -555px; }
+.block-nav li.active em { background: transparent url(../images/bg.gif) no-repeat scroll -14px -555px; }
+.block-nav li.active { background: #81da5e url(../images/bg.gif) repeat-x scroll 0 -513px; }
+.block-nav li.active a { color: #fff; background: transparent url(../images/bg.gif) no-repeat scroll -19px -555px; }
 
 
 
@@ -264,7 +304,6 @@ a:hover { text-decoration: none; }
 .block.tags ul.cloud li a.w9 { font-size: 26px; }
 .block.tags ul.cloud li a.w10 { font-size: 28px; }
 
-.block.blogs .block-nav li { line-height: 18px !important; }
 .block.blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
 .block.blogs ul.list li a { padding-right: 50px; color: #777; }
 .block.blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
@@ -272,23 +311,13 @@ a:hover { text-decoration: none; }
 .block.blogs ul.list li .down { background: url(../images/blog-rating-down.gif) no-repeat right 5px; }
 
 .block.stream { font-size: 11px; color: #999; }
-.block.stream li { padding: 5px 5px; }
+.block.stream li { padding: 5px 5px; overflow: hidden;}
 .block.stream li.even { background: #f8f8f8; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-.block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background:transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left:13px; }
-.block.stream a.stream-topic { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -189px;margin:0 5px;padding-left:14px; }
-.block.stream a.stream-comment { color: #333;background:transparent url(../images/icons.gif) no-repeat scroll 2px -146px;margin:0 5px;padding-left:14px; }
+.block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background: transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 13px; }
+.block.stream a.stream-topic { color: #f00; background: transparent url(../images/icons.gif) no-repeat scroll 2px -189px; padding-left: 14px; }
+.block.stream a.stream-comment { color: #333; background: transparent url(../images/comment-list.gif) no-repeat scroll 2px 2px; padding-left: 14px; }
 .block.stream a.stream-blog { color: #999; }
-.block.stream span { color:#66b746; }
-
-.block-nav { overflow: hidden; margin-bottom: 3px; }
-.block-nav li { font-size: 11px; line-height: 16px; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; color: #fff; float: left; height: 21px; padding: 0 !important; }
-.block-nav li a { outline: none; display: block; float: left; color: #a2a2a2; height: 21px; margin: 0 8px; text-decoration: none; }
-.block-nav li strong { background: transparent url(../images/bg.gif) no-repeat scroll -9px -555px; float: left; height: 21px; width: 5px; }
-.block-nav li em { background:transparent url(../images/bg.gif) no-repeat scroll -5px -555px; float: left; height: 21px; width: 5px; }
-.block-nav li.active strong { background:transparent url(../images/bg.gif) no-repeat scroll 0 -555px; }
-.block-nav li.active em { background: transparent url(../images/bg.gif) no-repeat scroll -14px -555px; }
-.block-nav li.active { background:#81da5e url(../images/bg.gif) repeat-x scroll 0 -513px; }
-.block-nav li.active a { color: #fff; background: transparent url(../images/bg.gif) no-repeat scroll -19px -555px; margin: 0 8px 0 8px; }
+.block.stream span { color: #66b746; }
 
 .block.white { background: #fff !important; }
 .block.white .tl { height: 19px; background: url(../images/sidebar-profile-tl.gif) no-repeat top left; }
@@ -567,14 +596,15 @@ a:hover { text-decoration: none; }
 .people table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
 .people table thead td { background: #f0f1f1; font-weight: bold; padding: 5px 0; }
 .people table thead td.user { padding-left: 10px; }
-.people table tbody tr { border-bottom: 1px solid #ddd; }
-.people table tbody td { padding: 5px 0; font-size: 11px; color: #999; }
+.people table thead td.strength, .people table thead td.rating { width: 80px; text-align: center; }
+.people table tbody td { padding: 5px 0; font-size: 11px; color: #999; border-bottom: 1px solid #ddd; }
 .people table tbody td span { color: #6ec80d; }
-.people table tbody td.user { padding-left: 10px; }
-.people table tbody td.user img { vertical-align: top; margin-right: 7px; width: 24px; height: 24px; }
+.people table tbody td.user { padding-left: 10px; overflow: hidden; _height: 1%; }
+.people table tbody td.user img { float: left; margin-right: 7px; width: 24px; height: 24px; }
 .people table tbody td.user a.link { color: #999; font-weight: bold; position: relative; top: 1px; }
 .people table tbody td.karma { color: #6ec80d; font-weight: bold; }
-.people table tbody td.mana { color: #70aae0; font-weight: bold; }
+.people table tbody td.strength { color: #70aae0; font-weight: bold; text-align: center; }
+.people table tbody td.rating { text-align: center; }
 .people table tbody td.rating span { padding-right: 12px; }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 3px; }
 .people table tbody td.rating.down span { background: url(../images/blog-rating-down.gif) no-repeat right 3px; }
@@ -591,6 +621,15 @@ a:hover { text-decoration: none; }
 .people.top-blogs .join a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; }
 .people.top-blogs .join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
 .people.top-blogs .join.active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+
+.people.top-blogs thead td.fav-head { width: 40px; text-align: center; }
+.people.top-blogs .fav { text-align: center; }
+.people.top-blogs .fav a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/star-off.gif) no-repeat; }
+.people.top-blogs .fav a:hover { background: transparent url(../images/star.gif) no-repeat; }
+.people.top-blogs .fav.active a { background: transparent url(../images/star.gif) no-repeat; }
+.people.talk-table thead td.user { padding-left: 10px; }
+.people.talk-table .author { margin-left: 10px; }
+
 
 
 /* Top
