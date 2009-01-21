@@ -17,5 +17,7 @@
 .block-nav li a { margin: 0 4px; }
 .block-nav li em { margin-left: 0px; }
 
+.topic .favorite.guest a { background: none; cursor: default; }
+
 
 

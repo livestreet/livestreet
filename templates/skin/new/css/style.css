@@ -143,7 +143,7 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .topic .favorite.active a { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
 .topic .favorite.guest a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
 
-/* Blogline */
+/* Actions */
 .topic .action { overflow: hidden; margin-bottom: 20px; }
 .topic .action li { float: left; margin-right: 3px; }
 .topic .action li a { color: #aaa; outline: none; }
@@ -168,7 +168,7 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .topic .voting li { float: left; color: #777; }
 .topic .voting li a { text-decoration: none; outline: none; }
 .topic .voting li a:hover { background: #777; color: #fff; }
-.topic .voting li.author { margin-right: 10px; color: #999; text-decoration: none; background:transparent url(../images/icons.gif) no-repeat scroll 0 -105px; padding-left: 13px; }
+.topic .voting li.author { margin-right: 10px; color: #999; text-decoration: none; background: transparent url(../images/icons.gif) no-repeat scroll 0 -105px; padding-left: 13px; }
 .topic .voting li.author a { font-weight: bold; }
 .topic .voting li.date { color: #999; font-size: 11px; margin-right: 20px; }
 .topic .voting li.link { color: #999; font-size: 11px; margin-right: 20px; background:transparent url(../images/link_url.gif) center left no-repeat;padding-left: 15px;}
@@ -314,8 +314,8 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .block.stream li { padding: 5px 5px; overflow: hidden;}
 .block.stream li.even { background: #f8f8f8; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
 .block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background: transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 13px; }
-.block.stream a.stream-topic { color: #f00; background: transparent url(../images/icons.gif) no-repeat scroll 2px -189px; padding-left: 14px; }
-.block.stream a.stream-comment { color: #333; background: transparent url(../images/comment-list.gif) no-repeat scroll 2px 2px; padding-left: 14px; }
+.block.stream a.stream-topic { color: #333; padding-right: 5px; background: transparent url(../images/icons.gif) no-repeat scroll 2px -189px; padding-left: 14px; }
+.block.stream a.stream-comment { color: #333; background: transparent url(../images/comment-list.gif) no-repeat scroll 2px 4px; padding-left: 14px; }
 .block.stream a.stream-blog { color: #999; }
 .block.stream span { color: #66b746; }
 
@@ -614,6 +614,7 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 
 .people.top-blogs thead td.user { padding-left: 32px; }
 .people.top-blogs thead td.join-head { width: 40px; text-align: center; }
+.people.top-blogs thead td.readers, .people.top-blogs tbody td.readers { width: 100px; text-align: center; }
 .people.top-blogs tbody td { padding: 7px 0; }
 .people.top-blogs td.name { overflow: hidden; }
 .people.top-blogs td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }
