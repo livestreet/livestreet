@@ -32,7 +32,8 @@ var PieChart = new Class({
 	options: {
 		pieChartRadius: 60,  // Half the width of your pie chart
     	td_label_index: 0,    // which TD contains the label			
-    	td_index: 1           // which TD contains the data		
+    	td_index: 1,           // which TD contains the data	
+    	index: 1	
 	},
 	initialize: function(elData,el,options){
 		this.setOptions(options);
@@ -43,7 +44,7 @@ var PieChart = new Class({
 		this.pieVertices = 12; // Does not include the center vertex
 		this.arcIncrementMultiplier = 1 / this.pieVertices;
 		this.index = 0;
-		this.tableIndex = 1;
+		this.tableIndex = this.options.index;
 		this.areaIndex = 1;
 		this.canvas = '';
 		this.container = '';
@@ -105,12 +106,14 @@ var PieChart = new Class({
 		var aData=[];
 		elData.getChildren().each(function(el) {
 			var data=el.getChildren();
-			var color = data[0].getStyle('background').match(/#\w+/i);
-			aData.extend([{
-				'label': el.get('text'),
-    			'value': data[1].get('text'),
-    			'color': data[0].getStyle('background').match(/#\w+/i)[0]
-			}]);			
+			if ($(data[0])) {
+				var color = data[0].getStyle('background').match(/#\w+/i);
+				aData.extend([{
+					'label': el.get('text'),
+    				'value': data[1].get('text'),
+    				'color': data[0].getStyle('background').match(/#\w+/i)[0]
+				}]);			
+			}
 		});
 		return aData;
 	},	

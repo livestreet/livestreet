@@ -308,6 +308,36 @@ class User extends Module {
 		return $data;			
 	}
 	/**
+	 * Получить спиок юзеров по стране
+	 *
+	 * @param unknown_type $sCountry
+	 * @param unknown_type $iCurrPage
+	 * @param unknown_type $iPerPage
+	 * @return unknown
+	 */
+	public function GetUsersByCountry($sCountry,$iPage,$iPerPage) {
+		if (false === ($data = $this->Cache_Get("user_country_{$sCountry}_{$iPage}_{$iPerPage}"))) {						
+			$data = array('collection'=>$this->oMapper->GetUsersByCountry($sCountry,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, "user_country_{$sCountry}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*5);			
+		}
+		return $data;
+	}
+	/**
+	 * Получить список юзеров по городу
+	 *
+	 * @param unknown_type $sCity
+	 * @param unknown_type $iPage
+	 * @param unknown_type $iPerPage
+	 * @return unknown
+	 */
+	public function GetUsersByCity($sCity,$iPage,$iPerPage) {
+		if (false === ($data = $this->Cache_Get("user_city_{$sCity}_{$iPage}_{$iPerPage}"))) {						
+			$data = array('collection'=>$this->oMapper->GetUsersByCity($sCity,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, "user_city_{$sCity}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*5);			
+		}
+		return $data;
+	}
+	/**
 	 * Получить статистику по юзерам
 	 *
 	 * @return unknown

@@ -40,6 +40,8 @@ class ActionPeople extends Action {
 		$this->AddEvent('bad','EventBad');	
 		$this->AddEvent('online','EventOnline');	
 		$this->AddEvent('new','EventNew');	
+		$this->AddEvent('country','EventCountry');	
+		$this->AddEvent('city','EventCity');	
 	}
 		
 	
@@ -48,6 +50,86 @@ class ActionPeople extends Action {
 	 **********************************************************************************
 	 */
 	
+	/**
+	 * Показывает юзеров по стране
+	 *
+	 */
+	protected function EventCountry() {		
+		if (!($oCountry=$this->User_GetCountryByName(urldecode($this->getParam(0))))) {
+			$this->Message_AddErrorSingle('Страна не найдена',$this->Lang_Get('error'));
+			return Router::Action('error');
+		}
+		/**
+		 * Получаем статистику
+		 */
+		$this->GetStats();	
+		/**
+		 * Передан ли номер страницы
+		 */
+		if (preg_match("/^page(\d+)$/i",$this->getParam(1),$aMatch)) {			
+			$iPage=$aMatch[1];
+		} else {
+			$iPage=1;
+		}		
+		/**
+		 * Получаем список юзеров
+		 */
+		$iCount=0;			
+		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,USER_PER_PAGE);	
+		$aUsersCountry=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */			
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/people/'.$this->sCurrentEvent.'/'.$oCountry->getName());
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		if ($aUsersCountry) {
+			$this->Viewer_Assign('aPaging',$aPaging);			
+		}	
+		$this->Viewer_Assign('oCountry',$oCountry);
+		$this->Viewer_Assign('aUsersCountry',$aUsersCountry);				
+	}
+	/**
+	 * Показывает юзеров по городу
+	 *
+	 */
+	protected function EventCity() {		
+		if (!($oCity=$this->User_GetCityByName(urldecode($this->getParam(0))))) {
+			$this->Message_AddErrorSingle('Город не найден',$this->Lang_Get('error'));
+			return Router::Action('error');
+		}
+		/**
+		 * Получаем статистику
+		 */
+		$this->GetStats();	
+		/**
+		 * Передан ли номер страницы
+		 */
+		if (preg_match("/^page(\d+)$/i",$this->getParam(1),$aMatch)) {			
+			$iPage=$aMatch[1];
+		} else {
+			$iPage=1;
+		}		
+		/**
+		 * Получаем список юзеров
+		 */
+		$iCount=0;			
+		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,USER_PER_PAGE);	
+		$aUsersCity=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */			
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/people/'.$this->sCurrentEvent.'/'.$oCity->getName());
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		if ($aUsersCity) {
+			$this->Viewer_Assign('aPaging',$aPaging);			
+		}	
+		$this->Viewer_Assign('oCity',$oCity);
+		$this->Viewer_Assign('aUsersCity',$aUsersCity);				
+	}
 	/**
 	 * Показываем последних на сайте
 	 *

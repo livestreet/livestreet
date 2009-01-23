@@ -1,12 +1,25 @@
 			
 			<div class="block stat nostyle">
 				<h1>Статистика</h1>
-				<ul class="users">
-					<li>Всего пользователей: {$aStat.count_all}</li>
-					<li>Активные: {$aStat.count_active}</li>
-					<li class="last">Заблудившиеся: {$aStat.count_inactive}</li>
-				</ul>
-
+				
+				<div class="gender">
+					<ul id="chart_users_data">
+						<li>Всего пользователей: {$aStat.count_all}</li>
+						<li><div class="mark" style="background: #70aae0;"></div>Активные: <span>{$aStat.count_active}</span></li>
+						<li class="last"><div class="mark" style="background: #ff68cf;"></div>Заблудившиеся: <span>{$aStat.count_inactive}</span></li>
+					</ul>
+					<div class="chart">						
+						<div id="chart_users_area"></div>	
+						{literal}
+						<script>
+							window.addEvent('domready', function(){
+								new PieChart($('chart_users_data'),$('chart_users_area'),{index:1});
+							});
+						</script>
+						{/literal}					
+					</div>
+				</div>
+				
 				<div class="gender">
 					<ul id="chart_gender_data">
 						<li><div class="mark" style="background: #70aae0;"></div>Мужчины: <span>{$aStat.count_sex_man}</span></li>
@@ -18,7 +31,7 @@
 						{literal}
 						<script>
 							window.addEvent('domready', function(){
-								new PieChart($('chart_gender_data'),$('chart_gender_area'));
+								new PieChart($('chart_gender_data'),$('chart_gender_area'),{index:2});
 							});
 						</script>
 						{/literal}					

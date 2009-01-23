@@ -5,7 +5,7 @@
 					<h1>Города</h1>					
 					<ul class="cloud">
 						{foreach from=$aCityList item=aCity}
-							<li><a class="w{$aCity.size}" rel="tag" href="#" onclick="return false;">{$aCity.name}</a></li>	
+							<li><a class="w{$aCity.size}" rel="tag" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/city/{$aCity.name|escape:'html'}/" >{$aCity.name|escape:'html'}</a></li>	
 						{/foreach}					
 					</ul>									
 				</div></div>

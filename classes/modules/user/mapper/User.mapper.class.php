@@ -557,6 +557,52 @@ class Mapper_User extends Mapper {
 		return null;
 	}
 	
+	public function GetUsersByCountry($sCountry,&$iCount,$iCurrPage,$iPerPage) {
+		$sql = "
+			SELECT u.*
+			FROM
+				".DB_TABLE_COUNTRY." as c,
+				".DB_TABLE_COUNTRY_USER." as cu,
+				".DB_TABLE_USER." as u 
+			WHERE
+				c.country_name = ?
+				AND
+				c.country_id=cu.country_id
+				AND
+				cu.user_id=u.user_id
+			LIMIT ?d, ?d ";	
+		$aReturn=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCountry,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new UserEntity_User($aRow);
+			}
+		}
+		return $aReturn;
+	}
+	
+	public function GetUsersByCity($sCity,&$iCount,$iCurrPage,$iPerPage) {
+		$sql = "
+			SELECT u.*
+			FROM
+				".DB_TABLE_CITY." as c,
+				".DB_TABLE_CITY_USER." as cu,
+				".DB_TABLE_USER." as u 
+			WHERE
+				c.city_name = ?
+				AND
+				c.city_id=cu.city_id
+				AND
+				cu.user_id=u.user_id
+			LIMIT ?d, ?d ";	
+		$aReturn=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCity,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new UserEntity_User($aRow);
+			}
+		}
+		return $aReturn;
+	}
+	
 	public function AddCountry(UserEntity_Country $oCountry) {
 		$sql = "INSERT INTO ".DB_TABLE_COUNTRY." 
 			(country_name)
