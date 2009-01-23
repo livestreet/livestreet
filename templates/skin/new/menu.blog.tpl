@@ -4,8 +4,8 @@
 				<a href="{$DIR_WEB_ROOT}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}+{$iCountTopicsNew}{/if}
 				{if $sMenuItemSelect=='index'}
 					<ul class="sub-menu" >
-						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/">{$aLang.blog_menu_all_good}</a>{if $iCountTopicsNew>0} +{$iCountTopicsNew}{/if}</div></li>						
-						<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_NEW}/">{$aLang.blog_menu_all_new}</a></div></li>
+						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/">{$aLang.blog_menu_all_good}</a></div></li>						
+						<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_NEW}/">{$aLang.blog_menu_all_new}</a>{if $iCountTopicsNew>0} +{$iCountTopicsNew}{/if}</div></li>
 					</ul>
 				{/if}
 			</li>
