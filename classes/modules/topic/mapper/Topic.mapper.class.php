@@ -1007,35 +1007,35 @@ class Mapper_Topic extends Mapper {
 		return $aReturn;
 	}
 	
-	public function UpdateDateRead($sTopicId,$sUserId,$iCountComment) {
-		$sDate=date("Y-m-d H:i:s");
+	public function UpdateTopicRead(TopicEntity_TopicRead $oTopicRead) {		
 		$sql = "UPDATE ".DB_TABLE_TOPIC_READ." 
 			SET 
 				comment_count_last = ? ,
+				comment_id_last = ? ,
 				date_read = ? 
 			WHERE
 				topic_id = ? 
 				AND				
 				user_id = ? 
 		";			
-		return $this->oDb->query($sql,$iCountComment,$sDate,$sTopicId,$sUserId);
+		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}	
 
-	public function AddDateRead($sTopicId,$sUserId,$iCountComment) {
-		$sDate=date("Y-m-d H:i:s");
+	public function AddTopicRead(TopicEntity_TopicRead $oTopicRead) {		
 		$sql = "INSERT INTO ".DB_TABLE_TOPIC_READ." 
 			SET 
 				comment_count_last = ? ,
+				comment_id_last = ? ,
 				date_read = ? ,
 				topic_id = ? ,							
 				user_id = ? 
 		";			
-		return $this->oDb->query($sql,$iCountComment,$sDate,$sTopicId,$sUserId);
+		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}
 				
-	public function GetDateRead($sTopicId,$sUserId) {			
+	public function GetTopicRead($sTopicId,$sUserId) {			
 		$sql = "SELECT 
-					date_read									
+					*									
 				FROM 
 					".DB_TABLE_TOPIC_READ."					 
 				WHERE 					
@@ -1045,7 +1045,7 @@ class Mapper_Topic extends Mapper {
 				;	
 					";		
 		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
-			return $aRow['date_read'];
+			return new TopicEntity_TopicRead($aRow);
 		}
 		return false;
 	}

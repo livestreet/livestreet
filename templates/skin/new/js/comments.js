@@ -21,6 +21,7 @@ var lsCmtTreeClass = new Class({
 		this.make();		
 		this.aCommentNew=[];
 		this.iCurrentShowFormComment=0;	
+		this.countNewComment=0;
 		
 		this.hideCommentForm(this.iCurrentShowFormComment);
 	},
@@ -216,6 +217,11 @@ var lsCmtTreeClass = new Class({
 	        },
         	true
        );
+	},
+	
+	addCommentScroll: function(commentId) {
+		this.aCommentNew.extend([commentId]);
+		this.setCountNewComment(this.countNewComment+1);
 	},
 	
 	toggleCommentForm: function(idComment) {

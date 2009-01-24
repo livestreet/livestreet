@@ -704,14 +704,13 @@ class Topic extends Module {
 	/**
 	 * Обновляем/устанавливаем дату прочтения топика, если читаем его первый раз то добавляем
 	 *
-	 * @param unknown_type $sTopicId
-	 * @param unknown_type $sUserId
+	 * @param TopicEntity_TopicRead $oTopicRead	 
 	 */
-	public function SetDateRead($sTopicId,$sUserId,$iCountComment) {
-		if ($this->GetDateRead($sTopicId,$sUserId)) {
-			$this->oMapperTopic->UpdateDateRead($sTopicId,$sUserId,$iCountComment);
+	public function SetTopicRead(TopicEntity_TopicRead $oTopicRead) {		
+		if ($this->GetTopicRead($oTopicRead->getTopicId(),$oTopicRead->getUserId())) {
+			$this->oMapperTopic->UpdateTopicRead($oTopicRead);
 		} else {
-			$this->oMapperTopic->AddDateRead($sTopicId,$sUserId,$iCountComment);
+			$this->oMapperTopic->AddTopicRead($oTopicRead);
 		}
 		return true;		
 	}	
@@ -722,8 +721,8 @@ class Topic extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetDateRead($sTopicId,$sUserId) {
-		return $this->oMapperTopic->GetDateRead($sTopicId,$sUserId);
+	public function GetTopicRead($sTopicId,$sUserId) {
+		return $this->oMapperTopic->GetTopicRead($sTopicId,$sUserId);
 	}
 	/**
 	 * Проверяет голосовал ли юзер за топик-вопрос

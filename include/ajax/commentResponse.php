@@ -32,19 +32,33 @@ $iMaxIdComment=0;
 $aComments=array();
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
-	$aReturn=$oEngine->Comment_GetCommentsNewByTopicId($idTopic,$idCommentLast);
-	$iMaxIdComment=$aReturn['iMaxIdComment'];
-	$aCmts=$aReturn['comments'];
-	if ($aCmts and is_array($aCmts)) {
-		foreach ($aCmts as $aCmt) {
-			$aComments[]=array(
-				'html' => $aCmt['html'],
-				'idParent' => $aCmt['obj']->getPid(),
-				'id' => $aCmt['obj']->getId(),
-			);
-		}		
-	}	
-	$bStateError=false;
+	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic,$oUserCurrent,1)) {		
+		$aReturn=$oEngine->Comment_GetCommentsNewByTopicId($oTopic->getId(),$idCommentLast);
+		$iMaxIdComment=$aReturn['iMaxIdComment'];
+		
+		$oTopicRead=new TopicEntity_TopicRead();
+		$oTopicRead->setTopicId($oTopic->getId());
+		$oTopicRead->setUserId($oUserCurrent->getId());
+		$oTopicRead->setCommentCountLast($oTopic->getCountComment());
+		$oTopicRead->setCommentIdLast($iMaxIdComment);
+		$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
+		$oEngine->Topic_SetTopicRead($oTopicRead);
+		
+		$aCmts=$aReturn['comments'];
+		if ($aCmts and is_array($aCmts)) {
+			foreach ($aCmts as $aCmt) {
+				$aComments[]=array(
+					'html' => $aCmt['html'],
+					'idParent' => $aCmt['obj']->getPid(),
+					'id' => $aCmt['obj']->getId(),
+				);
+			}
+		}
+		$bStateError=false;
+	} else {
+		$sMsgTitle='Ошибка!';
+		$sMsg='Топик не найден';
+	}
 } else {
 	$sMsgTitle='Ошибка!';
 	$sMsg='Необходимо авторизоваться!';

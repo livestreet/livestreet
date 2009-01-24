@@ -661,16 +661,24 @@ class ActionBlog extends Action {
 		 * Получаем дату прочтения топика
 		 */
 		$dDate=date("Y-m-d H:i:s");
+		$iCommentLastTopicRead=0;
 		if ($this->oUserCurrent) {
-			if ($return=$this->Topic_GetDateRead($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$dDate=$return;
+			if ($oTopicRead=$this->Topic_GetTopicRead($oTopic->getId(),$this->oUserCurrent->getId())) {
+				$dDate=$oTopicRead->getDateRead();
+				$iCommentLastTopicRead=$oTopicRead->getCommentIdLast();
 			}
 		}
 		/**
 		 * Отмечаем дату прочтения топика
 		 */
 		if ($this->oUserCurrent) {
-			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
+			$oTopicRead=new TopicEntity_TopicRead();
+			$oTopicRead->setTopicId($oTopic->getId());
+			$oTopicRead->setUserId($this->oUserCurrent->getId());
+			$oTopicRead->setCommentCountLast($oTopic->getCountComment());
+			$oTopicRead->setCommentIdLast($iMaxIdComment);
+			$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
+			$this->Topic_SetTopicRead($oTopicRead);
 		}		
 		/**
 		 * Выставляем SEO данные
@@ -683,6 +691,7 @@ class ActionBlog extends Action {
 		 */		
 		$this->Viewer_Assign('bInFavourite',$bInFavourite);
 		$this->Viewer_Assign('dDateTopicRead',$dDate);
+		$this->Viewer_Assign('iCommentLastTopicRead',$iCommentLastTopicRead);
 		$this->Viewer_Assign('oTopic',$oTopic);
 		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
@@ -762,16 +771,24 @@ class ActionBlog extends Action {
 		 * Получаем дату прочтения топика
 		 */
 		$dDate=date("Y-m-d H:i:s");
+		$iCommentLastTopicRead=0;
 		if ($this->oUserCurrent) {
-			if ($return=$this->Topic_GetDateRead($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$dDate=$return;
+			if ($oTopicRead=$this->Topic_GetTopicRead($oTopic->getId(),$this->oUserCurrent->getId())) {
+				$dDate=$oTopicRead->getDateRead();
+				$iCommentLastTopicRead=$oTopicRead->getCommentIdLast();
 			}
 		}
 		/**
 		 * Отмечаем дату прочтения топика
 		 */
 		if ($this->oUserCurrent) {
-			$this->Topic_SetDateRead($oTopic->getId(),$this->oUserCurrent->getId(),$oTopic->getCountComment());
+			$oTopicRead=new TopicEntity_TopicRead();
+			$oTopicRead->setTopicId($oTopic->getId());
+			$oTopicRead->setUserId($this->oUserCurrent->getId());
+			$oTopicRead->setCommentCountLast($oTopic->getCountComment());
+			$oTopicRead->setCommentIdLast($iMaxIdComment);
+			$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
+			$this->Topic_SetTopicRead($oTopicRead);
 		}		
 		/**
 		 * Выставляем SEO данные
@@ -784,6 +801,7 @@ class ActionBlog extends Action {
 		 */		
 		$this->Viewer_Assign('bInFavourite',$bInFavourite);
 		$this->Viewer_Assign('dDateTopicRead',$dDate);
+		$this->Viewer_Assign('iCommentLastTopicRead',$iCommentLastTopicRead);
 		$this->Viewer_Assign('oTopic',$oTopic);
 		$this->Viewer_Assign('aComments',$aComments);	
 		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);

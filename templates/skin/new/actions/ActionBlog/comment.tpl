@@ -47,7 +47,18 @@
 								<a href="#" class="plus" onclick="lsVote.vote({$aComment.obj->getId()},this,1,'topic_comment'); return false;"></a>
 								<a href="#" class="minus" onclick="lsVote.vote({$aComment.obj->getId()},this,-1,'topic_comment'); return false;"></a>
 							</div>						
-							<div class="content {if $oUserCurrent and $aComment.obj->getUserId()==$oUserCurrent->getId()}self{/if}">
+							<div class="content {if $oUserCurrent and $aComment.obj->getUserId()==$oUserCurrent->getId()}self{elseif $dDateTopicRead<=$aComment.obj->getDate()}new{/if}">								
+								{if $oUserCurrent and $aComment.obj->getUserId()!=$oUserCurrent->getId() and $dDateTopicRead<=$aComment.obj->getDate()}
+									{literal}
+									<script>
+										window.addEvent('domready', function() {
+										{/literal}
+											lsCmtTree.addCommentScroll({$aComment.obj->getId()});
+										{literal}
+										});					
+									</script>
+									{/literal}
+								{/if}							
 								<div class="tb"><div class="tl"><div class="tr"></div></div></div>								
 								<div class="text">
 									{$aComment.obj->getText()}
