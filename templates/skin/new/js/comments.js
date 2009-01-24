@@ -191,14 +191,14 @@ var lsCmtTreeClass = new Class({
 	goNextComment: function() {		
 		if (this.aCommentNew[0]) {
 			if ($('comment_id_'+this.aCommentNew[0])) {
-				var offsetX=0;
+				var offsetY=0;
 				//для скролла в центр
-				//offsetX=-window.getSize().y/2;
+				//offsetY=-window.getSize().y/2;
 				docScroller.setOptions({ 
 					duration:500, 
 					offset: {
         				'x': 0,
-        				'y': offsetX
+        				'y': offsetY
    					}
  				});
 				docScroller.toElement($('comment_id_'+this.aCommentNew[0]));
