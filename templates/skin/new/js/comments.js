@@ -188,9 +188,19 @@ var lsCmtTreeClass = new Class({
         }
 	},
 	
-	goNextComment: function() {
+	goNextComment: function() {		
 		if (this.aCommentNew[0]) {
 			if ($('comment_id_'+this.aCommentNew[0])) {
+				var offsetX=0;
+				//для скролла в центр
+				//offsetX=-window.getSize().y/2;
+				docScroller.setOptions({ 
+					duration:500, 
+					offset: {
+        				'x': 0,
+        				'y': offsetX
+   					}
+ 				});
 				docScroller.toElement($('comment_id_'+this.aCommentNew[0]));
 			}			
 			this.aCommentNew.erase(this.aCommentNew[0]);
@@ -310,9 +320,9 @@ window.addEvent('domready', function() {
     		openImg: 'folding-open',
     		closeImg: 'folding'
     	}
-    });   
+    });     
     
-    docScroller = new Fx.Scroll(document.getDocument(),{ duration:700 }); 
+    docScroller = new Fx.Scroll(document.getDocument()); 
    // formCommentSlide = new Fx.Slide('form_comment2');
 });
 
