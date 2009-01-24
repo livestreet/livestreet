@@ -16,7 +16,7 @@
 */
 
 /**
- * Удаление комментария админом
+ * Удаление/восстановление комментария админом
  */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FILE__))));
@@ -25,20 +25,29 @@ require_once("./config/config.ajax.php");
 
 $idComment=@$_REQUEST['idComment'];
 $bStateError=true;
+$bState='';
+$sTextToggle='';
 $sMsg='';
 $sMsgTitle='';
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if ($oUserCurrent->isAdministrator()) {
 		if ($oComment=$oEngine->Comment_GetCommentById($idComment)) {
-			$oComment->setDelete(1);
+			$oComment->setDelete(($oComment->getDelete()+1)%2);
 			if ($oEngine->Comment_UpdateTopicComment($oComment)) {
 				$bStateError=false;
+				$bState=(bool)$oComment->getDelete();
 				$sMsgTitle='Отлично!';
-				$sMsg='Комментарий удален';
+				if ($bState) {
+					$sMsg='Комментарий удален';
+					$sTextToggle='Восстановить';
+				} else {
+					$sMsg='Комментарий восстановлен';
+					$sTextToggle='Удалить';
+				}
 			} else {
 				$sMsgTitle='Ошибка!';
-				$sMsg='Возникли проблемы при удалении!';
+				$sMsg='Возникли технические проблемы!';
 			}
 		} else {
 			$sMsgTitle='Ошибка!';
@@ -56,6 +65,8 @@ if ($oEngine->User_IsAuthorization()) {
 
 $GLOBALS['_RESULT'] = array(
 "bStateError"     => $bStateError,
+"bState"     => $bState,
+"sTextToggle"     => $sTextToggle,
 "sMsgTitle"   => $sMsgTitle,
 "sMsg"   => $sMsg,
 );

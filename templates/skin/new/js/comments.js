@@ -224,6 +224,39 @@ var lsCmtTreeClass = new Class({
 		this.setCountNewComment(this.countNewComment+1);
 	},
 	
+	toggleComment: function(obj,commentId) {
+		var divContent=$('comment_content_id_'+commentId);
+		if (!divContent) {
+			return false;
+		}
+		
+		var thisObj=this;			
+		JsHttpRequest.query(
+        	DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
+        	{ idComment: commentId },
+        	function(result, errors) {         		 
+            	if (!result) {
+                	msgErrorBox.alert('Error','Please try again later');           
+        		}      
+        		if (result.bStateError) {        			
+                	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+        		} else {   
+        			msgNoticeBox.alert(result.sMsgTitle,result.sMsg);     			
+        			divContent.removeClass('old').removeClass('self').removeClass('new').removeClass('del');
+        			obj.removeClass('delete').removeClass('repair');
+        			if (result.bState) {
+        				divContent.addClass('del');
+        				obj.addClass('repair');
+        			} else {
+        				obj.addClass('delete');
+        			}
+					obj.set('text',result.sTextToggle);        			        								
+        		}                           
+	        },
+        	true
+       );
+	},
+	
 	toggleCommentForm: function(idComment) {
 		if (!$('reply_'+this.iCurrentShowFormComment) || !$('reply_'+idComment)) {
 			return;
@@ -255,8 +288,10 @@ var lsCmtTreeClass = new Class({
 	},
 	
 	hideCommentForm: function(idComment) {
-		var slideForm = new Fx.Slide('reply_'+idComment);							
-		slideForm.hide();
+		if ($('reply_'+idComment)) {
+			var slideForm = new Fx.Slide('reply_'+idComment);							
+			slideForm.hide();
+		}
 	}
 	
 });

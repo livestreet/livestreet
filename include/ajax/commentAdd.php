@@ -155,7 +155,7 @@ if ($oEngine->User_IsAuthorization()) {
 			} else {				
 				$sMsgTitle=$oEngine->Lang_Get('error');
 				$sMsg=$oEngine->Lang_Get('system_error');
-				$sMsg=serialize($oEngine->Message_GetError());
+				//$sMsg=serialize($oEngine->Message_GetError());
 			}
 		}
 	

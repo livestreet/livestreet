@@ -391,12 +391,14 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .comments .old { background: #fff; }
 .comments .self { background: #fdf5e6; }
 .comments .new { background: #e4fbf1; }
+.comments .del { background: #c5c5c5; }
 
 /* Single Comment */
 .comment .folding { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
 .comment .folding-open { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
 .comment .folding.off { display: none; }
 .comment .content { margin: 0 50px 0px 13px; padding: 0; }
+.comment span.delete { color: #c5c5c5; font-size: 16px; }
 
 /* Rounded Corners */
 .comment .content .tb { height: 7px; overflow: hidden; background: transparent url(../images/comment-tb.gif) repeat-x; }
@@ -443,6 +445,8 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .comment .info a.favorite:hover { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info a.favorite-active { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info a.off { color: #999; }
+.comment .info a.repair { color: #4CCC1B; }
+.comment .info a.delete { color: #f00; }
 
 .comment .comment-topic { font-size: 11px; color: #999; padding-bottom: 3px; padding-left: 2px; }
 .comment .comment-topic a { font-weight: bold; }
