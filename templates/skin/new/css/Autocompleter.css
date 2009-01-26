@@ -4,15 +4,13 @@ ul.autocompleter-choices
 	margin:					0;
 	padding:				0;
 	list-style:				none;
-	border:					1px solid #7c7c7c;
-	border-left-color:		#c3c3c3;
-	border-right-color:		#c3c3c3;
-	border-bottom-color:	#ddd;
+	border:					1px solid #bbb;
 	background-color:		#fff;
 	text-align:				left;
-	font-family:			Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family:			Verdana, Arial, Geneva, Helvetica, sans-serif;
 	z-index:				50;
 	background-color:		#fff;
+	color: 					#333;
 }
 
 ul.autocompleter-choices li
@@ -25,14 +23,13 @@ ul.autocompleter-choices li
 	cursor:					pointer;
 	font-weight:			normal;
 	white-space:			nowrap;
-	font-size:				1em;
-	line-height:			1.5em;
-	border-bottom:			1px dashed #7c7c7c;
+	font-size:				11px;
+	line-height:			16px;
 }
 
 ul.autocompleter-choices li.autocompleter-selected
 {
-	background-color:		#444;
+	background-color:		#316ac5;
 	color:					#fff;
 }
 
