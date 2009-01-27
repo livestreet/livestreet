@@ -47,23 +47,3 @@ function ajaxBlogInfo(idBlog) {
         true
     );
 }
-
-
-
-function ajaxBlogInfo3(idBlog) {    
-    var req = new JsHttpRequest();    
-    req.onreadystatechange = function() {
-        if (req.readyState == 4) {         
-            //document.getElementById('debug').innerHTML = req.responseText;           
-            if (req.responseJS.bStateError) {
-            	
-            } else {            	
-            	if (document.getElementById('block_blog_info')) {
-            		document.getElementById('block_blog_info').innerHTML='<p>'+req.responseJS.sText+'</p>';
-            	}  
-            }
-        }
-    }    
-    req.open(null, DIR_WEB_ROOT+'/include/ajax/blogInfo.php', true);    
-    req.send( { idBlog: idBlog } );
-}
