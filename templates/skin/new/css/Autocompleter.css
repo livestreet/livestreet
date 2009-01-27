@@ -29,7 +29,7 @@ ul.autocompleter-choices li
 
 ul.autocompleter-choices li.autocompleter-selected
 {
-	background-color:		#555;
+	background-color:		#0a246a;
 	color:					#fff;
 }
 
@@ -44,7 +44,7 @@ ul.autocompleter-choices span.autocompleter-queried
 
 ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried
 {
-	color:					#9FCFFF;
+	color:					#fff60b;
 }
 
 input.autocompleter-loading

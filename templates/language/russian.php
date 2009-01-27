@@ -161,7 +161,7 @@ return array(
 	'topic_create_title_notice' => 'Заголовок должен быть наполнен смыслом, чтобы можно было понять, о чем будет топик._$$',
 	'topic_create_title_error' => 'Название топика должно быть от 2 до 200 символов_$$',
 	'topic_create_text' => 'Текст_$$',
-	'topic_create_text_notice' => 'Между прочим, можно использовать html-теги_$$',
+	'topic_create_text_notice' => 'Доступны html-теги_$$',
 	'topic_create_text_error' => 'Текст топика должен быть от 2 до 15000 символов_$$',
 	'topic_create_tags' => 'Метки_$$',
 	'topic_create_tags_notice' => 'Метки нужно разделять запятой. Например: клон хабры, блоги, рейтинг, google, сиськи, кирпич._$$',

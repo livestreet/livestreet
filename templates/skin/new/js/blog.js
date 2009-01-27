@@ -26,3 +26,44 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
         true
     );
 }
+
+
+function ajaxBlogInfo(idBlog) { 	
+	JsHttpRequest.query(
+    	DIR_WEB_ROOT+'/include/ajax/blogInfo.php',                       
+        { idBlog: idBlog },
+        function(result, errors) {  
+        	if (!result) {
+                msgErrorBox.alert('Error','Please try again later');           
+        	}
+            if (result.bStateError) {
+            	
+            } else {            	
+            	if ($('block_blog_info')) {
+            		$('block_blog_info').set('html',result.sText);            		
+            	}
+            }                               
+        },
+        true
+    );
+}
+
+
+
+function ajaxBlogInfo3(idBlog) {    
+    var req = new JsHttpRequest();    
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {         
+            //document.getElementById('debug').innerHTML = req.responseText;           
+            if (req.responseJS.bStateError) {
+            	
+            } else {            	
+            	if (document.getElementById('block_blog_info')) {
+            		document.getElementById('block_blog_info').innerHTML='<p>'+req.responseJS.sText+'</p>';
+            	}  
+            }
+        }
+    }    
+    req.open(null, DIR_WEB_ROOT+'/include/ajax/blogInfo.php', true);    
+    req.send( { idBlog: idBlog } );
+}

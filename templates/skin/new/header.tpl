@@ -13,6 +13,7 @@
 	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie7.css" /><![endif]-->	
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Roar.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
+	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" />
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/search/opensearch/" title="{$SITE_NAME}" />
@@ -28,6 +29,9 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/mootools-1.2-core-yc.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/mootools-more.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Clientcide.js"></script>
 <!--[if IE]>
 	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
@@ -40,6 +44,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/block_loader.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/friend.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/blog.js"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/other.js"></script>
 
 
 {literal}
