@@ -51,10 +51,14 @@ a:hover { text-decoration: none; }
 -------------------------------------------------------------------*/
 .input-text { width: 100%; padding: 2px; }
 label { display: block; margin-bottom: 2px; }
-form {  }
 form p { margin-bottom: 20px; }
 form .note { float: right; font-size: 11px; }
+form .buttons { overflow: hidden; }
+form .right { float: right; }
 textarea { width: 100%; height: 100px; margin-bottom: 5px; }
+select { width: 200px; }
+.form-tags { padding: 10px; background: #fafafa; color: #999; }
+.form-tags input { width: 99%; }
 
 
 
@@ -328,6 +332,9 @@ textarea { width: 100%; height: 100px; margin-bottom: 5px; }
 .block.white .cr { padding: 0px 25px; background: url(../images/sidebar-profile-cr.gif) repeat-y right; }
 
 .block.nostyle { padding: 20px 25px; }
+
+.block.options h3 { padding-bottom: 10px; }
+.block.options li { padding-bottom: 5px; }
 
 .block.actions li { color: #4ccc1b; padding-bottom: 3px; }
 .block.actions li.add { color: #4ccc1b; padding-bottom: 15px; }
