@@ -1,4 +1,4 @@
-			<div class="block">
+			<div class="block white">
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">					
 					<h1>Описание блога &darr;</h1>				
@@ -7,7 +7,7 @@
 				<div class="bl"><div class="br"></div></div>
 			</div>
 			
-			<div class="block">
+			<div class="block white">
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">					
 					<h1>Заметка &darr;</h1>						

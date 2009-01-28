@@ -54,11 +54,12 @@ label { display: block; margin-bottom: 2px; }
 form p { margin-bottom: 20px; }
 form .note { float: right; font-size: 11px; }
 form .buttons { overflow: hidden; }
-form .right { float: right; }
-textarea { width: 100%; height: 100px; margin-bottom: 5px; }
-select { width: 200px; }
+form .right { float: right; font-size: 18px; font-family: Tahoma; color: #333; padding: 5px; }
+textarea { width: 100%; height: 200px; margin-bottom: 5px; }
+select { width: 99%; }
 .form-tags { padding: 10px; background: #fafafa; color: #999; }
 .form-tags input { width: 99%; }
+.form_note { font-size: 11px; color: #aaa; }
 
 
 
@@ -108,7 +109,7 @@ select { width: 200px; }
 .menu li.active a { color: #333; }
 
 /* Sub-navigation of Blog */
-.sub-menu { position: absolute; top: 36px; left: 0px; width: 300px; font-size: 11px; }
+.sub-menu { position: absolute; top: 36px; left: 0px; width: 400px; font-size: 11px; }
 .sub-menu li { padding: 2px 5px 0 11px; margin-right: 5px; line-height: 12px; }
 .sub-menu li a { color: #8a8a8a !important; text-decoration: underline; margin-right: 5px; }
 .sub-menu li a:hover { text-decoration: none; }
@@ -269,7 +270,7 @@ select { width: 200px; }
 /* Sidebar
 -------------------------------------------------------------------*/
 .block { background: #fdfefe; line-height: 16px; }
-.block h1 { font-family: Tahoma, Verdana, Sans-Serif; font-size: 20px; color: #333; margin-bottom: 5px; }
+.block h1 { font-family: Tahoma, Verdana, Sans-Serif; font-size: 20px; color: #333; padding-bottom: 5px; margin-bottom: 0; }
 
 .block .right { text-align: right; padding-top: 10px; font-size: 11px; }
 

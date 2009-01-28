@@ -53,7 +53,7 @@ tinyMCE.init({
 				<h1>Создание топика</h1>
 				<form action="" method="POST" enctype="multipart/form-data">
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
-					<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);" style="width: 100%;">
+					<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
      					<option value="0">{$aLang.topic_create_blog_personal}</option>
      					{foreach from=$aBlogsOwner item=oBlog}
      						<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
@@ -81,13 +81,13 @@ tinyMCE.init({
 					</p>
 												
 					 <p><label for=""><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
-					 &mdash; {$aLang.topic_create_forbid_comment}</label><br />
+					 &mdash; {$aLang.topic_create_forbid_comment}</label>
 					 <span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span>
 					 </p>
 					
 					 {if $oUserCurrent->isAdministrator()}
 					 	<p><label for=""><input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
-					 	 &mdash; {$aLang.topic_create_publish_index}</label><br />
+					 	 &mdash; {$aLang.topic_create_publish_index}</label>
 					 	<span class="form_note">{$aLang.topic_create_publish_index_notice}</span>
 					 	</p>
 					 {/if}
