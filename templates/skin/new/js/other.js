@@ -21,3 +21,28 @@ function ajaxTextPreview(textId,save) {
         true
     );
 }
+
+
+// для опроса
+function addField(btn){
+        tr = btn;
+        while (tr.tagName != 'TR') tr = tr.parentNode;
+        var newTr = tr.parentNode.insertBefore(tr.cloneNode(true),tr.nextSibling);
+        checkFieldForLast();
+}
+function checkFieldForLast(){	
+        btns = document.getElementsByName('drop_answer');      
+        for (i = 0; i < btns.length; i++){
+        	btns[i].disabled = false;            
+        }
+        if (btns.length<=2) {
+        	btns[0].disabled = true;
+        	btns[1].disabled = true;
+        }
+}
+function dropField(btn){	
+        tr = btn;
+        while (tr.tagName != 'TR') tr = tr.parentNode;
+        tr.parentNode.removeChild(tr);
+        checkFieldForLast();
+}

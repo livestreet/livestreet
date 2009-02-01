@@ -7,7 +7,7 @@
 						<li {if $sMenuItemSelect=='topic'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_topic}</a></div></li>						
 						<li {if $sMenuItemSelect=='question'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_QUESTION}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_question}</a></div></li>
 						<li {if $sMenuItemSelect=='link'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LINK}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_link}</a></div></li>
-						<li {if $sAction==$ROUTE_PAGE_BLOG && $sEvent=='add'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/add/"><font color="Red">{$aLang.blog_menu_create}</font></a></div></li>
+						<li ><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/add/"><font color="Red">{$aLang.blog_menu_create}</font></a></div></li>
 					</ul>
 				{/if}
 			</li>

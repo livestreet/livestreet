@@ -36,7 +36,7 @@ function toggleBlogInfo(id,link) {
 					<li class="rss"><a href="#"></a></li>
 					<li class="join"><a href="#"></a></li>
 					{if 1}
-  						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/edit/{$oBlog->getId()}/" title="{$aLang.topic_edit}">{$aLang.topic_edit}</a></li>
+  						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}">{$aLang.blog_edit}</a></li>
   					{/if}
 				</ul>
 				<div class="about" id="blog_about_{$oBlog->getId()}" style="display: none;" >

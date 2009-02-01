@@ -462,7 +462,7 @@ class ActionQuestion extends Action {
 		 	* Проверяем есть ли заголовок топика(вопрос)
 		 	*/
 			if (!func_check(getRequest('topic_title'),'text',2,200)) {
-				$this->Message_AddError('Вопрос должен быть от 3 до 200 символов','Ошибка');
+				$this->Message_AddError('Вопрос должен быть от 2 до 200 символов','Ошибка');
 				$bOk=false;
 			}
 			/**

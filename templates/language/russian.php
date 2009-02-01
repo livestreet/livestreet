@@ -80,7 +80,7 @@ return array(
 	/**
 	 * Создание/редактирование блога
 	 */
-	'blog_edit' => 'отредактировать блог_$$',
+	'blog_edit' => 'Редактировать_$$',
 	'blog_create' => 'Создание нового блога_$$',
 	'blog_create_acl' => 'Вы еще не достаточно окрепли чтобы создавать свой блог_$$',
 	'blog_create_title' => 'Название блога_$$',
@@ -147,7 +147,7 @@ return array(
 	 */
 	'topic_menu_add' => 'Новые_$$',
 	'topic_menu_add_topic' => 'Топик_$$',
-	'topic_menu_add_question' => 'Вопрос_$$',
+	'topic_menu_add_question' => 'Опрос_$$',
 	'topic_menu_add_link' => 'Ссылка_$$',
 	'topic_menu_saved' => 'Черновики_$$',
 	'topic_menu_published' => 'Опубликованные_$$',
@@ -189,8 +189,8 @@ return array(
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html_$$',
 	'topic_link_create_url_error' => 'Ссылка должна быть от 2 до 200 символов_$$',
 	'topic_link_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)_$$',
-	'topic_link_create_text_notice' => 'Доступны html-теги_$$',
-	'topic_link_create_text_error' => 'Текст топика должен быть от 2 до 15000 символов_$$',
+	'topic_link_create_text_notice' => 'HTML-теги запрещены_$$',
+	'topic_link_create_text_error' => 'Описание ссылки должно быть от 10 до 500 символов_$$',
 	/**
 	 * Топик-опрос
 	 */
@@ -198,6 +198,12 @@ return array(
 	'topic_question_vote_result' => 'Проголосовало_$$',
 	'topic_question_abstain' => 'воздержаться_$$',
 	'topic_question_abstain_result' => 'Воздержалось_$$',
+	'topic_question_create_title' => 'Вопрос_$$',
+	'topic_question_create_title_notice' => 'Вопрос должен быть наполнен смыслом, чтобы можно было понять, о чем будет опрос._$$',
+	'topic_question_create_title_error' => 'Вопрос должен быть от 2 до 200 символов_$$',
+	'topic_question_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)_$$',
+	'topic_question_create_text_notice' => 'HTML-теги запрещены_$$',
+	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов_$$',
 	/**
 	 * Голосование за топик
 	 */
