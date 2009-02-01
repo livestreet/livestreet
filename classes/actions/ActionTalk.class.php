@@ -58,6 +58,7 @@ class ActionTalk extends Action {
 		$this->AddEvent('inbox','EventInbox');	
 		$this->AddEvent('add','EventAdd');	
 		$this->AddEvent('read','EventRead');				
+		$this->AddEvent('delete','EventDelete');				
 	}
 		
 	
@@ -65,6 +66,26 @@ class ActionTalk extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+	
+	protected function EventDelete() {		
+		/**
+		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
+		 */
+		$sTalkId=$this->GetParam(0);
+		if (!$oTalk=$this->Talk_GetTalkByIdAndUserId($sTalkId,$this->oUserCurrent->getId())) {
+			return parent::EventNotFound();
+		}		
+		/**
+		 * Обработка удаления сообщения
+		 */				
+		if ($oTalkUser=$this->Talk_GetTalkUser($sTalkId,$this->oUserCurrent->getId())) {
+			if ($this->Talk_DeleteTalkUser($oTalkUser)) {
+				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/');
+			} else {
+				$this->Message_AddError('Системная ошибка','Ошибка');
+			}
+		}				
+	}
 	
 	
 	protected function EventInbox() {				
@@ -140,7 +161,7 @@ class ActionTalk extends Action {
 					$this->Notify_SendTalkNew($oUserToMail,$this->oUserCurrent,$oTalk);
 				}
 			}			
-			func_header_location(DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/');
+			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
 			return Router::Action('error');
@@ -168,11 +189,17 @@ class ActionTalk extends Action {
 		 * Достаём комменты к сообщению
 		 */
 		$aComments=$this->Talk_GetCommentsByTalkId($oTalk->getId());
-		
+		$aCommentsNew=array();
+		foreach ($aComments as $oCom) {
+			$array=$oCom->_getData();
+			$array['obj']=$oCom;
+			$aCommentsNew[]=$array;
+		}
 		
 		$this->Viewer_AddHtmlTitle($oTalk->getTitle());
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
+		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
 	}
 	
 	
@@ -297,7 +324,7 @@ class ActionTalk extends Action {
 						$this->Notify_SendTalkCommentNew($oUserTalk,$this->oUserCurrent,$oTalk,$oCommentNew);
 					}
 				}
-				func_header_location(DIR_WEB_ROOT.'/talk/read/'.$oTalk->getId().'/#comment'.$oCommentNew->getId());
+				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/#comment'.$oCommentNew->getId());
 			} else {
 				$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении комментария, пожалуйста повторите позже.','Внутреняя ошибка');
 				return false;

@@ -46,3 +46,15 @@ function dropField(btn){
         tr.parentNode.removeChild(tr);
         checkFieldForLast();
 }
+
+
+
+function checkAllTalk(checkbox) {
+	$$('.form_talks_checkbox').each(function(chk){
+		if (checkbox.checked) {
+			chk.checked=true;
+		} else {
+			chk.checked=false;
+		}		
+	});	
+}
