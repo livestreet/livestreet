@@ -25,7 +25,7 @@ class Mapper_Talk extends Mapper {
 			talk_date_last,
 			talk_user_ip			
 			)
-			VALUES(?d,	?,	?,	?,  ?)
+			VALUES(?d,	?,	?,	?,  ?, ?)
 		";			
 		if ($iId=$this->oDb->query($sql,$oTalk->getUserId(),$oTalk->getTitle(),$oTalk->getText(),$oTalk->getDate(),$oTalk->getDateLast(),$oTalk->getUserIp())) 
 		{
