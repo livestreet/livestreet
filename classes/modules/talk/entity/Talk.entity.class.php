@@ -32,6 +32,9 @@ class TalkEntity_Talk extends Entity
     public function getDate() {
         return $this->_aData['talk_date'];
     }    
+    public function getDateLast() {
+        return $this->_aData['talk_date_last'];
+    }
     public function getUserIp() {
         return $this->_aData['talk_user_ip'];
     }
@@ -73,6 +76,9 @@ class TalkEntity_Talk extends Entity
     public function setDate($data) {
         $this->_aData['talk_date']=$data;
     }    
+    public function setDateLast($data) {
+        $this->_aData['talk_date_last']=$data;
+    } 
     public function setUserIp($data) {
         $this->_aData['talk_user_ip']=$data;
     }  

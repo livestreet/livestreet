@@ -48,6 +48,14 @@ class Talk extends Module {
 		return false;
 	}
 	/**
+	 * Обновление разговора
+	 *
+	 * @param TalkEntity_Talk $oTalk
+	 */
+	public function UpdateTalk(TalkEntity_Talk $oTalk) {
+		return $this->oMapper->UpdateTalk($oTalk);
+	}
+	/**
 	 * Получает тему разговора по айдишнику
 	 *
 	 * @param unknown_type $sId

@@ -35,3 +35,5 @@ ALTER TABLE `prefix_reminder`
 ALTER TABLE `prefix_user` ADD `user_profile_foto` VARCHAR( 250 ) NULL AFTER `user_profile_avatar_type` ;
 
 ALTER TABLE `prefix_topic_read` ADD `comment_id_last` INT( 11 ) NOT NULL DEFAULT '0' AFTER `comment_count_last` ;
+
+ALTER TABLE `prefix_talk` ADD `talk_date_last` DATETIME NOT NULL AFTER `talk_date` ;

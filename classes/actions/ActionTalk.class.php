@@ -136,6 +136,7 @@ class ActionTalk extends Action {
 		$sText=$this->Text_Parser(getRequest('talk_text'));					
 		$oTalk->setText($sText);		
 		$oTalk->setDate(date("Y-m-d H:i:s"));
+		$oTalk->setDateLast(date("Y-m-d H:i:s"));
 		$oTalk->setUserIp(func_getIp());
 						
 		/**
@@ -315,6 +316,8 @@ class ActionTalk extends Action {
 			 * Добавляем коммент
 			 */
 			if ($this->Talk_AddComment($oCommentNew)) {
+				$oTalk->setDateLast(date("Y-m-d H:i:s"));
+				$this->Talk_UpdateTalk($oTalk);
 				/**
 				 * Отсылаем уведомления всем адресатам
 				 */

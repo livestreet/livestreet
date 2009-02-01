@@ -22,16 +22,26 @@ class Mapper_Talk extends Mapper {
 			talk_title,
 			talk_text,
 			talk_date,
+			talk_date_last,
 			talk_user_ip			
 			)
 			VALUES(?d,	?,	?,	?,  ?)
 		";			
-		if ($iId=$this->oDb->query($sql,$oTalk->getUserId(),$oTalk->getTitle(),$oTalk->getText(),$oTalk->getDate(),$oTalk->getUserIp())) 
+		if ($iId=$this->oDb->query($sql,$oTalk->getUserId(),$oTalk->getTitle(),$oTalk->getText(),$oTalk->getDate(),$oTalk->getDateLast(),$oTalk->getUserIp())) 
 		{
 			return $iId;
 		}		
 		return false;
-	}	
+	}
+
+	public function UpdateTalk(TalkEntity_Talk $oTalk) {
+		$sql = "UPDATE ".DB_TABLE_TALK." SET			
+				talk_date_last = ?
+			WHERE 
+				talk_id = ?d
+		";			
+		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getId());
+	}
 	
 	public function SetTalkUserDateLast($sTalkId,$sUserId) {
 		$sDate=date("Y-m-d H:i:s");
@@ -210,7 +220,7 @@ class Mapper_Talk extends Mapper {
 					tu.user_id = ?d 								
 					AND							
 					t.user_id=u.user_id					
-				ORDER BY t.talk_date desc;	
+				ORDER BY t.talk_date_last desc, t.talk_date desc;	
 					";
 		$aTalks=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$sUserId)) {
