@@ -474,7 +474,7 @@ class ActionLink extends Action {
 		 * Проверяем есть ли ссылка
 		 */
 		if (!func_check(getRequest('topic_link_url'),'text',3,200)) {
-			$this->Message_AddError('Название топика должно быть от 2 до 200 символов','Ошибка');
+			$this->Message_AddError('Ссылка должна быть от 2 до 200 символов','Ошибка');
 			$bOk=false;
 		}
 		/**

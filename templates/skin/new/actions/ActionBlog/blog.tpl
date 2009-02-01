@@ -18,7 +18,7 @@ function toggleBlogInfo(id,link) {
 </script>
 {/literal}
 
-<div class="profile-blog">
+			<div class="profile-blog">
 				<div class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oBlog->getUserIsVote()} voted {if $oBlog->getUserVoteDelta()>0}plus{elseif $oBlog->getUserVoteDelta()<0}minus{/if}{/if}">
 					<div class="clear">Рейтинг</div>
 					
@@ -35,6 +35,9 @@ function toggleBlogInfo(id,link) {
 				<ul class="action">
 					<li class="rss"><a href="#"></a></li>
 					<li class="join"><a href="#"></a></li>
+					{if 1}
+  						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/edit/{$oBlog->getId()}/" title="{$aLang.topic_edit}">{$aLang.topic_edit}</a></li>
+  					{/if}
 				</ul>
 				<div class="about" id="blog_about_{$oBlog->getId()}" style="display: none;" >
 					<div class="tl"><div class="tr"></div></div>

@@ -15,45 +15,15 @@ document.addEvent('domready', function() {
 {/literal}
 
 
-{if $BLOG_USE_TINYMCE}
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/tiny_mce/tiny_mce.js"></script>
-{literal}
-<script type="text/javascript">
-tinyMCE.init({
-	mode : "textareas",
-	theme : "advanced",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,code",
-	theme_advanced_buttons2 : "",
-	theme_advanced_buttons3 : "",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : true,
-	theme_advanced_resize_horizontal : 0,
-	theme_advanced_resizing_use_cookie : 0,
-	theme_advanced_path : false,
-	object_resizing : true,
-	force_br_newlines : true,
-    forced_root_block : '', // Needed for 3.x
-    force_p_newlines : false,    
-    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media",
-    convert_urls : false,
-    extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]"     
-});
-</script>
-{/literal}
-{/if}
-
-
 			<div class="topic" style="display: none;">
 				<div class="content" id="text_preview"></div>
 			</div>
 
 			<div class="profile-user">
 				{if $sEvent=='add'}
-					<h1>Создание топика</h1>
+					<h1>Создание топика-ссылки</h1>
 				{else}
-					<h1>Редактирование топика</h1>
+					<h1>Редактирование топика-ссылки</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
@@ -76,7 +46,12 @@ tinyMCE.init({
        				<span class="form_note">{$aLang.topic_create_title_notice}</span>
 					</p>
 
-					<div><div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div><label for="topic_text">{$aLang.topic_create_text}:</label></div>
+					<p><label for="topic_link_url">{$aLang.topic_link_create_url}:</label>
+					<input type="text" id="topic_link_url" name="topic_link_url" value="{$_aRequest.topic_link_url}" class="input-text" /><br />
+       				<span class="form_note">{$aLang.topic_link_create_url_notice}</span>
+					</p>
+					
+					<div><label for="topic_text">{$aLang.topic_link_create_text}:</label></div>
 					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
 					
 					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

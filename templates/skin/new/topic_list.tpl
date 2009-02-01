@@ -5,17 +5,23 @@
 				<!--
 				<div class="favorite {if $oUserCurrent}{if $bInFavourite}active{/if}{else}guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
 				-->
-				<h1 class="title">					
+				<h1 class="title">		
+					{if $oTopic->getPublish()==0}	
+						<img src="{$DIR_STATIC_SKIN}/images/topic_unpublish.gif" border="0" title="{$aLang.topic_unpublish}" width="16" height="16" alt="{$aLang.topic_unpublish}">
+					{/if}			
 					<a href="{if $oTopic->getType()=='link'}{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LINK}/go/{$oTopic->getId()}/{else}{$oTopic->getUrl()}{/if}">{$oTopic->getTitle()|escape:'html'}</a>
 					{if $oTopic->getType()=='link'}
   						<img src="{$DIR_STATIC_SKIN}/images/link_url_big.gif" border="0" title="{$aLang.topic_link}" width="16" height="16" alt="{$aLang.topic_link}">
   					{/if}
 				</h1>
 				<ul class="action">
-					<li><a href="{$oTopic->getBlogUrlFull()}">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&nbsp;</li>
-					<li class="rss"><a href="#" onclick="return false;"></a></li>
-					<li class="plus"><a href="#" onclick="return false;"></a></li>
-					<li class="join"><a href="#" onclick="return false;"></a></li>
+					<li><a href="{$oTopic->getBlogUrlFull()}">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&nbsp;</li>										
+					{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getUserIsBlogModerator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+  						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="{$aLang.topic_edit}">{$aLang.topic_edit}</a></li>
+  					{/if}
+					{if $oUserCurrent and ($oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+  						<li class="delete"><a href="{$DIR_WEB_ROOT}/topic/delete/{$oTopic->getId()}/" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');">{$aLang.topic_delete}</a></li>
+  					{/if}
 				</ul>				
 				<div class="content">
 				
