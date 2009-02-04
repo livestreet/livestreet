@@ -680,9 +680,9 @@ select { width: 99%; }
 .lite-note { overflow: hidden; zoom: 1; color: #888; }
 .lite-note a { float: right; font-size: 11px; }
 
-.overlay { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(data:image/png;base64,iVBORw0KGg...); background:rgba(0, 0, 0, 0.5); z-index: 50; }
+.overlay { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(data:image/png;base64,iVBORw0KGg...); background:rgba(0, 0, 0, 0.5); z-index: 50; display: none;}
 
-.login-popup { z-index: 100; width: 492px; margin-left: -246px; }
+.login-popup { z-index: 100; width: 492px; margin-left: -246px;  display: none;}
 .login-popup .input-text { width: 412px; }
 .login-popup .content { background: #fafafa url(../images/login-popup-bg.gif); padding: 15px 40px; }
 .login-popup .login-popup-top { height: 14px; background: url(../images/login-popup-top.gif) no-repeat; width: 492px; position: relative; }

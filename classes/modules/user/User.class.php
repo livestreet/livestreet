@@ -153,7 +153,7 @@ class User extends Module {
 	 * @param UserEntity_User $oUser
 	 * @return unknown
 	 */
-	public function Authorization(UserEntity_User $oUser) {
+	public function Authorization(UserEntity_User $oUser,$bRemember=true) {
 		if (!$oUser->getId() or !$oUser->getActivate()) {
 			return false;
 		}
@@ -171,7 +171,9 @@ class User extends Module {
 		/**
 		 * Ставим куку
 		 */
-		setcookie('key',$sKey,time()+60*60*24*3,SYS_COOKIE_PATH,SYS_COOKIE_HOST);
+		if ($bRemember) {
+			setcookie('key',$sKey,time()+60*60*24*3,SYS_COOKIE_PATH,SYS_COOKIE_HOST);
+		}
 	}
 	/**
 	 * Автоматическое заллогинивание по ключу из куков

@@ -45,6 +45,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/friend.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/blog.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/other.js"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/login.js"></script>
 
 
 {literal}
@@ -71,6 +72,25 @@ var msgNoticeBox=new Roar({
 
 <div id="container">
 
+	
+	<div class="overlay"></div>
+	{if !$oUserCurrent}
+	<div class="lite-center login-popup" id="login-form">
+		<div class="login-popup-top"><a href="#" class="close-block" onclick="hideLoginForm(); return false;"></a></div>
+		<div class="content">
+			<form action="{$DIR_WEB_ROOT}/login/" method="POST">
+				<h3>Авторизация</h3>
+				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">Зарегистрироваться</a><label for="">Логин или эл. почта</label></div>
+				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
+				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">Напомнить пароль</a><label for="">Пароль</label></div>
+				<p><input type="password" name="password" class="input-text" tabindex="2" /></p>
+				<div class="lite-note"><input type="image" src="{$DIR_STATIC_SKIN}/images/login-button.gif" class="input-button" tabindex="4" /><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label></div>
+				<input type="hidden" name="submit_login">
+			</form>
+		</div>
+		<div class="login-popup-bottom"></div>
+	</div>
+	{/if}
 	
 	<!-- Header -->
 	<div id="header">
@@ -99,6 +119,8 @@ var msgNoticeBox=new Roar({
 				<li>{$aLang.user_rating} <strong>{$oUserCurrent->getRating()}</strong></li>
 			</ul>
 		</div>
+		{else}
+		<a href="#" onclick="showLoginForm(); return false;">Войти</a>
 		{/if}
 		
 		

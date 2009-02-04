@@ -53,10 +53,11 @@ class ActionLogin extends Action {
 				 * Сверяем хеши паролей и проверяем активен ли юзер
 				 */
 				if ($oUser->getPassword()==func_encrypt(getRequest('password')) and $oUser->getActivate()) {
+					$bRemember=getRequest('remember',false) ? true : false;
 					/**
 					 * Авторизуем
 					 */
-					$this->User_Authorization($oUser);	
+					$this->User_Authorization($oUser,$bRemember);	
 					/**
 					 * Перенаправляем на страницу с которой произошла авторизация
 					 */
