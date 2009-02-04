@@ -78,7 +78,7 @@ var msgNoticeBox=new Roar({
 	<div class="lite-center login-popup" id="login-form">
 		<div class="login-popup-top"><a href="#" class="close-block" onclick="hideLoginForm(); return false;"></a></div>
 		<div class="content">
-			<form action="{$DIR_WEB_ROOT}/login/" method="POST">
+			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
 				<h3>Авторизация</h3>
 				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">Зарегистрироваться</a><label for="">Логин или эл. почта</label></div>
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>

@@ -128,7 +128,8 @@ var lsCmtTreeClass = new Class({
 		
 		var idCommentLast=this.idCommentLast;
 		objImg=$(objImg);
-		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');		
+		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
+		(function(){		
 		JsHttpRequest.query(
         	DIR_WEB_ROOT+'/include/ajax/commentResponse.php',
         	{ idCommentLast: idCommentLast, idTopic: idTopic },
@@ -169,6 +170,7 @@ var lsCmtTreeClass = new Class({
 	        },
         	true
        );
+       }).delay(1000);
 	},
 	
 	setIdCommentLast: function(id) {
