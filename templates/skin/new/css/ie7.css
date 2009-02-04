@@ -7,3 +7,5 @@
 .people table tbody td.rating.down span { background: url(../images/blog-rating-down.gif) no-repeat right 8px; }
 .people.top-blogs td.name a.author { line-height: 25px; }
 .people.top-blogs .join a { position: relative; top: 1px; }
+.overlay { zoom: 1; background: #000; filter: alpha(opacity=50); }
+.login-popup .content { padding-right: 38px; }

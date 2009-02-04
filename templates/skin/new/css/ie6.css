@@ -19,5 +19,8 @@
 
 .topic .favorite.guest a { background: none; cursor: default; }
 
+.overlay { zoom: 1; background: #000; filter: alpha(opacity=50); }
+.login-popup .content { padding-right: 38px; }
+
 
 
