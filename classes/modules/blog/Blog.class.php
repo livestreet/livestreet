@@ -118,7 +118,7 @@ class Blog extends Module {
 		if ($sId=$this->oMapperBlog->AddBlog($oBlog)) {
 			$oBlog->setId($sId);
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_new'));						
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_new',"blog_new_user_{$oBlog->getOwnerId()}"));						
 			return $oBlog;
 		}
 		return false;
@@ -158,7 +158,8 @@ class Blog extends Module {
 	 * @return unknown
 	 */
 	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
-		if ($this->oMapperBlog->AddRelationBlogUser($oBlogUser)) {			
+		if ($this->oMapperBlog->AddRelationBlogUser($oBlogUser)) {		
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}"));	
 			return true;
 		}
 		return false;
@@ -170,7 +171,8 @@ class Blog extends Module {
 	 * @return unknown
 	 */
 	public function DeleteRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
-		if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {			
+		if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {		
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}"));		
 			return true;
 		}
 		return false;
@@ -293,6 +295,34 @@ class Blog extends Module {
 		if (false === ($data = $this->Cache_Get("blog_rating_{$iCurrPage}_{$iPerPage}_$s1"))) {				
 			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}_$s1", array("blog_update","blog_new"), 60*15);
+		}
+		return $data;		
+	}
+	/**
+	 * Список подключенных блогов по рейтингу
+	 *
+	 * @param unknown_type $sUserId
+	 * @param unknown_type $iLimit
+	 * @return unknown
+	 */
+	public function GetBlogsRatingJoin($sUserId,$iLimit) { 		
+		if (false === ($data = $this->Cache_Get("blog_rating_join_{$sUserId}_{$iLimit}"))) {				
+			$data = $this->oMapperBlog->GetBlogsRatingJoin($sUserId,$iLimit);			
+			$this->Cache_Set($data, "blog_rating_join_{$sUserId}_{$iLimit}", array('blog_update',"blog_relation_change_{$sUserId}"), 60*60*24);
+		}
+		return $data;		
+	}
+	/**
+	 * Список сових блогов по рейтингу
+	 *
+	 * @param unknown_type $sUserId
+	 * @param unknown_type $iLimit
+	 * @return unknown
+	 */
+	public function GetBlogsRatingSelf($sUserId,$iLimit) { 		
+		if (false === ($data = $this->Cache_Get("blog_rating_self_{$sUserId}_{$iLimit}"))) {				
+			$data = $this->oMapperBlog->GetBlogsRatingSelf($sUserId,$iLimit);			
+			$this->Cache_Set($data, "blog_rating_self_{$sUserId}_{$iLimit}", array('blog_update',"blog_new_user_{$sUserId}"), 60*60*24);
 		}
 		return $data;		
 	}

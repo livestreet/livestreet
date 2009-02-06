@@ -318,6 +318,52 @@ class Mapper_Blog extends Mapper {
 		return $aReturn;
 	}
 	
+	public function GetBlogsRatingJoin($sUserId,$iLimit) {		
+		$sql = "SELECT 
+					b.*													
+				FROM 
+					".DB_TABLE_BLOG_USER." as bu,
+					".DB_TABLE_BLOG." as b	
+				WHERE 	
+					bu.user_id = ?d
+					AND
+					bu.blog_id = b.blog_id
+					AND				
+					b.blog_type<>'personal'													
+				ORDER by b.blog_rating desc
+				LIMIT 0, ?d 
+				;	
+					";		
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new BlogEntity_Blog($aRow);
+			}
+		}
+		return $aReturn;
+	}
+	
+	public function GetBlogsRatingSelf($sUserId,$iLimit) {		
+		$sql = "SELECT 
+					b.*													
+				FROM 					
+					".DB_TABLE_BLOG." as b	
+				WHERE 						
+					b.user_owner_id = ?d
+					AND				
+					b.blog_type<>'personal'													
+				ORDER by b.blog_rating desc
+				LIMIT 0, ?d 
+				;	
+					";		
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new BlogEntity_Blog($aRow);
+			}
+		}
+		return $aReturn;
+	}
 	
 }
 ?>

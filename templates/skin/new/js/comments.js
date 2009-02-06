@@ -224,7 +224,8 @@ var lsCmtTreeClass = new Class({
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {        			
         			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId);	
-        			thisObj.hideCommentForm(thisObj.iCurrentShowFormComment);        								
+        			thisObj.hideCommentForm(thisObj.iCurrentShowFormComment);     
+        			$('form_comment_text').setProperty('value','');   								
         		}                           
 	        },
         	true

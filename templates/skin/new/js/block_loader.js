@@ -19,6 +19,12 @@ var lsBlockLoaderClass = new Class({
                 },
                 blogs_top: {
                         url: DIR_WEB_ROOT+'/include/ajax/blogs_top.php'                        
+                },
+                blogs_join: {
+                        url: DIR_WEB_ROOT+'/include/ajax/blogs_join.php'                        
+                },
+                blogs_self: {
+                        url: DIR_WEB_ROOT+'/include/ajax/blogs_self.php'                        
                 }
         },
 
