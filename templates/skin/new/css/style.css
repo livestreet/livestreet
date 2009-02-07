@@ -690,3 +690,4 @@ select { width: 99%; }
 .login-popup .login-popup-bottom { height: 14px; background: url(../images/login-popup-bottom.gif) no-repeat; width: 492px; }
 .login-popup .close-block { position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; background: url(../images/close-block.gif) no-repeat; }
 
+.tags-input { width: 400px; font-size: 18px; padding: 4px 0; border: 1px solid #d7d7d7; }
