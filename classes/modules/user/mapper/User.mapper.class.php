@@ -112,8 +112,14 @@ class Mapper_User extends Mapper {
 	}
 	
 	
-	public function GetUserByActivateKey($sKey) {
-		$sql = "SELECT * FROM ".DB_TABLE_USER." WHERE user_activate_key = ? ";
+	public function GetUserByActivateKey($sKey) {		
+		$sql = "SELECT 
+				u.*,
+				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+			FROM 
+				".DB_TABLE_USER." as u
+				LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+			WHERE u.user_activate_key = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
 			return new UserEntity_User($aRow);
 		}
@@ -149,8 +155,14 @@ class Mapper_User extends Mapper {
 		return null;
 	}
 	
-	public function GetUserByMail($sMail) {
-		$sql = "SELECT * FROM ".DB_TABLE_USER." WHERE user_mail = ? ";
+	public function GetUserByMail($sMail) {		
+		$sql = "SELECT 
+				u.*,
+				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+			FROM 
+				".DB_TABLE_USER." as u
+				LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+			WHERE u.user_mail = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,strtolower($sMail))) {
 			return new UserEntity_User($aRow);
 		}

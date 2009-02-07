@@ -48,8 +48,7 @@ class ActionRegistration extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {		
-		$this->AddEvent('index','EventIndex');	
-		$this->AddEvent('ok','EventOk');	
+		$this->AddEvent('index','EventIndex');			
 		$this->AddEvent('confirm','EventConfirm');
 		$this->AddEvent('activate','EventActivate');
 		$this->AddEvent('invite','EventInvite');
@@ -176,8 +175,12 @@ class ActionRegistration extends Action {
 						func_header_location(DIR_WEB_ROOT.'/registration/confirm/');						
 					} else {
 						$this->Notify_SendRegistration($oUser,getRequest('password'));
-					}
-					func_header_location(DIR_WEB_ROOT.'/registration/ok/');			
+						$this->Viewer_Assign('bRefreshToHome',true);
+						$oUser=$this->User_GetUserById($oUser->getId());
+						$this->User_Authorization($oUser,false);
+						$this->SetTemplateAction('ok');
+						$this->DropInviteRegister();
+					}								
 				} else {
 					$this->Message_AddErrorSingle('Возникли технические неполадки при регистрации, пожалуйста повторите регистрацию позже.','Внутреняя ошибка');
 					return Router::Action('error'); 
@@ -222,6 +225,8 @@ class ActionRegistration extends Action {
 		 */
 		if ($this->User_Update($oUser)) {
 			$this->DropInviteRegister();
+			$this->Viewer_Assign('bRefreshToHome',true);						
+			$this->User_Authorization($oUser,false);						
 			return;
 		} else {
 			$this->Message_AddErrorSingle('Возникли технические неполадки при активации, пожалуйста повторите активацию позже.','Внутреняя ошибка');
@@ -279,14 +284,7 @@ class ActionRegistration extends Action {
 			$this->Session_Drop('invite_code');
 		}
 	}
-	
-	/**
-	 * Просто выводит шаблон
-	 *
-	 */
-	protected function EventOk() {
-		$this->DropInviteRegister();
-	}
+		
 	/**
 	 * Просто выводит шаблон
 	 *
