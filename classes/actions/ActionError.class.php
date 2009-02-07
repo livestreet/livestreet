@@ -26,6 +26,7 @@ class ActionError extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('index');
+		Router::SetIsShowStats(false);
 	}
 	/**
 	 * Регистрируем евент
