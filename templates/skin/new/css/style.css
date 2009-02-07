@@ -79,6 +79,7 @@ select { width: 99%; }
 #header .profile ul li a { color: #afafaf; text-decoration: none; }
 #header .profile ul li a.author { color: #fff; text-decoration: underline; }
 #header .profile ul li a.message { background: transparent url(../images/icons.gif) no-repeat scroll right -17px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
+#header .profile ul li a.message-empty { background: transparent url(../images/icons.gif) no-repeat scroll right 3px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
 #header .profile ul li a:hover { color: #ddd; }
 
 

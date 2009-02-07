@@ -112,7 +112,7 @@ var msgNoticeBox=new Roar({
 					{if $iUserCurrentCountTalkNew}
 						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
 					{else}
-						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message">нет</a>
+						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message-empty"></a>
 					{/if}
 					{$aLang.user_settings} <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/">{$aLang.user_settings_profile}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/">{$aLang.user_settings_tuning}</a> 
 				</li>
