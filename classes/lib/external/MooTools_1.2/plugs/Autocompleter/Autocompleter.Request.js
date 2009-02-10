@@ -89,7 +89,7 @@ Autocompleter.Request.HTML = new Class({
 			this.hideChoices();
 		} else {
 			this.choices.getChildren(this.options.choicesMatch).each(this.options.injectChoice || function(choice) {
-				var value = choice.innerHTML;
+				var value = choice.get('text');
 				choice.inputValue = value;
 				this.addChoiceEvents(choice.set('html', this.markQueryValue(value)));
 			}, this);
