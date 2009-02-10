@@ -700,7 +700,7 @@ select { width: 99%; }
 
 /* Button
 -------------------------------------------------------------------*/
-button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; background: none; padding: 0; overflow: visible; text-align: center; white-space: nowrap; }
+button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; background: none; padding: 0; overflow: visible; text-align: center; white-space: nowrap; cursor: pointer; }
 button span, button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
 button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
 button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }

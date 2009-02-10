@@ -84,7 +84,7 @@ var msgNoticeBox=new Roar({
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
 				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">Напомнить пароль</a><label for="">Пароль</label></div>
 				<p><input type="password" name="password" class="input-text" tabindex="2" /></p>
-				<div class="lite-note"><button type="submit"><span><em>Войти</em></span></button><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label></div>
+				<div class="lite-note"><button type="submit" onfocus="blur()"><span><em>Войти</em></span></button><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label></div>
 				<input type="hidden" name="submit_login">
 			</form>
 		</div>
