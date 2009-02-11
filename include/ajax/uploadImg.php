@@ -30,8 +30,8 @@ if ($oEngine->User_IsAuthorization()) {
 	$sFile=null;
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
-		$sFileTmp=$_FILES['img_file']['tmp_name'];
-		$sDirSave=DIR_UPLOADS_IMAGES.'/'.$oUserCurrent->getId();
+		$sFileTmp=$_FILES['img_file']['tmp_name'];		
+		$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
 		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 			$sFile=$sDirSave.'/'.$sFileImg;
 		}
@@ -56,8 +56,8 @@ if ($oEngine->User_IsAuthorization()) {
 					$sFileTmp=SYS_CACHE_DIR.func_generator();
 					$fp=fopen($sFileTmp,'w');
 					fwrite($fp,$sContent);
-					fclose($fp);
-					$sDirSave=DIR_UPLOADS_IMAGES.'/'.$oUserCurrent->getId();
+					fclose($fp);					
+					$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
 					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 						$sFile=$sDirSave.'/'.$sFileImg;
 					}

@@ -24,7 +24,7 @@ tinyMCE.init({
 	theme : "advanced",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
-	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,code",
+	theme_advanced_buttons1 : "lshselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,code",
 	theme_advanced_buttons2 : "",
 	theme_advanced_buttons3 : "",
 	theme_advanced_statusbar_location : "bottom",
@@ -36,7 +36,7 @@ tinyMCE.init({
 	force_br_newlines : true,
     forced_root_block : '', // Needed for 3.x
     force_p_newlines : false,    
-    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media",
+    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media,lshselect",
     convert_urls : false,
     extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]"     
 });
@@ -76,8 +76,9 @@ tinyMCE.init({
        				<span class="form_note">{$aLang.topic_create_title_notice}</span>
 					</p>
 
-					<div><div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div><label for="topic_text">{$aLang.topic_create_text}:</label></div>
+					<p>{if !$BLOG_USE_TINYMCE}<div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
 					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
+					</p>
 					
 					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
 					<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text" /><br />
