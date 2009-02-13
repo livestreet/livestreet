@@ -685,7 +685,7 @@ select { width: 99%; }
 .lite-note { overflow: hidden; zoom: 1; color: #888; }
 .lite-note a { float: right; font-size: 11px; }
 
-.overlay { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(data:image/png;base64,iVBORw0KGg...); background:rgba(0, 0, 0, 0.5); z-index: 50; display: none; }
+.overlay { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9JREFUeNpiYmBgaAAIMAAAjwCD5Hc2/AAAAABJRU5ErkJggg==); background:rgba(0, 0, 0, 0.5); z-index: 50; display: none; }
 
 .login-popup { z-index: 100; width: 492px; margin-left: -246px; display: none; }
 .login-popup .input-text { width: 402px; padding: 4px 5px; }
@@ -704,6 +704,10 @@ button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; backgro
 button span, button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
 button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
 button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }
+
+
+#system_messages_error { background: #f0c8c8; border: 1px solid #ff8181; padding: 15px; margin-bottom: 15px; color: #b22626; }
+#system_messages_notice { background: #dafad8; border: 1px solid #83c460; padding: 15px; margin-bottom: 15px; color: #4bb23b; }
 
 
 
