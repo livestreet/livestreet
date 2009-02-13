@@ -1,6 +1,4 @@
 {if $aMsgError}
-<br>
-<br>
 <div id="system_messages_error">
 <ul>
 {foreach from=$aMsgError item=aMsg}
