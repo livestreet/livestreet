@@ -373,7 +373,8 @@ class Mapper_Topic extends Mapper {
 					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
 					bu.is_moderator as user_is_blog_moderator,
 					bu.is_administrator as user_is_blog_administrator,
-					IF(tr.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tr.comment_count_last) as count_comment_new 
+					IF(tr.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tr.comment_count_last) as count_comment_new,
+					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
 				FROM (
 					SELECT 
 						t.*,	
@@ -404,6 +405,12 @@ class Mapper_Topic extends Mapper {
 					) AS tv ON t_fast.topic_id=tv.topic_id 
 				LEFT JOIN (
 						SELECT
+							topic_id												
+						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+						WHERE user_id = ?d
+					) AS ft ON t_fast.topic_id=ft.topic_id
+				LEFT JOIN (
+						SELECT
 							topic_id,
 							comment_count_last												
 						FROM ".DB_TABLE_TOPIC_READ." 
@@ -429,7 +436,7 @@ class Mapper_Topic extends Mapper {
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {			
+		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
