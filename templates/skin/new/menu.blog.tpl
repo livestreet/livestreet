@@ -5,7 +5,7 @@
 				{if $sMenuItemSelect=='index'}
 					<ul class="sub-menu" >
 						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/">{$aLang.blog_menu_all_good}</a></div></li>						
-						<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_NEW}/">{$aLang.blog_menu_all_new}</a>{if $iCountTopicsNew>0} +{$iCountTopicsNew}{/if}</div></li>
+						{if $iCountTopicsNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_NEW}/">{$aLang.blog_menu_all_new}</a> +{$iCountTopicsNew}</div></li>{/if}
 					</ul>
 				{/if}
 			</li>
@@ -15,7 +15,7 @@
 				{if $sMenuItemSelect=='blog'}
 					<ul class="sub-menu" >											
 						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}/">{$aLang.blog_menu_collective_good}</a></div></li>
-						<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}/new/">{$aLang.blog_menu_collective_new}</a>{if $iCountTopicsBlogNew>0} +{$iCountTopicsBlogNew}{/if}</div></li>
+						{if $iCountTopicsBlogNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}/new/">{$aLang.blog_menu_collective_new}</a> +{$iCountTopicsBlogNew}</div></li>{/if}
 						<li {if $sMenuSubItemSelect=='bad'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}/bad/">{$aLang.blog_menu_collective_bad}</a></div></li>
 					</ul>
 				{/if}
@@ -26,7 +26,7 @@
 				{if $sMenuItemSelect=='log'}
 					<ul class="sub-menu" style="left: -50px;">											
 						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PERSONAL_BLOG}/">{$aLang.blog_menu_personal_good}</a></div></li>
-						<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PERSONAL_BLOG}/new/">{$aLang.blog_menu_personal_new}</a>{if $iCountTopicsPersonalNew>0} +{$iCountTopicsPersonalNew}{/if}</div></li>
+						{if $iCountTopicsPersonalNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PERSONAL_BLOG}/new/">{$aLang.blog_menu_personal_new}</a> +{$iCountTopicsPersonalNew}</div></li>{/if}
 						<li {if $sMenuSubItemSelect=='bad'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PERSONAL_BLOG}/bad/">{$aLang.blog_menu_personal_bad}</a></div></li>
 					</ul>
 				{/if}
