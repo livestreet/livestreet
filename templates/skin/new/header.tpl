@@ -32,7 +32,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Clientcide.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Forms.js"></script>
 <!--[if IE]>
 	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
 <![endif]-->	
@@ -46,6 +46,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/blog.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/other.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/login.js"></script>
+<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/panel.js"></script>
 
 
 {literal}
@@ -97,10 +98,10 @@ var msgNoticeBox=new Roar({
 		<h1><a href="{$DIR_WEB_ROOT}"><strong>Live</strong>Street</a></h1>
 		
 		<ul class="nav-main">
-			<li class="active"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/">{$aLang.blogs}</a></li>
-			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/">{$aLang.people}</a></li>
-			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/about/">{$aLang.page_about}</a></li>
-			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/download/">{$aLang.page_download}</a></li>
+			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/">{$aLang.blogs}</a></li>
+			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/">{$aLang.people}</a></li>
+			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/about/">{$aLang.page_about}</a></li>
+			<li {if $sAction=='page' and $sEvent=='download'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/download/">{$aLang.page_download}</a></li>
 		</ul>
 		
 		{if $oUserCurrent}

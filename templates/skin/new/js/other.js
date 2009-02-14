@@ -58,3 +58,36 @@ function checkAllTalk(checkbox) {
 		}		
 	});	
 }
+
+
+
+function showImgUploadForm() {
+	var divOverlay=$$('.overlay')[0];
+	var divForm=$('window_load_img');
+	divOverlay.setStyle('display','block');
+	divForm.setStyle('display','block');	
+}
+
+function hideImgUploadForm() {
+	var divOverlay=$$('.overlay')[0];
+	var divForm=$('window_load_img');
+	divOverlay.setStyle('display','none');
+	divForm.setStyle('display','none');
+}
+
+function ajaxUploadImg(value,sToLoad) {
+	sToLoad=$(sToLoad);
+	var req = new JsHttpRequest();
+	req.onreadystatechange = function() {
+		if (req.readyState == 4) {
+			if (req.responseJS.bStateError) {
+				msgErrorBox.alert('Ошибка','Возникли проблемы при загрузке изображения, попробуйте еще разок. И на всякий случай проверьте правильность URL картинки');
+			} else {				
+				sToLoad.insertAtCursor(req.responseJS.sText);
+				hideImgUploadForm();
+			}
+		}
+	}
+	req.open(null, DIR_WEB_ROOT+'/include/ajax/uploadImg.php', true);
+	req.send( { value: value } );
+}

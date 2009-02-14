@@ -21,6 +21,12 @@
  */
 class ActionIndex extends Action {
 	/**
+	 * Главное меню
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuHeadItemSelect='blog';
+	/**
 	 * Меню
 	 *
 	 * @var unknown_type
@@ -119,6 +125,7 @@ class ActionIndex extends Action {
 	 *
 	 */
 	public function EventShutdown() {
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);

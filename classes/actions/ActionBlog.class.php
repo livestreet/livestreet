@@ -21,6 +21,12 @@
  */
 class ActionBlog extends Action {
 	/**
+	 * Главное меню
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuHeadItemSelect='blog';
+	/**
 	 * Какое меню активно
 	 *
 	 * @var unknown_type
@@ -1216,6 +1222,7 @@ class ActionBlog extends Action {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('sMenuSubBlogUrl',$this->sMenuSubBlogUrl);

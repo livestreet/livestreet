@@ -21,6 +21,12 @@
  */
 class ActionTag extends Action {	
 	/**
+	 * Главное меню
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuHeadItemSelect='blog';
+	/**
 	 * Инициализация
 	 *
 	 */
@@ -80,5 +86,16 @@ class ActionTag extends Action {
 		 */
 		$this->SetTemplateAction('index');		
 	}	
+	
+	/**
+	 * Выполняется при завершении работы экшена
+	 *
+	 */
+	public function EventShutdown() {		
+		/**
+		 * Загружаем в шаблон необходимые переменные
+		 */
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);		
+	}
 }
 ?>

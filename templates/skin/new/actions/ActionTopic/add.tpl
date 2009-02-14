@@ -45,6 +45,8 @@ tinyMCE.init({
 {/if}
 
 
+			{include file='window_load_img.tpl' sToLoad='topic_text'}
+
 			<div class="topic" style="display: none;">
 				<div class="content" id="text_preview"></div>
 			</div>
@@ -68,7 +70,7 @@ tinyMCE.init({
      				</select>
      				</p>
      				<script>
-     					ajaxBlogInfo(document.getElementById('blog_id').value);
+     					ajaxBlogInfo($('blog_id').value);
      				</script>
 					
 					<p><label for="topic_title">{$aLang.topic_create_title}:</label>
@@ -77,6 +79,23 @@ tinyMCE.init({
 					</p>
 
 					<p>{if !$BLOG_USE_TINYMCE}<div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
+					
+					{if !$BLOG_USE_TINYMCE}
+            			<div class="panel_form" style="background: #eaecea; ">       	 
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="жирный"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
+	 						&nbsp;
+	 						<a href="#" onclick="lsPanel.putTagUrl('topic_text','Введите ссылку'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/link.gif" width="20" height="20"  title="вставить ссылку"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/code.gif" width="30" height="20" title="код"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','video'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/video.gif" width="20" height="20" title="видео"></a>
+	 				
+	 						<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/img.gif" width="20" height="20" title="изображение"></a> 			
+	 						<a href="#" onclick="lsPanel.putText('topic_text','<cut>'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/cut.gif" width="20" height="20" title="кат"></a>	
+	 					</div>
+	 				{/if}
+					
 					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
 					</p>
 					
