@@ -399,8 +399,10 @@ class ActionTopic extends Action {
 		 */
 		if (isset($_REQUEST['submit_topic_publish'])) {
 			$oTopic->setPublish(1);
+			$oTopic->setPublishDraft(1);
 		} else {
 			$oTopic->setPublish(0);
+			$oTopic->setPublishDraft(0);
 		}		
 		/**
 		 * Принудительный вывод на главную
@@ -527,6 +529,10 @@ class ActionTopic extends Action {
 		 */
 		if (isset($_REQUEST['submit_topic_publish'])) {
 			$oTopic->setPublish(1);
+			if ($oTopic->getPublishDraft()==0) {
+				$oTopic->setPublishDraft(1);
+				$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+			}			
 		} else {
 			$oTopic->setPublish(0);
 		}		

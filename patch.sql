@@ -2,9 +2,8 @@
 ------------------Changeset [96]-----------------
 -------------------------------------------------
 
---
--- Структура таблицы `prefix_reminder`
---
+
+
 
 CREATE TABLE IF NOT EXISTS `prefix_reminder` (
   `reminder_code` varchar(32) NOT NULL,
@@ -17,13 +16,9 @@ CREATE TABLE IF NOT EXISTS `prefix_reminder` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Ограничения внешнего ключа сохраненных таблиц
---
 
---
--- Ограничения внешнего ключа таблицы `prefix_reminder`
---
+
+
 ALTER TABLE `prefix_reminder`
   ADD CONSTRAINT `prefix_reminder_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -37,3 +32,5 @@ ALTER TABLE `prefix_user` ADD `user_profile_foto` VARCHAR( 250 ) NULL AFTER `use
 ALTER TABLE `prefix_topic_read` ADD `comment_id_last` INT( 11 ) NOT NULL DEFAULT '0' AFTER `comment_count_last` ;
 
 ALTER TABLE `prefix_talk` ADD `talk_date_last` DATETIME NOT NULL AFTER `talk_date` ;
+
+ALTER TABLE `prefix_topic` ADD `topic_publish_draft` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `topic_publish` ;
