@@ -391,7 +391,7 @@ select { width: 99%; }
 
 /* Update Comments
 -------------------------------------------------------------------*/
-.update { background: #f7f7f7 none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
+.update { background: #fbfcfc none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
 .update .tl { background:transparent url(../images/bg_update.gif) no-repeat scroll 0 0; font-size: 1px; height: 9px; }
 .update .bl { background:transparent url(../images/bg_update.gif) no-repeat scroll 0 bottom; font-size: 1px; height: 9px; }
 .update .wrapper { border-left: 1px solid #dddede; }
