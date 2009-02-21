@@ -67,19 +67,18 @@ tinyMCE.init({
      					{foreach from=$aBlogsUser item=oBlogUser}
      						<option value="{$oBlogUser->getBlogId()}" {if $_aRequest.blog_id==$oBlogUser->getBlogId()}selected{/if}>{$oBlogUser->getBlogTitle()}</option>
      					{/foreach}
-     				</select>
-     				</p>
+     				</select></p>
+					
      				<script>
      					ajaxBlogInfo($('blog_id').value);
      				</script>
 					
-					<p><label for="topic_title">{$aLang.topic_create_title}:</label>
-					<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text" /><br />
+					<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
+					<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="w100p" /><br />
        				<span class="form_note">{$aLang.topic_create_title_notice}</span>
 					</p>
 
 					<p>{if !$BLOG_USE_TINYMCE}<div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
-					
 					{if !$BLOG_USE_TINYMCE}
             			<div class="panel_form" style="background: #eaecea; ">       	 
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="жирный"></a>
@@ -95,26 +94,21 @@ tinyMCE.init({
 	 						<a href="#" onclick="lsPanel.putText('topic_text','<cut>'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/cut.gif" width="20" height="20" title="кат"></a>	
 	 					</div>
 	 				{/if}
+					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
 					
-					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
-					</p>
-					
-					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
-					<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text" /><br />
-       				<span class="form_note">{$aLang.topic_create_tags_notice}</span>
-					</p>
+					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label><br />
+					<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="w100p" /><br />
+       				<span class="form_note">{$aLang.topic_create_tags_notice}</span></p>
 												
-					 <p><label for=""><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
-					 &mdash; {$aLang.topic_create_forbid_comment}</label>
-					 <span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span>
-					 </p>
-					
-					 {if $oUserCurrent->isAdministrator()}
-					 	<p><label for=""><input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
-					 	 &mdash; {$aLang.topic_create_publish_index}</label>
-					 	<span class="form_note">{$aLang.topic_create_publish_index_notice}</span>
-					 	</p>
-					 {/if}
+					<p><label for=""><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
+					&mdash; {$aLang.topic_create_forbid_comment}</label><br />
+					<span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span></p>
+
+					{if $oUserCurrent->isAdministrator()}
+						<p><label for=""><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
+						&mdash; {$aLang.topic_create_publish_index}</label><br />
+						<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
+					{/if}
 					
 					<p class="buttons">
 					<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />

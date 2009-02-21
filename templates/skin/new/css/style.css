@@ -45,7 +45,7 @@ h1 span { color: #ccc; }
 
 .update-hide { padding: 20px 10px 0 20px !important; }
 .white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px ; padding-left: 20px; }
-.white-back #content { float: none; clear: none; }
+.white-back #content { clear: none; padding-top: 0; }
 .page-talk { padding-left: 3px !important; margin-right: 50px !important; }
 
 
@@ -66,7 +66,7 @@ select { width: 99%; }
 .w300 { width: 300px; }
 .w100p { width: 99%; }
 .radio { position: relative; top: 2px; }
-.checkbox { position: relative; top: 2px; }
+.checkbox { position: relative; top: 2px; margin-left: 0; }
 .form-tags { padding: 10px; background: #fafafa; color: #999; }
 .form-tags input { width: 99%; }
 .form_note { font-size: 11px; color: #aaa; }
@@ -718,11 +718,14 @@ select { width: 99%; }
 
 /* Button
 -------------------------------------------------------------------*/
-button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; background: none; padding: 0; overflow: visible; text-align: center; white-space: nowrap; cursor: pointer; }
-button span, button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
-button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
-button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }
-
+button, a.button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; background: none; padding: 0; overflow: visible; text-align: center; white-space: nowrap; cursor: pointer; }
+button span, button em, a.button span, a.button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
+button span, a.button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
+button em, a.button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }
+a.button.small { font-size: 12px; }
+a.button.small span, a.button.small em { height: 22px; line-height: 22px; }
+a.button.small span { background: url(../images/button-small.gif) no-repeat 0 0; margin-right: 20px; }
+a.button.small em { background: url(../images/button-small.gif) no-repeat right 0; }
 
 #system_messages_error { background: #f0c8c8; border: 1px solid #ff8181; padding: 15px; margin-bottom: 15px; color: #b22626; }
 #system_messages_notice { background: #dafad8; border: 1px solid #83c460; padding: 15px; margin-bottom: 15px; color: #4bb23b; }

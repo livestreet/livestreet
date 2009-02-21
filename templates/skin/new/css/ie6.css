@@ -4,7 +4,15 @@
 #nav .search .text { margin-top: -1px; }
 .comment .info img.avatar { margin: 2px 7px 0 0; }
 .comment .content .tr { position: relative; right: -3px; }
-.topic, .topic .action, .topic .voting, #sidebar .tags ul, .people.top-blogs td.name, .stream .stream-nav, #footer, .comment .info, .profile-blog .about .content ul.admin-list, .profile-blog .about .content, #wrapper.white-back, .block.stat .gender, .profile-blog .about .content ul.reader-list, .profile-user .name,  #pagination ul, .block-nav, .comment .content .text, .profile-blog, .poll li dl { height: 1%; }
+
+
+.topic, .topic .action, .topic .voting, #sidebar .tags ul, .people.top-blogs td.name,
+.stream .stream-nav, #footer, .comment .info, .profile-blog .about .content ul.admin-list,
+.profile-blog .about .content, #wrapper.white-back, .block.stat .gender, 
+.profile-blog .about .content ul.reader-list, .profile-user .name,  #pagination ul, 
+.block-nav, .comment .content .text, .profile-blog, .poll li dl { zoom: 1; }
+
+
 .update { position:absolute; top:expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
 #nav .nav-blog li ul li a { padding: 4px 11px 4px 0; }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 8px; }

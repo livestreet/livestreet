@@ -36,25 +36,24 @@ document.addEvent('domready', function() {
      					{foreach from=$aBlogsUser item=oBlogUser}
      						<option value="{$oBlogUser->getBlogId()}" {if $_aRequest.blog_id==$oBlogUser->getBlogId()}selected{/if}>{$oBlogUser->getBlogTitle()}</option>
      					{/foreach}
-     				</select>
-     				</p>
+     				</select></p>
+					
      				<script>
      					ajaxBlogInfo(document.getElementById('blog_id').value);
      				</script>
 					
-					<p><label for="topic_title">{$aLang.topic_question_create_title}:</label>
-					<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text" {if $bEditDisabled}disabled{/if} /><br />
-       				<span class="form_note">{$aLang.topic_question_create_title_notice}</span>
-					</p>
+					<p><label for="topic_title">{$aLang.topic_question_create_title}:</label><br />
+					<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="w100p" {if $bEditDisabled}disabled{/if} /><br />
+       				<span class="form_note">{$aLang.topic_question_create_title_notice}</span></p>
 					
 					<p>
       				Варианты ответов:
       				<table>
       				{if count($_aRequest.answer)>=2}
         				{foreach from=$_aRequest.answer item=sAnswer}
- 							<tr valign=top>
+ 							<tr valign="top">
  								<td>
- 									<nobr> <input type="radio" disabled></nobr>
+ 									<nobr> <input type="radio" disabled /></nobr>
  								</td>
   								<td width="100%">      
     								<input type="text" value="{$sAnswer}" name="answer[]" class="input-text" {if $bEditDisabled}disabled{/if}>     
@@ -66,9 +65,9 @@ document.addEvent('domready', function() {
  							</tr> 
  						{/foreach}
  					{else}
- 			 			<tr valign=top>
+ 			 			<tr valign="top">
  							<td>
- 								<nobr> <input type="radio" disabled></nobr>
+ 								<nobr> <input type="radio" disabled /></nobr>
  							</td>
   							<td width="100%">      
     							<input type="text" value="" name="answer[]" class="input-text" >     
@@ -78,9 +77,9 @@ document.addEvent('domready', function() {
    								<input type="button"  value=" + " onClick="addField(this);">   
   							</td>
  						</tr>
- 						<tr valign=top>
+ 						<tr valign="top">
  							<td>
- 								<nobr> <input type="radio" disabled></nobr>
+ 								<nobr> <input type="radio" disabled /></nobr>
  							</td>
   							<td width="100%">      
     							<input type="text" value="" name="answer[]" class="input-text" >     
@@ -95,29 +94,24 @@ document.addEvent('domready', function() {
 					{if !$bEditDisabled}
 						{literal}<script>checkFieldForLast();</script>{/literal}
 					{/if}
-      				</p><br>
+      				</p><br />
 
-
-					<p><label for="topic_text">{$aLang.topic_question_create_text}:</label>
-					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
-					</p>
+					<p><label for="topic_text">{$aLang.topic_question_create_text}:</label><br />
+					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
 					
-					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
-					<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text" /><br />
-       				<span class="form_note">{$aLang.topic_create_tags_notice}</span>
-					</p>
+					<p><label for="topic_tags">{$aLang.topic_create_tags}:</label><br />
+					<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="w100p" /><br />
+       				<span class="form_note">{$aLang.topic_create_tags_notice}</span></p>
 												
-					 <p><label for=""><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
-					 &mdash; {$aLang.topic_create_forbid_comment}</label>
-					 <span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span>
-					 </p>
-					
-					 {if $oUserCurrent->isAdministrator()}
-					 	<p><label for=""><input type="checkbox" id="topic_publish_index" name="topic_publish_index" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
-					 	 &mdash; {$aLang.topic_create_publish_index}</label>
-					 	<span class="form_note">{$aLang.topic_create_publish_index_notice}</span>
-					 	</p>
-					 {/if}
+					<p><label for=""><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
+					&mdash; {$aLang.topic_create_forbid_comment}</label><br />
+					<span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span></p>
+
+					{if $oUserCurrent->isAdministrator()}
+						<p><label for=""><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
+						&mdash; {$aLang.topic_create_publish_index}</label><br />
+						<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
+					{/if}
 					
 					<p class="buttons">
 					<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
