@@ -16,7 +16,7 @@
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" />
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
-	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/search/opensearch/" title="{$SITE_NAME}" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/opensearch/" title="{$SITE_NAME}" />
 </head>
 
 <script>
