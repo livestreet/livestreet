@@ -38,12 +38,12 @@ h1 span { color: #ccc; }
 #container { min-width: 900px; }
 #header { height: 80px; clear: both; overflow: hidden; background: #000 url(../images/header-bg.gif) repeat-x; }
 #nav { clear: both; background: #e8e8e8; }
-#wrapper { overflow: hidden; zoom: 1; margin-bottom: 30px; }
+#wrapper { overflow: hidden; zoom: 1; margin-bottom: 30px; padding: 20px 40px 30px 20px; }
 #content { width: 67%; background: #fff; float: left; clear: left; padding-top: 20px; padding-bottom: 20px; zoom: 1; }
 #sidebar { width: 31.5%; float: left; margin-left: 1%; margin-top: -6px; }
 #footer { clear: both; background: url(../images/footer-bg.gif) repeat-x; padding: 20px 40px; color: #999; overflow: hidden; }
 
-.update-hide { padding: 20px 10px 0 20px !important; }
+.update-hide { padding: 20px 10px 30px 20px !important; }
 .white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px ; padding-left: 20px; }
 .white-back #content { clear: none; padding-top: 0; }
 .page-talk { padding-left: 3px !important; margin-right: 50px !important; }
