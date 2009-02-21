@@ -1,6 +1,14 @@
 /* Reset
 -------------------------------------------------------------------*/
-* { padding: 0; margin: 0; }
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td { padding: 0; margin: 0; }
 ul, ol { list-style: none; }
 img { border: none; }
 
@@ -21,6 +29,8 @@ a:hover { text-decoration: none; }
 
 .voting a { outline: none; }
 
+h1 span { color: #ccc; }
+
 
 
 /* Generic Blocks
@@ -28,27 +38,35 @@ a:hover { text-decoration: none; }
 #container { min-width: 900px; }
 #header { height: 80px; clear: both; overflow: hidden; background: #000 url(../images/header-bg.gif) repeat-x; }
 #nav { clear: both; background: #e8e8e8; }
-#wrapper { padding: 20px 40px 0 20px; overflow: hidden; margin-bottom: 30px; }
-#content { width: 67%; background: #fff; float: left; clear: left; padding-top: 20px; padding-bottom: 20px; }
+#wrapper { overflow: hidden; zoom: 1; margin-bottom: 30px; }
+#content { width: 67%; background: #fff; float: left; clear: left; padding-top: 20px; padding-bottom: 20px; zoom: 1; }
 #sidebar { width: 31.5%; float: left; margin-left: 1%; margin-top: -6px; }
 #footer { clear: both; background: url(../images/footer-bg.gif) repeat-x; padding: 20px 40px; color: #999; overflow: hidden; }
 
-#wrapper.update-hide { padding: 20px 10px 0 20px !important; }
-#wrapper.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px !important; }
-#wrapper.white-back #content { padding-top: 0; }
-#wrapper.page-talk { padding-left: 3px !important; margin-right: 50px !important; }
+.update-hide { padding: 20px 10px 0 20px !important; }
+.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px ; padding-left: 20px; }
+.white-back #content { float: none; clear: none; }
+.page-talk { padding-left: 3px !important; margin-right: 50px !important; }
 
 
 /* Forms
 -------------------------------------------------------------------*/
-.input-text { width: 100%; padding: 2px; }
-label { display: block; margin-bottom: 2px; }
+label { margin-bottom: 2px; }
 form p { margin-bottom: 20px; }
 form .note { float: right; font-size: 11px; }
 form .buttons { overflow: hidden; }
 form .right { float: right; font-size: 18px; font-family: Tahoma; color: #333; padding: 5px; }
-textarea { width: 100%; height: 200px; margin-bottom: 5px; }
+textarea { width: 99%; height: 200px; margin-bottom: 5px; }
+textarea.small { width: 300px; height: 70px; margin-bottom: 5px; }
 select { width: 99%; }
+.w50 { width: 50px; }
+.w70 { width: 70px; }
+.w100 { width: 100px; }
+.w200 { width: 200px; }
+.w300 { width: 300px; }
+.w100p { width: 99%; }
+.radio { position: relative; top: 2px; }
+.checkbox { position: relative; top: 2px; }
 .form-tags { padding: 10px; background: #fafafa; color: #999; }
 .form-tags input { width: 99%; }
 .form_note { font-size: 11px; color: #aaa; }
@@ -708,6 +726,12 @@ button em { font-style: normal; padding-right: 20px; background: url(../images/b
 
 #system_messages_error { background: #f0c8c8; border: 1px solid #ff8181; padding: 15px; margin-bottom: 15px; color: #b22626; }
 #system_messages_notice { background: #dafad8; border: 1px solid #83c460; padding: 15px; margin-bottom: 15px; color: #4bb23b; }
+
+.table-blog-users { width: 100%; margin-top: 20px; margin-bottom: 30px; }
+.table-blog-users thead td { background: #f1f1f1; padding: 10px; text-align: center; color: #555; }
+.table-blog-users tbody td { background: #fafafa; padding: 5px 10px; text-align: center; }
+.table-blog-users tbody td.username { text-align: left; }
+.table-blog-users tbody tr.even td { background: #f5f5f5; }
 
 
 

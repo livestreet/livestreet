@@ -16,8 +16,6 @@
 	position:				absolute;
 	width:					300px;
 	cursor:					pointer;
-	background-color:		#ed6060;
-	border: solid #d00 1px;
 }
 .roar-error-bg
 {
@@ -27,7 +25,10 @@
 	height:					100%;
 	left:					0;
 	top:					0;
-	background-color:		#ed6060;
+	background-color:		#399f2f;
+	-moz-border-radius:		10px;
+	-webkit-border-radius:	5px;
+	-webkit-box-shadow:		0 0 5px rgba(0, 0, 0, 0.5);
 }
 .roar-error-body-ugly .roar-error
 {
@@ -77,8 +78,6 @@
 	position:				absolute;
 	width:					300px;
 	cursor:					pointer;
-	background-color:		#6690c9;
-	border: solid #000 1px;
 }
 .roar-notice-bg
 {
@@ -88,7 +87,10 @@
 	height:					100%;
 	left:					0;
 	top:					0;
-	background-color:		#6690c9;
+	background-color:		#000;
+	-moz-border-radius:		10px;
+	-webkit-border-radius:	5px;
+	-webkit-box-shadow:		0 0 5px rgba(0, 0, 0, 0.5);
 }
 .roar-notice-body-ugly 
 {
