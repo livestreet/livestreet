@@ -296,6 +296,8 @@ return array(
 	'settings_profile_password_confirm' => 'Еще раз новый пароль_$$',
 	'settings_profile_avatar' => 'Аватар_$$',
 	'settings_profile_avatar_delete' => 'удалить_$$',
+	'settings_profile_foto' => 'Фото_$$',
+	'settings_profile_foto_delete' => 'удалить_$$',
 	'settings_profile_submit' => 'сохранить профиль_$$',
 	'settings_invite' => 'Управление приглашениями_$$',
 	'settings_invite_available' => 'Доступно_$$',
