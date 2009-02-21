@@ -1,4 +1,4 @@
-{include file='header.light.tpl'}
+{include file='header.light.tpl' noShowSystemMessage=true}
 
 	<div class="lite-center error">
 		<h1>{$aLang.error}: {$aMsgError[0].title}</h1>

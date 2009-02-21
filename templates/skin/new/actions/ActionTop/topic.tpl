@@ -1,6 +1,6 @@
-{include file='header.tpl' menu="blog" showWhiteBack=true}
+{include file='header.tpl' menu="blog" }
 
-<div class="top-topics">
+
 	<div class="topic top">
 		<h1>TOP топиков</h1>				
 		<ul class="block-nav">
@@ -12,6 +12,6 @@
 	</div>
 
 	{include file='topic_list.tpl'}
-</div>
+
 
 {include file='footer.tpl'}

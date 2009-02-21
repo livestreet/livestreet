@@ -35,8 +35,8 @@ if ($oTopics=$oEngine->Topic_GetTopicsLast(20)) {
 	$oEngine->Viewer_Assign('oTopics',$oTopics);
 	$sTextResult=$oEngine->Viewer_Fetch("block.stream_topic.tpl");
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Возникли проблемы, повторите позже.';
+	$sMsgTitle='Внимание!';
+	$sMsg='Нет топиков.';
 }
 
 

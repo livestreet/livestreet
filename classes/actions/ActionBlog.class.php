@@ -235,6 +235,12 @@ class ActionBlog extends Action {
 			return parent::EventNotFound();
 		}
 		/**
+		 * Проверяем тип блога
+		 */
+		if ($oBlog->getType()=='personal') {
+			return parent::EventNotFound();
+		}
+		/**
 		 * Проверям авторизован ли пользователь
 		 */
 		if (!$this->User_IsAuthorization()) {

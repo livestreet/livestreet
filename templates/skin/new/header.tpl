@@ -115,7 +115,7 @@ var msgNoticeBox=new Roar({
 					{else}
 						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message-empty"></a>
 					{/if}
-					{$aLang.user_settings} <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/">{$aLang.user_settings_profile}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/">{$aLang.user_settings_tuning}</a> 
+					{$aLang.user_settings} <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/" class="author">{$aLang.user_settings_tuning}</a> 
 				</li>
 				<li>{$aLang.user_rating} <strong>{$oUserCurrent->getRating()}</strong></li>
 			</ul>
@@ -168,4 +168,6 @@ var msgNoticeBox=new Roar({
 		<!-- Content -->
 		<div id="content">
 		
-		{include file='system_message.tpl'}
+		{if !$noShowSystemMessage}
+			{include file='system_message.tpl'}
+		{/if}

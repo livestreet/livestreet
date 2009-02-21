@@ -23,7 +23,7 @@
        				<span class="form_note">{$aLang.blog_create_url_notice}</span>
 					</p>
 					
-					<p><label for="blog_type">{$aLang.blog_create_url}:</label>
+					<p><label for="blog_type">{$aLang.blog_create_type}:</label>
 					<select name="blog_type" id="blog_type" onChange="">
       					<option value="open">{$aLang.blog_create_type_open}</option>
       				</select><br />
@@ -31,7 +31,7 @@
 					</p>
 										
 					<p><label for="blog_description">{$aLang.blog_create_description}:</label>
-					<textarea name="blog_description" id="blog_description" rows="20">{$_aRequest.topic_text}</textarea><br />
+					<textarea name="blog_description" id="blog_description" rows="20">{$_aRequest.blog_description}</textarea><br />
 					<span class="form_note">{$aLang.blog_create_description_notice}</span>
 					</p>
 					

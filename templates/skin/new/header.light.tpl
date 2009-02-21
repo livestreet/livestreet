@@ -19,4 +19,6 @@
 <div id="container">
 	<h1 class="lite-header"><a href="{$DIR_WEB_ROOT}">Live<span>Street</span></a></h1>
 	
-	{include file='system_message.tpl'}
+	{if !$noShowSystemMessage}
+		{include file='system_message.tpl'}
+	{/if}

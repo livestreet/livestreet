@@ -35,8 +35,8 @@ if ($aComments=$oEngine->Comment_GetCommentsAllGroup(20)) {
 	$oEngine->Viewer_Assign('aComments',$aComments);
 	$sTextResult=$oEngine->Viewer_Fetch("block.stream_comment.tpl");
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Возникли проблемы, повторите позже.';
+	$sMsgTitle='Внимание!';
+	$sMsg='Нет комментариев.';
 }
 
 

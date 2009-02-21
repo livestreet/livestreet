@@ -70,7 +70,7 @@ var lsBlockLoaderClass = new Class({
                 msgErrorBox.alert('Error','Please try again later');           
         	}
         	if (result.bStateError) {
-                msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+                //msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         	} else {
         		blockContent.set('html',result.sText);
         	}
