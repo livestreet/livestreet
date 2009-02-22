@@ -237,7 +237,7 @@ select { width: 99%; }
 
 .topic .content blockquote { font: italic 14px/22px Georgia, Serif; padding: 5px 10px; margin-bottom: 15px; background: #f8f8f8; }
 
-.topic .content pre { overflow: auto; width: 100%; padding: 5px 10px; margin-bottom: 15px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+.topic .content pre { overflow: auto; width: 96%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
 
 
 
