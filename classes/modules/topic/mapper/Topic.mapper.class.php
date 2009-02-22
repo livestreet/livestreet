@@ -261,7 +261,8 @@ class Mapper_Topic extends Mapper {
 					tv.vote_delta as user_vote_delta,
 					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
 					bu.is_moderator as user_is_blog_moderator,
-					bu.is_administrator as user_is_blog_administrator
+					bu.is_administrator as user_is_blog_administrator,
+					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
 				FROM
 					(
 						SELECT 
@@ -286,6 +287,12 @@ class Mapper_Topic extends Mapper {
 					) AS tv ON t_fast.topic_id=tv.topic_id
 					LEFT JOIN (
 						SELECT
+							topic_id												
+						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+						WHERE user_id = ?d
+					) AS ft ON t_fast.topic_id=ft.topic_id
+					LEFT JOIN (
+						SELECT
 							is_moderator,
 							is_administrator,
 							blog_id												
@@ -302,7 +309,7 @@ class Mapper_Topic extends Mapper {
 					ORDER BY FIELD(t_fast.topic_id,?a)
 					";
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$aArrayId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -524,7 +531,8 @@ class Mapper_Topic extends Mapper {
 						b.blog_url as blog_url,
                         IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 						tv.vote_delta as user_vote_delta,
-						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
+						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+						IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
 					FROM (				
 							SELECT 		
 								topic_id										
@@ -545,6 +553,12 @@ class Mapper_Topic extends Mapper {
 								FROM ".DB_TABLE_TOPIC_VOTE." 
 								WHERE user_voter_id = ?d
 								) AS tv ON tt.topic_id=tv.topic_id
+						LEFT JOIN (
+								SELECT
+									topic_id												
+								FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+								WHERE user_id = ?d
+								) AS ft ON tt.topic_id=ft.topic_id
 						 LEFT JOIN (
 								SELECT
 									topic_id																			
@@ -557,7 +571,7 @@ class Mapper_Topic extends Mapper {
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -630,7 +644,8 @@ class Mapper_Topic extends Mapper {
 					u.user_login as user_login,
 					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote
+					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
 				FROM (
 					SELECT 
 						t.*,
@@ -662,6 +677,12 @@ class Mapper_Topic extends Mapper {
 								WHERE user_voter_id = ?d
 								) AS tv ON t_fast.topic_id=tv.topic_id
 					LEFT JOIN (
+						SELECT
+							topic_id												
+						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+						WHERE user_id = ?d
+					) AS ft ON t_fast.topic_id=ft.topic_id
+					LEFT JOIN (
 								SELECT
 									topic_id																			
 								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
@@ -672,7 +693,7 @@ class Mapper_Topic extends Mapper {
 					";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -935,7 +956,8 @@ class Mapper_Topic extends Mapper {
 						b.blog_url as blog_url,
                         IF(tv.topic_id IS NULL,0,1) as user_is_vote,
 						tv.vote_delta as user_vote_delta,
-						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote 
+						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
+						IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
 					FROM (				
 							SELECT 		
 								topic_id										
@@ -958,6 +980,12 @@ class Mapper_Topic extends Mapper {
 								FROM ".DB_TABLE_TOPIC_VOTE." 
 								WHERE user_voter_id = ?d
 								) AS tv ON tt.topic_id=tv.topic_id
+						LEFT JOIN (
+								SELECT
+									topic_id												
+								FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+								WHERE user_id = ?d
+								) AS ft ON tt.topic_id=ft.topic_id
 						 LEFT JOIN (
 								SELECT
 									topic_id																			
@@ -970,7 +998,7 @@ class Mapper_Topic extends Mapper {
 					";
 		
 		$aTopics=array();		
-		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
