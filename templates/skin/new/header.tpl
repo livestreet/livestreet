@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Roar.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" />
+	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/prettify.css" />
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/opensearch/" title="{$SITE_NAME}" />
@@ -37,6 +38,8 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
 <![endif]-->	
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
+
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/prettify/prettify.js"></script>
 
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/vote.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/favourites.js"></script>
@@ -65,7 +68,7 @@ var msgNoticeBox=new Roar({
 
 
 
-<body>
+<body onload="prettyPrint()">
 
 
 

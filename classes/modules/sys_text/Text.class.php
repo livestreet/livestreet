@@ -176,7 +176,7 @@ class Text extends Module {
 	}
 	
 	public function CodeSourceParser($sText) {
-		$sText=str_replace("<code>",'<pre class="sh_php"><code>',$sText);
+		$sText=str_replace("<code>",'<pre class="prettyprint"><code>',$sText);
 		$sText=str_replace("</code>",'</code></pre>',$sText);
 		return $sText;
 	}
