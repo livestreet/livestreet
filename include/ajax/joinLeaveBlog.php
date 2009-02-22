@@ -73,7 +73,7 @@ if ($oEngine->User_IsAuthorization()) {
 					if ($oEngine->Blog_DeleteRelationBlogUser($oBlogUser)) {
 						$bStateError=false;
 						$sMsgTitle='Внимание!';
-						$sMsg='Вы покинули в блог';
+						$sMsg='Вы покинули блог';
 						$bState=false;
 						/**
 						 * Уменьшаем число читателей блога

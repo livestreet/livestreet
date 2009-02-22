@@ -309,7 +309,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountUsersSex() {
-		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." GROUP BY user_profile_sex ";			
+		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." WHERE user_activate = 1 GROUP BY user_profile_sex ";			
 		$result=$this->oDb->select($sql);
 		return $result;
 	}

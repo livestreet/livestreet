@@ -102,6 +102,7 @@
 				{else}
 					{if $oUserCurrent}
 						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Комментировать</a></h3>
+						<a name="comments" ></a>
 						<div style="display: block;" id="reply_0" class="reply">				
 						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
     						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
