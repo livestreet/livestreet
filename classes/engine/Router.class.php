@@ -37,6 +37,7 @@ class Router extends Object {
 	static protected $sAction=null;
 	static protected $sActionEvent=null;
 	static protected $sActionClass=null;
+	static protected $sPathWebCurrent = null;
 	static protected $aParams=array();
 	protected $oAction=null;
 	protected $oEngine=null;
@@ -75,9 +76,12 @@ class Router extends Object {
 		}
 		
 		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
-		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);			
-		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);
+		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
+		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
 		
+		self::$sPathWebCurrent = DIR_WEB_ROOT."/".$sReq;
+			
+		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
 		for ($i=0;$i<SYS_OFFSET_REQUEST_URL;$i++) {
 			array_shift($aRequestUrl);
 		}		
@@ -115,6 +119,7 @@ class Router extends Object {
 		$this->Viewer_Assign('sAction',self::$sAction);
 		$this->Viewer_Assign('sEvent',self::$sActionEvent);
 		$this->Viewer_Assign('aParams',self::$aParams);
+		$this->Viewer_Assign('PATH_WEB_CURRENT',self::$sPathWebCurrent);
 	}
 	
 	/**
@@ -181,6 +186,15 @@ class Router extends Object {
 			self::$aParams=$aParams;
 		}
 		return 'next';
+	}
+	
+	/**
+	 * Получить текущий путь
+	 *
+	 * @return string
+	 */
+	static public function GetPathWebCurrent() {
+		return self::$sPathWebCurrent;		
 	}
 	
 	/**

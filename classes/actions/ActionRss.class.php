@@ -25,6 +25,7 @@ class ActionRss extends Action {
 	public function Init() {		
 		$this->SetDefaultEvent('index');
 		Router::SetIsShowStats(false);
+		header('Content-Type: application/rss+xml; charset=utf-8');
 	}
 
 	protected function RegisterEvent() {
@@ -53,7 +54,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getText();
+			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
 			$item['category']=$oTopic->getTags();
@@ -80,7 +81,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl(); 
-			$item['description']=$oTopic->getText();
+			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
 			$item['category']=$oTopic->getTags();
@@ -168,7 +169,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getText();
+			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
 			$item['category']=$oTopic->getTags();
@@ -200,7 +201,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getText();
+			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
 			$item['category']=$oTopic->getTags();
@@ -232,7 +233,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getText();
+			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
 			$item['category']=$oTopic->getTags();
