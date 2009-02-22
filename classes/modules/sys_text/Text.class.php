@@ -69,7 +69,7 @@ class Text extends Module {
 		$this->oJevix->cfgSetTagChilds('ul', array('li'), false, true);
 		$this->oJevix->cfgSetTagChilds('ol', array('li'), false, true);
 		$this->oJevix->cfgSetTagChilds('object', 'param', false, true);
-		$this->oJevix->cfgSetTagChilds('object', 'embed', false, true);
+		$this->oJevix->cfgSetTagChilds('object', 'embed', false, false);
 		// Если нужно оставлять пустые не короткие теги
 		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
 		// Отключение авто-добавления <br>
