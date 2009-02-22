@@ -59,7 +59,7 @@ class Text extends Module {
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
 		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link'));
 		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
-		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int'));
+		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text'));
 		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
 		$this->oJevix->cfgSetTagParamsRequired('a', 'href');
@@ -166,7 +166,7 @@ class Text extends Module {
 	 * 
 	 */
 	protected function FlashParamParser($sText) {		
-		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/\s*>@Ui",$sText,$aMatch)) {				
+		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/?\s*>@Ui",$sText,$aMatch)) {				
 			foreach ($aMatch[1] as $key => $str) {
 				$str_new=$str.'></param>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
