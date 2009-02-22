@@ -163,12 +163,19 @@ class Text extends Module {
 	}
 	/**
 	 * Заменяет все вхождения короткого тега <param/> на длиную версию <param></param>
+	 * Заменяет все вхождения короткого тега <embed/> на длиную версию <embed></embed>
 	 * 
 	 */
 	protected function FlashParamParser($sText) {		
 		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/?\s*>@Ui",$sText,$aMatch)) {				
 			foreach ($aMatch[1] as $key => $str) {
 				$str_new=$str.'></param>';				
+				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
+			}	
+		}
+		if (preg_match_all("@(<\s*embed\s*.*)\s*/?\s*>@Ui",$sText,$aMatch)) {				
+			foreach ($aMatch[1] as $key => $str) {
+				$str_new=$str.'></embed>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
 			}	
 		}		

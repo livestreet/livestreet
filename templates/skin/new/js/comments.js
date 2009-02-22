@@ -95,9 +95,17 @@ var lsCmtTreeClass = new Class({
 	
 	expandNodeAll: function() {
 		var thisObj = this;
-		var aImgFolding=$$('img.folding-open');		
+		var aImgFolding=$$('img.'+this.options.classes.openImg);		
 		aImgFolding.each(function(img, i){			
 			thisObj.expandNode(img);
+		});
+	},
+	
+	collapseNodeAll: function() {
+		var thisObj = this;
+		var aImgFolding=$$('img.'+this.options.classes.closeImg);		
+		aImgFolding.each(function(img, i){			
+			thisObj.collapseNode(img);
 		});
 	},
 	

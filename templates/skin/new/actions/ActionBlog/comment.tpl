@@ -17,7 +17,9 @@
 				<!-- Comments Header -->
 				<div class="header">
 					<h3>Комментарии (<span id="count-comments">{$oTopic->getCountComment()}</span>)</h3>
-					<a href="#" class="rss">По RSS</a>
+					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/comments/{$oTopic->getId()}/" class="rss">По RSS</a>
+					<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">свернуть</a> /
+					<a href="#" onclick="lsCmtTree.expandNodeAll(); return false;" onfocus="blur();">развернуть</a>
 				</div>
 				<!-- /Comments Header -->			
 				

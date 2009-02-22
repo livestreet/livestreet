@@ -126,6 +126,7 @@ class ActionRss extends Action {
 		}
 		
 		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$aComments=$aComments['comments'];
 		
 		$aChannel['title']=SITE_NAME;
 		$aChannel['link']=DIR_WEB_ROOT;
