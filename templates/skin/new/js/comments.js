@@ -124,15 +124,18 @@ var lsCmtTreeClass = new Class({
 		}	
 	},	
 	
-	responseNewComment: function(idTopic,objImg,selfIdComment) {
-		var thisObj=this;			
-		var aDivComments=$$('.comment');		
-		aDivComments.each(function(item,index){
-			var divContent=item.getChildren('div.content')[0];
-			if (divContent.hasClass('new')) {
-				divContent.removeClass('new');
-			}			
-		});		
+	responseNewComment: function(idTopic,objImg,selfIdComment,bNotFlushNew) {
+		var thisObj=this;		
+		
+		if (!bNotFlushNew) {
+			var aDivComments=$$('.comment');
+			aDivComments.each(function(item,index){
+				var divContent=item.getChildren('div.content')[0];
+				if (divContent.hasClass('new')) {
+					divContent.removeClass('new');
+				}
+			});
+		}
 		
 		var idCommentLast=this.idCommentLast;
 		objImg=$(objImg);
@@ -157,13 +160,18 @@ var lsCmtTreeClass = new Class({
         				if ($('block_stream_comment') && lsBlockStream) {
         					lsBlockStream.toggle($('block_stream_comment'),'comment_stream');
         				}
-        			}        			      	       			       			
-        			if (selfIdComment) {
-        				thisObj.setCountNewComment(aCmt.length-1);
+        			}        	
+        			var iCountOld=0;
+        			if (bNotFlushNew) {		      	       			       			
+        				iCountOld=thisObj.countNewComment;        				
         			} else {
-        				thisObj.setCountNewComment(aCmt.length);
+        				thisObj.aCommentNew=[];
         			}
-        			thisObj.aCommentNew=[];
+        			if (selfIdComment) {
+        				thisObj.setCountNewComment(aCmt.length-1+iCountOld);
+        			} else {
+        				thisObj.setCountNewComment(aCmt.length+iCountOld);
+        			}        			
         			aCmt.each(function(item,index) {   
         				if (!(selfIdComment && selfIdComment==item.id)) {
         					thisObj.aCommentNew.extend([item.id]);
@@ -231,7 +239,7 @@ var lsCmtTreeClass = new Class({
         		if (result.bStateError) {        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {        			
-        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId);	
+        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);	
         			thisObj.hideCommentForm(thisObj.iCurrentShowFormComment);     
         			$('form_comment_text').setProperty('value','');   								
         		}                           
