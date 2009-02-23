@@ -1,5 +1,5 @@
-<div class="lite-center login-popup" id="window_load_img">
-	<div class="login-popup-top"><a href="#" class="close-block" onclick="hideImgUploadForm(); return false;"></a></div>
+<div class="login-popup" id="window_load_img">
+	<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 	<div class="content">
 		<form method="POST" action="" enctype="multipart/form-data" id="form_upload_img" >
 		<h3>Вставка изображения</h3>

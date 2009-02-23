@@ -52,7 +52,7 @@ class Text extends Module {
 		// Коротие теги типа
 		$this->oJevix->cfgSetTagShort(array('br','img', 'hr', 'cut'));
 		// Преформатированные теги
-		$this->oJevix->cfgSetTagPreformatted(array('pre','code'));
+		$this->oJevix->cfgSetTagPreformatted(array('pre','code','video'));
 		// Разрешённые параметры тегов		
 		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
 		$this->oJevix->cfgAllowTagParams('a', array('title', 'href'));		
@@ -78,6 +78,7 @@ class Text extends Module {
 		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(r)', '(C)', '(R)'), array('±', '©', '®', '©', '®'));
 		//$this->oJevix->cfgSetXHTMLMode(false);
 		$this->oJevix->cfgSetTagNoTypography('code');
+		$this->oJevix->cfgSetTagNoTypography('video');
 
 	}
 	

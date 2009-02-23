@@ -60,20 +60,27 @@ function checkAllTalk(checkbox) {
 }
 
 
-
-function showImgUploadForm() {
-	var divOverlay=$$('.overlay')[0];
-	var divForm=$('window_load_img');
-	divOverlay.setStyle('display','block');
-	divForm.setStyle('display','block');	
+function showImgUploadForm() {	
+	winFormImgUpload.show();
+	winFormImgUpload.pin(true);	
 }
 
 function hideImgUploadForm() {
-	var divOverlay=$$('.overlay')[0];
-	var divForm=$('window_load_img');
-	divOverlay.setStyle('display','none');
-	divForm.setStyle('display','none');
+	winFormImgUpload.hide();
 }
+
+var winFormImgUpload;
+
+window.addEvent('domready', function() {  	
+	var form=$('window_load_img');
+	if (form) {
+		form.setStyle('display','block');
+    	winFormImgUpload=new StickyWinModal({content: form, closeClassName: 'close-block'});    
+    	winFormImgUpload.pin(true);
+    	winFormImgUpload.hide();
+	}
+});
+
 
 function ajaxUploadImg(value,sToLoad) {
 	sToLoad=$(sToLoad);

@@ -34,6 +34,7 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
 <script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Forms.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Clientcide/Modal.js"></script>
 <!--[if IE]>
 	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
 <![endif]-->	
@@ -75,12 +76,10 @@ var msgNoticeBox=new Roar({
 <div id="debug" style="border: 2px #dd0000 solid; display: none;"></div>
 
 <div id="container">
-
 	
-	<div class="overlay"></div>
 	{if !$oUserCurrent}
-	<div class="lite-center login-popup" id="login-form">
-		<div class="login-popup-top"><a href="#" class="close-block" onclick="hideLoginForm(); return false;"></a></div>
+	<div class="login-popup" id="login-form">
+		<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 		<div class="content">
 			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
 				<h3>Авторизация</h3>
