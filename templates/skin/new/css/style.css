@@ -694,7 +694,7 @@ select { width: 99%; }
 .lite-center .input-text, .login-popup .input-text { width: 400px; font-size: 18px; padding: 4px 0; border: 1px solid #d7d7d7; color: #555; }
 .lite-center .input-checkbox, .login-popup .input-checkbox { padding-top: 7px; }
 .lite-center .input-checkbox input, .login-popup .input-checkbox input { position: relative; top: 2px; }
-.lite-center .note { color: #bbb; line-height: 14px; float: none; }
+.lite-center .input-note { display: block; color: #bbb; font-size: 11px; line-height: 14px; }
 
 .lite-center.error h1 { font-size: 28px; color: #888; }
 .lite-center.error p { margin-bottom: 10px; color: #888; }
