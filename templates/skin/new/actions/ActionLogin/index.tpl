@@ -12,7 +12,10 @@
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
 				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">Напомнить пароль</a><label for="password-input">Пароль</label></div>
 				<p><input type="password" name="password" class="input-text" tabindex="2" id="password-input"/></p>
-				<div class="lite-note"><input type="image" src="{$DIR_STATIC_SKIN}/images/login-button.gif" class="input-button" tabindex="4" /><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label></div>
+				<div class="lite-note">
+					<button type="submit" class="button"><span><em>Войти</em></span></button>
+					<label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label>
+				</div>
 				<input type="hidden" name="submit_login">
 		</form>
 		

@@ -108,12 +108,10 @@ select { width: 99%; }
 
 /* Navigation
 -------------------------------------------------------------------*/
-#nav { height: 92px; background: #e9eaea url(../images/bg.gif) repeat-x scroll 0 -81px; }
-
+#nav { height: 92px; background: #e9eaea url(../images/bg.gif) repeat-x scroll 0 -81px; overflow: hidden; zoom: 1; }
 #nav .left { background: transparent url(../images/bg.gif) no-repeat scroll 0 -173px; float: left; height: 92px; width: 20px; }
 #nav .right { float: right; background: transparent url(../images/bg.gif) no-repeat scroll right -265px; height: 92px; width: 20px; }
-
-#nav .write { float: left; padding-top: 45px; }
+#nav .write { float: left; padding-top: 45px; width: 110px; }
 
 /* Navigation of Blog */
 .menu { float: left; font-size: 15px; padding: 10px 0 0 37px; }
@@ -690,17 +688,18 @@ select { width: 99%; }
 .lite-header a:hover { color: #333; }
 .lite-header a:hover span { color: #777; }
 
-.lite-center { position: absolute; top: 200px; left: 50%; width: 400px; margin-left: -200px; }
+.lite-center { position: absolute; top: 200px; left: 50%; width: 400px; margin-left: -200px; color: #888; }
 .lite-center h3, .login-popup h3 { color: #bec0bf; margin-bottom: 20px; }
 .lite-center button, .login-popup button { float: right; }
 .lite-center .input-text, .login-popup .input-text { width: 400px; font-size: 18px; padding: 4px 0; border: 1px solid #d7d7d7; color: #555; }
 .lite-center .input-checkbox, .login-popup .input-checkbox { padding-top: 7px; }
 .lite-center .input-checkbox input, .login-popup .input-checkbox input { position: relative; top: 2px; }
+.lite-center .note { color: #bbb; line-height: 14px; }
 
 .lite-center.error h1 { font-size: 28px; color: #888; }
 .lite-center.error p { margin-bottom: 10px; color: #888; }
 
-.lite-note { overflow: hidden; zoom: 1; color: #888; }
+.lite-note { overflow: hidden; zoom: 1; }
 .lite-note a { float: right; font-size: 11px; }
 
 .login-popup { z-index: 100; width: 492px; display: none; }
@@ -720,7 +719,7 @@ button, a.button { font-size: 14px; font-family: Tahoma, sans-serif; border: non
 button span, button em, a.button span, a.button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
 button span, a.button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
 button em, a.button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }
-a.button.small { font-size: 12px; }
+a.button.small { font-size: 12px; text-decoration: none; }
 a.button.small span, a.button.small em { height: 22px; line-height: 22px; }
 a.button.small span { background: url(../images/button-small.gif) no-repeat 0 0; margin-right: 20px; }
 a.button.small em { background: url(../images/button-small.gif) no-repeat right 0; }

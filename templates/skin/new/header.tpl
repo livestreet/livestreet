@@ -139,7 +139,11 @@ var msgNoticeBox=new Roar({
 	<div id="nav">
 		<div class="left"></div>
 		{if $oUserCurrent}
-			<div class="write"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="button small"><span><em>{$aLang.topic_create}</em></span></a></div>
+			<div class="write">
+				<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="button small">
+					<span><em>{$aLang.topic_create}</em></span>
+				</a>
+			</div>
 		{/if}
 		
 		{if $menu}

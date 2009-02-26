@@ -1,7 +1,7 @@
 {include file='header.tpl' menu='settings' showWhiteBack=true}
 
 			<h1>{$aLang.settings_tuning}</h1>
-			<strong>&nbsp;{$aLang.settings_tuning_notice}</strong>
+			<strong>{$aLang.settings_tuning_notice}</strong>
 			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/" method="POST" enctype="multipart/form-data">
 				<p>
 					<label for=""><input {if $oUserCurrent->getSettingsNoticeNewTopic()}checked{/if}  type="checkbox" id="settings_notice_new_topic" name="settings_notice_new_topic" value="1" class="checkbox" /> &mdash; {$aLang.settings_tuning_notice_new_topic}</label><br />
