@@ -702,7 +702,7 @@ select { width: 99%; }
 .lite-note { overflow: hidden; zoom: 1; }
 .lite-note a { float: right; font-size: 11px; }
 
-.login-popup { z-index: 100; width: 492px; display: none; }
+.login-popup { z-index: 100; width: 492px;  }
 .login-popup .input-text { width: 402px; padding: 4px 5px; }
 .login-popup .content { background: #fafafa url(../images/login-popup-bg.gif); padding: 15px 40px; }
 .login-popup .login-popup-top { height: 14px; background: url(../images/login-popup-top.gif) no-repeat; width: 492px; position: relative; }

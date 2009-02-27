@@ -78,7 +78,8 @@ var msgNoticeBox=new Roar({
 <div id="container">
 	
 	{if !$oUserCurrent}
-	<div class="login-popup" id="login-form">
+	<div id="login-form-content" style="display: none;">
+	<div class="login-popup">
 		<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 		<div class="content">
 			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
@@ -92,6 +93,7 @@ var msgNoticeBox=new Roar({
 			</form>
 		</div>
 		<div class="login-popup-bottom"></div>
+	</div>
 	</div>
 	{/if}
 	
