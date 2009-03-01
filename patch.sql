@@ -34,3 +34,5 @@ ALTER TABLE `prefix_topic_read` ADD `comment_id_last` INT( 11 ) NOT NULL DEFAULT
 ALTER TABLE `prefix_talk` ADD `talk_date_last` DATETIME NOT NULL AFTER `talk_date` ;
 
 ALTER TABLE `prefix_topic` ADD `topic_publish_draft` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `topic_publish` ;
+
+ALTER TABLE `prefix_topic` ADD `topic_text_hash` VARCHAR( 32 ) NOT NULL ;

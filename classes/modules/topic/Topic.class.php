@@ -742,5 +742,15 @@ class Topic extends Module {
 	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
 		return $this->oMapperTopic->AddTopicQuestionVote($oTopicQuestionVote);
 	}
+	/**
+	 * Получает топик по уникальному хешу(текст топика)
+	 *
+	 * @param unknown_type $sUserId
+	 * @param unknown_type $sHash
+	 * @return unknown
+	 */
+	public function GetTopicUnique($sUserId,$sHash) {
+		return $this->oMapperTopic->GetTopicUnique($sUserId,$sHash);
+	}
 }
 ?>

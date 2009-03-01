@@ -93,6 +93,9 @@ class TopicEntity_Topic extends Entity
     public function getForbidComment() {
         return $this->_aData['topic_forbid_comment'];
     }
+    public function getTextHash() {
+        return $this->_aData['topic_text_hash'];
+    }
     
     
     public function getCountCommentNew() {
@@ -385,6 +388,9 @@ class TopicEntity_Topic extends Entity
     }
     public function setForbidComment($data) {
         $this->_aData['topic_forbid_comment']=$data;
+    }
+    public function setTextHash($data) {
+        $this->_aData['topic_text_hash']=$data;
     }
 }
 ?>

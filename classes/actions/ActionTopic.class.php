@@ -355,7 +355,14 @@ class ActionTopic extends Action {
 		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
 			return false;
-		}						
+		}					
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),md5(getRequest('topic_text')))) {			
+			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			return false;			
+		}	
 		/**
 		 * Теперь можно смело добавлять топик к блогу
 		 */
@@ -365,6 +372,7 @@ class ActionTopic extends Action {
 		$oTopic->setType('topic');
 		$oTopic->setTitle(getRequest('topic_title'));
 		$oTopic->setCutText(null);	
+		$oTopic->setTextHash(md5(getRequest('topic_text')));
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
@@ -492,13 +500,23 @@ class ActionTopic extends Action {
 		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) and $oBlog->getId()!=$oTopic->getBlogId() and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
 			return false;
-		}						
+		}		
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($oTopic->getUserId(),md5(getRequest('topic_text')))) {
+			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
+				$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+				return false;
+			}
+		}
 		/**
 		 * Теперь можно смело редактировать топик
 		 */		
 		$oTopic->setBlogId($oBlog->getId());		
 		$oTopic->setTitle(getRequest('topic_title'));	
-		$oTopic->setCutText(null);		
+		$oTopic->setCutText(null);	
+		$oTopic->setTextHash(md5(getRequest('topic_text')));	
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
