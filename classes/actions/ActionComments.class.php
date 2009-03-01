@@ -31,7 +31,8 @@ class ActionComments extends Action {
 	public function Init() {			
 	}
 	
-	protected function RegisterEvent() {									
+	protected function RegisterEvent() {	
+		$this->AddEventPreg('/^(page(\d+))?$/i','EventComments');								
 	}
 		
 	
@@ -41,18 +42,14 @@ class ActionComments extends Action {
 	 */	
 	
 	/**
-	 * Для любого евента(тобишь любого УРЛа после /comments/) выводим комментарии
+	 * Выводим комментарии
 	 *
 	 */
-	protected function EventNotFound() {	
+	protected function EventComments() {	
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->sCurrentEvent,$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
+		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
 		/**
 		 * Получаем список комментов
 		 */

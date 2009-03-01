@@ -75,7 +75,7 @@ class ActionNew extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {		
-						
+		$this->AddEventPreg('/^(page(\d+))?$/i','EventNew');
 	}
 		
 	
@@ -85,10 +85,10 @@ class ActionNew extends Action {
 	 */
 	
 	/**
-	 * Реализация евента - просто показываем шаблон
+	 * Реализация евента
 	 *
 	 */
-	protected function EventNotFound() {	
+	protected function EventNew() {
 		/**
 		 * Меню
 		 */
@@ -96,11 +96,7 @@ class ActionNew extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->sCurrentEvent,$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
+		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;		
 		/**
 		 * Получаем список топиков
 		 */					

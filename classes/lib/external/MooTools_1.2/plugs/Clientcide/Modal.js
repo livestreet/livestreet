@@ -965,9 +965,6 @@ var modalWinBase = function(extend){
 
 StickyWin.Modal = new Class(modalWinBase(StickyWin));
 StickyWin.Modal.implement(new Modalizer());
-if (StickyWin.Fx) StickyWin.Fx.Modal = new Class(modalWinBase(StickyWin.Fx));
-try { StickyWin.Fx.Modal.implement(new Modalizer()); }catch(e){}
 })();
 //legacy
 var StickyWinModal = StickyWin.Modal;
-if (StickyWin.Fx) var StickyWinFxModal = StickyWin.Fx.Modal;

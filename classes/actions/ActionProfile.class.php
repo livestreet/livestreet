@@ -38,67 +38,34 @@ class ActionProfile extends Action {
 			
 	}
 	
-	protected function RegisterEvent() {						
+	protected function RegisterEvent() {			
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');			
 	}
 			
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
-	/**
-	 * Определяет что показать
-	 *
-	 * @return unknown
-	 */
-	protected function EventNotFound() {	
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$this->sUserLogin=$this->sCurrentEvent;				
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!$this->sUserLogin or !($this->oUserProfile=$this->User_GetUserByLogin($this->sUserLogin))) {			
-			return parent::EventNotFound();
-		}	
-		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserProfile->getId());
-		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
-		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId());
-		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
-		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
-		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
-		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
-		/**
-		 * Определяем что запустить
-		 */				
-		$sParam=$this->GetParam(0);
-		if ($sParam=='whois' or $sParam=='') {
-			// инфу профиля
-			return $this->ShowWhois();
-		} elseif ($sParam=='favourites') {
-			// избранное
-			$this->ShowFavourite();
-		} elseif ($sParam=='tags') {
-			// теги
-			$this->ShowTags();
-		} else {						
-			return parent::EventNotFound();
-		}		
-	}
 	/**
 	 * Выводит список избранноего юзера
 	 *
 	 */
-	protected function ShowFavourite() {		
+	protected function EventFavourite() {	
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;					
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+			return parent::EventNotFound();
+		}	
 		/**
 		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->GetParam(1),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
+		 */		
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
 		/**
 		 * Получаем список избранных топиков
 		 */
@@ -125,7 +92,17 @@ class ActionProfile extends Action {
 	 * Показывает инфу профиля
 	 *
 	 */
-	protected function ShowWhois() {
+	protected function EventWhois() {
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;					
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+			return parent::EventNotFound();
+		}
 		/**
 		 * Получаем список друзей
 		 */
@@ -168,53 +145,25 @@ class ActionProfile extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('whois');				
-	}	
+	}		
 	/**
-	 * Выводит список тегов котрые использовал юзер при создании топиков
+	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	protected function ShowTags() {
-		/**
-		 * Получаем список тегов
-		 */
-		$aTags=$this->Topic_GetTopicTagsByUserId($this->oUserProfile->getId(),100);
-		/**
-		 * Расчитываем логарифмическое облако тегов
-		 */
-		if ($aTags) {
-			$iMinSize=15; // минимальный размер шрифта
-			$iMaxSize=40; // максимальный размер шрифта
-			$iSizeRange=$iMaxSize-$iMinSize;
-			
-			$iMin=10000;
-			$iMax=0;
-			foreach ($aTags as $oTag) {
-				if ($iMax<$oTag->getCount()) {
-					$iMax=$oTag->getCount();
-				}
-				if ($iMin>$oTag->getCount()) {
-					$iMin=$oTag->getCount();
-				}
-			}			
-			
-			$iMinCount=log($iMin+1);
-			$iMaxCount=log($iMax+1);
-			$iCountRange=$iMaxCount-$iMinCount;
-			if ($iCountRange==0) {
-				$iCountRange=1;
-			}
-			foreach ($aTags as $oTag) {
-				$iTagSize=$iMinSize+(log($oTag->getCount()+1)-$iMinCount)*($iSizeRange/$iCountRange);
-				$oTag->setSize(round($iTagSize)); // результирующий размер шрифта для тега
-			}
-			$this->Viewer_Assign("aTags",$aTags);
+	public function EventShutdown() {	
+		if (!$this->oUserProfile)	 {
+			return ;
 		}
-		$this->Viewer_AddHtmlTitle('Профиль '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle('Метки');
 		/**
-		 * Устанавливаем шаблон вывода
+		 * Загружаем в шаблон необходимые переменные
 		 */
-		$this->SetTemplateAction('tags');
+		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserProfile->getId());
+		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
+		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId());
+		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
+		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
+		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
+		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 	}
 }
 ?>

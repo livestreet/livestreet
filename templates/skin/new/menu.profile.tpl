@@ -5,8 +5,7 @@
 				{if $sAction=='profile'}
 					<ul class="sub-menu" >
 						<li {if $aParams[0]=='whois' or $aParams[0]==''}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserProfile->getLogin()}/">{$aLang.user_menu_profile_whois}</a></div></li>						
-						<li {if $aParams[0]=='favourites'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserProfile->getLogin()}/favourites/">{$aLang.user_menu_profile_favourites}</a>{if $iCountTopicFavourite}({$iCountTopicFavourite}){/if}</div></li>
-						<li {if $aParams[0]=='tags'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserProfile->getLogin()}/tags/">{$aLang.user_menu_profile_tags}</a></div></li>
+						<li {if $aParams[0]=='favourites'}class="active"{/if}><div><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserProfile->getLogin()}/favourites/">{$aLang.user_menu_profile_favourites}</a>{if $iCountTopicFavourite}({$iCountTopicFavourite}){/if}</div></li>						
 					</ul>
 				{/if}
 			</li>

@@ -36,7 +36,10 @@ class ActionMy extends Action {
 	public function Init() {		
 	}
 	
-	protected function RegisterEvent() {							
+	protected function RegisterEvent() {	
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i','EventTopics');						
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^blog$/i','/^(page(\d+))?$/i','EventTopics');						
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^comment$/i','/^(page(\d+))?$/i','EventComments');						
 	}
 		
 	
@@ -47,18 +50,27 @@ class ActionMy extends Action {
 	
 	/**
 	 * Выводит список топиков которые написал юзер
-	 *
-	 * @param unknown_type $sPage
+	 *	 
 	 */
-	protected function ShowBlog($sPage) {
+	protected function EventTopics() {
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;					
+		/**
+		 * Проверяем есть ли такой юзер
+		 */		
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+			return parent::EventNotFound();
+		}
 		/**
 		 * Передан ли номер страницы
-		 */	
-		if (preg_match("/^page(\d+)$/i",$sPage,$aMatch)) {			
-			$iPage=$aMatch[1];
+		 */			
+		if ($this->GetParamEventMatch(0,0)=='blog') {			
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;	
 		} else {
-			$iPage=1;
-		}
+			$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;	
+		}		
 		/**
 		 * Получаем список топиков
 		 */
@@ -84,18 +96,23 @@ class ActionMy extends Action {
 	
 	/**
 	 * Выводит список комментариев которые написал юзер
-	 *
-	 * @param unknown_type $sPage
+	 *	 
 	 */
-	protected function ShowComment($sPage) {
+	protected function EventComments() {
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;					
+		/**
+		 * Проверяем есть ли такой юзер
+		 */		
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+			return parent::EventNotFound();
+		}
 		/**
 		 * Передан ли номер страницы
 		 */	
-		if (preg_match("/^page(\d+)$/i",$sPage,$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Получаем список комментов
 		 */
@@ -117,54 +134,23 @@ class ActionMy extends Action {
 		 * Устанавливаем шаблон вывода
 		 */	
 		$this->SetTemplateAction('comment');		
-	}
-	
+	}	
 	/**
-	 * Определяет какой обработчик запустить, т.е. по сути что показать то? :)
+	 * Выполняется при завершении работы экшена
 	 *
-	 * @return unknown
 	 */
-	protected function EventNotFound() {	
+	public function EventShutdown() {	
+		if (!$this->oUserProfile)	 {
+			return ;
+		}
 		/**
-		 * Получаем логин юзера из URL'а
+		 * Загружаем в шаблон необходимые переменные
 		 */
-		$this->sUserLogin=$this->sCurrentEvent;		
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!$this->sUserLogin or !($this->oUserProfile=$this->User_GetUserByLogin($this->sUserLogin))) {			
-			return parent::EventNotFound();
-		}		
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
 		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId());
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
-		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
-		/**
-		 * Для блога		  
-		 */
-		if (is_null($this->getParam(0)) or preg_match("/^page(\d+)$/i",$this->getParam(0))) {
-			return $this->ShowBlog($this->getParam(0));
-		}
-		if ($this->GetParam(0)=='blog') {
-			if ((is_null($this->getParam(1)) or preg_match("/^page(\d+)$/i",$this->getParam(1)))) {
-				return $this->ShowBlog($this->getParam(1));
-			}
-		}				
-		/**
-		 * Для комментов
-		 */
-		if ($this->GetParam(0)=='comment') {
-			if ((is_null($this->getParam(1)) or preg_match("/^page(\d+)$/i",$this->getParam(1)))) {
-				return $this->ShowComment($this->getParam(1));
-			}
-		}		
-		/**
-		 * Иначе страницу ошибки
-		 */
-		return parent::EventNotFound();	
+		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
 	}
-	
-	
 }
 ?>

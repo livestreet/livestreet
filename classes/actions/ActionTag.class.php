@@ -37,7 +37,8 @@ class ActionTag extends Action {
 		$this->Viewer_AddBlocks('right',array('tags','stream'));	
 	}
 	
-	protected function RegisterEvent() {						
+	protected function RegisterEvent() {	
+		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTags');					
 	}
 		
 	
@@ -50,7 +51,7 @@ class ActionTag extends Action {
 	 * Отображение топиков
 	 *
 	 */
-	protected function EventNotFound() {
+	protected function EventTags() {
 		/**
 		 * Получаем тег из УРЛа
 		 */
@@ -58,11 +59,7 @@ class ActionTag extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;		
 		/**
 		 * Получаем список топиков
 		 */
