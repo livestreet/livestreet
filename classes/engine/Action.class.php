@@ -150,7 +150,7 @@ abstract class Action extends Object {
 	 * @return unknown
 	 */
 	protected function GetParamEventMatch($iParamNum,$iItem=null) {
-		if ($iItem) {
+		if (!is_null($iItem)) {
 			if (isset($this->aParamsEventMatch['params'][$iParamNum][$iItem])) {
 				return $this->aParamsEventMatch['params'][$iParamNum][$iItem];
 			} else {
