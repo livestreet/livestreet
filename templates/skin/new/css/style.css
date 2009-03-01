@@ -36,7 +36,7 @@ h1 span { color: #ccc; }
 /* Generic Blocks
 -------------------------------------------------------------------*/
 #container { min-width: 900px; }
-#header { height: 80px; clear: both; overflow: hidden; background: #000 url(../images/header-bg.gif) repeat-x; }
+#header { height: 80px; clear: both; overflow: hidden; zoom: 1; background: #000 url(../images/header-bg.gif) repeat-x; }
 #nav { clear: both; background: #e8e8e8; }
 #wrapper { overflow: hidden; zoom: 1; margin-bottom: 30px; padding: 20px 40px 30px 20px; }
 #content { width: 67%; background: #fff; float: left; clear: left; padding-top: 20px; padding-bottom: 20px; zoom: 1; }
@@ -83,8 +83,8 @@ select { width: 99%; }
 #header .nav-main { overflow: hidden; float: left; padding-top: 31px; padding-left: 40px; }
 #header .nav-main li { float: left; font-size: 15px; margin-right: 15px; }
 #header .nav-main li a { color: #bebebe; }
-#header .nav-main li.active { position: relative; top: -3px; }
-#header .nav-main li.active a { color: #fff; font-size: 24px; text-decoration: none; }
+#header .nav-main li.active { position: relative; top: -5px; }
+#header .nav-main li.active a { color: #fff; font-size: 24px; line-height: 24px; text-decoration: none; }
 
 /* Profile */
 #header .profile { float: right; padding-top: 15px; padding-right: 20px; }
@@ -96,12 +96,12 @@ select { width: 99%; }
 #header .profile ul li { text-align: right; line-height: 17px !important; }
 #header .profile ul li a { color: #afafaf; text-decoration: none; }
 #header .profile ul li a.author { color: #fff; text-decoration: underline; }
-#header .profile ul li a.message { background: transparent url(../images/icons.gif) no-repeat scroll right -17px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
-#header .profile ul li a.message-empty { background: transparent url(../images/icons.gif) no-repeat scroll right 3px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
+#header .profile ul li a.message { background: url(../images/icons.gif) no-repeat scroll right -17px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
+#header .profile ul li a.message-empty { background: url(../images/icons.gif) no-repeat scroll right 3px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
 #header .profile ul li a:hover { color: #ddd; }
 
 #header .profile.guest { width: 270px; text-align: left; padding-top: 27px; padding-right: 0; color: #ddd; }
-#header .profile.guest a { font-size: 18px; color: #fafafa; outline: none; }
+#header .profile.guest a { font-size: 18px; color: #fafafa; outline: none; line-height: 20px; }
 #header .profile.guest a.reg { font-size: 12px; }
 
 
@@ -109,8 +109,8 @@ select { width: 99%; }
 /* Navigation
 -------------------------------------------------------------------*/
 #nav { height: 92px; background: #e9eaea url(../images/bg.gif) repeat-x scroll 0 -81px; overflow: hidden; zoom: 1; }
-#nav .left { background: transparent url(../images/bg.gif) no-repeat scroll 0 -173px; float: left; height: 92px; width: 20px; }
-#nav .right { float: right; background: transparent url(../images/bg.gif) no-repeat scroll right -265px; height: 92px; width: 20px; }
+#nav .left { background: url(../images/bg.gif) no-repeat scroll 0 -173px; float: left; height: 92px; width: 20px; }
+#nav .right { float: right; background: url(../images/bg.gif) no-repeat scroll right -265px; height: 92px; width: 20px; }
 #nav .write { float: left; padding-top: 45px; width: 110px; }
 
 /* Navigation of Blog */
@@ -118,7 +118,7 @@ select { width: 99%; }
 .menu li { float: left; color: #51b038; padding: 5px 10px 8px 10px; }
 .menu li a { text-decoration: none; color: #838383; }
 .menu li a:hover { color: #333; }
-.menu li.active { background: transparent url(../images/bg_info_menu.gif) repeat-x scroll 5px 2px; position: relative; }
+.menu li.active { background: url(../images/bg_info_menu.gif) repeat-x scroll 5px 2px; position: relative; }
 .menu li.active a { color: #333; }
 
 /* Sub-navigation of Blog */
@@ -126,8 +126,8 @@ select { width: 99%; }
 .sub-menu li { padding: 2px 5px 0 11px; margin-right: 5px; line-height: 12px; }
 .sub-menu li a { color: #8a8a8a !important; text-decoration: underline; margin-right: 5px; }
 .sub-menu li a:hover { text-decoration: none; }
-.sub-menu li.active { padding: 0 0 0 11px; background: transparent url(../images/bg_info_menu.gif) no-repeat scroll 0 bottom; }
-.sub-menu li.active div { padding: 3px 11px 5px 0; font-weight: bold; color: #fff; float: left; background: transparent url(../images/bg_info_menu.gif) no-repeat scroll right bottom; }
+.sub-menu li.active { padding: 0 0 0 11px; background: url(../images/bg_info_menu.gif) no-repeat scroll 0 bottom; }
+.sub-menu li.active div { padding: 3px 11px 5px 0; font-weight: bold; color: #fff; float: left; background: url(../images/bg_info_menu.gif) no-repeat scroll right bottom; }
 .sub-menu li.active a { text-decoration: none; color: #fff !important; margin-right: 5px; }
 
 /* Search */
@@ -137,15 +137,15 @@ select { width: 99%; }
 #nav .search .button { width: 29px; height: 25px; vertical-align: top; background: url(../images/search-button.gif) no-repeat; }
 
 /* Rss */
-#nav .rss { float: right; background: transparent url(../images/icons.gif) no-repeat scroll 0 -270px; display: block; height: 11px; width: 74px; margin-top: 51px; margin-right: 10px; }
-#nav .rss:hover { background: transparent url(../images/icons.gif) no-repeat scroll 0 -290px; }
+#nav .rss { float: right; background: url(../images/icons.gif) no-repeat scroll 0 -270px; display: block; height: 11px; width: 74px; margin-top: 51px; margin-right: 10px; }
+#nav .rss:hover { background: url(../images/icons.gif) no-repeat scroll 0 -290px; }
 
 
 
 /* Extra
 -------------------------------------------------------------------*/
 #extra { clear: both; padding-left: 60px; margin-top: 10px; }
-#extra a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -165px; color: #aaa; padding-left: 12px; }
+#extra a { background: url(../images/icons.gif) no-repeat scroll 0 -165px; color: #aaa; padding-left: 12px; }
 
 
 
@@ -156,62 +156,62 @@ select { width: 99%; }
 
 /* Add to Favorite Icon */
 .topic .favorite { position: absolute; top: 7px; left: 10px; }
-.topic .favorite a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
-.topic .favorite a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.topic .favorite.active a { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.topic .favorite.guest a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
+.topic .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
+.topic .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.topic .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.topic .favorite.guest a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
 
 /* Actions */
 .topic .action { overflow: hidden; margin-bottom: 20px; }
 .topic .action li { float: left; margin-right: 3px; }
 .topic .action li a { color: #aaa; outline: none; }
-.topic .action li.rss a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -70px -250px; margin-top: 5px; }
-.topic .action li.plus a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -30px -250px; margin-top: 5px; }
-.topic .action li.plus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -250px; }
-.topic .action li.join a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; margin-top: 5px; }
-.topic .action li.join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.topic .action li.join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.topic .action li.edit a { background: transparent url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
-.topic .action li.delete a { background: transparent url(../images/delete.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 5px; text-decoration: none; font-size: 11px; color: #f00; }
+.topic .action li.rss a { display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll -70px -250px; margin-top: 5px; }
+.topic .action li.plus a { display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll -30px -250px; margin-top: 5px; }
+.topic .action li.plus a:hover { background: url(../images/icons.gif) no-repeat scroll -40px -250px; }
+.topic .action li.join a { display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll 0 -250px; margin-top: 5px; }
+.topic .action li.join a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.topic .action li.join-active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.topic .action li.edit a { background: url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
+.topic .action li.delete a { background: url(../images/delete.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 5px; text-decoration: none; font-size: 11px; color: #f00; }
 .topic .action li a:hover { text-decoration: underline; }
 
 /* Tags of Topic */
-.topic .tags { background: transparent url(../images/icons.gif) no-repeat scroll -70px -225px; padding-left: 15px; margin-bottom: 3px; clear: both; }
+.topic .tags { background: url(../images/icons.gif) no-repeat scroll -70px -225px; padding-left: 15px; margin-bottom: 3px; clear: both; }
 .topic .tags li { display: inline; color: #777; }
 .topic .tags li a { text-decoration: none; color: #777; }
 .topic .tags li a:hover { background: #777; color: #fff; }
 
 /* Vote Block */
-.topic .voting { background: transparent url(../images/bg.gif) repeat-x scroll 0 -576px; padding: 10px 0; overflow: hidden; }
+.topic .voting { background: url(../images/bg.gif) repeat-x scroll 0 -576px; padding: 10px 0; overflow: hidden; }
 .topic .voting li { float: left; color: #777; }
 .topic .voting li a { text-decoration: none; outline: none; }
 .topic .voting li a:hover { background: #777; color: #fff; }
-.topic .voting li.author { margin-right: 10px; color: #999; text-decoration: none; background: transparent url(../images/icons.gif) no-repeat scroll 0 -105px; padding-left: 13px; }
+.topic .voting li.author { margin-right: 10px; color: #999; text-decoration: none; background: url(../images/icons.gif) no-repeat scroll 0 -105px; padding-left: 13px; }
 .topic .voting li.author a { font-weight: bold; }
 .topic .voting li.date { color: #999; font-size: 11px; margin-right: 20px; }
-.topic .voting li.link { color: #999; font-size: 11px; margin-right: 20px; background:transparent url(../images/link_url.gif) center left no-repeat;padding-left: 15px;}
+.topic .voting li.link { color: #999; font-size: 11px; margin-right: 20px; background:url(../images/link_url.gif) center left no-repeat;padding-left: 15px;}
 
 .topic .voting li.plus { margin-right: 5px; }
 .topic .voting li.total { margin-right: 5px; color: #aaa; }
 .topic .voting li.total a:hover, .topic .voting li.total a { background: #fff; color: #aaa; }
 .topic .voting li.minus { margin-right: 20px; }
-.topic .voting li.plus a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 3px; text-decoration: none; width: 9px; }
-.topic .voting li.plus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.topic .voting li.minus a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 4px; text-decoration: none; width: 9px; }
-.topic .voting li.minus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.topic .voting li.plus a { background: url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 3px; text-decoration: none; width: 9px; }
+.topic .voting li.plus a:hover { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.topic .voting li.minus a { background: url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 4px; text-decoration: none; width: 9px; }
+.topic .voting li.minus a:hover { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
 
-.topic .voting.voted li.plus a { cursor:default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
-.topic .voting.voted li.minus a { cursor:default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.topic .voting.voted li.plus a { cursor:default; background: url(../images/icons.gif) no-repeat scroll 0 -90px; }
+.topic .voting.voted li.minus a { cursor:default; background: url(../images/icons.gif) no-repeat scroll -10px -90px; }
 
-.topic .voting.plus li.plus a { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.topic .voting.minus li.minus a { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
-.topic .voting.guest li.plus a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
-.topic .voting.guest li.minus a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.topic .voting.plus li.plus a { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.topic .voting.minus li.minus a { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.topic .voting.guest li.plus a { background: url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
+.topic .voting.guest li.minus a { background: url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
 .topic .voting.positive .total { color: #390; }
 .topic .voting.negative .total { color: #f00; }
 
-.topic .voting.minus li.plus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
-.topic .voting.plus li.minus a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.topic .voting.minus li.plus a:hover { background: url(../images/icons.gif) no-repeat scroll 0 -90px; }
+.topic .voting.plus li.minus a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -90px; }
 
 .topic .voting li.comments-total a { font-size: 11px; }
 .topic .voting li.comments-total a span { padding: 0 2px; }
@@ -243,10 +243,10 @@ select { width: 99%; }
 -------------------------------------------------------------------*/
 /* Add to Favorite Icon */
 .talk .favorite { position: absolute; top: 7px; left: 10px; }
-.talk .favorite a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
-.talk .favorite a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.talk .favorite.active a { background: transparent url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.talk .favorite.guest a { background: transparent url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
+.talk .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
+.talk .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.talk .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
+.talk .favorite.guest a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
 
 .tal-table .favorite { }
 
@@ -269,14 +269,14 @@ select { width: 99%; }
 /* Block Nav
 -------------------------------------------------------------------*/
 .block-nav { overflow: hidden; margin-bottom: 5px; }
-.block-nav li { font-size: 11px; line-height: 11px; float: left; background: transparent url(../images/bg.gif) repeat-x scroll 0 -534px; padding: 0 !important; }
+.block-nav li { font-size: 11px; line-height: 11px; float: left; background: url(../images/bg.gif) repeat-x scroll 0 -534px; padding: 0 !important; }
 .block-nav li a { color: #a2a2a2; text-decoration: none; outline: none; padding: 3px 0 7px 0; margin: 0 8px; display: block; float: left; }
-.block-nav li strong { float: left; display: block; width: 5px; height: 21px; margin-right: -5px; background: transparent url(../images/bg.gif) no-repeat scroll -9px -555px; }
-.block-nav li em { float: left; display: block; width: 5px; height: 21px; margin-left: -5px; background: transparent url(../images/bg.gif) no-repeat scroll -5px -555px; }
-.block-nav li.active strong { background: transparent url(../images/bg.gif) no-repeat scroll 0 -555px; }
-.block-nav li.active em { background: transparent url(../images/bg.gif) no-repeat scroll -14px -555px; }
+.block-nav li strong { float: left; display: block; width: 5px; height: 21px; margin-right: -5px; background: url(../images/bg.gif) no-repeat scroll -9px -555px; }
+.block-nav li em { float: left; display: block; width: 5px; height: 21px; margin-left: -5px; background: url(../images/bg.gif) no-repeat scroll -5px -555px; }
+.block-nav li.active strong { background: url(../images/bg.gif) no-repeat scroll 0 -555px; }
+.block-nav li.active em { background: url(../images/bg.gif) no-repeat scroll -14px -555px; }
 .block-nav li.active { background: #81da5e url(../images/bg.gif) repeat-x scroll 0 -513px; }
-.block-nav li.active a { color: #fff; background: transparent url(../images/bg.gif) no-repeat scroll -19px -555px; }
+.block-nav li.active a { color: #fff; background: url(../images/bg.gif) no-repeat scroll -19px -555px; }
 
 
 
@@ -322,6 +322,7 @@ select { width: 99%; }
 .block.tags ul.cloud li a.w9 { font-size: 26px; }
 .block.tags ul.cloud li a.w10 { font-size: 28px; }
 
+.block.blogs ul.list { border-top: 1px solid #eee; padding-top: 3px; margin-top: 10px; }
 .block.blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
 .block.blogs ul.list li a { padding-right: 50px; color: #777; }
 .block.blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
@@ -331,9 +332,11 @@ select { width: 99%; }
 .block.stream { font-size: 11px; color: #999; }
 .block.stream li { padding: 5px 5px; overflow: hidden;}
 .block.stream li.even { background: #f8f8f8; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-.block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background: transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 13px; }
-.block.stream a.stream-topic { color: #333; padding-right: 5px; background: transparent url(../images/icons.gif) no-repeat scroll 2px -189px; padding-left: 14px; }
-.block.stream a.stream-comment { color: #333; background: transparent url(../images/comment-list.gif) no-repeat scroll 2px 4px; padding-left: 14px; }
+.block.stream a.stream-author { color: #999; font-weight: bold; text-decoration: none; background: url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 13px; }
+.block.stream .stream-topic-icon { background: url(../images/icons.gif) no-repeat scroll 2px -188px; padding-left: 14px; zoom: 1; }
+.block.stream a.stream-topic { color: #333; padding-right: 5px; }
+.block.stream .stream-comment-icon { background: url(../images/comment-list.gif) no-repeat 2px 4px; padding-left: 14px; zoom: 1; }
+.block.stream a.stream-comment { color: #333; }
 .block.stream a.stream-blog { color: #999; }
 .block.stream span { color: #66b746; }
 
@@ -360,13 +363,13 @@ select { width: 99%; }
 .block.contacts img { padding: 7px; border: 1px solid #ccc; margin: 20px 0 0 0; }
 .block.contacts ul { margin-top: 5px; }
 .block.contacts ul li { padding: 3px 0 3px 25px; }
-.block.contacts ul li.icq { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px 2px; }
-.block.contacts ul li.jabber { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -23px; }
-.block.contacts ul li.skype { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -47px; margin-bottom: 10px; }
-.block.contacts ul li.lj { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -73px; }
-.block.contacts ul li.vk { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -99px; margin-bottom: 10px; }
-.block.contacts ul li.email { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -122px; }
-.block.contacts ul li.phone { background: transparent url(../images/icons-contacts.gif) no-repeat scroll 0px -145px; }
+.block.contacts ul li.icq { background: url(../images/icons-contacts.gif) no-repeat scroll 0px 2px; }
+.block.contacts ul li.jabber { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -23px; }
+.block.contacts ul li.skype { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -47px; margin-bottom: 10px; }
+.block.contacts ul li.lj { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -73px; }
+.block.contacts ul li.vk { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -99px; margin-bottom: 10px; }
+.block.contacts ul li.email { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -122px; }
+.block.contacts ul li.phone { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -145px; }
 
 .block.stat ul.users { font-size: 11px; color: #999; width: 150px; }
 .block.stat ul.users li { border-bottom: 1px solid #eee; padding-bottom: 2px; }
@@ -390,8 +393,8 @@ select { width: 99%; }
 /* Update Comments
 -------------------------------------------------------------------*/
 .update { background: #fbfcfc none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
-.update .tl { background:transparent url(../images/bg_update.gif) no-repeat scroll 0 0; font-size: 1px; height: 9px; }
-.update .bl { background:transparent url(../images/bg_update.gif) no-repeat scroll 0 bottom; font-size: 1px; height: 9px; }
+.update .tl { background:url(../images/bg_update.gif) no-repeat scroll 0 0; font-size: 1px; height: 9px; }
+.update .bl { background:url(../images/bg_update.gif) no-repeat scroll 0 bottom; font-size: 1px; height: 9px; }
 .update .wrapper { border-left: 1px solid #dddede; }
 .update .update-comments { cursor: pointer; vertical-align: top; }
 .update .refresh {  }
@@ -406,7 +409,7 @@ select { width: 99%; }
 
 /* Header */
 .comments .header { margin-bottom: 20px; margin-left: 14px; }
-.comments .header a.rss { margin-right: 20px; padding-left: 14px; background: transparent url(../images/icons.gif) no-repeat scroll -70px -247px; }
+.comments .header a.rss { margin-right: 20px; padding-left: 14px; background: url(../images/icons.gif) no-repeat scroll -70px -247px; }
 
 /* Comment Types */
 .comments .old { background: #fff; }
@@ -422,33 +425,33 @@ select { width: 99%; }
 .comment span.delete { color: #c5c5c5; font-size: 16px; }
 
 /* Rounded Corners */
-.comment .content .tb { height: 7px; overflow: hidden; background: transparent url(../images/comment-tb.gif) repeat-x; }
-.comment .content .tl { height: 7px; background: transparent url(../images/comment-tl.gif) no-repeat left top; }
-.comment .content .tr { height: 7px; background: transparent url(../images/comment-tr.gif) no-repeat right top; }
-.comment .content .bb { height: 15px; background: transparent url(../images/comment-bb.gif) repeat-x; margin-left: 24px; }
-.comment .content .bl { height: 15px; background: transparent url(../images/comment-bl.gif) no-repeat left bottom; }
-.comment .content .br { height: 15px; background: transparent url(../images/comment-br.gif) no-repeat right bottom; }
+.comment .content .tb { height: 7px; overflow: hidden; background: url(../images/comment-tb.gif) repeat-x; }
+.comment .content .tl { height: 7px; background: url(../images/comment-tl.gif) no-repeat left top; }
+.comment .content .tr { height: 7px; background: url(../images/comment-tr.gif) no-repeat right top; }
+.comment .content .bb { height: 15px; background: url(../images/comment-bb.gif) repeat-x; margin-left: 24px; }
+.comment .content .bl { height: 15px; background: url(../images/comment-bl.gif) no-repeat left bottom; }
+.comment .content .br { height: 15px; background: url(../images/comment-br.gif) no-repeat right bottom; }
 
 /* Text of Comment */
 .comment .content .text { border-left: 1px solid #dddede; border-right: 1px solid #dddede; padding: 5px 25px 5px 10px; overflow: hidden; }
 
 /* Vote Block */
 .comment .voting { width: 48px; height: 30px; float: right; position: relative; left: -20px; top: 8px; z-index: 10; overflow: hidden; }
-.comment .voting a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
-.comment .voting a.minus { width: 9px; height: 11px; display: block; position: relative; top: 5px; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
+.comment .voting a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
+.comment .voting a.minus { width: 9px; height: 11px; display: block; position: relative; top: 5px; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 .comment .voting .total { float: right; position: relative; top: 3px; }
-.comment .voting a.plus:hover { background: transparent url(../images/comment-voting.gif) no-repeat scroll -40px 0px; }
-.comment .voting a.minus:hover { background: transparent url(../images/comment-voting.gif) no-repeat scroll -70px 0px; }
+.comment .voting a.plus:hover { background: url(../images/comment-voting.gif) no-repeat scroll -40px 0px; }
+.comment .voting a.minus:hover { background: url(../images/comment-voting.gif) no-repeat scroll -70px 0px; }
 .comment .voting.positive .total { color: #390; }
 .comment .voting.negative .total { color: #f00; }
-.comment .voting.guest a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
-.comment .voting.guest a.minus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
-.comment .voting.plus a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll -40px 0px; }
-.comment .voting.minus a.minus { width: 9px; height: 11px; display: block; overflow: hidden; background: transparent url(../images/comment-voting.gif) no-repeat scroll -70px 0px; }
+.comment .voting.guest a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
+.comment .voting.guest a.minus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
+.comment .voting.plus a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll -40px 0px; }
+.comment .voting.minus a.minus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll -70px 0px; }
 
 .comment .voting.voted a.plus, .comment .voting.voted a.minus, .comment .voting.guest a.plus, .comment .voting.guest a.minus { cursor:default; }
-.comment .voting.minus a.plus:hover {background: transparent url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
-.comment .voting.plus a.minus:hover {background: transparent url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
+.comment .voting.minus a.plus:hover {background: url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
+.comment .voting.plus a.minus:hover {background: url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 
 /* Info Block */
 .comment .info { font-size: 11px; line-height: 14px; margin-left: 14px; margin-bottom: 25px; overflow: hidden; }
@@ -460,11 +463,11 @@ select { width: 99%; }
 .comment .info ul li { float: left; font-size: 10px; margin-right: 10px; }
 .comment .info ul li.date { color: #999; font-size: 10px; padding-right: 20px; }
 .comment .info a.imglink { display: block; width: 9px; height: 11px; text-decoration: none; position: relative; top: 3px; }
-.comment .info a.link { background: transparent url(../images/icons.gif) no-repeat scroll -10px -230px; }
-.comment .info a.link:hover { background: transparent url(../images/icons.gif) no-repeat scroll 0px -230px; }
-.comment .info a.favorite { background: transparent url(../images/icons.gif) no-repeat scroll -40px -40px; }
-.comment .info a.favorite:hover { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
-.comment .info a.favorite-active { background: transparent url(../images/icons.gif) no-repeat scroll -50px -40px; }
+.comment .info a.link { background: url(../images/icons.gif) no-repeat scroll -10px -230px; }
+.comment .info a.link:hover { background: url(../images/icons.gif) no-repeat scroll 0px -230px; }
+.comment .info a.favorite { background: url(../images/icons.gif) no-repeat scroll -40px -40px; }
+.comment .info a.favorite:hover { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
+.comment .info a.favorite-active { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info a.off { color: #999; }
 .comment .info a.repair { color: #4CCC1B; }
 .comment .info a.delete { color: #f00; }
@@ -472,7 +475,7 @@ select { width: 99%; }
 .comment .comment-topic { font-size: 11px; color: #999; padding-bottom: 3px; padding-left: 2px; }
 .comment .comment-topic a { font-weight: bold; }
 .comment .comment-topic a.comment-blog { color: #999; }
-.comment .comment-topic a.comment-total { background: transparent url(../images/comment-total.gif) no-repeat 0 4px; padding-left: 10px; margin-left: 10px; text-decoration: none; font-weight: normal; color: #78c658; }
+.comment .comment-topic a.comment-total { background: url(../images/comment-total.gif) no-repeat 0 4px; padding-left: 10px; margin-left: 10px; text-decoration: none; font-weight: normal; color: #78c658; }
 
 .comments.top { padding-left: 0; }
 .comments.top .comment .content, .comments.top .comment .info { margin-left: 0; }
@@ -513,14 +516,14 @@ select { width: 99%; }
 .profile-blog h1.title strong { background: url(../images/profile-blog-info.gif) no-repeat scroll 0px 6px; padding-right: 12px; margin-left: 7px; }
 .profile-blog h1.title a.inactive strong { background: url(../images/profile-blog-info-inactive.gif) no-repeat scroll 0px 6px;  }
 
-.profile-blog .action { overflow: hidden; margin: 0 0 20px 0; padding-left: 34px; }
+.profile-blog .action { overflow: hidden; margin: 0 0 20px 0; padding-left: 34px; zoom: 1; }
 .profile-blog .action li { float: left; margin-right: 3px; }
 .profile-blog .action li a { color: #aaa; outline: none; }
-.profile-blog .action li.rss a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll -70px -250px; }
-.profile-blog .action li.join a { display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; }
-.profile-blog .action li.join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.profile-blog .action li.join-active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.profile-blog .action li.edit a { background: transparent url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
+.profile-blog .action li.rss a { display: block; height: 10px; width: 10px; background:  url(../images/icons.gif) no-repeat scroll -70px -250px; }
+.profile-blog .action li.join a { display: block; height: 10px; width: 10px; background:  url(../images/icons.gif) no-repeat scroll 0 -250px; }
+.profile-blog .action li.join a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.profile-blog .action li.join-active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.profile-blog .action li.edit a { background: url(../images/edit.gif) no-repeat 0 1px; padding-left: 20px; position: relative; top: -4px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
 .profile-blog .action li a:hover { text-decoration: underline; }
 
 .profile-blog .voting { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; }
@@ -530,27 +533,27 @@ select { width: 99%; }
 .profile-blog .voting .plus { float: left; margin-right: 5px; }
 .profile-blog .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-blog .voting .minus { float: left; margin-right: 0; }
-.profile-blog .voting a.plus  { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
-.profile-blog .voting a.plus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.profile-blog .voting a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
-.profile-blog .voting a.minus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
-.profile-blog .voting.plus a.plus { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.profile-blog .voting.minus a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
-.profile-blog .voting.guest a.plus { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
-.profile-blog .voting.guest a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.profile-blog .voting a.plus  { background: url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
+.profile-blog .voting a.plus:hover { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-blog .voting a.minus { background: url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
+.profile-blog .voting a.minus:hover { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-blog .voting.plus a.plus { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-blog .voting.minus a.minus { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-blog .voting.guest a.plus { background: url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
+.profile-blog .voting.guest a.minus { background: url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
 .profile-blog .voting.positive .total { background: #68bf46; }
 .profile-blog .voting.negative .total { background: #ff3b3c; }
 .profile-blog .voting.voted a.plus { cursor: default; }
 .profile-blog .voting.voted a.minus { cursor: default; }
-.profile-blog .voting.voted.plus a.minus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
-.profile-blog .voting.voted.minus a.plus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
+.profile-blog .voting.voted.plus a.minus:hover { cursor: default; background: url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.profile-blog .voting.voted.minus a.plus:hover { cursor: default; background: url(../images/icons.gif) no-repeat scroll 0 -90px; }
 
 .profile-blog .about { background: #f4f4f6; margin-bottom: 40px; clear: both; }
 
-.profile-blog .about .tl { background: transparent url(../images/profile-blog-tl.gif) no-repeat left top; height: 10px; }
-.profile-blog .about .tr { background: transparent url(../images/profile-blog-tr.gif) no-repeat right top; height: 10px; }
-.profile-blog .about .bl { background: transparent url(../images/profile-blog-bl.gif) no-repeat left bottom; height: 10px; }
-.profile-blog .about .br { background: transparent url(../images/profile-blog-br.gif) no-repeat right bottom; height: 10px; }
+.profile-blog .about .tl { background: url(../images/profile-blog-tl.gif) no-repeat left top; height: 10px; }
+.profile-blog .about .tr { background: url(../images/profile-blog-tr.gif) no-repeat right top; height: 10px; }
+.profile-blog .about .bl { background: url(../images/profile-blog-bl.gif) no-repeat left bottom; height: 10px; }
+.profile-blog .about .br { background: url(../images/profile-blog-br.gif) no-repeat right bottom; height: 10px; }
 
 .profile-blog .about .content { padding: 5px 32px; color: #666; overflow: hidden; }
 .profile-blog .about .content h1 { color: #555; }
@@ -570,7 +573,7 @@ select { width: 99%; }
 .profile-blog .about .content h1.readers a.inactive { border-bottom: 1px dashed #aaa; color: #b0b0b0; text-decoration: none;}
 
 .profile-blog .about .content ul.reader-list { overflow: hidden; }
-.profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
+.profile-blog .about .content ul.reader-list li { float: left; margin-right: 15px; background: url(../images/icons.gif) no-repeat scroll 0 -104px; padding-left: 12px; }
 
 
 /* Profile of user
@@ -584,20 +587,20 @@ select { width: 99%; }
 .profile-user .voting .plus { float: left; margin-right: 5px; }
 .profile-user .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-user .voting .minus { float: left; margin-right: 0; }
-.profile-user .voting a.plus  { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
-.profile-user .voting a.plus :hover { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.profile-user .voting a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
-.profile-user .voting a.minus:hover { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
-.profile-user .voting.plus a.plus { background: transparent url(../images/icons.gif) no-repeat scroll -40px -90px; }
-.profile-user .voting.minus a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -70px -90px; }
-.profile-user .voting.guest a.plus { background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
-.profile-user .voting.guest a.minus { background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
+.profile-user .voting a.plus  { background: url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
+.profile-user .voting a.plus :hover { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting a.minus { background: url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
+.profile-user .voting a.minus:hover { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-user .voting.plus a.plus { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting.minus a.minus { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
+.profile-user .voting.guest a.plus { background: url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
+.profile-user .voting.guest a.minus { background: url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
 .profile-user .voting.positive .total { background: #68bf46; }
 .profile-user .voting.negative .total { background: #ff3b3c; }
 .profile-user .voting.voted a.plus { cursor: default; }
 .profile-user .voting.voted a.minus { cursor: default; }
-.profile-user .voting.voted.plus a.minus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll -10px -90px; }
-.profile-user .voting.voted.minus a.plus:hover { cursor: default; background: transparent url(../images/icons.gif) no-repeat scroll 0 -90px; }
+.profile-user .voting.voted.plus a.minus:hover { cursor: default; background: url(../images/icons.gif) no-repeat scroll -10px -90px; }
+.profile-user .voting.voted.minus a.plus:hover { cursor: default; background: url(../images/icons.gif) no-repeat scroll 0 -90px; }
 
 .profile-user .strength { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; margin-left: 15px; }
 .profile-user .strength .clear { clear: both; color: #aaa; }
@@ -613,7 +616,7 @@ select { width: 99%; }
 .profile-user td { vertical-align: top; }
 .profile-user td.var { color: #999; font-weight: bold; width: 150px; padding: 0 0 5px; }
 .profile-user td.friends { color: #999; }
-.profile-user td.friends a { color: #999; padding: 5px 0; background: transparent url(../images/icons.gif) no-repeat scroll 0 -101px; padding-left: 12px; }
+.profile-user td.friends a { color: #999; padding: 5px 0; background: url(../images/icons.gif) no-repeat scroll 0 -101px; padding-left: 12px; }
 
 
 /* People & Top
@@ -646,17 +649,17 @@ select { width: 99%; }
 .people.top-blogs td.name { overflow: hidden; }
 .people.top-blogs td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }
 .people.top-blogs td.name a.title { font-size: 18px; line-height: 14px; }
-.people.top-blogs td.name a.author { line-height: 18px; background:transparent url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 12px; color: #999; font-weight: bold; }
+.people.top-blogs td.name a.author { line-height: 18px; background:url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 12px; color: #999; font-weight: bold; }
 .people.top-blogs .join { text-align: center; }
-.people.top-blogs .join a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/icons.gif) no-repeat scroll 0 -250px; }
-.people.top-blogs .join a:hover { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.people.top-blogs .join.active a { background: transparent url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.people.top-blogs .join a { margin: 0 auto; outline: none; display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll 0 -250px; zoom: 1; }
+.people.top-blogs .join a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.people.top-blogs .join.active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
 
 .people.top-blogs thead td.fav-head { width: 40px; text-align: center; }
 .people.top-blogs .fav { text-align: center; }
-.people.top-blogs .fav a { margin: 0 auto; display: block; height: 10px; width: 10px; background: transparent url(../images/star-off.gif) no-repeat; }
-.people.top-blogs .fav a:hover { background: transparent url(../images/star.gif) no-repeat; }
-.people.top-blogs .fav.active a { background: transparent url(../images/star.gif) no-repeat; }
+.people.top-blogs .fav a { margin: 0 auto; display: block; height: 10px; width: 10px; background: url(../images/star-off.gif) no-repeat; }
+.people.top-blogs .fav a:hover { background: url(../images/star.gif) no-repeat; }
+.people.top-blogs .fav.active a { background: url(../images/star.gif) no-repeat; }
 .people.talk-table thead td.user { padding-left: 10px; }
 .people.talk-table .author { margin-left: 10px; }
 
@@ -699,6 +702,8 @@ select { width: 99%; }
 .lite-center.error h1 { font-size: 28px; color: #888; }
 .lite-center.error p { margin-bottom: 10px; color: #888; }
 
+.lite-center.register { position: static; margin: 0 auto; }
+
 .lite-note { overflow: hidden; zoom: 1; }
 .lite-note a { float: right; font-size: 11px; }
 
@@ -733,20 +738,20 @@ a.button.small em { background: url(../images/button-small.gif) no-repeat right 
 .table-blog-users tbody td.username { text-align: left; }
 .table-blog-users tbody tr.even td { background: #f5f5f5; }
 
-
 .searched-item { background: #fffacd; }
 
 
-/* Static page edit
--------------------------------------------------------------------*/
-table.admin_page th {vertical-align:bottom; border: none;  border-bottom: solid #B0C1D3 1px;  padding:.2em .6em .2em .65em; background:#e2e4e4; font-size:0.9em; font-weight:normal; color:#6e6e6e;  }
-table.admin_page td { padding:6px 8px 6px 8px; border: none; border-right: solid #B0C1D3 1px; }
-table.admin_page tr.colored td { background-color:#EEF6FB; }
-table.admin_page tr.colored_sel td { background-color:#D9FBC2; }
-table.admin_page { font-size:0.9em;  border:none;  margin:20px 0px 30px 0px; border-bottom:solid 1px #B0C1D3; }  
-table.admin_page td:first-child { border-left: solid #B0C1D3 1px }
-table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit'); }
-table.admin_page img {margin: 0px !important;;}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

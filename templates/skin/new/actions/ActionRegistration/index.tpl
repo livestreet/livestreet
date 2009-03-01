@@ -1,7 +1,7 @@
 {include file='header.light.tpl'}
 
 
-	<div class="lite-center" style="top: 100px;">
+	<div class="lite-center register">
 		<form action="{$DIR_WEB_ROOT}/registration/" method="POST">
 			<h3>Регистрация</h3>
 			<label for="login">Имя пользователя:</label><br />
