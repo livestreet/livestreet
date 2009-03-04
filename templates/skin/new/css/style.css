@@ -416,9 +416,9 @@ select { width: 99%; }
 
 /* Comment Types */
 .comments .comment .content { background: #f7f7f7; } /* default background of comment */
-.comments .self { background: #fdf5e6; }
-.comments .new { background: #e4fbf1; }
-.comments .del { background: #c5c5c5; }
+.comments .self { background: #fdf5e6 !important; }
+.comments .new { background: #e4fbf1 !important; }
+.comments .del { background: #c5c5c5 !important; }
 
 /* Single Comment */
 .comment .folding { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
