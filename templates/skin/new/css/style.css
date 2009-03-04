@@ -23,6 +23,9 @@ h1, h2, h3, h4, h5, h6 { font: normal 18px Verdana; color: #333; }
 h1 { font-size: 22px; line-height: 26px; margin-bottom: 10px; }
 h2 { font-size: 20px; line-height: 24px; margin-bottom: 7px; }
 h3 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h4 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h5 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h6 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
 
 a { color: #70aae0; }
 a:hover { text-decoration: none; }
@@ -156,7 +159,7 @@ select { width: 99%; }
 
 /* Add to Favorite Icon */
 .topic .favorite { position: absolute; top: 7px; left: 10px; }
-.topic .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
+.topic .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; outline: none; }
 .topic .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
 .topic .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
 .topic .favorite.guest a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
@@ -392,7 +395,7 @@ select { width: 99%; }
 
 /* Update Comments
 -------------------------------------------------------------------*/
-.update { background: #fbfcfc none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
+.update { background: none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
 .update .tl { background:url(../images/bg_update.gif) no-repeat scroll 0 0; font-size: 1px; height: 9px; }
 .update .bl { background:url(../images/bg_update.gif) no-repeat scroll 0 bottom; font-size: 1px; height: 9px; }
 .update .wrapper { border-left: 1px solid #dddede; }
