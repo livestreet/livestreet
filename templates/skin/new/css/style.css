@@ -179,7 +179,7 @@ select { width: 99%; }
 .topic .action li a:hover { text-decoration: underline; }
 
 /* Tags of Topic */
-.topic .tags { background: url(../images/icons.gif) no-repeat scroll -70px -225px; padding-left: 15px; margin-bottom: 3px; clear: both; }
+.topic .tags { background: url(../images/icon-tag.gif) no-repeat 0px 6px; padding-left: 13px; margin-bottom: 3px; clear: both; }
 .topic .tags li { display: inline; color: #777; }
 .topic .tags li a { text-decoration: none; color: #777; }
 .topic .tags li a:hover { background: #777; color: #fff; }
@@ -238,7 +238,7 @@ select { width: 99%; }
 
 .topic .content blockquote { font: italic 14px/22px Georgia, Serif; padding: 5px 10px; margin-bottom: 15px; background: #f8f8f8; }
 
-.topic .content pre { overflow: auto; width: 96%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+.topic .content pre, .comment .content pre { overflow: auto; width: 96%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
 
 
 
@@ -415,7 +415,7 @@ select { width: 99%; }
 .comments .header a.rss { margin-right: 20px; padding-left: 14px; background: url(../images/icons.gif) no-repeat scroll -70px -247px; }
 
 /* Comment Types */
-.comments .old { background: #fff; }
+.comments .comment .content { background: #f7f7f7; } /* default background of comment */
 .comments .self { background: #fdf5e6; }
 .comments .new { background: #e4fbf1; }
 .comments .del { background: #c5c5c5; }
