@@ -42,16 +42,13 @@
 					
 					{if ($oUserProfile->getProfileCountry()|| $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity())}
 					<tr>
-						<td class="var">Местопололжение:</td>
+						<td class="var">Местоположение:</td>
 						<td>
 						{if $oUserProfile->getProfileCountry()}
-							<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/country/{$oUserProfile->getProfileCountry()|escape:'html'}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>
-						{/if}
-						{if $oUserProfile->getProfileRegion()}
-							, {$oUserProfile->getProfileRegion()|escape:'html'}
-						{/if}
+							<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/country/{$oUserProfile->getProfileCountry()|escape:'html'}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oUserProfile->getProfileCity()},{/if}
+						{/if}						
 						{if $oUserProfile->getProfileCity()}
-							, <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/city/{$oUserProfile->getProfileCity()|escape:'html'}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+							<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/city/{$oUserProfile->getProfileCity()|escape:'html'}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
 						{/if}
 						</td>
 					</tr>
