@@ -34,7 +34,7 @@ function toggleBlogInfo(id,link) {
 				<h1 class="title"><a href="#" class="title-link" onclick="toggleBlogInfo('blog_about_{$oBlog->getId()}',this); return false;"><span>{$oBlog->getTitle()|escape:'html'}</span><strong>&nbsp;&nbsp;</strong></a></h1>
 				<ul class="action">
 					<li class="rss"><a href="{$DIR_WEB_ROOT}/rss/blog/{$oBlog->getUrl()}/"></a></li>					
-					{if $oUserCurrent->getId()!=$oBlog->getOwnerId()}
+					{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
 						<li class="join {if !$bNeedJoin}active{/if}">
 							<a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;"></a>
 						</li>
