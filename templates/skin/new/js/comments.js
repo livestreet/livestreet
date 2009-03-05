@@ -131,7 +131,7 @@ var lsCmtTreeClass = new Class({
 			var aDivComments=$$('.comment');
 			aDivComments.each(function(item,index){
 				var divContent=item.getChildren('div.content')[0];
-				if (divContent.hasClass('new')) {
+				if (divContent && divContent.hasClass('new')) {
 					divContent.removeClass('new');
 				}
 			});
