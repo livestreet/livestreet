@@ -35,9 +35,13 @@
 				
 				{assign var="nesting" value="-1"}
 				{foreach from=$aCommentsNew item=aComment name=rublist}
-   					{if $nesting < $aComment.level}        
-    				{elseif $nesting > $aComment.level}    	
-        				{section name=closelist1  loop=`$nesting-$aComment.level+1`}</div></div>{/section}
+					{assign var="cmtlevel" value=$aComment.level}					
+					{if $cmtlevel>$BLOG_COMMENT_MAX_TREE_LEVEL}
+						{assign var="cmtlevel" value=$BLOG_COMMENT_MAX_TREE_LEVEL}
+					{/if}
+   					{if $nesting < $cmtlevel}        
+    				{elseif $nesting > $cmtlevel}    	
+        				{section name=closelist1  loop=`$nesting-$cmtlevel+1`}</div></div>{/section}
     				{elseif not $smarty.foreach.rublist.first}
         				</div></div>
     				{/if}    
@@ -90,7 +94,7 @@
 							<span class="delete">комментарий был удален</span><br><br>
 						{/if}		
 							<div class="comment-children" id="comment-children-{$aComment.obj->getId()}">    
-    				{assign var="nesting" value="`$aComment.level`"}    
+    				{assign var="nesting" value=$cmtlevel}    
     				{if $smarty.foreach.rublist.last}
         				{section name=closelist2 loop=`$nesting+1`}</div></div>{/section}    
     				{/if}

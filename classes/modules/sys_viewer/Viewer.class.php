@@ -108,6 +108,7 @@ class Viewer extends Module {
 		$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
 		$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
 		$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
+		$this->Assign("BLOG_COMMENT_MAX_TREE_LEVEL",BLOG_COMMENT_MAX_TREE_LEVEL);
 		/**
 		 * Константы роутинга страниц
 		 */
