@@ -735,9 +735,9 @@ class Mapper_Topic extends Mapper {
 		$aReturnSort=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aRow) {				
-				$aReturn[$aRow['topic_tag_text']]=$aRow;
-			}			
-			ksort($aReturn);			
+				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
+			}
+			ksort($aReturn);
 			foreach ($aReturn as $aRow) {
 				$aReturnSort[]=new TopicEntity_TopicTag($aRow);				
 			}
