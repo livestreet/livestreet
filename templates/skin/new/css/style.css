@@ -90,7 +90,7 @@ select { width: 99%; }
 #header .nav-main li.active a { color: #fff; font-size: 24px; line-height: 24px; text-decoration: none; }
 
 /* Profile */
-#header .profile { float: right; padding-top: 15px; padding-right: 20px; }
+#header .profile { float: right; padding-top: 15px; padding-right: 23px; }
 
 #header .profile a.avatar { display: block; width: 48px; height: 48px; float: right; }
 #header .profile a.avatar img { width: 48px; height: 48px; }
@@ -103,7 +103,7 @@ select { width: 99%; }
 #header .profile ul li a.message-empty { background: url(../images/icons.gif) no-repeat scroll right 3px; color:#ffea00; margin-right: 5px; padding-right: 18px; }
 #header .profile ul li a:hover { color: #ddd; }
 
-#header .profile.guest { width: 270px; text-align: left; padding-top: 27px; padding-right: 0; color: #ddd; }
+#header .profile.guest { width: 235px; text-align: left; padding-top: 27px; padding-right: 0; color: #ddd; }
 #header .profile.guest a { font-size: 18px; color: #fafafa; outline: none; line-height: 20px; }
 #header .profile.guest a.reg { font-size: 12px; }
 
@@ -134,10 +134,11 @@ select { width: 99%; }
 .sub-menu li.active a { text-decoration: none; color: #fff !important; margin-right: 5px; }
 
 /* Search */
-#nav .search { float: right; padding-top: 43px; padding-right: 40px; }
-#nav .search input { border: 0; }
-#nav .search .text { width: 170px; padding: 5px 0 6px 15px; margin-right: -4px; vertical-align: top; line-height: 0; font: normal 12px Verdana, Sans-Serif; vertical-align: top; color: #777; background: url(../images/search-left.gif) no-repeat; }
-#nav .search .button { width: 29px; height: 25px; vertical-align: top; background: url(../images/search-button.gif) no-repeat; }
+#nav .search { width: 214px; float: right; padding-top: 43px; padding-right: 3px; }
+#nav .search form { width: 214px; position: relative; }
+#nav .search input { border: 0; margin: 0; position: absolute; }
+#nav .search .text { width: 170px; padding: 5px 0 6px 15px; font: normal 12px Verdana, Sans-Serif; color: #777; background: url(../images/search-left.gif) no-repeat; }
+#nav .search .button { width: 29px; height: 25px; top: 0px; right: 0px; background: url(../images/search-button.gif) no-repeat; }
 
 /* Rss */
 #nav .rss { float: right; background: url(../images/icons.gif) no-repeat scroll 0 -270px; display: block; height: 11px; width: 74px; margin-top: 51px; margin-right: 10px; }
@@ -363,7 +364,7 @@ select { width: 99%; }
 .block.actions li.del a { color: #dd0000; }
 
 .block.contacts strong { color: #999; }
-.block.contacts img { padding: 7px; border: 1px solid #ccc; margin: 20px 0 0 0; }
+.block.contacts img { padding: 7px; border: 1px solid #ccc; }
 .block.contacts ul { margin-top: 5px; }
 .block.contacts ul li { padding: 3px 0 3px 25px; }
 .block.contacts ul li.icq { background: url(../images/icons-contacts.gif) no-repeat scroll 0px 2px; }
@@ -381,7 +382,7 @@ select { width: 99%; }
 .block.stat .gender ul { font-size: 11px; color: #999; width: 150px; float: left; padding-top: 50px; }
 .block.stat .gender ul li { border-bottom: 1px solid #eee; padding-bottom: 2px; }
 .block.stat .gender ul li.last { border-bottom: 0; }
-.block.stat .gender ul li .mark { width: 8px; height: 8px; float: right; position: relative; top: 4px; left: -5px; overflow: hidden; border: 1px solid #ddd; }
+.block.stat .gender ul li .mark { width: 8px; height: 8px; float: right; margin-top: 4px; margin-right: 2px; overflow: hidden; border: 1px solid #ddd; }
 .block.stat .chart { width: 160px; float: left; }
 
 .block.view ul li { padding-bottom: 2px; }
