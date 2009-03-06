@@ -160,10 +160,11 @@ select { width: 99%; }
 
 /* Add to Favorite Icon */
 .topic .favorite { position: absolute; top: 7px; left: 10px; }
-.topic .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; outline: none; }
-.topic .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.topic .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
-.topic .favorite.guest a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
+.topic .favorite a { background: url(../images/icons.gif) no-repeat 0 -40px; display: block; height: 16px; width: 20px; outline: none; }
+.topic .favorite a:hover { background: url(../images/icons.gif) no-repeat -20px -40px; }
+.topic .favorite.active a { background: url(../images/icons.gif) no-repeat -20px -40px; }
+.topic .favorite.fav-guest a { background: url(../images/icons.gif) no-repeat 0 -40px; cursor: default; }
+.topic .favorite.fav-guest a:hover { background: url(../images/icons.gif) no-repeat 0 -40px; cursor: default; }
 
 /* Actions */
 .topic .action { overflow: hidden; margin-bottom: 20px; }
@@ -657,7 +658,7 @@ select { width: 99%; }
 .people.top-blogs .join { text-align: center; }
 .people.top-blogs .join a { margin: 0 auto; outline: none; display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll 0 -250px; zoom: 1; }
 .people.top-blogs .join a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.people.top-blogs .join.active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
+.people.top-blogs .join.active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px !important; }
 
 .people.top-blogs thead td.fav-head { width: 40px; text-align: center; }
 .people.top-blogs .fav { text-align: center; }

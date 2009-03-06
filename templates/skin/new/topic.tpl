@@ -1,6 +1,6 @@
 			<!-- Topic -->			
 			<div class="topic">
-				<div class="favorite {if $oUserCurrent}{if $bInFavourite}active{/if}{else}guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
+				<div class="favorite {if $oUserCurrent}{if $bInFavourite}active{/if}{else}fav-guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
 				<h1 class="title">
 					{if $oTopic->getPublish()==0}	
 						<img src="{$DIR_STATIC_SKIN}/images/topic_unpublish.gif" border="0" title="{$aLang.topic_unpublish}" width="16" height="16" alt="{$aLang.topic_unpublish}">

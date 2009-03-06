@@ -3,7 +3,7 @@
 			<!-- Topic -->			
 			<div class="topic">
 				
-				<div class="favorite {if $oUserCurrent}{if $oTopic->getIsFavourite()}active{/if}{else}guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
+				<div class="favorite {if $oUserCurrent}{if $oTopic->getIsFavourite()}active{/if}{else}fav-guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
 				
 				<h1 class="title">		
 					{if $oTopic->getPublish()==0}	
