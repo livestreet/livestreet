@@ -292,25 +292,26 @@ var lsCmtTreeClass = new Class({
 		} 
 		divCurrentForm=$('reply_'+this.iCurrentShowFormComment);
 		divNextForm=$('reply_'+idComment);
-		
+				
 		var slideCurrentForm = new Fx.Slide(divCurrentForm);
 		var slideNextForm = new Fx.Slide(divNextForm);
 		
+		$('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
 		if (this.iCurrentShowFormComment==idComment) {
 			slideCurrentForm.toggle();
-			$('form_comment_text').focus();
+			//$('form_comment_text').focus();
 			return;
 		}
 		
 		slideCurrentForm.slideOut();
 		divNextForm.set('html',divCurrentForm.get('html'));
-		divCurrentForm.set('html','');
+		divCurrentForm.set('html','');		
 		divNextForm.setStyle('display','block');
 		slideNextForm.hide();
 		
 		slideNextForm.slideIn();
-		
-		$('form_comment_text').focus();
+				
+		//$('form_comment_text').focus();
 		$('form_comment_text').setProperty('value','');
 		$('form_comment_reply').setProperty('value',idComment);
 		this.iCurrentShowFormComment=idComment;
@@ -318,11 +319,15 @@ var lsCmtTreeClass = new Class({
 	
 	hideCommentForm: function(idComment) {
 		if ($('reply_'+idComment)) {
+			$('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
 			var slideForm = new Fx.Slide('reply_'+idComment);							
 			slideForm.hide();
 		}
-	}
+	},
 	
+	preview: function() {
+		ajaxTextPreview('form_comment_text',false,'comment_preview_'+this.iCurrentShowFormComment);		
+	}	
 });
 
 

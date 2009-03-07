@@ -1,4 +1,4 @@
-function ajaxTextPreview(textId,save) { 
+function ajaxTextPreview(textId,save,divPreview) { 
 	var text;    
 	if (BLOG_USE_TINYMCE && tinyMCE && (ed=tinyMCE.get(textId))) {
 		text = ed.getContent();
@@ -15,7 +15,12 @@ function ajaxTextPreview(textId,save) {
             if (result.bStateError) {
             	msgErrorBox.alert('Ошибка','Возникли проблемы при обработке предпросмотра');
             } else {    	
-            	$('text_preview').set('html',result.sText);
+            	if (!divPreview) {
+            		divPreview='text_preview';
+            	}            	
+            	if ($(divPreview)) {
+            		$(divPreview).set('html',result.sText).setStyle('display','block');
+            	}
             }                               
         },
         true

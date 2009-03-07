@@ -28,6 +28,7 @@
 								</ul>
 							</div>
 							
+							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$oComment->getId()}" style="display: none;"></div></div></div>	
 							<div class="reply" id="reply_{$oComment->getId()}" style="display: none;"></div>
 							
 							<div class="comment-children" id="comment-children-{$oComment->getId()}">

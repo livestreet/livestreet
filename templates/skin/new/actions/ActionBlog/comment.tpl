@@ -17,6 +17,7 @@
 				<!-- Comments Header -->
 				<div class="header">
 					<h3>Комментарии (<span id="count-comments">{$oTopic->getCountComment()}</span>)</h3>
+					<a name="comments" ></a>
 					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/comments/{$oTopic->getId()}/" class="rss">По RSS</a>
 					<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">свернуть</a> /
 					<a href="#" onclick="lsCmtTree.expandNodeAll(); return false;" onfocus="blur();">развернуть</a>
@@ -88,7 +89,8 @@
    										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">Восстановить</a></li>
    									{/if}								
 								</ul>
-							</div>							
+							</div>		
+							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$aComment.obj->getId()}" style="display: none;"></div></div></div>					
 							<div class="reply" id="reply_{$aComment.obj->getId()}" style="display: none;"></div>	
 						{else}				
 							<span class="delete">комментарий был удален</span><br><br>
@@ -107,15 +109,27 @@
 					Автор топика запретил оставлять комментарии.
 				{else}
 					{if $oUserCurrent}
-						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Комментировать</a></h3>
-						<a name="comments" ></a>
-						<div style="display: block;" id="reply_0" class="reply">				
-						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
+						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Комментировать</a></h3>						
+						<div class="comment"><div class="content"><div class="text" id="comment_preview_0" style="display: none;"></div></div></div>
+						<div style="display: block;" id="reply_0" class="reply">						
+						{if !$BLOG_USE_TINYMCE}
+            					<div class="panel_form" style="background: #eaecea; margin-top: 2px;">       	 
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="жирный"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
+	 								&nbsp;
+	 								<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','Введите ссылку'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/link.gif" width="20" height="20"  title="вставить ссылку"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/code.gif" width="30" height="20" title="код"></a>
+	 							</div>
+	 					{/if}
+						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">							
     						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
+    						<input type="submit" name="submit_preview" value="предпросмотр" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
     						<input type="submit" name="submit_comment" value="добавить" onclick="lsCmtTree.addComment('form_comment',{$oTopic->getId()}); return false;">    	
     						<input type="hidden" name="reply" value="" id="form_comment_reply">
     						<input type="hidden" name="cmt_topic_id" value="{$oTopic->getId()}" id="cmt_topic_id">
-    					</form>					
+    					</form>
 						</div>
 					{else}
 						Только зарегистрированные и авторизованные пользователи могут оставлять комментарии.
