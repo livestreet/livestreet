@@ -275,6 +275,14 @@ class ActionQuestion extends Action {
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
 		$oTopic->setCutText(null);
+		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getTitle()));
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
+			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			return false;			
+		}
 		/**
 		 * Варианты ответов
 		 */
@@ -400,6 +408,14 @@ class ActionQuestion extends Action {
 			foreach (getRequest('answer',array()) as $sAnswer) {
 				$oTopic->addQuestionAnswer($sAnswer);
 			}
+		}
+		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getTitle()));
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
+			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			return false;			
 		}
 		/**
 		 * Публикуем или сохраняем в черновиках

@@ -309,6 +309,14 @@ class ActionLink extends Action {
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
 		$oTopic->setCutText(null);
+		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getLinkUrl()));
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
+			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			return false;			
+		}
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -419,6 +427,14 @@ class ActionLink extends Action {
 		$oTopic->setLinkUrl(getRequest('topic_link_url'));
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());
+		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getLinkUrl()));
+		/**
+		 * Проверяем топик на уникальность
+		 */
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
+			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			return false;			
+		}
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
