@@ -28,6 +28,11 @@ $bStateError=true;
 $sMsg='Please try again later';
 $sMsgTitle='Error';
 $sCommentId=0;
+
+if (get_magic_quotes_gpc()) {
+	func_stripslashes($aParams);
+}
+
 if ($oEngine->User_IsAuthorization()) {	
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	
