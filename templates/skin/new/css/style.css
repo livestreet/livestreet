@@ -240,7 +240,8 @@ select { width: 99%; }
 
 .topic .content blockquote { font: italic 14px/22px Georgia, Serif; padding: 5px 10px; margin-bottom: 15px; background: #f8f8f8; }
 
-.topic .content pre, .comment .content pre { overflow: auto; width: 96%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+.topic .content pre, .comment .content pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+
 
 
 
@@ -410,6 +411,7 @@ select { width: 99%; }
 /* Comments
 -------------------------------------------------------------------*/
 .comments { padding-left: 25px; }
+.comments .comment { overflow: hidden; position: relative; zoom: 1; }
 .comments .comment .comment { padding-left: 30px; }
 
 /* Header */
@@ -418,9 +420,9 @@ select { width: 99%; }
 
 /* Comment Types */
 .comments .comment .content { background: #f7f7f7; } /* default background of comment */
-.comments .self { background: #fdf5e6 !important; }
-.comments .new { background: #e4fbf1 !important; }
-.comments .del { background: #c5c5c5 !important; }
+.comments .comment .content.self { background: #fdf5e6 !important; }
+.comments .comment .content.new { background: #e4fbf1 !important; }
+.comments .comment .content.del { background: #c5c5c5 !important; }
 
 /* Single Comment */
 .comment .folding { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
@@ -438,10 +440,10 @@ select { width: 99%; }
 .comment .content .br { height: 15px; background: url(../images/comment-br.gif) no-repeat right bottom; }
 
 /* Text of Comment */
-.comment .content .text { border-left: 1px solid #dddede; border-right: 1px solid #dddede; padding: 5px 25px 5px 10px; overflow: hidden; }
+.comment .content .text { border-left: 1px solid #dddede; border-right: 1px solid #dddede; padding: 5px 25px 5px 10px; overflow: hidden; zoom: 1; }
 
 /* Vote Block */
-.comment .voting { width: 48px; height: 30px; float: right; position: relative; left: -20px; top: 8px; z-index: 10; overflow: hidden; }
+.comment .voting { width: 48px; height: 30px; position: absolute; right: 20px; top: 8px; z-index: 100; overflow: hidden; }
 .comment .voting a.plus { width: 9px; height: 11px; display: block; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll 0px 0px; }
 .comment .voting a.minus { width: 9px; height: 11px; display: block; position: relative; top: 5px; overflow: hidden; background: url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 .comment .voting .total { float: right; position: relative; top: 3px; }
@@ -459,7 +461,7 @@ select { width: 99%; }
 .comment .voting.plus a.minus:hover {background: url(../images/comment-voting.gif) no-repeat scroll -10px 0px; }
 
 /* Info Block */
-.comment .info { font-size: 11px; line-height: 14px; margin-left: 14px; margin-bottom: 25px; overflow: hidden; }
+.comment .info { font-size: 11px; line-height: 14px; margin-left: 14px; margin-bottom: 25px; overflow: hidden; zoom: 1; }
 .comment .info p { font-size: 10px; }
 .comment .info p a.author { font-size: 11px; font-weight: bold; color: #000; text-decoration: none; }
 .comment .info p a.author:hover { color: #555; }
@@ -484,6 +486,7 @@ select { width: 99%; }
 
 .comments.top { padding-left: 0; }
 .comments.top .comment .content, .comments.top .comment .info { margin-left: 0; }
+.comments.top .voting { top: 28px; }
 
 .reply-title { margin-left: 10px; }
 .reply { padding: 0 50px 10px 10px; }

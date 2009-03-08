@@ -5,14 +5,11 @@
 
 #nav .nav-blog li ul li a { padding: 4px 11px 4px 0; }
 
-.comment .info img.avatar { margin: 2px 7px 0 0; }
-.comment .content .br { position: relative; right: 3px; }
-
 .topic, .topic .action, .topic .voting, #sidebar .tags ul, .people.top-blogs td.name,
-.stream .stream-nav, #footer, .comment .info, .profile-blog .about .content ul.admin-list,
+.stream .stream-nav, #footer,, .profile-blog .about .content ul.admin-list,
 .profile-blog .about .content, #wrapper.white-back, .block.stat .gender, 
 .profile-blog .about .content ul.reader-list, .profile-user .name,  #pagination ul, 
-.block-nav, .comment .content .text, .profile-blog, .poll li dl { zoom: 1; }
+.block-nav, , .profile-blog, .poll li dl { zoom: 1; }
 
 .update { position:absolute; top:expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 8px; }
@@ -20,7 +17,8 @@
 .people.top-blogs td.name a.author { line-height: 25px; }
 .people.top-blogs .join a { position: relative; top: 2px; }
 .profile-blog .about { position: relative; top: -15px; }
-.comments.top .content .tr, .comments.top .content .br { margin-right: 3px; }
+
+.comment .info img.avatar { margin: 2px 7px 0 0; }
 
 .block-nav li a { margin: 0 4px; }
 .block-nav li em { margin-left: 0px; }
