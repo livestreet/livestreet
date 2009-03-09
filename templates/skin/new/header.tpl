@@ -106,6 +106,7 @@ var msgNoticeBox=new Roar({
 			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/">{$aLang.people}</a></li>
 			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/about/">{$aLang.page_about}</a></li>
 			<li {if $sAction=='page' and $sEvent=='download'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/download/">{$aLang.page_download}</a></li>
+			<li {if $sAction=='page' and $sEvent=='download'}class="active"{/if}><a href="http://trac.assembla.com/livestreet/timeline" target="_blank" style="color: #d00;">SVN</a></li>
 		</ul>
 		
 		{if $oUserCurrent}
@@ -117,7 +118,7 @@ var msgNoticeBox=new Roar({
 					{if $iUserCurrentCountTalkNew}
 						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
 					{else}
-						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message-empty"></a>
+						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message-empty">&nbsp;</a>
 					{/if}
 					{$aLang.user_settings} <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/" class="author">{$aLang.user_settings_tuning}</a> 
 				</li>
