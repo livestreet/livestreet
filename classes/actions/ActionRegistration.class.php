@@ -36,7 +36,7 @@ class ActionRegistration extends Action {
 		/**
 		 * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
 		 */
-		if (!$this->User_IsAuthorization() and USER_USE_INVITE and Router::GetActionEvent()!='invite' and !$this->CheckInviteRegister()) {			
+		if (!$this->User_IsAuthorization() and USER_USE_INVITE and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {			
 			return Router::Action('registration','invite');			
 		}
 		
@@ -207,6 +207,13 @@ class ActionRegistration extends Action {
 		 */
 		if (!($oUser=$this->User_GetUserByActivateKey($sActivateKey))) {
 			$bError=true;
+		}
+		/**
+		 * 
+		 */
+		if ($oUser and $oUser->getActivate()) {
+			$this->Message_AddErrorSingle('Ваш аккаунт уже активирован','Ошибка');
+			return Router::Action('error');
 		}
 		/**
 		 * Если что то не то
