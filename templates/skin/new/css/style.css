@@ -279,10 +279,10 @@ select { width: 99%; }
 .block-nav li a { color: #a2a2a2; text-decoration: none; outline: none; padding: 3px 0 7px 0; margin: 0 8px; display: block; float: left; }
 .block-nav li strong { float: left; display: block; width: 5px; height: 21px; margin-right: -5px; background: url(../images/bg.gif) no-repeat scroll -9px -555px; }
 .block-nav li em { float: left; display: block; width: 5px; height: 21px; margin-left: -5px; background: url(../images/bg.gif) no-repeat scroll -5px -555px; }
-.block-nav li.active strong { background: url(../images/bg.gif) no-repeat scroll 0 -555px; }
-.block-nav li.active em { background: url(../images/bg.gif) no-repeat scroll -14px -555px; }
-.block-nav li.active { background: #81da5e url(../images/bg.gif) repeat-x scroll 0 -513px; }
-.block-nav li.active a { color: #fff; background: url(../images/bg.gif) no-repeat scroll -19px -555px; }
+.block-nav li.active { background: #81da5e url(../images/bg.gif) repeat-x 0 -513px !important; }
+.block-nav li.active strong { background: url(../images/bg.gif) no-repeat 0 -555px !important; }
+.block-nav li.active em { background: url(../images/bg.gif) no-repeat -14px -555px !important; }
+.block-nav li.active a { color: #fff; background: url(../images/bg.gif) no-repeat -19px -555px !important; }
 
 
 
@@ -484,9 +484,9 @@ select { width: 99%; }
 .comment .comment-topic a.comment-blog { color: #999; }
 .comment .comment-topic a.comment-total { background: url(../images/comment-total.gif) no-repeat 0 4px; padding-left: 10px; margin-left: 10px; text-decoration: none; font-weight: normal; color: #78c658; }
 
-.comments.top { padding-left: 0; }
-.comments.top .comment .content, .comments.top .comment .info { margin-left: 0; }
-.comments.top .voting { top: 28px; }
+.comments.padding-none { padding-left: 0; }
+.comments.padding-none .comment .content, .comments.padding-none .comment .info { margin-left: 0; }
+.comments.padding-none .voting { top: 28px; }
 
 .reply-title { margin-left: 10px; }
 .reply { padding: 0 50px 10px 10px; }
@@ -675,9 +675,9 @@ select { width: 99%; }
 
 /* Top
 -------------------------------------------------------------------*/
-.top { margin-bottom: 5px; }
-.top h1 span { color: #6ec80d; }
-.top .block-nav { margin-bottom: 5px; }
+.topic.top { margin-bottom: 5px; padding-left: 40px; }
+.topic.top h1 span { color: #6ec80d; }
+.topic.top .block-nav { margin-bottom: 5px; }
 .top-topics .topic { padding-left: 0 !important; }
 
 

@@ -1,5 +1,5 @@
 	{foreach from=$aComments item=oComment}
-				<div class="comments top">
+				<div class="comments padding-none">
 					<div class="comment">						
 						<div class="comment-topic"><a href="{$oComment->getTopicUrl()}">{$oComment->getTopicTitle()|escape:'html'}</a> / <a href="{$oComment->getBlogUrlFull()}" class="comment-blog">{$oComment->getBlogTitle()|escape:'html'}</a> <a href="{$oComment->getTopicUrl()}#comments" class="comment-total">{$oComment->getTopicCountComment()}</a></div>				
 						<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if}">
