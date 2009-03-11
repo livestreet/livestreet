@@ -2,8 +2,8 @@
 				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}	
 				<li {if $oTopic->getQuestionAnswerMax()==$aAnswer.count}class="most"{/if}>		
 					<dl>
-					<dt><span>{$oTopic->getQuestionAnswerPercent($key)}%</span><br/>({$aAnswer.count})</dt>
-					<dd>{$aAnswer.text}<br/><div  style="width: {$oTopic->getQuestionAnswerPercent($key)}%;" /><span></span></dd>
+					<dt><span>{$oTopic->getQuestionAnswerPercent($key)}%</span><br />({$aAnswer.count})</dt>
+					<dd>{$aAnswer.text}<br /><div style="width: {$oTopic->getQuestionAnswerPercent($key)}%;" ><span></span></div></dd>
 					</dl>
 				</li>
 				{/foreach}	
