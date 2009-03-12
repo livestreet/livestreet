@@ -277,8 +277,8 @@ class TopicEntity_Topic extends Entity
     			$iCountAll=$this->getQuestionCountVote()-$this->getQuestionCountVoteAbstain();
     			if ($iCountAll==0) {
     				return 0;
-    			} else {
-    				return round($aAnswers[$sIdAnswer]['count']*100/$iCountAll,2);
+    			} else {    				
+    				return number_format(round($aAnswers[$sIdAnswer]['count']*100/$iCountAll,1), 1, '.', '');
     			}
     		}
     	}
