@@ -596,7 +596,7 @@ select { width: 99%; }
 .profile-user .voting .total { float: left; margin-right: 5px; color: #fff; padding: 5px 10px; font-size: 14px; }
 .profile-user .voting .minus { float: left; margin-right: 0; }
 .profile-user .voting a.plus  { background: url(../images/icons.gif) no-repeat scroll 0 -90px; float: left; display: block; height: 11px; margin-top: 8px; text-decoration: none; width: 9px; }
-.profile-user .voting a.plus :hover { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
+.profile-user .voting a.plus:hover { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
 .profile-user .voting a.minus { background: url(../images/icons.gif) no-repeat scroll -10px -90px; float: left; display: block; height: 11px; margin-top: 9px; text-decoration: none; width: 9px; }
 .profile-user .voting a.minus:hover { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
 .profile-user .voting.plus a.plus { background: url(../images/icons.gif) no-repeat scroll -40px -90px; }
