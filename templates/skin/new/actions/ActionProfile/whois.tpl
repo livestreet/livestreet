@@ -150,7 +150,7 @@
 						<td>{date_format date=$oUserProfile->getDateRegister()}</td>
 					</tr>					
 					<tr>
-						<td class="var">Последний раз:</td>
+						<td class="var">Последний визит:</td>
 						<td>{date_format date=$oUserProfile->getDateLast()}</td>
 					</tr>
 				</table>

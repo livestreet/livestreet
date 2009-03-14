@@ -88,6 +88,7 @@ define('SYS_MAIL_SMTP_HOST','localhost'); // Настройки SMTP - хост
 define('SYS_MAIL_SMTP_PORT',25); // Настройки SMTP - порт
 define('SYS_MAIL_SMTP_USER',''); // Настройки SMTP - пользователь
 define('SYS_MAIL_SMTP_PASSWORD',''); // Настройки SMTP - пароль
+define('SYS_MAIL_SMTP_AUTH',true); // Использовать авторизацию при отправке
 define('SYS_MAIL_INCLUDE_COMMENT_TEXT',true); // Включает в уведомление о новых комментах текст коммента
 define('SYS_MAIL_INCLUDE_TALK_TEXT',true); // Включает в уведомление о новых личных сообщениях текст сообщения
 

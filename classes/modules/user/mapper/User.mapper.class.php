@@ -582,6 +582,7 @@ class Mapper_User extends Mapper {
 				c.country_id=cu.country_id
 				AND
 				cu.user_id=u.user_id
+			ORDER BY u.user_rating DESC
 			LIMIT ?d, ?d ";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCountry,($iCurrPage-1)*$iPerPage, $iPerPage)) {
@@ -605,6 +606,7 @@ class Mapper_User extends Mapper {
 				c.city_id=cu.city_id
 				AND
 				cu.user_id=u.user_id
+			ORDER BY u.user_rating DESC
 			LIMIT ?d, ?d ";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCity,($iCurrPage-1)*$iPerPage, $iPerPage)) {

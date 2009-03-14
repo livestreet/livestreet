@@ -2,6 +2,7 @@
 
 			<!-- Comments -->
 			<div class="comments">
+				{if $oUserCurrent}
 				<div class="update" id="update">
 					<div class="tl"></div>
 					<div class="wrapper">
@@ -13,7 +14,8 @@
 					</div>
 					<div class="bl"></div>
 				</div>
-			
+				{/if}
+				
 				<!-- Comments Header -->
 				<div class="header">
 					<h3>Комментарии (<span id="count-comments">{$oTopic->getCountComment()}</span>)</h3>
@@ -69,7 +71,14 @@
 								{/if}							
 								<div class="tb"><div class="tl"><div class="tr"></div></div></div>								
 								<div class="text">
-									{$aComment.obj->getText()}
+									{if $aComment.obj->isBad()}
+										<div style="display: none;" id="comment_text_{$aComment.obj->getId()}">
+					    				{$aComment.obj->getText()}
+					    				</div>
+					   					 <a href="#" onclick="$('comment_text_{$aComment.obj->getId()}').style.display='block';$(this).style.display='none';return false;">раскрыть комментарий</a>
+									{else}	
+					    				{$aComment.obj->getText()}
+									{/if}								
 								</div>				
 								<div class="bl"><div class="bb"><div class="br"></div></div></div>
 							</div>							

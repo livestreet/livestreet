@@ -22,7 +22,7 @@
 				<strong>Контакты и социальные сервисы</strong>
 				<ul>
 					{if $oUserProfile->getProfileIcq()}
-						<li class="icq"><a href="http://wwp.icq.com/scripts/contact.dll?msgto={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
+						<li class="icq"><a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
 					{/if}					
 				</ul>
 				{/if}

@@ -31,6 +31,7 @@ class Mail extends Module {
 	protected $iPort=SYS_MAIL_SMTP_PORT;
 	protected $sUsername=SYS_MAIL_SMTP_USER;
 	protected $sPassword=SYS_MAIL_SMTP_PASSWORD;
+	protected $bSmtpAuth=SYS_MAIL_SMTP_AUTH;
 	/**
 	 * Метод отправки почты
 	 *
@@ -78,6 +79,7 @@ class Mail extends Module {
 		$this->oMailer->Port=$this->iPort;
 		$this->oMailer->Username=$this->sUsername;
 		$this->oMailer->Password=$this->sPassword;
+		$this->oMailer->SMTPAuth=$this->bSmtpAuth;
 		$this->oMailer->Mailer=$this->sMailerType;
 		$this->oMailer->WordWrap=$this->iWordWrap;
 		$this->oMailer->CharSet=$this->sCharSet;

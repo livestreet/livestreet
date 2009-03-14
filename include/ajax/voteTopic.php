@@ -47,7 +47,7 @@ if ($oEngine->User_IsAuthorization()) {
 						if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
 							$bStateError=false;
 							$sMsgTitle='Поздравляем!';
-							$sMsg='Ваш голос учтен';
+							$sMsg = $iValue==0 ? 'Вы воздержались для просмотра рейтинга топика' : 'Ваш голос учтен';
 							$iRating=$oTopic->getRating();
 						} else {
 							$sMsgTitle='Ошибка!';
