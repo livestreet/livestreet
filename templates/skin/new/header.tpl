@@ -58,11 +58,13 @@ var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 var tinyMCE=false;
 var msgErrorBox=new Roar({
 			position: 'upperRight',
-			className: 'roar-error'
+			className: 'roar-error',
+			margin: {x: 20, y: 10}
 		});	
 var msgNoticeBox=new Roar({
 			position: 'upperRight',
-			className: 'roar-notice'
+			className: 'roar-notice',
+			margin: {x: 20, y: 10}
 		});	
 </script>
 {/literal}
