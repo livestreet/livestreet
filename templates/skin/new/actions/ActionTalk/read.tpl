@@ -53,7 +53,8 @@
 									<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">Ответить</a></li>																		
 									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>																		
 								</ul>
-							</div>							
+							</div>			
+							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$aComment.obj->getId()}" style="display: none;"></div></div></div>				
 							<div class="reply" id="reply_{$aComment.obj->getId()}" style="display: none;"></div>									
 							<div class="comment-children" id="comment-children-{$aComment.obj->getId()}">    
     				{assign var="nesting" value="`$aComment.level`"}    
@@ -65,9 +66,11 @@
 				<span id="comment-children-0"></span>				
 				<br>				
 						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Ответить</a></h3>
+						<div class="comment"><div class="content"><div class="text" id="comment_preview_0" style="display: none;"></div></div></div>
 						<div style="display: block;" id="reply_0" class="reply">				
 						<form action="" method="POST" id="form_comment"  enctype="multipart/form-data">
     						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
+    						<input type="submit" name="submit_preview" value="предпросмотр" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
     						<input type="submit" name="submit_comment" value="добавить">    	
     						<input type="hidden" name="reply" value="0" id="form_comment_reply">    						
     					</form>					

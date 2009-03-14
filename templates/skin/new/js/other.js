@@ -66,8 +66,12 @@ function checkAllTalk(checkbox) {
 
 
 function showImgUploadForm() {	
+	if (!winFormImgUpload) {
+		winFormImgUpload=new StickyWinModal({content: $('uploadimg-form-content').get('html'), closeClassName: 'close-block'});
+	}
 	winFormImgUpload.show();
-	winFormImgUpload.pin(true);	
+	winFormImgUpload.pin(true);
+	
 }
 
 function hideImgUploadForm() {

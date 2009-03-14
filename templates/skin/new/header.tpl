@@ -8,9 +8,9 @@
 	<meta name="DESCRIPTION" content="{$sHtmlDescription}" />
 	<meta name="KEYWORDS" content="{$sHtmlKeywords}" />	
 	
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/style.css" />
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie6.css" /><![endif]-->
-	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie7.css" /><![endif]-->	
+	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/style.css?v=1" />
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie6.css?v=1" /><![endif]-->
+	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie7.css?v=1" /><![endif]-->	
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Roar.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" />

@@ -24,7 +24,7 @@ tinyMCE.init({
 	theme : "advanced",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
-	theme_advanced_buttons1 : "lshselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,code",
+	theme_advanced_buttons1 : "lshselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,pagebreak,code",
 	theme_advanced_buttons2 : "",
 	theme_advanced_buttons3 : "",
 	theme_advanced_statusbar_location : "bottom",
@@ -36,16 +36,19 @@ tinyMCE.init({
 	force_br_newlines : true,
     forced_root_block : '', // Needed for 3.x
     force_p_newlines : false,    
-    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media,lshselect",
+    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media,lshselect,pagebreak",
     convert_urls : false,
-    extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]"     
+    extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
+    pagebreak_separator :"<cut>"
 });
 </script>
 {/literal}
+{else}
+	{include file='window_load_img.tpl' sToLoad='topic_text'}
 {/if}
 
 
-			{include file='window_load_img.tpl' sToLoad='topic_text'}
+			
 
 			<div class="topic" style="display: none;">
 				<div class="content" id="text_preview"></div>
