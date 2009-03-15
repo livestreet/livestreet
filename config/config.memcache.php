@@ -18,4 +18,14 @@
 /**
  * Настройки memcached
  */
+return array(
+	'servers' => array(
+		array(
+			'host' => 'localhost',
+			'port' => 11211,
+			'persistent' => true
+		),
+	),
+	'compression' => true,
+)
 ?>

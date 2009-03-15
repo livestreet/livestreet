@@ -71,16 +71,8 @@ class Cache extends Module {
 			);
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
-			$oCahe = new Zend_Cache_Backend_Memcached(
-				array(
-					'servers' => array(
-						'host' => 'localhost',
-						'port' => 11211,
-						'persistent' => true
-						),
-					'compression' => false,
-				)
-			);
+			$aConfigMem=include("./config/config.memcache.php");
+			$oCahe = new Zend_Cache_Backend_Memcached($aConfigMem);
 		} else {
 			throw new Exception("Неверный тип кеширования: ".$this->sCacheType." Доступны: file, memory");
 		}
