@@ -177,7 +177,7 @@ var msgNoticeBox=new Roar({
 		
 	
 		<!-- Content -->
-		<div id="content">
+		<div id="content" {if $bNoSidebar}style="width:100%;"{/if}>
 		
 		{if !$noShowSystemMessage}
 			{include file='system_message.tpl'}

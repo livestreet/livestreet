@@ -1,7 +1,8 @@
 		</div>
 		<!-- /Content -->
-		
-		{include file='sidebar.tpl'}
+		{if !$bNoSidebar}
+			{include file='sidebar.tpl'}
+		{/if}
 		
 	</div>
 

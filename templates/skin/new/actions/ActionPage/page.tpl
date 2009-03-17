@@ -1,3 +1,4 @@
+{assign var="bNoSidebar" value=true}
 {include file='header.tpl'}
 
 <div class=topic>
