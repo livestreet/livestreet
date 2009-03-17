@@ -434,12 +434,17 @@ class ActionTopic extends Action {
 		if ($this->Topic_AddTopic($oTopic)) {
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
-				$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
-				foreach ($aBlogUsers as $oBlogUser) {
-					if ($oBlogUser->getUserId()==$this->oUserCurrent->getId()) {
+				$aUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());
+				foreach ($aUsers as $oUser) {
+					if ($oUser->getId()==$this->oUserCurrent->getId()) {
 						continue;
 					}				
-					$this->Notify_SendTopicNewToSubscribeBlog($oBlogUser,$oTopic,$oBlog,$this->oUserCurrent);
+					$this->Notify_SendTopicNewToSubscribeBlog($oUser,$oTopic,$oBlog,$this->oUserCurrent);
+				}
+				//отправляем создателю блога
+				if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
+					$oUser=$this->User_GetUserById($oBlog->getOwnerId());
+					$this->Notify_SendTopicNewToSubscribeBlog($oUser,$oTopic,$oBlog,$this->oUserCurrent);
 				}
 			}
 			

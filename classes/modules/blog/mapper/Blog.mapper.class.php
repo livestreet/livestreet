@@ -156,6 +156,40 @@ class Mapper_Blog extends Mapper {
 		return $aBlogUsers;
 	}
 	
+	public function GetBlogUsers($aFilter) {
+		$sWhere=' 1=1 ';
+		if (isset($aFilter['blog_id'])) {
+			$sWhere.=" AND bu.blog_id =  ".(int)$aFilter['blog_id'];
+		}
+		if (isset($aFilter['is_moderator'])) {
+			$sWhere.=" AND bu.is_moderator =  ".(int)$aFilter['is_moderator'];
+		}
+		if (isset($aFilter['is_administrator'])) {
+			$sWhere.=" AND bu.is_administrator =  ".(int)$aFilter['is_administrator'];
+		}
+		if (isset($aFilter['user_id'])) {
+			$sWhere.=" AND bu.user_id =  ".(int)$aFilter['user_id'];
+		}
+		$sql = "SELECT 					
+					u.*									
+				FROM 
+					".DB_TABLE_BLOG_USER." as bu,
+					".DB_TABLE_USER." as u
+				WHERE 
+					".$sWhere." 					
+					AND
+					bu.user_id=u.user_id
+					
+				ORDER by u.user_login asc;	
+					";		
+		$aUsers=array();
+		if ($aRows=$this->oDb->select($sql)) {
+			foreach ($aRows as $aUser) {
+				$aUsers[]=new UserEntity_User($aUser);
+			}
+		}
+		return $aUsers;
+	}
 	
 	public function GetPersonalBlogByUserId($sUserId) {
 		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";

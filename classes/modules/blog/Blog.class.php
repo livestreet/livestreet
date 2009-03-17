@@ -209,6 +209,20 @@ class Blog extends Module {
 		return $this->oMapperBlog->GetRelationBlogUsers($aFilter);
 	}
 	/**
+	 * Получает список пользователей блога
+	 *
+	 * @param unknown_type $sBlogId
+	 * @return unknown
+	 */
+	public function GetBlogUsersByBlogId($sBlogId) {
+		$aFilter=array(
+			'blog_id'=> $sBlogId,
+			'is_moderator' => 0,
+			'is_administrator' => 0,
+		);
+		return $this->oMapperBlog->GetBlogUsers($aFilter);
+	}
+	/**
 	 * Получает отношение юзера к блогу(состоит в блоге или нет)
 	 *
 	 * @param unknown_type $sUserId

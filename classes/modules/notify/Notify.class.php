@@ -116,17 +116,17 @@ class Notify extends Module {
 	 * @param BlogEntity_Blog $oBlog
 	 * @param UserEntity_User $oUserTopic
 	 */
-	public function SendTopicNewToSubscribeBlog(BlogEntity_BlogUser $oBlogUserTo, TopicEntity_Topic $oTopic, BlogEntity_Blog $oBlog, UserEntity_User $oUserTopic) {
+	public function SendTopicNewToSubscribeBlog(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, BlogEntity_Blog $oBlog, UserEntity_User $oUserTopic) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
-		if (!$oBlogUserTo->getUserSettingsNoticeNewTopic()) {
+		if (!$oUserTo->getSettingsNoticeNewTopic()) {
 			return ;
 		}
 		/**
 		 * Передаём в шаблон переменные
 		 */
-		$this->oViewerLocal->Assign('oBlogUserTo',$oBlogUserTo);
+		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
 		$this->oViewerLocal->Assign('oTopic',$oTopic);
 		$this->oViewerLocal->Assign('oBlog',$oBlog);
 		$this->oViewerLocal->Assign('oUserTopic',$oUserTopic);
@@ -137,7 +137,7 @@ class Notify extends Module {
 		/**
 		 * Отправляем мыло
 		 */
-		$this->Mail_SetAdress($oBlogUserTo->getUserMail(),$oBlogUserTo->getUserLogin());
+		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
 		$this->Mail_SetSubject('Новый топик в блоге «'.htmlspecialchars($oBlog->getTitle()).'»');
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
