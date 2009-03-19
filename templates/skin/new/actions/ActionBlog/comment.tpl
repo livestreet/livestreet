@@ -18,11 +18,11 @@
 				
 				<!-- Comments Header -->
 				<div class="header">
-					<h3>Комментарии (<span id="count-comments">{$oTopic->getCountComment()}</span>)</h3>
+					<h3>{$aLang.comment_title} (<span id="count-comments">{$oTopic->getCountComment()}</span>)</h3>
 					<a name="comments" ></a>
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/comments/{$oTopic->getId()}/" class="rss">По RSS</a>
-					<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">свернуть</a> /
-					<a href="#" onclick="lsCmtTree.expandNodeAll(); return false;" onfocus="blur();">развернуть</a>
+					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/comments/{$oTopic->getId()}/" class="rss">RSS</a>
+					<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">{$aLang.comment_collapse}</a> /
+					<a href="#" onclick="lsCmtTree.expandNodeAll(); return false;" onfocus="blur();">{$aLang.comment_expand}</a>
 				</div>
 				<!-- /Comments Header -->			
 				
@@ -50,7 +50,7 @@
     				{/if}    
     				<div class="comment" id="comment_id_{$aComment.obj->getId()}">
     					{if !$aComment.obj->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
-							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="Свернуть ветку комментариев" class="folding" />
+							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" />
 							<a name="comment{$aComment.obj->getId()}" ></a>
 							<div class="voting {if $aComment.obj->getRating()>0}positive{elseif $aComment.obj->getRating()<0}negative{/if} {if !$oUserCurrent || $aComment.obj->getUserId()==$oUserCurrent->getId()}guest{/if}   {if $aComment.obj->getUserIsVote()} voted {if $aComment.obj->getUserVoteDelta()>0}plus{else}minus{/if}{/if}  ">
 								<div class="total">{if $aComment.obj->getRating()>0}+{/if}{$aComment.obj->getRating()}</div>
@@ -75,7 +75,7 @@
 										<div style="display: none;" id="comment_text_{$aComment.obj->getId()}">
 					    				{$aComment.obj->getText()}
 					    				</div>
-					   					 <a href="#" onclick="$('comment_text_{$aComment.obj->getId()}').style.display='block';$(this).style.display='none';return false;">раскрыть комментарий</a>
+					   					 <a href="#" onclick="$('comment_text_{$aComment.obj->getId()}').style.display='block';$(this).style.display='none';return false;">{$aLang.comment_bad_open}</a>
 									{else}	
 					    				{$aComment.obj->getText()}
 									{/if}								
@@ -88,21 +88,21 @@
 								<ul>
 									<li class="date">{date_format date=$aComment.obj->getDate()}</li>
 									{if $oUserCurrent and !$aComment.obj->getDelete() and !$oTopic->getForbidComment()}
-										<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">Ответить</a></li>
+										<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
 									{/if}									
 									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>	
 									{if !$aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-   										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">Удалить</a></li>
+   										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_delete}</a></li>
    									{/if}
    									{if $aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-   										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">Восстановить</a></li>
+   										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_repair}</a></li>
    									{/if}								
 								</ul>
 							</div>		
 							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$aComment.obj->getId()}" style="display: none;"></div></div></div>					
 							<div class="reply" id="reply_{$aComment.obj->getId()}" style="display: none;"></div>	
 						{else}				
-							<span class="delete">комментарий был удален</span><br><br>
+							<span class="delete">{$aLang.comment_was_delete}</span><br><br>
 						{/if}		
 							<div class="comment-children" id="comment-children-{$aComment.obj->getId()}">    
     				{assign var="nesting" value=$cmtlevel}    
@@ -115,35 +115,33 @@
 				<br>
 				
 				{if $oTopic->getForbidComment()}
-					Автор топика запретил оставлять комментарии.
+					{$aLang.topic_comment_notallow}
 				{else}
 					{if $oUserCurrent}
-						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Комментировать</a></h3>						
+						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">{$aLang.topic_comment_add}</a></h3>						
 						<div class="comment"><div class="content"><div class="text" id="comment_preview_0" style="display: none;"></div></div></div>
 						<div style="display: block;" id="reply_0" class="reply">						
 						{if !$BLOG_USE_TINYMCE}
             					<div class="panel_form" style="background: #eaecea; margin-top: 2px;">       	 
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="жирный"></a>
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/italic_ru.gif" width="20" height="20" title="курсив"></a>	 			
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/underline_ru.gif" width="20" height="20" title="подчеркнуть"></a>	 			
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/strikethrough.gif" width="20" height="20" title="зачеркнутый"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
 	 								&nbsp;
-	 								<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','Введите ссылку'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/link.gif" width="20" height="20"  title="вставить ссылку"></a>
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/code.gif" width="30" height="20" title="код"></a>
+	 								<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','Введите ссылку'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
 	 							</div>
 	 					{/if}
 						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">							
     						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
-    						<input type="submit" name="submit_preview" value="предпросмотр" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
-    						<input type="submit" name="submit_comment" value="добавить" onclick="lsCmtTree.addComment('form_comment',{$oTopic->getId()}); return false;">    	
+    						<input type="submit" name="submit_preview" value="{$aLang.comment_preview}" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
+    						<input type="submit" name="submit_comment" value="{$aLang.comment_add}" onclick="lsCmtTree.addComment('form_comment',{$oTopic->getId()}); return false;">    	
     						<input type="hidden" name="reply" value="" id="form_comment_reply">
     						<input type="hidden" name="cmt_topic_id" value="{$oTopic->getId()}" id="cmt_topic_id">
     					</form>
 						</div>
 					{else}
-						Только зарегистрированные и авторизованные пользователи могут оставлять комментарии.
-  						<a href="{$DIR_WEB_ROOT}/login/">Авторизуйтесь</a>, пожалуйста, или 
-  						<a href="{$DIR_WEB_ROOT}/registration/">зарегистрируйтесь</a>, если не зарегистрированы.<br>
+						{$aLang.comment_unregistered}<br>
 					{/if}
 				{/if}				
 			</div>
