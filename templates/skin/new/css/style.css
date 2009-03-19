@@ -212,8 +212,8 @@ select { width: 99%; }
 .topic .voting.minus li.minus a { background: url(../images/icons.gif) no-repeat scroll -70px -90px; }
 .topic .voting.guest li.plus a { background: url(../images/icons.gif) no-repeat scroll 0 -90px; cursor: default; }
 .topic .voting.guest li.minus a { background: url(../images/icons.gif) no-repeat scroll -10px -90px; cursor: default; }
-.topic .voting.positive .total { color: #390; }
-.topic .voting.negative .total { color: #f00; }
+.topic .voting.positive .total { color: #390 !important; }
+.topic .voting.negative .total { color: #f00 !important; }
 
 .topic .voting.minus li.plus a:hover { background: url(../images/icons.gif) no-repeat scroll 0 -90px; }
 .topic .voting.plus li.minus a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -90px; }

@@ -8,7 +8,6 @@
 	color:					#fff;
 	text-align:				left;
 	z-index:				999;
-	
 }
 
 .roar-error
@@ -32,7 +31,7 @@
 }
 .roar-error-body-ugly .roar-error
 {
-	background-color:		#333;
+	background-color:		#bf0000;
 }
 .roar-error-body-ugly .roar-error-bg
 {
@@ -67,10 +66,9 @@
 {
 	position:				absolute;
 	font:					12px/14px "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
-	
+	color:					#fff;
 	text-align:				left;
 	z-index:				999;
-	
 }
 
 .roar-notice
@@ -92,9 +90,9 @@
 	-webkit-border-radius:	5px;
 	-webkit-box-shadow:		0 0 5px rgba(0, 0, 0, 0.5);
 }
-.roar-notice-body-ugly 
+.roar-notice-body-ugly .roar-notice
 {
-	background-color:		#6690c9;
+	background-color:		#399f2f;
 }
 .roar-notice-body-ugly .roar-notice-bg
 {
