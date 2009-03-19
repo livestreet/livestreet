@@ -413,9 +413,11 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем топик на уникальность
 		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
-			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
-			return false;			
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {								
+			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
+				$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+				return false;
+			}	
 		}
 		/**
 		 * Публикуем или сохраняем в черновиках
