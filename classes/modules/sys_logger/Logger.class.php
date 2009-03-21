@@ -50,7 +50,7 @@ class LsLogger extends Module {
 	 *
 	 * @var string
 	 */
-	protected $sPathLogs='logs/';
+	protected $sPathLogs=null;
 	/**
 	 * Использовать автоматическую ротация логов
 	 *
@@ -69,7 +69,8 @@ class LsLogger extends Module {
 	 * Инициализация, устанавливает имя файла лога
 	 *
 	 */
-	public function Init() {			
+	public function Init() {	
+			$this->sPathLogs=DIR_SERVER_ROOT.'/logs/';		
 			$this->SetFileName(SYS_LOGS_FILE);
 	}
 	
