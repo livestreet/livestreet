@@ -18,7 +18,7 @@
 /**
  * Подключает необходимые расширения для работы Аякса
  */
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 define('SYS_HACKER_CONSOLE',false);
 require_once("config.php");
 require_once(DIR_SERVER_ROOT."/config/config.route.php");
