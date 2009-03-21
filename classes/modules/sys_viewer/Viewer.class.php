@@ -15,13 +15,13 @@
 ---------------------------------------------------------
 */
 
-require_once('classes/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
  *
  */
-class Viewer extends Module {
+class LsViewer extends Module {
 	/**
 	 * Объект Smarty
 	 *

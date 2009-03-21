@@ -22,7 +22,7 @@ require_once('mapper/Blog.mapper.class.php');
  * Модуль для работы с блогами
  *
  */
-class Blog extends Module {	
+class LsBlog extends Module {	
 	protected $oMapperBlog;	
 	protected $oUserCurrent=null;
 		

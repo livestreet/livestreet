@@ -18,7 +18,7 @@
  * Модуль поддержки языковых файлов
  *
  */
-class Lang extends Module {		
+class LsLang extends Module {		
 	
 	protected $sCurrentLang=LANG_CURRENT;
 	protected $sLangPath=LANG_PATH;

@@ -20,8 +20,8 @@
  */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FILE__))));
-chdir(dirname(dirname(dirname(__FILE__))));
-require_once("./config/config.ajax.php");
+$sDirRoot=dirname(dirname(dirname(__FILE__)));
+require_once($sDirRoot."/config/config.ajax.php");
 
 $idAnswer=@$_REQUEST['idAnswer'];
 $idTopic=@$_REQUEST['idTopic'];

@@ -87,14 +87,15 @@ class Engine extends Object {
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
-		if (file_exists("./classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once("./classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
-		} elseif (file_exists("./classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once("./classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
+		if (file_exists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
+		} elseif (file_exists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
 		} else {
 			throw new Exception("Не найден класс модуля - ".$sModuleName);
 		}
-		$oModule=new $sModuleName($this);
+		$sModuleNameClass='Ls'.$sModuleName;
+		$oModule=new $sModuleNameClass($this);
 		if ($bInit) {
 			$oModule->Init();
 		}
@@ -110,7 +111,7 @@ class Engine extends Object {
 	 *
 	 */
 	protected function LoadModules() {
-		$this->aConfigModule=include("./config/config.module.php");
+		$this->aConfigModule=include(DIR_SERVER_ROOT."/config/config.module.php");
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
 			$this->LoadModule($sModuleName);
 		}
@@ -196,7 +197,7 @@ function __autoload($sClassName) {
 	 */
 	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {	
 		$tm1=microtime(true);	
-		$sFileClass='classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
+		$sFileClass=DIR_SERVER_ROOT.'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);
 			$tm2=microtime(true);			

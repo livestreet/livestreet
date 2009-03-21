@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once('classes/lib/external/DklabCache/config.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/DklabCache/config.php');
 require_once('Zend/Cache.php');
 require_once('Cache/Backend/TagEmuWrapper.php');
 require_once('Cache/Backend/Profiler.php');
@@ -32,7 +32,7 @@ define('SYS_CACHE_TYPE_MEMORY','memory');
  * Работает в двух режимах: файловый кеш через Cache Lite и кеш в памяти через Memcache
  *
  */
-class Cache extends Module {
+class LsCache extends Module {
 	
 	protected $oBackendCache=null;
 	protected $bUseCache=SYS_CACHE_USE;
@@ -71,7 +71,7 @@ class Cache extends Module {
 			);
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
-			$aConfigMem=include("./config/config.memcache.php");
+			$aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
 			$oCahe = new Zend_Cache_Backend_Memcached($aConfigMem);
 		} else {
 			throw new Exception("Неверный тип кеширования: ".$this->sCacheType." Доступны: file, memory");

@@ -15,13 +15,13 @@
 ---------------------------------------------------------
 */
 
-require_once('classes/lib/external/phpMailer/class.phpmailer.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/phpMailer/class.phpmailer.php');
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer
  *
  */
-class Mail extends Module {
+class LsMail extends Module {
 	protected $oMailer;		
 	/**
 	 * Настройки SMTP сервера для отправки писем	

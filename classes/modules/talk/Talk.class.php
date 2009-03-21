@@ -22,7 +22,7 @@ require_once('mapper/Talk.mapper.class.php');
  * Модуль разговоров(почта)
  *
  */
-class Talk extends Module {		
+class LsTalk extends Module {		
 	protected $oMapper;
 		
 	/**

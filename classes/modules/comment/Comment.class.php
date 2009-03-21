@@ -22,7 +22,7 @@ require_once('mapper/TopicComment.mapper.class.php');
  * Модуль для работы с комментариями
  *
  */
-class Comment extends Module {		
+class LsComment extends Module {		
 	protected $oMapperTopicComment;	
 		
 	/**
@@ -255,10 +255,10 @@ class Comment extends Module {
 		}
 		$aCmts=$aComments['comments'];
 		
-		if (!class_exists('Viewer')) {
-			require_once("./classes/modules/sys_viewer/Viewer.class.php");
+		if (!class_exists('LsViewer')) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/sys_viewer/Viewer.class.php");
 		}
-		$oViewerLocal=new Viewer(Engine::getInstance());
+		$oViewerLocal=new LsViewer(Engine::getInstance());
 		$oViewerLocal->Init();
 		$oViewerLocal->VarAssign();
 		

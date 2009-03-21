@@ -22,7 +22,7 @@ require_once('mapper/User.mapper.class.php');
  * Модуль для работы с пользователями
  *
  */
-class User extends Module {	
+class LsUser extends Module {	
 	protected $oMapper;
 	protected $oUserCurrent=null;
 	

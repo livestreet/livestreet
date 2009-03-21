@@ -15,15 +15,10 @@
 ---------------------------------------------------------
 */
 
-require_once("./config/config.table.php");
 /**
- * Настройки шаблонизатора Smarty
- *
+ * Шаблон(скин)
  */
-define('DIR_SMARTY_TEMPLATE','templates/skin/new');
-define('DIR_SMARTY_COMPILED','templates/compiled');
-define('DIR_SMARTY_CACHE','templates/cache');
-define('DIR_SMARTY_PLUG','classes/modules/sys_viewer/plugs');
+define('SITE_SKIN','new');
 
 /**
  * Настройка путей
@@ -34,9 +29,18 @@ define('DIR_SMARTY_PLUG','classes/modules/sys_viewer/plugs');
 define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST']); // полный WEB адрес сайта
 define('DIR_STATIC_ROOT',DIR_WEB_ROOT); // чтоб можно было статику засунуть на отдельный сервер
 define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT']); // полный путь до сайта в файловой системе
-define('DIR_STATIC_SKIN',DIR_STATIC_ROOT.'/'.DIR_SMARTY_TEMPLATE); 
+define('DIR_STATIC_SKIN',DIR_STATIC_ROOT.'/templates/skin/'.SITE_SKIN);
 define('DIR_UPLOADS','/uploads');
 define('DIR_UPLOADS_IMAGES',DIR_UPLOADS.'/images');
+
+/**
+ * Настройки шаблонизатора Smarty
+ *
+ */
+define('DIR_SMARTY_TEMPLATE',DIR_SERVER_ROOT.'/templates/skin/'.SITE_SKIN);
+define('DIR_SMARTY_COMPILED',DIR_SERVER_ROOT.'/templates/compiled');
+define('DIR_SMARTY_CACHE',DIR_SERVER_ROOT.'/templates/cache');
+define('DIR_SMARTY_PLUG',DIR_SERVER_ROOT.'/classes/modules/sys_viewer/plugs');
 
 /**
  * Системные настройки
@@ -140,4 +144,7 @@ define('RSS_EDITOR_MAIL',SYS_MAIL_FROM_EMAIL); // мыло редактора Р
  * Установка локали
  */
 setlocale(LC_ALL, "ru_RU.UTF-8");
+
+
+require_once(DIR_SERVER_ROOT."/config/config.table.php");
 ?>

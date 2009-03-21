@@ -20,7 +20,7 @@
  * Заменяет стандартный механизм сессий(session)
  *
  */
-class Session extends Module {
+class LsSession extends Module {
 	protected $sId=null;
 	protected $aData=array();	
 	

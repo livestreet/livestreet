@@ -15,14 +15,14 @@
 ---------------------------------------------------------
 */
 
-require_once('classes/lib/external/Jevix/jevix.class.php');
-require_once('classes/lib/external/geshi/geshi.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/Jevix/jevix.class.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/geshi/geshi.php');
 
 /**
  * Модуль обработки текста на основе типографа Jevix
  *
  */
-class Text extends Module {
+class LsText extends Module {
 	/**
 	 * Объект типографа
 	 *

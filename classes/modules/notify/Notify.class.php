@@ -19,7 +19,7 @@
  * Модуль рассылок уведомлений пользователям
  *
  */
-class Notify extends Module {
+class LsNotify extends Module {
 	protected $oViewerLocal=null;
 	/**
 	 * Инициализация модуля
@@ -28,10 +28,10 @@ class Notify extends Module {
 	 *
 	 */
 	public function Init() {		
-		if (!class_exists('Viewer')) {
-			require_once("./classes/modules/sys_viewer/Viewer.class.php");
+		if (!class_exists('LsViewer')) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/sys_viewer/Viewer.class.php");
 		}
-		$this->oViewerLocal=new Viewer(Engine::getInstance());
+		$this->oViewerLocal=new LsViewer(Engine::getInstance());
 		$this->oViewerLocal->Init();
 		$this->oViewerLocal->VarAssign();
 	}

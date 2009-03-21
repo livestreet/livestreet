@@ -69,7 +69,7 @@ class Router extends Object {
 	 */
 	protected function __construct() {
 		//Конфиг роутинга, содержит соответствия URL и классов экшенов
-		$this->aConfigRoute=include("./config/config.route.php");		
+		$this->aConfigRoute=include(DIR_SERVER_ROOT."/config/config.route.php");		
 		
 		if (get_magic_quotes_gpc()) {
 			func_stripslashes($_REQUEST);
@@ -132,12 +132,12 @@ class Router extends Object {
 		/**
 		 * Сначала запускаем инициализирующий экшен
 		 */
-		require_once('./classes/actions/Init.class.php');		
+		require_once(DIR_SERVER_ROOT.'/classes/actions/Init.class.php');		
 		$oActionInit=new Init($this->oEngine);		
 		$oActionInit->InitAction();			
 				
 		$sActionClass=$this->DefineActionClass();		
-		require_once('./classes/actions/'.$sActionClass.'.class.php');
+		require_once(DIR_SERVER_ROOT.'/classes/actions/'.$sActionClass.'.class.php');
 		$this->oAction=new $sActionClass($this->oEngine,self::$sAction);
 		if ($this->oAction->Init()==='next') {
 			$this->ExecAction();

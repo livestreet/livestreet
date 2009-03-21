@@ -22,7 +22,7 @@ require_once('mapper/Topic.mapper.class.php');
  * Модуль для работы с топиками
  *
  */
-class Topic extends Module {		
+class LsTopic extends Module {		
 	protected $oMapperTopic;
 	protected $oUserCurrent=null;
 		

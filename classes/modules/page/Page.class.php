@@ -22,7 +22,7 @@ require_once('mapper/Page.mapper.class.php');
  * Модуль статических страниц
  *
  */
-class Page extends Module {		
+class LsPage extends Module {		
 	protected $oMapper;
 	protected $aRebuildIds=array();
 		

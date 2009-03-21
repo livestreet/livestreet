@@ -15,13 +15,13 @@
 ---------------------------------------------------------
 */
 
-require_once('classes/lib/external/DbSimple/Generic.php');
+require_once(DIR_SERVER_ROOT.'/classes/lib/external/DbSimple/Generic.php');
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова
  *
  */
-class Database extends Module {
+class LsDatabase extends Module {
 	/**
 	 * Массив инстанцируемых объектов БД, или проще говоря уникальных коннектов к БД
 	 *
@@ -47,7 +47,7 @@ class Database extends Module {
 		 * Если конфиг не передан то используем главный конфиг БД из config.db.php
 		 */
 		if (is_null($aConfig)) {
-			$aConfig=include("./config/config.db.php");
+			$aConfig=include(DIR_SERVER_ROOT."/config/config.db.php");
 		}
 		$sDSN=$aConfig['type'].'://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		
 		/**

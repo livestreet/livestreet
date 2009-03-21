@@ -20,7 +20,7 @@
  * Модуль для разруливания ограничений по карме/рейтингу юзера
  *
  */
-class ACL extends Module {
+class LsACL extends Module {
 
 	/**
 	 * Инициализация модуля
