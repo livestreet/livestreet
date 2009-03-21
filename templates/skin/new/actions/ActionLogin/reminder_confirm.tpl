@@ -1,8 +1,8 @@
 {include file='header.light.tpl'}
 
 	<div class="lite-center">
-		<h3>Восстановление пароля</h3>
-		Новый пароль отправлен на ваш адрес электронной почты.
+		<h3>{$aLang.password_reminder}</h3>
+		{$aLang.password_reminder_send_password}
 	</div>
 
 {include file='footer.light.tpl'}

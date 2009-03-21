@@ -3,26 +3,26 @@
 <div class=topic>
 	
 
-<h2>Управление статическими страницами</h2>
+<h2>{$aLang.page_admin}</h2>
 <br>	
 {if $aParams.0=='new'}
-	<h4>Создание новой страницы</h4>
+	<h4>{$aLang.page_create}</h4>
 	{include file='actions/ActionPage/add.tpl'}
 {elseif $aParams.0=='edit'}
-	<h4>Редактирование страницы «{$oPageEdit->getTitle()}»</h4>
+	<h4>{$aLang.page_edit} «{$oPageEdit->getTitle()}»</h4>
 	{include file='actions/ActionPage/add.tpl'}
 {else}
-	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/new/">добавить страницу</a>
+	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/new/">{$aLang.page_new}</a>
 {/if}
 
 
 
 <table width="100%" cellspacing="0" class="admin_page">
   	<tr>
-    	<th align="left">Название</th>
-    	<th align="center" width="250px">URL</th>    	
-    	<th align="center" width="50px">Активна</th>    	   	
-    	<th align="center" width="80px">Действие</th>    	   	
+    	<th align="left">{$aLang.page_admin_title}</th>
+    	<th align="center" width="250px">{$aLang.page_admin_url}</th>    	
+    	<th align="center" width="50px">{$aLang.page_admin_active}</th>    	   	
+    	<th align="center" width="80px">{$aLang.page_admin_action}</th>    	   	
   	</tr>
   	
  
@@ -42,15 +42,15 @@
     </td>   
     <td align="center">
     {if $oPage->getActive()}
-    	да
+    	{$aLang.page_admin_active_yes}
     {else}
-    	нет
+    	{$aLang.page_admin_active_no}
     {/if}
     </td>
     <td align="center">  
-    	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/edit/{$oPage->getId()}/"><img src="{$DIR_STATIC_SKIN}/images/edit.gif" alt="Редактировать" title="Редактировать" border="0"/></a>      	
+    	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/edit/{$oPage->getId()}/"><img src="{$DIR_STATIC_SKIN}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
     	&nbsp;
-      	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/delete/{$oPage->getId()}/" onclick="return confirm('Вы действительно хотите удалить страницу «{$oPage->getTitle()}» со всеми вложенными страницами?');"><img src="{$DIR_STATIC_SKIN}/images/delete.gif" alt="Удалить" title="Удалить" border="0"/></a>        	    
+      	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/delete/{$oPage->getId()}/" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$DIR_STATIC_SKIN}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
     </td>   
   </tr>
   {/foreach}

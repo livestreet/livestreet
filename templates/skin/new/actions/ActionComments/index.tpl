@@ -1,7 +1,7 @@
 {include file='header.tpl' showWhiteBack=true}
 
 
-<h1>Прямой эфир</h1><br>
+<h1>{$aLang.comments_all}</h1><br>
 
 
 {include file='comment_list.tpl'}

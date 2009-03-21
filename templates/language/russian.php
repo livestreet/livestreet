@@ -144,7 +144,8 @@ return array(
 	'topic_favourite_add' => 'добавить в избранное_$$',
 	'topic_favourite_del' => 'удалить из избранного_$$',
 	
-	'comments' => 'Весь прямой эфир_$$',
+	'block_stream_comment_all' => 'Весь эфир_$$',
+	'comments_all' => 'Прямой эфир_$$',
 	/**
 	 * Меню топиков
 	 */
@@ -187,6 +188,8 @@ return array(
 	 * Топик-ссылка
 	 */
 	'topic_link' => 'топик-ссылка_$$',
+	'topic_title_create' => 'Создание топика-ссылки_$$',
+	'topic_title_edit' => 'Редактирование топика-ссылки_$$',
 	'topic_link_count_jump' => 'переходов по ссылке:_$$',
 	'topic_link_create_url' => 'Ссылка_$$',
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html_$$',
@@ -246,6 +249,31 @@ return array(
 	'page_about' => 'О проекте_$$',
 	'page_download' => 'Скачать_$$',
 	
+	'page_admin' => 'Управление статическими страницами_$$',
+	'page_create' => 'Создание новой страницы_$$',
+	'page_edit' => 'Редактирование страницы_$$',
+	'page_new' => 'добавить страницу_$$',
+	'page_create_parent_page' => 'Вложить в_$$',
+	'page_create_title' => 'Название_$$',
+	'page_create_url' => 'URL_$$',
+	'page_create_text' => 'Текст_$$',
+	'page_create_seo_keywords' => 'SEO keywords_$$',
+	'page_create_seo_keywords_notice' => 'Ключевые слова для SEO-оптимизации_$$',
+	'page_create_seo_description' => 'SEO description_$$',
+	'page_create_seo_description_notice' => 'Описание для SEO-оптимизации_$$',
+	'page_create_active' => 'показывать страницу_$$',
+	'page_create_submit_save' => 'сохранить_$$',
+	'page_create_submit_cancel' => 'отмена_$$',
+	'page_admin_title' => 'Название_$$',
+	'page_admin_url' => 'URL_$$',
+	'page_admin_active' => 'Активна_$$',
+	'page_admin_active_yes' => 'да_$$',
+	'page_admin_active_no' => 'нет_$$',
+	'page_admin_action' => 'Действие_$$',
+	'page_admin_action_edit' => 'Редактировать_$$',
+	'page_admin_action_delete' => 'Удалить_$$',
+	'page_admin_action_delete_confirm' => 'Вы действительно хотите удалить эту страницу со всеми вложенными страницами?_$$',
+	
 	
 	/**
 	 * Редактор текста
@@ -260,15 +288,28 @@ return array(
 	'user_settings' => 'Настройки_$$',
 	'user_settings_profile' => 'профиля_$$',
 	'user_settings_tuning' => 'сайта_$$',
-	'user_login' => 'логин_$$',
+	'user_login' => 'Логин или эл. почта_$$',
 	'user_login_submit' => 'Войти_$$',
-	'user_password' => 'пароль_$$',
+	'user_login_remember' => 'Запомнить меня_$$',
+	'user_login_bad' => 'Что-то не так! Вероятно, неправильно указан логин(e-mail), или пароль._$$',
+	'user_password' => 'Пароль_$$',
+	'user_password_reminder' => 'Напомнить пароль_$$',
+	'user_exit_notice' => 'Обязательно приходите еще._$$',
+	'user_authorization' => 'Авторизация_$$',
 	'user_registration' => 'Регистрация_$$',
 	'user_write_prvmsg' => 'Написать письмо_$$',
 	'user_friend_add' => 'Добавить в друзья_$$',
 	'user_friend_del' => 'Удалить из друзей_$$',
 	'user_rating' => 'Рейтинг_$$',
 	'user_skill' => 'Сила_$$',
+	
+	/**
+	 * Регистрация
+	 */
+	'registration_invite' => 'Регистрация по приглашению_$$',
+	'registration_invite_code' => 'Код приглашения_$$',
+	'registration_invite_check' => 'Проверить код_$$',
+			
 	/**
 	 * Голосование за пользователя
 	 */
@@ -347,6 +388,10 @@ return array(
 	 * Восстановление пароля
 	 */
 	'password_reminder' => 'Восстановление пароля_$$',
+	'password_reminder_email' => 'Ваш e-mail_$$',
+	'password_reminder_submit' => 'Получить ссылку на изменение пароля_$$',
+	'password_reminder_send_password' => 'Новый пароль отправлен на ваш адрес электронной почты._$$',
+	'password_reminder_send_link' => 'Ссылка для восстановления пароля отправлена на ваш адрес электронной почты._$$',
 	'password_reminder_bad_code' => 'Неверный код на восстановление пароля._$$',
 	'password_reminder_bad_email' => 'Неверный код на восстановление пароля._$$',
 	
@@ -359,8 +404,12 @@ return array(
 	'panel_s' => 'зачеркнутый_$$',
 	'panel_url' => 'вставить ссылку_$$',
 	'panel_code' => 'код_$$',
+	'panel_video' => 'видео_$$',
+	'panel_image' => 'изображение_$$',
+	'panel_cut' => 'кат_$$',
 	
-	
+	'site_history_back' => 'Вернуться назад_$$',
+	'site_go_main' => 'перейти на главную_$$',
 	
 	'search' => 'Поиск_$$',
 	
