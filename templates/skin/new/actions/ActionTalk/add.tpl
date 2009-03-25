@@ -22,7 +22,7 @@ document.addEvent('domready', function() {
 					<p><label for="talk_title">Заголовок:</label><input type="text" class="w100p" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}"/></p>
 
 					<p><div class="note"><a href="#">Доступны html-теги</a></div><label for="talk_text">Сообщение</label>
-					<textarea name="talk_text" id="talk_text" rows="12"></textarea>
+					<textarea name="talk_text" id="talk_text" rows="12">{$_aRequest.talk_text}</textarea>
 					</p><br />
 					
 					<p><input type="submit" value="Отправить" name="submit_talk_add"/></p>
