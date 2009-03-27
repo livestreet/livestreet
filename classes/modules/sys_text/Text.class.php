@@ -155,7 +155,7 @@ class LsText extends Module {
 	 * @param string $sText
 	 */
 	public function Parser($sText) {
-		$sResult=$this->FlashParamParser($sText);
+		$sResult=$this->FlashParamParser($sText);		
 		$sResult=$this->JevixParser($sResult);	
 		$sResult=$this->VideoParser($sResult);		
 	//	$sResult=$this->GeshiParser($sResult);
@@ -171,14 +171,14 @@ class LsText extends Module {
 	 * Заменяет все вхождения короткого тега <embed/> на длиную версию <embed></embed>
 	 * 
 	 */
-	protected function FlashParamParser($sText) {		
-		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/?\s*>@Ui",$sText,$aMatch)) {				
+	protected function FlashParamParser($sText) {	
+		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/?\s*>(?!</param>)@Ui",$sText,$aMatch)) {				
 			foreach ($aMatch[1] as $key => $str) {
 				$str_new=$str.'></param>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
 			}	
 		}
-		if (preg_match_all("@(<\s*embed\s*.*)\s*/?\s*>@Ui",$sText,$aMatch)) {				
+		if (preg_match_all("@(<\s*embed\s*.*)\s*/?\s*>(?!</embed>)@Ui",$sText,$aMatch)) {				
 			foreach ($aMatch[1] as $key => $str) {
 				$str_new=$str.'></embed>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
