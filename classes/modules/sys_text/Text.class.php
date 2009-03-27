@@ -160,6 +160,10 @@ class LsText extends Module {
 		$sResult=$this->VideoParser($sResult);		
 	//	$sResult=$this->GeshiParser($sResult);
 		$sResult=$this->CodeSourceParser($sResult);
+		if (BLOG_URL_NO_INDEX) {
+			// требует доработки, т.к. обрабатывает ВСЕ ссылки, включая в <code></code>
+			$sResult=$this->MakeUrlNoIndex($sResult);
+		}
 		return $sResult;
 	}
 	/**
@@ -187,6 +191,15 @@ class LsText extends Module {
 		$sText=str_replace("<code>",'<pre class="prettyprint"><code>',$sText);
 		$sText=str_replace("</code>",'</code></pre>',$sText);
 		return $sText;
+	}
+	/**
+	 * Делает ссылки не видимыми для поисковиков
+	 *
+	 * @param unknown_type $sText
+	 * @return unknown
+	 */
+	public function MakeUrlNoIndex($sText) {
+		return preg_replace("/(<a .*>.*<\/a>)/Ui","<noindex>$1</noindex>",$sText);
 	}
 }
 ?>

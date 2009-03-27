@@ -138,6 +138,7 @@ define('BLOG_IMG_RESIZE_WIDTH',500); // до какого размера в пи
 define('BLOG_USE_TINYMCE',false); // использовать или нет визуальный редактор TinyMCE
 define('USER_PER_PAGE',15); // число юзеров на страницу на странице статистики
 define('RSS_EDITOR_MAIL',SYS_MAIL_FROM_EMAIL); // мыло редактора РСС
+define('BLOG_URL_NO_INDEX',false); // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex>
 
 
 /**
