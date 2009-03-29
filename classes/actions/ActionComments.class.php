@@ -65,7 +65,7 @@ class ActionComments extends Action {
 		 */					
 		$this->Viewer_Assign('aPaging',$aPaging);					
 		$this->Viewer_Assign("aComments",$aComments);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('comments'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('comments_all'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
