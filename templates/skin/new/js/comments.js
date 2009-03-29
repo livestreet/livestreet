@@ -22,6 +22,7 @@ var lsCmtTreeClass = new Class({
 		this.aCommentNew=[];
 		this.iCurrentShowFormComment=0;	
 		this.countNewComment=0;
+		this.docScroller = new Fx.Scroll(document.getDocument()); 
 		
 		this.hideCommentForm(this.iCurrentShowFormComment);
 	},
@@ -180,7 +181,7 @@ var lsCmtTreeClass = new Class({
         			}); 
         			
         			if (selfIdComment && $('comment_id_'+selfIdComment)) {
-						docScroller.toElement($('comment_id_'+selfIdComment));
+						thisObj.docScroller.toElement($('comment_id_'+selfIdComment));
 					}
         		}                           
 	        },
@@ -212,14 +213,14 @@ var lsCmtTreeClass = new Class({
 				var offsetY=0;
 				//для скролла в центр
 				//offsetY=-window.getSize().y/2;
-				docScroller.setOptions({ 
+				this.docScroller.setOptions({ 
 					duration:500, 
 					offset: {
         				'x': 0,
         				'y': offsetY
    					}
  				});
-				docScroller.toElement($('comment_id_'+this.aCommentNew[0]));
+				this.docScroller.toElement($('comment_id_'+this.aCommentNew[0]));
 			}			
 			this.aCommentNew.erase(this.aCommentNew[0]);
 		}		
@@ -327,12 +328,30 @@ var lsCmtTreeClass = new Class({
 	
 	preview: function() {
 		ajaxTextPreview('form_comment_text',false,'comment_preview_'+this.iCurrentShowFormComment);		
-	}	
+	},
+	
+	goToParentComment: function(obj) {
+		var idCmt = obj.href.substr(obj.href.indexOf('#')+8);
+		var objCmtParent=$('comment_id_'+idCmt);
+		var objCmt=obj.getParent('div.comment');
+		objCmtParent.getElement('.goto-comment-child').removeClass('hidden');
+		objCmtParent.getElement('.goto-comment-child a').href = '#comment' + objCmt.id.substr(11);
+		this.docScroller.toElement(objCmtParent);
+		return false;
+	},
+	
+	goToChildComment: function(obj) {
+		var idCmt = obj.href.substr(obj.href.indexOf('#')+8);
+		var objCmtChild=$('comment_id_'+idCmt);
+		var objCmt=obj.getParent('div.comment');
+		objCmt.getElement('.goto-comment-child').addClass('hidden');
+		this.docScroller.toElement(objCmtChild);
+		return false;
+	}
 });
 
 
 var lsCmtTree;
-var docScroller;
 var formCommentSlide;
 
 window.addEvent('domready', function() {  	
@@ -345,8 +364,7 @@ window.addEvent('domready', function() {
     		closeImg: 'folding'
     	}
     });     
-    
-    docScroller = new Fx.Scroll(document.getDocument()); 
+        
    // formCommentSlide = new Fx.Slide('form_comment2');
 });
 

@@ -24,7 +24,11 @@
 								<ul>
 									<li class="date">{date_format date=$oComment->getDate()}</li>
 									<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">Ответить</a></li>									
-									<li><a href="#comment{$oComment->getId()}" class="imglink link"></a></li>									
+									<li><a href="#comment{$oComment->getId()}" class="imglink link"></a></li>
+									{if $oComment->getPid()}
+										<li class="goto-comment-parent"><a href="#comment{$oComment->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="Ответ на">↑</a></li>
+									{/if}
+									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="Обратно к ответу">↓</a></li>									
 								</ul>
 							</div>
 							

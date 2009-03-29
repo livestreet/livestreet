@@ -91,6 +91,10 @@
 										<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
 									{/if}									
 									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>	
+									{if $aComment.obj->getPid()}
+										<li class="goto-comment-parent"><a href="#comment{$aComment.obj->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="Ответ на">↑</a></li>
+									{/if}
+									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="Обратно к ответу">↓</a></li>
 									{if !$aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
    										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_delete}</a></li>
    									{/if}

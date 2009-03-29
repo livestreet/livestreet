@@ -470,6 +470,8 @@ select { width: 99%; }
 .comment .info ul li { float: left; font-size: 10px; margin-right: 10px; }
 .comment .info ul li.date { color: #999; font-size: 10px; padding-right: 20px; }
 .comment .info a.imglink { display: block; width: 9px; height: 11px; text-decoration: none; position: relative; top: 3px; }
+.comment .info ul li.goto-comment-parent a { text-decoration: none; border-bottom: 1px dotted #79B1D4; font-family: tahoma;}
+.comment .info ul li.goto-comment-child a { text-decoration: none; border-bottom: 1px dotted #79B1D4; font-family: tahoma;}
 .comment .info a.link { background: url(../images/icons.gif) no-repeat scroll -10px -230px; }
 .comment .info a.link:hover { background: url(../images/icons.gif) no-repeat scroll 0px -230px; }
 .comment .info a.favorite { background: url(../images/icons.gif) no-repeat scroll -40px -40px; }
@@ -765,7 +767,7 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 table.admin_page img {margin: 0px !important;;} 
 
 
-
+.hidden {display: none;}
 
 
 
