@@ -30,9 +30,22 @@
 				</div>
 				
 				
-				{if $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite()}
+				{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite()}
 				<h1 class="title">Личное</h1>
-				<table>				
+				<table>		
+					{if $oUserProfile->getProfileSex()!='other'}
+					<tr>
+						<td class="var">Пол:</td>
+						<td>
+							{if $oUserProfile->getProfileSex()=='man'}
+								мужской
+							{else}
+								женский
+							{/if}
+						</td>
+					</tr>
+					{/if}
+						
 					{if $oUserProfile->getProfileBirthday()}
 					<tr>
 						<td class="var">Дата рождения:</td>
