@@ -36,3 +36,6 @@ ALTER TABLE `prefix_talk` ADD `talk_date_last` DATETIME NOT NULL AFTER `talk_dat
 ALTER TABLE `prefix_topic` ADD `topic_publish_draft` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `topic_publish` ;
 
 ALTER TABLE `prefix_topic` ADD `topic_text_hash` VARCHAR( 32 ) NOT NULL ;
+
+
+ALTER TABLE `prefix_invite` CHANGE `invite_date_used` `invite_date_used` DATETIME DEFAULT NULL ;
