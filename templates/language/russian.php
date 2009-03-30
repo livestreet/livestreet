@@ -341,6 +341,7 @@ return array(
 	'user_vote_self' => 'нельзя голосовать за себя_$$',
 	'user_vote_guest' => 'для голосования необходимо авторизоваться_$$',	
 	'user_vote_count' => 'голосов_$$',
+	
 	/**
 	 * Меню профиля пользователя
 	 */
@@ -352,6 +353,30 @@ return array(
 	'user_menu_publication_blog' => 'Блог_$$',
 	'user_menu_publication_comment' => 'Комментарии_$$',
 	'user_menu_publication_comment_rss' => 'RSS лента_$$',
+	
+	/**
+	 * Профиль
+	 */
+	'profile_privat' => 'Личное_$$',
+	'profile_sex' => 'Пол_$$',
+	'profile_sex_man' => 'мужской_$$',
+	'profile_sex_woman' => 'женский_$$',
+	'profile_birthday' => 'Дата рождения_$$',
+	'profile_place' => 'Местоположение_$$',
+	'profile_about' => 'О себе_$$',
+	'profile_site' => 'Сайт_$$',
+	'profile_activity' => 'Активность_$$',
+	'profile_friends' => 'Друзья_$$',
+	'profile_friends_self' => 'В друзьях у_$$',
+	'profile_invite_from' => 'Пригласил_$$',
+	'profile_invite_to' => 'Приглашенные_$$',
+	'profile_blogs_self' => 'Администрирует_$$',
+	'profile_blogs_join' => 'Состоит в_$$',
+	'profile_date_registration' => 'Зарегистрирован_$$',
+	'profile_date_last' => 'Последний визит_$$',
+	'profile_social_contacts' => 'Контакты и социальные сервисы_$$',
+	
+	
 	
 	/**
 	 * Настройки
