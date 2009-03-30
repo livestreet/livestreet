@@ -9,7 +9,7 @@
 .stream .stream-nav, #footer,, .profile-blog .about .content ul.admin-list,
 .profile-blog .about .content, #wrapper.white-back, .block.stat .gender, 
 .profile-blog .about .content ul.reader-list, .profile-user .name,  #pagination ul, 
-.block-nav, , .profile-blog, .poll li dl { zoom: 1; }
+.block-nav, .profile-blog, .poll li dl { zoom: 1; }
 
 .update { position:absolute; top:expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
 .people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 8px; }

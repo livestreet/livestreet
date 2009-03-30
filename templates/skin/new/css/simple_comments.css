@@ -1,0 +1,7 @@
+/* Comments without round corners */
+.comment .content .tb { height: 7px; overflow: hidden; background: none; }
+.comment .content .tl { height: 7px; background: none; }
+.comment .content .tr { height: 7px; background: none; border-left: 1px solid #dddede; border-right: 1px solid #dddede; border-top: 1px solid #dddede; }
+.comment .content .bb { height: 7px; overflow: hidden; background: none; margin-left: 0; }
+.comment .content .bl { height: 7px; background: none; border-left: 1px solid #dddede; border-right: 1px solid #dddede; border-bottom: 1px solid #dddede; margin-bottom: 5px; }
+.comment .content .br { height: 7px; background: none; }
