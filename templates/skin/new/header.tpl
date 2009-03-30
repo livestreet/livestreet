@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/Autocompleter.css" />
 	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/prettify.css" />
-	<!--<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/simple_comments.css" />-->
+	<!--[if gt IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/simple_comments.css" /><![endif]-->
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/opensearch/" title="{$SITE_NAME}" />
