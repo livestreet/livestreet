@@ -2,7 +2,7 @@
 			<div class="block white tags">
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">					
-					<h1>Страны</h1>					
+					<h1>{$aLang.block_country_tags}</h1>					
 					<ul class="cloud">
 						{foreach from=$aCountryList item=aCountry}
 							<li><a class="w{$aCountry.size}" rel="tag" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/country/{$aCountry.name|escape:'html'}/">{$aCountry.name|escape:'html'}</a></li>	

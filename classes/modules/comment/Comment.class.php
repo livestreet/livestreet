@@ -261,6 +261,7 @@ class LsComment extends Module {
 		$oViewerLocal=new LsViewer(Engine::getInstance());
 		$oViewerLocal->Init();
 		$oViewerLocal->VarAssign();
+		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
 		
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {			

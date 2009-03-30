@@ -2,21 +2,21 @@
 
 			<div class="page people">
 				
-				<h1>Пользователи <span>({$aStat.count_all})</span></h1>
+				<h1>{$aLang.user_list} <span>({$aStat.count_all})</span></h1>
 
 				
 				<ul class="block-nav">
-					<li {if $sEvent=='good'}class="active"{/if}><strong></strong><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/good/">Позитивные</a></li>
-					<li {if $sEvent=='bad'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/bad/">Негативные</a><em></em></li>
+					<li {if $sEvent=='good'}class="active"{/if}><strong></strong><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/good/">{$aLang.user_good}</a></li>
+					<li {if $sEvent=='bad'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/bad/">{$aLang.user_bad}</a><em></em></li>
 				</ul>
 				
 				{if $aUsersRating}
 				<table>
 					<thead>
 						<tr>
-							<td class="user">Пользователь</td>													
-							<td class="strength">Сила</td>
-							<td class="rating">Рейтинг</td>
+							<td class="user">{$aLang.user}</td>													
+							<td class="strength">{$aLang.user_skill}</td>
+							<td class="rating">{$aLang.user_rating}</td>
 						</tr>
 					</thead>
 					
@@ -31,7 +31,7 @@
 					</tbody>
 				</table>
 				{else}
-					нет таких	
+					{$aLang.user_empty}	
 				{/if}
 			</div>
 

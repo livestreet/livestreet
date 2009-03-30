@@ -70,6 +70,14 @@ class LsLang extends Module {
 		return $this->sCurrentLang;
 	}
 	/**
+	 * Получить список текстовок
+	 *
+	 * @return unknown
+	 */
+	public function GetLangMsg() {
+		return $this->aLangMsg;
+	}
+	/**
 	 * Получает текстовку по её имени
 	 *
 	 * @param unknown_type $sName

@@ -2,17 +2,17 @@
 
 			<div class="page people">
 				
-				<h1>Пользователи: {$oCity->getName()}</h1>
+				<h1>{$aLang.user_list}: {$oCity->getName()}</h1>
 				
 				{if $aUsersCity}
 				<table>
 					<thead>
 						<tr>
-							<td class="user">Пользователь</td>	
-							<td class="date">Последний визит</td>												
-							<td class="date">Дата регистрации</td>
-							<td class="strength">Сила</td>
-							<td class="rating">Рейтинг</td>
+							<td class="user">{$aLang.user}</td>	
+							<td class="date">{$aLang.user_date_last}</td>												
+							<td class="date">{$aLang.user_date_registration}</td>
+							<td class="strength">{$aLang.user_skill}</td>
+							<td class="rating">{$aLang.user_rating}</td>
 						</tr>
 					</thead>
 					
@@ -29,7 +29,7 @@
 					</tbody>
 				</table>
 				{else}
-					нет таких	
+					{$aLang.user_empty}
 				{/if}
 			</div>
 

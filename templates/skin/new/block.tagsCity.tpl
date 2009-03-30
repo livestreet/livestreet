@@ -2,7 +2,7 @@
 			<div class="block white tags">
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">					
-					<h1>Города</h1>					
+					<h1>{$aLang.block_city_tags}</h1>					
 					<ul class="cloud">
 						{foreach from=$aCityList item=aCity}
 							<li><a class="w{$aCity.size}" rel="tag" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/city/{$aCity.name|escape:'html'}/" >{$aCity.name|escape:'html'}</a></li>	

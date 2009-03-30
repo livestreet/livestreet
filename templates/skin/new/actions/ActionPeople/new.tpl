@@ -2,16 +2,16 @@
 
 			<div class="page people">
 				
-				<h1>Новые пользователи</h1>
+				<h1>{$aLang.user_list_new}</h1>
 				
 				{if $aUsersRegister}
 				<table>
 					<thead>
 						<tr>
-							<td class="user">Пользователь</td>													
-							<td class="date">Дата регистрации</td>
-							<td class="strength">Сила</td>
-							<td class="rating">Рейтинг</td>
+							<td class="user">{$aLang.user}</td>													
+							<td class="date">{$aLang.user_date_registration}</td>
+							<td class="strength">{$aLang.user_skill}</td>
+							<td class="rating">{$aLang.user_rating}</td>
 						</tr>
 					</thead>
 					
@@ -27,7 +27,7 @@
 					</tbody>
 				</table>
 				{else}
-					нет таких	
+					{$aLang.user_empty}
 				{/if}
 			</div>
 

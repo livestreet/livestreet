@@ -1,5 +1,5 @@
 					
-							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="Свернуть ветку комментариев" class="folding" style="display: none;"/>
+							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" style="display: none;"/>
 							<a name="comment{$oComment->getId()}" ></a>
 							
 							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId()}guest{/if}   {if $oComment->getUserIsVote()} voted {if $oComment->getUserVoteDelta()>0}plus{else}minus{/if}{/if}  ">
@@ -23,12 +23,12 @@
 								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oComment->getUserLogin()}/" class="author">{$oComment->getUserLogin()}</a></p>
 								<ul>
 									<li class="date">{date_format date=$oComment->getDate()}</li>
-									<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">Ответить</a></li>									
+									<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>									
 									<li><a href="#comment{$oComment->getId()}" class="imglink link"></a></li>
 									{if $oComment->getPid()}
-										<li class="goto-comment-parent"><a href="#comment{$oComment->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="Ответ на">↑</a></li>
+										<li class="goto-comment-parent"><a href="#comment{$oComment->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="{$aLang.comment_goto_parent}">↑</a></li>
 									{/if}
-									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="Обратно к ответу">↓</a></li>									
+									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="{$aLang.comment_goto_child}">↓</a></li>									
 								</ul>
 							</div>
 							

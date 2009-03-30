@@ -227,6 +227,8 @@ return array(
 	'comment_title' => 'Комментарии_$$',
 	'comment_collapse' => 'свернуть_$$',
 	'comment_expand' => 'развернуть_$$',
+	'comment_goto_parent' => 'Ответ на_$$',
+	'comment_goto_child' => 'Обратно к ответу_$$',
 	'comment_bad_open' => 'раскрыть комментарий_$$',
 	'comment_answer' => 'Ответить_$$',
 	'comment_delete' => 'Удалить_$$',
@@ -275,14 +277,16 @@ return array(
 	'page_admin_action_delete_confirm' => 'Вы действительно хотите удалить эту страницу со всеми вложенными страницами?_$$',
 	
 	
-	/**
-	 * Редактор текста
-	 */
-	
-	
+
 	/**
 	 * Пользователь
 	 */
+	'user' => 'Пользователь_$$',
+	'user_list' => 'Пользователи_$$',
+	'user_list_new' => 'Новые пользователи_$$',
+	'user_list_online_last' => 'Недавно были на сайте_$$',
+	'user_good' => 'Позитивные_$$',
+	'user_bad' => 'Негативные_$$',
 	'user_privat_messages' => 'Личные сообщения_$$',
 	'user_privat_messages_new' => 'У вас есть новые сообщения_$$',
 	'user_settings' => 'Настройки_$$',
@@ -302,6 +306,24 @@ return array(
 	'user_friend_del' => 'Удалить из друзей_$$',
 	'user_rating' => 'Рейтинг_$$',
 	'user_skill' => 'Сила_$$',
+	'user_date_last' => 'Последний визит_$$',
+	'user_date_registration' => 'Дата регистрации_$$',
+	'user_empty' => 'нет таких_$$',
+	'user_stats' => 'Статистика_$$',
+	'user_stats_all' => 'Всего пользователей_$$',
+	'user_stats_active' => 'Активные_$$',
+	'user_stats_noactive' => 'Заблудившиеся_$$',
+	'user_stats_sex_man' => 'Мужчины_$$',
+	'user_stats_sex_woman' => 'Женщины_$$',
+	'user_stats_sex_other' => 'Пол не указан_$$',
+	
+	/**
+	 * Меню профиля пользователя
+	 */
+	'people_menu_users' => 'Пользователи_$$',
+	'people_menu_users_all' => 'Все_$$',
+	'people_menu_users_online' => 'Онлайн_$$',
+	'people_menu_users_new' => 'Новые_$$',
 	
 	/**
 	 * Регистрация
@@ -407,6 +429,12 @@ return array(
 	'panel_video' => 'видео_$$',
 	'panel_image' => 'изображение_$$',
 	'panel_cut' => 'кат_$$',
+	
+	/**
+	 * Блоки
+	 */
+	'block_city_tags' => 'Города_$$',
+	'block_country_tags' => 'Страны_$$',
 	
 	'site_history_back' => 'Вернуться назад_$$',
 	'site_go_main' => 'перейти на главную_$$',

@@ -92,9 +92,9 @@
 									{/if}									
 									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>	
 									{if $aComment.obj->getPid()}
-										<li class="goto-comment-parent"><a href="#comment{$aComment.obj->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="Ответ на">↑</a></li>
+										<li class="goto-comment-parent"><a href="#comment{$aComment.obj->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="{$aLang.comment_goto_parent}">↑</a></li>
 									{/if}
-									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="Обратно к ответу">↓</a></li>
+									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="{$aLang.comment_goto_child}">↓</a></li>
 									{if !$aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
    										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_delete}</a></li>
    									{/if}
