@@ -344,6 +344,9 @@ var lsCmtTreeClass = new Class({
 		var objCmt=obj.getParent('div.comment');
 		objCmtParent.getElement('.goto-comment-child').removeClass('hidden');
 		objCmtParent.getElement('.goto-comment-child a').href = '#comment' + objCmt.id.substr(11);
+		this.docScroller.setOptions({ 			
+			offset: {'y': 0}
+ 		});
 		this.docScroller.toElement(objCmtParent);
 		return false;
 	},
@@ -353,6 +356,9 @@ var lsCmtTreeClass = new Class({
 		var objCmtChild=$('comment_id_'+idCmt);
 		var objCmt=obj.getParent('div.comment');
 		objCmt.getElement('.goto-comment-child').addClass('hidden');
+		this.docScroller.setOptions({ 			
+			offset: {'y': 0}
+ 		});
 		this.docScroller.toElement(objCmtChild);
 		return false;
 	}
