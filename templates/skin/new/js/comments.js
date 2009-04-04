@@ -23,18 +23,7 @@ var lsCmtTreeClass = new Class({
 		this.iCurrentShowFormComment=0;	
 		this.iCommentIdLastView=null;	
 		this.countNewComment=0;
-		this.docScroller = new Fx.Scroll(document.getDocument()); 
-		var offsetY=0;
-		//для скролла в центр
-		offsetY=-window.getSize().y/2;
-		this.docScroller.setOptions({ 
-			duration:500, 
-			offset: {
-        		'x': 0,
-        		'y': offsetY
-   			}
- 		});
-		
+		this.docScroller = new Fx.Scroll(document.getDocument());	
 		this.hideCommentForm(this.iCurrentShowFormComment);
 	},
 
@@ -219,6 +208,16 @@ var lsCmtTreeClass = new Class({
 	},
 	
 	scrollToComment: function(idComment) {
+		var offsetY=0;
+		//для скролла в центр
+		offsetY=-window.getSize().y/2;
+		this.docScroller.setOptions({ 
+			duration:500, 
+			offset: {
+        		'x': 0,
+        		'y': offsetY
+   			}
+ 		});
 		this.docScroller.toElement($('comment_id_'+idComment));
 		if (this.iCommentIdLastView) {
 			$('comment_content_id_'+this.iCommentIdLastView).removeClass('view');
