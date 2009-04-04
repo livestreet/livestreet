@@ -59,7 +59,7 @@ class LsText extends Module {
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
 		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link'));
 		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
-		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text'));
+		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text'));
 		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
 		$this->oJevix->cfgSetTagParamsRequired('a', 'href');
@@ -72,6 +72,8 @@ class LsText extends Module {
 		$this->oJevix->cfgSetTagChilds('object', 'embed', false, false);
 		// Если нужно оставлять пустые не короткие теги
 		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
+		// Теги с обязательными параметрами
+		$this->oJevix->cfgSetTagParamsAutoAdd('embed',array(array('name'=>'wmode','value'=>'opaque','rewrite'=>true)));
 		// Отключение авто-добавления <br>
 		//$this->oJevix->cfgSetAutoBrMode(false);
 		// Автозамена
