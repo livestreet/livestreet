@@ -290,8 +290,8 @@ class Jevix{
      * @param string|array $params array of pairs array('name'=>attributeName, 'value'=>attributeValue, 'rewrite'=>true|false)
      */
     function cfgSetTagParamsAutoAdd($tag, $params){
-        if(!isset($this->tagsRules[$tag])) throw new Exception("Tag $tag is missing in allowed tags list");
-        if(!is_array($params)) $params = array($params);
+        if(!isset($this->tagsRules[$tag])) throw new Exception("Tag $tag is missing in allowed tags list");        
+        if (is_array($params) and !isset($params[0])) $params = array($params);
         if(!isset($this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD])) {
             $this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD] = array();
         }        

@@ -109,6 +109,9 @@ class LsViewer extends Module {
 		$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
 		$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
 		$this->Assign("BLOG_COMMENT_MAX_TREE_LEVEL",BLOG_COMMENT_MAX_TREE_LEVEL);
+		
+		$this->Assign("VOTE_LIMIT_TIME_TOPIC",VOTE_LIMIT_TIME_TOPIC);
+		$this->Assign("VOTE_LIMIT_TIME_COMMENT",VOTE_LIMIT_TIME_COMMENT);
 		/**
 		 * Константы роутинга страниц
 		 */

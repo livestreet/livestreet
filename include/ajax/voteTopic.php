@@ -33,33 +33,38 @@ if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oTopic->getUserId()!=$oUserCurrent->getId()) {
 			if (!($oTopicVote=$oEngine->Topic_GetTopicVote($oTopic->getId(),$oUserCurrent->getId()))) {
-				if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic) or $iValue==0) {
-					if (in_array($iValue,array('1','-1','0'))) {
-						$oTopicVote=new TopicEntity_TopicVote();
-						$oTopicVote->setTopicId($oTopic->getId());
-						$oTopicVote->setVoterId($oUserCurrent->getId());
-						$oTopicVote->setDelta($iValue);
-						//$oTopic->setRating($oTopic->getRating()+$iValue);
-						if ($iValue!=0) {
-							$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
-						}
-						$oTopic->setCountVote($oTopic->getCountVote()+1);
-						if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
-							$bStateError=false;
-							$sMsgTitle='Поздравляем!';
-							$sMsg = $iValue==0 ? 'Вы воздержались для просмотра рейтинга топика' : 'Ваш голос учтен';
-							$iRating=$oTopic->getRating();
+				if (strtotime($oTopic->getDateAdd())>time()-VOTE_LIMIT_TIME_TOPIC) {
+					if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic) or $iValue==0) {
+						if (in_array($iValue,array('1','-1','0'))) {
+							$oTopicVote=new TopicEntity_TopicVote();
+							$oTopicVote->setTopicId($oTopic->getId());
+							$oTopicVote->setVoterId($oUserCurrent->getId());
+							$oTopicVote->setDelta($iValue);
+							//$oTopic->setRating($oTopic->getRating()+$iValue);
+							if ($iValue!=0) {
+								$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
+							}
+							$oTopic->setCountVote($oTopic->getCountVote()+1);
+							if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
+								$bStateError=false;
+								$sMsgTitle='Поздравляем!';
+								$sMsg = $iValue==0 ? 'Вы воздержались для просмотра рейтинга топика' : 'Ваш голос учтен';
+								$iRating=$oTopic->getRating();
+							} else {
+								$sMsgTitle='Ошибка!';
+								$sMsg='Попробуйте проголосовать позже';
+							}
 						} else {
-							$sMsgTitle='Ошибка!';
-							$sMsg='Попробуйте проголосовать позже';
+							$sMsgTitle='Внимание!';
+							$sMsg='Голосовать можно только +1, 0, либо -1!';
 						}
 					} else {
 						$sMsgTitle='Внимание!';
-						$sMsg='Голосовать можно только +1, 0, либо -1!';
+						$sMsg='У вас не хватает рейтинга и силы для голосования!';
 					}
 				} else {
 					$sMsgTitle='Внимание!';
-					$sMsg='У вас не хватает рейтинга и силы для голосования!';
+					$sMsg='Срок голосования за топик истёк!';
 				}
 			} else {
 				$sMsgTitle='Внимание!';

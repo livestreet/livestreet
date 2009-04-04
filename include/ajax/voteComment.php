@@ -33,37 +33,42 @@ if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oComment->getUserId()!=$oUserCurrent->getId()) {
 			if (!($oTopicCommentVote=$oEngine->Comment_GetTopicCommentVote($oComment->getId(),$oUserCurrent->getId()))) {
-				if ($oEngine->ACL_CanVoteComment($oUserCurrent,$oComment)) {
-					if (in_array($iValue,array('1','-1'))) {
-						$oTopicCommentVote=new CommentEntity_TopicCommentVote();
-						$oTopicCommentVote->setCommentId($oComment->getId());
-						$oTopicCommentVote->setVoterId($oUserCurrent->getId());
-						$oTopicCommentVote->setDelta($iValue);						
-						//$oComment->setRating($oComment->getRating()+$iValue);
-						$oEngine->Rating_VoteComment($oUserCurrent,$oComment,$iValue);
-						
-						$oComment->setCountVote($oComment->getCountVote()+1);
-						if ($oEngine->Comment_AddTopicCommentVote($oTopicCommentVote) and $oEngine->Comment_UpdateTopicComment($oComment)) {
-							$bStateError=false;
-							$sMsgTitle='Поздравляем!';
-							$sMsg='Ваш голос учтен';
-							$iRating=$oComment->getRating();
+				if (strtotime($oComment->getDate())>time()-VOTE_LIMIT_TIME_COMMENT) {
+					if ($oEngine->ACL_CanVoteComment($oUserCurrent,$oComment)) {
+						if (in_array($iValue,array('1','-1'))) {
+							$oTopicCommentVote=new CommentEntity_TopicCommentVote();
+							$oTopicCommentVote->setCommentId($oComment->getId());
+							$oTopicCommentVote->setVoterId($oUserCurrent->getId());
+							$oTopicCommentVote->setDelta($iValue);
+							//$oComment->setRating($oComment->getRating()+$iValue);
+							$oEngine->Rating_VoteComment($oUserCurrent,$oComment,$iValue);
+
+							$oComment->setCountVote($oComment->getCountVote()+1);
+							if ($oEngine->Comment_AddTopicCommentVote($oTopicCommentVote) and $oEngine->Comment_UpdateTopicComment($oComment)) {
+								$bStateError=false;
+								$sMsgTitle='Поздравляем!';
+								$sMsg='Ваш голос учтен';
+								$iRating=$oComment->getRating();
+							} else {
+								$sMsgTitle='Ошибка!';
+								$sMsg='Попробуйте проголосовать позже';
+							}
 						} else {
-							$sMsgTitle='Ошибка!';
-							$sMsg='Попробуйте проголосовать позже';
+							$sMsgTitle='Внимание!';
+							$sMsg='Голосовать можно только +1 либо -1!';
 						}
 					} else {
 						$sMsgTitle='Внимание!';
-						$sMsg='Голосовать можно только +1 либо -1!';
+						$sMsg='У вас не хватает рейтинга и силы для голосования!';
 					}
 				} else {
 					$sMsgTitle='Внимание!';
-					$sMsg='У вас не хватает рейтинга и силы для голосования!';
+					$sMsg='Срок голосования за комментарий истёк!';
 				}
 			} else {
 				$sMsgTitle='Внимание!';
 				$sMsg='Вы уже голосовали за этот комментарий!';
-			}			
+			}
 		} else {
 			$sMsgTitle='Внимание!';
 			$sMsg='Вы не можете голосовать за свой комментарий!';
