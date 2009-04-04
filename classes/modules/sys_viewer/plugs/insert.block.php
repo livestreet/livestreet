@@ -38,10 +38,17 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	$aPath=pathinfo($sTemplate);	
 	$sBlock=ucfirst($aPath['basename']);
 	/**
+	 * параметры
+	 */
+	$aParamsBlock=array();
+	if (isset($aParams['params'])) {
+		$aParamsBlock=$aParams['params'];
+	}
+	/**
 	 * Подключаем необходимый обработчик
 	 */
 	$result=require_once(DIR_SERVER_ROOT.'/classes/blocks/Block'.$sBlock.'.class.php');	
-	$sCmd='$oBlock=new Block'.$sBlock.'();';
+	$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	eval($sCmd);
 	/**
 	 * Запускаем обработчик

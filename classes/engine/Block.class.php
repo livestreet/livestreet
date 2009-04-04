@@ -22,9 +22,19 @@
  */
 abstract class Block extends Object {	
 	protected $oEngine=null;	
+	protected $aParams=array();
 	
-	public function __construct() {		
+	public function __construct($aParams) {	
+		$this->aParams=$aParams;	
 		$this->oEngine=Engine::getInstance();		
+	}
+	
+	protected function GetParam($sName,$def=null) {
+		if (isset($this->aParams[$sName])) {
+			return $this->aParams[$sName];
+		} else {
+			return $def;
+		}
 	}
 	
 	public function __call($sName,$aArgs) {
