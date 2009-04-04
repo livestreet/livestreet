@@ -21,8 +21,19 @@ var lsCmtTreeClass = new Class({
 		this.make();		
 		this.aCommentNew=[];
 		this.iCurrentShowFormComment=0;	
+		this.iCommentIdLastView=null;	
 		this.countNewComment=0;
 		this.docScroller = new Fx.Scroll(document.getDocument()); 
+		var offsetY=0;
+		//для скролла в центр
+		offsetY=-window.getSize().y/2;
+		this.docScroller.setOptions({ 
+			duration:500, 
+			offset: {
+        		'x': 0,
+        		'y': offsetY
+   			}
+ 		});
 		
 		this.hideCommentForm(this.iCurrentShowFormComment);
 	},
@@ -65,13 +76,7 @@ var lsCmtTreeClass = new Class({
 		img.setProperties({'src': this.options.img.path + this.options.img.closeName});
 		img.removeClass(this.options.classes.openImg);
 		img.addClass(this.options.classes.closeImg);		  
-		var divComment = img.getParent('div').getChildren('div.comment-children')[0];	
-		
-		/*
-		var idComment = img.getParent('div').getProperty('id').substr(11);
-		var slideTree = new Fx.Slide($('comment-children-'+idComment));							
-		slideTree.slideIn();
-		*/
+		var divComment = img.getParent('div').getChildren('div.comment-children')[0];		
 		
 		divComment.removeClass(thisObj.options.classes.hidden);
 		divComment.addClass(thisObj.options.classes.visible);		
@@ -83,12 +88,6 @@ var lsCmtTreeClass = new Class({
 		img.removeClass(this.options.classes.closeImg);
 		img.addClass(this.options.classes.openImg);		    
 		var divComment = img.getParent('div').getChildren('div.comment-children')[0];		
-		
-		/*
-		var idComment = img.getParent('div').getProperty('id').substr(11);	
-		var slideTree = new Fx.Slide($('comment-children-'+idComment));							
-		slideTree.slideOut();
-		*/
 		
 		divComment.removeClass(thisObj.options.classes.visible);
 		divComment.addClass(thisObj.options.classes.hidden);		
@@ -132,8 +131,9 @@ var lsCmtTreeClass = new Class({
 			var aDivComments=$$('.comment');
 			aDivComments.each(function(item,index){
 				var divContent=item.getChildren('div.content')[0];
-				if (divContent && divContent.hasClass('new')) {
+				if (divContent) {
 					divContent.removeClass('new');
+					divContent.removeClass('view');
 				}
 			});
 		}
@@ -170,6 +170,7 @@ var lsCmtTreeClass = new Class({
         			}
         			if (selfIdComment) {
         				thisObj.setCountNewComment(aCmt.length-1+iCountOld);
+        				thisObj.hideCommentForm(thisObj.iCurrentShowFormComment); 
         			} else {
         				thisObj.setCountNewComment(aCmt.length+iCountOld);
         			}        			
@@ -180,8 +181,8 @@ var lsCmtTreeClass = new Class({
         				thisObj.injectComment(item.idParent,item.id,item.html);
         			}); 
         			
-        			if (selfIdComment && $('comment_id_'+selfIdComment)) {
-						thisObj.docScroller.toElement($('comment_id_'+selfIdComment));
+        			if (selfIdComment && $('comment_id_'+selfIdComment)) {						
+						thisObj.scrollToComment(selfIdComment);
 					}
         		}                           
 	        },
@@ -210,43 +211,49 @@ var lsCmtTreeClass = new Class({
 	goNextComment: function() {		
 		if (this.aCommentNew[0]) {
 			if ($('comment_id_'+this.aCommentNew[0])) {
-				var offsetY=0;
-				//для скролла в центр
-				//offsetY=-window.getSize().y/2;
-				this.docScroller.setOptions({ 
-					duration:500, 
-					offset: {
-        				'x': 0,
-        				'y': offsetY
-   					}
- 				});
-				this.docScroller.toElement($('comment_id_'+this.aCommentNew[0]));
+				this.scrollToComment(this.aCommentNew[0]);
 			}			
 			this.aCommentNew.erase(this.aCommentNew[0]);
 		}		
 		this.setCountNewComment(this.countNewComment-1);
 	},
 	
+	scrollToComment: function(idComment) {
+		this.docScroller.toElement($('comment_id_'+idComment));
+		if (this.iCommentIdLastView) {
+			$('comment_content_id_'+this.iCommentIdLastView).removeClass('view');
+		}				
+		$('comment_content_id_'+idComment).addClass('view');
+		this.iCommentIdLastView=idComment;
+	},
+	
 	addComment: function(formObj,topicId) {
 		var thisObj=this;
-		formObj=$(formObj);		
+		formObj=$(formObj);			
 		JsHttpRequest.query(
         	DIR_WEB_ROOT+'/include/ajax/commentAdd.php',
         	{ params: formObj },
         	function(result, errors) {         		 
             	if (!result) {
+            		thisObj.enableFormComment();
                 	msgErrorBox.alert('Error','Please try again later');           
         		}      
         		if (result.bStateError) {        			
+					thisObj.enableFormComment();        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-        		} else {        			
-        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);	
-        			thisObj.hideCommentForm(thisObj.iCurrentShowFormComment);     
-        			$('form_comment_text').setProperty('value','');   								
+        		} else {       
+        			$('form_comment_text').disabled=true; 			
+        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);        			   								
         		}                           
 	        },
         	true
-       );
+      	);
+      	$('form_comment_text').addClass('loader');		
+	},
+	
+	enableFormComment: function() {
+		$('form_comment_text').removeClass('loader');
+		$('form_comment_text').disabled=false; 
 	},
 	
 	addCommentScroll: function(commentId) {
@@ -320,6 +327,7 @@ var lsCmtTreeClass = new Class({
 	
 	hideCommentForm: function(idComment) {
 		if ($('reply_'+idComment)) {
+			this.enableFormComment();
 			$('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
 			var slideForm = new Fx.Slide('reply_'+idComment);							
 			slideForm.hide();
@@ -363,8 +371,6 @@ window.addEvent('domready', function() {
     		openImg: 'folding-open',
     		closeImg: 'folding'
     	}
-    });     
-        
-   // formCommentSlide = new Fx.Slide('form_comment2');
+    });
 });
 

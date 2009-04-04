@@ -423,6 +423,7 @@ select { width: 99%; }
 .comments .comment .content.self { background: #fdf5e6 !important; }
 .comments .comment .content.new { background: #e4fbf1 !important; }
 .comments .comment .content.del { background: #c5c5c5 !important; }
+.comments .comment .content.view { background: #cdf5a6 !important; }
 
 /* Single Comment */
 .comment .folding { width: 9px; height: 9px; float: left; position: relative; top: 17px; cursor: pointer; }
@@ -493,6 +494,7 @@ select { width: 99%; }
 .reply-title { margin-left: 10px; }
 .reply { padding: 0 50px 10px 10px; }
 .reply textarea { width: 100%; height: 70px; }
+.reply textarea.loader { background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
 
 
 /* Polls

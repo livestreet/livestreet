@@ -8,7 +8,7 @@
 								<a href="#" class="minus" onclick="lsVote.vote({$oComment->getId()},this,-1,'topic_comment'); return false;"></a>
 							</div>
 						
-							<div class="content {if $oUserCurrent and $oComment->getUserId()==$oUserCurrent->getId()}self{else}new{/if}">
+							<div id="comment_content_id_{$oComment->getId()}" class="content {if $oUserCurrent and $oComment->getUserId()==$oUserCurrent->getId()}self{else}new{/if}">
 								<div class="tb"><div class="tl"><div class="tr"></div></div></div>
 								
 								<div class="text">
