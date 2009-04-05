@@ -1,10 +1,10 @@
 {include file='header.light.tpl'}
 
 	<div class="lite-center">
-		<h3>Активация аккаунта</h3>
-		Вы почти зарегистрировались, осталось только активировать аккаунт. Инструкции по активации отправлены на ваш емайл.<br><br>
+		<h3>{$aLang.registration_confirm_header}</h3>
+		{$aLang.registration_confirm_text}<br><br>
 
-		Перейти на главную страницу <a href="{$DIR_WEB_ROOT}/">{$SITE_NAME}</a>
+		<a href="{$DIR_WEB_ROOT}">{$aLang.site_go_main}</a>
 	</div>
 
 {include file='footer.light.tpl'}

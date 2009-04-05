@@ -5,8 +5,8 @@
 			<div class="topic talk">				
 				<h1 class="title">{$oTalk->getTitle()|escape:'html'}</h1>				
 				<ul class="action">
-					<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">Почтовый ящик</a></li>
-					<li class="delete"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/delete/{$oTalk->getId()}/"  onclick="return confirm('Действительно удалить переписку?');">Удалить переписку</a></li>
+					<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">{$aLang.talk_inbox}</a></li>
+					<li class="delete"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/delete/{$oTalk->getId()}/"  onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</a></li>
 				</ul>				
 				<div class="content">
 					{$oTalk->getText()}				
@@ -21,7 +21,7 @@
 							
 				<!-- Comments Header -->
 				<div class="header">
-					{if $oTalk->getCountComment()}<h3>Переписка ({$oTalk->getCountComment()}){/if}</h3>					
+					{if $oTalk->getCountComment()}<h3>{$aLang.talk_comments} ({$oTalk->getCountComment()}){/if}</h3>					
 				</div>
 				<!-- /Comments Header -->
 				
@@ -36,7 +36,7 @@
         				</div></div>
     				{/if}    
     				<div class="comment" id="comment_id_{$aComment.obj->getId()}">    					
-							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="Свернуть ветку комментариев" class="folding" />
+							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" />
 							<a name="comment{$aComment.obj->getId()}" ></a>													
 							<div id="comment_content_id_{$aComment.obj->getId()}" class="content {if $oUserCurrent and $aComment.obj->getUserId()==$oUserCurrent->getId()}self{else}{if $oTalk->getDateLastRead()<=$aComment.obj->getDate()}new{/if}{/if}">																							
 								<div class="tb"><div class="tl"><div class="tr"></div></div></div>								
@@ -50,7 +50,7 @@
 								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$aComment.obj->getUserLogin()}/" class="author">{$aComment.obj->getUserLogin()}</a></p>
 								<ul>
 									<li class="date">{date_format date=$aComment.obj->getDate()}</li>									
-									<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">Ответить</a></li>																		
+									<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>																		
 									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>																		
 								</ul>
 							</div>			
@@ -65,13 +65,13 @@
 				
 				<span id="comment-children-0"></span>				
 				<br>				
-						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">Ответить</a></h3>
+						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">{$aLang.topic_comment_add}</a></h3>
 						<div class="comment"><div class="content"><div class="text" id="comment_preview_0" style="display: none;"></div></div></div>
 						<div style="display: block;" id="reply_0" class="reply">				
 						<form action="" method="POST" id="form_comment"  enctype="multipart/form-data">
     						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
-    						<input type="submit" name="submit_preview" value="предпросмотр" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
-    						<input type="submit" name="submit_comment" value="добавить">    	
+    						<input type="submit" name="submit_preview" value="{$aLang.comment_preview}" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
+    						<input type="submit" name="submit_comment" value="{$aLang.comment_add}">    	
     						<input type="hidden" name="reply" value="0" id="form_comment_reply">    						
     					</form>					
 						</div>

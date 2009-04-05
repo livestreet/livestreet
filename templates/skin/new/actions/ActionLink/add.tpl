@@ -21,9 +21,9 @@ document.addEvent('domready', function() {
 
 			<div class="profile-user">
 				{if $sEvent=='add'}
-					<h1>{$aLang.topic_title_create}</h1>
+					<h1>{$aLang.topic_link_create}</h1>
 				{else}
-					<h1>{$aLang.topic_title_edit}</h1>
+					<h1>{$aLang.topic_link_edit}</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>

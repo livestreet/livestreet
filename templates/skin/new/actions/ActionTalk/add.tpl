@@ -16,16 +16,16 @@ document.addEvent('domready', function() {
 
 
 			<div class="topic">
-				<h1>Новое письмо</h1>
+				<h1>{$aLang.talk_create}</h1>
 				<form action="" method="POST" enctype="multipart/form-data">
-					<p><label for="talk_users">Кому:</label><input type="text" class="w100p" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}"/></p>
-					<p><label for="talk_title">Заголовок:</label><input type="text" class="w100p" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}"/></p>
+					<p><label for="talk_users">{$aLang.talk_create_users}:</label><input type="text" class="w100p" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}"/></p>
+					<p><label for="talk_title">{$aLang.talk_create_title}:</label><input type="text" class="w100p" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}"/></p>
 
-					<p><div class="note"><a href="#">Доступны html-теги</a></div><label for="talk_text">Сообщение</label>
+					<p><div class="note"></div><label for="talk_text">{$aLang.talk_create_text}:</label>
 					<textarea name="talk_text" id="talk_text" rows="12">{$_aRequest.talk_text}</textarea>
 					</p><br />
 					
-					<p><input type="submit" value="Отправить" name="submit_talk_add"/></p>
+					<p><input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add"/></p>
 				</form>
 			</div>
 

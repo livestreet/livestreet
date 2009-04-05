@@ -56,9 +56,9 @@ tinyMCE.init({
 
 			<div class="profile-user">
 				{if $sEvent=='add'}
-					<h1>Создание топика</h1>
+					<h1>{$aLang.topic_topic_create}</h1>
 				{else}
-					<h1>Редактирование топика</h1>
+					<h1>{$aLang.topic_topic_edit}</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>

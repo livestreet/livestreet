@@ -158,6 +158,8 @@ return array(
 	/**
 	 * Создание топика
 	 */
+	'topic_topic_create' => 'Создание топика_$$',
+	'topic_topic_edit' => 'Редактирование топика_$$',
 	'topic_create' => 'написать_$$',
 	'topic_create_blog' => 'В какой блог публикуем?_$$',
 	'topic_create_blog_personal' => 'мой персональный блог_$$',
@@ -188,8 +190,8 @@ return array(
 	 * Топик-ссылка
 	 */
 	'topic_link' => 'топик-ссылка_$$',
-	'topic_title_create' => 'Создание топика-ссылки_$$',
-	'topic_title_edit' => 'Редактирование топика-ссылки_$$',
+	'topic_link_create' => 'Создание топика-ссылки_$$',
+	'topic_link_edit' => 'Редактирование топика-ссылки_$$',
 	'topic_link_count_jump' => 'переходов по ссылке:_$$',
 	'topic_link_create_url' => 'Ссылка_$$',
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html_$$',
@@ -204,9 +206,12 @@ return array(
 	'topic_question_vote_result' => 'Проголосовало_$$',
 	'topic_question_abstain' => 'воздержаться_$$',
 	'topic_question_abstain_result' => 'Воздержалось_$$',
+	'topic_question_create' => 'Создание топика-опроса_$$',
+	'topic_question_edit' => 'Редактирование топика-опроса_$$',
 	'topic_question_create_title' => 'Вопрос_$$',
 	'topic_question_create_title_notice' => 'Вопрос должен быть наполнен смыслом, чтобы можно было понять, о чем будет опрос._$$',
 	'topic_question_create_title_error' => 'Вопрос должен быть от 2 до 200 символов_$$',
+	'topic_question_create_answers' => 'Варианты ответов_$$',	
 	'topic_question_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)_$$',
 	'topic_question_create_text_notice' => 'HTML-теги запрещены_$$',
 	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов_$$',
@@ -331,6 +336,20 @@ return array(
 	'registration_invite' => 'Регистрация по приглашению_$$',
 	'registration_invite_code' => 'Код приглашения_$$',
 	'registration_invite_check' => 'Проверить код_$$',
+	'registration_activate_ok' => 'Поздравляем! Ваш аккаунт успешно активирован._$$',
+	'registration_confirm_header' => 'Активация аккаунта_$$',
+	'registration_confirm_text' => 'Вы почти зарегистрировались, осталось только активировать аккаунт. Инструкции по активации отправлены на ваш емайл._$$',
+	'registration' => 'Регистрация_$$',
+	'registration_login' => 'Имя пользователя_$$',
+	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина имени не может быть меньше 3 и больше 20 символов._$$',
+	'registration_mail' => 'Электропочта_$$',
+	'registration_mail_notice' => 'Для проверки регистрации и в целях безопасности нам нужен адрес вашей электропочты._$$',
+	'registration_password' => 'Пароль_$$',
+	'registration_password_notice' => 'Должен содержать не менее 5 символов и не может совпадать с логином. Не используйте простые пароли, будьте разумны._$$',
+	'registration_password_retry' => 'Повторите пароль_$$',
+	'registration_captcha' => 'Введите цифры и буквы_$$',
+	'registration_submit' => 'Зарегистрироваться_$$',
+	'registration_ok' => 'Поздравляем! Регистрация прошла успешно_$$',
 			
 	/**
 	 * Голосование за пользователя
@@ -464,7 +483,39 @@ return array(
 	'site_history_back' => 'Вернуться назад_$$',
 	'site_go_main' => 'перейти на главную_$$',
 	
+	/**
+	 * Поиск
+	 */
 	'search' => 'Поиск_$$',
+	'search_submit' => 'Найти_$$',
+	'search_results' => 'Результаты поиска_$$',
+	'search_results_empty' => 'Удивительно, но поиск не дал результатов_$$',
+	'search_results_count_topics' => 'топиков_$$',
+	'search_results_count_comments' => 'комментариев_$$',
+	
+	/**
+	 * Почта
+	 */
+	'talk_inbox' => 'Почтовый ящик_$$',
+	'talk_inbox_target' => 'Адресаты_$$',
+	'talk_inbox_title' => 'Тема_$$',
+	'talk_inbox_date' => 'Тема_$$',
+	'talk_inbox_delete' => 'Удалить переписку_$$',
+	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?_$$',
+	'talk_comments' => 'Переписка_$$',
+	'talk_create' => 'Новое письмо_$$',
+	'talk_create_users' => 'Кому_$$',
+	'talk_create_title' => 'Заголовок_$$',
+	'talk_create_text' => 'Сообщение_$$',
+	'talk_create_submit' => 'Отправить_$$',
+	
+	/**
+	 * Рейтинг TOP
+	 */
+	'top_blogs' => 'TOP Блогов_$$',
+	'top_topics' => 'TOP топиков_$$',
+	'top_comments' => 'TOP комментариев_$$',
+	
 	
 	'error' => 'Ошибка_$$',
 	'system_error' => 'Системная ошибка, повторите позже_$$',

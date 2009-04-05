@@ -22,9 +22,9 @@ document.addEvent('domready', function() {
 
 			<div class="profile-user">
 				{if $sEvent=='add'}
-					<h1>Создание топика-опроса</h1>
+					<h1>{$aLang.topic_question_create}</h1>
 				{else}
-					<h1>Редактирование топика-опроса</h1>
+					<h1>{$aLang.topic_question_edit}</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
@@ -47,7 +47,7 @@ document.addEvent('domready', function() {
        				<span class="form_note">{$aLang.topic_question_create_title_notice}</span></p>
 					
 					<p>
-      				Варианты ответов:
+      				{$aLang.topic_question_create_answers}:
       				<table>
       				{if count($_aRequest.answer)>=2}
         				{foreach from=$_aRequest.answer item=sAnswer}

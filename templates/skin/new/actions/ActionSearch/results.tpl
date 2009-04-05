@@ -1,6 +1,6 @@
 {include file='header.tpl' showWhiteBack=true}
 
-			<h1>Результаты поиска: <span>{$aReq.q|escape:'html'}</span></h1>
+			<h1>{$aLang.search_results}: <span>{$aReq.q|escape:'html'}</span></h1>
 			<ul class="block-nav">
 			{foreach from=$aRes.aCounts item=iCount key=sType name="sTypes"}
 				<li {if $aReq.sType == $sType}class="active"{/if}>					
@@ -8,9 +8,9 @@
 					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/{$sType}/?q={$aReq.q|escape:'html'}">
 						{$iCount} 
 						{if $sType=="topics"}
-							топиков
+							{$aLang.search_results_count_topics}
 						{elseif $sType=="comments"}
-							комментариев
+							{$aLang.search_results_count_comments}
 						{/if}
 					</a>
 					{if $smarty.foreach.sTypes.last}<em></em>{/if}
@@ -26,7 +26,7 @@
 					{include file='comment_list.tpl'}
 				{/if}
 			{else}
-				<h2>Удивительно, но поиск не дал результатов</h2> 
+				<h2>{$aLang.search_results_empty}</h2> 
 			{/if}
 
 {include file='footer.tpl'}

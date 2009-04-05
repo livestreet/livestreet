@@ -2,7 +2,7 @@
 
 
 	<div class="topic top">
-		<h1>TOP топиков</h1>				
+		<h1>{$aLang.top_topics}</h1>				
 		<ul class="block-nav">
 			<li {if $aParams[0] and $aParams[0]=='24h'}class="active"{/if}><strong></strong><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOP}/topic/24h/">{$aLang.blog_menu_top_period_24h}</a></li>
 			<li {if $aParams[0] and $aParams[0]=='7d'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOP}/topic/7d/">{$aLang.blog_menu_top_period_7d}</a></li>
