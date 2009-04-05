@@ -1,12 +1,12 @@
 				<table>
 					<thead>
 						<tr>
-							<td class="user">Название и смотритель</td>
+							<td class="user">{$aLang.blogs_title}</td>
 							{if $oUserCurrent}
 							<td class="join-head"><img src="{$DIR_STATIC_SKIN}/images/join-head.gif" alt="" /></td>
 							{/if}
-							<td class="readers">Читателей</td>														
-							<td class="rating">Рейтинг</td>
+							<td class="readers">{$aLang.blogs_readers}</td>														
+							<td class="rating">{$aLang.blogs_rating}</td>
 						</tr>
 					</thead>
 					
@@ -16,7 +16,7 @@
 							<td class="name">
 								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(24)}" alt="" /></a>
 								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/" class="title">{$oBlog->getTitle()|escape:'html'}</a><br />
-								Смотритель: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlog->getUserLogin()}/" class="author">{$oBlog->getUserLogin()}</a>
+								{$aLang.blogs_owner}: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlog->getUserLogin()}/" class="author">{$oBlog->getUserLogin()}</a>
 							</td>
 							{if $oUserCurrent}
 							<td class="join {if $oBlog->getCurrentUserIsJoin()}active{/if}">

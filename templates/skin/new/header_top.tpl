@@ -5,12 +5,12 @@
 		<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 		<div class="content">
 			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
-				<h3>Авторизация</h3>
-				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">Зарегистрироваться</a><label for="">Логин или эл. почта</label></div>
+				<h3>{$aLang.user_authorization}</h3>
+				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">{$aLang.registration_submit}</a><label for="">{$aLang.user_login}</label></div>
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
-				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">Напомнить пароль</a><label for="">Пароль</label></div>
+				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">{$aLang.user_password_reminder}</a><label for="">{$aLang.user_password}</label></div>
 				<p><input type="password" name="password" class="input-text" tabindex="2" /></p>
-				<div class="lite-note"><button type="submit" onfocus="blur()"><span><em>Войти</em></span></button><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" > Запомнить меня</label></div>
+				<div class="lite-note"><button type="submit" onfocus="blur()"><span><em>{$aLang.user_login_submit}</em></span></button><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" >{$aLang.user_login_remember}</label></div>
 				<input type="hidden" name="submit_login">
 			</form>
 		</div>
@@ -48,8 +48,8 @@
 		</div>
 		{else}
 		<div class="profile guest">
-			<a href="#" onclick="showLoginForm(); return false;">Войти</a> или 
-			<a href="{$DIR_WEB_ROOT}/registration/" class="reg">Зарегистрироваться</a>
+			<a href="#" onclick="showLoginForm(); return false;">{$aLang.user_login_submit}</a> {$aLang.or} 
+			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/" class="reg">{$aLang.registration_submit}</a>
 		</div>
 		{/if}
 		

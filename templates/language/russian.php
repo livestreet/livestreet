@@ -24,6 +24,11 @@ return array(
 	 * Блоги
 	 */
 	'blogs' => 'Блоги_$$',
+	'blogs_title' => 'Название и смотритель_$$',
+	'blogs_readers' => 'Читателей_$$',
+	'blogs_rating' => 'Рейтинг_$$',
+	'blogs_owner' => 'Смотритель_$$',
+	
 	'blog_no_topic' => 'Сюда еще никто не успел написать_$$',
 	'blog_rss' => 'RSS лента_$$',
 	'blog_rating' => 'Рейтинг_$$',
@@ -479,6 +484,18 @@ return array(
 	 */
 	'block_city_tags' => 'Города_$$',
 	'block_country_tags' => 'Страны_$$',
+	'block_blog_info' => 'Описание блога_$$',
+	'block_blog_info_note' => 'Заметка_$$',
+	'block_blog_info_note_text' => '<strong>Тег &lt;cut&gt; сокращает длинные записи</strong>, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика._$$',
+	'block_blogs' => 'Блоги_$$',
+	'block_blogs_top' => 'Топ_$$',
+	'block_blogs_join' => 'Подключенные_$$',
+	'block_blogs_self' => 'Мои_$$',
+	'block_blogs_all' => 'Все блоги_$$',
+	'block_stream' => 'Прямой эфир_$$',
+	'block_stream_topics' => 'Публикации_$$',
+	'block_stream_comments' => 'Комментарии_$$',
+	'block_stream_comments_all' => 'Весь эфир_$$',
 	
 	'site_history_back' => 'Вернуться назад_$$',
 	'site_go_main' => 'перейти на главную_$$',
@@ -496,6 +513,9 @@ return array(
 	/**
 	 * Почта
 	 */
+	'talk_menu_inbox' => 'Почтовый ящик_$$',
+	'talk_menu_inbox_list' => 'Переписка_$$',
+	'talk_menu_inbox_create' => 'Новое письмо_$$',
 	'talk_inbox' => 'Почтовый ящик_$$',
 	'talk_inbox_target' => 'Адресаты_$$',
 	'talk_inbox_title' => 'Тема_$$',
@@ -516,14 +536,36 @@ return array(
 	'top_topics' => 'TOP топиков_$$',
 	'top_comments' => 'TOP комментариев_$$',
 	
+	/**
+	 * Постраничность
+	 */
+	'paging_next' => 'следующая_$$',
+	'paging_previos' => 'предыдущая_$$',
+	'paging_last' => 'последняя_$$',
+	'paging_first' => 'предыдущая_$$',
+	'paging' => 'Страницы_$$',
+	
+	/**
+	 * Загрузка изображений
+	 */
+	'uploadimg' => 'Вставка изображения_$$',
+	'uploadimg_file' => 'Файл_$$',
+	'uploadimg_url' => 'Ссылка на изображение_$$',
+	'uploadimg_align' => 'Выравнивание_$$',
+	'uploadimg_align_no' => 'нет_$$',
+	'uploadimg_align_left' => 'слева_$$',
+	'uploadimg_align_right' => 'справа_$$',
+	'uploadimg_submit' => 'Загрузить_$$',
+	'uploadimg_cancel' => 'Отмена_$$',
+	'uploadimg_title' => 'Описание_$$',
+	
 	
 	'error' => 'Ошибка_$$',
 	'system_error' => 'Системная ошибка, повторите позже_$$',
 	'exit' => 'выход_$$',
+	'or' => 'или_$$',
 	'window_close' => 'закрыть_$$',
-	'not_access' => 'Нет доступа_$$',
-	'page_next' => 'туда_$$',
-	'page_previos' => 'сюда_$$',
+	'not_access' => 'Нет доступа_$$',	
 	'login' => 'Вход на сайт_$$',	
 	'date_day' => 'день_$$',
 	'date_month' => 'месяц_$$',

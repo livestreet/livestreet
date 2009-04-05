@@ -56,7 +56,7 @@ document.addEvent('domready', function() {
  									<nobr> <input type="radio" disabled /></nobr>
  								</td>
   								<td width="100%">      
-    								<input type="text" value="{$sAnswer}" name="answer[]" class="input-text" {if $bEditDisabled}disabled{/if}>     
+    								<input type="text" value="{$sAnswer}" name="answer[]" class="w100p" {if $bEditDisabled}disabled{/if}>     
   								</td>
   								<td nowrap align="center">
    									<input type="button"  name="drop_answer" value=" - " onClick="dropField(this);" {if $bEditDisabled}disabled{/if}>
@@ -70,7 +70,7 @@ document.addEvent('domready', function() {
  								<nobr> <input type="radio" disabled /></nobr>
  							</td>
   							<td width="100%">      
-    							<input type="text" value="" name="answer[]" class="input-text" >     
+    							<input type="text" value="" name="answer[]" class="w100p" >     
   							</td>
   							<td nowrap align="center">
    								<input type="button"  name="drop_answer" value=" - " onClick="dropField(this);">
@@ -82,7 +82,7 @@ document.addEvent('domready', function() {
  								<nobr> <input type="radio" disabled /></nobr>
  							</td>
   							<td width="100%">      
-    							<input type="text" value="" name="answer[]" class="input-text" >     
+    							<input type="text" value="" name="answer[]" class="w100p" >     
   							</td>
   							<td nowrap align="center">
    								<input type="button"  name="drop_answer" value=" - " onClick="dropField(this);">

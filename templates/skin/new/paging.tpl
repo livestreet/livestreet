@@ -3,20 +3,20 @@
 				<p>
 					&larr;				
 					{if $aPaging.iPrevPage}
-    					<a href="{$aPaging.sBaseUrl}/page{$aPaging.iPrevPage}/{$aPaging.sGetParams}">предыдущая</a>
+    					<a href="{$aPaging.sBaseUrl}/page{$aPaging.iPrevPage}/{$aPaging.sGetParams}">{$aLang.paging_previos}</a>
     				{else}
-    					предыдущая
+    					{$aLang.paging_previos}
     				{/if}
     				&nbsp; &nbsp;
     				{if $aPaging.iNextPage}
-    					<a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}">следующая</a>
+    					<a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}">{$aLang.paging_next}</a>
     				{else}
-    					следующая
+    					{$aLang.paging_next}
     				{/if}
 					&rarr;
 				</p>
 				<ul>
-					<li>Страницы:</li>				
+					<li>{$aLang.paging}:</li>				
 					
 					{if $aPaging.iCurrentPage>1}
 						<li><a href="{$aPaging.sBaseUrl}/{$aPaging.sGetParams}">&larr;</a></li>
@@ -29,7 +29,7 @@
 						<li><a href="{$aPaging.sBaseUrl}/page{$iPage}/{$aPaging.sGetParams}">{$iPage}</a></li>
 					{/foreach}
 					{if $aPaging.iCurrentPage<$aPaging.iCountPage}
-						<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iCountPage}/{$aPaging.sGetParams}">последняя</a></li>
+						<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iCountPage}/{$aPaging.sGetParams}">{$aLang.paging_last}</a></li>
 					{/if}					
 				</ul>
 			</div>

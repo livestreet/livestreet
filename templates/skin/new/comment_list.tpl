@@ -12,7 +12,7 @@
 					        		<div style="display: none;" id="comment_text_{$oComment->getId()}">
 					        		{$oComment->getText()}
 					        		</div>
-					         		<a href="#" onclick="$('comment_text_{$oComment->getId()}').setStyle('display','block');$(this).setStyle('display','none');return false;">раскрыть комментарий</a>
+					         		<a href="#" onclick="$('comment_text_{$oComment->getId()}').setStyle('display','block');$(this).setStyle('display','none');return false;">{$aLang.comment_bad_open}</a>
 					        	{else}	
 					        		{$oComment->getText()}
 					        	{/if}
