@@ -136,7 +136,7 @@ class ActionLogin extends Action {
 					func_header_location(DIR_WEB_ROOT.'/login/reminder/send/');
 				}
 			} else {
-				$this->Message_AddError('Пользователь с таким e-mail не найден','Ошибка');
+				$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));
 			}
 		}
 	}

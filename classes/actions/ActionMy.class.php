@@ -86,8 +86,8 @@ class ActionMy extends Action {
 		 */			
 		$this->Viewer_Assign('aPaging',$aPaging);			
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Публикации '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle('Блог');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -128,8 +128,8 @@ class ActionMy extends Action {
 		 */		
 		$this->Viewer_Assign('aPaging',$aPaging);			
 		$this->Viewer_Assign('aComments',$aComments);	
-		$this->Viewer_AddHtmlTitle('Публикации '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle('Комментарии');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_comment'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */	

@@ -98,7 +98,7 @@ class ActionPage extends Action {
 			return $this->EventNotFound();
 		}
 		
-		$this->Viewer_AddHtmlTitle('Управление страницами');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('page_admin'));
 		/**
 		 * Обработка создания новой странички
 		 */
@@ -129,7 +129,7 @@ class ActionPage extends Action {
 				}
 				$this->Viewer_Assign('oPageEdit',$oPageEdit);
 			} else {
-				$this->Message_AddError('Страница для редактирования не найдена','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_edit_notfound'),$this->Lang_Get('error'));
 				$this->SetParam(0,null);
 			}
 		}
@@ -139,9 +139,9 @@ class ActionPage extends Action {
 		 */
 		if ($this->GetParam(0)=='delete') {
 			if ($this->Page_deletePageById($this->GetParam(1))) {
-				$this->Message_AddNotice('Страница удалена');
+				$this->Message_AddNotice($this->Lang_Get('page_admin_action_delete_ok'));
 			} else {
-				$this->Message_AddError('Возникла ошибка при удалении страницы','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_admin_action_delete_error'),$this->Lang_Get('error'));
 			}
 		}
 		/**
@@ -168,7 +168,7 @@ class ActionPage extends Action {
 		}
 		
 		if ($oPageEdit->getId()==getRequest('page_pid')) {
-			$this->Message_AddError('Пытаетесь вложить страницу саму в себя?','Ошибка');
+			$this->Message_AddError($this->Lang_Get('system_error'));
 			return;
 		}
 		
@@ -195,11 +195,11 @@ class ActionPage extends Action {
 		 */
 		if ($this->Page_UpdatePage($oPageEdit)) {
 			$this->Page_RebuildUrlFull($oPageEdit);
-			$this->Message_AddNotice('Страница обновлена');
+			$this->Message_AddNotice($this->Lang_Get('page_edit_submit_save_ok'));
 			$this->SetParam(0,null);
 			$this->SetParam(1,null);
 		} else {
-			$this->Message_AddError('Внутреняя ошибка, повторите позже','Ошибка');
+			$this->Message_AddError($this->Lang_Get('system_error'));
 		}
 	}
 	/**
@@ -236,10 +236,10 @@ class ActionPage extends Action {
 		 * Добавляем страницу
 		 */		
 		if ($this->Page_AddPage($oPage)) {
-			$this->Message_AddNotice('Новая страница добавлена');
+			$this->Message_AddNotice($this->Lang_Get('page_create_submit_save_ok'));
 			$this->SetParam(0,null);
 		} else {
-			$this->Message_AddError('Внутреняя ошибка, повторите позже','Ошибка');
+			$this->Message_AddError($this->Lang_Get('system_error'));
 		}
 	}
 	/**
@@ -253,7 +253,7 @@ class ActionPage extends Action {
 		 	* Проверяем есть ли заголовок топика
 		 	*/
 			if (!func_check(getRequest('page_title'),'text',2,200)) {
-				$this->Message_AddError('Название страницы должно быть от 2 до 200 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_create_title_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
@@ -262,28 +262,28 @@ class ActionPage extends Action {
 			$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url'));
 			$_REQUEST['page_url']=$pageUrl;
 			if (!func_check(getRequest('page_url'),'login',1,50)) {
-				$this->Message_AddError('URL должен быть от 1 до 50 символов и только на латинице + цифры и знаки "-", "_"','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_create_url_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 		 	* Проверяем на счет плохих УРЛов
 			 */
 			if (in_array(getRequest('page_url'),$this->aBadPageUrl)) {
-				$this->Message_AddError('URL должен отличаться от: '.join(',',$this->aBadPageUrl),'Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 		 	* Проверяем есть ли содержание страницы
 		 	*/
 			if (!func_check(getRequest('page_text'),'text',1,50000)) {
-				$this->Message_AddError('Текст страницы должен быть от 1 до 50000 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_create_text_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 			 * Проверяем страницу в которую хотим вложить
 			 */
 			if (getRequest('page_pid')!=0 and !($oPageParent=$this->Page_GetPageById(getRequest('page_pid')))) {
-				$this->Message_AddError('Неверно выбрана страница для вложения','Ошибка');
+				$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}		
 			
