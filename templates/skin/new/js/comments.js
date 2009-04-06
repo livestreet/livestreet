@@ -170,7 +170,7 @@ var lsCmtTreeClass = new Class({
         				thisObj.injectComment(item.idParent,item.id,item.html);
         			}); 
         			
-        			if (selfIdComment && $('comment_id_'+selfIdComment)) {						
+        			if (selfIdComment && $('comment_id_'+selfIdComment)) {
 						thisObj.scrollToComment(selfIdComment);
 					}
         		}                           
@@ -208,17 +208,14 @@ var lsCmtTreeClass = new Class({
 	},
 	
 	scrollToComment: function(idComment) {
-		var offsetY=0;
-		//для скролла в центр
-		offsetY=-window.getSize().y/2;
 		this.docScroller.setOptions({ 
 			duration:500, 
 			offset: {
         		'x': 0,
-        		'y': offsetY
+        		'y': 0
    			}
  		});
-		this.docScroller.toElement($('comment_id_'+idComment));
+		this.docScroller.start(0,$('comment_id_'+idComment).getPosition().y-window.getSize().y/2);
 		if (this.iCommentIdLastView) {
 			$('comment_content_id_'+this.iCommentIdLastView).removeClass('view');
 		}				
