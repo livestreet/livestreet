@@ -215,6 +215,9 @@ return array(
 	/**
 	 * Топик-опрос
 	 */
+	'topic_question_title' => 'Опросы_$$',
+	'topic_question_title_edit' => 'Редактирование опроса_$$',
+	'topic_question_title_create' => 'Добавление опроса_$$',
 	'topic_question_vote' => 'голосовать_$$',
 	'topic_question_vote_result' => 'Проголосовало_$$',
 	'topic_question_abstain' => 'воздержаться_$$',
@@ -225,6 +228,9 @@ return array(
 	'topic_question_create_title_notice' => 'Вопрос должен быть наполнен смыслом, чтобы можно было понять, о чем будет опрос._$$',
 	'topic_question_create_title_error' => 'Вопрос должен быть от 2 до 200 символов_$$',
 	'topic_question_create_answers' => 'Варианты ответов_$$',	
+	'topic_question_create_answers_error' => 'Ответ должен быть от 1 до 100 символов_$$',	
+	'topic_question_create_answers_error_min' => 'Вариантов ответа должно быть как минимум два_$$',	
+	'topic_question_create_answers_error_max' => 'Максимально возможное число вариантов ответа 20_$$',	
 	'topic_question_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)_$$',
 	'topic_question_create_text_notice' => 'HTML-теги запрещены_$$',
 	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов_$$',

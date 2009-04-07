@@ -33,7 +33,7 @@ class ActionPeople extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('good');	
-		$this->Viewer_AddHtmlTitle('Люди');	
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));	
 		
 		$this->Viewer_AddBlocks('right',array('actions/ActionPeople/sidebar.tpl'));
 	}
@@ -62,8 +62,7 @@ class ActionPeople extends Action {
 	 */
 	protected function EventCountry() {		
 		if (!($oCountry=$this->User_GetCountryByName(urldecode($this->getParam(0))))) {
-			$this->Message_AddErrorSingle('Страна не найдена',$this->Lang_Get('error'));
-			return Router::Action('error');
+			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику
@@ -102,8 +101,7 @@ class ActionPeople extends Action {
 	 */
 	protected function EventCity() {		
 		if (!($oCity=$this->User_GetCityByName(urldecode($this->getParam(0))))) {
-			$this->Message_AddErrorSingle('Город не найден',$this->Lang_Get('error'));
-			return Router::Action('error');
+			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику

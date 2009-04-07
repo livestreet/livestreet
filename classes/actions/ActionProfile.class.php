@@ -81,8 +81,8 @@ class ActionProfile extends Action {
 		 */			
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Профиль '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle('Избранное');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -139,8 +139,8 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);		
 		$this->Viewer_Assign('aUsersSelfFrend',$aUsersSelfFrend);
-		$this->Viewer_AddHtmlTitle('Профиль '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle('Whois');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

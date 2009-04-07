@@ -55,12 +55,12 @@ class ActionQuestion extends Action {
 		 * Проверяем авторизован ли юзер
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error'); 
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
-		$this->Viewer_AddHtmlTitle('Вопросы');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -133,7 +133,7 @@ class ActionQuestion extends Action {
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('bEditDisabled',$oTopic->getQuestionCountVote()==0 ? false : true);
-		$this->Viewer_AddHtmlTitle('Редактирование вопроса');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -203,7 +203,7 @@ class ActionQuestion extends Action {
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);	
 		$this->Viewer_Assign('bEditDisabled',false);	
-		$this->Viewer_AddHtmlTitle('Добавление вопроса');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title_create'));
 		/**
 		 * Обрабатываем отправку формы
 		 */
@@ -241,7 +241,7 @@ class ActionQuestion extends Action {
 		 * Если блог не определен выдаем предупреждение
 		 */
 		if (!$oBlog) {
-			$this->Message_AddErrorSingle('Пытаетесь запостить топик в неизвестный блог?','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			return false;
 		}		
 		/**
@@ -249,7 +249,7 @@ class ActionQuestion extends Action {
 		 */
 		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
 				return false;
 			}
 		}		
@@ -257,7 +257,7 @@ class ActionQuestion extends Action {
 		 * Проверяем есть ли права на постинг топика в этот блог
 		 */
 		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
 			return false;
 		}						
 		/**
@@ -280,7 +280,7 @@ class ActionQuestion extends Action {
 		 * Проверяем топик на уникальность
 		 */
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
-			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
 			return false;			
 		}
 		/**
@@ -333,7 +333,7 @@ class ActionQuestion extends Action {
 			
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении топика, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}		
 	}
@@ -363,7 +363,7 @@ class ActionQuestion extends Action {
 		 * Если блог не определен выдаем предупреждение
 		 */
 		if (!$oBlog) {
-			$this->Message_AddErrorSingle('Пытаетесь запостить топик в неизвестный блог?','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			return false;
 		}			
 		/**
@@ -377,7 +377,7 @@ class ActionQuestion extends Action {
 		
 		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
 				return false;
 			}
 		}		
@@ -386,7 +386,7 @@ class ActionQuestion extends Action {
 		 * Условие $oBlog->getId()!=$oTopic->getBlogId()  для того чтоб разрешить отредактировать топик в блоге в который сейчас юзер не имеет права на постинг, но раньше успел в него запостить этот топик
 		 */
 		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and $oBlog->getId()!=$oTopic->getBlogId() and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
 			return false;
 		}						
 		/**
@@ -415,7 +415,7 @@ class ActionQuestion extends Action {
 		 */
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {								
 			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
-				$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
 				return false;
 			}	
 		}
@@ -457,7 +457,7 @@ class ActionQuestion extends Action {
 			}
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки при изменении топика, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}		
 	}
@@ -472,7 +472,7 @@ class ActionQuestion extends Action {
 		 * Проверяем есть ли блог в кторый постим
 		 */
 		if (!func_check(getRequest('blog_id'),'id')) {
-			$this->Message_AddError('Что то не то с блогом..','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 				
@@ -480,7 +480,7 @@ class ActionQuestion extends Action {
 		 * Проверяем есть ли описание вопроса
 		 */
 		if (!func_check(getRequest('topic_text'),'text',0,500)) {
-			$this->Message_AddError('Описание вопроса должно быть не более 500 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_question_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		
@@ -492,7 +492,7 @@ class ActionQuestion extends Action {
 		 	* Проверяем есть ли заголовок топика(вопрос)
 		 	*/
 			if (!func_check(getRequest('topic_title'),'text',2,200)) {
-				$this->Message_AddError('Вопрос должен быть от 2 до 200 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_question_create_title_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
@@ -505,18 +505,18 @@ class ActionQuestion extends Action {
 					continue;
 				}
 				if (!func_check($sAnswer,'text',1,100)) {
-					$this->Message_AddError('Ответ должен быть от 1 до 100 символов','Ошибка');
+					$this->Message_AddError($this->Lang_Get('topic_question_create_answers_error'),$this->Lang_Get('error'));
 					$bOk=false;
 					break;
 				}
 			}
 			$_REQUEST['answer']=$aAnswers;
 			if (count($aAnswers)<2) {
-				$this->Message_AddError('Вариантов ответа должно быть как минимум два','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_question_create_answers_error_min'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			if (count($aAnswers)>20) {
-				$this->Message_AddError('Максимально возможное число вариантов ответа 20','Ошибка');
+				$this->Message_AddError($this->Lang_Get('topic_question_create_answers_error_max'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 		}
@@ -525,7 +525,7 @@ class ActionQuestion extends Action {
 		 * Проверяем есть ли теги(метки)
 		 */
 		if (!func_check(getRequest('topic_tags'),'text',2,500)) {
-			$this->Message_AddError('Метки топика должны быть от 2 до 50 символов с общей диной не более 500 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
@@ -541,7 +541,7 @@ class ActionQuestion extends Action {
 			}
 		}
 		if (!count($aTagsNew)) {
-			$this->Message_AddError('Проверьте правильность меток','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_tags_error_bad'),$this->Lang_Get('error'));
 			$bOk=false;
 		} else {
 			$_REQUEST['topic_tags']=join(',',$aTagsNew);
