@@ -17,7 +17,7 @@
 		<div class="right"></div>
 		<!--<a href="#" class="rss" onclick="return false;"></a>-->
 		<div class="search">
-			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/topics/" method="post">
+			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/topics/" method="GET">
 				<input class="text" type="text" onblur="if (!value) value=defaultValue" onclick="if (value==defaultValue) value=''" value="{$aLang.search}" name="q" />
 				<input class="button" type="submit" value="" />
 			</form>
