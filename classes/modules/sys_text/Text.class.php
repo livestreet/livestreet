@@ -105,15 +105,13 @@ class LsText extends Module {
 	public function VideoParser($sText) {	
 		/**
 		 * youtube.com
-		 */
-		$sResult = preg_replace('/<video>http:\/\/youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/$1&hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/$1&hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="344"></embed></object>', $sText);
-		$sResult = preg_replace('/<video>http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/$1&hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/$1&hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="344"></embed></object>', $sResult);		
+		 */		
+		$sText = preg_replace('/<video>http:\/\/(?:www\.|)youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/$1&hl=en"></param><param name="wmode" value="opaque"></param><embed src="http://www.youtube.com/v/$1&hl=en" type="application/x-shockwave-flash" wmode="opaque" width="425" height="344"></embed></object>', $sText);		
 		/**
 		 * rutube.ru
-		 */
-		$sResult = preg_replace('/<video>http:\/\/rutube.ru\/tracks\/\d+.html\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<OBJECT width="470" height="353"><PARAM name="movie" value="http://video.rutube.ru/$1"></PARAM><PARAM name="wmode" value="window"></PARAM><PARAM name="allowFullScreen" value="true"></PARAM><PARAM name="flashVars" value="uid=662118"></PARAM><EMBED src="http://video.rutube.ru/$1" type="application/x-shockwave-flash" wmode="window" width="470" height="353" allowFullScreen="true" flashVars="uid=662118"></EMBED></OBJECT>', $sResult);
-		$sResult = preg_replace('/<video>http:\/\/www\.rutube.ru\/tracks\/\d+.html\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<OBJECT width="470" height="353"><PARAM name="movie" value="http://video.rutube.ru/$1"></PARAM><PARAM name="wmode" value="window"></PARAM><PARAM name="allowFullScreen" value="true"></PARAM><PARAM name="flashVars" value="uid=662118"></PARAM><EMBED src="http://video.rutube.ru/$1" type="application/x-shockwave-flash" wmode="window" width="470" height="353" allowFullScreen="true" flashVars="uid=662118"></EMBED></OBJECT>', $sResult);				
-		return $sResult;
+		 */		
+		$sText = preg_replace('/<video>http:\/\/(?:www\.|)rutube.ru\/tracks\/\d+.html\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<OBJECT width="470" height="353"><PARAM name="movie" value="http://video.rutube.ru/$1"></PARAM><PARAM name="wmode" value="opaque"></PARAM><PARAM name="allowFullScreen" value="true"></PARAM><PARAM name="flashVars" value="uid=662118"></PARAM><EMBED src="http://video.rutube.ru/$1" type="application/x-shockwave-flash" wmode="opaque" width="470" height="353" allowFullScreen="true" flashVars="uid=662118"></EMBED></OBJECT>', $sText);				
+		return $sText;
 	}
 	
 	/**
@@ -185,7 +183,25 @@ class LsText extends Module {
 				$str_new=$str.'></embed>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
 			}	
-		}		
+		}	
+		/**
+		 * Удаляем все <param name="wmode" value="*"></param>		 
+		 */
+		if (preg_match_all("@(<param\s.*name=\"wmode\".*>\s*</param>)@Ui",$sText,$aMatch)) {
+			foreach ($aMatch[1] as $key => $str) {
+				$sText=str_replace($aMatch[0][$key],'',$sText);
+			}
+		}
+		/**
+		 * А теперь после <object> добавляем <param name="wmode" value="opaque"></param>
+		 * Решение не фантан, но главное работает :)
+		 */
+		if (preg_match_all("@(<object\s.*>)@Ui",$sText,$aMatch)) {
+			foreach ($aMatch[1] as $key => $str) {
+				$sText=str_replace($aMatch[0][$key],$aMatch[0][$key].'<param name="wmode" value="opaque"></param>',$sText);
+			}
+		}
+		
 		return $sText;
 	}
 	
