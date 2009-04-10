@@ -41,16 +41,39 @@ class LsLang extends Module {
 		 */
 		if (SYS_CACHE_TYPE=='memory') {			
 			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}"))) {
-				$this->aLangMsg=include($this->sLangPath.'/'.$this->sCurrentLang.'.php');
+				$this->LoadLangFiles();
 				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}", array(), 60*60);
 			}			
 		} else {
-			$this->aLangMsg=include($this->sLangPath.'/'.$this->sCurrentLang.'.php');
+			$this->LoadLangFiles();
 		}	
 		/**
 		 * Загружаем в шаблон
 		 */
 		$this->Viewer_Assign('aLang',$this->aLangMsg);
+	}
+	/**
+	 * Загружает текстовки из языковых файлов
+	 *
+	 */
+	protected function LoadLangFiles() {		
+		$this->aLangMsg=include($this->sLangPath.'/'.$this->sCurrentLang.'.php');
+		/**
+		 * Ищет конфиги языковых файлов и объединяет их с текущим
+		 */
+		$sDirConfig=$this->sLangPath.'/modules/';
+		if ($hDirConfig = opendir($sDirConfig)) {
+			while (false !== ($sDirModule = readdir($hDirConfig))) {
+				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
+					$sFileConfig=$sDirConfig.$sDirModule.'/'.$this->sCurrentLang.'.php';
+					if (file_exists($sFileConfig)) {
+						$aLangModule=include($sFileConfig);						
+						$this->aLangMsg=array_merge_recursive($this->aLangMsg,$aLangModule);
+					}					
+				}
+			}
+			closedir($hDirConfig);
+		}
 	}
 	/**
 	 * Установить текущий язык

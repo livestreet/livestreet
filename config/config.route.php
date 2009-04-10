@@ -30,7 +30,6 @@ define("ROUTE_PAGE_TOP",'top');
 define("ROUTE_PAGE_INDEX",'index');
 define("ROUTE_PAGE_NEW",'new');
 define("ROUTE_PAGE_TOPIC",'topic');
-define("ROUTE_PAGE_PAGE",'page');
 define("ROUTE_PAGE_LOGIN",'login');
 define("ROUTE_PAGE_PEOPLE",'people');
 define("ROUTE_PAGE_SETTINGS",'settings');
@@ -54,8 +53,7 @@ return array(
 		ROUTE_PAGE_TOP => 'ActionTop',
 		ROUTE_PAGE_INDEX => 'ActionIndex',
 		ROUTE_PAGE_NEW => 'ActionNew',
-		ROUTE_PAGE_TOPIC => 'ActionTopic',
-		ROUTE_PAGE_PAGE => 'ActionPage',
+		ROUTE_PAGE_TOPIC => 'ActionTopic',		
 		ROUTE_PAGE_LOGIN => 'ActionLogin',
 		ROUTE_PAGE_PEOPLE => 'ActionPeople',
 		ROUTE_PAGE_SETTINGS => 'ActionSettings',
@@ -67,6 +65,7 @@ return array(
 		ROUTE_PAGE_QUESTION => 'ActionQuestion',
 		ROUTE_PAGE_BLOGS => 'ActionBlogs',
 		ROUTE_PAGE_SEARCH => 'ActionSearch',
+		'tools' => 'ActionTools',
 	),
 	'config' => array(
 		'action_default' => ROUTE_PAGE_INDEX,

@@ -155,4 +155,5 @@ setlocale(LC_ALL, "ru_RU.UTF-8");
 
 
 require_once(DIR_SERVER_ROOT."/config/config.table.php");
+require_once(DIR_SERVER_ROOT."/config/loader.php");
 ?>

@@ -68,8 +68,7 @@ class Router extends Object {
 	 *
 	 */
 	protected function __construct() {
-		//Конфиг роутинга, содержит соответствия URL и классов экшенов
-		$this->aConfigRoute=include(DIR_SERVER_ROOT."/config/config.route.php");		
+		$this->LoadConfig();		
 		
 		if (get_magic_quotes_gpc()) {
 			func_stripslashes($_REQUEST);
@@ -105,6 +104,31 @@ class Router extends Object {
 		 */
 		$this->oEngine->ShutdownModules();		
 		$this->Viewer_Display($this->oAction->GetTemplate());		
+	}
+	
+	/**
+	 * Выполняет загрузку конфигов роутинга
+	 *
+	 */
+	protected function LoadConfig() {
+		//Конфиг роутинга, содержит соответствия URL и классов экшенов
+		$this->aConfigRoute=include(DIR_SERVER_ROOT."/config/config.route.php");
+		/**
+		 * Ищет конфиги модулей и объединяет их с текущим
+		 */
+		$sDirConfig=DIR_SERVER_ROOT.'/config/modules/';
+		if ($hDirConfig = opendir($sDirConfig)) {
+			while (false !== ($sDirModule = readdir($hDirConfig))) {
+				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
+					$sFileConfig=$sDirConfig.$sDirModule.'/config.route.php';
+					if (file_exists($sFileConfig)) {
+						$aConfigModule=include($sFileConfig);
+						$this->aConfigRoute=array_merge_recursive($this->aConfigRoute,$aConfigModule);
+					}					
+				}
+			}
+			closedir($hDirConfig);
+		}
 	}
 	
 	public function getStats() {
