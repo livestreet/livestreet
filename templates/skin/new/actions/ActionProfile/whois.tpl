@@ -78,13 +78,15 @@
 					<tr>
 						<td class="var">{$aLang.profile_site}:</td>
 						<td>
-						<a href="{$oUserProfile->getProfileSite(true)|escape:'html'}">
+						<noindex>
+						<a href="{$oUserProfile->getProfileSite(true)|escape:'html'}" rel="nofollow">
 						{if $oUserProfile->getProfileSiteName()}
 							{$oUserProfile->getProfileSiteName()|escape:'html'}
 						{else}
 							{$oUserProfile->getProfileSite()|escape:'html'}
 						{/if}
 						</a>
+						</noindex>
 						</td>
 					</tr>
 					{/if}
