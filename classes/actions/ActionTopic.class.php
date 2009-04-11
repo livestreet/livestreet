@@ -55,12 +55,11 @@ class ActionTopic extends Action {
 		 * Проверяем авторизован ли юзер
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Для того чтобы что то написать, сначало нужно войти под своим аккаунтом.','Нет доступа');
-			return Router::Action('error'); 
+			return parent::EventNotFound();
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
-		$this->Viewer_AddHtmlTitle('Топики');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_title'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -137,7 +136,7 @@ class ActionTopic extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
-		$this->Viewer_AddHtmlTitle('Редактирование топика');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -232,7 +231,7 @@ class ActionTopic extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);		
-		$this->Viewer_AddHtmlTitle('Добавление топика');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_create'));
 		/**
 		 * Обрабатываем отправку формы
 		 */
@@ -270,7 +269,7 @@ class ActionTopic extends Action {
 		 */					
 		$this->Viewer_Assign('aPaging',$aPaging);							
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Сохранённые');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_saved'));
 	}
 	/**
 	 * Выводит список опубликованых топиков
@@ -304,7 +303,7 @@ class ActionTopic extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Опубликованные');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_published'));
 	}
 	/**
 	 * Обработка добавлени топика
@@ -337,7 +336,7 @@ class ActionTopic extends Action {
 		 * Если блог не определен выдаем предупреждение
 		 */
 		if (!$oBlog) {
-			$this->Message_AddErrorSingle('Пытаетесь запостить топик в неизвестный блог?','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			return false;
 		}		
 		/**
@@ -345,7 +344,7 @@ class ActionTopic extends Action {
 		 */
 		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())  and !$this->oUserCurrent->isAdministrator()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
 				return false;
 			}
 		}		
@@ -353,14 +352,14 @@ class ActionTopic extends Action {
 		 * Проверяем есть ли права на постинг топика в этот блог
 		 */
 		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
 			return false;
 		}					
 		/**
 		 * Проверяем топик на уникальность
 		 */
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),md5(getRequest('topic_text')))) {			
-			$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
 			return false;			
 		}	
 		/**
@@ -451,7 +450,7 @@ class ActionTopic extends Action {
 			
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении топика, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}		
 	}
@@ -481,7 +480,7 @@ class ActionTopic extends Action {
 		 * Если блог не определен выдаем предупреждение
 		 */
 		if (!$oBlog) {
-			$this->Message_AddErrorSingle('Пытаетесь запостить топик в неизвестный блог?','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			return false;
 		}			
 		/**
@@ -495,7 +494,7 @@ class ActionTopic extends Action {
 		
 		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle('Вы не состоите в этом блоге!','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
 				return false;
 			}
 		}		
@@ -504,7 +503,7 @@ class ActionTopic extends Action {
 		 * Условие $oBlog->getId()!=$oTopic->getBlogId()  для того чтоб разрешить отредактировать топик в блоге в который сейчас юзер не имеет права на постинг, но раньше успел в него запостить этот топик
 		 */
 		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) and $oBlog->getId()!=$oTopic->getBlogId() and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle('Вы еще не достаточно окрепли чтобы постить в этот блог','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
 			return false;
 		}		
 		/**
@@ -512,7 +511,7 @@ class ActionTopic extends Action {
 		 */
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($oTopic->getUserId(),md5(getRequest('topic_text')))) {
 			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
-				$this->Message_AddErrorSingle('Вы уже писали топик с таким содержанием','Ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
 				return false;
 			}
 		}
@@ -587,7 +586,7 @@ class ActionTopic extends Action {
 			}
 			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки при изменении топика, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}		
 	}
@@ -602,28 +601,28 @@ class ActionTopic extends Action {
 		 * Проверяем есть ли блог в кторый постим
 		 */
 		if (!func_check(getRequest('blog_id'),'id')) {
-			$this->Message_AddError('Что то не то с блогом..','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли заголовок топика
 		 */
 		if (!func_check(getRequest('topic_title'),'text',2,200)) {
-			$this->Message_AddError('Название топика должно быть от 2 до 200 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
 		if (!func_check(getRequest('topic_text'),'text',2,15000)) {
-			$this->Message_AddError('Текст топика должен быть от 2 до 15000 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли теги(метки)
 		 */
 		if (!func_check(getRequest('topic_tags'),'text',2,500)) {
-			$this->Message_AddError('Метки топика должны быть от 2 до 50 символов с общей диной не более 500 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
@@ -641,7 +640,7 @@ class ActionTopic extends Action {
 			}
 		}
 		if (!count($aTagsNew)) {
-			$this->Message_AddError('Проверьте правильность меток','Ошибка');
+			$this->Message_AddError($this->Lang_Get('topic_create_tags_error_bad'),$this->Lang_Get('error'));
 			$bOk=false;
 		} else {
 			$_REQUEST['topic_tags']=join(',',$aTagsNew);

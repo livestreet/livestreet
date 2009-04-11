@@ -6,7 +6,7 @@ class ActionSearch extends Action {
 	
 	public function Init() {
 		$this->SetDefaultEvent('index');
-		$this->Viewer_AddHtmlTitle('Поиск');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('search'));
 	}
 	
 	protected function RegisterEvent() {
@@ -35,7 +35,7 @@ class ActionSearch extends Action {
 		$aReq = $this->PrepareRequest();
 		$aRes = $this->PrepareResults($aReq, BLOG_TOPIC_PER_PAGE);
 		if(FALSE === $aRes) {
-			$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}
 		/**
@@ -78,7 +78,7 @@ class ActionSearch extends Action {
 		$aReq = $this->PrepareRequest();
 		$aRes = $this->PrepareResults($aReq, BLOG_COMMENT_PER_PAGE);
 		if(FALSE === $aRes) {
-			$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}
 		/**

@@ -76,7 +76,7 @@ class ActionTag extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('sTag',$sTag);
-		$this->Viewer_AddHtmlTitle('Поиск по тегам');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('tag_title'));
 		$this->Viewer_AddHtmlTitle($sTag);
 		/**
 		 * Устанавливаем шаблон вывода

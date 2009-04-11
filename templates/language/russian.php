@@ -134,6 +134,7 @@ return array(
 	/**
 	 * Топики
 	 */
+	'topic_title' => 'Топики_$$',
 	'topic_read_more' => 'Читать дальше_$$',
 	'topic_date' => 'дата_$$',
 	'topic_user' => 'авторский текст_$$',
@@ -321,19 +322,30 @@ return array(
 	 */
 	'registration_invite' => 'Регистрация по приглашению_$$',
 	'registration_invite_code' => 'Код приглашения_$$',
+	'registration_invite_code_error' => 'Неверный код приглашения_$$',
 	'registration_invite_check' => 'Проверить код_$$',
 	'registration_activate_ok' => 'Поздравляем! Ваш аккаунт успешно активирован._$$',
+	'registration_activate_error_code' => 'Неверный код активации!_$$',
+	'registration_activate_error_reactivate' => 'Ваш аккаунт уже активирован_$$',
 	'registration_confirm_header' => 'Активация аккаунта_$$',
 	'registration_confirm_text' => 'Вы почти зарегистрировались, осталось только активировать аккаунт. Инструкции по активации отправлены на ваш емайл._$$',
 	'registration' => 'Регистрация_$$',
+	'registration_is_authorization' => 'Вы уже зарегистрированы у нас и даже авторизованы!_$$',
 	'registration_login' => 'Имя пользователя_$$',
+	'registration_login_error' => 'Неверный логин, допустим от 3 до 30 символов_$$',
+	'registration_login_error_used' => 'Этот логин уже занят_$$',
 	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина имени не может быть меньше 3 и больше 20 символов._$$',
 	'registration_mail' => 'Электропочта_$$',
+	'registration_mail_error' => 'Неверный формат e-mail_$$',
+	'registration_mail_error_used' => 'Этот емайл уже занят_$$',
 	'registration_mail_notice' => 'Для проверки регистрации и в целях безопасности нам нужен адрес вашей электропочты._$$',
 	'registration_password' => 'Пароль_$$',
+	'registration_password_error' => 'Неверный пароль, допустим от 5 символов_$$',
+	'registration_password_error_different' => 'Пароли не совпадают_$$',
 	'registration_password_notice' => 'Должен содержать не менее 5 символов и не может совпадать с логином. Не используйте простые пароли, будьте разумны._$$',
 	'registration_password_retry' => 'Повторите пароль_$$',
 	'registration_captcha' => 'Введите цифры и буквы_$$',
+	'registration_captcha_error' => 'Неверный код_$$',
 	'registration_submit' => 'Зарегистрироваться_$$',
 	'registration_ok' => 'Поздравляем! Регистрация прошла успешно_$$',
 			
@@ -390,6 +402,8 @@ return array(
 	'settings_profile_name' => 'Имя_$$',
 	'settings_profile_name_notice' => 'Длина имени не может быть меньше 2 и больше 20 символов._$$',
 	'settings_profile_mail' => 'E-mail_$$',
+	'settings_profile_mail_error' => 'Неверный формат e-mail_$$',
+	'settings_profile_mail_error_used' => 'Этот емайл уже занять_$$',
 	'settings_profile_mail_notice' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления_$$',
 	'settings_profile_sex' => 'Пол_$$',
 	'settings_profile_sex_man' => 'мужской_$$',
@@ -404,20 +418,29 @@ return array(
 	'settings_profile_site_name' => 'название сайта_$$',
 	'settings_profile_about' => 'О себе_$$',
 	'settings_profile_password_current' => 'Текущий пароль_$$',
+	'settings_profile_password_current_error' => 'Неверный текущий пароль_$$',
 	'settings_profile_password_new' => 'Новый пароль_$$',
+	'settings_profile_password_new_error' => 'Неверный пароль, допустим от 5 символов_$$',
 	'settings_profile_password_confirm' => 'Еще раз новый пароль_$$',
+	'settings_profile_password_confirm_error' => 'Пароли не совпадают_$$',
 	'settings_profile_avatar' => 'Аватар_$$',
+	'settings_profile_avatar_error' => 'Не удалось загрузить аватар_$$',
 	'settings_profile_avatar_delete' => 'удалить_$$',
 	'settings_profile_foto' => 'Фото_$$',
+	'settings_profile_foto_error' => 'Фото_$$',
 	'settings_profile_foto_delete' => 'удалить_$$',
 	'settings_profile_submit' => 'сохранить профиль_$$',
+	'settings_profile_submit_ok' => 'Профиль успешно сохранён_$$',
 	'settings_invite' => 'Управление приглашениями_$$',
 	'settings_invite_available' => 'Доступно_$$',
+	'settings_invite_available_no' => 'У вас пока нет доступных инвайтов_$$',
 	'settings_invite_used' => 'Использовано_$$',
 	'settings_invite_mail' => 'Пригласить по e-mail адресу_$$',
+	'settings_invite_mail_error' => 'Неверный формат e-mail_$$',
 	'settings_invite_mail_notice' => 'На этот e-mail будет высланно приглашение для регистрации_$$',
 	'settings_invite_many' => 'много_$$',
 	'settings_invite_submit' => 'отправить приглашение_$$',
+	'settings_invite_submit_ok' => 'Приглашение отправлено_$$',
 	'settings_tuning' => 'Настройки сайта_$$',
 	'settings_tuning_notice' => 'Уведомления на e-mail_$$',
 	'settings_tuning_notice_new_topic' => 'при новом топике в блоге_$$',
@@ -426,6 +449,7 @@ return array(
 	'settings_tuning_notice_reply_comment' => 'при ответе на комментарий_$$',
 	'settings_tuning_notice_new_friend' => 'при добавлении вас в друзья_$$',
 	'settings_tuning_submit' => 'сохранить настройки_$$',
+	'settings_tuning_submit_ok' => 'Настройки успешно сохранены_$$',
 	
 	
 	/**
@@ -504,18 +528,29 @@ return array(
 	'talk_inbox_delete' => 'Удалить переписку_$$',
 	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?_$$',
 	'talk_comments' => 'Переписка_$$',
+	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов_$$',
 	'talk_create' => 'Новое письмо_$$',
 	'talk_create_users' => 'Кому_$$',
+	'talk_create_users_error' => 'Необходимо указать кому вы хотите отправить сообщение_$$',
+	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином_$$',
 	'talk_create_title' => 'Заголовок_$$',
+	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов_$$',
 	'talk_create_text' => 'Сообщение_$$',
+	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов_$$',
 	'talk_create_submit' => 'Отправить_$$',
 	
 	/**
 	 * Рейтинг TOP
 	 */
+	'top' => 'Рейтинг_$$',
 	'top_blogs' => 'TOP Блогов_$$',
 	'top_topics' => 'TOP топиков_$$',
 	'top_comments' => 'TOP комментариев_$$',
+	
+	/**
+	 * Поиск по тегам
+	 */
+	'tag_title' => 'Поиск по тегам_$$',
 	
 	/**
 	 * Постраничность
@@ -542,6 +577,7 @@ return array(
 	
 	
 	'error' => 'Ошибка_$$',
+	'attention' => 'Внимание_$$',
 	'system_error' => 'Системная ошибка, повторите позже_$$',
 	'exit' => 'выход_$$',
 	'or' => 'или_$$',

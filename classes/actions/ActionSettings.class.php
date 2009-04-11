@@ -49,7 +49,7 @@ class ActionSettings extends Action {
 		 * Проверяем авторизован ли юзер
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Настройки профиля для вас не доступны','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error'); 
 		}
 		/**
@@ -57,7 +57,7 @@ class ActionSettings extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('profile');	
-		$this->Viewer_AddHtmlTitle('Настройки');	
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));	
 	}
 	
 	protected function RegisterEvent() {		
@@ -76,7 +76,7 @@ class ActionSettings extends Action {
 		$this->sMenuItemSelect='settings';
 		$this->sMenuSubItemSelect='tuning';
 		
-		$this->Viewer_AddHtmlTitle('Тюнинг');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
 		
 		if (isset($_REQUEST['submit_settings_tuning'])) {			
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
@@ -86,9 +86,9 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setSettingsNoticeNewFriend( getRequest('settings_notice_new_friend') ? 1 : 0 );
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			if ($this->User_Update($this->oUserCurrent)) {
-				$this->Message_AddNoticeSingle('Настройки успешно сохранены');
+				$this->Message_AddNoticeSingle($this->Lang_Get('settings_tuning_submit_ok'));
 			} else {
-				$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			}
 		}
 	}
@@ -100,28 +100,27 @@ class ActionSettings extends Action {
 	 */
 	protected function EventInvite() {		
 		if (!USER_USE_INVITE) {
-			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
-			return Router::Action('error');
+			return parent::EventNotFound();
 		}
 		
 		$this->sMenuItemSelect='invite';
 		$this->sMenuSubItemSelect='';		
-		$this->Viewer_AddHtmlTitle('Инвайты');		
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));		
 		
 		if (isset($_REQUEST['submit_invite'])) {
 			$bError=false;
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError('У вас пока нет доступных инвайтов','Ошибка');		
+				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));		
 				$bError=true;		
 			}
 			if (!func_check(getRequest('invite_mail'),'mail')) {
-				$this->Message_AddError('Неверный формат e-mail','Ошибка');		
+				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));		
 				$bError=true;		
 			}
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
-				$this->Message_AddNoticeSingle('Приглашение отправлено');
+				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
 			}
 		}
 		
@@ -134,7 +133,7 @@ class ActionSettings extends Action {
 	 *
 	 */
 	protected function EventProfile() {
-		$this->Viewer_AddHtmlTitle('Профиль');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
@@ -156,13 +155,13 @@ class ActionSettings extends Action {
 			 */
 			if (func_check(getRequest('mail'),'mail')) {
 				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
-					$this->Message_AddError('Этот емайл уже занять','Ошибка');
+					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
 					$bError=true;
 				} else {
 					$this->oUserCurrent->setMail(getRequest('mail'));
 				}				
 			} else {
-				$this->Message_AddError('Неверный формат e-mail','Ошибка');
+				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
@@ -250,15 +249,15 @@ class ActionSettings extends Action {
 							$this->oUserCurrent->setPassword(func_encrypt(getRequest('password')));
 						} else {
 							$bError=true;
-							$this->Message_AddError('Неверный текущий пароль','Ошибка');
+							$this->Message_AddError($this->Lang_Get('settings_profile_password_current_error'),$this->Lang_Get('error'));
 						}
 					} else {
 						$bError=true;
-						$this->Message_AddError('Пароли не совпадают','Ошибка');
+						$this->Message_AddError($this->Lang_Get('settings_profile_password_confirm_error'),$this->Lang_Get('error'));
 					}
 				} else {
 					$bError=true;
-					$this->Message_AddError('Неверный пароль, допустим от 5 символов','Ошибка');
+					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
 				}
 			}		
 			/**
@@ -276,7 +275,7 @@ class ActionSettings extends Action {
 					$this->oUserCurrent->setProfileAvatarType($aFileInfo['extension']);
 				} else {
 					$bError=true;
-					$this->Message_AddError('Не удалось загрузить аватар','Ошибка');
+					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
 				}
 			}
 			/**
@@ -300,7 +299,7 @@ class ActionSettings extends Action {
 					$this->oUserCurrent->setProfileFoto($sDirUpload.'/'.$sFileFoto);			
 				} else {
 					$bError=true;
-					$this->Message_AddError('Не удалось загрузить фото','Ошибка');
+					$this->Message_AddError($this->Lang_Get('settings_profile_foto_error'),$this->Lang_Get('error'));
 				}
 			}
 			/**
@@ -342,9 +341,9 @@ class ActionSettings extends Action {
 						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
 					}
 					
-					$this->Message_AddNoticeSingle('Профиль успешно сохранён','Ура');
+					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
 				} else {
-					$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
 			}
 		}

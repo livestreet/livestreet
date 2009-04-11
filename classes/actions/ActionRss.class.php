@@ -105,7 +105,7 @@ class ActionRss extends Action {
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
-			$item['title']='комментарии к: '.$oComment->getTopicTitle();
+			$item['title']='Comments: '.$oComment->getTopicTitle();
 			$item['guid']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
 			$item['link']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
 			$item['description']=$oComment->getText();
@@ -138,7 +138,7 @@ class ActionRss extends Action {
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
-			$item['title']='комментарии к: '.$oTopic->getTitle();
+			$item['title']='Comments: '.$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl().'#comment'.$oComment->getId();
 			$item['link']=$oTopic->getUrl().'#comment'.$oComment->getId();
 			$item['description']=$oComment->getText();

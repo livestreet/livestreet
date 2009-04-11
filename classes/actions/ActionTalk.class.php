@@ -43,7 +43,7 @@ class ActionTalk extends Action {
 		 * Проверяем авторизован ли юзер
 		 */
 		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Почта для вас не доступна, необходимо авторизоваться','Нет доступа');
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'));
 			return Router::Action('error'); 
 		}
 		/**
@@ -51,7 +51,7 @@ class ActionTalk extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('inbox');	
-		$this->Viewer_AddHtmlTitle('Почта');	
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox'));	
 	}
 	
 	protected function RegisterEvent() {		
@@ -82,7 +82,7 @@ class ActionTalk extends Action {
 			if ($this->Talk_DeleteTalkUser($oTalkUser)) {
 				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/');
 			} else {
-				$this->Message_AddError('Системная ошибка','Ошибка');
+				$this->Message_AddError($this->Lang_Get('system_error'));
 			}
 		}				
 	}
@@ -110,7 +110,7 @@ class ActionTalk extends Action {
 	}	
 	
 	protected function EventAdd() {		
-		$this->Viewer_AddHtmlTitle('Создание сообщения');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */		
@@ -164,7 +164,7 @@ class ActionTalk extends Action {
 			}			
 			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/');
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки, пожалуйста повторите позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}		
 	}
@@ -210,14 +210,14 @@ class ActionTalk extends Action {
 		 * Проверяем есть ли заголовок
 		 */
 		if (!func_check(getRequest('talk_title'),'text',2,200)) {
-			$this->Message_AddError('Заголовок сообщения должен быть от 2 до 200 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('talk_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
 		if (!func_check(getRequest('talk_text'),'text',2,3000)) {
-			$this->Message_AddError('Текст сообщения должен быть от 2 до 3000 символов','Ошибка');
+			$this->Message_AddError($this->Lang_Get('talk_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}		
 		/**
@@ -236,13 +236,13 @@ class ActionTalk extends Action {
 				$this->aUsersId[]=$oUser->getId();
 				
 			} else {
-				$this->Message_AddError('У нас нет пользователя с логином «'.htmlspecialchars($sUser).'»','Ошибка');
+				$this->Message_AddError($this->Lang_Get('talk_create_users_error_not_found').' «'.htmlspecialchars($sUser).'»',$this->Lang_Get('error'));
 				$bOk=false;
 			}	
 			$aUsersNew[]=$sUser;		
 		}
 		if (!count($aUsersNew)) {
-			$this->Message_AddError('Необходимо указать кому вы хотите отправить сообщение','Ошибка');
+			$this->Message_AddError($this->Lang_Get('talk_create_users_error'),$this->Lang_Get('error'));
 			$_REQUEST['talk_users']='';
 			$bOk=false;
 		} else {
@@ -268,7 +268,7 @@ class ActionTalk extends Action {
 			 * Проверяем текст комментария
 			 */
 			if (!func_check(getRequest('comment_text'),'text',2,3000)) {
-				$this->Message_AddError('Текст комментария должен быть от 2 до 3000 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
@@ -276,7 +276,7 @@ class ActionTalk extends Action {
 			 */
 			$sParentId=getRequest('reply',0);
 			if (!func_check($sParentId,'id')) {
-				$this->Message_AddError('Что то не так..','Ошибка');
+				$this->Message_AddError($this->Lang_Get('system_error'));
 				return false;
 			}
 			if ($sParentId!=0) {
@@ -329,7 +329,7 @@ class ActionTalk extends Action {
 				}
 				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/#comment'.$oCommentNew->getId());
 			} else {
-				$this->Message_AddErrorSingle('Возникли технические неполадки при добавлении комментария, пожалуйста повторите позже.','Внутреняя ошибка');
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				return false;
 			}
 		}

@@ -39,7 +39,7 @@ class ActionTop extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('topic');
-		$this->Viewer_AddHtmlTitle('Рейтинг');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('top'));
 	}
 	/**
 	 * Регистрация евентов
@@ -75,7 +75,7 @@ class ActionTop extends Action {
 		 * Загружаем переменные в шаблон
 		 */		
 		$this->Viewer_Assign('aBlogs',$aBlogs);	
-		$this->Viewer_AddHtmlTitle('Блоги');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('top_blogs'));
 	}	
 
 	protected function EventTopic() {
@@ -96,7 +96,7 @@ class ActionTop extends Action {
 		 * Загружаем переменные в шаблон
 		 */		
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle('Топики');					
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('top_topics'));					
 	}
 	
 	protected function EventComment() {	
@@ -117,7 +117,7 @@ class ActionTop extends Action {
 		 * Загружаем переменные в шаблон
 		 */				
 		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_AddHtmlTitle('Комментарии');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('top_comments'));
 	}
 	/**
 	 * Переводит параметр в нужный период времени

@@ -30,7 +30,7 @@ class ActionRegistration extends Action {
 		 * Проверяем аторизован ли юзер
 		 */
 		if ($this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle('Вы уже зарегистрированы у нас и даже авторизованы!','Упс!');
+			$this->Message_AddErrorSingle($this->Lang_Get('registration_is_authorization'),$this->Lang_Get('attention'));
 			return Router::Action('error'); 
 		}
 		/**
@@ -41,7 +41,7 @@ class ActionRegistration extends Action {
 		}
 		
 		$this->SetDefaultEvent('index');
-		$this->Viewer_AddHtmlTitle('Регистрация на сайте');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('registration'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -77,45 +77,45 @@ class ActionRegistration extends Action {
 			 * Проверка логина
 			 */
 			if (!func_check(getRequest('login'),'login',3,30)) {
-				$this->Message_AddError('Неверный логин, допустим от 3 до 30 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_login_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * Проверка мыла
 			 */
 			if (!func_check(getRequest('mail'),'mail')) {
-				$this->Message_AddError('Неверный формат e-mail','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * Проверка пароля
 			 */
 			if (!func_check(getRequest('password'),'password',5)) {
-				$this->Message_AddError('Неверный пароль, допустим от 5 символов','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_password_error'),$this->Lang_Get('error'));
 				$bError=true;
 			} elseif (getRequest('password')!=getRequest('password_confirm')) {
-				$this->Message_AddError('Пароли не совпадают','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_password_error_different'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * Проверка капчи(циферки с картинки)
 			 */
 			if (!isset($_SESSION['captcha_keystring']) or $_SESSION['captcha_keystring']!=strtolower(getRequest('captcha'))) {
-				$this->Message_AddError('Неверный код','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_captcha_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * А не занят ли логин?
 			 */
 			if ($this->User_GetUserByLogin(getRequest('login'))) {
-				$this->Message_AddError('Этот логин уже занят','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_login_error_used'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * А не занято ли мыло?
 			 */
 			if ($this->User_GetUserByMail(getRequest('mail'))) {
-				$this->Message_AddError('Этот емайл уже занят','Ошибка');
+				$this->Message_AddError($this->Lang_Get('registration_mail_error_used'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
@@ -182,7 +182,7 @@ class ActionRegistration extends Action {
 						$this->DropInviteRegister();
 					}								
 				} else {
-					$this->Message_AddErrorSingle('Возникли технические неполадки при регистрации, пожалуйста повторите регистрацию позже.','Внутреняя ошибка');
+					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 					return Router::Action('error'); 
 				}
 			}
@@ -212,14 +212,14 @@ class ActionRegistration extends Action {
 		 * 
 		 */
 		if ($oUser and $oUser->getActivate()) {
-			$this->Message_AddErrorSingle('Ваш аккаунт уже активирован','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
 		 * Если что то не то
 		 */
 		if ($bError) {
-			$this->Message_AddErrorSingle('Неверный код активации!','Ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_code'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
@@ -236,7 +236,7 @@ class ActionRegistration extends Action {
 			$this->User_Authorization($oUser,false);						
 			return;
 		} else {
-			$this->Message_AddErrorSingle('Возникли технические неполадки при активации, пожалуйста повторите активацию позже.','Внутреняя ошибка');
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}
 	}
@@ -246,8 +246,7 @@ class ActionRegistration extends Action {
 	 */
 	protected function EventInvite() {	
 		if (!USER_USE_INVITE) {
-			$this->Message_AddErrorSingle('Приглашения не доступны','Ошибка');
-			return Router::Action('error');
+			return parent::EventNotFound();
 		}
 			
 		if (isset($_REQUEST['submit_invite'])) {				
@@ -266,7 +265,7 @@ class ActionRegistration extends Action {
 				}
 				return Router::Action('registration');
 			} else {
-				$this->Message_AddError('Неверный код приглашения','Ошибка');				
+				$this->Message_AddError($this->Lang_Get('registration_invite_code_error'),$this->Lang_Get('error'));				
 			}
 		}									
 	}
