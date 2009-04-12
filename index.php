@@ -24,7 +24,6 @@ $t1=microtime(true);
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
 require_once("./config/config.php");
-require_once("./include/function.php");
 require_once("./classes/engine/Router.class.php");
 
 $oRouter=Router::getInstance();
