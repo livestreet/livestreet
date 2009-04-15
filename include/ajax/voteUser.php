@@ -91,8 +91,3 @@ $GLOBALS['_RESULT'] = array(
 );
 
 ?>
-<pre>
-<b>Request method:</b> <?=$_SERVER['REQUEST_METHOD'] . "\n"?>
-<b>Loader used:</b> <?=$JsHttpRequest->LOADER . "\n"?>
-<b>_REQUEST:</b> <?=print_r($_REQUEST, 1)?>
-</pre>
