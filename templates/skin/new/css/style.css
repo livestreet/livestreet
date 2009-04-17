@@ -401,10 +401,10 @@ select { width: 99%; }
 .update { background: none repeat scroll 0 0; width: 42px; float: right; position: fixed; top: 220px; right: 0; text-align: center; }
 .update .tl { background:url(../images/bg_update.gif) no-repeat scroll 0 0; font-size: 1px; height: 9px; }
 .update .bl { background:url(../images/bg_update.gif) no-repeat scroll 0 bottom; font-size: 1px; height: 9px; }
-.update .wrapper { border-left: 1px solid #dddede; }
+.update .wrapper { border-left: 1px solid #dddede; background: #fafbfb; }
 .update .update-comments { cursor: pointer; vertical-align: top; }
 .update .refresh { background: #fafbfb; }
-.update .new-comments { border-top: 1px solid #ececed; color: #3cc600; padding-top: 7px; margin-top: 3px; cursor: pointer;}
+.update .new-comments { border-top: 1px solid #ececed; color: #3cc600; padding-top: 7px; margin-top: 3px; cursor: pointer; background: #fafbfb; }
 
 
 
