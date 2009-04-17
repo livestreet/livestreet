@@ -41,44 +41,44 @@ if ($oEngine->User_IsAuthorization()) {
 				$oFavouriteTopicNew->setTopicPublish($oTopic->getPublish());
 				if ($oEngine->Topic_AddFavouriteTopic($oFavouriteTopicNew)) {
 					$bStateError=false;
-					$sMsgTitle='Поздравляем!';
-					$sMsg='Топик добавлен в избранное';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('topic_favourite_add_ok');
 					$bState=true;
 				} else {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Внутреняя ошибка, попробуйте позже';
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			}
 			if (!$oFavouriteTopic and !$iType) {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Этого топика нет в вашем избранном';
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('topic_favourite_add_no');
 			}
 			if ($oFavouriteTopic and $iType) {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Этот топик уже есть в вашем избранном';
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('topic_favourite_add_already');
 			}
 			if ($oFavouriteTopic and !$iType) {
 				if ($oEngine->Topic_DeleteFavouriteTopic($oFavouriteTopic)) {
 					$bStateError=false;
-					$sMsgTitle='Внимание!';
-					$sMsg='Топик удален из избранного';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('topic_favourite_del_ok');
 					$bState=false;
 				} else {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Внутреняя ошибка, попробуйте позже';
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			}
 		} else {
-			$sMsgTitle='Ошибка!';
-			$sMsg='Топик не найден!';
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('system_error');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Что вы пытаетесь сделать с этим топиком?!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для добавления/удаления топика в избранное необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

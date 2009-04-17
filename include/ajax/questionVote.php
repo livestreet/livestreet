@@ -51,34 +51,34 @@ if ($oEngine->User_IsAuthorization()) {
 					
 					if ($oEngine->Topic_AddTopicQuestionVote($oTopicQuestionVote) and $oEngine->Topic_updateTopic($oTopic)) {
 						$bStateError=false;
-						$sMsgTitle='Поздравляем!';
-						$sMsg='Ваш голос учтен.';						
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('topic_question_vote_ok');						
 						
 						$oEngine->Viewer_Assign('oTopic',$oTopic);								
 						$sTextResult=$oEngine->Viewer_Fetch("topic_question.tpl");	
 					} else {
-						$sMsgTitle='Ошибка!';
-						$sMsg='Возникли проблемы, повторите позже.';
+						$sMsgTitle=$oEngine->Lang_Get('error');
+						$sMsg=$oEngine->Lang_Get('system_error');
 					}
 				} else {
-					$sMsgTitle='Ошибка!';
-					$sMsg='За что вы голосуете?!';
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			} else {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Ваш голос уже учтен!';
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('topic_question_vote_already');
 			}
 		} else {
-			$sMsgTitle='Ошибка!';
-			$sMsg='В этом топике нельзя голосовать!';
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('system_error');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Как можно голосовать на несуществующий опрос?';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосования необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 $GLOBALS['_RESULT'] = array(

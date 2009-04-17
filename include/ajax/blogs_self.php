@@ -36,12 +36,12 @@ if ($oEngine->User_IsAuthorization()) {
 		$oEngine->Viewer_Assign('aBlogs',$aBlogs);
 		$sTextResult=$oEngine->Viewer_Fetch("block.blogs_top.tpl");
 	} else {
-		$sMsgTitle='Внимание!';
-		$sMsg='У вас нет своих коллективных блогов';
+		$sMsgTitle=$oEngine->Lang_Get('attention');
+		$sMsg=$oEngine->Lang_Get('block_blogs_self_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 $GLOBALS['_RESULT'] = array(

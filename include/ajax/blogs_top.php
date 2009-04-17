@@ -36,8 +36,8 @@ if ($aResult=$oEngine->Blog_GetBlogsRating(1,10)) {
 	$oEngine->Viewer_Assign('aBlogs',$aBlogs);
 	$sTextResult=$oEngine->Viewer_Fetch("block.blogs_top.tpl");
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Возникли проблемы, повторите позже.';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('system_error');
 }
 
 

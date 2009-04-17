@@ -56,12 +56,12 @@ if ($oEngine->User_IsAuthorization()) {
 		}
 		$bStateError=false;
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Топик не найден';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 $GLOBALS['_RESULT'] = array(

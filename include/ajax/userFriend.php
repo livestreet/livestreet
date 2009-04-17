@@ -40,39 +40,39 @@ if ($oEngine->User_IsAuthorization()) {
 				$oFrendNew->setUserId($oUserCurrent->getId());
 				if ($oEngine->User_AddFrend($oFrendNew)) {
 					$bStateError=false;
-					$sMsgTitle='Поздравляем!';
-					$sMsg='У вас появился новый друг';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('user_friend_add_ok');
 					$bState=true;
 					$sToggleText=$oEngine->Lang_Get('user_friend_del');
 					$oEngine->Notify_SendUserFriendNew($oUser,$oUserCurrent);
 				} else {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Внутреняя ошибка, попробуйте позже';
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			}			
 			if ($oFrend) {
 				if ($oEngine->User_DeleteFrend($oFrend)) {
 					$bStateError=false;
-					$sMsgTitle='Внимание!';
-					$sMsg='У вас больше нет этого друга';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('user_friend_del_ok');
 					$bState=false;
 					$sToggleText=$oEngine->Lang_Get('user_friend_add');
 				} else {
-					$sMsgTitle='Ошибка!';
-					$sMsg='Внутреняя ошибка, попробуйте позже';
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			}
 		} else {
-			$sMsgTitle='Ошибка!';
-			$sMsg='Друг не найден!';
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('user_friend_del_no');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Ваш друг - это вы!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('user_friend_add_self');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для добавления/удаления друзей необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

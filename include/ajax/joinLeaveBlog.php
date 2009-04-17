@@ -48,8 +48,8 @@ if ($oEngine->User_IsAuthorization()) {
 						$oBlogUserNew->setUserId($oUserCurrent->getId());
 						if ($oEngine->Blog_AddRelationBlogUser($oBlogUserNew)) {
 							$bStateError=false;
-							$sMsgTitle='Поздравляем!';
-							$sMsg='Вы вступили в блог';
+							$sMsgTitle=$oEngine->Lang_Get('attention');
+							$sMsg=$oEngine->Lang_Get('blog_join_ok');
 							$bState=true;
 							/**
 							 * Увеличиваем число читателей блога
@@ -58,12 +58,12 @@ if ($oEngine->User_IsAuthorization()) {
 							$oEngine->Blog_UpdateBlog($oBlog);
 							$iCountUser=$oBlog->getCountUser();
 						} else {
-							$sMsgTitle='Ошибка!';
-							$sMsg='Внутреняя ошибка, попробуйте позже';
+							$sMsgTitle=$oEngine->Lang_Get('error');
+							$sMsg=$oEngine->Lang_Get('system_error');
 						}
 					} else {
-						$sMsgTitle='Внимание!';
-						$sMsg='Зачем вы хотите вступить в этот блог? Вы и так его хозяин!';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('blog_join_error_self');
 					}
 				}				
 				if ($oBlogUser) {
@@ -72,8 +72,8 @@ if ($oEngine->User_IsAuthorization()) {
 					 */					
 					if ($oEngine->Blog_DeleteRelationBlogUser($oBlogUser)) {
 						$bStateError=false;
-						$sMsgTitle='Внимание!';
-						$sMsg='Вы покинули блог';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('blog_leave_ok');
 						$bState=false;
 						/**
 						 * Уменьшаем число читателей блога
@@ -82,22 +82,22 @@ if ($oEngine->User_IsAuthorization()) {
 						$oEngine->Blog_UpdateBlog($oBlog);
 						$iCountUser=$oBlog->getCountUser();
 					} else {
-						$sMsgTitle='Ошибка!';
-						$sMsg='Внутреняя ошибка, попробуйте позже';
+						$sMsgTitle=$oEngine->Lang_Get('error');
+						$sMsg=$oEngine->Lang_Get('system_error');
 					}
 				}				
 			} else {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Присоедениться к этому блогу можно только по приглашению!';
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('blog_join_error_invite');
 			}
 		} else {
-			$sMsgTitle='Ошибка!';
-			$sMsg='Блог не найден!';
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('system_error');
 		}
 	
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для подключения/отключения от блога необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

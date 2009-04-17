@@ -46,40 +46,40 @@ if ($oEngine->User_IsAuthorization()) {
 							$oComment->setCountVote($oComment->getCountVote()+1);
 							if ($oEngine->Comment_AddTopicCommentVote($oTopicCommentVote) and $oEngine->Comment_UpdateTopicComment($oComment)) {
 								$bStateError=false;
-								$sMsgTitle='Поздравляем!';
-								$sMsg='Ваш голос учтен';
+								$sMsgTitle=$oEngine->Lang_Get('attention');
+								$sMsg=$oEngine->Lang_Get('comment_vote_ok');
 								$iRating=$oComment->getRating();
 							} else {
-								$sMsgTitle='Ошибка!';
-								$sMsg='Попробуйте проголосовать позже';
+								$sMsgTitle=$oEngine->Lang_Get('error');
+								$sMsg=$oEngine->Lang_Get('comment_vote_error');
 							}
 						} else {
-							$sMsgTitle='Внимание!';
-							$sMsg='Голосовать можно только +1 либо -1!';
+							$sMsgTitle=$oEngine->Lang_Get('attention');
+							$sMsg=$oEngine->Lang_Get('comment_vote_error_value');
 						}
 					} else {
-						$sMsgTitle='Внимание!';
-						$sMsg='У вас не хватает рейтинга и силы для голосования!';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('comment_vote_error_acl');
 					}
 				} else {
-					$sMsgTitle='Внимание!';
-					$sMsg='Срок голосования за комментарий истёк!';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('comment_vote_error_time');
 				}
 			} else {
-				$sMsgTitle='Внимание!';
-				$sMsg='Вы уже голосовали за этот комментарий!';
+				$sMsgTitle=$oEngine->Lang_Get('attention');
+				$sMsg=$oEngine->Lang_Get('comment_vote_error_already');
 			}
 		} else {
-			$sMsgTitle='Внимание!';
-			$sMsg='Вы не можете голосовать за свой комментарий!';
+			$sMsgTitle=$oEngine->Lang_Get('attention');
+			$sMsg=$oEngine->Lang_Get('comment_vote_error_self');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Вы голосуете за несуществующий комментарий!!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('comment_vote_error_noexists');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосования необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

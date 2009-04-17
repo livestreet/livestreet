@@ -25,8 +25,8 @@ require_once($sDirRoot."/config/config.ajax.php");
 
 $aParams=@$_REQUEST;
 $bStateError=true;
-$sMsg='Please try again later';
-$sMsgTitle='Error';
+$sMsg=$oEngine->Lang_Get('system_error');
+$sMsgTitle=$oEngine->Lang_Get('error');
 $sCommentId=0;
 
 if (get_magic_quotes_gpc()) {
@@ -38,28 +38,26 @@ if ($oEngine->User_IsAuthorization()) {
 	
 		if (isset($aParams['cmt_topic_id']) and $oTopic=$oEngine->Topic_GetTopicById($aParams['cmt_topic_id'],$oUserCurrent)) {
 	
-			$bOK=true;
-				
-			
+			$bOK=true;			
 			/**
 			 * Проверяем разрешено ли постить комменты
 			 */
-			if (!$oEngine->ACL_CanPostComment($oUserCurrent) and !$oUserCurrent->isAdministrator()) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('topic_comment_acl'),$oEngine->Lang_Get('error'));
+			if (!$oEngine->ACL_CanPostComment($oUserCurrent) and !$oUserCurrent->isAdministrator()) {				
+				$sMsg=$oEngine->Lang_Get('topic_comment_acl');
 				$bOK=false;
 			}			
 			/**
 			 * Проверяем разрешено ли постить комменты по времени
 			 */
-			if (!$oEngine->ACL_CanPostCommentTime($oUserCurrent) and !$oUserCurrent->isAdministrator()) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('topic_comment_limit'),$oEngine->Lang_Get('error'));
+			if (!$oEngine->ACL_CanPostCommentTime($oUserCurrent) and !$oUserCurrent->isAdministrator()) {				
+				$sMsg=$oEngine->Lang_Get('topic_comment_limit');
 				$bOK=false;
 			}
 			/**
 			 * Проверяем запрет на добавления коммента автором топика
 			 */
-			if ($oTopic->getForbidComment()) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('topic_comment_notallow'),$oEngine->Lang_Get('error'));
+			if ($oTopic->getForbidComment()) {				
+				$sMsg=$oEngine->Lang_Get('topic_comment_notallow');
 				$bOK=false;
 			}
 			
@@ -67,16 +65,16 @@ if ($oEngine->User_IsAuthorization()) {
 			 * Проверяем текст комментария
 			 */
 			$sText=$oEngine->Text_Parser($aParams['comment_text']);
-			if (!func_check($sText,'text',2,10000)) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('topic_comment_add_text_error'),$oEngine->Lang_Get('error'));
+			if (!func_check($sText,'text',2,10000)) {				
+				$sMsg=$oEngine->Lang_Get('topic_comment_add_text_error');
 				$bOK=false;
 			}			
 			/**
 			 * Проверям на какой коммент отвечаем
 			 */
 			$sParentId=(int)$aParams['reply'];
-			if (!func_check($sParentId,'id')) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('system_error'),$oEngine->Lang_Get('error'));
+			if (!func_check($sParentId,'id')) {				
+				$sMsg=$oEngine->Lang_Get('system_error');
 				$bOK=false;
 			}
 			$oCommentParent=null;
@@ -85,12 +83,14 @@ if ($oEngine->User_IsAuthorization()) {
 				 * Проверяем существует ли комментарий на который отвечаем
 				 */
 				if (!($oCommentParent=$oEngine->Comment_GetCommentById($sParentId))) {
+					$sMsg=$oEngine->Lang_Get('system_error');
 					$bOK=false;
 				}
 				/**
 				 * Проверяем из одного топика ли новый коммент и тот на который отвечаем
 				 */
 				if ($oCommentParent->getTopicId()!=$oTopic->getId()) {
+					$sMsg=$oEngine->Lang_Get('system_error');
 					$bOK=false;
 				}
 			} else {
@@ -102,11 +102,10 @@ if ($oEngine->User_IsAuthorization()) {
 			/**
 			 * Проверка на дублирующий коммент
 			 */
-			if ($oEngine->Comment_GetCommentUnique($oTopic->getId(),$oUserCurrent->getId(),$sParentId,md5($sText))) {
-				$oEngine->Message_AddError($oEngine->Lang_Get('topic_comment_spam'),$oEngine->Lang_Get('error'));
+			if ($oEngine->Comment_GetCommentUnique($oTopic->getId(),$oUserCurrent->getId(),$sParentId,md5($sText))) {				
+				$sMsg=$oEngine->Lang_Get('topic_comment_spam');
 				$bOK=false;
-			}
-			//exit();
+			}			
 			/**
 			 * Создаём коммент
 			 */
@@ -158,24 +157,13 @@ if ($oEngine->User_IsAuthorization()) {
 				}
 				$bStateError=false;
 			} else {				
-				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('system_error');
-				//$sMsg=serialize($oEngine->Message_GetError());
+				//$sMsgTitle=$oEngine->Lang_Get('error');
+				//$sMsg=$oEngine->Lang_Get('system_error');				
 			}
-		}
-	
-	
-	
-	//$sMsg=var_export($aParams,true);
-	
-	//$sMsg=var_export($_REQUEST,true);
-	
-	
-	
-	
+		}	
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 $GLOBALS['_RESULT'] = array(

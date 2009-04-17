@@ -37,29 +37,29 @@ if ($oEngine->User_IsAuthorization()) {
 			if ($oEngine->Comment_UpdateTopicComment($oComment)) {
 				$bStateError=false;
 				$bState=(bool)$oComment->getDelete();
-				$sMsgTitle='Отлично!';
+				$sMsgTitle=$oEngine->Lang_Get('attention');
 				if ($bState) {
-					$sMsg='Комментарий удален';
-					$sTextToggle='Восстановить';
+					$sMsg=$oEngine->Lang_Get('comment_delete_ok');
+					$sTextToggle=$oEngine->Lang_Get('comment_repair');
 				} else {
-					$sMsg='Комментарий восстановлен';
-					$sTextToggle='Удалить';
+					$sMsg=$oEngine->Lang_Get('comment_repair_ok');
+					$sTextToggle=$oEngine->Lang_Get('comment_delete');
 				}
 			} else {
-				$sMsgTitle='Ошибка!';
-				$sMsg='Возникли технические проблемы!';
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('system_error');
 			}
 		} else {
-			$sMsgTitle='Ошибка!';
-			$sMsg='Комментарий не найден!';
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('system_error');
 		}		
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Нет доступа!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('not_access');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

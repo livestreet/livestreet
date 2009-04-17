@@ -30,10 +30,8 @@ $sTextResult='';
 if ($oEngine->User_IsAuthorization()) {
 	if ($bSave) {
 		$sTextResult=htmlspecialchars($sText);
-	} else {
-		//var_dump(htmlspecialchars($sText));
-		$sTextResult=$oEngine->Text_Parser($sText);
-		//var_dump(htmlspecialchars($sTextResult));
+	} else {		
+		$sTextResult=$oEngine->Text_Parser($sText);		
 	}
 	$bStateError=false;
 }

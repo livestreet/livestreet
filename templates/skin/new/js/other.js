@@ -13,7 +13,7 @@ function ajaxTextPreview(textId,save,divPreview) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}
             if (result.bStateError) {
-            	msgErrorBox.alert('Ошибка','Возникли проблемы при обработке предпросмотра');
+            	msgErrorBox.alert('Error','Please try again later');
             } else {    	
             	if (!divPreview) {
             		divPreview='text_preview';
