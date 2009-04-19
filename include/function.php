@@ -43,9 +43,11 @@ if (!function_exists('mb_strtolower')) {
 /**
  * функция вывода отладочных сообщений через "хакерскую" консоль Дмитрия Котерова
  */
-if (SYS_HACKER_CONSOLE) {	
-	require_once DIR_SERVER_ROOT."/classes/lib/external/HackerConsole/Main.php";
-	new Debug_HackerConsole_Main(true);
+if (defined('SYS_HACKER_CONSOLE')) {
+	if (SYS_HACKER_CONSOLE) {
+		require_once DIR_SERVER_ROOT."/classes/lib/external/HackerConsole/Main.php";
+		new Debug_HackerConsole_Main(true);
+	}
 }
 
 function dump($msg) {	
