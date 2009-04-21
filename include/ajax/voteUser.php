@@ -46,38 +46,38 @@ if ($oEngine->User_IsAuthorization()) {
 						$oUser->setCountVote($oUser->getCountVote()+1);
 						if ($oEngine->User_AddUserVote($oUserVote) and $oEngine->User_Update($oUser)) {
 							$bStateError=false;
-							$sMsgTitle='Поздравляем!';
-							$sMsg='Ваш голос учтен';
+							$sMsgTitle=$oEngine->Lang_Get('attention');
+							$sMsg=$oEngine->Lang_Get('user_vote_ok');
 							$iRating=$oUser->getRating();
 							$iSkill=$oUser->getSkill();
 							$iCountVote=$oUser->getCountVote();
 						} else {
-							$sMsgTitle='Ошибка!';
-							$sMsg='Попробуйте проголосовать позже';
+							$sMsgTitle=$oEngine->Lang_Get('error');
+							$sMsg=$oEngine->Lang_Get('system_error');
 						}
 					} else {
-						$sMsgTitle='Внимание!';
-						$sMsg='Голосовать можно только +1 либо -1!';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('system_error');
 					}
 				} else {
-					$sMsgTitle='Внимание!';
-					$sMsg='У вас не хватает рейтинга и силы для голосования!';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('user_vote_error_acl');
 				}
 			} else {
-				$sMsgTitle='Внимание!';
-				$sMsg='Вы уже голосовали за этого пользователя!';
+				$sMsgTitle=$oEngine->Lang_Get('attention');
+				$sMsg=$oEngine->Lang_Get('user_vote_error_already');
 			}
 		} else {
-			$sMsgTitle='Внимание!';
-			$sMsg='Вы не можете голосовать за себя!';
+			$sMsgTitle=$oEngine->Lang_Get('attention');
+			$sMsg=$oEngine->Lang_Get('user_vote_error_self');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='У нас нет такого пользователя!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосования необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

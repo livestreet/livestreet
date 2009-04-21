@@ -45,37 +45,37 @@ if ($oEngine->User_IsAuthorization()) {
 						$oBlog->setCountVote($oBlog->getCountVote()+1);
 						if ($oEngine->Blog_AddBlogVote($oBlogVote) and $oEngine->Blog_UpdateBlog($oBlog)) {
 							$bStateError=false;
-							$sMsgTitle='Поздравляем!';
-							$sMsg='Ваш голос учтен';
+							$sMsgTitle=$oEngine->Lang_Get('attention');
+							$sMsg=$oEngine->Lang_Get('blog_vote_ok');
 							$iRating=$oBlog->getRating();
 							$iCountVote=$oBlog->getCountVote();
 						} else {
-							$sMsgTitle='Ошибка!';
-							$sMsg='Попробуйте проголосовать позже';
+							$sMsgTitle=$oEngine->Lang_Get('error');
+							$sMsg=$oEngine->Lang_Get('system_error');
 						}
 					} else {
-						$sMsgTitle='Внимание!';
-						$sMsg='Голосовать можно только +1 либо -1!';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('system_error');
 					}
 				} else {
-					$sMsgTitle='Внимание!';
-					$sMsg='У вас не хватает рейтинга и силы для голосования!';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('blog_vote_error_acl');
 				}
 			} else {
-				$sMsgTitle='Внимание!';
-				$sMsg='Вы уже голосовали за этот блог!';
+				$sMsgTitle=$oEngine->Lang_Get('attention');
+				$sMsg=$oEngine->Lang_Get('blog_vote_error_already');
 			}
 		} else {
-			$sMsgTitle='Внимание!';
-			$sMsg='Вы не можете голосовать за свой блог!';
+			$sMsgTitle=$oEngine->Lang_Get('attention');
+			$sMsg=$oEngine->Lang_Get('blog_vote_error_self');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Вы голосуете за несуществующий блог!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосования необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 

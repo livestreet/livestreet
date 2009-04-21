@@ -47,40 +47,40 @@ if ($oEngine->User_IsAuthorization()) {
 							$oTopic->setCountVote($oTopic->getCountVote()+1);
 							if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
 								$bStateError=false;
-								$sMsgTitle='Поздравляем!';
-								$sMsg = $iValue==0 ? 'Вы воздержались для просмотра рейтинга топика' : 'Ваш голос учтен';
+								$sMsgTitle=$oEngine->Lang_Get('attention');
+								$sMsg = $iValue==0 ? $oEngine->Lang_Get('topic_vote_ok_abstain') : $oEngine->Lang_Get('topic_vote_ok');
 								$iRating=$oTopic->getRating();
 							} else {
-								$sMsgTitle='Ошибка!';
-								$sMsg='Попробуйте проголосовать позже';
+								$sMsgTitle=$oEngine->Lang_Get('error');
+								$sMsg=$oEngine->Lang_Get('system_error');
 							}
 						} else {
-							$sMsgTitle='Внимание!';
-							$sMsg='Голосовать можно только +1, 0, либо -1!';
+							$sMsgTitle=$oEngine->Lang_Get('attention');
+							$sMsg=$oEngine->Lang_Get('system_error');
 						}
 					} else {
-						$sMsgTitle='Внимание!';
-						$sMsg='У вас не хватает рейтинга и силы для голосования!';
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('topic_vote_error_acl');
 					}
 				} else {
-					$sMsgTitle='Внимание!';
-					$sMsg='Срок голосования за топик истёк!';
+					$sMsgTitle=$oEngine->Lang_Get('attention');
+					$sMsg=$oEngine->Lang_Get('topic_vote_error_time');
 				}
 			} else {
-				$sMsgTitle='Внимание!';
-				$sMsg='Вы уже голосовали за этот топик!';
+				$sMsgTitle=$oEngine->Lang_Get('attention');
+				$sMsg=$oEngine->Lang_Get('topic_vote_error_already');
 			}
 		} else {
-			$sMsgTitle='Внимание!';
-			$sMsg='Вы не можете голосовать за свой топик!';
+			$sMsgTitle=$oEngine->Lang_Get('attention');
+			$sMsg=$oEngine->Lang_Get('topic_vote_error_self');
 		}
 	} else {
-		$sMsgTitle='Ошибка!';
-		$sMsg='Вы голосуете за несуществующий топик!';
+		$sMsgTitle=$oEngine->Lang_Get('error');
+		$sMsg=$oEngine->Lang_Get('system_error');
 	}
 } else {
-	$sMsgTitle='Ошибка!';
-	$sMsg='Для голосования необходимо авторизоваться!';
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 
