@@ -20,6 +20,7 @@
  *
  */
 abstract class Entity extends Object {
+	protected $oEngine=null;
 	protected $_aData=array();
 
 	/**
@@ -28,6 +29,8 @@ abstract class Entity extends Object {
 	 * @param unknown_type $aParam
 	 */
 	public function __construct($aParam = false) {
+		$this->oEngine=Engine::getInstance();
+		
 		if(is_array($aParam)) {
 			foreach ($aParam as $sKey => $val)	{
 				$this->_aData[$sKey] = $val;
@@ -50,5 +53,15 @@ abstract class Entity extends Object {
 		return null;
 	}
 	*/
+	/**
+	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
+	 *
+	 * @param string $sName
+	 * @param array $aArgs
+	 * @return unknown
+	 */
+	public function __call($sName,$aArgs) {
+		return $this->oEngine->_CallModule($sName,$aArgs);
+	}
 }
 ?>
