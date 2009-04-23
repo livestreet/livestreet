@@ -28,6 +28,8 @@ return array(
 	'blogs_readers' => 'Читателей_$$',
 	'blogs_rating' => 'Рейтинг_$$',
 	'blogs_owner' => 'Смотритель_$$',
+	'blogs_personal_title' => 'Блог им._$$',
+	'blogs_personal_description' => 'Это ваш персональный блог._$$',
 	
 	'blog_no_topic' => 'Сюда еще никто не успел написать_$$',
 	'blog_rss' => 'RSS лента_$$',
@@ -515,6 +517,7 @@ return array(
 	'panel_u' => 'подчеркнутый_$$',
 	'panel_s' => 'зачеркнутый_$$',
 	'panel_url' => 'вставить ссылку_$$',
+	'panel_url_promt' => 'Введите ссылку_$$',
 	'panel_code' => 'код_$$',
 	'panel_video' => 'видео_$$',
 	'panel_image' => 'изображение_$$',
@@ -606,7 +609,12 @@ return array(
 	 */
 	'uploadimg' => 'Вставка изображения_$$',
 	'uploadimg_file' => 'Файл_$$',
+	'uploadimg_file_error' => 'Невозможно обработать файл_$$',
 	'uploadimg_url' => 'Ссылка на изображение_$$',
+	'uploadimg_url_error_type' => 'Файл не является изображением_$$',
+	'uploadimg_url_error_read' => 'Невозможно прочитать внешний файл_$$',
+	'uploadimg_url_error_size' => 'Размер файла превышает максимальный в 500кБ_$$',
+	'uploadimg_url_error' => 'Невозможно обработать внешний файл_$$',
 	'uploadimg_align' => 'Выравнивание_$$',
 	'uploadimg_align_no' => 'нет_$$',
 	'uploadimg_align_left' => 'слева_$$',
@@ -614,6 +622,12 @@ return array(
 	'uploadimg_submit' => 'Загрузить_$$',
 	'uploadimg_cancel' => 'Отмена_$$',
 	'uploadimg_title' => 'Описание_$$',
+	
+	
+	'system_error_event_args' => 'Некорректное число аргументов при добавлении евента_$$',
+	'system_error_event_method' => 'Добавляемый метод евента не найден_$$',
+	'system_error_404' => 'К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было._$$',
+	'system_error_module' => 'Не найден класс модуля_$$',
 	
 	
 	'error' => 'Ошибка_$$',

@@ -14,7 +14,7 @@
 						
 			ed.addCommand('mceLsImage', function() {        		        		
         		ed.windowManager.open({
-					file : url + '/image.htm',
+					file : url + '/image.htm?v=1',
 					width : 480 + parseInt(ed.getLang('advimage.delta_width', 0)),
 					height : 190 + parseInt(ed.getLang('advimage.delta_height', 0)),
 					inline : 1

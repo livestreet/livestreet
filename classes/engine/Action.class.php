@@ -61,12 +61,12 @@ abstract class Action extends Object {
 	protected function AddEventPreg() {		
 		$iCountArgs=func_num_args();
 		if ($iCountArgs<2) {
-			throw new Exception("Некорректное число аргументов при добавлении евента");
+			throw new Exception($this->Lang_Get('system_error_event_args'));
 		}
 		$aEvent=array();
 		$aEvent['method']=func_get_arg($iCountArgs-1);
 		if (!method_exists($this,$aEvent['method'])) {			
-			throw new Exception("Добавляемый метод евента не найден: ".$aEvent['method']);
+			throw new Exception($this->Lang_Get('system_error_event_method').": ".$aEvent['method']);
 		}
 		$aEvent['preg']=func_get_arg(0);		
 		$aEvent['params_preg']=array();
@@ -245,7 +245,7 @@ abstract class Action extends Object {
 	 * @return unknown
 	 */
 	protected function EventNotFound() {
-		$this->Message_AddErrorSingle('К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было.','404');
+		$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
 		return Router::Action('error');
 	}
 	

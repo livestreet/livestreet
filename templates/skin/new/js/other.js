@@ -97,7 +97,7 @@ function ajaxUploadImg(value,sToLoad) {
 	req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 			if (req.responseJS.bStateError) {
-				msgErrorBox.alert('Ошибка','Возникли проблемы при загрузке изображения, попробуйте еще разок. И на всякий случай проверьте правильность URL картинки');
+				msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);				
 			} else {				
 				sToLoad.insertAtCursor(req.responseJS.sText);
 				hideImgUploadForm();

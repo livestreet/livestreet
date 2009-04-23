@@ -186,7 +186,7 @@ class Router extends Object {
 			self::$sAction=$this->aConfigRoute['config']['action_default'];			
 		} else {
 			//Если не находим нужного класса то отправляем на страницу ошибки	
-			$this->Message_AddError('К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было.','404');		
+			$this->Message_AddError($this->Lang_Get('system_error_404'),'404');		
 			self::$sAction=$this->aConfigRoute['config']['action_not_found'];		
 		}
 		self::$sActionClass=$this->aConfigRoute['page'][self::$sAction];

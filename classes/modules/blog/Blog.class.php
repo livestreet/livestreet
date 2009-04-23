@@ -98,9 +98,9 @@ class LsBlog extends Module {
 	public function CreatePersonalBlog(UserEntity_User $oUser) {
 		$oBlog=new BlogEntity_Blog();
 		$oBlog->setOwnerId($oUser->getId());
-		$oBlog->setTitle('Блог им. '.$oUser->getLogin());
+		$oBlog->setTitle($this->Lang_Get('blogs_personal_title').' '.$oUser->getLogin());
 		$oBlog->setType('personal');
-		$oBlog->setDescription('Это ваш персональный блог.');
+		$oBlog->setDescription($this->Lang_Get('blogs_personal_description'));
 		$oBlog->setDateAdd(date("Y-m-d H:i:s")); 
 		$oBlog->setLimitRatingTopic(-1000);
 		$oBlog->setUrl(null);	

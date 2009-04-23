@@ -26,6 +26,8 @@ require_once($sDirRoot."/config/config.ajax.php");
 $aForm=@$_REQUEST['value'];
 $bStateError=true;
 $sText='';
+$sMsg=$oEngine->Lang_Get('system_error');
+$sMsgTitle=$oEngine->Lang_Get('error');
 if ($oEngine->User_IsAuthorization()) {
 	$sFile=null;
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
@@ -34,6 +36,9 @@ if ($oEngine->User_IsAuthorization()) {
 		$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
 		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 			$sFile=$sDirSave.'/'.$sFileImg;
+		} else {
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('uploadimg_file_error');
 		}
 	}
 
@@ -60,15 +65,29 @@ if ($oEngine->User_IsAuthorization()) {
 					$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
 					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
 						$sFile=$sDirSave.'/'.$sFileImg;
+					} else {
+						$sMsgTitle=$oEngine->Lang_Get('error');
+						$sMsg=$oEngine->Lang_Get('uploadimg_url_error');
 					}
 					@unlink($sFileTmp);
+				} else {
+					$sMsgTitle=$oEngine->Lang_Get('error');
+					$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');
 				}
+			} else {
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');
 			}
+		} else {
+			$sMsgTitle=$oEngine->Lang_Get('error');
+			$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');
 		}
 	}
 	
 	if (!is_null($sFile)) {
 		$bStateError=false;
+		$sMsgTitle='';
+		$sMsg='';
 		$sText='<img src="'.DIR_WEB_ROOT.$sFile.'" ';
 		if (isset($_REQUEST['title']) and $_REQUEST['title']!='') {
 			$sText.=' title="'.htmlspecialchars($_REQUEST['title']).'" ';
@@ -78,6 +97,9 @@ if ($oEngine->User_IsAuthorization()) {
 		}
 		$sText.='>';
 	}	
+} else {
+	$sMsgTitle=$oEngine->Lang_Get('error');
+	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
 
@@ -86,6 +108,8 @@ if ($oEngine->User_IsAuthorization()) {
 $GLOBALS['_RESULT'] = array(
 "bStateError"     => $bStateError,
 "sText"   => $sText,
+"sMsgTitle"   => $sMsgTitle,
+"sMsg"   => $sMsg,
 );
 
 ?>

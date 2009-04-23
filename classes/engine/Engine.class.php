@@ -92,7 +92,7 @@ class Engine extends Object {
 		} elseif (file_exists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
 		} else {
-			throw new Exception("Не найден класс модуля - ".$sModuleName);
+			throw new Exception($this->Lang_Get('system_error_module')." - ".$sModuleName);
 		}
 		$sModuleNameClass='Ls'.$sModuleName;
 		$oModule=new $sModuleNameClass($this);

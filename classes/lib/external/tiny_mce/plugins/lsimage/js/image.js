@@ -12,7 +12,7 @@ var lsImageDialog = {
     	req.onreadystatechange = function() {
         	if (req.readyState == 4) { 
             	if (req.responseJS.bStateError) {
-            		tinyMCEPopup.getWindowArg('msgErrorBox').alert('Ошибка','Возникли проблемы при загрузке изображения, попробуйте еще разок. И на всякий случай проверьте правильность URL картинки');            		
+            		tinyMCEPopup.getWindowArg('msgErrorBox').alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);            		
             	} else {            		          		
             		tinyMCEPopup.editor.execCommand('mceInsertContent', false, req.responseJS.sText); 
             		tinyMCEPopup.close();   	
