@@ -61,6 +61,13 @@ class LsViewer extends Module {
 	protected $sHtmlTitleSeparation=' / ';
 	
 	/**
+	 * Альтернативный адрес страницы по RSS
+	 *
+	 * @var array
+	 */
+	protected $aHtmlRssAlternate=null;
+	
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -147,6 +154,7 @@ class LsViewer extends Module {
 		$this->Assign("sHtmlTitle",htmlspecialchars($this->sHtmlTitle));
 		$this->Assign("sHtmlKeywords",htmlspecialchars($this->sHtmlKeywords));
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
+		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
 				
 	}
 	
@@ -315,6 +323,15 @@ class LsViewer extends Module {
 	 */
 	public function SetHtmlDescription($sText) {
 		$this->sHtmlDescription=$sText;
+	}
+	/**
+	 * Устанавливает альтернативный адрес страницы по RSS
+	 *
+	 * @param string $sText
+	 */
+	public function SetHtmlRssAlternate($sUrl,$sTitle) {
+		$this->aHtmlRssAlternate['title']=htmlspecialchars($sTitle);
+		$this->aHtmlRssAlternate['url']=htmlspecialchars($sUrl);
 	}
 	/**
 	 * Формирует постраничный вывод

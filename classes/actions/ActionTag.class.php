@@ -78,6 +78,7 @@ class ActionTag extends Action {
 		$this->Viewer_Assign('sTag',$sTag);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('tag_title'));
 		$this->Viewer_AddHtmlTitle($sTag);
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/tag/'.$sTag.'/',$sTag);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

@@ -710,6 +710,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -820,6 +821,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */	
@@ -905,6 +907,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('oBlog',$oBlog);
 		$this->Viewer_Assign('bNeedJoin',$bNeedJoin);
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

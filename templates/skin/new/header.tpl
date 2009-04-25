@@ -19,6 +19,10 @@
 		
 	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/opensearch/" title="{$SITE_NAME}" />
+	
+	{if $aHtmlRssAlternate}
+		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
+	{/if}
 </head>
 
 <script>

@@ -89,6 +89,7 @@ class ActionIndex extends Action {
 	 *
 	 */
 	protected function EventIndex() {	
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/index/',SITE_NAME);	
 		/**
 		 * Меню
 		 */

@@ -89,6 +89,7 @@ class ActionNew extends Action {
 	 *
 	 */
 	protected function EventNew() {
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/new/',SITE_NAME);
 		/**
 		 * Меню
 		 */
