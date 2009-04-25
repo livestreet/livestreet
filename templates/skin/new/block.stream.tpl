@@ -15,11 +15,11 @@
 						<script>
 						var lsBlockStream;
 						window.addEvent('domready', function() { 
-							lsBlockStream=new lsBlockLoaderClass();							     
-      						lsBlockStream.toggle($('block_stream_comment'),'comment_stream');
+							lsBlockStream=new lsBlockLoaderClass();      						
 						});
 						</script>
 					{/literal}
+					{$sStreamComments}
 					</div>
 					<div class="right"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_COMMENTS}/">{$aLang.block_stream_comments_all}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/allcomments/">RSS</a></div>
 

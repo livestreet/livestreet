@@ -30,7 +30,7 @@ $sMsg='';
 
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
-	if ($aBlogs=$oEngine->Blog_GetBlogsRatingJoin($oUserCurrent->getId(),10)) {		
+	if ($aBlogs=$oEngine->Blog_GetBlogsRatingJoin($oUserCurrent->getId(),BLOCK_BLOGS_COUNT_ROW)) {		
 		$bStateError=false;
 		$oEngine->Viewer_VarAssign();
 		$oEngine->Viewer_Assign('aBlogs',$aBlogs);

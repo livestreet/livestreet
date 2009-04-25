@@ -17,11 +17,11 @@
 						<script>
 						var lsBlockBlogs;
 						window.addEvent('domready', function() {       
-							lsBlockBlogs=new lsBlockLoaderClass();	
-      						lsBlockBlogs.toggle($('block_blogs_top'),'blogs_top');
+							lsBlockBlogs=new lsBlockLoaderClass();
 						});
 						</script>
 					{/literal}
+					{$sBlogsTop}
 					</div>
 					
 					<div class="right"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOGS}/">{$aLang.block_blogs_all}</a></div>

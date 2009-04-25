@@ -29,7 +29,7 @@ $sMsgTitle='';
 $sMsg='';
 
 
-if ($aResult=$oEngine->Blog_GetBlogsRating(1,10)) {
+if ($aResult=$oEngine->Blog_GetBlogsRating(1,BLOCK_BLOGS_COUNT_ROW)) {
 	$aBlogs=$aResult['collection'];
 	$bStateError=false;
 	$oEngine->Viewer_VarAssign();

@@ -29,7 +29,7 @@ $sMsgTitle='';
 $sMsg='';
 
 
-if ($oTopics=$oEngine->Topic_GetTopicsLast(20)) {
+if ($oTopics=$oEngine->Topic_GetTopicsLast(BLOCK_STREAM_COUNT_ROW)) {
 	$bStateError=false;
 	$oEngine->Viewer_VarAssign();
 	$oEngine->Viewer_Assign('oTopics',$oTopics);
