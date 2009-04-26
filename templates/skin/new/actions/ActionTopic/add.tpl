@@ -81,7 +81,7 @@ tinyMCE.init({
        				<span class="form_note">{$aLang.topic_create_title_notice}</span>
 					</p>
 
-					<p>{if !$BLOG_USE_TINYMCE}<div class="note"><a href="#" onclick="return false;">{$aLang.topic_create_text_notice}</a></div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
+					<p>{if !$BLOG_USE_TINYMCE}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
 					{if !$BLOG_USE_TINYMCE}
             			<div class="panel_form" style="background: #eaecea; ">       	 
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','b'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>

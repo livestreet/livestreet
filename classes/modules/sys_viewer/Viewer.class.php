@@ -170,7 +170,7 @@ class LsViewer extends Module {
 		if ($this->TemplateExists($sTemplate)) {
 			$this->oSmarty->display($sTemplate);
 		} else {			
-			throw new Exception('Не найден шаблон: '.$sTemplate);
+			throw new Exception($this->Lang_Get('system_error_template').': '.$sTemplate);
 		}
 	}
 	
@@ -280,7 +280,7 @@ class LsViewer extends Module {
 			/**
 			 * Считаем что тип не определен
 			 */
-			throw new Exception('Не найден шаблон подключаемого блока: '.$sName);
+			throw new Exception($this->Lang_Get('system_error_template_block').': '.$sName);
 			return 'undefined';
 		}
 	}

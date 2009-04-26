@@ -39,3 +39,5 @@ ALTER TABLE `prefix_topic` ADD `topic_text_hash` VARCHAR( 32 ) NOT NULL ;
 
 
 ALTER TABLE `prefix_invite` CHANGE `invite_date_used` `invite_date_used` DATETIME DEFAULT NULL ;
+
+ALTER TABLE `prefix_blog` CHANGE `blog_type` `blog_type` ENUM( 'personal', 'open', 'invite', 'close' ) DEFAULT 'personal';

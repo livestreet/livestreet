@@ -28,7 +28,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	 * Проверяем наличие шаблона
 	 */
 	if (!isset($aParams['block']) or !$oSmarty->template_exists('block.'.$aParams['block'].'.tpl')) {
-		$oSmarty->trigger_error("Шаблон блока не найден: ".$aParams['block']);
+		$oSmarty->trigger_error("Not found template for block: ".$aParams['block']);
 		return ;
 	}	
 	/**

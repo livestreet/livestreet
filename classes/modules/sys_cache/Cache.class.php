@@ -74,7 +74,7 @@ class LsCache extends Module {
 			$aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
 			$oCahe = new Zend_Cache_Backend_Memcached($aConfigMem);
 		} else {
-			throw new Exception("Неверный тип кеширования: ".$this->sCacheType." Доступны: file, memory");
+			throw new Exception($this->Lang_Get('system_error_cache_type').": ".$this->sCacheType." (file, memory)");
 		}
 		$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		
