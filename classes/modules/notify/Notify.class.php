@@ -61,12 +61,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.comment_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.comment_new.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('К вашему топику оставили новый комментарий');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_comment_new'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -97,12 +97,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.comment_reply.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.comment_reply.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('Вам ответили на ваш комментарий');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_comment_reply'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -133,12 +133,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.topic_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.topic_new.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('Новый топик в блоге «'.htmlspecialchars($oBlog->getTitle()).'»');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_topic_new').' «'.htmlspecialchars($oBlog->getTitle()).'»');
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -159,12 +159,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.registration_activate.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.registration_activate.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject('Регистрация');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_registration_activate'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -185,12 +185,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.registration.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.registration.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject('Регистрация');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_registration'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -213,12 +213,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.invite.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.invite.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($sMailTo);
-		$this->Mail_SetSubject('Приглашение на регистрацию');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_invite'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -247,12 +247,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.talk_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.talk_new.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('У вас новое письмо');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_talk_new'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -275,12 +275,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.talk_comment_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.talk_comment_new.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('У вас новый комментарий к письму');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_talk_comment_new'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -301,12 +301,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.user_friend_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.user_friend_new.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-		$this->Mail_SetSubject('Вас добавили в друзья');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_user_friend_new'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -326,12 +326,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.reminder_code.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.reminder_code.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject('Восстановление пароля');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_reminder_code'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();
@@ -351,12 +351,12 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch("notify.reminder_password.tpl");
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.reminder_password.tpl");
 		/**
 		 * Отправляем мыло
 		 */
 		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject('Новый пароль');
+		$this->Mail_SetSubject($this->Lang_Get('notify_subject_reminder_password'));
 		$this->Mail_SetBody($sBody);
 		$this->Mail_setHTML();
 		$this->Mail_Send();

@@ -623,6 +623,21 @@ return array(
 	'uploadimg_cancel' => 'Отмена_$$',
 	'uploadimg_title' => 'Описание_$$',
 	
+	/**
+	 * Уведомления
+	 */
+	'notify_subject_comment_new' => 'К вашему топику оставили новый комментарий_$$',
+	'notify_subject_comment_reply' => 'Вам ответили на ваш комментарий_$$',
+	'notify_subject_topic_new' => 'Новый топик в блоге_$$',
+	'notify_subject_registration_activate' => 'Регистрация_$$',
+	'notify_subject_registration' => 'Регистрация_$$',
+	'notify_subject_invite' => 'Приглашение на регистрацию_$$',
+	'notify_subject_talk_new' => 'У вас новое письмо_$$',
+	'notify_subject_talk_comment_new' => 'У вас новый комментарий к письму_$$',
+	'notify_subject_user_friend_new' => 'Вас добавили в друзья_$$',
+	'notify_subject_reminder_code' => 'Восстановление пароля_$$',
+	'notify_subject_reminder_password' => 'Новый пароль_$$',
+	
 	
 	'system_error_event_args' => 'Некорректное число аргументов при добавлении евента_$$',
 	'system_error_event_method' => 'Добавляемый метод евента не найден_$$',
