@@ -5,7 +5,11 @@ var lsPanelClass = new Class({
 	
 	putText: function(obj,text) {
 		obj=$(obj);
+		var scrollLeft=obj.scrollLeft;
+		var scrollTop=obj.scrollTop;
 		obj.insertAtCursor(text);
+		obj.scrollLeft=scrollLeft;
+		obj.scrollTop=scrollTop;
 	}, 
 	
 	putTag: function(obj,tag) {
@@ -14,11 +18,15 @@ var lsPanelClass = new Class({
 	
 	putTextAround: function(obj,textStart,textEnd) {
 		obj=$(obj);
+		var scrollLeft=obj.scrollLeft;
+		var scrollTop=obj.scrollTop;		
 		obj.insertAroundCursor({
 			before: textStart,
 			defaultMiddle: '',
 			after: textEnd
 		});
+		obj.scrollLeft=scrollLeft;
+		obj.scrollTop=scrollTop;
 	},
 	
 	putTagAround: function(obj,tagStart,tagEnd) {
