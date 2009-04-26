@@ -389,7 +389,7 @@ class ActionTopic extends Action {
 			$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);	
 			$sTestShort=$this->Text_Parser($sTestShort);
 			$sTestNew=$aMatch[1].' '.$aMatch[3];							
-			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*$/Ui',$aMatch[2],$aMatchCut)) {				
+			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$oTopic->setCutText(trim($aMatchCut[1]));
 			}				
 		}		
@@ -536,7 +536,7 @@ class ActionTopic extends Action {
 			$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);	
 			$sTestShort=$this->Text_Parser($sTestShort);
 			$sTestNew=$aMatch[1].' '.$aMatch[3];							
-			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*$/Ui',$aMatch[2],$aMatchCut)) {				
+			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$oTopic->setCutText(trim($aMatchCut[1]));
 			}				
 		}		
