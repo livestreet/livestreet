@@ -1,7 +1,7 @@
 	<!-- Header -->
-	{if !$oUserCurrent}
-	<div id="login-form-content" style="display: none;">
-	<div class="login-popup">
+	{if !$oUserCurrent}	
+	<div style="display: none;">
+	<div class="login-popup" id="login-form">
 		<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 		<div class="content">
 			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
@@ -48,7 +48,7 @@
 		</div>
 		{else}
 		<div class="profile guest">
-			<a href="#" onclick="showLoginForm(); return false;">{$aLang.user_login_submit}</a> {$aLang.or} 
+			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" onclick="return showLoginForm();">{$aLang.user_login_submit}</a> {$aLang.or} 
 			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/" class="reg">{$aLang.registration_submit}</a>
 		</div>
 		{/if}

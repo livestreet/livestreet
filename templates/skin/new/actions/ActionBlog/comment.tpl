@@ -27,7 +27,7 @@
 				<!-- /Comments Header -->			
 				
 				{literal}
-				<script>
+				<script language="JavaScript" type="text/javascript">
 					window.addEvent('domready', function() {
 						{/literal}
 						lsCmtTree.setIdCommentLast({$iMaxIdComment});
@@ -60,7 +60,7 @@
 							<div id="comment_content_id_{$aComment.obj->getId()}" class="content {if $aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}del{elseif $oUserCurrent and $aComment.obj->getUserId()==$oUserCurrent->getId()}self{elseif $dDateTopicRead<=$aComment.obj->getDate()}new{/if}">								
 								{if $oUserCurrent and $aComment.obj->getUserId()!=$oUserCurrent->getId() and $dDateTopicRead<=$aComment.obj->getDate()}
 									{literal}
-									<script>
+									<script language="JavaScript" type="text/javascript">
 										window.addEvent('domready', function() {
 										{/literal}
 											lsCmtTree.addCommentScroll({$aComment.obj->getId()});

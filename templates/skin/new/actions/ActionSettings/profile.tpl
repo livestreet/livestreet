@@ -1,7 +1,7 @@
 {include file='header.tpl' menu='settings' showWhiteBack=true}
 
 {literal}
-<script>
+<script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {	
 
 	var inputCity = $('profile_city');

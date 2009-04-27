@@ -2,7 +2,7 @@
 
 
 {literal}
-<script>
+<script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {	
 	new Autocompleter.Request.HTML($('talk_users'), DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request

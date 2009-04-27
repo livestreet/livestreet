@@ -12,7 +12,7 @@
 					
 					<div class="block-content">
 					{literal}
-						<script>
+						<script language="JavaScript" type="text/javascript">
 						var lsBlockStream;
 						window.addEvent('domready', function() { 
 							lsBlockStream=new lsBlockLoaderClass();      						

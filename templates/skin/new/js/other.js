@@ -67,7 +67,7 @@ function checkAllTalk(checkbox) {
 
 function showImgUploadForm() {	
 	if (!winFormImgUpload) {
-		winFormImgUpload=new StickyWinModal({content: $('uploadimg-form-content').get('html'), closeClassName: 'close-block'});
+		winFormImgUpload=new StickyWin.Modal({content: $('uploadimg-form-content').get('html'), closeClassName: 'close-block'});
 	}
 	winFormImgUpload.show();
 	winFormImgUpload.pin(true);
@@ -84,7 +84,7 @@ window.addEvent('domready', function() {
 	var form=$('window_load_img');
 	if (form) {
 		form.setStyle('display','block');
-    	winFormImgUpload=new StickyWinModal({content: form, closeClassName: 'close-block'});    
+    	winFormImgUpload=new StickyWin.Modal({content: form, closeClassName: 'close-block'});    
     	winFormImgUpload.pin(true);
     	winFormImgUpload.hide();
 	}

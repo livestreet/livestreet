@@ -2,7 +2,7 @@
 
 
 {literal}
-<script>
+<script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {	
 	new Autocompleter.Request.HTML($('topic_tags'), DIR_WEB_ROOT+'/include/ajax/tagAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
@@ -72,7 +72,7 @@ tinyMCE.init({
      					{/foreach}
      				</select></p>
 					
-     				<script>
+     				<script language="JavaScript" type="text/javascript">
      					ajaxBlogInfo($('blog_id').value);
      				</script>
 					

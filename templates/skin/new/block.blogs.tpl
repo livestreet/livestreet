@@ -14,7 +14,7 @@
 					
 					<div class="block-content">
 					{literal}
-						<script>
+						<script language="JavaScript" type="text/javascript">
 						var lsBlockBlogs;
 						window.addEvent('domready', function() {       
 							lsBlockBlogs=new lsBlockLoaderClass();

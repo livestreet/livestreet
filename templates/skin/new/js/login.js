@@ -1,9 +1,13 @@
 function showLoginForm() {	
-	if (!winFormLogin) {
-		winFormLogin=new StickyWinModal({content: $('login-form-content').get('html'), closeClassName: 'close-block'});
+	if (Browser.Engine.trident) {
+		return true;
+	}	
+	if (!winFormLogin) {		
+		winFormLogin=new StickyWin.Modal({content: $('login-form'), closeClassName: 'close-block', useIframeShim: false});
 	}
 	winFormLogin.show();
-	winFormLogin.pin(true);	
+	winFormLogin.pin(true);
+	return false;
 }
 
 function hideLoginForm() {

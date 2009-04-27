@@ -2,7 +2,7 @@
 
 
 {literal}
-<script>
+<script language="JavaScript" type="text/javascript">
 function toggleBlogInfo(id,link) {
 	link=$(link);
 	var obj=$(id);	

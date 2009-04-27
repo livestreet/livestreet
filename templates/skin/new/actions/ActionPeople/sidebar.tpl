@@ -11,7 +11,7 @@
 					<div class="chart">						
 						<div id="chart_users_area"></div>	
 						{literal}
-						<script>
+						<script language="JavaScript" type="text/javascript">
 							window.addEvent('domready', function(){
 								new PieChart($('chart_users_data'),$('chart_users_area'),{index:1});
 							});
@@ -29,7 +29,7 @@
 					<div class="chart">						
 						<div id="chart_gender_area"></div>	
 						{literal}
-						<script>
+						<script language="JavaScript" type="text/javascript">
 							window.addEvent('domready', function(){
 								new PieChart($('chart_gender_data'),$('chart_gender_area'),{index:2});
 							});

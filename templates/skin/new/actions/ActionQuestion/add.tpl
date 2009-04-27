@@ -2,7 +2,7 @@
 
 
 {literal}
-<script>
+<script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {	
 	new Autocompleter.Request.HTML($('topic_tags'), DIR_WEB_ROOT+'/include/ajax/tagAutocompleter.php', {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
@@ -38,7 +38,7 @@ document.addEvent('domready', function() {
      					{/foreach}
      				</select></p>
 					
-     				<script>
+     				<script language="JavaScript" type="text/javascript">
      					ajaxBlogInfo(document.getElementById('blog_id').value);
      				</script>
 					
