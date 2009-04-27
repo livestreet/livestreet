@@ -69,15 +69,15 @@ class LsCache extends Module {
 					'file_locking' => true,
 				)
 			);
+			$this->oBackendCache = new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats'));
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
 			$aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
 			$oCahe = new Zend_Cache_Backend_Memcached($aConfigMem);
+			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
 			throw new Exception($this->Lang_Get('system_error_cache_type').": ".$this->sCacheType." (file, memory)");
 		}
-		$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
-		
 		/**
 		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
 		 */
@@ -100,8 +100,12 @@ class LsCache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5(SYS_CACHE_PREFIX.$sName);		
-		return $this->oBackendCache->load($sName);
+		$sName=md5(SYS_CACHE_PREFIX.$sName);	
+		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {	
+			return unserialize($this->oBackendCache->load($sName));
+		} else {
+			return $this->oBackendCache->load($sName);
+		}
 	}	
 	/**
 	 * Записать значение в кеш
@@ -119,7 +123,10 @@ class LsCache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5(SYS_CACHE_PREFIX.$sName);		
+		$sName=md5(SYS_CACHE_PREFIX.$sName);
+		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {		
+			$data=serialize($data);
+		}
 		return $this->oBackendCache->save($data,$sName,$aTags,$iTimeLife);
 	}
 	/**
