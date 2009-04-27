@@ -19,8 +19,7 @@
  * Абстрактный класс сущности
  *
  */
-abstract class Entity extends Object {
-	protected $oEngine=null;
+abstract class Entity extends Object {	
 	protected $_aData=array();
 
 	/**
@@ -28,9 +27,7 @@ abstract class Entity extends Object {
 	 *
 	 * @param unknown_type $aParam
 	 */
-	public function __construct($aParam = false) {
-		$this->oEngine=Engine::getInstance();
-		
+	public function __construct($aParam = false) {		
 		if(is_array($aParam)) {
 			foreach ($aParam as $sKey => $val)	{
 				$this->_aData[$sKey] = $val;
@@ -61,7 +58,7 @@ abstract class Entity extends Object {
 	 * @return unknown
 	 */
 	public function __call($sName,$aArgs) {
-		return $this->oEngine->_CallModule($sName,$aArgs);
+		return Engine::getInstance()->_CallModule($sName,$aArgs);
 	}
 }
 ?>
