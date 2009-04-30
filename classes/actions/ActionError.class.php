@@ -44,7 +44,7 @@ class ActionError extends Action {
 		 * Если у первой ошибки заголовок 404 значит нажно в хидере послать браузеру HTTP/1.1 404 Not Found
 		 */
 		$aError=$this->Message_GetError();
-		if ($aError[0]['title']=='404') {			
+		if (isset($aError[0]) and $aError[0]['title']=='404') {			
 			header("HTTP/1.1 404 Not Found");
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
