@@ -50,7 +50,9 @@
 					{$oTopic->getText()}
 				</div>				
 				<ul class="tags">
-					{$oTopic->getTagsLinkNew()}										
+					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
+						<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TAG}/{$sTag|escape:'html'}/">{$sTag|escape:'html'}</a>{if !$smarty.foreach.tags_list.last}, {/if}</li>
+					{/foreach}									
 				</ul>				
 				<ul class="voting {if $oTopic->getUserIsVote() || ($oUserCurrent && $oTopic->getUserId()==$oUserCurrent->getId())|| strtotime($oTopic->getDateAdd())<$smarty.now-$VOTE_LIMIT_TIME_TOPIC}{if $oTopic->getRating()>0}positive{elseif $oTopic->getRating()<0}negative{/if}{/if} {if !$oUserCurrent || $oTopic->getUserId()==$oUserCurrent->getId() || strtotime($oTopic->getDateAdd())<$smarty.now-$VOTE_LIMIT_TIME_TOPIC}guest{/if} {if $oTopic->getUserIsVote()} voted {if $oTopic->getUserVoteDelta()>0}plus{elseif $oTopic->getUserVoteDelta()<0}minus{/if}{/if}">
 					<li class="plus"><a href="#" onclick="lsVote.vote({$oTopic->getId()},this,1,'topic'); return false;"></a></li>

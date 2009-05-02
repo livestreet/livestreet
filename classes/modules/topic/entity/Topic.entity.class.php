@@ -100,21 +100,10 @@ class TopicEntity_Topic extends Entity
     
     public function getCountCommentNew() {
         return $this->_aData['count_comment_new'];
-    }       
-    public function getTagsLink() {
-    	$aTags=explode(',',$this->getTags());
-    	foreach ($aTags as $key => $value) {
-    		$aTags[$key]='<a href="'.DIR_WEB_ROOT.'/tag/'.htmlspecialchars($value).'/">'.htmlspecialchars($value).'</a>';
-    	}
-        return trim(join(', ',$aTags));
-    }  
-    public function getTagsLinkNew() {
-    	$aTags=explode(',',$this->getTags());
-    	foreach ($aTags as $key => $value) {
-    		$aTags[$key]='<li><a href="'.DIR_WEB_ROOT.'/tag/'.htmlspecialchars($value).'/">'.htmlspecialchars($value).'</a></li>';
-    	}
-        return trim(join(', ',$aTags));
-    }   
+    }    
+    public function getTagsArray() {
+    	return explode(',',$this->getTags());    	
+    } 
     public function getUserLogin() {
         return $this->_aData['user_login'];
     }
