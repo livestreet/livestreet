@@ -59,7 +59,7 @@ class ActionComments extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/comments');	
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_COMMENTS);	
 		/**
 		 * Загружаем переменные в шаблон
 		 */					

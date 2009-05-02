@@ -80,7 +80,7 @@ class ActionMy extends Action {
 		/**
 		 * Формируем постраничность
 		 */				
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/my/'.$this->oUserProfile->getLogin());		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->oUserProfile->getLogin());		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			
@@ -123,7 +123,7 @@ class ActionMy extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/my/'.$this->oUserProfile->getLogin().'/comment');		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->oUserProfile->getLogin().'/comment');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */		

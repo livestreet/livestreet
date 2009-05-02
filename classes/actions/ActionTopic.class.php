@@ -263,7 +263,7 @@ class ActionTopic extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/topic/saved');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/saved');
 		/**
 		 * Загружаем переменные в шаблон
 		 */					
@@ -297,7 +297,7 @@ class ActionTopic extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/topic/published');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/published');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -448,7 +448,7 @@ class ActionTopic extends Action {
 				}
 			}
 			
-			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
+			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
@@ -584,7 +584,7 @@ class ActionTopic extends Action {
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
 				func_header_location($oTopic->getBlogUrlFull());
 			}
-			func_header_location(DIR_WEB_ROOT.'/blog/'.$oTopic->getId().'.html');
+			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');

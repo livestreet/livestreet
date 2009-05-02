@@ -69,7 +69,7 @@ class ActionTag extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/tag/'.htmlspecialchars($sTag));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TAG.'/'.htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
 		 */				

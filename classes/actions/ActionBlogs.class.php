@@ -55,7 +55,7 @@ class ActionBlogs extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_BLOGS_PER_PAGE,4,DIR_WEB_ROOT.'/blogs');	
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_BLOGS_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOGS);	
 		/**
 		 * Загружаем переменные в шаблон
 		 */					

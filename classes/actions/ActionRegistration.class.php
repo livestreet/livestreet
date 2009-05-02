@@ -172,7 +172,7 @@ class ActionRegistration extends Action {
 						 * Отправляем на мыло письмо о подтверждении регистрации						 
 						 */					
 						$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
-						func_header_location(DIR_WEB_ROOT.'/registration/confirm/');						
+						func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_REGISTRATION.'/confirm/');						
 					} else {
 						$this->Notify_SendRegistration($oUser,getRequest('password'));
 						$this->Viewer_Assign('bRefreshToHome',true);
