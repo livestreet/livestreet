@@ -703,7 +703,7 @@ select { width: 99%; }
 .lite-header a:hover { color: #333; }
 .lite-header a:hover span { color: #777; }
 
-.lite-center { position: absolute; top: 200px; left: 50%; width: 400px; margin-left: -200px; color: #888; }
+.lite-center { margin: 0 auto 20px; top: 200px;  width: 400px; color: #888; }
 .lite-center h3, .login-popup h3 { color: #bec0bf; margin-bottom: 20px; }
 .lite-center button, .login-popup button { float: right; }
 .lite-center .input-text, .login-popup .input-text { width: 400px; font-size: 18px; padding: 4px 0; border: 1px solid #d7d7d7; color: #555; }
