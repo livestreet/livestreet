@@ -119,16 +119,16 @@ class TopicEntity_Topic extends Entity
     
     public function getBlogUrlFull() {
     	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/my/'.$this->getUserLogin().'/';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getUserLogin().'/';
     	} else {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getBlogUrl().'/';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/';
     	}
     }
     public function getUrl() {
     	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getId().'.html';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getId().'.html';
     	} else {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getBlogUrl().'/'.$this->getId().'.html';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/'.$this->getId().'.html';
     	}
     }
     public function getUserIsVote() {

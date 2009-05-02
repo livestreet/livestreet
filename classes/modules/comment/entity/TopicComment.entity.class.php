@@ -90,16 +90,16 @@ class CommentEntity_TopicComment extends Entity
     }
     public function getBlogUrlFull() {
     	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/my/'.$this->getBlogOwnerLogin().'/';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getBlogOwnerLogin().'/';
     	} else {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getBlogUrl().'/';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/';
     	}
     }
     public function getTopicUrl() {
     	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getTopicId().'.html';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getTopicId().'.html';
     	} else {
-    		return DIR_WEB_ROOT.'/blog/'.$this->getBlogUrl().'/'.$this->getTopicId().'.html';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/'.$this->getTopicId().'.html';
     	}
     }
     public function getUserIsVote() {
