@@ -197,7 +197,7 @@ var PieChart = new Class({
 			new Element('area', {
 				'id': myArea ,
 				'shape': 'poly',
-				'coords': this.pieChartRadius + ',' + this.pieChartRadius + ',' + + xx + ',' + yy + ',' + coord.join(',') +  ',' + xxEnd + ',' + yyEnd,
+				'coords': this.pieChartRadius + ',' + this.pieChartRadius + ',' + xx + ',' + yy + ',' + coord.join(',') +  ',' + xxEnd + ',' + yyEnd,
 				'title': labels[piece]
 			}).injectInside(this.container.getElement('.pieChartMap'));
 
