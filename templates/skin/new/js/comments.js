@@ -214,8 +214,13 @@ var lsCmtTreeClass = new Class({
         		'x': 0,
         		'y': 0
    			}
- 		});
-		this.docScroller.start(0,$('comment_id_'+idComment).getPosition().y-window.getSize().y/2);
+ 		}); 		
+ 		var cmt=$('comment_id_'+idComment);
+ 		var deltaY=cmt.getDimensions().height/2-window.getSize().y/2;
+ 		if (deltaY>0) {
+ 			deltaY=0;
+ 		}
+		this.docScroller.start(0,cmt.getPosition().y+deltaY);
 		if (this.iCommentIdLastView) {
 			$('comment_content_id_'+this.iCommentIdLastView).removeClass('view');
 		}				
