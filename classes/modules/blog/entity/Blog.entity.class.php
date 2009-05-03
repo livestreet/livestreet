@@ -92,7 +92,13 @@ class BlogEntity_Blog extends Entity
     public function getCurrentUserIsJoin() {
         return $this->_aData['current_user_is_join'];
     }
-    
+    public function getUrlFull() {
+        if ($this->getType()=='personal') {
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getUserLogin().'/';
+    	} else {
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getUrl().'/';
+    	}
+    }
     
        
     

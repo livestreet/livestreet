@@ -347,6 +347,10 @@ class ActionLink extends Action {
 		 * Добавляем топик
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
+			/**
+			 * Получаем топик, чтоб подцепить связанные данные
+			 */
+			$oTopic=$this->Topic_GetTopicById($oTopic->getId(),null,-1);
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$aUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());
@@ -362,7 +366,7 @@ class ActionLink extends Action {
 					$this->Notify_SendTopicNewToSubscribeBlog($oUser,$oTopic,$oBlog,$this->oUserCurrent);
 				}
 			}			
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html');
+			func_header_location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
@@ -477,7 +481,7 @@ class ActionLink extends Action {
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
 				func_header_location($oTopic->getBlogUrlFull());
 			}
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html');
+			func_header_location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');

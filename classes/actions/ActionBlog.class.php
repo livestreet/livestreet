@@ -91,7 +91,7 @@ class ActionBlog extends Action {
 		 * Устанавливаем евент по дефолту, т.е. будем показывать хорошие топики из коллективных блогов
 		 */
 		$this->SetDefaultEvent('good');
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG;
+		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/';
 		/**
 		 * Достаём текущего пользователя
 		 */
@@ -209,7 +209,11 @@ class ActionBlog extends Action {
 		 * Создаём блог
 		 */
 		if ($this->Blog_AddBlog($oBlog)) {
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oBlog->getUrl().'/');
+			/**
+			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
+			 */
+			$oBlog->Blog_GetBlogById($oBlog->getId());
+			func_header_location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -312,7 +316,7 @@ class ActionBlog extends Action {
 			 * Обновляем блог
 			 */
 			if ($this->Blog_UpdateBlog($oBlog)) {
-				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oBlog->getUrl().'/');
+				func_header_location($oBlog->getUrlFull());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return Router::Action('error');
@@ -641,7 +645,7 @@ class ActionBlog extends Action {
 		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
 		 */
 		if ($oTopic->getBlogType()!='personal') {
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getBlogUrl().'/'.$oTopic->getId().'.html');
+			func_header_location($oTopic->getUrl());
 		}
 		/**
 		 * Обрабатываем добавление коммента
@@ -747,13 +751,13 @@ class ActionBlog extends Action {
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
 		if ($oTopic->getBlogType()=='personal') {
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html');
+			func_header_location($oTopic->getUrl());
 		}
 		/**
 		 * Если номер топика правильный но УРЛ блога косяный то корректируем его и перенаправляем на нужный адрес
 		 */
 		if ($oTopic->getBlogUrl()!=$sBlogUrl) {
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getBlogUrl().'/'.$oTopic->getId().'.html');
+			func_header_location($oTopic->getUrl());
 		}
 		/**
 		 * Обрабатываем добавление коммента
@@ -837,18 +841,18 @@ class ActionBlog extends Action {
 	 */
 	protected function EventShowBlogGood() {
 		$sBlogUrl=$this->sCurrentEvent;
-		$sPage=$this->GetParam(0);
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='good';
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl;
+		$sPage=$this->GetParam(0);		
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
 		 */		
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
 		}			
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='good';
+		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
 		/**
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
@@ -876,7 +880,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl.'');			
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,$oBlog->getUrlFull());			
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */
@@ -923,18 +927,18 @@ class ActionBlog extends Action {
 	 */
 	protected function EventShowBlogBad() {	
 		$sBlogUrl=$this->sCurrentEvent;
-		$sPage=$this->GetParam(1);
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='bad';
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl;		
+		$sPage=$this->GetParam(1);				
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
 		 */
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
-		}				
+		}		
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='bad';
+		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();		
 		/**
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
@@ -962,7 +966,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl.'/bad');						
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,$oBlog->getUrlFull().'bad');						
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */		
@@ -1008,18 +1012,18 @@ class ActionBlog extends Action {
 	 */
 	protected function EventShowBlogNew() {	
 		$sBlogUrl=$this->sCurrentEvent;
-		$sPage=$this->GetParam(1);	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='new';
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl;
+		$sPage=$this->GetParam(1);			
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
 		 */	
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
-		}				
+		}			
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='new';
+		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();	
 		/**
 		 * Проверяем является ли текущий пользователь пользователем блога
 		 */
@@ -1048,7 +1052,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */				
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sBlogUrl.'/bad');			
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,$oBlog->getUrlFull().'bad');			
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */
@@ -1214,7 +1218,7 @@ class ActionBlog extends Action {
 					$oUserAuthorComment=$this->User_GetUserById($oCommentParent->getUserId());					
 					$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);					
 				}
-				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$oTopic->getId().'.html#comment'.$oCommentNew->getId());
+				func_header_location($oTopic->getUrl().'#comment'.$oCommentNew->getId());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return false;
