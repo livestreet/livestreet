@@ -601,7 +601,7 @@ return array(
 	'paging_next' => 'следующая_$$',
 	'paging_previos' => 'предыдущая_$$',
 	'paging_last' => 'последняя_$$',
-	'paging_first' => 'предыдущая_$$',
+	'paging_first' => 'первая_$$',
 	'paging' => 'Страницы_$$',
 	
 	/**
