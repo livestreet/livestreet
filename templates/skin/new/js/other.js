@@ -66,12 +66,15 @@ function checkAllTalk(checkbox) {
 
 
 function showImgUploadForm() {	
-	if (!winFormImgUpload) {
-		winFormImgUpload=new StickyWin.Modal({content: $('uploadimg-form-content').get('html'), closeClassName: 'close-block'});
+	if (Browser.Engine.trident) {
+		//return true;
+	}	
+	if (!winFormImgUpload) {		
+		winFormImgUpload=new StickyWin.Modal({content: $('window_load_img'), closeClassName: 'close-block', useIframeShim: false});
 	}
 	winFormImgUpload.show();
 	winFormImgUpload.pin(true);
-	
+	return false;
 }
 
 function hideImgUploadForm() {
@@ -79,16 +82,6 @@ function hideImgUploadForm() {
 }
 
 var winFormImgUpload;
-
-window.addEvent('domready', function() {  	
-	var form=$('window_load_img');
-	if (form) {
-		form.setStyle('display','block');
-    	winFormImgUpload=new StickyWin.Modal({content: form, closeClassName: 'close-block'});    
-    	winFormImgUpload.pin(true);
-    	winFormImgUpload.hide();
-	}
-});
 
 
 function ajaxUploadImg(value,sToLoad) {

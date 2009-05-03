@@ -1,4 +1,4 @@
-<div id="uploadimg-form-content" style="display: none;">
+<div style="display: none;">
 <div class="login-popup upload-image" id="window_load_img">
 	<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 	<div class="content">

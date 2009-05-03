@@ -1,7 +1,7 @@
 	<!-- Navigation -->
 	<div id="nav">
 		<div class="left"></div>
-		{if $oUserCurrent and $sAction==$ROUTE_PAGE_BLOG}
+		{if $oUserCurrent and ($sAction==$ROUTE_PAGE_BLOG or $sAction==$ROUTE_PAGE_INDEX or $sAction==$ROUTE_PAGE_NEW or $sAction==$ROUTE_PAGE_PERSONAL_BLOG)}
 			<div class="write">
 				<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="button small">
 					<span><em>{$aLang.topic_create}</em></span>
