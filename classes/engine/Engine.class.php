@@ -111,12 +111,34 @@ class Engine extends Object {
 	 *
 	 */
 	protected function LoadModules() {
-		$this->aConfigModule=include(DIR_SERVER_ROOT."/config/config.module.php");
+		$this->LoadConfig();
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
 			$this->LoadModule($sModuleName);
 		}
 	}
-	
+	/**
+	 * Выполняет загрузку конфигов
+	 *
+	 */
+	protected function LoadConfig() {
+		$this->aConfigModule=include(DIR_SERVER_ROOT."/config/config.module.php");
+		/**
+		 * Ищет конфиги модулей и объединяет их с текущим
+		 */
+		$sDirConfig=DIR_SERVER_ROOT.'/config/modules/';
+		if ($hDirConfig = opendir($sDirConfig)) {
+			while (false !== ($sDirModule = readdir($hDirConfig))) {
+				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
+					$sFileConfig=$sDirConfig.$sDirModule.'/config.module.php';
+					if (file_exists($sFileConfig)) {
+						$aConfigModule=include($sFileConfig);
+						$this->aConfigModule=array_merge_recursive($this->aConfigModule,$aConfigModule);
+					}					
+				}
+			}
+			closedir($hDirConfig);
+		}
+	}
 	/**
 	 * Вызывает метод нужного модуля
 	 *
