@@ -42,11 +42,27 @@ var lsPanelClass = new Class({
 			var sel=obj.getSelectedText();
         	this.putText(obj,'<a href="'+url+'">'+sel+'</a>');
         }
+	},
+	
+	putQuote: function(obj) {
+		obj=$(obj);
+		if (selText=window.getSelected()) {			
+			this.putText(obj,'<blockquote>'+selText+'</blockquote>');
+		} else {
+			this.putTagAround(obj,'blockquote');
+		}
 	}
 });
 
 var lsPanel;
 
 window.addEvent('domready', function() {  	
+	$extend(window,{
+		getSelected: function(){
+			if (this.ie) return document.selection.createRange().text;
+			if (this.khtml) return this.getSelection();
+			return document.getSelection();
+		}
+	});
     lsPanel = new lsPanelClass();   
 });

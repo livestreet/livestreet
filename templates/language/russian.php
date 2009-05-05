@@ -522,6 +522,7 @@ return array(
 	'panel_video' => 'видео_$$',
 	'panel_image' => 'изображение_$$',
 	'panel_cut' => 'кат_$$',
+	'panel_quote' => 'цитировать_$$',
 	
 	/**
 	 * Блоки
