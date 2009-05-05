@@ -238,9 +238,10 @@ select { width: 99%; }
 .topic .content dl dt { font-weight: bold; }
 .topic .content dl dd { font-style: italic; margin: 0 0 5px 20px; color: #555; }
 
-.topic .content blockquote { font: italic 14px/22px Georgia, Serif; padding: 5px 10px; margin-bottom: 15px; background: #f8f8f8; }
+.topic .content blockquote { font-style: italic; padding: 5px 10px; background: #f8f8f8; }
 
 .topic .content pre, .comment .content pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+.comment .content blockquote {font-style: italic; padding: 5px 10px; background: #ffffff; border: 1px solid #ddd;}
 
 
 
