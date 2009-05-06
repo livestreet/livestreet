@@ -127,7 +127,9 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список блогов в которых состоит юзер
 		 */
-		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId());	
+		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),0);	
+		$aBlogsModeration=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),1);	
+		$aBlogsAdministration=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),2);	
 		/**
 		 * Получаем список блогов которые создал юзер
 		 */
@@ -136,6 +138,8 @@ class ActionProfile extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsUser',$aBlogsUser);
+		$this->Viewer_Assign('aBlogsModeration',$aBlogsModeration);
+		$this->Viewer_Assign('aBlogsAdministration',$aBlogsAdministration);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);		
 		$this->Viewer_Assign('aUsersSelfFrend',$aUsersSelfFrend);

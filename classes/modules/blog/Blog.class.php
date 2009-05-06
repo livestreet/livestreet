@@ -228,10 +228,18 @@ class LsBlog extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetRelationBlogUsersByUserId($sUserId) {
+	public function GetRelationBlogUsersByUserId($sUserId,$iRole=null) {
 		$aFilter=array(
 			'user_id'=> $sUserId			
 		);
+		if ($iRole===0) {
+			$aFilter['is_moderator']=0;
+			$aFilter['is_administrator']=0;
+		} elseif ($iRole===1) {
+			$aFilter['is_moderator']=1;
+		} elseif ($iRole===2) {
+			$aFilter['is_administrator']=1;
+		}
 		return $this->oMapperBlog->GetRelationBlogUsers($aFilter);
 	}
 	/**

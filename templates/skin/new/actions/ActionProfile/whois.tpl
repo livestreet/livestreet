@@ -149,6 +149,28 @@
 					</tr>
 					{/if}
 					
+					{if $aBlogsAdministration}
+					<tr>
+						<td class="var">{$aLang.profile_blogs_administration}:</td>
+						<td>
+							{foreach from=$aBlogsAdministration item=oBlogUser name=blog_user}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+							{/foreach}
+						</td>
+					</tr>
+					{/if}
+					
+					{if $aBlogsModeration}
+					<tr>
+						<td class="var">{$aLang.profile_blogs_moderation}:</td>
+						<td>
+							{foreach from=$aBlogsModeration item=oBlogUser name=blog_user}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+							{/foreach}
+						</td>
+					</tr>
+					{/if}
+					
 					{if $aBlogsUser}
 					<tr>
 						<td class="var">{$aLang.profile_blogs_join}:</td>
