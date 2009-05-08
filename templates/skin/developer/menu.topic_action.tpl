@@ -1,0 +1,27 @@
+<ul class="menu">
+	<li {if $sMenuSubItemSelect=='add'}class="active"{/if}>
+		<a href="{$DIR_WEB_ROOT}/{if $sMenuItemSelect=='add_blog'}{$ROUTE_PAGE_TOPIC}{else}{$sMenuItemSelect}{/if}/add/">{$aLang.topic_menu_add}</a>
+		{if $sMenuSubItemSelect=='add'}
+			<ul class="sub-menu" >
+				<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_topic}</a></li>						
+				<li {if $sMenuItemSelect=='question'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_QUESTION}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_question}</a></li>
+				<li {if $sMenuItemSelect=='link'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LINK}/{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_link}</a></li>
+				<li ><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/add/">{$aLang.blog_menu_create}</a></li>
+			</ul>
+		{/if}
+	</li>
+	
+	
+	<li {if $sMenuSubItemSelect=='saved'}class="active"{/if}>
+		<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/saved/">{$aLang.topic_menu_saved}</a> 				
+	</li>
+	
+	
+	<li {if $sMenuSubItemSelect=='published'}class="active"{/if}>
+		<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/published/">{$aLang.topic_menu_published}</a>			
+	</li>						
+</ul>
+		
+		
+		
+

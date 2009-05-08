@@ -1,0 +1,2 @@
+#container { width: expression((documentElement.offsetWidth || document.body.offsetWidth) < 900 ? '900px' : 'auto'); }
+.update { position: absolute; top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
