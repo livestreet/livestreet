@@ -570,7 +570,7 @@ return array(
 	'talk_inbox' => 'Почтовый ящик_$$',
 	'talk_inbox_target' => 'Адресаты_$$',
 	'talk_inbox_title' => 'Тема_$$',
-	'talk_inbox_date' => 'Тема_$$',
+	'talk_inbox_date' => 'Дата_$$',
 	'talk_inbox_delete' => 'Удалить переписку_$$',
 	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?_$$',
 	'talk_comments' => 'Переписка_$$',
