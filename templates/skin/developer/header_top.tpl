@@ -42,11 +42,11 @@
 				{if $iUserCurrentCountTalkNew}
 					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="new-message" title="{$aLang.user_privat_messages_new}">{$aLang.user_privat_messages_alt} ({$iUserCurrentCountTalkNew})</a>&nbsp;/&nbsp;
 				{else}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">{$aLang.user_privat_messages_alt} (0)</a>&nbsp;/&nbsp;
+					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">{$aLang.user_privat_messages} (0)</a>&nbsp;/&nbsp;
 				{/if}
 			</li>
 			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/">{$aLang.user_settings}</a>&nbsp;/&nbsp;</li>
-			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/exit/">{$aLang.exit_alt}</a></li>
+			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/exit/">{$aLang.exit}</a></li>
 		{else}
 			<li><a href="#" onclick="showLoginForm(); return false;">{$aLang.user_login_submit}</a>&nbsp;/&nbsp;</li>
 			<li><a href="{$DIR_WEB_ROOT}/registration/" class="reg">{$aLang.registration_submit}</a></li>
