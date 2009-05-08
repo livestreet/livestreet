@@ -215,7 +215,7 @@ var lsCmtTreeClass = new Class({
         		'y': 0
    			}
  		}); 		
- 		var cmt=$('comment_id_'+idComment);
+ 		var cmt=$('comment_content_id_'+idComment);
  		var deltaY=cmt.getDimensions().height/2-window.getSize().y/2;
  		if (deltaY>0) {
  			deltaY=0;
