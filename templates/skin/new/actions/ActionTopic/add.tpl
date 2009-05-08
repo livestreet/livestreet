@@ -90,7 +90,7 @@ tinyMCE.init({
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','s'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
 	 						&nbsp;
 	 						<a href="#" onclick="lsPanel.putTagUrl('topic_text','{$aLang.panel_url_promt}'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
-	 						<a href="#" onclick="lsPanel.putQuote('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/quote.gif" width="16" height="16" title="{$aLang.panel_quote}"></a>
+	 						<a href="#" onclick="lsPanel.putQuote('topic_text'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/quote.gif" width="20" height="20" title="{$aLang.panel_quote}"></a>
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','code'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','video'); return false;" class="button"><img src="{$DIR_STATIC_SKIN}/images/panel/video.gif" width="20" height="20" title="{$aLang.panel_video}"></a>
 	 				
