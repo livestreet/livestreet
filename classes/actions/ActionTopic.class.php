@@ -383,28 +383,24 @@ class ActionTopic extends Action {
 		 * Парсим на предмет ХТМЛ тегов
 		 */
 		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		/**
-		 * Создаёт анонс топика(обрезаем по тег <cut>)
-		 */	
-		$sTestShort=$sText;
-		$sTestNew=$sText;
-		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
+		$sTextShort=$sText;
+		$sTextNew=$sText;
+		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
 		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
 		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
-			$sTestShort=$aMatch[1];		
-			$sTestShort=str_replace('[<rn>]',"\r\n",$sTestShort);
-			$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);	
-			$sTestShort=$this->Text_Parser($sTestShort);
-			$sTestNew=$aMatch[1].' '.$aMatch[3];							
+			$aMatch[1]=str_replace('[<rn>]',"\r\n",$aMatch[1]);
+			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
+			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
+			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
+			$sTextShort=$this->Text_Parser($aMatch[1]);
+			$sTextNew=$this->Text_Parser($aMatch[1].' '.$aMatch[3]);							
 			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$oTopic->setCutText(trim($aMatchCut[1]));
 			}				
 		}		
-		$sTestNew=str_replace('[<rn>]',"\r\n",$sTestNew);
-		$sTestNew=str_replace('[<n>]',"\r\n",$sTestNew);
-					
-		$oTopic->setText($sTestNew);
-		$oTopic->setTextShort($sTestShort);
+		
+		$oTopic->setText($sTextNew);
+		$oTopic->setTextShort($sTextShort);
 		$oTopic->setTextSource(getRequest('topic_text'));		
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
@@ -537,25 +533,24 @@ class ActionTopic extends Action {
 		 * Парсим на предмет ХТМЛ тегов
 		 */
 		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		$sTestShort=$sText;
-		$sTestNew=$sText;
-		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
+		$sTextShort=$sText;
+		$sTextNew=$sText;
+		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
 		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
 		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
-			$sTestShort=$aMatch[1];		
-			$sTestShort=str_replace('[<rn>]',"\r\n",$sTestShort);
-			$sTestShort=str_replace('[<n>]',"\r\n",$sTestShort);	
-			$sTestShort=$this->Text_Parser($sTestShort);
-			$sTestNew=$aMatch[1].' '.$aMatch[3];							
+			$aMatch[1]=str_replace('[<rn>]',"\r\n",$aMatch[1]);
+			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
+			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
+			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
+			$sTextShort=$this->Text_Parser($aMatch[1]);
+			$sTextNew=$this->Text_Parser($aMatch[1].' '.$aMatch[3]);							
 			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$oTopic->setCutText(trim($aMatchCut[1]));
 			}				
 		}		
-		$sTestNew=str_replace('[<rn>]',"\r\n",$sTestNew);
-		$sTestNew=str_replace('[<n>]',"\r\n",$sTestNew);
 		
-		$oTopic->setText($sTestNew);
-		$oTopic->setTextShort($sTestShort);
+		$oTopic->setText($sTextNew);
+		$oTopic->setTextShort($sTextShort);
 		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());
