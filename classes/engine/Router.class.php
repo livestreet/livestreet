@@ -24,6 +24,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 require_once("Object.class.php");
 require_once("Action.class.php");
 require_once("Block.class.php");
+require_once("Hook.class.php");
 require_once("Module.class.php");
 require_once("Engine.class.php");
 
@@ -96,6 +97,7 @@ class Router extends Object {
 	public function Exec() {
 		$this->oEngine=Engine::getInstance();
 		$this->oEngine->InitModules();		
+		$this->oEngine->InitHooks();
 		$this->ExecAction();		
 		$this->AssignVars();
 		$this->Viewer_VarAssign();	

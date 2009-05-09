@@ -140,6 +140,26 @@ class Engine extends Object {
 		}
 	}
 	/**
+	 * Регистрирует хуки из /classes/hooks/
+	 *
+	 */
+	public function InitHooks() {
+		$sDirHooks=DIR_SERVER_ROOT.'/classes/hooks/';
+		if ($hDir = opendir($sDirHooks)) {
+			while (false !== ($sFile = readdir($hDir))) {
+				if ($sFile !='.' and $sFile !='..' and is_file($sDirHooks.$sFile)) {
+					if (preg_match("/^Hook([\w]+)\.class\.php$/i",$sFile,$aMatch)) {
+						require_once($sDirHooks.$sFile);
+						$sClassName='Hook'.$aMatch[1];
+						$oHook=new $sClassName;
+						$oHook->RegisterHook();
+					}										
+				}
+			}
+			closedir($hDir);
+		}
+	}
+	/**
 	 * Вызывает метод нужного модуля
 	 *
 	 * @param string $sName
