@@ -531,6 +531,10 @@ class ActionBlog extends Action {
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_good_show');
+		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
@@ -569,6 +573,10 @@ class ActionBlog extends Action {
 		 */	
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);		
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_bad_show');
+		/**
 		 * Загружаем переменные в шаблон
 		 */			
 		$this->Viewer_Assign('aPaging',$aPaging);
@@ -605,6 +613,10 @@ class ActionBlog extends Action {
 		 * Формируем постраничность
 		 */			
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);							
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_new_show');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -696,6 +708,10 @@ class ActionBlog extends Action {
 			$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
 			$this->Topic_SetTopicRead($oTopicRead);
 		}		
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
 		/**
 		 * Выставляем SEO данные
 		 */
@@ -806,7 +822,11 @@ class ActionBlog extends Action {
 			$oTopicRead->setCommentIdLast($iMaxIdComment);
 			$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
 			$this->Topic_SetTopicRead($oTopicRead);
-		}		
+		}
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));		
 		/**
 		 * Выставляем SEO данные
 		 */
@@ -895,7 +915,11 @@ class ActionBlog extends Action {
 		 */
 		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
 		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
-		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());		
+		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());	
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_collective_good_show',array('oBlog'=>$oBlog));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */				
@@ -983,6 +1007,10 @@ class ActionBlog extends Action {
 		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
 		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_collective_bad_show',array('oBlog'=>$oBlog));
+		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);			
@@ -1068,6 +1096,10 @@ class ActionBlog extends Action {
 		$aBlogUsers=$this->Blog_GetRelationBlogUsersByBlogId($oBlog->getId());
 		$aBlogModerators=$this->Blog_GetBlogModeratorsByBlogId($oBlog->getId());
 		$aBlogAdministrators=$this->Blog_GetBlogAdministratorsByBlogId($oBlog->getId());
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_collective_new_show',array('oBlog'=>$oBlog));
 		/**
 		 * Загружаем переменные в шаблон
 		 */

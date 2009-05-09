@@ -133,7 +133,11 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список блогов которые создал юзер
 		 */
-		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserProfile->getId());	
+		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserProfile->getId());
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('profile_whois_show',array("oUserProfile"=>$this->oUserProfile));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */

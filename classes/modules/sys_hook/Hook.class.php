@@ -63,7 +63,7 @@ class LsHook extends Module {
 		return $this->Add($sName,'hook',$sCallBack,$iPriority,$aParams);
 	}
 	
-	public function Run($sName,$aVars) {
+	public function Run($sName,$aVars=array()) {
 		if (isset($this->aHooks[$sName])) {
 			$aHookNum=array();
 			for ($i=0;$i<count($this->aHooks[$sName]);$i++) {

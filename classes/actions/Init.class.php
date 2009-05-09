@@ -59,6 +59,7 @@ class Init {
 		if (!$this->oUserCurrent and SITE_CLOSE_MODE and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
 			Router::Action('login');			
 		}
+		$this->Hook_Run('init_action');
 	}
 }
 ?>

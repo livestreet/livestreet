@@ -130,7 +130,10 @@ class ActionTopic extends Action {
 				}
 			}
 		}
-		
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_edit_show',array('oTopic'=>$oTopic));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -226,6 +229,10 @@ class ActionTopic extends Action {
 				}
 			}
 		}
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_add_show');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
