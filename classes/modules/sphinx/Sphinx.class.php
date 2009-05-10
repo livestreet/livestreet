@@ -16,7 +16,8 @@ class LsSphinx extends Module {
 		/**
 		 * Получаем объект Сфинкса(из Сфинкс АПИ)
 		 */
-		$this->oSphinx = new SphinxClient();		
+		$this->oSphinx = new SphinxClient();
+		$this->oSphinx->SetServer(SEARCH_SPHINX_HOST, intval(SEARCH_SPHINX_PORT));
 		/**
 		 * Устанавливаем тип сортировки
 		 */
@@ -52,7 +53,7 @@ class LsSphinx extends Module {
 		/**
 		 * используем кеширование при поиске
 		 */
-		$cacheKey = "searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}";		
+		$cacheKey = SEARCH_ENTITY_PREFIX."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}";		
 		if (false === ($data = $this->Cache_Get($cacheKey))) {	
 			/**
 			 * Параметры поиска
@@ -73,7 +74,7 @@ class LsSphinx extends Module {
 			/**
 			 * Ищем
 			 */
-			if(!is_array($data = $this->oSphinx->Query($sTerms, $sObjType.'Index'))) {
+			if(!is_array($data = $this->oSphinx->Query($sTerms, SEARCH_ENTITY_PREFIX.$sObjType.'Index'))) {
 				return FALSE; // Скорее всего недоступен демон searchd
 			}				
 			/**
@@ -105,7 +106,7 @@ class LsSphinx extends Module {
 	 * @return unknown
 	 */
 	public function GetSnippet($sText, $sIndex, $sTerms, $before_match, $after_match){
-		$aReturn = $this->oSphinx->BuildExcerpts(array($sText), $sIndex.'Index', $sTerms, array(
+		$aReturn = $this->oSphinx->BuildExcerpts(array($sText), SEARCH_ENTITY_PREFIX.$sIndex.'Index', $sTerms, array(
 				'before_match' => $before_match, 
 				'after_match' => $after_match, 
 			)
