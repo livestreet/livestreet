@@ -1,4 +1,4 @@
-<?
+<?php
 require_once(DIR_SERVER_ROOT.'/classes/lib/external/Sphinx/sphinxapi.php');
 
 /**

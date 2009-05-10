@@ -1,4 +1,4 @@
-<?
+<?php
 /*-------------------------------------------------------
 *
 *   LiveStreet Engine Social Networking

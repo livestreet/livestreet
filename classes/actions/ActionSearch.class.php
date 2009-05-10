@@ -1,4 +1,4 @@
-<?
+<?php
 class ActionSearch extends Action {	
 	private $sTypesEnabled = array('topics' => array('topic_publish' => 1), 'comments' => array('comment_delete' => 0));
 	private $aSphinxRes = null;
