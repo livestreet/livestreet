@@ -25,6 +25,7 @@ define('SITE_SKIN','new');
  * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
  * define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST'].'/subdir');
  * define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT'].'/subdir');
+ * и возможно придёться увеличить значение SYS_OFFSET_REQUEST_URL на число вложенных директорий, например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1 
  */
 define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST']); // полный WEB адрес сайта
 define('DIR_STATIC_ROOT',DIR_WEB_ROOT); // чтоб можно было статику засунуть на отдельный сервер

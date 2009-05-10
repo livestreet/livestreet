@@ -1,7 +1,7 @@
 LiveStreet 0.3
 
 УСТАНОВКА
-1. Выполнить SQL дамп(sql.sql), предварительно создав базу данных
+1. Выполнить SQL дамп(sql.sql), предварительно создав базу данных в кодировке/сравнение utf8_general_ci
 2. Настроить коннект к БД(config/config.db.php)
 3. Настроить необходимые параметры движка(config/config.php)
 4. Дать права 777 каталогам: logs, uploads, templates\compiled, templates\cache
