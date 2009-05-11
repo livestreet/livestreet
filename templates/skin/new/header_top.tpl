@@ -26,8 +26,6 @@
 			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/">{$aLang.blogs}</a></li>
 			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/">{$aLang.people}</a></li>
 			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/about/">{$aLang.page_about}</a></li>
-			<li {if $sAction=='page' and $sEvent=='download'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/download/">{$aLang.page_download}</a></li>
-			<li {if $sAction=='page' and $sEvent=='download'}class="active"{/if}><a href="http://trac.assembla.com/livestreet/timeline" target="_blank" style="color: #d00;">SVN</a></li>
 		</ul>
 		
 		{if $oUserCurrent}
