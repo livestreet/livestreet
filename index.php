@@ -34,7 +34,7 @@ $t2=microtime(true);
 ?>
 
 
-<? 
+<?php 
 $oUser=$oRouter->User_GetUserCurrent();
 if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) { 
 ?>
@@ -74,4 +74,4 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 	</tr>
 </table>
 </fieldset>
-<? } ?>
+<?php } ?>
