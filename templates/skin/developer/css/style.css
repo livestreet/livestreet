@@ -210,10 +210,6 @@ span.form-note { display: block; color: #aaa; font-size: 11px; line-height: 14px
 #nav .search input { font-family: Arial, Sans-Serif; }
 #nav .search .text { width: 150px; }
 
-/* Rss */
-#nav .rss { float: right; background: url(../images/icons.gif) no-repeat scroll 0 -270px; display: block; height: 11px; width: 74px; margin-top: 51px; margin-right: 10px; }
-#nav .rss:hover { background: url(../images/icons.gif) no-repeat scroll 0 -290px; }
-
 
 /* Topic
 -------------------------------------------------------------------*/
@@ -258,7 +254,9 @@ span.form-note { display: block; color: #aaa; font-size: 11px; line-height: 14px
 .topic .info li.comments a span.cm-new { color: #390; padding-left: 2px; }
 
 /* Content */
-.topic .content { margin-bottom: 15px; }
+.topic .content { margin-bottom: 15px; overflow: hidden; zoom: 1; }
+.topic .content img[align="left"] { margin: 4px 10px 10px 0; }
+.topic .content img[align="right"] { margin: 4px 0 10px 10px; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; }
