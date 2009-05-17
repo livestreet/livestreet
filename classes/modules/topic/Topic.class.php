@@ -134,26 +134,15 @@ class LsTopic extends Module {
 	}	
 		
 	/**
-	 * Получить топик по айдишнику учитывая его доступность(publish)
-	 * если publish=-1 то publish не учитывается при выборке
+	 * Получить топик по айдишнику
 	 *
 	 * @param unknown_type $sId
-	 * @param unknown_type $oUser
-	 * @param unknown_type $iPublish
 	 * @return unknown
 	 */
-	public function GetTopicById($sId,$oUser=null,$iPublish=1) {
-		$s='';
-		if (is_object($oUser)) {
-			$s=$oUser->getId();		
-		}
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}
-		if (false === ($data = $this->Cache_Get("topic_{$sId}_{$s}_{$s2}_{$iPublish}"))) {			
-			if ($data = $this->oMapperTopic->GetTopicById($sId,$oUser,$iPublish)) {				
-				$this->Cache_Set($data, "topic_{$sId}_{$s}_{$s2}_{$iPublish}", array("topic_update_{$data->getId()}","blog_update_{$data->getBlogId()}"), 60*5);
+	public function GetTopicById($sId) {
+		if (false === ($data = $this->Cache_Get("topic_{$sId}"))) {			
+			if ($data = $this->oMapperTopic->GetTopicById($sId)) {				
+				$this->Cache_Set($data, "topic_{$sId}", array("topic_update_{$data->getId()}","blog_update_{$data->getBlogId()}"), 60*60*24*5);
 			}			
 		}		
 		return $data;		
@@ -162,22 +151,12 @@ class LsTopic extends Module {
 	 * Получить список топиков по списку айдишников
 	 *
 	 * @param unknown_type $aArrayId
-	 * @param unknown_type $oUser
-	 * @param unknown_type $iPublish
 	 */
-	public function GetTopicsByArrayId($aArrayId,$oUser=null,$iPublish=1) {
-		$s='';
-		if (is_object($oUser)) {
-			$s=$oUser->getId();		
-		}
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}
+	public function GetTopicsByArrayId($aArrayId) {
 		$sIds=serialize($aArrayId);
-		if (false === ($data = $this->Cache_Get("topic_list_{$sIds}_{$s}_{$s2}_{$iPublish}"))) {			
-			if ($data = $this->oMapperTopic->GetTopicsByArrayId($aArrayId,$oUser,$iPublish)) {				
-				$this->Cache_Set($data, "topic_list_{$sIds}_{$s}_{$s2}_{$iPublish}", array("topic_update"), 60*5);
+		if (false === ($data = $this->Cache_Get("topic_list_{$sIds}"))) {			
+			if ($data = $this->oMapperTopic->GetTopicsByArrayId($aArrayId)) {				
+				$this->Cache_Set($data, "topic_list_{$sIds}", array("topic_update"), 60*60*24*4);
 			}			
 		}		
 		return $data;
@@ -191,14 +170,10 @@ class LsTopic extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage) {
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}
-		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$s2}_{$iCurrPage}_{$iPerPage}"))) {			
+	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$s2}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*5);
 		}
 		return $data;		
 	}
@@ -217,14 +192,10 @@ class LsTopic extends Module {
 	}
 	
 	protected function GetTopicsByFilter($aFilter,$iPage,$iPerPage) {
-		$s=serialize($aFilter);		
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}			
-		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$s2}_{$iPage}_{$iPerPage}"))) {			
+		$s=serialize($aFilter);
+		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_filter_{$s}_{$s2}_{$iPage}_{$iPerPage}", array('comment_new','topic_update','topic_new'), 60*5);
+			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('comment_new','topic_update','topic_new'), 60*60*24*3);
 		}
 		return $data;		
 	}
@@ -301,12 +272,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков хороших из персональных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsPersonalGood($iCount,$iPage,$iPerPage) {
+	public function GetTopicsPersonalGood($iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
@@ -322,12 +292,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков плохих из персональных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsPersonalBad($iCount,$iPage,$iPerPage) {
+	public function GetTopicsPersonalBad($iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
@@ -343,12 +312,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков новых из персональных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsPersonalNew($iCount,$iPage,$iPerPage) {
+	public function GetTopicsPersonalNew($iPage,$iPerPage) {
 		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
 		$aFilter=array(
 			'blog_type' => array(
@@ -380,12 +348,11 @@ class LsTopic extends Module {
 	 *
 	 * @param unknown_type $sUserId
 	 * @param unknown_type $iPublish
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsPersonalByUser($sUserId,$iPublish,$iCount,$iPage,$iPerPage) {
+	public function GetTopicsPersonalByUser($sUserId,$iPublish,$iPage,$iPerPage) {
 		$aFilter=array(			
 			'topic_publish' => $iPublish,
 			'user_id' => $sUserId,			
@@ -414,12 +381,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков хороших из коллективных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsCollectiveGood($iCount,$iPage,$iPerPage) {
+	public function GetTopicsCollectiveGood($iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
@@ -435,12 +401,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков плохих из коллективных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsCollectiveBad($iCount,$iPage,$iPerPage) {
+	public function GetTopicsCollectiveBad($iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
@@ -456,12 +421,11 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков новых из коллективных блогов
 	 *
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsCollectiveNew($iCount,$iPage,$iPerPage) {
+	public function GetTopicsCollectiveNew($iPage,$iPerPage) {
 		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
 		$aFilter=array(
 			'blog_type' => array(
@@ -495,14 +459,10 @@ class LsTopic extends Module {
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	public function GetTopicsRatingByDate($sDate,$iLimit=20) {	
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}
-		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$s2}_{$iLimit}"))) {			
+	public function GetTopicsRatingByDate($sDate,$iLimit=20) {
+		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$iLimit}"))) {
 			$data = $this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit);
-			$this->Cache_Set($data, "topic_rating_{$sDate}_{$s2}_{$iLimit}", array('topic_update'), 60*5);
+			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*5);
 		}
 		return $data;		
 	}	
@@ -510,12 +470,11 @@ class LsTopic extends Module {
 	 * Получает список топиков хороший из блога
 	 *
 	 * @param unknown_type $oBlog
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsByBlogGood($oBlog,$iCount,$iPage,$iPerPage) {
+	public function GetTopicsByBlogGood($oBlog,$iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
@@ -533,12 +492,11 @@ class LsTopic extends Module {
 	 * Получает список топиков плохих из блога
 	 *
 	 * @param unknown_type $oBlog
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsByBlogBad($oBlog,$iCount,$iPage,$iPerPage) {
+	public function GetTopicsByBlogBad($oBlog,$iPage,$iPerPage) {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
@@ -556,12 +514,11 @@ class LsTopic extends Module {
 	 * Получает список топиков новых из блога
 	 *
 	 * @param unknown_type $oBlog
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsByBlogNew($oBlog,$iCount,$iPage,$iPerPage) {
+	public function GetTopicsByBlogNew($oBlog,$iPage,$iPerPage) {
 		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
 		$aFilter=array(
 			'blog_type' => array(
@@ -597,12 +554,11 @@ class LsTopic extends Module {
 	 * Получает список топиков по тегу
 	 *
 	 * @param unknown_type $sTag
-	 * @param unknown_type $iCount
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage) {		
+	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*15);

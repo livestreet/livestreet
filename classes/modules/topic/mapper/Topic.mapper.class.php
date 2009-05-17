@@ -121,113 +121,14 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function GetTopicById($sId,$oUser,$iPublish) {
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}
-		$sWhereUser=' 1=1 ';
-		if ($iPublish!=-1) { //можно считать это костылём..
-			$sWhereUser=' t.topic_publish = '.(int)$iPublish.' ';
-			if ($oUser) {
-				$sWhereUser.=' OR t.user_id = '.(int)$oUser->getId();
-			}
-		}
+	public function GetTopicById($sId) {
 		$sql = "SELECT 
-				t.*,
-				u.user_login as user_login,
-				b.blog_type as blog_type,	
-				b.blog_url as blog_url,
-				b.blog_title as blog_title,
-				IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-				tv.vote_delta as user_vote_delta,
-				IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote			 
+					t.*	
 				FROM 
-					".DB_TABLE_TOPIC." as t
-					
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id
-					
-					LEFT JOIN (
-						SELECT
-							topic_id																			
-						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tqv ON tqv.topic_id = t.topic_id,
-					
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b
+					".DB_TABLE_TOPIC." as t					
 				WHERE 
-					t.topic_id = ?d 
-					AND 					
-						(							
-							".$sWhereUser."
-						)
-					AND
-					t.user_id=u.user_id
-					AND
-					t.blog_id=b.blog_id
-					";
-		/**
-		 * оптимизированный запрос
-		 */
-		$sql = "SELECT 
-					t_fast.*,
-					tc.*,
-					u.user_login as user_login,
-					b.blog_type as blog_type,	
-					b.blog_url as blog_url,
-					b.blog_title as blog_title,
-					b.user_owner_id as blog_owner_id,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-					bu.is_moderator as user_is_blog_moderator,
-					bu.is_administrator as user_is_blog_administrator
-				FROM
-					(
-						SELECT 
-							t.*							 
-						FROM 
-							".DB_TABLE_TOPIC." as t					
-						WHERE 
-								t.topic_id = ?d 
-							AND 					
-							(								 
-								".$sWhereUser."
-							)					
-					) AS t_fast
-					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id 
-					JOIN ".DB_TABLE_BLOG." AS b ON t_fast.blog_id=b.blog_id	
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON t_fast.topic_id=tv.topic_id
-					LEFT JOIN (
-						SELECT
-							is_moderator,
-							is_administrator,
-							blog_id												
-						FROM ".DB_TABLE_BLOG_USER." 
-						WHERE user_id = ?d
-					) AS bu ON t_fast.blog_id=bu.blog_id
-					LEFT JOIN (
-						SELECT
-							topic_id																			
-						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tqv ON t_fast.topic_id=tqv.topic_id
-					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
-					";
-		if ($aRow=$this->oDb->selectRow($sql,$sId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+					t.topic_id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
 			return new TopicEntity_Topic($aRow);
 		}
 		return null;
@@ -246,83 +147,22 @@ class Mapper_Topic extends Mapper {
 		return null;
 	}
 	
-	public function GetTopicsByArrayId($aArrayId,$oUser,$iPublish) {
+	public function GetTopicsByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-		
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}
-		$sWhereUser=' 1=1 ';
-		if ($iPublish!=-1) { //можно считать это костылём..
-			$sWhereUser=' t.topic_publish = '.(int)$iPublish.' ';
-			if ($oUser) {
-				$sWhereUser.=' OR t.user_id = '.(int)$oUser->getId();
-			}
-		}		
+				
 		$sql = "SELECT 
-					t_fast.*,
-					tc.*,
-					u.user_login as user_login,
-					b.blog_type as blog_type,	
-					b.blog_url as blog_url,
-					b.blog_title as blog_title,
-					b.user_owner_id as blog_owner_id,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-					bu.is_moderator as user_is_blog_moderator,
-					bu.is_administrator as user_is_blog_administrator,
-					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
-				FROM
-					(
-						SELECT 
-							t.*							 
-						FROM 
-							".DB_TABLE_TOPIC." as t					
-						WHERE 
-								t.topic_id IN(?a) 
-							AND 					
-							(								 
-								".$sWhereUser."
-							)					
-					) AS t_fast
-					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id 
-					JOIN ".DB_TABLE_BLOG." AS b ON t_fast.blog_id=b.blog_id	
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON t_fast.topic_id=tv.topic_id
-					LEFT JOIN (
-						SELECT
-							topic_id												
-						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
-						WHERE user_id = ?d
-					) AS ft ON t_fast.topic_id=ft.topic_id
-					LEFT JOIN (
-						SELECT
-							is_moderator,
-							is_administrator,
-							blog_id												
-						FROM ".DB_TABLE_BLOG_USER." 
-						WHERE user_id = ?d
-					) AS bu ON t_fast.blog_id=bu.blog_id
-					LEFT JOIN (
-						SELECT
-							topic_id																			
-						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tqv ON t_fast.topic_id=tqv.topic_id
-					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id	
-					ORDER BY FIELD(t_fast.topic_id,?a)
-					";
+					t.*							 
+				FROM 
+					".DB_TABLE_TOPIC." as t					
+				WHERE 
+					t.topic_id IN(?a) 
+					AND 					
+					t.publish = 1				
+				ORDER BY FIELD(t.topic_id,?a) ";
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -331,73 +171,10 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	
-	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {	
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}	
-		$sWhere=$this->buildFilter($aFilter);	
-			
-		$sql = "SELECT 
-					t.*,
-					tc.*,
-					u.user_login as user_login,
-					b.blog_title as blog_title,
-					b.blog_type as blog_type,
-					b.blog_url as blog_url,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta					
-				FROM 
-					".DB_TABLE_TOPIC." as t
-					
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id
-					LEFT JOIN  
-						".DB_TABLE_TOPIC_CONTENT." 
-					 AS tc ON tc.topic_id = t.topic_id,
-					 
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b 
-				WHERE 
-					1=1
-					
-					".$sWhere."								
-					
-					AND
-					t.blog_id=b.blog_id					
-					AND			
-					t.user_id=u.user_id					
-				ORDER by t.topic_date_add desc
-				LIMIT ?d, ?d
-				;	
-					";
+	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {
+		$sWhere=$this->buildFilter($aFilter);
 		
-		/**
-		 * запрос немного оптимизирован, почуствуй разницу :)
-		 * на самом деле его еще можно ускорить - во вложеном запросе убрать условие по типу блога и вынести его в JOIN + изменив фильтр(вынести из него тип блога)
-		 * и вообще от фильтра нужно избавляться, т.к. эта универсальной сказывается на быстродействии из-за разных комбинаций ключей
-		 * 
-		 * при таком запросе приходиться отдельно запрашивать общее число записей
-		 */
-		$sql = "
-				SELECT 
-					t_fast.*, 
-					tc.*,
-					u.user_login as user_login,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-					bu.is_moderator as user_is_blog_moderator,
-					bu.is_administrator as user_is_blog_administrator,
-					IF(tr.comment_count_last IS NULL,t_fast.topic_count_comment,t_fast.topic_count_comment-tr.comment_count_last) as count_comment_new,
-					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
-				FROM (
-					SELECT 
+		$sql = "SELECT 
 						t.*,	
 						b.blog_title as blog_title,
 						b.blog_type as blog_type,
@@ -407,62 +184,18 @@ class Mapper_Topic extends Mapper {
 						".DB_TABLE_TOPIC." as t,	
 						".DB_TABLE_BLOG." as b				
 					WHERE 
-						1=1
-					
-						".$sWhere."								
-					
+						1=1					
+						".$sWhere."					
 						AND
 						t.blog_id=b.blog_id											
-					ORDER by t.topic_date_add desc
-					LIMIT ?d, ?d
-				) as t_fast
-				JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id
-				LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON t_fast.topic_id=tv.topic_id 
-				LEFT JOIN (
-						SELECT
-							topic_id												
-						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
-						WHERE user_id = ?d
-					) AS ft ON t_fast.topic_id=ft.topic_id
-				LEFT JOIN (
-						SELECT
-							topic_id,
-							comment_count_last												
-						FROM ".DB_TABLE_TOPIC_READ." 
-						WHERE user_id = ?d
-					) AS tr ON t_fast.topic_id=tr.topic_id
-				LEFT JOIN (
-						SELECT
-							topic_id																			
-						FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tqv ON t_fast.topic_id=tqv.topic_id
-				LEFT JOIN (
-						SELECT
-							is_moderator,
-							is_administrator,
-							blog_id												
-						FROM ".DB_TABLE_BLOG_USER." 
-						WHERE user_id = ?d
-					) AS bu ON t_fast.blog_id=bu.blog_id
-				JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id
-				order by t_fast.topic_date_add desc
-				;	
-					";
-		
+					ORDER by t.topic_id desc
+					LIMIT ?d, ?d";		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,($iCurrPage-1)*$iPerPage, $iPerPage, $iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {			
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {			
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
-		}
-		$iCount=$this->GetCountTopics($aFilter);		
+		}				
 		return $aTopics;
 	}
 	
@@ -479,73 +212,16 @@ class Mapper_Topic extends Mapper {
 					".$sWhere."								
 					
 					AND
-					t.blog_id=b.blog_id		
-										
-				;	
-					";		
+					t.blog_id=b.blog_id	;";		
 		if ($aRow=$this->oDb->selectRow($sql)) {
 			return $aRow['count'];
 		}
 		return false;
 	}
 	
-	public function GetTopicsByTag($sTag,&$iCount,$iCurrPage,$iPerPage) {	
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}			
-		$sql = "SELECT 		
-					t.*,
-					u.user_login as user_login,
-					b.blog_title as blog_title,
-					b.blog_type as blog_type,
-					b.blog_url as blog_url,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta					
-				FROM 
-					".DB_TABLE_TOPIC_TAG." as tt,
-					".DB_TABLE_TOPIC." as t
-					
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id,
-					
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b 
-				WHERE 
-					tt.topic_tag_text = ? 
-					AND
-					t.topic_id = tt.topic_id					 								
-					AND
-					t.topic_publish = 1
-					AND					
-					b.blog_type in ('personal','open')					
-					AND
-					t.blog_id=b.blog_id					
-					AND			
-					t.user_id=u.user_id					
-				ORDER by t.topic_date_add desc 
-				LIMIT ?d, ?d
-				;	
-					";
-		/**
-		 * оптимизирован
-		 */
+	public function GetTopicsByTag($sTag,&$iCount,$iCurrPage,$iPerPage) {		
 		$sql = "	SELECT
-						t.*,
-                        tc.*,
-                        u.user_login as user_login,
-                        b.blog_title as blog_title,
-						b.blog_type as blog_type,
-						b.blog_url as blog_url,
-                        IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-						tv.vote_delta as user_vote_delta,
-						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-						IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
+						t.*
 					FROM (				
 							SELECT 		
 								topic_id										
@@ -556,35 +232,10 @@ class Mapper_Topic extends Mapper {
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d				
 						 ) as tt
-						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id
-						 JOIN ".DB_TABLE_USER." AS u ON t.user_id=u.user_id
-						 JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id	
-						 LEFT JOIN (
-								SELECT
-									topic_id,
-									vote_delta												
-								FROM ".DB_TABLE_TOPIC_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tv ON tt.topic_id=tv.topic_id
-						LEFT JOIN (
-								SELECT
-									topic_id												
-								FROM ".DB_TABLE_FAVOURITE_TOPIC." 
-								WHERE user_id = ?d
-								) AS ft ON tt.topic_id=ft.topic_id
-						 LEFT JOIN (
-								SELECT
-									topic_id																			
-								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tqv ON tt.topic_id=tqv.topic_id
-                         LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
-                         order by t.topic_id desc
-				;	
-					";
+						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id ;";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -607,106 +258,21 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function GetTopicsRatingByDate($sDate,$iLimit) {		
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}		
+	public function GetTopicsRatingByDate($sDate,$iLimit) {
 		$sql = "SELECT 
-					t.*,
-					u.user_login as user_login,
-					b.blog_title as blog_title,
-					b.blog_type as blog_type,
-					b.blog_url as blog_url,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta					
-				FROM 
-					".DB_TABLE_TOPIC." as t
-					
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id,
-					
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b 
-				WHERE 
-					t.topic_date_add >= ? 								
-					AND
-					t.topic_publish = 1
-					AND					
-					b.blog_type in ('personal','open')
-					AND
-					t.topic_rating >= 0
-					AND
-					t.blog_id=b.blog_id					
-					AND			
-					t.user_id=u.user_id					
-				ORDER by t.topic_rating desc, t.topic_date_add desc
-				LIMIT 0, ?d ;	
-					";
-		/**
-		 * оптимизирован
-		 */
-		$sql = "SELECT
-					t_fast.*,
-					tc.*,
-					u.user_login as user_login,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta,
-					IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-					IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
-				FROM (
-					SELECT 
-						t.*,
-						b.blog_title as blog_title,
-						b.blog_type as blog_type,
-						b.blog_url as blog_url										
+						t.*										
 					FROM 
-						".DB_TABLE_TOPIC." as t,					
-						".DB_TABLE_BLOG." as b 
+						".DB_TABLE_TOPIC." as t
 					WHERE 					
 						t.topic_publish = 1
 						AND
 						t.topic_date_add >= ? 								
 						AND
-						t.topic_rating >= 0
-						AND
-						t.blog_id=b.blog_id
-						AND					
-						b.blog_type in ('personal','open')											
+						t.topic_rating >= 0 																	
 					ORDER by t.topic_rating desc, t.topic_id desc
-					LIMIT 0, ?d 	
-					) AS t_fast
-					JOIN ".DB_TABLE_USER." AS u ON t_fast.user_id=u.user_id
-					LEFT JOIN (
-								SELECT
-									topic_id,
-									vote_delta												
-								FROM ".DB_TABLE_TOPIC_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tv ON t_fast.topic_id=tv.topic_id
-					LEFT JOIN (
-						SELECT
-							topic_id												
-						FROM ".DB_TABLE_FAVOURITE_TOPIC." 
-						WHERE user_id = ?d
-					) AS ft ON t_fast.topic_id=ft.topic_id
-					LEFT JOIN (
-								SELECT
-									topic_id																			
-								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tqv ON t_fast.topic_id=tqv.topic_id
-					JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON t_fast.topic_id=tc.topic_id 
-					order by t_fast.topic_rating desc
-					";
-		
+					LIMIT 0, ?d ";		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
@@ -914,64 +480,10 @@ class Mapper_Topic extends Mapper {
 		return null;
 	}
 	
-	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {		
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}		
-		$sql = "SELECT 
-					t.*,
-					u.user_login as user_login,
-					b.blog_title as blog_title,
-					b.blog_type as blog_type,
-					b.blog_url as blog_url,
-					IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-					tv.vote_delta as user_vote_delta					
-				FROM 
-					".DB_TABLE_FAVOURITE_TOPIC." as ft,
-					".DB_TABLE_TOPIC." as t
-					
-					LEFT JOIN (
-						SELECT
-							topic_id,
-							vote_delta												
-						FROM ".DB_TABLE_TOPIC_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS tv ON tv.topic_id = t.topic_id,
-					
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b 
-				WHERE 
-					ft.user_id = ? 								
-					AND
-					ft.topic_id=t.topic_id
-					AND
-					t.topic_publish = 1
-					AND					
-					b.blog_type in ('personal','open')					
-					AND
-					t.blog_id=b.blog_id					
-					AND			
-					t.user_id=u.user_id					
-				ORDER BY t.topic_date_add desc
-				LIMIT ?d, ?d ;	
-					";
-		
-		
-		
-		
+	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {				
 		
 		$sql = "	SELECT
-						t.*,
-                        tc.*,
-                        u.user_login as user_login,
-                        b.blog_title as blog_title,
-						b.blog_type as blog_type,
-						b.blog_url as blog_url,
-                        IF(tv.topic_id IS NULL,0,1) as user_is_vote,
-						tv.vote_delta as user_vote_delta,
-						IF(tqv.topic_id IS NULL,0,1) as user_question_is_vote,
-						IF(ft.topic_id IS NULL,0,1) as topic_is_favourite
+						t.*
 					FROM (				
 							SELECT 		
 								topic_id										
@@ -984,35 +496,10 @@ class Mapper_Topic extends Mapper {
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d				
 						 ) as tt
-						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id
-						 JOIN ".DB_TABLE_USER." AS u ON t.user_id=u.user_id
-						 JOIN ".DB_TABLE_BLOG." AS b ON t.blog_id=b.blog_id	
-						 LEFT JOIN (
-								SELECT
-									topic_id,
-									vote_delta												
-								FROM ".DB_TABLE_TOPIC_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tv ON tt.topic_id=tv.topic_id
-						LEFT JOIN (
-								SELECT
-									topic_id												
-								FROM ".DB_TABLE_FAVOURITE_TOPIC." 
-								WHERE user_id = ?d
-								) AS ft ON tt.topic_id=ft.topic_id
-						 LEFT JOIN (
-								SELECT
-									topic_id																			
-								FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." 
-								WHERE user_voter_id = ?d
-								) AS tqv ON tt.topic_id=tqv.topic_id
-                         LEFT JOIN ".DB_TABLE_TOPIC_CONTENT." AS tc ON tt.topic_id=tc.topic_id
-                         order by t.topic_id DESC
-				;	
-					";
+						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id ;";
 		
 		$aTopics=array();		
-		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage,$iCurrentUserId,$iCurrentUserId,$iCurrentUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=new TopicEntity_Topic($aTopic);
 			}
