@@ -23,14 +23,65 @@ require_once('mapper/Talk.mapper.class.php');
  *
  */
 class LsTalk extends Module {		
-	protected $oMapper;
+	protected $oMapper;	
 		
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {		
-		$this->oMapper=new Mapper_Talk($this->Database_GetConnect());
+		$this->oMapper=new Mapper_Talk($this->Database_GetConnect());		
+	}
+	/**
+	 * Формирует и отправляет личное сообщение
+	 *
+	 * @param string $sTitle
+	 * @param string $sText
+	 * @param int | UserEntity_User $oUserFrom
+	 * @param array | int | UserEntity_User $aUserTo
+	 * @param bool $bSendNotify
+	 */
+	public function SendTalk($sTitle,$sText,$oUserFrom,$aUserTo,$bSendNotify=true) {
+		$iUserIdFrom=$oUserFrom instanceof UserEntity_User ? $oUserFrom->getId() : (int)$oUserFrom;
+		if (!is_array($aUserTo)) {
+			$aUserTo=array($aUserTo);
+		}
+		$aUserIdTo=array($iUserIdFrom);		
+		foreach ($aUserTo as $oUserTo) {
+			$aUserIdTo[]=$oUserTo instanceof UserEntity_User ? $oUserTo->getId() : (int)$oUserTo;
+		}
+		$aUserIdTo=array_unique($aUserIdTo);
+		
+		$oTalk=new TalkEntity_Talk();
+		$oTalk->setUserId($iUserIdFrom);
+		$oTalk->setTitle($sTitle);
+		$oTalk->setText($sText);
+		$oTalk->setDate(date("Y-m-d H:i:s"));
+		$oTalk->setDateLast(date("Y-m-d H:i:s"));
+		$oTalk->setUserIp(func_getIp());
+		if ($oTalk=$this->Talk_AddTalk($oTalk)) {
+			foreach ($aUserIdTo as $iUserId) {
+				$oTalkUser=new TalkEntity_TalkUser();
+				$oTalkUser->setTalkId($oTalk->getId());
+				$oTalkUser->setUserId($iUserId);
+				if ($iUserId==$iUserIdFrom) {
+					$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
+				} else {
+					$oTalkUser->setDateLast(null);
+				}
+				$this->Talk_AddTalkUser($oTalkUser);
+
+				if ($bSendNotify) {
+					if ($iUserId!=$iUserIdFrom) {
+						$oUserFrom=$this->User_GetUserById($iUserIdFrom);
+						$oUserToMail=$this->User_GetUserById($iUserId);
+						$this->Notify_SendTalkNew($oUserToMail,$oUserFrom,$oTalk);
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Добавляет новую тему разговора

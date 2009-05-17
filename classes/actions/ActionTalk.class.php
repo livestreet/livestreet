@@ -123,50 +123,13 @@ class ActionTalk extends Action {
 		if (!$this->checkTalkFields()) {
 			return false;	
 		}					
-								
-		/**
-		 * Теперь можно смело добавлять
-		 */
-		$oTalk=new TalkEntity_Talk();		
-		$oTalk->setUserId($this->oUserCurrent->getId());		
-		$oTalk->setTitle(getRequest('talk_title'));	
-		/**
-		 * Парсим на предмет ХТМЛ тегов
-		 */
-		$sText=$this->Text_Parser(getRequest('talk_text'));					
-		$oTalk->setText($sText);		
-		$oTalk->setDate(date("Y-m-d H:i:s"));
-		$oTalk->setDateLast(date("Y-m-d H:i:s"));
-		$oTalk->setUserIp(func_getIp());
-						
-		/**
-		 * Добавляем
-		 */
-		if ($oTalk=$this->Talk_AddTalk($oTalk)) {
-			/**
-			 * Тут добавляем всех читателей этого сообщения(автора сообщения также добавляем, т.к. он читатель собственной мессаги :) )
-			 */
-			$this->aUsersId[]=$this->oUserCurrent->getId();
-			foreach ($this->aUsersId as $iUserId) {
-				$oTalkUser=new TalkEntity_TalkUser();
-				$oTalkUser->setTalkId($oTalk->getId());
-				$oTalkUser->setUserId($iUserId);
-				$oTalkUser->setDateLast(null);
-				$this->Talk_AddTalkUser($oTalkUser);
-				
-				/**
-				 * Отправляем уведомления
-				 */
-				if ($iUserId!=$this->oUserCurrent->getId()) {					
-					$oUserToMail=$this->User_GetUserById($iUserId);					
-					$this->Notify_SendTalkNew($oUserToMail,$this->oUserCurrent,$oTalk);
-				}
-			}			
+
+		if ($this->Talk_SendTalk($this->Text_Parser(getRequest('talk_title')),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
-		}		
+		}				
 	}
 	
 	
