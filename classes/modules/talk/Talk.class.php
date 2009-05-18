@@ -79,7 +79,7 @@ class LsTalk extends Module {
 					}
 				}
 			}
-			return true;
+			return $oTalk;
 		}
 		return false;
 	}
