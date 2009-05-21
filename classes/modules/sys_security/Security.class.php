@@ -38,10 +38,12 @@ class LsSecurity extends Module {
 	
 	public function ValidateReferal() {
 		if (isset($_SERVER['HTTP_REFERER'])) {
-			$aUrl=parse_url($_SERVER['HTTP_REFERER']);
+			$aUrl=parse_url($_SERVER['HTTP_REFERER']);				
 			if ($aUrl['host']==$_SERVER['HTTP_HOST']) {
 				return true;
-			}			
+			} elseif (preg_match("/\.".quotemeta($_SERVER['HTTP_HOST'])."$/i",$aUrl['host'])) {				 
+				return true;				
+			}		
 		}
 		return false;
 	}
