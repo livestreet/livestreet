@@ -67,7 +67,8 @@ class ActionTalk extends Action {
 	 **********************************************************************************
 	 */
 	
-	protected function EventDelete() {		
+	protected function EventDelete() {
+		$this->Security_ValidateSendForm();
 		/**
 		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
 		 */
@@ -93,6 +94,7 @@ class ActionTalk extends Action {
 		 * Обработка удаления сообщений
 		 */
 		if (isset($_REQUEST['submit_talk_del'])) {
+			$this->Security_ValidateSendForm();
 			$aTalksIdDel=getRequest('talk_del');
 			if (is_array($aTalksIdDel)) {
 				foreach ($aTalksIdDel as $sTalkId => $value) {
@@ -116,7 +118,8 @@ class ActionTalk extends Action {
 		 */		
 		if (!isset($_REQUEST['submit_talk_add'])) {
 			return false;
-		}		
+		}	
+		$this->Security_ValidateSendForm();	
 		/**
 		 * Проверка корректности полей формы
 		 */
@@ -263,7 +266,8 @@ class ActionTalk extends Action {
 		/**
 		 * Если нажали кнопку "Отправить"
 		 */
-		if (isset($_REQUEST['submit_comment'])) {			
+		if (isset($_REQUEST['submit_comment'])) {
+			$this->Security_ValidateSendForm();
 			/**
 			 * Проверяем текст комментария
 			 */

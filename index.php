@@ -16,7 +16,7 @@
 */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-define('LS_VERSION','0.3');
+define('LS_VERSION','0.3.1');
 define('SYS_HACKER_CONSOLE',false);
 header('Content-Type: text/html; charset=utf-8');
 
@@ -34,7 +34,7 @@ $t2=microtime(true);
 ?>
 
 
-<? 
+<?php 
 $oUser=$oRouter->User_GetUserCurrent();
 if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) { 
 ?>
@@ -74,4 +74,4 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 	</tr>
 </table>
 </fieldset>
-<? } ?>
+<?php } ?>

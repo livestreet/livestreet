@@ -221,7 +221,8 @@ class ActionQuestion extends Action {
 		 */		
 		if (!isset($_REQUEST['submit_topic_publish']) and !isset($_REQUEST['submit_topic_save'])) {
 			return false;
-		}		
+		}
+		$this->Security_ValidateSendForm();		
 		/**
 		 * Проверка корректности полей формы
 		 */
@@ -357,7 +358,8 @@ class ActionQuestion extends Action {
 		 */
 		if (!$this->checkTopicFields($oTopic)) {
 			return false;	
-		}		
+		}	
+		$this->Security_ValidateSendForm();	
 		/**
 		 * Определяем в какой блог делаем запись
 		 */

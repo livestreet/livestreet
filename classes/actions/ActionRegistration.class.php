@@ -71,6 +71,7 @@ class ActionRegistration extends Action {
 		 * Если нажали кнопку "Зарегистрироваться"
 		 */
 		if (isset($_REQUEST['submit_register'])) {
+			$this->Security_ValidateSendForm();
 			//Проверяем  входные данные
 			$bError=false;
 			/**
@@ -249,7 +250,8 @@ class ActionRegistration extends Action {
 			return parent::EventNotFound();
 		}
 			
-		if (isset($_REQUEST['submit_invite'])) {				
+		if (isset($_REQUEST['submit_invite'])) {
+			$this->Security_ValidateSendForm();
 			/**
 			 * проверяем код приглашения на валидность
 			 */

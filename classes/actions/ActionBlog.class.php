@@ -171,7 +171,8 @@ class ActionBlog extends Action {
 		 */
 		if (!$this->checkBlogFields()) {
 			return false;	
-		}		
+		}
+		$this->Security_ValidateSendForm();		
 		/**
 		 * Если всё ок то пытаемся создать блог
 		 */
@@ -192,7 +193,7 @@ class ActionBlog extends Action {
 		/**
 		* Загрузка аватара, делаем ресайзы
 		*/			
-		if (is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 			$sFileTmp=$_FILES['avatar']['tmp_name'];
 			if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {
 				func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
@@ -271,6 +272,7 @@ class ActionBlog extends Action {
 		 * Если нажали кнопку "Сохранить"
 		 */
 		if (isset($_REQUEST['submit_blog_add'])) {
+			$this->Security_ValidateSendForm();
 			/**
 			 * Запускаем проверку корректности ввода полей при редактировании блога
 			 */
@@ -289,7 +291,7 @@ class ActionBlog extends Action {
 			/**
 			 * Загрузка аватара, делаем ресайзы
 			 */			
-			if (is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
+			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
 				$sFileTmp=$_FILES['avatar']['tmp_name'];
 				if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {					
 					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
@@ -372,6 +374,7 @@ class ActionBlog extends Action {
 		 * Обрабатываем сохранение формы
 		 */
 		if (isset($_REQUEST['submit_blog_admin'])) {
+			$this->Security_ValidateSendForm();
 			$aUserRank=getRequest('user_rank',array());
 			if (!is_array($aUserRank)) {
 				$aUserRank=array();
@@ -1131,6 +1134,7 @@ class ActionBlog extends Action {
 		 * Если нажали кнопку "Отправить"
 		 */
 		if (isset($_REQUEST['submit_comment'])) {
+			$this->Security_ValidateSendForm();
 			/**
 			 * Проверяем авторизованл ли пользователь
 			 */
