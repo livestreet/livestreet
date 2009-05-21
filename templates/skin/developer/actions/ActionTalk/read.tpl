@@ -23,7 +23,7 @@
 <div class="comments">
 				
 	<div class="header">
-		{if $oTalk->getCountComment()}<h3>{$aLang.talk_comments} ({$oTalk->getCountComment()}){/if}</h3>					
+		{if $oTalk->getCountComment()}<h3>{$aLang.talk_comments} ({$oTalk->getCountComment()})</h3>{/if}			
 	</div>
 	
 

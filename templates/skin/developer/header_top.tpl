@@ -40,7 +40,7 @@
 			<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="submit-topic">Написать</a>&nbsp;/&nbsp;</li>
 			<li>
 				{if $iUserCurrentCountTalkNew}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="new-message" title="{$aLang.user_privat_messages_new}">{$aLang.user_privat_messages_alt} ({$iUserCurrentCountTalkNew})</a>&nbsp;/&nbsp;
+					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="new-message" title="{$aLang.user_privat_messages_new}">{$aLang.user_privat_messages} ({$iUserCurrentCountTalkNew})</a>&nbsp;/&nbsp;
 				{else}
 					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">{$aLang.user_privat_messages} (0)</a>&nbsp;/&nbsp;
 				{/if}

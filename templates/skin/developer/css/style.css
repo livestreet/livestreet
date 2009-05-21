@@ -468,7 +468,7 @@ span.form-note { display: block; color: #aaa; font-size: 11px; line-height: 14px
 -------------------------------------------------------------------*/
 .data { width: 100%; }
 .data td { padding: 5px 0; }
-.data td.var { font-weight: bold; width: 200px; }
+.data td.var { font-weight: bold; width: 200px; vertical-align: top; }
 
 
 /* System Messages
