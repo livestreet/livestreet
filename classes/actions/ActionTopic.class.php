@@ -171,7 +171,8 @@ class ActionTopic extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function EventDelete() {		
+	protected function EventDelete() {
+		$this->Security_ValidateSendForm();
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
@@ -323,7 +324,8 @@ class ActionTopic extends Action {
 		 */		
 		if (!isset($_REQUEST['submit_topic_publish']) and !isset($_REQUEST['submit_topic_save'])) {
 			return false;
-		}		
+		}	
+		$this->Security_ValidateSendForm();	
 		/**
 		 * Проверка корректности полей формы
 		 */
@@ -473,7 +475,8 @@ class ActionTopic extends Action {
 		 */
 		if (!$this->checkTopicFields()) {
 			return false;	
-		}		
+		}	
+		$this->Security_ValidateSendForm();	
 		/**
 		 * Определяем в какой блог делаем запись
 		 */

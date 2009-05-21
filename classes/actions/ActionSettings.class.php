@@ -78,7 +78,8 @@ class ActionSettings extends Action {
 		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
 		
-		if (isset($_REQUEST['submit_settings_tuning'])) {			
+		if (isset($_REQUEST['submit_settings_tuning'])) {
+			$this->Security_ValidateSendForm();
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewTalk( getRequest('settings_notice_new_talk') ? 1 : 0 );
@@ -108,6 +109,7 @@ class ActionSettings extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));		
 		
 		if (isset($_REQUEST['submit_invite'])) {
+			$this->Security_ValidateSendForm();
 			$bError=false;
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));		
@@ -138,6 +140,7 @@ class ActionSettings extends Action {
 		 * Если нажали кнопку "Сохранить"
 		 */
 		if (isset($_REQUEST['submit_profile_edit'])) {
+			$this->Security_ValidateSendForm();
 			$bError=false;			
 			/**
 		 	* Заполняем профиль из полей формы
@@ -263,7 +266,7 @@ class ActionSettings extends Action {
 			/**
 			 * Загрузка аватара, делаем ресайзы
 			 */			
-			if (is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
+			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
 				$sFileTmp=$_FILES['avatar']['tmp_name'];
 				if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$this->oUserCurrent->getId(),'avatar_100x100',3000,3000,100,100)) {
 					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$this->oUserCurrent->getId(),'avatar_64x64',3000,3000,64,64);
@@ -292,7 +295,7 @@ class ActionSettings extends Action {
 			/**
 			 * Загрузка фото, делаем ресайзы
 			 */			
-			if (is_uploaded_file($_FILES['foto']['tmp_name'])) {	
+			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {	
 				$sDirUpload=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$this->oUserCurrent->getId();			
 				$sFileTmp=$_FILES['foto']['tmp_name'];
 				if ($sFileFoto=func_img_resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250)) {	

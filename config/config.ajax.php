@@ -27,4 +27,5 @@ require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.
 $JsHttpRequest = new JsHttpRequest("UTF-8");
 $oEngine=Engine::getInstance();
 $oEngine->InitModules();
+$oEngine->Security_ValidateSendForm();
 ?>

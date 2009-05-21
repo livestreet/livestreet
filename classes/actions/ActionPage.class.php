@@ -138,6 +138,7 @@ class ActionPage extends Action {
 		 * Замечание: если используется тип таблиц MyISAM, а InnoDB то возможно некорректное удаление вложенных страниц
 		 */
 		if ($this->GetParam(0)=='delete') {
+			$this->Security_ValidateSendForm();
 			if ($this->Page_deletePageById($this->GetParam(1))) {
 				$this->Message_AddNotice($this->Lang_Get('page_admin_action_delete_ok'));
 			} else {
@@ -166,7 +167,7 @@ class ActionPage extends Action {
 		if (!$this->CheckPageFields()) {
 			return ;
 		}
-		
+		$this->Security_ValidateSendForm();
 		if ($oPageEdit->getId()==getRequest('page_pid')) {
 			$this->Message_AddError($this->Lang_Get('system_error'));
 			return;
@@ -213,6 +214,7 @@ class ActionPage extends Action {
 		if (!$this->CheckPageFields()) {
 			return ;
 		}
+		$this->Security_ValidateSendForm();
 		/**
 		 * Заполняем свойства
 		 */
