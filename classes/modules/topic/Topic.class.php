@@ -36,6 +36,54 @@ class LsTopic extends Module {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**
+	 * Получает дополнительные данные(объекты) для топиков по их ID
+	 *
+	 */
+	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user','blog','content','vote')) {
+		func_array_simpleflip($aAllowData);
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		/**
+		 * Получаем "голые" топики
+		 */
+		$aTopics=$this->GetTopicsByArrayId($aTopicId);
+		/**
+		 * Формируем ID дополнительных данных, которые нужно получить
+		 */
+		$aUserId=array();
+		$aBlogId=array();
+		foreach ($aTopics as $oTopic) {
+			if (isset($aAllowData['user'])) {
+				$aUserId[]=$oTopic->getUserId();
+			}
+			if (isset($aAllowData['blog'])) {
+				$aBlogId[]=$oTopic->getBlogId();
+			}			
+		}
+		/**
+		 * Получаем дополнительные данные
+		 */
+		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
+		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);		
+		/**
+		 * Добавляем данные к результату - списку топиков
+		 */
+		foreach ($aTopics as $oTopic) {
+			if (isset($aUsers[$oTopic->getUserId()])) {
+				$oTopic->setUser($aUsers[$oTopic->getUserId()]);
+			} else {
+				$oTopic->setUser(null); // или $oTopic->setUser(new UserEntity_User());
+			}
+			if (isset($aBlogs[$oTopic->getBlogId()])) {
+				$oTopic->setBlog($aBlogs[$oTopic->getBlogId()]);
+			} else {
+				$oTopic->setBlog(null); // или $oTopic->setBlog(new BlogEntity_Blog());
+			}
+		}
+		return $aTopics;
+	}
+	/**
 	 * Добавляет топик
 	 *
 	 * @param TopicEntity_Topic $oTopic
@@ -139,27 +187,51 @@ class LsTopic extends Module {
 	 * @param unknown_type $sId
 	 * @return unknown
 	 */
-	public function GetTopicById($sId) {
-		if (false === ($data = $this->Cache_Get("topic_{$sId}"))) {			
-			if ($data = $this->oMapperTopic->GetTopicById($sId)) {				
-				$this->Cache_Set($data, "topic_{$sId}", array("topic_update_{$data->getId()}","blog_update_{$data->getBlogId()}"), 60*60*24*5);
-			}			
-		}		
-		return $data;		
+	public function GetTopicById($sId) {		
+		$aTopics=$this->GetTopicsByArrayId(array($sId));
+		if (count($aTopics)>0) {
+			return $aTopics[0];
+		}
+		return null;
 	}	
 	/**
 	 * Получить список топиков по списку айдишников
 	 *
-	 * @param unknown_type $aArrayId
+	 * @param unknown_type $aTopicId
 	 */
-	public function GetTopicsByArrayId($aArrayId) {
-		$sIds=serialize($aArrayId);
-		if (false === ($data = $this->Cache_Get("topic_list_{$sIds}"))) {			
-			if ($data = $this->oMapperTopic->GetTopicsByArrayId($aArrayId)) {				
-				$this->Cache_Set($data, "topic_list_{$sIds}", array("topic_update"), 60*60*24*4);
-			}			
-		}		
-		return $data;
+	public function GetTopicsByArrayId($aTopicId) {		
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopics=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aTopicId,'topic_');
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aTopics[$data[$sKey]->getId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 */		
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopics));
+		if ($data = $this->oMapper->GetTopicsByArrayId($aTopicIdNeedQuery)) {
+			foreach ($data as $oTopic) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aTopics[$oTopic->getId()]=$oTopic;
+				$this->Cache_Set($oTopic, "topic_{$oTopic->getId()}", array("topic_update_{$oTopic->getId()}"), 60*60*24*4);
+			}
+		}
+		return $aTopics;
 	}
 	/**
 	 * Получает список топиков из избранного

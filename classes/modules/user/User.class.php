@@ -52,6 +52,61 @@ class LsUser extends Module {
 		$this->AutoUpdateUser();				
 	}
 	/**
+	 * Получает дополнительные данные(объекты) для юзеров по их ID
+	 *
+	 */
+	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote')) {
+		func_array_simpleflip($aAllowData);
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		/**
+		 * Получаем юзеров
+		 */
+		$aUsers=$this->GetUsersByArrayId($aUserId);
+		
+		return $aUsers;
+	}
+	/**
+	 * Список юзеров по ID
+	 *
+	 * @param array $aUserId
+	 */
+	public function GetUsersByArrayId($aUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUsers=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aUserId,'user_');
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aUsers[$data[$sKey]->getId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
+		 */		
+		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aUsers));
+		if ($data = $this->oMapper->GetUsersByArrayId($aUserIdNeedQuery)) {
+			foreach ($data as $oUser) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aUsers[$oUser->getId()]=$oUser;
+				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array("user_update_{$oUser->getId()}"), 60*60*24*4);
+			}
+		}
+		return $aUsers;		
+	}
+	/**
 	 * При завершенни модуля загружаем в шалон объект текущего юзера
 	 *
 	 */

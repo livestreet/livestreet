@@ -384,4 +384,38 @@ function func_text_words($sText,$iCountWords) {
 	return $sText;	
 }
 
+/**
+ * Изменяет элементы массива
+ *
+ * @param unknown_type $array
+ * @param unknown_type $sBefore
+ * @param unknown_type $sAfter
+ * @return array
+ */
+function func_array_change_value($array,$sBefore='',$sAfter='') {
+	foreach ($array as $key => $value) {
+		if (is_array($value)) {
+			$array[$key]=func_change_array_value($value,$sBefore,$sAfter);
+		} elseif (!is_object($value)) {
+			$array[$key]=$sBefore.$array[$key].$sAfter;
+		}
+	}
+	return $array;
+}
+
+/**
+ * Меняет числовые ключи массива на их значения
+ *
+ * @param unknown_type $arr
+ * @param unknown_type $sDefValue
+ */
+function func_array_simpleflip(&$arr,$sDefValue=1) {
+	foreach ($arr as $key => $value) {
+		if (is_int($key) and is_string($value)) {
+			unset($arr[$key]);
+			$arr[$value]=$sDefValue;
+		}
+	}
+}
+
 ?>
