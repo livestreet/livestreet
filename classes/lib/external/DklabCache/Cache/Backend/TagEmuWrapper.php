@@ -6,13 +6,13 @@
  * increases the data read cost (the more tags are assigned to a key,
  * the more read cost becomes).
  *
- * $Id: MetaForm.php 238 2008-03-17 21:07:17Z dk $
+ * $Id$
  */
 require_once "Zend/Cache/Backend/Interface.php";
  
 class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface 
 {
-    const VERSION = "01";
+    const VERSION = "1.50";
     
     private $_backend = null;
     
@@ -34,7 +34,7 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
         return $this->_loadOrTest($id, $doNotTestCacheValidity, false);
     }
     
-    
+   
     public function save($data, $id, $tags = array(), $specificLifetime = false)
     {
         // Save/update tags as usual infinite keys with value of tag version.
@@ -84,7 +84,6 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
     }
     
     
-    
     /**
      * Mangles the name to deny intersection of tag keys & data keys.
      * Mangled tag names are NOT saved in memcache $combined[0] value,
@@ -98,6 +97,22 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
         return __CLASS__ . "_" . self::VERSION . "_" . $tag;
     }
 
+
+    /**
+     * The same as _mangleTag(), but mangles a list of tags.
+     * 
+     * @see self::_mangleTag
+     * @param array $tags   Tags to mangle.
+     * @return array        List of mangled tags.
+     */
+    private function _mangleTags($tags)
+    {
+        foreach ($tags as $i => $tag) {
+            $tags[$i] = $this->_mangleTag($tag);
+        }
+        return $tags;
+    }
+    
 
     /**
      * Common method called from load() and test().
@@ -121,11 +136,27 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
         } 
         // Test if all tags has the same version as when the slot was created
         // (i.e. still not removed and then recreated).
-        if (is_array($combined[0])) {
-            foreach ($combined[0] as $tag => $savedTagVersion) {
-                $actualTagVersion = $this->_backend->load($this->_mangleTag($tag));
-                if ($actualTagVersion !== $savedTagVersion) {
-                    return false;
+        if (is_array($combined[0]) && $combined[0]) {
+            if (method_exists($this->_backend, 'multiLoad')) {
+                // If we have multiLoad(), optimize queries into one.
+                $allMangledTagValues = $this->_backend->multiLoad($this->_mangleTags(array_keys($combined[0])));
+                foreach ($combined[0] as $tag => $savedTagVersion) {
+                    $actualTagVersion = @$allMangledTagValues[$this->_mangleTag($tag)];
+                    if ($actualTagVersion !== $savedTagVersion) {
+                        return false;
+                    }
+                }
+            } else {
+                // Check all tags versions AND STOP IF WE FOUND AN INCONSISTENT ONE.
+                // Note that this optimization works fine only if $this->_backend is
+                // references to Dklab_Cache_Backend, but NOT via Dklab_Cache_Backend
+                // wrappers, because such wrappers emulate multiLoad() via multiple
+                // load() calls.
+                foreach ($combined[0] as $tag => $savedTagVersion) {
+                    $actualTagVersion = $this->_backend->load($this->_mangleTag($tag));
+                    if ($actualTagVersion !== $savedTagVersion) {
+                        return false;
+                    }
                 }
             }
         }

@@ -5,7 +5,7 @@
  * Calls $incrementor each time the code invokes a backend call.
  * This class may be used in debugging purposes.
  *
- * $Id: MetaForm.php 238 2008-03-17 21:07:17Z dk $
+ * $Id$
  */
 require_once "Zend/Cache/Backend/Interface.php";
  
@@ -32,16 +32,37 @@ class Dklab_Cache_Backend_Profiler implements Zend_Cache_Backend_Interface
     {
         $t0 = microtime(true);
         $result = $this->_backend->load($id, $doNotTestCacheValidity);
-        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__);
+        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, $id);
         return $result;        
     }
     
+
+    public function multiLoad($ids, $doNotTestCacheValidity = false)
+    {
+        if (!is_array($ids)) {
+            Zend_Cache::throwException('multiLoad() expects parameter 1 to be array, ' . gettype($ids) . ' given');
+        }
+        if (method_exists($this->_backend, 'multiLoad')) {
+            $t0 = microtime(true);
+            $result = $this->_backend->multiLoad($ids, $doNotTestCacheValidity);
+            call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, $ids);
+            return $result;        
+        }
+        // No multiLoad() method avalilable, so we have to emulate it to keep
+        // the interface consistent.
+        $result = array();
+        foreach ($ids as $i => $id) {
+            $result[$id] = $this->load($id, $doNotTestCacheValidity);
+        }
+        return $result;
+    }
     
+        
     public function test($id)
     {
         $t0 = microtime(true);
         $result = $this->_backend->test($id);
-        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__);
+        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, $id);
         return $result;        
     }
     
@@ -50,7 +71,7 @@ class Dklab_Cache_Backend_Profiler implements Zend_Cache_Backend_Interface
     {
         $t0 = microtime(true);
         $result = $this->_backend->save($data, $id, $tags, $specificLifetime);
-        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__);
+        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, $id);
         return $result;        
     }
     
@@ -59,7 +80,7 @@ class Dklab_Cache_Backend_Profiler implements Zend_Cache_Backend_Interface
     {
         $t0 = microtime(true);
         $result = $this->_backend->remove($id);
-        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__);
+        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, $id);
         return $result;        
     }
     
@@ -68,7 +89,7 @@ class Dklab_Cache_Backend_Profiler implements Zend_Cache_Backend_Interface
     {
         $t0 = microtime(true);
         $result = $this->_backend->clean($mode, $tags);
-        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__);
+        call_user_func($this->_incrementor, microtime(true) - $t0, __METHOD__, null);
         return $result;        
     }
 }

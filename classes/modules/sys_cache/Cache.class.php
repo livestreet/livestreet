@@ -17,6 +17,7 @@
 
 require_once(DIR_SERVER_ROOT.'/classes/lib/external/DklabCache/config.php');
 require_once('Zend/Cache.php');
+require_once('Cache/Backend/MemcachedMultiload.php');
 require_once('Cache/Backend/TagEmuWrapper.php');
 require_once('Cache/Backend/Profiler.php');
 
@@ -73,7 +74,7 @@ class LsCache extends Module {
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
 			$aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
-			$oCahe = new Zend_Cache_Backend_Memcached($aConfigMem);
+			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
 			throw new Exception($this->Lang_Get('system_error_cache_type').": ".$this->sCacheType." (file, memory)");
@@ -100,13 +101,35 @@ class LsCache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5(SYS_CACHE_PREFIX.$sName);	
-		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {	
-			return unserialize($this->oBackendCache->load($sName));
+		if (!is_array($sName)) {
+			$sName=md5(SYS_CACHE_PREFIX.$sName);
+			if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {
+				return unserialize($this->oBackendCache->load($sName));
+			} else {
+				return $this->oBackendCache->load($sName);
+			}
 		} else {
-			return $this->oBackendCache->load($sName);
+			return $this->multiGet($sName);
 		}
 	}	
+	/**
+	 * псевдо поддержка мульти-запросов к кешу
+	 *
+	 * @param unknown_type $aName
+	 * @return unknown
+	 */
+	public function multiGet($aName) {
+		$aData=array();
+		foreach ($aName as $key => $sName) {
+			if ((false !== ($data = $this->Get($sName)))) {
+				$aData[$sName]=$data;
+			}
+		}
+		if (count($aData)>0) {
+			return $aData;
+		}
+		return false;
+	}
 	/**
 	 * Записать значение в кеш
 	 *
