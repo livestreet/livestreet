@@ -188,7 +188,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicById($sId) {		
-		$aTopics=$this->GetTopicsByArrayId(array($sId));
+		$aTopics=$this->GetTopicsAdditionalData($sId);
 		if (count($aTopics)>0) {
 			return $aTopics[0];
 		}
@@ -244,8 +244,8 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*5);
+			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage)),'count'=>$iCount);
+			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*60*24*1);
 		}
 		return $data;		
 	}
@@ -258,7 +258,7 @@ class LsTopic extends Module {
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
 		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}"))) {			
 			$data = $this->oMapperTopic->GetCountTopicsFavouriteByUserId($sUserId);
-			$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*60*24*1);
 		}
 		return $data;		
 	}
@@ -266,8 +266,8 @@ class LsTopic extends Module {
 	protected function GetTopicsByFilter($aFilter,$iPage,$iPerPage) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('comment_new','topic_update','topic_new'), 60*60*24*3);
+			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage)),'count'=>$iCount);
+			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		return $data;		
 	}
@@ -276,7 +276,7 @@ class LsTopic extends Module {
 		$s=serialize($aFilter);					
 		if (false === ($data = $this->Cache_Get("topic_count_{$s}"))) {			
 			$data = $this->oMapperTopic->GetCountTopics($aFilter);
-			$this->Cache_Set($data, "topic_count_{$s}", array('topic_update','topic_new'), 60*5);
+			$this->Cache_Set($data, "topic_count_{$s}", array('topic_update','topic_new'), 60*60*24*1);
 		}
 		return 	$data;
 	}
@@ -446,7 +446,7 @@ class LsTopic extends Module {
 		$s=serialize($aFilter);					
 		if (false === ($data = $this->Cache_Get("topic_count_user_{$s}"))) {			
 			$data = $this->oMapperTopic->GetCountTopics($aFilter);
-			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}","topic_new_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}","topic_new_user_{$sUserId}"), 60*60*24);
 		}
 		return 	$data;		
 	}
@@ -533,8 +533,8 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsRatingByDate($sDate,$iLimit=20) {
 		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$iLimit}"))) {
-			$data = $this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit);
-			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*5);
+			$data = $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit));
+			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*60*24*2);
 		}
 		return $data;		
 	}	
@@ -632,7 +632,7 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage)),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*15);
 		}
 		return $data;		
@@ -646,21 +646,7 @@ class LsTopic extends Module {
 	public function GetTopicTags($iLimit) {
 		if (false === ($data = $this->Cache_Get("tag_{$iLimit}"))) {			
 			$data = $this->oMapperTopic->GetTopicTags($iLimit);
-			$this->Cache_Set($data, "tag_{$iLimit}", array('topic_update','topic_new'), 60*15);
-		}
-		return $data;		
-	}
-	/**
-	 * Получает список тегов по юзеру
-	 *
-	 * @param unknown_type $sUserId
-	 * @param unknown_type $iLimit
-	 * @return unknown
-	 */
-	public function GetTopicTagsByUserId($sUserId,$iLimit) {
-		if (false === ($data = $this->Cache_Get("tag_user_{$sUserId}_{$iLimit}"))) {			
-			$data = $this->oMapperTopic->GetTopicTagsByUserId($sUserId,$iLimit);
-			$this->Cache_Set($data, "tag_user_{$sUserId}_{$iLimit}", array("topic_update_user_{$sUserId}","topic_new_user_{$sUserId}"), 60*15);
+			$this->Cache_Set($data, "tag_{$iLimit}", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		return $data;		
 	}
@@ -681,7 +667,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function increaseTopicCountComment($sTopicId) {
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$sTopicId}"));						
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update_{$sTopicId}"));						
 		return $this->oMapperTopic->increaseTopicCountComment($sTopicId);
 	}
 	/**
@@ -778,7 +764,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicUnique($sUserId,$sHash) {
-		return $this->oMapperTopic->GetTopicUnique($sUserId,$sHash);
+		return $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicUnique($sUserId,$sHash));
 	}
 }
 ?>

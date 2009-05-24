@@ -121,28 +121,16 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function GetTopicById($sId) {
-		$sql = "SELECT 
-					t.*	
-				FROM 
-					".DB_TABLE_TOPIC." as t					
-				WHERE 
-					t.topic_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
-			return new TopicEntity_Topic($aRow);
-		}
-		return null;
-	}
-	
+		
 	public function GetTopicUnique($sUserId,$sHash) {
-		$sql = "SELECT * FROM ".DB_TABLE_TOPIC." 
+		$sql = "SELECT topic_id FROM ".DB_TABLE_TOPIC." 
 			WHERE 				
 				user_id = ?d				
 				AND
 				topic_text_hash =?
 				";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId,$sHash)) {
-			return new TopicEntity_Topic($aRow);
+			return $aRow['topic_id'];
 		}
 		return null;
 	}
@@ -175,11 +163,7 @@ class Mapper_Topic extends Mapper {
 		$sWhere=$this->buildFilter($aFilter);
 		
 		$sql = "SELECT 
-						t.*,	
-						b.blog_title as blog_title,
-						b.blog_type as blog_type,
-						b.blog_url as blog_url,
-						b.user_owner_id as blog_owner_id									
+						t.topic_id							
 					FROM 
 						".DB_TABLE_TOPIC." as t,	
 						".DB_TABLE_BLOG." as b				
@@ -193,7 +177,7 @@ class Mapper_Topic extends Mapper {
 		$aTopics=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {			
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=new TopicEntity_Topic($aTopic);
+				$aTopics[]=$aTopic['topic_id'];
 			}
 		}				
 		return $aTopics;
@@ -220,47 +204,29 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function GetTopicsByTag($sTag,&$iCount,$iCurrPage,$iPerPage) {		
-		$sql = "	SELECT
-						t.*
-					FROM (				
+		$sql = "				
 							SELECT 		
 								topic_id										
 							FROM 
 								".DB_TABLE_TOPIC_TAG."								
 							WHERE 
-							topic_tag_text = ? 	
+								topic_tag_text = ? 	
                             ORDER BY topic_id DESC	
-                            LIMIT ?d, ?d				
-						 ) as tt
-						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id ;";
+                            LIMIT ?d, ?d ";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=new TopicEntity_Topic($aTopic);
-			}
-			$iCount=$this->GetCountTopicsByTag($sTag);
+				$aTopics[]=$aTopic['topic_id'];
+			}			
 		}
 		return $aTopics;
 	}
 	
-	public function GetCountTopicsByTag($sTag) {
-		$sql = "SELECT 		
-					count(topic_id) as count									
-				FROM 
-					".DB_TABLE_TOPIC_TAG."								
-				WHERE 
-					topic_tag_text = ? ;	
-					";				
-		if ($aRow=$this->oDb->selectRow($sql,$sTag)) {
-			return $aRow['count'];
-		}
-		return false;
-	}
 	
 	public function GetTopicsRatingByDate($sDate,$iLimit) {
 		$sql = "SELECT 
-						t.*										
+						t.topic_id										
 					FROM 
 						".DB_TABLE_TOPIC." as t
 					WHERE 					
@@ -274,7 +240,7 @@ class Mapper_Topic extends Mapper {
 		$aTopics=array();
 		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit)) {
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=new TopicEntity_Topic($aTopic);
+				$aTopics[]=$aTopic['topic_id'];
 			}
 		}
 		return $aTopics;
@@ -285,12 +251,7 @@ class Mapper_Topic extends Mapper {
 			tt.topic_tag_text,
 			count(tt.topic_tag_text)	as count		 
 			FROM 
-				".DB_TABLE_TOPIC_TAG." as tt, 
-				".DB_TABLE_TOPIC." as t		
-			WHERE
-				t.topic_id=tt.topic_id
-				AND
-				t.topic_publish = 1		
+				".DB_TABLE_TOPIC_TAG." as tt 			
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
@@ -311,29 +272,7 @@ class Mapper_Topic extends Mapper {
 		return $aReturnSort;
 	}
 	
-	public function GetTopicTagsByUserId($sUserId,$iLimit) {
-		$sql = "SELECT 
-			topic_tag_text,
-			count(topic_tag_text)	as count		 
-			FROM 
-				".DB_TABLE_TOPIC_TAG."	
-			WHERE
-				user_id = ?			
-			GROUP BY 
-				topic_tag_text
-			ORDER BY 
-				topic_tag_text ASC		
-			LIMIT 0, ?d		
-				";	
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=new TopicEntity_TopicTag($aRow);
-			}
-		}
-		return $aReturn;
-	}
-	
+		
 	public function GetTopicVote($sTopicId,$sUserId) {
 		$sql = "SELECT * FROM ".DB_TABLE_TOPIC_VOTE." WHERE topic_id = ?d and user_voter_id = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
@@ -480,11 +419,8 @@ class Mapper_Topic extends Mapper {
 		return null;
 	}
 	
-	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {				
-		
-		$sql = "	SELECT
-						t.*
-					FROM (				
+	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {	
+		$sql = "			
 							SELECT 		
 								topic_id										
 							FROM 
@@ -494,18 +430,14 @@ class Mapper_Topic extends Mapper {
 								and
 								topic_publish = 1 	
                             ORDER BY topic_id DESC	
-                            LIMIT ?d, ?d				
-						 ) as tt
-						 JOIN ".DB_TABLE_TOPIC." AS t ON tt.topic_id=t.topic_id ;";
+                            LIMIT ?d, ?d ";
 		
 		$aTopics=array();		
-		if ($aRows=$this->oDb->select($sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=new TopicEntity_Topic($aTopic);
-			}
-			$iCount=$this->GetCountTopicsFavouriteByUserId($sUserId);
-		}
-		
+				$aTopics[]=$aTopic['topic_id'];
+			}			
+		}		
 		return $aTopics;
 	}
 	
