@@ -103,10 +103,11 @@ class LsCache extends Module {
 		 */
 		if (!is_array($sName)) {
 			$sName=md5(SYS_CACHE_PREFIX.$sName);
-			if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {
-				return unserialize($this->oBackendCache->load($sName));
+			$data=$this->oBackendCache->load($sName);
+			if ($this->sCacheType==SYS_CACHE_TYPE_FILE and $data!==false) {
+				return unserialize($data);
 			} else {
-				return $this->oBackendCache->load($sName);
+				return $data;
 			}
 		} else {
 			return $this->multiGet($sName);
