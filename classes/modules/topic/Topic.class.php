@@ -39,7 +39,7 @@ class LsTopic extends Module {
 	 * Получает дополнительные данные(объекты) для топиков по их ID
 	 *
 	 */
-	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user','blog','content','vote')) {
+	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user','blog','vote','favourite','comment_new')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
@@ -52,7 +52,7 @@ class LsTopic extends Module {
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
 		$aUserId=array();
-		$aBlogId=array();
+		$aBlogId=array();		
 		foreach ($aTopics as $oTopic) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oTopic->getUserId();
@@ -64,8 +64,22 @@ class LsTopic extends Module {
 		/**
 		 * Получаем дополнительные данные
 		 */
+		$aTopicsVote=array();
+		$aFavouriteTopics=array();
+		$aTopicsQuestionVote=array();
+		$aCountCommentNew=array();
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);		
+		if (isset($aAllowData['vote'])) {
+			$aTopicsVote=$this->GetTopicsVoteByArray($aTopicId,$this->oUserCurrent->getId());			
+			$aTopicsQuestionVote=$this->GetTopicsQuestionVoteByArray($aTopicId,$this->oUserCurrent->getId());
+		}	
+		if (isset($aAllowData['favourite'])) {
+			$aFavouriteTopics=$this->GetFavouriteTopicsByArray($aTopicId,$this->oUserCurrent->getId());	
+		}
+		if (isset($aAllowData['comment_new'])) {
+			$aCountCommentNew=$this->GetTopicsReadByArray($aTopicId,$this->oUserCurrent->getId());	
+		}
 		/**
 		 * Добавляем данные к результату - списку топиков
 		 */
@@ -80,6 +94,27 @@ class LsTopic extends Module {
 			} else {
 				$oTopic->setBlog(null); // или $oTopic->setBlog(new BlogEntity_Blog());
 			}
+			if (isset($aTopicsVote[$oTopic->getId()])) {
+				$oTopic->setUserIsVote(true);
+				$oTopic->setUserVoteDelta($aTopicsVote[$oTopic->getId()]->getDelta());
+			} else {
+				$oTopic->setUserIsVote(false);
+			}
+			if (isset($aFavouriteTopics[$oTopic->getId()])) {
+				$oTopic->setIsFavourite(true);
+			} else {
+				$oTopic->setIsFavourite(false);
+			}			
+			if (isset($aTopicsQuestionVote[$oTopic->getId()])) {
+				$oTopic->setUserQuestionIsVote(true);
+			} else {
+				$oTopic->setUserQuestionIsVote(false);
+			}
+			if (isset($aCountCommentNew[$oTopic->getId()]))	{		
+				$oTopic->setCountCommentNew($oTopic->getCountComment()-$aCountCommentNew[$oTopic->getId()]->getCommentCountLast());
+			} else {
+				$oTopic->setCountCommentNew(0);
+			}						
 		}
 		return $aTopics;
 	}
@@ -189,8 +224,8 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicById($sId) {		
 		$aTopics=$this->GetTopicsAdditionalData($sId);
-		if (count($aTopics)>0) {
-			return $aTopics[0];
+		if (isset($aTopics[$sId])) {
+			return $aTopics[$sId];
 		}
 		return null;
 	}	
@@ -203,6 +238,7 @@ class LsTopic extends Module {
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
+		$aTopicId=array_unique($aTopicId);
 		$aTopics=array();		
 		/**
 		 * Делаем мульти-запрос к кешу
@@ -222,7 +258,7 @@ class LsTopic extends Module {
 		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
 		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopics));
-		if ($data = $this->oMapper->GetTopicsByArrayId($aTopicIdNeedQuery)) {
+		if ($data = $this->oMapperTopic->GetTopicsByArrayId($aTopicIdNeedQuery)) {
 			foreach ($data as $oTopic) {
 				/**
 				 * Добавляем к результату и сохраняем в кеш
@@ -244,9 +280,10 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage)),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_change_user_{$sUserId}"), 60*60*24*1);
 		}
+		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
 		return $data;		
 	}
 	/**
@@ -266,9 +303,10 @@ class LsTopic extends Module {
 	protected function GetTopicsByFilter($aFilter,$iPage,$iPerPage) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage)),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*3);
 		}
+		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
 		return $data;		
 	}
 	
@@ -533,9 +571,10 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsRatingByDate($sDate,$iLimit=20) {
 		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$iLimit}"))) {
-			$data = $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit));
+			$data = $this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit);
 			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*60*24*2);
 		}
+		$data=$this->GetTopicsAdditionalData($data);
 		return $data;		
 	}	
 	/**
@@ -632,9 +671,10 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage)),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*15);
 		}
+		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
 		return $data;		
 	}
 	/**
@@ -658,7 +698,52 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicVote($sTopicId,$sUserId) {
-		return $this->oMapperTopic->GetTopicVote($sTopicId,$sUserId);
+		$data=$this->GetTopicsVoteByArray($sTopicId,$sUserId);
+		if (isset($data[$sTopicId])) {
+			return $data[$sTopicId];
+		}
+		return null;
+	}
+	
+	/**
+	 * Получить список голосований за топик по списку айдишников
+	 *
+	 * @param unknown_type $aTopicId
+	 */
+	public function GetTopicsVoteByArray($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);
+		$aTopicsVote=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aTopicId,'topic_vote_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aTopicsVote[$data[$sKey]->getTopicId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 */		
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsVote));
+		if ($data = $this->oMapperTopic->GetTopicsVoteByArray($aTopicIdNeedQuery,$sUserId)) {
+			foreach ($data as $oTopicVote) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aTopicsVote[$oTopicVote->getTopicId()]=$oTopicVote;
+				$this->Cache_Set($oTopicVote, "topic_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aTopicsVote;		
 	}
 	/**
 	 * Увеличивает у топика число комментов
@@ -678,7 +763,51 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetFavouriteTopic($sTopicId,$sUserId) {
-		return $this->oMapperTopic->GetFavouriteTopic($sTopicId,$sUserId);
+		$data=$this->GetFavouriteTopicsByArray($sTopicId,$sUserId);
+		if (isset($data[$sTopicId])) {
+			return $data[$sTopicId];
+		}
+		return null;
+	}
+	/**
+	 * Получить список избранного по списку айдишников
+	 *
+	 * @param unknown_type $aTopicId
+	 */
+	public function GetFavouriteTopicsByArray($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);
+		$aFavouriteTopics=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aTopicId,'favourite_topic_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aFavouriteTopics[$data[$sKey]->getTopicId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 */		
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aFavouriteTopics));
+		if ($data = $this->oMapperTopic->GetFavouriteTopicsByArray($aTopicIdNeedQuery,$sUserId)) {
+			foreach ($data as $oFavouriteTopic) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aFavouriteTopics[$oFavouriteTopic->getTopicId()]=$oFavouriteTopic;
+				$this->Cache_Set($oFavouriteTopic, "favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aFavouriteTopics;		
 	}
 	/**
 	 * Добавляет топик в избранное
@@ -737,6 +866,46 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicRead($sTopicId,$sUserId) {
 		return $this->oMapperTopic->GetTopicRead($sTopicId,$sUserId);
+	}	
+	/**
+	 * Получить список просмотром/чтения топиков по списку айдишников
+	 *
+	 * @param unknown_type $aTopicId
+	 */
+	public function GetTopicsReadByArray($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);
+		$aTopicsRead=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aTopicId,'topic_read_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aTopicsRead[$data[$sKey]->getTopicId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 */		
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsRead));
+		if ($data = $this->oMapperTopic->GetTopicsReadByArray($aTopicIdNeedQuery,$sUserId)) {
+			foreach ($data as $oTopicRead) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aTopicsRead[$oTopicRead->getTopicId()]=$oTopicRead;
+				$this->Cache_Set($oTopicRead, "topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aTopicsRead;		
 	}
 	/**
 	 * Проверяет голосовал ли юзер за топик-вопрос
@@ -746,7 +915,51 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicQuestionVote($sTopicId,$sUserId) {
-		return $this->oMapperTopic->GetTopicQuestionVote($sTopicId,$sUserId);
+		$data=$this->GetTopicsQuestionVoteByArray($sTopicId,$sUserId);
+		if (isset($data[$sTopicId])) {
+			return $data[$sTopicId];
+		}
+		return null;
+	}
+	/**
+	 * Получить список голосований в топике-опросе по списку айдишников
+	 *
+	 * @param unknown_type $aTopicId
+	 */
+	public function GetTopicsQuestionVoteByArray($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);
+		$aTopicsQuestionVote=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aTopicId,'topic_question_vote_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aTopicsQuestionVote[$data[$sKey]->getTopicId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 */		
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsQuestionVote));
+		if ($data = $this->oMapperTopic->GetTopicsQuestionVoteByArray($aTopicIdNeedQuery,$sUserId)) {
+			foreach ($data as $oTopicVote) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aTopicsQuestionVote[$oTopicVote->getTopicId()]=$oTopicVote;
+				$this->Cache_Set($oTopicVote, "topic_question_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aTopicsQuestionVote;		
 	}
 	/**
 	 * Добавляет факт голосования за топик-вопрос
@@ -766,5 +979,7 @@ class LsTopic extends Module {
 	public function GetTopicUnique($sUserId,$sHash) {
 		return $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicUnique($sUserId,$sHash));
 	}
+	
+	
 }
 ?>

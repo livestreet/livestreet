@@ -1,5 +1,7 @@
 {if count($aTopics)>0}	
-	{foreach from=$aTopics item=oTopic}    
+	{foreach from=$aTopics item=oTopic}   
+			{assign var="oBlog" value=$oTopic->getBlog()} 
+			{assign var="oUser" value=$oTopic->getUser()} 
 			<!-- Topic -->			
 			<div class="topic">
 				
@@ -15,11 +17,11 @@
   					{/if}
 				</h1>
 				<ul class="action">
-					<li><a href="{$oTopic->getBlogUrlFull()}">{$oTopic->getBlogTitle()|escape:'html'}</a>&nbsp;&nbsp;</li>										
-					{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getUserIsBlogModerator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+					<li><a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>&nbsp;&nbsp;</li>										
+					{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() or $oBlog->getUserIsModerator() or $oBlog->getOwnerId()==$oUserCurrent->getId())}
   						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="{$aLang.topic_edit}">{$aLang.topic_edit}</a></li>
   					{/if}
-					{if $oUserCurrent and ($oUserCurrent->isAdministrator() or $oTopic->getUserIsBlogAdministrator() or $oTopic->getBlogOwnerId()==$oUserCurrent->getId())}
+					{if $oUserCurrent and ($oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() or $oBlog->getOwnerId()==$oUserCurrent->getId())}
   						<li class="delete"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/delete/{$oTopic->getId()}/" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');">{$aLang.topic_delete}</a></li>
   					{/if}
 				</ul>				
@@ -72,7 +74,7 @@
 					{if $oTopic->getType()=='link'}
 						<li class="link"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LINK}/go/{$oTopic->getId()}/" title="{$aLang.topic_link_count_jump}: {$oTopic->getLinkCountJump()}">{$oTopic->getLinkUrl(true)}</a></li>						
 					{/if}					
-					<li class="author"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oTopic->getUserLogin()}/">{$oTopic->getUserLogin()}</a></li>		
+					<li class="author"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a></li>		
 					<li class="comments-total">
 						{if $oTopic->getCountComment()>0}
 							<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}"><span class="red">{$oTopic->getCountComment()}</span>{if $oTopic->getCountCommentNew()}<span class="green">+{$oTopic->getCountCommentNew()}</span>{/if}</a>

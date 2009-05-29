@@ -60,22 +60,12 @@ class BlogEntity_Blog extends Entity
         return $this->_aData['blog_avatar_type'];
     }
     
-    public function getUserLogin() {
-        return $this->_aData['user_login'];
+    
+    
+    public function getOwner() {
+        return $this->_aData['owner'];
     }    
-	public function getUserProfileAvatar() {
-        return $this->_aData['user_profile_avatar'];
-    }
-    public function getUserProfileAvatarType() {
-        return $this->_aData['user_profile_avatar_type'];
-    }
-    public function getUserProfileAvatarPath($iSize=100) {   
-    	if ($this->getUserProfileAvatar()) { 	
-        	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getOwnerId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getUserProfileAvatarType();
-    	} else {
-    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
-    	}
-    }
+    
     public function getUserIsVote() {
         return $this->_aData['user_is_vote'];
     }
@@ -89,18 +79,23 @@ class BlogEntity_Blog extends Entity
     		return DIR_STATIC_SKIN.'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
     }
-    public function getCurrentUserIsJoin() {
-        return $this->_aData['current_user_is_join'];
+    public function getUserIsJoin() {
+        return $this->_aData['user_is_join'];
+    }
+    public function getUserIsAdministrator() {
+        return $this->_aData['user_is_administrator'];
+    }
+    public function getUserIsModerator() {
+        return $this->_aData['user_is_moderator'];
     }
     public function getUrlFull() {
         if ($this->getType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getUserLogin().'/';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getOwner()->getLogin().'/';
     	} else {
     		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getUrl().'/';
     	}
     }
-    
-       
+           
     
 	public function setId($data) {
         $this->_aData['blog_id']=$data;
@@ -143,6 +138,19 @@ class BlogEntity_Blog extends Entity
     }
     public function setAvatarType($data) {
         $this->_aData['blog_avatar_type']=$data;
+    }
+    
+    public function setOwner($data) {
+        $this->_aData['owner']=$data;
+    }
+    public function setUserIsAdministrator($data) {
+        $this->_aData['user_is_administrator']=$data;
+    }
+    public function setUserIsModerator($data) {
+        $this->_aData['user_is_moderator']=$data;
+    }
+    public function setUserIsJoin($data) {
+        $this->_aData['user_is_join']=$data;
     }
 }
 ?>

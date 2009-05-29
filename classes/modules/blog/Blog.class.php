@@ -36,6 +36,101 @@ class LsBlog extends Module {
 		$this->oUserCurrent=$this->User_GetUserCurrent();		
 	}
 	/**
+	 * Получает дополнительные данные(объекты) для блогов по их ID
+	 *
+	 */
+	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner')) {
+		func_array_simpleflip($aAllowData);
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		/**
+		 * Получаем блоги
+		 */
+		$aBlogs=$this->GetBlogsByArrayId($aBlogId);
+		/**
+		 * Формируем ID дополнительных данных, которые нужно получить
+		 */
+		$aUserId=array();		
+		foreach ($aBlogs as $oBlog) {
+			if (isset($aAllowData['owner'])) {
+				$aUserId[]=$oBlog->getOwnerId();
+			}						
+		}
+		/**
+		 * Получаем дополнительные данные
+		 */
+		$aUsers=isset($aAllowData['owner']) && is_array($aAllowData['owner']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['owner']) : $this->User_GetUsersAdditionalData($aUserId);		
+		/**
+		 * Добавляем данные к результату - списку блогов
+		 */
+		foreach ($aBlogs as $oBlog) {
+			if (isset($aUsers[$oBlog->getOwnerId()])) {
+				$oBlog->setOwner($aUsers[$oBlog->getOwnerId()]);
+			} else {
+				$oBlog->setOwner(null); // или $oBlog->setOwner(new UserEntity_User());
+			}
+			/**
+			 * Права на блог
+			 */
+			$oBlog->setUserIsAdministrator(false);
+			$oBlog->setUserIsModerator(false);
+			if ($this->oUserCurrent and $oBlogUser=$this->GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+				if ($oBlogUser->getIsAdministrator()) {
+					$oBlog->setUserIsAdministrator(true);
+				}
+				if ($oBlogUser->getIsModerator()) {
+					$oBlog->setUserIsModerator(true);
+				}
+			}
+			/**
+			 * 
+			 */
+		}
+		
+		return $aBlogs;
+	}
+	/**
+	 * Список блогов по ID
+	 *
+	 * @param array $aUserId
+	 */
+	public function GetBlogsByArrayId($aBlogId) {
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		$aBlogId=array_unique($aBlogId);
+		$aBlogs=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aBlogId,'blog_');
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aBlogs[$data[$sKey]->getId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких блогов не было в кеше и делаем запрос в БД
+		 */		
+		$aBlogIdNeedQuery=array_diff($aBlogId,array_keys($aBlogs));
+		if ($data = $this->oMapperBlog->GetBlogsByArrayId($aBlogIdNeedQuery)) {
+			foreach ($data as $oBlog) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aBlogs[$oBlog->getId()]=$oBlog;
+				$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array("blog_update_{$oBlog->getId()}"), 60*60*24*4);
+			}
+		}
+		return $aBlogs;		
+	}
+	/**
 	 * Получить персональный блог юзера
 	 *
 	 * @param Entity_User $oUser
@@ -51,7 +146,11 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogById($sBlogId) {
-		return $this->oMapperBlog->GetBlogById($sBlogId);
+		$aBlogs=$this->GetBlogsAdditionalData($sId);
+		if (isset($aBlogs[$sId])) {
+			return $aBlogs[$sId];
+		}
+		return null;		
 	}
 	/**
 	 * Получить блог по УРЛу
@@ -257,7 +356,7 @@ class LsBlog extends Module {
 		if ($aBlogUser=$this->oMapperBlog->GetRelationBlogUsers($aFilter)) {
 			return $aBlogUser[0];
 		}
-		return false;
+		return null;
 	}
 	/**
 	 * Список модеро вблога

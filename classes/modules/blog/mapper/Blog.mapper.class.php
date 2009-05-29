@@ -65,7 +65,27 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 	
-		
+	public function GetBlogsByArrayId($aArrayId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					b.*							 
+				FROM 
+					".DB_TABLE_BLOG." as b					
+				WHERE 
+					b.blog_id IN(?a) 								
+				ORDER BY FIELD(b.blog_id,?a) ";
+		$aBlogs=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
+			foreach ($aRows as $aBlog) {
+				$aBlogs[]=new BlogEntity_Blog($aBlog);
+			}
+		}		
+		return $aBlogs;
+	}	
+	
 	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
 		$sql = "INSERT INTO ".DB_TABLE_BLOG_USER." 
 			(blog_id,

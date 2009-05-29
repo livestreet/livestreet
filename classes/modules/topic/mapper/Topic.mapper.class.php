@@ -141,13 +141,13 @@ class Mapper_Topic extends Mapper {
 		}
 				
 		$sql = "SELECT 
-					t.*							 
+					t.*,
+					tc.*							 
 				FROM 
-					".DB_TABLE_TOPIC." as t					
+					".DB_TABLE_TOPIC." as t	
+					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t.topic_id=tc.topic_id				
 				WHERE 
-					t.topic_id IN(?a) 
-					AND 					
-					t.publish = 1				
+					t.topic_id IN(?a) 									
 				ORDER BY FIELD(t.topic_id,?a) ";
 		$aTopics=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
@@ -279,6 +279,29 @@ class Mapper_Topic extends Mapper {
 			return new TopicEntity_TopicVote($aRow);
 		}
 		return null;
+	}
+	
+	public function GetTopicsVoteByArray($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					v.*							 
+				FROM 
+					".DB_TABLE_TOPIC_VOTE." as v 
+				WHERE 
+					v.user_voter_id = ?d
+					AND
+					v.topic_id IN(?a) 									
+				";
+		$aVotes=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aVotes[]=new TopicEntity_TopicVote($aRow);
+			}
+		}		
+		return $aVotes;
 	}
 	
 	public function increaseTopicCountComment($sTopicId) {
@@ -419,6 +442,28 @@ class Mapper_Topic extends Mapper {
 		return null;
 	}
 	
+	public function GetFavouriteTopicsByArray($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}				
+		$sql = "SELECT 
+					f.*							 
+				FROM 
+					".DB_TABLE_FAVOURITE_TOPIC." as f 
+				WHERE 
+					f.user_id = ?d 
+					AND 
+					f.topic_id IN(?a) 									
+				";
+		$aFavourites=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aFavourites[]=new TopicEntity_FavouriteTopic($aRow);
+			}
+		}		
+		return $aFavourites;
+	}
+	
 	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {	
 		$sql = "			
 							SELECT 		
@@ -521,6 +566,29 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
+	public function GetTopicsReadByArray($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					t.*							 
+				FROM 
+					".DB_TABLE_TOPIC_READ." as t 
+				WHERE 
+					t.user_id = ?d 
+					AND
+					t.topic_id IN(?a) 									
+				";
+		$aReads=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aReads[]=new TopicEntity_TopicRead($aRow);
+			}
+		}		
+		return $aReads;
+	}
+	
 	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
 		$sql = "INSERT INTO ".DB_TABLE_TOPIC_QUESTION_VOTE." 
 			(topic_id,
@@ -542,6 +610,29 @@ class Mapper_Topic extends Mapper {
 			return new TopicEntity_TopicQuestionVote($aRow);
 		}
 		return null;
+	}
+	
+	public function GetTopicsQuestionVoteByArray($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					v.*							 
+				FROM 
+					".DB_TABLE_TOPIC_QUESTION_VOTE." as v 
+				WHERE 
+					v.user_voter_id = ?d
+					AND
+					v.topic_id IN(?a) 									
+				";
+		$aVotes=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aVotes[]=new TopicEntity_TopicQuestionVote($aRow);
+			}
+		}		
+		return $aVotes;
 	}
 }
 ?>

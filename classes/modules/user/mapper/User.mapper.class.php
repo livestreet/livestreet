@@ -111,97 +111,74 @@ class Mapper_User extends Mapper {
 		return false;
 	}
 	
+	public function GetUsersByArrayId($aArrayId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					u.*	,
+					IF(ua.user_id IS NULL,0,1) as user_is_administrator 						 
+				FROM 
+					".DB_TABLE_USER." as u	
+					LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id 
+				WHERE 
+					u.user_id IN(?a) 								
+				ORDER BY FIELD(u.user_id,?a) ";
+		$aUsers=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
+			foreach ($aRows as $aUser) {
+				$aUsers[]=new UserEntity_User($aUser);
+			}
+		}		
+		return $aUsers;
+	}
 	
 	public function GetUserByActivateKey($sKey) {		
 		$sql = "SELECT 
-				u.*,
-				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+				u.user_id
 			FROM 
-				".DB_TABLE_USER." as u
-				LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+				".DB_TABLE_USER." as u				
 			WHERE u.user_activate_key = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
-			return new UserEntity_User($aRow);
+			return $aRow['user_id'];
 		}
 		return null;
 	}
 	
 	public function GetUserByKey($sKey) {
 		$sql = "SELECT 
-				u.*,
-				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+				u.user_id
 			FROM 
-				".DB_TABLE_USER." as u
-				LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+				".DB_TABLE_USER." as u 
 			WHERE u.user_key = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
-			return new UserEntity_User($aRow);
-		}
-		return null;
-	}
-	
-	public function GetUserById($sKey) {
-		$sql = "SELECT 
-				u.*,
-				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
-				FROM 
-					".DB_TABLE_USER." as u
-					LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
-				WHERE 
-					u.user_id = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
-			return new UserEntity_User($aRow);
+			return $aRow['user_id'];
 		}
 		return null;
 	}
 	
 	public function GetUserByMail($sMail) {		
 		$sql = "SELECT 
-				u.*,
-				IF(ua.user_id IS NULL,0,1) as user_is_administrator 
+				u.user_id
 			FROM 
-				".DB_TABLE_USER." as u
-				LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id
+				".DB_TABLE_USER." as u 				
 			WHERE u.user_mail = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,strtolower($sMail))) {
-			return new UserEntity_User($aRow);
+		if ($aRow=$this->oDb->selectRow($sql,$sMail)) {
+			return $aRow['user_id'];
 		}
 		return null;
 	}
 	
-	public function GetUserByLogin($sLogin) {
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}
+	public function GetUserByLogin($sLogin) {		
 		$sql = "SELECT 
-				u.*,
-				IF(uv.user_id IS NULL,0,1) as user_is_vote,
-				uv.vote_delta as user_vote_delta,
-				IF(uf.user_id IS NULL,0,1) as user_is_frend 
+				u.user_id  
 			FROM 
-				".DB_TABLE_USER." as u
-				
-				LEFT JOIN (
-						SELECT
-							user_id,
-							vote_delta												
-						FROM ".DB_TABLE_USER_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS uv ON uv.user_id = u.user_id
-					
-				LEFT JOIN (
-						SELECT
-							user_id,
-							user_frend_id												
-						FROM ".DB_TABLE_FRIEND." 
-						WHERE user_id = ?d
-					) AS uf ON uf.user_frend_id = u.user_id
-				
+				".DB_TABLE_USER." as u 	
 			WHERE 
 				u.user_login = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$iCurrentUserId,$iCurrentUserId,strtolower($sLogin))) {
-			return new UserEntity_User($aRow);
+		if ($aRow=$this->oDb->selectRow($sql,$sLogin)) {
+			return $aRow['user_id'];
 		}
 		return null;
 	}

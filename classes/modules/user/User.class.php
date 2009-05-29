@@ -76,6 +76,7 @@ class LsUser extends Module {
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
 		}
+		$aUserId=array_unique($aUserId);
 		$aUsers=array();		
 		/**
 		 * Делаем мульти-запрос к кешу
@@ -139,7 +140,12 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByActivateKey($sKey) {		
-		return $this->oMapper->GetUserByActivateKey($sKey);
+		$id=$this->oMapper->GetUserByActivateKey($sKey);
+		$data=$this->GetUsersAdditionalData($id);
+		if ($id and isset($data[$id])) {
+			return $data[$id];
+		}
+		return null;
 	}
 	/**
 	 * Получить юзера по ключу сессии
@@ -148,7 +154,12 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByKey($sKey) {		
-		return $this->oMapper->GetUserByKey($sKey);
+		$id=$this->oMapper->GetUserByKey($sKey);
+		$data=$this->GetUsersAdditionalData($id);
+		if ($id and isset($data[$id])) {
+			return $data[$id];
+		}
+		return null;
 	}
 	/**
 	 * Получить юзера по мылу
@@ -157,7 +168,12 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByMail($sMail) {		
-		return $this->oMapper->GetUserByMail($sMail);
+		$id=$this->oMapper->GetUserByMail($sMail);
+		$data=$this->GetUsersAdditionalData($id);
+		if ($id and isset($data[$id])) {
+			return $data[$id];
+		}
+		return null;
 	}
 	/**
 	 * Получить юзера по логину
@@ -165,16 +181,18 @@ class LsUser extends Module {
 	 * @param unknown_type $sLogin
 	 * @return unknown
 	 */
-	public function GetUserByLogin($sLogin) {	
-		$s=strtolower($sLogin);
-		$s2=-1;		
-		if ($this->oUserCurrent) {
-			$s2=$this->oUserCurrent->getId();
-		}
-		if (false === ($data = $this->Cache_Get("user_login_{$s}_{$s2}"))) {						
-			if ($data = $this->oMapper->GetUserByLogin($sLogin)) {
-				$this->Cache_Set($data, "user_login_{$s}_{$s2}", array("user_update_{$data->getId()}","frend_change_frend_{$data->getId()}"), 60*5);
+	public function GetUserByLogin($sLogin) {
+		$s=strtolower($sLogin);		
+		if (false === ($data = $this->Cache_Get("user_login_{$s}"))) {						
+			if ($id = $this->oMapper->GetUserByLogin($sLogin)) {
+				$this->Cache_Set($id, "user_login_{$s}", array(), 60*60*24*1);
 			}						
+		}
+		if ($id) {
+			$data=$this->GetUsersAdditionalData($id);
+			if (isset($data[$id])) {
+				return $data[$id];
+			}
 		}
 		return $data;		 
 	}
@@ -184,12 +202,12 @@ class LsUser extends Module {
 	 * @param unknown_type $sId
 	 * @return unknown
 	 */
-	public function GetUserById($sId) {			
-		if (false === ($data = $this->Cache_Get("user_{$sId}"))) {						
-			$data = $this->oMapper->GetUserById($sId);
-			$this->Cache_Set($data, "user_{$sId}", array("user_update_{$sId}"), 60*5);			
-		}
-		return $data;		
+	public function GetUserById($sId) {		
+		$aUsers=$this->GetUsersAdditionalData($sId);			
+		if (isset($aUsers[$sId])) {
+			return $aUsers[$sId];
+		}		
+		return null;				
 	}
 	/**
 	 * Обновляет юзера

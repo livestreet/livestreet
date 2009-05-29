@@ -97,38 +97,25 @@ class TopicEntity_Topic extends Entity
         return $this->_aData['topic_text_hash'];
     }
     
-    
-    public function getCountCommentNew() {
-        return $this->_aData['count_comment_new'];
-    }    
     public function getTagsArray() {
     	return explode(',',$this->getTags());    	
     } 
-    public function getUserLogin() {
-        return $this->_aData['user_login'];
+    public function getCountCommentNew() {
+        return $this->_aData['count_comment_new'];
+    }    
+    public function getUser() {
+        return $this->_aData['user'];
     }
-    public function getBlogType() {
-        return $this->_aData['blog_type'];
-    }
-    public function getBlogUrl() {
-        return $this->_aData['blog_url'];
-    }
-    public function getBlogTitle() {
-        return $this->_aData['blog_title'];
+    public function getBlog() {
+        return $this->_aData['blog'];
     }
     
-    public function getBlogUrlFull() {
-    	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getUserLogin().'/';
-    	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/';
-    	}
-    }
+    
     public function getUrl() {
-    	if ($this->getBlogType()=='personal') {
+    	if ($this->getBlog()->getType()=='personal') {
     		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getId().'.html';
     	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/'.$this->getId().'.html';
+    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlog()->getUrl().'/'.$this->getId().'.html';
     	}
     }
     public function getUserIsVote() {
@@ -139,16 +126,7 @@ class TopicEntity_Topic extends Entity
     }
     public function getUserQuestionIsVote() {
         return $this->_aData['user_question_is_vote'];
-    }
-	public function getUserIsBlogAdministrator() {
-        return $this->_aData['user_is_blog_administrator'];
-    }
-    public function getUserIsBlogModerator() {
-        return $this->_aData['user_is_blog_moderator'];
-    }
-    public function getBlogOwnerId() {
-        return $this->_aData['blog_owner_id'];
-    }
+    }	
     public function getIsFavourite() {
         return $this->_aData['topic_is_favourite'];
     }
@@ -380,6 +358,28 @@ class TopicEntity_Topic extends Entity
     }
     public function setTextHash($data) {
         $this->_aData['topic_text_hash']=$data;
+    }
+    
+    public function setUser($data) {
+        $this->_aData['user']=$data;
+    }
+    public function setBlog($data) {
+        $this->_aData['blog']=$data;
+    }
+    public function setUserQuestionIsVote($data) {
+        $this->_aData['user_question_is_vote']=$data;
+    }
+    public function setUserIsVote($data) {
+        $this->_aData['user_is_vote']=$data;
+    }
+    public function setUserVoteDelta($data) {
+        $this->_aData['user_vote_delta']=$data;
+    }
+    public function setCountCommentNew($data) {
+        $this->_aData['count_comment_new']=$data;
+    }
+    public function setIsFavourite($data) {
+        $this->_aData['topic_is_favourite']=$data;
     }
 }
 ?>
