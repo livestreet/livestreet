@@ -57,7 +57,7 @@ class ActionRss extends Action {
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
-			$item['category']=$oTopic->getTags();
+			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
 		$this->Viewer_Assign('aChannel',$aChannel);
@@ -84,7 +84,7 @@ class ActionRss extends Action {
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
-			$item['category']=$oTopic->getTags();
+			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
 		$this->Viewer_Assign('aChannel',$aChannel);
@@ -172,7 +172,7 @@ class ActionRss extends Action {
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
-			$item['category']=$oTopic->getTags();
+			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
 		$this->Viewer_Assign('aChannel',$aChannel);
@@ -204,7 +204,7 @@ class ActionRss extends Action {
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
-			$item['category']=$oTopic->getTags();
+			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
 		$this->Viewer_Assign('aChannel',$aChannel);
@@ -236,7 +236,7 @@ class ActionRss extends Action {
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUserLogin();
-			$item['category']=$oTopic->getTags();
+			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
 		$this->Viewer_Assign('aChannel',$aChannel);
