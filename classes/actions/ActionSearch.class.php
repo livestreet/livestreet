@@ -122,7 +122,7 @@ class ActionSearch extends Action {
 			 */
 			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_SEARCH.'/');
 		}
-		$aReq['sType'] = Router::GetActionEvent();		
+		$aReq['sType'] = strtolower(Router::GetActionEvent());		
 		/**
 		 * Определяем текущую страницу вывода результата
 		 */
