@@ -39,7 +39,7 @@ class LsBlog extends Module {
 	 * Получает дополнительные данные(объекты) для блогов по их ID
 	 *
 	 */
-	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner')) {
+	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner','relation_user')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
@@ -60,7 +60,15 @@ class LsBlog extends Module {
 		/**
 		 * Получаем дополнительные данные
 		 */
-		$aUsers=isset($aAllowData['owner']) && is_array($aAllowData['owner']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['owner']) : $this->User_GetUsersAdditionalData($aUserId);		
+		$aBlogUsers=array();
+		$aBlogsVote=array();
+		$aUsers=isset($aAllowData['owner']) && is_array($aAllowData['owner']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['owner']) : $this->User_GetUsersAdditionalData($aUserId);				
+		if (isset($aAllowData['relation_user']) and $this->oUserCurrent) {
+			$aBlogUsers=$this->GetRelationBlogUsersByArrayBlog($aBlogId,$this->oUserCurrent->getId());	
+		}
+		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
+			$aBlogsVote=$this->GetBlogsVoteByArray($aBlogId,$this->oUserCurrent->getId());			
+		}
 		/**
 		 * Добавляем данные к результату - списку блогов
 		 */
@@ -70,22 +78,23 @@ class LsBlog extends Module {
 			} else {
 				$oBlog->setOwner(null); // или $oBlog->setOwner(new UserEntity_User());
 			}
-			/**
-			 * Права на блог
-			 */
-			$oBlog->setUserIsAdministrator(false);
-			$oBlog->setUserIsModerator(false);
-			if ($this->oUserCurrent and $oBlogUser=$this->GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
-				if ($oBlogUser->getIsAdministrator()) {
+			if (isset($aBlogUsers[$oBlog->getId()])) {
+				if ($aBlogUsers[$oBlog->getId()]->getIsAdministrator()) {
 					$oBlog->setUserIsAdministrator(true);
 				}
-				if ($oBlogUser->getIsModerator()) {
+				if ($aBlogUsers[$oBlog->getId()]->getIsModerator()) {
 					$oBlog->setUserIsModerator(true);
 				}
-			}
-			/**
-			 * 
-			 */
+			} else {
+				$oBlog->setUserIsAdministrator(false);
+				$oBlog->setUserIsModerator(false);
+			}	
+			if (isset($aBlogsVote[$oBlog->getId()])) {
+				$oBlog->setUserIsVote(true);
+				$oBlog->setUserVoteDelta($aBlogsVote[$oBlog->getId()]->getDelta());
+			} else {
+				$oBlog->setUserIsVote(false);
+			}			
 		}
 		
 		return $aBlogs;
@@ -359,6 +368,46 @@ class LsBlog extends Module {
 		return null;
 	}
 	/**
+	 * Получить список отношений блог-юзер по списку айдишников
+	 *
+	 * @param unknown_type $aTopicId
+	 */
+	public function GetRelationBlogUsersByArrayBlog($aBlogId,$sUserId) {
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		$aBlogId=array_unique($aBlogId);
+		$aBlogUsers=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aBlogId,'blog_relation_user_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aBlogUsers[$data[$sKey]->getBlogId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим каких блогов не было в кеше и делаем запрос в БД
+		 */		
+		$aBlogIdNeedQuery=array_diff($aBlogId,array_keys($aBlogUsers));
+		if ($data = $this->oMapperBlog->GetRelationBlogUsersByArrayBlog($aBlogIdNeedQuery,$sUserId)) {
+			foreach ($data as $oBlogUser) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aBlogUsers[$oBlogUser->getBlogId()]=$oBlogUser;
+				$this->Cache_Set($oBlogUser, "blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aBlogUsers;		
+	}
+	/**
 	 * Список модеро вблога
 	 *
 	 * @param unknown_type $sBlogId
@@ -455,7 +504,51 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogVote($sBlogId,$sUserId) {
-		return $this->oMapperBlog->GetBlogVote($sBlogId,$sUserId);
+		$data=$this->GetBlogsVoteByArray($sBlogId,$sUserId);
+		if (isset($data[$sBlogId])) {
+			return $data[$sBlogId];
+		}
+		return null;		
 	}	
+	/**
+	 * Получить список голосований за топик по списку айдишников
+	 *
+	 * @param unknown_type $aBlogId
+	 */
+	public function GetBlogsVoteByArray($aBlogId,$sUserId) {
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		$aBlogId=array_unique($aBlogId);
+		$aBlogsVote=array();		
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_array_change_value($aBlogId,'blog_vote_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */			
+			foreach ($aCacheKeys as $sKey ) {
+				if (isset($data[$sKey])) {					
+					$aBlogsVote[$data[$sKey]->getBlogId()]=$data[$sKey];
+				} 
+			}
+		} 
+		/**
+		 * Смотрим чего не было в кеше и делаем запрос в БД
+		 */		
+		$aIdNeedQuery=array_diff($aBlogId,array_keys($aBlogsVote));
+		if ($data = $this->oMapperBlog->GetBlogsVoteByArray($aIdNeedQuery,$sUserId)) {
+			foreach ($data as $oVote) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aBlogsVote[$oVote->getBlogId()]=$oVote;
+				$this->Cache_Set($oVote, "blog_vote_{$oVote->getBlogId()}_{$oVote->getVoterId()}", array(), 60*60*24*4);
+			}
+		}
+		return $aBlogsVote;		
+	}
 }
 ?>

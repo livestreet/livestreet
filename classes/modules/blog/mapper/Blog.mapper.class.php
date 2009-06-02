@@ -143,32 +143,37 @@ class Mapper_Blog extends Mapper {
 			$sWhere.=" AND bu.user_id =  ".(int)$aFilter['user_id'];
 		}
 		$sql = "SELECT 
-					bu.*,
-					u.user_login as user_login,
-					u.user_mail as user_mail,
-					u.user_profile_avatar as user_profile_avatar,
-					u.user_profile_avatar_type as user_profile_avatar_type,
-					u.user_settings_notice_new_topic,
-					u.user_settings_notice_new_comment,
-					u.user_settings_notice_new_talk,
-					u.user_settings_notice_reply_comment,
-					b.blog_title as blog_title,	
-					b.blog_url as blog_url				
+					bu.*				
 				FROM 
-					".DB_TABLE_BLOG_USER." as bu,
-					".DB_TABLE_USER." as u,
-					".DB_TABLE_BLOG." as b 
+					".DB_TABLE_BLOG_USER." as bu
 				WHERE 
-					".$sWhere." 
-					AND
-					bu.blog_id=b.blog_id
-					AND
-					bu.user_id=u.user_id
-					
-				ORDER by u.user_login asc;	
+					".$sWhere." 					
+				;	
 					";		
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql)) {
+			foreach ($aRows as $aUser) {
+				$aBlogUsers[]=new BlogEntity_BlogUser($aUser);
+			}
+		}
+		return $aBlogUsers;
+	}
+	
+	public function GetRelationBlogUsersByArrayBlog($aArrayId,$sUserId) {	
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+			
+		$sql = "SELECT 
+					bu.*				
+				FROM 
+					".DB_TABLE_BLOG_USER." as bu
+				WHERE 
+					bu.user_id = ?d
+					AND
+					bu.blog_id IN(?a) ";		
+		$aBlogUsers=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
 			foreach ($aRows as $aUser) {
 				$aBlogUsers[]=new BlogEntity_BlogUser($aUser);
 			}
@@ -235,15 +240,30 @@ class Mapper_Blog extends Mapper {
 		return null;
 	}
 	
-	public function GetBlogVote($sBlogId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_BLOG_VOTE." WHERE blog_id = ?d and user_voter_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sBlogId,$sUserId)) {
-			return new BlogEntity_BlogVote($aRow);
+
+	
+	public function GetBlogsVoteByArray($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
 		}
-		return null;
+				
+		$sql = "SELECT 
+					v.*							 
+				FROM 
+					".DB_TABLE_BLOG_VOTE." as v 
+				WHERE 
+					v.user_voter_id = ?d
+					AND
+					v.blog_id IN(?a) 									
+				";
+		$aVotes=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aVotes[]=new BlogEntity_BlogVote($aRow);
+			}
+		}		
+		return $aVotes;
 	}
-	
-	
 	
 	public function GetBlogByUrl($sUrl) {
 		$iCurrentUserId=-1;

@@ -418,4 +418,12 @@ function func_array_simpleflip(&$arr,$sDefValue=1) {
 	}
 }
 
+function func_build_cache_keys($array,$sBefore='',$sAfter='') {
+	$aRes=array();
+	foreach ($array as $key => $value) {
+		$aRes[$value]=$sBefore.$value.$sAfter;
+	}
+	return $aRes;
+}
+
 ?>

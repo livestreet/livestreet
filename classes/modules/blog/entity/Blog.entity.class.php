@@ -152,5 +152,11 @@ class BlogEntity_Blog extends Entity
     public function setUserIsJoin($data) {
         $this->_aData['user_is_join']=$data;
     }
+    public function setUserIsVote($data) {
+        $this->_aData['user_is_vote']=$data;
+    }
+    public function setUserVoteDelta($data) {
+        $this->_aData['user_vote_delta']=$data;
+    }
 }
 ?>

@@ -273,14 +273,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 		
-	public function GetTopicVote($sTopicId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_TOPIC_VOTE." WHERE topic_id = ?d and user_voter_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
-			return new TopicEntity_TopicVote($aRow);
-		}
-		return null;
-	}
-	
+
 	public function GetTopicsVoteByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
