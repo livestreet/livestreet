@@ -77,25 +77,32 @@ class LsUser extends Module {
 			$aUserId=array($aUserId);
 		}
 		$aUserId=array_unique($aUserId);
-		$aUsers=array();		
+		$aUsers=array();
+		$aUserIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aUserId,'user_');
+		$aCacheKeys=func_build_cache_keys($aUserId,'user_');
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aUsers[$data[$sKey]->getId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aUsers[$data[$sKey]->getId()]=$data[$sKey];
+					} else {
+						$aUserIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
-		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
+		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
-		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aUsers));
+		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aUsers));		
+		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);		
+		$aUserIdNeedStore=$aUserIdNeedQuery;
 		if ($data = $this->oMapper->GetUsersByArrayId($aUserIdNeedQuery)) {
 			foreach ($data as $oUser) {
 				/**
@@ -103,8 +110,15 @@ class LsUser extends Module {
 				 */
 				$aUsers[$oUser->getId()]=$oUser;
 				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array("user_update_{$oUser->getId()}"), 60*60*24*4);
+				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oUser->getId()));
 			}
 		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aUserIdNeedStore as $sId) {
+			$this->Cache_Set(null, "user_{$sId}", array("user_update_{$oUser->getId()}"), 60*60*24*4);
+		}		
 		return $aUsers;		
 	}
 	/**

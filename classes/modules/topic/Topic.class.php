@@ -234,30 +234,37 @@ class LsTopic extends Module {
 	 *
 	 * @param unknown_type $aTopicId
 	 */
-	public function GetTopicsByArrayId($aTopicId) {		
+	public function GetTopicsByArrayId($aTopicId) {
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
 		$aTopicId=array_unique($aTopicId);
-		$aTopics=array();		
+		$aTopics=array();
+		$aTopicIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aTopicId,'topic_');
+		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_');
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aTopics[$data[$sKey]->getId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aTopics[$data[$sKey]->getId()]=$data[$sKey];
+					} else {
+						$aTopicIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
 		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopics));
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopics));		
+		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
+		$aTopicIdNeedStore=$aTopicIdNeedQuery;
 		if ($data = $this->oMapperTopic->GetTopicsByArrayId($aTopicIdNeedQuery)) {
 			foreach ($data as $oTopic) {
 				/**
@@ -265,9 +272,16 @@ class LsTopic extends Module {
 				 */
 				$aTopics[$oTopic->getId()]=$oTopic;
 				$this->Cache_Set($oTopic, "topic_{$oTopic->getId()}", array("topic_update_{$oTopic->getId()}"), 60*60*24*4);
+				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oTopic->getId()));
 			}
 		}
-		return $aTopics;
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aTopicIdNeedStore as $sId) {
+			$this->Cache_Set(null, "topic_{$sId}", array("topic_update_{$sId}"), 60*60*24*4);
+		}		
+		return $aTopics;		
 	}
 	/**
 	 * Получает список топиков из избранного
@@ -715,25 +729,32 @@ class LsTopic extends Module {
 			$aTopicId=array($aTopicId);
 		}
 		$aTopicId=array_unique($aTopicId);
-		$aTopicsVote=array();		
+		$aTopicsVote=array();
+		$aTopicIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aTopicId,'topic_vote_','_'.$sUserId);
+		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_vote_','_'.$sUserId);
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aTopicsVote[$data[$sKey]->getTopicId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aTopicsVote[$data[$sKey]->getTopicId()]=$data[$sKey];
+					} else {
+						$aTopicIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
 		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsVote));
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsVote));		
+		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
+		$aTopicIdNeedStore=$aTopicIdNeedQuery;
 		if ($data = $this->oMapperTopic->GetTopicsVoteByArray($aTopicIdNeedQuery,$sUserId)) {
 			foreach ($data as $oTopicVote) {
 				/**
@@ -741,8 +762,15 @@ class LsTopic extends Module {
 				 */
 				$aTopicsVote[$oTopicVote->getTopicId()]=$oTopicVote;
 				$this->Cache_Set($oTopicVote, "topic_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}", array(), 60*60*24*4);
+				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oTopicVote->getTopicId()));
 			}
 		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aTopicIdNeedStore as $sId) {
+			$this->Cache_Set(null, "topic_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
+		}		
 		return $aTopicsVote;		
 	}
 	/**
@@ -779,25 +807,32 @@ class LsTopic extends Module {
 			$aTopicId=array($aTopicId);
 		}
 		$aTopicId=array_unique($aTopicId);
-		$aFavouriteTopics=array();		
+		$aFavouriteTopics=array();
+		$aTopicIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aTopicId,'favourite_topic_','_'.$sUserId);
+		$aCacheKeys=func_build_cache_keys($aTopicId,'favourite_topic_','_'.$sUserId);
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aFavouriteTopics[$data[$sKey]->getTopicId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aFavouriteTopics[$data[$sKey]->getTopicId()]=$data[$sKey];
+					} else {
+						$aTopicIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
 		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aFavouriteTopics));
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aFavouriteTopics));		
+		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
+		$aTopicIdNeedStore=$aTopicIdNeedQuery;
 		if ($data = $this->oMapperTopic->GetFavouriteTopicsByArray($aTopicIdNeedQuery,$sUserId)) {
 			foreach ($data as $oFavouriteTopic) {
 				/**
@@ -805,8 +840,15 @@ class LsTopic extends Module {
 				 */
 				$aFavouriteTopics[$oFavouriteTopic->getTopicId()]=$oFavouriteTopic;
 				$this->Cache_Set($oFavouriteTopic, "favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}", array(), 60*60*24*4);
+				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oFavouriteTopic->getTopicId()));
 			}
 		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aTopicIdNeedStore as $sId) {
+			$this->Cache_Set(null, "favourite_topic_{$sId}_{$sUserId}", array(), 60*60*24*4);
+		}		
 		return $aFavouriteTopics;		
 	}
 	/**
@@ -877,25 +919,32 @@ class LsTopic extends Module {
 			$aTopicId=array($aTopicId);
 		}
 		$aTopicId=array_unique($aTopicId);
-		$aTopicsRead=array();		
+		$aTopicsRead=array();
+		$aTopicIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aTopicId,'topic_read_','_'.$sUserId);
+		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_read_','_'.$sUserId);
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aTopicsRead[$data[$sKey]->getTopicId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aTopicsRead[$data[$sKey]->getTopicId()]=$data[$sKey];
+					} else {
+						$aTopicIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
 		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
 		 */		
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsRead));
+		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsRead));		
+		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
+		$aTopicIdNeedStore=$aTopicIdNeedQuery;
 		if ($data = $this->oMapperTopic->GetTopicsReadByArray($aTopicIdNeedQuery,$sUserId)) {
 			foreach ($data as $oTopicRead) {
 				/**
@@ -903,8 +952,15 @@ class LsTopic extends Module {
 				 */
 				$aTopicsRead[$oTopicRead->getTopicId()]=$oTopicRead;
 				$this->Cache_Set($oTopicRead, "topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}", array(), 60*60*24*4);
+				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oTopicRead->getTopicId()));
 			}
 		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aTopicIdNeedStore as $sId) {
+			$this->Cache_Set(null, "topic_read_{$sId}_{$sUserId}", array(), 60*60*24*4);
+		}		
 		return $aTopicsRead;		
 	}
 	/**
