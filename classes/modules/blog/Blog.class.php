@@ -109,25 +109,32 @@ class LsBlog extends Module {
 			$aBlogId=array($aBlogId);
 		}
 		$aBlogId=array_unique($aBlogId);
-		$aBlogs=array();		
+		$aBlogs=array();
+		$aBlogIdNotNeedQuery=array();
 		/**
 		 * Делаем мульти-запрос к кешу
 		 */
-		$aCacheKeys=func_array_change_value($aBlogId,'blog_');
+		$aCacheKeys=func_build_cache_keys($aBlogId,'blog_');
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
-			 */			
-			foreach ($aCacheKeys as $sKey ) {
-				if (isset($data[$sKey])) {					
-					$aBlogs[$data[$sKey]->getId()]=$data[$sKey];
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aBlogs[$data[$sKey]->getId()]=$data[$sKey];
+					} else {
+						$aBlogIdNotNeedQuery[]=$sValue;
+					}
 				} 
 			}
-		} 
+		}
 		/**
 		 * Смотрим каких блогов не было в кеше и делаем запрос в БД
 		 */		
-		$aBlogIdNeedQuery=array_diff($aBlogId,array_keys($aBlogs));
+		$aBlogIdNeedQuery=array_diff($aBlogId,array_keys($aBlogs));		
+		$aBlogIdNeedQuery=array_diff($aBlogIdNeedQuery,$aBlogIdNotNeedQuery);		
+		$aBlogIdNeedStore=$aBlogIdNeedQuery;
 		if ($data = $this->oMapperBlog->GetBlogsByArrayId($aBlogIdNeedQuery)) {
 			foreach ($data as $oBlog) {
 				/**
@@ -135,8 +142,15 @@ class LsBlog extends Module {
 				 */
 				$aBlogs[$oBlog->getId()]=$oBlog;
 				$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array("blog_update_{$oBlog->getId()}"), 60*60*24*4);
+				$aBlogIdNeedStore=array_diff($aBlogIdNeedStore,array($oBlog->getId()));
 			}
 		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aBlogIdNeedStore as $sId) {
+			$this->Cache_Set(null, "blog_{$sId}", array("blog_update_{$sId}"), 60*60*24*4);
+		}		
 		return $aBlogs;		
 	}
 	/**

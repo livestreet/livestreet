@@ -98,7 +98,7 @@ class LsUser extends Module {
 			}
 		}
 		/**
-		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
 		 */		
 		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aUsers));		
 		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);		
