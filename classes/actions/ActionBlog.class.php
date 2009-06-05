@@ -525,9 +525,8 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsCollectiveGood($iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
+		 */					
+		$aResult=$this->Topic_GetTopicsCollectiveGood($iPage,BLOG_TOPIC_PER_PAGE);			
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
@@ -567,9 +566,8 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsCollectiveBad($iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
+		 */					
+		$aResult=$this->Topic_GetTopicsCollectiveBad($iPage,BLOG_TOPIC_PER_PAGE);			
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
@@ -608,9 +606,8 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsCollectiveNew($iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
+		 */					
+		$aResult=$this->Topic_GetTopicsCollectiveNew($iPage,BLOG_TOPIC_PER_PAGE);			
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
@@ -647,7 +644,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли такой топик
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,null,-1))) {
+		if (!($oTopic=$this->Topic_GetTopicById($iTopicId))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -659,7 +656,7 @@ class ActionBlog extends Action {
 		/**
 		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
 		 */
-		if ($oTopic->getBlogType()!='personal') {
+		if ($oTopic->getBlog()->getType()!='personal') {
 			func_header_location($oTopic->getUrl());
 		}
 		/**
@@ -671,34 +668,7 @@ class ActionBlog extends Action {
 		 */
 		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
-		$aComments=$aReturn['comments'];	
-		$aCommentsNew=array();
-		foreach ($aComments as $oCom) {
-			$array=$oCom->_getData();
-			$array['obj']=$oCom;
-			$aCommentsNew[]=$array;
-		}
-			
-		/**
-		 * Проверяем находится ли топик в избранном у текущего юзера
-		 */
-		$bInFavourite=false;
-		if ($this->oUserCurrent) {
-			if ($this->Topic_GetFavouriteTopic($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$bInFavourite=true;
-			}
-		}
-		/**
-		 * Получаем дату прочтения топика
-		 */
-		$dDate=date("Y-m-d H:i:s");
-		$iCommentLastTopicRead=0;
-		if ($this->oUserCurrent) {
-			if ($oTopicRead=$this->Topic_GetTopicRead($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$dDate=$oTopicRead->getDateRead();
-				$iCommentLastTopicRead=$oTopicRead->getCommentIdLast();
-			}
-		}
+		$aComments=$aReturn['comments'];				
 		/**
 		 * Отмечаем дату прочтения топика
 		 */
@@ -724,14 +694,10 @@ class ActionBlog extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */		
-		$this->Viewer_Assign('bInFavourite',$bInFavourite);
-		$this->Viewer_Assign('dDateTopicRead',$dDate);
-		$this->Viewer_Assign('iCommentLastTopicRead',$iCommentLastTopicRead);
 		$this->Viewer_Assign('oTopic',$oTopic);
 		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
-		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
+		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
 		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
@@ -757,7 +723,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли такой топик
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById($iTopicId,null,-1))) {
+		if (!($oTopic=$this->Topic_GetTopicById($iTopicId))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -769,13 +735,13 @@ class ActionBlog extends Action {
 		/**
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
-		if ($oTopic->getBlogType()=='personal') {
+		if ($oTopic->getBlog()->getType()=='personal') {
 			func_header_location($oTopic->getUrl());
 		}
 		/**
 		 * Если номер топика правильный но УРЛ блога косяный то корректируем его и перенаправляем на нужный адрес
 		 */
-		if ($oTopic->getBlogUrl()!=$sBlogUrl) {
+		if ($oTopic->getBlog()->getUrl()!=$sBlogUrl) {
 			func_header_location($oTopic->getUrl());
 		}
 		/**
@@ -787,33 +753,7 @@ class ActionBlog extends Action {
 		 */		
 		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
-		$aComments=$aReturn['comments'];	
-		$aCommentsNew=array();
-		foreach ($aComments as $oCom) {
-			$array=$oCom->_getData();
-			$array['obj']=$oCom;
-			$aCommentsNew[]=$array;
-		}
-		/**
-		 * Проверяем находится ли топик в избранном у текущего юзера
-		 */
-		$bInFavourite=false;
-		if ($this->oUserCurrent) {
-			if ($this->Topic_GetFavouriteTopic($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$bInFavourite=true;
-			}
-		}
-		/**
-		 * Получаем дату прочтения топика
-		 */
-		$dDate=date("Y-m-d H:i:s");
-		$iCommentLastTopicRead=0;
-		if ($this->oUserCurrent) {
-			if ($oTopicRead=$this->Topic_GetTopicRead($oTopic->getId(),$this->oUserCurrent->getId())) {
-				$dDate=$oTopicRead->getDateRead();
-				$iCommentLastTopicRead=$oTopicRead->getCommentIdLast();
-			}
-		}
+		$aComments=$aReturn['comments'];				
 		/**
 		 * Отмечаем дату прочтения топика
 		 */
@@ -838,15 +778,11 @@ class ActionBlog extends Action {
 		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
 		/**
 		 * Загружаем переменные в шаблон
-		 */		
-		$this->Viewer_Assign('bInFavourite',$bInFavourite);
-		$this->Viewer_Assign('dDateTopicRead',$dDate);
-		$this->Viewer_Assign('iCommentLastTopicRead',$iCommentLastTopicRead);
+		 */				
 		$this->Viewer_Assign('oTopic',$oTopic);
-		$this->Viewer_Assign('aComments',$aComments);	
-		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
+		$this->Viewer_Assign('aComments',$aComments);		
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
-		$this->Viewer_AddHtmlTitle($oTopic->getBlogTitle());
+		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
 		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**

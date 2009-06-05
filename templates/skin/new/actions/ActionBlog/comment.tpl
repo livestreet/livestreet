@@ -37,8 +37,8 @@
 				{/literal}
 				
 				{assign var="nesting" value="-1"}
-				{foreach from=$aCommentsNew item=aComment name=rublist}
-					{assign var="cmtlevel" value=$aComment.level}					
+				{foreach from=$aComments item=oComment name=rublist}
+					{assign var="cmtlevel" value=$oComment->getLevel()}					
 					{if $cmtlevel>$BLOG_COMMENT_MAX_TREE_LEVEL}
 						{assign var="cmtlevel" value=$BLOG_COMMENT_MAX_TREE_LEVEL}
 					{/if}
@@ -48,22 +48,22 @@
     				{elseif not $smarty.foreach.rublist.first}
         				</div></div>
     				{/if}    
-    				<div class="comment" id="comment_id_{$aComment.obj->getId()}">
-    					{if !$aComment.obj->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
+    				<div class="comment" id="comment_id_{$oComment->getId()}">
+    					{if !$oComment->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
 							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" />
-							<a name="comment{$aComment.obj->getId()}" ></a>							
-							<div class="voting {if $aComment.obj->getRating()>0}positive{elseif $aComment.obj->getRating()<0}negative{/if} {if !$oUserCurrent || $aComment.obj->getUserId()==$oUserCurrent->getId() ||  strtotime($aComment.obj->getDate())<$smarty.now-$VOTE_LIMIT_TIME_COMMENT}guest{/if}   {if $aComment.obj->getUserIsVote()} voted {if $aComment.obj->getUserVoteDelta()>0}plus{else}minus{/if}{/if}  ">
-								<div class="total">{if $aComment.obj->getRating()>0}+{/if}{$aComment.obj->getRating()}</div>
-								<a href="#" class="plus" onclick="lsVote.vote({$aComment.obj->getId()},this,1,'topic_comment'); return false;"></a>
-								<a href="#" class="minus" onclick="lsVote.vote({$aComment.obj->getId()},this,-1,'topic_comment'); return false;"></a>
+							<a name="comment{$oComment->getId()}" ></a>							
+							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$VOTE_LIMIT_TIME_COMMENT}guest{/if}   {if $oComment->getUserIsVote()} voted {if $oComment->getUserVoteDelta()>0}plus{else}minus{/if}{/if}  ">
+								<div class="total">{if $oComment->getRating()>0}+{/if}{$oComment->getRating()}</div>
+								<a href="#" class="plus" onclick="lsVote.vote({$oComment->getId()},this,1,'topic_comment'); return false;"></a>
+								<a href="#" class="minus" onclick="lsVote.vote({$oComment->getId()},this,-1,'topic_comment'); return false;"></a>
 							</div>						
-							<div id="comment_content_id_{$aComment.obj->getId()}" class="content {if $aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}del{elseif $oUserCurrent and $aComment.obj->getUserId()==$oUserCurrent->getId()}self{elseif $dDateTopicRead<=$aComment.obj->getDate()}new{/if}">								
-								{if $oUserCurrent and $aComment.obj->getUserId()!=$oUserCurrent->getId() and $dDateTopicRead<=$aComment.obj->getDate()}
+							<div id="comment_content_id_{$oComment->getId()}" class="content {if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}del{elseif $oUserCurrent and $oComment->getUserId()==$oUserCurrent->getId()}self{elseif $oTopic->getDateRead()<=$oComment->getDate()}new{/if}">								
+								{if $oUserCurrent and $oComment->getUserId()!=$oUserCurrent->getId() and $oTopic->getDateRead()<=$oComment->getDate()}
 									{literal}
 									<script language="JavaScript" type="text/javascript">
 										window.addEvent('domready', function() {
 										{/literal}
-											lsCmtTree.addCommentScroll({$aComment.obj->getId()});
+											lsCmtTree.addCommentScroll({$oComment->getId()});
 										{literal}
 										});					
 									</script>
@@ -71,44 +71,44 @@
 								{/if}							
 								<div class="tb"><div class="tl"><div class="tr"></div></div></div>								
 								<div class="text">
-									{if $aComment.obj->isBad()}
-										<div style="display: none;" id="comment_text_{$aComment.obj->getId()}">
-					    				{$aComment.obj->getText()}
+									{if $oComment->isBad()}
+										<div style="display: none;" id="comment_text_{$oComment->getId()}">
+					    				{$oComment->getText()}
 					    				</div>
-					   					 <a href="#" onclick="$('comment_text_{$aComment.obj->getId()}').style.display='block';$(this).style.display='none';return false;">{$aLang.comment_bad_open}</a>
+					   					 <a href="#" onclick="$('comment_text_{$oComment->getId()}').style.display='block';$(this).style.display='none';return false;">{$aLang.comment_bad_open}</a>
 									{else}	
-					    				{$aComment.obj->getText()}
+					    				{$oComment->getText()}
 									{/if}								
 								</div>				
 								<div class="bl"><div class="bb"><div class="br"></div></div></div>
 							</div>							
 							<div class="info">
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$aComment.obj->getUserLogin()}/"><img src="{$aComment.obj->getUserProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$aComment.obj->getUserLogin()}/" class="author">{$aComment.obj->getUserLogin()}</a></p>
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oComment->getUserLogin()}/"><img src="{$oComment->getUserProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oComment->getUserLogin()}/" class="author">{$oComment->getUserLogin()}</a></p>
 								<ul>
-									<li class="date">{date_format date=$aComment.obj->getDate()}</li>
-									{if $oUserCurrent and !$aComment.obj->getDelete() and !$oTopic->getForbidComment()}
-										<li><a href="javascript:lsCmtTree.toggleCommentForm({$aComment.obj->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
+									<li class="date">{date_format date=$oComment->getDate()}</li>
+									{if $oUserCurrent and !$oComment->getDelete() and !$oTopic->getForbidComment()}
+										<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
 									{/if}									
-									<li><a href="#comment{$aComment.obj->getId()}" class="imglink link"></a></li>	
-									{if $aComment.obj->getPid()}
-										<li class="goto-comment-parent"><a href="#comment{$aComment.obj->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="{$aLang.comment_goto_parent}">↑</a></li>
+									<li><a href="#comment{$oComment->getId()}" class="imglink link"></a></li>	
+									{if $oComment->getPid()}
+										<li class="goto-comment-parent"><a href="#comment{$oComment->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="{$aLang.comment_goto_parent}">↑</a></li>
 									{/if}
 									<li class="goto-comment-child hidden"><a href="#" onclick="return lsCmtTree.goToChildComment(this);" title="{$aLang.comment_goto_child}">↓</a></li>
-									{if !$aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-   										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_delete}</a></li>
+									{if !$oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
+   										<li><a href="#" class="delete" onclick="lsCmtTree.toggleComment(this,{$oComment->getId()}); return false;">{$aLang.comment_delete}</a></li>
    									{/if}
-   									{if $aComment.obj->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-   										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$aComment.obj->getId()}); return false;">{$aLang.comment_repair}</a></li>
+   									{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
+   										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
    									{/if}								
 								</ul>
 							</div>		
-							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$aComment.obj->getId()}" style="display: none;"></div></div></div>					
-							<div class="reply" id="reply_{$aComment.obj->getId()}" style="display: none;"></div>	
+							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$oComment->getId()}" style="display: none;"></div></div></div>					
+							<div class="reply" id="reply_{$oComment->getId()}" style="display: none;"></div>	
 						{else}				
 							<span class="delete">{$aLang.comment_was_delete}</span><br><br>
 						{/if}		
-							<div class="comment-children" id="comment-children-{$aComment.obj->getId()}">    
+							<div class="comment-children" id="comment-children-{$oComment->getId()}">    
     				{assign var="nesting" value=$cmtlevel}    
     				{if $smarty.foreach.rublist.last}
         				{section name=closelist2 loop=`$nesting+1`}</div></div>{/section}    

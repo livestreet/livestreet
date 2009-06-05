@@ -67,7 +67,7 @@ class LsTopic extends Module {
 		$aTopicsVote=array();
 		$aFavouriteTopics=array();
 		$aTopicsQuestionVote=array();
-		$aCountCommentNew=array();
+		$aTopicsRead=array();
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);		
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
@@ -78,7 +78,7 @@ class LsTopic extends Module {
 			$aFavouriteTopics=$this->GetFavouriteTopicsByArray($aTopicId,$this->oUserCurrent->getId());	
 		}
 		if (isset($aAllowData['comment_new']) and $this->oUserCurrent) {
-			$aCountCommentNew=$this->GetTopicsReadByArray($aTopicId,$this->oUserCurrent->getId());	
+			$aTopicsRead=$this->GetTopicsReadByArray($aTopicId,$this->oUserCurrent->getId());	
 		}
 		/**
 		 * Добавляем данные к результату - списку топиков
@@ -110,10 +110,12 @@ class LsTopic extends Module {
 			} else {
 				$oTopic->setUserQuestionIsVote(false);
 			}
-			if (isset($aCountCommentNew[$oTopic->getId()]))	{		
-				$oTopic->setCountCommentNew($oTopic->getCountComment()-$aCountCommentNew[$oTopic->getId()]->getCommentCountLast());
+			if (isset($aTopicsRead[$oTopic->getId()]))	{		
+				$oTopic->setCountCommentNew($oTopic->getCountComment()-$aTopicsRead[$oTopic->getId()]->getCommentCountLast());
+				$oTopic->setDateRead($aTopicsRead[$oTopic->getId()]->getDateRead());
 			} else {
 				$oTopic->setCountCommentNew(0);
+				$oTopic->setDateRead(date("Y-m-d H:i:s"));
 			}						
 		}
 		return $aTopics;
@@ -172,8 +174,9 @@ class LsTopic extends Module {
 	 * @param unknown_type $sTopicId
 	 * @return unknown
 	 */
-	public function DeleteTopic($sTopicId) {
-		$oTopic = $this->oMapperTopic->GetTopicById($sTopicId,null,-1); 
+	public function DeleteTopic($sTopicId) {		
+		$aRes=$this->GetTopicsByArrayId($sTopicId);
+		$oTopic=$aRes[$sTopicId];
 		//чистим зависимые кеши			
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$oTopic->getId()}","topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));						
 		return $this->oMapperTopic->DeleteTopic($sTopicId);

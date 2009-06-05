@@ -102,7 +102,10 @@ class TopicEntity_Topic extends Entity
     } 
     public function getCountCommentNew() {
         return $this->_aData['count_comment_new'];
-    }    
+    }  
+    public function getDateRead() {
+        return $this->_aData['date_read'];
+    }  
     public function getUser() {
         return $this->_aData['user'];
     }
@@ -377,6 +380,9 @@ class TopicEntity_Topic extends Entity
     }
     public function setCountCommentNew($data) {
         $this->_aData['count_comment_new']=$data;
+    }
+    public function setDateRead($data) {
+        $this->_aData['date_read']=$data;
     }
     public function setIsFavourite($data) {
         $this->_aData['topic_is_favourite']=$data;
