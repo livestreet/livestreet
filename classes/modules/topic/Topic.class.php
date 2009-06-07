@@ -506,63 +506,41 @@ class LsTopic extends Module {
 		return 	$data;		
 	}
 	/**
-	 * Получает список топиков хороших из коллективных блогов
+	 * список топиков из коллективных блогов
 	 *
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
+	 * @param unknown_type $sShowType
 	 * @return unknown
 	 */
-	public function GetTopicsCollectiveGood($iPage,$iPerPage) {
+	public function GetTopicsCollective($iPage,$iPerPage,$sShowType='good') {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
 			),
-			'topic_publish' => 1,
-			'topic_rating'  => array(
-				'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
-				'type'  => 'top',
-			),
+			'topic_publish' => 1,			
 		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
-	}
-	/**
-	 * Получает список топиков плохих из коллективных блогов
-	 *
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetTopicsCollectiveBad($iPage,$iPerPage) {
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
-			'topic_publish' => 1,
-			'topic_rating'  => array(
-				'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
-				'type'  => 'down',
-			),
-		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
+		switch ($sShowType) {
+			case 'good':
+				$aFilter['topic_rating']=array(
+					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'type'  => 'top',
+				);			
+				break;	
+			case 'bad':
+				$aFilter['topic_rating']=array(
+					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'type'  => 'down',
+				);			
+				break;	
+			case 'new':
+				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);							
+				break;
+			default:
+				break;
+		}
+		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}	
-	/**
-	 * Получает список топиков новых из коллективных блогов
-	 *
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetTopicsCollectiveNew($iPage,$iPerPage) {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
-			'topic_publish' => 1,
-			'topic_new' => $sDate,
-		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
-	}
 	/**
 	 * Получает число новых топиков в коллективных блогах
 	 *

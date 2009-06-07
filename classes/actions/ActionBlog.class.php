@@ -113,10 +113,12 @@ class ActionBlog extends Action {
 	 * Регистрируем евенты, по сути определяем УРЛы вида /blog/.../
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('good','EventGood');	
-		$this->AddEvent('bad','EventBad');	
-		$this->AddEvent('new','EventNew');
+	protected function RegisterEvent() {			
+		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEvent('good','EventTopics');
+		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
+		
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('admin','EventAdminBlog');
@@ -502,35 +504,32 @@ class ActionBlog extends Action {
 	}
 	
 	/**
-	 * Вывод хороших топиков из коллективных блогов
+	 * Показ всех топиков
 	 *
 	 */
-	protected function EventGood() {	
+	protected function EventTopics() {
+		$sShowType=$this->sCurrentEvent;
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect='good';
+		$this->sMenuSubItemSelect=$sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;			
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsCollectiveGood($iPage,BLOG_TOPIC_PER_PAGE);			
+		$aResult=$this->Topic_GetTopicsCollective($iPage,BLOG_TOPIC_PER_PAGE,$sShowType);
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sShowType);
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('blog_good_show');
+		$this->Hook_Run('blog_show',array('sShowType'=>$sShowType));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -539,90 +538,8 @@ class ActionBlog extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('index');	
-	}	
-
-	/**
-	 * Вывод плохих топиков из коллективных блогов
-	 *
-	 */
-	protected function EventBad() {	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='bad';
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
-		/**
-		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsCollectiveBad($iPage,BLOG_TOPIC_PER_PAGE);			
-		$aTopics=$aResult['collection'];	
-		/**
-		 * Формируем постраничность
-		 */	
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);		
-		/**
-		 * Вызов хуков
-		 */
-		$this->Hook_Run('blog_bad_show');
-		/**
-		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aTopics',$aTopics);	
-		/**
-		 * Устанавливаем шаблон вывода
-		 */			
 		$this->SetTemplateAction('index');
-	}
-	/**
-	 * Вывод новых топиков из коллективных блогов
-	 *
-	 */
-	protected function EventNew() {	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='new';
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
-		/**
-		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsCollectiveNew($iPage,BLOG_TOPIC_PER_PAGE);			
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->sCurrentEvent);							
-		/**
-		 * Вызов хуков
-		 */
-		$this->Hook_Run('blog_new_show');
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aTopics',$aTopics);
-		/**
-		 * Устанавливаем шаблон вывода
-		 */				
-		$this->SetTemplateAction('index');
-	}
-		
+	}		
 	/**
 	 * Показ топика из персонального блога
 	 *
