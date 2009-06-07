@@ -154,9 +154,8 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByActivateKey($sKey) {		
-		$id=$this->oMapper->GetUserByActivateKey($sKey);
-		$data=$this->GetUsersAdditionalData($id);
-		if ($id and isset($data[$id])) {
+		$id=$this->oMapper->GetUserByActivateKey($sKey);		
+		if ($id and $data=$this->GetUsersAdditionalData($id) and isset($data[$id])) {
 			return $data[$id];
 		}
 		return null;
@@ -168,9 +167,8 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByKey($sKey) {		
-		$id=$this->oMapper->GetUserByKey($sKey);
-		$data=$this->GetUsersAdditionalData($id);
-		if ($id and isset($data[$id])) {
+		$id=$this->oMapper->GetUserByKey($sKey);		
+		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
 			return $data[$id];
 		}
 		return null;
@@ -182,9 +180,8 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserByMail($sMail) {		
-		$id=$this->oMapper->GetUserByMail($sMail);
-		$data=$this->GetUsersAdditionalData($id);
-		if ($id and isset($data[$id])) {
+		$id=$this->oMapper->GetUserByMail($sMail);		
+		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
 			return $data[$id];
 		}
 		return null;
@@ -197,16 +194,13 @@ class LsUser extends Module {
 	 */
 	public function GetUserByLogin($sLogin) {
 		$s=strtolower($sLogin);		
-		if (false === ($data = $this->Cache_Get("user_login_{$s}"))) {						
+		if (false === ($id = $this->Cache_Get("user_login_{$s}"))) {						
 			if ($id = $this->oMapper->GetUserByLogin($sLogin)) {
 				$this->Cache_Set($id, "user_login_{$s}", array(), 60*60*24*1);
 			}						
 		}
-		if ($id) {
-			$data=$this->GetUsersAdditionalData($id);
-			if (isset($data[$id])) {
-				return $data[$id];
-			}
+		if ($id and $data=$this->GetUsersAdditionalData($id) and isset($data[$id])) {
+			return $data[$id];			
 		}
 		return $data;		 
 	}

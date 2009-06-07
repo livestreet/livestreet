@@ -1,5 +1,5 @@
 {include file='header.tpl' menu='blog'}
-
+{assign var="oUserOwner" value=$oBlog->getOwner()}
 
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -35,11 +35,11 @@ function toggleBlogInfo(id,link) {
 				<ul class="action">
 					<li class="rss"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/blog/{$oBlog->getUrl()}/"></a></li>					
 					{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
-						<li class="join {if !$bNeedJoin}active{/if}">
+						<li class="join {if $oBlog->getUserIsJoin()}active{/if}">
 							<a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;"></a>
 						</li>
 					{/if}
-					{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or ($oBlogUser and $oBlogUser->getIsAdministrator()) )}
+					{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
   						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}">{$aLang.blog_edit}</a></li>
   					{/if}
 				</ul>
@@ -62,22 +62,23 @@ function toggleBlogInfo(id,link) {
 								<li>
 									<dl>
 										<dt>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlog->getUserLogin()}/"><img src="{$oBlog->getUserProfileAvatarPath(48)}" alt=""  title="{$oBlog->getUserLogin()}"/></a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserOwner->getLogin()}/"><img src="{$oUserOwner->getProfileAvatarPath(48)}" alt=""  title="{$oUserOwner->getLogin()}"/></a>
 										</dt>
 										<dd>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlog->getUserLogin()}/">{$oBlog->getUserLogin()}</a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserOwner->getLogin()}/">{$oUserOwner->getLogin()}</a>
 										</dd>
 									</dl>
 								</li>
 								{if $aBlogAdministrators}			
- 								{foreach from=$aBlogAdministrators item=oBlogAdministrator}  									
+ 								{foreach from=$aBlogAdministrators item=oBlogUser}
+ 								{assign var="oUser" value=$oBlogUser->getUser()}  									
 								<li>
 									<dl>
 										<dt>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogAdministrator->getUserLogin()}/"><img src="{$oBlogAdministrator->getUserProfileAvatarPath(48)}" alt=""  title="{$oBlogAdministrator->getUserLogin()}"/></a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(48)}" alt=""  title="{$oUser->getLogin()}"/></a>
 										</dt>
 										<dd>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogAdministrator->getUserLogin()}/">{$oBlogAdministrator->getUserLogin()}</a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a>
 										</dd>
 									</dl>
 								</li>
@@ -92,14 +93,15 @@ function toggleBlogInfo(id,link) {
 							<h1>{$aLang.blog_user_moderators} ({$iCountBlogModerators})</h1>
 							{if $aBlogModerators}
 							<ul class="admin-list">							
- 								{foreach from=$aBlogModerators item=oBlogModerator}  									
+ 								{foreach from=$aBlogModerators item=oBlogUser}  
+ 								{assign var="oUser" value=$oBlogUser->getUser()}									
 								<li>
 									<dl>
 										<dt>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogModerator->getUserLogin()}/"><img src="{$oBlogModerator->getUserProfileAvatarPath(48)}" alt=""  title="{$oBlogModerator->getUserLogin()}"/></a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(48)}" alt=""  title="{$oUser->getLogin()}"/></a>
 										</dt>
 										<dd>
-											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogModerator->getUserLogin()}/">{$oBlogModerator->getUserLogin()}</a>
+											<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a>
 										</dd>
 									</dl>
 								</li>
@@ -114,7 +116,8 @@ function toggleBlogInfo(id,link) {
 						{if $aBlogUsers}
 						<ul class="reader-list">
 							{foreach from=$aBlogUsers item=oBlogUser}
-								<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogUser->getUserLogin()}/">{$oBlogUser->getUserLogin()}</a></li>
+							{assign var="oUser" value=$oBlogUser->getUser()}
+								<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a></li>
 							{/foreach}							
 						</ul>
 						{else}

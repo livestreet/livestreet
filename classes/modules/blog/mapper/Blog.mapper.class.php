@@ -128,7 +128,7 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 	
-	public function GetRelationBlogUsers($aFilter) {
+	public function GetBlogUsers($aFilter) {
 		$sWhere=' 1=1 ';
 		if (isset($aFilter['blog_id'])) {
 			$sWhere.=" AND bu.blog_id =  ".(int)$aFilter['blog_id'];
@@ -159,7 +159,7 @@ class Mapper_Blog extends Mapper {
 		return $aBlogUsers;
 	}
 	
-	public function GetRelationBlogUsersByArrayBlog($aArrayId,$sUserId) {	
+	public function GetBlogUsersByArrayBlog($aArrayId,$sUserId) {	
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
@@ -181,41 +181,7 @@ class Mapper_Blog extends Mapper {
 		return $aBlogUsers;
 	}
 	
-	public function GetBlogUsers($aFilter) {
-		$sWhere=' 1=1 ';
-		if (isset($aFilter['blog_id'])) {
-			$sWhere.=" AND bu.blog_id =  ".(int)$aFilter['blog_id'];
-		}
-		if (isset($aFilter['is_moderator'])) {
-			$sWhere.=" AND bu.is_moderator =  ".(int)$aFilter['is_moderator'];
-		}
-		if (isset($aFilter['is_administrator'])) {
-			$sWhere.=" AND bu.is_administrator =  ".(int)$aFilter['is_administrator'];
-		}
-		if (isset($aFilter['user_id'])) {
-			$sWhere.=" AND bu.user_id =  ".(int)$aFilter['user_id'];
-		}
-		$sql = "SELECT 					
-					u.*									
-				FROM 
-					".DB_TABLE_BLOG_USER." as bu,
-					".DB_TABLE_USER." as u
-				WHERE 
-					".$sWhere." 					
-					AND
-					bu.user_id=u.user_id
-					
-				ORDER by u.user_login asc;	
-					";		
-		$aUsers=array();
-		if ($aRows=$this->oDb->select($sql)) {
-			foreach ($aRows as $aUser) {
-				$aUsers[]=new UserEntity_User($aUser);
-			}
-		}
-		return $aUsers;
-	}
-	
+		
 	public function GetPersonalBlogByUserId($sUserId) {
 		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
@@ -265,37 +231,16 @@ class Mapper_Blog extends Mapper {
 		return $aVotes;
 	}
 	
-	public function GetBlogByUrl($sUrl) {
-		$iCurrentUserId=-1;
-		if (is_object($this->oUserCurrent)) {
-			$iCurrentUserId=$this->oUserCurrent->getId();
-		}
+	public function GetBlogByUrl($sUrl) {		
 		$sql = "SELECT 
-			b.*,
-			u.user_login as user_login,
-			u.user_profile_avatar as user_profile_avatar,
-			u.user_profile_avatar_type as user_profile_avatar_type,
-			IF(bv.blog_id IS NULL,0,1) as user_is_vote,
-			bv.vote_delta as user_vote_delta	 
+				b.blog_id 
 			FROM 
 				".DB_TABLE_BLOG." as b
-				
-				LEFT JOIN (
-						SELECT
-							blog_id,
-							vote_delta												
-						FROM ".DB_TABLE_BLOG_VOTE." 
-						WHERE user_voter_id = ?d
-					) AS bv ON bv.blog_id = b.blog_id,
-				
-				".DB_TABLE_USER." as u
 			WHERE 
-				b.blog_url = ? 
-				AND
-				b.user_owner_id = u.user_id
+				b.blog_url = ? 		
 				";
-		if ($aRow=$this->oDb->selectRow($sql,$iCurrentUserId,$sUrl)) {
-			return new BlogEntity_Blog($aRow);
+		if ($aRow=$this->oDb->selectRow($sql,$sUrl)) {
+			return $aRow['blog_id'];
 		}
 		return null;
 	}

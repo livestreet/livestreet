@@ -595,70 +595,44 @@ class LsTopic extends Module {
 		return $data;		
 	}	
 	/**
-	 * Получает список топиков хороший из блога
+	 * Список топиков из блога
 	 *
 	 * @param unknown_type $oBlog
 	 * @param unknown_type $iPage
 	 * @param unknown_type $iPerPage
+	 * @param unknown_type $sShowType
 	 * @return unknown
 	 */
-	public function GetTopicsByBlogGood($oBlog,$iPage,$iPerPage) {
+	public function GetTopicsByBlog($oBlog,$iPage,$iPerPage,$sShowType='good') {
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
 			),
 			'topic_publish' => 1,
 			'blog_id' => $oBlog->getId(),
-			'topic_rating'  => array(
-				'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
-				'type'  => 'top',
-			),
 		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
-	}	
-	/**
-	 * Получает список топиков плохих из блога
-	 *
-	 * @param unknown_type $oBlog
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetTopicsByBlogBad($oBlog,$iPage,$iPerPage) {
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
-			'topic_publish' => 1,
-			'blog_id' => $oBlog->getId(),
-			'topic_rating'  => array(
-				'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
-				'type'  => 'down',
-			),
-		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
-	}	
-	/**
-	 * Получает список топиков новых из блога
-	 *
-	 * @param unknown_type $oBlog
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetTopicsByBlogNew($oBlog,$iPage,$iPerPage) {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
-			'topic_publish' => 1,
-			'blog_id' => $oBlog->getId(),
-			'topic_new' => $sDate,
-			
-		);
-		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);		
+		switch ($sShowType) {
+			case 'good':
+				$aFilter['topic_rating']=array(
+					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'type'  => 'top',
+				);			
+				break;	
+			case 'bad':
+				$aFilter['topic_rating']=array(
+					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'type'  => 'down',
+				);			
+				break;	
+			case 'new':
+				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);							
+				break;
+			default:
+				break;
+		}
+		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
+	
 	/**
 	 * Получает число новых топиков из блога
 	 *
