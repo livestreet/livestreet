@@ -123,7 +123,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('admin','EventAdminBlog');
 		
-		$this->AddEventPreg('/^(\d+)\.html$/i','EventShowTopicPersonal');
+		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
 				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i','EventShowBlog');
@@ -539,99 +539,27 @@ class ActionBlog extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}		
+	}	
 	/**
-	 * Показ топика из персонального блога
-	 *
-	 * @param unknown_type $iTopicId
-	 * @return unknown
-	 */
-	protected function EventShowTopicPersonal() {		
-		$iTopicId=$this->GetEventMatch(1);
-		/**
-		 * Меню
-		 */
-		$this->sMenuItemSelect='log';
-		$this->sMenuSubItemSelect='';
-		/**
-		 * Проверяем есть ли такой топик
-		 */
-		if (!($oTopic=$this->Topic_GetTopicById($iTopicId))) {
-			return parent::EventNotFound();
-		}
-		/**
-		 * Проверяем права на просмотр топика
-		 */
-		if (!$oTopic->getPublish() and (!$this->oUserCurrent or ($this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()))) {
-			return parent::EventNotFound();
-		}
-		/**
-		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
-		 */
-		if ($oTopic->getBlog()->getType()!='personal') {
-			func_header_location($oTopic->getUrl());
-		}
-		/**
-		 * Обрабатываем добавление коммента
-		 */
-		$this->SubmitComment($oTopic);
-		/**
-		 * Достаём комменты к топику
-		 */
-		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
-		$iMaxIdComment=$aReturn['iMaxIdComment'];	
-		$aComments=$aReturn['comments'];				
-		/**
-		 * Отмечаем дату прочтения топика
-		 */
-		if ($this->oUserCurrent) {
-			$oTopicRead=new TopicEntity_TopicRead();
-			$oTopicRead->setTopicId($oTopic->getId());
-			$oTopicRead->setUserId($this->oUserCurrent->getId());
-			$oTopicRead->setCommentCountLast($oTopic->getCountComment());
-			$oTopicRead->setCommentIdLast($iMaxIdComment);
-			$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
-			$this->Topic_SetTopicRead($oTopicRead);
-		}		
-		/**
-		 * Вызов хуков
-		 */
-		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
-		/**
-		 * Выставляем SEO данные
-		 */
-		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oTopic->getText());
-		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
-		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
-		/**
-		 * Загружаем переменные в шаблон
-		 */		
-		$this->Viewer_Assign('oTopic',$oTopic);
-		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
-		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
-		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('topic');
-	}
-	
-	/**
-	 * Показ топика из коллективного блога
+	 * Показ топика
 	 *
 	 * @param unknown_type $sBlogUrl
 	 * @param unknown_type $iTopicId
 	 * @return unknown
 	 */
 	protected function EventShowTopic() {	
-		$sBlogUrl=$this->sCurrentEvent;
-		$iTopicId=$this->GetParamEventMatch(0,1);
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';	
+		$sBlogUrl='';	
+		if ($this->GetParamEventMatch(0,1)) {
+			// из коллективного блога
+			$sBlogUrl=$this->sCurrentEvent;
+			$iTopicId=$this->GetParamEventMatch(0,1);
+			$this->sMenuItemSelect='blog';			
+		} else {
+			// из персонального блога
+			$iTopicId=$this->GetEventMatch(1);
+			$this->sMenuItemSelect='log';			
+		}
+		$this->sMenuSubItemSelect='';					
 		/**
 		 * Проверяем есть ли такой топик
 		 */
@@ -647,13 +575,19 @@ class ActionBlog extends Action {
 		/**
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
-		if ($oTopic->getBlog()->getType()=='personal') {
+		if ($sBlogUrl!='' and $oTopic->getBlog()->getType()=='personal') {
+			func_header_location($oTopic->getUrl());
+		}
+		/**
+		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
+		 */
+		if ($sBlogUrl=='' and $oTopic->getBlog()->getType()!='personal') {
 			func_header_location($oTopic->getUrl());
 		}
 		/**
 		 * Если номер топика правильный но УРЛ блога косяный то корректируем его и перенаправляем на нужный адрес
 		 */
-		if ($oTopic->getBlog()->getUrl()!=$sBlogUrl) {
+		if ($sBlogUrl!='' and $oTopic->getBlog()->getUrl()!=$sBlogUrl) {
 			func_header_location($oTopic->getUrl());
 		}
 		/**

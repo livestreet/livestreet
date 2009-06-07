@@ -848,8 +848,10 @@ class LsTopic extends Module {
 	 */
 	public function SetTopicRead(TopicEntity_TopicRead $oTopicRead) {		
 		if ($this->GetTopicRead($oTopicRead->getTopicId(),$oTopicRead->getUserId())) {
+			$this->Cache_Delete("topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}");
 			$this->oMapperTopic->UpdateTopicRead($oTopicRead);
 		} else {
+			$this->Cache_Delete("topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}");
 			$this->oMapperTopic->AddTopicRead($oTopicRead);
 		}
 		return true;		
@@ -862,7 +864,11 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicRead($sTopicId,$sUserId) {
-		return $this->oMapperTopic->GetTopicRead($sTopicId,$sUserId);
+		$data=$this->GetTopicsReadByArray($sTopicId,$sUserId);
+		if (isset($data[$sTopicId])) {
+			return $data[$sTopicId];
+		}
+		return null;
 	}	
 	/**
 	 * Получить список просмотром/чтения топиков по списку айдишников
