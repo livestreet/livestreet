@@ -171,9 +171,9 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogById($sBlogId) {
-		$aBlogs=$this->GetBlogsAdditionalData($sId);
-		if (isset($aBlogs[$sId])) {
-			return $aBlogs[$sId];
+		$aBlogs=$this->GetBlogsAdditionalData($sBlogId);
+		if (isset($aBlogs[$sBlogId])) {
+			return $aBlogs[$sBlogId];
 		}
 		return null;		
 	}
@@ -497,15 +497,12 @@ class LsBlog extends Module {
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	public function GetBlogsRating($iCurrPage,$iPerPage) { 
-		$s1=-1;		
-		if ($this->oUserCurrent) {
-			$s1=$this->oUserCurrent->getId();
-		}
-		if (false === ($data = $this->Cache_Get("blog_rating_{$iCurrPage}_{$iPerPage}_$s1"))) {				
+	public function GetBlogsRating($iCurrPage,$iPerPage) {		
+		if (false === ($data = $this->Cache_Get("blog_rating_{$iCurrPage}_{$iPerPage}"))) {				
 			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}_$s1", array("blog_update","blog_new"), 60*15);
+			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}", array("blog_update","blog_new"), 60*15);
 		}
+		$data['collection']=$this->GetBlogsAdditionalData($data['collection']);
 		return $data;		
 	}
 	/**

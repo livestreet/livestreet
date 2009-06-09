@@ -17,14 +17,15 @@
 					</thead>
 					<tbody>
 						{foreach from=$aBlogUsers item=oBlogUser}
+						{assign var="oUser" value=$oBlogUser->getUser()}
 						<tr>
-							<td class="username"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oBlogUser->getUserLogin()}/">{$oBlogUser->getUserLogin()}</a></td>
-							{if $oBlogUser->getUserId()==$oUserCurrent->getId()}
+							<td class="username"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>
+							{if $oUser->getId()==$oUserCurrent->getId()}
 							<td colspan="3" align="center">{$aLang.blog_admin_users_current_administrator}</td>
 							{else}
-							<td><input type="radio" name="user_rank[{$oBlogUser->getUserId()}]"  value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if}/></td>
-							<td><input type="radio" name="user_rank[{$oBlogUser->getUserId()}]"  value="moderator" {if $oBlogUser->getIsModerator()}checked{/if}/></td>
-							<td><input type="radio" name="user_rank[{$oBlogUser->getUserId()}]"  value="reader" {if !$oBlogUser->getIsAdministrator() and !$oBlogUser->getIsModerator()}checked{/if}/></td>
+							<td><input type="radio" name="user_rank[{$oUser->getId()}]"  value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if}/></td>
+							<td><input type="radio" name="user_rank[{$oUser->getId()}]"  value="moderator" {if $oBlogUser->getIsModerator()}checked{/if}/></td>
+							<td><input type="radio" name="user_rank[{$oUser->getId()}]"  value="reader" {if !$oBlogUser->getIsAdministrator() and !$oBlogUser->getIsModerator()}checked{/if}/></td>
 							{/if}
 						</tr>
 						{/foreach}						

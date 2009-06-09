@@ -252,11 +252,12 @@ class ActionBlog extends Action {
 		/**
 		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
 		}			
+		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_edit'));
 		
@@ -362,7 +363,7 @@ class ActionBlog extends Action {
 		/**
 		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
@@ -377,7 +378,7 @@ class ActionBlog extends Action {
 				$aUserRank=array();
 			}
 			foreach ($aUserRank as $sUserId => $sRank) {
-				if (!($oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$sUserId))) {
+				if (!($oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$sUserId))) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					break;
 				}
@@ -403,7 +404,7 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список подписчиков блога
 		 */
-		$aBlogUsers=$this->Blog_GetRelationBlog($oBlog->getId());		
+		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());		
 		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
