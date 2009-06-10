@@ -106,6 +106,7 @@ class Jevix{
         protected $curCh;
         protected $curChOrd;
         protected $curChClass;
+        protected $curParentTag;
         protected $states;
         protected $quotesOpened = 0;
         protected $brAdded = 0;
@@ -122,7 +123,6 @@ class Jevix{
 
         public    $outBuffer = '';
         public    $errors;
-
 
         /**
          * Константы для класификации тегов
@@ -808,6 +808,7 @@ class Jevix{
         }
 
         protected function makeTag($tag, $params, $content, $short, $parentTag = null){
+        		$this->curParentTag=$parentTag;
                 $tag = strtolower($tag);
 
                 // Получаем правила фильтрации тега
@@ -1194,7 +1195,11 @@ class Jevix{
                         } elseif ($this->isAutoBrMode && $this->skipNL($brCount)){
                                 // Перенос строки
                                 $br = $this->br.$this->nl;
-                                $text.= $brCount == 1 ? $br : $br.$br;
+                                if (in_array($this->curParentTag,array('ul')) and (is_null($this->openedTag) or $this->curParentTag==$this->openedTag)) {
+                                	// пропускаем <br/>
+                                } else {
+                                	$text.= $brCount == 1 ? $br : $br.$br;
+                                }
                                 // Помечаем что новая строка и новое слово
                                 $newLine = true;
                                 $newWord = true;
