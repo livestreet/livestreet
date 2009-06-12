@@ -44,13 +44,10 @@ class Mapper_User extends Mapper {
 		$sql = "UPDATE ".DB_TABLE_USER." 
 			SET 
 				user_password = ? ,
-				user_mail = ? ,	
-				user_key =? ,		
-				user_skill = ? ,
-				user_date_last = ? ,
+				user_mail = ? ,					
+				user_skill = ? ,				
 				user_date_activate = ? ,
-				user_date_comment_last = ? ,
-				user_ip_last = ?, 
+				user_date_comment_last = ? ,				
 				user_rating = ? ,
 				user_count_vote = ? ,
 				user_activate = ? , 
@@ -76,13 +73,10 @@ class Mapper_User extends Mapper {
 			WHERE user_id = ?
 		";			
 		if ($this->oDb->query($sql,$oUser->getPassword(),
-								   $oUser->getMail(),
-								   $oUser->getKey(),
-								   $oUser->getSkill(),
-								   $oUser->getDateLast(),
+								   $oUser->getMail(),								   
+								   $oUser->getSkill(),								   
 								   $oUser->getDateActivate(),
-								   $oUser->getDateCommentLast(),
-								   $oUser->getIpLast(),
+								   $oUser->getDateCommentLast(),								   
 								   $oUser->getRating(),
 								   $oUser->getCountVote(),
 								   $oUser->getActivate(),								   
@@ -109,6 +103,64 @@ class Mapper_User extends Mapper {
 			return true;
 		}		
 		return false;
+	}
+	
+		
+	public function GetUserBySessionKey($sKey) {
+		$sql = "SELECT 
+					s.user_id 
+				FROM					
+					".DB_TABLE_SESSION." as s
+				WHERE 
+					s.session_key = ? 					
+				";
+		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
+			return $aRow['user_id'];
+		}
+		return null;
+	}
+	
+	public function CreateSession(UserEntity_Session $oSession) {
+		$sql = "REPLACE INTO ".DB_TABLE_SESSION." 
+			SET 
+				session_key = ? ,
+				user_id = ? ,
+				session_ip_create = ? ,
+				session_ip_last = ? ,
+				session_date_create = ? ,		
+				session_date_last = ? 
+		";			
+		return $this->oDb->query($sql,$oSession->getKey(), $oSession->getUserId(), $oSession->getIpCreate(), $oSession->getIpLast(), $oSession->getDateCreate(), $oSession->getDateLast());
+	}
+	
+	public function UpdateSession(UserEntity_Session $oSession) {
+		$sql = "UPDATE ".DB_TABLE_SESSION." 
+			SET 
+				session_ip_last = ? ,	
+				session_date_last = ? 
+			WHERE user_id = ?
+		";			
+		return $this->oDb->query($sql,$oSession->getIpLast(), $oSession->getDateLast(), $oSession->getUserId());
+	}
+	
+	public function GetSessionsByArrayId($aArrayId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+				
+		$sql = "SELECT 
+					s.*						 
+				FROM 
+					".DB_TABLE_SESSION." as s					
+				WHERE 
+					s.user_id IN(?a) ";
+		$aRes=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aRes[]=new UserEntity_Session($aRow);
+			}
+		}		
+		return $aRes;
 	}
 	
 	public function GetUsersByArrayId($aArrayId) {
@@ -146,18 +198,7 @@ class Mapper_User extends Mapper {
 		return null;
 	}
 	
-	public function GetUserByKey($sKey) {
-		$sql = "SELECT 
-				u.user_id
-			FROM 
-				".DB_TABLE_USER." as u 
-			WHERE u.user_key = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
-			return $aRow['user_id'];
-		}
-		return null;
-	}
-	
+		
 	public function GetUserByMail($sMail) {		
 		$sql = "SELECT 
 				u.user_id
@@ -208,19 +249,17 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersByDateLast($iLimit) {
 		$sql = "SELECT 
-			*		 
+			user_id		 
 			FROM 
-				".DB_TABLE_USER."	
-			 WHERE 
-			  user_activate = 1			
+				".DB_TABLE_SESSION."				
 			ORDER BY 
-				user_date_last DESC		
+				session_date_last DESC		
 			LIMIT 0, ?d		
 				";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;
@@ -228,19 +267,19 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersByDateRegister($iLimit) {
 		$sql = "SELECT 
-			*		 
+			user_id		 
 			FROM 
 				".DB_TABLE_USER."	  
 			WHERE
 				 user_activate = 1			
 			ORDER BY 
-				user_date_register DESC		
+				user_id DESC		
 			LIMIT 0, ?d		
 				";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;
@@ -248,7 +287,7 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersRating($sType,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT 
-			*		 
+			user_id		 
 			FROM 
 				".DB_TABLE_USER."
 			WHERE 
@@ -260,7 +299,7 @@ class Mapper_User extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;
@@ -333,19 +372,19 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {		
 		$sql = "SELECT 
-				user_login					 
+				user_id					 
 			FROM 
 				".DB_TABLE_USER."	
 			WHERE
-				user_login LIKE ?		
-				and 
-				user_activate = 1								
+				user_activate = 1
+				and
+				user_login LIKE ?			
 			LIMIT 0, ?d		
 				";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserLogin.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;
@@ -548,23 +587,20 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersByCountry($sCountry,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "
-			SELECT u.*
+			SELECT cu.user_id
 			FROM
 				".DB_TABLE_COUNTRY." as c,
-				".DB_TABLE_COUNTRY_USER." as cu,
-				".DB_TABLE_USER." as u 
+				".DB_TABLE_COUNTRY_USER." as cu 
 			WHERE
 				c.country_name = ?
 				AND
-				c.country_id=cu.country_id
-				AND
-				cu.user_id=u.user_id
-			ORDER BY u.user_rating DESC
+				c.country_id=cu.country_id 				
+			ORDER BY cu.user_id DESC
 			LIMIT ?d, ?d ";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCountry,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;
@@ -572,23 +608,20 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersByCity($sCity,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "
-			SELECT u.*
+			SELECT cu.user_id
 			FROM
 				".DB_TABLE_CITY." as c,
-				".DB_TABLE_CITY_USER." as cu,
-				".DB_TABLE_USER." as u 
+				".DB_TABLE_CITY_USER." as cu
 			WHERE
 				c.city_name = ?
 				AND
-				c.city_id=cu.city_id
-				AND
-				cu.user_id=u.user_id
-			ORDER BY u.user_rating DESC
+				c.city_id=cu.city_id 				
+			ORDER BY cu.user_id DESC
 			LIMIT ?d, ?d ";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCity,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_User($aRow);
+				$aReturn[]=$aRow['user_id'];
 			}
 		}
 		return $aReturn;

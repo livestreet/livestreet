@@ -48,4 +48,5 @@ define('DB_TABLE_CITY_USER',DB_PREFIX_TABLE.'city_user');
 define('DB_TABLE_COUNTRY',DB_PREFIX_TABLE.'country');
 define('DB_TABLE_COUNTRY_USER',DB_PREFIX_TABLE.'country_user');
 define('DB_TABLE_REMINDER',DB_PREFIX_TABLE.'reminder');
+define('DB_TABLE_SESSION',DB_PREFIX_TABLE.'session');
 ?>

@@ -17,9 +17,10 @@
 					
 					<tbody>
 					{foreach from=$aUsersLast item=oUser}
+					{assign var="oSession" value=$oUser->getSession()}
 						<tr>
 							<td class="user"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
-							<td class="date">{date_format date=$oUser->getDateLast()}</td>
+							<td class="date">{date_format date=$oSession->getDateLast()}</td>
 							<td class="strength">{$oUser->getSkill()}</td>							
 							<td class="rating"><strong>{$oUser->getRating()}</strong></td>
 						</tr>

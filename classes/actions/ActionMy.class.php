@@ -73,9 +73,8 @@ class ActionMy extends Action {
 		}		
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
+		 */					
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,BLOG_TOPIC_PER_PAGE);	
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

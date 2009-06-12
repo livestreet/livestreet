@@ -45,9 +45,10 @@ class ActionPeople extends Action {
 		$this->AddEvent('good','EventGood');		
 		$this->AddEvent('bad','EventBad');	
 		$this->AddEvent('online','EventOnline');	
-		$this->AddEvent('new','EventNew');	
-		$this->AddEvent('country','EventCountry');	
-		$this->AddEvent('city','EventCity');	
+		$this->AddEvent('new','EventNew');
+			
+		$this->AddEventPreg('/^country$/i','/^.+$/i','/^(page(\d+))?$/i','EventCountry');
+		$this->AddEventPreg('/^city$/i','/^.+$/i','/^(page(\d+))?$/i','EventCity');
 	}
 		
 	
@@ -71,15 +72,10 @@ class ActionPeople extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(1),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;				
 		/**
 		 * Получаем список юзеров
-		 */
-		$iCount=0;			
+		 */					
 		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,USER_PER_PAGE);	
 		$aUsersCountry=$aResult['collection'];
 		/**
@@ -110,15 +106,10 @@ class ActionPeople extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(1),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
 		/**
 		 * Получаем список юзеров
-		 */
-		$iCount=0;			
+		 */					
 		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,USER_PER_PAGE);	
 		$aUsersCity=$aResult['collection'];
 		/**
@@ -223,16 +214,11 @@ class ActionPeople extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
+		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;				
 		/**
 		 * Получаем список юзеров
-		 */
-		$iCount=0;			
-		$aResult=$this->User_GetUsersRating($sType,$iCount,$iPage,USER_PER_PAGE);	
+		 */		
+		$aResult=$this->User_GetUsersRating($sType,$iPage,USER_PER_PAGE);	
 		$aUsersRating=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

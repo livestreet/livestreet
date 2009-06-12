@@ -25,6 +25,7 @@ require_once('mapper/User.mapper.class.php');
 class LsUser extends Module {	
 	protected $oMapper;
 	protected $oUserCurrent=null;
+	protected $oSession=null;
 	
 	/**
 	 * Инициализация
@@ -37,7 +38,12 @@ class LsUser extends Module {
 		 */
 		$sUserId=$this->Session_Get('user_id');			
 		if ($sUserId and $oUser=$this->GetUserById($sUserId) and $oUser->getActivate()) {
-			$this->oUserCurrent=$oUser;
+			if ($this->oSession=$this->GetSessionByUserId($oUser->getId())) {
+				/**
+				 * Сюда можно вставить условие на проверку айпишника сессии
+				 */
+				$this->oUserCurrent=$oUser;
+			}
 		}		
 		/**
 		 * Запускаем автозалогинивание
@@ -47,15 +53,17 @@ class LsUser extends Module {
 		
 		$this->oMapper->SetUserCurrent($this->oUserCurrent);
 		/**
-		 * Обновляем данные о юзере
+		 * Обновляем сессию
 		 */
-		$this->AutoUpdateUser();				
+		if (isset($this->oSession)) {
+			$this->UpdateSession();
+		}						
 	}
 	/**
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
 	 *
 	 */
-	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote')) {
+	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -64,6 +72,23 @@ class LsUser extends Module {
 		 * Получаем юзеров
 		 */
 		$aUsers=$this->GetUsersByArrayId($aUserId);
+		/**
+		 * Получаем дополнительные данные
+		 */
+		$aSessions=array();
+		if (isset($aAllowData['session'])) {
+			$aSessions=$this->GetSessionsByArrayId($aUserId);	
+		}
+		/**
+		 * Добавляем данные к результату - списку блогов
+		 */
+		foreach ($aUsers as $oUser) {
+			if (isset($aSessions[$oUser->getId()])) {
+				$oUser->setSession($aSessions[$oUser->getId()]);
+			} else {
+				$oUser->setSession(null); // или $oUser->setSession(new UserEntity_Session());
+			}					
+		}
 		
 		return $aUsers;
 	}
@@ -117,9 +142,76 @@ class LsUser extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aUserIdNeedStore as $sId) {
-			$this->Cache_Set(null, "user_{$sId}", array("user_update_{$oUser->getId()}"), 60*60*24*4);
+			$this->Cache_Set(null, "user_{$sId}", array("user_update_{$sId}"), 60*60*24*4);
 		}		
 		return $aUsers;		
+	}
+	/**
+	 * Список сессий юзеров по ID
+	 *
+	 * @param array $aUserId
+	 */
+	public function GetSessionsByArrayId($aUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);
+		$aSessions=array();
+		$aUserIdNotNeedQuery=array();
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_build_cache_keys($aUserId,'user_session_');
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey] and $data[$sKey]['session']) {
+						$aSessions[$data[$sKey]['session']->getUserId()]=$data[$sKey]['session'];
+					} else {
+						$aUserIdNotNeedQuery[]=$sValue;
+					}
+				} 
+			}
+		}
+		/**
+		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
+		 */		
+		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aSessions));		
+		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);		
+		$aUserIdNeedStore=$aUserIdNeedQuery;
+		if ($data = $this->oMapper->GetSessionsByArrayId($aUserIdNeedQuery)) {
+			foreach ($data as $oSession) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aSessions[$oSession->getUserId()]=$oSession;
+				$this->Cache_Set(array('time'=>time(),'session'=>$oSession), "user_session_{$oSession->getUserId()}", array(), 60*60*24*4);
+				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oSession->getUserId()));
+			}
+		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aUserIdNeedStore as $sId) {
+			$this->Cache_Set(array('time'=>time(),'session'=>null), "user_session_{$sId}", array(), 60*60*24*4);
+		}		
+		return $aSessions;		
+	}
+	/**
+	 * Получает сессию юзера
+	 *
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetSessionByUserId($sUserId) {
+		$aSessions=$this->GetSessionsByArrayId($sUserId);			
+		if (isset($aSessions[$sUserId])) {
+			return $aSessions[$sUserId];
+		}		
+		return null;			
 	}
 	/**
 	 * При завершенни модуля загружаем в шалон объект текущего юзера
@@ -166,8 +258,8 @@ class LsUser extends Module {
 	 * @param unknown_type $sKey
 	 * @return unknown
 	 */
-	public function GetUserByKey($sKey) {		
-		$id=$this->oMapper->GetUserByKey($sKey);		
+	public function GetUserBySessionKey($sKey) {		
+		$id=$this->oMapper->GetUserBySessionKey($sKey);		
 		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
 			return $data[$id];
 		}
@@ -179,7 +271,7 @@ class LsUser extends Module {
 	 * @param unknown_type $sMail
 	 * @return unknown
 	 */
-	public function GetUserByMail($sMail) {		
+	public function GetUserByMail($sMail) {
 		$id=$this->oMapper->GetUserByMail($sMail);		
 		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
 			return $data[$id];
@@ -202,7 +294,7 @@ class LsUser extends Module {
 		if ($id and $data=$this->GetUsersAdditionalData($id) and isset($data[$id])) {
 			return $data[$id];			
 		}
-		return $data;		 
+		return null;		 
 	}
 	/**
 	 * Получить юзера по айдишнику
@@ -241,14 +333,18 @@ class LsUser extends Module {
 		/**
 		 * Генерим новый ключ авторизаии для куков
 		 */
-		$sKey=md5(func_generator().time().$oUser->getLogin());
-		$oUser->setKey($sKey);
+		$sKey=md5(func_generator().time().$oUser->getLogin());		
+		/**
+		 * Создаём новую сессию
+		 */
+		if (!$this->CreateSession($oUser,$sKey)) {
+			return false;
+		}
 		/**
 		 * Запоминаем в сесси юзера
 		 */
 		$this->Session_Set('user_id',$oUser->getId());
-		$this->oUserCurrent=$oUser;
-		$this->Update($oUser);
+		$this->oUserCurrent=$oUser;		
 		/**
 		 * Ставим куку
 		 */
@@ -266,7 +362,7 @@ class LsUser extends Module {
 		}
 		if (isset($_COOKIE['key'])) {
 			$sKey=$_COOKIE['key'];
-			if ($oUser=$this->GetUserByKey($sKey)) {
+			if ($oUser=$this->GetUserBySessionKey($sKey)) {
 				$this->Authorization($oUser);
 			} else {
 				$this->Logout();
@@ -299,6 +395,7 @@ class LsUser extends Module {
 	 */
 	public function Logout() {
 		$this->oUserCurrent=null;
+		$this->oSession=null;
 		/**
 		 * Дропаем из сессии
 		 */
@@ -309,22 +406,43 @@ class LsUser extends Module {
 		setcookie('key','',1,SYS_COOKIE_PATH,SYS_COOKIE_HOST);
 	}
 	/**
-	 * Автообновление данных о юзере
-	 *
+	 * Обновление данных сессии
+	 * Важный момент: сессию обновляем в кеше и раз в 10 минут скидываем в БД
 	 */
-	protected function AutoUpdateUser() {
-		if (!$this->oUserCurrent) {
-			return;
+	protected function UpdateSession() {		
+		$this->oSession->setDateLast(date("Y-m-d H:i:s"));
+		$this->oSession->setIpLast(func_getIp());
+		if (false === ($data = $this->Cache_Get("user_session_{$this->oSession->getUserId()}"))) {
+			$data=array(
+				'time'=>time(),
+				'session'=>$this->oSession
+			);			
+		} else {
+			$data['session']=$this->oSession;
 		}
-		$this->oUserCurrent->setDateLast(date("Y-m-d H:i:s"));
-		$this->oUserCurrent->setIpLast(func_getIp());	
-		/**
-		 * сохраняем
-		 * делаем это не через метод Update, а напрямую через мапер, т.к. нам не нужно чтоб сбрасывался кеш при полном апдейте
-		 */		
-		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_update_last'));
-		$this->oMapper->Update($this->oUserCurrent);
+		if (!SYS_CACHE_USE or $data['time']<time()-60*10) {
+			$data['time']=time();
+			$this->oMapper->UpdateSession($this->oSession);
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_session_update'));
+		}		
+		$this->Cache_Set($data, "user_session_{$this->oSession->getUserId()}", array(), 60*60*24*4);
+	}		
+
+	protected function CreateSession(UserEntity_User $oUser,$sKey) {	
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_session_update'));	
+		$this->Cache_Delete("user_session_{$oUser->getId()}");		
+		$oSession=new UserEntity_Session();
+		$oSession->setUserId($oUser->getId());
+		$oSession->setKey($sKey);
+		$oSession->setIpLast(func_getIp());
+		$oSession->setIpCreate(func_getIp());
+		$oSession->setDateLast(date("Y-m-d H:i:s"));
+		$oSession->setDateCreate(date("Y-m-d H:i:s"));
+		if ($this->oMapper->CreateSession($oSession)) {
+			$this->oSession=$oSession;
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Получить голосование за юзера
@@ -353,12 +471,12 @@ class LsUser extends Module {
 	 */
 	public function GetUsersByDateLast($iLimit=20) {
 		if ($this->IsAuthorization()) {
-			return $this->oMapper->GetUsersByDateLast($iLimit);
-		}
-		if (false === ($data = $this->Cache_Get("user_date_last_{$iLimit}"))) {						
+			$data=$this->oMapper->GetUsersByDateLast($iLimit);
+		} elseif (false === ($data = $this->Cache_Get("user_date_last_{$iLimit}"))) {
 			$data = $this->oMapper->GetUsersByDateLast($iLimit);
-			$this->Cache_Set($data, "user_date_last_{$iLimit}", array("user_update_last"), 60*5);			
+			$this->Cache_Set($data, "user_date_last_{$iLimit}", array("user_session_update"), 60*60*24*2);
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		 
 	}
 	/**
@@ -370,8 +488,9 @@ class LsUser extends Module {
 	public function GetUsersByDateRegister($iLimit=20) {
 		if (false === ($data = $this->Cache_Get("user_date_register_{$iLimit}"))) {						
 			$data = $this->oMapper->GetUsersByDateRegister($iLimit);
-			$this->Cache_Set($data, "user_date_register_{$iLimit}", array("user_new"), 60*5);			
+			$this->Cache_Set($data, "user_date_register_{$iLimit}", array("user_new"), 60*60*24*3);			
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		
 	}
 	/**
@@ -383,11 +502,12 @@ class LsUser extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetUsersRating($sType,$iCount,$iPage,$iPerPage) {		
+	public function GetUsersRating($sType,$iPage,$iPerPage) {
 		if (false === ($data = $this->Cache_Get("user_rating_{$sType}_{$iPage}_{$iPerPage}"))) {						
 			$data = array('collection'=>$this->oMapper->GetUsersRating($sType,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_rating_{$sType}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*5);			
+			$this->Cache_Set($data, "user_rating_{$sType}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*60*24*2);			
 		}
+		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
 		return $data;			
 	}
 	/**
@@ -401,8 +521,9 @@ class LsUser extends Module {
 	public function GetUsersByCountry($sCountry,$iPage,$iPerPage) {
 		if (false === ($data = $this->Cache_Get("user_country_{$sCountry}_{$iPage}_{$iPerPage}"))) {						
 			$data = array('collection'=>$this->oMapper->GetUsersByCountry($sCountry,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_country_{$sCountry}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*5);			
+			$this->Cache_Set($data, "user_country_{$sCountry}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);
 		}
+		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
 		return $data;
 	}
 	/**
@@ -416,8 +537,9 @@ class LsUser extends Module {
 	public function GetUsersByCity($sCity,$iPage,$iPerPage) {
 		if (false === ($data = $this->Cache_Get("user_city_{$sCity}_{$iPage}_{$iPerPage}"))) {						
 			$data = array('collection'=>$this->oMapper->GetUsersByCity($sCity,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_city_{$sCity}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*5);			
+			$this->Cache_Set($data, "user_city_{$sCity}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);			
 		}
+		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
 		return $data;
 	}
 	/**
@@ -438,7 +560,7 @@ class LsUser extends Module {
 			$aStat['count_country']=$this->oMapper->GetCountUsersCountry(15);
 			$aStat['count_city']=$this->oMapper->GetCountUsersCity(15);
 			
-			$this->Cache_Set($aStat, "user_stats", array("user_update","user_new"), 60*5);
+			$this->Cache_Set($aStat, "user_stats", array("user_update","user_new"), 60*60*24*4);
 		}
 		return $aStat;
 	}
@@ -452,8 +574,9 @@ class LsUser extends Module {
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
 		if (false === ($data = $this->Cache_Get("user_like_{$sUserLogin}_{$iLimit}"))) {			
 			$data = $this->oMapper->GetUsersByLoginLike($sUserLogin,$iLimit);
-			$this->Cache_Set($data, "user_like_{$sUserLogin}_{$iLimit}", array("user_update","user_new"), 60*15);
+			$this->Cache_Set($data, "user_like_{$sUserLogin}_{$iLimit}", array("user_update","user_new"), 60*60*24*2);
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		
 	}
 	/**

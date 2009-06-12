@@ -25,10 +25,7 @@ class UserEntity_User extends Entity {
     }
     public function getPassword() {
         return $this->_aData['user_password'];
-    }
-    public function getKey() {
-        return $this->_aData['user_key'];
-    }
+    }    
     public function getMail() {
         return $this->_aData['user_mail'];
     }
@@ -37,10 +34,7 @@ class UserEntity_User extends Entity {
     }
     public function getDateRegister() {
         return $this->_aData['user_date_register'];
-    }
-    public function getDateLast() {
-        return $this->_aData['user_date_last'];
-    }
+    }    
     public function getDateActivate() {
         return $this->_aData['user_date_activate'];
     }
@@ -49,10 +43,7 @@ class UserEntity_User extends Entity {
     }
     public function getIpRegister() {
         return $this->_aData['user_ip_register'];
-    }
-    public function getIpLast() {
-        return $this->_aData['user_ip_last'];
-    }    
+    }       
     public function getRating() {         
         return number_format(round($this->_aData['user_rating'],2), 2, '.', '');
     }
@@ -130,6 +121,9 @@ class UserEntity_User extends Entity {
     
     
     
+    public function getSession() {
+        return $this->_aData['session'];
+    }
     public function getProfileAvatarPath($iSize=100) {   
     	if ($this->getProfileAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
@@ -162,10 +156,7 @@ class UserEntity_User extends Entity {
     }
     public function setPassword($data) {
     	$this->_aData['user_password']=$data;
-    }
-    public function setKey($data) {
-    	$this->_aData['user_key']=$data;
-    }
+    }    
     public function setMail($data) {
     	$this->_aData['user_mail']=$data;
     }
@@ -174,10 +165,7 @@ class UserEntity_User extends Entity {
     }    
     public function setDateRegister($data) {
     	$this->_aData['user_date_register']=$data;
-    }
-    public function setDateLast($data) {
-    	$this->_aData['user_date_last']=$data;
-    }
+    }    
     public function setDateActivate($data) {
     	$this->_aData['user_date_activate']=$data;
     }
@@ -186,10 +174,7 @@ class UserEntity_User extends Entity {
     }
     public function setIpRegister($data) {
     	$this->_aData['user_ip_register']=$data;
-    }
-    public function setIpLast($data) {
-    	$this->_aData['user_ip_last']=$data;
-    }    
+    }        
     public function setRating($data) {
     	$this->_aData['user_rating']=$data;
     }
@@ -258,6 +243,11 @@ class UserEntity_User extends Entity {
     }
     public function setSettingsNoticeNewFriend($data) {
     	$this->_aData['user_settings_notice_new_friend']=$data;
+    }
+    
+    
+    public function setSession($data) {
+    	$this->_aData['session']=$data;
     }
 }
 ?>
