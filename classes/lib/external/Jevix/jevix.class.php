@@ -124,6 +124,7 @@ class Jevix{
         public    $outBuffer = '';
         public    $errors;
 
+
         /**
          * Константы для класификации тегов
          *
@@ -141,6 +142,7 @@ class Jevix{
         const TR_PARAM_AUTO_ADD = 11;    // Auto add parameters + default values (a->rel[=nofollow])
         const TR_TAG_NO_TYPOGRAPHY = 12; // Отключение типографирования для тега
         const TR_TAG_IS_EMPTY = 13;      // Не короткий тег с пустым содержанием имеет право существовать
+        const TR_TAG_NO_AUTO_BR = 14;    // Тег в котором не нужна авто-расстановка <br>
 
         /**
          * Классы символов генерируются symclass.php
@@ -212,6 +214,14 @@ class Jevix{
                 $this->_cfgSetTagsFlag($tags, self::TR_TAG_IS_EMPTY, true, false);
         }
 
+        /**
+         * КОНФИГУРАЦИЯ: Теги внутри который не нужна авто-расстановка <br/>, например, <ul></ul> и <ol></ol>
+         * @param array|string $tags тег(и)
+         */
+        function cfgSetTagNoAutoBr($tags){
+                $this->_cfgSetTagsFlag($tags, self::TR_TAG_NO_AUTO_BR, true, false);
+        }
+        
         /**
          * КОНФИГУРАЦИЯ: Тег необходимо вырезать вместе с контентом (script, iframe)
          * @param array|string $tags тег(и)
@@ -872,13 +882,13 @@ class Jevix{
                                                         $this->eror('Попытка вставить JavaScript в URI');
                                                         continue(2);
                                                 }
-                                                // Первый символ должен быть a-z0-9!
-                                                if(!preg_match('/^[a-z0-9\/]/ui', $value)) {
+                                                // Первый символ должен быть a-z0-9 или #!
+                                                 if(!preg_match('/^[a-z0-9\/\#]/ui', $value)) {
                                                         $this->eror('URI: Первый символ адреса должен быть буквой или цифрой');
                                                         continue(2);
                                                 }
                                                 // HTTP в начале если нет
-                                                if(!preg_match('/^(http|https|ftp):\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
+                                                if(!preg_match('/^(http|https|ftp):\/\//ui', $value) && !preg_match('/^(\/|\#)/ui', $value) ) $value = 'http://'.$value;
                                                 break;
 
                                         case '#image':
@@ -1193,13 +1203,17 @@ class Jevix{
                                 // после пробелов снова возможно новое слово
                                 $newWord = true;
                         } elseif ($this->isAutoBrMode && $this->skipNL($brCount)){
-                                // Перенос строки
-                                $br = $this->br.$this->nl;
-                                if (in_array($this->curParentTag,array('ul')) and (is_null($this->openedTag) or $this->curParentTag==$this->openedTag)) {
+                                // Перенос строки                                
+                                if ($this->curParentTag 
+                                	and isset($this->tagsRules[$this->curParentTag])
+                                	and isset($this->tagsRules[$this->curParentTag][self::TR_TAG_NO_AUTO_BR]) 
+                                	and (is_null($this->openedTag) or $this->curParentTag==$this->openedTag) 
+                                	) {
                                 	// пропускаем <br/>
                                 } else {
-                                	$text.= $brCount == 1 ? $br : $br.$br;
-                                }
+                                	$br = $this->br.$this->nl;
+                                	$text.= $brCount == 1 ? $br : $br.$br;	
+                                }                             
                                 // Помечаем что новая строка и новое слово
                                 $newLine = true;
                                 $newWord = true;

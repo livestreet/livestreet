@@ -72,13 +72,15 @@ class LsText extends Module {
 		$this->oJevix->cfgSetTagChilds('object', 'embed', false, false);
 		// Если нужно оставлять пустые не короткие теги
 		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
+		// Не нужна авто-расстановка <br>
+		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol'));
 		// Теги с обязательными параметрами
 		$this->oJevix->cfgSetTagParamsAutoAdd('embed',array(array('name'=>'wmode','value'=>'opaque','rewrite'=>true)));
 		if (BLOG_URL_NO_INDEX) {
 			$this->oJevix->cfgSetTagParamsAutoAdd('a',array(array('name'=>'rel','value'=>'nofollow','rewrite'=>true)));
 		}
 		// Отключение авто-добавления <br>
-		//$this->oJevix->cfgSetAutoBrMode(false);
+		$this->oJevix->cfgSetAutoBrMode(true);
 		// Автозамена
 		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(r)', '(C)', '(R)'), array('±', '©', '®', '©', '®'));
 		//$this->oJevix->cfgSetXHTMLMode(false);
