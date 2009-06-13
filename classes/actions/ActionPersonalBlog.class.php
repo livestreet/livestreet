@@ -55,10 +55,11 @@ class ActionPersonalBlog extends Action {
 	 * Регистрируем необходимые евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('good','EventGood');	
-		$this->AddEvent('bad','EventBad');	
-		$this->AddEvent('new','EventNew');
+	protected function RegisterEvent() {
+		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEvent('good','EventTopics');
+		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
 	}
 		
 	
@@ -66,121 +67,43 @@ class ActionPersonalBlog extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
 	/**
-	 * Выводит хорошие топики
+	 * Показ топиков
 	 *
 	 */
-	protected function EventGood() {
+	protected function EventTopics() {
+		$sShowType=$this->sCurrentEvent;
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect='good';	
+		$this->sMenuSubItemSelect=$sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;			
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalGood($iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
-		$aTopics=$aResult['collection'];		
+		 */					
+		$aResult=$this->Topic_GetTopicsPersonal($iPage,BLOG_TOPIC_PER_PAGE,$sShowType);
+		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
-		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PERSONAL_BLOG.'/good');		
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PERSONAL_BLOG.'/'.$sShowType);
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('personal_show',array('sShowType'=>$sShowType));
 		/**
 		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('aPaging',$aPaging);			
+		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('index');	
+		$this->SetTemplateAction('index');
 	}	
-
-	/**
-	 * Выводит плохие топики
-	 *
-	 */
-	protected function EventBad() {	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='bad';	
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
-		/**
-		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalBad($iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PERSONAL_BLOG.'/bad');		
-		/**
-		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('aPaging',$aPaging);					
-		$this->Viewer_Assign('aTopics',$aTopics);	
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('index');
-	}
-	
-	/**
-	 * Выводит новые топики
-	 *
-	 */
-	protected function EventNew() {	
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='new';	
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}
-		/**
-		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalNew($iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PERSONAL_BLOG.'/new');		
-		/**
-		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('aPaging',$aPaging);					
-		$this->Viewer_Assign('aTopics',$aTopics);	
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('index');
-	}
-	
 	/**
 	 * При завершении экшена загружаем в шаблон необходимые переменные
 	 *
