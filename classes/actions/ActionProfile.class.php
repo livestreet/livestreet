@@ -68,9 +68,8 @@ class ActionProfile extends Action {
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
 		/**
 		 * Получаем список избранных топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iCount,$iPage,BLOG_TOPIC_PER_PAGE);			
+		 */				
+		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iPage,BLOG_TOPIC_PER_PAGE);			
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
@@ -106,11 +105,11 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список друзей
 		 */
-		$aUsersFrend=$this->User_GetUsersFrend($this->oUserProfile->getId());
+		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId());
 		/**
 		 * Получаем список тех у кого в друзьях
 		 */
-		$aUsersSelfFrend=$this->User_GetUsersSelfFrend($this->oUserProfile->getId());
+		$aUsersSelfFriend=$this->User_GetUsersSelfFriend($this->oUserProfile->getId());
 		
 		if (USER_USE_INVITE) {
 			/**
@@ -123,13 +122,13 @@ class ActionProfile extends Action {
 			 */
 			$oUserInviteFrom=$this->User_GetUserInviteFrom($this->oUserProfile->getId());			
 			$this->Viewer_Assign('oUserInviteFrom',$oUserInviteFrom);
-		}		
+		}	
 		/**
-		 * Получаем список блогов в которых состоит юзер
+		 * Получаем список юзеров блога
 		 */
-		$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),0);	
-		$aBlogsModeration=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),1);	
-		$aBlogsAdministration=$this->Blog_GetRelationBlogUsersByUserId($this->oUserProfile->getId(),2);	
+		$aBlogUsers=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),0);
+		$aBlogModerators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),1);
+		$aBlogAdministrators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),2);		
 		/**
 		 * Получаем список блогов которые создал юзер
 		 */
@@ -141,12 +140,12 @@ class ActionProfile extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsUser',$aBlogsUser);
-		$this->Viewer_Assign('aBlogsModeration',$aBlogsModeration);
-		$this->Viewer_Assign('aBlogsAdministration',$aBlogsAdministration);
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
+		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
+		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
-		$this->Viewer_Assign('aUsersFrend',$aUsersFrend);		
-		$this->Viewer_Assign('aUsersSelfFrend',$aUsersSelfFrend);
+		$this->Viewer_Assign('aUsersFriend',$aUsersFriend);		
+		$this->Viewer_Assign('aUsersSelfFriend',$aUsersSelfFriend);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
 		/**

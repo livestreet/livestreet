@@ -15,21 +15,21 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Frend extends Entity 
+class UserEntity_Friend extends Entity 
 {    
     public function getUserId() {
         return $this->_aData['user_id'];
     }  
-    public function getFrendId() {
-        return $this->_aData['user_frend_id'];
+    public function getFriendId() {
+        return $this->_aData['user_friend_id'];
     }
     
     
 	public function setUserId($data) {
         $this->_aData['user_id']=$data;
     }
-    public function setFrendId($data) {
-        $this->_aData['user_frend_id']=$data;
+    public function setFriendId($data) {
+        $this->_aData['user_friend_id']=$data;
     }
 }
 ?>

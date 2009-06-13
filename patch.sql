@@ -26,3 +26,5 @@ ALTER TABLE `prefix_session`
 ALTER TABLE `prefix_user` DROP `user_key` ;
 ALTER TABLE `prefix_user` DROP `user_date_last` ;
 ALTER TABLE `prefix_user` DROP `user_ip_last` ;
+
+ALTER TABLE `prefix_friend` CHANGE `user_frend_id` `user_friend_id` INT( 11 ) UNSIGNED;

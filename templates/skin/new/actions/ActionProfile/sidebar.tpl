@@ -4,10 +4,10 @@
 
 				<div class="cl"><div class="cr">					
 					<ul>
-						{if $oUserProfile->getUserIsFrend()}
-							<li class="del"><a href="#"  title="{$aLang.user_friend_del}" onclick="ajaxToggleUserFrend(this,{$oUserProfile->getId()}); return false;">{$aLang.user_friend_del}</a></li>
+						{if $oUserProfile->getUserIsFriend()}
+							<li class="del"><a href="#"  title="{$aLang.user_friend_del}" onclick="ajaxToggleUserFriend(this,{$oUserProfile->getId()}); return false;">{$aLang.user_friend_del}</a></li>
 						{else}
-							<li class="add"><a href="#"  title="{$aLang.user_friend_add}" onclick="ajaxToggleUserFrend(this,{$oUserProfile->getId()}); return false;">{$aLang.user_friend_add}</a></li>
+							<li class="add"><a href="#"  title="{$aLang.user_friend_add}" onclick="ajaxToggleUserFriend(this,{$oUserProfile->getId()}); return false;">{$aLang.user_friend_add}</a></li>
 						{/if}
 						<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
 					</ul>

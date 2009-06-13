@@ -309,7 +309,9 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogsByOwnerId($sUserId) {
-		return $this->oMapperBlog->GetBlogsByOwnerId($sUserId);
+		$data=$this->oMapperBlog->GetBlogsByOwnerId($sUserId);
+		$data=$this->GetBlogsAdditionalData($data);
+		return $data;
 	}
 	/**
 	 * Получает список всех НЕ персональных блогов

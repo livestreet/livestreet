@@ -391,73 +391,83 @@ class Mapper_User extends Mapper {
 	}
 	
 	
-	public function AddFrend(UserEntity_Frend $oFrend) {
+	public function AddFriend(UserEntity_Friend $oFriend) {
 		$sql = "INSERT INTO ".DB_TABLE_FRIEND." 
 			(user_id,
-			user_frend_id		
+			user_friend_id		
 			)
 			VALUES(?d,  ?d)
 		";			
-		if ($this->oDb->query($sql,$oFrend->getUserId(),$oFrend->getFrendId())===0) 
+		if ($this->oDb->query($sql,$oFriend->getUserId(),$oFriend->getFriendId())===0) 
 		{
 			return true;
 		}		
 		return false;
 	}
 	
-	public function DeleteFrend(UserEntity_Frend $oFrend) {
+	public function DeleteFriend(UserEntity_Friend $oFriend) {
 		$sql = "DELETE FROM ".DB_TABLE_FRIEND." 
 			WHERE
 				user_id = ?d
 				AND
-				user_frend_id = ?d				
+				user_friend_id = ?d				
 		";			
-		if ($this->oDb->query($sql,$oFrend->getUserId(),$oFrend->getFrendId())) 
+		if ($this->oDb->query($sql,$oFriend->getUserId(),$oFriend->getFriendId())) 
 		{
 			return true;
 		}		
 		return false;
 	}
 	
-	public function GetFrend($sFrendId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_FRIEND." WHERE user_id = ?d and user_frend_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId,$sFrendId)) {
-			return new UserEntity_Frend($aRow);
+	
+	
+	public function GetFriendsByArrayId($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
 		}
-		return null;
+				
+		$sql = "SELECT 
+					*						 
+				FROM 
+					".DB_TABLE_FRIEND." 				
+				WHERE 
+					user_id = ? 
+					AND
+					user_friend_id IN(?a) ";
+		$aRes=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+			foreach ($aRows as $aRow) {
+				$aRes[]=new UserEntity_Friend($aRow);
+			}
+		}		
+		return $aRes;
 	}
 	
-	public function GetUsersFrend($sUserId) {					
+	public function GetUsersFriend($sUserId) {					
 		$sql = "SELECT 
-					u.*										
+					uf.user_friend_id										
 				FROM 
-					".DB_TABLE_FRIEND." as uf,
-					".DB_TABLE_USER." as u					
+					".DB_TABLE_FRIEND." as uf				
 				WHERE 	
-					uf.user_id = ?d	
-					AND
-					uf.user_frend_id = u.user_id
-					AND			
-					u.user_activate = 1												
-				ORDER BY u.user_login;	
+					uf.user_id = ?d	;	
 					";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=new UserEntity_User($aUser);
+				$aUsers[]=$aUser['user_friend_id'];
 			}
 		}
 		return $aUsers;
 	}
 	
-	public function GetUsersSelfFrend($sUserId) {					
+	public function GetUsersSelfFriend($sUserId) {					
 		$sql = "SELECT 
 					u.*										
 				FROM 
 					".DB_TABLE_FRIEND." as uf,
 					".DB_TABLE_USER." as u					
 				WHERE 	
-					uf.user_frend_id = ?d	
+					uf.user_friend_id = ?d	
 					AND
 					uf.user_id = u.user_id
 					AND			
@@ -527,22 +537,15 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersInvite($sUserId) {					
 		$sql = "SELECT 
-					u.*										
+					i.user_to_id										
 				FROM 
-					".DB_TABLE_INVITE." as i,
-					".DB_TABLE_USER." as u					
+					".DB_TABLE_INVITE." as i				
 				WHERE 	
-					i.user_from_id = ?d	
-					AND
-					i.user_to_id = u.user_id
-					AND			
-					u.user_activate = 1												
-				ORDER BY u.user_login;	
-					";
+					i.user_from_id = ?d	";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=new UserEntity_User($aUser);
+				$aUsers[]=$aUser['user_to_id'];
 			}
 		}
 		return $aUsers;
@@ -550,20 +553,15 @@ class Mapper_User extends Mapper {
 	
 	public function GetUserInviteFrom($sUserIdTo) {
 		$sql = "SELECT 
-					u.*										
+					i.user_from_id										
 				FROM 
-					".DB_TABLE_INVITE." as i,
-					".DB_TABLE_USER." as u					
+					".DB_TABLE_INVITE." as i				
 				WHERE 	
-					i.user_to_id = ?d	
-					AND
-					i.user_from_id = u.user_id
-					AND			
-					u.user_activate = 1												
+					i.user_to_id = ?d																		
 				LIMIT 0,1;	
 					";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdTo)) {
-			return new UserEntity_User($aRow);
+			return $aRow['user_from_id'];
 		}
 		return null;
 	}

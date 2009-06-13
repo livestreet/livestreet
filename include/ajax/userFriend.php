@@ -33,12 +33,12 @@ if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if ($oUserCurrent->getId()!=$idUser) {
 		if ($oUser=$oEngine->User_GetUserById($idUser)) {			
-			$oFrend=$oEngine->User_GetFrend($oUser->getId(),$oUserCurrent->getId());
-			if (!$oFrend) {
-				$oFrendNew=new UserEntity_Frend();
-				$oFrendNew->setFrendId($oUser->getId());
-				$oFrendNew->setUserId($oUserCurrent->getId());
-				if ($oEngine->User_AddFrend($oFrendNew)) {
+			$oFriend=$oEngine->User_GetFriend($oUser->getId(),$oUserCurrent->getId());
+			if (!$oFriend) {
+				$oFriendNew=new UserEntity_Friend();
+				$oFriendNew->setFriendId($oUser->getId());
+				$oFriendNew->setUserId($oUserCurrent->getId());
+				if ($oEngine->User_AddFriend($oFriendNew)) {
 					$bStateError=false;
 					$sMsgTitle=$oEngine->Lang_Get('attention');
 					$sMsg=$oEngine->Lang_Get('user_friend_add_ok');
@@ -50,8 +50,8 @@ if ($oEngine->User_IsAuthorization()) {
 					$sMsg=$oEngine->Lang_Get('system_error');
 				}
 			}			
-			if ($oFrend) {
-				if ($oEngine->User_DeleteFrend($oFrend)) {
+			if ($oFriend) {
+				if ($oEngine->User_DeleteFriend($oFriend)) {
 					$bStateError=false;
 					$sMsgTitle=$oEngine->Lang_Get('attention');
 					$sMsg=$oEngine->Lang_Get('user_friend_del_ok');

@@ -1,4 +1,4 @@
-function ajaxToggleUserFrend(obj,idUser) {   
+function ajaxToggleUserFriend(obj,idUser) {   
 	obj=$(obj);
 	JsHttpRequest.query(
     	DIR_WEB_ROOT+'/include/ajax/userFriend.php',                       

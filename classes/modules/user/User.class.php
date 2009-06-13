@@ -63,7 +63,7 @@ class LsUser extends Module {
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
 	 *
 	 */
-	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session')) {
+	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session','friend')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -76,8 +76,12 @@ class LsUser extends Module {
 		 * Получаем дополнительные данные
 		 */
 		$aSessions=array();
+		$aFriends=array();
 		if (isset($aAllowData['session'])) {
 			$aSessions=$this->GetSessionsByArrayId($aUserId);	
+		}
+		if (isset($aAllowData['friend']) and $this->oUserCurrent) {
+			$aFriends=$this->GetFriendsByArray($aUserId,$this->oUserCurrent->getId());
 		}
 		/**
 		 * Добавляем данные к результату - списку блогов
@@ -87,7 +91,12 @@ class LsUser extends Module {
 				$oUser->setSession($aSessions[$oUser->getId()]);
 			} else {
 				$oUser->setSession(null); // или $oUser->setSession(new UserEntity_Session());
-			}					
+			}	
+			if (isset($aFriends[$oUser->getId()])) {
+				$oUser->setUserIsFriend(true);
+			} else {
+				$oUser->setUserIsFriend(false);
+			}				
 		}
 		
 		return $aUsers;
@@ -580,36 +589,96 @@ class LsUser extends Module {
 		return $data;		
 	}
 	/**
+	 * Получить список отношений друзей
+	 *
+	 * @param unknown_type $aUserId
+	 */
+	public function GetFriendsByArray($aUserId,$sUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);
+		$aFriends=array();
+		$aUserIdNotNeedQuery=array();
+		/**
+		 * Делаем мульти-запрос к кешу
+		 */
+		$aCacheKeys=func_build_cache_keys($aUserId,'user_friend_','_'.$sUserId);
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+			/**
+			 * проверяем что досталось из кеша
+			 */
+			foreach ($aCacheKeys as $sValue => $sKey ) {
+				if (array_key_exists($sKey,$data)) {	
+					if ($data[$sKey]) {
+						$aFriends[$data[$sKey]->getFriendId()]=$data[$sKey];
+					} else {
+						$aUserIdNotNeedQuery[]=$sValue;
+					}
+				} 
+			}
+		}
+		/**
+		 * Смотрим каких френдов не было в кеше и делаем запрос в БД
+		 */		
+		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aFriends));		
+		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);		
+		$aUserIdNeedStore=$aUserIdNeedQuery;
+		if ($data = $this->oMapper->GetFriendsByArrayId($aUserIdNeedQuery,$sUserId)) {
+			foreach ($data as $oFriend) {
+				/**
+				 * Добавляем к результату и сохраняем в кеш
+				 */
+				$aFriends[$oFriend->getFriendId()]=$oFriend;
+				$this->Cache_Set($oFriend, "user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}", array(), 60*60*24*4);
+				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oFriend->getFriendId()));
+			}
+		}
+		/**
+		 * Сохраняем в кеш запросы не вернувшие результата
+		 */
+		foreach ($aUserIdNeedStore as $sId) {
+			$this->Cache_Set(null, "user_friend_{$sId}_{$sUserId}", array(), 60*60*24*4);
+		}		
+		return $aFriends;		
+	}
+	/**
 	 * Получаем привязку друга к юзеру(есть ли у юзера данный друг)
 	 *
-	 * @param unknown_type $sFrendId
+	 * @param unknown_type $sFriendId
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetFrend($sFrendId,$sUserId) {
-		return $this->oMapper->GetFrend($sFrendId,$sUserId);
+	public function GetFriend($sFriendId,$sUserId) {
+		$data=$this->GetFriendsByArray($sFriendId,$sUserId);
+		if (isset($data[$sFriendId])) {
+			return $data[$sFriendId];
+		}
+		return null;		
 	}
 	/**
 	 * Добавляет друга
 	 *
-	 * @param UserEntity_Frend $oFrend
+	 * @param UserEntity_Friend $oFriend
 	 * @return unknown
 	 */
-	public function AddFrend(UserEntity_Frend $oFrend) {
+	public function AddFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("frend_change_user_{$oFrend->getUserId()}","frend_change_frend_{$oFrend->getFrendId()}"));						
-		return $this->oMapper->AddFrend($oFrend);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));						
+		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");						
+		return $this->oMapper->AddFriend($oFriend);
 	}
 	/**
 	 * Удаляет друга
 	 *
-	 * @param UserEntity_Frend $oFrend
+	 * @param UserEntity_Friend $oFriend
 	 * @return unknown
 	 */
-	public function DeleteFrend(UserEntity_Frend $oFrend) {
+	public function DeleteFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("frend_change_user_{$oFrend->getUserId()}","frend_change_frend_{$oFrend->getFrendId()}"));
-		return $this->oMapper->DeleteFrend($oFrend);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		return $this->oMapper->DeleteFriend($oFriend);
 	}
 	/**
 	 * Получает список друзей
@@ -617,11 +686,12 @@ class LsUser extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetUsersFrend($sUserId) {
-		if (false === ($data = $this->Cache_Get("user_frend_{$sUserId}"))) {			
-			$data = $this->oMapper->GetUsersFrend($sUserId);
-			$this->Cache_Set($data, "user_frend_{$sUserId}", array("frend_change_user_{$sUserId}"), 60*5);
+	public function GetUsersFriend($sUserId) {
+		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}"))) {			
+			$data = $this->oMapper->GetUsersFriend($sUserId);
+			$this->Cache_Set($data, "user_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*5);
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		 
 	}
 	/**
@@ -630,10 +700,10 @@ class LsUser extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetUsersSelfFrend($sUserId) {
-		if (false === ($data = $this->Cache_Get("user_self_frend_{$sUserId}"))) {			
-			$data = $this->oMapper->GetUsersSelfFrend($sUserId);
-			$this->Cache_Set($data, "user_self_frend_{$sUserId}", array("frend_change_frend_{$sUserId}"), 60*5);
+	public function GetUsersSelfFriend($sUserId) {
+		if (false === ($data = $this->Cache_Get("user_self_friend_{$sUserId}"))) {			
+			$data = $this->oMapper->GetUsersSelfFriend($sUserId);
+			$this->Cache_Set($data, "user_self_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*5);
 		}
 		return $data;		 
 	}
@@ -729,6 +799,7 @@ class LsUser extends Module {
 			$data = $this->oMapper->GetUsersInvite($sUserId);
 			$this->Cache_Set($data, "users_invite_{$sUserId}", array("user_update","invate_new_from_{$sUserId}"), 60*5);
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		
 	}
 	/**
@@ -738,11 +809,15 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GetUserInviteFrom($sUserIdTo) {
-		if (false === ($data = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {			
-			$data = $this->oMapper->GetUserInviteFrom($sUserIdTo);
-			$this->Cache_Set($data, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
+		if (false === ($id = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {			
+			$id = $this->oMapper->GetUserInviteFrom($sUserIdTo);
+			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
 		}
-		return $data;		
+		$data=$this->GetUsersAdditionalData($id);
+		if (isset($data[$id])) {
+			return $data[$id];
+		}
+		return null;		
 	}
 	/**
 	 * Привязывает страну к пользователю

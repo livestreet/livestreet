@@ -298,7 +298,7 @@ class LsTopic extends Module {
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
 		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_topic_user_{$sUserId}"), 60*60*24*1);
+			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('topic_update',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
 		return $data;		
@@ -312,7 +312,7 @@ class LsTopic extends Module {
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
 		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}"))) {			
 			$data = $this->oMapperTopic->GetCountTopicsFavouriteByUserId($sUserId);
-			$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('topic_update',"favourite_topic_user_{$sUserId}"), 60*60*24*1);
+			$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('topic_update',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
 		}
 		return $data;		
 	}
@@ -792,7 +792,7 @@ class LsTopic extends Module {
 	 */
 	public function AddFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_user_{$oFavouriteTopic->getUserId()}"));						
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));						
 		$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");						
 		return $this->oMapperTopic->AddFavouriteTopic($oFavouriteTopic);
 	}
@@ -804,7 +804,7 @@ class LsTopic extends Module {
 	 */
 	public function DeleteFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_user_{$oFavouriteTopic->getUserId()}"));
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));
 		$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");
 		return $this->oMapperTopic->DeleteFavouriteTopic($oFavouriteTopic);
 	}

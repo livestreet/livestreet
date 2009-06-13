@@ -137,8 +137,8 @@ class UserEntity_User extends Entity {
     public function getUserVoteDelta() {
         return $this->_aData['user_vote_delta'];
     }
-    public function getUserIsFrend() {
-        return $this->_aData['user_is_frend'];
+    public function getUserIsFriend() {
+        return $this->_aData['user_is_friend'];
     }
     public function isAdministrator() {
         return $this->_aData['user_is_administrator'];
@@ -248,6 +248,9 @@ class UserEntity_User extends Entity {
     
     public function setSession($data) {
     	$this->_aData['session']=$data;
+    }
+    public function setUserIsFriend($data) {
+    	$this->_aData['user_is_friend']=$data;
     }
 }
 ?>

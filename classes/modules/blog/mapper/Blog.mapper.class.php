@@ -247,7 +247,7 @@ class Mapper_Blog extends Mapper {
 	
 	public function GetBlogsByOwnerId($sUserId) {
 		$sql = "SELECT 
-			b.*			 
+			b.blog_id			 
 			FROM 
 				".DB_TABLE_BLOG." as b				
 			WHERE 
@@ -258,7 +258,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogs=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
 			foreach ($aRows as $aBlog) {
-				$aBlogs[]=new BlogEntity_Blog($aBlog);
+				$aBlogs[]=$aBlog['blog_id'];
 			}
 		}
 		return $aBlogs;

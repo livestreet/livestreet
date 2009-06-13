@@ -1,6 +1,6 @@
 {include file='header.tpl' menu="profile" showWhiteBack=true}
 
-
+{assign var="oSession" value=$oUserProfile->getSession()}
 
 <div class="profile-user">
 			
@@ -149,34 +149,37 @@
 					</tr>
 					{/if}
 					
-					{if $aBlogsAdministration}
+					{if $aBlogAdministrators}
 					<tr>
 						<td class="var">{$aLang.profile_blogs_administration}:</td>
 						<td>
-							{foreach from=$aBlogsAdministration item=oBlogUser name=blog_user}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+							{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
+								{assign var="oBlog" value=$oBlogUser->getBlog()}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 							{/foreach}
 						</td>
 					</tr>
 					{/if}
 					
-					{if $aBlogsModeration}
+					{if $aBlogModerators}
 					<tr>
 						<td class="var">{$aLang.profile_blogs_moderation}:</td>
 						<td>
-							{foreach from=$aBlogsModeration item=oBlogUser name=blog_user}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+							{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
+								{assign var="oBlog" value=$oBlogUser->getBlog()}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 							{/foreach}
 						</td>
 					</tr>
 					{/if}
 					
-					{if $aBlogsUser}
+					{if $aBlogUsers}
 					<tr>
 						<td class="var">{$aLang.profile_blogs_join}:</td>
 						<td>
-							{foreach from=$aBlogsUser item=oBlogUser name=blog_user}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+							{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
+								{assign var="oBlog" value=$oBlogUser->getBlog()}
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 							{/foreach}
 						</td>
 					</tr>
@@ -185,11 +188,13 @@
 					<tr>
 						<td class="var">{$aLang.profile_date_registration}:</td>
 						<td>{date_format date=$oUserProfile->getDateRegister()}</td>
-					</tr>					
+					</tr>	
+					{if $oSession}				
 					<tr>
 						<td class="var">{$aLang.profile_date_last}:</td>
-						<td>{date_format date=$oUserProfile->getDateLast()}</td>
+						<td>{date_format date=$oSession->getDateLast()}</td>
 					</tr>
+					{/if}
 				</table>
 			</div>
 
