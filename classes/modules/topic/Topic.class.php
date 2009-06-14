@@ -1030,22 +1030,9 @@ class LsTopic extends Module {
 		/**
 		 * Разрешаем если это админ сайта или автор топика
 		 */
-		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+		if ($oUser->isAdministrator()) {
 			$bReturn=true;
-		}
-		/**
-		 * Если автор(смотритель) блога
-		 */
-		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
-			$bReturn=true;
-		}
-		/**
-		 * Если админ блога
-		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
-		if ($oBlogUser and $oBlogUser->getIsAdministrator()) {
-			$bReturn=true;
-		}		
+		}				
 		return $bReturn;
 	}
 }
