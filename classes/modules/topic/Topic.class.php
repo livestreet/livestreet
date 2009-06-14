@@ -990,7 +990,63 @@ class LsTopic extends Module {
 	public function GetTopicUnique($sUserId,$sHash) {
 		return $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicUnique($sUserId,$sHash));
 	}
-	
-	
+	/**
+	 * Проверяет можно или нет пользователю редактировать данный топик
+	 *
+	 * @param unknown_type $oTopic
+	 * @param unknown_type $oUser
+	 */
+	public function IsAllowEditTopic($oTopic,$oUser) {
+		$bReturn=false;
+		/**
+		 * Разрешаем если это админ сайта или автор топика
+		 */
+		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+			$bReturn=true;
+		}
+		/**
+		 * Если автор(смотритель) блога
+		 */
+		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
+			$bReturn=true;
+		}
+		/**
+		 * Если модер или админ блога
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+			$bReturn=true;
+		}		
+		return $bReturn;
+	}
+	/**
+	 * Проверяет можно или нет пользователю удалять данный топик
+	 *
+	 * @param unknown_type $oTopic
+	 * @param unknown_type $oUser
+	 */
+	public function IsAllowDeleteTopic($oTopic,$oUser) {
+		$bReturn=false;
+		/**
+		 * Разрешаем если это админ сайта или автор топика
+		 */
+		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+			$bReturn=true;
+		}
+		/**
+		 * Если автор(смотритель) блога
+		 */
+		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
+			$bReturn=true;
+		}
+		/**
+		 * Если админ блога
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+		if ($oBlogUser and $oBlogUser->getIsAdministrator()) {
+			$bReturn=true;
+		}		
+		return $bReturn;
+	}
 }
 ?>

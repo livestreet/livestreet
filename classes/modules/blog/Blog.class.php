@@ -319,7 +319,9 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogs() {
-		return $this->oMapperBlog->GetBlogs();
+		$data=$this->oMapperBlog->GetBlogs();
+		$data=$this->GetBlogsAdditionalData($data);
+		return $data;
 	}
 		
 	/**
@@ -603,5 +605,27 @@ class LsBlog extends Module {
 		}		
 		return $aBlogsVote;		
 	}
+	/**
+	 * Получает список блогов в которые может постить юзер
+	 *
+	 * @param unknown_type $oUser
+	 * @param unknown_type $sBlogIdAllow - id блога, который не проходит проверку ACL, это требуется при редактировании топика
+	 * @return unknown
+	 */
+	public function GetBlogsAllowByUser($oUser,$sBlogIdAllow=null) {		
+		if ($oUser->isAdministrator()) {
+			return $this->GetBlogs();
+		} else {						
+			$aAllowBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
+			$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());			
+			foreach ($aBlogUsers as $oBlogUser) {
+				$oBlog=$oBlogUser->getBlog();
+				if ($this->ACL_CanAddTopic($oUser,$oBlog) or ($sBlogIdAllow and $sBlogIdAllow==$oBlog->getId())) {
+					$aAllowBlogsUser[$oBlog->getId()]=$oBlog;
+				}
+			}
+			return 	$aAllowBlogsUser;
+		}		
+	}	
 }
 ?>

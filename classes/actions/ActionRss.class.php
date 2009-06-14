@@ -56,7 +56,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl();
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
-			$item['author']=$oTopic->getUserLogin();
+			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
@@ -83,7 +83,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl(); 
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
-			$item['author']=$oTopic->getUserLogin();
+			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
@@ -154,7 +154,7 @@ class ActionRss extends Action {
 
 	protected function RssTag() {
 		$sTag=urldecode($this->GetParam(0));
-		$aResult=$this->Topic_GetTopicsByTag($sTag,0,1,BLOG_TOPIC_PER_PAGE*2);
+		$aResult=$this->Topic_GetTopicsByTag($sTag,1,BLOG_TOPIC_PER_PAGE*2);
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=SITE_NAME;
@@ -171,7 +171,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl();
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
-			$item['author']=$oTopic->getUserLogin();
+			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
@@ -185,7 +185,7 @@ class ActionRss extends Action {
 		if (!$sBlogUrl or !($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {			
 			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsByBlogGood($oBlog,0,1,BLOG_TOPIC_PER_PAGE*2);
+			$aResult=$this->Topic_GetTopicsByBlog($oBlog,1,BLOG_TOPIC_PER_PAGE*2,'good');
 		}
 		$aTopics=$aResult['collection'];
 		
@@ -203,7 +203,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl();
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
-			$item['author']=$oTopic->getUserLogin();
+			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
@@ -217,7 +217,7 @@ class ActionRss extends Action {
 		if (!$this->sUserLogin or !($oUser=$this->User_GetUserByLogin($this->sUserLogin))) {			
 			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,0,1,BLOG_TOPIC_PER_PAGE*2);
+			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,1,BLOG_TOPIC_PER_PAGE*2);
 		}
 		$aTopics=$aResult['collection'];
 		
@@ -235,7 +235,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl();
 			$item['description']=$oTopic->getTextShort();
 			$item['pubDate']=$oTopic->getDateAdd();
-			$item['author']=$oTopic->getUserLogin();
+			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}

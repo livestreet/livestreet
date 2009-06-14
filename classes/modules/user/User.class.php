@@ -561,7 +561,7 @@ class LsUser extends Module {
 			$aStat['count_all']=$this->oMapper->GetCountUsers();
 			$sDate=date("Y-m-d H:i:s",time()-60*60*24*7);
 			$aStat['count_active']=$this->oMapper->GetCountUsersActive($sDate);
-			$aStat['count_inactive']=$this->oMapper->GetCountUsersInactive($sDate);
+			$aStat['count_inactive']=$aStat['count_all']-$aStat['count_active'];
 			$aSex=$this->oMapper->GetCountUsersSex();
 			$aStat['count_sex_man']=(isset($aSex['man']) ? $aSex['man']['count'] : 0);
 			$aStat['count_sex_woman']=(isset($aSex['woman']) ? $aSex['woman']['count'] : 0);

@@ -66,9 +66,9 @@ class ActionTopic extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {		
-		$this->AddEvent('add','EventAdd');	
-		$this->AddEvent('saved','EventSaved');
-		$this->AddEvent('published','EventPublished');		
+		$this->AddEvent('add','EventAdd');			
+		$this->AddEventPreg('/^published$/i','/^(page(\d+))?$/i','EventShowTopics');	
+		$this->AddEventPreg('/^saved$/i','/^(page(\d+))?$/i','EventShowTopics');	
 		$this->AddEvent('edit','EventEdit');	
 		$this->AddEvent('delete','EventDelete');
 	}
@@ -98,38 +98,15 @@ class ActionTopic extends Action {
 			return parent::EventNotFound();
 		}
 		/**
-		 * проверяем кто владелец топика, либо модератор и администратор блога
-		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
-		
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
+		 * Если права на редактирование
+		 */		
+		if (!$this->Topic_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
-		/**
-		 * Получаем данные для отображения формы
-		 * Если админ то делаем доступными все блоги
-		 */
-		$aAllowBlogsUser=array();
-		$aBlogsOwner=array();
-		if ($this->oUserCurrent->isAdministrator()) {
-			$aBlogsOwner=$this->Blog_GetBlogs();
-		} else {
-			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());		
-			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
-			foreach ($aBlogsUser as $oBlogUser) {
-				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-				// делаем через "or" чтоб дать возможность юзеру отредактировать свой топик в блоге в котором он уже не может постить, т.е. для тех топиков что были запощены раньше и был доступ в блог
-				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) or $oTopic->getBlogId()==$oBlog->getId()) {
-					$aAllowBlogsUser[]=$oBlogUser;
-				}
-			}
-		}
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
 		/**
 		 * Вызов хуков
 		 */
@@ -137,8 +114,7 @@ class ActionTopic extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
-		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
+		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent),$oTopic->getBlogId());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
@@ -182,12 +158,8 @@ class ActionTopic extends Action {
 		}
 		/**
 		 * проверяем есть ли право на удаление топика
-		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
-		
-		if (!$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
+		 */		
+		if (!$this->Topic_IsAllowDeleteTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -212,24 +184,7 @@ class ActionTopic extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */		
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
-		/**
-		 * Получаем данные для отображения формы
-		 */
-		$aAllowBlogsUser=array();
-		$aBlogsOwner=array();
-		if ($this->oUserCurrent->isAdministrator()) {
-			$aBlogsOwner=$this->Blog_GetBlogs();
-		} else {
-			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());
-			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
-			foreach ($aBlogsUser as $oBlogUser) {
-				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog)) {
-					$aAllowBlogsUser[]=$oBlogUser;
-				}
-			}
-		}
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
 		/**
 		 * Вызов хуков
 		 */
@@ -237,81 +192,41 @@ class ActionTopic extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
-		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);		
+		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));				
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_create'));
 		/**
 		 * Обрабатываем отправку формы
 		 */
 		return $this->SubmitAdd();		
-	}
+	}	
 	/**
-	 * Выводит список сохранёных топиков
+	 * Выводит список топиков
 	 *
 	 */
-	protected function EventSaved() {	
+	protected function EventShowTopics() {		
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect='saved';
+		$this->sMenuSubItemSelect=$this->sCurrentEvent;
 		/**
 		 * Передан ли номер страницы
-		 */	
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}	
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;				
 		/**
 		 * Получаем список топиков
-		 */	
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),0,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/saved');
-		/**
-		 * Загружаем переменные в шаблон
 		 */					
-		$this->Viewer_Assign('aPaging',$aPaging);							
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_saved'));
-	}
-	/**
-	 * Выводит список опубликованых топиков
-	 *
-	 */
-	protected function EventPublished() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='published';
-		/**
-		 * Передан ли номер страницы
-		 */
-		if (preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch)) {			
-			$iPage=$aMatch[1];
-		} else {
-			$iPage=1;
-		}		
-		/**
-		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),1,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);	
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),$this->sCurrentEvent=='published' ? 1 : 0,$iPage,BLOG_TOPIC_PER_PAGE);	
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/published');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/'.$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_published'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_'.$this->sCurrentEvent));
 	}
 	/**
 	 * Обработка добавлени топика

@@ -64,12 +64,9 @@ tinyMCE.init({
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
 					<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
      					<option value="0">{$aLang.topic_create_blog_personal}</option>
-     					{foreach from=$aBlogsOwner item=oBlog}
+     					{foreach from=$aBlogsAllow item=oBlog}
      						<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
-     					{/foreach}
-     					{foreach from=$aBlogsUser item=oBlogUser}
-     						<option value="{$oBlogUser->getBlogId()}" {if $_aRequest.blog_id==$oBlogUser->getBlogId()}selected{/if}>{$oBlogUser->getBlogTitle()}</option>
-     					{/foreach}
+     					{/foreach}     					
      				</select></p>
 					
      				<script language="JavaScript" type="text/javascript">

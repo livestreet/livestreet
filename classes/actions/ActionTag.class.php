@@ -62,9 +62,8 @@ class ActionTag extends Action {
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;		
 		/**
 		 * Получаем список топиков
-		 */
-		$iCount=0;			
-		$aResult=$this->Topic_GetTopicsByTag($sTag,$iCount,$iPage,BLOG_TOPIC_PER_PAGE);		
+		 */				
+		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,BLOG_TOPIC_PER_PAGE);		
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

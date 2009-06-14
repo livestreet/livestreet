@@ -313,16 +313,11 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountUsersActive($sDateActive) {
-		$sql = "SELECT count(user_id) as count FROM ".DB_TABLE_USER." WHERE user_date_last >= ?  and user_activate = 1";			
+		$sql = "SELECT count(user_id) as count FROM ".DB_TABLE_SESSION." WHERE session_date_last >= ? ";			
 		$result=$this->oDb->selectRow($sql,$sDateActive);
 		return $result['count'];
 	}
 	
-	public function GetCountUsersInactive($sDateInactive) {
-		$sql = "SELECT count(user_id) as count FROM ".DB_TABLE_USER." WHERE user_date_last < ? and user_activate = 1";			
-		$result=$this->oDb->selectRow($sql,$sDateInactive);
-		return $result['count'];
-	}
 	
 	public function GetCountUsersSex() {
 		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." WHERE user_activate = 1 GROUP BY user_profile_sex ";			

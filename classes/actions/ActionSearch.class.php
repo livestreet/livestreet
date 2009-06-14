@@ -45,7 +45,7 @@ class ActionSearch extends Action {
 			/**
 			 * Получаем топик-объекты по списку идентификаторов
 			 */
-			$aTopics = $this->Topic_GetTopicsByArrayId(array_keys($this->aSphinxRes['matches']), null, -1);			
+			$aTopics = $this->Topic_GetTopicsAdditionalData(array_keys($this->aSphinxRes['matches']));			
 			/**
 			 *  Делаем сниппеты 
 			 */
