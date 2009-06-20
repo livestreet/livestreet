@@ -270,6 +270,7 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
 		}
 	} else {
 		if (copy($sFileSrc,$sFileFullPath)) {
+			chmod($sFileFullPath,0666);
 			return $sFileDest;
 		}
 	}
