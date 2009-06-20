@@ -162,7 +162,12 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetPersonalBlogByUserId($sUserId) {
-		return $this->oMapperBlog->GetPersonalBlogByUserId($sUserId);
+		$id=$this->oMapperBlog->GetPersonalBlogByUserId($sUserId);
+		$data=$this->GetBlogsAdditionalData($id);
+		if (isset($data[$id])) {
+			return $data[$id];
+		}
+		return null;
 	}
 	/**
 	 * Получить блог по айдишнику(номеру)
@@ -608,11 +613,10 @@ class LsBlog extends Module {
 	/**
 	 * Получает список блогов в которые может постить юзер
 	 *
-	 * @param unknown_type $oUser
-	 * @param unknown_type $sBlogIdAllow - id блога, который не проходит проверку ACL, это требуется при редактировании топика
+	 * @param unknown_type $oUser	 
 	 * @return unknown
 	 */
-	public function GetBlogsAllowByUser($oUser,$sBlogIdAllow=null) {		
+	public function GetBlogsAllowByUser($oUser) {		
 		if ($oUser->isAdministrator()) {
 			return $this->GetBlogs();
 		} else {						
@@ -620,12 +624,33 @@ class LsBlog extends Module {
 			$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());			
 			foreach ($aBlogUsers as $oBlogUser) {
 				$oBlog=$oBlogUser->getBlog();
-				if ($this->ACL_CanAddTopic($oUser,$oBlog) or ($sBlogIdAllow and $sBlogIdAllow==$oBlog->getId())) {
+				if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
 					$aAllowBlogsUser[$oBlog->getId()]=$oBlog;
 				}
 			}
 			return 	$aAllowBlogsUser;
 		}		
 	}	
+	/**
+	 * Проверяет можно или нет юзеру постить в данный блог
+	 *
+	 * @param unknown_type $oBlog
+	 * @param unknown_type $oUser
+	 * @param unknown_type $sBlogIdAllow
+	 */
+	public function IsAllowBlog($oBlog,$oUser) {		
+		if ($oUser->isAdministrator()) {
+			return true;
+		}
+		if ($oBlog->getOwnerId()==$oUser->getId()) {
+			return true;
+		}
+		if ($oBlogUser=$this->GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
+			if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 ?>

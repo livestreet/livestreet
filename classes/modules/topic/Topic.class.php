@@ -997,27 +997,26 @@ class LsTopic extends Module {
 	 * @param unknown_type $oUser
 	 */
 	public function IsAllowEditTopic($oTopic,$oUser) {
-		$bReturn=false;
 		/**
 		 * Разрешаем если это админ сайта или автор топика
 		 */
 		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
-			$bReturn=true;
+			return true;
 		}
 		/**
 		 * Если автор(смотритель) блога
 		 */
 		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
-			$bReturn=true;
+			return true;
 		}
 		/**
 		 * Если модер или админ блога
 		 */
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
 		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
-			$bReturn=true;
+			return true;
 		}		
-		return $bReturn;
+		return false;
 	}
 	/**
 	 * Проверяет можно или нет пользователю удалять данный топик
@@ -1034,6 +1033,26 @@ class LsTopic extends Module {
 			$bReturn=true;
 		}				
 		return $bReturn;
+	}
+	/**
+	 * Рассылает уведомления о новом топике подписчикам блога
+	 *
+	 * @param unknown_type $oBlog
+	 * @param unknown_type $oTopic
+	 * @param unknown_type $oUserTopic
+	 */
+	public function SendNotifyTopicNew($oBlog,$oTopic,$oUserTopic) {
+		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());
+		foreach ($aBlogUsers as $oBlogUser) {
+			if ($oBlogUser->getUserId()==$oUserTopic->getId()) {
+				continue;
+			}
+			$this->Notify_SendTopicNewToSubscribeBlog($oBlogUser->getUser(),$oTopic,$oBlog,$oUserTopic);
+		}
+		//отправляем создателю блога
+		if ($oBlog->getOwnerId()!=$oUserTopic->getId()) {
+			$this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(),$oTopic,$oBlog,$oUserTopic);
+		}
 	}
 }
 ?>

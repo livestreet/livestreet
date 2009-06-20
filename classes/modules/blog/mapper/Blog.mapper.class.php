@@ -183,21 +183,14 @@ class Mapper_Blog extends Mapper {
 	
 		
 	public function GetPersonalBlogByUserId($sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";
+		$sql = "SELECT blog_id FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
-			return new BlogEntity_Blog($aRow);
+			return $aRow['blog_id'];
 		}
 		return null;
 	}
 	
-	public function GetBlogById($sId) {
-		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE blog_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
-			return new BlogEntity_Blog($aRow);
-		}
-		return null;
-	}
-	
+		
 	public function GetBlogByTitle($sTitle) {
 		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE blog_title = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sTitle)) {
