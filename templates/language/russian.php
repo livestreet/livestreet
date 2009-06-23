@@ -371,7 +371,7 @@ return array(
 	'registration_login' => 'Имя пользователя',
 	'registration_login_error' => 'Неверный логин, допустим от 3 до 30 символов',
 	'registration_login_error_used' => 'Этот логин уже занят',
-	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина имени не может быть меньше 3 и больше 20 символов.',
+	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина имени не может быть меньше 3 и больше 30 символов.',
 	'registration_mail' => 'Электропочта',
 	'registration_mail_error' => 'Неверный формат e-mail',
 	'registration_mail_error_used' => 'Этот e-mail уже используется',
