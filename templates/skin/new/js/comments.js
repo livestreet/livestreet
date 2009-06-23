@@ -242,19 +242,19 @@ var lsCmtTreeClass = new Class({
         		if (result.bStateError) {        			
 					thisObj.enableFormComment();        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-        		} else {       
-        			$('form_comment_text').disabled=true; 			
+        		} else {
         			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);        			   								
         		}                           
 	        },
         	true
       	);
       	$('form_comment_text').addClass('loader');		
+      	$('form_comment_text').setProperty('readonly',true);		
 	},
 	
 	enableFormComment: function() {
 		$('form_comment_text').removeClass('loader');
-		$('form_comment_text').disabled=false; 
+		$('form_comment_text').setProperty('readonly',false);
 	},
 	
 	addCommentScroll: function(commentId) {
