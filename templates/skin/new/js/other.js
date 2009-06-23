@@ -84,15 +84,14 @@ function hideImgUploadForm() {
 var winFormImgUpload;
 
 
-function ajaxUploadImg(value,sToLoad) {
-	sToLoad=$(sToLoad);
+function ajaxUploadImg(value,sToLoad) {	
 	var req = new JsHttpRequest();
 	req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 			if (req.responseJS.bStateError) {
 				msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);				
 			} else {				
-				sToLoad.insertAtCursor(req.responseJS.sText);
+				lsPanel.putText(sToLoad,req.responseJS.sText);
 				hideImgUploadForm();
 			}
 		}
