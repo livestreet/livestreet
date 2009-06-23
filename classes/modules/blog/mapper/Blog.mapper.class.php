@@ -192,9 +192,9 @@ class Mapper_Blog extends Mapper {
 	
 		
 	public function GetBlogByTitle($sTitle) {
-		$sql = "SELECT * FROM ".DB_TABLE_BLOG." WHERE blog_title = ? ";
+		$sql = "SELECT blog_id FROM ".DB_TABLE_BLOG." WHERE blog_title = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sTitle)) {
-			return new BlogEntity_Blog($aRow);
+			return $aRow['blog_id'];
 		}
 		return null;
 	}

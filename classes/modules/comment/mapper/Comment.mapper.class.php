@@ -154,12 +154,15 @@ class Mapper_Comment extends Mapper {
 					target_type = ?
 					AND			
 					comment_id > ?d 					
-				ORDER by c.comment_id asc;	
+				ORDER by comment_id asc;	
 					";
+		$aComments=array();
 		if ($aRows=$this->oDb->select($sql,$sId,$sTargetType,$sIdCommentLast)) {
-			return $aRows['comment_id'];
+			foreach ($aRows as $aRow) {
+				$aComments[]=$aRow['comment_id'];
+			}
 		}
-		return array();
+		return $aComments;
 	}
 	
 	public function GetCommentsByUserId($sId,$sTargetType,&$iCount,$iCurrPage,$iPerPage) {

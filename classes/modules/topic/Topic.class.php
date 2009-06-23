@@ -188,29 +188,47 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function UpdateTopic(TopicEntity_Topic $oTopic) {
+		/**
+		 * Получаем топик ДО изменения
+		 */
+		$oTopicOld=$this->GetTopicById($oTopic->getId());
 		$oTopic->setDateEdit(date("Y-m-d H:i:s"));
 		if ($this->oMapperTopic->UpdateTopic($oTopic)) {	
-			$aTags=explode(',',$oTopic->getTags());
-			$this->DeleteTopicTagsByTopicId($oTopic->getId());
-			if ($oTopic->getPublish()) {
-				foreach ($aTags as $sTag) {
-					$oTag=new TopicEntity_TopicTag();
-					$oTag->setTopicId($oTopic->getId());
-					$oTag->setUserId($oTopic->getUserId());
-					$oTag->setBlogId($oTopic->getBlogId());
-					$oTag->setText($sTag);
-					$this->oMapperTopic->AddTopicTag($oTag);
+			
+			
+			/**
+			 * Если топик изменил видимость(publish)
+			 */
+			if ($oTopic->getPublish()!=$oTopicOld->getPublish()) {
+				/**
+				 * Обновляем теги
+				 */
+				$aTags=explode(',',$oTopic->getTags());
+				$this->DeleteTopicTagsByTopicId($oTopic->getId());
+				if ($oTopic->getPublish()) {
+					foreach ($aTags as $sTag) {
+						$oTag=new TopicEntity_TopicTag();
+						$oTag->setTopicId($oTopic->getId());
+						$oTag->setUserId($oTopic->getUserId());
+						$oTag->setBlogId($oTopic->getBlogId());
+						$oTag->setText($sTag);
+						$this->oMapperTopic->AddTopicTag($oTag);
+					}
 				}
-			}
-			/**
-			 * Обновляем избранное
-			 */
-			$this->oMapperTopic->SetFavouriteTopicPublish($oTopic->getId(),$oTopic->getPublish());
-			/**
-			 * Удаляем комментарий топика из прямого эфира
-			 */
-			if ($oTopic->getPublish()==0) {
-				$this->Comment_deleteTopicCommentOnline($oTopic->getId());
+				/**
+			 	* Обновляем избранное
+			 	*/
+				$this->oMapperTopic->SetFavouriteTopicPublish($oTopic->getId(),$oTopic->getPublish());
+				/**
+			 	* Удаляем комментарий топика из прямого эфира
+			 	*/
+				if ($oTopic->getPublish()==0) {
+					$this->Comment_DeleteCommentOnlineByTargetId($oTopic->getId(),'topic');
+				}
+				/**
+				 * Изменяем видимость комментов
+				 */
+				$this->Comment_SetCommentsPublish($oTopic->getId(),'topic',$oTopic->getPublish());
 			}
 			//чистим зависимые кеши			
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_{$oTopic->getId()}","topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));			
@@ -1008,7 +1026,8 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicUnique($sUserId,$sHash) {
-		return $this->GetTopicsAdditionalData($this->oMapperTopic->GetTopicUnique($sUserId,$sHash));
+		$sId=$this->oMapperTopic->GetTopicUnique($sUserId,$sHash);
+		return $this->GetTopicById($sId);
 	}
 	/**
 	 * Проверяет можно или нет пользователю редактировать данный топик

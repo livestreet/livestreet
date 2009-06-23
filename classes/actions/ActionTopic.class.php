@@ -397,7 +397,7 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем топик на уникальность
 		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($oTopic->getUserId(),md5(getRequest('topic_text')))) {
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($oTopic->getUserId(),md5(getRequest('topic_text')))) {			
 			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
 				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
 				return false;

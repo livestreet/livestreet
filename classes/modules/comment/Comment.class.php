@@ -354,7 +354,7 @@ class LsComment extends Module {
 	 *
 	 * @param CommentEntity_CommentOnline $oCommentOnline
 	 */
-	public function AddTopicCommentOnline(CommentEntity_CommentOnline $oCommentOnline) {
+	public function AddCommentOnline(CommentEntity_CommentOnline $oCommentOnline) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$oCommentOnline->getTargetType()}"));
 		return $this->oMapper->AddCommentOnline($oCommentOnline);
 	}

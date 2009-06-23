@@ -167,11 +167,7 @@ class LsBlog extends Module {
 	 */
 	public function GetPersonalBlogByUserId($sUserId) {
 		$id=$this->oMapperBlog->GetPersonalBlogByUserId($sUserId);
-		$data=$this->GetBlogsAdditionalData($id);
-		if (isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;
+		return $this->GetBlogById($id);
 	}
 	/**
 	 * Получить блог по айдишнику(номеру)
@@ -200,10 +196,7 @@ class LsBlog extends Module {
 				$this->Cache_Set(null, "blog_url_{$sBlogUrl}", array('blog_update','blog_new'), 60*5);
 			}
 		}		
-		if ($id and $data=$this->GetBlogsAdditionalData($id) and isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;		
+		return $this->GetBlogById($id);		
 	}
 	/**
 	 * Получить блог по названию
@@ -212,14 +205,14 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function GetBlogByTitle($sTitle) {		
-		if (false === ($data = $this->Cache_Get("blog_url_{$sTitle}"))) {						
-			if ($data = $this->oMapperBlog->GetBlogByTitle($sTitle)) {				
-				$this->Cache_Set($data, "blog_url_{$sTitle}", array("blog_update_{$data->getId()}",'blog_new'), 60*5);				
+		if (false === ($id = $this->Cache_Get("blog_url_{$sTitle}"))) {						
+			if ($id = $this->oMapperBlog->GetBlogByTitle($sTitle)) {				
+				$this->Cache_Set($id, "blog_url_{$sTitle}", array("blog_update_{$data->getId()}",'blog_new'), 60*5);				
 			} else {
-				$this->Cache_Set($data, "blog_url_{$sTitle}", array('blog_update','blog_new'), 60*5);
+				$this->Cache_Set(null, "blog_url_{$sTitle}", array('blog_update','blog_new'), 60*5);
 			}
 		}
-		return $data;		
+		return $this->GetBlogById($id);		
 	}
 	/**
 	 * Создаёт персональный блог

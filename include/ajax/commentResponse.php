@@ -33,7 +33,7 @@ $aComments=array();
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic,$oUserCurrent,1)) {		
-		$aReturn=$oEngine->Comment_GetCommentsNewByTopicId($oTopic->getId(),$idCommentLast);
+		$aReturn=$oEngine->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		
 		$oTopicRead=new TopicEntity_TopicRead();

@@ -34,7 +34,7 @@ if ($oEngine->User_IsAuthorization()) {
 	if ($oUserCurrent->isAdministrator()) {
 		if ($oComment=$oEngine->Comment_GetCommentById($idComment)) {
 			$oComment->setDelete(($oComment->getDelete()+1)%2);
-			if ($oEngine->Comment_UpdateTopicComment($oComment)) {
+			if ($oEngine->Comment_UpdateCommentStatus($oComment)) {
 				$bStateError=false;
 				$bState=(bool)$oComment->getDelete();
 				$sMsgTitle=$oEngine->Lang_Get('attention');

@@ -264,10 +264,7 @@ class LsUser extends Module {
 	 */
 	public function GetUserByActivateKey($sKey) {		
 		$id=$this->oMapper->GetUserByActivateKey($sKey);		
-		if ($id and $data=$this->GetUsersAdditionalData($id) and isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;
+		return $this->GetUserById($id);
 	}
 	/**
 	 * Получить юзера по ключу сессии
@@ -277,10 +274,7 @@ class LsUser extends Module {
 	 */
 	public function GetUserBySessionKey($sKey) {		
 		$id=$this->oMapper->GetUserBySessionKey($sKey);		
-		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;
+		return $this->GetUserById($id);
 	}
 	/**
 	 * Получить юзера по мылу
@@ -290,10 +284,7 @@ class LsUser extends Module {
 	 */
 	public function GetUserByMail($sMail) {
 		$id=$this->oMapper->GetUserByMail($sMail);		
-		if ($id and $data=$this->GetUsersAdditionalData($id)  and isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;
+		return $this->GetUserById($id);
 	}
 	/**
 	 * Получить юзера по логину
@@ -308,10 +299,7 @@ class LsUser extends Module {
 				$this->Cache_Set($id, "user_login_{$s}", array(), 60*60*24*1);
 			}						
 		}
-		if ($id and $data=$this->GetUsersAdditionalData($id) and isset($data[$id])) {
-			return $data[$id];			
-		}
-		return null;		 
+		return $this->GetUserById($id);		 
 	}
 	/**
 	 * Получить юзера по айдишнику
@@ -825,11 +813,7 @@ class LsUser extends Module {
 			$id = $this->oMapper->GetUserInviteFrom($sUserIdTo);
 			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
 		}
-		$data=$this->GetUsersAdditionalData($id);
-		if (isset($data[$id])) {
-			return $data[$id];
-		}
-		return null;		
+		return $this->GetUserById($id);		
 	}
 	/**
 	 * Привязывает страну к пользователю

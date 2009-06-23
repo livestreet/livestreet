@@ -36,7 +36,7 @@ if (get_magic_quotes_gpc()) {
 if ($oEngine->User_IsAuthorization()) {	
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	
-		if (isset($aParams['cmt_topic_id']) and $oTopic=$oEngine->Topic_GetTopicById($aParams['cmt_topic_id'],$oUserCurrent)) {
+		if (isset($aParams['cmt_topic_id']) and $oTopic=$oEngine->Topic_GetTopicById($aParams['cmt_topic_id']) and $oTopic->getPublish()) {
 	
 			$bOK=true;			
 			/**
@@ -89,7 +89,7 @@ if ($oEngine->User_IsAuthorization()) {
 				/**
 				 * Проверяем из одного топика ли новый коммент и тот на который отвечаем
 				 */
-				if ($oCommentParent->getTopicId()!=$oTopic->getId()) {
+				if ($oCommentParent->getTargetId()!=$oTopic->getId()) {
 					$sMsg=$oEngine->Lang_Get('system_error');
 					$bOK=false;
 				}
@@ -102,15 +102,16 @@ if ($oEngine->User_IsAuthorization()) {
 			/**
 			 * Проверка на дублирующий коммент
 			 */
-			if ($oEngine->Comment_GetCommentUnique($oTopic->getId(),$oUserCurrent->getId(),$sParentId,md5($sText))) {				
+			if ($oEngine->Comment_GetCommentUnique($oTopic->getId(),'topic',$oUserCurrent->getId(),$sParentId,md5($sText))) {				
 				$sMsg=$oEngine->Lang_Get('topic_comment_spam');
 				$bOK=false;
 			}			
 			/**
 			 * Создаём коммент
 			 */
-			$oCommentNew=new CommentEntity_TopicComment();
-			$oCommentNew->setTopicId($oTopic->getId());
+			$oCommentNew=new CommentEntity_Comment();
+			$oCommentNew->setTargetId($oTopic->getId());
+			$oCommentNew->setTargetType('topic');
 			$oCommentNew->setUserId($oUserCurrent->getId());
 			/**
 			 * Парсим коммент на предмет ХТМЛ тегов
@@ -131,10 +132,11 @@ if ($oEngine->User_IsAuthorization()) {
 					/**
 			 		* Добавляем коммент в прямой эфир если топик не в черновиках
 			 		*/					
-					$oTopicCommentOnline=new CommentEntity_TopicCommentOnline();
-					$oTopicCommentOnline->setTopicId($oCommentNew->getTopicId());
-					$oTopicCommentOnline->setCommentId($oCommentNew->getId());
-					$oEngine->Comment_AddTopicCommentOnline($oTopicCommentOnline);
+					$oCommentOnline=new CommentEntity_CommentOnline();
+					$oCommentOnline->setTargetId($oCommentNew->getTargetId());
+					$oCommentOnline->setTargetType($oCommentNew->getTargetType());
+					$oCommentOnline->setCommentId($oCommentNew->getId());
+					$oEngine->Comment_AddCommentOnline($oCommentOnline);
 				}
 				/**
 				 * Сохраняем дату последнего коммента для юзера
@@ -144,7 +146,7 @@ if ($oEngine->User_IsAuthorization()) {
 				/**
 				 * Отправка уведомления автору топика
 				 */
-				$oUserTopic=$oEngine->User_GetUserById($oTopic->getUserId());
+				$oUserTopic=$oTopic->getUser();
 				if ($oCommentNew->getUserId()!=$oUserTopic->getId()) {					
 					$oEngine->Notify_SendCommentNewToAuthorTopic($oUserTopic,$oTopic,$oCommentNew,$oUserCurrent);
 				}
@@ -152,7 +154,7 @@ if ($oEngine->User_IsAuthorization()) {
 				 * Отправляем уведомление тому на чей коммент ответили
 				 */
 				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {					
-					$oUserAuthorComment=$oEngine->User_GetUserById($oCommentParent->getUserId());					
+					$oUserAuthorComment=$oCommentParent->getUser();					
 					$oEngine->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$oUserCurrent);					
 				}
 				$bStateError=false;
