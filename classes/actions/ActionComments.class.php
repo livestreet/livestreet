@@ -52,9 +52,8 @@ class ActionComments extends Action {
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
 		/**
 		 * Получаем список комментов
-		 */
-		$iCount=0;			
-		$aResult=$this->Comment_GetCommentsAll($iCount,$iPage,BLOG_COMMENT_PER_PAGE);		
+		 */					
+		$aResult=$this->Comment_GetCommentsAll('topic',$iPage,BLOG_COMMENT_PER_PAGE);		
 		$aComments=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

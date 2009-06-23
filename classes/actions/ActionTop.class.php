@@ -112,7 +112,7 @@ class ActionTop extends Action {
 		/**
 		 * Получаем список комментов
 		 */
-		$aComments=$this->Comment_GetCommentsRatingByDate($sDate,20);
+		$aComments=$this->Comment_GetCommentsRatingByDate($sDate,'topic',20);		
 		/**
 		 * Загружаем переменные в шаблон
 		 */				

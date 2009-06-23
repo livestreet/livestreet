@@ -28,3 +28,15 @@ ALTER TABLE `prefix_user` DROP `user_date_last` ;
 ALTER TABLE `prefix_user` DROP `user_ip_last` ;
 
 ALTER TABLE `prefix_friend` CHANGE `user_frend_id` `user_friend_id` INT( 11 ) UNSIGNED;
+
+
+ALTER TABLE `prefix_topic_comment` ADD `comment_publish` TINYINT( 1 ) DEFAULT '1' NOT NULL ;
+ALTER TABLE `prefix_topic_comment` CHANGE `topic_id` `target_id` INT( 11 ) UNSIGNED;
+ALTER TABLE `prefix_topic_comment` ADD `target_type` ENUM( "topic", "talk" ) DEFAULT 'topic' NOT NULL AFTER `target_id` ;
+
+ALTER TABLE `prefix_topic_comment_online` CHANGE `topic_id` `target_id` INT( 11 ) UNSIGNED DEFAULT NULL ;
+ALTER TABLE `prefix_topic_comment_online` ADD `target_type` ENUM( "topic", "talk" ) DEFAULT 'topic' NOT NULL AFTER `target_id` ;
+
+
+ALTER TABLE `prefix_topic_comment` RENAME `prefix_comment` ;
+ALTER TABLE `prefix_topic_comment_online` RENAME `prefix_comment_online` ;

@@ -115,9 +115,8 @@ class ActionMy extends Action {
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Получаем список комментов
-		 */
-		$iCount=0;			
-		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),$iCount,$iPage,BLOG_COMMENT_PER_PAGE);	
+		 */		
+		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,BLOG_COMMENT_PER_PAGE);	
 		$aComments=$aResult['collection'];		
 		/**
 		 * Формируем постраничность
@@ -147,7 +146,7 @@ class ActionMy extends Action {
 		 * Загружаем в шаблон необходимые переменные
 		 */
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
-		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId());
+		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);

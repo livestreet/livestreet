@@ -283,7 +283,11 @@ class LsTopic extends Module {
 		 */
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "topic_{$sId}", array("topic_update_{$sId}"), 60*60*24*4);
-		}		
+		}	
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aTopics=func_array_sort_by_keys($aTopics,$aTopicId);
 		return $aTopics;		
 	}
 	/**
@@ -704,6 +708,10 @@ class LsTopic extends Module {
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "topic_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aTopicsVote=func_array_sort_by_keys($aTopicsVote,$aTopicId);
 		return $aTopicsVote;		
 	}
 	/**
@@ -782,6 +790,10 @@ class LsTopic extends Module {
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "favourite_topic_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aFavouriteTopics=func_array_sort_by_keys($aFavouriteTopics,$aTopicId);
 		return $aFavouriteTopics;		
 	}
 	/**
@@ -902,6 +914,10 @@ class LsTopic extends Module {
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "topic_read_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aTopicsRead=func_array_sort_by_keys($aTopicsRead,$aTopicId);
 		return $aTopicsRead;		
 	}
 	/**
@@ -970,6 +986,10 @@ class LsTopic extends Module {
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "topic_question_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aTopicsQuestionVote=func_array_sort_by_keys($aTopicsQuestionVote,$aTopicId);
 		return $aTopicsQuestionVote;		
 	}
 	/**

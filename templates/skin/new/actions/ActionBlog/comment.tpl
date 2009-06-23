@@ -47,7 +47,10 @@
         				{section name=closelist1  loop=`$nesting-$cmtlevel+1`}</div></div>{/section}
     				{elseif not $smarty.foreach.rublist.first}
         				</div></div>
-    				{/if}    
+    				{/if}   
+    				
+    				{assign var="oUser" value=$oComment->getUser()}
+    				 
     				<div class="comment" id="comment_id_{$oComment->getId()}">
     					{if !$oComment->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
 							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" />
@@ -83,8 +86,8 @@
 								<div class="bl"><div class="bb"><div class="br"></div></div></div>
 							</div>							
 							<div class="info">
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oComment->getUserLogin()}/"><img src="{$oComment->getUserProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oComment->getUserLogin()}/" class="author">{$oComment->getUserLogin()}</a></p>
+								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="author">{$oUser->getLogin()}</a></p>
 								<ul>
 									<li class="date">{date_format date=$oComment->getDate()}</li>
 									{if $oUserCurrent and !$oComment->getDelete() and !$oTopic->getForbidComment()}

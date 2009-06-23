@@ -153,6 +153,10 @@ class LsBlog extends Module {
 		foreach ($aBlogIdNeedStore as $sId) {
 			$this->Cache_Set(null, "blog_{$sId}", array("blog_update_{$sId}"), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aBlogs=func_array_sort_by_keys($aBlogs,$aBlogId);
 		return $aBlogs;		
 	}
 	/**
@@ -492,6 +496,10 @@ class LsBlog extends Module {
 		foreach ($aBlogIdNeedStore as $sId) {
 			$this->Cache_Set(null, "blog_relation_user_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aBlogUsers=func_array_sort_by_keys($aBlogUsers,$aBlogId);
 		return $aBlogUsers;		
 	}	
 	
@@ -608,6 +616,10 @@ class LsBlog extends Module {
 		foreach ($aBlogIdNeedStore as $sId) {
 			$this->Cache_Set(null, "blog_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aBlogsVote=func_array_sort_by_keys($aBlogsVote,$aBlogId);
 		return $aBlogsVote;		
 	}
 	/**

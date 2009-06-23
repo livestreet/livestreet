@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class CommentEntity_TopicComment extends Entity 
+class CommentEntity_Comment extends Entity 
 {    
     public function getId() {
         return $this->_aData['comment_id'];
@@ -23,8 +23,11 @@ class CommentEntity_TopicComment extends Entity
     public function getPid() {
         return $this->_aData['comment_pid'];
     } 
-    public function getTopicId() {
-        return $this->_aData['topic_id'];
+    public function getTargetId() {
+        return $this->_aData['target_id'];
+    }
+    public function getTargetType() {
+        return $this->_aData['target_type'];
     }
     public function getUserId() {
         return $this->_aData['user_id'];
@@ -47,72 +50,37 @@ class CommentEntity_TopicComment extends Entity
     public function getDelete() {
         return $this->_aData['comment_delete'];
     }
+    public function getPublish() {
+        return $this->_aData['comment_publish'];
+    }
     public function getTextHash() {
         return $this->_aData['comment_text_hash'];
     }
     
-    public function getUserLogin() {
-        return $this->_aData['user_login'];
-    }
-    public function getLevel() {
-        return $this->_aData['level'];
-    }
-	public function getUserProfileAvatar() {
-        return $this->_aData['user_profile_avatar'];
-    }
-    public function getUserProfileAvatarType() {
-        return $this->_aData['user_profile_avatar_type'];
-    }
-    public function getUserProfileAvatarPath($iSize=100) {     	  
-    	if ($this->getUserProfileAvatar()) { 	
-        	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getUserId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getUserProfileAvatarType();
-    	} else {
-    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
-    	}
-    }
-	public function getTopicTitle() {
-        return $this->_aData['topic_title'];
-    }
-    public function getTopicCountComment() {
-        return $this->_aData['topic_count_comment'];
-    }
-    public function getBlogType() {
-        return $this->_aData['blog_type'];
-    }
-    public function getBlogUrl() {
-        return $this->_aData['blog_url'];
-    }
-    public function getBlogTitle() {
-        return $this->_aData['blog_title'];
-    }
-    public function getBlogOwnerLogin() {
-    	return $this->_aData['blog_owner_login'];
-    }
-    public function getBlogUrlFull() {
-    	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getBlogOwnerLogin().'/';
-    	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/';
-    	}
-    }
-    public function getTopicUrl() {
-    	if ($this->getBlogType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getTopicId().'.html';
-    	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlogUrl().'/'.$this->getTopicId().'.html';
-    	}
-    }
+    
     public function getUserIsVote() {
         return $this->_aData['user_is_vote'];
     }
     public function getUserVoteDelta() {
         return $this->_aData['user_vote_delta'];
-    }    
+    }
+    public function getLevel() {
+        return $this->_aData['level'];
+    }   
     public function isBad() {    	
         if ($this->getRating()<=BLOG_COMMENT_BAD) {
         	return true;
         } 
         return false;
+    }
+    public function getUser() {
+        return $this->_aData['user'];
+    }
+    public function getTarget() {
+        return $this->_aData['target'];
+    }
+    public function getVote() {
+        return $this->_aData['vote'];
     }
     
     
@@ -124,8 +92,11 @@ class CommentEntity_TopicComment extends Entity
     public function setPid($data) {
         $this->_aData['comment_pid']=$data;
     }
-    public function setTopicId($data) {
-        $this->_aData['topic_id']=$data;
+    public function setTargetId($data) {
+        $this->_aData['target_id']=$data;
+    }
+    public function setTargetType($data) {
+        $this->_aData['target_type']=$data;
     }
     public function setUserId($data) {
         $this->_aData['user_id']=$data;
@@ -148,8 +119,25 @@ class CommentEntity_TopicComment extends Entity
     public function setDelete($data) {
         $this->_aData['comment_delete']=$data;
     }
+    public function setPublish($data) {
+        $this->_aData['comment_publish']=$data;
+    }
 	public function setTextHash($data) {
         $this->_aData['comment_text_hash']=$data;
+    }
+    
+    
+    public function setLevel($data) {
+        $this->_aData['level']=$data;
+    }
+    public function setUser($data) {
+        $this->_aData['user']=$data;
+    }
+    public function setTarget($data) {
+        $this->_aData['target']=$data;
+    }
+    public function setVote($data) {
+        $this->_aData['vote']=$data;
     }
 }
 ?>

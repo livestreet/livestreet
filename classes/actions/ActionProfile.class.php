@@ -166,7 +166,7 @@ class ActionProfile extends Action {
 		 */
 		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserProfile->getId());
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
-		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId());
+		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		

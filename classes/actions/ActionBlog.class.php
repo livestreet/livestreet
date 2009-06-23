@@ -598,7 +598,7 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём комменты к топику
 		 */		
-		$aReturn=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
 		$aComments=$aReturn['comments'];				
 		/**

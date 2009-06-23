@@ -427,4 +427,14 @@ function func_build_cache_keys($array,$sBefore='',$sAfter='') {
 	return $aRes;
 }
 
+function func_array_sort_by_keys($array,$aKeys) {
+	$aResult=array();
+	foreach ($aKeys as $iKey) {
+		if (isset($array[$iKey])) {
+			$aResult[$iKey]=$array[$iKey];
+		}
+	}
+	return $aResult;
+}
+
 ?>

@@ -21,7 +21,7 @@
  */
 class BlockStream extends Block {
 	public function Exec() {
-		if ($aComments=$this->Comment_GetCommentsAllGroup(BLOCK_STREAM_COUNT_ROW)) {
+		if ($aComments=$this->Comment_GetCommentsOnline('topic',BLOCK_STREAM_COUNT_ROW)) {
 			$this->Viewer_Assign('aComments',$aComments);
 			$sTextResult=$this->Viewer_Fetch("block.stream_comment.tpl");
 			$this->Viewer_Assign('sStreamComments',$sTextResult);

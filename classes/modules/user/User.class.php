@@ -84,7 +84,7 @@ class LsUser extends Module {
 			$aFriends=$this->GetFriendsByArray($aUserId,$this->oUserCurrent->getId());
 		}
 		/**
-		 * Добавляем данные к результату - списку блогов
+		 * Добавляем данные к результату
 		 */
 		foreach ($aUsers as $oUser) {
 			if (isset($aSessions[$oUser->getId()])) {
@@ -153,6 +153,10 @@ class LsUser extends Module {
 		foreach ($aUserIdNeedStore as $sId) {
 			$this->Cache_Set(null, "user_{$sId}", array("user_update_{$sId}"), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aUsers=func_array_sort_by_keys($aUsers,$aUserId);
 		return $aUsers;		
 	}
 	/**
@@ -207,6 +211,10 @@ class LsUser extends Module {
 		foreach ($aUserIdNeedStore as $sId) {
 			$this->Cache_Set(array('time'=>time(),'session'=>null), "user_session_{$sId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aSessions=func_array_sort_by_keys($aSessions,$aUserId);
 		return $aSessions;		
 	}
 	/**
@@ -640,6 +648,10 @@ class LsUser extends Module {
 		foreach ($aUserIdNeedStore as $sId) {
 			$this->Cache_Set(null, "user_friend_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
+		/**
+		 * Сортируем результат согласно входящему массиву
+		 */
+		$aFriends=func_array_sort_by_keys($aFriends,$aUserId);
 		return $aFriends;		
 	}
 	/**

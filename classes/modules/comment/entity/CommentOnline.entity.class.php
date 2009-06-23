@@ -15,18 +15,24 @@
 ---------------------------------------------------------
 */
 
-class CommentEntity_TopicCommentOnline extends Entity 
+class CommentEntity_CommentOnline extends Entity 
 {          
-    public function getTopicId() {
-        return $this->_aData['topic_id'];
+    public function getTargetId() {
+        return $this->_aData['target_id'];
+    }
+    public function getTargetType() {
+        return $this->_aData['target_type'];
     }
 	public function getCommentId() {
         return $this->_aData['comment_id'];
     }
     
     	
-    public function setTopicId($data) {
-        $this->_aData['topic_id']=$data;
+    public function setTargetId($data) {
+        $this->_aData['target_id']=$data;
+    }
+    public function setTargetType($data) {
+        $this->_aData['target_type']=$data;
     }
     public function setCommentId($data) {
         $this->_aData['comment_id']=$data;
