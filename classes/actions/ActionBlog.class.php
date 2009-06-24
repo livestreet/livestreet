@@ -123,6 +123,8 @@ class ActionBlog extends Action {
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('admin','EventAdminBlog');
 		
+		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
+		
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
 				
@@ -135,8 +137,7 @@ class ActionBlog extends Action {
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
-	 */
-	
+	 */	
 	/**
 	 * Добавление нового блога
 	 *
@@ -594,7 +595,9 @@ class ActionBlog extends Action {
 		/**
 		 * Обрабатываем добавление коммента
 		 */
-		$this->SubmitComment($oTopic);
+		if (isset($_REQUEST['submit_comment'])) {
+			$this->SubmitComment($oTopic);
+		}
 		/**
 		 * Достаём комменты к топику
 		 */		
@@ -704,147 +707,158 @@ class ActionBlog extends Action {
 		 */
 		$this->SetTemplateAction('blog');
 	}
-		
+	/**
+	 * Обработка добавление комментария к топику через ajax
+	 *
+	 */
+	protected function AjaxAddComment() {
+		$this->Viewer_SetResponseAjax();
+		$this->SubmitComment();
+	}	
 	/**
 	 * Обработка добавление комментария к топику
-	 *
-	 * @param unknown_type $oTopic
+	 *	 
 	 * @return unknown
 	 */
-	protected function SubmitComment($oTopic) {
+	protected function SubmitComment() {
 		/**
-		 * Если нажали кнопку "Отправить"
+		 * Проверям авторизован ли пользователь
 		 */
-		if (isset($_REQUEST['submit_comment'])) {
-			$this->Security_ValidateSendForm();
-			/**
-			 * Проверяем авторизованл ли пользователь
-			 */
-			if (!$this->oUserCurrent) {
-				$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
-				return Router::Action('error');
-			}
-			/**
-			 * Проверяем разрешено ли постить комменты
-			 */
-			if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
-				return false;
-			}
-			/**
-			 * Проверяем разрешено ли постить комменты по времени
-			 */
-			if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
-				return false;
-			}
-			/**
-			 * Проверяем запрет на добавления коммента автором топика
-			 */
-			if ($oTopic->getForbidComment()) {
-				$this->Message_AddError($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
-				return false;
-			}
-			/**
-			 * Проверяем текст комментария
-			 */
-			$sText=$this->Text_Parser(getRequest('comment_text'));
-			if (!func_check($sText,'text',2,10000)) {
-				$this->Message_AddError($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
-				return false;
-			}			
-			/**
-			 * Проверям на какой коммент отвечаем
-			 */
-			$sParentId=getRequest('reply',0);
-			if (!func_check($sParentId,'id')) {
-				$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return false;
-			}
-			$oCommentParent=null;
-			if ($sParentId!=0) {
-				/**
-				 * Проверяем существует ли комментарий на который отвечаем
-				 */
-				if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {
-					return false;
-				}
-				/**
-				 * Проверяем из одного топика ли новый коммент и тот на который отвечаем
-				 */
-				if ($oCommentParent->getTopicId()!=$oTopic->getId()) {
-					return false;
-				}
-			} else {
-				/**
-				 * Корневой комментарий
-				 */
-				$sParentId=null;
-			}
-			/**
-			 * Проверка на дублирующий коммент
-			 */
-			if ($this->Comment_GetCommentUnique($oTopic->getId(),$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
-				$this->Message_AddError($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
-				return false;
-			}
-			//exit();
-			/**
-			 * Создаём коммент
-			 */
-			$oCommentNew=new CommentEntity_TopicComment();
-			$oCommentNew->setTopicId($oTopic->getId());
-			$oCommentNew->setUserId($this->oUserCurrent->getId());
-			/**
-			 * Парсим коммент на предмет ХТМЛ тегов
-			 */
-						
-			$oCommentNew->setText($sText);
-			$oCommentNew->setDate(date("Y-m-d H:i:s"));
-			$oCommentNew->setUserIp(func_getIp());
-			$oCommentNew->setPid($sParentId);
-			$oCommentNew->setTextHash(md5($sText));
-			/**
-			 * Добавляем коммент
-			 */
-			if ($this->Comment_AddComment($oCommentNew)) {
-				if ($oTopic->getPublish()) {
-					/**
-			 		* Добавляем коммент в прямой эфир если топик не в черновиках
-			 		*/					
-					$oTopicCommentOnline=new CommentEntity_TopicCommentOnline();
-					$oTopicCommentOnline->setTopicId($oCommentNew->getTopicId());
-					$oTopicCommentOnline->setCommentId($oCommentNew->getId());
-					$this->Comment_AddTopicCommentOnline($oTopicCommentOnline);
-				}
-				/**
-				 * Сохраняем дату последнего коммента для юзера
-				 */
-				$this->oUserCurrent->setDateCommentLast(date("Y-m-d H:i:s"));
-				$this->User_Update($this->oUserCurrent);
-				/**
-				 * Отправка уведомления автору топика
-				 */
-				$oUserTopic=$this->User_GetUserById($oTopic->getUserId());
-				if ($oCommentNew->getUserId()!=$oUserTopic->getId()) {					
-					$this->Notify_SendCommentNewToAuthorTopic($oUserTopic,$oTopic,$oCommentNew,$this->oUserCurrent);
-				}
-				/**
-				 * Отправляем уведомление тому на чей коммент ответили
-				 */
-				if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {					
-					$oUserAuthorComment=$this->User_GetUserById($oCommentParent->getUserId());					
-					$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);					
-				}
-				func_header_location($oTopic->getUrl().'#comment'.$oCommentNew->getId());
-			} else {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return false;
-			}
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;			
 		}
-	}
-	
-	
+		/**
+		 * Проверяем топик
+		 */
+		if (!($oTopic=$this->Topic_GetTopicById(getRequest('cmt_topic_id')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Возможность постить коммент в топик в черновиках
+		 */
+		if (!$oTopic->getPublish() and $this->oUserCurrent!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Проверяем разрешено ли постить комменты
+		*/
+		if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Проверяем разрешено ли постить комменты по времени
+		*/
+		if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Проверяем запрет на добавления коммента автором топика
+		*/
+		if ($oTopic->getForbidComment()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
+			return;
+		}	
+		/**
+		* Проверяем текст комментария
+		*/
+		$sText=$this->Text_Parser(getRequest('comment_text'));
+		if (!func_check($sText,'text',2,10000)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Проверям на какой коммент отвечаем
+		*/
+		$sParentId=(int)getRequest('reply');
+		if (!func_check($sParentId,'id')) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		$oCommentParent=null;
+		if ($sParentId!=0) {
+			/**
+			* Проверяем существует ли комментарий на который отвечаем
+			*/
+			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {				
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+			/**
+			* Проверяем из одного топика ли новый коммент и тот на который отвечаем
+			*/
+			if ($oCommentParent->getTargetId()!=$oTopic->getId()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		} else {
+			/**
+			* Корневой комментарий
+			*/
+			$sParentId=null;
+		}
+		/**
+		* Проверка на дублирующий коммент
+		*/
+		if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Создаём коммент
+		*/
+		$oCommentNew=new CommentEntity_Comment();
+		$oCommentNew->setTargetId($oTopic->getId());
+		$oCommentNew->setTargetType('topic');
+		$oCommentNew->setUserId($this->oUserCurrent->getId());		
+		$oCommentNew->setText($sText);
+		$oCommentNew->setDate(date("Y-m-d H:i:s"));
+		$oCommentNew->setUserIp(func_getIp());
+		$oCommentNew->setPid($sParentId);
+		$oCommentNew->setTextHash(md5($sText));
+			
+		/**
+		* Добавляем коммент
+		*/
+		if ($this->Comment_AddComment($oCommentNew)) {			
+			$this->Viewer_AssingAjax('sCommentId',$oCommentNew->getId());
+			if ($oTopic->getPublish()) {
+				/**
+			 	* Добавляем коммент в прямой эфир если топик не в черновиках
+			 	*/					
+				$oCommentOnline=new CommentEntity_CommentOnline();
+				$oCommentOnline->setTargetId($oCommentNew->getTargetId());
+				$oCommentOnline->setTargetType($oCommentNew->getTargetType());
+				$oCommentOnline->setCommentId($oCommentNew->getId());
+				$this->Comment_AddCommentOnline($oCommentOnline);
+			}
+			/**
+			* Сохраняем дату последнего коммента для юзера
+			*/
+			$this->oUserCurrent->setDateCommentLast(date("Y-m-d H:i:s"));
+			$this->User_Update($this->oUserCurrent);
+			/**
+			* Отправка уведомления автору топика
+			*/
+			$oUserTopic=$oTopic->getUser();
+			if ($oCommentNew->getUserId()!=$oUserTopic->getId()) {
+				$this->Notify_SendCommentNewToAuthorTopic($oUserTopic,$oTopic,$oCommentNew,$this->oUserCurrent);
+			}
+			/**
+			* Отправляем уведомление тому на чей коммент ответили
+			*/
+			if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {
+				$oUserAuthorComment=$oCommentParent->getUser();
+				$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);
+			}			
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}
+	}	
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

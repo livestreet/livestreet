@@ -232,7 +232,8 @@ var lsCmtTreeClass = new Class({
 		var thisObj=this;
 		formObj=$(formObj);			
 		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentAdd.php',
+        	//DIR_WEB_ROOT+'/include/ajax/commentAdd.php',
+        	DIR_WEB_ROOT+'/blog/ajaxaddcomment/',
         	{ params: formObj },
         	function(result, errors) {         		 
             	if (!result) {

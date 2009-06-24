@@ -68,6 +68,18 @@ class LsViewer extends Module {
 	protected $aHtmlRssAlternate=null;
 	
 	/**
+	 * Переменные для отдачи при ajax запросе
+	 *
+	 * @var unknown_type
+	 */
+	protected $aVarsAjax=array();
+	/**
+	 * Определяет тип ответа при ajax запросе
+	 *
+	 * @var unknown_type
+	 */
+	protected $sResponseAjax=null;
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -164,6 +176,9 @@ class LsViewer extends Module {
 	 * @param string $sTemplate
 	 */
 	public function Display($sTemplate) {
+		if ($this->sResponseAjax) {
+			$this->DisplayAjax($this->sResponseAjax);
+		}
 		/**
 		 * Если шаблон найден то выводим, иначе ошибка
 		 */
@@ -173,7 +188,60 @@ class LsViewer extends Module {
 			throw new Exception($this->Lang_Get('system_error_template').': '.$sTemplate);
 		}
 	}
-	
+	/**
+	 * Ответ на ajax запрос
+	 *
+	 * @param unknown_type $sType - jsHttpRequest или json
+	 */
+	public function DisplayAjax($sType='jsHttpRequest') {
+		/**
+		 * Загружаем статус ответа и сообщение
+		 */
+		$bStateError=false;
+		$sMsgTitle='';
+		$sMsg='';
+		$aMsgError=$this->Message_GetError();
+		$aMsgNotice=$this->Message_GetNotice();
+		if (count($aMsgError)>0) {
+			$bStateError=true;
+			$sMsgTitle=$aMsgError[0]['title'];
+			$sMsg=$aMsgError[0]['msg'];
+		}
+		if (count($aMsgNotice)>0) {			
+			$sMsgTitle=$aMsgNotice[0]['title'];
+			$sMsg=$aMsgNotice[0]['msg'];
+		}
+		$this->AssingAjax('sMsgTitle',$sMsgTitle);
+		$this->AssingAjax('sMsg',$sMsg);
+		$this->AssingAjax('bStateError',$bStateError);		
+		if ($sType=='jsHttpRequest') {
+			require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.php");
+			$JsHttpRequest = new JsHttpRequest("UTF-8");
+			foreach ($this->aVarsAjax as $key => $value) {
+				$GLOBALS['_RESULT'][$key]=$value;
+			}
+		} elseif ($sType=='json') {
+			if (!headers_sent()) {
+				header('Content-type: application/json');
+			} 	
+			echo json_encode($this->aVarsAjax);
+		}
+		exit();
+	}
+	/**
+	 * Устанавливает тип отдачи при ajax запросе, если null то выполняется обычный вывод шаблона в браузер
+	 *
+	 * @param unknown_type $sResponseAjax
+	 */
+	public function SetResponseAjax($sResponseAjax='jsHttpRequest') {
+		/**
+		 * Проверка на безопасную обработку ajax запроса
+		 */
+		if ($sResponseAjax) {
+			$this->Security_ValidateSendForm();
+		}		
+		$this->sResponseAjax=$sResponseAjax;
+	}
 	/**
 	 * Загружает переменную в шаблон
 	 *
@@ -183,7 +251,15 @@ class LsViewer extends Module {
 	public function Assign($sName,$value) {		
 		$this->oSmarty->assign($sName, $value);
 	}
-	
+	/**
+	 * Загружаем переменную в ajax ответ
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $value
+	 */
+	public function AssingAjax($sName,$value) {
+		$this->aVarsAjax[$sName]=$value;
+	}
 	/**
 	 * Возвращает обработанный шаблон
 	 *
