@@ -26,7 +26,7 @@ define('DB_TABLE_BLOG',DB_PREFIX_TABLE.'blog');
 define('DB_TABLE_TOPIC',DB_PREFIX_TABLE.'topic');
 define('DB_TABLE_TOPIC_TAG',DB_PREFIX_TABLE.'topic_tag');
 define('DB_TABLE_COMMENT',DB_PREFIX_TABLE.'comment');
-define('DB_TABLE_TOPIC_VOTE',DB_PREFIX_TABLE.'topic_vote');
+define('DB_TABLE_VOTE',DB_PREFIX_TABLE.'vote');
 define('DB_TABLE_TOPIC_READ',DB_PREFIX_TABLE.'topic_read');
 define('DB_TABLE_BLOG_USER',DB_PREFIX_TABLE.'blog_user');
 define('DB_TABLE_BLOG_VOTE',DB_PREFIX_TABLE.'blog_vote');

@@ -32,20 +32,23 @@ if ($oEngine->User_IsAuthorization()) {
 	if ($oTopic=$oEngine->Topic_GetTopicById(@$_REQUEST['idTopic'])) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oTopic->getUserId()!=$oUserCurrent->getId()) {
-			if (!($oTopicVote=$oEngine->Topic_GetTopicVote($oTopic->getId(),$oUserCurrent->getId()))) {
+			if (!($oTopicVote=$oEngine->Vote_GetVote($oTopic->getId(),'topic',$oUserCurrent->getId()))) {
 				if (strtotime($oTopic->getDateAdd())>time()-VOTE_LIMIT_TIME_TOPIC) {
 					if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic) or $iValue==0) {
 						if (in_array($iValue,array('1','-1','0'))) {
-							$oTopicVote=new TopicEntity_TopicVote();
-							$oTopicVote->setTopicId($oTopic->getId());
+							$oTopicVote=new VoteEntity_Vote();
+							$oTopicVote->setTargetId($oTopic->getId());
+							$oTopicVote->setTargetType('topic');
 							$oTopicVote->setVoterId($oUserCurrent->getId());
-							$oTopicVote->setDelta($iValue);
-							//$oTopic->setRating($oTopic->getRating()+$iValue);
+							$oTopicVote->setDirection($iValue);
+							$oTopicVote->setDate(date("Y-m-d H:i:s"));
+							$iVal=0;
 							if ($iValue!=0) {
-								$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
+								$iVal=(int)$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
 							}
+							$oTopicVote->setValue($iVal);
 							$oTopic->setCountVote($oTopic->getCountVote()+1);
-							if ($oEngine->Topic_AddTopicVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
+							if ($oEngine->Vote_AddVote($oTopicVote) and $oEngine->Topic_UpdateTopic($oTopic)) {
 								$bStateError=false;
 								$sMsgTitle=$oEngine->Lang_Get('attention');
 								$sMsg = $iValue==0 ? $oEngine->Lang_Get('topic_vote_ok_abstain') : $oEngine->Lang_Get('topic_vote_ok');

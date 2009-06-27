@@ -79,20 +79,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function AddTopicVote(TopicEntity_TopicVote $oTopicVote) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_VOTE." 
-			(topic_id,
-			user_voter_id,
-			vote_delta		
-			)
-			VALUES(?d,  ?d,	?f)
-		";			
-		if ($this->oDb->query($sql,$oTopicVote->getTopicId(),$oTopicVote->getVoterId(),$oTopicVote->getDelta())===0) 
-		{
-			return true;
-		}		
-		return false;
-	}
+	
 	
 	public function DeleteTopicTagsByTopicId($sTopicId) {
 		$sql = "DELETE FROM ".DB_TABLE_TOPIC_TAG." 
@@ -269,28 +256,7 @@ class Mapper_Topic extends Mapper {
 	
 		
 
-	public function GetTopicsVoteByArray($aArrayId,$sUserId) {
-		if (!is_array($aArrayId) or count($aArrayId)==0) {
-			return array();
-		}
-				
-		$sql = "SELECT 
-					v.*							 
-				FROM 
-					".DB_TABLE_TOPIC_VOTE." as v 
-				WHERE 
-					v.user_voter_id = ?d
-					AND
-					v.topic_id IN(?a) 									
-				";
-		$aVotes=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
-			foreach ($aRows as $aRow) {
-				$aVotes[]=new TopicEntity_TopicVote($aRow);
-			}
-		}		
-		return $aVotes;
-	}
+	
 	
 	public function increaseTopicCountComment($sTopicId) {
 		$sql = "UPDATE ".DB_TABLE_TOPIC." 

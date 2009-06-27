@@ -40,3 +40,14 @@ ALTER TABLE `prefix_topic_comment_online` ADD `target_type` ENUM( "topic", "talk
 
 ALTER TABLE `prefix_topic_comment` RENAME `prefix_comment` ;
 ALTER TABLE `prefix_topic_comment_online` RENAME `prefix_comment_online` ;
+
+ALTER TABLE `prefix_topic_vote` RENAME `prefix_vote` ;
+ALTER TABLE `prefix_vote` CHANGE `topic_id` `target_id` INT( 11 ) UNSIGNED;
+ALTER TABLE `prefix_vote` ADD `target_type` ENUM( "topic", "blog", "user", "comment" ) DEFAULT 'topic' NOT NULL AFTER `target_id` ;
+ALTER TABLE `prefix_vote` CHANGE `vote_delta` `vote_direction` TINYINT( 2 ) DEFAULT '0';
+ALTER TABLE `prefix_vote` ADD `vote_value` FLOAT( 9, 3 ) DEFAULT '0' NOT NULL ;
+ALTER TABLE `prefix_vote` ADD `vote_date` DATETIME NOT NULL ;
+ALTER TABLE `prefix_vote` DROP INDEX `topic_id_user_voter_id_uniq` ;
+ALTER TABLE `prefix_vote` DROP INDEX `topic_id` ;
+ALTER TABLE `prefix_vote` DROP INDEX `user_voter_id` ;
+ALTER TABLE `prefix_vote` ADD PRIMARY KEY ( `target_id` , `target_type` , `user_voter_id` ) ;

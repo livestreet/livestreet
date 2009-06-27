@@ -119,6 +119,7 @@ class LsRating extends Module {
 		$oUserTopic->setSkill($iSkillNew);
 		$oUserTopic->setRating($oUserTopic->getRating()+$iValue*$iDelta/2.73);
 		$this->User_Update($oUserTopic);
+		return $iDeltaRating;
 	}
 	/**
 	 * Расчет рейтинга и силы при голосовании за блог

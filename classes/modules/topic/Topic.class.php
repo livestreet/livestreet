@@ -70,7 +70,7 @@ class LsTopic extends Module {
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);		
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-			$aTopicsVote=$this->GetTopicsVoteByArray($aTopicId,$this->oUserCurrent->getId());			
+			$aTopicsVote=$this->Vote_GetVoteByArray($aTopicId,'topic',$this->oUserCurrent->getId());			
 			$aTopicsQuestionVote=$this->GetTopicsQuestionVoteByArray($aTopicId,$this->oUserCurrent->getId());
 		}	
 		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
@@ -94,10 +94,9 @@ class LsTopic extends Module {
 				$oTopic->setBlog(null); // или $oTopic->setBlog(new BlogEntity_Blog());
 			}
 			if (isset($aTopicsVote[$oTopic->getId()])) {
-				$oTopic->setUserIsVote(true);
-				$oTopic->setUserVoteDelta($aTopicsVote[$oTopic->getId()]->getDelta());
+				$oTopic->setVote($aTopicsVote[$oTopic->getId()]);				
 			} else {
-				$oTopic->setUserIsVote(false);
+				$oTopic->setVote(null);
 			}
 			if (isset($aFavouriteTopics[$oTopic->getId()])) {
 				$oTopic->setIsFavourite(true);
@@ -145,19 +144,7 @@ class LsTopic extends Module {
 		}
 		return false;
 	}
-	/**
-	 * Добавляет голосование за топик
-	 *
-	 * @param TopicEntity_TopicVote $oTopicVote
-	 * @return unknown
-	 */
-	public function AddTopicVote(TopicEntity_TopicVote $oTopicVote) {
-		if ($this->oMapperTopic->AddTopicVote($oTopicVote)) {
-			$this->Cache_Delete("topic_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}");
-			return true;
-		}
-		return false;
-	}
+	
 	/**
 	 * Удаляет теги у топика
 	 *
@@ -672,79 +659,7 @@ class LsTopic extends Module {
 		}
 		return $data;		
 	}
-	/**
-	 * Получает голосование за топик(голосовал юзер за топик или нет)
-	 *
-	 * @param unknown_type $sTopicId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function GetTopicVote($sTopicId,$sUserId) {
-		$data=$this->GetTopicsVoteByArray($sTopicId,$sUserId);
-		if (isset($data[$sTopicId])) {
-			return $data[$sTopicId];
-		}
-		return null;
-	}
 	
-	/**
-	 * Получить список голосований за топик по списку айдишников
-	 *
-	 * @param unknown_type $aTopicId
-	 */
-	public function GetTopicsVoteByArray($aTopicId,$sUserId) {
-		if (!is_array($aTopicId)) {
-			$aTopicId=array($aTopicId);
-		}
-		$aTopicId=array_unique($aTopicId);
-		$aTopicsVote=array();
-		$aTopicIdNotNeedQuery=array();
-		/**
-		 * Делаем мульти-запрос к кешу
-		 */
-		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_vote_','_'.$sUserId);
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
-			/**
-			 * проверяем что досталось из кеша
-			 */
-			foreach ($aCacheKeys as $sValue => $sKey ) {
-				if (array_key_exists($sKey,$data)) {	
-					if ($data[$sKey]) {
-						$aTopicsVote[$data[$sKey]->getTopicId()]=$data[$sKey];
-					} else {
-						$aTopicIdNotNeedQuery[]=$sValue;
-					}
-				} 
-			}
-		}
-		/**
-		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
-		 */		
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsVote));		
-		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
-		$aTopicIdNeedStore=$aTopicIdNeedQuery;
-		if ($data = $this->oMapperTopic->GetTopicsVoteByArray($aTopicIdNeedQuery,$sUserId)) {
-			foreach ($data as $oTopicVote) {
-				/**
-				 * Добавляем к результату и сохраняем в кеш
-				 */
-				$aTopicsVote[$oTopicVote->getTopicId()]=$oTopicVote;
-				$this->Cache_Set($oTopicVote, "topic_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}", array(), 60*60*24*4);
-				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oTopicVote->getTopicId()));
-			}
-		}
-		/**
-		 * Сохраняем в кеш запросы не вернувшие результата
-		 */
-		foreach ($aTopicIdNeedStore as $sId) {
-			$this->Cache_Set(null, "topic_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
-		}		
-		/**
-		 * Сортируем результат согласно входящему массиву
-		 */
-		$aTopicsVote=func_array_sort_by_keys($aTopicsVote,$aTopicId);
-		return $aTopicsVote;		
-	}
 	/**
 	 * Увеличивает у топика число комментов
 	 *

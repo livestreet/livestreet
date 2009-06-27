@@ -121,12 +121,9 @@ class TopicEntity_Topic extends Entity
     		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlog()->getUrl().'/'.$this->getId().'.html';
     	}
     }
-    public function getUserIsVote() {
-        return $this->_aData['user_is_vote'];
-    }
-    public function getUserVoteDelta() {
-        return $this->_aData['user_vote_delta'];
-    }
+    public function getVote() {
+        return $this->_aData['vote'];
+    }    
     public function getUserQuestionIsVote() {
         return $this->_aData['user_question_is_vote'];
     }	
@@ -372,12 +369,9 @@ class TopicEntity_Topic extends Entity
     public function setUserQuestionIsVote($data) {
         $this->_aData['user_question_is_vote']=$data;
     }
-    public function setUserIsVote($data) {
-        $this->_aData['user_is_vote']=$data;
-    }
-    public function setUserVoteDelta($data) {
-        $this->_aData['user_vote_delta']=$data;
-    }
+    public function setVote($data) {
+        $this->_aData['vote']=$data;
+    }    
     public function setCountCommentNew($data) {
         $this->_aData['count_comment_new']=$data;
     }
