@@ -23,7 +23,7 @@ var lsVoteClass = new Class({
         },
        
         typeVote: {
-                topic_comment: {
+                comment: {
                         url: DIR_WEB_ROOT+'/include/ajax/voteComment.php',
                         targetName: 'idComment'
                 },

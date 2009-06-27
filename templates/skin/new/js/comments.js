@@ -16,6 +16,17 @@ var lsCmtTreeClass = new Class({
 		}		
 	},
 
+	typeComment: {
+		topic: {
+			url_add: DIR_WEB_ROOT+'/blog/ajaxaddcomment/',			
+			url_response: DIR_WEB_ROOT+'/include/ajax/commentResponse.php'		
+		},
+		talk: {
+			url_add: DIR_WEB_ROOT+'/talk/bla',
+			url_response: DIR_WEB_ROOT+'/talk/bla'
+		}
+	},
+	
 	initialize: function(options){		
 		this.setOptions(options);		
 		this.make();		
@@ -113,7 +124,7 @@ var lsCmtTreeClass = new Class({
 		}	
 	},	
 	
-	responseNewComment: function(idTopic,objImg,selfIdComment,bNotFlushNew) {
+	responseNewComment: function(idTarget,typeTarget,objImg,selfIdComment,bNotFlushNew) {
 		var thisObj=this;		
 		
 		if (!bNotFlushNew) {
@@ -131,9 +142,9 @@ var lsCmtTreeClass = new Class({
 		objImg=$(objImg);
 		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
 		(function(){		
-		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentResponse.php',
-        	{ idCommentLast: idCommentLast, idTopic: idTopic },
+		JsHttpRequest.query(        	
+        	thisObj.typeComment[typeTarget].url_response,
+        	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget },
         	function(result, errors) {        		
         		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif'); 
             	if (!result) {
@@ -228,23 +239,23 @@ var lsCmtTreeClass = new Class({
 		this.iCommentIdLastView=idComment;
 	},
 	
-	addComment: function(formObj,topicId) {
+	addComment: function(formObj,targetId,targetType) {
 		var thisObj=this;
 		formObj=$(formObj);			
-		JsHttpRequest.query(
-        	//DIR_WEB_ROOT+'/include/ajax/commentAdd.php',
-        	DIR_WEB_ROOT+'/blog/ajaxaddcomment/',
+		JsHttpRequest.query(        	
+        	thisObj.typeComment[targetType].url_add,
         	{ params: formObj },
-        	function(result, errors) {         		 
+        	function(result, errors) {
             	if (!result) {
             		thisObj.enableFormComment();
-                	msgErrorBox.alert('Error','Please try again later');           
+                	msgErrorBox.alert('Error','Please try again later');  
+                	return;         
         		}      
         		if (result.bStateError) {        			
 					thisObj.enableFormComment();        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {
-        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);        			   								
+        			thisObj.responseNewComment(targetId,targetType,$('update-comments'),result.sCommentId,true);        			   								
         		}                           
 	        },
         	true

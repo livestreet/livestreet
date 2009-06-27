@@ -731,7 +731,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем топик
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequest('cmt_topic_id')))) {
+		if (!($oTopic=$this->Topic_GetTopicById(getRequest('cmt_target_id')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}

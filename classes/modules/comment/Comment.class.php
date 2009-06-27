@@ -387,11 +387,11 @@ class LsComment extends Module {
 		$oViewerLocal->Init();
 		$oViewerLocal->VarAssign();
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
-		
+		$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());
+		$oViewerLocal->Assign('bOneComment',true);
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {			
-			$oViewerLocal->Assign('oComment',$oComment);
-			$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());			
+			$oViewerLocal->Assign('oComment',$oComment);						
 			$sText=$oViewerLocal->Fetch("comment.tpl");
 			$aCmt[]=array(
 				'html' => $sText,

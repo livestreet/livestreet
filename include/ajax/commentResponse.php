@@ -24,7 +24,7 @@ $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
 $idCommentLast=@$_REQUEST['idCommentLast'];
-$idTopic=@$_REQUEST['idTopic'];
+$idTopic=@$_REQUEST['idTarget'];
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';
@@ -32,7 +32,7 @@ $iMaxIdComment=0;
 $aComments=array();
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
-	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic,$oUserCurrent,1)) {		
+	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic)) {		
 		$aReturn=$oEngine->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		

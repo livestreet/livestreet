@@ -44,7 +44,7 @@ class LsNotify extends Module {
 	 * @param CommentEntity_TopicComment $oComment
 	 * @param UserEntity_User $oUserComment
 	 */
-	public function SendCommentNewToAuthorTopic(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_TopicComment $oComment, UserEntity_User $oUserComment) {
+	public function SendCommentNewToAuthorTopic(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_Comment $oComment, UserEntity_User $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -80,7 +80,7 @@ class LsNotify extends Module {
 	 * @param CommentEntity_TopicComment $oComment
 	 * @param UserEntity_User $oUserComment
 	 */
-	public function SendCommentReplyToAuthorParentComment(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_TopicComment $oComment, UserEntity_User $oUserComment) {
+	public function SendCommentReplyToAuthorParentComment(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_Comment $oComment, UserEntity_User $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
