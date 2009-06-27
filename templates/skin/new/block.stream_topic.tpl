@@ -1,9 +1,12 @@
 					<ul class="stream-content">
 						{foreach from=$oTopics item=oTopic name="cmt"}
+							{assign var="oUser" value=$oTopic->getUser()}							
+							{assign var="oBlog" value=$oTopic->getBlog()}
+							
 							<li {if $smarty.foreach.cmt.iteration % 2 == 1}class="even"{/if}>
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oTopic->getUserLogin()}/" class="stream-author">{$oTopic->getUserLogin()}</a>&nbsp;&#8594;
+								<a href="{$oUser->getUserWebPath()}" class="stream-author">{$oUser->getLogin()}</a>&nbsp;&#8594;
 								<span class="stream-topic-icon"></span><a href="{$oTopic->getUrl()}" class="stream-topic">{$oTopic->getTitle()|escape:'html'}</a>
-								<span>{$oTopic->getCountComment()}</span> в <a href="{$oTopic->getBlogUrlFull()}" class="stream-blog">{$oTopic->getBlogTitle()|escape:'html'}</a>
+								<span>{$oTopic->getCountComment()}</span> в <a href="{$oBlog->getUrlFull()}" class="stream-blog">{$oBlog->getTitle()|escape:'html'}</a>
 							</li>						
 						{/foreach}				
 					</ul>

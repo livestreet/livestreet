@@ -457,22 +457,15 @@ class Mapper_User extends Mapper {
 	
 	public function GetUsersSelfFriend($sUserId) {					
 		$sql = "SELECT 
-					u.*										
+					user_id										
 				FROM 
-					".DB_TABLE_FRIEND." as uf,
-					".DB_TABLE_USER." as u					
+					".DB_TABLE_FRIEND."				
 				WHERE 	
-					uf.user_friend_id = ?d	
-					AND
-					uf.user_id = u.user_id
-					AND			
-					u.user_activate = 1												
-				ORDER BY u.user_login;	
-					";
+					user_friend_id = ?d ";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=new UserEntity_User($aUser);
+				$aUsers[]=$aUser['user_id'];
 			}
 		}
 		return $aUsers;

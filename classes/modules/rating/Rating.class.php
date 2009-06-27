@@ -34,7 +34,7 @@ class LsRating extends Module {
 	 * @param UserEntity_User $oUser
 	 * @param CommentEntity_TopicComment $oComment
 	 */
-	public function VoteComment(UserEntity_User $oUser, CommentEntity_TopicComment $oComment, $iValue) {
+	public function VoteComment(UserEntity_User $oUser, CommentEntity_Comment $oComment, $iValue) {
 		/**
 		 * Устанавливаем рейтинг комментария
 		 */

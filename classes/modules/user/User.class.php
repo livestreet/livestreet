@@ -703,8 +703,9 @@ class LsUser extends Module {
 	public function GetUsersSelfFriend($sUserId) {
 		if (false === ($data = $this->Cache_Get("user_self_friend_{$sUserId}"))) {			
 			$data = $this->oMapper->GetUsersSelfFriend($sUserId);
-			$this->Cache_Set($data, "user_self_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "user_self_friend_{$sUserId}", array("friend_change_friend_{$sUserId}"), 60*5);
 		}
+		$data=$this->GetUsersAdditionalData($data);
 		return $data;		 
 	}
 	/**

@@ -34,8 +34,8 @@
 								<div class="bl"><div class="bb"><div class="br"></div></div></div>
 							</div>							
 							<div class="info">
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-								<p><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="author">{$oUser->getLogin()}</a></p>
+								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+								<p><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a></p>
 								<ul>
 									<li class="date">{date_format date=$oComment->getDate()}</li>
 									{if $oUserCurrent and !$oComment->getDelete() and !$bAllowNewComment}

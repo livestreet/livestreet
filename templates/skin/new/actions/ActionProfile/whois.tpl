@@ -96,23 +96,23 @@
 				<br />
 				<h1 class="title">{$aLang.profile_activity}</h1>
 				<table>
-					{if $aUsersFrend}
+					{if $aUsersFriend}
 					<tr>
 						<td class="var">{$aLang.profile_friends}:</td>
 						<td class="friends">
-							{foreach from=$aUsersFrend item=oUserFrend}        						
-        						<a href="{$oUserFrend->getUserWebPath()}">{$oUserFrend->getLogin()}</a>&nbsp; 
+							{foreach from=$aUsersFriend item=oUser}        						
+        						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>&nbsp; 
         					{/foreach}
 						</td>
 					</tr>
 					{/if}
 					
-					{if $aUsersSelfFrend}
+					{if $aUsersSelfFriend}
 					<tr>
 						<td class="var">{$aLang.profile_friends_self}:</td>
 						<td class="friends">
-							{foreach from=$aUsersSelfFrend item=oUserFrend}        						
-        						<a href="{$oUserFrend->getUserWebPath()}">{$oUserFrend->getLogin()}</a>&nbsp; 
+							{foreach from=$aUsersSelfFriend item=oUser}        						
+        						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>&nbsp; 
         					{/foreach}
 						</td>
 					</tr>

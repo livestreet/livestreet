@@ -16,12 +16,7 @@
 */
 
 class Mapper_Topic extends Mapper {	
-	protected $oUserCurrent=null;
-	
-	public function SetUserCurrent($oUserCurrent)  {
-		$this->oUserCurrent=$oUserCurrent;
-	}
-	
+		
 	public function AddTopic(TopicEntity_Topic $oTopic) {
 		$sql = "INSERT INTO ".DB_TABLE_TOPIC." 
 			(blog_id,
@@ -427,13 +422,7 @@ class Mapper_Topic extends Mapper {
 		return $this->oDb->query($sql,$iPublish,$sTopicId); 		
 	}
 	
-	public function GetFavouriteTopic($sTopicId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_FAVOURITE_TOPIC." WHERE topic_id = ?d and user_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
-			return new TopicEntity_FavouriteTopic($aRow);
-		}
-		return null;
-	}
+	
 	
 	public function GetFavouriteTopicsByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
@@ -542,23 +531,7 @@ class Mapper_Topic extends Mapper {
 		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}
 				
-	public function GetTopicRead($sTopicId,$sUserId) {			
-		$sql = "SELECT 
-					*									
-				FROM 
-					".DB_TABLE_TOPIC_READ."					 
-				WHERE 					
-					topic_id = ?d					
-					AND			
-					user_id = ?d					
-				;	
-					";		
-		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
-			return new TopicEntity_TopicRead($aRow);
-		}
-		return false;
-	}
-	
+		
 	public function GetTopicsReadByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
@@ -597,14 +570,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function GetTopicQuestionVote($sTopicId,$sUserId) {
-		$sql = "SELECT * FROM ".DB_TABLE_TOPIC_QUESTION_VOTE." WHERE topic_id = ?d and user_voter_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sTopicId,$sUserId)) {
-			return new TopicEntity_TopicQuestionVote($aRow);
-		}
-		return null;
-	}
-	
+		
 	public function GetTopicsQuestionVoteByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
