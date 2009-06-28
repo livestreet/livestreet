@@ -32,19 +32,21 @@ if ($oEngine->User_IsAuthorization()) {
 	if ($oComment=$oEngine->Comment_GetCommentById(@$_REQUEST['idComment'])) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oComment->getUserId()!=$oUserCurrent->getId()) {
-			if (!($oTopicCommentVote=$oEngine->Comment_GetTopicCommentVote($oComment->getId(),$oUserCurrent->getId()))) {
+			if (!($oTopicCommentVote=$oEngine->Vote_GetVote($oComment->getId(),'comment',$oUserCurrent->getId()))) {
 				if (strtotime($oComment->getDate())>time()-VOTE_LIMIT_TIME_COMMENT) {
 					if ($oEngine->ACL_CanVoteComment($oUserCurrent,$oComment)) {
-						if (in_array($iValue,array('1','-1'))) {
-							$oTopicCommentVote=new CommentEntity_TopicCommentVote();
-							$oTopicCommentVote->setCommentId($oComment->getId());
+						if (in_array($iValue,array('1','-1'))) {							
+							$oTopicCommentVote=new VoteEntity_Vote();
+							$oTopicCommentVote->setTargetId($oComment->getId());
+							$oTopicCommentVote->setTargetType('comment');
 							$oTopicCommentVote->setVoterId($oUserCurrent->getId());
-							$oTopicCommentVote->setDelta($iValue);
-							//$oComment->setRating($oComment->getRating()+$iValue);
-							$oEngine->Rating_VoteComment($oUserCurrent,$oComment,$iValue);
-
+							$oTopicCommentVote->setDirection($iValue);
+							$oTopicCommentVote->setDate(date("Y-m-d H:i:s"));							
+							$iVal=(float)$oEngine->Rating_VoteComment($oUserCurrent,$oComment,$iValue);							
+							$oTopicCommentVote->setValue($iVal);
+							
 							$oComment->setCountVote($oComment->getCountVote()+1);
-							if ($oEngine->Comment_AddTopicCommentVote($oTopicCommentVote) and $oEngine->Comment_UpdateTopicComment($oComment)) {
+							if ($oEngine->Vote_AddVote($oTopicCommentVote) and $oEngine->Comment_UpdateComment($oComment)) {
 								$bStateError=false;
 								$sMsgTitle=$oEngine->Lang_Get('attention');
 								$sMsg=$oEngine->Lang_Get('comment_vote_ok');

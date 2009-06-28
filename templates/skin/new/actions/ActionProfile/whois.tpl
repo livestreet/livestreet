@@ -1,6 +1,7 @@
 {include file='header.tpl' menu="profile" showWhiteBack=true}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
+{assign var="oVote" value=$oUserProfile->getVote()}
 
 <div class="profile-user">
 			
@@ -10,7 +11,7 @@
 				</div>
 				
 				
-				<div class="voting {if $oUserProfile->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oUserProfile->getId()==$oUserCurrent->getId()}guest{/if} {if $oUserProfile->getUserIsVote()} voted {if $oUserProfile->getUserVoteDelta()>0}plus{elseif $oUserProfile->getUserVoteDelta()<0}minus{/if}{/if}">
+				<div class="voting {if $oUserProfile->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oUserProfile->getId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
 					<div class="clear">{$aLang.user_rating}</div>
 					
 					<a href="#" class="plus" onclick="lsVote.vote({$oUserProfile->getId()},this,1,'user'); return false;"></a>

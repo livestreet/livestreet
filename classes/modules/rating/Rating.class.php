@@ -68,6 +68,7 @@ class LsRating extends Module {
 		$iSkillNew=($iSkillNew<0) ? 0 : $iSkillNew;
 		$oUserComment->setSkill($iSkillNew);
 		$this->User_Update($oUserComment);
+		return $iValue;
 	}
 	/**
 	 * Расчет рейтинга и силы при гоосовании за топик
@@ -153,7 +154,8 @@ class LsRating extends Module {
 		/**
 		 * Сохраняем рейтинг
 		 */
-		$oBlog->setRating($oBlog->getRating()+$iValue*$iDelta);		
+		$oBlog->setRating($oBlog->getRating()+$iValue*$iDelta);
+		return $iValue*$iDelta;
 	}
 	/**
 	 * Расчет рейтинга и силы при голосовании за пользователя
@@ -188,11 +190,12 @@ class LsRating extends Module {
 		 * Сохраняем силу и рейтинг
 		 */		
 		$iRatingNew=$oUserTarget->getRating()+$iValue*$iDelta;		
-		$iSkillNew=$oUserTarget->getSkill()+$iValue*$iDelta/3.67;
-		$iSkillNew=($iSkillNew<0) ? 0 : $iSkillNew;		
-		$oUserTarget->setSkill($iSkillNew);
+		//$iSkillNew=$oUserTarget->getSkill()+$iValue*$iDelta/3.67;
+		//$iSkillNew=($iSkillNew<0) ? 0 : $iSkillNew;		
+		//$oUserTarget->setSkill($iSkillNew);
 		$oUserTarget->setRating($iRatingNew);
-		//$this->User_Update($oUserTarget);
+		///$this->User_Update($oUserTarget);
+		return $iValue*$iDelta;
 	}
 }
 ?>

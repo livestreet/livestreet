@@ -1,9 +1,10 @@
 							
 						{assign var="oUser" value=$oComment->getUser()}
+						{assign var="oVote" value=$oComment->getVote()}
 						{if !$oComment->getDelete() or $bOneComment or ($oUserCurrent and $oUserCurrent->isAdministrator())}
 							<img src="{$DIR_STATIC_SKIN}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if} />
 							<a name="comment{$oComment->getId()}" ></a>							
-							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$VOTE_LIMIT_TIME_COMMENT}guest{/if}   {if $oComment->getUserIsVote()} voted {if $oComment->getUserVoteDelta()>0}plus{else}minus{/if}{/if}  ">
+							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$VOTE_LIMIT_TIME_COMMENT}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
 								<div class="total">{if $oComment->getRating()>0}+{/if}{$oComment->getRating()}</div>
 								<a href="#" class="plus" onclick="lsVote.vote({$oComment->getId()},this,1,'comment'); return false;"></a>
 								<a href="#" class="minus" onclick="lsVote.vote({$oComment->getId()},this,-1,'comment'); return false;"></a>

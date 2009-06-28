@@ -34,17 +34,20 @@ if ($oEngine->User_IsAuthorization()) {
 	if ($oUser=$oEngine->User_GetUserById(@$_REQUEST['idUser'])) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oUser->getId()!=$oUserCurrent->getId()) {
-			if (!($oUserVote=$oEngine->User_GetUserVote($oUser->getId(),$oUserCurrent->getId()))) {
+			if (!($oUserVote=$oEngine->Vote_GetVote($oUser->getId(),'user',$oUserCurrent->getId()))) {
 				if ($oEngine->ACL_CanVoteUser($oUserCurrent,$oUser)) {
 					if (in_array($iValue,array('1','-1'))) {
-						$oUserVote=new UserEntity_UserVote();
-						$oUserVote->setUserId($oUser->getId());
+						$oUserVote=new VoteEntity_Vote();
+						$oUserVote->setTargetId($oUser->getId());
+						$oUserVote->setTargetType('user');
 						$oUserVote->setVoterId($oUserCurrent->getId());
-						$oUserVote->setDelta($iValue);
+						$oUserVote->setDirection($iValue);
+						$oUserVote->setDate(date("Y-m-d H:i:s"));
+						$iVal=(float)$oEngine->Rating_VoteUser($oUserCurrent,$oUser,$iValue);
+						$oUserVote->setValue($iVal);
 						//$oUser->setRating($oUser->getRating()+$iValue);
-						$oEngine->Rating_VoteUser($oUserCurrent,$oUser,$iValue);
 						$oUser->setCountVote($oUser->getCountVote()+1);
-						if ($oEngine->User_AddUserVote($oUserVote) and $oEngine->User_Update($oUser)) {
+						if ($oEngine->Vote_AddVote($oUserVote) and $oEngine->User_Update($oUser)) {
 							$bStateError=false;
 							$sMsgTitle=$oEngine->Lang_Get('attention');
 							$sMsg=$oEngine->Lang_Get('user_vote_ok');

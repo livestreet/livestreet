@@ -124,18 +124,15 @@ class UserEntity_User extends Entity {
     public function getSession() {
         return $this->_aData['session'];
     }
-    public function getProfileAvatarPath($iSize=100) {   
+    public function getProfileAvatarPath($iSize=100) {
     	if ($this->getProfileAvatar()) { 	
         	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
     	} else {
     		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
-    public function getUserIsVote() {
-        return $this->_aData['user_is_vote'];
-    }
-    public function getUserVoteDelta() {
-        return $this->_aData['user_vote_delta'];
+    public function getVote() {
+        return $this->_aData['vote'];
     }
     public function getUserIsFriend() {
         return $this->_aData['user_is_friend'];
@@ -251,6 +248,9 @@ class UserEntity_User extends Entity {
     }
     public function setUserIsFriend($data) {
     	$this->_aData['user_is_friend']=$data;
+    }
+    public function setVote($data) {
+        $this->_aData['vote']=$data;
     }
 }
 ?>

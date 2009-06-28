@@ -224,28 +224,6 @@ class Mapper_User extends Mapper {
 		return null;
 	}
 	
-	public function GetUserVote($sUserId,$sVoterId) {
-		$sql = "SELECT * FROM ".DB_TABLE_USER_VOTE." WHERE user_id = ?d and user_voter_id = ?d ";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId,$sVoterId)) {
-			return new UserEntity_UserVote($aRow);
-		}
-		return null;
-	}
-	
-	public function AddUserVote(UserEntity_UserVote $oUserVote) {
-		$sql = "INSERT INTO ".DB_TABLE_USER_VOTE." 
-			(user_id,
-			user_voter_id,
-			vote_delta		
-			)
-			VALUES(?d,  ?d,	?f)
-		";			
-		if ($this->oDb->query($sql,$oUserVote->getUserId(),$oUserVote->getVoterId(),$oUserVote->getDelta())===0) 
-		{
-			return true;
-		}		
-		return false;
-	}
 	
 	public function GetUsersByDateLast($iLimit) {
 		$sql = "SELECT 

@@ -1,5 +1,6 @@
 {include file='header.tpl' menu='blog'}
 {assign var="oUserOwner" value=$oBlog->getOwner()}
+{assign var="oVote" value=$oBlog->getVote()}
 
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -19,7 +20,7 @@ function toggleBlogInfo(id,link) {
 {/literal}
 
 			<div class="profile-blog">
-				<div class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oBlog->getUserIsVote()} voted {if $oBlog->getUserVoteDelta()>0}plus{elseif $oBlog->getUserVoteDelta()<0}minus{/if}{/if}">
+				<div class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
 					<div class="clear">{$aLang.blog_rating}</div>
 					
 					<a href="#" class="plus" onclick="lsVote.vote({$oBlog->getId()},this,1,'blog'); return false;"></a>

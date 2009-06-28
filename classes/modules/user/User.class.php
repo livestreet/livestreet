@@ -77,11 +77,15 @@ class LsUser extends Module {
 		 */
 		$aSessions=array();
 		$aFriends=array();
+		$aVote=array();
 		if (isset($aAllowData['session'])) {
 			$aSessions=$this->GetSessionsByArrayId($aUserId);	
 		}
 		if (isset($aAllowData['friend']) and $this->oUserCurrent) {
 			$aFriends=$this->GetFriendsByArray($aUserId,$this->oUserCurrent->getId());
+		}
+		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
+			$aVote=$this->Vote_GetVoteByArray($aUserId,'user',$this->oUserCurrent->getId());	
 		}
 		/**
 		 * Добавляем данные к результату
@@ -96,7 +100,12 @@ class LsUser extends Module {
 				$oUser->setUserIsFriend(true);
 			} else {
 				$oUser->setUserIsFriend(false);
-			}				
+			}
+			if (isset($aVote[$oUser->getId()])) {
+				$oUser->setVote($aVote[$oUser->getId()]);
+			} else {
+				$oUser->setVote(null);
+			}			
 		}
 		
 		return $aUsers;
@@ -448,26 +457,7 @@ class LsUser extends Module {
 			return true;
 		}
 		return false;
-	}
-	/**
-	 * Получить голосование за юзера
-	 *
-	 * @param unknown_type $sUserId
-	 * @param unknown_type $sVoterId
-	 * @return unknown
-	 */
-	public function GetUserVote($sUserId,$sVoterId) {
-		return $this->oMapper->GetUserVote($sUserId,$sVoterId);
-	}
-	/**
-	 * Проголосовать за юзера
-	 *
-	 * @param UserEntity_UserVote $oUserVote
-	 * @return unknown
-	 */
-	public function AddUserVote(UserEntity_UserVote $oUserVote) {
-		return $this->oMapper->AddUserVote($oUserVote);
-	}
+	}	
 	/**
 	 * Получить список юзеров по дате последнего визита
 	 *

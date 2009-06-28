@@ -65,12 +65,8 @@ class BlogEntity_Blog extends Entity
     public function getOwner() {
         return $this->_aData['owner'];
     }    
-    
-    public function getUserIsVote() {
-        return $this->_aData['user_is_vote'];
-    }
-    public function getUserVoteDelta() {
-        return $this->_aData['user_vote_delta'];
+    public function getVote() {
+        return $this->_aData['vote'];
     }
     public function getAvatarPath($iSize=48) {   
     	if ($this->getAvatar()) { 	
@@ -152,11 +148,8 @@ class BlogEntity_Blog extends Entity
     public function setUserIsJoin($data) {
         $this->_aData['user_is_join']=$data;
     }
-    public function setUserIsVote($data) {
-        $this->_aData['user_is_vote']=$data;
-    }
-    public function setUserVoteDelta($data) {
-        $this->_aData['user_vote_delta']=$data;
+    public function setVote($data) {
+        $this->_aData['vote']=$data;
     }
 }
 ?>

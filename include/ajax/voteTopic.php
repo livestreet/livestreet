@@ -44,7 +44,7 @@ if ($oEngine->User_IsAuthorization()) {
 							$oTopicVote->setDate(date("Y-m-d H:i:s"));
 							$iVal=0;
 							if ($iValue!=0) {
-								$iVal=(int)$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
+								$iVal=(float)$oEngine->Rating_VoteTopic($oUserCurrent,$oTopic,$iValue);
 							}
 							$oTopicVote->setValue($iVal);
 							$oTopic->setCountVote($oTopic->getCountVote()+1);

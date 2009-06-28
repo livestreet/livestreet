@@ -51,14 +51,18 @@ class LsTopic extends Module {
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
 		$aUserId=array();
-		$aBlogId=array();		
+		$aBlogId=array();
+		$aTopicIdQuestion=array();		
 		foreach ($aTopics as $oTopic) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oTopic->getUserId();
 			}
 			if (isset($aAllowData['blog'])) {
 				$aBlogId[]=$oTopic->getBlogId();
-			}			
+			}
+			if ($oTopic->getType()=='question')	{		
+				$aTopicIdQuestion[]=$oTopic->getId();
+			}
 		}
 		/**
 		 * Получаем дополнительные данные
@@ -70,8 +74,8 @@ class LsTopic extends Module {
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);		
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-			$aTopicsVote=$this->Vote_GetVoteByArray($aTopicId,'topic',$this->oUserCurrent->getId());			
-			$aTopicsQuestionVote=$this->GetTopicsQuestionVoteByArray($aTopicId,$this->oUserCurrent->getId());
+			$aTopicsVote=$this->Vote_GetVoteByArray($aTopicId,'topic',$this->oUserCurrent->getId());
+			$aTopicsQuestionVote=$this->GetTopicsQuestionVoteByArray($aTopicIdQuestion,$this->oUserCurrent->getId());
 		}	
 		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
 			$aFavouriteTopics=$this->GetFavouriteTopicsByArray($aTopicId,$this->oUserCurrent->getId());	

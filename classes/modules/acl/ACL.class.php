@@ -112,7 +112,7 @@ class LsACL extends Module {
 	 * @param Entity_TopicComment $oComment
 	 * @return bool
 	 */
-	public function CanVoteComment(UserEntity_User $oUser, CommentEntity_TopicComment $oComment) {
+	public function CanVoteComment(UserEntity_User $oUser, CommentEntity_Comment $oComment) {
 		if ($oUser->getRating()>=ACL_CAN_VOTE_COMMENT) {
 			return true;
 		}

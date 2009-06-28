@@ -66,8 +66,8 @@ class LsBlog extends Module {
 		if (isset($aAllowData['relation_user']) and $this->oUserCurrent) {
 			$aBlogUsers=$this->GetBlogUsersByArrayBlog($aBlogId,$this->oUserCurrent->getId());	
 		}
-		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-			$aBlogsVote=$this->GetBlogsVoteByArray($aBlogId,$this->oUserCurrent->getId());			
+		if (isset($aAllowData['vote']) and $this->oUserCurrent) {			
+			$aBlogsVote=$this->Vote_GetVoteByArray($aBlogId,'blog',$this->oUserCurrent->getId());
 		}
 		/**
 		 * Добавляем данные к результату - списку блогов
@@ -90,13 +90,12 @@ class LsBlog extends Module {
 				$oBlog->setUserIsJoin(false);
 				$oBlog->setUserIsAdministrator(false);
 				$oBlog->setUserIsModerator(false);
-			}	
+			}				
 			if (isset($aBlogsVote[$oBlog->getId()])) {
-				$oBlog->setUserIsVote(true);
-				$oBlog->setUserVoteDelta($aBlogsVote[$oBlog->getId()]->getDelta());
+				$oBlog->setVote($aBlogsVote[$oBlog->getId()]);				
 			} else {
-				$oBlog->setUserIsVote(false);
-			}			
+				$oBlog->setVote(null);
+			}		
 		}
 		
 		return $aBlogs;
@@ -263,19 +262,7 @@ class LsBlog extends Module {
 			return true;
 		}
 		return false;
-	}
-	/**
-	 * Добавляет голосование за блог
-	 *
-	 * @param BlogEntity_BlogVote $oBlogVote
-	 * @return unknown
-	 */
-	public function AddBlogVote(BlogEntity_BlogVote $oBlogVote) {
-		if ($this->oMapperBlog->AddBlogVote($oBlogVote)) {			
-			return true;
-		}
-		return false;
-	}
+	}	
 	/**
 	 * Добавляет отношение юзера к блогу, по сути присоединяет к блогу
 	 *
@@ -542,79 +529,7 @@ class LsBlog extends Module {
 			$this->Cache_Set($data, "blog_rating_self_{$sUserId}_{$iLimit}", array('blog_update',"blog_new_user_{$sUserId}"), 60*60*24);
 		}
 		return $data;		
-	}
-	/**
-	 * Получает голосование за блог(проверяет голосовал ли юзер за этот блог)
-	 *
-	 * @param unknown_type $sBlogId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function GetBlogVote($sBlogId,$sUserId) {
-		$data=$this->GetBlogsVoteByArray($sBlogId,$sUserId);
-		if (isset($data[$sBlogId])) {
-			return $data[$sBlogId];
-		}
-		return null;		
 	}	
-	/**
-	 * Получить список голосований за топик по списку айдишников
-	 *
-	 * @param unknown_type $aBlogId
-	 */
-	public function GetBlogsVoteByArray($aBlogId,$sUserId) {
-		if (!is_array($aBlogId)) {
-			$aBlogId=array($aBlogId);
-		}
-		$aBlogId=array_unique($aBlogId);
-		$aBlogsVote=array();
-		$aBlogIdNotNeedQuery=array();
-		/**
-		 * Делаем мульти-запрос к кешу
-		 */
-		$aCacheKeys=func_build_cache_keys($aBlogId,'blog_vote_','_'.$sUserId);
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
-			/**
-			 * проверяем что досталось из кеша
-			 */
-			foreach ($aCacheKeys as $sValue => $sKey ) {
-				if (array_key_exists($sKey,$data)) {	
-					if ($data[$sKey]) {
-						$aBlogsVote[$data[$sKey]->getBlogId()]=$data[$sKey];
-					} else {
-						$aBlogIdNotNeedQuery[]=$sValue;
-					}
-				} 
-			}
-		}
-		/**
-		 * Смотрим каких блогов не было в кеше и делаем запрос в БД
-		 */		
-		$aBlogIdNeedQuery=array_diff($aBlogId,array_keys($aBlogsVote));		
-		$aBlogIdNeedQuery=array_diff($aBlogIdNeedQuery,$aBlogIdNotNeedQuery);		
-		$aBlogIdNeedStore=$aBlogIdNeedQuery;
-		if ($data = $this->oMapperBlog->GetBlogsVoteByArray($aBlogIdNeedQuery,$sUserId)) {
-			foreach ($data as $oVote) {
-				/**
-				 * Добавляем к результату и сохраняем в кеш
-				 */
-				$aBlogsVote[$oVote->getBlogId()]=$oVote;
-				$this->Cache_Set($oVote, "blog_vote_{$oVote->getBlogId()}_{$oVote->getVoterId()}", array(), 60*60*24*4);
-				$aBlogIdNeedStore=array_diff($aBlogIdNeedStore,array($oVote->getBlogId()));
-			}
-		}
-		/**
-		 * Сохраняем в кеш запросы не вернувшие результата
-		 */
-		foreach ($aBlogIdNeedStore as $sId) {
-			$this->Cache_Set(null, "blog_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
-		}		
-		/**
-		 * Сортируем результат согласно входящему массиву
-		 */
-		$aBlogsVote=func_array_sort_by_keys($aBlogsVote,$aBlogId);
-		return $aBlogsVote;		
-	}
 	/**
 	 * Получает список блогов в которые может постить юзер
 	 *

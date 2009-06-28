@@ -33,17 +33,19 @@ if ($oEngine->User_IsAuthorization()) {
 	if ($oBlog=$oEngine->Blog_GetBlogById(@$_REQUEST['idBlog'])) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
-			if (!($oBlogVote=$oEngine->Blog_GetBlogVote($oBlog->getId(),$oUserCurrent->getId()))) {
+			if (!($oBlogVote=$oEngine->Vote_GetVote($oBlog->getId(),'blog',$oUserCurrent->getId()))) {
 				if ($oEngine->ACL_CanVoteBlog($oUserCurrent,$oBlog)) {
 					if (in_array($iValue,array('1','-1'))) {
-						$oBlogVote=new BlogEntity_BlogVote();
-						$oBlogVote->setBlogId($oBlog->getId());
+						$oBlogVote=new VoteEntity_Vote();
+						$oBlogVote->setTargetId($oBlog->getId());
+						$oBlogVote->setTargetType('blog');
 						$oBlogVote->setVoterId($oUserCurrent->getId());
-						$oBlogVote->setDelta($iValue);
-						//$oBlog->setRating($oBlog->getRating()+$iValue);
-						$oEngine->Rating_VoteBlog($oUserCurrent,$oBlog,$iValue);
+						$oBlogVote->setDirection($iValue);
+						$oBlogVote->setDate(date("Y-m-d H:i:s"));
+						$iVal=(float)$oEngine->Rating_VoteBlog($oUserCurrent,$oBlog,$iValue);
+						$oBlogVote->setValue($iVal);
 						$oBlog->setCountVote($oBlog->getCountVote()+1);
-						if ($oEngine->Blog_AddBlogVote($oBlogVote) and $oEngine->Blog_UpdateBlog($oBlog)) {
+						if ($oEngine->Vote_AddVote($oBlogVote) and $oEngine->Blog_UpdateBlog($oBlog)) {
 							$bStateError=false;
 							$sMsgTitle=$oEngine->Lang_Get('attention');
 							$sMsg=$oEngine->Lang_Get('blog_vote_ok');

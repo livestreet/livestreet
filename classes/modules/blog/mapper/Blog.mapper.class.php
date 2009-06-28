@@ -201,28 +201,6 @@ class Mapper_Blog extends Mapper {
 	
 
 	
-	public function GetBlogsVoteByArray($aArrayId,$sUserId) {
-		if (!is_array($aArrayId) or count($aArrayId)==0) {
-			return array();
-		}
-				
-		$sql = "SELECT 
-					v.*							 
-				FROM 
-					".DB_TABLE_BLOG_VOTE." as v 
-				WHERE 
-					v.user_voter_id = ?d
-					AND
-					v.blog_id IN(?a) 									
-				";
-		$aVotes=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
-			foreach ($aRows as $aRow) {
-				$aVotes[]=new BlogEntity_BlogVote($aRow);
-			}
-		}		
-		return $aVotes;
-	}
 	
 	public function GetBlogByUrl($sUrl) {		
 		$sql = "SELECT 
@@ -273,24 +251,7 @@ class Mapper_Blog extends Mapper {
 		}
 		return $aBlogs;
 	}
-	
-	public function AddBlogVote(BlogEntity_BlogVote $oBlogVote) {
-		$sql = "INSERT INTO ".DB_TABLE_BLOG_VOTE." 
-			(blog_id,
-			user_voter_id,
-			vote_delta		
-			)
-			VALUES(?d,  ?d,	?f)
-		";			
-		if ($this->oDb->query($sql,$oBlogVote->getBlogId(),$oBlogVote->getVoterId(),$oBlogVote->getDelta())===0) 
-		{
-			return true;
-		}		
-		return false;
-	}
-	
-
-	
+		
 	public function GetBlogsRating(&$iCount,$iCurrPage,$iPerPage) {		
 		$sql = "SELECT 
 					b.blog_id													

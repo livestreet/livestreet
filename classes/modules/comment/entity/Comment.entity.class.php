@@ -57,13 +57,7 @@ class CommentEntity_Comment extends Entity
         return $this->_aData['comment_text_hash'];
     }
     
-    
-    public function getUserIsVote() {
-        return $this->_aData['user_is_vote'];
-    }
-    public function getUserVoteDelta() {
-        return $this->_aData['user_vote_delta'];
-    }
+        
     public function getLevel() {
         return $this->_aData['level'];
     }   
@@ -138,6 +132,6 @@ class CommentEntity_Comment extends Entity
     }
     public function setVote($data) {
         $this->_aData['vote']=$data;
-    }
+    }    
 }
 ?>

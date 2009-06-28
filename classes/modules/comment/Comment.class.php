@@ -24,13 +24,15 @@ require_once('mapper/Comment.mapper.class.php');
  */
 class LsComment extends Module {		
 	protected $oMapper;	
+	protected $oUserCurrent=null;
 		
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {			
-		$this->oMapper=new Mapper_Comment($this->Database_GetConnect());		
+		$this->oMapper=new Mapper_Comment($this->Database_GetConnect());
+		$this->oUserCurrent=$this->User_GetUserCurrent();		
 	}
 	/**
 	 * Получить коммент по айдишнику
@@ -110,6 +112,10 @@ class LsComment extends Module {
 		 */
 		$aTargets=array();
 		$aTargets['topic']=isset($aAllowData['target']) && is_array($aAllowData['target']) ? $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],$aAllowData['target']) : $this->Topic_GetTopicsAdditionalData($aTargetId['topic']);
+		$aVote=array();
+		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
+			$aVote=$this->Vote_GetVoteByArray($aCommentId,'comment',$this->oUserCurrent->getId());			
+		}
 		/**
 		 * Добавляем данные к результату
 		 */
@@ -123,6 +129,11 @@ class LsComment extends Module {
 				$oComment->setTarget($aTargets[$oComment->getTargetType()][$oComment->getTargetId()]);
 			} else {
 				$oComment->setTarget(null);
+			}
+			if (isset($aVote[$oComment->getId()])) {
+				$oComment->setVote($aVote[$oComment->getId()]);				
+			} else {
+				$oComment->setVote(null);
 			}
 		}
 		
