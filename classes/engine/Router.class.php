@@ -164,7 +164,13 @@ class Router extends Object {
 				
 		$sActionClass=$this->DefineActionClass();		
 		require_once(DIR_SERVER_ROOT.'/classes/actions/'.$sActionClass.'.class.php');
-		$this->oAction=new $sActionClass($this->oEngine,self::$sAction);
+		$sPrefixCustom='';
+		if (file_exists(DIR_SERVER_ROOT."/classes/actions/".$sActionClass.'.class.custom.php')) {
+			require_once(DIR_SERVER_ROOT."/classes/actions/".$sActionClass.'.class.custom.php');
+			$sPrefixCustom='_custom';
+		}
+		$sClassName=$sActionClass.$sPrefixCustom;
+		$this->oAction=new $sClassName($this->oEngine,self::$sAction);
 		if ($this->oAction->Init()==='next') {
 			$this->ExecAction();
 		} else {
