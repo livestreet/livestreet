@@ -94,7 +94,7 @@ class ActionSearch extends Action {
 			 */
 			foreach($aComments AS $oComment){
 				$oComment->setText($this->Sphinx_GetSnippet(
-					$oComment->getText(), 
+					htmlspecialchars($oComment->getText()), 
 					'comments', 
 					$aReq['q'], 
 					'<span class="searched-item">', 
