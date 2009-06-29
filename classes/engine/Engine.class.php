@@ -87,14 +87,27 @@ class Engine extends Object {
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
+		$sPrefixSys='';
 		if (file_exists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
 		} elseif (file_exists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
+			$sPrefixSys='sys_';
 		} else {
 			throw new Exception($this->Lang_Get('system_error_module')." - ".$sModuleName);
 		}
-		$sModuleNameClass='Ls'.$sModuleName;
+		/**
+		 * Проверяем наличие кастомного класса
+		 */
+		$sPrefixCustom='';
+		if (file_exists(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
+			$sPrefixCustom='_custom';
+		}
+		/**
+		 * Создаем объект модуля
+		 */
+		$sModuleNameClass='Ls'.$sModuleName.$sPrefixCustom;
 		$oModule=new $sModuleNameClass($this);
 		if ($bInit) {
 			$oModule->Init();
