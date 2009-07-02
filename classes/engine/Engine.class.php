@@ -88,9 +88,9 @@ class Engine extends Object {
 	protected function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
 		$sPrefixSys='';
-		if (file_exists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
-		} elseif (file_exists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+		} elseif ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
 			$sPrefixSys='sys_';
 		} else {
@@ -100,7 +100,7 @@ class Engine extends Object {
 		 * Проверяем наличие кастомного класса
 		 */
 		$sPrefixCustom='';
-		if (file_exists(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
+		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
 			$sPrefixCustom='_custom';
 		}
@@ -109,7 +109,7 @@ class Engine extends Object {
 		 */
 		$sModuleNameClass='Ls'.$sModuleName.$sPrefixCustom;
 		$oModule=new $sModuleNameClass($this);
-		if ($bInit) {
+		if ($bInit or $sModuleName=='Cache') {
 			$oModule->Init();
 		}
 		$this->aModules[$sModuleName]=$oModule;
@@ -170,6 +170,26 @@ class Engine extends Object {
 				}
 			}
 			closedir($hDir);
+		}
+	}
+	/**
+	 * Проверяет файл на существование, если используется кеширование memcache то кеширует результат работы
+	 *
+	 * @param unknown_type $sFile
+	 * @return unknown
+	 */
+	public function isFileExists($sFile,$iTime=3600) {		
+		if (strpos($sFile,'/Cache.class.')!==false) {
+			return file_exists($sFile);
+		}
+		if (SYS_CACHE_USE and SYS_CACHE_TYPE==SYS_CACHE_TYPE_MEMORY) {
+			if (false === ($data = $this->Cache_Get("file_exists_{$sFile}"))) {
+				$data=file_exists($sFile);
+				$this->Cache_Set((int)$data, "file_exists_{$sFile}", array(), $iTime);
+			}
+			return $data;
+		} else {
+			return file_exists($sFile);
 		}
 	}
 	/**
