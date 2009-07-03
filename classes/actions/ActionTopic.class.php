@@ -94,7 +94,7 @@ class ActionTopic extends Action {
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
-		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,null,-1)) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -153,7 +153,7 @@ class ActionTopic extends Action {
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
-		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,null,-1)) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId))) {
 			return parent::EventNotFound();
 		}
 		/**

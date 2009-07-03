@@ -81,7 +81,7 @@ class ActionLink extends Action {
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
-		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,$this->oUserCurrent)) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId)) or !$oTopic->getPublish()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -124,17 +124,13 @@ class ActionLink extends Action {
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
-		if (!$oTopic=$this->Topic_GetTopicById($sTopicId,$this->oUserCurrent)) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId))) {
 			return parent::EventNotFound();
 		}
 		/**
-		 * проверяем кто владелец топика, либо модератор и администратор блога
-		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
-		
-		if ($oTopic->getUserId()!=$this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
+		 * Если права на редактирование
+		 */		
+		if (!$this->Topic_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -142,29 +138,13 @@ class ActionLink extends Action {
 		 */
 		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
 		/**
-		 * Получаем данные для отображения формы
-		 * Если админ то делаем доступными все блоги
+		 * Вызов хуков
 		 */
-		$aAllowBlogsUser=array();
-		$aBlogsOwner=array();
-		if ($this->oUserCurrent->isAdministrator()) {
-			$aBlogsOwner=$this->Blog_GetBlogs();
-		} else {
-			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());
-			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
-			foreach ($aBlogsUser as $oBlogUser) {
-				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-				// делаем через "or" чтоб дать возможность юзеру отредактировать свой топик в блоге в котором он уже не может постить, т.е. для тех топиков что были запощены раньше и был доступ в блог
-				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) or $oTopic->getBlogId()==$oBlog->getId()) {
-					$aAllowBlogsUser[]=$oBlogUser;
-				}
-			}
-		}
+		$this->Hook_Run('topic_edit_show',array('oTopic'=>$oTopic));		
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
-		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
+		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_link_title_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
@@ -213,29 +193,11 @@ class ActionLink extends Action {
 		/**
 		 * Добавляем блок вывода информации о блоге
 		 */		
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));
-		/**
-		 * Получаем данные для отображения формы
-		 */
-		$aAllowBlogsUser=array();
-		$aBlogsOwner=array();
-		if ($this->oUserCurrent->isAdministrator()) {
-			$aBlogsOwner=$this->Blog_GetBlogs();
-		} else {
-			$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserCurrent->getId());
-			$aBlogsUser=$this->Blog_GetRelationBlogUsersByUserId($this->oUserCurrent->getId());			
-			foreach ($aBlogsUser as $oBlogUser) {
-				$oBlog=$this->Blog_GetBlogById($oBlogUser->getBlogId());
-				if ($this->ACL_CanAddTopic($this->oUserCurrent,$oBlog)) {
-					$aAllowBlogsUser[]=$oBlogUser;
-				}
-			}
-		}
+		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsUser',$aAllowBlogsUser);
-		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);		
+		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_link_title_create'));
 		/**
 		 * Обрабатываем отправку формы
@@ -279,19 +241,10 @@ class ActionLink extends Action {
 			return false;
 		}		
 		/**
-		 * Проверка состоит ли юзер в блоге в который постит
+		 * Проверяем права на постинг в блог
 		 */
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator()) {
-			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
-				return false;
-			}
-		}		
-		/**
-		 * Проверяем есть ли права на постинг топика в этот блог
-		 */
-		if (!$this->ACL_CanAddTopic($this->User_GetUserCurrent(),$oBlog) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
+		if (!$this->Blog_IsAllowBlog($oBlog,$this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
 		}						
 		/**
@@ -351,21 +304,10 @@ class ActionLink extends Action {
 			/**
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
-			$oTopic=$this->Topic_GetTopicById($oTopic->getId(),null,-1);
+			$oTopic=$this->Topic_GetTopicById($oTopic->getId());
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
-				$aUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());
-				foreach ($aUsers as $oUser) {
-					if ($oUser->getId()==$this->oUserCurrent->getId()) {
-						continue;
-					}				
-					$this->Notify_SendTopicNewToSubscribeBlog($oUser,$oTopic,$oBlog,$this->oUserCurrent);
-				}
-				//отправляем создателю блога
-				if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-					$oUser=$this->User_GetUserById($oBlog->getOwnerId());
-					$this->Notify_SendTopicNewToSubscribeBlog($oUser,$oTopic,$oBlog,$this->oUserCurrent);
-				}
+				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}			
 			func_header_location($oTopic->getUrl());
 		} else {
@@ -404,26 +346,10 @@ class ActionLink extends Action {
 			return false;
 		}			
 		/**
-		 * Проверка состоит ли юзер в блоге в который постит
-		 * Если нужно разрешить редактировать топик в блоге в котором юзер уже не состоит
-		 * Если юзер является администратором либо модератором блога, то разрешаем ему перенос в другой блог
+		 * Проверяем права на постинг в блог
 		 */
-		$oBlogUser=$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId());		
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		$bIsModeratorBlog=$oBlogUser ? $oBlogUser->getIsModerator() : false;
-		
-		if (!$this->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId()) and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog and !$bIsModeratorBlog and $oTopic->getBlogOwnerId()!=$this->oUserCurrent->getId()) {
-			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_nojoin'),$this->Lang_Get('error'));
-				return false;
-			}
-		}		
-		/**
-		 * Проверяем есть ли права на постинг топика в этот блог
-		 * Условие $oBlog->getId()!=$oTopic->getBlogId()  для того чтоб разрешить отредактировать топик в блоге в который сейчас юзер не имеет права на постинг, но раньше успел в него запостить этот топик
-		 */
-		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oBlog) and $oBlog->getId()!=$oTopic->getBlogId() and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noacl'),$this->Lang_Get('error'));
+		if (!$this->Blog_IsAllowBlog($oBlog,$this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
 		}						
 		/**
@@ -450,11 +376,13 @@ class ActionLink extends Action {
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
+		$bSendNotify=false;
 		if (isset($_REQUEST['submit_topic_publish'])) {
 			$oTopic->setPublish(1);
 			if ($oTopic->getPublishDraft()==0) {
 				$oTopic->setPublishDraft(1);
 				$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+				$bSendNotify=true;
 			}
 		} else {
 			$oTopic->setPublish(0);
@@ -480,8 +408,14 @@ class ActionLink extends Action {
 		 * Сохраняем топик
 		 */
 		if ($this->Topic_UpdateTopic($oTopic)) {			
+			/**
+			 * Рассылаем о новом топике подписчикам блога
+			 */
+			if ($bSendNotify)	 {
+				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
+			}			
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
-				func_header_location($oTopic->getBlogUrlFull());
+				func_header_location($oBlog->getUrlFull());
 			}
 			func_header_location($oTopic->getUrl());
 		} else {
