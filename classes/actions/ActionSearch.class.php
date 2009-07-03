@@ -88,7 +88,7 @@ class ActionSearch extends Action {
 			/**
 			 *  Получаем топик-объекты по списку идентификаторов
 			 */		
-			$aComments = $this->Comment_GetCommentsByArrayId(array_keys($this->aSphinxRes['matches']));			
+			$aComments = $this->Comment_GetCommentsAdditionalData(array_keys($this->aSphinxRes['matches']));			
 			/** 
 			 * Делаем сниппеты 
 			 */

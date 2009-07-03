@@ -93,7 +93,7 @@ class ActionRss extends Action {
 	}
 
 	protected function RssComments() {
-		$aResult=$this->Comment_GetCommentsAll(0,1,BLOG_COMMENT_PER_PAGE*2);
+		$aResult=$this->Comment_GetCommentsAll('topic',1,BLOG_COMMENT_PER_PAGE*2);
 		$aComments=$aResult['collection'];
 		
 		$aChannel['title']=SITE_NAME;
@@ -105,12 +105,12 @@ class ActionRss extends Action {
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
-			$item['title']='Comments: '.$oComment->getTopicTitle();
-			$item['guid']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
-			$item['link']=$oComment->getTopicUrl().'#comment'.$oComment->getId();
+			$item['title']='Comments: '.$oComment->getTarget()->getTitle();
+			$item['guid']=$oComment->getTarget()->getUrl().'#comment'.$oComment->getId();
+			$item['link']=$oComment->getTarget()->getUrl().'#comment'.$oComment->getId();
 			$item['description']=$oComment->getText();
 			$item['pubDate']=$oComment->getDate();
-			$item['author']=$oComment->getUserLogin(); 
+			$item['author']=$oComment->getUser()->getLogin(); 
 			$item['category']='comments';
 			$comments[]=$item;
 		}
@@ -122,11 +122,11 @@ class ActionRss extends Action {
 	protected function RssTopicComments() {
 		$sTopicId=$this->GetParam(0);
 		
-		if (!($oTopic=$this->Topic_GetTopicById($sTopicId))) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId)) or !$oTopic->getPublish()) {
 			return parent::EventNotFound();
 		}
 		
-		$aComments=$this->Comment_GetCommentsByTopicId($oTopic->getId());
+		$aComments=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
 		$aComments=$aComments['comments'];
 		
 		$aChannel['title']=SITE_NAME;
@@ -143,7 +143,7 @@ class ActionRss extends Action {
 			$item['link']=$oTopic->getUrl().'#comment'.$oComment->getId();
 			$item['description']=$oComment->getText();
 			$item['pubDate']=$oComment->getDate();
-			$item['author']=$oComment->getUserLogin();
+			$item['author']=$oComment->getUser()->getLogin();
 			$item['category']='comments';
 			$comments[]=$item;
 		}

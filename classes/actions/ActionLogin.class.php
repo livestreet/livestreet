@@ -104,7 +104,7 @@ class ActionLogin extends Action {
 			if ($oReminder=$this->User_GetReminderByCode($this->GetParam(0))) {
 				if (!$oReminder->getIsUsed() and strtotime($oReminder->getDateExpire())>time() and $oUser=$this->User_GetUserById($oReminder->getUserId())) {
 					$sNewPassword=func_generator(7);
-					$oUser->setPassword(md5($sNewPassword));
+					$oUser->setPassword(func_encrypt($sNewPassword));
 					if ($this->User_Update($oUser)) {
 						$oReminder->setDateUsed(date("Y-m-d H:i:s"));
 						$oReminder->setIsUsed(1);
