@@ -51,3 +51,8 @@ ALTER TABLE `prefix_vote` DROP INDEX `topic_id_user_voter_id_uniq` ;
 ALTER TABLE `prefix_vote` DROP INDEX `topic_id` ;
 ALTER TABLE `prefix_vote` DROP INDEX `user_voter_id` ;
 ALTER TABLE `prefix_vote` ADD PRIMARY KEY ( `target_id` , `target_type` , `user_voter_id` ) ;
+
+
+ALTER TABLE `prefix_talk` ADD `talk_count_comment` INT DEFAULT '0' NOT NULL ;
+ALTER TABLE `prefix_talk_user` ADD `comment_id_last` INT DEFAULT '0' NOT NULL ;
+ALTER TABLE `prefix_talk_user` ADD `comment_count_new` INT DEFAULT '0' NOT NULL ;

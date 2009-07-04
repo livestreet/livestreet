@@ -22,8 +22,8 @@ var lsCmtTreeClass = new Class({
 			url_response: DIR_WEB_ROOT+'/include/ajax/commentResponse.php'		
 		},
 		talk: {
-			url_add: DIR_WEB_ROOT+'/talk/bla',
-			url_response: DIR_WEB_ROOT+'/talk/bla'
+			url_add: DIR_WEB_ROOT+'/talk/ajaxaddcomment/',
+			url_response: DIR_WEB_ROOT+'/talk/ajaxresponsecomment/'
 		}
 	},
 	

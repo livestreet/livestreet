@@ -16,24 +16,25 @@
 					
 					<tbody>
 					{foreach from=$aTalks item=oTalk}
+						{assign var="oTalkUser" value=$oTalk->getTalkUser()}
 						<tr>
 							<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox"></td>
 							<td class="name">							
 								{foreach from=$oTalk->getUsers() item=oUser name=users}
 									{if $oUser->getId()!=$oUserCurrent->getId()}					
-										<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="author">{$oUser->getLogin()}</a>
+										<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
 									{/if}
 								{/foreach}
 							</td>							
 							<td>
-							{if $oTalk->getCountCommentNew() or !$oTalk->getDateLastRead()}
+							{if $oTalkUser->getCommentCountNew() or !$oTalkUser->getDateLast()}
 								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/read/{$oTalk->getId()}/"><b>{$oTalk->getTitle()|escape:'html'}</b></a>
 							{else}
 								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
 							{/if}
 					 		&nbsp;	
 							{if $oTalk->getCountComment()}
-								{$oTalk->getCountComment()} {if $oTalk->getCountCommentNew()}<span style="color: #008000;">+{$oTalk->getCountCommentNew()}</span>{/if}
+								{$oTalk->getCountComment()} {if $oTalkUser->getCommentCountNew()}<span style="color: #008000;">+{$oTalkUser->getCommentCountNew()}</span>{/if}
 							{/if}
 							</td>
 							<td>{date_format date=$oTalk->getDate()}</td>

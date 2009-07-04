@@ -596,7 +596,7 @@ class ActionBlog extends Action {
 		 * Обрабатываем добавление коммента
 		 */
 		if (isset($_REQUEST['submit_comment'])) {
-			$this->SubmitComment($oTopic);
+			$this->SubmitComment();
 		}
 		/**
 		 * Достаём комменты к топику

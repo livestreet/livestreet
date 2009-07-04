@@ -26,16 +26,15 @@ class TalkEntity_TalkUser extends Entity
     public function getDateLast() {
         return $this->_aData['date_last'];
     }
+    public function getCommentIdLast() {
+        return $this->_aData['comment_id_last'];
+    }
+    public function getCommentCountNew() {
+        return $this->_aData['comment_count_new'];
+    }
     
         
-    public function getTalkTitle() {
-        return $this->_aData['talk_title'];
-    }
-    public function getUserLogin() {
-        return $this->_aData['user_login'];
-    }   
-	    
-  
+   
     
 	public function setTalkId($data) {
         $this->_aData['talk_id']=$data;
@@ -45,6 +44,12 @@ class TalkEntity_TalkUser extends Entity
     }
     public function setDateLast($data) {
         $this->_aData['date_last']=$data;
-    }    
+    }  
+    public function setCommentIdLast($data) {
+        $this->_aData['comment_id_last']=$data;
+    }
+    public function setCommentCountNew($data) {
+        $this->_aData['comment_count_new']=$data;
+    }
 }
 ?>

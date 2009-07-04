@@ -38,26 +38,22 @@ class TalkEntity_Talk extends Entity
     public function getUserIp() {
         return $this->_aData['talk_user_ip'];
     }
+    public function getCountComment() {
+        return $this->_aData['talk_count_comment'];
+    }
       
     
-    public function getUserLogin() {
-        return $this->_aData['user_login'];
-    }
+    
     public function getUsers() {
     	return $this->_aData['users'];
     }
-    public function getCountUsers() {
-    	return count($this->_aData['users']);
+    public function getUser() {
+    	return $this->_aData['user'];
     }
-	public function getCountComment() {
-    	return $this->_aData['count_comment'];
+    public function getTalkUser() {
+    	return $this->_aData['talk_user'];
     }
-    public function getCountCommentNew() {
-    	return $this->_aData['count_comment_new'];
-    }
-    public function getDateLastRead() {
-    	return $this->_aData['date_last_read'];
-    }
+    
     
     
     
@@ -82,9 +78,19 @@ class TalkEntity_Talk extends Entity
     public function setUserIp($data) {
         $this->_aData['talk_user_ip']=$data;
     }  
+    public function setCountComment($data) {
+        $this->_aData['talk_count_comment']=$data;
+    }
+    
     
     public function setUsers($data) {
         $this->_aData['users']=$data;
-    }  
+    } 
+    public function setUser($data) {
+        $this->_aData['user']=$data;
+    }
+    public function setTalkUser($data) {
+        $this->_aData['talk_user']=$data;
+    } 
 }
 ?>

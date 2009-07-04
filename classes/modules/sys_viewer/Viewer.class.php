@@ -214,9 +214,7 @@ class LsViewer extends Module {
 		$this->AssingAjax('sMsgTitle',$sMsgTitle);
 		$this->AssingAjax('sMsg',$sMsg);
 		$this->AssingAjax('bStateError',$bStateError);		
-		if ($sType=='jsHttpRequest') {
-			require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.php");
-			$JsHttpRequest = new JsHttpRequest("UTF-8");
+		if ($sType=='jsHttpRequest') {			
 			foreach ($this->aVarsAjax as $key => $value) {
 				$GLOBALS['_RESULT'][$key]=$value;
 			}
@@ -237,7 +235,11 @@ class LsViewer extends Module {
 		/**
 		 * Проверка на безопасную обработку ajax запроса
 		 */
-		if ($sResponseAjax) {
+		if ($sResponseAjax) {			
+			if ($sResponseAjax=='jsHttpRequest') {
+				require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.php");
+				$JsHttpRequest = new JsHttpRequest("UTF-8");
+			}
 			$this->Security_ValidateSendForm();
 		}		
 		$this->sResponseAjax=$sResponseAjax;

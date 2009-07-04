@@ -258,7 +258,7 @@ class LsNotify extends Module {
 		$this->Mail_Send();
 	}
 	
-	public function SendTalkCommentNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom,TalkEntity_Talk $oTalk,TalkEntity_TalkComment $oTalkComment) {
+	public function SendTalkCommentNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom,TalkEntity_Talk $oTalk,CommentEntity_Comment $oTalkComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */

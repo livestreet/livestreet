@@ -58,7 +58,9 @@ class ActionTalk extends Action {
 		$this->AddEvent('inbox','EventInbox');	
 		$this->AddEvent('add','EventAdd');	
 		$this->AddEvent('read','EventRead');				
-		$this->AddEvent('delete','EventDelete');				
+		$this->AddEvent('delete','EventDelete');
+		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
+		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 	}
 		
 	
@@ -141,32 +143,37 @@ class ActionTalk extends Action {
 		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
 		 */
 		$sTalkId=$this->GetParam(0);
-		if (!$oTalk=$this->Talk_GetTalkByIdAndUserId($sTalkId,$this->oUserCurrent->getId())) {
+		if (!($oTalk=$this->Talk_GetTalkById($sTalkId))) {
+			return parent::EventNotFound();
+		}
+		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return parent::EventNotFound();
 		}
 		/**
-		 * Помечаем дату последнего просмотра
-		 */
-		$this->Talk_SetTalkUserDateLast($oTalk->getId(),$this->oUserCurrent->getId());
-		/**
 		 * Обрабатываем добавление коммента
 		 */
-		$this->SubmitComment($oTalk);
+		if (isset($_REQUEST['submit_comment'])) {
+			$this->SubmitComment();
+		}
 		/**
 		 * Достаём комменты к сообщению
+		 */		
+		$aReturn=$this->Comment_GetCommentsByTargetId($oTalk->getId(),'talk');
+		$iMaxIdComment=$aReturn['iMaxIdComment'];	
+		$aComments=$aReturn['comments'];
+		/**
+		 * Помечаем дату последнего просмотра
 		 */
-		$aComments=$this->Talk_GetCommentsByTalkId($oTalk->getId());
-		$aCommentsNew=array();
-		foreach ($aComments as $oCom) {
-			$array=$oCom->_getData();
-			$array['obj']=$oCom;
-			$aCommentsNew[]=$array;
-		}
+		$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
+		$oTalkUser->setCommentIdLast($iMaxIdComment);
+		$oTalkUser->setCommentCountNew(0);
+		$this->Talk_UpdateTalkUser($oTalkUser);
 		
+						
 		$this->Viewer_AddHtmlTitle($oTalk->getTitle());
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_Assign('aCommentsNew',$aCommentsNew);
+		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 	}
 	
 	
@@ -218,88 +225,172 @@ class ActionTalk extends Action {
 		return $bOk;
 	}
 	
-	
 	/**
-	 * Обработка добавление комментария к сообщению
+	 * Получение новых комментариев
 	 *
-	 * @param unknown_type $oTalk
-	 * @return unknown
 	 */
-	protected function SubmitComment($oTalk) {
+	protected function AjaxResponseComment() {
+		$this->Viewer_SetResponseAjax();
+		$idCommentLast=getRequest('idCommentLast');		
 		/**
-		 * Если нажали кнопку "Отправить"
+		 * Проверям авторизован ли пользователь
 		 */
-		if (isset($_REQUEST['submit_comment'])) {
-			$this->Security_ValidateSendForm();
-			/**
-			 * Проверяем текст комментария
-			 */
-			if (!func_check(getRequest('comment_text'),'text',2,3000)) {
-				$this->Message_AddError($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
-				return false;
-			}
-			/**
-			 * Проверям на какой коммент отвечаем
-			 */
-			$sParentId=getRequest('reply',0);
-			if (!func_check($sParentId,'id')) {
-				$this->Message_AddError($this->Lang_Get('system_error'));
-				return false;
-			}
-			if ($sParentId!=0) {
-				/**
-				 * Проверяем существует ли комментарий на который отвечаем
-				 */
-				if (!($oCommentParent=$this->Talk_GetCommentById($sParentId))) {
-					return false;
-				}
-				/**
-				 * Проверяем из одного сообщения ли новый коммент и тот на который отвечаем
-				 */
-				if ($oCommentParent->getTalkId()!=$oTalk->getId()) {
-					return false;
-				}
-			} else {
-				/**
-				 * Корневой комментарий
-				 */
-				$sParentId=null;
-			}
-			/**
-			 * Создаём коммент
-			 */
-			$oCommentNew=new TalkEntity_TalkComment();
-			$oCommentNew->setTalkId($oTalk->getId());
-			$oCommentNew->setUserId($this->oUserCurrent->getId());
-			/**
-			 * Парсим коммент на предмет ХТМЛ тегов
-			 */
-			$sText=$this->Text_Parser(getRequest('comment_text'));			
-			$oCommentNew->setText($sText);
-			$oCommentNew->setDate(date("Y-m-d H:i:s"));
-			$oCommentNew->setUserIp(func_getIp());
-			$oCommentNew->setPid($sParentId);
-			/**
-			 * Добавляем коммент
-			 */
-			if ($this->Talk_AddComment($oCommentNew)) {
-				$oTalk->setDateLast(date("Y-m-d H:i:s"));
-				$this->Talk_UpdateTalk($oTalk);
-				/**
-				 * Отсылаем уведомления всем адресатам
-				 */
-				$aUsersTalk=$this->Talk_GetTalkUsers($oCommentNew->getTalkId());
-				foreach ($aUsersTalk as $oUserTalk) {
-					if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {						
-						$this->Notify_SendTalkCommentNew($oUserTalk,$this->oUserCurrent,$oTalk,$oCommentNew);
-					}
-				}
-				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/read/'.$oTalk->getId().'/#comment'.$oCommentNew->getId());
-			} else {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-				return false;
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;			
+		}
+		/**
+		 * Проверяем разговор
+		 */
+		if (!($oTalk=$this->Talk_GetTalkById(getRequest('idTarget')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+			
+		
+		$aReturn=$this->Comment_GetCommentsNewByTargetId($oTalk->getId(),'talk',$idCommentLast);
+		$iMaxIdComment=$aReturn['iMaxIdComment'];
+		
+		$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
+		if ($iMaxIdComment!=0) {
+			$oTalkUser->setCommentIdLast($iMaxIdComment);
+		}
+		$oTalkUser->setCommentCountNew(0);
+		$this->Talk_UpdateTalkUser($oTalkUser);
+		
+		$aComments=array();
+		$aCmts=$aReturn['comments'];
+		if ($aCmts and is_array($aCmts)) {
+			foreach ($aCmts as $aCmt) {
+				$aComments[]=array(
+					'html' => $aCmt['html'],
+					'idParent' => $aCmt['obj']->getPid(),
+					'id' => $aCmt['obj']->getId(),
+				);
 			}
 		}
+		
+		$this->Viewer_AssingAjax('aComments',$aComments);
+		$this->Viewer_AssingAjax('iMaxIdComment',$iMaxIdComment);	
 	}
+	/**
+	 * Обработка добавление комментария к топику через ajax
+	 *
+	 */
+	protected function AjaxAddComment() {
+		$this->Viewer_SetResponseAjax();
+		$this->SubmitComment();
+	}	
+	/**
+	 * Обработка добавление комментария к топику
+	 *	 
+	 * @return unknown
+	 */
+	protected function SubmitComment() {
+		/**
+		 * Проверям авторизован ли пользователь
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;			
+		}
+		/**
+		 * Проверяем разговор
+		 */
+		if (!($oTalk=$this->Talk_GetTalkById(getRequest('cmt_target_id')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}			
+		/**
+		* Проверяем текст комментария
+		*/
+		$sText=$this->Text_Parser(getRequest('comment_text'));
+		if (!func_check($sText,'text',2,3000)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Проверям на какой коммент отвечаем
+		*/
+		$sParentId=(int)getRequest('reply');
+		if (!func_check($sParentId,'id')) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		$oCommentParent=null;
+		if ($sParentId!=0) {
+			/**
+			* Проверяем существует ли комментарий на который отвечаем
+			*/
+			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {				
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+			/**
+			* Проверяем из одного топика ли новый коммент и тот на который отвечаем
+			*/
+			if ($oCommentParent->getTargetId()!=$oTalk->getId()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		} else {
+			/**
+			* Корневой комментарий
+			*/
+			$sParentId=null;
+		}
+		/**
+		* Проверка на дублирующий коммент
+		*/
+		if ($this->Comment_GetCommentUnique($oTalk->getId(),'talk',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		* Создаём коммент
+		*/
+		$oCommentNew=new CommentEntity_Comment();
+		$oCommentNew->setTargetId($oTalk->getId());
+		$oCommentNew->setTargetType('talk');
+		$oCommentNew->setUserId($this->oUserCurrent->getId());		
+		$oCommentNew->setText($sText);
+		$oCommentNew->setDate(date("Y-m-d H:i:s"));
+		$oCommentNew->setUserIp(func_getIp());
+		$oCommentNew->setPid($sParentId);
+		$oCommentNew->setTextHash(md5($sText));
+			
+		/**
+		* Добавляем коммент
+		*/
+		if ($this->Comment_AddComment($oCommentNew)) {
+			$this->Viewer_AssingAjax('sCommentId',$oCommentNew->getId());
+			$oTalk->setDateLast(date("Y-m-d H:i:s"));
+			$oTalk->setCountComment($oTalk->getCountComment()+1);
+			$this->Talk_UpdateTalk($oTalk);
+			/**
+			* Отсылаем уведомления всем адресатам
+			*/
+			$aUsersTalk=$this->Talk_GetUsersTalk($oTalk->getId());
+			foreach ($aUsersTalk as $oUserTalk) {
+				if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {
+					$this->Notify_SendTalkCommentNew($oUserTalk,$this->oUserCurrent,$oTalk,$oCommentNew);
+				}
+			}
+			/**
+			 * Увеличиваем число новых комментов
+			 */
+			$this->Talk_increaseCountCommentNew($oTalk->getId(),$oCommentNew->getUserId()); 			
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}
+	}	
 }
 ?>
