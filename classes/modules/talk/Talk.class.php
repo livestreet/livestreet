@@ -304,8 +304,8 @@ class LsTalk extends Module {
 	 * @param TalkEntity_TalkUser $oTalkUser
 	 * @return unknown
 	 */
-	public function DeleteTalkUser(TalkEntity_TalkUser $oTalkUser) {
-		return $this->oMapper->DeleteTalkUser($oTalkUser);
+	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId);
 	}
 	/**
 	 * Есть ли юзер в этом разговоре
@@ -372,7 +372,13 @@ class LsTalk extends Module {
 		$data=$this->oMapper->GetUsersTalk($sTalkId);
 		return $this->User_GetUsersAdditionalData($data);
 	}
-	
+	/**
+	 * Увеличивает число новых комментов у юзеров
+	 *
+	 * @param unknown_type $sTalkId
+	 * @param unknown_type $aExcludeId
+	 * @return unknown
+	 */
 	public function increaseCountCommentNew($sTalkId,$aExcludeId=null) {
 		return $this->oMapper->increaseCountCommentNew($sTalkId,$aExcludeId);
 	}

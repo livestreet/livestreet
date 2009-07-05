@@ -140,14 +140,18 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	
-	public function DeleteTalkUser(TalkEntity_TalkUser $oTalkUser) {
+	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+		if (!is_array($aTalkId)) {
+			$aTalkId=array($aTalkId);
+		}
+		
 		$sql = "DELETE FROM ".DB_TABLE_TALK_USER." 
 			WHERE
-				talk_id = ?d
+				talk_id IN (?a)
 				AND
 				user_id = ?d				
 		";			
-		if ($this->oDb->query($sql,$oTalkUser->getTalkId(),$oTalkUser->getUserId())) 
+		if ($this->oDb->query($sql,$aTalkId,$sUserId)) 
 		{
 			return true;
 		}		
@@ -155,19 +159,15 @@ class Mapper_Talk extends Mapper {
 	}
 	
 		
+		
 	public function GetCountCommentNew($sUserId) {
 		$sql = "
 					SELECT
-						COUNT(tc.talk_comment_id) as count_new												
-					FROM 
-  						".DB_TABLE_TALK_COMMENT." as tc,
+						SUM(tu.comment_count_new) as count_new												
+					FROM   						
   						".DB_TABLE_TALK_USER." as tu
-					WHERE
-  						(tc.talk_comment_date>tu.date_last or tu.date_last IS NULL)
-  						AND
-  						tu.user_id = ?d
-  						AND
-  						tu.talk_id=tc.talk_id		
+					WHERE   						
+  						tu.user_id = ?d  							
 		";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['count_new'];

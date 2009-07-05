@@ -73,21 +73,19 @@ class ActionTalk extends Action {
 		$this->Security_ValidateSendForm();
 		/**
 		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
-		 */
+		 */			
 		$sTalkId=$this->GetParam(0);
-		if (!$oTalk=$this->Talk_GetTalkByIdAndUserId($sTalkId,$this->oUserCurrent->getId())) {
+		if (!($oTalk=$this->Talk_GetTalkById($sTalkId))) {
 			return parent::EventNotFound();
-		}		
+		}
+		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
+			return parent::EventNotFound();
+		}	
 		/**
 		 * Обработка удаления сообщения
-		 */				
-		if ($oTalkUser=$this->Talk_GetTalkUser($sTalkId,$this->oUserCurrent->getId())) {
-			if ($this->Talk_DeleteTalkUser($oTalkUser)) {
-				func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/');
-			} else {
-				$this->Message_AddError($this->Lang_Get('system_error'));
-			}
-		}				
+		 */		
+		$this->Talk_DeleteTalkUserByArray($sTalkId,$this->oUserCurrent->getId());		
+		func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_TALK.'/');				
 	}
 	
 	
@@ -99,11 +97,7 @@ class ActionTalk extends Action {
 			$this->Security_ValidateSendForm();
 			$aTalksIdDel=getRequest('talk_del');
 			if (is_array($aTalksIdDel)) {
-				foreach ($aTalksIdDel as $sTalkId => $value) {
-					if ($oTalkUser=$this->Talk_GetTalkUser($sTalkId,$this->oUserCurrent->getId())) {
-						$this->Talk_DeleteTalkUser($oTalkUser);
-					}
-				}
+				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
 			}
 		}
 		/**
@@ -168,8 +162,7 @@ class ActionTalk extends Action {
 		$oTalkUser->setCommentIdLast($iMaxIdComment);
 		$oTalkUser->setCommentCountNew(0);
 		$this->Talk_UpdateTalkUser($oTalkUser);
-		
-						
+								
 		$this->Viewer_AddHtmlTitle($oTalk->getTitle());
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
