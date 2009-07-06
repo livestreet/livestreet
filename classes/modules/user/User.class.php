@@ -152,7 +152,7 @@ class LsUser extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aUsers[$oUser->getId()]=$oUser;
-				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array("user_update_{$oUser->getId()}"), 60*60*24*4);
+				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array(), 60*60*24*4);
 				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oUser->getId()));
 			}
 		}
@@ -160,7 +160,7 @@ class LsUser extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aUserIdNeedStore as $sId) {
-			$this->Cache_Set(null, "user_{$sId}", array("user_update_{$sId}"), 60*60*24*4);
+			$this->Cache_Set(null, "user_{$sId}", array(), 60*60*24*4);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
@@ -331,7 +331,8 @@ class LsUser extends Module {
 	 */
 	public function Update(UserEntity_User $oUser) {	
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_update',"user_update_{$oUser->getId()}"));	
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_update'));
+		$this->Cache_Delete("user_{$oUser->getId()}");	
 		return $this->oMapper->Update($oUser);
 	}
 	/**
@@ -569,7 +570,7 @@ class LsUser extends Module {
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
 		if (false === ($data = $this->Cache_Get("user_like_{$sUserLogin}_{$iLimit}"))) {			
 			$data = $this->oMapper->GetUsersByLoginLike($sUserLogin,$iLimit);
-			$this->Cache_Set($data, "user_like_{$sUserLogin}_{$iLimit}", array("user_update","user_new"), 60*60*24*2);
+			$this->Cache_Set($data, "user_like_{$sUserLogin}_{$iLimit}", array("user_new"), 60*60*24*2);
 		}
 		$data=$this->GetUsersAdditionalData($data);
 		return $data;		
@@ -679,7 +680,7 @@ class LsUser extends Module {
 	public function GetUsersFriend($sUserId) {
 		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}"))) {			
 			$data = $this->oMapper->GetUsersFriend($sUserId);
-			$this->Cache_Set($data, "user_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "user_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*60*24*2);
 		}
 		$data=$this->GetUsersAdditionalData($data);
 		return $data;		 
@@ -693,7 +694,7 @@ class LsUser extends Module {
 	public function GetUsersSelfFriend($sUserId) {
 		if (false === ($data = $this->Cache_Get("user_self_friend_{$sUserId}"))) {			
 			$data = $this->oMapper->GetUsersSelfFriend($sUserId);
-			$this->Cache_Set($data, "user_self_friend_{$sUserId}", array("friend_change_friend_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "user_self_friend_{$sUserId}", array("friend_change_friend_{$sUserId}"), 60*60*24*2);
 		}
 		$data=$this->GetUsersAdditionalData($data);
 		return $data;		 
@@ -788,7 +789,7 @@ class LsUser extends Module {
 	public function GetUsersInvite($sUserId) {
 		if (false === ($data = $this->Cache_Get("users_invite_{$sUserId}"))) {			
 			$data = $this->oMapper->GetUsersInvite($sUserId);
-			$this->Cache_Set($data, "users_invite_{$sUserId}", array("user_update","invate_new_from_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "users_invite_{$sUserId}", array("invate_new_from_{$sUserId}"), 60*60*24*1);
 		}
 		$data=$this->GetUsersAdditionalData($data);
 		return $data;		
@@ -802,7 +803,7 @@ class LsUser extends Module {
 	public function GetUserInviteFrom($sUserIdTo) {
 		if (false === ($id = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {			
 			$id = $this->oMapper->GetUserInviteFrom($sUserIdTo);
-			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("user_update","invate_new_to_{$sUserIdTo}"), 60*5);
+			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("invate_new_to_{$sUserIdTo}"), 60*60*24*1);
 		}
 		return $this->GetUserById($id);		
 	}
@@ -884,7 +885,7 @@ class LsUser extends Module {
 	public function GetCityByNameLike($sName,$iLimit) {
 		if (false === ($data = $this->Cache_Get("city_like_{$sName}_{$iLimit}"))) {			
 			$data = $this->oMapper->GetCityByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "city_like_{$sName}_{$iLimit}", array("city_new"), 60*15);
+			$this->Cache_Set($data, "city_like_{$sName}_{$iLimit}", array("city_new"), 60*60*24*1);
 		}
 		return $data;		
 	}
@@ -898,7 +899,7 @@ class LsUser extends Module {
 	public function GetCountryByNameLike($sName,$iLimit) {
 		if (false === ($data = $this->Cache_Get("country_like_{$sName}_{$iLimit}"))) {			
 			$data = $this->oMapper->GetCountryByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "country_like_{$sName}_{$iLimit}", array("country_new"), 60*15);
+			$this->Cache_Set($data, "country_like_{$sName}_{$iLimit}", array("country_new"), 60*60*24*1);
 		}
 		return $data;		
 	}

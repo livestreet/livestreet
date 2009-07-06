@@ -71,9 +71,9 @@ class LsPage extends Module {
 		if (false === ($data = $this->Cache_Get("page_{$sUrlFull}_{$iActive}"))) {			
 			$data = $this->oMapper->GetPageByUrlFull($sUrlFull,$iActive);
 			if ($data) {
-				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_{$data->getId()}"), 60*60*1);
+				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_{$data->getId()}"), 60*60*24*5);
 			} else {
-				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_urlfull_{$sUrlFull}"), 60*60*1);
+				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_urlfull_{$sUrlFull}"), 60*60*24*5);
 			}
 		}
 		return $data;		
