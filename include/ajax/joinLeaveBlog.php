@@ -37,7 +37,7 @@ if ($oEngine->User_IsAuthorization()) {
 			 */
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			if ($oBlog->getType()=='open') {
-				$oBlogUser=$oEngine->Blog_GetRelationBlogUserByBlogIdAndUserId($oBlog->getId(),$oUserCurrent->getId());				
+				$oBlogUser=$oEngine->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUserCurrent->getId());				
 				if (!$oBlogUser) {
 					if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 						/**
