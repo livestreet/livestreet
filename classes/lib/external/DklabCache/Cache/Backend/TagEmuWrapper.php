@@ -125,11 +125,32 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
      */
     private function _loadOrTest($id, $doNotTestCacheValidity = false, $returnTrueIfValid = false)
     {
+    	if (is_array($id)) {
+    		$aSerialized = $this->_backend->multiLoad($id);
+    		if ($aSerialized === false) {
+            	return false;
+        	}
+        	$aData=array();
+        	foreach ($aSerialized as $key => $serialized) {
+        		if ($serialized===false) {
+        			$aData[$key]=false;
+        		} else {
+        			$aData[$key]=$this->_load($serialized,$returnTrueIfValid);
+        		}        		
+        	}
+        	return $aData;
+    	}
+    	
         // Data is saved in form of: array(tagsWithVersionArray, anyData).
         $serialized = $this->_backend->load($id, $doNotTestCacheValidity);
         if ($serialized === false) {
             return false;
         }
+        return $this->_load($serialized,$returnTrueIfValid);        
+    }
+
+    private function _load($serialized,$returnTrueIfValid) {
+    	
         $combined = unserialize($serialized);
         if (!is_array($combined)) {
             return false;
@@ -162,7 +183,6 @@ class Dklab_Cache_Backend_TagEmuWrapper implements Zend_Cache_Backend_Interface
         }
         return $returnTrueIfValid? true : $combined[1];
     }
-
 
     /**
      * Generates a new unique identifier for tag version.

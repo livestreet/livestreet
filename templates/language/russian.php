@@ -647,6 +647,7 @@ return array(
 	'system_error_event_method' => 'Добавляемый метод евента не найден',
 	'system_error_404' => 'К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было.',
 	'system_error_module' => 'Не найден класс модуля',
+	'system_error_module_no_method' => 'В модуле нет необходимого метода',
 	'system_error_cache_type' => 'Неверный тип кеширования',
 	'system_error_template' => 'Не найден шаблон',
 	'system_error_template_block' => 'Не найден шаблон подключаемого блока',

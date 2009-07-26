@@ -437,4 +437,32 @@ function func_array_sort_by_keys($array,$aKeys) {
 	return $aResult;
 }
 
+/**
+ * Сливает два ассоциативных массива
+ *
+ * @param unknown_type $aArr1
+ * @param unknown_type $aArr2
+ * @return unknown
+ */
+function func_array_merge_assoc($aArr1,$aArr2) {
+	$aRes=$aArr1;
+	foreach ($aArr2 as $k2 => $v2) {		
+		$bIsKeyInt=false;
+		if (is_array($v2)) {
+			foreach ($v2 as $k => $v) {
+				if (is_int($k)) {
+					$bIsKeyInt=true;
+					break;
+				}
+			}
+		}		
+		if (is_array($v2) and !$bIsKeyInt and isset($aArr1[$k2])) {
+			$aRes[$k2]=func_array_merge_assoc($aArr1[$k2],$v2);
+		} else {
+			$aRes[$k2]=$v2;
+		}		
+	}
+	return $aRes;
+}
+
 ?>

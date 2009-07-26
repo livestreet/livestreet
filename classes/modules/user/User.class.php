@@ -37,7 +37,7 @@ class LsUser extends Module {
 		 * Проверяем есть ли у юзера сессия, т.е. залогинен или нет
 		 */
 		$sUserId=$this->Session_Get('user_id');			
-		if ($sUserId and $oUser=$this->GetUserById($sUserId) and $oUser->getActivate()) {
+		if ($sUserId and $oUser=$this->GetUserById($sUserId) and $oUser->getActivate()) {			
 			if ($this->oSession=$this->GetSessionByUserId($oUser->getId())) {
 				/**
 				 * Сюда можно вставить условие на проверку айпишника сессии
@@ -126,7 +126,7 @@ class LsUser extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aUserId,'user_');
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -152,7 +152,7 @@ class LsUser extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aUsers[$oUser->getId()]=$oUser;
-				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array(), 60*60*24*4);
+				//$this->Cache_Set($oUser, "user_{$oUser->getId()}", array(), 60*60*24*4);
 				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oUser->getId()));
 			}
 		}

@@ -470,5 +470,12 @@ class LsViewer extends Module {
 		);
 		return $aPaging;
 	}
+	/**
+	 * Загружаем переменные в шаблон при завершении модуля
+	 *
+	 */
+	public function Shutdown() {
+		$this->VarAssign();
+	}
 }
 ?>

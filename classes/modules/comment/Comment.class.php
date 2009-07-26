@@ -80,7 +80,7 @@ class LsComment extends Module {
 	 * Получает дополнительные данные(объекты) для комментов по их ID
 	 *
 	 */
-	public function GetCommentsAdditionalData($aCommentId,$aAllowData=array('vote','target','user')) {
+	public function GetCommentsAdditionalData($aCommentId,$aAllowData=array('vote','target','user'=>array())) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aCommentId)) {
 			$aCommentId=array($aCommentId);
@@ -111,7 +111,8 @@ class LsComment extends Module {
 		 * В зависимости от типа target_type достаем данные
 		 */
 		$aTargets=array();
-		$aTargets['topic']=isset($aAllowData['target']) && is_array($aAllowData['target']) ? $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],$aAllowData['target']) : $this->Topic_GetTopicsAdditionalData($aTargetId['topic']);
+		//$aTargets['topic']=isset($aAllowData['target']) && is_array($aAllowData['target']) ? $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],$aAllowData['target']) : $this->Topic_GetTopicsAdditionalData($aTargetId['topic']);
+		$aTargets['topic']=$this->Topic_GetTopicsAdditionalData($aTargetId['topic'],array('blog'=>array('owner'=>array())));
 		$aVote=array();
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
 			$aVote=$this->Vote_GetVoteByArray($aCommentId,'comment',$this->oUserCurrent->getId());			
@@ -155,7 +156,7 @@ class LsComment extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aCommentId,'comment_');
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -181,7 +182,7 @@ class LsComment extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aComments[$oComment->getId()]=$oComment;
-				$this->Cache_Set($oComment, "comment_{$oComment->getId()}", array("comment_update_{$oComment->getId()}"), 60*60*24*4);
+				//$this->Cache_Set($oComment, "comment_{$oComment->getId()}", array(), 60*60*24*4);
 				$aCommentIdNeedStore=array_diff($aCommentIdNeedStore,array($oComment->getId()));
 			}
 		}
@@ -189,7 +190,7 @@ class LsComment extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aCommentIdNeedStore as $sId) {
-			$this->Cache_Set(null, "comment_{$sId}", array("comment_update_{$sId}"), 60*60*24*4);
+			$this->Cache_Set(null, "comment_{$sId}", array(), 60*60*24*4);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
@@ -307,6 +308,7 @@ class LsComment extends Module {
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
+			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
 		return false;
@@ -320,7 +322,8 @@ class LsComment extends Module {
 	public function UpdateCommentRating(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_rating_{$oComment->getTargetType()}"));			
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_rating_{$oComment->getTargetType()}"));
+			$this->Cache_Delete("comment_{$oComment->getId()}");			
 			return true;
 		}
 		return false;
@@ -334,7 +337,8 @@ class LsComment extends Module {
 	public function UpdateCommentStatus(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));			
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
+			$this->Cache_Delete("comment_{$oComment->getId()}");			
 			return true;
 		}
 		return false;

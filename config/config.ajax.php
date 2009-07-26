@@ -21,12 +21,13 @@
 //error_reporting(E_ALL);
 define('SYS_HACKER_CONSOLE',false);
 require_once("config.php");
-//require_once(DIR_SERVER_ROOT."/config/config.route.php");
-require_once(DIR_SERVER_ROOT."/classes/engine/Router.class.php");
+require_once(DIR_SERVER_ROOT."/classes/engine/Engine.class.php");
 require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.php");
 $JsHttpRequest = new JsHttpRequest("UTF-8");
-$oRouter=Router::getInstance();
+ProfilerSimple::getInstance(DIR_SERVER_ROOT.'/logs/profiler.log',false);
+$oRouter=Router::getInstance(); // только для загрузки констант роутинга, позже нужно убрать
 $oEngine=Engine::getInstance();
-$oEngine->InitModules();
+$oEngine->Init();
 $oEngine->Security_ValidateSendForm();
+$oEngine->Shutdown();
 ?>

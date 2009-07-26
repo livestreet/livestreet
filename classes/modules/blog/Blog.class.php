@@ -39,7 +39,7 @@ class LsBlog extends Module {
 	 * Получает дополнительные данные(объекты) для блогов по их ID
 	 *
 	 */
-	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner','relation_user')) {
+	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner'=>array(),'relation_user')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
@@ -116,7 +116,7 @@ class LsBlog extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aBlogId,'blog_');
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -142,7 +142,7 @@ class LsBlog extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aBlogs[$oBlog->getId()]=$oBlog;
-				$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array("blog_update_{$oBlog->getId()}"), 60*60*24*4);
+				//$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array(), 60*60*24*4);
 				$aBlogIdNeedStore=array_diff($aBlogIdNeedStore,array($oBlog->getId()));
 			}
 		}
@@ -150,7 +150,7 @@ class LsBlog extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aBlogIdNeedStore as $sId) {
-			$this->Cache_Set(null, "blog_{$sId}", array("blog_update_{$sId}"), 60*60*24*4);
+			$this->Cache_Set(null, "blog_{$sId}", array(), 60*60*24*4);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
@@ -259,6 +259,7 @@ class LsBlog extends Module {
 		if ($res) {			
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update',"blog_update_{$oBlog->getId()}"));
+			$this->Cache_Delete("blog_{$oBlog->getId()}");
 			return true;
 		}
 		return false;
@@ -499,7 +500,7 @@ class LsBlog extends Module {
 			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}", array("blog_update","blog_new"), 60*60*24*2);
 		}
-		$data['collection']=$this->GetBlogsAdditionalData($data['collection']);
+		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],array('owner'=>array()));
 		return $data;		
 	}
 	/**

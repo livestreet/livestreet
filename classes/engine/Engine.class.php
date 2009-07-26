@@ -15,6 +15,17 @@
 ---------------------------------------------------------
 */
 
+set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
+require_once(DIR_SERVER_ROOT.'/classes/lib/internal/ProfilerSimple/Profiler.class.php');
+require_once("Object.class.php");
+require_once("Block.class.php");
+require_once("Hook.class.php");
+require_once("Module.class.php");
+require_once("Router.class.php");
+
+require_once("Entity.class.php");
+require_once("Mapper.class.php");
+
 /**
  * Основной класс движка, который позволяет напрямую обращаться к любому модулю
  *
@@ -33,7 +44,9 @@ class Engine extends Object {
 	 *
 	 */
 	protected function __construct() {
-		$this->Init();
+		if (get_magic_quotes_gpc()) {
+			func_stripslashes($_REQUEST);
+		}
 	}
 	
 	
@@ -55,15 +68,23 @@ class Engine extends Object {
 	 * Инициализация
 	 *
 	 */
-	protected function Init() {		
-		$this->LoadModules();				
+	public function Init() {
+		$this->LoadModules();
+		$this->InitModules();
+		$this->InitHooks();
 	}
-	
+	/**
+	 * Завершение работы модуля
+	 *
+	 */
+	public function Shutdown() {
+		$this->ShutdownModules();
+	}
 	/**
 	 * Производит инициализацию всех модулей
 	 *
 	 */
-	public function InitModules() {
+	protected function InitModules() {
 		foreach ($this->aModules as $oModule) {
 			$oModule->Init();
 		}
@@ -73,7 +94,7 @@ class Engine extends Object {
 	 * Завершаем работу всех модулей
 	 *
 	 */
-	public function ShutdownModules() {
+	protected function ShutdownModules() {
 		foreach ($this->aModules as $sKey => $oModule) {			
 			$oModule->Shutdown();
 		}
@@ -156,7 +177,7 @@ class Engine extends Object {
 	 * Регистрирует хуки из /classes/hooks/
 	 *
 	 */
-	public function InitHooks() {
+	protected function InitHooks() {
 		$sDirHooks=DIR_SERVER_ROOT.'/classes/hooks/';
 		if ($hDir = opendir($sDirHooks)) {
 			while (false !== ($sFile = readdir($hDir))) {
@@ -178,7 +199,7 @@ class Engine extends Object {
 	 * @param unknown_type $sFile
 	 * @return unknown
 	 */
-	public function isFileExists($sFile,$iTime=3600) {		
+	public function isFileExists($sFile,$iTime=3600) {	return file_exists($sFile);	
 		if (strpos($sFile,'/Cache.class.')!==false) {
 			return file_exists($sFile);
 		}
@@ -214,32 +235,21 @@ class Engine extends Object {
 			$oModule=$this->aModules[$sModuleName];
 		} else {
 			$oModule=$this->LoadModule($sModuleName,true);			
-		}
-		
-		$sCmd='$result=$oModule->'.$aName[1].'('.$sArgs.');';						
-		eval($sCmd);									
-		return $result;
-		
-		/*
-		$sCmd='$bExists=isset($this->MOD_'.$sModuleName.');';
+		}		
+		if (!method_exists($oModule,$aName[1])) {
+			throw new Exception($this->Lang_Get('system_error_module_no_method').": ".$sModuleName.'->'.$aName[1].'()');
+		}		
+		$sCmd='$result=$oModule->'.$aName[1].'('.$sArgs.');';
+		$oProfiler=ProfilerSimple::getInstance();
+		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$aName[1].'()');					
 		eval($sCmd);
-		if ($bExists) {			
-			$sCmd='$bExists=method_exists($this->MOD_'.$sModuleName.',"'.$aName[1].'");';
-			eval($sCmd);			
-			if ($bExists) {
-				$sCmd='$result=$this->MOD_'.$sModuleName.'->'.$aName[1].'('.$sArgs.');';				
-				eval($sCmd);								
-				return $result;
-			}
-			throw new Exception('В модуле '.$sModuleName.' нет метода '.$aName[1].'()');			
-		} else {			
-			throw new Exception("Не найден модуль: ".$sModuleName);
-		}
-		*/
-		
-		return false;
+		$oProfiler->Stop($iTimeId);
+		return $result;		
 	}
 
+	public function getStats() {
+		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->iTimeLoadModule,3)));
+	}
 
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля

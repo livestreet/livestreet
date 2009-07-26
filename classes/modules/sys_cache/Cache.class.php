@@ -83,8 +83,9 @@ class LsCache extends Module {
 		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
 		 */
 		if (rand(1,50)==33) {			
-			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);
+			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);			
 		}
+		//$this->Clean();
 	}
 
 
@@ -120,16 +121,45 @@ class LsCache extends Module {
 	 * @return unknown
 	 */
 	public function multiGet($aName) {
-		$aData=array();
-		foreach ($aName as $key => $sName) {
-			if ((false !== ($data = $this->Get($sName)))) {
-				$aData[$sName]=$data;
+		if (count($aName)==0) {
+			return false;
+		}
+		if ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
+			$aKeys=array();
+			$aKv=array();
+			foreach ($aName as $sName) {
+				$aKeys[]=md5(SYS_CACHE_PREFIX.$sName);
+				$aKv[md5(SYS_CACHE_PREFIX.$sName)]=$sName;
 			}
+			$data=$this->oBackendCache->load($aKeys);
+			if ($data and is_array($data)) {
+				//var_dump($data);
+				$aData=array();
+				foreach ($data as $key => $value) {
+					$aData[$aKv[$key]]=$value;
+					//var_dump($key);
+					if ($key==0) {
+						//var_dump($aName);
+					}
+				}
+				if (count($aData)>0) {
+					//var_dump($aData);
+					return $aData;
+				}
+			}
+			return false;
+		} else {
+			$aData=array();
+			foreach ($aName as $key => $sName) {
+				if ((false !== ($data = $this->Get($sName)))) {
+					$aData[$sName]=$data;
+				}
+			}
+			if (count($aData)>0) {
+				return $aData;
+			}
+			return false;
 		}
-		if (count($aData)>0) {
-			return $aData;
-		}
-		return false;
 	}
 	/**
 	 * Записать значение в кеш
@@ -140,7 +170,7 @@ class LsCache extends Module {
 	 * @param int $iTimeLife
 	 * @return bool
 	 */
-	public function Set($data,$sName,$aTags=array(),$iTimeLife=false) {
+	public function Set($data,$sName,$aTags=array(),$iTimeLife=false) {		
 		if (!$this->bUseCache) {
 			return false;
 		}
@@ -188,7 +218,7 @@ class LsCache extends Module {
 	 * @param unknown_type $iTime
 	 * @param unknown_type $sMethod
 	 */
-	public function CalcStats($iTime,$sMethod) {		
+	public function CalcStats($iTime,$sMethod) {
 		$this->aStats['time']+=$iTime;
 		$this->aStats['count']++;	
 		if ($sMethod=='Dklab_Cache_Backend_Profiler::load') {

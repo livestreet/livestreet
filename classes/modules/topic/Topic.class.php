@@ -38,7 +38,7 @@ class LsTopic extends Module {
 	 * Получает дополнительные данные(объекты) для топиков по их ID
 	 *
 	 */
-	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user','blog','vote','favourite','comment_new')) {
+	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
@@ -258,7 +258,7 @@ class LsTopic extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_');
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (1 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */

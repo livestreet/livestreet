@@ -49,7 +49,7 @@ class LsDatabase extends Module {
 		if (is_null($aConfig)) {
 			$aConfig=include(DIR_SERVER_ROOT."/config/config.db.php");
 		}
-		$sDSN=$aConfig['type'].'://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		
+		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		
 		/**
 		 * Создаём хеш подключения, уникальный для каждого конфига
 		 */

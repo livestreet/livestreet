@@ -15,23 +15,12 @@
 ---------------------------------------------------------
 */
 
+require_once("Action.class.php");
 
 /**
  * Класс роутинга(контроллера)
  * Инициализирует ядро, определяет какой экшен запустить согласно URL'у и запускает его.
  */
-set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once("Object.class.php");
-require_once("Action.class.php");
-require_once("Block.class.php");
-require_once("Hook.class.php");
-require_once("Module.class.php");
-require_once("Engine.class.php");
-
-require_once("Entity.class.php");
-require_once("Mapper.class.php");
-
-
 class Router extends Object {
 	
 	protected $aConfigRoute=array();
@@ -60,21 +49,33 @@ class Router extends Object {
 		}
 	}
 	
+	
+	protected function __construct() {
+		$this->LoadConfig();
+	}
+	
 	/**
-	 * В конструкторе парсим URL 
+	 * Запускает весь процесс :)
+	 *
+	 */
+	public function Exec() {
+		$this->oEngine=Engine::getInstance();
+		$this->oEngine->Init();
+		$this->ParseUrl();
+		$this->ExecAction();		
+		$this->AssignVars();
+		$this->oEngine->Shutdown();		
+		$this->Viewer_Display($this->oAction->GetTemplate());		
+	}
+	/**
+	 * Парсим URL 
 	 * Пример: http://site.ru/action/event/param1/param2/  на выходе получим:
 	 *  self::$sAction='action';
 	 *	self::$sActionEvent='event';
 	 *	self::$aParams=array('param1','param2');
 	 *
 	 */
-	protected function __construct() {
-		$this->LoadConfig();		
-		
-		if (get_magic_quotes_gpc()) {
-			func_stripslashes($_REQUEST);
-		}
-		
+	protected function ParseUrl() {
 		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
 		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
 		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
@@ -89,25 +90,6 @@ class Router extends Object {
 		self::$sActionEvent=array_shift($aRequestUrl);
 		self::$aParams=$aRequestUrl;
 	}
-	
-	/**
-	 * Запускает весь процесс :)
-	 *
-	 */
-	public function Exec() {
-		$this->oEngine=Engine::getInstance();
-		$this->oEngine->InitModules();		
-		$this->oEngine->InitHooks();
-		$this->ExecAction();		
-		$this->AssignVars();
-		$this->Viewer_VarAssign();	
-		/**
-		 * тут такое дело: модуль Viewer сначала шатдаунится а потом выполняет метод дисплей
-		 */
-		$this->oEngine->ShutdownModules();		
-		$this->Viewer_Display($this->oAction->GetTemplate());		
-	}
-	
 	/**
 	 * Выполняет загрузку конфигов роутинга
 	 *
@@ -132,16 +114,12 @@ class Router extends Object {
 			closedir($hDirConfig);
 		}
 	}
-	
-	public function getStats() {
-		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->oEngine->iTimeLoadModule,3)));
-	}
-	
+			
 	/**
 	 * Загружает в шаблонизатор Smarty необходимые переменные
 	 *
 	 */
-	protected function AssignVars() {		
+	protected function AssignVars() {
 		$this->Viewer_Assign('sAction',self::$sAction);
 		$this->Viewer_Assign('sEvent',self::$sActionEvent);
 		$this->Viewer_Assign('aParams',self::$aParams);
@@ -280,9 +258,9 @@ class Router extends Object {
 	 * @param int $iOffset
 	 * @return string
 	 */
-	static public function GetParam($iOffset) {
+	static public function GetParam($iOffset,$def=null) {
 		$iOffset=(int)$iOffset;
-		return isset(self::$aParams[$iOffset]) ? self::$aParams[$iOffset] : null;
+		return isset(self::$aParams[$iOffset]) ? self::$aParams[$iOffset] : $def;
 	}
 	
 	/**

@@ -80,7 +80,7 @@ class LsVote extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aTargetId,"vote_{$sTargetType}_",'_'.$sUserId);
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -106,7 +106,7 @@ class LsVote extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aVote[$oVote->getTargetId()]=$oVote;
-				$this->Cache_Set($oVote, "vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}", array(), 60*60*24*7);
+				//$this->Cache_Set($oVote, "vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}", array(), 60*60*24*7);
 				$aIdNeedStore=array_diff($aIdNeedStore,array($oVote->getTargetId()));
 			}
 		}
@@ -114,7 +114,7 @@ class LsVote extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aIdNeedStore as $sId) {
-			$this->Cache_Set(null, "vote_{$sTargetType}_{$sId}_{$sUserId}", array(), 60*60*24*7);
+			//$this->Cache_Set(null, "vote_{$sTargetType}_{$sId}_{$sUserId}", array(), 60*60*24*7);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
