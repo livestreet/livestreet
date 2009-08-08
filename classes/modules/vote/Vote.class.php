@@ -42,6 +42,7 @@ class LsVote extends Module {
 	public function AddVote(VoteEntity_Vote $oVote) {
 		if ($this->oMapper->AddVote($oVote)) {
 			$this->Cache_Delete("vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}");
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("vote_update_{$oVote->getTargetType()}_{$oVote->getVoterId()}"));
 			return true;
 		}
 		return false;
@@ -70,6 +71,12 @@ class LsVote extends Module {
 	 * @param unknown_type $sTargetType
 	 */
 	public function GetVoteByArray($aTargetId,$sTargetType,$sUserId) {
+		if (!$aTargetId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetVoteByArraySolid($aTargetId,$sTargetType,$sUserId);
+		}
 		if (!is_array($aTargetId)) {
 			$aTargetId=array($aTargetId);
 		}
@@ -80,7 +87,7 @@ class LsVote extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aTargetId,"vote_{$sTargetType}_",'_'.$sUserId);
-		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -106,7 +113,7 @@ class LsVote extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aVote[$oVote->getTargetId()]=$oVote;
-				//$this->Cache_Set($oVote, "vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}", array(), 60*60*24*7);
+				$this->Cache_Set($oVote, "vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}", array(), 60*60*24*7);
 				$aIdNeedStore=array_diff($aIdNeedStore,array($oVote->getTargetId()));
 			}
 		}
@@ -114,7 +121,7 @@ class LsVote extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aIdNeedStore as $sId) {
-			//$this->Cache_Set(null, "vote_{$sTargetType}_{$sId}_{$sUserId}", array(), 60*60*24*7);
+			$this->Cache_Set(null, "vote_{$sTargetType}_{$sId}_{$sUserId}", array(), 60*60*24*7);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
@@ -122,6 +129,30 @@ class LsVote extends Module {
 		$aVote=func_array_sort_by_keys($aVote,$aTargetId);
 		return $aVote;		
 	}
-	
+	/**
+	 * Получить список голосований по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aTargetId
+	 * @param unknown_type $sTargetType
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetVoteByArraySolid($aTargetId,$sTargetType,$sUserId) {
+		if (!is_array($aTargetId)) {
+			$aTargetId=array($aTargetId);
+		}
+		$aTargetId=array_unique($aTargetId);	
+		$aVote=array();	
+		$s=join(',',$aTargetId);
+		if (false === ($data = $this->Cache_Get("vote_{$sTargetType}_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapper->GetVoteByArray($aTargetId,$sTargetType,$sUserId);
+			foreach ($data as $oVote) {
+				$aVote[$oVote->getTargetId()]=$oVote;
+			}
+			$this->Cache_Set($aVote, "vote_{$sTargetType}_{$sUserId}_id_{$s}", array("vote_update_{$sTargetType}_{$sUserId}"), 60*60*24*1);
+			return $aVote;
+		}		
+		return $data;
+	}
 }
 ?>

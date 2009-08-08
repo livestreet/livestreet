@@ -116,6 +116,12 @@ class LsUser extends Module {
 	 * @param array $aUserId
 	 */
 	public function GetUsersByArrayId($aUserId) {
+		if (!$aUserId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetUsersByArrayIdSolid($aUserId);
+		}
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
 		}
@@ -126,7 +132,7 @@ class LsUser extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aUserId,'user_');
-		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -152,7 +158,7 @@ class LsUser extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aUsers[$oUser->getId()]=$oUser;
-				//$this->Cache_Set($oUser, "user_{$oUser->getId()}", array(), 60*60*24*4);
+				$this->Cache_Set($oUser, "user_{$oUser->getId()}", array(), 60*60*24*4);
 				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oUser->getId()));
 			}
 		}
@@ -168,12 +174,35 @@ class LsUser extends Module {
 		$aUsers=func_array_sort_by_keys($aUsers,$aUserId);
 		return $aUsers;		
 	}
+	public function GetUsersByArrayIdSolid($aUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);	
+		$aUsers=array();	
+		$s=join(',',$aUserId);
+		if (false === ($data = $this->Cache_Get("user_id_{$s}"))) {			
+			$data = $this->oMapper->GetUsersByArrayId($aUserId);
+			foreach ($data as $oUser) {
+				$aUsers[$oUser->getId()]=$oUser;
+			}
+			$this->Cache_Set($aUsers, "user_id_{$s}", array("user_update"), 60*60*24*1);
+			return $aUsers;
+		}		
+		return $data;
+	}
 	/**
 	 * Список сессий юзеров по ID
 	 *
 	 * @param array $aUserId
 	 */
 	public function GetSessionsByArrayId($aUserId) {
+		if (!$aUserId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetSessionsByArrayIdSolid($aUserId);
+		}
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
 		}
@@ -225,6 +254,29 @@ class LsUser extends Module {
 		 */
 		$aSessions=func_array_sort_by_keys($aSessions,$aUserId);
 		return $aSessions;		
+	}
+	/**
+	 * Получить список сессий по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aUserId
+	 * @return unknown
+	 */
+	public function GetSessionsByArrayIdSolid($aUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);	
+		$aSessions=array();	
+		$s=join(',',$aUserId);
+		if (false === ($data = $this->Cache_Get("user_session_id_{$s}"))) {			
+			$data = $this->oMapper->GetSessionsByArrayId($aUserId);
+			foreach ($data as $oSession) {
+				$aSessions[$oSession->getUserId()]=$oSession;
+			}
+			$this->Cache_Set($aSessions, "user_session_id_{$s}", array("user_session_update"), 60*60*24*1);
+			return $aSessions;
+		}		
+		return $data;
 	}
 	/**
 	 * Получает сессию юзера
@@ -581,6 +633,12 @@ class LsUser extends Module {
 	 * @param unknown_type $aUserId
 	 */
 	public function GetFriendsByArray($aUserId,$sUserId) {
+		if (!$aUserId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetFriendsByArraySolid($aUserId,$sUserId);
+		}
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
 		}
@@ -632,6 +690,30 @@ class LsUser extends Module {
 		 */
 		$aFriends=func_array_sort_by_keys($aFriends,$aUserId);
 		return $aFriends;		
+	}
+	/**
+	 * Получить список отношений с френдами по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aUserId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetFriendsByArraySolid($aUserId,$sUserId) {
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);	
+		$aFriends=array();	
+		$s=join(',',$aUserId);
+		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapper->GetFriendsByArrayId($aUserId,$sUserId);
+			foreach ($data as $oFriend) {
+				$aFriends[$oFriend->getFriendId()]=$oFriend;
+			}
+			$this->Cache_Set($aFriends, "user_friend_{$sUserId}_id_{$s}", array("friend_change_user_{$sUserId}"), 60*60*24*1);
+			return $aFriends;
+		}		
+		return $data;
 	}
 	/**
 	 * Получаем привязку друга к юзеру(есть ли у юзера данный друг)

@@ -146,6 +146,12 @@ class LsComment extends Module {
 	 * @param array $aUserId
 	 */
 	public function GetCommentsByArrayId($aCommentId) {
+		if (!$aCommentId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetCommentsByArrayIdSolid($aCommentId);
+		}
 		if (!is_array($aCommentId)) {
 			$aCommentId=array($aCommentId);
 		}
@@ -156,7 +162,7 @@ class LsComment extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aCommentId,'comment_');
-		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -182,7 +188,7 @@ class LsComment extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aComments[$oComment->getId()]=$oComment;
-				//$this->Cache_Set($oComment, "comment_{$oComment->getId()}", array(), 60*60*24*4);
+				$this->Cache_Set($oComment, "comment_{$oComment->getId()}", array(), 60*60*24*4);
 				$aCommentIdNeedStore=array_diff($aCommentIdNeedStore,array($oComment->getId()));
 			}
 		}
@@ -198,6 +204,23 @@ class LsComment extends Module {
 		$aComments=func_array_sort_by_keys($aComments,$aCommentId);
 		return $aComments;		
 	}	
+	public function GetCommentsByArrayIdSolid($aCommentId) {
+		if (!is_array($aCommentId)) {
+			$aCommentId=array($aCommentId);
+		}
+		$aCommentId=array_unique($aCommentId);	
+		$aComments=array();	
+		$s=join(',',$aCommentId);
+		if (false === ($data = $this->Cache_Get("comment_id_{$s}"))) {			
+			$data = $this->oMapper->GetCommentsByArrayId($aCommentId);
+			foreach ($data as $oComment) {
+				$aComments[$oComment->getId()]=$oComment;
+			}
+			$this->Cache_Set($aComments, "comment_id_{$s}", array("comment_update"), 60*60*24*1);
+			return $aComments;
+		}		
+		return $data;
+	}
 	/**
 	 * Получть все комменты сгрупированные по топику(для вывода прямого эфира)
 	 *
@@ -307,7 +330,7 @@ class LsComment extends Module {
 	public function UpdateComment(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getId()}","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
 			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}

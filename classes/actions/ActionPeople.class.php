@@ -131,6 +131,11 @@ class ActionPeople extends Action {
 	 */
 	protected function EventOnline() {
 		/**
+		 * Последние по визиту на сайт
+		 */
+		$aUsersLast=$this->User_GetUsersByDateLast(15);
+		$this->Viewer_Assign('aUsersLast',$aUsersLast);
+		/**
 		 * Получаем статистику
 		 */
 		$this->GetStats();		
@@ -140,6 +145,11 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventNew() {
+		/**
+		 * Последние по регистрации
+		 */
+		$aUsersRegister=$this->User_GetUsersByDateRegister(15);
+		$this->Viewer_Assign('aUsersRegister',$aUsersRegister);
 		/**
 		 * Получаем статистику
 		 */
@@ -187,22 +197,12 @@ class ActionPeople extends Action {
 	 */
 	protected function GetStats() {
 		/**
-		 * Последние по визиту на сайт
-		 */
-		$aUsersLast=$this->User_GetUsersByDateLast(15);		
-		/**
-		 * Последние по регистрации
-		 */
-		$aUsersRegister=$this->User_GetUsersByDateRegister(15);		
-		/**
 		 * Статистика кто, где и т.п.
 		 */
 		$aStat=$this->User_GetStatUsers();		
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aUsersLast',$aUsersLast);
-		$this->Viewer_Assign('aUsersRegister',$aUsersRegister);
 		$this->Viewer_Assign('aStat',$aStat);
 	}	
 	/**

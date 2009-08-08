@@ -248,6 +248,13 @@ class LsTopic extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetTopicsByArrayId($aTopicId) {
+		if (!$aTopicId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetTopicsByArrayIdSolid($aTopicId);
+		}
+		
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
@@ -258,7 +265,7 @@ class LsTopic extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_');
-		if (1 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -299,6 +306,29 @@ class LsTopic extends Module {
 		 */
 		$aTopics=func_array_sort_by_keys($aTopics,$aTopicId);
 		return $aTopics;		
+	}
+	/**
+	 * Получить список топиков по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aTopicId
+	 * @return unknown
+	 */
+	public function GetTopicsByArrayIdSolid($aTopicId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);	
+		$aTopics=array();	
+		$s=join(',',$aTopicId);
+		if (false === ($data = $this->Cache_Get("topic_id_{$s}"))) {			
+			$data = $this->oMapperTopic->GetTopicsByArrayId($aTopicId);
+			foreach ($data as $oTopic) {
+				$aTopics[$oTopic->getId()]=$oTopic;
+			}
+			$this->Cache_Set($aTopics, "topic_id_{$s}", array("topic_update"), 60*60*24*1);
+			return $aTopics;
+		}		
+		return $data;
 	}
 	/**
 	 * Получает список топиков из избранного
@@ -694,6 +724,12 @@ class LsTopic extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetFavouriteTopicsByArray($aTopicId,$sUserId) {
+		if (!$aTopicId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetFavouriteTopicsByArraySolid($aTopicId,$sUserId);
+		}
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
@@ -747,6 +783,30 @@ class LsTopic extends Module {
 		return $aFavouriteTopics;		
 	}
 	/**
+	 * Получить список избранного по списку айдишников, но используя единый кеш
+	 *
+	 * @param array $aTopicId
+	 * @param int $sUserId
+	 * @return array
+	 */
+	public function GetFavouriteTopicsByArraySolid($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);	
+		$aFavouriteTopics=array();	
+		$s=join(',',$aTopicId);
+		if (false === ($data = $this->Cache_Get("favourite_topic_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapperTopic->GetFavouriteTopicsByArray($aTopicId,$sUserId);
+			foreach ($data as $oFavouriteTopic) {
+				$aFavouriteTopics[$oFavouriteTopic->getTopicId()]=$oFavouriteTopic;
+			}
+			$this->Cache_Set($aFavouriteTopics, "favourite_topic_{$sUserId}_id_{$s}", array("favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
+			return $aFavouriteTopics;
+		}		
+		return $data;
+	}
+	/**
 	 * Добавляет топик в избранное
 	 *
 	 * @param TopicEntity_FavouriteTopic $oFavouriteTopic
@@ -795,9 +855,11 @@ class LsTopic extends Module {
 	public function SetTopicRead(TopicEntity_TopicRead $oTopicRead) {		
 		if ($this->GetTopicRead($oTopicRead->getTopicId(),$oTopicRead->getUserId())) {
 			$this->Cache_Delete("topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}");
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_read_user_{$oTopicRead->getUserId()}"));
 			$this->oMapperTopic->UpdateTopicRead($oTopicRead);
 		} else {
 			$this->Cache_Delete("topic_read_{$oTopicRead->getTopicId()}_{$oTopicRead->getUserId()}");
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_read_user_{$oTopicRead->getUserId()}"));
 			$this->oMapperTopic->AddTopicRead($oTopicRead);
 		}
 		return true;		
@@ -822,6 +884,12 @@ class LsTopic extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetTopicsReadByArray($aTopicId,$sUserId) {
+		if (!$aTopicId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetTopicsReadByArraySolid($aTopicId,$sUserId);
+		}
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
@@ -875,6 +943,30 @@ class LsTopic extends Module {
 		return $aTopicsRead;		
 	}
 	/**
+	 * Получить список просмотром/чтения топиков по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aTopicId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetTopicsReadByArraySolid($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);	
+		$aTopicsRead=array();	
+		$s=join(',',$aTopicId);
+		if (false === ($data = $this->Cache_Get("topic_read_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapperTopic->GetTopicsReadByArray($aTopicId,$sUserId);
+			foreach ($data as $oTopicRead) {
+				$aTopicsRead[$oTopicRead->getTopicId()]=$oTopicRead;
+			}
+			$this->Cache_Set($aTopicsRead, "topic_read_{$sUserId}_id_{$s}", array("topic_read_user_{$sUserId}"), 60*60*24*1);
+			return $aTopicsRead;
+		}		
+		return $data;
+	}
+	/**
 	 * Проверяет голосовал ли юзер за топик-вопрос
 	 *
 	 * @param unknown_type $sTopicId
@@ -894,6 +986,12 @@ class LsTopic extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetTopicsQuestionVoteByArray($aTopicId,$sUserId) {
+		if (!$aTopicId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetTopicsQuestionVoteByArraySolid($aTopicId,$sUserId);
+		}
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
@@ -947,12 +1045,37 @@ class LsTopic extends Module {
 		return $aTopicsQuestionVote;		
 	}
 	/**
+	 * Получить список голосований в топике-опросе по списку айдишников, но используя единый кеш
+	 *
+	 * @param unknown_type $aTopicId
+	 * @param unknown_type $sUserId
+	 * @return unknown
+	 */
+	public function GetTopicsQuestionVoteByArraySolid($aTopicId,$sUserId) {
+		if (!is_array($aTopicId)) {
+			$aTopicId=array($aTopicId);
+		}
+		$aTopicId=array_unique($aTopicId);	
+		$aTopicsQuestionVote=array();	
+		$s=join(',',$aTopicId);
+		if (false === ($data = $this->Cache_Get("topic_question_vote_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapperTopic->GetTopicsQuestionVoteByArray($aTopicId,$sUserId);
+			foreach ($data as $oTopicVote) {
+				$aTopicsQuestionVote[$oTopicVote->getTopicId()]=$oTopicVote;
+			}
+			$this->Cache_Set($aTopicsQuestionVote, "topic_question_vote_{$sUserId}_id_{$s}", array("topic_question_vote_user_{$sUserId}"), 60*60*24*1);
+			return $aTopicsQuestionVote;
+		}		
+		return $data;
+	}
+	/**
 	 * Добавляет факт голосования за топик-вопрос
 	 *
 	 * @param TopicEntity_TopicQuestionVote $oTopicQuestionVote
 	 */
 	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
 		$this->Cache_Delete("topic_question_vote_{$oTopicQuestionVote->getTopicId()}_{$oTopicQuestionVote->getVoterId()}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_question_vote_user_{$oTopicQuestionVote->getVoterId()}"));
 		return $this->oMapperTopic->AddTopicQuestionVote($oTopicQuestionVote);
 	}
 	/**

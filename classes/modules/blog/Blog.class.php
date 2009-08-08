@@ -106,6 +106,12 @@ class LsBlog extends Module {
 	 * @param array $aUserId
 	 */
 	public function GetBlogsByArrayId($aBlogId) {
+		if (!$aBlogId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetBlogsByArrayIdSolid($aBlogId);
+		}
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
 		}
@@ -116,7 +122,7 @@ class LsBlog extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aBlogId,'blog_');
-		if (0 and false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
 			/**
 			 * проверяем что досталось из кеша
 			 */
@@ -142,7 +148,7 @@ class LsBlog extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aBlogs[$oBlog->getId()]=$oBlog;
-				//$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array(), 60*60*24*4);
+				$this->Cache_Set($oBlog, "blog_{$oBlog->getId()}", array(), 60*60*24*4);
 				$aBlogIdNeedStore=array_diff($aBlogIdNeedStore,array($oBlog->getId()));
 			}
 		}
@@ -157,6 +163,29 @@ class LsBlog extends Module {
 		 */
 		$aBlogs=func_array_sort_by_keys($aBlogs,$aBlogId);
 		return $aBlogs;		
+	}
+	/**
+	 * Список блогов по ID, но используя единый кеш
+	 *
+	 * @param unknown_type $aBlogId
+	 * @return unknown
+	 */
+	public function GetBlogsByArrayIdSolid($aBlogId) {
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		$aBlogId=array_unique($aBlogId);	
+		$aBlogs=array();	
+		$s=join(',',$aBlogId);
+		if (false === ($data = $this->Cache_Get("blog_id_{$s}"))) {			
+			$data = $this->oMapperBlog->GetBlogsByArrayId($aBlogId);
+			foreach ($data as $oBlog) {
+				$aBlogs[$oBlog->getId()]=$oBlog;
+			}
+			$this->Cache_Set($aBlogs, "blog_id_{$s}", array("blog_update"), 60*60*24*1);
+			return $aBlogs;
+		}		
+		return $data;
 	}
 	/**
 	 * Получить персональный блог юзера
@@ -206,7 +235,7 @@ class LsBlog extends Module {
 	public function GetBlogByTitle($sTitle) {		
 		if (false === ($id = $this->Cache_Get("blog_title_{$sTitle}"))) {						
 			if ($id = $this->oMapperBlog->GetBlogByTitle($sTitle)) {				
-				$this->Cache_Set($id, "blog_title_{$sTitle}", array("blog_update_{$data->getId()}",'blog_new'), 60*60*24*2);				
+				$this->Cache_Set($id, "blog_title_{$sTitle}", array("blog_update_{$id}",'blog_new'), 60*60*24*2);				
 			} else {
 				$this->Cache_Set(null, "blog_title_{$sTitle}", array('blog_update','blog_new'), 60*60);
 			}
@@ -431,6 +460,12 @@ class LsBlog extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetBlogUsersByArrayBlog($aBlogId,$sUserId) {
+		if (!$aBlogId) {
+			return array();
+		}
+		if (1) {
+			return $this->GetBlogUsersByArrayBlogSolid($aBlogId,$sUserId);
+		}
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
 		}
@@ -483,7 +518,23 @@ class LsBlog extends Module {
 		$aBlogUsers=func_array_sort_by_keys($aBlogUsers,$aBlogId);
 		return $aBlogUsers;		
 	}	
-	
+	public function GetBlogUsersByArrayBlogSolid($aBlogId,$sUserId) {
+		if (!is_array($aBlogId)) {
+			$aBlogId=array($aBlogId);
+		}
+		$aBlogId=array_unique($aBlogId);	
+		$aBlogUsers=array();	
+		$s=join(',',$aBlogId);
+		if (false === ($data = $this->Cache_Get("blog_relation_user_{$sUserId}_id_{$s}"))) {			
+			$data = $this->oMapperBlog->GetBlogUsersByArrayBlog($aBlogId,$sUserId);
+			foreach ($data as $oBlogUser) {
+				$aBlogUsers[$oBlogUser->getBlogId()]=$oBlogUser;
+			}
+			$this->Cache_Set($aBlogUsers, "blog_relation_user_{$sUserId}_id_{$s}", array("blog_relation_change_{$sUserId}"), 60*60*24*1);
+			return $aBlogUsers;
+		}		
+		return $data;
+	}
 	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}","blog_relation_change_blog_{$oBlogUser->getBlogId()}"));		
 		$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
@@ -500,7 +551,7 @@ class LsBlog extends Module {
 			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}", array("blog_update","blog_new"), 60*60*24*2);
 		}
-		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],array('owner'=>array()));
+		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],array('owner'=>array(),'relation_user'));
 		return $data;		
 	}
 	/**
