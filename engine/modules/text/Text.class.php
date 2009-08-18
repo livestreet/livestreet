@@ -15,8 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/Jevix/jevix.class.php');
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/geshi/geshi.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/Jevix/jevix.class.php');
 
 /**
  * Модуль обработки текста на основе типографа Jevix
@@ -118,42 +117,7 @@ class LsText extends Module {
 		$sText = preg_replace('/<video>http:\/\/(?:www\.|)rutube.ru\/tracks\/\d+.html\?v=([a-zA-Z0-9_\-]+)<\/video>/Ui', '<OBJECT width="470" height="353"><PARAM name="movie" value="http://video.rutube.ru/$1"></PARAM><PARAM name="wmode" value="opaque"></PARAM><PARAM name="allowFullScreen" value="true"></PARAM><PARAM name="flashVars" value="uid=662118"></PARAM><EMBED src="http://video.rutube.ru/$1" type="application/x-shockwave-flash" wmode="opaque" width="470" height="353" allowFullScreen="true" flashVars="uid=662118"></EMBED></OBJECT>', $sText);				
 		return $sText;
 	}
-	
-	/**
-	 * Подцветка кода
-	 *
-	 * @param string $sText
-	 * @return string
-	 */
-	public function GeshiParser($sText) {
-		$sTextTemp=str_replace("\r\n",'[!rn!]',$sText);
-		$sTextTemp=str_replace("\n",'[!n!]',$sTextTemp);
-		if (preg_match_all("/<code>(.*)<\/code>/Ui",$sTextTemp,$aMatch,PREG_SET_ORDER)) {
-			$oGeshi = new GeSHi('','php');
-			$oGeshi->set_header_type(GESHI_HEADER_DIV);
-			$oGeshi->enable_classes();
-			$oGeshi->set_overall_style('color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;', false);
-			$oGeshi->set_line_style('color: #003030;', 'font-weight: bold; color: #006060;', true);
-			$oGeshi->set_code_style('color: #000020;', true);
-			$oGeshi->enable_keyword_links(false);
-			$oGeshi->set_link_styles(GESHI_LINK, 'color: #000060;');
-			$oGeshi->set_link_styles(GESHI_HOVER, 'background-color: #f0f000;');
-			foreach ($aMatch as $aCode) {
-				$sCode=html_entity_decode($aCode[1]);
-				$sCode=str_replace("[!rn!]","\r\n",$sCode);
-				$sCode=str_replace("[!n!]","\n",$sCode);
-				$oGeshi->set_source($sCode);
-				$sCodeGeshi=$oGeshi->parse_code();
-				$sTextTemp=str_replace($aCode[0],$sCodeGeshi,$sTextTemp);
-			}
-			$sTextTemp=str_replace("[!rn!]","\r\n",$sTextTemp);
-			$sTextTemp=str_replace("[!n!]","\n",$sTextTemp);
-			$sTextTemp='<style type="text/css">'.$oGeshi->get_stylesheet(true).'</style>'."\r\n".$sTextTemp;
-			return $sTextTemp;
-		}
-		return $sText;
-	}
-	
+		
 	/**
 	 * Парсит текст
 	 *
@@ -162,8 +126,7 @@ class LsText extends Module {
 	public function Parser($sText) {
 		$sResult=$this->FlashParamParser($sText);		
 		$sResult=$this->JevixParser($sResult);	
-		$sResult=$this->VideoParser($sResult);		
-	//	$sResult=$this->GeshiParser($sResult);
+		$sResult=$this->VideoParser($sResult);	
 		$sResult=$this->CodeSourceParser($sResult);
 		if (BLOG_URL_NO_INDEX) {
 			// требует доработки, т.к. обрабатывает ВСЕ ссылки, включая в <code></code>

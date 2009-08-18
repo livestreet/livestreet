@@ -25,7 +25,7 @@ $t1=microtime(true);
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
 require_once("./config/config.php");
-require_once("./classes/engine/Engine.class.php");
+require_once(DIR_SERVER_ENGINE."/classes/Engine.class.php");
 
 $oProfiler=ProfilerSimple::getInstance(DIR_SERVER_ROOT.'/logs/profiler.log',false);
 $iTimeId=$oProfiler->Start('full_time');

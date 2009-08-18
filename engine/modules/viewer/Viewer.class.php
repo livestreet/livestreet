@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
@@ -119,6 +119,7 @@ class LsViewer extends Module {
 		 */
 		$this->Assign("DIR_STATIC_SKIN",DIR_STATIC_SKIN);
 		$this->Assign("DIR_WEB_ROOT",DIR_WEB_ROOT);
+		$this->Assign("DIR_WEB_ENGINE_LIB",DIR_WEB_ENGINE_LIB);
 		$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
 		$this->Assign("SITE_NAME",SITE_NAME);
 		$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
@@ -237,7 +238,7 @@ class LsViewer extends Module {
 		 */
 		if ($sResponseAjax) {			
 			if ($sResponseAjax=='jsHttpRequest') {
-				require_once(DIR_SERVER_ROOT."/classes/lib/external/JsHttpRequest/JsHttpRequest.php");
+				require_once(DIR_SERVER_ENGINE."/lib/external/JsHttpRequest/JsHttpRequest.php");
 				$JsHttpRequest = new JsHttpRequest("UTF-8");
 			}
 			$this->Security_ValidateSendForm();

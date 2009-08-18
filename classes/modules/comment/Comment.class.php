@@ -419,7 +419,7 @@ class LsComment extends Module {
 		$iMaxIdComment=max($aComments);		
 		$aCmts=$this->GetCommentsAdditionalData($aComments);				
 		if (!class_exists('LsViewer')) {
-			require_once(DIR_SERVER_ROOT."/classes/modules/sys_viewer/Viewer.class.php");
+			require_once(DIR_SERVER_ENGINE."/modules/viewer/Viewer.class.php");
 		}
 		$oViewerLocal=new LsViewer(Engine::getInstance());
 		$oViewerLocal->Init();

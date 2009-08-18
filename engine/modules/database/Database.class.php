@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/DbSimple/Generic.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/DbSimple/Generic.php');
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова

@@ -16,7 +16,7 @@ document.addEvent('domready', function() {
 
 
 {if $BLOG_USE_TINYMCE}
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/tiny_mce/tiny_mce.js"></script>
 {literal}
 <script type="text/javascript">
 tinyMCE.init({

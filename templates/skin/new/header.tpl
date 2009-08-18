@@ -31,18 +31,18 @@ var DIR_STATIC_SKIN='{$DIR_STATIC_SKIN}';
 var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
 </script>
 
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/JsHttpRequest/JsHttpRequest.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/mootools-1.2.js?v=1.2.2"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/JsHttpRequest/JsHttpRequest.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/mootools-1.2.js?v=1.2.2"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
 <!--[if IE]>
-	<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
+	<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
 <![endif]-->	
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
 
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/prettify/prettify.js"></script>
+<script type="text/javascript" src="{$DIR_WEB_ENGINE_LIB}/external/prettify/prettify.js"></script>
 
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/vote.js"></script>
 <script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/favourites.js"></script>

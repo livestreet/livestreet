@@ -30,6 +30,8 @@ define('SITE_SKIN','new');
 define('DIR_WEB_ROOT','http://'.$_SERVER['HTTP_HOST']); // полный WEB адрес сайта
 define('DIR_STATIC_ROOT',DIR_WEB_ROOT); // чтоб можно было статику засунуть на отдельный сервер
 define('DIR_SERVER_ROOT',$_SERVER['DOCUMENT_ROOT']); // полный путь до сайта в файловой системе
+define('DIR_SERVER_ENGINE',DIR_SERVER_ROOT.'/engine'); // полный путь до сайта в файловой системе
+define('DIR_WEB_ENGINE_LIB',DIR_WEB_ROOT.'/engine/lib'); // полный путь до сайта в файловой системе
 define('DIR_STATIC_SKIN',DIR_STATIC_ROOT.'/templates/skin/'.SITE_SKIN);
 define('DIR_UPLOADS','/uploads');
 define('DIR_UPLOADS_IMAGES',DIR_UPLOADS.'/images');
@@ -41,7 +43,7 @@ define('DIR_UPLOADS_IMAGES',DIR_UPLOADS.'/images');
 define('DIR_SMARTY_TEMPLATE',DIR_SERVER_ROOT.'/templates/skin/'.SITE_SKIN);
 define('DIR_SMARTY_COMPILED',DIR_SERVER_ROOT.'/templates/compiled');
 define('DIR_SMARTY_CACHE',DIR_SERVER_ROOT.'/templates/cache');
-define('DIR_SMARTY_PLUG',DIR_SERVER_ROOT.'/classes/modules/sys_viewer/plugs');
+define('DIR_SMARTY_PLUG',DIR_SERVER_ENGINE.'/modules/viewer/plugs');
 
 /**
  * Системные настройки
@@ -52,7 +54,7 @@ define('SYS_OFFSET_REQUEST_URL',0); // иногда помогает если с
  * Настройки логирования
  */
 define('SYS_LOGS_FILE','log.log'); // файл общего лога
-define('SYS_LOGS_SQL_QUERY',false); // логировать или нет SQL запросы
+define('SYS_LOGS_SQL_QUERY',true); // логировать или нет SQL запросы
 define('SYS_LOGS_SQL_QUERY_FILE','sql_query.log'); // файл лога SQL запросов
 define('SYS_LOGS_SQL_ERROR',true); // логировать или нет ошибки SQl
 define('SYS_LOGS_SQL_ERROR_FILE','sql_error.log'); // файл лога ошибок SQL
@@ -60,7 +62,7 @@ define('SYS_LOGS_SQL_ERROR_FILE','sql_error.log'); // файл лога ошиб
 /**
  * Настройки кеширования
  */
-define('SYS_CACHE_USE',false); // использовать кеширование или нет
+define('SYS_CACHE_USE',true); // использовать кеширование или нет
 define('SYS_CACHE_TYPE','file'); // тип кеширования: file и memory. memory использует мемкеш
 $aTmpDir=explode(';',session_save_path());
 $sTmpDir = count($aTmpDir)>1 ? $aTmpDir[1] : $aTmpDir[0];

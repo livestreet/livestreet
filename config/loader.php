@@ -31,8 +31,26 @@ if ($hDirConfig = opendir($sDirConfig)) {
 	closedir($hDirConfig);
 }
 
+
 /**
- * Инклудим все *.php файлы из каталога /include/
+ * Инклудим все *.php файлы из каталога {DIR_SERVER_ENGINE}/include/ - это файлы ядра
+ */
+$sDirInclude=DIR_SERVER_ENGINE.'/include/';
+if ($hDirInclude = opendir($sDirInclude)) {
+	while (false !== ($sFileInclude = readdir($hDirInclude))) {
+		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
+		if ($sFileInclude !='.' and $sFileInclude !='..' and is_file($sFileIncludePathFull)) {
+			$aPathInfo=pathinfo($sFileIncludePathFull);
+			if (strtolower($aPathInfo['extension'])=='php') {
+				require_once($sDirInclude.$sFileInclude);
+			}
+		}
+	}
+	closedir($hDirInclude);
+}
+
+/**
+ * Инклудим все *.php файлы из каталога {DIR_SERVER_ROOT}/include/ - пользовательские файлы
  */
 $sDirInclude=DIR_SERVER_ROOT.'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {

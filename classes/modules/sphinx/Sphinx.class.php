@@ -1,5 +1,5 @@
 <?php
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/Sphinx/sphinxapi.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/Sphinx/sphinxapi.php');
 
 /**
  * Модуль для работы с машиной полнотекстового поиска Sphinx

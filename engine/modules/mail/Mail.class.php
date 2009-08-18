@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/phpMailer/class.phpmailer.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/phpMailer/class.phpmailer.php');
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer

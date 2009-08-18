@@ -16,7 +16,7 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once(DIR_SERVER_ROOT.'/classes/lib/internal/ProfilerSimple/Profiler.class.php');
+require_once(DIR_SERVER_ENGINE.'/lib/internal/ProfilerSimple/Profiler.class.php');
 require_once("Object.class.php");
 require_once("Block.class.php");
 require_once("Hook.class.php");
@@ -107,22 +107,20 @@ class Engine extends Object {
 	 * @return unknown
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
-		$tm1=microtime(true);
-		$sPrefixSys='';
-		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+		$tm1=microtime(true);		
+		if ($this->isFileExists(DIR_SERVER_ENGINE."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+			require_once(DIR_SERVER_ENGINE."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
+		} elseif ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
-		} elseif ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once(DIR_SERVER_ROOT."/classes/modules/sys_".strtolower($sModuleName)."/".$sModuleName.".class.php");
-			$sPrefixSys='sys_';
 		} else {
 			throw new Exception($this->Lang_Get('system_error_module')." - ".$sModuleName);
-		}
+		}		
 		/**
-		 * Проверяем наличие кастомного класса
+		 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
 		 */
 		$sPrefixCustom='';
-		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
-			require_once(DIR_SERVER_ROOT."/classes/modules/".$sPrefixSys.strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
+		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
+			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
 			$sPrefixCustom='_custom';
 		}
 		/**

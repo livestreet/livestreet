@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ROOT.'/classes/lib/external/DklabCache/config.php');
+require_once(DIR_SERVER_ENGINE.'/lib/external/DklabCache/config.php');
 require_once('Zend/Cache.php');
 require_once('Cache/Backend/MemcachedMultiload.php');
 require_once('Cache/Backend/TagEmuWrapper.php');
@@ -95,7 +95,7 @@ class LsCache extends Module {
 	 * @param string $sName	
 	 * @return unknown
 	 */
-	public function Get($sName) {
+	public function Get($sName) {//var_dump($sName);
 		if (!$this->bUseCache) {
 			return false;
 		}
