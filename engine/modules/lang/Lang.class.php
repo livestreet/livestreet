@@ -20,8 +20,8 @@
  */
 class LsLang extends Module {		
 	
-	protected $sCurrentLang=LANG_CURRENT;
-	protected $sLangPath=LANG_PATH;
+	protected $sCurrentLang;
+	protected $sLangPath;
 	protected $aLangMsg=array();
 	
 	/**
@@ -29,6 +29,8 @@ class LsLang extends Module {
 	 *
 	 */
 	public function Init() {	
+		$this->sCurrentLang = Config::Get('lang.current');
+		$this->sLangPath = Config::Get('lang.path');
 		$this->InitLang();					
 	}
 	/**
@@ -39,7 +41,7 @@ class LsLang extends Module {
 		/**
 		 * Если используется кеширование через memcaсhed, то сохраняем данные языкового файла в кеш
 		 */
-		if (SYS_CACHE_TYPE=='memory') {			
+		if (Config::Get('sys.cache.type')=='memory') {			
 			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}"))) {
 				$this->LoadLangFiles();
 				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}", array(), 60*60);

@@ -70,8 +70,8 @@ class LsLogger extends Module {
 	 *
 	 */
 	public function Init() {	
-			$this->sPathLogs=DIR_SERVER_ROOT.'/logs/';		
-			$this->SetFileName(SYS_LOGS_FILE);
+			$this->sPathLogs=Config::Get('path.root.server').'/logs/';		
+			$this->SetFileName(Config::Get('sys.logs.file'));
 	}
 	
 	/**

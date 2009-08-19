@@ -16,7 +16,7 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once(DIR_SERVER_ENGINE.'/lib/internal/ProfilerSimple/Profiler.class.php');
+require_once(Config::Get('path.root.engine').'/lib/internal/ProfilerSimple/Profiler.class.php');
 require_once("Object.class.php");
 require_once("Block.class.php");
 require_once("Hook.class.php");
@@ -108,10 +108,10 @@ class Engine extends Object {
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);		
-		if ($this->isFileExists(DIR_SERVER_ENGINE."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once(DIR_SERVER_ENGINE."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
-		} elseif ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
+		if ($this->isFileExists(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+			require_once(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
+		} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+			require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
 		} else {
 			throw new Exception($this->Lang_Get('system_error_module')." - ".$sModuleName);
 		}		
@@ -119,8 +119,8 @@ class Engine extends Object {
 		 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
 		 */
 		$sPrefixCustom='';
-		if ($this->isFileExists(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
-			require_once(DIR_SERVER_ROOT."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
+		if ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
+			require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
 			$sPrefixCustom='_custom';
 		}
 		/**
@@ -153,11 +153,16 @@ class Engine extends Object {
 	 *
 	 */
 	protected function LoadConfig() {
-		$this->aConfigModule=include(DIR_SERVER_ROOT."/config/config.module.php");
+		$this->aConfigModule = Config::Get('module');
+
 		/**
-		 * Ищет конфиги модулей и объединяет их с текущим
-		 */
-		$sDirConfig=DIR_SERVER_ROOT.'/config/modules/';
+		 * Рефакторинг - переход на использование конфигурационных массивов
+		 * 
+		$this->aConfigModule=include(Config::Get('path.root.server')."/config/config.module.php");
+		///
+		/// Ищет конфиги модулей и объединяет их с текущим
+		///
+		$sDirConfig=Config::Get('path.root.server').'/config/modules/';
 		if ($hDirConfig = opendir($sDirConfig)) {
 			while (false !== ($sDirModule = readdir($hDirConfig))) {
 				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
@@ -170,13 +175,14 @@ class Engine extends Object {
 			}
 			closedir($hDirConfig);
 		}
+		**/
 	}
 	/**
 	 * Регистрирует хуки из /classes/hooks/
 	 *
 	 */
 	protected function InitHooks() {
-		$sDirHooks=DIR_SERVER_ROOT.'/classes/hooks/';
+		$sDirHooks=Config::Get('path.root.server').'/classes/hooks/';
 		if ($hDir = opendir($sDirHooks)) {
 			while (false !== ($sFile = readdir($hDir))) {
 				if ($sFile !='.' and $sFile !='..' and is_file($sDirHooks.$sFile)) {
@@ -280,7 +286,7 @@ function __autoload($sClassName) {
 	 */
 	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {	
 		$tm1=microtime(true);	
-		$sFileClass=DIR_SERVER_ROOT.'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
+		$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);
 			$tm2=microtime(true);			

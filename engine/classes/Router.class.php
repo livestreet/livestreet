@@ -80,10 +80,10 @@ class Router extends Object {
 		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
 		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
 		
-		self::$sPathWebCurrent = DIR_WEB_ROOT."/".$sReq;
+		self::$sPathWebCurrent = Config::Get('path.root.web')."/".$sReq;
 			
 		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
-		for ($i=0;$i<SYS_OFFSET_REQUEST_URL;$i++) {
+		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
 			array_shift($aRequestUrl);
 		}		
 		self::$sAction=array_shift($aRequestUrl);
