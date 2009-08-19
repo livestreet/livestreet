@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ENGINE.'/lib/external/phpMailer/class.phpmailer.php');
+require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/class.phpmailer.php');
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer
@@ -27,23 +27,23 @@ class LsMail extends Module {
 	 * Настройки SMTP сервера для отправки писем	
 	 * 
 	 */
-	protected $sHost=SYS_MAIL_SMTP_HOST;
-	protected $iPort=SYS_MAIL_SMTP_PORT;
-	protected $sUsername=SYS_MAIL_SMTP_USER;
-	protected $sPassword=SYS_MAIL_SMTP_PASSWORD;
-	protected $bSmtpAuth=SYS_MAIL_SMTP_AUTH;
+	protected $sHost;
+	protected $iPort;
+	protected $sUsername;
+	protected $sPassword;
+	protected $bSmtpAuth;
 	/**
 	 * Метод отправки почты
 	 *
 	 * @var string
 	 */
-	protected $sMailerType=SYS_MAIL_TYPE;
+	protected $sMailerType;
 	/**
 	 * Кодировка писем
 	 *
 	 * @var string
 	 */
-	protected $sCharSet=SYS_MAIL_CHARSET;
+	protected $sCharSet;
 	/**
 	 * Делать или нет перенос строк в письме
 	 *
@@ -56,13 +56,13 @@ class LsMail extends Module {
 	 *
 	 * @var string
 	 */
-	protected $sFrom=SYS_MAIL_FROM_EMAIL;
+	protected $sFrom;
 	/**
 	 * Имя от кого отправляется вся почта
 	 *
 	 * @var string
 	 */
-	protected $sFromName=SYS_MAIL_FROM_NAME;
+	protected $sFromName;
 	protected $sSubject='';
 	protected $sBody='';
 	
@@ -71,6 +71,31 @@ class LsMail extends Module {
 	 *
 	 */
 	public function Init() {	
+		/**
+	 	 * Настройки SMTP сервера для отправки писем	
+	 	 */	
+		$this->sHost     = Config::Get('sys.mail.smtp.host');
+		$this->iPort     = Config::Get('sys.mail.smtp.port');
+		$this->sUsername = Config::Get('sys.mail.smtp.user');
+		$this->sPassword = Config::Get('sys.mail.smtp.password');
+		$this->bSmtpAuth = Config::Get('sys.mail.smtp.auth');	
+		/**
+		 * Метод отправки почты
+		 */
+		$this->sMailerType=Config::Get('sys.mail.type');
+		/**
+		 * Кодировка писем
+		 */
+		$this->sCharSet=Config::Get('sys.mail.charset');		
+		/**
+		 * Мыло от кого отправляется вся почта
+		 */
+		$this->sFrom=Config::Get('sys.mail.from_email');
+		/**
+		 * Имя от кого отправляется вся почта
+		 */
+		$this->sFromName=Config::Get('sys.mail.from_name');
+					
 		/**
 		 * Создаём объект phpMailer и устанвливаем ему необходимые настройки
 		 */

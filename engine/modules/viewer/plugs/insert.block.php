@@ -47,7 +47,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	/**
 	 * Подключаем необходимый обработчик
 	 */
-	$result=require_once(DIR_SERVER_ROOT.'/classes/blocks/Block'.$sBlock.'.class.php');	
+	$result=require_once(Config::Get('path.root.server').'/classes/blocks/Block'.$sBlock.'.class.php');	
 	$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	eval($sCmd);
 	/**

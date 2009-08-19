@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ENGINE.'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(Config::Get('path.root.engine').'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
@@ -39,19 +39,19 @@ class LsViewer extends Module {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sHtmlTitle=SITE_NAME;
+	protected $sHtmlTitle;
 	/**
 	 * SEO ключевые слова страницы
 	 *
 	 * @var unknown_type
 	 */
-	protected $sHtmlKeywords=SITE_KEYWORDS;
+	protected $sHtmlKeywords;
 	/**
 	 * SEO описание страницы
 	 *
 	 * @var unknown_type
 	 */
-	protected $sHtmlDescription=SITE_DESCRIPTION;
+	protected $sHtmlDescription;
 	
 	/**
 	 * Разделитель заголовка HTML страницы
@@ -83,15 +83,28 @@ class LsViewer extends Module {
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {		
+	public function Init() {	
+		/**
+		 * Заголовок HTML страницы
+		 */
+		$this->sHtmlTitle=Config::Get('view.name');
+		/**
+		 * SEO ключевые слова страницы
+		 */
+		$this->sHtmlKeywords=Config::Get('view.keywords');
+		/**
+		 * SEO описание страницы
+		 */
+		$this->sHtmlDescription=Config::Get('view.description');			
+
 		/**
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
 		$this->oSmarty = new Smarty();		
-		$this->oSmarty->template_dir=DIR_SMARTY_TEMPLATE;
-		$this->oSmarty->compile_dir=DIR_SMARTY_COMPILED;
-		$this->oSmarty->cache_dir=DIR_SMARTY_CACHE;
-		$this->oSmarty->plugins_dir=array(DIR_SMARTY_PLUG,'plugins');	
+		$this->oSmarty->template_dir=Config::Get('path.smarty.template');
+		$this->oSmarty->compile_dir=Config::Get('path.smarty.compiled');
+		$this->oSmarty->cache_dir=Config::Get('path.smarty.cache');
+		$this->oSmarty->plugins_dir=array(Config::Get('path.smarty.plug'),'plugins');	
 		/**
 		 * Подключаем к Smarty небольшой плагинчик форматирования даты
 		 */
@@ -238,7 +251,7 @@ class LsViewer extends Module {
 		 */
 		if ($sResponseAjax) {			
 			if ($sResponseAjax=='jsHttpRequest') {
-				require_once(DIR_SERVER_ENGINE."/lib/external/JsHttpRequest/JsHttpRequest.php");
+				require_once(Config::Get('path.root.engine')."/lib/external/JsHttpRequest/JsHttpRequest.php");
 				$JsHttpRequest = new JsHttpRequest("UTF-8");
 			}
 			$this->Security_ValidateSendForm();

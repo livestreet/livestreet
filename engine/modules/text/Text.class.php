@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ENGINE.'/lib/external/Jevix/jevix.class.php');
+require_once(Config::Get('path.root.engine').'/lib/external/Jevix/jevix.class.php');
 
 /**
  * Модуль обработки текста на основе типографа Jevix
@@ -38,7 +38,7 @@ class LsText extends Module {
 		 * Создаем объект типографа и запускаем его конфигурацию
 		 */
 		$this->oJevix = new Jevix();		
-		$this->JevixConfig();			
+		$this->JevixConfig();
 	}
 	
 	/**
@@ -128,7 +128,7 @@ class LsText extends Module {
 		$sResult=$this->JevixParser($sResult);	
 		$sResult=$this->VideoParser($sResult);	
 		$sResult=$this->CodeSourceParser($sResult);
-		if (BLOG_URL_NO_INDEX) {
+		if (Config::Get('view.noindex')) {
 			// требует доработки, т.к. обрабатывает ВСЕ ссылки, включая в <code></code>
 			$sResult=$this->MakeUrlNoIndex($sResult);
 		}

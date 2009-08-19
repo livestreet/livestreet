@@ -35,7 +35,7 @@ class LsSession extends Module {
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {	
+	public function Init() {
 		/**
 		 * Стартуем сессию
 		 */
