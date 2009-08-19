@@ -24,7 +24,9 @@ $t1=microtime(true);
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
-require_once("./config/config.php");
+
+// Получаем объект конфигурации
+require_once("./config/loader.php");
 require_once(DIR_SERVER_ENGINE."/classes/Engine.class.php");
 
 $oProfiler=ProfilerSimple::getInstance(DIR_SERVER_ROOT.'/logs/profiler.log',false);

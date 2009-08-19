@@ -19,12 +19,11 @@
  * Настройки роутинга страниц модуля "page"
  * Определяет какой экшен должен запускаться при определенном УРЛе
  */
-
-define("ROUTE_PAGE_PAGE",'page');
+//define("ROUTE_PAGE_PAGE",'page');
 
 return array(
 	'page' => array(		
-		ROUTE_PAGE_PAGE => 'ActionPage',
+		'page' => 'ActionPage',
 	),	
 );
 

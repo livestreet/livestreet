@@ -96,23 +96,7 @@ class Router extends Object {
 	 */
 	protected function LoadConfig() {
 		//Конфиг роутинга, содержит соответствия URL и классов экшенов
-		$this->aConfigRoute=include(DIR_SERVER_ROOT."/config/config.route.php");
-		/**
-		 * Ищет конфиги модулей и объединяет их с текущим
-		 */
-		$sDirConfig=DIR_SERVER_ROOT.'/config/modules/';
-		if ($hDirConfig = opendir($sDirConfig)) {
-			while (false !== ($sDirModule = readdir($hDirConfig))) {
-				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
-					$sFileConfig=$sDirConfig.$sDirModule.'/config.route.php';
-					if (file_exists($sFileConfig)) {
-						$aConfigModule=include($sFileConfig);
-						$this->aConfigRoute=array_merge_recursive($this->aConfigRoute,$aConfigModule);
-					}					
-				}
-			}
-			closedir($hDirConfig);
-		}
+		$this->aConfigRoute = Config::Get('router');
 	}
 			
 	/**
@@ -309,6 +293,25 @@ class Router extends Object {
 	 */
 	protected function __clone() {
 		
+	}
+
+	/**
+	 * Функция, возвращающая ссылку на Action по переданому названию страницы
+	 *
+	 * @param  string $action
+	 * @return string
+	 */
+	static public function getPath($action) {
+		$aRoutes = array_flip(self::getInstance()->aConfigRoute['page']);
+		// Если пользователь запросил action по умолчанию
+		if($action == 'default') {
+			$action = self::getInstance()->aConfigRoute['config']['action_default'];
+		}
+		// Пытаемся найте соответствующий роут
+		if(!$sPage = @$aRoutes['Action'.ucfirst($action)]) {
+			return false;
+		}
+		return DIR_WEB_ROOT."/$sPage/";
 	}
 }
 ?>

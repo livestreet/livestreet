@@ -24,6 +24,6 @@ return array(
 	'user' => 'root',
 	'pass' => '',
 	'type' => 'mysql',
-	'dbname' => 'social',
+	'dbname' => 'ls_core',
 );
 ?>
