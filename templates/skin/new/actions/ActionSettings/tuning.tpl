@@ -2,7 +2,7 @@
 
 			<h1>{$aLang.settings_tuning}</h1>
 			<strong>{$aLang.settings_tuning_notice}</strong>
-			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/" method="POST" enctype="multipart/form-data">
+			<form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">
 				<p>
 					<label for=""><input {if $oUserCurrent->getSettingsNoticeNewTopic()}checked{/if}  type="checkbox" id="settings_notice_new_topic" name="settings_notice_new_topic" value="1" class="checkbox" /> &mdash; {$aLang.settings_tuning_notice_new_topic}</label><br />
 					<label for=""><input {if $oUserCurrent->getSettingsNoticeNewComment()}checked{/if} type="checkbox"   id="settings_notice_new_comment" name="settings_notice_new_comment" value="1" class="checkbox" /> &mdash; {$aLang.settings_tuning_notice_new_comment}</label><br />

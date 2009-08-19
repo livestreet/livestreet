@@ -120,7 +120,7 @@ class ActionSearch extends Action {
 			 *  Если запрос слишком короткий перенаправляем на начальную страницу поиска
 			 * Хотя тут лучше показывать юзеру в чем он виноват
 			 */
-			func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_SEARCH.'/');
+			func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/');
 		}
 		$aReq['sType'] = strtolower(Router::GetActionEvent());		
 		/**
@@ -158,7 +158,7 @@ class ActionSearch extends Action {
 			 */
 			foreach(array_keys($this->sTypesEnabled) as $sType){
 				if($aRes['aCounts'][$sType])
-					func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_SEARCH.'/'.$sType.'/?q='.$aReq['q']);
+					func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/'.$sType.'/?q='.$aReq['q']);
 			}
 		} elseif(($aReq['iPage']-1)*$iLimit <= $aRes['aCounts'][$aReq['sType']]) {
 			/**
@@ -187,7 +187,7 @@ class ActionSearch extends Action {
 				$aReq['iPage'], 
 				$iLimit, 
 				4, 
-				DIR_WEB_ROOT.'/'.ROUTE_PAGE_SEARCH.'/'.$aReq['sType'], 
+				DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/'.$aReq['sType'], 
 				array(
 					'q' => $aReq['q']
 				)

@@ -141,7 +141,7 @@ class UserEntity_User extends Entity {
         return $this->_aData['user_is_administrator'];
     }
     public function getUserWebPath() {   
-    	return DIR_WEB_ROOT.'/'.ROUTE_PAGE_PROFILE.'/'.$this->getLogin().'/';
+    	return DIR_WEB_ROOT.'/'.Config::Get('router.page.profile').'/'.$this->getLogin().'/';
     }
     
     

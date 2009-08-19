@@ -89,7 +89,7 @@ class ActionNew extends Action {
 	 *
 	 */
 	protected function EventNew() {
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/new/',SITE_NAME);
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/new/',SITE_NAME);
 		/**
 		 * Меню
 		 */
@@ -106,7 +106,7 @@ class ActionNew extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_NEW);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.new'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */

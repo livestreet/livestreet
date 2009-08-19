@@ -21,7 +21,7 @@
 					{/literal}
 					{$sStreamComments}
 					</div>
-					<div class="right"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_COMMENTS}/">{$aLang.block_stream_comments_all}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/allcomments/">RSS</a></div>
+					<div class="right"><a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> | <a href="{router page='rss'}allcomments/">RSS</a></div>
 
 					
 				</div></div>

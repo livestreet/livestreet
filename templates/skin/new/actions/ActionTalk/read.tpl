@@ -5,8 +5,8 @@
 			<div class="topic talk">				
 				<h1 class="title">{$oTalk->getTitle()|escape:'html'}</h1>				
 				<ul class="action">
-					<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/">{$aLang.talk_inbox}</a></li>
-					<li class="delete"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/delete/{$oTalk->getId()}/"  onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</a></li>
+					<li><a href="{router page='talk'}">{$aLang.talk_inbox}</a></li>
+					<li class="delete"><a href="{router page='talk'}delete/{$oTalk->getId()}/"  onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</a></li>
 				</ul>				
 				<div class="content">
 					{$oTalk->getText()}				

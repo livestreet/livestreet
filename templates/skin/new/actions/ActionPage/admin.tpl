@@ -12,7 +12,7 @@
 	<h4>{$aLang.page_edit} «{$oPageEdit->getTitle()}»</h4>
 	{include file='actions/ActionPage/add.tpl'}
 {else}
-	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/new/">{$aLang.page_new}</a>
+	<a href="{router page='page'}admin/new/">{$aLang.page_new}</a>
 {/if}
 
 
@@ -34,8 +34,8 @@
   {/if}
   <tr class="{$className}" onmouseover="this.className='colored_sel';" onmouseout="this.className='{$className}';">  
     <td align="left" valign="middle">
-    	<img src="{$DIR_STATIC_SKIN}/images/{if $oPage->getLevel()==0}folder{else}new{/if}_16x16.gif" alt="" title="" border="0" style="margin-left: {$oPage->getLevel()*20}px;"/>
-    	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/{$oPage->getUrlFull()}/">{$oPage->getTitle()}</a>
+    	<img src="{$aConfig.path.static.skin}/images/{if $oPage->getLevel()==0}folder{else}new{/if}_16x16.gif" alt="" title="" border="0" style="margin-left: {$oPage->getLevel()*20}px;"/>
+    	<a href="{router page='page'}{$oPage->getUrlFull()}/">{$oPage->getTitle()}</a>
     </td>
     <td align="left">
     	/{$oPage->getUrlFull()}/
@@ -48,9 +48,9 @@
     {/if}
     </td>
     <td align="center">  
-    	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/edit/{$oPage->getId()}/"><img src="{$DIR_STATIC_SKIN}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
+    	<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{$aConfig.path.static.skin}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
     	&nbsp;
-      	<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/admin/delete/{$oPage->getId()}/" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$DIR_STATIC_SKIN}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
+      	<a href="{router page='page'}admin/delete/{$oPage->getId()}/" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$aConfig.path.static.skin}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
     </td>   
   </tr>
   {/foreach}

@@ -2,7 +2,7 @@
 
 
 
-			<h1>{$aLang.blog_admin}: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
+			<h1>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
 
 		{if $aBlogUsers}
 			<form action="" method="POST" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
 						{foreach from=$aBlogUsers item=oBlogUser}
 						{assign var="oUser" value=$oBlogUser->getUser()}
 						<tr>
-							<td class="username"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>
+							<td class="username"><a href="{router page='profile'}{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>
 							{if $oUser->getId()==$oUserCurrent->getId()}
 							<td colspan="3" align="center">{$aLang.blog_admin_users_current_administrator}</td>
 							{else}

@@ -34,14 +34,14 @@ function toggleBlogInfo(id,link) {
 				<img src="{$oBlog->getAvatarPath(24)}" alt="avatar" class="avatar" />
 				<h1 class="title"><a href="#" class="title-link" onclick="toggleBlogInfo('blog_about_{$oBlog->getId()}',this); return false;"><span>{$oBlog->getTitle()|escape:'html'}</span><strong>&nbsp;&nbsp;</strong></a></h1>
 				<ul class="action">
-					<li class="rss"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_RSS}/blog/{$oBlog->getUrl()}/"></a></li>					
+					<li class="rss"><a href="{router page='rss'}blog/{$oBlog->getUrl()}/"></a></li>					
 					{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
 						<li class="join {if $oBlog->getUserIsJoin()}active{/if}">
 							<a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;"></a>
 						</li>
 					{/if}
 					{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
-  						<li class="edit"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}">{$aLang.blog_edit}</a></li>
+  						<li class="edit"><a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}">{$aLang.blog_edit}</a></li>
   					{/if}
 				</ul>
 				<div class="about" id="blog_about_{$oBlog->getId()}" style="display: none;" >

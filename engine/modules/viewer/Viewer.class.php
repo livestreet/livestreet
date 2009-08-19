@@ -128,26 +128,42 @@ class LsViewer extends Module {
 		$this->Assign("_sPhpSessionName",session_name());
 		$this->Assign("_sPhpSessionId",session_id());
 		/**
-		 * Загружаем константы путей
+		 * Загружаем часть конфигурации
 		 */
-		$this->Assign("DIR_STATIC_SKIN",DIR_STATIC_SKIN);
-		$this->Assign("DIR_WEB_ROOT",DIR_WEB_ROOT);
-		$this->Assign("DIR_WEB_ENGINE_LIB",DIR_WEB_ENGINE_LIB);
-		$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
-		$this->Assign("SITE_NAME",SITE_NAME);
-		$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
-				
-		$this->Assign("BLOG_USE_TINYMCE",BLOG_USE_TINYMCE);
-		$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
-		$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
-		$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
-		$this->Assign("BLOG_COMMENT_MAX_TREE_LEVEL",BLOG_COMMENT_MAX_TREE_LEVEL);
+		$aConfig=Config::Get();
+		foreach ((array)Config::Get('view.no_assign') as $sGroup) {
+			unset($aConfig[$sGroup]);
+		}
+		$this->Assign("aConfig",$aConfig);
 		
-		$this->Assign("VOTE_LIMIT_TIME_TOPIC",VOTE_LIMIT_TIME_TOPIC);
-		$this->Assign("VOTE_LIMIT_TIME_COMMENT",VOTE_LIMIT_TIME_COMMENT);
+		/**
+		 * Загружаем константы путей
+		 * 
+		 * Рефакторинг:
+		 * переход на использование конфигурационных массивов
+		 */
+		//$this->Assign("DIR_STATIC_SKIN",DIR_STATIC_SKIN);
+		//$this->Assign("DIR_WEB_ROOT",DIR_WEB_ROOT);
+		//$this->Assign("DIR_WEB_ENGINE_LIB",DIR_WEB_ENGINE_LIB);
+		//$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
+		//$this->Assign("SITE_NAME",SITE_NAME);
+		//$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
+				
+		//$this->Assign("BLOG_USE_TINYMCE",BLOG_USE_TINYMCE);
+		//$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
+		//$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
+		//$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
+		//$this->Assign("BLOG_COMMENT_MAX_TREE_LEVEL",BLOG_COMMENT_MAX_TREE_LEVEL);
+		
+		//$this->Assign("VOTE_LIMIT_TIME_TOPIC",VOTE_LIMIT_TIME_TOPIC);
+		//$this->Assign("VOTE_LIMIT_TIME_COMMENT",VOTE_LIMIT_TIME_COMMENT);
 		/**
 		 * Константы роутинга страниц
 		 */
+		/**
+		 * Рефакторинг:
+		 * переход на использование конфигурационных массивов
+		 * 
 		$this->Assign("ROUTE_PAGE_ERROR",ROUTE_PAGE_ERROR);
 		$this->Assign("ROUTE_PAGE_REGISTRATION",ROUTE_PAGE_REGISTRATION);
 		$this->Assign("ROUTE_PAGE_PROFILE",ROUTE_PAGE_PROFILE);
@@ -170,6 +186,7 @@ class LsViewer extends Module {
 		$this->Assign("ROUTE_PAGE_QUESTION",ROUTE_PAGE_QUESTION);
 		$this->Assign("ROUTE_PAGE_BLOGS",ROUTE_PAGE_BLOGS);
 		$this->Assign("ROUTE_PAGE_SEARCH",ROUTE_PAGE_SEARCH);		
+		**/
 		/**
 		 * Загружаем список блоков
 		 */

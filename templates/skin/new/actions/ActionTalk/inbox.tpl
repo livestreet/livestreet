@@ -28,9 +28,9 @@
 							</td>							
 							<td>
 							{if $oTalkUser->getCommentCountNew() or !$oTalkUser->getDateLast()}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/read/{$oTalk->getId()}/"><b>{$oTalk->getTitle()|escape:'html'}</b></a>
+								<a href="{router page='talk'}read/{$oTalk->getId()}/"><b>{$oTalk->getTitle()|escape:'html'}</b></a>
 							{else}
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
+								<a href="{router page='talk'}read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
 							{/if}
 					 		&nbsp;	
 							{if $oTalk->getCountComment()}

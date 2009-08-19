@@ -1,9 +1,9 @@
 	<!-- Navigation -->
 	<div id="nav">
 		<div class="left"></div>
-		{if $oUserCurrent and ($sAction==$ROUTE_PAGE_BLOG or $sAction==$ROUTE_PAGE_INDEX or $sAction==$ROUTE_PAGE_NEW or $sAction==$ROUTE_PAGE_PERSONAL_BLOG)}
+		{if $oUserCurrent and ($sAction=='blog' or $sAction=='index' or $sAction=='new' or $sAction=='personal_blog')}
 			<div class="write">
-				<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TOPIC}/add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="button small">
+				<a href="{router page='topic'}add/" alt="{$aLang.topic_create}" title="{$aLang.topic_create}" class="button small">
 					<span><em>{$aLang.topic_create}</em></span>
 				</a>
 			</div>
@@ -17,7 +17,7 @@
 		<div class="right"></div>
 		<!--<a href="#" class="rss" onclick="return false;"></a>-->
 		<div class="search">
-			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/topics/" method="GET">
+			<form action="{router page='search'}topics/" method="GET">
 				<input class="text" type="text" onblur="if (!value) value=defaultValue" onclick="if (value==defaultValue) value=''" value="{$aLang.search}" name="q" />
 				<input class="button" type="submit" value="" />
 			</form>

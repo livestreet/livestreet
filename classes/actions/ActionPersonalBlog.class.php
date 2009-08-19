@@ -89,7 +89,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PERSONAL_BLOG.'/'.$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.personal_blog').'/'.$sShowType);
 		/**
 		 * Вызов хуков
 		 */

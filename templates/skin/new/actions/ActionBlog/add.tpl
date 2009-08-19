@@ -7,7 +7,7 @@
 		{if $sEvent=='add'}
 			<h1>{$aLang.blog_create}</h1>
 		{else}
-			<h1>{$aLang.blog_admin}: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
+			<h1>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
 		{/if}
 		<form action="" method="POST" enctype="multipart/form-data">
 								

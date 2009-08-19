@@ -86,9 +86,9 @@ class BlogEntity_Blog extends Entity
     }
     public function getUrlFull() {
         if ($this->getType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->getOwner()->getLogin().'/';
+    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->getOwner()->getLogin().'/';
     	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getUrl().'/';
+    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$this->getUrl().'/';
     	}
     }
            

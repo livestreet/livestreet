@@ -4,11 +4,11 @@
 	<div class="login-popup" id="login-form">
 		<div class="login-popup-top"><a href="#" class="close-block" onclick="return false;"></a></div>
 		<div class="content">
-			<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
+			<form action="{router page='login'}" method="POST">
 				<h3>{$aLang.user_authorization}</h3>
-				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">{$aLang.registration_submit}</a><label for="">{$aLang.user_login}</label></div>
+				<div class="lite-note"><a href="{router page='registration'}">{$aLang.registration_submit}</a><label for="">{$aLang.user_login}</label></div>
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
-				<div class="lite-note"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" tabindex="-1">{$aLang.user_password_reminder}</a><label for="">{$aLang.user_password}</label></div>
+				<div class="lite-note"><a href="{router page='login'}reminder/" tabindex="-1">{$aLang.user_password_reminder}</a><label for="">{$aLang.user_password}</label></div>
 				<p><input type="password" name="password" class="input-text" tabindex="2" /></p>
 				<div class="lite-note"><button type="submit" onfocus="blur()"><span><em>{$aLang.user_login_submit}</em></span></button><label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" >{$aLang.user_login_remember}</label></div>
 				<input type="hidden" name="submit_login">
@@ -20,7 +20,7 @@
 	{/if}
 	
 	<div id="header">
-		<h1><a href="{$DIR_WEB_ROOT}"><strong>Live</strong>Street</a></h1>
+		<h1><a href="{$aConfig.path.root.web}"><strong>Live</strong>Street</a></h1>
 		
 		<ul class="nav-main">
 			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.blogs}</a></li>

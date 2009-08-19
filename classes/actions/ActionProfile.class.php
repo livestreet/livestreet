@@ -74,7 +74,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */					
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PROFILE.'/'.$this->oUserProfile->getLogin().'/favourites');		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.profile').'/'.$this->oUserProfile->getLogin().'/favourites');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			

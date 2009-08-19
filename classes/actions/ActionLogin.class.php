@@ -65,7 +65,7 @@ class ActionLogin extends Action {
 					 */
 					if (isset($_SERVER['HTTP_REFERER'])) {
 						$sBackUrl=$_SERVER['HTTP_REFERER'];
-						if (strpos($sBackUrl,DIR_WEB_ROOT.'/'.ROUTE_PAGE_LOGIN)===false) {
+						if (strpos($sBackUrl,DIR_WEB_ROOT.'/'.Config::Get('router.page.login'))===false) {
 							func_header_location($sBackUrl);
 						}
 					}					 
@@ -136,7 +136,7 @@ class ActionLogin extends Action {
 				$oReminder->setUserId($oUser->getId());
 				if ($this->User_AddReminder($oReminder)) {					
 					$this->Notify_SendReminderCode($oUser,$oReminder);
-					func_header_location(DIR_WEB_ROOT.'/'.ROUTE_PAGE_LOGIN.'/reminder/send/');
+					func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.login').'/reminder/send/');
 				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));

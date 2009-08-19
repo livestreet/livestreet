@@ -6,18 +6,18 @@
 	<title>{$sHtmlTitle}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<!-- Styles -->
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/style.css?v=1" />	
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie6.css?v=1" /><![endif]-->
-	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie7.css?v=1" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/style.css?v=1" />	
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie6.css?v=1" /><![endif]-->
+	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie7.css?v=1" /><![endif]-->
 	{if $bRefreshToHome}
-		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={$DIR_WEB_ROOT}/">
+		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={$aConfig.path.root.web}/">
 	{/if}
 </head>
 
 <body>
 
 <div id="container">
-	<h1 class="lite-header"><a href="{$DIR_WEB_ROOT}">Live<span>Street</span></a></h1>
+	<h1 class="lite-header"><a href="{$aConfig.path.root.web}">Live<span>Street</span></a></h1>
 	
 	{if !$noShowSystemMessage}
 		{include file='system_message.tpl'}

@@ -68,7 +68,7 @@ class ActionTag extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TAG.'/'.htmlspecialchars($sTag));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.tag').'/'.htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
 		 */				
@@ -77,7 +77,7 @@ class ActionTag extends Action {
 		$this->Viewer_Assign('sTag',$sTag);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('tag_title'));
 		$this->Viewer_AddHtmlTitle($sTag);
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/tag/'.$sTag.'/',$sTag);
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/tag/'.$sTag.'/',$sTag);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

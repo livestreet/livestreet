@@ -11,7 +11,7 @@ function submitTags(sTag) {
 
 	&nbsp;&nbsp;
 	<form action="" method="GET" onsubmit="return submitTags(this.tag.value);">
-		<img src="{$DIR_STATIC_SKIN}/images/tagcloud.gif" border="0" style="margin-left: 13px;">&nbsp;
+		<img src="{$aConfig.path.static.skin}/images/tagcloud.gif" border="0" style="margin-left: 13px;">&nbsp;
 		<input type="text" name="tag" value="{$sTag|escape:'html'}" class="tags-input" >
 	</form>
 

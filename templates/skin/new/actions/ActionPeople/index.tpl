@@ -6,8 +6,8 @@
 
 				
 				<ul class="block-nav">
-					<li {if $sEvent=='good'}class="active"{/if}><strong></strong><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/good/">{$aLang.user_good}</a></li>
-					<li {if $sEvent=='bad'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/bad/">{$aLang.user_bad}</a><em></em></li>
+					<li {if $sEvent=='good'}class="active"{/if}><strong></strong><a href="{router page='people'}good/">{$aLang.user_good}</a></li>
+					<li {if $sEvent=='bad'}class="active"{/if}><a href="{router page='people'}bad/">{$aLang.user_bad}</a><em></em></li>
 				</ul>
 				
 				{if $aUsersRating}
@@ -23,7 +23,7 @@
 					<tbody>
 					{foreach from=$aUsersRating item=oUser}
 						<tr>
-							<td class="user"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
+							<td class="user"><a href="{router page='profile'}{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{router page='profile'}{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
 							<td class="strength">{$oUser->getSkill()}</td>
 							<td class="rating"><strong>{$oUser->getRating()}</strong></td>
 						</tr>

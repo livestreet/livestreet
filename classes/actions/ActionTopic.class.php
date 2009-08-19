@@ -220,7 +220,7 @@ class ActionTopic extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_TOPIC.'/'.$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.topic').'/'.$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */

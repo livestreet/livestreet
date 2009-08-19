@@ -116,9 +116,9 @@ class TopicEntity_Topic extends Entity
     
     public function getUrl() {
     	if ($this->getBlog()->getType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getId().'.html';
+    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$this->getId().'.html';
     	} else {
-    		return DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$this->getBlog()->getUrl().'/'.$this->getId().'.html';
+    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$this->getBlog()->getUrl().'/'.$this->getId().'.html';
     	}
     }
     public function getVote() {

@@ -2,7 +2,7 @@
 
 
 	<div class="lite-center register">
-		<form action="{$DIR_WEB_ROOT}/registration/" method="POST">
+		<form action="{router page='registration'}" method="POST">
 			<h3>{$aLang.registration}</h3>
 			<label for="login">{$aLang.registration_login}:</label><br />
 			<p><input type="text" class="input-text" name="login" id="login" value="{$_aRequest.login}"/>
@@ -20,7 +20,7 @@
 			<p><input type="password" class="input-text"  value="" id="repass" name="password_confirm"/></p><br />
 			
 			{$aLang.registration_captcha}:<br />
-			<img src="{$DIR_WEB_ROOT}/classes/lib/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}"  onclick="this.src='{$DIR_WEB_ROOT}/classes/lib/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();">
+			<img src="{$aConfig.path.root.web}/classes/lib/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}"  onclick="this.src='{$aConfig.path.root.web}/classes/lib/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();">
 			<p><input type="text" class="input-text" style="width: 80px;" name="captcha" value="" maxlength=3 /></p>
 			<div class="lite-note">
 				<button type="submit" name="submit_register" class="button" style="float: none;"><span><em>{$aLang.registration_submit}</em></span></button>

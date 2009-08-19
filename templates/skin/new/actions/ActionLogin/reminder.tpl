@@ -1,7 +1,7 @@
 {include file='header.light.tpl'}
 
 	<div class="lite-center">
-		<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/" method="POST">
+		<form action="{router page='login'}reminder/" method="POST">
 				<h3>{$aLang.password_reminder}</h3>
 				<div class="lite-note"><label for="mail">{$aLang.password_reminder_email}:</label></div>
 				<p><input type="text" class="input-text" name="mail" id="name"/></p>				

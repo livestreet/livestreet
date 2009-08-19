@@ -81,7 +81,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PEOPLE.'/'.$this->sCurrentEvent.'/'.$oCountry->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent.'/'.$oCountry->getName());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -115,7 +115,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PEOPLE.'/'.$this->sCurrentEvent.'/'.$oCity->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent.'/'.$oCity->getName());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -223,7 +223,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_PEOPLE.'/'.$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */

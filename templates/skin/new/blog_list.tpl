@@ -3,7 +3,7 @@
 						<tr>
 							<td class="user">{$aLang.blogs_title}</td>
 							{if $oUserCurrent}
-							<td class="join-head"><img src="{$DIR_STATIC_SKIN}/images/join-head.gif" alt="" /></td>
+							<td class="join-head"><img src="{$aConfig.path.static.skin}/images/join-head.gif" alt="" /></td>
 							{/if}
 							<td class="readers">{$aLang.blogs_readers}</td>														
 							<td class="rating">{$aLang.blogs_rating}</td>
@@ -15,9 +15,9 @@
 						{assign var="oUserOwner" value=$oBlog->getOwner()}
 						<tr>
 							<td class="name">
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(24)}" alt="" /></a>
-								<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/" class="title">{$oBlog->getTitle()|escape:'html'}</a><br />
-								{$aLang.blogs_owner}: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PROFILE}/{$oUserOwner->getLogin()}/" class="author">{$oUserOwner->getLogin()}</a>
+								<a href="{router page='blog'}{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(24)}" alt="" /></a>
+								<a href="{router page='blog'}{$oBlog->getUrl()}/" class="title">{$oBlog->getTitle()|escape:'html'}</a><br />
+								{$aLang.blogs_owner}: <a href="{router page='profile'}{$oUserOwner->getLogin()}/" class="author">{$oUserOwner->getLogin()}</a>
 							</td>
 							{if $oUserCurrent}
 							<td class="join {if $oBlog->getUserIsJoin()}active{/if}">

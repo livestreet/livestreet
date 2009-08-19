@@ -91,7 +91,7 @@ class ActionBlog extends Action {
 		 * Устанавливаем евент по дефолту, т.е. будем показывать хорошие топики из коллективных блогов
 		 */
 		$this->SetDefaultEvent('good');
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/';
+		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/';
 		/**
 		 * Достаём текущего пользователя
 		 */
@@ -527,7 +527,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_BLOG.'/'.$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$sShowType);
 		/**
 		 * Вызов хуков
 		 */
@@ -634,7 +634,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */	
@@ -701,7 +701,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

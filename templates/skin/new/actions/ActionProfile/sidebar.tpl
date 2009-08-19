@@ -9,7 +9,7 @@
 						{else}
 							<li class="add"><a href="#"  title="{$aLang.user_friend_add}" onclick="ajaxToggleUserFriend(this,{$oUserProfile->getId()}); return false;">{$aLang.user_friend_add}</a></li>
 						{/if}
-						<li><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
+						<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
 					</ul>
 				</div></div>
 
@@ -28,6 +28,6 @@
 				{/if}
 				
 				{if $oUserProfile->getProfileFoto()}
-				<img src="{$DIR_WEB_ROOT}{$oUserProfile->getProfileFoto()}" alt="photo" />
+				<img src="{$aConfig.path.root.web}{$oUserProfile->getProfileFoto()}" alt="photo" />
 				{/if}
 			</div>			

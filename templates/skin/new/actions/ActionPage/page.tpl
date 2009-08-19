@@ -3,7 +3,7 @@
 
 <div class=topic>
 	<div class="content">
-		{if $BLOG_USE_TINYMCE}
+		{if $aConfig.view.tinymce}
 			{$oPage->getText()}
 		{else}
 			{$oPage->getText()|nl2br}

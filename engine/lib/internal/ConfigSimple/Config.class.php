@@ -283,7 +283,11 @@ class Config {
 					if(is_scalar($cfg)||$cfg===NULL)define(strtoupper($sName),$cfg);		
 				}
 			}
-			// Создаем константы роутера
+			// Создаем константы роутера 
+			/**
+			 * Редакторинг:
+			 * переход на использование конфигурационных массивов
+			 * 
 			if($aRoutes = self::Get('router',$sInstance)) {
 				foreach ($aRoutes['page'] as $sPage => $sAction) {
 					$const = isset($aRoutes['page']['rewrite'][$sPage])
@@ -294,7 +298,8 @@ class Config {
 						define($sName, $const);
 					}
 				}
-			}			
+			}		
+			**/	
 			return true;
 		}
 		return false;

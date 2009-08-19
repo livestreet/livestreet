@@ -111,7 +111,7 @@ class Router extends Object {
 	 *
 	 */
 	protected function AssignVars() {
-		$this->Viewer_Assign('sAction',self::$sAction);
+		$this->Viewer_Assign('sAction',$this->Standart(self::$sAction));
 		$this->Viewer_Assign('sEvent',self::$sActionEvent);
 		$this->Viewer_Assign('aParams',self::$aParams);
 		$this->Viewer_Assign('PATH_WEB_CURRENT',self::$sPathWebCurrent);
@@ -330,6 +330,23 @@ class Router extends Object {
 		return (isset($this->aConfigRoute['rewrite'][$sPage]))
 			? $this->aConfigRoute['rewrite'][$sPage]
 			: $sPage;
+	}
+	
+	/**
+	 * Стандартизирует определение внутренних ресурсов.
+	 * 
+	 * Пытается по переданому экшену найти rewrite rule и 
+	 * вернуть стандартное название ресусрса.
+	 *
+	 * @see    $this->Rewrite()
+	 * @param  string $sPage
+	 * @return string
+	 */
+	protected function Standart($sPage) {
+		$aRewrite=array_flip($this->aConfigRoute['rewrite']);
+		return (isset($aRewrite[$sPage]))
+			? $aRewrite[$sPage]
+			: $sPage;		
 	}
 }
 ?>

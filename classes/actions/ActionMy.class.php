@@ -79,7 +79,7 @@ class ActionMy extends Action {
 		/**
 		 * Формируем постраничность
 		 */				
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->oUserProfile->getLogin());		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->oUserProfile->getLogin());		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			
@@ -87,7 +87,7 @@ class ActionMy extends Action {
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.ROUTE_PAGE_RSS.'/log/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
+		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/log/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -121,7 +121,7 @@ class ActionMy extends Action {
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.ROUTE_PAGE_MY.'/'.$this->oUserProfile->getLogin().'/comment');		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->oUserProfile->getLogin().'/comment');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */		

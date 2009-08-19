@@ -164,9 +164,11 @@ $config['view']['skin']        = 'new';                                         
 $config['view']['name']        = 'LiveStreet - бесплатный движок социальной сети';                   // название сайта
 $config['view']['description'] = 'LiveStreet - официальный сайт бесплатного движка социальной сети'; // seo description
 $config['view']['keywords']    = 'движок, livestreet, блоги, социальная сеть, бесплатный, php';      // seo keywords
-$config['view']['tinymce']          = false; // использовать или нет визуальный редактор TinyMCE
-$config['view']['noindex']          = true;  // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
-$config['view']['img_resize_width'] = 500;   // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
+$config['view']['tinymce']          = false;  // использовать или нет визуальный редактор TinyMCE
+$config['view']['noindex']          = true;   // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
+$config['view']['img_resize_width'] = 500;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
+$config['view']['no_assign']   = array('db'); // список групп конфигурации, которые необходимо исключить из передачи во Viewer. Только для системного пользования.
+
 /**
  * Настройка основных блоков 
  */
