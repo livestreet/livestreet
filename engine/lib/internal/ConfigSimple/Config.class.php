@@ -135,12 +135,7 @@ class Config {
 		}
 		// Get config from file
 		$aConfig=include($sFile);
-		if(!is_array($aConfig)) {
-			return false;
-		}
-		// Set config to current or handle instance
-		self::getInstance($sInstance)->SetConfig($aConfig,$bRewrite);		
-		return self::getInstance($sInstance);
+		return self::Load($aConfig,$bRewrite,$sInstance);		
 	}
 	
 	/**
@@ -352,7 +347,7 @@ class Config {
 				}
 			}		
 			if (is_array($v2) and !$bIsKeyInt and isset($aArr1[$k2])) {
-				$aRes[$k2]=func_array_merge_assoc($aArr1[$k2],$v2);
+				$aRes[$k2]=$this->func_array_merge_assoc($aArr1[$k2],$v2);
 			} else {
 				$aRes[$k2]=$v2;
 			}		

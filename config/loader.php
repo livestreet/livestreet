@@ -53,10 +53,9 @@ if ($hDirConfig = opendir($sDirConfig)) {
 
 
 /**
- * Инклудим все *.php файлы из каталога {DIR_SERVER_ENGINE}/include/ - это файлы ядра
+ * Инклудим все *.php файлы из каталога {path.root.engine}/include/ - это файлы ядра
  */
 $sDirInclude=Config::get('path.root.engine').'/include/';
-$sDirInclude=DIR_SERVER_ENGINE.'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {
 	while (false !== ($sFileInclude = readdir($hDirInclude))) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
@@ -71,7 +70,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
 }
 
 /**
- * Инклудим все *.php файлы из каталога {DIR_SERVER_ROOT}/include/ - пользовательские файлы
+ * Инклудим все *.php файлы из каталога {path.root.server}/include/ - пользовательские файлы
  */
 $sDirInclude=Config::get('path.root.server').'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {

@@ -301,7 +301,7 @@ class Router extends Object {
 	 * @param  string $action
 	 * @return string
 	 */
-	static public function getPath($action) {
+	static public function GetPath($action) {
 		$aRoutes = array_flip(self::getInstance()->aConfigRoute['page']);
 		// Если пользователь запросил action по умолчанию
 		if($action == 'default') {
