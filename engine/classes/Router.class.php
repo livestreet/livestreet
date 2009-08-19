@@ -97,6 +97,13 @@ class Router extends Object {
 	protected function LoadConfig() {
 		//Конфиг роутинга, содержит соответствия URL и классов экшенов
 		$this->aConfigRoute = Config::Get('router');
+		// Переписываем конфиг согласно правилу rewrite
+		foreach ((array)$this->aConfigRoute['rewrite'] as $sPage=>$sRewrite) {
+			if(isset($this->aConfigRoute['page'][$sPage])) {
+				$this->aConfigRoute['page'][$sRewrite] = $this->aConfigRoute['page'][$sPage];
+				unset($this->aConfigRoute['page'][$sPage]);
+			}
+		}
 	}
 			
 	/**
@@ -120,15 +127,15 @@ class Router extends Object {
 		/**
 		 * Сначала запускаем инициализирующий экшен
 		 */
-		require_once(DIR_SERVER_ROOT.'/classes/actions/Init.class.php');		
+		require_once(Config::Get('path.root.server').'/classes/actions/Init.class.php');		
 		$oActionInit=new Init($this->oEngine);		
 		$oActionInit->InitAction();			
 				
 		$sActionClass=$this->DefineActionClass();		
-		require_once(DIR_SERVER_ROOT.'/classes/actions/'.$sActionClass.'.class.php');
+		require_once(Config::Get('path.root.server').'/classes/actions/'.$sActionClass.'.class.php');
 		$sPrefixCustom='';
-		if (file_exists(DIR_SERVER_ROOT."/classes/actions/".$sActionClass.'.class.custom.php')) {
-			require_once(DIR_SERVER_ROOT."/classes/actions/".$sActionClass.'.class.custom.php');
+		if (file_exists(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php')) {
+			require_once(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php');
 			$sPrefixCustom='_custom';
 		}
 		$sClassName=$sActionClass.$sPrefixCustom;
@@ -296,22 +303,33 @@ class Router extends Object {
 	}
 
 	/**
-	 * Функция, возвращающая ссылку на Action по переданому названию страницы
+	 * Функция, возвращающая правильную адресацию по переданому названию страницы
 	 *
 	 * @param  string $action
 	 * @return string
 	 */
 	static public function GetPath($action) {
-		$aRoutes = array_flip(self::getInstance()->aConfigRoute['page']);
 		// Если пользователь запросил action по умолчанию
-		if($action == 'default') {
-			$action = self::getInstance()->aConfigRoute['config']['action_default'];
-		}
-		// Пытаемся найте соответствующий роут
-		if(!$sPage = @$aRoutes['Action'.ucfirst($action)]) {
-			return false;
-		}
-		return DIR_WEB_ROOT."/$sPage/";
+		$sPage = ($action == 'default') 
+			? self::getInstance()->aConfigRoute['config']['action_default']
+			: $action;
+		
+		// Смотрим, есть ли правило rewrite
+		$sPage = self::getInstance()->Rewrite($sPage);
+		return Config::Get('path.root.web')."/$sPage/";
+	}
+	
+	/**
+	 * Try to find rewrite rule for given page.
+	 * On success return rigth page, else return given param.
+	 * 
+	 * @param  string $sPage
+	 * @return string
+	 */
+	protected function Rewrite($sPage) {
+		return (isset($this->aConfigRoute['rewrite'][$sPage]))
+			? $this->aConfigRoute['rewrite'][$sPage]
+			: $sPage;
 	}
 }
 ?>

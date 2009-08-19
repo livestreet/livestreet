@@ -23,31 +23,31 @@
 		<h1><a href="{$DIR_WEB_ROOT}"><strong>Live</strong>Street</a></h1>
 		
 		<ul class="nav-main">
-			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/">{$aLang.blogs}</a></li>
-			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/">{$aLang.people}</a></li>
-			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PAGE}/about/">{$aLang.page_about}</a></li>
+			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.blogs}</a></li>
+			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
+			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{router page='page'}about/">{$aLang.page_about}</a></li>
 		</ul>
 		
 		{if $oUserCurrent}
 		<div class="profile">
 			<a href="{$oUserCurrent->getUserWebPath()}" class="avatar"><img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="{$oUserCurrent->getLogin()}" /></a>
 			<ul>
-				<li><a href="{$oUserCurrent->getUserWebPath()}" class="author">{$oUserCurrent->getLogin()}</a> (<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/exit/">{$aLang.exit}</a>)</li>
+				<li><a href="{$oUserCurrent->getUserWebPath()}" class="author">{$oUserCurrent->getLogin()}</a> (<a href="{router page='login'}exit/">{$aLang.exit}</a>)</li>
 				<li>
 					{if $iUserCurrentCountTalkNew}
-						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
+						<a href="{router page='talk'}" class="message" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
 					{else}
-						<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_TALK}/" class="message-empty">&nbsp;</a>
+						<a href="{router page='talk'}" class="message-empty">&nbsp;</a>
 					{/if}
-					{$aLang.user_settings} <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SETTINGS}/tuning/" class="author">{$aLang.user_settings_tuning}</a> 
+					{$aLang.user_settings} <a href="{router page='settings'}profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{router page='settings'}tuning/" class="author">{$aLang.user_settings_tuning}</a> 
 				</li>
 				<li>{$aLang.user_rating} <strong>{$oUserCurrent->getRating()}</strong></li>
 			</ul>
 		</div>
 		{else}
 		<div class="profile guest">
-			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" onclick="return showLoginForm();">{$aLang.user_login_submit}</a> {$aLang.or} 
-			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/" class="reg">{$aLang.registration_submit}</a>
+			<a href="{router page='login'}" onclick="return showLoginForm();">{$aLang.user_login_submit}</a> {$aLang.or} 
+			<a href="{router page='registration'}" class="reg">{$aLang.registration_submit}</a>
 		</div>
 		{/if}
 		
