@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ENGINE.'/lib/external/DbSimple/Generic.php');
+require_once(Config::Get('path.root.engine').'/lib/external/DbSimple/Generic.php');
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова
@@ -47,7 +47,9 @@ class LsDatabase extends Module {
 		 * Если конфиг не передан то используем главный конфиг БД из config.db.php
 		 */
 		if (is_null($aConfig)) {
-			$aConfig=include(DIR_SERVER_ROOT."/config/config.db.php");
+			// Рефакторинг: переход на конфигурационные массивы
+			// $aConfig=include(DIR_SERVER_ROOT."/config/config.db.php");
+			$aConfig = Config::Get('db.params');
 		}
 		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		
 		/**
@@ -71,7 +73,7 @@ class LsDatabase extends Module {
 			/**
 			 * Если нужно логировать все SQL запросы то подключаем логгер
 			 */
-			if (SYS_LOGS_SQL_QUERY) {
+			if (Config::Get('sys.logs.sql_query')) {
 				$oDbSimple->setLogger('databaseLogger');
 			}
 	     	/**
@@ -124,7 +126,7 @@ function databaseErrorHandler($message, $info) {
 	/**
 	 * Если нужно логировать SQL ошибке то пишем их в лог
 	 */
-	if (SYS_LOGS_SQL_ERROR) {
+	if (Config::Get('sys.logs.sql_error')) {
 		/**
 		 * Получаем ядро
 		 */
@@ -133,7 +135,7 @@ function databaseErrorHandler($message, $info) {
 		 * Меняем имя файла лога на нужное, записываем в него ошибку и меняем имя обратно :)
 		 */
 		$sOldName=$oEngine->Logger_GetFileName();
-		$oEngine->Logger_SetFileName(SYS_LOGS_SQL_ERROR_FILE);
+		$oEngine->Logger_SetFileName(Config::Get('sys.logs.sql_error_file'));
 		$oEngine->Logger_Error($msg);
 		$oEngine->Logger_SetFileName($sOldName);
 	}
@@ -166,8 +168,8 @@ function databaseLogger($db, $sql) {
 	 */
 	$oEngine=Engine::getInstance();
 	$sOldName=$oEngine->Logger_GetFileName();
-	$oEngine->Logger_SetFileName(SYS_LOGS_SQL_QUERY_FILE);
+	$oEngine->Logger_SetFileName(Config::Get('sys.logs.sql_query_file'));
 	$oEngine->Logger_Debug($msg);
-	$oEngine->Logger_SetFileName($sOldName);  	  
+	$oEngine->Logger_SetFileName($sOldName);
 }
 ?>

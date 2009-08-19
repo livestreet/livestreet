@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(DIR_SERVER_ENGINE.'/lib/external/DklabCache/config.php');
+require_once(Config::Get('path.root.engine').'/lib/external/DklabCache/config.php');
 require_once('Zend/Cache.php');
 require_once('Cache/Backend/MemcachedMultiload.php');
 require_once('Cache/Backend/TagEmuWrapper.php');
@@ -36,13 +36,13 @@ define('SYS_CACHE_TYPE_MEMORY','memory');
 class LsCache extends Module {
 	
 	protected $oBackendCache=null;
-	protected $bUseCache=SYS_CACHE_USE;
+	protected $bUseCache;
 	/**
 	 * Тип кеширования, прописан в глобльном конфиге config.php
 	 *
 	 * @var string
 	 */
-	protected $sCacheType=SYS_CACHE_TYPE;
+	protected $sCacheType;
 	
 	protected $aStats=array(
 						'time' =>0,
@@ -56,6 +56,9 @@ class LsCache extends Module {
 	 *
 	 */
 	public function Init() {
+		$this->bUseCache=Config::Get('sys.cache.use');
+		$this->sCacheType=Config::Get('sys.cache.type');
+		
 		if (!$this->bUseCache) {
 			return false;
 		}
@@ -63,8 +66,8 @@ class LsCache extends Module {
 			require_once('Zend/Cache/Backend/File.php');
 			$oCahe = new Zend_Cache_Backend_File(
 				array(
-					'cache_dir' => SYS_CACHE_DIR,
-					'file_name_prefix'	=> SYS_CACHE_PREFIX,
+					'cache_dir' => Config::Get('sys.cache.dir'),
+					'file_name_prefix'	=> Config::Get('sys.cache.prefix'),
 					'read_control_type' => 'crc32',
 					'read_control' => true,
 					'file_locking' => true,
@@ -73,7 +76,10 @@ class LsCache extends Module {
 			$this->oBackendCache = new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats'));
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
-			$aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
+			// Рефакторинг: переход на конфигурационные массивы
+			// $aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
+			$aConfigMem=Config::Get('memcache');
+			
 			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
@@ -103,7 +109,7 @@ class LsCache extends Module {
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
 		if (!is_array($sName)) {
-			$sName=md5(SYS_CACHE_PREFIX.$sName);
+			$sName=md5(Config::Get('sys.cache.prefix').$sName);
 			$data=$this->oBackendCache->load($sName);
 			if ($this->sCacheType==SYS_CACHE_TYPE_FILE and $data!==false) {
 				return unserialize($data);
@@ -128,8 +134,8 @@ class LsCache extends Module {
 			$aKeys=array();
 			$aKv=array();
 			foreach ($aName as $sName) {
-				$aKeys[]=md5(SYS_CACHE_PREFIX.$sName);
-				$aKv[md5(SYS_CACHE_PREFIX.$sName)]=$sName;
+				$aKeys[]=md5(Config::Get('sys.cache.prefix').$sName);
+				$aKv[md5(Config::Get('sys.cache.prefix').$sName)]=$sName;
 			}
 			$data=$this->oBackendCache->load($aKeys);
 			if ($data and is_array($data)) {
@@ -177,7 +183,7 @@ class LsCache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5(SYS_CACHE_PREFIX.$sName);
+		$sName=md5(Config::Get('sys.cache.prefix').$sName);
 		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {		
 			$data=serialize($data);
 		}
@@ -196,7 +202,7 @@ class LsCache extends Module {
 		/**
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
-		$sName=md5(SYS_CACHE_PREFIX.$sName);
+		$sName=md5(Config::Get('sys.cache.prefix').$sName);
 		return $this->oBackendCache->remove($sName);
 	}
 	/**

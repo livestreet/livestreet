@@ -18,6 +18,10 @@
 /**
  * Настройки memcached
  */
+/**
+ * Рефакторинг: 
+ * переход на использование конфигурационных массивов
+ * 
 return array(
 	'servers' => array(
 		array(
@@ -28,4 +32,5 @@ return array(
 	),
 	'compression' => true,
 )
+**/
 ?>

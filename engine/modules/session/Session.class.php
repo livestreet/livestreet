@@ -29,13 +29,14 @@ class LsSession extends Module {
 	 *
 	 * @var bool
 	 */
-	protected $bUseStandartSession=SYS_SESSION_STANDART;
+	protected $bUseStandartSession;
 	
 	/**
 	 * Инициализация модуля
 	 *
 	 */
 	public function Init() {
+		$this->bUseStandartSession = Config::Get('sys.session.standart');
 		/**
 		 * Стартуем сессию
 		 */
@@ -48,8 +49,12 @@ class LsSession extends Module {
 	 */
 	protected function Start() {
 		if ($this->bUseStandartSession) {
-			session_name(SYS_SESSION_NAME);			
-			session_set_cookie_params(SYS_SESSION_TIMEOUT,SYS_SESSION_PATH,SYS_SESSION_HOST);
+			session_name(Config::Get('sys.session.name'));			
+			session_set_cookie_params(
+				Config::Get('sys.session.timeout'),
+				Config::Get('sys.session.path'),
+				Config::Get('sys.session.host')
+			);
 			session_start();			
 		} else {
 			$this->SetId();
@@ -66,14 +71,19 @@ class LsSession extends Module {
 		/**
 		 * Если идентификатор есть в куках то берем его
 		 */
-		if (isset($_COOKIE[SYS_SESSION_NAME])) {
-			$this->sId=$_COOKIE[SYS_SESSION_NAME];
+		if (isset($_COOKIE[Config::Get('sys.session.name')])) {
+			$this->sId=$_COOKIE[Config::Get('sys.session.name')];
 		} else {
 			/**
 			 * Иначе создаём новый и записываем его в куку
 			 */
 			$this->sId=$this->GenerateId();
-			setcookie(SYS_SESSION_NAME,$this->sId,time()+SYS_SESSION_TIMEOUT,SYS_SESSION_PATH,SYS_SESSION_HOST);
+			setcookie(
+				Config::Get('sys.session.name'),
+				$this->sId,time()+Config::Get('sys.session.timeout'),
+				Config::Get('sys.session.path'),
+				Config::Get('sys.session.host')
+			);
 		}
 	}
 	
@@ -99,7 +109,7 @@ class LsSession extends Module {
 	 *
 	 */
 	protected function Save() {
-		$this->Cache_Set($this->aData,$this->sId,array(),SYS_SESSION_TIMEOUT);
+		$this->Cache_Set($this->aData,$this->sId,array(),Config::Get('sys.session.timeout'));
 	}
 	
 	/**
@@ -169,7 +179,12 @@ class LsSession extends Module {
 		} else {
 			unset($this->sId);
 			unset($this->aData);
-			setcookie(SYS_SESSION_NAME,'',1,SYS_SESSION_PATH,SYS_SESSION_HOST);
+			setcookie(
+				Config::Get('sys.session.name'),
+				'',1,
+				Config::Get('sys.session.path'),
+				Config::Get('sys.session.host')
+			);
 		}
 	}
 }

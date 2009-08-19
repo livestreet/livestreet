@@ -204,9 +204,9 @@ $config['sys']['cookie']['path'] = '/';  // путь для установки �
 /**
  * Настройки сессий
  */
-$config['sys']['session']['standart'] = true;                              // Использовать или нет стандартный механизм сессий
-$config['sys']['session']['name']     = 'PHPSESSID';                       // название сессии
-$config['sys']['session']['timeout']  = null;                              // Тайм-аут сессии в секундах
+$config['sys']['session']['standart'] = true;                             // Использовать или нет стандартный механизм сессий
+$config['sys']['session']['name']     = 'PHPSESSID';                      // название сессии
+$config['sys']['session']['timeout']  = null;                             // Тайм-аут сессии в секундах
 $config['sys']['session']['host']     = $config['sys']['cookie']['host']; // хост сессии в куках
 $config['sys']['session']['path']     = $config['sys']['cookie']['path']; // путь сессии в куках
 /**
@@ -294,7 +294,7 @@ $config['db']['params']['port']   = '3306';
 $config['db']['params']['user']   = 'root';
 $config['db']['params']['pass']   = '';
 $config['db']['params']['type']   = 'mysql';
-$config['db']['params']['dbname'] = 'ls_core';
+$config['db']['params']['dbname'] = 'social';
 /**
  * Настройка таблиц базы данных
  */
