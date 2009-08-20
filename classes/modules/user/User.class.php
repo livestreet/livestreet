@@ -487,7 +487,7 @@ class LsUser extends Module {
 		} else {
 			$data['session']=$this->oSession;
 		}
-		if (!SYS_CACHE_USE or $data['time']<time()-60*10) {
+		if (!Config::Get('sys.cache.use') or $data['time']<time()-60*10) {
 			$data['time']=time();
 			$this->oMapper->UpdateSession($this->oSession);
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_session_update'));

@@ -70,9 +70,9 @@ class BlogEntity_Blog extends Entity
     }
     public function getAvatarPath($iSize=48) {   
     	if ($this->getAvatar()) { 	
-        	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getOwnerId()."/avatar_blog_{$this->getUrl()}_".$iSize.'x'.$iSize.'.'.$this->getAvatarType();
+        	return Config::Get('path.root.web').Config::Get('path.uploads.images').'/'.$this->getOwnerId()."/avatar_blog_{$this->getUrl()}_".$iSize.'x'.$iSize.'.'.$this->getAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
+    		return Config::Get('path.static.skin').'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
     }
     public function getUserIsJoin() {
@@ -86,9 +86,9 @@ class BlogEntity_Blog extends Entity
     }
     public function getUrlFull() {
         if ($this->getType()=='personal') {
-    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->getOwner()->getLogin().'/';
+    		return Router::GetPath('my').$this->getOwner()->getLogin().'/';
     	} else {
-    		return DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$this->getUrl().'/';
+    		return Router::GetPath('blog').$this->getUrl().'/';
     	}
     }
            

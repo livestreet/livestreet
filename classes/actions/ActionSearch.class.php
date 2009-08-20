@@ -33,7 +33,7 @@ class ActionSearch extends Action {
 		 * Ищем
 		 */
 		$aReq = $this->PrepareRequest();
-		$aRes = $this->PrepareResults($aReq, BLOG_TOPIC_PER_PAGE);
+		$aRes = $this->PrepareResults($aReq, Config::Get('module.topic.per_page'));
 		if(FALSE === $aRes) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
@@ -76,7 +76,7 @@ class ActionSearch extends Action {
 		 * Ищем
 		 */
 		$aReq = $this->PrepareRequest();
-		$aRes = $this->PrepareResults($aReq, BLOG_COMMENT_PER_PAGE);
+		$aRes = $this->PrepareResults($aReq, Config::Get('module.comment.per_page'));
 		if(FALSE === $aRes) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
@@ -120,7 +120,7 @@ class ActionSearch extends Action {
 			 *  Если запрос слишком короткий перенаправляем на начальную страницу поиска
 			 * Хотя тут лучше показывать юзеру в чем он виноват
 			 */
-			func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/');
+			func_header_location(Router::GetPath('search'));
 		}
 		$aReq['sType'] = strtolower(Router::GetActionEvent());		
 		/**
@@ -158,7 +158,7 @@ class ActionSearch extends Action {
 			 */
 			foreach(array_keys($this->sTypesEnabled) as $sType){
 				if($aRes['aCounts'][$sType])
-					func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/'.$sType.'/?q='.$aReq['q']);
+					func_header_location(Router::GetPath('search').$sType.'/?q='.$aReq['q']);
 			}
 		} elseif(($aReq['iPage']-1)*$iLimit <= $aRes['aCounts'][$aReq['sType']]) {
 			/**
@@ -187,7 +187,7 @@ class ActionSearch extends Action {
 				$aReq['iPage'], 
 				$iLimit, 
 				4, 
-				DIR_WEB_ROOT.'/'.Config::Get('router.page.search').'/'.$aReq['sType'], 
+				Router::GetPath('search').$aReq['sType'], 
 				array(
 					'q' => $aReq['q']
 				)

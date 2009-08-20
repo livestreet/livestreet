@@ -85,7 +85,7 @@ class ActionTalk extends Action {
 		 * Обработка удаления сообщения
 		 */		
 		$this->Talk_DeleteTalkUserByArray($sTalkId,$this->oUserCurrent->getId());		
-		func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.talk').'/');				
+		func_header_location(Router::GetPath('talk'));				
 	}
 	
 	
@@ -124,7 +124,7 @@ class ActionTalk extends Action {
 		}					
 
 		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(getRequest('talk_title')),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
-			func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.talk').'/read/'.$oTalk->getId().'/');
+			func_header_location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');

@@ -73,7 +73,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanPostComment(UserEntity_User $oUser) {
-		if ($oUser->getRating()>=ACL_CAN_POST_COMMENT) {
+		if ($oUser->getRating()>=Config::Get('acl.create.comment.rating')) {
 			return true;
 		}
 		return false;
@@ -86,9 +86,9 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanPostCommentTime(UserEntity_User $oUser) {
-		if (ACL_CAN_POST_COMMENT_TIME>0 and $oUser->getDateCommentLast()) {
+		if (Config::Get('acl.create.comment.limit_time')>0 and $oUser->getDateCommentLast()) {
 			$sDateCommentLast=strtotime($oUser->getDateCommentLast());
-			if ($oUser->getRating()<ACL_CAN_POST_COMMENT_TIME_RATING and ((time()-$sDateCommentLast)<ACL_CAN_POST_COMMENT_TIME)) {
+			if ($oUser->getRating()<Config::Get('acl.create.comment.limit_time_rating') and ((time()-$sDateCommentLast)<Config::Get('acl.create.comment.limit_time'))) {
 				return false;
 			}
 		}
@@ -113,7 +113,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanVoteComment(UserEntity_User $oUser, CommentEntity_Comment $oComment) {
-		if ($oUser->getRating()>=ACL_CAN_VOTE_COMMENT) {
+		if ($oUser->getRating()>=Config::Get('acl.vote.comment.rating')) {
 			return true;
 		}
 		return false;
@@ -127,7 +127,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanVoteBlog(UserEntity_User $oUser, BlogEntity_Blog $oBlog) {
-		if ($oUser->getRating()>=ACL_CAN_VOTE_BLOG) {
+		if ($oUser->getRating()>=Config::Get('acl.vote.blog.rating')) {
 			return true;
 		}
 		return false;
@@ -141,7 +141,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanVoteTopic(UserEntity_User $oUser, TopicEntity_Topic $oTopic) {
-		if ($oUser->getRating()>=ACL_CAN_VOTE_TOPIC) {
+		if ($oUser->getRating()>=Config::Get('acl.vote.topic.rating')) {
 			return true;
 		}
 		return false;
@@ -155,7 +155,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanVoteUser(UserEntity_User $oUser, UserEntity_User $oUserTarget) {
-		if ($oUser->getRating()>=ACL_CAN_VOTE_USER) {
+		if ($oUser->getRating()>=Config::Get('acl.vote.user.rating')) {
 			return true;
 		}
 		return false;

@@ -89,7 +89,7 @@ class ActionIndex extends Action {
 	 *
 	 */
 	protected function EventIndex() {	
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/index/',SITE_NAME);	
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));	
 		/**
 		 * Меню
 		 */
@@ -101,12 +101,12 @@ class ActionIndex extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsGood($iPage,BLOG_TOPIC_PER_PAGE);			
+		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));			
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.index'));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */

@@ -14,9 +14,9 @@
 				<a href="{router page='blog'}">{$aLang.blog_menu_collective}</a> {if $iCountTopicsCollectiveNew>0}+{$iCountTopicsCollectiveNew}{/if}
 				{if $sMenuItemSelect=='blog'}
 					<ul class="sub-menu" >											
-						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></div></li>
-						{if $iCountTopicsBlogNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}new/">{$aLang.blog_menu_collective_new}</a> +{$iCountTopicsBlogNew}</div></li>{/if}
-						<li {if $sMenuSubItemSelect=='bad'}class="active"{/if}><div><a href="{$sMenuSubBlogUrl}bad/">{$aLang.blog_menu_collective_bad}</a></div></li>
+						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{router page='blog'}">{$aLang.blog_menu_collective_good}</a></div></li>
+						{if $iCountTopicsBlogNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{router page='blog'}new/">{$aLang.blog_menu_collective_new}</a> +{$iCountTopicsBlogNew}</div></li>{/if}
+						<li {if $sMenuSubItemSelect=='bad'}class="active"{/if}><div><a href="{router page='blog'}bad/">{$aLang.blog_menu_collective_bad}</a></div></li>
 					</ul>
 				{/if}
 			</li>

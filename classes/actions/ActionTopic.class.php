@@ -215,12 +215,12 @@ class ActionTopic extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),$this->sCurrentEvent=='published' ? 1 : 0,$iPage,BLOG_TOPIC_PER_PAGE);	
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),$this->sCurrentEvent=='published' ? 1 : 0,$iPage,Config::Get('module.topic.per_page'));	
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.topic').'/'.$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('topic').$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */

@@ -76,12 +76,12 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем список юзеров
 		 */					
-		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,USER_PER_PAGE);	
+		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,Config::Get('module.user.per_page'));	
 		$aUsersCountry=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent.'/'.$oCountry->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getName());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -110,12 +110,12 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем список юзеров
 		 */					
-		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,USER_PER_PAGE);	
+		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,Config::Get('module.user.per_page'));	
 		$aUsersCity=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent.'/'.$oCity->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getName());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -218,12 +218,12 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем список юзеров
 		 */		
-		$aResult=$this->User_GetUsersRating($sType,$iPage,USER_PER_PAGE);	
+		$aResult=$this->User_GetUsersRating($sType,$iPage,Config::Get('module.user.per_page'));	
 		$aUsersRating=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,USER_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.people').'/'.$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */

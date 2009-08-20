@@ -62,7 +62,7 @@ class CommentEntity_Comment extends Entity
         return $this->_aData['level'];
     }   
     public function isBad() {    	
-        if ($this->getRating()<=BLOG_COMMENT_BAD) {
+        if ($this->getRating()<=Config::Get('module.comment.bad')) {
         	return true;
         } 
         return false;

@@ -23,7 +23,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function Add(UserEntity_User $oUser) {
-		$sql = "INSERT INTO ".DB_TABLE_USER." 
+		$sql = "INSERT INTO ".Config::Get('db.table.user')." 
 			(user_login,
 			user_password,
 			user_mail,
@@ -41,7 +41,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function Update(UserEntity_User $oUser) {
-		$sql = "UPDATE ".DB_TABLE_USER." 
+		$sql = "UPDATE ".Config::Get('db.table.user')." 
 			SET 
 				user_password = ? ,
 				user_mail = ? ,					
@@ -172,7 +172,7 @@ class Mapper_User extends Mapper {
 					u.*	,
 					IF(ua.user_id IS NULL,0,1) as user_is_administrator 						 
 				FROM 
-					".DB_TABLE_USER." as u	
+					".Config::Get('db.table.user')." as u	
 					LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id 
 				WHERE 
 					u.user_id IN(?a) 								
@@ -190,7 +190,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				u.user_id
 			FROM 
-				".DB_TABLE_USER." as u				
+				".Config::Get('db.table.user')." as u				
 			WHERE u.user_activate_key = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
 			return $aRow['user_id'];
@@ -203,7 +203,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				u.user_id
 			FROM 
-				".DB_TABLE_USER." as u 				
+				".Config::Get('db.table.user')." as u 				
 			WHERE u.user_mail = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sMail)) {
 			return $aRow['user_id'];
@@ -215,7 +215,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				u.user_id  
 			FROM 
-				".DB_TABLE_USER." as u 	
+				".Config::Get('db.table.user')." as u 	
 			WHERE 
 				u.user_login = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sLogin)) {
@@ -247,7 +247,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 			user_id		 
 			FROM 
-				".DB_TABLE_USER."	  
+				".Config::Get('db.table.user')."	  
 			WHERE
 				 user_activate = 1			
 			ORDER BY 
@@ -267,7 +267,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 			user_id		 
 			FROM 
-				".DB_TABLE_USER."
+				".Config::Get('db.table.user')."
 			WHERE 
 				user_rating ".($sType=='good' ? '>=0' : '<0')."	 and user_activate = 1			
 			ORDER BY 
@@ -285,7 +285,7 @@ class Mapper_User extends Mapper {
 	
 	
 	public function GetCountUsers() {
-		$sql = "SELECT count(user_id) as count FROM ".DB_TABLE_USER."  WHERE user_activate = 1";			
+		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";			
 		$result=$this->oDb->selectRow($sql);
 		return $result['count'];
 	}
@@ -298,7 +298,7 @@ class Mapper_User extends Mapper {
 	
 	
 	public function GetCountUsersSex() {
-		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".DB_TABLE_USER." WHERE user_activate = 1 GROUP BY user_profile_sex ";			
+		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";			
 		$result=$this->oDb->select($sql);
 		return $result;
 	}
@@ -313,7 +313,7 @@ class Mapper_User extends Mapper {
 						count(user_id) as count,
 						country_id 
 					FROM 
-						".DB_TABLE_COUNTRY_USER."
+						".Config::Get('db.table.country_user')."
 					GROUP BY country_id LIMIT 0, ?d
 				) as cu
 				JOIN ".DB_TABLE_COUNTRY." as c on cu.country_id=c.country_id	
@@ -347,7 +347,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				user_id					 
 			FROM 
-				".DB_TABLE_USER."	
+				".Config::Get('db.table.user')."	
 			WHERE
 				user_activate = 1
 				and
@@ -365,7 +365,7 @@ class Mapper_User extends Mapper {
 	
 	
 	public function AddFriend(UserEntity_Friend $oFriend) {
-		$sql = "INSERT INTO ".DB_TABLE_FRIEND." 
+		$sql = "INSERT INTO ".Config::Get('db.table.friend')." 
 			(user_id,
 			user_friend_id		
 			)
@@ -379,7 +379,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function DeleteFriend(UserEntity_Friend $oFriend) {
-		$sql = "DELETE FROM ".DB_TABLE_FRIEND." 
+		$sql = "DELETE FROM ".Config::Get('db.table.friend')." 
 			WHERE
 				user_id = ?d
 				AND
@@ -402,7 +402,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					*						 
 				FROM 
-					".DB_TABLE_FRIEND." 				
+					".Config::Get('db.table.friend')." 				
 				WHERE 
 					user_id = ? 
 					AND
@@ -420,7 +420,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					uf.user_friend_id										
 				FROM 
-					".DB_TABLE_FRIEND." as uf				
+					".Config::Get('db.table.friend')." as uf				
 				WHERE 	
 					uf.user_id = ?d	;	
 					";
@@ -437,7 +437,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					user_id										
 				FROM 
-					".DB_TABLE_FRIEND."				
+					".Config::Get('db.table.friend')."				
 				WHERE 	
 					user_friend_id = ?d ";
 		$aUsers=array();
@@ -450,7 +450,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetInviteByCode($sCode,$iUsed=0) {
-		$sql = "SELECT * FROM ".DB_TABLE_INVITE." WHERE invite_code = ? and invite_used = ?d ";
+		$sql = "SELECT * FROM ".Config::Get('db.table.invite')." WHERE invite_code = ? and invite_used = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode,$iUsed)) {
 			return new UserEntity_Invite($aRow);
 		}
@@ -458,7 +458,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function AddInvite(UserEntity_Invite $oInvite) {
-		$sql = "INSERT INTO ".DB_TABLE_INVITE." 
+		$sql = "INSERT INTO ".Config::Get('db.table.invite')." 
 			(invite_code,
 			user_from_id,
 			invite_date_add			
@@ -472,7 +472,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function UpdateInvite(UserEntity_Invite $oInvite) {
-		$sql = "UPDATE ".DB_TABLE_INVITE." 
+		$sql = "UPDATE ".Config::Get('db.table.invite')." 
 			SET 
 				user_to_id = ? ,
 				invite_date_used = ? ,	
@@ -486,7 +486,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountInviteUsedByDate($sUserIdFrom,$sDate) {
-		$sql = "SELECT count(invite_id) as count FROM ".DB_TABLE_INVITE." WHERE user_from_id = ?d and invite_date_add >= ? ";
+		$sql = "SELECT count(invite_id) as count FROM ".Config::Get('db.table.invite')." WHERE user_from_id = ?d and invite_date_add >= ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom,$sDate)) {
 			return $aRow['count'];
 		}
@@ -494,7 +494,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountInviteUsed($sUserIdFrom) {
-		$sql = "SELECT count(invite_id) as count FROM ".DB_TABLE_INVITE." WHERE user_from_id = ?d";
+		$sql = "SELECT count(invite_id) as count FROM ".Config::Get('db.table.invite')." WHERE user_from_id = ?d";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom)) {
 			return $aRow['count'];
 		}
@@ -505,7 +505,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					i.user_to_id										
 				FROM 
-					".DB_TABLE_INVITE." as i				
+					".Config::Get('db.table.invite')." as i				
 				WHERE 	
 					i.user_from_id = ?d	";
 		$aUsers=array();
@@ -521,7 +521,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					i.user_from_id										
 				FROM 
-					".DB_TABLE_INVITE." as i				
+					".Config::Get('db.table.invite')." as i				
 				WHERE 	
 					i.user_to_id = ?d																		
 				LIMIT 0,1;	
@@ -533,7 +533,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function SetCountryUser($sCountryId,$sUserId) {		
-		$sql = "REPLACE ".DB_TABLE_COUNTRY_USER." 
+		$sql = "REPLACE ".Config::Get('db.table.country_user')." 
 			SET 
 				country_id = ? ,
 				user_id = ? 
@@ -542,7 +542,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountryByName($sName) {
-		$sql = "SELECT * FROM ".DB_TABLE_COUNTRY." WHERE country_name = ? ";
+		$sql = "SELECT * FROM ".Config::Get('db.table.country')." WHERE country_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
 			return new UserEntity_Country($aRow);
 		}
@@ -553,8 +553,8 @@ class Mapper_User extends Mapper {
 		$sql = "
 			SELECT cu.user_id
 			FROM
-				".DB_TABLE_COUNTRY." as c,
-				".DB_TABLE_COUNTRY_USER." as cu 
+				".Config::Get('db.table.country')." as c,
+				".Config::Get('db.table.country_user')." as cu 
 			WHERE
 				c.country_name = ?
 				AND
@@ -592,7 +592,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function AddCountry(UserEntity_Country $oCountry) {
-		$sql = "INSERT INTO ".DB_TABLE_COUNTRY." 
+		$sql = "INSERT INTO ".Config::Get('db.table.country')." 
 			(country_name)
 			VALUES(?)
 		";			
@@ -653,7 +653,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				*					 
 			FROM 
-				".DB_TABLE_COUNTRY."	
+				".Config::Get('db.table.country')."	
 			WHERE
 				country_name LIKE ?														
 			LIMIT 0, ?d		
@@ -668,7 +668,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function AddReminder(UserEntity_Reminder $oReminder) {		
-		$sql = "REPLACE ".DB_TABLE_REMINDER." 
+		$sql = "REPLACE ".Config::Get('db.table.reminder')." 
 			SET 
 				reminder_code = ? ,
 				user_id = ? ,
@@ -688,7 +688,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					*										
 				FROM 
-					".DB_TABLE_REMINDER." 				
+					".Config::Get('db.table.reminder')." 				
 				WHERE 	
 					reminder_code = ?";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {

@@ -34,7 +34,7 @@ if ($oEngine->User_IsAuthorization()) {
 	if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
 		$sFileTmp=$_FILES['img_file']['tmp_name'];		
 		$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
-		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
+		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false)) {
 			$sFile=$sDirSave.'/'.$sFileImg;
 		} else {
 			$sMsgTitle=$oEngine->Lang_Get('error');
@@ -63,7 +63,7 @@ if ($oEngine->User_IsAuthorization()) {
 					fwrite($fp,$sContent);
 					fclose($fp);					
 					$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
-					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,BLOG_IMG_RESIZE_WIDTH,null,false)) {
+					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false)) {
 						$sFile=$sDirSave.'/'.$sFileImg;
 					} else {
 						$sMsgTitle=$oEngine->Lang_Get('error');
@@ -88,7 +88,7 @@ if ($oEngine->User_IsAuthorization()) {
 		$bStateError=false;
 		$sMsgTitle='';
 		$sMsg='';
-		$sText='<img src="'.DIR_WEB_ROOT.$sFile.'" ';
+		$sText='<img src="'.Config::Get('path.root.web').$sFile.'" ';
 		if (isset($_REQUEST['title']) and $_REQUEST['title']!='') {
 			$sText.=' title="'.htmlspecialchars($_REQUEST['title']).'" ';
 		}

@@ -406,7 +406,7 @@ class LsTopic extends Module {
 			),
 			'topic_publish' => 1,
 			'topic_rating'  => array(
-				'value' => BLOG_INDEX_LIMIT_GOOD,
+				'value' => Config::Get('module.blog.index_good'),
 				'type'  => 'top',
 				'publish_index'  => 1,
 			),
@@ -421,7 +421,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicsNew($iPage,$iPerPage) {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
+		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
@@ -470,18 +470,18 @@ class LsTopic extends Module {
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_PERSONAL_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.personal_good'),
 					'type'  => 'top',
 				);			
 				break;	
 			case 'bad':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_PERSONAL_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.personal_good'),
 					'type'  => 'down',
 				);			
 				break;	
 			case 'new':
-				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);							
+				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
 				break;
 			default:
 				break;
@@ -494,7 +494,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetCountTopicsPersonalNew() {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
+		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
@@ -557,18 +557,18 @@ class LsTopic extends Module {
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.collective_good'),
 					'type'  => 'top',
 				);			
 				break;	
 			case 'bad':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.collective_good'),
 					'type'  => 'down',
 				);			
 				break;	
 			case 'new':
-				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);							
+				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
 				break;
 			default:
 				break;
@@ -581,7 +581,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetCountTopicsCollectiveNew() {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
+		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
@@ -626,18 +626,18 @@ class LsTopic extends Module {
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.collective_good'),
 					'type'  => 'top',
 				);			
 				break;	
 			case 'bad':
 				$aFilter['topic_rating']=array(
-					'value' => BLOG_COLLECTIVE_LIMIT_GOOD,
+					'value' => Config::Get('module.blog.collective_good'),
 					'type'  => 'down',
 				);			
 				break;	
 			case 'new':
-				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);							
+				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
 				break;
 			default:
 				break;
@@ -652,7 +652,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetCountTopicsByBlogNew($oBlog) {
-		$sDate=date("Y-m-d H:00:00",time()-BLOG_TOPIC_NEW_TIME);
+		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 		$aFilter=array(
 			'blog_type' => array(
 				'open',

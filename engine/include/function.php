@@ -239,8 +239,8 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
 		$iHeightNew=$aSize[1];
 	}
 	
-	$sFileFullPath=DIR_SERVER_ROOT.'/'.$sDirDest.'/'.$sFileDest;
-	@func_mkdir(DIR_SERVER_ROOT,$sDirDest);
+	$sFileFullPath=Config::Get('path.root.server').'/'.$sDirDest.'/'.$sFileDest;
+	@func_mkdir(Config::Get('path.root.server'),$sDirDest);
 	if ($iWidthDest and $iWidthDest!=$aSize[0]) {
 		$img_dest=imagecreatetruecolor($iWidthNew,$iHeightNew);		
 		imagesavealpha($img_dest,true);

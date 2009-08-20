@@ -21,10 +21,10 @@
 //error_reporting(E_ALL);
 define('SYS_HACKER_CONSOLE',false);
 require_once("loader.php");
-require_once(DIR_SERVER_ENGINE."/classes/Engine.class.php");
-require_once(DIR_SERVER_ENGINE."/lib/external/JsHttpRequest/JsHttpRequest.php");
+require_once(Config::Get('path.root.engine')."/classes/Engine.class.php");
+require_once(Config::Get('path.root.engine')."/lib/external/JsHttpRequest/JsHttpRequest.php");
 $JsHttpRequest = new JsHttpRequest("UTF-8");
-ProfilerSimple::getInstance(DIR_SERVER_ROOT.'/logs/profiler.log',false);
+ProfilerSimple::getInstance(Config::Get('path.root.server').'/logs/profiler.log',false);
 $oEngine=Engine::getInstance();
 $oEngine->Init();
 $oEngine->Security_ValidateSendForm();

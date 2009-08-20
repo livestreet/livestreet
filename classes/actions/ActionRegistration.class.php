@@ -36,7 +36,7 @@ class ActionRegistration extends Action {
 		/**
 		 * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
 		 */
-		if (!$this->User_IsAuthorization() and USER_USE_INVITE and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {			
+		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {			
 			return Router::Action('registration','invite');			
 		}
 		
@@ -135,7 +135,7 @@ class ActionRegistration extends Action {
 				/**
 				 * Если используется активация, то генерим код активации
 				 */
-				if (USER_USE_ACTIVATION) {
+				if (Config::Get('general.reg.activation')) {
 					$oUser->setActivate(0);
 					$oUser->setActivateKey(md5(func_generator().time()));
 				} else {
@@ -159,7 +159,7 @@ class ActionRegistration extends Action {
 					/**
 					 * Если юзер зарегистрировался по приглашению то обновляем инвайт
 					 */
-					if (USER_USE_INVITE and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
+					if (Config::Get('general.reg.invite') and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
 						$oInvite->setUserToId($oUser->getId());
 						$oInvite->setDateUsed(date("Y-m-d H:i:s"));
 						$oInvite->setUsed(1);
@@ -168,12 +168,12 @@ class ActionRegistration extends Action {
 					/**
 					 * Если стоит регистрация с активацией то проводим её
 					 */
-					if (USER_USE_ACTIVATION) {
+					if (Config::Get('general.reg.activation')) {
 						/**
 						 * Отправляем на мыло письмо о подтверждении регистрации						 
 						 */					
 						$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
-						func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.registration').'/confirm/');						
+						func_header_location(Router::GetPath('registration').'confirm/');						
 					} else {
 						$this->Notify_SendRegistration($oUser,getRequest('password'));
 						$this->Viewer_Assign('bRefreshToHome',true);
@@ -246,7 +246,7 @@ class ActionRegistration extends Action {
 	 *
 	 */
 	protected function EventInvite() {	
-		if (!USER_USE_INVITE) {
+		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
 			
@@ -288,7 +288,7 @@ class ActionRegistration extends Action {
 	}
 	
 	protected function DropInviteRegister() {
-		if (USER_USE_INVITE) {
+		if (Config::Get('general.reg.invite')) {
 			$this->Session_Drop('invite_code');
 		}
 	}

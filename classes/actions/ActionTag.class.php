@@ -63,12 +63,12 @@ class ActionTag extends Action {
 		/**
 		 * Получаем список топиков
 		 */				
-		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,BLOG_TOPIC_PER_PAGE);		
+		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));		
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.tag').'/'.htmlspecialchars($sTag));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('tag').htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
 		 */				
@@ -77,7 +77,7 @@ class ActionTag extends Action {
 		$this->Viewer_Assign('sTag',$sTag);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('tag_title'));
 		$this->Viewer_AddHtmlTitle($sTag);
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/tag/'.$sTag.'/',$sTag);
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'tag/'.$sTag.'/',$sTag);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

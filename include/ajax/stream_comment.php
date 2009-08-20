@@ -29,7 +29,7 @@ $sMsgTitle='';
 $sMsg='';
 
 
-if ($aComments=$oEngine->Comment_GetCommentsOnline('topic',BLOCK_STREAM_COUNT_ROW)) {
+if ($aComments=$oEngine->Comment_GetCommentsOnline('topic',Config::Get('block.stream.row'))) {
 	$bStateError=false;
 	$oEngine->Viewer_VarAssign();
 	$oEngine->Viewer_Assign('aComments',$aComments);

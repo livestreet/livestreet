@@ -29,7 +29,7 @@ class LsNotify extends Module {
 	 */
 	public function Init() {		
 		if (!class_exists('LsViewer')) {
-			require_once(DIR_SERVER_ENGINE."/modules/sys_viewer/Viewer.class.php");
+			require_once(Config::Get('path.root.engine')."/modules/sys_viewer/Viewer.class.php");
 		}
 		$this->oViewerLocal=new LsViewer(Engine::getInstance());
 		$this->oViewerLocal->Init();

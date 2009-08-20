@@ -50,12 +50,12 @@ class ActionBlogs extends Action {
 		/**
 		 * Получаем список блогов
 		 */
-		$aResult=$this->Blog_GetBlogsRating($iPage,BLOG_BLOGS_PER_PAGE);	
+		$aResult=$this->Blog_GetBlogsRating($iPage,Config::Get('module.blog.per_page'));	
 		$aBlogs=$aResult['collection'];				
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_BLOGS_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.blogs'));	
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.per_page'),4,Router::GetPath('blogs'));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */					

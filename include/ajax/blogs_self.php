@@ -30,7 +30,7 @@ $sMsg='';
 
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
-	if ($aBlogs=$oEngine->Blog_GetBlogsRatingSelf($oUserCurrent->getId(),BLOCK_BLOGS_COUNT_ROW)) {		
+	if ($aBlogs=$oEngine->Blog_GetBlogsRatingSelf($oUserCurrent->getId(),Config::Get('block.blogs.row'))) {		
 		$bStateError=false;
 		$oEngine->Viewer_VarAssign();
 		$oEngine->Viewer_Assign('aBlogs',$aBlogs);

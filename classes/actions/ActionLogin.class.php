@@ -65,11 +65,11 @@ class ActionLogin extends Action {
 					 */
 					if (isset($_SERVER['HTTP_REFERER'])) {
 						$sBackUrl=$_SERVER['HTTP_REFERER'];
-						if (strpos($sBackUrl,DIR_WEB_ROOT.'/'.Config::Get('router.page.login'))===false) {
+						if (strpos($sBackUrl,Router::GetPath('login'))===false) {
 							func_header_location($sBackUrl);
 						}
 					}					 
-					func_header_location(DIR_WEB_ROOT.'/');
+					func_header_location(Config::Get('path.root.web').'/');
 				}
 			}			
 			$this->Viewer_Assign('bLoginError',true);
@@ -136,7 +136,7 @@ class ActionLogin extends Action {
 				$oReminder->setUserId($oUser->getId());
 				if ($this->User_AddReminder($oReminder)) {					
 					$this->Notify_SendReminderCode($oUser,$oReminder);
-					func_header_location(DIR_WEB_ROOT.'/'.Config::Get('router.page.login').'/reminder/send/');
+					func_header_location(Router::GetPath('login').'reminder/send/');
 				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));

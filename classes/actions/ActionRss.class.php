@@ -39,15 +39,15 @@ class ActionRss extends Action {
 	}
 
 	protected function RssGood() {
-		$aResult=$this->Topic_GetTopicsGood(1,BLOG_TOPIC_PER_PAGE*2);
+		$aResult=$this->Topic_GetTopicsGood(1,Config::Get('module.topic.per_page')*2);
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['title']=Config::Get('view.name');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('view.name').' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('view.name');
 		
 		$topics=array();
 		foreach ($aTopics as $oTopic){
@@ -66,15 +66,15 @@ class ActionRss extends Action {
 	}
 
 	protected function RssNew() {
-		$aResult=$this->Topic_GetTopicsNew(1,BLOG_TOPIC_PER_PAGE*2);			
+		$aResult=$this->Topic_GetTopicsNew(1,Config::Get('module.topic.per_page')*2);			
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$topics = array();
 		foreach ($aTopics as $oTopic){
@@ -93,15 +93,15 @@ class ActionRss extends Action {
 	}
 
 	protected function RssComments() {
-		$aResult=$this->Comment_GetCommentsAll('topic',1,BLOG_COMMENT_PER_PAGE*2);
+		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2);
 		$aComments=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
@@ -129,12 +129,12 @@ class ActionRss extends Action {
 		$aComments=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
 		$aComments=$aComments['comments'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$comments=array();
 		foreach ($aComments as $oComment){
@@ -154,15 +154,15 @@ class ActionRss extends Action {
 
 	protected function RssTag() {
 		$sTag=urldecode($this->GetParam(0));
-		$aResult=$this->Topic_GetTopicsByTag($sTag,1,BLOG_TOPIC_PER_PAGE*2);
+		$aResult=$this->Topic_GetTopicsByTag($sTag,1,Config::Get('module.topic.per_page')*2);
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$topics=array();
 		foreach ($aTopics as $oTopic){
@@ -185,16 +185,16 @@ class ActionRss extends Action {
 		if (!$sBlogUrl or !($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {			
 			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsByBlog($oBlog,1,BLOG_TOPIC_PER_PAGE*2,'good');
+			$aResult=$this->Topic_GetTopicsByBlog($oBlog,1,Config::Get('module.topic.per_page')*2,'good');
 		}
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / '.$oBlog->getTitle().' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / '.$oBlog->getTitle().' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$topics=array();
 		foreach ($aTopics as $oTopic){
@@ -217,16 +217,16 @@ class ActionRss extends Action {
 		if (!$this->sUserLogin or !($oUser=$this->User_GetUserByLogin($this->sUserLogin))) {			
 			return parent::EventNotFound();
 		}else{	
-			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,1,BLOG_TOPIC_PER_PAGE*2);
+			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,1,Config::Get('module.topic.per_page')*2);
 		}
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=SITE_NAME;
-		$aChannel['link']=DIR_WEB_ROOT;
-		$aChannel['description']=SITE_NAME.' / '.$oUser->getLogin().' / RSS channel';
+		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['description']=Config::Get('path.root.web').' / '.$oUser->getLogin().' / RSS channel';
 		$aChannel['language']='ru';
-		$aChannel['managingEditor']=RSS_EDITOR_MAIL;
-		$aChannel['generator']=SITE_NAME;
+		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
+		$aChannel['generator']=Config::Get('path.root.web');
 		
 		$topics=array();
 		foreach ($aTopics as $oTopic){

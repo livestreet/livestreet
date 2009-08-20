@@ -74,12 +74,12 @@ class ActionMy extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,BLOG_TOPIC_PER_PAGE);	
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));	
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */				
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->oUserProfile->getLogin());		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('my').$this->oUserProfile->getLogin());		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			
@@ -87,7 +87,7 @@ class ActionMy extends Action {
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/log/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'log/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -116,12 +116,12 @@ class ActionMy extends Action {
 		/**
 		 * Получаем список комментов
 		 */		
-		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,BLOG_COMMENT_PER_PAGE);	
+		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,Config::Get('module.comment.per_page'));	
 		$aComments=$aResult['collection'];		
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.my').'/'.$this->oUserProfile->getLogin().'/comment');		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('my').$this->oUserProfile->getLogin().'/comment');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */		

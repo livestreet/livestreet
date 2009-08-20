@@ -126,9 +126,9 @@ class UserEntity_User extends Entity {
     }
     public function getProfileAvatarPath($iSize=100) {
     	if ($this->getProfileAvatar()) { 	
-        	return DIR_WEB_ROOT.DIR_UPLOADS_IMAGES.'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
+        	return Config::Get('path.root.web').Config::Get('path.uploads.images').'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
     	} else {
-    		return DIR_STATIC_SKIN.'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
+    		return Config::Get('path.static.skin').'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
     public function getVote() {
@@ -141,7 +141,7 @@ class UserEntity_User extends Entity {
         return $this->_aData['user_is_administrator'];
     }
     public function getUserWebPath() {   
-    	return DIR_WEB_ROOT.'/'.Config::Get('router.page.profile').'/'.$this->getLogin().'/';
+    	return Router::GetPath('profile').$this->getLogin().'/';
     }
     
     

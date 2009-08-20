@@ -91,7 +91,7 @@ class ActionBlog extends Action {
 		 * Устанавливаем евент по дефолту, т.е. будем показывать хорошие топики из коллективных блогов
 		 */
 		$this->SetDefaultEvent('good');
-		$this->sMenuSubBlogUrl=DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/';
+		$this->sMenuSubBlogUrl=Router::GetPath('blog');
 		/**
 		 * Достаём текущего пользователя
 		 */
@@ -193,9 +193,9 @@ class ActionBlog extends Action {
 		*/			
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 			$sFileTmp=$_FILES['avatar']['tmp_name'];
-			if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {
-				func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
-				func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+			if ($sFileAvatar=func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {
+				func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
+				func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
 				$oBlog->setAvatar(1);
 				$aFileInfo=pathinfo($sFileAvatar);
 				$oBlog->setAvatarType($aFileInfo['extension']);
@@ -292,9 +292,9 @@ class ActionBlog extends Action {
 			 */			
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
 				$sFileTmp=$_FILES['avatar']['tmp_name'];
-				if ($sFileAvatar=func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {					
-					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
-					func_img_resize($sFileTmp,DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+				if ($sFileAvatar=func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {					
+					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
+					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
 					$oBlog->setAvatar(1);
 					$aFileInfo=pathinfo($sFileAvatar);
 					$oBlog->setAvatarType($aFileInfo['extension']);
@@ -308,9 +308,9 @@ class ActionBlog extends Action {
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
 				$oBlog->setAvatar(0);				
-				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
-				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
-				@unlink(DIR_SERVER_ROOT.DIR_UPLOADS_IMAGES.'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());
+				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
+				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
+				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());
 				$oBlog->setAvatarType(null);
 			}
 			/**
@@ -522,12 +522,12 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsCollective($iPage,BLOG_TOPIC_PER_PAGE,$sShowType);
+		$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType);
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.blog').'/'.$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('blog').$sShowType);
 		/**
 		 * Вызов хуков
 		 */
@@ -634,7 +634,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/comments/'.$oTopic->getId().'/',$oTopic->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */	
@@ -662,13 +662,13 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список топиков
 		 */				
-		$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,BLOG_TOPIC_PER_PAGE,$sShowType);	
+		$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);	
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
 		$sUrlAdd=$sShowType=='good' ? '' : $sShowType;			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,$oBlog->getUrlFull().$sUrlAdd);			
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sUrlAdd);			
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */
@@ -701,7 +701,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
 		 */

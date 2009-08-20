@@ -69,12 +69,12 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список избранных топиков
 		 */				
-		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iPage,BLOG_TOPIC_PER_PAGE);			
+		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.topic.per_page'));			
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */					
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.profile').'/'.$this->oUserProfile->getLogin().'/favourites');		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/favourites');		
 		/**
 		 * Загружаем переменные в шаблон
 		 */			
@@ -111,7 +111,7 @@ class ActionProfile extends Action {
 		 */
 		$aUsersSelfFriend=$this->User_GetUsersSelfFriend($this->oUserProfile->getId());
 		
-		if (USER_USE_INVITE) {
+		if (Config::Get('general.reg.invite')) {
 			/**
 			 * Получаем список тех кого пригласил юзер
 			 */

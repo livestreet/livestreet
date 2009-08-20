@@ -84,12 +84,12 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsPersonal($iPage,BLOG_TOPIC_PER_PAGE,$sShowType);
+		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType);
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_TOPIC_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.personal_blog').'/'.$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType);
 		/**
 		 * Вызов хуков
 		 */

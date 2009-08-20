@@ -94,7 +94,7 @@ class Mapper_Talk extends Mapper {
 				u.user_login as user_login							 
 				FROM 
 					".DB_TABLE_TALK." as t,
-					".DB_TABLE_USER." as u
+					".Config::Get('db.table.user')." as u
 				WHERE 
 					t.talk_id = ?d 					
 					AND

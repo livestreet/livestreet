@@ -53,19 +53,19 @@ class ActionComments extends Action {
 		/**
 		 * Получаем список комментов
 		 */					
-		$aResult=$this->Comment_GetCommentsAll('topic',$iPage,BLOG_COMMENT_PER_PAGE);		
+		$aResult=$this->Comment_GetCommentsAll('topic',$iPage,Config::Get('module.comment.per_page'));		
 		$aComments=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,BLOG_COMMENT_PER_PAGE,4,DIR_WEB_ROOT.'/'.Config::Get('router.page.comments'));	
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('comments'));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */					
 		$this->Viewer_Assign('aPaging',$aPaging);					
 		$this->Viewer_Assign("aComments",$aComments);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('comments_all'));
-		$this->Viewer_SetHtmlRssAlternate(DIR_WEB_ROOT.'/'.Config::Get('router.page.rss').'/allcomments/',$this->Lang_Get('comments_all'));
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'allcomments/',$this->Lang_Get('comments_all'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
