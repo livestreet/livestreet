@@ -37,7 +37,7 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanCreateBlog(UserEntity_User $oUser) {
-		if ($oUser->getRating()>=ACL_CAN_CREATE_BLOG) {
+		if ($oUser->getRating()>=Config::Get('acl.create.blog.rating')) {
 			return true;
 		}
 		return false;

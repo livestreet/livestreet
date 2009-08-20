@@ -17,7 +17,7 @@
 
 class Mapper_Talk extends Mapper {	
 	public function AddTalk(TalkEntity_Talk $oTalk) {
-		$sql = "INSERT INTO ".DB_TABLE_TALK." 
+		$sql = "INSERT INTO ".Config::Get('db.table.talk')." 
 			(user_id,
 			talk_title,
 			talk_text,
@@ -35,7 +35,7 @@ class Mapper_Talk extends Mapper {
 	}
 
 	public function UpdateTalk(TalkEntity_Talk $oTalk) {
-		$sql = "UPDATE ".DB_TABLE_TALK." SET			
+		$sql = "UPDATE ".Config::Get('db.table.talk')." SET			
 				talk_date_last = ? ,
 				talk_count_comment = ? 
 			WHERE 
@@ -52,7 +52,7 @@ class Mapper_Talk extends Mapper {
 		$sql = "SELECT 
 					t.*							 
 				FROM 
-					".DB_TABLE_TALK." as t 
+					".Config::Get('db.table.talk')." as t 
 				WHERE 
 					t.talk_id IN(?a) 									
 				ORDER BY FIELD(t.talk_id,?a) ";
@@ -73,7 +73,7 @@ class Mapper_Talk extends Mapper {
 		$sql = "SELECT 
 					t.*							 
 				FROM 
-					".DB_TABLE_TALK_USER." as t 
+					".Config::Get('db.table.talk_user')." as t 
 				WHERE 
 					t.user_id = ?d 
 					AND
@@ -93,7 +93,7 @@ class Mapper_Talk extends Mapper {
 				t.*,
 				u.user_login as user_login							 
 				FROM 
-					".DB_TABLE_TALK." as t,
+					".Config::Get('db.table.talk')." as t,
 					".Config::Get('db.table.user')." as u
 				WHERE 
 					t.talk_id = ?d 					
@@ -108,7 +108,7 @@ class Mapper_Talk extends Mapper {
 		
 		
 	public function AddTalkUser(TalkEntity_TalkUser $oTalkUser) {
-		$sql = "INSERT INTO ".DB_TABLE_TALK_USER." 
+		$sql = "INSERT INTO ".Config::Get('db.table.talk_user')." 
 			(talk_id,
 			user_id,
 			date_last		
@@ -123,7 +123,7 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {
-		$sql = "UPDATE ".DB_TABLE_TALK_USER." 
+		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
 				date_last = ?, 				
 				comment_id_last = ?d, 				
@@ -145,7 +145,7 @@ class Mapper_Talk extends Mapper {
 			$aTalkId=array($aTalkId);
 		}
 		
-		$sql = "DELETE FROM ".DB_TABLE_TALK_USER." 
+		$sql = "DELETE FROM ".Config::Get('db.table.talk_user')." 
 			WHERE
 				talk_id IN (?a)
 				AND
@@ -165,7 +165,7 @@ class Mapper_Talk extends Mapper {
 					SELECT
 						SUM(tu.comment_count_new) as count_new												
 					FROM   						
-  						".DB_TABLE_TALK_USER." as tu
+  						".Config::Get('db.table.talk_user')." as tu
 					WHERE   						
   						tu.user_id = ?d  							
 		";
@@ -180,7 +180,7 @@ class Mapper_Talk extends Mapper {
 					SELECT
 						COUNT(tu.talk_id) as count_new												
 					FROM   						
-  						".DB_TABLE_TALK_USER." as tu
+  						".Config::Get('db.table.talk_user')." as tu
 					WHERE
   						tu.date_last IS NULL
   						AND
@@ -196,8 +196,8 @@ class Mapper_Talk extends Mapper {
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 
-					".DB_TABLE_TALK_USER." as tu, 					
-					".DB_TABLE_TALK." as t							 
+					".Config::Get('db.table.talk_user')." as tu, 					
+					".Config::Get('db.table.talk')." as t							 
 				WHERE 
 					tu.user_id = ?d 
 					AND
@@ -218,7 +218,7 @@ class Mapper_Talk extends Mapper {
 		$sql = "SELECT 
 			user_id		 
 			FROM 
-				".DB_TABLE_TALK_USER." 	  
+				".Config::Get('db.table.talk_user')." 	  
 			WHERE
 				talk_id = ? ";	
 		$aReturn=array();
@@ -236,7 +236,7 @@ class Mapper_Talk extends Mapper {
 		}
 		
 		$sql = "UPDATE 			  
-				".DB_TABLE_TALK_USER."   
+				".Config::Get('db.table.talk_user')."   
 				SET comment_count_new=comment_count_new+1 
 			WHERE
 				talk_id = ? 

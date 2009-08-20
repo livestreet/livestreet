@@ -75,7 +75,7 @@ class LsText extends Module {
 		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol'));
 		// Теги с обязательными параметрами
 		$this->oJevix->cfgSetTagParamsAutoAdd('embed',array(array('name'=>'wmode','value'=>'opaque','rewrite'=>true)));
-		if (BLOG_URL_NO_INDEX) {
+		if (Config::Get('view.noindex')) {
 			$this->oJevix->cfgSetTagParamsAutoAdd('a',array(array('name'=>'rel','value'=>'nofollow','rewrite'=>true)));
 		}
 		// Отключение авто-добавления <br>

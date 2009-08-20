@@ -19,7 +19,11 @@
  */
 require_once(dirname(__FILE__)."/../engine/lib/internal/ConfigSimple/Config.class.php");
 Config::LoadFromFile(dirname(__FILE__).'/config.php');
-Config::DefineConstant();
+//
+// Рефакторниг: 
+// Переход на новую систему конфиг-массивов
+// Config::DefineConstant();
+//
 
 /**
  * Загружает конфиги модулей вида /config/modules/[module_name]/config.php
@@ -116,6 +120,9 @@ if ($hDirConfig = opendir($sDirConfig)) {
 	}
 	closedir($hDirConfig);
 }
-
-Config::DefineConstant();
+//
+// Рефакторниг: 
+// Переход на новую систему конфиг-массивов
+// Config::DefineConstant();
+//
 ?>

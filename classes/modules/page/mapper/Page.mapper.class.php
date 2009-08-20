@@ -18,7 +18,7 @@
 class Mapper_Page extends Mapper {	
 	
 	public function AddPage(PageEntity_Page $oPage) {
-		$sql = "INSERT INTO ".DB_TABLE_PAGE." 
+		$sql = "INSERT INTO ".Config::Get('db.table.page')." 
 			(page_pid,
 			page_url,
 			page_url_full,
@@ -39,7 +39,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function UpdatePage(PageEntity_Page $oPage) {
-		$sql = "UPDATE ".DB_TABLE_PAGE." 
+		$sql = "UPDATE ".Config::Get('db.table.page')." 
 			SET page_pid = ? ,
 			page_url = ? ,
 			page_url_full = ? ,
@@ -59,7 +59,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function SetPagesPidToNull() {
-		$sql = "UPDATE ".DB_TABLE_PAGE." 
+		$sql = "UPDATE ".Config::Get('db.table.page')." 
 			SET 
 				page_pid = null,
 				page_url_full = page_url 			 				
@@ -72,7 +72,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function GetPageByUrlFull($sUrlFull,$iActive) {
-		$sql = "SELECT * FROM ".DB_TABLE_PAGE." WHERE page_url_full = ? and page_active = ?d ";
+		$sql = "SELECT * FROM ".Config::Get('db.table.page')." WHERE page_url_full = ? and page_active = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUrlFull,$iActive)) {
 			return new PageEntity_Page($aRow);
 		}
@@ -80,7 +80,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function GetPageById($sId) {
-		$sql = "SELECT * FROM ".DB_TABLE_PAGE." WHERE page_id = ? ";
+		$sql = "SELECT * FROM ".Config::Get('db.table.page')." WHERE page_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
 			return new PageEntity_Page($aRow);
 		}
@@ -88,7 +88,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function deletePageById($sId) {
-		$sql = "DELETE FROM ".DB_TABLE_PAGE." WHERE page_id = ? ";
+		$sql = "DELETE FROM ".Config::Get('db.table.page')." WHERE page_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
 			return true;
 		}
@@ -101,7 +101,7 @@ class Mapper_Page extends Mapper {
 					page_id as ARRAY_KEY,
 					page_pid as PARENT_KEY
 				FROM 
-					".DB_TABLE_PAGE." 				
+					".Config::Get('db.table.page')." 				
 				ORDER by page_title asc;	
 					";
 		if ($aRows=$this->oDb->select($sql)) {
@@ -111,7 +111,7 @@ class Mapper_Page extends Mapper {
 	}
 	
 	public function GetCountPage() {
-		$sql = "SELECT count(*) as count FROM ".DB_TABLE_PAGE." ";
+		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.page')." ";
 		if ($aRow=$this->oDb->selectRow($sql)) {
 			return $aRow['count'];
 		}
@@ -122,7 +122,7 @@ class Mapper_Page extends Mapper {
 		$sql = "SELECT 
 					*				
 				FROM 
-					".DB_TABLE_PAGE." 				
+					".Config::Get('db.table.page')." 				
 				WHERE 
 					page_pid = ? ";
 		$aResult=array();

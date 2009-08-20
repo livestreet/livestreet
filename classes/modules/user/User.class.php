@@ -416,7 +416,7 @@ class LsUser extends Module {
 		 * Ставим куку
 		 */
 		if ($bRemember) {
-			setcookie('key',$sKey,time()+60*60*24*3,SYS_COOKIE_PATH,SYS_COOKIE_HOST);
+			setcookie('key',$sKey,time()+60*60*24*3,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 		}
 	}
 	/**
@@ -470,7 +470,7 @@ class LsUser extends Module {
 		/**
 		 * Дропаем куку
 		 */
-		setcookie('key','',1,SYS_COOKIE_PATH,SYS_COOKIE_HOST);
+		setcookie('key','',1,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 	}
 	/**
 	 * Обновление данных сессии

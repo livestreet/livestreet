@@ -23,7 +23,7 @@ class Mapper_Blog extends Mapper {
 	}
 	
 	public function AddBlog(BlogEntity_Blog $oBlog) {
-		$sql = "INSERT INTO ".DB_TABLE_BLOG." 
+		$sql = "INSERT INTO ".Config::Get('db.table.blog')." 
 			(user_owner_id,
 			blog_title,
 			blog_description,
@@ -43,7 +43,7 @@ class Mapper_Blog extends Mapper {
 	}
 	
 	public function UpdateBlog(BlogEntity_Blog $oBlog) {		
-		$sql = "UPDATE ".DB_TABLE_BLOG." 
+		$sql = "UPDATE ".Config::Get('db.table.blog')." 
 			SET 
 				blog_title= ?,
 				blog_description= ?,
@@ -73,7 +73,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					b.*							 
 				FROM 
-					".DB_TABLE_BLOG." as b					
+					".Config::Get('db.table.blog')." as b					
 				WHERE 
 					b.blog_id IN(?a) 								
 				ORDER BY FIELD(b.blog_id,?a) ";
@@ -87,7 +87,7 @@ class Mapper_Blog extends Mapper {
 	}	
 	
 	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
-		$sql = "INSERT INTO ".DB_TABLE_BLOG_USER." 
+		$sql = "INSERT INTO ".Config::Get('db.table.blog_user')." 
 			(blog_id,
 			user_id
 			)
@@ -100,7 +100,7 @@ class Mapper_Blog extends Mapper {
 	}
 	
 	public function DeleteRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
-		$sql = "DELETE FROM ".DB_TABLE_BLOG_USER." 
+		$sql = "DELETE FROM ".Config::Get('db.table.blog_user')." 
 			WHERE
 				blog_id = ?d
 				AND
@@ -113,7 +113,7 @@ class Mapper_Blog extends Mapper {
 	}
 		
 	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {		
-		$sql = "UPDATE ".DB_TABLE_BLOG_USER." 
+		$sql = "UPDATE ".Config::Get('db.table.blog_user')." 
 			SET 
 				is_moderator= ?,
 				is_administrator= ?				
@@ -145,7 +145,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					bu.*				
 				FROM 
-					".DB_TABLE_BLOG_USER." as bu
+					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
 					".$sWhere." 					
 				;	
@@ -167,7 +167,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					bu.*				
 				FROM 
-					".DB_TABLE_BLOG_USER." as bu
+					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
 					bu.user_id = ?d
 					AND
@@ -183,7 +183,7 @@ class Mapper_Blog extends Mapper {
 	
 		
 	public function GetPersonalBlogByUserId($sUserId) {
-		$sql = "SELECT blog_id FROM ".DB_TABLE_BLOG." WHERE user_owner_id = ?d and blog_type='personal'";
+		$sql = "SELECT blog_id FROM ".Config::Get('db.table.blog')." WHERE user_owner_id = ?d and blog_type='personal'";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['blog_id'];
 		}
@@ -192,7 +192,7 @@ class Mapper_Blog extends Mapper {
 	
 		
 	public function GetBlogByTitle($sTitle) {
-		$sql = "SELECT blog_id FROM ".DB_TABLE_BLOG." WHERE blog_title = ? ";
+		$sql = "SELECT blog_id FROM ".Config::Get('db.table.blog')." WHERE blog_title = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sTitle)) {
 			return $aRow['blog_id'];
 		}
@@ -206,7 +206,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 				b.blog_id 
 			FROM 
-				".DB_TABLE_BLOG." as b
+				".Config::Get('db.table.blog')." as b
 			WHERE 
 				b.blog_url = ? 		
 				";
@@ -220,7 +220,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 			b.blog_id			 
 			FROM 
-				".DB_TABLE_BLOG." as b				
+				".Config::Get('db.table.blog')." as b				
 			WHERE 
 				b.user_owner_id = ? 
 				AND
@@ -239,7 +239,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 			b.blog_id			 
 			FROM 
-				".DB_TABLE_BLOG." as b				
+				".Config::Get('db.table.blog')." as b				
 			WHERE 				
 				b.blog_type<>'personal'				
 				";	
@@ -256,7 +256,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					b.blog_id													
 				FROM 
-					".DB_TABLE_BLOG." as b 									 
+					".Config::Get('db.table.blog')." as b 									 
 				WHERE 									
 					b.blog_type<>'personal' 												
 				ORDER by b.blog_rating desc
@@ -274,8 +274,8 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					b.*													
 				FROM 
-					".DB_TABLE_BLOG_USER." as bu,
-					".DB_TABLE_BLOG." as b	
+					".Config::Get('db.table.blog_user')." as bu,
+					".Config::Get('db.table.blog')." as b	
 				WHERE 	
 					bu.user_id = ?d
 					AND
@@ -299,7 +299,7 @@ class Mapper_Blog extends Mapper {
 		$sql = "SELECT 
 					b.*													
 				FROM 					
-					".DB_TABLE_BLOG." as b	
+					".Config::Get('db.table.blog')." as b	
 				WHERE 						
 					b.user_owner_id = ?d
 					AND				

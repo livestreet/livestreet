@@ -21,7 +21,7 @@ class Mapper_Comment extends Mapper {
 			$sql = "SELECT 
 					comment_id				
 				FROM 
-					".DB_TABLE_COMMENT." 
+					".Config::Get('db.table.comment')." 
 				WHERE 
 					target_type = ? 					 
 					AND
@@ -44,7 +44,7 @@ class Mapper_Comment extends Mapper {
 	}
 		
 	public function GetCommentUnique($sTargetId,$sTargetType,$sUserId,$sCommentPid,$sHash) {
-		$sql = "SELECT comment_id FROM ".DB_TABLE_COMMENT." 
+		$sql = "SELECT comment_id FROM ".Config::Get('db.table.comment')." 
 			WHERE 
 				target_id = ?d 
 				AND
@@ -66,7 +66,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 					
 					comment_id 				
 				FROM 
-					".DB_TABLE_COMMENT." 
+					".Config::Get('db.table.comment')." 
 				WHERE 								
 					target_type = ?
 					AND
@@ -93,7 +93,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 					
 					*				
 				FROM 
-					".DB_TABLE_COMMENT." 
+					".Config::Get('db.table.comment')." 
 				WHERE 	
 					comment_id IN(?a) 					
 				ORDER by FIELD(comment_id,?a)";
@@ -111,7 +111,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 					
 					comment_id	
 				FROM 
-					".DB_TABLE_COMMENT_ONLINE." 
+					".Config::Get('db.table.comment_online')." 
 				WHERE 												
 					target_type = ?										
 				ORDER by comment_online_id desc limit 0, ?d ; "; 		
@@ -130,7 +130,7 @@ class Mapper_Comment extends Mapper {
 					comment_id as ARRAY_KEY,
 					comment_pid as PARENT_KEY
 				FROM 
-					".DB_TABLE_COMMENT."				
+					".Config::Get('db.table.comment')."				
 				WHERE 
 					target_id = ?d 
 					AND			
@@ -147,7 +147,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 
 					comment_id
 				FROM 
-					".DB_TABLE_COMMENT." 									
+					".Config::Get('db.table.comment')." 									
 				WHERE 
 					target_id = ?d 
 					AND			
@@ -169,7 +169,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 
 					comment_id 					
 				FROM 
-					".DB_TABLE_COMMENT." 
+					".Config::Get('db.table.comment')." 
 				WHERE 
 					user_id = ?d 
 					AND
@@ -193,7 +193,7 @@ class Mapper_Comment extends Mapper {
 		$sql = "SELECT 
 					count(comment_id) as count					
 				FROM 
-					".DB_TABLE_COMMENT." 
+					".Config::Get('db.table.comment')." 
 				WHERE 
 					user_id = ?d 
 					AND
@@ -210,7 +210,7 @@ class Mapper_Comment extends Mapper {
 	}
 	
 	public function AddComment(CommentEntity_Comment $oComment) {
-		$sql = "INSERT INTO ".DB_TABLE_COMMENT." 
+		$sql = "INSERT INTO ".Config::Get('db.table.comment')." 
 			(comment_pid,
 			target_id,
 			target_type,
@@ -232,7 +232,7 @@ class Mapper_Comment extends Mapper {
 	
 	
 	public function AddCommentOnline(CommentEntity_CommentOnline $oCommentOnline) {
-		$sql = "REPLACE INTO ".DB_TABLE_COMMENT_ONLINE." 
+		$sql = "REPLACE INTO ".Config::Get('db.table.comment_online')." 
 			SET 
 				target_id= ?d ,			
 				target_type= ? ,			
@@ -246,7 +246,7 @@ class Mapper_Comment extends Mapper {
 	}
 	
 	public function DeleteCommentOnlineByTargetId($sTargetId,$sTargetType) {
-		$sql = "DELETE FROM ".DB_TABLE_COMMENT_ONLINE." WHERE target_id = ?d and target_type = ? ";			
+		$sql = "DELETE FROM ".Config::Get('db.table.comment_online')." WHERE target_id = ?d and target_type = ? ";			
 		if ($this->oDb->query($sql,$sTargetId,$sTargetType)) 
 		{
 			return true;
@@ -257,7 +257,7 @@ class Mapper_Comment extends Mapper {
 	
 	
 	public function UpdateComment(CommentEntity_Comment $oComment) {		
-		$sql = "UPDATE ".DB_TABLE_COMMENT." 
+		$sql = "UPDATE ".Config::Get('db.table.comment')." 
 			SET 
 				comment_text= ?,
 				comment_rating= ?f,
@@ -275,7 +275,7 @@ class Mapper_Comment extends Mapper {
 	}
 	
 	public function SetCommentsPublish($sTargetId,$sTargetType,$iPublish) {		
-		$sql = "UPDATE ".DB_TABLE_COMMENT." 
+		$sql = "UPDATE ".Config::Get('db.table.comment')." 
 			SET 
 				comment_publish= ? 				
 			WHERE

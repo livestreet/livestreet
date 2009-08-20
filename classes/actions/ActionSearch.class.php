@@ -21,7 +21,7 @@ class ActionSearch extends Action {
 	
 	function EventOpenSearch(){
 		Router::SetIsShowStats(false);
-		$this->Viewer_Assign('sAdminMail', SYS_MAIL_FROM_EMAIL);
+		$this->Viewer_Assign('sAdminMail', Config::Get('sys.mail.from_email'));
 	}
 	/**
 	 * Поиск топиков

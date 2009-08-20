@@ -110,7 +110,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					s.user_id 
 				FROM					
-					".DB_TABLE_SESSION." as s
+					".Config::Get('db.table.session')." as s
 				WHERE 
 					s.session_key = ? 					
 				";
@@ -121,7 +121,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function CreateSession(UserEntity_Session $oSession) {
-		$sql = "REPLACE INTO ".DB_TABLE_SESSION." 
+		$sql = "REPLACE INTO ".Config::Get('db.table.session')." 
 			SET 
 				session_key = ? ,
 				user_id = ? ,
@@ -134,7 +134,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function UpdateSession(UserEntity_Session $oSession) {
-		$sql = "UPDATE ".DB_TABLE_SESSION." 
+		$sql = "UPDATE ".Config::Get('db.table.session')." 
 			SET 
 				session_ip_last = ? ,	
 				session_date_last = ? 
@@ -151,7 +151,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 					s.*						 
 				FROM 
-					".DB_TABLE_SESSION." as s					
+					".Config::Get('db.table.session')." as s					
 				WHERE 
 					s.user_id IN(?a) ";
 		$aRes=array();
@@ -173,7 +173,7 @@ class Mapper_User extends Mapper {
 					IF(ua.user_id IS NULL,0,1) as user_is_administrator 						 
 				FROM 
 					".Config::Get('db.table.user')." as u	
-					LEFT JOIN ".DB_TABLE_USER_ADMINISTRATOR." AS ua ON u.user_id=ua.user_id 
+					LEFT JOIN ".Config::Get('db.table.user_administrator')." AS ua ON u.user_id=ua.user_id 
 				WHERE 
 					u.user_id IN(?a) 								
 				ORDER BY FIELD(u.user_id,?a) ";
@@ -229,7 +229,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 			user_id		 
 			FROM 
-				".DB_TABLE_SESSION."				
+				".Config::Get('db.table.session')."				
 			ORDER BY 
 				session_date_last DESC		
 			LIMIT 0, ?d		
@@ -291,7 +291,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCountUsersActive($sDateActive) {
-		$sql = "SELECT count(user_id) as count FROM ".DB_TABLE_SESSION." WHERE session_date_last >= ? ";			
+		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";			
 		$result=$this->oDb->selectRow($sql,$sDateActive);
 		return $result['count'];
 	}
@@ -316,7 +316,7 @@ class Mapper_User extends Mapper {
 						".Config::Get('db.table.country_user')."
 					GROUP BY country_id LIMIT 0, ?d
 				) as cu
-				JOIN ".DB_TABLE_COUNTRY." as c on cu.country_id=c.country_id	
+				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id	
 			ORDER BY c.country_name		
 		";		
 		$result=$this->oDb->select($sql,$sLimit);
@@ -333,10 +333,10 @@ class Mapper_User extends Mapper {
 						count(user_id) as count,
 						city_id 
 					FROM 
-						".DB_TABLE_CITY_USER."
+						".Config::Get('db.table.city_user')."
 					GROUP BY city_id LIMIT 0, ?d
 				) as cu
-				JOIN ".DB_TABLE_CITY." as c on cu.city_id=c.city_id		
+				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id		
 			ORDER BY c.city_name	
 		";		
 		$result=$this->oDb->select($sql,$sLimit);
@@ -574,8 +574,8 @@ class Mapper_User extends Mapper {
 		$sql = "
 			SELECT cu.user_id
 			FROM
-				".DB_TABLE_CITY." as c,
-				".DB_TABLE_CITY_USER." as cu
+				".Config::Get('db.table.city')." as c,
+				".Config::Get('db.table.city_user')." as cu
 			WHERE
 				c.city_name = ?
 				AND
@@ -604,7 +604,7 @@ class Mapper_User extends Mapper {
 	
 	
 	public function SetCityUser($sCityId,$sUserId) {		
-		$sql = "REPLACE ".DB_TABLE_CITY_USER." 
+		$sql = "REPLACE ".Config::Get('db.table.city_user')." 
 			SET 
 				city_id = ? ,
 				user_id = ? 
@@ -613,7 +613,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function GetCityByName($sName) {
-		$sql = "SELECT * FROM ".DB_TABLE_CITY." WHERE city_name = ? ";
+		$sql = "SELECT * FROM ".Config::Get('db.table.city')." WHERE city_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
 			return new UserEntity_City($aRow);
 		}
@@ -621,7 +621,7 @@ class Mapper_User extends Mapper {
 	}
 	
 	public function AddCity(UserEntity_City $oCity) {
-		$sql = "INSERT INTO ".DB_TABLE_CITY." 
+		$sql = "INSERT INTO ".Config::Get('db.table.city')." 
 			(city_name)
 			VALUES(?)
 		";			
@@ -635,7 +635,7 @@ class Mapper_User extends Mapper {
 		$sql = "SELECT 
 				*					 
 			FROM 
-				".DB_TABLE_CITY."	
+				".Config::Get('db.table.city')."	
 			WHERE
 				city_name LIKE ?														
 			LIMIT 0, ?d		

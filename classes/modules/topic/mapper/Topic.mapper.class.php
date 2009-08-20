@@ -18,7 +18,7 @@
 class Mapper_Topic extends Mapper {	
 		
 	public function AddTopic(TopicEntity_Topic $oTopic) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC." 
+		$sql = "INSERT INTO ".Config::Get('db.table.topic')." 
 			(blog_id,
 			user_id,
 			topic_type,
@@ -46,7 +46,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function AddTopicContent(TopicEntity_Topic $oTopic) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_CONTENT." 
+		$sql = "INSERT INTO ".Config::Get('db.table.topic_content')." 
 			(topic_id,			
 			topic_text,
 			topic_text_short,
@@ -64,7 +64,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function AddTopicTag(TopicEntity_TopicTag $oTopicTag) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_TAG." 
+		$sql = "INSERT INTO ".Config::Get('db.table.topic_tag')." 
 			(topic_id,
 			user_id,
 			blog_id,
@@ -82,7 +82,7 @@ class Mapper_Topic extends Mapper {
 	
 	
 	public function DeleteTopicTagsByTopicId($sTopicId) {
-		$sql = "DELETE FROM ".DB_TABLE_TOPIC_TAG." 
+		$sql = "DELETE FROM ".Config::Get('db.table.topic_tag')." 
 			WHERE
 				topic_id = ?d				
 		";			
@@ -93,7 +93,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function DeleteTopic($sTopicId) {
-		$sql = "DELETE FROM ".DB_TABLE_TOPIC." 
+		$sql = "DELETE FROM ".Config::Get('db.table.topic')." 
 			WHERE
 				topic_id = ?d				
 		";			
@@ -105,7 +105,7 @@ class Mapper_Topic extends Mapper {
 	
 		
 	public function GetTopicUnique($sUserId,$sHash) {
-		$sql = "SELECT topic_id FROM ".DB_TABLE_TOPIC." 
+		$sql = "SELECT topic_id FROM ".Config::Get('db.table.topic')." 
 			WHERE 				
 				user_id = ?d				
 				AND
@@ -126,8 +126,8 @@ class Mapper_Topic extends Mapper {
 					t.*,
 					tc.*							 
 				FROM 
-					".DB_TABLE_TOPIC." as t	
-					JOIN  ".DB_TABLE_TOPIC_CONTENT." AS tc ON t.topic_id=tc.topic_id				
+					".Config::Get('db.table.topic')." as t	
+					JOIN  ".Config::Get('db.table.topic_content')." AS tc ON t.topic_id=tc.topic_id				
 				WHERE 
 					t.topic_id IN(?a) 									
 				ORDER BY FIELD(t.topic_id,?a) ";
@@ -147,8 +147,8 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 						t.topic_id							
 					FROM 
-						".DB_TABLE_TOPIC." as t,	
-						".DB_TABLE_BLOG." as b				
+						".Config::Get('db.table.topic')." as t,	
+						".Config::Get('db.table.blog')." as b				
 					WHERE 
 						1=1					
 						".$sWhere."					
@@ -170,8 +170,8 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					count(t.topic_id) as count									
 				FROM 
-					".DB_TABLE_TOPIC." as t,					
-					".DB_TABLE_BLOG." as b 
+					".Config::Get('db.table.topic')." as t,					
+					".Config::Get('db.table.blog')." as b 
 				WHERE 
 					1=1
 					
@@ -190,7 +190,7 @@ class Mapper_Topic extends Mapper {
 							SELECT 		
 								topic_id										
 							FROM 
-								".DB_TABLE_TOPIC_TAG."								
+								".Config::Get('db.table.topic_tag')."								
 							WHERE 
 								topic_tag_text = ? 	
                             ORDER BY topic_id DESC	
@@ -210,7 +210,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 						t.topic_id										
 					FROM 
-						".DB_TABLE_TOPIC." as t
+						".Config::Get('db.table.topic')." as t
 					WHERE 					
 						t.topic_publish = 1
 						AND
@@ -233,7 +233,7 @@ class Mapper_Topic extends Mapper {
 			tt.topic_tag_text,
 			count(tt.topic_tag_text)	as count		 
 			FROM 
-				".DB_TABLE_TOPIC_TAG." as tt 			
+				".Config::Get('db.table.topic_tag')." as tt 			
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
@@ -259,7 +259,7 @@ class Mapper_Topic extends Mapper {
 	
 	
 	public function increaseTopicCountComment($sTopicId) {
-		$sql = "UPDATE ".DB_TABLE_TOPIC." 
+		$sql = "UPDATE ".Config::Get('db.table.topic')." 
 			SET 
 				topic_count_comment=topic_count_comment+1
 			WHERE
@@ -272,7 +272,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function UpdateTopic(TopicEntity_Topic $oTopic) {		
-		$sql = "UPDATE ".DB_TABLE_TOPIC." 
+		$sql = "UPDATE ".Config::Get('db.table.topic')." 
 			SET 
 				blog_id= ?d,
 				topic_title= ?,				
@@ -301,7 +301,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function UpdateTopicContent(TopicEntity_Topic $oTopic) {		
-		$sql = "UPDATE ".DB_TABLE_TOPIC_CONTENT." 
+		$sql = "UPDATE ".Config::Get('db.table.topic_content')." 
 			SET 				
 				topic_text= ?,
 				topic_text_short= ?,
@@ -350,7 +350,7 @@ class Mapper_Topic extends Mapper {
 	
 	
 	public function AddFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
-		$sql = "INSERT INTO ".DB_TABLE_FAVOURITE_TOPIC." 
+		$sql = "INSERT INTO ".Config::Get('db.table.favourite_topic')." 
 			(user_id,
 			topic_id,
 			topic_publish		
@@ -365,7 +365,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function DeleteFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
-		$sql = "DELETE FROM ".DB_TABLE_FAVOURITE_TOPIC." 
+		$sql = "DELETE FROM ".Config::Get('db.table.favourite_topic')." 
 			WHERE
 				user_id = ?d
 				AND
@@ -379,7 +379,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function SetFavouriteTopicPublish($sTopicId,$iPublish) {
-		$sql = "UPDATE ".DB_TABLE_FAVOURITE_TOPIC." 
+		$sql = "UPDATE ".Config::Get('db.table.favourite_topic')." 
 			SET 
 				topic_publish = ?d
 			WHERE				
@@ -397,7 +397,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					f.*							 
 				FROM 
-					".DB_TABLE_FAVOURITE_TOPIC." as f 
+					".Config::Get('db.table.favourite_topic')." as f 
 				WHERE 
 					f.user_id = ?d 
 					AND 
@@ -417,7 +417,7 @@ class Mapper_Topic extends Mapper {
 							SELECT 		
 								topic_id										
 							FROM 
-								".DB_TABLE_FAVOURITE_TOPIC."								
+								".Config::Get('db.table.favourite_topic')."								
 							WHERE 
 								user_id = ?
 								and
@@ -438,7 +438,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 		
 					count(topic_id) as count									
 				FROM 
-					".DB_TABLE_FAVOURITE_TOPIC."								
+					".Config::Get('db.table.favourite_topic')."								
 				WHERE 
 					user_id = ?
 					and
@@ -455,7 +455,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 				topic_tag_text					 
 			FROM 
-				".DB_TABLE_TOPIC_TAG."	
+				".Config::Get('db.table.topic_tag')."	
 			WHERE
 				topic_tag_text LIKE ?			
 			GROUP BY 
@@ -472,7 +472,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function UpdateTopicRead(TopicEntity_TopicRead $oTopicRead) {		
-		$sql = "UPDATE ".DB_TABLE_TOPIC_READ." 
+		$sql = "UPDATE ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
 				comment_id_last = ? ,
@@ -486,7 +486,7 @@ class Mapper_Topic extends Mapper {
 	}	
 
 	public function AddTopicRead(TopicEntity_TopicRead $oTopicRead) {		
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_READ." 
+		$sql = "INSERT INTO ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
 				comment_id_last = ? ,
@@ -506,7 +506,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					t.*							 
 				FROM 
-					".DB_TABLE_TOPIC_READ." as t 
+					".Config::Get('db.table.topic_read')." as t 
 				WHERE 
 					t.user_id = ?d 
 					AND
@@ -522,7 +522,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
-		$sql = "INSERT INTO ".DB_TABLE_TOPIC_QUESTION_VOTE." 
+		$sql = "INSERT INTO ".Config::Get('db.table.topic_question_vote')." 
 			(topic_id,
 			user_voter_id,
 			answer		
@@ -545,7 +545,7 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					v.*							 
 				FROM 
-					".DB_TABLE_TOPIC_QUESTION_VOTE." as v 
+					".Config::Get('db.table.topic_question_vote')." as v 
 				WHERE 
 					v.user_voter_id = ?d
 					AND

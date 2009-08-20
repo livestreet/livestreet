@@ -19,7 +19,7 @@ class Mapper_Vote extends Mapper {
 		
 	
 	public function AddVote(VoteEntity_Vote $oVote) {
-		$sql = "INSERT INTO ".DB_TABLE_VOTE." 
+		$sql = "INSERT INTO ".Config::Get('db.table.vote')." 
 			(target_id,
 			target_type,
 			user_voter_id,
@@ -44,7 +44,7 @@ class Mapper_Vote extends Mapper {
 		$sql = "SELECT 
 					*							 
 				FROM 
-					".DB_TABLE_VOTE."
+					".Config::Get('db.table.vote')."
 				WHERE 					
 					target_id IN(?a) 	
 					AND
