@@ -63,6 +63,8 @@ ALTER TABLE `prefix_talk_user` ADD `comment_count_new` INT DEFAULT '0' NOT NULL 
 -- Переход на единую систему избранного
 --
 ALTER TABLE  `prefix_favourite_topic` RENAME  `prefix_favourite`;
+ALTER TABLE  `prefix_favourite` DROP FOREIGN KEY `prefix_favourite_topic_fk1`;
+ALTER TABLE  `prefix_favourite` DROP FOREIGN KEY `prefix_favourite_topic_fk`;
 ALTER TABLE  `prefix_favourite` DROP INDEX  `topic_id`;
 ALTER TABLE  `prefix_favourite` DROP INDEX  `topic_publish`;
 ALTER TABLE  `prefix_favourite` CHANGE  `topic_id`  `target_id` INT( 11 ) UNSIGNED;
@@ -70,5 +72,5 @@ ALTER TABLE  `prefix_favourite` CHANGE  `topic_publish`  `target_publish` TINYIN
 ALTER TABLE  `prefix_favourite` ADD  `target_type` ENUM(  'topic',  'comment' ) DEFAULT  'topic' NOT NULL AFTER  `target_id` ;
 ALTER TABLE  `prefix_favourite` DROP INDEX  `user_id_topic_id`,
 ADD UNIQUE  `user_id_target_id_type` (  `user_id` ,  `target_id` ,  `target_type` );
-ALTER TABLE  `prefix_favourite` DROP INDEX  `topic_publish`,
-ADD INDEX  `target_publish` (  `target_publish` );
+ALTER TABLE  `prefix_favourite` ADD INDEX  `target_publish` (  `target_publish` );
+ALTER TABLE `prefix_favourite` ADD CONSTRAINT `prefix_favourite_target_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
