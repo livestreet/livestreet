@@ -477,7 +477,7 @@ select { width: 99%; }
 .comment .info a.link { background: url(../images/icons.gif) no-repeat scroll -10px -230px; }
 .comment .info a.link:hover { background: url(../images/icons.gif) no-repeat scroll 0px -230px; }
 
-.comment .info li.favorite a{ background: url(../images/icons.gif) no-repeat scroll -40px -40px; width: 10px; height:8px;margin-top:4px; display: block;}
+.comment .info li.favorite a{ background: url(../images/icons.gif) no-repeat scroll -40px -40px; width: 10px; height:8px;margin-top:4px; display: block; outline-style:none;}
 .comment .info li.favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
 .comment .info li.favorite.active a{ background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
 

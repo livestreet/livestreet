@@ -88,7 +88,7 @@ class LsFavourite extends Module {
 			}
 		}
 		/**
-		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
+		 * Смотрим чего не было в кеше и делаем запрос в БД
 		 */		
 		$aIdNeedQuery=array_diff($aTargetId,array_keys($aFavourite));		
 		$aIdNeedQuery=array_diff($aIdNeedQuery,$aIdNotNeedQuery);		
@@ -99,7 +99,7 @@ class LsFavourite extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aFavourite[$oFavourite->getTargetId()]=$oFavourite;
-				$this->Cache_Set($oFavourite, "favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getFavouriterId()}", array(), 60*60*24*7);
+				$this->Cache_Set($oFavourite, "favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$sUserId}", array(), 60*60*24*7);
 				$aIdNeedStore=array_diff($aIdNeedStore,array($oFavourite->getTargetId()));
 			}
 		}
@@ -116,7 +116,7 @@ class LsFavourite extends Module {
 		return $aFavourite;		
 	}
 	/**
-	 * Получить список голосований по списку айдишников, но используя единый кеш
+	 * Получить список избранного по списку айдишников, но используя единый кеш
 	 *
 	 * @param  array  $aTargetId
 	 * @param  string $sTargetType
@@ -135,7 +135,7 @@ class LsFavourite extends Module {
 			foreach ($data as $oFavourite) {
 				$aFavourites[$oFavourite->getTargetId()]=$oFavourite;
 			}
-			$this->Cache_Set($aFavourites, "favourite_{$sTargetType}_{$sUserId}_id_{$s}", array("favourite_update_{$sTargetType}_{$sUserId}"), 60*60*24*1);
+			$this->Cache_Set($aFavourites, "favourite_{$sTargetType}_{$sUserId}_id_{$s}", array("favourite_{$sTargetType}_change_user_{$sUserId}"), 60*60*24*1);
 			return $aFavourites;
 		}		
 		return $data;
@@ -166,8 +166,7 @@ class LsFavourite extends Module {
 				), 
 				60*60*24*1
 			);
-		}
-		/// $data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
+		}		
 		return $data;		
 	}
 	/**
