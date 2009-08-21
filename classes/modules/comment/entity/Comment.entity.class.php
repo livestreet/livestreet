@@ -76,7 +76,9 @@ class CommentEntity_Comment extends Entity
     public function getVote() {
         return $this->_aData['vote'];
     }
-    
+     public function getIsFavourite() {
+        return $this->_aData['comment_is_favourite'];
+    }   
     
     
     
@@ -132,6 +134,9 @@ class CommentEntity_Comment extends Entity
     }
     public function setVote($data) {
         $this->_aData['vote']=$data;
-    }    
+    }  
+    public function setIsFavourite($data) {
+        $this->_aData['comment_is_favourite']=$data;
+    }      
 }
 ?>

@@ -333,32 +333,46 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков из избранного
 	 *
-	 * @param unknown_type $sUserId
-	 * @param unknown_type $iCount
-	 * @param unknown_type $iCurrPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  string $sUserId
+	 * @param  int    $iCount
+	 * @param  int    $iCurrPage
+	 * @param  int    $iPerPage
+	 * @return array
 	 */
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
-		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('favourite_topic_change',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
-		}
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//
+		//if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}"))) {			
+		//	$data = array('collection'=>$this->oMapperTopic->GetTopicsFavouriteByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+		//	$this->Cache_Set($data, "topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", array('favourite_topic_change',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
+		//}
+		
+		// Получаем список идентификаторов избранных записей
+		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$iCurrPage,$iPerPage);
+		// Получаем записи по переданому массиву айдишников
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
 		return $data;		
 	}
 	/**
 	 * Возвращает число топиков в избранном
 	 *
-	 * @param unknown_type $sUserId
-	 * @return unknown
+	 * @param  string $sUserId
+	 * @return int
 	 */
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
-		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}"))) {			
-			$data = $this->oMapperTopic->GetCountTopicsFavouriteByUserId($sUserId);
-			$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('favourite_topic_change',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
-		}
-		return $data;		
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//
+		//if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}"))) {			
+		//	$data = $this->oMapperTopic->GetCountTopicsFavouriteByUserId($sUserId);
+		//	$this->Cache_Set($data, "topic_count_favourite_user_{$sUserId}", array('favourite_topic_change',"favourite_topic_change_user_{$sUserId}"), 60*60*24*1);
+		//}
+		//return $data;
+
+		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic');	
 	}
 	/**
 	 * Список топиков по фильтру
@@ -713,11 +727,18 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetFavouriteTopic($sTopicId,$sUserId) {
+		return $this->Favourite_GetFavourite($sTopicId,'topic',$sUserId);
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//		
+		/**
 		$data=$this->GetFavouriteTopicsByArray($sTopicId,$sUserId);
 		if (isset($data[$sTopicId])) {
 			return $data[$sTopicId];
 		}
 		return null;
+		**/
 	}
 	/**
 	 * Получить список избранного по списку айдишников
@@ -725,6 +746,12 @@ class LsTopic extends Module {
 	 * @param unknown_type $aTopicId
 	 */
 	public function GetFavouriteTopicsByArray($aTopicId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArray($aTopicId,'topic',$sUserId);
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//		
+		/**
 		if (!$aTopicId) {
 			return array();
 		}
@@ -737,14 +764,12 @@ class LsTopic extends Module {
 		$aTopicId=array_unique($aTopicId);
 		$aFavouriteTopics=array();
 		$aTopicIdNotNeedQuery=array();
-		/**
-		 * Делаем мульти-запрос к кешу
-		 */
+
+		// Делаем мульти-запрос к кешу
 		$aCacheKeys=func_build_cache_keys($aTopicId,'favourite_topic_','_'.$sUserId);
 		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
-			/**
-			 * проверяем что досталось из кеша
-			 */
+
+			// проверяем что досталось из кеша
 			foreach ($aCacheKeys as $sValue => $sKey ) {
 				if (array_key_exists($sKey,$data)) {	
 					if ($data[$sKey]) {
@@ -755,33 +780,27 @@ class LsTopic extends Module {
 				} 
 			}
 		}
-		/**
-		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
-		 */		
+		// Смотрим каких топиков не было в кеше и делаем запрос в БД		
 		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aFavouriteTopics));		
 		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);		
 		$aTopicIdNeedStore=$aTopicIdNeedQuery;
 		if ($data = $this->oMapperTopic->GetFavouriteTopicsByArray($aTopicIdNeedQuery,$sUserId)) {
 			foreach ($data as $oFavouriteTopic) {
-				/**
-				 * Добавляем к результату и сохраняем в кеш
-				 */
+
+				// Добавляем к результату и сохраняем в кеш
 				$aFavouriteTopics[$oFavouriteTopic->getTopicId()]=$oFavouriteTopic;
 				$this->Cache_Set($oFavouriteTopic, "favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}", array(), 60*60*24*4);
 				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oFavouriteTopic->getTopicId()));
 			}
 		}
-		/**
-		 * Сохраняем в кеш запросы не вернувшие результата
-		 */
+		// Сохраняем в кеш запросы не вернувшие результата
 		foreach ($aTopicIdNeedStore as $sId) {
 			$this->Cache_Set(null, "favourite_topic_{$sId}_{$sUserId}", array(), 60*60*24*4);
 		}		
-		/**
-		 * Сортируем результат согласно входящему массиву
-		 */
+		// Сортируем результат согласно входящему массиву
 		$aFavouriteTopics=func_array_sort_by_keys($aFavouriteTopics,$aTopicId);
 		return $aFavouriteTopics;		
+		**/
 	}
 	/**
 	 * Получить список избранного по списку айдишников, но используя единый кеш
@@ -791,6 +810,12 @@ class LsTopic extends Module {
 	 * @return array
 	 */
 	public function GetFavouriteTopicsByArraySolid($aTopicId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArraySolid($aTopicId,'topic',$sUserId);
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//		
+		/**
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
 		}
@@ -806,6 +831,7 @@ class LsTopic extends Module {
 			return $aFavouriteTopics;
 		}		
 		return $data;
+		**/
 	}
 	/**
 	 * Добавляет топик в избранное
@@ -813,11 +839,27 @@ class LsTopic extends Module {
 	 * @param TopicEntity_FavouriteTopic $oFavouriteTopic
 	 * @return unknown
 	 */
-	public function AddFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
+	public function AddFavouriteTopic(FavouriteEntity_Favourite $oFavouriteTopic) {
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));						
-		$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");						
-		return $this->oMapperTopic->AddFavouriteTopic($oFavouriteTopic);
+		//$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));						
+		//$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");						
+		//return $this->oMapperTopic->AddFavouriteTopic($oFavouriteTopic);
+		
+		return 
+			$this->Favourite_AddFavourite(
+				new FavouriteEntity_Favourite(
+					array(
+						'target_id'      => $oFavouriteTopic->getTargetId(),
+						'target_type'    => 'topic',
+						'user_id'        => $oFavouriteTopic->getUserId(),
+						'target_publish' => $oFavouriteTopic->getTargetPublish()
+					)
+				)
+			);
 	}
 	/**
 	 * Удаляет топик из избранного
@@ -825,15 +867,36 @@ class LsTopic extends Module {
 	 * @param TopicEntity_FavouriteTopic $oFavouriteTopic
 	 * @return unknown
 	 */
-	public function DeleteFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
+	public function DeleteFavouriteTopic(FavouriteEntity_Favourite $oFavouriteTopic) {
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));
-		$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");
-		return $this->oMapperTopic->DeleteFavouriteTopic($oFavouriteTopic);
+		//$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change_user_{$oFavouriteTopic->getUserId()}"));
+		//$this->Cache_Delete("favourite_topic_{$oFavouriteTopic->getTopicId()}_{$oFavouriteTopic->getUserId()}");
+		//return $this->oMapperTopic->DeleteFavouriteTopic($oFavouriteTopic);
+
+		return 
+			$this->Favourite_DeleteFavourite(
+				new FavouriteEntity_Favourite(
+					array(
+						'target_id'      => $oFavouriteTopic->getTargetId(),
+						'target_type'    => 'topic',
+						'user_id'        => $oFavouriteTopic->getUserId(),
+						'target_publish' => $oFavouriteTopic->getTargetPublish()
+					)
+				)
+			);		
 	}
 	public function SetFavouriteTopicPublish($sTopicId,$iPublish) {
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change"));
-		return $this->oMapperTopic->SetFavouriteTopicPublish($sTopicId,$iPublish);
+		//
+		// Рефакторинг:
+		// переход на единую систему хранения избранного
+		//
+		//$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_topic_change"));
+		//return $this->oMapperTopic->SetFavouriteTopicPublish($sTopicId,$iPublish);		
+		return $this->Favourite_SetFavouriteTargetPublish($sTopicId,'topic',$iPublish);		
 	}
 	/**
 	 * Получает список тегов по первым буквам тега

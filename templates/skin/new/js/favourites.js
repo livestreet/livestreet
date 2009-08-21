@@ -18,6 +18,10 @@ var lsFavouriteClass = new Class({
                 topic: {
                         url: DIR_WEB_ROOT+'/include/ajax/topicFavourite.php',
                         targetName: 'idTopic'
+                },
+                comment: {
+                        url: DIR_WEB_ROOT+'/include/ajax/commentFavourite.php',
+                        targetName: 'idComment'                	
                 }
         },
 

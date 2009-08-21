@@ -15,27 +15,32 @@
 ---------------------------------------------------------
 */
 
-class TopicEntity_FavouriteTopic extends FavouriteEntity_Favourite 
+class FavouriteEntity_Favourite extends Entity 
 {   
-	public function __construct($aParam = false)
-	{ 
-		parent::__construct($aParam);
-		$this->_aData['target_type'] = 'topic';
-	}
-	
-    public function getTopicId() {
+    public function getTargetId() {
         return $this->_aData['target_id'];
     }  
-    public function getTopicPublish() {
+    public function getUserId() {
+        return $this->_aData['user_id'];
+    }
+    public function getTargetPublish() {
         return $this->_aData['target_publish'];
     }
+    public function getTargetType() {
+    	return $this->_aData['target_type'];
+    }
     
-    
-	public function setTopicId($data) {
+	public function setTargetId($data) {
         $this->_aData['target_id']=$data;
     }
-    public function setTopicPublish($data) {
+    public function setUserId($data) {
+        $this->_aData['user_id']=$data;
+    }
+    public function setTargetPublish($data) {
         $this->_aData['target_publish']=$data;
+    }
+    public function setTargetType($data) {
+    	$this->_aData['target_type']=$data;
     }
 }
 ?>

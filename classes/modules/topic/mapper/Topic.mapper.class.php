@@ -348,14 +348,19 @@ class Mapper_Topic extends Mapper {
 		return $sWhere;
 	}
 	
-	
+	//
+	// Рефакторинг:
+	// переход на единую систему хранения избранного
+	//		
+	/**			
 	public function AddFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
-		$sql = "INSERT INTO ".Config::Get('db.table.favourite_topic')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.favourite')." 
 			(user_id,
-			topic_id,
-			topic_publish		
+			target_id,
+			target_type,
+			target_publish		
 			)
-			VALUES(?d,  ?d, ?d)
+			VALUES(?d,  ?d, 'topic', ?d)
 		";			
 		if ($this->oDb->query($sql,$oFavouriteTopic->getUserId(),$oFavouriteTopic->getTopicId(),$oFavouriteTopic->getTopicPublish())===0) 
 		{
@@ -363,13 +368,16 @@ class Mapper_Topic extends Mapper {
 		}		
 		return false;
 	}
-	
+
 	public function DeleteFavouriteTopic(TopicEntity_FavouriteTopic $oFavouriteTopic) {
-		$sql = "DELETE FROM ".Config::Get('db.table.favourite_topic')." 
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.favourite')." 
 			WHERE
 				user_id = ?d
-				AND
-				topic_id = ?d				
+			AND
+				target_id = ?d
+			AND 
+				target_type = 'topic'				
 		";			
 		if ($this->oDb->query($sql,$oFavouriteTopic->getUserId(),$oFavouriteTopic->getTopicId())) 
 		{
@@ -377,19 +385,21 @@ class Mapper_Topic extends Mapper {
 		}		
 		return false;
 	}
-	
+
 	public function SetFavouriteTopicPublish($sTopicId,$iPublish) {
-		$sql = "UPDATE ".Config::Get('db.table.favourite_topic')." 
+		$sql = "UPDATE ".Config::Get('db.table.favourite')." 
 			SET 
-				topic_publish = ?d
+				taget_publish = ?d
 			WHERE				
-				topic_id = ?d				
+				target_id = ?d
+			AND
+				target_type = 'topic'				
 		";			
 		return $this->oDb->query($sql,$iPublish,$sTopicId); 		
 	}
 	
 	
-	
+
 	public function GetFavouriteTopicsByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
@@ -397,11 +407,13 @@ class Mapper_Topic extends Mapper {
 		$sql = "SELECT 
 					f.*							 
 				FROM 
-					".Config::Get('db.table.favourite_topic')." as f 
+					".Config::Get('db.table.favourite')." as f 
 				WHERE 
 					f.user_id = ?d 
 					AND 
-					f.topic_id IN(?a) 									
+					f.target_id IN(?a)
+					AND 
+					f.target_type = 'topic' 									
 				";
 		$aFavourites=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
@@ -415,20 +427,22 @@ class Mapper_Topic extends Mapper {
 	public function GetTopicsFavouriteByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {	
 		$sql = "			
 							SELECT 		
-								topic_id										
+								target_id										
 							FROM 
-								".Config::Get('db.table.favourite_topic')."								
+								".Config::Get('db.table.favourite')."								
 							WHERE 
 								user_id = ?
-								and
-								topic_publish = 1 	
-                            ORDER BY topic_id DESC	
+							AND
+								target_publish = 1
+							AND
+								target_type = 'topic' 	
+                            ORDER BY target_id DESC	
                             LIMIT ?d, ?d ";
 		
 		$aTopics=array();		
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=$aTopic['topic_id'];
+				$aTopics[]=$aTopic['target_id'];
 			}			
 		}		
 		return $aTopics;
@@ -436,20 +450,22 @@ class Mapper_Topic extends Mapper {
 	
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
 		$sql = "SELECT 		
-					count(topic_id) as count									
+					count(target_id) as count									
 				FROM 
-					".Config::Get('db.table.favourite_topic')."								
+					".Config::Get('db.table.favourite')."								
 				WHERE 
 					user_id = ?
-					and
-					topic_publish = 1;	
+					AND
+					target_publish = 1
+					AND
+					target_type = 'topic';	
 					";				
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['count'];
 		}
 		return false;
 	}
-	
+	**/
 	public function GetTopicTagsByLike($sTag,$iLimit) {
 		$sTag=mb_strtolower($sTag,"UTF-8");		
 		$sql = "SELECT 

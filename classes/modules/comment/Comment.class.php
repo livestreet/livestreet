@@ -80,7 +80,7 @@ class LsComment extends Module {
 	 * Получает дополнительные данные(объекты) для комментов по их ID
 	 *
 	 */
-	public function GetCommentsAdditionalData($aCommentId,$aAllowData=array('vote','target','user'=>array())) {
+	public function GetCommentsAdditionalData($aCommentId,$aAllowData=array('vote','target','favourite','user'=>array())) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aCommentId)) {
 			$aCommentId=array($aCommentId);
@@ -100,6 +100,9 @@ class LsComment extends Module {
 			}
 			if (isset($aAllowData['target'])) {
 				$aTargetId[$oComment->getTargetType()][]=$oComment->getTargetId();
+			}
+			if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
+				$aFavouriteComments=$this->Favourite_GetFavouritesByArray($aCommentId,'comment',$this->oUserCurrent->getId());	
 			}
 		}
 		
@@ -136,6 +139,11 @@ class LsComment extends Module {
 			} else {
 				$oComment->setVote(null);
 			}
+			if (isset($aFavouriteComments[$oComment->getId()])) {
+				$oComment->setIsFavourite(true);
+			} else {
+				$oComment->setIsFavourite(false);
+			}						
 		}
 		
 		return $aComments;
@@ -369,12 +377,20 @@ class LsComment extends Module {
 	/**
 	 * Устанавливает publish у коммента
 	 *
-	 * @param CommentEntity_Comment $oComment
-	 * @return unknown
+	 * @param  string $sTargetId
+	 * @param  string $sTargetType
+	 * @param  int    $iPublish
+	 * @return bool
 	 */
 	public function SetCommentsPublish($sTargetId,$sTargetType,$iPublish) {		
+		if(!$oComment = $this->GetCommentsByTargetId($sTargetId,$sTargetType)) {
+			return false;
+		}
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$sTargetType}"));		
-		return $this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish);
+		// Если статус публикации успешно изменен, то меняем статус в отметке "избранное"
+		return ($this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish))
+				? $this->Favourite_SetFavouriteTargetPublish($oComment->getId(),'comment',$iPublish)
+				: false;
 	}
 	/**
 	 * Удаляет коммент из прямого эфира
@@ -396,8 +412,6 @@ class LsComment extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$oCommentOnline->getTargetType()}"));
 		return $this->oMapper->AddCommentOnline($oCommentOnline);
 	}
-	
-	
 	
 	/**
 	 * Получить новые комменты для топика
@@ -474,6 +488,84 @@ class LsComment extends Module {
 		$iLevel--;		
 		return array('comments'=>$aResultCommnets,'iMaxIdComment'=>$iMaxIdComment);
 	}
+	
+	/**
+	 * Получает привязку комментария к ибранному(добавлен ли коммент в избранное у юзера)
+	 *
+	 * @param  string $sCommentId
+	 * @param  string $sUserId
+	 * @return FavouriteEntity_Favourite|null
+	 */
+	public function GetFavouriteComment($sCommentId,$sUserId) {
+		return $this->Favourite_GetFavourite($sCommentId,'comment',$sUserId);
+	}
+	
+	/**
+	 * Получить список избранного по списку айдишников
+	 *
+	 * @param array $aCommentId
+	 */
+	public function GetFavouriteCommentsByArray($aCommentId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArray($aCommentId,'comment',$sUserId);
+	}
 
+	/**
+	 * Получить список избранного по списку айдишников, но используя единый кеш
+	 *
+	 * @param array  $aCommentId
+	 * @param int    $sUserId
+	 * @return array
+	 */
+	public function GetFavouriteCommentsByArraySolid($aCommentId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArraySolid($aCommentId,'comment',$sUserId);
+	}
+
+	/**
+	 * Получает список комментариев из избранного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iCount
+	 * @param  int    $iCurrPage
+	 * @param  int    $iPerPage
+	 * @return array
+	 */
+	public function GetCommentsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		// Получаем список идентификаторов избранных комментов
+		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$iCurrPage,$iPerPage);
+		// Получаем комменты по переданому массиву айдишников
+		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);		
+		return $data;		
+	}
+	/**
+	 * Возвращает число комментариев в избранном
+	 *
+	 * @param  string $sUserId
+	 * @return int
+	 */
+	public function GetCountCommentsFavouriteByUserId($sUserId) {
+		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'comment');	
+	}	
+	/**
+	 * Добавляет комментарий в избранное
+	 *
+	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @return bool
+	 */
+	public function AddFavouriteComment(FavouriteEntity_Favourite $oFavourite) {	
+		return ($oFavourite->getTargetType()=='comment') 
+			? $this->Favourite_AddFavourite($oFavourite)
+			: false;
+	}
+	/**
+	 * Удаляет комментарий из избранного
+	 *
+	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @return bool
+	 */
+	public function DeleteFavouriteComment(FavouriteEntity_Favourite $oFavourite) {
+		return ($oFavourite->getTargetType()=='comment') 
+			? $this->Favourite_DeleteFavourite($oFavourite)
+			: false;
+	}	
 }
 ?>

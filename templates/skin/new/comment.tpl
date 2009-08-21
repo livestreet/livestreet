@@ -54,8 +54,11 @@
    									{/if}
    									{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
    										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
-   									{/if}								
-								</ul>
+   									{/if}
+   									{if $oUserCurrent}
+										<li class="favorite {if $oComment->getIsFavourite()}active{/if}"><a href="#" onclick="lsFavourite.toggle({$oComment->getId()},this,'comment'); return false;"></a></li>	
+									{/if}												
+								</ul> 
 							</div>		
 							<div class="comment"><div class="content"><div class="text" id="comment_preview_{$oComment->getId()}" style="display: none;"></div></div></div>					
 							<div class="reply" id="reply_{$oComment->getId()}" style="display: none;"></div>	

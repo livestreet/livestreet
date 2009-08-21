@@ -476,9 +476,11 @@ select { width: 99%; }
 .comment .info ul li.goto-comment-child a { text-decoration: none; border-bottom: 1px dotted #79B1D4; font-family: tahoma;}
 .comment .info a.link { background: url(../images/icons.gif) no-repeat scroll -10px -230px; }
 .comment .info a.link:hover { background: url(../images/icons.gif) no-repeat scroll 0px -230px; }
-.comment .info a.favorite { background: url(../images/icons.gif) no-repeat scroll -40px -40px; }
-.comment .info a.favorite:hover { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
-.comment .info a.favorite-active { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
+
+.comment .info li.favorite a{ background: url(../images/icons.gif) no-repeat scroll -40px -40px; width: 10px; height:8px;margin-top:4px; display: block;}
+.comment .info li.favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
+.comment .info li.favorite.active a{ background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
+
 .comment .info a.off { color: #999; }
 .comment .info a.repair { color: #4CCC1B; }
 .comment .info a.delete { color: #f00; }

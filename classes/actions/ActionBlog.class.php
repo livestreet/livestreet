@@ -603,7 +603,8 @@ class ActionBlog extends Action {
 		 */		
 		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
-		$aComments=$aReturn['comments'];				
+		$aComments=$aReturn['comments'];
+
 		/**
 		 * Отмечаем дату прочтения топика
 		 */

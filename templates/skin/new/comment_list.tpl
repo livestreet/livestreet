@@ -5,7 +5,7 @@
 		{assign var="oBlog" value=$oTopic->getBlog()}
 		
 				<div class="comments padding-none">
-					<div class="comment">						
+					<div class="comment">
 						<div class="comment-topic"><a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a> / <a href="{$oBlog->getUrlFull()}" class="comment-blog">{$oBlog->getTitle()|escape:'html'}</a> <a href="{$oTopic->getUrl()}#comments" class="comment-total">{$oTopic->getCountComment()}</a></div>				
 						<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if}">
 							<div class="total">{if $oComment->getRating()>0}+{/if}{$oComment->getRating()}</div>
@@ -29,8 +29,12 @@
 							<p><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a></p>
 							<ul>
 								<li class="date">{date_format date=$oComment->getDate()}</li>								
-								<li><a href="{$oTopic->getUrl()}#comment{$oComment->getId()}" class="imglink link"></a></li>								
+								<li><a href="{$oTopic->getUrl()}#comment{$oComment->getId()}" class="imglink link"></a></li>  									
+   								{if $oUserCurrent}
+									<li class="favorite {if $oComment->getIsFavourite()}active{/if}"><a href="#" onclick="lsFavourite.toggle({$oComment->getId()},this,'comment'); return false;"></a></li>	
+								{/if}	
 							</ul>
+							
 						</div>
 					</div>
 				</div>

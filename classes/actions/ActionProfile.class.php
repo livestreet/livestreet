@@ -40,6 +40,7 @@ class ActionProfile extends Action {
 	
 	protected function RegisterEvent() {			
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');			
 	}
 			
@@ -87,6 +88,46 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('favourites');
 	}
+	/**
+	 * Выводит список избранноего юзера
+	 *
+	 */
+	protected function EventFavouriteComments() {	
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;					
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+			return parent::EventNotFound();
+		}	
+		/**
+		 * Передан ли номер страницы
+		 */		
+		$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;		
+		/**
+		 * Получаем список избранных комментариев
+		 */				
+		$aResult=$this->Comment_GetCommentsFavouriteByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.comment.per_page'));			
+		$aComments=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */					
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/favourites/comments');		
+		/**
+		 * Загружаем переменные в шаблон
+		 */			
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aComments',$aComments);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites_comments'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('comments');
+	}	
 	/**
 	 * Показывает инфу профиля
 	 *
@@ -167,10 +208,12 @@ class ActionProfile extends Action {
 		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserProfile->getId());
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
 		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
+		$iCountCommentFavourite=$this->Comment_GetCountCommentsFavouriteByUserId($this->oUserProfile->getId());
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
+		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
 	}
 }
 ?>
