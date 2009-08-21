@@ -702,6 +702,7 @@ class LsTopic extends Module {
 	 */
 	public function increaseTopicCountComment($sTopicId) {		
 		$this->Cache_Delete("topic_{$sTopicId}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update"));
 		return $this->oMapperTopic->increaseTopicCountComment($sTopicId);
 	}
 	/**
