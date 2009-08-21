@@ -35,10 +35,14 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			$oFavouriteTopic=$oEngine->Topic_GetFavouriteTopic($oTopic->getId(),$oUserCurrent->getId());
 			if (!$oFavouriteTopic and $iType) {
-				$oFavouriteTopicNew=new TopicEntity_FavouriteTopic();
-				$oFavouriteTopicNew->setTopicId($oTopic->getId());
-				$oFavouriteTopicNew->setUserId($oUserCurrent->getId());
-				$oFavouriteTopicNew->setTopicPublish($oTopic->getPublish());
+				$oFavouriteTopicNew=new FavouriteEntity_Favourite(
+					array(
+						'target_id'      => $oTopic->getId(),
+						'user_id'        => $oUserCurrent->getId(),
+						'target_type'    => 'topic',
+						'target_publish' => $oTopic->getPublish()
+					)
+				);
 				if ($oEngine->Topic_AddFavouriteTopic($oFavouriteTopicNew)) {
 					$bStateError=false;
 					$sMsgTitle=$oEngine->Lang_Get('attention');
