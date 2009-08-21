@@ -33,7 +33,7 @@ if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oTopic->getUserId()!=$oUserCurrent->getId()) {
 			if (!($oTopicVote=$oEngine->Vote_GetVote($oTopic->getId(),'topic',$oUserCurrent->getId()))) {
-				if (strtotime($oTopic->getDateAdd())>time()-VOTE_LIMIT_TIME_TOPIC) {
+				if (strtotime($oTopic->getDateAdd())>time()-Config::Get('acl.vote.topic.limit_time')) {
 					if ($oEngine->ACL_CanVoteTopic($oUserCurrent,$oTopic) or $iValue==0) {
 						if (in_array($iValue,array('1','-1','0'))) {
 							$oTopicVote=new VoteEntity_Vote();
