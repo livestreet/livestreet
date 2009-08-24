@@ -2,7 +2,8 @@
 
 			{assign var="oUser" value=$oTalk->getUser()}
 			
-			<div class="topic talk">				
+			<div class="topic talk">
+				<div class="favorite {if $oTalk->getIsFavourite()}active{else}guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTalk->getId()},this,'talk'); return false;"></a></div>			
 				<h1 class="title">{$oTalk->getTitle()|escape:'html'}</h1>				
 				<ul class="action">
 					<li><a href="{router page='talk'}">{$aLang.talk_inbox}</a></li>

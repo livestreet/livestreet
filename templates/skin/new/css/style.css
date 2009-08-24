@@ -166,6 +166,11 @@ select { width: 99%; }
 .topic .favorite.fav-guest a { background: url(../images/icons.gif) no-repeat 0 -40px; cursor: default; }
 .topic .favorite.fav-guest a:hover { background: url(../images/icons.gif) no-repeat 0 -40px; cursor: default; }
 
+.topic.talk .favorite { position: absolute; top: 7px; left: 10px; }
+.topic.talk .favorite a { background: url(../images/icons.gif) no-repeat 0 -40px; display: block; height: 16px; width: 20px; outline: none; }
+.topic.talk .favorite a:hover { background: url(../images/icons.gif) no-repeat -20px -40px; }
+.topic.talk .favorite.active a { background: url(../images/icons.gif) no-repeat -20px -40px; }
+
 /* Actions */
 .topic .action { overflow: hidden; margin-bottom: 20px; }
 .topic .action li { float: left; margin-right: 3px; }
