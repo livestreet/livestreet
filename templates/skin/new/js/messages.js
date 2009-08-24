@@ -9,46 +9,54 @@ var lsTalkMessagesClass = new Class({
                 },
                 reload: {
                 	request: 0,
-                	url: ''
+                	url: '',
+                	errors: 4
                 }                                 
         	},
-        	
+        
+        errors:0,	
+        		
         requestObj: new JsHttpRequest(),
         		
-        initialize: function(options){   
+        initialize: function(options){  
+        		var thisObj = this; 
 				this.setOptions(options);
-				this.requestObj.onreadystatechange = function(){
-					if (this.readyState == 4) {         
-						if (this.responseJS.bStateError) {
-							msgErrorBox.alert(
-								this.responseJS.sMsgTitle,
-								this.responseJS.sMsg
-							); 
-						} else {
-							this.targetObj = $('new_messages');
-						
-							if (this.responseJS.iCountTalkNew>0) {
-								this.targetObj
-									.addClass('message')
-									.removeClass('message-empty')
-									.innerHTML = this.responseJS.iCountTalkNew;
-							} else {
-								this.targetObj
-									.addClass('message-empty')
-									.removeClass('message');
-							}
-						}
-					}					
-				};
 	        },
 		
         get: function() { 
+        		var thisObj = this; 
 				this.options.reload.request -= 1;
-				if(this.options.reload.request>1) {
-					this.requestObj.open(
-						null, this.options.reload.url, true
-					);    
-					this.requestObj.send();
-				}	
+				
+				if(this.errors<this.options.reload.errors&&this.options.reload.request>1) {
+					JsHttpRequest.query(
+						thisObj.options.reload.url,
+						{ },
+						function(result, errors) {
+							if (!result) {
+								msgErrorBox.alert('Error','Please try again later');
+								thisObj.errors+=1;
+								return null;
+							}
+							if(result.bStateError!=true && result.bStateError!=undefined ) {
+								this.targetObj = $('new_messages');
+								if (result.iCountTalkNew>0) {
+									this.targetObj
+										.addClass('message')
+										.removeClass('message-empty')
+										.innerHTML = result.iCountTalkNew;
+								} else {
+									this.targetObj
+										.addClass('message-empty')
+										.removeClass('message');
+								}
+								thisObj.errors=0;
+							} else {
+								msgErrorBox.alert('Error','Please try again later');
+								thisObj.errors+=1;								
+							}
+						},
+						true
+					);
+				}
 			}
 });

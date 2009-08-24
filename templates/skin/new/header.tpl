@@ -31,6 +31,7 @@ var DIR_STATIC_SKIN='{$aConfig.path.static.skin}';
 var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
 var TALK_RELOAD_PERIOD = '{$aConfig.module.talk.period}';
 var TALK_RELOAD_REQUEST = '{$aConfig.module.talk.request}'; 
+var TALK_RELOAD_MAX_ERRORS = '{$aConfig.module.talk.max_errors}';
 </script>
 
 <script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/JsHttpRequest/JsHttpRequest.js"></script>
@@ -79,7 +80,8 @@ var msgNoticeBox=new Roar({
     var talkNewMessages=new lsTalkMessagesClass({
     	reload: {
             request: TALK_RELOAD_REQUEST,
-        	url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php'
+        	url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php',
+        	errors: TALK_RELOAD_MAX_ERRORS
     	}
     });  
 	(function(){
