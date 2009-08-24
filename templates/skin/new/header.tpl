@@ -79,7 +79,7 @@ var msgNoticeBox=new Roar({
     var talkNewMessages=new lsTalkMessagesClass({
     	reload: {
             request: TALK_RELOAD_REQUEST,
-        	url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php',
+        	url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php'
     	}
     });  
 	(function(){

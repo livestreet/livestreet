@@ -9,7 +9,7 @@ var lsTalkMessagesClass = new Class({
                 },
                 reload: {
                 	request: 0,
-                	url: '',
+                	url: ''
                 }                                 
         	},
         	
