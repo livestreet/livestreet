@@ -61,7 +61,7 @@ class LsTalk extends Module {
 		$oTalk->setDate(date("Y-m-d H:i:s"));
 		$oTalk->setDateLast(date("Y-m-d H:i:s"));
 		$oTalk->setUserIp(func_getIp());
-		if ($oTalk=$this->Talk_AddTalk($oTalk)) {
+		if ($oTalk=$this->AddTalk($oTalk)) {
 			foreach ($aUserIdTo as $iUserId) {
 				$oTalkUser=new TalkEntity_TalkUser();
 				$oTalkUser->setTalkId($oTalk->getId());
@@ -71,7 +71,7 @@ class LsTalk extends Module {
 				} else {
 					$oTalkUser->setDateLast(null);
 				}
-				$this->Talk_AddTalkUser($oTalkUser);
+				$this->AddTalkUser($oTalkUser);
 
 				if ($bSendNotify) {
 					if ($iUserId!=$iUserIdFrom) {
@@ -106,6 +106,7 @@ class LsTalk extends Module {
 	 * @param TalkEntity_Talk $oTalk
 	 */
 	public function UpdateTalk(TalkEntity_Talk $oTalk) {
+		$this->Cache_Delete("talk_{$oTalk->getId()}");
 		return $this->oMapper->UpdateTalk($oTalk);
 	}
 	
@@ -270,7 +271,7 @@ class LsTalk extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aTalkUsers[$oTalkUser->getTalkId()]=$oTalkUser;
-				$this->Cache_Set($oTalkUser, "talk_user_{$oTalkUser->getTalkId()}_{$oTalkUser->getUserId()}", array(), 60*60*24*4);
+				$this->Cache_Set($oTalkUser, "talk_user_{$oTalkUser->getTalkId()}_{$oTalkUser->getUserId()}", array("update_talk_user_{$oTalkUser->getTalkId()}"), 60*60*24*4);
 				$aTalkIdNeedStore=array_diff($aTalkIdNeedStore,array($oTalkUser->getTalkId()));
 			}
 		}
@@ -278,7 +279,7 @@ class LsTalk extends Module {
 		 * Сохраняем в кеш запросы не вернувшие результата
 		 */
 		foreach ($aTalkIdNeedStore as $sId) {
-			$this->Cache_Set(null, "talk_user_{$sId}_{$sUserId}", array(), 60*60*24*4);
+			$this->Cache_Set(null, "talk_user_{$sId}_{$sUserId}", array("update_talk_user_{$sId}"), 60*60*24*4);
 		}		
 		/**
 		 * Сортируем результат согласно входящему массиву
@@ -360,6 +361,7 @@ class LsTalk extends Module {
 	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("talk_read_user_{$oTalkUser->getUserId()}"));
+		$this->Cache_Delete("talk_user_{$oTalkUser->getTalkId()}_{$oTalkUser->getUserId()}");
 		return $this->oMapper->UpdateTalkUser($oTalkUser);
 	}
 	
@@ -372,7 +374,7 @@ class LsTalk extends Module {
 	public function GetCountTalkNew($sUserId) {
 		if (false === ($data = $this->Cache_Get("talk_count_all_new_user_{$sUserId}"))) {			
 			$data = $this->oMapper->GetCountCommentNew($sUserId)+$this->oMapper->GetCountTalkNew($sUserId);
-			$this->Cache_Set($data, "talk_count_all_new_user_{$sUserId}", array("talk_new","talk_comment_new","talk_read_user_{$sUserId}"), 60*5);
+			$this->Cache_Set($data, "talk_count_all_new_user_{$sUserId}", array("talk_new","update_talk_user","talk_read_user_{$sUserId}"), 60*60*24);
 		}
 		return $data;		
 	}
@@ -396,6 +398,8 @@ class LsTalk extends Module {
 	 * @return unknown
 	 */
 	public function increaseCountCommentNew($sTalkId,$aExcludeId=null) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user_{$sTalkId}"));
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user"));
 		return $this->oMapper->increaseCountCommentNew($sTalkId,$aExcludeId);
 	}
 	
