@@ -101,14 +101,34 @@ class ActionTalk extends Action {
 			}
 		}
 		/**
-		 * Получаем список сообщений
+		 * Передан ли номер страницы
 		 */
-		$aTalks=$this->Talk_GetTalksByUserId($this->oUserCurrent->getId());
+		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;				
+		/**
+		 * Получаем список писем
+		 */		
+		$aResult=$this->Talk_GetTalksByUserId(
+			$this->oUserCurrent->getId(),
+			$iPage,Config::Get('module.talk.per_page')
+		);	
+		$aTalks=$aResult['collection'];	
+		/**
+		 * Формируем постраничность
+		 */			
+		$aPaging=$this->Viewer_MakePaging(
+			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
+			Router::GetPath('talk').$this->sCurrentEvent
+		);
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
 	
 	protected function EventAdd() {		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
+		$this->Viewer_AddBlocks('right',array('friends'));		
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */		

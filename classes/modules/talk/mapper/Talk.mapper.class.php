@@ -192,7 +192,7 @@ class Mapper_Talk extends Mapper {
 		return false;
 	}
 	
-	public function GetTalksByUserId($sUserId) {				
+	public function GetTalksByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {				
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 
@@ -202,10 +202,11 @@ class Mapper_Talk extends Mapper {
 					tu.user_id = ?d 
 					AND
 					tu.talk_id=t.talk_id	
-				ORDER BY t.talk_date_last desc, t.talk_date desc;	
+				ORDER BY t.talk_date_last desc, t.talk_date desc
+				LIMIT ?d, ?d	
 					";
 		$aTalks=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$sUserId)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
 				$aTalks[]=$aRow['talk_id'];
 			}
@@ -215,12 +216,15 @@ class Mapper_Talk extends Mapper {
 
 		
 	public function GetUsersTalk($sTalkId) {
-		$sql = "SELECT 
-			user_id		 
+		$sql = "
+			SELECT 
+				user_id		 
 			FROM 
 				".Config::Get('db.table.talk_user')." 	  
 			WHERE
-				talk_id = ? ";	
+				talk_id = ? 
+
+			";	
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sTalkId)) {
 			foreach ($aRows as $aRow) {

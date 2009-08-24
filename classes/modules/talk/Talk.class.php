@@ -324,16 +324,22 @@ class LsTalk extends Module {
 	/**
 	 * Получить все темы разговора где есть юзер
 	 *
-	 * @param unknown_type $sUserId
-	 * @return unknown
+	 * @param  string $sUserId
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @return array
 	 */
-	public function GetTalksByUserId($sUserId) {
-		$data=$this->oMapper->GetTalksByUserId($sUserId);
-		$aTalks=$this->GetTalksAdditionalData($data);
+	public function GetTalksByUserId($sUserId,$iPage,$iPerPage) {
+		$data=array(
+			'collection'=>$this->oMapper->GetTalksByUserId($sUserId,$iCount,$iPage,$iPerPage),
+			'count'=>$iCount
+		);		
+		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
 			$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
-		}		
-		return $aTalks;
+		}
+		$data['collection']=$aTalks;		
+		return $data;
 	}
 	/**
 	 * Обновляет связку разговор-юзер

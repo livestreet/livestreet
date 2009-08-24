@@ -559,6 +559,11 @@ return array(
 	'block_stream_comments_no' => 'Нет комментариев.',
 	'block_stream_comments_all' => 'Весь эфир',
 	
+	'block_friends' => 'Друзья',
+	'block_friends_check' => 'Отметить всех',
+	'block_friends_uncheck' => 'Снять отметку',
+	'block_friends_empty' => 'Список ваших друзей пуст',
+	
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
 	

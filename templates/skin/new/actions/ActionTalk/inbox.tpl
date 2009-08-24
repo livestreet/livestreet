@@ -45,6 +45,5 @@
 				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">
 				</form>
 			</div>
-
-
+{include file='paging.tpl' aPaging=`$aPaging`}
 {include file='footer.tpl'}
