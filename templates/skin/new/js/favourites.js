@@ -22,6 +22,10 @@ var lsFavouriteClass = new Class({
                 comment: {
                         url: DIR_WEB_ROOT+'/include/ajax/commentFavourite.php',
                         targetName: 'idComment'                	
+                },
+                talk : {
+                        url: DIR_WEB_ROOT+'/include/ajax/talkFavourite.php',
+                        targetName: 'idTalk'                	                	
                 }
         },
 

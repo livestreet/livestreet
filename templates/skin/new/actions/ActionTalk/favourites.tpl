@@ -3,11 +3,9 @@
 
 			<div class="topic people top-blogs talk-table">
 				<h1>{$aLang.talk_inbox}</h1>
-				<form action="" method="post" id="form_talks_list">
 				<table>
 					<thead>
 						<tr>
-							<td width="20px"><input type="checkbox" name="" onclick="checkAllTalk(this);"></th>
 							<td class="user">{$aLang.talk_inbox_target}</td>
 							<td></td>
 							<td>{$aLang.talk_inbox_title}</td>
@@ -19,7 +17,6 @@
 					{foreach from=$aTalks item=oTalk}
 						{assign var="oTalkUser" value=$oTalk->getTalkUser()}
 						<tr>
-							<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox"></td>
 							<td class="name">							
 								{foreach from=$oTalk->getUsers() item=oUser name=users}
 									{if $oUser->getId()!=$oUserCurrent->getId()}					
@@ -48,8 +45,6 @@
 					{/foreach}
 					</tbody>
 				</table>
-				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">
-				</form>
 			</div>
 {include file='paging.tpl' aPaging=`$aPaging`}
 {include file='footer.tpl'}

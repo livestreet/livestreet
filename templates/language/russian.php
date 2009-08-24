@@ -583,6 +583,7 @@ return array(
 	'talk_menu_inbox' => 'Почтовый ящик',
 	'talk_menu_inbox_list' => 'Переписка',
 	'talk_menu_inbox_create' => 'Новое письмо',
+	'talk_menu_inbox_favourites' => 'Избранное',
 	'talk_inbox' => 'Почтовый ящик',
 	'talk_inbox_target' => 'Адресаты',
 	'talk_inbox_title' => 'Тема',
@@ -600,6 +601,13 @@ return array(
 	'talk_create_text' => 'Сообщение',
 	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
 	'talk_create_submit' => 'Отправить',
+
+	'talk_favourite_add' => 'добавить в избранное',
+	'talk_favourite_add_ok' => 'Письмо добавлено в избранное',
+	'talk_favourite_add_no' => 'Этого письма нет в вашем избранном',
+	'talk_favourite_add_already' => 'Это письмо уже есть в вашем избранном',
+	'talk_favourite_del' => 'удалить из избранного',
+	'talk_favourite_del_ok' => 'Письмо удалено из избранного',	
 	
 	/**
 	 * Рейтинг TOP

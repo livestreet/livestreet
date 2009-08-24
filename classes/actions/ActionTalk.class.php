@@ -61,6 +61,7 @@ class ActionTalk extends Action {
 		$this->AddEvent('delete','EventDelete');
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
+		$this->AddEvent('favourites','EventFavourites');		
 	}
 		
 	
@@ -125,6 +126,33 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
+	
+	protected function EventFavourites() {				
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;				
+		/**
+		 * Получаем список писем
+		 */		
+		$aResult=$this->Talk_GetTalksFavouriteByUserId(
+			$this->oUserCurrent->getId(),
+			$iPage,Config::Get('module.talk.per_page')
+		);	
+		$aTalks=$aResult['collection'];	
+		/**
+		 * Формируем постраничность
+		 */			
+		$aPaging=$this->Viewer_MakePaging(
+			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
+			Router::GetPath('talk').$this->sCurrentEvent
+		);
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);						
+		$this->Viewer_Assign('aTalks',$aTalks);		
+	}		
 	
 	protected function EventAdd() {		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
@@ -405,5 +433,14 @@ class ActionTalk extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}	
+	
+	public function EventShutdown()
+	{
+		if (!$this->oUserCurrent)	 {
+			return ;
+		}		
+		$iCountTalkFavourite=$this->Talk_GetCountTalksFavouriteByUserId($this->oUserCurrent->getId());
+		$this->Viewer_Assign('iCountTalkFavourite',$iCountTalkFavourite);
+	}
 }
 ?>

@@ -114,7 +114,7 @@ class LsTalk extends Module {
 	 * Получает дополнительные данные(объекты) для разговоров по их ID
 	 *
 	 */
-	public function GetTalksAdditionalData($aTalkId,$aAllowData=array('user','talk_user')) {
+	public function GetTalksAdditionalData($aTalkId,$aAllowData=array('user','talk_user','favourite')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
@@ -126,11 +126,15 @@ class LsTalk extends Module {
 		/**
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
+		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
+			$aFavouriteTalks=$this->Favourite_GetFavouritesByArray($aTalkId,'talk',$this->oUserCurrent->getId());	
+		}						
+
 		$aUserId=array();				
 		foreach ($aTalks as $oTalk) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oTalk->getUserId();
-			}			
+			}
 		}
 		/**
 		 * Получаем дополнительные данные
@@ -156,6 +160,12 @@ class LsTalk extends Module {
 				$oTalk->setTalkUser($aTalkUsers[$oTalk->getId()]);				
 			} else {
 				$oTalk->setTalkUser(null);				
+			}
+
+			if (isset($aFavouriteTalks[$oTalk->getId()])) {
+				$oTalk->setIsFavourite(true);
+			} else {
+				$oTalk->setIsFavourite(false);
 			}						
 		}
 		return $aTalks;
@@ -388,5 +398,88 @@ class LsTalk extends Module {
 	public function increaseCountCommentNew($sTalkId,$aExcludeId=null) {
 		return $this->oMapper->increaseCountCommentNew($sTalkId,$aExcludeId);
 	}
+	
+	/**
+	 * Получает привязку письма к ибранному(добавлено ли письмо в избранное у юзера)
+	 *
+	 * @param  string $sTalkId
+	 * @param  string $sUserId
+	 * @return FavouriteEntity_Favourite|null
+	 */
+	public function GetFavouriteTalk($sTalkId,$sUserId) {
+		return $this->Favourite_GetFavourite($sTalkId,'talk',$sUserId);
+	}
+	
+	/**
+	 * Получить список избранного по списку айдишников
+	 *
+	 * @param array $aTalkId
+	 */
+	public function GetFavouriteTalkByArray($aTalkId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArray($aTalkId,'talk',$sUserId);
+	}
+
+	/**
+	 * Получить список избранного по списку айдишников, но используя единый кеш
+	 *
+	 * @param array  $aTalkId
+	 * @param int    $sUserId
+	 * @return array
+	 */
+	public function GetFavouriteTalksByArraySolid($aTalkId,$sUserId) {
+		return $this->Favourite_GetFavouritesByArraySolid($aTalkId,'talk',$sUserId);
+	}
+
+	/**
+	 * Получает список писем из избранного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iCount
+	 * @param  int    $iCurrPage
+	 * @param  int    $iPerPage
+	 * @return array
+	 */
+	public function GetTalksFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		// Получаем список идентификаторов избранных комментов
+		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'talk',$iCurrPage,$iPerPage);
+		// Получаем комменты по переданому массиву айдишников
+		$aTalks=$this->GetTalksAdditionalData($data['collection']);
+		foreach ($aTalks as $oTalk) {
+			$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
+		}
+		$data['collection']=$aTalks;	
+		return $data;
+	}
+	/**
+	 * Возвращает число писем в избранном
+	 *
+	 * @param  string $sUserId
+	 * @return int
+	 */
+	public function GetCountTalksFavouriteByUserId($sUserId) {
+		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'talk');	
+	}	
+	/**
+	 * Добавляет письмо в избранное
+	 *
+	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @return bool
+	 */
+	public function AddFavouriteTalk(FavouriteEntity_Favourite $oFavourite) {	
+		return ($oFavourite->getTargetType()=='talk') 
+			? $this->Favourite_AddFavourite($oFavourite)
+			: false;
+	}
+	/**
+	 * Удаляет письмо из избранного
+	 *
+	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @return bool
+	 */
+	public function DeleteFavouriteTalk(FavouriteEntity_Favourite $oFavourite) {
+		return ($oFavourite->getTargetType()=='talk') 
+			? $this->Favourite_DeleteFavourite($oFavourite)
+			: false;
+	}		
 }
 ?>

@@ -249,11 +249,18 @@ select { width: 99%; }
 /* Talk
 -------------------------------------------------------------------*/
 /* Add to Favorite Icon */
+/**
 .talk .favorite { position: absolute; top: 7px; left: 10px; }
 .talk .favorite a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; display: block; height: 16px; width: 20px; }
 .talk .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
 .talk .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -20px -40px; }
 .talk .favorite.guest a { background: url(../images/icons.gif) no-repeat scroll 0 -40px; cursor: default; }
+**/
+
+.talk .favorite { position:relative; top:0px; left:0px; }
+.talk .favorite a { background: url(../images/icons.gif) no-repeat scroll -40px -40px; width: 10px; height:8px; display: block; outline-style:none;}
+.talk .favorite a:hover { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
+.talk .favorite.active a { background: url(../images/icons.gif) no-repeat scroll -50px -40px; }
 
 .tal-table .favorite { }
 

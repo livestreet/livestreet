@@ -59,7 +59,7 @@ class LsFavourite extends Module {
 	public function GetFavouritesByArray($aTargetId,$sTargetType,$sUserId) {
 		if (!$aTargetId) {
 			return array();
-		}
+		}	
 		if (1) {
 			return $this->GetFavouritesByArraySolid($aTargetId,$sTargetType,$sUserId);
 		}
@@ -129,7 +129,7 @@ class LsFavourite extends Module {
 		}
 		$aTargetId=array_unique($aTargetId);	
 		$aFavourites=array();	
-		$s=join(',',$aTargetId);
+		$s=join(',',$aTargetId);	
 		if (false === ($data = $this->Cache_Get("favourite_{$sTargetType}_{$sUserId}_id_{$s}"))) {			
 			$data = $this->oMapper->GetFavouritesByArray($aTargetId,$sTargetType,$sUserId);
 			foreach ($data as $oFavourite) {
