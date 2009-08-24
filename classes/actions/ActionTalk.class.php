@@ -156,7 +156,14 @@ class ActionTalk extends Action {
 	
 	protected function EventAdd() {		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
-		$this->Viewer_AddBlocks('right',array('friends'));		
+		
+		/**
+		 * Получаем список друзей
+		 */
+		if($aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId())) {				
+			$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
+		}		
+		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/friends.tpl'));		
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */		
