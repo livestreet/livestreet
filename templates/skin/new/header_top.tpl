@@ -35,9 +35,9 @@
 				<li><a href="{$oUserCurrent->getUserWebPath()}" class="author">{$oUserCurrent->getLogin()}</a> (<a href="{router page='login'}exit/">{$aLang.exit}</a>)</li>
 				<li>
 					{if $iUserCurrentCountTalkNew}
-						<a href="{router page='talk'}" class="message" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
+						<a href="{router page='talk'}" class="message" id="new_messages" title="{$aLang.user_privat_messages_new}">{$iUserCurrentCountTalkNew}</a> 
 					{else}
-						<a href="{router page='talk'}" class="message-empty">&nbsp;</a>
+						<a href="{router page='talk'}" class="message-empty" id="new_messages">&nbsp;</a>
 					{/if}
 					{$aLang.user_settings} <a href="{router page='settings'}profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{router page='settings'}tuning/" class="author">{$aLang.user_settings_tuning}</a> 
 				</li>

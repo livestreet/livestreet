@@ -29,6 +29,8 @@
 var DIR_WEB_ROOT='{$aConfig.path.root.web}';
 var DIR_STATIC_SKIN='{$aConfig.path.static.skin}';
 var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
+var TALK_RELOAD_PERIOD = '{$aConfig.module.talk.period}';
+var TALK_RELOAD_REQUEST = '{$aConfig.module.talk.request}'; 
 </script>
 
 <script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/JsHttpRequest/JsHttpRequest.js"></script>
@@ -53,7 +55,7 @@ var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
 <script type="text/javascript" src="{$aConfig.path.static.skin}/js/other.js"></script>
 <script type="text/javascript" src="{$aConfig.path.static.skin}/js/login.js"></script>
 <script type="text/javascript" src="{$aConfig.path.static.skin}/js/panel.js"></script>
-
+<script type="text/javascript" src="{$aConfig.path.static.skin}/js/messages.js"></script>
 
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -67,11 +69,25 @@ var msgNoticeBox=new Roar({
 			position: 'upperRight',
 			className: 'roar-notice',
 			margin: {x: 30, y: 10}
-		});	
+		});		
 </script>
 {/literal}
 
-
+{if $oUserCurrent && $aConfig.module.talk.reload}
+{literal}
+<script language="JavaScript" type="text/javascript">
+    var talkNewMessages=new lsTalkMessagesClass({
+    	reload: {
+            request: TALK_RELOAD_REQUEST,
+        	url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php',
+    	}
+    });  
+	(function(){
+   		talkNewMessages.get();
+	}).periodical(TALK_RELOAD_PERIOD);
+</script>
+{/literal}
+{/if}
 
 <body onload="prettyPrint()">
 
