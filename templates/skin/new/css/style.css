@@ -689,6 +689,7 @@ select { width: 99%; }
 .people.top-blogs .fav.active a { background: url(../images/star.gif) no-repeat; }
 .people.talk-table thead td.user { padding-left: 10px; }
 .people.talk-table .author { margin-left: 10px; }
+.people.talk-table .inactive { color: #cfcfcf !important; }
 
 
 

@@ -129,8 +129,8 @@ class LsTalk extends Module {
 		 */
 		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
 			$aFavouriteTalks=$this->Favourite_GetFavouritesByArray($aTalkId,'talk',$this->oUserCurrent->getId());	
-		}						
-
+		}
+		
 		$aUserId=array();				
 		foreach ($aTalks as $oTalk) {
 			if (isset($aAllowData['user'])) {
@@ -145,8 +145,9 @@ class LsTalk extends Module {
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		
 		if (isset($aAllowData['talk_user']) and $this->oUserCurrent) {
-			$aTalkUsers=$this->GetTalkUsersByArray($aTalkId,$this->oUserCurrent->getId());			
+			$aTalkUsers=$this->GetTalkUsersByArray($aTalkId,$this->oUserCurrent->getId());		
 		}
+		
 		/**
 		 * Добавляем данные к результату - списку разговоров
 		 */
@@ -316,6 +317,25 @@ class LsTalk extends Module {
 	 * @return unknown
 	 */
 	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+		// Удаляем для каждого отметку избранного
+		foreach ($aTalkId as $sTalkId) {
+			$this->DeleteFavouriteTalk(
+				new FavouriteEntity_Favourite(
+					array(
+						'target_id' => $sTalkId,
+						'target_type' => 'talk',
+						'user_id' => $this->oUserCurrent->getId()
+					)
+				)
+			);
+		}
+		// Нужно почистить зависимые кеши
+		foreach ($aTalkId as $sTalkId) {
+			$this->Cache_Clean(
+				Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+				array("update_talk_user_{$sTalkId}")
+			);
+		}
 		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId);
 	}
 	/**
@@ -347,9 +367,10 @@ class LsTalk extends Module {
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
-			$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
+			//$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
+			$oTalk->setUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
 		}
-		$data['collection']=$aTalks;		
+		$data['collection']=$aTalks;
 		return $data;
 	}
 	/**
@@ -390,6 +411,37 @@ class LsTalk extends Module {
 		$data=$this->oMapper->GetUsersTalk($sTalkId);
 		return $this->User_GetUsersAdditionalData($data);
 	}
+	
+	/**
+	 * Возвращает массив пользователей, участвующих в разговоре
+	 *
+	 * @param  string $sTalkId
+	 * @return array
+	 */
+	public function GetTalkUsersByTalkId($sTalkId) {
+		if (false === ($aTalkUsers = $this->Cache_Get("talk_relation_user_by_talk_id_{$sTalkId}"))) {				
+			$aTalkUsers = $this->oMapper->GetTalkUsers($sTalkId);
+			$this->Cache_Set($aTalkUsers, "talk_relation_user_by_talk_id_{$sTalkId}", array("update_talk_user_{$sTalkId}"), 60*60*24*1);
+		}
+		
+		if($aTalkUsers) {
+			$aUserId=array();
+			foreach ($aTalkUsers as $oTalkUser) {
+				$aUserId[]=$oTalkUser->getUserId();
+			}		
+			$aUsers = $this->User_GetUsersAdditionalData($aUserId);
+			
+			foreach ($aTalkUsers as $oTalkUser){
+				if(isset($aUsers[$oTalkUser->getUserId()])) {
+					$oTalkUser->setUser($aUsers[$oTalkUser->getUserId()]);
+				} else {
+					$oTalkUser->setUser(null);
+				}
+			}
+		}
+		return $aTalkUsers;
+	}
+	
 	/**
 	 * Увеличивает число новых комментов у юзеров
 	 *

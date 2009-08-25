@@ -89,6 +89,7 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	public function GetTalkById($sId) {		
+
 		$sql = "SELECT 
 				t.*,
 				u.user_login as user_login							 
@@ -100,6 +101,7 @@ class Mapper_Talk extends Mapper {
 					AND
 					t.user_id=u.user_id					
 					";
+		
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
 			return new TalkEntity_Talk($aRow);
 		}
@@ -123,6 +125,10 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {
+		//
+		// Рефакторинг:
+		// переход на систему учета активных\неактивных пользователей в переписке
+		/**		
 		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
 				date_last = ?, 				
@@ -132,8 +138,31 @@ class Mapper_Talk extends Mapper {
 				talk_id = ?d
 				AND
 				user_id = ?d
-		";			
-		if ($this->oDb->query($sql,$oTalkUser->getDateLast(),$oTalkUser->getCommentIdLast(),$oTalkUser->getCommentCountNew(),$oTalkUser->getTalkId(),$oTalkUser->getUserId())) {
+		";	
+		**/		
+		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
+			SET 
+				date_last = ?, 				
+				comment_id_last = ?d, 				
+				comment_count_new = ?d, 	
+				talk_user_active = ?d			
+			WHERE
+				talk_id = ?d
+				AND
+				user_id = ?d
+		";	
+		
+		if (
+			$this->oDb->query(
+				$sql,
+				$oTalkUser->getDateLast(),
+				$oTalkUser->getCommentIdLast(),
+				$oTalkUser->getCommentCountNew(),
+				$oTalkUser->getIsActive(),
+				$oTalkUser->getTalkId(),
+				$oTalkUser->getUserId()
+			)
+		) {
 			return true;
 		}		
 		return false;
@@ -144,13 +173,24 @@ class Mapper_Talk extends Mapper {
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
 		}
-		
-		$sql = "DELETE FROM ".Config::Get('db.table.talk_user')." 
+		//
+		// Рефакторинг:
+		// переход на систему учета активных\неактивных пользователей в переписке
+		//$sql = "DELETE FROM ".Config::Get('db.table.talk_user')." 
+		//	WHERE
+		//		talk_id IN (?a)
+		//		AND
+		//		user_id = ?d				
+		//";			
+		$sql = "
+			UPDATE ".Config::Get('db.table.talk_user')." 
+			SET 
+				talk_user_active = 0
 			WHERE
 				talk_id IN (?a)
 				AND
 				user_id = ?d				
-		";			
+		";		
 		if ($this->oDb->query($sql,$aTalkId,$sUserId)) 
 		{
 			return true;
@@ -167,7 +207,9 @@ class Mapper_Talk extends Mapper {
 					FROM   						
   						".Config::Get('db.table.talk_user')." as tu
 					WHERE   						
-  						tu.user_id = ?d  							
+  						tu.user_id = ?d  
+  						AND
+  						tu.talk_user_active=1							
 		";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['count_new'];
@@ -184,7 +226,9 @@ class Mapper_Talk extends Mapper {
 					WHERE
   						tu.date_last IS NULL
   						AND
-  						tu.user_id = ?d  							
+  						tu.user_id = ?d  	
+  						AND
+  						tu.talk_user_active=1						
 		";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
 			return $aRow['count_new'];
@@ -192,7 +236,11 @@ class Mapper_Talk extends Mapper {
 		return false;
 	}
 	
-	public function GetTalksByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {				
+	public function GetTalksByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {		
+		//
+		// Рефакторинг:
+		// переход на систему учета активных\неактивных пользователей в переписке
+		/**		
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 
@@ -205,6 +253,22 @@ class Mapper_Talk extends Mapper {
 				ORDER BY t.talk_date_last desc, t.talk_date desc
 				LIMIT ?d, ?d	
 					";
+		**/
+		$sql = "SELECT 
+					tu.talk_id									
+				FROM 
+					".Config::Get('db.table.talk_user')." as tu, 					
+					".Config::Get('db.table.talk')." as t							 
+				WHERE 
+					tu.user_id = ?d 
+					AND
+					tu.talk_id=t.talk_id
+					AND
+					tu.talk_user_active = '1'	
+				ORDER BY t.talk_date_last desc, t.talk_date desc
+				LIMIT ?d, ?d	
+					";
+		
 		$aTalks=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
@@ -218,7 +282,7 @@ class Mapper_Talk extends Mapper {
 	public function GetUsersTalk($sTalkId) {
 		$sql = "
 			SELECT 
-				user_id		 
+				user_id	 
 			FROM 
 				".Config::Get('db.table.talk_user')." 	  
 			WHERE
@@ -231,6 +295,7 @@ class Mapper_Talk extends Mapper {
 				$aReturn[]=$aRow['user_id'];
 			}
 		}
+
 		return $aReturn;
 	}
 	
@@ -246,6 +311,26 @@ class Mapper_Talk extends Mapper {
 				talk_id = ? 
 				{ AND user_id NOT IN (?a) }";	
 		return $this->oDb->select($sql,$sTalkId,!is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
+	}
+	
+	public function GetTalkUsers($sTalkId) {
+		$sql = "
+			SELECT 
+				t.* 
+			FROM 
+				".Config::Get('db.table.talk_user')." as t 	  
+			WHERE
+				talk_id = ? 
+
+			";	
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$sTalkId)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=new TalkEntity_TalkUser($aRow);
+			}
+		}
+
+		return $aReturn;		
 	}
 }
 ?>

@@ -198,6 +198,9 @@ class ActionTalk extends Action {
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return parent::EventNotFound();
 		}
+		if(!$oTalkUser->getIsActive()){
+			return parent::EventNotFound();
+		}
 		/**
 		 * Обрабатываем добавление коммента
 		 */

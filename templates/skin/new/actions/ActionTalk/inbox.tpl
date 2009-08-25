@@ -7,7 +7,7 @@
 				<table>
 					<thead>
 						<tr>
-							<td width="20px"><input type="checkbox" name="" onclick="checkAllTalk(this);"></th>
+							<td width="20px"><input type="checkbox" name="" onclick="checkAllTalk(this);"></td>
 							<td class="user">{$aLang.talk_inbox_target}</td>
 							<td></td>
 							<td>{$aLang.talk_inbox_title}</td>
@@ -22,8 +22,9 @@
 							<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox"></td>
 							<td class="name">							
 								{foreach from=$oTalk->getUsers() item=oUser name=users}
-									{if $oUser->getId()!=$oUserCurrent->getId()}					
-										<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
+									{if $oUser->getUserId()!=$oUserCurrent->getId()}
+									{assign var="oAdditionalUser" value=$oUser->getUser()}					
+										<a href="{$oAdditionalUser->getUserWebPath()}" class="author {if !$oUser->getIsActive()}inactive{/if}">{$oAdditionalUser->getLogin()}</a>
 									{/if}
 								{/foreach}
 							</td>							
