@@ -32,8 +32,7 @@ var lsTalkMessagesClass = new Class({
 						thisObj.options.reload.url,
 						{ },
 						function(result, errors) {
-							if (!result) {
-								msgErrorBox.alert('Error','Please try again later');
+							if (!result) {								
 								thisObj.errors+=1;
 								return null;
 							}
@@ -50,8 +49,7 @@ var lsTalkMessagesClass = new Class({
 										.removeClass('message');
 								}
 								thisObj.errors=0;
-							} else {
-								msgErrorBox.alert('Error','Please try again later');
+							} else {								
 								thisObj.errors+=1;								
 							}
 						},
