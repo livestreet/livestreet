@@ -101,6 +101,9 @@ class ActionTalk extends Action {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
 			}
 		}
+		// Составляем фильтр для просмотра писем
+		$aFilter=$this->BuildFilter();
+		
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -108,9 +111,8 @@ class ActionTalk extends Action {
 		/**
 		 * Получаем список писем
 		 */		
-		$aResult=$this->Talk_GetTalksByUserId(
-			$this->oUserCurrent->getId(),
-			$iPage,Config::Get('module.talk.per_page')
+		$aResult=$this->Talk_GetTalksByFilter(
+			$aFilter,$iPage,Config::Get('module.talk.per_page')
 		);	
 		$aTalks=$aResult['collection'];	
 		/**
@@ -118,14 +120,48 @@ class ActionTalk extends Action {
 		 */			
 		$aPaging=$this->Viewer_MakePaging(
 			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
-			Router::GetPath('talk').$this->sCurrentEvent
+			Router::GetPath('talk').$this->sCurrentEvent,
+			array_intersect_key(
+				$_REQUEST,
+				array_fill_keys(
+					array('start','end','keyword','sender'),
+					''
+				)
+			)
 		);
 		/**
 		 * Загружаем переменные в шаблон
 		 */
+		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/filter.tpl'));
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
+	
+	protected function BuildFilter() {
+		$aFilter = array(
+			'user_id'=>$this->oUserCurrent->getId(),
+		);
+		if(isset($_REQUEST['start'])&&$_REQUEST['start']) {
+			list($d,$m,$y)=explode('.',$_REQUEST['start']);
+			$aFilter['date_min']="{$y}-{$m}-{$d}";
+		}
+		if(isset($_REQUEST['end'])&&$_REQUEST['end']) {
+			list($d,$m,$y)=explode('.',$_REQUEST['end']);
+			$aFilter['date_max']="{$y}-{$m}-{$d}";
+		}
+		if(isset($_REQUEST['keyword'])&&$_REQUEST['keyword']){
+			$sKeyRequest=urldecode($_REQUEST['keyword']);
+		    $aWords= (1===preg_match('##u', $sKeyRequest)) 
+		    	? preg_split('#[0-9\W_]+#Disu', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY) 
+		    	: preg_split('#[0-9\W_]+#Dis', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY); 
+			$aFilter['keyword']='%'.implode('%',(array)$aWords).'%';
+		}
+		if(isset($_REQUEST['sender'])&&$_REQUEST['sender']){
+			$aFilter['user_login']=urldecode($_REQUEST['sender']);
+		}		
+		
+		return $aFilter;
+	}
 	
 	protected function EventFavourites() {				
 		/**

@@ -58,6 +58,9 @@ class TalkEntity_Talk extends Entity
         return $this->_aData['talk_is_favourite'];
     }
 
+    public function getTalkUsers() {
+    	return $this->_aData['talk_users'];
+    }
     
 	public function setId($data) {
         $this->_aData['talk_id']=$data;
@@ -97,6 +100,9 @@ class TalkEntity_Talk extends Entity
     
     public function setIsFavourite($data) {
         $this->_aData['talk_is_favourite']=$data;
+    }
+    public function setTalkUsers($data) {
+    	$this->_aData['talk_users']=$data;
     }
 }
 ?>

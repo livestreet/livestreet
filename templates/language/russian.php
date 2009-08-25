@@ -609,6 +609,16 @@ return array(
 	'talk_favourite_del' => 'удалить из избранного',
 	'talk_favourite_del_ok' => 'Письмо удалено из избранного',	
 	
+	'talk_filter_title' => 'Фильтровать',
+	'talk_filter_erase' => 'Сбросить фильтр',
+	'talk_filter_label_sender' => 'Отправитель',
+	'talk_filter_label_keyword' => 'Искать в заголовке',
+	'talk_filter_label_date' => 'Ограничения по дате',
+	'talk_filter_notice_sender' => 'Укажите логин отправителя',
+	'talk_filter_notice_keyword' => 'Введите одно или несколько слов',
+	'talk_filter_notice_date' => 'Дата вводиться в формате 25.12.2008',
+	'talk_filter_submit' => 'Отфильтровать',
+	
 	/**
 	 * Рейтинг TOP
 	 */

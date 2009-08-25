@@ -332,5 +332,55 @@ class Mapper_Talk extends Mapper {
 
 		return $aReturn;		
 	}
+	
+	/**
+	 * Возвращает список идентификаторов писем, удовлетворяющих условию фильтра
+	 *
+	 * @param  array $aFilter
+	 * @param  int $iCount
+	 * @param  int $iCurrPage
+	 * @param  int $iPerPage
+	 * @return array
+	 */
+	public function GetTalksByFilter($aFilter,&$iCount,$iCurrPage,$iPerPage) {		
+		$sql = "SELECT 
+					tu.talk_id									
+				FROM 
+					".Config::Get('db.table.talk_user')." as tu, 					
+					".Config::Get('db.table.talk')." as t,
+					".Config::Get('db.table.user')." as u	 
+				WHERE 
+					tu.talk_id=t.talk_id
+					AND tu.talk_user_active = '1'
+					AND u.user_id=t.user_id
+					{ AND tu.user_id = ?d }
+					{ AND t.talk_date < ? }
+					{ AND t.talk_date > ? }
+					{ AND t.talk_title LIKE ? }
+					{ AND u.user_login = ? }
+				ORDER BY t.talk_date_last desc, t.talk_date desc
+				LIMIT ?d, ?d	
+					";
+		
+		$aTalks=array();
+		if (
+			$aRows=$this->oDb->selectPage(
+				$iCount,
+				$sql,
+				(!empty($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['date_max']) ? $aFilter['date_max'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['keyword']) ? $aFilter['keyword'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['user_login']) ? $aFilter['user_login'] : DBSIMPLE_SKIP),
+				($iCurrPage-1)*$iPerPage, 
+				$iPerPage
+			)
+		) {
+			foreach ($aRows as $aRow) {
+				$aTalks[]=$aRow['talk_id'];
+			}
+		}
+		return $aTalks;
+	}
 }
 ?>

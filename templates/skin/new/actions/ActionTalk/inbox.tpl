@@ -21,7 +21,7 @@
 						<tr>
 							<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox"></td>
 							<td class="name">							
-								{foreach from=$oTalk->getUsers() item=oUser name=users}
+								{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
 									{if $oUser->getUserId()!=$oUserCurrent->getId()}
 									{assign var="oAdditionalUser" value=$oUser->getUser()}					
 										<a href="{$oAdditionalUser->getUserWebPath()}" class="author {if !$oUser->getIsActive()}inactive{/if}">{$oAdditionalUser->getLogin()}</a>

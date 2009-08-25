@@ -367,12 +367,33 @@ class LsTalk extends Module {
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
-			//$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
-			$oTalk->setUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
+			$oTalk->setTalkUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
 		}
 		$data['collection']=$aTalks;
 		return $data;
 	}
+	
+	/**
+	 * Получить все темы разговора по фильтру
+	 *
+	 * @param  array  $aFilter
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @return array
+	 */
+	public function GetTalksByFilter($aFilter,$iPage,$iPerPage) {
+		$data=array(
+			'collection'=>$this->oMapper->GetTalksByFilter($aFilter,$iCount,$iPage,$iPerPage),
+			'count'=>$iCount
+		);		
+		$aTalks=$this->GetTalksAdditionalData($data['collection']);
+		foreach ($aTalks as $oTalk) {
+			$oTalk->setTalkUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
+		}
+		$data['collection']=$aTalks;
+		return $data;
+	}
+	
 	/**
 	 * Обновляет связку разговор-юзер
 	 *
