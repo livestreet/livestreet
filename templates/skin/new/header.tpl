@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/piechart.css" />
 	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/Autocompleter.css" />
 	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/prettify.css" />
+	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/vlaCal-v2.1.css" />
 	<!--[if gt IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/simple_comments.css" /><![endif]-->
 		
 	<link href="{$aConfig.path.static.skin}/images/favicon.ico" rel="shortcut icon" />
@@ -46,6 +47,7 @@ var TALK_RELOAD_MAX_ERRORS = '{$aConfig.module.talk.max_errors}';
 <script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
 
 <script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/prettify/prettify.js"></script>
+<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/vlaCal-v2.1/jslib/vlaCal-v2.1.js"></script>
 
 <script type="text/javascript" src="{$aConfig.path.static.skin}/js/vote.js"></script>
 <script type="text/javascript" src="{$aConfig.path.static.skin}/js/favourites.js"></script>

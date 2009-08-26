@@ -124,22 +124,7 @@ class Mapper_Talk extends Mapper {
 		return false;
 	}
 	
-	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {
-		//
-		// Рефакторинг:
-		// переход на систему учета активных\неактивных пользователей в переписке
-		/**		
-		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
-			SET 
-				date_last = ?, 				
-				comment_id_last = ?d, 				
-				comment_count_new = ?d 				
-			WHERE
-				talk_id = ?d
-				AND
-				user_id = ?d
-		";	
-		**/		
+	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {	
 		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
 				date_last = ?, 				
@@ -172,16 +157,7 @@ class Mapper_Talk extends Mapper {
 	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
-		}
-		//
-		// Рефакторинг:
-		// переход на систему учета активных\неактивных пользователей в переписке
-		//$sql = "DELETE FROM ".Config::Get('db.table.talk_user')." 
-		//	WHERE
-		//		talk_id IN (?a)
-		//		AND
-		//		user_id = ?d				
-		//";			
+		}	
 		$sql = "
 			UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
@@ -237,23 +213,6 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	public function GetTalksByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {		
-		//
-		// Рефакторинг:
-		// переход на систему учета активных\неактивных пользователей в переписке
-		/**		
-		$sql = "SELECT 
-					tu.talk_id									
-				FROM 
-					".Config::Get('db.table.talk_user')." as tu, 					
-					".Config::Get('db.table.talk')." as t							 
-				WHERE 
-					tu.user_id = ?d 
-					AND
-					tu.talk_id=t.talk_id	
-				ORDER BY t.talk_date_last desc, t.talk_date desc
-				LIMIT ?d, ?d	
-					";
-		**/
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 

@@ -141,24 +141,56 @@ class ActionTalk extends Action {
 		$aFilter = array(
 			'user_id'=>$this->oUserCurrent->getId(),
 		);
-		if(isset($_REQUEST['start'])&&$_REQUEST['start']) {
-			list($d,$m,$y)=explode('.',$_REQUEST['start']);
-			$aFilter['date_min']="{$y}-{$m}-{$d}";
+		if($start=getRequest('start')) {
+			if(func_check($start,'text',6,9) && substr_count($start,'.')==2) {
+				list($d,$m,$y)=explode('.',$start);
+				if(@checkdate($m,$d,$y)) {
+					$aFilter['date_min']="{$y}-{$m}-{$d}";
+				} else {
+					$this->Message_AddError(
+						$this->Lang_Get('talk_filter_error_date_format'), 
+						$this->Lang_Get('talk_filter_error')
+					);
+					unset($_REQUEST['start']);				
+				}
+			} else {
+				$this->Message_AddError(
+					$this->Lang_Get('talk_filter_error_date_format'), 
+					$this->Lang_Get('talk_filter_error')
+				);
+				unset($_REQUEST['start']);				
+			}			
 		}
-		if(isset($_REQUEST['end'])&&$_REQUEST['end']) {
-			list($d,$m,$y)=explode('.',$_REQUEST['end']);
-			$aFilter['date_max']="{$y}-{$m}-{$d}";
+		if($end=getRequest('end')) {
+			if(func_check($end,'text',6,9) && substr_count($end,'.')==2) {
+				list($d,$m,$y)=explode('.',$end);
+				if(@checkdate($m,$d,$y)) { 
+					$aFilter['date_max']="{$y}-{$m}-{$d}";
+				} else {
+					$this->Message_AddError(
+						$this->Lang_Get('talk_filter_error_date_format'), 
+						$this->Lang_Get('talk_filter_error')
+					);
+					unset($_REQUEST['end']);
+				}
+			} else {
+				$this->Message_AddError(
+					$this->Lang_Get('talk_filter_error_date_format'), 
+					$this->Lang_Get('talk_filter_error')
+				);
+				unset($_REQUEST['end']);				
+			}
 		}
-		if(isset($_REQUEST['keyword'])&&$_REQUEST['keyword']){
-			$sKeyRequest=urldecode($_REQUEST['keyword']);
+		if($sKeyRequest=getRequest('keyword')){
+			$sKeyRequest=urldecode($sKeyRequest);
 		    $aWords= (1===preg_match('##u', $sKeyRequest)) 
 		    	? preg_split('#[0-9\W_]+#Disu', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY) 
 		    	: preg_split('#[0-9\W_]+#Dis', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY); 
 			$aFilter['keyword']='%'.implode('%',(array)$aWords).'%';
 		}
-		if(isset($_REQUEST['sender'])&&$_REQUEST['sender']){
-			$aFilter['user_login']=urldecode($_REQUEST['sender']);
-		}		
+		if($sender=getRequest('sender')){
+			$aFilter['user_login']=urldecode($sender);
+		}
 		
 		return $aFilter;
 	}
