@@ -38,6 +38,7 @@
 .vlaCalendar {
 	display: block;
 	width: 164px;
+	line-height: 14px !important;
 }
 .vlaCalendar .container, .vlaCalendar .container div {
 	width: 164px;
