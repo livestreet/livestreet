@@ -3,6 +3,7 @@
 				<div class="cl"><div class="cr">
 					
 					<h1>{$aLang.talk_speaker_title}</h1>
+				{if $bIsAuthor}
 				{literal}
 						<script language="JavaScript" type="text/javascript">
 						document.addEvent('domready', function() {	
@@ -42,29 +43,29 @@
 										                
 							return true;
 						}
-						function addListItem(sId,sLogin) {
-							
-							oSpan=new Element('span',
+						function addListItem(sId,sLogin,sUserLink,sTalkId) {
+							oUser=new Element('a',
 								{
 									'class'  : 'user',
-									'text'   : sLogin
+									'text'   : sLogin,
+									'href'   : sUserLink
 								}
 							);
 							oLink=new Element('a',
 								{
-									'id'    : 'spaker_item_'+sId,
+									'id'    : 'speaker_item_'+sId,
 									'href'  : "#",
 									'class' : 'delete',
 									'events': {
 										'click': function() {
-											deleteFromTalk(this); 
+											deleteFromTalk(this,sTalkId); 
 											return false;
 										}
 									}
 								}
 							);
 							oItem=new Element('li');
-							$('speakerList').adopt(oItem.adopt(oSpan,oLink));
+							$('speakerList').adopt(oItem.adopt(oUser,oLink));
 						}
 						function addToTalk(idTalk) {
 							sUsers=$('talk_speaker_add').get('value');
@@ -88,7 +89,7 @@
 							        			if(item.bStateError){
 							        				msgErrorBox.alert(item.sMsgTitle, item.sMsg);
 							        			} else {
-							                		addListItem(item.sUserId,item.sUserLogin);
+							                		addListItem(item.sUserId,item.sUserLogin,item.sUserLink,idTalk);
 							        			}
 							        		});
 							        	}                                 
@@ -107,14 +108,14 @@
 							</p>										
 						</form>
 					</div>
-				
+			{/if}	
 			<div class="block-content" id="speakerListBlock">
 				{if $oTalk->getTalkUsers()}
 					<ul class="list" id="speakerList">
 						{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
 							{if $oUser->getUserId()!=$oUserCurrent->getId()}
 							{assign var="oAdditionalUser" value=$oUser->getUser()}	
-								{if $oUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}<li><span class="user {if $oUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oAdditionalUser->getLogin()}</span>{if $oUser->getUserActive()==$TALK_USER_ACTIVE}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
+								{if $oUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}<li><a class="user {if $oUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oAdditionalUser->getUserWebPath()}">{$oAdditionalUser->getLogin()}</a>{if $oUser->getUserActive()==$TALK_USER_ACTIVE and $bIsAuthor}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
 							{/if}
 						{/foreach}
 					</ul>

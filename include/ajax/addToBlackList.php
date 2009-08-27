@@ -35,8 +35,16 @@ if ($oEngine->User_IsAuthorization()) {
 	$aResult=array();
 	foreach ($aUsers as $sUser) {
 		$sUser=trim($sUser);			
-		if ($sUser=='' or strtolower($sUser)==strtolower($oUserCurrent->getLogin())) {
+		if ($sUser=='') {
 			continue;
+		}
+		if(strtolower($sUser)==strtolower($oUserCurrent->getLogin())) {
+			$aResult[]=array(
+				'bStateError'=>true,
+				'sMsgTitle'=>$oEngine->Lang_Get('error'),
+				'sMsg'=>$oEngine->Lang_Get('talk_blacklist_add_self')
+			);													
+			continue;			
 		}
 		if ($oUser=$oEngine->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
 			if(!isset($aUserBlacklist[$oUser->getId()])) {

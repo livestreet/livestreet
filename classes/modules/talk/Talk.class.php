@@ -558,7 +558,11 @@ class LsTalk extends Module {
 		// Получаем комменты по переданому массиву айдишников
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
-			$oTalk->setUsers($this->GetUsersTalk($oTalk->getId()));	
+			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
+			foreach ((array)$aResult as $oTalkUser) {
+				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
+			}			
+			$oTalk->setTalkUsers($aTalkUsers);
 		}
 		$data['collection']=$aTalks;	
 		return $data;

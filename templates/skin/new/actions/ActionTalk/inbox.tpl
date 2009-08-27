@@ -17,14 +17,14 @@
 					
 					<tbody>
 					{foreach from=$aTalks item=oTalk}
-						{assign var="oTalkUser" value=$oTalk->getTalkUser()}
+						{assign var="oTalkUserAuthor" value=$oTalk->getTalkUser()}
 						<tr>
 							<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox"></td>
 							<td class="name">							
-								{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
-									{if $oUser->getUserId()!=$oUserCurrent->getId()}
-									{assign var="oAdditionalUser" value=$oUser->getUser()}
-										<a href="{$oAdditionalUser->getUserWebPath()}" class="author {if $oUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oAdditionalUser->getLogin()}</a>
+								{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+									{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
+									{assign var="oUser" value=$oTalkUser->getUser()}
+										<a href="{$oUser->getUserWebPath()}" class="author {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
 									{/if}
 								{/foreach}
 							</td>							
@@ -34,14 +34,14 @@
 								</span>
 							</td>
 							<td>	
-							{if $oTalkUser->getCommentCountNew() or !$oTalkUser->getDateLast()}
+							{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
 								<a href="{router page='talk'}read/{$oTalk->getId()}/"><b>{$oTalk->getTitle()|escape:'html'}</b></a>
 							{else}
 								<a href="{router page='talk'}read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
 							{/if}
 					 		&nbsp;	
 							{if $oTalk->getCountComment()}
-								{$oTalk->getCountComment()} {if $oTalkUser->getCommentCountNew()}<span style="color: #008000;">+{$oTalkUser->getCommentCountNew()}</span>{/if}
+								{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}<span style="color: #008000;">+{$oTalkUserAuthor->getCommentCountNew()}</span>{/if}
 							{/if}
 							</td>
 							<td>{date_format date=$oTalk->getDate()}</td>

@@ -637,6 +637,7 @@ return array(
 	'talk_blacklist_user_already_have' => 'Пользователь <b>%%login%%</b> есть в вашем black list`е',
 	'talk_blacklist_delete_ok' => 'Пользователь <b>%%login%%</b> успешно удален',
 	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
+	'talk_blacklist_add_self' => 'Нельзя добавлять в black list себя',
 	
 	'talk_speaker_title' => 'Участники разговора',
 	'talk_speaker_add_label' => 'Добавить пользователя',
@@ -645,6 +646,7 @@ return array(
 	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
 	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
 	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
+	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
 	
 	'talk_not_found' => 'Разговор не найден',
 

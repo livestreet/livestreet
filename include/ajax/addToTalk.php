@@ -37,8 +37,16 @@ if ($oEngine->User_IsAuthorization()) {
 			$aUsers=explode(',',$sUsers);
 			$aUserInBlacklist = $oEngine->Talk_GetBlacklistByTargetId($oUserCurrent->getId());			
 			foreach ($aUsers as $sUser) {
-				$sUser=trim($sUser);			
-				if ($sUser=='' or strtolower($sUser)==strtolower($oUserCurrent->getLogin())) {
+				$sUser=trim($sUser);
+				if($sUser=='') {			
+					continue;			
+				}
+				if (strtolower($sUser)==strtolower($oUserCurrent->getLogin())) {
+					$aResult[]=array(
+						'bStateError'=>true,
+						'sMsgTitle'=>$oEngine->Lang_Get('error'),
+						'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_self')
+					);													
 					continue;
 				}	
 				if ( ($oUser=$oEngine->User_GetUserByLogin($sUser)) 
@@ -65,7 +73,8 @@ if ($oEngine->User_IsAuthorization()) {
 											'sMsgTitle'=>$oEngine->Lang_Get('attention'),
 											'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
 											'sUserId'=>$oUser->getId(),
-											'sUserLogin'=>$oUser->getLogin()
+											'sUserLogin'=>$oUser->getLogin(),
+											'sUserLink'=>$oUser->getUserWebPath()
 										);
 										$bState=true;
 									} else {
@@ -120,7 +129,8 @@ if ($oEngine->User_IsAuthorization()) {
 									'sMsgTitle'=>$oEngine->Lang_Get('attention'),
 									'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
 									'sUserId'=>$oUser->getId(),
-									'sUserLogin'=>$oUser->getLogin()
+									'sUserLogin'=>$oUser->getLogin(),
+									'sUserLink'=>$oUser->getUserWebPath()	
 								);
 								$bState=true;
 							} else {
@@ -142,8 +152,7 @@ if ($oEngine->User_IsAuthorization()) {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$oEngine->Lang_Get('error'),
-						'sMsg'=>$oEngine->Lang_Get('user_not_found',array('login'=>$sUser)),
-						'sUserLogin'=>$sUser
+						'sMsg'=>$oEngine->Lang_Get('user_not_found',array('login'=>$sUser))
 					);
 				}	
 			}

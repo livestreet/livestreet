@@ -121,7 +121,7 @@ class LsLang extends Module {
 			}
 
 			if(Config::Get('module.lang.delete_undefined')) {
-				$sTranslate=preg_replace("/\%\%[\S]+\%\%/",'',$sTranslate);
+				$sTranslate=preg_replace("/\%\%[\S]+\%\%/U",'',$sTranslate);
 			}
 			return $sTranslate;
 		}
