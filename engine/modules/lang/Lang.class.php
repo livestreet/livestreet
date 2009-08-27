@@ -58,7 +58,7 @@ class LsLang extends Module {
 	 * Загружает текстовки из языковых файлов
 	 *
 	 */
-	protected function LoadLangFiles() {		
+	protected function LoadLangFiles() {
 		$this->aLangMsg=include($this->sLangPath.'/'.$this->sCurrentLang.'.php');
 		/**
 		 * Ищет конфиги языковых файлов и объединяет их с текущим
@@ -107,9 +107,13 @@ class LsLang extends Module {
 	 *
 	 * @param unknown_type $sName
 	 */
-	public function Get($sName) {
+	public function Get($sName,$aReplace=array()) {
 		if (isset($this->aLangMsg[$sName])) {
-			return $this->aLangMsg[$sName];
+			$sTranslate=$this->aLangMsg[$sName];
+
+			return (is_array($aReplace)&&count($aReplace)) 
+					? $sTranslate=strtr($sTranslate,$aReplace)
+					: $sTranslate;
 		}
 		return 'NOT_FOUND_LANG_TEXT';
 	}

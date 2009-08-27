@@ -630,10 +630,17 @@ return array(
 	'talk_balcklist_add_label' => 'Добавить пользователей',
 	'talk_balcklist_add_notice' => 'Введите один или несколько логинов',
 	'talk_balcklist_add_submit' => 'Не принимать',
-	'talk_blacklist_add_ok' => 'Пользователь успешно добавлен',
-	'talk_blacklist_user_already_have' => 'Пользователь есть в вашем black list`е',
-	'talk_blacklist_delete_ok' => 'Пользователь успешно удален',
-	'talk_blacklist_user_not_found' => 'Пользователя нет в вашем black list`е',
+	'talk_blacklist_add_ok' => 'Пользователь <b>%%login%%</b> успешно добавлен',
+	'talk_blacklist_user_already_have' => 'Пользователь <b>%%login%%</b> есть в вашем black list`е',
+	'talk_blacklist_delete_ok' => 'Пользователь <b>%%login%%</b> успешно удален',
+	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
+	
+	'talk_speaker_title' => 'Участники разговора',
+	'talk_speaker_add_label' => 'Добавить пользователя',
+	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
+	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
+	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
+	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
 	
 	/**
 	 * Рейтинг TOP
@@ -701,7 +708,8 @@ return array(
 	'system_error_template' => 'Не найден шаблон',
 	'system_error_template_block' => 'Не найден шаблон подключаемого блока',
 	
-	'module_error_user_not_found' => 'Пользователь не найден',
+	'module_error_user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
+	'module_error_talk_not_found' => 'Разговор не найден',
 	
 	'error' => 'Ошибка',
 	'attention' => 'Внимание',

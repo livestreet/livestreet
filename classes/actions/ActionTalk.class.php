@@ -133,7 +133,7 @@ class ActionTalk extends Action {
 		if(count($aFilter)>1) {
 			$this->Message_AddNotice(
 				($aResult['count'])
-					? str_replace('%%count%%',$aResult['count'],$this->Lang_Get('talk_filter_result_count'))
+					? $this->Lang_Get('talk_filter_result_count',array('%%count%%'=>$aResult['count']))
 					: $this->Lang_Get('talk_filter_result_empty')
 			);
 		}
@@ -305,11 +305,15 @@ class ActionTalk extends Action {
 		$oTalkUser->setCommentIdLast($iMaxIdComment);
 		$oTalkUser->setCommentCountNew(0);
 		$this->Talk_UpdateTalkUser($oTalkUser);
-								
+
 		$this->Viewer_AddHtmlTitle($oTalk->getTitle());
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
+		
+		if($oTalk->getUserId()==$this->oUserCurrent->getId()) {
+			$this->Viewer_AddBlocks('right',array('actions/ActionTalk/speakers.tpl'));						
+		}
 	}
 	
 	

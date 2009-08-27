@@ -2,12 +2,12 @@
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">
 					
-					<h1>{$aLang.talk_blacklist_title}</h1>
+					<h1>{$aLang.talk_speaker_title}</h1>
 				{literal}
 						<script language="JavaScript" type="text/javascript">
 						document.addEvent('domready', function() {	
 							new Autocompleter.Request.HTML(
-								$('talk_blacklist_add'),
+								$('talk_speaker_add'),
 								 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php', 
 								 {
 									'indicatorClass': 'autocompleter-loading',
@@ -18,13 +18,13 @@
 							);
 						});						
 						
-						function deleteFromBlackList(element) {
+						function deleteFromTalk(element,idTalk) {
 							element.getParent('li').fade(0.7);							
-							idTarget = element.get('id').replace('blacklist_item_','');
+							idTarget = element.get('id').replace('speaker_item_','');
 		
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/include/ajax/deleteFromBlackList.php',                      
-			                        { idTarget: idTarget },
+			                        DIR_WEB_ROOT+'/include/ajax/deleteFromTalk.php',                      
+			                        { idTarget:idTarget,idTalk:idTalk },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');
@@ -35,11 +35,6 @@
 							                element.getParent().fade(1);
 							        	} else {
 							                element.getParent('li').destroy();
-							                
-							                if($('blackList').getElements('li').length==0) {
-							                	$('blackList').destroy();
-							                	$('list_uncheck_all').setProperty('style','display:none');
-							                }
 							        	}                                 
 			                        },
 			                        true
@@ -48,12 +43,6 @@
 							return true;
 						}
 						function addListItem(sId,sLogin) {
-							if($('blackListBlock').getElements('li').length==0) {
-								$('list_uncheck_all').removeProperty('style');
-								list=new Element('ul', {class:'list',id:'blackList'});
-								$('blackListBlock').adopt(list);
-							}
-							
 							oSpan=new Element('span',
 								{
 									'class'  : 'user',
@@ -62,30 +51,30 @@
 							);
 							oLink=new Element('a',
 								{
-									'id'    : 'blacklist_item_'+sId,
+									'id'    : 'spaker_item_'+sId,
 									'href'  : "#",
 									'class' : 'delete',
 									'events': {
 										'click': function() {
-											deleteFromBlackList(this); 
+											deleteFromTalk(this); 
 											return false;
 										}
 									}
 								}
 							);
 							oItem=new Element('li');
-							$('blackList').adopt(oItem.adopt(oSpan,oLink));
+							$('speakerList').adopt(oItem.adopt(oSpan,oLink));
 						}
-						function addToBlackList() {
-							sUsers=$('talk_blacklist_add').get('value');
+						function addToTalk(idTalk) {
+							sUsers=$('talk_speaker_add').get('value');
 							if(sUsers.length<2) {
 								msgErrorBox.alert('Error','Пользователь не указан');
 								return false;
 							}
-							$('talk_blacklist_add').set('value','');
+							$('talk_speaker_add').set('value','');
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/include/ajax/addToBlackList.php',                      
-			                        { users: sUsers },
+			                        DIR_WEB_ROOT+'/include/ajax/addToTalk.php',                      
+			                        { users: sUsers, idTalk: idTalk },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');         
@@ -111,38 +100,26 @@
 					{/literal}
 
 					<div class="block-content">
-						<form onsubmit="addToBlackList(); return false;">
-							<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label><br />
-							<input type="text" id="talk_blacklist_add" name="add" value="" class="w100p" /><br />
+						<form onsubmit="addToTalk({$oTalk->getId()}); return false;">
+							<p><label for="talk_speaker_add">{$aLang.talk_speaker_add_label}:</label><br />
+							<input type="text" id="talk_speaker_add" name="add" value="" class="w100p" />
 							</p>										
 						</form>
 					</div>
 				
-				<div class="block-content" id="blackListBlock">						
-				{if $aUsersBlacklist}
-					{literal}
-						<script>
-						window.addEvent('domready', function() { 
-							$('list_uncheck_all').addEvents({
-								'click': function(){
-									$('blackList').getElements('a').each(function(item,index){
-										deleteFromBlackList(item);
-									});
-									return false;
-								}
-							});							
-						});
-						</script>						
-					{/literal}
-					<ul class="list" id="blackList">
-						{foreach from=$aUsersBlacklist item=oUser}
-							<li><span class="user">{$oUser->getLogin()}</span><a href="#" id="blacklist_item_{$oUser->getId()}" onclick="deleteFromBlackList(this); return false;" class="delete"></a></li>						
+			<div class="block-content" id="speakerListBlock">
+				{if $oTalk->getTalkUsers()}
+					<ul class="list" id="speakerList">
+						{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
+							{if $oUser->getUserId()!=$oUserCurrent->getId()}
+							{assign var="oAdditionalUser" value=$oUser->getUser()}	
+								<li><span class="user {if !$oUser->getIsActive()}inactive{/if}">{$oAdditionalUser->getLogin()}</span>{if $oUser->getIsActive()}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>						
+							{/if}
 						{/foreach}
 					</ul>
 				{/if}
-				</div>
-				<div class="right"><a href="#" id="list_uncheck_all" {if !$aUsersBlacklist}style="display:none;"{/if}>{$aLang.talk_balcklist_delete_all}</a></div>
-					
+			</div>
+				<br />	
 				</div></div>
 				<div class="bl"><div class="br"></div></div>
 			</div>

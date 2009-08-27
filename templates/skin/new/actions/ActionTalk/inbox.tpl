@@ -23,7 +23,7 @@
 							<td class="name">							
 								{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
 									{if $oUser->getUserId()!=$oUserCurrent->getId()}
-									{assign var="oAdditionalUser" value=$oUser->getUser()}					
+									{assign var="oAdditionalUser" value=$oUser->getUser()}
 										<a href="{$oAdditionalUser->getUserWebPath()}" class="author {if !$oUser->getIsActive()}inactive{/if}">{$oAdditionalUser->getLogin()}</a>
 									{/if}
 								{/foreach}

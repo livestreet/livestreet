@@ -303,6 +303,11 @@ class LsTalk extends Module {
 	public function GetTalkById($sId) {
 		$aTalks=$this->GetTalksAdditionalData($sId);
 		if (isset($aTalks[$sId])) {
+			$aResult=$this->GetTalkUsersByTalkId($sId);
+			foreach ((array)$aResult as $oTalkUser) {
+				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
+			}		
+			$aTalks[$sId]->setTalkUsers($aResult);
 			return $aTalks[$sId];
 		}
 		return null;		
@@ -314,6 +319,13 @@ class LsTalk extends Module {
 	 * @return unknown
 	 */
 	public function AddTalkUser(TalkEntity_TalkUser $oTalkUser) {
+		$this->Cache_Delete("talk_{$oTalkUser->getTalkId()}");
+		$this->Cache_Clean(
+			Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+			array(
+				"update_talk_user_{$oTalkUser->getTalkId()}"
+			)
+		);
 		return $this->oMapper->AddTalkUser($oTalkUser);
 	}
 	/**
@@ -376,7 +388,11 @@ class LsTalk extends Module {
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
-			$oTalk->setTalkUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
+			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
+			foreach ((array)$aResult as $oTalkUser) {
+				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
+			}
+			$oTalk->setTalkUsers($aTalkUsers);
 		}
 		$data['collection']=$aTalks;
 		return $data;
@@ -397,7 +413,11 @@ class LsTalk extends Module {
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
 		foreach ($aTalks as $oTalk) {
-			$oTalk->setTalkUsers($this->GetTalkUsersByTalkId($oTalk->getId()));
+			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
+			foreach ((array)$aResult as $oTalkUser) {
+				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
+			}			
+			$oTalk->setTalkUsers($aResult);
 		}
 		$data['collection']=$aTalks;
 		return $data;
