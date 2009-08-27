@@ -352,7 +352,7 @@ return array(
 	'user_stats_sex_man' => 'Мужчины',
 	'user_stats_sex_woman' => 'Женщины',
 	'user_stats_sex_other' => 'Пол не указан',
-	
+
 	/**
 	 * Меню профиля пользователя
 	 */
@@ -621,6 +621,18 @@ return array(
 	'talk_filter_submit' => 'Отфильтровать',
 	'talk_filter_error' => 'Ошибка фильрации',
 	'talk_filter_error_date_format' => 'Указан неверный формат даты',
+	'talk_filter_result_count' => 'Найдено писем: %%count%%',
+	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
+	
+	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
+	'talk_blacklist_title' => 'Не принимать писем от:',
+	'talk_blacklist_empty' => 'Принимать от всех',
+	'talk_balcklist_add_label' => 'Добавить пользователей',
+	'talk_balcklist_add_notice' => 'Введите один или несколько логинов',
+	'talk_balcklist_add_submit' => 'Не принимать',
+	'talk_blacklist_add_ok' => 'Пользователь успешно добавлен',
+	'talk_blacklist_user_already_have' => 'Пользователь есть в вашем black list`е',
+	
 	
 	/**
 	 * Рейтинг TOP
@@ -688,6 +700,7 @@ return array(
 	'system_error_template' => 'Не найден шаблон',
 	'system_error_template_block' => 'Не найден шаблон подключаемого блока',
 	
+	'module_error_user_not_found' => 'Пользователь не найден',
 	
 	'error' => 'Ошибка',
 	'attention' => 'Внимание',

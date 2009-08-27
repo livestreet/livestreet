@@ -341,5 +341,78 @@ class Mapper_Talk extends Mapper {
 		}
 		return $aTalks;
 	}
+	
+	public function GetBlacklistByUserId($sUserId) {				
+		$sql = "SELECT 
+					tb.user_target_id							 
+				FROM 
+					".Config::Get('db.table.talk_blacklist')." as tb 
+				WHERE 
+					tb.user_id = ?d"; 										
+		$aTargetId=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId)) {
+			foreach ($aRows as $aRow) {
+				$aTargetId[]=$aRow['user_target_id'];
+			}
+		}		
+		return $aTargetId;
+	}	
+	
+	public function GetBlacklistByTargetId($sUserId) {				
+		$sql = "SELECT 
+					tb.user_id							 
+				FROM 
+					".Config::Get('db.table.talk_blacklist')." as tb 
+				WHERE 
+					tb.user_target_id = ?d"; 										
+		$aUserId=array();
+		if ($aRows=$this->oDb->select($sql,$sUserId)) {
+			foreach ($aRows as $aRow) {
+				$aUserId[]=$aRow['user_id'];
+			}
+		}		
+		return $aUserId;
+	}
+
+	public function AddUserToBlacklist($sTargetId, $sUserId) {
+		$sql = "
+			INSERT INTO ".Config::Get('db.table.talk_blacklist')." 
+				( user_id, user_target_id )
+			VALUES
+				(?d, ?d)
+		";			
+		if ($this->oDb->query($sql,$sUserId,$sTargetId)===0) {
+			return true;
+		}		
+		return false;		
+	}
+	
+	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {	
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.talk_blacklist')." 
+			WHERE
+				user_id = ?d
+			AND
+				user_target_id = ?d
+		";			
+		if ($this->oDb->query($sql,$sUserId,$sTargetId)) {
+			return true;
+		}		
+		return false;		
+	}
+	
+	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {	
+		$sql = "
+			INSERT INTO ".Config::Get('db.table.talk_blacklist')." 
+				( user_id, user_target_id )
+			VALUES
+				(?d, ?d)
+		";	
+		$bOk=true;	
+		foreach ($aTargetId as $sTarget) {
+			$bOk = $bOk && $this->oDb->query($sql, $sUserId, $sTarget);
+		}			
+		return $bOk;		
+	}
 }
 ?>

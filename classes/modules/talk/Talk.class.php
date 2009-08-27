@@ -49,39 +49,45 @@ class LsTalk extends Module {
 			$aUserTo=array($aUserTo);
 		}
 		$aUserIdTo=array($iUserIdFrom);		
+		$aUserInBlacklist=$this->GetBlacklistByTargetId($iUserIdFrom);
+		
 		foreach ($aUserTo as $oUserTo) {
-			$aUserIdTo[]=$oUserTo instanceof UserEntity_User ? $oUserTo->getId() : (int)$oUserTo;
+			$sUserIdTo=$oUserTo instanceof UserEntity_User ? $oUserTo->getId() : (int)$oUserTo;
+			if(!in_array($sUserIdTo,$aUserInBlacklist)) {
+				$aUserIdTo[]=$sUserIdTo;
+			}
 		}
 		$aUserIdTo=array_unique($aUserIdTo);
-		
-		$oTalk=new TalkEntity_Talk();
-		$oTalk->setUserId($iUserIdFrom);
-		$oTalk->setTitle($sTitle);
-		$oTalk->setText($sText);
-		$oTalk->setDate(date("Y-m-d H:i:s"));
-		$oTalk->setDateLast(date("Y-m-d H:i:s"));
-		$oTalk->setUserIp(func_getIp());
-		if ($oTalk=$this->AddTalk($oTalk)) {
-			foreach ($aUserIdTo as $iUserId) {
-				$oTalkUser=new TalkEntity_TalkUser();
-				$oTalkUser->setTalkId($oTalk->getId());
-				$oTalkUser->setUserId($iUserId);
-				if ($iUserId==$iUserIdFrom) {
-					$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
-				} else {
-					$oTalkUser->setDateLast(null);
-				}
-				$this->AddTalkUser($oTalkUser);
-
-				if ($bSendNotify) {
-					if ($iUserId!=$iUserIdFrom) {
-						$oUserFrom=$this->User_GetUserById($iUserIdFrom);
-						$oUserToMail=$this->User_GetUserById($iUserId);
-						$this->Notify_SendTalkNew($oUserToMail,$oUserFrom,$oTalk);
+		if(!empty($aUserIdTo)) {
+			$oTalk=new TalkEntity_Talk();
+			$oTalk->setUserId($iUserIdFrom);
+			$oTalk->setTitle($sTitle);
+			$oTalk->setText($sText);
+			$oTalk->setDate(date("Y-m-d H:i:s"));
+			$oTalk->setDateLast(date("Y-m-d H:i:s"));
+			$oTalk->setUserIp(func_getIp());
+			if ($oTalk=$this->AddTalk($oTalk)) {
+				foreach ($aUserIdTo as $iUserId) {
+					$oTalkUser=new TalkEntity_TalkUser();
+					$oTalkUser->setTalkId($oTalk->getId());
+					$oTalkUser->setUserId($iUserId);
+					if ($iUserId==$iUserIdFrom) {
+						$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
+					} else {
+						$oTalkUser->setDateLast(null);
+					}
+					$this->AddTalkUser($oTalkUser);
+	
+					if ($bSendNotify) {
+						if ($iUserId!=$iUserIdFrom) {
+							$oUserFrom=$this->User_GetUserById($iUserIdFrom);
+							$oUserToMail=$this->User_GetUserById($iUserId);
+							$this->Notify_SendTalkNew($oUserToMail,$oUserFrom,$oTalk);
+						}
 					}
 				}
+				return $oTalk;
 			}
-			return $oTalk;
 		}
 		return false;
 	}
@@ -317,6 +323,9 @@ class LsTalk extends Module {
 	 * @return unknown
 	 */
 	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+		if(!is_array($aTalkId)){
+			$aTalkId=array($aTalkId);
+		}
 		// Удаляем для каждого отметку избранного
 		foreach ($aTalkId as $sTalkId) {
 			$this->DeleteFavouriteTalk(
@@ -557,6 +566,36 @@ class LsTalk extends Module {
 		return ($oFavourite->getTargetType()=='talk') 
 			? $this->Favourite_DeleteFavourite($oFavourite)
 			: false;
-	}		
+	}	
+
+	public function GetBlacklistByUserId($sUserId) {
+		$data=$this->oMapper->GetBlacklistByUserId($sUserId);
+		return $this->User_GetUsersAdditionalData($data);
+	}
+	
+	/**
+	 * Возвращает пользователей, у которых данный занесен в Blacklist
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
+	public function GetBlacklistByTargetId($sUserId) {
+		return $this->oMapper->GetBlacklistByTargetId($sUserId);
+	}
+	
+	public function AddUserToBlacklist($sTargetId, $sUserId) {
+		return $this->oMapper->AddUserToBlacklist($sTargetId, $sUserId);
+	}
+	
+	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {
+		foreach ((array)$aTargetId as $oUser) {
+			$aUsersId[]=$oUser instanceof UserEntity_User ? $oUser->getId() : (int)$oUser;
+		}		
+		return $this->oMapper->AddUserArrayToBlacklist($aUsersId, $sUserId);
+	}
+	
+	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {
+		return $this->oMapper->DeleteUserFromBlacklist($sTargetId, $sUserId);	
+	}
 }
 ?>

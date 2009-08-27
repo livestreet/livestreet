@@ -324,6 +324,7 @@ $config['db']['table']['favourite']           = $config['db']['table']['prefix']
 $config['db']['table']['talk']                = $config['db']['table']['prefix'].'talk';
 $config['db']['table']['talk_user']           = $config['db']['table']['prefix'].'talk_user';
 $config['db']['table']['talk_comment']        = $config['db']['table']['prefix'].'talk_comment';
+$config['db']['table']['talk_blacklist']      = $config['db']['table']['prefix'].'talk_blacklist';
 $config['db']['table']['friend']              = $config['db']['table']['prefix'].'friend';
 $config['db']['table']['topic_content']       = $config['db']['table']['prefix'].'topic_content';
 $config['db']['table']['topic_question_vote'] = $config['db']['table']['prefix'].'topic_question_vote';

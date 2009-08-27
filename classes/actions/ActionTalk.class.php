@@ -129,10 +129,27 @@ class ActionTalk extends Action {
 				)
 			)
 		);
+		
+		if(count($aFilter)>1) {
+			$this->Message_AddNotice(
+				($aResult['count'])
+					? str_replace('%%count%%',$aResult['count'],$this->Lang_Get('talk_filter_result_count'))
+					: $this->Lang_Get('talk_filter_result_empty')
+			);
+		}
+		
+		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/filter.tpl'));
+		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
+		$this->Viewer_AddBlocks(
+			'right',
+			array(
+				'actions/ActionTalk/filter.tpl',
+				'actions/ActionTalk/blacklist.tpl'
+			)
+		);
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
@@ -142,7 +159,7 @@ class ActionTalk extends Action {
 			'user_id'=>$this->oUserCurrent->getId(),
 		);
 		if($start=getRequest('start')) {
-			if(func_check($start,'text',6,9) && substr_count($start,'.')==2) {
+			if(func_check($start,'text',6,10) && substr_count($start,'.')==2) {
 				list($d,$m,$y)=explode('.',$start);
 				if(@checkdate($m,$d,$y)) {
 					$aFilter['date_min']="{$y}-{$m}-{$d}";
@@ -162,7 +179,7 @@ class ActionTalk extends Action {
 			}			
 		}
 		if($end=getRequest('end')) {
-			if(func_check($end,'text',6,9) && substr_count($end,'.')==2) {
+			if(func_check($end,'text',6,10) && substr_count($end,'.')==2) {
 				list($d,$m,$y)=explode('.',$end);
 				if(@checkdate($m,$d,$y)) { 
 					$aFilter['date_max']="{$y}-{$m}-{$d}";
@@ -318,6 +335,8 @@ class ActionTalk extends Action {
 		$sUsers=getRequest('talk_users');
 		$aUsers=explode(',',$sUsers);		
 		$aUsersNew=array();
+		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
+		
 		$this->aUsersId=array();
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);			
@@ -325,8 +344,21 @@ class ActionTalk extends Action {
 				continue;
 			}
 			if ($oUser=$this->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
-				$this->aUsersId[]=$oUser->getId();
-				
+				// Проверяем, попал ли отправиль в блек лист
+				if(!in_array($oUser->getId(),$aUserInBlacklist)) {
+					$this->aUsersId[]=$oUser->getId();
+				} else {
+					$this->Message_AddError(
+						str_replace(
+							'%%login%%',
+							$oUser->getLogin(),
+							$this->Lang_Get('talk_user_in_blacklist')
+						),
+						$this->Lang_Get('error')
+					);
+					$bOk=false;
+					continue;
+				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('talk_create_users_error_not_found').' «'.htmlspecialchars($sUser).'»',$this->Lang_Get('error'));
 				$bOk=false;

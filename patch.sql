@@ -77,3 +77,12 @@ ALTER TABLE `prefix_favourite` ADD CONSTRAINT `prefix_favourite_target_fk` FOREI
 ALTER TABLE  `prefix_favourite` CHANGE  `target_type`  `target_type` ENUM(  'topic',  'comment',  'talk' ) DEFAULT  'topic';
 
 ALTER TABLE  `prefix_talk_user` ADD  `talk_user_active` TINYINT( 1 ) DEFAULT  '1';
+
+CREATE TABLE  `prefix_talk_blacklist` (
+ `user_id` INT UNSIGNED NOT NULL ,
+ `user_target_id` INT UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE  `prefix_talk_blacklist` ADD PRIMARY KEY (  `user_id` ,  `user_target_id` );
+ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_user` FOREIGN KEY (  `user_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_target` FOREIGN KEY (  `user_target_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
