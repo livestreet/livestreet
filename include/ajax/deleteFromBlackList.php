@@ -36,16 +36,16 @@ if ($oEngine->User_IsAuthorization()) {
 			if ($oEngine->Talk_DeleteUserFromBlacklist($idTarget,$oUserCurrent->getId())) {
 				$bStateError=false;
 				$sMsgTitle=$oEngine->Lang_Get('attention');
-				$sMsg=$oEngine->Lang_Get('talk_blacklist_delete_ok',array('%%login%%'=>$oUserTarget->getLogin()));
+				$sMsg=$oEngine->Lang_Get('talk_blacklist_delete_ok',array('login'=>$oUserTarget->getLogin()));
 				$bState=true;
 			} else {
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('talk_blacklist_user_not_found',array('%%login%%'=>$oUserTarget->getLogin()));
+				$sMsg=$oEngine->Lang_Get('talk_blacklist_user_not_found',array('login'=>$oUserTarget->getLogin()));
 			}
 		}
 	} else {
 		$sMsgTitle=$oEngine->Lang_Get('error');
-		$sMsg=$oEngine->Lang_Get('module_error_user_not_found',array('%%login%%'=>$oUserTarget->getLogin()));
+		$sMsg=$oEngine->Lang_Get('user_not_found_by_id',array('id'=>$idTarget));
 	}
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

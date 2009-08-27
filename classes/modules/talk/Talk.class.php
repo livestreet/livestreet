@@ -23,6 +23,13 @@ require_once('mapper/Talk.mapper.class.php');
  *
  */
 class LsTalk extends Module {		
+	/**
+	 * Статус TalkUser в базе данных
+	 */
+	const TALK_USER_ACTIVE = 1;
+	const TALK_USER_DELETE_BY_SELF = 2;
+	const TALK_USER_DELETE_BY_AUTHOR = 4;
+	
 	protected $oMapper;	
 	protected $oUserCurrent=null;
 		
@@ -334,7 +341,7 @@ class LsTalk extends Module {
 	 * @param TalkEntity_TalkUser $oTalkUser
 	 * @return unknown
 	 */
-	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+	public function DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve=self::TALK_USER_DELETE_BY_SELF) {
 		if(!is_array($aTalkId)){
 			$aTalkId=array($aTalkId);
 		}
@@ -357,7 +364,7 @@ class LsTalk extends Module {
 				array("update_talk_user_{$sTalkId}")
 			);
 		}
-		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId);
+		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve);
 	}
 	/**
 	 * Есть ли юзер в этом разговоре
@@ -371,7 +378,7 @@ class LsTalk extends Module {
 		if (isset($aTalkUser[$sTalkId])) {
 			return $aTalkUser[$sTalkId];
 		}
-		return null;		
+		return null;
 	}
 	/**
 	 * Получить все темы разговора где есть юзер

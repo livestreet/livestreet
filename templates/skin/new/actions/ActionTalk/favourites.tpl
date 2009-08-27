@@ -18,9 +18,10 @@
 						{assign var="oTalkUser" value=$oTalk->getTalkUser()}
 						<tr>
 							<td class="name">							
-								{foreach from=$oTalk->getUsers() item=oUser name=users}
-									{if $oUser->getId()!=$oUserCurrent->getId()}					
-										<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
+								{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
+									{if $oUser->getUserId()!=$oUserCurrent->getId()}
+									{assign var="oAdditionalUser" value=$oUser->getUser()}
+										<a href="{$oAdditionalUser->getUserWebPath()}" class="author {if !$oUser->getUserActive()!=1}inactive{/if}">{$oAdditionalUser->getLogin()}</a>
 									{/if}
 								{/foreach}
 							</td>							

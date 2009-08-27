@@ -35,11 +35,12 @@ if ($oEngine->User_IsAuthorization()) {
 		if(($oTalk=$oEngine->Talk_GetTalkById($idTalk)) 
 			&& ($oTalk->getUserId()==$oUserCurrent->getId()) ) {
 			$aTalkUsers=$oTalk->getTalkUsers();		
-			if(!isset($aTalkUsers[$idTarget]) || !$aTalkUsers[$idTarget]->getIsActive()) {
-				if ($oEngine->Talk_DeleteTalkUserByArray($idTalk,$idTarget)) {
+			if(!isset($aTalkUsers[$idTarget]) 
+					|| !$aTalkUsers[$idTarget]->getUserActive()!=LsTalk::TALK_USER_DELETE_BY_SELF) {
+				if ($oEngine->Talk_DeleteTalkUserByArray($idTalk,$idTarget,LsTalk::TALK_USER_DELETE_BY_AUTHOR)) {
 					$bStateError=false;
 					$sMsgTitle=$oEngine->Lang_Get('attention');
-					$sMsg=$oEngine->Lang_Get('talk_speaker_delete_ok',array('%%login%%'=>$oUserTarget->getLogin()));
+					$sMsg=$oEngine->Lang_Get('talk_speaker_delete_ok',array('login'=>$oUserTarget->getLogin()));
 					$bState=true;
 				} else {
 					$sMsgTitle=$oEngine->Lang_Get('error');
@@ -47,15 +48,15 @@ if ($oEngine->User_IsAuthorization()) {
 				}
 			} else {
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('talk_speaker_user_not_found',array('%%login%%'=>$oUserTarget->getLogin()));				
+				$sMsg=$oEngine->Lang_Get('talk_speaker_user_not_found',array('login'=>$oUserTarget->getLogin()));				
 			}
 		} else {
 			$sMsgTitle=$oEngine->Lang_Get('error');
-			$sMsg=$oEngine->Lang_Get('module_error_talk_not_found');			
+			$sMsg=$oEngine->Lang_Get('talk_not_found');			
 		}
 	} else {
 		$sMsgTitle=$oEngine->Lang_Get('error');
-		$sMsg=$oEngine->Lang_Get('module_error_user_not_found',array('%%login%%'=>$oUserTarget->getLogin()));
+		$sMsg=$oEngine->Lang_Get('user_not_found_by_id',array('id'=>$idTarget));
 	}
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

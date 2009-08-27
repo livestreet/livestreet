@@ -133,7 +133,7 @@ class ActionTalk extends Action {
 		if(count($aFilter)>1) {
 			$this->Message_AddNotice(
 				($aResult['count'])
-					? $this->Lang_Get('talk_filter_result_count',array('%%count%%'=>$aResult['count']))
+					? $this->Lang_Get('talk_filter_result_count',array('count'=>$aResult['count']))
 					: $this->Lang_Get('talk_filter_result_empty')
 			);
 		}
@@ -150,7 +150,7 @@ class ActionTalk extends Action {
 				'actions/ActionTalk/blacklist.tpl'
 			)
 		);
-		$this->Viewer_Assign('aPaging',$aPaging);						
+		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
 	
@@ -283,7 +283,7 @@ class ActionTalk extends Action {
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return parent::EventNotFound();
 		}
-		if(!$oTalkUser->getIsActive()){
+		if($oTalkUser->getUserActive()!=LsTalk::TALK_USER_ACTIVE){
 			return parent::EventNotFound();
 		}
 		/**
@@ -354,9 +354,9 @@ class ActionTalk extends Action {
 				} else {
 					$this->Message_AddError(
 						str_replace(
-							'%%login%%',
+							'login',
 							$oUser->getLogin(),
-							$this->Lang_Get('talk_user_in_blacklist')
+							$this->Lang_Get('talk_user_in_blacklist',array('login'=>$oUser->getLogin()))
 						),
 						$this->Lang_Get('error')
 					);

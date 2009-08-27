@@ -77,7 +77,7 @@ class Mapper_Talk extends Mapper {
 				WHERE 
 					t.user_id = ?d 
 					AND
-					t.talk_id IN(?a) 									
+					t.talk_id IN(?a)				
 				";
 		$aTalkUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
@@ -113,12 +113,20 @@ class Mapper_Talk extends Mapper {
 		$sql = "INSERT INTO ".Config::Get('db.table.talk_user')." 
 			(talk_id,
 			user_id,
-			date_last		
+			date_last,
+			talk_user_active		
 			)
-			VALUES(?d,  ?d, ?)
+			VALUES(?d,  ?d, ?, ?d)
+			ON DUPLICATE KEY 
+				UPDATE talk_user_active = ?d 
 		";			
-		if ($this->oDb->query($sql,$oTalkUser->getTalkId(),$oTalkUser->getUserId(),$oTalkUser->getDateLast())===0) 
-		{
+		if ($this->oDb->query($sql,
+				$oTalkUser->getTalkId(),
+				$oTalkUser->getUserId(),
+				$oTalkUser->getDateLast(),
+				$oTalkUser->getUserActive(),
+				$oTalkUser->getUserActive()
+		)===0) {
 			return true;
 		}		
 		return false;
@@ -143,7 +151,7 @@ class Mapper_Talk extends Mapper {
 				$oTalkUser->getDateLast(),
 				$oTalkUser->getCommentIdLast(),
 				$oTalkUser->getCommentCountNew(),
-				$oTalkUser->getIsActive(),
+				$oTalkUser->getUserActive(),
 				$oTalkUser->getTalkId(),
 				$oTalkUser->getUserId()
 			)
@@ -154,20 +162,20 @@ class Mapper_Talk extends Mapper {
 	}
 	
 	
-	public function DeleteTalkUserByArray($aTalkId,$sUserId) {
+	public function DeleteTalkUserByArray($aTalkId,$sUserId,$iActive) {
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
 		}	
 		$sql = "
 			UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
-				talk_user_active = 0
+				talk_user_active = ?d
 			WHERE
 				talk_id IN (?a)
 				AND
 				user_id = ?d				
 		";		
-		if ($this->oDb->query($sql,$aTalkId,$sUserId)) 
+		if ($this->oDb->query($sql,$iActive,$aTalkId,$sUserId)) 
 		{
 			return true;
 		}		
@@ -185,9 +193,9 @@ class Mapper_Talk extends Mapper {
 					WHERE   						
   						tu.user_id = ?d  
   						AND
-  						tu.talk_user_active=1							
+  						tu.talk_user_active=?d							
 		";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId, LsTalk::TALK_USER_ACTIVE)) {
 			return $aRow['count_new'];
 		}
 		return false;
@@ -204,9 +212,9 @@ class Mapper_Talk extends Mapper {
   						AND
   						tu.user_id = ?d  	
   						AND
-  						tu.talk_user_active=1						
+  						tu.talk_user_active=?d						
 		";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId,LsTalk::TALK_USER_ACTIVE)) {
 			return $aRow['count_new'];
 		}
 		return false;
@@ -223,13 +231,13 @@ class Mapper_Talk extends Mapper {
 					AND
 					tu.talk_id=t.talk_id
 					AND
-					tu.talk_user_active = '1'	
+					tu.talk_user_active = ?d	
 				ORDER BY t.talk_date_last desc, t.talk_date desc
 				LIMIT ?d, ?d	
 					";
 		
 		$aTalks=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,LsTalk::TALK_USER_ACTIVE,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
 				$aTalks[]=$aRow['talk_id'];
 			}
@@ -310,7 +318,7 @@ class Mapper_Talk extends Mapper {
 					".Config::Get('db.table.user')." as u	 
 				WHERE 
 					tu.talk_id=t.talk_id
-					AND tu.talk_user_active = '1'
+					AND tu.talk_user_active = ?d
 					AND u.user_id=t.user_id
 					{ AND tu.user_id = ?d }
 					{ AND t.talk_date < ? }
@@ -326,6 +334,7 @@ class Mapper_Talk extends Mapper {
 			$aRows=$this->oDb->selectPage(
 				$iCount,
 				$sql,
+				LsTalk::TALK_USER_ACTIVE,
 				(!empty($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_max']) ? $aFilter['date_max'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),

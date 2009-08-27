@@ -44,7 +44,7 @@ if ($oEngine->User_IsAuthorization()) {
 					$aResult[]=array(
 						'bStateError'=>false,
 						'sMsgTitle'=>$oEngine->Lang_Get('attention'),
-						'sMsg'=>$oEngine->Lang_Get('talk_blacklist_add_ok',array('%%login%%'=>$sUser)),
+						'sMsg'=>$oEngine->Lang_Get('talk_blacklist_add_ok',array('login'=>$sUser)),
 						'sUserId'=>$oUser->getId(),
 						'sUserLogin'=>$sUser
 					);
@@ -60,7 +60,7 @@ if ($oEngine->User_IsAuthorization()) {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$oEngine->Lang_Get('error'),
-					'sMsg'=>$oEngine->Lang_Get('talk_blacklist_user_already_have',array('%%login%%'=>$sUser)),
+					'sMsg'=>$oEngine->Lang_Get('talk_blacklist_user_already_have',array('login'=>$sUser)),
 					'sUserLogin'=>$sUser
 				);
 				continue;
@@ -69,7 +69,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$aResult[]=array(
 				'bStateError'=>true,
 				'sMsgTitle'=>$oEngine->Lang_Get('error'),
-				'sMsg'=>$oEngine->Lang_Get('module_error_user_not_found',array('%%login%%'=>$sUser)),
+				'sMsg'=>$oEngine->Lang_Get('user_not_found',array('login'=>$sUser)),
 				'sUserLogin'=>$sUser
 			);
 		}	

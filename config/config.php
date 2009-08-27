@@ -292,6 +292,8 @@ $config['module']['talk']['reload']     = true;
 $config['module']['talk']['request']    = 60;
 $config['module']['talk']['period']     = 20000;
 $config['module']['talk']['max_errors'] = 4;
+// Модуль Lang
+$config['module']['lang']['delete_undefined'] = true; // Если установлена true, то модуль будет автоматически удалять из языковых конструкций переменные вида %%var%%, по которым не была произведена замена
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang');

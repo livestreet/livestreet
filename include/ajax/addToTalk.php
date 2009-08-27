@@ -45,7 +45,64 @@ if ($oEngine->User_IsAuthorization()) {
 				if ( ($oUser=$oEngine->User_GetUserByLogin($sUser)) 
 						&& ($oUser->getActivate()==1) ) {		
 					if(!in_array($oUser->getId(),$aUserInBlacklist)) {
-						if(!array_key_exists($oUser->getId(),$aTalkUsers)) {
+						if(array_key_exists($oUser->getId(),$aTalkUsers)) {
+							switch($aTalkUsers[$oUser->getId()]->getUserActive()) {
+								case LsTalk::TALK_USER_DELETE_BY_AUTHOR:
+									if (
+										$oEngine->Talk_AddTalkUser(
+											new TalkEntity_TalkUser(
+												array(
+													'talk_id'=>$idTalk,
+													'user_id'=>$oUser->getId(),
+													'date_last'=>null,
+													'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
+												)
+											)
+										)
+									) {
+										$oEngine->Notify_SendTalkNew($oUser,$oUserCurrent,$oTalk);
+										$aResult[]=array(
+											'bStateError'=>false,
+											'sMsgTitle'=>$oEngine->Lang_Get('attention'),
+											'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
+											'sUserId'=>$oUser->getId(),
+											'sUserLogin'=>$oUser->getLogin()
+										);
+										$bState=true;
+									} else {
+										$aResult[]=array(
+											'bStateError'=>true,
+											'sMsgTitle'=>$oEngine->Lang_Get('error'),
+											'sMsg'=>$oEngine->Lang_Get('system_error')
+										);
+									}
+								
+									break;
+									
+								case LsTalk::TALK_USER_ACTIVE:
+									$aResult[]=array(
+										'bStateError'=>true,
+										'sMsgTitle'=>$oEngine->Lang_Get('error'),
+										'sMsg'=>$oEngine->Lang_Get('talk_speaker_user_already_exist',array('login'=>$sUser))
+									);								
+									break;
+									
+								case LsTalk::TALK_USER_DELETE_BY_SELF:
+									$aResult[]=array(
+										'bStateError'=>true,
+										'sMsgTitle'=>$oEngine->Lang_Get('error'),
+										'sMsg'=>$oEngine->Lang_Get('talk_speaker_delete_by_self',array('login'=>$sUser))
+									);								
+									break;
+								
+								default:
+									$aResult[]=array(
+										'bStateError'=>true,
+										'sMsgTitle'=>$oEngine->Lang_Get('error'),
+										'sMsg'=>$oEngine->Lang_Get('system_error')
+									);								
+							}
+						} else {
 							if (
 								$oEngine->Talk_AddTalkUser(
 									new TalkEntity_TalkUser(
@@ -53,7 +110,7 @@ if ($oEngine->User_IsAuthorization()) {
 											'talk_id'=>$idTalk,
 											'user_id'=>$oUser->getId(),
 											'date_last'=>null,
-											'talk_user_active'=>'1'
+											'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
 										)
 									)
 								)
@@ -62,7 +119,7 @@ if ($oEngine->User_IsAuthorization()) {
 								$aResult[]=array(
 									'bStateError'=>false,
 									'sMsgTitle'=>$oEngine->Lang_Get('attention'),
-									'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_ok',array('%%login%%',$sUser)),
+									'sMsg'=>$oEngine->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
 									'sUserId'=>$oUser->getId(),
 									'sUserLogin'=>$oUser->getLogin()
 								);
@@ -73,33 +130,27 @@ if ($oEngine->User_IsAuthorization()) {
 									'sMsgTitle'=>$oEngine->Lang_Get('error'),
 									'sMsg'=>$oEngine->Lang_Get('system_error')
 								);
-							}
-						} else {
-							$aResult[]=array(
-								'bStateError'=>true,
-								'sMsgTitle'=>$oEngine->Lang_Get('error'),
-								'sMsg'=>$oEngine->Lang_Get('talk_speaker_user_already_exist',array('%%login%%',$sUser))
-							);				
+							}			
 						}
 					} else {
 						$aResult[]=array(
 							'bStateError'=>true,
 							'sMsgTitle'=>$oEngine->Lang_Get('error'),
-							'sMsg'=>$oEngine->Lang_Get('talk_user_in_blacklist',array('%%login%%',$sUser))
+							'sMsg'=>$oEngine->Lang_Get('talk_user_in_blacklist',array('login'=>$sUser))
 						);						
 					}
 				} else {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$oEngine->Lang_Get('error'),
-						'sMsg'=>$oEngine->Lang_Get('module_error_user_not_found',array('%%login%%',$sUser)),
+						'sMsg'=>$oEngine->Lang_Get('user_not_found',array('login'=>$sUser)),
 						'sUserLogin'=>$sUser
 					);
 				}	
 			}
 		} else {
 			$sMsgTitle=$oEngine->Lang_Get('error');
-			$sMsg=$oEngine->Lang_Get('module_error_talk_not_found');			
+			$sMsg=$oEngine->Lang_Get('talk_not_found');			
 		}
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

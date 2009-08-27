@@ -352,7 +352,10 @@ return array(
 	'user_stats_sex_man' => 'Мужчины',
 	'user_stats_sex_woman' => 'Женщины',
 	'user_stats_sex_other' => 'Пол не указан',
-
+	
+	'user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
+	'user_not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден',
+	
 	/**
 	 * Меню профиля пользователя
 	 */
@@ -641,7 +644,10 @@ return array(
 	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
 	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
 	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
+	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
 	
+	'talk_not_found' => 'Разговор не найден',
+
 	/**
 	 * Рейтинг TOP
 	 */
@@ -707,9 +713,6 @@ return array(
 	'system_error_cache_type' => 'Неверный тип кеширования',
 	'system_error_template' => 'Не найден шаблон',
 	'system_error_template_block' => 'Не найден шаблон подключаемого блока',
-	
-	'module_error_user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
-	'module_error_talk_not_found' => 'Разговор не найден',
 	
 	'error' => 'Ошибка',
 	'attention' => 'Внимание',

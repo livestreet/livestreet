@@ -33,8 +33,10 @@ class TalkEntity_TalkUser extends Entity
         return $this->_aData['comment_count_new'];
     }
     
-    public function getIsActive(){
-    	return $this->_aData['talk_user_active'];
+    public function getUserActive(){
+    	return (array_key_exists('talk_user_active',$this->_aData)) 
+    		? $this->_aData['talk_user_active']
+    		: LsTalk::TALK_USER_ACTIVE;
     }
     public function getUser() {    
    		return $this->_aData['user']; 	
@@ -57,7 +59,7 @@ class TalkEntity_TalkUser extends Entity
         $this->_aData['comment_count_new']=$data;
     }
     
-    public function setIsActive($data) {
+    public function setUserActive($data) {
     	$this->_aData['talk_user_active']=$data;
     }
     public function setUser($data) {

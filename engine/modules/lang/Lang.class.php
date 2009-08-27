@@ -105,15 +105,25 @@ class LsLang extends Module {
 	/**
 	 * Получает текстовку по её имени
 	 *
-	 * @param unknown_type $sName
+	 * @param  string $sName
+	 * @param  array  $aReplace
+	 * @return string
 	 */
 	public function Get($sName,$aReplace=array()) {
 		if (isset($this->aLangMsg[$sName])) {
 			$sTranslate=$this->aLangMsg[$sName];
 
-			return (is_array($aReplace)&&count($aReplace)) 
-					? $sTranslate=strtr($sTranslate,$aReplace)
-					: $sTranslate;
+			if(is_array($aReplace)&&count($aReplace)) { 
+				foreach ($aReplace as $sFrom => $sTo) {
+					$aReplacePairs["%%{$sFrom}%%"]=$sTo;
+				}
+				$sTranslate=strtr($sTranslate,$aReplacePairs);				
+			}
+
+			if(Config::Get('module.lang.delete_undefined')) {
+				$sTranslate=preg_replace("/\%\%[\S]+\%\%/",'',$sTranslate);
+			}
+			return $sTranslate;
 		}
 		return 'NOT_FOUND_LANG_TEXT';
 	}
