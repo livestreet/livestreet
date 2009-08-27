@@ -555,6 +555,9 @@ class ActionTalk extends Action {
 		}		
 		$iCountTalkFavourite=$this->Talk_GetCountTalksFavouriteByUserId($this->oUserCurrent->getId());
 		$this->Viewer_Assign('iCountTalkFavourite',$iCountTalkFavourite);
+		$this->Viewer_Assign('TALK_USER_ACTIVE',LsTalk::TALK_USER_ACTIVE);
+		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',LsTalk::TALK_USER_DELETE_BY_SELF);
+		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',LsTalk::TALK_USER_DELETE_BY_AUTHOR);
 	}
 }
 ?>

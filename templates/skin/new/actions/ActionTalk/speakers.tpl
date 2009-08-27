@@ -43,9 +43,6 @@
 							return true;
 						}
 						function addListItem(sId,sLogin) {
-							if($('speakerList').getElements('span:contains(kachayev)').length==1) {
-								return false;
-							}
 							
 							oSpan=new Element('span',
 								{
@@ -117,7 +114,7 @@
 						{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
 							{if $oUser->getUserId()!=$oUserCurrent->getId()}
 							{assign var="oAdditionalUser" value=$oUser->getUser()}	
-								{if $oUser->getUserActive()!=4}<li><span class="user {if $oUser->getUserActive()!=1}inactive{/if}">{$oAdditionalUser->getLogin()}</span>{if $oUser->getUserActive()==1}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
+								{if $oUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}<li><span class="user {if $oUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oAdditionalUser->getLogin()}</span>{if $oUser->getUserActive()==$TALK_USER_ACTIVE}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
 							{/if}
 						{/foreach}
 					</ul>

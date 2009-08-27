@@ -314,7 +314,7 @@ class LsTalk extends Module {
 			foreach ((array)$aResult as $oTalkUser) {
 				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
 			}		
-			$aTalks[$sId]->setTalkUsers($aResult);
+			$aTalks[$sId]->setTalkUsers($aTalkUsers);
 			return $aTalks[$sId];
 		}
 		return null;		
@@ -424,7 +424,7 @@ class LsTalk extends Module {
 			foreach ((array)$aResult as $oTalkUser) {
 				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
 			}			
-			$oTalk->setTalkUsers($aResult);
+			$oTalk->setTalkUsers($aTalkUsers);
 		}
 		$data['collection']=$aTalks;
 		return $data;

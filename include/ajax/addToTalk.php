@@ -36,7 +36,6 @@ if ($oEngine->User_IsAuthorization()) {
 			$aTalkUsers=$oTalk->getTalkUsers();
 			$aUsers=explode(',',$sUsers);
 			$aUserInBlacklist = $oEngine->Talk_GetBlacklistByTargetId($oUserCurrent->getId());			
-			// для каждого пользователя проверяем блек-лист и наличие в толке
 			foreach ($aUsers as $sUser) {
 				$sUser=trim($sUser);			
 				if ($sUser=='' or strtolower($sUser)==strtolower($oUserCurrent->getLogin())) {
