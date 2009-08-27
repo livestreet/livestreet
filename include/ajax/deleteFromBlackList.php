@@ -36,16 +36,16 @@ if ($oEngine->User_IsAuthorization()) {
 			if ($oEngine->Talk_DeleteUserFromBlacklist($idTarget,$oUserCurrent->getId())) {
 				$bStateError=false;
 				$sMsgTitle=$oEngine->Lang_Get('attention');
-				$sMsg=$oEngine->Lang_Get('норма, удален');
+				$sMsg=$oEngine->Lang_Get('talk_blacklist_delete_ok');
 				$bState=true;
 			} else {
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('у вас нет такого');
+				$sMsg=$oEngine->Lang_Get('talk_blacklist_user_not_found');
 			}
 		}
 	} else {
 		$sMsgTitle=$oEngine->Lang_Get('error');
-		$sMsg=$oEngine->Lang_Get('нет такого пользователя');
+		$sMsg=$oEngine->Lang_Get('module_error_user_not_found');
 	}
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

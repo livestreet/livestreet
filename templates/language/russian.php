@@ -632,7 +632,8 @@ return array(
 	'talk_balcklist_add_submit' => 'Не принимать',
 	'talk_blacklist_add_ok' => 'Пользователь успешно добавлен',
 	'talk_blacklist_user_already_have' => 'Пользователь есть в вашем black list`е',
-	
+	'talk_blacklist_delete_ok' => 'Пользователь успешно удален',
+	'talk_blacklist_user_not_found' => 'Пользователя нет в вашем black list`е',
 	
 	/**
 	 * Рейтинг TOP

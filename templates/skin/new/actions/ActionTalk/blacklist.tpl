@@ -19,38 +19,25 @@
 						});						
 						
 						function deleteFromBlackList(element) {
-							element.setProperty('disabled','disabled').getParent().fade(0.7);
-							
-							idTarget = 	element.getProperty('name').replace('blacklist[','').replace(']','');		
+							element.getParent('li').fade(0.7);							
+							idTarget = element.get('id').replace('blacklist_item_','');
+		
 			                JsHttpRequest.query(
 			                        DIR_WEB_ROOT+'/include/ajax/deleteFromBlackList.php',                      
 			                        { idTarget: idTarget },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');
-							                element.setProperties(
-							                	{
-							                		'checked':true,
-							                		'disabled':false
-							                	}
-							                ).getParent().fade(1);           
+							                element.getParent().fade(1);           
 							        	}    
 							        	if (result.bStateError) {
 							                msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-							                element.setProperties(
-							                	{
-							                		'checked':true,
-							                		'disabled':false
-							                	}
-							                ).getParent().fade(1);
+							                element.getParent().fade(1);
 							        	} else {
-							                msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
 							                element.getParent('li').destroy();
 							                
 							                if($('blackList').getElements('li').length==0) {
 							                	$('blackList').destroy();
-												p = new Element('p', {'text': 'Принимать от всех'});
-							                	$('blackListBlock').adopt(p);
 							                	$('list_uncheck_all').setProperty('style','display:none');
 							                }
 							        	}                                 
@@ -62,44 +49,32 @@
 						}
 						function addListItem(sId,sLogin) {
 							if($('blackListBlock').getElements('li').length==0) {
-								
-								$('blackListBlock').getElement('p').destroy();
 								$('list_uncheck_all').removeProperty('style');
-								
 								list=new Element('ul', {class:'list',id:'blackList'});
 								$('blackListBlock').adopt(list);
 							}
 							
+							oSpan=new Element('span',
+								{
+									'class'  : 'user',
+									'text'   : sLogin
+								}
+							);
 							oLink=new Element('a',
 								{
-									'class'  : 'stream-author',
-									'href'   : "#",
-									'text'   : sLogin,
-									'events' : {
-										'click': function(){
-											checkbox=this.getPrevious('input[type=checkbox]');
-											checkbox.setProperty('checked',!checkbox.getProperty('checked'));
-											deleteFromBlackList(checkbox);											
+									'id'    : 'blacklist_item_'+sId,
+									'href'  : "#",
+									'class' : 'delete',
+									'events': {
+										'click': function() {
+											deleteFromBlackList(this); 
 											return false;
 										}
 									}
 								}
 							);
-							oCheck=new Element('input',
-								{
-									'type': 'checkbox',
-									'checked': true,
-									'name': 'blacklist['+sId+']',
-									'events': {
-										'click': function() {
-											deleteFromBlackList(this); 
-											return true;
-										}
-									}
-								}
-							);
 							oItem=new Element('li');
-							$('blackList').adopt(oItem.adopt(oCheck,oLink));
+							$('blackList').adopt(oItem.adopt(oSpan,oLink));
 						}
 						function addToBlackList() {
 							sUsers=$('talk_blacklist_add').get('value');
@@ -121,10 +96,9 @@
 							        		var aUsers = result.aUsers;
 							        		aUsers.each(function(item,index) { 
 							        			if(item.bStateError){
-							        				msgErrorBox.alert(item.sUserLogin, item.sMsg);;
+							        				msgErrorBox.alert(item.sMsgTitle, item.sMsg);;
 							        			} else {
-							                		addListItem(item.sUserId,item.sUserLogin);							        				
-							                		msgNoticeBox.alert(item.sUserLogin, item.sMsg);
+							                		addListItem(item.sUserId,item.sUserLogin);
 							        			}
 							        		});
 							        	}                                 
@@ -135,19 +109,20 @@
 						}
 						</script>
 					{/literal}
-										
+
+					<div class="block-content">
+						<form onsubmit="addToBlackList(); return false;">
+							<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label><br />
+							<input type="text" id="talk_blacklist_add" name="add" value="{$_aRequest.sender}" class="w100p" /><br />
+							</p>										
+						</form>
+					</div>
+				
+				<div class="block-content" id="blackListBlock">						
 				{if $aUsersBlacklist}
 					{literal}
 						<script>
 						window.addEvent('domready', function() { 
-							$('blackList').getElements('a').addEvents({
-								'click': function() {
-									checkbox=this.getPrevious('input[type=checkbox]');
-									checkbox.setProperty('checked',!checkbox.getProperty('checked'));
-									deleteFromBlackList(checkbox);
-									return false;
-								}
-							});
 							$('list_uncheck_all').addEvents({
 								'click': function(){
 									$('blackList').getElements('a').each(function(item,index){
@@ -161,30 +136,14 @@
 						});
 						</script>						
 					{/literal}
-					<div class="block-content" id="blackListBlock">
-					
-						<ul class="list" id="blackList">
-							{foreach from=$aUsersBlacklist item=oUser}
-								<li><input type="checkbox" name="blacklist[{$oUser->getId()}]" checked onclick="deleteFromBlackList(this); return true;"/><a href="#" class="stream-author">{$oUser->getLogin()}</a></li>						
-							{/foreach}
-						</ul>
-					</div>
-					<div class="right"><a href="#" id="list_uncheck_all">{$aLang.talk_balcklist_delete_all}</a></div>
-				{else}
-					<p>{$aLang.talk_blacklist_empty}</p><br/>
-				{/if}					
-					<div class="block-content">
-						<form onsubmit="addToBlackList(); return false;">
-							<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label><br />
-							<input type="text" id="talk_blacklist_add" name="add" value="{$_aRequest.sender}" class="w100p" /><br />
-	       					<span class="form_note">{$aLang.talk_balcklist_add_notice}</span>
-							</p>
-							<p class="buttons">								
-								<input type="submit" name="talk_blacklist_submit" value="{$aLang.talk_balcklist_add_submit}"/>
-							</p>										
-						</form>			
-					</div>
-
+					<ul class="list" id="blackList">
+						{foreach from=$aUsersBlacklist item=oUser}
+							<li><span class="user">{$oUser->getLogin()}</span><a href="#" id="blacklist_item_{$oUser->getId()}" onclick="deleteFromBlackList(this); return false;" class="delete"></a></li>						
+						{/foreach}
+					</ul>
+				{/if}
+				</div>
+				<div class="right"><a href="#" id="list_uncheck_all" {if !$aUsersBlacklist}style="display:none;"{/if}>{$aLang.talk_balcklist_delete_all}</a></div>
 					
 				</div></div>
 				<div class="bl"><div class="br"></div></div>
