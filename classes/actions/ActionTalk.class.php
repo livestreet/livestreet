@@ -61,7 +61,9 @@ class ActionTalk extends Action {
 		$this->AddEvent('delete','EventDelete');
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
-		$this->AddEvent('favourites','EventFavourites');		
+		$this->AddEvent('favourites','EventFavourites');	
+		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
+		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxdeletefromBlacklist');	
 	}
 		
 	
@@ -543,6 +545,120 @@ class ActionTalk extends Action {
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
+	}	
+	
+	public function AjaxAddToBlacklist() {
+		$this->Viewer_SetResponseAjax();
+
+		$sUsers=getRequest('users');
+		if (!$this->User_IsAuthorization()) {	
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$aUsers=explode(',',$sUsers);
+		$aUserBlacklist = $this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
+
+		$aResult=array();
+		foreach ($aUsers as $sUser) {
+			$sUser=trim($sUser);			
+			if ($sUser=='') {
+				continue;
+			}
+			if(strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('talk_blacklist_add_self')
+				);													
+				continue;			
+			}
+			if ($oUser=$this->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
+				if(!isset($aUserBlacklist[$oUser->getId()])) {
+					if($this->Talk_AddUserToBlackList($oUser->getId(),$this->oUserCurrent->getId())) {
+						$aResult[]=array(
+							'bStateError'=>false,
+							'sMsgTitle'=>$this->Lang_Get('attention'),
+							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>$sUser)),
+							'sUserId'=>$oUser->getId(),
+							'sUserLogin'=>$sUser
+						);
+					} else {
+						$aResult[]=array(
+							'bStateError'=>true,
+							'sMsgTitle'=>$this->Lang_Get('error'),
+							'sMsg'=>$this->Lang_Get('system_error'),
+							'sUserLogin'=>$sUser
+						);					
+					}
+				} else {
+					$aResult[]=array(
+						'bStateError'=>true,
+						'sMsgTitle'=>$this->Lang_Get('error'),
+						'sMsg'=>$this->Lang_Get('talk_blacklist_user_already_have',array('login'=>$sUser)),
+						'sUserLogin'=>$sUser
+					);
+					continue;
+				}
+			} else {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser)),
+					'sUserLogin'=>$sUser
+				);
+			}					
+		}
+		$this->Viewer_AssingAjax('aUsers',$aResult);		
+	}
+	
+	public function AjaxDeleteFromBlacklist() {
+		$this->Viewer_SetResponseAjax();
+		
+		$idTarget=getRequest('idTarget');
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		
+		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
+				$this->Lang_Get('error')				
+			);
+			return;				
+		}
+		
+		$aBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
+		if (!isset($aBlacklist[$oUserTarget->getId()])) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get(
+					'talk_blacklist_user_not_found',
+					array('login'=>$oUserTarget->getLogin())
+				),
+				$this->Lang_Get('error')
+			);
+			return;	
+		}
+		
+		if(!$this->Talk_DeleteUserFromBlacklist($idTarget,$this->oUserCurrent->getId())) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('system_error'),
+				$this->Lang_Get('error')
+			);
+			return;			
+		} 	
+		
+		$this->Message_AddNoticeSingle(
+			$this->Lang_Get(
+				'talk_blacklist_delete_ok',
+				array('login'=>$oUserTarget->getLogin())
+			),
+			$this->Lang_Get('attention')
+		);
 	}	
 	
 	public function EventShutdown()

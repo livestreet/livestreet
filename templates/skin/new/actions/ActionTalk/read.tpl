@@ -19,7 +19,6 @@
 			</div>
 			
 			{assign var="oTalkUser" value=$oTalk->getTalkUser()}
-			{assign var="bNoCommentFavourites" value="true"}
 			
 			{include 
 				file='comment_tree.tpl' 	
@@ -28,6 +27,7 @@
 				iCountComment=$oTalk->getCountComment()
 				sDateReadLast=$oTalkUser->getDateLast()
 				sNoticeCommentAdd=$aLang.topic_comment_add
+				sNoCommentFavourites=true
 			}
 			
 			

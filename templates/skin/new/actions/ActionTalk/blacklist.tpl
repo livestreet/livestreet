@@ -23,7 +23,7 @@
 							idTarget = element.get('id').replace('blacklist_item_','');
 		
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/include/ajax/deleteFromBlackList.php',                      
+			                        DIR_WEB_ROOT+'/talk/ajaxdeletefromblacklist/',                      
 			                        { idTarget: idTarget },
 			                        function(result, errors) {     
 			                            if (!result) {
@@ -84,7 +84,7 @@
 							}
 							$('talk_blacklist_add').set('value','');
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/include/ajax/addToBlackList.php',                      
+			                        DIR_WEB_ROOT+'/talk/ajaxaddtoblacklist/',                      
 			                        { users: sUsers },
 			                        function(result, errors) {     
 			                            if (!result) {
