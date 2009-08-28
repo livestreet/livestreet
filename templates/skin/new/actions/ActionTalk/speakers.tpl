@@ -3,7 +3,7 @@
 				<div class="cl"><div class="cr">
 					
 					<h1>{$aLang.talk_speaker_title}</h1>
-				{if $bIsAuthor}
+				{if $oTalk->getUserId()==$oUserCurrent->getId()}
 				{literal}
 						<script language="JavaScript" type="text/javascript">
 						document.addEvent('domready', function() {	
@@ -112,10 +112,10 @@
 			<div class="block-content" id="speakerListBlock">
 				{if $oTalk->getTalkUsers()}
 					<ul class="list" id="speakerList">
-						{foreach from=$oTalk->getTalkUsers() item=oUser name=users}
-							{if $oUser->getUserId()!=$oUserCurrent->getId()}
-							{assign var="oAdditionalUser" value=$oUser->getUser()}	
-								{if $oUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}<li><a class="user {if $oUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oAdditionalUser->getUserWebPath()}">{$oAdditionalUser->getLogin()}</a>{if $oUser->getUserActive()==$TALK_USER_ACTIVE and $bIsAuthor}<a href="#" id="speaker_item_{$oUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
+						{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+							{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
+							{assign var="oUser" value=$oTalkUser->getUser()}	
+								{if $oTalkUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}<li><a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>{if $oTalkUser->getUserActive()==$TALK_USER_ACTIVE and $oTalk->getUserId()==$oUserCurrent->getId()}<a href="#" id="speaker_item_{$oTalkUser->getUserId()}" onclick="deleteFromTalk(this,{$oTalk->getId()}); return false;" class="delete"></a>{/if}</li>{/if}						
 							{/if}
 						{/foreach}
 					</ul>

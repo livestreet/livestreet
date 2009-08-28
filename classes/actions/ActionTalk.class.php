@@ -237,6 +237,7 @@ class ActionTalk extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);						
 		$this->Viewer_Assign('aTalks',$aTalks);		
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_favourite_inbox'));
 	}		
 	
 	protected function EventAdd() {		
@@ -310,7 +311,6 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
-		$this->Viewer_Assign('bIsAuthor', ($oTalk->getUserId()==$this->oUserCurrent->getId()));
 		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/speakers.tpl'));
 	}
 	
@@ -426,9 +426,8 @@ class ActionTalk extends Action {
 				);
 			}
 		}
-		
 		$this->Viewer_AssingAjax('aComments',$aComments);
-		$this->Viewer_AssingAjax('iMaxIdComment',$iMaxIdComment);	
+		$this->Viewer_AssingAjax('iMaxIdComment',$iMaxIdComment);
 	}
 	/**
 	 * Обработка добавление комментария к топику через ajax
@@ -556,7 +555,6 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('TALK_USER_ACTIVE',LsTalk::TALK_USER_ACTIVE);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',LsTalk::TALK_USER_DELETE_BY_SELF);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',LsTalk::TALK_USER_DELETE_BY_AUTHOR);
-		$this->Viewer_Assign('bNoCommentFavourites',true);
 	}
 }
 ?>

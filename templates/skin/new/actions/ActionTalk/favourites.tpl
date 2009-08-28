@@ -2,7 +2,7 @@
 
 
 			<div class="topic people top-blogs talk-table">
-				<h1>{$aLang.talk_inbox}</h1>
+				<h1>{$aLang.talk_favourite_inbox}</h1>
 				<table>
 					<thead>
 						<tr>

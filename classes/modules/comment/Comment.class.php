@@ -441,6 +441,9 @@ class LsComment extends Module {
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
 		$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewerLocal->Assign('bOneComment',true);
+		if($sTargetType!='topic') {
+			$oViewerLocal->Assign('bNoCommentFavourites',true);
+		}
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {			
 			$oViewerLocal->Assign('oComment',$oComment);						
@@ -552,9 +555,12 @@ class LsComment extends Module {
 	 * @return bool
 	 */
 	public function AddFavouriteComment(FavouriteEntity_Favourite $oFavourite) {	
-		return ($oFavourite->getTargetType()=='comment') 
-			? $this->Favourite_AddFavourite($oFavourite)
-			: false;
+		if( ($oFavourite->getTargetType()=='comment') 
+				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
+					&& $oComment->getTargetType()=='topic') {
+						return $this->Favourite_AddFavourite($oFavourite);
+					}
+		return false;
 	}
 	/**
 	 * Удаляет комментарий из избранного
@@ -563,9 +569,12 @@ class LsComment extends Module {
 	 * @return bool
 	 */
 	public function DeleteFavouriteComment(FavouriteEntity_Favourite $oFavourite) {
-		return ($oFavourite->getTargetType()=='comment') 
-			? $this->Favourite_DeleteFavourite($oFavourite)
-			: false;
+		if( ($oFavourite->getTargetType()=='comment') 
+				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
+					&& $oComment->getTargetType()=='topic') {
+						return $this->Favourite_DeleteFavourite($oFavourite);
+		}
+		return false;
 	}	
 }
 ?>

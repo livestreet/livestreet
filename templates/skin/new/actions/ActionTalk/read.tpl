@@ -19,6 +19,7 @@
 			</div>
 			
 			{assign var="oTalkUser" value=$oTalk->getTalkUser()}
+			{assign var="bNoCommentFavourites" value="true"}
 			
 			{include 
 				file='comment_tree.tpl' 	

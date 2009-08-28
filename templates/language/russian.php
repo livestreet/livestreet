@@ -605,6 +605,7 @@ return array(
 	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
 	'talk_create_submit' => 'Отправить',
 
+	'talk_favourite_inbox' => 'Избранные письма',
 	'talk_favourite_add' => 'добавить в избранное',
 	'talk_favourite_add_ok' => 'Письмо добавлено в избранное',
 	'talk_favourite_add_no' => 'Этого письма нет в вашем избранном',
