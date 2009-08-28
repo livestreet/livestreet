@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='talk'}
+{include file='header.tpl' menu='talk' showUpdateButton=true}
 
 			{assign var="oUser" value=$oTalk->getUser()}
 			
