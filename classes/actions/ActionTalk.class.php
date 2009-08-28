@@ -63,7 +63,9 @@ class ActionTalk extends Action {
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('favourites','EventFavourites');	
 		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
-		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxdeletefromBlacklist');	
+		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxdeletefromBlacklist');
+		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');	
+		$this->AddEvent('ajaxaddtalkuser', 'AjaxAddTalkUser');	
 	}
 		
 	
@@ -660,6 +662,212 @@ class ActionTalk extends Action {
 			$this->Lang_Get('attention')
 		);
 	}	
+	
+	public function AjaxDeleteTalkUser() {
+		$this->Viewer_SetResponseAjax();
+
+		$idTarget=getRequest('idTarget');
+		$idTalk=getRequest('idTalk');
+
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		
+		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
+				$this->Lang_Get('error')				
+			);
+			return;				
+		}
+		
+		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
+			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
+				$this->Message_AddErrorSingle(
+					$this->Lang_Get('talk_not_found'),
+					$this->Lang_Get('error')				
+				);
+				return;				
+		} 
+
+		$aTalkUsers=$oTalk->getTalkUsers();		
+		if(!isset($aTalkUsers[$idTarget]) 
+			|| $aTalkUsers[$idTarget]->getUserActive()==LsTalk::TALK_USER_DELETE_BY_SELF) {
+				$this->Message_AddErrorSingle(
+					$this->Lang_Get(
+						'talk_speaker_user_not_found',
+						array('login'=>$oUserTarget->getLogin())
+					),
+					$this->Lang_Get('error')				
+				);
+				return;				
+		}
+
+		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,LsTalk::TALK_USER_DELETE_BY_AUTHOR)) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('system_error'),
+				$this->Lang_Get('error')
+			);
+			return;	
+		}
+
+		$this->Message_AddNoticeSingle(
+			$this->Lang_Get(
+				'talk_speaker_delete_ok',
+				array('login'=>$oUserTarget->getLogin())
+			),
+			$this->Lang_Get('attention')
+		);
+	}
+
+	public function AjaxAddTalkUser() {
+		$this->Viewer_SetResponseAjax();
+
+		$sUsers=getRequest('users');
+		$idTalk=getRequest('idTalk');
+		
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+				
+		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
+			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
+				$this->Message_AddErrorSingle(
+					$this->Lang_Get('talk_not_found'),
+					$this->Lang_Get('error')				
+				);
+				return;				
+		} 
+		$aTalkUsers=$oTalk->getTalkUsers();
+		$aUsers=explode(',',$sUsers);
+		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());			
+		foreach ($aUsers as $sUser) {
+			$sUser=trim($sUser);
+			if($sUser=='') {			
+				continue;			
+			}
+			if (strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('talk_speaker_add_self')
+				);													
+				continue;
+			}	
+			if ( ($oUser=$this->User_GetUserByLogin($sUser)) 
+					&& ($oUser->getActivate()==1) ) {		
+				if(!in_array($oUser->getId(),$aUserInBlacklist)) {
+					if(array_key_exists($oUser->getId(),$aTalkUsers)) {
+						switch($aTalkUsers[$oUser->getId()]->getUserActive()) {
+							case LsTalk::TALK_USER_DELETE_BY_AUTHOR:
+								if (
+									$this->Talk_AddTalkUser(
+										new TalkEntity_TalkUser(
+											array(
+												'talk_id'=>$idTalk,
+												'user_id'=>$oUser->getId(),
+												'date_last'=>null,
+												'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
+											)
+										)
+									)
+								) {
+									$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
+									$aResult[]=array(
+										'bStateError'=>false,
+										'sMsgTitle'=>$this->Lang_Get('attention'),
+										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
+										'sUserId'=>$oUser->getId(),
+										'sUserLogin'=>$oUser->getLogin(),
+										'sUserLink'=>$oUser->getUserWebPath()
+									);
+									$bState=true;
+								} else {
+									$aResult[]=array(
+										'bStateError'=>true,
+										'sMsgTitle'=>$this->Lang_Get('error'),
+										'sMsg'=>$this->Lang_Get('system_error')
+									);
+								}
+								break;
+								
+							case LsTalk::TALK_USER_ACTIVE:
+								$aResult[]=array(
+									'bStateError'=>true,
+									'sMsgTitle'=>$this->Lang_Get('error'),
+									'sMsg'=>$this->Lang_Get('talk_speaker_user_already_exist',array('login'=>$sUser))
+								);								
+								break;
+								
+							case LsTalk::TALK_USER_DELETE_BY_SELF:
+								$aResult[]=array(
+									'bStateError'=>true,
+									'sMsgTitle'=>$this->Lang_Get('error'),
+									'sMsg'=>$this->Lang_Get('talk_speaker_delete_by_self',array('login'=>$sUser))
+								);								
+								break;
+							
+							default:
+								$aResult[]=array(
+									'bStateError'=>true,
+									'sMsgTitle'=>$this->Lang_Get('error'),
+									'sMsg'=>$this->Lang_Get('system_error')
+								);								
+						}
+					} elseif (
+							$this->Talk_AddTalkUser(
+								new TalkEntity_TalkUser(
+									array(
+										'talk_id'=>$idTalk,
+										'user_id'=>$oUser->getId(),
+										'date_last'=>null,
+										'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
+									)
+								)
+							)
+						) {
+							$this->Notify_SendTalkNew($oUser,$oUserCurrent,$oTalk);
+							$aResult[]=array(
+								'bStateError'=>false,
+								'sMsgTitle'=>$this->Lang_Get('attention'),
+								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
+								'sUserId'=>$oUser->getId(),
+								'sUserLogin'=>$oUser->getLogin(),
+								'sUserLink'=>$oUser->getUserWebPath()	
+							);
+							$bState=true;
+					} else {
+						$aResult[]=array(
+							'bStateError'=>true,
+							'sMsgTitle'=>$this->Lang_Get('error'),
+							'sMsg'=>$this->Lang_Get('system_error')
+						);
+					}			
+				} else {
+					$aResult[]=array(
+						'bStateError'=>true,
+						'sMsgTitle'=>$this->Lang_Get('error'),
+						'sMsg'=>$this->Lang_Get('talk_user_in_blacklist',array('login'=>$sUser))
+					);						
+				}
+			} else {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser))
+				);
+			}	
+		}
+		$this->Viewer_AssingAjax('aUsers',$aResult);		
+	}
 	
 	public function EventShutdown()
 	{
