@@ -364,6 +364,7 @@ class LsTalk extends Module {
 				array("update_talk_user_{$sTalkId}")
 			);
 		}
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user"));
 		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve);
 	}
 	/**
