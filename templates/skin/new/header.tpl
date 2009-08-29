@@ -33,6 +33,11 @@ var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
 var TALK_RELOAD_PERIOD = '{$aConfig.module.talk.period}';
 var TALK_RELOAD_REQUEST = '{$aConfig.module.talk.request}'; 
 var TALK_RELOAD_MAX_ERRORS = '{$aConfig.module.talk.max_errors}';
+
+var aRouter=new Array();
+{foreach from=$aRouter key=sPage item=sPath}
+aRouter['{$sPage}']='{$sPath}';
+{/foreach}
 </script>
 
 <script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/JsHttpRequest/JsHttpRequest.js"></script>
@@ -72,7 +77,7 @@ var msgNoticeBox=new Roar({
 			position: 'upperRight',
 			className: 'roar-notice',
 			margin: {x: 30, y: 10}
-		});		
+		});	
 </script>
 {/literal}
 
@@ -100,11 +105,10 @@ var msgNoticeBox=new Roar({
 <div id="debug" style="border: 2px #dd0000 solid; display: none;"></div>
 
 <div id="container">
-	
 	{include file=header_top.tpl}	
 	
 	{include file=header_nav.tpl}
-	
+
 	<!--
 	<div id="extra">
 		<a href="#">К списку постов</a>
@@ -113,7 +117,6 @@ var msgNoticeBox=new Roar({
 	
 	<div id="wrapper" class="{if !$showUpdateButton}update-hide{/if} {if $showWhiteBack}white-back{/if}">
 		
-	
 		<!-- Content -->
 		<div id="content" {if $bNoSidebar}style="width:100%;"{/if}>
 		

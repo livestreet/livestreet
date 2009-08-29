@@ -135,7 +135,16 @@ class LsViewer extends Module {
 			unset($aConfig[$sGroup]);
 		}
 		$this->Assign("aConfig",$aConfig);
-		
+
+		/**
+		 * Загружаем роутинг с учетом правил rewrite
+		 */
+		$aRouter=array();
+		foreach ($aConfig['router']['page'] as $sPage=>$aAction) {
+			$aRouter[$sPage]=Router::GetPath($sPage);
+		}
+		$this->Assign("aRouter",$aRouter);
+
 		/**
 		 * Загружаем константы путей
 		 * 

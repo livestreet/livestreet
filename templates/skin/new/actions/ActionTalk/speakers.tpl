@@ -24,7 +24,7 @@
 							idTarget = element.get('id').replace('speaker_item_','');
 		
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/talk/ajaxdeletetalkuser/',                      
+			                        aRouter['talk']+'ajaxdeletetalkuser/',                      
 			                        { idTarget:idTarget,idTalk:idTalk },
 			                        function(result, errors) {     
 			                            if (!result) {
@@ -75,7 +75,7 @@
 							}
 							$('talk_speaker_add').set('value','');
 			                JsHttpRequest.query(
-			                        DIR_WEB_ROOT+'/talk/ajaxaddtalkuser/',                      
+			                        aRouter['talk']+'ajaxaddtalkuser/',                      
 			                        { users: sUsers, idTalk: idTalk },
 			                        function(result, errors) {     
 			                            if (!result) {
