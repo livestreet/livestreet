@@ -548,25 +548,35 @@ class ActionTalk extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}	
-	
+	/**
+	 * Добавление нового пользователя(-лей) в блек лист (ajax)
+	 *
+	 * @return null
+	 */	
 	public function AjaxAddToBlacklist() {
 		$this->Viewer_SetResponseAjax();
-
 		$sUsers=getRequest('users');
+		
+		// Если пользователь не авторизирован, возвращаем ошибку
 		if (!$this->User_IsAuthorization()) {	
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
 		
 		$aUsers=explode(',',$sUsers);
+		// Получаем блекслист пользователя
 		$aUserBlacklist = $this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
 
 		$aResult=array();
+		
+		// Обрабатываем добавление по каждому из переданных логинов
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);			
 			if ($sUser=='') {
 				continue;
 			}
+			// Если пользователь пытается добавить в блеклист самого себя,
+			// возвращаем ошибку
 			if(strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
 				$aResult[]=array(
 					'bStateError'=>true,
@@ -575,6 +585,9 @@ class ActionTalk extends Action {
 				);													
 				continue;			
 			}
+			
+			// Если пользователь не найден или неактивен,
+			// возвращаем ошибку
 			if ($oUser=$this->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
 				if(!isset($aUserBlacklist[$oUser->getId()])) {
 					if($this->Talk_AddUserToBlackList($oUser->getId(),$this->oUserCurrent->getId())) {
@@ -594,6 +607,8 @@ class ActionTalk extends Action {
 						);					
 					}
 				} else {
+					// Попытка добавить уже существующего в блеклисте пользователя,
+					// возвращаем ошибку
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
@@ -611,13 +626,21 @@ class ActionTalk extends Action {
 				);
 			}					
 		}
+		
+		// Передаем во вьевер массив с результатами обработки по каждому пользователю
 		$this->Viewer_AssingAjax('aUsers',$aResult);		
 	}
 	
+	/**
+	 * Удаление пользователя из блек листа (ajax)
+	 *
+	 * @return null
+	 */	
 	public function AjaxDeleteFromBlacklist() {
 		$this->Viewer_SetResponseAjax();
-		
 		$idTarget=getRequest('idTarget');
+		
+		// Если пользователь не авторизирован, возвращаем ошибку		
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('need_authorization'),
@@ -626,6 +649,7 @@ class ActionTalk extends Action {
 			return;				
 		}
 		
+		// Если пользователь не существуем, возращаем ошибку
 		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
@@ -634,7 +658,10 @@ class ActionTalk extends Action {
 			return;				
 		}
 		
+		// Получаем блеклист пользователя
 		$aBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
+		// Если указанный пользователь не найден в блекслисте,
+		// возвращаем ошибку
 		if (!isset($aBlacklist[$oUserTarget->getId()])) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get(
@@ -646,6 +673,7 @@ class ActionTalk extends Action {
 			return;	
 		}
 		
+		// Производим удаление пользователя из блекслиста
 		if(!$this->Talk_DeleteUserFromBlacklist($idTarget,$this->oUserCurrent->getId())) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('system_error'),
@@ -661,14 +689,19 @@ class ActionTalk extends Action {
 			),
 			$this->Lang_Get('attention')
 		);
-	}	
-	
+	}
+		
+	/**
+	 * Удаление участника разговора (ajax)
+	 *
+	 * @return null
+	 */	
 	public function AjaxDeleteTalkUser() {
 		$this->Viewer_SetResponseAjax();
-
 		$idTarget=getRequest('idTarget');
 		$idTalk=getRequest('idTalk');
-
+		
+		// Если пользователь не авторизирован, возвращаем ошибку
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('need_authorization'),
@@ -677,6 +710,8 @@ class ActionTalk extends Action {
 			return;				
 		}
 		
+		// Если удаляемый участник не существует в базе данных,
+		// возвращаем ошибку
 		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
@@ -685,6 +720,8 @@ class ActionTalk extends Action {
 			return;				
 		}
 		
+		// Если разговор не найден, или пользователь не является его автором,
+		// возвращаем ошибку
 		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
 			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
 				$this->Message_AddErrorSingle(
@@ -694,7 +731,11 @@ class ActionTalk extends Action {
 				return;				
 		} 
 
+		// Получаем список всех участников разговора
 		$aTalkUsers=$oTalk->getTalkUsers();		
+		
+		// Если пользователь не является участником разговора или удалил себя самостоятельно
+		// возвращаем ошибку
 		if(!isset($aTalkUsers[$idTarget]) 
 			|| $aTalkUsers[$idTarget]->getUserActive()==LsTalk::TALK_USER_DELETE_BY_SELF) {
 				$this->Message_AddErrorSingle(
@@ -707,6 +748,8 @@ class ActionTalk extends Action {
 				return;				
 		}
 
+		// Удаляем пользователя из разговора,
+		// если удаление прошло неудачно - возвращаем системную ошибку
 		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,LsTalk::TALK_USER_DELETE_BY_AUTHOR)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('system_error'),
@@ -724,12 +767,17 @@ class ActionTalk extends Action {
 		);
 	}
 
+	/**
+	 * Добавление нового участника разговора (ajax)
+	 *
+	 * @return null
+	 */
 	public function AjaxAddTalkUser() {
 		$this->Viewer_SetResponseAjax();
-
 		$sUsers=getRequest('users');
 		$idTalk=getRequest('idTalk');
-		
+
+		// Если пользователь не авторизирован, возвращаем ошибку		
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('need_authorization'),
@@ -737,7 +785,9 @@ class ActionTalk extends Action {
 			);
 			return;				
 		}
-				
+
+		// Если разговор не найден, или пользователь не является его автором,
+		// возвращаем ошибку
 		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
 			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
 				$this->Message_AddErrorSingle(
@@ -746,14 +796,20 @@ class ActionTalk extends Action {
 				);
 				return;				
 		} 
+		
+		// Получаем список всех участников разговора
 		$aTalkUsers=$oTalk->getTalkUsers();
 		$aUsers=explode(',',$sUsers);
+		// Получаем список пользователей, которые не принимают письма
 		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());			
+		
+		// Обрабатываем добавление по каждому переданному логину пользователя
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);
 			if($sUser=='') {			
 				continue;			
 			}
+			// Попытка добавить себя
 			if (strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
 				$aResult[]=array(
 					'bStateError'=>true,
@@ -767,6 +823,8 @@ class ActionTalk extends Action {
 				if(!in_array($oUser->getId(),$aUserInBlacklist)) {
 					if(array_key_exists($oUser->getId(),$aTalkUsers)) {
 						switch($aTalkUsers[$oUser->getId()]->getUserActive()) {
+							// Если пользователь ранее был удален админом разговора,
+							// то добавляем его снова
 							case LsTalk::TALK_USER_DELETE_BY_AUTHOR:
 								if (
 									$this->Talk_AddTalkUser(
@@ -798,7 +856,8 @@ class ActionTalk extends Action {
 									);
 								}
 								break;
-								
+							// Если пользователь является активным участником разговора,
+							// возвращаем ошибку	
 							case LsTalk::TALK_USER_ACTIVE:
 								$aResult[]=array(
 									'bStateError'=>true,
@@ -806,7 +865,8 @@ class ActionTalk extends Action {
 									'sMsg'=>$this->Lang_Get('talk_speaker_user_already_exist',array('login'=>$sUser))
 								);								
 								break;
-								
+							// Если пользователь удалил себя из разговора самостоятельно,
+							// то блокируем повторное добавление
 							case LsTalk::TALK_USER_DELETE_BY_SELF:
 								$aResult[]=array(
 									'bStateError'=>true,
@@ -852,6 +912,7 @@ class ActionTalk extends Action {
 						);
 					}			
 				} else {
+					// Добавляем пользователь не принимает сообщения
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
@@ -859,6 +920,7 @@ class ActionTalk extends Action {
 					);						
 				}
 			} else {
+				// Пользователь не найден в базе данных или не активен
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
@@ -866,6 +928,8 @@ class ActionTalk extends Action {
 				);
 			}	
 		}
+		
+		// Передаем во вьевер массив результатов обработки по каждому пользователю
 		$this->Viewer_AssingAjax('aUsers',$aResult);		
 	}
 	
@@ -876,6 +940,10 @@ class ActionTalk extends Action {
 		}		
 		$iCountTalkFavourite=$this->Talk_GetCountTalksFavouriteByUserId($this->oUserCurrent->getId());
 		$this->Viewer_Assign('iCountTalkFavourite',$iCountTalkFavourite);
+		
+		/**
+		 * Передаем во вьевер константы состояний участников разговора
+		 */
 		$this->Viewer_Assign('TALK_USER_ACTIVE',LsTalk::TALK_USER_ACTIVE);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',LsTalk::TALK_USER_DELETE_BY_SELF);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',LsTalk::TALK_USER_DELETE_BY_AUTHOR);

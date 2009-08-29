@@ -53,14 +53,23 @@ class TalkEntity_Talk extends Entity
     public function getTalkUser() {
     	return $this->_aData['talk_user'];
     }
-    
+    /**
+     * Возращает true, если разговор занесен в избранное
+     *
+     * @return bool
+     */
     public function getIsFavourite() {
         return $this->_aData['talk_is_favourite'];
     }
-
+	/**
+	 * Получает пользователей разговора
+	 *
+	 * @return array
+	 */
     public function getTalkUsers() {
     	return $this->_aData['talk_users'];
     }
+    
     
 	public function setId($data) {
         $this->_aData['talk_id']=$data;

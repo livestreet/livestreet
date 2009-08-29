@@ -33,11 +33,21 @@ class TalkEntity_TalkUser extends Entity
         return $this->_aData['comment_count_new'];
     }
     
+    /**
+     * Возвращает статус активности пользователя 
+     *
+     * @return int
+     */
     public function getUserActive(){
     	return (array_key_exists('talk_user_active',$this->_aData)) 
     		? $this->_aData['talk_user_active']
     		: LsTalk::TALK_USER_ACTIVE;
     }
+    /**
+     * Возвращает соответствующий пользователю объект UserEntity
+     *
+     * @return UserEntity | null
+     */
     public function getUser() {    
    		return $this->_aData['user']; 	
     }

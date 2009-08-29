@@ -395,6 +395,10 @@ class LsTalk extends Module {
 			'count'=>$iCount
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
+		
+		/**
+		 * Добавляем данные об участниках разговора
+		 */
 		foreach ($aTalks as $oTalk) {
 			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
 			foreach ((array)$aResult as $oTalkUser) {
@@ -420,6 +424,9 @@ class LsTalk extends Module {
 			'count'=>$iCount
 		);		
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
+		/**
+		 * Добавляем данные об участниках разговора
+		 */		
 		foreach ($aTalks as $oTalk) {
 			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
 			foreach ((array)$aResult as $oTalkUser) {
@@ -558,6 +565,10 @@ class LsTalk extends Module {
 		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'talk',$iCurrPage,$iPerPage);
 		// Получаем комменты по переданому массиву айдишников
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
+		
+		/**
+		 * Добавляем данные об участниках разговора
+		 */		
 		foreach ($aTalks as $oTalk) {
 			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
 			foreach ((array)$aResult as $oTalkUser) {
@@ -599,7 +610,12 @@ class LsTalk extends Module {
 			? $this->Favourite_DeleteFavourite($oFavourite)
 			: false;
 	}	
-
+	/**
+	 * Получает информацию о пользователях, занесенных в блеклист
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
 	public function GetBlacklistByUserId($sUserId) {
 		$data=$this->oMapper->GetBlacklistByUserId($sUserId);
 		return $this->User_GetUsersAdditionalData($data);
@@ -615,17 +631,36 @@ class LsTalk extends Module {
 		return $this->oMapper->GetBlacklistByTargetId($sUserId);
 	}
 	
+	/**
+	 * Добавление пользователя в блеклист по переданному идентификатору
+	 *
+	 * @param  string $sTargetId
+	 * @param  string $sUserId
+	 * @return bool
+	 */
 	public function AddUserToBlacklist($sTargetId, $sUserId) {
 		return $this->oMapper->AddUserToBlacklist($sTargetId, $sUserId);
 	}
-	
+	/**
+	 * Добавление пользователя в блеклист по списку идентификаторов
+	 *
+	 * @param  array $aTargetId
+	 * @param  string $sUserId
+	 * @return bool
+	 */
 	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {
 		foreach ((array)$aTargetId as $oUser) {
 			$aUsersId[]=$oUser instanceof UserEntity_User ? $oUser->getId() : (int)$oUser;
 		}		
 		return $this->oMapper->AddUserArrayToBlacklist($aUsersId, $sUserId);
 	}
-	
+	/**
+	 * Удаляем пользователя из блеклиста
+	 *
+	 * @param  string $sTargetId
+	 * @param  string $sUserId
+	 * @return bool
+	 */
 	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {
 		return $this->oMapper->DeleteUserFromBlacklist($sTargetId, $sUserId);	
 	}

@@ -280,6 +280,12 @@ class Mapper_Talk extends Mapper {
 		return $this->oDb->select($sql,$sTalkId,!is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
 	}
 	
+	/**
+	 * Возвращает массив участников разговора
+	 *
+	 * @param  string $sTalkId
+	 * @return array
+	 */
 	public function GetTalkUsers($sTalkId) {
 		$sql = "
 			SELECT 
@@ -299,7 +305,6 @@ class Mapper_Talk extends Mapper {
 
 		return $aReturn;		
 	}
-	
 	/**
 	 * Возвращает список идентификаторов писем, удовлетворяющих условию фильтра
 	 *
@@ -351,6 +356,12 @@ class Mapper_Talk extends Mapper {
 		return $aTalks;
 	}
 	
+	/**
+	 * Возвращает идентификаторы пользователей, добавленых в блеклист
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
 	public function GetBlacklistByUserId($sUserId) {				
 		$sql = "SELECT 
 					tb.user_target_id							 
@@ -367,6 +378,13 @@ class Mapper_Talk extends Mapper {
 		return $aTargetId;
 	}	
 	
+	/**
+	 * Получает идентификаторы пользователей, у которых текущей
+	 * занесен в блеклист
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
 	public function GetBlacklistByTargetId($sUserId) {				
 		$sql = "SELECT 
 					tb.user_id							 
@@ -383,6 +401,13 @@ class Mapper_Talk extends Mapper {
 		return $aUserId;
 	}
 
+	/**
+	 * Добавление пользователя в блеклист
+	 *
+	 * @param  string $sTargetId
+	 * @param  string $sUserId
+	 * @return bool
+	 */
 	public function AddUserToBlacklist($sTargetId, $sUserId) {
 		$sql = "
 			INSERT INTO ".Config::Get('db.table.talk_blacklist')." 
@@ -396,6 +421,13 @@ class Mapper_Talk extends Mapper {
 		return false;		
 	}
 	
+	/**
+	 * Удаление пользователя из блеклиста
+	 *
+	 * @param  string $sTargetId
+	 * @param  stringe $sUserId
+	 * @return bool
+	 */
 	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {	
 		$sql = "
 			DELETE FROM ".Config::Get('db.table.talk_blacklist')." 
@@ -410,6 +442,13 @@ class Mapper_Talk extends Mapper {
 		return false;		
 	}
 	
+	/**
+	 * Добавление пользователей в блеклист по массиву переданных идентификаторов
+	 *
+	 * @param  array $aTargetId
+	 * @param  string $sUserId
+	 * @return bool
+	 */
 	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {	
 		$sql = "
 			INSERT INTO ".Config::Get('db.table.talk_blacklist')." 
