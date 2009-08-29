@@ -368,6 +368,7 @@ class LsComment extends Module {
 	public function UpdateCommentStatus(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update")); // временно, т.к. нужно использовать только при solid кеше			
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
 			$this->Cache_Delete("comment_{$oComment->getId()}");			
 			return true;
