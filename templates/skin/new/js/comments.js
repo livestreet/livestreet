@@ -319,8 +319,10 @@ var lsCmtTreeClass = new Class({
 		
 		$('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
 		if (this.iCurrentShowFormComment==idComment) {
-			slideCurrentForm.toggle();
-			//$('form_comment_text').focus();
+			slideCurrentForm.toggle();			
+			slideCurrentForm.addEvent('complete', function() {
+        		$('form_comment_text').focus();
+			});
 			return;
 		}
 		
@@ -331,11 +333,13 @@ var lsCmtTreeClass = new Class({
 		slideNextForm.hide();
 		
 		slideNextForm.slideIn();
-				
-		//$('form_comment_text').focus();
+		
 		$('form_comment_text').setProperty('value','');
 		$('form_comment_reply').setProperty('value',idComment);
 		this.iCurrentShowFormComment=idComment;
+		slideNextForm.addEvent('complete', function() {
+        	$('form_comment_text').focus();
+		});
 	},
 	
 	hideCommentForm: function(idComment) {
