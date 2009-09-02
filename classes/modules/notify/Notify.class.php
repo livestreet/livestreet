@@ -286,6 +286,12 @@ class LsNotify extends Module {
 		$this->Mail_Send();
 	}
 	
+	/**
+	 * Отправляет пользователю сообщение о добавлении его в друзья
+	 *
+	 * @param UserEntity_User $oUserTo
+	 * @param UserEntity_User $oUserFrom
+	 */
 	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom) {		
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление

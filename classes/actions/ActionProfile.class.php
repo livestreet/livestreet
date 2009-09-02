@@ -41,6 +41,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');			
+		$this->AddEvent('friendoffer','EventFriendOffer');
 	}
 			
 	/**********************************************************************************
@@ -146,10 +147,6 @@ class ActionProfile extends Action {
 		 * Получаем список друзей
 		 */
 		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId());
-		/**
-		 * Получаем список тех у кого в друзьях
-		 */
-		$aUsersSelfFriend=$this->User_GetUsersSelfFriend($this->oUserProfile->getId());
 		
 		if (Config::Get('general.reg.invite')) {
 			/**
@@ -185,14 +182,78 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFriend',$aUsersFriend);		
-		$this->Viewer_Assign('aUsersSelfFriend',$aUsersSelfFriend);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('whois');				
-	}		
+	}	
+	
+	/**
+	 * Добавление пользователя в друзья, по отправленной заявке
+	 */
+	public function EventFriendOffer() {	
+		$sUserId=$this->GetParam(1);
+		$sAction=$this->GetParam(0);
+		
+		/**
+		 * Получаем текущего пользователя
+		 */
+		if(!$this->User_IsAuthorization()) {
+			return $this->EventNotFound();
+		}
+		$oUserCurrent = $this->User_GetUserCurrent();
+		
+		/**
+		 * Получаем объект пользователя приславшего заявку,
+		 * если пользователь не найден, переводим в раздел сообщений (Talk) -
+		 * так как пользователь мог перейти сюда либо из talk-сообщений,
+		 * либо из e-mail письма-уведомления
+		 */
+		if(!$oUser=$this->User_GetUserById($sUserId)) {
+			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			func_header_location(Router::GetPath('talk'));
+			return ;
+		}
+		
+		/**
+		 * Получаем связь дружбы из базы данных.
+		 * Если связь не найдена либо статус отличен от OFFER,
+		 * переходим в раздел Talk и возвращаем сообщение об ошибке
+		 */
+		$oFriend=$this->User_GetFriend($oUserCurrent->getId(),$oUser->getId(),0);
+		if(!$oFriend || ($oFriend->getFriendStatus()!=LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL)) {
+			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			func_header_location(Router::GetPath('talk'));
+			return ;			
+		}
+
+		/**
+		 * Устанавливаем новый статус связи
+		 */
+		$oFriend->setStatusTo(
+			($sAction=='accept')
+				? LsUser::USER_FRIEND_ACCEPT
+				: LsUser::USER_FRIEND_REJECT
+		);
+		
+		if ($this->User_UpdateFriend($oFriend)) {
+			$this->Message_AddNoticeSingle(
+				$this->Lang_Get('user_friend_add_ok'),
+				$this->Lang_Get('attention'),
+				true
+			);
+		} else {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('system_error'),
+				$this->Lang_Get('error'),
+				true
+			);
+		}
+		func_header_location(Router::GetPath('talk'));
+	}
+	
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
@@ -208,11 +269,17 @@ class ActionProfile extends Action {
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
 		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
 		$iCountCommentFavourite=$this->Comment_GetCountCommentsFavouriteByUserId($this->oUserProfile->getId());
+		
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
+		$this->Viewer_Assign('USER_FRIEND_NULL',LsUser::USER_FRIEND_NULL);
+		$this->Viewer_Assign('USER_FRIEND_OFFER',LsUser::USER_FRIEND_OFFER);
+		$this->Viewer_Assign('USER_FRIEND_ACCEPT',LsUser::USER_FRIEND_ACCEPT);
+		$this->Viewer_Assign('USER_FRIEND_REJECT',LsUser::USER_FRIEND_REJECT);
+		$this->Viewer_Assign('USER_FRIEND_DELETE',LsUser::USER_FRIEND_DELETE);		
 	}
 }
 ?>

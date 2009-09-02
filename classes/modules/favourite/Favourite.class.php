@@ -226,7 +226,7 @@ class LsFavourite extends Module {
 	 */
 	public function SetFavouriteTargetPublish($sTargetId,$sTargetType,$iPublish) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
-		return $this->oMapperTopic->SetFavouriteTargetPublish($sTopicId,$sTargetType,$iPublish);
+		return $this->oMapper->SetFavouriteTargetPublish($sTargetId,$sTargetType,$iPublish);
 	}	
 }
 ?>

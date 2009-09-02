@@ -108,17 +108,6 @@
 					</tr>
 					{/if}
 					
-					{if $aUsersSelfFriend}
-					<tr>
-						<td class="var">{$aLang.profile_friends_self}:</td>
-						<td class="friends">
-							{foreach from=$aUsersSelfFriend item=oUser}        						
-        						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>&nbsp; 
-        					{/foreach}
-						</td>
-					</tr>
-					{/if}
-					
 					{if $aConfig.general.reg.invite and $oUserInviteFrom}
 					<tr>
 						<td class="var">{$aLang.profile_invite_from}:</td>

@@ -364,20 +364,33 @@ class Mapper_User extends Mapper {
 	}
 	
 	
+	
+	
+	
 	public function AddFriend(UserEntity_Friend $oFriend) {
 		$sql = "INSERT INTO ".Config::Get('db.table.friend')." 
-			(user_id,
-			user_friend_id		
+			(user_from,
+			user_to,
+			status_from,
+			status_to		
 			)
-			VALUES(?d,  ?d)
+			VALUES(?d, ?d, ?d, ?d)
 		";			
-		if ($this->oDb->query($sql,$oFriend->getUserId(),$oFriend->getFriendId())===0) 
-		{
+		if (
+			$this->oDb->query(
+				$sql,
+				$oFriend->getUserFrom(),
+				$oFriend->getUserTo(),
+				$oFriend->getStatusFrom(),
+				$oFriend->getStatusTo()
+			)===0
+		) {
 			return true;
 		}		
 		return false;
 	}
 	
+	/****
 	public function DeleteFriend(UserEntity_Friend $oFriend) {
 		$sql = "DELETE FROM ".Config::Get('db.table.friend')." 
 			WHERE
@@ -391,63 +404,183 @@ class Mapper_User extends Mapper {
 		}		
 		return false;
 	}
+	****/
 	
+	public function UpdateFriend(UserEntity_Friend $oFriend) {
+		$sql = "
+			UPDATE ".Config::Get('db.table.friend')."
+			SET 
+				status_from = ?d,
+				status_to   = ?d 
+			WHERE
+				user_from = ?d
+				AND
+				user_to = ?d		
+		";			
+		if(
+			$this->oDb->query(
+				$sql,
+				$oFriend->getStatusFrom(),
+				$oFriend->getStatusTo(),
+				$oFriend->getUserFrom(),
+				$oFriend->getUserTo()
+			)
+		) {
+			return true;
+		}		
+		return false;
+	}
 	
-	
+	/**
+	 * Получить отношей дружбы по массиву идентификаторов
+	 *
+	 * @param  array  $aArrayId
+	 * @param  string $sUserId
+	 * @param  int    $iStatus
+	 * @return array
+	 */
 	public function GetFriendsByArrayId($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
+
 		$sql = "SELECT 
 					*						 
 				FROM 
 					".Config::Get('db.table.friend')." 				
 				WHERE 
-					user_id = ? 
-					AND
-					user_friend_id IN(?a) ";
+					( `user_from`=?d AND `user_to` IN(?a) )
+					OR
+					( `user_from` IN(?a) AND `user_to`=?d )
+				";			
+		$aRows=$this->oDb->select(
+			$sql,
+			$sUserId,$aArrayId,
+			$aArrayId,$sUserId
+		);			
 		$aRes=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+		if ($aRows) {
 			foreach ($aRows as $aRow) {
+				$aRow['user']=$sUserId;
 				$aRes[]=new UserEntity_Friend($aRow);
 			}
-		}		
+		}			
 		return $aRes;
 	}
 	
-	public function GetUsersFriend($sUserId) {					
+	/**
+	 * Получить список друзей указанного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iStatus
+	 * @return array
+	 */
+	public function GetUsersFriend($sUserId,$iStatus=null) {
+		if(!$iStatus) {
+			$iStatus=LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER;
+		}
+		
 		$sql = "SELECT 
-					uf.user_friend_id										
+					uf.user_from,
+					uf.user_to							
 				FROM 
 					".Config::Get('db.table.friend')." as uf				
 				WHERE 	
-					uf.user_id = ?d	;	
-					";
+					( uf.user_from = ?d
+					OR
+					uf.user_to = ?d )
+					AND 
+					( uf.status_from + uf.status_to = ?d )
+					;";
 		$aUsers=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId)) {
+		if ($aRows=$this->oDb->select(
+				$sql,
+				$sUserId,
+				$sUserId,
+				$iStatus 
+			)
+		) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=$aUser['user_friend_id'];
+				$aUsers[]=($aUser['user_from']==$sUserId)
+							? $aUser['user_to']
+							: $aUser['user_from'];
+			}
+		}
+		return array_unique($aUsers);
+	}
+	
+	/**
+	 * Получить список заявок на добавление в друзья от указанного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iStatus Статус запроса со стороны добавляемого
+	 * @return array
+	 */
+	public function GetUsersFriendOffer($sUserId,$iStatus=LsUser::USER_FRIEND_NULL) {
+		$sql = "SELECT 
+					uf.user_to							
+				FROM 
+					".Config::Get('db.table.friend')." as uf				
+				WHERE 	
+					uf.user_from = ?d
+					AND 
+					uf.status_from = ?d
+					AND
+					uf.status_to = ?d
+				;";
+		$aUsers=array();
+		if ($aRows=$this->oDb->select(
+				$sql,
+				$sUserId,
+				LsUser::USER_FRIEND_OFFER,
+				$iStatus 
+			)
+		) {
+			foreach ($aRows as $aUser) {
+				$aUsers[]=$aUser['user_to'];
 			}
 		}
 		return $aUsers;
 	}
 	
-	public function GetUsersSelfFriend($sUserId) {					
+	/**
+	 * Получить список заявок на добавление в друзья от указанного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iStatus Статус запроса со стороны самого пользователя
+	 * @return array
+	 */
+	public function GetUserSelfFriendOffer($sUserId,$iStatus=LsUser::USER_FRIEND_NULL) {
 		$sql = "SELECT 
-					user_id										
+					uf.user_from
 				FROM 
-					".Config::Get('db.table.friend')."				
+					".Config::Get('db.table.friend')." as uf				
 				WHERE 	
-					user_friend_id = ?d ";
+					uf.user_to = ?d
+					AND 
+					uf.status_from = ?d
+					AND
+					uf.status_to = ?d
+				;";
 		$aUsers=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId)) {
+		if ($aRows=$this->oDb->select(
+				$sql,
+				$sUserId,
+				LsUser::USER_FRIEND_OFFER,
+				$iStatus 
+			)
+		) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=$aUser['user_id'];
+				$aUsers[]=$aUser['user_from'];
 			}
 		}
 		return $aUsers;
 	}
+	
+	
+	
+	
+	
 	
 	public function GetInviteByCode($sCode,$iUsed=0) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.invite')." WHERE invite_code = ? and invite_used = ?d ";

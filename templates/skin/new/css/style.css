@@ -370,6 +370,9 @@ select { width: 99%; }
 .block.white .cl { background: url(../images/sidebar-profile-cl.gif) repeat-y left; }
 .block.white .cr { padding: 0px 25px; background: url(../images/sidebar-profile-cr.gif) repeat-y right; }
 
+.block.white.friend form textarea { height: 50px; width: 95%; }
+.block.white.friend form label { color: #000; }
+
 .block.nostyle { padding: 20px 25px; }
 
 .block.options h3 { padding-bottom: 10px; }

@@ -86,3 +86,20 @@ CREATE TABLE  `prefix_talk_blacklist` (
 ALTER TABLE  `prefix_talk_blacklist` ADD PRIMARY KEY (  `user_id` ,  `user_target_id` );
 ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_user` FOREIGN KEY (  `user_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_target` FOREIGN KEY (  `user_target_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `prefix_friend`
+  DROP FOREIGN KEY `prefix_frend_fk`,
+  DROP FOREIGN KEY `prefix_frend_fk1`;
+
+ALTER TABLE  `prefix_friend` DROP INDEX  `user_id`;
+ALTER TABLE  `prefix_friend` DROP INDEX  `user_frend_id`;
+ALTER TABLE  `prefix_friend` DROP INDEX  `user_id_fren_id`;
+ALTER TABLE  `prefix_friend` CHANGE  `user_id`  `user_from` INT( 11 ) UNSIGNED;
+ALTER TABLE  `prefix_friend` CHANGE  `user_friend_id`  `user_to` INT( 11 ) UNSIGNED DEFAULT NULL;
+ALTER TABLE  `prefix_friend` ADD  `status_from` INT( 4 ) NOT NULL ;
+ALTER TABLE  `prefix_friend` ADD  `status_to` INT( 4 ) NOT NULL ;
+ALTER TABLE  `prefix_friend` ADD PRIMARY KEY ( `user_from` , `user_to` );
+ALTER TABLE  `prefix_friend` ADD INDEX (  `user_from` );
+ALTER TABLE  `prefix_friend` ADD INDEX (  `user_to` );
+ALTER TABLE  `prefix_friend` ADD CONSTRAINT `prefix_friend_from_fk` FOREIGN KEY (`user_from`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE  `prefix_friend` ADD CONSTRAINT `prefix_friend_to_fk` FOREIGN KEY (`user_to`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;

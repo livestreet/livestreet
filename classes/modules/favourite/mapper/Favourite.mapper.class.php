@@ -81,7 +81,7 @@ class Mapper_Favourite extends Mapper {
 		$sql = "
 			UPDATE ".Config::Get('db.table.favourite')." 
 			SET 
-				taget_publish = ?d
+				target_publish = ?d
 			WHERE				
 				target_id = ?d
 			AND

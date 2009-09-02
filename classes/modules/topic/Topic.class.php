@@ -185,8 +185,6 @@ class LsTopic extends Module {
 		$oTopicOld=$this->GetTopicById($oTopic->getId());
 		$oTopic->setDateEdit(date("Y-m-d H:i:s"));
 		if ($this->oMapperTopic->UpdateTopic($oTopic)) {	
-			
-			
 			/**
 			 * Если топик изменил видимость(publish)
 			 */

@@ -17,19 +17,80 @@
 
 class UserEntity_Friend extends Entity 
 {    
+    /**
+     * При переданном параметре $sUserId возвращает тот идентификатор,
+     * который не равен переданному
+     *
+     * @param  ( string|null )
+     * @return string
+     */
+    public function getFriendId($sUserId=null) {
+    	if(!$sUserId) {
+        	$sUserId=$this->getUserId();
+    	}
+    	if($this->_aData['user_from']==$sUserId) {
+    		return $this->_aData['user_to'];
+    	}
+    	if($this->_aData['user_to']==$sUserId) {
+    		return $this->_aData['user_from'];
+    	}
+    	return false;
+    }
+    /**
+     * Получает идентификатор пользователя, 
+     * относительно которого был сделан запрос
+     *
+     * @return int
+     */
     public function getUserId() {
-        return $this->_aData['user_id'];
+    	return array_key_exists('user',$this->_aData) 
+    			? $this->_aData['user']
+    			: null;
+    }
+
+    public function getUserFrom() {
+        return $this->_aData['user_from'];
     }  
-    public function getFriendId() {
-        return $this->_aData['user_friend_id'];
+    public function getUserTo() {
+        return $this->_aData['user_to'];
+    }  
+    public function getStatusFrom() {
+        return $this->_aData['status_from'];
+    }  
+    public function getStatusTo() {
+        return (empty($this->_aData['status_to']))
+        	? LsUser::USER_FRIEND_NULL
+        	: $this->_aData['status_to'];
+    }  
+    public function getFriendStatus() {
+    	return $this->getStatusFrom()+$this->getStatusTo();
     }
-    
-    
-	public function setUserId($data) {
-        $this->_aData['user_id']=$data;
+       
+    public function setUserFrom($data) {
+    	$this->_aData['user_from']=$data;
     }
-    public function setFriendId($data) {
-        $this->_aData['user_friend_id']=$data;
+    public function setUserTo($data) {
+    	$this->_aData['user_to']=$data;
+    }
+    public function setStatusFrom($data) {
+    	$this->_aData['status_from']=$data;
+    }
+    public function setStatusTo($data) {
+    	$this->_aData['status_to']=$data;
+    }
+    public function setUserId($data) {
+    	$this->_aData['user']=$data;
+    }
+    public function setStatusByUserId($data,$sUserId) {
+    	if($sUserId==$this->getUserFrom()) {
+    		$this->setStatusFrom($data);
+    		return true;
+    	}
+    	if($sUserId==$this->getUserTo()) {
+    		$this->setStatusTo($data);
+    		return true;
+    	}
+    	return false;
     }
 }
 ?>

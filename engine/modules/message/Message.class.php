@@ -34,6 +34,17 @@ class LsMessage extends Module {
 	protected $aMsgNotice=array();
 	
 	/**
+	 * Массив сообщений, который будут показаны на СЛЕДУЮЩЕЙ страничке
+	 * @var array
+	 */
+	protected $aMsgNoticeSession=array();
+	/**
+	 * Массив ошибок, который будут показаны на СЛЕДУЮЩЕЙ страничке
+	 * @var array
+	 */
+	protected $aMsgErrorSession=array();
+	
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -45,17 +56,37 @@ class LsMessage extends Module {
 	 *
 	 */
 	public function Shutdown() {	
-		$this->Viewer_Assign('aMsgError',$this->GetError());
-		$this->Viewer_Assign('aMsgNotice',$this->GetNotice());		
+	    // Логика здесь такая - получаем сообщения, которые содержаться в сессии
+	    // и добавляем их к выводимым. А те сообщения, которые были добавлены
+	    // текущими экшенами (в этом сеансе), вкладываем в сессию.          
+	    $sNoticeSession = $this->Session_Get('message_notice_session');
+	    $aNotice=(!$sNoticeSession) 
+	        ? $this->GetNotice()
+	        : array_merge($this->GetNotice(), (array)unserialize($sNoticeSession));
+	    $this->Session_Set('message_notice_session', serialize($this->GetNoticeSession()));
+
+	    $sErrorSession = $this->Session_Get('message_error_session');
+	    $aError=(!$sErrorSession) 
+	        ? $this->GetError()
+	        : array_merge($this->GetError(), (array)unserialize($sErrorSession));
+	    $this->Session_Set('message_error_session', serialize($this->GetErrorSession()));
+	    
+		$this->Viewer_Assign('aMsgError',$aError);		
+		$this->Viewer_Assign('aMsgNotice',$aNotice);		
 	}
 	/**
 	 * Добавляет новое сообщение об ошибке
 	 *
 	 * @param string $sMsg
 	 * @param string $sTitle
+	 * @param bool   $bUseSession
 	 */
-	public function AddError($sMsg,$sTitle=null) {
-		$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
+	public function AddError($sMsg,$sTitle=null,$bUseSession=false) {
+		if(!$bUseSession) {			
+			$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
+		} else {
+			$this->aMsgErrorSession[]=array('msg'=>$sMsg,'title'=>$sTitle);
+		}
 	}
 	
 	/**
@@ -63,19 +94,30 @@ class LsMessage extends Module {
 	 *
 	 * @param string $sMsg
 	 * @param string $sTitle
+	 * @param bool   $bUseSession
 	 */
-	public function AddErrorSingle($sMsg,$sTitle=null) {
-		$this->aMsgError=array();
-		$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
+	public function AddErrorSingle($sMsg,$sTitle=null,$bUseSession=false) {
+		if(!$bUseSession) {				
+			$this->aMsgError=array();
+			$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
+		} else {
+			$this->aMsgErrorSession=array();
+			$this->aMsgErrorSession[]=array('msg'=>$sMsg,'title'=>$sTitle);			
+		}
 	}
 	/**
 	 * Добавляет новое сообщение
 	 *
 	 * @param string $sMsg
 	 * @param string $sTitle
+	 * @param bool   $bUseSession
 	 */
-	public function AddNotice($sMsg,$sTitle=null) {
-		$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
+	public function AddNotice($sMsg,$sTitle=null,$bUseSession=false) {
+		if(!$bUseSession) {		
+			$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
+		} else {
+			$this->aMsgNoticeSession[]=array('msg'=>$sMsg,'title'=>$sTitle);			
+		}
 	}
 	
 	/**
@@ -83,10 +125,16 @@ class LsMessage extends Module {
 	 *
 	 * @param string $sMsg
 	 * @param string $sTitle
+	 * @param bool   $bUseSession
 	 */
-	public function AddNoticeSingle($sMsg,$sTitle=null) {
-		$this->aMsgNotice=array();
-		$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
+	public function AddNoticeSingle($sMsg,$sTitle=null,$bUseSession=false) {
+		if(!$bUseSession) {
+			$this->aMsgNotice=array();
+			$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);			
+		} else {
+			$this->aMsgNoticeSession=array();
+			$this->aMsgNoticeSession[]=array('msg'=>$sMsg,'title'=>$sTitle);					
+		}
 	}
 	
 	/**
@@ -106,5 +154,25 @@ class LsMessage extends Module {
 	public function GetNotice() {
 		return $this->aMsgNotice;
 	}
+	
+	/**
+	 * Возвращает список сообщений, 
+	 * которые необходимо поместить в сессию
+	 * 
+	 * @return array
+	 */
+	public function GetNoticeSession() {
+	    return $this->aMsgNoticeSession;
+	}       	
+
+	/**
+	 * Возвращает список ошибок, 
+	 * которые необходимо поместить в сессию
+	 * 
+	 * @return array
+	 */
+	public function GetErrorSession() {
+	    return $this->aMsgErrorSession;
+	}       	
 }
 ?>

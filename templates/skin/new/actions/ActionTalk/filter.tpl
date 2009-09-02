@@ -68,8 +68,8 @@ document.addEvent('domready', function() {
 							</p>
 							
 							<p><label for="talk_filter_start">{$aLang.talk_filter_label_date}:</label><br />
-							<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" class="w100p" style="width: 45%" readonly="readonly" /> &mdash; 
-							<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" class="w100p" style="width: 45%" readonly="readonly" /><br />
+							<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" class="w100p" style="width: 44%" readonly="readonly" /> &mdash; 
+							<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" class="w100p" style="width: 44%" readonly="readonly" /><br />
        						<span class="form_note">{$aLang.talk_filter_notice_date}</span>
 							</p>	
 							<p class="buttons">								

@@ -50,17 +50,19 @@ class LsTalk extends Module {
 	 * @param array | int | UserEntity_User $aUserTo
 	 * @param bool $bSendNotify
 	 */
-	public function SendTalk($sTitle,$sText,$oUserFrom,$aUserTo,$bSendNotify=true) {
+	public function SendTalk($sTitle,$sText,$oUserFrom,$aUserTo,$bSendNotify=true,$bUseBlacklist=true) {
 		$iUserIdFrom=$oUserFrom instanceof UserEntity_User ? $oUserFrom->getId() : (int)$oUserFrom;
 		if (!is_array($aUserTo)) {
 			$aUserTo=array($aUserTo);
 		}
 		$aUserIdTo=array($iUserIdFrom);		
-		$aUserInBlacklist=$this->GetBlacklistByTargetId($iUserIdFrom);
+		if($bUseBlacklist) {
+			$aUserInBlacklist=$this->GetBlacklistByTargetId($iUserIdFrom);
+		}
 		
 		foreach ($aUserTo as $oUserTo) {
 			$sUserIdTo=$oUserTo instanceof UserEntity_User ? $oUserTo->getId() : (int)$oUserTo;
-			if(!in_array($sUserIdTo,$aUserInBlacklist)) {
+			if(!$bUseBlacklist || !in_array($sUserIdTo,$aUserInBlacklist)) {
 				$aUserIdTo[]=$sUserIdTo;
 			}
 		}

@@ -143,7 +143,14 @@ class UserEntity_User extends Entity {
     public function getUserWebPath() {   
     	return Router::GetPath('profile').$this->getLogin().'/';
     }
-    
+    /**
+     * Возвращает статус дружбы с текущим пользователем
+     *
+     * @return int
+     */
+    public function getUserFriend() {
+    	return $this->_aData['user_friend'];
+    }
     
     public function setId($data) {
     	$this->_aData['user_id']=$data;
@@ -251,6 +258,14 @@ class UserEntity_User extends Entity {
     }
     public function setVote($data) {
         $this->_aData['vote']=$data;
+    }
+    /**
+     * Устанавливаем статус дружбы с текущим пользователем
+     *
+     * @param int $data
+     */
+    public function setUserFriend($data) {
+    	$this->_aData['user_friend']=$data;
     }
 }
 ?>
