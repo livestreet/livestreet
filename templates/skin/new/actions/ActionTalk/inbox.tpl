@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='talk'}
+{include file='header.tpl' menu='talk' noShowSystemMessage=false}
 
 
 			<div class="topic people top-blogs talk-table">

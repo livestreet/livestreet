@@ -38,10 +38,12 @@ class ActionProfile extends Action {
 	}
 	
 	protected function RegisterEvent() {			
+		$this->AddEvent('friendoffer','EventFriendOffer');
+		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
+				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');			
-		$this->AddEvent('friendoffer','EventFriendOffer');
 	}
 			
 	/**********************************************************************************
@@ -213,6 +215,8 @@ class ActionProfile extends Action {
 		 */
 		if(!$oUser=$this->User_GetUserById($sUserId)) {
 			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			$this->Message_Shutdown();
+			
 			func_header_location(Router::GetPath('talk'));
 			return ;
 		}
@@ -225,6 +229,8 @@ class ActionProfile extends Action {
 		$oFriend=$this->User_GetFriend($oUserCurrent->getId(),$oUser->getId(),0);
 		if(!$oFriend || ($oFriend->getFriendStatus()!=LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL)) {
 			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			$this->Message_Shutdown();
+			
 			func_header_location(Router::GetPath('talk'));
 			return ;			
 		}
@@ -251,7 +257,126 @@ class ActionProfile extends Action {
 				true
 			);
 		}
+		
+		$this->Message_Shutdown();
 		func_header_location(Router::GetPath('talk'));
+	}
+	
+	public function EventAjaxFriendAdd() {
+		$this->Viewer_SetResponseAjax();
+		$sUserId=getRequest('idUser');
+		$sUserText=getRequest('userText','');
+
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */		
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+				
+		/**
+		 * При попытке добавить в друзья себя, возвращаем ошибку
+		 */
+		if ($this->oUserCurrent->getId()==$sUserId) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_add_self'),
+				$this->Lang_Get('error')
+			);
+			return;
+		}
+		
+		/**
+		 * Если пользователь не найден, возвращаем ошибку
+		 */
+		if( !$oUser=$this->User_GetUserById($sUserId) ) {		
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_not_found'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		
+		/**
+		 * Получаем статус дружбы между пользователями
+		 */
+		$oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId());
+		/**
+		 * Если связи ранее не было в базе данных, добавляем новую
+		 */
+		if( !$oFriend ) {		
+			$this->SubmitAddFriend($oUser,$sUserText,$oFriend);
+			return;		
+		}
+		/**
+		 * Если статус связи соответствует статусам отправленной и акцептованной заявки, 
+		 * то предупреждаем что этот пользователь уже является нашим другом
+		 */
+		if($oFriend->getFriendStatus()==LsUser::USER_FRIEND_OFFER + LsUser::USER_FRIEND_ACCEPT) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_already_exist'),
+				$this->Lang_Get('error')
+			);
+			return;
+		}
+		/**
+		 * Если пользователь ранее отклонил нашу заявку, 
+		 * возвращаем сообщение об ошибке
+		 */
+		if($oFriend->getUserFrom()==$this->oUserCurrent->getId() 
+				&& $oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT ) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_offer_reject'),
+				$this->Lang_Get('error')
+			);
+			return;	
+		}
+	}
+	
+	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
+		$oFriendNew=new UserEntity_Friend();
+		$oFriendNew->setUserTo($oUser->getId());
+		$oFriendNew->setUserFrom($this->oUserCurrent->getId());
+		// Добавляем заявку в друзья
+		$oFriendNew->setStatusFrom(LsUser::USER_FRIEND_OFFER);
+		$oFriendNew->setStatusTo(LsUser::USER_FRIEND_NULL);
+					
+		$bStateError=($oFriend)
+			? !$this->User_UpdateFriend($oFriendNew)
+			: !$this->User_AddFriend($oFriendNew);
+		
+		if ( !$bStateError ) {
+			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_offer_send'),$this->Lang_Get('attention'));
+			$this->Viewer_AssingAjax('sToggleText',$this->Lang_Get('user_friend_offer_send'));
+			
+			// Отправляем пользователю заявку
+			$this->Notify_SendUserFriendNew($oUser,$this->oUserCurrent);		
+			$sTitle=$this->Lang_Get(
+				'user_friend_offer_title',
+				array(
+					'login'=>$this->oUserCurrent->getLogin(),
+					'friend'=>$oUser->getLogin()
+				)
+			);
+			$sText=$this->Lang_Get(
+				'user_friend_offer_text',
+				array(
+					'login'=>$this->oUserCurrent->getLogin(),
+					'accept_path'=>Router::GetPath('profile').'friendoffer/accept/'.$this->oUserCurrent->getId(),
+					'reject_path'=>Router::GetPath('profile').'friendoffer/reject/'.$this->oUserCurrent->getId(),
+					'user_text'=>$sUserText
+				)
+			);
+			$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+			return true;
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return false;	
+		}		
 	}
 	
 	/**

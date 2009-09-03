@@ -49,6 +49,14 @@ class LsMessage extends Module {
 	 *
 	 */
 	public function Init() {			
+		/**
+		 * Добавляем сообщения и ошибки, которые содержались в сессии
+		 */
+		$sNoticeSession = $this->Session_Get('message_notice_session');
+		$this->aMsgNotice = (array)unserialize($sNoticeSession);
+		
+		$sErrorSession = $this->Session_Get('message_error_session');
+		$this->aMsgError = (array)unserialize($sErrorSession);	
 	}
 	
 	/**
@@ -56,23 +64,14 @@ class LsMessage extends Module {
 	 *
 	 */
 	public function Shutdown() {	
-	    // Логика здесь такая - получаем сообщения, которые содержаться в сессии
-	    // и добавляем их к выводимым. А те сообщения, которые были добавлены
-	    // текущими экшенами (в этом сеансе), вкладываем в сессию.          
-	    $sNoticeSession = $this->Session_Get('message_notice_session');
-	    $aNotice=(!$sNoticeSession) 
-	        ? $this->GetNotice()
-	        : array_merge($this->GetNotice(), (array)unserialize($sNoticeSession));
+		/**
+		 * Добавляем в сессию те соощения, которые были отмечены для сессионого использования
+		 */
 	    $this->Session_Set('message_notice_session', serialize($this->GetNoticeSession()));
-
-	    $sErrorSession = $this->Session_Get('message_error_session');
-	    $aError=(!$sErrorSession) 
-	        ? $this->GetError()
-	        : array_merge($this->GetError(), (array)unserialize($sErrorSession));
 	    $this->Session_Set('message_error_session', serialize($this->GetErrorSession()));
 	    
-		$this->Viewer_Assign('aMsgError',$aError);		
-		$this->Viewer_Assign('aMsgNotice',$aNotice);		
+		$this->Viewer_Assign('aMsgError',$this->GetError());		
+		$this->Viewer_Assign('aMsgNotice',$this->GetNotice());		
 	}
 	/**
 	 * Добавляет новое сообщение об ошибке

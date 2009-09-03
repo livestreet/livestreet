@@ -1,35 +1,3 @@
-/**
-function ajaxToggleUserFriend(obj,idUser,sAction) {   
-	obj=$(obj);
-	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/userFriend.php',                       
-        { idUser: idUser,sAction: sAction },
-        function(result, errors) {  
-        	if (!result) {
-                msgErrorBox.alert('Error','Please try again later');           
-        	}
-            if (result.bStateError) {
-            	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-            } else {            	
-            	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
-            	if (obj)  {
-            		parent=obj.getParent('li');
-            		parent.set('text',result.sToggleText);
-            		obj.erase();
-            		if (result.bState) {
-            			parent.removeClass('add');
-            			parent.addClass('del');
-            		} else {
-            			parent.removeClass('del');
-            			parent.addClass('add');
-            		}
-            	}
-            }                               
-        },
-        true
-    );
-}
-**/
 function toogleFriendForm(obj) {
 			var friendForm=$('add_friend_form');
 			var slideForm = new Fx.Slide('add_friend_form');						
@@ -50,8 +18,8 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 	obj.getElement('form').getChildren().each(function(item){item.setProperty('disabled','disabled')});
 	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/userFriend.php',                       
-        { idUser: idUser,sAction: sAction,userText: sText },
+    	DIR_WEB_ROOT+'/profile/ajaxfriendadd/',                       
+        { idUser: idUser,userText: sText },
         function(result, errors) {  
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');         
@@ -63,9 +31,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
             } else {            	
             	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
             	if (obj)  {
-            		if (result.bState) {
-            			obj.set('html','').set('text',result.sToggleText);
-            		}
+            		obj.set('html','').set('text',result.sToggleText);
             	}
             }                               
         },

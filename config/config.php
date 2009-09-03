@@ -232,7 +232,7 @@ $config['sys']['mail']['include_talk']     = true;                   // Вклю
 $aTmpDir=explode(';',session_save_path());
 $sTmpDir = count($aTmpDir)>1 ? $aTmpDir[1] : $aTmpDir[0];
 // Устанавливаем настройки кеширования
-$config['sys']['cache']['use']    = true;               // использовать кеширование или нет
+$config['sys']['cache']['use']    = false;               // использовать кеширование или нет
 $config['sys']['cache']['type']   = 'file';             // тип кеширования: file и memory. memory использует мемкеш
 $config['sys']['cache']['dir']    = $sTmpDir.'/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 $config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем

@@ -549,7 +549,7 @@ class ActionBlog extends Action {
 	 * @param unknown_type $iTopicId
 	 * @return unknown
 	 */
-	protected function EventShowTopic() {	
+	protected function EventShowTopic() {
 		$sBlogUrl='';	
 		if ($this->GetParamEventMatch(0,1)) {
 			// из коллективного блога
