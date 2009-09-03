@@ -52,11 +52,15 @@ class LsMessage extends Module {
 		/**
 		 * Добавляем сообщения и ошибки, которые содержались в сессии
 		 */
-		$sNoticeSession = $this->Session_Get('message_notice_session');
-		$this->aMsgNotice = (array)unserialize($sNoticeSession);
+		$aNoticeSession = (array)unserialize($this->Session_Get('message_notice_session'));
+		if(count($aNoticeSession)) {
+			$this->aMsgNotice = $aNoticeSession;	
+		}
 		
-		$sErrorSession = $this->Session_Get('message_error_session');
-		$this->aMsgError = (array)unserialize($sErrorSession);	
+		$aErrorSession = (array)unserialize($this->Session_Get('message_error_session'));
+		if(count($aErrorSession)) {
+			$this->aMsgError = $aErrorSession;				
+		}
 	}
 	
 	/**

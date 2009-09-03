@@ -1,14 +1,14 @@
 function toogleFriendForm(obj) {
-			var friendForm=$('add_friend_form');
-			var slideForm = new Fx.Slide('add_friend_form');						
-		
-			friendForm.getElements('textarea').set('value','');	
-			if(friendForm.getStyle('display')=='none') {
-				friendForm.setStyle('display','block');	
-				slideForm.hide();	
-			}
-			slideForm.toggle();
-			slideForm.addEvent('complete', function() {friendForm.getElement('textarea').focus();});
+	var friendForm=$('add_friend_form');
+	var slideForm = new Fx.Slide('add_friend_form');						
+	
+	friendForm.getElements('textarea').set('value','');	
+	if(friendForm.getStyle('display')=='none') {
+		friendForm.setStyle('display','block');	
+		slideForm.hide();	
+	}
+	slideForm.toggle();
+	slideForm.addEvent('complete', function() {friendForm.getElement('textarea').focus();});
 }
 
 function ajaxAddUserFriend(obj,idUser,sAction) {
@@ -18,7 +18,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 	obj.getElement('form').getChildren().each(function(item){item.setProperty('disabled','disabled')});
 	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/profile/ajaxfriendadd/',                       
+    	aRouter.profile+'ajaxfriendadd/',                       
         { idUser: idUser,userText: sText },
         function(result, errors) {  
         	if (!result) {
@@ -42,7 +42,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 function ajaxDeleteUserFriend(obj,idUser,sAction) {   
 	obj=$(obj);
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/userFriend.php',                       
+    	aRouter.profile+'ajaxfrienddelete/',                         
         { idUser: idUser,sAction: sAction },
         function(result, errors) {  
         	if (!result) {

@@ -40,6 +40,7 @@ class ActionProfile extends Action {
 	protected function RegisterEvent() {			
 		$this->AddEvent('friendoffer','EventFriendOffer');
 		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
+		$this->AddEvent('ajaxfrienddelete', 'EventAjaxFriendDelete');
 				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
@@ -380,8 +381,70 @@ class ActionProfile extends Action {
 	}
 	
 	/**
+	 * Удаление пользователя из друзей
+	 */
+	public function EventAjaxFriendDelete() {
+		$this->Viewer_SetResponseAjax();
+		$sUserId=getRequest('idUser');
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */		
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+				
+		/**
+		 * При попытке добавить в друзья себя, возвращаем ошибку
+		 */
+		if ($this->oUserCurrent->getId()==$sUserId) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_add_self'),
+				$this->Lang_Get('error')
+			);
+			return;
+		}
+		
+		/**
+		 * Если пользователь не найден, возвращаем ошибку
+		 */
+		if( !$oUser=$this->User_GetUserById($sUserId) ) {		
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_del_no'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		
+		/**
+		 * Получаем статус дружбы между пользователями.
+		 * Если статус не определен, или отличается от принятой заявки,
+		 * возвращаем ошибку
+		 */
+		if( !($oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId()))
+				|| $oFriend->getFriendStatus()!=LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER ) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_del_no'),
+				$this->Lang_Get('error')
+			);
+			return;	
+		}
+		
+		if( $this->User_DeleteFriend($oFriend) ) {
+			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_del_ok'),$this->Lang_Get('attention'));
+			$this->Viewer_AssingAjax('sToggleText',$this->Lang_Get('user_friend_add'));			
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+	}
+	
+	/**
 	 * Выполняется при завершении работы экшена
-	 *
 	 */
 	public function EventShutdown() {	
 		if (!$this->oUserProfile)	 {
