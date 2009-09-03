@@ -52,13 +52,12 @@ class LsMessage extends Module {
 		/**
 		 * Добавляем сообщения и ошибки, которые содержались в сессии
 		 */
-		$aNoticeSession = (array)unserialize($this->Session_Get('message_notice_session'));
-		if(count($aNoticeSession)) {
+		$aNoticeSession = $this->Session_Get('message_notice_session');		
+		if(is_array($aNoticeSession) and count($aNoticeSession)) {
 			$this->aMsgNotice = $aNoticeSession;	
-		}
-		
-		$aErrorSession = (array)unserialize($this->Session_Get('message_error_session'));
-		if(count($aErrorSession)) {
+		}		
+		$aErrorSession = $this->Session_Get('message_error_session');
+		if(is_array($aErrorSession) and count($aErrorSession)) {
 			$this->aMsgError = $aErrorSession;				
 		}
 	}
@@ -71,8 +70,8 @@ class LsMessage extends Module {
 		/**
 		 * Добавляем в сессию те соощения, которые были отмечены для сессионого использования
 		 */
-	    $this->Session_Set('message_notice_session', serialize($this->GetNoticeSession()));
-	    $this->Session_Set('message_error_session', serialize($this->GetErrorSession()));
+	    $this->Session_Set('message_notice_session', $this->GetNoticeSession());
+	    $this->Session_Set('message_error_session', $this->GetErrorSession());
 	    
 		$this->Viewer_Assign('aMsgError',$this->GetError());		
 		$this->Viewer_Assign('aMsgNotice',$this->GetNotice());		
@@ -100,13 +99,9 @@ class LsMessage extends Module {
 	 * @param bool   $bUseSession
 	 */
 	public function AddErrorSingle($sMsg,$sTitle=null,$bUseSession=false) {
-		if(!$bUseSession) {				
-			$this->aMsgError=array();
-			$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
-		} else {
-			$this->aMsgErrorSession=array();
-			$this->aMsgErrorSession[]=array('msg'=>$sMsg,'title'=>$sTitle);			
-		}
+		$this->aMsgError=array();
+		$this->aMsgErrorSession=array();
+		$this->AddError($sMsg,$sTitle,$bUseSession);		
 	}
 	/**
 	 * Добавляет новое сообщение
@@ -131,13 +126,9 @@ class LsMessage extends Module {
 	 * @param bool   $bUseSession
 	 */
 	public function AddNoticeSingle($sMsg,$sTitle=null,$bUseSession=false) {
-		if(!$bUseSession) {
-			$this->aMsgNotice=array();
-			$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);			
-		} else {
-			$this->aMsgNoticeSession=array();
-			$this->aMsgNoticeSession[]=array('msg'=>$sMsg,'title'=>$sTitle);					
-		}
+		$this->aMsgNotice=array();
+		$this->aMsgNoticeSession=array();
+		$this->AddNotice($sMsg,$sTitle,$bUseSession);		
 	}
 	
 	/**

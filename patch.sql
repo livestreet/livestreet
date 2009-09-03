@@ -87,9 +87,11 @@ ALTER TABLE  `prefix_talk_blacklist` ADD PRIMARY KEY (  `user_id` ,  `user_targe
 ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_user` FOREIGN KEY (  `user_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE  `prefix_talk_blacklist` ADD CONSTRAINT  `prefix_talk_blacklist_fk_target` FOREIGN KEY (  `user_target_id` ) REFERENCES  `prefix_user` (  `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
 
+
+
 ALTER TABLE `prefix_friend`
   DROP FOREIGN KEY `prefix_frend_fk`,
-  DROP FOREIGN KEY `prefix_frend_fk1`;
+  DROP FOREIGN KEY `prefix_friend_ibfk_1`;
 
 ALTER TABLE  `prefix_friend` DROP INDEX  `user_id`;
 ALTER TABLE  `prefix_friend` DROP INDEX  `user_frend_id`;
