@@ -65,6 +65,15 @@ class UserEntity_Friend extends Entity
     public function getFriendStatus() {
     	return $this->getStatusFrom()+$this->getStatusTo();
     }
+   	public function getStatusByUserId($sUserId) {
+     	if($sUserId==$this->getUserFrom()) {
+    		return $this->getStatusFrom();
+    	}
+    	if($sUserId==$this->getUserTo()) {
+    		return $this->getStatusTo();
+    	}
+    	return false;  		
+   	}
        
     public function setUserFrom($data) {
     	$this->_aData['user_from']=$data;

@@ -390,21 +390,19 @@ class Mapper_User extends Mapper {
 		return false;
 	}
 	
-	/****
-	public function DeleteFriend(UserEntity_Friend $oFriend) {
+	public function EraseFriend(UserEntity_Friend $oFriend) {
 		$sql = "DELETE FROM ".Config::Get('db.table.friend')." 
 			WHERE
-				user_id = ?d
+				user_from = ?d
 				AND
-				user_friend_id = ?d				
+				user_to = ?d				
 		";			
-		if ($this->oDb->query($sql,$oFriend->getUserId(),$oFriend->getFriendId())) 
+		if ($this->oDb->query($sql,$oFriend->getUserFrom(),$oFriend->getUserTo())) 
 		{
 			return true;
 		}		
 		return false;
 	}
-	****/
 	
 	public function UpdateFriend(UserEntity_Friend $oFriend) {
 		$sql = "

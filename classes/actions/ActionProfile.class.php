@@ -301,7 +301,7 @@ class ActionProfile extends Action {
 			);
 			return;				
 		}
-		
+		$this->oUserProfile=$oUser;
 		/**
 		 * Получаем статус дружбы между пользователями
 		 */
@@ -336,6 +336,67 @@ class ActionProfile extends Action {
 			);
 			return;	
 		}
+		/**
+		 * Если дружба была удалена, то проверяем кто ее удалил
+		 * и разрешаем восстановить только удалившему
+		 */
+		if($oFriend->getFriendStatus()>LsUser::USER_FRIEND_DELETE 
+				&& $oFriend->getFriendStatus()<LsUser::USER_FRIEND_REJECT) {
+			/**
+			 * Определяем статус связи текущего пользователя
+			 */
+			$iStatusCurrent	= $oFriend->getStatusByUserId($this->oUserCurrent->getId());
+				
+			if($iStatusCurrent==LsUser::USER_FRIEND_DELETE) {
+				/**
+				 * Меняем статус с удаленного, на акцептованное				 
+				 */
+				$oFriend->setStatusByUserId(LsUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
+				if($this->User_UpdateFriend($oFriend)) {
+					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
+
+					$oViewerLocal=$this->GetViewerLocal();
+					$oViewerLocal->Assign('oUserFriend',$oFriend);
+					$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+				
+				} else {
+					$this->Message_AddErrorSingle(
+						$this->Lang_Get('system_error'),
+						$this->Lang_Get('error')
+					);
+				}
+				return;
+			} else {
+				$this->Message_AddErrorSingle(
+					$this->Lang_Get('user_friend_add_deleted'),
+					$this->Lang_Get('error')
+				);
+				return;	
+			}
+		}
+	}
+
+	protected function GetViewerLocal() {
+		/**
+		 * Получаем HTML код inject-объекта
+		 */
+		if (!class_exists('LsViewer')) {
+			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
+		}
+		$oViewerLocal=new LsViewer(Engine::getInstance());
+		$oViewerLocal->Init();
+		$oViewerLocal->VarAssign();
+		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
+		$oViewerLocal->Assign('oUserCurrent',$this->oUserCurrent);
+		$oViewerLocal->Assign('oUserProfile',$this->oUserProfile);
+
+		$oViewerLocal->Assign('USER_FRIEND_NULL',LsUser::USER_FRIEND_NULL);
+		$oViewerLocal->Assign('USER_FRIEND_OFFER',LsUser::USER_FRIEND_OFFER);
+		$oViewerLocal->Assign('USER_FRIEND_ACCEPT',LsUser::USER_FRIEND_ACCEPT);
+		$oViewerLocal->Assign('USER_FRIEND_REJECT',LsUser::USER_FRIEND_REJECT);
+		$oViewerLocal->Assign('USER_FRIEND_DELETE',LsUser::USER_FRIEND_DELETE);
+	
+		return $oViewerLocal;
 	}
 	
 	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
@@ -352,10 +413,9 @@ class ActionProfile extends Action {
 		
 		if ( !$bStateError ) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_offer_send'),$this->Lang_Get('attention'));
-			$this->Viewer_AssingAjax('sToggleText',$this->Lang_Get('user_friend_offer_send'));
 			
 			// Отправляем пользователю заявку
-			$this->Notify_SendUserFriendNew($oUser,$this->oUserCurrent);		
+			$this->Notify_SendUserFriendNew($oUser,$this->oUserCurrent);
 			$sTitle=$this->Lang_Get(
 				'user_friend_offer_title',
 				array(
@@ -373,11 +433,13 @@ class ActionProfile extends Action {
 				)
 			);
 			$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
-			return true;
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return false;	
-		}		
+		}	
+		
+		$oViewerLocal=$this->GetViewerLocal();
+		$oViewerLocal->Assign('oUserFriend',$oFriendNew);			
+		$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
 	}
 	
 	/**
@@ -419,7 +481,7 @@ class ActionProfile extends Action {
 			);
 			return;				
 		}
-		
+		$this->oUserProfile=$oUser;		
 		/**
 		 * Получаем статус дружбы между пользователями.
 		 * Если статус не определен, или отличается от принятой заявки,
@@ -436,7 +498,11 @@ class ActionProfile extends Action {
 		
 		if( $this->User_DeleteFriend($oFriend) ) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_del_ok'),$this->Lang_Get('attention'));
-			$this->Viewer_AssingAjax('sToggleText',$this->Lang_Get('user_friend_add'));			
+
+			$oViewerLocal=$this->GetViewerLocal();
+			$oViewerLocal->Assign('oUserFriend',$oFriend);
+			$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+			return;	
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;

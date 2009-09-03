@@ -767,11 +767,23 @@ class LsUser extends Module {
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
 		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
-		//return $this->oMapper->DeleteFriend($oFriend);
 		// устанавливаем статус дружбы "удалено"
 		$oFriend->setStatusByUserId(LsUser::USER_FRIEND_DELETE,$oFriend->getUserId());
 		return $this->oMapper->UpdateFriend($oFriend);
 	}
+	/**
+	 * Удаляет информацию о дружбе из базы данных
+	 *
+	 * @param  UserEntity_Friend $oFriend
+	 * @return bool
+	 */
+	public function EraseFriend(UserEntity_Friend $oFriend) {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		return $this->oMapper->EraseFriend($oFriend);		
+	}
+	
 	/**
 	 * Обновляет информацию о друге
 	 *

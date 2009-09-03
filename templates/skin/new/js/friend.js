@@ -13,9 +13,13 @@ function toogleFriendForm(obj) {
 
 function ajaxAddUserFriend(obj,idUser,sAction) {
 	obj   = $(obj).getParent('li');
-	sText = obj.getElement('form textarea').get('value');
 	
-	obj.getElement('form').getChildren().each(function(item){item.setProperty('disabled','disabled')});
+	if(sAction!='link') {
+		sText = obj.getElement('form textarea').get('value');
+		obj.getElement('form').getChildren().each(function(item){item.setProperty('disabled','disabled')});
+	} else {
+		sText='';
+	}
 	
 	JsHttpRequest.query(
     	aRouter.profile+'ajaxfriendadd/',                       
@@ -30,8 +34,10 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 				obj.getElement('form').getChildren().each(function(item){item.removeProperty('disabled')});
             } else {            	
             	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
-            	if (obj)  {
-            		obj.set('html','').set('text',result.sToggleText);
+            	if (obj)  {           		
+            		item = new Element('li',{'html':result.sToggleText});
+					item.getElement('li').inject(obj.getParent('ul'),'top');            		
+ 	          		obj.dispose();
             	}
             }                               
         },
@@ -40,7 +46,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 }
 
 function ajaxDeleteUserFriend(obj,idUser,sAction) {   
-	obj=$(obj);
+	obj=$(obj).getParent('li');
 	JsHttpRequest.query(
     	aRouter.profile+'ajaxfrienddelete/',                         
         { idUser: idUser,sAction: sAction },
@@ -52,16 +58,10 @@ function ajaxDeleteUserFriend(obj,idUser,sAction) {
             	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
             } else {            	
             	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
-            	if (obj)  {
-            		parent=obj.getParent('li');
-            		obj.set('text',result.sToggleText);
-            		if (result.bState) {
-            			parent.removeClass('add');
-            			parent.addClass('del');
-            		} else {
-            			parent.removeClass('del');
-            			parent.addClass('add');
-            		}
+            	if (obj)  {            		
+            		item = new Element('li',{'html':result.sToggleText});
+					item.getElement('li').inject(obj.getParent('ul'),'top');            		
+					obj.dispose();
             	}
             }                               
         },
