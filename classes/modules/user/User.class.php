@@ -690,6 +690,11 @@ class LsUser extends Module {
 				 * Добавляем к результату и сохраняем в кеш
 				 */
 				$aFriends[$oFriend->getFriendId($sUserId)]=$oFriend;
+				/**
+				 * Тут кеш нужно будет продумать как-то по другому.
+				 * Пока не трогаю, ибо этот код все равно не выполняется.
+				 * by Kachaev
+				 */
 				$this->Cache_Set($oFriend, "user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}", array(), 60*60*24*4);
 				$aUserIdNeedStore=array_diff($aUserIdNeedStore,array($oFriend->getFriendId()));
 			}
@@ -753,8 +758,10 @@ class LsUser extends Module {
 	 */
 	public function AddFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
-		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
+		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
+		
 		return $this->oMapper->AddFriend($oFriend);
 	}
 	/**
@@ -765,8 +772,10 @@ class LsUser extends Module {
 	 */
 	public function DeleteFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
-		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
+		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
+		
 		// устанавливаем статус дружбы "удалено"
 		$oFriend->setStatusByUserId(LsUser::USER_FRIEND_DELETE,$oFriend->getUserId());
 		return $this->oMapper->UpdateFriend($oFriend);
@@ -779,8 +788,9 @@ class LsUser extends Module {
 	 */
 	public function EraseFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
-		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
+		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
 		return $this->oMapper->EraseFriend($oFriend);		
 	}
 	
@@ -792,8 +802,9 @@ class LsUser extends Module {
 	 */
 	public function UpdateFriend(UserEntity_Friend $oFriend) {
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserId()}","friend_change_friend_{$oFriend->getFriendId()}"));
-		$this->Cache_Delete("user_friend_{$oFriend->getFriendId()}_{$oFriend->getUserId()}");
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
+		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
+		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
 		return $this->oMapper->UpdateFriend($oFriend);
 	}
 
