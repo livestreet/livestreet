@@ -197,7 +197,10 @@ class ActionProfile extends Action {
 	 * Добавление пользователя в друзья, по отправленной заявке
 	 */
 	public function EventFriendOffer() {	
-		$sUserId=$this->GetParam(1);
+		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		$sUserId=xxtea_decrypt(base64_decode($this->GetParam(1)), Config::Get('module.talk.encrypt'));
+
+		//$sUserId=$this->GetParam(1);
 		$sAction=$this->GetParam(0);
 		
 		/**
@@ -432,12 +435,16 @@ class ActionProfile extends Action {
 					'friend'=>$oUser->getLogin()
 				)
 			);
+			
+			require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+			$sCode=base64_encode(xxtea_encrypt($this->oUserCurrent->getId(), Config::Get('module.talk.encrypt')));
+			
 			$sText=$this->Lang_Get(
 				'user_friend_offer_text',
 				array(
 					'login'=>$this->oUserCurrent->getLogin(),
-					'accept_path'=>Router::GetPath('profile').'friendoffer/accept/'.$this->oUserCurrent->getId(),
-					'reject_path'=>Router::GetPath('profile').'friendoffer/reject/'.$this->oUserCurrent->getId(),
+					'accept_path'=>Router::GetPath('profile').'friendoffer/accept/'.$sCode,
+					'reject_path'=>Router::GetPath('profile').'friendoffer/reject/'.$sCode,
 					'user_text'=>$sUserText
 				)
 			);
