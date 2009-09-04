@@ -350,6 +350,8 @@ return array(
 	'user_friend_add_text_label' => 'Представьтесь:',
 	'user_friend_add_submit' => 'Отправить',
 	'user_friend_add_cansel' => 'Отмена',
+	'user_friend_offer_not_found' => 'Заявка не найдена',
+	'user_friend_offer_already_done' => 'Заявка уже обработана',
 	
 	'user_rating' => 'Рейтинг',
 	'user_skill' => 'Сила',

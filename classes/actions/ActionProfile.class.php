@@ -229,7 +229,11 @@ class ActionProfile extends Action {
 		 */
 		$oFriend=$this->User_GetFriend($oUserCurrent->getId(),$oUser->getId(),0);
 		if(!$oFriend || ($oFriend->getFriendStatus()!=LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL)) {
-			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			$sMessage=($oFriend)
+				? $this->Lang_Get('user_friend_offer_already_done')
+				: $this->Lang_Get('user_friend_offer_not_found');
+			
+			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
 			$this->Message_Shutdown();
 			
 			func_header_location(Router::GetPath('talk'));
@@ -246,11 +250,11 @@ class ActionProfile extends Action {
 		);
 		
 		if ($this->User_UpdateFriend($oFriend)) {
-			$this->Message_AddNoticeSingle(
-				$this->Lang_Get('user_friend_add_ok'),
-				$this->Lang_Get('attention'),
-				true
-			);
+			$sMessage=($sAction=='accept')
+				? $this->Lang_Get('user_friend_add_ok')
+				: $this->Lang_Get('user_friend_offer_reject');
+			
+			$this->Message_AddNoticeSingle($sMessage,$this->Lang_Get('attention'),true);
 		} else {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('system_error'),
@@ -376,6 +380,11 @@ class ActionProfile extends Action {
 		}
 	}
 
+	/**
+	 * Функция создает локальный объект вьювера для рендеринга html-объектов в ajax запросах
+	 *
+	 * @return LsViewer
+	 */
 	protected function GetViewerLocal() {
 		/**
 		 * Получаем HTML код inject-объекта
