@@ -441,7 +441,11 @@ class ActionProfile extends Action {
 					'user_text'=>$sUserText
 				)
 			);
-			$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+			$oTalk=$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+			/**
+			 * Удаляем отправляющего юзера из переписки
+			 */	
+			$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}	

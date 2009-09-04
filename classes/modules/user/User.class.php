@@ -823,8 +823,6 @@ class LsUser extends Module {
 		return $data;
 	}
 
-
-
 	/**
 	 * Получает инвайт по его коду
 	 *

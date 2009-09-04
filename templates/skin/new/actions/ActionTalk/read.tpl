@@ -20,6 +20,7 @@
 			
 			{assign var="oTalkUser" value=$oTalk->getTalkUser()}
 			
+			{if !$bNoComments}
 			{include 
 				file='comment_tree.tpl' 	
 				iTargetId=$oTalk->getId()
@@ -29,6 +30,7 @@
 				sNoticeCommentAdd=$aLang.topic_comment_add
 				bNoCommentFavourites=true
 			}
+			{/if}
 			
 			
 {include file='footer.tpl'}

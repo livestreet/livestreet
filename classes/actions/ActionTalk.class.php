@@ -316,6 +316,24 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/speakers.tpl'));
+		/**
+		 * Подсчитываем нужно ли отображать комментарии.
+		 * Комментарии не отображаются, если у вестки только один читатель
+		 * и ранее созданных комментариев нет.
+		 */
+		if(count($aComments)==0) {
+			$iActiveSpeakers=0;
+			foreach((array)$oTalk->getTalkUsers() as $oTalkUser) {
+				if( ($oTalkUser->getUserId()!=$this->oUserCurrent->getId()) 
+					&& $oTalkUser->getUserActive()==LsTalk::TALK_USER_ACTIVE ){
+						$iActiveSpeakers++;
+						break;
+				}
+			}
+			if($iActiveSpeakers==0) {
+				$this->Viewer_Assign('bNoComments',true);
+			}
+		}
 	}
 	
 	
