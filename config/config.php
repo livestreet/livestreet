@@ -288,7 +288,7 @@ $config['module']['comment']['bad']      = -5;          // Рейтинг ком
 $config['module']['comment']['max_tree'] = 7;           // Максимальная вложенность комментов при отображении
 // Модуль Talk
 $config['module']['talk']['per_page']   = 15;           // Число приватных сообщений на одну страницу
-$config['module']['talk']['reload']     = true;
+$config['module']['talk']['reload']     = false;
 $config['module']['talk']['request']    = 60;
 $config['module']['talk']['period']     = 20000;
 $config['module']['talk']['max_errors'] = 4;
