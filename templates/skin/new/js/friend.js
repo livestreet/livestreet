@@ -14,15 +14,21 @@ function toogleFriendForm(obj) {
 function ajaxAddUserFriend(obj,idUser,sAction) {
 	obj   = $(obj).getParent('li');
 	
-	if(sAction!='link') {
+	if(sAction!='link' && sAction!='accept') {
 		sText = obj.getElement('form textarea').get('value');
 		obj.getElement('form').getChildren().each(function(item){item.setProperty('disabled','disabled')});
 	} else {
 		sText='';
 	}
 	
+	if(sAction=='accept') {
+		sPath=aRouter.profile+'ajaxfriendaccept/';
+	} else {
+		sPath=aRouter.profile+'ajaxfriendadd/';
+	}
+	
 	JsHttpRequest.query(
-    	aRouter.profile+'ajaxfriendadd/',                       
+    	sPath,                       
         { idUser: idUser,userText: sText },
         function(result, errors) {  
         	if (!result) {

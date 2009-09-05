@@ -1,6 +1,10 @@
 {if $oUserFriend and ($oUserFriend->getFriendStatus()==$USER_FRIEND_ACCEPT+$USER_FRIEND_OFFER or $oUserFriend->getFriendStatus()==$USER_FRIEND_ACCEPT+$USER_FRIEND_ACCEPT) }
 	<li class="del"><a href="#"  title="{$aLang.user_friend_del}" onclick="ajaxDeleteUserFriend(this,{$oUserProfile->getId()},'del'); return false;">{$aLang.user_friend_del}</a></li>
-{elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_REJECT}
+{elseif $oUserFriend and $oUserFriend->getStatusTo()==$USER_FRIEND_REJECT and $oUserFriend->getStatusFrom()==$USER_FRIEND_OFFER and $oUserFriend->getUserTo()==$oUserCurrent->getId()}
+	<li class="add">
+		<a href="#"  title="{$aLang.user_friend_add}" onclick="ajaxAddUserFriend(this,{$oUserProfile->getId()},'accept'); return false;">{$aLang.user_friend_add}</a>
+	</li>
+{elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_REJECT and $oUserFriend->getUserTo()!=$oUserCurrent->getId()}
 	<li class="del">{$aLang.user_friend_offer_reject}</li>							
 {elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL}
 	<li class="add">{$aLang.user_friend_offer_send}</li>						

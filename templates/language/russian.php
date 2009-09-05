@@ -344,7 +344,7 @@ return array(
 	'user_friend_offer_reject' => 'Заявка отклонена',
 	'user_friend_offer_send' => 'Заявка отправлена',	
 	'user_friend_already_exist' => 'Пользователь уже является вашим другом',
-	'user_friend_offer_title' => 'Пользователь %%login%% приглашает пользователя %%friend%% в друзья',
+	'user_friend_offer_title' => 'Пользователь %%login%% приглашает вас дружить',
 	'user_friend_offer_text' => "Пользователь %%login%% желает добавить вас в друзья.<br/><br/>%%user_text%%<br/><br/><a href='%%accept_path%%'>Принять</a> - <a href='%%reject_path%%'>Отклонить</a>",
 	'user_friend_add_deleted' => 'Этот пользователь отказался с вами дружить',
 	'user_friend_add_text_label' => 'Представьтесь:',

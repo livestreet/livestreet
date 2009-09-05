@@ -41,6 +41,7 @@ class ActionProfile extends Action {
 		$this->AddEvent('friendoffer','EventFriendOffer');
 		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
 		$this->AddEvent('ajaxfrienddelete', 'EventAjaxFriendDelete');
+		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
 				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
@@ -198,9 +199,9 @@ class ActionProfile extends Action {
 	 */
 	public function EventFriendOffer() {	
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-		$sUserId=xxtea_decrypt(base64_decode($this->GetParam(1)), Config::Get('module.talk.encrypt'));
-
-		//$sUserId=$this->GetParam(1);
+		$sUserId=xxtea_decrypt(base64_decode(urldecode($this->GetParam(1))), Config::Get('module.talk.encrypt'));
+		list($sUserId,)=explode('_',$sUserId,2);
+		
 		$sAction=$this->GetParam(0);
 		
 		/**
@@ -231,7 +232,14 @@ class ActionProfile extends Action {
 		 * переходим в раздел Talk и возвращаем сообщение об ошибке
 		 */
 		$oFriend=$this->User_GetFriend($oUserCurrent->getId(),$oUser->getId(),0);
-		if(!$oFriend || ($oFriend->getFriendStatus()!=LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL)) {
+		if(!$oFriend 
+			|| !in_array(
+					$oFriend->getFriendStatus(), 
+					array(
+						LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL,
+					)
+				)
+			) {
 			$sMessage=($oFriend)
 				? $this->Lang_Get('user_friend_offer_already_done')
 				: $this->Lang_Get('user_friend_offer_not_found');
@@ -241,8 +249,8 @@ class ActionProfile extends Action {
 			
 			func_header_location(Router::GetPath('talk'));
 			return ;			
-		}
-
+		}		
+		
 		/**
 		 * Устанавливаем новый статус связи
 		 */
@@ -268,6 +276,82 @@ class ActionProfile extends Action {
 		
 		$this->Message_Shutdown();
 		func_header_location(Router::GetPath('talk'));
+	}
+	
+	public function EventAjaxFriendAccept() {
+		$this->Viewer_SetResponseAjax();
+		$sUserId=getRequest('idUser');
+
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */		
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('need_authorization'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * При попытке добавить в друзья себя, возвращаем ошибку
+		 */
+		if ($this->oUserCurrent->getId()==$sUserId) {
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_friend_add_self'),
+				$this->Lang_Get('error')
+			);
+			return;
+		}
+		
+		/**
+		 * Если пользователь не найден, возвращаем ошибку
+		 */
+		if( !$oUser=$this->User_GetUserById($sUserId) ) {		
+			$this->Message_AddErrorSingle(
+				$this->Lang_Get('user_not_found'),
+				$this->Lang_Get('error')
+			);
+			return;				
+		}
+		$this->oUserProfile=$oUser;
+		/**
+		 * Получаем статус дружбы между пользователями
+		 */
+		$oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId());		
+		/**
+		 * При попытке потдвердить ранее отклоненную заявку,
+		 * проверяем, чтобы изменяющий был принимающей стороной
+		 */
+		if($oFriend 
+			&& $oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT 
+			&& $oFriend->getUserTo()==$this->oUserCurrent->getId() ) {
+			
+				/**
+				 * Меняем статус с отвергнутое, на акцептованное				 
+				 */
+				$oFriend->setStatusByUserId(LsUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
+				if($this->User_UpdateFriend($oFriend)) {
+					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
+
+					$oViewerLocal=$this->GetViewerLocal();
+					$oViewerLocal->Assign('oUserFriend',$oFriend);
+					$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+				
+				} else {
+					$this->Message_AddErrorSingle(
+						$this->Lang_Get('system_error'),
+						$this->Lang_Get('error')
+					);
+				}
+				return;
+		}
+
+		$this->Message_AddErrorSingle(
+			$this->Lang_Get('system_error'),
+			$this->Lang_Get('error')
+		);
+		return;	
 	}
 	
 	public function EventAjaxFriendAdd() {
@@ -437,7 +521,8 @@ class ActionProfile extends Action {
 			);
 			
 			require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-			$sCode=base64_encode(xxtea_encrypt($this->oUserCurrent->getId(), Config::Get('module.talk.encrypt')));
+			$sCode=$this->oUserCurrent->getId().'_'.$oUser->getId();
+			$sCode=urlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.talk.encrypt'))));
 			
 			$sText=$this->Lang_Get(
 				'user_friend_offer_text',
