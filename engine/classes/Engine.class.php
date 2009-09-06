@@ -38,6 +38,12 @@ class Engine extends Object {
 	protected $aConfigModule;
 	public $iTimeLoadModule=0;
 	
+	/**
+	 * Массив содержит меппер кастомизации сущностей
+	 *
+	 * @var arrat
+	 */
+	static protected $aEntityCustoms=array();
 	
 	/**
 	 * При создании объекта делаем инициализацию
@@ -154,28 +160,6 @@ class Engine extends Object {
 	 */
 	protected function LoadConfig() {
 		$this->aConfigModule = Config::Get('module');
-
-		/**
-		 * Рефакторинг - переход на использование конфигурационных массивов
-		 * 
-		$this->aConfigModule=include(Config::Get('path.root.server')."/config/config.module.php");
-		///
-		/// Ищет конфиги модулей и объединяет их с текущим
-		///
-		$sDirConfig=Config::Get('path.root.server').'/config/modules/';
-		if ($hDirConfig = opendir($sDirConfig)) {
-			while (false !== ($sDirModule = readdir($hDirConfig))) {
-				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
-					$sFileConfig=$sDirConfig.$sDirModule.'/config.module.php';
-					if (file_exists($sFileConfig)) {
-						$aConfigModule=include($sFileConfig);
-						$this->aConfigModule=array_merge_recursive($this->aConfigModule,$aConfigModule);
-					}					
-				}
-			}
-			closedir($hDirConfig);
-		}
-		**/
 	}
 	/**
 	 * Регистрирует хуки из /classes/hooks/
@@ -273,6 +257,57 @@ class Engine extends Object {
 	protected function __clone() {
 		
 	}
+	
+	/**
+	 * Создает объект сущности, контролируя варианты кастомизации
+	 *
+	 * @param  string $sName
+	 * @param  mixed  $aParams
+	 * @return mixed
+	 */
+	public static function GetEntity($sName,$aParams) {
+		/**
+		 * Сущности, имеющие такое же название как модуль, 
+		 * можно вызывать сокращенно. Например, вместо User_User -> User
+		 */
+		if(substr_count($sName,'_')==0) {
+			$sEntity = $sModule = $sName;
+		} else {
+			list($sModule,$sEntity) = explode('_',$sName,2);
+		}
+		/**
+		 * Проверяем наличие сущности в меппере кастомизации
+		 */
+		if(array_key_exists($sName,self::$aEntityCustoms)) {
+			$sEntity=self::$aEntityCustoms[$sName];
+			$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
+		} else {
+			$sFileDefaultClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
+			$sFileCustomClass = Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'Custom.entity.class.php';
+			/**
+			 * Пытаем найти кастомизированную сущность
+			 */
+			if(file_exists($sFileCustomClass)) {
+				$sFileClass=$sFileCustomClass;
+				$sEntity.='Custom';
+			} elseif(file_exists($sFileDefaultClass)) {
+				$sFileClass=$sFileDefaultClass;
+			} else {
+				throw new Exception('Entity class not found');
+				return null;
+			}
+		}
+		
+		/**
+		 * Подгружаем нужный файл
+		 */
+		require_once($sFileClass);
+		self::$aEntityCustoms[$sName]=$sEntity;		
+		$sClass=$sModule.'Entity_'.$sEntity;
+			
+		$oEntity=new $sClass($aParams);
+		return $oEntity;
+	}
 }
 
 /**
@@ -293,6 +328,5 @@ function __autoload($sClassName) {
 			dump($sClassName." - \t\t".($tm2-$tm1));
 		}
 	}
-    
 }
 ?>
