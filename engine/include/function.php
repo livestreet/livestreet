@@ -84,7 +84,7 @@ function func_generator($iLength=10) {
 	if ($iLength>32) {
 		$iLength=32;
 	}
-	return substr(md5(uniqid(rand(),true)),0,$iLength);
+	return substr(md5(uniqid(mt_rand(),true)),0,$iLength);
 }
 
 /**
