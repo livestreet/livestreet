@@ -6,8 +6,12 @@
 	</li>
 {elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_REJECT and $oUserFriend->getUserTo()!=$oUserCurrent->getId()}
 	<li class="del">{$aLang.user_friend_offer_reject}</li>							
-{elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL}
+{elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL and $oUserFriend->getUserFrom()==$oUserCurrent->getId()}
 	<li class="add">{$aLang.user_friend_offer_send}</li>						
+{elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL and $oUserFriend->getUserTo()==$oUserCurrent->getId()}
+	<li class="add">
+		<a href="#"  title="{$aLang.user_friend_add}" onclick="ajaxAddUserFriend(this,{$oUserProfile->getId()},'accept'); return false;">{$aLang.user_friend_add}</a>
+	</li>
 {elseif !$oUserFriend}	
 	<li class="add">
 		<a href="#"  title="{$aLang.user_friend_add}" onclick="toogleFriendForm(this); return false;">{$aLang.user_friend_add}</a>

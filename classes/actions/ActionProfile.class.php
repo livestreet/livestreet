@@ -199,7 +199,7 @@ class ActionProfile extends Action {
 	 */
 	public function EventFriendOffer() {	
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-		$sUserId=xxtea_decrypt(base64_decode(urldecode($this->GetParam(1))), Config::Get('module.talk.encrypt'));
+		$sUserId=xxtea_decrypt(base64_decode(urldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
 		list($sUserId,)=explode('_',$sUserId,2);
 		
 		$sAction=$this->GetParam(0);
@@ -324,8 +324,9 @@ class ActionProfile extends Action {
 		 * проверяем, чтобы изменяющий был принимающей стороной
 		 */
 		if($oFriend 
-			&& $oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT 
-			&& $oFriend->getUserTo()==$this->oUserCurrent->getId() ) {
+			&& ($oFriend->getStatusFrom()==LsUser::USER_FRIEND_OFFER||$oFriend->getStatusFrom()==LsUser::USER_FRIEND_ACCEPT) 
+			&& ($oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT||$oFriend->getStatusTo()==LsUser::USER_FRIEND_NULL) 
+			&& $oFriend->getUserTo()==$this->oUserCurrent->getId()) {
 			
 				/**
 				 * Меняем статус с отвергнутое, на акцептованное				 
@@ -510,8 +511,6 @@ class ActionProfile extends Action {
 		if ( !$bStateError ) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_offer_send'),$this->Lang_Get('attention'));
 			
-			// Отправляем пользователю заявку
-			$this->Notify_SendUserFriendNew($oUser,$this->oUserCurrent);
 			$sTitle=$this->Lang_Get(
 				'user_friend_offer_title',
 				array(
@@ -524,16 +523,28 @@ class ActionProfile extends Action {
 			$sCode=$this->oUserCurrent->getId().'_'.$oUser->getId();
 			$sCode=urlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.talk.encrypt'))));
 			
+			$aPath=array(
+				'accept'=>Router::GetPath('profile').'friendoffer/accept/?code='.$sCode,
+				'reject'=>Router::GetPath('profile').'friendoffer/reject/?code='.$sCode
+			);
+			
 			$sText=$this->Lang_Get(
 				'user_friend_offer_text',
 				array(
 					'login'=>$this->oUserCurrent->getLogin(),
-					'accept_path'=>Router::GetPath('profile').'friendoffer/accept/'.$sCode,
-					'reject_path'=>Router::GetPath('profile').'friendoffer/reject/'.$sCode,
+					'accept_path'=>$aPath['accept'],
+					'reject_path'=>$aPath['reject'],
 					'user_text'=>$sUserText
 				)
 			);
 			$oTalk=$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+			/**
+			 * Отправляем пользователю заявку
+			 */
+			$this->Notify_SendUserFriendNew(
+				$oUser,$this->oUserCurrent,$sUserText,
+				Router::GetPath('talk').'read/'.$oTalk->getId().'/'
+			);			
 			/**
 			 * Удаляем отправляющего юзера из переписки
 			 */	

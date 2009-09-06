@@ -292,7 +292,7 @@ class LsNotify extends Module {
 	 * @param UserEntity_User $oUserTo
 	 * @param UserEntity_User $oUserFrom
 	 */
-	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom) {		
+	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom, $sText,$sPath) {		
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -304,6 +304,9 @@ class LsNotify extends Module {
 		 */
 		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
 		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);		
+		$this->oViewerLocal->Assign('sText',$sText);
+		$this->oViewerLocal->Assign('sPath',$sPath);
+		
 		/**
 		 * Формируем шаблон
 		 */
