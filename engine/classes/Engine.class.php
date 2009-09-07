@@ -265,7 +265,7 @@ class Engine extends Object {
 	 * @param  mixed  $aParams
 	 * @return mixed
 	 */
-	public static function GetEntity($sName,$aParams) {
+	public static function GetEntity($sName,$aParams=array()) {
 		/**
 		 * Сущности, имеющие такое же название как модуль, 
 		 * можно вызывать сокращенно. Например, вместо User_User -> User
@@ -279,32 +279,34 @@ class Engine extends Object {
 		 * Проверяем наличие сущности в меппере кастомизации
 		 */
 		if(array_key_exists($sName,self::$aEntityCustoms)) {
-			$sEntity=self::$aEntityCustoms[$sName];
-			$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
+			$sEntity = (self::$aEntityCustoms[$sName]=='custom')
+				? $sEntity.'_custom'
+				: $sEntity;
+			//$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.'.((self::$aEntityCustoms[$sName]=='custom')?'custom.':'').'php';
 		} else {
 			$sFileDefaultClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
-			$sFileCustomClass = Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'Custom.entity.class.php';
+			$sFileCustomClass = Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php';
 			/**
-			 * Пытаем найти кастомизированную сущность
+			 * Пытаемся найти кастомизированную сущность
 			 */
 			if(file_exists($sFileCustomClass)) {
 				$sFileClass=$sFileCustomClass;
-				$sEntity.='Custom';
+				$sEntity.='_custom';
+				self::$aEntityCustoms[$sName]='custom';	
 			} elseif(file_exists($sFileDefaultClass)) {
 				$sFileClass=$sFileDefaultClass;
+				self::$aEntityCustoms[$sName]='default';
 			} else {
 				throw new Exception('Entity class not found');
 				return null;
 			}
+			/**
+			 * Подгружаем нужный файл
+			 */
+			require_once($sFileClass);		
 		}
 		
-		/**
-		 * Подгружаем нужный файл
-		 */
-		require_once($sFileClass);
-		self::$aEntityCustoms[$sName]=$sEntity;		
 		$sClass=$sModule.'Entity_'.$sEntity;
-			
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
