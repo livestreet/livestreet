@@ -497,7 +497,7 @@ class ActionProfile extends Action {
 	}
 	
 	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
-		$oFriendNew=new UserEntity_Friend();
+		$oFriendNew=Engine::GetEntity('User_Friend');
 		$oFriendNew->setUserTo($oUser->getId());
 		$oFriendNew->setUserFrom($this->oUserCurrent->getId());
 		// Добавляем заявку в друзья

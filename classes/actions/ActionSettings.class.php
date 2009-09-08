@@ -326,7 +326,7 @@ class ActionSettings extends Action {
 					 */
 					if ($this->oUserCurrent->getProfileCountry()) {
 						if (!($oCountry=$this->User_GetCountryByName($this->oUserCurrent->getProfileCountry()))) {
-							$oCountry=new UserEntity_Country();
+							$oCountry=Engine::GetEntity('User_Country');
 							$oCountry->setName($this->oUserCurrent->getProfileCountry());
 							$this->User_AddCountry($oCountry);
 						}
@@ -337,7 +337,7 @@ class ActionSettings extends Action {
 					 */
 					if ($this->oUserCurrent->getProfileCity()) {
 						if (!($oCity=$this->User_GetCityByName($this->oUserCurrent->getProfileCity()))) {
-							$oCity=new UserEntity_City();
+							$oCity=Engine::GetEntity('User_City');
 							$oCity->setName($this->oUserCurrent->getProfileCity());
 							$this->User_AddCity($oCity);
 						}

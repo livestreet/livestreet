@@ -100,7 +100,7 @@ class Mapper_Comment extends Mapper {
 		$aComments=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aComments[]=new CommentEntity_Comment($aRow);
+				$aComments[]=Engine::GetEntity('Comment',$aRow);
 			}			
 		}
 		return $aComments;

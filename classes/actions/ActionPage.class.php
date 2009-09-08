@@ -218,7 +218,7 @@ class ActionPage extends Action {
 		/**
 		 * Заполняем свойства
 		 */
-		$oPage=new PageEntity_Page();
+		$oPage=Engine::GetEntity('Page');
 		$oPage->setActive(getRequest('page_active') ? 1 : 0);
 		$oPage->setDateAdd(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {

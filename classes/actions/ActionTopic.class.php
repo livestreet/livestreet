@@ -280,7 +280,7 @@ class ActionTopic extends Action {
 		/**
 		 * Теперь можно смело добавлять топик к блогу
 		 */
-		$oTopic=new TopicEntity_Topic();
+		$oTopic=Engine::GetEntity('Topic');
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('topic');

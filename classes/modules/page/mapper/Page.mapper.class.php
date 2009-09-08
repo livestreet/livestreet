@@ -74,7 +74,7 @@ class Mapper_Page extends Mapper {
 	public function GetPageByUrlFull($sUrlFull,$iActive) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.page')." WHERE page_url_full = ? and page_active = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUrlFull,$iActive)) {
-			return new PageEntity_Page($aRow);
+			return Engine::GetEntity('Page',$aRow);
 		}
 		return null;
 	}
@@ -82,7 +82,7 @@ class Mapper_Page extends Mapper {
 	public function GetPageById($sId) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.page')." WHERE page_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
-			return new PageEntity_Page($aRow);
+			return Engine::GetEntity('Page',$aRow);
 		}
 		return null;
 	}
@@ -128,7 +128,7 @@ class Mapper_Page extends Mapper {
 		$aResult=array();
 		if ($aRows=$this->oDb->select($sql,$sPid)) {
 			foreach ($aRows as $aRow) {
-				$aResult[]=new PageEntity_Page($aRow);
+				$aResult[]=Engine::GetEntity('Page',$aRow);
 			}
 		}
 		return $aResult;

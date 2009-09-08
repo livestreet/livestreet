@@ -249,7 +249,7 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function CreatePersonalBlog(UserEntity_User $oUser) {
-		$oBlog=new BlogEntity_Blog();
+		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($oUser->getId());
 		$oBlog->setTitle($this->Lang_Get('blogs_personal_title').' '.$oUser->getLogin());
 		$oBlog->setType('personal');

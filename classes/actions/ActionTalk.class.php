@@ -531,7 +531,7 @@ class ActionTalk extends Action {
 		/**
 		* Создаём коммент
 		*/
-		$oCommentNew=new CommentEntity_Comment();
+		$oCommentNew=Engine::GetEntity('Comment');
 		$oCommentNew->setTargetId($oTalk->getId());
 		$oCommentNew->setTargetType('talk');
 		$oCommentNew->setUserId($this->oUserCurrent->getId());		
@@ -846,7 +846,7 @@ class ActionTalk extends Action {
 							case LsTalk::TALK_USER_DELETE_BY_AUTHOR:
 								if (
 									$this->Talk_AddTalkUser(
-										new TalkEntity_TalkUser(
+										Engine::GetEntity('Talk_TalkUser',
 											array(
 												'talk_id'=>$idTalk,
 												'user_id'=>$oUser->getId(),
@@ -902,7 +902,7 @@ class ActionTalk extends Action {
 						}
 					} elseif (
 							$this->Talk_AddTalkUser(
-								new TalkEntity_TalkUser(
+								Engine::GetEntity('Talk_TalkUser',
 									array(
 										'talk_id'=>$idTalk,
 										'user_id'=>$oUser->getId(),

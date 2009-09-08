@@ -404,7 +404,7 @@ class LsUser extends Module {
 	 * @param UserEntity_User $oUser
 	 * @return unknown
 	 */
-	public function Authorization(UserEntity_User $oUser,$bRemember=true) {
+	public function Authorization(UserEntity_User $oUser,$bRemember=true) {	
 		if (!$oUser->getId() or !$oUser->getActivate()) {
 			return false;
 		}
@@ -509,7 +509,7 @@ class LsUser extends Module {
 	protected function CreateSession(UserEntity_User $oUser,$sKey) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_session_update'));
 		$this->Cache_Delete("user_session_{$oUser->getId()}");
-		$oSession=new UserEntity_Session();
+		$oSession=Engine::GetEntity('User_Session');
 		$oSession->setUserId($oUser->getId());
 		$oSession->setKey($sKey);
 		$oSession->setIpLast(func_getIp());
@@ -864,7 +864,7 @@ class LsUser extends Module {
 	 * @return unknown
 	 */
 	public function GenerateInvite($oUser) {
-		$oInvite=new UserEntity_Invite();
+		$oInvite=Engine::GetEntity('User_Invite');
 		$oInvite->setCode(func_generator(32));
 		$oInvite->setDateAdd(date("Y-m-d H:i:s"));
 		$oInvite->setUserFromId($oUser->getId());

@@ -126,7 +126,7 @@ class ActionRegistration extends Action {
 				/**
 				 * Создаем юзера
 				 */
-				$oUser=new UserEntity_User();
+				$oUser=Engine::GetEntity('User');
 				$oUser->setLogin(getRequest('login'));
 				$oUser->setMail(getRequest('mail'));
 				$oUser->setPassword(func_encrypt(getRequest('password')));

@@ -134,7 +134,7 @@ class LsTopic extends Module {
 			if ($oTopic->getPublish()) {
 				$aTags=explode(',',$oTopic->getTags());
 				foreach ($aTags as $sTag) {
-					$oTag=new TopicEntity_TopicTag();
+					$oTag=Engine::GetEntity('Topic_TopicTag');
 					$oTag->setTopicId($oTopic->getId());
 					$oTag->setUserId($oTopic->getUserId());
 					$oTag->setBlogId($oTopic->getBlogId());
@@ -196,7 +196,7 @@ class LsTopic extends Module {
 				$this->DeleteTopicTagsByTopicId($oTopic->getId());
 				if ($oTopic->getPublish()) {
 					foreach ($aTags as $sTag) {
-						$oTag=new TopicEntity_TopicTag();
+						$oTag=Engine::GetEntity('Topic_TopicTag');
 						$oTag->setTopicId($oTopic->getId());
 						$oTag->setUserId($oTopic->getUserId());
 						$oTag->setBlogId($oTopic->getBlogId());

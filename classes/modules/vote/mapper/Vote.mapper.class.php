@@ -54,7 +54,7 @@ class Mapper_Vote extends Mapper {
 		$aVotes=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$sTargetType,$sUserId)) {
 			foreach ($aRows as $aRow) {
-				$aVotes[]=new VoteEntity_Vote($aRow);
+				$aVotes[]=Engine::GetEntity('Vote',$aRow);
 			}
 		}		
 		return $aVotes;

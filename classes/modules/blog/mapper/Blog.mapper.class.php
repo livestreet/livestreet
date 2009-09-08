@@ -80,7 +80,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogs=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aBlog) {
-				$aBlogs[]=new BlogEntity_Blog($aBlog);
+				$aBlogs[]=Engine::GetEntity('Blog',$aBlog);
 			}
 		}		
 		return $aBlogs;
@@ -153,7 +153,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql)) {
 			foreach ($aRows as $aUser) {
-				$aBlogUsers[]=new BlogEntity_BlogUser($aUser);
+				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
 		}
 		return $aBlogUsers;
@@ -175,7 +175,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
 			foreach ($aRows as $aUser) {
-				$aBlogUsers[]=new BlogEntity_BlogUser($aUser);
+				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
 		}
 		return $aBlogUsers;
@@ -289,7 +289,7 @@ class Mapper_Blog extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new BlogEntity_Blog($aRow);
+				$aReturn[]=Engine::GetEntity('Blog',$aRow);
 			}
 		}
 		return $aReturn;
@@ -311,7 +311,7 @@ class Mapper_Blog extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new BlogEntity_Blog($aRow);
+				$aReturn[]=Engine::GetEntity('Blog',$aRow);
 			}
 		}
 		return $aReturn;

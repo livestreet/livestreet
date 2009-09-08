@@ -118,7 +118,7 @@ class LsPage extends Module {
 			$aTemp=$aPage;
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
-			$aResultPages[]=new PageEntity_Page($aTemp);			
+			$aResultPages[]=Engine::GetEntity('Page',$aTemp);			
 			if (isset($aPage['childNodes']) and count($aPage['childNodes'])>0) {
 				$iLevel++;
 				$this->BuildPagesRecursive($aPage['childNodes'],false);

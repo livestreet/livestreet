@@ -50,7 +50,7 @@ class Mapper_Favourite extends Mapper {
 		$aFavourites=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$sTargetType,$sUserId)) {
 			foreach ($aRows as $aRow) {
-				$aFavourites[]=new FavouriteEntity_Favourite($aRow);
+				$aFavourites[]=Engine::GetEntity('Favourite',$aRow);
 			}
 		}		
 		return $aFavourites;

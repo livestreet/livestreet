@@ -127,7 +127,7 @@ class ActionLogin extends Action {
 				/**
 				 * Формируем и отправляем ссылку на смену пароля
 				 */
-				$oReminder=new UserEntity_Reminder();
+				$oReminder=Engine::GetEntity('User_Reminder');
 				$oReminder->setCode(func_generator(32));
 				$oReminder->setDateAdd(date("Y-m-d H:i:s"));
 				$oReminder->setDateExpire(date("Y-m-d H:i:s",time()+60*60*24*7));

@@ -68,7 +68,7 @@ class LsTalk extends Module {
 		}
 		$aUserIdTo=array_unique($aUserIdTo);
 		if(!empty($aUserIdTo)) {
-			$oTalk=new TalkEntity_Talk();
+			$oTalk=Engine::GetEntity('Talk');
 			$oTalk->setUserId($iUserIdFrom);
 			$oTalk->setTitle($sTitle);
 			$oTalk->setText($sText);
@@ -77,7 +77,7 @@ class LsTalk extends Module {
 			$oTalk->setUserIp(func_getIp());
 			if ($oTalk=$this->AddTalk($oTalk)) {
 				foreach ($aUserIdTo as $iUserId) {
-					$oTalkUser=new TalkEntity_TalkUser();
+					$oTalkUser=Engine::GetEntity('Talk_TalkUser');
 					$oTalkUser->setTalkId($oTalk->getId());
 					$oTalkUser->setUserId($iUserId);
 					if ($iUserId==$iUserIdFrom) {
@@ -350,7 +350,7 @@ class LsTalk extends Module {
 		// Удаляем для каждого отметку избранного
 		foreach ($aTalkId as $sTalkId) {
 			$this->DeleteFavouriteTalk(
-				new FavouriteEntity_Favourite(
+				Engine::GetEntity('Favourite',
 					array(
 						'target_id' => $sTalkId,
 						'target_type' => 'talk',

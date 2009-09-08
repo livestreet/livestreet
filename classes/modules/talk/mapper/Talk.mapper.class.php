@@ -59,7 +59,7 @@ class Mapper_Talk extends Mapper {
 		$aTalks=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aTalks[]=new TalkEntity_Talk($aRow);
+				$aTalks[]=Engine::GetEntity('Talk',$aRow);
 			}
 		}		
 		return $aTalks;
@@ -82,7 +82,7 @@ class Mapper_Talk extends Mapper {
 		$aTalkUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aTalkUsers[]=new TalkEntity_TalkUser($aRow);
+				$aTalkUsers[]=Engine::GetEntity('Talk_TalkUser',$aRow);
 			}
 		}
 		return $aTalkUsers;
@@ -103,7 +103,7 @@ class Mapper_Talk extends Mapper {
 					";
 		
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
-			return new TalkEntity_Talk($aRow);
+			return Engine::GetEntity('Talk',$aRow);
 		}
 		return null;
 	}
@@ -299,7 +299,7 @@ class Mapper_Talk extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sTalkId)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new TalkEntity_TalkUser($aRow);
+				$aReturn[]=Engine::GetEntity('Talk_TalkUser',$aRow);
 			}
 		}
 

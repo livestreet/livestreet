@@ -134,7 +134,7 @@ class Mapper_Topic extends Mapper {
 		$aTopics=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aTopic) {
-				$aTopics[]=new TopicEntity_Topic($aTopic);
+				$aTopics[]=Engine::GetEntity('Topic',$aTopic);
 			}
 		}		
 		return $aTopics;
@@ -248,7 +248,7 @@ class Mapper_Topic extends Mapper {
 			}
 			ksort($aReturn);
 			foreach ($aReturn as $aRow) {
-				$aReturnSort[]=new TopicEntity_TopicTag($aRow);				
+				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);				
 			}
 		}
 		return $aReturnSort;
@@ -363,7 +363,7 @@ class Mapper_Topic extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sTag.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new TopicEntity_TopicTag($aRow);
+				$aReturn[]=Engine::GetEntity('Topic_TopicTag',$aRow);
 			}
 		}
 		return $aReturn;
@@ -413,7 +413,7 @@ class Mapper_Topic extends Mapper {
 		$aReads=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aReads[]=new TopicEntity_TopicRead($aRow);
+				$aReads[]=Engine::GetEntity('Topic_TopicRead',$aRow);
 			}
 		}		
 		return $aReads;
@@ -452,7 +452,7 @@ class Mapper_Topic extends Mapper {
 		$aVotes=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aVotes[]=new TopicEntity_TopicQuestionVote($aRow);
+				$aVotes[]=Engine::GetEntity('Topic_TopicQuestionVote',$aRow);
 			}
 		}		
 		return $aVotes;

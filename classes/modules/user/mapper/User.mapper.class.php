@@ -157,7 +157,7 @@ class Mapper_User extends Mapper {
 		$aRes=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId)) {
 			foreach ($aRows as $aRow) {
-				$aRes[]=new UserEntity_Session($aRow);
+				$aRes[]=Engine::GetEntity('User_Session',$aRow);
 			}
 		}		
 		return $aRes;
@@ -180,7 +180,7 @@ class Mapper_User extends Mapper {
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aUser) {
-				$aUsers[]=new UserEntity_User($aUser);
+				$aUsers[]=Engine::GetEntity('User',$aUser);
 			}
 		}		
 		return $aUsers;
@@ -460,7 +460,7 @@ class Mapper_User extends Mapper {
 		if ($aRows) {
 			foreach ($aRows as $aRow) {
 				$aRow['user']=$sUserId;
-				$aRes[]=new UserEntity_Friend($aRow);
+				$aRes[]=Engine::GetEntity('User_Friend',$aRow);
 			}
 		}			
 		return $aRes;
@@ -583,7 +583,7 @@ class Mapper_User extends Mapper {
 	public function GetInviteByCode($sCode,$iUsed=0) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.invite')." WHERE invite_code = ? and invite_used = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode,$iUsed)) {
-			return new UserEntity_Invite($aRow);
+			return Engine::GetEntity('User_Invite',$aRow);
 		}
 		return null;
 	}
@@ -675,7 +675,7 @@ class Mapper_User extends Mapper {
 	public function GetCountryByName($sName) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.country')." WHERE country_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
-			return new UserEntity_Country($aRow);
+			return Engine::GetEntity('User_Country',$aRow);
 		}
 		return null;
 	}
@@ -746,7 +746,7 @@ class Mapper_User extends Mapper {
 	public function GetCityByName($sName) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.city')." WHERE city_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
-			return new UserEntity_City($aRow);
+			return Engine::GetEntity('User_City',$aRow);
 		}
 		return null;
 	}
@@ -774,7 +774,7 @@ class Mapper_User extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_City($aRow);
+				$aReturn[]=Engine::GetEntity('User_City',$aRow);
 			}
 		}
 		return $aReturn;
@@ -792,7 +792,7 @@ class Mapper_User extends Mapper {
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
-				$aReturn[]=new UserEntity_Country($aRow);
+				$aReturn[]=Engine::GetEntity('User_Country',$aRow);
 			}
 		}
 		return $aReturn;
@@ -823,7 +823,7 @@ class Mapper_User extends Mapper {
 				WHERE 	
 					reminder_code = ?";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {
-			return new UserEntity_Reminder($aRow);
+			return Engine::GetEntity('User_Reminder',$aRow);
 		}
 		return null;
 	}

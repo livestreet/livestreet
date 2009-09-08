@@ -174,7 +174,7 @@ class ActionBlog extends Action {
 		/**
 		 * Если всё ок то пытаемся создать блог
 		 */
-		$oBlog=new BlogEntity_Blog();
+		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($this->oUserCurrent->getId());
 		$oBlog->setTitle(getRequest('blog_title'));
 		/**
@@ -609,7 +609,7 @@ class ActionBlog extends Action {
 		 * Отмечаем дату прочтения топика
 		 */
 		if ($this->oUserCurrent) {
-			$oTopicRead=new TopicEntity_TopicRead();
+			$oTopicRead=Engine::GetEntity('Topic_TopicRead');
 			$oTopicRead->setTopicId($oTopic->getId());
 			$oTopicRead->setUserId($this->oUserCurrent->getId());
 			$oTopicRead->setCommentCountLast($oTopic->getCountComment());
@@ -812,7 +812,7 @@ class ActionBlog extends Action {
 		/**
 		* Создаём коммент
 		*/
-		$oCommentNew=new CommentEntity_Comment();
+		$oCommentNew=Engine::GetEntity('Comment');
 		$oCommentNew->setTargetId($oTopic->getId());
 		$oCommentNew->setTargetType('topic');
 		$oCommentNew->setUserId($this->oUserCurrent->getId());		
@@ -831,7 +831,7 @@ class ActionBlog extends Action {
 				/**
 			 	* Добавляем коммент в прямой эфир если топик не в черновиках
 			 	*/					
-				$oCommentOnline=new CommentEntity_CommentOnline();
+				$oCommentParent=Engine::GetEntity('Comment_CommentOnline');
 				$oCommentOnline->setTargetId($oCommentNew->getTargetId());
 				$oCommentOnline->setTargetType($oCommentNew->getTargetType());
 				$oCommentOnline->setCommentId($oCommentNew->getId());
