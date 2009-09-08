@@ -831,7 +831,7 @@ class ActionBlog extends Action {
 				/**
 			 	* Добавляем коммент в прямой эфир если топик не в черновиках
 			 	*/					
-				$oCommentParent=Engine::GetEntity('Comment_CommentOnline');
+				$oCommentOnline=Engine::GetEntity('Comment_CommentOnline');
 				$oCommentOnline->setTargetId($oCommentNew->getTargetId());
 				$oCommentOnline->setTargetType($oCommentNew->getTargetType());
 				$oCommentOnline->setCommentId($oCommentNew->getId());
