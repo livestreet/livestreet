@@ -36,7 +36,7 @@ if ($oEngine->User_IsAuthorization()) {
 		$aReturn=$oEngine->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		
-		$oTopicRead=new TopicEntity_TopicRead();
+		$oTopicRead=Engine::GetEntity('Topic_TopicRead');
 		$oTopicRead->setTopicId($oTopic->getId());
 		$oTopicRead->setUserId($oUserCurrent->getId());
 		$oTopicRead->setCommentCountLast($oTopic->getCountComment());

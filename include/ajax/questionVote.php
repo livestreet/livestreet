@@ -44,7 +44,7 @@ if ($oEngine->User_IsAuthorization()) {
 					}
 					$oTopic->setQuestionCountVote($oTopic->getQuestionCountVote()+1);
 					
-					$oTopicQuestionVote=new TopicEntity_TopicQuestionVote();
+					$oTopicQuestionVote=Engine::GetEntity('Topic_TopicQuestionVote');
 					$oTopicQuestionVote->setTopicId($oTopic->getId());
 					$oTopicQuestionVote->setVoterId($oUserCurrent->getId());
 					$oTopicQuestionVote->setAnswer($idAnswer);	

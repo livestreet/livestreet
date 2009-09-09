@@ -36,7 +36,7 @@ if ($oEngine->User_IsAuthorization()) {
 			if (!($oBlogVote=$oEngine->Vote_GetVote($oBlog->getId(),'blog',$oUserCurrent->getId()))) {
 				if ($oEngine->ACL_CanVoteBlog($oUserCurrent,$oBlog)) {
 					if (in_array($iValue,array('1','-1'))) {
-						$oBlogVote=new VoteEntity_Vote();
+						$oBlogVote=Engine::GetEntity('Vote');
 						$oBlogVote->setTargetId($oBlog->getId());
 						$oBlogVote->setTargetType('blog');
 						$oBlogVote->setVoterId($oUserCurrent->getId());

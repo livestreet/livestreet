@@ -37,7 +37,7 @@ if ($oEngine->User_IsAuthorization()) {
 			if (!($oUserVote=$oEngine->Vote_GetVote($oUser->getId(),'user',$oUserCurrent->getId()))) {
 				if ($oEngine->ACL_CanVoteUser($oUserCurrent,$oUser)) {
 					if (in_array($iValue,array('1','-1'))) {
-						$oUserVote=new VoteEntity_Vote();
+						$oUserVote=Engine::GetEntity('Vote');
 						$oUserVote->setTargetId($oUser->getId());
 						$oUserVote->setTargetType('user');
 						$oUserVote->setVoterId($oUserCurrent->getId());

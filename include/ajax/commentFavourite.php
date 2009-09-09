@@ -35,7 +35,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			$oFavouriteComment=$oEngine->Comment_GetFavouriteComment($oComment->getId(),$oUserCurrent->getId());
 			if (!$oFavouriteComment and $iType) {
-				$oFavouriteCommentNew=new FavouriteEntity_Favourite(
+				$oFavouriteCommentNew=Engine::GetEntity('Favourite',
 					array(
 						'target_id'      => $oComment->getId(),
 						'target_type'    => 'comment',

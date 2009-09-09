@@ -43,7 +43,7 @@ if ($oEngine->User_IsAuthorization()) {
 						/**
 					 	* Присоединяем юзера к блогу
 					 	*/
-						$oBlogUserNew=new BlogEntity_BlogUser();
+						$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
 						$oBlogUserNew->setBlogId($oBlog->getId());
 						$oBlogUserNew->setUserId($oUserCurrent->getId());
 						if ($oEngine->Blog_AddRelationBlogUser($oBlogUserNew)) {

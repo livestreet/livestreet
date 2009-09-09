@@ -35,7 +35,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			$oFavouriteTalk=$oEngine->Talk_GetFavouriteTalk($oTalk->getId(),$oUserCurrent->getId());
 			if (!$oFavouriteTalk and $iType) {
-				$oFavouriteTalkNew=new FavouriteEntity_Favourite(
+				$oFavouriteTalkNew=Engine::GetEntity('Favourite',
 					array(
 						'target_id'      => $oTalk->getId(),
 						'target_type'    => 'talk',

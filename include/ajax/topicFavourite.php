@@ -35,7 +35,7 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			$oFavouriteTopic=$oEngine->Topic_GetFavouriteTopic($oTopic->getId(),$oUserCurrent->getId());
 			if (!$oFavouriteTopic and $iType) {
-				$oFavouriteTopicNew=new FavouriteEntity_Favourite(
+				$oFavouriteTopicNew=Engine::GetEntity('Favourite',
 					array(
 						'target_id'      => $oTopic->getId(),
 						'user_id'        => $oUserCurrent->getId(),
