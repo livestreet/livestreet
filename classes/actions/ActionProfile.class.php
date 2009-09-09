@@ -222,7 +222,7 @@ class ActionProfile extends Action {
 			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
 			$this->Message_Shutdown();
 			
-			func_header_location(Router::GetPath('talk'));
+			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
 		
@@ -247,7 +247,7 @@ class ActionProfile extends Action {
 			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
 			$this->Message_Shutdown();
 			
-			func_header_location(Router::GetPath('talk'));
+			Router::Location(Router::GetPath('talk'));
 			return ;			
 		}		
 		
@@ -275,7 +275,7 @@ class ActionProfile extends Action {
 		}
 		
 		$this->Message_Shutdown();
-		func_header_location(Router::GetPath('talk'));
+		Router::Location(Router::GetPath('talk'));
 	}
 	
 	public function EventAjaxFriendAccept() {

@@ -169,7 +169,7 @@ class ActionTopic extends Action {
 		/**
 		 * Перенаправляем на страницу со списком топиков из блога этого топика
 		 */
-		func_header_location($oTopic->getBlogUrlFull());
+		Router::Location($oTopic->getBlogUrlFull());
 	}
 	/**
 	 * Добавление топика
@@ -351,7 +351,7 @@ class ActionTopic extends Action {
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {				
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);				
 			}	
-			func_header_location($oTopic->getUrl());
+			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
@@ -477,9 +477,9 @@ class ActionTopic extends Action {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
-				func_header_location($oBlog->getUrlFull());
+				Router::Location($oBlog->getUrlFull());
 			}
-			func_header_location($oTopic->getUrl());
+			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');

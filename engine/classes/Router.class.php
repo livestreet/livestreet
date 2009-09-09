@@ -348,5 +348,15 @@ class Router extends Object {
 			? $aRewrite[$sPage]
 			: $sPage;		
 	}
+	
+	/**
+	 * Выполняет редирект, предварительно завершая работу Engine
+	 *
+	 * @param string $sLocation
+	 */
+	static public function Location($sLocation) {
+		self::getInstance()->oEngine->Shutdown();
+		func_header_location($sLocation);
+	}
 }
 ?>

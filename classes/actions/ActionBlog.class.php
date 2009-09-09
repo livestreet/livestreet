@@ -212,7 +212,7 @@ class ActionBlog extends Action {
 			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
-			func_header_location($oBlog->getUrlFull());
+			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -317,7 +317,7 @@ class ActionBlog extends Action {
 			 * Обновляем блог
 			 */
 			if ($this->Blog_UpdateBlog($oBlog)) {
-				func_header_location($oBlog->getUrlFull());
+				Router::Location($oBlog->getUrlFull());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return Router::Action('error');
@@ -578,19 +578,19 @@ class ActionBlog extends Action {
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
 		if ($sBlogUrl!='' and $oTopic->getBlog()->getType()=='personal') {
-			func_header_location($oTopic->getUrl());
+			Router::Location($oTopic->getUrl());
 		}
 		/**
 		 * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
 		 */
 		if ($sBlogUrl=='' and $oTopic->getBlog()->getType()!='personal') {
-			func_header_location($oTopic->getUrl());
+			Router::Location($oTopic->getUrl());
 		}
 		/**
 		 * Если номер топика правильный но УРЛ блога косяный то корректируем его и перенаправляем на нужный адрес
 		 */
 		if ($sBlogUrl!='' and $oTopic->getBlog()->getUrl()!=$sBlogUrl) {
-			func_header_location($oTopic->getUrl());
+			Router::Location($oTopic->getUrl());
 		}
 		/**
 		 * Обрабатываем добавление коммента
