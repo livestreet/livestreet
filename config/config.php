@@ -294,7 +294,10 @@ $config['module']['talk']['period']     = 20000;
 $config['module']['talk']['max_errors'] = 4;
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках
 // Модуль Lang
-$config['module']['lang']['delete_undefined'] = true; // Если установлена true, то модуль будет автоматически удалять из языковых конструкций переменные вида %%var%%, по которым не была произведена замена
+$config['module']['lang']['delete_undefined'] = true;   // Если установлена true, то модуль будет автоматически удалять из языковых конструкций переменные вида %%var%%, по которым не была произведена замена
+// Модуль Notify 
+$config['module']['notify']['delayed']        = false;  // Указывает на необходимость использовать режим отложенной рассылки сообщений на email 
+$config['module']['notify']['insert_single']  = false;  // Если опция установлена в true, систему будет собирать записи заданий удаленной публикации, для вставки их в базу единым INSERT
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');
@@ -341,6 +344,8 @@ $config['db']['table']['country']             = $config['db']['table']['prefix']
 $config['db']['table']['country_user']        = $config['db']['table']['prefix'].'country_user';
 $config['db']['table']['reminder']            = $config['db']['table']['prefix'].'reminder';
 $config['db']['table']['session']             = $config['db']['table']['prefix'].'session';
+$config['db']['table']['notify_task']         = $config['db']['table']['prefix'].'notify_task';
+
 /**
  * Настройка memcache
  */

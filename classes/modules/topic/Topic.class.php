@@ -1072,7 +1072,7 @@ class LsTopic extends Module {
 		//отправляем создателю блога
 		if ($oBlog->getOwnerId()!=$oUserTopic->getId()) {
 			$this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(),$oTopic,$oBlog,$oUserTopic);
-		}
+		}	
 	}
 }
 ?>

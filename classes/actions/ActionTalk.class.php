@@ -946,7 +946,6 @@ class ActionTalk extends Action {
 				);
 			}	
 		}
-		
 		// Передаем во вьевер массив результатов обработки по каждому пользователю
 		$this->Viewer_AssingAjax('aUsers',$aResult);		
 	}

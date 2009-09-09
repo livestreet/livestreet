@@ -94,7 +94,7 @@ class LsTalk extends Module {
 							$this->Notify_SendTalkNew($oUserToMail,$oUserFrom,$oTalk);
 						}
 					}
-				}
+				}				
 				return $oTalk;
 			}
 		}

@@ -544,7 +544,7 @@ class ActionProfile extends Action {
 			$this->Notify_SendUserFriendNew(
 				$oUser,$this->oUserCurrent,$sUserText,
 				Router::GetPath('talk').'read/'.$oTalk->getId().'/'
-			);			
+			);		
 			/**
 			 * Удаляем отправляющего юзера из переписки
 			 */	

@@ -105,3 +105,16 @@ ALTER TABLE  `prefix_friend` ADD INDEX (  `user_from` );
 ALTER TABLE  `prefix_friend` ADD INDEX (  `user_to` );
 ALTER TABLE  `prefix_friend` ADD CONSTRAINT `prefix_friend_from_fk` FOREIGN KEY (`user_from`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE  `prefix_friend` ADD CONSTRAINT `prefix_friend_to_fk` FOREIGN KEY (`user_to`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+--
+-- Хранение заданий на отложенную отправку e-mail сообщений
+--
+CREATE TABLE  `prefix_notify_task` (
+ `notify_task_id` INT UNSIGNED AUTO_INCREMENT ,
+ `user_login` VARCHAR( 30 ) ,
+ `user_mail` VARCHAR( 50 ) ,
+ `notify_subject` VARCHAR( 200 ) ,
+ `notify_text` TEXT,
+ `date_created` DATETIME,
+ `notify_task_status` TINYINT( 2 ) UNSIGNED,
+PRIMARY KEY (  `notify_task_id` )
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;

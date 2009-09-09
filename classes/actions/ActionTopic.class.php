@@ -350,7 +350,7 @@ class ActionTopic extends Action {
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {				
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);				
-			}			
+			}	
 			func_header_location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
