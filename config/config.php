@@ -184,6 +184,10 @@ $config['block']['blogs']['row']  = 10;  // сколько записей выв
  */
 $config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
 $config['path']['root']['server']     = $_SERVER['DOCUMENT_ROOT'];           // полный путь до сайта в файловой системе
+/**
+ * Для CLI режима использовать
+ * $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе 
+ */
 $config['path']['root']['engine']     = $config['path']['root']['server'].'/engine';  // полный путь до сайта в файловой системе;
 $config['path']['root']['engine_lib'] = $config['path']['root']['web'].'/engine/lib'; // полный путь до сайта в файловой системе
 $config['path']['static']['root']     = $config['path']['root']['web'];      // чтоб можно было статику засунуть на отдельный сервер
@@ -298,6 +302,7 @@ $config['module']['lang']['delete_undefined'] = true;   // Если устано
 // Модуль Notify 
 $config['module']['notify']['delayed']        = false;  // Указывает на необходимость использовать режим отложенной рассылки сообщений на email 
 $config['module']['notify']['insert_single']  = false;  // Если опция установлена в true, систему будет собирать записи заданий удаленной публикации, для вставки их в базу единым INSERT
+$config['module']['notify']['per_process']    = 10;     // Количество отложенных заданий, обрабатываемых одним крон-процессом
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');

@@ -43,13 +43,6 @@ class Cron extends Object {
 
 		if(!empty($sLockFile)) {
 			$this->oLockFile=fopen($sLockFile,'a');
-			/**
-			 * Если процесс заблокирован, выкидываем исключение
-			 */
-			if($this->isLock()) {			
-				throw new Exception('Try to exec already run process');
-			}
-			$this->setLock();
 		}
 	}
 	
@@ -74,16 +67,12 @@ class Cron extends Object {
 	 * @param ( string|array ) $sFunction
 	 * @param array $aArgs
 	 */
-	public function Exec($sFunction, $aArgs) {
+	public function Exec() {
 		/**
 		 * Если выполнение процесса заблокирован, завершаемся
 		 */
 		if($this->isLock()) {
-			return;
-		}
-		
-		if(!function_exists($sFunction)||!is_callable($sFunction)) {
-			throw new Exception('Undefined function given');
+			throw new Exception('Try to exec already run process');
 		}
 		/**
 		 * Здесь мы реализуем дополнительную логику:
@@ -91,12 +80,14 @@ class Cron extends Object {
 		 * буферизация вывода.
 		 */
 		ob_start();
-		call_user_func_array($sFunction,$aArgs);
+		$this->Client();
 		/**
 		 * Получаем весь вывод функции.
 		 */
 		$sContent=ob_get_contents();
 		ob_end_clean();
+		
+		return $sContent;
 	}
 	
 	/**
@@ -105,10 +96,15 @@ class Cron extends Object {
 	public function Shutdown() {
 		$this->unsetLock();	
 	}
-	
 	public function __destruct() {
 		$this->Shutdown();
-		return;	
+	}
+	/**
+	 * Клиентская функция будет переопределятся в наследниках класса
+	 * для обеспечивания выполнения основного функционала.
+	 */
+	public function Client(){
+		throw new Exception('Call undefined client function');
 	}
 }
 ?>

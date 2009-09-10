@@ -91,7 +91,17 @@ class Mapper_Notify extends Mapper {
 	}
 	
 	public function GetTasks($iLimit) {
-		return array();
+		$sql = "SELECT *
+				FROM ".Config::Get('db.table.notify_task')."	
+				ORDER BY date_created ASC
+				LIMIT ?d";
+		$aTasks=array();
+		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+			foreach ($aRows as $aTask) {
+				$aTasks[]=Engine::GetEntity('Notify_Task',$aTask);
+			}
+		}		
+		return $aTasks;		
 	}
 }
 ?>

@@ -53,7 +53,7 @@ class LsNotify extends Module {
 	 */
 	public function Init() {		
 		if (!class_exists('LsViewer')) {
-			require_once(Config::Get('path.root.engine')."/modules/sys_viewer/Viewer.class.php");
+			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
 		$this->oViewerLocal=new LsViewer(Engine::getInstance());
 		$this->oViewerLocal->Init();
@@ -580,6 +580,49 @@ class LsNotify extends Module {
 			$this->oMapper->AddTaskArray($this->aTask);
 			$this->aTask=array();
 		}
+	}
+	
+	/**
+	 * Получает массив заданий на публикацию из базы 
+	 * с указанным количественным ограничением (выборка FIFO)
+	 *
+	 * @param  int   $iLimit
+	 * @return array
+	 */
+	public function GetTasksDelayed($iLimit=10) {
+		return ($aResult=$this->oMapper->GetTasks($iLimit))
+			? $aResult
+			: array();
+	}
+	/**
+	 * Отправляет на e-mail 
+	 *
+	 * @param NotifyEntity_Task $oTask
+	 */
+	public function SendTask($oTask) {
+		$this->Mail_SetAdress($oTask->getUserMail(),$oTask->getUserLogin());
+		$this->Mail_SetSubject($oTask->getNotifySubject());
+		$this->Mail_SetBody($oTask->getNotifyText());
+		$this->Mail_setHTML();
+		$this->Mail_Send();
+	}
+	/**
+	 * Удаляет отложенное Notify-задание из базы
+	 *
+	 * @param  NotifyEntity_Task $oTask
+	 * @return bool
+	 */
+	public function DeleteTask($oTask) {
+		return $this->oMapper->DeleteTask($oTask);
+	}
+	/**
+	 * Удаляет отложенные Notify-задания по списку идентификаторов
+	 *
+	 * @param  array $aArrayId
+	 * @return bool	 
+	 */
+	public function DeleteTaskByArrayId($aArrayId) {
+		return $this->oMapper->DeleteTaskByArrayId($aArrayId);
 	}
 }
 ?>

@@ -17,6 +17,7 @@
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 require_once(Config::Get('path.root.engine').'/lib/internal/ProfilerSimple/Profiler.class.php');
+
 require_once("Object.class.php");
 require_once("Block.class.php");
 require_once("Hook.class.php");
