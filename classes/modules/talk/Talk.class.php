@@ -431,6 +431,7 @@ class LsTalk extends Module {
 		 */		
 		foreach ($aTalks as $oTalk) {
 			$aResult=$this->GetTalkUsersByTalkId($oTalk->getId());
+			$aTalkUsers=array();
 			foreach ((array)$aResult as $oTalkUser) {
 				$aTalkUsers[$oTalkUser->getUserId()]=$oTalkUser;
 			}			
