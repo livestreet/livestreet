@@ -196,6 +196,7 @@ function func_header_location($sLocation) {
  * @return unknown
  */
 function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true) {
+	/**
 	if (!($aSize=getimagesize($sFileSrc))) {		
 		return false;
 	}	
@@ -274,6 +275,39 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
 			return $sFileDest;
 		}
 	}
+	return false;
+	**/
+	require_once Config::Get('path.root.engine').'/lib/external/LiveImage/Image.php';
+	$oImage=new LiveImage($sFileSrc);
+	
+	if($oImage->get_last_error()){
+		return false;
+	}
+	$sFileDest.='.'.$oImage->get_image_params('format');
+	if (($oImage->get_image_params('width')>$iWidthMax) 
+		or ($oImage->get_image_params('height')>$iHeightMax)) {
+			return false;
+	}
+	$sFileFullPath=Config::Get('path.root.server').'/'.$sDirDest.'/'.$sFileDest;
+	@func_mkdir(Config::Get('path.root.server'),$sDirDest);
+		
+	if ($iWidthDest) {
+		if (!$bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
+			$iWidthDest=$oImage->get_image_params('width');
+		}
+		/**
+		 * Ресайзим и выводим результат в файл.
+		 * Если не задана новая высота, то применяем масштабирование.
+		 */
+		$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest));
+		$oImage->output(null,$sFileFullPath);
+		chmod($sFileFullPath,0666);
+		return $sFileDest;
+	} elseif (copy($sFileSrc,$sFileFullPath)) {
+		chmod($sFileFullPath,0666);
+		return $sFileDest;
+	}
+	
 	return false;
 }
 
