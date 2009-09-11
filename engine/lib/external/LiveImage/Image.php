@@ -106,8 +106,10 @@ class LiveImage {
 		/**
 		 * Определяем тип файла изображения
 		 */
+		$size['mime']=image_type_to_mime_type($size['mime']);
 		switch ($size['mime']) {
 			case 'image/png':
+			case "image/x-png":			
 				$tmp=imagecreatefrompng($file);
 				$this->format='png';
 				break;
@@ -115,7 +117,9 @@ class LiveImage {
 				$tmp=imagecreatefromgif($file);
 				$this->format='gif';
 				break;
-			case 'image/jpeg':
+		    case "image/pjpeg":
+			case "image/jpeg":
+			case "image/jpg":
 				$tmp=imagecreatefromjpeg($file);
 				$this->format='jpg';
 				break;
@@ -196,6 +200,46 @@ class LiveImage {
 		return true;
 	}
 
+	/**
+	 * Crop image
+	 *
+	 * @param  int   $width
+	 * @param  int   $height
+	 * @param  int   $start_width
+	 * @param  int   $start_height
+	 * @return mixed
+	 */
+	public function crop($width, $height, $start_width, $start_height) {
+		if($this->truecolor) {
+			$tmp=imagecreatetruecolor($width,$height);
+		} else {
+			$tmp=imagecreate($width,$height);
+		}
+
+		/**
+		 * Если темп-изображение не создано, ставим отметку об ошикбе
+		 */
+		if(!$tmp) {
+			$this->set_last_error(1);
+			return false;
+		}
+		
+		@imagesavealpha($tmp,true);
+		@imagealphablending($tmp,false);
+		
+		if(!@imagecopyresampled($tmp,$this->image,$start_width,$start_height,$width,$height,$width,$height)) {
+			imagedestroy($tmp);
+			return false;
+		}
+
+		imagedestroy($this->image);
+		$this->image=$tmp;
+		$this->width=$width;
+		$this->height=$height;
+		
+		return true;		
+	}
+	
 	/**
 	 * Return image object
 	 *
