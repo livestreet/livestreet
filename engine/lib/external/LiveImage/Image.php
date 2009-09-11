@@ -106,7 +106,6 @@ class LiveImage {
 		/**
 		 * Определяем тип файла изображения
 		 */
-		$size['mime']=image_type_to_mime_type($size['mime']);
 		switch ($size['mime']) {
 			case 'image/png':
 			case "image/x-png":			
@@ -550,8 +549,8 @@ class LiveImage {
 	}
 
 	public function set_last_error($id) {
-		$this->last_err_text=$this->error_messages[$id];
-		$this->last_err_num=$this->$id;
+		$this->last_err_text = $this->error_messages[$id];
+		$this->last_err_num  = $id;
 	}
 
 	public function get_last_error() {
