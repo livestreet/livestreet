@@ -248,6 +248,7 @@ $config['sys']['logs']['sql_query']      = false;           // логирова�
 $config['sys']['logs']['sql_query_file'] = 'sql_query.log'; // файл лога SQL запросов
 $config['sys']['logs']['sql_error']      = true;            // логировать или нет ошибки SQl
 $config['sys']['logs']['sql_error_file'] = 'sql_error.log'; // файл лога ошибок SQL
+$config['sys']['logs']['cron_file']      = 'cron.log';      // файл лога запуска крон-процессов
 /**
  * Общие настройки
  */

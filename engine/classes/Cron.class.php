@@ -26,17 +26,17 @@ class Cron extends Object {
 	 */
 	protected $oEngine=null;
 	/**
-	 * Объект для логирования действий и вывода
-	 *
-	 * @va object
-	 */
-	protected $oLog=null;
-	/**
 	 * Дескриптор блокирующего файла
 	 *
 	 * @var string
 	 */
 	protected $oLockFile=null;
+	/**
+	 * Имя процесса, под которым будут помечены все сообщения в логах
+	 *
+	 * @var string
+	 */
+	protected $sProcessName='Cron';
 	
 	public function __construct($sLockFile=null) {
 		$this->oEngine=Engine::getInstance();
@@ -44,6 +44,23 @@ class Cron extends Object {
 		if(!empty($sLockFile)) {
 			$this->oLockFile=fopen($sLockFile,'a');
 		}
+		
+		/**
+		 * Инициализируем лог и делает пометку о старте процесса
+		 */
+		$this->oEngine->Logger_SetFileName(Config::Get('sys.logs.cron_file'));
+		$this->Log('Cron process started');
+	}
+
+	/**
+	 * Делает запись в лог
+	 *
+	 * @param  string $sMsg
+	 * @return
+	 */
+	public function Log($sMsg) {
+		$sMsg=$this->sProcessName.': '.$sMsg;
+		$this->oEngine->Logger_Notice($sMsg);		
 	}
 	
 	/**
@@ -91,10 +108,11 @@ class Cron extends Object {
 	}
 	
 	/**
-	 * Здесь будет реализована логика завершения работы срон-процесса
+	 * Здесь будет реализована логика завершения работы cron-процесса
 	 */
 	public function Shutdown() {
 		$this->unsetLock();	
+		$this->Log('Cron process ended');		
 	}
 	public function __destruct() {
 		$this->Shutdown();

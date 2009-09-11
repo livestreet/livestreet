@@ -24,6 +24,7 @@ require_once($sDirRoot."/config/loader.php");
 require_once($sDirRoot."/engine/classes/Cron.class.php");
 
 class NotifyCron extends Cron {
+	protected $sProcessName='NotifyCron';
 	/**
 	 * Выбираем пул заданий и рассылаем по ним e-mail
 	 */
