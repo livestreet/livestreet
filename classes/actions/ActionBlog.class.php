@@ -662,14 +662,15 @@ class ActionBlog extends Action {
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;		
 		/**
 		 * Получаем список топиков
-		 */				
+		 */	
 		$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);	
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
 		 */
-		$sUrlAdd=$sShowType=='good' ? '' : $sShowType;			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sUrlAdd);			
+		$aPaging=($sShowType=='good') 
+			? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,rtrim($oBlog->getUrlFull(),'/'))
+			: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType);			
 		/**
 		 * Получаем число новых топиков в текущем блоге
 		 */
