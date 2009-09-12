@@ -144,7 +144,7 @@ class LiveWatermark {
 	 */
 	public function getMarkedImage() {
 		if ($this->imageCreated == false) {
-			$this->addWatermark($this->version);
+			$this->addWatermark($this->gd_version);
 		}
 		return $this->marked_image;
 	}

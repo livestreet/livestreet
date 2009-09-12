@@ -298,9 +298,52 @@ function func_img_resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$
 		/**
 		 * Ресайзим и выводим результат в файл.
 		 * Если не задана новая высота, то применяем масштабирование.
+		 * Если нужно добавить Watermark, то запрещаем ручное управление alfa-каналом
 		 */
-		$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest));
+		$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest),(!Config::Get('module.image.watermark_use')));
+
+		/**
+		 * Добавляем watermark согласно в конфигурации заданым параметрам
+		 */
+		if(Config::Get('module.image.watermark_use')) {
+			switch(Config::Get('module.image.watermark_type')) {
+				default:
+				case 'text':
+					$oImage->set_font(
+						Config::Get('module.image.watermark_font_size'),  0, 
+						Config::Get('module.image.path.fonts').Config::Get('module.image.watermark_font').'.ttf'
+					);
+					
+					$oImage->watermark(
+						Config::Get('module.image.watermark_text'), 
+			 		    explode(',',Config::Get('module.image.watermark_position'),2), 
+					    explode(',',Config::Get('module.image.watermark_font_color')), 
+					    explode(',',Config::Get('module.image.watermark_back_color')), 
+					    Config::Get('module.image.watermark_font_alfa'), 
+						Config::Get('module.image.watermark_back_alfa')
+					);	
+					break;
+				case 'image':
+					$oImage->paste_image(
+						Config::Get('module.image.path.watermarks').Config::Get('module.image.watermark_image'),
+						true, explode(',',Config::Get('module.image.watermark_position'),2)
+					);	
+					break;
+			}
+		}
+				
+		/**
+		 * Скругляем углы
+		 */
+		if(Config::Get('module.image.round_corner')) {
+			$oImage->round_corners(
+				Config::Get('module.image.round_corner_radius'), 
+				Config::Get('module.image.round_corner_rate')
+			);
+		}
+		
 		$oImage->output(null,$sFileFullPath);
+		
 		chmod($sFileFullPath,0666);
 		return $sFileDest;
 	} elseif (copy($sFileSrc,$sFileFullPath)) {

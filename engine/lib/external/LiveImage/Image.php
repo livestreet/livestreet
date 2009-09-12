@@ -77,7 +77,8 @@ class LiveImage {
 		2  => 'No font was given',
 		3  => 'No file was given',
 		4  => 'Can`t open image from file',
-		5  => 'Unknown file format given'
+		5  => 'Unknown file format given',
+		6  => 'Failed image resource given'
 	);
 	/**
 	 * Last error text
@@ -151,7 +152,7 @@ class LiveImage {
 	 * @param  int   $scale
 	 * @return mixed
 	 */
-	public function resize($width=null,$height=null,$scale=false) {
+	public function resize($width=null,$height=null,$scale=false,$alfa=true) {
 		$this->clear_error();
 		/**
 		 * Если не указана новая высота, значит применяем масштабирование.
@@ -183,8 +184,13 @@ class LiveImage {
 			return false;
 		}
 		
-		@imagesavealpha($tmp,true);
-		@imagealphablending($tmp,false);
+		/**
+		 * Регулируем альфа-канал, если не указано обработное
+		 */
+		if($alfa) {
+			@imagesavealpha($tmp,true);
+			@imagealphablending($tmp,false);
+		}
 		
 		if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
 			imagedestroy($tmp);
@@ -247,7 +253,26 @@ class LiveImage {
 	public function get_image() {
 		return $this->image;
 	}
-
+	/**
+	 * Add new image object to current handler
+	 *
+	 * @param  resource $image_res
+	 * @return bool
+	 * 
+	 * @todo   Find format of given image
+	 */
+	public function set_image($image_res) {
+		if (intval(@imagesx($res)) > 0) {
+			$this->image=$image_res;
+			$this->width=imagesx($image_res);
+			$this->height=imagesy($image_res);
+			return true;						
+		}
+		
+		$this->set_last_error(6);
+		return false;
+	}
+	
 	/**
 	 * Return image params
 	 *
@@ -331,7 +356,7 @@ class LiveImage {
 		if($unicode) {
 			$text=$this->to_unicode($text);				
 		}
-		return imagettftext($this->image,$this->font_size,$this->font_angle,$x,$y,$this->color,$this->font,$text);
+		return imagettftext($this->image,$this->font_size,$this->font_angle,$x,$y,$this->color['locate'],$this->font,$text);
 	}
 
 	/**
@@ -368,11 +393,11 @@ class LiveImage {
 		}
 		/// Наносим фон для будущей надписи
 		$this->set_color($r_bg, $g_bg, $b_bg, $bg_alfa);
-		imagefilledrectangle($this->image,$x,$y,$x+abs($box[4])+10,$y+abs($box[5])+10,$this->color);
+		imagefilledrectangle($this->image,$x,$y,$x+abs($box[4])+10,$y+abs($box[5])+10,$this->color['locate']);
 
 		/// Наносим надпись водянного знака
 		$this->set_color($r_font, $g_font, $b_font, $font_alpha);
-		imagettftext($this->image, $this->font_size, 0, $x+5, $y+abs($box[5])+5, $this->color, $this->font, $text);
+		imagettftext($this->image, $this->font_size, 0, $x+5, $y+abs($box[5])+5, $this->color['locate'], $this->font, $text);
 		return true;
 	}
 
@@ -484,25 +509,34 @@ class LiveImage {
 
 	}
 
-	public function paste_image($file,$type=0,$copyresized=false,$position=array(0,0),$src_x=0,$src_y=0,$src_w=-1,$src_h=-1,$dst_w=-1,$dst_h=-1) {
+	public function paste_image($file,$copyresized=false,$position=array(0,0),$src_x=0,$src_y=0,$src_w=-1,$src_h=-1,$dst_w=-1,$dst_h=-1) {
 		$this->clear_error();
 
-		if(!$file) {
+		if(!$file || !($size=getimagesize($file))) {
 			$this->set_last_error(3);
 			return false;
 		}
-		switch($type) {
-			default:
-			case 0:
+
+		/**
+		 * Определяем тип файла изображения
+		 */
+		switch ($size['mime']) {
+			case 'image/png':
+			case "image/x-png":			
 				$tmp=imagecreatefrompng($file);
 				break;
-			case 1:
-				$tmp=imagecreatefromjpeg($file);
-				break;
-			case 2:
+			case 'image/gif':
 				$tmp=imagecreatefromgif($file);
 				break;
-		}
+		    case "image/pjpeg":
+			case "image/jpeg":
+			case "image/jpg":
+				$tmp=imagecreatefromjpeg($file);
+				break;
+			default:
+				$this->set_last_error(5);				
+				return false;
+		}				
 
 		if(!$tmp) {
 			$this->set_last_error(4);
@@ -535,7 +569,7 @@ class LiveImage {
 		}
 
 		if($copyresized) {
-			$ret=imagecopyresized($this->image,$tmp,$dst_x,$dst_y,$src_x,$src_y,$dst_w,$dst_h,$src_w,$src_h);
+			$ret=imagecopyresampled($this->image,$tmp,$dst_x,$dst_y,$src_x,$src_y,$dst_w,$dst_h,$src_w,$src_h);
 		} else {
 			$ret=imagecopy($this->image,$tmp,$dst_x,$dst_y,$src_x,$src_y,$src_w,$src_h);
 		}
