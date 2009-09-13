@@ -72,7 +72,7 @@ class LsText extends Module {
 		// Если нужно оставлять пустые не короткие теги
 		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
 		// Не нужна авто-расстановка <br>
-		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol'));
+		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol','object'));
 		// Теги с обязательными параметрами
 		$this->oJevix->cfgSetTagParamsAutoAdd('embed',array(array('name'=>'wmode','value'=>'opaque','rewrite'=>true)));
 		if (Config::Get('view.noindex')) {
@@ -85,7 +85,7 @@ class LsText extends Module {
 		//$this->oJevix->cfgSetXHTMLMode(false);
 		$this->oJevix->cfgSetTagNoTypography('code');
 		$this->oJevix->cfgSetTagNoTypography('video');
-
+		$this->oJevix->cfgSetTagNoTypography('object');
 	}
 	
 	/**
@@ -106,7 +106,7 @@ class LsText extends Module {
 	 * @param string $sText
 	 * @return string
 	 */
-	public function VideoParser($sText) {	
+	public function VideoParser($sText) {
 		/**
 		 * youtube.com
 		 */		
