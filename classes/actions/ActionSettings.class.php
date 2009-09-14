@@ -265,20 +265,14 @@ class ActionSettings extends Action {
 			}		
 			/**
 			 * Загрузка аватара, делаем ресайзы
-			 */			
-			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
-				$sFileTmp=$_FILES['avatar']['tmp_name'];
-				if ($sFileAvatar=func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId(),'avatar_100x100',3000,3000,100,100)) {
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId(),'avatar_64x64',3000,3000,64,64);
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId(),'avatar_48x48',3000,3000,48,48);
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId(),'avatar_24x24',3000,3000,24,24);
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId(),'avatar',3000,3000);
+			 */		
+			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+				if($sExtension=$this->Image_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
 					$this->oUserCurrent->setProfileAvatar(1);
-					$aFileInfo=pathinfo($sFileAvatar);
-					$this->oUserCurrent->setProfileAvatarType($aFileInfo['extension']);
+					$this->oUserCurrent->setProfileAvatarType($sExtension);
 				} else {
 					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));					
 				}
 			}
 			/**
@@ -286,20 +280,14 @@ class ActionSettings extends Action {
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
 				$this->oUserCurrent->setProfileAvatar(0);
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId().'/avatar_100x100.'.$this->oUserCurrent->getProfileAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId().'/avatar_64x64.'.$this->oUserCurrent->getProfileAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId().'/avatar_48x48.'.$this->oUserCurrent->getProfileAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId().'/avatar_24x24.'.$this->oUserCurrent->getProfileAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$this->oUserCurrent->getId().'/avatar.'.$this->oUserCurrent->getProfileAvatarType());
+				$this->Image_DeleteAvatar($this->oUserCurrent);
 			}
 			/**
 			 * Загрузка фото, делаем ресайзы
 			 */			
-			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {	
-				$sDirUpload=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$this->oUserCurrent->getId();			
-				$sFileTmp=$_FILES['foto']['tmp_name'];
-				if ($sFileFoto=func_img_resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250)) {	
-					$this->oUserCurrent->setProfileFoto($sDirUpload.'/'.$sFileFoto);			
+			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {				
+				if ($sFileFoto=$this->Image_UploadFoto($_FILES['foto'],$this->oUserCurrent)) {	
+					$this->oUserCurrent->setProfileFoto($sFileFoto);			
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_foto_error'),$this->Lang_Get('error'));
@@ -308,8 +296,8 @@ class ActionSettings extends Action {
 			/**
 			 * Удалить фото
 			 */
-			if (isset($_REQUEST['foto_delete'])) {				
-				@unlink(Config::Get('path.root.server').$this->oUserCurrent->getProfileFoto());
+			if (isset($_REQUEST['foto_delete'])) {
+				$this->Image_DeleteFoto($this->oUserCurrent);
 				$this->oUserCurrent->setProfileFoto(null);
 			}
 			/**

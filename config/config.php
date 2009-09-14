@@ -305,22 +305,25 @@ $config['module']['notify']['delayed']        = false;  // Указывает н
 $config['module']['notify']['insert_single']  = false;  // Если опция установлена в true, систему будет собирать записи заданий удаленной публикации, для вставки их в базу единым INSERT
 $config['module']['notify']['per_process']    = 10;     // Количество отложенных заданий, обрабатываемых одним крон-процессом
 // Модуль Image
-$config['module']['image']['watermark_use']        = false;
-$config['module']['image']['watermark_type']       = 'text';
-$config['module']['image']['watermark_position']   = '0,24';
-$config['module']['image']['watermark_text']       = '(c) LiveStreet';
-$config['module']['image']['watermark_font']       = 'arial';
-$config['module']['image']['watermark_font_color'] = '255,255,255';
-$config['module']['image']['watermark_font_size']  = '10';
-$config['module']['image']['watermark_font_alfa']  = '0';
-$config['module']['image']['watermark_back_color'] = '0,0,0';
-$config['module']['image']['watermark_back_alfa']  = '40';
-$config['module']['image']['watermark_image']      = false;
-$config['module']['image']['round_corner']         = false;
-$config['module']['image']['round_corner_radius']  = '18';
-$config['module']['image']['round_corner_rate']    = '40';
-$config['module']['image']['path']['watermarks']   = $config['path']['root']['server'].'/engine/lib/external/LiveImage/watermarks/';
-$config['module']['image']['path']['fonts']        = $config['path']['root']['server'].'/engine/lib/external/LiveImage/fonts/';
+$config['module']['image']['default']['watermark_use']        = false;
+$config['module']['image']['default']['watermark_type']       = 'text';
+$config['module']['image']['default']['watermark_position']   = '0,24';
+$config['module']['image']['default']['watermark_text']       = '(c) LiveStreet';
+$config['module']['image']['default']['watermark_font']       = 'arial';
+$config['module']['image']['default']['watermark_font_color'] = '255,255,255';
+$config['module']['image']['default']['watermark_font_size']  = '10';
+$config['module']['image']['default']['watermark_font_alfa']  = '0';
+$config['module']['image']['default']['watermark_back_color'] = '0,0,0';
+$config['module']['image']['default']['watermark_back_alfa']  = '40';
+$config['module']['image']['default']['watermark_image']      = false;
+$config['module']['image']['default']['round_corner']         = false;
+$config['module']['image']['default']['round_corner_radius']  = '18';
+$config['module']['image']['default']['round_corner_rate']    = '40';
+$config['module']['image']['default']['path']['watermarks']   = $config['path']['root']['server'].'/engine/lib/external/LiveImage/watermarks/';
+$config['module']['image']['default']['path']['fonts']        = $config['path']['root']['server'].'/engine/lib/external/LiveImage/fonts/';
+
+$config['module']['image']['foto']['watermark_use']  = true;
+$config['module']['image']['foto']['round_corner']   = true;
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');
