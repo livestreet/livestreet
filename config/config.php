@@ -325,6 +325,9 @@ $config['module']['image']['default']['path']['fonts']        = $config['path'][
 $config['module']['image']['foto']['watermark_use']  = true;
 $config['module']['image']['foto']['round_corner']   = true;
 
+$config['module']['image']['topic']['watermark_use']  = true;
+$config['module']['image']['topic']['round_corner']   = true;
+
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');
 /**

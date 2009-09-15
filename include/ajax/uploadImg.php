@@ -32,55 +32,43 @@ if ($oEngine->User_IsAuthorization()) {
 	$sFile=null;
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
-		$sFileTmp=$_FILES['img_file']['tmp_name'];		
-		$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
-		if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false)) {
-			$sFile=$sDirSave.'/'.$sFileImg;
-		} else {
+		if(!$sFile=$oEngine->Image_UploadTopicImageFile($_FILES['img_file'],$oUserCurrent)) {
 			$sMsgTitle=$oEngine->Lang_Get('error');
 			$sMsg=$oEngine->Lang_Get('uploadimg_file_error');
 		}
 	}
 
-	if (isset($_REQUEST['img_url'])) {
-		$img_url=$_REQUEST['img_url'];
-		if (@getimagesize($img_url)) {			
-			if ($file = fopen($img_url,"r")) {
-				$iMaxSizeKb=500;
-				$iSizeKb=0;
-				$sContent='';
-				while (!feof($file) and $iSizeKb<$iMaxSizeKb) {
-					$sContent.=fread($file ,1024*1);
-					$iSizeKb++;
-				}
-				/**
-				 * Если файл считали польностью, т.е. он уложился в предельно допустимый размер
-				 */
-				if (feof($file)) {
-					fclose($file);
-					$sFileTmp=SYS_CACHE_DIR.func_generator();
-					$fp=fopen($sFileTmp,'w');
-					fwrite($fp,$sContent);
-					fclose($fp);					
-					$sDirSave=DIR_UPLOADS_IMAGES.'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUserCurrent->getId();
-					if ($sFileImg=func_img_resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false)) {
-						$sFile=$sDirSave.'/'.$sFileImg;
-					} else {
-						$sMsgTitle=$oEngine->Lang_Get('error');
-						$sMsg=$oEngine->Lang_Get('uploadimg_url_error');
-					}
-					@unlink($sFileTmp);
-				} else {
-					$sMsgTitle=$oEngine->Lang_Get('error');
-					$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');
-				}
-			} else {
+	if (isset($_REQUEST['img_url']) && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
+		$sFile=$oEngine->Image_UploadTopicImageUrl($_REQUEST['img_url'],$oUserCurrent);
+		switch (true) {
+			case is_string($sFile):
+			
+				break;
+			
+			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_READ):
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');
-			}
-		} else {
-			$sMsgTitle=$oEngine->Lang_Get('error');
-			$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');			
+				$sFile=null;
+				break;
+				
+			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_SIZE):
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');			
+				$sFile=null;
+				break;
+				
+			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_TYPE):
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');			
+				$sFile=null;
+				break;
+				
+			default:
+			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR):
+				$sMsgTitle=$oEngine->Lang_Get('error');
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error');				
+				$sFile=null;
+				break;
 		}
 	}
 	
@@ -88,28 +76,18 @@ if ($oEngine->User_IsAuthorization()) {
 		$bStateError=false;
 		$sMsgTitle='';
 		$sMsg='';
-		$sText='<img src="'.Config::Get('path.root.web').$sFile.'" ';
-		if (isset($_REQUEST['title']) and $_REQUEST['title']!='') {
-			$sText.=' title="'.htmlspecialchars($_REQUEST['title']).'" ';
-		}
-		if (isset($_REQUEST['align']) and in_array($_REQUEST['align'],array('left','right'))) {
-			$sText.=' align="'.htmlspecialchars($_REQUEST['align']).'" ';
-		}
-		$sText.='>';
+		$sText=$oEngine->Image_BuildHTML(Config::Get('path.root.web').$sFile, $_REQUEST);
 	}	
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');
 	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
-
-
-
 $GLOBALS['_RESULT'] = array(
-"bStateError"     => $bStateError,
-"sText"   => $sText,
-"sMsgTitle"   => $sMsgTitle,
-"sMsg"   => $sMsg,
+	"bStateError" => $bStateError,
+	"sText"       => $sText,
+	"sMsgTitle"   => $sMsgTitle,
+	"sMsg"        => $sMsg,
 );
 
 ?>

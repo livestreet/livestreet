@@ -23,7 +23,30 @@ require_once Config::Get('path.root.engine').'/lib/external/LiveImage/Image.php'
  *
  */
 class LsImage extends Module {
+	/**
+	 * Неопределенный тип ошибки при загрузке изображения
+	 */
+	const UPLOAD_IMAGE_ERROR      = 1;
+	/**
+	 * Ошибка избыточного размера при загрузке изображения
+	 */
+	const UPLOAD_IMAGE_ERROR_SIZE = 2;
+	/**
+	 * Неизвестный тип изображения
+	 */
+	const UPLOAD_IMAGE_ERROR_TYPE = 4;
+	/**
+	 * Ошибка чтения файла при загрузке изображения
+	 */
+	const UPLOAD_IMAGE_ERROR_READ = 8;
+	
+	/**
+	 * Настройки модуля по умолчанию
+	 *
+	 * @var array
+	 */
 	protected $aParamsDefault = array();
+	
 	/**
 	 * Инициализация модуля
 	 */
@@ -94,7 +117,7 @@ class LsImage extends Module {
 			 * Если не задана новая высота, то применяем масштабирование.
 			 * Если нужно добавить Watermark, то запрещаем ручное управление alfa-каналом
 			 */
-			$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest),(!Config::Get('module.image.watermark_use')));
+			$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest),(!$aParams['watermark_use']));
 	
 			/**
 			 * Добавляем watermark согласно в конфигурации заданым параметрам
@@ -229,6 +252,112 @@ class LsImage extends Module {
 	 */
 	public function DeleteFoto($oUser) {
 		@unlink(Config::Get('path.root.server').$oUser->getProfileFoto());
+	}
+	/**
+	 * Заргузка изображений при написании топика
+	 *
+	 * @param  array           $aFile
+	 * @param  UserEntity_User $oUser
+	 * @return string|bool
+	 */
+	public function UploadTopicImageFile($aFile,$oUser) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sDirUpload=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUser->getId();			
+		$sFileTmp=$aFile['tmp_name'];
+		$aParams=$this->BuildParams('topic');
+		
+		if ($sFileImage=$this->Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+			return $sDirUpload.'/'.$sFileImage;
+		}
+		return false;
+	}
+	/**
+	 * Загрузка изображений по переданному URL
+	 *
+	 * @param  string          $sUrl
+	 * @param  UserEntity_User $oUser
+	 * @return (string|bool)
+	 */
+	public function UploadTopicImageUrl($sUrl, $oUser) {
+		/**
+		 * Проверяем, является ли файл изображением
+		 */
+		if(!@getimagesize($sUrl)) {
+			return self::UPLOAD_IMAGE_ERROR_TYPE;
+		}
+		/**
+		 * Открываем файловый поток и считываем файл поблочно,
+		 * контролируя максимальный размер изображения
+		 */
+		$oFile=fopen($sUrl,'r');
+		if(!$oFile) {
+			return self::UPLOAD_IMAGE_ERROR_READ;
+		}
+		
+		$iMaxSizeKb=500;
+		$iSizeKb=0;
+		$sContent='';
+		while (!feof($oFile) and $iSizeKb<$iMaxSizeKb) {
+			$sContent.=fread($oFile ,1024*1);
+			$iSizeKb++;
+		}
+
+		/**
+		 * Если конец файла не достигнут,
+		 * значит файл имеет недопустимый размер
+		 */
+		if(!feof($oFile)) {
+			return self::UPLOAD_IMAGE_ERROR_SIZE;
+		}
+		fclose($oFile);
+
+		/**
+		 * Создаем tmp-файл, для временного хранения изображения
+		 */
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		
+		$fp=fopen($sFileTmp,'w');
+		fwrite($fp,$sContent);
+		fclose($fp);
+		
+		$sDirSave=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUser->getId();
+		$aParams=$this->BuildParams('topic');
+		
+		/**
+		 * Передаем изображение на обработку
+		 */
+		if ($sFileImg=$this->Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false,$aParams)) {
+			@unlink($sFileTmp);
+			return $sDirSave.'/'.$sFileImg;
+		} 		
+		
+		@unlink($sFileTmp);
+		return self::UPLOAD_IMAGE_ERROR;
+	}
+	/**
+	 * Возвращает валидный Html код тега <img>
+	 *
+	 * @param  string $sPath
+	 * @param  array $aParams
+	 * @return string
+	 */
+	public function BuildHTML($sPath,$aParams) {		
+		$sText='<img src="'.$sPath.'" ';
+		if (isset($aParams['title']) and $aParams['title']!='') {
+			$sText.=' title="'.htmlspecialchars($aParams['title']).'" ';
+		}
+		if (isset($aParams['align']) and in_array($aParams['align'],array('left','right'))) {
+			$sText.=' align="'.htmlspecialchars($aParams['align']).'" ';
+		}
+		$sAlt = isset($aParams['alt'])
+			? ' alt=""'
+			: ' alt="'.htmlspecialchars($aParams['alt']).'"';
+		$sText.=$sAlt.' />';
+		
+		return $sText;
 	}
 	
 	/**
