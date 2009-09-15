@@ -192,18 +192,14 @@ class ActionBlog extends Action {
 		* Загрузка аватара, делаем ресайзы
 		*/			
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-			$sFileTmp=$_FILES['avatar']['tmp_name'];
-			if ($sFileAvatar=func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {
-				func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
-				func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+			if ($sExtension=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
 				$oBlog->setAvatar(1);
-				$aFileInfo=pathinfo($sFileAvatar);
-				$oBlog->setAvatarType($aFileInfo['extension']);
+				$oBlog->setAvatarType($sExtension);
 			} else {
 				$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 				return false;
 			}
-		}		
+		}
 		/**
 		 * Создаём блог
 		 */
@@ -288,18 +284,14 @@ class ActionBlog extends Action {
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога	
 			/**
-			 * Загрузка аватара, делаем ресайзы
-			 */			
-			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {				
-				$sFileTmp=$_FILES['avatar']['tmp_name'];
-				if ($sFileAvatar=func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48)) {					
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24);
-					func_img_resize($sFileTmp,Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId(),"avatar_blog_{$oBlog->getUrl()}",3000,3000);
+			* Загрузка аватара, делаем ресайзы
+			*/			
+			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+				if ($sExtension=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
 					$oBlog->setAvatar(1);
-					$aFileInfo=pathinfo($sFileAvatar);
-					$oBlog->setAvatarType($aFileInfo['extension']);
-				} else {					
-					$this->Message_AddError($this->Lang_Get('blog_create_avatar_delete'),$this->Lang_Get('error'));
+					$oBlog->setAvatarType($sExtension);
+				} else {
+					$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 					return false;
 				}
 			}
@@ -308,10 +300,9 @@ class ActionBlog extends Action {
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
 				$oBlog->setAvatar(0);				
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
-				@unlink(Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId()."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());
 				$oBlog->setAvatarType(null);
+				
+				$this->Image_DeleteBlogAvatar($oBlog);
 			}
 			/**
 			 * Обновляем блог

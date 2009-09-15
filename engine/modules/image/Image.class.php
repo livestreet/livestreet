@@ -76,16 +76,16 @@ class LsImage extends Module {
 	 * Resize,copy image, 
 	 * make rounded corners and add watermark
 	 *
-	 * @param unknown_type $sFileSrc
-	 * @param unknown_type $sDirDest
-	 * @param unknown_type $sFileDest
-	 * @param unknown_type $iWidthMax
-	 * @param unknown_type $iHeightMax
-	 * @param unknown_type $iWidthDest
-	 * @param unknown_type $iHeightDest
-	 * @param unknown_type $bForcedMinSize
-	 * @param unknown_type $aParams
-	 * @return unknown
+	 * @param  string $sFileSrc
+	 * @param  string $sDirDest
+	 * @param  string $sFileDest
+	 * @param  int    $iWidthMax
+	 * @param  int    $iHeightMax
+	 * @param  int    $iWidthDest
+	 * @param  int    $iHeightDest
+	 * @param  bool   $bForcedMinSize
+	 * @param  array  $aParams
+	 * @return string
 	 */
 	public function Resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true,$aParams=null) {
 		/**
@@ -210,7 +210,7 @@ class LsImage extends Module {
 	 * @param UserEntity_User $oUser
 	 */
 	public function DeleteAvatar($oUser) {
-		$sPath = Config::Get('path.root.server').Config::Get('path.uploads.images').'/'.$oUser->getId();
+		$sPath = Config::Get('path.uploads.images').'/'.$oUser->getId();
 		/**
 		 * Удаляем аватар и его рейсайзы
 		 */
@@ -220,6 +220,53 @@ class LsImage extends Module {
 		@unlink($sPath.'/avatar_24x24.'.$oUser->getProfileAvatarType());
 		@unlink($sPath.'/avatar.'.$oUser->getProfileAvatarType());		
 	}
+	/**
+	 * Upload blog avatar on server
+	 * Make resized images
+	 *
+	 * @param  array           $aFile
+	 * @param  BlogEntity_Blog $oUser
+	 * @return (string|bool)
+	 */
+	public function UploadBlogAvatar($aFile,$oBlog) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sFileTmp=$aFile['tmp_name'];
+		$sPath=Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId();
+		$aParams=$this->BuildParams('avatar');
+		
+		if ($sFileAvatar=$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams)) {
+			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams);
+			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,true,$aParams);
+			
+			/**
+			 * Если все нормально, возвращаем расширение загруженного аватара
+			 */
+			$aFileInfo=pathinfo($sFileAvatar);
+			return $aFileInfo['extension'];
+		}
+		/**
+		 * В случае ошибки, возвращаем false
+		 */
+		return false;
+	}
+	/**
+	 * Delete blog avatar from server
+	 *
+	 * @param BlogEntity_Blog $oUser
+	 */
+	public function DeleteBlogAvatar($oBlog) {
+		$sPath=Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId();
+		/**
+		 * Удаляем аватар и его рейсайзы
+		 */
+		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
+		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
+		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());		
+	}	
+	
 	/**
 	 * Upload user foto
 	 *
