@@ -99,7 +99,7 @@ function toggleBlogInfo(id,link) {
 								<li>
 									<dl>
 										<dt>
-											<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt=""  title="{$oUser->getLogin()}"/></a>
+											<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="" title="{$oUser->getLogin()}" /></a>
 										</dt>
 										<dd>
 											<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
@@ -119,7 +119,7 @@ function toggleBlogInfo(id,link) {
 							{foreach from=$aBlogUsers item=oBlogUser}
 							{assign var="oUser" value=$oBlogUser->getUser()}
 								<li><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
-							{/foreach}							
+							{/foreach}
 						</ul>
 						{else}
    	 						{$aLang.blog_user_readers_empty}

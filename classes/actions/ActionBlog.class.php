@@ -674,9 +674,9 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),0);
-		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),1);
-		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),2);					
+		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_USER);
+		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_MODERATOR);
+		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 		/**
 		 * Вызов хуков
 		 */

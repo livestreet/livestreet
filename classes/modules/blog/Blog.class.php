@@ -23,6 +23,14 @@ require_once('mapper/Blog.mapper.class.php');
  *
  */
 class LsBlog extends Module {	
+	/**
+	 * Возможные роли пользователя в блоге
+	 */
+	const BLOG_USER_ROLE_GUEST         = 0;
+	const BLOG_USER_ROLE_USER          = 1;
+	const BLOG_USER_ROLE_MODERATOR     = 2;
+	const BLOG_USER_ROLE_ADMINISTRATOR = 4;
+		
 	protected $oMapperBlog;	
 	protected $oUserCurrent=null;
 		
@@ -314,7 +322,7 @@ class LsBlog extends Module {
 	 * @return unknown
 	 */
 	public function DeleteRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
-		if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {		
+		if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}","blog_relation_change_blog_{$oBlogUser->getBlogId()}"));		
 			$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
 			return true;
@@ -353,13 +361,8 @@ class LsBlog extends Module {
 		$aFilter=array(
 			'blog_id'=> $sBlogId,			
 		);
-		if ($iRole===0) {
-			$aFilter['is_moderator']=0;
-			$aFilter['is_administrator']=0;
-		} elseif ($iRole===1) {
-			$aFilter['is_moderator']=1;
-		} elseif ($iRole===2) {
-			$aFilter['is_administrator']=1;
+		if($iRole!==null) {
+			$aFilter['user_role']=$iRole;	
 		}
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_$s"))) {				
@@ -401,13 +404,8 @@ class LsBlog extends Module {
 		$aFilter=array(
 			'user_id'=> $sUserId			
 		);
-		if ($iRole===0) {
-			$aFilter['is_moderator']=0;
-			$aFilter['is_administrator']=0;
-		} elseif ($iRole===1) {
-			$aFilter['is_moderator']=1;
-		} elseif ($iRole===2) {
-			$aFilter['is_administrator']=1;
+		if($iRole!==null) {
+			$aFilter['user_role']=$iRole;	
 		}
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_$s"))) {				

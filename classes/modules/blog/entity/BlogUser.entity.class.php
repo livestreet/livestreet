@@ -24,20 +24,22 @@ class BlogEntity_BlogUser extends Entity
         return $this->_aData['user_id'];
     }
     public function getIsModerator() {
-        return $this->_aData['is_moderator'];
+        return ($this->getUserRole()==LsBlog::BLOG_USER_ROLE_MODERATOR);
     }
     public function getIsAdministrator() {
-        return $this->_aData['is_administrator'];
+        return ($this->getUserRole()==LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
     }
-
+	public function getUserRole() {
+		return $this->_aData['user_role'];
+	}
+    
     public function getBlog() {
         return $this->_aData['blog'];
     }  
     public function getUser() {
         return $this->_aData['user'];
-    }  
+    }
 
-   
   
     
 	public function setBlogId($data) {
@@ -47,10 +49,23 @@ class BlogEntity_BlogUser extends Entity
         $this->_aData['user_id']=$data;
     }
     public function setIsModerator($data) {
-        $this->_aData['is_moderator']=$data;
+        if($data && !$this->getIsModerator()) {
+        	/**
+        	 * Повышаем статус до модератора
+        	 */
+        	$this->setUserRole(LsBlog::BLOG_USER_ROLE_MODERATOR);
+        }
     }
     public function setIsAdministrator($data) {
-        $this->_aData['is_administrator']=$data;
+        if($data && !$this->getIsAdministrator()) {
+        	/**
+        	 * Повышаем статус до администратора
+        	 */
+        	$this->setUserRole(LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+        }
+    }
+    public function setUserRole($data) {
+    	$this->_aData['user_role']=$data;
     }
 
 	public function setBlog($data) {

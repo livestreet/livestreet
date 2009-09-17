@@ -46,6 +46,7 @@ if ($oEngine->User_IsAuthorization()) {
 						$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
 						$oBlogUserNew->setBlogId($oBlog->getId());
 						$oBlogUserNew->setUserId($oUserCurrent->getId());
+						$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
 						if ($oEngine->Blog_AddRelationBlogUser($oBlogUserNew)) {
 							$bStateError=false;
 							$sMsgTitle=$oEngine->Lang_Get('attention');

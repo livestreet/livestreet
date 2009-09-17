@@ -89,11 +89,12 @@ class Mapper_Blog extends Mapper {
 	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
 		$sql = "INSERT INTO ".Config::Get('db.table.blog_user')." 
 			(blog_id,
-			user_id
+			user_id,
+			user_role
 			)
-			VALUES(?d,  ?d)
+			VALUES(?d,  ?d, ?d)
 		";			
-		if ($this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId())===0) {
+		if ($this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId(),$oBlogUser->getUserRole())===0) {
 			return true;
 		}		
 		return false;
@@ -115,14 +116,13 @@ class Mapper_Blog extends Mapper {
 	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {		
 		$sql = "UPDATE ".Config::Get('db.table.blog_user')." 
 			SET 
-				is_moderator= ?,
-				is_administrator= ?				
+				user_role = ?d			
 			WHERE
 				blog_id = ?d 
 				AND
 				user_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oBlogUser->getIsModerator(),$oBlogUser->getIsAdministrator(),$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
+		if ($this->oDb->query($sql,$oBlogUser->getUserRole(),$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
 			return true;
 		}		
 		return false;
@@ -133,22 +133,20 @@ class Mapper_Blog extends Mapper {
 		if (isset($aFilter['blog_id'])) {
 			$sWhere.=" AND bu.blog_id =  ".(int)$aFilter['blog_id'];
 		}
-		if (isset($aFilter['is_moderator'])) {
-			$sWhere.=" AND bu.is_moderator =  ".(int)$aFilter['is_moderator'];
-		}
-		if (isset($aFilter['is_administrator'])) {
-			$sWhere.=" AND bu.is_administrator =  ".(int)$aFilter['is_administrator'];
-		}
 		if (isset($aFilter['user_id'])) {
 			$sWhere.=" AND bu.user_id =  ".(int)$aFilter['user_id'];
 		}
-		$sql = "SELECT 
+		if (isset($aFilter['user_role'])) {
+			$sWhere.=" AND bu.user_role = '".(int)$aFilter['user_role']."'";			
+		}
+		
+		$sql = "SELECT
 					bu.*				
 				FROM 
 					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
 					".$sWhere." 					
-				;	
+				;
 					";		
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql)) {
