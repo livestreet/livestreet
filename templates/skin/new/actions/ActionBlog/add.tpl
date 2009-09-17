@@ -21,7 +21,8 @@
 			
 			<p><label for="blog_type">{$aLang.blog_create_type}:</label><br />
 			<select name="blog_type" id="blog_type" onChange="">
-				<option value="open">{$aLang.blog_create_type_open}</option>
+				<option value="open" {if $_aRequest.blog_type=='open'}selected{/if}>{$aLang.blog_create_type_open}</option>
+				<option value="close" {if $_aRequest.blog_type=='close'}selected{/if}>{$aLang.blog_create_type_close}</option>
 			</select><br />
 			<span class="form_note">{$aLang.blog_create_type_notice}</span></p>
 

@@ -377,16 +377,13 @@ class ActionBlog extends Action {
 				
 				switch ($sRank) {
 					case 'administrator':
-						$oBlogUser->setIsAdministrator(1);
-						$oBlogUser->setIsModerator(0);
+						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 						break;
 					case 'moderator':
-						$oBlogUser->setIsAdministrator(0);
-						$oBlogUser->setIsModerator(1);
+						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_MODERATOR);
 						break;
 					default:
-						$oBlogUser->setIsAdministrator(0);
-						$oBlogUser->setIsModerator(0);
+						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
 						break;
 				}
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
@@ -482,7 +479,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем доступные типы блога для создания, пока доступен только один тип - open
 		 */
-		if (!in_array(getRequest('blog_type'),array('open'))) {
+		if (!in_array(getRequest('blog_type'),array('open','close'))) {
 			$this->Message_AddError($this->Lang_Get('blog_create_type_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}

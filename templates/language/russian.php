@@ -114,6 +114,7 @@ return array(
 	'blog_create_description_error' => 'Текст описания блога должен быть от 10 до 3000 символов',
 	'blog_create_type' => 'Тип блога',
 	'blog_create_type_open' => 'Открытый',
+	'blog_create_type_close' => 'Закрытый',
 	'blog_create_type_notice' => 'Открытый — к этому блогу может присоединиться любой желающий, топики видны всем',
 	'blog_create_type_error' => 'Неизвестный тип блога',
 	'blog_create_rating' => 'Ограничение по рейтингу',
