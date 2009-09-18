@@ -16,7 +16,7 @@
 						<tr>
 							<td class="name">
 								<a href="{router page='blog'}{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(24)}" alt="" /></a>
-								<a href="{router page='blog'}{$oBlog->getUrl()}/" class="title">{$oBlog->getTitle()|escape:'html'}</a><br />
+								<a href="{router page='blog'}{$oBlog->getUrl()}/" class="title {if $oBlog->getType()=='close'}close{/if}">{$oBlog->getTitle()|escape:'html'}</a><br />
 								{$aLang.blogs_owner}: <a href="{router page='profile'}{$oUserOwner->getLogin()}/" class="author">{$oUserOwner->getLogin()}</a>
 							</td>
 							{if $oUserCurrent}
