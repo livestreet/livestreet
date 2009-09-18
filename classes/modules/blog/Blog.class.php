@@ -550,7 +550,7 @@ class LsBlog extends Module {
 			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}", array("blog_update","blog_new"), 60*60*24*2);
 		}
 		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],array('owner'=>array(),'relation_user'));
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Список подключенных блогов по рейтингу
@@ -622,5 +622,37 @@ class LsBlog extends Module {
 		}
 		return false;
 	}
+	/**
+	 * Получаем массив блогов, 
+	 * которые являются открытыми для пользователя
+	 *
+	 * @param  UserEntity_User $oUser
+	 * @return array
+	 */
+	public function GetOpenBlogsByUser($oUser) {
+		if ($oUser->isAdministrator()) {
+			return $this->GetBlogs();
+		}
+
+		/**
+		 * Заносим блоги, созданные пользователем
+		 */
+		$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
+
+		/**
+		 * Добавляем блоги, в которых сооит пользователь
+		 * (читателем, модератором, или администратором)
+		 */
+		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
+		foreach ($aBlogUsers as $oBlogUser) {
+			$oBlog=$oBlogUser->getBlog();
+			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
+				$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
+			}
+		}
+		
+		return 	$aOpenBlogsUser;
+	}
+	
 }
 ?>

@@ -338,11 +338,24 @@ class LsTopic extends Module {
 	 * @return array
 	 */
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
-		// Получаем список идентификаторов избранных записей
-		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$iCurrPage,$iPerPage);
-		// Получаем записи по переданому массиву айдишников
+		/**
+		 * Если получаем комментарии не текущего пользователя, 
+		 * то получаем exlude массив идентификаторов топиков, 
+		 * которые нужно исключить из выдачи
+		 */
+		$aCloseTopics = ($sUserId!=$this->oUserCurrent->getId()) 
+			? (array)$this->Topic_GetTopicsCloseByUser($sUserId)
+			: array();
+					
+		/**
+		 * Получаем список идентификаторов избранных записей
+		 */
+		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$aCloseTopics,$iCurrPage,$iPerPage);
+		/**
+		 * Получаем записи по переданому массиву айдишников
+		 */
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Возвращает число топиков в избранном
@@ -351,7 +364,16 @@ class LsTopic extends Module {
 	 * @return int
 	 */
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
-		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic');	
+		/**
+		 * Если получаем комментарии не текущего пользователя, 
+		 * то получаем exlude массив идентификаторов топиков, 
+		 * которые нужно исключить из выдачи
+		 */
+		$aCloseTopics = ($sUserId!=$this->oUserCurrent->getId()) 
+			? (array)$this->Topic_GetTopicsCloseByUser($sUserId)
+			: array();
+					
+		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic',$aCloseTopics);	
 	}
 	/**
 	 * Список топиков по фильтру
@@ -361,14 +383,22 @@ class LsTopic extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	protected function GetTopicsByFilter($aFilter,$iPage,$iPerPage) {
+	protected function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$data = ($iPage*$iPerPage!=0) 
+				? array(
+						'collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),
+						'count'=>$iCount
+					)
+				: array(
+						'collection'=>$this->oMapperTopic->GetAllTopics($aFilter),
+						'count'=>$this->GetCountTopicsByFilter($aFilter)
+					);
 			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Количество топиков по фильтру
@@ -395,15 +425,24 @@ class LsTopic extends Module {
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
-				'open',
+				'open'
 			),
 			'topic_publish' => 1,
 			'topic_rating'  => array(
 				'value' => Config::Get('module.blog.index_good'),
 				'type'  => 'top',
 				'publish_index'  => 1,
-			),
-		);			
+			)
+		);	
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}
+		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	/**
@@ -422,7 +461,15 @@ class LsTopic extends Module {
 			),
 			'topic_publish' => 1,
 			'topic_new' => $sDate,
-		);		
+		);	
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}			
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	/**
@@ -438,7 +485,15 @@ class LsTopic extends Module {
 				'open',
 			),
 			'topic_publish' => 1,			
-		);			
+		);
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}	
 		$aReturn=$this->GetTopicsByFilter($aFilter,1,$iCount);
 		if (isset($aReturn['collection'])) {
 			return $aReturn['collection'];
@@ -509,10 +564,19 @@ class LsTopic extends Module {
 	public function GetTopicsPersonalByUser($sUserId,$iPublish,$iPage,$iPerPage) {
 		$aFilter=array(			
 			'topic_publish' => $iPublish,
-			'user_id' => $sUserId,			
+			'user_id' => $sUserId,
+			'blog_type' => array('open','personal'),
 		);
+		/**
+		 * Если пользователь смотрит свой профиль, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent->getId()==$sUserId) {
+			$aFilter['blog_type'][]='close';
+		}		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
+	
 	/**
 	 * Возвращает количество топиков которые создал юзер
 	 *
@@ -523,15 +587,41 @@ class LsTopic extends Module {
 	public function GetCountTopicsPersonalByUser($sUserId,$iPublish) {
 		$aFilter=array(			
 			'topic_publish' => $iPublish,
-			'user_id' => $sUserId,			
+			'user_id' => $sUserId,
+			'blog_type' => array('open','personal'),
 		);
-		$s=serialize($aFilter);					
+		/**
+		 * Если пользователь смотрит свой профиль, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent->getId()==$sUserId) {
+			$aFilter['blog_type'][]='close';
+		}		
+		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_count_user_{$s}"))) {			
 			$data = $this->oMapperTopic->GetCountTopics($aFilter);
 			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}","topic_new_user_{$sUserId}"), 60*60*24);
 		}
 		return 	$data;		
 	}
+	
+	/**
+	 * Получает список идентификаторов топиков 
+	 * из закрытых блогов по юзеру
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
+	public function GetTopicsCloseByUser($sUserId) {
+		$aFilter=array(
+			'topic_publish' => 1,
+			'user_id' => $sUserId,
+			'blog_type' => array('close'),
+		);
+		$aTopics=$this->GetTopicsByFilter($aFilter);
+		return array_keys((array)$aTopics['collection']);
+	}
+	
 	/**
 	 * список топиков из коллективных блогов
 	 *
@@ -546,7 +636,7 @@ class LsTopic extends Module {
 				'open',
 			),
 			'topic_publish' => 1,			
-		);
+		);		
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
@@ -566,6 +656,14 @@ class LsTopic extends Module {
 			default:
 				break;
 		}
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}	
 	/**
@@ -582,6 +680,14 @@ class LsTopic extends Module {
 			'topic_publish' => 1,
 			'topic_new' => $sDate,
 		);
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}		
 		return $this->GetCountTopicsByFilter($aFilter);		
 	}
 	/**
@@ -597,7 +703,7 @@ class LsTopic extends Module {
 			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*60*24*2);
 		}
 		$data=$this->GetTopicsAdditionalData($data);
-		return $data;		
+		return $data;
 	}	
 	/**
 	 * Список топиков из блога
@@ -635,6 +741,14 @@ class LsTopic extends Module {
 			default:
 				break;
 		}
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	
@@ -655,6 +769,16 @@ class LsTopic extends Module {
 			'topic_new' => $sDate,
 			
 		);
+		
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent) {
+			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+		}	
+				
 		return $this->GetCountTopicsByFilter($aFilter);		
 	}
 	/**
@@ -734,7 +858,6 @@ class LsTopic extends Module {
 	 */
 	public function AddFavouriteTopic(FavouriteEntity_Favourite $oFavouriteTopic) {		
 		return $this->Favourite_AddFavourite($oFavouriteTopic);
-		
 	}
 	/**
 	 * Удаляет топик из избранного

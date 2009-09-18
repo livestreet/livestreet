@@ -165,7 +165,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCommentsByUserId($sId,$sTargetType,&$iCount,$iCurrPage,$iPerPage) {
+	public function GetCommentsByUserId($sId,$sTargetType,$aExcludeTarget,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT 
 					comment_id 					
 				FROM 
@@ -177,11 +177,18 @@ class Mapper_Comment extends Mapper {
 					AND
 					comment_delete = 0
 					AND
-					comment_publish = 1 					
+					comment_publish = 1 
+					{ AND target_id NOT IN (?a) }					
 				ORDER by comment_id desc
 				LIMIT ?d, ?d ";		
 		$aComments=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sId,$sTargetType,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage(
+				$iCount,$sql,$sId,
+				$sTargetType,
+				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP),
+				($iCurrPage-1)*$iPerPage, $iPerPage
+			)
+		) {
 			foreach ($aRows as $aRow) {
 				$aComments[]=$aRow['comment_id'];
 			}
@@ -189,7 +196,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCountCommentsByUserId($sId,$sTargetType) {
+	public function GetCountCommentsByUserId($sId,$sTargetType,$aExcludeTarget) {
 		$sql = "SELECT 
 					count(comment_id) as count					
 				FROM 
@@ -202,8 +209,13 @@ class Mapper_Comment extends Mapper {
 					comment_delete = 0
 					AND
 					comment_publish = 1	
+					{ AND target_id NOT IN (?a) }					
 					";		
-		if ($aRow=$this->oDb->selectRow($sql,$sId,$sTargetType)) {
+		if ($aRow=$this->oDb->selectRow(
+				$sql,$sId,$sTargetType,
+				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP)
+			)
+		) {
 			return $aRow['count'];
 		}
 		return false;

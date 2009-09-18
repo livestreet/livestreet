@@ -141,6 +141,8 @@ return array(
 	'blog_admin_users_submit_notice' => 'После нажатия на кнопку «Сохранить», права пользователей будут сохранены',
 	'blog_admin_users_submit_ok' => 'Права сохранены',
 	'blog_admin_users_submit_error' => 'Что-то не так',
+	
+	'blog_close_show' => 'Это закрытый блог, у вас нет прав на просмотр контента',
 	/**
 	 * Топики
 	 */

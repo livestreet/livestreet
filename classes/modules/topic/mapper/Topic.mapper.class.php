@@ -148,12 +148,12 @@ class Mapper_Topic extends Mapper {
 						t.topic_id							
 					FROM 
 						".Config::Get('db.table.topic')." as t,	
-						".Config::Get('db.table.blog')." as b				
+						".Config::Get('db.table.blog')." as b			
 					WHERE 
 						1=1					
-						".$sWhere."					
+						".$sWhere."
 						AND
-						t.blog_id=b.blog_id											
+						t.blog_id=b.blog_id										
 					ORDER by t.topic_id desc
 					LIMIT ?d, ?d";		
 		$aTopics=array();
@@ -171,18 +171,42 @@ class Mapper_Topic extends Mapper {
 					count(t.topic_id) as count									
 				FROM 
 					".Config::Get('db.table.topic')." as t,					
-					".Config::Get('db.table.blog')." as b 
+					".Config::Get('db.table.blog')." as b
 				WHERE 
 					1=1
 					
 					".$sWhere."								
 					
 					AND
-					t.blog_id=b.blog_id	;";		
+					t.blog_id=b.blog_id;";		
 		if ($aRow=$this->oDb->selectRow($sql)) {
 			return $aRow['count'];
 		}
 		return false;
+	}
+	
+	public function GetAllTopics($aFilter) {
+		$sWhere=$this->buildFilter($aFilter);
+		
+		$sql = "SELECT 
+						t.topic_id							
+					FROM 
+						".Config::Get('db.table.topic')." as t,	
+						".Config::Get('db.table.blog')." as b			
+					WHERE 
+						1=1					
+						".$sWhere."
+						AND
+						t.blog_id=b.blog_id										
+					ORDER by t.topic_id desc";		
+		$aTopics=array();
+		if ($aRows=$this->oDb->select($sql)) {			
+			foreach ($aRows as $aTopic) {
+				$aTopics[]=$aTopic['topic_id'];
+			}
+		}		
+
+		return $aTopics;		
 	}
 	
 	public function GetTopicsByTag($sTag,&$iCount,$iCurrPage,$iPerPage) {		
@@ -214,7 +238,7 @@ class Mapper_Topic extends Mapper {
 					WHERE 					
 						t.topic_publish = 1
 						AND
-						t.topic_date_add >= ? 								
+						t.topic_date_add >= ?
 						AND
 						t.topic_rating >= 0 																	
 					ORDER by t.topic_rating desc, t.topic_id desc
@@ -253,9 +277,6 @@ class Mapper_Topic extends Mapper {
 		}
 		return $aReturnSort;
 	}
-	
-		
-
 	
 	
 	public function increaseTopicCountComment($sTopicId) {
@@ -318,7 +339,6 @@ class Mapper_Topic extends Mapper {
 	
 	protected function buildFilter($aFilter) {
 		$sWhere='';
-		
 		if (isset($aFilter['topic_publish'])) {
 			$sWhere.=" AND t.topic_publish =  ".(int)$aFilter['topic_publish'];
 		}	
@@ -340,10 +360,33 @@ class Mapper_Topic extends Mapper {
 			$sWhere.=" AND t.user_id =  ".(int)$aFilter['user_id'];
 		}
 		if (isset($aFilter['blog_id'])) {
-			$sWhere.=" AND t.blog_id =  ".(int)$aFilter['blog_id'];
+			if(!is_array($aFilter['blog_id'])) {
+				$aFilter['blog_id']=array($aFilter['blog_id']);
+			}
+			$sWhere.=" AND t.blog_id IN ('".join("','",$aFilter['blog_id'])."')";
 		}
 		if (isset($aFilter['blog_type']) and is_array($aFilter['blog_type'])) {
-			$sWhere.=" AND b.blog_type in ('".join("','",$aFilter['blog_type'])."') ";
+			$aBlogTypes = array();
+			foreach ($aFilter['blog_type'] as $sType=>$aBlogId) {
+				/**
+				 * Позиция вида 'type'=>array('id1', 'id2')
+				 */
+				if(!is_array($aBlogId) && is_string($sType)){
+					$aBlogId=array($aBlogId);
+				}
+				/**
+				 * Позиция вида 'type'
+				 */
+				if(is_string($aBlogId) && is_int($sType)) {
+					$sType=$aBlogId;
+					$aBlogId=array();
+				}
+				
+				$aBlogTypes[] = (count($aBlogId)==0) 
+					? "(b.blog_type='".$sType."')"
+					: "(b.blog_type='".$sType."' AND t.blog_id IN ('".join("','",$aBlogId)."'))";			
+			}
+			$sWhere.=" AND (".join(" OR ",(array)$aBlogTypes).")";
 		}
 		return $sWhere;
 	}

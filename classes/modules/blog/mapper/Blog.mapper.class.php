@@ -82,7 +82,7 @@ class Mapper_Blog extends Mapper {
 			foreach ($aRows as $aBlog) {
 				$aBlogs[]=Engine::GetEntity('Blog',$aBlog);
 			}
-		}		
+		}
 		return $aBlogs;
 	}	
 	
@@ -156,7 +156,7 @@ class Mapper_Blog extends Mapper {
 		}
 		return $aBlogUsers;
 	}
-	
+
 	public function GetBlogUsersByArrayBlog($aArrayId,$sUserId) {	
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
@@ -256,7 +256,7 @@ class Mapper_Blog extends Mapper {
 				FROM 
 					".Config::Get('db.table.blog')." as b 									 
 				WHERE 									
-					b.blog_type<>'personal' 												
+					b.blog_type<>'personal'									
 				ORDER by b.blog_rating desc
 				LIMIT ?d, ?d 	";		
 		$aReturn=array();

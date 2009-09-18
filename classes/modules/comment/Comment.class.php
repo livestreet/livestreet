@@ -254,8 +254,17 @@ class LsComment extends Module {
 	 * @return unknown
 	 */
 	public function GetCommentsByUserId($sId,$sTargetType,$iPage,$iPerPage) {	
+		/**
+		 * Если получаем комментарии не текущего пользователя, 
+		 * то получаем exlude массив идентификаторов топиков, 
+		 * которые нужно исключить из выдачи
+		 */
+		$aCloseTopics = ($sId!=$this->oUserCurrent->getId()) 
+			? (array)$this->Topic_GetTopicsCloseByUser($sId)
+			: array();
+		
 		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_user_{$sId}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
@@ -263,8 +272,17 @@ class LsComment extends Module {
 	}
 	
 	public function GetCountCommentsByUserId($sId,$sTargetType) {
+		/**
+		 * Если получаем комментарии не текущего пользователя, 
+		 * то получаем exlude массив идентификаторов топиков, 
+		 * которые нужно исключить из выдачи
+		 */
+		$aCloseTopics = ($sId!=$this->oUserCurrent->getId()) 
+			? (array)$this->Topic_GetTopicsCloseByUser($sId)
+			: array();
+				
 		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}"))) {			
-			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType);
+			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,$aCloseTopics);
 			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		return $data;		

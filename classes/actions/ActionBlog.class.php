@@ -562,6 +562,21 @@ class ActionBlog extends Action {
 		if (!$oTopic->getPublish() and (!$this->oUserCurrent or ($this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()))) {
 			return parent::EventNotFound();
 		}
+
+		/**
+		 * Определяем права на отображение записи из закрытого блога
+		 */
+		if($oTopic->getBlog()->getType()=='close' 
+			and (!$this->oUserCurrent 
+				|| !in_array(
+						$oTopic->getBlog()->getId(),
+						array_keys((array)$this->Blog_GetOpenBlogsByUser($this->oUserCurrent))
+					)
+				)
+			) {
+			return parent::EventNotFound();
+		}
+		
 		/**
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
@@ -638,7 +653,23 @@ class ActionBlog extends Action {
 		 */		
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
-		}		
+		}
+		/**
+		 * Определяем права на отображение закрытого блога
+		 */
+		if($oBlog->getType()=='close' 
+			and (!$this->oUserCurrent 
+				|| !in_array(
+						$oBlog->getId(),
+						array_keys((array)$this->Blog_GetOpenBlogsByUser($this->oUserCurrent))
+					)
+				)
+			) {
+			$bCloseBlog=true;
+		} else {
+			$bCloseBlog=false;
+		}
+			
 		/**
 		 * Меню
 		 */
@@ -689,7 +720,8 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);		
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('oBlog',$oBlog);		
+		$this->Viewer_Assign('oBlog',$oBlog);
+		$this->Viewer_Assign('bCloseBlog',$bCloseBlog);		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
 		/**

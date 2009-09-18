@@ -90,7 +90,7 @@ class Mapper_Favourite extends Mapper {
 		return $this->oDb->query($sql,$iPublish,$sTargetId,$sTargetType); 		
 	}	
 	
-	public function GetFavouritesByUserId($sUserId,$sTargetType,&$iCount,$iCurrPage,$iPerPage) {	
+	public function GetFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget,&$iCount,$iCurrPage,$iPerPage) {	
 		$sql = "			
 			SELECT target_id										
 			FROM ".Config::Get('db.table.favourite')."								
@@ -99,7 +99,8 @@ class Mapper_Favourite extends Mapper {
 				AND
 					target_publish = 1
 				AND
-					target_type = ? 	
+					target_type = ? 
+				{ AND target_id NOT IN (?a) }		
             ORDER BY target_id DESC	
             LIMIT ?d, ?d ";
 		
@@ -109,6 +110,7 @@ class Mapper_Favourite extends Mapper {
 				$sql,
 				$sUserId,
 				$sTargetType,
+				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage, 
 				$iPerPage
 		)) {
@@ -119,7 +121,7 @@ class Mapper_Favourite extends Mapper {
 		return $aFavourites;
 	}
 	
-	public function GetCountFavouritesByUserId($sUserId,$sTargetType) {
+	public function GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget) {
 		$sql = "SELECT 		
 					count(target_id) as count									
 				FROM 
@@ -129,9 +131,15 @@ class Mapper_Favourite extends Mapper {
 					AND
 						target_publish = 1
 					AND
-						target_type = ?;	
-					";				
-		return ( $aRow=$this->oDb->selectRow($sql,$sUserId,$sTargetType) )
+						target_type = ?
+					{ AND target_id NOT IN (?a) }		
+					;";				
+		return ( $aRow=$this->oDb->selectRow(
+						$sql,$sUserId,
+						$sTargetType,
+						(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP)
+					) 
+				)
 					? $aRow['count']
 					: false;
 	}	

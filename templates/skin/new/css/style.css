@@ -344,6 +344,7 @@ select { width: 99%; }
 .block.blogs ul.list { border-top: 1px solid #eee; padding-top: 3px; margin-top: 10px; }
 .block.blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
 .block.blogs ul.list li a { padding-right: 50px; color: #777; }
+.block.blogs ul.list li a.close { padding-right: 50px; color: red; }
 .block.blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
 .block.blogs ul.list li .up { background: url(../images/blog-rating-up.gif) no-repeat right 5px; }
 .block.blogs ul.list li .down { background: url(../images/blog-rating-down.gif) no-repeat right 5px; }

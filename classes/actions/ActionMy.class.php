@@ -75,7 +75,7 @@ class ActionMy extends Action {
 		 * Получаем список топиков
 		 */					
 		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));	
-		$aTopics=$aResult['collection'];	
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */				
