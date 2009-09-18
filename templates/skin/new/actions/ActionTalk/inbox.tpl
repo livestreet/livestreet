@@ -49,7 +49,7 @@
 					{/foreach}
 					</tbody>
 				</table>
-				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">
+				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return ($$('.form_talks_checkbox').length==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');">
 				</form>
 			</div>
 {include file='paging.tpl' aPaging=`$aPaging`}
