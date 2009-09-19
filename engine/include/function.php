@@ -45,7 +45,7 @@ if (!function_exists('mb_strtolower')) {
  */
 if (defined('SYS_HACKER_CONSOLE')) {
 	if (SYS_HACKER_CONSOLE) {
-		require_once DIR_SERVER_ROOT."/classes/lib/external/HackerConsole/Main.php";
+		require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
 		new Debug_HackerConsole_Main(true);
 	}
 }

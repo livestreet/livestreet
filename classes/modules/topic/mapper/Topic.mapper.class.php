@@ -209,7 +209,7 @@ class Mapper_Topic extends Mapper {
 		return $aTopics;		
 	}
 	
-	public function GetTopicsByTag($sTag,&$iCount,$iCurrPage,$iPerPage) {		
+	public function GetTopicsByTag($sTag,$aExcludeTopic,&$iCount,$iCurrPage,$iPerPage) {		
 		$sql = "				
 							SELECT 		
 								topic_id										
@@ -217,14 +217,20 @@ class Mapper_Topic extends Mapper {
 								".Config::Get('db.table.topic_tag')."								
 							WHERE 
 								topic_tag_text = ? 	
+								{ AND topic_id NOT IN (?a) }
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d ";
 		
 		$aTopics=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sTag,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage(
+				$iCount,$sql,$sTag,
+				(is_array($aExcludeTopic)&&count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
+				($iCurrPage-1)*$iPerPage, $iPerPage
+			)
+		) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
-			}			
+			}
 		}
 		return $aTopics;
 	}
@@ -258,21 +264,29 @@ class Mapper_Topic extends Mapper {
 		return $aTopics;
 	}
 	
-	public function GetTopicTags($iLimit) {
+	public function GetTopicTags($iLimit,$aExcludeTopic=array()) {
 		$sql = "SELECT 
 			tt.topic_tag_text,
 			count(tt.topic_tag_text)	as count		 
 			FROM 
-				".Config::Get('db.table.topic_tag')." as tt 			
+				".Config::Get('db.table.topic_tag')." as tt
+			WHERE 
+				1=1
+				{AND tt.topic_id NOT IN(?a) }		
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
 				count desc		
-			LIMIT 0, ?d		
+			LIMIT 0, ?d
 				";	
 		$aReturn=array();
 		$aReturnSort=array();
-		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+		if ($aRows=$this->oDb->select(
+				$sql,
+				(is_array($aExcludeTopic)&&count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
+				$iLimit
+			)
+		) {
 			foreach ($aRows as $aRow) {				
 				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
 			}

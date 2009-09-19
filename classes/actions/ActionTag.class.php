@@ -63,7 +63,7 @@ class ActionTag extends Action {
 		/**
 		 * Получаем список топиков
 		 */				
-		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));		
+		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

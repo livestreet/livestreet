@@ -795,9 +795,13 @@ class LsTopic extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {		
+	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {
+		$aCloseTopics = ($this->oUserCurrent) 
+			? $this->GetTopicsCloseByUser($this->oUserCurrent->getId())
+			: $this->GetTopicsCloseByUser();
+		
 		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*2);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
@@ -809,9 +813,9 @@ class LsTopic extends Module {
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	public function GetTopicTags($iLimit) {
+	public function GetTopicTags($iLimit,$aExcludeTopic=array()) {
 		if (false === ($data = $this->Cache_Get("tag_{$iLimit}"))) {			
-			$data = $this->oMapperTopic->GetTopicTags($iLimit);
+			$data = $this->oMapperTopic->GetTopicTags($iLimit,$aExcludeTopic);
 			$this->Cache_Set($data, "tag_{$iLimit}", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		return $data;		

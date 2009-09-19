@@ -22,10 +22,17 @@
 class BlockTags extends Block {
 	public function Exec() {
 		/**
+		 * Получаем список закрытых статей
+		 */
+		$oUserCurrent = $this->oEngine->User_GetUserCurrent();
+		$aCloseTopics = ($oUserCurrent) 
+			? $this->oEngine->Topic_GetTopicsCloseByUser($oUserCurrent->getId())
+			: $this->oEngine->Topic_GetTopicsCloseByUser();
+			
+		/**
 		 * Получаем список тегов
 		 */
-		$aTags=$this->oEngine->Topic_GetTopicTags(70);
-		//dump($aTags);
+		$aTags=$this->oEngine->Topic_GetTopicTags(70,$aCloseTopics);
 		/**
 		 * Расчитываем логарифмическое облако тегов
 		 */
