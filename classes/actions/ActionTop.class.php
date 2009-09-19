@@ -69,7 +69,7 @@ class ActionTop extends Action {
 		/**
 		 * Получаем список блогов
 		 */
-		$aResult=$this->Blog_GetBlogsRating(1,20);	
+		$aResult=$this->Blog_GetBlogsRating(1,20);
 		$aBlogs=$aResult['collection'];	
 		/**
 		 * Загружаем переменные в шаблон
@@ -91,7 +91,7 @@ class ActionTop extends Action {
 		/**
 		 * Получаем список топиков
 		 */			
-		$aTopics=$this->Topic_GetTopicsRatingByDate($sDate,20);	
+		$aTopics=$this->Topic_GetTopicsRatingByDate($sDate,20);
 		/**
 		 * Загружаем переменные в шаблон
 		 */		
@@ -112,7 +112,7 @@ class ActionTop extends Action {
 		/**
 		 * Получаем список комментов
 		 */
-		$aComments=$this->Comment_GetCommentsRatingByDate($sDate,'topic',20);		
+		$aComments=$this->Comment_GetCommentsRatingByDate($sDate,'topic',20);
 		/**
 		 * Загружаем переменные в шаблон
 		 */				

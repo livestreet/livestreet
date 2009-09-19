@@ -17,7 +17,7 @@
 
 class Mapper_Comment extends Mapper {	
 	
-		public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit) {
+		public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aExcludeTarget=array()) {
 			$sql = "SELECT 
 					comment_id				
 				FROM 
@@ -32,10 +32,16 @@ class Mapper_Comment extends Mapper {
 					comment_date >= ? 
 					AND 
 					comment_rating >= 0
+					{ AND target_id NOT IN(?a) }  
 				ORDER by comment_rating desc, comment_id desc
 				LIMIT 0, ?d ";	
-		$aComments=array();
-		if ($aRows=$this->oDb->select($sql,$sTargetType,$sDate,$iLimit)) {
+		$aComments=array();		
+		if ($aRows=$this->oDb->select(
+				$sql,$sTargetType, $sDate,
+				(is_array($aExcludeTarget)&&count($aExcludeTarget)) ? $aExcludeTarget : DBSIMPLE_SKIP,
+				$iLimit
+			)
+		) {
 			foreach ($aRows as $aRow) {
 				$aComments[]=$aRow['comment_id'];
 			}

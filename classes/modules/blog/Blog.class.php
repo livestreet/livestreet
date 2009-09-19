@@ -650,23 +650,40 @@ class LsBlog extends Module {
 				$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
 			}
 		}
-		
 		return 	$aOpenBlogsUser;
 	}
 
 	/**
-	 * Получаем массив блогов, 
+	 * Получаем массив идентификаторов блогов, 
 	 * которые являются закрытыми для пользователя
 	 *
 	 * @param  UserEntity_User $oUser
 	 * @return array
 	 */	
-	public function GetCloseBlogsByUser($oUser) {
-		if ($oUser->isAdministrator()) {
+	public function GetCloseBlogsByUser($oUser=null) {
+		if ($oUser&&$oUser->isAdministrator()) {
 			return array();
 		}
+		$aCloseBlogs = $this->oMapperBlog->GetCloseBlogs();
 		
-		return array_diff_key((array)$this->GetBlogs(), (array)$this->GetOpenBlogsByUser($oUser));
+		if(!$oUser) {
+			return $aCloseBlogs;
+		}
+		
+		/**
+		 * Получаем массив идентификаторов блогов, 
+		 * которые являются откытыми для данного пользователя
+		 */
+		$aOpenBlogs = array();
+		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
+		foreach ($aBlogUsers as $oBlogUser) {
+			$oBlog=$oBlogUser->getBlog();
+			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
+				$aOpenBlogs[]=$oBlog->getId();
+			}
+		}
+		
+		return array_diff($aCloseBlogs,$aOpenBlogs);
 	}
 }
 ?>

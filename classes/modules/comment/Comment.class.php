@@ -307,10 +307,18 @@ class LsComment extends Module {
 	 * @return unknown
 	 */
 	public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit=20) {
+		/**
+		 * Выбираем топики, комметарии к которым являются недоступными для пользователя
+		 */
+		$aCloseTopics = ($this->oUserCurrent) 
+			? $this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId())
+			: $this->Topic_GetTopicsCloseByUser();
+		$s=serialize($aCloseTopics);
+		
 		//т.к. время передаётся с точностью 1 час то можно по нему замутить кеширование
-		if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}"))) {			
-			$data = $this->oMapper->GetCommentsRatingByDate($sDate,$sTargetType,$iLimit);
-			$this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}","comment_update_rating_{$sTargetType}"), 60*60*24*2);
+		if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}"))) {			
+			$data = $this->oMapper->GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aCloseTopics);
+			$this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}","comment_update_rating_{$sTargetType}"), 60*60*24*2);
 		}
 		$data=$this->GetCommentsAdditionalData($data);	
 		return $data;		

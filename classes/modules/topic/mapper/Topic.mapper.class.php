@@ -230,7 +230,7 @@ class Mapper_Topic extends Mapper {
 	}
 	
 	
-	public function GetTopicsRatingByDate($sDate,$iLimit) {
+	public function GetTopicsRatingByDate($sDate,$iLimit,$aExcludeBlog=array()) {
 		$sql = "SELECT 
 						t.topic_id										
 					FROM 
@@ -240,11 +240,17 @@ class Mapper_Topic extends Mapper {
 						AND
 						t.topic_date_add >= ?
 						AND
-						t.topic_rating >= 0 																	
+						t.topic_rating >= 0
+						{ AND t.blog_id NOT IN(?a) } 																	
 					ORDER by t.topic_rating desc, t.topic_id desc
 					LIMIT 0, ?d ";		
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql,$sDate,$iLimit)) {
+		if ($aRows=$this->oDb->select(
+				$sql,$sDate,
+				(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
+				$iLimit
+			)
+		) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
 			}

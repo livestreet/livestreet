@@ -21,7 +21,7 @@
 							</td>
 							{if $oUserCurrent}
 							<td class="join {if $oBlog->getUserIsJoin()}active{/if}">
-								{if $oUserCurrent->getId()!=$oBlog->getOwnerId()}
+								{if $oUserCurrent->getId()!=$oBlog->getOwnerId() and $oBlog->getType()=='open'}
 									<a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;"></a>
 								{/if}
 							</td>

@@ -279,7 +279,7 @@ class Mapper_Blog extends Mapper {
 					AND
 					bu.blog_id = b.blog_id
 					AND				
-					b.blog_type<>'personal'													
+					b.blog_type<>'personal'							
 				ORDER by b.blog_rating desc
 				LIMIT 0, ?d 
 				;	
@@ -304,12 +304,25 @@ class Mapper_Blog extends Mapper {
 					b.blog_type<>'personal'													
 				ORDER by b.blog_rating desc
 				LIMIT 0, ?d 
-				;	
-					";		
+			;";		
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {
 				$aReturn[]=Engine::GetEntity('Blog',$aRow);
+			}
+		}
+		return $aReturn;
+	}
+	
+	public function GetCloseBlogs() {
+		$sql = "SELECT b.blog_id													
+				FROM ".Config::Get('db.table.blog')." as b					
+				WHERE b.blog_type='close'
+			;";
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=$aRow['blog_id'];
 			}
 		}
 		return $aReturn;

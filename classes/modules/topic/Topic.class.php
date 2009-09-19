@@ -605,7 +605,7 @@ class LsTopic extends Module {
 			$aCloseBlogs=$this->Blog_GetCloseBlogsByUser($oUser);
 			$aFilter=array(
 				'topic_publish' => 1,
-				'blog_id' => array_keys((array)$aCloseBlogs),
+				'blog_id' => (array)$aCloseBlogs,
 			);
 		} else {
 			$aFilter=array(
@@ -694,9 +694,19 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicsRatingByDate($sDate,$iLimit=20) {
-		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$iLimit}"))) {
-			$data = $this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit);
-			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}", array('topic_update'), 60*60*24*2);
+		/**
+		 * Получаем список блогов, топики которых нужно исключить из выдачи
+		 */
+		$aCloseBlogs = ($this->oUserCurrent)
+			? $this->Blog_GetCloseBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetCloseBlogsByUser($oUser);
+		$aCloseBlogs = (array)$aCloseBlogs;	
+		
+		$s=serialize($aCloseBlogs);
+		
+		if (false === ($data = $this->Cache_Get("topic_rating_{$sDate}_{$iLimit}_{$s}"))) {
+			$data = $this->oMapperTopic->GetTopicsRatingByDate($sDate,$iLimit,$aCloseBlogs);
+			$this->Cache_Set($data, "topic_rating_{$sDate}_{$iLimit}_{$s}", array('topic_update'), 60*60*24*2);
 		}
 		$data=$this->GetTopicsAdditionalData($data);
 		return $data;
