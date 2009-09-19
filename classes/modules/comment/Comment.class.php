@@ -270,9 +270,9 @@ class LsComment extends Module {
 		 * то получаем exlude массив идентификаторов топиков, 
 		 * которые нужно исключить из выдачи
 		 */
-		$aCloseTopics = ($sId!=$this->oUserCurrent->getId()) 
-			? (array)$this->Topic_GetTopicsCloseByUser($sId)
-			: array();
+		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
+			? array()			
+			: (array)$this->Topic_GetTopicsCloseByUser();
 		
 		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
@@ -288,9 +288,9 @@ class LsComment extends Module {
 		 * то получаем exlude массив идентификаторов топиков, 
 		 * которые нужно исключить из выдачи
 		 */
-		$aCloseTopics = ($sId!=$this->oUserCurrent->getId()) 
-			? (array)$this->Topic_GetTopicsCloseByUser($sId)
-			: array();
+		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
+			? array()
+			: (array)$this->Topic_GetTopicsCloseByUser();
 				
 		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}"))) {			
 			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,$aCloseTopics);
@@ -563,18 +563,16 @@ class LsComment extends Module {
 	 * @return array
 	 */
 	public function GetCommentsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		$aCloseTopics = array();
 		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
+		 * Получаем список идентификаторов избранных комментов
 		 */
-		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
-			? array() 
-			: (array)$this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId());
-
-		// Получаем список идентификаторов избранных комментов
-		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$aCloseTopics,$iCurrPage,$iPerPage);
-		// Получаем комменты по переданому массиву айдишников
+		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId()) 
+			? $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$aCloseTopics,$iCurrPage,$iPerPage)
+			: $this->Favourite_GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage);
+		/**
+		 * Получаем комменты по переданому массиву айдишников
+		 */		
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);		
 		return $data;		
 	}
@@ -585,16 +583,9 @@ class LsComment extends Module {
 	 * @return int
 	 */
 	public function GetCountCommentsFavouriteByUserId($sUserId) {
-		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
-		 */
-		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
-			? array() 
-			: (array)$this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId());
-					
-		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'comment',$aCloseTopics);	
+		return ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId())
+			? $this->Favourite_GetCountFavouritesByUserId($sUserId,'comment')
+			: $this->Favourite_GetCountFavouriteOpenCommentsByUserId($sUserId);
 	}	
 	/**
 	 * Добавляет комментарий в избранное

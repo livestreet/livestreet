@@ -384,7 +384,7 @@ class Mapper_Topic extends Mapper {
 				
 				$aBlogTypes[] = (count($aBlogId)==0) 
 					? "(b.blog_type='".$sType."')"
-					: "(b.blog_type='".$sType."' AND t.blog_id IN ('".join("','",$aBlogId)."'))";			
+					: "(b.blog_type='".$sType."' AND t.blog_id IN ('".join("','",$aBlogId)."'))";
 			}
 			$sWhere.=" AND (".join(" OR ",(array)$aBlogTypes).")";
 		}

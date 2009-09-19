@@ -193,7 +193,104 @@ class LsFavourite extends Module {
 		}
 		return $data;
 	}
-	
+
+	/**
+	 * Получает список комментариев к записям открытых блогов 
+	 * из избранного указанного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int $iCurrPage
+	 * @param  int $iPerPage
+	 * @return array
+	 */
+	public function GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		if (false === ($data = $this->Cache_Get("comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {			
+			$data = array(
+				'collection' => $this->oMapper->GetFavouriteOpenCommentsByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),
+				'count'      => $iCount
+			);
+			$this->Cache_Set(
+				$data, 
+				"comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open", 
+				array(
+					"favourite_comment_change",
+					"favourite_comment_change_user_{$sUserId}"
+				), 
+				60*60*24*1
+			);
+		}		
+		return $data;
+	}	
+	/**
+	 * Возвращает число комментариев к открытым блогам в избранном по ID пользователя
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
+	public function GetCountFavouriteOpenCommentsByUserId($sUserId) {
+		if (false === ($data = $this->Cache_Get("comment_count_favourite_user_{$sUserId}_open"))) {			
+			$data = $this->oMapper->GetCountFavouriteOpenCommentsByUserId($sUserId);
+			$this->Cache_Set(
+				$data, 
+				"comment_count_favourite_user_{$sUserId}_open", 
+				array(
+					"favourite_comment_change",
+					"favourite_comment_change_user_{$sUserId}"
+				), 
+				60*60*24*1
+			);
+		}
+		return $data;
+	}	
+	/**
+	 * Получает список топиков из открытых блогов 
+	 * из избранного указанного пользователя
+	 *
+	 * @param  string $sUserId
+	 * @param  int $iCurrPage
+	 * @param  int $iPerPage
+	 * @return array
+	 */
+	public function GetFavouriteOpenTopicsByUserId($sUserId,$iCurrPage,$iPerPage) {		
+		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {			
+			$data = array(
+				'collection' => $this->oMapper->GetFavouriteOpenTopicsByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),
+				'count'      => $iCount
+			);
+			$this->Cache_Set(
+				$data, 
+				"topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open", 
+				array(
+					"favourite_topic_change",
+					"favourite_topic_change_user_{$sUserId}"
+				), 
+				60*60*24*1
+			);
+		}		
+		return $data;
+	}	
+	/**
+	 * Возвращает число топиков в открытых блогах 
+	 * из избранного по ID пользователя
+	 *
+	 * @param  string $sUserId
+	 * @return array
+	 */
+	public function GetCountFavouriteOpenTopicsByUserId($sUserId) {
+		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}_open"))) {			
+			$data = $this->oMapper->GetCountFavouriteOpenTopicsByUserId($sUserId);
+			$this->Cache_Set(
+				$data, 
+				"topic_count_favourite_user_{$sUserId}_open", 
+				array(
+					"favourite_topic_change",
+					"favourite_topic_change_user_{$sUserId}"
+				), 
+				60*60*24*1
+			);
+		}
+		return $data;
+	}		
 	/**
 	 * Добавляет таргет в избранное
 	 *

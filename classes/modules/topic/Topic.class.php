@@ -338,19 +338,13 @@ class LsTopic extends Module {
 	 * @return array
 	 */
 	public function GetTopicsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
-		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
-		 */
-		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
-			? array() 
-			: (array)$this->GetTopicsCloseByUser($this->oUserCurrent->getId());
-							
+		$aCloseTopics =array();							
 		/**
 		 * Получаем список идентификаторов избранных записей
 		 */
-		$data = $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$aCloseTopics,$iCurrPage,$iPerPage);
+		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId())
+			? $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$aCloseTopics,$iCurrPage,$iPerPage)
+			: $this->Favourite_GetFavouriteOpenTopicsByUserId($sUserId,$iCurrPage,$iPerPage);
 		/**
 		 * Получаем записи по переданому массиву айдишников
 		 */
@@ -364,16 +358,10 @@ class LsTopic extends Module {
 	 * @return int
 	 */
 	public function GetCountTopicsFavouriteByUserId($sUserId) {
-		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
-		 */
-		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
-			? array() 
-			: (array)$this->GetTopicsCloseByUser($this->oUserCurrent->getId());
-					
-		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic',$aCloseTopics);	
+		$aCloseTopics = array();					
+		return ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId()) 
+			? $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic',$aCloseTopics)
+			: $this->Favourite_GetCountFavouriteOpenTopicsByUserId($sUserId);	
 	}
 	/**
 	 * Список топиков по фильтру
@@ -571,7 +559,7 @@ class LsTopic extends Module {
 		 * Если пользователь смотрит свой профиль, то добавляем в выдачу
 		 * закрытые блоги в которых он состоит
 		 */
-		if($this->oUserCurrent->getId()==$sUserId) {
+		if($this->oUserCurrent && $this->oUserCurrent->getId()==$sUserId) {
 			$aFilter['blog_type'][]='close';
 		}		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
@@ -594,7 +582,7 @@ class LsTopic extends Module {
 		 * Если пользователь смотрит свой профиль, то добавляем в выдачу
 		 * закрытые блоги в которых он состоит
 		 */
-		if($this->oUserCurrent->getId()==$sUserId) {
+		if($this->oUserCurrent && $this->oUserCurrent->getId()==$sUserId) {
 			$aFilter['blog_type'][]='close';
 		}		
 		$s=serialize($aFilter);

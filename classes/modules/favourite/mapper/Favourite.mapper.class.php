@@ -120,7 +120,7 @@ class Mapper_Favourite extends Mapper {
 		}		
 		return $aFavourites;
 	}
-	
+		
 	public function GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget) {
 		$sql = "SELECT 		
 					count(target_id) as count									
@@ -140,6 +140,130 @@ class Mapper_Favourite extends Mapper {
 						(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP)
 					) 
 				)
+					? $aRow['count']
+					: false;
+	}	
+	
+	public function GetFavouriteOpenCommentsByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {	
+		$sql = "
+			SELECT f.target_id										
+			FROM 
+				".Config::Get('db.table.favourite')." AS f,
+				".Config::Get('db.table.comment')." AS c,
+				".Config::Get('db.table.topic')." AS t,
+				".Config::Get('db.table.blog')." AS b	
+			WHERE 
+					f.user_id = ?d
+				AND
+					f.target_publish = 1
+				AND
+					f.target_type = 'comment'
+				AND
+					f.target_id = c.comment_id
+				AND 
+					c.target_id = t.topic_id
+				AND 
+					t.blog_id = b.blog_id
+				AND 
+					b.blog_type IN ('open', 'personal')	
+            ORDER BY target_id DESC	
+            LIMIT ?d, ?d ";
+		
+		$aFavourites=array();		
+		if ($aRows=$this->oDb->selectPage(
+				$iCount, $sql, $sUserId,
+				($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aFavourite) {
+				$aFavourites[]=$aFavourite['target_id'];
+			}			
+		}		
+		return $aFavourites;
+	}	
+
+	public function GetCountFavouriteOpenCommentsByUserId($sUserId) {
+		$sql = "SELECT 		
+					count(f.target_id) as count									
+				FROM 
+					".Config::Get('db.table.favourite')." AS f,
+					".Config::Get('db.table.comment')." AS c,
+					".Config::Get('db.table.topic')." AS t,
+					".Config::Get('db.table.blog')." AS b	
+				WHERE 
+						f.user_id = ?d
+					AND
+						f.target_publish = 1
+					AND
+						f.target_type = 'comment'
+					AND
+						f.target_id = c.comment_id
+					AND 
+						c.target_id = t.topic_id
+					AND 
+						t.blog_id = b.blog_id
+					AND 
+						b.blog_type IN ('open', 'personal')		
+					;";				
+		return ( $aRow=$this->oDb->selectRow($sql,$sUserId) )
+					? $aRow['count']
+					: false;
+	}
+
+	public function GetFavouriteOpenTopicsByUserId($sUserId,&$iCount,$iCurrPage,$iPerPage) {	
+		$sql = "
+			SELECT f.target_id										
+			FROM 
+				".Config::Get('db.table.favourite')." AS f,
+				".Config::Get('db.table.topic')." AS t,
+				".Config::Get('db.table.blog')." AS b	
+			WHERE 
+					f.user_id = ?d
+				AND
+					f.target_publish = 1
+				AND
+					f.target_type = 'comment'
+				AND
+					f.target_id = t.topic_id
+				AND 
+					t.blog_id = b.blog_id
+				AND 
+					b.blog_type IN ('open', 'personal')	
+            ORDER BY target_id DESC	
+            LIMIT ?d, ?d ";
+		
+		$aFavourites=array();		
+		if ($aRows=$this->oDb->selectPage(
+				$iCount, $sql, $sUserId,
+				($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aFavourite) {
+				$aFavourites[]=$aFavourite['target_id'];
+			}			
+		}		
+		return $aFavourites;
+	}	
+
+	public function GetCountFavouriteOpenTopicsByUserId($sUserId) {
+		$sql = "SELECT 		
+					count(f.target_id) as count									
+				FROM 
+					".Config::Get('db.table.favourite')." AS f,
+					".Config::Get('db.table.topic')." AS t,
+					".Config::Get('db.table.blog')." AS b	
+				WHERE 
+						f.user_id = ?d
+					AND
+						f.target_publish = 1
+					AND
+						f.target_type = 'comment'
+					AND
+						f.target_id = t.topic_id
+					AND 
+						t.blog_id = b.blog_id
+					AND 
+						b.blog_type IN ('open', 'personal')		
+					;";				
+		return ( $aRow=$this->oDb->selectRow($sql,$sUserId) )
 					? $aRow['count']
 					: false;
 	}	
