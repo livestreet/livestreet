@@ -388,6 +388,7 @@ class Mapper_Topic extends Mapper {
 			}
 			$sWhere.=" AND (".join(" OR ",(array)$aBlogTypes).")";
 		}
+		
 		return $sWhere;
 	}
 	

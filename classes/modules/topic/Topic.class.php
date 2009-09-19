@@ -343,10 +343,10 @@ class LsTopic extends Module {
 		 * то получаем exlude массив идентификаторов топиков, 
 		 * которые нужно исключить из выдачи
 		 */
-		$aCloseTopics = ($sUserId!=$this->oUserCurrent->getId()) 
-			? (array)$this->Topic_GetTopicsCloseByUser($sUserId)
-			: array();
-					
+		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
+			? array() 
+			: (array)$this->GetTopicsCloseByUser($this->oUserCurrent->getId());
+							
 		/**
 		 * Получаем список идентификаторов избранных записей
 		 */
@@ -369,9 +369,9 @@ class LsTopic extends Module {
 		 * то получаем exlude массив идентификаторов топиков, 
 		 * которые нужно исключить из выдачи
 		 */
-		$aCloseTopics = ($sUserId!=$this->oUserCurrent->getId()) 
-			? (array)$this->Topic_GetTopicsCloseByUser($sUserId)
-			: array();
+		$aCloseTopics =($sUserId==$this->oUserCurrent->getId()) 
+			? array() 
+			: (array)$this->GetTopicsCloseByUser($this->oUserCurrent->getId());
 					
 		return $this->Favourite_GetCountFavouritesByUserId($sUserId,'topic',$aCloseTopics);	
 	}
@@ -612,12 +612,20 @@ class LsTopic extends Module {
 	 * @param  string $sUserId
 	 * @return array
 	 */
-	public function GetTopicsCloseByUser($sUserId) {
-		$aFilter=array(
-			'topic_publish' => 1,
-			'user_id' => $sUserId,
-			'blog_type' => array('close'),
-		);
+	public function GetTopicsCloseByUser($sUserId=null) {
+		if(!is_null($sUserId) && $oUser=$this->User_GetUserById($sUserId)) {
+			$aCloseBlogs=$this->Blog_GetCloseBlogsByUser($oUser);
+			$aFilter=array(
+				'topic_publish' => 1,
+				'blog_id' => array_keys((array)$aCloseBlogs),
+			);
+		} else {
+			$aFilter=array(
+				'topic_publish' => 1,
+				'blog_type' => array('close'),
+			);
+		}
+		
 		$aTopics=$this->GetTopicsByFilter($aFilter);
 		return array_keys((array)$aTopics['collection']);
 	}

@@ -653,6 +653,20 @@ class LsBlog extends Module {
 		
 		return 	$aOpenBlogsUser;
 	}
-	
+
+	/**
+	 * Получаем массив блогов, 
+	 * которые являются закрытыми для пользователя
+	 *
+	 * @param  UserEntity_User $oUser
+	 * @return array
+	 */	
+	public function GetCloseBlogsByUser($oUser) {
+		if ($oUser->isAdministrator()) {
+			return array();
+		}
+		
+		return array_diff_key((array)$this->GetBlogs(), (array)$this->GetOpenBlogsByUser($oUser));
+	}
 }
 ?>

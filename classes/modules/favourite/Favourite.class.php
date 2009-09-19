@@ -160,7 +160,7 @@ class LsFavourite extends Module {
 			);
 			$this->Cache_Set(
 				$data, 
-				"{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}", 
+				"{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}", 
 				array(
 					"favourite_{$sTargetType}_change",
 					"favourite_{$sTargetType}_change_user_{$sUserId}"
@@ -178,11 +178,12 @@ class LsFavourite extends Module {
 	 * @return array
 	 */
 	public function GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget=array()) {
-		if (false === ($data = $this->Cache_Get("{$sTargetType}_count_favourite_user_{$sUserId}"))) {			
+		$s=serialize($aExcludeTarget);
+		if (false === ($data = $this->Cache_Get("{$sTargetType}_count_favourite_user_{$sUserId}_{$s}"))) {			
 			$data = $this->oMapper->GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget);
 			$this->Cache_Set(
 				$data, 
-				"{$sTargetType}_count_favourite_user_{$sUserId}", 
+				"{$sTargetType}_count_favourite_user_{$sUserId}_{$s}", 
 				array(
 					"favourite_{$sTargetType}_change",
 					"favourite_{$sTargetType}_change_user_{$sUserId}"

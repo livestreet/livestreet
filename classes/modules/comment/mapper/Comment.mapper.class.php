@@ -107,16 +107,23 @@ class Mapper_Comment extends Mapper {
 	}
 	
 		
-	public function GetCommentsOnline($sTargetType,$iLimit) {		
+	public function GetCommentsOnline($sTargetType,$aExcludeTopics,$iLimit) {		
 		$sql = "SELECT 					
 					comment_id	
 				FROM 
 					".Config::Get('db.table.comment_online')." 
 				WHERE 												
-					target_type = ?										
-				ORDER by comment_online_id desc limit 0, ?d ; "; 		
+					target_type = ?
+				{ AND target_id NOT IN(?a) }									
+				ORDER by comment_online_id desc limit 0, ?d ; ";
+		
 		$aComments=array();
-		if ($aRows=$this->oDb->select($sql,$sTargetType,$iLimit)) {
+		if ($aRows=$this->oDb->select(
+				$sql,$sTargetType,
+				(count($aExcludeTopics)?$aExcludeTopics:DBSIMPLE_SKIP),
+				$iLimit
+			)
+		) {
 			foreach ($aRows as $aRow) {
 				$aComments[]=$aRow['comment_id'];
 			}
