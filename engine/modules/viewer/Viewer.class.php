@@ -251,9 +251,9 @@ class LsViewer extends Module {
 			$sMsgTitle=$aMsgNotice[0]['title'];
 			$sMsg=$aMsgNotice[0]['msg'];
 		}
-		$this->AssingAjax('sMsgTitle',$sMsgTitle);
-		$this->AssingAjax('sMsg',$sMsg);
-		$this->AssingAjax('bStateError',$bStateError);		
+		$this->AssignAjax('sMsgTitle',$sMsgTitle);
+		$this->AssignAjax('sMsg',$sMsg);
+		$this->AssignAjax('bStateError',$bStateError);		
 		if ($sType=='jsHttpRequest') {			
 			foreach ($this->aVarsAjax as $key => $value) {
 				$GLOBALS['_RESULT'][$key]=$value;
@@ -299,7 +299,7 @@ class LsViewer extends Module {
 	 * @param unknown_type $sName
 	 * @param unknown_type $value
 	 */
-	public function AssingAjax($sName,$value) {
+	public function AssignAjax($sName,$value) {
 		$this->aVarsAjax[$sName]=$value;
 	}
 	/**

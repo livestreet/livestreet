@@ -847,7 +847,7 @@ class ActionBlog extends Action {
 		* Добавляем коммент
 		*/
 		if ($this->Comment_AddComment($oCommentNew)) {			
-			$this->Viewer_AssingAjax('sCommentId',$oCommentNew->getId());
+			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			if ($oTopic->getPublish()) {
 				/**
 			 	* Добавляем коммент в прямой эфир если топик не в черновиках

@@ -337,7 +337,7 @@ class ActionProfile extends Action {
 
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
-					$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
 				
 				} else {
 					$this->Message_AddErrorSingle(
@@ -449,7 +449,7 @@ class ActionProfile extends Action {
 
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
-					$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
 				
 				} else {
 					$this->Message_AddErrorSingle(
@@ -555,7 +555,7 @@ class ActionProfile extends Action {
 		
 		$oViewerLocal=$this->GetViewerLocal();
 		$oViewerLocal->Assign('oUserFriend',$oFriendNew);			
-		$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+		$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
 	}
 	
 	/**
@@ -617,7 +617,7 @@ class ActionProfile extends Action {
 
 			$oViewerLocal=$this->GetViewerLocal();
 			$oViewerLocal->Assign('oUserFriend',$oFriend);
-			$this->Viewer_AssingAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+			$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
 			return;	
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));

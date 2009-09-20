@@ -448,8 +448,8 @@ class ActionTalk extends Action {
 				);
 			}
 		}
-		$this->Viewer_AssingAjax('aComments',$aComments);
-		$this->Viewer_AssingAjax('iMaxIdComment',$iMaxIdComment);
+		$this->Viewer_AssignAjax('aComments',$aComments);
+		$this->Viewer_AssignAjax('iMaxIdComment',$iMaxIdComment);
 	}
 	/**
 	 * Обработка добавление комментария к топику через ajax
@@ -545,7 +545,7 @@ class ActionTalk extends Action {
 		* Добавляем коммент
 		*/
 		if ($this->Comment_AddComment($oCommentNew)) {
-			$this->Viewer_AssingAjax('sCommentId',$oCommentNew->getId());
+			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
 			$oTalk->setCountComment($oTalk->getCountComment()+1);
 			$this->Talk_UpdateTalk($oTalk);
@@ -646,7 +646,7 @@ class ActionTalk extends Action {
 		}
 		
 		// Передаем во вьевер массив с результатами обработки по каждому пользователю
-		$this->Viewer_AssingAjax('aUsers',$aResult);		
+		$this->Viewer_AssignAjax('aUsers',$aResult);		
 	}
 	
 	/**
@@ -947,7 +947,7 @@ class ActionTalk extends Action {
 			}	
 		}
 		// Передаем во вьевер массив результатов обработки по каждому пользователю
-		$this->Viewer_AssingAjax('aUsers',$aResult);		
+		$this->Viewer_AssignAjax('aUsers',$aResult);		
 	}
 	
 	public function EventShutdown()
