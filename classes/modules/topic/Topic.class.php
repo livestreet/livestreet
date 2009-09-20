@@ -427,8 +427,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}
 		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
@@ -455,8 +455,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}			
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
@@ -479,8 +479,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}	
 		$aReturn=$this->GetTopicsByFilter($aFilter,1,$iCount);
 		if (isset($aReturn['collection'])) {
@@ -602,10 +602,10 @@ class LsTopic extends Module {
 	 */
 	public function GetTopicsCloseByUser($sUserId=null) {
 		if(!is_null($sUserId) && $oUser=$this->User_GetUserById($sUserId)) {
-			$aCloseBlogs=$this->Blog_GetCloseBlogsByUser($oUser);
+			$aCloseBlogs=$this->Blog_GetInaccessibleBlogsByUser($oUser);
 			$aFilter=array(
 				'topic_publish' => 1,
-				'blog_id' => (array)$aCloseBlogs,
+				'blog_id' => $aCloseBlogs,
 			);
 		} else {
 			$aFilter=array(
@@ -615,7 +615,7 @@ class LsTopic extends Module {
 		}
 		
 		$aTopics=$this->GetTopicsByFilter($aFilter);
-		return array_keys((array)$aTopics['collection']);
+		return array_keys($aTopics['collection']);
 	}
 	
 	/**
@@ -657,8 +657,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}	
@@ -681,8 +681,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}		
 		return $this->GetCountTopicsByFilter($aFilter);		
 	}
@@ -698,9 +698,8 @@ class LsTopic extends Module {
 		 * Получаем список блогов, топики которых нужно исключить из выдачи
 		 */
 		$aCloseBlogs = ($this->oUserCurrent)
-			? $this->Blog_GetCloseBlogsByUser($this->oUserCurrent)
-			: $this->Blog_GetCloseBlogsByUser($oUser);
-		$aCloseBlogs = (array)$aCloseBlogs;	
+			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetInaccessibleBlogsByUser();	
 		
 		$s=serialize($aCloseBlogs);
 		
@@ -752,8 +751,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
@@ -781,8 +780,8 @@ class LsTopic extends Module {
 		 * закрытые блоги в которых он состоит
 		 */
 		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetOpenBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys((array)$aOpenBlogs);
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}	
 				
 		return $this->GetCountTopicsByFilter($aFilter);		
@@ -814,12 +813,26 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicTags($iLimit,$aExcludeTopic=array()) {
-		if (false === ($data = $this->Cache_Get("tag_{$iLimit}"))) {			
+		$s=serialize($aExcludeTopic);
+		if (false === ($data = $this->Cache_Get("tag_{$iLimit}_{$s}"))) {			
 			$data = $this->oMapperTopic->GetTopicTags($iLimit,$aExcludeTopic);
-			$this->Cache_Set($data, "tag_{$iLimit}", array('topic_update','topic_new'), 60*60*24*3);
+			$this->Cache_Set($data, "tag_{$iLimit}_{$s}", array('topic_update','topic_new'), 60*60*24*3);
 		}
-		return $data;		
+		return $data;
 	}
+	/**
+	 * Получает список тегов из топиков открытых блогов (open,personal)
+	 *
+	 * @param  int $iLimit
+	 * @return array
+	 */
+	public function GetOpenTopicTags($iLimit) {
+		if (false === ($data = $this->Cache_Get("tag_{$iLimit}_open"))) {			
+			$data = $this->oMapperTopic->GetOpenTopicTags($iLimit);
+			$this->Cache_Set($data, "tag_{$iLimit}_open", array('topic_update','topic_new'), 60*60*24*3);
+		}
+		return $data;
+	}	
 	
 	/**
 	 * Увеличивает у топика число комментов

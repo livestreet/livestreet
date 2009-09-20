@@ -629,7 +629,7 @@ class LsBlog extends Module {
 	 * @param  UserEntity_User $oUser
 	 * @return array
 	 */
-	public function GetOpenBlogsByUser($oUser) {
+	public function GetAccessibleBlogsByUser($oUser) {
 		if ($oUser->isAdministrator()) {
 			return $this->GetBlogs();
 		}
@@ -637,6 +637,7 @@ class LsBlog extends Module {
 		/**
 		 * Заносим блоги, созданные пользователем
 		 */
+		$aOpenBlogsUser=array();
 		$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
 
 		/**
@@ -660,10 +661,11 @@ class LsBlog extends Module {
 	 * @param  UserEntity_User $oUser
 	 * @return array
 	 */	
-	public function GetCloseBlogsByUser($oUser=null) {
+	public function GetInaccessibleBlogsByUser($oUser=null) {
 		if ($oUser&&$oUser->isAdministrator()) {
 			return array();
 		}
+		$aCloseBlogs=array();
 		$aCloseBlogs = $this->oMapperBlog->GetCloseBlogs();
 		
 		if(!$oUser) {

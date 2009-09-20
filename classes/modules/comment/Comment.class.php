@@ -243,8 +243,8 @@ class LsComment extends Module {
 		 * которые нужно исключить из выдачи
 		 */
 		$aCloseTopics = ($this->oUserCurrent)
-			? (array)$this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId())
-			: (array)$this->Topic_GetTopicsCloseByUser();
+			? $this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId())
+			: $this->Topic_GetTopicsCloseByUser();
 			
 		$s=serialize($aCloseTopics);
 		
@@ -272,11 +272,12 @@ class LsComment extends Module {
 		 */
 		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
 			? array()			
-			: (array)$this->Topic_GetTopicsCloseByUser();
-		
-		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
+			: $this->Topic_GetTopicsCloseByUser();
+		$s=serialize($aCloseTopics);
+			
+		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
+			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$iCount,$iPage,$iPerPage,$aCloseTopics),'count'=>$iCount);
+			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
 		return $data;				
@@ -290,9 +291,10 @@ class LsComment extends Module {
 		 */
 		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
 			? array()
-			: (array)$this->Topic_GetTopicsCloseByUser();
-				
-		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}"))) {			
+			: $this->Topic_GetTopicsCloseByUser();
+		$s=serialize($aCloseTopics);		
+		
+		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}_{$s}"))) {			
 			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,$aCloseTopics);
 			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}

@@ -297,7 +297,39 @@ class Mapper_Topic extends Mapper {
 		}
 		return $aReturnSort;
 	}
-	
+
+	public function GetOpenTopicTags($iLimit) {
+		$sql = "
+			SELECT 
+				tt.topic_tag_text,
+				count(tt.topic_tag_text)	as count		 
+			FROM 
+				".Config::Get('db.table.topic_tag')." as tt,
+				".Config::Get('db.table.blog')." as b
+			WHERE 
+				tt.blog_id = b.blog_id
+				AND
+				b.blog_type IN ('open','personal')
+			GROUP BY 
+				tt.topic_tag_text
+			ORDER BY 
+				count desc		
+			LIMIT 0, ?d
+				";	
+		$aReturn=array();
+		$aReturnSort=array();
+		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+			foreach ($aRows as $aRow) {				
+				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
+			}
+			ksort($aReturn);
+			foreach ($aReturn as $aRow) {
+				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);				
+			}
+		}
+		return $aReturnSort;
+	}
+
 	
 	public function increaseTopicCountComment($sTopicId) {
 		$sql = "UPDATE ".Config::Get('db.table.topic')." 

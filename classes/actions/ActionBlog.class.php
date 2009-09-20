@@ -570,7 +570,7 @@ class ActionBlog extends Action {
 			and (!$this->oUserCurrent 
 				|| !in_array(
 						$oTopic->getBlog()->getId(),
-						array_keys((array)$this->Blog_GetOpenBlogsByUser($this->oUserCurrent))
+						array_keys($this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent))
 					)
 				)
 			) {
@@ -661,7 +661,7 @@ class ActionBlog extends Action {
 			and (!$this->oUserCurrent 
 				|| !in_array(
 						$oBlog->getId(),
-						array_keys((array)$this->Blog_GetOpenBlogsByUser($this->oUserCurrent))
+						array_keys($this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent))
 					)
 				)
 			) {

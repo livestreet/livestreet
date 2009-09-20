@@ -178,7 +178,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCommentsByUserId($sId,$sTargetType,$aExcludeTarget,&$iCount,$iCurrPage,$iPerPage) {
+	public function GetCommentsByUserId($sId,$sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {
 		$sql = "SELECT 
 					comment_id 					
 				FROM 
@@ -209,7 +209,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCountCommentsByUserId($sId,$sTargetType,$aExcludeTarget) {
+	public function GetCountCommentsByUserId($sId,$sTargetType,$aExcludeTarget=array()) {
 		$sql = "SELECT 
 					count(comment_id) as count					
 				FROM 

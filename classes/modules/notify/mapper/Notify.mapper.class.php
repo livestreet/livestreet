@@ -61,7 +61,7 @@ class Mapper_Notify extends Mapper {
 			INSERT INTO ".Config::Get('db.table.notify_task')." 
 				( user_login, user_mail, notify_subject, notify_text, date_created, notify_task_status )
 			VALUES 
-				".implode(', ', (array)$aValues);	
+				".implode(', ', $aValues);	
 
 		return $this->oDb->query($sql);
 	}
