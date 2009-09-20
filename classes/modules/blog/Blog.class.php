@@ -640,7 +640,7 @@ class LsBlog extends Module {
 		$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
 
 		/**
-		 * Добавляем блоги, в которых сооит пользователь
+		 * Добавляем блоги, в которых состоит пользователь
 		 * (читателем, модератором, или администратором)
 		 */
 		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());

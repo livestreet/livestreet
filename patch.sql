@@ -124,4 +124,4 @@ ALTER TABLE `prefix_blog_user`
   DROP `is_administrator`;
  
 ALTER TABLE  `prefix_blog_user` ADD  `user_role` INT( 3 ) NOT NULL ;
-ALTER TABLE  `prefix_blog_user` CHANGE  `user_role`  `user_role` INT( 3 ) DEFAULT  '1'
+ALTER TABLE  `prefix_blog_user` CHANGE  `user_role`  `user_role` INT( 3 ) DEFAULT  '1';

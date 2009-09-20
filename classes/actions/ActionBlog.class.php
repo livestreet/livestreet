@@ -477,7 +477,7 @@ class ActionBlog extends Action {
 			$bOk=false;
 		}
 		/**
-		 * Проверяем доступные типы блога для создания, пока доступен только один тип - open
+		 * Проверяем доступные типы блога для создания
 		 */
 		if (!in_array(getRequest('blog_type'),array('open','close'))) {
 			$this->Message_AddError($this->Lang_Get('blog_create_type_error'),$this->Lang_Get('error'));

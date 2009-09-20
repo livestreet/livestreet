@@ -24,7 +24,7 @@
 				<option value="open" {if $_aRequest.blog_type=='open'}selected{/if}>{$aLang.blog_create_type_open}</option>
 				<option value="close" {if $_aRequest.blog_type=='close'}selected{/if}>{$aLang.blog_create_type_close}</option>
 			</select><br />
-			<span class="form_note">{$aLang.blog_create_type_notice}</span></p>
+			<span class="form_note">{$aLang.blog_create_type_open_notice}</span></p>
 
 			<p><label for="blog_description">{$aLang.blog_create_description}:</label><br />
 			<textarea name="blog_description" id="blog_description" rows="20">{$_aRequest.blog_description}</textarea><br />

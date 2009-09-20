@@ -276,7 +276,7 @@ class LsComment extends Module {
 		
 		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {			
 			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_user_{$sId}","comment_update_status_{$sTargetType}"), 60*60*24*2);
+			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
 		return $data;				
@@ -294,7 +294,7 @@ class LsComment extends Module {
 				
 		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}"))) {			
 			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,$aCloseTopics);
-			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}","comment_update_status_{$sTargetType}"), 60*60*24*2);
+			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		return $data;		
 	}
