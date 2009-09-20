@@ -67,7 +67,7 @@ class Cron extends Object {
 	 * Проверяет уникальность создаваемого процесса
 	 */
 	public function isLock() {
-		return ($this->oLockFile && !flock($this->sLockFile, LOCK_EX|LOCK_NB));
+		return ($this->oLockFile && !flock($this->oLockFile, LOCK_EX|LOCK_NB));
 	}
 	/**
 	 * Снимает блокировку на повторный процесс
