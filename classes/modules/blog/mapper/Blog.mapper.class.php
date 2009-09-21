@@ -137,7 +137,12 @@ class Mapper_Blog extends Mapper {
 			$sWhere.=" AND bu.user_id =  ".(int)$aFilter['user_id'];
 		}
 		if (isset($aFilter['user_role'])) {
-			$sWhere.=" AND bu.user_role = '".(int)$aFilter['user_role']."'";			
+			if(!is_array($aFilter['user_role'])) {
+				$aFilter['user_role']=array($aFilter['user_role']);
+			}
+			$sWhere.=" AND bu.user_role IN ('".join("', '",$aFilter['user_role'])."')";		
+		} else {
+			$sWhere.=" AND bu.user_role>".LsBlog::BLOG_USER_ROLE_GUEST;
 		}
 		
 		$sql = "SELECT
@@ -151,7 +156,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql)) {
 			foreach ($aRows as $aUser) {
-				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
+				$aBlogUsers[$aUser['user_id']]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
 		}
 		return $aBlogUsers;
@@ -315,7 +320,7 @@ class Mapper_Blog extends Mapper {
 	}
 	
 	public function GetCloseBlogs() {
-		$sql = "SELECT b.blog_id													
+		$sql = "SELECT b.blog_id										
 				FROM ".Config::Get('db.table.blog')." as b					
 				WHERE b.blog_type='close'
 			;";

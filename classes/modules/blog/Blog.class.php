@@ -30,7 +30,15 @@ class LsBlog extends Module {
 	const BLOG_USER_ROLE_USER          = 1;
 	const BLOG_USER_ROLE_MODERATOR     = 2;
 	const BLOG_USER_ROLE_ADMINISTRATOR = 4;
-		
+	/**
+	 * Пользователь, приглашенный админом блога в блог
+	 */
+	const BLOG_USER_ROLE_INVITE        = -1;
+	/**
+	 * Пользователь, отклонивший приглашение админа
+	 */
+	const BLOG_USER_ROLE_REJECT        = -2;
+	
 	protected $oMapperBlog;	
 	protected $oUserCurrent=null;
 		
@@ -352,10 +360,14 @@ class LsBlog extends Module {
 	}
 		
 	/**
-	 * Получает список пользователей блога
+	 * Получает список пользователей блога.
+	 * Если роль не указана, то считаем что 
+	 * поиск производиться по положительным значениям
+	 * (статусом выше GUEST).
 	 *
-	 * @param unknown_type $sBlogId
-	 * @return unknown
+	 * @param  string           $sBlogId
+	 * @param  (null|int|array) $iRole
+	 * @return array
 	 */
 	public function GetBlogUsersByBlogId($sBlogId,$iRole=null) {
 		$aFilter=array(
@@ -645,12 +657,14 @@ class LsBlog extends Module {
 		 * (читателем, модератором, или администратором)
 		 */
 		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
+		
 		foreach ($aBlogUsers as $oBlogUser) {
 			$oBlog=$oBlogUser->getBlog();
 			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
 				$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
 			}
 		}
+		
 		return 	$aOpenBlogsUser;
 	}
 
@@ -684,7 +698,6 @@ class LsBlog extends Module {
 				$aOpenBlogs[]=$oBlog->getId();
 			}
 		}
-		
 		return array_diff($aCloseBlogs,$aOpenBlogs);
 	}
 }

@@ -220,8 +220,6 @@ class ActionProfile extends Action {
 		 */
 		if(!$oUser=$this->User_GetUserById($sUserId)) {
 			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
-			$this->Message_Shutdown();
-			
 			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
@@ -243,9 +241,7 @@ class ActionProfile extends Action {
 			$sMessage=($oFriend)
 				? $this->Lang_Get('user_friend_offer_already_done')
 				: $this->Lang_Get('user_friend_offer_not_found');
-			
 			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
-			$this->Message_Shutdown();
 			
 			Router::Location(Router::GetPath('talk'));
 			return ;			
@@ -273,8 +269,6 @@ class ActionProfile extends Action {
 				true
 			);
 		}
-		
-		$this->Message_Shutdown();
 		Router::Location(Router::GetPath('talk'));
 	}
 	
@@ -362,7 +356,7 @@ class ActionProfile extends Action {
 
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
-		 */		
+		 */
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('need_authorization'),

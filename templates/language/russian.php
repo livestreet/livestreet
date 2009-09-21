@@ -143,7 +143,20 @@ return array(
 	'blog_admin_users_submit_ok' => 'Права сохранены',
 	'blog_admin_users_submit_error' => 'Что-то не так',
 	
+	'blog_admin_user_add_label' => 'Пригласить пользователей:',
+	'blog_admin_user_invited' => 'Список приглашенных:',
 	'blog_close_show' => 'Это закрытый блог, у вас нет прав на просмотр контента',
+	'blog_user_invite_add_self' => 'Нельзя отправить инвайт самому себе',
+	'blog_user_invite_add_ok' => 'Пользователю %%login%% отправлено приглашение',
+	'blog_user_already_invited' => 'Пользователю %%login%% уже отправлен инвайт',
+	'blog_user_already_exists' => 'Пользователю %%login%% уже состоит в блоге',
+	'blog_user_already_reject' => 'Пользователю %%login%% отклонил инвайт',
+	'blog_user_invite_title' => "Приглашение стать читателем блога '%%blog_title%%'",
+	'blog_user_invite_text' => "Пользователь %%login%% приглашает вас стать читателем закрытого блога '%%blog_title%%'.<br/><br/><a href='%%accept_path%%'>Принять</a> - <a href='%%reject_path%%'>Отклонить</a>",
+	'blog_user_invite_already_done' => 'Вы уже являетесь пользователем этого блога',
+	'blog_user_invite_accept' => 'Приглашение принято',
+	'blog_user_invite_reject' => 'Приглашение отклонено',
+	
 	/**
 	 * Топики
 	 */

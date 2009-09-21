@@ -95,7 +95,7 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём текущего пользователя
 		 */
-		$this->oUserCurrent=$this->User_GetUserCurrent();
+		$this->oUserCurrent=$this->User_GetUserCurrent();	
 		/**
 		 * Определяем какие блоки нужно выводить справа
 		 */
@@ -122,8 +122,10 @@ class ActionBlog extends Action {
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('admin','EventAdminBlog');
+		$this->AddEvent('invite','EventInviteBlog');
 		
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
+		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
@@ -394,7 +396,7 @@ class ActionBlog extends Action {
 		 * Получаем список подписчиков блога
 		 */
 		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());		
-		
+
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
 		
@@ -405,8 +407,15 @@ class ActionBlog extends Action {
 		 */		
 		$this->SetTemplateAction('admin');
 		
-		
-		
+		/**
+		 * Если блог закрытый, получаем приглашенных 
+		 * и добавляем блок-форму для приглашения 
+		 */
+		if($oBlog->getType()=='close') {
+			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_INVITE);				
+			$this->Viewer_Assign('aBlogUsersInvited',$aBlogUsersInvited);
+			$this->Viewer_AddBlock('right','actions/ActionBlog/invited.tpl');
+		}
 	}
 	
 	/**
@@ -881,6 +890,265 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}	
+	
+	/**
+	 * Обработка ajax запроса на отправку 
+	 * пользователям приглашения вступить в закрытый блог
+	 */
+	protected function AjaxAddBlogInvite() {
+		$this->Viewer_SetResponseAjax();
+		$sUsers=getRequest('users');
+		$sBlogId=getRequest('idBlog');
+		
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */
+		if (!$this->User_IsAuthorization()) {	
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Проверяем существование блога
+		 */
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;			
+		}
+		/**
+		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;	
+		}		
+		
+		/**
+		 * Получаем список пользователей блога (любого статуса)		 
+		 */
+		$aBlogUsers = $this->Blog_GetBlogUsersByBlogId(
+			$oBlog->getId(),
+			array(
+				LsBlog::BLOG_USER_ROLE_REJECT,
+				LsBlog::BLOG_USER_ROLE_INVITE,
+				LsBlog::BLOG_USER_ROLE_USER,
+				LsBlog::BLOG_USER_ROLE_MODERATOR,
+				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
+			)
+		);
+		$aUsers=explode(',',$sUsers);
+
+		$aResult=array();
+		/**
+		 * Обрабатываем добавление по каждому из переданных логинов
+		 */
+		foreach ($aUsers as $sUser) {
+			$sUser=trim($sUser);
+			if ($sUser=='') {
+				continue;
+			}
+			/**
+			 * Если пользователь пытается добавить инвайт 
+			 * самому себе, возвращаем ошибку
+			 */
+			if(strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('blog_user_invite_add_self')
+				);										
+				continue;
+			}
+			
+			/**
+			 * Если пользователь не найден или неактивен,
+			 * возвращаем ошибку
+			 */
+			if (!$oUser=$this->User_GetUserByLogin($sUser) or $oUser->getActivate()!=1) {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser)),
+					'sUserLogin'=>$sUser
+				);
+				continue;
+			}
+
+			if(!isset($aBlogUsers[$oUser->getId()])) {
+				/**
+				 * Создаем нового блог-пользователя со статусом INVITED
+				 */
+				$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
+				$oBlogUserNew->setBlogId($oBlog->getId());
+				$oBlogUserNew->setUserId($oUser->getId());
+				$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_INVITE);
+				
+				if($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
+					$aResult[]=array(
+						'bStateError'=>false,
+						'sMsgTitle'=>$this->Lang_Get('attention'),
+						'sMsg'=>$this->Lang_Get('blog_user_invite_add_ok',array('login'=>$sUser)),
+						'sUserLogin'=>$sUser,
+						'sUserWebPath'=>$oUser->getUserWebPath()
+					);
+					$this->SendBlogInvite($oBlog,$oUser);
+				} else {
+					$aResult[]=array(
+						'bStateError'=>true,
+						'sMsgTitle'=>$this->Lang_Get('error'),
+						'sMsg'=>$this->Lang_Get('system_error'),
+						'sUserLogin'=>$sUser
+					);					
+				}
+			} else {
+				/**
+				 * Попытка добавить приглашение уже существующему пользователю,
+				 * возвращаем ошибку (сначала определяя ее точный текст)
+				 */
+				switch (true) {
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()==LsBlog::BLOG_USER_ROLE_INVITE):
+						$sErrorMessage=$this->Lang_Get('blog_user_already_invited',array('login'=>$sUser));
+						break;
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST):
+						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>$sUser));						
+						break;
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()==LsBlog::BLOG_USER_ROLE_REJECT):
+						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>$sUser));						
+						break;
+					default:
+						$sErrorMessage=$this->Lang_Get('system_error');
+				}
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$sErrorMessage,
+					'sUserLogin'=>$sUser
+				);
+				continue;
+			}		
+		}
+		
+		/**
+		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
+		 */
+		$this->Viewer_AssignAjax('aUsers',$aResult);
+	}
+
+	/**
+	 * Выполняет отправку приглашения в блог 
+	 * (по внутренней почте и на email)
+	 *
+	 * @param BlogEntity_Blog $oBlog
+	 * @param UserEntity_User $oUser
+	 */
+	protected function SendBlogInvite($oBlog,$oUser) {
+		$sTitle=$this->Lang_Get(
+			'blog_user_invite_title',
+			array(
+				'blog_title'=>$oBlog->getTitle()
+			)
+		);
+
+		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		$sCode=$oBlog->getId().'_'.$oUser->getId();
+		$sCode=urlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.blog.encrypt'))));
+
+		$aPath=array(
+			'accept'=>Router::GetPath('blog').'invite/accept/?code='.$sCode,
+			'reject'=>Router::GetPath('blog').'invite/reject/?code='.$sCode
+		);
+
+		$sText=$this->Lang_Get(
+			'blog_user_invite_text',
+			array(
+				'login'=>$this->oUserCurrent->getLogin(),
+				'accept_path'=>$aPath['accept'],
+				'reject_path'=>$aPath['reject'],
+				'blog_title'=>$oBlog->getTitle()
+			)
+		);
+		$oTalk=$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+		/**
+		 * Отправляем пользователю заявку
+		 */
+		//$this->Notify_SendBlogUserInvite(
+		//	$oUser,$this->oUserCurrent,$sText,
+		//	Router::GetPath('talk').'read/'.$oTalk->getId().'/'
+		//);
+		/**
+		 * Удаляем отправляющего юзера из переписки
+		 */	
+		$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());
+	}
+	
+	/**
+	 * Обработка отправленого пользователю приглашения вступить в блог
+	 */
+	protected function EventInviteBlog() {	
+		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		$sCode=xxtea_decrypt(base64_decode(urldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
+		list($sBlogId,$sUserId)=explode('_',$sCode,2);
+		
+		$sAction=$this->GetParam(0);
+		
+		/**
+		 * Получаем текущего пользователя
+		 */
+		if(!$this->User_IsAuthorization()) {
+			return $this->EventNotFound();
+		}
+		$this->oUserCurrent = $this->User_GetUserCurrent();
+		/**
+		 * Если приглашенный пользователь не является авторизированным
+		 */
+		if($this->oUserCurrent->getId()!=$sUserId) {
+			return $this->EventNotFound();
+		}
+		/**
+		 * Получаем указанный блог
+		 */
+		if((!$oBlog=$this->Blog_GetBlogById($sBlogId)) || $oBlog->getType()!='close') {
+			return $this->EventNotFound();
+		}
+				
+		/**
+		 * Получаем связь "блог-пользователь" и проверяем,
+		 * чтобы ее тип был INVITE или REJECT
+		 */
+		if(!$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
+			return $this->EventNotFound();
+		}
+		if($oBlogUser->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST) {
+			$sMessage=$this->Lang_Get('blog_user_invite_already_done');
+			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
+			Router::Location(Router::GetPath('talk'));
+			return ;						
+		}
+		if(!in_array($oBlogUser->getUserRole(),array(LsBlog::BLOG_USER_ROLE_INVITE,LsBlog::BLOG_USER_ROLE_REJECT))) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
+			Router::Location(Router::GetPath('talk'));
+			return ;
+		}
+		
+		/**
+		 * Обновляем роль пользователя до читателя
+		 */
+		$oBlogUser->setUserRole(($sAction=='accept')?LsBlog::BLOG_USER_ROLE_USER:LsBlog::BLOG_USER_ROLE_REJECT);
+		if(!$this->Blog_UpdateRelationBlogUser($oBlogUser)) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
+			Router::Location(Router::GetPath('talk'));
+			return ;						
+		} 
+		$sMessage = ($sAction=='accept')
+			? $this->Lang_Get('blog_user_invite_accept')
+			: $this->Lang_Get('blog_user_invite_reject');
+		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
+		
+		Router::Location(Router::GetPath('talk'));		
+	}
+	
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

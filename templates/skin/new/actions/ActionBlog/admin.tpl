@@ -36,7 +36,6 @@
 			</form>
 		{else}
 			{$aLang.blog_admin_users_empty} 
-		{/if} 
-
+		{/if}
 
 {include file='footer.tpl'}

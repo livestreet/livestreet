@@ -428,7 +428,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);			
 		}
 		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
@@ -456,7 +456,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}			
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
@@ -480,7 +480,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}	
 		$aReturn=$this->GetTopicsByFilter($aFilter,1,$iCount);
 		if (isset($aReturn['collection'])) {
@@ -658,7 +658,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}	
@@ -682,7 +682,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}		
 		return $this->GetCountTopicsByFilter($aFilter);		
 	}
@@ -752,7 +752,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
@@ -781,7 +781,7 @@ class LsTopic extends Module {
 		 */
 		if($this->oUserCurrent) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			$aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}	
 				
 		return $this->GetCountTopicsByFilter($aFilter);		
