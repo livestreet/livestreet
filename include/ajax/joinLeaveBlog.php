@@ -30,24 +30,29 @@ $sMsgTitle='';
 $bState='';
 $iCountUser=0;
 if ($oEngine->User_IsAuthorization()) {
-	
 		if ($oBlog=$oEngine->Blog_GetBlogById($idBlog)) {
 			/**
 			 * Как только заработают другие виды блогов(кроме open) тут нужно внести коррективы, чтоб можно было покинуть блог по приглашениям
 			 */
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
-			if ($oBlog->getType()=='open') {
+			if (in_array($oBlog->getType(),array('open','close'))) {
 				$oBlogUser=$oEngine->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUserCurrent->getId());				
-				if (!$oBlogUser) {
+				if (!$oBlogUser || ($oBlogUser->getUserRole()<LsBlog::BLOG_USER_ROLE_GUEST && $oBlog->getType()=='close')) {
 					if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 						/**
 					 	* Присоединяем юзера к блогу
 					 	*/
-						$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
-						$oBlogUserNew->setBlogId($oBlog->getId());
-						$oBlogUserNew->setUserId($oUserCurrent->getId());
-						$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
-						if ($oEngine->Blog_AddRelationBlogUser($oBlogUserNew)) {
+						if($oBlogUser) {
+							$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
+							$bResult = $oEngine->Blog_UpdateRelationBlogUser($oBlogUser);
+						} elseif($oBlog->getType()=='open') {
+							$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
+							$oBlogUserNew->setBlogId($oBlog->getId());
+							$oBlogUserNew->setUserId($oUserCurrent->getId());
+							$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
+							$bResult = $oEngine->Blog_AddRelationBlogUser($oBlogUserNew);
+						} 
+						if ($bResult) {
 							$bStateError=false;
 							$sMsgTitle=$oEngine->Lang_Get('attention');
 							$sMsg=$oEngine->Lang_Get('blog_join_ok');
@@ -67,7 +72,7 @@ if ($oEngine->User_IsAuthorization()) {
 						$sMsg=$oEngine->Lang_Get('blog_join_error_self');
 					}
 				}				
-				if ($oBlogUser) {
+				if ($oBlogUser && $oBlogUser->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST) {
 					/**
 					 * Покидаем блог
 					 */					

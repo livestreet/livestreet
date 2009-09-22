@@ -21,7 +21,14 @@
  *
  */
 class LsACL extends Module {
-
+	/**
+	 * Коды ответов на запрос о возможности 
+	 * пользователя голосовать за блог
+	 */
+	const CAN_VOTE_BLOG_FALSE = 0;	
+	const CAN_VOTE_BLOG_TRUE = 1;
+	const CAN_VOTE_BLOG_ERROR_CLOSE = 2;
+	
 	/**
 	 * Инициализация модуля
 	 *
@@ -127,10 +134,20 @@ class LsACL extends Module {
 	 * @return bool
 	 */
 	public function CanVoteBlog(UserEntity_User $oUser, BlogEntity_Blog $oBlog) {
-		if ($oUser->getRating()>=Config::Get('acl.vote.blog.rating')) {
-			return true;
+		/**
+		 * Если блог закрытый, проверяем является ли пользователь его читателем
+		 */
+		if($oBlog->getType()=='close') {
+			$oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+			if(!$oBlogUser || $oBlogUser->getUserRole()<LsBlog::BLOG_USER_ROLE_GUEST) {
+				return self::CAN_VOTE_BLOG_ERROR_CLOSE;
+			}
 		}
-		return false;
+		
+		if ($oUser->getRating()>=Config::Get('acl.vote.blog.rating')) {
+			return self::CAN_VOTE_BLOG_TRUE;
+		}
+		return self::CAN_VOTE_BLOG_FALSE;
 	}
 	
 	/**

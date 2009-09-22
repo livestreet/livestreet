@@ -34,34 +34,43 @@ if ($oEngine->User_IsAuthorization()) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 			if (!($oBlogVote=$oEngine->Vote_GetVote($oBlog->getId(),'blog',$oUserCurrent->getId()))) {
-				if ($oEngine->ACL_CanVoteBlog($oUserCurrent,$oBlog)) {
-					if (in_array($iValue,array('1','-1'))) {
-						$oBlogVote=Engine::GetEntity('Vote');
-						$oBlogVote->setTargetId($oBlog->getId());
-						$oBlogVote->setTargetType('blog');
-						$oBlogVote->setVoterId($oUserCurrent->getId());
-						$oBlogVote->setDirection($iValue);
-						$oBlogVote->setDate(date("Y-m-d H:i:s"));
-						$iVal=(float)$oEngine->Rating_VoteBlog($oUserCurrent,$oBlog,$iValue);
-						$oBlogVote->setValue($iVal);
-						$oBlog->setCountVote($oBlog->getCountVote()+1);
-						if ($oEngine->Vote_AddVote($oBlogVote) and $oEngine->Blog_UpdateBlog($oBlog)) {
-							$bStateError=false;
-							$sMsgTitle=$oEngine->Lang_Get('attention');
-							$sMsg=$oEngine->Lang_Get('blog_vote_ok');
-							$iRating=$oBlog->getRating();
-							$iCountVote=$oBlog->getCountVote();
+				switch($oEngine->ACL_CanVoteBlog($oUserCurrent,$oBlog)) {
+					case LsACL::CAN_VOTE_BLOG_TRUE:
+						if (in_array($iValue,array('1','-1'))) {
+							$oBlogVote=Engine::GetEntity('Vote');
+							$oBlogVote->setTargetId($oBlog->getId());
+							$oBlogVote->setTargetType('blog');
+							$oBlogVote->setVoterId($oUserCurrent->getId());
+							$oBlogVote->setDirection($iValue);
+							$oBlogVote->setDate(date("Y-m-d H:i:s"));
+							$iVal=(float)$oEngine->Rating_VoteBlog($oUserCurrent,$oBlog,$iValue);
+							$oBlogVote->setValue($iVal);
+							$oBlog->setCountVote($oBlog->getCountVote()+1);
+							if ($oEngine->Vote_AddVote($oBlogVote) and $oEngine->Blog_UpdateBlog($oBlog)) {
+								$bStateError=false;
+								$sMsgTitle=$oEngine->Lang_Get('attention');
+								$sMsg=$oEngine->Lang_Get('blog_vote_ok');
+								$iRating=$oBlog->getRating();
+								$iCountVote=$oBlog->getCountVote();
+							} else {
+								$sMsgTitle=$oEngine->Lang_Get('error');
+								$sMsg=$oEngine->Lang_Get('system_error');
+							}
 						} else {
-							$sMsgTitle=$oEngine->Lang_Get('error');
+							$sMsgTitle=$oEngine->Lang_Get('attention');
 							$sMsg=$oEngine->Lang_Get('system_error');
 						}
-					} else {
+						break;
+					case LsACL::CAN_VOTE_BLOG_ERROR_CLOSE:
 						$sMsgTitle=$oEngine->Lang_Get('attention');
-						$sMsg=$oEngine->Lang_Get('system_error');
-					}
-				} else {
-					$sMsgTitle=$oEngine->Lang_Get('attention');
-					$sMsg=$oEngine->Lang_Get('blog_vote_error_acl');
+						$sMsg=$oEngine->Lang_Get('blog_vote_error_close');						
+						break;
+						
+					default:
+					case LsACL::CAN_VOTE_BLOG_FALSE:
+						$sMsgTitle=$oEngine->Lang_Get('attention');
+						$sMsg=$oEngine->Lang_Get('blog_vote_error_acl');					
+						break;
 				}
 			} else {
 				$sMsgTitle=$oEngine->Lang_Get('attention');
