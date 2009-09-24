@@ -517,6 +517,60 @@ class LsNotify extends Module {
 			$this->Mail_Send();
 		}
 	}
+
+	/**
+	 * Отправляет пользователю сообщение о приглашение его в закрытый блог
+	 *
+	 * @param UserEntity_User $oUserTo
+	 * @param UserEntity_User $oUserFrom
+	 */
+	public function SendBlogUserInvite(UserEntity_User $oUserTo,UserEntity_User $oUserFrom, BlogEntity_Blog $oBlog,$sPath) {		
+		/**
+		 * Передаём в шаблон переменные
+		 */
+		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
+		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);		
+		$this->oViewerLocal->Assign('oBlog',$oBlog);
+		$this->oViewerLocal->Assign('sPath',$sPath);
+		
+		/**
+		 * Формируем шаблон
+		 */
+		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.blog_invite_new.tpl");
+		/**
+		 * Если в конфигураторе указан отложенный метод отправки, 
+		 * то добавляем задание в массив. В противном случае,
+		 * сразу отсылаем на email
+		 */
+		if(Config::Get('module.notify.delayed')) {
+			$oNotifyTask=Engine::GetEntity(
+				'Notify_Task', 
+				array(
+					'user_mail'      => $oUserTo->getMail(),
+					'user_login'     => $oUserTo->getLogin(),
+					'notify_text'    => $sBody,
+					'notify_subject' => $this->Lang_Get('notify_subject_blog_invite_new'),
+					'date_created'   => date("Y-m-d H:i:s"),
+					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
+				)
+			);
+			if(Config::Get('module.notify.insert_single')) {
+				$this->aTask[] = $oNotifyTask;
+			} else {
+				$this->oMapper->AddTask($oNotifyTask);
+			}
+		} else {	
+			/**
+			 * Отправляем мыло
+			 */
+			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
+			$this->Mail_SetSubject($this->Lang_Get('notify_subject_blog_invite_new'));
+			$this->Mail_SetBody($sBody);
+			$this->Mail_setHTML();
+			$this->Mail_Send();
+		}
+	}	
+	
 	/**
 	 * Уведомление при восстановлении пароля
 	 *

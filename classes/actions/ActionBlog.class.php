@@ -1073,10 +1073,10 @@ class ActionBlog extends Action {
 		/**
 		 * Отправляем пользователю заявку
 		 */
-		//$this->Notify_SendBlogUserInvite(
-		//	$oUser,$this->oUserCurrent,$sText,
-		//	Router::GetPath('talk').'read/'.$oTalk->getId().'/'
-		//);
+		$this->Notify_SendBlogUserInvite(
+			$oUser,$this->oUserCurrent,$oBlog,
+			Router::GetPath('talk').'read/'.$oTalk->getId().'/'
+		);
 		/**
 		 * Удаляем отправляющего юзера из переписки
 		 */	
