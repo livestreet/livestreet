@@ -65,7 +65,9 @@ if ($oEngine->User_IsAuthorization()) {
 							$iCountUser=$oBlog->getCountUser();
 						} else {
 							$sMsgTitle=$oEngine->Lang_Get('error');
-							$sMsg=$oEngine->Lang_Get('system_error');
+							$sMsg=($oBlog->getType()=='close') 
+								? $oEngine->Lang_Get('blog_join_error_invite')
+								: $oEngine->Lang_Get('system_error');
 						}
 					} else {
 						$sMsgTitle=$oEngine->Lang_Get('attention');
