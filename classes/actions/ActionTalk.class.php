@@ -117,7 +117,8 @@ class ActionTalk extends Action {
 		 */		
 		$aResult=$this->Talk_GetTalksByFilter(
 			$aFilter,$iPage,Config::Get('module.talk.per_page')
-		);	
+		);
+		
 		$aTalks=$aResult['collection'];	
 		/**
 		 * Формируем постраничность
@@ -158,6 +159,11 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}	
 	
+	/**
+	 * Формирует из REQUEST массива фильтр для отбора писем
+	 *
+	 * @return array
+	 */
 	protected function BuildFilter() {
 		$aFilter = array(
 			'user_id'=>$this->oUserCurrent->getId(),
@@ -186,7 +192,7 @@ class ActionTalk extends Action {
 			if(func_check($end,'text',6,10) && substr_count($end,'.')==2) {
 				list($d,$m,$y)=explode('.',$end);
 				if(@checkdate($m,$d,$y)) { 
-					$aFilter['date_max']="{$y}-{$m}-{$d}";
+					$aFilter['date_max']="{$y}-{$m}-{$d} 23:59:59";
 				} else {
 					$this->Message_AddError(
 						$this->Lang_Get('talk_filter_error_date_format'), 
@@ -205,9 +211,13 @@ class ActionTalk extends Action {
 		if($sKeyRequest=getRequest('keyword')){
 			$sKeyRequest=urldecode($sKeyRequest);
 		    $aWords= (1===preg_match('##u', $sKeyRequest)) 
-		    	? preg_split('#[0-9\W_]+#Disu', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY) 
-		    	: preg_split('#[0-9\W_]+#Dis', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY); 
-			$aFilter['keyword']='%'.implode('%',(array)$aWords).'%';
+		    	? preg_split('#[\W_]+#Disu', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY) 
+		    	: preg_split('#[\W_]+#Dis', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY); 
+			if(is_array($aWords)&&count($aWords)) {
+				$aFilter['keyword']='%'.implode('%',$aWords).'%';
+			} else {
+				unset($_REQUEST['keyword']);
+			}
 		}
 		if($sender=getRequest('sender')){
 			$aFilter['user_login']=urldecode($sender);

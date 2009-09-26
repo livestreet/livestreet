@@ -326,8 +326,8 @@ class Mapper_Talk extends Mapper {
 					AND tu.talk_user_active = ?d
 					AND u.user_id=t.user_id
 					{ AND tu.user_id = ?d }
-					{ AND t.talk_date < ? }
-					{ AND t.talk_date > ? }
+					{ AND t.talk_date <= ? }
+					{ AND t.talk_date >= ? }
 					{ AND t.talk_title LIKE ? }
 					{ AND u.user_login = ? }
 				ORDER BY t.talk_date_last desc, t.talk_date desc
