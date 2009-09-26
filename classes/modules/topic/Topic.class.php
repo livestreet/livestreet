@@ -186,9 +186,9 @@ class LsTopic extends Module {
 		$oTopic->setDateEdit(date("Y-m-d H:i:s"));
 		if ($this->oMapperTopic->UpdateTopic($oTopic)) {	
 			/**
-			 * Если топик изменил видимость(publish)
+			 * Если топик изменил видимость(publish) или локацию (BlogId)
 			 */
-			if ($oTopic->getPublish()!=$oTopicOld->getPublish()) {
+			if (($oTopic->getPublish()!=$oTopicOld->getPublish()) || ($oTopic->getBlogId()!=$oTopicOld->getBlogId())) {
 				/**
 				 * Обновляем теги
 				 */
@@ -204,6 +204,8 @@ class LsTopic extends Module {
 						$this->oMapperTopic->AddTopicTag($oTag);
 					}
 				}
+			}
+			if ($oTopic->getPublish()!=$oTopicOld->getPublish()) {
 				/**
 			 	* Обновляем избранное
 			 	*/

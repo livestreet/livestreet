@@ -379,21 +379,21 @@ class ActionTopic extends Action {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($oTopic->getUserId());
 		} else {
 			$oBlog=$this->Blog_GetBlogById($iBlogId);
-		}	
+		}
 		/**
 		 * Если блог не определен выдаем предупреждение
 		 */
 		if (!$oBlog) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			return false;
-		}		
+		}
 		/**
 		 * Проверяем права на постинг в блог
 		 */
 		if (!$this->Blog_IsAllowBlog($oBlog,$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
-		}				
+		}
 		/**
 		 * Проверяем топик на уникальность
 		 */
