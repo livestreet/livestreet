@@ -370,6 +370,12 @@ return array(
 	'user_friend_add_cansel' => 'Отмена',
 	'user_friend_offer_not_found' => 'Заявка не найдена',
 	'user_friend_offer_already_done' => 'Заявка уже обработана',
+	'user_friend_accept_notice_title' => 'Ваша заявка одобрена',
+	'user_friend_accept_notice_text' => 'Пользователь %%login%% согласился с вами дружить',
+	'user_friend_reject_notice_title' => 'Ваша заявка отклонена',
+	'user_friend_reject_notice_text' => 'Пользователь %%login%% отказался с вами дружить',	
+	'user_friend_del_notice_title' => 'Вас удалили из друзей',
+	'user_friend_del_notice_text' => 'У вас больше нет друга %%login%%',
 	
 	'user_rating' => 'Рейтинг',
 	'user_skill' => 'Сила',

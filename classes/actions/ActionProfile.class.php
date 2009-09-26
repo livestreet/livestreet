@@ -210,7 +210,7 @@ class ActionProfile extends Action {
 		if(!$this->User_IsAuthorization()) {
 			return $this->EventNotFound();
 		}
-		$oUserCurrent = $this->User_GetUserCurrent();
+		$this->oUserCurrent = $this->User_GetUserCurrent();
 		
 		/**
 		 * Получаем объект пользователя приславшего заявку,
@@ -229,7 +229,7 @@ class ActionProfile extends Action {
 		 * Если связь не найдена либо статус отличен от OFFER,
 		 * переходим в раздел Talk и возвращаем сообщение об ошибке
 		 */
-		$oFriend=$this->User_GetFriend($oUserCurrent->getId(),$oUser->getId(),0);
+		$oFriend=$this->User_GetFriend($this->oUserCurrent->getId(),$oUser->getId(),0);
 		if(!$oFriend 
 			|| !in_array(
 					$oFriend->getFriendStatus(), 
@@ -262,6 +262,7 @@ class ActionProfile extends Action {
 				: $this->Lang_Get('user_friend_offer_reject');
 			
 			$this->Message_AddNoticeSingle($sMessage,$this->Lang_Get('attention'),true);
+			$this->NoticeFriendOffer($oUser,$sAction);
 		} else {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('system_error'),
@@ -328,7 +329,8 @@ class ActionProfile extends Action {
 				$oFriend->setStatusByUserId(LsUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 				if($this->User_UpdateFriend($oFriend)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
-
+					$this->NoticeFriendOffer($oUser,'accept');
+					
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
 					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
@@ -347,6 +349,37 @@ class ActionProfile extends Action {
 			$this->Lang_Get('error')
 		);
 		return;	
+	}
+
+	/**
+	 * Отправляет пользователю Talk уведомление о принятии или отклонении его заявки
+	 *
+	 * @param UserEntity_User $oUser
+	 * @param stirng          $sAction
+	 */
+	protected function NoticeFriendOffer($oUser,$sAction) {
+		/**
+		 * Проверяем допустимость действия
+		 */
+		if(!in_array($sAction,array('accept','reject'))) {
+			return false;
+		}
+		/**
+		 * Проверяем настройки (нужно ли отправлять уведомление)
+		 */
+		if(!Config::Get("module.user.friend_notice.{$sAction}")) {
+			return false;
+		}
+		
+		$sTitle=$this->Lang_Get("user_friend_{$sAction}_notice_title");
+		$sText=$this->Lang_Get(
+			"user_friend_{$sAction}_notice_text",
+			array(
+				'login'=>$this->oUserCurrent->getLogin(),
+			)
+		);
+		$oTalk=$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
+		$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());
 	}
 	
 	public function EventAjaxFriendAdd() {
@@ -612,6 +645,24 @@ class ActionProfile extends Action {
 			$oViewerLocal=$this->GetViewerLocal();
 			$oViewerLocal->Assign('oUserFriend',$oFriend);
 			$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));		
+			
+			/**
+			 * Отправляем пользователю сообщение об удалении дружеской связи
+			 */
+			if(Config::Get('module.user.friend_notice.delete')) {
+				$sText=$this->Lang_Get(
+					'user_friend_del_notice_text',
+					array(
+						'login'=>$this->oUserCurrent->getLogin(),
+					)
+				);
+				$oTalk=$this->Talk_SendTalk(
+					$this->Lang_Get('user_friend_del_notice_title'),
+					$sText,$this->oUserCurrent,
+					array($oUser),false,false
+				);
+				$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());			
+			}
 			return;	
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
