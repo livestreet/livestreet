@@ -137,6 +137,7 @@ return array(
 	'blog_admin_users_administrator' => 'администратор',
 	'blog_admin_users_moderator' => 'модератор',
 	'blog_admin_users_reader' => 'читатель',
+	'blog_admin_users_bun' => 'забаненный',
 	'blog_admin_users_current_administrator' => 'это вы &mdash; настоящий администратор!',
 	'blog_admin_users_empty' => 'в блоге никто не состоит',
 	'blog_admin_users_submit' => 'сохранить',

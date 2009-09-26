@@ -384,9 +384,14 @@ class ActionBlog extends Action {
 					case 'moderator':
 						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_MODERATOR);
 						break;
-					default:
+					case 'reader':
 						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
 						break;
+					case 'ban':
+						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_BAN);
+						break;
+					default:
+						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_GUEST);						
 				}
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
 				$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_users_submit_ok'));
@@ -395,7 +400,15 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список подписчиков блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());		
+		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId(
+			$oBlog->getId(),
+			array(
+				LsBlog::BLOG_USER_ROLE_BAN,
+				LsBlog::BLOG_USER_ROLE_USER,
+				LsBlog::BLOG_USER_ROLE_MODERATOR,
+				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
+			)
+		);
 
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
@@ -931,6 +944,7 @@ class ActionBlog extends Action {
 		$aBlogUsers = $this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
 			array(
+				LsBlog::BLOG_USER_ROLE_BAN,
 				LsBlog::BLOG_USER_ROLE_REJECT,
 				LsBlog::BLOG_USER_ROLE_INVITE,
 				LsBlog::BLOG_USER_ROLE_USER,
@@ -1165,6 +1179,14 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsBlogNew',$this->iCountTopicsBlogNew);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
+		
+		$this->Viewer_Assign('BLOG_USER_ROLE_GUEST', LsBlog::BLOG_USER_ROLE_GUEST);
+		$this->Viewer_Assign('BLOG_USER_ROLE_USER', LsBlog::BLOG_USER_ROLE_USER);
+		$this->Viewer_Assign('BLOG_USER_ROLE_MODERATOR', LsBlog::BLOG_USER_ROLE_MODERATOR);
+		$this->Viewer_Assign('BLOG_USER_ROLE_ADMINISTRATOR', LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		$this->Viewer_Assign('BLOG_USER_ROLE_INVITE', LsBlog::BLOG_USER_ROLE_INVITE);
+		$this->Viewer_Assign('BLOG_USER_ROLE_REJECT', LsBlog::BLOG_USER_ROLE_REJECT);
+		$this->Viewer_Assign('BLOG_USER_ROLE_BAN', LsBlog::BLOG_USER_ROLE_BAN);
 	}
 }
 ?>

@@ -38,6 +38,10 @@ class LsBlog extends Module {
 	 * Пользователь, отклонивший приглашение админа
 	 */
 	const BLOG_USER_ROLE_REJECT        = -2;
+	/**
+	 * Забаненный в блоге пользователь
+	 */
+	const BLOG_USER_ROLE_BAN           = -4;
 	
 	protected $oMapperBlog;	
 	protected $oUserCurrent=null;
@@ -303,7 +307,7 @@ class LsBlog extends Module {
 		$res=$this->oMapperBlog->UpdateBlog($oBlog);		
 		if ($res) {			
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update',"blog_update_{$oBlog->getId()}"));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update',"blog_update_{$oBlog->getId()}","topic_update"));
 			$this->Cache_Delete("blog_{$oBlog->getId()}");
 			return true;
 		}
