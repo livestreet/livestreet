@@ -156,7 +156,7 @@ class Mapper_Blog extends Mapper {
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql)) {
 			foreach ($aRows as $aUser) {
-				$aBlogUsers[$aUser['user_id']]=Engine::GetEntity('Blog_BlogUser',$aUser);
+				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
 		}
 		return $aBlogUsers;

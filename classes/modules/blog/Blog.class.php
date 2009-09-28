@@ -660,8 +660,7 @@ class LsBlog extends Module {
 		 * Добавляем блоги, в которых состоит пользователь
 		 * (читателем, модератором, или администратором)
 		 */
-		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
-		
+		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());	
 		foreach ($aBlogUsers as $oBlogUser) {
 			$oBlog=$oBlogUser->getBlog();
 			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {

@@ -678,7 +678,7 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Определяем права на отображение закрытого блога
-		 */
+		 */	
 		if($oBlog->getType()=='close' 
 			and (!$this->oUserCurrent 
 				|| !in_array(
@@ -952,6 +952,7 @@ class ActionBlog extends Action {
 				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
 			)
 		);
+		print_r($aBlogUsers);
 		$aUsers=explode(',',$sUsers);
 
 		$aResult=array();

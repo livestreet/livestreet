@@ -62,7 +62,7 @@
 						</script>		
 				{/literal}		
 		<div class="block-content">				
-		<form onsubmit="addBlogInvite({$oBlog->getId()}); return false;">
+		<form onsubmit="addBlogInvite({$oBlogEdit->getId()}); return false;">
 			<p><label for="blog_admin_user_add">{$aLang.blog_admin_user_add_label}</label><br />
 			<input type="text" id="blog_admin_user_add" name="add" value="" class="w100p" /><br />
 			</p>
