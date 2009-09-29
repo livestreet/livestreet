@@ -952,7 +952,6 @@ class ActionBlog extends Action {
 				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
 			)
 		);
-		print_r($aBlogUsers);
 		$aUsers=explode(',',$sUsers);
 
 		$aResult=array();

@@ -395,6 +395,8 @@ class LsBlog extends Module {
 			}
 			$aUsers=$this->User_GetUsersAdditionalData($aUserId);
 			$aBlogs=$this->Blog_GetBlogsAdditionalData($sBlogId);
+			
+			$aResults=array();
 			foreach ($data as $oBlogUser) {
 				if (isset($aUsers[$oBlogUser->getUserId()])) {
 					$oBlogUser->setUser($aUsers[$oBlogUser->getUserId()]);
@@ -406,7 +408,9 @@ class LsBlog extends Module {
 				} else {
 					$oBlogUser->setBlog(null);
 				}
+				$aResults[$oBlogUser->getUserId()]=$oBlogUser;
 			}
+			$data=$aResults;
 		}
 		return $data;		
 	}
