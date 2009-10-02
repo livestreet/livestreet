@@ -61,8 +61,7 @@ class ActionIndex extends Action {
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
-		$this->Viewer_AddBlocks('right',array('stream','tags','blogs'));
+	public function Init() {
 		/**
 		 * Подсчитываем новые топики
 		 */

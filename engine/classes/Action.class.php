@@ -87,7 +87,7 @@ abstract class Action extends Object {
 		if ($this->sCurrentEvent==null) {
 			$this->sCurrentEvent=$this->GetDefaultEvent();
 			Router::SetActionEvent($this->sCurrentEvent);
-		}				
+		}
 		foreach ($this->aRegisterEvent as $aEvent) {
 			if (preg_match($aEvent['preg'],$this->sCurrentEvent,$aMatch)) {
 				$this->aParamsEventMatch['event']=$aMatch;
@@ -98,9 +98,9 @@ abstract class Action extends Object {
 					} else {
 						continue 2;
 					}
-				}				
+				}
 				$sCmd='$result=$this->'.$aEvent['method'].'();';
-				eval($sCmd);			
+				eval($sCmd);
 				return $result;
 			}
 		}
@@ -161,7 +161,7 @@ abstract class Action extends Object {
 				return $this->aParamsEventMatch['event'][$iParamNum];
 			} else {
 				return null;
-			}			
+			}
 		}
 	}
 	

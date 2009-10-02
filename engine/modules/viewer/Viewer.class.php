@@ -35,6 +35,12 @@ class LsViewer extends Module {
 	 */
 	protected $aBlocks=array();	
 	/**
+	 * Массив правил организации блоков
+	 * 
+	 * @var array
+	 */
+	protected $_aBlockRules = array();
+	/**
 	 * Заголовок HTML страницы
 	 *
 	 * @var unknown_type
@@ -108,7 +114,11 @@ class LsViewer extends Module {
 		/**
 		 * Подключаем к Smarty небольшой плагинчик форматирования даты
 		 */
-		$this->oSmarty->register_function("date_format", "func_date_smarty");		
+		$this->oSmarty->register_function("date_format", "func_date_smarty");	
+		/**
+		 * Получаем настройки блоков
+		 */
+		$this->_InitBlockParams();
 	}
 	
 	/**
@@ -144,61 +154,7 @@ class LsViewer extends Module {
 			$aRouter[$sPage]=Router::GetPath($sPage);
 		}
 		$this->Assign("aRouter",$aRouter);
-
-		/**
-		 * Загружаем константы путей
-		 * 
-		 * Рефакторинг:
-		 * переход на использование конфигурационных массивов
-		 */
-		//$this->Assign("DIR_STATIC_SKIN",DIR_STATIC_SKIN);
-		//$this->Assign("DIR_WEB_ROOT",DIR_WEB_ROOT);
-		//$this->Assign("DIR_WEB_ENGINE_LIB",DIR_WEB_ENGINE_LIB);
-		//$this->Assign("DIR_STATIC_ROOT",DIR_STATIC_ROOT);
-		//$this->Assign("SITE_NAME",SITE_NAME);
-		//$this->Assign("DIR_UPLOADS_IMAGES",DIR_UPLOADS_IMAGES);
-				
-		//$this->Assign("BLOG_USE_TINYMCE",BLOG_USE_TINYMCE);
-		//$this->Assign("USER_USE_INVITE",USER_USE_INVITE);
-		//$this->Assign("SYS_MAIL_INCLUDE_COMMENT_TEXT",SYS_MAIL_INCLUDE_COMMENT_TEXT);
-		//$this->Assign("SYS_MAIL_INCLUDE_TALK_TEXT",SYS_MAIL_INCLUDE_TALK_TEXT);
-		//$this->Assign("BLOG_COMMENT_MAX_TREE_LEVEL",BLOG_COMMENT_MAX_TREE_LEVEL);
 		
-		//$this->Assign("VOTE_LIMIT_TIME_TOPIC",VOTE_LIMIT_TIME_TOPIC);
-		//$this->Assign("VOTE_LIMIT_TIME_COMMENT",VOTE_LIMIT_TIME_COMMENT);
-		/**
-		 * Константы роутинга страниц
-		 */
-		/**
-		 * Рефакторинг:
-		 * переход на использование конфигурационных массивов
-		 * 
-		$this->Assign("ROUTE_PAGE_ERROR",ROUTE_PAGE_ERROR);
-		$this->Assign("ROUTE_PAGE_REGISTRATION",ROUTE_PAGE_REGISTRATION);
-		$this->Assign("ROUTE_PAGE_PROFILE",ROUTE_PAGE_PROFILE);
-		$this->Assign("ROUTE_PAGE_MY",ROUTE_PAGE_MY);
-		$this->Assign("ROUTE_PAGE_BLOG",ROUTE_PAGE_BLOG);
-		$this->Assign("ROUTE_PAGE_PERSONAL_BLOG",ROUTE_PAGE_PERSONAL_BLOG);
-		$this->Assign("ROUTE_PAGE_TOP",ROUTE_PAGE_TOP);
-		$this->Assign("ROUTE_PAGE_INDEX",ROUTE_PAGE_INDEX);
-		$this->Assign("ROUTE_PAGE_NEW",ROUTE_PAGE_NEW);
-		$this->Assign("ROUTE_PAGE_TOPIC",ROUTE_PAGE_TOPIC);
-		$this->Assign("ROUTE_PAGE_PAGE",ROUTE_PAGE_PAGE);
-		$this->Assign("ROUTE_PAGE_LOGIN",ROUTE_PAGE_LOGIN);
-		$this->Assign("ROUTE_PAGE_PEOPLE",ROUTE_PAGE_PEOPLE);
-		$this->Assign("ROUTE_PAGE_SETTINGS",ROUTE_PAGE_SETTINGS);
-		$this->Assign("ROUTE_PAGE_TAG",ROUTE_PAGE_TAG);
-		$this->Assign("ROUTE_PAGE_COMMENTS",ROUTE_PAGE_COMMENTS);
-		$this->Assign("ROUTE_PAGE_TALK",ROUTE_PAGE_TALK);
-		$this->Assign("ROUTE_PAGE_RSS",ROUTE_PAGE_RSS);
-		$this->Assign("ROUTE_PAGE_LINK",ROUTE_PAGE_LINK);
-		$this->Assign("ROUTE_PAGE_QUESTION",ROUTE_PAGE_QUESTION);
-		$this->Assign("ROUTE_PAGE_BLOGS",ROUTE_PAGE_BLOGS);
-		$this->Assign("ROUTE_PAGE_SEARCH",ROUTE_PAGE_SEARCH);		
-		**/
-		/**
-		 * Загружаем список блоков
-		 */
 		$this->Assign("aBlocks",$this->aBlocks);	
 		/**
 		 * Загружаем HTML заголовки
@@ -311,7 +267,6 @@ class LsViewer extends Module {
 	public function Fetch($sTemplate) {
 		return $this->oSmarty->fetch($sTemplate);	
 	}
-	
 	/**
 	 * Проверяет существование шаблона
 	 *
@@ -321,7 +276,12 @@ class LsViewer extends Module {
 	public function TemplateExists($sTemplate) {
 		return $this->oSmarty->template_exists($sTemplate);
 	}
-	
+	/**
+	 * Инициализируем параметры отображения блоков
+	 */	
+	protected function _InitBlockParams() {
+		$this->_aBlockRules = Config::Get('block');
+	}
 	/**
 	 * Добавляет блок для отображения
 	 *
@@ -336,7 +296,7 @@ class LsViewer extends Module {
 		if ($sType=='undefined') {
 			return false;
 		}
-		$this->aBlocks[$sGroup][]=array(
+		$this->aBlocks[$sGroup][$sName]=array(
 			'type' => $sType,
 			'name' => $sName,
 			'params' => $aParams,
@@ -402,6 +362,60 @@ class LsViewer extends Module {
 			return 'undefined';
 		}
 	}
+
+	/**
+	 * Анализируем правила и наборы массивов
+	 * получаем окончательные списки блоков
+	 */
+	protected function _BuildBlocks() {
+		$sAction = strtolower(Router::GetAction());
+		$sEvent  = strtolower(Router::GetActionEvent());
+		
+		foreach($this->_aBlockRules as $sName => $aRule) {
+			$bUse=false;
+			/**
+			 * Если в правиле не указан список блоков, нам такое не нужно
+			 */
+			if(!array_key_exists('blocks',$aRule)) continue;
+			/**
+			 * Если не задан action для исполнения, 
+			 * или текущий не входит в перечисленные в правиле 
+			 * то выбираем следующее правило
+			 */
+			if(!$aRule['action']) continue;
+			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;
+			if(array_key_exists($sAction,(array)$aRule['action'])) {
+				/**
+				 * Если задан список event`ов и текущий в него не входит,
+				 * переходи к следующему действию. Если список не задан, 
+				 * считаем что правило действует для всех event`ов.
+				 */
+				if(!$sEvent
+					|| in_array($sEvent,(array)$aRule['event'][$sAction])) 
+						$bUse=true;
+			}
+			
+			if($bUse){
+				/**
+				 * Добавляем все блоки, указанные в параметре blocks
+				 */
+				foreach ($aRule['blocks'] as $sGroup => $aBlocks) {
+					foreach ((array)$aBlocks as $sName=>$aParams) {
+						/**
+						 * Если $aParams не являются массивом, значит передано только имя блока
+						 */
+						if(!is_array($aParams)) {
+							$this->AddBlock($sGroup,$aParams);
+						} else {
+							$this->AddBlock($sGroup,$sName,$aParams);
+						}
+					}
+				}			
+			}
+		}
+		return true;
+	}	
+	
 	/**
 	 * Устанавливаем заголовок страницы(тег <title>)
 	 *
@@ -515,6 +529,10 @@ class LsViewer extends Module {
 	 *
 	 */
 	public function Shutdown() {
+		/**
+		 * Добавляем блоки по предзагруженным правилам
+		 */
+		$this->_BuildBlocks();
 		$this->VarAssign();
 	}
 }

@@ -273,6 +273,20 @@ $config['router']['page']['search']        = 'ActionSearch';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';
+
+/**
+ * Настройки вывода блоков
+ */
+$config['block']['index'] = array(
+	'action'  => array(
+			'index' => array('index')
+		),
+	'blocks'  => array(
+			'right' => array('stream','tags','blogs')
+		),
+	'extends' => null
+);
+
 /**
  * Установка локали
  */
