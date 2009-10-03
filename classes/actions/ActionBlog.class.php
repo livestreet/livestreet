@@ -96,10 +96,7 @@ class ActionBlog extends Action {
 		 * Достаём текущего пользователя
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();	
-		/**
-		 * Определяем какие блоки нужно выводить справа
-		 */
-		$this->Viewer_AddBlocks('right',array('stream','tags','blogs'));		
+			
 		/**
 		 * Подсчитываем новые топики
 		 */

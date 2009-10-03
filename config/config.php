@@ -279,10 +279,10 @@ $config['router']['config']['action_not_found'] = 'error';
  */
 $config['block']['index'] = array(
 	'action'  => array(
-			'index' => array('index')
+			'index' => array('index'), 'blog',
 		),
 	'blocks'  => array(
-			'right' => array('stream','tags','blogs')
+			'right' => array('stream','tags','blogs'=>array('params'=>array(),'priority'=>1))
 		),
 	'extends' => null
 );

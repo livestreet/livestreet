@@ -39,7 +39,7 @@ class LsViewer extends Module {
 	 * 
 	 * @var array
 	 */
-	protected $_aBlockRules = array();
+	protected $aBlockRules = array();
 	/**
 	 * Заголовок HTML страницы
 	 *
@@ -118,7 +118,7 @@ class LsViewer extends Module {
 		/**
 		 * Получаем настройки блоков
 		 */
-		$this->_InitBlockParams();
+		$this->InitBlockParams();
 	}
 	
 	/**
@@ -279,16 +279,19 @@ class LsViewer extends Module {
 	/**
 	 * Инициализируем параметры отображения блоков
 	 */	
-	protected function _InitBlockParams() {
-		$this->_aBlockRules = Config::Get('block');
+	protected function InitBlockParams() {
+		$this->aBlockRules = Config::Get('block');
 	}
 	/**
 	 * Добавляет блок для отображения
 	 *
+	 * @param string $sGroup
 	 * @param string $sName
-	 * @param arra $aParams - параметры блока, которые будут переданы обработчику блока
+	 * @param array  $aParams - параметры блока, которые будут переданы обработчику блока
+	 * @param int    $iPriority
+	 * @return bool
 	 */
-	public function AddBlock($sGroup,$sName,$aParams=array()) {
+	public function AddBlock($sGroup,$sName,$aParams=array(),$iPriority=5) {
 		/**
 		 * Если смогли определить тип блока то добавляем его
 		 */
@@ -297,9 +300,10 @@ class LsViewer extends Module {
 			return false;
 		}
 		$this->aBlocks[$sGroup][$sName]=array(
-			'type' => $sType,
-			'name' => $sName,
-			'params' => $aParams,
+			'type'     => $sType,
+			'name'     => $sName,
+			'params'   => $aParams,
+			'priority' => $iPriority,
 		);
 		return true;
 	}
@@ -367,11 +371,11 @@ class LsViewer extends Module {
 	 * Анализируем правила и наборы массивов
 	 * получаем окончательные списки блоков
 	 */
-	protected function _BuildBlocks() {
+	protected function BuildBlocks() {
 		$sAction = strtolower(Router::GetAction());
 		$sEvent  = strtolower(Router::GetActionEvent());
 		
-		foreach($this->_aBlockRules as $sName => $aRule) {
+		foreach($this->aBlockRules as $sName=>$aRule) {
 			$bUse=false;
 			/**
 			 * Если в правиле не указан список блоков, нам такое не нужно
@@ -390,9 +394,23 @@ class LsViewer extends Module {
 				 * переходи к следующему действию. Если список не задан, 
 				 * считаем что правило действует для всех event`ов.
 				 */
-				if(!$sEvent
-					|| in_array($sEvent,(array)$aRule['event'][$sAction])) 
-						$bUse=true;
+				if(!$sEvent) {
+					$bUse=true;
+				} else {
+					foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {	
+						if(substr($sEventPreg,0,1)!='/') {	
+							/**
+							 * значит это название event`a
+							 */
+							if($sEvent==$sEventPreg) { $bUse=true; break; }
+						} else {
+							/**
+							 * это регулярное выражение
+							 */
+							if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
+						}
+					}
+				}						
 			}
 			
 			if($bUse){
@@ -407,14 +425,36 @@ class LsViewer extends Module {
 						if(!is_array($aParams)) {
 							$this->AddBlock($sGroup,$aParams);
 						} else {
-							$this->AddBlock($sGroup,$sName,$aParams);
+							$this->AddBlock(
+								$sGroup,$sName,
+								isset($aParams['params']) ? $aParams['params'] : array(),
+								isset($aParams['priority']) ? $aParams['priority'] : 5
+							);
 						}
 					}
-				}			
+				}
 			}
 		}
+		/**
+		 * Теперь сортируем блоки по приоритетности
+		 */
+		foreach($this->aBlocks as $sGroup=>$aBlocks) {
+			uasort($aBlocks,array(&$this,'SortBlocks'));
+			$this->aBlocks[$sGroup] = array_reverse($aBlocks);
+		}
 		return true;
-	}	
+	}
+	
+	/**
+	 * Вспомагательная функция для сортировки блоков по приоритетности
+	 *
+	 * @param  array $a
+	 * @param  array $b
+	 * @return int
+	 */
+	protected function SortBlocks($a,$b) {
+		return ($a["priority"]-$b["priority"]);
+	}
 	
 	/**
 	 * Устанавливаем заголовок страницы(тег <title>)
@@ -532,7 +572,7 @@ class LsViewer extends Module {
 		/**
 		 * Добавляем блоки по предзагруженным правилам
 		 */
-		$this->_BuildBlocks();
+		$this->BuildBlocks();
 		$this->VarAssign();
 	}
 }
