@@ -248,6 +248,11 @@ $config['memcache']['compression'] = true;
  * Настройки роутинга
  */
 $config['router']['rewrite'] = array();
+// Правила реврайта для REQUEST_URI
+$config['router']['uri'] = array(
+	// короткий вызов топиков из личных блогов
+	'~^(\d+)\.html~i' => "blog/\\1.html",
+);
 // Распределение action
 $config['router']['page']['error']         = 'ActionError';
 $config['router']['page']['registration']  = 'ActionRegistration';

@@ -76,10 +76,7 @@ class Router extends Object {
 	 *
 	 */
 	protected function ParseUrl() {
-		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
-		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
-		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
-		
+		$sReq = $this->GetRequestUri();
 		self::$sPathWebCurrent = Config::Get('path.root.web')."/".$sReq;
 			
 		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
@@ -90,6 +87,27 @@ class Router extends Object {
 		self::$sActionEvent=array_shift($aRequestUrl);
 		self::$aParams=$aRequestUrl;
 	}
+	
+	/**
+	 * Функция выполняет первичную обработку $_SERVER['REQUEST_URI']
+	 *
+	 * @return string
+	 */
+	protected function GetRequestUri() {
+		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);
+		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
+		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
+
+		/**
+		 * Правила Rewrite для REQUEST_URI
+		 */
+		if($aRewrite=Config::Get('router.uri')) {
+			$sReq = preg_replace(array_keys($aRewrite), array_values($aRewrite), $sReq);
+		}
+		
+		return $sReq;
+	}
+	
 	/**
 	 * Выполняет загрузку конфигов роутинга
 	 *
