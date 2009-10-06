@@ -8,16 +8,6 @@
 	<meta name="DESCRIPTION" content="{$sHtmlDescription}" />
 	<meta name="KEYWORDS" content="{$sHtmlKeywords}" />	
 	
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/style.css?v=1" />
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie6.css?v=1" /><![endif]-->
-	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie7.css?v=1" /><![endif]-->	
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/Roar.css" />
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/piechart.css" />
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/Autocompleter.css" />
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/prettify.css" />
-	<link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/vlaCal-v2.1.css" />
-	<!--[if gt IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/simple_comments.css" /><![endif]-->
-		
 	<link href="{$aConfig.path.static.skin}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{$aConfig.view.name}" />
 	
@@ -40,30 +30,14 @@ aRouter['{$sPage}']='{$sPath}';
 {/foreach}
 </script>
 
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/JsHttpRequest/JsHttpRequest.js"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/mootools-1.2.js?v=1.2.2"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
-<!--[if IE]>
-	<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
-<![endif]-->	
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Piechart/piechart.js"></script>
+{$sHtmlHeadFiles}
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie6.css?v=1" /><![endif]-->
+	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie7.css?v=1" /><![endif]-->	
+	<!--[if gt IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/simple_comments.css" /><![endif]-->
 
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/prettify/prettify.js"></script>
-<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/vlaCal-v2.1/jslib/vlaCal-v2.1.js"></script>
-
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/vote.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/favourites.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/questions.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/block_loader.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/friend.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/blog.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/other.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/login.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/panel.js"></script>
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/messages.js"></script>
+	<!--[if IE]>
+		<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
+	<![endif]-->	
 
 {literal}
 <script language="JavaScript" type="text/javascript">

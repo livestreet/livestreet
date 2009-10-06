@@ -14,7 +14,7 @@
 *
 ---------------------------------------------------------
 */
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 ini_set('display_errors', 1);
 define('LS_VERSION','0.3.1');
 define('SYS_HACKER_CONSOLE',false);
@@ -83,4 +83,4 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 	</tr>
 </table>
 </fieldset>
-<?php } ?>
+<?php }?>

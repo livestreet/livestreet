@@ -16,6 +16,8 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
+require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
@@ -40,6 +42,51 @@ class LsViewer extends Module {
 	 * @var array
 	 */
 	protected $aBlockRules = array();
+	/**
+	 * Стандартные настройки вывода js, css файлов
+	 *
+	 * @var array
+	 */
+	protected $aFilesDefault=array(
+		'js'  => array(),
+		'css' => array()
+	);		
+	/**
+	 * Правила переопределение массивов js и css
+	 *
+	 * @var array
+	 */
+	protected $aFileRules=array();
+	/**
+	 * Список JS, которые нужно добавить в начало и в конец
+	 *
+	 * @var array
+	 */
+	protected $aJsInclude = array(
+		'append'  => array(),
+		'prepand' => array()
+	);
+	/**
+	 * Список CSS, которые нужно добавить в начало и в конец
+	 *
+	 * @var array
+	 */
+	protected $aCssInclude = array(
+		'append'  => array(),
+		'prepand' => array()
+	);	
+	/**
+	 * Каталог для кешировния js,css файлов
+	 *
+	 * @var string
+	 */
+	protected $sCacheDir='';
+	/**
+	 * Объект CSSTidy для компрессии css-файлов
+	 *
+	 * @var csstidy
+	 */
+	protected $oCssCompressor = null;
 	/**
 	 * Заголовок HTML страницы
 	 *
@@ -72,6 +119,13 @@ class LsViewer extends Module {
 	 * @var array
 	 */
 	protected $aHtmlRssAlternate=null;
+
+	/**
+	 * Html код для подключения js,css
+	 *
+	 * @var string
+	 */
+	protected $sHtmlHeadFiles='';	
 	
 	/**
 	 * Переменные для отдачи при ajax запросе
@@ -119,6 +173,11 @@ class LsViewer extends Module {
 		 * Получаем настройки блоков
 		 */
 		$this->InitBlockParams();
+		/**
+		 * Получаем настройки JS, CSS файлов
+		 */
+		$this->InitFileParams();
+		$this->sCacheDir = Config::Get('path.smarty.cache');		
 	}
 	
 	/**
@@ -154,7 +213,9 @@ class LsViewer extends Module {
 			$aRouter[$sPage]=Router::GetPath($sPage);
 		}
 		$this->Assign("aRouter",$aRouter);
-		
+		/**
+		 * Загружаем в шаблон блоки
+		 */
 		$this->Assign("aBlocks",$this->aBlocks);	
 		/**
 		 * Загружаем HTML заголовки
@@ -162,6 +223,7 @@ class LsViewer extends Module {
 		$this->Assign("sHtmlTitle",htmlspecialchars($this->sHtmlTitle));
 		$this->Assign("sHtmlKeywords",htmlspecialchars($this->sHtmlKeywords));
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
+		$this->Assign("sHtmlHeadFiles",$this->sHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
 				
 	}
@@ -455,6 +517,295 @@ class LsViewer extends Module {
 	protected function SortBlocks($a,$b) {
 		return ($a["priority"]-$b["priority"]);
 	}
+	/**
+	 * Инициализирует параметры вывода js- и css- файлов
+	 */	
+	protected function InitFileParams() {
+		$this->aFilesDefault = Config::Get('head.default');
+		$this->aFileRules = Config::Get('head.rules');
+	}
+	/**
+	 * Создает css-компрессор и инициализирует его конфигурацию
+	 *
+	 * @return bool
+	 */
+	protected function InitCssCompressor() {
+		/**
+		 * Получаем параметры из конфигурации
+		 */
+		$aParams = Config::Get('compress.css');	
+		$this->oCssCompressor =($aParams['use']) ? new csstidy() : null;
+		/**
+		 * Если компрессор не создан, завершаем работу инициализатора
+		 */
+		if(!$this->oCssCompressor) return false;
+		/**
+		 * Устанавливаем параметры
+		 */
+   		$this->oCssCompressor->set_cfg('case_properties',     $aParams['case_properties']);
+   		$this->oCssCompressor->set_cfg('merge_selectors',     $aParams['merge_selectors']);
+   		$this->oCssCompressor->set_cfg('optimise_shorthands', $aParams['optimise_shorthands']);
+   		$this->oCssCompressor->set_cfg('remove_last_;',       $aParams['remove_last_;']);
+   		$this->oCssCompressor->set_cfg('css_level',           $aParams['css_level']);
+   		$this->oCssCompressor->load_template($aParams['template']);		
+   		
+   		return true;
+	}
+	
+	/**
+	 * Функции добавления js-скриптов и css-каскадов
+	 */
+	public function AppendScript($sJs) {
+		$this->aJsInclude['append'][] = $sJs;
+	}
+	public function PrepandScript($sJs) {
+		$this->aJsInclude['prepend'][] = $sJs;		
+	}
+	public function AppendStyle($sCss) {
+		$this->aCssInclude['append'][] = $sCss;
+	}
+	public function PrepandStyle($sCss) {
+		$this->aCssInclude['prepend'][] = $sCss;		
+	}	
+	
+	/**
+	 * Строит массив для подключения css и js,
+	 * преобразовывает их в строку для HTML 
+	 *
+	 * @return bool
+	 */
+	protected function BuildHeadFiles() {	
+		$aPath = Router::GetPathWebCurrent();
+		$aPath = rtrim($aPath,"/")."/";
+		
+		/**
+		 * По умолчанию имеем дефаултовые настройки
+		 */
+		$aResult = $this->aFilesDefault;
+		
+		foreach((array)$this->aFileRules as $sName => $aRule) {
+			if(!$aRule['path']) continue;
+
+			foreach((array)$aRule['path'] as $sRulePath) {
+				$sPattern = "~".str_replace(array('/','*'),array('\/','[\w+]'), $sRulePath)."~";
+				if(preg_match($sPattern, $aPath)) { 
+					/**
+					 * Преобразование JS
+					 */
+					if(isset($aRule['js']['empty']) && $aRule['js']['empty']) $aResult['js']=array();
+					if(isset($aRule['js']['exclude']) && is_array($aRule['js']['exclude'])) $aResult['js']=array_diff($aResult['js'],$aRule['js']['exclude']);
+					if(isset($aRule['js']['include']) && is_array($aRule['js']['include'])) $aResult['js']=array_merge($aResult['js'],$aRule['js']['include']);
+					
+					/**
+					 * Преобразование CSS
+					 */
+					if(isset($aRule['css']['empty']) && $aRule['css']['empty']) $aResult['css']=array();
+					if(isset($aRule['css']['exclude']) && is_array($aRule['css']['exclude'])) $aResult['css']=array_diff($aResult['css'],$aRule['css']['exclude']);
+					if(isset($aRule['css']['include']) && is_array($aRule['css']['include'])) $aResult['css']=array_merge($aResult['css'],$aRule['css']['include']);
+					
+					/**
+					 * Продолжаем поиск
+					 */
+					if(isset($aRule['stop'])) {
+						break(2);
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Добавляем скрипты и css из массивов
+		 */
+		$aResult['js'] = array_values(
+			array_merge(
+				(array)$this->aJsInclude['append'],
+				(array)$aResult['js'],
+				(array)$this->aJsInclude['prepand']
+			)
+		);		
+		$aResult['css'] = array_values(
+			array_merge(
+				(array)$this->aCssInclude['append'],
+				(array)$aResult['css'],
+				(array)$this->aCssInclude['prepand']
+			)
+		);
+		
+		/**
+		 * Сливаем файлы в один
+		 */
+		$aResult['js'] = array($this->Compress($aResult['js'],'js'));
+		$aResult['css'] = array($this->Compress($aResult['css'],'css'));
+		/**
+		 * Получаем HTML код
+		 */
+		$sHtmlHeadFiles = $this->BuildHtmlHeadFiles($aResult);
+		$this->SetHtmlHeadFiles($sHtmlHeadFiles);
+		return true;
+	}
+	
+	/**
+	 * Сжимает все переданные файлы в один,
+	 * использует файловое кеширование
+	 *
+	 * @param  array  $aFiles
+	 * @param  string $sType
+	 * @return array
+	 */
+	protected function Compress($aFiles,$sType) {
+		$sCacheName  = $this->sCacheDir."/".md5(serialize($aFiles).'_head').".{$sType}";
+		$sPathServer = Config::Get('path.root.server');
+		$sPathWeb    = Config::Get('path.root.web');
+		/**
+		 * Если кеш существует, то берем из кеша
+		 */
+		if(!file_exists($sCacheName)) {
+			/**
+			 * Считываем содержимое
+			 */
+			ob_start();
+			foreach ($aFiles as $sFile) {
+				$sFile=str_replace($sPathWeb,$sPathServer,$sFile);
+				list($sFile,)=explode('?',$sFile,2);
+				/**
+				 * Если файл существует, обрабатываем
+				 */
+				if(file_exists($sFile)) { 
+					$sFileContent = file_get_contents($sFile);
+					if($sType=='css'){ 
+						$sFileContent = $this->ConvertPathInCss($sFileContent,$sFile);
+						$sFileContent = $this->CompressCss($sFileContent);
+					} elseif($sType=='js') {
+						$sFileContent = $this->CompressJs($sFileContent);
+					}
+					print $sFileContent;
+				}
+			}
+			$sContent = ob_get_contents();
+			ob_end_clean();
+			
+			/**
+			 * Создаем новый файл и сливаем туда содержимое
+			 */			
+			file_put_contents($sCacheName,$sContent);
+		}
+		/**
+		 * Возвращаем имя файла, заменяя адрес сервера на веб-адрес
+		 */
+		return str_replace($sPathServer,$sPathWeb,$sCacheName);
+	}
+
+	/**
+	 * Выполняет преобразование CSS файлов
+	 *
+	 * @param  string $sContent
+	 * @return string 
+	 */
+	protected function CompressCss($sContent) {
+		$this->InitCssCompressor();
+		if(!$this->oCssCompressor) return $sContent;
+		/**
+		 * Парсим css и отдаем обработанный результат
+		 */
+		$this->oCssCompressor->parse($sContent);
+	    $output=$this->oCssCompressor->print->plain();
+	    
+	    return $output;
+	}
+	
+	/**
+	 * Конвертирует относительные пути в css файлах в абсолютные
+	 *
+	 * @param  string $content
+	 * @param  string $path
+	 * @return string
+	 */
+	protected function ConvertPathInCss($sContent,$sPath) {
+		preg_match_all( "/url\((.*?)\)/is",$sContent,$aMatches);
+		if(count($aMatches[1])==0) return $sContent;
+
+		/**
+		 * Обрабатываем список файлов
+		 */
+		$aFiles = array_unique($aMatches[1]);
+		$sDir = dirname($sPath)."/";		
+		
+		foreach($aFiles as $sFilePath) {
+			/**
+			 * Don't touch data URIs
+			 */
+			if(strstr($sFilePath,"data:")) {
+				continue;
+			}
+			$sFilePathAbsolute = preg_replace("@'|\"@","",trim($sFilePath));
+			/**
+			 * Если путь является абсолютным, необрабатываем
+			 */
+			if(substr($sFilePathAbsolute,0,1) == "/" || substr($sFilePathAbsolute,0,5) == "http:") {
+				continue;
+			}
+			/**
+			 * Обрабатываем относительный путь
+			 */
+			$sFilePathAbsolute = $this->GetWebPath(realpath($sDir.$sFilePathAbsolute));
+			/**
+			 * Заменяем относительные пути в файле на абсолютные
+			 */
+			$sContent = str_replace($sFilePath,$sFilePathAbsolute,$sContent);
+		}
+		return $sContent;
+	}
+
+	/**
+	 * Выполняет преобразование JS файла
+	 *
+	 * @param  string $sContent
+	 * @return string
+	 */
+	protected function CompressJs($sContent) {
+		$sContent = (Config::Get('compress.js.use')) 
+			? JSMin::minify($sContent)
+			: $sContent;
+		/**
+		 * Добавляем разделитель в конце файла 
+		 * с расчетом на возможное их слияние в будущем
+		 */
+		return rtrim($sContent,";").";".PHP_EOL;
+	}
+	
+	/**
+	 * Преобразует абсолютный путь к файлу в WEB-вариант
+	 *
+	 * @param  string $sFile
+	 * @return string
+	 */
+	protected function GetWebPath($sFile) {
+		$sFile=str_replace(DIRECTORY_SEPARATOR,'/',$sFile);
+		return str_replace(Config::Get('path.root.server'),Config::Get('path.root.web'),$sFile);
+	}
+	
+	/**
+	 * Строит HTML код по переданному массиву файлов
+	 *
+	 * @param  array  $aFileList
+	 * @return string
+	 */
+	protected function BuildHtmlHeadFiles($aFileList) {
+		$sHeader='';
+
+		foreach ((array)$aFileList['css'] as $sCss) {
+			$sHeader.="<link rel='stylesheet' type='text/css' href='{$sCss}' />".PHP_EOL;
+		}		
+		foreach((array)$aFileList['js'] as $sJs) {
+			$sHeader.="<script type='text/javascript' src='{$sJs}'></script>".PHP_EOL;
+		}
+		
+		return $sHeader;
+	}
+
+	public function SetHtmlHeadFiles($sText) {	
+		$this->sHtmlHeadFiles=$sText;
+	}
 	
 	/**
 	 * Устанавливаем заголовок страницы(тег <title>)
@@ -573,6 +924,10 @@ class LsViewer extends Module {
 		 * Добавляем блоки по предзагруженным правилам
 		 */
 		$this->BuildBlocks();
+		/**
+		 * Добавляем JS и CSS по предписанным правилам
+		 */
+		$this->BuildHeadFiles();
 		$this->VarAssign();
 	}
 }
