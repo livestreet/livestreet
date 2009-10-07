@@ -134,7 +134,7 @@ class LsViewer extends Module {
 	 *
 	 * @var string
 	 */
-	protected $sHtmlHeadFiles='';	
+	protected $aHtmlHeadFiles='';	
 	
 	/**
 	 * Переменные для отдачи при ajax запросе
@@ -232,7 +232,7 @@ class LsViewer extends Module {
 		$this->Assign("sHtmlTitle",htmlspecialchars($this->sHtmlTitle));
 		$this->Assign("sHtmlKeywords",htmlspecialchars($this->sHtmlKeywords));
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
-		$this->Assign("sHtmlHeadFiles",$this->sHtmlHeadFiles);
+		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
 				
 	}
@@ -731,8 +731,8 @@ class LsViewer extends Module {
 		/**
 		 * Получаем HTML код
 		 */
-		$sHtmlHeadFiles = $this->BuildHtmlHeadFiles($aHeadFiles);
-		$this->SetHtmlHeadFiles($sHtmlHeadFiles);
+		$aHtmlHeadFiles = $this->BuildHtmlHeadFiles($aHeadFiles);
+		$this->SetHtmlHeadFiles($aHtmlHeadFiles);
 		return true;
 	}
 	
@@ -881,16 +881,16 @@ class LsViewer extends Module {
 	 * @return string
 	 */
 	protected function BuildHtmlHeadFiles($aFileList) {
-		$sHeader='';
+		$aHeader=array('js'=>'','css'=>'');
 
 		foreach ((array)$aFileList['css'] as $sCss) {
-			$sHeader.=$this->WrapHtmlHack("<link rel='stylesheet' type='text/css' href='{$sCss}' />", $sCss, 'css').PHP_EOL;	
+			$aHeader['css'].=$this->WrapHtmlHack("<link rel='stylesheet' type='text/css' href='{$sCss}' />", $sCss, 'css').PHP_EOL;	
 		}		
 		foreach((array)$aFileList['js'] as $sJs) {
-			$sHeader.=$this->WrapHtmlHack("<script type='text/javascript' src='{$sJs}'></script>",$sJs,'js').PHP_EOL;
+			$aHeader['js'].=$this->WrapHtmlHack("<script type='text/javascript' src='{$sJs}'></script>",$sJs,'js').PHP_EOL;
 		}
 		
-		return $sHeader;
+		return $aHeader;
 	}
 
 	/**
@@ -907,8 +907,8 @@ class LsViewer extends Module {
 		return "<!--[if {$this->aFilesParams[$sType][$sFile]['browser']}]>$sHtml<![endif]-->"; 
 	}
 	
-	public function SetHtmlHeadFiles($sText) {	
-		$this->sHtmlHeadFiles=$sText;
+	public function SetHtmlHeadFiles($aText) {	
+		$this->aHtmlHeadFiles=$aText;
 	}
 	
 	/**

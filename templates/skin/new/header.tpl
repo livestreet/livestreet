@@ -7,6 +7,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<meta name="DESCRIPTION" content="{$sHtmlDescription}" />
 	<meta name="KEYWORDS" content="{$sHtmlKeywords}" />	
+
+	{$aHtmlHeadFiles.css}
 	
 	<link href="{$aConfig.path.static.skin}/images/favicon.ico" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{$aConfig.view.name}" />
@@ -30,7 +32,7 @@ aRouter['{$sPage}']='{$sPath}';
 {/foreach}
 </script>
 
-{$sHtmlHeadFiles}
+	{$aHtmlHeadFiles.js}
 
 {literal}
 <script language="JavaScript" type="text/javascript">
