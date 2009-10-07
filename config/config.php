@@ -325,6 +325,7 @@ $config['head']['default']['js']  = array(
 	$config['path']['static']['skin']."/js/other.js",
 	$config['path']['static']['skin']."/js/login.js",
 	$config['path']['static']['skin']."/js/panel.js",
+	$config['path']['root']['engine_lib']."/external/MooTools_1.2/plugs/Piechart/moocanvas.js"=>array('browser'=>'IE'),
 );
 $config['head']['default']['css'] = array(
 	$config['path']['static']['skin']."/css/style.css?v=1",
@@ -333,6 +334,9 @@ $config['head']['default']['css'] = array(
 	$config['path']['static']['skin']."/css/Autocompleter.css",
 	$config['path']['static']['skin']."/css/prettify.css",	
 	$config['path']['static']['skin']."/css/thickbox.css",
+	$config['path']['static']['skin']."/css/ie6.css?v=1"=>array('browser'=>'IE 6'),
+	$config['path']['static']['skin']."/css/ie7.css?v=1"=>array('browser'=>'gte IE 7'),	
+	$config['path']['static']['skin']."/css/simple_comments.css"=>array('browser'=>'gt IE 6'),	
 );
 
 /**

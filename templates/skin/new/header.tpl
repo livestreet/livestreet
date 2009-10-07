@@ -31,13 +31,6 @@ aRouter['{$sPage}']='{$sPath}';
 </script>
 
 {$sHtmlHeadFiles}
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie6.css?v=1" /><![endif]-->
-	<!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/ie7.css?v=1" /><![endif]-->	
-	<!--[if gt IE 6]><link rel="stylesheet" type="text/css" href="{$aConfig.path.static.skin}/css/simple_comments.css" /><![endif]-->
-
-	<!--[if IE]>
-		<script type="text/javascript" src="{$aConfig.path.root.engine_lib}/external/MooTools_1.2/plugs/Piechart/moocanvas.js"></script>
-	<![endif]-->	
 
 {literal}
 <script language="JavaScript" type="text/javascript">

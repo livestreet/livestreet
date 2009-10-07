@@ -50,7 +50,16 @@ class LsViewer extends Module {
 	protected $aFilesDefault=array(
 		'js'  => array(),
 		'css' => array()
-	);		
+	);	
+	/**
+	 * Параметры отображения js, css файлов
+	 *
+	 * @var array
+	 */
+	protected $aFilesParams=array(
+		'js'  => array(),
+		'css' => array()
+	);			
 	/**
 	 * Правила переопределение массивов js и css
 	 *
@@ -521,7 +530,23 @@ class LsViewer extends Module {
 	 * Инициализирует параметры вывода js- и css- файлов
 	 */	
 	protected function InitFileParams() {
-		$this->aFilesDefault = Config::Get('head.default');
+		foreach (array('js','css') as $sType) {
+			foreach (Config::Get('head.default.'.$sType) as $sFile=>$aParams) {
+				if(!is_array($aParams)) {
+					/**
+					 * Параметры не определены
+					 */
+					$this->aFilesDefault[$sType][] = $aParams;
+				} else {
+					/**
+					 * Добавляем файл и параметры
+					 */
+					$this->aFilesDefault[$sType][] = $sFile;
+					$this->aFilesParams[$sType][$sFile] = $aParams;
+				}
+			}
+		}
+
 		$this->aFileRules = Config::Get('head.rules');
 	}
 	/**
@@ -555,17 +580,21 @@ class LsViewer extends Module {
 	/**
 	 * Функции добавления js-скриптов и css-каскадов
 	 */
-	public function AppendScript($sJs) {
+	public function AppendScript($sJs,$aParams=array()) {
 		$this->aJsInclude['append'][] = $sJs;
+		$this->aFilesParams['js'][$sJs] = $aParams;
 	}
-	public function PrepandScript($sJs) {
-		$this->aJsInclude['prepend'][] = $sJs;		
+	public function PrepandScript($sJs,$aParams=array()) {
+		$this->aJsInclude['prepend'][] = $sJs;
+		$this->aFilesParams['js'][$sJs] = $aParams;		
 	}
-	public function AppendStyle($sCss) {
+	public function AppendStyle($sCss,$aParams=array()) {
 		$this->aCssInclude['append'][] = $sCss;
+		$this->aFilesParams['css'][$sCss] = $aParams;
 	}
-	public function PrepandStyle($sCss) {
+	public function PrepandStyle($sCss,$aParams=array()) {
 		$this->aCssInclude['prepend'][] = $sCss;		
+		$this->aFilesParams['css'][$sCss] = $aParams;
 	}	
 	
 	/**
@@ -632,14 +661,77 @@ class LsViewer extends Module {
 		);
 		
 		/**
-		 * Сливаем файлы в один
+		 * Получаем список блоков
 		 */
-		$aResult['js'] = array($this->Compress($aResult['js'],'js'));
-		$aResult['css'] = array($this->Compress($aResult['css'],'css'));
+		$aBlocks['js'] = array_unique(
+			array_map(
+				create_function('$sJs','return isset($sJs["block"]) ? $sJs["block"] : null;'),
+				$this->aFilesParams['js']
+			)
+		);
+		$aBlocks['css'] = array_unique(
+			array_map(
+				create_function('$sCss','return isset($sCss["block"]) ? $sCss["block"] : null;'),
+				$this->aFilesParams['css']
+			)
+		);
+		
+		/**
+		 * Сливаем файлы в один, используя блочное разделение
+		 */
+		$aHeadFiles = array('js'=>array(),'css'=>array());
+		
+		foreach (array('js','css') as $sType) {
+			/**
+			 * Отдельно выделяем файлы, для которых указано отображение,
+			 * привязанное к браузеру (ex. IE6, IE7)
+			 */
+			$aFilesHack = array_filter(
+				$this->aFilesParams[$sType], 
+				create_function(
+					'$aParams',
+					'return array_key_exists("browser",(array)$aParams);'
+				)	
+			);
+			$aFilesHack = array_intersect(array_keys($aFilesHack),$aResult[$sType]);
+			/**
+			 * Исключаем эти файлы из основной выдачи
+			 */
+			$aResult[$sType] = array_diff($aResult[$sType],$aFilesHack);
+			/**
+			 * Добавляем файлы поблочно
+			 */
+			if($aBlocks[$sType] && count($aBlocks[$sType])) {
+				foreach ($aBlocks[$sType] as $sBlock) {
+					if(!$sBlock) continue;
+					/**
+					 * Выбираем все файлы, входящие в данный блок
+					 */
+					$aFiles = array_filter($this->aFilesParams[$sType],create_function('$aParams','return (isset($aParams)&&($aParams["block"]=="'.$sBlock.'"));'));					
+					$aFiles = array_intersect(array_keys($aFiles),$aResult[$sType]);
+					if($aFiles && count($aFiles)) {
+						$aHeadFiles[$sType][] = $this->Compress($aFiles,$sType);
+						/**
+						 * Удаляем эти файлы из 
+						 */
+						$aResult[$sType] = array_diff($aResult[$sType],$aFiles);					
+					}
+				}
+			}
+			/**
+			 * Обрабатываем "последние" оставшиеся
+			 */
+			$aHeadFiles[$sType][] = $this->Compress($aResult[$sType],$sType);
+			/**
+			 * Добавляем файлы хаков
+			 */
+			if(is_array($aFilesHack) && count($aFilesHack)) $aHeadFiles[$sType] = array_merge($aHeadFiles[$sType],$aFilesHack);	
+		}
+		
 		/**
 		 * Получаем HTML код
 		 */
-		$sHtmlHeadFiles = $this->BuildHtmlHeadFiles($aResult);
+		$sHtmlHeadFiles = $this->BuildHtmlHeadFiles($aHeadFiles);
 		$this->SetHtmlHeadFiles($sHtmlHeadFiles);
 		return true;
 	}
@@ -692,7 +784,7 @@ class LsViewer extends Module {
 		/**
 		 * Возвращаем имя файла, заменяя адрес сервера на веб-адрес
 		 */
-		return str_replace($sPathServer,$sPathWeb,$sCacheName);
+		return $this->GetWebPath($sCacheName);
 	}
 
 	/**
@@ -708,9 +800,7 @@ class LsViewer extends Module {
 		 * Парсим css и отдаем обработанный результат
 		 */
 		$this->oCssCompressor->parse($sContent);
-	    $output=$this->oCssCompressor->print->plain();
-	    
-	    return $output;
+	    return $this->oCssCompressor->print->plain();
 	}
 	
 	/**
@@ -794,15 +884,29 @@ class LsViewer extends Module {
 		$sHeader='';
 
 		foreach ((array)$aFileList['css'] as $sCss) {
-			$sHeader.="<link rel='stylesheet' type='text/css' href='{$sCss}' />".PHP_EOL;
+			$sHeader.=$this->WrapHtmlHack("<link rel='stylesheet' type='text/css' href='{$sCss}' />", $sCss, 'css').PHP_EOL;	
 		}		
 		foreach((array)$aFileList['js'] as $sJs) {
-			$sHeader.="<script type='text/javascript' src='{$sJs}'></script>".PHP_EOL;
+			$sHeader.=$this->WrapHtmlHack("<script type='text/javascript' src='{$sJs}'></script>",$sJs,'js').PHP_EOL;
 		}
 		
 		return $sHeader;
 	}
 
+	/**
+	 * Обрамляет HTML код в браузер-хак (ex., [if IE 6])
+	 * 
+	 * @param  string $sHtml
+	 * @param  string $sFile
+	 * @param  string $sType (js|css)
+	 * 
+	 * @return string
+	 */
+	protected function WrapHtmlHack($sHtml,$sFile,$sType) {
+		if(!isset($this->aFilesParams[$sType][$sFile]['browser'])) return $sHtml;
+		return "<!--[if {$this->aFilesParams[$sType][$sFile]['browser']}]>$sHtml<![endif]-->"; 
+	}
+	
 	public function SetHtmlHeadFiles($sText) {	
 		$this->sHtmlHeadFiles=$sText;
 	}
