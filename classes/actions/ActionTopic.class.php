@@ -169,7 +169,7 @@ class ActionTopic extends Action {
 		/**
 		 * Перенаправляем на страницу со списком топиков из блога этого топика
 		 */
-		Router::Location(Router::GetPath('blog').$oTopic->getBlog()->getUrl());
+		Router::Location($oTopic->getBlog()->getUrlFull());
 	}
 	/**
 	 * Добавление топика
