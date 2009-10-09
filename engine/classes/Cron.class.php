@@ -79,7 +79,7 @@ class Cron extends Object {
 	/**
 	 * Основная функция слоя. Реализует логику работы
 	 * крон процесса с последующей передачей управления
-	 * на пользотвальскую функцию
+	 * на пользовательскую функцию
 	 *
 	 * @param ( string|array ) $sFunction
 	 * @param array $aArgs
@@ -114,6 +114,7 @@ class Cron extends Object {
 		$this->unsetLock();	
 		$this->Log('Cron process ended');		
 	}
+	
 	public function __destruct() {
 		$this->Shutdown();
 	}

@@ -134,7 +134,7 @@ class Config {
 		}
 		// Get config from file
 		$aConfig=include($sFile);
-		return self::Load($aConfig,$bRewrite,$sInstance);		
+		return self::Load($aConfig,$bRewrite,$sInstance);
 	}
 	
 	/**
