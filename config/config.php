@@ -282,14 +282,13 @@ $config['router']['config']['action_not_found'] = 'error';
 /**
  * Настройки вывода блоков
  */
-$config['block']['index'] = array(
+$config['block']['rule_index_blog'] = array(
 	'action'  => array(
 			'index' => array('index'), 'blog',
 		),
 	'blocks'  => array(
 			'right' => array('stream','tags','blogs'=>array('params'=>array(),'priority'=>1))
-		),
-	'extends' => null
+		)
 );
 
 /**
@@ -353,6 +352,21 @@ $config['compress']['css']['template']            = "highest_compression";
  * Параметры компрессии js-файлов
  */
 $config['compress']['js']['use'] = true;
+
+/**
+ * Настройка использования раздельного и монолитного кеша для отдельных операций
+ */
+$config['cache']['solid']['blog']['get_by_ids']      = true;
+$config['cache']['solid']['blog']['users']           = true;
+$config['cache']['solid']['comment']['get_by_ids']   = true;
+$config['cache']['solid']['vote']['get_by_ids']      = true;
+$config['cache']['solid']['user']['get_by_ids']      = true;
+$config['cache']['solid']['user']['session']         = true;
+$config['cache']['solid']['user']['friend']          = true;
+$config['cache']['solid']['favourite']['get_by_ids'] = true;
+$config['cache']['solid']['topic']['get_by_ids']     = true;
+$config['cache']['solid']['topic']['read']           = true;
+$config['cache']['solid']['topic']['question_vote']  = true;
 
 /**
  * Установка локали

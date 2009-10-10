@@ -157,7 +157,7 @@ class LsComment extends Module {
 		if (!$aCommentId) {
 			return array();
 		}
-		if (1) {
+		if (Config::Get('cache.solid.comment.get_by_ids')) {
 			return $this->GetCommentsByArrayIdSolid($aCommentId);
 		}
 		if (!is_array($aCommentId)) {

@@ -60,7 +60,7 @@ class LsFavourite extends Module {
 		if (!$aTargetId) {
 			return array();
 		}	
-		if (1) {
+		if (Config::Get('cache.solid.favourite.get_by_ids')) {
 			return $this->GetFavouritesByArraySolid($aTargetId,$sTargetType,$sUserId);
 		}
 		if (!is_array($aTargetId)) {
