@@ -735,7 +735,7 @@ class ActionTalk extends Action {
 				$this->Lang_Get('need_authorization'),
 				$this->Lang_Get('error')
 			);
-			return;				
+			return;
 		}
 		
 		// Если удаляемый участник не существует в базе данных,
@@ -748,10 +748,10 @@ class ActionTalk extends Action {
 			return;				
 		}
 		
-		// Если разговор не найден, или пользователь не является его автором,
+		// Если разговор не найден, или пользователь не является его автором (либо админом),
 		// возвращаем ошибку
 		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
-			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
+			|| ( ($oTalk->getUserId()!=$this->oUserCurrent->getId()) && !$this->oUserCurrent->isAdministrator() ) ) {
 				$this->Message_AddErrorSingle(
 					$this->Lang_Get('talk_not_found'),
 					$this->Lang_Get('error')				
@@ -814,15 +814,15 @@ class ActionTalk extends Action {
 			return;				
 		}
 
-		// Если разговор не найден, или пользователь не является его автором,
+		// Если разговор не найден, или пользователь не является его автором (или админом),
 		// возвращаем ошибку
 		if((!$oTalk=$this->Talk_GetTalkById($idTalk)) 
-			|| ($oTalk->getUserId()!=$this->oUserCurrent->getId()) ) {
+			|| ( ($oTalk->getUserId()!=$this->oUserCurrent->getId()) && !$this->oUserCurrent->isAdministrator() ) ) {
 				$this->Message_AddErrorSingle(
 					$this->Lang_Get('talk_not_found'),
 					$this->Lang_Get('error')				
 				);
-				return;				
+				return;
 		} 
 		
 		// Получаем список всех участников разговора
