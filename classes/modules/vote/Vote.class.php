@@ -74,7 +74,7 @@ class LsVote extends Module {
 		if (!$aTargetId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.vote.get_by_ids')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetVoteByArraySolid($aTargetId,$sTargetType,$sUserId);
 		}
 		if (!is_array($aTargetId)) {

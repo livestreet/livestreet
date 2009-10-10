@@ -130,7 +130,7 @@ class LsUser extends Module {
 		if (!$aUserId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.user.get_by_ids')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetUsersByArrayIdSolid($aUserId);
 		}
 		if (!is_array($aUserId)) {
@@ -211,7 +211,7 @@ class LsUser extends Module {
 		if (!$aUserId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.user.session')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetSessionsByArrayIdSolid($aUserId);
 		}
 		if (!is_array($aUserId)) {
@@ -651,7 +651,7 @@ class LsUser extends Module {
 		if (!$aUserId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.user.friend')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetFriendsByArraySolid($aUserId,$sUserId);
 		}
 		if (!is_array($aUserId)) {

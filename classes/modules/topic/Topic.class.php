@@ -251,7 +251,7 @@ class LsTopic extends Module {
 		if (!$aTopicId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.topic.get_by_ids')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetTopicsByArrayIdSolid($aTopicId);
 		}
 		
@@ -956,7 +956,7 @@ class LsTopic extends Module {
 		if (!$aTopicId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.topic.read')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetTopicsReadByArraySolid($aTopicId,$sUserId);
 		}
 		if (!is_array($aTopicId)) {
@@ -1058,7 +1058,7 @@ class LsTopic extends Module {
 		if (!$aTopicId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.topic.question_vote')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetTopicsQuestionVoteByArraySolid($aTopicId,$sUserId);
 		}
 		if (!is_array($aTopicId)) {

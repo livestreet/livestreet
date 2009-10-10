@@ -98,6 +98,8 @@ $config['sys']['cache']['use']    = true;               // использова�
 $config['sys']['cache']['type']   = 'file';             // тип кеширования: file и memory. memory использует мемкеш
 $config['sys']['cache']['dir']    = $sTmpDir.'/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 $config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
+$config['sys']['cache']['solid']  = true; // Настройка использования раздельного и монолитного кеша для отдельных операций
+
 /**
  * Настройки логирования
  */
@@ -352,21 +354,6 @@ $config['compress']['css']['template']            = "highest_compression";
  * Параметры компрессии js-файлов
  */
 $config['compress']['js']['use'] = true;
-
-/**
- * Настройка использования раздельного и монолитного кеша для отдельных операций
- */
-$config['cache']['solid']['blog']['get_by_ids']      = true;
-$config['cache']['solid']['blog']['users']           = true;
-$config['cache']['solid']['comment']['get_by_ids']   = true;
-$config['cache']['solid']['vote']['get_by_ids']      = true;
-$config['cache']['solid']['user']['get_by_ids']      = true;
-$config['cache']['solid']['user']['session']         = true;
-$config['cache']['solid']['user']['friend']          = true;
-$config['cache']['solid']['favourite']['get_by_ids'] = true;
-$config['cache']['solid']['topic']['get_by_ids']     = true;
-$config['cache']['solid']['topic']['read']           = true;
-$config['cache']['solid']['topic']['question_vote']  = true;
 
 /**
  * Установка локали

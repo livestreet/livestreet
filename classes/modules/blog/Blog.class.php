@@ -129,7 +129,7 @@ class LsBlog extends Module {
 		if (!$aBlogId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.blog.get_by_ids')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetBlogsByArrayIdSolid($aBlogId);
 		}
 		if (!is_array($aBlogId)) {
@@ -481,7 +481,7 @@ class LsBlog extends Module {
 		if (!$aBlogId) {
 			return array();
 		}
-		if (Config::Get('cache.solid.blog.users')) {
+		if (Config::Get('sys.cache.solid')) {
 			return $this->GetBlogUsersByArrayBlogSolid($aBlogId,$sUserId);
 		}
 		if (!is_array($aBlogId)) {
