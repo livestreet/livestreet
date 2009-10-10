@@ -73,7 +73,7 @@ class LsViewer extends Module {
 	 */
 	protected $aJsInclude = array(
 		'append'  => array(),
-		'prepand' => array()
+		'prepend' => array()
 	);
 	/**
 	 * Список CSS, которые нужно добавить в начало и в конец
@@ -82,7 +82,7 @@ class LsViewer extends Module {
 	 */
 	protected $aCssInclude = array(
 		'append'  => array(),
-		'prepand' => array()
+		'prepend' => array()
 	);	
 	/**
 	 * Каталог для кешировния js,css файлов
@@ -584,7 +584,7 @@ class LsViewer extends Module {
 		$this->aJsInclude['append'][] = $sJs;
 		$this->aFilesParams['js'][$sJs] = $aParams;
 	}
-	public function PrepandScript($sJs,$aParams=array()) {
+	public function PrependScript($sJs,$aParams=array()) {
 		$this->aJsInclude['prepend'][] = $sJs;
 		$this->aFilesParams['js'][$sJs] = $aParams;		
 	}
@@ -592,7 +592,7 @@ class LsViewer extends Module {
 		$this->aCssInclude['append'][] = $sCss;
 		$this->aFilesParams['css'][$sCss] = $aParams;
 	}
-	public function PrepandStyle($sCss,$aParams=array()) {
+	public function PrependStyle($sCss,$aParams=array()) {
 		$this->aCssInclude['prepend'][] = $sCss;		
 		$this->aFilesParams['css'][$sCss] = $aParams;
 	}	
@@ -649,14 +649,14 @@ class LsViewer extends Module {
 			array_merge(
 				(array)$this->aJsInclude['append'],
 				(array)$aResult['js'],
-				(array)$this->aJsInclude['prepand']
+				(array)$this->aJsInclude['prepend']
 			)
 		);		
 		$aResult['css'] = array_values(
 			array_merge(
 				(array)$this->aCssInclude['append'],
 				(array)$aResult['css'],
-				(array)$this->aCssInclude['prepand']
+				(array)$this->aCssInclude['prepend']
 			)
 		);
 		
