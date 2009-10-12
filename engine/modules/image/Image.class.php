@@ -85,17 +85,21 @@ class LsImage extends Module {
 	 * @param  int    $iHeightDest
 	 * @param  bool   $bForcedMinSize
 	 * @param  array  $aParams
+	 * @param  object $oImage
 	 * @return string
 	 */
-	public function Resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true,$aParams=null) {
+	public function Resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true,$aParams=null,$oImage=null) {
 		/**
 		 * Если параметры не переданы, устанавливаем действия по умолчанию
 		 */
 		if(!is_array($aParams)) {
 			$aParams=$this->aParamsDefault;
 		}
-		
-		$oImage=new LiveImage($sFileSrc);
+		/**
+		 * Если объект не передан как параметр, 
+		 * создаем новый
+		 */
+		if(!$oImage) $oImage=new LiveImage($sFileSrc);
 		
 		if($oImage->get_last_error()){
 			return false;
@@ -168,7 +172,7 @@ class LsImage extends Module {
 			return $sFileDest;
 		}
 		
-		return false;	
+		return false;
 	}
 	/**
 	 * Upload user avatar on server
@@ -186,24 +190,55 @@ class LsImage extends Module {
 		$sFileTmp=$aFile['tmp_name'];
 		$sPath=Config::Get('path.uploads.images').'/'.$oUser->getId();
 		$aParams=$this->BuildParams('avatar');
+		/**
+		 * Срезаем квадрат
+		 */
+		$oImage = $this->CropSquare(new LiveImage($sFileTmp));
 		
-		if ($sFileAvatar=$this->Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,true,$aParams)) {
-			$this->Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams);
-			$this->Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams);
-			$this->Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams);
-			$this->Resize($sFileTmp,$sPath,'avatar',3000,3000,true,$aParams);
+		if ($oImage && $sFileAvatar=$this->Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,true,$aParams,$oImage)) {
+			$this->Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,'avatar',3000,3000,true,$aParams,$oImage);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			$aFileInfo=pathinfo($sFileAvatar);
-			return $aFileInfo['extension'];
+			return pathinfo($sFileAvatar,PATHINFO_EXTENSION);
 		}
 		/**
 		 * В случае ошибки, возвращаем false
 		 */
 		return false;
 	}
+	
+	/**
+	 * Вырезает максимально возможный квадрат
+	 *
+	 * @param  LiveImage $oImage
+	 * @return LiveImage
+	 */
+	public function CropSquare(LiveImage $oImage) {
+		if(!$oImage || $oImage->get_last_error()) {
+			return false;
+		}
+		$iWidth  = $oImage->get_image_params('width');
+		$iHeight = $oImage->get_image_params('height');
+		/**
+		 * Если высота и ширина совпадают, то возвращаем изначальный вариант
+		 */
+		if($iWidth==$iHeight) return $oImage;
+		/**
+		 * Вырезаем квадрат из центра
+		 */
+		$iNewSize = min($iWidth,$iHeight);
+		$oImage->crop($iNewSize,$iNewSize,($iWidth-$iNewSize)/2,($iHeight-$iNewSize)/2);
+		/**
+		 * Возвращаем объект изображения
+		 */
+		return $oImage;
+	}
+	
 	/**
 	 * Delete avatar from server
 	 *
@@ -244,8 +279,7 @@ class LsImage extends Module {
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			$aFileInfo=pathinfo($sFileAvatar);
-			return $aFileInfo['extension'];
+			return pathinfo($sFileAvatar, PATHINFO_EXTENSION);
 		}
 		/**
 		 * В случае ошибки, возвращаем false
@@ -265,7 +299,7 @@ class LsImage extends Module {
 		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
 		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
 		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());		
-	}	
+	}
 	
 	/**
 	 * Upload user foto
@@ -288,7 +322,7 @@ class LsImage extends Module {
 			 * удаляем старое фото
 			 */
 			$this->DeleteFoto($oUser);
-			return $sDirUpload.'/'.$sFileFoto;
+			return Config::Get('path.root.web').'/'.ltrim($sDirUpload,'/').'/'.$sFileFoto;
 		}
 		return false;
 	}
@@ -298,8 +332,19 @@ class LsImage extends Module {
 	 * @param UserEntity_User $oUser
 	 */
 	public function DeleteFoto($oUser) {
-		@unlink(Config::Get('path.root.server').$oUser->getProfileFoto());
+		@unlink($this->GetServerPath($oUser->getProfileFoto()));
 	}
+	
+	/**
+	 * Возвращает серверный адрес по переданному web-адресу
+	 *
+	 * @param  string $sPath
+	 * @return string
+	 */
+	protected function GetServerPath($sPath) {
+		return str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
+	}
+	
 	/**
 	 * Заргузка изображений при написании топика
 	 *

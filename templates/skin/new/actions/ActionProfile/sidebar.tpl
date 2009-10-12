@@ -23,6 +23,6 @@
 				{/if}
 				
 				{if $oUserProfile->getProfileFoto()}
-				<img src="{$aConfig.path.root.web}{$oUserProfile->getProfileFoto()}" alt="photo" />
+				<img src="{$oUserProfile->getProfileFoto()}" alt="photo" />
 				{/if}
 			</div>

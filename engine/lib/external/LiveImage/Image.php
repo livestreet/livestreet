@@ -232,7 +232,7 @@ class LiveImage {
 		@imagesavealpha($tmp,true);
 		@imagealphablending($tmp,false);
 		
-		if(!@imagecopyresampled($tmp,$this->image,$start_width,$start_height,$width,$height,$width,$height)) {
+		if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
 			imagedestroy($tmp);
 			return false;
 		}

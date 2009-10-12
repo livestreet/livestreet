@@ -186,11 +186,11 @@ $config['module']['image']['default']['round_corner_rate']    = '40';
 $config['module']['image']['default']['path']['watermarks']   = $config['path']['root']['server'].'/engine/lib/external/LiveImage/watermarks/';
 $config['module']['image']['default']['path']['fonts']        = $config['path']['root']['server'].'/engine/lib/external/LiveImage/fonts/';
 
-$config['module']['image']['foto']['watermark_use']  = true;
-$config['module']['image']['foto']['round_corner']   = true;
+$config['module']['image']['foto']['watermark_use']  = false;
+$config['module']['image']['foto']['round_corner']   = false;
 
-$config['module']['image']['topic']['watermark_use']  = true;
-$config['module']['image']['topic']['round_corner']   = true;
+$config['module']['image']['topic']['watermark_use']  = false;
+$config['module']['image']['topic']['round_corner']   = false;
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');
