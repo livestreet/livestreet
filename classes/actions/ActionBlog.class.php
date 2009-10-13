@@ -191,9 +191,8 @@ class ActionBlog extends Action {
 		* Загрузка аватара, делаем ресайзы
 		*/			
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-			if ($sExtension=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-				$oBlog->setAvatar(1);
-				$oBlog->setAvatarType($sExtension);
+			if ($sPath=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+				$oBlog->setAvatar($sPath);
 			} else {
 				$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 				return false;
@@ -286,9 +285,8 @@ class ActionBlog extends Action {
 			* Загрузка аватара, делаем ресайзы
 			*/			
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				if ($sExtension=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-					$oBlog->setAvatar(1);
-					$oBlog->setAvatarType($sExtension);
+				if ($sPath=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+					$oBlog->setAvatar($sPath);
 				} else {
 					$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 					return false;

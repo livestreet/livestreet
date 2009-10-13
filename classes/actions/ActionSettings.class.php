@@ -267,9 +267,8 @@ class ActionSettings extends Action {
 			 * Загрузка аватара, делаем ресайзы
 			 */		
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				if($sExtension=$this->Image_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
-					$this->oUserCurrent->setProfileAvatar(1);
-					$this->oUserCurrent->setProfileAvatarType($sExtension);
+				if($sPath=$this->Image_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
+					$this->oUserCurrent->setProfileAvatar($sPath);
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));					
@@ -279,7 +278,7 @@ class ActionSettings extends Action {
 			 * Удалить аватара
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
-				$this->oUserCurrent->setProfileAvatar(0);
+				$this->oUserCurrent->setProfileAvatar(null);
 				$this->Image_DeleteAvatar($this->oUserCurrent);
 			}
 			/**

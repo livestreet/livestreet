@@ -57,7 +57,7 @@ class BlogEntity_Blog extends Entity
         return $this->_aData['blog_avatar'];
     }
     public function getAvatarType() {
-        return $this->_aData['blog_avatar_type'];
+          return ($sPath=$this->getAvatarPath()) ? pathinfo($sPath,PATHINFO_EXTENSION) : null;
     }
     
     
@@ -69,8 +69,8 @@ class BlogEntity_Blog extends Entity
         return $this->_aData['vote'];
     }
     public function getAvatarPath($iSize=48) {   
-    	if ($this->getAvatar()) { 	
-        	return Config::Get('path.root.web').Config::Get('path.uploads.images').'/'.$this->getOwnerId()."/avatar_blog_{$this->getUrl()}_".$iSize.'x'.$iSize.'.'.$this->getAvatarType();
+    	if ($sPath=$this->getAvatar()) { 	
+        	return str_replace('48x48',"{$iSize}x{$iSize}",$sPath);;
     	} else {
     		return Config::Get('path.static.skin').'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
@@ -131,9 +131,6 @@ class BlogEntity_Blog extends Entity
     }
     public function setAvatar($data) {
         $this->_aData['blog_avatar']=$data;
-    }
-    public function setAvatarType($data) {
-        $this->_aData['blog_avatar_type']=$data;
     }
     
     public function setOwner($data) {

@@ -98,8 +98,8 @@ class UserEntity_User extends Entity {
         return $this->_aData['user_profile_avatar'];
     }
     public function getProfileAvatarType() {
-        return $this->_aData['user_profile_avatar_type'];
-    }    
+        return ($sPath=$this->getProfileAvatarPath()) ? pathinfo($sPath,PATHINFO_EXTENSION) : null;
+    }
     public function getProfileFoto() {
         return $this->_aData['user_profile_foto'];
     }    
@@ -125,8 +125,8 @@ class UserEntity_User extends Entity {
         return $this->_aData['session'];
     }
     public function getProfileAvatarPath($iSize=100) {
-    	if ($this->getProfileAvatar()) { 	
-        	return Config::Get('path.root.web').Config::Get('path.uploads.images').'/'.$this->getId().'/avatar_'.$iSize.'x'.$iSize.'.'.$this->getProfileAvatarType();
+    	if ($sPath=$this->getProfileAvatar()) { 	
+        	return str_replace('100x100',"{$iSize}x{$iSize}",$sPath);
     	} else {
     		return Config::Get('path.static.skin').'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
@@ -227,9 +227,6 @@ class UserEntity_User extends Entity {
     public function setProfileAvatar($data) {
     	$this->_aData['user_profile_avatar']=$data;
     }
-    public function setProfileAvatarType($data) {
-    	$this->_aData['user_profile_avatar_type']=$data;
-    }  
     public function setProfileFoto($data) {
     	$this->_aData['user_profile_foto']=$data;
     }  

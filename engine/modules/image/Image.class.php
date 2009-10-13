@@ -204,14 +204,13 @@ class LsImage extends Module {
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			return pathinfo($sFileAvatar,PATHINFO_EXTENSION);
+			return Config::Get('path.root.web').'/'.trim($sPath,'/').'/'.$sFileAvatar;
 		}
 		/**
 		 * В случае ошибки, возвращаем false
 		 */
 		return false;
 	}
-	
 	/**
 	 * Вырезает максимально возможный квадрат
 	 *
@@ -238,7 +237,6 @@ class LsImage extends Module {
 		 */
 		return $oImage;
 	}
-	
 	/**
 	 * Delete avatar from server
 	 *
@@ -271,15 +269,19 @@ class LsImage extends Module {
 		$sFileTmp=$aFile['tmp_name'];
 		$sPath=Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId();
 		$aParams=$this->BuildParams('avatar');
+		/**
+		 * Срезаем квадрат
+		 */
+		$oImage = $this->CropSquare(new LiveImage($sFileTmp));
 		
-		if ($sFileAvatar=$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams)) {
-			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams);
-			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,true,$aParams);
+		if ($oImage && $sFileAvatar=$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams,$oImage)) {
+			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,true,$aParams,$oImage);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			return pathinfo($sFileAvatar, PATHINFO_EXTENSION);
+			return Config::Get('path.root.web').'/'.trim($sPath,'/').'/'.$sFileAvatar;
 		}
 		/**
 		 * В случае ошибки, возвращаем false
