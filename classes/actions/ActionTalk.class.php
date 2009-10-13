@@ -922,7 +922,7 @@ class ActionTalk extends Action {
 								)
 							)
 						) {
-							$this->Notify_SendTalkNew($oUser,$oUserCurrent,$oTalk);
+							$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
 							$aResult[]=array(
 								'bStateError'=>false,
 								'sMsgTitle'=>$this->Lang_Get('attention'),
