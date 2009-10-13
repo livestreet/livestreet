@@ -126,7 +126,7 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
-		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);		
 	}
 }
 ?>

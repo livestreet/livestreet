@@ -38,7 +38,7 @@ class Init {
 	 */
 	public function __construct($oEngine) {		
 		$this->oEngine=$oEngine;				
-		$this->oUserCurrent=$this->User_GetUserCurrent();		
+		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля

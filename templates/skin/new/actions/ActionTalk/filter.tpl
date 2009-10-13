@@ -25,7 +25,7 @@ document.addEvent('domready', function() {
 			alignX: 'center', 
 			alignY: 'top',
 			offset: { y: 3 },
-			filePath: DIR_WEB_ROOT+'/engine/lib/external/vlaCal-v2.1/inc/', 
+			filePath: DIR_WEB_ROOT+'/engine/lib/external/MooTools_1.2/plugs/vlaCal-v2.1/inc/', 
 			prefillDate: false,
 			startMonday: true
 		} 
@@ -39,7 +39,7 @@ document.addEvent('domready', function() {
 			alignX: 'center', 
 			alignY: 'top',
 			offset: { y: 3 },
-			filePath: DIR_WEB_ROOT+'/engine/lib/external/vlaCal-v2.1/inc/', 
+			filePath: DIR_WEB_ROOT+'/engine/lib/external/MooTools_1.2/plugs/vlaCal-v2.1/inc/', 
 			prefillDate: false,
 			startMonday: true
 		} 
