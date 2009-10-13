@@ -188,7 +188,7 @@ class LsImage extends Module {
 		}
 		
 		$sFileTmp=$aFile['tmp_name'];
-		$sPath=Config::Get('path.uploads.images').'/'.$oUser->getId();
+		$sPath = $this->GetUserDir($oUser);
 		$aParams=$this->BuildParams('avatar');
 		/**
 		 * Срезаем квадрат
@@ -243,7 +243,7 @@ class LsImage extends Module {
 	 * @param UserEntity_User $oUser
 	 */
 	public function DeleteAvatar($oUser) {
-		$sPath = Config::Get('path.uploads.images').'/'.$oUser->getId();
+		$sPath = $this->GetUserDir($oUser);
 		/**
 		 * Удаляем аватар и его рейсайзы
 		 */
@@ -267,7 +267,7 @@ class LsImage extends Module {
 		}
 		
 		$sFileTmp=$aFile['tmp_name'];
-		$sPath=Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId();
+		$sPath=$this->GetUserDir($oBlog->getOwnerId());
 		$aParams=$this->BuildParams('avatar');
 		/**
 		 * Срезаем квадрат
@@ -294,7 +294,7 @@ class LsImage extends Module {
 	 * @param BlogEntity_Blog $oUser
 	 */
 	public function DeleteBlogAvatar($oBlog) {
-		$sPath=Config::Get('path.uploads.images').'/'.$oBlog->getOwnerId();
+		$sPath=$this->GetUserDir($oBlog->getOwnerId());
 		/**
 		 * Удаляем аватар и его рейсайзы
 		 */
@@ -315,7 +315,7 @@ class LsImage extends Module {
 			return false;
 		}
 		
-		$sDirUpload=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUser->getId();			
+		$sDirUpload=$this->GetUserDir($oUser->getId());			
 		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->BuildParams('foto');
 		
@@ -336,7 +336,6 @@ class LsImage extends Module {
 	public function DeleteFoto($oUser) {
 		@unlink($this->GetServerPath($oUser->getProfileFoto()));
 	}
-	
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
 	 *
@@ -346,7 +345,16 @@ class LsImage extends Module {
 	protected function GetServerPath($sPath) {
 		return str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
 	}
-	
+	/**
+	 * Получает директорию для данного пользователя
+	 *
+	 * @param  (object|string) $oUser
+	 * @return string
+	 */
+	protected function GetUserDir($oUser) {
+		$sUserId = is_object($oUser) ? $oUser->getId() : $oUser;
+		return Config::Get('path.uploads.images').'/'.preg_replace('~(.)~U', "\\1/", str_pad($sUserId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
+	}
 	/**
 	 * Заргузка изображений при написании топика
 	 *
@@ -359,7 +367,7 @@ class LsImage extends Module {
 			return false;
 		}
 		
-		$sDirUpload=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUser->getId();			
+		$sDirUpload=$this->GetUserDir($oUser->getId());			
 		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->BuildParams('topic');
 		
@@ -417,7 +425,7 @@ class LsImage extends Module {
 		fwrite($fp,$sContent);
 		fclose($fp);
 		
-		$sDirSave=Config::Get('path.uploads.images').'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.func_generator(1).'/'.$oUser->getId();
+		$sDirSave=$this->GetUserDir($oUser->getId());
 		$aParams=$this->BuildParams('topic');
 		
 		/**
