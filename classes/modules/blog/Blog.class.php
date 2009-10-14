@@ -277,8 +277,7 @@ class LsBlog extends Module {
 		$oBlog->setDateAdd(date("Y-m-d H:i:s")); 
 		$oBlog->setLimitRatingTopic(-1000);
 		$oBlog->setUrl(null);	
-		$oBlog->setAvatar(0);
-		$oBlog->setAvatarType(null);	
+		$oBlog->setAvatar(null);
 		return $this->AddBlog($oBlog);		
 	}
 	/**
