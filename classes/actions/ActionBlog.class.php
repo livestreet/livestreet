@@ -295,8 +295,8 @@ class ActionBlog extends Action {
 			 * Удалить аватар
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
-				$oBlog->setAvatar(null);
 				$this->Image_DeleteBlogAvatar($oBlog);
+				$oBlog->setAvatar(null);
 			}
 			/**
 			 * Обновляем блог

@@ -345,7 +345,7 @@ class LsTopic extends Module {
 		 * Получаем список идентификаторов избранных записей
 		 */
 		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId())
-			? $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$aCloseTopics,$iCurrPage,$iPerPage)
+			? $this->Favourite_GetFavouritesByUserId($sUserId,'topic',$iCurrPage,$iPerPage,$aCloseTopics)
 			: $this->Favourite_GetFavouriteOpenTopicsByUserId($sUserId,$iCurrPage,$iPerPage);
 		/**
 		 * Получаем записи по переданому массиву айдишников

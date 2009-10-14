@@ -278,8 +278,8 @@ class ActionSettings extends Action {
 			 * Удалить аватара
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
-				$this->oUserCurrent->setProfileAvatar(null);
 				$this->Image_DeleteAvatar($this->oUserCurrent);
+				$this->oUserCurrent->setProfileAvatar(null);				
 			}
 			/**
 			 * Загрузка фото, делаем ресайзы

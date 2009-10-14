@@ -578,7 +578,7 @@ class LsComment extends Module {
 		 * Получаем список идентификаторов избранных комментов
 		 */
 		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId()) 
-			? $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$aCloseTopics,$iCurrPage,$iPerPage)
+			? $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$iCurrPage,$iPerPage,$aCloseTopics)
 			: $this->Favourite_GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage);
 		/**
 		 * Получаем комменты по переданому массиву айдишников

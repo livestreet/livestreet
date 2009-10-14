@@ -70,7 +70,7 @@ class BlogEntity_Blog extends Entity
     }
     public function getAvatarPath($iSize=48) {   
     	if ($sPath=$this->getAvatar()) { 	
-        	return str_replace('48x48',"{$iSize}x{$iSize}",$sPath);;
+        	return str_replace('_48x48',(($iSize==0)?"":"_{$iSize}x{$iSize}"),$sPath);;
     	} else {
     		return Config::Get('path.static.skin').'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}

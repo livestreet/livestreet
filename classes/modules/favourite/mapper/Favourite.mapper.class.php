@@ -90,7 +90,7 @@ class Mapper_Favourite extends Mapper {
 		return $this->oDb->query($sql,$iPublish,$sTargetId,$sTargetType); 		
 	}	
 	
-	public function GetFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget,&$iCount,$iCurrPage,$iPerPage) {	
+	public function GetFavouritesByUserId($sUserId,$sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {	
 		$sql = "			
 			SELECT target_id										
 			FROM ".Config::Get('db.table.favourite')."								

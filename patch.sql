@@ -126,7 +126,7 @@ ALTER TABLE `prefix_blog_user`
 ALTER TABLE  `prefix_blog_user` ADD  `user_role` INT( 3 ) NOT NULL ;
 ALTER TABLE  `prefix_blog_user` CHANGE  `user_role`  `user_role` INT( 3 ) DEFAULT  '1';
 
-ALTER TABLE  `prefix_user` CHANGE  `user_profile_avatar`  `user_profile_avatar` VARCHAR( 120 )
-ALTER TABLE  `prefix_user` DROP  `user_profile_avatar_type`
-ALTER TABLE  `prefix_blog` CHANGE  `blog_avatar`  `blog_avatar` VARCHAR( 120 )
-ALTER TABLE  `prefix_blog` DROP  `blog_avatar_type`
+ALTER TABLE  `prefix_user` CHANGE  `user_profile_avatar`  `user_profile_avatar` VARCHAR( 250 );
+ALTER TABLE  `prefix_user` DROP  `user_profile_avatar_type`;
+ALTER TABLE  `prefix_blog` CHANGE  `blog_avatar`  `blog_avatar` VARCHAR( 250 );
+ALTER TABLE  `prefix_blog` DROP  `blog_avatar_type`;

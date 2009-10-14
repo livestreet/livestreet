@@ -151,11 +151,11 @@ class LsFavourite extends Module {
 	 * @param  int $iPerPage
 	 * @return array
 	 */
-	public function GetFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget,$iCurrPage,$iPerPage) {		
+	public function GetFavouritesByUserId($sUserId,$sTargetType,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {		
 		$s=serialize($aExcludeTarget);
 		if (false === ($data = $this->Cache_Get("{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}"))) {			
 			$data = array(
-				'collection' => $this->oMapper->GetFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget,$iCount,$iCurrPage,$iPerPage),
+				'collection' => $this->oMapper->GetFavouritesByUserId($sUserId,$sTargetType,$iCount,$iCurrPage,$iPerPage,$aExcludeTarget),
 				'count'      => $iCount
 			);
 			$this->Cache_Set(

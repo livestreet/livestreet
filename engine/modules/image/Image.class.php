@@ -199,7 +199,7 @@ class LsImage extends Module {
 			$this->Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams,$oImage);
 			$this->Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams,$oImage);
 			$this->Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,'avatar',3000,3000,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,true,$aParams,$oImage);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -243,15 +243,16 @@ class LsImage extends Module {
 	 * @param UserEntity_User $oUser
 	 */
 	public function DeleteAvatar($oUser) {
-		$sPath = $this->GetUserDir($oUser);
 		/**
-		 * Удаляем аватар и его рейсайзы
+		 * Если аватар есть, удаляем его и его рейсайзы
 		 */
-		@unlink($sPath.'/avatar_100x100.'.$oUser->getProfileAvatarType());
-		@unlink($sPath.'/avatar_64x64.'.$oUser->getProfileAvatarType());
-		@unlink($sPath.'/avatar_48x48.'.$oUser->getProfileAvatarType());
-		@unlink($sPath.'/avatar_24x24.'.$oUser->getProfileAvatarType());
-		@unlink($sPath.'/avatar.'.$oUser->getProfileAvatarType());		
+		if($oUser->getProfileAvatar()) {
+			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(100)));
+			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(64)));
+			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(48)));
+			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(24)));
+			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(0)));			
+		}
 	}
 	/**
 	 * Upload blog avatar on server
@@ -276,7 +277,7 @@ class LsImage extends Module {
 		
 		if ($oImage && $sFileAvatar=$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams,$oImage)) {
 			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,true,$aParams,$oImage);
+			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,null,null,true,$aParams,$oImage);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -294,13 +295,14 @@ class LsImage extends Module {
 	 * @param BlogEntity_Blog $oUser
 	 */
 	public function DeleteBlogAvatar($oBlog) {
-		$sPath=$this->GetUserDir($oBlog->getOwnerId());
 		/**
-		 * Удаляем аватар и его рейсайзы
+		 * Если аватар есть, удаляем его и его рейсайзы
 		 */
-		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_48x48.".$oBlog->getAvatarType());
-		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}_24x24.".$oBlog->getAvatarType());
-		@unlink($sPath."/avatar_blog_{$oBlog->getUrl()}.".$oBlog->getAvatarType());		
+		if($oBlog->getAvatar()) {		
+			@unlink($this->GetServerPath($oBlog->getAvatarPath(48)));
+			@unlink($this->GetServerPath($oBlog->getAvatarPath(24)));
+			@unlink($this->GetServerPath($oBlog->getAvatarPath(0)));		
+		}
 	}
 	
 	/**
@@ -347,7 +349,8 @@ class LsImage extends Module {
 	}
 	/**
 	 * Получает директорию для данного пользователя
-	 *
+	 * Используется фомат хранения данных (/images/u/s/e/r/i/d/yyyy/mm/dd/file.jpg)
+	 * 
 	 * @param  (object|string) $oUser
 	 * @return string
 	 */
