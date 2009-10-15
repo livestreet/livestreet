@@ -68,10 +68,11 @@ class LsComment extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetCommentsAll($sTargetType,$iPage,$iPerPage) {		
-		if (false === ($data = $this->Cache_Get("comment_all_{$sTargetType}_{$iPage}_{$iPerPage}"))) {			
-			$data = array('collection'=>$this->oMapper->GetCommentsAll($sTargetType,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "comment_all_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*1);
+	public function GetCommentsAll($sTargetType,$iPage,$iPerPage,$aExcludeTarget=array()) {		
+		$s=serialize($aExcludeTarget);
+		if (false === ($data = $this->Cache_Get("comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
+			$data = array('collection'=>$this->oMapper->GetCommentsAll($sTargetType,$iCount,$iPage,$iPerPage,$aExcludeTarget),'count'=>$iCount);
+			$this->Cache_Set($data, "comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*1);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
 		return $data;		 	
@@ -348,7 +349,7 @@ class LsComment extends Module {
 		foreach ($aComments['comments'] as $oComment) {
 			$oComment->setLevel($aCommentsRec['comments'][$oComment->getId()]);			
 		}
-		return $aComments;	
+		return $aComments;
 	}	
 	/**
 	 * Добавляет коммент

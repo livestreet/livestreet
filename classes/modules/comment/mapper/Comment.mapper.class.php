@@ -68,7 +68,7 @@ class Mapper_Comment extends Mapper {
 		return null;
 	}
 	
-	public function GetCommentsAll($sTargetType,&$iCount,$iCurrPage,$iPerPage) {
+	public function GetCommentsAll($sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {
 		$sql = "SELECT 					
 					comment_id 				
 				FROM 
@@ -79,10 +79,16 @@ class Mapper_Comment extends Mapper {
 					comment_delete = 0
 					AND
 					comment_publish = 1
+					{ AND target_id NOT IN(?a) }
 				ORDER by comment_id desc
 				LIMIT ?d, ?d ";			
 		$aComments=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sTargetType,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage(
+				$iCount,$sql,$sTargetType,
+				(count($aExcludeTarget)?$aExcludeTarget:DBSIMPLE_SKIP),
+				($iCurrPage-1)*$iPerPage, $iPerPage
+			)
+		) {
 			foreach ($aRows as $aRow) {
 				$aComments[]=$aRow['comment_id'];
 			}		

@@ -407,11 +407,14 @@ class LsTopic extends Module {
 	/**
 	 * Получает список хороших топиков для вывода на главную страницу(из всех блогов, как коллективных так и персональных)
 	 *
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики, 
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.	 
+	 * @return array
 	 */
-	public function GetTopicsGood($iPage,$iPerPage) {
+	public function GetTopicsGood($iPage,$iPerPage,$bAddAccessible=true) {
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
@@ -428,7 +431,7 @@ class LsTopic extends Module {
 		 * Если пользователь авторизирован, то добавляем в выдачу
 		 * закрытые блоги в которых он состоит
 		 */
-		if($this->oUserCurrent) {
+		if($this->oUserCurrent && $bAddAccessible) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
 			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);			
 		}
@@ -438,11 +441,14 @@ class LsTopic extends Module {
 	/**
 	 * Получает список ВСЕХ новых топиков
 	 *
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики, 
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.
+	 * @return array
 	 */
-	public function GetTopicsNew($iPage,$iPerPage) {
+	public function GetTopicsNew($iPage,$iPerPage,$bAddAccessible=true) {
 		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 		$aFilter=array(
 			'blog_type' => array(
@@ -456,7 +462,7 @@ class LsTopic extends Module {
 		 * Если пользователь авторизирован, то добавляем в выдачу
 		 * закрытые блоги в которых он состоит
 		 */
-		if($this->oUserCurrent) {
+		if($this->oUserCurrent && $bAddAccessible) {
 			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
 			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = array_keys($aOpenBlogs);
 		}			
@@ -791,19 +797,23 @@ class LsTopic extends Module {
 	/**
 	 * Получает список топиков по тегу
 	 *
-	 * @param unknown_type $sTag
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  string $sTag
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики, 
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.
+	 * @return array
 	 */
-	public function GetTopicsByTag($sTag,$iPage,$iPerPage) {
-		$aCloseTopics = ($this->oUserCurrent) 
+	public function GetTopicsByTag($sTag,$iPage,$iPerPage,$bAddAccessible=true) {
+		$aCloseTopics = ($this->oUserCurrent && $bAddAccessible) 
 			? $this->GetTopicsCloseByUser($this->oUserCurrent->getId())
 			: $this->GetTopicsCloseByUser();
 		
-		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}"))) {			
+		$s = serialize($aCloseTopics);	
+		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}_{$s}"))) {			
 			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*2);
+			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}_{$s}", array('topic_update','topic_new'), 60*60*24*2);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
 		return $data;		

@@ -39,7 +39,7 @@ class ActionRss extends Action {
 	}
 
 	protected function RssGood() {
-		$aResult=$this->Topic_GetTopicsGood(1,Config::Get('module.topic.per_page')*2);
+		$aResult=$this->Topic_GetTopicsGood(1,Config::Get('module.topic.per_page')*2,false);
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=Config::Get('view.name');
@@ -66,7 +66,7 @@ class ActionRss extends Action {
 	}
 
 	protected function RssNew() {
-		$aResult=$this->Topic_GetTopicsNew(1,Config::Get('module.topic.per_page')*2);			
+		$aResult=$this->Topic_GetTopicsNew(1,Config::Get('module.topic.per_page')*2,false);			
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=Config::Get('path.root.web');
@@ -93,7 +93,12 @@ class ActionRss extends Action {
 	}
 
 	protected function RssComments() {
-		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2);
+		/**
+		 * Вычисляем топики из закрытых блогов, чтобы исключить их из выдачи
+		 */
+		$aCloseTopics = $this->Topic_GetTopicsCloseByUser();		
+		
+		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2,$aCloseTopics);
 		$aComments=$aResult['collection'];
 		
 		$aChannel['title']=Config::Get('path.root.web');
@@ -122,7 +127,7 @@ class ActionRss extends Action {
 	protected function RssTopicComments() {
 		$sTopicId=$this->GetParam(0);
 		
-		if (!($oTopic=$this->Topic_GetTopicById($sTopicId)) or !$oTopic->getPublish()) {
+		if (!($oTopic=$this->Topic_GetTopicById($sTopicId)) or !$oTopic->getPublish() or $oTopic->getBlog()->getType()=='close') {
 			return parent::EventNotFound();
 		}
 		
@@ -154,7 +159,7 @@ class ActionRss extends Action {
 
 	protected function RssTag() {
 		$sTag=urldecode($this->GetParam(0));
-		$aResult=$this->Topic_GetTopicsByTag($sTag,1,Config::Get('module.topic.per_page')*2);
+		$aResult=$this->Topic_GetTopicsByTag($sTag,1,Config::Get('module.topic.per_page')*2,false);
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=Config::Get('path.root.web');
@@ -182,7 +187,7 @@ class ActionRss extends Action {
 
 	protected function RssColectiveBlog() {
 		$sBlogUrl=$this->GetParam(0);		
-		if (!$sBlogUrl or !($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {			
+		if (!$sBlogUrl or !($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl)) or $oBlog->getType()=="close") {			
 			return parent::EventNotFound();
 		}else{	
 			$aResult=$this->Topic_GetTopicsByBlog($oBlog,1,Config::Get('module.topic.per_page')*2,'good');
