@@ -347,7 +347,7 @@ $config['head']['default']['css'] = array(
  */
 $config['compress']['css']['use'] = true;
 $config['compress']['css']['case_properties']     = 1;
-$config['compress']['css']['merge_selectors']     = 2;
+$config['compress']['css']['merge_selectors']     = 0;
 $config['compress']['css']['optimise_shorthands'] = 1;
 $config['compress']['css']['remove_last_;']       = true;
 $config['compress']['css']['css_level']           = 'CSS2.1';
