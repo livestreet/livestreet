@@ -453,11 +453,11 @@ class LsViewer extends Module {
 			 */
 			if(!array_key_exists('blocks',$aRule)) continue;
 			/**
-			 * Если не задан action для исполнения, 
+			 * Если не задан action для исполнения и нет ни одного шаблона path, 
 			 * или текущий не входит в перечисленные в правиле 
 			 * то выбираем следующее правило
 			 */
-			if(!$aRule['action']) continue;
+			if(!$aRule['action'] && !$aRule['path']) continue;
 			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;
 			if(array_key_exists($sAction,(array)$aRule['action'])) {
 				/**
@@ -482,6 +482,24 @@ class LsViewer extends Module {
 						}
 					}
 				}						
+			}
+			/**
+			 * Если не найдено совпадение по паре Action/Event,
+			 * переходим к поиску по regexp путей.
+			 */
+			if(!$bUse && $aRule['path']) {
+				$sPath = rtrim(Router::GetPathWebCurrent(),"/");
+				/**
+				 * Проверяем последовательно каждый regexp
+				 */
+				foreach((array)$aRule['path'] as $sRulePath) {
+					$sPattern = "~".str_replace(array('/','*'),array('\/','\w+'), $sRulePath)."~";	
+					if(preg_match($sPattern, $sPath)) {
+						$bUse=true;
+						break 1;
+					}
+				}
+				
 			}
 			
 			if($bUse){
@@ -604,9 +622,7 @@ class LsViewer extends Module {
 	 * @return bool
 	 */
 	protected function BuildHeadFiles() {	
-		$aPath = Router::GetPathWebCurrent();
-		$aPath = rtrim($aPath,"/")."/";
-		
+		$sPath = Router::GetPathWebCurrent();
 		/**
 		 * По умолчанию имеем дефаултовые настройки
 		 */
@@ -616,8 +632,8 @@ class LsViewer extends Module {
 			if(!$aRule['path']) continue;
 
 			foreach((array)$aRule['path'] as $sRulePath) {
-				$sPattern = "~".str_replace(array('/','*'),array('\/','[\w+]'), $sRulePath)."~";
-				if(preg_match($sPattern, $aPath)) { 
+				$sPattern = "~".str_replace(array('/','*'),array('\/','\w+'), $sRulePath)."~";
+				if(preg_match($sPattern, $sPath)) { 
 					/**
 					 * Преобразование JS
 					 */
