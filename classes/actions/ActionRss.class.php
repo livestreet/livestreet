@@ -25,9 +25,15 @@ class ActionRss extends Action {
 	public function Init() {		
 		$this->SetDefaultEvent('index');
 		Router::SetIsShowStats(false);
-		header('Content-Type: application/rss+xml; charset=utf-8');
 	}
 
+	/**
+	 * Указывает браузеру правильный content type в случае вывода RSS-ленты
+	 */
+	protected function InitRss() {
+		header('Content-Type: application/rss+xml; charset=utf-8');		
+	}
+	
 	protected function RegisterEvent() {
 		$this->AddEvent('index','RssGood');
 		$this->AddEvent('new','RssNew');
@@ -60,6 +66,8 @@ class ActionRss extends Action {
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
@@ -87,6 +95,8 @@ class ActionRss extends Action {
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
@@ -119,6 +129,8 @@ class ActionRss extends Action {
 			$item['category']='comments';
 			$comments[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$comments);
 		$this->SetTemplateAction('index');
@@ -152,6 +164,8 @@ class ActionRss extends Action {
 			$item['category']='comments';
 			$comments[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$comments);
 		$this->SetTemplateAction('index');	
@@ -180,6 +194,8 @@ class ActionRss extends Action {
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
@@ -212,6 +228,8 @@ class ActionRss extends Action {
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
@@ -244,10 +262,11 @@ class ActionRss extends Action {
 			$item['category']=htmlspecialchars($oTopic->getTags());
 			$topics[]=$item;
 		}
+		
+		$this->InitRss();
 		$this->Viewer_Assign('aChannel',$aChannel);
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
 	}
-
 }
 ?>
