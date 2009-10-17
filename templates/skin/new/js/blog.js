@@ -1,19 +1,19 @@
 function ajaxJoinLeaveBlog(obj,idBlog) {   
 	obj=$(obj);
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',                       
+    	'POST '+DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
         { idBlog: idBlog },
-        function(result, errors) {  
+        function(result, errors) {
         	if (!result) {
-                msgErrorBox.alert('Error','Please try again later');           
+                msgErrorBox.alert('Error','Please try again later');
         	}
             if (result.bStateError) {
             	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-            } else {            	
+            } else {
             	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
-            	if (obj)  {     
-            		obj.getParent().removeClass('active');       		
-            		if (result.bState) {            			
+            	if (obj)  {
+            		obj.getParent().removeClass('active');
+            		if (result.bState) {
             			obj.getParent().addClass('active');
             		}
             		divCount=$('blog_user_count_'+idBlog);
@@ -21,7 +21,7 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
             			divCount.set('text',result.iCountUser);
             		}
             	}
-            }                               
+            }
         },
         true
     );
@@ -30,7 +30,7 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
 
 function ajaxBlogInfo(idBlog) { 	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/blogInfo.php',                       
+    	'POST '+DIR_WEB_ROOT+'/include/ajax/blogInfo.php',                       
         { idBlog: idBlog },
         function(result, errors) {  
         	if (!result) {

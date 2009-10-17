@@ -61,7 +61,7 @@ var lsVoteClass = new Class({
                 params[this.typeVote[type].targetName]=idTarget;
                 
                 JsHttpRequest.query(
-                        this.typeVote[type].url,                       
+                        'POST '+this.typeVote[type].url,                       
                         params,
                         function(result, errors) {     
                                 thisObj.onVote(result, errors, thisObj);                               

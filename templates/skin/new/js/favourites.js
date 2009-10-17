@@ -54,7 +54,7 @@ var lsFavouriteClass = new Class({
                 params[this.typeFavourite[type].targetName]=idTarget;
                 
                 JsHttpRequest.query(
-                        this.typeFavourite[type].url,                       
+                        'POST '+this.typeFavourite[type].url,                       
                         params,
                         function(result, errors) {     
                                 thisObj.onToggle(result, errors, thisObj);                               

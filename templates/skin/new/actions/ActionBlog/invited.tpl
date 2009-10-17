@@ -36,7 +36,7 @@
 							$('blog_admin_user_add').set('value','');
 							
 			                JsHttpRequest.query(
-			                       aRouter['blog']+'ajaxaddbloginvite/',                      
+			                       'POST '+aRouter['blog']+'ajaxaddbloginvite/',                      
 			                        { users: sUsers, idBlog: idBlog },
 			                        function(result, errors) {     
 			                            if (!result) {

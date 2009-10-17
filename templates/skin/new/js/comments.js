@@ -143,7 +143,7 @@ var lsCmtTreeClass = new Class({
 		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
 		(function(){		
 		JsHttpRequest.query(        	
-        	thisObj.typeComment[typeTarget].url_response,
+        	'POST '+thisObj.typeComment[typeTarget].url_response,
         	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget },
         	function(result, errors) {        		
         		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif'); 
@@ -243,7 +243,7 @@ var lsCmtTreeClass = new Class({
 		var thisObj=this;
 		formObj=$(formObj);			
 		JsHttpRequest.query(        	
-        	thisObj.typeComment[targetType].url_add,
+        	'POST '+thisObj.typeComment[targetType].url_add,
         	{ params: formObj },
         	function(result, errors) {
             	if (!result) {
@@ -282,7 +282,7 @@ var lsCmtTreeClass = new Class({
 		
 		var thisObj=this;			
 		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
+        	'POST '+DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
         	{ idComment: commentId },
         	function(result, errors) {         		 
             	if (!result) {

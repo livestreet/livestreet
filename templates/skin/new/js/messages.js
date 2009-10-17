@@ -29,7 +29,7 @@ var lsTalkMessagesClass = new Class({
 				
 				if(this.errors<this.options.reload.errors&&this.options.reload.request>1) {
 					JsHttpRequest.query(
-						thisObj.options.reload.url,
+						'POST '+thisObj.options.reload.url,
 						{ },
 						function(result, errors) {
 							if (!result) {								

@@ -54,7 +54,7 @@ var lsBlockLoaderClass = new Class({
         	        	
             
             JsHttpRequest.query(
-            	this.type[type].url,                       
+            	'POST '+this.type[type].url,                       
                 params,
                 function(result, errors) {     
                 	thisObj.onLoad(result, errors, blockContent);                               

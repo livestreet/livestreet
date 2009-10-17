@@ -1,6 +1,6 @@
 function ajaxQuestionVote(idTopic,idAnswer) {	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/questionVote.php',                       
+    	'POST '+DIR_WEB_ROOT+'/include/ajax/questionVote.php',                       
         { idTopic: idTopic, idAnswer: idAnswer },
         function(result, errors) {  
         	if (!result) {

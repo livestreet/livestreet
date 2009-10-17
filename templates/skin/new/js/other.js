@@ -6,7 +6,7 @@ function ajaxTextPreview(textId,save,divPreview) {
 		text = $(textId).value;	
 	}	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/textPreview.php',                       
+    	'POST '+DIR_WEB_ROOT+'/include/ajax/textPreview.php',                       
         { text: text, save: save },
         function(result, errors) {  
         	if (!result) {

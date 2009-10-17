@@ -28,7 +28,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 	}
 	
 	JsHttpRequest.query(
-    	sPath,                       
+    	'POST '+sPath,                       
         { idUser: idUser,userText: sText },
         function(result, errors) {  
         	if (!result) {
@@ -54,7 +54,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 function ajaxDeleteUserFriend(obj,idUser,sAction) {   
 	obj=$(obj).getParent('li');
 	JsHttpRequest.query(
-    	aRouter.profile+'ajaxfrienddelete/',                         
+    	'POST '+aRouter.profile+'ajaxfrienddelete/',                         
         { idUser: idUser,sAction: sAction },
         function(result, errors) {  
         	if (!result) {
