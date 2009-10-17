@@ -120,7 +120,7 @@ class ActionLogin extends Action {
 		/**
 		 * Обрабатываем запрос на смену пароля
 		 */
-		if (getRequest('submit_reminder',null,'post')!==null) {
+		if (isPost('submit_reminder')) {
 			if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {	
 				/**
 				 * Формируем и отправляем ссылку на смену пароля

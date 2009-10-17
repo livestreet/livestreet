@@ -307,7 +307,6 @@ class LsViewer extends Module {
 				require_once(Config::Get('path.root.engine')."/lib/external/JsHttpRequest/JsHttpRequest.php");
 				$JsHttpRequest = new JsHttpRequest("UTF-8");
 			}
-			//$this->Security_ValidateSendForm();
 		}		
 		$this->sResponseAjax=$sResponseAjax;
 	}

@@ -102,8 +102,8 @@ class ActionPage extends Action {
 		/**
 		 * Обработка создания новой странички
 		 */
-		if (getRequest('submit_page_save')) {
-			if (!getRequest('page_id')) {							
+		if (isPost('submit_page_save')) {
+			if (!isPost('page_id')) {							
 				$this->SubmitAddPage();				
 			}
 		}
@@ -112,7 +112,7 @@ class ActionPage extends Action {
 		 */
 		if ($this->GetParam(0)=='edit') {
 			if ($oPageEdit=$this->Page_GetPageById($this->GetParam(1))) {
-				if (!getRequest('submit_page_save')) {
+				if (!isPost('submit_page_save')) {
 					$_REQUEST['page_title']=$oPageEdit->getTitle();
 					$_REQUEST['page_pid']=$oPageEdit->getPid();
 					$_REQUEST['page_url']=$oPageEdit->getUrl();

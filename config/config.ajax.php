@@ -27,6 +27,5 @@ $JsHttpRequest = new JsHttpRequest("UTF-8");
 ProfilerSimple::getInstance(Config::Get('path.root.server').'/logs/profiler.log',false);
 $oEngine=Engine::getInstance();
 $oEngine->Init();
-//$oEngine->Security_ValidateSendForm();
 $oEngine->Shutdown();
 ?>
