@@ -167,7 +167,6 @@ class ActionPage extends Action {
 		if (!$this->CheckPageFields()) {
 			return ;
 		}
-		$this->Security_ValidateSendForm();
 		if ($oPageEdit->getId()==getRequest('page_pid')) {
 			$this->Message_AddError($this->Lang_Get('system_error'));
 			return;
@@ -214,7 +213,6 @@ class ActionPage extends Action {
 		if (!$this->CheckPageFields()) {
 			return ;
 		}
-		$this->Security_ValidateSendForm();
 		/**
 		 * Заполняем свойства
 		 */
@@ -254,30 +252,30 @@ class ActionPage extends Action {
 			/**
 		 	* Проверяем есть ли заголовок топика
 		 	*/
-			if (!func_check(getRequest('page_title'),'text',2,200)) {
+			if (!func_check(getRequest('page_title',null,'post'),'text',2,200)) {
 				$this->Message_AddError($this->Lang_Get('page_create_title_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 			* Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
 			*/		
-			$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url'));
+			$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url',null,'post'));
 			$_REQUEST['page_url']=$pageUrl;
-			if (!func_check(getRequest('page_url'),'login',1,50)) {
+			if (!func_check(getRequest('page_url',null,'post'),'login',1,50)) {
 				$this->Message_AddError($this->Lang_Get('page_create_url_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 		 	* Проверяем на счет плохих УРЛов
 			 */
-			if (in_array(getRequest('page_url'),$this->aBadPageUrl)) {
+			if (in_array(getRequest('page_url',null,'post'),$this->aBadPageUrl)) {
 				$this->Message_AddError($this->Lang_Get('page_create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			/**
 		 	* Проверяем есть ли содержание страницы
 		 	*/
-			if (!func_check(getRequest('page_text'),'text',1,50000)) {
+			if (!func_check(getRequest('page_text',null,'post'),'text',1,50000)) {
 				$this->Message_AddError($this->Lang_Get('page_create_text_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}

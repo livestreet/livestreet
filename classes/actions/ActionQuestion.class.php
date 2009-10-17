@@ -182,10 +182,9 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем отправлена ли форма с данными(хотяб одна кнопка)
 		 */		
-		if (!isset($_REQUEST['submit_topic_publish']) and !isset($_REQUEST['submit_topic_save'])) {
+		if (!isPost('submit_topic_publish') and !isPost('submit_topic_save')) {
 			return false;
 		}
-		$this->Security_ValidateSendForm();		
 		/**
 		 * Проверка корректности полей формы
 		 */
@@ -302,7 +301,6 @@ class ActionQuestion extends Action {
 		if (!$this->checkTopicFields($oTopic)) {
 			return false;	
 		}	
-		$this->Security_ValidateSendForm();	
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -416,7 +414,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем есть ли блог в кторый постим
 		 */
-		if (!func_check(getRequest('blog_id'),'id')) {
+		if (!func_check(getRequest('blog_id',null,'post'),'id')) {
 			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
@@ -424,7 +422,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем есть ли описание вопроса
 		 */
-		if (!func_check(getRequest('topic_text'),'text',0,500)) {
+		if (!func_check(getRequest('topic_text',null,'post'),'text',0,500)) {
 			$this->Message_AddError($this->Lang_Get('topic_question_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
@@ -436,7 +434,7 @@ class ActionQuestion extends Action {
 			/**
 		 	* Проверяем есть ли заголовок топика(вопрос)
 		 	*/
-			if (!func_check(getRequest('topic_title'),'text',2,200)) {
+			if (!func_check(getRequest('topic_title',null,'post'),'text',2,200)) {
 				$this->Message_AddError($this->Lang_Get('topic_question_create_title_error'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
@@ -469,7 +467,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем есть ли теги(метки)
 		 */
-		if (!func_check(getRequest('topic_tags'),'text',2,500)) {
+		if (!func_check(getRequest('topic_tags',null,'post'),'text',2,500)) {
 			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}

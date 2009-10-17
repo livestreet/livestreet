@@ -62,16 +62,47 @@ function dump($msg) {
 
 /**
  * функция доступа к GET POST параметрам 
+ * 
+ * @param  string $sName
+ * @param  mixed  $default
+ * @param  string $sType
+ * @return mixed
  */
-function getRequest($sName,$default=null) {
-	if (isset($_REQUEST[$sName])) {
-		if (is_string($_REQUEST[$sName])) {
-			return trim($_REQUEST[$sName]);
+function getRequest($sName,$default=null,$sType=null) {
+	/**
+	 * Выбираем в каком из суперглобальных искать указанный ключ
+	 */
+	switch (strtolower($sType)) {
+		default:
+		case null:
+			$aStorage = $_REQUEST;
+			break;
+		case 'get':
+			$aStorage = $_GET;
+			break;
+		case 'post':
+			$aStorage = $_POST;
+			break;	
+	}
+	
+	if (isset($aStorage[$sName])) {
+		if (is_string($aStorage[$sName])) {
+			return trim($aStorage[$sName]);
 		} else {
-			return $_REQUEST[$sName];
+			return $aStorage[$sName];
 		}
 	}
 	return $default;
+}
+
+/**
+ * Определяет был ли передан указанный параметр методом POST
+ *
+ * @param  string $sName
+ * @return bool
+ */
+function isPost($sName) {
+	return (getRequest($sName,null,'post')!==null);
 }
 
 /**

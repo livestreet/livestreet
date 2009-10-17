@@ -7,7 +7,7 @@
 				<h1 class="title">{$oTalk->getTitle()|escape:'html'}</h1>				
 				<ul class="action">
 					<li><a href="{router page='talk'}">{$aLang.talk_inbox}</a></li>
-					<li class="delete"><a href="{router page='talk'}delete/{$oTalk->getId()}/"  onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</a></li>
+					<li class="delete"><a href="{router page='talk'}delete/{$oTalk->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"  onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</a></li>
 				</ul>				
 				<div class="content">
 					{$oTalk->getText()}				

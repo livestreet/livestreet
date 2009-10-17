@@ -45,8 +45,7 @@ class ActionLogin extends Action {
 		/**
 		 * Если нажали кнопку "Войти"
 		 */
-		if (isset($_REQUEST['submit_login'])) {
-			$this->Security_ValidateSendForm();
+		if (isPost('submit_login')) {
 			/**
 			 * Проверяем есть ли такой юзер по логину
 			 */
@@ -121,8 +120,7 @@ class ActionLogin extends Action {
 		/**
 		 * Обрабатываем запрос на смену пароля
 		 */
-		if (isset($_REQUEST['submit_reminder'])) {
-			$this->Security_ValidateSendForm();
+		if (getRequest('submit_reminder',null,'post')!==null) {
 			if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {	
 				/**
 				 * Формируем и отправляем ссылку на смену пароля

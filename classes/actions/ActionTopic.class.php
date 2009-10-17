@@ -237,10 +237,9 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем отправлена ли форма с данными(хотяб одна кнопка)
 		 */		
-		if (!isset($_REQUEST['submit_topic_publish']) and !isset($_REQUEST['submit_topic_save'])) {
+		if (!isPost('submit_topic_publish') and !isPost('submit_topic_save')) {
 			return false;
 		}	
-		$this->Security_ValidateSendForm();	
 		/**
 		 * Проверка корректности полей формы
 		 */
@@ -370,7 +369,6 @@ class ActionTopic extends Action {
 		if (!$this->checkTopicFields()) {
 			return false;	
 		}	
-		$this->Security_ValidateSendForm();	
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -495,35 +493,35 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем есть ли блог в кторый постим
 		 */
-		if (!func_check(getRequest('blog_id'),'id')) {
+		if (!func_check(getRequest('blog_id',null,'post'),'id')) {
 			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли заголовок топика
 		 */
-		if (!func_check(getRequest('topic_title'),'text',2,200)) {
+		if (!func_check(getRequest('topic_title',null,'post'),'text',2,200)) {
 			$this->Message_AddError($this->Lang_Get('topic_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
-		if (!func_check(getRequest('topic_text'),'text',2,15000)) {
+		if (!func_check(getRequest('topic_text',null,'post'),'text',2,15000)) {
 			$this->Message_AddError($this->Lang_Get('topic_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли теги(метки)
 		 */
-		if (!func_check(getRequest('topic_tags'),'text',2,500)) {
+		if (!func_check(getRequest('topic_tags',null,'post'),'text',2,500)) {
 			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * проверяем ввод тегов 
 		 */
-		$sTags=getRequest('topic_tags');
+		$sTags=getRequest('topic_tags',null,'post');
 		$aTags=explode(',',$sTags);
 		$aTagsNew=array();
 		$aTagsNewLow=array();

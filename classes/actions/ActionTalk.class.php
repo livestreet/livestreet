@@ -98,8 +98,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка удаления сообщений
 		 */
-		if (isset($_REQUEST['submit_talk_del'])) {
-			$this->Security_ValidateSendForm();
+		if (isPost('submit_talk_del')) {
 			$aTalksIdDel=getRequest('talk_del');
 			if (is_array($aTalksIdDel)) {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
@@ -267,10 +266,9 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */		
-		if (!isset($_REQUEST['submit_talk_add'])) {
+		if (!isPost('submit_talk_add')) {
 			return false;
-		}
-		$this->Security_ValidateSendForm();		
+		}	
 		/**
 		 * Проверка корректности полей формы
 		 */

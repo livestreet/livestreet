@@ -191,9 +191,12 @@ $config['module']['image']['foto']['round_corner']   = false;
 
 $config['module']['image']['topic']['watermark_use']  = false;
 $config['module']['image']['topic']['round_corner']   = false;
+// Модуль Security
+$config['module']['security']['code'] = "livestreet_security";     // текстовая строка для генерирования security-кода
+$config['module']['security']['key']  = "livestreet_security_key"; // ключ сессии для хранения security-кода
 
 // Какие модули должны быть загружены на старте
-$config['module']['autoLoad'] = array('Cache','Session','User', 'Lang', 'Message');
+$config['module']['autoLoad'] = array('Cache', 'Security','Session','User', 'Lang', 'Message');
 /**
  * Настройка базы данных
  */

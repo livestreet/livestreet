@@ -164,12 +164,12 @@ class ActionBlog extends Action {
 			return Router::Action('error');
 		}		
 		/**
-		 * Запускаем проверку корректности ввода полей при добалении блога
+		 * Запускаем проверку корректности ввода полей при добалении блога.
+		 * Дополнительно проверяем, что был отправлен POST запрос.
 		 */
 		if (!$this->checkBlogFields()) {
 			return false;	
-		}
-		$this->Security_ValidateSendForm();		
+		}	
 		/**
 		 * Если всё ок то пытаемся создать блог
 		 */
@@ -263,8 +263,7 @@ class ActionBlog extends Action {
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
-		if (isset($_REQUEST['submit_blog_add'])) {
-			$this->Security_ValidateSendForm();
+		if (isPost('submit_blog_add')) {
 			/**
 			 * Запускаем проверку корректности ввода полей при редактировании блога
 			 */
@@ -357,8 +356,7 @@ class ActionBlog extends Action {
 		/**
 		 * Обрабатываем сохранение формы
 		 */
-		if (isset($_REQUEST['submit_blog_admin'])) {
-			$this->Security_ValidateSendForm();
+		if (isPost('submit_blog_admin')) {
 			$aUserRank=getRequest('user_rank',array());
 			if (!is_array($aUserRank)) {
 				$aUserRank=array();
@@ -426,13 +424,13 @@ class ActionBlog extends Action {
 	/**
 	 * Проверка полей блога
 	 *
-	 * @return unknown
+	 * @return bool
 	 */
 	protected function checkBlogFields($oBlog=null) {
 		/**
-		 * Проверяем только если была отправлена форма с данными
+		 * Проверяем только если была отправлена форма с данными (методом POST)
 		 */
-		if (!isset($_REQUEST['submit_blog_add'])) {
+		if (!isPost('submit_blog_add')) {
 			$_REQUEST['blog_limit_rating_topic']=0;
 			return false;
 		}
@@ -673,7 +671,7 @@ class ActionBlog extends Action {
 		 */	
 		if($oBlog->getType()=='close' 
 			and (!$this->oUserCurrent 
-				|| !in_array(
+				or !in_array(
 						$oBlog->getId(),
 						array_keys($this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent))
 					)

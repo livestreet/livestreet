@@ -50,7 +50,7 @@
     <td align="center">  
     	<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{$aConfig.path.static.skin}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
     	&nbsp;
-      	<a href="{router page='page'}admin/delete/{$oPage->getId()}/" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$aConfig.path.static.skin}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
+      	<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$aConfig.path.static.skin}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
     </td>   
   </tr>
   {/foreach}

@@ -62,7 +62,7 @@ class Router extends Object {
 		$this->oEngine=Engine::getInstance();
 		$this->oEngine->Init();
 		$this->ParseUrl();
-		$this->ExecAction();		
+		$this->ExecAction();
 		$this->AssignVars();
 		$this->oEngine->Shutdown();		
 		$this->Viewer_Display($this->oAction->GetTemplate());	

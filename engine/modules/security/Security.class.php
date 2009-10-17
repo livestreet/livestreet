@@ -20,7 +20,6 @@
  *
  */
 class LsSecurity extends Module {
-	
 	/**
 	 * Инициализируем модуль
 	 *
@@ -31,7 +30,7 @@ class LsSecurity extends Module {
 
 
 	public function ValidateSendForm() {
-		if (!($this->ValidateReferal() && 1)) {
+		if (!($this->ValidateSessionKey() && 1)) {
 			die("Hacking attemp!");
 		}
 	}
@@ -47,5 +46,29 @@ class LsSecurity extends Module {
 		}
 		return false;
 	}
+	/**
+	 * Проверяет наличие security-ключа в сессии
+	 *
+	 * @return bool
+	 */
+	public function ValidateSessionKey($sCode=null) {
+		if(!$sCode) $sCode=getRequest('security_ls_key');
+		return ($sCode==$this->Session_Get(Config::Get('module.security.key')));
+	}
+	/**
+	 * Устанавливает security-ключ в сессию
+	 *
+	 */
+	public function SetSessionKey() {
+		$sCode = md5(microtime().Config::Get('module.security.code'));
+		$this->Session_Set(Config::Get('module.security.key'), $sCode);
+		$this->Viewer_Assign('LIVESTREET_SECURITY_KEY',$sCode);
+		
+		return $sCode;
+	}
+
+	public function Shutdown() {
+		$this->SetSessionKey();
+	}	
 }
 ?>
