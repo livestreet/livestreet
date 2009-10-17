@@ -900,8 +900,8 @@ class ActionBlog extends Action {
 	 */
 	protected function AjaxAddBlogInvite() {
 		$this->Viewer_SetResponseAjax();
-		$sUsers=getRequest('users');
-		$sBlogId=getRequest('idBlog');
+		$sUsers=getRequest('users',null,'post');
+		$sBlogId=getRequest('idBlog',null,'post');
 		
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку

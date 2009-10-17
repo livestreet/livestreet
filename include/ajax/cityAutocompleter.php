@@ -25,11 +25,10 @@ require_once($sDirRoot."/config/config.ajax.php");
 
 header('Content-Type: text/html; charset=utf-8');
 
-if (!isset($_POST['value'])) {
+if (!$sCity=getRequest('value',null,'post')) {
 	exit();
 }
 
-$sCity = trim($_POST['value']);
 if ($sCity!='') {
 	$aCity=$oEngine->User_GetCityByNameLike($sCity,10);
 	foreach ($aCity as $oCity) {

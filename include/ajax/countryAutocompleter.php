@@ -25,11 +25,10 @@ require_once($sDirRoot."/config/config.ajax.php");
 
 header('Content-Type: text/html; charset=utf-8');
 
-if (!isset($_POST['value'])) {
+if (!$sCountry=getRequest('value',null,'post')) {
 	exit();
 }
 
-$sCountry = trim($_POST['value']);
 if ($sCountry!='') {
 	$aCountry=$oEngine->User_GetCountryByNameLike($sCountry,10);
 	foreach ($aCountry as $oCountry) {

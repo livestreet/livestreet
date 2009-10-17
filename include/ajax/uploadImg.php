@@ -23,7 +23,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
-$aForm=@$_REQUEST['value'];
+$aForm=getRequest('value',null,'post');
 $bStateError=true;
 $sText='';
 $sMsg=$oEngine->Lang_Get('system_error');
@@ -38,7 +38,7 @@ if ($oEngine->User_IsAuthorization()) {
 		}
 	}
 
-	if (isset($_REQUEST['img_url']) && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
+	if (isPost('img_url') && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
 		$sFile=$oEngine->Image_UploadTopicImageUrl($_REQUEST['img_url'],$oUserCurrent);
 		switch (true) {
 			case is_string($sFile):

@@ -23,7 +23,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
-$iValue=@$_REQUEST['value'];
+$iValue=getRequest('value',null,'post');
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';
@@ -31,7 +31,7 @@ $iRating=0;
 $iSkill=0;
 $iCountVote=0;
 if ($oEngine->User_IsAuthorization()) {
-	if ($oUser=$oEngine->User_GetUserById(@$_REQUEST['idUser'])) {
+	if ($oUser=$oEngine->User_GetUserById(getRequest('idUser',null,'post'))) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oUser->getId()!=$oUserCurrent->getId()) {
 			if (!($oUserVote=$oEngine->Vote_GetVote($oUser->getId(),'user',$oUserCurrent->getId()))) {

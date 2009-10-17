@@ -23,13 +23,13 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
-$iValue=@$_REQUEST['value'];
+$iValue=getRequest('value',null,'post');
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';
 $iRating=0;
 if ($oEngine->User_IsAuthorization()) {
-	if ($oTopic=$oEngine->Topic_GetTopicById(@$_REQUEST['idTopic'])) {
+	if ($oTopic=$oEngine->Topic_GetTopicById(getRequest('idTopic',null,'post'))) {
 		$oUserCurrent=$oEngine->User_GetUserCurrent();
 		if ($oTopic->getUserId()!=$oUserCurrent->getId()) {
 			if (!($oTopicVote=$oEngine->Vote_GetVote($oTopic->getId(),'topic',$oUserCurrent->getId()))) {

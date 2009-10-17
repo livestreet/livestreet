@@ -25,11 +25,10 @@ require_once($sDirRoot."/config/config.ajax.php");
 
 header('Content-Type: text/html; charset=utf-8');
 
-if (!isset($_POST['value'])) {
+if (!$sTag=getRequest('value',null,'post')) {
 	exit();
 }
 
-$sTag = trim($_POST['value']);
 if ($sTag!='') {
 	$aTags=$oEngine->Topic_GetTopicTagsByLike($sTag,10);
 	foreach ($aTags as $oTag) {

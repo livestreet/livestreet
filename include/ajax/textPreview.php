@@ -23,8 +23,8 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
-$sText=@$_REQUEST['text'];
-$bSave=@$_REQUEST['save'];
+$sText=getRequest('text',null,'post');
+$bSave=getRequest('save',null,'post');
 $bStateError=true;
 $sTextResult='';
 if ($oEngine->User_IsAuthorization()) {

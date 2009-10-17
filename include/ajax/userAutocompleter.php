@@ -25,11 +25,10 @@ require_once($sDirRoot."/config/config.ajax.php");
 
 header('Content-Type: text/html; charset=utf-8');
 
-if (!isset($_POST['value'])) {
+if (!$sUser=getRequest('value',null,'post')) {
 	exit();
 }
 
-$sUser = trim($_POST['value']);
 if ($sUser!='') {
 	$aUsers=$oEngine->User_GetUsersByLoginLike($sUser,10);
 	foreach ($aUsers as $oUser) {

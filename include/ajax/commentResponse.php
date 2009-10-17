@@ -23,8 +23,8 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(__FIL
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
-$idCommentLast=@$_REQUEST['idCommentLast'];
-$idTopic=@$_REQUEST['idTarget'];
+$idCommentLast=getRequest('idCommentLast',null,'post');
+$idTopic=getRequest('idTarget',null,'post');
 $bStateError=true;
 $sMsg='';
 $sMsgTitle='';

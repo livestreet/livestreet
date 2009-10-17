@@ -581,7 +581,7 @@ class ActionTalk extends Action {
 	 */	
 	public function AjaxAddToBlacklist() {
 		$this->Viewer_SetResponseAjax();
-		$sUsers=getRequest('users');
+		$sUsers=getRequest('users',null,'post');
 		
 		// Если пользователь не авторизирован, возвращаем ошибку
 		if (!$this->User_IsAuthorization()) {	
@@ -664,7 +664,7 @@ class ActionTalk extends Action {
 	 */	
 	public function AjaxDeleteFromBlacklist() {
 		$this->Viewer_SetResponseAjax();
-		$idTarget=getRequest('idTarget');
+		$idTarget=getRequest('idTarget',null,'post');
 		
 		// Если пользователь не авторизирован, возвращаем ошибку		
 		if (!$this->User_IsAuthorization()) {
@@ -724,8 +724,8 @@ class ActionTalk extends Action {
 	 */	
 	public function AjaxDeleteTalkUser() {
 		$this->Viewer_SetResponseAjax();
-		$idTarget=getRequest('idTarget');
-		$idTalk=getRequest('idTalk');
+		$idTarget=getRequest('idTarget',null,'post');
+		$idTalk=getRequest('idTalk',null,'post');
 		
 		// Если пользователь не авторизирован, возвращаем ошибку
 		if (!$this->User_IsAuthorization()) {
@@ -800,8 +800,8 @@ class ActionTalk extends Action {
 	 */
 	public function AjaxAddTalkUser() {
 		$this->Viewer_SetResponseAjax();
-		$sUsers=getRequest('users');
-		$idTalk=getRequest('idTalk');
+		$sUsers=getRequest('users',null,'post');
+		$idTalk=getRequest('idTalk',null,'post');
 
 		// Если пользователь не авторизирован, возвращаем ошибку		
 		if (!$this->User_IsAuthorization()) {

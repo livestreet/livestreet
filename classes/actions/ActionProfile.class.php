@@ -275,7 +275,7 @@ class ActionProfile extends Action {
 	
 	public function EventAjaxFriendAccept() {
 		$this->Viewer_SetResponseAjax();
-		$sUserId=getRequest('idUser');
+		$sUserId=getRequest('idUser',null,'post');
 
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
@@ -590,7 +590,7 @@ class ActionProfile extends Action {
 	 */
 	public function EventAjaxFriendDelete() {
 		$this->Viewer_SetResponseAjax();
-		$sUserId=getRequest('idUser');
+		$sUserId=getRequest('idUser',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */		
