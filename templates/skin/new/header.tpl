@@ -30,6 +30,7 @@ var aRouter=new Array();
 {foreach from=$aRouter key=sPage item=sPath}
 aRouter['{$sPage}']='{$sPath}';
 {/foreach}
+
 </script>
 
 	{$aHtmlHeadFiles.js}

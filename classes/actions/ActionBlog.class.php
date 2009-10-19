@@ -357,6 +357,8 @@ class ActionBlog extends Action {
 		 * Обрабатываем сохранение формы
 		 */
 		if (isPost('submit_blog_admin')) {
+			$this->Security_ValidateSendForm();
+			
 			$aUserRank=getRequest('user_rank',array());
 			if (!is_array($aUserRank)) {
 				$aUserRank=array();
@@ -427,6 +429,7 @@ class ActionBlog extends Action {
 	 * @return bool
 	 */
 	protected function checkBlogFields($oBlog=null) {
+		$this->Security_ValidateSendForm();
 		/**
 		 * Проверяем только если была отправлена форма с данными (методом POST)
 		 */

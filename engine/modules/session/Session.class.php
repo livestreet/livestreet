@@ -88,6 +88,14 @@ class LsSession extends Module {
 	}
 	
 	/**
+	 * Получает идентификатор текущей сессии
+	 *
+	 */	
+	public function GetId() {
+		return $this->sId;
+	}
+	
+	/**
 	 * Гинерирует уникальный идентификатор
 	 *
 	 * @return unknown

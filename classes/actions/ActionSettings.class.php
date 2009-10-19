@@ -79,6 +79,8 @@ class ActionSettings extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
 		
 		if (isPost('submit_settings_tuning')) {
+			$this->Security_ValidateSendForm();			
+			
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewTalk( getRequest('settings_notice_new_talk') ? 1 : 0 );
@@ -108,6 +110,8 @@ class ActionSettings extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));		
 		
 		if (isPost('submit_invite')) {
+			$this->Security_ValidateSendForm();			
+			
 			$bError=false;
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));		
@@ -138,6 +142,8 @@ class ActionSettings extends Action {
 		 * Если нажали кнопку "Сохранить"
 		 */
 		if (isPost('submit_profile_edit')) {
+			$this->Security_ValidateSendForm();
+						
 			$bError=false;			
 			/**
 		 	* Заполняем профиль из полей формы

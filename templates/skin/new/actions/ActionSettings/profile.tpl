@@ -29,6 +29,8 @@ document.addEvent('domready', function() {
 
 			<h1>{$aLang.settings_profile_edit}</h1>
 			<form action="" method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+				
 				<p>
 					<label for="profile_name">{$aLang.settings_profile_name}:</label>
 					<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="w100p" /><br />

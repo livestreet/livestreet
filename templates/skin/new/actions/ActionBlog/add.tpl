@@ -10,7 +10,8 @@
 			<h1>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
 		{/if}
 		<form action="" method="POST" enctype="multipart/form-data">
-								
+			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+				
 			<p><label for="blog_title">{$aLang.blog_create_title}:</label><br />
 			<input type="text" id="blog_title" name="blog_title" value="{$_aRequest.blog_title}" class="w100p" /><br />
 			<span class="form_note">{$aLang.blog_create_title_notice}</span></p>

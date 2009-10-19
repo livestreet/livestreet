@@ -30,6 +30,8 @@ tinyMCE.init({
 {/if}
 				
 				<form action="" method="POST">
+					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+					
 					<p><label for="page_pid">{$aLang.page_create_parent_page}</label>
      				<select name="page_pid" id="page_pid" >
      					<option value="0"></option>

@@ -61,6 +61,8 @@ tinyMCE.init({
 					<h1>{$aLang.topic_topic_edit}</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+					
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
 					<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
      					<option value="0">{$aLang.topic_create_blog_personal}</option>

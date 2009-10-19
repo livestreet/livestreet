@@ -60,8 +60,8 @@ class LsSecurity extends Module {
 	 *
 	 */
 	public function SetSessionKey() {
-		$sCode = md5(microtime().func_generator(32));
-		$this->Session_Set(Config::Get('module.security.key'), $sCode);
+		$sCode = md5($this->Session_GetId().Config::Get('module.security.hash'));
+		if($this->User_IsAuthorization())  $this->Session_Set(Config::Get('module.security.key'), $sCode);
 		$this->Viewer_Assign('LIVESTREET_SECURITY_KEY',$sCode);
 		
 		return $sCode;

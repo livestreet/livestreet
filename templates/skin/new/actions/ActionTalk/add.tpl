@@ -18,6 +18,8 @@ document.addEvent('domready', function() {
 			<div class="topic">
 				<h1>{$aLang.talk_create}</h1>
 				<form action="" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+					
 					<p><label for="talk_users">{$aLang.talk_create_users}:</label><input type="text" class="w100p" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}"/></p>
 					<p><label for="talk_title">{$aLang.talk_create_title}:</label><input type="text" class="w100p" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}"/></p>
 

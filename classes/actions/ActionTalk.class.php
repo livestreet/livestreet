@@ -99,6 +99,8 @@ class ActionTalk extends Action {
 		 * Обработка удаления сообщений
 		 */
 		if (isPost('submit_talk_del')) {
+			$this->Security_ValidateSendForm();
+			
 			$aTalksIdDel=getRequest('talk_del');
 			if (is_array($aTalksIdDel)) {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
@@ -346,6 +348,8 @@ class ActionTalk extends Action {
 	
 	
 	protected function checkTalkFields() {
+		$this->Security_ValidateSendForm();
+		
 		$bOk=true;		
 		/**
 		 * Проверяем есть ли заголовок

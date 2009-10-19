@@ -248,46 +248,48 @@ class ActionPage extends Action {
 	 * @return unknown
 	 */
 	protected function CheckPageFields() {		
-			$bOk=true;
-			/**
-		 	* Проверяем есть ли заголовок топика
-		 	*/
-			if (!func_check(getRequest('page_title',null,'post'),'text',2,200)) {
-				$this->Message_AddError($this->Lang_Get('page_create_title_error'),$this->Lang_Get('error'));
-				$bOk=false;
-			}
-			/**
-			* Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
-			*/		
-			$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url',null,'post'));
-			$_REQUEST['page_url']=$pageUrl;
-			if (!func_check(getRequest('page_url',null,'post'),'login',1,50)) {
-				$this->Message_AddError($this->Lang_Get('page_create_url_error'),$this->Lang_Get('error'));
-				$bOk=false;
-			}
-			/**
-		 	* Проверяем на счет плохих УРЛов
-			 */
-			if (in_array(getRequest('page_url',null,'post'),$this->aBadPageUrl)) {
-				$this->Message_AddError($this->Lang_Get('page_create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
-				$bOk=false;
-			}
-			/**
-		 	* Проверяем есть ли содержание страницы
-		 	*/
-			if (!func_check(getRequest('page_text',null,'post'),'text',1,50000)) {
-				$this->Message_AddError($this->Lang_Get('page_create_text_error'),$this->Lang_Get('error'));
-				$bOk=false;
-			}
-			/**
-			 * Проверяем страницу в которую хотим вложить
-			 */
-			if (getRequest('page_pid')!=0 and !($oPageParent=$this->Page_GetPageById(getRequest('page_pid')))) {
-				$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
-				$bOk=false;
-			}		
+		$this->Security_ValidateSendForm();	
+		
+		$bOk=true;
+		/**
+		 * Проверяем есть ли заголовок топика
+		 */
+		if (!func_check(getRequest('page_title',null,'post'),'text',2,200)) {
+			$this->Message_AddError($this->Lang_Get('page_create_title_error'),$this->Lang_Get('error'));
+			$bOk=false;
+		}
+		/**
+		 * Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
+		 */		
+		$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url',null,'post'));
+		$_REQUEST['page_url']=$pageUrl;
+		if (!func_check(getRequest('page_url',null,'post'),'login',1,50)) {
+			$this->Message_AddError($this->Lang_Get('page_create_url_error'),$this->Lang_Get('error'));
+			$bOk=false;
+		}
+		/**
+		 * Проверяем на счет плохих УРЛов
+		 */
+		if (in_array(getRequest('page_url',null,'post'),$this->aBadPageUrl)) {
+			$this->Message_AddError($this->Lang_Get('page_create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
+			$bOk=false;
+		}
+		/**
+		 * Проверяем есть ли содержание страницы
+		 */
+		if (!func_check(getRequest('page_text',null,'post'),'text',1,50000)) {
+			$this->Message_AddError($this->Lang_Get('page_create_text_error'),$this->Lang_Get('error'));
+			$bOk=false;
+		}
+		/**
+		 * Проверяем страницу в которую хотим вложить
+		 */
+		if (getRequest('page_pid')!=0 and !($oPageParent=$this->Page_GetPageById(getRequest('page_pid')))) {
+			$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
+			$bOk=false;
+		}		
 			
-			return $bOk;
+		return $bOk;
 	}
 }
 ?>

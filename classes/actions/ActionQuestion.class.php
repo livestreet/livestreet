@@ -410,6 +410,8 @@ class ActionQuestion extends Action {
 	 * @return unknown
 	 */
 	protected function checkTopicFields($oTopic=null) {		
+		$this->Security_ValidateSendForm();
+		
 		$bOk=true;
 		/**
 		 * Проверяем есть ли блог в кторый постим
