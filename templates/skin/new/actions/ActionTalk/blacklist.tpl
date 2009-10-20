@@ -24,7 +24,7 @@
 		
 			                JsHttpRequest.query(
 			                        'POST '+aRouter['talk']+'ajaxdeletefromblacklist/',			                        
-			                        { idTarget: idTarget },
+			                        { idTarget: idTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');
@@ -85,7 +85,7 @@
 							$('talk_blacklist_add').set('value','');
 			                JsHttpRequest.query(
 			                       'POST '+aRouter['talk']+'ajaxaddtoblacklist/',                      
-			                        { users: sUsers },
+			                        { users: sUsers, security_ls_key: LIVESTREET_SECURITY_KEY },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');         

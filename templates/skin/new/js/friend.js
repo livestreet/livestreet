@@ -29,7 +29,7 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 	
 	JsHttpRequest.query(
     	'POST '+sPath,                       
-        { idUser: idUser,userText: sText },
+        { idUser: idUser,userText: sText, security_ls_key: LIVESTREET_SECURITY_KEY },
         function(result, errors) {  
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');         
@@ -55,7 +55,7 @@ function ajaxDeleteUserFriend(obj,idUser,sAction) {
 	obj=$(obj).getParent('li');
 	JsHttpRequest.query(
     	'POST '+aRouter.profile+'ajaxfrienddelete/',                         
-        { idUser: idUser,sAction: sAction },
+        { idUser: idUser,sAction: sAction, security_ls_key: LIVESTREET_SECURITY_KEY },
         function(result, errors) {  
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           

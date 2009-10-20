@@ -53,20 +53,28 @@ class LsSecurity extends Module {
 	 */
 	public function ValidateSessionKey($sCode=null) {
 		if(!$sCode) $sCode=getRequest('security_ls_key');
-		return ($sCode==$this->Session_Get(Config::Get('module.security.key')));
+		return ($sCode==$this->GenerateSessionKey());
 	}
 	/**
 	 * Устанавливает security-ключ в сессию
 	 *
+	 * @return string
 	 */
 	public function SetSessionKey() {
-		$sCode = md5($this->Session_GetId().Config::Get('module.security.hash'));
-		if($this->User_IsAuthorization())  $this->Session_Set(Config::Get('module.security.key'), $sCode);
+		$sCode = $this->GenerateSessionKey();
 		$this->Viewer_Assign('LIVESTREET_SECURITY_KEY',$sCode);
 		
 		return $sCode;
 	}
-
+	/**
+	 * Генерирует текущий security-ключ
+	 *
+	 * @return string
+	 */
+	protected function GenerateSessionKey() {
+		return md5($this->Session_GetId().Config::Get('module.security.hash'));
+	}
+	
 	public function Shutdown() {
 		$this->SetSessionKey();
 	}	

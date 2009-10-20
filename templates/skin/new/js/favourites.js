@@ -52,6 +52,7 @@ var lsFavouriteClass = new Class({
                 var params = new Hash();
                 params['type']=value;
                 params[this.typeFavourite[type].targetName]=idTarget;
+                params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
                 JsHttpRequest.query(
                         'POST '+this.typeFavourite[type].url,                       

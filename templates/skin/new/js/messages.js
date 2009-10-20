@@ -30,7 +30,7 @@ var lsTalkMessagesClass = new Class({
 				if(this.errors<this.options.reload.errors&&this.options.reload.request>1) {
 					JsHttpRequest.query(
 						'POST '+thisObj.options.reload.url,
-						{ },
+						{ security_ls_key: LIVESTREET_SECURITY_KEY  },
 						function(result, errors) {
 							if (!result) {								
 								thisObj.errors+=1;

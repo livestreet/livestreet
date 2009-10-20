@@ -1,7 +1,7 @@
 function ajaxQuestionVote(idTopic,idAnswer) {	
 	JsHttpRequest.query(
     	'POST '+DIR_WEB_ROOT+'/include/ajax/questionVote.php',                       
-        { idTopic: idTopic, idAnswer: idAnswer },
+        { idTopic: idTopic, idAnswer: idAnswer, security_ls_key: LIVESTREET_SECURITY_KEY },
         function(result, errors) {  
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           

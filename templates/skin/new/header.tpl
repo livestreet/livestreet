@@ -16,7 +16,6 @@
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
-</head>
 
 <script language="JavaScript" type="text/javascript">
 var DIR_WEB_ROOT='{$aConfig.path.root.web}';
@@ -25,6 +24,7 @@ var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
 var TALK_RELOAD_PERIOD = '{$aConfig.module.talk.period}';
 var TALK_RELOAD_REQUEST = '{$aConfig.module.talk.request}'; 
 var TALK_RELOAD_MAX_ERRORS = '{$aConfig.module.talk.max_errors}';
+var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 
 var aRouter=new Array();
 {foreach from=$aRouter key=sPage item=sPath}
@@ -67,6 +67,7 @@ var msgNoticeBox=new Roar({
 </script>
 {/literal}
 {/if}
+</head>
 
 <body onload="prettyPrint()">
 

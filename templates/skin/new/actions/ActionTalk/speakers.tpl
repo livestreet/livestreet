@@ -25,7 +25,7 @@
 		
 			                JsHttpRequest.query(
 			                        'POST '+aRouter['talk']+'ajaxdeletetalkuser/',                      
-			                        { idTarget:idTarget,idTalk:idTalk },
+			                        { idTarget:idTarget,idTalk:idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');
@@ -76,7 +76,7 @@
 							$('talk_speaker_add').set('value','');
 			                JsHttpRequest.query(
 			                        'POST '+aRouter['talk']+'ajaxaddtalkuser/',                      
-			                        { users: sUsers, idTalk: idTalk },
+			                        { users: sUsers, idTalk: idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');         

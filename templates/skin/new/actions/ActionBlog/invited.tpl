@@ -37,7 +37,7 @@
 							
 			                JsHttpRequest.query(
 			                       'POST '+aRouter['blog']+'ajaxaddbloginvite/',                      
-			                        { users: sUsers, idBlog: idBlog },
+			                        { users: sUsers, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
 			                        function(result, errors) {     
 			                            if (!result) {
 							                msgErrorBox.alert('Error','Please try again later');         

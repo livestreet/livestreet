@@ -144,7 +144,7 @@ var lsCmtTreeClass = new Class({
 		(function(){		
 		JsHttpRequest.query(        	
         	'POST '+thisObj.typeComment[typeTarget].url_response,
-        	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget },
+        	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {        		
         		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif'); 
             	if (!result) {
@@ -244,7 +244,7 @@ var lsCmtTreeClass = new Class({
 		formObj=$(formObj);			
 		JsHttpRequest.query(        	
         	'POST '+thisObj.typeComment[targetType].url_add,
-        	{ params: formObj },
+        	{ params: formObj, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {
             	if (!result) {
             		thisObj.enableFormComment();
@@ -283,7 +283,7 @@ var lsCmtTreeClass = new Class({
 		var thisObj=this;			
 		JsHttpRequest.query(
         	'POST '+DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
-        	{ idComment: commentId },
+        	{ idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {         		 
             	if (!result) {
                 	msgErrorBox.alert('Error','Please try again later');           

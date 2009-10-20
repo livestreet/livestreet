@@ -59,6 +59,7 @@ var lsVoteClass = new Class({
                 var params = new Hash();
                 params['value']=value;
                 params[this.typeVote[type].targetName]=idTarget;
+                params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
                 JsHttpRequest.query(
                         'POST '+this.typeVote[type].url,                       

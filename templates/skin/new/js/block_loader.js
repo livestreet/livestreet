@@ -51,11 +51,15 @@ var lsBlockLoaderClass = new Class({
             
         	var blockContent=blockNav.getParent('div').getChildren('div.'+this.options.classes_nav.content)[0].set('html','');
         	this.showStatus(blockContent);
-        	        	
-            
+        	     
+        	if(!params) {
+        		params={ security_ls_key: LIVESTREET_SECURITY_KEY };   	
+        	} else {
+        		params['security_ls_key']=LIVESTREET_SECURITY_KEY;
+        	}
             JsHttpRequest.query(
             	'POST '+this.type[type].url,                       
-                params,
+            	params,
                 function(result, errors) {     
                 	thisObj.onLoad(result, errors, blockContent);                               
                 },
