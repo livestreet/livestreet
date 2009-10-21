@@ -429,7 +429,6 @@ class ActionBlog extends Action {
 	 * @return bool
 	 */
 	protected function checkBlogFields($oBlog=null) {
-		$this->Security_ValidateSendForm();
 		/**
 		 * Проверяем только если была отправлена форма с данными (методом POST)
 		 */
@@ -437,6 +436,7 @@ class ActionBlog extends Action {
 			$_REQUEST['blog_limit_rating_topic']=0;
 			return false;
 		}
+		$this->Security_ValidateSendForm();
 		
 		$bOk=true;
 		/**
