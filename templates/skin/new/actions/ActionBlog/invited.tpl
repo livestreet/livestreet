@@ -6,7 +6,7 @@
 						document.addEvent('domready', function() {	
 							new Autocompleter.Request.HTML(
 								$('blog_admin_user_add'),
-								 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php', 
+								 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY', 
 								 {
 									'indicatorClass': 'autocompleter-loading',
 									'minLength': 1,

@@ -8,7 +8,7 @@
 document.addEvent('domready', function() {	
 	new Autocompleter.Request.HTML(
 		$('talk_filter_sender'),
-		 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php', 
+		 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY, 
 		 {
 			'indicatorClass': 'autocompleter-loading',
 			'minLength': 1,
