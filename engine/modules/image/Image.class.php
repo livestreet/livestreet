@@ -113,7 +113,7 @@ class LsImage extends Module {
 		@func_mkdir(Config::Get('path.root.server'),$sDirDest);
 			
 		if ($iWidthDest) {
-			if (!$bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
+			if ($bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
 				$iWidthDest=$oImage->get_image_params('width');
 			}
 			/**
