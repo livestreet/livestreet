@@ -340,12 +340,12 @@ class LsComment extends Module {
 				$aCommentsRec=$this->BuildCommentsRecursive($aCommentsRow);				
 			}
 			$this->Cache_Set($aCommentsRec, "comment_target_{$sId}_{$sTargetType}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*2);
-		}			
+		}
 		if (!isset($aCommentsRec['comments'])) {
 			return array('comments'=>array(),'iMaxIdComment'=>0);
 		}		
 		$aComments=$aCommentsRec;
-		$aComments['comments']=$this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));		
+		$aComments['comments']=$this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));	
 		foreach ($aComments['comments'] as $oComment) {
 			$oComment->setLevel($aCommentsRec['comments'][$oComment->getId()]);			
 		}
@@ -402,12 +402,18 @@ class LsComment extends Module {
 	/**
 	 * Обновляет статус у коммента - delete или publish
 	 *
-	 * @param CommentEntity_Comment $oComment
-	 * @return unknown
+	 * @param  CommentEntity_Comment $oComment
+	 * @return bool
 	 */
 	public function UpdateCommentStatus(CommentEntity_Comment $oComment) {		
-		if ($this->oMapper->UpdateComment($oComment)) {		
-			//чистим зависимые кеши
+		if ($this->oMapper->UpdateComment($oComment)) {	
+			/**
+			 * Если комментарий удаляется, удаляем его из прямого эфира
+			 */
+			if($oComment->getDelete()) $this->DeleteCommentOnlineByArrayId($oComment->getId(),$oComment->getTargetType());	
+			/**
+			 * Чистим зависимые кеши
+			 */
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update")); // временно, т.к. нужно использовать только при solid кеше			
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
 			$this->Cache_Delete("comment_{$oComment->getId()}");			
@@ -428,10 +434,16 @@ class LsComment extends Module {
 			return false;
 		}
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$sTargetType}"));		
-		// Если статус публикации успешно изменен, то меняем статус в отметке "избранное"
-		return ($this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish))
-				? $this->Favourite_SetFavouriteTargetPublish($oComment->getId(),'comment',$iPublish)
-				: false;
+		/**
+		 * Если статус публикации успешно изменен, то меняем статус в отметке "избранное".
+		 * Если комментарии снимаются с публикации, удаляем их из прямого эфира.
+		 */
+		if($this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish)){
+			$this->Favourite_SetFavouriteTargetPublish($oComment->getId(),'comment',$iPublish);
+			if($iPublish!=1) $this->DeleteCommentOnlineByTargetId($sTargetId,$sTargetType);	
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Удаляет коммент из прямого эфира
@@ -625,6 +637,75 @@ class LsComment extends Module {
 						return $this->Favourite_DeleteFavourite($oFavourite);
 		}
 		return false;
-	}	
+	}
+	/**
+	 * Удаляет комментарии из избранного по списку 
+	 *
+	 * @param  array $aCommentId
+	 * @return bool
+	 */	
+	public function DeleteFavouriteCommentsByArrayId($aCommentId) {
+		return $this->Favourite_DeleteFavouriteByTargetId($aCommentId, 'comment');	
+	}
+	/**
+	 * Удаляет комментарии из базы данных
+	 * 
+	 * @param   array|int $aTargetId
+	 * @param   string $sTargetType
+	 * @return  bool
+	 */
+	public function DeleteCommentByTargetId($aTargetId,$sTargetType) {
+		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
+		/**
+		 * Получаем список идентификаторов удаляемых комментариев
+		 */
+		$aCommentsId = array();
+		foreach ($aTargetId as $sTargetId) {
+			$aComments=$this->GetCommentsByTargetId($sTargetId,$sTargetType);
+			$aCommentsId = array_merge($aCommentsId, array_keys($aComments['comments']));
+		}
+		/**
+		 * Если ни одного комментария не найдено, выходим
+		 */
+		if(!count($aCommentsId)) return true;
+		/**
+		 * Чистим зависимые кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update")); // временно, т.к. нужно использовать только при solid кеше
+		//$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
+		//$this->Cache_Delete("comment_{$oComment->getId()}");
+		if($this->oMapper->DeleteCommentByTargetId($aTargetId,$sTargetType)){ 
+			/**
+			 * Удаляем комментарии из избранного
+			 */
+			$this->DeleteFavouriteCommentsByArrayId($aCommentsId);
+			/**
+			 * Удаляем комментарии к топику из прямого эфира
+			 */
+			$this->DeleteCommentOnlineByArrayId($aCommentsId,$sTargetType);			
+			/**
+			 * Удаляем голосование за комментарии
+			 */
+			$this->Vote_DeleteVoteByTarget($aCommentsId,'comment');
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Удаляет коммент из прямого эфира по массиву переданных идентификаторов
+	 *
+	 * @param  (array|int) $aCommentId
+	 * @param  string      $sTargetType
+	 * @return bool
+	 */
+	public function DeleteCommentOnlineByArrayId($aCommentId,$sTargetType) {
+		if(!is_array($aCommentId)) $aCommentId = array($aCommentId);
+		/**
+		 * Чистим кеш
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
+		return $this->oMapper->DeleteCommentOnlineByArrayId($aCommentId,$sTargetType);
+	}
 }
 ?>

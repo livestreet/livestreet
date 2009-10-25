@@ -326,6 +326,21 @@ class LsFavourite extends Module {
 	public function SetFavouriteTargetPublish($sTargetId,$sTargetType,$iPublish) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
 		return $this->oMapper->SetFavouriteTargetPublish($sTargetId,$sTargetType,$iPublish);
-	}	
+	}
+	/**
+	 * Удаляет избранное по списку идентификаторов таргетов
+	 *
+	 * @param  array|int $aTargetId
+	 * @param  string    $sTargetType
+	 * @return bool
+	 */
+	public function DeleteFavouriteByTargetId($aTargetId, $sTargetType) {
+		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
+		/**
+		 * Чистим зависимые кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
+		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);		
+	}
 }
 ?>

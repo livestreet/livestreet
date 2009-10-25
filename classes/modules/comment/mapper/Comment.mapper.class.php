@@ -126,7 +126,7 @@ class Mapper_Comment extends Mapper {
 					".Config::Get('db.table.comment_online')." 
 				WHERE 												
 					target_type = ?
-				{ AND target_id NOT IN(?a) }									
+				{ AND target_id NOT IN(?a) }
 				ORDER by comment_online_id desc limit 0, ?d ; ";
 		
 		$aComments=array();
@@ -313,6 +313,34 @@ class Mapper_Comment extends Mapper {
 				target_id = ?d AND target_type = ? 
 		";			
 		if ($this->oDb->query($sql,$iPublish,$sTargetId,$sTargetType)) {
+			return true;
+		}		
+		return false;
+	}
+	
+	public function DeleteCommentByTargetId($aTargetId,$sTargetType) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.comment')." 
+			WHERE
+				target_type = ?
+				AND
+				target_id IN (?a)			
+		";			
+		if ($this->oDb->query($sql,$sTargetType,$aTargetId)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public function DeleteCommentOnlineByArrayId($aCommentId,$sTargetType) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.comment_online')." 
+			WHERE 
+				comment_id IN (?a) 
+				AND 
+				target_type = ? 
+		";			
+		if ($this->oDb->query($sql,$aCommentId,$sTargetType)) {
 			return true;
 		}		
 		return false;

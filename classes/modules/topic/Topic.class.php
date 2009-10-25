@@ -167,10 +167,35 @@ class LsTopic extends Module {
 	 */
 	public function DeleteTopic($sTopicId) {		
 		$oTopic=$this->GetTopicById($sTopicId);
-		//чистим зависимые кеши			
+		/**
+		 * Чистим зависимые кеши
+		 */			
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));
 		$this->Cache_Delete("topic_{$sTopicId}");
-		return $this->oMapperTopic->DeleteTopic($sTopicId);
+		/**
+		 * Если топик успешно удален, удаляем связанные данные
+		 */
+		if($this->oMapperTopic->DeleteTopic($sTopicId)){
+			/**
+			 * Удаляем комментарии к топику. 
+			 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
+			 */
+			$this->Comment_DeleteCommentByTargetId($sTopicId,'topic');
+			/**
+			 * Удаляем топик из избранного
+			 */
+			$this->DeleteFavouriteTopicByArrayId($sTopicId);
+			/**
+			 * Удаляем топик из прочитанного
+			 */
+			$this->DeleteTopicReadByArrayId($sTopicId);
+			/**
+			 * Удаляем голосование к топику
+			 */
+			$this->Vote_DeleteVoteByTarget($sTopicId,'topic');
+			return true;
+		} 
+		return false;
 	}
 	/**
 	 * Обновляет топик
@@ -912,6 +937,15 @@ class LsTopic extends Module {
 	 */
 	public function SetFavouriteTopicPublish($sTopicId,$iPublish) {
 		return $this->Favourite_SetFavouriteTargetPublish($sTopicId,'topic',$iPublish);		
+	}	
+	/**
+	 * Удаляет топики из избранного по списку 
+	 *
+	 * @param  array $aTopicId
+	 * @return bool
+	 */
+	public function DeleteFavouriteTopicByArrayId($aTopicId) {
+		return $this->Favourite_DeleteFavouriteByTargetId($aTopicId, 'topic');
 	}
 	/**
 	 * Получает список тегов по первым буквам тега
@@ -956,7 +990,17 @@ class LsTopic extends Module {
 			return $data[$sTopicId];
 		}
 		return null;
-	}	
+	}
+	/**
+	 * Удаляет записи о чтении записей по списку идентификаторов
+	 *
+	 * @param  array|int $aTopicId
+	 * @return bool
+	 */
+	public function DeleteTopicReadByArrayId($aTopicId) {
+		if(!is_array($aTopicId)) $aTopicId = array($aTopicId);
+		return $this->oMapperTopic->DeleteTopicReadByArrayId($aTopicId);
+	}
 	/**
 	 * Получить список просмотром/чтения топиков по списку айдишников
 	 *

@@ -59,5 +59,19 @@ class Mapper_Vote extends Mapper {
 		}		
 		return $aVotes;
 	}	
+	
+	public function DeleteVoteByTarget($aTargetId,$sTargetType) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.vote')." 
+			WHERE
+				target_id IN(?a)
+				AND
+				target_type = ?				
+		";			
+		if ($this->oDb->query($sql,$aTargetId,$sTargetType)) {
+			return true;
+		}
+		return false;
+	}
 }
 ?>

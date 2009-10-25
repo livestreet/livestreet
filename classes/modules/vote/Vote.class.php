@@ -154,5 +154,23 @@ class LsVote extends Module {
 		}		
 		return $data;
 	}
+	
+	/**
+	 * Удаляет голосование из базы по списку идентификаторов таргета
+	 *
+	 * @param  array|int $aTargetId
+	 * @param  string    $sTargetType
+	 * @return bool
+	 */
+	public function DeleteVoteByTarget($aTargetId, $sTargetType) {
+		if (!is_array($aTargetId)) $aTargetId=array($aTargetId);
+		$aTargetId=array_unique($aTargetId);
+
+		/**
+		 * Чистим зависимые кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("vote_update_{$sTargetType}"));
+		return $this->oMapper->DeleteVoteByTarget($aTargetId,$sTargetType);	
+	}
 }
 ?>

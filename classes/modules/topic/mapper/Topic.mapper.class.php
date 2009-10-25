@@ -490,8 +490,24 @@ class Mapper_Topic extends Mapper {
 		";			
 		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}
-				
-		
+	/**
+	 * Удаляет записи о чтении записей по списку идентификаторов
+	 *
+	 * @param  array $aTopicId
+	 * @return bool
+	 */				
+	public function DeleteTopicReadByArrayId($aTopicId) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.topic_read')." 
+			WHERE
+				topic_id IN(?a)				
+		";			
+		if ($this->oDb->query($sql,$aTopicId)) {
+			return true;
+		}
+		return false;
+	}
+			
 	public function GetTopicsReadByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();

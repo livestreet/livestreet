@@ -267,5 +267,18 @@ class Mapper_Favourite extends Mapper {
 					? $aRow['count']
 					: false;
 	}	
+	
+	public function DeleteFavouriteByTargetId($aTargetId,$sTargetType) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.favourite')." 
+			WHERE 
+				target_id IN(?a) 
+				AND 
+				target_type = ? ";			
+		if ($this->oDb->query($sql,$aTargetId,$sTargetType)) {
+			return true;
+		}
+		return false;
+	}	
 }
 ?>
