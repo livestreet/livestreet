@@ -331,5 +331,38 @@ class Mapper_Blog extends Mapper {
 		return $aReturn;
 	}
 	
+	/**
+	 * Удаление блога из базы данных
+	 *
+	 * @param  int  $iBlogId
+	 * @return bool	 
+	 */
+	public function DeleteBlog($iBlogId) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.blog')." 
+			WHERE blog_id = ?d				
+		";			
+		if ($this->oDb->query($sql,$iBlogId)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Удалить пользователей блога по идентификатору блога
+	 *
+	 * @param  int  $iBlogId
+	 * @return bool
+	 */
+	public function DeleteBlogUsersByBlogId($iBlogId) {
+		$sql = "
+			DELETE FROM ".Config::Get('db.table.blog_user')." 
+			WHERE blog_id = ?d
+		";
+		if ($this->oDb->query($sql,$iBlogId)) {
+			return true;
+		}
+		return false;
+	}
 }
 ?>

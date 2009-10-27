@@ -242,6 +242,7 @@ $config['db']['table']['reminder']            = $config['db']['table']['prefix']
 $config['db']['table']['session']             = $config['db']['table']['prefix'].'session';
 $config['db']['table']['notify_task']         = $config['db']['table']['prefix'].'notify_task';
 
+$config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM 
 /**
  * Настройка memcache
  */

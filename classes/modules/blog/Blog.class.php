@@ -706,5 +706,59 @@ class LsBlog extends Module {
 		}
 		return array_diff($aCloseBlogs,$aOpenBlogs);
 	}
+	
+	/**
+	 * Удаляет блог
+	 *
+	 * @param  int $iBlogId
+	 * @return bool
+	 */
+	public function DeleteBlog($iBlogId) {
+		if($iBlogId instanceof BlogEntity_Blog){
+			$iBlogId = $iBlogId->getId();
+		}
+		/**
+		 * Если блог не удален, возвращаем false
+		 */
+		if(!$this->oMapperBlog->DeleteBlog($iBlogId)) return false;
+		/**
+		 * Если удаление прошло успешно, удаляем связанные данные
+		 */
+		/**
+		 * Чистим кеш
+		 */
+		$this->Cache_Clean(
+			Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+			array(
+				"blog_update",
+				"blog_relation_change_blog_{$iBlogId}"
+			)
+		);
+		$this->Cache_Delete("blog_{$iBlogId}");
+		/**
+		 * Удаляем топики блога. 
+		 * При удалении топиков удаляются комментарии к ним и голоса.
+		 */
+		$aTopics = $this->Topic_GetTopicsByFilter(array('blog_id'=>$iBlogId),0,0,array());
+		foreach (array_keys((array)$aTopics) as $iTopicId) {
+			if(Config::Get('db.tables.engine')=="InnoDB") {
+				$this->Topic_DeleteTopicAdditionalData($iTopicId);
+			} else {
+				$this->Topic_DeleteTopic($iTopicId);
+			}
+		}
+		/**
+		 * Удаляем связи пользователей блога.
+		 */
+		if(Config::Get('db.tables.engine')!="InnoDB"){ 
+			$this->oMapperBlog->DeleteBlogUsersByBlogId($iBlogId);
+		}
+		/**
+		 * Удаляем голосование за блог
+		 */
+		$this->Vote_DeleteVoteByTarget($iBlogId, 'blog');
+		
+		return true;
+	}
 }
 ?>

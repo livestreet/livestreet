@@ -165,37 +165,46 @@ class LsTopic extends Module {
 	 * @param unknown_type $sTopicId
 	 * @return unknown
 	 */
-	public function DeleteTopic($sTopicId) {		
-		$oTopic=$this->GetTopicById($sTopicId);
+	public function DeleteTopic($sTopicId) {
 		/**
 		 * Чистим зависимые кеши
-		 */			
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
 		$this->Cache_Delete("topic_{$sTopicId}");
 		/**
 		 * Если топик успешно удален, удаляем связанные данные
 		 */
 		if($this->oMapperTopic->DeleteTopic($sTopicId)){
-			/**
-			 * Удаляем комментарии к топику. 
-			 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
-			 */
-			$this->Comment_DeleteCommentByTargetId($sTopicId,'topic');
-			/**
-			 * Удаляем топик из избранного
-			 */
-			$this->DeleteFavouriteTopicByArrayId($sTopicId);
-			/**
-			 * Удаляем топик из прочитанного
-			 */
-			$this->DeleteTopicReadByArrayId($sTopicId);
-			/**
-			 * Удаляем голосование к топику
-			 */
-			$this->Vote_DeleteVoteByTarget($sTopicId,'topic');
-			return true;
-		} 
+			return $this->DeleteTopicAdditionalData($sTopicId);
+		}
 		return false;
+	}
+	/**
+	 * Удаляет свзяанные с топика данные
+	 *
+	 * @param  int  $iTopicId
+	 * @return bool
+	 */
+	public function DeleteTopicAdditionalData($iTopicId) {
+		/**
+		 * Удаляем комментарии к топику. 
+		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
+		 */
+		$this->Comment_DeleteCommentByTargetId($iTopicId,'topic');
+		/**
+		 * Удаляем топик из избранного
+		 */
+		$this->DeleteFavouriteTopicByArrayId($iTopicId);
+		/**
+		 * Удаляем топик из прочитанного
+		 */
+		$this->DeleteTopicReadByArrayId($iTopicId);
+		/**
+		 * Удаляем голосование к топику
+		 */
+		$this->Vote_DeleteVoteByTarget($iTopicId,'topic');		
+		
+		return true;
 	}
 	/**
 	 * Обновляет топик
@@ -398,7 +407,7 @@ class LsTopic extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	protected function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0) {
+	protected function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
 			$data = ($iPage*$iPerPage!=0) 
@@ -412,7 +421,7 @@ class LsTopic extends Module {
 					);
 			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*3);
 		}
-		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);
+		$data['collection']=$this->GetTopicsAdditionalData($data['collection'],$aAllowData);
 		return $data;
 	}
 	/**
