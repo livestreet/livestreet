@@ -277,6 +277,13 @@ class ActionTopic extends Action {
 			return false;			
 		}	
 		/**
+		 * Проверяем разрешено ли постить топик по времени
+		 */
+		if (isPost('submit_topic_publish') and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
 		 * Теперь можно смело добавлять топик к блогу
 		 */
 		$oTopic=Engine::GetEntity('Topic');
@@ -343,10 +350,17 @@ class ActionTopic extends Action {
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
 			/**
+			* Сохраняем дату последнего топика для этого юзера
+			*/
+			$this->oUserCurrent->setDateTopicLast(date("Y-m-d H:i:s"));
+			$this->User_Update($this->oUserCurrent);
+			/**
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
 			$oTopic=$this->Topic_GetTopicById($oTopic->getId());
-			//Делаем рассылку спама всем, кто состоит в этом блоге
+			/**
+			 * Делаем рассылку спама всем, кто состоит в этом блоге
+			 */
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {				
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);				
 			}	

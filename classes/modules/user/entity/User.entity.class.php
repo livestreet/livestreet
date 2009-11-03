@@ -41,6 +41,9 @@ class UserEntity_User extends Entity {
     public function getDateCommentLast() {
         return $this->_aData['user_date_comment_last'];
     }
+    public function getDateTopicLast() {
+        return $this->_aData['user_date_topic_last'];
+    }    
     public function getIpRegister() {
         return $this->_aData['user_ip_register'];
     }       
@@ -176,6 +179,9 @@ class UserEntity_User extends Entity {
     public function setDateCommentLast($data) {
     	$this->_aData['user_date_comment_last']=$data;
     }
+    public function setDateTopicLast($data) {
+    	$this->_aData['user_date_topic_last']=$data;
+    }    
     public function setIpRegister($data) {
     	$this->_aData['user_ip_register']=$data;
     }        

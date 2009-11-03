@@ -166,6 +166,7 @@ return array(
 	'topic_read_more' => 'Читать дальше',
 	'topic_date' => 'дата',
 	'topic_user' => 'авторский текст',
+	'topic_time_limit' => 'Вам нельзя создавать топики слишком часто',
 	'topic_comment_read' => 'читать комментарии',
 	'topic_comment_add' => 'комментировать',
 	'topic_comment_add_title' => 'написать комментарий',

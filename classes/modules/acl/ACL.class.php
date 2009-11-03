@@ -76,7 +76,7 @@ class LsACL extends Module {
 	/**
 	 * Проверяет может ли пользователь создавать комментарии
 	 *
-	 * @param Entity_User $oUser
+	 * @param  Entity_User $oUser
 	 * @return bool
 	 */
 	public function CanPostComment(UserEntity_User $oUser) {
@@ -101,6 +101,25 @@ class LsACL extends Module {
 		}
 		return true;
 	}
+
+	/**
+	 * Проверяет может ли пользователь создавать топик по времени
+	 *
+	 * @param  Entity_User $oUser
+	 * @return bool
+	 */
+	public function CanPostTopicTime(UserEntity_User $oUser) {
+		// Для администраторов ограничение по времени не действует
+		if($oUser->isAdministrator()) return true;
+		
+		if (Config::Get('acl.create.topic.limit_time')>0 and $oUser->getDateTopicLast()) {
+			$sDateTopicLast=strtotime($oUser->getDateTopicLast());
+			if ($oUser->getRating()<Config::Get('acl.create.topic.limit_time_rating') and ((time()-$sDateTopicLast)<Config::Get('acl.create.topic.limit_time'))) {
+				return false;
+			}
+		}
+		return true;
+	}	
 	
 	/**
 	 * Проверяет может ли пользователь создавать комментарии используя HTML

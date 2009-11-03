@@ -282,23 +282,6 @@ class Config {
 					if(is_scalar($cfg)||$cfg===NULL)define(strtoupper($sName),$cfg);		
 				}
 			}
-			// Создаем константы роутера 
-			/**
-			 * Редакторинг:
-			 * переход на использование конфигурационных массивов
-			 * 
-			if($aRoutes = self::Get('router',$sInstance)) {
-				foreach ($aRoutes['page'] as $sPage => $sAction) {
-					$const = isset($aRoutes['page']['rewrite'][$sPage])
-						? $aRoutes['page']['rewrite'][$sPage]
-						: $sPage;
-					$sName = 'ROUTE_PAGE_'.strtoupper($sPage);
-					if(!defined($sName)) {
-						define($sName, $const);
-					}
-				}
-			}		
-			**/	
 			return true;
 		}
 		return false;

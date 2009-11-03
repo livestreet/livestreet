@@ -130,3 +130,5 @@ ALTER TABLE  `prefix_user` CHANGE  `user_profile_avatar`  `user_profile_avatar` 
 ALTER TABLE  `prefix_user` DROP  `user_profile_avatar_type`;
 ALTER TABLE  `prefix_blog` CHANGE  `blog_avatar`  `blog_avatar` VARCHAR( 250 );
 ALTER TABLE  `prefix_blog` DROP  `blog_avatar_type`;
+
+ALTER TABLE  `prefix_user` ADD  `user_date_topic_last` DATETIME AFTER  `user_date_comment_last` ;
