@@ -259,11 +259,11 @@ class LsComment extends Module {
 	/**
 	 * Получить комменты по юзеру
 	 *
-	 * @param unknown_type $sId
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  string $sId
+	 * @param  string $sTargetType
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @return array
 	 */
 	public function GetCommentsByUserId($sId,$sTargetType,$iPage,$iPerPage) {	
 		/**

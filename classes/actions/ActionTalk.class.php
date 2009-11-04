@@ -501,7 +501,14 @@ class ActionTalk extends Action {
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
-		}			
+		}	
+		/**
+		 * Проверяем разрешено ли отправлять инбокс по времени
+		 */
+		if (!$this->ACL_CanPostTalkCommentTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('talk_time_limit'),$this->Lang_Get('error'));
+			return false;
+		}
 		/**
 		* Проверяем текст комментария
 		*/

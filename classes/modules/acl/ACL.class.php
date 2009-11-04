@@ -149,6 +149,38 @@ class LsACL extends Module {
 		}
 		return true;
 	}	
+
+	/**
+	 * Проверяет может ли пользователь создавать комментарии к инбоксу по времени
+	 *
+	 * @param  Entity_User $oUser
+	 * @return bool
+	 */
+	public function CanPostTalkCommentTime(UserEntity_User $oUser) {
+		// Для администраторов ограничение по времени не действует
+		if($oUser->isAdministrator() 
+			or Config::Get('acl.create.talk_comment.limit_time')==0 
+				or $oUser->getRating()>=Config::Get('acl.create.talk_comment.limit_time_rating')) 
+					return true;
+		/**
+		 * Проверяем, если топик опубликованный меньше чем acl.create.topic.limit_time секунд назад
+		 */
+		$aTalkComments=$this->Comment_GetCommentsByUserId($oUser->getId(),'talk',1,1);
+		/**
+		 * Если комментариев не было
+		 */
+		if(!is_array($aTalkComments) or $aTalkComments['count']==0){ 
+			return true;
+		}
+
+		$oComment = array_shift($aTalkComments['collection']);
+		$sDate = strtotime($oComment->getDate());
+		
+		if($sDate and ((time()-$sDate)<Config::Get('acl.create.talk_comment.limit_time'))) {
+			return false;
+		}
+		return true;
+	}
 	
 	/**
 	 * Проверяет может ли пользователь создавать комментарии используя HTML
