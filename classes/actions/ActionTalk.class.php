@@ -63,7 +63,7 @@ class ActionTalk extends Action {
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('favourites','EventFavourites');	
 		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
-		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxdeletefromBlacklist');
+		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxDeleteFromBlacklist');
 		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');	
 		$this->AddEvent('ajaxaddtalkuser', 'AjaxAddTalkUser');	
 	}
@@ -277,7 +277,14 @@ class ActionTalk extends Action {
 		if (!$this->checkTalkFields()) {
 			return false;	
 		}					
-
+		/**
+		 * Проверяем разрешено ли отправлять инбокс по времени
+		 */
+		if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('talk_time_limit'),$this->Lang_Get('error'));
+			return false;
+		}
+		
 		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(getRequest('talk_title')),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {

@@ -318,7 +318,7 @@ class Mapper_Talk extends Mapper {
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 
-					".Config::Get('db.table.talk_user')." as tu, 					
+					".Config::Get('db.table.talk_user')." as tu,
 					".Config::Get('db.table.talk')." as t,
 					".Config::Get('db.table.user')." as u	 
 				WHERE 
@@ -330,6 +330,7 @@ class Mapper_Talk extends Mapper {
 					{ AND t.talk_date >= ? }
 					{ AND t.talk_title LIKE ? }
 					{ AND u.user_login = ? }
+					{ AND t.user_id = ? }
 				ORDER BY t.talk_date_last desc, t.talk_date desc
 				LIMIT ?d, ?d	
 					";
@@ -345,6 +346,7 @@ class Mapper_Talk extends Mapper {
 				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['keyword']) ? $aFilter['keyword'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['user_login']) ? $aFilter['user_login'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['sender_id']) ? $aFilter['sender_id'] : DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage, 
 				$iPerPage
 			)

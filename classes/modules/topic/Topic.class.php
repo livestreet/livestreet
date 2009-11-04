@@ -402,10 +402,10 @@ class LsTopic extends Module {
 	/**
 	 * Список топиков по фильтру
 	 *
-	 * @param unknown_type $aFilter
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param  array $aFilter
+	 * @param  int   $iPage
+	 * @param  int   $iPerPage
+	 * @return array
 	 */
 	protected function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
 		$s=serialize($aFilter);
@@ -1284,6 +1284,26 @@ class LsTopic extends Module {
 		if ($oBlog->getOwnerId()!=$oUserTopic->getId()) {
 			$this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(),$oTopic,$oBlog,$oUserTopic);
 		}	
+	}
+	
+	/**
+	 * Возвращает список последних топиков пользователя,
+	 * опубликованных не более чем $iTimeLimit секунд назад
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iTimeLimit
+	 * @param  int    $iCountLimit
+	 * @return array
+	 */
+	public function GetLastTopicsByUserId($sUserId,$iTimeLimit,$iCountLimit=1,$aAllowData=array()) {
+		$aFilter = array(
+			'topic_publish' => 1,
+			'user_id' => $sUserId,
+			'topic_new' => date("Y-m-d H:i:s",time()-$iTimeLimit),
+		);
+		$aTopics = $this->GetTopicsByFilter($aFilter,1,$iCountLimit,$aAllowData);
+
+		return $aTopics;
 	}
 }
 ?>

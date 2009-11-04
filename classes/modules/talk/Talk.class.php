@@ -668,5 +668,24 @@ class LsTalk extends Module {
 	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {
 		return $this->oMapper->DeleteUserFromBlacklist($sTargetId, $sUserId);	
 	}
+	
+	/**
+	 * Возвращает список последних инбоксов пользователя,
+	 * отправленных не более чем $iTimeLimit секунд назад
+	 *
+	 * @param  string $sUserId
+	 * @param  int    $iTimeLimit
+	 * @param  int    $iCountLimit
+	 * @return array
+	 */
+	public function GetLastTalksByUserId($sUserId,$iTimeLimit,$iCountLimit=1) {
+		$aFilter = array(
+			'sender_id' => $sUserId,
+			'date_min' => date("Y-m-d H:i:s",time()-$iTimeLimit),
+		);
+		$aTalks = $this->GetTalksByFilter($aFilter,1,$iCountLimit);
+
+		return $aTalks;
+	}
 }
 ?>

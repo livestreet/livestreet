@@ -110,13 +110,42 @@ class LsACL extends Module {
 	 */
 	public function CanPostTopicTime(UserEntity_User $oUser) {
 		// Для администраторов ограничение по времени не действует
-		if($oUser->isAdministrator()) return true;
+		if($oUser->isAdministrator() 
+			or Config::Get('acl.create.topic.limit_time')==0 
+				or $oUser->getRating()>=Config::Get('acl.create.topic.limit_time_rating')) 
+					return true;
 		
-		if (Config::Get('acl.create.topic.limit_time')>0 and $oUser->getDateTopicLast()) {
-			$sDateTopicLast=strtotime($oUser->getDateTopicLast());
-			if ($oUser->getRating()<Config::Get('acl.create.topic.limit_time_rating') and ((time()-$sDateTopicLast)<Config::Get('acl.create.topic.limit_time'))) {
-				return false;
-			}
+		/**
+		 * Проверяем, если топик опубликованный меньше чем acl.create.topic.limit_time секунд назад
+		 */
+		$aTopics=$this->Topic_GetLastTopicsByUserId($oUser->getId(),Config::Get('acl.create.topic.limit_time'));
+		
+		if(isset($aTopics['count']) and $aTopics['count']>0){ 
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Проверяет может ли пользователь отправить инбокс по времени
+	 *
+	 * @param  Entity_User $oUser
+	 * @return bool
+	 */
+	public function CanSendTalkTime(UserEntity_User $oUser) {
+		// Для администраторов ограничение по времени не действует
+		if($oUser->isAdministrator() 
+			or Config::Get('acl.create.talk.limit_time')==0 
+				or $oUser->getRating()>=Config::Get('acl.create.talk.limit_time_rating')) 
+					return true;
+		
+		/**
+		 * Проверяем, если топик опубликованный меньше чем acl.create.topic.limit_time секунд назад
+		 */
+		$aTalks=$this->Talk_GetLastTalksByUserId($oUser->getId(),Config::Get('acl.create.talk.limit_time'));
+		
+		if(isset($aTalks['count']) and $aTalks['count']>0){ 
+			return false;
 		}
 		return true;
 	}	

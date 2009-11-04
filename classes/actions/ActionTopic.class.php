@@ -350,11 +350,6 @@ class ActionTopic extends Action {
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
 			/**
-			* Сохраняем дату последнего топика для этого юзера
-			*/
-			$this->oUserCurrent->setDateTopicLast(date("Y-m-d H:i:s"));
-			$this->User_Update($this->oUserCurrent);
-			/**
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
 			$oTopic=$this->Topic_GetTopicById($oTopic->getId());

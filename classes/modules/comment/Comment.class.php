@@ -324,7 +324,7 @@ class LsComment extends Module {
 			$this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}","comment_update_rating_{$sTargetType}"), 60*60*24*2);
 		}
 		$data=$this->GetCommentsAdditionalData($data);	
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Получить комменты для топика
