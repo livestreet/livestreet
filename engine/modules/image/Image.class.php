@@ -434,7 +434,7 @@ class LsImage extends Module {
 		/**
 		 * Передаем изображение на обработку
 		 */
-		if ($sFileImg=$this->Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,false,$aParams)) {
+		if ($sFileImg=$this->Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			return $sDirSave.'/'.$sFileImg;
 		} 		
