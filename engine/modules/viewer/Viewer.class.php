@@ -171,7 +171,13 @@ class LsViewer extends Module {
 		 */
 		$this->oSmarty = new Smarty();		
 		$this->oSmarty->template_dir=Config::Get('path.smarty.template');
-		$this->oSmarty->compile_dir=Config::Get('path.smarty.compiled');
+		/**
+		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
+		 */
+		$sCompilePath = Config::Get('path.smarty.compiled').'/'.Config::Get('view.skin');
+		if(!is_dir($sCompilePath)) @mkdir($sCompilePath);
+		$this->oSmarty->compile_dir=$sCompilePath;
+		
 		$this->oSmarty->cache_dir=Config::Get('path.smarty.cache');
 		$this->oSmarty->plugins_dir=array(Config::Get('path.smarty.plug'),'plugins');	
 		/**
@@ -457,7 +463,7 @@ class LsViewer extends Module {
 			 * или текущий не входит в перечисленные в правиле 
 			 * то выбираем следующее правило
 			 */
-			if(!$aRule['action'] && !$aRule['path']) continue;
+			if(!array_key_exists('action',$aRule) && !array_key_exists('path',$aRule)) continue;
 			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;
 			if(array_key_exists($sAction,(array)$aRule['action'])) {
 				/**
