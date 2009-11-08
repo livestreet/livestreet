@@ -74,6 +74,20 @@ class Install {
         'http_output' => array ('0','pass'), 
         'func_overload' => array ('0','4', 'no overload'), 
     );
+    /**
+     * Директория, в которой хранятся конфиг-файлы
+     *
+     * @var string
+     */
+    protected $sConfigDir="";
+    
+    /**
+     * Инициализация основных настроек
+     *
+     */
+    public function __construct() {
+    	$this->sConfigDir = dirname(__FILE__).'/../config';
+    }
 	/**
 	 * Вытягивает переменную из сессии
 	 *
@@ -295,9 +309,25 @@ class Install {
 				return false;
 			}
 			/**
+			 * Сохраняем в config.local.php настройки соединения
+			 */
+			$sLocalConfigFile = $this->sConfigDir.'/config.local.php';
+			if(!file_exists($sLocalConfigFile)) {
+				$this->aMessages[] = array('type'=>'error','text'=>'Файл локальной конфигурации config.local.php не найден.');
+				$this->Layout('steps/db.tpl');
+				return false;
+			}
+			$this->SaveConfig('db.params.host',   $this->ConvertToString($aParams['server']), $sLocalConfigFile);
+			$this->SaveConfig('db.params.port',   $this->ConvertToString($aParams['port']), $sLocalConfigFile);
+			$this->SaveConfig('db.params.user',   $this->ConvertToString($aParams['user']), $sLocalConfigFile);
+			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
+			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
+			$this->SaveConfig('db.table.prefix',  $this->ConvertToString($aParams['prefix']), $sLocalConfigFile);
+			
+			/**
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql'));
+			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
 			if(!$bResult) {
 				foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 				$this->Layout('steps/db.tpl');
@@ -351,8 +381,11 @@ class Install {
 	 * @param  string $sFilePath
 	 * @return array
 	 */
-	protected function CreateTables($sFilePath) {
-		$sFileQuery = file_get_contents($sFilePath);
+	protected function CreateTables($sFilePath,$sPrefix=null) {
+		$sFileQuery = @file_get_contents($sFilePath);
+		if(!$sFileQuery) return array('result'=>false,'errors'=>array("Нет доступа к файлу {$sFilePath}"));
+		
+		if($sPrefix) $sFileQuery = str_replace('prefix_', $sPrefix, $sFileQuery);
 		$aQuery=explode(';',$sFileQuery);
 		/**
 		 * Массив для сбора ошибок
@@ -374,7 +407,58 @@ class Install {
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
-	
+	/**
+	 * Сохранить данные в конфиг-файл
+	 *
+	 * @param  string $sName
+	 * @param  string $sVar
+	 * @param  string $sPath
+	 * @return bool
+	 */
+	protected function SaveConfig($sName,$sVar,$sPath) {
+		if(!file_exists($sPath)) return false;
+		
+		$sConfig = file_get_contents($sPath);
+		$sName = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
+		
+		/**
+		 * Если переменная уже определена в конфиге, 
+		 * то меняем значение.
+		 */
+		if(substr_count($sConfig, $sName)) {
+			$sConfig=preg_replace("~".preg_quote($sName).".+;~Ui", $sName.' = '.$sVar.';', $sConfig);
+		} else {
+			$sConfig=str_replace('return $config;', $sName.' = '.$sVar.';'.PHP_EOL.'return $config;', $sConfig);
+		}
+		file_put_contents($sPath,$sConfig);
+		return true;
+	}
+	/**
+	 * Преобразует переменную в формат для записи в текстовый файл
+	 *
+	 * @param  mixed $mVar
+	 * @return string
+	 */
+	protected function ConvertToString($mVar) {
+		switch(true) {
+			case is_string($mVar):
+				return "'".$mVar."'";
+					
+			case is_bool($mVar):
+				return ($mVar)?"'true'":"'false'";
+				
+			case is_array($mVar):
+				$sArrayString="";
+				foreach($mVar as $sKey=>$sValue) {
+					$sArrayString .= "'{$sKey}'=>".$this->ConvertToString($sValue).",";
+				}
+				return "array(".$sArrayString.")";
+				
+			default:	
+			case is_numeric($mVar):
+				return "'".(string)$mVar."'";				
+		}
+	}
 	/**
 	 * Получает значение переданных параметров
 	 *
