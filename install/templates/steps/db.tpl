@@ -29,5 +29,5 @@
 	<tr>	
 		<td>Префикс таблиц</td>
 		<td><input type="text" name="install_db_prefix" value="___INSTALL_DB_PREFIX___" /></td>
-	</tr>	
+	</tr>
 </table>

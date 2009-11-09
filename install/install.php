@@ -31,6 +31,12 @@ class Install {
 	 */
 	const SESSSION_KEY_STEP_NAME = 'livestreet_install_step';
 	/**
+	 * Название файла локальной конфигурации
+	 * 
+	 * @var string
+	 */
+	const LOCAL_CONFIG_FILE_NAME = 'config.local.php.dist';
+	/**
 	 * Массив разрешенных шагов инсталяции
 	 *
 	 * @var array
@@ -266,6 +272,10 @@ class Install {
 		$this->Layout('steps/start.tpl');
 	}
 	
+	/**
+	 * Запрос данных соединения с базой данных.
+	 * Запись полученных данных в лог.
+	 */	
 	protected function StepDb() {
 		if(!isset($_POST['install_db_params'])) {
 			$this->Assign('install_db_server', 'localhost');
@@ -311,33 +321,38 @@ class Install {
 			/**
 			 * Сохраняем в config.local.php настройки соединения
 			 */
-			$sLocalConfigFile = $this->sConfigDir.'/config.local.php';
+			$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
 			if(!file_exists($sLocalConfigFile)) {
 				$this->aMessages[] = array('type'=>'error','text'=>'Файл локальной конфигурации config.local.php не найден.');
 				$this->Layout('steps/db.tpl');
 				return false;
 			}
+			@chmod($sLocalConfigFile, 0777);
+			
 			$this->SaveConfig('db.params.host',   $this->ConvertToString($aParams['server']), $sLocalConfigFile);
 			$this->SaveConfig('db.params.port',   $this->ConvertToString($aParams['port']), $sLocalConfigFile);
 			$this->SaveConfig('db.params.user',   $this->ConvertToString($aParams['user']), $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix',  $this->ConvertToString($aParams['prefix']), $sLocalConfigFile);
-			
+			/**
+			 * Сохраняем данные в сессию
+			 */
+			$this->SetSessionVar('INSTALL_DATABASE_PARAMS',$aParams);
 			/**
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
-			if(!$bResult) {
-				foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-				$this->Layout('steps/db.tpl');
-				return false;
-			}
-			
-			$this->aMessages[] = array('type'=>'notice','text'=>'Сделано. Остальные этапы в разработке.');
-			$this->Assign('next_step_disabled','disabled');
-			$this->Layout('steps/db.tpl');
-			return true;
+			//list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
+			//if(!$bResult) {
+			//	foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+			//	$this->Layout('steps/db.tpl');
+			//	return false;
+			//}
+			/**
+			 * Передаем управление на следующий шаг
+			 */
+			$this->aMessages[] = array('type'=>'notice','text'=>'База данных успешно создана. Данные записаны в конфигурационный файл.');
+			return $this->StepAdmin();
 		} else {
 			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
 			$this->Layout('steps/db.tpl');
@@ -345,6 +360,62 @@ class Install {
 		}
 	}
 	
+	/**
+	 * Запрос данных администратора и сохранение их в базе данных
+	 * 
+	 */
+	protected function StepAdmin() {
+		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
+		$this->Assign('install_admin_login', $this->GetRequest('install_admin_login','admin'));
+		$this->Assign('install_admin_mail', $this->GetRequest('install_admin_mail','admin@admin.adm'));
+		/**
+		 * Если данные формы не были отправлены, передаем значения по умолчанию
+		 */
+		if(!$this->GetRequest('install_admin_params',false)) {
+			return $this->Layout('steps/admin.tpl');
+		}
+		/**
+		 * Проверяем валидность введенных данных
+		 */
+		list($bResult,$aErrors) = $this->ValidateAdminFields();
+		if(!$bResult) {
+			foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+			$this->Layout('steps/admin.tpl');
+			return false;			
+		}
+		/**
+		 * Подключаемся к базе данных и сохраняем новые данные администратора
+		 */
+		$aParams = $this->GetSessionVar('INSTALL_DATABASE_PARAMS');
+		if(!$this->ValidateDBConnection($aParams)) {
+			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
+			$this->Layout('steps/admin.tpl');
+			return false;					
+		}
+		$this->SelectDatabase($aParams['name']);
+		
+		$bUpdated = $this->UpdateDBUser(
+			$this->GetRequest('install_admin_login'),
+			$this->GetRequest('install_admin_password'),
+			$this->GetRequest('install_admin_mail'),
+			$aParams['prefix']
+		);
+		if(!$bUpdated) {
+			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось сохранить данные в базе.<br />'.mysql_error());
+			$this->Layout('steps/admin.tpl');
+			return false;					
+		}
+		/**
+		 * Передаем управление на следующий шаг
+		 */
+		return $this->StepEnd();
+	}
+	protected function StepEnd() {
+		$this->Assign('next_step_display','none');
+		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'End');
+		
+		$this->Layout('steps/end.tpl');
+	}
 	/**
 	 * Проверяет соединение с базой данных
 	 *
@@ -406,6 +477,55 @@ class Install {
 			return array('result'=>true,'errors'=>null);
 		}
 		return array('result'=>false,'errors'=>$aErrors);
+	}
+	/**
+	 * Валидирует данные администратора
+	 *
+	 * @return bool;
+	 */
+	protected function ValidateAdminFields() {
+		$bOk = true;
+		$aErrors = array();
+		
+		if(!$sLogin=$this->GetRequest('install_admin_login',false) or strlen($sLogin)<3) {
+			$bOk = false;
+			$aErrors[] = 'Логин администратора введен не верно.';
+		}
+
+		if(!$sMail=$this->GetRequest('install_admin_mail',false) or strlen($sMail)<5) {
+			$bOk = false;
+			$aErrors[] = 'E-mail администратора введен не верно.';
+		}
+		if(!$sPass=$this->GetRequest('install_admin_pass',false) or strlen($sPass)<3) {
+			$bOk = false;
+			$aErrors[] = 'Пароль администратора введен не верно.';
+		}
+		if($this->GetRequest('install_admin_repass','') != $this->GetRequest('install_admin_pass','')) {
+			$bOk = false;
+			$aErrors[] = 'Подтверждение пароля не совпадает с самим паролем.';
+		}
+		
+		return array($bOk, $aErrors);
+	}	
+	/**
+	 * Сохраняет данные об администраторе в базу данных
+	 *
+	 * @param  string $sLogin
+	 * @param  string $sPassword
+	 * @param  string $sMail
+	 * @param  string $sPrefix
+	 * @return bool
+	 */
+	protected function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
+        $sQuery = "
+        	UPDATE `{$sPrefix}user`
+        	SET 
+        		`user_login`    = '{$sLogin}',
+        		`user_mail`     = '{$sMail}',
+        		`user_password` = md5('{$sPassword}')
+			WHERE `user_id` = 1";
+        
+		return mysql_query($sQuery);		
 	}
 	/**
 	 * Сохранить данные в конфиг-файл
