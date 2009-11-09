@@ -342,12 +342,12 @@ class Install {
 			/**
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			//list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
-			//if(!$bResult) {
-			//	foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-			//	$this->Layout('steps/db.tpl');
-			//	return false;
-			//}
+			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
+			if(!$bResult) {
+				foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+				$this->Layout('steps/db.tpl');
+				return false;
+			}
 			/**
 			 * Передаем управление на следующий шаг
 			 */
