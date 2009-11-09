@@ -198,8 +198,8 @@ class ActionProfile extends Action {
 	 * Добавление пользователя в друзья, по отправленной заявке
 	 */
 	public function EventFriendOffer() {	
-		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-		$sUserId=xxtea_decrypt(base64_decode(urldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
+		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';		
+		$sUserId=xxtea_decrypt(base64_decode(getRequest('code')), Config::Get('module.talk.encrypt'));
 		list($sUserId,)=explode('_',$sUserId,2);
 		
 		$sAction=$this->GetParam(0);
