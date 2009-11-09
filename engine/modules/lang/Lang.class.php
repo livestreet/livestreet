@@ -64,6 +64,7 @@ class LsLang extends Module {
 		 */
 		if (Config::Get('sys.cache.type')=='memory') {			
 			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}"))) {
+				$this->aLangMsg=array();
 				$this->LoadLangFiles($this->sDefaultLang);			
 				if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
 				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}", array(), 60*60);
