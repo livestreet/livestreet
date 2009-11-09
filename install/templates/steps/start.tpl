@@ -11,29 +11,7 @@
 	<tr>	
 		<td width="350px">Поддержка UTF-8 в PCRE</td><td>___VALIDATE_UTF8___</td>
 	</tr>
-</table>
-<br />
-<h2>MBSTRING Extension</h2>
-<table>
-	<tr>
-		<td width="350px">
-			Перегрузка функции: <br />
-			<i>Значение mbstring.func_overload должно быть установлено равным 0 либо 4.</i>		
-		</td>
-		<td>___VALIDATE_HTTP_INPUT___</td>
-	</tr>
-	<tr>
-		<td width="350px">	
-			Кодировка входящих символов:<br /> 
-			<i>Значение mbstring.http_input должно быть установлено равным pass.</i>		
-		</td>
-		<td>___VALIDATE_HTTP_OUTPUT___</td>
-	</tr>
-	<tr>
-		<td width="350px">
-			Кодировка исходящих символов: <br />
-			<i>Значение mbstring.http_output должно быть установлено равным pass.</i>		
-		</td>
-		<td>___VALIDATE_FUNC_OVERLOAD___</td>
-	</tr>		
+	<tr>	
+		<td width="350px">Поддержка Mbstring</td><td>___VALIDATE_MBSTRING___</td>
+	</tr>	
 </table>

@@ -33,7 +33,10 @@
 	<form action="___FORM_ACTION___" method="POST">
 		___CONTENT___
 		<br />
-		<p><input type="submit" name="install_step_next" value="Next" ___NEXT_STEP_DISABLED___ style="display:___NEXT_STEP_DISPLAY___;" /></p>
+		<p>
+			<input type="submit" name="install_step_prev" value="Prev" ___PREV_STEP_DISABLED___ style="display:___PREV_STEP_DISPLAY___;" />
+			<input type="submit" name="install_step_next" value="Next" ___NEXT_STEP_DISABLED___ style="display:___NEXT_STEP_DISPLAY___;" />
+		</p>
 	</form>
 </body>
 </html>

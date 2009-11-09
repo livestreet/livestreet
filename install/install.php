@@ -141,12 +141,22 @@ class Install {
 		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTemplate);
 	}
 	/**
-	 * Добавляет переменную для отображение в шаблоне
+	 * Добавляет переменную для отображение в шаблоне.
+	 * 
+	 * Если параметр $sFromSession установлен в значение GET, 
+	 * то переменная сначала будет запрошена из сессии.
+	 * 
+	 * Если параметр $sFromSession установлен в значение SET, 
+	 * то переменная сначала вложена в сессию с одноименным ключем.
 	 *
 	 * @param string $sName
 	 * @param string $sValue
+	 * @param string $sGetFromSession
 	 */
-	protected function Assign($sName,$sValue) {
+	protected function Assign($sName,$sValue,$sFromSession=null) {
+		if($sFromSession=='get') $sValue=$this->GetSessionVar($sName,$sValue);
+		if($sFromSession=='set') $this->SetSessionVar($sName,$sValue);
+		
 		$this->aTemplateVars['___'.strtoupper($sName).'___'] = $sValue;
 	}
 	/**
@@ -163,6 +173,16 @@ class Install {
 		 * Рендерим сообщения по списку
 		 */
 		if(count($this->aMessages)) {
+			/**
+			 * Уникализируем содержимое списка сообщений
+			 */
+			$aMessages = array();
+			foreach ($this->aMessages as &$sMessage) {
+				$aMessages[md5(serialize($sMessage))] = $sMessage;
+				unset($sMessage);
+			}
+			$this->aMessages = $aMessages;
+			
 			$sMessageContent = "";
 			foreach ($this->aMessages as $sMessage) {
 				$this->Assign('message_style_class', $sMessage['type']);
@@ -185,7 +205,14 @@ class Install {
 	 * @return bool
 	 */
 	protected function SaveConfig($sName,$sVar,$sPath) {
-		if(!file_exists($sPath)) return false;
+		if(!file_exists($sPath)) {
+			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл конфигурации {$sPath} несуществует.");			
+			return false;
+		}
+		if(!is_writeable($sPath)) { 
+			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл {$sPath} недосупен для записи.");
+			return false; 
+		}
 		
 		$sConfig = file_get_contents($sPath);
 		$sName   = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
@@ -259,10 +286,20 @@ class Install {
 		if(!$sStepName or !in_array($sStepName,$this->aSteps)) die('Unknown step');
 		
 		$iKey = array_search($sStepName,$this->aSteps);
-		if($iKey == count($this->aSteps)-1) {
-			$this->Assign('NEXT_STEP_DISPLAY', 'none');
+		/**
+		 * Если была нажата кнопка "Назад", перемещаемся на шаг назад
+		 */
+		if($this->GetRequest('install_step_prev') && $iKey!=0) {
+			$sStepName = $this->aSteps[--$iKey];
+			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,$sStepName);
 		}
-		
+
+		if($iKey == count($this->aSteps)-1) {
+			$this->Assign('next_step_display', 'none');
+		}				
+		if($iKey == 0) {
+			$this->Assign('prev_step_display', 'none');
+		}
 		/**
 		 * Пердаем управление на метод текущего шага
 		 */
@@ -284,7 +321,7 @@ class Install {
 		if(!$this->ValidateEnviroment()) {
 			$this->Assign('next_step_disabled', 'disabled');
 		} else {
-			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Db');			
+			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Db');
 		}
 		$this->Layout('steps/start.tpl');
 	}
@@ -293,14 +330,17 @@ class Install {
 	 * Запись полученных данных в лог.
 	 */	
 	protected function StepDb() {
-		if(!isset($_POST['install_db_params'])) {
-			$this->Assign('install_db_server', 'localhost');
-			$this->Assign('install_db_port', '3306');
-			$this->Assign('install_db_name', 'social');
-			$this->Assign('install_db_user', 'root');
-			$this->Assign('install_db_password', '');
-			$this->Assign('install_db_create_check', '');
-			$this->Assign('install_db_prefix', 'prefix_');
+		if(!$this->GetRequest('install_db_params')) {
+			/**
+			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
+			 */
+			$this->Assign('install_db_server', 'localhost', 'get');
+			$this->Assign('install_db_port', '3306', 'get');
+			$this->Assign('install_db_name', 'social', 'get');
+			$this->Assign('install_db_user', 'root', 'get');
+			$this->Assign('install_db_password', '', 'get');
+			$this->Assign('install_db_create_check', '', 'get');
+			$this->Assign('install_db_prefix', 'prefix_', 'get');
 			
 			$this->Layout('steps/db.tpl');
 			return true;
@@ -316,13 +356,13 @@ class Install {
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
 		$aParams['prefix']   = $this->GetRequest('install_db_prefix','prefix_');
 
-		$this->Assign('install_db_server', $aParams['server']);
-		$this->Assign('install_db_port', $aParams['port']);
-		$this->Assign('install_db_name', $aParams['name']);
-		$this->Assign('install_db_user', $aParams['user']);
-		$this->Assign('install_db_password', $aParams['password']);
-		$this->Assign('install_db_create_check', ($aParams['create'])?'checked="checked"':'');
-		$this->Assign('install_db_prefix', $aParams['prefix']);
+		$this->Assign('install_db_server', $aParams['server'], 'set');
+		$this->Assign('install_db_port', $aParams['port'], 'set');
+		$this->Assign('install_db_name', $aParams['name'], 'set');
+		$this->Assign('install_db_user', $aParams['user'], 'set');
+		$this->Assign('install_db_password', $aParams['password'], 'set');
+		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), 'set');
+		$this->Assign('install_db_prefix', $aParams['prefix'], 'set');
 		
 		if($oDb=$this->ValidateDBConnection($aParams)) {
 			$bSelect = $this->SelectDatabase($aParams['name'],$aParams['create']);
@@ -612,27 +652,18 @@ class Install {
 		    
 	    if (@extension_loaded('mbstring')){
 	        $aMbInfo=mb_get_info();
-
-			if(!in_array(strtolower($aMbInfo['http_input']), $this->aValidEnv['http_input'])) {
-				$bOk = false;
-				$this->Assign('validate_http_input', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_http_input', '<span style="color:green;">Да</span>');			
-			}
-
-			if(!in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output'])) {
-				$bOk = false;
-				$this->Assign('validate_http_output', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_http_output', '<span style="color:green;">Да</span>');			
-			}
-
-			if(!in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
-				$bOk = false;
-				$this->Assign('validate_func_overload', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_func_overload', '<span style="color:green;">Да</span>');			
-			}
+			
+	        if(!in_array(strtolower($aMbInfo['http_input']), $this->aValidEnv['http_input']) 
+	        	or !in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output']) 
+	        		or !in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
+	        			$bOk = false;
+	        			$this->Assign('validate_mbstring', '<span style="color:red;">Нет</span>');
+	        } else {
+	        	$this->Assign('validate_mbstring', '<span style="color:green;">Да</span>');
+	        }
+	    } else {
+   			$bOk = false;
+   			$this->Assign('validate_mbstring', '<span style="color:red;">Нет</span>');	    	
 	    }
 	    
 	    return $bOk;
