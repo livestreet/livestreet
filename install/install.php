@@ -35,13 +35,13 @@ class Install {
 	 * 
 	 * @var string
 	 */
-	const LOCAL_CONFIG_FILE_NAME = 'config.local.php.dist';
+	const LOCAL_CONFIG_FILE_NAME = 'config.local.php';
 	/**
 	 * Массив разрешенных шагов инсталяции
 	 *
 	 * @var array
 	 */
-	protected $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End');
+	protected $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend');
 	/**
 	 * Массив сообщений для пользователя
 	 *
@@ -94,6 +94,7 @@ class Install {
     public function __construct() {
     	$this->sConfigDir = dirname(__FILE__).'/../config';
     }
+    
 	/**
 	 * Вытягивает переменную из сессии
 	 *
@@ -125,34 +126,6 @@ class Install {
 		
 		unset($_SESSION[$sKey]);
 		return true;
-	}
-	
-	/**
-	 * Функция отвечающая за проверку входных параметров
-	 * и передающая управление на фукнцию текущего шага
-	 *
-	 * @call $this->Step{__Name__} 
-	 */
-	public function Run() {
-		$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
-		if(!$sStepName or !in_array($sStepName,$this->aSteps)) die('Unknown step');
-		
-		$iKey = array_search($sStepName,$this->aSteps);
-		if($iKey == count($this->aSteps)-1) {
-			$this->Assign('NEXT_STEP_DISPLAY', 'none');
-		}
-		
-		/**
-		 * Пердаем управление на метод текущего шага
-		 */
-		$sFunctionName = 'Step'.$sStepName;
-		if(@method_exists($this,$sFunctionName)) { 
-			$this->$sFunctionName();
-		} else {
-			$sFunctionName = 'Step'.self::INSTALL_DEFAULT_STEP;
-			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,self::INSTALL_DEFAULT_STEP);
-			$this->$sFunctionName();
-		}
 	}
 	
 	/**
@@ -202,61 +175,105 @@ class Install {
 		$this->Assign('content', $sLayoutContent);
 		print $this->Fetch('layout.tpl');
 	}
+	
 	/**
-	 * Проверяем возможность инсталяции
-	 * 
+	 * Сохранить данные в конфиг-файл
+	 *
+	 * @param  string $sName
+	 * @param  string $sVar
+	 * @param  string $sPath
 	 * @return bool
 	 */
-	protected function ValidateEnviroment() {
-		$bOk = true;
+	protected function SaveConfig($sName,$sVar,$sPath) {
+		if(!file_exists($sPath)) return false;
 		
-		if(!in_array(strtolower(@ini_get('safe_mode')), $this->aValidEnv['safe_mode'])) {
-			$bOk = false;
-			$this->Assign('validate_safe_mode', '<span style="color:red;">Нет</span>');
+		$sConfig = file_get_contents($sPath);
+		$sName   = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
+		$sVar    = $this->ConvertToString($sVar);
+		
+		/**
+		 * Если переменная уже определена в конфиге, 
+		 * то меняем значение.
+		 */
+		if(substr_count($sConfig, $sName)) {
+			$sConfig=preg_replace("~".preg_quote($sName).".+;~Ui", $sName.' = '.$sVar.';', $sConfig);
 		} else {
-			$this->Assign('validate_safe_mode', '<span style="color:green;">Да</span>');			
+			$sConfig=str_replace('return $config;', $sName.' = '.$sVar.';'.PHP_EOL.'return $config;', $sConfig);
 		}
-
-		if(!in_array(strtolower(@ini_get('register_globals')), $this->aValidEnv['register_globals'])) {
-			$bOk = false;
-			$this->Assign('validate_register_globals', '<span style="color:red;">Нет</span>');
-		} else {
-			$this->Assign('validate_register_globals', '<span style="color:green;">Да</span>');			
+		file_put_contents($sPath,$sConfig);
+		return true;
+	}
+	/**
+	 * Преобразует переменную в формат для записи в текстовый файл
+	 *
+	 * @param  mixed $mVar
+	 * @return string
+	 */
+	protected function ConvertToString($mVar) {
+		switch(true) {
+			case is_string($mVar):
+				return "'".$mVar."'";
+					
+			case is_bool($mVar):
+				return ($mVar)?"'true'":"'false'";
+				
+			case is_array($mVar):
+				$sArrayString="";
+				foreach($mVar as $sKey=>$sValue) {
+					$sArrayString .= "'{$sKey}'=>".$this->ConvertToString($sValue).",";
+				}
+				return "array(".$sArrayString.")";
+				
+			default:	
+			case is_numeric($mVar):
+				return "'".(string)$mVar."'";				
+		}
+	}
+	
+	/**
+	 * Получает значение переданных параметров
+	 *
+	 * @param  string $sName
+	 * @param  mixed  $default
+	 * @return mixed
+	 */
+	protected function GetRequest($sName,$default=null) {
+		if (isset($_REQUEST[$sName])) {
+			if (is_string($_REQUEST[$sName])) {
+				return trim(stripcslashes($_REQUEST[$sName]));
+			} else {
+				return $_REQUEST[$sName];
+			}
+		}
+		return $default;
+	}	
+	
+	/**
+	 * Функция отвечающая за проверку входных параметров
+	 * и передающая управление на фукнцию текущего шага
+	 *
+	 * @call $this->Step{__Name__} 
+	 */
+	public function Run() {
+		$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
+		if(!$sStepName or !in_array($sStepName,$this->aSteps)) die('Unknown step');
+		
+		$iKey = array_search($sStepName,$this->aSteps);
+		if($iKey == count($this->aSteps)-1) {
+			$this->Assign('NEXT_STEP_DISPLAY', 'none');
 		}
 		
-		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
-			$bOk = false;
-			$this->Assign('validate_utf8', '<span style="color:red;">Нет</span>');
+		/**
+		 * Пердаем управление на метод текущего шага
+		 */
+		$sFunctionName = 'Step'.$sStepName;
+		if(@method_exists($this,$sFunctionName)) { 
+			$this->$sFunctionName();
 		} else {
-			$this->Assign('validate_utf8', '<span style="color:green;">Да</span>');			
+			$sFunctionName = 'Step'.self::INSTALL_DEFAULT_STEP;
+			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,self::INSTALL_DEFAULT_STEP);
+			$this->$sFunctionName();
 		}
-		    
-	    if (@extension_loaded('mbstring')){
-	        $aMbInfo=mb_get_info();
-
-			if(!in_array(strtolower($aMbInfo['http_input']), $this->aValidEnv['http_input'])) {
-				$bOk = false;
-				$this->Assign('validate_http_input', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_http_input', '<span style="color:green;">Да</span>');			
-			}
-
-			if(!in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output'])) {
-				$bOk = false;
-				$this->Assign('validate_http_output', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_http_output', '<span style="color:green;">Да</span>');			
-			}
-
-			if(!in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
-				$bOk = false;
-				$this->Assign('validate_func_overload', '<span style="color:red;">Нет</span>');
-			} else {
-				$this->Assign('validate_func_overload', '<span style="color:green;">Да</span>');			
-			}
-	    }
-	    
-	    return $bOk;
 	}
 	
 	/**
@@ -271,7 +288,6 @@ class Install {
 		}
 		$this->Layout('steps/start.tpl');
 	}
-	
 	/**
 	 * Запрос данных соединения с базой данных.
 	 * Запись полученных данных в лог.
@@ -329,12 +345,12 @@ class Install {
 			}
 			@chmod($sLocalConfigFile, 0777);
 			
-			$this->SaveConfig('db.params.host',   $this->ConvertToString($aParams['server']), $sLocalConfigFile);
-			$this->SaveConfig('db.params.port',   $this->ConvertToString($aParams['port']), $sLocalConfigFile);
-			$this->SaveConfig('db.params.user',   $this->ConvertToString($aParams['user']), $sLocalConfigFile);
-			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
-			$this->SaveConfig('db.params.pass',   $this->ConvertToString($aParams['password']), $sLocalConfigFile);
-			$this->SaveConfig('db.table.prefix',  $this->ConvertToString($aParams['prefix']), $sLocalConfigFile);
+			$this->SaveConfig('db.params.host',  $aParams['server'],   $sLocalConfigFile);
+			$this->SaveConfig('db.params.port',  $aParams['port'],     $sLocalConfigFile);
+			$this->SaveConfig('db.params.user',  $aParams['user'],     $sLocalConfigFile);
+			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
+			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
+			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
 			/**
 			 * Сохраняем данные в сессию
 			 */
@@ -359,7 +375,6 @@ class Install {
 			return false;
 		}
 	}
-	
 	/**
 	 * Запрос данных администратора и сохранение их в базе данных
 	 * 
@@ -410,12 +425,218 @@ class Install {
 		 */
 		return $this->StepEnd();
 	}
+	/**
+	 * Завершающий этап. Переход в расширенный режим
+	 */
 	protected function StepEnd() {
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'End');
-		
-		$this->Layout('steps/end.tpl');
+		/**
+		 * Если пользователь выбрал расширенный режим, переводим на новый шаг
+		 */
+		return ($this->GetRequest('install_step_extend')) 
+			? $this->StepExtend() 
+			: $this->Layout('steps/end.tpl');
 	}
+	/**
+	 * Расширенный режим ввода дополнительных настроек.
+	 */
+	protected function StepExtend() {
+		/**
+		 * Выводим на экран кнопку @Next
+		 */
+		$this->Assign('next_step_display','block');
+		/**
+		 * Сохраняем в сессию название текущего шага
+		 */
+		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Extend');
+
+		/**
+		 * Получаем значения запрашиваемых данных либо устанавливаем принятые по умолчанию
+		 */
+		$aParams['install_view_name']       = $this->GetRequest('install_view_name','LiveStreet - бесплатный движок социальной сети');
+		$aParams['install_view_description']= $this->GetRequest('install_view_description','LiveStreet - официальный сайт бесплатного движка социальной сети');
+		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php');
+		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','new');
+		
+		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender','rus.engine@gmail.com');
+		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet');
+		
+		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false);
+		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false);
+		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false);
+		
+		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','russian');
+		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','russian');
+		
+		/**
+		 * Передаем параметры во Viewer
+		 */
+		foreach($aParams as $sName=>$sParam) {
+			/**
+			 * Если передано булево значение, значит это чек-бокс
+			 */
+			if(!is_bool($sParam)) {
+				$this->Assign($sName,trim($sParam));
+			} else {
+				$this->Assign($sName.'_check',($sParam)?'checked':'');
+			}
+		}
+		/**
+		 * Если были переданные данные формы, то обрабатываем добавление
+		 */
+		if($this->GetRequest('install_extend_params')) {
+			$bOk = true;
+			$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
+			
+			/**
+			 * Название сайта
+			 */
+			if($aParams['install_view_name'] && strlen($aParams['install_view_name'])>2){
+				$this->SaveConfig('view.name',$aParams['install_view_name'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое название сайта.');
+			}
+			/**
+			 * Описание сайта
+			 */			
+			if($aParams['install_view_description']){
+				$this->SaveConfig('view.description',$aParams['install_view_description'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое описание сайта.');
+			}
+			/**
+			 * Ключевые слова
+			 */
+			if($aParams['install_view_keywords'] && strlen($aParams['install_view_keywords'])>2){
+				$this->SaveConfig('view.keywords',$aParams['install_view_keywords'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимые ключевые слова.');
+			}
+			/**
+			 * Название шаблона оформления
+			 */
+			if($aParams['install_view_skin'] && strlen($aParams['install_view_skin'])>1){
+				$this->SaveConfig('view.skin',$aParams['install_view_skin'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое шаблон.');
+			}
+			
+			/**
+			 * E-mail, с которого отправляются уведомления
+			 */
+			if($aParams['install_mail_sender'] && strlen($aParams['install_mail_sender'])>5){
+				$this->SaveConfig('sys.mail.from_email',$aParams['install_mail_sender'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимый e-mail.');
+			}
+			/**
+			 * Имя, от которого отправляются уведомления
+			 */
+			if($aParams['install_mail_name'] && strlen($aParams['install_mail_name'])>1){
+				$this->SaveConfig('sys.mail.from_name',$aParams['install_mail_name'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое имя отправителя уведомлений.');
+			}
+
+			/**
+			 * Использовать закрытый режим работы сайта
+			 */
+			$this->SaveConfig('general.close',$aParams['install_general_close'],$sLocalConfigFile);
+			/**
+			 * Использовать активацию при регистрации
+			 */
+			$this->SaveConfig('general.reg.activation',$aParams['install_general_active'],$sLocalConfigFile);
+			/**
+			 * Использоватьт режим регистрации по приглашению
+			 */
+			$this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile);
+					
+			/**
+			 * Текущий язык
+			 */
+			if($aParams['install_lang_current'] && strlen($aParams['install_lang_current'])>1){
+				$this->SaveConfig('lang.current',$aParams['install_lang_current'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык.');
+			}
+			/**
+			 * Язык, который будет использоваться по умолчанию
+			 */
+			if($aParams['install_lang_default'] && strlen($aParams['install_lang_default'])>1){
+				$this->SaveConfig('lang.default',$aParams['install_lang_default'],$sLocalConfigFile);
+			} else {
+				$bOk = false;
+				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык по-умолчанию.');
+			}		
+		}
+		
+		return $this->Layout('steps/extend.tpl');	
+	}
+	
+	/**
+	 * Проверяем возможность инсталяции
+	 * 
+	 * @return bool
+	 */
+	protected function ValidateEnviroment() {
+		$bOk = true;
+		
+		if(!in_array(strtolower(@ini_get('safe_mode')), $this->aValidEnv['safe_mode'])) {
+			$bOk = false;
+			$this->Assign('validate_safe_mode', '<span style="color:red;">Нет</span>');
+		} else {
+			$this->Assign('validate_safe_mode', '<span style="color:green;">Да</span>');			
+		}
+
+		if(!in_array(strtolower(@ini_get('register_globals')), $this->aValidEnv['register_globals'])) {
+			$bOk = false;
+			$this->Assign('validate_register_globals', '<span style="color:red;">Нет</span>');
+		} else {
+			$this->Assign('validate_register_globals', '<span style="color:green;">Да</span>');			
+		}
+		
+		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
+			$bOk = false;
+			$this->Assign('validate_utf8', '<span style="color:red;">Нет</span>');
+		} else {
+			$this->Assign('validate_utf8', '<span style="color:green;">Да</span>');			
+		}
+		    
+	    if (@extension_loaded('mbstring')){
+	        $aMbInfo=mb_get_info();
+
+			if(!in_array(strtolower($aMbInfo['http_input']), $this->aValidEnv['http_input'])) {
+				$bOk = false;
+				$this->Assign('validate_http_input', '<span style="color:red;">Нет</span>');
+			} else {
+				$this->Assign('validate_http_input', '<span style="color:green;">Да</span>');			
+			}
+
+			if(!in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output'])) {
+				$bOk = false;
+				$this->Assign('validate_http_output', '<span style="color:red;">Нет</span>');
+			} else {
+				$this->Assign('validate_http_output', '<span style="color:green;">Да</span>');			
+			}
+
+			if(!in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
+				$bOk = false;
+				$this->Assign('validate_func_overload', '<span style="color:red;">Нет</span>');
+			} else {
+				$this->Assign('validate_func_overload', '<span style="color:green;">Да</span>');			
+			}
+	    }
+	    
+	    return $bOk;
+	}	
 	/**
 	 * Проверяет соединение с базой данных
 	 *
@@ -526,75 +747,6 @@ class Install {
 			WHERE `user_id` = 1";
         
 		return mysql_query($sQuery);		
-	}
-	/**
-	 * Сохранить данные в конфиг-файл
-	 *
-	 * @param  string $sName
-	 * @param  string $sVar
-	 * @param  string $sPath
-	 * @return bool
-	 */
-	protected function SaveConfig($sName,$sVar,$sPath) {
-		if(!file_exists($sPath)) return false;
-		
-		$sConfig = file_get_contents($sPath);
-		$sName = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
-		
-		/**
-		 * Если переменная уже определена в конфиге, 
-		 * то меняем значение.
-		 */
-		if(substr_count($sConfig, $sName)) {
-			$sConfig=preg_replace("~".preg_quote($sName).".+;~Ui", $sName.' = '.$sVar.';', $sConfig);
-		} else {
-			$sConfig=str_replace('return $config;', $sName.' = '.$sVar.';'.PHP_EOL.'return $config;', $sConfig);
-		}
-		file_put_contents($sPath,$sConfig);
-		return true;
-	}
-	/**
-	 * Преобразует переменную в формат для записи в текстовый файл
-	 *
-	 * @param  mixed $mVar
-	 * @return string
-	 */
-	protected function ConvertToString($mVar) {
-		switch(true) {
-			case is_string($mVar):
-				return "'".$mVar."'";
-					
-			case is_bool($mVar):
-				return ($mVar)?"'true'":"'false'";
-				
-			case is_array($mVar):
-				$sArrayString="";
-				foreach($mVar as $sKey=>$sValue) {
-					$sArrayString .= "'{$sKey}'=>".$this->ConvertToString($sValue).",";
-				}
-				return "array(".$sArrayString.")";
-				
-			default:	
-			case is_numeric($mVar):
-				return "'".(string)$mVar."'";				
-		}
-	}
-	/**
-	 * Получает значение переданных параметров
-	 *
-	 * @param  string $sName
-	 * @param  mixed  $default
-	 * @return mixed
-	 */
-	protected function GetRequest($sName,$default=null) {
-		if (isset($_REQUEST[$sName])) {
-			if (is_string($_REQUEST[$sName])) {
-				return trim(stripcslashes($_REQUEST[$sName]));
-			} else {
-				return $_REQUEST[$sName];
-			}
-		}
-		return $default;
 	}
 }
 
