@@ -546,10 +546,11 @@ class LiveImage {
 		if($copyresized) {
 			$dst_w = round(imagesx($tmp)/$this->scale);
 			$dst_h = round(imagesy($tmp)/$this->scale);
-		} else {
-			$dst_w=$dst_w<0 ? $this->width : $dst_w;
-			$dst_h=$dst_h<0 ? $this->height : $dst_h;
-		}
+		} 
+		
+		$dst_w=$dst_w<0 ? imagesx($tmp) : $dst_w;
+		$dst_h=$dst_h<0 ? imagesy($tmp) : $dst_h;
+		
 		$src_w=$src_w<0 ? imagesx($tmp) : $src_w;
 		$src_h=$src_h<0 ? imagesy($tmp) : $src_h;
 
