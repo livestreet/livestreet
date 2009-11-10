@@ -149,7 +149,11 @@ class LsVote extends Module {
 			foreach ($data as $oVote) {
 				$aVote[$oVote->getTargetId()]=$oVote;
 			}
-			$this->Cache_Set($aVote, "vote_{$sTargetType}_{$sUserId}_id_{$s}", array("vote_update_{$sTargetType}_{$sUserId}"), 60*60*24*1);
+			$this->Cache_Set(
+				$aVote, "vote_{$sTargetType}_{$sUserId}_id_{$s}", 
+				array("vote_update_{$sTargetType}_{$sUserId}","vote_update_{$sTargetType}"), 
+				60*60*24*1
+			);
 			return $aVote;
 		}		
 		return $data;

@@ -343,7 +343,7 @@ class LsComment extends Module {
 		}
 		if (!isset($aCommentsRec['comments'])) {
 			return array('comments'=>array(),'iMaxIdComment'=>0);
-		}		
+		}
 		$aComments=$aCommentsRec;
 		$aComments['comments']=$this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));	
 		foreach ($aComments['comments'] as $oComment) {
@@ -378,7 +378,7 @@ class LsComment extends Module {
 	public function UpdateComment(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getId()}","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
 			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
@@ -393,7 +393,7 @@ class LsComment extends Module {
 	public function UpdateCommentRating(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_rating_{$oComment->getTargetType()}"));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_rating_{$oComment->getTargetType()}"));
 			$this->Cache_Delete("comment_{$oComment->getId()}");			
 			return true;
 		}
@@ -414,9 +414,11 @@ class LsComment extends Module {
 			/**
 			 * Чистим зависимые кеши
 			 */
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update")); // временно, т.к. нужно использовать только при solid кеше			
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
-			$this->Cache_Delete("comment_{$oComment->getId()}");			
+			if(Config::Get('sys.cache.solid')){ 
+				$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update"));			
+			}
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$oComment->getTargetType()}"));
+			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
 		return false;
@@ -671,9 +673,15 @@ class LsComment extends Module {
 		/**
 		 * Чистим зависимые кеши
 		 */
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update")); // временно, т.к. нужно использовать только при solid кеше
-		//$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$oComment->getId()}","comment_update_status_{$oComment->getTargetType()}"));
-		//$this->Cache_Delete("comment_{$oComment->getId()}");
+		if(Config::Get('sys.cache.solid')) {
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("comment_update","comment_target_{$sTargetId}_{$sTargetType}"));
+		} else {
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("comment_target_{$sTargetId}_{$sTargetType}"));
+			/**
+			 * Удаляем кеш для каждого комментария
+			 */
+			foreach($aCommentsId as $iCommentId) $this->Cache_Delete("comment_{$iCommentId}");
+		}
 		if($this->oMapper->DeleteCommentByTargetId($aTargetId,$sTargetType)){ 
 			/**
 			 * Удаляем комментарии из избранного
