@@ -764,11 +764,23 @@ class Install {
 		 */
 		$aErrors = array();
 		/**
+		 * Смотрим, какие таблицы существуют в базе данных
+		 */ 
+		$aDbTables = array();
+		$aResult = @mysql_query("SHOW TABLES");
+		if(!$aResult){  
+			return array('result'=>false,'errors'=>array("Не удалось получить данные из базы."));
+		}
+        while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
+			$aDbTables[] = $aRow[0];
+		}
+		
+		/**
 		 * Выполняем запросы по очереди
 		 */
 		foreach($aQuery as $sQuery){
 			$sQuery = trim($sQuery);
-			if($sQuery!='') {
+			if($sQuery!='' and !$this->IsUseDbTable($sQuery,$aDbTables)) {
 				$bResult=mysql_query($sQuery);
 				if(!$bResult) $aErrors[] = mysql_error();
 			}
@@ -828,6 +840,19 @@ class Install {
         
 		return mysql_query($sQuery);		
 	}
+	/**
+	 * Проверяет, использует ли mysql запрос, одну из указанных в массиве таблиц
+	 *
+	 * @param sring $sQuery
+	 * @param array $aTables
+	 * @return bool
+	 */
+	protected function IsUseDbTable($sQuery,$aTables) {
+		foreach($aTables as $sTable){
+			if(substr_count($sQuery, "`{$sTable}`")) return true;
+		}
+		return false;
+	}	
 }
 
 session_start();
