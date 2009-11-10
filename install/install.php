@@ -37,6 +37,29 @@ class Install {
 	 */
 	const LOCAL_CONFIG_FILE_NAME = 'config.local.php';
 	/**
+	 * Передача этого ключа как параметра, указавает функции извлечения параметра
+	 * запросить значение переменной сначала из сессии, в случае не нахождения нужного
+	 * ключа - установить значение по умолчанию. 
+	 * 
+	 * Используется в фукнциях Assign(), GetRequest().
+	 *
+	 * @see $this->Assign()
+	 * @see $this->GetRequest()
+	 * @var string
+	 */
+	const GET_VAR_FROM_SESSION = 'get';
+	/**
+	 * Передача этого ключа как параметра, указавает функции предварительно сохранить
+	 * переменную в сессию с одноименным ключем.
+	 * 
+	 * Используется в фукнциях Assign(), GetRequest().
+	 *
+	 * @see $this->Assign()
+	 * @see $this->GetRequest()
+	 * @var string
+	 */	
+	const SET_VAR_IN_SESSION = 'set';
+	/**
 	 * Массив разрешенных шагов инсталяции
 	 *
 	 * @var array
@@ -154,8 +177,8 @@ class Install {
 	 * @param string $sGetFromSession
 	 */
 	protected function Assign($sName,$sValue,$sFromSession=null) {
-		if($sFromSession=='get') $sValue=$this->GetSessionVar($sName,$sValue);
-		if($sFromSession=='set') $this->SetSessionVar($sName,$sValue);
+		if($sFromSession==self::GET_VAR_FROM_SESSION) $sValue=$this->GetSessionVar($sName,$sValue);
+		if($sFromSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sValue);
 		
 		$this->aTemplateVars['___'.strtoupper($sName).'___'] = $sValue;
 	}
@@ -264,15 +287,22 @@ class Install {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	protected function GetRequest($sName,$default=null) {
-		if (isset($_REQUEST[$sName])) {
-			if (is_string($_REQUEST[$sName])) {
-				return trim(stripcslashes($_REQUEST[$sName]));
-			} else {
-				return $_REQUEST[$sName];
-			}
+	protected function GetRequest($sName,$default=null,$bSession=null) {		
+		if (array_key_exists($sName,$_REQUEST)) {
+			$sResult = (is_string($_REQUEST[$sName])) 
+				? trim(stripslashes($_REQUEST[$sName]))
+				: $_REQUEST[$sName];
+		} else {
+			$sResult = ($bSession==self::GET_VAR_FROM_SESSION)
+				? $this->GetSessionVar($sName,$default)
+				: $default;
 		}
-		return $default;
+		/**
+		 * При необходимости сохраняем в сессию
+		 */
+		if($bSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sResult);
+		
+		return $sResult;
 	}	
 	
 	/**
@@ -300,6 +330,11 @@ class Install {
 		if($iKey == 0) {
 			$this->Assign('prev_step_display', 'none');
 		}
+		/**
+		 * Передаем во вьевер данные для формирование таймлайна шагов
+		 */
+		$this->Assign('install_step_number',$iKey+1);
+		$this->Assign('install_step_count',count($this->aSteps));
 		/**
 		 * Пердаем управление на метод текущего шага
 		 */
@@ -334,13 +369,13 @@ class Install {
 			/**
 			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
 			 */
-			$this->Assign('install_db_server', 'localhost', 'get');
-			$this->Assign('install_db_port', '3306', 'get');
-			$this->Assign('install_db_name', 'social', 'get');
-			$this->Assign('install_db_user', 'root', 'get');
-			$this->Assign('install_db_password', '', 'get');
-			$this->Assign('install_db_create_check', '', 'get');
-			$this->Assign('install_db_prefix', 'prefix_', 'get');
+			$this->Assign('install_db_server', 'localhost', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_port', '3306', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_name', 'social', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_user', 'root', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_password', '', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_create_check', '', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_prefix', 'prefix_', self::GET_VAR_FROM_SESSION);
 			
 			$this->Layout('steps/db.tpl');
 			return true;
@@ -356,13 +391,13 @@ class Install {
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
 		$aParams['prefix']   = $this->GetRequest('install_db_prefix','prefix_');
 
-		$this->Assign('install_db_server', $aParams['server'], 'set');
-		$this->Assign('install_db_port', $aParams['port'], 'set');
-		$this->Assign('install_db_name', $aParams['name'], 'set');
-		$this->Assign('install_db_user', $aParams['user'], 'set');
-		$this->Assign('install_db_password', $aParams['password'], 'set');
-		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), 'set');
-		$this->Assign('install_db_prefix', $aParams['prefix'], 'set');
+		$this->Assign('install_db_server', $aParams['server'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_port', $aParams['port'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_name', $aParams['name'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_user', $aParams['user'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_password', $aParams['password'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_prefix', $aParams['prefix'], self::SET_VAR_IN_SESSION);
 		
 		if($oDb=$this->ValidateDBConnection($aParams)) {
 			$bSelect = $this->SelectDatabase($aParams['name'],$aParams['create']);
@@ -421,8 +456,11 @@ class Install {
 	 */
 	protected function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
-		$this->Assign('install_admin_login', $this->GetRequest('install_admin_login','admin'));
-		$this->Assign('install_admin_mail', $this->GetRequest('install_admin_mail','admin@admin.adm'));
+		/**
+		 * Передаем данные из запроса во вьювер, сохраняя значение в сессии
+		 */
+		$this->Assign('install_admin_login', $this->GetRequest('install_admin_login','admin',self::GET_VAR_FROM_SESSION), self::SET_VAR_IN_SESSION);
+		$this->Assign('install_admin_mail', $this->GetRequest('install_admin_mail','admin@admin.adm',self::GET_VAR_FROM_SESSION), self::SET_VAR_IN_SESSION);
 		/**
 		 * Если данные формы не были отправлены, передаем значения по умолчанию
 		 */
@@ -458,7 +496,7 @@ class Install {
 		if(!$bUpdated) {
 			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось сохранить данные в базе.<br />'.mysql_error());
 			$this->Layout('steps/admin.tpl');
-			return false;					
+			return false;	
 		}
 		/**
 		 * Передаем управление на следующий шаг
@@ -494,20 +532,20 @@ class Install {
 		/**
 		 * Получаем значения запрашиваемых данных либо устанавливаем принятые по умолчанию
 		 */
-		$aParams['install_view_name']       = $this->GetRequest('install_view_name','LiveStreet - бесплатный движок социальной сети');
-		$aParams['install_view_description']= $this->GetRequest('install_view_description','LiveStreet - официальный сайт бесплатного движка социальной сети');
-		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php');
-		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','new');
+		$aParams['install_view_name']       = $this->GetRequest('install_view_name','LiveStreet - бесплатный движок социальной сети',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_description']= $this->GetRequest('install_view_description','LiveStreet - официальный сайт бесплатного движка социальной сети',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','new',self::GET_VAR_FROM_SESSION);
 		
-		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender','rus.engine@gmail.com');
-		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet');
+		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender','rus.engine@gmail.com',self::GET_VAR_FROM_SESSION);
+		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet',self::GET_VAR_FROM_SESSION);
 		
-		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false);
-		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false);
-		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false);
+		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
+		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false,self::GET_VAR_FROM_SESSION);
+		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false,self::GET_VAR_FROM_SESSION);
 		
-		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','russian');
-		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','russian');
+		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','russian',self::GET_VAR_FROM_SESSION);
+		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','russian',self::GET_VAR_FROM_SESSION);
 		
 		/**
 		 * Передаем параметры во Viewer
@@ -533,7 +571,8 @@ class Install {
 			 * Название сайта
 			 */
 			if($aParams['install_view_name'] && strlen($aParams['install_view_name'])>2){
-				$this->SaveConfig('view.name',$aParams['install_view_name'],$sLocalConfigFile);
+				if($this->SaveConfig('view.name',$aParams['install_view_name'],$sLocalConfigFile))
+					$this->SetSessionVar('install_view_name',$aParams['install_view_name']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое название сайта.');
@@ -542,7 +581,8 @@ class Install {
 			 * Описание сайта
 			 */			
 			if($aParams['install_view_description']){
-				$this->SaveConfig('view.description',$aParams['install_view_description'],$sLocalConfigFile);
+				if($this->SaveConfig('view.description',$aParams['install_view_description'],$sLocalConfigFile))
+				 $this->SetSessionVar('install_view_description',$aParams['install_view_description']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое описание сайта.');
@@ -551,7 +591,8 @@ class Install {
 			 * Ключевые слова
 			 */
 			if($aParams['install_view_keywords'] && strlen($aParams['install_view_keywords'])>2){
-				$this->SaveConfig('view.keywords',$aParams['install_view_keywords'],$sLocalConfigFile);
+				if($this->SaveConfig('view.keywords',$aParams['install_view_keywords'],$sLocalConfigFile))
+					$this->SetSessionVar('install_view_keywords',$aParams['install_view_keywords']);				
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимые ключевые слова.');
@@ -560,7 +601,8 @@ class Install {
 			 * Название шаблона оформления
 			 */
 			if($aParams['install_view_skin'] && strlen($aParams['install_view_skin'])>1){
-				$this->SaveConfig('view.skin',$aParams['install_view_skin'],$sLocalConfigFile);
+				if($this->SaveConfig('view.skin',$aParams['install_view_skin'],$sLocalConfigFile))
+					$this->SetSessionVar('install_view_skin',$aParams['install_view_skin']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое шаблон.');
@@ -570,7 +612,8 @@ class Install {
 			 * E-mail, с которого отправляются уведомления
 			 */
 			if($aParams['install_mail_sender'] && strlen($aParams['install_mail_sender'])>5){
-				$this->SaveConfig('sys.mail.from_email',$aParams['install_mail_sender'],$sLocalConfigFile);
+				if($this->SaveConfig('sys.mail.from_email',$aParams['install_mail_sender'],$sLocalConfigFile))
+					$this->SetSessionVar('install_mail_sender',$aParams['install_mail_sender']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимый e-mail.');
@@ -579,7 +622,8 @@ class Install {
 			 * Имя, от которого отправляются уведомления
 			 */
 			if($aParams['install_mail_name'] && strlen($aParams['install_mail_name'])>1){
-				$this->SaveConfig('sys.mail.from_name',$aParams['install_mail_name'],$sLocalConfigFile);
+				if($this->SaveConfig('sys.mail.from_name',$aParams['install_mail_name'],$sLocalConfigFile))
+					$this->SetSessionVar('install_mail_name',$aParams['install_mail_name']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое имя отправителя уведомлений.');
@@ -588,21 +632,25 @@ class Install {
 			/**
 			 * Использовать закрытый режим работы сайта
 			 */
-			$this->SaveConfig('general.close',$aParams['install_general_close'],$sLocalConfigFile);
+			if($this->SaveConfig('general.close',$aParams['install_general_close'],$sLocalConfigFile))
+				$this->SetSessionVar('install_general_close',$aParams['install_general_close']);
 			/**
 			 * Использовать активацию при регистрации
 			 */
-			$this->SaveConfig('general.reg.activation',$aParams['install_general_active'],$sLocalConfigFile);
+			if($this->SaveConfig('general.reg.activation',$aParams['install_general_active'],$sLocalConfigFile))
+				$this->SetSessionVar('install_general_active',$aParams['install_general_active']);
 			/**
 			 * Использоватьт режим регистрации по приглашению
 			 */
-			$this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile);
+			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
+				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
 					
 			/**
 			 * Текущий язык
 			 */
 			if($aParams['install_lang_current'] && strlen($aParams['install_lang_current'])>1){
-				$this->SaveConfig('lang.current',$aParams['install_lang_current'],$sLocalConfigFile);
+				if($this->SaveConfig('lang.current',$aParams['install_lang_current'],$sLocalConfigFile))
+					$this->SetSessionVar('install_lang_current',$aParams['install_lang_current']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык.');
@@ -611,7 +659,8 @@ class Install {
 			 * Язык, который будет использоваться по умолчанию
 			 */
 			if($aParams['install_lang_default'] && strlen($aParams['install_lang_default'])>1){
-				$this->SaveConfig('lang.default',$aParams['install_lang_default'],$sLocalConfigFile);
+				if($this->SaveConfig('lang.default',$aParams['install_lang_default'],$sLocalConfigFile))
+					$this->SetSessionVar('install_lang_default',$aParams['install_lang_default']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык по-умолчанию.');
