@@ -64,25 +64,25 @@ class Install {
 	 *
 	 * @var array
 	 */
-	protected $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend');
+	var $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend');
 	/**
 	 * Массив сообщений для пользователя
 	 *
 	 * @var array
 	 */
-	protected $aMessages = array();
+	var $aMessages = array();
 	/**
 	 * Директория с шаблонами
 	 *
 	 * @var string
 	 */
-	protected $sTemplatesDir = 'templates';
+	var $sTemplatesDir = 'templates';
 	/**
 	 * Массив с переменными шаблонизатора
 	 *
 	 * @var array
 	 */
-	protected $aTemplateVars = array(
+	var $aTemplateVars = array(
 		'___CONTENT___' => '',
 		'___FORM_ACTION___' => '',
 		'___NEXT_STEP_DISABLED___' => '',
@@ -96,7 +96,7 @@ class Install {
 	 *
 	 * @var array
 	 */
-	protected $aValidEnv = array(
+	var $aValidEnv = array(
         'safe_mode'  => array ('0','off',''), 
         'register_globals' => array ('0','off',''), 
         'allow_url_fopen' => array ('1','on'), 
@@ -110,24 +110,24 @@ class Install {
      *
      * @var string
      */
-    protected $sConfigDir="";
+    var $sConfigDir="";
     /**
      * Директория хранения скинов сайта
      *
      * @var string
      */
-    protected $sSkinDir="";
+    var $sSkinDir="";
     /**
      * Директория хранения языковых файлов
      *
      * @var string
      */
-    protected $sLangDir="";
+    var $sLangDir="";
     /**
      * Инициализация основных настроек
      *
      */
-    public function __construct() {
+    function __construct() {
     	$this->sConfigDir = dirname(__FILE__).'/../config';
     	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
     	$this->sLangDir   = dirname(__FILE__).'/../templates/language';
@@ -139,7 +139,7 @@ class Install {
 	 * @param  string $sKey
 	 * @return mixed
 	 */
-	protected function GetSessionVar($sKey,$mDefault=null) {
+	function GetSessionVar($sKey,$mDefault=null) {
 		return array_key_exists($sKey,$_SESSION) ? unserialize($_SESSION[$sKey]) : $mDefault;
 	}
 	/**
@@ -149,7 +149,7 @@ class Install {
 	 * @param  mixed  $mVar
 	 * @return bool
 	 */
-	protected function SetSessionVar($sKey,$mVar) {
+	function SetSessionVar($sKey,$mVar) {
 		$_SESSION[$sKey] = serialize($mVar);
 		return true;
 	}
@@ -159,7 +159,7 @@ class Install {
 	 * @param  string $sKey
 	 * @return bool
 	 */
-	protected function DestroySessionVar($sKey) {
+	function DestroySessionVar($sKey) {
 		if(!array_key_exists($sKey,$_SESSION)) return false;
 		
 		unset($_SESSION[$sKey]);
@@ -172,7 +172,7 @@ class Install {
 	 * @param  string $sTemplateName
 	 * @return string
 	 */
-	protected function Fetch($sTemplateName) {
+	function Fetch($sTemplateName) {
 		if(!file_exists($this->sTemplatesDir.'/'.$sTemplateName)) return false;
 		
 		$sTemplate = file_get_contents($this->sTemplatesDir.'/'.$sTemplateName);
@@ -184,7 +184,7 @@ class Install {
 	 * @param  string $sTempString
 	 * @return string
 	 */
-	protected function FetchString($sTempString) {
+	function FetchString($sTempString) {
 		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTempString);		
 	}
 	/**
@@ -200,7 +200,7 @@ class Install {
 	 * @param string $sValue
 	 * @param string $sGetFromSession
 	 */
-	protected function Assign($sName,$sValue,$sFromSession=null) {
+	function Assign($sName,$sValue,$sFromSession=null) {
 		if($sFromSession==self::GET_VAR_FROM_SESSION) $sValue=$this->GetSessionVar($sName,$sValue);
 		if($sFromSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sValue);
 		
@@ -212,7 +212,7 @@ class Install {
 	 * @param  string $sTemplate
 	 * @return null
 	 */
-	protected function Layout($sTemplate) {
+	function Layout($sTemplate) {
 		if(!$sLayoutContent = $this->Fetch($sTemplate)) {
 			return false;
 		}
@@ -253,7 +253,7 @@ class Install {
 	 * @param  string $sPath
 	 * @return bool
 	 */
-	protected function SaveConfig($sName,$sVar,$sPath) {
+	function SaveConfig($sName,$sVar,$sPath) {
 		if(!file_exists($sPath)) {
 			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл конфигурации {$sPath} не существует.");			
 			return false;
@@ -285,7 +285,7 @@ class Install {
 	 * @param  mixed $mVar
 	 * @return string
 	 */
-	protected function ConvertToString($mVar) {
+	function ConvertToString($mVar) {
 		switch(true) {
 			case is_string($mVar):
 				return "'".$mVar."'";
@@ -313,7 +313,7 @@ class Install {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	protected function GetRequest($sName,$default=null,$bSession=null) {		
+	function GetRequest($sName,$default=null,$bSession=null) {		
 		if (array_key_exists($sName,$_REQUEST)) {
 			$sResult = (is_string($_REQUEST[$sName])) 
 				? trim(stripslashes($_REQUEST[$sName]))
@@ -337,7 +337,7 @@ class Install {
 	 *
 	 * @call $this->Step{__Name__} 
 	 */
-	public function Run() {
+	function Run() {
 		$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
 		if(!$sStepName or !in_array($sStepName,$this->aSteps)) die('Unknown step');
 		
@@ -378,7 +378,7 @@ class Install {
 	 * Первый шаг инсталяции.
 	 * Валидация окружения.
 	 */
-	protected function StepStart() {
+	function StepStart() {
 		if(!$this->ValidateEnviroment()) {
 			$this->Assign('next_step_disabled', 'disabled');
 		} else {
@@ -390,7 +390,7 @@ class Install {
 	 * Запрос данных соединения с базой данных.
 	 * Запись полученных данных в лог.
 	 */	
-	protected function StepDb() {
+	function StepDb() {
 		if(!$this->GetRequest('install_db_params')) {
 			/**
 			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
@@ -480,7 +480,7 @@ class Install {
 	 * Запрос данных администратора и сохранение их в базе данных
 	 * 
 	 */
-	protected function StepAdmin() {
+	function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
 		/**
 		 * Передаем данные из запроса во вьювер, сохраняя значение в сессии
@@ -532,7 +532,7 @@ class Install {
 	/**
 	 * Завершающий этап. Переход в расширенный режим
 	 */
-	protected function StepEnd() {
+	function StepEnd() {
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'End');
 		/**
@@ -545,7 +545,7 @@ class Install {
 	/**
 	 * Расширенный режим ввода дополнительных настроек.
 	 */
-	protected function StepExtend() {
+	function StepExtend() {
 		/**
 		 * Выводим на экран кнопку @Next
 		 */
@@ -734,7 +734,7 @@ class Install {
 	 * 
 	 * @return bool
 	 */
-	protected function ValidateEnviroment() {
+	function ValidateEnviroment() {
 		$bOk = true;
 		
 		if(!version_compare(PHP_VERSION, '5.0.0', '>')) {
@@ -783,7 +783,7 @@ class Install {
 	 * @param  array $aParams
 	 * @return mixed
 	 */
-	protected function ValidateDBConnection($aParams) {
+	function ValidateDBConnection($aParams) {
 		$oDb = @mysql_connect($aParams['server'],$aParams['user'],$aParams['password']);
 		if( $oDb ) {
 			mysql_query('set names utf8');
@@ -798,7 +798,7 @@ class Install {
 	 * @param  bool   $bCreate
 	 * @return bool
 	 */
-	protected function SelectDatabase($sName,$bCreate=false) {
+	function SelectDatabase($sName,$bCreate=false) {
 		if(@mysql_select_db($sName)) return true;
 
 		if($bCreate){ 
@@ -813,7 +813,7 @@ class Install {
 	 * @param  string $sFilePath
 	 * @return array
 	 */
-	protected function CreateTables($sFilePath,$sPrefix=null) {
+	function CreateTables($sFilePath,$sPrefix=null) {
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array("Нет доступа к файлу {$sFilePath}"));
 		
@@ -856,7 +856,7 @@ class Install {
 	 *
 	 * @return bool;
 	 */
-	protected function ValidateAdminFields() {
+	function ValidateAdminFields() {
 		$bOk = true;
 		$aErrors = array();
 		
@@ -889,7 +889,7 @@ class Install {
 	 * @param  string $sPrefix
 	 * @return bool
 	 */
-	protected function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
+	function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
         $sQuery = "
         	UPDATE `{$sPrefix}user`
         	SET 
@@ -907,7 +907,7 @@ class Install {
 	 * @param array $aTables
 	 * @return bool
 	 */
-	protected function IsUseDbTable($sQuery,$aTables) {
+	function IsUseDbTable($sQuery,$aTables) {
 		foreach($aTables as $sTable){
 			if(substr_count($sQuery, "`{$sTable}`")) return true;
 		}
@@ -918,7 +918,7 @@ class Install {
 	 *
 	 * @return array
 	 */
-	protected function GetSkinList() {
+	function GetSkinList() {
 		/**
 		 * Получаем список каталогов
 		 */
@@ -932,7 +932,7 @@ class Install {
 	 *
 	 * @return array
 	 */
-	protected function GetLangList() {
+	function GetLangList() {
 		/**
 		 * Получаем список каталогов
 		 */
