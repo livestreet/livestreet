@@ -14,7 +14,10 @@
 </p>
 
 <label for="install_view_skin">Название шаблона:</label><br />
-<p><input type="text" class="input-text" name="install_view_skin" value="___INSTALL_VIEW_SKIN___" id="install_view_skin" />
+<p>
+<select name="install_view_skin" id="install_view_skin" value="___INSTALL_VIEW_SKIN___">
+	___INSTALL_VIEW_SKIN_OPTIONS___
+</select>
 </p>
 
 <h3>Настройки почтовых уведомлений</h3>
@@ -41,9 +44,15 @@
 <h3>Языковые настройки</h3>
 
 <label for="install_lang_current">Текущий язык:</label><br />
-<p><input type="text" class="input-text" name="install_lang_current" value="___INSTALL_LANG_CURRENT___" id="install_lang_current" />
+<p>
+<select name="install_lang_current" id="install_lang_current" value="___INSTALL_LANG_CURRENT___">
+	___INSTALL_LANG_OPTIONS___
+</select>
 </p>
 
 <label for="install_lang_default">Язык, который будет использоваться по умолчанию:</label><br />
-<p><input type="text" class="input-text" name="install_lang_default" value="___INSTALL_LANG_DEFAULT___" id="install_lang_default" />
+<p>
+<select name="install_lang_default" id="install_lang_default" value="___INSTALL_LANG_DEFAULT___">
+	___INSTALL_LANG_DEFAULT_OPTIONS___
+</select>
 </p>

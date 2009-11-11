@@ -111,13 +111,26 @@ class Install {
      * @var string
      */
     protected $sConfigDir="";
-    
+    /**
+     * Директория хранения скинов сайта
+     *
+     * @var string
+     */
+    protected $sSkinDir="";
+    /**
+     * Директория хранения языковых файлов
+     *
+     * @var string
+     */
+    protected $sLangDir="";
     /**
      * Инициализация основных настроек
      *
      */
     public function __construct() {
     	$this->sConfigDir = dirname(__FILE__).'/../config';
+    	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
+    	$this->sLangDir   = dirname(__FILE__).'/../templates/language';
     }
     
 	/**
@@ -163,7 +176,16 @@ class Install {
 		if(!file_exists($this->sTemplatesDir.'/'.$sTemplateName)) return false;
 		
 		$sTemplate = file_get_contents($this->sTemplatesDir.'/'.$sTemplateName);
-		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTemplate);
+		return $this->FetchString($sTemplate);
+	}
+	/**
+	 * Выполняет рендеринг строки
+	 *
+	 * @param  string $sTempString
+	 * @return string
+	 */
+	protected function FetchString($sTempString) {
+		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTempString);		
 	}
 	/**
 	 * Добавляет переменную для отображение в шаблоне.
@@ -233,7 +255,7 @@ class Install {
 	 */
 	protected function SaveConfig($sName,$sVar,$sPath) {
 		if(!file_exists($sPath)) {
-			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл конфигурации {$sPath} несуществует.");			
+			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл конфигурации {$sPath} не существует.");			
 			return false;
 		}
 		if(!is_writeable($sPath)) { 
@@ -565,6 +587,39 @@ class Install {
 			}
 		}
 		/**
+		 * Передаем во вьевер список доступных языков
+		 */
+		$aLangs = $this->GetLangList();
+		$sLangOptions = "";
+		foreach ($aLangs as $sLang) {
+			$this->Assign('language_array_item',$sLang);
+			$this->Assign('language_array_item_selected', ($aParams['install_lang_current']==$sLang)?'selected="selected"':'');			
+			$sLangOptions.=$this->FetchString("<option value='___LANGUAGE_ARRAY_ITEM___' ___LANGUAGE_ARRAY_ITEM_SELECTED___>___LANGUAGE_ARRAY_ITEM___</option>");
+		}
+		$this->Assign('install_lang_options',$sLangOptions);
+		/**
+		 * Передаем во вьевер список доступных языков для дефолтного определения
+		 */
+		$sLangOptions = "";
+		foreach ($aLangs as $sLang) {
+			$this->Assign('language_array_item',$sLang);
+			$this->Assign('language_array_item_selected', ($aParams['install_lang_default']==$sLang)?'selected="selected"':'');			
+			$sLangOptions.=$this->FetchString("<option value='___LANGUAGE_ARRAY_ITEM___' ___LANGUAGE_ARRAY_ITEM_SELECTED___>___LANGUAGE_ARRAY_ITEM___</option>");
+		}
+		$this->Assign('install_lang_default_options',$sLangOptions);
+		/**
+		 * Передаем во вьевер список доступных скинов
+		 */
+		$aSkins = $this->GetSkinList();
+		$sSkinOptions = "";
+		foreach ($aSkins as $sSkin) {
+			$this->Assign('skin_array_item',$sSkin);
+			$this->Assign('skin_array_item_selected', ($aParams['install_view_skin']==$sSkin)?'selected="selected"':'');			
+			$sSkinOptions.=$this->FetchString("<option value='___SKIN_ARRAY_ITEM___' ___SKIN_ARRAY_ITEM_SELECTED___>___SKIN_ARRAY_ITEM___</option>");
+		}
+		$this->Assign('install_view_skin_options',$sSkinOptions);		
+		
+		/**
 		 * Если были переданные данные формы, то обрабатываем добавление
 		 */
 		if($this->GetRequest('install_extend_params')) {
@@ -856,6 +911,34 @@ class Install {
 			if(substr_count($sQuery, "`{$sTable}`")) return true;
 		}
 		return false;
+	}	
+	/**
+	 * Отдает список доступных шаблонов
+	 *
+	 * @return array
+	 */
+	protected function GetSkinList() {
+		/**
+		 * Получаем список каталогов
+		 */
+		$aDir=glob($this->sSkinDir.'/*', GLOB_ONLYDIR);
+		
+		if(!is_array($aDir)) return array();
+		return array_map(create_function('$sDir', 'return basename($sDir);'),$aDir);
+	}
+	/**
+	 * Отдает список доступных языков
+	 *
+	 * @return array
+	 */
+	protected function GetLangList() {
+		/**
+		 * Получаем список каталогов
+		 */
+		$aDir=glob($this->sLangDir.'/*.php');
+		
+		if(!is_array($aDir)) return array();
+		return array_map(create_function('$sDir', 'return basename($sDir,".php");'),$aDir);
 	}	
 }
 
