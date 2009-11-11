@@ -1,0 +1,141 @@
+/* Reset
+-------------------------------------------------------------------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td { padding: 0; margin: 0; }
+ul, ol { list-style: none; }
+img { border: none; }
+
+
+
+/* Body
+-------------------------------------------------------------------*/
+html, body { height: 100%; }
+body { font: 12px/18px Tahoma, Arial, Helvetica, sans-serif; color: #333; background: #f7f8f9; }
+
+h1, h2, h3, h4, h5, h6 { font: normal 18px Verdana; color: #333; }
+h1 { font-size: 22px; line-height: 26px; margin-bottom: 10px; }
+h2 { font-size: 20px; line-height: 24px; margin-bottom: 7px; }
+h3 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h4 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h5 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h6 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+
+a { color: #70aae0; }
+a:hover { text-decoration: none; }
+
+.voting a { outline: none; }
+
+h1 span { color: #ccc; }
+
+
+
+/* Generic Blocks
+-------------------------------------------------------------------*/
+#container { min-width: 900px; }
+#header { height: 80px; clear: both; overflow: hidden; zoom: 1; background: #000 url(../images/header-bg.gif) repeat-x; }
+#nav { clear: both; background: #e8e8e8; }
+#wrapper { overflow: hidden; zoom: 1; margin-bottom: 30px; padding: 20px 46px 30px 20px; }
+#content { width: 67%; background: #fff; float: left; clear: left; padding-top: 20px; padding-bottom: 20px; zoom: 1; }
+#sidebar { width: 32%; float: left; margin-left: 1%; margin-top: -6px; }
+#footer { clear: both; background: url(../images/footer-bg.gif) repeat-x; padding: 20px 40px; color: #999; overflow: hidden; }
+
+.update-hide { padding: 20px 16px 30px 20px !important; }
+.white-back { background: #fff; margin: 0 20px 30px 20px; padding-bottom: 15px ; padding-left: 20px; }
+.white-back #content { clear: none; padding-top: 0; }
+.page-talk { padding-left: 3px !important; margin-right: 50px !important; }
+
+
+/* Forms
+-------------------------------------------------------------------*/
+label { margin-bottom: 2px; }
+form p { margin-bottom: 20px; }
+form .note { float: right; font-size: 11px; }
+form .buttons { overflow: hidden; }
+form .right { float: right; font-size: 18px; font-family: Tahoma; color: #333; padding: 5px; }
+textarea { width: 99%; height: 200px; margin-bottom: 5px; }
+textarea.small { width: 300px; height: 70px; margin-bottom: 5px; }
+select { width: 99%; }
+.w50 { width: 50px; }
+.w70 { width: 70px; }
+.w100 { width: 100px; }
+.w200 { width: 200px; }
+.w300 { width: 300px; }
+.w100p { width: 99%; }
+.radio { position: relative; top: 2px; }
+.checkbox { position: relative; top: 2px; margin-left: 0; }
+.form-tags { padding: 10px; background: #fafafa; color: #999; }
+.form-tags input { width: 99%; }
+.form_note { font-size: 11px; color: #aaa; }
+
+
+/* Login and Lite Pages
+-------------------------------------------------------------------*/
+.lite-header { padding: 30px 20px; }
+.lite-header a { color: #c7c7c7; font-size: 26px; text-decoration: none; }
+.lite-header a span { color: #dedede; }
+.lite-header a:hover { color: #333; }
+.lite-header a:hover span { color: #777; }
+
+.lite-center { margin: 0 auto 20px; top: 200px;  width: 400px; color: #888; }
+.lite-center h3, .login-popup h3 { color: #bec0bf; margin-bottom: 20px; }
+.lite-center button, .login-popup button { float: right; }
+.lite-center .input-text, .login-popup .input-text { width: 400px; font-size: 18px; padding: 4px 0; border: 1px solid #d7d7d7; color: #555; }
+.lite-center .input-checkbox, .login-popup .input-checkbox { padding-top: 7px; }
+.lite-center .input-checkbox input, .login-popup .input-checkbox input { position: relative; top: 2px; }
+.lite-center .input-note { display: block; color: #bbb; font-size: 11px; line-height: 14px; }
+
+.lite-center.error h1 { font-size: 28px; color: #888; }
+.lite-center.error p { margin-bottom: 10px; color: #888; }
+
+.lite-center.register { position: static; margin: 0 auto; }
+
+.lite-note { overflow: hidden; zoom: 1; }
+.lite-note a { float: right; font-size: 11px; }
+
+.login-popup { z-index: 100; width: 492px;  }
+.login-popup .input-text { width: 402px; padding: 4px 5px; }
+.login-popup .content { background: #dcdedd url(../images/login-popup-bg.gif) repeat-x; padding: 15px 40px; }
+.login-popup .login-popup-top { height: 14px; background: url(../images/login-popup-top.gif) no-repeat; width: 492px; position: relative; }
+.login-popup .login-popup-bottom { height: 14px; background: url(../images/login-popup-bottom.gif) no-repeat; width: 492px; }
+.login-popup .close-block { position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; background: url(../images/close-block.gif) no-repeat; }
+
+.upload-image p { margin-bottom: 5px; }
+.upload-image label { color: #aaa; }
+
+.tags-input { width: 400px; font-size: 18px; padding: 4px 4px 6px; border: 1px solid #ccc; color: #555; background: #fafafa; }
+
+
+
+/* Button
+-------------------------------------------------------------------*/
+button, a.button { font-size: 14px; font-family: Tahoma, sans-serif; border: none; background: none; padding: 0; overflow: visible; text-align: center; white-space: nowrap; cursor: pointer; }
+button span, button em, a.button span, a.button em { display: block; height: 31px; line-height: 31px; margin: 0; color:#333; }
+button span, a.button span { background: url(../images/button.gif) no-repeat 0 0; margin-right: 20px; }
+button em, a.button em { font-style: normal; padding-right: 20px; background: url(../images/button.gif) no-repeat right 0; position: relative; right: -20px; }
+a.button.small { font-size: 12px; text-decoration: none; }
+a.button.small span, a.button.small em { height: 22px; line-height: 22px; }
+a.button.small span { background: url(../images/button-small.gif) no-repeat 0 0; margin-right: 20px; }
+a.button.small em { background: url(../images/button-small.gif) no-repeat right 0; }
+
+#system_messages_error { background: #f0c8c8; border: 1px solid #ff8181; padding: 15px; margin-bottom: 15px; color: #b22626; }
+#system_messages_notice { background: #dafad8; border: 1px solid #83c460; padding: 15px; margin-bottom: 15px; color: #4bb23b; }
+
+
+
+
+
+
+
+
+
+
+
+
+

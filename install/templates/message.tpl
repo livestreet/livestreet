@@ -1,1 +1,1 @@
-<p class="___MESSAGE_STYLE_CLASS___">___MESSAGE_CONTENT___</p>
+<div id="system_messages____MESSAGE_STYLE_CLASS___"><ul><li>___MESSAGE_CONTENT___</li></ul></div>

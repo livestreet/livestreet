@@ -1,22 +1,16 @@
-<p>Введите данные администратора</p>
-<br />
-<h2>Настройка администратора</h2>
+<h3>Настройка данных администратора</h3>
+
 <input type="hidden" name="install_admin_params" value="1" />
-<table>
-	<tr>
-		<td width="250px">Логин</td>
-		<td><input type="text" name="install_admin_login" value="___INSTALL_ADMIN_LOGIN___" /></td>
-	</tr>
-	<tr>
-		<td>E-mail</td>
-		<td><input type="text" name="install_admin_mail" value="___INSTALL_ADMIN_MAIL___" /></td>
-	</tr>
-	<tr>	
-		<td>Пароль</td>
-		<td><input type="password" name="install_admin_pass" value="" autocomplete="off" /><br /></td>
-	</tr>
-	<tr>	
-		<td>Еще раз</td>
-		<td><input type="password" name="install_admin_repass" value="" autocomplete="off" /></td>
-	</tr>
-</table>
+
+<label for="install_admin_login">Логин:</label><br />
+<p><input type="text" class="input-text" name="install_admin_login" value="___INSTALL_ADMIN_LOGIN___" id="install_admin_login" />
+</p>
+<label for="install_admin_mail">E-mail:</label><br />
+<p><input type="text" class="input-text" name="install_admin_mail" value="___INSTALL_ADMIN_MAIL___" id="install_admin_mail" />
+</p>
+<label for="install_admin_pass">Пароль:</label><br />
+<p><input type="password" class="input-text" name="install_admin_pass" autocomplete="off" value="" id="install_admin_pass" />
+</p>
+<label for="install_admin_repass">Еще раз:</label><br />
+<p><input type="password" class="input-text" name="install_admin_repass" autocomplete="off" value="" id="install_admin_repass" />
+</p>

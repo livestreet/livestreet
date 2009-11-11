@@ -87,6 +87,8 @@ class Install {
 		'___FORM_ACTION___' => '',
 		'___NEXT_STEP_DISABLED___' => '',
 		'___NEXT_STEP_DISPLAY___' => 'block',
+		'___PREV_STEP_DISABLED___' => '',
+		'___PREV_STEP_DISPLAY___' => 'block',
 		'___SYSTEM_MESSAGES___' => '',
 	);
 	/**
@@ -201,15 +203,17 @@ class Install {
 			 */
 			$aMessages = array();
 			foreach ($this->aMessages as &$sMessage) {
-				$aMessages[md5(serialize($sMessage))] = $sMessage;
+				if(array_key_exists('type',$sMessage) and array_key_exists('text',$sMessage)) {
+					$aMessages[$sMessage['type']][md5(serialize($sMessage))] = "<b>".ucfirst($sMessage['type'])."</b>: ".$sMessage['text'];				
+				}
 				unset($sMessage);
 			}
 			$this->aMessages = $aMessages;
 			
 			$sMessageContent = "";
-			foreach ($this->aMessages as $sMessage) {
-				$this->Assign('message_style_class', $sMessage['type']);
-				$this->Assign('message_content', $sMessage['text']);
+			foreach ($this->aMessages as $sType => $aMessageTexts) {
+				$this->Assign('message_style_class', $sType);
+				$this->Assign('message_content', implode('<br />',$aMessageTexts));
 				$sMessageContent.=$this->Fetch('message.tpl');
 			}
 			$this->Assign('system_messages',$sMessageContent);
@@ -605,7 +609,7 @@ class Install {
 					$this->SetSessionVar('install_view_skin',$aParams['install_view_skin']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое шаблон.');
+				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое имя шаблона.');
 			}
 			
 			/**

@@ -1,0 +1,10 @@
+#header h1 { padding-top: 29px; }
+#header .nav-main { padding-top: 31px; }
+.comment .info img.avatar { margin: 2px 7px 0 0; }
+#nav .nav-blog li ul li a { padding: 4px 11px 4px 0; }
+.people table tbody td.rating.up span { background: url(../images/blog-rating-up.gif) no-repeat right 8px; }
+.people table tbody td.rating.down span { background: url(../images/blog-rating-down.gif) no-repeat right 8px; }
+.people.top-blogs td.name a.author { line-height: 25px; }
+.people.top-blogs .join a { position: relative; top: 1px; }
+.overlay { zoom: 1; background: #000; filter: alpha(opacity=50); }
+.login-popup .content { padding-right: 38px; }
