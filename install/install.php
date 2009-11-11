@@ -737,25 +737,18 @@ class Install {
 	protected function ValidateEnviroment() {
 		$bOk = true;
 		
+		if(!version_compare(PHP_VERSION, '5.0.0', '>')) {
+			$bOk = false;
+			$this->Assign('validate_php_version', '<span style="color:red;">Нет</span>');			
+		} else {
+			$this->Assign('validate_php_version', '<span style="color:green;">Да</span>');			
+		}
+		
 		if(!in_array(strtolower(@ini_get('safe_mode')), $this->aValidEnv['safe_mode'])) {
 			$bOk = false;
 			$this->Assign('validate_safe_mode', '<span style="color:red;">Нет</span>');
 		} else {
 			$this->Assign('validate_safe_mode', '<span style="color:green;">Да</span>');			
-		}
-
-		if(!in_array(strtolower(@ini_get('register_globals')), $this->aValidEnv['register_globals'])) {
-			$bOk = false;
-			$this->Assign('validate_register_globals', '<span style="color:red;">Нет</span>');
-		} else {
-			$this->Assign('validate_register_globals', '<span style="color:green;">Да</span>');			
-		}
-		
-		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
-			$bOk = false;
-			$this->Assign('validate_utf8', '<span style="color:red;">Нет</span>');
-		} else {
-			$this->Assign('validate_utf8', '<span style="color:green;">Да</span>');			
 		}
 		    
 	    if (@extension_loaded('mbstring')){
@@ -773,6 +766,14 @@ class Install {
    			$bOk = false;
    			$this->Assign('validate_mbstring', '<span style="color:red;">Нет</span>');	    	
 	    }
+	    
+	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
+	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
+			$bOk = false;
+			$this->Assign('validate_local_config', '<span style="color:red;">Нет</span>');
+		} else {
+			$this->Assign('validate_local_config', '<span style="color:green;">Да</span>');			
+		}
 	    
 	    return $bOk;
 	}	
