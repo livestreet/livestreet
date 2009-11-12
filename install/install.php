@@ -382,6 +382,10 @@ class Install {
 		if(!$this->ValidateEnviroment()) {
 			$this->Assign('next_step_disabled', 'disabled');
 		} else {
+			/**
+			 * Прописываем в конфигурацию абсолютные пути
+			 */
+			$this->SavePath();
 			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Db');
 		}
 		$this->Layout('steps/start.tpl');
@@ -402,6 +406,9 @@ class Install {
 			$this->Assign('install_db_password', '', self::GET_VAR_FROM_SESSION);
 			$this->Assign('install_db_create_check', '', self::GET_VAR_FROM_SESSION);
 			$this->Assign('install_db_prefix', 'prefix_', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine', 'InnoDB', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_innodb', '', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_myisam', '', self::GET_VAR_FROM_SESSION);
 			
 			$this->Layout('steps/db.tpl');
 			return true;
@@ -416,6 +423,7 @@ class Install {
 		$aParams['password'] = $this->GetRequest('install_db_password','');
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
 		$aParams['prefix']   = $this->GetRequest('install_db_prefix','prefix_');
+		$aParams['engine']   = $this->GetRequest('install_db_engine','InnoDB');
 
 		$this->Assign('install_db_server', $aParams['server'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_port', $aParams['port'], self::SET_VAR_IN_SESSION);
@@ -424,6 +432,12 @@ class Install {
 		$this->Assign('install_db_password', $aParams['password'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_prefix', $aParams['prefix'], self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_engine', $aParams['engine'], self::SET_VAR_IN_SESSION);
+		/**
+		 * Передаем данные о выделенном пункте в списке tables engine
+		 */
+		$this->Assign('install_db_engine_innodb', ($aParams['engine']=='InnoDB')?'selected="selected"':'', self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_engine_myisam', ($aParams['engine']=='MyISAM')?'selected="selected"':'', self::SET_VAR_IN_SESSION);
 		
 		if($oDb=$this->ValidateDBConnection($aParams)) {
 			$bSelect = $this->SelectDatabase($aParams['name'],$aParams['create']);
@@ -452,6 +466,7 @@ class Install {
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
+			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);
 			/**
 			 * Сохраняем данные в сессию
 			 */
@@ -459,7 +474,7 @@ class Install {
 			/**
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams['prefix']));
+			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
 			if(!$bResult) {
 				foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 				$this->Layout('steps/db.tpl');
@@ -471,7 +486,6 @@ class Install {
 			$this->aMessages[] = array('type'=>'notice','text'=>'База данных успешно создана. Данные записаны в конфигурационный файл.');
 			return $this->StepAdmin();
 		} else {
-			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
 			$this->Layout('steps/db.tpl');
 			return false;
 		}
@@ -786,9 +800,18 @@ class Install {
 	function ValidateDBConnection($aParams) {
 		$oDb = @mysql_connect($aParams['server'],$aParams['user'],$aParams['password']);
 		if( $oDb ) {
+			/**
+			 * Валидация версии MySQL сервера
+			 */
+			if(!version_compare(mysql_get_server_info(), '5.0.0', '>')) {
+				$this->aMessages[] = array('type'=>'error', 'Для работы LiveStreet необходим сервер MySQL версии не ниже 5.');
+				return false;
+			}
+			
 			mysql_query('set names utf8');
 			return $oDb;
 		}
+		$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
 		return null;
 	}
 	/**
@@ -813,11 +836,11 @@ class Install {
 	 * @param  string $sFilePath
 	 * @return array
 	 */
-	function CreateTables($sFilePath,$sPrefix=null) {
+	function CreateTables($sFilePath,$aParams) {
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array("Нет доступа к файлу {$sFilePath}"));
 		
-		if($sPrefix) $sFileQuery = str_replace('prefix_', $sPrefix, $sFileQuery);
+		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
 		$aQuery=explode(';',$sFileQuery);
 		/**
 		 * Массив для сбора ошибок
@@ -840,6 +863,11 @@ class Install {
 		 */
 		foreach($aQuery as $sQuery){
 			$sQuery = trim($sQuery);
+			/**
+			 * Заменяем движек, если таковой указан в запросе
+			 */
+			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
+			
 			if($sQuery!='' and !$this->IsUseDbTable($sQuery,$aDbTables)) {
 				$bResult=mysql_query($sQuery);
 				if(!$bResult) $aErrors[] = mysql_error();
@@ -941,6 +969,17 @@ class Install {
 		if(!is_array($aDir)) return array();
 		return array_map(create_function('$sDir', 'return basename($sDir,".php");'),$aDir);
 	}	
+	/**
+	 * Сохраняет в конфигурации абсолютные пути 
+	 *
+	 * @access protected
+	 * @return null
+	 */
+	function SavePath() {
+		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
+		$this->SaveConfig('path.root.web','http://'.$_SERVER['HTTP_HOST'], $sLocalConfigFile); 
+		$this->SaveConfig('path.root.server', $_SERVER['DOCUMENT_ROOT'], $sLocalConfigFile); 
+	}
 }
 
 session_start();

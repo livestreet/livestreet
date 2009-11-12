@@ -26,3 +26,12 @@
 <label for="install_db_name">Префикс таблиц:</label><br />
 <p><input type="text" class="input-text" name="install_db_prefix" value="___INSTALL_DB_PREFIX___" id="install_db_prefix" />
 <span class="input-note">Указанный префикс будет приставлен к названию всех таблиц</span></p>
+
+
+<label for="install_db_engine">Tables engine:</label><br />
+<p>
+<select name="install_db_engine" id="install_db_engine" value="___INSTALL_DB_ENGINE___">
+	<option value="InnoDB" ___INSTALL_DB_ENGINE_INNODB___>InnoDB</option>
+	<option value="MyISAM" ___INSTALL_DB_ENGINE_MYISAM___>MyISAM</option>
+</select>
+<span class="input-note">Рекомендуется использовать InnoDB</span></p>
