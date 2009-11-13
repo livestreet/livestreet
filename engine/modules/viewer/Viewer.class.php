@@ -1036,7 +1036,7 @@ class LsViewer extends Module {
 			'iCurrentPage' => $iCurrentPage,
 			'iNextPage' => $iNextPage,
 			'iPrevPage' => $iPrevPage,
-			'sBaseUrl' => $sBaseUrl,
+			'sBaseUrl' => rtrim($sBaseUrl,'/'),
 			'sGetParams' => $sGetParams,
 		);
 		return $aPaging;

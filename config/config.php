@@ -147,7 +147,7 @@ $config['acl']['vote']['comment']['limit_time']           = 60*60*24*5;  // ог
 $config['module']['blog']['per_page']        = 20;   // Число блогов на страницу
 $config['module']['blog']['personal_good']   = -5;   // Рейтинг топика в персональном блоге ниже которого он считается плохим
 $config['module']['blog']['collective_good'] = -3;   // рейтинг топика в коллективных блогах ниже которого он считается плохим
-$config['module']['blog']['index_good']      = -8;   // Рейтинг топика выше которого(включительно) он попадает на главную
+$config['module']['blog']['index_good']      =  8;   // Рейтинг топика выше которого(включительно) он попадает на главную
 $config['module']['blog']['encrypt']         = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках приглашения в блоги
 // Модуль Topic
 $config['module']['topic']['new_time']   = 60*60*24*1;  // Время в секундах в течении которого топик считается новым
@@ -316,7 +316,7 @@ $config['head']['rules']['page'] =array(
 		'exclude' => array(
 			$config['path']['static']['skin']."/js/vote.js",
 			$config['path']['static']['skin']."/js/favourites.js",
-			$config['path']['static']['skin']."/js/questions.js",		
+			$config['path']['static']['skin']."/js/questions.js",
 		)
 	),
 );
