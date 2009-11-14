@@ -78,6 +78,12 @@ class Install {
 	 */
 	var $sTemplatesDir = 'templates';
 	/**
+	 * Директория с языковыми файлами инсталлятора
+	 *
+	 * @var string
+	 */
+	var $sLangInstallDir = 'language';	
+	/**
 	 * Массив с переменными шаблонизатора
 	 *
 	 * @var array
@@ -112,17 +118,35 @@ class Install {
      */
     var $sConfigDir="";
     /**
-     * Директория хранения скинов сайта
+     * Директория хранения скинов сайта 
      *
      * @var string
      */
     var $sSkinDir="";
     /**
-     * Директория хранения языковых файлов
+     * Директория хранения языковых файлов движка
      *
      * @var string
      */
     var $sLangDir="";
+    /**
+     * Текущий язык инсталлятора
+     *
+     * @var string
+     */
+    var $sLangCurrent = '';
+    /**
+     * Язык инсталлятора, который будет использован по умолчанию
+     *
+     * @var string
+     */
+    var $sLangDefault = 'russian';
+    /**
+     * Языковые текстовки
+     *
+     * @var array
+     */
+    var $aLang = array();    
     /**
      * Инициализация основных настроек
      *
@@ -131,8 +155,47 @@ class Install {
     	$this->sConfigDir = dirname(__FILE__).'/../config';
     	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
     	$this->sLangDir   = dirname(__FILE__).'/../templates/language';
+    	/**
+    	 * Загружаем языковые файлы
+    	 */
+    	$this->LoadLanguageFile($this->sLangDefault);
+    	if($sLang=$this->GetRequest('lang')) {
+    		$this->sLangCurrent = $sLang;
+    		if($this->sLangCurrent!=$this->sLangDefault) $this->LoadLanguageFile($this->sLangCurrent);
+    	}
     }
-    
+    /**
+     * Подгружает указанный языковой файл и записывает поверх существующего языкового массива
+     *
+     * @access protected
+     * @param  string $sLang
+     */
+    function LoadLanguageFile($sLang) {
+    	$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
+    	if(!file_exists($sFilePath)) return false;
+    	
+    	$aLang = include($sFilePath);
+    	$this->aLang = array_merge($this->aLang,$aLang);
+    }
+    /**
+     * Возвращает языковую текстовку
+     *
+     * @param  string $sKey
+     * @param  array  $aParams
+     * @return string
+     */
+    function Lang($sKey,$aParams=array()) {
+    	if(!array_key_exists($sKey,$this->aLang)) 	    
+    		return 'Unknown language key';
+    	
+    	$sValue=$this->aLang[$sKey];
+    	if(count($aParams)==0) return $sValue;
+    	
+    	foreach ($aParams as $k=>$v) {
+    		$sValue=str_replace("%%{$k}%%",$v,$sValue);
+    	}
+    	return $sValue;
+    }
 	/**
 	 * Вытягивает переменную из сессии
 	 *
@@ -255,11 +318,11 @@ class Install {
 	 */
 	function SaveConfig($sName,$sVar,$sPath) {
 		if(!file_exists($sPath)) {
-			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл конфигурации {$sPath} не существует.");			
+			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_exists',array('path'=>$sPath)));			
 			return false;
 		}
 		if(!is_writeable($sPath)) { 
-			$this->aMessages[] = array('type'=>'error', 'text'=>"Файл {$sPath} недосупен для записи.");
+			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_writable',array('path'=>$sPath)));
 			return false; 
 		}
 		
@@ -445,7 +508,7 @@ class Install {
 			 * Если не удалось выбрать базу данных, возвращаем ошибку
 			 */
 			if(!$bSelect) {
-				$this->aMessages[] = array('type'=>'error','text'=>'Невозможно выбрать или создать базу данных');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_invalid'));
 				$this->Layout('steps/db.tpl');
 				return false;
 			}
@@ -454,7 +517,7 @@ class Install {
 			 */
 			$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
 			if(!file_exists($sLocalConfigFile)) {
-				$this->aMessages[] = array('type'=>'error','text'=>'Файл локальной конфигурации config.local.php не найден.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_local_config_invalid'));
 				$this->Layout('steps/db.tpl');
 				return false;
 			}
@@ -483,7 +546,7 @@ class Install {
 			/**
 			 * Передаем управление на следующий шаг
 			 */
-			$this->aMessages[] = array('type'=>'notice','text'=>'База данных успешно создана. Данные записаны в конфигурационный файл.');
+			$this->aMessages[] = array('type'=>'notice','text'=>$this->Lang('ok_db_created'));
 			return $this->StepAdmin();
 		} else {
 			$this->Layout('steps/db.tpl');
@@ -522,7 +585,7 @@ class Install {
 		 */
 		$aParams = $this->GetSessionVar('INSTALL_DATABASE_PARAMS');
 		if(!$this->ValidateDBConnection($aParams)) {
-			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
+			$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_connection_invalid'));
 			$this->Layout('steps/admin.tpl');
 			return false;					
 		}
@@ -535,7 +598,7 @@ class Install {
 			$aParams['prefix']
 		);
 		if(!$bUpdated) {
-			$this->aMessages[] = array('type'=>'error','text'=>'Не удалось сохранить данные в базе.<br />'.mysql_error());
+			$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_saved').'<br />'.mysql_error());
 			$this->Layout('steps/admin.tpl');
 			return false;	
 		}
@@ -649,7 +712,7 @@ class Install {
 					$this->SetSessionVar('install_view_name',$aParams['install_view_name']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое название сайта.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('site_name_invalid'));
 			}
 			/**
 			 * Описание сайта
@@ -659,7 +722,7 @@ class Install {
 				 $this->SetSessionVar('install_view_description',$aParams['install_view_description']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое описание сайта.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('site_description_invalid'));
 			}
 			/**
 			 * Ключевые слова
@@ -669,7 +732,7 @@ class Install {
 					$this->SetSessionVar('install_view_keywords',$aParams['install_view_keywords']);				
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимые ключевые слова.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('site_keywords_invalid'));
 			}
 			/**
 			 * Название шаблона оформления
@@ -679,7 +742,7 @@ class Install {
 					$this->SetSessionVar('install_view_skin',$aParams['install_view_skin']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое имя шаблона.');
+				$this->aMessages[] = array('type'=>'error','text'=>'skin_name_invalid');
 			}
 			
 			/**
@@ -690,7 +753,7 @@ class Install {
 					$this->SetSessionVar('install_mail_sender',$aParams['install_mail_sender']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимый e-mail.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('mail_sender_invalid'));
 			}
 			/**
 			 * Имя, от которого отправляются уведомления
@@ -700,7 +763,7 @@ class Install {
 					$this->SetSessionVar('install_mail_name',$aParams['install_mail_name']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указано недопустимое имя отправителя уведомлений.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('mail_name_invalid'));
 			}
 
 			/**
@@ -727,7 +790,7 @@ class Install {
 					$this->SetSessionVar('install_lang_current',$aParams['install_lang_current']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('lang_current_invalid'));
 			}
 			/**
 			 * Язык, который будет использоваться по умолчанию
@@ -737,7 +800,7 @@ class Install {
 					$this->SetSessionVar('install_lang_default',$aParams['install_lang_default']);
 			} else {
 				$bOk = false;
-				$this->aMessages[] = array('type'=>'error','text'=>'Указан недопустимый язык по-умолчанию.');
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('lang_default_invalid'));
 			}		
 		}
 		
@@ -754,23 +817,23 @@ class Install {
 		
 		if(!version_compare(PHP_VERSION, '5.0.0', '>')) {
 			$bOk = false;
-			$this->Assign('validate_php_version', '<span style="color:red;">Нет</span>');			
+			$this->Assign('validate_php_version', '<span style="color:red;">'.$this->Lang('no').'</span>');			
 		} else {
-			$this->Assign('validate_php_version', '<span style="color:green;">Да</span>');			
+			$this->Assign('validate_php_version', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
 		
 		if(!in_array(strtolower(@ini_get('safe_mode')), $this->aValidEnv['safe_mode'])) {
 			$bOk = false;
-			$this->Assign('validate_safe_mode', '<span style="color:red;">Нет</span>');
+			$this->Assign('validate_safe_mode', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_safe_mode', '<span style="color:green;">Да</span>');			
+			$this->Assign('validate_safe_mode', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
 
 		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
 			$bOk = false;
-			$this->Assign('validate_utf8', '<span style="color:red;">Нет</span>');
+			$this->Assign('validate_utf8', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_utf8', '<span style="color:green;">Да</span>');
+			$this->Assign('validate_utf8', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
 	    if (@extension_loaded('mbstring')){
@@ -780,21 +843,21 @@ class Install {
 	        	or !in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output']) 
 	        		or !in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
 	        			$bOk = false;
-	        			$this->Assign('validate_mbstring', '<span style="color:red;">Нет</span>');
+	        			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
 	        } else {
-	        	$this->Assign('validate_mbstring', '<span style="color:green;">Да</span>');
+	        	$this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 	        }
 	    } else {
    			$bOk = false;
-   			$this->Assign('validate_mbstring', '<span style="color:red;">Нет</span>');	    	
+   			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	
 	    }
 	    
 	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
 	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
 			$bOk = false;
-			$this->Assign('validate_local_config', '<span style="color:red;">Нет</span>');
+			$this->Assign('validate_local_config', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_config', '<span style="color:green;">Да</span>');			
+			$this->Assign('validate_local_config', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
 	    
 	    return $bOk;
@@ -812,14 +875,14 @@ class Install {
 			 * Валидация версии MySQL сервера
 			 */
 			if(!version_compare(mysql_get_server_info(), '5.0.0', '>')) {
-				$this->aMessages[] = array('type'=>'error', 'Для работы LiveStreet необходим сервер MySQL версии не ниже 5.');
+				$this->aMessages[] = array('type'=>'error', $this->Lang('valid_mysql_server'));
 				return false;
 			}
 			
 			mysql_query('set names utf8');
 			return $oDb;
 		}
-		$this->aMessages[] = array('type'=>'error','text'=>'Не удалось подключиться к базе данных');
+		$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_connection_invalid'));
 		return null;
 	}
 	/**
@@ -846,7 +909,7 @@ class Install {
 	 */
 	function CreateTables($sFilePath,$aParams) {
 		$sFileQuery = @file_get_contents($sFilePath);
-		if(!$sFileQuery) return array('result'=>false,'errors'=>array("Нет доступа к файлу {$sFilePath}"));
+		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
 		
 		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
 		$aQuery=explode(';',$sFileQuery);
@@ -860,7 +923,7 @@ class Install {
 		$aDbTables = array();
 		$aResult = @mysql_query("SHOW TABLES");
 		if(!$aResult){  
-			return array('result'=>false,'errors'=>array("Не удалось получить данные из базы."));
+			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
 		}
         while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
 			$aDbTables[] = $aRow[0];
@@ -898,20 +961,20 @@ class Install {
 		
 		if(!$sLogin=$this->GetRequest('install_admin_login',false) or strlen($sLogin)<3) {
 			$bOk = false;
-			$aErrors[] = 'Логин администратора введен не верно.';
+			$aErrors[] = $this->Lang('admin_login_invalid');
 		}
 
 		if(!$sMail=$this->GetRequest('install_admin_mail',false) or strlen($sMail)<5) {
 			$bOk = false;
-			$aErrors[] = 'E-mail администратора введен не верно.';
+			$aErrors[] = $this->Lang('admin_mail_invalid');
 		}
 		if(!$sPass=$this->GetRequest('install_admin_pass',false) or strlen($sPass)<3) {
 			$bOk = false;
-			$aErrors[] = 'Пароль администратора введен не верно.';
+			$aErrors[] = $this->Lang('admin_password_invalid');
 		}
 		if($this->GetRequest('install_admin_repass','') != $this->GetRequest('install_admin_pass','')) {
 			$bOk = false;
-			$aErrors[] = 'Подтверждение пароля не совпадает с самим паролем.';
+			$aErrors[] = $this->Lang('admin_repassword_invalid');
 		}
 		
 		return array($bOk, $aErrors);
