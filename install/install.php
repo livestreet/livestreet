@@ -291,7 +291,7 @@ class Install {
 				return "'".$mVar."'";
 					
 			case is_bool($mVar):
-				return ($mVar)?"'true'":"'false'";
+				return ($mVar)?"true":"false";
 				
 			case is_array($mVar):
 				$sArrayString="";
@@ -302,7 +302,7 @@ class Install {
 				
 			default:	
 			case is_numeric($mVar):
-				return "'".(string)$mVar."'";				
+				return "'".(string)$mVar."'";
 		}
 	}
 	
@@ -496,6 +496,7 @@ class Install {
 	 */
 	function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
+		$this->Assign('install_step_number',3);
 		/**
 		 * Передаем данные из запроса во вьювер, сохраняя значение в сессии
 		 */
