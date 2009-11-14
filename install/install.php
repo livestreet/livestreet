@@ -764,7 +764,14 @@ class Install {
 		} else {
 			$this->Assign('validate_safe_mode', '<span style="color:green;">Да</span>');			
 		}
-		    
+
+		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
+			$bOk = false;
+			$this->Assign('validate_utf8', '<span style="color:red;">Нет</span>');
+		} else {
+			$this->Assign('validate_utf8', '<span style="color:green;">Да</span>');
+		}
+
 	    if (@extension_loaded('mbstring')){
 	        $aMbInfo=mb_get_info();
 			

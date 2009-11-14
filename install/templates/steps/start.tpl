@@ -8,6 +8,9 @@
 	<tr>
 		<td width="350px">Safe mode выключен</td><td>___VALIDATE_SAFE_MODE___</td>
 	</tr>
+	<tr>
+		<td width="350px">Подержка UTF8 в PCRE</td><td>___VALIDATE_UTF8___</td>
+	</tr>	
 	<tr>	
 		<td width="350px">Поддержка Mbstring</td><td>___VALIDATE_MBSTRING___</td>
 	</tr>	
