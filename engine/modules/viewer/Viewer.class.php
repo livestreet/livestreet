@@ -767,7 +767,8 @@ class LsViewer extends Module {
 	 * @return array
 	 */
 	protected function Compress($aFiles,$sType) {
-		$sCacheName  = $this->sCacheDir."/".md5(serialize($aFiles).'_head').".{$sType}";
+		$sCacheDir  = $this->sCacheDir."/".Config::Get('view.skin');
+		$sCacheName = $sCacheDir."/".md5(serialize($aFiles).'_head').".{$sType}";
 		$sPathServer = Config::Get('path.root.server');
 		$sPathWeb    = Config::Get('path.root.web');
 		/**
@@ -775,11 +776,18 @@ class LsViewer extends Module {
 		 */
 		if(!file_exists($sCacheName)) {
 			/**
+			 * Создаем директорию для кеша текущего скина,
+			 * если таковая отсутствует
+			 */
+			if(!is_dir($sCacheDir)){ 
+				@mkdir($sCacheDir);
+			}			
+			/**
 			 * Считываем содержимое
 			 */
 			ob_start();
-			foreach ($aFiles as $sFile) {
-				$sFile=str_replace($sPathWeb,$sPathServer,$sFile);
+			foreach ($aFiles as $sFile) {				
+				$sFile=$this->GetServerPath($sFile);
 				list($sFile,)=explode('?',$sFile,2);
 				/**
 				 * Если файл существует, обрабатываем
@@ -895,7 +903,25 @@ class LsViewer extends Module {
 		$sFile=str_replace(DIRECTORY_SEPARATOR,'/',$sFile);
 		return str_replace(Config::Get('path.root.server'),Config::Get('path.root.web'),$sFile);
 	}
-	
+	/**
+	 * Преобразует WEB-путь файла в серверный вариант
+	 *
+	 * @param  string $sFile
+	 * @return string
+	 */
+	protected function GetServerPath($sFile) {
+		/**
+		 * Убираем из путей www
+		 */
+		$sFile = str_replace('//www.','//',$sFile);
+		$sPathWeb  = str_replace('//www.','//',Config::Get('path.root.web'));
+		/**
+		 * Производим замену
+		 */
+		$sFile=str_replace($sPathWeb,Config::Get('path.root.server'),$sFile);
+		return str_replace('/',DIRECTORY_SEPARATOR,$sFile);
+	}	
+		
 	/**
 	 * Строит HTML код по переданному массиву файлов
 	 *
