@@ -163,6 +163,12 @@ class Install {
     		$this->sLangCurrent = $sLang;
     		if($this->sLangCurrent!=$this->sLangDefault) $this->LoadLanguageFile($this->sLangCurrent);
     	}
+    	/**
+    	 * Передаем языковые тикеты во вьювер
+    	 */
+    	foreach ($this->aLang as $sKey=>$sItem) {
+    		$this->Assign("lang_{$sKey}",$sItem);
+    	}
     }
     /**
      * Подгружает указанный языковой файл и записывает поверх существующего языкового массива

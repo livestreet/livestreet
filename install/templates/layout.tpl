@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
 
 <head>
-	<title>Установка LiveStreet</title>
+	<title>___LANG_INSTALL_TITLE___</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<!-- Styles -->
 	<link rel="stylesheet" type="text/css" href="templates/styles/style.css?v=1" />	
@@ -14,7 +14,7 @@
 <body>
 
 <div id="container">
-	<h1 class="lite-header">Install LiveStreet | Шаг #___INSTALL_STEP_NUMBER___ из ___INSTALL_STEP_COUNT___</h1>
+	<h1 class="lite-header">___LANG_INSTALL_TITLE___ | ___LANG_STEP___ #___INSTALL_STEP_NUMBER___ / ___INSTALL_STEP_COUNT___</h1>
 
 	<div class="lite-center register">
 

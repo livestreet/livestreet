@@ -1,6 +1,5 @@
 <p>
-	Примите поздравления! LiveStreet успешно установлена.<br />
-	Вы можете продолжить настройку в расширенном режиме.<br /><br />
+	___LANG_END_PARAGRAPH___
 	
-	<input type="submit" class="button" name="install_step_extend" value="Расширенный режим" />
+	<input type="submit" class="button" name="install_step_extend" value="___LANG_EXTEND_MODE___" />
 </p>

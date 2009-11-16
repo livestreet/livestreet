@@ -49,4 +49,57 @@ return array(
 	'no' => 'Нет',
 	
 	'valid_mysql_server'=>'Для работы LiveStreet необходим сервер MySQL версии не ниже 5.',
+	
+	'install_title'=>'Установка LiveStreet',
+	'step'=>'Шаг',
+	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 0.4. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на config.local.php и дать этому файлу права на запись.</p>',
+	'php_params'=>'Основные настройки PHP',
+	'php_params_version'=>'PHP версии не ниже 5.0',
+	'php_params_safe_mode'=>'Safe mode выключен',
+	'php_params_utf8'=>'Подержка UTF8 в PCRE',
+	'php_params_mbstring'=>'Поддержка Mbstring',
+	
+	'local_config'=>'Поддержка Mbstring',
+	'local_config_file'=>'Файл config.local.php существует и доступен для записи',
+	
+	'db_params'=>'Настройка базы данных',
+	'db_params_host'=>'Имя сервера БД',
+	'db_params_port'=>'Порт сервера БД',
+	'db_params_port_notice'=>'Скорее всего правильным решение будет оставить 3306 :)',
+	'db_params_name'=>'Название базы данных',
+	'db_params_create'=>'Создать базу данных',
+	'db_params_user'=>'Имя пользователя',
+	'db_params_password'=>'Пароль',
+	'db_params_prefix'=>'Префикс таблиц',
+	'db_params_prefix_notice'=>'Указанный префикс будет приставлен к названию всех таблиц',
+	'db_params_engine'=>'Tables engine',
+	'db_params_engine_notice'=>'Рекомендуется использовать InnoDB',
+	
+	'admin_params'=>'Настройка данных администратора',
+	'admin_params_login'=>'Логин',
+	'admin_params_mail'=>'E-mail',
+	'admin_params_pass'=>'Пароль',
+	'admin_params_repass'=>'Еще раз',
+	
+	'end_paragraph' => 'Примите поздравления! LiveStreet успешно установлена.<br />Вы можете продолжить настройку в расширенном режиме.<br /><br />',
+	'extend_mode'=> 'Расширенный режим',
+	
+	'view_params'=> 'Настройки HTML вида',
+	'view_params_name'=> 'Название сайта',
+	'view_params_description'=> 'Описание сайта',
+	'view_params_keywords'=> 'Ключевые слова',
+	'view_params_skin'=> 'Название шаблона',
+	
+	'mail_params'=> 'Настройки почтовых уведомлений',
+	'mail_params_sender'=> 'E-mail с которого отправляются уведомления',
+	'mail_params_name'=> 'Имя от которого отправляются уведомления',
+	
+	'general_params'=> 'Общие настройки',
+	'general_params_close'=> 'Использовать закрытый режим работы сайта',
+	'general_params_active'=> 'Использовать активацию при регистрации',
+	'general_params_invite'=> 'Использовать режим регистрации по приглашению',
+	
+	'language_params'=> 'Языковые настройки',
+	'language_params_current'=> 'Текущий язык',
+	'language_params_default'=> 'Язык, который будет использоваться по умолчанию',
 );
