@@ -64,7 +64,7 @@ class Install {
 	 *
 	 * @var array
 	 */
-	var $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend');
+	var $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend',5=>'Finish');
 	/**
 	 * Массив сообщений для пользователя
 	 *
@@ -191,7 +191,7 @@ class Install {
      * @return string
      */
     function Lang($sKey,$aParams=array()) {
-    	if(!array_key_exists($sKey,$this->aLang)) 	    
+    	if(!array_key_exists($sKey,$this->aLang))
     		return 'Unknown language key';
     	
     	$sValue=$this->aLang[$sKey];
@@ -408,7 +408,7 @@ class Install {
 	 */
 	function Run() {
 		$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
-		if(!$sStepName or !in_array($sStepName,$this->aSteps)) die('Unknown step');
+		if(!in_array($sStepName,$this->aSteps)) die('Unknown step');
 		
 		$iKey = array_search($sStepName,$this->aSteps);
 		/**
@@ -442,7 +442,16 @@ class Install {
 			$this->$sFunctionName();
 		}
 	}
-	
+	/**
+	 * Сохраняет данные о текущем шаге и передает их во вьювер
+	 *
+	 * @access protected
+	 * @return bool
+	 */
+	function SetStep($sStepName) {
+		if(!$sStepName or !in_array($sStepName,$this->aSteps)) return null;
+		$this->Assign('install_step_number',array_search($sStepName,$this->aSteps)+1);		
+	}
 	/**
 	 * Первый шаг инсталяции.
 	 * Валидация окружения.
@@ -457,6 +466,7 @@ class Install {
 			$this->SavePath();
 			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Db');
 		}
+		$this->SetStep('Start');
 		$this->Layout('steps/start.tpl');
 	}
 	/**
@@ -555,6 +565,7 @@ class Install {
 			$this->aMessages[] = array('type'=>'notice','text'=>$this->Lang('ok_db_created'));
 			return $this->StepAdmin();
 		} else {
+			$this->SetStep('Db');
 			$this->Layout('steps/db.tpl');
 			return false;
 		}
@@ -565,7 +576,7 @@ class Install {
 	 */
 	function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
-		$this->Assign('install_step_number',3);
+		$this->SetStep('Admin');
 		/**
 		 * Передаем данные из запроса во вьювер, сохраняя значение в сессии
 		 */
@@ -617,6 +628,7 @@ class Install {
 	 * Завершающий этап. Переход в расширенный режим
 	 */
 	function StepEnd() {
+		$this->SetStep('End');
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'End');
 		/**
@@ -638,7 +650,7 @@ class Install {
 		 * Сохраняем в сессию название текущего шага
 		 */
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Extend');
-
+		$this->SetStep('Extend');
 		/**
 		 * Получаем значения запрашиваемых данных либо устанавливаем принятые по умолчанию
 		 */
@@ -810,9 +822,19 @@ class Install {
 			}		
 		}
 		
-		return $this->Layout('steps/extend.tpl');	
+		return ($this->GetRequest('install_step_next')) 
+					? $this->StepFinish() 
+					: $this->Layout('steps/extend.tpl');
 	}
-	
+	/**
+	 * Окончание работы инсталлятора. Предупреждение о необходимости удаления.
+	 */
+	function StepFinish() {
+		$this->SetStep('Finish');
+		$this->Assign('next_step_display','none');
+		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Finish');
+		$this->Layout('steps/finish.tpl');
+	}	
 	/**
 	 * Проверяем возможность инсталяции
 	 * 

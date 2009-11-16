@@ -52,7 +52,9 @@ return array(
 	
 	'install_title'=>'Установка LiveStreet',
 	'step'=>'Шаг',
+	
 	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 0.4. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на config.local.php и дать этому файлу права на запись.</p>',
+	
 	'php_params'=>'Основные настройки PHP',
 	'php_params_version'=>'PHP версии не ниже 5.0',
 	'php_params_safe_mode'=>'Safe mode выключен',
@@ -102,4 +104,6 @@ return array(
 	'language_params'=> 'Языковые настройки',
 	'language_params_current'=> 'Текущий язык',
 	'language_params_default'=> 'Язык, который будет использоваться по умолчанию',
+	
+	'finish_paragraph' => 'Примите поздравления! LiveStreet успешно установлена.<br />Для обеспечения безопасности работы системы, удалите директорию Install.<br />',
 );
