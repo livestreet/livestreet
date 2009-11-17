@@ -61,7 +61,7 @@ return array(
 	'php_params_utf8'=>'Подержка UTF8 в PCRE',
 	'php_params_mbstring'=>'Поддержка Mbstring',
 	
-	'local_config'=>'Поддержка Mbstring',
+	'local_config'=>'Локальная конфигурация',
 	'local_config_file'=>'Файл config.local.php существует и доступен для записи',
 	
 	'db_params'=>'Настройка базы данных',
@@ -70,12 +70,16 @@ return array(
 	'db_params_port_notice'=>'Скорее всего правильным решение будет оставить 3306 :)',
 	'db_params_name'=>'Название базы данных',
 	'db_params_create'=>'Создать базу данных',
+	'db_params_convert'=>'Конвертировать базу 0.3.1 в 0.4',
 	'db_params_user'=>'Имя пользователя',
 	'db_params_password'=>'Пароль',
 	'db_params_prefix'=>'Префикс таблиц',
 	'db_params_prefix_notice'=>'Указанный префикс будет приставлен к названию всех таблиц',
 	'db_params_engine'=>'Tables engine',
 	'db_params_engine_notice'=>'Рекомендуется использовать InnoDB',
+	
+	'error_vote_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
+	'error_comment_table_select'=>'Ошибка запроса на выборку данных из таблицы talk_comment',
 	
 	'admin_params'=>'Настройка данных администратора',
 	'admin_params_login'=>'Логин',

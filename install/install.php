@@ -501,6 +501,7 @@ class Install {
 		$aParams['user']     = $this->GetRequest('install_db_user','');
 		$aParams['password'] = $this->GetRequest('install_db_password','');
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
+		$aParams['convert']  = $this->GetRequest('install_db_convert',0);
 		$aParams['prefix']   = $this->GetRequest('install_db_prefix','prefix_');
 		$aParams['engine']   = $this->GetRequest('install_db_engine','InnoDB');
 
@@ -510,6 +511,7 @@ class Install {
 		$this->Assign('install_db_user', $aParams['user'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_password', $aParams['password'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_convert_check', (($aParams['convert'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_prefix', $aParams['prefix'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_engine', $aParams['engine'], self::SET_VAR_IN_SESSION);
 		/**
@@ -543,7 +545,6 @@ class Install {
 			$this->SaveConfig('db.params.port',  $aParams['port'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.user',  $aParams['user'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
-			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
 			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);
 			/**
@@ -553,11 +554,23 @@ class Install {
 			/**
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
-			if(!$bResult) {
-				foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-				$this->Layout('steps/db.tpl');
-				return false;
+			if(!$aParams['convert']) {
+				list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
+				if(!$bResult) {
+					foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+					$this->Layout('steps/db.tpl');
+					return false;
+				}				
+			} else {
+				/**
+				 * Если указана конвертация старой базы данных
+				 */
+				list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert.sql',$aParams));
+				if(!$bResult) {
+					foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+					$this->Layout('steps/db.tpl');
+					return false;
+				}
 			}
 			/**
 			 * Передаем управление на следующий шаг
@@ -978,6 +991,97 @@ class Install {
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
+	/**
+	 * Конвертирует базу данных версии 0.3.1 в базу данных версии 0.4
+	 *
+	 * @return bool
+	 */
+	function ConvertDatabase($sFilePath,$aParams) {
+		$sFileQuery = @file_get_contents($sFilePath);
+		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
+		
+		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
+		$aQuery=explode(';',$sFileQuery);
+		/**
+		 * Массив для сбора ошибок
+		 */
+		$aErrors = array();	
+
+		/**
+		 * Выполняем запросы по очереди
+		 */
+		foreach($aQuery as $sQuery){
+			$sQuery = trim($sQuery);
+			/**
+			 * Заменяем движек, если таковой указан в запросе
+			 */
+			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
+			
+			if($sQuery!='') {
+				$bResult=mysql_query($sQuery);
+				if(!$bResult) $aErrors[] = mysql_error();
+			}
+		}
+		/**
+		 * Переводим в одну таблицу vote`ы
+		 */
+		$aVoteTables = array(
+			$aParams['prefix'].'blog_vote'=>'blog',
+			$aParams['prefix'].'user_vote'=>'user',
+			$aParams['prefix'].'topic_comment_vote'=>'comment'
+		);
+		foreach ($aVoteTables as $sTable=>$sTarget) {
+			$sVoteSelect = "SELECT * FROM {$sTable} WHERE 1";
+			if(!$aResults = mysql_query($sVoteSelect)){ 
+				$aErrors[] = $this->Lang('error_vote_table_select',array('table'=>$sTable));
+				continue;
+			}
+			/**
+			 * Переносим в новую таблицу с указанием target`а
+			 */
+			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
+				$sQuery = "INSERT INTO `{$aParams['prefix']}vote` 
+						   VALUES ( 
+						   	'{$aRow[$sTarget.'_id']}', 
+						   	'{$sTarget}', '{$aRow['user_voter_id']}',  
+						   	'".(($aRow['vote_delta']>=0)?1:-1)."', 
+						   	'{$aRow['vote_delta']}', 
+						   	'".date("Y-m-d H:i:s")."')";
+				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+			}
+		}
+
+		/**
+		 * Переводим в одну таблицу комментарии
+		 */
+		/**
+		$sTalkCommentSelect = "SELECT * FROM {$aParams['prefix']}talk_comment";
+		if(!$aResults = mysql_query($sTalkCommentSelect)){ 
+			$aErrors[] = $this->Lang('error_comment_table_select');
+		} else {		
+			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
+				$sQuery = "INSERT INTO `{$aParams['prefix']}comment` 
+						   VALUES ( 
+						   	'{$aRow['talk_comment_id']}', 
+						   	'{$aRow['talk_comment_pid']}', 
+						   	'{$aRow['talk_id']}',
+						   	'talk',
+						   	'{$aRow['user_id']}',
+						   	'{$aRow['talk_comment_text']}', 
+						   	'".md5($aRow['talk_comment_text'])."', 
+						   	'{$aRow['talk_comment_date']}',
+						   	'{$aRow['talk_comment_user_ip']}',
+						   	'0', '0', '0', '1'	
+						   )";
+				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+			}					
+		}
+		**/
+		if(count($aErrors)==0) {
+			return array('result'=>true,'errors'=>null);
+		}
+		return array('result'=>false,'errors'=>$aErrors);		
+	}	
 	/**
 	 * Валидирует данные администратора
 	 *
