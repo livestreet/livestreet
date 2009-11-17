@@ -80,6 +80,7 @@ return array(
 	
 	'error_vote_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
 	'error_comment_table_select'=>'Ошибка запроса на выборку данных из таблицы talk_comment',
+	'error_comment_table_max_id'=>'Ошибка запроса на выборку данных из таблицы комментариев',
 	
 	'admin_params'=>'Настройка данных администратора',
 	'admin_params_login'=>'Логин',

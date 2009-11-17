@@ -1049,34 +1049,114 @@ class Install {
 						   	'".date("Y-m-d H:i:s")."')";
 				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 			}
+			mysql_free_result($aResults);
 		}
 
 		/**
 		 * Переводим в одну таблицу комментарии
 		 */
+		$sCommentIdMaxQuery = "SELECT MAX( comment_id ) AS max_id FROM {$aParams['prefix']}comment";
 		/**
-		$sTalkCommentSelect = "SELECT * FROM {$aParams['prefix']}talk_comment";
-		if(!$aResults = mysql_query($sTalkCommentSelect)){ 
-			$aErrors[] = $this->Lang('error_comment_table_select');
-		} else {		
-			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
-				$sQuery = "INSERT INTO `{$aParams['prefix']}comment` 
-						   VALUES ( 
-						   	'{$aRow['talk_comment_id']}', 
-						   	'{$aRow['talk_comment_pid']}', 
-						   	'{$aRow['talk_id']}',
-						   	'talk',
-						   	'{$aRow['user_id']}',
-						   	'{$aRow['talk_comment_text']}', 
-						   	'".md5($aRow['talk_comment_text'])."', 
-						   	'{$aRow['talk_comment_date']}',
-						   	'{$aRow['talk_comment_user_ip']}',
-						   	'0', '0', '0', '1'	
-						   )";
-				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
-			}					
+		 * Получаем максимальный идентификатор комментариев к топикам
+		 */
+		if(!$aResults = mysql_query($sCommentIdMaxQuery) ){
+			$aErrors[] = $this->Lang('error_comment_table_max_id');
+		} else {
+			$aRow=mysql_fetch_row($aResults);
+			$iMaxId = $aRow[0]+1;
+
+			$sTalkCommentSelect = "SELECT * FROM {$aParams['prefix']}talk_comment";
+			if(!$aResults = mysql_query($sTalkCommentSelect)){ 
+				$aErrors[] = $this->Lang('error_comment_table_select');
+			} else {
+				$iAutoIncrement = $iMaxId;
+				while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
+					$aRow['talk_comment_id']+=$iMaxId;
+					/**
+					 * Выбираем максимальный айдишник
+					 */
+					$iAutoIncrement = ($aRow['talk_comment_id']>$iAutoIncrement) 
+						? $aRow['talk_comment_id']
+						: $iAutoIncrement;
+						
+					$aRow['talk_comment_pid']= is_int($aRow['talk_comment_pid']) ? $aRow['talk_comment_id']+$iMaxId : "NULL"; 
+					$sQuery = "INSERT INTO `{$aParams['prefix']}comment` 
+							   VALUES ( 
+							   	'{$aRow['talk_comment_id']}', 
+							   	{$aRow['talk_comment_pid']}, 
+							   	'{$aRow['talk_id']}',
+							   	'talk',
+							   	'{$aRow['user_id']}',
+							   	'{$aRow['talk_comment_text']}', 
+							   	'".md5($aRow['talk_comment_text'])."', 
+							   	'{$aRow['talk_comment_date']}',
+							   	'{$aRow['talk_comment_user_ip']}',
+							   	'0', '0', '0', '1'
+							   )";
+					if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+				}
+				$iAutoIncrement++;
+				/**
+				 * Устанавливаем в таблице новое значение авто инкремента
+				 */
+				@mysql_query("ALTER {$aParams['prefix']}comment AUTO_INCREMENT={$iAutoIncrement}");
+				mysql_free_result($aResults);
+			}
 		}
-		**/
+		/**
+		 * Выбираем пары взаимной дружбы и заносим в базу данынх
+		 */
+		$sFriendsQuery = "SELECT * FROM {$aParams['prefix']}friend";
+		/**
+		 * Получаем максимальный идентификатор комментариев к топикам
+		 */
+		if(!$aResults = mysql_query($sFriendsQuery) ){
+			$aErrors[] = $this->Lang('error_freind_table_select');
+		} else {
+			/**
+			 * Архив для хранения индексов "не использованых" строк таблицы
+			 */
+			$aFriends=array();
+			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
+				/**
+				 * Если имеется запись с френдами, стоящими в обратном порядке,
+				 * то вторую запись удаляем, первую приводим к нормальным статусам
+				 */
+				$sRevIndex = $aRow['user_to'].'_'.$aRow['user_from'];		
+
+				$iPosition=array_search($sRevIndex, $aFriends);			
+				if($iPosition!==false) {
+					/**
+					 * Обновляем статусы
+					 */
+					if(!mysql_query("UPDATE {$aParams['prefix']}friend SET status_from=1, status_to=2 WHERE user_from='{$aRow['user_to']}' AND user_to='{$aRow['user_from']}'")) 
+						$aErrors[] = mysql_error();
+					/**
+					 * Удаляем дубль-строку
+					 */
+					if(!mysql_query("DELETE FROM {$aParams['prefix']}friend WHERE user_from='{$aRow['user_from']}' AND user_to='{$aRow['user_to']}'")) 
+						$aErrors[] = mysql_error();
+					/**
+					 * Удаляем значение из списка индексов
+					 */
+					unset($aFriends[$iPosition]);
+				} else {
+					$aFriends[] = $aRow['user_from'].'_'.$aRow['user_to'];
+				}
+			}
+			/**
+			 * Если остались индексы, удаляем соответствующие им строки
+			 */
+			if(count($aFriends)>0) {
+				foreach ($aFriends as $sIndex) {
+					list($sFrom,$sTo)=explode('_',$sIndex,2);
+					if(!mysql_query("DELETE FROM {$aParams['prefix']}friend WHERE user_from='{$sFrom}' AND user_to='{$sTo}'")) 
+						$aErrors[] = mysql_error();
+				}
+			}
+			mysql_free_result($aResults);			
+		}
+		
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
 		}
