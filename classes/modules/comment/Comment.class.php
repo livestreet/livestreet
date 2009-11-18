@@ -715,5 +715,38 @@ class LsComment extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
 		return $this->oMapper->DeleteCommentOnlineByArrayId($aCommentId,$sTargetType);
 	}
+	
+	/**
+	 * Меняем target parent по массиву идентификаторов
+	 * 
+	 * @param  string $sParentId
+	 * @param  string $sTargetType
+	 * @param  array|string $aTargetId
+	 * @return bool
+	 */
+	public function UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId) {
+		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
+		// чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$sTargetType}"));
+		
+		return $this->oMapper->UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId);
+	}
+	
+	/**
+	 * Меняем target parent по массиву идентификаторов в таблице комментариев online
+	 * 
+	 * @param  string $sParentId
+	 * @param  string $sTargetType
+	 * @param  array|string $aTargetId
+	 * @return bool
+	 */
+	public function UpdateTargetParentByTargetIdOnline($sParentId, $sTargetType, $aTargetId) {
+		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
+		// чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
+		
+		return $this->oMapper->UpdateTargetParentByTargetIdOnline($sParentId, $sTargetType, $aTargetId);
+	}
+	
 }
 ?>

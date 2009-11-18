@@ -411,9 +411,13 @@ class ActionTopic extends Action {
 			}
 		}
 		/**
+		 * Сохраняем старое значение идентификатора блога
+		 */
+		$sBlogIdOld = $oTopic->getBlogId();
+		/**
 		 * Теперь можно смело редактировать топик
 		 */		
-		$oTopic->setBlogId($oBlog->getId());		
+		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setTitle(getRequest('topic_title'));	
 		$oTopic->setCutText(null);	
 		$oTopic->setTextHash(md5(getRequest('topic_text')));	
@@ -477,6 +481,13 @@ class ActionTopic extends Action {
 		 * Сохраняем топик
 		 */
 		if ($this->Topic_UpdateTopic($oTopic)) {	
+			/**
+			 * Обновляем данные в комментариях, если топик был перенесен в новый блог
+			 */
+			if($sBlogIdOld!=$oTopic->getBlogId()) {
+				$this->Comment_UpdateTargetParentByTargetId($oTopic->getBlogId(), 'topic', $oTopic->getId());
+				$this->Comment_UpdateTargetParentByTargetIdOnline($oTopic->getBlogId(), 'topic', $oTopic->getId());
+			}
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
