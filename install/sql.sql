@@ -953,3 +953,6 @@ ALTER TABLE  `prefix_blog` DROP  `blog_avatar_type`;
 
 ALTER TABLE  `prefix_user` ADD  `user_date_topic_last` DATETIME AFTER  `user_date_comment_last` ;
 ALTER TABLE  `prefix_user` DROP  `user_date_topic_last`;
+
+ALTER TABLE  `prefix_comment` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
+ALTER TABLE  `prefix_comment_online` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;

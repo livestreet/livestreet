@@ -68,7 +68,7 @@ class Mapper_Comment extends Mapper {
 		return null;
 	}
 	
-	public function GetCommentsAll($sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {
+	public function GetCommentsAll($sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 		$sql = "SELECT 					
 					comment_id 				
 				FROM 
@@ -80,12 +80,14 @@ class Mapper_Comment extends Mapper {
 					AND
 					comment_publish = 1
 					{ AND target_id NOT IN(?a) }
+					{ AND target_parent_id NOT IN(?a) }
 				ORDER by comment_id desc
 				LIMIT ?d, ?d ";			
 		$aComments=array();
 		if ($aRows=$this->oDb->selectPage(
 				$iCount,$sql,$sTargetType,
 				(count($aExcludeTarget)?$aExcludeTarget:DBSIMPLE_SKIP),
+				(count($aExcludeParentTarget)?$aExcludeParentTarget:DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage, $iPerPage
 			)
 		) {
@@ -119,20 +121,20 @@ class Mapper_Comment extends Mapper {
 	}
 	
 		
-	public function GetCommentsOnline($sTargetType,$aExcludeTopics,$iLimit) {		
+	public function GetCommentsOnline($sTargetType,$aExcludeTargets,$iLimit) {		
 		$sql = "SELECT 					
 					comment_id	
 				FROM 
 					".Config::Get('db.table.comment_online')." 
 				WHERE 												
 					target_type = ?
-				{ AND target_id NOT IN(?a) }
+				{ AND target_parent_id NOT IN(?a) }
 				ORDER by comment_online_id desc limit 0, ?d ; ";
 		
 		$aComments=array();
 		if ($aRows=$this->oDb->select(
 				$sql,$sTargetType,
-				(count($aExcludeTopics)?$aExcludeTopics:DBSIMPLE_SKIP),
+				(count($aExcludeTargets)?$aExcludeTargets:DBSIMPLE_SKIP),
 				$iLimit
 			)
 		) {
@@ -149,11 +151,11 @@ class Mapper_Comment extends Mapper {
 					comment_id as ARRAY_KEY,
 					comment_pid as PARENT_KEY
 				FROM 
-					".Config::Get('db.table.comment')."				
+					".Config::Get('db.table.comment')."
 				WHERE 
 					target_id = ?d 
 					AND			
-					target_type = ? 				
+					target_type = ?
 				ORDER by comment_id asc;	
 					";
 		if ($aRows=$this->oDb->select($sql,$sId,$sTargetType)) {
@@ -184,7 +186,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCommentsByUserId($sId,$sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {
+	public function GetCommentsByUserId($sId,$sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 		$sql = "SELECT 
 					comment_id 					
 				FROM 
@@ -198,6 +200,7 @@ class Mapper_Comment extends Mapper {
 					AND
 					comment_publish = 1 
 					{ AND target_id NOT IN (?a) }					
+					{ AND target_parent_id NOT IN (?a) }					
 				ORDER by comment_id desc
 				LIMIT ?d, ?d ";		
 		$aComments=array();
@@ -205,6 +208,7 @@ class Mapper_Comment extends Mapper {
 				$iCount,$sql,$sId,
 				$sTargetType,
 				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP),
+				(count($aExcludeParentTarget) ? $aExcludeParentTarget : DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage, $iPerPage
 			)
 		) {
@@ -215,7 +219,7 @@ class Mapper_Comment extends Mapper {
 		return $aComments;
 	}
 	
-	public function GetCountCommentsByUserId($sId,$sTargetType,$aExcludeTarget=array()) {
+	public function GetCountCommentsByUserId($sId,$sTargetType,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 		$sql = "SELECT 
 					count(comment_id) as count					
 				FROM 
@@ -229,10 +233,12 @@ class Mapper_Comment extends Mapper {
 					AND
 					comment_publish = 1	
 					{ AND target_id NOT IN (?a) }					
+					{ AND target_parent_id NOT IN (?a) }					
 					";		
 		if ($aRow=$this->oDb->selectRow(
 				$sql,$sId,$sTargetType,
-				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP)
+				(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP),
+				(count($aExcludeParentTarget) ? $aExcludeParentTarget : DBSIMPLE_SKIP)
 			)
 		) {
 			return $aRow['count'];
@@ -245,18 +251,19 @@ class Mapper_Comment extends Mapper {
 			(comment_pid,
 			target_id,
 			target_type,
+			target_parent_id,
 			user_id,
 			comment_text,
 			comment_date,
 			comment_user_ip,
 			comment_text_hash	
 			)
-			VALUES(?,  ?d, ?, ?d,	?,	?,	?, ?)
+			VALUES(?, ?d, ?, ?d, ?d, ?, ?, ?, ?)
 		";			
-		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTargetId(),$oComment->getTargetType(),$oComment->getUserId(),$oComment->getText(),$oComment->getDate(),$oComment->getUserIp(),$oComment->getTextHash())) 
+		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTargetId(),$oComment->getTargetType(),$oComment->getTargetParentId(),$oComment->getUserId(),$oComment->getText(),$oComment->getDate(),$oComment->getUserIp(),$oComment->getTextHash())) 
 		{
 			return $iId;
-		}		
+		}
 		return false;
 	}
 	
@@ -266,10 +273,11 @@ class Mapper_Comment extends Mapper {
 		$sql = "REPLACE INTO ".Config::Get('db.table.comment_online')." 
 			SET 
 				target_id= ?d ,			
-				target_type= ? ,			
+				target_type= ? ,
+				target_parent_id = ?d,
 				comment_id= ?d				
 		";			
-		if ($iId=$this->oDb->query($sql,$oCommentOnline->getTargetId(),$oCommentOnline->getTargetType(),$oCommentOnline->getCommentId())) 
+		if ($iId=$this->oDb->query($sql,$oCommentOnline->getTargetId(),$oCommentOnline->getTargetType(),$oCommentOnline->getTargetParentId(),$oCommentOnline->getCommentId())) 
 		{
 			return $iId;
 		}		

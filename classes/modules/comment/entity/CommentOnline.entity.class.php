@@ -26,7 +26,9 @@ class CommentEntity_CommentOnline extends Entity
 	public function getCommentId() {
         return $this->_aData['comment_id'];
     }
-    
+    public function getTargetParentId() {
+        return (array_key_exists('target_parent_id',$this->_aData)) ? $this->_aData['target_parent_id'] : 0;
+    }    
     	
     public function setTargetId($data) {
         $this->_aData['target_id']=$data;
@@ -37,5 +39,8 @@ class CommentEntity_CommentOnline extends Entity
     public function setCommentId($data) {
         $this->_aData['comment_id']=$data;
     }
+    public function setTargetParentId($data) {
+    	$this->_aData['target_parent_id']=$data;
+    }    
 }
 ?>

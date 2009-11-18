@@ -29,6 +29,9 @@ class CommentEntity_Comment extends Entity
     public function getTargetType() {
         return $this->_aData['target_type'];
     }
+    public function getTargetParentId() {
+        return (array_key_exists('target_parent_id',$this->_aData)) ? $this->_aData['target_parent_id'] : 0;
+    }
     public function getUserId() {
         return $this->_aData['user_id'];
     }
@@ -93,6 +96,9 @@ class CommentEntity_Comment extends Entity
     }
     public function setTargetType($data) {
         $this->_aData['target_type']=$data;
+    }
+    public function setTargetParentId($data) {
+    	$this->_aData['target_parent_id']=$data;
     }
     public function setUserId($data) {
         $this->_aData['user_id']=$data;

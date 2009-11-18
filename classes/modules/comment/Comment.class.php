@@ -22,7 +22,7 @@ require_once('mapper/Comment.mapper.class.php');
  * Модуль для работы с комментариями
  *
  */
-class LsComment extends Module {		
+class LsComment extends Module {
 	protected $oMapper;	
 	protected $oUserCurrent=null;
 		
@@ -46,7 +46,7 @@ class LsComment extends Module {
 			return $aComments[$sId];
 		}		
 		return null;
-	}	
+	}
 	/**
 	 * Получает уникальный коммент, это помогает спастись от дублей комментов
 	 *
@@ -239,18 +239,16 @@ class LsComment extends Module {
 	 */
 	public function GetCommentsOnline($sTargetType,$iLimit) {
 		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
+		 * Исключаем из выборки идентификаторы закрытых блогов (target_parent_id)
 		 */
-		$aCloseTopics = ($this->oUserCurrent)
-			? $this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId())
-			: $this->Topic_GetTopicsCloseByUser();
+		$aCloseBlogs = ($this->oUserCurrent)
+			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetInaccessibleBlogsByUser();
 			
-		$s=serialize($aCloseTopics);
+		$s=serialize($aCloseBlogs);
 		
 		if (false === ($data = $this->Cache_Get("comment_online_{$sTargetType}_{$s}_{$iLimit}"))) {			
-			$data = $this->oMapper->GetCommentsOnline($sTargetType,$aCloseTopics,$iLimit);
+			$data = $this->oMapper->GetCommentsOnline($sTargetType,$aCloseBlogs,$iLimit);
 			$this->Cache_Set($data, "comment_online_{$sTargetType}_{$s}_{$iLimit}", array("comment_online_update_{$sTargetType}"), 60*60*24*1);
 		}
 		$data=$this->GetCommentsAdditionalData($data);
@@ -267,60 +265,62 @@ class LsComment extends Module {
 	 */
 	public function GetCommentsByUserId($sId,$sTargetType,$iPage,$iPerPage) {	
 		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
+		 * Исключаем из выборки идентификаторы закрытых блогов
 		 */
-		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
+		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
 			? array()			
-			: $this->Topic_GetTopicsCloseByUser();
-		$s=serialize($aCloseTopics);
+			: $this->Blog_GetInaccessibleBlogsByUser();
+		$s=serialize($aCloseBlogs);
 			
 		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
-			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$iCount,$iPage,$iPerPage,$aCloseTopics),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$iCount,$iPage,$iPerPage,array(),$aCloseBlogs),'count'=>$iCount);
 			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
-		return $data;				
+		return $data;
 	}
-	
+	/**
+	 * Получает количество комментариев одного пользователя
+	 *
+	 * @param  string $sId
+	 * @param  string $sTargetType
+	 * @return int
+	 */
 	public function GetCountCommentsByUserId($sId,$sTargetType) {
 		/**
-		 * Если получаем комментарии не текущего пользователя, 
-		 * то получаем exlude массив идентификаторов топиков, 
-		 * которые нужно исключить из выдачи
+		 * Исключаем из выборки идентификаторы закрытых блогов
 		 */
-		$aCloseTopics = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
-			? array()
-			: $this->Topic_GetTopicsCloseByUser();
-		$s=serialize($aCloseTopics);		
+		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
+			? array()			
+			: $this->Blog_GetInaccessibleBlogsByUser();
+		$s=serialize($aCloseBlogs);		
 		
 		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}_{$s}"))) {			
-			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,$aCloseTopics);
+			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,array(),$aCloseBlogs);
 			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Получить комменты по рейтингу и дате
 	 *
-	 * @param unknown_type $sDate
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $iLimit
-	 * @return unknown
+	 * @param  string $sDate
+	 * @param  string $sTargetType
+	 * @param  int    $iLimit
+	 * @return array
 	 */
 	public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit=20) {
 		/**
 		 * Выбираем топики, комметарии к которым являются недоступными для пользователя
 		 */
-		$aCloseTopics = ($this->oUserCurrent) 
-			? $this->Topic_GetTopicsCloseByUser($this->oUserCurrent->getId())
-			: $this->Topic_GetTopicsCloseByUser();
-		$s=serialize($aCloseTopics);
+		$aCloseBlogs = ($this->oUserCurrent)
+			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetInaccessibleBlogsByUser();
+		$s=serialize($aCloseBlogs);
 		
 		//т.к. время передаётся с точностью 1 час то можно по нему замутить кеширование
 		if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}"))) {			
-			$data = $this->oMapper->GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aCloseTopics);
+			$data = $this->oMapper->GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,array(),$aCloseBlogs);
 			$this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}","comment_update_rating_{$sTargetType}"), 60*60*24*2);
 		}
 		$data=$this->GetCommentsAdditionalData($data);	
@@ -329,9 +329,9 @@ class LsComment extends Module {
 	/**
 	 * Получить комменты для топика
 	 *
-	 * @param unknown_type $sId
-	 * @param unknown_type $sTargetType
-	 * @return unknown
+	 * @param  string $sId
+	 * @param  string $sTargetType
+	 * @return object
 	 */
 	public function GetCommentsByTargetId($sId,$sTargetType) {				
 		if (false === ($aCommentsRec = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}"))) {			
@@ -354,8 +354,8 @@ class LsComment extends Module {
 	/**
 	 * Добавляет коммент
 	 *
-	 * @param CommentEntity_Comment $oComment
-	 * @return unknown
+	 * @param  CommentEntity_Comment $oComment
+	 * @return bool
 	 */
 	public function AddComment(CommentEntity_Comment $oComment) {
 		if ($sId=$this->oMapper->AddComment($oComment)) {
@@ -368,12 +368,12 @@ class LsComment extends Module {
 			return $oComment;
 		}
 		return false;
-	}			
+	}
 	/**
 	 * Обновляет коммент
 	 *
-	 * @param CommentEntity_Comment $oComment
-	 * @return unknown
+	 * @param  CommentEntity_Comment $oComment
+	 * @return bool
 	 */
 	public function UpdateComment(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
@@ -387,8 +387,8 @@ class LsComment extends Module {
 	/**
 	 * Обновляет рейтинг у коммента
 	 *
-	 * @param CommentEntity_Comment $oComment
-	 * @return unknown
+	 * @param  CommentEntity_Comment $oComment
+	 * @return bool
 	 */
 	public function UpdateCommentRating(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		

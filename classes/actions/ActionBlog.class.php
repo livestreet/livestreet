@@ -755,7 +755,7 @@ class ActionBlog extends Action {
 	/**
 	 * Обработка добавление комментария к топику
 	 *	 
-	 * @return unknown
+	 * @return bool
 	 */
 	protected function SubmitComment() {
 		/**
@@ -763,7 +763,7 @@ class ActionBlog extends Action {
 		 */
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
-			return;			
+			return;
 		}
 		/**
 		 * Проверяем топик
@@ -779,6 +779,7 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
+		
 		/**
 		* Проверяем разрешено ли постить комменты
 		*/
@@ -851,6 +852,7 @@ class ActionBlog extends Action {
 		$oCommentNew=Engine::GetEntity('Comment');
 		$oCommentNew->setTargetId($oTopic->getId());
 		$oCommentNew->setTargetType('topic');
+		$oCommentNew->setTargetParentId($oTopic->getBlog()->getId());
 		$oCommentNew->setUserId($this->oUserCurrent->getId());		
 		$oCommentNew->setText($sText);
 		$oCommentNew->setDate(date("Y-m-d H:i:s"));
@@ -870,7 +872,9 @@ class ActionBlog extends Action {
 				$oCommentOnline=Engine::GetEntity('Comment_CommentOnline');
 				$oCommentOnline->setTargetId($oCommentNew->getTargetId());
 				$oCommentOnline->setTargetType($oCommentNew->getTargetType());
+				$oCommentOnline->setTargetParentId($oCommentNew->getTargetParentId());
 				$oCommentOnline->setCommentId($oCommentNew->getId());
+				
 				$this->Comment_AddCommentOnline($oCommentOnline);
 			}
 			/**
