@@ -1087,7 +1087,7 @@ class Install {
 							   	'{$aRow['talk_id']}',
 							   	'talk',
 							   	'{$aRow['user_id']}',
-							   	'{$aRow['talk_comment_text']}', 
+							   	'".mysql_real_escape_string($aRow['talk_comment_text'])."', 
 							   	'".md5($aRow['talk_comment_text'])."', 
 							   	'{$aRow['talk_comment_date']}',
 							   	'{$aRow['talk_comment_user_ip']}',

@@ -620,27 +620,7 @@ class LsBlog extends Module {
 			return 	$aAllowBlogsUser;
 		}		
 	}	
-	/**
-	 * Проверяет можно или нет юзеру постить в данный блог
-	 *
-	 * @param unknown_type $oBlog
-	 * @param unknown_type $oUser
-	 * @param unknown_type $sBlogIdAllow
-	 */
-	public function IsAllowBlog($oBlog,$oUser) {		
-		if ($oUser->isAdministrator()) {
-			return true;
-		}
-		if ($oBlog->getOwnerId()==$oUser->getId()) {
-			return true;
-		}
-		if ($oBlogUser=$this->GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
-			if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	/**
 	 * Получаем массив блогов, 
 	 * которые являются открытыми для пользователя

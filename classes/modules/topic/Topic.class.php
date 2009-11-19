@@ -1222,34 +1222,6 @@ class LsTopic extends Module {
 		return $this->GetTopicById($sId);
 	}
 	/**
-	 * Проверяет можно или нет пользователю редактировать данный топик
-	 *
-	 * @param unknown_type $oTopic
-	 * @param unknown_type $oUser
-	 */
-	public function IsAllowEditTopic($oTopic,$oUser) {
-		/**
-		 * Разрешаем если это админ сайта или автор топика
-		 */
-		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
-			return true;
-		}
-		/**
-		 * Если автор(смотритель) блога
-		 */
-		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
-			return true;
-		}
-		/**
-		 * Если модер или админ блога
-		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
-		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
-			return true;
-		}		
-		return false;
-	}
-	/**
 	 * Проверяет можно или нет пользователю удалять данный топик
 	 *
 	 * @param unknown_type $oTopic

@@ -98,7 +98,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Если права на редактирование
 		 */		
-		if (!$this->Topic_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+		if (!$this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -210,7 +210,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем права на постинг в блог
 		 */
-		if (!$this->Blog_IsAllowBlog($oBlog,$this->oUserCurrent)) {
+		if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
 		}						
@@ -320,7 +320,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Проверяем права на постинг в блог
 		 */
-		if (!$this->Blog_IsAllowBlog($oBlog,$this->oUserCurrent)) {
+		if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
 		}						

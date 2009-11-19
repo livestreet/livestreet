@@ -269,5 +269,56 @@ class LsACL extends Module {
 		}
 		return true;
 	}
+	
+	/**
+	 * Проверяет можно или нет юзеру постить в данный блог
+	 *
+	 * @param object $oBlog
+	 * @param object $oUser
+	 */
+	public function IsAllowBlog($oBlog,$oUser) {		
+		if ($oUser->isAdministrator()) {
+			return true;
+		}
+		if ($oBlog->getOwnerId()==$oUser->getId()) {
+			return true;
+		}
+		if ($oBlogUser=$this->GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
+			if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+				return true;
+			}
+		}
+		return false;
+	}	
+	
+	/**
+	 * Проверяет можно или нет пользователю редактировать данный топик
+	 *
+	 * @param  object $oTopic
+	 * @param  object $oUser
+	 * @return bool
+	 */
+	public function IsAllowEditTopic($oTopic,$oUser) {
+		/**
+		 * Разрешаем если это админ сайта или автор топика
+		 */
+		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+			return true;
+		}
+		/**
+		 * Если автор(смотритель) блога
+		 */
+		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
+			return true;
+		}
+		/**
+		 * Если модер или админ блога
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+			return true;
+		}		
+		return false;
+	}	
 }
 ?>
