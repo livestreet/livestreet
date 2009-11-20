@@ -82,7 +82,10 @@ class Router extends Object {
 		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
 		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
 			array_shift($aRequestUrl);
-		}		
+		}	
+		if (isset($aRequestUrl[0]) and @substr($aRequestUrl[0],0,1)=='?') {
+			$aRequestUrl=array();
+		}	
 		self::$sAction=array_shift($aRequestUrl);
 		self::$sActionEvent=array_shift($aRequestUrl);
 		self::$aParams=$aRequestUrl;
