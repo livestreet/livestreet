@@ -30,19 +30,5 @@ $config['db']['params']['type']   = 'mysql';
 $config['db']['params']['dbname'] = 'social';
 $config['db']['table']['prefix'] = 'prefix_';
 
-$config['view']['name'] = 'LiveStreet - бесплатный движок социальной сети';
-$config['view']['description'] = 'LiveStreet - официальный сайт бесплатного движка социальной сети';
-$config['view']['keywords'] = 'движок, livestreet, блоги, социальная сеть, бесплатный, php';
-$config['view']['skin'] = 'new';
-$config['sys']['mail']['from_email'] = 'rus.engine@gmail.com';
-$config['sys']['mail']['from_name'] = 'Почтовик LiveStreet';
-$config['general']['close'] = false;
-$config['general']['reg']['activation'] = false;
-$config['general']['reg']['invite'] = false;
-$config['lang']['current'] = 'russian';
-$config['lang']['default'] = 'russian';
-$config['path']['root']['web'] = 'http://trunk.ls.core';
-$config['path']['root']['server'] = 'Z:/home/ls.core/trunk';
-$config['db']['tables']['engine'] = 'InnoDB';
 return $config;
 ?>
