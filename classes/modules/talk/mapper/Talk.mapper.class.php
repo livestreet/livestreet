@@ -246,7 +246,7 @@ class Mapper_Talk extends Mapper {
 	}	
 
 		
-	public function GetUsersTalk($sTalkId) {
+	public function GetUsersTalk($sTalkId,$aUserActive=array()) {
 		$sql = "
 			SELECT 
 				user_id	 
@@ -254,10 +254,12 @@ class Mapper_Talk extends Mapper {
 				".Config::Get('db.table.talk_user')." 	  
 			WHERE
 				talk_id = ? 
-
+				{ AND talk_user_active IN(?a) }
 			";	
 		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sTalkId)) {
+		if ($aRows=$this->oDb->select($sql,$sTalkId, 
+			(count($aUserActive) ? $aUserActive : DBSIMPLE_SKIP )
+		)) {
 			foreach ($aRows as $aRow) {
 				$aReturn[]=$aRow['user_id'];
 			}

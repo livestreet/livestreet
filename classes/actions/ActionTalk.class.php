@@ -578,7 +578,8 @@ class ActionTalk extends Action {
 			/**
 			* Отсылаем уведомления всем адресатам
 			*/
-			$aUsersTalk=$this->Talk_GetUsersTalk($oTalk->getId());
+			$aUsersTalk=$this->Talk_GetUsersTalk($oTalk->getId(), LsTalk::TALK_USER_ACTIVE);
+			
 			foreach ($aUsersTalk as $oUserTalk) {
 				if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {
 					$this->Notify_SendTalkCommentNew($oUserTalk,$this->oUserCurrent,$oTalk,$oCommentNew);

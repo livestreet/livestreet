@@ -472,11 +472,14 @@ class LsTalk extends Module {
 	/**
 	 * Получает список юзеров в теме разговора
 	 *
-	 * @param unknown_type $sTalkId
-	 * @return unknown
+	 * @param  string $sTalkId
+	 * @param  array  $aActive
+	 * @return array
 	 */
-	public function GetUsersTalk($sTalkId) {
-		$data=$this->oMapper->GetUsersTalk($sTalkId);
+	public function GetUsersTalk($sTalkId,$aActive=array()) {
+		if(!is_array($aActive)) $aActive = array($aActive);
+		
+		$data=$this->oMapper->GetUsersTalk($sTalkId,$aActive);
 		return $this->User_GetUsersAdditionalData($data);
 	}
 	
