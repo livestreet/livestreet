@@ -1085,7 +1085,7 @@ class Install {
 							   	'{$aRow['talk_comment_id']}', 
 							   	{$aRow['talk_comment_pid']}, 
 							   	'{$aRow['talk_id']}',
-							   	'talk',
+							   	'talk', '0',
 							   	'{$aRow['user_id']}',
 							   	'".mysql_real_escape_string($aRow['talk_comment_text'])."', 
 							   	'".md5($aRow['talk_comment_text'])."', 
@@ -1103,6 +1103,18 @@ class Install {
 				mysql_free_result($aResults);
 			}
 		}
+		/**
+		 * Для каждого комментария к топику указываем соответствующий ему идентификатор блога
+		 */
+		$sParentUpdateQuery = "
+			UPDATE `{$aParams['prefix']}comment`
+			SET `target_parent_id` = 
+				( SELECT blog_id FROM `{$aParams['prefix']}topic` as t WHERE t.topic_id=target_id )
+			WHERE `target_type` = 'topic'
+		";
+		if(!mysql_query($sParentUpdateQuery)) 
+			$aErrors[] = mysql_error();
+		
 		/**
 		 * Выбираем пары взаимной дружбы и заносим в базу данынх
 		 */
