@@ -432,16 +432,20 @@ class LsComment extends Module {
 	 * @return bool
 	 */
 	public function SetCommentsPublish($sTargetId,$sTargetType,$iPublish) {		
-		if(!$oComment = $this->GetCommentsByTargetId($sTargetId,$sTargetType)) {
+		if(!$aComments = $this->GetCommentsByTargetId($sTargetId,$sTargetType)) {
 			return false;
 		}
+		if(!isset($aComments['comments']) or count($aComments)==0) {
+			return;
+		}
+		
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$sTargetType}"));		
 		/**
 		 * Если статус публикации успешно изменен, то меняем статус в отметке "избранное".
 		 * Если комментарии снимаются с публикации, удаляем их из прямого эфира.
 		 */
 		if($this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish)){
-			$this->Favourite_SetFavouriteTargetPublish($oComment->getId(),'comment',$iPublish);
+			$this->Favourite_SetFavouriteTargetPublish(array_keys($aComments['comments']),'comment',$iPublish);
 			if($iPublish!=1) $this->DeleteCommentOnlineByTargetId($sTargetId,$sTargetType);	
 			return true;
 		}

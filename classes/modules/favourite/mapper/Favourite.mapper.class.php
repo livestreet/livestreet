@@ -77,17 +77,17 @@ class Mapper_Favourite extends Mapper {
 		return false;
 	}
 	
-	public function SetFavouriteTargetPublish($sTargetId,$sTargetType,$iPublish) {
+	public function SetFavouriteTargetPublish($aTargetId,$sTargetType,$iPublish) {
 		$sql = "
 			UPDATE ".Config::Get('db.table.favourite')." 
 			SET 
 				target_publish = ?d
 			WHERE				
-				target_id = ?d
+				target_id IN(?a)
 			AND
 				target_type = ?				
 		";			
-		return $this->oDb->query($sql,$iPublish,$sTargetId,$sTargetType); 		
+		return $this->oDb->query($sql,$iPublish,$aTargetId,$sTargetType); 		
 	}	
 	
 	public function GetFavouritesByUserId($sUserId,$sTargetType,&$iCount,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {	
