@@ -199,7 +199,7 @@ $config['module']['security']['key']   = "livestreet_security_key"; // ключ 
 $config['module']['security']['hash']  = "livestreet_security_key"; // "примесь" к строке, хешируемой в качестве security-кода
 
 // Какие модули должны быть загружены на старте
-$config['module']['autoLoad'] = array('Cache', 'Security','Session','User', 'Lang', 'Message');
+$config['module']['autoLoad'] = array('Cache', 'Security','Session','User', 'Message');
 /**
  * Настройка базы данных
  */
