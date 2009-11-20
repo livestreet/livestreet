@@ -51,7 +51,7 @@ class LsLang extends Module {
 		$this->sCurrentLang = Config::Get('lang.current');
 		$this->sDefaultLang = Config::Get('lang.default');
 		$this->sLangPath = Config::Get('lang.path');
-		$this->InitLang();					
+		$this->InitLang();
 	}
 	/**
 	 * Инициализирует языковой файл
@@ -72,11 +72,7 @@ class LsLang extends Module {
 		} else {
 			$this->LoadLangFiles($this->sDefaultLang);
 			if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
-		}	
-		/**
-		 * Загружаем в шаблон
-		 */
-		$this->Viewer_Assign('aLang',$this->aLangMsg);
+		}
 	}
 	/**
 	 * Загружает текстовки из языковых файлов
@@ -156,6 +152,17 @@ class LsLang extends Module {
 			return $sTranslate;
 		}
 		return 'NOT_FOUND_LANG_TEXT';
+	}
+	
+	/**
+	 * Завершаем работу модуля
+	 *
+	 */
+	public function Shutdown() {
+		/**
+		 * Загружаем в шаблон
+		 */
+		$this->Viewer_Assign('aLang',$this->aLangMsg);		
 	}
 }
 ?>
