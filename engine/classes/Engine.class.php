@@ -320,11 +320,15 @@ class Engine extends Object {
  */
 function __autoload($sClassName) {
 	/**
-	 * Если класс подходит под шблон класса сущности то згружаем его
+	 * Если класс подходит под шблон класса сущности то загружаем его
 	 */
-	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {	
+	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {			
 		$tm1=microtime(true);	
-		$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
+		
+		$sFileClass= (substr($aMatch[2],-7)=='_custom') 
+			? Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.substr($aMatch[2],0,strlen($aMatch[2])-7).'.entity.class.custom.php'
+			: Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
+			
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);
 			$tm2=microtime(true);			
