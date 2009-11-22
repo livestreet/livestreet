@@ -120,7 +120,7 @@ class Engine extends Object {
 		} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
 		} else {
-			throw new Exception($this->Lang_Get('system_error_module')." - ".$sModuleName);
+			throw new Exception("Can not find module class - ".$sModuleName);
 		}		
 		/**
 		 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
@@ -226,7 +226,7 @@ class Engine extends Object {
 			$oModule=$this->LoadModule($sModuleName,true);			
 		}		
 		if (!method_exists($oModule,$aName[1])) {
-			throw new Exception($this->Lang_Get('system_error_module_no_method').": ".$sModuleName.'->'.$aName[1].'()');
+			throw new Exception("The module has no required method: ".$sModuleName.'->'.$aName[1].'()');
 		}		
 		$sCmd='$result=$oModule->'.$aName[1].'('.$sArgs.');';
 		$oProfiler=ProfilerSimple::getInstance();

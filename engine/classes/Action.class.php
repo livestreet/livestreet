@@ -61,12 +61,12 @@ abstract class Action extends Object {
 	protected function AddEventPreg() {		
 		$iCountArgs=func_num_args();
 		if ($iCountArgs<2) {
-			throw new Exception($this->Lang_Get('system_error_event_args'));
+			throw new Exception("Incorrect number of arguments when adding events");
 		}
 		$aEvent=array();
 		$aEvent['method']=func_get_arg($iCountArgs-1);
 		if (!method_exists($this,$aEvent['method'])) {			
-			throw new Exception($this->Lang_Get('system_error_event_method').": ".$aEvent['method']);
+			throw new Exception("Method of the event not found: ".$aEvent['method']);
 		}
 		$aEvent['preg']=func_get_arg(0);		
 		$aEvent['params_preg']=array();
@@ -245,7 +245,7 @@ abstract class Action extends Object {
 	 * @return unknown
 	 */
 	protected function EventNotFound() {
-		$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
+		$this->Message_AddErrorSingle("Unfortunately, this page does not exist. Perhaps it was deleted from the server, or is it never been.",'404');
 		return Router::Action('error');
 	}
 	
