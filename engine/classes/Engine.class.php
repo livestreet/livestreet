@@ -76,9 +76,22 @@ class Engine extends Object {
 	 *
 	 */
 	public function Init() {
+		/**
+		 * Инициализируем хуки
+		 */
+		$this->InitHooks();		
+		/**
+		 * Загружаем модули автозагрузки
+		 */
 		$this->LoadModules();
+		/**
+		 * Инициализируем загруженные модули
+		 */
 		$this->InitModules();
-		$this->InitHooks();
+		/**
+		 * Запускаем хуки для события завершения инициализации Engine
+		 */
+		$this->Hook_Run('engine_init_complete');
 	}
 	/**
 	 * Завершение работы модуля

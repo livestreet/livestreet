@@ -47,7 +47,9 @@ class LsLang extends Module {
 	 *
 	 * @return null
 	 */
-	public function Init() {	
+	public function Init() {
+		$this->Hook_Run('lang_init_start');
+		
 		$this->sCurrentLang = Config::Get('lang.current');
 		$this->sDefaultLang = Config::Get('lang.default');
 		$this->sLangPath = Config::Get('lang.path');
