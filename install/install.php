@@ -901,6 +901,18 @@ class Install {
 			$this->Assign('validate_local_config', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
 	    
+		/**
+		 * Проверяем доступность и достаточность прав у директории
+		 * для сохранения файлового кеша
+		 */
+		$sTempDir = dirname(dirname(__FILE__)).'/tmp';
+		if(!is_dir($sTempDir) or !is_writable($sTempDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_temp', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_temp', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}
+		
 	    return $bOk;
 	}	
 	/**

@@ -20,4 +20,7 @@ ___LANG_START_PARAGRAPH___
 	<tr>
 		<td width="350px">___LANG_LOCAL_CONFIG_FILE___</td><td>___VALIDATE_LOCAL_CONFIG___</td>
 	</tr>	
+	<tr>
+		<td width="350px">___LANG_LOCAL_TEMP_DIR___</td><td>___VALIDATE_LOCAL_TEMP___</td>
+	</tr>	
 </table>
