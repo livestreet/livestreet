@@ -159,7 +159,7 @@ class ActionTopic extends Action {
 		/**
 		 * проверяем есть ли право на удаление топика
 		 */		
-		if (!$this->Topic_IsAllowDeleteTopic($oTopic,$this->oUserCurrent)) {
+		if (!$this->ACL_IsAllowDeleteTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
 		/**

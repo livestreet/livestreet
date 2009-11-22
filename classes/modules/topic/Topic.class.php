@@ -1222,22 +1222,6 @@ class LsTopic extends Module {
 		return $this->GetTopicById($sId);
 	}
 	/**
-	 * Проверяет можно или нет пользователю удалять данный топик
-	 *
-	 * @param unknown_type $oTopic
-	 * @param unknown_type $oUser
-	 */
-	public function IsAllowDeleteTopic($oTopic,$oUser) {
-		$bReturn=false;
-		/**
-		 * Разрешаем если это админ сайта или автор топика
-		 */
-		if ($oUser->isAdministrator()) {
-			$bReturn=true;
-		}				
-		return $bReturn;
-	}
-	/**
 	 * Рассылает уведомления о новом топике подписчикам блога
 	 *
 	 * @param unknown_type $oBlog
@@ -1257,7 +1241,6 @@ class LsTopic extends Module {
 			$this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(),$oTopic,$oBlog,$oUserTopic);
 		}	
 	}
-	
 	/**
 	 * Возвращает список последних топиков пользователя,
 	 * опубликованных не более чем $iTimeLimit секунд назад

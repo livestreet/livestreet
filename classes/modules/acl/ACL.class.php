@@ -320,5 +320,22 @@ class LsACL extends Module {
 		}		
 		return false;
 	}	
+	
+	/**
+	 * Проверяет можно или нет пользователю удалять данный топик
+	 *
+	 * @param object $oTopic
+	 * @param object $oUser
+	 */
+	public function IsAllowDeleteTopic($oTopic,$oUser) {		
+		$bReturn=false;
+		/**
+		 * Разрешаем если это админ сайта или автор топика
+		 */
+		if ($oUser->isAdministrator()) {			
+			$bReturn=true;
+		}				
+		return $bReturn;
+	}	
 }
 ?>
