@@ -57,7 +57,7 @@ class Init {
 	 */
 	public function InitAction() {		
 		if (!$this->oUserCurrent and Config::Get('general.close') and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
-			Router::Action('login');			
+			Router::Action('login');
 		}
 		$this->Hook_Run('init_action');
 	}

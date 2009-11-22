@@ -102,7 +102,7 @@ class Engine extends Object {
 	 *
 	 */
 	protected function ShutdownModules() {
-		foreach ($this->aModules as $sKey => $oModule) {			
+		foreach ($this->aModules as $sKey => $oModule) {
 			$oModule->Shutdown();
 		}
 	}
@@ -114,7 +114,7 @@ class Engine extends Object {
 	 * @return unknown
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
-		$tm1=microtime(true);		
+		$tm1=microtime(true);
 		if ($this->isFileExists(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
 			require_once(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
 		} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
@@ -176,7 +176,7 @@ class Engine extends Object {
 						$sClassName='Hook'.$aMatch[1];
 						$oHook=new $sClassName;
 						$oHook->RegisterHook();
-					}										
+					}
 				}
 			}
 			closedir($hDir);
@@ -230,7 +230,7 @@ class Engine extends Object {
 		}		
 		$sCmd='$result=$oModule->'.$aName[1].'('.$sArgs.');';
 		$oProfiler=ProfilerSimple::getInstance();
-		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$aName[1].'()');					
+		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$aName[1].'()');
 		eval($sCmd);
 		$oProfiler->Stop($iTimeId);
 		return $result;		

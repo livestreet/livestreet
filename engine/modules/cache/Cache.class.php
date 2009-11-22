@@ -76,14 +76,12 @@ class LsCache extends Module {
 			$this->oBackendCache = new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats'));
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once('Zend/Cache/Backend/Memcached.php');
-			// Рефакторинг: переход на конфигурационные массивы
-			// $aConfigMem=include(DIR_SERVER_ROOT."/config/config.memcache.php");
 			$aConfigMem=Config::Get('memcache');
 			
 			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
-			throw new Exception($this->Lang_Get('system_error_cache_type').": ".$this->sCacheType." (file, memory)");
+			throw new Exception("Wrong type of caching: ".$this->sCacheType." (file, memory)");
 		}
 		/**
 		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
@@ -91,7 +89,6 @@ class LsCache extends Module {
 		if (rand(1,50)==33) {			
 			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);			
 		}
-		//$this->Clean();
 	}
 
 
@@ -101,7 +98,7 @@ class LsCache extends Module {
 	 * @param string $sName	
 	 * @return unknown
 	 */
-	public function Get($sName) {//var_dump($sName);
+	public function Get($sName) {
 		if (!$this->bUseCache) {
 			return false;
 		}
@@ -123,8 +120,8 @@ class LsCache extends Module {
 	/**
 	 * псевдо поддержка мульти-запросов к кешу
 	 *
-	 * @param unknown_type $aName
-	 * @return unknown
+	 * @param  array $aName
+	 * @return bool|array
 	 */
 	public function multiGet($aName) {
 		if (count($aName)==0) {
@@ -139,17 +136,14 @@ class LsCache extends Module {
 			}
 			$data=$this->oBackendCache->load($aKeys);
 			if ($data and is_array($data)) {
-				//var_dump($data);
 				$aData=array();
 				foreach ($data as $key => $value) {
 					$aData[$aKv[$key]]=$value;
-					//var_dump($key);
 					if ($key==0) {
 						//var_dump($aName);
 					}
 				}
 				if (count($aData)>0) {
-					//var_dump($aData);
 					return $aData;
 				}
 			}
@@ -170,10 +164,10 @@ class LsCache extends Module {
 	/**
 	 * Записать значение в кеш
 	 *
-	 * @param unknown_type $data
-	 * @param string $sName
-	 * @param array $aTags
-	 * @param int $iTimeLife
+	 * @param  mixed  $data
+	 * @param  string $sName
+	 * @param  array  $aTags
+	 * @param  int    $iTimeLife
 	 * @return bool
 	 */
 	public function Set($data,$sName,$aTags=array(),$iTimeLife=false) {		
@@ -232,13 +226,11 @@ class LsCache extends Module {
 		}
 		if ($sMethod=='Dklab_Cache_Backend_Profiler::save') {
 			$this->aStats['count_set']++;
-		}
-		//dump($sMethod);			
+		}		
 	}
 
 	public function GetStats() {
 		return $this->aStats;
 	}
-
 }
 ?>
