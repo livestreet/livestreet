@@ -87,7 +87,7 @@ class ActionIndex extends Action {
 	 * Реализация евента
 	 *
 	 */
-	protected function EventIndex() {	
+	protected function EventIndex() {
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));	
 		/**
 		 * Меню
