@@ -245,7 +245,7 @@ abstract class Action extends Object {
 	 * @return unknown
 	 */
 	protected function EventNotFound() {
-		$this->Message_AddErrorSingle("Unfortunately, this page does not exist. Perhaps it was deleted from the server, or is it never been.",'404');
+		$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
 		return Router::Action('error');
 	}
 	

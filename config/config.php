@@ -356,7 +356,8 @@ $config['head']['default']['css'] = array(
 /**
  * Параметры компрессии css-файлов
  */
-$config['compress']['css']['use'] = true;
+$config['compress']['css']['merge'] = true;       // указывает на необходимость слияния файлов по указанным блокам.
+$config['compress']['css']['use']   = true;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 $config['compress']['css']['case_properties']     = 1;
 $config['compress']['css']['merge_selectors']     = 0;
 $config['compress']['css']['optimise_shorthands'] = 1;
@@ -366,7 +367,8 @@ $config['compress']['css']['template']            = "highest_compression";
 /**
  * Параметры компрессии js-файлов
  */
-$config['compress']['js']['use'] = true;
+$config['compress']['js']['merge']  = true;    // указывает на необходимость слияния файлов по указанным блокам.
+$config['compress']['js']['use']    = true;    // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 
 /**
  * Установка локали

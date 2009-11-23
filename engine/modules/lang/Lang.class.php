@@ -75,6 +75,11 @@ class LsLang extends Module {
 			$this->LoadLangFiles($this->sDefaultLang);
 			if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
 		}
+
+		/**
+		 * Загружаем в шаблон
+		 */
+		$this->Viewer_Assign('aLang',$this->aLangMsg);		
 	}
 	/**
 	 * Загружает текстовки из языковых файлов
@@ -161,10 +166,6 @@ class LsLang extends Module {
 	 *
 	 */
 	public function Shutdown() {
-		/**
-		 * Загружаем в шаблон
-		 */
-		$this->Viewer_Assign('aLang',$this->aLangMsg);		
 	}
 }
 ?>
