@@ -83,6 +83,12 @@ tinyMCE.init({
 					<p>{if !$aConfig.view.tinymce}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
 					{if !$aConfig.view.tinymce}
             			<div class="panel_form">
+							<select onchange="lsPanel.putTagAround('topic_text',this.value); this.selectedIndex=0; return false;" style="width: 91px;">
+            					<option value="">{$aLang.panel_title}</option>
+            					<option value="h4">{$aLang.panel_title_h4}</option>
+            					<option value="h5">{$aLang.panel_title_h5}</option>
+            					<option value="h6">{$aLang.panel_title_h6}</option>
+            				</select>            			
             				<select onchange="lsPanel.putList('topic_text',this); return false;">
             					<option value="">{$aLang.panel_list}</option>
             					<option value="ul">{$aLang.panel_list_ul}</option>

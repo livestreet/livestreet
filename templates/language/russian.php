@@ -581,6 +581,10 @@ return array(
 	'panel_list' => 'Список',
 	'panel_list_ul' => 'UL LI',
 	'panel_list_ol' => 'OL LI',
+	'panel_title' => 'Заголовок',
+	'panel_title_h4' => 'H4',
+	'panel_title_h5' => 'H5',
+	'panel_title_h6' => 'H6',
 	
 	/**
 	 * Блоки
