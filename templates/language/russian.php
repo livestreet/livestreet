@@ -578,6 +578,9 @@ return array(
 	'panel_image' => 'изображение',
 	'panel_cut' => 'кат',
 	'panel_quote' => 'цитировать',
+	'panel_list' => 'Список',
+	'panel_list_ul' => 'UL LI',
+	'panel_list_ol' => 'OL LI',
 	
 	/**
 	 * Блоки

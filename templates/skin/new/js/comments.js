@@ -242,7 +242,7 @@ var lsCmtTreeClass = new Class({
 	addComment: function(formObj,targetId,targetType) {
 		var thisObj=this;
 		formObj=$(formObj);			
-		JsHttpRequest.query(        	
+		JsHttpRequest.query(
         	'POST '+thisObj.typeComment[targetType].url_add,
         	{ params: formObj, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {

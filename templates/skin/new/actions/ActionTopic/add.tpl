@@ -82,7 +82,12 @@ tinyMCE.init({
 
 					<p>{if !$aConfig.view.tinymce}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
 					{if !$aConfig.view.tinymce}
-            			<div class="panel_form" style="background: #eaecea; ">       	 
+            			<div class="panel_form">
+            				<select onchange="lsPanel.putList('topic_text',this); return false;">
+            					<option value="">{$aLang.panel_list}</option>
+            					<option value="ul">{$aLang.panel_list_ul}</option>
+            					<option value="ol">{$aLang.panel_list_ol}</option>
+            				</select>
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','b'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','i'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
 	 						<a href="#" onclick="lsPanel.putTagAround('topic_text','u'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			

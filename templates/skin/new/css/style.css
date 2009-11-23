@@ -59,6 +59,8 @@ form p { margin-bottom: 20px; }
 form .note { float: right; font-size: 11px; }
 form .buttons { overflow: hidden; }
 form .right { float: right; font-size: 18px; font-family: Tahoma; color: #333; padding: 5px; }
+form .panel_form { background: #eaecea; }
+form .panel_form select { width: 73px; height: 18px; margin: 2px; float: left; }
 textarea { width: 99%; height: 200px; margin-bottom: 5px; }
 textarea.small { width: 300px; height: 70px; margin-bottom: 5px; }
 select { width: 99%; }
