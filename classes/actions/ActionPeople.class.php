@@ -33,9 +33,7 @@ class ActionPeople extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('good');	
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));	
-		
-		$this->Viewer_AddBlocks('right',array('actions/ActionPeople/sidebar.tpl'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
 	}
 	/**
 	 * Регистрируем евенты

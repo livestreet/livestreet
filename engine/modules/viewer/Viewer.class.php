@@ -153,6 +153,7 @@ class LsViewer extends Module {
 	 *
 	 */
 	public function Init() {	
+		$this->Hook_Run('viewer_init_start');
 		/**
 		 * Заголовок HTML страницы
 		 */
@@ -355,9 +356,11 @@ class LsViewer extends Module {
 	}
 	/**
 	 * Инициализируем параметры отображения блоков
-	 */	
+	 */
 	protected function InitBlockParams() {
-		$this->aBlockRules = Config::Get('block');
+		if($aRules=Config::Get('block')) {
+			$this->aBlockRules=$aRules;
+		}
 	}
 	/**
 	 * Добавляет блок для отображения
@@ -493,7 +496,7 @@ class LsViewer extends Module {
 			 * Если не найдено совпадение по паре Action/Event,
 			 * переходим к поиску по regexp путей.
 			 */
-			if(!$bUse && $aRule['path']) {
+			if(!$bUse && isset($aRule['path'])) {
 				$sPath = rtrim(Router::GetPathWebCurrent(),"/");
 				/**
 				 * Проверяем последовательно каждый regexp
@@ -509,6 +512,29 @@ class LsViewer extends Module {
 			}
 			
 			if($bUse){
+				/**
+				 * Если задан режим очистки блоков, сначала чистим старые блоки
+				 */
+				if(isset($aRule['clear'])) {
+					switch (true) {
+						/**
+						 * Если установлен в true, значит очищаем все
+						 */						
+						case  ($aRule['clear']===true):
+							$this->ClearBlocksAll();
+							break;
+						
+						case is_string($aRule['clear']):
+							$this->ClearBlocks($aRule['clear']);
+							break;
+							
+						case is_array($aRule['clear']):
+							foreach ($aRule['clear'] as $sGroup) {
+								$this->ClearBlocks($sGroup);
+							}
+							break;
+					}
+				}
 				/**
 				 * Добавляем все блоки, указанные в параметре blocks
 				 */
@@ -555,19 +581,25 @@ class LsViewer extends Module {
 	 */	
 	protected function InitFileParams() {
 		foreach (array('js','css') as $sType) {
-			foreach (Config::Get('head.default.'.$sType) as $sFile=>$aParams) {
-				if(!is_array($aParams)) {
-					/**
-					 * Параметры не определены
-					 */
-					$this->aFilesDefault[$sType][] = $aParams;
-				} else {
-					/**
-					 * Добавляем файл и параметры
-					 */
-					$this->aFilesDefault[$sType][] = $sFile;
-					$this->aFilesParams[$sType][$sFile] = $aParams;
-				}
+			/**
+			 * Проверяем наличие списка файлов данного типа
+			 */
+			$aFiles = Config::Get('head.default.'.$sType);
+			if(is_array($aFiles) and count($aFiles)) {
+				foreach ($aFiles as $sFile=>$aParams) {
+					if(!is_array($aParams)) {
+						/**
+						 * Параметры не определены
+						 */
+						$this->aFilesDefault[$sType][] = $aParams;
+					} else {
+						/**
+						 * Добавляем файл и параметры
+						 */
+						$this->aFilesDefault[$sType][] = $sFile;
+						$this->aFilesParams[$sType][$sFile] = $aParams;
+					}
+				}				
 			}
 		}
 

@@ -62,7 +62,6 @@ class ActionNew extends Action {
 	 *
 	 */
 	public function Init() {			
-		$this->Viewer_AddBlocks('right',array('stream','tags','blogs'));
 		/**
 		 * Подсчитываем новые топики
 		 */

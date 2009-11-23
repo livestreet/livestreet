@@ -102,10 +102,6 @@ class ActionQuestion extends Action {
 			return parent::EventNotFound();
 		}
 		/**
-		 * Добавляем блок вывода информации о блоге
-		 */
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
-		/**
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('topic_edit_show',array('oTopic'=>$oTopic));
@@ -157,10 +153,6 @@ class ActionQuestion extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='add';
-		/**
-		 * Добавляем блок вывода информации о блоге
-		 */		
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
 		/**
 		 * Загружаем переменные в шаблон
 		 */

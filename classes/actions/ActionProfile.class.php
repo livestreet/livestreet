@@ -34,7 +34,6 @@ class ActionProfile extends Action {
 	protected $oUserProfile;
 	
 	public function Init() {	
-		$this->Viewer_AddBlocks('right',array('actions/ActionProfile/sidebar.tpl'));
 	}
 	
 	protected function RegisterEvent() {			

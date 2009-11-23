@@ -149,16 +149,9 @@ class ActionTalk extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
-		$this->Viewer_AddBlocks(
-			'right',
-			array(
-				'actions/ActionTalk/filter.tpl',
-				'actions/ActionTalk/blacklist.tpl'
-			)
-		);
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);		
-	}	
+	}
 	
 	/**
 	 * Формирует из REQUEST массива фильтр для отбора писем
@@ -332,7 +325,6 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('oTalk',$oTalk);	
 		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
-		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/speakers.tpl'));
 		/**
 		 * Подсчитываем нужно ли отображать комментарии.
 		 * Комментарии не отображаются, если у вестки только один читатель

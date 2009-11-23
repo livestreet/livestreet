@@ -293,16 +293,57 @@ $config['router']['config']['action_not_found'] = 'error';
  */
 $config['block']['rule_index_blog'] = array(
 	'path' => array( 
+		$config['path']['root']['web'].'/blog$',
+		$config['path']['root']['web'].'/blog/*$',
 		$config['path']['root']['web'].'/blog/*/*\.html$',
 		$config['path']['root']['web'].'/blog/*\.html$',
 	),
 	'action'  => array(
-			'index' => array('index'),
+			'index' => array('index'), 'new'
 		),
 	'blocks'  => array(
 			'right' => array('stream','tags','blogs'=>array('params'=>array(),'priority'=>1))
-		)
+		),
+	'clear' => true,
 );
+
+$config['block']['rule_topic_type'] = array(
+	'action'  => array( 
+		'link'     => array('add','edit'), 
+		'question' => array('add','edit'), 
+		'topic'    => array('add','edit')  
+	),
+	'blocks'  => array( 'right' => array('block.blogInfo.tpl') ),
+);
+$config['block']['rule_people'] = array(
+	'action'  => array( 'people' ),
+	'blocks'  => array( 'right' => array('actions/ActionPeople/sidebar.tpl') ),
+);
+$config['block']['rule_personal_blog'] = array(
+	'action'  => array( 'personal_blog' ),
+	'blocks'  => array( 'right' => array('stream','tags') ),
+);
+$config['block']['rule_profile'] = array(
+	'action'  => array( 'profile' ),
+	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
+);
+$config['block']['rule_tag'] = array(
+	'action'  => array( 'tag' ),
+	'blocks'  => array( 'right' => array('tags','stream') ),
+);
+$config['block']['rule_talk_inbox'] = array(
+	'action'  => array( 'talk' => array('inbox') ),
+	'blocks'  => array( 'right' => array('actions/ActionTalk/filter.tpl', 'actions/ActionTalk/blacklist.tpl') ),
+);
+$config['block']['rule_talk_add'] = array(
+	'action'  => array( 'talk' => array('add') ),
+	'blocks'  => array( 'right' => array('actions/ActionTalk/friends.tpl') ),
+);
+$config['block']['rule_talk_read'] = array(
+	'action'  => array( 'talk' => array('read') ),
+	'blocks'  => array( 'right' => array('actions/ActionTalk/speakers.tpl') ),
+);
+
 
 /**
  * Настройки вывода js и css файлов

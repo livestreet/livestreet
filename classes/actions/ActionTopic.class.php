@@ -102,11 +102,7 @@ class ActionTopic extends Action {
 		 */		
 		if (!$this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
-		}
-		/**
-		 * Добавляем блок вывода информации о блоге
-		 */
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
+		}	
 		/**
 		 * Вызов хуков
 		 */
@@ -180,11 +176,7 @@ class ActionTopic extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect='add';
-		/**
-		 * Добавляем блок вывода информации о блоге
-		 */		
-		$this->Viewer_AddBlocks('right',array('block.blogInfo.tpl'));		
+		$this->sMenuSubItemSelect='add';	
 		/**
 		 * Вызов хуков
 		 */

@@ -31,10 +31,6 @@ class ActionTag extends Action {
 	 *
 	 */
 	public function Init() {		
-		/**
-		 * Определяем какие блоки выводить
-		 */
-		$this->Viewer_AddBlocks('right',array('tags','stream'));	
 	}
 	
 	protected function RegisterEvent() {	

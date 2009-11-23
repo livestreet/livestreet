@@ -45,10 +45,6 @@ class ActionPersonalBlog extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('good');
-		/**
-		 * Добавляем блоки для отображения
-		 */
-		$this->Viewer_AddBlocks('right',array('stream','tags'));	
 	}
 	
 	/**
