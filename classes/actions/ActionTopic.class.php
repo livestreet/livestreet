@@ -283,30 +283,20 @@ class ActionTopic extends Action {
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('topic');
 		$oTopic->setTitle(getRequest('topic_title'));
-		$oTopic->setCutText(null);	
 		$oTopic->setTextHash(md5(getRequest('topic_text')));
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
-		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		$sTextShort=$sText;
-		$sTextNew=$sText;
-		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
-		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
-		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
-			$aMatch[1]=str_replace('[<rn>]',"\r\n",$aMatch[1]);
-			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
-			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
-			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
-			$sTextShort=$this->Text_Parser($aMatch[1]);
-			$sTextNew=$this->Text_Parser($aMatch[1].' '.$aMatch[3]);							
-			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
-				$oTopic->setCutText(trim($aMatchCut[1]));
-			}				
-		}		
+		$sText=$this->Text_Parser(getRequest('topic_text'));
+		/**
+		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
+		 */
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($sText);
 		
+		$oTopic->setCutText($sTextCut);
 		$oTopic->setText($sTextNew);
 		$oTopic->setTextShort($sTextShort);
+		
 		$oTopic->setTextSource(getRequest('topic_text'));		
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
@@ -410,31 +400,21 @@ class ActionTopic extends Action {
 		 * Теперь можно смело редактировать топик
 		 */		
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setTitle(getRequest('topic_title'));	
-		$oTopic->setCutText(null);	
+		$oTopic->setTitle(getRequest('topic_title'));
 		$oTopic->setTextHash(md5(getRequest('topic_text')));	
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
 		$sText=$this->Text_Parser(getRequest('topic_text'));	
-		$sTextShort=$sText;
-		$sTextNew=$sText;
-		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
-		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
-		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
-			$aMatch[1]=str_replace('[<rn>]',"\r\n",$aMatch[1]);
-			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
-			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
-			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
-			$sTextShort=$this->Text_Parser($aMatch[1]);
-			$sTextNew=$this->Text_Parser($aMatch[1].' '.$aMatch[3]);							
-			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
-				$oTopic->setCutText(trim($aMatchCut[1]));
-			}				
-		}		
+		/**
+		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
+		 */
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($sText);
 		
+		$oTopic->setCutText($sTextCut);
 		$oTopic->setText($sTextNew);
 		$oTopic->setTextShort($sTextShort);
+		
 		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());

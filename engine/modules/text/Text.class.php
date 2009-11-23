@@ -187,5 +187,40 @@ class LsText extends Module {
 	public function MakeUrlNoIndex($sText) {
 		return preg_replace("/(<a .*>.*<\/a>)/Ui","<noindex>$1</noindex>",$sText);
 	}
+	
+	/**
+	 * Производить резрезание текста по тегу <cut>.
+	 * Возвращаем массив вида:
+	 * array(
+	 * 		$sTextShort - текст до тега <cut>
+	 * 		$sTextNew   - весь текст за исключением удаленного тега
+	 * 		$sTextCut   - именованное значение <cut> 
+	 * )
+	 *
+	 * @param  string $sText
+	 * @return array
+	 */
+	public function Cut($sText) {
+		$sTextShort = $sText;
+		$sTextNew   = $sText;
+		$sTextCut   = null;
+		
+		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
+		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
+		
+		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
+			$aMatch[1]=str_replace('[<rn>]',"\r\n",$aMatch[1]);
+			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
+			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
+			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
+			$sTextShort=$this->Parser($aMatch[1]);
+			$sTextNew=$this->Parser($aMatch[1].' '.$aMatch[3]);							
+			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
+				$sTextCut=trim($aMatchCut[1]);
+			}				
+		}
+
+		return array($sTextShort,$sTextNew,$sTextCut);	
+	}
 }
 ?>
