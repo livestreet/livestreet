@@ -174,9 +174,10 @@ class LsTopic extends Module {
 		/**
 		 * Если топик успешно удален, удаляем связанные данные
 		 */
-		if($this->oMapperTopic->DeleteTopic($sTopicId)){
+		if($bResult=$this->oMapperTopic->DeleteTopic($sTopicId)){
 			return $this->DeleteTopicAdditionalData($sTopicId);
 		}
+
 		return false;
 	}
 	/**
@@ -186,6 +187,11 @@ class LsTopic extends Module {
 	 * @return bool
 	 */
 	public function DeleteTopicAdditionalData($iTopicId) {
+		/**
+		 * Чистим зависимые кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
+		$this->Cache_Delete("topic_{$iTopicId}");
 		/**
 		 * Удаляем комментарии к топику. 
 		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
@@ -1294,5 +1300,17 @@ class LsTopic extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}"));
 		return $this->oMapperTopic->MoveTopicsByArrayId($aTopics,$sBlogId);
 	}
+	
+	/**
+	 * Перемещает топики в другой блог
+	 *
+	 * @param  string $sBlogId
+	 * @param  string $sBlogIdNew
+	 * @return bool
+	 */
+	public function MoveTopics($sBlogId,$sBlogIdNew) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}", "topic_new_blog_{$sBlogIdNew}"));
+		return $this->oMapperTopic->MoveTopics($sBlogId,$sBlogIdNew);
+	}	
 }
 ?>

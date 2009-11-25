@@ -148,9 +148,11 @@ return array(
 	
 	'blog_admin_delete_confirm' => 'Вы уверены, что хотите удалить блог?',
 	'blog_admin_delete_move' => 'Переместить топики в блог',
+	'blog_delete_clear' => 'Удалить топики',
 	'blog_admin_delete_success' => 'Блог успешно удален',
 	'blog_admin_delete_not_empty' => 'Вы не можете удалить блок с записями. Предварительно удалите из блога все записи.',
 	'blog_admin_delete_move_error' => 'Не удалось переместить топики из удаляемого блога',
+	'blog_admin_delete_move_personal' => 'Нельзя перемещать топики в персональный блог',
 	
 	'blog_admin_user_add_label' => 'Пригласить пользователей:',
 	'blog_admin_user_invited' => 'Список приглашенных:',

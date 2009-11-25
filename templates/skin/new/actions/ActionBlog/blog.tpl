@@ -61,7 +61,15 @@ function toggleBlogDeleteForm(id,link) {
 								<form id="blog_delete_form" class="hidden" action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
 									<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" /> 
 									{$aLang.blog_admin_delete_move}:<br /> 
-									<input type="text" value="" name="topic_move_to" />
+									<select name="topic_move_to">
+										<option value="-1">{$aLang.blog_delete_clear}</option>
+										{if $aBlogs} 
+											<option disabled="disabled">-------------</option>
+											{foreach from=$aBlogs item=oBlog}
+												<option value="{$oBlog->getId()}">{$oBlog->getTitle()}</option>											
+											{/foreach}
+										{/if}
+									</select>
 									<input type="submit" value="{$aLang.blog_delete}" />
 								</form></li>						
 						{else} 						

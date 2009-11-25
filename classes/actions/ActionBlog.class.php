@@ -723,6 +723,16 @@ class ActionBlog extends Action {
 		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 		
 		/**
+		 * Для админов проекта получаем список блогов и передаем их во вьювер
+		 */
+		if($this->oUserCurrent and $this->oUserCurrent->isAdministrator()) {
+			$aBlogs = $this->Blog_GetBlogs();
+			unset($aBlogs[$oBlog->getId()]);
+			
+			$this->Viewer_Assign('aBlogs',$aBlogs);
+		}
+		
+		/**
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('blog_collective_show',array('oBlog'=>$oBlog,'sShowType'=>$sShowType));
@@ -1185,7 +1195,7 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * проверяем есть ли право на удаление топика
-		 */		
+		 */
 		if (!$bAccess=$this->ACL_IsAllowDeleteBlog($oBlog,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
@@ -1200,20 +1210,34 @@ class ActionBlog extends Action {
 			case LsACL::CAN_DELETE_BLOG_WITH_TOPICS :
 				/**
 				 * Если указан идентификатор блога для перемещения,
-				 * то делаем попытку переместить топики
+				 * то делаем попытку переместить топики.
+				 * 
+				 * (-1) - выбран пункт меню "удалить топики".
 				 */
-				if($sBlogIdNew=getRequest('topic_move_to') and is_array($aTopics) and count($aTopics)) {
+				if($sBlogIdNew=getRequest('topic_move_to') and ($sBlogIdNew!=-1) and is_array($aTopics) and count($aTopics)) {
 					if(!$oBlogNew = $this->Blog_GetBlogById($sBlogIdNew)){
 						$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_move_error'),$this->Lang_Get('error'),true);
 						Router::Location($oBlog()->getUrlFull());
-					} else {
-						$this->Topic_MoveTopicsByArrayId($aTopics,$sBlogIdNew);
 					}
+					/**
+					 * Если выбранный блог является персональным, возвращаем ошибку
+					 */
+					if($oBlogNew->getType()=='personal') {
+						$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_move_personal'),$this->Lang_Get('error'),true);
+						Router::Location($oBlog()->getUrlFull());					
+					}
+					/**
+					 * Перемещаем топики
+					 */
+					$this->Topic_MoveTopics($sBlogId,$sBlogIdNew);
 				}
 				break;
 			default:
 				return parent::EventNotFound();	
 		}
+		/**
+		 * Удаляяем блог и перенаправляем пользователя к списку блогов
+		 */
 		if($this->Blog_DeleteBlog($sBlogId)) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_delete_success'),$this->Lang_Get('attention'),true);
 			Router::Location(Router::GetPath('blogs'));
