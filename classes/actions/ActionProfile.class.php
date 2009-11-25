@@ -166,9 +166,9 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),0);
-		$aBlogModerators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),1);
-		$aBlogAdministrators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),2);		
+		$aBlogUsers=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_USER);
+		$aBlogModerators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_MODERATOR);
+		$aBlogAdministrators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);		
 		/**
 		 * Получаем список блогов которые создал юзер
 		 */

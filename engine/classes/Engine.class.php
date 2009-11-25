@@ -354,8 +354,8 @@ function __autoload($sClassName) {
 	if(preg_match("/^Ls(\w+)$/i",$sClassName,$aMatch)) {
 		$sName = ucfirst(strtolower($aMatch[1]));
 		$sFileClass= (substr($sName,-7)=='_custom') 
-			? Config::get('path.root.server').'/classes/modules/'.$sName.'/'.substr($sName,0,strlen($sName)-7).'.class.custom.php'
-			: Config::get('path.root.server').'/classes/modules/'.$sName.'/'.$sName.'.class.php';	
+			? Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.substr($sName,0,strlen($sName)-7).'.class.custom.php'
+			: Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.$sName.'.class.php';	
 			
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);
