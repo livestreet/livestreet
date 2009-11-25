@@ -661,6 +661,28 @@ class LsTopic extends Module {
 	}
 	
 	/**
+	 * Получает список топиков из указанного блога
+	 *
+	 * @param  int   $iBlogId
+	 * @param  int   $iPage
+	 * @param  int   $iPerPage
+	 * @param  array $aAllowData
+	 * @param  bool  $bIdsOnly
+	 * @return array
+	 */
+	public function GetTopicsByBlogId($iBlogId,$iPage=0,$iPerPage=0,$aAllowData=array(),$bIdsOnly=true) {
+		$aFilter=array('blog_id'=>$iBlogId);
+		
+		if(!$aTopics = $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage,$aAllowData) ) {
+			return false;
+		}
+		
+		return ($bIdsOnly) 
+			? array_keys($aTopics['collection'])
+			: $aTopics;		
+	}
+	
+	/**
 	 * список топиков из коллективных блогов
 	 *
 	 * @param unknown_type $iPage
@@ -1259,6 +1281,18 @@ class LsTopic extends Module {
 		$aTopics = $this->GetTopicsByFilter($aFilter,1,$iCountLimit,$aAllowData);
 
 		return $aTopics;
+	}
+	
+	/**
+	 * Перемещает топики в другой блог
+	 *
+	 * @param  array  $aTopics
+	 * @param  string $sBlogId
+	 * @return bool
+	 */
+	public function MoveTopicsByArrayId($aTopics,$sBlogId) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}"));
+		return $this->oMapperTopic->MoveTopicsByArrayId($aTopics,$sBlogId);
 	}
 }
 ?>

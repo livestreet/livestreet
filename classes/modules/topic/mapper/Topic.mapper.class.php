@@ -569,5 +569,27 @@ class Mapper_Topic extends Mapper {
 		}		
 		return $aVotes;
 	}
+	
+	/**
+	 * Перемещает топики в другой блог
+	 *
+	 * @param  array  $aTopics
+	 * @param  string $sBlogId
+	 * @return bool
+	 */	
+	public function MoveTopicsByArrayId($aTopics,$sBlogId) {
+		if(!is_array($aTopics)) $aTopics = array($aTopics);
+		
+		$sql = "UPDATE ".Config::Get('db.table.topic')."
+			SET 
+				blog_id= ?d
+			WHERE
+				topic_id IN(?a)
+		";			
+		if ($this->oDb->query($sql,$sBlogId,$aTopics)) {
+			return true;
+		}		
+		return false;
+	}
 }
 ?>

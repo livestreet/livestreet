@@ -266,7 +266,7 @@ class ActionTopic extends Action {
 		 */
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),md5(getRequest('topic_text')))) {			
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
-			return false;			
+			return false;
 		}	
 		/**
 		 * Проверяем разрешено ли постить топик по времени
@@ -297,7 +297,7 @@ class ActionTopic extends Action {
 		$oTopic->setText($sTextNew);
 		$oTopic->setTextShort($sTextShort);
 		
-		$oTopic->setTextSource(getRequest('topic_text'));		
+		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
@@ -338,7 +338,7 @@ class ActionTopic extends Action {
 			/**
 			 * Делаем рассылку спама всем, кто состоит в этом блоге
 			 */
-			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {				
+			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);				
 			}	
 			Router::Location($oTopic->getUrl());

@@ -99,6 +99,7 @@ return array(
 	 * Создание/редактирование блога
 	 */
 	'blog_edit' => 'Редактировать',
+	'blog_delete' => 'Удалить',
 	'blog_create' => 'Создание нового блога',
 	'blog_create_acl' => 'Вы еще не достаточно окрепли чтобы создавать свой блог',
 	'blog_create_title' => 'Название блога',
@@ -144,6 +145,12 @@ return array(
 	'blog_admin_users_submit_notice' => 'После нажатия на кнопку «Сохранить», права пользователей будут сохранены',
 	'blog_admin_users_submit_ok' => 'Права сохранены',
 	'blog_admin_users_submit_error' => 'Что-то не так',
+	
+	'blog_admin_delete_confirm' => 'Вы уверены, что хотите удалить блог?',
+	'blog_admin_delete_move' => 'Переместить топики в блог',
+	'blog_admin_delete_success' => 'Блог успешно удален',
+	'blog_admin_delete_not_empty' => 'Вы не можете удалить блок с записями. Предварительно удалите из блога все записи.',
+	'blog_admin_delete_move_error' => 'Не удалось переместить топики из удаляемого блога',
 	
 	'blog_admin_user_add_label' => 'Пригласить пользователей:',
 	'blog_admin_user_invited' => 'Список приглашенных:',

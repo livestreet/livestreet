@@ -16,6 +16,19 @@ function toggleBlogInfo(id,link) {
 	slideObj.toggle();
 	
 }
+
+function toggleBlogDeleteForm(id,link) {
+	link=$(link);
+	var obj=$(id);	
+	var slideObj = new Fx.Slide(obj);
+	if (obj.getStyle('display')=='none') {
+		slideObj.hide();
+		obj.setStyle('display','block');
+	}	
+	link.toggleClass('inactive');
+	slideObj.toggle();
+	
+}
 </script>
 {/literal}
 
@@ -42,6 +55,18 @@ function toggleBlogInfo(id,link) {
 					{/if}
 					{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
   						<li class="edit"><a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}">{$aLang.blog_edit}</a></li>
+ 						{if $oUserCurrent->isAdministrator()}
+							<li class="delete">
+								<a href="#" title="{$aLang.blog_delete}" onclick="toggleBlogDeleteForm('blog_delete_form',this); return false;">{$aLang.blog_delete}</a> 
+								<form id="blog_delete_form" class="hidden" action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
+									<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" /> 
+									{$aLang.blog_admin_delete_move}:<br /> 
+									<input type="text" value="" name="topic_move_to" />
+									<input type="submit" value="{$aLang.blog_delete}" />
+								</form></li>						
+						{else} 						
+  							<li class="delete"><a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.blog_delete}" onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a></li>
+  						{/if}
   					{/if}
 				</ul>
 				<div class="about" id="blog_about_{$oBlog->getId()}" style="display: none;" >

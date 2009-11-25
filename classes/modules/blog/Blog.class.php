@@ -711,7 +711,8 @@ class LsBlog extends Module {
 			Zend_Cache::CLEANING_MODE_MATCHING_TAG,
 			array(
 				"blog_update",
-				"blog_relation_change_blog_{$iBlogId}"
+				"blog_relation_change_blog_{$iBlogId}",
+				"topic_update"
 			)
 		);
 		$this->Cache_Delete("blog_{$iBlogId}");
@@ -719,8 +720,9 @@ class LsBlog extends Module {
 		 * Удаляем топики блога. 
 		 * При удалении топиков удаляются комментарии к ним и голоса.
 		 */
-		$aTopics = $this->Topic_GetTopicsByFilter(array('blog_id'=>$iBlogId),0,0,array());
-		foreach (array_keys((array)$aTopics) as $iTopicId) {
+		$aTopicIds = $this->Topic_GetTopicsByBlogId($iBlogId);
+		foreach ($aTopicIds as $iTopicId) {
+			$this->Cache_Delete("topic_{$iTopicId}");
 			if(Config::Get('db.tables.engine')=="InnoDB") {
 				$this->Topic_DeleteTopicAdditionalData($iTopicId);
 			} else {

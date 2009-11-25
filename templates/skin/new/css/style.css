@@ -552,7 +552,8 @@ select { width: 99%; }
 .profile-blog .action li.join a { display: block; height: 10px; width: 10px; background:  url(../images/icons.gif) no-repeat scroll 0 -250px; }
 .profile-blog .action li.join a:hover { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
 .profile-blog .action li.join.active a { background: url(../images/icons.gif) no-repeat scroll -10px -250px; }
-.profile-blog .action li.edit a { background: url(../images/edit.gif) no-repeat 0 1px; padding-left: 20px; position: relative; top: -4px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
+.profile-blog .action li.edit a { background: url(../images/edit.gif) no-repeat 0 1px; padding-left: 15px; position: relative; top: -4px; margin-left: 10px; text-decoration: none; font-size: 11px; color: #70aae0; }
+.profile-blog .action li.delete a { background: url(../images/delete.gif) no-repeat 0 1px; padding-left: 15px; margin-left: 10px; position: relative; top: -4px; text-decoration: none; font-size: 11px; color: #f00; }
 .profile-blog .action li a:hover { text-decoration: underline; }
 
 .profile-blog .voting { float: right; font-size: 10px; text-align: center; position: relative; top: -5px; }

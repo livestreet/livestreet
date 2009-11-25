@@ -28,6 +28,11 @@ class LsACL extends Module {
 	const CAN_VOTE_BLOG_FALSE = 0;	
 	const CAN_VOTE_BLOG_TRUE = 1;
 	const CAN_VOTE_BLOG_ERROR_CLOSE = 2;
+	/**
+	 * Коды механизма удаления блога
+	 */
+	const CAN_DELETE_BLOG_EMPTY_ONLY  = 1;
+	const CAN_DELETE_BLOG_WITH_TOPICS = 2;
 	
 	/**
 	 * Инициализация модуля
@@ -337,5 +342,33 @@ class LsACL extends Module {
 		}				
 		return $bReturn;
 	}	
+
+	/**
+	 * Проверяет можно или нет пользователю удалять данный блог
+	 *
+	 * @param object $oBlog
+	 * @param object $oUser
+	 */
+	public function IsAllowDeleteBlog($oBlog,$oUser) {		
+		/**
+		 * Разрешаем если это админ сайта или автор блога
+		 */
+		if ($oUser->isAdministrator()) {
+			return self::CAN_DELETE_BLOG_WITH_TOPICS;
+		}
+		/**
+		 * Разрешаем удалять администраторам блога и автору, но только пустой
+		 */
+		if($oBlog->getOwenerId()==$oUser->getId()) {
+			return self::CAN_DELETE_BLOG_EMPTY_ONLY;
+		}
+		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		if($oBlogUser and $oBlogUser->getIsAdministrator()) {
+			return self::CAN_DELETE_BLOG_EMPTY_ONLY;			
+		}
+		
+		return false;
+	}		
 }
 ?>

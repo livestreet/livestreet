@@ -118,6 +118,7 @@ class ActionBlog extends Action {
 		
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
+		$this->AddEvent('delete','EventDeleteBlog');
 		$this->AddEvent('admin','EventAdminBlog');
 		$this->AddEvent('invite','EventInviteBlog');
 		
@@ -216,7 +217,7 @@ class ActionBlog extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function EventEditBlog() {		
+	protected function EventEditBlog() {
 		/**
 		 * Меню
 		 */
@@ -720,6 +721,7 @@ class ActionBlog extends Action {
 		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_USER);
 		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_MODERATOR);
 		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		
 		/**
 		 * Вызов хуков
 		 */
@@ -1158,6 +1160,66 @@ class ActionBlog extends Action {
 		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
 		
 		Router::Location(Router::GetPath('talk'));		
+	}
+
+	/**
+	 * Удаление блога
+	 *
+	 * @return bool
+	 */
+	protected function EventDeleteBlog() {
+		$this->Security_ValidateSendForm();
+		/**
+		 * Проверяем передан ли в УРЛе номер блога
+		 */
+		$sBlogId=$this->GetParam(0);
+		if (!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Проверям авторизован ли пользователь
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error');
+		}
+		/**
+		 * проверяем есть ли право на удаление топика
+		 */		
+		if (!$bAccess=$this->ACL_IsAllowDeleteBlog($oBlog,$this->oUserCurrent)) {
+			return parent::EventNotFound();
+		}
+		$aTopics =  $this->Topic_GetTopicsByBlogId($sBlogId);
+		switch ($bAccess) {
+			case LsACL::CAN_DELETE_BLOG_EMPTY_ONLY :
+				if(is_array($aTopics) and count($aTopics)) {
+					$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_not_empty'),$this->Lang_Get('error'),true);
+					Router::Location($oBlog()->getUrlFull());
+				}
+				break;
+			case LsACL::CAN_DELETE_BLOG_WITH_TOPICS :
+				/**
+				 * Если указан идентификатор блога для перемещения,
+				 * то делаем попытку переместить топики
+				 */
+				if($sBlogIdNew=getRequest('topic_move_to') and is_array($aTopics) and count($aTopics)) {
+					if(!$oBlogNew = $this->Blog_GetBlogById($sBlogIdNew)){
+						$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_move_error'),$this->Lang_Get('error'),true);
+						Router::Location($oBlog()->getUrlFull());
+					} else {
+						$this->Topic_MoveTopicsByArrayId($aTopics,$sBlogIdNew);
+					}
+				}
+				break;
+			default:
+				return parent::EventNotFound();	
+		}
+		if($this->Blog_DeleteBlog($sBlogId)) {
+			$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_delete_success'),$this->Lang_Get('attention'),true);
+			Router::Location(Router::GetPath('blogs'));
+		} else {
+			Router::Location($oBlog()->getUrlFull());
+		}
 	}
 	
 	/**
