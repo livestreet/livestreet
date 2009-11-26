@@ -118,6 +118,7 @@ class Jevix{
         protected $isAutoBrMode = true; // \n = <br/>
         protected $isAutoLinkMode = true;
         protected $br = "<br/>";
+        protected $tagsBlock = array(); // Теги, после которых не нужно добавлять дополнительный <br/>
 
         protected $noTypoMode = false;
 
@@ -143,6 +144,7 @@ class Jevix{
         const TR_TAG_NO_TYPOGRAPHY = 12; // Отключение типографирования для тега
         const TR_TAG_IS_EMPTY = 13;      // Не короткий тег с пустым содержанием имеет право существовать
         const TR_TAG_NO_AUTO_BR = 14;    // Тег в котором не нужна авто-расстановка <br>
+        const TR_TAG_BLOCK_TYPE = 15;    // Тег после которого не нужна автоподстановка доп. <br>
 
         /**
          * Классы символов генерируются symclass.php
@@ -229,7 +231,15 @@ class Jevix{
         function cfgSetTagCutWithContent($tags){
                 $this->_cfgSetTagsFlag($tags, self::TR_TAG_CUT, true);
         }
-
+        
+        /**
+         * КОНФИГУРАЦИЯ: После тега не нужно добавлять дополнительный <br/>
+         * @param array|string $tags тег(и)
+         */
+        function cfgSetTagBlockType($tags){
+                $this->_cfgSetTagsFlag($tags, self::TR_TAG_BLOCK_TYPE, true);
+        }
+        
         /**
          * КОНФИГУРАЦИЯ: Добавление разрешённых параметров тега
          * @param string $tag тег
@@ -348,7 +358,7 @@ class Jevix{
         function cfgSetAutoLinkMode($isAutoLinkMode){
                 $this->isAutoLinkMode = $isAutoLinkMode;
         }
-
+        
         protected function &strToArray($str){
                 $chars = null;
                 preg_match_all('/./su', $str, $chars);
@@ -975,6 +985,8 @@ class Jevix{
                                 // Пропускаем пробелы после <br> и запрещённых тегов, которые вырезаются парсером
                                 if ($tag=='br') {
                                         $this->skipNL();
+                                }elseif (isset($this->tagsRules[$tag]) and isset($this->tagsRules[$tag][self::TR_TAG_BLOCK_TYPE])) {
+                                        $this->skipNL($count,2);
                                 } elseif (empty($tagText)){
                                         $this->skipSpaces();
                                 }
@@ -1016,14 +1028,17 @@ class Jevix{
          * Пропуск переводов строк подсчет кол-ва
          *
          * @param int $count ссылка для возвращения числа переводов строк
+         * @param int $limit максимальное число пропущенных переводов строк, при уставновке в 0 - не лимитируется
          * @return boolean
          */
-        protected function skipNL(&$count = 0){
+        protected function skipNL(&$count = 0,$limit=0){
                 if(!($this->curChClass & self::NL)) return false;
                 $count++;
                 $firstNL = $this->curCh;
                 $nl = $this->getCh();
                 while($this->curChClass & self::NL){
+                		// Проверяем, не превышен ли лимит
+                		if($limit>0 and $count>=$limit) break;
                         // Если символ новый строки ткой же как и первый увеличиваем счетчик
                         // новых строк. Это сработает при любых сочетаниях
                         // \r\n\r\n, \r\r, \n\n - две перевода
@@ -1031,7 +1046,7 @@ class Jevix{
                         $nl = $this->getCh();
                         // Между переводами строки могут встречаться пробелы
                         $this->skipSpaces();
-                }
+                }            
                 return true;
         }
 

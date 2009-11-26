@@ -86,6 +86,7 @@ class LsText extends Module {
 		$this->oJevix->cfgSetTagNoTypography('code');
 		$this->oJevix->cfgSetTagNoTypography('video');
 		$this->oJevix->cfgSetTagNoTypography('object');
+		$this->oJevix->cfgSetTagBlockType(array('h4','h5','h6'));
 	}
 	
 	/**
