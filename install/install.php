@@ -545,6 +545,7 @@ class Install {
 			$this->SaveConfig('db.params.port',  $aParams['port'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.user',  $aParams['user'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
+			$this->SaveConfig('db.params.dbname',$aParams['name'],     $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
 			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);
 			/**
