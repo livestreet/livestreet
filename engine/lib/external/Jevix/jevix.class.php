@@ -118,7 +118,6 @@ class Jevix{
         protected $isAutoBrMode = true; // \n = <br/>
         protected $isAutoLinkMode = true;
         protected $br = "<br/>";
-        protected $tagsBlock = array(); // Теги, после которых не нужно добавлять дополнительный <br/>
 
         protected $noTypoMode = false;
 
@@ -751,7 +750,7 @@ class Jevix{
         }
 
         protected function tagParam(&$name, &$value){
-    $this->saveState();
+    			$this->saveState();
                 if(!$this->name($name, true)) return false;
 
                 if(!$this->matchCh('=', true)){
@@ -981,12 +980,14 @@ class Jevix{
                         if($this->curCh == '<' && $this->tag($tag, $params, $text, $shortTag)){
                                 // Преобразуем тег в текст
                                 $tagText = $this->makeTag($tag, $params, $text, $shortTag, $parentTag);
-                                $content.=$tagText;
+                                $content.=$tagText;                               
+                                
                                 // Пропускаем пробелы после <br> и запрещённых тегов, которые вырезаются парсером
                                 if ($tag=='br') {
                                         $this->skipNL();
                                 }elseif (isset($this->tagsRules[$tag]) and isset($this->tagsRules[$tag][self::TR_TAG_BLOCK_TYPE])) {
-                                        $this->skipNL($count,2);
+                                		$count=0;
+                                		$this->skipNL($count,2);
                                 } elseif (empty($tagText)){
                                         $this->skipSpaces();
                                 }
@@ -1218,12 +1219,12 @@ class Jevix{
                                 // после пробелов снова возможно новое слово
                                 $newWord = true;
                         } elseif ($this->isAutoBrMode && $this->skipNL($brCount)){
-                                // Перенос строки                                
+                        		// Перенос строки                                
                                 if ($this->curParentTag 
                                 	and isset($this->tagsRules[$this->curParentTag])
                                 	and isset($this->tagsRules[$this->curParentTag][self::TR_TAG_NO_AUTO_BR]) 
-                                	and (is_null($this->openedTag) or $this->curParentTag==$this->openedTag) 
-                                	) {
+                                	and (is_null($this->openedTag) or $this->curParentTag==$this->openedTag)
+                                ) {
                                 	// пропускаем <br/>
                                 } else {
                                 	$br = $this->br.$this->nl;
