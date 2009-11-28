@@ -288,7 +288,7 @@ class LsACL extends Module {
 		if ($oBlog->getOwnerId()==$oUser->getId()) {
 			return true;
 		}
-		if ($oBlogUser=$this->GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
+		if ($oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
 			if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
 				return true;
 			}
