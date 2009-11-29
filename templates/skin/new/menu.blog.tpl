@@ -1,10 +1,10 @@
 		<ul class="menu">
 		
 			<li {if $sMenuItemSelect=='index'}class="active"{/if}>
-				<a href="{$aConfig.path.root.web}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}+{$iCountTopicsNew}{/if}
+				<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}+{$iCountTopicsNew}{/if}
 				{if $sMenuItemSelect=='index'}
 					<ul class="sub-menu" >
-						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{$aConfig.path.root.web}/">{$aLang.blog_menu_all_good}</a></div></li>						
+						<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><div><a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all_good}</a></div></li>						
 						{if $iCountTopicsNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><div><a href="{router page='new'}">{$aLang.blog_menu_all_new}</a> +{$iCountTopicsNew}</div></li>{/if}
 					</ul>
 				{/if}

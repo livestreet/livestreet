@@ -1,7 +1,7 @@
 		<ul class="menu">
 		
 			<li {if $sMenuSubItemSelect=='add'}class="active"{/if}>
-				<a href="{$aConfig.path.root.web}/{if $sMenuItemSelect=='add_blog'}topic{else}{$sMenuItemSelect}{/if}/add/">{$aLang.topic_menu_add}</a>
+				<a href="{cfg name='path.root.web'}/{if $sMenuItemSelect=='add_blog'}topic{else}{$sMenuItemSelect}{/if}/add/">{$aLang.topic_menu_add}</a>
 				{if $sMenuSubItemSelect=='add'}
 					<ul class="sub-menu" >
 						<li {if $sMenuItemSelect=='topic'}class="active"{/if}><div><a href="{router page='topic'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_topic}</a></div></li>						

@@ -4,4 +4,4 @@
 {/if}
 Не забудьте предварительно авторизоваться!							
 <br><br>
-С уважением, администрация сайта <a href="{$aConfig.path.root.web}">{$aConfig.view.name}</a>
+С уважением, администрация сайта <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>

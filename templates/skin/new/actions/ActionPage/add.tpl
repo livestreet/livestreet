@@ -1,7 +1,7 @@
 				{include file='window_load_img.tpl' sToLoad='page_text'}
 
 {if $aConfig.view.tinymce}
-<script type="text/javascript" src="{$aConfig.path.root.web}/classes/lib/external/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="{cfg name='path.root.web'}/classes/lib/external/tiny_mce/tiny_mce.js"></script>
 {literal}
 <script type="text/javascript">
 tinyMCE.init({
@@ -52,17 +52,17 @@ tinyMCE.init({
 					<p><label for="topic_text">{$aLang.page_create_text}:</label>
 					{if !$aConfig.view.tinymce}
             			<div class="panel_form" style="background: #eaecea; ">       	 
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','b'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','i'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','u'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','s'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','b'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','i'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','u'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','s'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
 	 						&nbsp;
-	 						<a href="#" onclick="lsPanel.putTagUrl('page_text','Введите ссылку'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','code'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
-	 						<a href="#" onclick="lsPanel.putTagAround('page_text','video'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/video.gif" width="20" height="20" title="{$aLang.panel_video}"></a>
+	 						<a href="#" onclick="lsPanel.putTagUrl('page_text','Введите ссылку'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','code'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
+	 						<a href="#" onclick="lsPanel.putTagAround('page_text','video'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/video.gif" width="20" height="20" title="{$aLang.panel_video}"></a>
 	 				
-	 						<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/img.gif" width="20" height="20" title="{$aLang.panel_image}"></a> 			
-	 						<a href="#" onclick="lsPanel.putText('page_text','<cut>'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/cut.gif" width="20" height="20" title="{$aLang.panel_cut}"></a>	
+	 						<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/img.gif" width="20" height="20" title="{$aLang.panel_image}"></a> 			
+	 						<a href="#" onclick="lsPanel.putText('page_text','<cut>'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/cut.gif" width="20" height="20" title="{$aLang.panel_cut}"></a>	
 	 					</div>
 	 				{/if}
 	 				<textarea name="page_text" id="page_text" rows="20">{$_aRequest.page_text}</textarea></p>

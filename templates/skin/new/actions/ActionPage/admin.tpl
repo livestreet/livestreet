@@ -34,7 +34,7 @@
   {/if}
   <tr class="{$className}" onmouseover="this.className='colored_sel';" onmouseout="this.className='{$className}';">  
     <td align="left" valign="middle">
-    	<img src="{$aConfig.path.static.skin}/images/{if $oPage->getLevel()==0}folder{else}new{/if}_16x16.gif" alt="" title="" border="0" style="margin-left: {$oPage->getLevel()*20}px;"/>
+    	<img src="{cfg name='path.static.skin'}/images/{if $oPage->getLevel()==0}folder{else}new{/if}_16x16.gif" alt="" title="" border="0" style="margin-left: {$oPage->getLevel()*20}px;"/>
     	<a href="{router page='page'}{$oPage->getUrlFull()}/">{$oPage->getTitle()}</a>
     </td>
     <td align="left">
@@ -48,9 +48,9 @@
     {/if}
     </td>
     <td align="center">  
-    	<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{$aConfig.path.static.skin}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
+    	<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{cfg name='path.static.skin'}/images/edit.gif" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" border="0"/></a>      	
     	&nbsp;
-      	<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{$aConfig.path.static.skin}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
+      	<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{cfg name='path.static.skin'}/images/delete.gif" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" border="0"/></a>        	    
     </td>   
   </tr>
   {/foreach}

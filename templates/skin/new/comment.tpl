@@ -2,7 +2,7 @@
 						{assign var="oUser" value=$oComment->getUser()}
 						{assign var="oVote" value=$oComment->getVote()}
 						{if !$oComment->getDelete() or $bOneComment or ($oUserCurrent and $oUserCurrent->isAdministrator())}
-							<img src="{$aConfig.path.static.skin}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if} />
+							<img src="{cfg name='path.static.skin'}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if} />
 							<a name="comment{$oComment->getId()}" ></a>	
 							{if $oComment->getTargetType()!='talk'}						
 							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$aConfig.acl.vote.comment.limit_time}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">

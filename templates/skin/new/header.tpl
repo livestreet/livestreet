@@ -10,20 +10,20 @@
 
 	{$aHtmlHeadFiles.css}
 	
-	<link href="{$aConfig.path.static.skin}/images/favicon.ico" rel="shortcut icon" />
-	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{$aConfig.view.name}" />
+	<link href="{cfg name='path.static.skin'}/images/favicon.ico" rel="shortcut icon" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 	
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
 
 <script language="JavaScript" type="text/javascript">
-var DIR_WEB_ROOT='{$aConfig.path.root.web}';
-var DIR_STATIC_SKIN='{$aConfig.path.static.skin}';
-var BLOG_USE_TINYMCE='{$aConfig.view.tinymce}';
-var TALK_RELOAD_PERIOD = '{$aConfig.module.talk.period}';
-var TALK_RELOAD_REQUEST = '{$aConfig.module.talk.request}'; 
-var TALK_RELOAD_MAX_ERRORS = '{$aConfig.module.talk.max_errors}';
+var DIR_WEB_ROOT='{cfg name="path.root.web"}';
+var DIR_STATIC_SKIN='{cfg name="path.static.skin"}';
+var BLOG_USE_TINYMCE='{cfg name="view.tinymce"}';
+var TALK_RELOAD_PERIOD='{cfg name="module.talk.period"}';
+var TALK_RELOAD_REQUEST='{cfg name="module.talk.request"}'; 
+var TALK_RELOAD_MAX_ERRORS='{cfg name="module.talk.max_errors"}';
 var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 
 var aRouter=new Array();

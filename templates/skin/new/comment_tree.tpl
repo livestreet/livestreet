@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{$aConfig.path.static.skin}/js/comments.js"></script>
+<script type="text/javascript" src="{cfg name='path.static.skin'}/js/comments.js"></script>
 
 			<!-- Comments -->
 			<div class="comments">
@@ -7,7 +7,7 @@
 					<div class="tl"></div>
 					<div class="wrapper">
 						<div class="refresh">
-							<img class="update-comments" id="update-comments" alt="" src="{$aConfig.path.static.skin}/images/update.gif" onclick="lsCmtTree.responseNewComment({$iTargetId},'{$sTargetType}',this); return false;"/>
+							<img class="update-comments" id="update-comments" alt="" src="{cfg name='path.static.skin'}/images/update.gif" onclick="lsCmtTree.responseNewComment({$iTargetId},'{$sTargetType}',this); return false;"/>
 						</div>
 						<div class="new-comments" id="new-comments" style="display: none;" onclick="lsCmtTree.goNextComment();">							
 						</div>
@@ -75,14 +75,14 @@
 						<div style="display: block;" id="reply_0" class="reply">						
 						{if !$aConfig.view.tinymce}
             					<div class="panel_form" style="background: #eaecea; margin-top: 2px;">       	 
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
 	 								&nbsp;
-	 								<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','{$aLang.panel_url_promt}'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
-	 								<a href="#" onclick="lsPanel.putQuote('form_comment_text'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/quote.gif" width="20" height="20" title="{$aLang.panel_quote}"></a>
-	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{$aConfig.path.static.skin}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
+	 								<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','{$aLang.panel_url_promt}'); return false;" class="button"><img src="{cfg name='.path.static.skin'}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
+	 								<a href="#" onclick="lsPanel.putQuote('form_comment_text'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/quote.gif" width="20" height="20" title="{$aLang.panel_quote}"></a>
+	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
 	 							</div>
 	 					{/if}
 						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">							

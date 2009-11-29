@@ -3,7 +3,7 @@
 						<tr>
 							<td class="user">{$aLang.blogs_title}</td>
 							{if $oUserCurrent}
-							<td class="join-head"><img src="{$aConfig.path.static.skin}/images/join-head.gif" alt="" /></td>
+							<td class="join-head"><img src="{cfg name='path.static.skin'}/images/join-head.gif" alt="" /></td>
 							{/if}
 							<td class="readers">{$aLang.blogs_readers}</td>														
 							<td class="rating">{$aLang.blogs_rating}</td>

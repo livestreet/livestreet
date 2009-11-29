@@ -213,19 +213,13 @@ class LsViewer extends Module {
 		$this->Assign("_sPhpSessionName",session_name());
 		$this->Assign("_sPhpSessionId",session_id());
 		/**
-		 * Загружаем часть конфигурации
-		 */
-		$aConfig=Config::Get();
-		foreach ((array)Config::Get('view.no_assign') as $sGroup) {
-			unset($aConfig[$sGroup]);
-		}
-		$this->Assign("aConfig",$aConfig);
-
-		/**
 		 * Загружаем роутинг с учетом правил rewrite
 		 */
 		$aRouter=array();
-		foreach ($aConfig['router']['page'] as $sPage=>$aAction) {
+		$aPages=Config::Get('router.page');
+		
+		if(!$aPages or !is_array($aPages)) throw new Exception('Router rules is underfined.');	
+		foreach ($aPages as $sPage=>$aAction) {
 			$aRouter[$sPage]=Router::GetPath($sPage);
 		}
 		$this->Assign("aRouter",$aRouter);

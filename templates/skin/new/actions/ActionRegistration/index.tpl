@@ -20,7 +20,7 @@
 			<p><input type="password" class="input-text"  value="" id="repass" name="password_confirm"/></p><br />
 			
 			{$aLang.registration_captcha}:<br />
-			<img src="{$aConfig.path.root.engine_lib}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}"  onclick="this.src='{$aConfig.path.root.engine_lib}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();">
+			<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}"  onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();">
 			<p><input type="text" class="input-text" style="width: 80px;" name="captcha" value="" maxlength=3 /></p>
 			<div class="lite-note">
 				<button type="submit" name="submit_register" class="button" style="float: none;"><span><em>{$aLang.registration_submit}</em></span></button>

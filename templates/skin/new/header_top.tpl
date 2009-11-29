@@ -20,7 +20,7 @@
 	{/if}
 	
 	<div id="header">
-		<h1><a href="{$aConfig.path.root.web}"><strong>Live</strong>Street</a></h1>
+		<h1><a href="{cfg name='path.root.web'}"><strong>Live</strong>Street</a></h1>
 		
 		<ul class="nav-main">
 			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.blogs}</a></li>
