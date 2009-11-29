@@ -44,11 +44,9 @@ class LsDatabase extends Module {
 	 */
 	public function GetConnect($aConfig=null) {
 		/**
-		 * Если конфиг не передан то используем главный конфиг БД из config.db.php
+		 * Если конфиг не передан то используем главный конфиг БД из config.php
 		 */
 		if (is_null($aConfig)) {
-			// Рефакторинг: переход на конфигурационные массивы
-			// $aConfig=include(DIR_SERVER_ROOT."/config/config.db.php");
 			$aConfig = Config::Get('db.params');
 		}
 		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		

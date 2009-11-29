@@ -42,7 +42,6 @@ $t2=microtime(true);
 $oProfiler->Stop($iTimeId);
 ?>
 
-
 <?php 
 $oUser=$oRouter->User_GetUserCurrent();
 if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) { 

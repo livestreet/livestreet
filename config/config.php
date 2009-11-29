@@ -46,20 +46,20 @@ $config['path']['root']['server']     = $_SERVER['DOCUMENT_ROOT'];           // 
  * Для CLI режима использовать
  * $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе 
  */
-$config['path']['root']['engine']     = $config['path']['root']['server'].'/engine';  // полный путь до сайта в файловой системе;
-$config['path']['root']['engine_lib'] = $config['path']['root']['web'].'/engine/lib'; // полный путь до сайта в файловой системе
-$config['path']['static']['root']     = $config['path']['root']['web'];      // чтоб можно было статику засунуть на отдельный сервер
-$config['path']['static']['skin']     = $config['path']['static']['root'].'/templates/skin/'.$config['view']['skin'];
+$config['path']['root']['engine']     = '___path.root.server___/engine';  // полный путь до сайта в файловой системе;
+$config['path']['root']['engine_lib'] = '___path.root.web___/engine/lib'; // полный путь до сайта в файловой системе
+$config['path']['static']['root']     = '___path.root.web___';            // чтоб можно было статику засунуть на отдельный сервер
+$config['path']['static']['skin']     = '___path.static.root___/templates/skin/___view.skin___';
 $config['path']['uploads']['root']    = '/uploads';                          // директория для загрузки файлов
-$config['path']['uploads']['images']  = $config['path']['uploads']['root'].'/images';
+$config['path']['uploads']['images']  ='___path.uploads.root___/images';
 $config['path']['offset_request_url'] = 0;                                   // иногда помогает если сервер использует внутренние реврайты
 /**
  * Настройки шаблонизатора Smarty
  */
-$config['path']['smarty']['template'] = $config['path']['root']['server'].'/templates/skin/'.$config['view']['skin'];
-$config['path']['smarty']['compiled'] = $config['path']['root']['server'].'/templates/compiled';
-$config['path']['smarty']['cache']    = $config['path']['root']['server'].'/templates/cache';
-$config['path']['smarty']['plug']     = $config['path']['root']['engine'].'/modules/viewer/plugs';
+$config['path']['smarty']['template'] = '___path.root.server___/templates/skin/'.$config['view']['skin'];
+$config['path']['smarty']['compiled'] = '___path.root.server___/templates/compiled';
+$config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
+$config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
 /**
  * Настройки куков
  */
@@ -71,8 +71,8 @@ $config['sys']['cookie']['path'] = '/';  // путь для установки �
 $config['sys']['session']['standart'] = true;                             // Использовать или нет стандартный механизм сессий
 $config['sys']['session']['name']     = 'PHPSESSID';                      // название сессии
 $config['sys']['session']['timeout']  = null;                             // Тайм-аут сессии в секундах
-$config['sys']['session']['host']     = $config['sys']['cookie']['host']; // хост сессии в куках
-$config['sys']['session']['path']     = $config['sys']['cookie']['path']; // путь сессии в куках
+$config['sys']['session']['host']     = '___sys.cookie.host___'; // хост сессии в куках
+$config['sys']['session']['path']     = '___sys.cookie.path___'; // путь сессии в куках
 /**
  * Настройки почтовых уведомлений
  */
@@ -93,7 +93,7 @@ $config['sys']['mail']['include_talk']     = true;                   // Вклю
 // Устанавливаем настройки кеширования
 $config['sys']['cache']['use']    = true;               // использовать кеширование или нет
 $config['sys']['cache']['type']   = 'file';             // тип кеширования: file и memory. memory использует мемкеш
-$config['sys']['cache']['dir']    = $config['path']['root']['server'].'/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
+$config['sys']['cache']['dir']    = '___path.root.server___/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 $config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
 $config['sys']['cache']['solid']  = true;               // Настройка использования раздельного и монолитного кеша для отдельных операций
 
@@ -110,15 +110,15 @@ $config['sys']['logs']['cron_file']      = 'cron.log';      // файл лога
  * Общие настройки
  */
 $config['general']['close']             = false; // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
-$config['general']['rss_editor_mail']   = $config['sys']['mail']['from_email']; // мыло редактора РСС
+$config['general']['rss_editor_mail']   = '___sys.mail.from_email___'; // мыло редактора РСС
 $config['general']['reg']['invite']     = false; // использовать активацию при регистрации или нет
 $config['general']['reg']['activation'] = false; // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 /**
  * Языковые настройки
  */
-$config['lang']['current'] ='russian';                                                // текущий язык текстовок
-$config['lang']['default'] ='russian';                                                // язык, который будет использовать на сайте по умолчанию
-$config['lang']['path']    = $config['path']['root']['server'].'/templates/language'; // полный путь до языковых файлов
+$config['lang']['current'] = 'russian';                                                // текущий язык текстовок
+$config['lang']['default'] = 'russian';                                                // язык, который будет использовать на сайте по умолчанию
+$config['lang']['path']    = '___path.root.server___/templates/language'; // полный путь до языковых файлов
 /**
  * Настройки ACL(Access Control List — список контроля доступа)
  */
@@ -186,8 +186,8 @@ $config['module']['image']['default']['watermark_image']      = false;
 $config['module']['image']['default']['round_corner']         = false;
 $config['module']['image']['default']['round_corner_radius']  = '18';
 $config['module']['image']['default']['round_corner_rate']    = '40';
-$config['module']['image']['default']['path']['watermarks']   = $config['path']['root']['server'].'/engine/lib/external/LiveImage/watermarks/';
-$config['module']['image']['default']['path']['fonts']        = $config['path']['root']['server'].'/engine/lib/external/LiveImage/fonts/';
+$config['module']['image']['default']['path']['watermarks']   = '___path.root.server___/engine/lib/external/LiveImage/watermarks/';
+$config['module']['image']['default']['path']['fonts']        = '___path.root.server___/engine/lib/external/LiveImage/fonts/';
 
 $config['module']['image']['foto']['watermark_use']  = false;
 $config['module']['image']['foto']['round_corner']   = false;
@@ -214,36 +214,36 @@ $config['db']['params']['dbname'] = 'social';
  */
 $config['db']['table']['prefix'] = 'prefix_';
 
-$config['db']['table']['user']                = $config['db']['table']['prefix'].'user';
-$config['db']['table']['blog']                = $config['db']['table']['prefix'].'blog';
-$config['db']['table']['topic']               = $config['db']['table']['prefix'].'topic';
-$config['db']['table']['topic_tag']           = $config['db']['table']['prefix'].'topic_tag';
-$config['db']['table']['comment']             = $config['db']['table']['prefix'].'comment';
-$config['db']['table']['vote']                = $config['db']['table']['prefix'].'vote';
-$config['db']['table']['topic_read']          = $config['db']['table']['prefix'].'topic_read';
-$config['db']['table']['blog_user']           = $config['db']['table']['prefix'].'blog_user';
-$config['db']['table']['blog_vote']           = $config['db']['table']['prefix'].'blog_vote';
-$config['db']['table']['topic_comment_vote']  = $config['db']['table']['prefix'].'topic_comment_vote';
-$config['db']['table']['user_vote']           = $config['db']['table']['prefix'].'user_vote';
-$config['db']['table']['favourite']           = $config['db']['table']['prefix'].'favourite';
-$config['db']['table']['talk']                = $config['db']['table']['prefix'].'talk';
-$config['db']['table']['talk_user']           = $config['db']['table']['prefix'].'talk_user';
-$config['db']['table']['talk_comment']        = $config['db']['table']['prefix'].'talk_comment';
-$config['db']['table']['talk_blacklist']      = $config['db']['table']['prefix'].'talk_blacklist';
-$config['db']['table']['friend']              = $config['db']['table']['prefix'].'friend';
-$config['db']['table']['topic_content']       = $config['db']['table']['prefix'].'topic_content';
-$config['db']['table']['topic_question_vote'] = $config['db']['table']['prefix'].'topic_question_vote';
-$config['db']['table']['user_administrator']  = $config['db']['table']['prefix'].'user_administrator';
-$config['db']['table']['comment_online']      = $config['db']['table']['prefix'].'comment_online';
-$config['db']['table']['invite']              = $config['db']['table']['prefix'].'invite';
-$config['db']['table']['page']                = $config['db']['table']['prefix'].'page';
-$config['db']['table']['city']                = $config['db']['table']['prefix'].'city';
-$config['db']['table']['city_user']           = $config['db']['table']['prefix'].'city_user';
-$config['db']['table']['country']             = $config['db']['table']['prefix'].'country';
-$config['db']['table']['country_user']        = $config['db']['table']['prefix'].'country_user';
-$config['db']['table']['reminder']            = $config['db']['table']['prefix'].'reminder';
-$config['db']['table']['session']             = $config['db']['table']['prefix'].'session';
-$config['db']['table']['notify_task']         = $config['db']['table']['prefix'].'notify_task';
+$config['db']['table']['user']                = '___db.table.prefix___user';
+$config['db']['table']['blog']                = '___db.table.prefix___blog';
+$config['db']['table']['topic']               = '___db.table.prefix___topic';
+$config['db']['table']['topic_tag']           = '___db.table.prefix___topic_tag';
+$config['db']['table']['comment']             = '___db.table.prefix___comment';
+$config['db']['table']['vote']                = '___db.table.prefix___vote';
+$config['db']['table']['topic_read']          = '___db.table.prefix___topic_read';
+$config['db']['table']['blog_user']           = '___db.table.prefix___blog_user';
+$config['db']['table']['blog_vote']           = '___db.table.prefix___blog_vote';
+$config['db']['table']['topic_comment_vote']  = '___db.table.prefix___topic_comment_vote';
+$config['db']['table']['user_vote']           = '___db.table.prefix___user_vote';
+$config['db']['table']['favourite']           = '___db.table.prefix___favourite';
+$config['db']['table']['talk']                = '___db.table.prefix___talk';
+$config['db']['table']['talk_user']           = '___db.table.prefix___talk_user';
+$config['db']['table']['talk_comment']        = '___db.table.prefix___talk_comment';
+$config['db']['table']['talk_blacklist']      = '___db.table.prefix___talk_blacklist';
+$config['db']['table']['friend']              = '___db.table.prefix___friend';
+$config['db']['table']['topic_content']       = '___db.table.prefix___topic_content';
+$config['db']['table']['topic_question_vote'] = '___db.table.prefix___topic_question_vote';
+$config['db']['table']['user_administrator']  = '___db.table.prefix___user_administrator';
+$config['db']['table']['comment_online']      = '___db.table.prefix___comment_online';
+$config['db']['table']['invite']              = '___db.table.prefix___invite';
+$config['db']['table']['page']                = '___db.table.prefix___page';
+$config['db']['table']['city']                = '___db.table.prefix___city';
+$config['db']['table']['city_user']           = '___db.table.prefix___city_user';
+$config['db']['table']['country']             = '___db.table.prefix___country';
+$config['db']['table']['country_user']        = '___db.table.prefix___country_user';
+$config['db']['table']['reminder']            = '___db.table.prefix___reminder';
+$config['db']['table']['session']             = '___db.table.prefix___session';
+$config['db']['table']['notify_task']         = '___db.table.prefix___notify_task';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM 
 /**
@@ -397,7 +397,7 @@ $config['head']['default']['css'] = array(
 /**
  * Параметры компрессии css-файлов
  */
-$config['compress']['css']['merge'] = true;       // указывает на необходимость слияния файлов по указанным блокам.
+$config['compress']['css']['merge'] = false;       // указывает на необходимость слияния файлов по указанным блокам.
 $config['compress']['css']['use']   = true;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 $config['compress']['css']['case_properties']     = 1;
 $config['compress']['css']['merge_selectors']     = 0;

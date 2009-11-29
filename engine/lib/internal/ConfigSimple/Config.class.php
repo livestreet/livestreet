@@ -186,12 +186,30 @@ class Config {
 		// Return config by path (separator=".")
 		$aKeys=explode('.',$sKey);
 		$cfg=self::getInstance($sInstance)->GetConfig();
-		foreach ((array)$aKeys as $sK) {						
+		foreach ((array)$aKeys as $sK) {
 			if(isset($cfg[$sK])) {
 				$cfg=$cfg[$sK];
 			} else {
 				return null;
 			}
+		}
+		
+		$cfg = self::KeyReplace($cfg,$sInstance);
+		return $cfg;
+	}
+	
+	static public function KeyReplace($cfg,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {
+		if(is_array($cfg)) {
+			foreach($cfg as $k=>$v) {
+				$cfg[$k] = self::KeyReplace($v,$sInstance);
+			}
+		} else { 
+			if(preg_match('~___([\S|\.|]+)___~Ui',$cfg))
+				$cfg = preg_replace_callback(
+					'~___([\S|\.]+)___~Ui',
+					create_function('$value','return Config::Get($value[1],"'.$sInstance.'");'),
+					$cfg
+				);
 		}
 		return $cfg;
 	}
