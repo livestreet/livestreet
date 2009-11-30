@@ -840,6 +840,7 @@ class LsViewer extends Module {
 			 * Создаем новый файл и сливаем туда содержимое
 			 */			
 			file_put_contents($sCacheName,$sContent);
+			@chmod($sCacheName, 0766);
 		}
 		/**
 		 * Возвращаем имя файла, заменяя адрес сервера на веб-адрес

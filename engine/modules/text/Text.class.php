@@ -81,7 +81,7 @@ class LsText extends Module {
 		// Отключение авто-добавления <br>
 		$this->oJevix->cfgSetAutoBrMode(true);
 		// Автозамена
-		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(r)', '(C)', '(R)'), array('±', '©', '®', '©', '®'));
+		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(с)', '(r)', '(C)', '(С)', '(R)'), array('±', '©', '©', '®', '©', '©', '®'));
 		//$this->oJevix->cfgSetXHTMLMode(false);
 		$this->oJevix->cfgSetTagNoTypography('code');
 		$this->oJevix->cfgSetTagNoTypography('video');

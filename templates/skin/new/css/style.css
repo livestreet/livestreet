@@ -339,7 +339,7 @@ select { width: 99%; }
 .block.blogs ul.list { border-top: 1px solid #eee; padding-top: 3px; margin-top: 10px; }
 .block.blogs ul.list li { overflow: hidden; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
 .block.blogs ul.list li a { padding-right: 50px; color: #777; }
-.block.blogs ul.list li a.close { padding-right: 50px; color: red; }
+.block.blogs ul.list li a.close { padding-right: 20px; background: url(../images/key.png) no-repeat right; }
 .block.blogs ul.list li .total { float: right; font-weight: bold; padding-right: 13px; }
 .block.blogs ul.list li .up { background: url(../images/blog-rating-up.gif) no-repeat right 5px; }
 .block.blogs ul.list li .down { background: url(../images/blog-rating-down.gif) no-repeat right 5px; }
@@ -679,7 +679,7 @@ select { width: 99%; }
 .people.top-blogs td.name { overflow: hidden; }
 .people.top-blogs td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }
 .people.top-blogs td.name a.title { font-size: 18px; line-height: 14px; }
-.people.top-blogs td.name a.title.close { font-size: 18px; line-height: 14px; color: red; }
+.people.top-blogs td.name a.title.close { font-size: 18px; line-height: 14px; padding-right: 20px; background:url(../images/key.png) no-repeat right 5px;  }
 .people.top-blogs td.name a.author { line-height: 18px; background:url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 12px; color: #999; font-weight: bold; }
 .people.top-blogs .join { text-align: center; }
 .people.top-blogs .join a { margin: 0 auto; outline: none; display: block; height: 10px; width: 10px; background: url(../images/icons.gif) no-repeat scroll 0 -250px; zoom: 1; }

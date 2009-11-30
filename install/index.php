@@ -1320,8 +1320,8 @@ class Install {
 	 */
 	function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
-		$this->SaveConfig('path.root.web',rtrim('http://'.$_SERVER['HTTP_HOST'],'/').'/', $sLocalConfigFile); 
-		$this->SaveConfig('path.root.server', rtrim($_SERVER['DOCUMENT_ROOT'],'/').'/', $sLocalConfigFile); 
+		$this->SaveConfig('path.root.web',rtrim('http://'.$_SERVER['HTTP_HOST'],'/'), $sLocalConfigFile); 
+		$this->SaveConfig('path.root.server', rtrim($_SERVER['DOCUMENT_ROOT'],'/'), $sLocalConfigFile); 
 	}
 }
 

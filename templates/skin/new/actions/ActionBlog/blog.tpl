@@ -14,7 +14,6 @@ function toggleBlogInfo(id,link) {
 	}	
 	link.toggleClass('inactive');
 	slideObj.toggle();
-	
 }
 
 function toggleBlogDeleteForm(id,link) {
@@ -65,8 +64,8 @@ function toggleBlogDeleteForm(id,link) {
 										<option value="-1">{$aLang.blog_delete_clear}</option>
 										{if $aBlogs} 
 											<option disabled="disabled">-------------</option>
-											{foreach from=$aBlogs item=oBlog}
-												<option value="{$oBlog->getId()}">{$oBlog->getTitle()}</option>											
+											{foreach from=$aBlogs item=oBlogDelete}
+												<option value="{$oBlogDelete->getId()}">{$oBlogDelete->getTitle()}</option>											
 											{/foreach}
 										{/if}
 									</select>

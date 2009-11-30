@@ -201,7 +201,13 @@ class Config {
 	static public function KeyReplace($cfg,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {
 		if(is_array($cfg)) {
 			foreach($cfg as $k=>$v) {
-				$cfg[$k] = self::KeyReplace($v,$sInstance);
+				$k_replaced = self::KeyReplace($k, $sInstance);
+				if($k==$k_replaced) {
+					$cfg[$k] = self::KeyReplace($v,$sInstance);
+				} else {
+					$cfg[$k_replaced] = self::KeyReplace($v,$sInstance);
+					unset($cfg[$k]);
+				}
 			}
 		} else { 
 			if(preg_match('~___([\S|\.|]+)___~Ui',$cfg))
