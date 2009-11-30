@@ -337,7 +337,7 @@ class Router extends Object {
 		
 		// Смотрим, есть ли правило rewrite
 		$sPage = self::getInstance()->Rewrite($sPage);
-		return Config::Get('path.root.web')."/$sPage/";
+		return rtrim(Config::Get('path.root.web'),'/')."/$sPage/";
 	}
 	
 	/**

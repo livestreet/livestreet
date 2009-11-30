@@ -32,7 +32,7 @@ function smarty_function_router($aParams,&$oSmarty) {
 	
 	if(!$sPath = Router::GetPath($aParams['page'])) {
 		$oSmarty->trigger_error("Router: unknown 'page' given");
-		return ;		
+		return ;
 	}
 	/**
 	 * Возвращаем полный адрес к указаному Action

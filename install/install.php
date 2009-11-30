@@ -530,6 +530,7 @@ class Install {
 				$this->Layout('steps/db.tpl');
 				return false;
 			}
+			
 			/**
 			 * Сохраняем в config.local.php настройки соединения
 			 */
@@ -547,6 +548,16 @@ class Install {
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
 			$this->SaveConfig('db.params.dbname',$aParams['name'],     $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
+			
+			if($aParams['engine']=='InnoDB') {
+				/**
+				 * Проверяем поддержку InnoDB в MySQL
+				 */
+				$aStatus = @mysql_query('SHOW TABLE STATUS');
+				if($aStatus and $aTable = mysql_fetch_assoc($aStatus)) {
+					if($aStatus['engine']!='InnoDB') $aParams['engine'] = "MyISAM";
+				}
+			}
 			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);
 			/**
 			 * Сохраняем данные в сессию
@@ -624,7 +635,7 @@ class Install {
 		
 		$bUpdated = $this->UpdateDBUser(
 			$this->GetRequest('install_admin_login'),
-			$this->GetRequest('install_admin_password'),
+			$this->GetRequest('install_admin_pass'),
 			$this->GetRequest('install_admin_mail'),
 			$aParams['prefix']
 		);
@@ -904,7 +915,7 @@ class Install {
 	    
 		/**
 		 * Проверяем доступность и достаточность прав у директории
-		 * для сохранения файлового кеша
+		 * для сохранения файлового кеша, /logs, /uploads, /templates/compiled
 		 */
 		$sTempDir = dirname(dirname(__FILE__)).'/tmp';
 		if(!is_dir($sTempDir) or !is_writable($sTempDir)) {
@@ -913,6 +924,30 @@ class Install {
 		} else {
 			$this->Assign('validate_local_temp', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
+
+		$sLogsDir = dirname(dirname(__FILE__)).'/logs';
+		if(!is_dir($sLogsDir) or !is_writable($sLogsDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_logs', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_logs', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}
+		
+		$sUploadsDir = dirname(dirname(__FILE__)).'/uploads';
+		if(!is_dir($sUploadsDir) or !is_writable($sUploadsDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_uploads', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_uploads', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}
+
+		$sTemplatesDir = dirname(dirname(__FILE__)).'/templates/compiled';
+		if(!is_dir($sTemplatesDir) or !is_writable($sTemplatesDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_templaes', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_templates', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}			
 		
 	    return $bOk;
 	}	
@@ -1233,7 +1268,7 @@ class Install {
         		`user_mail`     = '{$sMail}',
         		`user_password` = md5('{$sPassword}')
 			WHERE `user_id` = 1";
-        
+
 		return mysql_query($sQuery);		
 	}
 	/**
@@ -1285,8 +1320,8 @@ class Install {
 	 */
 	function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
-		$this->SaveConfig('path.root.web','http://'.$_SERVER['HTTP_HOST'], $sLocalConfigFile); 
-		$this->SaveConfig('path.root.server', $_SERVER['DOCUMENT_ROOT'], $sLocalConfigFile); 
+		$this->SaveConfig('path.root.web',rtrim('http://'.$_SERVER['HTTP_HOST'],'/').'/', $sLocalConfigFile); 
+		$this->SaveConfig('path.root.server', rtrim($_SERVER['DOCUMENT_ROOT'],'/').'/', $sLocalConfigFile); 
 	}
 }
 

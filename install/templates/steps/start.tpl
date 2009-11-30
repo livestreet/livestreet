@@ -23,4 +23,13 @@ ___LANG_START_PARAGRAPH___
 	<tr>
 		<td width="350px">___LANG_LOCAL_TEMP_DIR___</td><td>___VALIDATE_LOCAL_TEMP___</td>
 	</tr>	
+	<tr>
+		<td width="350px">___LANG_LOCAL_LOGS_DIR___</td><td>___VALIDATE_LOCAL_LOGS___</td>
+	</tr>
+	<tr>
+		<td width="350px">___LANG_LOCAL_UPLOADS_DIR___</td><td>___VALIDATE_LOCAL_UPLOADS___</td>
+	</tr>	
+	<tr>
+		<td width="350px">___LANG_LOCAL_TEMPLATES_DIR___</td><td>___VALIDATE_LOCAL_TEMPLATES___</td>
+	</tr>		
 </table>

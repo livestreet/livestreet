@@ -64,6 +64,9 @@ return array(
 	'local_config'=>'Локальная конфигурация',
 	'local_config_file'=>'Файл config.local.php существует и доступен для записи',
 	'local_temp_dir'=>'Директория /tmp существует и доступна для записи',
+	'local_logs_dir'=>'Директория /logs существует и доступна для записи',
+	'local_uploads_dir'=>'Директория /uploads существует и доступна для записи',
+	'local_templates_dir'=>'Директория /templates/compiled существует и доступна для записи',
 	
 	'db_params'=>'Настройка базы данных',
 	'db_params_host'=>'Имя сервера БД',
