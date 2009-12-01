@@ -948,7 +948,16 @@ class Install {
 		} else {
 			$this->Assign('validate_local_templates', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}			
-		
+
+
+		$sTemplatesCacheDir = dirname(dirname(__FILE__)).'/templates/cache';
+		if(!is_dir($sTemplatesCacheDir) or !is_writable($sTemplatesCacheDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_templaes_cache', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_templates_cache', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}
+				
 	    return $bOk;
 	}	
 	/**

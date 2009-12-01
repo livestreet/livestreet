@@ -397,3 +397,9 @@ window.addEvent('domready', function() {
     });
 });
 
+window.addEvent('keyup', function(e) {
+	if(e.control && e.key == 'enter') {
+		$('form_comment').getElement('input[name=submit_comment]').click();
+		return false;
+	}
+});

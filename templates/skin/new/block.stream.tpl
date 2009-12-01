@@ -10,20 +10,19 @@
 						<li class="active"><a href="#" id="block_stream_comment" onclick="lsBlockStream.toggle(this,'comment_stream'); return false;">{$aLang.block_stream_comments}</a><em></em></li>
 					</ul>					
 					
-					<div class="block-content">
+				<div class="block-content">
 					{literal}
 						<script language="JavaScript" type="text/javascript">
 						var lsBlockStream;
 						window.addEvent('domready', function() { 
-							lsBlockStream=new lsBlockLoaderClass();      						
+							lsBlockStream=new lsBlockLoaderClass();
 						});
 						</script>
-					{/literal}
-					{$sStreamComments}
-					</div>
-					<div class="right"><a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> | <a href="{router page='rss'}allcomments/">RSS</a></div>
-
+					{/literal}					
 					
+					{$sStreamComments}
+
+					</div>
 				</div></div>
 				<div class="bl"><div class="br"></div></div>
 			</div>

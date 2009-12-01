@@ -71,7 +71,7 @@ var lsBlockLoaderClass = new Class({
 		onLoad: function(result, errors, blockContent) {
 			blockContent.set('html','');
 			if (!result) {
-                msgErrorBox.alert('Error','Please try again later');           
+                msgErrorBox.alert('Error','Please try again later');
         	}
         	if (result.bStateError) {
                 //msgErrorBox.alert(result.sMsgTitle,result.sMsg);

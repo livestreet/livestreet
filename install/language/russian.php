@@ -67,6 +67,7 @@ return array(
 	'local_logs_dir'=>'Директория /logs существует и доступна для записи',
 	'local_uploads_dir'=>'Директория /uploads существует и доступна для записи',
 	'local_templates_dir'=>'Директория /templates/compiled существует и доступна для записи',
+	'local_templates_cache_dir'=>'Директория /templates/cache существует и доступна для записи',
 	
 	'db_params'=>'Настройка базы данных',
 	'db_params_host'=>'Имя сервера БД',

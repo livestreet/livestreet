@@ -192,7 +192,8 @@ return array(
 	'topic_favourite_del' => 'удалить из избранного',
 	'topic_favourite_del_ok' => 'Топик удален из избранного',
 	
-	'block_stream_comment_all' => 'Весь эфир',
+	'block_stream_comments_all' => 'Весь эфир',
+	'block_stream_topics_all' => 'Весь эфир',
 	'comments_all' => 'Прямой эфир',
 	/**
 	 * Меню топиков
