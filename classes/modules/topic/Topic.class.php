@@ -226,14 +226,15 @@ class LsTopic extends Module {
 		$oTopic->setDateEdit(date("Y-m-d H:i:s"));
 		if ($this->oMapperTopic->UpdateTopic($oTopic)) {	
 			/**
-			 * Если топик изменил видимость(publish) или локацию (BlogId)
+			 * Если топик изменил видимость(publish) или локацию (BlogId) или список тегов
 			 */
-			if (($oTopic->getPublish()!=$oTopicOld->getPublish()) || ($oTopic->getBlogId()!=$oTopicOld->getBlogId())) {
+			if (($oTopic->getPublish()!=$oTopicOld->getPublish()) || ($oTopic->getBlogId()!=$oTopicOld->getBlogId()) || ($oTopic->getTags()!=$oTopicOld->getTags())) {
 				/**
 				 * Обновляем теги
 				 */
 				$aTags=explode(',',$oTopic->getTags());
 				$this->DeleteTopicTagsByTopicId($oTopic->getId());
+				
 				if ($oTopic->getPublish()) {
 					foreach ($aTags as $sTag) {
 						$oTag=Engine::GetEntity('Topic_TopicTag');

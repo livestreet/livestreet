@@ -401,22 +401,22 @@ class ActionTopic extends Action {
 		 */		
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setTitle(getRequest('topic_title'));
-		$oTopic->setTextHash(md5(getRequest('topic_text')));	
+		$oTopic->setTextHash(md5(getRequest('topic_text')));
 		/**
 		 * Парсим на предмет ХТМЛ тегов
 		 */
-		$sText=$this->Text_Parser(getRequest('topic_text'));	
+		$sText=$this->Text_Parser(getRequest('topic_text'));
 		/**
 		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
 		 */
 		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($sText);
-		
+
 		$oTopic->setCutText($sTextCut);
 		$oTopic->setText($sTextNew);
 		$oTopic->setTextShort($sTextShort);
 		
 		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));		
+		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Публикуем или сохраняем в черновиках
@@ -428,10 +428,10 @@ class ActionTopic extends Action {
 				$oTopic->setPublishDraft(1);
 				$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 				$bSendNotify=true;
-			}			
+			}
 		} else {
 			$oTopic->setPublish(0);
-		}		
+		}
 		/**
 		 * Принудительный вывод на главную
 		 */
@@ -452,7 +452,7 @@ class ActionTopic extends Action {
 		/**
 		 * Сохраняем топик
 		 */
-		if ($this->Topic_UpdateTopic($oTopic)) {	
+		if ($this->Topic_UpdateTopic($oTopic)) {
 			/**
 			 * Обновляем данные в комментариях, если топик был перенесен в новый блог
 			 */
