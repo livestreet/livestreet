@@ -17,7 +17,7 @@
 			<link>{$oItem.link}</link>
 			<dc:creator>{$oItem.author}</dc:creator>
 			<description><![CDATA[{$oItem.description}]]></description>
-			<pubDate>{date_format date=$oItem.pubDate format="r"}</pubDate>			
+			<pubDate>{date_format date=$oItem.pubDate format="r" lang=$aLang}</pubDate>			
 			<category>{$oItem.category|replace:',':'</category>
 			<category>'}</category>
 		</item>

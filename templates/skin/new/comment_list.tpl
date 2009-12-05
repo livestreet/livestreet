@@ -28,7 +28,7 @@
 							<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 							<p><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a></p>
 							<ul>
-								<li class="date">{date_format date=$oComment->getDate()}</li>								
+								<li class="date">{date_format date=$oComment->getDate() lang=$aLang}</li>								
 								<li><a href="{$oTopic->getUrl()}#comment{$oComment->getId()}" class="imglink link"></a></li>  									
    								{if $oUserCurrent}
 									<li class="favorite {if $oComment->getIsFavourite()}active{/if}"><a href="#" onclick="lsFavourite.toggle({$oComment->getId()},this,'comment'); return false;"></a></li>	

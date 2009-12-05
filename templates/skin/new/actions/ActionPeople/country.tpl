@@ -21,8 +21,8 @@
 					{assign var="oSession" value=$oUser->getSession()}
 						<tr>
 							<td class="user"><a href="{router page='profile'}{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{router page='profile'}{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
-							<td class="date">{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
-							<td class="date">{date_format date=$oUser->getDateRegister()}</td>
+							<td class="date">{if $oSession}{date_format date=$oSession->getDateLast() lang=$aLang}{/if}</td>
+							<td class="date">{date_format date=$oUser->getDateRegister() lang=$aLang}</td>
 							<td class="strength">{$oUser->getSkill()}</td>							
 							<td class="rating"><strong>{$oUser->getRating()}</strong></td>
 						</tr>

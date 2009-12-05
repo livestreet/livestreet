@@ -797,7 +797,7 @@ return array(
 	'date_month_9' => 'сентября',
 	'date_month_10' => 'октября',
 	'date_month_11' => 'ноября',
-	'date_month_12' => 'декабря',	
+	'date_month_12' => 'декабря',
 	'date_year' => 'год',
 	
 );

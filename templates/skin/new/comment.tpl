@@ -40,7 +40,7 @@
 								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 								<p><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a></p>
 								<ul>
-									<li class="date">{date_format date=$oComment->getDate()}</li>
+									<li class="date">{date_format date=$oComment->getDate() lang=$aLang}</li>
 									{if $oUserCurrent and !$oComment->getDelete() and !$bAllowNewComment}
 										<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
 									{/if}									
