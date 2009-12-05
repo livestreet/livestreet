@@ -20,6 +20,18 @@
  * Позволяет получать дату с возможностью склонения 
  * формы слова и поддержкой мультиязычноти.
  *
+ * Список ключей параметров:
+ * 		date*          [string]
+ * 		format*        [string]
+ * 		declination*   [int]
+ * 		now*           [int]    Количество секунд, в течении которых событие имеет статус "Только что"
+ * 		day*   		   [string] Указывает на необходимость заменины "Сегодня", "Вчера", "Завтра". 
+ * 								В указанном формате 'day' будет заменено на соответствующее значение.
+ * 		minutes_back*  [int]    Количество минут, в течении которых событие имеет статус "... минут назад"
+ * 		hours_back*    [int]    Количество часов, в течении которых событие имеет статус "... часов назад"
+ * 
+ * (* - параметр является необязательным)
+ * 
  * @param   array $aParams
  * @param   Smarty $oSmarty
  * @return  string
@@ -49,6 +61,82 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 	$iDate= (preg_match("/^\d+$/",$sDate)) ?  $sDate : strtotime($sDate);
 	
 	/**
+	 * Если указана необходимость выполнять проверку на NOW
+	 */
+	if(isset($aParams['now'])) {
+		if($iDate+$aParams['now']>time()) return $oEngine->Lang_Get('date_now');
+	}
+	
+	/**
+	 * Если указана необходимость на проверку minutes back
+	 */
+	if(isset($aParams['minutes_back'])) {
+		require_once('modifier.declension.php');
+		
+		$iTimeDelta = round((time()- $iDate)/60);
+		if($iTimeDelta<$aParams['minutes_back']) {
+			return ($iTimeDelta!=0)
+				? smarty_modifier_declension(
+						$iTimeDelta,
+						$oEngine->Lang_Get('date_minutes_back',array('minutes'=>$iTimeDelta)),
+						$oEngine->Lang_Get('date_minutes_back_lang')
+					)
+				: $oEngine->Lang_Get('date_minutes_back_less');
+		}
+	}
+
+	/**
+	 * Если указана необходимость на проверку minutes back
+	 */
+	if(isset($aParams['hours_back'])) {
+		require_once('modifier.declension.php');
+		
+		$iTimeDelta = round((time()- $iDate)/(60*60));
+		if($iTimeDelta<$aParams['hours_back']) {
+			return ($iTimeDelta!=0) 
+				? smarty_modifier_declension(
+						$iTimeDelta,
+						$oEngine->Lang_Get('date_hours_back',array('hours'=>$iTimeDelta)),
+						$oEngine->Lang_Get('date_hours_back_lang')
+					)
+				: $oEngine->Lang_Get('date_hours_back_less');
+		}
+	}
+		
+	/**
+	 * Если указана необходимость автоподстановки "Сегодня", "Вчера", "Завтра".
+	 */
+	if(isset($aParams['day']) and $aParams['day']) {
+	    switch(date('Y-m-d',$iDate)) {
+			/**
+			 * Если дата совпадает с сегодняшней
+			 */
+			case date('Y-m-d'):
+		    	$sDay=$oEngine->Lang_Get('date_today');
+		        break;
+			/**
+			 * Если дата совпадает со вчерашней
+			 */
+			case date('Y-m-d', mktime(0, 0, 0, date("m")  , date("d")-1, date("Y")) ):
+		    	$sDay=$oEngine->Lang_Get('date_yesterday');
+		        break;	
+		   	/**
+			 * Если дата совпадает с завтрашней
+			 */
+			case date('Y-m-d', mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")) ):
+		    	$sDay=$oEngine->Lang_Get('date_tomorrow');
+		        break; 
+		    
+		   	default:
+		   		$sDay=null;    
+	    }
+	    if( $sDay ) { 
+	    	$sFormat=str_replace("day",$sDay,$aParams['day']);
+	    	return date($sFormat,$iDate);
+	    }
+	}
+	    
+	/**
 	 * Определяем нужное текстовое значение названия месяца
 	 */
 	$iMonth = date("m",$iDate);
@@ -68,7 +156,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 				: array_shift($sMonth);
 	}
 		
-	$sFormat=str_replace("F",preg_replace('~(\pL{1})~u','\\\${1}',$sMonth),$sFormat);
+	$sFormat=preg_replace("~(?<!\\\\)F~U",preg_replace('~(\pL{1})~u','\\\${1}',$sMonth),$sFormat);
 
 	return date($sFormat,$iDate);
 }
