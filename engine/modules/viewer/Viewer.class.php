@@ -184,7 +184,7 @@ class LsViewer extends Module {
 		/**
 		 * Подключаем к Smarty небольшой плагинчик форматирования даты
 		 */
-		$this->oSmarty->register_function("date_format", "func_date_smarty");	
+		//$this->oSmarty->register_function("date_format", "func_date_smarty");
 		/**
 		 * Получаем настройки блоков
 		 */

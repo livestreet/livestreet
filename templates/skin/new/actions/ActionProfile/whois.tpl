@@ -50,7 +50,7 @@
 					{if $oUserProfile->getProfileBirthday()}
 					<tr>
 						<td class="var">{$aLang.profile_birthday}:</td>
-						<td>{date_format date=$oUserProfile->getProfileBirthday() format="j rus_mon Y" lang=$aLang}</td>
+						<td>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y"}</td>
 					</tr>
 					{/if}
 					
@@ -177,12 +177,12 @@
 
 					<tr>
 						<td class="var">{$aLang.profile_date_registration}:</td>
-						<td>{date_format date=$oUserProfile->getDateRegister() lang=$aLang}</td>
+						<td>{date_format date=$oUserProfile->getDateRegister()}</td>
 					</tr>	
 					{if $oSession}				
 					<tr>
 						<td class="var">{$aLang.profile_date_last}:</td>
-						<td>{date_format date=$oSession->getDateLast() lang=$aLang}</td>
+						<td>{date_format date=$oSession->getDateLast()}</td>
 					</tr>
 					{/if}
 				</table>

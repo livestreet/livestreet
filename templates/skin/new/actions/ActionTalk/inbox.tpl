@@ -45,7 +45,7 @@
 								{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}<span style="color: #008000;">+{$oTalkUserAuthor->getCommentCountNew()}</span>{/if}
 							{/if}
 							</td>
-							<td>{date_format date=$oTalk->getDate() lang=$aLang}</td>
+							<td>{date_format date=$oTalk->getDate()}</td>
 						</tr>
 					{/foreach}
 					</tbody>

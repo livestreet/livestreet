@@ -146,14 +146,14 @@ class LsLang extends Module {
 		if (isset($this->aLangMsg[$sName])) {
 			$sTranslate=$this->aLangMsg[$sName];
 
-			if(is_array($aReplace)&&count($aReplace)) { 
+			if(is_array($aReplace)&&count($aReplace)&&is_string($sTranslate)) { 
 				foreach ($aReplace as $sFrom => $sTo) {
 					$aReplacePairs["%%{$sFrom}%%"]=$sTo;
 				}
-				$sTranslate=strtr($sTranslate,$aReplacePairs);				
+				$sTranslate=strtr($sTranslate,$aReplacePairs);
 			}
 
-			if(Config::Get('module.lang.delete_undefined')) {
+			if(Config::Get('module.lang.delete_undefined') and is_string($sTranslate)) {
 				$sTranslate=preg_replace("/\%\%[\S]+\%\%/U",'',$sTranslate);
 			}
 			return $sTranslate;

@@ -19,7 +19,7 @@
 					{foreach from=$aUsersRegister item=oUser}
 						<tr>
 							<td class="user"><a href="{router page='profile'}{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{router page='profile'}{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
-							<td class="date">{date_format date=$oUser->getDateRegister() lang=$aLang}</td>
+							<td class="date">{date_format date=$oUser->getDateRegister()}</td>
 							<td class="strength">{$oUser->getSkill()}</td>							
 							<td class="rating"><strong>{$oUser->getRating()}</strong></td>
 						</tr>

@@ -13,7 +13,7 @@
 					{$oTalk->getText()}				
 				</div>				
 				<ul class="voting">
-					<li class="date">{date_format date=$oTalk->getDate() lang=$aLang}</li>
+					<li class="date">{date_format date=$oTalk->getDate()}</li>
 					<li class="author"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 				</ul>
 			</div>
