@@ -236,68 +236,6 @@ function func_mkdir($sBasePath,$sNewDir) {
 }
 
 /**
- * Форматирует дату
- *
- * @param  string $sDate
- * @param  array  $aLang
- * @param  string $sFormat
- * @return string
- */
-function func_date($sDate,$aLang,$sFormat="j rus_mon Y, H:i") {
-	$iDate= (preg_match("/^\d+$/",$sDate)) ?  $sDate : strtotime($sDate);
-	$sMonth=$aLang['date_month_'.date("m",$iDate)];
-	$sFormat=str_replace("rus_mon",preg_replace('~(\pL{1})~u','\\\${1}',$sMonth),$sFormat);
-		
-	return date($sFormat,$iDate);
-}
-
-/**
- * Функция форматирование даты для плагина Smarty
- *
- * @call func_date() function
- * 
- * @param  array  $aParams
- * @return string
- */
-function func_date_smarty($aParams) {
-	if (empty($aParams['date'])) {
-		$sDate=time();
-	} else {
-		$sDate=$aParams['date'];
-	}
-	/**
-	 * Проверяем наличие и валидность языковых параметров
-	 */
-	$aMonth=array(
-		'date_month_1' => 'января',
-		'date_month_2' => 'февраля',
-		'date_month_3' => 'марта',
-		'date_month_4' => 'апреля',
-		'date_month_5' => 'мая',
-		'date_month_6' => 'июня',
-		'date_month_7' => 'июля',
-		'date_month_8' => 'августа',
-		'date_month_9' => 'сентября',
-		'date_month_10' => 'октября',
-		'date_month_11' => 'ноября',
-		'date_month_12' => 'декабря',
-	);
-	if(empty($aParams['lang']) or !is_array($aParams['lang'])) {
-		$aParams['lang'] = $aMonth;
-	} else {
-		foreach ($aMonth as $sCode=>$sName) {
-			if(!isset($aParams['lang'][$sCode])) $aParams['lang'][$sCode] = $sName;
-		}
-	}
-	
-	if(empty($aParams['format'])) {
-		return func_date($sDate,$aParams['lang']);
-	} else {
-		return func_date($sDate,$aParams['lang'],$aParams['format']);
-	}
-}
-
-/**
  * Возвращает обрезанный текст по заданное число слов
  *
  * @param unknown_type $sText

@@ -182,10 +182,6 @@ class LsViewer extends Module {
 		$this->oSmarty->cache_dir=Config::Get('path.smarty.cache');
 		$this->oSmarty->plugins_dir=array(Config::Get('path.smarty.plug'),'plugins');	
 		/**
-		 * Подключаем к Smarty небольшой плагинчик форматирования даты
-		 */
-		//$this->oSmarty->register_function("date_format", "func_date_smarty");
-		/**
 		 * Получаем настройки блоков
 		 */
 		$this->InitBlockParams();
