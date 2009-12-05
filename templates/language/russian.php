@@ -809,10 +809,8 @@ return array(
 	'date_yesterday' => 'Вчера в',
 	'date_tomorrow' => 'Завтра в',
 	'date_minutes_back' => '%%minutes%% минута назад; %%minutes%% минуты назад; %%minutes%% минут назад',
-	'date_minutes_back_lang' => 'ru',
 	'date_minutes_back_less' => 'Менее минуты назад',
 	'date_hours_back' => '%%hours%% час назад; %%hours%% часа назад; %%hours%% часов назад',
-	'date_hours_back_lang' => 'ru',
 	'date_hours_back_less' => 'Менее часа назад',
 );
 

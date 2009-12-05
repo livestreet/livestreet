@@ -79,7 +79,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 				? smarty_modifier_declension(
 						$iTimeDelta,
 						$oEngine->Lang_Get('date_minutes_back',array('minutes'=>$iTimeDelta)),
-						$oEngine->Lang_Get('date_minutes_back_lang')
+						$oEngine->Lang_GetLang()
 					)
 				: $oEngine->Lang_Get('date_minutes_back_less');
 		}
@@ -97,7 +97,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 				? smarty_modifier_declension(
 						$iTimeDelta,
 						$oEngine->Lang_Get('date_hours_back',array('hours'=>$iTimeDelta)),
-						$oEngine->Lang_Get('date_hours_back_lang')
+						$oEngine->Lang_GetLang()
 					)
 				: $oEngine->Lang_Get('date_hours_back_less');
 		}
