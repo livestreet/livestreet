@@ -3,7 +3,7 @@
 
 <div class=topic>
 	<div class="content">
-		{if $aConfig.view.tinymce}
+		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}
 			{$oPage->getText()|nl2br}

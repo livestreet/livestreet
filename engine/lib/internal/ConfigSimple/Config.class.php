@@ -183,9 +183,22 @@ class Config {
 		if($sKey=='') {
 			return self::getInstance($sInstance)->GetConfig();
 		}
+
+		return self::getInstance($sInstance)->GetValue($sKey,$sInstance);
+	}
+	
+	/**
+	 * Получает значение из конфигурации по переданному ключу
+	 *
+	 * @param  string $sKey
+	 * @param  string $sInstance
+	 * @return mixed
+	 */
+	public function GetValue($sKey, $sInstance=self::DEFAULT_CONFIG_INSTANCE) {
 		// Return config by path (separator=".")
 		$aKeys=explode('.',$sKey);
-		$cfg=self::getInstance($sInstance)->GetConfig();
+		
+		$cfg=$this->GetConfig();
 		foreach ((array)$aKeys as $sK) {
 			if(isset($cfg[$sK])) {
 				$cfg=$cfg[$sK];
@@ -195,7 +208,7 @@ class Config {
 		}
 		
 		$cfg = self::KeyReplace($cfg,$sInstance);
-		return $cfg;
+		return $cfg;		
 	}
 	
 	static public function KeyReplace($cfg,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {

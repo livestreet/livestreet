@@ -108,7 +108,7 @@
 					</tr>
 					{/if}
 					
-					{if $aConfig.general.reg.invite and $oUserInviteFrom}
+					{if $oConfig->GetValue('general.reg.invite') and $oUserInviteFrom}
 					<tr>
 						<td class="var">{$aLang.profile_invite_from}:</td>
 						<td class="friends">							       						
@@ -117,7 +117,7 @@
 					</tr>
 					{/if}
 					
-					{if $aConfig.general.reg.invite and $aUsersInvite}
+					{if $oConfig->GetValue('general.reg.invite') and $aUsersInvite}
 					<tr>
 						<td class="var">{$aLang.profile_invite_to}:</td>
 						<td class="friends">

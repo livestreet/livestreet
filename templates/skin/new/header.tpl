@@ -51,7 +51,7 @@ var msgNoticeBox=new Roar({
 </script>
 {/literal}
 
-{if $oUserCurrent && $aConfig.module.talk.reload}
+{if $oUserCurrent && $oConfig->GetValue('module.talk.reload')}
 {literal}
 <script language="JavaScript" type="text/javascript">
     var talkNewMessages=new lsTalkMessagesClass({

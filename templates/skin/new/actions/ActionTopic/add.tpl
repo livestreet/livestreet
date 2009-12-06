@@ -15,7 +15,7 @@ document.addEvent('domready', function() {
 {/literal}
 
 
-{if $aConfig.view.tinymce}
+{if $oConfig->GetValue('view.tinymce')}
 <script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tiny_mce/tiny_mce.js"></script>
 {literal}
 <script type="text/javascript">
@@ -80,8 +80,8 @@ tinyMCE.init({
        				<span class="form_note">{$aLang.topic_create_title_notice}</span>
 					</p>
 
-					<p>{if !$aConfig.view.tinymce}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
-					{if !$aConfig.view.tinymce}
+					<p>{if !$oConfig->GetValue('view.tinymce')}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
+					{if !$oConfig->GetValue('view.tinymce')}
             			<div class="panel_form">
 							<select onchange="lsPanel.putTagAround('topic_text',this.value); this.selectedIndex=0; return false;" style="width: 91px;">
             					<option value="">{$aLang.panel_title}</option>

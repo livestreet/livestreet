@@ -209,13 +209,9 @@ class LsViewer extends Module {
 		$this->Assign("_sPhpSessionName",session_name());
 		$this->Assign("_sPhpSessionId",session_id());
 		/** 
-		 * Загружаем часть конфигурации 
+		 * Загружаем объект доступа к конфигурации 
 		 */ 
-		$aConfig=Config::Get(); 
-		foreach ((array)Config::Get('view.no_assign') as $sGroup) { 
-			unset($aConfig[$sGroup]); 
-		} 
-		$this->Assign("aConfig",$aConfig);
+		$this->Assign("oConfig",Config::getInstance());
 		/**
 		 * Загружаем роутинг с учетом правил rewrite
 		 */

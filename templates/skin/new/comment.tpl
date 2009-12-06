@@ -5,7 +5,7 @@
 							<img src="{cfg name='path.static.skin'}/images/close.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if} />
 							<a name="comment{$oComment->getId()}" ></a>	
 							{if $oComment->getTargetType()!='talk'}						
-							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$aConfig.acl.vote.comment.limit_time}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
+							<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
 								<div class="total">{if $oComment->getRating()>0}+{/if}{$oComment->getRating()}</div>
 								<a href="#" class="plus" onclick="lsVote.vote({$oComment->getId()},this,1,'comment'); return false;"></a>
 								<a href="#" class="minus" onclick="lsVote.vote({$oComment->getId()},this,-1,'comment'); return false;"></a>

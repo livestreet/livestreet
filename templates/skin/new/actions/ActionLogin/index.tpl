@@ -19,7 +19,7 @@
 				<input type="hidden" name="submit_login">
 		</form>
 		
-		{if $aConfig.general.reg.invite} 	
+		{if $oConfig->GetValue('general.reg.invite')} 	
 			<br><br>		
 			<form action="{router page='registration'}invite/" method="POST">
 				<h3>{$aLang.registration_invite}</h3>

@@ -1,6 +1,6 @@
 				{include file='window_load_img.tpl' sToLoad='page_text'}
 
-{if $aConfig.view.tinymce}
+{if $oConfig->GetValue('view.tinymce')}
 <script type="text/javascript" src="{cfg name='path.root.web'}/classes/lib/external/tiny_mce/tiny_mce.js"></script>
 {literal}
 <script type="text/javascript">
@@ -50,7 +50,7 @@ tinyMCE.init({
       				</p>
 					
 					<p><label for="topic_text">{$aLang.page_create_text}:</label>
-					{if !$aConfig.view.tinymce}
+					{if !$oConfig->GetValue('view.tinymce')}
             			<div class="panel_form" style="background: #eaecea; ">       	 
 	 						<a href="#" onclick="lsPanel.putTagAround('page_text','b'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
 	 						<a href="#" onclick="lsPanel.putTagAround('page_text','i'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			

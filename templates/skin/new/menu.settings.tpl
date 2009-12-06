@@ -10,7 +10,7 @@
 				{/if}
 			</li>
 			
-			{if $aConfig.general.reg.invite}
+			{if $oConfig->GetValue('general.reg.invite')}
 			<li {if $sMenuItemSelect=='invite'}class="active"{/if}>
 				<a href="{router page='settings'}invite/">{$aLang.settings_menu_invite}</a>
 				

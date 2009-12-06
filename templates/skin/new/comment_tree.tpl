@@ -41,8 +41,8 @@
 				{assign var="nesting" value="-1"}
 				{foreach from=$aComments item=oComment name=rublist}
 					{assign var="cmtlevel" value=$oComment->getLevel()}					
-					{if $cmtlevel>$aConfig.module.comment.max_tree}
-						{assign var="cmtlevel" value=$aConfig.module.comment.max_tree}
+					{if $cmtlevel>$oConfig->GetValue('module.comment.max_tree')}
+						{assign var="cmtlevel" value=$oConfig->GetValue('module.comment.max_tree')}
 					{/if}
    					{if $nesting < $cmtlevel}        
     				{elseif $nesting > $cmtlevel}    	
@@ -73,7 +73,7 @@
 						<h3 class="reply-title"><a href="javascript:lsCmtTree.toggleCommentForm(0);">{$sNoticeCommentAdd}</a></h3>						
 						<div class="comment"><div class="content"><div class="text" id="comment_preview_0" style="display: none;"></div></div></div>
 						<div style="display: block;" id="reply_0" class="reply">						
-						{if !$aConfig.view.tinymce}
+						{if !$oConfig->GetValue('view.tinymce')}
             					<div class="panel_form" style="background: #eaecea; margin-top: 2px;">       	 
 	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
 	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
