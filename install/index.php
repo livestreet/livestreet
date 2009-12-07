@@ -16,6 +16,7 @@
 */
 
 error_reporting(E_ALL);
+set_time_limit(0);
 
 class Install {
 	/**
@@ -944,7 +945,7 @@ class Install {
 		$sTemplatesDir = dirname(dirname(__FILE__)).'/templates/compiled';
 		if(!is_dir($sTemplatesDir) or !is_writable($sTemplatesDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_templaes', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_templates', '<span style="color:red;">'.$this->Lang('no').'</span>');			
 		} else {
 			$this->Assign('validate_local_templates', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}			
@@ -953,7 +954,7 @@ class Install {
 		$sTemplatesCacheDir = dirname(dirname(__FILE__)).'/templates/cache';
 		if(!is_dir($sTemplatesCacheDir) or !is_writable($sTemplatesCacheDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_templaes_cache', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_templates_cache', '<span style="color:red;">'.$this->Lang('no').'</span>');			
 		} else {
 			$this->Assign('validate_local_templates_cache', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
