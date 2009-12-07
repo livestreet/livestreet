@@ -57,7 +57,7 @@ document.addEvent('domready', function() {
 </script>
 {/literal}					
 					<div class="block-content">
-						<form action="" method="GET" name="talk_filter_form">
+						<form action="{router page='talk'}" method="GET" name="talk_filter_form">
 							<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label><br />
 							<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="w100p" /><br />
        						<span class="form_note">{$aLang.talk_filter_notice_sender}</span>

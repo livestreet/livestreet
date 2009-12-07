@@ -14,7 +14,7 @@
 <body>
 
 <div id="container">
-	<h1 class="lite-header">___LANG_INSTALL_TITLE___ | ___LANG_STEP___ #___INSTALL_STEP_NUMBER___ / ___INSTALL_STEP_COUNT___</h1>
+	<h1 class="lite-header">___LANG_INSTALL_TITLE___ (v.___INSTALL_VERSION___) | ___LANG_STEP___ #___INSTALL_STEP_NUMBER___ / ___INSTALL_STEP_COUNT___</h1>
 
 	<div class="lite-center register">
 

@@ -17,6 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
+define('LS_VERSION','0.4');
 
 class Install {
 	/**
@@ -67,6 +68,18 @@ class Install {
 	 */
 	var $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend',5=>'Finish');
 	/**
+	 * Шаги в обычном режиме инсталляции
+	 *
+	 * @var array
+	 */
+	var $aSimpleModeSteps = array('Start','Db','Admin','End');
+	/**
+	 * Количество шагов, которые необходимо указывать в инсталляционных параметрах
+	 * 
+	 * @var int
+	 */
+	var $iStepCount = null;
+	/**
 	 * Массив сообщений для пользователя
 	 *
 	 * @var array
@@ -97,6 +110,7 @@ class Install {
 		'___PREV_STEP_DISABLED___' => '',
 		'___PREV_STEP_DISPLAY___' => 'block',
 		'___SYSTEM_MESSAGES___' => '',
+		'___INSTALL_VERSION___' => LS_VERSION,
 	);
 	/**
 	 * Описание требований для успешной инсталяции
@@ -427,10 +441,15 @@ class Install {
 			$this->Assign('prev_step_display', 'none');
 		}
 		/**
+		 * Если шаг отновиться к simple mode, то корректируем количество шагов
+		 */
+		if(in_array($sStepName,$this->aSimpleModeSteps)) 
+			$this->SetStepCount(count($this->aSimpleModeSteps));
+		/**
 		 * Передаем во вьевер данные для формирование таймлайна шагов
 		 */
 		$this->Assign('install_step_number',$iKey+1);
-		$this->Assign('install_step_count',count($this->aSteps));
+		$this->Assign('install_step_count',is_null($this->iStepCount) ? count($this->aSteps) : $this->iStepCount);
 		/**
 		 * Пердаем управление на метод текущего шага
 		 */
@@ -453,6 +472,15 @@ class Install {
 		if(!$sStepName or !in_array($sStepName,$this->aSteps)) return null;
 		$this->Assign('install_step_number',array_search($sStepName,$this->aSteps)+1);		
 	}
+	/**
+	 * Устанавливает количество шагов для отображения в шаблонах
+	 *
+	 * @param int $iStepCount
+	 */
+	function SetStepCount($iStepCount) {
+		$this->iStepCount = $iStepCount;
+	}
+	
 	/**
 	 * Первый шаг инсталяции.
 	 * Валидация окружения.
@@ -685,7 +713,7 @@ class Install {
 		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','new',self::GET_VAR_FROM_SESSION);
 		
-		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender','rus.engine@gmail.com',self::GET_VAR_FROM_SESSION);
+		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
 		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet',self::GET_VAR_FROM_SESSION);
 		
 		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
