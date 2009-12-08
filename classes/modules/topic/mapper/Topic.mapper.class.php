@@ -144,6 +144,12 @@ class Mapper_Topic extends Mapper {
 	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {
 		$sWhere=$this->buildFilter($aFilter);
 		
+		if(isset($aFilter['order']) and !is_array($aFilter['order'])) {
+			$aFilter['order'] = array($aFilter['order']);
+		} else {
+			$aFilter['order'] = array('t.topic_date_add desc');
+		}
+		
 		$sql = "SELECT 
 						t.topic_id							
 					FROM 
@@ -154,7 +160,9 @@ class Mapper_Topic extends Mapper {
 						".$sWhere."
 						AND
 						t.blog_id=b.blog_id										
-					ORDER by t.topic_id desc
+					ORDER BY ".
+						implode(', ', $aFilter['order'])
+				."
 					LIMIT ?d, ?d";		
 		$aTopics=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {			
