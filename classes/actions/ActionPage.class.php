@@ -103,8 +103,8 @@ class ActionPage extends Action {
 		 * Обработка создания новой странички
 		 */
 		if (isPost('submit_page_save')) {
-			if (!isPost('page_id')) {							
-				$this->SubmitAddPage();				
+			if (!getRequest('page_id')) {
+				$this->SubmitAddPage();
 			}
 		}
 		/**
