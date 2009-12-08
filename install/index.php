@@ -1119,7 +1119,7 @@ class Install {
 		foreach ($aVoteTables as $sTable=>$sTarget) {
 			$sVoteSelect = "SELECT * FROM {$sTable} WHERE 1";
 			if(!$aResults = mysql_query($sVoteSelect)){ 
-				$aErrors[] = $this->Lang('error_vote_table_select',array('table'=>$sTable));
+				$aErrors[] = $this->Lang('error_table_select',array('table'=>$sTable));
 				continue;
 			}
 			/**
@@ -1146,14 +1146,14 @@ class Install {
 		 * Получаем максимальный идентификатор комментариев к топикам
 		 */
 		if(!$aResults = mysql_query($sCommentIdMaxQuery) ){
-			$aErrors[] = $this->Lang('error_comment_table_max_id');
+			$aErrors[] = $this->Lang('error_table_select',array('table'=>'comments'));
 		} else {
 			$aRow=mysql_fetch_row($aResults);
 			$iMaxId = $aRow[0]+1;
 
 			$sTalkCommentSelect = "SELECT * FROM {$aParams['prefix']}talk_comment";
 			if(!$aResults = mysql_query($sTalkCommentSelect)){ 
-				$aErrors[] = $this->Lang('error_comment_table_select');
+				$aErrors[] = $this->Lang('error_table_select', array('table'=>'talk_comment'));
 			} else {
 				$iAutoIncrement = $iMaxId;
 				while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {

@@ -17,14 +17,14 @@
 	<h1 class="lite-header">___LANG_INSTALL_TITLE___ (v.___INSTALL_VERSION___) | ___LANG_STEP___ #___INSTALL_STEP_NUMBER___ / ___INSTALL_STEP_COUNT___</h1>
 
 	<div class="lite-center register">
-
+		<p align="right"><sup><a href="?lang=russian">RUS</a> | <a href="?lang=english">ENG</a></sup></p>
 		___SYSTEM_MESSAGES___
 		<form action="___FORM_ACTION___" method="POST">
 			___CONTENT___
 			<br />
 			<p class="buttons">
-				<input type="submit" class="right" name="install_step_next" value="Дальше" ___NEXT_STEP_DISABLED___ style="display:___NEXT_STEP_DISPLAY___;" />
-				<input  type="submit" class="left" name="install_step_prev" value="Назад" ___PREV_STEP_DISABLED___ style="display:___PREV_STEP_DISPLAY___;" />				
+				<input type="submit" class="right" name="install_step_next" value="___LANG_NEXT___" ___NEXT_STEP_DISABLED___ style="display:___NEXT_STEP_DISPLAY___;" />
+				<input  type="submit" class="left" name="install_step_prev" value="___LANG_PREV___" ___PREV_STEP_DISABLED___ style="display:___PREV_STEP_DISPLAY___;" />				
 			</p>
 		</form>
 	

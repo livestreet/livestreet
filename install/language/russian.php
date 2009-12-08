@@ -47,6 +47,8 @@ return array(
 	
 	'yes' => 'Да',
 	'no' => 'Нет',
+	'next' => 'Дальше',
+	'prev' => 'Назад',
 	
 	'valid_mysql_server'=>'Для работы LiveStreet необходим сервер MySQL версии не ниже 5.',
 	
@@ -58,7 +60,7 @@ return array(
 	'php_params'=>'Основные настройки PHP',
 	'php_params_version'=>'PHP версии не ниже 5.0',
 	'php_params_safe_mode'=>'Safe mode выключен',
-	'php_params_utf8'=>'Подержка UTF8 в PCRE',
+	'php_params_utf8'=>'Поддержка UTF8 в PCRE',
 	'php_params_mbstring'=>'Поддержка Mbstring',
 	
 	'local_config'=>'Локальная конфигурация',
@@ -83,9 +85,7 @@ return array(
 	'db_params_engine'=>'Tables engine',
 	'db_params_engine_notice'=>'Рекомендуется использовать InnoDB',
 	
-	'error_vote_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
-	'error_comment_table_select'=>'Ошибка запроса на выборку данных из таблицы talk_comment',
-	'error_comment_table_max_id'=>'Ошибка запроса на выборку данных из таблицы комментариев',
+	'error_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
 	
 	'admin_params'=>'Настройка данных администратора',
 	'admin_params_login'=>'Логин',
