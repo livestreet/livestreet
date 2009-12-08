@@ -86,6 +86,7 @@ return array(
 	'db_params_engine_notice'=>'InnoDB is recommended',
 	
 	'error_table_select'=>'Error select query data from a table %%table%%',
+	'error_database_converted_already'=>'Given database already converted to v.0.4',
 	
 	'admin_params'=>'Administrator`s settings',
 	'admin_params_login'=>'Login',

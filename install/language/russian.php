@@ -86,6 +86,7 @@ return array(
 	'db_params_engine_notice'=>'Рекомендуется использовать InnoDB',
 	
 	'error_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
+	'error_database_converted_already'=>'Конвертация отменена, так как структура базы данных соответствует версии 0.4',
 	
 	'admin_params'=>'Настройка данных администратора',
 	'admin_params_login'=>'Логин',

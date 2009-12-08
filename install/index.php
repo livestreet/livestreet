@@ -1009,6 +1009,7 @@ class Install {
 			mysql_query('set names utf8');
 			return $oDb;
 		}
+		
 		$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_connection_invalid'));
 		return null;
 	}
@@ -1077,12 +1078,41 @@ class Install {
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
+	
+	/**
+	 * Проверяем, нуждается ли база в конвертации или нет
+	 *
+	 * @param  array $aParams
+	 * @return bool
+	 */
+	function ValidateConvertDatabase($aParams) {
+		/**
+		 * Проверяем, нуждается ли база в конвертации или нет
+		 * Смотрим, какие таблицы существуют в базе данных
+		 */ 
+		$aDbTables = array();
+		$aResult = @mysql_query("SHOW TABLES");
+		if(!$aResult){  
+			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
+		}
+        while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
+			$aDbTables[] = $aRow[0];
+		}
+		/**
+		 * Смотрим на наличие в базе таблицы prefix_comment
+		 */
+		return !in_array($aParams['prefix'].'comment',$aDbTables);
+	}
 	/**
 	 * Конвертирует базу данных версии 0.3.1 в базу данных версии 0.4
 	 *
 	 * @return bool
 	 */
-	function ConvertDatabase($sFilePath,$aParams) {
+	function ConvertDatabase($sFilePath,$aParams) {	
+		if(!$this->ValidateConvertDatabase($aParams)) {
+			return array('result'=>true,'errors'=>array($this->Lang("error_database_converted_already")));
+		}
+		
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
 		
