@@ -1069,7 +1069,7 @@ class LsUser extends Module {
 		}
 		
 		$sFileTmp=$aFile['tmp_name'];
-		$sPath = $this->Image_GetUserDir($oUser->getId());
+		$sPath = $this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('avatar');
 		/**
 		 * Срезаем квадрат
@@ -1121,7 +1121,7 @@ class LsUser extends Module {
 			return false;
 		}
 		
-		$sDirUpload=$this->Image_GetUserDir($oUser->getId());			
+		$sDirUpload=$this->Image_GetIdDir($oUser->getId());			
 		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->Image_BuildParams('foto');
 		

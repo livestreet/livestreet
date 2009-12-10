@@ -763,7 +763,7 @@ class LsBlog extends Module {
 		}
 		
 		$sFileTmp=$aFile['tmp_name'];
-		$sPath=$this->Image_GetUserDir($oBlog->getOwnerId());
+		$sPath=$this->Image_GetIdDir($oBlog->getOwnerId());
 		$aParams=$this->Image_BuildParams('avatar');
 		/**
 		 * Срезаем квадрат

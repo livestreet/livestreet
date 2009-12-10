@@ -226,7 +226,7 @@ class LsImage extends Module {
 	 * @param  string $sUserId
 	 * @return string
 	 */
-	public function GetUserDir($sUserId) {
+	public function GetIdDir($sUserId) {
 		return Config::Get('path.uploads.images').'/'.preg_replace('~(.{2})~U', "\\1/", str_pad($sUserId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
 	}
 	/**

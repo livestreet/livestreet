@@ -1326,7 +1326,7 @@ class LsTopic extends Module {
 			return false;
 		}
 		
-		$sDirUpload=$this->Image_GetUserDir($oUser->getId());			
+		$sDirUpload=$this->Image_GetIdDir($oUser->getId());			
 		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->Image_BuildParams('topic');
 		
@@ -1384,7 +1384,7 @@ class LsTopic extends Module {
 		fwrite($fp,$sContent);
 		fclose($fp);
 		
-		$sDirSave=$this->Image_GetUserDir($oUser->getId());
+		$sDirSave=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('topic');
 		
 		/**
