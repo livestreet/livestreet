@@ -138,10 +138,7 @@ class LsCache extends Module {
 			if ($data and is_array($data)) {
 				$aData=array();
 				foreach ($data as $key => $value) {
-					$aData[$aKv[$key]]=$value;
-					if ($key==0) {
-						//var_dump($aName);
-					}
+					$aData[$aKv[$key]]=$value;					
 				}
 				if (count($aData)>0) {
 					return $aData;

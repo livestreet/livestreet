@@ -130,10 +130,25 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
         if ($doNotTestCacheValidity) {
             $this->_log("Zend_Cache_Backend_Memcached::load() : \$doNotTestCacheValidity=true is unsupported by the Memcached backend");
         }
+        
         $tmp = $this->_memcache->get($id);
-        if (is_array($tmp)) {
-            return $tmp[0];
-        }
+        if (is_array($id)) {
+        	if (is_array($tmp)) {
+        		$aDataReturn=array();
+        		foreach ($tmp as $key => $data) {
+        			if (is_array($data)) {
+            			$aDataReturn[$key]=$data[0];
+        			}
+        		}
+        		if (count($aDataReturn)>0) {
+        			return $aDataReturn;
+        		}
+        	}        	
+        } else {
+        	if (is_array($tmp)) {
+            	return $tmp[0];
+        	}	
+        }        
         return false;
     }
 
