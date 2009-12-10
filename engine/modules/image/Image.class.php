@@ -162,6 +162,12 @@ class LsImage extends Module {
 					$aParams['round_corner_rate']
 				);
 			}
+			/**
+			 * Для JPG формата устанавливаем output quality, если это предусмотрено в конфигурации
+			 */
+			if(isset($aParams['jpg_quality']) and $oImage->get_image_params('format')=='jpg') {
+				$oImage->set_jpg_quality($aParams['jpg_quality']);
+			}
 			
 			$oImage->output(null,$sFileFullPath);
 			

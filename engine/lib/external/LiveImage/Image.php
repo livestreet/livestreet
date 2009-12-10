@@ -68,6 +68,12 @@ class LiveImage {
 	 */
 	protected $format='';
 	/**
+	 * Quality of output JPG image
+	 * 
+	 * @var int
+	 */
+	protected $jpg_quality = null;
+	/**
 	 * Error texts
 	 *
 	 * @var array
@@ -182,7 +188,7 @@ class LiveImage {
 		if(!$tmp) {
 			$this->set_last_error(1);
 			return false;
-		}
+		}	
 		
 		/**
 		 * Регулируем альфа-канал, если не указано обработное
@@ -191,16 +197,14 @@ class LiveImage {
 			@imagesavealpha($tmp,true);
 			@imagealphablending($tmp,false);
 		}
-		
+    			
 		if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
 			imagedestroy($tmp);
 			return false;
 		}
 
 		imagedestroy($this->image);
-		$this->image=$tmp;
-		$this->width=$width;
-		$this->height=$height;
+		$this->set_image($tmp);
 		
 		return true;
 	}
@@ -231,17 +235,15 @@ class LiveImage {
 		
 		@imagesavealpha($tmp,true);
 		@imagealphablending($tmp,false);
-		
+				
 		if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
 			imagedestroy($tmp);
 			return false;
 		}
 
 		imagedestroy($this->image);
-		$this->image=$tmp;
-		$this->width=$width;
-		$this->height=$height;
-		
+		$this->set_image($tmp);
+
 		return true;		
 	}
 	
@@ -262,11 +264,11 @@ class LiveImage {
 	 * @todo   Find format of given image
 	 */
 	public function set_image($image_res) {
-		if (intval(@imagesx($res)) > 0) {
+		if (intval(@imagesx($image_res)) > 0) {
 			$this->image=$image_res;
 			$this->width=imagesx($image_res);
 			$this->height=imagesy($image_res);
-			return true;						
+			return true;		
 		}
 		
 		$this->set_last_error(6);
@@ -335,6 +337,16 @@ class LiveImage {
 		return $this->color['locate'];
 	}
 
+	/**
+	 * Set JPG output quality
+	 *
+	 * @param  int $quality
+	 * @return null
+	 */
+	public function set_jpg_quality($quality=null) {
+		$this->jpg_quality = $quality;
+	}
+	
 	/**
 	 * Make true type font text label on image
 	 *
@@ -493,7 +505,7 @@ class LiveImage {
 					header("Content-type: image/jpeg");
 					imagejpeg($this->image);
 				} else {
-					imagejpeg($this->image,$file);
+					imagejpeg($this->image,$file,$this->jpg_quality);
 				}
 				break;
 			
