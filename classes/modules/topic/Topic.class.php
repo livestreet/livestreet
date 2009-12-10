@@ -1331,7 +1331,7 @@ class LsTopic extends Module {
 		$aParams=$this->Image_BuildParams('topic');
 		
 		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
-			return $sFileImage;
+			return $this->Image_GetWebPath($sFileImage);
 		}
 		return false;
 	}
@@ -1347,7 +1347,7 @@ class LsTopic extends Module {
 		 * Проверяем, является ли файл изображением
 		 */
 		if(!@getimagesize($sUrl)) {
-			return self::UPLOAD_IMAGE_ERROR_TYPE;
+			return LsImage::UPLOAD_IMAGE_ERROR_TYPE;
 		}
 		/**
 		 * Открываем файловый поток и считываем файл поблочно,
@@ -1355,7 +1355,7 @@ class LsTopic extends Module {
 		 */
 		$oFile=fopen($sUrl,'r');
 		if(!$oFile) {
-			return self::UPLOAD_IMAGE_ERROR_READ;
+			return LsImage::UPLOAD_IMAGE_ERROR_READ;
 		}
 		
 		$iMaxSizeKb=500;
@@ -1371,7 +1371,7 @@ class LsTopic extends Module {
 		 * значит файл имеет недопустимый размер
 		 */
 		if(!feof($oFile)) {
-			return self::UPLOAD_IMAGE_ERROR_SIZE;
+			return LsImage::UPLOAD_IMAGE_ERROR_SIZE;
 		}
 		fclose($oFile);
 
@@ -1392,11 +1392,11 @@ class LsTopic extends Module {
 		 */
 		if ($sFileImg=$this->Image_Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
-			return $sFileImg;
+			return $this->Image_GetWebPath($sFileImg);
 		} 		
 		
 		@unlink($sFileTmp);
-		return self::UPLOAD_IMAGE_ERROR;
+		return LsImage::UPLOAD_IMAGE_ERROR;
 	}
 }
 ?>

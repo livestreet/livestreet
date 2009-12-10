@@ -271,7 +271,7 @@ class ActionSettings extends Action {
 			 */		
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 				if($sPath=$this->User_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
-					$this->oUserCurrent->setProfileAvatar($this->Image_GetWebPath($sPath));
+					$this->oUserCurrent->setProfileAvatar($sPath);
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));					
@@ -289,7 +289,7 @@ class ActionSettings extends Action {
 			 */			
 			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {				
 				if ($sFileFoto=$this->User_UploadFoto($_FILES['foto'],$this->oUserCurrent)) {	
-					$this->oUserCurrent->setProfileFoto($this->Image_GetWebPath($sFileFoto));			
+					$this->oUserCurrent->setProfileFoto($sFileFoto);			
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_foto_error'),$this->Lang_Get('error'));

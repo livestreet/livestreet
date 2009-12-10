@@ -76,7 +76,7 @@ if ($oEngine->User_IsAuthorization()) {
 		$bStateError=false;
 		$sMsgTitle='';
 		$sMsg='';
-		$sText=$oEngine->Image_BuildHTML($oEngine->Image_GetWebPath($sFile), $_REQUEST);
+		$sText=$oEngine->Image_BuildHTML($sFile, $_REQUEST);
 	}	
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

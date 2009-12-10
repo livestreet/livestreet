@@ -777,7 +777,7 @@ class LsBlog extends Module {
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			return $sFileAvatar;
+			return $this->Image_GetWebPath($sFileAvatar);
 		}
 		/**
 		 * В случае ошибки, возвращаем false

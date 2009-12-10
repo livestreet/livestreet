@@ -1085,7 +1085,7 @@ class LsUser extends Module {
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
-			return $sFileAvatar;
+			return $this->Image_GetWebPath($sFileAvatar);
 		}
 		/**
 		 * В случае ошибки, возвращаем false
@@ -1130,7 +1130,7 @@ class LsUser extends Module {
 			 * удаляем старое фото
 			 */
 			$this->DeleteFoto($oUser);
-			return Config::Get('path.root.web').'/'.ltrim($sDirUpload,'/').'/'.$sFileFoto;
+			return $this->Image_GetWebPath($sFileFoto);
 		}
 		return false;
 	}
