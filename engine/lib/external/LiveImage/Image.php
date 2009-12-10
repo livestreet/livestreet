@@ -140,7 +140,7 @@ class LiveImage {
 			$this->set_last_error(4);
 			return false;
 		}
-			
+
 		$this->image=$tmp;
 		$this->width=$size[0];
 		$this->height=$size[1];

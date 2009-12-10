@@ -1076,11 +1076,11 @@ class LsUser extends Module {
 		 */
 		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
 		
-		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,true,$aParams,$oImage)) {
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,true,$aParams,$oImage);
+		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,false,$aParams,$oImage)) {
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,false,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,false,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,false,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,false,$aParams,$oImage);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
