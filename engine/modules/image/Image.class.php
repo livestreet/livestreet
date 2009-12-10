@@ -62,7 +62,7 @@ class LsImage extends Module {
 	 * @param  string $sName
 	 * @return array
 	 */
-	protected function BuildParams($sName=null) {
+	public function BuildParams($sName=null) {
 		if(is_null($sName)) {
 			return Config::Get('module.image.default');
 		}
@@ -109,7 +109,7 @@ class LsImage extends Module {
 			or ($oImage->get_image_params('height')>$iHeightMax)) {
 				return false;
 		}
-		$sFileFullPath=Config::Get('path.root.server').'/'.$sDirDest.'/'.$sFileDest;
+		$sFileFullPath=trim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
 		@func_mkdir(Config::Get('path.root.server'),$sDirDest);
 			
 		if ($iWidthDest) {
@@ -166,49 +166,12 @@ class LsImage extends Module {
 			$oImage->output(null,$sFileFullPath);
 			
 			chmod($sFileFullPath,0666);
-			return $sFileDest;
+			return $sFileFullPath;
 		} elseif (copy($sFileSrc,$sFileFullPath)) {
 			chmod($sFileFullPath,0666);
-			return $sFileDest;
+			return $sFileFullPath;
 		}
 		
-		return false;
-	}
-	/**
-	 * Upload user avatar on server
-	 * Make resized images
-	 *
-	 * @param  array           $aFile
-	 * @param  UserEntity_User $oUser
-	 * @return (string|bool)
-	 */
-	public function UploadAvatar($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-		
-		$sFileTmp=$aFile['tmp_name'];
-		$sPath = $this->GetUserDir($oUser);
-		$aParams=$this->BuildParams('avatar');
-		/**
-		 * Срезаем квадрат
-		 */
-		$oImage = $this->CropSquare(new LiveImage($sFileTmp));
-		
-		if ($oImage && $sFileAvatar=$this->Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,true,$aParams,$oImage)) {
-			$this->Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,true,$aParams,$oImage);
-			
-			/**
-			 * Если все нормально, возвращаем расширение загруженного аватара
-			 */
-			return Config::Get('path.root.web').'/'.trim($sPath,'/').'/'.$sFileAvatar;
-		}
-		/**
-		 * В случае ошибки, возвращаем false
-		 */
 		return false;
 	}
 	/**
@@ -237,106 +200,15 @@ class LsImage extends Module {
 		 */
 		return $oImage;
 	}
+
 	/**
-	 * Delete avatar from server
+	 * Возвращает серверный адрес по переданному web-адресу
 	 *
-	 * @param UserEntity_User $oUser
-	 */
-	public function DeleteAvatar($oUser) {
-		/**
-		 * Если аватар есть, удаляем его и его рейсайзы
-		 */
-		if($oUser->getProfileAvatar()) {
-			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(100)));
-			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(64)));
-			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(48)));
-			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(24)));
-			@unlink($this->GetServerPath($oUser->getProfileAvatarPath(0)));			
-		}
-	}
-	/**
-	 * Upload blog avatar on server
-	 * Make resized images
-	 *
-	 * @param  array           $aFile
-	 * @param  BlogEntity_Blog $oUser
-	 * @return (string|bool)
-	 */
-	public function UploadBlogAvatar($aFile,$oBlog) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-		
-		$sFileTmp=$aFile['tmp_name'];
-		$sPath=$this->GetUserDir($oBlog->getOwnerId());
-		$aParams=$this->BuildParams('avatar');
-		/**
-		 * Срезаем квадрат
-		 */
-		$oImage = $this->CropSquare(new LiveImage($sFileTmp));
-		
-		if ($oImage && $sFileAvatar=$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams,$oImage)) {
-			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams,$oImage);
-			$this->Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,null,null,true,$aParams,$oImage);
-			
-			/**
-			 * Если все нормально, возвращаем расширение загруженного аватара
-			 */
-			return Config::Get('path.root.web').'/'.trim($sPath,'/').'/'.$sFileAvatar;
-		}
-		/**
-		 * В случае ошибки, возвращаем false
-		 */
-		return false;
-	}
-	/**
-	 * Delete blog avatar from server
-	 *
-	 * @param BlogEntity_Blog $oUser
-	 */
-	public function DeleteBlogAvatar($oBlog) {
-		/**
-		 * Если аватар есть, удаляем его и его рейсайзы
-		 */
-		if($oBlog->getAvatar()) {		
-			@unlink($this->GetServerPath($oBlog->getAvatarPath(48)));
-			@unlink($this->GetServerPath($oBlog->getAvatarPath(24)));
-			@unlink($this->GetServerPath($oBlog->getAvatarPath(0)));		
-		}
-	}
-	
-	/**
-	 * Upload user foto
-	 *
-	 * @param  array           $aFile
-	 * @param  UserEntity_User $oUser
+	 * @param  string $sPath
 	 * @return string
 	 */
-	public function UploadFoto($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-		
-		$sDirUpload=$this->GetUserDir($oUser->getId());			
-		$sFileTmp=$aFile['tmp_name'];
-		$aParams=$this->BuildParams('foto');
-		
-		if ($sFileFoto=$this->Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250,null,true,$aParams)) {
-			/**
-			 * удаляем старое фото
-			 */
-			$this->DeleteFoto($oUser);
-			return Config::Get('path.root.web').'/'.ltrim($sDirUpload,'/').'/'.$sFileFoto;
-		}
-		return false;
-	}
-	/**
-	 * Delete user foto from server
-	 *
-	 * @param UserEntity_User $oUser
-	 */
-	public function DeleteFoto($oUser) {
-		@unlink($this->GetServerPath($oUser->getProfileFoto()));
+	public function GetServerPath($sPath) {
+		return str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
 	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
@@ -344,103 +216,18 @@ class LsImage extends Module {
 	 * @param  string $sPath
 	 * @return string
 	 */
-	protected function GetServerPath($sPath) {
-		return str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
-	}
+	public function GetWebPath($sPath) {
+		return str_replace(rtrim(Config::Get('path.root.server'),'/'), rtrim(Config::Get('path.root.web'),'/'), $sPath);
+	}	
 	/**
 	 * Получает директорию для данного пользователя
-	 * Используется фомат хранения данных (/images/u/s/e/r/i/d/yyyy/mm/dd/file.jpg)
+	 * Используется фомат хранения данных (/images/us/er/id/yyyy/mm/dd/file.jpg)
 	 * 
-	 * @param  (object|string) $oUser
+	 * @param  string $sUserId
 	 * @return string
 	 */
-	protected function GetUserDir($oUser) {
-		$sUserId = is_object($oUser) ? $oUser->getId() : $oUser;
-		return Config::Get('path.uploads.images').'/'.preg_replace('~(.)~U', "\\1/", str_pad($sUserId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
-	}
-	/**
-	 * Заргузка изображений при написании топика
-	 *
-	 * @param  array           $aFile
-	 * @param  UserEntity_User $oUser
-	 * @return string|bool
-	 */
-	public function UploadTopicImageFile($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-		
-		$sDirUpload=$this->GetUserDir($oUser->getId());			
-		$sFileTmp=$aFile['tmp_name'];
-		$aParams=$this->BuildParams('topic');
-		
-		if ($sFileImage=$this->Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
-			return $sDirUpload.'/'.$sFileImage;
-		}
-		return false;
-	}
-	/**
-	 * Загрузка изображений по переданному URL
-	 *
-	 * @param  string          $sUrl
-	 * @param  UserEntity_User $oUser
-	 * @return (string|bool)
-	 */
-	public function UploadTopicImageUrl($sUrl, $oUser) {
-		/**
-		 * Проверяем, является ли файл изображением
-		 */
-		if(!@getimagesize($sUrl)) {
-			return self::UPLOAD_IMAGE_ERROR_TYPE;
-		}
-		/**
-		 * Открываем файловый поток и считываем файл поблочно,
-		 * контролируя максимальный размер изображения
-		 */
-		$oFile=fopen($sUrl,'r');
-		if(!$oFile) {
-			return self::UPLOAD_IMAGE_ERROR_READ;
-		}
-		
-		$iMaxSizeKb=500;
-		$iSizeKb=0;
-		$sContent='';
-		while (!feof($oFile) and $iSizeKb<$iMaxSizeKb) {
-			$sContent.=fread($oFile ,1024*1);
-			$iSizeKb++;
-		}
-
-		/**
-		 * Если конец файла не достигнут,
-		 * значит файл имеет недопустимый размер
-		 */
-		if(!feof($oFile)) {
-			return self::UPLOAD_IMAGE_ERROR_SIZE;
-		}
-		fclose($oFile);
-
-		/**
-		 * Создаем tmp-файл, для временного хранения изображения
-		 */
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		
-		$fp=fopen($sFileTmp,'w');
-		fwrite($fp,$sContent);
-		fclose($fp);
-		
-		$sDirSave=$this->GetUserDir($oUser->getId());
-		$aParams=$this->BuildParams('topic');
-		
-		/**
-		 * Передаем изображение на обработку
-		 */
-		if ($sFileImg=$this->Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
-			@unlink($sFileTmp);
-			return $sDirSave.'/'.$sFileImg;
-		} 		
-		
-		@unlink($sFileTmp);
-		return self::UPLOAD_IMAGE_ERROR;
+	public function GetUserDir($sUserId) {
+		return Config::Get('path.uploads.images').'/'.preg_replace('~(.{2})~U', "\\1/", str_pad($sUserId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
 	}
 	/**
 	 * Возвращает валидный Html код тега <img>
@@ -453,13 +240,17 @@ class LsImage extends Module {
 		$sText='<img src="'.$sPath.'" ';
 		if (isset($aParams['title']) and $aParams['title']!='') {
 			$sText.=' title="'.htmlspecialchars($aParams['title']).'" ';
+			/**
+			 * Если не определен ALT заполняем его тайтлом
+			 */
+			if(!isset($aParams['alt'])) $aParams['alt']=$aParams['title'];
 		}
 		if (isset($aParams['align']) and in_array($aParams['align'],array('left','right'))) {
 			$sText.=' align="'.htmlspecialchars($aParams['align']).'" ';
 		}
 		$sAlt = isset($aParams['alt'])
-			? ' alt=""'
-			: ' alt="'.htmlspecialchars($aParams['alt']).'"';
+			? ' alt="'.htmlspecialchars($aParams['alt']).'"'
+			: ' alt=""';
 		$sText.=$sAlt.' />';
 		
 		return $sText;

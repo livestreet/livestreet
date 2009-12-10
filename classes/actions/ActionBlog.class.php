@@ -191,8 +191,8 @@ class ActionBlog extends Action {
 		* Загрузка аватара, делаем ресайзы
 		*/			
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-			if ($sPath=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-				$oBlog->setAvatar($sPath);
+			if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+				$oBlog->setAvatar($this->Image_GetWebPath($sPath));
 			} else {
 				$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 				return false;
@@ -270,7 +270,7 @@ class ActionBlog extends Action {
 			 */
 			if (!$this->checkBlogFields($oBlog)) {
 				return false;
-			}			
+			}
 			$oBlog->setTitle(getRequest('blog_title'));
 			/**
 			 * Парсим описание блога на предмет ХТМЛ тегов
@@ -284,8 +284,8 @@ class ActionBlog extends Action {
 			* Загрузка аватара, делаем ресайзы
 			*/			
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				if ($sPath=$this->Image_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-					$oBlog->setAvatar($sPath);
+				if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+					$oBlog->setAvatar($this->Image_GetWebPath($sPath));
 				} else {
 					$this->Message_AddError($this->Lang_Get('blog_create_avatar_error'),$this->Lang_Get('error'));
 					return false;
@@ -295,7 +295,7 @@ class ActionBlog extends Action {
 			 * Удалить аватар
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
-				$this->Image_DeleteBlogAvatar($oBlog);
+				$this->Blog_DeleteBlogAvatar($oBlog);
 				$oBlog->setAvatar(null);
 			}
 			/**
@@ -331,7 +331,7 @@ class ActionBlog extends Action {
 		 * Меню
 		 */		
 		$this->sMenuItemSelect='admin';
-		$this->sMenuSubItemSelect='';		
+		$this->sMenuSubItemSelect='';
 		/**
 		 * Проверяем передан ли в УРЛе номер блога
 		 */

@@ -1054,5 +1054,93 @@ class LsUser extends Module {
 	public function GetReminderByCode($sCode) {
 		return $this->oMapper->GetReminderByCode($sCode);
 	}
+	
+	/**
+	 * Upload user avatar on server
+	 * Make resized images
+	 *
+	 * @param  array           $aFile
+	 * @param  UserEntity_User $oUser
+	 * @return (string|bool)
+	 */
+	public function UploadAvatar($aFile,$oUser) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sFileTmp=$aFile['tmp_name'];
+		$sPath = $this->Image_GetUserDir($oUser->getId());
+		$aParams=$this->Image_BuildParams('avatar');
+		/**
+		 * Срезаем квадрат
+		 */
+		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		
+		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,true,$aParams,$oImage)) {
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,true,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,true,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,true,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,true,$aParams,$oImage);
+			
+			/**
+			 * Если все нормально, возвращаем расширение загруженного аватара
+			 */
+			return $sFileAvatar;
+		}
+		/**
+		 * В случае ошибки, возвращаем false
+		 */
+		return false;
+	}	
+	/**
+	 * Delete avatar from server
+	 *
+	 * @param UserEntity_User $oUser
+	 */
+	public function DeleteAvatar($oUser) {
+		/**
+		 * Если аватар есть, удаляем его и его рейсайзы
+		 */
+		if($oUser->getProfileAvatar()) {
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(100)));
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(64)));
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(48)));
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(24)));
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(0)));			
+		}
+	}
+	/**
+	 * Upload user foto
+	 *
+	 * @param  array           $aFile
+	 * @param  UserEntity_User $oUser
+	 * @return string
+	 */
+	public function UploadFoto($aFile,$oUser) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sDirUpload=$this->Image_GetUserDir($oUser->getId());			
+		$sFileTmp=$aFile['tmp_name'];
+		$aParams=$this->Image_BuildParams('foto');
+		
+		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250,null,true,$aParams)) {
+			/**
+			 * удаляем старое фото
+			 */
+			$this->DeleteFoto($oUser);
+			return Config::Get('path.root.web').'/'.ltrim($sDirUpload,'/').'/'.$sFileFoto;
+		}
+		return false;
+	}
+	/**
+	 * Delete user foto from server
+	 *
+	 * @param UserEntity_User $oUser
+	 */
+	public function DeleteFoto($oUser) {
+		@unlink($this->Image_GetServerPath($oUser->getProfileFoto()));
+	}	
 }
 ?>

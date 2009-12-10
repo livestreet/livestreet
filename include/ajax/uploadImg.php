@@ -32,14 +32,14 @@ if ($oEngine->User_IsAuthorization()) {
 	$sFile=null;
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
 	if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
-		if(!$sFile=$oEngine->Image_UploadTopicImageFile($_FILES['img_file'],$oUserCurrent)) {
+		if(!$sFile=$oEngine->Topic_UploadTopicImageFile($_FILES['img_file'],$oUserCurrent)) {
 			$sMsgTitle=$oEngine->Lang_Get('error');
 			$sMsg=$oEngine->Lang_Get('uploadimg_file_error');
 		}
 	}
 
 	if (isPost('img_url') && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
-		$sFile=$oEngine->Image_UploadTopicImageUrl($_REQUEST['img_url'],$oUserCurrent);
+		$sFile=$oEngine->Topic_UploadTopicImageUrl($_REQUEST['img_url'],$oUserCurrent);
 		switch (true) {
 			case is_string($sFile):
 			
@@ -47,26 +47,26 @@ if ($oEngine->User_IsAuthorization()) {
 			
 			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_READ):
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');			
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');
 				$sFile=null;
 				break;
 				
 			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_SIZE):
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');			
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');
 				$sFile=null;
 				break;
 				
 			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_TYPE):
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');			
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');
 				$sFile=null;
 				break;
 				
 			default:
 			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR):
 				$sMsgTitle=$oEngine->Lang_Get('error');
-				$sMsg=$oEngine->Lang_Get('uploadimg_url_error');				
+				$sMsg=$oEngine->Lang_Get('uploadimg_url_error');
 				$sFile=null;
 				break;
 		}
@@ -76,7 +76,7 @@ if ($oEngine->User_IsAuthorization()) {
 		$bStateError=false;
 		$sMsgTitle='';
 		$sMsg='';
-		$sText=$oEngine->Image_BuildHTML(Config::Get('path.root.web').$sFile, $_REQUEST);
+		$sText=$oEngine->Image_BuildHTML($oEngine->Image_GetWebPath($sFile), $_REQUEST);
 	}	
 } else {
 	$sMsgTitle=$oEngine->Lang_Get('error');

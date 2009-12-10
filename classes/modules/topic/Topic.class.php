@@ -1313,5 +1313,90 @@ class LsTopic extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}", "topic_new_blog_{$sBlogIdNew}"));
 		return $this->oMapperTopic->MoveTopics($sBlogId,$sBlogIdNew);
 	}	
+	
+	/**
+	 * Заргузка изображений при написании топика
+	 *
+	 * @param  array           $aFile
+	 * @param  UserEntity_User $oUser
+	 * @return string|bool
+	 */
+	public function UploadTopicImageFile($aFile,$oUser) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sDirUpload=$this->Image_GetUserDir($oUser->getId());			
+		$sFileTmp=$aFile['tmp_name'];
+		$aParams=$this->Image_BuildParams('topic');
+		
+		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+			return $sFileImage;
+		}
+		return false;
+	}
+	/**
+	 * Загрузка изображений по переданному URL
+	 *
+	 * @param  string          $sUrl
+	 * @param  UserEntity_User $oUser
+	 * @return (string|bool)
+	 */
+	public function UploadTopicImageUrl($sUrl, $oUser) {
+		/**
+		 * Проверяем, является ли файл изображением
+		 */
+		if(!@getimagesize($sUrl)) {
+			return self::UPLOAD_IMAGE_ERROR_TYPE;
+		}
+		/**
+		 * Открываем файловый поток и считываем файл поблочно,
+		 * контролируя максимальный размер изображения
+		 */
+		$oFile=fopen($sUrl,'r');
+		if(!$oFile) {
+			return self::UPLOAD_IMAGE_ERROR_READ;
+		}
+		
+		$iMaxSizeKb=500;
+		$iSizeKb=0;
+		$sContent='';
+		while (!feof($oFile) and $iSizeKb<$iMaxSizeKb) {
+			$sContent.=fread($oFile ,1024*1);
+			$iSizeKb++;
+		}
+
+		/**
+		 * Если конец файла не достигнут,
+		 * значит файл имеет недопустимый размер
+		 */
+		if(!feof($oFile)) {
+			return self::UPLOAD_IMAGE_ERROR_SIZE;
+		}
+		fclose($oFile);
+
+		/**
+		 * Создаем tmp-файл, для временного хранения изображения
+		 */
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		
+		$fp=fopen($sFileTmp,'w');
+		fwrite($fp,$sContent);
+		fclose($fp);
+		
+		$sDirSave=$this->Image_GetUserDir($oUser->getId());
+		$aParams=$this->Image_BuildParams('topic');
+		
+		/**
+		 * Передаем изображение на обработку
+		 */
+		if ($sFileImg=$this->Image_Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+			@unlink($sFileTmp);
+			return $sFileImg;
+		} 		
+		
+		@unlink($sFileTmp);
+		return self::UPLOAD_IMAGE_ERROR;
+	}
 }
 ?>

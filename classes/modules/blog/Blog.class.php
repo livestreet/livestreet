@@ -749,5 +749,55 @@ class LsBlog extends Module {
 		
 		return true;
 	}
+	/**
+	 * Upload blog avatar on server
+	 * Make resized images
+	 *
+	 * @param  array           $aFile
+	 * @param  BlogEntity_Blog $oUser
+	 * @return (string|bool)
+	 */
+	public function UploadBlogAvatar($aFile,$oBlog) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
+			return false;
+		}
+		
+		$sFileTmp=$aFile['tmp_name'];
+		$sPath=$this->Image_GetUserDir($oBlog->getOwnerId());
+		$aParams=$this->Image_BuildParams('avatar');
+		/**
+		 * Срезаем квадрат
+		 */
+		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		
+		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,true,$aParams,$oImage)) {
+			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,true,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,null,null,true,$aParams,$oImage);
+			
+			/**
+			 * Если все нормально, возвращаем расширение загруженного аватара
+			 */
+			return $sFileAvatar;
+		}
+		/**
+		 * В случае ошибки, возвращаем false
+		 */
+		return false;
+	}
+	/**
+	 * Delete blog avatar from server
+	 *
+	 * @param BlogEntity_Blog $oUser
+	 */
+	public function DeleteBlogAvatar($oBlog) {
+		/**
+		 * Если аватар есть, удаляем его и его рейсайзы
+		 */
+		if($oBlog->getAvatar()) {		
+			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(48)));
+			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(24)));
+			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(0)));		
+		}
+	}	
 }
 ?>
