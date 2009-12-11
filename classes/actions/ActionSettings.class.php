@@ -281,7 +281,7 @@ class ActionSettings extends Action {
 			 * Удалить аватара
 			 */
 			if (isset($_REQUEST['avatar_delete'])) {
-				$this->Image_DeleteAvatar($this->oUserCurrent);
+				$this->User_DeleteAvatar($this->oUserCurrent);
 				$this->oUserCurrent->setProfileAvatar(null);				
 			}
 			/**
@@ -299,7 +299,7 @@ class ActionSettings extends Action {
 			 * Удалить фото
 			 */
 			if (isset($_REQUEST['foto_delete'])) {
-				$this->Image_DeleteFoto($this->oUserCurrent);
+				$this->User_DeleteFoto($this->oUserCurrent);
 				$this->oUserCurrent->setProfileFoto(null);
 			}
 			/**
