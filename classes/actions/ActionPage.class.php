@@ -71,8 +71,8 @@ class ActionPage extends Action {
 		 * Заполняем HTML теги и SEO
 		 */
 		$this->Viewer_AddHtmlTitle($oPage->getTitle());
-		if ($oPage->getSeoKyewords()) {
-			$this->Viewer_SetHtmlKeywords($oPage->getSeoKyewords());
+		if ($oPage->getSeoKeywords()) {
+			$this->Viewer_SetHtmlKeywords($oPage->getSeoKeywords());
 		}
 		if ($oPage->getSeoDescription()) {
 			$this->Viewer_SetHtmlDescription($oPage->getSeoDescription());
@@ -117,7 +117,7 @@ class ActionPage extends Action {
 					$_REQUEST['page_pid']=$oPageEdit->getPid();
 					$_REQUEST['page_url']=$oPageEdit->getUrl();
 					$_REQUEST['page_text']=$oPageEdit->getText();
-					$_REQUEST['page_seo_keywords']=$oPageEdit->getSeoKyewords();
+					$_REQUEST['page_seo_keywords']=$oPageEdit->getSeoKeywords();
 					$_REQUEST['page_seo_description']=$oPageEdit->getSeoDescription();
 					$_REQUEST['page_active']=$oPageEdit->getActive();	
 					$_REQUEST['page_id']=$oPageEdit->getId();						
@@ -186,7 +186,7 @@ class ActionPage extends Action {
 			$oPageEdit->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
 		}		
 		$oPageEdit->setSeoDescription(getRequest('page_seo_description'));
-		$oPageEdit->setSeoKyewords(getRequest('page_seo_keywords'));
+		$oPageEdit->setSeoKeywords(getRequest('page_seo_keywords'));
 		$oPageEdit->setText(getRequest('page_text'));
 		$oPageEdit->setTitle(getRequest('page_title'));
 		$oPageEdit->setUrl(getRequest('page_url'));
@@ -228,7 +228,7 @@ class ActionPage extends Action {
 			$oPage->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
 		}		
 		$oPage->setSeoDescription(getRequest('page_seo_description'));
-		$oPage->setSeoKyewords(getRequest('page_seo_keywords'));
+		$oPage->setSeoKeywords(getRequest('page_seo_keywords'));
 		$oPage->setText(getRequest('page_text'));
 		$oPage->setTitle(getRequest('page_title'));
 		$oPage->setUrl(getRequest('page_url'));

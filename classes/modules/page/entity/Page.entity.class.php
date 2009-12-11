@@ -41,7 +41,7 @@ class PageEntity_Page extends Entity
     public function getDateEdit() {
         return $this->_aData['page_date_edit'];
     }
-    public function getSeoKyewords() {
+    public function getSeoKeywords() {
         return $this->_aData['page_seo_keywords'];
     }
     public function getSeoDescription() {
@@ -82,7 +82,7 @@ class PageEntity_Page extends Entity
     public function setDateEdit($data) {
         $this->_aData['page_date_edit']=$data;
     }
-    public function setSeoKyewords($data) {
+    public function setSeoKeywords($data) {
         $this->_aData['page_seo_keywords']=$data;
     }
     public function setSeoDescription($data) {

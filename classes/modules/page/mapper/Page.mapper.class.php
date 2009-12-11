@@ -31,7 +31,7 @@ class Mapper_Page extends Mapper {
 			)
 			VALUES(?, ?,	?,	?,  ?,  ?,  ?,  ?,  ?d)
 		";			
-		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKyewords(),$oPage->getSeoDescription(),$oPage->getActive())) 
+		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive())) 
 		{
 			return $iId;
 		}		
@@ -51,7 +51,7 @@ class Mapper_Page extends Mapper {
 			page_active	 = ? 		
 			WHERE page_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKyewords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getId())) 
+		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getId())) 
 		{
 			return true;
 		}		
