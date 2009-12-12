@@ -1074,13 +1074,14 @@ class LsUser extends Module {
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		//$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		//$oImage->output(null,$sFileTmp);
 		
-		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,false,$aParams,$oImage)) {
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,false,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,false,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,false,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,false,$aParams,$oImage);
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,false,$aParams)) {
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,false,$aParams);
 			
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -1106,7 +1107,7 @@ class LsUser extends Module {
 			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(64)));
 			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(48)));
 			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(24)));
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(0)));			
+			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(0)));
 		}
 	}
 	/**

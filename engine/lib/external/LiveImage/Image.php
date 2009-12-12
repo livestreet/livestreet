@@ -176,33 +176,49 @@ class LiveImage {
 			$height = round($this->height / $this->scale);
 		}
 
-		if($this->truecolor) {
-			$tmp=imagecreatetruecolor($width,$height);
-		} else {
-			$tmp=imagecreate($width,$height);
-		}
-
+		$tmp=($this->truecolor)
+			? imagecreatetruecolor($width,$height)
+			: imagecreate($width,$height);
 		/**
 		 * Если темп-изображение не создано, ставим отметку об ошикбе
 		 */
 		if(!$tmp) {
 			$this->set_last_error(1);
 			return false;
-		}	
+		}
+									
+		if($this->format=='gif') { 
+			imagealphablending($this->image, false);
+			$ct = @imagecolortransparent($this->image);
+			$color_tran = @imagecolorsforindex($this->image, $ct);
 		
-		/**
-		 * Регулируем альфа-канал, если не указано обработное
-		 */
-		if($alfa) {
-			@imagesavealpha($tmp,true);
-			@imagealphablending($tmp,false);
+			if($color_tran) {
+				$ct2 = imagecolorexact($tmp, $color_tran['red'], $color_tran['green'], $color_tran['blue']);
+				imagefill($tmp,0,0,$ct2);
+			}
+				 				
+			if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
+				imagedestroy($tmp);
+				return false;
+			}
+			
+		 	imagesavealpha($tmp, true);
+			if(isset($ct2)) imagecolortransparent($tmp, $ct2);
+		} else {
+			/**
+		     * Регулируем альфа-канал, если не указано обработное
+		     */
+			if($alfa) {
+				@imagesavealpha($tmp,true);
+				@imagealphablending($tmp,false);
+			}
+	
+			if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
+				imagedestroy($tmp);
+				return false;
+			}		
 		}
-    			
-		if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
-			imagedestroy($tmp);
-			return false;
-		}
-
+		
 		imagedestroy($this->image);
 		$this->set_image($tmp);
 		
@@ -218,13 +234,10 @@ class LiveImage {
 	 * @param  int   $start_height
 	 * @return mixed
 	 */
-	public function crop($width, $height, $start_width, $start_height) {
-		if($this->truecolor) {
-			$tmp=imagecreatetruecolor($width,$height);
-		} else {
-			$tmp=imagecreate($width,$height);
-		}
-
+	public function crop($width, $height, $start_width, $start_height) {	
+		$tmp=($this->truecolor)
+			? imagecreatetruecolor($width,$height)
+			: imagecreate($width,$height);
 		/**
 		 * Если темп-изображение не создано, ставим отметку об ошикбе
 		 */
@@ -232,13 +245,35 @@ class LiveImage {
 			$this->set_last_error(1);
 			return false;
 		}
+									
+		if($this->format=='gif') { 
+			imagealphablending($this->image, false);
+			$ct = @imagecolortransparent($this->image);
+			$color_tran = @imagecolorsforindex($this->image, $ct);
 		
-		@imagesavealpha($tmp,true);
-		@imagealphablending($tmp,false);
-				
-		if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
-			imagedestroy($tmp);
-			return false;
+			if($color_tran) {
+				$ct2 = imagecolorexact($tmp, $color_tran['red'], $color_tran['green'], $color_tran['blue']);
+				imagefill($tmp,0,0,$ct2);			
+			}
+				 				
+			if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
+				imagedestroy($tmp);
+				return false;
+			}
+			
+		 	imagesavealpha($tmp, true);
+			if(isset($ct2)) imagecolortransparent($tmp, $ct2);
+		} else {
+			/**
+		     * Регулируем альфа-канал, если не указано обработное
+		     */
+			@imagesavealpha($tmp,true);
+			@imagealphablending($tmp,false);
+	
+			if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
+				imagedestroy($tmp);
+				return false;
+			}
 		}
 
 		imagedestroy($this->image);
