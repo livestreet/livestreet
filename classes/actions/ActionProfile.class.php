@@ -590,6 +590,7 @@ class ActionProfile extends Action {
 	public function EventAjaxFriendDelete() {
 		$this->Viewer_SetResponseAjax();
 		$sUserId=getRequest('idUser',null,'post');
+		
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */		
@@ -601,7 +602,7 @@ class ActionProfile extends Action {
 			return;				
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
-				
+
 		/**
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
@@ -621,21 +622,22 @@ class ActionProfile extends Action {
 				$this->Lang_Get('user_friend_del_no'),
 				$this->Lang_Get('error')
 			);
-			return;				
+			return;
 		}
-		$this->oUserProfile=$oUser;		
+		$this->oUserProfile=$oUser;
 		/**
 		 * Получаем статус дружбы между пользователями.
 		 * Если статус не определен, или отличается от принятой заявки,
 		 * возвращаем ошибку
 		 */
-		if( !($oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId()))
-				|| $oFriend->getFriendStatus()!=LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER ) {
+		$oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId());
+		$aAllowedFriendStatus = array(LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER,LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_ACCEPT);
+		if(!$oFriend || !in_array($oFriend->getFriendStatus(),$aAllowedFriendStatus)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_friend_del_no'),
 				$this->Lang_Get('error')
 			);
-			return;	
+			return;
 		}
 		
 		if( $this->User_DeleteFriend($oFriend) ) {
