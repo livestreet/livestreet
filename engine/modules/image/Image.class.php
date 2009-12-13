@@ -211,13 +211,18 @@ class LsImage extends Module {
 	 * @param  string $sPath
 	 * @return string
 	 */
-	public function GetServerPath($sPath) {
-		$sPath=str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
+	public function GetServerPath($sPath) {		
 		/**
-		 * Отделяем ?-суфикс в Web адресах
+		 * Определяем, принадлежит ли этот адрес основному домену 
 		 */
-		list($sPath,)=explode('?',$sPath,2);
-		return $sPath;
+		if(parse_url($sPath,PHP_URL_HOST)!=parse_url(Config::Get('path.root.web'),PHP_URL_HOST)) {
+			return $sPath;
+		}
+		/**
+		 * Выделяем адрес пути
+		 */
+		$sPath = parse_url($sPath,PHP_URL_PATH);
+		return rtrim(Config::Get('path.root.server'),'/').'/'.ltrim($sPath,'/');
 	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
@@ -226,8 +231,8 @@ class LsImage extends Module {
 	 * @return string
 	 */
 	public function GetWebPath($sPath) {
-		return str_replace(rtrim(Config::Get('path.root.server'),'/'), rtrim(Config::Get('path.root.web'),'/'), $sPath);
-	}	
+		return str_replace(realpath(Config::Get('path.root.server')), Config::Get('path.root.web'), realpath($sPath));		
+	}
 	/**
 	 * Получает директорию для данного пользователя
 	 * Используется фомат хранения данных (/images/us/er/id/yyyy/mm/dd/file.jpg)
