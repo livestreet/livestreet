@@ -270,8 +270,27 @@ class ActionSettings extends Action {
 			 * Загрузка аватара, делаем ресайзы
 			 */		
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+				/**
+				 * Получаем список текущих аватаров
+				 */
+				$sPathOld = $this->oUserCurrent->getProfileAvatar();
+				$aUserAvatars = array();
+				if($sPathOld) {
+					foreach (array(100,64,48,24,0) as $iSize) {
+						$aUserAvatars[$iSize] = $this->oUserCurrent->getProfileAvatarPath($iSize);
+					}
+				}
+				
 				if($sPath=$this->User_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
 					$this->oUserCurrent->setProfileAvatar($sPath);
+					/**
+					 * Удаляем старые, если путь не совпадает с текущими аватарками
+					 */
+					if($sPathOld and $sPath!=$sPathOld and count($aUserAvatars)) {
+						foreach ($aUserAvatars as $iSize=>$sAvatarPath) {
+							@unlink($this->Image_GetServerPath($sAvatarPath));
+						}
+					}
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));					
@@ -280,9 +299,9 @@ class ActionSettings extends Action {
 			/**
 			 * Удалить аватара
 			 */
-			if (isset($_REQUEST['avatar_delete'])) {
+			if (getRequest('avatar_delete')) {
 				$this->User_DeleteAvatar($this->oUserCurrent);
-				$this->oUserCurrent->setProfileAvatar(null);				
+				$this->oUserCurrent->setProfileAvatar(null);		
 			}
 			/**
 			 * Загрузка фото, делаем ресайзы

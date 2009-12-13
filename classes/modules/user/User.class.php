@@ -1071,11 +1071,13 @@ class LsUser extends Module {
 		$sFileTmp=$aFile['tmp_name'];
 		$sPath = $this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('avatar');
+
 		/**
 		 * Срезаем квадрат
 		 */
-		//$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
-		//$oImage->output(null,$sFileTmp);
+		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		$oImage->set_jpg_quality($aParams['jpg_quality']);
+		$oImage->output(null,$sFileTmp);
 		
 		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,false,$aParams)) {
 			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,false,$aParams);
@@ -1110,6 +1112,7 @@ class LsUser extends Module {
 			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(0)));
 		}
 	}
+		
 	/**
 	 * Upload user foto
 	 *
@@ -1122,7 +1125,7 @@ class LsUser extends Module {
 			return false;
 		}
 		
-		$sDirUpload=$this->Image_GetIdDir($oUser->getId());			
+		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->Image_BuildParams('foto');
 		
@@ -1142,6 +1145,6 @@ class LsUser extends Module {
 	 */
 	public function DeleteFoto($oUser) {
 		@unlink($this->Image_GetServerPath($oUser->getProfileFoto()));
-	}	
+	}
 }
 ?>

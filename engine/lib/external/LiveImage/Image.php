@@ -196,8 +196,16 @@ class LiveImage {
 				$ct2 = imagecolorexact($tmp, $color_tran['red'], $color_tran['green'], $color_tran['blue']);
 				imagefill($tmp,0,0,$ct2);
 			}
-				 				
-			if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
+
+	
+			/**
+			 * Определяем функцию, которой будет выполнен ресайз изображения
+			 */
+			$sResizeFunction = 'imagecopyresampled';
+			if(!function_exists($sResizeFunction)) $sResizeFunction = 'imagecopyresized';
+			if(isset($ct) and $ct!=-1) $sResizeFunction = 'imagecopyresized';
+							 				
+			if(!@$sResizeFunction($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
 				imagedestroy($tmp);
 				return false;
 			}
@@ -212,7 +220,7 @@ class LiveImage {
 				@imagesavealpha($tmp,true);
 				@imagealphablending($tmp,false);
 			}
-	
+			
 			if(!@imagecopyresampled($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
 				imagedestroy($tmp);
 				return false;
@@ -253,10 +261,18 @@ class LiveImage {
 		
 			if($color_tran) {
 				$ct2 = imagecolorexact($tmp, $color_tran['red'], $color_tran['green'], $color_tran['blue']);
-				imagefill($tmp,0,0,$ct2);			
+				imagefill($tmp,0,0,$ct2);
 			}
-				 				
-			if(!imagecopyresampled($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
+
+	
+			/**
+			 * Определяем функцию, которой будет выполнен ресайз изображения
+			 */
+			$sResizeFunction = 'imagecopyresampled';
+			if(!function_exists($sResizeFunction)) $sResizeFunction = 'imagecopyresized';
+			if(isset($ct) and $ct!=-1) $sResizeFunction = 'imagecopyresized';
+							 				
+			if(!@$sResizeFunction($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
 				imagedestroy($tmp);
 				return false;
 			}
@@ -264,9 +280,6 @@ class LiveImage {
 		 	imagesavealpha($tmp, true);
 			if(isset($ct2)) imagecolortransparent($tmp, $ct2);
 		} else {
-			/**
-		     * Регулируем альфа-канал, если не указано обработное
-		     */
 			@imagesavealpha($tmp,true);
 			@imagealphablending($tmp,false);
 	
@@ -527,6 +540,7 @@ class LiveImage {
 		switch($format) {
 			default:
 			case 'png':
+				@imagesavealpha($this->image,true);
 				if(!$file) {
 					header("Content-type: image/png");
 					imagepng($this->image);

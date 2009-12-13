@@ -104,6 +104,7 @@ class LsImage extends Module {
 		if($oImage->get_last_error()){
 			return false;
 		}
+
 		$sFileDest.='.'.$oImage->get_image_params('format');
 		if (($oImage->get_image_params('width')>$iWidthMax) 
 			or ($oImage->get_image_params('height')>$iHeightMax)) {
@@ -122,7 +123,7 @@ class LsImage extends Module {
 			 * Если нужно добавить Watermark, то запрещаем ручное управление alfa-каналом
 			 */
 			$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest),(!$aParams['watermark_use']));
-	
+			
 			/**
 			 * Добавляем watermark согласно в конфигурации заданым параметрам
 			 */
@@ -152,15 +153,11 @@ class LsImage extends Module {
 						break;
 				}
 			}
-					
 			/**
 			 * Скругляем углы
 			 */
 			if($aParams['round_corner']) {
-				$oImage->round_corners(
-					$aParams['round_corner_radius'], 
-					$aParams['round_corner_rate']
-				);
+				$oImage->round_corners($aParams['round_corner_radius'], $aParams['round_corner_rate']);
 			}
 			/**
 			 * Для JPG формата устанавливаем output quality, если это предусмотрено в конфигурации
@@ -195,7 +192,8 @@ class LsImage extends Module {
 		/**
 		 * Если высота и ширина совпадают, то возвращаем изначальный вариант
 		 */
-		if($iWidth==$iHeight) return $oImage;
+		if($iWidth==$iHeight){ return $oImage; }
+		
 		/**
 		 * Вырезаем квадрат из центра
 		 */
@@ -214,7 +212,12 @@ class LsImage extends Module {
 	 * @return string
 	 */
 	public function GetServerPath($sPath) {
-		return str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
+		$sPath=str_replace(Config::Get('path.root.web'), Config::Get('path.root.server'), $sPath);
+		/**
+		 * Отделяем ?-суфикс в Web адресах
+		 */
+		list($sPath,)=explode('?',$sPath,2);
+		return $sPath;
 	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
