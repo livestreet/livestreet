@@ -24,7 +24,7 @@ class ActionError extends Action {
 	 * Инициализация экшена
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->SetDefaultEvent('index');
 		Router::SetIsShowStats(false);
 	}

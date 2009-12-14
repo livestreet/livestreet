@@ -37,7 +37,7 @@ class Init {
 	 *
 	 */
 	public function __construct($oEngine) {		
-		$this->oEngine=$oEngine;				
+		$this->oEngine=$oEngine;
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**
@@ -55,7 +55,15 @@ class Init {
 	 * Логика инициализации
 	 *
 	 */
-	public function InitAction() {		
+	public function InitAction() {	
+		/**
+		 * Проверяем наличие директории install
+		 */
+		if(is_dir(rtrim(Config::Get('path.root.server'),'/').'/install')){
+			$this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
+			Router::Action('error');
+		}
+		
 		if (!$this->oUserCurrent and Config::Get('general.close') and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
 			Router::Action('login');
 		}

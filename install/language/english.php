@@ -94,7 +94,7 @@ return array(
 	'admin_params_pass'=>'Password',
 	'admin_params_repass'=>'One more time',
 	
-	'end_paragraph' => 'Congratulations! LiveStreet is successfully installed.<br />You can choose advanced install mode.<br /><br /><a href="/">Main site page</a><br /><br />',
+	'end_paragraph' => 'Congratulations! LiveStreet is successfully installed.<br />To ensure the safety of the system, remove the directory Install.<br /><br />You can choose advanced install mode.<br /><br /><a href="/">Main site page</a><br /><br />',
 	'extend_mode'=> 'Advanced mode',
 	
 	'view_params'=> 'HTML view settings',
@@ -116,5 +116,5 @@ return array(
 	'language_params_current'=> 'Current language',
 	'language_params_default'=> 'Default language',
 	
-	'finish_paragraph' => 'Congratulations! LiveStreet is successfully installed.<br />To ensure the safety of the system, remove the directory Install.<br />',
+	'finish_paragraph' => 'Congratulations! LiveStreet is successfully installed.<br />To ensure the safety of the system, remove the directory Install.<br /><br /><a href="/">Main site page</a>',
 );
