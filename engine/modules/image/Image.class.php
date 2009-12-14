@@ -110,7 +110,7 @@ class LsImage extends Module {
 			or ($oImage->get_image_params('height')>$iHeightMax)) {
 				return false;
 		}
-		$sFileFullPath=trim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
+		$sFileFullPath=rtrim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
 		@func_mkdir(Config::Get('path.root.server'),$sDirDest);
 			
 		if ($iWidthDest) {
@@ -231,7 +231,9 @@ class LsImage extends Module {
 	 * @return string
 	 */
 	public function GetWebPath($sPath) {
-		return str_replace(realpath(Config::Get('path.root.server')), Config::Get('path.root.web'), realpath($sPath));		
+		$sServerPath = rtrim(str_replace(DIRECTORY_SEPARATOR,'/',Config::Get('path.root.server')),'/');
+		$sWebPath    = rtrim(Config::Get('path.root.web'), '/');
+		return str_replace($sServerPath, $sWebPath, $sPath);
 	}
 	/**
 	 * Получает директорию для данного пользователя
