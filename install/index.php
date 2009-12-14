@@ -421,8 +421,13 @@ class Install {
 	 *
 	 * @call $this->Step{__Name__} 
 	 */
-	function Run() {
-		$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
+	function Run($sStepName=null) {
+		if(is_null($sStepName)){ 
+			$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
+		} else {
+			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,$sStepName);
+		}
+		
 		if(!in_array($sStepName,$this->aSteps)) die('Unknown step');
 		
 		$iKey = array_search($sStepName,$this->aSteps);
@@ -434,12 +439,9 @@ class Install {
 			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,$sStepName);
 		}
 
-		if($iKey == count($this->aSteps)-1) {
-			$this->Assign('next_step_display', 'none');
-		}				
-		if($iKey == 0) {
-			$this->Assign('prev_step_display', 'none');
-		}
+		$this->Assign('next_step_display', ($iKey == count($this->aSteps)-1)?'none':'block');
+		$this->Assign('prev_step_display', ($iKey == 0) ? 'none' : 'block');
+		
 		/**
 		 * Если шаг отновиться к simple mode, то корректируем количество шагов
 		 */
@@ -493,7 +495,10 @@ class Install {
 			 * Прописываем в конфигурацию абсолютные пути
 			 */
 			$this->SavePath();
-			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Db');
+
+			if($this->GetRequest('install_step_next')) {
+				return $this->Run('Db');
+			}
 		}
 		$this->SetStep('Start');
 		$this->Layout('steps/start.tpl');
@@ -507,16 +512,16 @@ class Install {
 			/**
 			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
 			 */
-			$this->Assign('install_db_server', 'localhost', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_port', '3306', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_name', 'social', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_user', 'root', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_password', '', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_create_check', '', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_prefix', 'prefix_', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine', 'InnoDB', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine_innodb', '', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine_myisam', '', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_server',   'localhost', self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_port',     '3306',      self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_name',     'social',    self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_user',     'root',      self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_password', '',          self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_create_check', '',      self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_prefix',   'prefix_',   self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine',   'InnoDB',    self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_innodb', '',     self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_myisam', '',     self::GET_VAR_FROM_SESSION);
 			
 			$this->Layout('steps/db.tpl');
 			return true;
@@ -593,26 +598,34 @@ class Install {
 			 */
 			$this->SetSessionVar('INSTALL_DATABASE_PARAMS',$aParams);
 			/**
+			 * Проверяем была ли проведена установка базы в течении сеанса.
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
-			if(!$aParams['convert']) {
-				list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
-				if(!$bResult) {
-					foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-					$this->Layout('steps/db.tpl');
-					return false;
-				}				
-			} else {
-				/**
-				 * Если указана конвертация старой базы данных
-				 */
-				list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert.sql',$aParams));
-				if(!$bResult) {
-					foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-					$this->Layout('steps/db.tpl');
-					return false;
+			if($this->GetSessionVar('INSTALL_DATABASE_DONE','')!=md5(serialize(array($aParams['server'],$aParams['name'])))){
+				if(!$aParams['convert']) {
+					list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
+					if(!$bResult) {
+						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+						$this->Layout('steps/db.tpl');
+						return false;
+					}
+				} else {
+					/**
+					 * Если указана конвертация старой базы данных
+					 */
+					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert.sql',$aParams));
+					if(!$bResult) {
+						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+						$this->Layout('steps/db.tpl');
+						return false;
+					}
 				}
 			}
+			/**
+			 * Сохраняем в сессии информацию о том, что преобразование базы данных уже было выполнено.
+			 * При этом сохраняем хеш сервера и названия базы данных, для последующего сравнения.
+			 */
+			$this->SetSessionVar('INSTALL_DATABASE_DONE',md5(serialize(array($aParams['server'],$aParams['name']))));
 			/**
 			 * Передаем управление на следующий шаг
 			 */
@@ -658,7 +671,7 @@ class Install {
 		if(!$this->ValidateDBConnection($aParams)) {
 			$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_connection_invalid'));
 			$this->Layout('steps/admin.tpl');
-			return false;					
+			return false;
 		}
 		$this->SelectDatabase($aParams['name']);
 		
@@ -673,6 +686,11 @@ class Install {
 			$this->Layout('steps/admin.tpl');
 			return false;	
 		}
+		/**
+		 * Обновляем данные о пользовательском блоге
+		 */
+		$this->UpdateUserBlog("Blog by ".$this->GetRequest('install_admin_login'),$aParams['prefix']);
+		
 		/**
 		 * Передаем управление на следующий шаг
 		 */
@@ -858,8 +876,18 @@ class Install {
 			 * Текущий язык
 			 */
 			if($aParams['install_lang_current'] && strlen($aParams['install_lang_current'])>1){
-				if($this->SaveConfig('lang.current',$aParams['install_lang_current'],$sLocalConfigFile))
+				if($this->SaveConfig('lang.current',$aParams['install_lang_current'],$sLocalConfigFile)) {
 					$this->SetSessionVar('install_lang_current',$aParams['install_lang_current']);
+					/**
+					 * Если выбран русский язык, то перезаписываем название блога
+					 */
+					if($aParams['install_lang_current']=='russian'){ 
+						$aDbParams = $this->GetSessionVar('INSTALL_DATABASE_PARAMS');
+						$oDb = $this->ValidateDBConnection($aDbParams);
+						
+						if($oDb and $this->SelectDatabase($aDbParams['name'])) $this->UpdateUserBlog("Блог им. ".$this->GetSessionVar('install_admin_login'),$aDbParams['prefix']);
+					}
+				}
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('lang_current_invalid'));
@@ -888,7 +916,7 @@ class Install {
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Finish');
 		$this->Layout('steps/finish.tpl');
-	}	
+	}
 	/**
 	 * Проверяем возможность инсталяции
 	 * 
@@ -1338,6 +1366,22 @@ class Install {
 			WHERE `user_id` = 1";
 
 		return mysql_query($sQuery);		
+	}
+	/**
+	 * Перезаписывает название блога в базе данных
+	 *
+	 * @param  string $sBlogName
+	 * @param  string [$sPrefix = "prefix_"
+	 * @return bool
+	 */
+	function UpdateUserBlog($sBlogName,$sPrefix="prefix_") {
+        $sQuery = "
+        	UPDATE `{$sPrefix}blog`
+        	SET 
+        		`blog_title`    = '".mysql_real_escape_string($sBlogName)."'
+			WHERE `blog_id` = 1";
+
+		return mysql_query($sQuery);				
 	}
 	/**
 	 * Проверяет, использует ли mysql запрос, одну из указанных в массиве таблиц

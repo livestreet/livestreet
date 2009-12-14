@@ -1,4 +1,5 @@
 ___LANG_START_PARAGRAPH___
+<input type="hidden" name="install_env_params" value="1" />
 <h3>___LANG_PHP_PARAMS___</h3>
 <table>
 	<tr>
