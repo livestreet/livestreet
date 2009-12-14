@@ -55,10 +55,7 @@ class LsNotify extends Module {
 		if (!class_exists('LsViewer')) {
 			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
-		$this->oViewerLocal=new LsViewer(Engine::getInstance());
-		$this->oViewerLocal->Init();
-		$this->oViewerLocal->VarAssign();
-		
+		$this->oViewerLocal=$this->Viewer_GetLocalViewer();
 		$this->oMapper=new Mapper_Notify($this->Database_GetConnect());
 	}
 	

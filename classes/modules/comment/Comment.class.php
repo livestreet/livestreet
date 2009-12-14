@@ -494,10 +494,7 @@ class LsComment extends Module {
 		if (!class_exists('LsViewer')) {
 			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
-		$oViewerLocal=new LsViewer(Engine::getInstance());
-		$oViewerLocal->Init();
-		$oViewerLocal->VarAssign();
-		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
+		$oViewerLocal=$this->Viewer_GetLocalViewer();
 		$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewerLocal->Assign('bOneComment',true);
 		if($sTargetType!='topic') {

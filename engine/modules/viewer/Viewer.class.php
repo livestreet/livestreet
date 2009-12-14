@@ -193,6 +193,20 @@ class LsViewer extends Module {
 	}
 	
 	/**
+	 * Получает локальную копию модуля
+	 *
+	 * return LsViewer
+	 */
+	public function GetLocalViewer() {
+		$oViewerLocal=new LsViewer(Engine::getInstance());
+		$oViewerLocal->Init();
+		$oViewerLocal->VarAssign();
+		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
+		
+		return $oViewerLocal;
+	}
+	
+	/**
 	 * Выполняет загрузку необходимый(возможно даже системный :)) переменных в шалон
 	 *
 	 */
