@@ -56,7 +56,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 	if(isset($aParams['lang']) and $aParams['lang']!=$oEngine->Lang_GetLang()) {
 		$oEngine->Lang_SetLang($aParams['lang']);
 	}
-	
+	    	
 	$aMonth = $oEngine->Lang_Get('month_array');
 	$iDate= (preg_match("/^\d+$/",$sDate)) ?  $sDate : strtotime($sDate);
 	
@@ -151,11 +151,9 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 	if(is_array($sMonth)) {
 		$sMonth = isset($sMonth[$iDeclination]) 
 			? $sMonth[$iDeclination] 
-			: (isset($sMonth[$iDeclinationDefault])) 
-				? $sMonth[$iDeclinationDefault]
-				: array_shift($sMonth);
+			: $sMonth[$iDeclinationDefault];
 	}
-		
+	
 	$sFormat=preg_replace("~(?<!\\\\)F~U",preg_replace('~(\pL{1})~u','\\\${1}',$sMonth),$sFormat);
 
 	return date($sFormat,$iDate);
