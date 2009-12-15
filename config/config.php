@@ -56,7 +56,7 @@ $config['path']['offset_request_url'] = 0;                                   // 
 /**
  * Настройки шаблонизатора Smarty
  */
-$config['path']['smarty']['template'] = '___path.root.server___/templates/skin/'.$config['view']['skin'];
+$config['path']['smarty']['template'] = '___path.root.server___/templates/skin/___view.skin___';
 $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compiled';
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
