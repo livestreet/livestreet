@@ -82,10 +82,14 @@ class ProfilerSimple {
 		}		
 		if ($fp=fopen($this->sFileName,"a")) {
 			foreach ($this->aTimes as $aTime) {
+				if(!isset($aTime['time_pid'])) $aTime['time_pid']=0;
+				if(isset($aTime['time_comment']) and $aTime['time_comment']!='') {
+					$aTime['time_comment'] = preg_replace('/\s{1,}/',' ',$aTime['time_comment']);
+				}
 				$s=date('Y-m-d H:i:s')."\t{$aTime['request_id']}\t{$aTime['time_full']}\t{$aTime['time_start']}\t{$aTime['time_stop']}\t{$aTime['time_id']}\t{$aTime['time_pid']}\t{$aTime['time_name']}\t{$aTime['time_comment']}\r\n";
 				fwrite($fp,$s);
-			}			
-			fclose($fp);			
+			}
+			fclose($fp);
 		}
 	}
 	

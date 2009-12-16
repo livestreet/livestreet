@@ -64,8 +64,8 @@ class Router extends Object {
 		$this->ParseUrl();
 		$this->ExecAction();
 		$this->AssignVars();
-		$this->oEngine->Shutdown();		
-		$this->Viewer_Display($this->oAction->GetTemplate());	
+		$this->oEngine->Shutdown();
+		$this->Viewer_Display($this->oAction->GetTemplate());
 	}
 	/**
 	 * Парсим URL 

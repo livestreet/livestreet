@@ -60,10 +60,19 @@ function checkAllTalk(checkbox) {
 			chk.checked=true;
 		} else {
 			chk.checked=false;
-		}		
+		}
 	});	
 }
 
+function checkAllReport(checkbox) {
+	$$('.form_reports_checkbox').each(function(chk){
+		if (checkbox.checked) {
+			chk.checked=true;
+		} else {
+			chk.checked=false;
+		}
+	});	
+}
 
 function showImgUploadForm() {	
 	if (Browser.Engine.trident) {

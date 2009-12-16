@@ -106,6 +106,8 @@ $config['sys']['logs']['sql_query_file'] = 'sql_query.log'; // файл лога
 $config['sys']['logs']['sql_error']      = true;            // логировать или нет ошибки SQl
 $config['sys']['logs']['sql_error_file'] = 'sql_error.log'; // файл лога ошибок SQL
 $config['sys']['logs']['cron_file']      = 'cron.log';      // файл лога запуска крон-процессов
+$config['sys']['logs']['profiler']       = false;           // логировать или нет профилирование процессов
+$config['sys']['logs']['profiler_file']  = 'profiler.log';  // файл лога профилирования процессов
 /**
  * Общие настройки
  */
@@ -198,6 +200,8 @@ $config['module']['image']['topic']['round_corner']   = false;
 // Модуль Security
 $config['module']['security']['key']   = "livestreet_security_key"; // ключ сессии для хранения security-кода
 $config['module']['security']['hash']  = "livestreet_security_key"; // "примесь" к строке, хешируемой в качестве security-кода
+// Модуль Profiler
+$config['module']['profiler']['per_page']   = 15;  // Число profiler-отчетов на одну страницу
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Security','Session','Lang','User','Message');
@@ -245,6 +249,7 @@ $config['db']['table']['country_user']        = '___db.table.prefix___country_us
 $config['db']['table']['reminder']            = '___db.table.prefix___reminder';
 $config['db']['table']['session']             = '___db.table.prefix___session';
 $config['db']['table']['notify_task']         = '___db.table.prefix___notify_task';
+$config['db']['table']['profiler']            = '___db.table.prefix___profiler';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM 
 /**
@@ -285,6 +290,7 @@ $config['router']['page']['link']          = 'ActionLink';
 $config['router']['page']['question']      = 'ActionQuestion';
 $config['router']['page']['blogs']         = 'ActionBlogs';
 $config['router']['page']['search']        = 'ActionSearch';
+$config['router']['page']['profiler']      = 'ActionProfiler';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';

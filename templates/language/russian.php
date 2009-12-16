@@ -707,7 +707,29 @@ return array(
 	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
 	
 	'talk_not_found' => 'Разговор не найден',
-
+	
+	'profiler_report_page_title' => 'Профилирование',
+	
+	'profiler_reports_title' => 'Отчеты о профилировании',
+	'profiler_table_date' => 'Дата начала работы',
+	'profiler_table_time_full' => 'Время работы',
+	'profiler_table_count_id' => 'Количество профилей',
+	'profiler_report_delete' => 'Удалить',
+	'profiler_report_delete_confirm' => 'Вы уверены, что хотите удалить выбранные отчеты?',
+	
+	'profiler_dbstat_title' => 'Информацию о базе данных',
+	'profiler_dbstat_count' => 'Всего записей',
+	'profiler_dbstat_max_date' => 'Последняя дата',
+	'profiler_import_label' => 'Импортировать начиная с',
+	'profiler_import_notice' => 'В любом читаемом формате, напрмиер, Y-m-d H:i',
+	'profiler_import_submit' => 'Импортировать в БД',
+	'profiler_filter_title' => 'Фильтр',
+	
+	'profiler_report_delete_success' => 'Отчеты успешно удалены из базы данных',
+	'profiler_report_delete_error' => 'При удалении отчетов произошла ошибка',
+	'profiler_import_report_success' => 'Импортировано записей: %%count%%',
+	'profiler_import_report_error' => 'При импорте отчетов в базу данных произошла ошибка',
+	
 	/**
 	 * Рейтинг TOP
 	 */
