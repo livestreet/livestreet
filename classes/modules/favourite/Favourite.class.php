@@ -93,7 +93,7 @@ class LsFavourite extends Module {
 		$aIdNeedQuery=array_diff($aTargetId,array_keys($aFavourite));		
 		$aIdNeedQuery=array_diff($aIdNeedQuery,$aIdNotNeedQuery);		
 		$aIdNeedStore=$aIdNeedQuery;
-		if ($data = $this->oMapper->GetFavouriteByArray($aIdNeedQuery,$sTargetType,$sUserId)) {
+		if ($data = $this->oMapper->GetFavouritesByArray($aIdNeedQuery,$sTargetType,$sUserId)) {
 			foreach ($data as $oFavourite) {
 				/**
 				 * Добавляем к результату и сохраняем в кеш
