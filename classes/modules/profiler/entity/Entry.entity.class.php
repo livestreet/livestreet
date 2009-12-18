@@ -45,6 +45,9 @@ class ProfilerEntity_Entry extends Entity
         return $this->_aData['time_comment'];
     }
     
+    public function getLevel() {
+    	return $this->_aData['level'];
+    }
     
     public function setRequestId($data) {
     	$this->_aData['request_id']=$data;
@@ -73,5 +76,9 @@ class ProfilerEntity_Entry extends Entity
     public function setComment($data) {
     	$this->_aData['time_comment']=$data;
     }    
+    
+    public function setLevel($data) {
+    	$this->_aData['level']=$data;
+    }
 }
 ?>

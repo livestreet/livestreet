@@ -66,7 +66,7 @@ class Mapper_Profiler extends Mapper {
 				FROM ".Config::Get('db.table.profiler')."
 				WHERE 1
 				GROUP BY request_id
-				ORDER BY request_date asc
+				ORDER BY request_date desc
 				LIMIT ?d, ?d
 					";
 		
@@ -81,7 +81,26 @@ class Mapper_Profiler extends Mapper {
 			return $aRows;
 		}
 		return null;
-	}	
+	}
+	
+	public function GetReportById($sReportId) {
+		$sql = "
+			SELECT * 
+			FROM ".Config::Get('db.table.profiler')." 
+			WHERE request_id=?
+		";
+			
+		if($aRows=$this->oDb->query($sql,$sReportId)) {			
+			//$oReport = Engine::GetEntity('Profiler_Report');
+			//foreach($aRows as $aEntry) {
+			//	$oReport->addEntry(Engine::GetEntity('Profiler_Entry',$aEntry));
+			//}
+			
+			//return $oReport;
+			return $aRows;
+		}
+		return array();
+	}
 	
 	/**
 	 * Удаление записей из базы данных по уникальному ключу отчетов

@@ -111,9 +111,9 @@ class LsPage extends Module {
 		static $aResultPages;
 		static $iLevel;
 		if ($bBegin) {
-			$aResultCommnets=array();
+			$aResultPages=array();
 			$iLevel=0;
-		}		
+		}
 		foreach ($aPages as $aPage) {
 			$aTemp=$aPage;
 			$aTemp['level']=$iLevel;

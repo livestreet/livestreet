@@ -148,6 +148,48 @@ class LsProfiler extends Module {
 	}
 	
 	/**
+	 * Получает профайл-отчет по идентификатору
+	 * TODO: доработать система вывода записей в виде дерева
+	 *
+	 * @param  int $sId
+	 * @return ProfileEntity_Report
+	 */
+	public function GetReportById($sId) {
+		$aReportRows=$this->oMapper->GetReportById($sId);
+		if(count($aReportRows)) {
+			//$aEntries = $this->BuildEntriesRecursive($aReportRows);
+			$oReport = Engine::GetEntity('Profiler_Report');
+			foreach ($aReportRows as $aEntry) {
+				$oReport->addEntry(Engine::GetEntity('Profiler_Entry',$aEntry));
+			}
+			
+			return $oReport;
+		}
+		return null;
+	}
+	
+	protected function BuildEntriesRecursive($aEntries,$bBegin=true) {
+		static $aResultEntries;
+		static $iLevel;
+		if ($bBegin) {
+			$aResultEntries=array();
+			$iLevel=0;
+		}
+		foreach ($aEntries as $aEntry) {
+			$aTemp=$aEntry;
+			$aTemp['level']=$iLevel;
+			unset($aTemp['childNodes']);
+			$aResultEntries[]=Engine::GetEntity('Profiler_Entry',$aTemp);			
+			if (isset($aEntry['childNodes']) and count($aEntry['childNodes'])>0) {
+				$iLevel++;
+				$this->BuildEntriesRecursive($aEntry['childNodes'],false);
+			}
+		}
+		$iLevel--;		
+		return $aResultEntries;
+	}	
+	
+	/**
 	 * Удаление отчетов из базы данных
 	 * TODO: Добавить обработку кеша данных
 	 * 

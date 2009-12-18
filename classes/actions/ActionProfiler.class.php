@@ -57,6 +57,7 @@ class ActionProfiler extends Action {
 	
 	protected function RegisterEvent() {		
 		$this->AddEvent('report','EventReport');
+		$this->AddEvent('ajaxloadreport','EventAjaxLoadReport');
 	}
 		
 	
@@ -141,6 +142,20 @@ class ActionProfiler extends Action {
 	 */
 	protected function BuildFilter() {
 		return array();
+	}
+	
+	/**
+	 * Подгрузка данных одного профиля по ajax-запросу
+	 *
+	 * @return 
+	 */
+	protected function EventAjaxLoadReport() {
+		$this->Viewer_SetResponseAjax();
+		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));
+
+		$oViewerLocal=$this->Viewer_GetLocalViewer();
+		$oViewerLocal->Assign('oReport',$this->Profiler_GetReportById($sReportId));
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/report.tpl"));
 	}
 	
 	/**

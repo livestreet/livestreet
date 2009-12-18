@@ -11,9 +11,9 @@ var lsCmtTreeClass = new Class({
 		classes: {
 			visible: 	'lsCmtTree_visible',
 			hidden:  	'lsCmtTree_hidden',			
-			openImg:  	'lsCmtTree_open',			
-			closeImg:  	'lsCmtTree_close'			
-		}		
+			openImg:  	'lsCmtTree_open',
+			closeImg:  	'lsCmtTree_close'
+		}
 	},
 
 	typeComment: {
@@ -42,13 +42,13 @@ var lsCmtTreeClass = new Class({
 		var thisObj = this;
 		var aImgFolding=$$('img.folding');
 		aImgFolding.each(function(img, i){
-			var divComment = img.getParent('div').getChildren('div.comment-children')[0];			
+			var divComment = img.getParent('div').getChildren('div.comment-children')[0];
 			if (divComment && divComment.getChildren('div.comment')[0]) {
 				thisObj.makeImg(img);
 			} else {
 				img.setStyle('display','none');
 			}
-		});		
+		});
 	},
 	
 	makeImg: function(img) {
@@ -58,7 +58,7 @@ var lsCmtTreeClass = new Class({
 		img.addClass(this.options.classes.closeImg);
 		img.removeEvents('click');
 		img.addEvent('click',function(){
-			thisObj.toggleNode(img);		
+			thisObj.toggleNode(img);
 		});
 	},
 	
@@ -90,7 +90,7 @@ var lsCmtTreeClass = new Class({
 		var divComment = img.getParent('div').getChildren('div.comment-children')[0];		
 		
 		divComment.removeClass(thisObj.options.classes.visible);
-		divComment.addClass(thisObj.options.classes.hidden);		
+		divComment.addClass(thisObj.options.classes.hidden);
 	},
 	
 	expandNodeAll: function() {
@@ -280,7 +280,7 @@ var lsCmtTreeClass = new Class({
 			return false;
 		}
 		
-		var thisObj=this;			
+		var thisObj=this;
 		JsHttpRequest.query(
         	'POST '+DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
         	{ idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
