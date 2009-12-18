@@ -24,7 +24,7 @@ require_once("loader.php");
 require_once(Config::Get('path.root.engine')."/classes/Engine.class.php");
 require_once(Config::Get('path.root.engine')."/lib/external/JsHttpRequest/JsHttpRequest.php");
 $JsHttpRequest = new JsHttpRequest("UTF-8");
-ProfilerSimple::getInstance(Config::Get('path.root.server').'/logs/profiler.log',false);
+ProfilerSimple::getInstance(Config::Get('path.root.server').'/logs/'.Config::Get('sys.logs.profiler_file'),Config::Get('sys.logs.profiler'));
 $oEngine=Engine::getInstance();
 $oEngine->Init();
 $oEngine->Security_ValidateSendForm();
