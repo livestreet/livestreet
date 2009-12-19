@@ -60,7 +60,7 @@ class Mapper_Profiler extends Mapper {
 		$sql = "
 				SELECT 
 					DISTINCT request_id,
-					SUM(time_full) as time_full, 
+					MAX(time_full) as time_full, 
 					COUNT(time_id) as count_time_id,
 					MIN(request_date) as request_date
 				FROM ".Config::Get('db.table.profiler')."
