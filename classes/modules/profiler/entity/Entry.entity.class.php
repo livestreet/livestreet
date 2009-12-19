@@ -26,12 +26,40 @@ class ProfilerEntity_Entry extends Entity
     public function getTimeFull() {
         return $this->_aData['time_full'];
     }
-    public function getTimeStart() {
-        return $this->_aData['time_start'];
-    }    
-    public function getTimeStop() {
-        return $this->_aData['time_stop'];
-    }   
+    
+    public function getTimeStart($mode=null) {
+        switch ($mode) {
+        	case 'seconds':
+        		list($iSeconds,)=explode(' ',$this->_aData['time_start'],2);
+        		return $iSeconds;
+        	
+        	case 'time':
+        		list(,$iTime)=explode(' ',$this->_aData['time_start'],2);
+        		return $iTime;        			
+        		
+        	case null: 
+        	default:
+        		return $this->_aData['time_start'];
+        	
+        }
+    }
+    public function getTimeStop($mode=null) {
+        switch ($mode) {
+        	case 'seconds':
+        		list($iSeconds,)=explode(' ',$this->_aData['time_stop'],2);
+        		return $iSeconds;
+        	
+        	case 'time':
+        		list(,$iTime)=explode(' ',$this->_aData['time_stop'],2);
+        		return $iTime;        			
+        		
+        	case null: 
+        	default:
+        		return $this->_aData['time_stop'];
+        	
+        }    	
+    }
+    
     public function getId() {
         return $this->_aData['time_id'];
     }

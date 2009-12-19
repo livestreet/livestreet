@@ -8,7 +8,7 @@
 				<td width="6%">{$oEntry->getId()}</td>
 				<td width="15%">{$oEntry->getName()}</td>
 				<td width="12%">{$oEntry->getTimeFull()}</td>
-				{assign var=sId value=$oEntry->getId() }
+				{assign var=sId value=$oEntry->getId()}
 				<td width="12%">{$oReport->getEntryShare($sId)}%</td>
 				<td>{$oEntry->getComment()}</td>
 			</tr>

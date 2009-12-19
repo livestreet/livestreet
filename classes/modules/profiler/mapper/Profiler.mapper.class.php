@@ -28,9 +28,9 @@ class Mapper_Profiler extends Mapper {
 			time_pid,
 			time_name,
 			time_comment)
-			VALUES(?, ?, ?f, ?f, ?f,  ?d,  ?d,  ?,  ?)
+			VALUES(?, ?, ?f, ?f+?f, ?f+?f,  ?d,  ?d,  ?,  ?)
 		";
-		return $this->oDb->query($sql,$oEntry->getDate(),$oEntry->getRequestId(),$oEntry->getTimeFull(),$oEntry->getTimeStart(),$oEntry->getTimeStop(),$oEntry->getId(),$oEntry->getPid(),$oEntry->getName(),$oEntry->getComment()); 
+		return $this->oDb->query($sql,$oEntry->getDate(),$oEntry->getRequestId(),$oEntry->getTimeFull(),$oEntry->getTimeStart('time'),$oEntry->getTimeStart('seconds'),$oEntry->getTimeStop('time'),$oEntry->getTimeStop('seconds'),$oEntry->getId(),$oEntry->getPid(),$oEntry->getName(),$oEntry->getComment()); 
 	}
 	
 	public function GetDatabaseStat() {

@@ -61,21 +61,21 @@ class ProfilerSimple {
 			'time_pid' => $this->iTimePidCurrent,
 			'time_name' => $sName,
 			'time_comment' => $sComment,
-			'time_start' => microtime(true),
+			'time_start' => microtime(),
 		);		
 		$this->iTimePidCurrent=$this->iTimeId;
 		return $this->iTimeId;
 	}
-	
+
 	public function Stop($iTimeId) {		
 		if (!$this->bEnable or !$iTimeId or !isset($this->aTimes[$this->sRequestId.$iTimeId])) {
 			return false;
 		}		
-		$this->aTimes[$this->sRequestId.$iTimeId]['time_stop']=microtime(true);
-		$this->aTimes[$this->sRequestId.$iTimeId]['time_full']=$this->aTimes[$this->sRequestId.$iTimeId]['time_stop']-$this->aTimes[$this->sRequestId.$iTimeId]['time_start'];		
-		$this->iTimePidCurrent=$this->aTimes[$this->sRequestId.$iTimeId]['time_pid'];		
+		$this->aTimes[$this->sRequestId.$iTimeId]['time_stop']=microtime();
+		$this->aTimes[$this->sRequestId.$iTimeId]['time_full']=$this->GetTimeFull($iTimeId);		
+		$this->iTimePidCurrent=$this->aTimes[$this->sRequestId.$iTimeId]['time_pid'];
 	}
-	
+
 	public function Save() {
 		if (!$this->bEnable or !$this->sFileName) {
 			return false;
@@ -86,6 +86,7 @@ class ProfilerSimple {
 				if(isset($aTime['time_comment']) and $aTime['time_comment']!='') {
 					$aTime['time_comment'] = preg_replace('/\s{1,}/',' ',$aTime['time_comment']);
 				}
+				
 				$s=date('Y-m-d H:i:s')."\t{$aTime['request_id']}\t{$aTime['time_full']}\t{$aTime['time_start']}\t{$aTime['time_stop']}\t{$aTime['time_id']}\t{$aTime['time_pid']}\t{$aTime['time_name']}\t{$aTime['time_comment']}\r\n";
 				fwrite($fp,$s);
 			}
@@ -95,6 +96,19 @@ class ProfilerSimple {
 	
 	public function __destruct() {
 		$this->Save();
+	}
+	
+	/**
+	 * Вычисляет полное время замера
+	 *
+	 * @param  int   $iTimeId
+	 * @return float
+	 */
+	protected function GetTimeFull($iTimeId) {
+		list($iStartSeconds,$iStartGeneral)=explode(' ',$this->aTimes[$this->sRequestId.$iTimeId]['time_start'],2);
+		list($iStopSeconds,$iStopGeneral)=explode(' ',$this->aTimes[$this->sRequestId.$iTimeId]['time_stop'],2);
+		
+		return ($iStopGeneral-$iStartGeneral)+($iStopSeconds-$iStartSeconds);
 	}
 }
 ?>

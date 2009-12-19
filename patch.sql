@@ -140,9 +140,9 @@ ALTER TABLE  `prefix_comment_online` ADD  `target_parent_id` INT DEFAULT  '0' NO
 CREATE TABLE  `prefix_profiler` (
  `request_date` DATETIME NOT NULL ,
  `request_id` VARCHAR( 32 ) NOT NULL ,
- `time_full` FLOAT( 9,6 ) NOT NULL ,
- `time_start` FLOAT( 17,7 ) NOT NULL ,
- `time_stop` FLOAT( 17,7 ) NOT NULL ,
+ `time_full` DOUBLE( 9,6 ) NOT NULL ,
+ `time_start` DOUBLE( 17,7 ) NOT NULL ,
+ `time_stop` DOUBLE( 17,7 ) NOT NULL ,
  `time_id` INT NOT NULL ,
  `time_pid` INT NOT NULL ,
  `time_name` VARCHAR( 250 ) NOT NULL ,
