@@ -26,7 +26,10 @@ class ProfilerEntity_Report extends Entity
 	public function getAllEntries() {
 		return $this->_aData['report_entries'];
 	}
-
+	public function getTimeFull() {
+		return isset($this->_aData['report_time_full'])?$this->_aData['report_time_full']:0;
+	}
+	
 	public function getEntriesByName($sName=null) {
 		if(!$sName) return $this->getAllEntries();
 		
@@ -40,11 +43,35 @@ class ProfilerEntity_Report extends Entity
 		return count($this->getEntriesByName($sName));
 	}
 	
+	public function getEntriesByCommentFilter($sFilter) {
+		$sFilter=str_replace('*','[\W]+',$sFilter);
+		
+		$aResult=array();
+		foreach ($this->_aData['report_entries'] as $oEntry) {
+			if(preg_match("/{$sFilter}/Ui",$oEntry->getComment())) {
+				$aResult[$oEntry->getId()]=$oEntry;
+			}
+		}
+		return $aResult;
+	}
+	public function getCountEntriesByCommentFilter($sFilter) {
+		return count($this->getEntriesByCommentFilter($sFilter));
+	}
+	
+	public function getEntryShare($sEntryId) {
+		if(!isset($this->_aData['report_entries'][$sEntryId])) return null;
+
+		return round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$this->getTimeFull(), 2);
+	}
+	
     public function setId($data) {
     	$this->_aData['report_id']=$data;
     }
     public function setDate($data) {
     	$this->_aData['report_date']=$data;
+    }
+    protected function setTimeFull($data) {
+    	$this->_aData['report_time_full']=$data;
     }
     
     public function addEntry(ProfilerEntity_Entry $data) {
@@ -55,6 +82,10 @@ class ProfilerEntity_Report extends Entity
     	
     	if($this->getId()!=$data->getRequestId()) return null;
     	$this->_aData['report_entries'][$data->getId()]=$data;
+    	/**
+    	 * Если это родительский элемент, то увеличиваем общее время отчета
+    	 */
+    	if(!$data->getPid()) $this->setTimeFull($this->getTimeFull()+$data->getTimeFull());
     }
 }
 ?>
