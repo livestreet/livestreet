@@ -122,11 +122,19 @@ class LsLang extends Module {
 	/**
 	 * Получить текущий язык
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	public function GetLang() {
 		return $this->sCurrentLang;
 	}
+	/**
+	 * Получить дефолтный язык
+	 * 
+	 * @return string
+	 */
+	public function GetLangDefault() {
+		return $this->sDefaultLang;
+	}	
 	/**
 	 * Получить список текстовок
 	 *
@@ -135,6 +143,7 @@ class LsLang extends Module {
 	public function GetLangMsg() {
 		return $this->aLangMsg;
 	}
+
 	/**
 	 * Получает текстовку по её имени
 	 *

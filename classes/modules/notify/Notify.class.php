@@ -84,7 +84,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.comment_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.comment_new.tpl'));
 		
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
@@ -145,7 +145,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.comment_reply.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.comment_reply.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -205,7 +205,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.topic_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.topic_new.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -255,7 +255,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.registration_activate.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.registration_activate.tpl'));
 				
 		/**
 		 * Отправляем мыло
@@ -282,7 +282,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.registration.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.registration.tpl'));
 	
 		/**
 		 * Отправляем мыло
@@ -369,7 +369,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.talk_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.talk_new.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -421,7 +421,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.talk_comment_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.talk_comment_new.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -480,7 +480,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.user_friend_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.user_friend_new.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -533,7 +533,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.blog_invite_new.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.blog_invite_new.tpl'));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
@@ -583,7 +583,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.reminder_code.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.reminder_code.tpl'));
 
 		/**
 		 * Отправляем мыло
@@ -609,7 +609,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.reminder_password.tpl");
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.reminder_password.tpl'));
 
 		/**
 		 * Отправляем мыло
@@ -674,6 +674,24 @@ class LsNotify extends Module {
 	 */
 	public function DeleteTaskByArrayId($aArrayId) {
 		return $this->oMapper->DeleteTaskByArrayId($aArrayId);
+	}
+	
+	/**
+	 * Возвращает путь к шаблону по переданному имени
+	 *
+	 * @param  string $sName
+	 * @return string
+	 */
+	public function GetTemplatePath($sName) {
+		$sLangDir = 'notify/'.$this->Lang_GetLang();
+		/**
+		 * Если директория с сообщениями на текущем языке отсутствует,
+		 * используем язык по умолчанию
+		 */
+		if(is_dir(rtrim(Config::Get('path.static.skin'),'/').'/'.$sLangDir)) { 
+			return $sLangDir.'/'.$sName;
+		}
+		return 'notify/'.$this->Lang_GetLangDefault().'/'.$sName;
 	}
 }
 ?>
