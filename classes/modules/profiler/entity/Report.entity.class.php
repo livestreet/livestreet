@@ -27,6 +27,19 @@ class ProfilerEntity_Report extends Entity
 		return $this->_aData['report_entries'];
 	}
 
+	public function getEntriesByName($sName=null) {
+		if(!$sName) return $this->getAllEntries();
+		
+		$aResult=array();
+		foreach ($this->getAllEntries() as $oEntry) {
+			if($oEntry->getName()==$sName) $aResult[$oEntry->getId()]=$oEntry;
+		}
+		return $aResult;
+	}
+	public function getCountEntriesByName($sName=null) {
+		return count($this->getEntriesByName($sName));
+	}
+	
     public function setId($data) {
     	$this->_aData['report_id']=$data;
     }

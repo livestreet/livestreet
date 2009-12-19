@@ -16,7 +16,8 @@ var lsProfilerClass = new Class({
 		},
 		prefix: { 
 			img: 'img_',
-			td:  'report_'
+			td:  'report_',
+			entry: 'entry_'
 		},
 		path: {
 			loadReport: aRouter['profiler']+'ajaxloadreport/'
@@ -109,6 +110,24 @@ var lsProfilerClass = new Class({
 		var trReport = $(reportId);
 
 		trReport.hide();
+	},
+	
+	toggleEntriesByClass: function(reportId,name,show,link) {		
+		var entries = $$('.'+this.options.prefix.entry+reportId+'_'+name);
+		if(show){ 
+			this.toggleEntriesByClass(reportId,'all',false); 
+			$$('a.profiler').removeClass('active');
+			$$('a.profiler.'+name).addClass('active');	
+		}
+		
+		entries.each(function(el,i){
+				if(show){
+					el.setStyle('display','table-row'); 
+				} else {
+					el.hide();
+				} 
+		});
+
 	}
 });
 
