@@ -57,14 +57,14 @@ class ProfilerEntity_Entry extends Entity
         	default:
         		return $this->_aData['time_stop'];
         	
-        }    	
+        }
     }
     
     public function getId() {
         return $this->_aData['time_id'];
     }
     public function getPid() {
-        return $this->_aData['time_pid'];
+        return is_null($this->_aData['time_pid']) ? 0 : $this->_aData['time_pid'];
     }
     public function getName() {
         return $this->_aData['time_name'];
@@ -75,6 +75,9 @@ class ProfilerEntity_Entry extends Entity
     
     public function getLevel() {
     	return $this->_aData['level'];
+    }
+    public function getChildCount() {
+    	return $this->_aData['child_count'];
     }
     
     public function setRequestId($data) {

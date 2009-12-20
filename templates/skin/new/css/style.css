@@ -707,11 +707,10 @@ select { width: 99%; }
 
 /* Profiler
 -------------------------------------------------------------------*/
-
 a.profiler { margin: 2px; padding: 4px; text-decoration: none; }
 a.profiler.active { background: #70aae0; color: white; }
 .profiler.entries { margin-top: 4px; }
-.profiler.entries tr:hover { background: #f5f5f5; } 
+.profiler-table { padding-left: 25px; }
 
 /* Footer
 -------------------------------------------------------------------*/

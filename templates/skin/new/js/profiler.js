@@ -12,15 +12,19 @@ var lsProfilerClass = new Class({
 			visible: 	'lsProfiler_visible',
 			hidden:  	'lsProfiler_hidden',
 			openImg:  	'lsProfiler_open',
-			closeImg:  	'lsProfiler_close'
+			closeImg:  	'lsProfiler_close',
+			treeNode:   'lsProfiler_tree'
 		},
-		prefix: { 
+		prefix: {
 			img: 'img_',
 			td:  'report_',
-			entry: 'entry_'
+			entry: 'entry_',
+			tree: 'tree_',
+			treeNode: 'tree_node_'
 		},
 		path: {
-			loadReport: aRouter['profiler']+'ajaxloadreport/'
+			loadReport: aRouter['profiler']+'ajaxloadreport/',
+			loadEntries: aRouter['profiler']+'ajaxloadentriesbyfilter/'
 		}
 	},
 	
@@ -29,9 +33,9 @@ var lsProfilerClass = new Class({
 		this.make();
 	},
 
-	make: function(){
+	make: function(expandClass){
 		var thisObj = this;
-		var aImgFolding=$$('img.folding');
+		var aImgFolding=(!expandClass)?$$('img.folding'):$$('img.folding.'+expandClass);
 		aImgFolding.each(function(img, i){thisObj.makeImg(img);});
 	},
 		
@@ -63,24 +67,41 @@ var lsProfilerClass = new Class({
 		img.setProperties({'src': this.options.img.path + this.options.img.closeName});
 		img.removeClass(this.options.classes.openImg);
 		img.addClass(this.options.classes.closeImg);
-
-		reportId=img.get('id').replace(this.options.prefix.img,this.options.prefix.td);
-		var trReport = $(reportId);
+		
+		if(img.hasClass(thisObj.options.classes.treeNode)) {
+			// Это элемент дерева - обрабатываем его соответствующим образом
+			ids = img.get('id').replace(this.options.prefix.tree,'').split('_');
+			
+			reportId=ids[0];
+			var trReportId=this.options.prefix.treeNode+ids[0]+'_'+ids[1];
+			var trReport=$(trReportId);
+			var parentId=ids[1];
+		} else {
+			reportId=img.get('id').replace(this.options.prefix.img,this.options.prefix.td);
+			var trReport = $(reportId);
+			var parentId = 0;
+			var trReportId = 0;
+		}
 		
 		if(trReport){
 			trReport.show();
 		} else {
-			thisObj.loadReport(img.getParent('tr'),reportId);
+			thisObj.loadReport(img.getParent('tr'),reportId,parentId,trReportId);
 		}
 	},
 	
-	loadReport: function(obj,reportId) {
+	loadReport: function(obj,reportId,parentId,namedId) {
 		var thisObj=this;
 		var trCurrent = obj;
 		
 		JsHttpRequest.query(
         	'POST '+thisObj.options.path.loadReport,
-        	{ reportId: reportId, security_ls_key: LIVESTREET_SECURITY_KEY },
+        	{ 
+        		reportId: reportId, 
+        		bTreeView: true, 
+        		parentId: parentId, 
+        		security_ls_key: LIVESTREET_SECURITY_KEY 
+        	},
         	function(result, errors) {         		 
             	if (!result) {
                 	msgErrorBox.alert('Error','Please try again later');           
@@ -88,38 +109,74 @@ var lsProfilerClass = new Class({
         		if (result.bStateError) {        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {
-					var trReport=new Element('tr', {'id':reportId});
+					var trReport=new Element('tr', {'id':(!namedId)?reportId:namedId});
 					trReport.adopt(new Element('td',{
 						'colspan': 5,
 						'html'   : result.sReportText
 					}));
 					trReport.inject(trCurrent,'after');
-        		}                           
+					trReport.getElements('img').each(function(img, i){thisObj.makeImg(img);});
+        		}
 	        },
         	true
        );
 	},
-		
+
 	collapseNode: function(img) {
 		var thisObj = this;
+
 		img.setProperties({'src': this.options.img.path + this.options.img.openName});
 		img.removeClass(this.options.classes.closeImg);
 		img.addClass(this.options.classes.openImg);
 
-		reportId=img.get('id').replace(this.options.prefix.img,this.options.prefix.td);	
-		var trReport = $(reportId);
-
+		if(img.hasClass(thisObj.options.classes.treeNode)) {
+			// Это элемент дерева - обрабатываем его соответствующим образом
+			trReport=img.getParent('tr').getNext('tr');
+		} else {
+			reportId=img.get('id').replace(this.options.prefix.img,this.options.prefix.td);
+			var trReport = $(reportId);
+		}		
+		
 		trReport.hide();
 	},
 	
-	toggleEntriesByClass: function(reportId,name,show,link) {		
-		var entries = $$('.'+this.options.prefix.entry+reportId+'_'+name);
-		if(show){ 
-			this.toggleEntriesByClass(reportId,'all',false); 
-			$$('a.profiler').removeClass('active');
-			$$('a.profiler.'+name).addClass('active');	
-		}
+	toggleEntriesByClass: function(reportId,name,link) {		
+		var thisObj=this;
+		$$('a.profiler').removeClass('active');
+		$$('a.profiler.'+name).addClass('active');
+
+		//var trCurrent = link.getParent('tr').getPrevious('tr');
 		
+		JsHttpRequest.query(
+        	'POST '+thisObj.options.path.loadEntries+name+'/',
+        	{ 
+        		reportId: reportId, 
+        		security_ls_key: LIVESTREET_SECURITY_KEY 
+        	},
+        	function(result, errors) {         		 
+            	if (!result) {
+                	msgErrorBox.alert('Error','Please try again later');           
+        		}
+        		if (result.bStateError) {        			
+                	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+        		} else {
+        			var trReport = $(thisObj.options.prefix.td+reportId).empty();
+					//var trReport=new Element('tr', {'id':reportId});
+					trReport.adopt(new Element('td',{
+						'colspan': 5,
+						'html'   : result.sReportText
+					}));
+					//trReport.inject(trCurrent,'after');
+					//thisObj.make(thisObj.options.classes.treeNode);
+					trReport.getElements('img').each(function(img, i){thisObj.makeImg(img);});
+        		}
+	        },
+        	true
+       );		
+		
+		//link.getParent('tr').remove();
+		
+		/**
 		entries.each(function(el,i){
 				if(show){
 					el.setStyle('display','table-row'); 
@@ -127,7 +184,7 @@ var lsProfilerClass = new Class({
 					el.hide();
 				} 
 		});
-
+		**/
 	}
 });
 

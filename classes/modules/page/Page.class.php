@@ -124,7 +124,8 @@ class LsPage extends Module {
 				$this->BuildPagesRecursive($aPage['childNodes'],false);
 			}
 		}
-		$iLevel--;		
+		$iLevel--;
+		
 		return $aResultPages;
 	}
 	/**

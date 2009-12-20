@@ -58,6 +58,7 @@ class ActionProfiler extends Action {
 	protected function RegisterEvent() {		
 		$this->AddEvent('report','EventReport');
 		$this->AddEvent('ajaxloadreport','EventAjaxLoadReport');
+		$this->AddEvent('ajaxloadentriesbyfilter','EventAjaxLoadEntriesByFilter');
 	}
 		
 	
@@ -112,7 +113,7 @@ class ActionProfiler extends Action {
 		
 		/**
 		 * Формируем постраничность
-		 */			
+		 */
 		$aPaging=$this->Viewer_MakePaging(
 			$aResult['count'],$iPage,Config::Get('module.profiler.per_page'),4,
 			Router::GetPath('profiler').$this->sCurrentEvent,
@@ -151,11 +152,54 @@ class ActionProfiler extends Action {
 	 */
 	protected function EventAjaxLoadReport() {
 		$this->Viewer_SetResponseAjax();
+		
+		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));
+		$bTreeView=getRequest('bTreeView',false,'post');
+		$sParentId=getRequest('parentId',null,'post');
+		
+		$oViewerLocal=$this->Viewer_GetLocalViewer();
+		$oViewerLocal->Assign('oReport',$this->Profiler_GetReportById($sReportId,$sParentId));
+		if(!$sParentId) $oViewerLocal->Assign('aStat',$this->Profiler_GetReportStatById($sReportId));
+		if(!$sParentId) $oViewerLocal->Assign('sAction','tree');
+		
+		$sTemplateName = ($bTreeView)
+			? (($sParentId) 
+				? 'level' 
+				: 'tree')
+			:'report';
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
+	}
+
+	/**
+	 * Подгрузка данных одного профиля по ajax-запросу
+	 *
+	 * @return 
+	 */	
+	protected function EventAjaxLoadEntriesByFilter() {
+		$this->Viewer_SetResponseAjax();
+		
+		$sAction = $this->GetParam(0);
 		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));
 
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
-		$oViewerLocal->Assign('oReport',$this->Profiler_GetReportById($sReportId));
-		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/report.tpl"));
+		$oViewerLocal->Assign('aStat',$this->Profiler_GetReportStatById($sReportId));
+		$oViewerLocal->Assign('sAction',$sAction);
+		
+		$oReport = $this->Profiler_GetReportById($sReportId,($sAction=='tree')?0:null);
+		
+		/**
+		 * Преобразуем report взависимости от выбранного фильтра
+		 */
+		switch ($sAction) {
+			case 'query':
+				$oReport->setAllEntries($oReport->getEntriesByName('query'));
+				break;
+		}
+				var_dump($oReport);
+		$oViewerLocal->Assign('oReport',$oReport);
+		
+		$sTemplateName=($sAction=='tree')?'tree':'report';
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
 	}
 	
 	/**

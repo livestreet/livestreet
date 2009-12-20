@@ -731,6 +731,7 @@ return array(
 	'profiler_import_report_error' => 'При импорте отчетов в базу данных произошла ошибка',
 	
 	'profiler_entries_show_all' => 'Показать все',
+	'profiler_entries_show_tree' => 'Вывести дерево',
 	'profiler_entries_show_query' => 'Запросы к БД',
 	/**
 	 * Рейтинг TOP

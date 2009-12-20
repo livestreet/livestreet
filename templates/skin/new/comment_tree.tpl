@@ -40,7 +40,7 @@
 				
 				{assign var="nesting" value="-1"}
 				{foreach from=$aComments item=oComment name=rublist}
-					{assign var="cmtlevel" value=$oComment->getLevel()}					
+					{assign var="cmtlevel" value=$oComment->getLevel()}
 					{if $cmtlevel>$oConfig->GetValue('module.comment.max_tree')}
 						{assign var="cmtlevel" value=$oConfig->GetValue('module.comment.max_tree')}
 					{/if}
@@ -49,7 +49,7 @@
         				{section name=closelist1  loop=`$nesting-$cmtlevel+1`}</div></div>{/section}
     				{elseif not $smarty.foreach.rublist.first}
         				</div></div>
-    				{/if}   
+    				{/if}
     				
     				
     				 

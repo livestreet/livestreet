@@ -154,18 +154,45 @@ class LsProfiler extends Module {
 	 * @param  int $sId
 	 * @return ProfileEntity_Report
 	 */
-	public function GetReportById($sId) {
-		$aReportRows=$this->oMapper->GetReportById($sId);
+	public function GetReportById($sId,$sPid=null) {
+		$aReportRows=$this->oMapper->GetReportById($sId,$sPid);
 		if(count($aReportRows)) {
-			//$aEntries = $this->BuildEntriesRecursive($aReportRows);
 			$oReport = Engine::GetEntity('Profiler_Report');
-			foreach ($aReportRows as $aEntry) {
-				$oReport->addEntry(Engine::GetEntity('Profiler_Entry',$aEntry));
+			$aEntries = $this->BuildEntriesRecursive($aReportRows);
+			foreach ($aEntries as $oEntry) {
+				$oReport->addEntry($oEntry);
 			}
 			
 			return $oReport;
 		}
 		return null;
+	}
+	
+	/**
+	 * Получает статистику данного отчета 
+	 * (количество замеров, общее время, количество запросов к БД, используемые модули)
+	 *
+	 * @param  string $sId
+	 * @return array
+	 */
+	public function GetReportStatById($sId) {
+		$aStat = array(
+			'count'     => 0,
+			'query'     => 0,
+			'modules'   => array(),
+			'time_full' => 0
+		);
+		
+		$aReportRows=$this->oMapper->GetReportStatById($sId);
+		foreach ($aReportRows as $aEntry) {
+			$aStat['count']++;
+			$aStat['time_full']=max($aStat['time_full'],$aEntry['time_full']);
+			/**
+			 * Является ли запросом
+			 */
+			if($aEntry['time_name']=='query') $aStat['query']++;
+		}
+		return $aStat;
 	}
 	
 	protected function BuildEntriesRecursive($aEntries,$bBegin=true) {
@@ -185,7 +212,7 @@ class LsProfiler extends Module {
 				$this->BuildEntriesRecursive($aEntry['childNodes'],false);
 			}
 		}
-		$iLevel--;		
+		$iLevel--;
 		return $aResultEntries;
 	}	
 	

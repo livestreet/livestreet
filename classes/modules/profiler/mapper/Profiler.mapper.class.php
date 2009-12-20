@@ -83,20 +83,36 @@ class Mapper_Profiler extends Mapper {
 		return null;
 	}
 	
-	public function GetReportById($sReportId) {
+	
+	public function GetReportById($sReportId,$sPid=null) {
 		$sql = "
-			SELECT * 
-			FROM ".Config::Get('db.table.profiler')." 
-			WHERE request_id=?
+			SELECT 
+				p.*,
+				p.time_id as ARRAY_KEY,
+				p.time_pid as PARENT_KEY,
+				COUNT(pc.time_id) as child_count
+			FROM ".Config::Get('db.table.profiler')." as p
+			LEFT JOIN ".Config::Get('db.table.profiler')." as pc ON p.request_id=pc.request_id AND p.time_id = pc.time_pid
+			WHERE
+				p.request_id=?
+				{ AND p.time_pid=?d }
+			GROUP BY p.time_id
 		";
 			
-		if($aRows=$this->oDb->query($sql,$sReportId)) {			
-			//$oReport = Engine::GetEntity('Profiler_Report');
-			//foreach($aRows as $aEntry) {
-			//	$oReport->addEntry(Engine::GetEntity('Profiler_Entry',$aEntry));
-			//}
-			
-			//return $oReport;
+		if($aRows=$this->oDb->query($sql,$sReportId,is_null($sPid)?DBSIMPLE_SKIP:$sPid)) {
+			return $aRows;
+		}
+		return array();
+	}
+	
+	public function GetReportStatById($sReportId) {	
+		$sql = "
+			SELECT time_full, time_name, time_comment
+			FROM ".Config::Get('db.table.profiler')."
+			WHERE request_id=?
+		";			
+		
+		if($aRows=$this->oDb->query($sql,$sReportId)) {
 			return $aRows;
 		}
 		return array();

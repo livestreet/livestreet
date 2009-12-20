@@ -24,7 +24,7 @@ class ProfilerEntity_Report extends Entity
         return $this->_aData['report_date'];
     }
 	public function getAllEntries() {
-		return $this->_aData['report_entries'];
+		return isset($this->_aData['report_entries'])?$this->_aData['report_entries']:array();
 	}
 	public function getTimeFull() {
 		return isset($this->_aData['report_time_full'])?$this->_aData['report_time_full']:0;
@@ -58,6 +58,17 @@ class ProfilerEntity_Report extends Entity
 		return count($this->getEntriesByCommentFilter($sFilter));
 	}
 	
+	public function getEntriesByPid($sPid) {
+		$aResult=array();
+		foreach ($this->_aData['report_entries'] as $oEntry) {
+			if($oEntry->getPid()==$sPid) $aResult[]=$oEntry;
+		}
+		return $aResult;
+	}
+	public function getCountEntriesByPid($sPid) {
+		return $this->getEntriesByPid($sPid);
+	}	
+	
 	public function getEntryShare($sEntryId) {
 		if(!isset($this->_aData['report_entries'][$sEntryId])) return null;
 
@@ -86,6 +97,10 @@ class ProfilerEntity_Report extends Entity
     	 * Если это родительский элемент, то увеличиваем общее время отчета
     	 */
     	if(!$data->getPid()) $this->setTimeFull($this->getTimeFull()+$data->getTimeFull());
+    }
+    
+    public function setAllEntries($data) {
+    	$this->_aData['report_entries']=$data;
     }
 }
 ?>
