@@ -108,7 +108,7 @@ class ProfilerSimple {
 		list($iStartSeconds,$iStartGeneral)=explode(' ',$this->aTimes[$this->sRequestId.$iTimeId]['time_start'],2);
 		list($iStopSeconds,$iStopGeneral)=explode(' ',$this->aTimes[$this->sRequestId.$iTimeId]['time_stop'],2);
 		
-		return ($iStopGeneral-$iStartGeneral)+($iStopSeconds-$iStartSeconds);
+		return ($iStopSeconds-$iStartSeconds)+($iStopGeneral-$iStartGeneral);
 	}
 }
 ?>
