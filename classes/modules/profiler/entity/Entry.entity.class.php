@@ -24,7 +24,7 @@ class ProfilerEntity_Entry extends Entity
         return $this->_aData['request_date'];
     }
     public function getTimeFull() {
-        return doubleval($this->_aData['time_full']);
+        return str_replace(',','.',$this->_aData['time_full']);
     }
     
     public function getTimeStart($mode=null) {
