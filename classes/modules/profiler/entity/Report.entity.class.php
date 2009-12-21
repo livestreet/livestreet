@@ -26,7 +26,7 @@ class ProfilerEntity_Report extends Entity
 	public function getAllEntries() {
 		return isset($this->_aData['report_entries'])?$this->_aData['report_entries']:array();
 	}
-	public function getTimeFull() {
+	public function getTime() {
 		return isset($this->_aData['report_time_full'])?$this->_aData['report_time_full']:0;
 	}
 	
@@ -72,7 +72,27 @@ class ProfilerEntity_Report extends Entity
 	public function getEntryShare($sEntryId) {
 		if(!isset($this->_aData['report_entries'][$sEntryId])) return null;
 
-		return round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$this->getTimeFull(), 2);
+		return round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$this->getTime(), 2);
+	}
+	
+	public function getEntryFullShare($sEntryId) {
+		if(!isset($this->_aData['report_entries'][$sEntryId])) return null;
+
+		return ($iTimeFull=$this->getStat('time_full'))
+			? round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$iTimeFull, 2)
+			: '?';
+	}
+	/**
+	 * Получает статистику отчета
+	 *
+	 * @param  string [$sKey default=null
+	 * @return array|string|null
+	 */
+	public function getStat($sKey=null) {
+		if(!$sKey) return $this->_aData['report_stat'];
+		if(isset($this->_aData['report_stat'][$sKey])) return $this->_aData['report_stat'][$sKey];
+		
+		return null;
 	}
 	
     public function setId($data) {
@@ -81,7 +101,7 @@ class ProfilerEntity_Report extends Entity
     public function setDate($data) {
     	$this->_aData['report_date']=$data;
     }
-    protected function setTimeFull($data) {
+    protected function setTime($data) {
     	$this->_aData['report_time_full']=$data;
     }
     
@@ -94,13 +114,32 @@ class ProfilerEntity_Report extends Entity
     	if($this->getId()!=$data->getRequestId()) return null;
     	$this->_aData['report_entries'][$data->getId()]=$data;
     	/**
-    	 * Если это родительский элемент, то увеличиваем общее время отчета
+    	 * Увеличиваем общее время отчета
     	 */
-    	if(!$data->getPid()) $this->setTimeFull($this->getTimeFull()+$data->getTimeFull());
+    	$this->setTime($this->getTime()+$data->getTimeFull());
     }
-    
+    /**
+     * Устанавливаем все записи одним массивом
+     *
+     * @param  array $data
+     * @return null
+     */
     public function setAllEntries($data) {
+    	if(!is_array($data)) return null;
     	$this->_aData['report_entries']=$data;
+    	
+    	$iTime=0;
+    	foreach ($data as $oEntry) {
+    		$iTime+=$oEntry->getTimeFull();
+    	}
+    	$this->setTime($iTime);
+    }
+    public function setStat($data,$sKey=null) {
+    	if(!$sKey) {
+    		$this->_aData['report_stat']=$data;
+    		return ;
+    	}
+    	$this->_aData[$sKey]=$data;
     }
 }
 ?>

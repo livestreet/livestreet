@@ -159,7 +159,6 @@ class ActionProfiler extends Action {
 		
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
 		$oViewerLocal->Assign('oReport',$this->Profiler_GetReportById($sReportId,$sParentId));
-		if(!$sParentId) $oViewerLocal->Assign('aStat',$this->Profiler_GetReportStatById($sReportId));
 		if(!$sParentId) $oViewerLocal->Assign('sAction','tree');
 		
 		$sTemplateName = ($bTreeView)
@@ -182,7 +181,6 @@ class ActionProfiler extends Action {
 		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));
 
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
-		$oViewerLocal->Assign('aStat',$this->Profiler_GetReportStatById($sReportId));
 		$oViewerLocal->Assign('sAction',$sAction);
 		
 		$oReport = $this->Profiler_GetReportById($sReportId,($sAction=='tree')?0:null);

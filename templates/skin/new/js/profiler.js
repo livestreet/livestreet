@@ -111,7 +111,7 @@ var lsProfilerClass = new Class({
         		} else {
 					var trReport=new Element('tr', {'id':(!namedId)?reportId:namedId});
 					trReport.adopt(new Element('td',{
-						'colspan': 5,
+						'colspan': 6,
 						'html'   : result.sReportText
 					}));
 					trReport.inject(trCurrent,'after');

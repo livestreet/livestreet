@@ -157,12 +157,33 @@ class LsProfiler extends Module {
 	public function GetReportById($sId,$sPid=null) {
 		$aReportRows=$this->oMapper->GetReportById($sId,$sPid);
 		if(count($aReportRows)) {
+			/**
+			 * Если запрошена часть записей, отдельно получаем статистику общей выборки
+			 */
+			$aStat = !is_null($sPid)
+			? $this->GetReportStatById($sId)
+			: array(
+					'count'     => 0,
+					'query'     => 0,
+					'modules'   => array(),
+					'time_full' => 0
+				);
+			
 			$oReport = Engine::GetEntity('Profiler_Report');
 			$aEntries = $this->BuildEntriesRecursive($aReportRows);
 			foreach ($aEntries as $oEntry) {
 				$oReport->addEntry($oEntry);
+				if(is_null($sPid)) {
+					/**
+					 * Заполняем статистику
+					 */
+					$aStat['count']++;
+					$aStat['time_full']=max($aStat['time_full'],$oEntry->getTimeFull());
+					if($oEntry->getName()=='query') $aStat['query']++;					
+				}
 			}
 			
+			$oReport->setStat($aStat);
 			return $oReport;
 		}
 		return null;

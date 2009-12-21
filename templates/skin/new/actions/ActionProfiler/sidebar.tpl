@@ -9,7 +9,7 @@
 							{$aLang.profiler_dbstat_max_date}: {$aDatabaseStat.max_date}</p>
 							<p>	
 								<label for="profiler_date_import">{$aLang.profiler_import_label}:</label><br />
-								<input type="text" id="profiler_date_import" name="profiler_date_import" value="{if $_aRequest.date_import}{$_aRequest.date_import}{else}{$aDatabaseStat.max_date}{/if}" class="w100p" /><br />
+								<input type="text" id="profiler_date_import" name="profiler_date_import" value="{if $_aRequest.date_import}{$_aRequest.date_import}{else}{if $aDatabaseStat.max_date}{$aDatabaseStat.max_date}{else}{date_format date=$smarty.now format='Y-m-d \0\0\:\0\0\:\0\0'}{/if}{/if}" class="w100p" /><br />
        							<span class="form_note">{$aLang.profiler_import_notice}</span>
 							</p>
 							<p class="buttons">								

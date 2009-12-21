@@ -711,6 +711,7 @@ a.profiler { margin: 2px; padding: 4px; text-decoration: none; }
 a.profiler.active { background: #70aae0; color: white; }
 .profiler.entries { margin-top: 4px; }
 .profiler-table { padding-left: 25px; }
+.profiler-table .has-child { background:#e8e8e8; }
 
 /* Footer
 -------------------------------------------------------------------*/
