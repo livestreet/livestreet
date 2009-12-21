@@ -2,7 +2,8 @@
 	<a href="#" class="profiler tree {if $sAction=='tree'}active{/if}" onclick="lsProfiler.toggleEntriesByClass('{$oReport->getId()}','tree',this); return false;">{$aLang.profiler_entries_show_tree}</a> 
 	<a href="#" class="profiler all {if $sAction=='all'}active{/if}" onclick="lsProfiler.toggleEntriesByClass('{$oReport->getId()}','all',this); return false;">{$aLang.profiler_entries_show_all} ({$oReport->getStat('count')})</a> 
 	<a href="#" class="profiler query {if $sAction=='query'}active{/if}"  onclick="lsProfiler.toggleEntriesByClass('{$oReport->getId()}','query',this); return false;">{$aLang.profiler_entries_show_query} ({$oReport->getStat('query')})</a>
-
+	<input type="text" name="profiler_filter_entries" id="profiler_filter_entries" onchange="lsProfiler.filterNode(this);" />
+	
 	<div class="profiler-table">
 		<table class="profiler entries">
 			{foreach from=$oReport->getAllEntries() item=oEntry}
@@ -10,7 +11,7 @@
 				<td></td>
 				<td width="5%">{$oEntry->getId()}</td>
 				<td width="12%">{$oEntry->getName()}</td>
-				<td width="12%">{$oEntry->getTimeFull()}</td>
+				<td width="12%" class="time">{$oEntry->getTimeFull()}</td>
 				<td width="18%">{$oReport->getEntryFullShare($oEntry->getId())}% ({$oReport->getEntryShare($oEntry->getId())}%)</td>
 				<td>{$oEntry->getComment()}</td>
 			</tr>

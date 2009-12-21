@@ -13,7 +13,8 @@ var lsProfilerClass = new Class({
 			hidden:  	'lsProfiler_hidden',
 			openImg:  	'lsProfiler_open',
 			closeImg:  	'lsProfiler_close',
-			treeNode:   'lsProfiler_tree'
+			treeNode:   'lsProfiler_tree',
+			filterNode: 'lsProfiler_filter'
 		},
 		prefix: {
 			img: 'img_',
@@ -172,19 +173,24 @@ var lsProfilerClass = new Class({
         		}
 	        },
         	true
-       );		
+       );
+	},
+	
+	filterNode: function(obj) {
+		var thisObj = this;
+		var iTime=obj.get('value');
+		if(iTime!='' && parseFloat(iTime)){ thisObj.highlightFilterNode(iTime); }
+	},
+	
+	highlightFilterNode: function(iTime) {
+		var thisObj = this;
 		
-		//link.getParent('tr').remove();
-		
-		/**
-		entries.each(function(el,i){
-				if(show){
-					el.setStyle('display','table-row'); 
-				} else {
-					el.hide();
-				} 
+		$$('.time').each(function(el,i){
+			el.getParent('tr').removeClass(thisObj.options.classes.filterNode);
+			if(el.get('text')>iTime) {
+				el.getParent('tr').addClass(thisObj.options.classes.filterNode);
+			}
 		});
-		**/
 	}
 });
 
@@ -197,7 +203,8 @@ window.addEvent('domready', function() {
     	},
     	classes: {
     		openImg:  'folding-open',
-    		closeImg: 'folding'
+    		closeImg: 'folding',
+    		filterNode: 'filter'
     	}
     });
 });
