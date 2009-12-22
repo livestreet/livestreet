@@ -501,7 +501,7 @@ class ActionTopic extends Action {
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
-		if (!func_check(getRequest('topic_text',null,'post'),'text',2,15000)) {
+		if (!func_check(getRequest('topic_text',null,'post'),'text',2,Config::Get('module.topic.max_length'))) {
 			$this->Message_AddError($this->Lang_Get('topic_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
