@@ -707,12 +707,13 @@ select { width: 99%; }
 
 /* Profiler
 -------------------------------------------------------------------*/
-a.profiler { margin: 2px; padding: 4px; text-decoration: none; }
-a.profiler.active { background: #70aae0; color: white; }
-.profiler.entries { margin-top: 4px; }
-.profiler-table { padding-left: 25px; }
+a.profiler                 { margin: 2px; padding: 4px; text-decoration: none; }
+a.profiler.active          { background: #70aae0; color: white; }
+.profiler.entries          { margin-top: 4px; }
+.profiler-table            { padding-left: 25px; }
 .profiler-table .has-child { background:#e8e8e8; }
-.profiler-table .filter { background:#ffb5c5; }
+.profiler-table .filter    { background:#ffb5c5; }
+.profiler-highlight        { margin: 0px; text-align:center; background: #dafad8; border: 1px solid #83c460; padding: 2px; color: #4bb23b; }
 
 /* Footer
 -------------------------------------------------------------------*/

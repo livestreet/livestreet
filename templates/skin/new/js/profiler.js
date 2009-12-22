@@ -184,7 +184,7 @@ var lsProfilerClass = new Class({
 	
 	highlightFilterNode: function(iTime) {
 		var thisObj = this;
-		
+
 		$$('.time').each(function(el,i){
 			el.getParent('tr').removeClass(thisObj.options.classes.filterNode);
 			if(el.get('text')>iTime) {

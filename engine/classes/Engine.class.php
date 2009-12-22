@@ -106,7 +106,15 @@ class Engine extends Object {
 	 */
 	protected function InitModules() {
 		foreach ($this->aModules as $oModule) {
+			/**
+			 * Замеряем время инициализации модуля
+			 */
+			$oProfiler=ProfilerSimple::getInstance();
+			$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
+			
 			$oModule->Init();
+			
+			$oProfiler->Stop($iTimeId);
 		}
 	}
 	
@@ -116,7 +124,15 @@ class Engine extends Object {
 	 */
 	protected function ShutdownModules() {
 		foreach ($this->aModules as $sKey => $oModule) {
+			/**
+			 * Замеряем время shutdown`a модуля
+			 */
+			$oProfiler=ProfilerSimple::getInstance();
+			$iTimeId=$oProfiler->Start('ShutdownModule',get_class($oModule));
+
 			$oModule->Shutdown();
+
+			$oProfiler->Stop($iTimeId);
 		}
 	}
 	/**

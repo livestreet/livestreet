@@ -145,6 +145,7 @@ class Router extends Object {
 	 */
 	public function ExecAction() {
 		$this->DefineActionClass();		
+	
 		/**
 		 * Сначала запускаем инициализирующий экшен
 		 */
@@ -164,8 +165,17 @@ class Router extends Object {
 		if ($this->oAction->Init()==='next') {
 			$this->ExecAction();
 		} else {
-			$res=$this->oAction->ExecEvent();
-			$this->oAction->EventShutdown();			
+			/**
+			 * Замеряем время работы action`а
+			 */
+			$oProfiler=ProfilerSimple::getInstance();
+			$iTimeId=$oProfiler->Start('ExecAction',self::$sAction);				
+			
+			$res=$this->oAction->ExecEvent();			
+			$this->oAction->EventShutdown();
+						
+			$oProfiler->Stop($iTimeId);
+		
 			if ($res==='next') {
 				$this->ExecAction();
 			}

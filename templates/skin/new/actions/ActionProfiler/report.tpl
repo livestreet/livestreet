@@ -22,7 +22,7 @@
 							<td><input type="checkbox" name="report_del[{$oReport.request_id}]" class="form_reports_checkbox"></td>
 							<td><img src="{cfg name='path.static.skin'}/images/open.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" id="img_{$oReport.request_id}" /></td>
 							<td>{date_format date=$oReport.request_date}</td>							
-							<td align="center">{$oReport.time_full}</td>
+							<td align="center" class="time">{$oReport.time_full}</td>
 							<td align="center">{$oReport.count_time_id}</td>
 						</tr>
 					{/foreach}

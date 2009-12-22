@@ -1,9 +1,10 @@
-			<div class="block blogs">
+	<div class="profiler-highlight">{$aLang.profiler_filter_highlight}: <input type="text" name="profiler_filter_entries" id="profiler_filter_entries" onchange="lsProfiler.filterNode(this);" class="w50" /> {$aLang.profiler_filter_seconds}</div>
+	<div class="block blogs">
 				<div class="tl"><div class="tr"></div></div>
 				<div class="cl"><div class="cr">
 					
 					<h1>{$aLang.profiler_dbstat_title}</h1>
-					
+
 					<form action="{router page='profiler'}" method="POST" name="profiler_import_form">
 							<p>{$aLang.profiler_dbstat_count}: {$aDatabaseStat.count}<br />
 							{$aLang.profiler_dbstat_max_date}: {$aDatabaseStat.max_date}</p>
@@ -27,6 +28,7 @@
 				<div class="cl"><div class="cr">
 					
 					<h1>{$aLang.profiler_filter_title}</h1>
+
 {literal}
 <script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {	

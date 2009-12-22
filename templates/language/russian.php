@@ -734,6 +734,8 @@ return array(
 	'profiler_entries_show_query' => 'Запросы к БД',
 	
 	'profiler_filter_title' => 'Фильтровать',
+	'profiler_filter_highlight' => 'Подсветить',
+	'profiler_filter_seconds' => 'секунд',
 	'profiler_filter_erase' => 'Сбросить фильтр',
 	'profiler_filter_erase_form' => 'Очистить форму',
 	'profiler_filter_label_per_page' => 'Вывести на страницу',
