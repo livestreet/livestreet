@@ -120,7 +120,7 @@ class ActionProfiler extends Action {
 			array_intersect_key(
 				$_REQUEST,
 				array_fill_keys(
-					array('start','end','request_id','time_full'),
+					array('start','end','request_id','time','per_page'),
 					''
 				)
 			)
@@ -142,7 +142,58 @@ class ActionProfiler extends Action {
 	 * @return array
 	 */
 	protected function BuildFilter() {
-		return array();
+		$aFilter = array();
+		
+		if($start=getRequest('start')) {
+			if(func_check($start,'text',6,10) && substr_count($start,'.')==2) {
+				list($d,$m,$y)=explode('.',$start);
+				if(@checkdate($m,$d,$y)) {
+					$aFilter['date_min']="{$y}-{$m}-{$d}";
+				} else {
+					$this->Message_AddError(
+						$this->Lang_Get('profiler_filter_error_date_format'), 
+						$this->Lang_Get('profiler_filter_error')
+					);
+					unset($_REQUEST['start']);				
+				}
+			} else {
+				$this->Message_AddError(
+					$this->Lang_Get('profiler_filter_error_date_format'), 
+					$this->Lang_Get('profiler_filter_error')
+				);
+				unset($_REQUEST['start']);				
+			}			
+		}
+		
+		if($end=getRequest('end')) {
+			if(func_check($end,'text',6,10) && substr_count($end,'.')==2) {
+				list($d,$m,$y)=explode('.',$end);
+				if(@checkdate($m,$d,$y)) { 
+					$aFilter['date_max']="{$y}-{$m}-{$d} 23:59:59";
+				} else {
+					$this->Message_AddError(
+						$this->Lang_Get('profiler_filter_error_date_format'), 
+						$this->Lang_Get('profiler_filter_error')
+					);
+					unset($_REQUEST['end']);
+				}
+			} else {
+				$this->Message_AddError(
+					$this->Lang_Get('profiler_filter_error_date_format'), 
+					$this->Lang_Get('profiler_filter_error')
+				);
+				unset($_REQUEST['end']);				
+			}
+		}
+		
+		if($iTimeFull=getRequest('time') and $iTimeFull>0) {
+			$aFilter['time']=$iTimeFull;
+		}
+		
+		if($iPerPage=getRequest('per_page',0) and $iPerPage>0) {
+			Config::Set('module.profiler.per_page',$iPerPage);
+		}
+		return $aFilter;
 	}
 	
 	/**

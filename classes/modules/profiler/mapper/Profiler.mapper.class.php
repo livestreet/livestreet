@@ -64,7 +64,11 @@ class Mapper_Profiler extends Mapper {
 					COUNT(time_id) as count_time_id,
 					MIN(request_date) as request_date
 				FROM ".Config::Get('db.table.profiler')."
-				WHERE 1
+				WHERE 
+					1=1
+					{ AND request_date >= ? }
+					{ AND request_date <= ? }
+					{ AND time_full > ? }
 				GROUP BY request_id
 				ORDER BY request_date desc
 				LIMIT ?d, ?d
@@ -74,6 +78,9 @@ class Mapper_Profiler extends Mapper {
 			$aRows=$this->oDb->selectPage(
 				$iCount,
 				$sql,
+				isset($aFilter['date_min'])?$aFilter['date_min']:DBSIMPLE_SKIP,
+				isset($aFilter['date_max'])?$aFilter['date_max']:DBSIMPLE_SKIP,
+				isset($aFilter['time'])?$aFilter['time']:DBSIMPLE_SKIP,
 				($iCurrPage-1)*$iPerPage, 
 				$iPerPage
 			)
