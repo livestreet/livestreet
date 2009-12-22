@@ -111,7 +111,7 @@ class LsImage extends Module {
 				return false;
 		}
 		$sFileFullPath=rtrim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
-		@func_mkdir(Config::Get('path.root.server'),$sDirDest);
+		$this->CreateDirectory($sDirDest);
 			
 		if ($iWidthDest) {
 			if ($bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
@@ -204,7 +204,15 @@ class LsImage extends Module {
 		 */
 		return $oImage;
 	}
-
+	
+	/**
+	 * Создает каталог по указанному адресу (с учетом иерархии)
+	 *
+	 * @param string $sDirDest
+	 */
+	public function CreateDirectory($sDirDest) {
+		@func_mkdir(Config::Get('path.root.server'),$sDirDest);		
+	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
 	 *
