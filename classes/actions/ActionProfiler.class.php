@@ -23,14 +23,14 @@ class ActionProfiler extends Action {
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var UserEntity_User
 	 */
 	protected $oUserCurrent=null;
 		
 	/**
 	 * Инициализация 
 	 *
-	 * @return unknown
+	 * @return null
 	 */
 	public function Init() {	
 		/**
@@ -110,7 +110,16 @@ class ActionProfiler extends Action {
 		 */		
 		$aResult=$this->Profiler_GetReportsByFilter($aFilter,$iPage,Config::Get('module.profiler.per_page'));		
 		$aReports=$aResult['collection'];
-		
+		/**
+		 * Если был использован фильтр, выводим количество найденых по фильтру
+		 */
+		if(count($aFilter)) {
+			$this->Message_AddNotice(
+				($aResult['count'])
+					? $this->Lang_Get('profiler_filter_result_count',array('count'=>$aResult['count']))
+					: $this->Lang_Get('profiler_filter_result_empty')
+			);
+		}
 		/**
 		 * Формируем постраничность
 		 */
@@ -119,10 +128,7 @@ class ActionProfiler extends Action {
 			Router::GetPath('profiler').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
-				array_fill_keys(
-					array('start','end','request_id','time','per_page'),
-					''
-				)
+				array_fill_keys(array('start','end','request_id','time','per_page'), '')
 			)
 		);
 		
