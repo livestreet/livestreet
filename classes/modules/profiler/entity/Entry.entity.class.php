@@ -79,6 +79,9 @@ class ProfilerEntity_Entry extends Entity
     public function getChildCount() {
     	return $this->_aData['child_count'];
     }
+    public function getParentTimeFull() {
+    	return $this->_aData['parent_time_full'];
+    }
     
     public function setRequestId($data) {
     	$this->_aData['request_id']=$data;
@@ -110,6 +113,9 @@ class ProfilerEntity_Entry extends Entity
     
     public function setLevel($data) {
     	$this->_aData['level']=$data;
+    }
+    public function setParentTimeFull($data) {
+    	$this->_aData['parent_time_full']=$data;
     }
 }
 ?>

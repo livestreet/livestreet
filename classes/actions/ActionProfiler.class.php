@@ -250,7 +250,6 @@ class ActionProfiler extends Action {
 				$oReport->setAllEntries($oReport->getEntriesByName('query'));
 				break;
 		}
-				var_dump($oReport);
 		$oViewerLocal->Assign('oReport',$oReport);
 		
 		$sTemplateName=($sAction=='tree')?'tree':'report';

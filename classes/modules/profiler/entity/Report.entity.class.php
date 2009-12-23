@@ -71,8 +71,9 @@ class ProfilerEntity_Report extends Entity
 	
 	public function getEntryShare($sEntryId) {
 		if(!isset($this->_aData['report_entries'][$sEntryId])) return null;
+		if(!$this->_aData['report_entries'][$sEntryId]->getParentTimeFull()) return '-';
 
-		return round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$this->getTime(), 2);
+		return round($this->_aData['report_entries'][$sEntryId]->getTimeFull()*100/$this->_aData['report_entries'][$sEntryId]->getParentTimeFull(), 2);
 	}
 	
 	public function getEntryFullShare($sEntryId) {
@@ -113,10 +114,6 @@ class ProfilerEntity_Report extends Entity
     	
     	if($this->getId()!=$data->getRequestId()) return null;
     	$this->_aData['report_entries'][$data->getId()]=$data;
-    	/**
-    	 * Увеличиваем общее время отчета
-    	 */
-    	$this->setTime($this->getTime()+$data->getTimeFull());
     }
     /**
      * Устанавливаем все записи одним массивом
@@ -127,12 +124,6 @@ class ProfilerEntity_Report extends Entity
     public function setAllEntries($data) {
     	if(!is_array($data)) return null;
     	$this->_aData['report_entries']=$data;
-    	
-    	$iTime=0;
-    	foreach ($data as $oEntry) {
-    		$iTime+=$oEntry->getTimeFull();
-    	}
-    	$this->setTime($iTime);
     }
     public function setStat($data,$sKey=null) {
     	if(!$sKey) {

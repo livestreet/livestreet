@@ -97,9 +97,12 @@ class Mapper_Profiler extends Mapper {
 				p.*,
 				p.time_id as ARRAY_KEY,
 				p.time_pid as PARENT_KEY,
-				COUNT(pc.time_id) as child_count
-			FROM ".Config::Get('db.table.profiler')." as p
+				COUNT(pc.time_id) as child_count,
+				pp.time_full as parent_time_full
+			FROM
+				".Config::Get('db.table.profiler')." as p
 			LEFT JOIN ".Config::Get('db.table.profiler')." as pc ON p.request_id=pc.request_id AND p.time_id = pc.time_pid
+			LEFT JOIN ".Config::Get('db.table.profiler')." AS pp  ON p.request_id=pp.request_id AND p.time_pid = pp.time_id
 			WHERE
 				p.request_id=?
 				{ AND p.time_pid=?d }

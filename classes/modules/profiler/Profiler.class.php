@@ -227,7 +227,7 @@ class LsProfiler extends Module {
 			$aTemp=$aEntry;
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
-			$aResultEntries[]=Engine::GetEntity('Profiler_Entry',$aTemp);			
+			$aResultEntries[]=Engine::GetEntity('Profiler_Entry',$aTemp);
 			if (isset($aEntry['childNodes']) and count($aEntry['childNodes'])>0) {
 				$iLevel++;
 				$this->BuildEntriesRecursive($aEntry['childNodes'],false);
