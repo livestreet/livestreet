@@ -16,20 +16,38 @@
 */
 
 /**
- * Абстракция хука, от которой наследуются все хуки
+ * Абстракция плагина, от которой наследуются все плагины
  *
  */
-abstract class Hook extends Object {
+abstract class Plugin extends Object {
 		
-	public function __construct() {		
-		
+	public function __construct() {
+
+	}
+
+	/**
+	 * Функция инициализации плагина
+	 *
+	 */
+	public function Init() {
+
+	}
+
+	/**
+	 * Функция активации плагина
+	 *
+	 */
+	public function Activate() {
+
 	}
 	
-	protected function AddHook($sName,$sCallBack,$sClassNameHook,$iPriority=1) {
-		$this->Hook_AddExecHook($sName,$sCallBack,$iPriority,array('sClassName'=>$sClassNameHook));
+	/**
+	 * Функция деактивации плагина
+	 *
+	 */
+	public function Deativate() {
+
 	}
-		
-	abstract public function RegisterHook();
 	
 	public function __call($sName,$aArgs) {
 		return Engine::getInstance()->_CallModule($sName,$aArgs);

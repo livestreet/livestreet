@@ -249,7 +249,6 @@ $config['db']['table']['country_user']        = '___db.table.prefix___country_us
 $config['db']['table']['reminder']            = '___db.table.prefix___reminder';
 $config['db']['table']['session']             = '___db.table.prefix___session';
 $config['db']['table']['notify_task']         = '___db.table.prefix___notify_task';
-$config['db']['table']['profiler']            = '___db.table.prefix___profiler';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM 
 /**
@@ -290,7 +289,6 @@ $config['router']['page']['link']          = 'ActionLink';
 $config['router']['page']['question']      = 'ActionQuestion';
 $config['router']['page']['blogs']         = 'ActionBlogs';
 $config['router']['page']['search']        = 'ActionSearch';
-$config['router']['page']['profiler']      = 'ActionProfiler';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';

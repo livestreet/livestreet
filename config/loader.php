@@ -125,4 +125,45 @@ if(file_exists(Config::Get('path.root.server').'/config/config.local.php')) {
 if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
 	Config::LoadFromFile(Config::Get('path.root.server').'/config/config.stable.php',false);
 }
+
+/**
+ * Загружает конфиги плагинов вида /classes/plugins/[plugin_name]/config/*.php
+ * и include-файлы /classes/plugins/[plugin_name]/include/*.php
+ */
+$sPluginsDir = Config::Get('path.root.server').'/classes/plugins';
+$sPluginsListFile = $sPluginsDir.'/plugins.dat';
+if($aPluginsList=@file($sPluginsListFile)) {
+	foreach ($aPluginsList as $sPlugin) {
+		$aConfigFiles = glob($sPluginsDir.'/'.$sPlugin.'/config/*.php');
+		if(count($aConfigFiles)>0) {
+			$aConfig=array();
+			foreach ($aConfigFiles as $sPath) {
+				$aConfig = include($sPath);
+				if(!empty($aConfig) && is_array($aConfig)) {
+					// Если конфиг этого плагина пуст, то загружаем массив целиком
+					$sKey = "plugin.$sPlugin";
+					if(!Config::isExist($sKey)) {
+						Config::Set($sKey,$aConfig);
+					} else {
+						// Если уже существую привязанные к плагину ключи,
+						// то сливаем старые и новое значения ассоциативно
+						Config::Set(
+							$sKey,
+							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+						);
+					}
+				}
+			}
+		}
+		/**
+		 * Подключаем include-файлы
+		 */
+		$aIncludeFiles = glob($sPluginsDir.'/'.$sPlugin.'/include/*.php');
+		if($aIncludeFiles and count($aIncludeFiles)) {
+			foreach ($aIncludeFiles as $sPath) {
+				require_once($sPath);
+			}		
+		}
+	}
+}
 ?>

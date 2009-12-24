@@ -151,16 +151,26 @@ class Router extends Object {
 		 */
 		require_once(Config::Get('path.root.server').'/classes/actions/Init.class.php');		
 		$oActionInit=new Init($this->oEngine);		
-		$oActionInit->InitAction();			
+		$oActionInit->InitAction();
 				
 		$sActionClass=$this->DefineActionClass();
-		require_once(Config::Get('path.root.server').'/classes/actions/'.$sActionClass.'.class.php');
-		$sPrefixCustom='';
-		if (file_exists(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php')) {
-			require_once(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php');
-			$sPrefixCustom='_custom';
+		
+		/**
+		 * Если класс экешна начинается с Plugin*_, значит необходимо загрузить объект из указанного плагина
+		 */
+		if(!preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sActionClass,$aMatches)) {
+			require_once(Config::Get('path.root.server').'/classes/actions/'.$sActionClass.'.class.php');
+			$sPrefixCustom='';
+			if (file_exists(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php')) {
+				require_once(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php');
+				$sPrefixCustom='_custom';
+			}
+		} else {
+			require_once(Config::Get('path.root.server').'/classes/plugins/'.strtolower($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
+			$sPrefixCustom='';
 		}
-		$sClassName=$sActionClass.$sPrefixCustom;
+		
+		$sClassName=$sActionClass.$sPrefixCustom;		
 		$this->oAction=new $sClassName($this->oEngine,self::$sAction);
 		if ($this->oAction->Init()==='next') {
 			$this->ExecAction();

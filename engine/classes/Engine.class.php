@@ -19,6 +19,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 require_once(Config::Get('path.root.engine').'/lib/internal/ProfilerSimple/Profiler.class.php');
 
 require_once("Object.class.php");
+require_once("Plugin.class.php");
 require_once("Block.class.php");
 require_once("Hook.class.php");
 require_once("Module.class.php");
@@ -56,7 +57,6 @@ class Engine extends Object {
 		}
 	}
 	
-	
 	/**
 	 * Ограничиваем объект только одним экземпляром
 	 *
@@ -77,9 +77,13 @@ class Engine extends Object {
 	 */
 	public function Init() {
 		/**
+		 * Инициализируем плагины
+		 */
+		$this->InitPlugins();
+		/**
 		 * Инициализируем хуки
 		 */
-		$this->InitHooks();		
+		$this->InitHooks();
 		/**
 		 * Загружаем модули автозагрузки
 		 */
@@ -144,25 +148,47 @@ class Engine extends Object {
 	 */
 	protected function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
-		if ($this->isFileExists(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
-		} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-			require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
+		
+		if(!preg_match('/^Plugin([\w]+)_([\w]+)$/i',$sModuleName,$aMatches)){
+			if ($this->isFileExists(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+				require_once(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
+			} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
+				require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
+			} else {
+				throw new Exception("Can not find module class - ".$sModuleName);
+			}		
+
+			/**
+			 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
+			 */
+			$sPrefixCustom='';
+			if ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
+				require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
+				$sPrefixCustom='_custom';
+			}
+			/**
+			 * Определяем имя класса
+			 */
+			$sModuleNameClass='Ls'.$sModuleName.$sPrefixCustom;					
 		} else {
-			throw new Exception("Can not find module class - ".$sModuleName);
-		}		
-		/**
-		 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
-		 */
-		$sPrefixCustom='';
-		if ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
-			require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
-			$sPrefixCustom='_custom';
+			/**
+			 * Это модуль плагина
+			 */
+			$sModuleFile = Config::Get('path.root.server').'/classes/plugins/'.strtolower($aMatches[1]).'/classes/modules/'.strtolower($aMatches[2]).'/'.$aMatches[2].'.class.php';	
+			if($this->isFileExists($sModuleFile)) {
+				require_once($sModuleFile);
+			} else {
+				throw new Exception("Can not find module class - ".$sModuleName);
+			}
+			/**
+			 * Определяем имя класса
+			 */
+			$sModuleNameClass='Plugin'.$aMatches[1].'_Ls'.$aMatches[2];	
 		}
-		/**
+		
+		/**		 
 		 * Создаем объект модуля
-		 */
-		$sModuleNameClass='Ls'.$sModuleName.$sPrefixCustom;
+		 */		
 		$oModule=new $sModuleNameClass($this);
 		if ($bInit or $sModuleName=='Cache') {
 			$oModule->Init();
@@ -197,25 +223,75 @@ class Engine extends Object {
 	 */
 	protected function InitHooks() {
 		$sDirHooks=Config::Get('path.root.server').'/classes/hooks/';
-		if ($hDir = opendir($sDirHooks)) {
-			while (false !== ($sFile = readdir($hDir))) {
-				if ($sFile !='.' and $sFile !='..' and is_file($sDirHooks.$sFile)) {
-					if (preg_match("/^Hook([\w]+)\.class\.php$/i",$sFile,$aMatch)) {
-						require_once($sDirHooks.$sFile);
-						$sClassName='Hook'.$aMatch[1];
-						$oHook=new $sClassName;
-						$oHook->RegisterHook();
+		$aFiles=glob($sDirHooks.'Hook*.class.php');
+		
+		if($aFiles and count($aFiles)) {
+			foreach ($aFiles as $sFile) {
+				if (preg_match("/Hook([\w]+)\.class\.php$/i",basename($sFile),$aMatch)) {
+					require_once($sFile);
+					$sClassName='Hook'.$aMatch[1];
+					$oHook=new $sClassName;
+					$oHook->RegisterHook();
+				}
+			}
+		}
+		
+		/**
+		 * Подгружаем хуки активных плагинов
+		 */
+		$this->InitPluginHooks();
+	}
+	
+	/**
+	 * Инициализация хуков активированных плагинов
+	 *
+	 */
+	protected function InitPluginHooks() {
+		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
+			$aFiles=array();
+			$sDirHooks=Config::Get('path.root.server').'/classes/plugins/';
+			
+			foreach ($aPluginList as $sPluginName) {
+				$aFiles=glob($sDirHooks.$sPluginName.'/classes/hooks/Hook*.class.php');
+				if($aFiles and count($aFiles)) {
+					foreach ($aFiles as $sFile) {
+						if (preg_match("/Hook([\w]+)\.class\.php$/i",basename($sFile),$aMatch)) {
+							require_once($sFile);
+							$sClassName="Plugin{$sPluginName}_Hook{$aMatch[1]}";
+							$oHook=new $sClassName;
+							$oHook->RegisterHook();
+						}
 					}
 				}
 			}
-			closedir($hDir);
 		}
 	}
+
+	/**
+	 * Инициализация активированных плагинов
+	 *
+	 */
+	protected function InitPlugins() {
+		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
+			foreach ($aPluginList as $sPluginName) {
+				$sDirHooks=Config::Get('path.root.server').'/classes/plugins/';
+				$sFile="{$sDirHooks}{$sPluginName}/classes/hooks/Plugin{$sPluginName}.class.php";
+				if(is_file($sFile)) {
+					require_once($sFile);
+					
+					$sClassName="Plugin{$sPluginName}";
+					$oPlugin=new $sClassName;
+					$oPlugin->Init();
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Проверяет файл на существование, если используется кеширование memcache то кеширует результат работы
 	 *
-	 * @param unknown_type $sFile
-	 * @return unknown
+	 * @param  string $sFile
+	 * @return mixed
 	 */
 	public function isFileExists($sFile,$iTime=3600) {	return file_exists($sFile);	
 		if (strpos($sFile,'/Cache.class.')!==false) {
@@ -246,25 +322,46 @@ class Engine extends Object {
 		}
 		$sArgs=join(',',$aStrArgs);
 		
+		list($oModule,$sModuleName,$sMethod)=$this->GetModule($sName);
+		
+		if (!method_exists($oModule,$sMethod)) {
+			throw new Exception("The module has no required method: ".$sModuleName.'->'.$sMethod.'()');
+		}
+		
+		$sCmd='$result=$oModule->'.$sMethod.'('.$sArgs.');';
+		$oProfiler=ProfilerSimple::getInstance();
+		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$sMethod.'()');
+		eval($sCmd);
+		$oProfiler->Stop($iTimeId);
+		return $result;
+	}
+
+	/**
+	 * Возвращает объект модуля, имя модуля и имя вызванного метода
+	 *
+	 * @param  string $sName
+	 * @return array
+	 */
+	public function GetModule($sName) {
 		$aName=explode("_",$sName);
 		
-		$sModuleName=$aName[0];
+		if(count($aName)==2) {
+			$sModuleName=$aName[0];
+			$sMethod=$aName[1];
+		} else {
+			$sModuleName=$aName[0].'_'.$aName[1];
+			$sMethod=$aName[2];
+		}
+		
 		if (isset($this->aModules[$sModuleName])) {
 			$oModule=$this->aModules[$sModuleName];
 		} else {
-			$oModule=$this->LoadModule($sModuleName,true);			
-		}		
-		if (!method_exists($oModule,$aName[1])) {
-			throw new Exception("The module has no required method: ".$sModuleName.'->'.$aName[1].'()');
-		}		
-		$sCmd='$result=$oModule->'.$aName[1].'('.$sArgs.');';
-		$oProfiler=ProfilerSimple::getInstance();
-		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$aName[1].'()');
-		eval($sCmd);
-		$oProfiler->Stop($iTimeId);
-		return $result;		
+			$oModule=$this->LoadModule($sModuleName,true);
+		}
+		
+		return array($oModule,$sModuleName,$sMethod);
 	}
-
+	
 	public function getStats() {
 		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->iTimeLoadModule,3)));
 	}
