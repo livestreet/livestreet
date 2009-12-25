@@ -106,7 +106,7 @@ class PluginProfiler_ProfilerEntity_Report extends Entity
     	$this->_aData['report_time_full']=$data;
     }
     
-    public function addEntry(ProfilerEntity_Entry $data) {
+    public function addEntry(PluginProfiler_ProfilerEntity_Entry $data) {
     	if(!isset($this->_aData['report_id'])) {
     		$this->setId($data->getRequestId());
     		$this->setDate($data->getDate());

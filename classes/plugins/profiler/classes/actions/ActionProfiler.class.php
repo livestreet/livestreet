@@ -76,7 +76,7 @@ class PluginProfiler_ActionProfiler extends Action {
 			
 			$aReportsId=getRequest('report_del');
 			if (is_array($aReportsId)) {
-				if($this->Profiler_DeleteEntryByRequestId(array_keys($aReportsId))) {
+				if($this->PluginProfiler_Profiler_DeleteEntryByRequestId(array_keys($aReportsId))) {
 					$this->Message_AddNotice($this->Lang_Get('profiler_report_delete_success'), $this->Lang_Get('attention'));
 				} else {
 					$this->Message_AddError($this->Lang_Get('profiler_report_delete_error'), $this->Lang_Get('error'));
@@ -88,7 +88,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		 * Если вызвана обработка upload`а логов в базу данных
 		 */
 		if(getRequest('submit_profiler_import') and getRequest('profiler_date_import')) {			
-			$iCount = @$this->Profiler_UploadLog(date('Y-m-d H:i:s',strtotime(getRequest('profiler_date_import'))));
+			$iCount = @$this->PluginProfiler_Profiler_UploadLog(date('Y-m-d H:i:s',strtotime(getRequest('profiler_date_import'))));
 			if(!is_null($iCount)) {
 				$this->Message_AddNotice($this->Lang_Get('profiler_import_report_success',array('count'=>$iCount)), $this->Lang_Get('attention'));
 			} else {
@@ -108,7 +108,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		/**
 		 * Получаем список отчетов
 		 */		
-		$aResult=$this->Profiler_GetReportsByFilter($aFilter,$iPage,Config::Get('module.profiler.per_page'));		
+		$aResult=$this->PluginProfiler_Profiler_GetReportsByFilter($aFilter,$iPage,Config::Get('module.profiler.per_page'));		
 		$aReports=$aResult['collection'];
 		/**
 		 * Если был использован фильтр, выводим количество найденых по фильтру
@@ -124,7 +124,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('module.profiler.per_page'),4,
+			$aResult['count'],$iPage,Config::Get('plugin.profiler.per_page'),4,
 			Router::GetPath('profiler').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
@@ -137,8 +137,8 @@ class PluginProfiler_ActionProfiler extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aReports',$aReports);
-		$this->Viewer_Assign('aDatabaseStat',($aData=$this->Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));		
-		$this->Viewer_AddBlock('right','actions/ActionProfiler/sidebar.tpl');
+		$this->Viewer_Assign('aDatabaseStat',($aData=$this->PluginProfiler_Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));		
+		$this->Viewer_AddBlock('right','plugins/profiler/actions/ActionProfiler/sidebar.tpl');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('profiler_report_page_title'));
 	}
 	
@@ -197,7 +197,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		}
 		
 		if($iPerPage=getRequest('per_page',0) and $iPerPage>0) {
-			Config::Set('module.profiler.per_page',$iPerPage);
+			Config::Set('plugins.profiler.per_page',$iPerPage);
 		}
 		return $aFilter;
 	}
@@ -215,7 +215,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		$sParentId=getRequest('parentId',null,'post');
 		
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
-		$oViewerLocal->Assign('oReport',$this->Profiler_GetReportById($sReportId,$sParentId));
+		$oViewerLocal->Assign('oReport',$this->PluginProfiler_Profiler_GetReportById($sReportId,$sParentId));
 		if(!$sParentId) $oViewerLocal->Assign('sAction','tree');
 		
 		$sTemplateName = ($bTreeView)
@@ -223,7 +223,7 @@ class PluginProfiler_ActionProfiler extends Action {
 				? 'level' 
 				: 'tree')
 			:'report';
-		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("plugins/profiler/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
 	}
 
 	/**
@@ -240,7 +240,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
 		$oViewerLocal->Assign('sAction',$sAction);
 		
-		$oReport = $this->Profiler_GetReportById($sReportId,($sAction=='tree')?0:null);
+		$oReport = $this->PluginProfiler_Profiler_GetReportById($sReportId,($sAction=='tree')?0:null);
 		
 		/**
 		 * Преобразуем report взависимости от выбранного фильтра
@@ -253,7 +253,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		$oViewerLocal->Assign('oReport',$oReport);
 		
 		$sTemplateName=($sAction=='tree')?'tree':'report';
-		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("plugins/profiler/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
 	}
 	
 	/**

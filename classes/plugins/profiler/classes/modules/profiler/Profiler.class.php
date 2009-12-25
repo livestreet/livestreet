@@ -53,10 +53,10 @@ class PluginProfiler_LsProfiler extends Module {
 	/**
 	 * Добавить новую запись в базу данных
 	 *
-	 * @param  ProfilerEntity_Entry $oEntry
+	 * @param  PluginProfiler_ProfilerEntity_Entry $oEntry
 	 * @return bool
 	 */
-	public function AddEntry(ProfilerEntity_Entry $oEntry) {
+	public function AddEntry(PluginProfiler_ProfilerEntity_Entry $oEntry) {
 		return $this->oMapper->AddEntry($oEntry);
 	}
 	
@@ -64,7 +64,7 @@ class PluginProfiler_LsProfiler extends Module {
 	 * Читает из лог-файла записи
 	 *
 	 * @param  string $sPath
-	 * @return ProfilerEntity_Entry
+	 * @return PluginProfiler_ProfilerEntity_Entry
 	 */
 	public function ReadEntry() {
 		/**
@@ -84,7 +84,7 @@ class PluginProfiler_LsProfiler extends Module {
 			  $aTime['time_pid'],$aTime['time_name'],$aTime['time_comment']
 			)=explode($this->sDataDelimiter,$sLine,9);
 
-		return Engine::GetEntity('Profiler_Entry',$aTime);
+		return Engine::GetEntity('PluginProfiler_Profiler_Entry',$aTime);
 	}
 	
 	/**
@@ -169,7 +169,7 @@ class PluginProfiler_LsProfiler extends Module {
 					'time_full' => 0
 				);
 			
-			$oReport = Engine::GetEntity('Profiler_Report');
+			$oReport = Engine::GetEntity('PluginProfiler_Profiler_Report');
 			$aEntries = $this->BuildEntriesRecursive($aReportRows);
 			foreach ($aEntries as $oEntry) {
 				$oReport->addEntry($oEntry);
@@ -227,7 +227,7 @@ class PluginProfiler_LsProfiler extends Module {
 			$aTemp=$aEntry;
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
-			$aResultEntries[]=Engine::GetEntity('Profiler_Entry',$aTemp);
+			$aResultEntries[]=Engine::GetEntity('PluginProfiler_Profiler_Entry',$aTemp);
 			if (isset($aEntry['childNodes']) and count($aEntry['childNodes'])>0) {
 				$iLevel++;
 				$this->BuildEntriesRecursive($aEntry['childNodes'],false);

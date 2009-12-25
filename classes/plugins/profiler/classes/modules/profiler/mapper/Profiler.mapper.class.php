@@ -17,7 +17,7 @@
 
 class PluginProfiler_Mapper_Profiler extends Mapper {	
 	
-	public function AddEntry(ProfilerEntity_Entry $oEntry) {
+	public function AddEntry(PluginProfiler_ProfilerEntity_Entry $oEntry) {
 		$sql = "INSERT IGNORE INTO ".Config::Get('db.table.profiler')." 
 			(request_date,
 			request_id,

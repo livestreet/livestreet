@@ -162,13 +162,10 @@ var lsProfilerClass = new Class({
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {
         			var trReport = $(thisObj.options.prefix.td+reportId).empty();
-					//var trReport=new Element('tr', {'id':reportId});
 					trReport.adopt(new Element('td',{
 						'colspan': 5,
 						'html'   : result.sReportText
 					}));
-					//trReport.inject(trCurrent,'after');
-					//thisObj.make(thisObj.options.classes.treeNode);
 					trReport.getElements('img').each(function(img, i){thisObj.makeImg(img);});
         		}
 	        },

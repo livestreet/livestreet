@@ -224,7 +224,9 @@ abstract class Action extends Object {
 	 */
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
-			$this->sActionTemplate='actions/'.$this->GetActionClass().'/'.$this->sCurrentEvent.'.tpl';
+			$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
+				? 'plugins/'.strtolower($aMatches[1]).'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
+				: 'actions/'.$this->GetActionClass().'/'.$this->sCurrentEvent.'.tpl';
 		}
 		return $this->sActionTemplate;
 	}

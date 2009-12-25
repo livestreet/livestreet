@@ -94,7 +94,7 @@ class LsLang extends Module {
 				: array_merge($this->aLangMsg,include($sLangFilePath));				
 		}
 		/**
-		 * Ищет конфиги языковых файлов и объединяет их с текущим
+		 * Ищет языковые файлы модулей и объединяет их с текущим
 		 */
 		$sDirConfig=$this->sLangPath.'/modules/';
 		if ($hDirConfig = opendir($sDirConfig)) {
@@ -108,6 +108,26 @@ class LsLang extends Module {
 				}
 			}
 			closedir($hDirConfig);
+		}
+		
+		/**
+		 * Ищет языковые файлы актвиированных плагинов
+		 */
+		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
+			$sDir=Config::Get('path.root.server').'/classes/plugins/';
+			
+			foreach ($aPluginList as $sPluginName) {
+				$aFiles=glob($sDir.$sPluginName.'/templates/language/'.$sLangName.'.php');
+				if($aFiles and count($aFiles)) {
+						foreach ($aFiles as $sFile) {
+							if (file_exists($sFile)) {
+								$aLangModule=include($sFile);						
+								$this->aLangMsg=array_merge($this->aLangMsg,$aLangModule);
+							}
+					}
+				}
+			}
+
 		}
 	}
 	/**

@@ -397,10 +397,29 @@ class Engine extends Object {
 		 * Сущности, имеющие такое же название как модуль, 
 		 * можно вызывать сокращенно. Например, вместо User_User -> User
 		 */
-		if(substr_count($sName,'_')==0) {
-			$sEntity = $sModule = $sName;
-		} else {
-			list($sModule,$sEntity) = explode('_',$sName,2);
+		switch (substr_count($sName,'_')) {
+			case 0:
+				$sEntity = $sModule = $sName;
+				break;
+			
+			case 1:		
+				list($sModule,$sEntity) = explode('_',$sName,2);
+				break;
+				
+			case 2:
+				/**
+				 * Entity плагина
+				 */
+				if(substr($sName,0,6)=='Plugin') { 
+					list($sPlugin,$sModule,$sEntity)=explode('_',$sName);
+					$sPlugin = substr($sPlugin,6);
+				} else {
+					throw new Exception("Unknown entity '{$sName}' given.");					
+				}
+				break;
+				
+			default:
+				throw new Exception("Unknown entity '{$sName}' given.");
 		}
 		/**
 		 * Проверяем наличие сущности в меппере кастомизации
@@ -411,8 +430,14 @@ class Engine extends Object {
 				: $sEntity;
 			//$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.'.((self::$aEntityCustoms[$sName]=='custom')?'custom.':'').'php';
 		} else {
-			$sFileDefaultClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
-			$sFileCustomClass = Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php';
+			$sFileDefaultClass=isset($sPlugin)
+				? Config::get('path.root.server').'/classes/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php'
+				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
+			
+			$sFileCustomClass=isset($sPlugin) 
+				? Config::get('path.root.server').'/classes/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php'
+				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php';
+			
 			/**
 			 * Пытаемся найти кастомизированную сущность
 			 */
@@ -430,10 +455,12 @@ class Engine extends Object {
 			/**
 			 * Подгружаем нужный файл
 			 */
-			require_once($sFileClass);		
+			require_once($sFileClass);
 		}
 		
-		$sClass=$sModule.'Entity_'.$sEntity;
+		$sClass=isset($sPlugin)
+			? 'Plugin'.$sPlugin.'_'.$sModule.'Entity_'.$sEntity
+			: $sModule.'Entity_'.$sEntity;
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
