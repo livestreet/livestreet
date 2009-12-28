@@ -16,6 +16,7 @@
 */
 
 require_once("Action.class.php");
+require_once("ActionPlugin.class.php");
 
 /**
  * Класс роутинга(контроллера)

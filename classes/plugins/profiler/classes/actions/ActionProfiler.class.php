@@ -19,7 +19,7 @@
  * Обрабатывает вывод отчетов профилирования
  *
  */
-class PluginProfiler_ActionProfiler extends Action {
+class PluginProfiler_ActionProfiler extends ActionPlugin {
 	/**
 	 * Текущий юзер
 	 *
@@ -138,7 +138,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aReports',$aReports);
 		$this->Viewer_Assign('aDatabaseStat',($aData=$this->PluginProfiler_Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));		
-		$this->Viewer_AddBlock('right','plugins/profiler/actions/ActionProfiler/sidebar.tpl');
+		$this->Viewer_AddBlock('right','profiler/templates/skin/[skin_name]/actions/ActionProfiler/sidebar.tpl',array('plugin'=>'profiler'));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('profiler_report_page_title'));
 	}
 	
@@ -223,7 +223,7 @@ class PluginProfiler_ActionProfiler extends Action {
 				? 'level' 
 				: 'tree')
 			:'report';
-		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("plugins/profiler/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("profiler/templates/skin/[skin_name]/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
 	}
 
 	/**
@@ -253,7 +253,7 @@ class PluginProfiler_ActionProfiler extends Action {
 		$oViewerLocal->Assign('oReport',$oReport);
 		
 		$sTemplateName=($sAction=='tree')?'tree':'report';
-		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("plugins/profiler/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
+		$this->Viewer_AssignAjax('sReportText',$oViewerLocal->Fetch("profiler/templates/skin/[skin_name]/actions/ActionProfiler/ajax/{$sTemplateName}.tpl"));
 	}
 	
 	/**

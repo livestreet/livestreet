@@ -171,7 +171,7 @@ class LsViewer extends Module {
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
 		$this->oSmarty = new Smarty();		
-		$this->oSmarty->template_dir=Config::Get('path.smarty.template');
+		$this->oSmarty->template_dir=array(Config::Get('path.smarty.template'),Config::Get('path.root.server').'/classes/plugins/');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */
@@ -350,8 +350,14 @@ class LsViewer extends Module {
 	 * @param string $sTemplate
 	 * @return string
 	 */
-	public function Fetch($sTemplate) {
-		return $this->oSmarty->fetch($sTemplate);	
+	public function Fetch($sTemplate,$sPlugin=null) {
+		/**
+		 * Если указан шаблон плагина, то производим замену ключа [skin_name]
+		 */
+		if($sPlugin) {
+			$sTemplate=$this->ReplacePluginSkinName($sTemplate);
+		}
+		return $this->oSmarty->fetch($sTemplate);
 	}
 	/**
 	 * Проверяет существование шаблона
@@ -383,13 +389,13 @@ class LsViewer extends Module {
 		/**
 		 * Если смогли определить тип блока то добавляем его
 		 */
-		$sType=$this->DefineTypeBlock($sName);
+		$sType=$this->DefineTypeBlock($sName,isset($aParams['plugin'])?$aParams['plugin']:null);
 		if ($sType=='undefined') {
 			return false;
 		}
 		$this->aBlocks[$sGroup][$sName]=array(
 			'type'     => $sType,
-			'name'     => $sName,
+			'name'     => ($sType=='template' and isset($aParams['plugin']))?$this->ReplacePluginSkinName($sName,$aParams['plugin']):$sName,
 			'params'   => $aParams,
 			'priority' => $iPriority,
 		);
@@ -435,13 +441,13 @@ class LsViewer extends Module {
 	 * @param string $sName
 	 * @return string('block','template','undefined')
 	 */
-	protected function DefineTypeBlock($sName) {
-		if ($this->TemplateExists('block.'.$sName.'.tpl')) {
+	protected function DefineTypeBlock($sName,$sPlugin=null) {	
+		if ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sPlugin.'/templates/skin/'.ActionPlugin::SKIN_NAME_KEY.'/block'.$sName.'.tpl',$sPlugin):'block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */
 			return 'block';
-		} elseif ($this->TemplateExists($sName)) {
+		} elseif ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sName,$sPlugin):$sName)) {
 			/**
 			 * Если найден шаблон по имени блока то считаем его простым шаблоном
 			 */
@@ -450,7 +456,7 @@ class LsViewer extends Module {
 			/**
 			 * Считаем что тип не определен
 			 */
-			throw new Exception('Can not find the block`s template: '.$sName);
+			throw new Exception('Can not find the block`s template: '.($sPlugin)?$this->ReplacePluginSkinName($sName,$sPlugin):$sName);
 			return 'undefined';
 		}
 	}
@@ -1112,6 +1118,27 @@ class LsViewer extends Module {
 		);
 		return $aPaging;
 	}
+	
+	/**
+	 * Заменяет [skin_name] в пути к шаблону путем анализа 
+	 * наличия текущего скина в директории шаблонов плагина 
+	 *
+	 * @param  string $sTemplate
+	 * @return string
+	 */
+	public function ReplacePluginSkinName($sTemplate,$sPlugin) {
+		if(substr_count($sTemplate,ActionPlugin::SKIN_NAME_KEY)==0) return $sTemplate;
+		
+		/**
+		 * Проверяем в списке шаблонов
+		 */
+		$sReplaceName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/classes/plugins/'.$sPlugin.'/templates/skin/*',GLOB_ONLYDIR)))
+			? Config::Get('view.skin')
+			: 'default';
+			
+		return str_replace(ActionPlugin::SKIN_NAME_KEY,$sReplaceName,$sTemplate);
+	}
+		
 	/**
 	 * Загружаем переменные в шаблон при завершении модуля
 	 *

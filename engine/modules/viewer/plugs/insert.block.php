@@ -25,18 +25,30 @@
  */
 function smarty_insert_block($aParams,&$oSmarty) {	
 	/**
-	 * Проверяем наличие шаблона
-	 */
-	if (!isset($aParams['block']) or !$oSmarty->template_exists('block.'.$aParams['block'].'.tpl')) {
-		$oSmarty->trigger_error("Not found template for block: ".$aParams['block']);
-		return ;
-	}	
-	/**
 	 * Устанавливаем шаблон
 	 */
-	$sTemplate=$aParams['block'];
-	$aPath=pathinfo($sTemplate);	
-	$sBlock=ucfirst($aPath['basename']);
+	$sBlock=ucfirst(basename($aParams['block']));	
+	/**
+	 * Проверяем наличие шаблона. Определяем значения параметров работы в зависимости от того, 
+	 * принадлежит ли блок одному из плагинов, или является пользовательским классом движка
+	 */
+	if(isset($aParams['params']) and isset($aParams['params']['plugin'])) {
+		require_once(Config::Get('path.root.server').'/engine/classes/ActionPlugin.class.php');
+		
+		$sBlockTemplate = $aParams['params']['plugin'].'/plugins/templates/skin/'.ActionPlugin::SKIN_NAME_KEY.'/block.'.$aParams['block'].'.tpl';
+		$sBlockTemplate = Engine::getInstance()->Viewer_ReplacePluginSkinName($sBlockTemplate,$aParams['params']['plugin']);	
+		$sBlockClass = Config::Get('path.root.server').'/classes/plugins/'.$aParams['params']['plugin'].'/blocks/Block'.$sBlock.'.class.php';
+		$sCmd='$oBlock=new Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock.'($aParamsBlock);';
+	} else {
+		$sBlockTemplate = 'block.'.$aParams['block'].'.tpl';
+		$sBlockClass = Config::Get('path.root.server').'/classes/blocks/Block'.$sBlock.'.class.php';
+		$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
+	}
+	
+	if (!isset($aParams['block']) or !$oSmarty->template_exists($sBlockTemplate)) {
+		$oSmarty->trigger_error("Not found template for block: ".$sBlockTemplate);
+		return ;
+	}
 	/**
 	 * параметры
 	 */
@@ -47,16 +59,15 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	/**
 	 * Подключаем необходимый обработчик
 	 */
-	$result=require_once(Config::Get('path.root.server').'/classes/blocks/Block'.$sBlock.'.class.php');	
-	$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
+	require_once($sBlockClass);	
 	eval($sCmd);
 	/**
 	 * Запускаем обработчик
 	 */
-	$oBlock->Exec();	
+	$oBlock->Exec();
 	/**
 	 * Возвращаем результат в виде обработанного шаблона блока
 	 */
-	return $oSmarty->fetch('block.'.$sTemplate.'.tpl');
+	return $oSmarty->fetch($sBlockTemplate);
 }
 ?>
