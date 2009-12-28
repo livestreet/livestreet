@@ -1,5 +1,5 @@
 {include file='header.tpl' noShowSystemMessage=false}
-<script type="text/javascript" src="{cfg name='path.static.skin'}/plugins/profiler/js/profiler.js"></script>
+<script type="text/javascript" src="{cfg name='path.root.web'}/classes/plugins/profiler/templates/skin/new/js/profiler.js"></script>
 
 			<div class="topic people top-blogs talk-table">
 				<h1>{$aLang.profiler_reports_title}</h1>
