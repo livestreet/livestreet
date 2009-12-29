@@ -14,9 +14,9 @@
 					<tbody>
 						{foreach from=$aPlugins item=aPlugin}
 						<tr>
-							<td class="name"><a class="title">{$aPlugin.code}</a></td>
-							<td class="version">-</td>
-							<td class="author">-</td>													
+							<td class="name"><a class="title">{$aPlugin.name}</a><br />{$aPlugin.description}<br />{$aPlugin.homepage}</td>
+							<td class="version">{$aPlugin.version}</td>
+							<td class="author">{$aPlugin.author}</td>													
 							<td class="{if $aPlugin.is_active}deactivate{else}activate{/if}"><strong>{if $aPlugin.is_active}<a href="{router page='plugins'}?plugin={$aPlugin.code}&action=deactivate">{$aLang.plugins_plugin_deactivate}</a>{else}<a href="{router page='plugins'}?plugin={$aPlugin.code}&action=activate">{$aLang.plugins_plugin_activate}</a>{/if}</strong></td>
 						</tr>
 						{/foreach}

@@ -23,8 +23,16 @@ class LsPlugin extends Module {
 	/**
 	 * Файл содержащий информацию об активированных плагинах
 	 *
+	 * @var string
 	 */
 	const PLUGIN_ACTIVATION_FILE = 'plugins.dat';
+	/**
+	 * Файл описания плагина
+	 *
+	 * @var string 
+	 */
+	const PLUGIN_README_FILE = 'readme.txt';
+	
 	/**
 	 * Путь к директории с плагинами
 	 * 
@@ -58,11 +66,26 @@ class LsPlugin extends Module {
 		
 		foreach($aList as $sPlugin) {
 			$this->aPluginsList[$sPlugin] = array(
-				'code'      => $sPlugin,
-				'is_active' => in_array($sPlugin,$aActivePlugins),
-				'name'      => '',
-				'author'    => '',
+				'code'        => $sPlugin,
+				'is_active'   => in_array($sPlugin,$aActivePlugins),
+				'name'        => '',
+				'description' => '',
+				'author'      => '',
+				'homepage'    => '',
+				'version'     => ''
 			);
+			
+			$sReadme = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
+			if(is_file($sReadme)) {
+				$aInfo = file($sReadme);
+				foreach ($aInfo as $sParam) {
+					list($sKey,$sValue) = explode(':',trim($sParam),2);
+					$sKey=strtolower($sKey);
+					$sValue=$this->Text_Parser(trim($sValue));
+					
+					$this->aPluginsList[$sPlugin][$sKey]=$sValue;
+				}
+			}
 		}
 		
 		return $this->aPluginsList;
