@@ -765,6 +765,19 @@ return array(
 	'notify_subject_reminder_code' => 'Восстановление пароля',
 	'notify_subject_reminder_password' => 'Новый пароль',
 	
+	/**
+	 * Страница администрирования плагинов
+	 */
+	'plugins_administartion_title' => 'Администрирование плагинов',
+	'plugins_plugin_name' => 'Название',
+	'plugins_plugin_author' => 'Автор',
+	'plugins_plugin_version' => 'Версия',
+	'plugins_plugin_action' => '',
+	'plugins_plugin_activate' => 'Активировать',
+	'plugins_plugin_deactivate' => 'Деактивировать',
+	'plugins_unknown_action' => 'Указано неизвестное действие',
+	'plugins_action_ok' => 'Успешно выполнено',
+	
 	
 	'system_error_event_args' => 'Некорректное число аргументов при добавлении евента',
 	'system_error_event_method' => 'Добавляемый метод евента не найден',

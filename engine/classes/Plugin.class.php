@@ -38,15 +38,15 @@ abstract class Plugin extends Object {
 	 *
 	 */
 	public function Activate() {
-
+		return true;
 	}
 	
 	/**
 	 * Функция деактивации плагина
 	 *
 	 */
-	public function Deativate() {
-
+	public function Deactivate() {
+		return true;
 	}
 	
 	public function __call($sName,$aArgs) {

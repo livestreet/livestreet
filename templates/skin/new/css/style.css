@@ -715,6 +715,23 @@ a.profiler.active          { background: #70aae0; color: white; }
 .profiler-table .filter    { background:#ffb5c5; }
 .profiler-highlight        { margin: 0px; text-align:center; background: #dafad8; border: 1px solid #83c460; padding: 2px; color: #4bb23b; }
 
+/* Plugins
+-------------------------------------------------------------------*/
+
+.plugins thead td.name { padding-left: 32px; }
+.plugins thead td.version, .plugins td.version { width: 40px; text-align: center; }
+.plugins thead td.author, .plugins td.author, .plugins tbody td.action { width: 120px; text-align: center; }
+.plugins tbody td { padding: 7px 0; }
+.plugins td.name { overflow: hidden; }
+.plugins td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }
+.plugins td.name a.title { font-size: 18px; line-height: 14px; }
+.plugins td.name a.author { line-height: 18px; background:url(../images/icons.gif) no-repeat scroll 0 -108px; padding-left: 12px; color: #999; font-weight: bold; }
+.plugins td.activate, .plugins td.deactivate { width: 120px; text-align: right; }
+.plugins td.activate strong  { background: #6ec80d; color: #fff; padding: 5px 10px; }
+.plugins td.deactivate strong { background: #ff68cf; color: #fff; padding: 5px 10px; }
+.plugins td.activate strong a, .plugins td.deactivate strong a { color: white; text-decoration: none; }
+
+
 /* Footer
 -------------------------------------------------------------------*/
 #footer .right { float: right; }

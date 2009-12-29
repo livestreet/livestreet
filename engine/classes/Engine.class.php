@@ -274,8 +274,8 @@ class Engine extends Object {
 	protected function InitPlugins() {
 		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
 			foreach ($aPluginList as $sPluginName) {
-				$sDirHooks=Config::Get('path.root.server').'/classes/plugins/';
-				$sFile="{$sDirHooks}{$sPluginName}/classes/hooks/Plugin{$sPluginName}.class.php";
+				$sDirPlugins=Config::Get('path.root.server').'/classes/plugins/';
+				$sFile="{$sDirPlugins}{$sPluginName}/Plugin{$sPluginName}.class.php";
 				if(is_file($sFile)) {
 					require_once($sFile);
 					
