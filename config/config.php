@@ -200,8 +200,6 @@ $config['module']['image']['topic']['round_corner']   = false;
 // Модуль Security
 $config['module']['security']['key']   = "livestreet_security_key"; // ключ сессии для хранения security-кода
 $config['module']['security']['hash']  = "livestreet_security_key"; // "примесь" к строке, хешируемой в качестве security-кода
-// Модуль Profiler
-$config['module']['profiler']['per_page']   = 15;  // Число profiler-отчетов на одну страницу
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Cache','Security','Session','Lang','User','Message');

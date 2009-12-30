@@ -52,7 +52,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 			return Router::Action('error');
 		}
 		
-		$this->SetDefaultEvent('report');	
+		$this->SetDefaultEvent('report');
 	}
 	
 	protected function RegisterEvent() {		
@@ -108,7 +108,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		/**
 		 * Получаем список отчетов
 		 */		
-		$aResult=$this->PluginProfiler_Profiler_GetReportsByFilter($aFilter,$iPage,Config::Get('module.profiler.per_page'));		
+		$aResult=$this->PluginProfiler_Profiler_GetReportsByFilter($aFilter,$iPage,Config::Get('plugin.profiler.per_page'));		
 		$aReports=$aResult['collection'];
 		/**
 		 * Если был использован фильтр, выводим количество найденых по фильтру
