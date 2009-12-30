@@ -236,6 +236,28 @@ function func_mkdir($sBasePath,$sNewDir) {
 }
 
 /**
+ * Рекурсивное удаление директории (со всем содержимым)
+ *
+ * @param  string $sPath
+ * @return bool
+ */
+function func_rmdir($sPath) {
+	if(!is_dir($sPath)) return true;
+	$sPath = rtrim($sPath,'/').'/';
+	
+    $aFiles = glob($sPath.'*', GLOB_MARK); 
+    foreach($aFiles as $sFile ) { 
+        if(substr($sFile, -1) == '/') {
+            func_rmdir($sFile); 
+        } else { 
+            @unlink($sFile);        	
+        }
+    } 
+    
+    if(is_dir($sPath)) @rmdir($sPath); 	
+}
+
+/**
  * Возвращает обрезанный текст по заданное число слов
  *
  * @param unknown_type $sText

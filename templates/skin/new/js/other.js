@@ -74,6 +74,16 @@ function checkAllReport(checkbox) {
 	});	
 }
 
+function checkAllPlugins(checkbox) {
+	$$('.form_plugins_checkbox').each(function(chk){
+		if (checkbox.checked) {
+			chk.checked=true;
+		} else {
+			chk.checked=false;
+		}
+	});
+}
+
 function showImgUploadForm() {	
 	if (Browser.Engine.trident) {
 		//return true;

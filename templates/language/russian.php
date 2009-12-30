@@ -777,6 +777,8 @@ return array(
 	'plugins_plugin_deactivate' => 'Деактивировать',
 	'plugins_unknown_action' => 'Указано неизвестное действие',
 	'plugins_action_ok' => 'Успешно выполнено',
+	'plugins_submit_delete' => 'Удалить плагины',
+	'plugins_delete_confirm' => 'Вы уверены, что желаете удалить указанные плагины?',
 	
 	
 	'system_error_event_args' => 'Некорректное число аргументов при добавлении евента',

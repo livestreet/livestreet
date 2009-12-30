@@ -169,6 +169,24 @@ class LsPlugin extends Module {
 		file_put_contents($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE, implode(PHP_EOL,$aPlugins));
 	}
 	
+	
+	public function Delete($aPlugins) {
+		if(!is_array($aPlugins)) $aPlugins=array($aPlugins);
+		
+		$aActivePlugins=$this->GetActivePlugins();
+		foreach ($aPlugins as $sPluginCode) {
+			/**
+			 * Если плагин активен, деактивируем его
+			 */
+			if(in_array($sPluginCode,$aActivePlugins)) $this->Toggle($sPluginCode,'deactivate');
+			
+			/**
+			 * Удаляем директорию с плагином
+			 */
+			func_rmdir($this->sPluginsDir.$sPluginCode);
+		}
+	}
+	
 	/**
 	 * При завершении работы модуля
 	 *

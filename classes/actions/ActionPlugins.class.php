@@ -48,6 +48,18 @@ class ActionPlugins extends Action {
 	
 	
 	protected function EventIndex() {		
+		/**
+		 * Обработка удаления плагинов
+		 */
+		if (isPost('submit_plugins_del')) {
+			$this->Security_ValidateSendForm();
+			
+			$aPluginsDelete=getRequest('plugins_del');
+			if (is_array($aPluginsDelete)) {
+				$this->Plugin_Delete(array_keys($aPluginsDelete));				
+			}
+		}
+		
 		if($sPlugin=getRequest('plugin',null,'get') and $sAction=getRequest('action',null,'get')) {
 			return $this->SubmitManagePlugin($sPlugin,$sAction);
 		}

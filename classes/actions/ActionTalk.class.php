@@ -90,7 +90,7 @@ class ActionTalk extends Action {
 		 * Обработка удаления сообщения
 		 */		
 		$this->Talk_DeleteTalkUserByArray($sTalkId,$this->oUserCurrent->getId());		
-		Router::Location(Router::GetPath('talk'));				
+		Router::Location(Router::GetPath('talk'));
 	}
 	
 	
