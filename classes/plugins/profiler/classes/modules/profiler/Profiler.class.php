@@ -22,7 +22,7 @@ require_once('mapper/Profiler.mapper.class.php');
  * Модуль статических страниц
  *
  */
-class PluginProfiler_LsProfiler extends Module {		
+class PluginProfiler_Profiler extends Module {		
 	/**
 	 * Меппер для сохранения логов в базу данных и формирования выборок по данным из базы
 	 *
