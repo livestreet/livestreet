@@ -16,6 +16,13 @@
 */
 
 class PluginProfiler extends Plugin {
-
+	/**
+	 * Активация плагина Профайлер.
+	 * Создание таблицы в базе данных при ее отсутствии.
+	 */
+	public function Activate() {
+		$this->ExportSQL(dirname(__FILE__).'/sql.sql');
+		return true;
+	}
 }
 ?>

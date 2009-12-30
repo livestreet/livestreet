@@ -35,7 +35,7 @@ abstract class ActionPlugin extends Action {
 		$this->sActionTemplate=$sTemplate;
 		if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
 			$this->sActionTemplate=$this->Viewer_ReplacePluginSkinName($this->sActionTemplate,$aMatches[1]);
-		}		
+		}
 	}
 	
 	/**
@@ -50,7 +50,7 @@ abstract class ActionPlugin extends Action {
 
 		if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
 			$this->sActionTemplate=$this->Viewer_ReplacePluginSkinName($this->sActionTemplate,$aMatches[1]);
-		}		
+		}
 	}
 	
 	/**

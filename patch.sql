@@ -136,16 +136,3 @@ ALTER TABLE  `prefix_user` DROP  `user_date_topic_last`
 
 ALTER TABLE  `prefix_comment` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
 ALTER TABLE  `prefix_comment_online` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
-
-CREATE TABLE  `prefix_profiler` (
- `request_date` DATETIME NOT NULL ,
- `request_id` VARCHAR( 32 ) NOT NULL ,
- `time_full` DOUBLE( 9,6 ) NOT NULL ,
- `time_start` DOUBLE( 17,7 ) NOT NULL ,
- `time_stop` DOUBLE( 17,7 ) NOT NULL ,
- `time_id` INT NOT NULL ,
- `time_pid` INT NOT NULL ,
- `time_name` VARCHAR( 250 ) NOT NULL ,
- `time_comment` VARCHAR( 250 ) NOT NULL
-);
-ALTER TABLE  `prefix_profiler` ADD PRIMARY KEY (  `request_id` ,  `time_id` ) ;

@@ -28,7 +28,7 @@ abstract class Mapper extends Object {
 	 * @param DbSimple_Generic_Database $oDb
 	 */
 	public function __construct(DbSimple_Generic_Database $oDb) {
-		$this->oDb = $oDb;		
+		$this->oDb = $oDb;
 	}
 
 }
