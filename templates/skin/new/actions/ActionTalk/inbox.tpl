@@ -3,7 +3,7 @@
 
 			<div class="topic people top-blogs talk-table">
 				<h1>{$aLang.talk_inbox}</h1>
-				<form action="" method="post" id="form_talks_list">
+				<form action="{router page='talk'}" method="post" id="form_talks_list">
 				<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 				<table>
 					<thead>
@@ -50,7 +50,7 @@
 					{/foreach}
 					</tbody>
 				</table>
-				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return ($$('.form_talks_checkbox').length==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');">
+				<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return ($$('.form_talks_checkbox:checked').length==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');">
 				</form>
 			</div>
 {include file='paging.tpl' aPaging=`$aPaging`}
