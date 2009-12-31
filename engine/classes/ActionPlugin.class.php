@@ -22,20 +22,26 @@ require_once('Action.class.php');
  */
 abstract class ActionPlugin extends Action {
 	/**
+	 * Путь к шаблонам с учетом наличия соответствующего skin`a
+	 *
 	 * @var string
 	 */
-	const SKIN_NAME_KEY = '[skin_name]';
+	protected $sTemplatePathAction=null;
 	
-	/**
-	 * Устанавливает какой шаблон выводить
-	 *
-	 * @param string $sTemplate Путь до шаблона относительно общего каталога шаблонов
-	 */
-	protected function SetTemplate($sTemplate) {
-		$this->sActionTemplate=$sTemplate;
-		if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
-			$this->sActionTemplate=$this->Viewer_ReplacePluginSkinName($this->sActionTemplate,$aMatches[1]);
+	public function getTemplatePathAction() {	
+		if(is_null($this->sTemplatePathAction)) {	
+			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
+			/**
+			 * Проверяем в списке шаблонов
+			 */
+			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/classes/plugins/'.$aMatches[1].'/templates/skin/*',GLOB_ONLYDIR)))
+				? Config::Get('view.skin')
+				: 'default';
+			
+			$this->sTemplatePathAction=Config::Get('path.root.server')."/classes/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}";
 		}
+		
+		return $this->sTemplatePathAction;
 	}
 	
 	/**
@@ -45,12 +51,8 @@ abstract class ActionPlugin extends Action {
 	 */
 	protected function SetTemplateAction($sTemplate) {
 		$this->sActionTemplate==preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-			? strtolower($aMatches[1]).'/templates/skin/'.self::SKIN_NAME_KEY.'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
+			? $this->getTemplatePathAction().'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
 			: null;
-
-		if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
-			$this->sActionTemplate=$this->Viewer_ReplacePluginSkinName($this->sActionTemplate,$aMatches[1]);
-		}
 	}
 	
 	/**
@@ -62,13 +64,10 @@ abstract class ActionPlugin extends Action {
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
 			$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-				? strtolower($aMatches[1]).'/templates/skin/'.self::SKIN_NAME_KEY.'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
+				? $this->getTemplatePathAction().'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
 				: null;
 		}
-		
-		if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
-			$this->sActionTemplate=$this->Viewer_ReplacePluginSkinName($this->sActionTemplate,$aMatches[1]);
-		}
+
 		return $this->sActionTemplate;
 	}
 }

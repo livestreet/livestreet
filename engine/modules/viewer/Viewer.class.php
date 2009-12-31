@@ -442,7 +442,7 @@ class LsViewer extends Module {
 	 * @return string('block','template','undefined')
 	 */
 	protected function DefineTypeBlock($sName,$sPlugin=null) {	
-		if ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sPlugin.'/templates/skin/'.ActionPlugin::SKIN_NAME_KEY.'/block'.$sName.'.tpl',$sPlugin):'block.'.$sName.'.tpl')) {
+		if ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sPlugin.'/templates/skin/[skin_name]/block'.$sName.'.tpl',$sPlugin):'block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */
@@ -1127,7 +1127,7 @@ class LsViewer extends Module {
 	 * @return string
 	 */
 	public function ReplacePluginSkinName($sTemplate,$sPlugin) {
-		if(substr_count($sTemplate,ActionPlugin::SKIN_NAME_KEY)==0) return $sTemplate;
+		if(substr_count($sTemplate,'[skin_name]')==0) return $sTemplate;
 		
 		/**
 		 * Проверяем в списке шаблонов
@@ -1136,7 +1136,7 @@ class LsViewer extends Module {
 			? Config::Get('view.skin')
 			: 'default';
 			
-		return str_replace(ActionPlugin::SKIN_NAME_KEY,$sReplaceName,$sTemplate);
+		return str_replace('[skin_name]',$sReplaceName,$sTemplate);
 	}
 		
 	/**
