@@ -350,13 +350,7 @@ class LsViewer extends Module {
 	 * @param string $sTemplate
 	 * @return string
 	 */
-	public function Fetch($sTemplate,$sPlugin=null) {
-		/**
-		 * Если указан шаблон плагина, то производим замену ключа [skin_name]
-		 */
-		if($sPlugin) {
-			$sTemplate=$this->ReplacePluginSkinName($sTemplate);
-		}
+	public function Fetch($sTemplate) {
 		return $this->oSmarty->fetch($sTemplate);
 	}
 	/**
@@ -389,13 +383,13 @@ class LsViewer extends Module {
 		/**
 		 * Если смогли определить тип блока то добавляем его
 		 */
-		$sType=$this->DefineTypeBlock($sName,isset($aParams['plugin'])?$aParams['plugin']:null);
+		$sType=$this->DefineTypeBlock($sName,isset($aParams['dir'])?$aParams['dir']:null);
 		if ($sType=='undefined') {
 			return false;
 		}
 		$this->aBlocks[$sGroup][$sName]=array(
 			'type'     => $sType,
-			'name'     => ($sType=='template' and isset($aParams['plugin']))?$this->ReplacePluginSkinName($sName,$aParams['plugin']):$sName,
+			'name'     => $sName,
 			'params'   => $aParams,
 			'priority' => $iPriority,
 		);
@@ -441,13 +435,13 @@ class LsViewer extends Module {
 	 * @param string $sName
 	 * @return string('block','template','undefined')
 	 */
-	protected function DefineTypeBlock($sName,$sPlugin=null) {	
-		if ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sPlugin.'/templates/skin/[skin_name]/block'.$sName.'.tpl',$sPlugin):'block.'.$sName.'.tpl')) {
+	protected function DefineTypeBlock($sName,$sDir=null) {	
+		if ($this->TemplateExists(is_null($sDir)?'block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */
 			return 'block';
-		} elseif ($this->TemplateExists(($sPlugin)?$this->ReplacePluginSkinName($sName,$sPlugin):$sName)) {
+		} elseif ($this->TemplateExists($sName)) {
 			/**
 			 * Если найден шаблон по имени блока то считаем его простым шаблоном
 			 */
@@ -1117,26 +1111,6 @@ class LsViewer extends Module {
 			'sGetParams' => $sGetParams,
 		);
 		return $aPaging;
-	}
-	
-	/**
-	 * Заменяет [skin_name] в пути к шаблону путем анализа 
-	 * наличия текущего скина в директории шаблонов плагина 
-	 *
-	 * @param  string $sTemplate
-	 * @return string
-	 */
-	public function ReplacePluginSkinName($sTemplate,$sPlugin) {
-		if(substr_count($sTemplate,'[skin_name]')==0) return $sTemplate;
-		
-		/**
-		 * Проверяем в списке шаблонов
-		 */
-		$sReplaceName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/classes/plugins/'.$sPlugin.'/templates/skin/*',GLOB_ONLYDIR)))
-			? Config::Get('view.skin')
-			: 'default';
-			
-		return str_replace('[skin_name]',$sReplaceName,$sTemplate);
 	}
 		
 	/**

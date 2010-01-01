@@ -35,8 +35,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	if(isset($aParams['params']) and isset($aParams['params']['plugin'])) {
 		require_once(Config::Get('path.root.server').'/engine/classes/ActionPlugin.class.php');
 		
-		$sBlockTemplate = $aParams['params']['plugin'].'/plugins/templates/skin/'.ActionPlugin::SKIN_NAME_KEY.'/block.'.$aParams['block'].'.tpl';
-		$sBlockTemplate = Engine::getInstance()->Viewer_ReplacePluginSkinName($sBlockTemplate,$aParams['params']['plugin']);	
+		$sBlockTemplate = rtrim($aParams['params']['dir'],'/').'/block.'.$aParams['block'].'.tpl';	
 		$sBlockClass = Config::Get('path.root.server').'/classes/plugins/'.$aParams['params']['plugin'].'/blocks/Block'.$sBlock.'.class.php';
 		$sCmd='$oBlock=new Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock.'($aParamsBlock);';
 	} else {

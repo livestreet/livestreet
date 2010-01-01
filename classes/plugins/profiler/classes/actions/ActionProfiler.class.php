@@ -138,7 +138,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aReports',$aReports);
 		$this->Viewer_Assign('aDatabaseStat',($aData=$this->PluginProfiler_Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));		
-		$this->Viewer_AddBlock('right',$this->getTemplatePathAction().'/actions/ActionProfiler/sidebar.tpl',array('plugin'=>'profiler'));
+		$this->Viewer_AddBlock('right',$this->getTemplatePathAction().'/actions/ActionProfiler/sidebar.tpl');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('profiler_report_page_title'));
 	}
 	

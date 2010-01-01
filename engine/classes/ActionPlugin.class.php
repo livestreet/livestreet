@@ -28,6 +28,17 @@ abstract class ActionPlugin extends Action {
 	 */
 	protected $sTemplatePathAction=null;
 	
+	/**
+	 * Конструктор
+	 *
+	 * @param Engine $oEngine
+	 * @param string $sAction
+	 */	
+	public function __construct(Engine $oEngine, $sAction) {
+		parent::__construct($oEngine, $sAction);
+		$this->Viewer_Assign('sTemplateActionPath',$this->getTemplatePathAction());
+	}
+	
 	public function getTemplatePathAction() {	
 		if(is_null($this->sTemplatePathAction)) {	
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
