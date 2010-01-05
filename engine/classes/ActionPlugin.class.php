@@ -45,6 +45,7 @@ abstract class ActionPlugin extends Action {
 			/**
 			 * Проверяем в списке шаблонов
 			 */
+			$aMatches[1]=strtolower($aMatches[1]);
 			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/classes/plugins/'.$aMatches[1].'/templates/skin/*',GLOB_ONLYDIR)))
 				? Config::Get('view.skin')
 				: 'default';

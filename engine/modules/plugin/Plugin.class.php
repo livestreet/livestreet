@@ -150,7 +150,11 @@ class LsPlugin extends Module {
 		 */		
 		$aPlugins=@file($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE);
 		
-		if(is_array($aPlugins)) $aPlugins = array_unique($aPlugins);
+		if(is_array($aPlugins)) { 
+			$aPlugins = array_unique($aPlugins);
+		} else {
+			$aPlugins=array();
+		}
 		return $aPlugins;
 	}
 	

@@ -450,7 +450,7 @@ class LsViewer extends Module {
 			/**
 			 * Считаем что тип не определен
 			 */
-			throw new Exception('Can not find the block`s template: '.($sPlugin)?$this->ReplacePluginSkinName($sName,$sPlugin):$sName);
+			throw new Exception('Can not find the block`s template: '.$sName);
 			return 'undefined';
 		}
 	}
