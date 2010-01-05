@@ -101,10 +101,7 @@ class LsComment extends Module {
 			}
 			if (isset($aAllowData['target'])) {
 				$aTargetId[$oComment->getTargetType()][]=$oComment->getTargetId();
-			}
-			if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
-				$aFavouriteComments=$this->Favourite_GetFavouritesByArray($aCommentId,'comment',$this->oUserCurrent->getId());	
-			}
+			}			
 		}
 		
 		/**
@@ -120,6 +117,9 @@ class LsComment extends Module {
 		$aVote=array();
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
 			$aVote=$this->Vote_GetVoteByArray($aCommentId,'comment',$this->oUserCurrent->getId());			
+		}
+		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
+			$aFavouriteComments=$this->Favourite_GetFavouritesByArray($aCommentId,'comment',$this->oUserCurrent->getId());	
 		}
 		/**
 		 * Добавляем данные к результату
