@@ -401,11 +401,13 @@ class LsViewer extends Module {
 	 *
 	 * @param array $aBlocks
 	 */
-	public function AddBlocks($sGroup,$aBlocks) {
+	public function AddBlocks($sGroup,$aBlocks,$ClearBlocks=true) {
 		/**
 		 * Удаляем ранее добавленые блоки
 		 */
-		$this->ClearBlocks($sGroup);
+		if ($ClearBlocks) {
+			$this->ClearBlocks($sGroup);
+		}
 		foreach ($aBlocks as $sBlock) {
 			$this->AddBlock($sGroup,$sBlock);
 		}

@@ -54,8 +54,8 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 		<ul>
 	<li>
 	<b>MySql</b> <br>
-	&nbsp;&nbsp;&nbsp;query: <?echo($aStats['sql']['count']);?><br>
-	&nbsp;&nbsp;&nbsp;time: <?echo($aStats['sql']['time']);?><br><br><br>
+	&nbsp;&nbsp;&nbsp;query: <?php echo($aStats['sql']['count']);?><br>
+	&nbsp;&nbsp;&nbsp;time: <?php echo($aStats['sql']['time']);?><br><br><br>
 	</li>
 	</ul>
 		</td>
@@ -63,10 +63,10 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 		<ul>
 	<li>
 	<b>Cache</b> <br>
-	&nbsp;&nbsp;&nbsp;query: <?echo($aStats['cache']['count']);?><br>
+	&nbsp;&nbsp;&nbsp;query: <?php echo($aStats['cache']['count']);?><br>
 	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; set: <?echo($aStats['cache']['count_set']);?><br>
 	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; get: <?echo($aStats['cache']['count_get']);?><br>
-	&nbsp;&nbsp;&nbsp;time: <?echo(round($aStats['cache']['time'],5));?>
+	&nbsp;&nbsp;&nbsp;time: <?php echo(round($aStats['cache']['time'],5));?>
 	</li>
 	</ul>
 		</td>
@@ -74,8 +74,8 @@ if (Router::GetIsShowStats() and $oUser and $oUser->isAdministrator()) {
 		<ul>
 	<li>
 	<b>PHP</b> <br>	
-	&nbsp;&nbsp;&nbsp;time load modules:<?echo($aStats['engine']['time_load_module']);?><br>
-	&nbsp;&nbsp;&nbsp;full time:<?echo(round($t2-$t1,3));?><br><br><br>
+	&nbsp;&nbsp;&nbsp;time load modules:<?php echo($aStats['engine']['time_load_module']);?><br>
+	&nbsp;&nbsp;&nbsp;full time:<?php echo(round($t2-$t1,3));?><br><br><br>
 	</li>
 	</ul>
 		</td>

@@ -136,3 +136,5 @@ ALTER TABLE  `prefix_user` DROP  `user_date_topic_last`;
 
 ALTER TABLE  `prefix_comment` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
 ALTER TABLE  `prefix_comment_online` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
+
+ALTER TABLE  `prefix_topic` CHANGE  `topic_tags`  `topic_tags` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

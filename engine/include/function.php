@@ -208,7 +208,8 @@ function func_getIp() {
  *
  * @param unknown_type $sLocation
  */
-function func_header_location($sLocation) {   	
+function func_header_location($sLocation) {  
+	header("HTTP/1.1 301 Moved Permanently"); 	
     header('Location: '.$sLocation);
     exit();
 }

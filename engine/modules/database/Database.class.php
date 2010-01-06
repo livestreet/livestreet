@@ -114,13 +114,9 @@ class LsDatabase extends Module {
 function databaseErrorHandler($message, $info) {	
 	/**
 	 * Записываем информацию об ошибке в переменную $msg
-	 */
-	ob_start();
-	echo "SQL Error: $message<br>\n";
-	print_r($info);	
-	$msg=ob_get_contents();
-	ob_end_clean();
-	
+	 */	
+	$msg="SQL Error: $message<br>\n";	
+	$msg.=print_r($info,true);
 	/**
 	 * Если нужно логировать SQL ошибке то пишем их в лог
 	 */
@@ -155,12 +151,8 @@ function databaseLogger($db, $sql) {
 	/**
 	 * Получаем информацию о запросе и сохраняем её в переменной $msg
 	 */
-	$caller = $db->findLibraryCaller();
-	ob_start();
-	print_r($sql);
-	$msg=ob_get_contents();
-	ob_end_clean();
-	
+	$caller = $db->findLibraryCaller();	
+	$msg=print_r($sql,true);	
 	/**
 	 * Получаем ядро и сохраняем в логе SQL запрос
 	 */

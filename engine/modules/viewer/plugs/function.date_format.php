@@ -154,7 +154,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 			: $sMonth[$iDeclinationDefault];
 	}
 	
-	$sFormat=preg_replace("~(?<!\\\\)F~U",preg_replace('~(\pL{1})~u','\\\${1}',$sMonth),$sFormat);
+	$sFormat=preg_replace("~(?<!\\\\)F~U",preg_replace('~(\w{1})~u','\\\${1}',$sMonth),$sFormat);
 
 	return date($sFormat,$iDate);
 }
