@@ -587,9 +587,13 @@ class Install {
 				/**
 				 * Проверяем поддержку InnoDB в MySQL
 				 */
-				$aStatus = @mysql_query('SHOW TABLE STATUS');
-				if($aStatus and $aTable = mysql_fetch_assoc($aStatus)) {
-					if($aStatus['engine']!='InnoDB') $aParams['engine'] = "MyISAM";
+				$aParams['engine']='MyISAM';				
+				if($aRes = @mysql_query('SHOW ENGINES')) {
+					while ($aRow = mysql_fetch_assoc($aRes)) {						
+						if ($aRow['Engine']=='InnoDB' and in_array($aRow['Support'],array('DEFAULT','YES'))) {							
+							$aParams['engine']='InnoDB';
+						}
+					}					
 				}
 			}
 			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);

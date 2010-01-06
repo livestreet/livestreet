@@ -117,7 +117,7 @@ CREATE TABLE  `prefix_notify_task` (
  `date_created` DATETIME,
  `notify_task_status` TINYINT( 2 ) UNSIGNED,
 PRIMARY KEY (  `notify_task_id` )
-) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET = utf8;
 
 ALTER TABLE `prefix_blog_user`
   DROP `is_moderator`,
