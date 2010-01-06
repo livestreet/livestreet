@@ -1171,6 +1171,56 @@ class Install {
 			}
 		}
 		/**
+		 * Обновляем пути до аватаров и фото у юзеров
+		 */
+		$sTable=$aParams['prefix'].'user';
+		if($aResults = mysql_query("SELECT * FROM {$sTable}")){ 
+			while($aRow = mysql_fetch_assoc($aResults)) {
+				if ($aRow['user_profile_avatar']==0) {
+					$sSqlUpdate="UPDATE {$sTable} SET user_profile_avatar = NULL WHERE user_id={$aRow['user_id']}";
+				} else {
+					$sAvatarPath=$this->GetPathRootWeb().'/uploads/images/'.$aRow['user_id'].'/avatar_100x100.'.$aRow['user_profile_avatar_type'];
+					$sAvatarPath=mysql_escape_string($sAvatarPath);
+					$sSqlUpdate="UPDATE {$sTable} SET user_profile_avatar = '{$sAvatarPath}' WHERE user_id={$aRow['user_id']}";
+				}				
+				if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
+				
+				if ($aRow['user_profile_foto']) {
+					$sAvatarPath=$this->GetPathRootWeb().$aRow['user_profile_foto'];
+					$sAvatarPath=mysql_escape_string($sAvatarPath);
+					$sSqlUpdate="UPDATE {$sTable} SET user_profile_foto = '{$sAvatarPath}' WHERE user_id={$aRow['user_id']}";
+					if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
+				}
+			}			
+		}
+		/**
+		 * Удаляем поле user_profile_avatar_type
+		 */
+		if(!mysql_query("ALTER TABLE  `{$sTable}` DROP  `user_profile_avatar_type`;")) $aErrors[] = mysql_error();
+				
+		/**
+		 * Обновляем пути до аватаров у блогов
+		 */
+		$sTable=$aParams['prefix'].'blog';
+		if($aResults = mysql_query("SELECT * FROM {$sTable}")){ 
+			while($aRow = mysql_fetch_assoc($aResults)) {
+				if ($aRow['blog_avatar']==0) {
+					$sSqlUpdate="UPDATE {$sTable} SET blog_avatar = NULL WHERE blog_id={$aRow['blog_id']}";
+				} else {
+					$sAvatarPath=$this->GetPathRootWeb().'/uploads/images/'.$aRow['user_owner_id'].'/avatar_blog_'.$aRow['blog_url'].'_48x48.'.$aRow['blog_avatar_type'];
+					$sAvatarPath=mysql_escape_string($sAvatarPath);
+					$sSqlUpdate="UPDATE {$sTable} SET blog_avatar = '{$sAvatarPath}' WHERE blog_id={$aRow['blog_id']}";
+				}				
+				if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
+			}			
+		}		
+		/**
+		 * Удаляем поле blog_avatar_type
+		 */
+		if(!mysql_query("ALTER TABLE  `{$sTable}` DROP  `blog_avatar_type`;")) $aErrors[] = mysql_error();
+		
+				
+		/**
 		 * Переводим в одну таблицу vote`ы
 		 */
 		$aVoteTables = array(
@@ -1436,8 +1486,16 @@ class Install {
 	 */
 	function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
-		$this->SaveConfig('path.root.web',rtrim('http://'.$_SERVER['HTTP_HOST'],'/'), $sLocalConfigFile); 
-		$this->SaveConfig('path.root.server', rtrim($_SERVER['DOCUMENT_ROOT'],'/'), $sLocalConfigFile); 
+		$this->SaveConfig('path.root.web',$this->GetPathRootWeb(), $sLocalConfigFile); 
+		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile); 
+	}
+	
+	function GetPathRootWeb() {
+		return rtrim('http://'.$_SERVER['HTTP_HOST'],'/');
+	}
+	
+	function GetPathRootServer() {
+		return rtrim($_SERVER['DOCUMENT_ROOT'],'/');
 	}
 }
 
