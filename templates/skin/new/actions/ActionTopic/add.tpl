@@ -16,9 +16,10 @@ document.addEvent('domready', function() {
 
 
 {if $oConfig->GetValue('view.tinymce')}
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tiny_mce/tiny_mce.js"></script>
-{literal}
+<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce_3.2.7/tiny_mce.js"></script>
+
 <script type="text/javascript">
+{literal}
 tinyMCE.init({
 	mode : "textareas",
 	theme : "advanced",
@@ -36,13 +37,15 @@ tinyMCE.init({
 	force_br_newlines : true,
     forced_root_block : '', // Needed for 3.x
     force_p_newlines : false,    
-    plugins : "lslink,lsimage,lsvideo,safari,inlinepopups,media,lshselect,pagebreak",
+    plugins : "lseditor,safari,inlinepopups,media,pagebreak",
     convert_urls : false,
     extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
-    pagebreak_separator :"<cut>"
+    pagebreak_separator :"<cut>",
+    language : TINYMCE_LANG
 });
-</script>
 {/literal}
+</script>
+
 {else}
 	{include file='window_load_img.tpl' sToLoad='topic_text'}
 {/if}

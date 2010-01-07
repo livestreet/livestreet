@@ -812,7 +812,6 @@ table.admin_page tr.colored_sel td { background-color:#D9FBC2; }
 table.admin_page { font-size:0.9em;  border:none;  margin:20px 0px 30px 0px; border-bottom:solid 1px #B0C1D3; }   
 table.admin_page td:first-child { border-left: solid #B0C1D3 1px } 
 table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit'); } 
-table.admin_page img {margin: 0px !important;;} 
 
 
 .hidden {display: none;}

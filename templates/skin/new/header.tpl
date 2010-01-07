@@ -26,6 +26,11 @@ var TALK_RELOAD_REQUEST='{cfg name="module.talk.request"}';
 var TALK_RELOAD_MAX_ERRORS='{cfg name="module.talk.max_errors"}';
 var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 
+var TINYMCE_LANG='en';
+{if $oConfig->GetValue('lang.current')=='russian'}
+TINYMCE_LANG='ru';
+{/if}
+
 var aRouter=new Array();
 {foreach from=$aRouter key=sPage item=sPath}
 aRouter['{$sPage}']='{$sPath}';
