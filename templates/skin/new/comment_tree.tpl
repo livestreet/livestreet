@@ -20,7 +20,7 @@
 				<div class="header">
 					<h3>{$aLang.comment_title} (<span id="count-comments">{$iCountComment}</span>)</h3>
 					<a name="comments" ></a>
-					{if $iTargetType=='topic'}
+					{if $sTargetType=='topic'}
 					<a href="{router page='rss'}comments/{$iTargetId}/" class="rss">RSS</a>
 					{/if}
 					<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">{$aLang.comment_collapse}</a> /
