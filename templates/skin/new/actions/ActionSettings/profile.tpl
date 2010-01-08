@@ -57,18 +57,9 @@ document.addEvent('domready', function() {
 					</select>
 					<select name="profile_birthday_month" class="w100">
 						<option value="">{$aLang.date_month}</option>		
-						<option value="1" {if 1==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_1}</option>
-						<option value="2" {if 2==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_2}</option>
-						<option value="3" {if 3==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_3}</option>
-						<option value="4" {if 4==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_4}</option>
-						<option value="5" {if 5==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_5}</option>
-						<option value="6" {if 6==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_6}</option>
-						<option value="7" {if 7==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_7}</option>
-						<option value="8" {if 8==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_8}</option>
-						<option value="9" {if 9==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_9}</option>
-						<option value="10" {if 10==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_10}</option>
-						<option value="11" {if 11==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_11}</option>
-						<option value="12" {if 12==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.date_month_12}</option>		
+						{section name=date_month start=1 loop=13 step=1}
+							<option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.month_array[$smarty.section.date_month.index][0]}</option>
+						{/section}
 					</select>
 					<select name="profile_birthday_year" class="w70">
 						<option value="">{$aLang.date_year}</option>
