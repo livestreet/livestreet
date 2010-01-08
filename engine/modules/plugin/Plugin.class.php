@@ -52,7 +52,7 @@ class LsPlugin extends Module {
 	 *
 	 */
 	public function Init() {
-		$this->sPluginsDir=Config::Get('path.root.server').'/classes/plugins/';
+		$this->sPluginsDir=Config::Get('path.root.server').'/plugins/';
 	}
 	
 	/**

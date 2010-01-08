@@ -171,7 +171,7 @@ class LsViewer extends Module {
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
 		$this->oSmarty = new Smarty();		
-		$this->oSmarty->template_dir=array(Config::Get('path.smarty.template'),Config::Get('path.root.server').'/classes/plugins/');
+		$this->oSmarty->template_dir=array(Config::Get('path.smarty.template'),Config::Get('path.root.server').'/plugins/');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */

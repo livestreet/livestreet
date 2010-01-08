@@ -174,7 +174,7 @@ class Engine extends Object {
 			/**
 			 * Это модуль плагина
 			 */
-			$sModuleFile = Config::Get('path.root.server').'/classes/plugins/'.strtolower($aMatches[1]).'/classes/modules/'.strtolower($aMatches[2]).'/'.$aMatches[2].'.class.php';	
+			$sModuleFile = Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/classes/modules/'.strtolower($aMatches[2]).'/'.$aMatches[2].'.class.php';	
 			if($this->isFileExists($sModuleFile)) {
 				require_once($sModuleFile);
 			} else {
@@ -247,9 +247,9 @@ class Engine extends Object {
 	 *
 	 */
 	protected function InitPluginHooks() {
-		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
+		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
 			$aFiles=array();
-			$sDirHooks=Config::Get('path.root.server').'/classes/plugins/';
+			$sDirHooks=Config::Get('path.root.server').'/plugins/';
 			
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDirHooks.$sPluginName.'/classes/hooks/Hook*.class.php');
@@ -272,9 +272,9 @@ class Engine extends Object {
 	 *
 	 */
 	protected function InitPlugins() {
-		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
+		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
 			foreach ($aPluginList as $sPluginName) {
-				$sDirPlugins=Config::Get('path.root.server').'/classes/plugins/';
+				$sDirPlugins=Config::Get('path.root.server').'/plugins/';
 				$sFile="{$sDirPlugins}{$sPluginName}/Plugin{$sPluginName}.class.php";
 				if(is_file($sFile)) {
 					require_once($sFile);
@@ -431,11 +431,11 @@ class Engine extends Object {
 			//$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.'.((self::$aEntityCustoms[$sName]=='custom')?'custom.':'').'php';
 		} else {
 			$sFileDefaultClass=isset($sPlugin)
-				? Config::get('path.root.server').'/classes/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php'
+				? Config::get('path.root.server').'/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php'
 				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
 			
 			$sFileCustomClass=isset($sPlugin) 
-				? Config::get('path.root.server').'/classes/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php'
+				? Config::get('path.root.server').'/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php'
 				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php';
 			
 			/**

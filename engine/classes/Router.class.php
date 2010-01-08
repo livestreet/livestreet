@@ -167,7 +167,7 @@ class Router extends Object {
 				$sPrefixCustom='_custom';
 			}
 		} else {
-			require_once(Config::Get('path.root.server').'/classes/plugins/'.strtolower($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
+			require_once(Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
 			$sPrefixCustom='';
 		}
 		

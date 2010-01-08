@@ -287,7 +287,7 @@ $config['router']['page']['link']          = 'ActionLink';
 $config['router']['page']['question']      = 'ActionQuestion';
 $config['router']['page']['blogs']         = 'ActionBlogs';
 $config['router']['page']['search']        = 'ActionSearch';
-$config['router']['page']['plugins']       = 'ActionPlugins';
+$config['router']['page']['admin']         = 'ActionAdmin';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';

@@ -127,10 +127,10 @@ if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
 }
 
 /**
- * Загружает конфиги плагинов вида /classes/plugins/[plugin_name]/config/*.php
- * и include-файлы /classes/plugins/[plugin_name]/include/*.php
+ * Загружает конфиги плагинов вида /plugins/[plugin_name]/config/*.php
+ * и include-файлы /plugins/[plugin_name]/include/*.php
  */
-$sPluginsDir = Config::Get('path.root.server').'/classes/plugins';
+$sPluginsDir = Config::Get('path.root.server').'/plugins';
 $sPluginsListFile = $sPluginsDir.'/plugins.dat';
 if($aPluginsList=@file($sPluginsListFile)) {
 	foreach ($aPluginsList as $sPlugin) {

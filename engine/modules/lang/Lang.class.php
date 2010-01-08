@@ -113,8 +113,8 @@ class LsLang extends Module {
 		/**
 		 * Ищет языковые файлы актвиированных плагинов
 		 */
-		if($aPluginList = @file(Config::Get('path.root.server').'/classes/plugins/plugins.dat')) {
-			$sDir=Config::Get('path.root.server').'/classes/plugins/';
+		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
+			$sDir=Config::Get('path.root.server').'/plugins/';
 			
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDir.$sPluginName.'/templates/language/'.$sLangName.'.php');
