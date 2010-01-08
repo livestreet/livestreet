@@ -126,7 +126,7 @@ class UserEntity_User extends Entity {
     }
     public function getProfileAvatarPath($iSize=100) {
     	if ($sPath=$this->getProfileAvatar()) { 	
-        	return str_replace('_100x100',(($iSize==0)?"":"_{$iSize}x{$iSize}"),$sPath."?".urlencode($this->getProfileDate()));
+        	return str_replace('_100x100',(($iSize==0)?"":"_{$iSize}x{$iSize}"),$sPath."?".date('His',strtotime($this->getProfileDate())));
     	} else {
     		return Config::Get('path.static.skin').'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
