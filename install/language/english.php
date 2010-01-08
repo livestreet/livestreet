@@ -70,6 +70,7 @@ return array(
 	'local_uploads_dir'=>'Directory /uploads exists and is writable',
 	'local_templates_dir'=>'Directory /templates/compiled exists and is writable',
 	'local_templates_cache_dir'=>'Directory /templates/cache exists and is writable',
+	'local_plugins_dir'=>'Directory /plugins exists and is writable',
 	
 	'db_params'=>'Database settings',
 	'db_params_host'=>'Database server',

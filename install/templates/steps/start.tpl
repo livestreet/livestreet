@@ -36,4 +36,7 @@ ___LANG_START_PARAGRAPH___
 	<tr>
 		<td width="350px">___LANG_LOCAL_TEMPLATES_CACHE_DIR___</td><td>___VALIDATE_LOCAL_TEMPLATES_CACHE___</td>
 	</tr>			
+	<tr>
+		<td width="350px">___LANG_LOCAL_PLUGINS_DIR___</td><td>___VALIDATE_LOCAL_PLUGINS___</td>
+	</tr>		
 </table>

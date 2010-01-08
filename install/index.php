@@ -976,7 +976,7 @@ class Install {
 	    
 		/**
 		 * Проверяем доступность и достаточность прав у директории
-		 * для сохранения файлового кеша, /logs, /uploads, /templates/compiled
+		 * для сохранения файлового кеша, /logs, /uploads, /templates/compiled, /plugins
 		 */
 		$sTempDir = dirname(dirname(__FILE__)).'/tmp';
 		if(!is_dir($sTempDir) or !is_writable($sTempDir)) {
@@ -1018,7 +1018,15 @@ class Install {
 		} else {
 			$this->Assign('validate_local_templates_cache', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
 		}
-				
+
+		$sPluginsDir = dirname(dirname(__FILE__)).'/plugins';
+		if(!is_dir($sPluginsDir) or !is_writable($sPluginsDir)) {
+			$bOk = false;
+			$this->Assign('validate_local_plugins', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+		} else {
+			$this->Assign('validate_local_plugins', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+		}
+		
 	    return $bOk;
 	}	
 	/**
@@ -1213,7 +1221,7 @@ class Install {
 				}				
 				if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
 			}			
-		}		
+		}
 		/**
 		 * Удаляем поле blog_avatar_type
 		 */
@@ -1435,7 +1443,7 @@ class Install {
         		`blog_title`    = '".mysql_real_escape_string($sBlogName)."'
 			WHERE `blog_id` = 1";
 
-		return mysql_query($sQuery);				
+		return mysql_query($sQuery);
 	}
 	/**
 	 * Проверяет, использует ли mysql запрос, одну из указанных в массиве таблиц
