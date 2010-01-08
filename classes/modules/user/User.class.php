@@ -438,8 +438,7 @@ class LsUser extends Module {
 		if ($this->oUserCurrent) {
 			return;
 		}
-		if (isset($_COOKIE['key'])) {
-			$sKey=$_COOKIE['key'];
+		if (isset($_COOKIE['key']) and $sKey=$_COOKIE['key']) {			
 			if ($oUser=$this->GetUserBySessionKey($sKey)) {
 				$this->Authorization($oUser);
 			} else {

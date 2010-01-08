@@ -632,26 +632,27 @@ class LsBlog extends Module {
 		if ($oUser->isAdministrator()) {
 			return $this->GetBlogs();
 		}
-
-		/**
-		 * Заносим блоги, созданные пользователем
-		 */
-		$aOpenBlogsUser=array();
-		$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
-
-		/**
-		 * Добавляем блоги, в которых состоит пользователь
-		 * (читателем, модератором, или администратором)
-		 */
-		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());	
-		foreach ($aBlogUsers as $oBlogUser) {
-			$oBlog=$oBlogUser->getBlog();
-			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
-				$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
-			}
-		}
 		
-		return 	$aOpenBlogsUser;
+		if (false === ($aOpenBlogsUser = $this->Cache_Get("blog_accessible_user_{$oUser->getId()}"))) {
+			/**
+		 	* Заносим блоги, созданные пользователем
+		 	*/
+			$aOpenBlogsUser=array();
+			$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
+			/**
+		 	* Добавляем блоги, в которых состоит пользователь
+		 	* (читателем, модератором, или администратором)
+		 	*/
+			$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
+			foreach ($aBlogUsers as $oBlogUser) {
+				$oBlog=$oBlogUser->getBlog();
+				if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
+					$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
+				}
+			}
+			$this->Cache_Set($aOpenBlogsUser, "blog_accessible_user_{$oUser->getId()}", array('blog_new','blog_update',"blog_relation_change_{$oUser->getId()}"), 60*60*24);
+		}
+		return $aOpenBlogsUser;
 	}
 
 	/**
@@ -665,26 +666,36 @@ class LsBlog extends Module {
 		if ($oUser&&$oUser->isAdministrator()) {
 			return array();
 		}
-		$aCloseBlogs=array();
-		$aCloseBlogs = $this->oMapperBlog->GetCloseBlogs();
 		
-		if(!$oUser) {
-			return $aCloseBlogs;
-		}
-		
-		/**
-		 * Получаем массив идентификаторов блогов, 
-		 * которые являются откытыми для данного пользователя
-		 */
-		$aOpenBlogs = array();
-		$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
-		foreach ($aBlogUsers as $oBlogUser) {
-			$oBlog=$oBlogUser->getBlog();
-			if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
-				$aOpenBlogs[]=$oBlog->getId();
+		$sUserId=$oUser ? $oUser->getId() : 'quest';		
+		if (false === ($aCloseBlogs = $this->Cache_Get("blog_inaccessible_user_{$sUserId}"))) {
+			$aCloseBlogs=array();
+			$aCloseBlogs = $this->oMapperBlog->GetCloseBlogs();
+
+			if($oUser) {
+				/**
+		 		* Получаем массив идентификаторов блогов, 
+		 		* которые являются откытыми для данного пользователя
+		 		*/
+				$aOpenBlogs = array();
+				$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
+				foreach ($aBlogUsers as $oBlogUser) {
+					$oBlog=$oBlogUser->getBlog();
+					if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
+						$aOpenBlogs[]=$oBlog->getId();
+					}
+				}
+				$aCloseBlogs=array_diff($aCloseBlogs,$aOpenBlogs);
+			}
+
+			// Сохраняем в кеш
+			if ($oUser) {
+				$this->Cache_Set($aCloseBlogs, "blog_inaccessible_user_{$sUserId}", array('blog_new','blog_update',"blog_relation_change_{$oUser->getId()}"), 60*60*24);		
+			} else {
+				$this->Cache_Set($aCloseBlogs, "blog_inaccessible_user_{$sUserId}", array('blog_new','blog_update'), 60*60*24*3);
 			}
 		}
-		return array_diff($aCloseBlogs,$aOpenBlogs);
+		return $aCloseBlogs;
 	}
 	
 	/**
