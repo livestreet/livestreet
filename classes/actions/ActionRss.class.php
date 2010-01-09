@@ -41,7 +41,7 @@ class ActionRss extends Action {
 		$this->AddEvent('comments','RssTopicComments');
 		$this->AddEvent('tag','RssTag');
 		$this->AddEvent('blog','RssColectiveBlog');
-		$this->AddEvent('log','RssPersonalBlog');
+		$this->AddEvent('personal_blog','RssPersonalBlog');
 	}
 
 	protected function RssGood() {
