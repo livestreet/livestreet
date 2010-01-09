@@ -63,8 +63,8 @@ class LsPlugin extends Module {
 	public function GetList() {
 		$aList=array_map('basename',glob($this->sPluginsDir.'*',GLOB_ONLYDIR));
 		$aActivePlugins=$this->GetActivePlugins();
-		
-		foreach($aList as $sPlugin) {
+
+		foreach($aList as $sPlugin) {			
 			$this->aPluginsList[$sPlugin] = array(
 				'code'        => $sPlugin,
 				'is_active'   => in_array($sPlugin,$aActivePlugins),
@@ -74,6 +74,7 @@ class LsPlugin extends Module {
 				'homepage'    => '',
 				'version'     => ''
 			);
+
 			
 			$sReadme = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
 			if(is_file($sReadme)) {
@@ -130,7 +131,7 @@ class LsPlugin extends Module {
 							unset($aActivePlugins[array_shift($aIndex)]);
 						}
 					}
-					$this->SetActivePlugins($aActivePlugins);					
+					$this->SetActivePlugins($aActivePlugins);
 				}
 				return $bResult;
 			
@@ -149,12 +150,8 @@ class LsPlugin extends Module {
 		 * Читаем данные из файла PLUGINS.DAT
 		 */		
 		$aPlugins=@file($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE);
+		$aPlugins =(is_array($aPlugins))?array_unique(array_map('trim',$aPlugins)):array();
 		
-		if(is_array($aPlugins)) { 
-			$aPlugins = array_unique($aPlugins);
-		} else {
-			$aPlugins=array();
-		}
 		return $aPlugins;
 	}
 	
@@ -165,7 +162,7 @@ class LsPlugin extends Module {
 	 */
 	public function SetActivePlugins($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins = array($aPlugins);
-		$aPlugins=array_unique($aPlugins);
+		$aPlugins=array_unique(array_map('trim',$aPlugins));
 		
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
