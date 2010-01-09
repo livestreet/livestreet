@@ -346,8 +346,13 @@ class LsBlog extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetBlogsByOwnerId($sUserId) {
+	public function GetBlogsByOwnerId($sUserId,$bReturnIdOnly=false) {
 		$data=$this->oMapperBlog->GetBlogsByOwnerId($sUserId);
+		/**
+		 * Возвращаем только иденитификаторы
+		 */
+		if($bReturnIdOnly) return $data;
+		
 		$data=$this->GetBlogsAdditionalData($data);
 		return $data;
 	}
@@ -356,8 +361,13 @@ class LsBlog extends Module {
 	 *
 	 * @return unknown
 	 */
-	public function GetBlogs() {
+	public function GetBlogs($bReturnIdOnly=false) {
 		$data=$this->oMapperBlog->GetBlogs();
+		/**
+		 * Возвращаем только иденитификаторы
+		 */
+		if($bReturnIdOnly) return $data;
+				
 		$data=$this->GetBlogsAdditionalData($data);
 		return $data;
 	}
@@ -419,12 +429,12 @@ class LsBlog extends Module {
 	 * @param unknown_type $sUserId
 	 * @return unknown
 	 */
-	public function GetBlogUsersByUserId($sUserId,$iRole=null) {
+	public function GetBlogUsersByUserId($sUserId,$iRole=null,$bReturnIdOnly=false) {
 		$aFilter=array(
-			'user_id'=> $sUserId			
+			'user_id'=> $sUserId
 		);
 		if($iRole!==null) {
-			$aFilter['user_role']=$iRole;	
+			$aFilter['user_role']=$iRole;
 		}
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_$s"))) {				
@@ -434,27 +444,33 @@ class LsBlog extends Module {
 		/**
 		 * Достаем дополнительные данные, для этого формируем список блогов и делаем мульти-запрос
 		 */
+		$aBlogId=array();		
 		if ($data) {
-			$aBlogId=array();
 			foreach ($data as $oBlogUser) {
 				$aBlogId[]=$oBlogUser->getBlogId();
 			}
-			$aUsers=$this->User_GetUsersAdditionalData($sUserId);
-			$aBlogs=$this->Blog_GetBlogsAdditionalData($aBlogId);
-			foreach ($data as $oBlogUser) {
-				if (isset($aUsers[$oBlogUser->getUserId()])) {
-					$oBlogUser->setUser($aUsers[$oBlogUser->getUserId()]);
-				} else {
-					$oBlogUser->setUser(null);
-				}
-				if (isset($aBlogs[$oBlogUser->getBlogId()])) {
-					$oBlogUser->setBlog($aBlogs[$oBlogUser->getBlogId()]);
-				} else {
-					$oBlogUser->setBlog(null);
-				}
+			
+			/**
+			 * Если указано возвращать полные объекты
+			 */
+			if(!$bReturnIdOnly) {
+				$aUsers=$this->User_GetUsersAdditionalData($sUserId);
+				$aBlogs=$this->Blog_GetBlogsAdditionalData($aBlogId);
+				foreach ($data as $oBlogUser) {
+					if (isset($aUsers[$oBlogUser->getUserId()])) {
+						$oBlogUser->setUser($aUsers[$oBlogUser->getUserId()]);
+					} else {
+						$oBlogUser->setUser(null);
+					}
+					if (isset($aBlogs[$oBlogUser->getBlogId()])) {
+						$oBlogUser->setBlog($aBlogs[$oBlogUser->getBlogId()]);
+					} else {
+						$oBlogUser->setBlog(null);
+					}
+				}				
 			}
 		}
-		return $data;
+		return ($bReturnIdOnly) ? $aBlogId : $data;
 	}
 	/**
 	 * Состоит ли юзер в конкретном блоге
@@ -630,7 +646,7 @@ class LsBlog extends Module {
 	 */
 	public function GetAccessibleBlogsByUser($oUser) {
 		if ($oUser->isAdministrator()) {
-			return $this->GetBlogs();
+			return $this->GetBlogs(true);
 		}
 		
 		if (false === ($aOpenBlogsUser = $this->Cache_Get("blog_accessible_user_{$oUser->getId()}"))) {
@@ -638,18 +654,12 @@ class LsBlog extends Module {
 		 	* Заносим блоги, созданные пользователем
 		 	*/
 			$aOpenBlogsUser=array();
-			$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId());
+			$aOpenBlogsUser=$this->GetBlogsByOwnerId($oUser->getId(),true);
 			/**
 		 	* Добавляем блоги, в которых состоит пользователь
 		 	* (читателем, модератором, или администратором)
 		 	*/
-			$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
-			foreach ($aBlogUsers as $oBlogUser) {
-				$oBlog=$oBlogUser->getBlog();
-				if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
-					$aOpenBlogsUser[$oBlog->getId()]=$oBlog;
-				}
-			}
+			$aOpenBlogsUser=array_merge($aOpenBlogsUser,$this->GetBlogUsersByUserId($oUser->getId(),null,true));
 			$this->Cache_Set($aOpenBlogsUser, "blog_accessible_user_{$oUser->getId()}", array('blog_new','blog_update',"blog_relation_change_{$oUser->getId()}"), 60*60*24);
 		}
 		return $aOpenBlogsUser;
@@ -678,13 +688,8 @@ class LsBlog extends Module {
 		 		* которые являются откытыми для данного пользователя
 		 		*/
 				$aOpenBlogs = array();
-				$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
-				foreach ($aBlogUsers as $oBlogUser) {
-					$oBlog=$oBlogUser->getBlog();
-					if($oBlogUser->getUserRole()>self::BLOG_USER_ROLE_GUEST) {
-						$aOpenBlogs[]=$oBlog->getId();
-					}
-				}
+				$aOpenBlogs=$this->GetBlogUsersByUserId($oUser->getId(),null,true);
+				
 				$aCloseBlogs=array_diff($aCloseBlogs,$aOpenBlogs);
 			}
 
