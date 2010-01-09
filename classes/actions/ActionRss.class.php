@@ -236,17 +236,27 @@ class ActionRss extends Action {
 	}
 
 	protected function RssPersonalBlog() {
-		$this->sUserLogin=$this->GetParam(0);		
-		if (!$this->sUserLogin or !($oUser=$this->User_GetUserByLogin($this->sUserLogin))) {			
+		$this->sUserLogin=$this->GetParam(0);
+		if(!$this->sUserLogin){
+			/**
+			 * RSS-лента всех записей из персональных блогов
+			 */
+			$aResult=$this->Topic_GetTopicsPersonal(1,Config::Get('module.topic.per_page')*2);
+		}elseif(!$oUser=$this->User_GetUserByLogin($this->sUserLogin)){
 			return parent::EventNotFound();
-		}else{	
+		}else{
+			/**
+			 * RSS-лента записей персонального блога указанного пользователя
+			 */			
 			$aResult=$this->Topic_GetTopicsPersonalByUser($oUser->getId(),1,1,Config::Get('module.topic.per_page')*2);
 		}
 		$aTopics=$aResult['collection'];
 		
 		$aChannel['title']=Config::Get('path.root.web');
 		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / '.$oUser->getLogin().' / RSS channel';
+		$aChannel['description']=($this->sUserLogin)
+			? Config::Get('path.root.web').' / '.$oUser->getLogin().' / RSS channel'
+			: Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
 		$aChannel['generator']=Config::Get('path.root.web');
