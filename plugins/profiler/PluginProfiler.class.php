@@ -24,5 +24,11 @@ class PluginProfiler extends Plugin {
 		$this->ExportSQL(dirname(__FILE__).'/sql.sql');
 		return true;
 	}
+	
+	/**
+	 * Инициализация плагина Profiler
+	 */
+	public function Init() {
+	}
 }
 ?>

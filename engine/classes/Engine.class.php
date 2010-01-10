@@ -314,7 +314,7 @@ class Engine extends Object {
 	 * @param array $aArgs
 	 * @return unknown
 	 */
-	public function _CallModule($sName,$aArgs) {				
+	public function _CallModule($sName,$aArgs) {
 		$sArgs='';
 		$aStrArgs=array();
 		foreach ($aArgs as $sKey => $arg) {
@@ -352,7 +352,11 @@ class Engine extends Object {
 			$sModuleName=$aName[0].'_'.$aName[1];
 			$sMethod=$aName[2];
 		}
-		
+		/**
+		 * Подхватыем делегат модуля (в случае наличия такового)
+		 */
+		if($sModuleName!='Plugin') $sModuleName=$this->Plugin_GetDelegate('module',$sModuleName);
+
 		if (isset($this->aModules[$sModuleName])) {
 			$oModule=$this->aModules[$sModuleName];
 		} else {
@@ -394,6 +398,10 @@ class Engine extends Object {
 	 */
 	public static function GetEntity($sName,$aParams=array()) {
 		/**
+		 * Определяем наличие делегата сущности
+		 */
+		$sName=self::getInstance()->Plugin_GetDelegate('entity',$sName);
+		/**
 		 * Сущности, имеющие такое же название как модуль, 
 		 * можно вызывать сокращенно. Например, вместо User_User -> User
 		 */
@@ -414,7 +422,7 @@ class Engine extends Object {
 					list($sPlugin,$sModule,$sEntity)=explode('_',$sName);
 					$sPlugin = substr($sPlugin,6);
 				} else {
-					throw new Exception("Unknown entity '{$sName}' given.");					
+					throw new Exception("Unknown entity '{$sName}' given.");
 				}
 				break;
 				

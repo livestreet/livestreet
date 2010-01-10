@@ -48,6 +48,17 @@ class LsPlugin extends Module {
 	protected $aPluginsList=array();
 	
 	/**
+	 * Список engine-rewrite`ов (модули, экшены, сущности)
+	 *
+	 * @var array
+	 */
+	protected $aDelegate=array(
+		'module' => array(),
+		'action' => array(),
+		'entity' => array()
+	);
+	
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -186,6 +197,42 @@ class LsPlugin extends Module {
 			 */
 			func_rmdir($this->sPluginsDir.$sPluginCode);
 		}
+	}
+	
+	/**
+	 * Перенаправление вызовов на модули, экшены, сущности
+	 *
+	 * @param  string $sType
+	 * @param  string $sFrom
+	 * @param  string $sTo
+	 */
+	public function Delegate($sType,$sFrom,$sTo) {
+		if(!in_array($sType,array('module','action','entity')) or !$sFrom or !$sTo) return null;
+		$this->aDelegate[$sType][trim($sFrom)]=trim($sTo);
+	}
+	
+	/**
+	 * Возвращает делегат модуля, экшена, сущности. 
+	 * Если делегат не определен, отдает переданный в качестве sender`a параметр
+	 *
+	 * @param  string $sType
+	 * @param  string $sFrom
+	 * @return string
+	 */
+	public function GetDelegate($sType,$sFrom) {
+		return $this->isDelegated($sType,$sFrom)?$this->aDelegate[$sType][$sFrom]:$sFrom;
+	}
+	
+	/**
+	 * Возвращает true, если установлено правило делегирования
+	 *
+	 * @param  string $sType
+	 * @param  string $sFrom
+	 * @return bool
+	 */
+	public function isDelegated($sType,$sFrom) {
+		if(!in_array($sType,array('module','action','entity')) or !$sFrom) return false;
+		return isset($this->aDelegate[$sType][$sFrom]);
 	}
 	
 	/**
