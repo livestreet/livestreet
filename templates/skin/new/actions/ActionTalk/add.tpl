@@ -39,7 +39,6 @@ tinyMCE.init({
     plugins : "lseditor,safari,inlinepopups,media,pagebreak",
     convert_urls : false,
     extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
-    pagebreak_separator :"<cut>",
     language : TINYMCE_LANG
 });
 {/literal}
@@ -84,7 +83,6 @@ tinyMCE.init({
 	 						<a href="#" onclick="lsPanel.putTagAround('talk_text','video'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/video.gif" width="20" height="20" title="{$aLang.panel_video}"></a>
 	 				
 	 						<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/img.gif" width="20" height="20" title="{$aLang.panel_image}"></a> 			
-	 						<a href="#" onclick="lsPanel.putText('talk_text','<cut>'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/cut.gif" width="20" height="20" title="{$aLang.panel_cut}"></a>	
 	 					</div>
 	 				{/if}					
 					<textarea name="talk_text" id="talk_text" rows="12">{$_aRequest.talk_text}</textarea>
