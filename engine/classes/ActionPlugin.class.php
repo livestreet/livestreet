@@ -62,7 +62,7 @@ abstract class ActionPlugin extends Action {
 	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
 	 */
 	protected function SetTemplateAction($sTemplate) {
-		$this->sActionTemplate==preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
+		$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
 			? $this->getTemplatePathAction().'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
 			: null;
 	}
