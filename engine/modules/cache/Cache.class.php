@@ -69,6 +69,7 @@ class LsCache extends Module {
 					'cache_dir' => Config::Get('sys.cache.dir'),
 					'file_name_prefix'	=> Config::Get('sys.cache.prefix'),
 					'read_control_type' => 'crc32',
+					'hashed_directory_level' => Config::Get('sys.cache.directory_level'), 
 					'read_control' => true,
 					'file_locking' => true,
 				)
