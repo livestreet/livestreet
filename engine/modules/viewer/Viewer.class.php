@@ -263,10 +263,12 @@ class LsViewer extends Module {
 		}
 		/**
 		 * Если шаблон найден то выводим, иначе ошибка
+		 * Предварительно проверяем наличие делегата
 		 */
+		$sTemplate=$this->Plugin_GetDelegate('template',$sTemplate);
 		if ($this->TemplateExists($sTemplate)) {
 			$this->oSmarty->display($sTemplate);
-		} else {			
+		} else {
 			throw new Exception('Can not find the template: '.$sTemplate);
 		}
 	}
@@ -351,6 +353,10 @@ class LsViewer extends Module {
 	 * @return string
 	 */
 	public function Fetch($sTemplate) {
+		/**
+		 * Проверяем наличие делегата
+		 */
+		$sTemplate=$this->Plugin_GetDelegate('template',$sTemplate);
 		return $this->oSmarty->fetch($sTemplate);
 	}
 	/**

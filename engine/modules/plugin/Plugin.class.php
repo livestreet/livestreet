@@ -48,14 +48,15 @@ class LsPlugin extends Module {
 	protected $aPluginsList=array();
 	
 	/**
-	 * Список engine-rewrite`ов (модули, экшены, сущности)
+	 * Список engine-rewrite`ов (модули, экшены, сущности, шаблоны)
 	 *
 	 * @var array
 	 */
 	protected $aDelegate=array(
 		'module' => array(),
 		'action' => array(),
-		'entity' => array()
+		'entity' => array(),
+		'template' => array()
 	);
 	
 	/**
@@ -207,7 +208,7 @@ class LsPlugin extends Module {
 	 * @param  string $sTo
 	 */
 	public function Delegate($sType,$sFrom,$sTo) {
-		if(!in_array($sType,array('module','action','entity')) or !$sFrom or !$sTo) return null;
+		if(!in_array($sType,array_keys($this->aDelegate)) or !$sFrom or !$sTo) return null;
 		$this->aDelegate[$sType][trim($sFrom)]=trim($sTo);
 	}
 	
@@ -231,7 +232,7 @@ class LsPlugin extends Module {
 	 * @return bool
 	 */
 	public function isDelegated($sType,$sFrom) {
-		if(!in_array($sType,array('module','action','entity')) or !$sFrom) return false;
+		if(!in_array($sType,array_keys($this->aDelegate)) or !$sFrom) return false;
 		return isset($this->aDelegate[$sType][$sFrom]);
 	}
 	
