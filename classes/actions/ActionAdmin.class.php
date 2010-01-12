@@ -57,10 +57,12 @@ class ActionAdmin extends Action {
 			
 			$aPluginsDelete=getRequest('plugins_del');
 			if (is_array($aPluginsDelete)) {
-				$this->Plugin_Delete(array_keys($aPluginsDelete));				
+				$this->Plugin_Delete(array_keys($aPluginsDelete));
 			}
 		}
-		
+		/**
+		 * Получаем название плагина и действие
+		 */
 		if($sPlugin=getRequest('plugin',null,'get') and $sAction=getRequest('action',null,'get')) {
 			return $this->SubmitManagePlugin($sPlugin,$sAction);
 		}
@@ -91,7 +93,7 @@ class ActionAdmin extends Action {
 	 */
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
 		if(!in_array($sAction,array('activate','deactivate'))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('plugins_unknown_action'),$this->Lang_Get('error'),true);
+			$this->Message_AddError($this->Lang_Get('plugins_unknown_action'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('plugins'));
 		}
 		/**
@@ -100,7 +102,7 @@ class ActionAdmin extends Action {
 		if($bResult=$this->Plugin_Toggle($sPlugin,$sAction)) {
 			$this->Message_AddNotice($this->Lang_Get('plugins_action_ok'),$this->Lang_Get('attention'),true);	
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);			
+			if(!($aMessages=$this->Message_GetErrorSession()) or !count($aMessages)) $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);			
 		}
 		/**
 		 * Возвращаем на страницу управления плагинами

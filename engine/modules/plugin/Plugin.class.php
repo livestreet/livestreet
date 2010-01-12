@@ -52,7 +52,7 @@ class LsPlugin extends Module {
 	 *
 	 * @var array
 	 */
-	protected $aDelegate=array(
+	protected $aDelegates=array(
 		'module' => array(),
 		'action' => array(),
 		'entity' => array(),
@@ -121,6 +121,25 @@ class LsPlugin extends Module {
 					
 					$sClassName="Plugin{$sPluginName}";
 					$oPlugin=new $sClassName;
+				
+					if($sAction=='Activate') {
+						/**
+						 * Проверяем, не вступает ли данный плагин в конфликт с уже активированными
+						 * (по поводу объявленных делегатов) 
+						 */
+						$aPluginDelegates=$oPlugin->GetDelegates();
+						$iConflict=0;
+						foreach ($this->aDelegates as $sGroup=>$aReplaceList) {
+							$iCount=0;
+							if(isset($aPluginDelegates[$sGroup]) 
+								and is_array($aPluginDelegates[$sGroup])
+									and $iCount=count($aOverlap=array_intersect_key($aReplaceList,$aPluginDelegates[$sGroup]))) {
+										$iConflict+=$iCount;
+							}
+							if($iCount){ $this->Message_AddErrorSingle($this->Lang_Get('plugins_activation_overlap'), $this->Lang_Get('error'), true); return; }
+						}
+					}
+					
 					$bResult=$oPlugin->$sAction();
 				}
 				
@@ -208,8 +227,8 @@ class LsPlugin extends Module {
 	 * @param  string $sTo
 	 */
 	public function Delegate($sType,$sFrom,$sTo) {
-		if(!in_array($sType,array_keys($this->aDelegate)) or !$sFrom or !$sTo) return null;
-		$this->aDelegate[$sType][trim($sFrom)]=trim($sTo);
+		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom or !$sTo) return null;
+		$this->aDelegates[$sType][trim($sFrom)]=trim($sTo);
 	}
 	
 	/**
@@ -221,7 +240,7 @@ class LsPlugin extends Module {
 	 * @return string
 	 */
 	public function GetDelegate($sType,$sFrom) {
-		return $this->isDelegated($sType,$sFrom)?$this->aDelegate[$sType][$sFrom]:$sFrom;
+		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]:$sFrom;
 	}
 	
 	/**
@@ -232,8 +251,8 @@ class LsPlugin extends Module {
 	 * @return bool
 	 */
 	public function isDelegated($sType,$sFrom) {
-		if(!in_array($sType,array_keys($this->aDelegate)) or !$sFrom) return false;
-		return isset($this->aDelegate[$sType][$sFrom]);
+		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom) return false;
+		return isset($this->aDelegates[$sType][$sFrom]);
 	}
 	
 	/**

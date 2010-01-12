@@ -281,6 +281,7 @@ class Engine extends Object {
 					
 					$sClassName="Plugin{$sPluginName}";
 					$oPlugin=new $sClassName;
+					$oPlugin->Delegate();
 					$oPlugin->Init();
 				}
 			}

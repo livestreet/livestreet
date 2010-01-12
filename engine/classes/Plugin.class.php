@@ -20,7 +20,9 @@
  *
  */
 abstract class Plugin extends Object {
-		
+	
+	protected $aDelegates=array();
+	
 	public function __construct() {
 
 	}
@@ -32,6 +34,32 @@ abstract class Plugin extends Object {
 	public function Init() {
 
 	}
+	
+	/**
+	 * Передает информацию о делегатах на Plugin-модуль
+	 * Вызывается Engine перед инициализацией плагина
+	 */
+	final function Delegate() {
+		if(is_array($this->aDelegates) and count($this->aDelegates)) {
+			foreach ($this->aDelegates as $sObjectName=>$aParams) {
+				if(is_array($aParams) and count($aParams)) {
+					foreach ($aParams as $sFrom=>$sTo) {
+						$this->Plugin_Delegate($sObjectName,$sFrom,$sTo);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Возвращает массив делегатов
+	 *
+	 * @return array
+	 */
+	final function GetDelegates() {
+		return $this->aDelegates;
+	}
+	
 	/**
 	 * Функция активации плагина
 	 *
