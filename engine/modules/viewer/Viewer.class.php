@@ -393,7 +393,7 @@ class LsViewer extends Module {
 		if ($sType=='undefined') {
 			return false;
 		}
-		$this->aBlocks[$sGroup][$sName]=array(
+		$this->aBlocks[$sGroup][]=array(
 			'type'     => $sType,
 			'name'     => $sName,
 			'params'   => $aParams,
