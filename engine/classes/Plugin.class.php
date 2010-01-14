@@ -44,7 +44,7 @@ abstract class Plugin extends Object {
 			foreach ($this->aDelegates as $sObjectName=>$aParams) {
 				if(is_array($aParams) and count($aParams)) {
 					foreach ($aParams as $sFrom=>$sTo) {
-						$this->Plugin_Delegate($sObjectName,$sFrom,$sTo);
+						$this->Plugin_Delegate($sObjectName,$sFrom,$sTo,get_class($this));
 					}
 				}
 			}

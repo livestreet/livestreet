@@ -777,7 +777,7 @@ return array(
 	'plugins_plugin_deactivate' => 'Деактивировать',
 	'plugins_unknown_action' => 'Указано неизвестное действие',
 	'plugins_action_ok' => 'Успешно выполнено',
-	'plugins_activation_overlap' => 'Данный плагин невозможно активировать, так как он вступает в конфликт с уже активированными',
+	'plugins_activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',
 	'plugins_submit_delete' => 'Удалить плагины',
 	'plugins_delete_confirm' => 'Вы уверены, что желаете удалить указанные плагины?',
 	

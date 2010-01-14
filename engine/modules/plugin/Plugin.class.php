@@ -135,8 +135,18 @@ class LsPlugin extends Module {
 								and is_array($aPluginDelegates[$sGroup])
 									and $iCount=count($aOverlap=array_intersect_key($aReplaceList,$aPluginDelegates[$sGroup]))) {
 										$iConflict+=$iCount;
+										foreach ($aOverlap as $sResource=>$aConflict) {
+											$this->Message_AddError(
+												$this->Lang_Get('plugins_activation_overlap', array(
+														'resource'=>$sResource,
+														'delegate'=>$aConflict['delegate'],
+														'plugin'  =>$aConflict['sign']
+												)), 
+												$this->Lang_Get('error'), true
+											);									
+										}
 							}
-							if($iCount){ $this->Message_AddErrorSingle($this->Lang_Get('plugins_activation_overlap'), $this->Lang_Get('error'), true); return; }
+							if($iCount){ return; }
 						}
 					}
 					
@@ -225,10 +235,19 @@ class LsPlugin extends Module {
 	 * @param  string $sType
 	 * @param  string $sFrom
 	 * @param  string $sTo
+	 * @param  string $sSign
 	 */
-	public function Delegate($sType,$sFrom,$sTo) {
+	public function Delegate($sType,$sFrom,$sTo,$sSign=__CLASS__) {
+		/**
+		 * Запрещаем неподписанные делегаты
+		 */
+		if(!is_string($sSign) or !strlen($sSign)) return null;
 		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom or !$sTo) return null;
-		$this->aDelegates[$sType][trim($sFrom)]=trim($sTo);
+		
+		$this->aDelegates[$sType][trim($sFrom)]=array(
+			'delegate'=>trim($sTo),
+			'sign'=>$sSign
+		);
 	}
 	
 	/**
@@ -240,7 +259,18 @@ class LsPlugin extends Module {
 	 * @return string
 	 */
 	public function GetDelegate($sType,$sFrom) {
-		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]:$sFrom;
+		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['delegate']:$sFrom;
+	}
+
+	/**
+	 * Возвращает подпись делегата модуля, экшена, сущности. 
+	 *
+	 * @param  string $sType
+	 * @param  string $sFrom
+	 * @return string|null
+	 */
+	public function GetDelegateSign($sType,$sFrom) {
+		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['sign']:null;
 	}
 	
 	/**
@@ -252,7 +282,7 @@ class LsPlugin extends Module {
 	 */
 	public function isDelegated($sType,$sFrom) {
 		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom) return false;
-		return isset($this->aDelegates[$sType][$sFrom]);
+		return isset($this->aDelegates[$sType][$sFrom]['delegate']);
 	}
 	
 	/**
@@ -260,7 +290,6 @@ class LsPlugin extends Module {
 	 *
 	 */
 	public function Shutdown() {
-	
 	}
 }
 ?>
