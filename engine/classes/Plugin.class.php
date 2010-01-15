@@ -139,7 +139,7 @@ abstract class Plugin extends Object {
 	static public function GetTemplatePath($sName) {	
 		$sName = preg_match('/^Plugin([\w]+)$/i',$sName,$aMatches)
 			? strtolower($aMatches[1])
-			: $sName;
+			: strtolower($sName);
 		if(!isset(self::$aTemplatePath[$sName])) {	
 			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR)))
 				? Config::Get('view.skin')
