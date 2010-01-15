@@ -26,7 +26,7 @@ abstract class ActionPlugin extends Action {
 	 *
 	 * @var string
 	 */
-	protected $sTemplatePathAction=null;
+	protected $sTemplatePathPlugin=null;
 	
 	/**
 	 * Конструктор
@@ -40,7 +40,7 @@ abstract class ActionPlugin extends Action {
 	}
 	
 	public function getTemplatePathPlugin() {	
-		if(is_null($this->sTemplatePathAction)) {	
+		if(is_null($this->sTemplatePathPlugin)) {	
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
 			/**
 			 * Проверяем в списке шаблонов
@@ -51,10 +51,10 @@ abstract class ActionPlugin extends Action {
 				: 'default';
 			
 			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}";
-			$this->sTemplatePathAction = is_dir($sDir) ? $sDir : null;
+			$this->sTemplatePathPlugin = is_dir($sDir) ? $sDir : null;
 		}
 		
-		return $this->sTemplatePathAction;
+		return $this->sTemplatePathPlugin;
 	}
 	
 	/**
