@@ -20,7 +20,17 @@
  *
  */
 abstract class Plugin extends Object {
-	
+	/**
+	 * Путь к шаблонам с учетом наличия соответствующего skin`a
+	 *
+	 * @var array
+	 */
+	static protected $aTemplatePath=array();
+	/**
+	 * Массив делегатов плагина
+	 *
+	 * @var array
+	 */
 	protected $aDelegates=array();
 	
 	public function __construct() {
@@ -120,5 +130,26 @@ abstract class Plugin extends Object {
 	public function __call($sName,$aArgs) {
 		return Engine::getInstance()->_CallModule($sName,$aArgs);
 	}
+	
+	/**
+	 * Возвращает правильный путь к директории шаблонов
+	 *
+	 * @return string
+	 */
+	static public function GetTemplatePath($sName) {	
+		$sName = preg_match('/^Plugin([\w]+)$/i',$sName,$aMatches)
+			? strtolower($aMatches[1])
+			: $sName;
+		if(!isset(self::$aTemplatePath[$sName])) {	
+			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR)))
+				? Config::Get('view.skin')
+				: 'default';
+			
+			$sDir=Config::Get('path.root.server')."/plugins/{$sName}/templates/skin/{$sTemplateName}";
+			self::$aTemplatePath[$sName] = is_dir($sDir) ? $sDir : null;
+		}
+		
+		return self::$aTemplatePath[$sName];
+	}	
 }
 ?>

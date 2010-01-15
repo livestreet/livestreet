@@ -36,10 +36,10 @@ abstract class ActionPlugin extends Action {
 	 */	
 	public function __construct(Engine $oEngine, $sAction) {
 		parent::__construct($oEngine, $sAction);
-		$this->Viewer_Assign('sTemplateActionPath',$this->getTemplatePathAction());
+		$this->Viewer_Assign('sTemplateActionPath',$this->getTemplatePathPlugin());
 	}
 	
-	public function getTemplatePathAction() {	
+	public function getTemplatePathPlugin() {	
 		if(is_null($this->sTemplatePathAction)) {	
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
 			/**
@@ -50,7 +50,8 @@ abstract class ActionPlugin extends Action {
 				? Config::Get('view.skin')
 				: 'default';
 			
-			$this->sTemplatePathAction=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}";
+			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}";
+			$this->sTemplatePathAction = is_dir($sDir) ? $sDir : null;
 		}
 		
 		return $this->sTemplatePathAction;
@@ -63,7 +64,7 @@ abstract class ActionPlugin extends Action {
 	 */
 	protected function SetTemplateAction($sTemplate) {
 		$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-			? $this->getTemplatePathAction().'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
+			? $this->getTemplatePathPlugin().'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
 			: null;
 	}
 	
@@ -76,7 +77,7 @@ abstract class ActionPlugin extends Action {
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
 			$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-				? $this->getTemplatePathAction().'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
+				? $this->getTemplatePathPlugin().'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
 				: null;
 		}
 
