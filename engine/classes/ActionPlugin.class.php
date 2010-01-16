@@ -39,6 +39,11 @@ abstract class ActionPlugin extends Action {
 		$this->Viewer_Assign('sTemplateActionPath',$this->getTemplatePathPlugin());
 	}
 	
+	/**
+	 * Возвращает путь к шаблонам плагина
+	 *
+	 * @return string
+	 */
 	public function getTemplatePathPlugin() {	
 		if(is_null($this->sTemplatePathPlugin)) {	
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
@@ -55,6 +60,17 @@ abstract class ActionPlugin extends Action {
 		}
 		
 		return $this->sTemplatePathPlugin;
+	}
+	
+	/**
+	 * Установить значение пути к директории шаблонов плагина
+	 *
+	 * @param  string $sTemplatePath
+	 * @return bool
+	 */
+	public function setTemplatePathPlugin($sTemplatePath) {
+		if(!is_dir($sTemplatePath)) return false;
+		$this->sTemplatePathPlugin = $sTemplatePath;
 	}
 	
 	/**

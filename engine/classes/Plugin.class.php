@@ -151,5 +151,17 @@ abstract class Plugin extends Object {
 		
 		return self::$aTemplatePath[$sName];
 	}	
+	
+	/**
+	 * Устанавливает значение пути до шаблонов плагина
+	 *
+	 * @param  string $sName
+	 * @param  string $sTemplatePath
+	 * @return bool
+	 */
+	static public function SetTemplatePath($sName,$sTemplatePath) {
+		if(!is_dir($sTemplatePath)) return false;
+		self::$aTemplatePath[$sName]=$sTemplatePath;
+	}
 }
 ?>
