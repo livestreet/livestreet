@@ -1076,7 +1076,7 @@ class ActionBlog extends Action {
 
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
 		$sCode=$oBlog->getId().'_'.$oUser->getId();
-		$sCode=urlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.blog.encrypt'))));
+		$sCode=urlencode(xxtea_encrypt($sCode, Config::Get('module.blog.encrypt')));
 
 		$aPath=array(
 			'accept'=>Router::GetPath('blog').'invite/accept/?code='.$sCode,
@@ -1111,7 +1111,8 @@ class ActionBlog extends Action {
 	 */
 	protected function EventInviteBlog() {	
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-		$sCode=xxtea_decrypt(base64_decode(urldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
+		$sCode=xxtea_decrypt(urldecode(getRequest('code')), Config::Get('module.blog.encrypt'));
+
 		list($sBlogId,$sUserId)=explode('_',$sCode,2);
 		
 		$sAction=$this->GetParam(0);
