@@ -256,8 +256,7 @@ class ActionTalk extends Action {
 		 */
 		if($aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId())) {				
 			$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
-		}		
-		$this->Viewer_AddBlocks('right',array('actions/ActionTalk/friends.tpl'));		
+		}				
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */		
