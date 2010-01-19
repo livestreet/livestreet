@@ -149,6 +149,18 @@ class LsViewer extends Module {
 	 */
 	protected $sResponseAjax=null;
 	/**
+	 * Список меню для рендеринга
+	 *
+	 * @var array
+	 */
+	protected $aMenu=array();
+	/**
+	 * Скомпилированные меню
+	 *
+	 * @var array
+	 */
+	protected $aMenuFetch=array();
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -241,6 +253,11 @@ class LsViewer extends Module {
 		 * Загружаем в шаблон блоки
 		 */
 		$this->Assign("aBlocks",$this->aBlocks);	
+		/**
+		 * Загружаем содержимое menu-контейнеров
+		 */
+		$this->Assign("aMenuFetch",$this->aMenuFetch);
+		$this->Assign("aMenuContainers",array_keys($this->aMenu));
 		/**
 		 * Загружаем HTML заголовки
 		 */
@@ -1120,7 +1137,27 @@ class LsViewer extends Module {
 		);
 		return $aPaging;
 	}
-		
+	
+	/**
+	 * Добавить меню в контейнер
+	 *
+	 * @param string $sContainer
+	 * @param string $sTemplatePath
+	 */
+	public function AddMenu($sContainer, $sTemplate) {
+		$this->aMenu[strtolower($sContainer)]=$sTemplate;
+	}
+	/**
+	 * Компилирует меню по контейнерам
+	 *
+	 * @return null
+	 */
+	protected function BuildMenu() {
+		foreach ($this->aMenu as $sContainer=>$sTemplate) {
+			$this->aMenuFetch[$sContainer]=$this->Fetch($sTemplate);
+		}
+	}
+	
 	/**
 	 * Загружаем переменные в шаблон при завершении модуля
 	 *
@@ -1130,6 +1167,10 @@ class LsViewer extends Module {
 		 * Добавляем блоки по предзагруженным правилам
 		 */
 		$this->BuildBlocks();
+		/**
+		 * Рендерим меню для шаблонов
+		 */
+		$this->BuildMenu();
 		/**
 		 * Добавляем JS и CSS по предписанным правилам
 		 */
