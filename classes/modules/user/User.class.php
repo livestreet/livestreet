@@ -1074,7 +1074,18 @@ class LsUser extends Module {
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		$oImage = new LiveImage($sFileTmp);
+		/**
+		 * Если объект изображения не создан, 
+		 * возвращаем ошибку
+		 */
+		if($sError=$oImage->get_last_error()) {
+			// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
+			// $this->Message_AddError($sError,$this->Lang_Get('error'));
+			return false;
+		}
+		
+		$oImage = $this->Image_CropSquare($oImage);		
 		$oImage->set_jpg_quality($aParams['jpg_quality']);
 		$oImage->output(null,$sFileTmp);
 		

@@ -781,10 +781,21 @@ class LsBlog extends Module {
 		$sFileTmp=$aFile['tmp_name'];
 		$sPath=$this->Image_GetIdDir($oBlog->getOwnerId());
 		$aParams=$this->Image_BuildParams('avatar');
+
+		$oImage=new LiveImage($sFileTmp);
+		/**
+		 * Если объект изображения не создан, 
+		 * возвращаем ошибку
+		 */
+		if($sError=$oImage->get_last_error()) {
+			// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
+			// $this->Message_AddError($sError,$this->Lang_Get('error'));
+			return false;
+		}		
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = $this->Image_CropSquare(new LiveImage($sFileTmp));
+		$oImage = $this->Image_CropSquare($oImage);
 		
 		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,false,$aParams,$oImage)) {
 			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,false,$aParams,$oImage);
