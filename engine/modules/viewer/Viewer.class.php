@@ -254,11 +254,6 @@ class LsViewer extends Module {
 		 */
 		$this->Assign("aBlocks",$this->aBlocks);	
 		/**
-		 * Загружаем содержимое menu-контейнеров
-		 */
-		$this->Assign("aMenuFetch",$this->aMenuFetch);
-		$this->Assign("aMenuContainers",array_keys($this->aMenu));
-		/**
 		 * Загружаем HTML заголовки
 		 */
 		$this->Assign("sHtmlTitle",htmlspecialchars($this->sHtmlTitle));
@@ -267,6 +262,14 @@ class LsViewer extends Module {
 		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
 				
+	}
+	
+	/**
+	 * Загружаем содержимое menu-контейнеров
+	 */	
+	protected function MenuVarAssign() {
+		$this->Assign("aMenuFetch",$this->aMenuFetch);
+		$this->Assign("aMenuContainers",array_keys($this->aMenu));		
 	}
 	
 	/**
@@ -1168,14 +1171,15 @@ class LsViewer extends Module {
 		 */
 		$this->BuildBlocks();
 		/**
-		 * Рендерим меню для шаблонов
-		 */
-		$this->BuildMenu();
-		/**
 		 * Добавляем JS и CSS по предписанным правилам
 		 */
 		$this->BuildHeadFiles();
 		$this->VarAssign();
+		/**
+		 * Рендерим меню для шаблонов и передаем контейнеры в шаблон
+		 */
+		$this->BuildMenu();
+		$this->MenuVarAssign();		
 	}
 }
 ?>
