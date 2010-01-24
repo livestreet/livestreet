@@ -73,10 +73,10 @@ class LsText extends Module {
 		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
 		// Не нужна авто-расстановка <br>
 		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol','object'));
-		// Теги с обязательными параметрами
-		$this->oJevix->cfgSetTagParamsAutoAdd('embed',array(array('name'=>'wmode','value'=>'opaque','rewrite'=>true)));
-		if (Config::Get('view.noindex')) {
-			$this->oJevix->cfgSetTagParamsAutoAdd('a',array(array('name'=>'rel','value'=>'nofollow','rewrite'=>true)));
+		// Теги с обязательными параметрами		
+		$this->oJevix->cfgSetTagParamDefault('embed','wmode','opaque',true);
+		if (Config::Get('view.noindex')) {			
+			$this->oJevix->cfgSetTagParamDefault('a','rel','nofollow',true);
 		}
 		// Отключение авто-добавления <br>
 		$this->oJevix->cfgSetAutoBrMode(true);
