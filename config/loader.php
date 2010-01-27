@@ -133,6 +133,7 @@ if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
 $sPluginsDir = Config::Get('path.root.server').'/plugins';
 $sPluginsListFile = $sPluginsDir.'/plugins.dat';
 if($aPluginsList=@file($sPluginsListFile)) {
+	$aPluginsList=array_map('trim',$aPluginsList);
 	foreach ($aPluginsList as $sPlugin) {
 		$aConfigFiles = glob($sPluginsDir.'/'.$sPlugin.'/config/*.php');
 		if(count($aConfigFiles)>0) {

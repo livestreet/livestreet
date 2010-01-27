@@ -114,6 +114,7 @@ class LsLang extends Module {
 		 * Ищет языковые файлы актвиированных плагинов
 		 */
 		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
+			$aPluginList=array_map('trim',$aPluginList);			
 			$sDir=Config::Get('path.root.server').'/plugins/';
 			
 			foreach ($aPluginList as $sPluginName) {

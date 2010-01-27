@@ -248,6 +248,8 @@ class Engine extends Object {
 	 */
 	protected function InitPluginHooks() {
 		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
+			$aPluginList=array_map('trim',$aPluginList);
+			
 			$aFiles=array();
 			$sDirHooks=Config::Get('path.root.server').'/plugins/';
 			
@@ -272,7 +274,9 @@ class Engine extends Object {
 	 *
 	 */
 	protected function InitPlugins() {
-		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {
+		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {				
+			$aPluginList=array_map('trim',$aPluginList);
+
 			foreach ($aPluginList as $sPluginName) {
 				$sDirPlugins=Config::Get('path.root.server').'/plugins/';
 				$sFile="{$sDirPlugins}{$sPluginName}/Plugin{$sPluginName}.class.php";
