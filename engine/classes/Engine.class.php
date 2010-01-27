@@ -142,11 +142,11 @@ class Engine extends Object {
 	/**
 	 * Выполняет загрузку модуля по его названию
 	 *
-	 * @param string $sModuleName
-	 * @param bool $bInit - инициализировать модуль или нет
-	 * @return unknown
+	 * @param  string $sModuleName
+	 * @param  bool $bInit - инициализировать модуль или нет
+	 * @return Module
 	 */
-	protected function LoadModule($sModuleName,$bInit=false) {
+	public function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
 		
 		if(!preg_match('/^Plugin([\w]+)_([\w]+)$/i',$sModuleName,$aMatches)){
