@@ -80,7 +80,7 @@ class ActionBlog extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin');
+	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin','admin','invite','ajaxaddcomment','ajaxaddbloginvite');
 	
 	/**
 	 * Инизиализация экшена
