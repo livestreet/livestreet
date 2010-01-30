@@ -17,14 +17,13 @@
 /**
  * Operations with Config object
  */
-$sDirRoot=dirname(dirname(__FILE__));
-require_once($sDirRoot."/engine/lib/internal/ConfigSimple/Config.class.php");
-Config::LoadFromFile($sDirRoot.'/config/config.php');
+require_once(dirname(dirname(__FILE__))."/engine/lib/internal/ConfigSimple/Config.class.php");
+Config::LoadFromFile(dirname(__FILE__).'/config.php');
 
 /**
  * Загружает конфиги модулей вида /config/modules/[module_name]/config.php
  */
-$sDirConfig=$sDirRoot.'/config/modules/';
+$sDirConfig=Config::get('path.root.server').'/config/modules/';
 if ($hDirConfig = opendir($sDirConfig)) {
 	while (false !== ($sDirModule = readdir($hDirConfig))) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
@@ -55,7 +54,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 /**
  * Инклудим все *.php файлы из каталога {path.root.engine}/include/ - это файлы ядра
  */
-$sDirInclude=$sDirRoot.'/engine/include/'; // здесь $sDirRoot - это костыль
+$sDirInclude=Config::get('path.root.engine').'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {
 	while (false !== ($sFileInclude = readdir($hDirInclude))) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
@@ -72,7 +71,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
 /**
  * Инклудим все *.php файлы из каталога {path.root.server}/include/ - пользовательские файлы
  */
-$sDirInclude=$sDirRoot.'/include/';
+$sDirInclude=Config::get('path.root.server').'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {
 	while (false !== ($sFileInclude = readdir($hDirInclude))) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
@@ -90,7 +89,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
  * Ищет routes-конфиги модулей и объединяет их с текущим
  * @see Router.class.php
  */
-$sDirConfig=$sDirRoot.'/config/modules/';
+$sDirConfig=Config::get('path.root.server').'/config/modules/';
 if ($hDirConfig = opendir($sDirConfig)) {
 	while (false !== ($sDirModule = readdir($hDirConfig))) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
@@ -131,7 +130,7 @@ if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
  * Загружает конфиги плагинов вида /plugins/[plugin_name]/config/*.php
  * и include-файлы /plugins/[plugin_name]/include/*.php
  */
-$sPluginsDir = $sDirRoot.'/plugins';
+$sPluginsDir = Config::Get('path.root.server').'/plugins';
 $sPluginsListFile = $sPluginsDir.'/plugins.dat';
 if($aPluginsList=@file($sPluginsListFile)) {
 	$aPluginsList=array_map('trim',$aPluginsList);
