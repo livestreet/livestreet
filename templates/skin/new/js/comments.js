@@ -18,12 +18,12 @@ var lsCmtTreeClass = new Class({
 
 	typeComment: {
 		topic: {
-			url_add: DIR_WEB_ROOT+'/blog/ajaxaddcomment/',			
+			url_add: aRouter.blog+'ajaxaddcomment/',			
 			url_response: DIR_WEB_ROOT+'/include/ajax/commentResponse.php'		
 		},
 		talk: {
-			url_add: DIR_WEB_ROOT+'/talk/ajaxaddcomment/',
-			url_response: DIR_WEB_ROOT+'/talk/ajaxresponsecomment/'
+			url_add: aRouter.talk+'ajaxaddcomment/',
+			url_response: aRouter.talk+'ajaxresponsecomment/'
 		}
 	},
 	
