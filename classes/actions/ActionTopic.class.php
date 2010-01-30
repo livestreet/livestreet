@@ -393,6 +393,13 @@ class ActionTopic extends Action {
 			}
 		}
 		/**
+		 * Проверяем разрешено ли постить топик по времени
+		 */
+		if (isPost('submit_topic_publish') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
 		 * Сохраняем старое значение идентификатора блога
 		 */
 		$sBlogIdOld = $oTopic->getBlogId();

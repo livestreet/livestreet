@@ -237,6 +237,13 @@ class ActionLink extends Action {
 		if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
+		}
+		/**
+		 * Проверяем разрешено ли постить топик по времени
+		 */
+		if (isPost('submit_topic_publish') and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			return;
 		}						
 		/**
 		 * Теперь можно смело добавлять топик к блогу
@@ -341,7 +348,14 @@ class ActionLink extends Action {
 		if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
 			return false;
-		}						
+		}		
+		/**
+		 * Проверяем разрешено ли постить топик по времени
+		 */
+		if (isPost('submit_topic_publish') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			return;
+		}				
 		/**
 		 * Теперь можно смело редактировать топик
 		 */		
