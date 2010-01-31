@@ -27,6 +27,12 @@ abstract class Plugin extends Object {
 	 */
 	static protected $aTemplatePath=array();
 	/**
+	 * Web-адрес директорий шаблонов с учетом наличия соответствующего skin`a
+	 *
+	 * @var array
+	 */
+	static protected $aTemplateWebPath=array();		
+	/**
 	 * Массив делегатов плагина
 	 *
 	 * @var array
@@ -153,6 +159,26 @@ abstract class Plugin extends Object {
 	}	
 	
 	/**
+	 * Возвращает правильный web-адрес директории шаблонов
+	 *
+	 * @return string
+	 */
+	static public function GetTemplateWebPath($sName) {
+		$sName = preg_match('/^Plugin([\w]+)$/i',$sName,$aMatches)
+			? strtolower($aMatches[1])
+			: strtolower($sName);
+		if(!isset(self::$aTemplateWebPath[$sName])) {	
+			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR)))
+				? Config::Get('view.skin')
+				: 'default';
+			
+			self::$aTemplateWebPath[$sName]=Config::Get('path.root.web')."/plugins/{$sName}/templates/skin/{$sTemplateName}";
+		}
+		
+		return self::$aTemplateWebPath[$sName];
+	}
+	
+	/**
 	 * Устанавливает значение пути до шаблонов плагина
 	 *
 	 * @param  string $sName
@@ -163,5 +189,16 @@ abstract class Plugin extends Object {
 		if(!is_dir($sTemplatePath)) return false;
 		self::$aTemplatePath[$sName]=$sTemplatePath;
 	}
+
+	/**
+	 * Устанавливает значение web-пути до шаблонов плагина
+	 *
+	 * @param  string $sName
+	 * @param  string $sTemplatePath
+	 * @return bool
+	 */
+	static public function SetTemplateWebPath($sName,$sTemplatePath) {
+		self::$aTemplateWebPath[$sName]=$sTemplatePath;
+	}	
 }
 ?>
