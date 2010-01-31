@@ -787,7 +787,7 @@ class ActionBlog extends Action {
 		/**
 		 * Возможность постить коммент в топик в черновиках
 		 */
-		if (!$oTopic->getPublish() and $this->oUserCurrent!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
+		if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
