@@ -322,7 +322,7 @@ class LsACL extends Module {
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
 		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
 			return true;
-		}		
+		}
 		return false;
 	}	
 	
@@ -333,15 +333,27 @@ class LsACL extends Module {
 	 * @param object $oUser
 	 */
 	public function IsAllowDeleteTopic($oTopic,$oUser) {		
-		$bReturn=false;
 		/**
 		 * Разрешаем если это админ сайта или автор топика
 		 */
-		if ($oUser->isAdministrator()) {			
-			$bReturn=true;
-		}				
-		return $bReturn;
-	}	
+		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {			
+			return true;
+		}
+		/**
+		 * Если автор(смотритель) блога
+		 */
+		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
+			return true;
+		}
+		/**
+		 * Если модер или админ блога
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Проверяет можно или нет пользователю удалять данный блог
