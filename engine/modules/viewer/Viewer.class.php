@@ -737,16 +737,16 @@ class LsViewer extends Module {
 		 */
 		$aResult['js'] = array_values(
 			array_merge(
-				(array)$this->aJsInclude['append'],
+				(array)$this->aJsInclude['prepend'],
 				(array)$aResult['js'],
-				(array)$this->aJsInclude['prepend']
+				(array)$this->aJsInclude['append']
 			)
 		);		
 		$aResult['css'] = array_values(
 			array_merge(
-				(array)$this->aCssInclude['append'],
+				(array)$this->aCssInclude['prepend'],
 				(array)$aResult['css'],
-				(array)$this->aCssInclude['prepend']
+				(array)$this->aCssInclude['append']
 			)
 		);
 		
