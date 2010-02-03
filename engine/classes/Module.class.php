@@ -20,7 +20,19 @@
  *
  */
 abstract class Module extends Object {
+	/**
+	 * Engine object
+	 *
+	 * @var Engine
+	 */
 	protected $oEngine=null;
+	
+	/**
+	 * Указывает на то, была ли проведенна инициализация модуля
+	 *
+	 * @var bool
+	 */
+	protected $bIsInit=false;
 	
 	final public function __construct(Engine $oEngine) {		
 		$this->oEngine=$oEngine;		

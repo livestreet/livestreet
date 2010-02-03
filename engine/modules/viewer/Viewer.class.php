@@ -165,6 +165,13 @@ class LsViewer extends Module {
 	 *
 	 */
 	public function Init() {	
+		/**
+		 * Проверяем, не была ли уже проведена инициализация
+		 */
+		if($this->bIsInit) {
+			return ;
+		}
+		
 		$this->Hook_Run('viewer_init_start');
 		/**
 		 * Заголовок HTML страницы
@@ -202,6 +209,10 @@ class LsViewer extends Module {
 		 */
 		$this->InitFileParams();
 		$this->sCacheDir = Config::Get('path.smarty.cache');		
+		/**
+		 * Устанавливаем флаг инициализации
+		 */
+		$this->bIsInit=true;
 	}
 	
 	/**
