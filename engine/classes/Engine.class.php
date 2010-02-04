@@ -190,8 +190,9 @@ class Engine extends Object {
 		 * Создаем объект модуля
 		 */		
 		$oModule=new $sModuleNameClass($this);
-		if ($bInit or $sModuleName=='Cache') {
+		if (($bInit or $sModuleName=='Cache') and !$oModule->isInit()) {
 			$oModule->Init();
+			$oModule->SetInit();
 		}
 		$this->aModules[$sModuleName]=$oModule;
 		$tm2=microtime(true);

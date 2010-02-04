@@ -70,5 +70,23 @@ abstract class Module extends Object {
 	public function Shutdown() {
 		
 	}
+	
+	/**
+	 * Возвращает значение флага инициализации
+	 *
+	 * @return bool
+	 */
+	public function isInit() {
+		return $this->bIsInit;
+	}
+	
+	/**
+	 * Помечает модуль как инициализированный
+	 *
+	 * @return null
+	 */
+	public function SetInit() {
+		$this->bIsInit=true;
+	}
 }
 ?>
