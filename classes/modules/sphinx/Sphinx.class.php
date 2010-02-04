@@ -13,6 +13,10 @@ class LsSphinx extends Module {
 	 *
 	 */
 	public function Init() {		
+		$this->InitSphinx();
+	}
+	
+	protected function InitSphinx() {
 		/**
 		 * Получаем объект Сфинкса(из Сфинкс АПИ)
 		 */
@@ -55,6 +59,7 @@ class LsSphinx extends Module {
 		 */
 		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}";		
 		if (false === ($data = $this->Cache_Get($cacheKey))) {	
+			$this->InitSphinx();
 			/**
 			 * Параметры поиска
 			 */
