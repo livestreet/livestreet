@@ -110,17 +110,18 @@ class Engine extends Object {
 	 */
 	protected function InitModules() {
 		foreach ($this->aModules as $oModule) {
-			/**
-			 * Замеряем время инициализации модуля
-			 */
-			$oProfiler=ProfilerSimple::getInstance();
-			$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
-		
-			if(!$oModule->isInit()) {	
+			if(!$oModule->isInit()) {
+				/**
+			 	* Замеряем время инициализации модуля
+			 	*/
+				$oProfiler=ProfilerSimple::getInstance();
+				$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
+
 				$oModule->Init();
 				$oModule->SetInit();
+
+				$oProfiler->Stop($iTimeId);
 			}
-			$oProfiler->Stop($iTimeId);
 		}
 	}
 	
