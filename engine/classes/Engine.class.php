@@ -115,9 +115,11 @@ class Engine extends Object {
 			 */
 			$oProfiler=ProfilerSimple::getInstance();
 			$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
-			
-			$oModule->Init();
-			
+		
+			if(!$oModule->isInit()) {	
+				$oModule->Init();
+				$oModule->SetInit();
+			}
 			$oProfiler->Stop($iTimeId);
 		}
 	}
