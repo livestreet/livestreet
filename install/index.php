@@ -1310,6 +1310,18 @@ class Install {
 			}
 		}
 		/**
+		 * Обновляем количество комментариев к письмам
+		 */
+		$sTalkSql = "SELECT talk_id FROM {$aParams['prefix']}talk";
+		if($aResults = mysql_query($sTalkSql)){
+			while($aRow = mysql_fetch_assoc($aResults)) {
+				$sTalkCountSql = "SELECT count(comment_id) as c FROM {$aParams['prefix']}comment WHERE `target_id`={$aRow['talk_id']} AND `target_type`='talk'";
+				if($aResultsCount = mysql_query($sTalkCountSql) and $aRowCount = mysql_fetch_assoc($aResultsCount)){
+					mysql_query("UPDATE {$aParams['prefix']}talk SET talk_count_comment = {$aRowCount['c']} WHERE talk_id = {$aRow['talk_id']} ");
+				}
+			}
+		}
+		/**
 		 * Для каждого комментария к топику указываем соответствующий ему идентификатор блога
 		 */
 		$sParentUpdateQuery = "
