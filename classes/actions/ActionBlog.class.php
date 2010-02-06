@@ -87,7 +87,6 @@ class ActionBlog extends Action {
 	 *
 	 */
 	public function Init() {
-		$this->Hook_Run('action_init_blog_before');
 		/**
 		 * Устанавливаем евент по дефолту, т.е. будем показывать хорошие топики из коллективных блогов
 		 */
@@ -105,8 +104,6 @@ class ActionBlog extends Action {
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();	
 		$this->iCountTopicsBlogNew=$this->iCountTopicsCollectiveNew;
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
-		
-		$this->Hook_Run('action_init_blog_after');
 	}
 	
 	/**
@@ -1274,8 +1271,6 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('BLOG_USER_ROLE_INVITE', LsBlog::BLOG_USER_ROLE_INVITE);
 		$this->Viewer_Assign('BLOG_USER_ROLE_REJECT', LsBlog::BLOG_USER_ROLE_REJECT);
 		$this->Viewer_Assign('BLOG_USER_ROLE_BAN', LsBlog::BLOG_USER_ROLE_BAN);
-		
-		$this->Hook_Run('action_shutdown_blog');
 	}
 }
 ?>

@@ -24,7 +24,6 @@ class ActionPage extends Action {
 	protected $aBadPageUrl=array('admin');
 
 	public function Init() {
-		$this->Hook_Run('action_init_page');
 	}
 	/**
 	 * Регистрируем евенты

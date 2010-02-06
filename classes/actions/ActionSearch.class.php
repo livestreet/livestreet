@@ -5,12 +5,8 @@ class ActionSearch extends Action {
 	private $bIsResults = FALSE;
 	
 	public function Init() {
-		$this->Hook_Run('action_init_search_before');
-		
 		$this->SetDefaultEvent('index');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('search'));
-		
-		$this->Hook_Run('action_init_search_after');
 	}
 	
 	protected function RegisterEvent() {

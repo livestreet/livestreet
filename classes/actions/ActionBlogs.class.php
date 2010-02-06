@@ -29,7 +29,6 @@ class ActionBlogs extends Action {
 	protected $sMenuHeadItemSelect='blog';
 	
 	public function Init() {		
-		$this->Hook_Run('action_init_blogs');		
 	}
 	
 	protected function RegisterEvent() {	
@@ -78,7 +77,6 @@ class ActionBlogs extends Action {
 		 * Загружаем в шаблон необходимые переменные
 		 */
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
-		$this->Hook_Run('action_shutdown_blogs');	
 	}
 }
 ?>

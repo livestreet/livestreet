@@ -33,8 +33,7 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserProfile;
 	
-	public function Init() {	
-		$this->Hook_Run('action_init_profile');	
+	public function Init() {
 	}
 	
 	protected function RegisterEvent() {			
@@ -670,8 +669,6 @@ class ActionProfile extends Action {
 	 * Выполняется при завершении работы экшена
 	 */
 	public function EventShutdown() {
-		$this->Hook_Run('action_shutdown_profile_before');
-		
 		if (!$this->oUserProfile)	 {
 			return ;
 		}
@@ -693,8 +690,6 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',LsUser::USER_FRIEND_ACCEPT);
 		$this->Viewer_Assign('USER_FRIEND_REJECT',LsUser::USER_FRIEND_REJECT);
 		$this->Viewer_Assign('USER_FRIEND_DELETE',LsUser::USER_FRIEND_DELETE);
-		
-		$this->Hook_Run('action_shutdown_profile_after');	
 	}
 }
 ?>

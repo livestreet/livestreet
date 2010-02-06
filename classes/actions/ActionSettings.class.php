@@ -44,8 +44,7 @@ class ActionSettings extends Action {
 	 *
 	 * @return unknown
 	 */
-	public function Init() {	
-		$this->Hook_Run('action_init_settings_before');	
+	public function Init() {
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -59,8 +58,6 @@ class ActionSettings extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('profile');	
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));
-		
-		$this->Hook_Run('action_init_settings_after');	
 	}
 	
 	protected function RegisterEvent() {		

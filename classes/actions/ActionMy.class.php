@@ -33,8 +33,7 @@ class ActionMy extends Action {
 	 */
 	protected $oUserProfile=null;
 	
-	public function Init() {	
-		$this->Hook_Run('action_init_my');	
+	public function Init() {
 	}
 	
 	protected function RegisterEvent() {	
@@ -139,9 +138,7 @@ class ActionMy extends Action {
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {	
-		$this->Hook_Run('action_shutdown_my_before');		
-		
+	public function EventShutdown() {
 		if (!$this->oUserProfile)	 {
 			return ;
 		}
@@ -153,8 +150,6 @@ class ActionMy extends Action {
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
-				
-		$this->Hook_Run('action_shutdown_my_after');
 	}
 }
 ?>

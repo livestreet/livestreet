@@ -37,13 +37,9 @@ class ActionTop extends Action {
 	 * Инициализация
 	 *
 	 */
-	public function Init() {	
-		$this->Hook_Run('action_init_top_before');
-			
+	public function Init() {
 		$this->SetDefaultEvent('topic');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('top'));
-		
-		$this->Hook_Run('action_init_top_after');
 	}
 	/**
 	 * Регистрация евентов
@@ -167,8 +163,6 @@ class ActionTop extends Action {
 	 *
 	 */
 	public function EventShutdown() {
-		$this->Hook_Run('action_shutdown_top_before');
-		
 		/**
 		 * Получаем список новых топиков
 		 */
@@ -183,8 +177,6 @@ class ActionTop extends Action {
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsNew',$iCountTopicsNew);
-		
-		$this->Hook_Run('action_shutdown_top_after');
 	}
 }
 ?>

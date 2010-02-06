@@ -32,7 +32,6 @@ class ActionRss extends Action {
 	 */
 	protected function InitRss() {
 		header('Content-Type: application/rss+xml; charset=utf-8');	
-		$this->Hook_Run('action_init_rss_after');
 	}
 	
 	protected function RegisterEvent() {

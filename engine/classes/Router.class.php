@@ -177,7 +177,15 @@ class Router extends Object {
 		
 		$sClassName=$sActionClass.$sPrefixCustom;		
 		$this->oAction=new $sClassName($this->oEngine,self::$sAction);
-		if ($this->oAction->Init()==='next') {
+		
+		/**
+		 * Инициализируем экшен
+		 */
+		$this->Hook_Run("action_init_".strtolower($sActionClass)."_before");
+		$sInitResult = $this->oAction->Init();
+		$this->Hook_Run("action_init_".strtolower($sActionClass)."_after");
+		
+		if ($sInitResult==='next') {
 			$this->ExecAction();
 		} else {
 			/**
@@ -186,11 +194,14 @@ class Router extends Object {
 			$oProfiler=ProfilerSimple::getInstance();
 			$iTimeId=$oProfiler->Start('ExecAction',self::$sAction);				
 			
-			$res=$this->oAction->ExecEvent();			
+			$res=$this->oAction->ExecEvent();
+			
+			$this->Hook_Run("action_shutdown_".strtolower($sActionClass)."_before");		
 			$this->oAction->EventShutdown();
+			$this->Hook_Run("action_shutdown_".strtolower($sActionClass)."_after");
 						
 			$oProfiler->Stop($iTimeId);
-		
+
 			if ($res==='next') {
 				$this->ExecAction();
 			}
