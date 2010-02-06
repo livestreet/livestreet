@@ -410,7 +410,7 @@ class ActionTalk extends Action {
 		/**
 		 * Выполнение хуков
 		 */
-		$this->Hook_Run('ckeck_talk_fields', array('bOk'=>$bOk));
+		$this->Hook_Run('check_talk_fields', array('bOk'=>&$bOk));
 		
 		return $bOk;
 	}

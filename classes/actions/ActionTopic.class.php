@@ -542,7 +542,7 @@ class ActionTopic extends Action {
 		/**
 		 * Выполнение хуков
 		 */
-		$this->Hook_Run('ckeck_topic_fields', array('bOk'=>$bOk));
+		$this->Hook_Run('check_topic_fields', array('bOk'=>&$bOk));
 		
 		return $bOk;
 	}

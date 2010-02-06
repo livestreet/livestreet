@@ -291,7 +291,7 @@ class ActionPage extends Action {
 		/**
 		 * Выполнение хуков
 		 */
-		$this->Hook_Run('ckeck_page_fields', array('bOk'=>$bOk));
+		$this->Hook_Run('check_page_fields', array('bOk'=>&$bOk));
 
 		return $bOk;
 	}

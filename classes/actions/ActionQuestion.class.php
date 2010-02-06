@@ -501,7 +501,7 @@ class ActionQuestion extends Action {
 		/**
 		 * Выполнение хуков
 		 */
-		$this->Hook_Run('ckeck_question_fields', array('bOk'=>$bOk));
+		$this->Hook_Run('check_question_fields', array('bOk'=>&$bOk));
 		
 		return $bOk;
 	}
