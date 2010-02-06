@@ -170,7 +170,7 @@ function func_check($sValue,$sParam,$iMin=1,$iMax=100) {
 	{
 		case 'id': if (preg_match("/^\d{".$iMin.','.$iMax."}$/",$sValue)){ return true; } break;				
 		case 'float': if (preg_match("/^[\-]?\d+[\.]?\d*$/",$sValue)){ return true; } break;	
-		case 'mail': if (preg_match("/^[\da-z\_\-\.]+@[\da-z_\-\.]+\.[a-z]{2,5}$/i",$sValue)){ return true; } break;
+		case 'mail': if (preg_match("/^[\da-z\_\-\.\+]+@[\da-z_\-\.]+\.[a-z]{2,5}$/i",$sValue)){ return true; } break;
 		case 'login': if (preg_match("/^[\da-z\_\-]{".$iMin.','.$iMax."}$/i",$sValue)){ return true; } break;
 		case 'md5': if (preg_match("/^[\da-z]{32}$/i",$sValue)){ return true; } break;
 		case 'password': if (mb_strlen($sValue,'UTF-8')>=$iMin){ return true; } break;
