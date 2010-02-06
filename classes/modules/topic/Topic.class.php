@@ -414,7 +414,7 @@ class LsTopic extends Module {
 	 * @param  int   $iPerPage
 	 * @return array
 	 */
-	protected function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
+	public function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
 			$data = ($iPage*$iPerPage!=0) 
@@ -437,7 +437,7 @@ class LsTopic extends Module {
 	 * @param unknown_type $aFilter
 	 * @return unknown
 	 */
-	protected function GetCountTopicsByFilter($aFilter) {
+	public function GetCountTopicsByFilter($aFilter) {
 		$s=serialize($aFilter);					
 		if (false === ($data = $this->Cache_Get("topic_count_{$s}"))) {			
 			$data = $this->oMapperTopic->GetCountTopics($aFilter);
