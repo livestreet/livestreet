@@ -497,6 +497,12 @@ class ActionQuestion extends Action {
 		} else {
 			$_REQUEST['topic_tags']=join(',',$aTagsNew);
 		}
+
+		/**
+		 * Выполнение хуков
+		 */
+		$this->Hook_Run('ckeck_question_fields', array('bOk'=>$bOk));
+		
 		return $bOk;
 	}
 	/**

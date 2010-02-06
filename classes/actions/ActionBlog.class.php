@@ -505,7 +505,13 @@ class ActionBlog extends Action {
 		if (!func_check(getRequest('blog_limit_rating_topic'),'float')) {
 			$this->Message_AddError($this->Lang_Get('blog_create_rating_error'),$this->Lang_Get('error'));
 			$bOk=false;
-		}		
+		}
+		
+		/**
+		 * Выполнение хуков
+		 */
+		$this->Hook_Run('ckeck_blog_fields', array('bOk'=>$bOk));
+			
 		return $bOk;
 	}
 	

@@ -274,7 +274,7 @@ class ActionRegistration extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function CheckInviteRegister() {		
+	protected function CheckInviteRegister() {
 		if ($this->Session_Get('invite_code')) {
 			return true;
 		}

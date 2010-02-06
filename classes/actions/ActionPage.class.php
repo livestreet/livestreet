@@ -288,7 +288,11 @@ class ActionPage extends Action {
 			$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}		
-			
+		/**
+		 * Выполнение хуков
+		 */
+		$this->Hook_Run('ckeck_page_fields', array('bOk'=>$bOk));
+
 		return $bOk;
 	}
 }

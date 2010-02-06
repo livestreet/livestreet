@@ -406,7 +406,12 @@ class ActionTalk extends Action {
 		} else {
 			$_REQUEST['talk_users']=join(',',$aUsersNew);
 		}
-		//$bOk=false;
+		
+		/**
+		 * Выполнение хуков
+		 */
+		$this->Hook_Run('ckeck_talk_fields', array('bOk'=>$bOk));
+		
 		return $bOk;
 	}
 	

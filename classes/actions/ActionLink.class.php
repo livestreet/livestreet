@@ -487,6 +487,12 @@ class ActionLink extends Action {
 		} else {
 			$_REQUEST['topic_tags']=join(',',$aTagsNew);
 		}
+
+		/**
+		 * Выполнение хуков
+		 */
+		$this->Hook_Run('ckeck_link_fields', array('bOk'=>$bOk));		
+		
 		return $bOk;
 	}
 	/**
