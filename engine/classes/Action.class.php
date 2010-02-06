@@ -98,9 +98,11 @@ abstract class Action extends Object {
 					} else {
 						continue 2;
 					}
-				}
+				}				
 				$sCmd='$result=$this->'.$aEvent['method'].'();';
+				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_before",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
 				eval($sCmd);
+				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_after",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
 				return $result;
 			}
 		}
