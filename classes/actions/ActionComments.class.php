@@ -22,6 +22,12 @@
 class ActionComments extends Action {	
 	
 	/**
+	 * Текущий юзер
+	 *
+	 * @var unknown_type
+	 */
+	protected $oUserCurrent=null;
+	/**
 	 * Главное меню
 	 *
 	 * @var unknown_type
@@ -29,6 +35,7 @@ class ActionComments extends Action {
 	protected $sMenuHeadItemSelect='blog';
 	
 	public function Init() {
+		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	
 	protected function RegisterEvent() {	
@@ -51,9 +58,15 @@ class ActionComments extends Action {
 		 */
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
 		/**
+		 * Исключаем из выборки идентификаторы закрытых блогов (target_parent_id)
+		 */
+		$aCloseBlogs = ($this->oUserCurrent)
+			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetInaccessibleBlogsByUser();
+		/**
 		 * Получаем список комментов
 		 */					
-		$aResult=$this->Comment_GetCommentsAll('topic',$iPage,Config::Get('module.comment.per_page'));		
+		$aResult=$this->Comment_GetCommentsAll('topic',$iPage,Config::Get('module.comment.per_page'),array(),$aCloseBlogs);		
 		$aComments=$aResult['collection'];	
 		/**
 		 * Формируем постраничность

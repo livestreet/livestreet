@@ -68,13 +68,13 @@ class LsComment extends Module {
 	 * @param unknown_type $iPerPage
 	 * @return unknown
 	 */
-	public function GetCommentsAll($sTargetType,$iPage,$iPerPage,$aExcludeTarget=array()) {		
-		$s=serialize($aExcludeTarget);
+	public function GetCommentsAll($sTargetType,$iPage,$iPerPage,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {		
+		$s=serialize($aExcludeTarget).serialize($aExcludeParentTarget);
 		if (false === ($data = $this->Cache_Get("comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
-			$data = array('collection'=>$this->oMapper->GetCommentsAll($sTargetType,$iCount,$iPage,$iPerPage,$aExcludeTarget),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapper->GetCommentsAll($sTargetType,$iCount,$iPage,$iPerPage,$aExcludeTarget,$aExcludeParentTarget),'count'=>$iCount);
 			$this->Cache_Set($data, "comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*1);
 		}
-		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
+		$data['collection']=$this->GetCommentsAdditionalData($data['collection'],array('target','favourite','user'=>array()));
 		return $data;		 	
 	}	
 	/**
