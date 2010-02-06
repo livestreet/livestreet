@@ -45,6 +45,7 @@ class ActionPersonalBlog extends Action {
 	 */
 	public function Init() {		
 		$this->SetDefaultEvent('good');
+		$this->Hook_Run('action_init_personal_blog');
 	}
 	
 	/**
@@ -105,6 +106,7 @@ class ActionPersonalBlog extends Action {
 	 *
 	 */
 	public function EventShutdown() {
+		$this->Hook_Run('action_shutdown_personal_blog_before');
 		/**
 		 * Подсчитываем новые топики
 		 */
@@ -120,6 +122,8 @@ class ActionPersonalBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsNew',$iCountTopicsNew);
+		
+		$this->Hook_Run('action_shutdown_personal_blog_after');
 	}
 }
 ?>

@@ -31,7 +31,8 @@ class ActionRss extends Action {
 	 * Указывает браузеру правильный content type в случае вывода RSS-ленты
 	 */
 	protected function InitRss() {
-		header('Content-Type: application/rss+xml; charset=utf-8');		
+		header('Content-Type: application/rss+xml; charset=utf-8');	
+		$this->Hook_Run('action_init_rss_after');
 	}
 	
 	protected function RegisterEvent() {

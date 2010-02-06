@@ -26,6 +26,7 @@ class ActionRegistration extends Action {
 	 * @return unknown
 	 */
 	public function Init() {
+		$this->Hook_Run('action_init_registration_before');
 		/**
 		 * Проверяем аторизован ли юзер
 		 */
@@ -42,6 +43,8 @@ class ActionRegistration extends Action {
 		
 		$this->SetDefaultEvent('index');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('registration'));
+		
+		$this->Hook_Run('action_init_registration_after');
 	}
 	/**
 	 * Регистрируем евенты

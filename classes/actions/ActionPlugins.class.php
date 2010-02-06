@@ -28,12 +28,15 @@ class ActionPlugins extends Action {
 	 */
 	protected $sMenuHeadItemSelect='plugins';
 	
-	public function Init() {			
+	public function Init() {
+		$this->Hook_Run('action_init_plugins_before');
+		
 		if(!$this->User_IsAuthorization() or !$oUserCurrent=$this->User_GetUserCurrent() or !$oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}
 		
 		$this->oUserCurrent=$oUserCurrent;
+		$this->Hook_Run('action_init_plugins_after');
 	}
 	
 	protected function RegisterEvent() {	
@@ -115,7 +118,8 @@ class ActionPlugins extends Action {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);		
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
+		$this->Hook_Run('action_shutdown_plugins');	
 	}
 }
 ?>

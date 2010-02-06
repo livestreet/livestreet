@@ -50,7 +50,9 @@ class ActionTopic extends Action {
 	 *
 	 * @return unknown
 	 */
-	public function Init() {	
+	public function Init() {
+		$this->Hook_Run('action_init_topic_before');
+		
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -60,6 +62,8 @@ class ActionTopic extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_title'));
+		
+		$this->Hook_Run('action_init_topic_after');
 	}
 	/**
 	 * Регистрируем евенты
@@ -548,7 +552,9 @@ class ActionTopic extends Action {
 	public function EventShutdown() {
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
-		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);		
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
+		
+		$this->Hook_Run('action_shutdown_topic');
 	}
 }
 ?>

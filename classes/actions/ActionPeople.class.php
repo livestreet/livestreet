@@ -31,9 +31,13 @@ class ActionPeople extends Action {
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
+		$this->Hook_Run('action_init_people_before');
+		
 		$this->SetDefaultEvent('good');	
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
+		
+		$this->Hook_Run('action_init_people_after');
 	}
 	/**
 	 * Регистрируем евенты
@@ -239,7 +243,8 @@ class ActionPeople extends Action {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);		
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
+		$this->Hook_Run('action_shutdown_people');	
 	}
 }
 ?>

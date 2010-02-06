@@ -61,13 +61,16 @@ class ActionNew extends Action {
 	 * Инициализация
 	 *
 	 */
-	public function Init() {			
+	public function Init() {		
+		$this->Hook_Run('action_init_new_before');		
 		/**
 		 * Подсчитываем новые топики
 		 */
 		$this->iCountTopicsCollectiveNew=$this->Topic_GetCountTopicsCollectiveNew();
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+		
+		$this->Hook_Run('action_init_new_after');
 	}
 	/**
 	 * Регистрация евентов
@@ -127,6 +130,8 @@ class ActionNew extends Action {
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
+		
+		$this->Hook_Run('action_shutdown_new');
 	}
 }
 ?>

@@ -39,6 +39,7 @@ class ActionTalk extends Action {
 	 * @return unknown
 	 */
 	public function Init() {	
+		$this->Hook_Run('action_init_talk_before');	
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -51,7 +52,9 @@ class ActionTalk extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('inbox');	
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox'));	
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox'));
+		
+		$this->Hook_Run('action_init_talk_after');	
 	}
 	
 	protected function RegisterEvent() {		
@@ -968,8 +971,9 @@ class ActionTalk extends Action {
 		$this->Viewer_AssignAjax('aUsers',$aResult);		
 	}
 	
-	public function EventShutdown()
-	{
+	public function EventShutdown() {
+		$this->Hook_Run('action_shutdown_talk_before');
+		
 		if (!$this->oUserCurrent)	 {
 			return ;
 		}		
@@ -982,6 +986,8 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('TALK_USER_ACTIVE',LsTalk::TALK_USER_ACTIVE);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',LsTalk::TALK_USER_DELETE_BY_SELF);
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',LsTalk::TALK_USER_DELETE_BY_AUTHOR);
+		
+		$this->Hook_Run('action_shutdown_talk_after');
 	}
 }
 ?>

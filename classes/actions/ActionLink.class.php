@@ -50,10 +50,14 @@ class ActionLink extends Action {
 	 *
 	 * @return unknown
 	 */
-	public function Init() {			
+	public function Init() {		
+		$this->Hook_Run('action_init_link_before');
+		
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_link_title'));
+		
+		$this->Hook_Run('action_init_link_after');
 	}
 	/**
 	 * Регистрируем евенты
@@ -496,7 +500,9 @@ class ActionLink extends Action {
 	public function EventShutdown() {
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
-		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);		
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
+		
+		$this->Hook_Run('action_shutdown_link');
 	}
 }
 ?>

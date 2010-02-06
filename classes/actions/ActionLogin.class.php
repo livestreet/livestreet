@@ -27,6 +27,8 @@ class ActionLogin extends Action {
 	public function Init() {		
 		$this->SetDefaultEvent('index');
 		Router::SetIsShowStats(false);
+		
+		$this->Hook_Run('action_init_login');
 	}
 	/**
 	 * Регистрируем евенты

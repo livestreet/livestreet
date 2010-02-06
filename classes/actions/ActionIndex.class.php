@@ -62,12 +62,15 @@ class ActionIndex extends Action {
 	 *
 	 */
 	public function Init() {
+		$this->Hook_Run('action_init_index_before');
 		/**
 		 * Подсчитываем новые топики
 		 */
 		$this->iCountTopicsCollectiveNew=$this->Topic_GetCountTopicsCollectiveNew();
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+		
+		$this->Hook_Run('action_init_index_after');
 	}
 	/**
 	 * Регистрация евентов
@@ -126,7 +129,9 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
-		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);		
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);	
+		
+		$this->Hook_Run('action_shutdown_index');	
 	}
 }
 ?>
