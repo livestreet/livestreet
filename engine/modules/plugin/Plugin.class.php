@@ -32,7 +32,12 @@ class LsPlugin extends Module {
 	 * @var string 
 	 */
 	const PLUGIN_README_FILE = 'readme.txt';
-	
+	/**
+	 * Список параметров плагина в readme.txt файле
+	 *
+	 * @var array
+	 */
+	protected $aReadmeParams = array('name','author','homepage','version','requires','description','delegate');
 	/**
 	 * Путь к директории с плагинами
 	 * 
@@ -92,11 +97,11 @@ class LsPlugin extends Module {
 			if(is_file($sReadme)) {
 				$aInfo = file($sReadme);
 				foreach ($aInfo as $sParam) {
-					list($sKey,$sValue) = explode(':',trim($sParam),2);
-					$sKey=strtolower($sKey);
-					$sValue=$this->Text_Parser(trim($sValue));
-					
-					$this->aPluginsList[$sPlugin][$sKey]=$sValue;
+					@list($sKey,$sValue) = explode(':',trim($sParam),2);
+					if($sKey and $sValue and in_array(strtolower($sKey),$this->aReadmeParams)) {
+						$sValue=$this->Text_Parser(trim($sValue));
+						$this->aPluginsList[$sPlugin][strtolower($sKey)]=$sValue;
+					}
 				}
 			}
 		}
