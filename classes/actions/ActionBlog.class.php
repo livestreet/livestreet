@@ -201,7 +201,9 @@ class ActionBlog extends Action {
 		/**
 		 * Создаём блог
 		 */
+		$this->Hook_Run('blog_add_before', array('oBlog'=>$oBlog));
 		if ($this->Blog_AddBlog($oBlog)) {
+			$this->Hook_Run('blog_add_after', array('oBlog'=>$oBlog));
 			/**
 			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
 			 */
@@ -301,7 +303,9 @@ class ActionBlog extends Action {
 			/**
 			 * Обновляем блог
 			 */
+			$this->Hook_Run('blog_edit_before', array('oBlog'=>$oBlog));
 			if ($this->Blog_UpdateBlog($oBlog)) {
+				$this->Hook_Run('blog_edit_after', array('oBlog'=>$oBlog));
 				Router::Location($oBlog->getUrlFull());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -881,7 +885,10 @@ class ActionBlog extends Action {
 		/**
 		* Добавляем коммент
 		*/
-		if ($this->Comment_AddComment($oCommentNew)) {			
+		$this->Hook_Run('comment_add_before', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTopic'=>$oTopic));
+		if ($this->Comment_AddComment($oCommentNew)) {
+			$this->Hook_Run('comment_add_after', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTopic'=>$oTopic));
+			
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			if ($oTopic->getPublish()) {
 				/**
@@ -1245,7 +1252,9 @@ class ActionBlog extends Action {
 		/**
 		 * Удаляяем блог и перенаправляем пользователя к списку блогов
 		 */
+		$this->Hook_Run('blog_delete_before', array('sBlogId'=>$sBlogId));		
 		if($this->Blog_DeleteBlog($sBlogId)) {
+			$this->Hook_Run('blog_delete_after', array('sBlogId'=>$sBlogId));			
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_delete_success'),$this->Lang_Get('attention'),true);
 			Router::Location(Router::GetPath('blogs'));
 		} else {

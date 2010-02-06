@@ -161,7 +161,9 @@ class ActionTopic extends Action {
 		/**
 		 * Удаляем топик
 		 */
+		$this->Hook_Run('topic_delete_before', array('oTopic'=>$oTopic));
 		$this->Topic_DeleteTopic($oTopic->getId());
+		$this->Hook_Run('topic_delete_after', array('oTopic'=>$oTopic));
 		/**
 		 * Перенаправляем на страницу со списком топиков из блога этого топика
 		 */
@@ -326,11 +328,17 @@ class ActionTopic extends Action {
 		$oTopic->setForbidComment(0);
 		if (getRequest('topic_forbid_comment')) {
 			$oTopic->setForbidComment(1);
-		}	
+		}
+
+		/**
+		 * Запускаем выполнение хуков
+		 */
+		$this->Hook_Run('topic_add_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
 		/**
 		 * Добавляем топик
-		 */
+		 */		
 		if ($this->Topic_AddTopic($oTopic)) {
+			$this->Hook_Run('topic_add_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
 			/**
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
@@ -456,10 +464,12 @@ class ActionTopic extends Action {
 		if (getRequest('topic_forbid_comment')) {
 			$oTopic->setForbidComment(1);
 		}
+		$this->Hook_Run('topic_edit_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
 		/**
 		 * Сохраняем топик
 		 */
 		if ($this->Topic_UpdateTopic($oTopic)) {
+			$this->Hook_Run('topic_edit_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog,'bSendNotify'=>&$bSendNotify));
 			/**
 			 * Обновляем данные в комментариях, если топик был перенесен в новый блог
 			 */
