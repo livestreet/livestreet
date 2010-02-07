@@ -113,6 +113,45 @@ class LsPlugin extends Module {
 				
 					if($sAction=='Activate') {
 						/**
+						 * Проверяем совместимость с версией LS 						 
+						 */
+						if(defined('LS_VERSION') 
+							and version_compare(LS_VERSION,$aPlugins[$sPlugin]['property']->requires->livestreet,'=<')) {
+								$this->Message_AddError(
+									$this->Lang_Get(
+										'plugins_activation_version_error',
+										array(
+											'version'=>$aPlugins[$sPlugin]['property']->requires->livestreet)
+										),
+									$this->Lang_Get('error'),
+									true
+								);
+								return;
+						}
+						/**
+						 * Проверяем наличие require-плагинов
+						 */
+						if($aPlugins[$sPlugin]['property']->requires->plugins) {
+							$aActivePlugins=$this->GetActivePlugins();
+							$iConflict=0;
+							foreach ($aPlugins[$sPlugin]['property']->requires->plugins->children() as $sReqPlugin) {
+								if(!in_array($sReqPlugin,$aActivePlugins)) {
+									$iConflict++;
+									$this->Message_AddError(
+										$this->Lang_Get('plugins_activation_requires_error',
+											array(
+												'plugin'=>ucfirst($sReqPlugin)
+											)
+										),
+										$this->Lang_Get('error'),
+										true
+									);
+								}
+							}
+							if($iConflict) { return; }							
+						}
+						
+						/**
 						 * Проверяем, не вступает ли данный плагин в конфликт с уже активированными
 						 * (по поводу объявленных делегатов) 
 						 */
