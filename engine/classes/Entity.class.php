@@ -25,18 +25,32 @@ abstract class Entity extends Object {
 	/**
 	 * Если передать в конструктор ассоциативный массив свойств и их значений, то они автоматом загрузятся в сущность
 	 *
-	 * @param unknown_type $aParam
+	 * @param array|null $aParam
 	 */
-	public function __construct($aParam = false) {		
-		if(is_array($aParam)) {
-			foreach ($aParam as $sKey => $val)	{
+	public function __construct($aParam = false) {
+		$this->_setData($aParam);
+	}
+
+	public function _setData($aData) {
+		if(is_array($aData)) {
+			foreach ($aData as $sKey => $val)    {
 				$this->_aData[$sKey] = $val;
 			}
 		}
 	}
-	public function _getData() {
-		return $this->_aData;
-	}	
+
+	public function _getData($aKeys=array()) {
+		if(!is_array($aKeys) or !count($aKeys)) return $this->_aData;
+		
+		$aReturn=array();
+		foreach ($aKeys as $key) {
+			if(isset($this->_aData[$key])) {
+				$aReturn[$key] = $this->_aData[$key];
+			}
+		}
+		return $aReturn;
+	}
+
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
