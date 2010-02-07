@@ -148,7 +148,7 @@ class TopicEntity_Topic extends Entity
     	$this->extractExtra();
     	if (isset($this->aExtra['url'])) {     		    		
     		if ($bShort) {
-    			$sUrl=$this->aExtra['url'];
+    			$sUrl=htmlspecialchars($this->aExtra['url']);
     			if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
     				$sUrl=$aMatch[1];
     			}
