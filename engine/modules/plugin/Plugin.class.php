@@ -31,13 +31,7 @@ class LsPlugin extends Module {
 	 *
 	 * @var string 
 	 */
-	const PLUGIN_README_FILE = 'readme.txt';
-	/**
-	 * Список параметров плагина в readme.txt файле
-	 *
-	 * @var array
-	 */
-	protected $aReadmeParams = array('name','author','homepage','version','requires','description','delegate');
+	const PLUGIN_README_FILE = 'plugin.xml';
 	/**
 	 * Путь к директории с плагинами
 	 * 
@@ -83,26 +77,16 @@ class LsPlugin extends Module {
 
 		foreach($aList as $sPlugin) {			
 			$this->aPluginsList[$sPlugin] = array(
-				'code'        => $sPlugin,
-				'is_active'   => in_array($sPlugin,$aActivePlugins),
-				'name'        => '',
-				'description' => '',
-				'author'      => '',
-				'homepage'    => '',
-				'version'     => ''
+				'code'      => $sPlugin,
+				'is_active' => in_array($sPlugin,$aActivePlugins) 
 			);
 
-			
-			$sReadme = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
-			if(is_file($sReadme)) {
-				$aInfo = file($sReadme);
-				foreach ($aInfo as $sParam) {
-					@list($sKey,$sValue) = explode(':',trim($sParam),2);
-					if($sKey and $sValue and in_array(strtolower($sKey),$this->aReadmeParams)) {
-						$sValue=$this->Text_Parser(trim($sValue));
-						$this->aPluginsList[$sPlugin][strtolower($sKey)]=$sValue;
-					}
-				}
+			/**
+			 * Считываем данные из XML файла описания
+			 */
+			$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
+			if($this->aPluginsList[$sPlugin]['property'] = @simplexml_load_file($sPluginXML)) {
+				$this->aPluginsList[$sPlugin]['property']->homepage=$this->Text_Parser($this->aPluginsList[$sPlugin]['property']->homepage);
 			}
 		}
 		
