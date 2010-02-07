@@ -36,20 +36,7 @@ abstract class Entity extends Object {
 	}
 	public function _getData() {
 		return $this->_aData;
-	}
-	/**
-	 * При попытке вызвать неопределенный метод сущности возвращаем null
-	 * В принципе можно это закомментить чтоб отлавливать ошибки при обращении к несуществующим методам :)
-	 *
-	 * @param string $sName
-	 * @param array $aArgs
-	 * @return unknown
-	 */
-	/*
-	public function __call($sName,$aArgs) {
-		return null;
-	}
-	*/
+	}	
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
@@ -58,7 +45,20 @@ abstract class Entity extends Object {
 	 * @return unknown
 	 */
 	public function __call($sName,$aArgs) {
-		return Engine::getInstance()->_CallModule($sName,$aArgs);
+		$sType=strtolower(substr($sName,0,3));
+		if (!strpos($sName,'_') and in_array($sType,array('get','set'))) {			
+			$sKey=strtolower(preg_replace('/([^A-Z])([A-Z])/',"$1_$2",substr($sName,3)));
+			if ($sType=='get') {
+				if (isset($this->_aData[$sKey])) {					
+					return $this->_aData[$sKey];
+				}
+				return null;
+			} elseif ($sType=='set' and isset($aArgs[0])) {
+				$this->_aData[$sKey]=$aArgs[0];
+			}
+		} else {
+			return Engine::getInstance()->_CallModule($sName,$aArgs);
+		}
 	}
 }
 ?>
