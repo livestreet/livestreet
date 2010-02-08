@@ -51,11 +51,15 @@ var lsBlockLoaderClass = new Class({
             
         	var blockContent=blockNav.getParent('div').getChildren('div.'+this.options.classes_nav.content)[0].set('html','');
         	this.showStatus(blockContent);
-        	        	
-            
+        	     
+        	if(!params) {
+        		params={ security_ls_key: LIVESTREET_SECURITY_KEY };   	
+        	} else {
+        		params['security_ls_key']=LIVESTREET_SECURITY_KEY;
+        	}
             JsHttpRequest.query(
-            	this.type[type].url,                       
-                params,
+            	'POST '+this.type[type].url,                       
+            	params,
                 function(result, errors) {     
                 	thisObj.onLoad(result, errors, blockContent);                               
                 },
@@ -67,7 +71,7 @@ var lsBlockLoaderClass = new Class({
 		onLoad: function(result, errors, blockContent) {
 			blockContent.set('html','');
 			if (!result) {
-                msgErrorBox.alert('Error','Please try again later');           
+                msgErrorBox.alert('Error','Please try again later');
         	}
         	if (result.bStateError) {
                 //msgErrorBox.alert(result.sMsgTitle,result.sMsg);

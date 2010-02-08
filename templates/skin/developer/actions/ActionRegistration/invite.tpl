@@ -1,7 +1,7 @@
 {include file='header.light.tpl'}
 	
 	<div class="center-block">	
-		<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/invite/" method="POST">
+		<form action="{router page='registration'}invite/" method="POST">
 			<h3>{$aLang.registration_invite}</h3>
 			<label for="invite_code">{$aLang.registration_invite_code}:</label>
 			<p><input type="text" class="input-text" name="invite_code" id="invite_code" /></p>				

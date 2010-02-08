@@ -18,6 +18,14 @@ var lsFavouriteClass = new Class({
                 topic: {
                         url: DIR_WEB_ROOT+'/include/ajax/topicFavourite.php',
                         targetName: 'idTopic'
+                },
+                comment: {
+                        url: DIR_WEB_ROOT+'/include/ajax/commentFavourite.php',
+                        targetName: 'idComment'                	
+                },
+                talk : {
+                        url: DIR_WEB_ROOT+'/include/ajax/talkFavourite.php',
+                        targetName: 'idTalk'                	                	
                 }
         },
 
@@ -44,9 +52,10 @@ var lsFavouriteClass = new Class({
                 var params = new Hash();
                 params['type']=value;
                 params[this.typeFavourite[type].targetName]=idTarget;
+                params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
                 JsHttpRequest.query(
-                        this.typeFavourite[type].url,                       
+                        'POST '+this.typeFavourite[type].url,                       
                         params,
                         function(result, errors) {     
                                 thisObj.onToggle(result, errors, thisObj);                               

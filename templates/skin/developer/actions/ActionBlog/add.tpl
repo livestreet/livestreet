@@ -7,10 +7,12 @@
 	{if $sEvent=='add'}
 		<h2>{$aLang.blog_create}</h2>
 	{else}
-		<h2>{$aLang.blog_admin}: <a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h2>
+		<h2>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h2>
 	{/if}
 
-	<form action="" method="POST" enctype="multipart/form-data">						
+	<form action="" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+	
 		<p><label for="blog_title">{$aLang.blog_create_title}:</label>
 		<input type="text" id="blog_title" name="blog_title" class="w100p" value="{$_aRequest.blog_title}" />
 		<span class="form-note">{$aLang.blog_create_title_notice}</span></p>
@@ -21,7 +23,8 @@
 		
 		<p><label for="blog_type">{$aLang.blog_create_type}:</label>
 		<select name="blog_type" id="blog_type" onChange="">
-			<option value="open">{$aLang.blog_create_type_open}</option>
+			<option value="open" {if $_aRequest.blog_type=='open'}selected{/if}>{$aLang.blog_create_type_open}</option>
+			<option value="close" {if $_aRequest.blog_type=='close'}selected{/if}>{$aLang.blog_create_type_close}</option>
 		</select>
 		<span class="form-note">{$aLang.blog_create_type_notice}</span></p>
 

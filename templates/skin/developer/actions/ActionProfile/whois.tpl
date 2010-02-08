@@ -1,5 +1,7 @@
 {include file='header.tpl' menu="profile"}
 
+{assign var="oSession" value=$oUserProfile->getSession()}
+{assign var="oVote" value=$oUserProfile->getVote()}
 
 <div class="profile-user">
 	<div class="strength">
@@ -7,7 +9,7 @@
 	</div>
 	
 	
-	<div class="voting {if $oUserProfile->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oUserProfile->getId()==$oUserCurrent->getId()}guest{/if} {if $oUserProfile->getUserIsVote()} voted {if $oUserProfile->getUserVoteDelta()>0}plus{elseif $oUserProfile->getUserVoteDelta()<0}minus{/if}{/if}">
+	<div class="voting {if $oUserProfile->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oUserProfile->getId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
 		<a href="#" class="plus" onclick="lsVote.vote({$oUserProfile->getId()},this,1,'user'); return false;"></a>
 		<span class="total">{if $oUserProfile->getRating()>0}+{/if}{$oUserProfile->getRating()}</span>
 		<a href="#" class="minus" onclick="lsVote.vote({$oUserProfile->getId()},this,-1,'user'); return false;"></a>
@@ -44,7 +46,7 @@
 		{if $oUserProfile->getProfileBirthday()}
 		<tr>
 			<td class="var">{$aLang.profile_birthday}:</td>
-			<td>{date_format date=$oUserProfile->getProfileBirthday() format="j rus_mon Y"}</td>
+			<td>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y"}</td>
 		</tr>
 		{/if}
 		
@@ -53,10 +55,10 @@
 			<td class="var">{$aLang.profile_place}:</td>
 			<td>
 			{if $oUserProfile->getProfileCountry()}
-				<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/country/{$oUserProfile->getProfileCountry()|escape:'html'}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oUserProfile->getProfileCity()},{/if}
+				<a href="{router page='people'}country/{$oUserProfile->getProfileCountry()|escape:'html'}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oUserProfile->getProfileCity()},{/if}
 			{/if}						
 			{if $oUserProfile->getProfileCity()}
-				<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_PEOPLE}/city/{$oUserProfile->getProfileCity()|escape:'html'}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+				<a href="{router page='people'}city/{$oUserProfile->getProfileCity()|escape:'html'}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
 			{/if}
 			</td>
 		</tr>
@@ -73,13 +75,15 @@
 		<tr>
 			<td class="var">{$aLang.profile_site}:</td>
 			<td>
-			<a href="{$oUserProfile->getProfileSite(true)|escape:'html'}">
-			{if $oUserProfile->getProfileSiteName()}
-				{$oUserProfile->getProfileSiteName()|escape:'html'}
-			{else}
-				{$oUserProfile->getProfileSite()|escape:'html'}
-			{/if}
-			</a>
+				<noindex>
+					<a href="{$oUserProfile->getProfileSite(true)|escape:'html'}" rel="nofollow">
+					{if $oUserProfile->getProfileSiteName()}
+						{$oUserProfile->getProfileSiteName()|escape:'html'}
+					{else}
+						{$oUserProfile->getProfileSite()|escape:'html'}
+					{/if}
+					</a>
+				</noindex>
 			</td>
 		</tr>
 		{/if}
@@ -90,29 +94,18 @@
 	
 	<h2>{$aLang.profile_activity}</h2>
 	<table class="data">
-		{if $aUsersFrend}
+		{if $aUsersFriend}
 		<tr>
 			<td class="var">{$aLang.profile_friends}:</td>
 			<td class="friends">
-				{foreach from=$aUsersFrend item=oUserFrend}        						
-					<a href="{$oUserFrend->getUserWebPath()}">{$oUserFrend->getLogin()}</a>&nbsp; 
+				{foreach from=$aUsersFriend item=oUser}        						
+					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>&nbsp; 
 				{/foreach}
 			</td>
 		</tr>
 		{/if}
 		
-		{if $aUsersSelfFrend}
-		<tr>
-			<td class="var">{$aLang.profile_friends_self}:</td>
-			<td class="friends">
-				{foreach from=$aUsersSelfFrend item=oUserFrend}        						
-					<a href="{$oUserFrend->getUserWebPath()}">{$oUserFrend->getLogin()}</a>&nbsp; 
-				{/foreach}
-			</td>
-		</tr>
-		{/if}
-		
-		{if $USER_USE_INVITE and $oUserInviteFrom}
+		{if $oConfig->GetValue('general.reg.invite') and $oUserInviteFrom}
 		<tr>
 			<td class="var">{$aLang.profile_invite_from}:</td>
 			<td class="friends">							       						
@@ -121,10 +114,10 @@
 		</tr>
 		{/if}
 		
-		{if $USER_USE_INVITE and $aUsersInvite}
+		{if $oConfig->GetValue('general.reg.invite') and $aUsersInvite}
 		<tr>
 			<td class="var">{$aLang.profile_invite_to}:</td>
-			<td>
+			<td class="friends">
 				{foreach from=$aUsersInvite item=oUserInvite}        						
 					<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getLogin()}</a>&nbsp; 
 				{/foreach}
@@ -137,40 +130,43 @@
 			<td class="var">{$aLang.profile_blogs_self}:</td>
 			<td>							
 				{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
+					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
 				{/foreach}
 			</td>
 		</tr>
 		{/if}
 		
-		{if $aBlogsAdministration}
+		{if $aBlogAdministrators}
 		<tr>
 			<td class="var">{$aLang.profile_blogs_administration}:</td>
 			<td>
-				{foreach from=$aBlogsAdministration item=oBlogUser name=blog_user}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+				{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
+					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
 		{/if}
 		
-		{if $aBlogsModeration}
+		{if $aBlogModerators}
 		<tr>
 			<td class="var">{$aLang.profile_blogs_moderation}:</td>
 			<td>
-				{foreach from=$aBlogsModeration item=oBlogUser name=blog_user}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+				{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
+					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
 		{/if}
 		
-		{if $aBlogsUser}
+		{if $aBlogUsers}
 		<tr>
 			<td class="var">{$aLang.profile_blogs_join}:</td>
 			<td>
-				{foreach from=$aBlogsUser item=oBlogUser name=blog_user}
-					<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOG}/{$oBlogUser->getBlogUrl()}/">{$oBlogUser->getBlogTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+				{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
+					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
@@ -179,11 +175,13 @@
 		<tr>
 			<td class="var">{$aLang.profile_date_registration}:</td>
 			<td>{date_format date=$oUserProfile->getDateRegister()}</td>
-		</tr>					
+		</tr>	
+		{if $oSession}				
 		<tr>
 			<td class="var">{$aLang.profile_date_last}:</td>
-			<td>{date_format date=$oUserProfile->getDateLast()}</td>
+			<td>{date_format date=$oSession->getDateLast()}</td>
 		</tr>
+		{/if}
 	</table>
 </div>
 

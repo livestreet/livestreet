@@ -5,9 +5,10 @@
 <head>
 	<title>{$sHtmlTitle}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/style.css?v=1" />	
+	<link rel="stylesheet" type="text/css" href="{cfg name='path.static.skin'}/css/style.css?v=1" />	
+	
 	{if $bRefreshToHome}
-		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={$DIR_WEB_ROOT}/">
+		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
 </head>
 
@@ -15,7 +16,7 @@
 
 <div id="container">
 	<div id="header">
-		<h1><a href="{$DIR_WEB_ROOT}">LiveStreet</a></h1>
+		<h1><a href="{cfg name='path.root.web'}">LiveStreet</a></h1>
 	</div>
 	
 	{if !$noShowSystemMessage}

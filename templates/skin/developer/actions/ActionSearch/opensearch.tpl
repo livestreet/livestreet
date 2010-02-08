@@ -1,14 +1,14 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"> 
-	<ShortName>{$SITE_NAME}</ShortName> 
+	<ShortName>{cfg name='view.name'}</ShortName> 
 	<Description>{$sHtmlTitle}</Description> 
 	<Contact>{$sAdminMail}</Contact> 
-	<Url type="text/html" template="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/topics/?q={literal}{searchTerms}{/literal}" /> 
+	<Url type="text/html" template="{router page='search'}topics/?q={literal}{searchTerms}{/literal}" /> 
 	<LongName>{$sHtmlDescription}</LongName> 
-	<Image height="64" width="64" type="image/png">{$DIR_STATIC_SKIN}/img/logo.gif</Image> 
-	<Image height="16" width="16" type="image/vnd.microsoft.icon">{$DIR_STATIC_SKIN}/img/favicon.ico</Image> 
-	<Developer>{$SITE_NAME} ({$DIR_WEB_ROOT})</Developer> 
+	<Image height="64" width="64" type="image/png">{cfg name='path.static.skin'}/images/logo.gif</Image> 
+	<Image height="16" width="16" type="image/vnd.microsoft.icon">{cfg name='path.static.skin'}/images/favicon.ico</Image> 
+	<Developer>{cfg name='view.name'} ({cfg name='path.root.web'})</Developer> 
 	<Attribution> 
-		© «{$SITE_NAME}»
+		© «{cfg name='view.name'}»
 	</Attribution> 
 	<SyndicationRight>open</SyndicationRight> 
 	<AdultContent>false</AdultContent> 

@@ -69,6 +69,22 @@ var lsPanelClass = new Class({
 		if (Browser.Engine.trident) return document.selection.createRange().text;
 		//if (window.khtml) return window.getSelection();
 		return document.getSelection();
+	},
+	
+	putList: function(obj,select) {
+		obj=$(obj);
+		typeList = select.value;
+		
+		if (selText=obj.getSelectedText()) { 						
+			selText = selText.replace('/\r/g', '');
+			selText = selText != '' ? selText : ' ';
+			selText = selText.replace(new RegExp('^(.+)', 'gm'), '\t<li>$1</li>');	
+			this.putText(obj,'<'+typeList+'>\n'+selText+'\n</'+typeList+'>');	
+		} else {
+			this.putTextAround(obj,'<'+typeList+'>\n\t<li>','</li>\n</'+typeList+'>');
+		}
+				
+		select.selectedIndex=0;
 	}
 });
 

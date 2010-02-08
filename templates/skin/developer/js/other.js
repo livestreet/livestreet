@@ -6,8 +6,8 @@ function ajaxTextPreview(textId,save,divPreview) {
 		text = $(textId).value;	
 	}	
 	JsHttpRequest.query(
-    	DIR_WEB_ROOT+'/include/ajax/textPreview.php',                       
-        { text: text, save: save },
+    	'POST '+DIR_WEB_ROOT+'/include/ajax/textPreview.php',                       
+        { text: text, save: save, security_ls_key: LIVESTREET_SECURITY_KEY },
         function(result, errors) {  
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
@@ -30,26 +30,26 @@ function ajaxTextPreview(textId,save,divPreview) {
 
 // для опроса
 function addField(btn){
-        li = btn;
-        while (li.tagName != 'LI') li = li.parentNode;
-        var newTr = li.parentNode.insertBefore(li.cloneNode(true),li.nextSibling);
-        checkFieldForLast();
+	li = btn;
+	while (li.tagName != 'LI') li = li.parentNode;
+	var newTr = li.parentNode.insertBefore(li.cloneNode(true),li.nextSibling);
+	checkFieldForLast();
 }
 function checkFieldForLast(){	
-        btns = document.getElementsByName('drop_answer');      
-        for (i = 0; i < btns.length; i++){
-        	btns[i].disabled = false;            
-        }
-        if (btns.length<=2) {
-        	btns[0].disabled = true;
-        	btns[1].disabled = true;
-        }
+	btns = document.getElementsByName('drop_answer');      
+	for (i = 0; i < btns.length; i++){
+		btns[i].disabled = false;            
+	}
+	if (btns.length<=2) {
+		btns[0].disabled = true;
+		btns[1].disabled = true;
+	}
 }
 function dropField(btn){	
-        li = btn;
-        while (li.tagName != 'LI') li = li.parentNode;
-        li.parentNode.removeChild(li);
-        checkFieldForLast();
+	li = btn;
+	while (li.tagName != 'LI') li = li.parentNode;
+	li.parentNode.removeChild(li);
+	checkFieldForLast();
 }
 
 
@@ -60,36 +60,63 @@ function checkAllTalk(checkbox) {
 			chk.checked=true;
 		} else {
 			chk.checked=false;
-		}		
+		}
 	});	
 }
 
+function checkAllReport(checkbox) {
+	$$('.form_reports_checkbox').each(function(chk){
+		if (checkbox.checked) {
+			chk.checked=true;
+		} else {
+			chk.checked=false;
+		}
+	});	
+}
+
+function checkAllPlugins(checkbox) {
+	$$('.form_plugins_checkbox').each(function(chk){
+		if (checkbox.checked) {
+			chk.checked=true;
+		} else {
+			chk.checked=false;
+		}
+	});
+}
 
 function showImgUploadForm() {	
-	$$('.upload-form').setStyle('display', 'block');
+	if (Browser.Engine.trident) {
+		//return true;
+	}	
+	if (!winFormImgUpload) {		
+		winFormImgUpload=new StickyWin.Modal({content: $('window_load_img'), closeClassName: 'close-block', useIframeShim: false, modalOptions: {modalStyle:{'z-index':900}}});
+	}
+	winFormImgUpload.show();
+	winFormImgUpload.pin(true);	
+	$$('input[name=img_file]').set('value', '');
+	$$('input[name=img_url]').set('value', 'http://');	
+	return false;
 }
 
 function hideImgUploadForm() {
-	$$('.upload-form').setStyle('display', 'none');
+	winFormImgUpload.hide();
 }
-
 
 var winFormImgUpload;
 
 
-function ajaxUploadImg(value,sToLoad) {
-	sToLoad=$(sToLoad);
+function ajaxUploadImg(value,sToLoad) {	
 	var req = new JsHttpRequest();
 	req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 			if (req.responseJS.bStateError) {
 				msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);				
 			} else {				
-				sToLoad.insertAtCursor(req.responseJS.sText);
+				lsPanel.putText(sToLoad,req.responseJS.sText);
 				hideImgUploadForm();
 			}
 		}
 	}
 	req.open(null, DIR_WEB_ROOT+'/include/ajax/uploadImg.php', true);
-	req.send( { value: value } );
+	req.send( { value: value, security_ls_key: LIVESTREET_SECURITY_KEY } );
 }

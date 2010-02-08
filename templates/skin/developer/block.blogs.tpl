@@ -21,5 +21,5 @@
 		{$sBlogsTop}
 	</div>
 	
-	<div class="right"><a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_BLOGS}/">{$aLang.block_blogs_all}</a></div>
+	<div class="right"><a href="{router page='blogs'}">{$aLang.block_blogs_all}</a></div>
 </div>

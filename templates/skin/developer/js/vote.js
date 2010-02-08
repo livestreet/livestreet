@@ -23,7 +23,7 @@ var lsVoteClass = new Class({
         },
        
         typeVote: {
-                topic_comment: {
+                comment: {
                         url: DIR_WEB_ROOT+'/include/ajax/voteComment.php',
                         targetName: 'idComment'
                 },
@@ -59,9 +59,10 @@ var lsVoteClass = new Class({
                 var params = new Hash();
                 params['value']=value;
                 params[this.typeVote[type].targetName]=idTarget;
+                params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
                 JsHttpRequest.query(
-                        this.typeVote[type].url,                       
+                        'POST '+this.typeVote[type].url,                       
                         params,
                         function(result, errors) {     
                                 thisObj.onVote(result, errors, thisObj);                               

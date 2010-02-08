@@ -7,64 +7,75 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<meta name="DESCRIPTION" content="{$sHtmlDescription}" />
 	<meta name="KEYWORDS" content="{$sHtmlKeywords}" />	
+
+	{$aHtmlHeadFiles.css}
 	
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/style.css?v=1" />
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/roar.css" />
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/piechart.css" />
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/autocompleter.css" />
-	<link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/prettify.css" />
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="{$DIR_STATIC_SKIN}/css/ie.css?v=1" /><![endif]-->
-		
-	<link href="{$DIR_STATIC_SKIN}/images/favicon.ico" rel="shortcut icon" />
-	<link rel="search" type="application/opensearchdescription+xml" href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_SEARCH}/opensearch/" title="{$SITE_NAME}" />
+	<link href="{cfg name='path.static.skin'}/images/favicon.ico" rel="shortcut icon" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 	
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
-</head>
 
+	
+	<script language="JavaScript" type="text/javascript">
+		var DIR_WEB_ROOT='{cfg name="path.root.web"}';
+		var DIR_STATIC_SKIN='{cfg name="path.static.skin"}';
+		var BLOG_USE_TINYMCE='{cfg name="view.tinymce"}';
+		var TALK_RELOAD_PERIOD='{cfg name="module.talk.period"}';
+		var TALK_RELOAD_REQUEST='{cfg name="module.talk.request"}'; 
+		var TALK_RELOAD_MAX_ERRORS='{cfg name="module.talk.max_errors"}';
+		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 
+		var TINYMCE_LANG='en';
+		{if $oConfig->GetValue('lang.current')=='russian'}
+		TINYMCE_LANG='ru';
+		{/if}
 
+		var aRouter=new Array();
+		{foreach from=$aRouter key=sPage item=sPath}
+		aRouter['{$sPage}']='{$sPath}';
+		{/foreach}
+	</script>
 
-<script language="JavaScript" type="text/javascript">
-var DIR_WEB_ROOT='{$DIR_WEB_ROOT}';
-var DIR_STATIC_SKIN='{$DIR_STATIC_SKIN}';
-var BLOG_USE_TINYMCE='{$BLOG_USE_TINYMCE}';
-</script>
+	
+	{$aHtmlHeadFiles.js}
 
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/JsHttpRequest/JsHttpRequest.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/mootools-1.2.js?v=1.2.2"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Roal/Roar.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Observer.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js"></script>
-<script type="text/javascript" src="{$DIR_WEB_ROOT}/classes/lib/external/prettify/prettify.js"></script>
-
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/vote.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/favourites.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/questions.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/block_loader.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/friend.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/blog.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/other.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/login.js"></script>
-<script type="text/javascript" src="{$DIR_STATIC_SKIN}/js/panel.js"></script>
-
-{literal}
-<script language="JavaScript" type="text/javascript">
-var tinyMCE=false;
-var msgErrorBox=new Roar({
+	
+	{literal}
+	<script language="JavaScript" type="text/javascript">
+		var tinyMCE=false;
+		var msgErrorBox=new Roar({
 			position: 'upperRight',
 			className: 'roar-error',
 			margin: {x: 30, y: 10}
 		});	
-var msgNoticeBox=new Roar({
+		var msgNoticeBox=new Roar({
 			position: 'upperRight',
 			className: 'roar-notice',
 			margin: {x: 30, y: 10}
 		});	
-</script>
-{/literal}
+	</script>
+	{/literal}
+
+	
+	{if $oUserCurrent && $oConfig->GetValue('module.talk.reload')}
+		{literal}
+		<script language="JavaScript" type="text/javascript">
+			var talkNewMessages=new lsTalkMessagesClass({
+				reload: {
+					request: TALK_RELOAD_REQUEST,
+					url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php',
+					errors: TALK_RELOAD_MAX_ERRORS
+				}
+			});  
+			(function(){
+				talkNewMessages.get();
+			}).periodical(TALK_RELOAD_PERIOD);
+		</script>
+		{/literal}
+	{/if}
+</head>
 
 
 

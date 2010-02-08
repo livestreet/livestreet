@@ -1,7 +1,7 @@
 {include file='header.light.tpl'}
 
 <div class="center-block">
-	<form action="{$DIR_WEB_ROOT}/registration/" method="POST">
+	<form action="{router page='registration'}" method="POST">
 		<h3>{$aLang.registration}</h3>
 		
 		<p><label for="login">{$aLang.registration_login}:</label>
@@ -20,7 +20,7 @@
 		<input type="password" name="password_confirm" id="repass" class="input-text" value="" /></p>
 
 		<p><label for="captcha">{$aLang.registration_captcha}:</label>
-		<img src="{$DIR_WEB_ROOT}/classes/lib/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" /><br />
+		<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}"  onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();"><br />
 		<input type="text" name="captcha" id="captcha" maxlength="3" class="input-text captcha" value="" /></p>
 
 		<input type="submit" name="submit_register" value="{$aLang.registration_submit}" />

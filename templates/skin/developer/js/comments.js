@@ -1,4 +1,3 @@
-
 var lsCmtTreeClass = new Class({
 					   
 	Implements: Options,	
@@ -12,11 +11,22 @@ var lsCmtTreeClass = new Class({
 		classes: {
 			visible: 	'lsCmtTree_visible',
 			hidden:  	'lsCmtTree_hidden',			
-			openImg:  	'lsCmtTree_open',			
-			closeImg:  	'lsCmtTree_close'			
-		}		
+			openImg:  	'lsCmtTree_open',
+			closeImg:  	'lsCmtTree_close'
+		}
 	},
 
+	typeComment: {
+		topic: {
+			url_add: aRouter.blog+'ajaxaddcomment/',			
+			url_response: DIR_WEB_ROOT+'/include/ajax/commentResponse.php'		
+		},
+		talk: {
+			url_add: aRouter.talk+'ajaxaddcomment/',
+			url_response: aRouter.talk+'ajaxresponsecomment/'
+		}
+	},
+	
 	initialize: function(options){		
 		this.setOptions(options);		
 		this.make();		
@@ -32,13 +42,13 @@ var lsCmtTreeClass = new Class({
 		var thisObj = this;
 		var aImgFolding=$$('img.folding');
 		aImgFolding.each(function(img, i){
-			var divComment = img.getParent('div').getChildren('div.comment-children')[0];			
+			var divComment = img.getParent('div').getChildren('div.comment-children')[0];
 			if (divComment && divComment.getChildren('div.comment')[0]) {
 				thisObj.makeImg(img);
 			} else {
 				img.setStyle('display','none');
 			}
-		});		
+		});
 	},
 	
 	makeImg: function(img) {
@@ -48,7 +58,7 @@ var lsCmtTreeClass = new Class({
 		img.addClass(this.options.classes.closeImg);
 		img.removeEvents('click');
 		img.addEvent('click',function(){
-			thisObj.toggleNode(img);		
+			thisObj.toggleNode(img);
 		});
 	},
 	
@@ -80,7 +90,7 @@ var lsCmtTreeClass = new Class({
 		var divComment = img.getParent('div').getChildren('div.comment-children')[0];		
 		
 		divComment.removeClass(thisObj.options.classes.visible);
-		divComment.addClass(thisObj.options.classes.hidden);		
+		divComment.addClass(thisObj.options.classes.hidden);
 	},
 	
 	expandNodeAll: function() {
@@ -114,7 +124,7 @@ var lsCmtTreeClass = new Class({
 		}	
 	},	
 	
-	responseNewComment: function(idTopic,objImg,selfIdComment,bNotFlushNew) {
+	responseNewComment: function(idTarget,typeTarget,objImg,selfIdComment,bNotFlushNew) {
 		var thisObj=this;		
 		
 		if (!bNotFlushNew) {
@@ -132,9 +142,9 @@ var lsCmtTreeClass = new Class({
 		objImg=$(objImg);
 		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
 		(function(){		
-		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentResponse.php',
-        	{ idCommentLast: idCommentLast, idTopic: idTopic },
+		JsHttpRequest.query(        	
+        	'POST '+thisObj.typeComment[typeTarget].url_response,
+        	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {        		
         		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif'); 
             	if (!result) {
@@ -229,33 +239,34 @@ var lsCmtTreeClass = new Class({
 		this.iCommentIdLastView=idComment;
 	},
 	
-	addComment: function(formObj,topicId) {
+	addComment: function(formObj,targetId,targetType) {
 		var thisObj=this;
 		formObj=$(formObj);			
 		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentAdd.php',
-        	{ params: formObj },
-        	function(result, errors) {         		 
+        	'POST '+thisObj.typeComment[targetType].url_add,
+        	{ params: formObj, security_ls_key: LIVESTREET_SECURITY_KEY },
+        	function(result, errors) {
             	if (!result) {
             		thisObj.enableFormComment();
-                	msgErrorBox.alert('Error','Please try again later');           
+                	msgErrorBox.alert('Error','Please try again later');  
+                	return;         
         		}      
         		if (result.bStateError) {        			
 					thisObj.enableFormComment();        			
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-        		} else {       
-        			$('form_comment_text').disabled=true; 			
-        			thisObj.responseNewComment(topicId,$('update-comments'),result.sCommentId,true);        			   								
+        		} else {
+        			thisObj.responseNewComment(targetId,targetType,$('update-comments'),result.sCommentId,true);        			   								
         		}                           
 	        },
         	true
       	);
       	$('form_comment_text').addClass('loader');		
+      	$('form_comment_text').setProperty('readonly',true);		
 	},
 	
 	enableFormComment: function() {
 		$('form_comment_text').removeClass('loader');
-		$('form_comment_text').disabled=false; 
+		$('form_comment_text').setProperty('readonly',false);
 	},
 	
 	addCommentScroll: function(commentId) {
@@ -269,10 +280,10 @@ var lsCmtTreeClass = new Class({
 			return false;
 		}
 		
-		var thisObj=this;			
+		var thisObj=this;
 		JsHttpRequest.query(
-        	DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
-        	{ idComment: commentId },
+        	'POST '+DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
+        	{ idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
         	function(result, errors) {         		 
             	if (!result) {
                 	msgErrorBox.alert('Error','Please try again later');           
@@ -308,8 +319,10 @@ var lsCmtTreeClass = new Class({
 		
 		$('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
 		if (this.iCurrentShowFormComment==idComment) {
-			slideCurrentForm.toggle();
-			//$('form_comment_text').focus();
+			slideCurrentForm.toggle();			
+			slideCurrentForm.addEvent('complete', function() {
+        		$('form_comment_text').focus();
+			});
 			return;
 		}
 		
@@ -320,11 +333,13 @@ var lsCmtTreeClass = new Class({
 		slideNextForm.hide();
 		
 		slideNextForm.slideIn();
-				
-		//$('form_comment_text').focus();
+		
 		$('form_comment_text').setProperty('value','');
 		$('form_comment_reply').setProperty('value',idComment);
 		this.iCurrentShowFormComment=idComment;
+		slideNextForm.addEvent('complete', function() {
+        	$('form_comment_text').focus();
+		});
 	},
 	
 	hideCommentForm: function(idComment) {
@@ -382,3 +397,9 @@ window.addEvent('domready', function() {
     });
 });
 
+window.addEvent('keyup', function(e) {
+	if(e.control && e.key == 'enter') {
+		$('form_comment').getElement('input[name=submit_comment]').click();
+		return false;
+	}
+});

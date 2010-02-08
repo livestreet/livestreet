@@ -1,10 +1,10 @@
 {include file='header.light.tpl'}
 
 <div class="center-block">
-	<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/" method="POST">
+	{if $bLoginError}<p class="error">{$aLang.user_login_bad}</p>{/if}
+	
+	<form action="{router page='login'}" method="POST">
 		<h3>{$aLang.user_authorization}</h3>
-		
-		{if $bLoginError}<p class="error">{$aLang.user_login_bad}</p>{/if}
 		
 		<label for="login-input">{$aLang.user_login}:</label>
 		<p><input type="text" name="login" id="login-input" class="input-text" /></p>
@@ -17,15 +17,15 @@
 		
 		<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" /><br /><br />
 
-		<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/">{$aLang.user_password_reminder}</a><br />
-		<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">{$aLang.user_registration}</a>
+		<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a><br />
+		<a href="{router page='registration'}">{$aLang.user_registration}</a>
 	</form>
 </div>
 
 
-{if $USER_USE_INVITE} 	
+{if $oConfig->GetValue('general.reg.invite')} 	
 	<div class="center-block">	
-		<form action="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/invite/" method="POST">
+		<form action="{router page='registration'}invite/" method="POST">
 			<h3>{$aLang.registration_invite}</h3>
 			<label for="invite_code">{$aLang.registration_invite_code}:</label>
 			<p><input type="text" class="input-text" name="invite_code" id="invite_code" /></p>				

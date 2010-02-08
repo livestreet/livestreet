@@ -5,7 +5,7 @@
 	<div class="content">
 		<h2>{$oPage->getTitle()}</h2>
 		
-		{if $BLOG_USE_TINYMCE}
+		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}
 			{$oPage->getText()|nl2br}
