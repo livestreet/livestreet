@@ -179,6 +179,12 @@ class LsPlugin extends Module {
 					}
 					
 					$bResult=$oPlugin->$sAction();
+				} else {
+					/**
+					 * Исполняемый файл плагина не найден
+					 */
+					$this->Message_AddError($this->Lang_Get('plugins_activation_file_not_found'),$this->Lang_Get('error'),true);
+					return;
 				}
 				
 				if($bResult) {

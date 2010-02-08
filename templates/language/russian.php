@@ -778,6 +778,7 @@ return array(
 	'plugins_unknown_action' => 'Указано неизвестное действие',
 	'plugins_action_ok' => 'Успешно выполнено',
 	'plugins_activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',
+	'plugins_activation_file_not_found' => 'Файл плагина не найден',
 	'plugins_activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
 	'plugins_activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
 	'plugins_submit_delete' => 'Удалить плагины',
