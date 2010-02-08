@@ -85,8 +85,26 @@ class LsPlugin extends Module {
 			 * Считываем данные из XML файла описания
 			 */
 			$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
-			if($this->aPluginsList[$sPlugin]['property'] = @simplexml_load_file($sPluginXML)) {
-				$this->aPluginsList[$sPlugin]['property']->homepage=$this->Text_Parser($this->aPluginsList[$sPlugin]['property']->homepage);
+			if($oXml = @simplexml_load_file($sPluginXML)) {
+				/**
+				 * Обрабатываем данные, считанные из XML-описания
+				 */
+				$sLang=$this->Lang_GetLang();
+				$oXml->name->data = count($aName=$oXml->xpath("name/lang/{$sLang}")) 
+					? $this->Text_Parser(trim(array_shift($aName)))
+					: $this->Text_Parser(trim($oXml->name->data));
+					
+				$oXml->author->data = count($aAuthor=$oXml->xpath("author/lang/{$sLang}")) 
+					? $this->Text_Parser(trim(array_shift($aAuthor)))
+					: $this->Text_Parser(trim($oXml->author->data));
+				
+				$oXml->description->data = count($aDescription=$oXml->xpath("description/lang/{$sLang}")) 
+					? $this->Text_Parser(trim(array_shift($aDescription)))
+					: $this->Text_Parser(trim($oXml->description->data));
+
+				$oXml->homepage=$this->Text_Parser($oXml->homepage);
+				
+				$this->aPluginsList[$sPlugin]['property']=$oXml;
 			}
 		}
 		
