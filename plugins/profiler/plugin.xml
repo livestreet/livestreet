@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
 	<name>
-		<data>
-			Livestreet Profiler Plugin
-		</data>
+		<lang name="default">Livestreet Profiler Plugin</lang>
 	</name>
 	<author>
-		<data>
-			LiveStreet Developers Team
-		</data>
+		<lang name="default">LiveStreet Developers Team</lang>
 	</author>
 	<homepage>http://livestreet.ru/</homepage>
 	<version>1.0.0</version>
@@ -19,14 +15,8 @@
 		</plugins>
 	</requires>
 	<description>
-		<data>
-			Профилирование работы движка LiveStreet-движка.
-		</data>
-		<lang>
-			<english>
-				Profiling the engine`s working.
-			</english>
-		</lang>
+		<lang name="default">Profiling the engine`s working.</lang>
+		<lang name="russian">Профилирование работы движка LiveStreet-движка.</lang>
 	</description>
 	<delegate>
 		<module></module>
