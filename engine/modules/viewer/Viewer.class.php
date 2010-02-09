@@ -973,8 +973,11 @@ class LsViewer extends Module {
 	 * @return string
 	 */
 	protected function GetWebPath($sFile) {
-		$sFile=str_replace(DIRECTORY_SEPARATOR,'/',$sFile);
-		return str_replace(Config::Get('path.root.server'),Config::Get('path.root.web'),$sFile);
+		return str_replace(
+			str_replace(DIRECTORY_SEPARATOR,'/',Config::Get('path.root.server')),
+			Config::Get('path.root.web'),
+			str_replace(DIRECTORY_SEPARATOR,'/',$sFile)
+		);
 	}
 	/**
 	 * Преобразует WEB-путь файла в серверный вариант
