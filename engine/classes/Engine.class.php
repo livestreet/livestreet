@@ -211,7 +211,9 @@ class Engine extends Object {
 	protected function LoadModules() {
 		$this->LoadConfig();
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
-			$this->LoadModule($sModuleName);
+			if (!isset($this->aModules[$sModuleName])) {
+				$this->LoadModule($sModuleName);
+			}
 		}
 	}
 	/**
@@ -283,11 +285,11 @@ class Engine extends Object {
 
 			foreach ($aPluginList as $sPluginName) {
 				$sDirPlugins=Config::Get('path.root.server').'/plugins/';
-				$sFile="{$sDirPlugins}{$sPluginName}/Plugin{$sPluginName}.class.php";
+				$sPluginNameClass='Plugin'.ucfirst($sPluginName);
+				$sFile="{$sDirPlugins}{$sPluginName}/{$sPluginNameClass}.class.php";
 				if(is_file($sFile)) {
-					require_once($sFile);
-					
-					$sClassName="Plugin{$sPluginName}";
+					require_once($sFile);					
+					$sClassName="{$sPluginNameClass}";
 					$oPlugin=new $sClassName;
 					$oPlugin->Delegate();
 					$oPlugin->Init();
