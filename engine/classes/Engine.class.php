@@ -196,7 +196,7 @@ class Engine extends Object {
 		 * Создаем объект модуля
 		 */		
 		$oModule=new $sModuleNameClass($this);
-		if (($bInit or $sModuleName=='Cache') and !$oModule->isInit()) {
+		if ($bInit or $sModuleName=='Cache') {
 			$oModule->Init();
 			$oModule->SetInit();
 		}
