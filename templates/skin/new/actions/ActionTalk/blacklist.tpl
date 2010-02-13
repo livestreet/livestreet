@@ -50,7 +50,7 @@
 						function addListItem(sId,sLogin) {
 							if($('blackListBlock').getElements('li').length==0) {
 								$('list_uncheck_all').removeProperty('style');
-								list=new Element('ul', {class:'list',id:'blackList'});
+								list=new Element('ul', {'class':'list',id:'blackList'});
 								$('blackListBlock').adopt(list);
 							}
 							
