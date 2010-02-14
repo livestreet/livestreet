@@ -48,14 +48,14 @@
 		function addListItem(sId,sLogin) {
 			if($('blackListBlock').getElements('li').length==0) {
 				$('list_uncheck_all').removeProperty('style');
-				list=new Element('ul', {class:'list',id:'blackList'});
+				list=new Element('ul', {'class':'list user-list',id:'blackList'});
 				$('blackListBlock').adopt(list);
 			}
 			
 			oSpan=new Element('span',
 				{
 					'class'  : 'user',
-					'text'   : sLogin
+					'text'   : sLogin+' '
 				}
 			);
 			oLink=new Element('a',
@@ -63,7 +63,7 @@
 					'id'    : 'blacklist_item_'+sId,
 					'href'  : "#",
 					'class' : 'delete',
-					'html' : ' &mdash; Удалить',
+					'html' : '(Удалить)',
 					'events': {
 						'click': function() {
 							deleteFromBlackList(this); 
@@ -136,7 +136,7 @@
 		{/literal}
 		<ul class="list user-list" id="blackList">
 			{foreach from=$aUsersBlacklist item=oUser}
-				<li>{$oUser->getLogin()} &mdash; <a href="#" id="blacklist_item_{$oUser->getId()}" onclick="deleteFromBlackList(this); return false;" class="delete">{$aLang.comment_delete}</a></li>						
+				<li>{$oUser->getLogin()} <a href="#" id="blacklist_item_{$oUser->getId()}" onclick="deleteFromBlackList(this); return false;" class="delete">({$aLang.comment_delete})</a></li>						
 			{/foreach}
 		</ul>
 	{/if}
