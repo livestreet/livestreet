@@ -1247,12 +1247,13 @@ class Install {
 			 */
 			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
 				$sQuery = "INSERT INTO `{$aParams['prefix']}vote` 
-						   VALUES ( 
-						   	'{$aRow[$sTarget.'_id']}', 
-						   	'{$sTarget}', '{$aRow['user_voter_id']}',  
-						   	'".(($aRow['vote_delta']>=0)?1:-1)."', 
-						   	'{$aRow['vote_delta']}', 
-						   	'".date("Y-m-d H:i:s")."')";
+							SET
+								target_id = '{$aRow[$sTarget.'_id']}',
+								target_type = '{$sTarget}',
+								user_voter_id = '{$aRow['user_voter_id']}',
+								vote_direction = '".(($aRow['vote_delta']>=0)?1:-1)."', 
+								vote_value = '{$aRow['vote_delta']}',
+								vote_date = '".date("Y-m-d H:i:s")."'";
 				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 			}
 			mysql_free_result($aResults);
@@ -1287,18 +1288,21 @@ class Install {
 						
 					$aRow['talk_comment_pid']= is_int($aRow['talk_comment_pid']) ? $aRow['talk_comment_id']+$iMaxId : "NULL"; 
 					$sQuery = "INSERT INTO `{$aParams['prefix']}comment` 
-							   VALUES ( 
-							   	'{$aRow['talk_comment_id']}', 
-							   	{$aRow['talk_comment_pid']}, 
-							   	'{$aRow['talk_id']}',
-							   	'talk', '0',
-							   	'{$aRow['user_id']}',
-							   	'".mysql_real_escape_string($aRow['talk_comment_text'])."', 
-							   	'".md5($aRow['talk_comment_text'])."', 
-							   	'{$aRow['talk_comment_date']}',
-							   	'{$aRow['talk_comment_user_ip']}',
-							   	'0', '0', '0', '1'
-							   )";
+								SET
+									comment_id = '{$aRow['talk_comment_id']}',
+									comment_pid = {$aRow['talk_comment_pid']}, 
+									target_id = '{$aRow['talk_id']}',
+									target_type = 'talk',
+									target_parent_id = '0',
+									user_id = '{$aRow['user_id']}',
+									comment_text = '".mysql_real_escape_string($aRow['talk_comment_text'])."',
+									comment_text_hash = '".md5($aRow['talk_comment_text'])."',
+									comment_date = '{$aRow['talk_comment_date']}',
+									comment_user_ip = '{$aRow['talk_comment_user_ip']}',
+									comment_rating = '0',
+									comment_count_vote = '0',
+									comment_delete = '0',
+									comment_publish = '1' ";
 					if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 				}
 				$iAutoIncrement++;
