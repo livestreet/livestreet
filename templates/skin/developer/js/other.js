@@ -85,21 +85,11 @@ function checkAllPlugins(checkbox) {
 }
 
 function showImgUploadForm() {	
-	if (Browser.Engine.trident) {
-		//return true;
-	}	
-	if (!winFormImgUpload) {		
-		winFormImgUpload=new StickyWin.Modal({content: $('window_load_img'), closeClassName: 'close-block', useIframeShim: false, modalOptions: {modalStyle:{'z-index':900}}});
-	}
-	winFormImgUpload.show();
-	winFormImgUpload.pin(true);	
-	$$('input[name=img_file]').set('value', '');
-	$$('input[name=img_url]').set('value', 'http://');	
-	return false;
+	$$('.upload-form').setStyle('display', 'block');
 }
 
 function hideImgUploadForm() {
-	winFormImgUpload.hide();
+	$$('.upload-form').setStyle('display', 'none');
 }
 
 var winFormImgUpload;
