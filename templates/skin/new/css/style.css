@@ -282,7 +282,7 @@ select { width: 99%; }
 
 /* Block Nav
 -------------------------------------------------------------------*/
-.block-nav { overflow: hidden; margin-bottom: 5px; }
+.block-nav { overflow: hidden; padding-bottom: 5px; }
 .block-nav li { font-size: 11px; line-height: 11px; float: left; background: url(../images/bg.gif) repeat-x scroll 0 -534px; padding: 0 !important; }
 .block-nav li a { color: #a2a2a2; text-decoration: none; outline: none; padding: 3px 0 7px 0; margin: 0 8px; display: block; float: left; }
 .block-nav li strong { float: left; display: block; width: 5px; height: 21px; margin-right: -5px; background: url(../images/bg.gif) no-repeat scroll -9px -555px; }
@@ -788,7 +788,7 @@ button em, a.button em { font-style: normal; padding-right: 20px; background: ur
 a.button.small { font-size: 12px; text-decoration: none; }
 a.button.small span, a.button.small em { height: 22px; line-height: 22px; }
 a.button.small span { background: url(../images/button-small.gif) no-repeat 0 0; margin-right: 20px; }
-a.button.small em { background: url(../images/button-small.gif) no-repeat right 0; }
+a.button.small em { background: url(../images/button-small.gif) no-repeat right 0; _padding-left: 10px; }
 
 #system_messages_error { background: #f0c8c8; border: 1px solid #ff8181; padding: 15px; margin-bottom: 15px; color: #b22626; }
 #system_messages_notice { background: #dafad8; border: 1px solid #83c460; padding: 15px; margin-bottom: 15px; color: #4bb23b; }
