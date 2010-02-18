@@ -1036,7 +1036,7 @@ class Install {
 	 * @return mixed
 	 */
 	function ValidateDBConnection($aParams) {
-		$oDb = @mysql_connect($aParams['server'],$aParams['user'],$aParams['password']);
+		$oDb = @mysql_connect($aParams['server'].':'.$aParams['port'],$aParams['user'],$aParams['password']);
 		if( $oDb ) {
 			/**
 			 * Валидация версии MySQL сервера
