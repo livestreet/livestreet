@@ -204,11 +204,10 @@ class ActionTalk extends Action {
 		}
 		if($sKeyRequest=getRequest('keyword')){
 			$sKeyRequest=urldecode($sKeyRequest);
-		    $aWords= (1===preg_match('##u', $sKeyRequest)) 
-		    	? preg_split('#[\W_]+#Disu', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY) 
-		    	: preg_split('#[\W_]+#Dis', $sKeyRequest, -1, PREG_SPLIT_NO_EMPTY); 
-			if(is_array($aWords)&&count($aWords)) {
-				$aFilter['keyword']='%'.implode('%',$aWords).'%';
+		    preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
+		    
+		    if(is_array($aWords[1])&&isset($aWords[1])&&count($aWords[1])) {
+				$aFilter['keyword']='%'.implode('%',$aWords[1]).'%';
 			} else {
 				unset($_REQUEST['keyword']);
 			}
