@@ -97,6 +97,12 @@ class LsPlugin extends Module {
 				$oXml->homepage=$this->Text_Parser($oXml->homepage);
 				
 				$this->aPluginsList[$sPlugin]['property']=$oXml;
+			} else {
+				/**
+				 * Если XML-файл описания отсутствует, или не является валидным XML,
+				 * удаляем плагин из списка
+				 */
+				unset($this->aPluginsList[$sPlugin]);
 			}
 		}
 		
@@ -270,7 +276,11 @@ class LsPlugin extends Module {
 		file_put_contents($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE, implode(PHP_EOL,$aPlugins));
 	}
 	
-	
+	/**
+	 * Удаляет плагины с сервера
+	 *
+	 * @param array $aPlugins
+	 */
 	public function Delete($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins=array($aPlugins);
 		
