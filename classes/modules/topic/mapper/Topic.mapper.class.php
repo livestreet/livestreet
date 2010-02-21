@@ -417,7 +417,9 @@ class Mapper_Topic extends Mapper {
 			$sWhere.=" AND t.topic_date_add >=  '".$aFilter['topic_new']."'";
 		}
 		if (isset($aFilter['user_id'])) {
-			$sWhere.=" AND t.user_id =  ".(int)$aFilter['user_id'];
+			$sWhere.=is_array($aFilter['user_id'])
+				? " AND t.user_id IN(".implode(', ',$aFilter['user_id']).")"
+				: " AND t.user_id =  ".(int)$aFilter['user_id'];
 		}
 		if (isset($aFilter['blog_id'])) {
 			if(!is_array($aFilter['blog_id'])) {
@@ -448,7 +450,6 @@ class Mapper_Topic extends Mapper {
 			}
 			$sWhere.=" AND (".join(" OR ",(array)$aBlogTypes).")";
 		}
-		
 		return $sWhere;
 	}
 	
