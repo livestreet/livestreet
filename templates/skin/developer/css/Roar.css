@@ -1,0 +1,119 @@
+/*
+ошибки
+*/
+.roar-error-body
+{
+	position:				absolute;
+	font:					12px/14px "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	color:					#fff;
+	text-align:				left;
+	z-index:				999;
+}
+
+.roar-error
+{
+	position:				absolute;
+	width:					300px;
+	cursor:					pointer;
+}
+.roar-error-bg
+{
+	position:				absolute;
+	z-index:				1000;
+	width:					100%;
+	height:					100%;
+	left:					0;
+	top:					0;
+	background-color:		#f00;
+	-moz-border-radius:		10px;
+	-webkit-border-radius:	5px;
+	-webkit-box-shadow:		0 0 5px rgba(0, 0, 0, 0.5);
+}
+.roar-error-body-ugly .roar-error
+{
+	background-color:		#bf0000;
+}
+.roar-error-body-ugly .roar-error-bg
+{
+	display:				none;
+}
+.roar-error h3
+{
+	position:				relative;
+	padding:				15px 10px 0;
+	margin:					0;
+	border:					0;
+	font-size:				15px;
+	color:					#fff;
+	z-index:				1002;
+}
+.roar-error p
+{
+	position:				relative;
+	padding:				10px 10px 15px;
+	margin:					0;
+	font-size:				12px;
+	color:					#fff;
+	z-index:				1002;
+}
+
+
+
+/*
+алерт
+*/
+.roar-notice-body
+{
+	position:				absolute;
+	font:					12px/14px "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	color:					#fff;
+	text-align:				left;
+	z-index:				999;
+}
+
+.roar-notice
+{
+	position:				absolute;
+	width:					300px;
+	cursor:					pointer;
+}
+.roar-notice-bg
+{
+	position:				absolute;
+	z-index:				1000;
+	width:					100%;
+	height:					100%;
+	left:					0;
+	top:					0;
+	background-color:		#399f2f;
+	-moz-border-radius:		10px;
+	-webkit-border-radius:	5px;
+	-webkit-box-shadow:		0 0 5px rgba(0, 0, 0, 0.5);
+}
+.roar-notice-body-ugly .roar-notice
+{
+	background-color:		#399f2f;
+}
+.roar-notice-body-ugly .roar-notice-bg
+{
+	display:				none;
+}
+.roar-notice h3
+{
+	position:				relative;
+	padding:				15px 10px 0;
+	margin:					0;
+	border:					0;
+	font-size:				15px;
+	color:					#fff;
+	z-index:				1002;
+}
+.roar-notice p
+{
+	position:				relative;
+	padding:				10px 10px 15px;
+	margin:					0;
+	font-size:				12px;
+	color:					#fff;
+	z-index:				1002;
+}
