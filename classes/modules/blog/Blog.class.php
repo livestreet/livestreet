@@ -100,22 +100,18 @@ class LsBlog extends Module {
 			}
 			if (isset($aBlogUsers[$oBlog->getId()])) {
 				$oBlog->setUserIsJoin(true);
-				if ($aBlogUsers[$oBlog->getId()]->getIsAdministrator()) {
-					$oBlog->setUserIsAdministrator(true);
-				}
-				if ($aBlogUsers[$oBlog->getId()]->getIsModerator()) {
-					$oBlog->setUserIsModerator(true);
-				}
+				$oBlog->setUserIsAdministrator($aBlogUsers[$oBlog->getId()]->getIsAdministrator());
+				$oBlog->setUserIsModerator($aBlogUsers[$oBlog->getId()]->getIsModerator());
 			} else {
 				$oBlog->setUserIsJoin(false);
 				$oBlog->setUserIsAdministrator(false);
 				$oBlog->setUserIsModerator(false);
-			}				
+			}
 			if (isset($aBlogsVote[$oBlog->getId()])) {
 				$oBlog->setVote($aBlogsVote[$oBlog->getId()]);				
 			} else {
 				$oBlog->setVote(null);
-			}		
+			}
 		}
 		
 		return $aBlogs;
