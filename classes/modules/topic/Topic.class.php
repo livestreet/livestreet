@@ -143,7 +143,7 @@ class LsTopic extends Module {
 				}
 			}
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_new',"topic_new_user_{$oTopic->getUserId()}","topic_new_blog_{$oTopic->getBlogId()}"));						
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_new',"topic_update_user_{$oTopic->getUserId()}","topic_new_blog_{$oTopic->getBlogId()}"));						
 			return $oTopic;
 		}
 		return false;
@@ -162,10 +162,16 @@ class LsTopic extends Module {
 	 * Удаляет топик.
 	 * Если тип таблиц в БД InnoDB, то удалятся всё связи по топику(комменты,голосования,избранное)
 	 *
-	 * @param unknown_type $sTopicId
+	 * @param unknown_type $oTopicId|$sTopicId
 	 * @return unknown
 	 */
-	public function DeleteTopic($sTopicId) {
+	public function DeleteTopic($oTopicId) {
+		if ($oTopicId instanceof TopicEntity_Topic) {
+			$sTopicId=$oTopicId->getId();
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update_user_{$oTopicId->getUserId()}"));
+		} else {
+			$sTopicId=$oTopicId;
+		}
 		/**
 		 * Чистим зависимые кеши
 		 */
@@ -637,7 +643,7 @@ class LsTopic extends Module {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_count_user_{$s}"))) {			
 			$data = $this->oMapperTopic->GetCountTopics($aFilter);
-			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}","topic_new_user_{$sUserId}"), 60*60*24);
+			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}"), 60*60*24);
 		}
 		return 	$data;		
 	}
