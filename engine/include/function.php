@@ -166,6 +166,9 @@ function func_stripslashes(&$data) {
  * @return unknown
  */
 function func_check($sValue,$sParam,$iMin=1,$iMax=100) {
+	if (is_array($sValue)) {
+		return false;
+	}
 	switch($sParam)
 	{
 		case 'id': if (preg_match("/^\d{".$iMin.','.$iMax."}$/",$sValue)){ return true; } break;				

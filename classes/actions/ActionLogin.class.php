@@ -45,7 +45,7 @@ class ActionLogin extends Action {
 		/**
 		 * Если нажали кнопку "Войти"
 		 */
-		if (isPost('submit_login')) {
+		if (isPost('submit_login') and is_string(getRequest('login')) and is_string(getRequest('password'))) {
 			/**
 			 * Проверяем есть ли такой юзер по логину
 			 */
