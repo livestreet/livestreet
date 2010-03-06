@@ -241,7 +241,7 @@ class LsImage extends Module {
 	public function GetWebPath($sPath) {
 		$sServerPath = rtrim(str_replace(DIRECTORY_SEPARATOR,'/',Config::Get('path.root.server')),'/');
 		$sWebPath    = rtrim(Config::Get('path.root.web'), '/');
-		return str_replace($sServerPath, $sWebPath, $sPath);
+		return str_replace($sServerPath, $sWebPath, str_replace(DIRECTORY_SEPARATOR,'/',$sPath));
 	}
 	/**
 	 * Получает директорию для данного пользователя
