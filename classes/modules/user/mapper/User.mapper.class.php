@@ -471,11 +471,7 @@ class Mapper_User extends Mapper {
 	 * @param  int    $iStatus
 	 * @return array
 	 */
-	public function GetUsersFriend($sUserId,$iStatus=null) {
-		if(!$iStatus) {
-			$iStatus=LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER;
-		}
-		
+	public function GetUsersFriend($sUserId) {
 		$sql = "SELECT 
 					uf.user_from,
 					uf.user_to							
@@ -486,14 +482,19 @@ class Mapper_User extends Mapper {
 					OR
 					uf.user_to = ?d )
 					AND 
-					( uf.status_from + uf.status_to = ?d )
+					( 	uf.status_from + uf.status_to = ?d 
+					OR
+						(uf.status_from = ?d AND uf.status_to = ?d )
+					)
 					;";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select(
 				$sql,
 				$sUserId,
 				$sUserId,
-				$iStatus 
+				LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER,
+				LsUser::USER_FRIEND_ACCEPT,
+				LsUser::USER_FRIEND_ACCEPT 
 			)
 		) {
 			foreach ($aRows as $aUser) {
