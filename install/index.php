@@ -1515,11 +1515,11 @@ class Install {
 	}
 	
 	function GetPathRootWeb() {
-		return rtrim('http://'.$_SERVER['HTTP_HOST'],'/');
+		return rtrim('http://'.$_SERVER['HTTP_HOST'],'/').str_replace('/install/index.php','',$_SERVER['PHP_SELF']);
 	}
 	
 	function GetPathRootServer() {
-		return rtrim($_SERVER['DOCUMENT_ROOT'],'/');
+		return rtrim(dirname(dirname(__FILE__)),'/');
 	}
 }
 
