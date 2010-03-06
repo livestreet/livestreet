@@ -58,8 +58,7 @@ class LsSphinx extends Module {
 		 * используем кеширование при поиске
 		 */
 		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}";		
-		if (false === ($data = $this->Cache_Get($cacheKey))) {	
-			$this->InitSphinx();
+		if (false === ($data = $this->Cache_Get($cacheKey))) {
 			/**
 			 * Параметры поиска
 			 */
@@ -68,6 +67,7 @@ class LsSphinx extends Module {
 			/**
 			 * Устанавливаем атрибуты поиска
 			 */
+			$this->oSphinx->ResetFilters();
 			if(!is_null($aExtraFilters)){
 				foreach($aExtraFilters AS $sAttribName => $sAttribValue){
 					$this->oSphinx->SetFilter(
