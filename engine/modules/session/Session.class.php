@@ -55,6 +55,9 @@ class LsSession extends Module {
 				Config::Get('sys.session.path'),
 				Config::Get('sys.session.host')
 			);
+			if(!session_id()) {
+				session_regenerate_id();
+			}
 			session_start();			
 		} else {
 			$this->SetId();
