@@ -1391,6 +1391,19 @@ class Install {
 			mysql_free_result($aResults);			
 		}
 		
+		/**
+		 * Конвертируем пользователей блогов в роли
+		 */
+		$sTable=$aParams['prefix'].'blog_user';
+		mysql_query("UPDATE {$sTable} SET user_role = 1 WHERE is_moderator = 0 AND is_administrator = 0 ");
+		mysql_query("UPDATE {$sTable} SET user_role = 2 WHERE is_moderator = 1 ");
+		mysql_query("UPDATE {$sTable} SET user_role = 4 WHERE is_administrator = 1 ");
+		/**
+		 * Удаляем старые поля
+		 */		
+		if(!mysql_query("ALTER TABLE `{$sTable}` DROP `is_moderator`, DROP `is_administrator`;")) $aErrors[] = mysql_error();
+		
+		
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
 		}

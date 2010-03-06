@@ -119,9 +119,6 @@ CREATE TABLE  `prefix_notify_task` (
 PRIMARY KEY (  `notify_task_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8;
 
-ALTER TABLE `prefix_blog_user`
-  DROP `is_moderator`,
-  DROP `is_administrator`;
  
 ALTER TABLE  `prefix_blog_user` ADD  `user_role` INT( 3 ) NOT NULL ;
 ALTER TABLE  `prefix_blog_user` CHANGE  `user_role`  `user_role` INT( 3 ) DEFAULT  '1';
