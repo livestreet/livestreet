@@ -268,6 +268,7 @@ class Engine extends Object {
 					foreach ($aFiles as $sFile) {
 						if (preg_match("/Hook([\w]+)\.class\.php$/i",basename($sFile),$aMatch)) {
 							require_once($sFile);
+							$sPluginName = ucfirst($sPluginName);
 							$sClassName="Plugin{$sPluginName}_Hook{$aMatch[1]}";
 							$oHook=new $sClassName;
 							$oHook->RegisterHook();
