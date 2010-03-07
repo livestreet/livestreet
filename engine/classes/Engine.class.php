@@ -496,7 +496,7 @@ class Engine extends Object {
  */
 function __autoload($sClassName) {
 	/**
-	 * Если класс подходит под шблон класса сущности то загружаем его
+	 * Если класс подходит под шаблон класса сущности то загружаем его
 	 */
 	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {			
 		$tm1=microtime(true);	
@@ -511,6 +511,21 @@ function __autoload($sClassName) {
 			dump($sClassName." - \t\t".($tm2-$tm1));
 		}
 	}
+	/**
+	 * Если класс подходит под шаблон класса сущности плагина
+	 */
+	if (preg_match("/^Plugin(\w+)\_(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {			
+		$tm1=microtime(true);
+		
+		$sFileClass= Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/entity/'.$aMatch[3].'.entity.class.php';
+		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);
+			$tm2=microtime(true);			
+			dump($sClassName." - \t\t".($tm2-$tm1));
+		}
+	}
+	
 	/**
 	 * Если класс подходит под шаблон модуля, то загружаем его
 	 */
