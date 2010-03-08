@@ -407,6 +407,13 @@ class LsViewer extends Module {
 	 */
 	public function AddBlock($sGroup,$sName,$aParams=array(),$iPriority=5) {
 		/**
+		 * Если не указана директория шаблона, но указана приналежность к плагину,
+		 * то "вычисляем" правильную директорию
+		 */
+		if(!isset($aParams['dir']) and isset($aParams['plugin'])) {
+			$aParams['dir'] = Plugin::GetTemplatePath($aParams['plugin']);
+		}	
+		/**
 		 * Если смогли определить тип блока то добавляем его
 		 */
 		$sType=$this->DefineTypeBlock($sName,isset($aParams['dir'])?$aParams['dir']:null);
@@ -421,7 +428,7 @@ class LsViewer extends Module {
 		);
 		return true;
 	}
-	
+
 	/**
 	 * Добавляет список блоков
 	 *
