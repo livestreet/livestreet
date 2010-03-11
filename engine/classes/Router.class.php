@@ -159,7 +159,7 @@ class Router extends Object {
 		 * Определяем наличие делегата экшена
 		 */
 		$sActionClass=$this->Plugin_GetDelegate('action',$sActionClass);
-		
+		self::$sActionClass = $sActionClass;
 		/**
 		 * Если класс экешна начинается с Plugin*_, значит необходимо загрузить объект из указанного плагина
 		 */
