@@ -48,7 +48,6 @@ abstract class Plugin extends Object {
 	 *
 	 */
 	public function Init() {
-
 	}
 	
 	/**
@@ -56,6 +55,30 @@ abstract class Plugin extends Object {
 	 * Вызывается Engine перед инициализацией плагина
 	 */
 	final function Delegate() {
+		/**
+		 * Получаем название плагина
+		 */
+		preg_match('/^Plugin([\w]+)$/i',get_class($this),$aMatches);
+		$sPluginName=strtolower($aMatches[1]);
+		/**
+		 * Получаем список объектов, подлежащих делегации
+		 */
+		$aObjects=$this->Plugin_GetDelegateObjectList();
+		
+		/**
+		 * Считываем данные из XML файла описания
+		 */
+		$sPluginXML = Config::Get('path.root.server').'/plugins/'.$sPluginName.'/'.LsPlugin::PLUGIN_README_FILE;
+		if($oXml = @simplexml_load_file($sPluginXML)) {
+			foreach($aObjects as $sObjectName) {
+				if(is_array($data=$oXml->xpath("delegate/{$sObjectName}/item"))) {
+					foreach($data as $aDelegate) {
+						$this->Plugin_Delegate($sObjectName,$aDelegate->from,$aDelegate->to,get_class($this));
+					}
+				}
+			}
+		}
+		
 		if(is_array($this->aDelegates) and count($this->aDelegates)) {
 			foreach ($this->aDelegates as $sObjectName=>$aParams) {
 				if(is_array($aParams) and count($aParams)) {

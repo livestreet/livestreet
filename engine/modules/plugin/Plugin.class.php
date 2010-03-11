@@ -75,7 +75,7 @@ class LsPlugin extends Module {
 		$aList=array_map('basename',glob($this->sPluginsDir.'*',GLOB_ONLYDIR));
 		$aActivePlugins=$this->GetActivePlugins();
 
-		foreach($aList as $sPlugin) {			
+		foreach($aList as $sPlugin) {
 			$this->aPluginsList[$sPlugin] = array(
 				'code'      => $sPlugin,
 				'is_active' => in_array($sPlugin,$aActivePlugins) 
@@ -318,7 +318,7 @@ class LsPlugin extends Module {
 			'sign'=>$sSign
 		);
 	}
-	
+
 	/**
 	 * Возвращает делегат модуля, экшена, сущности. 
 	 * Если делегат не определен, отдает переданный в качестве sender`a параметр
@@ -352,6 +352,15 @@ class LsPlugin extends Module {
 	public function isDelegated($sType,$sFrom) {
 		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom) return false;
 		return isset($this->aDelegates[$sType][$sFrom]['delegate']);
+	}
+	
+	/**
+	 * Возвращает список объектов, доступных для делегирования
+	 * 
+	 * @return array
+	 */
+	public function GetDelegateObjectList() {
+		return array_keys($this->aDelegates);
 	}
 	
 	/**
