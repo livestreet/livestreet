@@ -133,7 +133,7 @@ class Mapper_Favourite extends Mapper {
 					AND
 						target_type = ?
 					{ AND target_id NOT IN (?a) }		
-					;";				
+					;";
 		return ( $aRow=$this->oDb->selectRow(
 						$sql,$sUserId,
 						$sTargetType,
@@ -221,7 +221,7 @@ class Mapper_Favourite extends Mapper {
 				AND
 					f.target_publish = 1
 				AND
-					f.target_type = 'comment'
+					f.target_type = 'topic'
 				AND
 					f.target_id = t.topic_id
 				AND 
@@ -255,7 +255,7 @@ class Mapper_Favourite extends Mapper {
 					AND
 						f.target_publish = 1
 					AND
-						f.target_type = 'comment'
+						f.target_type = 'topic'
 					AND
 						f.target_id = t.topic_id
 					AND 
