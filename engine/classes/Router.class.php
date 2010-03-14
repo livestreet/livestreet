@@ -98,7 +98,7 @@ class Router extends Object {
 	 * @return string
 	 */
 	protected function GetRequestUri() {
-		$sReq=preg_replace("/\/+/",'/',str_replace(preg_replace("@/*index\.php@U",'',$_SERVER['PHP_SELF']),'',$_SERVER['REQUEST_URI']));
+		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
 		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
 		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
 

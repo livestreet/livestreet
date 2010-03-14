@@ -1524,7 +1524,14 @@ class Install {
 	function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
 		$this->SaveConfig('path.root.web',$this->GetPathRootWeb(), $sLocalConfigFile); 
-		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile); 
+		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile);		
+		
+		$aDirs=array();
+		$sDirs=trim(str_replace('http://'.$_SERVER['HTTP_HOST'],'',$this->GetPathRootWeb()),'/');
+		if ($sDirs!='') {
+			$aDirs=explode('/',$sDirs);
+		}		
+		$this->SaveConfig('path.offset_request_url', count($aDirs), $sLocalConfigFile);
 	}
 	
 	function GetPathRootWeb() {
