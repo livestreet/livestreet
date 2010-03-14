@@ -328,9 +328,33 @@ class LsPlugin extends Module {
 	 * @return string
 	 */
 	public function GetDelegate($sType,$sFrom) {
-		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['delegate']:$sFrom;
+		return $this->isDelegater($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['delegate']:$sFrom;
 	}
 
+	/**
+	 * Возвращает делегирующий объект по имени делегата
+	 * 
+	 * @param  string $sType Объект
+	 * @param  string $sTo   Делегат
+	 * @return string
+	 */
+	public function GetDelegater($sType,$sTo) {
+ 		/**
+		 * Фильтруем меппер делегатов
+		 * @var array
+		 */
+		$aDelegateMapper=array_filter(
+			$this->aDelegates[$sType], 
+			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
+		);
+		if(!is_array($aDelegateMapper) and !count($aDelegateMapper)) return $sTo;
+		
+		/**
+		 * Получаем ключ первого элемента массива (это название делегирующего экшена)
+		 */
+		return array_shift(array_keys($aDelegateMapper));
+	}
+	
 	/**
 	 * Возвращает подпись делегата модуля, экшена, сущности. 
 	 *
@@ -339,19 +363,39 @@ class LsPlugin extends Module {
 	 * @return string|null
 	 */
 	public function GetDelegateSign($sType,$sFrom) {
-		return $this->isDelegated($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['sign']:null;
+		return $this->isDelegater($sType,$sFrom)?$this->aDelegates[$sType][$sFrom]['sign']:null;
 	}
 	
 	/**
-	 * Возвращает true, если установлено правило делегирования
+	 * Возвращает true, если установлено правило делегирования 
+	 * и класс является базовым в данном правиле
 	 *
 	 * @param  string $sType
 	 * @param  string $sFrom
 	 * @return bool
 	 */
-	public function isDelegated($sType,$sFrom) {
+	public function isDelegater($sType,$sFrom) {
 		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom) return false;
 		return isset($this->aDelegates[$sType][$sFrom]['delegate']);
+	}
+	
+	/**
+	 * Возвращает true, если устано
+	 * 
+	 * @param  string $sType
+	 * @param  string $sTo
+	 * @return bool
+	 */
+	public function isDelegated($sType,$sTo) {
+		/**
+		 * Фильтруем меппер делегатов
+		 * @var array
+		 */
+		$aDelegateMapper=array_filter(
+			$this->aDelegates[$sType], 
+			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
+		);
+		return (is_array($aDelegateMapper) and count($aDelegateMapper));		
 	}
 	
 	/**

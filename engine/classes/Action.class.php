@@ -221,12 +221,27 @@ abstract class Action extends Object {
 	/**
 	 * Получить шаблон
 	 * Если шаблон не определен то возвращаем дефолтный шаблон евента: action/{Action}.{event}.tpl
+	 * Внимание! По умолчанию, шаблон будет получен без учета делегирования экшена.
 	 *
 	 * @return unknown
 	 */
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
-			$this->sActionTemplate='actions/'.$this->GetActionClass().'/'.$this->sCurrentEvent.'.tpl';
+			$sActionClass=$this->GetActionClass();
+			/**
+			 * Если класс не является делегатом плагина, устанавлваем шаблон по умолчанию.
+			 * В случае делегирования, проверяем сначала имеет ли указанный плагин замену для шаблона.
+			 */
+			if(!$this->Plugin_isDelegated('action',$sActionClass)) {
+				$this->sActionTemplate='actions/'.$sActionClass.'/'.$this->sCurrentEvent.'.tpl';	
+			} else {
+				$sDelegater = $this->Plugin_GetDelegater('action',$sActionClass);
+				$sTemplatePath = Plugin::GetTemplatePath($this->Plugin_GetDelegateSign('action',$sDelegater));
+				
+				$this->sActionTemplate = is_file($sFile=$sTemplatePath.'actions/'.$sDelegater.'/'.$this->sCurrentEvent.'.tpl')
+					? $sFile
+					: 'actions/'.$sDelegater.'/'.$this->sCurrentEvent.'.tpl';
+			}
 		}
 		return $this->sActionTemplate;
 	}

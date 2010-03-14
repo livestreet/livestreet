@@ -73,6 +73,15 @@ abstract class Plugin extends Object {
 			foreach($aObjects as $sObjectName) {
 				if(is_array($data=$oXml->xpath("delegate/{$sObjectName}/item"))) {
 					foreach($data as $aDelegate) {
+						/**
+						 * Если не указан параметр FROM, копируем значение всего ITEM
+						 */
+						if(!$aDelegate->from) $aDelegate->from=$aDelegate;
+						/**
+						 * Если не указан делегат TO, считаем, что делегатом является 
+						 * одноименный объект текущего плагина
+						 */
+						if(!$aDelegate->to) $aDelegate->to = get_class($this).'_'.$aDelegate->from;
 						$this->Plugin_Delegate($sObjectName,$aDelegate->from,$aDelegate->to,get_class($this));
 					}
 				}
@@ -146,7 +155,7 @@ abstract class Plugin extends Object {
 				if(!$bResult) $aErrors[] = mysql_error();
 			}
 		}
-				
+
 		/**
 		 * Возвращаем результат выполнения, взависимости от количества ошибок 
 		 */
@@ -174,7 +183,7 @@ abstract class Plugin extends Object {
 				? Config::Get('view.skin')
 				: 'default';
 			
-			$sDir=Config::Get('path.root.server')."/plugins/{$sName}/templates/skin/{$sTemplateName}";
+			$sDir=Config::Get('path.root.server')."/plugins/{$sName}/templates/skin/{$sTemplateName}/";
 			self::$aTemplatePath[$sName] = is_dir($sDir) ? $sDir : null;
 		}
 		
@@ -195,7 +204,7 @@ abstract class Plugin extends Object {
 				? Config::Get('view.skin')
 				: 'default';
 			
-			self::$aTemplateWebPath[$sName]=Config::Get('path.root.web')."/plugins/{$sName}/templates/skin/{$sTemplateName}";
+			self::$aTemplateWebPath[$sName]=Config::Get('path.root.web')."/plugins/{$sName}/templates/skin/{$sTemplateName}/";
 		}
 		
 		return self::$aTemplateWebPath[$sName];

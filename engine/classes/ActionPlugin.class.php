@@ -51,11 +51,20 @@ abstract class ActionPlugin extends Action {
 			 * Проверяем в списке шаблонов
 			 */
 			$aMatches[1]=strtolower($aMatches[1]);
-			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$aMatches[1].'/templates/skin/*',GLOB_ONLYDIR)))
+			$sTemplateName=in_array(
+				Config::Get('view.skin'),
+				array_map(
+					create_function(
+						'$sPath',
+						'preg_match("/skin\/([\w]+)\/actions/i",$sPath,$aMatches); return $aMatches[1];'
+					),
+					glob(Config::Get('path.root.server').'/plugins/'.$aMatches[1].'/templates/skin/*/actions/Action'.ucfirst($aMatches[2]),GLOB_ONLYDIR)
+				)
+			)
 				? Config::Get('view.skin')
 				: 'default';
 			
-			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}";
+			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}/";
 			$this->sTemplatePathPlugin = is_dir($sDir) ? $sDir : null;
 		}
 		
@@ -79,9 +88,13 @@ abstract class ActionPlugin extends Action {
 	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
 	 */
 	protected function SetTemplateAction($sTemplate) {
-		$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-			? $this->getTemplatePathPlugin().'/actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl'
-			: null;
+		if($sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
+		      $sTemplatePath = 'actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl';
+		      $sActionTemplate = is_file($sPluginTemplatePath=$this->getTemplatePathPlugin().$sTemplatePath)
+		      		? $sPluginTemplatePath
+		      		: $sTemplatePath;
+	    }
+    	$this->sActionTemplate = $sActionTemplate;
 	}
 	
 	/**
@@ -92,9 +105,7 @@ abstract class ActionPlugin extends Action {
 	 */
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
-			$this->sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)
-				? $this->getTemplatePathPlugin().'/actions/Action'.ucfirst($aMatches[2]).'/'.$this->sCurrentEvent.'.tpl'
-				: null;
+		    $this->SetTemplateAction($this->sCurrentEvent);
 		}
 
 		return $this->sActionTemplate;
