@@ -16,6 +16,7 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(Config::Get('path.root.engine').'/modules/viewer/lsSmarty.class.php');
 require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
 require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
 
@@ -182,7 +183,7 @@ class LsViewer extends Module {
 		/**
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
-		$this->oSmarty = new Smarty();		
+		$this->oSmarty = new lsSmarty();		
 		$this->oSmarty->template_dir=array(Config::Get('path.smarty.template'),Config::Get('path.root.server').'/plugins/');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
