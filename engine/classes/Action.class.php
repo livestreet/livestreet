@@ -221,7 +221,7 @@ abstract class Action extends Object {
 		 * В случае делегирования, проверяем сначала имеет ли указанный плагин замену для шаблона.
 		 */
 		if(!$this->Plugin_isDelegated('action',$sActionClass)) {
-			$this->sActionTemplate='actions/'.$sActionClass.'/'.$this->sCurrentEvent.'.tpl';
+			$this->sActionTemplate='actions/'.$sActionClass.'/'.$sTemplate.'.tpl';
 		} else {
 			$sDelegater = $this->Plugin_GetDelegater('action',$sActionClass);
 			$sTemplatePath = Plugin::GetTemplatePath($this->Plugin_GetDelegateSign('action',$sDelegater));
