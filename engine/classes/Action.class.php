@@ -215,7 +215,22 @@ abstract class Action extends Object {
 	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
 	 */
 	protected function SetTemplateAction($sTemplate) {
-		$this->sActionTemplate='actions/'.$this->GetActionClass().'/'.$sTemplate.'.tpl';
+		$sActionClass=$this->GetActionClass();
+		/**
+		 * Если класс не является делегатом плагина, устанавлваем шаблон по умолчанию.
+		 * В случае делегирования, проверяем сначала имеет ли указанный плагин замену для шаблона.
+		 */
+		if(!$this->Plugin_isDelegated('action',$sActionClass)) {
+			$this->sActionTemplate='actions/'.$sActionClass.'/'.$this->sCurrentEvent.'.tpl';
+		} else {
+			$sDelegater = $this->Plugin_GetDelegater('action',$sActionClass);
+			$sTemplatePath = Plugin::GetTemplatePath($this->Plugin_GetDelegateSign('action',$sDelegater));
+
+			$this->sActionTemplate = is_file($sFile=$sTemplatePath.'actions/'.$sDelegater.'/'.$sTemplate.'.tpl')
+			? $sFile
+			: 'actions/'.$sDelegater.'/'.$sTemplate.'.tpl';
+		}
+		
 	}
 	
 	/**
