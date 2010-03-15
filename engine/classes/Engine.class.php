@@ -413,10 +413,6 @@ class Engine extends Object {
 	 */
 	public static function GetEntity($sName,$aParams=array()) {
 		/**
-		 * Определяем наличие делегата сущности
-		 */
-		$sName=self::getInstance()->Plugin_GetDelegate('entity',$sName);
-		/**
 		 * Сущности, имеющие такое же название как модуль, 
 		 * можно вызывать сокращенно. Например, вместо User_User -> User
 		 */
@@ -427,6 +423,14 @@ class Engine extends Object {
 			
 			case 1:		
 				list($sModule,$sEntity) = explode('_',$sName,2);
+				/**
+				 * Обслуживание короткой записи сущностей плагинов 
+				 * PluginTest_Test -> PluginTest_TestEntity_Test
+				 */
+				if(substr($sModule,0,6)=='Plugin' and strlen($sModule)>6) {
+					$sPlugin = substr($sModule,6);
+					$sModule = $sEntity;
+				}
 				break;
 				
 			case 2:
@@ -444,6 +448,7 @@ class Engine extends Object {
 			default:
 				throw new Exception("Unknown entity '{$sName}' given.");
 		}
+		
 		/**
 		 * Проверяем наличие сущности в меппере кастомизации
 		 */
@@ -451,7 +456,6 @@ class Engine extends Object {
 			$sEntity = (self::$aEntityCustoms[$sName]=='custom')
 				? $sEntity.'_custom'
 				: $sEntity;
-			//$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.'.((self::$aEntityCustoms[$sName]=='custom')?'custom.':'').'php';
 		} else {
 			$sFileDefaultClass=isset($sPlugin)
 				? Config::get('path.root.server').'/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php'
@@ -484,6 +488,12 @@ class Engine extends Object {
 		$sClass=isset($sPlugin)
 			? 'Plugin'.$sPlugin.'_'.$sModule.'Entity_'.$sEntity
 			: $sModule.'Entity_'.$sEntity;
+		/**
+		 * Определяем наличие делегата сущности
+		 * Делегирование указывается только в полной форме!
+		 */
+		$sClass=self::getInstance()->Plugin_GetDelegate('entity',$sClass);		
+		
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
@@ -525,7 +535,7 @@ function __autoload($sClassName) {
 			dump($sClassName." - \t\t".($tm2-$tm1));
 		}
 	}
-	
+
 	/**
 	 * Если класс подходит под шаблон модуля, то загружаем его
 	 */
