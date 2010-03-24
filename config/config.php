@@ -388,7 +388,6 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/piechart.css",
 	"___path.static.skin___/css/Autocompleter.css",
 	"___path.static.skin___/css/prettify.css",	
-	"___path.static.skin___/css/thickbox.css",
 	"___path.static.skin___/css/vlaCal-v2.1.css",
 	"___path.static.skin___/css/ie6.css?v=1"=>array('browser'=>'IE 6'),
 	"___path.static.skin___/css/ie7.css?v=1"=>array('browser'=>'gte IE 7'),	
@@ -399,7 +398,7 @@ $config['head']['default']['css'] = array(
  * Параметры компрессии css-файлов
  */
 $config['compress']['css']['merge'] = true;       // указывает на необходимость слияния файлов по указанным блокам.
-$config['compress']['css']['use']   = true;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
+$config['compress']['css']['use']   = false;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 $config['compress']['css']['case_properties']     = 1;
 $config['compress']['css']['merge_selectors']     = 0;
 $config['compress']['css']['optimise_shorthands'] = 1;
