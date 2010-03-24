@@ -797,10 +797,7 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicsByBlog($oBlog,$iPage,$iPerPage,$sShowType='good') {
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
+		$aFilter=array(			
 			'topic_publish' => 1,
 			'blog_id' => $oBlog->getId(),
 		);
