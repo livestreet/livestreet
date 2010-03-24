@@ -38,8 +38,8 @@ function smarty_insert_block($aParams,&$oSmarty) {
 		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/block.'.$aParams['block'].'.tpl';	
 		$sBlockClass = Config::Get('path.root.server').'/plugins/'.$aParams['params']['plugin'].'/classes/blocks/Block'.$sBlock.'.class.php';
 		$sCmd='$oBlock=new Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock.'($aParamsBlock);';
-	} else {
-		$sBlockTemplate = 'block.'.$aParams['block'].'.tpl';
+	} else {		
+		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','block.'.$aParams['block'].'.tpl');
 		$sBlockClass = Config::Get('path.root.server').'/classes/blocks/Block'.$sBlock.'.class.php';
 		$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	}
