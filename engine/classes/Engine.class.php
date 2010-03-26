@@ -342,11 +342,26 @@ class Engine extends Object {
 		if (!method_exists($oModule,$sMethod)) {
 			throw new Exception("The module has no required method: ".$sModuleName.'->'.$sMethod.'()');
 		}
-		
-		$sCmd='$result=$oModule->'.$sMethod.'('.$sArgs.');';
+				
 		$oProfiler=ProfilerSimple::getInstance();
 		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$sMethod.'()');
-		eval($sCmd);
+		
+		$sModuleName=strtolower($sModuleName);
+		$aResultHook=array();
+		if (!in_array($sModuleName,array('plugin','hook'))) {
+			$aResultHook=$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_before',$aArgs);			
+		}		
+		
+		if (array_key_exists('delegate_result',$aResultHook)) {			
+			$result=$aResultHook['delegate_result'];
+		} else {
+			$result=call_user_func_array(array($oModule,$sMethod),$aArgs);
+		}
+				
+		if (!in_array($sModuleName,array('plugin','hook'))) {
+			$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_after',array('result'=>$result));
+		}
+				
 		$oProfiler->Stop($iTimeId);
 		return $result;
 	}
@@ -370,7 +385,7 @@ class Engine extends Object {
 		/**
 		 * Подхватыем делегат модуля (в случае наличия такового)
 		 */
-		if($sModuleName!='Plugin') $sModuleName=$this->Plugin_GetDelegate('module',$sModuleName);
+		if(!in_array($sModuleName,array('Plugin','Hook'))) $sModuleName=$this->Plugin_GetDelegate('module',$sModuleName);
 
 		if (isset($this->aModules[$sModuleName])) {
 			$oModule=$this->aModules[$sModuleName];

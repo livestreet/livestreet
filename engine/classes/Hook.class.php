@@ -28,6 +28,10 @@ abstract class Hook extends Object {
 	protected function AddHook($sName,$sCallBack,$sClassNameHook,$iPriority=1) {
 		$this->Hook_AddExecHook($sName,$sCallBack,$iPriority,array('sClassName'=>$sClassNameHook));
 	}
+	
+	protected function AddDelegateHook($sName,$sCallBack,$sClassNameHook,$iPriority=1) {
+		$this->Hook_AddDelegateHook($sName,$sCallBack,$iPriority,array('sClassName'=>$sClassNameHook));
+	}
 		
 	abstract public function RegisterHook();
 	

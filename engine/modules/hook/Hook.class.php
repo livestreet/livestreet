@@ -44,6 +44,7 @@ class LsHook extends Module {
 	}
 	
 	public function Add($sName,$sType,$sCallBack,$iPriority=1,$aParams=array()) {
+		$sName=strtolower($sName);
 		$sType=strtolower($sType);
 		if (!in_array($sType,array('module','hook','function'))) {
 			return false;
@@ -63,34 +64,82 @@ class LsHook extends Module {
 		return $this->Add($sName,'hook',$sCallBack,$iPriority,$aParams);
 	}
 	
-	public function Run($sName,$aVars=array()) {
+	public function AddDelegateModule($sName,$sCallBack,$iPriority=1) {
+		return $this->Add($sName,'module',$sCallBack,$iPriority,array('delegate'=>true));
+	}
+	
+	public function AddDelegateFunction($sName,$sCallBack,$iPriority=1) {
+		return $this->Add($sName,'function',$sCallBack,$iPriority,array('delegate'=>true));
+	}
+	
+	public function AddDelegateHook($sName,$sCallBack,$iPriority=1,$aParams=array()) {
+		$aParams['delegate']=true;
+		return $this->Add($sName,'hook',$sCallBack,$iPriority,$aParams);
+	}
+	
+	public function Run($sName,$aVars=array()) {		
+		$result=array();
+		$sName=strtolower($sName);
 		if (isset($this->aHooks[$sName])) {
 			$aHookNum=array();
-			for ($i=0;$i<count($this->aHooks[$sName]);$i++) {
-				$aHookNum[$i]=$this->aHooks[$sName][$i]['priority'];
+			$aHookNumDelegate=array();
+			/**
+			 * Все хуки делим на обычные(exec) и делигирующие(delegate)
+			 */
+			for ($i=0;$i<count($this->aHooks[$sName]);$i++) {				
+				if (isset($this->aHooks[$sName][$i]['params']['delegate']) and $this->aHooks[$sName][$i]['params']['delegate']) {
+					$aHookNumDelegate[$i]=$this->aHooks[$sName][$i]['priority'];
+				} else {
+					$aHookNum[$i]=$this->aHooks[$sName][$i]['priority'];
+				}				
 			}			
 			arsort($aHookNum,SORT_NUMERIC);
+			arsort($aHookNumDelegate,SORT_NUMERIC);
+			/**
+			 * Сначала запускаем на выполнение простые
+			 */
 			foreach ($aHookNum as $iKey => $iPr) {
 				$aHook=$this->aHooks[$sName][$iKey];
-				switch ($aHook['type']) {
-					case 'module':
-						call_user_func_array(array($this,$aHook['callback']),array($aVars));
-						break;
-					case 'function':
-						call_user_func_array($aHook['callback'],array($aVars));
-						break;
-					case 'hook':
-						if (isset($aHook['params']['sClassName']) and class_exists($aHook['params']['sClassName'])) {
-							$oHook=new $aHook['params']['sClassName'];							
-							call_user_func_array(array($oHook,$aHook['callback']),array($aVars));
-						}											
-						break;
-					default:
-						break;
-				}
-				
+				$this->RunType($aHook,$aVars);				
+			}
+			/**
+			 * Теперь запускаем делигирующие
+			 * Делегирующий хук должен вернуть результат в формате:
+			 * 
+			 */
+			foreach ($aHookNumDelegate as $iKey => $iPr) {
+				$aHook=$this->aHooks[$sName][$iKey];				
+				$result=array(
+					'delegate_result'=>$this->RunType($aHook,$aVars)
+				);
+				/**
+				 * На данный момент только один хук может быть делегирующим
+				 */
+				break;
 			}
 		}
-	}	
+		return $result;
+	}
+	
+	protected function RunType($aHook,$aVars) {
+		$result=null;
+		switch ($aHook['type']) {
+			case 'module':
+				$result=call_user_func_array(array($this,$aHook['callback']),array($aVars));
+				break;
+			case 'function':
+				$result=call_user_func_array($aHook['callback'],array($aVars));
+				break;
+			case 'hook':
+				if (isset($aHook['params']['sClassName']) and class_exists($aHook['params']['sClassName'])) {
+					$oHook=new $aHook['params']['sClassName'];
+					$result=call_user_func_array(array($oHook,$aHook['callback']),array($aVars));
+				}
+				break;
+			default:
+				break;
+		}
+		return $result;
+	}
 }
 ?>

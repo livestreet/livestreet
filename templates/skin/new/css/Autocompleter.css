@@ -49,7 +49,7 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried
 
 input.autocompleter-loading
 {
-	background-image:		url(../img/spinner.gif);
+	background-image:		url(../images/spinner.gif);
 	background-repeat:		no-repeat;
 	background-position:	right 50%;
 }
