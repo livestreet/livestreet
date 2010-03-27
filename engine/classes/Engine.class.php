@@ -349,7 +349,7 @@ class Engine extends Object {
 		$sModuleName=strtolower($sModuleName);
 		$aResultHook=array();
 		if (!in_array($sModuleName,array('plugin','hook'))) {
-			$aResultHook=$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_before',&$aArgs);
+			$aResultHook=$this->_CallModule('Hook_Run',array('module_'.$sModuleName.'_'.strtolower($sMethod).'_before',&$aArgs));
 		}		
 		
 		if (array_key_exists('delegate_result',$aResultHook)) {			
