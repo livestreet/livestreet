@@ -77,7 +77,7 @@ class LsHook extends Module {
 		return $this->Add($sName,'hook',$sCallBack,$iPriority,$aParams);
 	}
 	
-	public function Run($sName,$aVars=array()) {		
+	public function Run($sName,&$aVars=array()) {
 		$result=array();
 		$sName=strtolower($sName);
 		if (isset($this->aHooks[$sName])) {
@@ -100,7 +100,7 @@ class LsHook extends Module {
 			 */
 			foreach ($aHookNum as $iKey => $iPr) {
 				$aHook=$this->aHooks[$sName][$iKey];
-				$this->RunType($aHook,$aVars);				
+				$this->RunType($aHook,$aVars);
 			}
 			/**
 			 * Теперь запускаем делигирующие
@@ -121,19 +121,19 @@ class LsHook extends Module {
 		return $result;
 	}
 	
-	protected function RunType($aHook,$aVars) {
+	protected function RunType($aHook,&$aVars) {
 		$result=null;
 		switch ($aHook['type']) {
 			case 'module':
-				$result=call_user_func_array(array($this,$aHook['callback']),array($aVars));
+				$result=call_user_func_array(array($this,$aHook['callback']),array(&$aVars));
 				break;
 			case 'function':
-				$result=call_user_func_array($aHook['callback'],array($aVars));
+				$result=call_user_func_array($aHook['callback'],array(&$aVars));
 				break;
 			case 'hook':
 				if (isset($aHook['params']['sClassName']) and class_exists($aHook['params']['sClassName'])) {
 					$oHook=new $aHook['params']['sClassName'];
-					$result=call_user_func_array(array($oHook,$aHook['callback']),array($aVars));
+					$result=call_user_func_array(array($oHook,$aHook['callback']),array(&$aVars));
 				}
 				break;
 			default:
