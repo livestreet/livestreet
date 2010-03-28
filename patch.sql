@@ -138,3 +138,30 @@ ALTER TABLE  `prefix_comment` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL 
 ALTER TABLE  `prefix_comment_online` ADD  `target_parent_id` INT DEFAULT  '0' NOT NULL AFTER  `target_type` ;
 
 ALTER TABLE  `prefix_topic` CHANGE  `topic_tags`  `topic_tags` VARCHAR( 500 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+
+
+
+ALTER TABLE  `prefix_comment` DROP INDEX  `rating_date_id`;
+ALTER TABLE  `prefix_comment` DROP INDEX  `topic_id`;
+ALTER TABLE  `prefix_comment` DROP INDEX  `comment_delete`;
+ALTER TABLE  `prefix_comment` DROP INDEX  `comment_date`;
+
+ALTER TABLE  `prefix_comment` ADD INDEX  `type_date_rating` (  `target_type` ,  `comment_date` ,  `comment_rating` );
+ALTER TABLE  `prefix_comment` ADD INDEX  `id_type` (  `target_id` ,  `target_type` );
+ALTER TABLE  `prefix_comment` ADD INDEX  `type_delete_publish` (  `target_type` ,  `comment_delete` ,  `comment_publish` );
+ALTER TABLE  `prefix_comment` ADD INDEX  `user_type` (  `user_id` ,  `target_type` );
+ALTER TABLE  `prefix_comment` ADD INDEX (  `target_parent_id` );
+
+ALTER TABLE  `prefix_comment` DROP INDEX  `user_id`;
+
+ALTER TABLE  `prefix_comment_online` DROP INDEX  `topic_id`;
+ALTER TABLE  `prefix_comment_online` ADD INDEX  `id_type` (  `target_id` ,  `target_type` );
+ALTER TABLE  `prefix_comment_online` ADD INDEX  `type_parent` (  `target_type` ,  `target_parent_id` );
+
+ALTER TABLE  `prefix_favourite` DROP INDEX  `user_id`;
+ALTER TABLE  `prefix_favourite` ADD INDEX  `id_type` (  `target_id` ,  `target_type` );
+
+ALTER TABLE  `prefix_friend` DROP INDEX  `user_from`;
+
+ALTER TABLE  `prefix_notify_task` ADD INDEX (  `date_created` );

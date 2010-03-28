@@ -17,28 +17,30 @@
 
 class Mapper_Comment extends Mapper {	
 	
-		public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aExcludeTarget=array()) {
+		public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 			$sql = "SELECT 
 					comment_id				
 				FROM 
 					".Config::Get('db.table.comment')." 
 				WHERE 
-					target_type = ? 					 
+					target_type = ? 	
+					AND 
+					comment_date >= ?	
+					AND 
+					comment_rating >= 0			 
 					AND
 					comment_delete = 0
 					AND 
 					comment_publish = 1 
-					AND 
-					comment_date >= ? 
-					AND 
-					comment_rating >= 0
 					{ AND target_id NOT IN(?a) }  
+					{ AND target_parent_id NOT IN (?a) }
 				ORDER by comment_rating desc, comment_id desc
 				LIMIT 0, ?d ";	
 		$aComments=array();		
 		if ($aRows=$this->oDb->select(
 				$sql,$sTargetType, $sDate,
 				(is_array($aExcludeTarget)&&count($aExcludeTarget)) ? $aExcludeTarget : DBSIMPLE_SKIP,
+				(count($aExcludeParentTarget) ? $aExcludeParentTarget : DBSIMPLE_SKIP),
 				$iLimit
 			)
 		) {
@@ -330,11 +332,11 @@ class Mapper_Comment extends Mapper {
 		$sql = "
 			DELETE FROM ".Config::Get('db.table.comment')." 
 			WHERE
-				target_type = ?
+				target_id IN (?a)
 				AND
-				target_id IN (?a)			
+				target_type = ?
 		";			
-		if ($this->oDb->query($sql,$sTargetType,$aTargetId)) {
+		if ($this->oDb->query($sql,$aTargetId,$sTargetType)) {
 			return true;
 		}
 		return false;

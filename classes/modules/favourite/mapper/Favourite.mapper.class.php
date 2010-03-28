@@ -41,14 +41,14 @@ class Mapper_Favourite extends Mapper {
 		}				
 		$sql = "SELECT *							 
 				FROM ".Config::Get('db.table.favourite')."
-				WHERE 					
+				WHERE 			
+					user_id = ?d
+					AND		
 					target_id IN(?a) 	
 					AND
-					target_type = ? 
-					AND
-					user_id = ?d";
+					target_type = ? ";
 		$aFavourites=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$sTargetType,$sUserId)) {
+		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId,$sTargetType)) {
 			foreach ($aRows as $aRow) {
 				$aFavourites[]=Engine::GetEntity('Favourite',$aRow);
 			}

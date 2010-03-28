@@ -170,11 +170,11 @@ class Mapper_Blog extends Mapper {
 				FROM 
 					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
-					bu.user_id = ?d
+					bu.blog_id IN(?a) 					
 					AND
-					bu.blog_id IN(?a) ";		
+					bu.user_id = ?d ";		
 		$aBlogUsers=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
 			foreach ($aRows as $aUser) {
 				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
