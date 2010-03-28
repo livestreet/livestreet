@@ -982,3 +982,6 @@ ALTER TABLE  `prefix_favourite` ADD INDEX  `id_type` (  `target_id` ,  `target_t
 ALTER TABLE  `prefix_friend` DROP INDEX  `user_from`;
 
 ALTER TABLE  `prefix_notify_task` ADD INDEX (  `date_created` );
+
+ALTER TABLE  `prefix_comment_online` DROP INDEX  `id_type` ,
+ADD UNIQUE  `id_type` (  `target_id` ,  `target_type` );
