@@ -312,7 +312,7 @@ class Mapper_User extends Mapper {
 						country_id 
 					FROM 
 						".Config::Get('db.table.country_user')."
-					GROUP BY country_id LIMIT 0, ?d
+					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d 
 				) as cu
 				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id	
 			ORDER BY c.country_name		
@@ -332,7 +332,7 @@ class Mapper_User extends Mapper {
 						city_id 
 					FROM 
 						".Config::Get('db.table.city_user')."
-					GROUP BY city_id LIMIT 0, ?d
+					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
 				) as cu
 				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id		
 			ORDER BY c.city_name	
