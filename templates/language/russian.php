@@ -761,7 +761,7 @@ return array(
 	'notify_subject_talk_new' => 'У вас новое письмо',
 	'notify_subject_talk_comment_new' => 'У вас новый комментарий к письму',
 	'notify_subject_user_friend_new' => 'Вас добавили в друзья',
-	'notify_subject_blog_invite_new' => 'Вас приласили вступить в блог',
+	'notify_subject_blog_invite_new' => 'Вас пригласили вступить в блог',
 	'notify_subject_reminder_code' => 'Восстановление пароля',
 	'notify_subject_reminder_password' => 'Новый пароль',
 	
