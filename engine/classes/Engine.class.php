@@ -355,7 +355,11 @@ class Engine extends Object {
 		if (array_key_exists('delegate_result',$aResultHook)) {			
 			$result=$aResultHook['delegate_result'];
 		} else {
-			$result=call_user_func_array(array($oModule,$sMethod),$aArgs);
+			$aArgsRef=array();
+			foreach ($aArgs as $key=>$v) {
+				$aArgsRef[]=&$aArgs[$key];
+			}
+			$result=call_user_func_array(array($oModule,$sMethod),$aArgsRef);
 		}
 				
 		if (!in_array($sModuleName,array('plugin','hook'))) {
