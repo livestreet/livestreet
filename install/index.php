@@ -356,9 +356,9 @@ class Install {
 		 * то меняем значение.
 		 */
 		if(substr_count($sConfig, $sName)) {
-			$sConfig=preg_replace("~".preg_quote($sName).".+;~Ui", $sName.' = '.addslashes($sVar).';', $sConfig);
+			$sConfig=preg_replace("~".preg_quote($sName).".+;~Ui", $sName.' = '.$sVar.';', $sConfig);
 		} else {
-			$sConfig=str_replace('return $config;', $sName.' = '.addslashes($sVar).';'.PHP_EOL.'return $config;', $sConfig);
+			$sConfig=str_replace('return $config;', $sName.' = '.$sVar.';'.PHP_EOL.'return $config;', $sConfig);
 		}
 		file_put_contents($sPath,$sConfig);
 		return true;
@@ -372,7 +372,7 @@ class Install {
 	function ConvertToString($mVar) {
 		switch(true) {
 			case is_string($mVar):
-				return "'".$mVar."'";
+				return "'".addslashes($mVar)."'";
 					
 			case is_bool($mVar):
 				return ($mVar)?"true":"false";
