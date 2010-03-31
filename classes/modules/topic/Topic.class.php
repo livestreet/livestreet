@@ -797,9 +797,9 @@ class LsTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicsByBlog($oBlog,$iPage,$iPerPage,$sShowType='good') {
-		$aFilter=array(			
+		$aFilter=array(
 			'topic_publish' => 1,
-			'blog_id' => $oBlog->getId(),
+			'blog_id' => $oBlog->getId(),			
 		);
 		switch ($sShowType) {
 			case 'good':
@@ -819,15 +819,7 @@ class LsTopic extends Module {
 				break;
 			default:
 				break;
-		}
-		/**
-		 * Если пользователь авторизирован, то добавляем в выдачу
-		 * закрытые блоги в которых он состоит
-		 */
-		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = $aOpenBlogs;
-		}
+		}		
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	
@@ -839,25 +831,12 @@ class LsTopic extends Module {
 	 */
 	public function GetCountTopicsByBlogNew($oBlog) {
 		$sDate=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
-		$aFilter=array(
-			'blog_type' => array(
-				'open',
-			),
+		$aFilter=array(			
 			'topic_publish' => 1,
 			'blog_id' => $oBlog->getId(),
 			'topic_new' => $sDate,
 			
-		);
-		
-		/**
-		 * Если пользователь авторизирован, то добавляем в выдачу
-		 * закрытые блоги в которых он состоит
-		 */
-		if($this->oUserCurrent) {
-			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
-			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = $aOpenBlogs;
-		}	
-				
+		);	
 		return $this->GetCountTopicsByFilter($aFilter);		
 	}
 	/**

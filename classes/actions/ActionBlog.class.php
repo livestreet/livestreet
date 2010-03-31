@@ -704,22 +704,28 @@ class ActionBlog extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage= $this->GetParamEventMatch(($sShowType=='good')?0:1,2) ? $this->GetParamEventMatch(($sShowType=='good')?0:1,2) : 1;		
-		/**
-		 * Получаем список топиков
-		 */	
-		$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);	
-		$aTopics=$aResult['collection'];	
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=($sShowType=='good') 
+		$iPage= $this->GetParamEventMatch(($sShowType=='good')?0:1,2) ? $this->GetParamEventMatch(($sShowType=='good')?0:1,2) : 1;	
+		
+		if (!$bCloseBlog) {
+			/**
+		 	* Получаем список топиков
+		 	*/	
+			$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);
+			$aTopics=$aResult['collection'];
+			/**
+		 	* Формируем постраничность
+		 	*/
+			$aPaging=($sShowType=='good')
 			? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,rtrim($oBlog->getUrlFull(),'/'))
-			: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType);			
-		/**
-		 * Получаем число новых топиков в текущем блоге
-		 */
-		$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);	
+			: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType);
+			/**
+		 	* Получаем число новых топиков в текущем блоге
+		 	*/
+			$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
+
+			$this->Viewer_Assign('aPaging',$aPaging);
+			$this->Viewer_Assign('aTopics',$aTopics);
+		}
 		/**
 		 * Выставляем SEO данные
 		 */
@@ -755,8 +761,6 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
 		$this->Viewer_Assign('iCountBlogModerators',count($aBlogModerators));
 		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);		
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('oBlog',$oBlog);
 		$this->Viewer_Assign('bCloseBlog',$bCloseBlog);		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
