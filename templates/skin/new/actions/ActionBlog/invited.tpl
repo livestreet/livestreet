@@ -29,8 +29,7 @@
 						
 						function addBlogInvite(idBlog) {
 							sUsers=$('blog_admin_user_add').get('value');
-							if(sUsers.length<2) {
-								msgErrorBox.alert('Error','Пользователь не указан');
+							if(!sUsers) {
 								return false;
 							}
 							$('blog_admin_user_add').set('value','');
@@ -58,6 +57,24 @@
 			                        true
 			                ); 							
 							return false;
+						}
+						function reBlogInvite(idUser,idBlog) {
+			                JsHttpRequest.query(
+			                       'POST '+aRouter['blog']+'ajaxrebloginvite/',                      
+			                        { idUser: idUser, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+			                        function(result, errors) {     
+			                            if (!result) {
+							                msgErrorBox.alert('Error','Please try again later');         
+							        	}    
+							        	if (result.bStateError) {
+							                msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+							        	} else {
+							        		msgNoticeBox.alert(result.sMsgTitle, result.sMsg);
+							        	}                                 
+			                        },
+			                        true
+			                ); 							
+							return false;
 						}						
 						</script>		
 				{/literal}		
@@ -74,7 +91,7 @@
 					<ul class="list" id="invited_list">
 						{foreach from=$aBlogUsersInvited item=oBlogUser}
 							{assign var='oUser' value=$oBlogUser->getUser()}
-							<li><span class="user"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></span></li>						
+							<li><span class="user"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></span> &mdash; <a href="#" class="local" onclick="return reBlogInvite({$oUser->getId()},{$oBlogEdit->getId()});">{$aLang.blog_user_invite_readd}</a></li>						
 						{/foreach}
 					</ul>
 				{/if}

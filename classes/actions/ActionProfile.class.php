@@ -198,7 +198,10 @@ class ActionProfile extends Action {
 	 */
 	public function EventFriendOffer() {	
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';		
-		$sUserId=xxtea_decrypt(base64_decode(getRequest('code')), Config::Get('module.talk.encrypt'));
+		$sUserId=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
+		if (!$sUserId) {
+			return $this->EventNotFound();
+		}
 		list($sUserId,)=explode('_',$sUserId,2);
 		
 		$sAction=$this->GetParam(0);
@@ -541,7 +544,7 @@ class ActionProfile extends Action {
 			
 			require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
 			$sCode=$this->oUserCurrent->getId().'_'.$oUser->getId();
-			$sCode=urlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.talk.encrypt'))));
+			$sCode=rawurlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.talk.encrypt'))));
 			
 			$aPath=array(
 				'accept'=>Router::GetPath('profile').'friendoffer/accept/?code='.$sCode,

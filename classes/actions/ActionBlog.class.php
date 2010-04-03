@@ -124,6 +124,7 @@ class ActionBlog extends Action {
 		
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
+		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
 		
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
@@ -1077,6 +1078,52 @@ class ActionBlog extends Action {
 	}
 
 	/**
+	 * Обработка ajax запроса на отправку 
+	 * повторного приглашения вступить в закрытый блог
+	 */
+	protected function AjaxReBlogInvite() {
+		$this->Viewer_SetResponseAjax();
+		$sUserId=getRequest('idUser',null,'post');
+		$sBlogId=getRequest('idBlog',null,'post');
+		
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */
+		if (!$this->User_IsAuthorization()) {	
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Проверяем существование блога
+		 */
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;			
+		}
+		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;	
+		}
+				
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+		if ($oBlogUser->getUserRole()==LsBlog::BLOG_USER_ROLE_INVITE) {
+			$this->SendBlogInvite($oBlog,$oUser);
+			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_add_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}			
+	}
+	/**
 	 * Выполняет отправку приглашения в блог 
 	 * (по внутренней почте и на email)
 	 *
@@ -1093,7 +1140,7 @@ class ActionBlog extends Action {
 
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
 		$sCode=$oBlog->getId().'_'.$oUser->getId();
-		$sCode=urlencode(xxtea_encrypt($sCode, Config::Get('module.blog.encrypt')));
+		$sCode=rawurlencode(base64_encode(xxtea_encrypt($sCode, Config::Get('module.blog.encrypt'))));
 
 		$aPath=array(
 			'accept'=>Router::GetPath('blog').'invite/accept/?code='.$sCode,
@@ -1128,8 +1175,12 @@ class ActionBlog extends Action {
 	 */
 	protected function EventInviteBlog() {	
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
-		$sCode=xxtea_decrypt(urldecode(getRequest('code')), Config::Get('module.blog.encrypt'));
+		$sCode=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
 
+		if (!$sCode) {
+			return $this->EventNotFound();
+		}
+		
 		list($sBlogId,$sUserId)=explode('_',$sCode,2);
 		
 		$sAction=$this->GetParam(0);

@@ -167,6 +167,7 @@ return array(
 	'blog_user_invite_already_done' => 'Вы уже являетесь пользователем этого блога',
 	'blog_user_invite_accept' => 'Приглашение принято',
 	'blog_user_invite_reject' => 'Приглашение отклонено',
+	'blog_user_invite_readd' => 'повторить',
 	
 	/**
 	 * Топики
