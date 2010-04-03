@@ -300,7 +300,7 @@ $config['block']['rule_index_blog'] = array(
 		'___path.root.web___/blog/*\.html$',
 	),
 	'action'  => array(
-			'index' => array('index'), 'new'
+			'index' => array('index',''), 'new'
 		),
 	'blocks'  => array(
 			'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
@@ -333,7 +333,7 @@ $config['block']['rule_tag'] = array(
 	'blocks'  => array( 'right' => array('tags','stream') ),
 );
 $config['block']['rule_talk_inbox'] = array(
-	'action'  => array( 'talk' => array('inbox') ),
+	'action'  => array( 'talk' => array('inbox','') ),
 	'blocks'  => array( 'right' => array('actions/ActionTalk/filter.tpl', 'actions/ActionTalk/blacklist.tpl') ),
 );
 $config['block']['rule_talk_add'] = array(

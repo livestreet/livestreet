@@ -518,26 +518,21 @@ class LsViewer extends Module {
 			if(array_key_exists($sAction,(array)$aRule['action'])) {
 				/**
 				 * Если задан список event`ов и текущий в него не входит,
-				 * переходи к следующему действию. Если список не задан, 
-				 * считаем что правило действует для всех event`ов.
+				 * переходи к следующему действию.
 				 */
-				if(!$sEvent) {
-					$bUse=true;
-				} else {
-					foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {	
-						if(substr($sEventPreg,0,1)!='/') {	
-							/**
-							 * значит это название event`a
-							 */
-							if($sEvent==$sEventPreg) { $bUse=true; break; }
-						} else {
-							/**
-							 * это регулярное выражение
-							 */
-							if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
-						}
+				foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {
+					if(substr($sEventPreg,0,1)!='/') {
+						/**
+						* значит это название event`a
+						*/
+						if($sEvent==$sEventPreg) { $bUse=true; break; }
+					} else {
+						/**
+						* это регулярное выражение
+						*/
+						if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
 					}
-				}						
+				}
 			}
 			/**
 			 * Если не найдено совпадение по паре Action/Event,
