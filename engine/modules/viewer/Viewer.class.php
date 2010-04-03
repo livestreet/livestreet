@@ -195,9 +195,13 @@ class LsViewer extends Module {
 		$this->oSmarty->cache_dir=Config::Get('path.smarty.cache');
 		$this->oSmarty->plugins_dir=array(Config::Get('path.smarty.plug'),'plugins');	
 		/**
-		 * Получаем настройки блоков
+		 * Получаем настройки блоков из конфигов
 		 */
 		$this->InitBlockParams();
+		/**
+		 * Добавляем блоки по предзагруженным правилам из конфигов
+		 */
+		$this->BuildBlocks();
 		/**
 		 * Получаем настройки JS, CSS файлов
 		 */
@@ -497,8 +501,7 @@ class LsViewer extends Module {
 	 */
 	protected function BuildBlocks() {
 		$sAction = strtolower(Router::GetAction());
-		$sEvent  = strtolower(Router::GetActionEvent());
-		
+		$sEvent  = strtolower(Router::GetActionEvent());		
 		foreach($this->aBlockRules as $sName=>$aRule) {
 			$bUse=false;
 			/**
@@ -511,7 +514,7 @@ class LsViewer extends Module {
 			 * то выбираем следующее правило
 			 */
 			if(!array_key_exists('action',$aRule) && !array_key_exists('path',$aRule)) continue;
-			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;
+			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;			
 			if(array_key_exists($sAction,(array)$aRule['action'])) {
 				/**
 				 * Если задан список event`ов и текущий в него не входит,
@@ -599,14 +602,7 @@ class LsViewer extends Module {
 					}
 				}
 			}
-		}
-		/**
-		 * Теперь сортируем блоки по приоритетности
-		 */
-		foreach($this->aBlocks as $sGroup=>$aBlocks) {
-			uasort($aBlocks,array(&$this,'SortBlocks'));
-			$this->aBlocks[$sGroup] = array_reverse($aBlocks);
-		}
+		}		
 		return true;
 	}
 	
@@ -617,8 +613,21 @@ class LsViewer extends Module {
 	 * @param  array $b
 	 * @return int
 	 */
-	protected function SortBlocks($a,$b) {
+	protected function _SortBlocks($a,$b) {
 		return ($a["priority"]-$b["priority"]);
+	}
+	/**
+	 * Сортируем блоки
+	 *
+	 */
+	protected function SortBlocks() {
+		/**
+		 * Сортируем блоки по приоритетности
+		 */
+		foreach($this->aBlocks as $sGroup=>$aBlocks) {
+			uasort($aBlocks,array(&$this,'_SortBlocks'));
+			$this->aBlocks[$sGroup] = array_reverse($aBlocks);
+		}
 	}
 	/**
 	 * Инициализирует параметры вывода js- и css- файлов
@@ -1176,11 +1185,8 @@ class LsViewer extends Module {
 	 * Загружаем переменные в шаблон при завершении модуля
 	 *
 	 */
-	public function Shutdown() {
-		/**
-		 * Добавляем блоки по предзагруженным правилам
-		 */
-		$this->BuildBlocks();
+	public function Shutdown() {		
+		$this->SortBlocks();
 		/**
 		 * Добавляем JS и CSS по предписанным правилам
 		 */

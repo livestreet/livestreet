@@ -305,7 +305,7 @@ $config['block']['rule_index_blog'] = array(
 	'blocks'  => array(
 			'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
 		),
-	'clear' => true,
+	'clear' => false,
 );
 
 $config['block']['rule_topic_type'] = array(

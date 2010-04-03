@@ -37,6 +37,7 @@ class Engine extends Object {
 	static protected $oInstance=null;
 	
 	protected $aModules=array();
+	protected $aPlugins=array();
 	protected $aConfigModule;
 	public $iTimeLoadModule=0;
 	
@@ -80,9 +81,9 @@ class Engine extends Object {
 	 */
 	public function Init() {
 		/**
-		 * Инициализируем плагины
+		 * Загружаем плагины
 		 */
-		$this->InitPlugins();
+		$this->LoadPlugins();
 		/**
 		 * Инициализируем хуки
 		 */
@@ -95,6 +96,10 @@ class Engine extends Object {
 		 * Инициализируем загруженные модули
 		 */
 		$this->InitModules();
+		/**
+		 * Инициализируем загруженные плагины
+		 */
+		$this->InitPlugins();
 		/**
 		 * Запускаем хуки для события завершения инициализации Engine
 		 */
@@ -280,10 +285,10 @@ class Engine extends Object {
 	}
 
 	/**
-	 * Инициализация активированных плагинов
+	 * Загрузка плагинов и делегирование
 	 *
 	 */
-	protected function InitPlugins() {
+	protected function LoadPlugins() {
 		if($aPluginList = @file(Config::Get('path.root.server').'/plugins/plugins.dat')) {				
 			$aPluginList=array_map('trim',$aPluginList);
 
@@ -296,9 +301,19 @@ class Engine extends Object {
 					$sClassName="{$sPluginNameClass}";
 					$oPlugin=new $sClassName;
 					$oPlugin->Delegate();
-					$oPlugin->Init();
+					$this->aPlugins[$sPluginName]=$oPlugin;
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Инициализация активированных плагинов
+	 *
+	 */
+	protected function InitPlugins() {
+		foreach ($this->aPlugins as $oPlugin) {			
+			$oPlugin->Init();
 		}
 	}
 	

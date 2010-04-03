@@ -60,9 +60,10 @@ class Router extends Object {
 	 *
 	 */
 	public function Exec() {
-		$this->oEngine=Engine::getInstance();
-		$this->oEngine->Init();
 		$this->ParseUrl();
+		$this->DefineActionClass(); // Для возможности ДО инициализации модулей определить какой action/event запрошен
+		$this->oEngine=Engine::getInstance();
+		$this->oEngine->Init();		
 		$this->ExecAction();
 		$this->AssignVars();
 		$this->oEngine->Shutdown();
@@ -219,9 +220,9 @@ class Router extends Object {
 		} elseif (self::$sAction===null) {
 			self::$sAction=$this->aConfigRoute['config']['action_default'];
 		} else {
-			//Если не находим нужного класса то отправляем на страницу ошибки	
-			$this->Message_AddError($this->Lang_Get('system_error_404'),'404');		
-			self::$sAction=$this->aConfigRoute['config']['action_not_found'];		
+			//Если не находим нужного класса то отправляем на страницу ошибки			
+			self::$sAction=$this->aConfigRoute['config']['action_not_found'];
+			self::$sActionEvent='404';
 		}
 		self::$sActionClass=$this->aConfigRoute['page'][self::$sAction];
 		return self::$sActionClass;

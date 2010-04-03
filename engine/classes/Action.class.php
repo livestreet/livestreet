@@ -276,9 +276,8 @@ abstract class Action extends Object {
 	 *
 	 * @return unknown
 	 */
-	protected function EventNotFound() {
-		$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
-		return Router::Action('error');
+	protected function EventNotFound() {		
+		return Router::Action('error','404');
 	}
 	
 	/**

@@ -34,6 +34,7 @@ class ActionError extends Action {
 	 */
 	protected function RegisterEvent() {		
 		$this->AddEvent('index','EventError');		
+		$this->AddEvent('404','EventError');		
 	}
 	/**
 	 * То что делаем при выполнении евента, т.е. ничего :) просто выводим шаблон
@@ -41,13 +42,14 @@ class ActionError extends Action {
 	 */
 	protected function EventError() {
 		/**
-		 * Если у первой ошибки заголовок 404 значит нажно в хидере послать браузеру HTTP/1.1 404 Not Found
-		 */
-		$aError=$this->Message_GetError();
-		if (isset($aError[0]) and $aError[0]['title']=='404') {			
+		 * Если эвент равен 404, то значит нужно в хидере послать браузеру HTTP/1.1 404 Not Found
+		 */		
+		if ($this->sCurrentEvent=='404') {			
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
 			header("HTTP/1.1 404 Not Found");
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
+		$this->SetTemplateAction('index');
 	}
 }
 ?>
