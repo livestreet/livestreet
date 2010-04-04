@@ -174,3 +174,6 @@ ALTER TABLE  `prefix_topic` ADD INDEX (  `topic_text_hash` );
 
 ALTER TABLE  `prefix_session` ADD INDEX (  `session_date_last` );
 ALTER TABLE  `prefix_user` DROP INDEX  `user_date_last`;
+
+ALTER TABLE  `prefix_topic_content` CHANGE  `topic_text`  `topic_text` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE  `prefix_topic_content` CHANGE  `topic_text_source`  `topic_text_source` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
