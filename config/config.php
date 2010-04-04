@@ -362,7 +362,7 @@ $config['head']['rules']['page'] =array(
 
 $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/JsHttpRequest/JsHttpRequest.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/mootools-1.2.js?v=1.2.2",
+	"___path.root.engine_lib___/external/MooTools_1.2/mootools-1.2.js?v=1.2.4",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Roal/Roar.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Observer.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js",

@@ -1,24 +1,36 @@
+//MooTools, <http://mootools.net>, My Object Oriented (JavaScript) Tools. Copyright (c) 2006-2009 Valerio Proietti, <http://mad4milk.net>, MIT Style License.
+//MooTools More, <http://mootools.net/more>. Copyright (c) 2006-2009 Aaron Newton <http://clientcide.com/>, Valerio Proietti <http://mad4milk.net> & the MooTools team <http://mootools.net/developers>, MIT Style License.
+/* Clientcide Copyright (c) 2006-2009, http://www.clientcide.com/wiki/cnet-libraries#license*/
+
+//Contents: Core, Browser, Array, Function, Number, String, Hash, Event, Class, Class.Extras, Element, Element.Event, Element.Style, Element.Dimensions, Selectors, DomReady, JSON, Cookie, Swiff, Fx, Fx.CSS, Fx.Tween, Fx.Morph, Fx.Transitions, Request, Request.HTML, Request.JSON, More, Element.Forms, Fx.Slide, Fx.Scroll, Fx.SmoothScroll, Assets, Tips, Clientcide, dbug, Class.ToElement, StyleWriter, Element.Measure, Element.Position, Class.Binds, Element.Shortcuts, Element.Pin, Class.Occlude, IframeShim, StickyWin, Mask, StickyWin.Modal
+
+//This lib: http://www.clientcide.com/js/build.php?requireLibs[]=mootools-core&require[]=Element.Forms&require[]=Fx.Slide&require[]=Fx.SmoothScroll&require[]=Assets&require[]=Tips&require[]=Clientcide&require[]=dbug&require[]=Class.ToElement&require[]=StyleWriter&require[]=StickyWin&require[]=StickyWin.Modal&compression=none
+
 /*
-Script: Core.js
-	MooTools - My Object Oriented JavaScript Tools.
+---
 
-License:
-	MIT-style license.
+script: Core.js
 
-Copyright:
-	Copyright (c) 2006-2008 [Valerio Proietti](http://mad4milk.net/).
+description: The core of MooTools, contains all the base functions and the Native and Hash implementations. Required by all the other scripts.
 
-Code & Documentation:
-	[The MooTools production team](http://mootools.net/developers/).
+license: MIT-style license.
 
-Inspiration:
-	- Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
-	- Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+copyright: Copyright (c) 2006-2008 [Valerio Proietti](http://mad4milk.net/).
+
+authors: The MooTools production team (http://mootools.net/developers/)
+
+inspiration:
+- Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
+- Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+
+provides: [Mootools, Native, Hash.base, Array.each, $util]
+
+...
 */
 
 var MooTools = {
-	'version': '1.2.2',
-	'build': '2.0.1'
+	'version': '1.2.4',
+	'build': '0d9113241a90b9cd5643b926795852a2026710d4'
 };
 
 var Native = function(options){
@@ -53,7 +65,8 @@ var Native = function(options){
 
 	object.alias = function(a1, a2, a3){
 		if (typeof a1 == 'string'){
-			if ((a1 = this.prototype[a1])) return add(this, a2, a1, a3);
+			var pa1 = this.prototype[a1];
+			if ((a1 = pa1)) return add(this, a2, a1, a3);
 		}
 		for (var a in a1) this.alias(a, a1[a], a2);
 		return this;
@@ -99,7 +112,7 @@ Native.typize = function(object, family){
 		'String': ["charAt", "charCodeAt", "concat", "indexOf", "lastIndexOf", "match", "replace", "search", "slice", "split", "substr", "substring", "toLowerCase", "toUpperCase", "valueOf"]
 	};
 	for (var g in generics){
-		for (var i = generics[g].length; i--;) Native.genericize(window[g], generics[g][i], true);
+		for (var i = generics[g].length; i--;) Native.genericize(natives[g], generics[g][i], true);
 	}
 })();
 
@@ -199,7 +212,7 @@ function $H(object){
 };
 
 function $lambda(value){
-	return (typeof value == 'function') ? value : function(){
+	return ($type(value) == 'function') ? value : function(){
 		return value;
 	};
 };
@@ -284,14 +297,22 @@ function $unlink(object){
 	}
 	return unlinked;
 };
-
-
 /*
-Script: Browser.js
-	The Browser Core. Contains Browser initialization, Window and Document, and the Browser Hash.
+---
 
-License:
-	MIT-style license.
+script: Browser.js
+
+description: The Browser Core. Contains Browser initialization, Window and Document, and the Browser Hash.
+
+license: MIT-style license.
+
+requires: 
+- /Native
+- /$util
+
+provides: [Browser, Window, Document, $exec]
+
+...
 */
 
 var Browser = $merge({
@@ -311,7 +332,7 @@ var Browser = $merge({
 		},
 
 		trident: function(){
-			return (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? 5 : 4);
+			return (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? ((document.querySelectorAll) ? 6 : 5) : 4);
 		},
 
 		webkit: function(){
@@ -319,7 +340,7 @@ var Browser = $merge({
 		},
 
 		gecko: function(){
-			return (document.getBoxObjectFor == undefined) ? false : ((document.getElementsByClassName) ? 19 : 18);
+			return (!document.getBoxObjectFor && window.mozInnerScreenX == null) ? false : ((document.getElementsByClassName) ? 19 : 18);
 		}
 
 	}
@@ -350,6 +371,8 @@ Browser.Request = function(){
 		return new XMLHttpRequest();
 	}, function(){
 		return new ActiveXObject('MSXML2.XMLHTTP');
+	}, function(){
+		return new ActiveXObject('Microsoft.XMLHTTP');
 	});
 };
 
@@ -426,7 +449,7 @@ var Document = new Native({
 		if (Browser.Engine.trident && Browser.Engine.version <= 4) $try(function(){
 			doc.execCommand("BackgroundImageCache", false, true);
 		});
-		if (Browser.Engine.trident) doc.window.attachEvent('onunload', function() {
+		if (Browser.Engine.trident) doc.window.attachEvent('onunload', function(){
 			doc.window.detachEvent('onunload', arguments.callee);
 			doc.head = doc.html = doc.window = null;
 		});
@@ -442,14 +465,22 @@ var Document = new Native({
 Document.Prototype = {$family: {name: 'document'}};
 
 new Document(document);
-
-
 /*
-Script: Array.js
-	Contains Array Prototypes like each, contains, and erase.
+---
 
-License:
-	MIT-style license.
+script: Array.js
+
+description: Contains Array Prototypes like each, contains, and erase.
+
+license: MIT-style license.
+
+requires:
+- /$util
+- /Array.each
+
+provides: [Array]
+
+...
 */
 
 Array.implement({
@@ -469,7 +500,7 @@ Array.implement({
 		return results;
 	},
 
-	clean: function() {
+	clean: function(){
 		return this.filter($defined);
 	},
 
@@ -584,14 +615,22 @@ Array.implement({
 	}
 
 });
-
-
 /*
-Script: Function.js
-	Contains Function Prototypes like create, bind, pass, and delay.
+---
 
-License:
-	MIT-style license.
+script: Function.js
+
+description: Contains Function Prototypes like create, bind, pass, and delay.
+
+license: MIT-style license.
+
+requires:
+- /Native
+- /$util
+
+provides: [Function]
+
+...
 */
 
 Function.implement({
@@ -647,14 +686,22 @@ Function.implement({
 	}
 
 });
-
-
 /*
-Script: Number.js
-	Contains Number Prototypes like limit, round, times, and ceil.
+---
 
-License:
-	MIT-style license.
+script: Number.js
+
+description: Contains Number Prototypes like limit, round, times, and ceil.
+
+license: MIT-style license.
+
+requires:
+- /Native
+- /$util
+
+provides: [Number]
+
+...
 */
 
 Number.implement({
@@ -693,14 +740,21 @@ Number.alias('times', 'each');
 	});
 	Number.implement(methods);
 })(['abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'exp', 'floor', 'log', 'max', 'min', 'pow', 'sin', 'sqrt', 'tan']);
-
-
 /*
-Script: String.js
-	Contains String Prototypes like camelCase, capitalize, test, and toInt.
+---
 
-License:
-	MIT-style license.
+script: String.js
+
+description: Contains String Prototypes like camelCase, capitalize, test, and toInt.
+
+license: MIT-style license.
+
+requires:
+- /Native
+
+provides: [String]
+
+...
 */
 
 String.implement({
@@ -780,14 +834,21 @@ String.implement({
 	}
 
 });
-
-
 /*
-Script: Hash.js
-	Contains Hash Prototypes. Provides a means for overcoming the JavaScript practical impossibility of extending native Objects.
+---
 
-License:
-	MIT-style license.
+script: Hash.js
+
+description: Contains Hash Prototypes. Provides a means for overcoming the JavaScript practical impossibility of extending native Objects.
+
+license: MIT-style license.
+
+requires:
+- /Hash.base
+
+provides: [Hash]
+
+...
 */
 
 Hash.implement({
@@ -806,14 +867,14 @@ Hash.implement({
 	},
 
 	extend: function(properties){
-		Hash.each(properties, function(value, key){
+		Hash.each(properties || {}, function(value, key){
 			Hash.set(this, key, value);
 		}, this);
 		return this;
 	},
 
 	combine: function(properties){
-		Hash.each(properties, function(value, key){
+		Hash.each(properties || {}, function(value, key){
 			Hash.include(this, key, value);
 		}, this);
 		return this;
@@ -916,14 +977,26 @@ Hash.implement({
 });
 
 Hash.alias({keyOf: 'indexOf', hasValue: 'contains'});
-
-
 /*
-Script: Event.js
-	Contains the Event Native, to make the event object completely crossbrowser.
+---
 
-License:
-	MIT-style license.
+script: Event.js
+
+description: Contains the Event Class, to make the event object cross-browser.
+
+license: MIT-style license.
+
+requires:
+- /Window
+- /Document
+- /Hash
+- /Array
+- /Function
+- /String
+
+provides: [Event]
+
+...
 */
 
 var Event = new Native({
@@ -1032,14 +1105,27 @@ Event.implement({
 	}
 
 });
-
-
 /*
-Script: Class.js
-	Contains the Class Function for easily creating, extending, and implementing reusable Classes.
+---
 
-License:
-	MIT-style license.
+script: Class.js
+
+description: Contains the Class Function for easily creating, extending, and implementing reusable Classes.
+
+license: MIT-style license.
+
+requires:
+- /$util
+- /Native
+- /Array
+- /String
+- /Function
+- /Number
+- /Hash
+
+provides: [Class]
+
+...
 */
 
 function Class(params){
@@ -1186,14 +1272,21 @@ Class.Mutators = {
 	}
 	
 };
-
-
 /*
-Script: Class.Extras.js
-	Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
+---
 
-License:
-	MIT-style license.
+script: Class.Extras.js
+
+description: Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
+
+license: MIT-style license.
+
+requires:
+- /Class
+
+provides: [Chain, Events, Options]
+
+...
 */
 
 var Chain = new Class({
@@ -1252,12 +1345,13 @@ var Events = new Class({
 	},
 
 	removeEvents: function(events){
+		var type;
 		if ($type(events) == 'object'){
-			for (var type in events) this.removeEvent(type, events[type]);
+			for (type in events) this.removeEvent(type, events[type]);
 			return this;
 		}
 		if (events) events = Events.removeOn(events);
-		for (var type in this.$events){
+		for (type in this.$events){
 			if (events && events != type) continue;
 			var fns = this.$events[type];
 			for (var i = fns.length; i--; i) this.removeEvent(type, fns[i]);
@@ -1268,7 +1362,7 @@ var Events = new Class({
 });
 
 Events.removeOn = function(string){
-	return string.replace(/^on([A-Z])/, function(full, first) {
+	return string.replace(/^on([A-Z])/, function(full, first){
 		return first.toLowerCase();
 	});
 };
@@ -1287,15 +1381,27 @@ var Options = new Class({
 	}
 
 });
-
-
 /*
-Script: Element.js
-	One of the most important items in MooTools. Contains the dollar function, the dollars function, and an handful of cross-browser,
-	time-saver methods to let you easily work with HTML Elements.
+---
 
-License:
-	MIT-style license.
+script: Element.js
+
+description: One of the most important items in MooTools. Contains the dollar function, the dollars function, and an handful of cross-browser, time-saver methods to let you easily work with HTML Elements.
+
+license: MIT-style license.
+
+requires:
+- /Window
+- /Document
+- /Array
+- /String
+- /Function
+- /Number
+- /Hash
+
+provides: [Element, Elements, $, $$, Iframe]
+
+...
 */
 
 var Element = new Native({
@@ -1308,7 +1414,7 @@ var Element = new Native({
 		var konstructor = Element.Constructors.get(tag);
 		if (konstructor) return konstructor(props);
 		if (typeof tag == 'string') return document.newElement(tag, props);
-		return $(tag).set(props);
+		return document.id(tag).set(props);
 	},
 
 	afterImplement: function(key, value){
@@ -1340,23 +1446,26 @@ var IFrame = new Native({
 	initialize: function(){
 		var params = Array.link(arguments, {properties: Object.type, iframe: $defined});
 		var props = params.properties || {};
-		var iframe = $(params.iframe) || false;
+		var iframe = document.id(params.iframe);
 		var onload = props.onload || $empty;
 		delete props.onload;
-		props.id = props.name = $pick(props.id, props.name, iframe.id, iframe.name, 'IFrame_' + $time());
+		props.id = props.name = $pick(props.id, props.name, iframe ? (iframe.id || iframe.name) : 'IFrame_' + $time());
 		iframe = new Element(iframe || 'iframe', props);
 		var onFrameLoad = function(){
 			var host = $try(function(){
 				return iframe.contentWindow.location.host;
 			});
-			if (host && host == window.location.host){
+			if (!host || host == window.location.host){
 				var win = new Window(iframe.contentWindow);
 				new Document(iframe.contentWindow.document);
 				$extend(win.Element.prototype, Element.Prototype);
 			}
 			onload.call(iframe.contentWindow, iframe.contentWindow.document);
 		};
-		(window.frames[props.id]) ? onFrameLoad() : iframe.addListener('load', onFrameLoad);
+		var contentWindow = $try(function(){
+			return iframe.contentWindow;
+		});
+		((contentWindow && contentWindow.document.body) || window.frames[props.id]) ? onFrameLoad() : iframe.addListener('load', onFrameLoad);
 		return iframe;
 	}
 
@@ -1370,12 +1479,12 @@ var Elements = new Native({
 		if (options.ddup || options.cash){
 			var uniques = {}, returned = [];
 			for (var i = 0, l = elements.length; i < l; i++){
-				var el = $.element(elements[i], !options.cash);
+				var el = document.id(elements[i], !options.cash);
 				if (options.ddup){
 					if (uniques[el.uid]) continue;
 					uniques[el.uid] = true;
 				}
-				returned.push(el);
+				if (el) returned.push(el);
 			}
 			elements = returned;
 		}
@@ -1406,7 +1515,7 @@ Document.implement({
 			});
 			tag = '<' + tag + '>';
 		}
-		return $.element(this.createElement(tag)).set(props);
+		return document.id(this.createElement(tag)).set(props);
 	},
 
 	newTextNode: function(text){
@@ -1419,17 +1528,52 @@ Document.implement({
 
 	getWindow: function(){
 		return this.window;
-	}
+	},
+	
+	id: (function(){
+		
+		var types = {
+
+			string: function(id, nocash, doc){
+				id = doc.getElementById(id);
+				return (id) ? types.element(id, nocash) : null;
+			},
+			
+			element: function(el, nocash){
+				$uid(el);
+				if (!nocash && !el.$family && !(/^object|embed$/i).test(el.tagName)){
+					var proto = Element.Prototype;
+					for (var p in proto) el[p] = proto[p];
+				};
+				return el;
+			},
+			
+			object: function(obj, nocash, doc){
+				if (obj.toElement) return types.element(obj.toElement(doc), nocash);
+				return null;
+			}
+			
+		};
+
+		types.textnode = types.whitespace = types.window = types.document = $arguments(0);
+		
+		return function(el, nocash, doc){
+			if (el && el.$family && el.uid) return el;
+			var type = $type(el);
+			return (types[type]) ? types[type](el, nocash, doc || document) : null;
+		};
+
+	})()
 
 });
 
-Window.implement({
+if (window.$ == null) Window.implement({
+	$: function(el, nc){
+		return document.id(el, nc, this.document);
+	}
+});
 
-	$: function(el, nocash){
-		if (el && el.$family && el.uid) return el;
-		var type = $type(el);
-		return ($[type]) ? $[type](el, nocash, this.document) : null;
-	},
+Window.implement({
 
 	$$: function(selector){
 		if (arguments.length == 1 && typeof selector == 'string') return this.document.getElements(selector);
@@ -1455,31 +1599,10 @@ Window.implement({
 
 });
 
-$.string = function(id, nocash, doc){
-	id = doc.getElementById(id);
-	return (id) ? $.element(id, nocash) : null;
-};
-
-$.element = function(el, nocash){
-	$uid(el);
-	if (!nocash && !el.$family && !(/^object|embed$/i).test(el.tagName)){
-		var proto = Element.Prototype;
-		for (var p in proto) el[p] = proto[p];
-	};
-	return el;
-};
-
-$.object = function(obj, nocash, doc){
-	if (obj.toElement) return $.element(obj.toElement(doc), nocash);
-	return null;
-};
-
-$.textnode = $.whitespace = $.window = $.document = $arguments(0);
-
 Native.implement([Element, Document], {
 
 	getElement: function(selector, nocash){
-		return $(this.getElements(selector, true)[0] || null, nocash);
+		return document.id(this.getElements(selector, true)[0] || null, nocash);
 	},
 
 	getElements: function(tags, nocash){
@@ -1538,7 +1661,7 @@ var walk = function(element, walk, start, match, all, nocash){
 	var elements = [];
 	while (el){
 		if (el.nodeType == 1 && (!match || Element.match(el, match))){
-			if (!all) return $(el, nocash);
+			if (!all) return document.id(el, nocash);
 			elements.push(el);
 		}
 		el = el[walk];
@@ -1550,10 +1673,11 @@ var attributes = {
 	'html': 'innerHTML',
 	'class': 'className',
 	'for': 'htmlFor',
+	'defaultValue': 'defaultValue',
 	'text': (Browser.Engine.trident || (Browser.Engine.webkit && Browser.Engine.version < 420)) ? 'innerText' : 'textContent'
 };
 var bools = ['compact', 'nowrap', 'ismap', 'declare', 'noshade', 'checked', 'disabled', 'readonly', 'multiple', 'selected', 'noresize', 'defer'];
-var camels = ['value', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
+var camels = ['value', 'type', 'defaultValue', 'accessKey', 'cellPadding', 'cellSpacing', 'colSpan', 'frameBorder', 'maxLength', 'readOnly', 'rowSpan', 'tabIndex', 'useMap'];
 
 bools = bools.associate(bools);
 
@@ -1590,12 +1714,12 @@ Hash.each(inserters, function(inserter, where){
 	where = where.capitalize();
 
 	Element.implement('inject' + where, function(el){
-		inserter(this, $(el, true));
+		inserter(this, document.id(el, true));
 		return this;
 	});
 
 	Element.implement('grab' + where, function(el){
-		inserter($(el, true), this);
+		inserter(document.id(el, true), this);
 		return this;
 	});
 
@@ -1681,7 +1805,7 @@ Element.implement({
 
 	adopt: function(){
 		Array.flatten(arguments).each(function(element){
-			element = $(element, true);
+			element = document.id(element, true);
 			if (element) this.appendChild(element);
 		}, this);
 		return this;
@@ -1692,23 +1816,23 @@ Element.implement({
 	},
 
 	grab: function(el, where){
-		inserters[where || 'bottom']($(el, true), this);
+		inserters[where || 'bottom'](document.id(el, true), this);
 		return this;
 	},
 
 	inject: function(el, where){
-		inserters[where || 'bottom'](this, $(el, true));
+		inserters[where || 'bottom'](this, document.id(el, true));
 		return this;
 	},
 
 	replaces: function(el){
-		el = $(el, true);
+		el = document.id(el, true);
 		el.parentNode.replaceChild(this, el);
 		return this;
 	},
 
 	wraps: function(el, where){
-		el = $(el, true);
+		el = document.id(el, true);
 		return this.replaces(el).grab(el, where);
 	},
 
@@ -1744,7 +1868,7 @@ Element.implement({
 		return walk(this, 'parentNode', null, match, true, nocash);
 	},
 	
-	getSiblings: function(match, nocash) {
+	getSiblings: function(match, nocash){
 		return this.getParent().getChildren(match, nocash).erase(this);
 	},
 
@@ -1766,7 +1890,7 @@ Element.implement({
 		for (var parent = el.parentNode; parent != this; parent = parent.parentNode){
 			if (!parent) return null;
 		}
-		return $.element(el, nocash);
+		return document.id(el, nocash);
 	},
 
 	getSelected: function(){
@@ -1784,7 +1908,7 @@ Element.implement({
 	toQueryString: function(){
 		var queryString = [];
 		this.getElements('input, select, textarea', true).each(function(el){
-			if (!el.name || el.disabled) return;
+			if (!el.name || el.disabled || el.type == 'submit' || el.type == 'reset' || el.type == 'file') return;
 			var value = (el.tagName.toLowerCase() == 'select') ? Element.getSelected(el).map(function(opt){
 				return opt.value;
 			}) : ((el.type == 'radio' || el.type == 'checkbox') && !el.checked) ? null : el.value;
@@ -1819,7 +1943,7 @@ Element.implement({
 		}
 
 		clean(clone, this);
-		return $(clone);
+		return document.id(clone);
 	},
 
 	destroy: function(){
@@ -1841,7 +1965,7 @@ Element.implement({
 	},
 
 	hasChild: function(el){
-		el = $(el, true);
+		el = document.id(el, true);
 		if (!el) return false;
 		if (Browser.Engine.webkit && Browser.Engine.version < 420) return $A(this.getElementsByTagName(el.tagName)).contains(el);
 		return (this.contains) ? (this != el && this.contains(el)) : !!(this.compareDocumentPosition(el) & 16);
@@ -1966,14 +2090,22 @@ if (Browser.Engine.webkit && Browser.Engine.version < 420) Element.Properties.te
 		return text;
 	}
 };
-
-
 /*
-Script: Element.Event.js
-	Contains Element methods for dealing with events, and custom Events.
+---
 
-License:
-	MIT-style license.
+script: Element.Event.js
+
+description: Contains Element methods for dealing with events. This file also includes mouseenter and mouseleave custom Element Events.
+
+license: MIT-style license.
+
+requires: 
+- /Element
+- /Event
+
+provides: [Element.Event]
+
+...
 */
 
 Element.Properties.events = {set: function(events){
@@ -2036,14 +2168,15 @@ Native.implement([Element, Window, Document], {
 	},
 
 	removeEvents: function(events){
+		var type;
 		if ($type(events) == 'object'){
-			for (var type in events) this.removeEvent(type, events[type]);
+			for (type in events) this.removeEvent(type, events[type]);
 			return this;
 		}
 		var attached = this.retrieve('events');
 		if (!attached) return this;
 		if (!events){
-			for (var type in attached) this.removeEvents(type);
+			for (type in attached) this.removeEvents(type);
 			this.eliminate('events');
 		} else if (attached[events]){
 			while (attached[events].keys[0]) this.removeEvent(events, attached[events].keys[0]);
@@ -2062,7 +2195,7 @@ Native.implement([Element, Window, Document], {
 	},
 
 	cloneEvents: function(from, type){
-		from = $(from);
+		from = document.id(from);
 		var fevents = from.retrieve('events');
 		if (!fevents) return this;
 		if (!type){
@@ -2115,14 +2248,21 @@ Element.Events = new Hash({
 });
 
 })();
-
-
 /*
-Script: Element.Style.js
-	Contains methods for interacting with the styles of Elements in a fashionable way.
+---
 
-License:
-	MIT-style license.
+script: Element.Style.js
+
+description: Contains methods for interacting with the styles of Elements in a fashionable way.
+
+license: MIT-style license.
+
+requires:
+- /Element
+
+provides: [Element.Style]
+
+...
 */
 
 Element.Properties.styles = {set: function(styles){
@@ -2222,7 +2362,7 @@ Element.implement({
 
 	getStyles: function(){
 		var result = {};
-		Array.each(arguments, function(key){
+		Array.flatten(arguments).each(function(key){
 			result[key] = this.getStyle(key);
 		}, this);
 		return result;
@@ -2257,18 +2397,25 @@ Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, bor
 	Short.borderStyle[bds] = Short[bd][bds] = All[bds] = '@';
 	Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = 'rgb(@, @, @)';
 });
-
-
 /*
-Script: Element.Dimensions.js
-	Contains methods to work with size, scroll, or positioning of Elements and the window object.
+---
 
-License:
-	MIT-style license.
+script: Element.Dimensions.js
 
-Credits:
-	- Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
-	- Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
+description: Contains methods to work with size, scroll, or positioning of Elements and the window object.
+
+license: MIT-style license.
+
+credits:
+- Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
+- Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
+
+requires:
+- /Element
+
+provides: [Element.Dimensions]
+
+...
 */
 
 (function(){
@@ -2320,13 +2467,18 @@ Element.implement({
 		return null;
 	},
 
-	getOffsets: function(){		
-		if (Browser.Engine.trident){
-			var bound = this.getBoundingClientRect(), html = this.getDocument().documentElement;
-			var isFixed = styleString(this, 'position') == 'fixed';
+	getOffsets: function(){
+		if (this.getBoundingClientRect){
+			var bound = this.getBoundingClientRect(),
+				html = document.id(this.getDocument().documentElement),
+				htmlScroll = html.getScroll(),
+				elemScrolls = this.getScrolls(),
+				elemScroll = this.getScroll(),
+				isFixed = (styleString(this, 'position') == 'fixed');
+
 			return {
-				x: bound.left + ((isFixed) ? 0 : html.scrollLeft) - html.clientLeft,
-				y: bound.top +  ((isFixed) ? 0 : html.scrollTop)  - html.clientTop
+				x: bound.left.toInt() + elemScrolls.x - elemScroll.x + ((isFixed) ? 0 : htmlScroll.x) - html.clientLeft,
+				y: bound.top.toInt()  + elemScrolls.y - elemScroll.y + ((isFixed) ? 0 : htmlScroll.y) - html.clientTop
 			};
 		}
 
@@ -2363,23 +2515,36 @@ Element.implement({
 
 	getPosition: function(relative){
 		if (isBody(this)) return {x: 0, y: 0};
-		var offset = this.getOffsets(), scroll = this.getScrolls();
-		var position = {x: offset.x - scroll.x, y: offset.y - scroll.y};
-		var relativePosition = (relative && (relative = $(relative))) ? relative.getPosition() : {x: 0, y: 0};
+		var offset = this.getOffsets(),
+				scroll = this.getScrolls();
+		var position = {
+			x: offset.x - scroll.x,
+			y: offset.y - scroll.y
+		};
+		var relativePosition = (relative && (relative = document.id(relative))) ? relative.getPosition() : {x: 0, y: 0};
 		return {x: position.x - relativePosition.x, y: position.y - relativePosition.y};
 	},
 
 	getCoordinates: function(element){
 		if (isBody(this)) return this.getWindow().getCoordinates();
-		var position = this.getPosition(element), size = this.getSize();
-		var obj = {left: position.x, top: position.y, width: size.x, height: size.y};
+		var position = this.getPosition(element),
+				size = this.getSize();
+		var obj = {
+			left: position.x,
+			top: position.y,
+			width: size.x,
+			height: size.y
+		};
 		obj.right = obj.left + obj.width;
 		obj.bottom = obj.top + obj.height;
 		return obj;
 	},
 
 	computePosition: function(obj){
-		return {left: obj.x - styleNumber(this, 'margin-left'), top: obj.y - styleNumber(this, 'margin-top')};
+		return {
+			left: obj.x - styleNumber(this, 'margin-left'),
+			top: obj.y - styleNumber(this, 'margin-top')
+		};
 	},
 
 	setPosition: function(obj){
@@ -2392,7 +2557,7 @@ Element.implement({
 Native.implement([Document, Window], {
 
 	getSize: function(){
-		if (Browser.Engine.presto || Browser.Engine.webkit) {
+		if (Browser.Engine.presto || Browser.Engine.webkit){
 			var win = this.getWindow();
 			return {x: win.innerWidth, y: win.innerHeight};
 		}
@@ -2453,8 +2618,7 @@ function getCompatElement(element){
 })();
 
 //aliases
-
-Element.alias('position', 'setPosition'); //compatability
+Element.alias('setPosition', 'position'); //compatability
 
 Native.implement([Window, Document, Element], {
 
@@ -2491,14 +2655,21 @@ Native.implement([Window, Document, Element], {
 	}
 
 });
-
-
 /*
-Script: Selectors.js
-	Adds advanced CSS Querying capabilities for targeting elements. Also includes pseudoselectors support.
+---
 
-License:
-	MIT-style license.
+script: Selectors.js
+
+description: Adds advanced CSS-style querying capabilities for targeting HTML Elements. Includes pseudo selectors.
+
+license: MIT-style license.
+
+requires:
+- /Element
+
+provides: [Selectors]
+
+...
 */
 
 Native.implement([Document, Element], {
@@ -2741,7 +2912,7 @@ Selectors.Filters = {
 	},
 
 	byClass: function(self, klass){
-		return (self.className && self.className.contains(klass, ' '));
+		return (self.className && self.className.contains && self.className.contains(klass, ' '));
 	},
 
 	byPseudo: function(self, parser, argument, local){
@@ -2851,19 +3022,30 @@ Selectors.Pseudo = new Hash({
 		return Selectors.Pseudo['nth-child'].call(this, '2n', local);
 	},
 	
-	selected: function() {
+	selected: function(){
 		return this.selected;
+	},
+	
+	enabled: function(){
+		return (this.disabled === false);
 	}
 
 });
-
-
 /*
-Script: Domready.js
-	Contains the domready custom event.
+---
 
-License:
-	MIT-style license.
+script: DomReady.js
+
+description: Contains the custom event domready.
+
+license: MIT-style license.
+
+requires:
+- /Element.Event
+
+provides: [DomReady]
+
+...
 */
 
 Element.Events.domready = {
@@ -2882,13 +3064,15 @@ Element.Events.domready = {
 		window.fireEvent('domready');
 		document.fireEvent('domready');
 	};
+	
+	window.addEvent('load', domready);
 
 	if (Browser.Engine.trident){
 		var temp = document.createElement('div');
 		(function(){
 			($try(function(){
-				temp.doScroll('left');
-				return $(temp).inject(document.body).set('html', 'temp').dispose();
+				temp.doScroll(); // Technique by Diego Perini
+				return document.id(temp).inject(document.body).set('html', 'temp').dispose();
 			})) ? domready() : arguments.callee.delay(50);
 		})();
 	} else if (Browser.Engine.webkit && Browser.Engine.version < 525){
@@ -2896,26 +3080,38 @@ Element.Events.domready = {
 			(['loaded', 'complete'].contains(document.readyState)) ? domready() : arguments.callee.delay(50);
 		})();
 	} else {
-		window.addEvent('load', domready);
 		document.addEvent('DOMContentLoaded', domready);
 	}
 
 })();
-
-
 /*
-Script: JSON.js
-	JSON encoder and decoder.
+---
 
-License:
-	MIT-style license.
+script: JSON.js
 
-See Also:
-	<http://www.json.org/>
+description: JSON encoder and decoder.
+
+license: MIT-style license.
+
+See Also: <http://www.json.org/>
+
+requires:
+- /Array
+- /String
+- /Number
+- /Function
+- /Hash
+
+provides: [JSON]
+
+...
 */
 
-var JSON = new Hash({
-
+var JSON = new Hash(this.JSON && {
+	stringify: JSON.stringify,
+	parse: JSON.parse
+}).extend({
+	
 	$specialChars: {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'},
 
 	$replaceChars: function(chr){
@@ -2927,7 +3123,7 @@ var JSON = new Hash({
 			case 'string':
 				return '"' + obj.replace(/[\x00-\x1f\\"]/g, JSON.$replaceChars) + '"';
 			case 'array':
-				return '[' + String(obj.map(JSON.encode).filter($defined)) + ']';
+				return '[' + String(obj.map(JSON.encode).clean()) + ']';
 			case 'object': case 'hash':
 				var string = [];
 				Hash.each(obj, function(value, key){
@@ -2956,17 +3152,24 @@ Native.implement([Hash, Array, String, Number], {
 	}
 
 });
-
-
 /*
-Script: Cookie.js
-	Class for creating, loading, and saving browser Cookies.
+---
 
-License:
-	MIT-style license.
+script: Cookie.js
 
-Credits:
-	Based on the functions by Peter-Paul Koch (http://quirksmode.org).
+description: Class for creating, reading, and deleting browser Cookies.
+
+license: MIT-style license.
+
+credits:
+- Based on the functions by Peter-Paul Koch (http://quirksmode.org).
+
+requires:
+- /Options
+
+provides: [Cookie]
+
+...
 */
 
 var Cookie = new Class({
@@ -3023,17 +3226,25 @@ Cookie.read = function(key){
 Cookie.dispose = function(key, options){
 	return new Cookie(key, options).dispose();
 };
-
-
 /*
-Script: Swiff.js
-	Wrapper for embedding SWF movies. Supports (and fixes) External Interface Communication.
+---
 
-License:
-	MIT-style license.
+script: Swiff.js
 
-Credits:
-	Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
+description: Wrapper for embedding SWF movies. Supports External Interface Communication.
+
+license: MIT-style license.
+
+credits: 
+- Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
+
+requires:
+- /Options
+- /$util
+
+provides: [Swiff]
+
+...
 */
 
 var Swiff = new Class({
@@ -3066,7 +3277,7 @@ var Swiff = new Class({
 		this.setOptions(options);
 		options = this.options;
 		var id = this.id = options.id || this.instance;
-		var container = $(options.container);
+		var container = document.id(options.container);
 
 		Swiff.CallBacks[this.instance] = {};
 
@@ -3103,13 +3314,13 @@ var Swiff = new Class({
 	},
 
 	replaces: function(element){
-		element = $(element, true);
+		element = document.id(element, true);
 		element.parentNode.replaceChild(this.toElement(), element);
 		return this;
 	},
 
 	inject: function(element){
-		$(element, true).appendChild(this.toElement());
+		document.id(element, true).appendChild(this.toElement());
 		return this;
 	},
 
@@ -3125,14 +3336,23 @@ Swiff.remote = function(obj, fn){
 	var rs = obj.CallFunction('<invoke name="' + fn + '" returntype="javascript">' + __flash__argumentsToXML(arguments, 2) + '</invoke>');
 	return eval(rs);
 };
-
-
 /*
-Script: Fx.js
-	Contains the basic animation logic to be extended by all other Fx Classes.
+---
 
-License:
-	MIT-style license.
+script: Fx.js
+
+description: Contains the basic animation logic to be extended by all other Fx Classes.
+
+license: MIT-style license.
+
+requires:
+- /Chain
+- /Events
+- /Options
+
+provides: [Fx]
+
+...
 */
 
 var Fx = new Class({
@@ -3258,14 +3478,22 @@ Fx.compute = function(from, to, delta){
 };
 
 Fx.Durations = {'short': 250, 'normal': 500, 'long': 1000};
-
-
 /*
-Script: Fx.CSS.js
-	Contains the CSS animation logic. Used by Fx.Tween, Fx.Morph, Fx.Elements.
+---
 
-License:
-	MIT-style license.
+script: Fx.CSS.js
+
+description: Contains the CSS animation logic. Used by Fx.Tween, Fx.Morph, Fx.Elements.
+
+license: MIT-style license.
+
+requires:
+- /Fx
+- /Element.Style
+
+provides: [Fx.CSS]
+
+...
 */
 
 Fx.CSS = new Class({
@@ -3392,14 +3620,21 @@ Fx.CSS.Parsers = new Hash({
 	}
 
 });
-
-
 /*
-Script: Fx.Tween.js
-	Formerly Fx.Style, effect to transition any CSS property for an element.
+---
 
-License:
-	MIT-style license.
+script: Fx.Tween.js
+
+description: Formerly Fx.Style, effect to transition any CSS property for an element.
+
+license: MIT-style license.
+
+requires: 
+- /Fx.CSS
+
+provides: [Fx.Tween, Element.fade, Element.highlight]
+
+...
 */
 
 Fx.Tween = new Class({
@@ -3407,7 +3642,7 @@ Fx.Tween = new Class({
 	Extends: Fx.CSS,
 
 	initialize: function(element, options){
-		this.element = this.subject = $(element);
+		this.element = this.subject = document.id(element);
 		this.parent(options);
 	},
 
@@ -3489,14 +3724,21 @@ Element.implement({
 	}
 
 });
-
-
 /*
-Script: Fx.Morph.js
-	Formerly Fx.Styles, effect to transition any number of CSS properties for an element using an object of rules, or CSS based selector rules.
+---
 
-License:
-	MIT-style license.
+script: Fx.Morph.js
+
+description: Formerly Fx.Styles, effect to transition any number of CSS properties for an element using an object of rules, or CSS based selector rules.
+
+license: MIT-style license.
+
+requires:
+- /Fx.CSS
+
+provides: [Fx.Morph]
+
+...
 */
 
 Fx.Morph = new Class({
@@ -3504,7 +3746,7 @@ Fx.Morph = new Class({
 	Extends: Fx.CSS,
 
 	initialize: function(element, options){
-		this.element = this.subject = $(element);
+		this.element = this.subject = document.id(element);
 		this.parent(options);
 	},
 
@@ -3560,17 +3802,24 @@ Element.implement({
 	}
 
 });
-
-
 /*
-Script: Fx.Transitions.js
-	Contains a set of advanced transitions to be used with any of the Fx Classes.
+---
 
-License:
-	MIT-style license.
+script: Fx.Transitions.js
 
-Credits:
-	Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
+description: Contains a set of advanced transitions to be used with any of the Fx Classes.
+
+license: MIT-style license.
+
+credits:
+- Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
+
+requires:
+- /Fx
+
+provides: [Fx.Transitions]
+
+...
 */
 
 Fx.implement({
@@ -3658,14 +3907,25 @@ Fx.Transitions.extend({
 		return Math.pow(p, [i + 2]);
 	});
 });
-
-
 /*
-Script: Request.js
-	Powerful all purpose Request Class. Uses XMLHTTPRequest.
+---
 
-License:
-	MIT-style license.
+script: Request.js
+
+description: Powerful all purpose Request Class. Uses XMLHTTPRequest.
+
+license: MIT-style license.
+
+requires:
+- /Element
+- /Chain
+- /Events
+- /Options
+- /Browser
+
+provides: [Request]
+
+...
 */
 
 var Request = new Class({
@@ -3712,6 +3972,7 @@ var Request = new Class({
 		$try(function(){
 			this.status = this.xhr.status;
 		}.bind(this));
+		this.xhr.onreadystatechange = $empty;
 		if (this.options.isSuccess.call(this, this.status)){
 			this.response = {text: this.xhr.responseText, xml: this.xhr.responseXML};
 			this.success(this.response.text, this.response.xml);
@@ -3719,7 +3980,6 @@ var Request = new Class({
 			this.response = {text: null, xml: null};
 			this.failure();
 		}
-		this.xhr.onreadystatechange = $empty;
 	},
 
 	isSuccess: function(){
@@ -3776,10 +4036,10 @@ var Request = new Class({
 
 		var old = this.options;
 		options = $extend({data: old.data, url: old.url, method: old.method}, options);
-		var data = options.data, url = options.url, method = options.method;
+		var data = options.data, url = String(options.url), method = options.method.toLowerCase();
 
 		switch ($type(data)){
-			case 'element': data = $(data).toQueryString(); break;
+			case 'element': data = document.id(data).toQueryString(); break;
 			case 'object': case 'hash': data = Hash.toQueryString(data);
 		}
 
@@ -3788,7 +4048,7 @@ var Request = new Class({
 			data = (data) ? format + '&' + data : format;
 		}
 
-		if (this.options.emulation && ['put', 'delete'].contains(method)){
+		if (this.options.emulation && !['get', 'post'].contains(method)){
 			var _method = '_method=' + method;
 			data = (data) ? _method + '&' + data : _method;
 			method = 'post';
@@ -3799,17 +4059,18 @@ var Request = new Class({
 			this.headers.set('Content-type', 'application/x-www-form-urlencoded' + encoding);
 		}
 
-		if(this.options.noCache) {
-			var noCache = "noCache=" + new Date().getTime();
+		if (this.options.noCache){
+			var noCache = 'noCache=' + new Date().getTime();
 			data = (data) ? noCache + '&' + data : noCache;
 		}
 
+		var trimPosition = url.lastIndexOf('/');
+		if (trimPosition > -1 && (trimPosition = url.indexOf('#')) > -1) url = url.substr(0, trimPosition);
 
 		if (data && method == 'get'){
 			url = url + (url.contains('?') ? '&' : '?') + data;
 			data = null;
 		}
-
 
 		this.xhr.open(method.toUpperCase(), url, this.options.async);
 
@@ -3847,7 +4108,7 @@ var methods = {};
 ['get', 'post', 'put', 'delete', 'GET', 'POST', 'PUT', 'DELETE'].each(function(method){
 	methods[method] = function(){
 		var params = Array.link(arguments, {url: String.type, data: $defined});
-		return this.send($extend(params, {method: method.toLowerCase()}));
+		return this.send($extend(params, {method: method}));
 	};
 });
 
@@ -3855,12 +4116,51 @@ Request.implement(methods);
 
 })();
 
-/*
-Script: Request.HTML.js
-	Extends the basic Request Class with additional methods for interacting with HTML responses.
+Element.Properties.send = {
 
-License:
-	MIT-style license.
+	set: function(options){
+		var send = this.retrieve('send');
+		if (send) send.cancel();
+		return this.eliminate('send').store('send:options', $extend({
+			data: this, link: 'cancel', method: this.get('method') || 'post', url: this.get('action')
+		}, options));
+	},
+
+	get: function(options){
+		if (options || !this.retrieve('send')){
+			if (options || !this.retrieve('send:options')) this.set('send', options);
+			this.store('send', new Request(this.retrieve('send:options')));
+		}
+		return this.retrieve('send');
+	}
+
+};
+
+Element.implement({
+
+	send: function(url){
+		var sender = this.get('send');
+		sender.send({data: this, url: url || sender.options.url});
+		return this;
+	}
+
+});
+/*
+---
+
+script: Request.HTML.js
+
+description: Extends the basic Request Class with additional methods for interacting with HTML responses.
+
+license: MIT-style license.
+
+requires:
+- /Request
+- /Element
+
+provides: [Request.HTML]
+
+...
 */
 
 Request.HTML = new Class({
@@ -3890,7 +4190,7 @@ Request.HTML = new Class({
 				doc = new DOMParser().parseFromString(root, 'text/xml');
 			}
 			root = doc.getElementsByTagName('root')[0];
-			if (!root) return;
+			if (!root) return null;
 			for (var i = 0, k = root.childNodes.length; i < k; i++){
 				var child = Element.clone(root.childNodes[i], true, true);
 				if (child) container.grab(child);
@@ -3912,34 +4212,14 @@ Request.HTML = new Class({
 		response.elements = temp.getElements('*');
 
 		if (options.filter) response.tree = response.elements.filter(options.filter);
-		if (options.update) $(options.update).empty().set('html', response.html);
-		else if (options.append) $(options.append).adopt(temp.getChildren());
+		if (options.update) document.id(options.update).empty().set('html', response.html);
+		else if (options.append) document.id(options.append).adopt(temp.getChildren());
 		if (options.evalScripts) $exec(response.javascript);
 
 		this.onSuccess(response.tree, response.elements, response.html, response.javascript);
 	}
 
 });
-
-Element.Properties.send = {
-
-	set: function(options){
-		var send = this.retrieve('send');
-		if (send) send.cancel();
-		return this.eliminate('send').store('send:options', $extend({
-			data: this, link: 'cancel', method: this.get('method') || 'post', url: this.get('action')
-		}, options));
-	},
-
-	get: function(options){
-		if (options || !this.retrieve('send')){
-			if (options || !this.retrieve('send:options')) this.set('send', options);
-			this.store('send', new Request(this.retrieve('send:options')));
-		}
-		return this.retrieve('send');
-	}
-
-};
 
 Element.Properties.load = {
 
@@ -3961,26 +4241,27 @@ Element.Properties.load = {
 
 Element.implement({
 
-	send: function(url){
-		var sender = this.get('send');
-		sender.send({data: this, url: url || sender.options.url});
-		return this;
-	},
-
 	load: function(){
 		this.get('load').send(Array.link(arguments, {data: Object.type, url: String.type}));
 		return this;
 	}
 
 });
-
-
 /*
-Script: Request.JSON.js
-	Extends the basic Request Class with additional methods for sending and receiving JSON data.
+---
 
-License:
-	MIT-style license.
+script: Request.JSON.js
+
+description: Extends the basic Request Class with additional methods for sending and receiving JSON data.
+
+license: MIT-style license.
+
+requires:
+- /Request JSON
+
+provides: [Request.HTML]
+
+...
 */
 
 Request.JSON = new Class({
@@ -4002,19 +4283,54 @@ Request.JSON = new Class({
 	}
 
 });
+//MooTools More, <http://mootools.net/more>. Copyright (c) 2006-2009 Aaron Newton <http://clientcide.com/>, Valerio Proietti <http://mad4milk.net> & the MooTools team <http://mootools.net/developers>, MIT Style License.
+
+/*
+---
+
+script: More.js
+
+description: MooTools More
+
+license: MIT-style license
+
+authors:
+- Guillermo Rauch
+- Thomas Aylott
+- Scott Kyle
+
+requires:
+- core:1.2.4/MooTools
+
+provides: [MooTools.More]
+
+...
+*/
+
 MooTools.More = {
-	'version': '1.2.2.1'
+	'version': '1.2.4.4',
+	'build': '6f6057dc645fdb7547689183b2311063bd653ddf'
 };
 
 /*
-Script: Class.Binds.js
-	Automagically binds specified methods in a class to the instance of the class.
+---
 
-	License:
-		MIT-style license.
+script: Class.Binds.js
 
-	Authors:
-		Aaron Newton
+description: Automagically binds specified methods in a class to the instance of the class.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Class
+- /MooTools.More
+
+provides: [Class.Binds]
+
+...
 */
 
 Class.Mutators.Binds = function(binds){
@@ -4031,44 +4347,65 @@ Class.Mutators.initialize = function(initialize){
 	};
 };
 
+
 /*
-Script: Class.Occlude.js
-	Prevents a class from being applied to a DOM element twice.
+---
 
-	License:
-		MIT-style license.
+script: Class.Occlude.js
 
-	Authors:
-		Aaron Newton
+description: Prevents a class from being applied to a DOM element twice.
+
+license: MIT-style license.
+
+authors:
+- Aaron Newton
+
+requires: 
+- core/1.2.4/Class
+- core:1.2.4/Element
+- /MooTools.More
+
+provides: [Class.Occlude]
+
+...
 */
 
 Class.Occlude = new Class({
 
 	occlude: function(property, element){
-		element = $(element || this.element);
+		element = document.id(element || this.element);
 		var instance = element.retrieve(property || this.property);
-		if (instance && !$defined(this.occluded)){
-			this.occluded = instance;
-		} else {
-			this.occluded = false;
-			element.store(property || this.property, this);
-		}
+		if (instance && !$defined(this.occluded))
+			return this.occluded = instance;
+
+		this.occluded = false;
+		element.store(property || this.property, this);
 		return this.occluded;
 	}
 
 });
 
 /*
-Script: Element.Forms.js
-	Extends the Element native object to include methods useful in managing inputs.
+---
 
-	License:
-		MIT-style license.
+script: Element.Forms.js
 
-	Authors:
-		Aaron Newton
+description: Extends the Element native object to include methods useful in managing inputs.
 
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element
+- /MooTools.More
+
+provides: [Element.Forms]
+
+...
 */
+
 Element.implement({
 
 	tidy: function(){
@@ -4080,8 +4417,8 @@ Element.implement({
 	},
 
 	getSelectedText: function(){
-		if (document.selection && document.selection.createRange) return document.selection.createRange().text;
-		return this.getTextInRange(this.getSelectionStart(), this.getSelectionEnd());
+		if (this.setSelectionRange) return this.getTextInRange(this.getSelectionStart(), this.getSelectionEnd());
+		return document.selection.createRange().text;
 	},
 
 	getSelectedRange: function() {
@@ -4095,9 +4432,10 @@ Element.implement({
 			pos.end = pos.start + range.text.length;
 		} else {
 			var value = this.get('value');
-			var offset = value.length - value.match(/[\n\r]*$/)[0].length;
+			var offset = value.length;
 			dup.moveToElementText(this);
 			dup.setEndPoint('StartToEnd', range);
+			if(dup.text.length) offset -= value.match(/[\n\r]*$/)[0].length;
 			pos.end = offset - dup.text.length;
 			dup.setEndPoint('StartToStart', range);
 			pos.start = offset - dup.text.length;
@@ -4124,7 +4462,10 @@ Element.implement({
 	},
 
 	selectRange: function(start, end){
-		if (this.createTextRange){
+		if (this.setSelectionRange) {
+			this.focus();
+			this.setSelectionRange(start, end);
+		} else {
 			var value = this.get('value');
 			var diff = value.substr(start, end - start).replace(/\r/g, '').length;
 			start = value.substr(0, start).replace(/\r/g, '').length;
@@ -4133,9 +4474,6 @@ Element.implement({
 			range.moveEnd('character', start + diff);
 			range.moveStart('character', start);
 			range.select();
-		} else {
-			this.focus();
-			this.setSelectionRange(start, end);
 		}
 		return this;
 	},
@@ -4174,19 +4512,27 @@ Element.implement({
 });
 
 /*
-Script: Element.Measure.js
-	Extends the Element native object to include methods useful in measuring dimensions.
+---
 
-	Element.measure / .expose methods by Daniel Steigerwald
-	License: MIT-style license.
-	Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz
+script: Element.Measure.js
 
-	License:
-		MIT-style license.
+description: Extends the Element native object to include methods useful in measuring dimensions.
 
-	Authors:
-		Aaron Newton
+credits: "Element.measure / .expose methods by Daniel Steigerwald License: MIT-style license. Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz"
 
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element.Style
+- core:1.2.4/Element.Dimensions
+- /MooTools.More
+
+provides: [Element.Measure]
+
+...
 */
 
 Element.implement({
@@ -4197,8 +4543,8 @@ Element.implement({
 		};
 		if (vis(this)) return fn.apply(this);
 		var parent = this.getParent(),
-			toMeasure = [], 
-			restorers = [];
+			restorers = [],
+			toMeasure = []; 
 		while (!vis(parent) && parent != document.body) {
 			toMeasure.push(parent.expose());
 			parent = parent.getParent();
@@ -4214,12 +4560,15 @@ Element.implement({
 
 	expose: function(){
 		if (this.getStyle('display') != 'none') return $empty;
-		var before = this.getStyles('display', 'position', 'visibility');
-		return this.setStyles({
+		var before = this.style.cssText;
+		this.setStyles({
 			display: 'block',
 			position: 'absolute',
 			visibility: 'hidden'
-		}).setStyles.pass(before, this);
+		});
+		return function(){
+			this.style.cssText = before;
+		}.bind(this);
 	},
 
 	getDimensions: function(options){
@@ -4228,14 +4577,17 @@ Element.implement({
 		var getSize = function(el, options){
 			return (options.computeSize)?el.getComputedSize(options):el.getSize();
 		};
-		if (this.getStyle('display') == 'none'){
+		var parent = this.getParent('body');
+		if (parent && this.getStyle('display') == 'none'){
 			dim = this.measure(function(){
 				return getSize(this, options);
 			});
-		} else {
+		} else if (parent){
 			try { //safari sometimes crashes here, so catch it
 				dim = getSize(this, options);
 			}catch(e){}
+		} else {
+			dim = {x: 0, y: 0};
 		}
 		return $chk(dim.x) ? $extend(dim, {width: dim.x, height: dim.y}) : $extend(dim, {x: dim.width, y: dim.height});
 	},
@@ -4274,8 +4626,7 @@ Element.implement({
 		var subtracted = [];
 		$each(options.plains, function(plain, key){ //keys: width, height, plains: ['left', 'right'], ['top','bottom']
 			var capitalized = key.capitalize();
-			size['total' + capitalized] = 0;
-			size['computed' + capitalized] = 0;
+			size['total' + capitalized] = size['computed' + capitalized] = 0;
 			plain.each(function(edge){ //top, left, right, bottom
 				size['computed' + edge.capitalize()] = 0;
 				getStyles.each(function(style, i){ //padding, border, etc.
@@ -4310,14 +4661,26 @@ Element.implement({
 });
 
 /*
-Script: Element.Pin.js
-	Extends the Element native object to include the pin method useful for fixed positioning for elements.
+---
 
-	License:
-		MIT-style license.
+script: Element.Pin.js
 
-	Authors:
-		Aaron Newton
+description: Extends the Element native object to include the pin method useful for fixed positioning for elements.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element.Event
+- core:1.2.4/Element.Dimensions
+- core:1.2.4/Element.Style
+- /MooTools.More
+
+provides: [Element.Pin]
+
+...
 */
 
 (function(){
@@ -4337,13 +4700,14 @@ Script: Element.Pin.js
 		pin: function(enable){
 			if (this.getStyle('display') == 'none') return null;
 			
-			var p;
+			var p,
+					scroll = window.getScroll();
 			if (enable !== false){
 				p = this.getPosition();
 				if (!this.retrieve('pinned')){
 					var pos = {
-						top: p.y - window.getScroll().y,
-						left: p.x - window.getScroll().x
+						top: p.y - scroll.y,
+						left: p.x - scroll.x
 					};
 					if (supportsPositionFixed){
 						this.setStyle('position', 'fixed').setStyles(pos);
@@ -4353,12 +4717,13 @@ Script: Element.Pin.js
 							position: 'absolute',
 							top: p.y,
 							left: p.x
-						});
+						}).addClass('isPinned');
 						this.store('scrollFixer', (function(){
 							if (this.retrieve('pinned'))
+								var scroll = window.getScroll();
 								this.setStyles({
-									top: pos.top.toInt() + window.getScroll().y,
-									left: pos.left.toInt() + window.getScroll().x
+									top: pos.top.toInt() + scroll.y,
+									left: pos.left.toInt() + scroll.x
 								});
 						}).bind(this));
 						window.addEvent('scroll', this.retrieve('scrollFixer'));
@@ -4368,16 +4733,16 @@ Script: Element.Pin.js
 			} else {
 				var op;
 				if (!Browser.Engine.trident){
-					if (this.getParent().getComputedStyle('position') != 'static') op = this.getParent();
-					else op = this.getParent().getOffsetParent();
+					var parent = this.getParent();
+					op = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
 				}
 				p = this.getPosition(op);
 				this.store('pinned', false);
 				var reposition;
 				if (supportsPositionFixed && !this.retrieve('pinnedByJS')){
 					reposition = {
-						top: p.y + window.getScroll().y,
-						left: p.x + window.getScroll().x
+						top: p.y + scroll.y,
+						left: p.x + scroll.x
 					};
 				} else {
 					this.store('pinnedByJS', false);
@@ -4387,13 +4752,13 @@ Script: Element.Pin.js
 						left: p.x
 					};
 				}
-				this.setStyles($merge(reposition, {position: 'absolute'}));
+				this.setStyles($merge(reposition, {position: 'absolute'})).removeClass('isPinned');
 			}
-			return this.addClass('isPinned');
+			return this;
 		},
 
 		unpin: function(){
-			return this.pin(false).removeClass('isPinned');
+			return this.pin(false);
 		},
 
 		togglepin: function(){
@@ -4405,14 +4770,24 @@ Script: Element.Pin.js
 })();
 
 /*
-Script: Element.Position.js
-	Extends the Element native object to include methods useful positioning elements relative to others.
+---
 
-	License:
-		MIT-style license.
+script: Element.Position.js
 
-	Authors:
-		Aaron Newton
+description: Extends the Element native object to include methods useful positioning elements relative to others.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element.Dimensions
+- /Element.Measure
+
+provides: [Elements.Position]
+
+...
 */
 
 (function(){
@@ -4426,6 +4801,8 @@ Element.implement({
 		if (options && ($defined(options.x) || $defined(options.y))) return original ? original.apply(this, arguments) : this;
 		$each(options||{}, function(v, k){ if (!$defined(v)) delete options[k]; });
 		options = $merge({
+			// minimum: { x: 0, y: 0 },
+			// maximum: { x: 0, y: 0},
 			relativeTo: document.body,
 			position: {
 				x: 'center', //left, center, right
@@ -4436,22 +4813,23 @@ Element.implement({
 			returnPos: false,
 			relFixedPosition: false,
 			ignoreMargins: false,
+			ignoreScroll: false,
 			allowNegative: false
 		}, options);
 		//compute the offset of the parent positioned element if this element is in one
-		var parentOffset = {x: 0, y: 0};
-		var parentPositioned = false;
+		var parentOffset = {x: 0, y: 0}, 
+				parentPositioned = false;
 		/* dollar around getOffsetParent should not be necessary, but as it does not return
 		 * a mootools extended element in IE, an error occurs on the call to expose. See:
 		 * http://mootools.lighthouseapp.com/projects/2706/tickets/333-element-getoffsetparent-inconsistency-between-ie-and-other-browsers */
 		var offsetParent = this.measure(function(){
-			return $(this.getOffsetParent());
+			return document.id(this.getOffsetParent());
 		});
 		if (offsetParent && offsetParent != this.getDocument().body){
 			parentOffset = offsetParent.measure(function(){
 				return this.getPosition();
 			});
-			parentPositioned = true;
+			parentPositioned = offsetParent != document.id(options.relativeTo);
 			options.offset.x = options.offset.x - parentOffset.x;
 			options.offset.y = options.offset.y - parentOffset.y;
 		}
@@ -4477,26 +4855,15 @@ Element.implement({
 		}
 
 		this.setStyle('position', 'absolute');
-		var rel = $(options.relativeTo) || document.body;
-		var calc = rel == document.body ? window.getScroll() : rel.getPosition();
-		var top = calc.y;
-		var left = calc.x;
-
-		if (Browser.Engine.trident){
-			var scrolls = rel.getScrolls();
-			top += scrolls.y;
-			left += scrolls.x;
-		}
+		var rel = document.id(options.relativeTo) || document.body,
+				calc = rel == document.body ? window.getScroll() : rel.getPosition(),
+				top = calc.y, left = calc.x;
 
 		var dim = this.getDimensions({computeSize: true, styles:['padding', 'border','margin']});
-		if (options.ignoreMargins){
-			options.offset.x = options.offset.x - dim['margin-left'];
-			options.offset.y = options.offset.y - dim['margin-top'];
-		}
-		var pos = {};
-		var prefY = options.offset.y;
-		var prefX = options.offset.x;
-		var winSize = window.getSize();
+		var pos = {},
+				prefY = options.offset.y,
+				prefX = options.offset.x,
+				winSize = window.getSize();
 		switch(options.position.x){
 			case 'left':
 				pos.x = left + prefX;
@@ -4519,7 +4886,6 @@ Element.implement({
 				pos.y = top + ((rel == document.body ? winSize.y : rel.offsetHeight)/2) + prefY;
 				break;
 		}
-
 		if (options.edge){
 			var edgeOffset = {};
 
@@ -4531,7 +4897,7 @@ Element.implement({
 					edgeOffset.x = -dim.x-dim.computedRight-dim.computedLeft;
 					break;
 				default: //center
-					edgeOffset.x = -(dim.x/2);
+					edgeOffset.x = -(dim.totalWidth/2);
 					break;
 			}
 			switch(options.edge.y){
@@ -4542,22 +4908,47 @@ Element.implement({
 					edgeOffset.y = -dim.y-dim.computedTop-dim.computedBottom;
 					break;
 				default: //center
-					edgeOffset.y = -(dim.y/2);
+					edgeOffset.y = -(dim.totalHeight/2);
 					break;
 			}
-			pos.x = pos.x + edgeOffset.x;
-			pos.y = pos.y + edgeOffset.y;
+			pos.x += edgeOffset.x;
+			pos.y += edgeOffset.y;
 		}
 		pos = {
 			left: ((pos.x >= 0 || parentPositioned || options.allowNegative) ? pos.x : 0).toInt(),
 			top: ((pos.y >= 0 || parentPositioned || options.allowNegative) ? pos.y : 0).toInt()
 		};
+		var xy = {left: 'x', top: 'y'};
+		['minimum', 'maximum'].each(function(minmax) {
+			['left', 'top'].each(function(lr) {
+				var val = options[minmax] ? options[minmax][xy[lr]] : null;
+				if (val != null && pos[lr] < val) pos[lr] = val;
+			});
+		});
 		if (rel.getStyle('position') == 'fixed' || options.relFixedPosition){
 			var winScroll = window.getScroll();
-			pos.top = pos.top.toInt() + winScroll.y;
-			pos.left = pos.left.toInt() + winScroll.x;
+			pos.top+= winScroll.y;
+			pos.left+= winScroll.x;
 		}
-
+		if (options.ignoreScroll) {
+			var relScroll = rel.getScroll();
+			pos.top-= relScroll.y;
+			pos.left-= relScroll.x;
+		}
+		if (options.ignoreMargins) {
+			pos.left += (
+				options.edge.x == 'right' ? dim['margin-right'] : 
+				options.edge.x == 'center' ? -dim['margin-left'] + ((dim['margin-right'] + dim['margin-left'])/2) : 
+					- dim['margin-left']
+			);
+			pos.top += (
+				options.edge.y == 'bottom' ? dim['margin-bottom'] : 
+				options.edge.y == 'center' ? -dim['margin-top'] + ((dim['margin-bottom'] + dim['margin-top'])/2) : 
+					- dim['margin-top']
+			);
+		}
+		pos.left = Math.ceil(pos.left);
+		pos.top = Math.ceil(pos.top);
 		if (options.returnPos) return pos;
 		else this.setStyles(pos);
 		return this;
@@ -4568,21 +4959,36 @@ Element.implement({
 })();
 
 /*
-Script: Element.Shortcuts.js
-	Extends the Element native object to include some shortcut methods.
+---
 
-	License:
-		MIT-style license.
+script: Element.Shortcuts.js
 
-	Authors:
-		Aaron Newton
+description: Extends the Element native object to include some shortcut methods.
 
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element.Style
+- /MooTools.More
+
+provides: [Element.Shortcuts]
+
+...
 */
 
 Element.implement({
 
 	isDisplayed: function(){
 		return this.getStyle('display') != 'none';
+	},
+
+	isVisible: function(){
+		var w = this.offsetWidth,
+			h = this.offsetHeight;
+		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.isDisplayed();
 	},
 
 	toggle: function(){
@@ -4593,14 +4999,14 @@ Element.implement({
 		var d;
 		try {
 			//IE fails here if the element is not in the dom
-			if ('none' != this.getStyle('display')) d = this.getStyle('display');
+			d = this.getStyle('display');
 		} catch(e){}
-
-		return this.store('originalDisplay', d || 'block').setStyle('display', 'none');
+		return this.store('originalDisplay', d || '').setStyle('display', 'none');
 	},
 
 	show: function(display){
-		return this.setStyle('display', display || this.retrieve('originalDisplay') || 'block');
+		display = display || this.retrieve('originalDisplay') || 'block';
+		return this.setStyle('display', (display == 'none') ? 'block' : display);
 	},
 
 	swapClass: function(remove, add){
@@ -4611,14 +5017,26 @@ Element.implement({
 
 
 /*
-Script: Fx.Scroll.js
-	Effect to smoothly scroll any element, including the window.
+---
 
-	License:
-		MIT-style license.
+script: Fx.Scroll.js
 
-	Authors:
-		Valerio Proietti
+description: Effect to smoothly scroll any element, including the window.
+
+license: MIT-style license
+
+authors:
+- Valerio Proietti
+
+requires:
+- core:1.2.4/Fx
+- core:1.2.4/Element.Event
+- core:1.2.4/Element.Dimensions
+- /MooTools.More
+
+provides: [Fx.Scroll]
+
+...
 */
 
 Fx.Scroll = new Class({
@@ -4631,11 +5049,11 @@ Fx.Scroll = new Class({
 	},
 
 	initialize: function(element, options){
-		this.element = this.subject = $(element);
+		this.element = this.subject = document.id(element);
 		this.parent(options);
 		var cancel = this.cancel.bind(this, false);
 
-		if ($type(this.element) != 'element') this.element = $(this.element.getDocument().body);
+		if ($type(this.element) != 'element') this.element = document.id(this.element.getDocument().body);
 
 		var stopper = this.element;
 
@@ -4651,6 +5069,7 @@ Fx.Scroll = new Class({
 
 	set: function(){
 		var now = Array.flatten(arguments);
+		if (Browser.Engine.gecko) now = [Math.round(now[0]), Math.round(now[1])];
 		this.element.scrollTo(now[0], now[1]);
 	},
 
@@ -4662,11 +5081,12 @@ Fx.Scroll = new Class({
 
 	start: function(x, y){
 		if (!this.check(x, y)) return this;
-		var offsetSize = this.element.getSize(), scrollSize = this.element.getScrollSize();
-		var scroll = this.element.getScroll(), values = {x: x, y: y};
+		var scrollSize = this.element.getScrollSize(),
+			scroll = this.element.getScroll(), 
+			values = {x: x, y: y};
 		for (var z in values){
-			var max = scrollSize[z] - offsetSize[z];
-			if ($chk(values[z])) values[z] = ($type(values[z]) == 'number') ? values[z].limit(0, max) : max;
+			var max = scrollSize[z];
+			if ($chk(values[z])) values[z] = ($type(values[z]) == 'number') ? values[z] : max;
 			else values[z] = scroll[z];
 			values[z] += this.options.offset[z];
 		}
@@ -4690,22 +5110,80 @@ Fx.Scroll = new Class({
 	},
 
 	toElement: function(el){
-		var position = $(el).getPosition(this.element);
+		var position = document.id(el).getPosition(this.element);
 		return this.start(position.x, position.y);
+	},
+
+	scrollIntoView: function(el, axes, offset){
+		axes = axes ? $splat(axes) : ['x','y'];
+		var to = {};
+		el = document.id(el);
+		var pos = el.getPosition(this.element);
+		var size = el.getSize();
+		var scroll = this.element.getScroll();
+		var containerSize = this.element.getSize();
+		var edge = {
+			x: pos.x + size.x,
+			y: pos.y + size.y
+		};
+		['x','y'].each(function(axis) {
+			if (axes.contains(axis)) {
+				if (edge[axis] > scroll[axis] + containerSize[axis]) to[axis] = edge[axis] - containerSize[axis];
+				if (pos[axis] < scroll[axis]) to[axis] = pos[axis];
+			}
+			if (to[axis] == null) to[axis] = scroll[axis];
+			if (offset && offset[axis]) to[axis] = to[axis] + offset[axis];
+		}, this);
+		if (to.x != scroll.x || to.y != scroll.y) this.start(to.x, to.y);
+		return this;
+	},
+
+	scrollToCenter: function(el, axes, offset){
+		axes = axes ? $splat(axes) : ['x', 'y'];
+		el = $(el);
+		var to = {},
+			pos = el.getPosition(this.element),
+			size = el.getSize(),
+			scroll = this.element.getScroll(),
+			containerSize = this.element.getSize(),
+			edge = {
+				x: pos.x + size.x,
+				y: pos.y + size.y
+			};
+
+		['x','y'].each(function(axis){
+			if(axes.contains(axis)){
+				to[axis] = pos[axis] - (containerSize[axis] - size[axis])/2;
+			}
+			if(to[axis] == null) to[axis] = scroll[axis];
+			if(offset && offset[axis]) to[axis] = to[axis] + offset[axis];
+		}, this);
+		if (to.x != scroll.x || to.y != scroll.y) this.start(to.x, to.y);
+		return this;
 	}
 
 });
 
 
 /*
-Script: Fx.Slide.js
-	Effect to slide an element in and out of view.
+---
 
-	License:
-		MIT-style license.
+script: Fx.Slide.js
 
-	Authors:
-		Valerio Proietti
+description: Effect to slide an element in and out of view.
+
+license: MIT-style license
+
+authors:
+- Valerio Proietti
+
+requires:
+- core:1.2.4/Fx Element.Style
+- /MooTools.More
+
+provides: [Fx.Slide]
+
+...
 */
 
 Fx.Slide = new Class({
@@ -4713,19 +5191,25 @@ Fx.Slide = new Class({
 	Extends: Fx,
 
 	options: {
-		mode: 'vertical'
+		mode: 'vertical',
+		wrapper: false,
+		hideOverflow: true
 	},
 
 	initialize: function(element, options){
 		this.addEvent('complete', function(){
 			this.open = (this.wrapper['offset' + this.layout.capitalize()] != 0);
+			if (this.open) this.wrapper.setStyle('height', '');
 			if (this.open && Browser.Engine.webkit419) this.element.dispose().inject(this.wrapper);
 		}, true);
-		this.element = this.subject = $(element);
+		this.element = this.subject = document.id(element);
 		this.parent(options);
 		var wrapper = this.element.retrieve('wrapper');
+		var styles = this.element.getStyles('margin', 'position', 'overflow');
+		if (this.options.hideOverflow) styles = $extend(styles, {overflow: 'hidden'});
+		if (this.options.wrapper) wrapper = document.id(this.options.wrapper).setStyles(styles);
 		this.wrapper = wrapper || new Element('div', {
-			styles: $extend(this.element.getStyles('margin', 'position'), {overflow: 'hidden'})
+			styles: styles
 		}).wraps(this.element);
 		this.element.store('wrapper', this.wrapper).setStyle('margin', 0);
 		this.now = [];
@@ -4840,14 +5324,24 @@ Element.implement({
 
 
 /*
-Script: Fx.SmoothScroll.js
-	Class for creating a smooth scrolling effect to all internal links on the page.
+---
 
-	License:
-		MIT-style license.
+script: Fx.SmoothScroll.js
 
-	Authors:
-		Valerio Proietti
+description: Class for creating a smooth scrolling effect to all internal links on the page.
+
+license: MIT-style license
+
+authors:
+- Valerio Proietti
+
+requires:
+- core:1.2.4/Selectors
+- /Fx.Scroll
+
+provides: [Fx.SmoothScroll]
+
+...
 */
 
 var SmoothScroll = Fx.SmoothScroll = new Class({
@@ -4859,7 +5353,7 @@ var SmoothScroll = Fx.SmoothScroll = new Class({
 		this.doc = context.getDocument();
 		var win = context.getWindow();
 		this.parent(this.doc, options);
-		this.links = this.options.links ? $$(this.options.links) : $$(this.doc.links);
+		this.links = $$(this.options.links || this.doc.links);
 		var location = win.location.href.match(/^[^#]*/)[0] + '#';
 		this.links.each(function(link){
 			if (link.href.indexOf(location) != 0) {return;}
@@ -4876,27 +5370,38 @@ var SmoothScroll = Fx.SmoothScroll = new Class({
 	useLink: function(link, anchor){
 		var el;
 		link.addEvent('click', function(event){
-			if (el !== false && !el) el = $(anchor) || this.doc.getElement('a[name=' + anchor + ']');
+			if (el !== false && !el) el = document.id(anchor) || this.doc.getElement('a[name=' + anchor + ']');
 			if (el) {
 				event.preventDefault();
 				this.anchor = anchor;
-				this.toElement(el);
+				this.toElement(el).chain(function(){
+					this.fireEvent('scrolledTo', [link, el]);
+				}.bind(this));
 				link.blur();
 			}
 		}.bind(this));
 	}
-
 });
 
 /*
-Script: Assets.js
-	Provides methods to dynamically load JavaScript, CSS, and Image files into the document.
+---
 
-	License:
-		MIT-style license.
+script: Assets.js
 
-	Authors:
-		Valerio Proietti
+description: Provides methods to dynamically load JavaScript, CSS, and Image files into the document.
+
+license: MIT-style license
+
+authors:
+- Valerio Proietti
+
+requires:
+- core:1.2.4/Element.Event
+- /MooTools.More
+
+provides: [Assets]
+
+...
 */
 
 var Asset = {
@@ -4907,11 +5412,17 @@ var Asset = {
 			document: document,
 			check: $lambda(true)
 		}, properties);
-
+		
+		if (properties.onLoad) properties.onload = properties.onLoad;
+		
 		var script = new Element('script', {src: source, type: 'text/javascript'});
 
-		var load = properties.onload.bind(script), check = properties.check, doc = properties.document;
-		delete properties.onload; delete properties.check; delete properties.document;
+		var load = properties.onload.bind(script), 
+			check = properties.check, 
+			doc = properties.document;
+		delete properties.onload;
+		delete properties.check;
+		delete properties.document;
 
 		script.addEvents({
 			load: load,
@@ -4931,7 +5442,10 @@ var Asset = {
 
 	css: function(source, properties){
 		return new Element('link', $merge({
-			rel: 'stylesheet', media: 'screen', type: 'text/css', href: source
+			rel: 'stylesheet',
+			media: 'screen',
+			type: 'text/css',
+			href: source
 		}, properties)).inject(document.head);
 	},
 
@@ -4942,9 +5456,11 @@ var Asset = {
 			onerror: $empty
 		}, properties);
 		var image = new Image();
-		var element = $(image) || new Element('img');
+		var element = document.id(image) || new Element('img');
 		['load', 'abort', 'error'].each(function(name){
 			var type = 'on' + name;
+			var cap = name.capitalize();
+			if (properties['on' + cap]) properties[type] = properties['on' + cap];
 			var event = properties[type];
 			delete properties[type];
 			image[type] = function(){
@@ -4966,33 +5482,53 @@ var Asset = {
 	images: function(sources, options){
 		options = $merge({
 			onComplete: $empty,
-			onProgress: $empty
+			onProgress: $empty,
+			onError: $empty,
+			properties: {}
 		}, options);
 		sources = $splat(sources);
 		var images = [];
 		var counter = 0;
 		return new Elements(sources.map(function(source){
-			return Asset.image(source, {
+			return Asset.image(source, $extend(options.properties, {
 				onload: function(){
 					options.onProgress.call(this, counter, sources.indexOf(source));
 					counter++;
 					if (counter == sources.length) options.onComplete();
+				},
+				onerror: function(){
+					options.onError.call(this, counter, sources.indexOf(source));
+					counter++;
+					if (counter == sources.length) options.onComplete();
 				}
-			});
+			}));
 		}));
 	}
 
 };
 
 /*
-Script: IframeShim.js
-	Defines IframeShim, a class for obscuring select lists and flash objects in IE.
+---
 
-	License:
-		MIT-style license.
+script: IframeShim.js
 
-	Authors:
-		Aaron Newton
+description: Defines IframeShim, a class for obscuring select lists and flash objects in IE.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element.Event
+- core:1.2.4/Element.Style
+- core:1.2.4/Options Events
+- /Element.Position
+- /Class.Occlude
+
+provides: [IframeShim]
+
+...
 */
 
 var IframeShim = new Class({
@@ -5001,17 +5537,18 @@ var IframeShim = new Class({
 
 	options: {
 		className: 'iframeShim',
+		src: 'javascript:false;document.write("");',
 		display: false,
 		zIndex: null,
 		margin: 0,
 		offset: {x: 0, y: 0},
-		browsers: true || (Browser.Engine.trident4 || (Browser.Engine.gecko && !Browser.Engine.gecko19 && Browser.Platform.mac))
+		browsers: (Browser.Engine.trident4 || (Browser.Engine.gecko && !Browser.Engine.gecko19 && Browser.Platform.mac))
 	},
 
 	property: 'IframeShim',
 
 	initialize: function(element, options){
-		this.element = $(element);
+		this.element = document.id(element);
 		if (this.occlude()) return this.occluded;
 		this.setOptions(options);
 		this.makeShim();
@@ -5023,14 +5560,15 @@ var IframeShim = new Class({
 			var zIndex = this.element.getStyle('zIndex').toInt();
 
 			if (!zIndex){
+				zIndex = 1;
 				var pos = this.element.getStyle('position');
 				if (pos == 'static' || !pos) this.element.setStyle('position', 'relative');
-				this.element.setStyle('zIndex', zIndex || 1);
+				this.element.setStyle('zIndex', zIndex);
 			}
 			zIndex = ($chk(this.options.zIndex) && zIndex > this.options.zIndex) ? this.options.zIndex : zIndex - 1;
 			if (zIndex < 0) zIndex = 1;
 			this.shim = new Element('iframe', {
-				src: (window.location.protocol == 'https') ? '://0' : 'javascript:void(0)',
+				src: this.options.src,
 				scrolling: 'no',
 				frameborder: 0,
 				styles: {
@@ -5046,7 +5584,7 @@ var IframeShim = new Class({
 				this[this.options.display ? 'show' : 'hide']();
 				this.fireEvent('inject');
 			}).bind(this);
-			if (Browser.Engine.trident && !IframeShim.ready) window.addEvent('load', inject);
+			if (!IframeShim.ready) window.addEvent('load', inject);
 			else inject();
 		} else {
 			this.position = this.hide = this.show = this.dispose = $lambda(this);
@@ -5054,20 +5592,20 @@ var IframeShim = new Class({
 	},
 
 	position: function(){
-		if (!IframeShim.ready) return this;
-		var size = this.element.measure(function(){ return this.getSize(); });
-		if ($type(this.options.margin)){
+		if (!IframeShim.ready || !this.shim) return this;
+		var size = this.element.measure(function(){ 
+			return this.getSize(); 
+		});
+		if (this.options.margin != undefined){
 			size.x = size.x - (this.options.margin * 2);
 			size.y = size.y - (this.options.margin * 2);
 			this.options.offset.x += this.options.margin;
 			this.options.offset.y += this.options.margin;
 		}
-		if (this.shim) {
-			this.shim.set({width: size.x, height: size.y}).position({
-				relativeTo: this.element,
-				offset: this.options.offset
-			});
-		}
+		this.shim.set({width: size.x, height: size.y}).position({
+			relativeTo: this.element,
+			offset: this.options.offset
+		});
 		return this;
 	},
 
@@ -5098,55 +5636,272 @@ window.addEvent('load', function(){
 });
 
 /*
-Script: Tips.js
-	Class for creating nice tips that follow the mouse cursor when hovering an element.
+---
 
-	License:
-		MIT-style license.
+script: Mask.js
 
-	Authors:
-		Valerio Proietti
-		Christoph Pojer
+description: Creates a mask element to cover another.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Options
+- core:1.2.4/Events
+- core:1.2.4/Element.Event
+- /Class.Binds
+- /Element.Position
+- /IframeShim
+
+provides: [Mask]
+
+...
 */
 
-var Tips = new Class({
+var Mask = new Class({
+
+	Implements: [Options, Events],
+
+	Binds: ['position'],
+
+	options: {
+		// onShow: $empty,
+		// onHide: $empty,
+		// onDestroy: $empty,
+		// onClick: $empty,
+		//inject: {
+		//  where: 'after',
+		//  target: null,
+		//},
+		// hideOnClick: false,
+		// id: null,
+		// destroyOnHide: false,
+		style: {},
+		'class': 'mask',
+		maskMargins: false,
+		useIframeShim: true,
+		iframeShimOptions: {}
+	},
+
+	initialize: function(target, options){
+		this.target = document.id(target) || document.id(document.body);
+		this.target.store('Mask', this);
+		this.setOptions(options);
+		this.render();
+		this.inject();
+	},
+	
+	render: function() {
+		this.element = new Element('div', {
+			'class': this.options['class'],
+			id: this.options.id || 'mask-' + $time(),
+			styles: $merge(this.options.style, {
+				display: 'none'
+			}),
+			events: {
+				click: function(){
+					this.fireEvent('click');
+					if (this.options.hideOnClick) this.hide();
+				}.bind(this)
+			}
+		});
+		this.hidden = true;
+	},
+
+	toElement: function(){
+		return this.element;
+	},
+
+	inject: function(target, where){
+		where = where || this.options.inject ? this.options.inject.where : '' || this.target == document.body ? 'inside' : 'after';
+		target = target || this.options.inject ? this.options.inject.target : '' || this.target;
+		this.element.inject(target, where);
+		if (this.options.useIframeShim) {
+			this.shim = new IframeShim(this.element, this.options.iframeShimOptions);
+			this.addEvents({
+				show: this.shim.show.bind(this.shim),
+				hide: this.shim.hide.bind(this.shim),
+				destroy: this.shim.destroy.bind(this.shim)
+			});
+		}
+	},
+
+	position: function(){
+		this.resize(this.options.width, this.options.height);
+		this.element.position({
+			relativeTo: this.target,
+			position: 'topLeft',
+			ignoreMargins: !this.options.maskMargins,
+			ignoreScroll: this.target == document.body
+		});
+		return this;
+	},
+
+	resize: function(x, y){
+		var opt = {
+			styles: ['padding', 'border']
+		};
+		if (this.options.maskMargins) opt.styles.push('margin');
+		var dim = this.target.getComputedSize(opt);
+		if (this.target == document.body) {
+			var win = window.getSize();
+			if (dim.totalHeight < win.y) dim.totalHeight = win.y;
+			if (dim.totalWidth < win.x) dim.totalWidth = win.x;
+		}
+		this.element.setStyles({
+			width: $pick(x, dim.totalWidth, dim.x),
+			height: $pick(y, dim.totalHeight, dim.y)
+		});
+		return this;
+	},
+
+	show: function(){
+		if (!this.hidden) return this;
+		window.addEvent('resize', this.position);
+		this.position();
+		this.showMask.apply(this, arguments);
+		return this;
+	},
+
+	showMask: function(){
+		this.element.setStyle('display', 'block');
+		this.hidden = false;
+		this.fireEvent('show');
+	},
+
+	hide: function(){
+		if (this.hidden) return this;
+		window.removeEvent('resize', this.position);
+		this.hideMask.apply(this, arguments);
+		if (this.options.destroyOnHide) return this.destroy();
+		return this;
+	},
+
+	hideMask: function(){
+		this.element.setStyle('display', 'none');
+		this.hidden = true;
+		this.fireEvent('hide');
+	},
+
+	toggle: function(){
+		this[this.hidden ? 'show' : 'hide']();
+	},
+
+	destroy: function(){
+		this.hide();
+		this.element.destroy();
+		this.fireEvent('destroy');
+		this.target.eliminate('mask');
+	}
+
+});
+
+Element.Properties.mask = {
+
+	set: function(options){
+		var mask = this.retrieve('mask');
+		return this.eliminate('mask').store('mask:options', options);
+	},
+
+	get: function(options){
+		if (options || !this.retrieve('mask')){
+			if (this.retrieve('mask')) this.retrieve('mask').destroy();
+			if (options || !this.retrieve('mask:options')) this.set('mask', options);
+			this.store('mask', new Mask(this, this.retrieve('mask:options')));
+		}
+		return this.retrieve('mask');
+	}
+
+};
+
+Element.implement({
+
+	mask: function(options){
+		this.get('mask', options).show();
+		return this;
+	},
+
+	unmask: function(){
+		this.get('mask').hide();
+		return this;
+	}
+
+});
+
+/*
+---
+
+script: Tips.js
+
+description: Class for creating nice tips that follow the mouse cursor when hovering an element.
+
+license: MIT-style license
+
+authors:
+- Valerio Proietti
+- Christoph Pojer
+
+requires:
+- core:1.2.4/Options
+- core:1.2.4/Events
+- core:1.2.4/Element.Event
+- core:1.2.4/Element.Style
+- core:1.2.4/Element.Dimensions
+- /MooTools.More
+
+provides: [Tips]
+
+...
+*/
+
+(function(){
+
+var read = function(option, element){
+	return (option) ? ($type(option) == 'function' ? option(element) : element.get(option)) : '';
+};
+
+this.Tips = new Class({
 
 	Implements: [Events, Options],
 
 	options: {
-		onShow: function(tip){
-			tip.setStyle('visibility', 'visible');
+		/*
+		onAttach: $empty(element),
+		onDetach: $empty(element),
+		*/
+		onShow: function(){
+			this.tip.setStyle('display', 'block');
 		},
-		onHide: function(tip){
-			tip.setStyle('visibility', 'hidden');
+		onHide: function(){
+			this.tip.setStyle('display', 'none');
 		},
 		title: 'title',
-		text: function(el){
-			return el.get('rel') || el.get('href');
+		text: function(element){
+			return element.get('rel') || element.get('href');
 		},
 		showDelay: 100,
 		hideDelay: 100,
-		className: null,
+		className: 'tip-wrap',
 		offset: {x: 16, y: 16},
+		windowPadding: {x:0, y:0},
 		fixed: false
 	},
 
 	initialize: function(){
 		var params = Array.link(arguments, {options: Object.type, elements: $defined});
-		if (params.options && params.options.offsets) params.options.offset = params.options.offsets;
 		this.setOptions(params.options);
-		this.container = new Element('div', {'class': 'tip'});
-		this.tip = this.getTip();
-		
 		if (params.elements) this.attach(params.elements);
+		this.container = new Element('div', {'class': 'tip'});
 	},
 
-	getTip: function(){
-		return new Element('div', {
+	toElement: function(){
+		if (this.tip) return this.tip;
+
+		return this.tip = new Element('div', {
 			'class': this.options.className,
 			styles: {
-				visibility: 'hidden',
-				display: 'none',
 				position: 'absolute',
 				top: 0,
 				left: 0
@@ -5159,20 +5914,22 @@ var Tips = new Class({
 	},
 
 	attach: function(elements){
-		var read = function(option, element){
-			if (option == null) return '';
-			return $type(option) == 'function' ? option(element) : element.get(option);
-		};
 		$$(elements).each(function(element){
-			var title = read(this.options.title, element);
+			var title = read(this.options.title, element),
+				text = read(this.options.text, element);
+			
 			element.erase('title').store('tip:native', title).retrieve('tip:title', title);
-			element.retrieve('tip:text', read(this.options.text, element));
+			element.retrieve('tip:text', text);
+			this.fireEvent('attach', [element]);
 			
 			var events = ['enter', 'leave'];
 			if (!this.options.fixed) events.push('move');
 			
 			events.each(function(value){
-				element.addEvent('mouse' + value, element.retrieve('tip:' + value, this['element' + value.capitalize()].bindWithEvent(this, element)));
+				var event = element.retrieve('tip:' + value);
+				if (!event) event = this['element' + value.capitalize()].bindWithEvent(this, element);
+				
+				element.store('tip:' + value, event).addEvent('mouse' + value, event);
 			}, this);
 		}, this);
 		
@@ -5182,12 +5939,12 @@ var Tips = new Class({
 	detach: function(elements){
 		$$(elements).each(function(element){
 			['enter', 'leave', 'move'].each(function(value){
-				element.removeEvent('mouse' + value, element.retrieve('tip:' + value) || $empty);
+				element.removeEvent('mouse' + value, element.retrieve('tip:' + value)).eliminate('tip:' + value);
 			});
 			
-			element.eliminate('tip:enter').eliminate('tip:leave').eliminate('tip:move');
+			this.fireEvent('detach', [element]);
 			
-			if ($type(this.options.title) == 'string' && this.options.title == 'title'){
+			if (this.options.title == 'title'){ // This is necessary to check if we can revert the title
 				var original = element.retrieve('tip:native');
 				if (original) element.set('title', original);
 			}
@@ -5197,33 +5954,40 @@ var Tips = new Class({
 	},
 
 	elementEnter: function(event, element){
-		$A(this.container.childNodes).each(Element.dispose);
+		this.container.empty();
 		
 		['title', 'text'].each(function(value){
 			var content = element.retrieve('tip:' + value);
-			if (!content) return;
-			
-			this[value + 'Element'] = new Element('div', {'class': 'tip-' + value}).inject(this.container);
-			this.fill(this[value + 'Element'], content);
+			if (content) this.fill(new Element('div', {'class': 'tip-' + value}).inject(this.container), content);
 		}, this);
 		
-		this.timer = $clear(this.timer);
-		this.timer = this.show.delay(this.options.showDelay, this, element);
-		this.tip.setStyle('display', 'block');
-		this.position((!this.options.fixed) ? event : {page: element.getPosition()});
+		$clear(this.timer);
+		this.timer = (function(){
+			this.show(this, element);
+			this.position((this.options.fixed) ? {page: element.getPosition()} : event);
+		}).delay(this.options.showDelay, this);
 	},
 
 	elementLeave: function(event, element){
 		$clear(this.timer);
-		this.tip.setStyle('display', 'none');
 		this.timer = this.hide.delay(this.options.hideDelay, this, element);
+		this.fireForParent(event, element);
 	},
 
-	elementMove: function(event){
+	fireForParent: function(event, element){
+		element = element.getParent();
+		if (!element || element == document.body) return;
+		if (element.retrieve('tip:enter')) element.fireEvent('mouseenter', event);
+		else this.fireForParent(event, element);
+	},
+
+	elementMove: function(event, element){
 		this.position(event);
 	},
 
 	position: function(event){
+		if (!this.tip) document.id(this);
+
 		var size = window.getSize(), scroll = window.getScroll(),
 			tip = {x: this.tip.offsetWidth, y: this.tip.offsetHeight},
 			props = {x: 'left', y: 'top'},
@@ -5231,7 +5995,7 @@ var Tips = new Class({
 		
 		for (var z in props){
 			obj[props[z]] = event.page[z] + this.options.offset[z];
-			if ((obj[props[z]] + tip[z] - scroll[z]) > size[z]) obj[props[z]] = event.page[z] - this.options.offset[z] - tip[z];
+			if ((obj[props[z]] + tip[z] - scroll[z]) > size[z] - this.options.windowPadding[z]) obj[props[z]] = event.page[z] - this.options.offset[z] - tip[z];
 		}
 		
 		this.tip.setStyles(obj);
@@ -5242,15 +6006,19 @@ var Tips = new Class({
 		else element.adopt(contents);
 	},
 
-	show: function(el){
-		this.fireEvent('show', [this.tip, el]);
+	show: function(element){
+		if (!this.tip) document.id(this);
+		this.fireEvent('show', [this.tip, element]);
 	},
 
-	hide: function(el){
-		this.fireEvent('hide', [this.tip, el]);
+	hide: function(element){
+		if (!this.tip) document.id(this);
+		this.fireEvent('hide', [this.tip, element]);
 	}
 
-});/*
+});
+
+})();/*
 Script: Clientcide.js
 	The Clientcide namespace.
 
@@ -5258,59 +6026,11 @@ License:
 	http://www.clientcide.com/wiki/cnet-libraries#license
 */
 var Clientcide = {
-	version: '2.0.1',
+	version: '%build%',
+	assetLocation: "http://github.com/anutron/clientcide/raw/master/Assets",
 	setAssetLocation: function(baseHref) {
-		if (window.StickyWin && StickyWin.ui) {
-			StickyWin.UI.implement({
-				options: {
-					baseHref: baseHref + '/stickyWinHTML/'
-				}
-			});
-			if (StickyWin.alert) {
-				var CGFsimpleErrorPopup = StickyWin.alert.bind(window);
-				StickyWin.alert = function(msghdr, msg, base) {
-				    return CGFsimpleErrorPopup(msghdr, msg, base||baseHref + "/simple.error.popup");
-				};
-			}
-		}
-		if (window.TagMaker) {
-			TagMaker.implement({
-			    options: {
-			        baseHref: baseHref + '/tips/'
-			    }
-			});
-		}
-		if (window.ProductPicker) {
-			ProductPicker.implement({
-			    options:{
-			        baseHref: baseHref + '/Picker'
-			    }
-			});
-		}
-
-		if (window.Autocompleter) {
-			Autocompleter.Base.implement({
-					options: {
-						baseHref: baseHref + '/autocompleter/'
-					}
-			});
-		}
-
-		if (window.Lightbox) {
-			Lightbox.implement({
-			    options: {
-			        assetBaseUrl: baseHref + '/slimbox/'
-			    }
-			});
-		}
-
-		if (window.Waiter) {
-			Waiter.implement({
-				options: {
-					baseHref: baseHref + '/waiter/'
-				}
-			});
-		}
+		Clientcide.assetLocation = baseHref;
+		if (Clientcide.preloaded) Clientcide.preLoadCss();
 	},
 	preLoadCss: function(){
 		if (window.StickyWin && StickyWin.ui) StickyWin.ui();
@@ -5329,9 +6049,7 @@ var Clientcide = {
 	window.addEvent('domready', preload);
 	window.addEvent('load', preload);
 })();
-setCNETAssetBaseHref = Clientcide.setAssetLocation;
-
-/*
+setCNETAssetBaseHref = Clientcide.setAssetLocation;/*
 Script: dbug.js
 	A wrapper for Firebug console.* statements.
 
@@ -5366,7 +6084,11 @@ var dbug = {
 			try {
 				dbug.enabled = true;
 				dbug.log = function(){
-						(con.debug || con.log).apply(con, arguments);
+						try {
+							(con.debug || con.log).apply(con, arguments);
+						} catch(e) {
+							console.log(Array.slice(arguments));
+						}
 				};
 				dbug.time = function(){
 					con.time.apply(con, arguments);
@@ -5429,9 +6151,7 @@ if ((!!window.console && !!window.console.warn) || window.firebug){
 		if(!dbug.enabled)dbug.enable();
 	}
 	if(window.location.href.indexOf("jsdebugCookie=false")>0)dbug.disableCookie();
-}
-
-/*
+}/*
 Script: ToElement.js
 	Defines the toElement method for a class.
 
@@ -5443,99 +6163,7 @@ Class.ToElement = new Class({
 		return this.element;
 	}
 });
-var ToElement = Class.ToElement;
-
-/*
-Script: modalizer.js
-	Defines Modalizer: functionality to overlay the window contents with a semi-transparent layer that prevents interaction with page content until it is removed
-
-License:
-	http://www.clientcide.com/wiki/cnet-libraries#license
-*/
-var Modalizer = new Class({
-	defaultModalStyle: {
-		display:'block',
-		position:'absolute',
-		top:0,
-		left:0,	
-		'z-index':5000,
-		'background-color':'#333',
-		opacity:0.8
-	},
-	setModalOptions: function(options){
-		this.modalOptions = $merge({
-			width:(window.getScrollSize().x),
-			height:(window.getScrollSize().y),
-			elementsToHide: 'select, embed' + (Browser.Engine.trident ? '': ', object'),
-			hideOnClick: true,
-			modalStyle: {},
-			updateOnResize: true,
-			layerId: 'modalOverlay',
-			onModalHide: $empty,
-			onModalShow: $empty
-		}, this.modalOptions, options);
-		return this;
-	},
-	layer: function(){
-		if (!this.modalOptions.layerId) this.setModalOptions();
-		return $(this.modalOptions.layerId) || new Element('div', {id: this.modalOptions.layerId}).inject(document.body);
-	},
-	resize: function(){
-		if (this.layer()) {
-			this.layer().setStyles({
-				width:(window.getScrollSize().x),
-				height:(window.getScrollSize().y)
-			});
-		}
-	},
-	setModalStyle: function (styleObject){
-		this.modalOptions.modalStyle = styleObject;
-		this.modalStyle = $merge(this.defaultModalStyle, {
-			width:this.modalOptions.width,
-			height:this.modalOptions.height
-		}, styleObject);
-		if (this.layer()) this.layer().setStyles(this.modalStyle);
-		return(this.modalStyle);
-	},
-	modalShow: function(options){
-		this.setModalOptions(options);
-		this.layer().setStyles(this.setModalStyle(this.modalOptions.modalStyle));
-		if (Browser.Engine.trident4) this.layer().setStyle('position','absolute');
-		this.layer().removeEvents('click').addEvent('click', function(){
-			this.modalHide(this.modalOptions.hideOnClick);
-		}.bind(this));
-		this.bound = this.bound||{};
-		if (!this.bound.resize && this.modalOptions.updateOnResize) {
-			this.bound.resize = this.resize.bind(this);
-			window.addEvent('resize', this.bound.resize);
-		}
-		if ($type(this.modalOptions.onModalShow)  == "function") this.modalOptions.onModalShow();
-		this.togglePopThroughElements(0);
-		this.layer().setStyle('display','block');
-		return this;
-	},
-	modalHide: function(override, force){
-		if (override === false) return false; //this is internal, you don't need to pass in an argument
-		this.togglePopThroughElements(1);
-		if ($type(this.modalOptions.onModalHide) == "function") this.modalOptions.onModalHide();
-		this.layer().setStyle('display','none');
-		if (this.modalOptions.updateOnResize) {
-			this.bound = this.bound||{};
-			if (!this.bound.resize) this.bound.resize = this.resize.bind(this);
-			window.removeEvent('resize', this.bound.resize);
-		}
-		return this;
-	},
-	togglePopThroughElements: function(opacity){
-		if (Browser.Engine.trident4 || (Browser.Engine.gecko && Browser.Platform.mac)) {
-			$$(this.modalOptions.elementsToHide).each(function(sel){
-				sel.setStyle('opacity', opacity);
-			});
-		}
-	}
-});
-
-/*
+var ToElement = Class.ToElement;/*
 Script: StyleWriter.js
 
 Provides a simple method for injecting a css style element into the DOM if it's not already present.
@@ -5548,7 +6176,7 @@ var StyleWriter = new Class({
 	createStyle: function(css, id) {
 		window.addEvent('domready', function(){
 			try {
-				if ($(id) && id) return;
+				if (document.id(id) && id) return;
 				var style = new Element('style', {id: id||''}).inject($$('head')[0]);
 				if (Browser.Engine.trident) style.styleSheet.cssText = css;
 				else style.set('text', css);
@@ -5556,7 +6184,6 @@ var StyleWriter = new Class({
 		}.bind(this));
 	}
 });
-
 /*
 Script: StickyWin.js
 
@@ -5566,12 +6193,14 @@ License:
 	http://www.clientcide.com/wiki/cnet-libraries#license
 */
 
+
 var StickyWin = new Class({
-	Binds: ['destroy', 'hide', 'togglepin'],
+	Binds: ['destroy', 'hide', 'togglepin', 'esc'],
 	Implements: [Options, Events, StyleWriter, Class.ToElement],
 	options: {
 //		onDisplay: $empty,
 //		onClose: $empty,
+//		onDestroy: $empty,
 		closeClassName: 'closeSticky',
 		pinClassName: 'pinSticky',
 		content: '',
@@ -5587,12 +6216,15 @@ var StickyWin = new Class({
 		width: false,
 		height: false,
 		timeout: -1,
-		allowMultipleByClass: false,
+		allowMultipleByClass: true,
 		allowMultiple: true,
 		showNow: true,
 		useIframeShim: true,
 		iframeShimSelector: '',
-		destroyOnClose: false
+		destroyOnClose: false,
+		closeOnClickOut: false,
+		closeOnEsc: false,
+		getWindowManager: function(){ return StickyWin.WM; }
 	},
 
 	css: '.SWclearfix:after {content: "."; display: block; height: 0; clear: both; visibility: hidden;}'+
@@ -5601,26 +6233,40 @@ var StickyWin = new Class({
 	initialize: function(options){
 		this.options.inject = this.options.inject || {
 			target: document.body,
-			where: 'bottom' 
+			where: 'bottom'
 		};
 		this.setOptions(options);
+		this.windowManager = this.options.getWindowManager();
 		this.id = this.options.id || 'StickyWin_'+new Date().getTime();
 		this.makeWindow();
+		if (this.windowManager) this.windowManager.add(this);
 
 		if (this.options.content) this.setContent(this.options.content);
 		if (this.options.timeout > 0) {
 			this.addEvent('onDisplay', function(){
-				this.hide.delay(this.options.timeout, this)
+				this.hide.delay(this.options.timeout, this);
 			}.bind(this));
 		}
-		if (this.options.showNow) this.show();
 		//add css for clearfix
 		this.createStyle(this.css, 'StickyWinClearFix');
-		if (this.options.destroyOnClose) this.addEvent('close', this.destroy)
+		if (this.options.closeOnClickOut || this.options.closeOnEsc) this.attach();
+		if (this.options.destroyOnClose) this.addEvent('close', this.destroy);
+		if (this.options.showNow) this.show();
+	},
+	attach: function(attach){
+		var method = $pick(attach, true) ? 'addEvents' : 'removeEvents';
+		var events = {};
+		if (this.options.closeOnClickOut) events.click = this.esc;
+		if (this.options.closeOnEsc) events.keyup = this.esc;
+		document[method](events);
+	},
+	esc: function(e) {
+		if (e.key == "esc") this.hide();
+		if (e.type == "click" && this.element != e.target && !this.element.hasChild(e.target)) this.hide();
 	},
 	makeWindow: function(){
 		this.destroyOthers();
-		if (!$(this.id)) {
+		if (!document.id(this.id)) {
 			this.win = new Element('div', {
 				id:		this.id
 			}).addClass(this.options.className).addClass('StickyWinInstance').addClass('SWclearfix').setStyles({
@@ -5628,7 +6274,7 @@ var StickyWin = new Class({
 				position:'absolute',
 				zIndex:this.options.zIndex
 			}).inject(this.options.inject.target, this.options.inject.where).store('StickyWin', this);			
-		} else this.win = $(this.id);
+		} else this.win = document.id(this.id);
 		this.element = this.win;
 		if (this.options.width && $type(this.options.width.toInt())=="number") this.win.setStyle('width', this.options.width.toInt());
 		if (this.options.height && $type(this.options.height.toInt())=="number") this.win.setStyle('height', this.options.height.toInt());
@@ -5636,17 +6282,18 @@ var StickyWin = new Class({
 	},
 	show: function(suppressEvent){
 		this.showWin();
-		if (!suppressEvent) this.fireEvent('onDisplay');
+		if (!suppressEvent) this.fireEvent('display');
 		if (this.options.useIframeShim) this.showIframeShim();
 		this.visible = true;
 		return this;
 	},
 	showWin: function(){
+		if (this.windowManager) this.windowManager.focus(this);
 		if (!this.positioned) this.position();
 		this.win.show();
 	},
 	hide: function(suppressEvent){
-		if ($type(suppressEvent) == "event" || !suppressEvent) this.fireEvent('onClose');
+		if ($type(suppressEvent) == "event" || !suppressEvent) this.fireEvent('close');
 		this.hideWin();
 		if (this.options.useIframeShim) this.hideIframeShim();
 		this.visible = false;
@@ -5666,7 +6313,7 @@ var StickyWin = new Class({
 	setContent: function(html) {
 		if (this.win.getChildren().length>0) this.win.empty();
 		if ($type(html) == "string") this.win.set('html', html);
-		else if ($(html)) this.win.adopt(html);
+		else if (document.id(html)) this.win.adopt(html);
 		this.win.getElements('.'+this.options.closeClassName).each(function(el){
 			el.addEvent('click', this.hide);
 		}, this);
@@ -5722,17 +6369,54 @@ var StickyWin = new Class({
 		if (this.shim) this.shim.hide();
 	},
 	destroy: function(){
+		if (this.windowManager) this.windowManager.remove(this);
 		if (this.win) this.win.destroy();
 		if (this.options.useIframeShim && this.shim) this.shim.destroy();
-		if ($('modalOverlay'))$('modalOverlay').destroy();
+		if (document.id('modalOverlay')) document.id('modalOverlay').destroy();
+		this.fireEvent('destroy');
 	}
 });
 
-
+StickyWin.Stacker = new Class({
+	Implements: [Options, Events],
+	Binds: ['click'],
+	instances: [],
+	options: {
+		zIndexBase: 9000
+	},
+	initialize: function(options) {
+		this.setOptions(options);
+		this.zIndex = this.options.zIndex;
+	},
+	add: function(sw) {
+		this.instances.include(sw);
+		$(sw).addEvent('mousedown', this.click);
+	},
+	click: function(e) {
+		this.instances.each(function(sw){
+			var el = $(sw);
+			if (el == e.target || el.hasChild($(e.target))) this.focus(sw);
+		}, this);
+	},
+	focus: function(instance){
+		if (this.focused == instance) return;
+		this.focused = instance;
+		if (instance) this.instances.erase(instance).push(instance);
+		this.instances.each(function(current, i){
+			$(current).setStyle('z-index', this.options.zIndexBase + i);
+		}, this);
+		this.focused = instance;
+	},
+	remove: function(sw) {
+		this.instances.erase(sw);
+		$(sw).removeEvent('click', this.click);
+	}
+});
+StickyWin.WM = new StickyWin.Stacker();
 /*
 Script: StickyWin.Modal.js
 
-This script extends StickyWin and StickyWin.Fx classes to add Modalizer functionality.
+This script extends StickyWin and StickyWin.Fx classes to add Mask functionality.
 
 License:
 	http://www.clientcide.com/wiki/cnet-libraries#license
@@ -5741,30 +6425,40 @@ StickyWin.Modal = new Class({
 
 	Extends: StickyWin,
 
-	Implements: Modalizer,
+	options: {
+		modalize: true,
+		maskOptions: {
+			style: {
+				'background-color':'#333',
+				opacity:0.8
+			}
+		},
+		hideOnClick: true,
+		getWindowManager: function(){ return StickyWin.ModalWM; }
+	},
 
-	initialize: function(options){
-		options = options||{};
-		this.setModalOptions($merge(options.modalOptions||{}, {
-			onModalHide: function(){
-					this.hide(false);
-				}.bind(this)
-			}));
+	initialize: function(options) {
+		this.options.maskTarget = this.options.maskTarget || document.body;
+		this.setOptions(options);
+		this.mask = new Mask(this.options.maskTarget, this.options.maskOptions).addEvent('click', function() {
+			if (this.options.hideOnClick) this.hide();
+		}.bind(this));
 		this.parent(options);
 	},
 
 	show: function(showModal){
-		if ($pick(showModal, true)) {
-			this.modalShow();
-			if (this.modalOptions.elementsToHide) this.win.getElements(this.modalOptions.elementsToHide).setStyle('opacity', 1);
-		}
+		if ($pick(showModal, this.options.modalize)) this.mask.show();
 		this.parent();
 	},
 
 	hide: function(hideModal){
-		if ($pick(hideModal, true)) this.modalHide();
-		else this.parent();
+		if ($pick(hideModal, true)) this.mask.hide();
+		this.parent();
 	}
 
+});
+
+StickyWin.ModalWM = new StickyWin.Stacker({
+	zIndexBase: 11000
 });
 if (StickyWin.Fx) StickyWin.Fx.Modal = StickyWin.Modal;
