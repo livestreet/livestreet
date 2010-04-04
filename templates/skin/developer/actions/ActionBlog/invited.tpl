@@ -56,7 +56,25 @@
 					true
 			); 							
 			return false;
-		}						
+		}
+		function reBlogInvite(idUser,idBlog) {
+			JsHttpRequest.query(
+			'POST '+aRouter['blog']+'ajaxrebloginvite/',
+			{ idUser: idUser, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+			function(result, errors) {
+				if (!result) {
+					msgErrorBox.alert('Error','Please try again later');
+				}
+				if (result.bStateError) {
+					msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+				} else {
+					msgNoticeBox.alert(result.sMsgTitle, result.sMsg);
+				}
+			},
+			true
+			);
+			return false;
+		}
 		</script>		
 	{/literal}		
 	
@@ -75,7 +93,7 @@
 				{foreach from=$aBlogUsersInvited item=oBlogUser}
 					{assign var='oUser' value=$oBlogUser->getUser()}
 					
-					<li><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>						
+					<li><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>  &mdash; <a href="#" onclick="return reBlogInvite({$oUser->getId()},{$oBlogEdit->getId()});">{$aLang.blog_user_invite_readd}</a></li>						
 				{/foreach}
 			</ul>
 		{/if}
