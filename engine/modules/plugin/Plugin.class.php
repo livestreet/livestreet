@@ -31,7 +31,7 @@ class LsPlugin extends Module {
 	 *
 	 * @var string 
 	 */
-	const PLUGIN_README_FILE = 'plugin.xml';
+	const PLUGIN_XML_FILE = 'plugin.xml';
 	/**
 	 * Путь к директории с плагинами
 	 * 
@@ -84,7 +84,7 @@ class LsPlugin extends Module {
 			/**
 			 * Считываем данные из XML файла описания
 			 */
-			$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_README_FILE;
+			$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_XML_FILE;
 			if($oXml = @simplexml_load_file($sPluginXML)) {
 				/**
 				 * Обрабатываем данные, считанные из XML-описания

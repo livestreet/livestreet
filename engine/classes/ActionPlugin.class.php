@@ -45,7 +45,7 @@ abstract class ActionPlugin extends Action {
 	 * @return string
 	 */
 	public function getTemplatePathPlugin() {	
-		if(is_null($this->sTemplatePathPlugin)) {	
+		if(is_null($this->sTemplatePathPlugin)) {
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
 			/**
 			 * Проверяем в списке шаблонов

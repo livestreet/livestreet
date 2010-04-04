@@ -68,7 +68,7 @@ abstract class Plugin extends Object {
 		/**
 		 * Считываем данные из XML файла описания
 		 */
-		$sPluginXML = Config::Get('path.root.server').'/plugins/'.$sPluginName.'/'.LsPlugin::PLUGIN_README_FILE;
+		$sPluginXML = Config::Get('path.root.server').'/plugins/'.$sPluginName.'/'.LsPlugin::PLUGIN_XML_FILE;
 		if($oXml = @simplexml_load_file($sPluginXML)) {
 			foreach($aObjects as $sObjectName) {
 				if(is_array($data=$oXml->xpath("delegate/{$sObjectName}/item"))) {
@@ -81,7 +81,15 @@ abstract class Plugin extends Object {
 						 * Если не указан делегат TO, считаем, что делегатом является 
 						 * одноименный объект текущего плагина
 						 */
-						if(!$aDelegate->to) $aDelegate->to = get_class($this).'_'.$aDelegate->from;
+						if ($sObjectName=='template') {							
+							if(!$aDelegate->to) {
+								$aDelegate->to = $this->GetTemplatePath(get_class($this)).$aDelegate->from;
+							} else {
+								$aDelegate->to=preg_replace("/^_/",$this->GetTemplatePath(get_class($this)),$aDelegate->to);
+							}							
+						} else {
+							if(!$aDelegate->to) $aDelegate->to = get_class($this).'_'.$aDelegate->from;
+						}
 						$this->Plugin_Delegate($sObjectName,$aDelegate->from,$aDelegate->to,get_class($this));
 					}
 				}
