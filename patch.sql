@@ -168,3 +168,18 @@ ALTER TABLE  `prefix_notify_task` ADD INDEX (  `date_created` );
 
 ALTER TABLE  `prefix_comment_online` DROP INDEX  `id_type` ,
 ADD UNIQUE  `id_type` (  `target_id` ,  `target_type` );
+
+ALTER TABLE  `prefix_talk` ADD INDEX (  `talk_title` );
+ALTER TABLE  `prefix_talk` ADD INDEX (  `talk_date` );
+ALTER TABLE  `prefix_talk` ADD INDEX (  `talk_date_last` );
+
+ALTER TABLE  `prefix_talk_user` DROP INDEX  `talk_id`;
+ALTER TABLE  `prefix_talk_user` ADD INDEX (  `date_last` );
+ALTER TABLE  `prefix_talk_user` ADD INDEX (  `talk_user_active` );
+
+ALTER TABLE  `prefix_topic_read` DROP INDEX  `topic_id`;
+ALTER TABLE  `prefix_topic_question_vote` DROP INDEX  `topic_id`;
+ALTER TABLE  `prefix_topic` ADD INDEX (  `topic_text_hash` );
+
+ALTER TABLE  `prefix_session` ADD INDEX (  `session_date_last` );
+ALTER TABLE  `prefix_user` DROP INDEX  `user_date_last`;

@@ -75,12 +75,12 @@ class Mapper_Talk extends Mapper {
 				FROM 
 					".Config::Get('db.table.talk_user')." as t 
 				WHERE 
-					t.user_id = ?d 
+					t.talk_id IN(?a)
 					AND
-					t.talk_id IN(?a)				
+					t.user_id = ?d 								
 				";
 		$aTalkUsers=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
 			foreach ($aRows as $aRow) {
 				$aTalkUsers[]=Engine::GetEntity('Talk_TalkUser',$aRow);
 			}
@@ -208,9 +208,9 @@ class Mapper_Talk extends Mapper {
 					FROM   						
   						".Config::Get('db.table.talk_user')." as tu
 					WHERE
-  						tu.date_last IS NULL
+						tu.user_id = ?d 
   						AND
-  						tu.user_id = ?d  	
+  						tu.date_last IS NULL 
   						AND
   						tu.talk_user_active=?d						
 		";

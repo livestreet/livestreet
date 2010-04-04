@@ -107,11 +107,12 @@ class Mapper_Topic extends Mapper {
 	public function GetTopicUnique($sUserId,$sHash) {
 		$sql = "SELECT topic_id FROM ".Config::Get('db.table.topic')." 
 			WHERE 				
-				user_id = ?d				
+				topic_text_hash =? 						
 				AND
-				topic_text_hash =?
+				user_id = ?d
+			LIMIT 0,1
 				";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId,$sHash)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sHash,$sUserId)) {
 			return $aRow['topic_id'];
 		}
 		return null;
@@ -527,12 +528,12 @@ class Mapper_Topic extends Mapper {
 				FROM 
 					".Config::Get('db.table.topic_read')." as t 
 				WHERE 
-					t.user_id = ?d 
+					t.topic_id IN(?a)
 					AND
-					t.topic_id IN(?a) 									
+					t.user_id = ?d 
 				";
 		$aReads=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
 			foreach ($aRows as $aRow) {
 				$aReads[]=Engine::GetEntity('Topic_TopicRead',$aRow);
 			}
@@ -566,12 +567,12 @@ class Mapper_Topic extends Mapper {
 				FROM 
 					".Config::Get('db.table.topic_question_vote')." as v 
 				WHERE 
-					v.user_voter_id = ?d
-					AND
-					v.topic_id IN(?a) 									
+					v.topic_id IN(?a)
+					AND	
+					v.user_voter_id = ?d 				 									
 				";
 		$aVotes=array();
-		if ($aRows=$this->oDb->select($sql,$sUserId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
 			foreach ($aRows as $aRow) {
 				$aVotes[]=Engine::GetEntity('Topic_TopicQuestionVote',$aRow);
 			}
