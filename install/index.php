@@ -607,11 +607,16 @@ class Install {
 			 */
 			if($this->GetSessionVar('INSTALL_DATABASE_DONE','')!=md5(serialize(array($aParams['server'],$aParams['name'])))){
 				if(!$aParams['convert']) {
-					list($bResult,$aErrors) = array_values($this->CreateTables('sql.sql',$aParams));
-					if(!$bResult) {
-						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
-						$this->Layout('steps/db.tpl');
-						return false;
+					$aRes=$this->CreateTables('sql.sql',$aParams);
+					if ($aRes) {
+						list($bResult,$aErrors) = array_values($aRes);
+						if(!$bResult) {
+							foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+							$this->Layout('steps/db.tpl');
+							return false;
+						}
+					} else {
+						return $this->StepAdmin();
 					}
 				} else {
 					/**
@@ -1096,7 +1101,12 @@ class Install {
         while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
 			$aDbTables[] = $aRow[0];
 		}
-		
+		/**
+		 * Если среди таблиц БД уже есть таблица prefix_topic, то выполнять SQL-дамп не нужно
+		 */
+		if (in_array($aParams['prefix'].'topic',$aDbTables)) {
+			return false;
+		}		
 		/**
 		 * Выполняем запросы по очереди
 		 */
