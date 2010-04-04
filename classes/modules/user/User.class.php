@@ -1067,7 +1067,10 @@ class LsUser extends Module {
 			return false;
 		}
 		
-		$sFileTmp=$aFile['tmp_name'];
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+			return false;
+		}
 		$sPath = $this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('avatar');
 
@@ -1082,6 +1085,7 @@ class LsUser extends Module {
 		if($sError=$oImage->get_last_error()) {
 			// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
 			// $this->Message_AddError($sError,$this->Lang_Get('error'));
+			@unlink($sFileTmp);
 			return false;
 		}
 		
@@ -1094,12 +1098,13 @@ class LsUser extends Module {
 			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,false,$aParams);
 			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,false,$aParams);
 			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,false,$aParams);
-			
+			@unlink($sFileTmp);
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
 			 */
 			return $this->Image_GetWebPath($sFileAvatar);
 		}
+		@unlink($sFileTmp);
 		/**
 		 * В случае ошибки, возвращаем false
 		 */
@@ -1134,18 +1139,23 @@ class LsUser extends Module {
 		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
 			return false;
 		}
-		
+				
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+			return false;
+		}
 		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
-		$sFileTmp=$aFile['tmp_name'];
 		$aParams=$this->Image_BuildParams('foto');
 		
 		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250,null,true,$aParams)) {
+			@unlink($sFileTmp);
 			/**
 			 * удаляем старое фото
 			 */
 			$this->DeleteFoto($oUser);
 			return $this->Image_GetWebPath($sFileFoto);
 		}
+		@unlink($sFileTmp);
 		return false;
 	}
 	/**

@@ -1307,14 +1307,19 @@ class LsTopic extends Module {
 		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
 			return false;
 		}
-		
-		$sDirUpload=$this->Image_GetIdDir($oUser->getId());			
-		$sFileTmp=$aFile['tmp_name'];
+							
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();		
+		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {			
+			return false;
+		}
+		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('topic');
 		
 		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+			@unlink($sFileTmp);
 			return $this->Image_GetWebPath($sFileImage);
 		}
+		@unlink($sFileTmp);
 		return false;
 	}
 	/**
