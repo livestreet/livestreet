@@ -826,7 +826,7 @@ class LsViewer extends Module {
 			if(Config::Get("compress.{$sType}.merge")) {
 				$aHeadFiles[$sType][] = $this->Compress($aResult[$sType],$sType);
 			} else {
-				$aHeadFiles[$sType] = array_merge($aHeadFiles[$sType],$aResult[$sType]);
+				$aHeadFiles[$sType] = array_map(array($this,'GetWebPath'),array_merge($aHeadFiles[$sType],$aResult[$sType]));
 			}
 			/**
 			 * Добавляем файлы хаков
