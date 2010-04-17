@@ -1,3 +1,6 @@
-Пользователь «<a href="{$DIR_WEB_ROOT}/profile/{$oUserFrom->getLogin()}/">{$oUserFrom->getLogin()}</a>»</b> добавил вас в друзья.						
-<br><br>
-С уважением, администрация сайта <a href="{$DIR_WEB_ROOT}">{$SITE_NAME}</a>
+Пользователь «<a href="{router page='profile'}{$oUserFrom->getLogin()}/">{$oUserFrom->getLogin()}</a>»</b> хочет добавить вас в друзья.						
+<br /><br />
+<i>{$sText}</i>
+<a href='{$sPath}'>Посмотреть заявку</a> (Не забудьте предварительно авторизоваться!)
+<br />
+С уважением, администрация сайта <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
