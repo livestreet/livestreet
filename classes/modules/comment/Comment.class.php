@@ -378,7 +378,7 @@ class LsComment extends Module {
 	public function UpdateComment(CommentEntity_Comment $oComment) {		
 		if ($this->oMapper->UpdateComment($oComment)) {		
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getTargetType()}","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
 			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
@@ -728,7 +728,7 @@ class LsComment extends Module {
 	public function UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId) {
 		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
 		// чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_{$sTargetType}"));
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new_{$sTargetType}"));
 		
 		return $this->oMapper->UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId);
 	}
@@ -747,6 +747,32 @@ class LsComment extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
 		
 		return $this->oMapper->UpdateTargetParentByTargetIdOnline($sParentId, $sTargetType, $aTargetId);
+	}
+	
+	/**
+	 * Меняет target parent на новый
+	 *
+	 * @param string $sParentId
+	 * @param string $sTargetType
+	 * @param string $sParentIdNew
+	 * @return bool
+	 */
+	public function MoveTargetParent($sParentId, $sTargetType, $sParentIdNew) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new_{$sTargetType}"));
+		return $this->oMapper->MoveTargetParent($sParentId, $sTargetType, $sParentIdNew);
+	}
+	
+	/**
+	 * Меняет target parent на новый в прямом эфире
+	 *
+	 * @param string $sParentId
+	 * @param string $sTargetType
+	 * @param string $sParentIdNew
+	 * @return bool
+	 */
+	public function MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
+		return $this->oMapper->MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew);
 	}
 	
 }

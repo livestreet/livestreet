@@ -1281,7 +1281,16 @@ class LsTopic extends Module {
 	 */
 	public function MoveTopicsByArrayId($aTopics,$sBlogId) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}"));
-		return $this->oMapperTopic->MoveTopicsByArrayId($aTopics,$sBlogId);
+		if ($res=$this->oMapperTopic->MoveTopicsByArrayId($aTopics,$sBlogId)) {
+			// перемещаем теги
+			$this->oMapperTopic->MoveTopicsTagsByArrayId($aTopics,$sBlogId);
+			// меняем target parent у комментов
+			$this->Comment_UpdateTargetParentByTargetId($sBlogId, 'topic', $aTopics);
+			// меняем target parent у комментов в прямом эфире
+			$this->Comment_UpdateTargetParentByTargetIdOnline($sBlogId, 'topic', $aTopics);
+			return $res;
+		}
+		return false;
 	}
 	
 	/**
@@ -1293,7 +1302,16 @@ class LsTopic extends Module {
 	 */
 	public function MoveTopics($sBlogId,$sBlogIdNew) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update", "topic_new_blog_{$sBlogId}", "topic_new_blog_{$sBlogIdNew}"));
-		return $this->oMapperTopic->MoveTopics($sBlogId,$sBlogIdNew);
+		if ($res=$this->oMapperTopic->MoveTopics($sBlogId,$sBlogIdNew)) {
+			// перемещаем теги
+			$this->oMapperTopic->MoveTopicsTags($sBlogId,$sBlogIdNew);
+			// меняем target parent у комментов
+			$this->Comment_MoveTargetParent($sBlogId, 'topic', $sBlogIdNew);
+			// меняем target parent у комментов в прямом эфире
+			$this->Comment_MoveTargetParentOnline($sBlogId, 'topic', $sBlogIdNew);
+			return $res;
+		}
+		return false;
 	}	
 	
 	/**

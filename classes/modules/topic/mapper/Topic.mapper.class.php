@@ -621,5 +621,48 @@ class Mapper_Topic extends Mapper {
 		}		
 		return false;
 	}
+	
+	/**
+	 * Перемещает теги топиков в другой блог
+	 *
+	 * @param string $sBlogId
+	 * @param string $sBlogIdNew
+	 * @return bool
+	 */
+	public function MoveTopicsTags($sBlogId,$sBlogIdNew) {
+		$sql = "UPDATE ".Config::Get('db.table.topic_tag')."
+			SET 
+				blog_id= ?d
+			WHERE
+				blog_id = ?d
+		";			
+		if ($this->oDb->query($sql,$sBlogIdNew,$sBlogId)) {
+			return true;
+		}		
+		return false;
+	}
+	
+	/**
+	 * Перемещает теги топиков в другой блог
+	 *
+	 * @param array $aTopics
+	 * @param string $sBlogId
+	 * @return bool
+	 */
+	public function MoveTopicsTagsByArrayId($aTopics,$sBlogId) {
+		if(!is_array($aTopics)) $aTopics = array($aTopics);
+		
+		$sql = "UPDATE ".Config::Get('db.table.topic_tag')."
+			SET 
+				blog_id= ?d
+			WHERE
+				topic_id IN(?a)
+		";			
+		if ($this->oDb->query($sql,$sBlogId,$aTopics)) {
+			return true;
+		}		
+		return false;
+	}
+	
 }
 ?>

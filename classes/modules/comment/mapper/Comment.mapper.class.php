@@ -387,5 +387,37 @@ class Mapper_Comment extends Mapper {
 		}
 		return false;		
 	}	
+	
+	public function MoveTargetParent($sParentId, $sTargetType, $sParentIdNew) {
+		$sql = "
+			UPDATE ".Config::Get('db.table.comment')." 
+			SET 
+				target_parent_id = ?d
+			WHERE 
+				target_parent_id = ?d
+				AND 
+				target_type = ? 
+		";			
+		if ($this->oDb->query($sql,$sParentIdNew,$sParentId,$sTargetType)) {
+			return true;
+		}
+		return false;		
+	}
+	
+	public function MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew) {
+		$sql = "
+			UPDATE ".Config::Get('db.table.comment_online')." 
+			SET 
+				target_parent_id = ?d
+			WHERE 
+				target_parent_id = ?d
+				AND 
+				target_type = ? 
+		";			
+		if ($this->oDb->query($sql,$sParentIdNew,$sParentId,$sTargetType)) {
+			return true;
+		}
+		return false;		
+	}
 }
 ?>
