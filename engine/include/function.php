@@ -249,15 +249,15 @@ function func_rmdir($sPath) {
 	if(!is_dir($sPath)) return true;
 	$sPath = rtrim($sPath,'/').'/';
 	
-    $aFiles = glob($sPath.'*', GLOB_MARK); 
-    foreach($aFiles as $sFile ) { 
-        if(substr($sFile, -1) == '/') {
-            func_rmdir($sFile); 
-        } else { 
-            @unlink($sFile);        	
-        }
-    } 
-    
+	if ($aFiles = glob($sPath.'*', GLOB_MARK)) {
+		foreach($aFiles as $sFile ) {
+			if(substr($sFile, -1) == '/') {
+				func_rmdir($sFile);
+			} else {
+				@unlink($sFile);
+			}
+		}
+	}
     if(is_dir($sPath)) @rmdir($sPath); 	
 }
 

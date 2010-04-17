@@ -136,7 +136,7 @@ if($aPluginsList=@file($sPluginsListFile)) {
 	$aPluginsList=array_map('trim',$aPluginsList);
 	foreach ($aPluginsList as $sPlugin) {
 		$aConfigFiles = glob($sPluginsDir.'/'.$sPlugin.'/config/*.php');
-		if(count($aConfigFiles)>0) {
+		if($aConfigFiles and count($aConfigFiles)>0) {
 			$aConfig=array();
 			foreach ($aConfigFiles as $sPath) {
 				$aConfig = include($sPath);

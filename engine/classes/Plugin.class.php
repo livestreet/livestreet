@@ -187,7 +187,8 @@ abstract class Plugin extends Object {
 			? strtolower($aMatches[1])
 			: strtolower($sName);
 		if(!isset(self::$aTemplatePath[$sName])) {	
-			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR)))
+			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);			
+			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
 				? Config::Get('view.skin')
 				: 'default';
 			
@@ -208,7 +209,8 @@ abstract class Plugin extends Object {
 			? strtolower($aMatches[1])
 			: strtolower($sName);
 		if(!isset(self::$aTemplateWebPath[$sName])) {	
-			$sTemplateName=in_array(Config::Get('view.skin'),array_map('basename',glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR)))
+			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
+			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
 				? Config::Get('view.skin')
 				: 'default';
 			

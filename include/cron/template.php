@@ -33,7 +33,8 @@ class TemplateCacheCleanCron extends Cron {
 		/**
 		 * Выбираем все файлы кеша
 		 */
-		$aFiles = (array)glob($sDir. DIRECTORY_SEPARATOR ."*.{css,js}", GLOB_BRACE);
+		$aFiles = glob($sDir. DIRECTORY_SEPARATOR ."*.{css,js}", GLOB_BRACE);
+		if (!$aFiles) $aFiles=array();
 		
 		print PHP_EOL."Cache files count: ".count($aFiles);
 		

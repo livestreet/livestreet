@@ -72,40 +72,40 @@ class LsPlugin extends Module {
 	 * @return array
 	 */
 	public function GetList() {
-		$aList=array_map('basename',glob($this->sPluginsDir.'*',GLOB_ONLYDIR));
-		$aActivePlugins=$this->GetActivePlugins();
-
-		foreach($aList as $sPlugin) {
-			$this->aPluginsList[$sPlugin] = array(
+		if ($aPaths=glob($this->sPluginsDir.'*',GLOB_ONLYDIR)) {
+			$aList=array_map('basename',$aPaths);
+			$aActivePlugins=$this->GetActivePlugins();
+			foreach($aList as $sPlugin) {
+				$this->aPluginsList[$sPlugin] = array(
 				'code'      => $sPlugin,
-				'is_active' => in_array($sPlugin,$aActivePlugins) 
-			);
+				'is_active' => in_array($sPlugin,$aActivePlugins)
+				);
 
-			/**
-			 * Считываем данные из XML файла описания
-			 */
-			$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_XML_FILE;
-			if($oXml = @simplexml_load_file($sPluginXML)) {
 				/**
-				 * Обрабатываем данные, считанные из XML-описания
-				 */
-				$sLang=$this->Lang_GetLang();
+			 	* Считываем данные из XML файла описания
+			 	*/
+				$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_XML_FILE;
+				if($oXml = @simplexml_load_file($sPluginXML)) {
+					/**
+				 	* Обрабатываем данные, считанные из XML-описания
+				 	*/
+					$sLang=$this->Lang_GetLang();
 
-				$this->Xlang($oXml,'name',$sLang);
-				$this->Xlang($oXml,'author',$sLang);
-				$this->Xlang($oXml,'description',$sLang);
-				$oXml->homepage=$this->Text_Parser($oXml->homepage);
-				
-				$this->aPluginsList[$sPlugin]['property']=$oXml;
-			} else {
-				/**
-				 * Если XML-файл описания отсутствует, или не является валидным XML,
-				 * удаляем плагин из списка
-				 */
-				unset($this->aPluginsList[$sPlugin]);
+					$this->Xlang($oXml,'name',$sLang);
+					$this->Xlang($oXml,'author',$sLang);
+					$this->Xlang($oXml,'description',$sLang);
+					$oXml->homepage=$this->Text_Parser($oXml->homepage);
+
+					$this->aPluginsList[$sPlugin]['property']=$oXml;
+				} else {
+					/**
+				 	* Если XML-файл описания отсутствует, или не является валидным XML,
+				 	* удаляем плагин из списка
+				 	*/
+					unset($this->aPluginsList[$sPlugin]);
+				}
 			}
 		}
-		
 		return $this->aPluginsList;
 	}
 	
