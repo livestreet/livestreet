@@ -544,7 +544,7 @@ class LsViewer extends Module {
 				 * Проверяем последовательно каждый regexp
 				 */
 				foreach((array)$aRule['path'] as $sRulePath) {
-					$sPattern = "~".str_replace(array('/','*'),array('\/','\w+'), $sRulePath)."~";	
+					$sPattern = "~".str_replace(array('/','*'),array('\/','[\w\-]+'), $sRulePath)."~";	
 					if(preg_match($sPattern, $sPath)) {
 						$bUse=true;
 						break 1;
