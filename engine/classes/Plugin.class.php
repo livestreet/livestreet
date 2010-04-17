@@ -160,7 +160,7 @@ abstract class Plugin extends Object {
 			
 			if($sQuery!='') {
 				$bResult=$this->Database_GetConnect()->query($sQuery);
-				if(!$bResult) $aErrors[] = mysql_error();
+				if($bResult===false) $aErrors[] = mysql_error();
 			}
 		}
 
