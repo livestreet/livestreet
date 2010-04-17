@@ -1333,7 +1333,7 @@ class LsTopic extends Module {
 		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('topic');
 		
-		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('view.img_resize_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			return $this->Image_GetWebPath($sFileImage);
 		}
@@ -1395,7 +1395,7 @@ class LsTopic extends Module {
 		/**
 		 * Передаем изображение на обработку
 		 */
-		if ($sFileImg=$this->Image_Resize($sFileTmp,$sDirSave,func_generator(),3000,3000,Config::Get('view.img_resize_width'),null,true,$aParams)) {
+		if ($sFileImg=$this->Image_Resize($sFileTmp,$sDirSave,func_generator(),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('view.img_resize_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			return $this->Image_GetWebPath($sFileImg);
 		} 		

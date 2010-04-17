@@ -798,9 +798,9 @@ class LsBlog extends Module {
 		 */
 		$oImage = $this->Image_CropSquare($oImage);
 		
-		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",3000,3000,48,48,false,$aParams,$oImage)) {
-			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",3000,3000,24,24,false,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",3000,3000,null,null,false,$aParams,$oImage);
+		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),48,48,false,$aParams,$oImage)) {
+			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),24,24,false,$aParams,$oImage);
+			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams,$oImage);
 			@unlink($sFileTmp);
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара

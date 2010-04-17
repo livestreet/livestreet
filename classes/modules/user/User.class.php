@@ -1093,11 +1093,11 @@ class LsUser extends Module {
 		$oImage->set_jpg_quality($aParams['jpg_quality']);
 		$oImage->output(null,$sFileTmp);
 		
-		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',3000,3000,100,100,false,$aParams)) {
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',3000,3000,64,64,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',3000,3000,48,48,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',3000,3000,24,24,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar',3000,3000,null,null,false,$aParams);
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),64,64,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),48,48,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),24,24,false,$aParams);
+			$this->Image_Resize($sFileTmp,$sPath,'avatar',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams);
 			@unlink($sFileTmp);
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -1147,7 +1147,7 @@ class LsUser extends Module {
 		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('foto');
 		
-		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),3000,3000,250,null,true,$aParams)) {
+		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),250,null,true,$aParams)) {
 			@unlink($sFileTmp);
 			/**
 			 * удаляем старое фото
