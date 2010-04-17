@@ -72,7 +72,7 @@ if ($oEngine->User_IsAuthorization()) {
 		}
 	}
 	
-	if (!is_null($sFile)) {
+	if ($sFile) {
 		$bStateError=false;
 		$sMsgTitle='';
 		$sMsg='';

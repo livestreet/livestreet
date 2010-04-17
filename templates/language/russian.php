@@ -736,7 +736,7 @@ return array(
 	 */
 	'uploadimg' => 'Вставка изображения',
 	'uploadimg_file' => 'Файл',
-	'uploadimg_file_error' => 'Невозможно обработать файл',
+	'uploadimg_file_error' => 'Невозможно обработать файл, проверьте тип и размер файла',
 	'uploadimg_url' => 'Ссылка на изображение',
 	'uploadimg_url_error_type' => 'Файл не является изображением',
 	'uploadimg_url_error_read' => 'Невозможно прочитать внешний файл',

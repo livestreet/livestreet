@@ -48,6 +48,13 @@ class LsImage extends Module {
 	protected $aParamsDefault = array();
 	
 	/**
+	 * Тескт последней ошибки
+	 *
+	 * @var unknown_type
+	 */
+	protected $sLastErrorText = null;
+	
+	/**
 	 * Инициализация модуля
 	 */
 	public function Init() {	
@@ -55,6 +62,29 @@ class LsImage extends Module {
 			'watermark_use'=>false,
 			'round_corner' =>false
 		);
+	}
+	/**
+	 * Получает текст последней ошибки
+	 *
+	 * @return unknown
+	 */
+	public function GetLastError() {
+		return $this->sLastErrorText;
+	}
+	/**
+	 * Устанавливает текст последней ошибки
+	 *
+	 * @param unknown_type $sText
+	 */
+	public function SetLastError($sText) {
+		$this->sLastErrorText=$sText;
+	}
+	/**
+	 * Очищает текст последней ошибки
+	 *
+	 */
+	public function ClearLastError() {
+		$this->sLastErrorText=null;
 	}
 	/**
 	 * Merge default and named params for images
@@ -89,6 +119,7 @@ class LsImage extends Module {
 	 * @return string
 	 */
 	public function Resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true,$aParams=null,$oImage=null) {
+		$this->ClearLastError();
 		/**
 		 * Если параметры не переданы, устанавливаем действия по умолчанию
 		 */
@@ -102,6 +133,7 @@ class LsImage extends Module {
 		if(!$oImage) $oImage=new LiveImage($sFileSrc);
 		
 		if($oImage->get_last_error()){
+			$this->SetLastError($oImage->get_last_error());
 			return false;
 		}
 
