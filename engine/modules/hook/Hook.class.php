@@ -80,6 +80,7 @@ class LsHook extends Module {
 	public function Run($sName,&$aVars=array()) {
 		$result=array();
 		$sName=strtolower($sName);
+		$bTemplateHook=strpos($sName,'template_')===0 ? true : false;
 		if (isset($this->aHooks[$sName])) {
 			$aHookNum=array();
 			$aHookNumDelegate=array();
@@ -100,7 +101,14 @@ class LsHook extends Module {
 			 */
 			foreach ($aHookNum as $iKey => $iPr) {
 				$aHook=$this->aHooks[$sName][$iKey];
-				$this->RunType($aHook,$aVars);
+				if ($bTemplateHook) {
+					/**
+					 * Если это шаблонных хук то сохраняем результат 
+					 */
+					$result['template_result'][]=$this->RunType($aHook,$aVars);
+				} else {
+					$this->RunType($aHook,$aVars);
+				}
 			}
 			/**
 			 * Теперь запускаем делигирующие

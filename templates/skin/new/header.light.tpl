@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+{hook run='body_begin'}
 <div id="container">
 	<h1 class="lite-header"><a href="{cfg name='path.root.web'}">Live<span>Street</span></a></h1>
 	
