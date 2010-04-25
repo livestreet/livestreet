@@ -851,13 +851,13 @@ class LsTopic extends Module {
 	 * @return array
 	 */
 	public function GetTopicsByTag($sTag,$iPage,$iPerPage,$bAddAccessible=true) {
-		$aCloseTopics = ($this->oUserCurrent && $bAddAccessible) 
-			? $this->GetTopicsCloseByUser($this->oUserCurrent->getId())
-			: $this->GetTopicsCloseByUser();
+		$aCloseBlogs = ($this->oUserCurrent && $bAddAccessible) 
+			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
+			: $this->Blog_GetInaccessibleBlogsByUser();
 		
-		$s = serialize($aCloseTopics);	
+		$s = serialize($aCloseBlogs);	
 		if (false === ($data = $this->Cache_Get("topic_tag_{$sTag}_{$iPage}_{$iPerPage}_{$s}"))) {			
-			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$aCloseTopics,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$data = array('collection'=>$this->oMapperTopic->GetTopicsByTag($sTag,$aCloseBlogs,$iCount,$iPage,$iPerPage),'count'=>$iCount);
 			$this->Cache_Set($data, "topic_tag_{$sTag}_{$iPage}_{$iPerPage}_{$s}", array('topic_update','topic_new'), 60*60*24*2);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);

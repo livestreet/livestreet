@@ -218,7 +218,7 @@ class Mapper_Topic extends Mapper {
 		return $aTopics;		
 	}
 	
-	public function GetTopicsByTag($sTag,$aExcludeTopic,&$iCount,$iCurrPage,$iPerPage) {		
+	public function GetTopicsByTag($sTag,$aExcludeBlog,&$iCount,$iCurrPage,$iPerPage) {		
 		$sql = "				
 							SELECT 		
 								topic_id										
@@ -226,14 +226,14 @@ class Mapper_Topic extends Mapper {
 								".Config::Get('db.table.topic_tag')."								
 							WHERE 
 								topic_tag_text = ? 	
-								{ AND topic_id NOT IN (?a) }
+								{ AND blog_id NOT IN (?a) }
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d ";
 		
 		$aTopics=array();
 		if ($aRows=$this->oDb->selectPage(
 				$iCount,$sql,$sTag,
-				(is_array($aExcludeTopic)&&count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
+				(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
 				($iCurrPage-1)*$iPerPage, $iPerPage
 			)
 		) {
