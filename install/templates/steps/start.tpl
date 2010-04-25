@@ -13,6 +13,9 @@ ___LANG_START_PARAGRAPH___
 	</tr>	
 	<tr>	
 		<td width="350px">___LANG_PHP_PARAMS_MBSTRING___</td><td>___VALIDATE_MBSTRING___</td>
+	</tr>
+	<tr>	
+		<td width="350px">___LANG_PHP_PARAMS_SIMPLEXML___</td><td>___VALIDATE_SIMPLEXML___</td>
 	</tr>	
 </table>
 <br />

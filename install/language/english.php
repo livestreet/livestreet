@@ -62,6 +62,7 @@ return array(
 	'php_params_safe_mode'=>'Safe mode off',
 	'php_params_utf8'=>'UTF8 support in PCRE',
 	'php_params_mbstring'=>'Mbstring support',
+	'php_params_simplexml'=>'SimpleXML support',
 	
 	'local_config'=>'Local configuration',
 	'local_config_file'=>'File config.local.php exists and is writable',

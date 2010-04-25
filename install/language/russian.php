@@ -62,6 +62,7 @@ return array(
 	'php_params_safe_mode'=>'Safe mode выключен',
 	'php_params_utf8'=>'Поддержка UTF8 в PCRE',
 	'php_params_mbstring'=>'Поддержка Mbstring',
+	'php_params_simplexml'=>'Поддержка SimpleXML',
 	
 	'local_config'=>'Локальная конфигурация',
 	'local_config_file'=>'Файл config.local.php существует и доступен для записи',

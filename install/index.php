@@ -971,6 +971,13 @@ class Install {
    			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	
 	    }
 	    
+	    if (@extension_loaded('SimpleXML')){
+	        $this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');	        
+	    } else {
+   			$bOk = false;
+   			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	
+	    }
+	    
 	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
 	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
 	    	// пытаемся создать файл локального конфига
