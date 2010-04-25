@@ -29,6 +29,7 @@ document.addEvent('domready', function() {
 
 			<h1>{$aLang.settings_profile_edit}</h1>
 			<form action="" method="POST" enctype="multipart/form-data">
+				{hook run='form_settings_profile_begin'}
 				<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 				
 				<p>
@@ -107,6 +108,7 @@ document.addEvent('domready', function() {
 				{/if}
 				<p><label for="foto">{$aLang.settings_profile_foto}:</label><br /><input type="file" id="foto" name="foto"/></p>
 				
+				{hook run='form_settings_profile_end'}
 				<p><input type="submit" value="{$aLang.settings_profile_submit}" name="submit_profile_edit"/></p>
 			</form>
 

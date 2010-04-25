@@ -8,6 +8,7 @@
 
 		<form action="{router page='login'}" method="POST">
 				<h3>{$aLang.user_authorization}</h3>
+				{hook run='form_login_begin'}
 				<div class="lite-note"><a href="{router page='registration'}">{$aLang.user_registration}</a><label for="login-input">{$aLang.user_login}</label></div>
 				<p><input type="text" class="input-text" name="login" tabindex="1" id="login-input"/></p>
 				<div class="lite-note"><a href="{router page='login'}reminder/" tabindex="-1">{$aLang.user_password_reminder}</a><label for="password-input">{$aLang.user_password}</label></div>
@@ -16,6 +17,7 @@
 					<button type="submit" class="button"><span><em>{$aLang.user_login_submit}</em></span></button>
 					<label for="" class="input-checkbox"><input type="checkbox" name="remember" checked tabindex="3" >{$aLang.user_login_remember}</label>
 				</div>
+				{hook run='form_login_end'}
 				<input type="hidden" name="submit_login">
 		</form>
 		

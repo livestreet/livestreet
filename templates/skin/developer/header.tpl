@@ -81,6 +81,8 @@
 
 
 <body onload="prettyPrint()">
+	{hook run='body_begin'}
+	
 	<div id="debug" style="border: 2px #dd0000 solid; display: none;"></div>
 
 	<div id="container">

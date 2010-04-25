@@ -5,7 +5,7 @@
 	
 	<form action="{router page='login'}" method="POST">
 		<h3>{$aLang.user_authorization}</h3>
-		
+		{hook run='form_login_begin'}
 		<label for="login-input">{$aLang.user_login}:</label>
 		<p><input type="text" name="login" id="login-input" class="input-text" /></p>
 
@@ -14,7 +14,7 @@
 
 		<label for="" class="input-checkbox">
 		<input type="checkbox" name="remember" class="checkbox" checked />{$aLang.user_login_remember}</label><br />
-		
+		{hook run='form_login_end'}
 		<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" /><br /><br />
 
 		<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a><br />

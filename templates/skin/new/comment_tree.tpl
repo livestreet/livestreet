@@ -85,8 +85,10 @@
 	 								<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
 	 							</div>
 	 					{/if}
-						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">							
-    						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>    	
+						<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
+							{hook run='form_add_comment_begin'}
+    						<textarea name="comment_text" id="form_comment_text" style="width: 100%; height: 100px;"></textarea>
+    						{hook run='form_add_comment_end'}
     						<input type="submit" name="submit_preview" value="{$aLang.comment_preview}" onclick="lsCmtTree.preview($('form_comment_reply').getProperty('value')); return false;" />&nbsp;
     						<input type="submit" name="submit_comment" value="{$aLang.comment_add}" onclick="lsCmtTree.addComment('form_comment',{$iTargetId},'{$sTargetType}'); return false;">    	
     						<input type="hidden" name="reply" value="" id="form_comment_reply">

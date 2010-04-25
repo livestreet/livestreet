@@ -13,6 +13,7 @@
 </head>
 
 <body>
+{hook run='body_begin'}
 
 <div id="container">
 	<div id="header">

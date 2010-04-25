@@ -30,6 +30,7 @@ document.addEvent('domready', function() {
 <h1>{$aLang.settings_profile_edit}</h1>
 
 <form action="" method="POST" enctype="multipart/form-data">
+	{hook run='form_settings_profile_begin'}
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 	
 	<p><label for="profile_name">{$aLang.settings_profile_name}:</label>
@@ -102,7 +103,7 @@ document.addEvent('domready', function() {
 		<label for="foto_delete"><input type="checkbox" id="foto_delete" name="foto_delete" value="on"> &mdash; {$aLang.settings_profile_foto_delete}</label><br />
 	{/if}
 	<p><label for="foto">{$aLang.settings_profile_foto}:</label><input type="file" id="foto" name="foto"/></p>
-	
+	{hook run='form_settings_profile_end'}
 	<p><input type="submit" value="{$aLang.settings_profile_submit}" name="submit_profile_edit"/></p>
 </form>
 

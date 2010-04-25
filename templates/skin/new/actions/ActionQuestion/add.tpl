@@ -27,6 +27,7 @@ document.addEvent('domready', function() {
 					<h1>{$aLang.topic_question_edit}</h1>
 				{/if}
 				<form action="" method="POST" enctype="multipart/form-data">
+					{hook run='form_add_topic_question_begin'}
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 					
 					<p><label for="blog_id">{$aLang.topic_create_blog}</label>
@@ -111,7 +112,7 @@ document.addEvent('domready', function() {
 						&mdash; {$aLang.topic_create_publish_index}</label><br />
 						<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
 					{/if}
-					
+					{hook run='form_add_topic_question_end'}
 					<p class="buttons">
 					<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
 					<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;

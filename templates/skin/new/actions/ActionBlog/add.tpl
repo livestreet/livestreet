@@ -10,6 +10,7 @@
 			<h1>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
 		{/if}
 		<form action="" method="POST" enctype="multipart/form-data">
+			{hook run='form_add_blog_begin'}
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 				
 			<p><label for="blog_title">{$aLang.blog_create_title}:</label><br />
@@ -43,7 +44,8 @@
 			{/if}
 			<label for="avatar">{$aLang.blog_create_avatar}:</label><br />
 			<input type="file" name="avatar" id="avatar"></p>
-							
+					
+			{hook run='form_add_blog_end'}		
 			<p><input type="submit" name="submit_blog_add" value="{$aLang.blog_create_submit}">						
 			<input type="hidden" name="blog_id" value="{$_aRequest.blog_id}"></p>
 			
