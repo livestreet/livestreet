@@ -374,6 +374,12 @@ class ActionBlog extends Action {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					break;
 				}
+				/**
+				 * Увеличиваем число читателей блога
+				 */
+				if (in_array($sRank,array('administrator','moderator','reader')) and $oBlogUser->getUserRole()==LsBlog::BLOG_USER_ROLE_BAN) {					
+					$oBlog->setCountUser($oBlog->getCountUser()+1);					
+				}
 				
 				switch ($sRank) {
 					case 'administrator':
@@ -386,6 +392,9 @@ class ActionBlog extends Action {
 						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
 						break;
 					case 'ban':
+						if ($oBlogUser->getUserRole()!=LsBlog::BLOG_USER_ROLE_BAN) {
+							$oBlog->setCountUser($oBlog->getCountUser()-1);							
+						}
 						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_BAN);
 						break;
 					default:
@@ -394,6 +403,7 @@ class ActionBlog extends Action {
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
 				$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_users_submit_ok'));
 			}
+			$this->Blog_UpdateBlog($oBlog);
 		}
 		/**
 		 * Получаем список подписчиков блога
@@ -1232,10 +1242,17 @@ class ActionBlog extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
 			return ;						
-		} 
-		$sMessage = ($sAction=='accept')
-			? $this->Lang_Get('blog_user_invite_accept')
-			: $this->Lang_Get('blog_user_invite_reject');
+		}
+		if ($sAction=='accept') {
+			/**
+			 * Увеличиваем число читателей блога
+			 */
+			$oBlog->setCountUser($oBlog->getCountUser()+1);
+			$this->Blog_UpdateBlog($oBlog);
+			$sMessage=$this->Lang_Get('blog_user_invite_accept');
+		} else {
+			$sMessage=$this->Lang_Get('blog_user_invite_reject');
+		}		
 		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
 		
 		Router::Location(Router::GetPath('talk'));		
