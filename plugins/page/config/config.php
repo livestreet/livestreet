@@ -14,17 +14,9 @@
 *
 ---------------------------------------------------------
 */
+$config['table']['page']                = '___db.table.prefix___page';
 
-/**
- * Настройки роутинга страниц модуля "page"
- * Определяет какой экшен должен запускаться при определенном УРЛе
- */
-//define("ROUTE_PAGE_PAGE",'page');
+Config::Set('router.page.page', 'PluginPage_ActionPage');
 
-return array(
-	'page' => array(		
-		'page' => 'ActionPage',
-	),	
-);
-
+return $config;
 ?>

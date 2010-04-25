@@ -15,11 +15,7 @@
 ---------------------------------------------------------
 */
 
-/**
- * Обработка статических страниц
- *
- */
-class ActionPage extends Action {
+class PluginPage_ActionPage extends ActionPlugin {
 	protected $sUserLogin=null;
 	protected $aBadPageUrl=array('admin');
 
@@ -64,7 +60,7 @@ class ActionPage extends Action {
 		/**
 		 * Ищем страничку в БД
 		 */
-		if (!($oPage=$this->Page_GetPageByUrlFull($sUrlFull,1))) {
+		if (!($oPage=$this->PluginPage_Page_GetPageByUrlFull($sUrlFull,1))) {
 			return $this->EventNotFound();
 		}
 		/**
@@ -111,7 +107,7 @@ class ActionPage extends Action {
 		 * Обработка показа странички для редактирования
 		 */
 		if ($this->GetParam(0)=='edit') {
-			if ($oPageEdit=$this->Page_GetPageById($this->GetParam(1))) {
+			if ($oPageEdit=$this->PluginPage_Page_GetPageById($this->GetParam(1))) {
 				if (!isPost('submit_page_save')) {
 					$_REQUEST['page_title']=$oPageEdit->getTitle();
 					$_REQUEST['page_pid']=$oPageEdit->getPid();
@@ -139,7 +135,7 @@ class ActionPage extends Action {
 		 */
 		if ($this->GetParam(0)=='delete') {
 			$this->Security_ValidateSendForm();
-			if ($this->Page_deletePageById($this->GetParam(1))) {
+			if ($this->PluginPage_Page_deletePageById($this->GetParam(1))) {
 				$this->Message_AddNotice($this->Lang_Get('page_admin_action_delete_ok'));
 			} else {
 				$this->Message_AddError($this->Lang_Get('page_admin_action_delete_error'),$this->Lang_Get('error'));
@@ -148,10 +144,10 @@ class ActionPage extends Action {
 		/**
 		 * Получаем и загружаем список всех страниц
 		 */
-		$aPages=$this->Page_GetPages();
-		if (count($aPages)==0 and $this->Page_GetCountPage()) {
-			$this->Page_SetPagesPidToNull();
-			$aPages=$this->Page_GetPages();
+		$aPages=$this->PluginPage_Page_GetPages();
+		if (count($aPages)==0 and $this->PluginPage_Page_GetCountPage()) {
+			$this->PluginPage_Page_SetPagesPidToNull();
+			$aPages=$this->PluginPage_Page_GetPages();
 		}
 		$this->Viewer_Assign('aPages',$aPages);
 	}
@@ -182,7 +178,7 @@ class ActionPage extends Action {
 			$oPageEdit->setPid(null);
 		} else {
 			$oPageEdit->setPid(getRequest('page_pid'));			
-			$oPageParent=$this->Page_GetPageById(getRequest('page_pid'));
+			$oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid'));
 			$oPageEdit->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
 		}		
 		$oPageEdit->setSeoDescription(getRequest('page_seo_description'));
@@ -193,8 +189,8 @@ class ActionPage extends Action {
 		/**
 		 * Обновляем страницу
 		 */
-		if ($this->Page_UpdatePage($oPageEdit)) {
-			$this->Page_RebuildUrlFull($oPageEdit);
+		if ($this->PluginPage_Page_UpdatePage($oPageEdit)) {
+			$this->PluginPage_Page_RebuildUrlFull($oPageEdit);
 			$this->Message_AddNotice($this->Lang_Get('page_edit_submit_save_ok'));
 			$this->SetParam(0,null);
 			$this->SetParam(1,null);
@@ -224,7 +220,7 @@ class ActionPage extends Action {
 			$oPage->setPid(null);
 		} else {
 			$oPage->setPid(getRequest('page_pid'));			
-			$oPageParent=$this->Page_GetPageById(getRequest('page_pid'));
+			$oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid'));
 			$oPage->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
 		}		
 		$oPage->setSeoDescription(getRequest('page_seo_description'));
@@ -235,7 +231,7 @@ class ActionPage extends Action {
 		/**
 		 * Добавляем страницу
 		 */		
-		if ($this->Page_AddPage($oPage)) {
+		if ($this->PluginPage_Page_AddPage($oPage)) {
 			$this->Message_AddNotice($this->Lang_Get('page_create_submit_save_ok'));
 			$this->SetParam(0,null);
 		} else {
@@ -284,7 +280,7 @@ class ActionPage extends Action {
 		/**
 		 * Проверяем страницу в которую хотим вложить
 		 */
-		if (getRequest('page_pid')!=0 and !($oPageParent=$this->Page_GetPageById(getRequest('page_pid')))) {
+		if (getRequest('page_pid')!=0 and !($oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid')))) {
 			$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}		

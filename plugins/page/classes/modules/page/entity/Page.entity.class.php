@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PageEntity_Page extends Entity 
+class PluginPage_PageEntity_Page extends Entity 
 {    
     public function getId() {
         return $this->_aData['page_id'];
@@ -91,6 +91,5 @@ class PageEntity_Page extends Entity
     public function setActive($data) {
         $this->_aData['page_active']=$data;
     }
-      
 }
 ?>

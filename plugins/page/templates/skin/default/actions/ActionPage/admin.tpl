@@ -7,10 +7,10 @@
 <br>	
 {if $aParams.0=='new'}
 	<h4>{$aLang.page_create}</h4>
-	{include file='actions/ActionPage/add.tpl'}
+	{include file="$sTemplatePathPlugin/actions/ActionPage/add.tpl"}
 {elseif $aParams.0=='edit'}
 	<h4>{$aLang.page_edit} «{$oPageEdit->getTitle()}»</h4>
-	{include file='actions/ActionPage/add.tpl'}
+	{include file="$sTemplatePathPlugin/actions/ActionPage/add.tpl"}
 {else}
 	<a href="{router page='page'}admin/new/">{$aLang.page_new}</a>
 {/if}

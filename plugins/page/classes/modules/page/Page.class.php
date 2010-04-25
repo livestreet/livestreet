@@ -22,7 +22,7 @@ require_once('mapper/Page.mapper.class.php');
  * Модуль статических страниц
  *
  */
-class LsPage extends Module {		
+class PluginPage_Page extends Module {		
 	protected $oMapper;
 	protected $aRebuildIds=array();
 		
@@ -31,7 +31,7 @@ class LsPage extends Module {
 	 *
 	 */
 	public function Init() {		
-		$this->oMapper=new Mapper_Page($this->Database_GetConnect());
+		$this->oMapper=new PluginPage_Mapper_Page($this->Database_GetConnect());
 	}
 	/**
 	 * Добавляет страницу
@@ -39,7 +39,7 @@ class LsPage extends Module {
 	 * @param PageEntity_Page $oPage
 	 * @return unknown
 	 */
-	public function AddPage(PageEntity_Page $oPage) {
+	public function AddPage(PluginPage_PageEntity_Page $oPage) {
 		if ($sId=$this->oMapper->AddPage($oPage)) {			
 			$oPage->setId($sId);
 			//чистим зависимые кеши
@@ -54,7 +54,7 @@ class LsPage extends Module {
 	 * @param PageEntity_Page $oPage
 	 * @return unknown
 	 */
-	public function UpdatePage(PageEntity_Page $oPage) {
+	public function UpdatePage(PluginPage_PageEntity_Page $oPage) {
 		if ($this->oMapper->UpdatePage($oPage)) {
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));
@@ -118,7 +118,7 @@ class LsPage extends Module {
 			$aTemp=$aPage;
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
-			$aResultPages[]=Engine::GetEntity('Page',$aTemp);			
+			$aResultPages[]=Engine::GetEntity('PluginPage_Page',$aTemp);			
 			if (isset($aPage['childNodes']) and count($aPage['childNodes'])>0) {
 				$iLevel++;
 				$this->BuildPagesRecursive($aPage['childNodes'],false);
