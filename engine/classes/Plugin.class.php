@@ -76,21 +76,8 @@ abstract class Plugin extends Object {
 						/**
 						 * Если не указан параметр FROM, копируем значение всего ITEM
 						 */
-						if(!$aDelegate->from) $aDelegate->from=$aDelegate;
-						/**
-						 * Если не указан делегат TO, считаем, что делегатом является 
-						 * одноименный объект текущего плагина
-						 */
-						if ($sObjectName=='template') {							
-							if(!$aDelegate->to) {
-								$aDelegate->to = $this->GetTemplatePath(get_class($this)).$aDelegate->from;
-							} else {
-								$aDelegate->to=preg_replace("/^_/",$this->GetTemplatePath(get_class($this)),$aDelegate->to);
-							}							
-						} else {
-							if(!$aDelegate->to) $aDelegate->to = get_class($this).'_'.$aDelegate->from;
-						}
-						$this->Plugin_Delegate($sObjectName,$aDelegate->from,$aDelegate->to,get_class($this));
+						if(!$aDelegate->from) $aDelegate->from=$aDelegate;						
+						$this->DelegateWrapper($sObjectName,$aDelegate->from,$aDelegate->to);						
 					}
 				}
 			}
@@ -100,11 +87,33 @@ abstract class Plugin extends Object {
 			foreach ($this->aDelegates as $sObjectName=>$aParams) {
 				if(is_array($aParams) and count($aParams)) {
 					foreach ($aParams as $sFrom=>$sTo) {
-						$this->Plugin_Delegate($sObjectName,$sFrom,$sTo,get_class($this));
+						if (is_int($sFrom)) {
+							$sFrom=$sTo;
+							$sTo=null;
+						}
+						$this->DelegateWrapper($sObjectName,$sFrom,$sTo);						
 					}
 				}
 			}
 		}
+	}
+	
+	
+	public function DelegateWrapper($sObjectName,$sFrom,$sTo=null) {
+		/**
+		 * Если не указан делегат TO, считаем, что делегатом является 
+		 * одноименный объект текущего плагина
+		 */
+		if ($sObjectName=='template') {
+			if(!$sTo) {
+				$sTo = $this->GetTemplatePath(get_class($this)).$sFrom;
+			} else {
+				$sTo=preg_replace("/^_/",$this->GetTemplatePath(get_class($this)),$sTo);
+			}
+		} else {
+			if(!$sTo) $sTo = get_class($this).'_'.$sFrom;
+		}
+		$this->Plugin_Delegate($sObjectName,$sFrom,$sTo,get_class($this));
 	}
 	
 	/**
