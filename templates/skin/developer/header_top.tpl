@@ -14,8 +14,8 @@
 			<p><label for="remember" class="checkbox-label"><input type="checkbox" name="remember" class="checkbox" checked />{$aLang.user_login_remember}</label></p>
 			<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" /><br /><br />
 			
-			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_LOGIN}/reminder/">{$aLang.user_password_reminder}</a><br />
-			<a href="{$DIR_WEB_ROOT}/{$ROUTE_PAGE_REGISTRATION}/">{$aLang.user_registration}</a>
+			<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a><br />
+			<a href="{router page='registration'}">{$aLang.user_registration}</a>
 		</form>
 	</div>
 {/if}
