@@ -973,6 +973,10 @@ class Install {
 	    
 	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
 	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
+	    	// пытаемся создать файл локального конфига
+	    	@copy($this->sConfigDir.'/config.local.php.dist',$sLocalConfigPath);
+	    }
+	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
 			$bOk = false;
 			$this->Assign('validate_local_config', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
@@ -1428,12 +1432,12 @@ class Install {
 		$bOk = true;
 		$aErrors = array();
 		
-		if(!$sLogin=$this->GetRequest('install_admin_login',false) or strlen($sLogin)<3) {
+		if(!$sLogin=$this->GetRequest('install_admin_login',false) or !preg_match("/^[\da-z\_\-]{3,30}$/i",$sLogin)) {
 			$bOk = false;
 			$aErrors[] = $this->Lang('admin_login_invalid');
 		}
 
-		if(!$sMail=$this->GetRequest('install_admin_mail',false) or strlen($sMail)<5) {
+		if(!$sMail=$this->GetRequest('install_admin_mail',false) or !preg_match("/^[\da-z\_\-\.\+]+@[\da-z_\-\.]+\.[a-z]{2,5}$/i",$sMail)) {
 			$bOk = false;
 			$aErrors[] = $this->Lang('admin_mail_invalid');
 		}
