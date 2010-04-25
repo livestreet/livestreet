@@ -79,15 +79,8 @@ class Router extends Object {
 	 */
 	protected function ParseUrl() {
 		$sReq = $this->GetRequestUri();
-		self::$sPathWebCurrent = Config::Get('path.root.web')."/".$sReq;
-			
-		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
-		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
-			array_shift($aRequestUrl);
-		}	
-		if (isset($aRequestUrl[0]) and @substr($aRequestUrl[0],0,1)=='?') {
-			$aRequestUrl=array();
-		}	
+		$aRequestUrl=$this->GetRequestArray($sReq);
+		
 		self::$sAction=array_shift($aRequestUrl);
 		self::$sActionEvent=array_shift($aRequestUrl);
 		self::$aParams=$aRequestUrl;
@@ -104,6 +97,11 @@ class Router extends Object {
 		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
 
 		/**
+		 * Формируем $sPathWebCurrent ДО применения реврайтов
+		 */		
+		self::$sPathWebCurrent=Config::Get('path.root.web')."/".join('/',$this->GetRequestArray($sReq));
+		
+		/**
 		 * Правила Rewrite для REQUEST_URI
 		 */
 		if($aRewrite=Config::Get('router.uri')) {
@@ -111,8 +109,23 @@ class Router extends Object {
 		}
 		
 		return $sReq;
+	}	
+	/**
+	 * Возвращает массив реквеста
+	 *
+	 * @param unknown_type $sReq
+	 * @return unknown
+	 */
+	protected function GetRequestArray($sReq) {
+		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);		
+		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
+			array_shift($aRequestUrl);
+		}	
+		if (isset($aRequestUrl[0]) and @substr($aRequestUrl[0],0,1)=='?') {
+			$aRequestUrl=array();
+		}
+		return $aRequestUrl;
 	}
-	
 	/**
 	 * Выполняет загрузку конфигов роутинга
 	 *
