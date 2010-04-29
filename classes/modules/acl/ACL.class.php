@@ -371,7 +371,7 @@ class LsACL extends Module {
 		/**
 		 * Разрешаем удалять администраторам блога и автору, но только пустой
 		 */
-		if($oBlog->getOwenerId()==$oUser->getId()) {
+		if($oBlog->getOwnerId()==$oUser->getId()) {
 			return self::CAN_DELETE_BLOG_EMPTY_ONLY;
 		}
 		

@@ -187,6 +187,20 @@ abstract class Plugin extends Object {
 	}
 	
 	/**
+	 * Возвращает полный путь до плагина
+	 *
+	 * @param unknown_type $sName
+	 * @return unknown
+	 */
+	static public function GetPath($sName) {
+		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
+			? strtolower($aMatches[1])
+			: strtolower($sName);
+			
+		return Config::Get('path.root.server').'/plugins/'.$sName.'/';
+	}
+	
+	/**
 	 * Возвращает правильный путь к директории шаблонов
 	 *
 	 * @return string
