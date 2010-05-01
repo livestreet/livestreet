@@ -647,7 +647,7 @@ class LsNotify extends Module {
 		/**
 		 * Формируем шаблон
 		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.blog_invite_new.tpl',$sPluginName));
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath($sTemplate,$sPluginName));
 		/**
 		 * Если в конфигураторе указан отложенный метод отправки, 
 		 * то добавляем задание в массив. В противном случае,
