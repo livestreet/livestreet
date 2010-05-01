@@ -19,7 +19,7 @@
 			<li {if $sMenuSubItemSelect=='published'}class="active"{/if}>
 				<a href="{router page='topic'}published/">{$aLang.topic_menu_published}</a>			
 			</li>		
-								
+			{hook run='menu_topic_action'}
 		</ul>
 		
 		

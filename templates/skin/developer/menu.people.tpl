@@ -6,4 +6,5 @@
 			<li {if $sEvent=='new'}class="active"{/if}><a href="{router page='people'}new/">{$aLang.people_menu_users_new}</a></li>
 		</ul>
 	</li>
+	{hook run='menu_people'}
 </ul>

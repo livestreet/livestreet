@@ -13,7 +13,8 @@
 	<li {if $sMenuItemSelect=='invite'}class="active"{/if}>
 		<a href="{router page='settings'}invite/">{$aLang.settings_menu_invite}</a>
 	</li>
-	{/if}				
+	{/if}
+	{hook run='menu_settings'}
 </ul>
 		
 		

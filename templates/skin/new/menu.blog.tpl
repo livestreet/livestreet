@@ -42,7 +42,7 @@
 					</ul>
 				{/if}
 			</li>
-								
+			{hook run='menu_blog'}
 		</ul>
 		
 		

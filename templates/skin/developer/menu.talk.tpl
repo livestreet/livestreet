@@ -6,4 +6,5 @@
 			<li {if $sEvent=='favourites'}class="active"{/if}><a href="{router page='talk'}favourites/">{$aLang.talk_menu_inbox_favourites}</a>{if $iCountTalkFavourite} ({$iCountTalkFavourite}){/if}</li>
 		</ul>
 	</li>
+	{hook run='menu_talk'}
 </ul>

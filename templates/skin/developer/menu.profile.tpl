@@ -19,5 +19,6 @@
 				<li {if $aParams[0]=='comment'}class="active"{/if}><a href="{router page='my'}{$oUserProfile->getLogin()}/comment/">{$aLang.user_menu_publication_comment}</a>{if $iCountCommentUser}({$iCountCommentUser}){/if}</li>
 			</ul>
 		{/if}
-	</li>			
+	</li>
+	{hook run='menu_profile'}
 </ul>

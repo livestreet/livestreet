@@ -6,4 +6,5 @@
 					<li {if $sMenuItemSelect=='admin'}class="active"{/if}><div><a href="{router page='blog'}admin/{$oBlogEdit->getId()}/">{$aLang.blog_admin_users}</a></div></li>
 				</ul>
 			</li>
+			{hook run='menu_blog_edit'}
 		</ul>

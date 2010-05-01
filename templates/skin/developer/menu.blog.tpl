@@ -40,7 +40,8 @@
 				<li {if $sMenuSubItemSelect=='comment'}class="active"{/if}><a href="{router page='top'}comment/">{$aLang.blog_menu_top_comment}</a></li>
 			</ul>
 		{/if}
-	</li>					
+	</li>
+	{hook run='menu_blog'}
 </ul>
 		
 		
