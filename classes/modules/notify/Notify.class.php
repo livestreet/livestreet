@@ -622,6 +622,68 @@ class LsNotify extends Module {
 	}
 	
 	/**
+	 * Универсальный метод отправки уведомлений на email
+	 *
+	 * @param UserEntity_User | string $oUserTo - кому отправляем (пользователь или email)
+	 * @param unknown_type $sTemplate - шаблон для отправки
+	 * @param unknown_type $sSubject - тема письма
+	 * @param unknown_type $aAssign - ассоциативный массив для загрузки переменных в шаблон письма
+	 * @param unknown_type $sPluginName - плагин из которого происходит отправка
+	 */
+	public function Send($oUserTo,$sTemplate,$sSubject,$aAssign=array(),$sPluginName=null) {		
+		if ($oUserTo instanceof UserEntity_User) {
+			$sMail=$oUserTo->getMail();
+			$sName=$oUserTo->getLogin();
+		} else {
+			$sMail=$oUserTo;
+			$sName='';
+		}
+		/**
+		 * Передаём в шаблон переменные
+		 */
+		foreach ($aAssign as $k=>$v) {
+			$this->oViewerLocal->Assign($k,$v);
+		}				
+		/**
+		 * Формируем шаблон
+		 */
+		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.blog_invite_new.tpl',$sPluginName));
+		/**
+		 * Если в конфигураторе указан отложенный метод отправки, 
+		 * то добавляем задание в массив. В противном случае,
+		 * сразу отсылаем на email
+		 */
+		if(Config::Get('module.notify.delayed')) {
+			$oNotifyTask=Engine::GetEntity(
+				'Notify_Task', 
+				array(
+					'user_mail'      => $sMail,
+					'user_login'     => $sName,
+					'notify_text'    => $sBody,
+					'notify_subject' => $sSubject,
+					'date_created'   => date("Y-m-d H:i:s"),
+					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
+				)
+			);
+			if(Config::Get('module.notify.insert_single')) {
+				$this->aTask[] = $oNotifyTask;
+			} else {
+				$this->oMapper->AddTask($oNotifyTask);
+			}
+		} else {	
+			/**
+			 * Отправляем мыло
+			 */
+			$this->Mail_SetAdress($sMail,$sName);
+			$this->Mail_SetSubject($sSubject);
+			$this->Mail_SetBody($sBody);
+			$this->Mail_setHTML();
+			$this->Mail_Send();
+		}
+	}
+	
+	
+	/**
 	 * При завершении работы модуля проверяем наличие 
 	 * отложенных заданий в массиве и при необходимости
 	 * передаем их в меппер
@@ -680,18 +742,31 @@ class LsNotify extends Module {
 	 * Возвращает путь к шаблону по переданному имени
 	 *
 	 * @param  string $sName
+	 * @param  string $sPluginName
 	 * @return string
 	 */
-	public function GetTemplatePath($sName) {
-		$sLangDir = 'notify/'.$this->Lang_GetLang();
-		/**
-		 * Если директория с сообщениями на текущем языке отсутствует,
-		 * используем язык по умолчанию
-		 */
-		if(is_dir(rtrim(Config::Get('path.static.skin'),'/').'/'.$sLangDir)) { 
-			return $sLangDir.'/'.$sName;
+	public function GetTemplatePath($sName,$sPluginName=null) {		
+		if ($sPluginName) {
+			$sPluginName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sPluginName,$aMatches)
+			? strtolower($aMatches[1])
+			: strtolower($sPluginName);
+			
+			$sLangDir=Plugin::GetTemplatePath($sPluginName).'notify/'.$this->Lang_GetLang();
+			if(is_dir($sLangDir)) {
+				return $sLangDir.'/'.$sName;
+			}
+			return Plugin::GetTemplatePath($sPluginName).'notify/'.$this->Lang_GetLangDefault().'/'.$sName;
+		} else {
+			$sLangDir = 'notify/'.$this->Lang_GetLang();
+			/**
+		 	* Если директория с сообщениями на текущем языке отсутствует,
+		 	* используем язык по умолчанию
+		 	*/
+			if(is_dir(rtrim(Config::Get('path.static.skin'),'/').'/'.$sLangDir)) {
+				return $sLangDir.'/'.$sName;
+			}
+			return 'notify/'.$this->Lang_GetLangDefault().'/'.$sName;
 		}
-		return 'notify/'.$this->Lang_GetLangDefault().'/'.$sName;
 	}
 }
 ?>
