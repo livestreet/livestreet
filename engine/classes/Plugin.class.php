@@ -206,7 +206,7 @@ abstract class Plugin extends Object {
 	 * @return string
 	 */
 	static public function GetTemplatePath($sName) {	
-		$sName = preg_match('/^Plugin([\w]+)$/i',$sName,$aMatches)
+		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
 			? strtolower($aMatches[1])
 			: strtolower($sName);
 		if(!isset(self::$aTemplatePath[$sName])) {	
@@ -228,7 +228,7 @@ abstract class Plugin extends Object {
 	 * @return string
 	 */
 	static public function GetTemplateWebPath($sName) {
-		$sName = preg_match('/^Plugin([\w]+)$/i',$sName,$aMatches)
+		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
 			? strtolower($aMatches[1])
 			: strtolower($sName);
 		if(!isset(self::$aTemplateWebPath[$sName])) {	
