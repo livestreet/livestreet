@@ -251,7 +251,7 @@ function func_rmdir($sPath) {
 	
 	if ($aFiles = glob($sPath.'*', GLOB_MARK)) {
 		foreach($aFiles as $sFile ) {
-			if(substr($sFile, -1) == '/') {
+			if (is_dir($sFile)) {
 				func_rmdir($sFile);
 			} else {
 				@unlink($sFile);

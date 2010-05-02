@@ -55,7 +55,7 @@ class ActionAdmin extends Action {
 		if (isPost('submit_plugins_del')) {
 			$this->Security_ValidateSendForm();
 			
-			$aPluginsDelete=getRequest('plugins_del');
+			$aPluginsDelete=getRequest('plugin_del');
 			if (is_array($aPluginsDelete)) {
 				$this->Plugin_Delete(array_keys($aPluginsDelete));
 			}
