@@ -6430,6 +6430,7 @@ StickyWin.Modal = new Class({
 		maskOptions: {
 			style: {
 				'background-color':'#333',
+				'position':'fixed !important',
 				opacity:0.8
 			}
 		},
