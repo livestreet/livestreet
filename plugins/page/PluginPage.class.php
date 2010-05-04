@@ -22,6 +22,12 @@ class PluginPage extends Plugin {
 	 * Создание таблицы в базе данных при ее отсутствии.
 	 */
 	public function Activate() {		
+		if (!$this->isTableExists('prefix_page')) {
+			/**
+			 * При активации выполняем SQL дамп
+			 */
+			$this->ExportSQL(dirname(__FILE__).'/dump.sql');
+		}
 		return true;
 	}
 	
