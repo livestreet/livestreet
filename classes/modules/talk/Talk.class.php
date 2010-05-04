@@ -193,6 +193,9 @@ class LsTalk extends Module {
 	 * @param unknown_type $aTalkId
 	 */
 	public function GetTalksByArrayId($aTalkId) {
+		if (Config::Get('sys.cache.solid')) {
+			return $this->GetTalksByArrayIdSolid($aTalkId);
+		}
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
 		}
@@ -244,6 +247,23 @@ class LsTalk extends Module {
 		 */
 		$aTalks=func_array_sort_by_keys($aTalks,$aTalkId);
 		return $aTalks;		
+	}
+	public function GetTalksByArrayIdSolid($aTalkId) {
+		if (!is_array($aTalkId)) {
+			$aTalkId=array($aTalkId);
+		}
+		$aTalkId=array_unique($aTalkId);
+		$aTalks=array();
+		$s=join(',',$aTalkId);
+		if (false === ($data = $this->Cache_Get("talk_id_{$s}"))) {
+			$data = $this->oMapper->GetTalksByArrayId($aTalkId);
+			foreach ($data as $oTalk) {
+				$aTalks[$oTalk->getId()]=$oTalk;
+			}
+			$this->Cache_Set($aTalks, "talk_id_{$s}", array("update_talk_user","talk_new"), 60*60*24*1);
+			return $aTalks;
+		}
+		return $data;
 	}
 	/**
 	 * Получить список отношений разговор-юзер по списку айдишников
