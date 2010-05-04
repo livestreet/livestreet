@@ -1,5 +1,7 @@
 <div id="nav">	
-	{if $menu} {include file=menu.$menu.tpl} {/if}
+	{if $menu}
+		{if in_array($menu,$aMenuContainers)}{$aMenuFetch.$menu}{else}{include file=menu.$menu.tpl}{/if}
+	{/if}
 
 	<div class="search">
 		<form action="{router page='search'}topics/" method="post">
