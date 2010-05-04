@@ -266,7 +266,11 @@ class LsViewer extends Module {
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
 		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
-				
+		/**
+		 * Загружаем список активных плагинов
+		 */
+		$aPlugins=$this->oEngine->GetPlugins();
+		$this->Assign("aPluginActive",array_fill_keys(array_keys($aPlugins),true));		
 	}
 	
 	/**

@@ -318,6 +318,15 @@ class Engine extends Object {
 	}
 	
 	/**
+	 * Возвращает список активных плагинов
+	 *
+	 * @return unknown
+	 */
+	public function GetPlugins() {
+		return $this->aPlugins;
+	}
+	
+	/**
 	 * Проверяет файл на существование, если используется кеширование memcache то кеширует результат работы
 	 *
 	 * @param  string $sFile
