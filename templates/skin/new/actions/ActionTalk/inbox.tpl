@@ -9,7 +9,7 @@
 					<thead>
 						<tr>
 							<td width="20px"><input type="checkbox" name="" onclick="checkAllTalk(this);"></td>
-							<td class="user">{$aLang.talk_inbox_target}</td>
+							<td class="user" width="200px">{$aLang.talk_inbox_target}</td>
 							<td></td>
 							<td>{$aLang.talk_inbox_title}</td>
 							<td>{$aLang.talk_inbox_date}</td>
