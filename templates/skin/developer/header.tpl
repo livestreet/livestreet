@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
 
 <head>
+	{hook run='html_head_begin'}
 	<title>{$sHtmlTitle}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<meta name="DESCRIPTION" content="{$sHtmlDescription}" />
