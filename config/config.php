@@ -304,7 +304,7 @@ $config['block']['rule_index_blog'] = array(
 		'___path.root.web___/blog/*\.html$',
 	),
 	'action'  => array(
-			'index' => array('index',''), 'new'
+			'index', 'new'
 		),
 	'blocks'  => array(
 			'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
