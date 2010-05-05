@@ -212,7 +212,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		/**
 		 * Заполняем свойства
 		 */
-		$oPage=Engine::GetEntity('Page');
+		$oPage=Engine::GetEntity('PluginPage_Page');
 		$oPage->setActive(getRequest('page_active') ? 1 : 0);
 		$oPage->setDateAdd(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {
