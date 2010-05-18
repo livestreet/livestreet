@@ -207,7 +207,7 @@ class LsText extends Module {
 		$sTextNew   = $sText;
 		$sTextCut   = null;
 		
-		$sTextTemp=str_replace("\r\n",'[<rn>]',getRequest('topic_text'));
+		$sTextTemp=str_replace("\r\n",'[<rn>]',$sText);
 		$sTextTemp=str_replace("\n",'[<n>]',$sTextTemp);
 		
 		if (preg_match("/^(.*)<cut(.*)>(.*)$/Ui",$sTextTemp,$aMatch)) {			
@@ -215,8 +215,8 @@ class LsText extends Module {
 			$aMatch[1]=str_replace('[<n>]',"\r\n",$aMatch[1]);
 			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
 			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
-			$sTextShort=$this->Parser($aMatch[1]);
-			$sTextNew=$this->Parser($aMatch[1].' '.$aMatch[3]);							
+			$sTextShort=$aMatch[1];
+			$sTextNew=$aMatch[1].' '.$aMatch[3];
 			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$sTextCut=trim($aMatchCut[1]);
 			}				
