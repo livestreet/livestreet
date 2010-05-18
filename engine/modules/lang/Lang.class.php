@@ -89,9 +89,7 @@ class LsLang extends Module {
 	protected function LoadLangFiles($sLangName) {
 		$sLangFilePath = $this->sLangPath.'/'.$sLangName.'.php'; 
 		if(file_exists($sLangFilePath)) {
-			$this->aLangMsg = (count($this->aLangMsg)==0)
-				? include($sLangFilePath)
-				: array_merge($this->aLangMsg,include($sLangFilePath));				
+			$this->AddMessages(include($sLangFilePath));							
 		}
 		/**
 		 * Ищет языковые файлы модулей и объединяет их с текущим
@@ -102,8 +100,7 @@ class LsLang extends Module {
 				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
 					$sFileConfig=$sDirConfig.$sDirModule.'/'.$sLangName.'.php';
 					if (file_exists($sFileConfig)) {
-						$aLangModule=include($sFileConfig);						
-						$this->aLangMsg=array_merge($this->aLangMsg,$aLangModule);
+						$this->AddMessages(include($sFileConfig));
 					}					
 				}
 			}
@@ -122,8 +119,7 @@ class LsLang extends Module {
 				if($aFiles and count($aFiles)) {
 						foreach ($aFiles as $sFile) {
 							if (file_exists($sFile)) {
-								$aLangModule=include($sFile);						
-								$this->aLangMsg=array_merge($this->aLangMsg,$aLangModule);
+								$this->AddMessages(include($sFile));
 							}
 					}
 				}
@@ -189,6 +185,31 @@ class LsLang extends Module {
 			return $sTranslate;
 		}
 		return 'NOT_FOUND_LANG_TEXT';
+	}
+	
+	/**
+     * Добавить к текстовкам массив сообщений
+     *
+     * @param array $aMessages     
+     */
+	public function AddMessages($aMessages) {
+		if (is_array($aMessages)) {
+			if (count($this->aLangMsg)==0) {
+				$this->aLangMsg = $aMessages;
+			} else {
+				$this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
+			}
+		}
+	}
+
+	/**
+     * Добавить к текстовкам отдельное сообщение
+     *
+     * @param string $sKey
+     * @param string $sMessage     
+     */
+	public function AddMessage($sKey, $sMessage) {
+		$this->aLangMsg[$sKey] = $sMessage;
 	}
 	
 	/**
