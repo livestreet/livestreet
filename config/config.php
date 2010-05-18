@@ -300,6 +300,7 @@ $config['block']['rule_index_blog'] = array(
 	'path' => array( 
 		'___path.root.web___/blog$',
 		'___path.root.web___/blog/*$',
+		'___path.root.web___/blog/*/page\d+$',
 		'___path.root.web___/blog/*/*\.html$',
 		'___path.root.web___/blog/*\.html$',
 	),
