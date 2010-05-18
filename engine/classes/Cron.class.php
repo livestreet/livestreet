@@ -40,6 +40,10 @@ class Cron extends Object {
 	
 	public function __construct($sLockFile=null) {
 		$this->oEngine=Engine::getInstance();
+		/**
+		 * Инициализируем ядро
+		 */
+		$this->oEngine->Init();
 
 		if(!empty($sLockFile)) {
 			$this->oLockFile=fopen($sLockFile,'a');
