@@ -26,6 +26,8 @@ class ActionPeople extends Action {
 	 * @var unknown_type
 	 */
 	protected $sMenuHeadItemSelect='people';
+	
+	protected $sMenuItemSelect='people';
 		
 	/**
 	 * Инициализация
@@ -240,6 +242,7 @@ class ActionPeople extends Action {
 		 * Загружаем в шаблон необходимые переменные
 		 */
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
+		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 	}
 }
 ?>
