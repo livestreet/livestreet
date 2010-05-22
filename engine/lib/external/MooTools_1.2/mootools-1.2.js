@@ -6430,7 +6430,6 @@ StickyWin.Modal = new Class({
 		maskOptions: {
 			style: {
 				'background-color':'#333',
-				'position':'fixed !important',
 				opacity:0.8
 			}
 		},
@@ -6440,6 +6439,9 @@ StickyWin.Modal = new Class({
 
 	initialize: function(options) {
 		this.options.maskTarget = this.options.maskTarget || document.body;
+		if (!Browser.Engine.trident) {
+			this.options.maskOptions.style.position='fixed !important';
+		}
 		this.setOptions(options);
 		this.mask = new Mask(this.options.maskTarget, this.options.maskOptions).addEvent('click', function() {
 			if (this.options.hideOnClick) this.hide();
