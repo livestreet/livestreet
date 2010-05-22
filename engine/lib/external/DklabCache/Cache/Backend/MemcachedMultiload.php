@@ -9,7 +9,7 @@
  *
  * $Id$
  */
-require_once "Zend/Cache/Backend/Memcached.php";
+require_once LS_DKCACHE_PATH."Zend/Cache/Backend/Memcached.php";
  
 class Dklab_Cache_Backend_MemcachedMultiload extends Zend_Cache_Backend_Memcached
 {

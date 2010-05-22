@@ -21,7 +21,7 @@
 /**
  * @see Zend_Exception
  */
-require_once 'Zend/Exception.php';
+require_once LS_DKCACHE_PATH.'Zend/Exception.php';
 
 /**
  * @package    Zend_Cache

@@ -16,10 +16,10 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/DklabCache/config.php');
-require_once('Zend/Cache.php');
-require_once('Cache/Backend/MemcachedMultiload.php');
-require_once('Cache/Backend/TagEmuWrapper.php');
-require_once('Cache/Backend/Profiler.php');
+require_once(LS_DKCACHE_PATH.'Zend/Cache.php');
+require_once(LS_DKCACHE_PATH.'Cache/Backend/MemcachedMultiload.php');
+require_once(LS_DKCACHE_PATH.'Cache/Backend/TagEmuWrapper.php');
+require_once(LS_DKCACHE_PATH.'Cache/Backend/Profiler.php');
 
 /**
  * Типы кеширования: file и memory
@@ -63,7 +63,7 @@ class LsCache extends Module {
 			return false;
 		}
 		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {
-			require_once('Zend/Cache/Backend/File.php');
+			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/File.php');
 			$oCahe = new Zend_Cache_Backend_File(
 				array(
 					'cache_dir' => Config::Get('sys.cache.dir'),
@@ -76,7 +76,7 @@ class LsCache extends Module {
 			);
 			$this->oBackendCache = new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats'));
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
-			require_once('Zend/Cache/Backend/Memcached.php');
+			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/Memcached.php');
 			$aConfigMem=Config::Get('memcache');
 			
 			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);

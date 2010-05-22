@@ -188,7 +188,7 @@ class Zend_Cache_Backend
              * @see Zend_Loader
              * @see Zend_Log
              */
-            require_once 'Zend/Loader.php';
+            require_once LS_DKCACHE_PATH.'Zend/Loader.php';
             Zend_Loader::loadClass('Zend_Log');
         } catch (Zend_Exception $e) {
             Zend_Cache::throwException('Logging feature is enabled but the Zend_Log class is not available');
