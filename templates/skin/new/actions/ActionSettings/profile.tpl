@@ -44,9 +44,9 @@ document.addEvent('domready', function() {
 				</p>
 				<p>
 					<label for="">{$aLang.settings_profile_sex}:</label><br />
-					<label for=""><input type="radio" name="profile_sex" id="profile_sex_m" value="man" {if $oUserCurrent->getProfileSex()=='man'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_man}</label><br />
-					<label for=""><input type="radio" name="profile_sex" id="profile_sex_w" value="woman" {if $oUserCurrent->getProfileSex()=='woman'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_woman}</label><br />
-					<label for=""><input type="radio" name="profile_sex" id="profile_sex_o"  value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_other}</label>
+					<label for="profile_sex_m"><input type="radio" name="profile_sex" id="profile_sex_m" value="man" {if $oUserCurrent->getProfileSex()=='man'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_man}</label><br />
+					<label for="profile_sex_w"><input type="radio" name="profile_sex" id="profile_sex_w" value="woman" {if $oUserCurrent->getProfileSex()=='woman'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_woman}</label><br />
+					<label for="profile_sex_o"><input type="radio" name="profile_sex" id="profile_sex_o"  value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="radio" />  &mdash;  {$aLang.settings_profile_sex_other}</label>
 				</p>
 				<p>
 					<label for="">{$aLang.settings_profile_birthday}:</label><br />					
