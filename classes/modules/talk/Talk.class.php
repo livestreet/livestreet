@@ -46,12 +46,12 @@ class ModuleTalk extends Module {
 	 *
 	 * @param string $sTitle
 	 * @param string $sText
-	 * @param int | UserEntity_User $oUserFrom
-	 * @param array | int | UserEntity_User $aUserTo
+	 * @param int | ModuleUser_EntityUser $oUserFrom
+	 * @param array | int | ModuleUser_EntityUser $aUserTo
 	 * @param bool $bSendNotify
 	 */
 	public function SendTalk($sTitle,$sText,$oUserFrom,$aUserTo,$bSendNotify=true,$bUseBlacklist=true) {
-		$iUserIdFrom=$oUserFrom instanceof UserEntity_User ? $oUserFrom->getId() : (int)$oUserFrom;
+		$iUserIdFrom=$oUserFrom instanceof ModuleUser_EntityUser ? $oUserFrom->getId() : (int)$oUserFrom;
 		if (!is_array($aUserTo)) {
 			$aUserTo=array($aUserTo);
 		}
@@ -61,7 +61,7 @@ class ModuleTalk extends Module {
 		}
 		
 		foreach ($aUserTo as $oUserTo) {
-			$sUserIdTo=$oUserTo instanceof UserEntity_User ? $oUserTo->getId() : (int)$oUserTo;
+			$sUserIdTo=$oUserTo instanceof ModuleUser_EntityUser ? $oUserTo->getId() : (int)$oUserTo;
 			if(!$bUseBlacklist || !in_array($sUserIdTo,$aUserInBlacklist)) {
 				$aUserIdTo[]=$sUserIdTo;
 			}
@@ -103,10 +103,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет новую тему разговора
 	 *
-	 * @param TopicEntity_Topic $oTalk
+	 * @param ModuleTopic_EntityTopic $oTalk
 	 * @return unknown
 	 */
-	public function AddTalk(TalkEntity_Talk $oTalk) {
+	public function AddTalk(ModuleTalk_EntityTalk $oTalk) {
 		if ($sId=$this->oMapper->AddTalk($oTalk)) {
 			$oTalk->setId($sId);	
 			//чистим зависимые кеши
@@ -118,9 +118,9 @@ class ModuleTalk extends Module {
 	/**
 	 * Обновление разговора
 	 *
-	 * @param TalkEntity_Talk $oTalk
+	 * @param ModuleTalk_EntityTalk $oTalk
 	 */
-	public function UpdateTalk(TalkEntity_Talk $oTalk) {
+	public function UpdateTalk(ModuleTalk_EntityTalk $oTalk) {
 		$this->Cache_Delete("talk_{$oTalk->getId()}");
 		return $this->oMapper->UpdateTalk($oTalk);
 	}
@@ -170,7 +170,7 @@ class ModuleTalk extends Module {
 			if (isset($aUsers[$oTalk->getUserId()])) {
 				$oTalk->setUser($aUsers[$oTalk->getUserId()]);
 			} else {
-				$oTalk->setUser(null); // или $oTalk->setUser(new UserEntity_User());
+				$oTalk->setUser(null); // или $oTalk->setUser(new ModuleUser_EntityUser());
 			}
 						
 			if (isset($aTalkUsers[$oTalk->getId()])) {
@@ -344,10 +344,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет юзера к разговору(теме)
 	 *
-	 * @param TalkEntity_TalkUser $oTalkUser
+	 * @param ModuleTalk_EntityTalkUser $oTalkUser
 	 * @return unknown
 	 */
-	public function AddTalkUser(TalkEntity_TalkUser $oTalkUser) {
+	public function AddTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {
 		$this->Cache_Delete("talk_{$oTalkUser->getTalkId()}");
 		$this->Cache_Clean(
 			Zend_Cache::CLEANING_MODE_MATCHING_TAG,
@@ -360,7 +360,7 @@ class ModuleTalk extends Module {
 	/**
 	 * Удаляет юзера из разговора
 	 *
-	 * @param TalkEntity_TalkUser $oTalkUser
+	 * @param ModuleTalk_EntityTalkUser $oTalkUser
 	 * @return unknown
 	 */
 	public function DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve=self::TALK_USER_DELETE_BY_SELF) {
@@ -464,10 +464,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Обновляет связку разговор-юзер
 	 *
-	 * @param TalkEntity_TalkUser $oTalkUser
+	 * @param ModuleTalk_EntityTalkUser $oTalkUser
 	 * @return unknown
 	 */
-	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {
+	public function UpdateTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("talk_read_user_{$oTalkUser->getUserId()}"));
 		$this->Cache_Delete("talk_user_{$oTalkUser->getTalkId()}_{$oTalkUser->getUserId()}");
@@ -551,7 +551,7 @@ class ModuleTalk extends Module {
 	 *
 	 * @param  string $sTalkId
 	 * @param  string $sUserId
-	 * @return FavouriteEntity_Favourite|null
+	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavouriteTalk($sTalkId,$sUserId) {
 		return $this->Favourite_GetFavourite($sTalkId,'talk',$sUserId);
@@ -618,10 +618,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет письмо в избранное
 	 *
-	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite
 	 * @return bool
 	 */
-	public function AddFavouriteTalk(FavouriteEntity_Favourite $oFavourite) {	
+	public function AddFavouriteTalk(ModuleFavourite_EntityFavourite $oFavourite) {	
 		return ($oFavourite->getTargetType()=='talk') 
 			? $this->Favourite_AddFavourite($oFavourite)
 			: false;
@@ -629,10 +629,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Удаляет письмо из избранного
 	 *
-	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite
 	 * @return bool
 	 */
-	public function DeleteFavouriteTalk(FavouriteEntity_Favourite $oFavourite) {
+	public function DeleteFavouriteTalk(ModuleFavourite_EntityFavourite $oFavourite) {
 		return ($oFavourite->getTargetType()=='talk') 
 			? $this->Favourite_DeleteFavourite($oFavourite)
 			: false;
@@ -677,7 +677,7 @@ class ModuleTalk extends Module {
 	 */
 	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {
 		foreach ((array)$aTargetId as $oUser) {
-			$aUsersId[]=$oUser instanceof UserEntity_User ? $oUser->getId() : (int)$oUser;
+			$aUsersId[]=$oUser instanceof ModuleUser_EntityUser ? $oUser->getId() : (int)$oUser;
 		}		
 		return $this->oMapper->AddUserArrayToBlacklist($aUsersId, $sUserId);
 	}

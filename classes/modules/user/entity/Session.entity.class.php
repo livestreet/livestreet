@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Session extends Entity 
+class ModuleUser_EntitySession extends Entity 
 {    
     public function getKey() {
         return $this->_aData['session_key'];

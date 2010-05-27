@@ -356,7 +356,7 @@ class ActionProfile extends Action {
 	/**
 	 * Отправляет пользователю Talk уведомление о принятии или отклонении его заявки
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @param stirng          $sAction
 	 */
 	protected function NoticeFriendOffer($oUser,$sAction) {

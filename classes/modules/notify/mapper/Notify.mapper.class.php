@@ -17,7 +17,7 @@
 
 class Mapper_Notify extends Mapper {	
 		
-	public function AddTask(NotifyEntity_Task $oNotifyTask) {
+	public function AddTask(ModuleNotify_EntityTask $oNotifyTask) {
 		$sql = "
 			INSERT INTO ".Config::Get('db.table.notify_task')." 
 				( user_login, user_mail, notify_subject, notify_text, date_created, notify_task_status )
@@ -66,7 +66,7 @@ class Mapper_Notify extends Mapper {
 		return $this->oDb->query($sql);
 	}
 		
-	public function DeleteTask(NotifyEntity_Task $oNotifyTask) {
+	public function DeleteTask(ModuleNotify_EntityTask $oNotifyTask) {
 		$sql = "
 			DELETE FROM ".Config::Get('db.table.notify_task')." 
 			WHERE

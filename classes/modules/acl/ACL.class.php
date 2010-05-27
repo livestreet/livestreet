@@ -48,7 +48,7 @@ class ModuleACL extends Module {
 	 * @param Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanCreateBlog(UserEntity_User $oUser) {
+	public function CanCreateBlog(ModuleUser_EntityUser $oUser) {
 		if ($oUser->getRating()>=Config::Get('acl.create.blog.rating')) {
 			return true;
 		}
@@ -62,7 +62,7 @@ class ModuleACL extends Module {
 	 * @param Entity_Blog $oBlog
 	 * @return bool
 	 */
-	public function CanAddTopic(UserEntity_User $oUser, BlogEntity_Blog $oBlog) {
+	public function CanAddTopic(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
 		/**
 		 * Если юзер является создателем блога то разрешаем ему постить
 		 */
@@ -84,7 +84,7 @@ class ModuleACL extends Module {
 	 * @param  Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanPostComment(UserEntity_User $oUser) {
+	public function CanPostComment(ModuleUser_EntityUser $oUser) {
 		if ($oUser->getRating()>=Config::Get('acl.create.comment.rating')) {
 			return true;
 		}
@@ -97,7 +97,7 @@ class ModuleACL extends Module {
 	 * @param Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanPostCommentTime(UserEntity_User $oUser) {
+	public function CanPostCommentTime(ModuleUser_EntityUser $oUser) {
 		if (Config::Get('acl.create.comment.limit_time')>0 and $oUser->getDateCommentLast()) {
 			$sDateCommentLast=strtotime($oUser->getDateCommentLast());
 			if ($oUser->getRating()<Config::Get('acl.create.comment.limit_time_rating') and ((time()-$sDateCommentLast)<Config::Get('acl.create.comment.limit_time'))) {
@@ -113,7 +113,7 @@ class ModuleACL extends Module {
 	 * @param  Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanPostTopicTime(UserEntity_User $oUser) {
+	public function CanPostTopicTime(ModuleUser_EntityUser $oUser) {
 		// Для администраторов ограничение по времени не действует
 		if($oUser->isAdministrator() 
 			or Config::Get('acl.create.topic.limit_time')==0 
@@ -137,7 +137,7 @@ class ModuleACL extends Module {
 	 * @param  Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanSendTalkTime(UserEntity_User $oUser) {
+	public function CanSendTalkTime(ModuleUser_EntityUser $oUser) {
 		// Для администраторов ограничение по времени не действует
 		if($oUser->isAdministrator() 
 			or Config::Get('acl.create.talk.limit_time')==0 
@@ -161,7 +161,7 @@ class ModuleACL extends Module {
 	 * @param  Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanPostTalkCommentTime(UserEntity_User $oUser) {
+	public function CanPostTalkCommentTime(ModuleUser_EntityUser $oUser) {
 		// Для администраторов ограничение по времени не действует
 		if($oUser->isAdministrator() 
 			or Config::Get('acl.create.talk_comment.limit_time')==0 
@@ -193,7 +193,7 @@ class ModuleACL extends Module {
 	 * @param Entity_User $oUser
 	 * @return bool
 	 */
-	public function CanUseHtmlInComment(UserEntity_User $oUser) {
+	public function CanUseHtmlInComment(ModuleUser_EntityUser $oUser) {
 		return true;
 	}
 	
@@ -204,7 +204,7 @@ class ModuleACL extends Module {
 	 * @param Entity_TopicComment $oComment
 	 * @return bool
 	 */
-	public function CanVoteComment(UserEntity_User $oUser, CommentEntity_Comment $oComment) {
+	public function CanVoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment) {
 		if ($oUser->getRating()>=Config::Get('acl.vote.comment.rating')) {
 			return true;
 		}
@@ -218,7 +218,7 @@ class ModuleACL extends Module {
 	 * @param Entity_Blog $oBlog
 	 * @return bool
 	 */
-	public function CanVoteBlog(UserEntity_User $oUser, BlogEntity_Blog $oBlog) {
+	public function CanVoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
 		/**
 		 * Если блог закрытый, проверяем является ли пользователь его читателем
 		 */
@@ -242,7 +242,7 @@ class ModuleACL extends Module {
 	 * @param Entity_Topic $oTopic
 	 * @return bool
 	 */
-	public function CanVoteTopic(UserEntity_User $oUser, TopicEntity_Topic $oTopic) {
+	public function CanVoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic) {
 		if ($oUser->getRating()>=Config::Get('acl.vote.topic.rating')) {
 			return true;
 		}
@@ -256,7 +256,7 @@ class ModuleACL extends Module {
 	 * @param Entity_User $oUserTarget
 	 * @return bool
 	 */
-	public function CanVoteUser(UserEntity_User $oUser, UserEntity_User $oUserTarget) {
+	public function CanVoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget) {
 		if ($oUser->getRating()>=Config::Get('acl.vote.user.rating')) {
 			return true;
 		}
@@ -265,10 +265,10 @@ class ModuleACL extends Module {
 	/**
 	 * Проверяет можно ли юзеру слать инвайты
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @return unknown
 	 */
-	public function CanSendInvite(UserEntity_User $oUser) {
+	public function CanSendInvite(ModuleUser_EntityUser $oUser) {
 		if ($this->User_GetCountInviteAvailable($oUser)==0) {
 			return false;
 		}

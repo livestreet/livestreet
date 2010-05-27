@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PluginProfiler_ProfilerEntity_Report extends Entity 
+class PluginProfiler_ModuleProfiler_EntityReport extends Entity 
 {    
     public function getId() {
         return $this->_aData['report_id'];
@@ -106,7 +106,7 @@ class PluginProfiler_ProfilerEntity_Report extends Entity
     	$this->_aData['report_time_full']=$data;
     }
     
-    public function addEntry(PluginProfiler_ProfilerEntity_Entry $data) {
+    public function addEntry(PluginProfiler_ModuleProfiler_EntityEntry $data) {
     	if(!isset($this->_aData['report_id'])) {
     		$this->setId($data->getRequestId());
     		$this->setDate($data->getDate());

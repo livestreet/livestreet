@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Country extends Entity 
+class ModuleUser_EntityCountry extends Entity 
 {    
     public function getId() {
         return $this->_aData['country_id'];

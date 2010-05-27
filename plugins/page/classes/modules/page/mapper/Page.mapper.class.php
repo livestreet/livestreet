@@ -17,7 +17,7 @@
 
 class PluginPage_Mapper_Page extends Mapper {
 	
-	public function AddPage(PluginPage_PageEntity_Page $oPage) {
+	public function AddPage(PluginPage_ModulePage_EntityPage $oPage) {
 		$sql = "INSERT INTO ".Config::Get('plugin.page.table.page')." 
 			(page_pid,
 			page_url,
@@ -38,7 +38,7 @@ class PluginPage_Mapper_Page extends Mapper {
 		return false;
 	}
 	
-	public function UpdatePage(PluginPage_PageEntity_Page $oPage) {
+	public function UpdatePage(PluginPage_ModulePage_EntityPage $oPage) {
 		$sql = "UPDATE ".Config::Get('plugin.page.table.page')." 
 			SET page_pid = ? ,
 			page_url = ? ,

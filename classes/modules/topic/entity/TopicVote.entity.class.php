@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class TopicEntity_TopicVote extends Entity 
+class ModuleTopic_EntityTopicVote extends Entity 
 {    
     public function getTopicId() {
         return $this->_aData['topic_id'];

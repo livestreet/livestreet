@@ -31,10 +31,10 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга при голосовании за комментарий
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @param CommentEntity_TopicComment $oComment
 	 */
-	public function VoteComment(UserEntity_User $oUser, CommentEntity_Comment $oComment, $iValue) {
+	public function VoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment, $iValue) {
 		/**
 		 * Устанавливаем рейтинг комментария
 		 */
@@ -73,11 +73,11 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга и силы при гоосовании за топик
 	 *
-	 * @param UserEntity_User $oUser
-	 * @param TopicEntity_Topic $oTopic
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleTopic_EntityTopic $oTopic
 	 * @param unknown_type $iValue
 	 */
-	public function VoteTopic(UserEntity_User $oUser, TopicEntity_Topic $oTopic, $iValue) {
+	public function VoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic, $iValue) {
 		$skill=$oUser->getSkill();
 		/**
 		 * Устанавливаем рейтинг топика
@@ -125,11 +125,11 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга и силы при голосовании за блог
 	 *
-	 * @param UserEntity_User $oUser
-	 * @param BlogEntity_Blog $oBlog
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleBlog_EntityBlog $oBlog
 	 * @param unknown_type $iValue
 	 */
-	public function VoteBlog(UserEntity_User $oUser, BlogEntity_Blog $oBlog, $iValue) {		
+	public function VoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog, $iValue) {		
 		/**
 		 * Устанавливаем рейтинг блога, используя логарифмическое распределение
 		 */		
@@ -160,11 +160,11 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга и силы при голосовании за пользователя
 	 *
-	 * @param UserEntity_User $oUser
-	 * @param UserEntity_User $oUserTarget
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleUser_EntityUser $oUserTarget
 	 * @param unknown_type $iValue
 	 */
-	public function VoteUser(UserEntity_User $oUser, UserEntity_User $oUserTarget, $iValue) {		
+	public function VoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget, $iValue) {		
 		/**
 		 * Начисляем силу и рейтинг юзеру, используя логарифмическое распределение
 		 */			

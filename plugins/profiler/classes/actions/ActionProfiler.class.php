@@ -23,7 +23,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 	/**
 	 * Текущий юзер
 	 *
-	 * @var UserEntity_User
+	 * @var ModuleUser_EntityUser
 	 */
 	protected $oUserCurrent=null;
 		

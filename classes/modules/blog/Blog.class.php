@@ -96,7 +96,7 @@ class ModuleBlog extends Module {
 			if (isset($aUsers[$oBlog->getOwnerId()])) {
 				$oBlog->setOwner($aUsers[$oBlog->getOwnerId()]);
 			} else {
-				$oBlog->setOwner(null); // или $oBlog->setOwner(new UserEntity_User());
+				$oBlog->setOwner(null); // или $oBlog->setOwner(new ModuleUser_EntityUser());
 			}
 			if (isset($aBlogUsers[$oBlog->getId()])) {
 				$oBlog->setUserIsJoin(true);
@@ -264,7 +264,7 @@ class ModuleBlog extends Module {
 	 * @param Entity_User $oUser
 	 * @return unknown
 	 */
-	public function CreatePersonalBlog(UserEntity_User $oUser) {
+	public function CreatePersonalBlog(ModuleUser_EntityUser $oUser) {
 		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($oUser->getId());
 		$oBlog->setTitle($this->Lang_Get('blogs_personal_title').' '.$oUser->getLogin());
@@ -279,10 +279,10 @@ class ModuleBlog extends Module {
 	/**
 	 * Добавляет блог
 	 *
-	 * @param BlogEntity_Blog $oBlog
+	 * @param ModuleBlog_EntityBlog $oBlog
 	 * @return unknown
 	 */
-	public function AddBlog(BlogEntity_Blog $oBlog) {		
+	public function AddBlog(ModuleBlog_EntityBlog $oBlog) {		
 		if ($sId=$this->oMapperBlog->AddBlog($oBlog)) {
 			$oBlog->setId($sId);
 			//чистим зависимые кеши
@@ -294,10 +294,10 @@ class ModuleBlog extends Module {
 	/**
 	 * Обновляет блог
 	 *
-	 * @param BlogEntity_Blog $oBlog
+	 * @param ModuleBlog_EntityBlog $oBlog
 	 * @return unknown
 	 */
-	public function UpdateBlog(BlogEntity_Blog $oBlog) {
+	public function UpdateBlog(ModuleBlog_EntityBlog $oBlog) {
 		$oBlog->setDateEdit(date("Y-m-d H:i:s"));
 		$res=$this->oMapperBlog->UpdateBlog($oBlog);		
 		if ($res) {			
@@ -311,10 +311,10 @@ class ModuleBlog extends Module {
 	/**
 	 * Добавляет отношение юзера к блогу, по сути присоединяет к блогу
 	 *
-	 * @param BlogEntity_BlogUser $oBlogUser
+	 * @param ModuleBlog_EntityBlogUser $oBlogUser
 	 * @return unknown
 	 */
-	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+	public function AddRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		if ($this->oMapperBlog->AddRelationBlogUser($oBlogUser)) {		
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}","blog_relation_change_blog_{$oBlogUser->getBlogId()}"));	
 			$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");	
@@ -325,10 +325,10 @@ class ModuleBlog extends Module {
 	/**
 	 * Удалет отношение юзера к блогу, по сути отключает от блога
 	 *
-	 * @param BlogEntity_BlogUser $oBlogUser
+	 * @param ModuleBlog_EntityBlogUser $oBlogUser
 	 * @return unknown
 	 */
-	public function DeleteRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+	public function DeleteRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}","blog_relation_change_blog_{$oBlogUser->getBlogId()}"));		
 			$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
@@ -564,7 +564,7 @@ class ModuleBlog extends Module {
 		}		
 		return $data;
 	}
-	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+	public function UpdateRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("blog_relation_change_{$oBlogUser->getUserId()}","blog_relation_change_blog_{$oBlogUser->getBlogId()}"));		
 		$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
 		return $this->oMapperBlog->UpdateRelationBlogUser($oBlogUser);
@@ -637,7 +637,7 @@ class ModuleBlog extends Module {
 	 * Получаем массив блогов, 
 	 * которые являются открытыми для пользователя
 	 *
-	 * @param  UserEntity_User $oUser
+	 * @param  ModuleUser_EntityUser $oUser
 	 * @return array
 	 */
 	public function GetAccessibleBlogsByUser($oUser) {
@@ -665,7 +665,7 @@ class ModuleBlog extends Module {
 	 * Получаем массив идентификаторов блогов, 
 	 * которые являются закрытыми для пользователя
 	 *
-	 * @param  UserEntity_User $oUser
+	 * @param  ModuleUser_EntityUser $oUser
 	 * @return array
 	 */	
 	public function GetInaccessibleBlogsByUser($oUser=null) {
@@ -706,7 +706,7 @@ class ModuleBlog extends Module {
 	 * @return bool
 	 */
 	public function DeleteBlog($iBlogId) {
-		if($iBlogId instanceof BlogEntity_Blog){
+		if($iBlogId instanceof ModuleBlog_EntityBlog){
 			$iBlogId = $iBlogId->getId();
 		}
 		/**
@@ -766,7 +766,7 @@ class ModuleBlog extends Module {
 	 * Make resized images
 	 *
 	 * @param  array           $aFile
-	 * @param  BlogEntity_Blog $oUser
+	 * @param  ModuleBlog_EntityBlog $oUser
 	 * @return (string|bool)
 	 */
 	public function UploadBlogAvatar($aFile,$oBlog) {
@@ -816,7 +816,7 @@ class ModuleBlog extends Module {
 	/**
 	 * Delete blog avatar from server
 	 *
-	 * @param BlogEntity_Blog $oUser
+	 * @param ModuleBlog_EntityBlog $oUser
 	 */
 	public function DeleteBlogAvatar($oBlog) {
 		/**

@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class CommentEntity_CommentVote extends Entity 
+class ModuleComment_EntityCommentVote extends Entity 
 {    
     public function getCommentId() {
         return $this->_aData['comment_id'];

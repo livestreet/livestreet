@@ -17,7 +17,7 @@
 
 class Mapper_Topic extends Mapper {	
 		
-	public function AddTopic(TopicEntity_Topic $oTopic) {
+	public function AddTopic(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic')." 
 			(blog_id,
 			user_id,
@@ -45,7 +45,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function AddTopicContent(TopicEntity_Topic $oTopic) {
+	public function AddTopicContent(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_content')." 
 			(topic_id,			
 			topic_text,
@@ -63,7 +63,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function AddTopicTag(TopicEntity_TopicTag $oTopicTag) {
+	public function AddTopicTag(ModuleTopic_EntityTopicTag $oTopicTag) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_tag')." 
 			(topic_id,
 			user_id,
@@ -353,7 +353,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function UpdateTopic(TopicEntity_Topic $oTopic) {		
+	public function UpdateTopic(ModuleTopic_EntityTopic $oTopic) {		
 		$sql = "UPDATE ".Config::Get('db.table.topic')." 
 			SET 
 				blog_id= ?d,
@@ -382,7 +382,7 @@ class Mapper_Topic extends Mapper {
 		return false;
 	}
 	
-	public function UpdateTopicContent(TopicEntity_Topic $oTopic) {		
+	public function UpdateTopicContent(ModuleTopic_EntityTopic $oTopic) {		
 		$sql = "UPDATE ".Config::Get('db.table.topic_content')." 
 			SET 				
 				topic_text= ?,
@@ -475,7 +475,7 @@ class Mapper_Topic extends Mapper {
 		return $aReturn;
 	}
 	
-	public function UpdateTopicRead(TopicEntity_TopicRead $oTopicRead) {		
+	public function UpdateTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {		
 		$sql = "UPDATE ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
@@ -489,7 +489,7 @@ class Mapper_Topic extends Mapper {
 		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}	
 
-	public function AddTopicRead(TopicEntity_TopicRead $oTopicRead) {		
+	public function AddTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {		
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
@@ -541,7 +541,7 @@ class Mapper_Topic extends Mapper {
 		return $aReads;
 	}
 	
-	public function AddTopicQuestionVote(TopicEntity_TopicQuestionVote $oTopicQuestionVote) {
+	public function AddTopicQuestionVote(ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_question_vote')." 
 			(topic_id,
 			user_voter_id,

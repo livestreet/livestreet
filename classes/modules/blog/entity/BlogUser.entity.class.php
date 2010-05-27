@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class BlogEntity_BlogUser extends Entity 
+class ModuleBlog_EntityBlogUser extends Entity 
 {    
     public function getBlogId() {
         return $this->_aData['blog_id'];

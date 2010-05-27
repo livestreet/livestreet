@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class TalkEntity_TalkUser extends Entity 
+class ModuleTalk_EntityTalkUser extends Entity 
 {    
     public function getTalkId() {
         return $this->_aData['talk_id'];

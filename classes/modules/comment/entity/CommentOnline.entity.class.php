@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class CommentEntity_CommentOnline extends Entity 
+class ModuleComment_EntityCommentOnline extends Entity 
 {          
     public function getTargetId() {
         return $this->_aData['target_id'];

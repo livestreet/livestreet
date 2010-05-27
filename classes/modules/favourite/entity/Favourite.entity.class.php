@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class FavouriteEntity_Favourite extends Entity 
+class ModuleFavourite_EntityFavourite extends Entity 
 {   
     public function getTargetId() {
         return $this->_aData['target_id'];

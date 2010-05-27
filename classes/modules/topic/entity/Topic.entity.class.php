@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class TopicEntity_Topic extends Entity 
+class ModuleTopic_EntityTopic extends Entity 
 {    
 	/**
 	 * массив объектов(не всегда) для дополнительных типов топиков(линки, опросы, подкасты и т.п.)

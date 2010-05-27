@@ -1137,8 +1137,8 @@ class ActionBlog extends Action {
 	 * Выполняет отправку приглашения в блог 
 	 * (по внутренней почте и на email)
 	 *
-	 * @param BlogEntity_Blog $oBlog
-	 * @param UserEntity_User $oUser
+	 * @param ModuleBlog_EntityBlog $oBlog
+	 * @param ModuleUser_EntityUser $oUser
 	 */
 	protected function SendBlogInvite($oBlog,$oUser) {
 		$sTitle=$this->Lang_Get(

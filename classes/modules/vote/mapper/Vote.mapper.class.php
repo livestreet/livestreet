@@ -18,7 +18,7 @@
 class Mapper_Vote extends Mapper {	
 		
 	
-	public function AddVote(VoteEntity_Vote $oVote) {
+	public function AddVote(ModuleVote_EntityVote $oVote) {
 		$sql = "INSERT INTO ".Config::Get('db.table.vote')." 
 			(target_id,
 			target_type,

@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class TopicEntity_TopicTag extends Entity 
+class ModuleTopic_EntityTopicTag extends Entity 
 {    
     public function getId() {
         return $this->_aData['topic_tag_id'];

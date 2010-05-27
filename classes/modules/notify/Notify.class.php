@@ -62,12 +62,12 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет юзеру уведомление о новом комментарии в его топике
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param TopicEntity_Topic $oTopic
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleTopic_EntityTopic $oTopic
 	 * @param CommentEntity_TopicComment $oComment
-	 * @param UserEntity_User $oUserComment
+	 * @param ModuleUser_EntityUser $oUserComment
 	 */
-	public function SendCommentNewToAuthorTopic(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_Comment $oComment, UserEntity_User $oUserComment) {
+	public function SendCommentNewToAuthorTopic(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleComment_EntityComment $oComment, ModuleUser_EntityUser $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -123,12 +123,12 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет юзеру уведомление об ответе на его комментарий
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param TopicEntity_Topic $oTopic
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleTopic_EntityTopic $oTopic
 	 * @param CommentEntity_TopicComment $oComment
-	 * @param UserEntity_User $oUserComment
+	 * @param ModuleUser_EntityUser $oUserComment
 	 */
-	public function SendCommentReplyToAuthorParentComment(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, CommentEntity_Comment $oComment, UserEntity_User $oUserComment) {
+	public function SendCommentReplyToAuthorParentComment(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleComment_EntityComment $oComment, ModuleUser_EntityUser $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -183,12 +183,12 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет юзеру уведомление о новом топике в блоге, в котором он состоит
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param TopicEntity_Topic $oTopic
-	 * @param BlogEntity_Blog $oBlog
-	 * @param UserEntity_User $oUserTopic
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @param ModuleBlog_EntityBlog $oBlog
+	 * @param ModuleUser_EntityUser $oUserTopic
 	 */
-	public function SendTopicNewToSubscribeBlog(UserEntity_User $oUserTo, TopicEntity_Topic $oTopic, BlogEntity_Blog $oBlog, UserEntity_User $oUserTopic) {
+	public function SendTopicNewToSubscribeBlog(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleBlog_EntityBlog $oBlog, ModuleUser_EntityUser $oUserTopic) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -243,10 +243,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет уведомление при регистрации с активацией
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @param string $sPassword
 	 */
-	public function SendRegistrationActivate(UserEntity_User $oUser,$sPassword) {		
+	public function SendRegistrationActivate(ModuleUser_EntityUser $oUser,$sPassword) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -270,10 +270,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет уведомление о регистрации
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @param string $sPassword
 	 */
-	public function SendRegistration(UserEntity_User $oUser,$sPassword) {		
+	public function SendRegistration(ModuleUser_EntityUser $oUser,$sPassword) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -297,11 +297,11 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет инвайт
 	 *
-	 * @param UserEntity_User $oUserFrom
+	 * @param ModuleUser_EntityUser $oUserFrom
 	 * @param string $sMailTo
-	 * @param UserEntity_Invite $oInvite
+	 * @param ModuleUser_EntityInvite $oInvite
 	 */
-	public function SendInvite(UserEntity_User $oUserFrom,$sMailTo,UserEntity_Invite $oInvite) {		
+	public function SendInvite(ModuleUser_EntityUser $oUserFrom,$sMailTo,ModuleUser_EntityInvite $oInvite) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -349,11 +349,11 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет уведомление при новом личном сообщении
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param UserEntity_User $oUserFrom
-	 * @param TalkEntity_Talk $oTalk
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleUser_EntityUser $oUserFrom
+	 * @param ModuleTalk_EntityTalk $oTalk
 	 */
-	public function SendTalkNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom,TalkEntity_Talk $oTalk) {
+	public function SendTalkNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom,ModuleTalk_EntityTalk $oTalk) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -404,7 +404,7 @@ class ModuleNotify extends Module {
 		}
 	}
 	
-	public function SendTalkCommentNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom,TalkEntity_Talk $oTalk,CommentEntity_Comment $oTalkComment) {
+	public function SendTalkCommentNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom,ModuleTalk_EntityTalk $oTalk,ModuleComment_EntityComment $oTalkComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -459,10 +459,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет пользователю сообщение о добавлении его в друзья
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param UserEntity_User $oUserFrom
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleUser_EntityUser $oUserFrom
 	 */
-	public function SendUserFriendNew(UserEntity_User $oUserTo,UserEntity_User $oUserFrom, $sText,$sPath) {		
+	public function SendUserFriendNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom, $sText,$sPath) {		
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
@@ -518,10 +518,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет пользователю сообщение о приглашение его в закрытый блог
 	 *
-	 * @param UserEntity_User $oUserTo
-	 * @param UserEntity_User $oUserFrom
+	 * @param ModuleUser_EntityUser $oUserTo
+	 * @param ModuleUser_EntityUser $oUserFrom
 	 */
-	public function SendBlogUserInvite(UserEntity_User $oUserTo,UserEntity_User $oUserFrom, BlogEntity_Blog $oBlog,$sPath) {		
+	public function SendBlogUserInvite(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom, ModuleBlog_EntityBlog $oBlog,$sPath) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -571,10 +571,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Уведомление при восстановлении пароля
 	 *
-	 * @param UserEntity_User $oUser
-	 * @param UserEntity_Reminder $oReminder
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleUser_EntityReminder $oReminder
 	 */
-	public function SendReminderCode(UserEntity_User $oUser,UserEntity_Reminder $oReminder) {		
+	public function SendReminderCode(ModuleUser_EntityUser $oUser,ModuleUser_EntityReminder $oReminder) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -597,10 +597,10 @@ class ModuleNotify extends Module {
 	/**
 	 * Уведомление с новым паролем после его восставновления
 	 *
-	 * @param UserEntity_User $oUser
+	 * @param ModuleUser_EntityUser $oUser
 	 * @param unknown_type $sNewPassword
 	 */
-	public function SendReminderPassword(UserEntity_User $oUser,$sNewPassword) {		
+	public function SendReminderPassword(ModuleUser_EntityUser $oUser,$sNewPassword) {		
 		/**
 		 * Передаём в шаблон переменные
 		 */
@@ -624,14 +624,14 @@ class ModuleNotify extends Module {
 	/**
 	 * Универсальный метод отправки уведомлений на email
 	 *
-	 * @param UserEntity_User | string $oUserTo - кому отправляем (пользователь или email)
+	 * @param ModuleUser_EntityUser | string $oUserTo - кому отправляем (пользователь или email)
 	 * @param unknown_type $sTemplate - шаблон для отправки
 	 * @param unknown_type $sSubject - тема письма
 	 * @param unknown_type $aAssign - ассоциативный массив для загрузки переменных в шаблон письма
 	 * @param unknown_type $sPluginName - плагин из которого происходит отправка
 	 */
 	public function Send($oUserTo,$sTemplate,$sSubject,$aAssign=array(),$sPluginName=null) {		
-		if ($oUserTo instanceof UserEntity_User) {
+		if ($oUserTo instanceof ModuleUser_EntityUser) {
 			$sMail=$oUserTo->getMail();
 			$sName=$oUserTo->getLogin();
 		} else {
@@ -710,7 +710,7 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет на e-mail 
 	 *
-	 * @param NotifyEntity_Task $oTask
+	 * @param ModuleNotify_EntityTask $oTask
 	 */
 	public function SendTask($oTask) {
 		$this->Mail_SetAdress($oTask->getUserMail(),$oTask->getUserLogin());
@@ -722,7 +722,7 @@ class ModuleNotify extends Module {
 	/**
 	 * Удаляет отложенное Notify-задание из базы
 	 *
-	 * @param  NotifyEntity_Task $oTask
+	 * @param  ModuleNotify_EntityTask $oTask
 	 * @return bool
 	 */
 	public function DeleteTask($oTask) {

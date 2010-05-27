@@ -39,7 +39,7 @@ class PluginPage_Page extends Module {
 	 * @param PageEntity_Page $oPage
 	 * @return unknown
 	 */
-	public function AddPage(PluginPage_PageEntity_Page $oPage) {
+	public function AddPage(PluginPage_ModulePage_EntityPage $oPage) {
 		if ($sId=$this->oMapper->AddPage($oPage)) {			
 			$oPage->setId($sId);
 			//чистим зависимые кеши
@@ -54,7 +54,7 @@ class PluginPage_Page extends Module {
 	 * @param PageEntity_Page $oPage
 	 * @return unknown
 	 */
-	public function UpdatePage(PluginPage_PageEntity_Page $oPage) {
+	public function UpdatePage(PluginPage_ModulePage_EntityPage $oPage) {
 		if ($this->oMapper->UpdatePage($oPage)) {
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));

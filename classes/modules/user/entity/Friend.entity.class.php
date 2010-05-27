@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Friend extends Entity 
+class ModuleUser_EntityFriend extends Entity 
 {    
     /**
      * При переданном параметре $sUserId возвращает тот идентификатор,

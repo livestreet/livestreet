@@ -248,7 +248,7 @@ class Mapper_Comment extends Mapper {
 		return false;
 	}
 	
-	public function AddComment(CommentEntity_Comment $oComment) {
+	public function AddComment(ModuleComment_EntityComment $oComment) {
 		$sql = "INSERT INTO ".Config::Get('db.table.comment')." 
 			(comment_pid,
 			target_id,
@@ -271,7 +271,7 @@ class Mapper_Comment extends Mapper {
 	
 	
 	
-	public function AddCommentOnline(CommentEntity_CommentOnline $oCommentOnline) {
+	public function AddCommentOnline(ModuleComment_EntityCommentOnline $oCommentOnline) {
 		$sql = "REPLACE INTO ".Config::Get('db.table.comment_online')." 
 			SET 
 				target_id= ?d ,			
@@ -297,7 +297,7 @@ class Mapper_Comment extends Mapper {
 	
 	
 	
-	public function UpdateComment(CommentEntity_Comment $oComment) {		
+	public function UpdateComment(ModuleComment_EntityComment $oComment) {		
 		$sql = "UPDATE ".Config::Get('db.table.comment')." 
 			SET 
 				comment_text= ?,

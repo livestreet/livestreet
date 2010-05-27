@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PluginProfiler_ProfilerEntity_Entry extends Entity 
+class PluginProfiler_ModuleProfiler_EntityEntry extends Entity 
 {    
     public function getRequestId() {
         return $this->_aData['request_id'];

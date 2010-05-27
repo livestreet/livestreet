@@ -53,10 +53,10 @@ class PluginProfiler_Profiler extends Module {
 	/**
 	 * Добавить новую запись в базу данных
 	 *
-	 * @param  PluginProfiler_ProfilerEntity_Entry $oEntry
+	 * @param  PluginProfiler_ModuleProfiler_EntityEntry $oEntry
 	 * @return bool
 	 */
-	public function AddEntry(PluginProfiler_ProfilerEntity_Entry $oEntry) {
+	public function AddEntry(PluginProfiler_ModuleProfiler_EntityEntry $oEntry) {
 		return $this->oMapper->AddEntry($oEntry);
 	}
 	
@@ -64,7 +64,7 @@ class PluginProfiler_Profiler extends Module {
 	 * Читает из лог-файла записи
 	 *
 	 * @param  string $sPath
-	 * @return PluginProfiler_ProfilerEntity_Entry
+	 * @return PluginProfiler_ModuleProfiler_EntityEntry
 	 */
 	public function ReadEntry() {
 		/**

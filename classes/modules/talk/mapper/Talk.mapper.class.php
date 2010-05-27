@@ -16,7 +16,7 @@
 */
 
 class Mapper_Talk extends Mapper {	
-	public function AddTalk(TalkEntity_Talk $oTalk) {
+	public function AddTalk(ModuleTalk_EntityTalk $oTalk) {
 		$sql = "INSERT INTO ".Config::Get('db.table.talk')." 
 			(user_id,
 			talk_title,
@@ -34,7 +34,7 @@ class Mapper_Talk extends Mapper {
 		return false;
 	}
 
-	public function UpdateTalk(TalkEntity_Talk $oTalk) {
+	public function UpdateTalk(ModuleTalk_EntityTalk $oTalk) {
 		$sql = "UPDATE ".Config::Get('db.table.talk')." SET			
 				talk_date_last = ? ,
 				talk_count_comment = ? 
@@ -109,7 +109,7 @@ class Mapper_Talk extends Mapper {
 	}
 		
 		
-	public function AddTalkUser(TalkEntity_TalkUser $oTalkUser) {
+	public function AddTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {
 		$sql = "INSERT INTO ".Config::Get('db.table.talk_user')." 
 			(talk_id,
 			user_id,
@@ -132,7 +132,7 @@ class Mapper_Talk extends Mapper {
 		return false;
 	}
 	
-	public function UpdateTalkUser(TalkEntity_TalkUser $oTalkUser) {	
+	public function UpdateTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {	
 		$sql = "UPDATE ".Config::Get('db.table.talk_user')." 
 			SET 
 				date_last = ?, 				

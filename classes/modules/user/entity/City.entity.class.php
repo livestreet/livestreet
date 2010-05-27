@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_City extends Entity 
+class ModuleUser_EntityCity extends Entity 
 {    
     public function getId() {
         return $this->_aData['city_id'];

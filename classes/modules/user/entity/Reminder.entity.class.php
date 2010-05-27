@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Reminder extends Entity 
+class ModuleUser_EntityReminder extends Entity 
 {    
     public function getCode() {
         return $this->_aData['reminder_code'];

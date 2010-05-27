@@ -39,7 +39,7 @@ class ModuleFavourite extends Module {
 	 * @param  string $sTargetId
 	 * @param  string $sTargetType
 	 * @param  string $sUserId
-	 * @return FavouriteEntity_Favourite|null
+	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavourite($sTargetId,$sTargetType,$sUserId) {
 		$data=$this->GetFavouritesByArray($sTargetId,$sTargetType,$sUserId);
@@ -294,10 +294,10 @@ class ModuleFavourite extends Module {
 	/**
 	 * Добавляет таргет в избранное
 	 *
-	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite
 	 * @return bool
 	 */
-	public function AddFavourite(FavouriteEntity_Favourite $oFavourite) {
+	public function AddFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));						
 		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");						
@@ -306,10 +306,10 @@ class ModuleFavourite extends Module {
 	/**
 	 * Удаляет таргет из избранного
 	 *
-	 * @param  FavouriteEntity_Favourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite
 	 * @return bool
 	 */
-	public function DeleteFavourite(FavouriteEntity_Favourite $oFavourite) {
+	public function DeleteFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));
 		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");

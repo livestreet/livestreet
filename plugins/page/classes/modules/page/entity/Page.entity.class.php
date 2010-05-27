@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PluginPage_PageEntity_Page extends Entity 
+class PluginPage_ModulePage_EntityPage extends Entity 
 {    
     public function getId() {
         return $this->_aData['page_id'];

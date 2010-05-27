@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class VoteEntity_Vote extends Entity 
+class ModuleVote_EntityVote extends Entity 
 {    
     public function getTargetId() {
         return $this->_aData['target_id'];

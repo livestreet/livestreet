@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class NotifyEntity_Task extends Entity 
+class ModuleNotify_EntityTask extends Entity 
 {   
     public function getTaskId() {
         return $this->_aData['notify_task_id'];

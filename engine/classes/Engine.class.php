@@ -468,7 +468,7 @@ class Engine extends Object {
 				list($sModule,$sEntity) = explode('_',$sName,2);
 				/**
 				 * Обслуживание короткой записи сущностей плагинов 
-				 * PluginTest_Test -> PluginTest_TestEntity_Test
+				 * PluginTest_Test -> PluginTest_ModuleTest_EntityTest
 				 */
 				if(substr($sModule,0,6)=='Plugin' and strlen($sModule)>6) {
 					$sPlugin = substr($sModule,6);
@@ -529,8 +529,8 @@ class Engine extends Object {
 		}
 		
 		$sClass=isset($sPlugin)
-			? 'Plugin'.$sPlugin.'_'.$sModule.'Entity_'.$sEntity
-			: $sModule.'Entity_'.$sEntity;
+			? 'Plugin'.$sPlugin.'_Module'.$sModule.'_Entity'.$sEntity
+			: 'Module'.$sModule.'_Entity'.$sEntity;
 		/**
 		 * Определяем наличие делегата сущности
 		 * Делегирование указывается только в полной форме!
@@ -551,7 +551,7 @@ function __autoload($sClassName) {
 	/**
 	 * Если класс подходит под шаблон класса сущности то загружаем его
 	 */
-	if (preg_match("/^(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {			
+	if (preg_match("/^Module(\w+)\_Entity(\w+)$/i",$sClassName,$aMatch)) {			
 		$tm1=microtime(true);	
 		
 		$sFileClass= (substr($aMatch[2],-7)=='_custom') 
@@ -564,10 +564,11 @@ function __autoload($sClassName) {
 			dump($sClassName." - \t\t".($tm2-$tm1));
 		}
 	}
+	
 	/**
 	 * Если класс подходит под шаблон класса сущности плагина
 	 */
-	if (preg_match("/^Plugin(\w+)\_(\w+)Entity\_(\w+)$/i",$sClassName,$aMatch)) {			
+	if (preg_match("/^Plugin(\w+)\_Module(\w+)\_Entity(\w+)$/i",$sClassName,$aMatch)) {			
 		$tm1=microtime(true);
 		
 		$sFileClass= Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/entity/'.$aMatch[3].'.entity.class.php';

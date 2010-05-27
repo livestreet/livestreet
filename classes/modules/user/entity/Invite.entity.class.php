@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_Invite extends Entity 
+class ModuleUser_EntityInvite extends Entity 
 {    
     public function getId() {
         return $this->_aData['invite_id'];

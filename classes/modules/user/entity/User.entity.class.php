@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class UserEntity_User extends Entity {
+class ModuleUser_EntityUser extends Entity {
 	
 	public function getId() {
         return $this->_aData['user_id'];

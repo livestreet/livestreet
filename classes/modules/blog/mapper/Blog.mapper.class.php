@@ -22,7 +22,7 @@ class Mapper_Blog extends Mapper {
 		$this->oUserCurrent=$oUserCurrent;
 	}
 	
-	public function AddBlog(BlogEntity_Blog $oBlog) {
+	public function AddBlog(ModuleBlog_EntityBlog $oBlog) {
 		$sql = "INSERT INTO ".Config::Get('db.table.blog')." 
 			(user_owner_id,
 			blog_title,
@@ -41,7 +41,7 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 	
-	public function UpdateBlog(BlogEntity_Blog $oBlog) {		
+	public function UpdateBlog(ModuleBlog_EntityBlog $oBlog) {		
 		$sql = "UPDATE ".Config::Get('db.table.blog')." 
 			SET 
 				blog_title= ?,
@@ -84,7 +84,7 @@ class Mapper_Blog extends Mapper {
 		return $aBlogs;
 	}	
 	
-	public function AddRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+	public function AddRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$sql = "INSERT INTO ".Config::Get('db.table.blog_user')." 
 			(blog_id,
 			user_id,
@@ -98,7 +98,7 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 	
-	public function DeleteRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {
+	public function DeleteRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$sql = "DELETE FROM ".Config::Get('db.table.blog_user')." 
 			WHERE
 				blog_id = ?d
@@ -111,7 +111,7 @@ class Mapper_Blog extends Mapper {
 		return false;
 	}
 		
-	public function UpdateRelationBlogUser(BlogEntity_BlogUser $oBlogUser) {		
+	public function UpdateRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {		
 		$sql = "UPDATE ".Config::Get('db.table.blog_user')." 
 			SET 
 				user_role = ?d			
