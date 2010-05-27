@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class PluginPage_Mapper_Page extends Mapper {
+class PluginPage_ModulePage_MapperPage extends Mapper {
 	
 	public function AddPage(PluginPage_ModulePage_EntityPage $oPage) {
 		$sql = "INSERT INTO ".Config::Get('plugin.page.table.page')." 

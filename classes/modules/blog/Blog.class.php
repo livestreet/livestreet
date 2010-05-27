@@ -16,13 +16,12 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Blog.mapper.class.php');
 
 /**
  * Модуль для работы с блогами
  *
  */
-class ModuleBlog extends Module {	
+class ModuleBlog extends Module {
 	/**
 	 * Возможные роли пользователя в блоге
 	 */
@@ -50,8 +49,8 @@ class ModuleBlog extends Module {
 	 * Инициализация
 	 *
 	 */
-	public function Init() {				
-		$this->oMapperBlog=new Mapper_Blog($this->Database_GetConnect());
+	public function Init() {
+		$this->oMapperBlog=Engine::GetMapper(__CLASS__);
 		$this->oMapperBlog->SetUserCurrent($this->User_GetUserCurrent());
 		$this->oUserCurrent=$this->User_GetUserCurrent();		
 	}

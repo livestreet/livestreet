@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Blog extends Mapper {	
+class ModuleBlog_MapperBlog extends Mapper {	
 	protected $oUserCurrent=null;
 	
 	public function SetUserCurrent($oUserCurrent)  {

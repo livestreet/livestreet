@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Favourite.mapper.class.php');
 
 /**
  * Модуль для работы с голосованиями
@@ -30,7 +29,7 @@ class ModuleFavourite extends Module {
 	 *
 	 */
 	public function Init() {		
-		$this->oMapper=new Mapper_Favourite($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
 	
 	/**

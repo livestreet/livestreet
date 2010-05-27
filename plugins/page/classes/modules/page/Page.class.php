@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Page.mapper.class.php');
 
 /**
  * Модуль статических страниц
@@ -31,7 +30,7 @@ class PluginPage_ModulePage extends Module {
 	 *
 	 */
 	public function Init() {		
-		$this->oMapper=new PluginPage_Mapper_Page($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
 	/**
 	 * Добавляет страницу

@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Talk.mapper.class.php');
 
 /**
  * Модуль разговоров(почта)
@@ -38,7 +37,7 @@ class ModuleTalk extends Module {
 	 *
 	 */
 	public function Init() {		
-		$this->oMapper=new Mapper_Talk($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();		
 	}
 	/**

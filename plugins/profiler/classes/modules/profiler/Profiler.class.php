@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Profiler.mapper.class.php');
 
 /**
  * Модуль статических страниц
@@ -46,7 +45,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 	 * Инициализация модуля
 	 */
 	public function Init() {
-		$this->oMapper=new PluginProfiler_Mapper_Profiler($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 		$this->hLog = @fopen(Config::Get('path.root.server').'/logs/'.Config::Get('sys.logs.profiler_file'),'r+');
 	}
 	

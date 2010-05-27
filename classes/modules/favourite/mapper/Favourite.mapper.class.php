@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Favourite extends Mapper {	
+class ModuleFavourite_MapperFavourite extends Mapper {	
 		
 	public function AddFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
 		$sql = "

@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Notify extends Mapper {	
+class ModuleNotify_MapperNotify extends Mapper {	
 		
 	public function AddTask(ModuleNotify_EntityTask $oNotifyTask) {
 		$sql = "

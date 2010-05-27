@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Topic.mapper.class.php');
 
 /**
  * Модуль для работы с топиками
@@ -31,7 +30,7 @@ class ModuleTopic extends Module {
 	 *
 	 */
 	public function Init() {		
-		$this->oMapperTopic=new Mapper_Topic($this->Database_GetConnect());		
+		$this->oMapperTopic=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**

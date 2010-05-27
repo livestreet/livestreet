@@ -448,6 +448,27 @@ class Engine extends Object {
 	}
 	
 	/**
+	 * Получает объект маппера
+	 *
+	 * @param string $sClassName
+	 * @param string $sName
+	 * @return mixed
+	 */
+	public static function GetMapper($sClassName,$sName=null,$oConnect=null) {		
+		if (preg_match("/^(?:Plugin\w+_)?Module(\w+)$/i",$sClassName,$aMatch)) {
+			if (!$sName) {
+				$sName=$aMatch[1];
+			}
+			$sClass=$sClassName.'_Mapper'.$sName;
+			if (!$oConnect) {			
+				$oConnect=Engine::getInstance()->Database_GetConnect();
+			}
+			return new $sClass($oConnect);
+		}		
+		return null;
+	}
+	
+	/**
 	 * Создает объект сущности, контролируя варианты кастомизации
 	 *
 	 * @param  string $sName
@@ -594,6 +615,26 @@ function __autoload($sClassName) {
 		} else {
 			$sFileClass = str_replace('/classes/modules/','/engine/modules/',$sFileClass);
 			if(file_exists($sFileClass)) require_once($sFileClass);
+		}
+	}
+	
+	/**
+	 * Если класс подходит под шаблон класса маппера, то загружаем его
+	 */
+	if (preg_match("/^Module(\w+)\_Mapper(\w+)$/i",$sClassName,$aMatch)) {
+		$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/mapper/'.$aMatch[2].'.mapper.class.php';		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);			
+		}
+	}
+	
+	/**
+	 * Если класс подходит под шаблон класса маппера плагина, то загружаем его
+	 */
+	if (preg_match("/^Plugin(\w+)\_Module(\w+)\_Mapper(\w+)$/i",$sClassName,$aMatch)) {
+		$sFileClass=Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/mapper/'.$aMatch[2].'.mapper.class.php';		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);			
 		}
 	}
 }

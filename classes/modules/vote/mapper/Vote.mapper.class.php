@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Vote extends Mapper {	
+class ModuleVote_MapperVote extends Mapper {	
 		
 	
 	public function AddVote(ModuleVote_EntityVote $oVote) {

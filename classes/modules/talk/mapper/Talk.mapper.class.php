@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Talk extends Mapper {	
+class ModuleTalk_MapperTalk extends Mapper {	
 	public function AddTalk(ModuleTalk_EntityTalk $oTalk) {
 		$sql = "INSERT INTO ".Config::Get('db.table.talk')." 
 			(user_id,

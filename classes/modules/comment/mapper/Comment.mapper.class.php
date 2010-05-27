@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Comment extends Mapper {	
+class ModuleComment_MapperComment extends Mapper {	
 	
 		public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 			$sql = "SELECT 

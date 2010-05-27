@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Comment.mapper.class.php');
 
 /**
  * Модуль для работы с комментариями
@@ -31,7 +30,7 @@ class ModuleComment extends Module {
 	 *
 	 */
 	public function Init() {			
-		$this->oMapper=new Mapper_Comment($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();		
 	}
 	/**

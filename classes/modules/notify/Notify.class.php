@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/Notify.mapper.class.php');
 
 /**
  * Модуль рассылок уведомлений пользователям
@@ -56,7 +55,7 @@ class ModuleNotify extends Module {
 			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
 		$this->oViewerLocal=$this->Viewer_GetLocalViewer();
-		$this->oMapper=new Mapper_Notify($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
 	
 	/**

@@ -16,7 +16,6 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once('mapper/User.mapper.class.php');
 
 /**
  * Модуль для работы с пользователями
@@ -41,7 +40,7 @@ class ModuleUser extends Module {
 	 *
 	 */
 	public function Init() {
-		$this->oMapper=new Mapper_User($this->Database_GetConnect());
+		$this->oMapper=Engine::GetMapper(__CLASS__);
 		/**
 		 * Проверяем есть ли у юзера сессия, т.е. залогинен или нет
 		 */

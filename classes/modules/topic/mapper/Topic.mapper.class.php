@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-class Mapper_Topic extends Mapper {	
+class ModuleTopic_MapperTopic extends Mapper {	
 		
 	public function AddTopic(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic')." 
