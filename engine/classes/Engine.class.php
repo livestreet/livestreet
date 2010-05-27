@@ -194,7 +194,7 @@ class Engine extends Object {
 			/**
 			 * Определяем имя класса
 			 */
-			$sModuleNameClass='Plugin'.$aMatches[1].'_'.$aMatches[2];	
+			$sModuleNameClass='Plugin'.$aMatches[1].'_Module'.$aMatches[2];	
 		}
 		
 		/**		 
