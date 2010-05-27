@@ -21,7 +21,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/class.phpm
  * Модуль для отправки почты(e-mail) через phpMailer
  *
  */
-class LsMail extends Module {
+class ModuleMail extends Module {
 	protected $oMailer;		
 	/**
 	 * Настройки SMTP сервера для отправки писем	

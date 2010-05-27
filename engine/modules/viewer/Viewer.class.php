@@ -24,7 +24,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.ph
  * Модуль обработки шаблонов используя шаблонизатор Smarty
  *
  */
-class LsViewer extends Module {
+class ModuleViewer extends Module {
 	/**
 	 * Объект Smarty
 	 *
@@ -212,10 +212,10 @@ class LsViewer extends Module {
 	/**
 	 * Получает локальную копию модуля
 	 *
-	 * return LsViewer
+	 * return ModuleViewer
 	 */
 	public function GetLocalViewer() {
-		$oViewerLocal=new LsViewer(Engine::getInstance());
+		$oViewerLocal=new ModuleViewer(Engine::getInstance());
 		$oViewerLocal->Init();
 		$oViewerLocal->VarAssign();
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());

@@ -19,7 +19,7 @@
  * Модуль управления рейтингами и силой 
  *
  */
-class LsRating extends Module {
+class ModuleRating extends Module {
 
 	/**
 	 * Инициализация модуля

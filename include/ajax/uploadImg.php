@@ -45,26 +45,26 @@ if ($oEngine->User_IsAuthorization()) {
 			
 				break;
 			
-			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_READ):
+			case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_READ):
 				$sMsgTitle=$oEngine->Lang_Get('error');
 				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_read');
 				$sFile=null;
 				break;
 				
-			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_SIZE):
+			case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_SIZE):
 				$sMsgTitle=$oEngine->Lang_Get('error');
 				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_size');
 				$sFile=null;
 				break;
 				
-			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR_TYPE):
+			case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_TYPE):
 				$sMsgTitle=$oEngine->Lang_Get('error');
 				$sMsg=$oEngine->Lang_Get('uploadimg_url_error_type');
 				$sFile=null;
 				break;
 				
 			default:
-			case ($sFile==LsImage::UPLOAD_IMAGE_ERROR):
+			case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR):
 				$sMsgTitle=$oEngine->Lang_Get('error');
 				$sMsg=$oEngine->Lang_Get('uploadimg_url_error');
 				$sFile=null;

@@ -18,7 +18,7 @@
  * Модуль поддержки языковых файлов
  *
  */
-class LsLang extends Module {		
+class ModuleLang extends Module {		
 	/**
 	 * Текущий язык ресурса
 	 *

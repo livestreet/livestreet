@@ -20,7 +20,7 @@
  * Модуль для разруливания ограничений по карме/рейтингу юзера
  *
  */
-class LsACL extends Module {
+class ModuleACL extends Module {
 	/**
 	 * Коды ответов на запрос о возможности 
 	 * пользователя голосовать за блог
@@ -224,7 +224,7 @@ class LsACL extends Module {
 		 */
 		if($oBlog->getType()=='close') {
 			$oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
-			if(!$oBlogUser || $oBlogUser->getUserRole()<LsBlog::BLOG_USER_ROLE_GUEST) {
+			if(!$oBlogUser || $oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST) {
 				return self::CAN_VOTE_BLOG_ERROR_CLOSE;
 			}
 		}

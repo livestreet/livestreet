@@ -19,7 +19,7 @@
  * Модуль безопасности 
  *
  */
-class LsSecurity extends Module {
+class ModuleSecurity extends Module {
 	/**
 	 * Инициализируем модуль
 	 *

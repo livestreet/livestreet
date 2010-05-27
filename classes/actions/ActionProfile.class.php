@@ -166,9 +166,9 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_USER);
-		$aBlogModerators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_MODERATOR);
-		$aBlogAdministrators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);		
+		$aBlogUsers=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),ModuleBlog::BLOG_USER_ROLE_USER);
+		$aBlogModerators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+		$aBlogAdministrators=$this->Blog_GetBlogUsersByUserId($this->oUserProfile->getId(),ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);		
 		/**
 		 * Получаем список блогов которые создал юзер
 		 */
@@ -236,7 +236,7 @@ class ActionProfile extends Action {
 			|| !in_array(
 					$oFriend->getFriendStatus(), 
 					array(
-						LsUser::USER_FRIEND_OFFER+LsUser::USER_FRIEND_NULL,
+						ModuleUser::USER_FRIEND_OFFER+ModuleUser::USER_FRIEND_NULL,
 					)
 				)
 			) {
@@ -254,8 +254,8 @@ class ActionProfile extends Action {
 		 */
 		$oFriend->setStatusTo(
 			($sAction=='accept')
-				? LsUser::USER_FRIEND_ACCEPT
-				: LsUser::USER_FRIEND_REJECT
+				? ModuleUser::USER_FRIEND_ACCEPT
+				: ModuleUser::USER_FRIEND_REJECT
 		);
 		
 		if ($this->User_UpdateFriend($oFriend)) {
@@ -321,14 +321,14 @@ class ActionProfile extends Action {
 		 * проверяем, чтобы изменяющий был принимающей стороной
 		 */
 		if($oFriend 
-			&& ($oFriend->getStatusFrom()==LsUser::USER_FRIEND_OFFER||$oFriend->getStatusFrom()==LsUser::USER_FRIEND_ACCEPT) 
-			&& ($oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT||$oFriend->getStatusTo()==LsUser::USER_FRIEND_NULL) 
+			&& ($oFriend->getStatusFrom()==ModuleUser::USER_FRIEND_OFFER||$oFriend->getStatusFrom()==ModuleUser::USER_FRIEND_ACCEPT) 
+			&& ($oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT||$oFriend->getStatusTo()==ModuleUser::USER_FRIEND_NULL) 
 			&& $oFriend->getUserTo()==$this->oUserCurrent->getId()) {
 			
 				/**
 				 * Меняем статус с отвергнутое, на акцептованное				 
 				 */
-				$oFriend->setStatusByUserId(LsUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
+				$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 				if($this->User_UpdateFriend($oFriend)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 					$this->NoticeFriendOffer($oUser,'accept');
@@ -438,7 +438,7 @@ class ActionProfile extends Action {
 		 * Если статус связи соответствует статусам отправленной и акцептованной заявки, 
 		 * то предупреждаем что этот пользователь уже является нашим другом
 		 */
-		if($oFriend->getFriendStatus()==LsUser::USER_FRIEND_OFFER + LsUser::USER_FRIEND_ACCEPT) {
+		if($oFriend->getFriendStatus()==ModuleUser::USER_FRIEND_OFFER + ModuleUser::USER_FRIEND_ACCEPT) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_friend_already_exist'),
 				$this->Lang_Get('error')
@@ -450,7 +450,7 @@ class ActionProfile extends Action {
 		 * возвращаем сообщение об ошибке
 		 */
 		if($oFriend->getUserFrom()==$this->oUserCurrent->getId() 
-				&& $oFriend->getStatusTo()==LsUser::USER_FRIEND_REJECT ) {
+				&& $oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT ) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_friend_offer_reject'),
 				$this->Lang_Get('error')
@@ -461,18 +461,18 @@ class ActionProfile extends Action {
 		 * Если дружба была удалена, то проверяем кто ее удалил
 		 * и разрешаем восстановить только удалившему
 		 */
-		if($oFriend->getFriendStatus()>LsUser::USER_FRIEND_DELETE 
-				&& $oFriend->getFriendStatus()<LsUser::USER_FRIEND_REJECT) {
+		if($oFriend->getFriendStatus()>ModuleUser::USER_FRIEND_DELETE 
+				&& $oFriend->getFriendStatus()<ModuleUser::USER_FRIEND_REJECT) {
 			/**
 			 * Определяем статус связи текущего пользователя
 			 */
 			$iStatusCurrent	= $oFriend->getStatusByUserId($this->oUserCurrent->getId());
 				
-			if($iStatusCurrent==LsUser::USER_FRIEND_DELETE) {
+			if($iStatusCurrent==ModuleUser::USER_FRIEND_DELETE) {
 				/**
 				 * Меняем статус с удаленного, на акцептованное				 
 				 */
-				$oFriend->setStatusByUserId(LsUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
+				$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 				if($this->User_UpdateFriend($oFriend)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 
@@ -500,7 +500,7 @@ class ActionProfile extends Action {
 	/**
 	 * Функция создает локальный объект вьювера для рендеринга html-объектов в ajax запросах
 	 *
-	 * @return LsViewer
+	 * @return ModuleViewer
 	 */
 	protected function GetViewerLocal() {
 		/**
@@ -510,11 +510,11 @@ class ActionProfile extends Action {
 		$oViewerLocal->Assign('oUserCurrent',$this->oUserCurrent);
 		$oViewerLocal->Assign('oUserProfile',$this->oUserProfile);
 
-		$oViewerLocal->Assign('USER_FRIEND_NULL',LsUser::USER_FRIEND_NULL);
-		$oViewerLocal->Assign('USER_FRIEND_OFFER',LsUser::USER_FRIEND_OFFER);
-		$oViewerLocal->Assign('USER_FRIEND_ACCEPT',LsUser::USER_FRIEND_ACCEPT);
-		$oViewerLocal->Assign('USER_FRIEND_REJECT',LsUser::USER_FRIEND_REJECT);
-		$oViewerLocal->Assign('USER_FRIEND_DELETE',LsUser::USER_FRIEND_DELETE);
+		$oViewerLocal->Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
+		$oViewerLocal->Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
+		$oViewerLocal->Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);
+		$oViewerLocal->Assign('USER_FRIEND_REJECT',ModuleUser::USER_FRIEND_REJECT);
+		$oViewerLocal->Assign('USER_FRIEND_DELETE',ModuleUser::USER_FRIEND_DELETE);
 	
 		return $oViewerLocal;
 	}
@@ -524,8 +524,8 @@ class ActionProfile extends Action {
 		$oFriendNew->setUserTo($oUser->getId());
 		$oFriendNew->setUserFrom($this->oUserCurrent->getId());
 		// Добавляем заявку в друзья
-		$oFriendNew->setStatusFrom(LsUser::USER_FRIEND_OFFER);
-		$oFriendNew->setStatusTo(LsUser::USER_FRIEND_NULL);
+		$oFriendNew->setStatusFrom(ModuleUser::USER_FRIEND_OFFER);
+		$oFriendNew->setStatusTo(ModuleUser::USER_FRIEND_NULL);
 					
 		$bStateError=($oFriend)
 			? !$this->User_UpdateFriend($oFriendNew)
@@ -628,7 +628,7 @@ class ActionProfile extends Action {
 		 * возвращаем ошибку
 		 */
 		$oFriend=$this->User_GetFriend($oUser->getId(),$this->oUserCurrent->getId());
-		$aAllowedFriendStatus = array(LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER,LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_ACCEPT);
+		$aAllowedFriendStatus = array(ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_ACCEPT);
 		if(!$oFriend || !in_array($oFriend->getFriendStatus(),$aAllowedFriendStatus)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_friend_del_no'),
@@ -688,11 +688,11 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);		
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
-		$this->Viewer_Assign('USER_FRIEND_NULL',LsUser::USER_FRIEND_NULL);
-		$this->Viewer_Assign('USER_FRIEND_OFFER',LsUser::USER_FRIEND_OFFER);
-		$this->Viewer_Assign('USER_FRIEND_ACCEPT',LsUser::USER_FRIEND_ACCEPT);
-		$this->Viewer_Assign('USER_FRIEND_REJECT',LsUser::USER_FRIEND_REJECT);
-		$this->Viewer_Assign('USER_FRIEND_DELETE',LsUser::USER_FRIEND_DELETE);
+		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
+		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
+		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);
+		$this->Viewer_Assign('USER_FRIEND_REJECT',ModuleUser::USER_FRIEND_REJECT);
+		$this->Viewer_Assign('USER_FRIEND_DELETE',ModuleUser::USER_FRIEND_DELETE);
 	}
 }
 ?>

@@ -22,7 +22,7 @@ require_once('mapper/Favourite.mapper.class.php');
  * Модуль для работы с голосованиями
  *
  */
-class LsFavourite extends Module {		
+class ModuleFavourite extends Module {		
 	protected $oMapper;	
 		
 	/**

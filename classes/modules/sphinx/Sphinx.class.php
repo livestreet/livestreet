@@ -5,7 +5,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/Sphinx/sphinxapi.php
  * Модуль для работы с машиной полнотекстового поиска Sphinx
  *
  */
-class LsSphinx extends Module {
+class ModuleSphinx extends Module {
 	private $oSphinx = null;
 	
 	/**

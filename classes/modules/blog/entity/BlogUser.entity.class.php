@@ -24,10 +24,10 @@ class BlogEntity_BlogUser extends Entity
         return $this->_aData['user_id'];
     }
     public function getIsModerator() {
-        return ($this->getUserRole()==LsBlog::BLOG_USER_ROLE_MODERATOR);
+        return ($this->getUserRole()==ModuleBlog::BLOG_USER_ROLE_MODERATOR);
     }
     public function getIsAdministrator() {
-        return ($this->getUserRole()==LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+        return ($this->getUserRole()==ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
     }
 	public function getUserRole() {
 		return $this->_aData['user_role'];
@@ -53,7 +53,7 @@ class BlogEntity_BlogUser extends Entity
         	/**
         	 * Повышаем статус до модератора
         	 */
-        	$this->setUserRole(LsBlog::BLOG_USER_ROLE_MODERATOR);
+        	$this->setUserRole(ModuleBlog::BLOG_USER_ROLE_MODERATOR);
         }
     }
     public function setIsAdministrator($data) {
@@ -61,7 +61,7 @@ class BlogEntity_BlogUser extends Entity
         	/**
         	 * Повышаем статус до администратора
         	 */
-        	$this->setUserRole(LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+        	$this->setUserRole(ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
         }
     }
     public function setUserRole($data) {

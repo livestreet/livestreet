@@ -20,7 +20,7 @@
  * Имеет 3 уровня логирования: 'DEBUG','NOTICE','ERROR'
  *
  */
-class LsLogger extends Module {	
+class ModuleLogger extends Module {	
 	/**
 	 * Уровни логгирования
 	 *

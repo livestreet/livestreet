@@ -35,7 +35,7 @@ if ($oEngine->User_IsAuthorization()) {
 		if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 			if (!($oBlogVote=$oEngine->Vote_GetVote($oBlog->getId(),'blog',$oUserCurrent->getId()))) {
 				switch($oEngine->ACL_CanVoteBlog($oUserCurrent,$oBlog)) {
-					case LsACL::CAN_VOTE_BLOG_TRUE:
+					case ModuleACL::CAN_VOTE_BLOG_TRUE:
 						if (in_array($iValue,array('1','-1'))) {
 							$oBlogVote=Engine::GetEntity('Vote');
 							$oBlogVote->setTargetId($oBlog->getId());
@@ -61,13 +61,13 @@ if ($oEngine->User_IsAuthorization()) {
 							$sMsg=$oEngine->Lang_Get('system_error');
 						}
 						break;
-					case LsACL::CAN_VOTE_BLOG_ERROR_CLOSE:
+					case ModuleACL::CAN_VOTE_BLOG_ERROR_CLOSE:
 						$sMsgTitle=$oEngine->Lang_Get('attention');
 						$sMsg=$oEngine->Lang_Get('blog_vote_error_close');						
 						break;
 						
 					default:
-					case LsACL::CAN_VOTE_BLOG_FALSE:
+					case ModuleACL::CAN_VOTE_BLOG_FALSE:
 						$sMsgTitle=$oEngine->Lang_Get('attention');
 						$sMsg=$oEngine->Lang_Get('blog_vote_error_acl');					
 						break;

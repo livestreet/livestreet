@@ -21,7 +21,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/Jevix/jevix.class.ph
  * Модуль обработки текста на основе типографа Jevix
  *
  */
-class LsText extends Module {
+class ModuleText extends Module {
 	/**
 	 * Объект типографа
 	 *

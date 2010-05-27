@@ -22,7 +22,7 @@ require_once('mapper/Vote.mapper.class.php');
  * Модуль для работы с голосованиями
  *
  */
-class LsVote extends Module {		
+class ModuleVote extends Module {		
 	protected $oMapper;	
 		
 	/**

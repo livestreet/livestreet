@@ -19,7 +19,7 @@
  * Модуль управления плагинами сообщений
  *
  */
-class LsPlugin extends Module {
+class ModulePlugin extends Module {
 	/**
 	 * Файл содержащий информацию об активированных плагинах
 	 *

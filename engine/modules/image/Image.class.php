@@ -22,7 +22,7 @@ require_once Config::Get('path.root.engine').'/lib/external/LiveImage/Image.php'
  * Использует библиотеку LiveImage
  *
  */
-class LsImage extends Module {
+class ModuleImage extends Module {
 	/**
 	 * Неопределенный тип ошибки при загрузке изображения
 	 */

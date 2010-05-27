@@ -180,7 +180,7 @@ class Engine extends Object {
 			/**
 			 * Определяем имя класса
 			 */
-			$sModuleNameClass='Ls'.$sModuleName.$sPrefixCustom;					
+			$sModuleNameClass='Module'.$sModuleName.$sPrefixCustom;					
 		} else {
 			/**
 			 * Это модуль плагина
@@ -582,7 +582,7 @@ function __autoload($sClassName) {
 	/**
 	 * Если класс подходит под шаблон модуля, то загружаем его
 	 */
-	if(preg_match("/^Ls(\w+)$/i",$sClassName,$aMatch)) {
+	if(preg_match("/^Module(\w+)$/i",$sClassName,$aMatch)) {
 		$sName = ucfirst(strtolower($aMatch[1]));
 		$sFileClass= (substr($sName,-7)=='_custom') 
 			? Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.substr($sName,0,strlen($sName)-7).'.class.custom.php'

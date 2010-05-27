@@ -33,7 +33,7 @@ define('SYS_CACHE_TYPE_MEMORY','memory');
  * Работает в двух режимах: файловый кеш через Cache Lite и кеш в памяти через Memcache
  *
  */
-class LsCache extends Module {
+class ModuleCache extends Module {
 	
 	protected $oBackendCache=null;
 	protected $bUseCache;

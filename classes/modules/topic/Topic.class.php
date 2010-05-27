@@ -22,7 +22,7 @@ require_once('mapper/Topic.mapper.class.php');
  * Модуль для работы с топиками
  *
  */
-class LsTopic extends Module {		
+class ModuleTopic extends Module {		
 	protected $oMapperTopic;
 	protected $oUserCurrent=null;
 		
@@ -1352,7 +1352,7 @@ class LsTopic extends Module {
 		 * Проверяем, является ли файл изображением
 		 */
 		if(!@getimagesize($sUrl)) {
-			return LsImage::UPLOAD_IMAGE_ERROR_TYPE;
+			return ModuleImage::UPLOAD_IMAGE_ERROR_TYPE;
 		}
 		/**
 		 * Открываем файловый поток и считываем файл поблочно,
@@ -1360,7 +1360,7 @@ class LsTopic extends Module {
 		 */
 		$oFile=fopen($sUrl,'r');
 		if(!$oFile) {
-			return LsImage::UPLOAD_IMAGE_ERROR_READ;
+			return ModuleImage::UPLOAD_IMAGE_ERROR_READ;
 		}
 		
 		$iMaxSizeKb=500;
@@ -1376,7 +1376,7 @@ class LsTopic extends Module {
 		 * значит файл имеет недопустимый размер
 		 */
 		if(!feof($oFile)) {
-			return LsImage::UPLOAD_IMAGE_ERROR_SIZE;
+			return ModuleImage::UPLOAD_IMAGE_ERROR_SIZE;
 		}
 		fclose($oFile);
 
@@ -1401,7 +1401,7 @@ class LsTopic extends Module {
 		} 		
 		
 		@unlink($sFileTmp);
-		return LsImage::UPLOAD_IMAGE_ERROR;
+		return ModuleImage::UPLOAD_IMAGE_ERROR;
 	}
 }
 ?>

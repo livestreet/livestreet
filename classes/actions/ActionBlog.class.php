@@ -377,28 +377,28 @@ class ActionBlog extends Action {
 				/**
 				 * Увеличиваем число читателей блога
 				 */
-				if (in_array($sRank,array('administrator','moderator','reader')) and $oBlogUser->getUserRole()==LsBlog::BLOG_USER_ROLE_BAN) {					
+				if (in_array($sRank,array('administrator','moderator','reader')) and $oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_BAN) {					
 					$oBlog->setCountUser($oBlog->getCountUser()+1);					
 				}
 				
 				switch ($sRank) {
 					case 'administrator':
-						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 						break;
 					case 'moderator':
-						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_MODERATOR);
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_MODERATOR);
 						break;
 					case 'reader':
-						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_USER);
 						break;
 					case 'ban':
-						if ($oBlogUser->getUserRole()!=LsBlog::BLOG_USER_ROLE_BAN) {
+						if ($oBlogUser->getUserRole()!=ModuleBlog::BLOG_USER_ROLE_BAN) {
 							$oBlog->setCountUser($oBlog->getCountUser()-1);							
 						}
-						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_BAN);
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_BAN);
 						break;
 					default:
-						$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_GUEST);						
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_GUEST);						
 				}
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
 				$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_users_submit_ok'));
@@ -411,10 +411,10 @@ class ActionBlog extends Action {
 		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
 			array(
-				LsBlog::BLOG_USER_ROLE_BAN,
-				LsBlog::BLOG_USER_ROLE_USER,
-				LsBlog::BLOG_USER_ROLE_MODERATOR,
-				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
+				ModuleBlog::BLOG_USER_ROLE_BAN,
+				ModuleBlog::BLOG_USER_ROLE_USER,
+				ModuleBlog::BLOG_USER_ROLE_MODERATOR,
+				ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR
 			)
 		);
 
@@ -433,7 +433,7 @@ class ActionBlog extends Action {
 		 * и добавляем блок-форму для приглашения 
 		 */
 		if($oBlog->getType()=='close') {
-			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_INVITE);				
+			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_INVITE);				
 			$this->Viewer_Assign('aBlogUsersInvited',$aBlogUsersInvited);
 			$this->Viewer_AddBlock('right','actions/ActionBlog/invited.tpl');
 		}
@@ -745,9 +745,9 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_USER);
-		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_MODERATOR);
-		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER);
+		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 		
 		/**
 		 * Для админов проекта получаем список блогов и передаем их во вьювер
@@ -981,12 +981,12 @@ class ActionBlog extends Action {
 		$aBlogUsers = $this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
 			array(
-				LsBlog::BLOG_USER_ROLE_BAN,
-				LsBlog::BLOG_USER_ROLE_REJECT,
-				LsBlog::BLOG_USER_ROLE_INVITE,
-				LsBlog::BLOG_USER_ROLE_USER,
-				LsBlog::BLOG_USER_ROLE_MODERATOR,
-				LsBlog::BLOG_USER_ROLE_ADMINISTRATOR
+				ModuleBlog::BLOG_USER_ROLE_BAN,
+				ModuleBlog::BLOG_USER_ROLE_REJECT,
+				ModuleBlog::BLOG_USER_ROLE_INVITE,
+				ModuleBlog::BLOG_USER_ROLE_USER,
+				ModuleBlog::BLOG_USER_ROLE_MODERATOR,
+				ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR
 			)
 		);
 		$aUsers=explode(',',$sUsers);
@@ -1034,7 +1034,7 @@ class ActionBlog extends Action {
 				$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
 				$oBlogUserNew->setBlogId($oBlog->getId());
 				$oBlogUserNew->setUserId($oUser->getId());
-				$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_INVITE);
+				$oBlogUserNew->setUserRole(ModuleBlog::BLOG_USER_ROLE_INVITE);
 				
 				if($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
 					$aResult[]=array(
@@ -1059,13 +1059,13 @@ class ActionBlog extends Action {
 				 * возвращаем ошибку (сначала определяя ее точный текст)
 				 */
 				switch (true) {
-					case ($aBlogUsers[$oUser->getId()]->getUserRole()==LsBlog::BLOG_USER_ROLE_INVITE):
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE):
 						$sErrorMessage=$this->Lang_Get('blog_user_already_invited',array('login'=>$sUser));
 						break;
-					case ($aBlogUsers[$oUser->getId()]->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST):
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST):
 						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>$sUser));						
 						break;
-					case ($aBlogUsers[$oUser->getId()]->getUserRole()==LsBlog::BLOG_USER_ROLE_REJECT):
+					case ($aBlogUsers[$oUser->getId()]->getUserRole()==ModuleBlog::BLOG_USER_ROLE_REJECT):
 						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>$sUser));						
 						break;
 					default:
@@ -1126,7 +1126,7 @@ class ActionBlog extends Action {
 		}
 				
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
-		if ($oBlogUser->getUserRole()==LsBlog::BLOG_USER_ROLE_INVITE) {
+		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
 			$this->SendBlogInvite($oBlog,$oUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_add_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
 		} else {
@@ -1222,13 +1222,13 @@ class ActionBlog extends Action {
 		if(!$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId())) {
 			return $this->EventNotFound();
 		}
-		if($oBlogUser->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST) {
+		if($oBlogUser->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST) {
 			$sMessage=$this->Lang_Get('blog_user_invite_already_done');
 			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
 			return ;						
 		}
-		if(!in_array($oBlogUser->getUserRole(),array(LsBlog::BLOG_USER_ROLE_INVITE,LsBlog::BLOG_USER_ROLE_REJECT))) {
+		if(!in_array($oBlogUser->getUserRole(),array(ModuleBlog::BLOG_USER_ROLE_INVITE,ModuleBlog::BLOG_USER_ROLE_REJECT))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
 			return ;
@@ -1237,7 +1237,7 @@ class ActionBlog extends Action {
 		/**
 		 * Обновляем роль пользователя до читателя
 		 */
-		$oBlogUser->setUserRole(($sAction=='accept')?LsBlog::BLOG_USER_ROLE_USER:LsBlog::BLOG_USER_ROLE_REJECT);
+		$oBlogUser->setUserRole(($sAction=='accept')?ModuleBlog::BLOG_USER_ROLE_USER:ModuleBlog::BLOG_USER_ROLE_REJECT);
 		if(!$this->Blog_UpdateRelationBlogUser($oBlogUser)) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
@@ -1287,13 +1287,13 @@ class ActionBlog extends Action {
 		}
 		$aTopics =  $this->Topic_GetTopicsByBlogId($sBlogId);
 		switch ($bAccess) {
-			case LsACL::CAN_DELETE_BLOG_EMPTY_ONLY :
+			case ModuleACL::CAN_DELETE_BLOG_EMPTY_ONLY :
 				if(is_array($aTopics) and count($aTopics)) {
 					$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_not_empty'),$this->Lang_Get('error'),true);
 					Router::Location($oBlog()->getUrlFull());
 				}
 				break;
-			case LsACL::CAN_DELETE_BLOG_WITH_TOPICS :
+			case ModuleACL::CAN_DELETE_BLOG_WITH_TOPICS :
 				/**
 				 * Если указан идентификатор блога для перемещения,
 				 * то делаем попытку переместить топики.
@@ -1351,13 +1351,13 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsBlogNew',$this->iCountTopicsBlogNew);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		
-		$this->Viewer_Assign('BLOG_USER_ROLE_GUEST', LsBlog::BLOG_USER_ROLE_GUEST);
-		$this->Viewer_Assign('BLOG_USER_ROLE_USER', LsBlog::BLOG_USER_ROLE_USER);
-		$this->Viewer_Assign('BLOG_USER_ROLE_MODERATOR', LsBlog::BLOG_USER_ROLE_MODERATOR);
-		$this->Viewer_Assign('BLOG_USER_ROLE_ADMINISTRATOR', LsBlog::BLOG_USER_ROLE_ADMINISTRATOR);
-		$this->Viewer_Assign('BLOG_USER_ROLE_INVITE', LsBlog::BLOG_USER_ROLE_INVITE);
-		$this->Viewer_Assign('BLOG_USER_ROLE_REJECT', LsBlog::BLOG_USER_ROLE_REJECT);
-		$this->Viewer_Assign('BLOG_USER_ROLE_BAN', LsBlog::BLOG_USER_ROLE_BAN);
+		$this->Viewer_Assign('BLOG_USER_ROLE_GUEST', ModuleBlog::BLOG_USER_ROLE_GUEST);
+		$this->Viewer_Assign('BLOG_USER_ROLE_USER', ModuleBlog::BLOG_USER_ROLE_USER);
+		$this->Viewer_Assign('BLOG_USER_ROLE_MODERATOR', ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+		$this->Viewer_Assign('BLOG_USER_ROLE_ADMINISTRATOR', ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		$this->Viewer_Assign('BLOG_USER_ROLE_INVITE', ModuleBlog::BLOG_USER_ROLE_INVITE);
+		$this->Viewer_Assign('BLOG_USER_ROLE_REJECT', ModuleBlog::BLOG_USER_ROLE_REJECT);
+		$this->Viewer_Assign('BLOG_USER_ROLE_BAN', ModuleBlog::BLOG_USER_ROLE_BAN);
 	}
 }
 ?>

@@ -37,19 +37,19 @@ if ($oEngine->User_IsAuthorization()) {
 			$oUserCurrent=$oEngine->User_GetUserCurrent();
 			if (in_array($oBlog->getType(),array('open','close'))) {
 				$oBlogUser=$oEngine->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUserCurrent->getId());				
-				if (!$oBlogUser || ($oBlogUser->getUserRole()<LsBlog::BLOG_USER_ROLE_GUEST && $oBlog->getType()=='close')) {
+				if (!$oBlogUser || ($oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST && $oBlog->getType()=='close')) {
 					if ($oBlog->getOwnerId()!=$oUserCurrent->getId()) {
 						/**
 					 	* Присоединяем юзера к блогу
 					 	*/
 						if($oBlogUser) {
-							$oBlogUser->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
+							$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_USER);
 							$bResult = $oEngine->Blog_UpdateRelationBlogUser($oBlogUser);
 						} elseif($oBlog->getType()=='open') {
 							$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
 							$oBlogUserNew->setBlogId($oBlog->getId());
 							$oBlogUserNew->setUserId($oUserCurrent->getId());
-							$oBlogUserNew->setUserRole(LsBlog::BLOG_USER_ROLE_USER);
+							$oBlogUserNew->setUserRole(ModuleBlog::BLOG_USER_ROLE_USER);
 							$bResult = $oEngine->Blog_AddRelationBlogUser($oBlogUserNew);
 						} 
 						if ($bResult) {
@@ -74,7 +74,7 @@ if ($oEngine->User_IsAuthorization()) {
 						$sMsg=$oEngine->Lang_Get('blog_join_error_self');
 					}
 				}				
-				if ($oBlogUser && $oBlogUser->getUserRole()>LsBlog::BLOG_USER_ROLE_GUEST) {
+				if ($oBlogUser && $oBlogUser->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST) {
 					/**
 					 * Покидаем блог
 					 */					

@@ -195,7 +195,7 @@ class Mapper_Talk extends Mapper {
   						AND
   						tu.talk_user_active=?d							
 		";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId, LsTalk::TALK_USER_ACTIVE)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId, ModuleTalk::TALK_USER_ACTIVE)) {
 			return $aRow['count_new'];
 		}
 		return false;
@@ -214,7 +214,7 @@ class Mapper_Talk extends Mapper {
   						AND
   						tu.talk_user_active=?d						
 		";
-		if ($aRow=$this->oDb->selectRow($sql,$sUserId,LsTalk::TALK_USER_ACTIVE)) {
+		if ($aRow=$this->oDb->selectRow($sql,$sUserId,ModuleTalk::TALK_USER_ACTIVE)) {
 			return $aRow['count_new'];
 		}
 		return false;
@@ -237,7 +237,7 @@ class Mapper_Talk extends Mapper {
 					";
 		
 		$aTalks=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,LsTalk::TALK_USER_ACTIVE,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sUserId,ModuleTalk::TALK_USER_ACTIVE,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
 				$aTalks[]=$aRow['talk_id'];
 			}
@@ -342,7 +342,7 @@ class Mapper_Talk extends Mapper {
 			$aRows=$this->oDb->selectPage(
 				$iCount,
 				$sql,
-				LsTalk::TALK_USER_ACTIVE,
+				ModuleTalk::TALK_USER_ACTIVE,
 				(!empty($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_max']) ? $aFilter['date_max'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),

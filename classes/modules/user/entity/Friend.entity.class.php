@@ -59,7 +59,7 @@ class UserEntity_Friend extends Entity
     }  
     public function getStatusTo() {
         return (empty($this->_aData['status_to']))
-        	? LsUser::USER_FRIEND_NULL
+        	? ModuleUser::USER_FRIEND_NULL
         	: $this->_aData['status_to'];
     }  
     public function getFriendStatus() {

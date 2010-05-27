@@ -22,7 +22,7 @@ require_once('mapper/User.mapper.class.php');
  * Модуль для работы с пользователями
  *
  */
-class LsUser extends Module {
+class ModuleUser extends Module {
 	/**
 	 * Статусы дружбы между пользователями
 	 */
@@ -776,7 +776,7 @@ class LsUser extends Module {
 		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
 		
 		// устанавливаем статус дружбы "удалено"
-		$oFriend->setStatusByUserId(LsUser::USER_FRIEND_DELETE,$oFriend->getUserId());
+		$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_DELETE,$oFriend->getUserId());
 		return $this->oMapper->UpdateFriend($oFriend);
 	}
 	/**

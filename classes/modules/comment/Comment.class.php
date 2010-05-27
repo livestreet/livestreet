@@ -22,7 +22,7 @@ require_once('mapper/Comment.mapper.class.php');
  * Модуль для работы с комментариями
  *
  */
-class LsComment extends Module {
+class ModuleComment extends Module {
 	protected $oMapper;	
 	protected $oUserCurrent=null;
 		
@@ -491,7 +491,7 @@ class LsComment extends Module {
 		
 		$iMaxIdComment=max($aComments);		
 		$aCmts=$this->GetCommentsAdditionalData($aComments);				
-		if (!class_exists('LsViewer')) {
+		if (!class_exists('ModuleViewer')) {
 			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
 		$oViewerLocal=$this->Viewer_GetLocalViewer();

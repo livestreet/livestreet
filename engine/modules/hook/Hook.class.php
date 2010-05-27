@@ -18,7 +18,7 @@
  * Модуль поддержки хуков(hooks)
  *
  */
-class LsHook extends Module {		
+class ModuleHook extends Module {		
 		
 	/**
 	 * Содержит список хуков

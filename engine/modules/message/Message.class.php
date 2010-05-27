@@ -19,7 +19,7 @@
  * Модуль системных сообщений
  *
  */
-class LsMessage extends Module {
+class ModuleMessage extends Module {
 	/**
 	 * Массив сообщений со статусом ОШИБКА
 	 *

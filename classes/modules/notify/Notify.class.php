@@ -22,7 +22,7 @@ require_once('mapper/Notify.mapper.class.php');
  * Модуль рассылок уведомлений пользователям
  *
  */
-class LsNotify extends Module {
+class ModuleNotify extends Module {
 	/**
 	 * Статусы степени обработки заданий отложенной публикации в базе данных
 	 */
@@ -30,7 +30,7 @@ class LsNotify extends Module {
 	/**
 	 * Объект локального вьювера для рендеринга сообщений
 	 *
-	 * @var LsViewer
+	 * @var ModuleViewer
 	 */
 	protected $oViewerLocal=null;
 	/**
@@ -52,7 +52,7 @@ class LsNotify extends Module {
 	 *
 	 */
 	public function Init() {		
-		if (!class_exists('LsViewer')) {
+		if (!class_exists('ModuleViewer')) {
 			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
 		}
 		$this->oViewerLocal=$this->Viewer_GetLocalViewer();

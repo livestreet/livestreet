@@ -140,7 +140,7 @@ class Mapper_Blog extends Mapper {
 			}
 			$sWhere.=" AND bu.user_role IN ('".join("', '",$aFilter['user_role'])."')";		
 		} else {
-			$sWhere.=" AND bu.user_role>".LsBlog::BLOG_USER_ROLE_GUEST;
+			$sWhere.=" AND bu.user_role>".ModuleBlog::BLOG_USER_ROLE_GUEST;
 		}
 		
 		$sql = "SELECT

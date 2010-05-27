@@ -492,9 +492,9 @@ class Mapper_User extends Mapper {
 				$sql,
 				$sUserId,
 				$sUserId,
-				LsUser::USER_FRIEND_ACCEPT+LsUser::USER_FRIEND_OFFER,
-				LsUser::USER_FRIEND_ACCEPT,
-				LsUser::USER_FRIEND_ACCEPT 
+				ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
+				ModuleUser::USER_FRIEND_ACCEPT,
+				ModuleUser::USER_FRIEND_ACCEPT 
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -513,7 +513,7 @@ class Mapper_User extends Mapper {
 	 * @param  int    $iStatus Статус запроса со стороны добавляемого
 	 * @return array
 	 */
-	public function GetUsersFriendOffer($sUserId,$iStatus=LsUser::USER_FRIEND_NULL) {
+	public function GetUsersFriendOffer($sUserId,$iStatus=ModuleUser::USER_FRIEND_NULL) {
 		$sql = "SELECT 
 					uf.user_to							
 				FROM 
@@ -529,7 +529,7 @@ class Mapper_User extends Mapper {
 		if ($aRows=$this->oDb->select(
 				$sql,
 				$sUserId,
-				LsUser::USER_FRIEND_OFFER,
+				ModuleUser::USER_FRIEND_OFFER,
 				$iStatus 
 			)
 		) {
@@ -547,7 +547,7 @@ class Mapper_User extends Mapper {
 	 * @param  int    $iStatus Статус запроса со стороны самого пользователя
 	 * @return array
 	 */
-	public function GetUserSelfFriendOffer($sUserId,$iStatus=LsUser::USER_FRIEND_NULL) {
+	public function GetUserSelfFriendOffer($sUserId,$iStatus=ModuleUser::USER_FRIEND_NULL) {
 		$sql = "SELECT 
 					uf.user_from
 				FROM 
@@ -563,7 +563,7 @@ class Mapper_User extends Mapper {
 		if ($aRows=$this->oDb->select(
 				$sql,
 				$sUserId,
-				LsUser::USER_FRIEND_OFFER,
+				ModuleUser::USER_FRIEND_OFFER,
 				$iStatus 
 			)
 		) {

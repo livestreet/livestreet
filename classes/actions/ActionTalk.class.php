@@ -296,7 +296,7 @@ class ActionTalk extends Action {
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return parent::EventNotFound();
 		}
-		if($oTalkUser->getUserActive()!=LsTalk::TALK_USER_ACTIVE){
+		if($oTalkUser->getUserActive()!=ModuleTalk::TALK_USER_ACTIVE){
 			return parent::EventNotFound();
 		}
 		/**
@@ -332,7 +332,7 @@ class ActionTalk extends Action {
 			$iActiveSpeakers=0;
 			foreach((array)$oTalk->getTalkUsers() as $oTalkUser) {
 				if( ($oTalkUser->getUserId()!=$this->oUserCurrent->getId()) 
-					&& $oTalkUser->getUserActive()==LsTalk::TALK_USER_ACTIVE ){
+					&& $oTalkUser->getUserActive()==ModuleTalk::TALK_USER_ACTIVE ){
 						$iActiveSpeakers++;
 						break;
 				}
@@ -573,7 +573,7 @@ class ActionTalk extends Action {
 			/**
 			* Отсылаем уведомления всем адресатам
 			*/
-			$aUsersTalk=$this->Talk_GetUsersTalk($oTalk->getId(), LsTalk::TALK_USER_ACTIVE);
+			$aUsersTalk=$this->Talk_GetUsersTalk($oTalk->getId(), ModuleTalk::TALK_USER_ACTIVE);
 			
 			foreach ($aUsersTalk as $oUserTalk) {
 				if ($oUserTalk->getId()!=$oCommentNew->getUserId()) {
@@ -777,7 +777,7 @@ class ActionTalk extends Action {
 		// Если пользователь не является участником разговора или удалил себя самостоятельно
 		// возвращаем ошибку
 		if(!isset($aTalkUsers[$idTarget]) 
-			|| $aTalkUsers[$idTarget]->getUserActive()==LsTalk::TALK_USER_DELETE_BY_SELF) {
+			|| $aTalkUsers[$idTarget]->getUserActive()==ModuleTalk::TALK_USER_DELETE_BY_SELF) {
 				$this->Message_AddErrorSingle(
 					$this->Lang_Get(
 						'talk_speaker_user_not_found',
@@ -790,7 +790,7 @@ class ActionTalk extends Action {
 
 		// Удаляем пользователя из разговора,
 		// если удаление прошло неудачно - возвращаем системную ошибку
-		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,LsTalk::TALK_USER_DELETE_BY_AUTHOR)) {
+		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,ModuleTalk::TALK_USER_DELETE_BY_AUTHOR)) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('system_error'),
 				$this->Lang_Get('error')
@@ -865,7 +865,7 @@ class ActionTalk extends Action {
 						switch($aTalkUsers[$oUser->getId()]->getUserActive()) {
 							// Если пользователь ранее был удален админом разговора,
 							// то добавляем его снова
-							case LsTalk::TALK_USER_DELETE_BY_AUTHOR:
+							case ModuleTalk::TALK_USER_DELETE_BY_AUTHOR:
 								if (
 									$this->Talk_AddTalkUser(
 										Engine::GetEntity('Talk_TalkUser',
@@ -873,7 +873,7 @@ class ActionTalk extends Action {
 												'talk_id'=>$idTalk,
 												'user_id'=>$oUser->getId(),
 												'date_last'=>null,
-												'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
+												'talk_user_active'=>ModuleTalk::TALK_USER_ACTIVE
 											)
 										)
 									)
@@ -898,7 +898,7 @@ class ActionTalk extends Action {
 								break;
 							// Если пользователь является активным участником разговора,
 							// возвращаем ошибку	
-							case LsTalk::TALK_USER_ACTIVE:
+							case ModuleTalk::TALK_USER_ACTIVE:
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
@@ -907,7 +907,7 @@ class ActionTalk extends Action {
 								break;
 							// Если пользователь удалил себя из разговора самостоятельно,
 							// то блокируем повторное добавление
-							case LsTalk::TALK_USER_DELETE_BY_SELF:
+							case ModuleTalk::TALK_USER_DELETE_BY_SELF:
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
@@ -929,7 +929,7 @@ class ActionTalk extends Action {
 										'talk_id'=>$idTalk,
 										'user_id'=>$oUser->getId(),
 										'date_last'=>null,
-										'talk_user_active'=>LsTalk::TALK_USER_ACTIVE
+										'talk_user_active'=>ModuleTalk::TALK_USER_ACTIVE
 									)
 								)
 							)
@@ -982,9 +982,9 @@ class ActionTalk extends Action {
 		/**
 		 * Передаем во вьевер константы состояний участников разговора
 		 */
-		$this->Viewer_Assign('TALK_USER_ACTIVE',LsTalk::TALK_USER_ACTIVE);
-		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',LsTalk::TALK_USER_DELETE_BY_SELF);
-		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',LsTalk::TALK_USER_DELETE_BY_AUTHOR);
+		$this->Viewer_Assign('TALK_USER_ACTIVE',ModuleTalk::TALK_USER_ACTIVE);
+		$this->Viewer_Assign('TALK_USER_DELETE_BY_SELF',ModuleTalk::TALK_USER_DELETE_BY_SELF);
+		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',ModuleTalk::TALK_USER_DELETE_BY_AUTHOR);
 	}
 }
 ?>

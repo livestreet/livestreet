@@ -68,7 +68,7 @@ abstract class Plugin extends Object {
 		/**
 		 * Считываем данные из XML файла описания
 		 */
-		$sPluginXML = Config::Get('path.root.server').'/plugins/'.$sPluginName.'/'.LsPlugin::PLUGIN_XML_FILE;
+		$sPluginXML = Config::Get('path.root.server').'/plugins/'.$sPluginName.'/'.ModulePlugin::PLUGIN_XML_FILE;
 		if($oXml = @simplexml_load_file($sPluginXML)) {
 			foreach($aObjects as $sObjectName) {
 				if(is_array($data=$oXml->xpath("delegate/{$sObjectName}/item"))) {

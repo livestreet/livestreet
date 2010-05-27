@@ -21,7 +21,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/DbSimple/Generic.php
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова
  *
  */
-class LsDatabase extends Module {
+class ModuleDatabase extends Module {
 	/**
 	 * Массив инстанцируемых объектов БД, или проще говоря уникальных коннектов к БД
 	 *
