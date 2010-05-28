@@ -16,7 +16,7 @@
 */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-define('LS_VERSION','0.4');
+define('LS_VERSION','0.4.1');
 define('SYS_HACKER_CONSOLE',false);
 header('Content-Type: text/html; charset=utf-8');
 
