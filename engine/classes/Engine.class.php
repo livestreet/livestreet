@@ -637,5 +637,36 @@ function __autoload($sClassName) {
 			require_once($sFileClass);			
 		}
 	}
+	
+	
+	/**
+	 * Загрузка цепочки наследуемых классов
+	 */
+	if (preg_match("/^Plugin(\w+)\_Inherits\_([\w\_]+)$/i",$sClassName,$aMatch)) {
+		$sPlugin=$aMatch[1];
+		$sInheritClass=$aMatch[2];
+		$sParentClass=Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);		
+		class_alias($sParentClass,$sClassName);
+	}
+	
+	/**
+	 * Загрузка класса экшена
+	 */
+	if (preg_match("/^Action(\w+)$/i",$sClassName,$aMatch)) {
+		$sFileClass=Config::get('path.root.server').'/classes/actions/'.$sClassName.'.class.php';		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);			
+		}
+	}
+	
+	/**
+	 * Загрузка класса экшена плагина
+	 */
+	if (preg_match("/^Plugin(\w+)\_Action(\w+)$/i",$sClassName,$aMatch)) {
+		$sFileClass=Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/actions/Action'.$aMatch[2].'.class.php';		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);			
+		}
+	}
 }
 ?>

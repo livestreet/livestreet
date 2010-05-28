@@ -38,6 +38,12 @@ abstract class Plugin extends Object {
 	 * @var array
 	 */
 	protected $aDelegates=array();
+	/**
+	 * Массив наследуемых классов плагина
+	 *
+	 * @var array
+	 */
+	protected $aInherits=array();
 	
 	public function __construct() {
 
@@ -96,10 +102,25 @@ abstract class Plugin extends Object {
 				}
 			}
 		}
+		
+		if(is_array($this->aInherits) and count($this->aInherits)) {
+			foreach ($this->aInherits as $sObjectName=>$aParams) {
+				if(is_array($aParams) and count($aParams)) {
+					foreach ($aParams as $sFrom=>$sTo) {
+						if (is_int($sFrom)) {
+							$sFrom=$sTo;
+							$sTo=null;
+						}
+						$this->DelegateWrapper($sObjectName,$sFrom,$sTo);
+						$this->Plugin_Inherit($sFrom,$sTo,get_class($this));
+					}
+				}
+			}
+		}
 	}
 	
 	
-	public function DelegateWrapper($sObjectName,$sFrom,$sTo=null) {
+	public function DelegateWrapper($sObjectName,$sFrom,&$sTo=null) {
 		/**
 		 * Если не указан делегат TO, считаем, что делегатом является 
 		 * одноименный объект текущего плагина

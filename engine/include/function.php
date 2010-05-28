@@ -406,4 +406,10 @@ if (!function_exists('array_intersect_key')) {
 		}
 	}
 }
+
+if (!function_exists('class_alias')) {
+    function class_alias($original, $alias) {
+        eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
+    }
+}
 ?>

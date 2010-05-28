@@ -59,6 +59,13 @@ class ModulePlugin extends Module {
 	);
 	
 	/**
+	 * Стек наследований
+	 *
+	 * @var array
+	 */
+	protected $aInherits=array();	
+	
+	/**
 	 * Инициализация модуля
 	 *
 	 */
@@ -319,6 +326,40 @@ class ModulePlugin extends Module {
 		);
 	}
 
+	/**
+	 * Добавляет в стек наследника класса
+	 *
+	 * @param string $sFrom
+	 * @param string $sTo
+	 * @param string $sSign	
+	 */
+	public function Inherit($sFrom,$sTo,$sSign=__CLASS__) {
+		if(!is_string($sSign) or !strlen($sSign)) return null;
+		if(!$sFrom or !$sTo) return null;
+				
+		$this->aInherits[trim(strtolower($sFrom))]['items'][]=array(
+			'inherit'=>trim($sTo),
+			'sign'=>$sSign
+		);
+		$this->aInherits[trim(strtolower($sFrom))]['position']=count($this->aInherits[trim(strtolower($sFrom))]['items'])-1;
+	}
+	
+	/**
+	 * Получает следующего родителя у наследника.
+	 * ВНИМАНИЕ! Данный метод нужно вызвать только из __autoload()
+	 *
+	 * @param unknown_type $sFrom
+	 * @return unknown
+	 */
+	public function GetParentInherit($sFrom) {
+		$sKey=strtolower($sFrom);		
+		if (!isset($this->aInherits[$sKey]['items']) or count($this->aInherits[$sKey]['items'])<=1 or $this->aInherits[$sKey]['position']<1) {
+			return $sFrom;
+		}
+		$this->aInherits[$sKey]['position']--;		
+		return $this->aInherits[$sKey]['items'][$this->aInherits[$sKey]['position']]['inherit'];
+	}
+	
 	/**
 	 * Возвращает делегат модуля, экшена, сущности. 
 	 * Если делегат не определен, отдает переданный в качестве sender`a параметр
