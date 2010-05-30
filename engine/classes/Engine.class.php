@@ -642,7 +642,7 @@ function __autoload($sClassName) {
 	/**
 	 * Загрузка цепочки наследуемых классов
 	 */
-	if (preg_match("/^Plugin(\w+)\_Inherits\_([\w\_]+)$/i",$sClassName,$aMatch)) {
+	if (preg_match("/^Plugin(\w+)\_Inherit\_([\w\_]+)$/i",$sClassName,$aMatch)) {
 		$sPlugin=$aMatch[1];
 		$sInheritClass=$aMatch[2];
 		$sParentClass=Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);		

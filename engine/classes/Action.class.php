@@ -230,7 +230,6 @@ abstract class Action extends Object {
 			? $sFile
 			: 'actions/'.$sDelegater.'/'.$sTemplate.'.tpl';
 		}
-		
 	}
 	
 	/**
