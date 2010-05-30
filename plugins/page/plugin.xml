@@ -17,10 +17,4 @@
 		<lang name="default">Managing static pages</lang>
 		<lang name="russian">Управление статическими страницами.</lang>
 	</description>
-	<delegate>
-		<module></module>
-		<action></action>
-		<template></template>
-		<entity></entity>
-	</delegate>
 </plugin>
