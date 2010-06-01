@@ -141,7 +141,11 @@ abstract class Plugin extends Object {
 				$sTo=preg_replace("/^_/",$this->GetTemplatePath(get_class($this)),$sTo);
 			}
 		} else {
-			if(!$sTo) $sTo = get_class($this).'_'.$sFrom;
+			if(!$sTo) {
+				$sTo = get_class($this).'_'.$sFrom;
+			} else {
+				$sTo=preg_replace("/^_/",get_class($this).'_',$sTo);
+			}
 		}
 		return array($sFrom,$sTo);
 	}

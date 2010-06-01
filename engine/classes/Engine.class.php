@@ -160,47 +160,12 @@ class Engine extends Object {
 	public function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
 		
-		if(!preg_match('/^Plugin([\w]+)_([\w]+)$/i',$sModuleName,$aMatches)){
-			if ($this->isFileExists(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-				require_once(Config::Get('path.root.engine')."/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");			
-			} elseif ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php")) {
-				require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.php");
-			} else {
-				throw new Exception("Can not find module class - ".$sModuleName);
-			}		
-
-			/**
-			 * Проверяем наличие кастомного класса. Также можно переопределить системный модуль
-			 */
-			$sPrefixCustom='';
-			if ($this->isFileExists(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php")) {
-				require_once(Config::Get('path.root.server')."/classes/modules/".strtolower($sModuleName)."/".$sModuleName.".class.custom.php");
-				$sPrefixCustom='_custom';
-			}
-			/**
-			 * Определяем имя класса
-			 */
-			$sModuleNameClass='Module'.$sModuleName.$sPrefixCustom;					
-		} else {
-			/**
-			 * Это модуль плагина
-			 */
-			$sModuleFile = Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/classes/modules/'.strtolower($aMatches[2]).'/'.$aMatches[2].'.class.php';	
-			if($this->isFileExists($sModuleFile)) {
-				require_once($sModuleFile);
-			} else {
-				throw new Exception("Can not find module class - ".$sModuleName);
-			}
-			/**
-			 * Определяем имя класса
-			 */
-			$sModuleNameClass='Plugin'.$aMatches[1].'_Module'.$aMatches[2];	
-		}
+		
 		
 		/**		 
 		 * Создаем объект модуля
 		 */		
-		$oModule=new $sModuleNameClass($this);
+		$oModule=new $sModuleName($this);
 		if ($bInit or $sModuleName=='Cache') {
 			$oModule->Init();
 			$oModule->SetInit();
@@ -220,7 +185,7 @@ class Engine extends Object {
 		$this->LoadConfig();
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
 			if (!isset($this->aModules[$sModuleName])) {
-				$this->LoadModule($sModuleName);
+				$this->LoadModule('Module'.$sModuleName);
 			}
 		}
 	}
@@ -405,20 +370,22 @@ class Engine extends Object {
 		
 		if(count($aName)==2) {
 			$sModuleName=$aName[0];
+			$sModuleClass='Module'.$aName[0];
 			$sMethod=$aName[1];
 		} else {
 			$sModuleName=$aName[0].'_'.$aName[1];
+			$sModuleClass=$aName[0].'_Module'.$aName[1];
 			$sMethod=$aName[2];
 		}
 		/**
 		 * Подхватыем делегат модуля (в случае наличия такового)
 		 */
-		if(!in_array($sModuleName,array('Plugin','Hook'))) $sModuleName=$this->Plugin_GetDelegate('module',$sModuleName);
+		if(!in_array($sModuleName,array('Plugin','Hook'))) $sModuleClass=$this->Plugin_GetDelegate('module',$sModuleClass);
 
-		if (isset($this->aModules[$sModuleName])) {
-			$oModule=$this->aModules[$sModuleName];
+		if (isset($this->aModules[$sModuleClass])) {
+			$oModule=$this->aModules[$sModuleClass];
 		} else {
-			$oModule=$this->LoadModule($sModuleName,true);
+			$oModule=$this->LoadModule($sModuleClass,true);
 		}
 		
 		return array($oModule,$sModuleName,$sMethod);
@@ -632,7 +599,17 @@ function __autoload($sClassName) {
 	 * Если класс подходит под шаблон класса маппера плагина, то загружаем его
 	 */
 	if (preg_match("/^Plugin(\w+)\_Module(\w+)\_Mapper(\w+)$/i",$sClassName,$aMatch)) {
-		$sFileClass=Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/mapper/'.$aMatch[2].'.mapper.class.php';		
+		$sFileClass=Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/mapper/'.$aMatch[3].'.mapper.class.php';		
+		if (file_exists($sFileClass)) {
+			require_once($sFileClass);			
+		}
+	}
+	
+	/**
+	 * Если класс подходит под шаблон модуля плагина
+	 */
+	if (preg_match("/^Plugin(\w+)\_Module(\w+)$/i",$sClassName,$aMatch)) {
+		$sFileClass=Config::get('path.root.server').'/plugins/'.strtolower($aMatch[1]).'/classes/modules/'.strtolower($aMatch[2]).'/'.$aMatch[2].'.class.php';		
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);			
 		}
