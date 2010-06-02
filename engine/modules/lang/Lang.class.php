@@ -126,6 +126,23 @@ class ModuleLang extends Module {
 			}
 
 		}
+		
+		/**
+		 * Ищет языковой файл текущего шаблона
+		 */
+		$this->LoadLangFileTemplate($sLangName);
+	}
+	
+	/**
+	 * Загружает языковой файл текущего шаблона
+	 *
+	 * @param unknown_type $sLangName
+	 */
+	public function LoadLangFileTemplate($sLangName) {
+		$sFile=Config::Get('path.smarty.template').'/settings/language/'.$sLangName.'.php';
+		if (file_exists($sFile)) {
+			$this->AddMessages(include($sFile));
+		}
 	}
 	/**
 	 * Установить текущий язык
