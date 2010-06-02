@@ -654,8 +654,6 @@ class ModuleViewer extends Module {
 				}				
 			}
 		}
-
-		$this->aFileRules = Config::Get('head.rules');
 	}
 	/**
 	 * Создает css-компрессор и инициализирует его конфигурацию
@@ -718,6 +716,7 @@ class ModuleViewer extends Module {
 		 */
 		$aResult = $this->aFilesDefault;
 		
+		$this->aFileRules = Config::Get('head.rules');
 		foreach((array)$this->aFileRules as $sName => $aRule) {
 			if(!$aRule['path']) continue;
 

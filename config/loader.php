@@ -167,4 +167,11 @@ if($aPluginsList=@file($sPluginsListFile)) {
 		}
 	}
 }
+
+/**
+ * Загружает конфиг текущего шаблона
+ */
+if(file_exists(Config::Get('path.smarty.template').'/settings/config/config.php')) {
+	Config::LoadFromFile(Config::Get('path.smarty.template').'/settings/config/config.php',false);
+}
 ?>
