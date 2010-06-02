@@ -572,10 +572,8 @@ function __autoload($sClassName) {
 	 * Если класс подходит под шаблон модуля, то загружаем его
 	 */
 	if(preg_match("/^Module(\w+)$/i",$sClassName,$aMatch)) {
-		$sName = ucfirst(strtolower($aMatch[1]));
-		$sFileClass= (substr($sName,-7)=='_custom') 
-			? Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.substr($sName,0,strlen($sName)-7).'.class.custom.php'
-			: Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.$sName.'.class.php';	
+		$sName = ucfirst($aMatch[1]);
+		$sFileClass= Config::get('path.root.server').'/classes/modules/'.strtolower($sName).'/'.$sName.'.class.php';	
 			
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);
