@@ -1,4 +1,4 @@
-Получен новый комментарий к вашему топику <b>«{$oTopic->getTitle()|escape:'html'}»</b>, прочитать его можно перейдя по <a href="{$oTopic->getUrl()}#comment{$oComment->getId()}">этой ссылке</a><br>							
+Пользователь <a href="{$oUserComment->getUserWebPath()}">{$oUserComment->getLogin()}</a> оставил новый комментарий к вашему топику <b>«{$oTopic->getTitle()|escape:'html'}»</b>, прочитать его можно перейдя по <a href="{$oTopic->getUrl()}#comment{$oComment->getId()}">этой ссылке</a><br>							
 {if $oConfig->GetValue('sys.mail.include_comment')}
 	Текст сообщения: <i>{$oComment->getText()}</i>				
 {/if}				
