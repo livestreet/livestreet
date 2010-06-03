@@ -184,7 +184,7 @@ class Engine extends Object {
 	protected function LoadModules() {
 		$this->LoadConfig();
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
-			if (!isset($this->aModules[$sModuleName])) {
+			if (!isset($this->aModules['Module'.$sModuleName])) {
 				$this->LoadModule('Module'.$sModuleName);
 			}
 		}
