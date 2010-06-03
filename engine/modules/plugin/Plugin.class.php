@@ -236,9 +236,9 @@ class ModulePlugin extends Module {
 						$iConflict=0;
 						foreach ($aPluginDelegates as $sGroup=>$aReplaceList) {
 							foreach ($aReplaceList as $sResource=>$aConflict) {
-								if (isset($this->aInherits[strtolower($sResource)])) {
-									$iConflict+=count($this->aInherits[strtolower($sResource)]['items']);
-									foreach ($this->aInherits[strtolower($sResource)]['items'] as $aItem) {
+								if (isset($this->aInherits[$sResource])) {
+									$iConflict+=count($this->aInherits[$sResource]['items']);
+									foreach ($this->aInherits[$sResource]['items'] as $aItem) {
 										$this->Message_AddError(
 											$this->Lang_Get('plugins_activation_overlap_inherit', array(
 													'resource'=>$sResource,													
@@ -374,11 +374,11 @@ class ModulePlugin extends Module {
 		if(!is_string($sSign) or !strlen($sSign)) return null;
 		if(!$sFrom or !$sTo) return null;
 				
-		$this->aInherits[trim(strtolower($sFrom))]['items'][]=array(
+		$this->aInherits[trim($sFrom)]['items'][]=array(
 			'inherit'=>trim($sTo),
 			'sign'=>$sSign
 		);
-		$this->aInherits[trim(strtolower($sFrom))]['position']=count($this->aInherits[trim(strtolower($sFrom))]['items'])-1;
+		$this->aInherits[trim($sFrom)]['position']=count($this->aInherits[trim($sFrom)]['items'])-1;
 	}
 	
 	/**
@@ -388,18 +388,17 @@ class ModulePlugin extends Module {
 	 * @param unknown_type $sFrom
 	 * @return unknown
 	 */
-	public function GetParentInherit($sFrom) {
-		$sKey=strtolower($sFrom);		
-		if (!isset($this->aInherits[$sKey]['items']) or count($this->aInherits[$sKey]['items'])<=1 or $this->aInherits[$sKey]['position']<1) {
+	public function GetParentInherit($sFrom) {		
+		if (!isset($this->aInherits[$sFrom]['items']) or count($this->aInherits[$sFrom]['items'])<=1 or $this->aInherits[$sFrom]['position']<1) {
 			return $sFrom;
 		}
-		$this->aInherits[$sKey]['position']--;		
-		return $this->aInherits[$sKey]['items'][$this->aInherits[$sKey]['position']]['inherit'];
+		$this->aInherits[$sFrom]['position']--;		
+		return $this->aInherits[$sFrom]['items'][$this->aInherits[$sFrom]['position']]['inherit'];
 	}
 	
 	public function GetLastInherit($sFrom) {
-		if (isset($this->aInherits[trim(strtolower($sFrom))])) {
-			return $this->aInherits[trim(strtolower($sFrom))]['items'][count($this->aInherits[trim(strtolower($sFrom))]['items'])-1];
+		if (isset($this->aInherits[trim($sFrom)])) {
+			return $this->aInherits[trim($sFrom)]['items'][count($this->aInherits[trim($sFrom)]['items'])-1];
 		}
 		return null;
 	}
