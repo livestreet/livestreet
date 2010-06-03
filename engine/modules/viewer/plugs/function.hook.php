@@ -29,8 +29,9 @@ function smarty_function_hook($aParams,&$oSmarty) {
 		return;
 	}
 	
-	$sHookName='template_'.strtolower($aParams['run']);	
-	$aResultHook=Engine::getInstance()->Hook_Run($sHookName);
+	$sHookName='template_'.strtolower($aParams['run']);
+	unset($aParams['run']);
+	$aResultHook=Engine::getInstance()->Hook_Run($sHookName,$aParams);
 	if (array_key_exists('template_result',$aResultHook)) {
 		return join('',$aResultHook['template_result']);
 	}	
