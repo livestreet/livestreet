@@ -160,29 +160,31 @@ class ModuleImage extends Module {
 			 * Добавляем watermark согласно в конфигурации заданым параметрам
 			 */
 			if($aParams['watermark_use']) {
-				switch($aParams['watermark_type']) {
-					default:
-					case 'text':
-						$oImage->set_font(
-							$aParams['watermark_font_size'],  0, 
-							$aParams['path']['fonts'].$aParams['watermark_font'].'.ttf'
-						);
-						
-						$oImage->watermark(
-							$aParams['watermark_text'], 
-				 		    explode(',',$aParams['watermark_position'],2), 
-						    explode(',',$aParams['watermark_font_color']), 
-						    explode(',',$aParams['watermark_back_color']), 
-						    $aParams['watermark_font_alfa'], 
-							$aParams['watermark_back_alfa']
-						);	
-						break;
-					case 'image':
-						$oImage->paste_image(
-							$aParams['path']['watermarks'].$aParams['watermark_image'],
-							true, explode(',',$aParams['watermark_position'],2)
-						);	
-						break;
+				if ($oImage->get_image_params('width')>$aParams['watermark_min_width'] and $oImage->get_image_params('height')>$aParams['watermark_min_height']) {
+					switch($aParams['watermark_type']) {
+						default:
+						case 'text':
+							$oImage->set_font(
+								$aParams['watermark_font_size'],  0,
+								$aParams['path']['fonts'].$aParams['watermark_font'].'.ttf'
+							);
+
+							$oImage->watermark(
+								$aParams['watermark_text'],
+								explode(',',$aParams['watermark_position'],2),
+								explode(',',$aParams['watermark_font_color']),
+								explode(',',$aParams['watermark_back_color']),
+								$aParams['watermark_font_alfa'],
+								$aParams['watermark_back_alfa']
+							);
+							break;
+						case 'image':
+							$oImage->paste_image(
+								$aParams['path']['watermarks'].$aParams['watermark_image'],
+								true, explode(',',$aParams['watermark_position'],2)
+							);
+							break;
+					}
 				}
 			}
 			/**
