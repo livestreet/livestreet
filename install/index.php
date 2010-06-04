@@ -1058,7 +1058,7 @@ class Install {
 			 * Валидация версии MySQL сервера
 			 */
 			if(!version_compare(mysql_get_server_info(), '5.0.0', '>')) {
-				$this->aMessages[] = array('type'=>'error', $this->Lang('valid_mysql_server'));
+				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('valid_mysql_server'));
 				return false;
 			}
 			
