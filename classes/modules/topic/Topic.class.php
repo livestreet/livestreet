@@ -37,7 +37,7 @@ class ModuleTopic extends Module {
 	 * Получает дополнительные данные(объекты) для топиков по их ID
 	 *
 	 */
-	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
+	public function GetTopicsAdditionalData($aTopicId,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array(),'relation_user'),'vote','favourite','comment_new')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aTopicId)) {
 			$aTopicId=array($aTopicId);
@@ -419,7 +419,7 @@ class ModuleTopic extends Module {
 	 * @param  int   $iPerPage
 	 * @return array
 	 */
-	public function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array()),'vote','favourite','comment_new')) {
+	public function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array(),'relation_user'),'vote','favourite','comment_new')) {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {			
 			$data = ($iPage*$iPerPage!=0) 
