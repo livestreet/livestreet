@@ -275,7 +275,7 @@ class Router extends Object {
 	 * @return string
 	 */
 	static public function GetAction() {
-		return self::$sAction;		
+		return self::getInstance()->Standart(self::$sAction);		
 	}
 	
 	/**
