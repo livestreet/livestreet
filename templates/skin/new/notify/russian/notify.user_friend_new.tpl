@@ -1,4 +1,4 @@
-Пользователь «<a href="{router page='profile'}{$oUserFrom->getLogin()}/">{$oUserFrom->getLogin()}</a>»</b> хочет добавить вас в друзья.						
+Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a>»</b> хочет добавить вас в друзья.						
 <br /><br />
 <i>{$sText}</i>
 <a href='{$sPath}'>Посмотреть заявку</a> (Не забудьте предварительно авторизоваться!)
