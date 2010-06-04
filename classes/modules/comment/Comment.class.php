@@ -411,6 +411,10 @@ class ModuleComment extends Module {
 			 */
 			if($oComment->getDelete()) $this->DeleteCommentOnlineByArrayId($oComment->getId(),$oComment->getTargetType());	
 			/**
+			 * Обновляем избранное
+			 */
+			$this->Favourite_SetFavouriteTargetPublish($oComment->getId(),'comment',!$oComment->getDelete());
+			/**
 			 * Чистим зависимые кеши
 			 */
 			if(Config::Get('sys.cache.solid')){ 
