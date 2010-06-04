@@ -934,7 +934,7 @@ class Install {
 	function ValidateEnviroment() {
 		$bOk = true;
 		
-		if(!version_compare(PHP_VERSION, '5.0.0', '>')) {
+		if(!version_compare(PHP_VERSION, '5.1.2', '>=')) {
 			$bOk = false;
 			$this->Assign('validate_php_version', '<span style="color:red;">'.$this->Lang('no').'</span>');			
 		} else {

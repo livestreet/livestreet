@@ -58,7 +58,7 @@ return array(
 	'start_paragraph'=>'<p>Welcome to the LiveStreet installation &copy; 0.4. See the results and follow the prompt messages.</p><p><b>Notice.</b> To successfully complete the installation, please rename the file /config/config.local.php.dist to config.local.php and enable the file for entering data.</p><p><b>Notice.</b> Directories /tmp, /logs, /uploads, /templates/compiled, /templates/cache must be enabled for entering data.</p>',
 	
 	'php_params'=>'Main PHP parameters',
-	'php_params_version'=>'At least 5.0 PHP version',
+	'php_params_version'=>'At least 5.1.2 PHP version',
 	'php_params_safe_mode'=>'Safe mode is turned off',
 	'php_params_utf8'=>'Compatibility of UTF8 by PCRE',
 	'php_params_mbstring'=>'Mbstring compatibility',
