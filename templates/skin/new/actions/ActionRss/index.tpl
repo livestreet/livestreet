@@ -12,7 +12,7 @@
 	<generator>{$aChannel.generator}</generator>
 {foreach from=$aItems item=oItem}
 		<item>
-			<title><![CDATA[{$oItem.title|escape:'html'}]]></title>
+			<title>{$oItem.title|escape:'html'}</title>
 			<guid isPermaLink="true">{$oItem.guid}</guid>
 			<link>{$oItem.link}</link>
 			<dc:creator>{$oItem.author}</dc:creator>

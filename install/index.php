@@ -17,7 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
-define('LS_VERSION','0.4');
+define('LS_VERSION','0.4.1');
 
 class Install {
 	/**

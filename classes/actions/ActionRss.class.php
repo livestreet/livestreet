@@ -77,7 +77,7 @@ class ActionRss extends Action {
 		$aResult=$this->Topic_GetTopicsNew(1,Config::Get('module.topic.per_page')*2,false);			
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
@@ -111,7 +111,7 @@ class ActionRss extends Action {
 		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2,$aCloseTopics);
 		$aComments=$aResult['collection'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
@@ -146,7 +146,7 @@ class ActionRss extends Action {
 		$aComments=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
 		$aComments=$aComments['comments'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
@@ -176,7 +176,7 @@ class ActionRss extends Action {
 		$aResult=$this->Topic_GetTopicsByTag($sTag,1,Config::Get('module.topic.per_page')*2,false);
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
 		$aChannel['language']='ru';
@@ -210,7 +210,7 @@ class ActionRss extends Action {
 		}
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=Config::Get('path.root.web').' / '.$oBlog->getTitle().' / RSS channel';
 		$aChannel['language']='ru';
@@ -252,7 +252,7 @@ class ActionRss extends Action {
 		}
 		$aTopics=$aResult['collection'];
 		
-		$aChannel['title']=Config::Get('path.root.web');
+		$aChannel['title']=Config::Get('view.name');
 		$aChannel['link']=Config::Get('path.root.web');
 		$aChannel['description']=($this->sUserLogin)
 			? Config::Get('path.root.web').' / '.$oUser->getLogin().' / RSS channel'
