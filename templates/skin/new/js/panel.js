@@ -58,7 +58,8 @@ var lsPanelClass = new Class({
 	
 	putQuote: function(obj) {
 		obj=$(obj);
-		if (selText=this.getSelectedText()) {			
+		selText=this.getSelectedText();
+        if (selText && selText != "") {			
 			this.putText(obj,'<blockquote>'+selText+'</blockquote>');
 		} else {
 			this.putTagAround(obj,'blockquote');
