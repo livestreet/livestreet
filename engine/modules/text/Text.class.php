@@ -130,10 +130,6 @@ class ModuleText extends Module {
 		$sResult=$this->JevixParser($sResult);	
 		$sResult=$this->VideoParser($sResult);	
 		$sResult=$this->CodeSourceParser($sResult);
-		if (Config::Get('view.noindex')) {
-			// требует доработки, т.к. обрабатывает ВСЕ ссылки, включая в <code></code>
-			$sResult=$this->MakeUrlNoIndex($sResult);
-		}
 		return $sResult;
 	}
 	/**
@@ -180,16 +176,6 @@ class ModuleText extends Module {
 		$sText=str_replace("</code>",'</code></pre>',$sText);
 		return $sText;
 	}
-	/**
-	 * Делает ссылки не видимыми для поисковиков
-	 *
-	 * @param unknown_type $sText
-	 * @return unknown
-	 */
-	public function MakeUrlNoIndex($sText) {
-		return preg_replace("/(<a .*>.*<\/a>)/Ui","<noindex>$1</noindex>",$sText);
-	}
-	
 	/**
 	 * Производить резрезание текста по тегу <cut>.
 	 * Возвращаем массив вида:
