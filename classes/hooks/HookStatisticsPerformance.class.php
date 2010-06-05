@@ -36,7 +36,7 @@ class HookStatisticsPerformance extends Hook {
 		$this->Viewer_Assign('aStatsPerformance',$aStats);
 		
 		$this->Viewer_Assign('bIsShowStatsPerformance',Router::GetIsShowStats());
-		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__).'statistics_performance.tpl');
+		return $this->Viewer_Fetch('statistics_performance.tpl');
 	}
 }
 ?>
