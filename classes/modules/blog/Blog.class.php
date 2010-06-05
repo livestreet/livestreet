@@ -796,8 +796,14 @@ class ModuleBlog extends Module {
 		$oImage = $this->Image_CropSquare($oImage);
 		
 		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),48,48,false,$aParams,$oImage)) {
-			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_24x24",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),24,24,false,$aParams,$oImage);
-			$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams,$oImage);
+			$aSize=Config::Get('module.blog.avatar_size');
+			foreach ($aSize as $iSize) {
+				if ($iSize==0) {
+					$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams,$oImage);
+				} else {
+					$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_{$iSize}x{$iSize}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$iSize,$iSize,false,$aParams,$oImage);
+				}
+			}
 			@unlink($sFileTmp);
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -820,9 +826,10 @@ class ModuleBlog extends Module {
 		 * Если аватар есть, удаляем его и его рейсайзы
 		 */
 		if($oBlog->getAvatar()) {		
-			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(48)));
-			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(24)));
-			@unlink($this->Image_GetServerPath($oBlog->getAvatarPath(0)));		
+			$aSize=array_merge(Config::Get('module.blog.avatar_size'),array(48));
+			foreach ($aSize as $iSize) {
+				@unlink($this->Image_GetServerPath($oBlog->getAvatarPath($iSize)));
+			}		
 		}
 	}	
 }

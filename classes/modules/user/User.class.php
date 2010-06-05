@@ -1090,11 +1090,15 @@ class ModuleUser extends Module {
 		$oImage->set_jpg_quality($aParams['jpg_quality']);
 		$oImage->output(null,$sFileTmp);
 		
-		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_64x64',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),64,64,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_48x48',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),48,48,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar_24x24',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),24,24,false,$aParams);
-			$this->Image_Resize($sFileTmp,$sPath,'avatar',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams);
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {			
+			$aSize=Config::Get('module.user.avatar_size');
+			foreach ($aSize as $iSize) {
+				if ($iSize==0) {
+					$this->Image_Resize($sFileTmp,$sPath,'avatar',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams);
+				} else {
+					$this->Image_Resize($sFileTmp,$sPath,"avatar_{$iSize}x{$iSize}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$iSize,$iSize,false,$aParams);
+				}
+			}
 			@unlink($sFileTmp);
 			/**
 			 * Если все нормально, возвращаем расширение загруженного аватара
@@ -1117,11 +1121,10 @@ class ModuleUser extends Module {
 		 * Если аватар есть, удаляем его и его рейсайзы
 		 */
 		if($oUser->getProfileAvatar()) {
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(100)));
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(64)));
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(48)));
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(24)));
-			@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath(0)));
+			$aSize=array_merge(Config::Get('module.user.avatar_size'),array(100));
+			foreach ($aSize as $iSize) {
+				@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath($iSize)));
+			}
 		}
 	}
 		

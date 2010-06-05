@@ -276,7 +276,7 @@ class ActionSettings extends Action {
 				$sPathOld = $this->oUserCurrent->getProfileAvatar();
 				$aUserAvatars = array();
 				if($sPathOld) {
-					foreach (array(100,64,48,24,0) as $iSize) {
+					foreach (array_merge(Config::Get('module.user.avatar_size'),array(100)) as $iSize) {
 						$aUserAvatars[$iSize] = $this->oUserCurrent->getProfileAvatarPath($iSize);
 					}
 				}
