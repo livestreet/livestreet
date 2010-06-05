@@ -222,6 +222,20 @@ abstract class Plugin extends Object {
 		return false;
 	}
 	
+	/**
+	 * Получает версию плагина
+	 *
+	 * @return unknown
+	 */
+	public function GetVersion() {
+		preg_match('/^Plugin([\w]+)$/i',get_class($this),$aMatches);		
+		$sPluginXML = Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/'.ModulePlugin::PLUGIN_XML_FILE;
+		if($oXml = @simplexml_load_file($sPluginXML)) {
+			return (string)$oXml->version;
+		}
+		return null;
+	}
+	
 	public function __call($sName,$aArgs) {
 		return Engine::getInstance()->_CallModule($sName,$aArgs);
 	}
