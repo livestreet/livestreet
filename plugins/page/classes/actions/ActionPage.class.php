@@ -116,6 +116,8 @@ class PluginPage_ActionPage extends ActionPlugin {
 					$_REQUEST['page_seo_keywords']=$oPageEdit->getSeoKeywords();
 					$_REQUEST['page_seo_description']=$oPageEdit->getSeoDescription();
 					$_REQUEST['page_active']=$oPageEdit->getActive();	
+					$_REQUEST['page_main']=$oPageEdit->getMain();	
+					$_REQUEST['page_sort']=$oPageEdit->getSort();	
 					$_REQUEST['page_id']=$oPageEdit->getId();						
 				}	else {
 					/**
@@ -140,6 +142,30 @@ class PluginPage_ActionPage extends ActionPlugin {
 			} else {
 				$this->Message_AddError($this->Lang_Get('page_admin_action_delete_error'),$this->Lang_Get('error'));
 			}
+		}
+		/**
+		 * Обработка изменения сортировки страницы
+		 */
+		if ($this->GetParam(0)=='sort' and $oPage=$this->PluginPage_Page_GetPageById($this->GetParam(1))) {
+			$this->Security_ValidateSendForm();
+			$sWay=$this->GetParam(2)=='down' ? 'down' : 'up';
+			$iSortOld=$oPage->getSort();
+			if ($oPagePrev=$this->PluginPage_Page_GetNextPageBySort($iSortOld,$oPage->getPid(),$sWay)) {
+				$iSortNew=$oPagePrev->getSort();
+				$oPagePrev->setSort($iSortOld);
+				$this->PluginPage_Page_UpdatePage($oPagePrev);
+			} else {
+				if ($sWay=='down') {
+					$iSortNew=$iSortOld-1;
+				} else {
+					$iSortNew=$iSortOld+1;
+				}				
+			}
+			/**
+			 * Меняем значения сортировки местами
+			 */
+			$oPage->setSort($iSortNew);
+			$this->PluginPage_Page_UpdatePage($oPage);
 		}
 		/**
 		 * Получаем и загружаем список всех страниц
@@ -172,6 +198,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 * Обновляем свойства страницы
 		 */		
 		$oPageEdit->setActive(getRequest('page_active') ? 1 : 0);
+		$oPageEdit->setMain(getRequest('page_main') ? 1 : 0);
 		$oPageEdit->setDateEdit(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {
 			$oPageEdit->setUrlFull(getRequest('page_url'));
@@ -186,6 +213,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		$oPageEdit->setText(getRequest('page_text'));
 		$oPageEdit->setTitle(getRequest('page_title'));
 		$oPageEdit->setUrl(getRequest('page_url'));
+		$oPageEdit->setSort(getRequest('page_sort'));
 		/**
 		 * Обновляем страницу
 		 */
@@ -214,6 +242,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 */
 		$oPage=Engine::GetEntity('PluginPage_Page');
 		$oPage->setActive(getRequest('page_active') ? 1 : 0);
+		$oPage->setMain(getRequest('page_main') ? 1 : 0);
 		$oPage->setDateAdd(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {
 			$oPage->setUrlFull(getRequest('page_url'));
@@ -228,6 +257,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		$oPage->setText(getRequest('page_text'));
 		$oPage->setTitle(getRequest('page_title'));
 		$oPage->setUrl(getRequest('page_url'));
+		$oPage->setSort(getRequest('page_sort'));
 		/**
 		 * Добавляем страницу
 		 */		
@@ -284,6 +314,13 @@ class PluginPage_ActionPage extends ActionPlugin {
 			$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}		
+		/**
+		 * Проверяем сортировку
+		 */
+		if (getRequest('page_sort') and !is_numeric(getRequest('page_sort'))) {
+			$this->Message_AddError($this->Lang_Get('page_create_sort_error'),$this->Lang_Get('error'));
+			$bOk=false;
+		}
 		/**
 		 * Выполнение хуков
 		 */

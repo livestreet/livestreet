@@ -49,6 +49,12 @@ class PluginPage_ModulePage_EntityPage extends Entity
     }
     public function getActive() {
         return $this->_aData['page_active'];
+    }
+    public function getMain() {
+        return $this->_aData['page_main'];
+    }
+    public function getSort() {
+        return $this->_aData['page_sort'];
     }     
     
     public function getLevel() {
@@ -90,6 +96,12 @@ class PluginPage_ModulePage_EntityPage extends Entity
     }
     public function setActive($data) {
         $this->_aData['page_active']=$data;
+    }
+    public function setMain($data) {
+        $this->_aData['page_main']=$data;
+    }
+    public function setSort($data) {
+        $this->_aData['page_sort']=$data;
     }
 }
 ?>

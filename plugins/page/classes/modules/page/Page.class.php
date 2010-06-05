@@ -186,5 +186,23 @@ class PluginPage_ModulePage extends Module {
 	public function SetPagesPidToNull() {
 		return $this->oMapper->SetPagesPidToNull();
 	}
+	/**
+	 * Получает слудующую по сортировке страницу
+	 *
+	 * @param unknown_type $iSort
+	 * @param unknown_type $sWay
+	 * @return unknown
+	 */
+	public function GetNextPageBySort($iSort,$sPid,$sWay='up') {
+		return $this->oMapper->GetNextPageBySort($iSort,$sPid,$sWay);
+	}
+	/**
+	 * Получает значение максимальной сртировки
+	 *
+	 * @return unknown
+	 */
+	public function GetMaxSortByPid($sPid) {
+		return $this->oMapper->GetMaxSortByPid($sPid);
+	}
 }
 ?>

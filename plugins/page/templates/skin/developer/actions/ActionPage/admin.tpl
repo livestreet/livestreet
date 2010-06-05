@@ -24,7 +24,8 @@
 				<td>{$aLang.page_admin_title}</td>
 				<td align="center" width="250px">{$aLang.page_admin_url}</td>    	
 				<td align="center" width="50px">{$aLang.page_admin_active}</td>    	   	
-				<td align="center" width="80px">{$aLang.page_admin_action}</td>    	   	
+				<td align="center" width="70px">{$aLang.page_admin_main}</td>    	   	
+				<td align="center" width="80px">{$aLang.page_admin_action}</td>
 			</tr>
 		</thead>
 		
@@ -45,10 +46,19 @@
 							{$aLang.page_admin_active_no}
 						{/if}
 					</td>
+					<td align="center">
+						{if $oPage->getMain()}
+							{$aLang.page_admin_active_yes}
+						{else}
+							{$aLang.page_admin_active_no}
+						{/if}
+					</td>
 					<td align="center">  
 						<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{cfg name='path.static.skin'}/images/edit.png" alt="{$aLang.page_admin_action_edit}" title="{$aLang.page_admin_action_edit}" /></a>      	
 						<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.page_admin_action_delete_confirm}');"><img src="{cfg name='path.static.skin'}/images/delete.png" alt="{$aLang.page_admin_action_delete}" title="{$aLang.page_admin_action_delete}" /></a>        	    
-					</td>   
+						<a href="{router page='page'}admin/sort/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$sTemplateWebPathPlugin}images/up.png" alt="{$aLang.page_admin_sort_up}" title="{$aLang.page_admin_sort_up} ({$oPage->getSort()})" /></a>
+						<a href="{router page='page'}admin/sort/{$oPage->getId()}/down/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$sTemplateWebPathPlugin}images/down.png" alt="{$aLang.page_admin_sort_down}" title="{$aLang.page_admin_sort_down} ({$oPage->getSort()})" /></a>
+					</td>
 				</tr>
 			{/foreach}
 		</tbody>

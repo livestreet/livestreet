@@ -79,8 +79,14 @@
 	<p><label for="page_seo_description">{$aLang.page_create_seo_description}:</label><br />
 	<input type="text" id="page_seo_description" name="page_seo_description" value="{$_aRequest.page_seo_description}" class="input-wide" />
 	<span class="note">{$aLang.page_create_seo_description_notice}</span></p>
+	
+	<p><label for="page_sort">{$aLang.page_create_sort}:</label><br />
+	<input type="text" id="page_sort" name="page_sort" value="{$_aRequest.page_sort}" class="input-wide" />
+	<span class="note">{$aLang.page_create_sort_notice}</span></p>
 
 	<p><label><input type="checkbox" id="page_active" name="page_active" value="1" class="checkbox" {if $_aRequest.page_active==1}checked{/if} />{$aLang.page_create_active}</label></p>
+	
+	<p><label><input type="checkbox" id="page_main" name="page_main" value="1" class="checkbox" {if $_aRequest.page_main==1}checked{/if} />{$aLang.page_create_main}</label></p>
 	
 	<p>					
 		<input type="submit" name="submit_page_save" value="{$aLang.page_create_submit_save}" />
