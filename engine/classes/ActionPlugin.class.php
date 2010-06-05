@@ -37,6 +37,7 @@ abstract class ActionPlugin extends Action {
 	public function __construct(Engine $oEngine, $sAction) {
 		parent::__construct($oEngine, $sAction);
 		$this->Viewer_Assign('sTemplatePathPlugin',rtrim($this->getTemplatePathPlugin(),'/'));
+		$this->Viewer_Assign('sTemplateWebPathPlugin',Plugin::GetTemplateWebPath(get_class($this)));
 	}
 	
 	/**

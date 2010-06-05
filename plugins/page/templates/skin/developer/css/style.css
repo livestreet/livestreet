@@ -1,0 +1,4 @@
+.table a { color: #333; }
+.table a:hover { color: #666; }
+
+.page-new { padding-left: 13px; background: url(../images/document.gif) no-repeat 0 3px; color: #555; }
