@@ -473,7 +473,7 @@ class ActionTopic extends Action {
 			 * Рассылаем о новом топике подписчикам блога
 			 */
 			if ($bSendNotify)	 {
-				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
+				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$oTopic->getUser());
 			}
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
 				Router::Location($oBlog->getUrlFull());
