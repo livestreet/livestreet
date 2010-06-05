@@ -40,6 +40,7 @@ class Engine extends Object {
 	protected $aPlugins=array();
 	protected $aConfigModule;
 	public $iTimeLoadModule=0;
+	protected $iTimeInit=null;
 	
 	/**
 	 * Массив содержит меппер кастомизации сущностей
@@ -53,6 +54,7 @@ class Engine extends Object {
 	 *
 	 */
 	protected function __construct() {
+		$this->iTimeInit=microtime(true);
 		if (get_magic_quotes_gpc()) {
 			func_stripslashes($_REQUEST);
 			func_stripslashes($_GET);
@@ -393,6 +395,10 @@ class Engine extends Object {
 	
 	public function getStats() {
 		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->iTimeLoadModule,3)));
+	}
+	
+	public function GetTimeInit() {
+		return $this->iTimeInit;
 	}
 
 	/**

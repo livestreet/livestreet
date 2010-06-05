@@ -44,18 +44,15 @@
 		{/if}
 	</div>
 
-
-	{* Логотип *}
+	
 	<h1><a href="{cfg name='path.root.web'}">LiveStreet</a></h1>
 	
-
-	{* Список страниц *}
+	
 	<ul class="pages">
 		<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.clean_posts}</a></li>
 		<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
 		<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
-
-		{* Список страниц плагина "Page" *}
+		
 		{if $aPluginActive.page}
 			<li {if $sAction=='page' and $sEvent=='about'}class="active"{/if}><a href="{router page='page'}about/">{$aLang.page_about}</a></li>
 		{/if}

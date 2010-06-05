@@ -25,11 +25,17 @@ abstract class Hook extends Object {
 		
 	}
 	
-	protected function AddHook($sName,$sCallBack,$sClassNameHook,$iPriority=1) {
+	protected function AddHook($sName,$sCallBack,$sClassNameHook=null,$iPriority=1) {
+		if (is_null($sClassNameHook)) {
+			$sClassNameHook=get_class($this);
+		}
 		$this->Hook_AddExecHook($sName,$sCallBack,$iPriority,array('sClassName'=>$sClassNameHook));
 	}
 	
-	protected function AddDelegateHook($sName,$sCallBack,$sClassNameHook,$iPriority=1) {
+	protected function AddDelegateHook($sName,$sCallBack,$sClassNameHook=null,$iPriority=1) {
+		if (is_null($sClassNameHook)) {
+			$sClassNameHook=get_class($this);
+		}
 		$this->Hook_AddDelegateHook($sName,$sCallBack,$iPriority,array('sClassName'=>$sClassNameHook));
 	}
 		
