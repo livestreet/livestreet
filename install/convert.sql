@@ -177,3 +177,8 @@ ALTER TABLE  `prefix_user` DROP INDEX  `user_date_last`;
 
 ALTER TABLE  `prefix_topic_content` CHANGE  `topic_text`  `topic_text` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE  `prefix_topic_content` CHANGE  `topic_text_source`  `topic_text_source` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE  `prefix_page` ADD  `page_main` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0',
+ADD INDEX (  `page_main` );
+ALTER TABLE  `prefix_page` ADD  `page_sort` INT NOT NULL ,
+ADD INDEX (  `page_sort` );

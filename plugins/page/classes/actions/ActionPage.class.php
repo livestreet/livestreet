@@ -257,7 +257,11 @@ class PluginPage_ActionPage extends ActionPlugin {
 		$oPage->setText(getRequest('page_text'));
 		$oPage->setTitle(getRequest('page_title'));
 		$oPage->setUrl(getRequest('page_url'));
-		$oPage->setSort(getRequest('page_sort'));
+		if (getRequest('page_sort')) {
+			$oPage->setSort(getRequest('page_sort'));
+		} else {
+			$oPage->setSort($this->PluginPage_Page_GetMaxSortByPid($oPage->getPid())+1);
+		}
 		/**
 		 * Добавляем страницу
 		 */		

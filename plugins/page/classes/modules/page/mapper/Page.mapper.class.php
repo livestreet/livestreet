@@ -166,7 +166,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		if ($aRow=$this->oDb->selectRow($sql,is_null($sPid) ? DBSIMPLE_SKIP : $sPid)) {
 			return $aRow['max_sort'];
 		}
-		return null;
+		return 0;
 	}
 }
 ?>
