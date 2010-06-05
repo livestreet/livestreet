@@ -1,0 +1,379 @@
+@import url(reset.css);
+
+
+/* --------------------------------------------------------------
+	!FONTS
+-------------------------------------------------------------- */
+body { 
+	font: 12px/18px Tahoma, Arial, Sans-Serif; 
+	color: #333; 
+	background: #fff url(../images/bg.png) repeat-x;
+}
+
+h1, h2, h3, h4, h5, h6 { font: normal 18px Arial, Sans-Serif; color: #333; }
+h1 { font-size: 22px; line-height: 26px; margin-bottom: 10px; }
+h2 { font-size: 22px; line-height: 26px; margin-bottom: 7px; }
+h3 { font-size: 18px; line-height: 22px; margin-bottom: 5px; }
+h4 { font-size: 16px; line-height: 20px; margin-bottom: 5px; }
+h5 { font-size: 16px; line-height: 20px; margin-bottom: 5px; }
+h6 { font-size: 16px; line-height: 20px; margin-bottom: 5px; }
+
+a 			{ color: #1f55a8; }
+a 			{ color: #1f8ab7; }
+a:hover 	{ color: #333; }
+
+p { margin-bottom: 18px; }
+
+
+
+
+/* --------------------------------------------------------------
+	!BLOCKS
+-------------------------------------------------------------- */
+#container 	{ width: 900px; padding: 0 25px; margin: 0 auto; }
+#header 	{ overflow: hidden; zoom: 1; margin-bottom: 30px; padding: 0 15px; background: #2c2c2c; }
+#wrapper 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; }
+#content 	{ width: 585px; float: left; padding: 0 20px 0 15px; background: #fff; }
+#sidebar	{ width: 280px; float: left; }
+#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 10px 20px; background: #fafafa; }
+
+
+
+
+/* --------------------------------------------------------------
+	!FORMS
+-------------------------------------------------------------- */
+.input-wide { width: 98%; _width: 97%; padding: 2px; }
+.input-100 { width: 100px; padding: 2px; }
+.input-200 { width: 200px; padding: 2px; }
+.input-300 { width: 300px; padding: 2px; }
+.note { font-size: 12px; color: #aaa; }
+.checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
+.question-list { margin-bottom: 15px; }
+.question-list li { margin-bottom: 3px; }
+
+
+
+
+/* --------------------------------------------------------------
+	!GENERAL
+-------------------------------------------------------------- */
+
+/* Voting */
+.voting { overflow: hidden; zoom: 1; }
+
+.voting .total { float: left; padding: 0 7px; font-weight: bold; color: #aaa; }
+.voting .total a { text-decoration: none; color: #999; outline: none; }
+
+.voting.positive .total { color: #390; }
+.voting.negative .total { color: #f00; }
+
+.voting .plus,
+.voting .minus 			{ width: 10px; height: 10px; float: left; display: block; background: url(../images/voting.png) no-repeat; position: relative; top: 4px; outline: none; }
+.voting .plus 			{ background-position: 0 0; }
+.voting .minus 			{ background-position: -20px 0; }
+.voting .plus:hover 	{ background-position: -10px 0; }
+.voting .minus:hover 	{ background-position: -30px 0; }
+
+.voting.voted.plus 	.plus 			{ background-position: -10px 0; }
+.voting.voted.minus .minus 			{ background-position: -30px 0; }
+.voting.voted.plus 	.minus:hover 	{ background-position: -20px 0; }
+.voting.voted.minus .plus:hover 	{ background-position: 0 0; }
+
+.voting.guest .plus:hover 	{ background-position: 0 0; }
+.voting.guest .minus:hover 	{ background-position: -20px 0; }
+
+
+/* Favorite */
+.favorite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; }
+.favorite:hover 	{ background-position: 0 -16px !important; }
+.favorite.active 	{ background-position: 0 -16px; }
+
+
+/* Pagination */
+.pagination ul li { display: inline; margin-right: 5px; }
+.pagination ul li.active { color: #aaa; }
+
+
+/* Switcher */
+.switcher { overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.switcher li { float: left; margin-right: 2px; }
+.switcher li a { padding: 5px 7px; line-height: 20px; text-decoration: none; color: #777; background: #eee; }
+.switcher li.active a {  border: 0; color: #eee; background: #555; }
+
+
+/* System messages */
+.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice { background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
+
+
+/* Login popup */
+.login-form { width: 200px; text-align: center; margin-left: -100px; left: 50%; top: 60px; background: #fff; border: 2px solid #555; padding: 15px; position: absolute; z-index: 100; display: none; }
+.login-form h3 { margin-bottom: 15px; }
+.login-form p { margin-bottom: 5px; }
+.login-form label { color: #aaa; }
+.login-form input { text-align: center; }
+.login-form .checkbox-label { color: #333; }
+.login-form .checkbox { position: relative; top: 2px; margin-right: 5px; }
+.login-form .close { position: absolute; top: 5px; right: 5px; width: 14px; height: 14px; outline: none; background: url(../images/close.png) no-repeat; }
+
+
+/* Upload image popup */
+.upload-form { width: 300px; margin-left: -150px; left: 50%; top: 400px; background: #fff; border: 2px solid #555; padding: 15px; position: absolute; z-index: 100; display: none; }
+.upload-form h3 { margin-bottom: 15px; }
+.upload-form .close { position: absolute; top: 5px; right: 5px; width: 14px; height: 14px; outline: none; background: url(../images/close.png) no-repeat; }
+
+
+/* Actions */
+.actions { overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.actions li a { overflow: hidden; zoom: 1; margin-bottom: 10px; color: #333; text-decoration: none; }
+.actions li { float: left; margin-right: 10px; }
+.actions li .edit { padding-left: 15px; background: url(../images/edit.png) no-repeat 0 1px; }
+.actions li .delete { padding-left: 14px; background: url(../images/delete.png) no-repeat 0 2px; }
+.actions li .rss { padding-left: 15px; background: url(../images/rss.png) no-repeat 0 1px; }
+.actions li a:hover { text-decoration: underline; }
+
+
+/* Misc */
+.user { padding-left: 12px; background: url(../images/user.png) no-repeat 0 2px; color: #555; }
+.user.inactive { color: #888; }
+
+.center { width: 300px; margin: 0 auto; }
+
+.panel-form { padding: 2px; background: #eee; width: 98%; }
+.panel-form img { vertical-align: top; }
+
+.table { width: 100%; margin-bottom: 10px; }
+.table thead td { background: #fafafa; }
+.table td { border: 1px solid #ddd; padding: 5px; }
+
+.right { float: right; }
+
+
+
+
+/* --------------------------------------------------------------
+	!HEADER
+-------------------------------------------------------------- */
+#header h1 { margin: 0; }
+#header h1 a { width: 175px; height: 45px; display: block; text-indent: -300px; background: url(../images/logo.png) no-repeat; outline: none; }
+
+#header a { color: #fff; text-decoration: none; }
+
+#header .pages { overflow: hidden; zoom: 1; padding: 0 0 15px; list-style: none; }
+#header .pages li { float: left; font-size: 12px; margin-right: 10px; }
+#header .pages li a { color: #ddd; text-decoration: none; padding: 2px 5px 3px; }
+#header .pages li.active a { color: #333; background: #fafafa; padding: 2px 5px 3px; }
+
+#header .profile { width: 400px; padding: 15px 0; color: #777; float: right; text-align: right; text-transform: lowercase; }
+#header .profile .message-new { color: #5fb501; }
+#header .profile .create { color: #f79cf3; }
+#header .profile .username { font-weight: bold; }
+#header .profile a:hover { color: #ddd; }
+
+
+
+
+/* --------------------------------------------------------------
+	!NAVIGATION
+-------------------------------------------------------------- */
+#nav { height: 51px; padding: 10px 30px 10px 15px; background: #fafafa; margin: 0 0 30px -15px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+
+/* Menu */
+#nav .menu { padding-bottom: 25px; }
+#nav .menu li { float: left; color: #390; padding: 3px 7px 4px 7px; background: #eee; margin-right: 5px; }
+#nav .menu li a { text-decoration: none; color: #777; }
+#nav .menu li.active { position: relative; background: #333; }
+#nav .menu li.active a { color: #fff; }
+
+/* Sub-menu */
+#nav .sub-menu { position: absolute; top: 30px; left: 0; width: 400px; font-size: 11px; }
+#nav .sub-menu li { margin-right: 5px; line-height: 12px; background: #eee; padding: 3px 5px 5px 5px !important; }
+#nav .sub-menu li a { color: #777 !important; }
+#nav .sub-menu li a:hover { color: #333; }
+#nav .sub-menu li.active { background: #555; color: #41c400; }
+#nav .sub-menu li.active a { color: #fff !important; }
+
+
+
+
+/* --------------------------------------------------------------
+	!TOPIC
+-------------------------------------------------------------- */
+.topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+
+/* Title */
+.topic .title a { color: #333; }
+.topic .title a.title-blog { color: #333; }
+.topic .title a.title-topic { color: #333; }
+.topic .title a:hover { color: #666; }
+
+/* Content */
+.topic .content { overflow: hidden; zoom: 1; margin-bottom: 15px; }
+.topic .content p { margin-bottom: 18px; }
+.topic .content blockquote { background: #fafafa; padding: 10px 15px; color: #555; margin-bottom: 5px; }
+.topic .content pre { background: #fafafa; border: 1px solid #dce6f0; margin-bottom: 10px; overflow: auto; padding: 5px 10px; }
+.topic .content ul { list-style-type: disc; margin-left: 17px; }
+.topic .content ol { list-style-type: decimal; margin-left: 22px; }
+
+/* Tags */
+.topic .tags { margin: 0 0 6px; padding-left: 23px; background: url(../images/tag.png) no-repeat 0 2px; }
+.topic .tags li { display: inline; color: #888; }
+.topic .tags li a { color: #888; text-decoration: none; }
+.topic .tags li a:hover { color: #333; }
+
+/* Info */
+.topic .info { overflow: hidden; zoom: 1; background: #fbfbfb; padding: 5px 15px; }
+.topic .info li { float: left; margin-right: 15px; }
+.topic .info li a { text-decoration: none; }
+
+.topic .info li.date { color: #777; }
+.topic .info li.username a { font-weight: bold; color: #333; }
+.topic .info li.username a:hover { text-decoration: underline; }
+.topic .info li.voting { padding-right: 15px; border-right: 1px solid #ddd; }
+.topic .info li.comments-link a { padding-left: 15px; color: #333; font-weight: bold; background: url(../images/comments.png) no-repeat 0 2px; }
+.topic .info li.comments-link a span { color: #777; }
+.topic .info li.comments-link a:hover { text-decoration: underline; }
+
+/* Poll */
+.topic .poll { margin-bottom: 15px; }
+
+.topic .poll .poll-vote { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 10px; background: #f5f5f5; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.topic .poll .poll-vote li { margin-bottom: 5px; }
+.topic .poll .poll-vote li label { display: inline; }
+
+.topic .poll .poll-result { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #f5f5f5; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.topic .poll .poll-result li { margin-bottom: 20px; }
+.topic .poll .poll-result li dl { overflow: hidden; zoom: 1; }
+.topic .poll .poll-result li dl dt { float: left; width: 50px; text-align: right; padding-right: 15px; }
+.topic .poll .poll-result li dl dt span { color: #aaa; }
+.topic .poll .poll-result li dl dd { float: left; width: 400px; }
+.topic .poll .poll-result li dl dd div { height: 5px; margin-top: 5px; background: #ccc; overflow: hidden; }
+.topic .poll .poll-result li.most dl dd div { background: #555; }
+
+.topic .poll .poll-total { color: #aaa; }
+
+
+
+
+/* --------------------------------------------------------------
+	!BLOCKS
+-------------------------------------------------------------- */
+.block { padding: 10px; background: #fafafa; margin-bottom: 20px; }
+
+.block .bottom { padding-top: 5px; font-size: 11px; }
+.block .bottom a { color: #333; }
+
+/* Stream */
+.block.stream ul.list { border-top: 1px dashed #ddd; }
+.block.stream ul.list li { padding: 7px 0 10px; border-bottom: 1px dashed #ddd; }
+
+/* Top Blogs */
+.block.blogs ul.list { border-top: 1px dashed #ddd; }
+.block.blogs ul.list li { padding: 5px 0 8px; border-bottom: 1px dashed #ddd; }
+.block.blogs ul.list li .rating { float: right; font-weight: bold; }
+
+/* Tags */
+.block .cloud li { display: inline; margin-right: 5px; line-height: 22px; }
+.block .cloud li a { text-decoration: none; white-space: nowrap; }
+.block .cloud li a.w1 { font-size: 12px; }
+.block .cloud li a.w2 { font-size: 12px; }
+.block .cloud li a.w3 { font-size: 14px; }
+.block .cloud li a.w4 { font-size: 14px; }
+.block .cloud li a.w5 { font-size: 18px; }
+.block .cloud li a.w6 { font-size: 18px; }
+.block .cloud li a.w7 { font-size: 20px; }
+.block .cloud li a.w8 { font-size: 20px; }
+.block .cloud li a.w9 { font-size: 22px; }
+.block .cloud li a.w10 { font-size: 22px; }
+
+
+
+
+/* --------------------------------------------------------------
+	!UPDATE
+-------------------------------------------------------------- */
+.update { padding: 7px 7px 5px 7px; float: right; position: fixed; top: 220px; right: 0; text-align: center; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; _position: absolute; _top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
+.update .update-comments { cursor: pointer; vertical-align: top; }
+.update .new-comments { border-top: 1px solid #ececed; color: #333; padding-top: 7px; margin-top: 3px; cursor: pointer; }
+
+
+
+
+/* --------------------------------------------------------------
+	!COMMENTS
+-------------------------------------------------------------- */
+.comments .comment { overflow: hidden; zoom: 1; position: relative; }
+.comments .comment .comment { padding-left: 30px; }
+.comments .header { margin-bottom: 20px; }
+
+/* Comment */
+.comment .comment-inner { margin-bottom: 15px; }
+.comment .deleted { padding: 5px 10px; color: #777; background: #f4f4f4; }
+.comment .bad { color: #aaa; }
+
+/* Comment Bottom */
+.comment .folding { font-size: 11px; padding-right: 10px; background: url(../images/comment-fold.png) no-repeat 100% 6px; }
+.comment .folding.fold { background: url(../images/comment-fold.png) no-repeat 100% 6px; }
+.comment .folding.unfold { background: url(../images/comment-unfold.png) no-repeat 100% 6px; }
+.comment .reply-link { margin-right: 5px; font-size: 11px; text-transform: lowercase; }
+
+/* Info Block */
+.comment .info { overflow: hidden; zoom: 1; font-size: 11px; }
+.comment .info li { float: left; padding-top: 3px; margin-right: 10px; }
+.comment .info li.avatar { padding-top: 0; }
+.comment .info li.avatar img { vertical-align: top; }
+.comment .info li.voting { float: right; }
+.comment .info li.username a { font-weight: bold; color: #555; }
+.comment .info li.date {color: #888; }
+.comment .info li a { text-decoration: none; }
+
+/* Comment Types */
+.comment .info 			{ background: #fafafa; }
+.comment .info.self 	{ background: #faf8f4 !important; }
+.comment .info.new 		{ background: #fbfba8 !important; }
+.comment .info.del 		{ background: #c5c5c5 !important; }
+.comment .info.view 	{ background: #cdf5a6 !important; }
+
+/* Comment List */
+.comments.comment-list .path { padding-bottom: 3px; }
+.comments.comment-list .path .blog-name { color: #777; }
+
+/* Reply Form */
+.reply textarea { height: 70px; }
+.reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center;}
+
+/* Misc */
+.hidden { display: none; }
+.tree-visible { display: block; }
+.tree-hidden { display: none; }
+
+
+
+
+
+/* --------------------------------------------------------------
+	!PROFILE
+-------------------------------------------------------------- */
+
+/* Blog profile */
+.blog { padding: 15px; background: #fafafa; margin-bottom: 20px; }
+.blog .voting { float: right; }
+
+/* User profile */
+.user-profile { padding: 15px; background: #fafafa; margin-bottom: 20px; }
+.user-profile .voting { float: right; margin-right: 10px; }
+.user-profile .strength { float: right; }
+
+
+
+
+
+
+
+
+
+
+
+
+
