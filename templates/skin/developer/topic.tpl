@@ -6,6 +6,9 @@
 <div class="topic">
 	<h2 class="title">
 		<a href="{$oBlog->getUrlFull()}" class="title-blog">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
+		{if $oTopic->getPublish()==0}	
+			<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
+		{/if}
 		{if $oTopic->getType() == 'link'}<img src="{cfg name='path.static.skin'}/images/topic_link.png" title="{$aLang.topic_link}" alt="{$aLang.topic_link}" />{/if}
 		<a href="{if $oTopic->getType()=='link'}{router page='link'}go/{$oTopic->getId()}/{else}{$oTopic->getUrl()}{/if}" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
 	</h2>
