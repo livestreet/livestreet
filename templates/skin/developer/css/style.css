@@ -368,9 +368,13 @@ p { margin-bottom: 18px; }
 
 
 
-
-
-
+/* --------------------------------------------------------------
+	!STAT
+-------------------------------------------------------------- */
+.stat-performance { padding: 20px; background: #f0f7fd; border-top: 1px solid #d1e7f9; color: #333; }
+.stat-performance table { margin-top: 15px; }
+.stat-performance table td { width: 200px; vertical-align: top; }
+.stat-performance h4 { font-weight: bold; color: #81B2DB; }
 
 
 

@@ -1,38 +1,27 @@
 {if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
-<fieldset>
-<legend>Statistics performance</legend>
-<table>
-	<tr align="top">
-		<td align="top">
-		<ul>
-	<li>
-	<b>MySql</b> <br>
-	&nbsp;&nbsp;&nbsp;query: {$aStatsPerformance.sql.count}<br>
-	&nbsp;&nbsp;&nbsp;time: {$aStatsPerformance.sql.time}<br><br><br>
-	</li>
-	</ul>
-		</td>
-		<td>
-		<ul>
-	<li>
-	<b>Cache</b> <br>
-	&nbsp;&nbsp;&nbsp;query: {$aStatsPerformance.cache.count}<br>
-	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; set: {$aStatsPerformance.cache.count_set}<br>
-	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; get: {$aStatsPerformance.cache.count_get}<br>
-	&nbsp;&nbsp;&nbsp;time: {$aStatsPerformance.cache.time}
-	</li>
-	</ul>
-		</td>
-		<td align="top">
-		<ul>
-	<li>
-	<b>PHP</b> <br>	
-	&nbsp;&nbsp;&nbsp;time load modules:{$aStatsPerformance.engine.time_load_module}<br>
-	&nbsp;&nbsp;&nbsp;full time:{$iTimeFullPerformance}<br><br><br>
-	</li>
-	</ul>
-		</td>
-	</tr>
-</table>
-</fieldset>
+	<div class="stat-performance">
+		<h2>Statistics performance</h2>
+		
+		<table>
+			<tr>
+				<td>
+					<h4>MySql</h4>
+					query: <strong>{$aStatsPerformance.sql.count}</strong><br />
+					time: <strong>{$aStatsPerformance.sql.time}</strong>
+				</td>
+				<td>
+					<h4>Cache</h4>
+					query: <strong>{$aStatsPerformance.cache.count}</strong><br />
+					&mdash; set: <strong>{$aStatsPerformance.cache.count_set}</strong><br />
+					&mdash; get: <strong>{$aStatsPerformance.cache.count_get}</strong><br />
+					time: <strong>{$aStatsPerformance.cache.time}</strong>
+				</td>
+				<td>
+					<h4>PHP</h4>	
+					time load modules: <strong>{$aStatsPerformance.engine.time_load_module}</strong><br />
+					full time: <strong>{$iTimeFullPerformance}</strong>
+				</td>
+			</tr>
+		</table>
+	</div>
 {/if}

@@ -29,7 +29,7 @@
 	<div class="content">
 		{if $oTopic->getType()=='question'}
 			<div id="topic_question_area_{$oTopic->getId()}" class="poll">
-				{if !$oTopic->getUserQuestionIsVote()} {* Если пользователь еще не участвовал в голосовании *}	
+				{if !$oTopic->getUserQuestionIsVote()}
 					<ul class="poll-vote">
 						{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
 							<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="$('topic_answer_{$oTopic->getId()}_value').setProperty('value',this.value);" /> {$aAnswer.text|escape:'html'}</label></li>
