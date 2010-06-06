@@ -99,16 +99,29 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		return false;
 	}
 	
-	public function GetPages() {
+	public function GetPages($aFilter) {
+		$sPidNULL='';
+		if (array_key_exists('pid',$aFilter) and is_null($aFilter['pid'])) {
+			$sPidNULL='and page_pid IS NULL';
+		}
 		$sql = "SELECT 
 					*,					
 					page_id as ARRAY_KEY,
 					page_pid as PARENT_KEY
 				FROM 
-					".Config::Get('plugin.page.table.page')." 				
+					".Config::Get('plugin.page.table.page')." 
+				WHERE 
+					1=1
+					{ and page_active = ?d }					
+					{ and page_main = ?d }	
+					{ and page_pid = ? } {$sPidNULL}				
 				ORDER by page_sort desc;	
 					";
-		if ($aRows=$this->oDb->select($sql)) {
+		if ($aRows=$this->oDb->select($sql,
+				isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,
+				isset($aFilter['active']) ? $aFilter['active']:DBSIMPLE_SKIP,
+				(array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $sPid : DBSIMPLE_SKIP
+				)) {
 			return $aRows;
 		}
 		return null;

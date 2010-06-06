@@ -89,9 +89,9 @@ class PluginPage_ModulePage extends Module {
 	 *
 	 * @return unknown
 	 */
-	public function GetPages() {
+	public function GetPages($aFilter=array()) {
 		$aPages=array();
-		$aPagesRow=$this->oMapper->GetPages();	
+		$aPagesRow=$this->oMapper->GetPages($aFilter);	
 		if (count($aPagesRow)) {
 			$aPages=$this->BuildPagesRecursive($aPagesRow);
 		}
