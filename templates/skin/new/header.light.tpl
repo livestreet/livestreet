@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
 
 <head>
+	{hook run='html_head_begin'}
 	<title>{$sHtmlTitle}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
 	<!-- Styles -->
@@ -12,6 +13,7 @@
 	{if $bRefreshToHome}
 		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
+	{hook run='html_head_end'}
 </head>
 
 <body>

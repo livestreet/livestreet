@@ -83,6 +83,7 @@
 							<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_add}"><span class="red">{$aLang.topic_comment_add}</span></a>
 						{/if}
 					</li>
+					{hook run='topic_show_info' topic=$oTopic}
 				</ul>
 			</div>
 			<!-- /Topic -->

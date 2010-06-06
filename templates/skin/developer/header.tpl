@@ -83,6 +83,8 @@
 		</script>
 		{/literal}
 	{/if}
+	
+	{hook run='html_head_end'}
 </head>
 
 

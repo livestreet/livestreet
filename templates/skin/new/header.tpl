@@ -73,6 +73,8 @@ var msgNoticeBox=new Roar({
 </script>
 {/literal}
 {/if}
+
+	{hook run='html_head_end'}
 </head>
 
 <body onload="prettyPrint()">

@@ -79,5 +79,6 @@
 				{/if}
 			</li>
 		{/if}
+		{hook run='topic_show_info' topic=$oTopic}
 	</ul>
 </div>
