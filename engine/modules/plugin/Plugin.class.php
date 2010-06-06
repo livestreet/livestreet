@@ -53,6 +53,7 @@ class ModulePlugin extends Module {
 	 */
 	protected $aDelegates=array(
 		'module' => array(),
+		'mapper' => array(),
 		'action' => array(),
 		'entity' => array(),
 		'template' => array()

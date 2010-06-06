@@ -430,6 +430,7 @@ class Engine extends Object {
 			if (!$oConnect) {			
 				$oConnect=Engine::getInstance()->Database_GetConnect();
 			}
+			$sClass=self::getInstance()->Plugin_GetDelegate('mapper',$sClass);
 			return new $sClass($oConnect);
 		}		
 		return null;
@@ -582,7 +583,7 @@ function __autoload($sClassName) {
 	if (preg_match("/^Plugin(\w+)\_Inherit\_([\w\_]+)$/i",$sClassName,$aMatch)) {
 		$sPlugin=$aMatch[1];
 		$sInheritClass=$aMatch[2];
-		$sParentClass=Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);		
+		$sParentClass=Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
 		class_alias($sParentClass,$sClassName);
 	}
 	
