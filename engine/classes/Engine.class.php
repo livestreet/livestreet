@@ -42,13 +42,7 @@ class Engine extends Object {
 	public $iTimeLoadModule=0;
 	protected $iTimeInit=null;
 	
-	/**
-	 * Массив содержит меппер кастомизации сущностей
-	 *
-	 * @var arrat
-	 */
-	static protected $aEntityCustoms=array();
-	
+		
 	/**
 	 * При создании объекта делаем инициализацию
 	 *
@@ -485,43 +479,7 @@ class Engine extends Object {
 			default:
 				throw new Exception("Unknown entity '{$sName}' given.");
 		}
-		
-		/**
-		 * Проверяем наличие сущности в меппере кастомизации
-		 */
-		if(array_key_exists($sName,self::$aEntityCustoms)) {
-			$sEntity = (self::$aEntityCustoms[$sName]=='custom')
-				? $sEntity.'_custom'
-				: $sEntity;
-		} else {
-			$sFileDefaultClass=isset($sPlugin)
-				? Config::get('path.root.server').'/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php'
-				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.php';		
-			
-			$sFileCustomClass=isset($sPlugin) 
-				? Config::get('path.root.server').'/plugins/'.strtolower($sPlugin).'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php'
-				: Config::get('path.root.server').'/classes/modules/'.strtolower($sModule).'/entity/'.$sEntity.'.entity.class.custom.php';
-			
-			/**
-			 * Пытаемся найти кастомизированную сущность
-			 */
-			if(file_exists($sFileCustomClass)) {
-				$sFileClass=$sFileCustomClass;
-				$sEntity.='_custom';
-				self::$aEntityCustoms[$sName]='custom';	
-			} elseif(file_exists($sFileDefaultClass)) {
-				$sFileClass=$sFileDefaultClass;
-				self::$aEntityCustoms[$sName]='default';
-			} else {
-				throw new Exception('Entity class not found');
-				return null;
-			}
-			/**
-			 * Подгружаем нужный файл
-			 */
-			require_once($sFileClass);
-		}
-		
+						
 		$sClass=isset($sPlugin)
 			? 'Plugin'.$sPlugin.'_Module'.$sModule.'_Entity'.$sEntity
 			: 'Module'.$sModule.'_Entity'.$sEntity;
@@ -548,9 +506,7 @@ function __autoload($sClassName) {
 	if (preg_match("/^Module(\w+)\_Entity(\w+)$/i",$sClassName,$aMatch)) {			
 		$tm1=microtime(true);	
 		
-		$sFileClass= (substr($aMatch[2],-7)=='_custom') 
-			? Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.substr($aMatch[2],0,strlen($aMatch[2])-7).'.entity.class.custom.php'
-			: Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
+		$sFileClass=Config::get('path.root.server').'/classes/modules/'.strtolower($aMatch[1]).'/entity/'.$aMatch[2].'.entity.class.php';
 			
 		if (file_exists($sFileClass)) {
 			require_once($sFileClass);

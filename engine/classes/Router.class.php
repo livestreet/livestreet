@@ -179,17 +179,11 @@ class Router extends Object {
 		 */
 		if(!preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sActionClass,$aMatches)) {
 			require_once(Config::Get('path.root.server').'/classes/actions/'.$sActionClass.'.class.php');
-			$sPrefixCustom='';
-			if (file_exists(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php')) {
-				require_once(Config::Get('path.root.server')."/classes/actions/".$sActionClass.'.class.custom.php');
-				$sPrefixCustom='_custom';
-			}
 		} else {
 			require_once(Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
-			$sPrefixCustom='';
 		}
 		
-		$sClassName=$sActionClass.$sPrefixCustom;		
+		$sClassName=$sActionClass;
 		$this->oAction=new $sClassName($this->oEngine,self::$sAction);
 		
 		/**
