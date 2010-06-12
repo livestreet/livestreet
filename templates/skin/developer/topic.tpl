@@ -45,7 +45,20 @@
 			</div>
 		{/if}
 
-		{$oTopic->getText()}
+		{if !$tSingle}
+			{$oTopic->getTextShort()}
+			{if $oTopic->getTextShort()!=$oTopic->getText()}
+				<a href="{$oTopic->getUrl()}" title="{$aLang.topic_read_more}">
+				{if $oTopic->getCutText()}
+					{$oTopic->getCutText()}
+				{else}
+					{$aLang.topic_read_more}
+				{/if}      			
+				</a>
+			{/if}
+		{else}
+			{$oTopic->getText()}
+		{/if}
 	</div>	
 
 

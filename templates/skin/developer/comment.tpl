@@ -49,16 +49,16 @@
 		{/if}							
 		
 		{if $oComment->isBad()}
-			<div class="bad">{$oComment->getText()}</div>
+			<span class="bad">{$oComment->getText()}</span>
 		{else}	
 			{$oComment->getText()}
-
-			<br />
-			{if $oUserCurrent and !$oComment->getDelete() and !$bAllowNewComment}
-				<a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a>
-			{/if}
-			<a href="#" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if}>{$aLang.comment_fold}</a>
 		{/if}
+		
+		<br />
+		{if $oUserCurrent and !$oComment->getDelete() and !$bAllowNewComment}
+			<a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a>
+		{/if}
+		<a href="#" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" {if $bOneComment}style="display: none;"{/if}>{$aLang.comment_fold}</a>
 	</div>
 {else}				
 	<div class="deleted">{$aLang.comment_was_delete}</div>

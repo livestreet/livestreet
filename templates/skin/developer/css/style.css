@@ -340,6 +340,7 @@ p { margin-bottom: 18px; }
 .comments.comment-list .path .blog-name { color: #777; }
 
 /* Reply Form */
+.reply { padding-bottom: 10px; }
 .reply textarea { height: 70px; }
 .reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center;}
 
