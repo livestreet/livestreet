@@ -1,0 +1,14 @@
+.table a { color: #333; }
+.table a:hover { color: #666; }
+
+.table { width: 100%; margin-bottom: 10px; }
+.table thead td { background: #fafafa; }
+.table td { border: 1px solid #ddd; padding: 5px; }
+
+.page-new { padding-left: 13px; background: url(../images/document.gif) no-repeat 0 3px; color: #555; }
+
+.input-wide { width: 98%; _width: 97%; padding: 2px; }
+.input-100 { width: 100px; padding: 2px; }
+.input-200 { width: 200px; padding: 2px; }
+.input-300 { width: 300px; padding: 2px; }
+.checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
