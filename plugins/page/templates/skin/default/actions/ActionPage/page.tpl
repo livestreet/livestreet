@@ -1,8 +1,8 @@
 {assign var="noSidebar" value=true}
 {include file='header.tpl'}
 
-<div>
-	<div>
+<div class="topic">
+	<div class="content">
 		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}
