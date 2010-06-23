@@ -155,7 +155,7 @@ class ModulePlugin extends Module {
 						 * Проверяем совместимость с версией LS 						 
 						 */
 						if(defined('LS_VERSION') 
-							and version_compare(LS_VERSION,$aPlugins[$sPlugin]['property']->requires->livestreet,'=<')) {
+							and version_compare(LS_VERSION,(string)$aPlugins[$sPlugin]['property']->requires->livestreet,'<')) {
 								$this->Message_AddError(
 									$this->Lang_Get(
 										'plugins_activation_version_error',
