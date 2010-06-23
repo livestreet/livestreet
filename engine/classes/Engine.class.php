@@ -156,8 +156,6 @@ class Engine extends Object {
 	public function LoadModule($sModuleName,$bInit=false) {
 		$tm1=microtime(true);
 		
-		
-		
 		/**		 
 		 * Создаем объект модуля
 		 */		
@@ -180,8 +178,11 @@ class Engine extends Object {
 	protected function LoadModules() {
 		$this->LoadConfig();
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
-			if (!isset($this->aModules['Module'.$sModuleName])) {
-				$this->LoadModule('Module'.$sModuleName);
+			$sModuleClass='Module'.$sModuleName;
+			if(!in_array($sModuleName,array('Plugin','Hook'))) $sModuleClass=$this->Plugin_GetDelegate('module',$sModuleClass);
+			
+			if (!isset($this->aModules[$sModuleClass])) {
+				$this->LoadModule($sModuleClass);
 			}
 		}
 	}
