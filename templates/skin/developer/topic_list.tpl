@@ -3,7 +3,7 @@
 		{include file='topic.tpl'}	
 	{/foreach}	
 		
-    {include file='pagination.tpl' aPaging="$aPaging"}			
+    {include file='paging.tpl' aPaging="$aPaging"}			
 {else}
 	{$aLang.blog_no_topic}
 {/if}
