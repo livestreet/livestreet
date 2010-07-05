@@ -95,7 +95,11 @@ class ModuleSession extends Module {
 	 *
 	 */	
 	public function GetId() {
-		return $this->sId;
+		if ($this->bUseStandartSession) {
+			return session_id();
+		} else {
+			return $this->sId;
+		}
 	}
 	
 	/**
