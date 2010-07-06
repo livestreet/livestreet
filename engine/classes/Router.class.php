@@ -94,7 +94,7 @@ class Router extends Object {
 	protected function GetRequestUri() {
 		$sReq=preg_replace("/\/+/",'/',$_SERVER['REQUEST_URI']);		
 		$sReq=preg_replace("/^\/(.*)\/?$/U",'\\1',$sReq);		
-		$sReq=preg_replace("/^(.*)\/\?.*$/U",'\\1',$sReq);
+		$sReq=preg_replace("/^(.*)\?.*$/U",'\\1',$sReq);
 
 		/**
 		 * Формируем $sPathWebCurrent ДО применения реврайтов
