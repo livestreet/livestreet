@@ -349,7 +349,7 @@ class Engine extends Object {
 		}
 				
 		if (!in_array($sModuleName,array('plugin','hook'))) {
-			$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_after',array('result'=>$result));
+			$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_after',array('result'=>&$result,'params'=>$aArgs));
 		}
 				
 		$oProfiler->Stop($iTimeId);
