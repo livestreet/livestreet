@@ -124,6 +124,7 @@ class Router extends Object {
 		if (isset($aRequestUrl[0]) and @substr($aRequestUrl[0],0,1)=='?') {
 			$aRequestUrl=array();
 		}
+		$aRequestUrl = array_map('urldecode',$aRequestUrl);
 		return $aRequestUrl;
 	}
 	/**

@@ -51,7 +51,7 @@ class ActionTag extends Action {
 		/**
 		 * Получаем тег из УРЛа
 		 */
-		$sTag=urldecode($this->sCurrentEvent);
+		$sTag=$this->sCurrentEvent;
 		/**
 		 * Передан ли номер страницы
 		 */
