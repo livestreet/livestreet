@@ -105,3 +105,4 @@
 			{if !$noShowSystemMessage}
 				{include file='system_message.tpl'}
 			{/if}
+			{hook run='content_begin'}

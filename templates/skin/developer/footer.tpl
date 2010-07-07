@@ -1,3 +1,4 @@
+		{hook run='content_end'}
 		</div><!-- /content -->
 
 		{if !$noSidebar}
