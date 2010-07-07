@@ -531,7 +531,7 @@ return array(
 	'settings_profile_avatar_error' => 'Не удалось загрузить аватар',
 	'settings_profile_avatar_delete' => 'удалить',
 	'settings_profile_foto' => 'Фото',
-	'settings_profile_foto_error' => 'Фото',
+	'settings_profile_foto_error' => 'Не удалось загрузить фото',
 	'settings_profile_foto_delete' => 'удалить',
 	'settings_profile_submit' => 'сохранить профиль',
 	'settings_profile_submit_ok' => 'Профиль успешно сохранён',

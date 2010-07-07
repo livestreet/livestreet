@@ -531,7 +531,7 @@ return array(
 	'settings_profile_avatar_error' => 'Loading an icon failed',
 	'settings_profile_avatar_delete' => 'Delete',
 	'settings_profile_foto' => 'Picture',
-	'settings_profile_foto_error' => 'Picture',
+	'settings_profile_foto_error' => 'Loading an picture failed',
 	'settings_profile_foto_delete' => 'Delete',
 	'settings_profile_submit' => 'Save profile',
 	'settings_profile_submit_ok' => 'Profile has been successfully saved',
