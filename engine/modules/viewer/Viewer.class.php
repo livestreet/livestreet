@@ -451,7 +451,16 @@ class ModuleViewer extends Module {
 			$this->ClearBlocks($sGroup);
 		}
 		foreach ($aBlocks as $sBlock) {
-			$this->AddBlock($sGroup,$sBlock);
+			if (is_array($sBlock)) {
+				$this->AddBlock(
+					$sGroup,
+					$sBlock['block'],
+					isset($sBlock['params']) ? $sBlock['params'] : array(),
+					isset($sBlock['priority']) ? $sBlock['priority'] : 5
+				);
+			} else {
+				$this->AddBlock($sGroup,$sBlock);
+			}
 		}
 	}
 	
@@ -586,6 +595,14 @@ class ModuleViewer extends Module {
 				 */
 				foreach ($aRule['blocks'] as $sGroup => $aBlocks) {
 					foreach ((array)$aBlocks as $sName=>$aParams) {
+						/**
+						 * Если название блока указывается в параметрах
+						 */
+						if (is_int($sName)) {
+							if (is_array($aParams)) {
+								$sName=$aParams['block'];
+							}
+						}
 						/**
 						 * Если $aParams не являются массивом, значит передано только имя блока
 						 */
