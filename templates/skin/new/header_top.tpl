@@ -44,6 +44,7 @@
 					{$aLang.user_settings} <a href="{router page='settings'}profile/" class="author">{$aLang.user_settings_profile}</a> | <a href="{router page='settings'}tuning/" class="author">{$aLang.user_settings_tuning}</a> 
 				</li>
 				<li>{$aLang.user_rating} <strong>{$oUserCurrent->getRating()}</strong></li>
+				{hook run='userbar_item'}
 			</ul>
 		</div>
 		{else}

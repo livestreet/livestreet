@@ -91,9 +91,14 @@
 						</td>
 					</tr>
 					{/if}
+					
+					{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 				</table>
 				<br />	
 				{/if}
+				
+				{hook run='profile_whois_item' oUserProfile=$oUserProfile}
+				
 				<br />
 				<h1 class="title">{$aLang.profile_activity}</h1>
 				<table>
@@ -175,6 +180,8 @@
 					</tr>
 					{/if}
 
+					{hook run='profile_whois_activity_item' oUserProfile=$oUserProfile}
+					
 					<tr>
 						<td class="var">{$aLang.profile_date_registration}:</td>
 						<td>{date_format date=$oUserProfile->getDateRegister()}</td>
