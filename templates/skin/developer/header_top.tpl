@@ -38,6 +38,7 @@
 			{/if}
 			<a href="{router page='settings'}profile/">{$aLang.user_settings}</a> |
 			<a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a>
+			{hook run='userbar_item'}
 		{else}
 			<a href="{router page='login'}" onclick="showLoginForm(); return false;">{$aLang.user_login_submit}</a> |
 			<a href="{router page='registration'}">{$aLang.registration_submit}</a>

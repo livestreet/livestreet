@@ -4,6 +4,7 @@
 	<ul class="switcher">						
 		<li class="active"><a href="#" id="block_stream_comment" onclick="lsBlockStream.toggle(this,'comment_stream'); return false;">{$aLang.block_stream_comments}</a></li>
 		<li><a href="#" id="block_stream_topic" onclick="lsBlockStream.toggle(this,'topic_stream'); return false;">{$aLang.block_stream_topics}</a></li>
+		{hook run='block_stream_nav_item'}
 	</ul>					
 	
 	<div class="block-content">
