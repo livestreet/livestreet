@@ -31,6 +31,7 @@ tinyMCE.init({
 {/if}
 				
 				<form action="" method="POST">
+					{hook run='plugin_page_form_add_begin'}
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 					
 					<p><label for="page_pid">{$aLang.page_create_parent_page}</label>
@@ -90,7 +91,7 @@ tinyMCE.init({
       				<label for="page_main"> &mdash; {$aLang.page_create_main}</label>	     				            
      				</p>
 	 				
-					
+					{hook run='plugin_page_form_add_end'}
 					<p class="buttons">					
 					<input type="submit" name="submit_page_save" value="{$aLang.page_create_submit_save}">&nbsp;  
 					<input type="submit" name="submit_page_cancel" value="{$aLang.page_create_submit_cancel}" onclick="window.location='{router page='page'}admin/'; return false;">&nbsp;

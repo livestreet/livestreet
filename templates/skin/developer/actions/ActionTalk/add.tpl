@@ -53,6 +53,7 @@ document.addEvent('domready', function() {
 	<h2>{$aLang.talk_create}</h2>
 	
 	<form action="" method="POST" enctype="multipart/form-data">
+		{hook run='form_add_talk_begin'}
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 		<p><label for="talk_users">{$aLang.talk_create_users}:</label><br />
@@ -89,7 +90,7 @@ document.addEvent('domready', function() {
 			</div>
 		{/if}
 		<textarea name="talk_text" id="talk_text" rows="12" class="input-wide">{$_aRequest.talk_text}</textarea></p>
-
+		{hook run='form_add_talk_end'}
 		<p><input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add" /></p>
 	</form>
 </div>

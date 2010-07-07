@@ -53,6 +53,7 @@ tinyMCE.init({
 			<div class="topic">
 				<h1>{$aLang.talk_create}</h1>
 				<form action="" method="POST" enctype="multipart/form-data">
+					{hook run='form_add_talk_begin'}
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 					
 					<p><label for="talk_users">{$aLang.talk_create_users}:</label><input type="text" class="w100p" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}"/></p>
@@ -87,7 +88,7 @@ tinyMCE.init({
 	 				{/if}					
 					<textarea name="talk_text" id="talk_text" rows="12">{$_aRequest.talk_text}</textarea>
 					</p>
-					
+					{hook run='form_add_talk_end'}
 					<p><input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add"/></p>
 				</form>
 			</div>

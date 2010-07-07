@@ -35,6 +35,7 @@
 	
 	
 <form action="" method="POST">
+	{hook run='plugin_page_form_add_begin'}
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 	
 	<p><label for="page_pid">{$aLang.page_create_parent_page}</label><br />
@@ -86,6 +87,7 @@
 	
 	<p><label><input type="checkbox" id="page_main" name="page_main" value="1" class="checkbox" {if $_aRequest.page_main==1}checked{/if} />{$aLang.page_create_main}</label></p>
 	
+	{hook run='plugin_page_form_add_end'}
 	<p>					
 		<input type="submit" name="submit_page_save" value="{$aLang.page_create_submit_save}" />
 		<input type="submit" name="submit_page_cancel" value="{$aLang.page_create_submit_cancel}" onclick="window.location='{router page='page'}admin/'; return false;" />
