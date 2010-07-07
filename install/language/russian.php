@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'Установка LiveStreet',
 	'step'=>'Шаг',
 	
-	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 0.4.1. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
+	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 0.4.2. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
 	
 	'php_params'=>'Основные настройки PHP',
 	'php_params_version'=>'PHP версии не ниже 5.1.2',
@@ -79,7 +79,7 @@ return array(
 	'db_params_port_notice'=>'Скорее всего правильным решение будет оставить 3306 :)',
 	'db_params_name'=>'Название базы данных',
 	'db_params_create'=>'Создать базу данных',
-	'db_params_convert'=>'Конвертировать базу 0.3.1 в 0.4.1',
+	'db_params_convert'=>'Конвертировать базу 0.3.1 в 0.4.2',
 	'db_params_user'=>'Имя пользователя',
 	'db_params_password'=>'Пароль',
 	'db_params_prefix'=>'Префикс таблиц',

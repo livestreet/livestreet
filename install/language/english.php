@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'LiveStreet installation',
 	'step'=>'Step',
 	
-	'start_paragraph'=>'<p>Welcome to the LiveStreet installation &copy; 0.4.1. See the results and follow the prompt messages.</p><p><b>Notice.</b> To successfully complete the installation, please rename the file /config/config.local.php.dist to config.local.php and enable the file for entering data.</p><p><b>Notice.</b> Directories /tmp, /logs, /uploads, /templates/compiled, /templates/cache must be enabled for entering data.</p>',
+	'start_paragraph'=>'<p>Welcome to the LiveStreet installation &copy; 0.4.2. See the results and follow the prompt messages.</p><p><b>Notice.</b> To successfully complete the installation, please rename the file /config/config.local.php.dist to config.local.php and enable the file for entering data.</p><p><b>Notice.</b> Directories /tmp, /logs, /uploads, /templates/compiled, /templates/cache must be enabled for entering data.</p>',
 	
 	'php_params'=>'Main PHP parameters',
 	'php_params_version'=>'At least 5.1.2 PHP version',
@@ -79,7 +79,7 @@ return array(
 	'db_params_port_notice'=>'Most likely the correct solution should be left as 3306 :)',
 	'db_params_name'=>'Database name',
 	'db_params_create'=>'Create a dababase',
-	'db_params_convert'=>'Convert the database 0.3.1 into 0.4.1',
+	'db_params_convert'=>'Convert the database 0.3.1 into 0.4.2',
 	'db_params_user'=>'User name',
 	'db_params_password'=>'Password',
 	'db_params_prefix'=>'Table prefix',
