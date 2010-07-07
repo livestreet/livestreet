@@ -211,7 +211,11 @@ class ModuleTopic extends Module {
 		/**
 		 * Удаляем голосование к топику
 		 */
-		$this->Vote_DeleteVoteByTarget($iTopicId,'topic');		
+		$this->Vote_DeleteVoteByTarget($iTopicId,'topic');
+		/**
+		 * Удаляем теги
+		 */
+		$this->DeleteTopicTagsByTopicId($iTopicId);
 		
 		return true;
 	}
