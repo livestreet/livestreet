@@ -41,6 +41,7 @@ tinyMCE.init({
     convert_urls : false,
     extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
     pagebreak_separator :"<cut>",
+    media_strict : false,
     language : TINYMCE_LANG
 });
 {/literal}
