@@ -94,4 +94,7 @@
 		{/if}
 		{hook run='topic_show_info' topic=$oTopic}
 	</ul>
+	{if $tSingle}
+		{hook run='topic_show_end' topic=$oTopic}
+	{/if}
 </div>

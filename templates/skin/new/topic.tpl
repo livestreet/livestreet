@@ -67,5 +67,6 @@
 					<li class="author"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 					{hook run='topic_show_info' topic=$oTopic}
 				</ul>
+			{hook run='topic_show_end' topic=$oTopic}
 			</div>
 			<!-- /Topic -->
