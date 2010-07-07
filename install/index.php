@@ -956,16 +956,7 @@ class Install {
 		}
 
 	    if (@extension_loaded('mbstring')){
-	        $aMbInfo=mb_get_info();
-			
-	        if(!in_array(strtolower($aMbInfo['http_input']), $this->aValidEnv['http_input']) 
-	        	or !in_array(strtolower($aMbInfo['http_output']), $this->aValidEnv['http_output']) 
-	        		or !in_array(strtolower($aMbInfo['func_overload']), $this->aValidEnv['func_overload'])) {
-	        			$bOk = false;
-	        			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
-	        } else {
-	        	$this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
-	        }
+	        $this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 	    } else {
    			$bOk = false;
    			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	

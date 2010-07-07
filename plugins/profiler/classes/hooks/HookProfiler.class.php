@@ -25,7 +25,9 @@ class PluginProfiler_HookProfiler extends Hook {
         /**
          * Хук для вставки HTML кода
          */
-        $this->AddHook('template_body_end', 'Profiler');
+        if ($oUserCurrent=$this->User_GetUserCurrent() and $oUserCurrent->isAdministrator()) {
+        	$this->AddHook('template_body_end', 'Profiler');
+        }
     }
 
     /**
