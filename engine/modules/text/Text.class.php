@@ -46,6 +46,8 @@ class ModuleText extends Module {
 	 *
 	 */
 	protected function JevixConfig() {
+		// разрешаем в параметрах символ &
+		unset($this->oJevix->entities1['&']);
 		// Разрешённые теги
 		$this->oJevix->cfgAllowTags(array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote'));
 		// Коротие теги типа
@@ -56,7 +58,7 @@ class ModuleText extends Module {
 		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
 		$this->oJevix->cfgAllowTagParams('a', array('title', 'href', 'rel'));		
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
-		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link'));
+		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link', 'type' => '#text'));
 		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
 		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text'));
 		// Параметры тегов являющиеся обязательными
@@ -138,7 +140,7 @@ class ModuleText extends Module {
 	 * 
 	 */
 	protected function FlashParamParser($sText) {	
-		if (preg_match_all("@(<\s*param\s*name\s*=\s*\".*\"\s*value\s*=\s*\".*\")\s*/?\s*>(?!</param>)@Ui",$sText,$aMatch)) {				
+		if (preg_match_all("@(<\s*param\s*name\s*=\s*(?:\"|').*(?:\"|')\s*value\s*=\s*(?:\"|').*(?:\"|'))\s*/?\s*>(?!</param>)@Ui",$sText,$aMatch)) {				
 			foreach ($aMatch[1] as $key => $str) {
 				$str_new=$str.'></param>';				
 				$sText=str_replace($aMatch[0][$key],$str_new,$sText);				
@@ -153,7 +155,7 @@ class ModuleText extends Module {
 		/**
 		 * Удаляем все <param name="wmode" value="*"></param>		 
 		 */
-		if (preg_match_all("@(<param\s.*name=\"wmode\".*>\s*</param>)@Ui",$sText,$aMatch)) {
+		if (preg_match_all("@(<param\s.*name=(?:\"|')wmode(?:\"|').*>\s*</param>)@Ui",$sText,$aMatch)) {
 			foreach ($aMatch[1] as $key => $str) {
 				$sText=str_replace($aMatch[0][$key],'',$sText);
 			}
