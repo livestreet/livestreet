@@ -363,6 +363,15 @@ class Engine extends Object {
 	 * @return array
 	 */
 	public function GetModule($sName) {
+		/**
+		 * Поддержка полного синтаксиса при вызове метода модуля
+		 */
+		if (preg_match("/^Plugin(\w+)\_Module(\w+)\_(\w+)$/i",$sName,$aMatch)) {
+			$sName="Plugin{$aMatch[1]}_{$aMatch[2]}_{$aMatch[3]}";
+		}
+		if (preg_match("/^Module(\w+)\_(\w+)$/i",$sName,$aMatch)) {
+			$sName="{$aMatch[1]}_{$aMatch[2]}";
+		}
 		$aName=explode("_",$sName);
 		
 		if(count($aName)==2) {
@@ -455,6 +464,13 @@ class Engine extends Object {
 				break;
 			
 			case 1:		
+				/**
+				 * Поддержка полного синтаксиса при вызове сущности
+				 */
+				if (preg_match("/^Module(\w+)\_Entity(\w+)$/i",$sName,$aMatch)) {
+					$sName="{$aMatch[1]}_{$aMatch[2]}";
+				}
+				
 				list($sModule,$sEntity) = explode('_',$sName,2);
 				/**
 				 * Обслуживание короткой записи сущностей плагинов 
@@ -467,6 +483,12 @@ class Engine extends Object {
 				break;
 				
 			case 2:
+				/**
+				 * Поддержка полного синтаксиса при вызове сущности плагина
+				 */
+				if (preg_match("/^Plugin(\w+)\_Module(\w+)\_Entity(\w+)$/i",$sName,$aMatch)) {
+					$sName="Plugin{$aMatch[1]}_{$aMatch[2]}_{$aMatch[3]}";
+				}
 				/**
 				 * Entity плагина
 				 */
