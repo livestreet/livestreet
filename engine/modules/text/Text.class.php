@@ -56,14 +56,14 @@ class ModuleText extends Module {
 		$this->oJevix->cfgSetTagPreformatted(array('pre','code','video'));
 		// Разрешённые параметры тегов		
 		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
-		$this->oJevix->cfgAllowTagParams('a', array('title', 'href', 'rel'));		
+		$this->oJevix->cfgAllowTagParams('a', array('title', 'href', 'rel' => '#text', 'name' => '#text'));
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
 		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link', 'type' => '#text'));
 		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
 		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text'));
 		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
-		$this->oJevix->cfgSetTagParamsRequired('a', 'href');
+		//$this->oJevix->cfgSetTagParamsRequired('a', 'href');
 		// Теги которые необходимо вырезать из текста вместе с контентом
 		$this->oJevix->cfgSetTagCutWithContent(array('script', 'iframe', 'style'));
 		// Вложенные теги
@@ -72,7 +72,7 @@ class ModuleText extends Module {
 		$this->oJevix->cfgSetTagChilds('object', 'param', false, true);
 		$this->oJevix->cfgSetTagChilds('object', 'embed', false, false);
 		// Если нужно оставлять пустые не короткие теги
-		$this->oJevix->cfgSetTagIsEmpty(array('param','embed'));
+		$this->oJevix->cfgSetTagIsEmpty(array('param','embed','a'));
 		// Не нужна авто-расстановка <br>
 		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol','object'));
 		// Теги с обязательными параметрами		
@@ -204,7 +204,7 @@ class ModuleText extends Module {
 			$aMatch[3]=str_replace('[<rn>]',"\r\n",$aMatch[3]);
 			$aMatch[3]=str_replace('[<n>]',"\r\n",$aMatch[3]);				
 			$sTextShort=$aMatch[1];
-			$sTextNew=$aMatch[1].' '.$aMatch[3];
+			$sTextNew=$aMatch[1].' <a name="cut"></a> '.$aMatch[3];
 			if (preg_match('/^\s*name\s*=\s*"(.+)"\s*\/?$/Ui',$aMatch[2],$aMatchCut)) {				
 				$sTextCut=trim($aMatchCut[1]);
 			}				

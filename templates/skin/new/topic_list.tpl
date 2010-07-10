@@ -53,7 +53,7 @@
 				
 					{$oTopic->getTextShort()}
 					{if $oTopic->getTextShort()!=$oTopic->getText()}
-      					<br><br>( <a href="{$oTopic->getUrl()}" title="{$aLang.topic_read_more}">
+      					<br><br>( <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
       					{if $oTopic->getCutText()}
       						{$oTopic->getCutText()}
       					{else}
