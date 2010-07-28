@@ -131,7 +131,7 @@ var lsCmtTreeClass = new Class({
 		if (!bNotFlushNew) {
 			var aDivComments=$$('.comment');
 			aDivComments.each(function(item,index){
-				var divContent=item.getChildren('div.content')[0];
+				var divContent=item.getChildren('div.comment-inner').getChildren('ul.info')[0];
 				if (divContent) {
 					divContent.removeClass('new');
 					divContent.removeClass('view');
@@ -234,9 +234,9 @@ var lsCmtTreeClass = new Class({
  		}
 		this.docScroller.start(0,cmt.getPosition().y+deltaY);
 		if (this.iCommentIdLastView) {
-			$('comment_content_id_'+this.iCommentIdLastView).removeClass('view');
+			$('comment_content_id_'+this.iCommentIdLastView).getParent('div.comment-inner').getChildren('ul.info')[0].removeClass('view');
 		}				
-		$('comment_content_id_'+idComment).addClass('view');
+		$('comment_content_id_'+idComment).getParent('div.comment-inner').getChildren('ul.info')[0].addClass('view');
 		this.iCommentIdLastView=idComment;
 	},
 	
