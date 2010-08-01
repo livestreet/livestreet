@@ -44,7 +44,7 @@ abstract class Entity extends Object {
 		
 		$aReturn=array();
 		foreach ($aKeys as $key) {
-			if(isset($this->_aData[$key])) {
+			if(key_exists($key,$this->_aData)) {
 				$aReturn[$key] = $this->_aData[$key];
 			}
 		}
