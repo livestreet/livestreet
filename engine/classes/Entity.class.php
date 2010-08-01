@@ -67,7 +67,7 @@ abstract class Entity extends Object {
 					return $this->_aData[$sKey];
 				}
 				return null;
-			} elseif ($sType=='set' and isset($aArgs[0])) {
+			} elseif ($sType=='set' and key_exists(0,$aArgs)) {
 				$this->_aData[$sKey]=$aArgs[0];
 			}
 		} else {

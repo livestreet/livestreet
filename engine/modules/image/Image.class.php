@@ -240,6 +240,49 @@ class ModuleImage extends Module {
 	}
 	
 	/**
+	 * Вырезает максимально возможный прямоугольный в нужной пропорции
+	 *
+	 * @param LiveImage $oImage
+	 * @param int $iW
+	 * @param int $iH
+	 * @param bool $bCenter
+	 * @return unknown
+	 */
+	public function CropProportion(LiveImage $oImage,$iW,$iH,$bCenter=true) {
+		
+		if(!$oImage || $oImage->get_last_error()) {
+			return false;
+		}
+		$iWidth  = $oImage->get_image_params('width');
+		$iHeight = $oImage->get_image_params('height');
+		/**
+		 * Если высота и ширина уже в нужных пропорциях, то возвращаем изначальный вариант
+		 */
+		$iProp=round($iW/$iH, 2);
+		if(round($iWidth/$iHeight, 2)==$iProp){ return $oImage; }
+		
+		/**
+		 * Вырезаем прямоугольник из центра
+		 */		
+		if (round($iWidth/$iHeight, 2)<=$iProp) {
+			$iNewWidth=$iWidth;
+			$iNewHeight=round($iNewWidth/$iProp);
+		} else {			
+			$iNewHeight=$iHeight;
+			$iNewWidth=$iNewHeight*$iProp;
+		}
+		
+		if ($bCenter) {		
+			$oImage->crop($iNewWidth,$iNewHeight,($iWidth-$iNewWidth)/2,($iHeight-$iNewHeight)/2);
+		} else {			
+			$oImage->crop($iNewWidth,$iNewHeight,0,0);
+		}
+		/**
+		 * Возвращаем объект изображения
+		 */
+		return $oImage;
+	}
+	/**
 	 * Создает каталог по указанному адресу (с учетом иерархии)
 	 *
 	 * @param string $sDirDest
