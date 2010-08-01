@@ -217,7 +217,7 @@ class ModuleImage extends Module {
 	 * @param  LiveImage $oImage
 	 * @return LiveImage
 	 */
-	public function CropSquare(LiveImage $oImage) {
+	public function CropSquare(LiveImage $oImage,$bCenter=true) {
 		if(!$oImage || $oImage->get_last_error()) {
 			return false;
 		}
@@ -232,7 +232,12 @@ class ModuleImage extends Module {
 		 * Вырезаем квадрат из центра
 		 */
 		$iNewSize = min($iWidth,$iHeight);
-		$oImage->crop($iNewSize,$iNewSize,($iWidth-$iNewSize)/2,($iHeight-$iNewSize)/2);
+		
+		if ($bCenter) {		
+			$oImage->crop($iNewSize,$iNewSize,($iWidth-$iNewSize)/2,($iHeight-$iNewSize)/2);
+		} else {			
+			$oImage->crop($iNewSize,$iNewSize,0,0);
+		}
 		/**
 		 * Возвращаем объект изображения
 		 */
