@@ -202,7 +202,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
      */
     public function remove($id)
     {
-        return $this->_memcache->delete($id);
+        return $this->_memcache->delete($id,0);
     }
 
     /**
