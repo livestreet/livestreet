@@ -273,7 +273,7 @@ class Config {
 		$aKeys=explode('.',$sKey);
 		$sEval='self::getInstance($sInstance)->aConfig';
 		foreach ($aKeys as $sK) {
-			$sEval.="['$sK']";
+			$sEval.='['.var_export($sK,true).']';
 		}
 		$sEval.='=$value;';
 		eval($sEval);	
