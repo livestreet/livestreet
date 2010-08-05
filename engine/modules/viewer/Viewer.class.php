@@ -165,8 +165,8 @@ class ModuleViewer extends Module {
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {
-		$this->Hook_Run('viewer_init_start');
+	public function Init($bLocal=false) {
+		$this->Hook_Run('viewer_init_start',compact('bLocal'));
 		/**
 		 * Заголовок HTML страницы
 		 */
@@ -216,7 +216,7 @@ class ModuleViewer extends Module {
 	 */
 	public function GetLocalViewer() {
 		$oViewerLocal=new ModuleViewer(Engine::getInstance());
-		$oViewerLocal->Init();
+		$oViewerLocal->Init(true);
 		$oViewerLocal->VarAssign();
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
 		
