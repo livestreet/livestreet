@@ -759,7 +759,7 @@ class ModuleNotify extends Module {
 		 	* Если директория с сообщениями на текущем языке отсутствует,
 		 	* используем язык по умолчанию
 		 	*/
-			if(is_dir(rtrim(Config::Get('path.static.skin'),'/').'/'.$sLangDir)) {
+			if(is_dir(rtrim(Config::Get('path.smarty.template'),'/').'/'.$sLangDir)) {
 				return $sLangDir.'/'.$sName;
 			}
 			return 'notify/'.$this->Lang_GetLangDefault().'/'.$sName;
