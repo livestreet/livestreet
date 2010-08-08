@@ -271,13 +271,28 @@ class Config {
 	 */
 	static public function Set($sKey,$value,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {
 		$aKeys=explode('.',$sKey);
+		
+		if(isset($value['$root$']) && is_array($value['$root$'])){
+			$aRoot = $value['$root$'];
+			unset($value['$root$']);
+			foreach($aRoot as $sRk => $mRv){
+				self::Set(
+					$sRk,
+					self::isExist($sRk)
+						? func_array_merge_assoc(Config::Get($sRk, $sInstance), $mRv)
+						: $mRv
+					,
+					$sInstance
+				);
+			}
+		}
+
 		$sEval='self::getInstance($sInstance)->aConfig';
 		foreach ($aKeys as $sK) {
-			$sEval.='['.var_export($sK,true).']';
+			$sEval.='['.var_export((string)$sK,true).']';
 		}
 		$sEval.='=$value;';
-		eval($sEval);	
-		
+		eval($sEval);
 		return true;	
 	}
 	
