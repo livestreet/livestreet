@@ -516,6 +516,42 @@ class Engine extends Object {
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
+	
+	
+	
+	public static function GetPluginName($oModule) {		
+		if (preg_match('/Plugin([^_]+)/',is_string($oModule) ? $oModule : get_class($oModule),$aMatches)) {
+			if(isset($aMatches[1])) {
+				return $aMatches[1];
+			}
+		}
+		return null;
+	}
+
+	public static function GetPluginPrefix($oModule) {
+		if($sPluginName = self::GetPluginName($oModule)) {
+			return 'Plugin'.$sPluginName.'_';
+		}
+		return '';
+	}
+
+	public static function GetModuleName($oModule) {
+		if (preg_match('/Module([^_]+)/',is_string($oModule) ? $oModule : get_class($oModule),$aMatches)) {
+			if(isset($aMatches[1])) {
+				return $aMatches[1];
+			}
+		}
+		return null;
+	}	
+	
+	public static function GetEntityName($oEntity) {
+		if (preg_match('/Entity([^_]+)/',is_string($oModule) ? $oModule : get_class($oModule),$aMatches)) {
+			if(isset($aMatches[1])) {
+				return $aMatches[1];
+			}
+		}
+		return null;
+	}
 }
 
 /**
