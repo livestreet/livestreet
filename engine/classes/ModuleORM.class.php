@@ -103,29 +103,43 @@ abstract class ModuleORM extends Module {
 			}
 			$oEntityEmpty=Engine::GetEntity($sEntityFull);
 			$aRelations=$oEntityEmpty->_getRelations();
-			$aEntityKeys=array();			
+			$aEntityKeys=array();
 			foreach ($aFilter['#with'] as $sRelationName) {
-				if (!array_key_exists($sRelationName,$aRelations) or !in_array($aRelations[$sRelationName][0],array(EntityORM::RELATION_TYPE_BELONGS_TO,EntityORM::RELATION_TYPE_HAS_ONE))) {
+				$sRelType=$aRelations[$sRelationName][0];
+				$sRelEntity=$aRelations[$sRelationName][1];
+				$sRelKey=$aRelations[$sRelationName][2];
+				
+				if (!array_key_exists($sRelationName,$aRelations) or !in_array($sRelType,array(EntityORM::RELATION_TYPE_BELONGS_TO,EntityORM::RELATION_TYPE_HAS_ONE))) {
 					throw new Exception("The entity <{$sEntityFull}> not have relation <{$sRelationName}>");
 				}
-				
+
 				/**
 				 * Формируем список ключей
 				 */
 				foreach ($aEntities as $oEntity) {
-					$aEntityKeys[$aRelations[$sRelationName][2]][]=$oEntity->_getDataOne($aRelations[$sRelationName][2]);
+					$aEntityKeys[$sRelKey][]=$oEntity->_getDataOne($sRelKey);
 				}
-				$aEntityKeys[$aRelations[$sRelationName][2]]=array_unique($aEntityKeys[$aRelations[$sRelationName][2]]);
+				$aEntityKeys[$sRelKey]=array_unique($aEntityKeys[$sRelKey]);
+				
 				/**
 				 * Делаем общий запрос по всем ключам
 				 */
+				$oRelEntityEmpty=Engine::GetEntity($sRelEntity);
 				
-				$aRelData=$this->GetItemsByArray(array('id'=>$aEntityKeys[$aRelations[$sRelationName][2]]),$aRelations[$sRelationName][1]);
-				var_dump($aRelData);
+				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
+				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
+				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
+				// ItemsByArrayId - id пока идет костылем, т.к. у стандартных сущностей нет метода _GetPrimatyKey()
+				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArrayId",array($aEntityKeys[$sRelKey]));
+				/**
+			 	 * Собираем набор
+				 */
+				foreach ($aEntities as $oEntity) {
+					if (isset($aRelData[$oEntity->_getDataOne($sRelKey)])) {
+						$oEntity->_setData(array($sRelationName => $aRelData[$oEntity->_getDataOne($sRelKey)]));
+					}
+				}
 			}
-			/**
-			 * Собираем набор
-			 */
 			
 		}
 		

@@ -31,7 +31,7 @@ class MapperORM extends Mapper {
 	public function UpdateEntity($oEntity) {		
 		$sTableName = self::GetTableName($oEntity);
 		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimatyKey());
-		var_dump($iPrimaryKeyValue);
+				
 		$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_GetPrimatyKey()." = ? "; 
 		
 		return $this->oDb->query($sql,$oEntity->_getData(),$iPrimaryKeyValue);

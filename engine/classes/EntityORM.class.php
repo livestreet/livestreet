@@ -76,6 +76,18 @@ abstract class EntityORM extends Entity {
 		return $this->aRelations;
 	}
 	
+	public function _setData($aData) {
+		if(is_array($aData)) {
+			foreach ($aData as $sKey => $val) {
+				if (array_key_exists($sKey,$this->aRelations)) {
+					$this->aRelationsData[$sKey]=$val;
+				} else {
+					$this->_aData[$sKey] = $val;
+				}
+			}
+		}
+	}
+	
 	public function __call($sName,$aArgs) {
 		$sType=strtolower(substr($sName,0,3));
 		if (!strpos($sName,'_') and in_array($sType,array('get','set'))) {			

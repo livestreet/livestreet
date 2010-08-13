@@ -182,6 +182,17 @@ class ModuleUser extends Module {
 		$aUsers=func_array_sort_by_keys($aUsers,$aUserId);
 		return $aUsers;
 	}
+	
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param unknown_type $aUserId
+	 * @return unknown
+	 */
+	public function GetUserItemsByArrayId($aUserId) {
+		return $this->GetUsersByArrayId($aUserId);
+	}
+	
 	public function GetUsersByArrayIdSolid($aUserId) {
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);

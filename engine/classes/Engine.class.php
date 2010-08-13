@@ -150,10 +150,10 @@ class Engine extends Object {
 		
 		if($bRunHooks || $sClassName == 'ModuleHook'){
 			$sHookPrefix = 'module_';
-			if($sPluginName = $this->GetPluginName($sClassName)){
+			if($sPluginName = self::GetPluginName($sClassName)) {
 				$sHookPrefix .= "plugin{$sPluginName}_";
 			}
-			$sHookPrefix .= $this->GetModuleName($sClassName).'_init_';
+			$sHookPrefix .= self::GetModuleName($sClassName).'_init_';
 		}
 		
 		if($bRunHooks){
