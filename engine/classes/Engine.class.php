@@ -121,12 +121,65 @@ class Engine extends Object {
 				$oProfiler=ProfilerSimple::getInstance();
 				$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
 
-				$oModule->Init();
-				$oModule->SetInit();
+				$this->InitModule($oModule);
 
 				$oProfiler->Stop($iTimeId);
 			}
 		}
+	}
+	
+	/**
+	 * Инициализирует модуль
+	 *
+	 * @param unknown_type $oModule
+	 */
+	protected function InitModule($oModule){
+		$sOrigClassName = $sClassName = get_class($oModule);		
+		$bRunHooks = false;
+				
+		if($this->isInitModule('ModuleHook')){
+			$bRunHooks = true;
+			while(preg_match('#^Plugin#i', $sClassName)){
+				$sParentClassName = get_parent_class($sClassName);
+				if($sParentClassName == 'Module'){
+					break;
+				}
+				$sClassName = $sParentClassName;
+			}
+		}
+		
+		if($bRunHooks || $sClassName == 'ModuleHook'){
+			$sHookPrefix = 'module_';
+			if($sPluginName = $this->GetPluginName($sClassName)){
+				$sHookPrefix .= "plugin{$sPluginName}_";
+			}
+			$sHookPrefix .= $this->GetModuleName($sClassName).'_init_';
+		}
+		
+		if($bRunHooks){
+			$this->Hook_Run($sHookPrefix.'before');
+		}
+		$oModule->Init();
+		$oModule->SetInit();		
+		if($bRunHooks || $sClassName == 'ModuleHook'){
+			$this->Hook_Run($sHookPrefix.'after');
+		}		
+	}
+	
+	/**
+	 * Проверяет модуль на инициализацию
+	 *
+	 * @param unknown_type $sModuleClass
+	 * @return unknown
+	 */
+	public function isInitModule($sModuleClass) {
+		if(!in_array($sModuleClass,array('ModulePlugin','ModuleHook'))) {
+			$sModuleClass=$this->Plugin_GetDelegate('module',$sModuleClass);
+		}
+		if(isset($this->aModules[$sModuleClass]) and $this->aModules[$sModuleClass]->isInit()){
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -149,25 +202,24 @@ class Engine extends Object {
 	/**
 	 * Выполняет загрузку модуля по его названию
 	 *
-	 * @param  string $sModuleName
+	 * @param  string $sModuleClass
 	 * @param  bool $bInit - инициализировать модуль или нет
 	 * @return Module
 	 */
-	public function LoadModule($sModuleName,$bInit=false) {
+	public function LoadModule($sModuleClass,$bInit=false) {
 		$tm1=microtime(true);
 		
 		/**		 
 		 * Создаем объект модуля
 		 */		
-		$oModule=new $sModuleName($this);
-		if ($bInit or $sModuleName=='Cache') {
-			$oModule->Init();
-			$oModule->SetInit();
-		}
-		$this->aModules[$sModuleName]=$oModule;
+		$oModule=new $sModuleClass($this);
+		$this->aModules[$sModuleClass]=$oModule;
+		if ($bInit or $sModuleClass=='ModuleCache') {
+			$this->InitModule($oModule);
+		}		
 		$tm2=microtime(true);
 		$this->iTimeLoadModule+=$tm2-$tm1;
-		dump("load $sModuleName - \t\t".($tm2-$tm1)."");
+		dump("load $sModuleClass - \t\t".($tm2-$tm1)."");
 		return $oModule;
 	}
 	
@@ -326,7 +378,8 @@ class Engine extends Object {
 		list($oModule,$sModuleName,$sMethod)=$this->GetModule($sName);
 		
 		if (!method_exists($oModule,$sMethod)) {
-			throw new Exception("The module has no required method: ".$sModuleName.'->'.$sMethod.'()');
+			// comment for ORM testing
+			//throw new Exception("The module has no required method: ".$sModuleName.'->'.$sMethod.'()');
 		}
 				
 		$oProfiler=ProfilerSimple::getInstance();
@@ -545,7 +598,7 @@ class Engine extends Object {
 	}	
 	
 	public static function GetEntityName($oEntity) {
-		if (preg_match('/Entity([^_]+)/',is_string($oModule) ? $oModule : get_class($oModule),$aMatches)) {
+		if (preg_match('/Entity([^_]+)/',is_string($oEntity) ? $oEntity : get_class($oEntity),$aMatches)) {
 			if(isset($aMatches[1])) {
 				return $aMatches[1];
 			}

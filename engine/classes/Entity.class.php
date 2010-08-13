@@ -68,13 +68,13 @@ abstract class Entity extends Object {
 	public function __call($sName,$aArgs) {
 		$sType=strtolower(substr($sName,0,3));
 		if (!strpos($sName,'_') and in_array($sType,array('get','set'))) {
-			$sKey=strtolower(preg_replace('/([^A-Z])([A-Z])/',"$1_$2",substr($sName,3)));
+			$sKey=func_underscore(substr($sName,3));
 			if ($sType=='get') {
 				if (isset($this->_aData[$sKey])) {
 					return $this->_aData[$sKey];
 				} else {
 					if (preg_match('/Entity([^_]+)/',get_class($this),$sModulePrefix)) {
-						$sModulePrefix=strtolower($sModulePrefix[1]).'_';
+						$sModulePrefix=func_underscore($sModulePrefix[1]).'_';
 						if (isset($this->_aData[$sModulePrefix.$sKey])) {
 							return $this->_aData[$sModulePrefix.$sKey];
 						}
