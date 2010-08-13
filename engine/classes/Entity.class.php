@@ -44,13 +44,20 @@ abstract class Entity extends Object {
 		
 		$aReturn=array();
 		foreach ($aKeys as $key) {
-			if(key_exists($key,$this->_aData)) {
+			if(array_key_exists($key,$this->_aData)) {
 				$aReturn[$key] = $this->_aData[$key];
 			}
 		}
 		return $aReturn;
 	}
 
+	public function _getDataOne($sKey) {
+		if(array_key_exists($sKey,$this->_aData)) {
+			return $this->_aData[$sKey];
+		}
+		return null;
+	}
+	
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
@@ -74,7 +81,7 @@ abstract class Entity extends Object {
 					}
 				}
 				return null;
-			} elseif ($sType=='set' and key_exists(0,$aArgs)) {
+			} elseif ($sType=='set' and array_key_exists(0,$aArgs)) {
 				$this->_aData[$sKey]=$aArgs[0];
 			}
 		} else {

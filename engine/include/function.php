@@ -412,4 +412,19 @@ if (!function_exists('class_alias')) {
         eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
     }
 }
+
+
+function func_underscore($sStr) {
+	return strtolower(preg_replace('/([^A-Z])([A-Z])/',"$1_$2",$sStr));
+}
+
+function func_camelize($sStr) {
+	$aParts = explode('_',$sStr);
+	$sCamelized = '';
+	foreach($aParts as $sPart) {
+		$sCamelized .= ucfirst($sPart);
+	}
+	return $sCamelized;
+}
+
 ?>
