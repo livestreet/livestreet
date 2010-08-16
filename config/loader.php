@@ -20,6 +20,8 @@
 require_once(dirname(dirname(__FILE__))."/engine/lib/internal/ConfigSimple/Config.class.php");
 Config::LoadFromFile(dirname(__FILE__).'/config.php');
 
+$fGetConfig = create_function('$sPath', '$config=array(); return include $sPath;');
+
 /**
  * Загружает конфиги модулей вида /config/modules/[module_name]/config.php
  */
@@ -29,7 +31,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
 			$sFileConfig=$sDirConfig.$sDirModule.'/config.php';
 			if (file_exists($sFileConfig)) {
-				$aConfig = include($sFileConfig);
+				$aConfig = $fGetConfig($sFileConfig);
 				if(!empty($aConfig) && is_array($aConfig)) {
 					// Если конфиг этого модуля пуст, то загружаем массив целиком
 					$sKey = "module.$sDirModule";
@@ -95,7 +97,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
 			$sFileConfig=$sDirConfig.$sDirModule.'/config.route.php';
 			if (file_exists($sFileConfig)) {
-				$aConfig = include($sFileConfig);
+				$aConfig = $fGetConfig($sFileConfig);
 				if(!empty($aConfig) && is_array($aConfig)) {
 					// Если конфиг этого модуля пуст, то загружаем массив целиком
 					$sKey = "router";
@@ -137,9 +139,8 @@ if($aPluginsList=@file($sPluginsListFile)) {
 	foreach ($aPluginsList as $sPlugin) {
 		$aConfigFiles = glob($sPluginsDir.'/'.$sPlugin.'/config/*.php');
 		if($aConfigFiles and count($aConfigFiles)>0) {
-			$aConfig=array();
 			foreach ($aConfigFiles as $sPath) {
-				$aConfig = include($sPath);
+				$aConfig = $fGetConfig($sPath);
 				if(!empty($aConfig) && is_array($aConfig)) {
 					// Если конфиг этого плагина пуст, то загружаем массив целиком
 					$sKey = "plugin.$sPlugin";
@@ -168,10 +169,4 @@ if($aPluginsList=@file($sPluginsListFile)) {
 	}
 }
 
-/**
- * Загружает конфиг текущего шаблона
- */
-if(file_exists(Config::Get('path.smarty.template').'/settings/config/config.php')) {
-	Config::LoadFromFile(Config::Get('path.smarty.template').'/settings/config/config.php',false);
-}
 ?>

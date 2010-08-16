@@ -168,6 +168,14 @@ class ModuleViewer extends Module {
 	public function Init($bLocal=false) {
 		$this->Hook_Run('viewer_init_start',compact('bLocal'));
 		/**
+		 * Load template config
+		 */
+		if (!$bLocal) {
+			if(file_exists(Config::Get('path.smarty.template').'/settings/config/config.php')) {
+				Config::LoadFromFile(Config::Get('path.smarty.template').'/settings/config/config.php',false);
+			}
+		}
+		/**
 		 * Заголовок HTML страницы
 		 */
 		$this->sHtmlTitle=Config::Get('view.name');
