@@ -427,4 +427,29 @@ function func_camelize($sStr) {
 	return $sCamelized;
 }
 
+
+function func_list_plugins($bAll = false){
+	$sPluginsDir = Config::Get('path.root.server').'/plugins';
+	$sPluginsListFile = $sPluginsDir.'/plugins.dat';
+	$aPlugin = array();
+	if($bAll){
+		$aPluginRaw = array();
+		$aPaths = glob("$aPluginRaw/*", GLOB_ONLYDIR);
+		if($aPaths)
+		foreach($aPaths as $sPath){
+			$aPluginRaw[] = basename($sPath);
+		}
+	}else{
+		$aPluginRaw = @array_map('trim', file($sPluginsListFile));
+	}
+	if($aPluginRaw)
+	foreach($aPluginRaw as $sPlugin){
+		$sPluginXML = "$sPluginsDir/$sPlugin/plugin.xml";
+		if(is_file($sPluginXML)){
+			$aPlugin[] = $sPlugin;
+		}
+	}
+	return $aPlugin;
+}
+
 ?>
