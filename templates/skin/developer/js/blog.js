@@ -1,10 +1,12 @@
 function ajaxJoinLeaveBlog(obj,idBlog) {
 	obj=$(obj);
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
-        { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {
-        	if (!result) {
+	
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
+		noCache: true,
+		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');
         	}
             if (result.bStateError) {
@@ -22,18 +24,21 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
             		}
             	}
             }
-        },
-        true
-    );
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }
 
 
-function ajaxBlogInfo(idBlog) { 	
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/blogInfo.php',                       
-        { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY  },
-        function(result, errors) {  
-        	if (!result) {
+function ajaxBlogInfo(idBlog) {
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/blogInfo.php',
+		noCache: true,
+		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}
             if (result.bStateError) {
@@ -42,10 +47,12 @@ function ajaxBlogInfo(idBlog) {
             	if ($('block_blog_info')) {
             		$('block_blog_info').set('html',result.sText);            		
             	}
-            }                               
-        },
-        true
-    );
+            }
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }
 
 
@@ -81,47 +88,53 @@ function addBlogInvite(idBlog) {
 	}
 	$('blog_admin_user_add').set('value','');
 
-	JsHttpRequest.query(
-		   'POST '+aRouter['blog']+'ajaxaddbloginvite/',
-			{ users: sUsers, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
-			function(result, errors) {
-				if (!result) {
-					msgErrorBox.alert('Error','Please try again later');
-				}
-				if (result.bStateError) {
-					msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-				} else {
-					var aUsers = result.aUsers;
-					aUsers.each(function(item,index) {
-						if(item.bStateError){
-							msgErrorBox.alert(item.sMsgTitle, item.sMsg);
-						} else {
-							addUserItem(item.sUserLogin,item.sUserWebPath);
-						}
-					});
-				}
-			},
-			true
-	);
+	new Request.JSON({
+		url: aRouter['blog']+'ajaxaddbloginvite/',
+		noCache: true,
+		data: { users: sUsers, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
+				msgErrorBox.alert('Error','Please try again later');
+			}
+			if (result.bStateError) {
+				msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+			} else {
+				var aUsers = result.aUsers;
+				aUsers.each(function(item,index) {
+					if(item.bStateError){
+						msgErrorBox.alert(item.sMsgTitle, item.sMsg);
+					} else {
+						addUserItem(item.sUserLogin,item.sUserWebPath);
+					}
+				});
+			}
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 	return false;
 }
 
 
 function reBlogInvite(idUser,idBlog) {
-	JsHttpRequest.query(
-		   'POST '+aRouter['blog']+'ajaxrebloginvite/',
-			{ idUser: idUser, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
-			function(result, errors) {
-				if (!result) {
-					msgErrorBox.alert('Error','Please try again later');
-				}
-				if (result.bStateError) {
-					msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-				} else {
-					msgNoticeBox.alert(result.sMsgTitle, result.sMsg);
-				}
-			},
-			true
-	);
+	new Request.JSON({
+		url: aRouter['blog']+'ajaxrebloginvite/',
+		noCache: true,
+		data: { idUser: idUser, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
+				msgErrorBox.alert('Error','Please try again later');
+			}
+			if (result.bStateError) {
+				msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+			} else {
+				msgNoticeBox.alert(result.sMsgTitle, result.sMsg);
+			}
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 	return false;
 }

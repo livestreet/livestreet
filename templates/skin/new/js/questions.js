@@ -1,9 +1,10 @@
-function ajaxQuestionVote(idTopic,idAnswer) {	
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/questionVote.php',                       
-        { idTopic: idTopic, idAnswer: idAnswer, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {  
-        	if (!result) {
+function ajaxQuestionVote(idTopic,idAnswer) {
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/questionVote.php',
+		noCache: true,
+		data: { idTopic: idTopic, idAnswer: idAnswer, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}
             if (result.bStateError) {
@@ -13,8 +14,10 @@ function ajaxQuestionVote(idTopic,idAnswer) {
             	if ($('topic_question_area_'+idTopic)) {
             		$('topic_question_area_'+idTopic).set('html',result.sText);
             	}  
-            }                               
-        },
-        true
-    );	
+            }
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }

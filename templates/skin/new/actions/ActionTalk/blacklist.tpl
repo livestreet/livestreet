@@ -22,29 +22,31 @@
 							element.getParent('li').fade(0.7);							
 							idTarget = element.get('id').replace('blacklist_item_','');
 		
-			                JsHttpRequest.query(
-			                        'POST '+aRouter['talk']+'ajaxdeletefromblacklist/',			                        
-			                        { idTarget: idTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
-			                        function(result, errors) {     
-			                            if (!result) {
-							                msgErrorBox.alert('Error','Please try again later');
-							                element.getParent().fade(1);           
-							        	}    
-							        	if (result.bStateError) {
-							                msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-							                element.getParent().fade(1);
-							        	} else {
-							                element.getParent('li').destroy();
-							                
-							                if($('blackList').getElements('li').length==0) {
-							                	$('blackList').destroy();
-							                	$('list_uncheck_all').setProperty('style','display:none');
-							                }
-							        	}                                 
-			                        },
-			                        true
-			                ); 
-										                
+							new Request.JSON({
+								url: aRouter['talk']+'ajaxdeletefromblacklist/',
+								noCache: true,
+								data: { idTarget: idTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
+								onSuccess: function(result){
+									if (!result) {
+										msgErrorBox.alert('Error','Please try again later');
+										element.getParent().fade(1);
+									}
+									if (result.bStateError) {
+										msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+										element.getParent().fade(1);
+									} else {
+										element.getParent('li').destroy();
+
+										if($('blackList').getElements('li').length==0) {
+											$('blackList').destroy();
+											$('list_uncheck_all').setProperty('style','display:none');
+										}
+									}
+								},
+								onFailure: function(){
+									msgErrorBox.alert('Error','Please try again later');
+								}
+							}).send();                
 							return true;
 						}
 						function addListItem(sId,sLogin) {
@@ -83,28 +85,32 @@
 								return false;
 							}
 							$('talk_blacklist_add').set('value','');
-			                JsHttpRequest.query(
-			                       'POST '+aRouter['talk']+'ajaxaddtoblacklist/',                      
-			                        { users: sUsers, security_ls_key: LIVESTREET_SECURITY_KEY },
-			                        function(result, errors) {     
-			                            if (!result) {
-							                msgErrorBox.alert('Error','Please try again later');         
-							        	}    
-							        	if (result.bStateError) {
-							                msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-							        	} else {
-							        		var aUsers = result.aUsers;
-							        		aUsers.each(function(item,index) { 
-							        			if(item.bStateError){
-							        				msgErrorBox.alert(item.sMsgTitle, item.sMsg);
-							        			} else {
-							                		addListItem(item.sUserId,item.sUserLogin);
-							        			}
-							        		});
-							        	}                                 
-			                        },
-			                        true
-			                ); 							
+							
+							new Request.JSON({
+								url: aRouter['talk']+'ajaxaddtoblacklist/',
+								noCache: true,
+								data: { users: sUsers, security_ls_key: LIVESTREET_SECURITY_KEY },
+								onSuccess: function(result){
+									if (!result) {
+										msgErrorBox.alert('Error','Please try again later');
+									}
+									if (result.bStateError) {
+										msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+									} else {
+										var aUsers = result.aUsers;
+										aUsers.each(function(item,index) {
+											if(item.bStateError){
+												msgErrorBox.alert(item.sMsgTitle, item.sMsg);
+											} else {
+												addListItem(item.sUserId,item.sUserLogin);
+											}
+										});
+									}
+								},
+								onFailure: function(){
+									msgErrorBox.alert('Error','Please try again later');
+								}
+							}).send();			
 							return false;
 						}
 						</script>

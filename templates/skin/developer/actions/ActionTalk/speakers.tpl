@@ -21,11 +21,12 @@
 				element.getParent('li').fade(0.7);
 				idTarget = element.get('id').replace('speaker_item_','');
 
-				JsHttpRequest.query(
-						'POST '+aRouter['talk']+'ajaxdeletetalkuser/',
-						{ idTarget:idTarget,idTalk:idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
-						function(result, errors) {
-							if (!result) {
+				new Request.JSON({
+					url: aRouter['talk']+'ajaxdeletetalkuser/',
+					noCache: true,
+					data: { idTarget:idTarget,idTalk:idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
+					onSuccess: function(result){
+						if (!result) {
 								msgErrorBox.alert('Error','Please try again later');
 								element.getParent().fade(1);
 							}
@@ -35,10 +36,11 @@
 							} else {
 								element.getParent('li').destroy();
 							}
-						},
-						true
-				);
-
+					},
+					onFailure: function(){
+						msgErrorBox.alert('Error','Please try again later');
+					}
+				}).send();
 				return true;
 			}
 			function addListItem(sId,sLogin,sUserLink,sTalkId) {
@@ -72,28 +74,31 @@
 					return false;
 				}
 				$('talk_speaker_add').set('value','');
-				JsHttpRequest.query(
-						'POST '+aRouter['talk']+'ajaxaddtalkuser/',
-						{ users: sUsers, idTalk: idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
-						function(result, errors) {
-							if (!result) {
-								msgErrorBox.alert('Error','Please try again later');
-							}
-							if (result.bStateError) {
-								msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-							} else {
-								var aUsers = result.aUsers;
-								aUsers.each(function(item,index) {
-									if(item.bStateError){
-										msgErrorBox.alert(item.sMsgTitle, item.sMsg);
-									} else {
-										addListItem(item.sUserId,item.sUserLogin,item.sUserLink,idTalk);
-									}
-								});
-							}
-						},
-						true
-				);
+				new Request.JSON({
+					url: aRouter['talk']+'ajaxaddtalkuser/',
+					noCache: true,
+					data: { users: sUsers, idTalk: idTalk, security_ls_key: LIVESTREET_SECURITY_KEY },
+					onSuccess: function(result){
+						if (!result) {
+							msgErrorBox.alert('Error','Please try again later');
+						}
+						if (result.bStateError) {
+							msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+						} else {
+							var aUsers = result.aUsers;
+							aUsers.each(function(item,index) {
+								if(item.bStateError){
+									msgErrorBox.alert(item.sMsgTitle, item.sMsg);
+								} else {
+									addListItem(item.sUserId,item.sUserLogin,item.sUserLink,idTalk);
+								}
+							});
+						}
+					},
+					onFailure: function(){
+						msgErrorBox.alert('Error','Please try again later');
+					}
+				}).send();
 				return false;
 			}
 			</script>

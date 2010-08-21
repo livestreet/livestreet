@@ -142,53 +142,56 @@ var lsCmtTreeClass = new Class({
 		var idCommentLast=this.idCommentLast;
 		objImg=$(objImg);
 		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
-		(function(){		
-		JsHttpRequest.query(        	
-        	'POST '+thisObj.typeComment[typeTarget].url_response,
-        	{ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
-        	function(result, errors) {        		
-        		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif'); 
-            	if (!result) {
-                	msgErrorBox.alert('Error','Please try again later');           
-        		}      
-        		if (result.bStateError) {
-                	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-        		} else {   
-        			var aCmt=result.aComments;         			
-        			if (aCmt.length>0 && result.iMaxIdComment) {
-        				thisObj.setIdCommentLast(result.iMaxIdComment);
-        				var countComments=$('count-comments');
-        				countComments.set('text',parseInt(countComments.get('text'))+aCmt.length);
-        				if ($('block_stream_comment') && lsBlockStream) {
-        					lsBlockStream.toggle($('block_stream_comment'),'comment_stream');
-        				}
-        			}        	
-        			var iCountOld=0;
-        			if (bNotFlushNew) {		      	       			       			
-        				iCountOld=thisObj.countNewComment;        				
-        			} else {
-        				thisObj.aCommentNew=[];
-        			}
-        			if (selfIdComment) {
-        				thisObj.setCountNewComment(aCmt.length-1+iCountOld);
-        				thisObj.hideCommentForm(thisObj.iCurrentShowFormComment); 
-        			} else {
-        				thisObj.setCountNewComment(aCmt.length+iCountOld);
-        			}        			
-        			aCmt.each(function(item,index) {   
-        				if (!(selfIdComment && selfIdComment==item.id)) {
-        					thisObj.aCommentNew.extend([item.id]);
-        				}        				 				
-        				thisObj.injectComment(item.idParent,item.id,item.html);
-        			}); 
-        			
-        			if (selfIdComment && $('comment_id_'+selfIdComment)) {
-						thisObj.scrollToComment(selfIdComment);
+		(function(){
+			new Request.JSON({
+				url: thisObj.typeComment[typeTarget].url_response,
+				noCache: true,
+				data: { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
+				onSuccess: function(result){
+					objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif');
+					if (!result) {
+						msgErrorBox.alert('Error','Please try again later');
 					}
-        		}                           
-	        },
-        	true
-       );
+					if (result.bStateError) {
+						msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+					} else {
+						var aCmt=result.aComments;
+						if (aCmt.length>0 && result.iMaxIdComment) {
+							thisObj.setIdCommentLast(result.iMaxIdComment);
+							var countComments=$('count-comments');
+							countComments.set('text',parseInt(countComments.get('text'))+aCmt.length);
+							if ($('block_stream_comment') && lsBlockStream) {
+								lsBlockStream.toggle($('block_stream_comment'),'comment_stream');
+							}
+						}
+						var iCountOld=0;
+						if (bNotFlushNew) {
+							iCountOld=thisObj.countNewComment;
+						} else {
+							thisObj.aCommentNew=[];
+						}
+						if (selfIdComment) {
+							thisObj.setCountNewComment(aCmt.length-1+iCountOld);
+							thisObj.hideCommentForm(thisObj.iCurrentShowFormComment);
+						} else {
+							thisObj.setCountNewComment(aCmt.length+iCountOld);
+						}
+						aCmt.each(function(item,index) {
+							if (!(selfIdComment && selfIdComment==item.id)) {
+								thisObj.aCommentNew.extend([item.id]);
+							}
+							thisObj.injectComment(item.idParent,item.id,item.html);
+						});
+
+						if (selfIdComment && $('comment_id_'+selfIdComment)) {
+							thisObj.scrollToComment(selfIdComment);
+						}
+					}
+				},
+				onFailure: function(){
+					msgErrorBox.alert('Error','Please try again later');
+				}
+			}).send();
        }).delay(1000);
 	},
 	
@@ -242,12 +245,16 @@ var lsCmtTreeClass = new Class({
 	
 	addComment: function(formObj,targetId,targetType) {
 		var thisObj=this;
-		formObj=$(formObj);			
-		JsHttpRequest.query(
-        	'POST '+thisObj.typeComment[targetType].url_add,
-        	{ params: formObj, security_ls_key: LIVESTREET_SECURITY_KEY },
-        	function(result, errors) {
-            	if (!result) {
+		formObj=$(formObj);		
+		var params=formObj.toQueryString();
+		params=params+'&security_ls_key='+LIVESTREET_SECURITY_KEY;
+		
+		new Request.JSON({
+			url: thisObj.typeComment[targetType].url_add,
+			noCache: true,
+			data: params,
+			onSuccess: function(result){
+				if (!result) {
             		thisObj.enableFormComment();
                 	msgErrorBox.alert('Error','Please try again later');  
                 	return;         
@@ -257,10 +264,13 @@ var lsCmtTreeClass = new Class({
                 	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
         		} else {
         			thisObj.responseNewComment(targetId,targetType,$('update-comments'),result.sCommentId,true);        			   								
-        		}                           
-	        },
-        	true
-      	);
+        		}
+			},
+			onFailure: function(){
+				msgErrorBox.alert('Error','Please try again later');
+			}
+		}).send();
+
       	$('form_comment_text').addClass('loader');		
       	$('form_comment_text').setProperty('readonly',true);		
 	},
@@ -283,11 +293,13 @@ var lsCmtTreeClass = new Class({
 		}
 		
 		var thisObj=this;
-		JsHttpRequest.query(
-        	'POST '+DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
-        	{ idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
-        	function(result, errors) {         		 
-            	if (!result) {
+		
+		new Request.JSON({
+			url: DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
+			noCache: true,
+			data: { idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
+			onSuccess: function(result){
+				if (!result) {
                 	msgErrorBox.alert('Error','Please try again later');           
         		}      
         		if (result.bStateError) {        			
@@ -303,10 +315,12 @@ var lsCmtTreeClass = new Class({
         				obj.addClass('delete');
         			}
 					obj.set('text',result.sTextToggle);        			        								
-        		}                           
-	        },
-        	true
-       );
+        		}
+			},
+			onFailure: function(){
+				msgErrorBox.alert('Error','Please try again later');
+			}
+		}).send();
 	},
 	
 	toggleCommentForm: function(idComment) {

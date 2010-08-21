@@ -1,10 +1,12 @@
 function ajaxJoinLeaveBlog(obj,idBlog) {   
 	obj=$(obj);
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
-        { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {
-        	if (!result) {
+	
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
+		noCache: true,
+		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');
         	}
             if (result.bStateError) {
@@ -22,28 +24,34 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
             		}
             	}
             }
-        },
-        true
-    );
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
+	
 }
 
 
-function ajaxBlogInfo(idBlog) { 	
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/blogInfo.php',                       
-        { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY  },
-        function(result, errors) {  
-        	if (!result) {
-                msgErrorBox.alert('Error','Please try again later');           
-        	}
-            if (result.bStateError) {
-            	
-            } else {            	
-            	if ($('block_blog_info')) {
-            		$('block_blog_info').set('html',result.sText);            		
-            	}
-            }                               
-        },
-        true
-    );
+function ajaxBlogInfo(idBlog) {
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/blogInfo.php',
+		noCache: true,
+		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY  },
+		onSuccess: function(result){
+			if (!result) {
+				msgErrorBox.alert('Error','Please try again later');
+			}
+			if (result.bStateError) {
+
+			} else {
+				if ($('block_blog_info')) {
+					$('block_blog_info').set('html',result.sText);
+				}
+			}
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }

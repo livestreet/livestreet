@@ -419,7 +419,7 @@ class ActionTalk extends Action {
 	 *
 	 */
 	protected function AjaxResponseComment() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$idCommentLast=getRequest('idCommentLast');		
 		/**
 		 * Проверям авторизован ли пользователь
@@ -470,7 +470,7 @@ class ActionTalk extends Action {
 	 *
 	 */
 	protected function AjaxAddComment() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$this->SubmitComment();
 	}	
 	/**
@@ -594,7 +594,7 @@ class ActionTalk extends Action {
 	 * @return null
 	 */	
 	public function AjaxAddToBlacklist() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUsers=getRequest('users',null,'post');
 		
 		// Если пользователь не авторизирован, возвращаем ошибку
@@ -677,7 +677,7 @@ class ActionTalk extends Action {
 	 * @return null
 	 */	
 	public function AjaxDeleteFromBlacklist() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$idTarget=getRequest('idTarget',null,'post');
 		
 		// Если пользователь не авторизирован, возвращаем ошибку		
@@ -737,7 +737,7 @@ class ActionTalk extends Action {
 	 * @return null
 	 */	
 	public function AjaxDeleteTalkUser() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$idTarget=getRequest('idTarget',null,'post');
 		$idTalk=getRequest('idTalk',null,'post');
 		
@@ -813,7 +813,7 @@ class ActionTalk extends Action {
 	 * @return null
 	 */
 	public function AjaxAddTalkUser() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUsers=getRequest('users',null,'post');
 		$idTalk=getRequest('idTalk',null,'post');
 

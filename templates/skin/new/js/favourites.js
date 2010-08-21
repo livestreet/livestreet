@@ -54,17 +54,20 @@ var lsFavouriteClass = new Class({
                 params[this.typeFavourite[type].targetName]=idTarget;
                 params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
-                JsHttpRequest.query(
-                        'POST '+this.typeFavourite[type].url,                       
-                        params,
-                        function(result, errors) {     
-                                thisObj.onToggle(result, errors, thisObj);                               
-                        },
-                        true
-                );             
+                new Request.JSON({
+                	url: this.typeFavourite[type].url,
+                	noCache: true,
+                	data: params,
+                	onSuccess: function(result){
+                		thisObj.onToggle(result, thisObj);
+                	},
+                	onFailure: function(){
+                		msgErrorBox.alert('Error','Please try again later');
+                	}
+                }).send();
         },
        
-        onToggle: function(result, errors, thisObj) {            
+        onToggle: function(result, thisObj) {            
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}      

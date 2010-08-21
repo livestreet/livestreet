@@ -36,11 +36,15 @@ if (!$oEngine->User_IsAuthorization()) {
 	$sMsg=$oEngine->Lang_Get('system_error');	
 }
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 	"bStateError"   => $bStateError,
 	"sMsgTitle"     => $sMsgTitle,
 	"sMsg"          => $sMsg,
 	"iCountTalkNew" => $iCountTalkNew,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

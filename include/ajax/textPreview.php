@@ -36,9 +36,13 @@ if ($oEngine->User_IsAuthorization()) {
 	$bStateError=false;
 }
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "sText"   => $sTextResult,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

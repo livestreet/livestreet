@@ -5,11 +5,13 @@ function ajaxTextPreview(textId,save,divPreview) {
 	} else {
 		text = $(textId).value;	
 	}	
-	JsHttpRequest.query(
-    	'POST '+DIR_WEB_ROOT+'/include/ajax/textPreview.php',                       
-        { text: text, save: save, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {  
-        	if (!result) {
+	
+	new Request.JSON({
+		url: DIR_WEB_ROOT+'/include/ajax/textPreview.php',
+		noCache: true,
+		data: { text: text, save: save, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}
             if (result.bStateError) {
@@ -21,10 +23,12 @@ function ajaxTextPreview(textId,save,divPreview) {
             	if ($(divPreview)) {
             		$(divPreview).set('html',result.sText).setStyle('display','block');
             	}
-            }                               
-        },
-        true
-    );
+            }
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }
 
 

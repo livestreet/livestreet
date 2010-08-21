@@ -40,11 +40,15 @@ if ($aComments=$oEngine->Comment_GetCommentsOnline('topic',Config::Get('block.st
 }
 
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "sText"   => $sTextResult,
 "sMsgTitle" => $sMsgTitle,
 "sMsg" => $sMsg,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

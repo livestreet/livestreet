@@ -44,11 +44,15 @@ if ($oEngine->User_IsAuthorization()) {
 	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "sText"   => $sTextResult,
 "sMsgTitle" => $sMsgTitle,
 "sMsg" => $sMsg,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

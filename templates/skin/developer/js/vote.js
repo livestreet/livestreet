@@ -61,17 +61,20 @@ var lsVoteClass = new Class({
                 params[this.typeVote[type].targetName]=idTarget;
                 params['security_ls_key']=LIVESTREET_SECURITY_KEY;
                 
-                JsHttpRequest.query(
-                        'POST '+this.typeVote[type].url,                       
-                        params,
-                        function(result, errors) {     
-                                thisObj.onVote(result, errors, thisObj);                               
-                        },
-                        true
-                );             
+                new Request.JSON({
+                	url: this.typeVote[type].url,
+                	noCache: true,
+                	data: params,
+                	onSuccess: function(result){
+                		thisObj.onVote(result, thisObj);
+                	},
+                	onFailure: function(){
+                		msgErrorBox.alert('Error','Please try again later');
+                	}
+                }).send();
         },
        
-        onVote: function(result, errors, thisObj) {            
+        onVote: function(result, thisObj) {            
         	if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}      

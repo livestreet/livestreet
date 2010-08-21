@@ -276,7 +276,7 @@ class ActionProfile extends Action {
 	}
 	
 	public function EventAjaxFriendAccept() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
 
 		/**
@@ -385,7 +385,7 @@ class ActionProfile extends Action {
 	}
 	
 	public function EventAjaxFriendAdd() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser');
 		$sUserText=getRequest('userText','');
 
@@ -585,7 +585,7 @@ class ActionProfile extends Action {
 	 * Удаление пользователя из друзей
 	 */
 	public function EventAjaxFriendDelete() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
 		
 		/**

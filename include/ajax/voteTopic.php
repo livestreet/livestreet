@@ -87,11 +87,15 @@ if ($oEngine->User_IsAuthorization()) {
 }
 
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "iRating"   => $iRating,
 "sMsgTitle"   => $sMsgTitle,
 "sMsg"   => $sMsg,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

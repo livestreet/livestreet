@@ -64,7 +64,7 @@ if ($oEngine->User_IsAuthorization()) {
 	$sMsg=$oEngine->Lang_Get('need_authorization');
 }
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "sMsgTitle"   => $sMsgTitle,
 "sMsg"   => $sMsg,
@@ -72,4 +72,8 @@ $GLOBALS['_RESULT'] = array(
 "iMaxIdComment" => $iMaxIdComment,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>

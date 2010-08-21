@@ -786,7 +786,7 @@ class ActionBlog extends Action {
 	 *
 	 */
 	protected function AjaxAddComment() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$this->SubmitComment();
 	}	
 	/**
@@ -946,7 +946,7 @@ class ActionBlog extends Action {
 	 * пользователям приглашения вступить в закрытый блог
 	 */
 	protected function AjaxAddBlogInvite() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUsers=getRequest('users',null,'post');
 		$sBlogId=getRequest('idBlog',null,'post');
 		
@@ -1092,7 +1092,7 @@ class ActionBlog extends Action {
 	 * повторного приглашения вступить в закрытый блог
 	 */
 	protected function AjaxReBlogInvite() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
 		$sBlogId=getRequest('idBlog',null,'post');
 		

@@ -57,18 +57,21 @@ var lsBlockLoaderClass = new Class({
         	} else {
         		params['security_ls_key']=LIVESTREET_SECURITY_KEY;
         	}
-            JsHttpRequest.query(
-            	'POST '+this.type[type].url,                       
-            	params,
-                function(result, errors) {     
-                	thisObj.onLoad(result, errors, blockContent);                               
-                },
-                true
-            );
-            
+        	
+        	new Request.JSON({
+        		url: this.type[type].url,
+        		noCache: true,
+        		data: params,
+        		onSuccess: function(result){
+        			thisObj.onLoad(result, blockContent);
+        		},
+        		onFailure: function(){
+        			msgErrorBox.alert('Error','Please try again later');
+        		}
+        	}).send();            
 		},
 		
-		onLoad: function(result, errors, blockContent) {
+		onLoad: function(result, blockContent) {
 			blockContent.set('html','');
 			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');

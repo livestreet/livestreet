@@ -16,8 +16,6 @@ var lsTalkMessagesClass = new Class({
         
         errors:0,	
         		
-        requestObj: new JsHttpRequest(),
-        		
         initialize: function(options){  
         		var thisObj = this; 
 				this.setOptions(options);
@@ -28,10 +26,11 @@ var lsTalkMessagesClass = new Class({
 				this.options.reload.request -= 1;
 				
 				if(this.errors<this.options.reload.errors&&this.options.reload.request>1) {
-					JsHttpRequest.query(
-						'POST '+thisObj.options.reload.url,
-						{ security_ls_key: LIVESTREET_SECURITY_KEY  },
-						function(result, errors) {
+					new Request.JSON({
+						url: thisObj.options.reload.url,
+						noCache: true,
+						data: { security_ls_key: LIVESTREET_SECURITY_KEY },
+						onSuccess: function(result){
 							if (!result) {								
 								thisObj.errors+=1;
 								return null;
@@ -53,8 +52,10 @@ var lsTalkMessagesClass = new Class({
 								thisObj.errors+=1;								
 							}
 						},
-						true
-					);
+						onFailure: function(){
+							msgErrorBox.alert('Error','Please try again later');
+						}
+					}).send();
 				}
 			}
 });

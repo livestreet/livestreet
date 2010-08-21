@@ -27,11 +27,12 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 		sPath=aRouter.profile+'ajaxfriendadd/';
 	}
 	
-	JsHttpRequest.query(
-    	'POST '+sPath,                       
-        { idUser: idUser,userText: sText, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {  
-        	if (!result) {
+	new Request.JSON({
+		url: sPath,
+		noCache: true,
+		data: { idUser: idUser,userText: sText, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');         
 				obj.getElement('form').getChildren().each(function(item){item.removeProperty('disabled')});
         	}
@@ -45,19 +46,23 @@ function ajaxAddUserFriend(obj,idUser,sAction) {
 					item.getElement('li').inject(obj.getParent('ul'),'top');            		
  	          		obj.dispose();
             	}
-            }                               
-        },
-        true
-    );
+            }
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }
 
 function ajaxDeleteUserFriend(obj,idUser,sAction) {   
 	obj=$(obj).getParent('li');
-	JsHttpRequest.query(
-    	'POST '+aRouter.profile+'ajaxfrienddelete/',                         
-        { idUser: idUser,sAction: sAction, security_ls_key: LIVESTREET_SECURITY_KEY },
-        function(result, errors) {  
-        	if (!result) {
+		
+	new Request.JSON({
+		url: aRouter.profile+'ajaxfrienddelete/',
+		noCache: true,
+		data: { idUser: idUser,sAction: sAction, security_ls_key: LIVESTREET_SECURITY_KEY },
+		onSuccess: function(result){
+			if (!result) {
                 msgErrorBox.alert('Error','Please try again later');           
         	}
             if (result.bStateError) {
@@ -69,8 +74,10 @@ function ajaxDeleteUserFriend(obj,idUser,sAction) {
 					item.getElement('li').inject(obj.getParent('ul'),'top');            		
 					obj.dispose();
             	}
-            }                               
-        },
-        true
-    );
+            }
+		},
+		onFailure: function(){
+			msgErrorBox.alert('Error','Please try again later');
+		}
+	}).send();
 }

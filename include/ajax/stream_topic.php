@@ -40,11 +40,15 @@ if ($oTopics=$oEngine->Topic_GetTopicsLast(Config::Get('block.stream.row'))) {
 }
 
 
-$GLOBALS['_RESULT'] = array(
+$aResult = array(
 "bStateError"     => $bStateError,
 "sText"   => $sTextResult,
 "sMsgTitle" => $sMsgTitle,
 "sMsg" => $sMsg,
 );
 
+if (!headers_sent()) {
+	header('Content-type: application/json');
+}
+echo json_encode($aResult);
 ?>
