@@ -296,9 +296,14 @@ class ActionLink extends Action {
 			$oTopic->setForbidComment(1);
 		}
 		/**
+		 * Запускаем выполнение хуков
+		 */
+		$this->Hook_Run('topic_add_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
+		/**
 		 * Добавляем топик
 		 */
 		if ($this->Topic_AddTopic($oTopic)) {
+			$this->Hook_Run('topic_add_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
 			/**
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
@@ -408,10 +413,12 @@ class ActionLink extends Action {
 		if (getRequest('topic_forbid_comment')) {
 			$oTopic->setForbidComment(1);
 		}
+		$this->Hook_Run('topic_edit_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
 		/**
 		 * Сохраняем топик
 		 */
-		if ($this->Topic_UpdateTopic($oTopic)) {			
+		if ($this->Topic_UpdateTopic($oTopic)) {
+			$this->Hook_Run('topic_edit_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog,'bSendNotify'=>&$bSendNotify));
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
