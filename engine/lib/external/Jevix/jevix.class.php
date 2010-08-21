@@ -1321,7 +1321,7 @@ class Jevix{
 		$url = '';
 		//$name = $this->name();
 		//switch($name)
-		$urlChMask = self::URL | self::ALPHA;
+		$urlChMask = self::URL | self::ALPHA | self::PUNCTUATUON;
 
 		if($this->matchStr('http://')){
 			while($this->curChClass & $urlChMask){
