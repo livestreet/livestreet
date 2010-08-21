@@ -20,7 +20,7 @@
 					<td><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
 					<td>
 						<h3>{$aPlugin.property->name->data|escape:'html'}</h3>
-						{$aPlugin.property->description->data|escape:'html'}<br />
+						{$aPlugin.property->description->data}<br />
 						{$aPlugin.property->homepage}
 					</td>
 					<td>{$aPlugin.property->version|escape:'html'}</td>
