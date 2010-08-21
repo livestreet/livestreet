@@ -61,6 +61,8 @@ class ModuleText extends Module {
 		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link', 'type' => '#text'));
 		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
 		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text'));
+		$this->oJevix->cfgAllowTagParams('acronym', array('title'));
+		$this->oJevix->cfgAllowTagParams('abbr', array('title'));
 		// Параметры тегов являющиеся обязательными
 		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
 		//$this->oJevix->cfgSetTagParamsRequired('a', 'href');
