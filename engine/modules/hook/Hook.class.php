@@ -34,7 +34,12 @@ class ModuleHook extends Module {
 	 * )
 	 */
 	protected $aHooks=array();
-	
+	/**
+	 * Hook objects
+	 *
+	 * @var unknown_type
+	 */
+	protected $aHooksObject=array();
 	/**
 	 * Инициализация модуля
 	 *
@@ -139,8 +144,14 @@ class ModuleHook extends Module {
 				$result=call_user_func_array($aHook['callback'],array(&$aVars));
 				break;
 			case 'hook':
-				if (isset($aHook['params']['sClassName']) and class_exists($aHook['params']['sClassName'])) {
-					$oHook=new $aHook['params']['sClassName'];
+				$sHookClass=isset($aHook['params']['sClassName']) ? $aHook['params']['sClassName'] : null;
+				if ($sHookClass and class_exists($sHookClass)) {
+					if (isset($this->aHooksObject[$sHookClass])) {
+						$oHook=$this->aHooksObject[$sHookClass];
+					} else {
+						$oHook=new $sHookClass;
+						$this->aHooksObject[$sHookClass]=$oHook;
+					}
 					$result=call_user_func_array(array($oHook,$aHook['callback']),array(&$aVars));
 				}
 				break;
