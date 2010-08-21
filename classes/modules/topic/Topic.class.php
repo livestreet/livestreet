@@ -1364,7 +1364,7 @@ class ModuleTopic extends Module {
 			return ModuleImage::UPLOAD_IMAGE_ERROR_READ;
 		}
 		
-		$iMaxSizeKb=500;
+		$iMaxSizeKb=Config::Get('view.img_max_size_url');
 		$iSizeKb=0;
 		$sContent='';
 		while (!feof($oFile) and $iSizeKb<$iMaxSizeKb) {
