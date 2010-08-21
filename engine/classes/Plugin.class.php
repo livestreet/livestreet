@@ -136,7 +136,7 @@ abstract class Plugin extends Object {
 		 */
 		if ($sObjectName=='template') {
 			if(!$sTo) {
-				$sTo = $this->GetTemplatePath(get_class($this)).$sFrom;
+				$sTo = self::GetTemplatePath(get_class($this)).$sFrom;
 			} else {
 				$sTo=preg_replace("/^_/",$this->GetTemplatePath(get_class($this)),$sTo);
 			}

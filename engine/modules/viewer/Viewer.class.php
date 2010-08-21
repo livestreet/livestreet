@@ -278,7 +278,15 @@ class ModuleViewer extends Module {
 		 * Загружаем список активных плагинов
 		 */
 		$aPlugins=$this->oEngine->GetPlugins();
-		$this->Assign("aPluginActive",array_fill_keys(array_keys($aPlugins),true));		
+		$this->Assign("aPluginActive",array_fill_keys(array_keys($aPlugins),true));
+		/**
+		 * Загружаем пути до шаблонов плагинов
+		 */
+		$aTemplateWebPathPlugin=array();
+		foreach ($aPlugins as $k=>$oPlugin) {
+			$aTemplateWebPathPlugin[$k]=Plugin::GetTemplateWebPath(get_class($oPlugin));
+		}
+		$this->Assign("aTemplateWebPathPlugin",$aTemplateWebPathPlugin);
 	}
 	
 	/**
