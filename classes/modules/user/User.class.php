@@ -1177,5 +1177,16 @@ class ModuleUser extends Module {
 	public function DeleteFoto($oUser) {
 		@unlink($this->Image_GetServerPath($oUser->getProfileFoto()));
 	}
+	/**
+	 * Проверяет логин на корректность
+	 *
+	 * @param unknown_type $sLogin
+	 */
+	public function CheckLogin($sLogin) {
+		if (preg_match("/^[\da-z\_\-]{".Config::Get('module.user.login.min_size').','.Config::Get('module.user.login.max_size')."}$/i",$sLogin)){ 
+			return true; 
+		}
+		return false;
+	}
 }
 ?>

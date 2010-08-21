@@ -76,7 +76,7 @@ class ActionRegistration extends Action {
 			/**
 			 * Проверка логина
 			 */
-			if (!func_check(getRequest('login'),'login',3,30)) {
+			if (!$this->User_CheckLogin(getRequest('login'))) {
 				$this->Message_AddError($this->Lang_Get('registration_login_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}

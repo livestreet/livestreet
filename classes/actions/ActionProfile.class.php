@@ -42,9 +42,9 @@ class ActionProfile extends Action {
 		$this->AddEvent('ajaxfrienddelete', 'EventAjaxFriendDelete');
 		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
 				
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(whois)?$/i','EventWhois');				
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');			
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');			
+		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
 	}
 			
 	/**********************************************************************************
