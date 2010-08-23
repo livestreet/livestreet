@@ -5,7 +5,7 @@ function ajaxTextPreview(textId,save,divPreview) {
 	} else {
 		text = $(textId).value;	
 	}	
-	
+	save=save ? 1 : 0;
 	new Request.JSON({
 		url: DIR_WEB_ROOT+'/include/ajax/textPreview.php',
 		noCache: true,
