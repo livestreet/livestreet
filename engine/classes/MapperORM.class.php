@@ -28,20 +28,20 @@ class MapperORM extends Mapper {
 		return $this->oDb->query($sql,$oEntity->_getData());
 	}
 	
-	public function UpdateEntity($oEntity) {		
+	public function UpdateEntity($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimatyKey());
+		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimaryKey());
 				
-		$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_GetPrimatyKey()." = ? "; 
+		$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_GetPrimaryKey()." = ? "; 
 		
 		return $this->oDb->query($sql,$oEntity->_getData(),$iPrimaryKeyValue);
 	}
 	
 	public function DeleteEntity($oEntity) {		
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimatyKey());
+		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimaryKey());
 		
-		$sql = "DELETE FROM ".$sTableName." WHERE ".$oEntity->_GetPrimatyKey()." = ? "; 
+		$sql = "DELETE FROM ".$sTableName." WHERE ".$oEntity->_GetPrimaryKey()." = ? "; 
 		return $this->oDb->query($sql,$iPrimaryKeyValue);
 	}
 	
@@ -129,18 +129,35 @@ class MapperORM extends Mapper {
 		return $aItems;
 	}
 	
+	public function GetItemsByJoinTable($aData,$sEntityFull) {
+		if(empty($aData)) {
+			return null;
+		}
+		$sTableName = self::GetTableName($sEntityFull);
+		$sql = "SELECT a.*, b.* FROM ?# a LEFT JOIN ".$sTableName." b USING(?#) WHERE a.?#=?";
+		$aItems = array();
+		if($aRows=$this->oDb->select($sql, $aData['join_table'], $aData['relation_key'],  $aData['by_key'], $aData['by_value'])) {
+			foreach($aRows as $aRow) {
+				$oEntity=Engine::GetEntity($sEntityFull,$aRow);
+				$oEntity->_SetIsNew(false);
+				$aItems[] = $oEntity;
+			}			
+		}
+		return $aItems;
+	}
+	
 	public static function GetTableName($oEntity) {
 		/**
 		 * Варианты таблиц:
 		 * 	prefix_user -> если модуль совпадает с сущностью
 		 * 	prefix_user_invite -> если модуль не сопадает с сущностью
 		 */
-		$sModuleName = strtolower(Engine::GetModuleName($oEntity));
-		$sEntityName = strtolower(Engine::GetEntityName($oEntity));
-		if ($sModuleName==$sEntityName) {
-			$sTable=$sModuleName;
+		$sModuleName = func_underscore(Engine::GetModuleName($oEntity));
+		$sEntityName = func_underscore(Engine::GetEntityName($oEntity));
+		if (strpos($sEntityName,$sModuleName)===0) {
+			$sTable=func_underscore($sEntityName);
 		} else {
-			$sTable=$sModuleName.'_'.$sEntityName;
+			$sTable=func_underscore($sModuleName).'_'.func_underscore($sEntityName);
 		}
 		if(Config::Get('db.table.'.$sTable)) {
 			return Config::Get('db.table.'.$sTable);

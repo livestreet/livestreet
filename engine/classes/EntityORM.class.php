@@ -24,6 +24,7 @@ abstract class EntityORM extends Entity {
 	const RELATION_TYPE_BELONGS_TO='belongs_to';
 	const RELATION_TYPE_HAS_MANY='has_many';
 	const RELATION_TYPE_HAS_ONE='has_one';
+	const RELATION_TYPE_MANY_TO_MANY='many_to_many';
 	
 	protected $aRelations=array();
 	protected $aRelationsData=array();
@@ -36,7 +37,16 @@ abstract class EntityORM extends Entity {
 		parent::__construct($aParam);
 	}
 	
-	public function _GetPrimatyKey() {
+	public function _GetPrimaryKey() {
+		if(!$this->_getDataOne($this->sPrimaryKey)) {
+			$sModulePrefix=null;
+			if (preg_match('/Entity([^_]+)/',get_class($this),$sModulePrefix)) {						
+				$sModulePrefix=func_underscore($sModulePrefix[1]).'_';
+				if($this->_getDataOne($sModulePrefix.$this->sPrimaryKey)) {
+					$this->sPrimaryKey=$sModulePrefix.$this->sPrimaryKey;
+				}
+			}
+		}
 		return $this->sPrimaryKey;
 	}
 	
@@ -61,6 +71,10 @@ abstract class EntityORM extends Entity {
 	}
 	
 	public function Delete() {
+		return $this->_Method(__FUNCTION__);
+	}	
+	
+	public function Reload() {
 		return $this->_Method(__FUNCTION__);
 	}
 	
@@ -89,9 +103,9 @@ abstract class EntityORM extends Entity {
 	}
 	
 	public function __call($sName,$aArgs) {
-		$sType=strtolower(substr($sName,0,3));
-		if (!strpos($sName,'_') and in_array($sType,array('get','set'))) {			
-			$sKey=func_underscore(substr($sName,3));
+		$sType=substr($sName,0,strpos(func_underscore($sName),'_'));	
+		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {	
+			$sKey=func_underscore(str_replace($sType,'',$sName));
 			if ($sType=='get') {
 				if (isset($this->_aData[$sKey])) {
 					return $this->_aData[$sKey];
@@ -110,6 +124,10 @@ abstract class EntityORM extends Entity {
 					$sEntityRel=$this->aRelations[$sKey][1];
 					$sRelationType=$this->aRelations[$sKey][0];
 					$sRelationKey=$this->aRelations[$sKey][2];
+					$sRelationJoinTable=null;
+					if($sRelationType == self::RELATION_TYPE_MANY_TO_MANY && array_key_exists(3, $this->aRelations[$sKey])) {
+						$sRelationJoinTable=$this->aRelations[$sKey][3];
+					}
 					
 					/**
 					 * Если связь уже загруженна, то возвращаем сразу результат
@@ -118,28 +136,47 @@ abstract class EntityORM extends Entity {
 						return $this->aRelationsData[$sKey];
 					}
 					
-					$sModuleName=Engine::GetModuleName($sEntityRel);
-					$sEntityName=Engine::GetEntityName($sEntityRel);
-					$sPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
 					
-					$iPrimaryKeyValue=$this->_getDataOne($this->_GetPrimatyKey());
+					$sRelModuleName=Engine::GetModuleName($sEntityRel);
+					$sRelEntityName=Engine::GetEntityName($sEntityRel);
+					$sRelPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
+					$sRelPrimaryKey='id';
+					if($oRelEntity=Engine::GetEntity($sEntityRel)) {
+						$sRelPrimaryKey=$oRelEntity->_GetPrimaryKey();
+					}
+					
+					$iPrimaryKeyValue=$this->_getDataOne($this->_GetPrimaryKey());
 					
 					$sCmd='';
 					$aCmdArgs=array();
 					switch ($sRelationType) {
-						case self::RELATION_TYPE_HAS_MANY :
-							$sCmd="{$sPluginPrefix}{$sModuleName}_get{$sEntityName}ItemsBy".func_camelize($sRelationKey);
+						case self::RELATION_TYPE_BELONGS_TO :
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelPrimaryKey);
+							$aCmdArgs[0]=$this->_getDataOne($sRelationKey);
+							break;
+						case self::RELATION_TYPE_HAS_ONE :
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelationKey);
 							$aCmdArgs[0]=$iPrimaryKeyValue;
 							break;
-						case self::RELATION_TYPE_BELONGS_TO :
-							$sCmd="{$sPluginPrefix}{$sModuleName}_get{$sEntityName}By".func_camelize($this->_GetPrimatyKey());
-							$aCmdArgs[0]=$this->_getDataOne($sRelationKey);							
-						case self::RELATION_TYPE_HAS_ONE :
+						case self::RELATION_TYPE_HAS_MANY :
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsBy".func_camelize($sRelationKey);
+							$aCmdArgs[0]=$iPrimaryKeyValue;
+							break;
+						case self::RELATION_TYPE_MANY_TO_MANY :
+						  $sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
+							$sByKey = strpos($this->_GetPrimaryKey(), $sModulePrefix) === 0 ? $this->_GetPrimaryKey() : $sModulePrefix.$this->_GetPrimaryKey();
+							$aCmdArgs[0] = array(
+								'join_table'			=> $sRelationJoinTable,
+								'relation_key'		=> $sRelationKey,
+								'by_key'					=> $sByKey,
+								'by_value'				=> $iPrimaryKeyValue,
+							);
+							break;
 						default:
 							break;
-					}					
+					}
 					$res=Engine::GetInstance()->_CallModule($sCmd,$aCmdArgs);
-					
+
 					$this->aRelationsData[$sKey]=$res;
 					return $res;
 				}
@@ -150,6 +187,11 @@ abstract class EntityORM extends Entity {
 					$this->aRelationsData[$sKey]=$aArgs[0];
 				} else {
 					$this->_aData[$sKey]=$aArgs[0];
+				}
+			} elseif ($sType=='reload') {
+				if (array_key_exists($sKey,$this->aRelationsData)) {
+					unset($this->aRelationsData[$sKey]);
+					return $this->__call('get'.func_camelize($sKey),$aArgs);
 				}
 			}
 		} else {

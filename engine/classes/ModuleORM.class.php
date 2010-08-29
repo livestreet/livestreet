@@ -40,7 +40,7 @@ abstract class ModuleORM extends Module {
 			return $oEntity;
 		} elseif ($res) {
 			// есть автоинкремент, устанавливаем его
-			$oEntity->_setData(array($oEntity->_GetPrimatyKey() => $res));
+			$oEntity->_setData(array($oEntity->_GetPrimaryKey() => $res));
 			return $oEntity;
 		}
 		return false;
@@ -73,6 +73,19 @@ abstract class ModuleORM extends Module {
 		} else {
 			return $this->_UpdateEntity($oEntity);
 		}
+	}	
+	
+	
+	protected function _ReloadEntity($oEntity) {
+		if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
+			if($sPrimaryKeyValue=$oEntity->_getDataOne($sPrimaryKey)) {
+				if($oEntityNew=$this->GetByFilter(array($sPrimaryKey=>$sPrimaryKeyValue),Engine::GetEntityName($oEntity))) {
+					$oEntity->_setData($oEntityNew->_getData());
+					return $oEntity;
+				}
+			}
+		}
+		return false;
 	}
 	
 	
@@ -129,7 +142,7 @@ abstract class ModuleORM extends Module {
 				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
-				// ItemsByArrayId - id пока идет костылем, т.к. у стандартных сущностей нет метода _GetPrimatyKey()
+				// ItemsByArrayId - id пока идет костылем, т.к. у стандартных сущностей нет метода _GetPrimaryKey()
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArrayId",array($aEntityKeys[$sRelKey]));
 				/**
 			 	 * Собираем набор
@@ -157,12 +170,21 @@ abstract class ModuleORM extends Module {
 		$aData=$this->oMapperORM->GetItemsByArray($aFilter,$sEntityFull);
 		foreach ($aData as $oEntity) {
 			// здесь под вопросом какое поле использовать в качестве ключа, всегда примари или тот, который передан?
-			$aEntities[$oEntity->_getDataOne($oEntity->_GetPrimatyKey())]=$oEntity;
+			$aEntities[$oEntity->_getDataOne($oEntity->_GetPrimaryKey())]=$oEntity;
 		}
 		return $aEntities;
 	}
 	
-	public function __call($sName,$aArgs) {		
+	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
+		if (is_null($sEntityFull)) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
+		} elseif (!substr_count($sEntityFull,'_')) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+		}
+		return $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+	}
+	
+	public function __call($sName,$aArgs) {
 		if (preg_match("@^add([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_AddEntity($aArgs[0]);
 		}
@@ -177,15 +199,38 @@ abstract class ModuleORM extends Module {
 		
 		if (preg_match("@^delete([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_DeleteEntity($aArgs[0]);
+		}	
+		
+		if (preg_match("@^reload([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_ReloadEntity($aArgs[0]);
 		}
 		
 		$sNameUnderscore=func_underscore($sName);
-		
+		$iEntityPosEnd=strlen($sNameUnderscore)-1; 
+		if(substr_count($sNameUnderscore,'_items')) {
+			$iEntityPosEnd=strpos($sNameUnderscore,'_items');
+		} else if(substr_count($sNameUnderscore,'_by')) {
+			$iEntityPosEnd=strpos($sNameUnderscore,'_by');
+		} else if(substr_count($sNameUnderscore,'_all')) {
+			$iEntityPosEnd=strpos($sNameUnderscore,'_all');
+		}
+		$sEntityName=substr($sNameUnderscore,4,$iEntityPosEnd-4);
+		/**
+		 * getUserRoleJoinByUserIdAndRoleId() get_user-role-join_by_user_id_and_role_id
+		 */
+		$sNameUnderscore=substr_replace($sNameUnderscore,str_replace('_','',$sEntityName),4,$iEntityPosEnd-4);
+		$sEntityName=func_camelize($sEntityName);
 		/**
 		 * getUserItemsByArrayId() get_user_items_by_array_id
 		 */
 		if (preg_match("@^get_([a-z]+)_items_by_array_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) {
-			return $this->GetItemsByArray(array($aMatch[2]=>$aArgs[0]),$aMatch[1]);
+			return $this->GetItemsByArray(array($aMatch[2]=>$aArgs[0]),$sEntityName);
+		}
+		/**
+		 * getUserItemsByJoinTable() get_user_items_by_join_table
+		 */
+		if (preg_match("@^get_([a-z]+)_items_by_join_table$@i",$sNameUnderscore,$aMatch)) {
+			return $this->GetItemsByJoinTable($aArgs[0],func_camelize($sEntityName));
 		}
 		/**
 		 * getUserByLogin() get_user_by_login
@@ -197,9 +242,9 @@ abstract class ModuleORM extends Module {
 		if (preg_match("@^get_([a-z]+)((_items)|())_by_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) {
 			$aFilter=array_combine(explode('_and_',$aMatch[5]),$aArgs);
 			if ($aMatch[2]=='_items') {
-				return $this->GetItemsByFilter($aFilter,$aMatch[1]);
+				return $this->GetItemsByFilter($aFilter,$sEntityName);
 			} else {				
-				return $this->GetByFilter($aFilter,$aMatch[1]);
+				return $this->GetByFilter($aFilter,$sEntityName);
 			}
 		}
 		/**
@@ -210,7 +255,7 @@ abstract class ModuleORM extends Module {
 			if (isset($aArgs[0]) and is_array($aArgs[0])) {
 				$aFilter=$aArgs[0];
 			}
-			return $this->GetItemsByFilter($aFilter,$aMatch[1]);
+			return $this->GetItemsByFilter($aFilter,$sEntityName);
 		}
 		
 		return $this->oEngine->_CallModule($sName,$aArgs);
