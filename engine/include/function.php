@@ -440,7 +440,10 @@ function func_list_plugins($bAll = false){
 			$aPluginRaw[] = basename($sPath);
 		}
 	}else{
-		$aPluginRaw = @array_map('trim', file($sPluginsListFile));
+		if ($aPluginRaw = @file($sPluginsListFile)) {
+			$aPluginRaw = array_map('trim',$aPluginRaw);
+			$aPluginRaw = array_unique($aPluginRaw);
+		}
 	}
 	if($aPluginRaw)
 	foreach($aPluginRaw as $sPlugin){
