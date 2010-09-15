@@ -55,7 +55,7 @@ class ModuleText extends Module {
 		// Преформатированные теги
 		$this->oJevix->cfgSetTagPreformatted(array('pre','code','video'));
 		// Разрешённые параметры тегов		
-		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
+		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center', 'middle'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
 		$this->oJevix->cfgAllowTagParams('a', array('title', 'href', 'rel' => '#text', 'name' => '#text'));
 		$this->oJevix->cfgAllowTagParams('cut', array('name'));
 		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => '#link', 'type' => '#text'));
