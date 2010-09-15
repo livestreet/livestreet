@@ -611,7 +611,8 @@ class ActionBlog extends Action {
 					)
 				)
 			) {
-			return parent::EventNotFound();
+			$this->Message_AddErrorSingle($this->Lang_Get('blog_close_show'),$this->Lang_Get('not_access'));
+			return Router::Action('error');
 		}
 		
 		/**
