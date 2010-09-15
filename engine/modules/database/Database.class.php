@@ -103,6 +103,49 @@ class ModuleDatabase extends Module {
 		$aQueryStats['time']=round($aQueryStats['time'],3);
 		return $aQueryStats;
 	}
+	
+	
+	public function ExportSQL($sFilePath,$aConfig=null) {
+		if(!is_file($sFilePath)){
+			return array('result'=>false,'errors'=>array("cant find file '$sFilePath'"));
+		}elseif(!is_readable($sFilePath)){
+			return array('result'=>false,'errors'=>array("cant read file '$sFilePath'"));
+		}
+		$sFileQuery = file_get_contents($sFilePath);
+		/**
+		 * Замена префикса таблиц
+		 */
+		$sFileQuery = str_replace('prefix_', Config::Get('db.table.prefix'), $sFileQuery);
+
+		/**
+		 * Массивы запросов и пустой контейнер для сбора ошибок
+		 */
+		$aErrors = array();
+		$aQuery=explode(';',$sFileQuery);
+		/**
+		 * Выполняем запросы по очереди
+		 */
+		foreach($aQuery as $sQuery){
+			$sQuery = trim($sQuery);
+			/**
+			 * Заменяем движек, если таковой указан в запросе
+			 */
+			if(Config::Get('db.tables.engine')!='InnoDB') $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE=".Config::Get('db.tables.engine'),$sQuery);
+			
+			if($sQuery!='') {
+				$bResult=$this->GetConnect($aConfig)->query($sQuery);
+				if($bResult===false) $aErrors[] = mysql_error();
+			}
+		}
+
+		/**
+		 * Возвращаем результат выполнения, взависимости от количества ошибок 
+		 */
+		if(count($aErrors)==0) {
+			return array('result'=>true,'errors'=>null);
+		}
+		return array('result'=>false,'errors'=>$aErrors);
+	}
 }
 
 /**
