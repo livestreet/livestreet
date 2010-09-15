@@ -88,6 +88,7 @@ tinyMCE.init({
 					<p>{if !$oConfig->GetValue('view.tinymce')}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
 					{if !$oConfig->GetValue('view.tinymce')}
             			<div class="panel_form">
+            				{hook run='form_add_topic_panel_begin'}
 							<select onchange="lsPanel.putTagAround('topic_text',this.value); this.selectedIndex=0; return false;" style="width: 91px;">
             					<option value="">{$aLang.panel_title}</option>
             					<option value="h4">{$aLang.panel_title_h4}</option>
@@ -111,6 +112,7 @@ tinyMCE.init({
 	 				
 	 						<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/img.gif" width="20" height="20" title="{$aLang.panel_image}"></a> 			
 	 						<a href="#" onclick="lsPanel.putText('topic_text','<cut>'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/cut.gif" width="20" height="20" title="{$aLang.panel_cut}"></a>	
+	 						{hook run='form_add_topic_panel_end'}
 	 					</div>
 	 				{/if}
 					<textarea name="topic_text" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
