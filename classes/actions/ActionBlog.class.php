@@ -280,6 +280,13 @@ class ActionBlog extends Action {
 			 */
 			$sText=$this->Text_Parser(getRequest('blog_description'));			
 			$oBlog->setDescription($sText);
+			/**
+			 * Сбрасываем кеш, если поменяли тип блога
+			 * Нужна доработка, т.к. в этом блоге могут быть топики других юзеров
+			 */
+			if ($oBlog->getType()!=getRequest('blog_type')) {
+				$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update_user_{$oBlog->getOwnerId()}"));
+			}
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога	
