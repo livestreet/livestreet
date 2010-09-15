@@ -776,7 +776,7 @@ class Engine extends Object {
 			;
 			$aResult[self::CI_INHERITS] = $sInherit
 				? self::GetClassInfo(
-					$sClassName,
+					$sInherit,
 					self::CI_OBJECT,
 					false)
 				: null
