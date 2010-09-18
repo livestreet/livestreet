@@ -23,6 +23,12 @@ class ModuleComment_EntityComment extends Entity
     public function getPid() {
         return $this->_aData['comment_pid'];
     } 
+    public function getLeft() {
+        return $this->_aData['comment_left'];
+    } 
+    public function getRight() {
+        return $this->_aData['comment_right'];
+    }    
     public function getTargetId() {
         return $this->_aData['target_id'];
     }
@@ -62,7 +68,7 @@ class ModuleComment_EntityComment extends Entity
     
         
     public function getLevel() {
-        return $this->_aData['level'];
+        return $this->_aData['comment_level'];
     }   
     public function isBad() {    	
         if ($this->getRating()<=Config::Get('module.comment.bad')) {
@@ -91,6 +97,12 @@ class ModuleComment_EntityComment extends Entity
     public function setPid($data) {
         $this->_aData['comment_pid']=$data;
     }
+    public function setLeft($data) {
+        $this->_aData['comment_left']=$data;
+    }
+    public function setRight($data) {
+        $this->_aData['comment_right']=$data;
+    }    
     public function setTargetId($data) {
         $this->_aData['target_id']=$data;
     }
@@ -130,7 +142,7 @@ class ModuleComment_EntityComment extends Entity
     
     
     public function setLevel($data) {
-        $this->_aData['level']=$data;
+        $this->_aData['comment_level']=$data;
     }
     public function setUser($data) {
         $this->_aData['user']=$data;

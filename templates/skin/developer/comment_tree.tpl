@@ -2,7 +2,7 @@
 
 <div class="comments">
 	{if $oUserCurrent}
-		<div class="update" id="update">
+		<div class="update" id="update" style="{if $aPagingCmt and $aPagingCmt.iCountPage>1}display:none;{/if}">
 			<div class="refresh"><img class="update-comments" id="update-comments" alt="" src="{cfg name='path.static.skin'}/images/update.gif" onclick="lsCmtTree.responseNewComment({$iTargetId},'{$sTargetType}',this); return false;"/></div>
 			<div class="new-comments" id="new-comments" style="display: none;" onclick="lsCmtTree.goNextComment();"></div>
 		</div>
@@ -92,5 +92,33 @@
 		{else}
 			{$aLang.comment_unregistered}
 		{/if}
-	{/if}				
+	{/if}
+	
+				{if $aPagingCmt and $aPagingCmt.iCountPage>1}
+					{if $aPagingCmt.sGetParams}
+						{assign var="sGetSep" value='&'}
+					{else}
+						{assign var="sGetSep" value='?'}
+					{/if}
+						<div class="pagination cmt">				
+							<ul>
+								<li>{$aLang.paging}:</li>				
+								
+								{if $aPagingCmt.iCurrentPage>1}
+									<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">&larr;</a></li>
+								{/if}
+								{foreach from=$aPagingCmt.aPagesLeft item=iPage}
+									<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
+								{/foreach}
+								<li class="active">{$aPagingCmt.iCurrentPage}</li>
+								{foreach from=$aPagingCmt.aPagesRight item=iPage}
+									<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
+								{/foreach}
+								{if $aPagingCmt.iCurrentPage<$aPagingCmt.iCountPage}
+									<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}">{$aLang.paging_last}</a></li>
+								{/if}					
+							</ul>
+						</div>
+						
+				{/if}
 </div>

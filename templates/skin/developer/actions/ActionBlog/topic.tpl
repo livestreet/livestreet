@@ -11,6 +11,7 @@
 	bAllowNewComment=$oTopic->getForbidComment()
 	sNoticeNotAllow=$aLang.topic_comment_notallow
 	sNoticeCommentAdd=$aLang.topic_comment_add
+	aPagingCmt=$aPagingCmt
 }	
 
 

@@ -648,11 +648,13 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Достаём комменты к топику
-		 */		
-		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
+		 */
+		$iPage=getRequest('cmtpage',0) ? (int)getRequest('cmtpage',0) : 1;
+		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));		
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
 		$aComments=$aReturn['comments'];
-
+		$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,' ');
+		$this->Viewer_Assign('aPagingCmt',$aPaging);		
 		/**
 		 * Отмечаем дату прочтения топика
 		 */

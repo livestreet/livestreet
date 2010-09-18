@@ -44,7 +44,7 @@
 									{if $oUserCurrent and !$oComment->getDelete() and !$bAllowNewComment}
 										<li><a href="javascript:lsCmtTree.toggleCommentForm({$oComment->getId()});" class="reply-link">{$aLang.comment_answer}</a></li>
 									{/if}									
-									<li><a href="#comment{$oComment->getId()}" class="imglink link"></a></li>	
+									<li><a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="imglink link"></a></li>	
 									{if $oComment->getPid()}
 										<li class="goto-comment-parent"><a href="#comment{$oComment->getPid()}" onclick="return lsCmtTree.goToParentComment($(this));" title="{$aLang.comment_goto_parent}">↑</a></li>
 									{/if}

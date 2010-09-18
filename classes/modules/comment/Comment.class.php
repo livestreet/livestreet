@@ -330,11 +330,16 @@ class ModuleComment extends Module {
 	 * @param  string $sTargetType
 	 * @return object
 	 */
-	public function GetCommentsByTargetId($sId,$sTargetType) {				
-		if (false === ($aCommentsRec = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}"))) {			
+	public function GetCommentsByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {	
+
+		if (Config::Get('module.comment.use_nested')) {
+			return $this->GetCommentsTreeByTargetId($sId,$sTargetType,$iPage,$iPerPage);
+		} 
+
+		if (false === ($aCommentsRec = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}"))) {
 			$aCommentsRow=$this->oMapper->GetCommentsByTargetId($sId,$sTargetType);
 			if (count($aCommentsRow)) {
-				$aCommentsRec=$this->BuildCommentsRecursive($aCommentsRow);				
+				$aCommentsRec=$this->BuildCommentsRecursive($aCommentsRow);
 			}
 			$this->Cache_Set($aCommentsRec, "comment_target_{$sId}_{$sTargetType}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*2);
 		}
@@ -342,12 +347,46 @@ class ModuleComment extends Module {
 			return array('comments'=>array(),'iMaxIdComment'=>0);
 		}
 		$aComments=$aCommentsRec;
-		$aComments['comments']=$this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));	
+		$aComments['comments']=$this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));
 		foreach ($aComments['comments'] as $oComment) {
-			$oComment->setLevel($aCommentsRec['comments'][$oComment->getId()]);			
+			$oComment->setLevel($aCommentsRec['comments'][$oComment->getId()]);
 		}
 		return $aComments;
+
 	}	
+	
+	/**
+	 * Получает комменты используя nested set
+	 *
+	 * @param unknown_type $sId
+	 * @param unknown_type $sTargetType
+	 * @return unknown
+	 */
+	public function GetCommentsTreeByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {		
+		if (false === ($aReturn = $this->Cache_Get("comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {
+			
+			/**
+			 * Нужно или нет использовать постраничное разбиение комментариев
+			 */
+			if ($iPerPage) {
+				$aComments=$this->oMapper->GetCommentsTreePageByTargetId($sId,$sTargetType,$iCount,$iPage,$iPerPage);
+			} else {
+				$aComments=$this->oMapper->GetCommentsTreeByTargetId($sId,$sTargetType);
+				$iCount=count($aComments);
+			}
+						
+			$iMaxIdComment=max($aComments);
+			$aReturn=array('comments'=>$aComments,'iMaxIdComment'=>$iMaxIdComment,'count'=>$iCount);
+			$this->Cache_Set($aReturn, "comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*2);
+		}		
+		$aReturn['comments']=$this->GetCommentsAdditionalData($aReturn['comments']);
+		return $aReturn;
+	}
+	
+	public function GetCountCommentsRootByTargetId($sId,$sTargetType) {
+		return $this->oMapper->GetCountCommentsRootByTargetId($sId,$sTargetType);
+	}
+	
 	/**
 	 * Добавляет коммент
 	 *
@@ -355,7 +394,12 @@ class ModuleComment extends Module {
 	 * @return bool
 	 */
 	public function AddComment(ModuleComment_EntityComment $oComment) {
-		if ($sId=$this->oMapper->AddComment($oComment)) {
+		if (Config::Get('module.comment.use_nested')) {
+			$sId=$this->oMapper->AddCommentTree($oComment);
+		} else {
+			$sId=$this->oMapper->AddComment($oComment);
+		}
+		if ($sId) {
 			if ($oComment->getTargetType()=='topic') {
 				$this->Topic_increaseTopicCountComment($oComment->getTargetId());
 			}
@@ -776,5 +820,15 @@ class ModuleComment extends Module {
 		return $this->oMapper->MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew);
 	}
 	
+	/**
+	 * Перестраивает дерево комментариев
+	 * Восстанавливает значения left, right и level
+	 *
+	 * @param unknown_type $aTargetId
+	 * @param unknown_type $sTargetType
+	 */
+	public function RestoreTree($aTargetId,$sTargetType) {
+		$this->oMapper->RestoreTree(null,0,-1,$aTargetId,$sTargetType);
+	}
 }
 ?>

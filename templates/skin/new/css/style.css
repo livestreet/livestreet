@@ -277,6 +277,7 @@ select { width: 99%; }
 #pagination ul li.active { background: url(../images/pagination-bg.gif) no-repeat top right; padding: 0 6px 1px 3px; border-left: 1px solid #eee; }
 #pagination ul li.active { background: url(../images/pagination-bg.gif) no-repeat top right; padding: 0 6px 1px 3px; border-left: 1px solid #eee; }
 #pagination.onpage { padding-left: 0px; }
+#pagination.cmt { padding-left: 10px; padding-top: 10px;}
 
 
 

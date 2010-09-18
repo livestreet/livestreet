@@ -166,6 +166,102 @@ class ModuleComment_MapperComment extends Mapper {
 		return null;
 	}
 	
+	public function GetCommentsTreeByTargetId($sId,$sTargetType) {		
+		$sql = "SELECT 
+					comment_id 
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 					
+				ORDER by comment_left asc;	
+					";
+		$aComments=array();
+		if ($aRows=$this->oDb->select($sql,$sId,$sTargetType)) {
+			foreach ($aRows as $aRow) {
+				$aComments[]=$aRow['comment_id'];
+			}
+		}
+		return $aComments;
+	}
+	
+	
+	public function GetCommentsTreePageByTargetId($sId,$sTargetType,&$iCount,$iPage,$iPerPage) {
+		
+		/**
+		 * Сначала получаем корни и определяем границы выборки веток
+		 */
+		$sql = "SELECT 
+					comment_left,
+					comment_right 
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 
+					AND
+					comment_pid IS NULL
+				ORDER by comment_left asc
+				LIMIT ?d , ?d ;";
+		$aComments=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sId,$sTargetType,($iPage-1)*$iPerPage, $iPerPage)) {
+			$aCmt=array_shift($aRows);
+			$iLeft=$aCmt['comment_left'];
+			if ($aRows) {
+				$aCmt=array_pop($aRows);				
+			}
+			$iRight=$aCmt['comment_right'];
+		} else {
+			return array();
+		}
+		
+		/**
+		 * Теперь получаем полный список комментов
+		 */
+		$sql = "SELECT 
+					comment_id 
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 
+					AND
+					comment_left >= ?d
+					AND
+					comment_right <= ?d
+				ORDER by comment_left asc;	
+					";
+		$aComments=array();
+		if ($aRows=$this->oDb->select($sql,$sId,$sTargetType,$iLeft,$iRight)) {
+			foreach ($aRows as $aRow) {
+				$aComments[]=$aRow['comment_id'];
+			}
+		}
+		
+		return $aComments;
+	}
+	
+	public function GetCountCommentsRootByTargetId($sId,$sTargetType)  {
+		$sql = "SELECT 
+					count(comment_id) as c
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 					
+					AND
+					comment_pid IS NULL	;";
+		
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$sTargetType)) {
+			return $aRow['c'];
+		}
+	}
+	
+	
 	public function GetCommentsNewByTargetId($sId,$sTargetType,$sIdCommentLast) {		
 		$sql = "SELECT 
 					comment_id
@@ -269,7 +365,55 @@ class ModuleComment_MapperComment extends Mapper {
 		return false;
 	}
 	
+	public function AddCommentTree(ModuleComment_EntityComment $oComment) {
+		$this->oDb->transaction();
+		
+		if ($oComment->getPid() and $oCommentParent=$this->GetCommentsByArrayId(array($oComment->getPid()))) {
+			$oCommentParent=$oCommentParent[0];
+			$iLeft=$oCommentParent->getRight();
+			$iLevel=$oCommentParent->getLevel()+1;
+						
+			$sql= "UPDATE ".Config::Get('db.table.comment')." SET comment_left=comment_left+2 WHERE target_id=?d and target_type=? and comment_left>? ;";
+			$this->oDb->query($sql, $oComment->getTargetId(),$oComment->getTargetType(),$iLeft-1);
+			$sql = "UPDATE ".Config::Get('db.table.comment')." SET comment_right=comment_right+2 WHERE target_id=?d and target_type=? and comment_right>? ;";
+			$this->oDb->query($sql, $oComment->getTargetId(),$oComment->getTargetType(),$iLeft-1);
+		} else {
+			if ($oCommentLast=$this->GetCommentLast($oComment->getTargetId(),$oComment->getTargetType())) {
+				$iLeft=$oCommentLast->getRight()+1;
+			} else {
+				$iLeft=1;
+			}
+			$iLevel=0;
+		}
+		
+		if ($iId=$this->AddComment($oComment)) {
+			$sql = "UPDATE ".Config::Get('db.table.comment')." SET comment_left = ?d, comment_right = ?d, comment_level = ?d WHERE comment_id = ? ;";
+			$this->oDb->query($sql, $iLeft,$iLeft+1,$iLevel,$iId);
+			$this->oDb->commit();
+			return $iId;
+		}
+		
+		if (strtolower(Config::Get('db.tables.engine'))=='innodb') {
+			$this->oDb->rollback();
+		}
+		
+		return false;
+	}
 	
+	public function GetCommentLast($sTargetId,$sTargetType) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.comment')." 
+			WHERE 
+				target_id = ?d 
+				AND
+				target_type = ? 
+			ORDER BY comment_right DESC
+			LIMIT 0,1
+				";
+		if ($aRow=$this->oDb->selectRow($sql,$sTargetId,$sTargetType)) {
+			return Engine::GetEntity('Comment',$aRow);
+		}
+		return null;
+	}
 	
 	public function AddCommentOnline(ModuleComment_EntityCommentOnline $oCommentOnline) {
 		$sql = "REPLACE INTO ".Config::Get('db.table.comment_online')." 
@@ -418,6 +562,27 @@ class ModuleComment_MapperComment extends Mapper {
 			return true;
 		}
 		return false;		
+	}
+	
+	
+	public function RestoreTree($iPid,$iLft,$iLevel,$aTargetId,$sTargetType) {		
+		$iRgt = $iLft+1;
+		$iLevel++;
+		$sql = "SELECT comment_id FROM ".Config::Get('db.table.comment')." WHERE target_id = ? and target_type = ? { and comment_pid = ?  } { and comment_pid IS NULL and 1=?d}
+				ORDER BY  comment_id ASC";
+		
+		if ($aRows=$this->oDb->select($sql,$aTargetId,$sTargetType,!is_null($iPid) ? $iPid:DBSIMPLE_SKIP, is_null($iPid) ? 1:DBSIMPLE_SKIP)) {
+			foreach ($aRows as $aRow) {
+				$iRgt = $this->RestoreTree($aRow['comment_id'], $iRgt,$iLevel,$aTargetId,$sTargetType);
+			}
+		}
+		$iLevel--;				
+		$sql = "UPDATE ".Config::Get('db.table.comment')."
+			SET comment_left=?d, comment_right=?d , comment_level =?d
+			WHERE comment_id = ? ";		
+		$this->oDb->query($sql,$iLft,$iRgt,$iLevel,$iPid);	
+			
+		return $iRgt+1;
 	}
 }
 ?>

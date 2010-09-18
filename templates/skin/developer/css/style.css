@@ -93,6 +93,7 @@ p { margin-bottom: 18px; }
 /* Pagination */
 .pagination ul li { display: inline; margin-right: 5px; }
 .pagination ul li.active { color: #aaa; }
+.pagination.cmt { padding-top: 10px; }
 
 
 /* Switcher */
