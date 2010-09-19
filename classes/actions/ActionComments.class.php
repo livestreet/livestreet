@@ -100,7 +100,7 @@ class ActionComments extends Action {
 		/**
 		 * Определяем необходимую страницу для отображения комментария
 		 */
-		if (!Config::Get('module.comment.nested_per_page')) {
+		if (!Config::Get('module.comment.use_nested') or !Config::Get('module.comment.nested_per_page')) {
 			Router::Location($oTopic->getUrl().'#comment'.$oComment->getId());
 		}
 		$iPage=$this->Comment_GetPageCommentByTargetId($oComment->getTargetId(),$oComment->getTargetType(),$oComment);
