@@ -617,13 +617,36 @@ class ModuleComment_MapperComment extends Mapper {
 				$iRgt = $this->RestoreTree($aRow['comment_id'], $iRgt,$iLevel,$aTargetId,$sTargetType);
 			}
 		}
-		$iLevel--;				
-		$sql = "UPDATE ".Config::Get('db.table.comment')."
-			SET comment_left=?d, comment_right=?d , comment_level =?d
-			WHERE comment_id = ? ";		
-		$this->oDb->query($sql,$iLft,$iRgt,$iLevel,$iPid);	
+		$iLevel--;
+		if (!is_null($iPid)) {
+			$sql = "UPDATE ".Config::Get('db.table.comment')."
+				SET comment_left=?d, comment_right=?d , comment_level =?d
+				WHERE comment_id = ? ";
+			$this->oDb->query($sql,$iLft,$iRgt,$iLevel,$iPid);	
+		}
 			
 		return $iRgt+1;
+	}
+	
+	public function GetCommentTypes() {
+		$sql = "SELECT target_type FROM ".Config::Get('db.table.comment')." 
+			GROUP BY target_type ";
+		$aTypes=array();
+		if ($aRows=$this->oDb->select($sql)) {
+			foreach ($aRows as $aRow) {
+				$aTypes[]=$aRow['target_type'];
+			}
+		}
+		return $aTypes;
+	}
+	
+	public function GetTargetIdByType($sTargetType,$iPage,$iPerPage) {
+		$sql = "SELECT target_id FROM ".Config::Get('db.table.comment')." 
+			WHERE  target_type = ? GROUP BY target_id ORDER BY target_id LIMIT ?d, ?d ";		
+		if ($aRows=$this->oDb->select($sql,$sTargetType,($iPage-1)*$iPerPage, $iPerPage)) {
+			return $aRows;
+		}
+		return array();
 	}
 }
 ?>

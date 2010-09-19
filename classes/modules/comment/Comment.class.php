@@ -373,9 +373,8 @@ class ModuleComment extends Module {
 			} else {
 				$aComments=$this->oMapper->GetCommentsTreeByTargetId($sId,$sTargetType);
 				$iCount=count($aComments);
-			}
-						
-			$iMaxIdComment=max($aComments);
+			}			
+			$iMaxIdComment=count($aComments) ? max($aComments) : 0;
 			$aReturn=array('comments'=>$aComments,'iMaxIdComment'=>$iMaxIdComment,'count'=>$iCount);
 			$this->Cache_Set($aReturn, "comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*2);
 		}		
@@ -853,8 +852,31 @@ class ModuleComment extends Module {
 	 * @param unknown_type $aTargetId
 	 * @param unknown_type $sTargetType
 	 */
-	public function RestoreTree($aTargetId,$sTargetType) {
-		$this->oMapper->RestoreTree(null,0,-1,$aTargetId,$sTargetType);
+	public function RestoreTree($aTargetId=null,$sTargetType=null) {
+		// обработать конкретную сущность
+		if (!is_null($aTargetId) and !is_null($sTargetType)) {
+			$this->oMapper->RestoreTree(null,0,-1,$aTargetId,$sTargetType);
+			return ;			
+		}
+		$aType=array();
+		// обработать все сущности конкретного типа
+		if (!is_null($sTargetType)) {
+			$aType[]=$sTargetType;
+		} else {
+			// обработать все сущности всех типов
+			$aType=$this->oMapper->GetCommentTypes();
+		}
+		foreach ($aType as $sTargetType) {
+			// для каждого типа получаем порциями ID сущностей
+			$iPage=1;
+			$iPerPage=50;
+			while ($aResult=$this->oMapper->GetTargetIdByType($sTargetType,$iPage,$iPerPage)) {
+				foreach ($aResult as $Row) {
+					$this->oMapper->RestoreTree(null,0,-1,$Row['target_id'],$sTargetType);
+				}
+				$iPage++;				
+			}			
+		}		
 	}
 }
 ?>

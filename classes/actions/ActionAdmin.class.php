@@ -37,7 +37,8 @@ class ActionAdmin extends Action {
 	}
 	
 	protected function RegisterEvent() {	
-		$this->AddEvent('plugins','EventPlugins');								
+		$this->AddEvent('plugins','EventPlugins');
+		$this->AddEvent('restorecomment','EventRestoreComment');
 	}
 		
 	
@@ -46,6 +47,10 @@ class ActionAdmin extends Action {
 	 **********************************************************************************
 	 */	
 	
+	protected function EventRestoreComment() {
+		$this->Comment_RestoreTree();
+		die('restore ok');
+	}
 	
 	protected function EventPlugins() {		
 		$this->sMenuHeadItemSelect='plugins';
