@@ -653,7 +653,7 @@ class ActionBlog extends Action {
 		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));		
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
 		$aComments=$aReturn['comments'];
-		if (Config::Get('module.comment.nested_per_page')) {
+		if (Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
 			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,'');
 			$this->Viewer_Assign('aPagingCmt',$aPaging);
 		}
