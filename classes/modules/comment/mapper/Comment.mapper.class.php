@@ -203,14 +203,14 @@ class ModuleComment_MapperComment extends Mapper {
 					target_type = ? 
 					AND
 					comment_pid IS NULL
-				ORDER by comment_left asc
+				ORDER by comment_left desc
 				LIMIT ?d , ?d ;";
 		$aComments=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sId,$sTargetType,($iPage-1)*$iPerPage, $iPerPage)) {
-			$aCmt=array_shift($aRows);
+			$aCmt=array_pop($aRows);
 			$iLeft=$aCmt['comment_left'];
 			if ($aRows) {
-				$aCmt=array_pop($aRows);				
+				$aCmt=array_shift($aRows);				
 			}
 			$iRight=$aCmt['comment_right'];
 		} else {
@@ -261,6 +261,47 @@ class ModuleComment_MapperComment extends Mapper {
 		}
 	}
 	
+	public function GetCountCommentsAfterByTargetId($sId,$sTargetType,$iLeft)  {
+		$sql = "SELECT 
+					count(comment_id) as c
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 					
+					AND
+					comment_pid IS NULL	
+					AND 
+					comment_left >= ?d ;";
+		
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$sTargetType,$iLeft)) {
+			return $aRow['c'];
+		}
+	}
+	
+	public function GetCommentRootByTargetIdAndChildren($sId,$sTargetType,$iLeft) {
+		$sql = "SELECT 
+					*
+				FROM 
+					".Config::Get('db.table.comment')."
+				WHERE 
+					target_id = ?d 
+					AND			
+					target_type = ? 					
+					AND
+					comment_pid IS NULL	
+					AND 
+					comment_left < ?d 
+					AND 
+					comment_right > ?d 
+				LIMIT 0,1 ;";
+		
+		if ($aRow=$this->oDb->selectRow($sql,$sId,$sTargetType,$iLeft,$iLeft)) {
+			return Engine::GetEntity('Comment',$aRow);
+		}
+		return null;
+	}
 	
 	public function GetCommentsNewByTargetId($sId,$sTargetType,$sIdCommentLast) {		
 		$sql = "SELECT 

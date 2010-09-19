@@ -39,7 +39,8 @@ class ActionComments extends Action {
 	}
 	
 	protected function RegisterEvent() {	
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventComments');								
+		$this->AddEventPreg('/^(page(\d+))?$/i','EventComments');
+		$this->AddEventPreg('/^\d+$/i','EventShowComment');
 	}
 		
 	
@@ -83,6 +84,32 @@ class ActionComments extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');				
+	}
+	
+	protected function EventShowComment() {
+		$iCommentId=$this->sCurrentEvent;
+		/**
+		 * Проверяем к чему относится комментарий
+		 */
+		if (!($oComment=$this->Comment_GetCommentById($iCommentId))) {
+			return parent::EventNotFound();
+		}
+		if ($oComment->getTargetType()!='topic' or !($oTopic=$oComment->getTarget())) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Определяем необходимую страницу для отображения комментария
+		 */
+		if (!Config::Get('module.comment.nested_per_page')) {
+			Router::Location($oTopic->getUrl().'#comment'.$oComment->getId());
+		}
+		$iPage=$this->Comment_GetPageCommentByTargetId($oComment->getTargetId(),$oComment->getTargetType(),$oComment);
+		if ($iPage==1) {
+			Router::Location($oTopic->getUrl().'#comment'.$oComment->getId());
+		} else {
+			Router::Location($oTopic->getUrl()."?cmtpage={$iPage}#comment".$oComment->getId());
+		}
+		exit();
 	}
 	
 	/**

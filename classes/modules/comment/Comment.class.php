@@ -387,6 +387,32 @@ class ModuleComment extends Module {
 		return $this->oMapper->GetCountCommentsRootByTargetId($sId,$sTargetType);
 	}
 	
+	public function GetPageCommentByTargetId($sId,$sTargetType,$oComment) {
+		if (!Config::Get('module.comment.nested_per_page')) {
+			return 1;
+		}
+		if (is_numeric($oComment)) {
+			if (!($oComment=$this->GetCommentById($oComment))) {
+				return false;
+			}
+			if ($oComment->getTargetId()!=$sId or $oComment->getTargetType()!=$sTargetType) {
+				return false;
+			}
+		}
+		/**
+		 * Получаем корневого родителя
+		 */
+		if ($oComment->getPid()) {
+			if (!($oCommentRoot=$this->oMapper->GetCommentRootByTargetIdAndChildren($sId,$sTargetType,$oComment->getLeft()))) {
+				return false;
+			}
+		} else {
+			$oCommentRoot=$oComment;
+		}
+		$iCount=ceil($this->oMapper->GetCountCommentsAfterByTargetId($sId,$sTargetType,$oCommentRoot->getLeft())/Config::Get('module.comment.nested_per_page'));
+		return $iCount ? $iCount : 1;
+	}
+	
 	/**
 	 * Добавляет коммент
 	 *

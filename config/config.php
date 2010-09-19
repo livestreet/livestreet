@@ -171,7 +171,7 @@ $config['module']['comment']['per_page'] = 20;          // Число комме
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
 $config['module']['comment']['max_tree'] = 7;           // Максимальная вложенность комментов при отображении
 $config['module']['comment']['use_nested'] = false; 		// Использовать или нет nested set при выборке комментов, увеличивает производительность при большом числе комментариев + позволяет делать постраничное разбиение комментов
-$config['module']['comment']['nested_per_page'] = 100; 	// Число комментов на одну страницу в топике, актуально только при use_nested = true
+$config['module']['comment']['nested_per_page'] = 50; 	// Число комментов на одну страницу в топике, актуально только при use_nested = true
 // Модуль Talk
 $config['module']['talk']['per_page']   = 15;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['reload']     = false;

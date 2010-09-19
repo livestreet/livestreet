@@ -653,8 +653,10 @@ class ActionBlog extends Action {
 		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));		
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
 		$aComments=$aReturn['comments'];
-		$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,' ');
-		$this->Viewer_Assign('aPagingCmt',$aPaging);		
+		if (Config::Get('module.comment.nested_per_page')) {
+			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,'');
+			$this->Viewer_Assign('aPagingCmt',$aPaging);
+		}
 		/**
 		 * Отмечаем дату прочтения топика
 		 */

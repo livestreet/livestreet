@@ -7,7 +7,7 @@
 		<li>
 			<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a> &rarr;
 			<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
-			<a href="{$oTopic->getUrl()}#comment{$oComment->getId()}">{$oTopic->getTitle()|escape:'html'}</a>
+			<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}">{$oTopic->getTitle()|escape:'html'}</a>
 			{$oTopic->getCountComment()}
 		</li>
 	{/foreach}
