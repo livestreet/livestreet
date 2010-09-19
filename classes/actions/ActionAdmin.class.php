@@ -48,7 +48,9 @@ class ActionAdmin extends Action {
 	 */	
 	
 	protected function EventRestoreComment() {
+		set_time_limit(0);
 		$this->Comment_RestoreTree();
+		$this->Cache_Clean();
 		die('restore ok');
 	}
 	
