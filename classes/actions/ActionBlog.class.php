@@ -649,12 +649,22 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём комменты к топику
 		 */
-		$iPage=getRequest('cmtpage',0) ? (int)getRequest('cmtpage',0) : 1;
+		if (!Config::Get('module.comment.nested_page_reverse') and Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
+			$iPageDef=ceil($this->Comment_GetCountCommentsRootByTargetId($oTopic->getId(),'topic')/Config::Get('module.comment.nested_per_page'));
+		} else {
+			$iPageDef=1;
+		}
+		$iPage=getRequest('cmtpage',0) ? (int)getRequest('cmtpage',0) : $iPageDef;
 		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));		
 		$iMaxIdComment=$aReturn['iMaxIdComment'];	
 		$aComments=$aReturn['comments'];
 		if (Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
 			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,'');
+			if (!Config::Get('module.comment.nested_page_reverse') and $aPaging) {
+				// переворачиваем страницы в обратном порядке
+				$aPaging['aPagesLeft']=array_reverse($aPaging['aPagesLeft']);
+				$aPaging['aPagesRight']=array_reverse($aPaging['aPagesRight']);
+			}
 			$this->Viewer_Assign('aPagingCmt',$aPaging);
 		}
 		/**

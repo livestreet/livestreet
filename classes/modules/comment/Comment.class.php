@@ -362,7 +362,11 @@ class ModuleComment extends Module {
 	 * @param unknown_type $sTargetType
 	 * @return unknown
 	 */
-	public function GetCommentsTreeByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {		
+	public function GetCommentsTreeByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {
+		if (!Config::Get('module.comment.nested_page_reverse') and $iPerPage and $iCountPage=ceil($this->GetCountCommentsRootByTargetId($sId,$sTargetType)/$iPerPage)) {
+			$iPage=$iCountPage-$iPage+1;
+		}
+		$iPage=$iPage<1 ? 1 : $iPage;		
 		if (false === ($aReturn = $this->Cache_Get("comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {
 			
 			/**
@@ -409,6 +413,10 @@ class ModuleComment extends Module {
 			$oCommentRoot=$oComment;
 		}
 		$iCount=ceil($this->oMapper->GetCountCommentsAfterByTargetId($sId,$sTargetType,$oCommentRoot->getLeft())/Config::Get('module.comment.nested_per_page'));
+		
+		if (!Config::Get('module.comment.nested_page_reverse') and $iCountPage=ceil($this->GetCountCommentsRootByTargetId($sId,$sTargetType)/Config::Get('module.comment.nested_per_page'))) {
+			$iCount=$iCountPage-$iCount+1;
+		}		
 		return $iCount ? $iCount : 1;
 	}
 	
