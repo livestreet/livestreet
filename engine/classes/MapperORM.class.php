@@ -75,7 +75,50 @@ class MapperORM extends Mapper {
 
 	public function GetItemsByFilter($aFilter,$sEntityFull) {
 		$sTableName = self::GetTableName($sEntityFull);
-
+		
+		// Сортировка
+		$sOrder='';
+		if (isset($aFilter['#order'])) {
+			foreach ($aFilter['#order'] as $key=>$value) {
+				if (is_numeric($key)) {
+					$key=$value;
+					$value='asc';
+				} elseif (!in_array($value,array('asc','desc'))) {
+					$value='asc';
+				}
+				$sOrder.=" {$key} {$value},";
+			}
+			$sOrder=trim($sOrder,',');
+			if ($sOrder!='') {
+				$sOrder="ORDER BY {$sOrder}";
+			}
+		}
+		
+		// Постраничность		
+		if (isset($aFilter['#page']) and is_array($aFilter['#page']) and count($aFilter['#page'])==2) { // array(2,15) - 2 - page, 15 - count			
+			$aFilter['#limit']=array(($aFilter['#page'][0]-1)*$aFilter['#page'][1],$aFilter['#page'][1]);
+		}
+		
+		// Лимит
+		$sLimit='';
+		if (isset($aFilter['#limit'])) { // допустимы варианты: limit=10 , limit=array(10) , limit=array(10,15)
+			$aLimit=$aFilter['#limit'];
+			if (is_numeric($aLimit)) {
+				$iBegin=0;
+				$iEnd=$aLimit;
+			} elseif (is_array($aLimit)) {
+				if (count($aLimit)>1) {
+					$iBegin=$aLimit[0];
+					$iEnd=$aLimit[1];
+				} else {
+					$iBegin=0;
+					$iEnd=$aLimit[0];
+				}
+			}
+			$sLimit="LIMIT {$iBegin}, {$iEnd}";
+		}
+		
+						
 		$aFilterFields=array();
 		foreach ($aFilter as $k=>$v) {
 			if (substr($k,0,1)=='#') {
@@ -86,24 +129,48 @@ class MapperORM extends Mapper {
 		}
 		
 			
-		$sFilterFields='';		
+		$sFilterFields='';
 		if (count($aFilterFields)) {
 			$sFilterFields=' and '.implode(' = ? and ',array_keys($aFilterFields)).' = ? ';
 		}		
-		
-		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} ";		
+		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
-		
 		$aItems=array();
 		if($aRows=call_user_func_array(array($this->oDb,'select'),$aQueryParams)) {
 			foreach($aRows as $aRow) {
 				$oEntity=Engine::GetEntity($sEntityFull,$aRow);
 				$oEntity->_SetIsNew(false);
 				$aItems[] = $oEntity;
-			}			
+			}
 		}
 		return $aItems;
 	}
+	
+	
+	public function GetCountItemsByFilter($aFilter,$sEntityFull) {
+		$sTableName = self::GetTableName($sEntityFull);
+						
+		$aFilterFields=array();
+		foreach ($aFilter as $k=>$v) {
+			if (substr($k,0,1)=='#') {
+				
+			} else {
+				$aFilterFields[$k]=$v;
+			}
+		}
+					
+		$sFilterFields='';
+		if (count($aFilterFields)) {
+			$sFilterFields=' and '.implode(' = ? and ',array_keys($aFilterFields)).' = ? ';
+		}		
+		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} ";		
+		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));		
+		if($aRow=call_user_func_array(array($this->oDb,'selectRow'),$aQueryParams)) {
+			return $aRow['c'];
+		}
+		return 0;
+	}
+	
 	
 	public function GetItemsByArray($aFilter,$sEntityFull) {
 		$sTableName = self::GetTableName($sEntityFull);

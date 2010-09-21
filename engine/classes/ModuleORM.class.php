@@ -142,8 +142,11 @@ abstract class ModuleORM extends Module {
 				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
-				// ItemsByArrayId - id пока идет костылем, т.к. у стандартных сущностей нет метода _GetPrimaryKey()
-				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArrayId",array($aEntityKeys[$sRelKey]));
+				$sPrimaryKey="Id";
+				if ($sPrimaryKey=$oRelEntityEmpty->_GetPrimaryKey()) {
+					$sPrimaryKey=ucfirst($sPrimaryKey);					
+				}				
+				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sPrimaryKey}",array($aEntityKeys[$sRelKey]));
 				/**
 			 	 * Собираем набор
 				 */
@@ -156,7 +159,25 @@ abstract class ModuleORM extends Module {
 			
 		}
 		
+		/**
+		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
+		 */
+		if (isset($aFilter['#page'])) {
+			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByFilter($aFilter,$sEntityFull));
+		}		
 		return $aEntities;
+	}
+	
+	public function GetCountItemsByFilter($aFilter=array(),$sEntityFull=null) {
+		if (is_null($sEntityFull)) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
+		} elseif (!substr_count($sEntityFull,'_')) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+		}
+			
+		$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+		
+		return $iCount;
 	}
 	
 	public function GetItemsByArray($aFilter,$sEntityFull=null) {
@@ -240,7 +261,12 @@ abstract class ModuleORM extends Module {
 		 * 
 		 */		
 		if (preg_match("@^get_([a-z]+)((_items)|())_by_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) {
-			$aFilter=array_combine(explode('_and_',$aMatch[5]),$aArgs);
+			$aSearchParams=explode('_and_',$aMatch[5]);
+			$aSplit=array_chunk($aArgs,count($aSearchParams));			
+			$aFilter=array_combine($aSearchParams,$aSplit[0]);
+			if (isset($aSplit[1][0])) {
+				$aFilter=array_merge($aFilter,$aSplit[1][0]);
+			}
 			if ($aMatch[2]=='_items') {
 				return $this->GetItemsByFilter($aFilter,$sEntityName);
 			} else {				
