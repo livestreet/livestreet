@@ -33,6 +33,9 @@
 					window.addEvent('domready', function() {
 						{/literal}
 						lsCmtTree.setIdCommentLast({$iMaxIdComment});
+						{if $aPagingCmt and $aPagingCmt.iCountPage>1}
+							lsCmtTree.setUsePaging(1);
+						{/if}
 						{literal}
 					});					
 				</script>

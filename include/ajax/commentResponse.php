@@ -24,6 +24,7 @@ $sDirRoot=dirname(dirname(dirname(__FILE__)));
 require_once($sDirRoot."/config/config.ajax.php");
 
 $idCommentLast=getRequest('idCommentLast',null,'post');
+$selfIdComment=getRequest('selfIdComment',null,'post');
 $idTopic=getRequest('idTarget',null,'post');
 $bStateError=true;
 $sMsg='';
@@ -32,8 +33,29 @@ $iMaxIdComment=0;
 $aComments=array();
 if ($oEngine->User_IsAuthorization()) {
 	$oUserCurrent=$oEngine->User_GetUserCurrent();
-	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic)) {		
-		$aReturn=$oEngine->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);
+	if ($oTopic=$oEngine->Topic_GetTopicById($idTopic)) {
+		
+		if (getRequest('bUsePaging',null,'post') and $selfIdComment) {			
+			if ($oComment=$oEngine->Comment_GetCommentById($selfIdComment) and $oComment->getTargetId()==$oTopic->getId() and $oComment->getTargetType()=='topic') {
+				$oViewerLocal=$oEngine->Viewer_GetLocalViewer();
+				$oViewerLocal->Assign('oUserCurrent',$oEngine->User_GetUserCurrent());
+				$oViewerLocal->Assign('bOneComment',true);
+
+				$oViewerLocal->Assign('oComment',$oComment);
+				$sText=$oViewerLocal->Fetch("comment.tpl");
+				$aCmt=array();
+				$aCmt[]=array(
+					'html' => $sText,
+					'obj'  => $oComment,
+				);
+			} else {
+				$aCmt=array();
+			}
+			$aReturn['comments']=$aCmt;
+			$aReturn['iMaxIdComment']=$selfIdComment;
+		} else {
+			$aReturn=$oEngine->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);			
+		}
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		
 		$oTopicRead=Engine::GetEntity('Topic_TopicRead');

@@ -143,10 +143,18 @@ var lsCmtTreeClass = new Class({
 		objImg=$(objImg);
 		objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update_act.gif');	
 		(function(){
+			
+			var aParams={ idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY  };
+			if (selfIdComment) {
+				aParams.selfIdComment=selfIdComment;
+			}
+			if (thisObj.bUsePaging) {
+				aParams.bUsePaging=thisObj.bUsePaging;
+			}			
 			new Request.JSON({
 				url: thisObj.typeComment[typeTarget].url_response,
 				noCache: true,
-				data: { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget, security_ls_key: LIVESTREET_SECURITY_KEY },
+				data: aParams,
 				onSuccess: function(result){
 					objImg.setProperty('src',DIR_STATIC_SKIN+'/images/update.gif');
 					if (!result) {
@@ -197,6 +205,10 @@ var lsCmtTreeClass = new Class({
 	
 	setIdCommentLast: function(id) {
 		this.idCommentLast=id;
+	},
+	
+	setUsePaging: function(b) {
+		this.bUsePaging=b;
 	},
 	
 	setCountNewComment: function(count) {
