@@ -339,15 +339,14 @@ class ModuleViewer extends Module {
 		$sMsg='';
 		$aMsgError=$this->Message_GetError();
 		$aMsgNotice=$this->Message_GetNotice();
-		if (count($aMsgNotice)>0) {			
-			$sMsgTitle=$aMsgNotice[0]['title'];
-			$sMsg=$aMsgNotice[0]['msg'];
-		}
 		if (count($aMsgError)>0) {
 			$bStateError=true;
 			$sMsgTitle=$aMsgError[0]['title'];
 			$sMsg=$aMsgError[0]['msg'];
-		}		
+		} elseif (count($aMsgNotice)>0) {
+			$sMsgTitle=$aMsgNotice[0]['title'];
+			$sMsg=$aMsgNotice[0]['msg'];
+		}
 		$this->AssignAjax('sMsgTitle',$sMsgTitle);
 		$this->AssignAjax('sMsg',$sMsg);
 		$this->AssignAjax('bStateError',$bStateError);		
