@@ -99,8 +99,7 @@ class ModuleMessage extends Module {
 	 * @param bool   $bUseSession
 	 */
 	public function AddErrorSingle($sMsg,$sTitle=null,$bUseSession=false) {
-		$this->aMsgError=array();
-		$this->aMsgErrorSession=array();
+		$this->ClearError();
 		$this->AddError($sMsg,$sTitle,$bUseSession);		
 	}
 	/**
@@ -126,9 +125,26 @@ class ModuleMessage extends Module {
 	 * @param bool   $bUseSession
 	 */
 	public function AddNoticeSingle($sMsg,$sTitle=null,$bUseSession=false) {
+		$this->ClearNotice();
+		$this->AddNotice($sMsg,$sTitle,$bUseSession);		
+	}
+	
+	/**
+	 * Очищает стек сообщений
+	 *
+	 */
+	public function ClearNotice() {
 		$this->aMsgNotice=array();
 		$this->aMsgNoticeSession=array();
-		$this->AddNotice($sMsg,$sTitle,$bUseSession);		
+	}
+	
+	/**
+	 * Очищает стек ошибок
+	 *
+	 */
+	public function ClearError() {
+		$this->aMsgError=array();
+		$this->aMsgErrorSession=array();
 	}
 	
 	/**
