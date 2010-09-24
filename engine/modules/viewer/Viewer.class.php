@@ -318,6 +318,14 @@ class ModuleViewer extends Module {
 		}
 	}
 	/**
+	 * Возвращает объект Smarty
+	 *
+	 * @return unknown
+	 */
+	public function GetSmartyObject() {
+		return $this->oSmarty;
+	}
+	/**
 	 * Ответ на ajax запрос
 	 *
 	 * @param unknown_type $sType - jsHttpRequest или json
