@@ -24,19 +24,19 @@ var lsVoteClass = new Class({
        
         typeVote: {
                 comment: {
-                        url: DIR_WEB_ROOT+'/include/ajax/voteComment.php',
+                        url: aRouter['ajax']+'vote/comment/',
                         targetName: 'idComment'
                 },
                 topic: {
-                        url: DIR_WEB_ROOT+'/include/ajax/voteTopic.php',
+                        url: aRouter['ajax']+'vote/topic/',
                         targetName: 'idTopic'
                 },
                 blog: {
-                        url: DIR_WEB_ROOT+'/include/ajax/voteBlog.php',
+                        url: aRouter['ajax']+'vote/blog/',
                         targetName: 'idBlog'
                 },
                 user: {
-                        url: DIR_WEB_ROOT+'/include/ajax/voteUser.php',
+                        url: aRouter['ajax']+'vote/user/',
                         targetName: 'idUser'
                 }
         },
