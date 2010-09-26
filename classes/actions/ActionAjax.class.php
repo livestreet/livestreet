@@ -34,6 +34,10 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^topic$/','EventVoteTopic');
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
+		
+		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
+		$this->AddEventPreg('/^favourite$/i','/^comment$/','EventFavouriteComment');
+		$this->AddEventPreg('/^favourite$/i','/^talk$/','EventFavouriteTalk');
 	}
 		
 	
@@ -294,6 +298,187 @@ class ActionAjax extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
+	}
+	
+	
+	/**
+	 * Обработка избранного - топик
+	 *
+	 */
+	protected function EventFavouriteTopic() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$iType=getRequest('type',null,'post');
+		if (!in_array($iType,array('1','0'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if (!($oTopic=$this->Topic_GetTopicById(getRequest('idTopic',null,'post')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		
+		$oFavouriteTopic=$this->Topic_GetFavouriteTopic($oTopic->getId(),$this->oUserCurrent->getId());
+		if (!$oFavouriteTopic and $iType) {
+			$oFavouriteTopicNew=Engine::GetEntity('Favourite',
+				array(
+					'target_id'      => $oTopic->getId(),
+					'user_id'        => $this->oUserCurrent->getId(),
+					'target_type'    => 'topic',
+					'target_publish' => $oTopic->getPublish()
+				)
+			);
+			if ($this->Topic_AddFavouriteTopic($oFavouriteTopicNew)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_add_ok'),$this->Lang_Get('attention'));				
+				$this->Viewer_AssignAjax('bState',true);
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}
+		if (!$oFavouriteTopic and !$iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_favourite_add_no'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteTopic and $iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_favourite_add_already'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteTopic and !$iType) {
+			if ($this->Topic_DeleteFavouriteTopic($oFavouriteTopic)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',false);
+			} else {				
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}		
+	}
+	
+	
+	
+	/**
+	 * Обработка избранного - комментарий
+	 *
+	 */
+	protected function EventFavouriteComment() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$iType=getRequest('type',null,'post');
+		if (!in_array($iType,array('1','0'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if (!($oComment=$this->Comment_GetCommentById(getRequest('idComment',null,'post')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$oFavouriteComment=$this->Comment_GetFavouriteComment($oComment->getId(),$this->oUserCurrent->getId());
+		if (!$oFavouriteComment and $iType) {
+			$oFavouriteCommentNew=Engine::GetEntity('Favourite',
+				array(
+					'target_id'      => $oComment->getId(),
+					'target_type'    => 'comment',
+					'user_id'        => $this->oUserCurrent->getId(),
+					'target_publish' => $oComment->getPublish()
+				)
+			);
+			if ($this->Comment_AddFavouriteComment($oFavouriteCommentNew)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_add_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',true);
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}
+		if (!$oFavouriteComment and !$iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('comment_favourite_add_no'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteComment and $iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('comment_favourite_add_already'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteComment and !$iType) {
+			if ($this->Comment_DeleteFavouriteComment($oFavouriteComment)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',false);
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}
+	}
+	
+	
+	/**
+	 * Обработка избранного - письмо
+	 *
+	 */
+	protected function EventFavouriteTalk() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$iType=getRequest('type',null,'post');		
+		if (!in_array($iType,array('1','0'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if (!($oTalk=$this->Talk_GetTalkById(getRequest('idTalk',null,'post')))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+			
+		$oFavouriteTalk=$this->Talk_GetFavouriteTalk($oTalk->getId(),$this->oUserCurrent->getId());
+		if (!$oFavouriteTalk and $iType) {
+			$oFavouriteTalkNew=Engine::GetEntity('Favourite',
+				array(
+					'target_id'      => $oTalk->getId(),
+					'target_type'    => 'talk',
+					'user_id'        => $this->oUserCurrent->getId(),
+					'target_publish' => '1'
+				)
+			);
+			if ($this->Talk_AddFavouriteTalk($oFavouriteTalkNew)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('talk_favourite_add_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',true);
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}
+		if (!$oFavouriteTalk and !$iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('talk_favourite_add_no'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteTalk and $iType) {			
+			$this->Message_AddErrorSingle($this->Lang_Get('talk_favourite_add_already'),$this->Lang_Get('error'));
+			return;
+		}
+		if ($oFavouriteTalk and !$iType) {
+			if ($this->Talk_DeleteFavouriteTalk($oFavouriteTalk)) {				
+				$this->Message_AddNoticeSingle($this->Lang_Get('talk_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',false);
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}
+		
 	}
 }
 ?>

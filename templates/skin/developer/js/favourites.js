@@ -15,15 +15,15 @@ var lsFavouriteClass = new Class({
        
         typeFavourite: {                
                 topic: {
-                        url: DIR_WEB_ROOT+'/include/ajax/topicFavourite.php',
+                        url: aRouter['ajax']+'favourite/topic/',
                         targetName: 'idTopic'
                 },
                 comment: {
-                        url: DIR_WEB_ROOT+'/include/ajax/commentFavourite.php',
+                        url: aRouter['ajax']+'favourite/comment/',
                         targetName: 'idComment'                	
                 },
                 talk : {
-                        url: DIR_WEB_ROOT+'/include/ajax/talkFavourite.php',
+                        url: aRouter['ajax']+'favourite/talk/',
                         targetName: 'idTalk'                	                	
                 }
         },
