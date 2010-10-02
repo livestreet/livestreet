@@ -125,6 +125,8 @@ class ActionBlog extends Action {
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
+		$this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
+		$this->AddEvent('ajaxblogjoin', 'AjaxBlogJoin');
 		
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
@@ -1354,6 +1356,108 @@ class ActionBlog extends Action {
 		} else {
 			Router::Location($oBlog()->getUrlFull());
 		}
+	}
+	
+	/**
+	 * Получение описания блога
+	 *
+	 */
+	protected function AjaxBlogInfo() {
+		$this->Viewer_SetResponseAjax('json');
+		$sBlogId=getRequest('idBlog',null,'post');
+		
+		if ($sBlogId==0) {
+			if ($this->oUserCurrent) {				
+				$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
+			}
+		} else {
+			$oBlog=$this->Blog_GetBlogById($sBlogId);
+		}
+
+		if ($oBlog) {			
+			$sText=$oBlog->getDescription();
+			$this->Viewer_AssignAjax('sText',$sText);
+		}
+	}
+	
+	/**
+	 * Подключение/отключение к блогу
+	 *
+	 */
+	protected function AjaxBlogJoin() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$idBlog=getRequest('idBlog',null,'post');
+		if (!($oBlog=$this->Blog_GetBlogById($idBlog))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if (!in_array($oBlog->getType(),array('open','close'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('blog_join_error_invite'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
+		if (!$oBlogUser || ($oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST && $oBlog->getType()=='close')) {
+			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
+				/**
+				 * Присоединяем юзера к блогу
+				 */
+				$bResult=false;
+				if($oBlogUser) {
+					$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_USER);
+					$bResult = $this->Blog_UpdateRelationBlogUser($oBlogUser);
+				} elseif($oBlog->getType()=='open') {
+					$oBlogUserNew=Engine::GetEntity('Blog_BlogUser');
+					$oBlogUserNew->setBlogId($oBlog->getId());
+					$oBlogUserNew->setUserId($this->oUserCurrent->getId());
+					$oBlogUserNew->setUserRole(ModuleBlog::BLOG_USER_ROLE_USER);
+					$bResult = $this->Blog_AddRelationBlogUser($oBlogUserNew);
+				}
+				if ($bResult) {
+					$this->Message_AddNoticeSingle($this->Lang_Get('blog_join_ok'),$this->Lang_Get('attention'));
+					$this->Viewer_AssignAjax('bState',true);
+					/**
+					 * Увеличиваем число читателей блога
+					 */
+					$oBlog->setCountUser($oBlog->getCountUser()+1);
+					$this->Blog_UpdateBlog($oBlog);					
+					$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
+				} else {					
+					$sMsg=($oBlog->getType()=='close')
+					? $this->Lang_Get('blog_join_error_invite')
+					: $this->Lang_Get('system_error');
+					$this->Message_AddErrorSingle($sMsg,$this->Lang_Get('error'));
+					return;
+				}
+			} else {				
+				$this->Message_AddErrorSingle($this->Lang_Get('blog_join_error_self'),$this->Lang_Get('attention'));
+				return;
+			}
+		}		
+		if ($oBlogUser && $oBlogUser->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST) {
+			/**
+			 * Покидаем блог
+			 */					
+			if ($this->Blog_DeleteRelationBlogUser($oBlogUser)) {
+				$this->Message_AddNoticeSingle($this->Lang_Get('blog_leave_ok'),$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bState',false);				
+				/**
+				 * Уменьшаем число читателей блога
+				 */
+				$oBlog->setCountUser($oBlog->getCountUser()-1);
+				$this->Blog_UpdateBlog($oBlog);
+				$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
+			} else {				
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+			}
+		}		
 	}
 	
 	/**

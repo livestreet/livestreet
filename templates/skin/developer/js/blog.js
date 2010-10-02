@@ -2,7 +2,7 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
 	obj=$(obj);
 	
 	new Request.JSON({
-		url: DIR_WEB_ROOT+'/include/ajax/joinLeaveBlog.php',
+		url: aRouter['blog']+'ajaxblogjoin/',
 		noCache: true,
 		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){
@@ -34,7 +34,7 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
 
 function ajaxBlogInfo(idBlog) {
 	new Request.JSON({
-		url: DIR_WEB_ROOT+'/include/ajax/blogInfo.php',
+		url: aRouter['blog']+'ajaxbloginfo/',
 		noCache: true,
 		data: { idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){
