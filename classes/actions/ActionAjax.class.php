@@ -38,6 +38,13 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
 		$this->AddEventPreg('/^favourite$/i','/^comment$/','EventFavouriteComment');
 		$this->AddEventPreg('/^favourite$/i','/^talk$/','EventFavouriteTalk');
+		
+		$this->AddEventPreg('/^stream$/i','/^comment$/','EventStreamComment');
+		$this->AddEventPreg('/^stream$/i','/^topic$/','EventStreamTopic');
+		
+		$this->AddEventPreg('/^blogs$/i','/^top$/','EventBlogsTop');
+		$this->AddEventPreg('/^blogs$/i','/^self$/','EventBlogsSelf');
+		$this->AddEventPreg('/^blogs$/i','/^join$/','EventBlogsJoin');
 	}
 		
 	
@@ -480,5 +487,100 @@ class ActionAjax extends Action {
 		}
 		
 	}
+	
+	
+	/**
+	 * Обработка получения последних комментов
+	 *
+	 */
+	protected function EventStreamComment() {
+		if ($aComments=$this->Comment_GetCommentsOnline('topic',Config::Get('block.stream.row'))) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('aComments',$aComments);			
+			$sTextResult=$oViewer->Fetch("block.stream_comment.tpl");
+			$this->Viewer_AssignAjax('sText',$sTextResult);
+		} else {			
+			$this->Message_AddErrorSingle($this->Lang_Get('block_stream_comments_no'),$this->Lang_Get('attention'));
+			return;
+		}
+	}
+	
+	
+	/**
+	 * Обработка получения последних топиков
+	 *
+	 */
+	protected function EventStreamTopic() {
+		if ($oTopics=$this->Topic_GetTopicsLast(Config::Get('block.stream.row'))) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('oTopics',$oTopics);			
+			$sTextResult=$oViewer->Fetch("block.stream_topic.tpl");
+			$this->Viewer_AssignAjax('sText',$sTextResult);
+		} else {			
+			$this->Message_AddErrorSingle($this->Lang_Get('block_stream_topics_no'),$this->Lang_Get('attention'));
+			return;
+		}
+	}
+	
+	
+	/**
+	 * Обработка получения TOP блогов
+	 *
+	 */
+	protected function EventBlogsTop() {
+		if ($aResult=$this->Blog_GetBlogsRating(1,Config::Get('block.blogs.row'))) {
+			$aBlogs=$aResult['collection'];
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('aBlogs',$aBlogs);			
+			$sTextResult=$oViewer->Fetch("block.blogs_top.tpl");
+			$this->Viewer_AssignAjax('sText',$sTextResult);
+		} else {			
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+	}
+	
+	/**
+	 * Обработка получения своих блогов
+	 *
+	 */
+	protected function EventBlogsSelf() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if ($aBlogs=$this->Blog_GetBlogsRatingSelf($this->oUserCurrent->getId(),Config::Get('block.blogs.row'))) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('aBlogs',$aBlogs);			
+			$sTextResult=$oViewer->Fetch("block.blogs_top.tpl");
+			$this->Viewer_AssignAjax('sText',$sTextResult);
+		} else {			
+			$this->Message_AddErrorSingle($this->Lang_Get('block_blogs_self_error'),$this->Lang_Get('attention'));
+			return;
+		}		
+	}
+	
+	/**
+	 * Обработка получения подключенных блогов
+	 *
+	 */
+	protected function EventBlogsJoin() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+				
+		if ($aBlogs=$this->Blog_GetBlogsRatingJoin($this->oUserCurrent->getId(),Config::Get('block.blogs.row'))) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('aBlogs',$aBlogs);			
+			$sTextResult=$oViewer->Fetch("block.blogs_top.tpl");
+			$this->Viewer_AssignAjax('sText',$sTextResult);
+		} else {			
+			$this->Message_AddErrorSingle($this->Lang_Get('block_blogs_join_error'),$this->Lang_Get('attention'));
+			return;
+		}		
+	}
+	
 }
 ?>

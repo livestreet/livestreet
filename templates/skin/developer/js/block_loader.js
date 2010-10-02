@@ -11,21 +11,21 @@ var lsBlockLoaderClass = new Class({
 	},
 
 	type: {
-			comment_stream: {
-					url: DIR_WEB_ROOT+'/include/ajax/stream_comment.php'
-			},
-			topic_stream: {
-					url: DIR_WEB_ROOT+'/include/ajax/stream_topic.php'
-			},
-			blogs_top: {
-					url: DIR_WEB_ROOT+'/include/ajax/blogs_top.php'
-			},
-			blogs_join: {
-					url: DIR_WEB_ROOT+'/include/ajax/blogs_join.php'
-			},
-			blogs_self: {
-					url: DIR_WEB_ROOT+'/include/ajax/blogs_self.php'
-			}
+		comment_stream: {
+			url: aRouter['ajax']+'stream/comment/'
+		},
+		topic_stream: {
+			url: aRouter['ajax']+'stream/topic/'
+		},
+		blogs_top: {
+			url: aRouter['ajax']+'blogs/top/'
+		},
+		blogs_join: {
+			url: aRouter['ajax']+'blogs/join/'
+		},
+		blogs_self: {
+			url: aRouter['ajax']+'blogs/self/'
+		}
 	},
 
 	initialize: function(options){
