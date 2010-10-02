@@ -66,6 +66,7 @@ class ActionTalk extends Action {
 		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxDeleteFromBlacklist');
 		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');	
 		$this->AddEvent('ajaxaddtalkuser', 'AjaxAddTalkUser');	
+		$this->AddEvent('ajaxnewmessages', 'AjaxNewMessages');
 	}
 		
 	
@@ -970,6 +971,18 @@ class ActionTalk extends Action {
 		}
 		// Передаем во вьевер массив результатов обработки по каждому пользователю
 		$this->Viewer_AssignAjax('aUsers',$aResult);		
+	}
+	
+	public function AjaxNewMessages() {
+		$this->Viewer_SetResponseAjax('json');
+		
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$iCountTalkNew=$this->Talk_GetCountTalkNew($this->oUserCurrent->getId());
+		$this->Viewer_AssignAjax('iCountTalkNew',$iCountTalkNew);
 	}
 	
 	public function EventShutdown() {

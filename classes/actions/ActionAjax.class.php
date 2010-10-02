@@ -24,7 +24,7 @@ class ActionAjax extends Action {
 	
 	public function Init() {
 		$this->Viewer_SetResponseAjax('json');
-		$this->Security_ValidateSendForm();
+		//$this->Security_ValidateSendForm();
 		
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
@@ -34,6 +34,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^topic$/','EventVoteTopic');
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
+		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
 		
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
 		$this->AddEventPreg('/^favourite$/i','/^comment$/','EventFavouriteComment');
@@ -45,6 +46,10 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^blogs$/i','/^top$/','EventBlogsTop');
 		$this->AddEventPreg('/^blogs$/i','/^self$/','EventBlogsSelf');
 		$this->AddEventPreg('/^blogs$/i','/^join$/','EventBlogsJoin');
+		
+		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
+		
+		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
 	}
 		
 	
@@ -307,6 +312,63 @@ class ActionAjax extends Action {
 		}
 	}
 	
+	
+	/**
+	 * Голосование за вариант ответа в опросе
+	 *
+	 */
+	protected function EventVoteQuestion() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$idAnswer=getRequest('idAnswer',null,'post');
+		$idTopic=getRequest('idTopic',null,'post');
+		
+		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if ($oTopic->getType()!='question') {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if ($oTopicQuestionVote=$this->Topic_GetTopicQuestionVote($oTopic->getId(),$this->oUserCurrent->getId())) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_question_vote_already'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$aAnswer=$oTopic->getQuestionAnswers();
+		if (!isset($aAnswer[$idAnswer]) and $idAnswer!=-1) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		if ($idAnswer==-1) {
+			$oTopic->setQuestionCountVoteAbstain($oTopic->getQuestionCountVoteAbstain()+1);
+		} else {
+			$oTopic->increaseQuestionAnswerVote($idAnswer);
+		}
+		$oTopic->setQuestionCountVote($oTopic->getQuestionCountVote()+1);
+
+		$oTopicQuestionVote=Engine::GetEntity('Topic_TopicQuestionVote');
+		$oTopicQuestionVote->setTopicId($oTopic->getId());
+		$oTopicQuestionVote->setVoterId($this->oUserCurrent->getId());
+		$oTopicQuestionVote->setAnswer($idAnswer);
+
+		if ($this->Topic_AddTopicQuestionVote($oTopicQuestionVote) and $this->Topic_updateTopic($oTopic)) {
+			$this->Message_AddNoticeSingle($this->Lang_Get('topic_question_vote_ok'),$this->Lang_Get('attention'));
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('oTopic',$oTopic);			
+			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("topic_question.tpl"));
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+	}
 	
 	/**
 	 * Обработка избранного - топик
@@ -582,5 +644,75 @@ class ActionAjax extends Action {
 		}		
 	}
 	
+	/**
+	 * Предпросмотр текста
+	 *
+	 */
+	protected function EventPreviewText() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$sText=getRequest('text',null,'post');
+		$bSave=getRequest('save',null,'post');
+
+		if ($bSave) {
+			$sTextResult=htmlspecialchars($sText);
+		} else {
+			$sTextResult=$this->Text_Parser($sText);
+		}
+		$this->Viewer_AssignAjax('sText',$sTextResult);
+	}
+	
+	
+	/**
+	 * Загрузка изображения
+	 *
+	 */
+	protected function EventUploadImage() {
+		$this->Viewer_SetResponseAjax('jsHttpRequest');
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$aForm=getRequest('value',null,'post');
+		$sFile=null;
+		if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
+			if(!$sFile=$this->Topic_UploadTopicImageFile($_FILES['img_file'],$this->oUserCurrent)) {				
+				$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_file_error'),$this->Lang_Get('error'));
+				return;
+			}
+		} elseif (isPost('img_url') && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
+			$sFile=$this->Topic_UploadTopicImageUrl($_REQUEST['img_url'],$this->oUserCurrent);
+			switch (true) {
+				case is_string($sFile):
+
+					break;
+
+				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_READ):					
+					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_read'),$this->Lang_Get('error'));
+					return;					
+
+				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_SIZE):					
+					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_size'),$this->Lang_Get('error'));
+					return;
+
+				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_TYPE):					
+					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_type'),$this->Lang_Get('error'));
+					return;
+
+				default:
+				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR):					
+					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error'),$this->Lang_Get('error'));
+					return;
+			}
+		}
+		if ($sFile) {			
+			$sText=$this->Image_BuildHTML($sFile, $_REQUEST);
+			$this->Viewer_AssignAjax('sText',$sText);
+		}
+	}
 }
 ?>

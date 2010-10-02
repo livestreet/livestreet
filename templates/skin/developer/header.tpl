@@ -73,7 +73,7 @@
 			var talkNewMessages=new lsTalkMessagesClass({
 				reload: {
 					request: TALK_RELOAD_REQUEST,
-					url: DIR_WEB_ROOT+'/include/ajax/talkNewMessages.php',
+					url: aRouter['talk']+'ajaxnewmessages/',
 					errors: TALK_RELOAD_MAX_ERRORS
 				}
 			});

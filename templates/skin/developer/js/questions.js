@@ -1,6 +1,6 @@
 function ajaxQuestionVote(idTopic,idAnswer) {
 	new Request.JSON({
-		url: DIR_WEB_ROOT+'/include/ajax/questionVote.php',
+		url: aRouter['ajax']+'vote/question/',
 		noCache: true,
 		data: { idTopic: idTopic, idAnswer: idAnswer, security_ls_key: LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){

@@ -397,6 +397,7 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/other.js",
 	"___path.static.skin___/js/login.js",
 	"___path.static.skin___/js/panel.js",
+	"___path.static.skin___/js/messages.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Piechart/moocanvas.js"=>array('browser'=>'IE'),
 );
 $config['head']['default']['css'] = array(

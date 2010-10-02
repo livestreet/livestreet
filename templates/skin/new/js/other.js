@@ -7,7 +7,7 @@ function ajaxTextPreview(textId,save,divPreview) {
 	}	
 	save=save ? 1 : 0;
 	new Request.JSON({
-		url: DIR_WEB_ROOT+'/include/ajax/textPreview.php',
+		url: aRouter['ajax']+'preview/text/',
 		noCache: true,
 		data: { text: text, save: save, security_ls_key: LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){
@@ -121,6 +121,6 @@ function ajaxUploadImg(value,sToLoad) {
 			}
 		}
 	}
-	req.open(null, DIR_WEB_ROOT+'/include/ajax/uploadImg.php', true);
+	req.open(null, aRouter['ajax']+'upload/image/', true);
 	req.send( { value: value, security_ls_key: LIVESTREET_SECURITY_KEY } );
 }
