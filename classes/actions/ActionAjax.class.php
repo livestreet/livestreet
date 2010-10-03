@@ -55,6 +55,8 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^autocompleter$/i','/^city$/','EventAutocompleterCity');
 		$this->AddEventPreg('/^autocompleter$/i','/^country$/','EventAutocompleterCountry');
 		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
+		
+		$this->AddEventPreg('/^comment$/i','/^delete$/','EventCommentDelete');
 	}
 		
 	
@@ -787,5 +789,43 @@ class ActionAjax extends Action {
 		}
 		$this->Viewer_AssignAjax('aItems',$aItems);
 	}
+	
+	
+	/**
+	 * Удаление/восстановление комментария
+	 *
+	 */
+	protected function EventCommentDelete() {
+		if (!$this->oUserCurrent or !$this->oUserCurrent->isAdministrator()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$idComment=getRequest('idComment',null,'post');
+		if (!($oComment=$this->Comment_GetCommentById($idComment))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$oComment->setDelete(($oComment->getDelete()+1)%2);
+		if (!$this->Comment_UpdateCommentStatus($oComment)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+				
+		if ($bState=(bool)$oComment->getDelete()) {
+			$sMsg=$this->Lang_Get('comment_delete_ok');
+			$sTextToggle=$this->Lang_Get('comment_repair');
+		} else {
+			$sMsg=$this->Lang_Get('comment_repair_ok');
+			$sTextToggle=$this->Lang_Get('comment_delete');
+		}
+		$this->Message_AddNoticeSingle($sMsg,$this->Lang_Get('attention'));
+		$this->Viewer_AssignAjax('bState',$bState);
+		$this->Viewer_AssignAjax('sTextToggle',$sTextToggle);
+	}
+	
+	
+	
 }
 ?>

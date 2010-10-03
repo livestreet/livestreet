@@ -123,6 +123,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('invite','EventInviteBlog');
 		
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
+		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
 		$this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
@@ -964,6 +965,74 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}	
+	
+	/**
+	 * Получение новых комментариев
+	 *
+	 */
+	protected function AjaxResponseComment() {
+		$this->Viewer_SetResponseAjax('json');
+		
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$idTopic=getRequest('idTarget',null,'post');
+		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		
+		$idCommentLast=getRequest('idCommentLast',null,'post');
+		$selfIdComment=getRequest('selfIdComment',null,'post');
+		$aComments=array();
+		
+		if (getRequest('bUsePaging',null,'post') and $selfIdComment) {			
+			if ($oComment=$this->Comment_GetCommentById($selfIdComment) and $oComment->getTargetId()==$oTopic->getId() and $oComment->getTargetType()=='topic') {
+				$oViewerLocal=$this->Viewer_GetLocalViewer();
+				$oViewerLocal->Assign('oUserCurrent',$this->oUserCurrent);
+				$oViewerLocal->Assign('bOneComment',true);
+
+				$oViewerLocal->Assign('oComment',$oComment);
+				$sText=$oViewerLocal->Fetch("comment.tpl");
+				$aCmt=array();
+				$aCmt[]=array(
+					'html' => $sText,
+					'obj'  => $oComment,
+				);
+			} else {
+				$aCmt=array();
+			}
+			$aReturn['comments']=$aCmt;
+			$aReturn['iMaxIdComment']=$selfIdComment;
+		} else {
+			$aReturn=$this->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);			
+		}
+		$iMaxIdComment=$aReturn['iMaxIdComment'];
+		
+		$oTopicRead=Engine::GetEntity('Topic_TopicRead');
+		$oTopicRead->setTopicId($oTopic->getId());
+		$oTopicRead->setUserId($this->oUserCurrent->getId());
+		$oTopicRead->setCommentCountLast($oTopic->getCountComment());
+		$oTopicRead->setCommentIdLast($iMaxIdComment);
+		$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
+		$this->Topic_SetTopicRead($oTopicRead);
+		
+		$aCmts=$aReturn['comments'];
+		if ($aCmts and is_array($aCmts)) {
+			foreach ($aCmts as $aCmt) {
+				$aComments[]=array(
+					'html' => $aCmt['html'],
+					'idParent' => $aCmt['obj']->getPid(),
+					'id' => $aCmt['obj']->getId(),
+				);
+			}
+		}
+		
+		$this->Viewer_AssignAjax('iMaxIdComment',$iMaxIdComment);
+		$this->Viewer_AssignAjax('aComments',$aComments);
+	}
 	
 	/**
 	 * Обработка ajax запроса на отправку 

@@ -19,7 +19,7 @@ var lsCmtTreeClass = new Class({
 	typeComment: {
 		topic: {
 			url_add: aRouter.blog+'ajaxaddcomment/',			
-			url_response: DIR_WEB_ROOT+'/include/ajax/commentResponse.php'		
+			url_response: aRouter.blog+'ajaxresponsecomment/'
 		},
 		talk: {
 			url_add: aRouter.talk+'ajaxaddcomment/',
@@ -306,7 +306,7 @@ var lsCmtTreeClass = new Class({
 		var thisObj=this;
 		
 		new Request.JSON({
-			url: DIR_WEB_ROOT+'/include/ajax/commentToggle.php',
+			url: aRouter['ajax']+'comment/delete/',
 			noCache: true,
 			data: { idComment: commentId, security_ls_key: LIVESTREET_SECURITY_KEY },
 			onSuccess: function(result){
