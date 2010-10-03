@@ -181,7 +181,7 @@ class ModuleImage extends Module {
 						case 'image':
 							$oImage->paste_image(
 								$aParams['path']['watermarks'].$aParams['watermark_image'],
-								true, explode(',',$aParams['watermark_position'],2)
+								false, explode(',',$aParams['watermark_position'],2)
 							);
 							break;
 					}
