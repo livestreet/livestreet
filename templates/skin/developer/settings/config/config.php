@@ -17,6 +17,8 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/other.js",
 	"___path.static.skin___/js/login.js",
 	"___path.static.skin___/js/panel.js",
+	"___path.static.skin___/js/messages.js",
+	"___path.static.skin___/js/Autocompleter.LS.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/style.css",

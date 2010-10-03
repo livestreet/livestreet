@@ -6,7 +6,7 @@ document.addEvent('domready', function() {
 
 	var inputCity = $('profile_city');
  
-	new Autocompleter.Request.HTML(inputCity, DIR_WEB_ROOT+'/include/ajax/cityAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY, {
+	new Autocompleter.Request.LS.JSON(inputCity, aRouter['ajax']+'autocompleter/city/?security_ls_key='+LIVESTREET_SECURITY_KEY, {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
 		'minLength': 2, // We need at least 1 character
 		'selectMode': 'pick', // Instant completion
@@ -16,7 +16,7 @@ document.addEvent('domready', function() {
 	
 	var inputCountry = $('profile_country');
  
-	new Autocompleter.Request.HTML(inputCountry, DIR_WEB_ROOT+'/include/ajax/countryAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY, {
+	new Autocompleter.Request.LS.JSON(inputCountry, aRouter['ajax']+'autocompleter/country/?security_ls_key='+LIVESTREET_SECURITY_KEY, {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
 		'minLength': 2, // We need at least 1 character
 		'selectMode': 'pick', // Instant completion

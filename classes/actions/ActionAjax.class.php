@@ -50,6 +50,11 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
 		
 		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
+		
+		$this->AddEventPreg('/^autocompleter$/i','/^tag$/','EventAutocompleterTag');
+		$this->AddEventPreg('/^autocompleter$/i','/^city$/','EventAutocompleterCity');
+		$this->AddEventPreg('/^autocompleter$/i','/^country$/','EventAutocompleterCountry');
+		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
 	}
 		
 	
@@ -713,6 +718,74 @@ class ActionAjax extends Action {
 			$sText=$this->Image_BuildHTML($sFile, $_REQUEST);
 			$this->Viewer_AssignAjax('sText',$sText);
 		}
+	}
+	
+	/**
+	 * Автоподставновка тегов
+	 *
+	 */
+	protected function EventAutocompleterTag() {
+		if (!($sValue=getRequest('value',null,'post'))) {
+			return ;
+		}
+		
+		$aItems=array();
+		$aTags=$this->Topic_GetTopicTagsByLike($sValue,10);
+		foreach ($aTags as $oTag) {
+			$aItems[]=$oTag->getText();
+		}
+		$this->Viewer_AssignAjax('aItems',$aItems);
+	}
+	
+	/**
+	 * Автоподставновка городов
+	 *
+	 */
+	protected function EventAutocompleterCity() {
+		if (!($sValue=getRequest('value',null,'post'))) {
+			return ;
+		}
+		
+		$aItems=array();
+		$aCity=$this->User_GetCityByNameLike($sValue,10);
+		foreach ($aCity as $oCity) {
+			$aItems[]=$oCity->getName();
+		}
+		$this->Viewer_AssignAjax('aItems',$aItems);
+	}
+	
+	/**
+	 * Автоподставновка стран
+	 *
+	 */
+	protected function EventAutocompleterCountry() {
+		if (!($sValue=getRequest('value',null,'post'))) {
+			return ;
+		}
+		
+		$aItems=array();
+		$aCountry=$this->User_GetCountryByNameLike($sValue,10);
+		foreach ($aCountry as $oCountry) {
+			$aItems[]=$oCountry->getName();
+		}
+		$this->Viewer_AssignAjax('aItems',$aItems);
+	}
+	
+	/**
+	 * Автоподставновка пользователей
+	 *
+	 */
+	protected function EventAutocompleterUser() {
+		if (!($sValue=getRequest('value',null,'post'))) {
+			return ;
+		}
+		
+		$aItems=array();
+		$aUsers=$this->User_GetUsersByLoginLike($sValue,10);
+		foreach ($aUsers as $oUser) {
+			$aItems[]=$oUser->getLogin();
+		}
+		$this->Viewer_AssignAjax('aItems',$aItems);
 	}
 }
 ?>

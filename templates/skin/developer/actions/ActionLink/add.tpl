@@ -4,7 +4,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 document.addEvent('domready', function() {
-	new Autocompleter.Request.HTML($('topic_tags'), DIR_WEB_ROOT+'/include/ajax/tagAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY, {
+	new Autocompleter.Request.LS.JSON($('topic_tags'), aRouter['ajax']+'autocompleter/tag/?security_ls_key='+LIVESTREET_SECURITY_KEY, {
 		'indicatorClass': 'autocompleter-loading', // class added to the input during request
 		'minLength': 2, // We need at least 1 character
 		'selectMode': 'pick', // Instant completion

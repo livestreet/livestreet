@@ -4,9 +4,9 @@
 	{literal}
 		<script language="JavaScript" type="text/javascript">
 			document.addEvent('domready', function() {
-				new Autocompleter.Request.HTML(
+				new Autocompleter.Request.LS.JSON(
 					$('talk_blacklist_add'),
-					 DIR_WEB_ROOT+'/include/ajax/userAutocompleter.php?security_ls_key='+LIVESTREET_SECURITY_KEY,
+					 aRouter['ajax']+'autocompleter/user/?security_ls_key='+LIVESTREET_SECURITY_KEY,
 					 {
 						'indicatorClass': 'autocompleter-loading',
 						'minLength': 1,
