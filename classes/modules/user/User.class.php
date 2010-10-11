@@ -205,7 +205,7 @@ class ModuleUser extends Module {
 			foreach ($data as $oUser) {
 				$aUsers[$oUser->getId()]=$oUser;
 			}
-			$this->Cache_Set($aUsers, "user_id_{$s}", array("user_update"), 60*60*24*1);
+			$this->Cache_Set($aUsers, "user_id_{$s}", array("user_update","user_new"), 60*60*24*1);
 			return $aUsers;
 		}
 		return $data;
