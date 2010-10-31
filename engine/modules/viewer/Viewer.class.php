@@ -359,6 +359,11 @@ class ModuleViewer extends Module {
 				header('Content-type: application/json');
 			} 	
 			echo json_encode($this->aVarsAjax);
+		} elseif ($sType=='jsonp') {
+			if (!headers_sent()) {
+				header('Content-type: application/json');
+			} 	
+			echo getRequest('jsonpCallback','callback').'('.json_encode($this->aVarsAjax).');';
 		}
 		exit();
 	}
@@ -377,7 +382,10 @@ class ModuleViewer extends Module {
 				$JsHttpRequest = new JsHttpRequest("UTF-8");
 			}
 		}
-		$this->Security_ValidateSendForm();		
+		// Для возможности кросс-доменных запросов
+		if ($sResponseAjax!='jsonp') {
+			$this->Security_ValidateSendForm();
+		}
 		$this->sResponseAjax=$sResponseAjax;
 	}
 	/**
