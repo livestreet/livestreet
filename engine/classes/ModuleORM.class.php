@@ -81,13 +81,141 @@ abstract class ModuleORM extends Module {
 			if($sPrimaryKeyValue=$oEntity->_getDataOne($sPrimaryKey)) {
 				if($oEntityNew=$this->GetByFilter(array($sPrimaryKey=>$sPrimaryKeyValue),Engine::GetEntityName($oEntity))) {
 					$oEntity->_setData($oEntityNew->_getData());
+					$oEntity->_setRelationsData(array());
 					return $oEntity;
 				}
 			}
 		}
 		return false;
 	}
+
 	
+	protected function _GetChildrenOfEntity($oEntity) {
+		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
+			$aRelationsData=$oEntity->_getRelationsData();
+			if(array_key_exists('children',$aRelationsData)) {
+				$aChildren=$aRelationsData['children'];
+			} else {
+				$aChildren=array();
+				if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
+					if($sPrimaryKeyValue=$oEntity->_getDataOne($sPrimaryKey)) {
+						$aChildren=$this->GetItemsByFilter(array('parent_id'=>$sPrimaryKeyValue),Engine::GetEntityName($oEntity));
+					}
+				}
+			}
+			if(is_array($aChildren)) {
+				$oEntity->setChildren($aChildren);
+				return $aChildren;
+			}
+		}
+		return false;
+	}
+
+	
+	protected function _GetParentOfEntity($oEntity) {
+		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
+			$aRelationsData=$oEntity->_getRelationsData();
+			if(array_key_exists('parent',$aRelationsData)) {
+				$oParent=$aRelationsData['parent'];
+			} else {
+				$oParent='%%NULL_PARENT%%';
+				if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
+					if($sParentId=$oEntity->getParentId()) {
+						$oParent=$this->GetByFilter(array($sPrimaryKey=>$sParentId),Engine::GetEntityName($oEntity));
+					}
+				}
+			}
+			if(!is_null($oParent)) {
+				$oEntity->setParent($oParent);
+				return $oParent;
+			}
+		}
+		return false;
+	}
+	
+	
+	protected function _GetAncestorsOfEntity($oEntity) {
+		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
+			$aRelationsData=$oEntity->_getRelationsData();
+			if(array_key_exists('ancestors',$aRelationsData)) {
+				$aAncestors=$aRelationsData['ancestors'];
+			} else {
+				$aAncestors=array();
+				$sParentId=$oEntity->getParentId();
+				while($sParentId > 0) {
+					$oEntity=$oEntity->getParent();
+					$aAncestors[]=$oEntity;
+					$sParentId=$oEntity->getParentId();
+				}
+			}
+			if(is_array($aAncestors)) {
+				$oEntity->setAncestors($aAncestors);
+				return $aAncestors;
+			}
+		}
+		return false;
+	}	
+	
+	
+	protected function _GetDescendantsOfEntity($oEntity) {
+		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
+			$aRelationsData=$oEntity->_getRelationsData();
+			if(array_key_exists('descendants',$aRelationsData)) {
+				$aDescendants=$aRelationsData['descendants'];
+			} else {
+				$aDescendants=array();
+				if($aChildren=$oEntity->getChildren()) {
+					$aDescendants=$aChildren;
+					$aTree=self::buildTree($aChildren);
+					foreach($aTree as $aItem) {
+						$aDescendants[] = $aItem['entity'];
+					}
+				}
+			}
+			if(is_array($aDescendants)) {
+				$oEntity->setDescendants($aDescendants);
+				return $aDescendants;
+			}
+		}
+		return false;
+	}
+	
+
+	public function LoadTree($sEntityFull=null) {
+		if (is_null($sEntityFull)) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
+		} elseif (!substr_count($sEntityFull,'_')) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+		}
+		if($oEntityDefault=Engine::GetEntity($sEntityFull)) {
+			if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntityDefault->_getRelations())) {
+				if($sPrimaryKey=$oEntityDefault->_getPrimaryKey()) {
+					if($aItems=$this->GetItemsByFilter(array(),$sEntityFull)) {
+						$aItemsById = array();
+						$aItemsByParentId = array();
+						foreach($aItems as $oEntity) {
+							$oEntity->setChildren(array());
+							$aItemsById[$oEntity->_getDataOne($sPrimaryKey)] = $oEntity;
+							if(empty($aItemsByParentId[$oEntity->getParentId()])) {
+								$aItemsByParentId[$oEntity->getParentId()] = array();
+							}
+							$aItemsByParentId[$oEntity->getParentId()][] = $oEntity;
+						}
+						foreach($aItemsByParentId as $iParentId=>$aItems) {
+							if($iParentId > 0) {
+								$aItemsById[$iParentId]->setChildren($aItems);
+								foreach($aItems as $oEntity) {
+									$oEntity->setParent($aItemsById[$iParentId]);
+								}
+							}
+						}
+						return $aItemsByParentId[0];
+					}
+				}
+			}
+		}
+		return false;
+	}
 	
 	public function GetByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -225,6 +353,27 @@ abstract class ModuleORM extends Module {
 		if (preg_match("@^reload([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_ReloadEntity($aArgs[0]);
 		}
+
+		if (preg_match("@^getchildrenof([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_GetChildrenOfEntity($aArgs[0]);
+		}	
+		
+		if (preg_match("@^getparentof([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_GetParentOfEntity($aArgs[0]);
+		}	
+		
+		if (preg_match("@^getdescendantsof([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_GetDescendantsOfEntity($aArgs[0]);
+		}		
+		
+		if (preg_match("@^getancestorsof([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_GetAncestorsOfEntity($aArgs[0]);
+		}		
+		
+		if (preg_match("@^loadtreeof([\w]+)$@i",$sName,$aMatch)) {
+			$sEntityFull = array_key_exists(1,$aMatch) ? $aMatch[1] : null;
+			return $this->LoadTree($sEntityFull);
+		}
 		
 		$sNameUnderscore=func_underscore($sName);
 		$iEntityPosEnd=strlen($sNameUnderscore)-1; 
@@ -287,5 +436,22 @@ abstract class ModuleORM extends Module {
 		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
 	
+	static function buildTree($aItems,$aList=array(),$iLevel=0) {
+		foreach($aItems as $oEntity) {
+			$aChildren=$oEntity->getChildren();
+			$bHasChildren = !empty($aChildren); 
+			$sEntityId = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
+			$aList[$sEntityId] = array(
+				'entity'		 => $oEntity,
+				'parent_id'		 => $oEntity->getParentId(),
+				'children_count' => $bHasChildren ? count($aChildren) : 0,
+				'level'			 => $iLevel,
+			);
+			if($bHasChildren) {
+				$aList=self::buildTree($aChildren,$aList,$iLevel+1);
+			}
+		}
+		return $aList;
+	}
 }
 ?>

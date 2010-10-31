@@ -25,6 +25,7 @@ abstract class EntityORM extends Entity {
 	const RELATION_TYPE_HAS_MANY='has_many';
 	const RELATION_TYPE_HAS_ONE='has_one';
 	const RELATION_TYPE_MANY_TO_MANY='many_to_many';
+	const RELATION_TYPE_TREE='tree';
 	
 	protected $aRelations=array();
 	protected $aRelationsData=array();
@@ -77,6 +78,70 @@ abstract class EntityORM extends Entity {
 	public function Reload() {
 		return $this->_Method(__FUNCTION__);
 	}
+
+	public function getChildren() {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			return $this->_Method(__FUNCTION__ .'Of');
+		}
+		return $this->__call(__FUNCTION__);
+	}
+	
+	public function getDescendants() {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			return $this->_Method(__FUNCTION__ .'Of');
+		}
+		return $this->__call(__FUNCTION__);
+	}
+
+	public function getParent() {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			return $this->_Method(__FUNCTION__ .'Of');
+		}
+		return $this->__call(__FUNCTION__);
+	}
+
+	public function getAncestors() {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			return $this->_Method(__FUNCTION__ .'Of');
+		}
+		return $this->__call(__FUNCTION__);
+	}
+	
+	public function setChildren($aChildren=array()) {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			$this->aRelationsData['children'] = $aChildren;
+		} else {
+			$aArgs = func_get_args();
+			return $this->__call(__FUNCTION__,$aArgs);
+		}
+	}	
+	
+	public function setDescendants($aDescendants=array()) {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			$this->aRelationsData['descendants'] = $aDescendants;
+		} else {
+			$aArgs = func_get_args();
+			return $this->__call(__FUNCTION__,$aArgs);
+		}
+	}
+
+	public function setParent($oParent=null) {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			$this->aRelationsData['parent'] = $oParent;
+		} else {
+			$aArgs = func_get_args();
+			return $this->__call(__FUNCTION__,$aArgs);
+		}
+	}
+	
+	public function setAncestors($oParent=null) {
+		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
+			$this->aRelationsData['ancestors'] = $oParent;
+		} else {
+			$aArgs = func_get_args();
+			return $this->__call(__FUNCTION__,$aArgs);
+		}
+	}
 	
 	protected function _Method($sName) {		
 		$sModuleName=Engine::GetModuleName($this);
@@ -85,10 +150,7 @@ abstract class EntityORM extends Entity {
 		
 		return Engine::GetInstance()->_CallModule("{$sPluginPrefix}{$sModuleName}_{$sName}{$sEntityName}",array($this));
 	}
-	
-	public function _getRelations() {
-		return $this->aRelations;
-	}
+
 	
 	public function _setData($aData) {
 		if(is_array($aData)) {
@@ -101,6 +163,18 @@ abstract class EntityORM extends Entity {
 			}
 		}
 	}
+	
+	public function _getRelations() {
+		return $this->aRelations;
+	}	
+
+	public function _getRelationsData() {
+		return $this->aRelationsData;
+	}
+
+	public function _setRelationsData($aData) {
+		$this->aRelationsData=$aData;
+	}	
 	
 	public function __call($sName,$aArgs) {
 		$sType=substr($sName,0,strpos(func_underscore($sName),'_'));	
