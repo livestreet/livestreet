@@ -670,6 +670,14 @@ class Engine extends Object {
 		$sClass=isset($sPlugin)
 			? 'Plugin'.$sPlugin.'_Module'.$sModule.'_Entity'.$sEntity
 			: 'Module'.$sModule.'_Entity'.$sEntity;
+			
+		/**
+		 * If plugin Entity doesn't exist, maybe the default one does?
+		 */
+		if(isset($sPlugin) && !self::GetClassPath($sClass)) {
+			$sClass = 'Module'.$sModule.'_Entity'.$sEntity;
+		}
+		
 		/**
 		 * Определяем наличие делегата сущности
 		 * Делегирование указывается только в полной форме!
