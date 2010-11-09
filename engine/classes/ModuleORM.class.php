@@ -322,6 +322,17 @@ abstract class ModuleORM extends Module {
 		return $aEntities;
 	}
 	
+	public function GetCountItemsByArray($aFilter=array(),$sEntityFull=null) {
+		if (is_null($sEntityFull)) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
+		} elseif (!substr_count($sEntityFull,'_')) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+		}
+			
+		$iCount=$this->oMapperORM->GetCountItemsByArray($aFilter,$sEntityFull);
+		
+		return $iCount;
+	}	
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));

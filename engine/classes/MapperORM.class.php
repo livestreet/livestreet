@@ -196,6 +196,26 @@ class MapperORM extends Mapper {
 		return $aItems;
 	}
 	
+	public function GetCountItemsByArray($aFilter,$sEntityFull) {
+		$sTableName = self::GetTableName($sEntityFull);
+
+		$aFilterFields=$aFilter;
+			
+		$sFilterFields='';		
+		if (count($aFilterFields)) {
+			$sFilterFields=' and '.implode(' IN ( ?a ) and ',array_keys($aFilterFields)).' IN ( ?a ) ';
+		}		
+		
+		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} ";		
+		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
+		
+		$aItems=array();
+		if($aRow=call_user_func_array(array($this->oDb,'selectRow'),$aQueryParams)) {
+			return $aRow['c'];		
+		}
+		return 0;
+	}
+	
 	public function GetItemsByJoinTable($aData,$sEntityFull) {
 		if(empty($aData)) {
 			return null;
