@@ -141,11 +141,10 @@ abstract class ModuleORM extends Module {
 				$aAncestors=$aRelationsData['ancestors'];
 			} else {
 				$aAncestors=array();
-				$sParentId=$oEntity->getParentId();
-				while($sParentId > 0) {
-					$oEntity=$oEntity->getParent();
-					$aAncestors[]=$oEntity;
-					$sParentId=$oEntity->getParentId();
+				$oEntityParent=$oEntity->getParent();
+				while(is_object($oEntityParent)) {
+					$aAncestors[]=$oEntityParent;
+					$oEntityParent=$oEntityParent->getParent();
 				}
 			}
 			if(is_array($aAncestors)) {
@@ -165,7 +164,6 @@ abstract class ModuleORM extends Module {
 			} else {
 				$aDescendants=array();
 				if($aChildren=$oEntity->getChildren()) {
-					$aDescendants=$aChildren;
 					$aTree=self::buildTree($aChildren);
 					foreach($aTree as $aItem) {
 						$aDescendants[] = $aItem['entity'];
