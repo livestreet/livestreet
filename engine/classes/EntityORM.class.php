@@ -27,6 +27,8 @@ abstract class EntityORM extends Entity {
 	const RELATION_TYPE_MANY_TO_MANY='many_to_many';
 	const RELATION_TYPE_TREE='tree';
 	
+	protected $aFields=array();
+	
 	protected $aRelations=array();
 	protected $aRelationsData=array();
 	
@@ -34,17 +36,17 @@ abstract class EntityORM extends Entity {
 	protected $bIsNew=true;
 	
 	
-	public function __construct($aParam = false) {
+	public function __construct($aParam=false) {
 		parent::__construct($aParam);
 	}
 	
 	public function _GetPrimaryKey() {
 		if(!$this->_getDataOne($this->sPrimaryKey)) {
-			$sModulePrefix=null;
-			if (preg_match('/Entity([^_]+)/',get_class($this),$sModulePrefix)) {						
-				$sModulePrefix=func_underscore($sModulePrefix[1]).'_';
-				if($this->_getDataOne($sModulePrefix.$this->sPrimaryKey)) {
-					$this->sPrimaryKey=$sModulePrefix.$this->sPrimaryKey;
+			if($this->_getFields()) {
+				if(array_key_exists('#primary_key',$this->aFields)) {
+					$this->sPrimaryKey = $this->aFields['#primary_key'];
+				} else {
+					$this->sPrimaryKey = $this->_getField($this->sPrimaryKey);
 				}
 			}
 		}
@@ -77,6 +79,10 @@ abstract class EntityORM extends Entity {
 	
 	public function Reload() {
 		return $this->_Method(__FUNCTION__);
+	}	
+	
+	public function ShowColumns() {
+		return $this->_Method(__FUNCTION__ .'From');
 	}
 
 	public function getChildren() {
@@ -164,6 +170,35 @@ abstract class EntityORM extends Entity {
 		}
 	}
 	
+	public function _getFields() {
+		if(empty($this->aFields)) {
+			$this->aFields=$this->ShowColumns();
+		}
+		return $this->aFields;
+	}
+	
+	public function _getField($sField) {
+		if($aFields=$this->_getFields()) {
+			if(in_array($sField,$aFields)) {
+				return $sField;
+			}
+			$sFieldU = func_camelize($sField);
+			$sEntityField = func_underscore(Engine::GetEntityName($this).$sFieldU);
+			if(in_array($sEntityField,$aFields)) {
+				return $sEntityField;
+			}
+			$sModuleEntityField = func_underscore(Engine::GetModuleName($this).Engine::GetEntityName($this).$sFieldU);
+			if(in_array($sModuleEntityField,$aFields)) {
+				return $sModuleEntityField;
+			}
+			$sModuleField = func_underscore(Engine::GetModuleName($this).$sFieldU);
+			if(in_array($sModuleField,$aFields)) {
+				return $sModuleField;
+			}
+		}
+		return $sField;
+	}
+	
 	public function _getRelations() {
 		return $this->aRelations;
 	}	
@@ -184,11 +219,9 @@ abstract class EntityORM extends Entity {
 				if (isset($this->_aData[$sKey])) {
 					return $this->_aData[$sKey];
 				} else {
-					if (preg_match('/Entity([^_]+)/',get_class($this),$sModulePrefix)) {						
-						$sModulePrefix=func_underscore($sModulePrefix[1]).'_';
-						if (isset($this->_aData[$sModulePrefix.$sKey])) {
-							return $this->_aData[$sModulePrefix.$sKey];
-						}
+					$sField=$this->_getField($sKey);
+					if($sField!=$sKey && isset($this->_aData[$sField])) {
+						return $this->_aData[$sField];
 					}
 				}
 				/**
@@ -238,12 +271,11 @@ abstract class EntityORM extends Entity {
 							break;
 						case self::RELATION_TYPE_MANY_TO_MANY :
 						  $sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
-							$sByKey = strpos($this->_GetPrimaryKey(), $sModulePrefix) === 0 ? $this->_GetPrimaryKey() : $sModulePrefix.$this->_GetPrimaryKey();
 							$aCmdArgs[0] = array(
-								'join_table'			=> $sRelationJoinTable,
+								'join_table'		=> $sRelationJoinTable,
 								'relation_key'		=> $sRelationKey,
-								'by_key'					=> $sByKey,
-								'by_value'				=> $iPrimaryKeyValue,
+								'by_key'			=> $this->_GetPrimaryKey(),
+								'by_value'			=> $iPrimaryKeyValue,
 							);
 							break;
 						default:
@@ -260,7 +292,7 @@ abstract class EntityORM extends Entity {
 				if (array_key_exists($sKey,$this->aRelations)) {
 					$this->aRelationsData[$sKey]=$aArgs[0];
 				} else {
-					$this->_aData[$sKey]=$aArgs[0];
+					$this->_aData[$this->_getField($sKey)]=$aArgs[0];
 				}
 			} elseif ($sType=='reload') {
 				if (array_key_exists($sKey,$this->aRelationsData)) {

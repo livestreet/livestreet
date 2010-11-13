@@ -32,7 +32,6 @@ abstract class ModuleORM extends Module {
 	}
 	
 	
-	
 	protected function _AddEntity($oEntity) {
 		$res=$this->oMapperORM->AddEntity($oEntity);
 		if ($res===0) {
@@ -57,16 +56,7 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-	
-	protected function _DeleteEntity($oEntity) {
-		$res=$this->oMapperORM->DeleteEntity($oEntity);
-		if ($res) {			
-			return $oEntity;
-		}
-		return false;
-	}
-	
-	
+
 	protected function _SaveEntity($oEntity) {
 		if ($oEntity->_isNew()) {
 			return $this->_AddEntity($oEntity);
@@ -75,6 +65,13 @@ abstract class ModuleORM extends Module {
 		}
 	}	
 	
+	protected function _DeleteEntity($oEntity) {
+		$res=$this->oMapperORM->DeleteEntity($oEntity);
+		if ($res) {			
+			return $oEntity;
+		}
+		return false;
+	}	
 	
 	protected function _ReloadEntity($oEntity) {
 		if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
@@ -88,7 +85,13 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
+	
+	
+	protected function _ShowColumnsFrom($oEntity) {
+		$res=$this->oMapperORM->ShowColumnsFrom($oEntity);
+		return $res;
+	}	
+	
 	
 	protected function _GetChildrenOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
@@ -357,27 +360,31 @@ abstract class ModuleORM extends Module {
 		
 		if (preg_match("@^delete([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_DeleteEntity($aArgs[0]);
-		}	
+		}
 		
 		if (preg_match("@^reload([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_ReloadEntity($aArgs[0]);
 		}
 
+		if (preg_match("@^showcolumnsfrom([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_ShowColumnsFrom($aArgs[0]);
+		}
+
 		if (preg_match("@^getchildrenof([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_GetChildrenOfEntity($aArgs[0]);
-		}	
+		}
 		
 		if (preg_match("@^getparentof([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_GetParentOfEntity($aArgs[0]);
-		}	
+		}
 		
 		if (preg_match("@^getdescendantsof([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_GetDescendantsOfEntity($aArgs[0]);
-		}		
+		}
 		
 		if (preg_match("@^getancestorsof([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_GetAncestorsOfEntity($aArgs[0]);
-		}		
+		}
 		
 		if (preg_match("@^loadtreeof([\w]+)$@i",$sName,$aMatch)) {
 			$sEntityFull = array_key_exists(1,$aMatch) ? $aMatch[1] : null;
@@ -385,19 +392,26 @@ abstract class ModuleORM extends Module {
 		}
 		
 		$sNameUnderscore=func_underscore($sName);
-		$iEntityPosEnd=strlen($sNameUnderscore)-1; 
-		if(substr_count($sNameUnderscore,'_items')) {
+		$iEntityPosEnd=0; 
+		if(strpos($sNameUnderscore,'_items')>4) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_items');
-		} else if(substr_count($sNameUnderscore,'_by')) {
+		} else if(strpos($sNameUnderscore,'_by')>4) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_by');
-		} else if(substr_count($sNameUnderscore,'_all')) {
+		} else if(strpos($sNameUnderscore,'_all')>4) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_all');
 		}
-		$sEntityName=substr($sNameUnderscore,4,$iEntityPosEnd-4);
+		if($iEntityPosEnd) {
+			$sEntityName=substr($sNameUnderscore,4,$iEntityPosEnd-4);
+		} else {
+			$sEntityName=func_underscore(Engine::GetModuleName($this)).'_';
+			$sNameUnderscore=substr_replace($sNameUnderscore,$sEntityName,4,0);
+			$iEntityPosEnd=strlen($sEntityName)-1+4;
+		}
 		/**
 		 * getUserRoleJoinByUserIdAndRoleId() get_user-role-join_by_user_id_and_role_id
 		 */
 		$sNameUnderscore=substr_replace($sNameUnderscore,str_replace('_','',$sEntityName),4,$iEntityPosEnd-4);
+
 		$sEntityName=func_camelize($sEntityName);
 		/**
 		 * getUserItemsByArrayId() get_user_items_by_array_id

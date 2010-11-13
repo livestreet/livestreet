@@ -46,6 +46,7 @@ class MapperORM extends Mapper {
 	}
 	
 	public function GetByFilter($aFilter,$sEntityFull) {
+		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 		
 		$aFilterFields=array();
@@ -53,7 +54,7 @@ class MapperORM extends Mapper {
 			if (substr($k,0,1)=='#') {
 				
 			} else {
-				$aFilterFields[$k]=$v;
+				$aFilterFields[$oEntitySample->_getField($k)]=$v;
 			}
 		}
 		
@@ -74,6 +75,7 @@ class MapperORM extends Mapper {
 	}
 
 	public function GetItemsByFilter($aFilter,$sEntityFull) {
+		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 		
 		// Сортировка
@@ -124,7 +126,7 @@ class MapperORM extends Mapper {
 			if (substr($k,0,1)=='#') {
 				
 			} else {
-				$aFilterFields[$k]=$v;
+				$aFilterFields[$oEntitySample->_getField($k)]=$v;
 			}
 		}
 		
@@ -148,6 +150,7 @@ class MapperORM extends Mapper {
 	
 	
 	public function GetCountItemsByFilter($aFilter,$sEntityFull) {
+		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 						
 		$aFilterFields=array();
@@ -155,7 +158,7 @@ class MapperORM extends Mapper {
 			if (substr($k,0,1)=='#') {
 				
 			} else {
-				$aFilterFields[$k]=$v;
+				$aFilterFields[$oEntitySample->_getField($k)]=$v;
 			}
 		}
 					
@@ -173,9 +176,13 @@ class MapperORM extends Mapper {
 	
 	
 	public function GetItemsByArray($aFilter,$sEntityFull) {
+		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 
-		$aFilterFields=$aFilter;
+		$aFilterFields=array();
+		foreach($aFilter as $k=>$v) {
+			$aFilterFields[$oEntitySample->_getField($k)]=$v;
+		}
 			
 		$sFilterFields='';		
 		if (count($aFilterFields)) {
@@ -197,9 +204,13 @@ class MapperORM extends Mapper {
 	}
 	
 	public function GetCountItemsByArray($aFilter,$sEntityFull) {
+		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 
-		$aFilterFields=$aFilter;
+		$aFilterFields=array();
+		foreach($aFilter as $k=>$v) {
+			$aFilterFields[$oEntitySample->_getField($k)]=$v;
+		}
 			
 		$sFilterFields='';		
 		if (count($aFilterFields)) {
@@ -216,6 +227,7 @@ class MapperORM extends Mapper {
 		return 0;
 	}
 	
+	
 	public function GetItemsByJoinTable($aData,$sEntityFull) {
 		if(empty($aData)) {
 			return null;
@@ -223,11 +235,26 @@ class MapperORM extends Mapper {
 		$sTableName = self::GetTableName($sEntityFull);
 		$sql = "SELECT a.*, b.* FROM ?# a LEFT JOIN ".$sTableName." b USING(?#) WHERE a.?#=?";
 		$aItems = array();
-		if($aRows=$this->oDb->select($sql, $aData['join_table'], $aData['relation_key'],  $aData['by_key'], $aData['by_value'])) {
+		if($aRows=$this->oDb->select($sql, $aData['join_table'],$aData['relation_key'],$aData['by_key'],$aData['by_value'])) {
 			foreach($aRows as $aRow) {
 				$oEntity=Engine::GetEntity($sEntityFull,$aRow);
 				$oEntity->_SetIsNew(false);
 				$aItems[] = $oEntity;
+			}			
+		}
+		return $aItems;
+	}
+	
+	public function ShowColumnsFrom($oEntity) {
+		$sTableName = self::GetTableName($oEntity);
+		$sql = "SHOW COLUMNS FROM ".$sTableName;
+		$aItems = array();
+		if($aRows=$this->oDb->select($sql)) {
+			foreach($aRows as $aRow) {
+				$aItems[] = $aRow['Field'];
+				if($aRow['Key']=='PRI') {
+					$aItems['#primary_key'] = $aRow['Field'];
+				}
 			}			
 		}
 		return $aItems;
