@@ -215,51 +215,47 @@ abstract class Action extends Object {
 	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
 	 */
 	protected function SetTemplateAction($sTemplate) {
-		$sActionClass=$this->GetActionClass();
-		/**
-		 * Если класс не является делегатом плагина, устанавлваем шаблон по умолчанию.
-		 * В случае делегирования, проверяем сначала имеет ли указанный плагин замену для шаблона.
-		 */
-		if(!$this->Plugin_isDelegated('action',$sActionClass)) {
-			$this->sActionTemplate='actions/'.$sActionClass.'/'.$sTemplate.'.tpl';
-		} else {
-			$sDelegater = $this->Plugin_GetDelegater('action',$sActionClass);
-			$sTemplatePath = Plugin::GetTemplatePath($this->Plugin_GetDelegateSign('action',$sDelegater));
-
-			$this->sActionTemplate = is_file($sFile=$sTemplatePath.'actions/'.$sDelegater.'/'.$sTemplate.'.tpl')
-			? $sFile
-			: 'actions/'.$sDelegater.'/'.$sTemplate.'.tpl';
+		$sAction = $this->GetActionClass();
+		$sActionDelegater = $this->Plugin_GetDelegater('action',$this->GetActionClass());
+		while(empty($sRootDelegater)) {
+			if($sAction==$sActionDelegater) {
+				$sRootDelegater = $sAction;
+			}
+			$sAction = $sActionDelegater;
+			$sActionDelegater = $this->Plugin_GetDelegater('action',$sActionDelegater); 
 		}
+		$aDelegates = $this->Plugin_collectAllDelegatesRecursive(array($sRootDelegater),'action');
+		$sActionTemplatePath = $sTemplate.'.tpl';
+		foreach($aDelegates as $sAction) {
+			if(preg_match('/^(Plugin([\w]+)_)?Action([\w]+)$/i',$sAction,$aMatches)) {
+				$sTemplatePath = $this->Plugin_GetDelegate('template','actions/Action'.ucfirst($aMatches[3]).'/'.$sTemplate.'.tpl');
+				if(empty($aMatches[1])) {
+					$sActionTemplatePath = $sTemplatePath;
+				} else {
+					$sTemplatePath = Plugin::GetTemplatePath($sAction).$sTemplatePath;
+					if(is_file($sTemplatePath)) {
+						$sActionTemplatePath = $sTemplatePath;
+						break;
+					}
+				}
+			}
+		}
+    	$this->sActionTemplate = $sActionTemplatePath;
 	}
 	
 	/**
 	 * Получить шаблон
 	 * Если шаблон не определен то возвращаем дефолтный шаблон евента: action/{Action}.{event}.tpl
-	 * Внимание! По умолчанию, шаблон будет получен без учета делегирования экшена.
 	 *
 	 * @return unknown
 	 */
 	public function GetTemplate() {
 		if (is_null($this->sActionTemplate)) {
-			$sActionClass=$this->GetActionClass();
-			/**
-			 * Если класс не является делегатом плагина, устанавлваем шаблон по умолчанию.
-			 * В случае делегирования, проверяем сначала имеет ли указанный плагин замену для шаблона.
-			 */
-			if(!$this->Plugin_isDelegated('action',$sActionClass)) {
-				$this->sActionTemplate='actions/'.$sActionClass.'/'.$this->sCurrentEvent.'.tpl';	
-			} else {
-				$sDelegater = $this->Plugin_GetDelegater('action',$sActionClass);
-				$sTemplatePath = Plugin::GetTemplatePath($this->Plugin_GetDelegateSign('action',$sDelegater));
-				
-				$this->sActionTemplate = is_file($sFile=$sTemplatePath.'actions/'.$sDelegater.'/'.$this->sCurrentEvent.'.tpl')
-					? $sFile
-					: 'actions/'.$sDelegater.'/'.$this->sCurrentEvent.'.tpl';
-			}
+		    $this->SetTemplateAction($this->sCurrentEvent);
 		}
 		return $this->sActionTemplate;
 	}
-
+	
 	/**
 	 * Получить каталог с шаблонами экшена(совпадает с именем класса)
 	 *

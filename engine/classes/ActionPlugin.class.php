@@ -84,33 +84,5 @@ abstract class ActionPlugin extends Action {
 		$this->sTemplatePathPlugin = $sTemplatePath;
 	}
 	
-	/**
-	 * Устанавливает какой шаблон выводить
-	 *
-	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
-	 */
-	protected function SetTemplateAction($sTemplate) {
-		if($sActionTemplate=preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches)) {
-		      $sTemplatePath = 'actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl';
-		      $sActionTemplate = is_file($sPluginTemplatePath=$this->getTemplatePathPlugin().$sTemplatePath)
-		      		? $sPluginTemplatePath
-		      		: $sTemplatePath;
-	    }
-    	$this->sActionTemplate = $sActionTemplate;
-	}
-	
-	/**
-	 * Получить шаблон
-	 * Если шаблон не определен то возвращаем дефолтный шаблон евента: action/{Action}.{event}.tpl
-	 *
-	 * @return unknown
-	 */
-	public function GetTemplate() {
-		if (is_null($this->sActionTemplate)) {
-		    $this->SetTemplateAction($this->sCurrentEvent);
-		}
-
-		return $this->sActionTemplate;
-	}
 }
 ?>

@@ -397,12 +397,19 @@ class ModulePlugin extends Module {
 		return $this->aInherits[$sFrom]['items'][$this->aInherits[$sFrom]['position']]['inherit'];
 	}
 	
+	public function GetInherits($sFrom) {
+		if (isset($this->aInherits[trim($sFrom)])) {
+			return $this->aInherits[trim($sFrom)]['items'];
+		}
+		return null;
+	}
+	
 	public function GetLastInherit($sFrom) {
 		if (isset($this->aInherits[trim($sFrom)])) {
 			return $this->aInherits[trim($sFrom)]['items'][count($this->aInherits[trim($sFrom)]['items'])-1];
 		}
 		return null;
-	}
+	}	
 	/**
 	 * Возвращает делегат модуля, экшена, сущности. 
 	 * Если делегат не определен, пытается найти наследника, иначе отдает переданный в качестве sender`a параметр
@@ -419,6 +426,24 @@ class ModulePlugin extends Module {
 		}
 		return $sFrom;
 	}
+
+	public function GetDelegates($sType,$sFrom) {		
+		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {			
+			return array($this->aDelegates[$sType][$sFrom]['delegate']);
+		} else if($aInherits=$this->GetInherits($sFrom)) {
+			return array_map(create_function('$aInherit','return $aInherit["inherit"];'),array_reverse($aInherits));
+		}
+		return null;
+	}
+	
+	public function collectAllDelegatesRecursive($aDelegates,$sType) {	
+		foreach($aDelegates as $sClass) {
+			if($aNewDelegates=$this->GetDelegates($sType,$sClass)) {
+				$aDelegates = array_merge($this->collectAllDelegatesRecursive($aNewDelegates,$sType),$aDelegates);
+			}
+		}
+		return $aDelegates;
+	}	
 
 	/**
 	 * Возвращает делегирующий объект по имени делегата
