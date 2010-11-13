@@ -683,7 +683,7 @@ class Engine extends Object {
 		 * Делегирование указывается только в полной форме!
 		 */
 		$sClass=self::getInstance()->Plugin_GetDelegate('entity',$sClass);		
-		
+
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
@@ -888,6 +888,61 @@ class Engine extends Object {
 	}
 	
 	
+}
+
+/**
+ * Short aliases for Engine basic methods
+ * 
+ */
+class LS {
+
+	static protected $oInstance=null;
+
+	static public function getInstance() {
+		if (isset(self::$oInstance) and (self::$oInstance instanceof self)) {
+			return self::$oInstance;
+		} else {
+			self::$oInstance = new self();
+			return self::$oInstance;
+		}
+	}
+
+	public function E() {
+		return Engine::GetInstance();
+	}
+	
+	public function Ent($sName,$aParams=array()) {
+		return Engine::GetEntity($sName,$aParams);
+	}
+	
+	public function Mpr($sClassName,$sName=null,$oConnect=null) {
+		return Engine::GetMapper($sClassName,$sName,$oConnect);
+	}
+	
+	public function CurUsr() {
+		return self::E()->User_GetUserCurrent();
+	}
+	
+	public function Adm() {
+		return self::CurUsr() && self::CurUsr()->isAdministrator();
+	}
+	
+	/**
+	 * In templates we have $LS and can use $LS->Module_Method() instead of $LS->E()->Module_Method();
+	 *
+	 */	
+	public function __call($sName,$aArgs=array()) {
+		return self::E()->$sName($aArgs);
+	}	
+	
+	/**
+	 * With PHP 5.3+ we can use LS::Module_Method() instead of LS::E()->Module_Method();
+	 *
+	 */
+	public static function __callStatic($sName,$aArgs=array()) {
+		return self::E()->$sName($aArgs);
+	}	
+
 }
 
 /**

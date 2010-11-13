@@ -248,6 +248,10 @@ class ModuleViewer extends Module {
 		$this->Assign("_sPhpSessionName",session_name());
 		$this->Assign("_sPhpSessionId",session_id());
 		/** 
+		 * Short Engine aliases
+		 */ 
+		$this->Assign("LS",LS::getInstance());
+		/** 
 		 * Загружаем объект доступа к конфигурации 
 		 */ 
 		$this->Assign("oConfig",Config::getInstance());
@@ -359,11 +363,6 @@ class ModuleViewer extends Module {
 				header('Content-type: application/json');
 			} 	
 			echo json_encode($this->aVarsAjax);
-		} elseif ($sType=='jsonp') {
-			if (!headers_sent()) {
-				header('Content-type: application/json');
-			} 	
-			echo getRequest('jsonpCallback','callback').'('.json_encode($this->aVarsAjax).');';
 		}
 		exit();
 	}
@@ -382,10 +381,7 @@ class ModuleViewer extends Module {
 				$JsHttpRequest = new JsHttpRequest("UTF-8");
 			}
 		}
-		// Для возможности кросс-доменных запросов
-		if ($sResponseAjax!='jsonp') {
-			$this->Security_ValidateSendForm();
-		}
+		$this->Security_ValidateSendForm();		
 		$this->sResponseAjax=$sResponseAjax;
 	}
 	/**
