@@ -436,15 +436,33 @@ class ModulePlugin extends Module {
 		return null;
 	}
 	
-	public function collectAllDelegatesRecursive($aDelegates,$sType) {	
+	public function GetDelegationChain($sType,$sTo) {
+		$sRootDelegater = $this->GetRootDelegater($sType,$sTo);
+		return $this->collectAllDelegatesRecursive($sType,array($sRootDelegater));
+	}
+	
+	public function GetRootDelegater($sType,$sTo) {
+		$sItem = $sTo;
+		$sItemDelegater = $this->GetDelegater($sType,$sTo);
+		while(empty($sRootDelegater)) {
+			if($sItem==$sItemDelegater) {
+				$sRootDelegater = $sItem;
+			}
+			$sItem = $sItemDelegater;
+			$sItemDelegater = $this->GetDelegater($sType,$sItemDelegater); 
+		}
+		return $sRootDelegater;
+	}
+
+	public function collectAllDelegatesRecursive($sType,$aDelegates) {	
 		foreach($aDelegates as $sClass) {
 			if($aNewDelegates=$this->GetDelegates($sType,$sClass)) {
-				$aDelegates = array_merge($this->collectAllDelegatesRecursive($aNewDelegates,$sType),$aDelegates);
+				$aDelegates = array_merge($this->collectAllDelegatesRecursive($sType,$aNewDelegates),$aDelegates);
 			}
 		}
 		return $aDelegates;
-	}	
-
+	}
+	
 	/**
 	 * Возвращает делегирующий объект по имени делегата
 	 * 

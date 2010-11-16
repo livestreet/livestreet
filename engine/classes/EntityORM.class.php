@@ -38,6 +38,7 @@ abstract class EntityORM extends Entity {
 	
 	public function __construct($aParam=false) {
 		parent::__construct($aParam);
+		$this->aRelations=$this->_getRelations();
 	}
 	
 	public function _GetPrimaryKey() {
@@ -200,7 +201,9 @@ abstract class EntityORM extends Entity {
 	}
 	
 	public function _getRelations() {
-		return $this->aRelations;
+		$sParentName=get_parent_class($this);
+		$oEntityParent=new $sParentName();
+		return array_merge($oEntityParent->_getRelations(),$this->aRelations);
 	}	
 
 	public function _getRelationsData() {

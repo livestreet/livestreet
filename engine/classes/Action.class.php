@@ -215,16 +215,7 @@ abstract class Action extends Object {
 	 * @param string $sTemplate Путь до шаблона относительно каталога шаблонов экшена
 	 */
 	protected function SetTemplateAction($sTemplate) {
-		$sAction = $this->GetActionClass();
-		$sActionDelegater = $this->Plugin_GetDelegater('action',$this->GetActionClass());
-		while(empty($sRootDelegater)) {
-			if($sAction==$sActionDelegater) {
-				$sRootDelegater = $sAction;
-			}
-			$sAction = $sActionDelegater;
-			$sActionDelegater = $this->Plugin_GetDelegater('action',$sActionDelegater); 
-		}
-		$aDelegates = $this->Plugin_collectAllDelegatesRecursive(array($sRootDelegater),'action');
+		$aDelegates = $this->Plugin_GetDelegationChain('action',$this->GetActionClass());
 		$sActionTemplatePath = $sTemplate.'.tpl';
 		foreach($aDelegates as $sAction) {
 			if(preg_match('/^(Plugin([\w]+)_)?Action([\w]+)$/i',$sAction,$aMatches)) {
