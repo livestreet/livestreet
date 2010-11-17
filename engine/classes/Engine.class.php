@@ -28,6 +28,10 @@ require_once("Router.class.php");
 require_once("Entity.class.php");
 require_once("Mapper.class.php");
 
+require_once("ModuleORM.class.php");
+require_once("EntityORM.class.php");
+require_once("MapperORM.class.php");
+
 
 /**
  * Основной класс движка, который позволяет напрямую обращаться к любому модулю

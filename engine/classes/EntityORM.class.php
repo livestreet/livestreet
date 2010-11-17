@@ -153,8 +153,11 @@ abstract class EntityORM extends Entity {
 	protected function _Method($sName) {		
 		$sModuleName=Engine::GetModuleName($this);
 		$sEntityName=Engine::GetEntityName($this);
-		$sPluginPrefix=Engine::GetPluginPrefix($this);
-		
+		$sPluginPrefix=Engine::GetPluginPrefix($this);	
+		if(!class_exists($sPluginPrefix.$sModuleName) && $oRootDelegater=$this->Plugin_GetRootDelegater('entity',get_class($this))) {
+			$sModuleName=Engine::GetModuleName($oRootDelegater);
+			$sPluginPrefix=Engine::GetPluginPrefix($oRootDelegater);	
+		}
 		return Engine::GetInstance()->_CallModule("{$sPluginPrefix}{$sModuleName}_{$sName}{$sEntityName}",array($this));
 	}
 
@@ -202,7 +205,7 @@ abstract class EntityORM extends Entity {
 	
 	public function _getRelations() {
 		$sParent=get_parent_class($this);
-		if(substr_count($sParent,'_Inherits_')) {
+		if(substr_count($sParent,'_Inherits_') || substr_count($sParent,'_Inherit_')) {
 			$sParent = get_parent_class($sParent);
 		}
 		$aParentRelations=array();
