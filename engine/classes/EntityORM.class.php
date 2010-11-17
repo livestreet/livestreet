@@ -201,9 +201,16 @@ abstract class EntityORM extends Entity {
 	}
 	
 	public function _getRelations() {
-		$sParentName=get_parent_class($this);
-		$oEntityParent=new $sParentName();
-		return array_merge($oEntityParent->_getRelations(),$this->aRelations);
+		$sParent=get_parent_class($this);
+		if(substr_count($sParent,'_Inherits_')) {
+			$sParent = get_parent_class($sParent);
+		}
+		$aParentRelations=array();
+		if(!in_array($sParent,array('Entity','EntityORM'))) {
+			$oEntityParent=new $sParent();
+			$aParentRelations=$oEntityParent->_getRelations();
+		}
+		return array_merge($aParentRelations,$this->aRelations);
 	}	
 
 	public function _getRelationsData() {
