@@ -676,10 +676,20 @@ class Engine extends Object {
 			: 'Module'.$sModule.'_Entity'.$sEntity;
 			
 		/**
-		 * If plugin Entity doesn't exist, maybe the default one does?
+		 * If Plugin Entity doesn't exist, search among it's Module delegates
 		 */
 		if(isset($sPlugin) && !self::GetClassPath($sClass)) {
-			$sClass = 'Module'.$sModule.'_Entity'.$sEntity;
+			$aModulesChain = Engine::GetInstance()->Plugin_GetDelegationChain('module','Plugin'.$sPlugin.'_Module'.$sModule);
+			foreach($aModulesChain as $sModuleName) {
+				$sClassTest=$sModuleName.'_Entity'.$sEntity;
+				if(self::GetClassPath($sClassTest)) {
+					$sClass=$sClassTest;
+					break;
+				}
+			}
+			if(!self::GetClassPath($sClass)) {
+				$sClass='Module'.$sModule.'_Entity'.$sEntity;
+			}
 		}
 		
 		/**

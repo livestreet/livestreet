@@ -154,9 +154,12 @@ abstract class EntityORM extends Entity {
 		$sModuleName=Engine::GetModuleName($this);
 		$sEntityName=Engine::GetEntityName($this);
 		$sPluginPrefix=Engine::GetPluginPrefix($this);	
-		if(!class_exists($sPluginPrefix.$sModuleName) && $oRootDelegater=$this->Plugin_GetRootDelegater('entity',get_class($this))) {
-			$sModuleName=Engine::GetModuleName($oRootDelegater);
-			$sPluginPrefix=Engine::GetPluginPrefix($oRootDelegater);	
+		/**
+		 * If Module not exists, try to find its root Delegater
+		 */
+		if(!Engine::GetClassPath($sPluginPrefix.$sModuleName) && $oModuleRootDelegater=$this->Plugin_GetRootDelegater('module',$sPluginPrefix.$sModuleName)) {
+			$sModuleName=Engine::GetModuleName($oModuleRootDelegater);
+			$sPluginPrefix=Engine::GetPluginPrefix($oModuleRootDelegater);	
 		}
 		return Engine::GetInstance()->_CallModule("{$sPluginPrefix}{$sModuleName}_{$sName}{$sEntityName}",array($this));
 	}
