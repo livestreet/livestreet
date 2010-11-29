@@ -118,8 +118,8 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 				ORDER by page_sort desc;	
 					";
 		if ($aRows=$this->oDb->select($sql,
-				isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,
 				isset($aFilter['active']) ? $aFilter['active']:DBSIMPLE_SKIP,
+				isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,				
 				(array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $sPid : DBSIMPLE_SKIP
 				)) {
 			return $aRows;
