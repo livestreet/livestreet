@@ -520,6 +520,8 @@ class ActionProfile extends Action {
 	}
 	
 	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
+		$sUserText=$this->Text_Parser($sUserText);
+		
 		$oFriendNew=Engine::GetEntity('User_Friend');
 		$oFriendNew->setUserTo($oUser->getId());
 		$oFriendNew->setUserFrom($this->oUserCurrent->getId());
