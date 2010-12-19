@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{cfg name='path.static.skin'}/js/comments.js"></script>
+<script type="text/javascript" src="{cfg name='path.static.skin'}/js/comments.js?v=2"></script>
 
 			<!-- Comments -->
 			<div class="comments">
