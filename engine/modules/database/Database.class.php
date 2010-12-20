@@ -78,9 +78,7 @@ class ModuleDatabase extends Module {
 	     	 * Устанавливаем настройки соединения, по хорошему этого здесь не должно быть :)
 	     	 * считайте это костылём
 	     	 */
-        	$oDbSimple->query("set character_set_client='utf8'");
-        	$oDbSimple->query("set character_set_results='utf8'");
-        	$oDbSimple->query("set collation_connection='utf8_bin'");
+        	$oDbSimple->query("set character_set_client='utf8', character_set_results='utf8', collation_connection='utf8_bin' ");        	
         	/**
         	 * Сохраняем коннект
         	 */
