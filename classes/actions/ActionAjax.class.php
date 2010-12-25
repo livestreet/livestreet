@@ -155,18 +155,17 @@ class ActionAjax extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_time'),$this->Lang_Get('attention'));
 			return;
 		}
-		
-		if (!$this->ACL_CanVoteTopic($this->oUserCurrent,$oTopic) and $iValue) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_acl'),$this->Lang_Get('attention'));
-			return;
-		}
-		
+						
 		$iValue=getRequest('value',null,'post');
 		if (!in_array($iValue,array('1','-1','0'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('attention'));
 			return;
 		}
 		
+		if (!$this->ACL_CanVoteTopic($this->oUserCurrent,$oTopic) and $iValue) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_acl'),$this->Lang_Get('attention'));
+			return;
+		}
 		
 		$oTopicVote=Engine::GetEntity('Vote');
 		$oTopicVote->setTargetId($oTopic->getId());
