@@ -239,7 +239,7 @@ abstract class ModuleORM extends Module {
 		/**
 		 * Если необходимо подцепить связанные данные
 		 */
-		if (isset($aFilter['#with'])) {
+		if (count($aEntities) and isset($aFilter['#with'])) {
 			if (!is_array($aFilter['#with'])) {
 				$aFilter['#with']=array($aFilter['#with']);
 			}
