@@ -247,6 +247,10 @@ class MapperORM extends Mapper {
 	
 	public function ShowColumnsFrom($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
+		return $this->ShowColumnsFromTable($sTableName);
+	}
+	
+	public function ShowColumnsFromTable($sTableName) {
 		$sql = "SHOW COLUMNS FROM ".$sTableName;
 		$aItems = array();
 		if($aRows=$this->oDb->select($sql)) {
