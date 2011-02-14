@@ -920,9 +920,29 @@ class Jevix{
 			if(empty($paramAllowedValues)) continue;
 
 			// Если есть список разрешённых параметров тега
-			if(is_array($paramAllowedValues) && !in_array($value, $paramAllowedValues)) {
-				$this->eror("Недопустимое значение для атрибута тега $tag $param=$value");
-				continue;
+			if (is_array($paramAllowedValues)) {
+				// проверка на список доменов
+				if (isset($paramAllowedValues['#domain']) and is_array($paramAllowedValues['#domain'])) {
+					if(preg_match('/javascript:/ui', $value)) {
+						$this->eror('Попытка вставить JavaScript в URI');
+						continue;
+					}
+					$bOK=false;
+					foreach ($paramAllowedValues['#domain'] as $sDomain) {
+						$sDomain=preg_quote($sDomain);						
+						if (preg_match("@^(http|https|ftp)://([\w\d]+\.)?{$sDomain}/@ui",$value)) {							
+							$bOK=true;
+							break;
+						}
+					}
+					if (!$bOK) {
+						$this->eror("Недопустимое значение для атрибута тега $tag $param=$value");
+						continue;
+					}
+				} elseif (!in_array($value, $paramAllowedValues)) {
+					$this->eror("Недопустимое значение для атрибута тега $tag $param=$value");
+					continue;
+				}
 			// Если атрибут тега помечен как разрешённый, но правила не указаны - смотрим в массив стандартных правил для атрибутов
 			} elseif($paramAllowedValues === true && !empty($this->defaultTagParamRules[$param])){
 				$paramAllowedValues = $this->defaultTagParamRules[$param];
