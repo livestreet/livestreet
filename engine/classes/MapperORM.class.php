@@ -132,9 +132,17 @@ class MapperORM extends Mapper {
 		
 			
 		$sFilterFields='';
-		if (count($aFilterFields)) {
-			$sFilterFields=' and '.implode(' = ? and ',array_keys($aFilterFields)).' = ? ';
-		}		
+		
+		foreach ($aFilterFields as $k => $v) {			
+			$aK=explode(' ',trim($k));
+			$sFieldCurrent=$aK[0];
+			$sConditionCurrent=' = ';
+			if (count($aK)>1) {
+				$sConditionCurrent=" {$aK[1]} ";
+			}
+			$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
+		}
+		
 		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
 		$aItems=array();
