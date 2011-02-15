@@ -265,7 +265,7 @@ abstract class EntityORM extends Entity {
 					$sRelEntityName=Engine::GetEntityName($sEntityRel);
 					$sRelPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
 					$sRelPrimaryKey='id';
-					if($oRelEntity=Engine::GetEntity($sEntityRel)) {
+					if($oRelEntity=Engine::GetEntity($sEntityRel) and method_exists($oRelEntity,'_GetPrimaryKey')) { // для совместимости с сущностями Entity
 						$sRelPrimaryKey=$oRelEntity->_GetPrimaryKey();
 					}
 					

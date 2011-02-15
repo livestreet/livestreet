@@ -272,7 +272,7 @@ abstract class ModuleORM extends Module {
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
 				$sPrimaryKey="Id";
-				if ($sPrimaryKey=$oRelEntityEmpty->_GetPrimaryKey()) {
+				if (method_exists($oRelEntityEmpty,'_GetPrimaryKey') and $sPrimaryKey=$oRelEntityEmpty->_GetPrimaryKey()) {
 					$sPrimaryKey=ucfirst($sPrimaryKey);					
 				}				
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sPrimaryKey}",array($aEntityKeys[$sRelKey]));
