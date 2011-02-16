@@ -138,9 +138,13 @@ class MapperORM extends Mapper {
 			$sFieldCurrent=$aK[0];
 			$sConditionCurrent=' = ';
 			if (count($aK)>1) {
-				$sConditionCurrent=" {$aK[1]} ";
+				$sConditionCurrent=strtolower($aK[1]);
 			}
-			$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
+			if ($sConditionCurrent=='in') {
+				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ( ?a ) ";
+			} else {
+				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
+			}
 		}
 		
 		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";		
