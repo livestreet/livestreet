@@ -49,20 +49,7 @@ class MapperORM extends Mapper {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 		
-		$aFilterFields=array();
-		foreach ($aFilter as $k=>$v) {
-			if (substr($k,0,1)=='#') {
-				
-			} else {
-				$aFilterFields[$oEntitySample->_getField($k)]=$v;
-			}
-		}
-		
-		
-		$sFilterFields='';		
-		if (count($aFilterFields)) {
-			$sFilterFields=' and '.implode(' = ? and ',array_keys($aFilterFields)).' = ? ';
-		}		
+		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 		
 		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields}  LIMIT 0,1";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
