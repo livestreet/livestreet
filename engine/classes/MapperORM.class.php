@@ -121,31 +121,7 @@ class MapperORM extends Mapper {
 		}
 		
 						
-		$aFilterFields=array();
-		foreach ($aFilter as $k=>$v) {
-			if (substr($k,0,1)=='#') {
-				
-			} else {
-				$aFilterFields[$oEntitySample->_getField($k)]=$v;
-			}
-		}
-		
-			
-		$sFilterFields='';
-		
-		foreach ($aFilterFields as $k => $v) {			
-			$aK=explode(' ',trim($k));
-			$sFieldCurrent=$aK[0];
-			$sConditionCurrent=' = ';
-			if (count($aK)>1) {
-				$sConditionCurrent=strtolower($aK[1]);
-			}
-			if ($sConditionCurrent=='in') {
-				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ( ?a ) ";
-			} else {
-				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
-			}
-		}
+		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 		
 		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
@@ -165,19 +141,8 @@ class MapperORM extends Mapper {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 						
-		$aFilterFields=array();
-		foreach ($aFilter as $k=>$v) {
-			if (substr($k,0,1)=='#') {
+		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 				
-			} else {
-				$aFilterFields[$oEntitySample->_getField($k)]=$v;
-			}
-		}
-					
-		$sFilterFields='';
-		if (count($aFilterFields)) {
-			$sFilterFields=' and '.implode(' = ? and ',array_keys($aFilterFields)).' = ? ';
-		}		
 		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} ";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));		
 		if($aRow=call_user_func_array(array($this->oDb,'selectRow'),$aQueryParams)) {
@@ -186,6 +151,32 @@ class MapperORM extends Mapper {
 		return 0;
 	}
 	
+	public function BuildFilter($aFilter,$oEntitySample) {
+		$aFilterFields=array();
+		foreach ($aFilter as $k=>$v) {
+			if (substr($k,0,1)=='#') {
+				
+			} else {
+				$aFilterFields[$oEntitySample->_getField($k)]=$v;
+			}
+		}		
+			
+		$sFilterFields='';		
+		foreach ($aFilterFields as $k => $v) {			
+			$aK=explode(' ',trim($k));
+			$sFieldCurrent=$aK[0];
+			$sConditionCurrent=' = ';
+			if (count($aK)>1) {
+				$sConditionCurrent=strtolower($aK[1]);
+			}
+			if ($sConditionCurrent=='in') {
+				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ( ?a ) ";
+			} else {
+				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
+			}
+		}
+		return array($aFilterFields,$sFilterFields);
+	}
 	
 	public function GetItemsByArray($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
