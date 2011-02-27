@@ -241,15 +241,18 @@ class MapperORM extends Mapper {
 	}
 	
 	public function ShowColumnsFromTable($sTableName) {
-		$sql = "SHOW COLUMNS FROM ".$sTableName;
-		$aItems = array();
-		if($aRows=$this->oDb->select($sql)) {
-			foreach($aRows as $aRow) {
-				$aItems[] = $aRow['Field'];
-				if($aRow['Key']=='PRI') {
-					$aItems['#primary_key'] = $aRow['Field'];
+		if (false === ($aItems = Engine::getInstance()->Cache_GetLife("columns_table_{$sTableName}"))) {
+			$sql = "SHOW COLUMNS FROM ".$sTableName;
+			$aItems = array();
+			if($aRows=$this->oDb->select($sql)) {
+				foreach($aRows as $aRow) {
+					$aItems[] = $aRow['Field'];
+					if($aRow['Key']=='PRI') {
+						$aItems['#primary_key'] = $aRow['Field'];
+					}
 				}
-			}			
+			}
+			Engine::getInstance()->Cache_SetLife($aItems, "columns_table_{$sTableName}");
 		}
 		return $aItems;
 	}

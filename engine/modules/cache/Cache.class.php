@@ -51,6 +51,7 @@ class ModuleCache extends Module {
 						'count_set' => 0,
 					);
 	
+	protected $aStoreLife=array();
 	/**
 	 * Инициализируем нужный тип кеша
 	 *
@@ -229,6 +230,29 @@ class ModuleCache extends Module {
 
 	public function GetStats() {
 		return $this->aStats;
+	}
+	
+	/**
+	 * Сохраняет значение в кеше на время исполнения скрипта (некий аналог Registry)
+	 *
+	 * @param unknown_type $data
+	 * @param unknown_type $sName
+	 */
+	public function SetLife($data,$sName) {
+		$this->aStoreLife[$sName]=$data;
+	}
+	
+	/**
+	 * Получает значение из текущего кеша скрипта
+	 *
+	 * @param unknown_type $sName
+	 * @return unknown
+	 */
+	public function GetLife($sName) {
+		if (key_exists($sName,$this->aStoreLife)) {
+			return $this->aStoreLife[$sName];
+		}
+		return false;
 	}
 }
 ?>

@@ -181,12 +181,7 @@ abstract class Plugin extends Object {
 	 * @return unknown
 	 */
 	protected function isTableExists($sTableName) {
-		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
-		$sQuery="SHOW TABLES LIKE '{$sTableName}'";
-		if ($aRows=$this->Database_GetConnect()->select($sQuery)) {
-			return true;
-		}
-		return false;
+		return $this->Database_isTableExists($sTableName);
 	}
 	
 	/**

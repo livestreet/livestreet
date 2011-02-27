@@ -144,6 +144,16 @@ class ModuleDatabase extends Module {
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
+	
+	public function isTableExists($sTableName,$aConfig=null) {
+		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
+		$sQuery="SHOW TABLES LIKE '{$sTableName}'";
+		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
+			return true;
+		}
+		return false;
+	}
+		
 }
 
 /**
