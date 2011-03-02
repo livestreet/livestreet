@@ -139,6 +139,12 @@ class MapperORM extends Mapper {
 	}
 	
 	public function BuildFilter($aFilter,$oEntitySample) {
+		if (isset($aFilter['#where']) and is_array($aFilter['#where'])) {
+			foreach ($aFilter['#where'] as $sKey => $aValues) {
+				return array($aValues,' and '.$sKey); // возвращает первый элемент
+			}			
+		}
+		
 		$aFilterFields=array();
 		foreach ($aFilter as $k=>$v) {
 			if (substr($k,0,1)=='#') {
@@ -157,9 +163,9 @@ class MapperORM extends Mapper {
 				$sConditionCurrent=strtolower($aK[1]);
 			}
 			if ($sConditionCurrent=='in') {
-				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ( ?a ) ";
+				$sFilterFields.=" and `$sFieldCurrent` $sConditionCurrent ( ?a ) ";
 			} else {
-				$sFilterFields.=" and $sFieldCurrent $sConditionCurrent ? ";
+				$sFilterFields.=" and `$sFieldCurrent` $sConditionCurrent ? ";
 			}
 		}
 		return array($aFilterFields,$sFilterFields);
