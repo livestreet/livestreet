@@ -34,6 +34,11 @@ abstract class ModuleORM extends Module {
 	
 	protected function _AddEntity($oEntity) {
 		$res=$this->oMapperORM->AddEntity($oEntity);
+		// сбрасываем кеш
+		if ($res===0 or $res) {
+			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
+		}
 		if ($res===0) {
 			// у таблицы нет автоинремента
 			return $oEntity;
@@ -47,13 +52,12 @@ abstract class ModuleORM extends Module {
 	
 	protected function _UpdateEntity($oEntity) {
 		$res=$this->oMapperORM->UpdateEntity($oEntity);
-		if ($res===0) {
-			// апдейт прошел нормально, но запись не изменилась
+		if ($res===0 or $res) { // запись не изменилась, либо изменилась
+			// сбрасываем кеш
+			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
 			return $oEntity;
-		} elseif ($res) {
-			// запись изменилась
-			return $oEntity;
-		}
+		}		
 		return false;
 	}
 
@@ -67,7 +71,10 @@ abstract class ModuleORM extends Module {
 	
 	protected function _DeleteEntity($oEntity) {
 		$res=$this->oMapperORM->DeleteEntity($oEntity);
-		if ($res) {			
+		if ($res) {
+			// сбрасываем кеш
+			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_delete'));
 			return $oEntity;
 		}
 		return false;
@@ -234,8 +241,22 @@ abstract class ModuleORM extends Module {
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-			
-		$aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
+		
+		$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+		$sCacheKey=$sEntityFullRoot.'_items_by_filter_'.serialize($aFilter);
+		$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+		$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения 
+		// переопределяем из параметров
+		if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
+		if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
+		if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
+
+		if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
+			$aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
+			$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+		}
+		
+		
 		/**
 		 * Если необходимо подцепить связанные данные
 		 */
@@ -305,19 +326,17 @@ abstract class ModuleORM extends Module {
 		}
 			
 		$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
-		
 		return $iCount;
 	}
 	
-	public function GetItemsByArray($aFilter,$sEntityFull=null) {
-		if (is_null($sEntityFull)) {
-			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
-		} elseif (!substr_count($sEntityFull,'_')) {
-			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
-		}
+	public function GetItemsByArray($aFilter,$sEntityFull=null) {				
+		foreach ($aFilter as $k=>$v) {
+			$aFilter[$k.' in']=$v;
+			unset($aFilter[$k]);
+		}		
 		
 		$aEntities=array();
-		$aData=$this->oMapperORM->GetItemsByArray($aFilter,$sEntityFull);
+		$aData=$this->GetItemsByFilter($aFilter,$sEntityFull);
 		foreach ($aData as $oEntity) {
 			// здесь под вопросом какое поле использовать в качестве ключа, всегда примари или тот, который передан?
 			$aEntities[$oEntity->_getDataOne($oEntity->_GetPrimaryKey())]=$oEntity;
@@ -325,16 +344,13 @@ abstract class ModuleORM extends Module {
 		return $aEntities;
 	}
 	
-	public function GetCountItemsByArray($aFilter=array(),$sEntityFull=null) {
-		if (is_null($sEntityFull)) {
-			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
-		} elseif (!substr_count($sEntityFull,'_')) {
-			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+	public function GetCountItemsByArray($aFilter=array(),$sEntityFull=null) {			
+		foreach ($aFilter as $k=>$v) {
+			$aFilter[$k.' in']=$v;
+			unset($aFilter[$k]);
 		}
-			
-		$iCount=$this->oMapperORM->GetCountItemsByArray($aFilter,$sEntityFull);
 		
-		return $iCount;
+		return $this->GetCountItemsByFilter($aFilter,$sEntityFull);
 	}	
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {

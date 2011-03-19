@@ -63,19 +63,39 @@ abstract class EntityORM extends Entity {
 	}
 	
 	public function Add() {
-		return $this->_Method(__FUNCTION__);
+		if ($this->beforeSave())
+			if ($res=$this->_Method(__FUNCTION__)) {
+				$this->afterSave();
+				return $res;
+			}
+		return false;
 	}
 	
 	public function Update() {
-		return $this->_Method(__FUNCTION__);
+		if ($this->beforeSave())
+			if ($res=$this->_Method(__FUNCTION__)) {
+				$this->afterSave();
+				return $res;
+			}
+		return false;
 	}
 	
 	public function Save() {
-		return $this->_Method(__FUNCTION__);
+		if ($this->beforeSave())
+			if ($res=$this->_Method(__FUNCTION__)) {
+				$this->afterSave();
+				return $res;
+			}
+		return false;
 	}
 	
 	public function Delete() {
-		return $this->_Method(__FUNCTION__);
+		if ($this->beforeDelete())
+			if ($res=$this->_Method(__FUNCTION__)) {
+				$this->afterDelete();
+				return $res;
+			}
+		return false;
 	}	
 	
 	public function Reload() {
@@ -86,6 +106,24 @@ abstract class EntityORM extends Entity {
 		return $this->_Method(__FUNCTION__ .'From');
 	}
 
+	
+	protected function beforeSave() {
+		return true;
+	}
+	
+	protected function afterSave() {
+		
+	}
+	
+	protected function beforeDelete() {
+		return true;
+	}
+	
+	protected function afterDelete() {
+		
+	}
+	
+	
 	public function getChildren() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
