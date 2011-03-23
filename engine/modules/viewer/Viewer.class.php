@@ -371,6 +371,15 @@ class ModuleViewer extends Module {
 		}
 		exit();
 	}
+	
+	/**
+	 * Возвращает тип отдачи контекта
+	 *
+	 * @return unknown
+	 */
+	public function GetResponseAjax() {
+		return $this->sResponseAjax;
+	}
 	/**
 	 * Устанавливает тип отдачи при ajax запросе, если null то выполняется обычный вывод шаблона в браузер
 	 *
