@@ -189,7 +189,7 @@ abstract class ModuleORM extends Module {
 	}
 	
 
-	public function LoadTree($sEntityFull=null) {
+	public function LoadTree($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
 		} elseif (!substr_count($sEntityFull,'_')) {
@@ -198,7 +198,7 @@ abstract class ModuleORM extends Module {
 		if($oEntityDefault=Engine::GetEntity($sEntityFull)) {
 			if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntityDefault->_getRelations())) {
 				if($sPrimaryKey=$oEntityDefault->_getPrimaryKey()) {
-					if($aItems=$this->GetItemsByFilter(array(),$sEntityFull)) {
+					if($aItems=$this->GetItemsByFilter($aFilter,$sEntityFull)) {
 						$aItemsById = array();
 						$aItemsByParentId = array();
 						foreach($aItems as $oEntity) {
