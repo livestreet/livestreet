@@ -240,7 +240,7 @@ abstract class ModuleORM extends Module {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
-		}
+		}	
 		
 		$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
 		$sCacheKey=$sEntityFullRoot.'_items_by_filter_'.serialize($aFilter);
@@ -255,7 +255,6 @@ abstract class ModuleORM extends Module {
 			$aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
 			$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
 		}
-		
 		
 		/**
 		 * Если необходимо подцепить связанные данные
@@ -326,32 +325,10 @@ abstract class ModuleORM extends Module {
 		}
 			
 		$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+
 		return $iCount;
 	}
-	
-	public function GetItemsByArray($aFilter,$sEntityFull=null) {				
-		foreach ($aFilter as $k=>$v) {
-			$aFilter[$k.' in']=$v;
-			unset($aFilter[$k]);
-		}		
-		
-		$aEntities=array();
-		$aData=$this->GetItemsByFilter($aFilter,$sEntityFull);
-		foreach ($aData as $oEntity) {
-			// здесь под вопросом какое поле использовать в качестве ключа, всегда примари или тот, который передан?
-			$aEntities[$oEntity->_getDataOne($oEntity->_GetPrimaryKey())]=$oEntity;
-		}
-		return $aEntities;
-	}
-	
-	public function GetCountItemsByArray($aFilter=array(),$sEntityFull=null) {			
-		foreach ($aFilter as $k=>$v) {
-			$aFilter[$k.' in']=$v;
-			unset($aFilter[$k]);
-		}
-		
-		return $this->GetCountItemsByFilter($aFilter,$sEntityFull);
-	}	
+
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
@@ -409,14 +386,14 @@ abstract class ModuleORM extends Module {
 		
 		$sNameUnderscore=func_underscore($sName);
 		$iEntityPosEnd=0; 
-		if(strpos($sNameUnderscore,'_items')>4) {
+		if(strpos($sNameUnderscore,'_items')>=3) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_items');
-		} else if(strpos($sNameUnderscore,'_by')>4) {
+		} else if(strpos($sNameUnderscore,'_by')>=3) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_by');
-		} else if(strpos($sNameUnderscore,'_all')>4) {
+		} else if(strpos($sNameUnderscore,'_all')>=3) {
 			$iEntityPosEnd=strpos($sNameUnderscore,'_all');
 		}
-		if($iEntityPosEnd) {
+		if($iEntityPosEnd && $iEntityPosEnd > 4) {
 			$sEntityName=substr($sNameUnderscore,4,$iEntityPosEnd-4);
 		} else {
 			$sEntityName=func_underscore(Engine::GetModuleName($this)).'_';
@@ -430,10 +407,23 @@ abstract class ModuleORM extends Module {
 
 		$sEntityName=func_camelize($sEntityName);
 		/**
-		 * getUserItemsByArrayId() get_user_items_by_array_id
+		 * getUserItemsByFilter() get_user_items_by_filter
 		 */
-		if (preg_match("@^get_([a-z]+)_items_by_array_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) {
-			return $this->GetItemsByArray(array($aMatch[2]=>$aArgs[0]),$sEntityName);
+		if (preg_match("@^get_([a-z]+)((_items)|())_by_filter$@i",$sNameUnderscore,$aMatch)) {
+			if ($aMatch[2]=='_items') {
+				return $this->GetItemsByFilter($aArgs[0],$sEntityName);
+			} else {				
+				return $this->GetByFilter($aArgs[0],$sEntityName);
+			}
+		}
+		/**
+		 * getUserItemsByArrayId() get_user_items_by_array_id OR
+		 * getUserItemsByIdIn() get_user_items_by_id_in
+		 */
+		if (preg_match("@^get_([a-z]+)_items_by_array_([_a-z]+)$@i",$sNameUnderscore,$aMatch) ||
+			preg_match("@^get_([a-z]+)_items_by_([_a-z]+)_in$@i",$sNameUnderscore,$aMatch)
+			) {
+			return $this->GetItemsByFilter(array("{$aMatch[2]} in"=>$aArgs[0]),$sEntityName);
 		}
 		/**
 		 * getUserItemsByJoinTable() get_user_items_by_join_table
@@ -462,9 +452,11 @@ abstract class ModuleORM extends Module {
 			}
 		}
 		/**
-		 * getUserAll() get_user_all
+		 * getUserAll() get_user_all OR getUserItemsAll() get_user_items_all
 		 */
-		if (preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)) {
+		if (preg_match("@^get_([a-z]+)_all$@i",$sNameUnderscore,$aMatch) ||
+			preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
+			) {
 			$aFilter=array();
 			if (isset($aArgs[0]) and is_array($aArgs[0])) {
 				$aFilter=$aArgs[0];

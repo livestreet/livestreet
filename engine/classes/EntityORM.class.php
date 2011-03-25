@@ -27,6 +27,8 @@ abstract class EntityORM extends Entity {
 	const RELATION_TYPE_MANY_TO_MANY='many_to_many';
 	const RELATION_TYPE_TREE='tree';
 	
+	protected $_aOriginalData=array(); 
+	
 	protected $aFields=array();
 	
 	protected $aRelations=array();
@@ -47,7 +49,7 @@ abstract class EntityORM extends Entity {
 				if(array_key_exists('#primary_key',$this->aFields)) {
 					$this->sPrimaryKey = $this->aFields['#primary_key'];
 				} else {
-					$this->sPrimaryKey = $this->_getField($this->sPrimaryKey);
+					$this->sPrimaryKey = $this->_getField($this->sPrimaryKey,2);
 				}
 			}
 		}
@@ -123,7 +125,7 @@ abstract class EntityORM extends Entity {
 		
 	}
 	
-	
+
 	public function getChildren() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -213,7 +215,12 @@ abstract class EntityORM extends Entity {
 					$this->_aData[$sKey] = $val;
 				}
 			}
+			$this->_aOriginalData = $this->_aData;
 		}
+	}
+	
+	public function _getOriginalData() {
+		return $this->_aOriginalData;
 	}
 	
 	public function _getFields() {
@@ -223,19 +230,28 @@ abstract class EntityORM extends Entity {
 		return $this->aFields;
 	}
 	
-	public function _getField($sField) {
+	public function _getField($sField,$iPersistence=3) {
 		if($aFields=$this->_getFields()) {
 			if(in_array($sField,$aFields)) {
 				return $sField;
+			}
+			if($iPersistence==0) {
+				return null;
 			}
 			$sFieldU = func_camelize($sField);
 			$sEntityField = func_underscore(Engine::GetEntityName($this).$sFieldU);
 			if(in_array($sEntityField,$aFields)) {
 				return $sEntityField;
 			}
+			if($iPersistence==1) {
+				return null;
+			}
 			$sModuleEntityField = func_underscore(Engine::GetModuleName($this).Engine::GetEntityName($this).$sFieldU);
 			if(in_array($sModuleEntityField,$aFields)) {
 				return $sModuleEntityField;
+			}
+			if($iPersistence==2) {
+				return null;
 			}
 			$sModuleField = func_underscore(Engine::GetModuleName($this).$sFieldU);
 			if(in_array($sModuleField,$aFields)) {
@@ -287,8 +303,10 @@ abstract class EntityORM extends Entity {
 					$sRelationType=$this->aRelations[$sKey][0];
 					$sRelationKey=$this->aRelations[$sKey][2];
 					$sRelationJoinTable=null;
+					$sRelationJoinTableKey=0;	// foreign key в join-таблице для текущей сущности
 					if($sRelationType == self::RELATION_TYPE_MANY_TO_MANY && array_key_exists(3, $this->aRelations[$sKey])) {
 						$sRelationJoinTable=$this->aRelations[$sKey][3];
+						$sRelationJoinTableKey=isset($this->aRelations[$sKey][4]) ? $this->aRelations[$sKey][4] : $this->_GetPrimaryKey();
 					}
 					
 					/**
@@ -313,28 +331,31 @@ abstract class EntityORM extends Entity {
 					$aCmdArgs=array();
 					switch ($sRelationType) {
 						case self::RELATION_TYPE_BELONGS_TO :
-							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelPrimaryKey);
-							$aCmdArgs[0]=$this->_getDataOne($sRelationKey);
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ByFilter";
+							$aCmdArgs[0]=array($sRelPrimaryKey => $this->_getDataOne($sRelationKey));
 							break;
 						case self::RELATION_TYPE_HAS_ONE :
-							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelationKey);
-							$aCmdArgs[0]=$iPrimaryKeyValue;
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ByFilter";
+							$aCmdArgs[0]=array($sRelationKey => $iPrimaryKeyValue);
 							break;
 						case self::RELATION_TYPE_HAS_MANY :
-							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsBy".func_camelize($sRelationKey);
-							$aCmdArgs[0]=$iPrimaryKeyValue;
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByFilter";
+							$aCmdArgs[0]=array($sRelationKey => $iPrimaryKeyValue);
 							break;
 						case self::RELATION_TYPE_MANY_TO_MANY :
 						  $sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
-							$aCmdArgs[0] = array(
-								'join_table'		=> $sRelationJoinTable,
-								'relation_key'		=> $sRelationKey,
-								'by_key'			=> $this->_GetPrimaryKey(),
-								'by_value'			=> $iPrimaryKeyValue,
+							$aCmdArgs[0]=array(
+								'#join_table'		=> $sRelationJoinTable,
+								'#relation_key'		=> $sRelationKey,
+								'#by_key'			=> $sRelationJoinTableKey,
+								'#by_value'			=> $iPrimaryKeyValue,
 							);
 							break;
 						default:
 							break;
+					}
+					if(array_key_exists(0,$aArgs) && is_array($aArgs[0])) {
+						$aCmdArgs[0] = array_merge($aCmdArgs[0], $aArgs[0]);
 					}
 					$res=Engine::GetInstance()->_CallModule($sCmd,$aCmdArgs);
 
