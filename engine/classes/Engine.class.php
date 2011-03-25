@@ -946,7 +946,7 @@ class LS {
 	 *
 	 */	
 	public function __call($sName,$aArgs=array()) {
-		return self::E()->$sName($aArgs);
+		return call_user_func_array(array(self::E(),$sName),$aArgs);
 	}	
 	
 	/**
@@ -954,7 +954,7 @@ class LS {
 	 *
 	 */
 	public static function __callStatic($sName,$aArgs=array()) {
-		return self::E()->$sName($aArgs);
+		return call_user_func_array(array(self::E(),$sName),$aArgs);
 	}	
 
 }
