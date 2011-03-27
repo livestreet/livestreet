@@ -291,7 +291,7 @@ abstract class ModuleORM extends Module {
 				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
-				$sRelPrimaryKey=func_camelize($oRelEntityEmpty->_getPrimaryKey());
+				$sRelPrimaryKey = method_exists($oRelEntityEmpty,'_getPrimaryKey') ? func_camelize($oRelEntityEmpty->_getPrimaryKey()) : 'Id';
 				
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
 				
