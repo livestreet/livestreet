@@ -43,7 +43,7 @@ abstract class EntityORM extends Entity {
 		$this->aRelations=$this->_getRelations();
 	}
 	
-	public function _GetPrimaryKey() {
+	public function _getPrimaryKey() {
 		if(!$this->_getDataOne($this->sPrimaryKey)) {
 			if($this->_getFields()) {
 				if(array_key_exists('#primary_key',$this->aFields)) {
@@ -306,7 +306,7 @@ abstract class EntityORM extends Entity {
 					$sRelationJoinTableKey=0;	// foreign key в join-таблице для текущей сущности
 					if($sRelationType == self::RELATION_TYPE_MANY_TO_MANY && array_key_exists(3, $this->aRelations[$sKey])) {
 						$sRelationJoinTable=$this->aRelations[$sKey][3];
-						$sRelationJoinTableKey=isset($this->aRelations[$sKey][4]) ? $this->aRelations[$sKey][4] : $this->_GetPrimaryKey();
+						$sRelationJoinTableKey=isset($this->aRelations[$sKey][4]) ? $this->aRelations[$sKey][4] : $this->_getPrimaryKey();
 					}
 					
 					/**
@@ -321,11 +321,11 @@ abstract class EntityORM extends Entity {
 					$sRelEntityName=Engine::GetEntityName($sEntityRel);
 					$sRelPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
 					$sRelPrimaryKey='id';
-					if($oRelEntity=Engine::GetEntity($sEntityRel) and method_exists($oRelEntity,'_GetPrimaryKey')) { // для совместимости с сущностями Entity
-						$sRelPrimaryKey=$oRelEntity->_GetPrimaryKey();
+					if($oRelEntity=Engine::GetEntity($sEntityRel) and method_exists($oRelEntity,'_getPrimaryKey')) { // для совместимости с сущностями Entity
+						$sRelPrimaryKey=$oRelEntity->_getPrimaryKey();
 					}
 					
-					$iPrimaryKeyValue=$this->_getDataOne($this->_GetPrimaryKey());
+					$iPrimaryKeyValue=$this->_getDataOne($this->_getPrimaryKey());
 					
 					$sCmd='';
 					$aCmdArgs=array();

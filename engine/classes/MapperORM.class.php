@@ -30,10 +30,10 @@ class MapperORM extends Mapper {
 	
 	public function UpdateEntity($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimaryKey());
+		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
 				
 		if(!empty($iPrimaryKeyValue)) {
-			$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_GetPrimaryKey()." = ? "; 
+			$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_getPrimaryKey()." = ? "; 
 			return $this->oDb->query($sql,$oEntity->_getData(),$iPrimaryKeyValue);
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
@@ -48,10 +48,10 @@ class MapperORM extends Mapper {
 	
 	public function DeleteEntity($oEntity) {		
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_GetPrimaryKey());
+		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
 		
 		if(!empty($iPrimaryKeyValue)) {
-			$sql = "DELETE FROM ".$sTableName." WHERE ".$oEntity->_GetPrimaryKey()." = ? "; 
+			$sql = "DELETE FROM ".$sTableName." WHERE ".$oEntity->_getPrimaryKey()." = ? "; 
 			return $this->oDb->query($sql,$iPrimaryKeyValue);
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
@@ -118,7 +118,7 @@ class MapperORM extends Mapper {
 	public function GetItemsByJoinTable($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
-    $sPrimaryKey = $oEntitySample->_GetPrimaryKey();
+    $sPrimaryKey = $oEntitySample->_getPrimaryKey();
     
 		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 		list($sOrder,$sLimit)=$this->BuildFilterMore($aFilter,$oEntitySample);

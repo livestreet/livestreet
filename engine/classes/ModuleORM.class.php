@@ -44,7 +44,7 @@ abstract class ModuleORM extends Module {
 			return $oEntity;
 		} elseif ($res) {
 			// есть автоинкремент, устанавливаем его
-			$oEntity->_setData(array($oEntity->_GetPrimaryKey() => $res));
+			$oEntity->_setData(array($oEntity->_getPrimaryKey() => $res));
 			return $oEntity;
 		}
 		return false;
@@ -292,7 +292,7 @@ abstract class ModuleORM extends Module {
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
 				$sPrimaryKey="Id";
-				if (method_exists($oRelEntityEmpty,'_GetPrimaryKey') and $sPrimaryKey=$oRelEntityEmpty->_GetPrimaryKey()) {
+				if (method_exists($oRelEntityEmpty,'_getPrimaryKey') and $sPrimaryKey=$oRelEntityEmpty->_getPrimaryKey()) {
 					$sPrimaryKey=ucfirst($sPrimaryKey);					
 				}				
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sPrimaryKey}",array($aEntityKeys[$sRelKey]));
@@ -313,7 +313,22 @@ abstract class ModuleORM extends Module {
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByFilter($aFilter,$sEntityFull));
-		}		
+		}
+		
+		/**
+	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
+		 */
+		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
+			$aIndexedEntities=array();
+			foreach ($aEntities as $oEntity) { 
+				$sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
+					$oEntity->_getPrimaryKey() :
+					$oEntity->_getField($aFilter['#index-from']);
+				$aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
+			} 
+			$aEntities = $aIndexedEntities;
+		}
+		
 		return $aEntities;
 	}
 	
@@ -328,6 +343,18 @@ abstract class ModuleORM extends Module {
 
 		return $iCount;
 	}
+	
+	/*
+	 * Returns associative array of entities, indexed by PRIMARY KEY
+	 */
+	public function GetItemsByArray($aFilter,$sEntityFull=null) {                            
+		foreach ($aFilter as $k=>$v) { 
+				$aFilter[$k.' in']=$v; 
+				unset($aFilter[$k]); 
+		}
+		$aFilter[] = '#index-from-primary';
+		return $this->GetItemsByFilter($aFilter,$sEntityFull); 
+	} 
 
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -400,12 +427,11 @@ abstract class ModuleORM extends Module {
 			$sNameUnderscore=substr_replace($sNameUnderscore,$sEntityName,4,0);
 			$iEntityPosEnd=strlen($sEntityName)-1+4;
 		}
-		/**
-		 * getUserRoleJoinByUserIdAndRoleId() get_user-role-join_by_user_id_and_role_id
-		 */
+
 		$sNameUnderscore=substr_replace($sNameUnderscore,str_replace('_','',$sEntityName),4,$iEntityPosEnd-4);
 
 		$sEntityName=func_camelize($sEntityName);
+		
 		/**
 		 * getUserItemsByFilter() get_user_items_by_filter
 		 */
@@ -416,30 +442,34 @@ abstract class ModuleORM extends Module {
 				return $this->GetByFilter($aArgs[0],$sEntityName);
 			}
 		}
+		
 		/**
-		 * getUserItemsByArrayId() get_user_items_by_array_id OR
-		 * getUserItemsByIdIn() get_user_items_by_id_in
+		 * getUserItemsByArrayId() get_user_items_by_array_id
 		 */
-		if (preg_match("@^get_([a-z]+)_items_by_array_([_a-z]+)$@i",$sNameUnderscore,$aMatch) ||
-			preg_match("@^get_([a-z]+)_items_by_([_a-z]+)_in$@i",$sNameUnderscore,$aMatch)
-			) {
-			return $this->GetItemsByFilter(array("{$aMatch[2]} in"=>$aArgs[0]),$sEntityName);
+		if (preg_match("@^get_([a-z]+)_items_by_array_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) { 
+			return $this->GetItemsByArray(array($aMatch[2]=>$aArgs[0]),$sEntityName); 
 		}
+		
 		/**
 		 * getUserItemsByJoinTable() get_user_items_by_join_table
 		 */
 		if (preg_match("@^get_([a-z]+)_items_by_join_table$@i",$sNameUnderscore,$aMatch)) {
 			return $this->GetItemsByJoinTable($aArgs[0],func_camelize($sEntityName));
 		}
+		
 		/**
-		 * getUserByLogin() get_user_by_login
-		 * getUserByLoginAndMail() get_user_by_login_and_mail
-		 * getUserItemsByName() get_user_items_by_name
-		 * getUserItemsByNameAndActive() get_user_items_by_name_and_active		 
-		 * 
+		 * getUserByLogin()					get_user_by_login
+		 * getUserByLoginAndMail()			get_user_by_login_and_mail
+		 * getUserItemsByName()				get_user_items_by_name
+		 * getUserItemsByNameAndActive()	get_user_items_by_name_and_active	
+		 * getUserItemsByDateRegisterGte()	get_user_items_by_date_register_gte		(>=)
+		 * getUserItemsByProfileNameLike()	get_user_items_by_profile_name_like
+		 * getUserItemsByCityIdIn()			get_user_items_by_city_id_in
 		 */		
 		if (preg_match("@^get_([a-z]+)((_items)|())_by_([_a-z]+)$@i",$sNameUnderscore,$aMatch)) {
-			$aSearchParams=explode('_and_',$aMatch[5]);
+			$aAliases = array( '_gte' => ' >=', '_lte' => ' <=', '_gt' => ' >', '_lt' => ' <', '_like' => ' LIKE', '_in' => ' IN' );
+			$sSearchParams = str_replace(array_keys($aAliases),array_values($aAliases),$aMatch[5]);
+			$aSearchParams=explode('_and_',$sSearchParams);
 			$aSplit=array_chunk($aArgs,count($aSearchParams));			
 			$aFilter=array_combine($aSearchParams,$aSplit[0]);
 			if (isset($aSplit[1][0])) {
@@ -451,8 +481,10 @@ abstract class ModuleORM extends Module {
 				return $this->GetByFilter($aFilter,$sEntityName);
 			}
 		}
+		
 		/**
-		 * getUserAll() get_user_all OR getUserItemsAll() get_user_items_all
+		 * getUserAll()			get_user_all 		OR
+		 * getUserItemsAll()	get_user_items_all
 		 */
 		if (preg_match("@^get_([a-z]+)_all$@i",$sNameUnderscore,$aMatch) ||
 			preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
