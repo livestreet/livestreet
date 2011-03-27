@@ -291,11 +291,10 @@ abstract class ModuleORM extends Module {
 				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
 				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
-				$sPrimaryKey="Id";
-				if (method_exists($oRelEntityEmpty,'_getPrimaryKey') and $sPrimaryKey=$oRelEntityEmpty->_getPrimaryKey()) {
-					$sPrimaryKey=ucfirst($sPrimaryKey);					
-				}				
-				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sPrimaryKey}",array($aEntityKeys[$sRelKey]));
+				$sRelPrimaryKey=func_camelize($oRelEntityEmpty->_getPrimaryKey());
+				
+				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
+				
 				/**
 			 	 * Собираем набор
 				 */
@@ -349,7 +348,7 @@ abstract class ModuleORM extends Module {
 	 */
 	public function GetItemsByArray($aFilter,$sEntityFull=null) {                            
 		foreach ($aFilter as $k=>$v) { 
-				$aFilter[$k.' in']=$v; 
+				$aFilter["{$k} IN"]=$v; 
 				unset($aFilter[$k]); 
 		}
 		$aFilter[] = '#index-from-primary';

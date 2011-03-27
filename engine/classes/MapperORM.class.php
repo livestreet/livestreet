@@ -148,7 +148,7 @@ class MapperORM extends Mapper {
 
 		$aFilterFields=array();
 		foreach ($aFilter as $k=>$v) {
-			if (substr($k,0,1)=='#') {
+			if (substr($k,0,1)=='#' || (is_string($v) && substr($v,0,1)=='#')) {
 				
 			} else {
 				$aFilterFields[$oEntitySample->_getField($k)]=$v;
@@ -163,7 +163,7 @@ class MapperORM extends Mapper {
 			if (count($aK)>1) {
 				$sConditionCurrent=strtolower($aK[1]);
 			}
-			if ($sConditionCurrent=='in') {
+			if (strtolower($sConditionCurrent)=='in') {
 				$sFilterFields.=" and {$sFieldCurrent} {$sConditionCurrent} ( ?a ) ";
 			} else {
 				$sFilterFields.=" and {$sFieldCurrent} {$sConditionCurrent} ? ";
