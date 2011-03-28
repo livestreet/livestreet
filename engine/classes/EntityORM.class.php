@@ -331,12 +331,12 @@ abstract class EntityORM extends Entity {
 					$aCmdArgs=array();
 					switch ($sRelationType) {
 						case self::RELATION_TYPE_BELONGS_TO :
-							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ByFilter";
-							$aCmdArgs[0]=array($sRelPrimaryKey => $this->_getDataOne($sRelationKey));
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelPrimaryKey);
+							$aCmdArgs[0]=$this->_getDataOne($sRelationKey);
 							break;
 						case self::RELATION_TYPE_HAS_ONE :
-							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ByFilter";
-							$aCmdArgs[0]=array($sRelationKey => $iPrimaryKeyValue);
+							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelationKey);
+							$aCmdArgs[0]=$iPrimaryKeyValue;
 							break;
 						case self::RELATION_TYPE_HAS_MANY :
 							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByFilter";
@@ -354,7 +354,7 @@ abstract class EntityORM extends Entity {
 						default:
 							break;
 					}
-					if(array_key_exists(0,$aArgs) && is_array($aArgs[0])) {
+					if(is_array($aCmdArgs[0]) && array_key_exists(0,$aArgs) && is_array($aArgs[0])) {
 						$aCmdArgs[0] = array_merge($aCmdArgs[0], $aArgs[0]);
 					}
 					$res=Engine::GetInstance()->_CallModule($sCmd,$aCmdArgs);
