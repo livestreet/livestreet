@@ -268,7 +268,7 @@ abstract class ModuleORM extends Module {
 			$aEntityKeys=array();
 			foreach ($aFilter['#with'] as $sRelationName) {
 				$sRelType=$aRelations[$sRelationName][0];
-				$sRelEntity=$aRelations[$sRelationName][1];
+				$sRelEntity=$this->Plugin_GetRootDelegater('entity',$aRelations[$sRelationName][1]); // получаем корневую сущность, без учета наследников
 				$sRelKey=$aRelations[$sRelationName][2];
 				
 				if (!array_key_exists($sRelationName,$aRelations) or !in_array($sRelType,array(EntityORM::RELATION_TYPE_BELONGS_TO,EntityORM::RELATION_TYPE_HAS_ONE))) {
@@ -287,12 +287,10 @@ abstract class ModuleORM extends Module {
 				 * Делаем общий запрос по всем ключам
 				 */
 				$oRelEntityEmpty=Engine::GetEntity($sRelEntity);
-				
-				$sRelModuleName=Engine::GetModuleName($oRelEntityEmpty);
-				$sRelEntityName=Engine::GetEntityName($oRelEntityEmpty);
-				$sRelPluginPrefix=Engine::GetPluginPrefix($oRelEntityEmpty);
-				$sRelPrimaryKey = method_exists($oRelEntityEmpty,'_getPrimaryKey') ? func_camelize($oRelEntityEmpty->_getPrimaryKey()) : 'Id';
-				
+				$sRelModuleName=Engine::GetModuleName($sRelEntity);
+				$sRelEntityName=Engine::GetEntityName($sRelEntity);
+				$sRelPluginPrefix=Engine::GetPluginPrefix($sRelEntity);
+				$sRelPrimaryKey = method_exists($oRelEntityEmpty,'_getPrimaryKey') ? func_camelize($oRelEntityEmpty->_getPrimaryKey()) : 'Id';								
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
 				
 				/**
