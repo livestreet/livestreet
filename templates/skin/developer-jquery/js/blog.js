@@ -1,9 +1,9 @@
 var blogs = {
 	//==================
-	// Функции
+	// Р¤СѓРЅРєС†РёРё
 	//==================
 	
-	// Вступить или покинуть блог
+	// Р’СЃС‚СѓРїРёС‚СЊ РёР»Рё РїРѕРєРёРЅСѓС‚СЊ Р±Р»РѕРі
 	ajaxJoinLeaveBlog: function(obj, idBlog) {
 		obj = $(obj);
 		
@@ -22,7 +22,7 @@ var blogs = {
 	},
 
 	
-	// Отправляет приглашение вступить в блог
+	// РћС‚РїСЂР°РІР»СЏРµС‚ РїСЂРёРіР»Р°С€РµРЅРёРµ РІСЃС‚СѓРїРёС‚СЊ РІ Р±Р»РѕРі
 	addBlogInvite: function(idBlog) {
 		sUsers = $('#blog_admin_user_add').val();
 		if(!sUsers) return false;
@@ -51,7 +51,7 @@ var blogs = {
 	},
 
 
-	// Повторно отправляет приглашение
+	// РџРѕРІС‚РѕСЂРЅРѕ РѕС‚РїСЂР°РІР»СЏРµС‚ РїСЂРёРіР»Р°С€РµРЅРёРµ
 	reBlogInvite: function(idUser,idBlog) {
 		$.post(aRouter['blog']+'ajaxrebloginvite/', { idUser: idUser, idBlog: idBlog, security_ls_key: LIVESTREET_SECURITY_KEY }, function(result){
 			if (result.bStateError) {

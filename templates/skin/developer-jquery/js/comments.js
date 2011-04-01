@@ -1,6 +1,6 @@
 var comments = {
 	//==================
-	// Опции
+	// РћРїС†РёРё
 	//==================
 	
 	typeComment: {
@@ -16,10 +16,10 @@ var comments = {
 	
 	
 	//==================
-	// Функции
+	// Р¤СѓРЅРєС†РёРё
 	//==================
 	
-	// Добавляет комментарий
+	// Р”РѕР±Р°РІР»СЏРµС‚ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 	add: function(formObj, targetId, targetType) {
 		var thisObj = this;		
 		formObj = $('#'+formObj);
@@ -48,13 +48,13 @@ var comments = {
 	},
 	
 	
-	// Активирует форму
+	// РђРєС‚РёРІРёСЂСѓРµС‚ С„РѕСЂРјСѓ
 	enableFormComment: function() {
 		$('#form_comment_text').removeClass('loader').attr('readonly',false);
 	},	
 	
 	
-	// Показывает/скрывает форму комментирования
+	// РџРѕРєР°Р·С‹РІР°РµС‚/СЃРєСЂС‹РІР°РµС‚ С„РѕСЂРјСѓ РєРѕРјРјРµРЅС‚РёСЂРѕРІР°РЅРёСЏ
 	toggleCommentForm: function(idComment, bNoFocus) {
 		if ($('#reply_'+idComment).length) { return; }
 		
@@ -70,12 +70,12 @@ var comments = {
 	},
 	
 	
-	// Подгружает новые комментарии
+	// РџРѕРґРіСЂСѓР¶Р°РµС‚ РЅРѕРІС‹Рµ РєРѕРјРјРµРЅС‚Р°СЂРёРё
 	load: function(idTarget, typeTarget, selfIdComment, bNotFlushNew) {
 		var thisObj = this;
 		var idCommentLast = $("#comment_last_id").val();
 		
-		// Удаляем подсветку у комментариев
+		// РЈРґР°Р»СЏРµРј РїРѕРґСЃРІРµС‚РєСѓ Сѓ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
 		if (!bNotFlushNew) { $('.comment').each(function(index, item){ $(item).removeClass('new current');}); }
 		
 		objImg = $('#update-comments');
@@ -104,7 +104,7 @@ var comments = {
 	},
 	
 	
-	// Вставка комментария
+	// Р’СЃС‚Р°РІРєР° РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
 	inject: function(idCommentParent, idComment, sHtml) {
 		var newComment = $('<div>', {class: 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);		
 		if (idCommentParent) {	
@@ -115,7 +115,7 @@ var comments = {
 	},
 	
 	
-	// Удалить/восстановить комментарий
+	// РЈРґР°Р»РёС‚СЊ/РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 	toggle: function(obj, commentId) {
 		var thisObj = this;
 		
@@ -138,7 +138,7 @@ var comments = {
 	},
 	
 	
-	// Предпросмотр комментария
+	// РџСЂРµРґРїСЂРѕСЃРјРѕС‚СЂ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
 	preview: function() {
 		$("#comment_preview").remove();
 		if ($("#form_comment_text").val() == '') return;
@@ -147,7 +147,7 @@ var comments = {
 	},
 	
 	
-	// Устанавливает число новых комментариев
+	// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С‡РёСЃР»Рѕ РЅРѕРІС‹С… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
 	setCountNewComment: function(count) {
         if (count > 0) {
         	$('#new_comments_counter').css('display','block').text(count);        	
@@ -157,13 +157,13 @@ var comments = {
 	},
 	
 	
-	// Вычисляет кол-во новых комментариев
+	// Р’С‹С‡РёСЃР»СЏРµС‚ РєРѕР»-РІРѕ РЅРѕРІС‹С… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
 	calcNewComments: function() {
         this.setCountNewComment($(".comment.new").length);        	
 	},
 	
 	
-	// Переход к следующему комментарию
+	// РџРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ РєРѕРјРјРµРЅС‚Р°СЂРёСЋ
 	goToNextComment: function() {
 		var aCommentsNew = $(".comment.new");
 		
@@ -175,7 +175,7 @@ var comments = {
 	},
 	
 	
-	// Прокрутка к комментарию
+	// РџСЂРѕРєСЂСѓС‚РєР° Рє РєРѕРјРјРµРЅС‚Р°СЂРёСЋ
 	scrollToComment: function(idComment) {
 		$.scrollTo('#comment_id_'+idComment, 1000, {offset: -250});
 		$('[id^=comment_id_]').removeClass("current");
@@ -183,7 +183,7 @@ var comments = {
 	},
 
 	
-	// Прокрутка к родительскому комментарию
+	// РџСЂРѕРєСЂСѓС‚РєР° Рє СЂРѕРґРёС‚РµР»СЊСЃРєРѕРјСѓ РєРѕРјРјРµРЅС‚Р°СЂРёСЋ
 	goToParentComment: function(id, pid) {
 		thisObj = this;
 		$('.goto-comment-child').hide().find('a').unbind();

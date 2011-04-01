@@ -9,7 +9,7 @@ function ajaxPollVote(idTopic, idAnswer) {
 	});
 }
 
-// Добавляет вариант ответа
+// Р”РѕР±Р°РІР»СЏРµС‚ РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р°
 function addField() {
 	if($("#question_list li").length == 20) {
 		$.notifier.error(null, LANG_POLL_ERROR);
@@ -18,7 +18,7 @@ function addField() {
 	$("#question_list li:first-child").clone().appendTo("#question_list").append($('<a href="#" style="margin-left: 5px;">'+LANG_DELETE+'</a>').bind("click", deleteField));
 }
 
-// Удаляет вариант ответа
+// РЈРґР°Р»СЏРµС‚ РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р°
 function deleteField() {
 	$(this).parent("li").remove(); 
 	return false;

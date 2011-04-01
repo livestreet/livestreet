@@ -1,9 +1,9 @@
 var talk = {
 	//==================
-	// Функции
+	// Р¤СѓРЅРєС†РёРё
 	//==================
 
-	// Добавляет пользователя к переписке
+	// Р”РѕР±Р°РІР»СЏРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рє РїРµСЂРµРїРёСЃРєРµ
 	addToTalk: function(idTalk) {
 		sUsers = $('#talk_speaker_add').val();
 		if(!sUsers) return false;
@@ -31,7 +31,7 @@ var talk = {
 	},
 	
 	
-	// Удаляет пользователя из переписки
+	// РЈРґР°Р»СЏРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР· РїРµСЂРµРїРёСЃРєРё
 	deleteFromTalk: function(link, idTalk) {
 		link = $(link);
 		
@@ -53,7 +53,7 @@ var talk = {
 	},
 	
 	
-	// Добавляет пользователя в черный список
+	// Р”РѕР±Р°РІР»СЏРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ С‡РµСЂРЅС‹Р№ СЃРїРёСЃРѕРє
 	addToBlackList: function() {
 		sUsers = $('#talk_blacklist_add').val();
 		if(!sUsers) return false;
@@ -81,7 +81,7 @@ var talk = {
 	},
 	
 	
-	// Удаляет пользователя из черного списка
+	// РЈРґР°Р»СЏРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР· С‡РµСЂРЅРѕРіРѕ СЃРїРёСЃРєР°
 	deleteFromBlackList: function(link) {
 		link = $(link);
 		
@@ -103,7 +103,7 @@ var talk = {
 	},
 	
 
-	// Добавляет или удаляет друга из списка получателей
+	// Р”РѕР±Р°РІР»СЏРµС‚ РёР»Рё СѓРґР°Р»СЏРµС‚ РґСЂСѓРіР° РёР· СЃРїРёСЃРєР° РїРѕР»СѓС‡Р°С‚РµР»РµР№
 	toggleRecipient: function(login, add) {
 		to = $.map($('#talk_users').val().split(','), function(item, index){
 			item = $.trim(item); 
@@ -118,12 +118,12 @@ var talk = {
 
 
 $(document).ready(function(){
-	// Добавляем или удаляем друга из списка получателей
+	// Р”РѕР±Р°РІР»СЏРµРј РёР»Рё СѓРґР°Р»СЏРµРј РґСЂСѓРіР° РёР· СЃРїРёСЃРєР° РїРѕР»СѓС‡Р°С‚РµР»РµР№
 	$('#friends input:checkbox').change(function(){
 		talk.toggleRecipient($(this).parent().text(), $(this).attr('checked'));
 	});
 	
-	// Добавляем всех друзей в список получателей
+	// Р”РѕР±Р°РІР»СЏРµРј РІСЃРµС… РґСЂСѓР·РµР№ РІ СЃРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№
 	$('#friend_check_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
 			talk.toggleRecipient($(item).parent().text(), true);
@@ -131,7 +131,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	// Удаляем всех друзей из списка получателей
+	// РЈРґР°Р»СЏРµРј РІСЃРµС… РґСЂСѓР·РµР№ РёР· СЃРїРёСЃРєР° РїРѕР»СѓС‡Р°С‚РµР»РµР№
 	$('#friend_uncheck_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
 			talk.toggleRecipient($(item).parent().text(), false);
@@ -139,12 +139,12 @@ $(document).ready(function(){
 		});
 	});
 	
-	// Удаляем пользователя из черного списка
+	// РЈРґР°Р»СЏРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР· С‡РµСЂРЅРѕРіРѕ СЃРїРёСЃРєР°
 	$("#black_list_block").delegate("a.delete", "click", function(){
 		talk.deleteFromBlackList(this);
 	});
 	
-	// Удаляем пользователя из переписки
+	// РЈРґР°Р»СЏРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР· РїРµСЂРµРїРёСЃРєРё
 	$("#speaker_list_block").delegate("a.delete", "click", function(){
 		talk.deleteFromTalk(this, $('#talk_id').val());
 	});
