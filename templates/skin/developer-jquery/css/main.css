@@ -1,0 +1,21 @@
+body { 
+	font: 12px/18px Tahoma, Arial, Sans-Serif; 
+	color: #333; 
+	background: #fafafa;
+}
+
+h1, h2, h3, h4, h5, h6 { font: normal 18px Arial, Sans-Serif; line-height: 1.3em; margin-bottom: 0.3em; color: #333; }
+h1 { font-size: 22px; }
+h2 { font-size: 18px; }
+h3 { font-size: 18px; }
+
+a 			{ color: #1f8ab7; }
+a:hover 	{ color: #333; }
+
+p { margin-bottom: 18px; }
+
+
+
+
+
+

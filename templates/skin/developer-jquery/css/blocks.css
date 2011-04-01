@@ -1,0 +1,27 @@
+.block { padding: 10px; background: #fafafa; margin-bottom: 15px; }
+
+.block .bottom { padding-top: 5px; font-size: 11px; }
+.block .bottom a { color: #333; }
+
+/* Stream */
+.block.stream ul.list { border-top: 1px dashed #ddd; }
+.block.stream ul.list li { padding: 7px 0 10px; border-bottom: 1px dashed #ddd; }
+
+/* Top Blogs */
+.block.blogs ul.list { border-top: 1px dashed #ddd; }
+.block.blogs ul.list li { padding: 5px 0 8px; border-bottom: 1px dashed #ddd; }
+.block.blogs ul.list li .rating { float: right; font-weight: bold; }
+
+/* Tags */
+.block .cloud li { display: inline; margin-right: 5px; line-height: 22px; }
+.block .cloud li a { text-decoration: none; white-space: nowrap; }
+.block .cloud li a.w1 { font-size: 12px; }
+.block .cloud li a.w2 { font-size: 12px; }
+.block .cloud li a.w3 { font-size: 14px; }
+.block .cloud li a.w4 { font-size: 14px; }
+.block .cloud li a.w5 { font-size: 18px; }
+.block .cloud li a.w6 { font-size: 18px; }
+.block .cloud li a.w7 { font-size: 20px; }
+.block .cloud li a.w8 { font-size: 20px; }
+.block .cloud li a.w9 { font-size: 22px; }
+.block .cloud li a.w10 { font-size: 22px; }

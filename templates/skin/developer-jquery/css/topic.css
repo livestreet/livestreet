@@ -1,0 +1,54 @@
+.topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+
+/* Title */
+.topic .title a { color: #333; }
+.topic .title a.title-blog { color: #333; }
+.topic .title a.title-topic { color: #333; }
+.topic .title a:hover { color: #666; }
+
+/* Content */
+.topic .content { overflow: hidden; zoom: 1; margin-bottom: 15px; }
+.topic .content p { margin-bottom: 18px; }
+.topic .content blockquote { background: #fafafa; padding: 10px 15px; color: #555; margin-bottom: 5px; clear: both; }
+.topic .content pre { background: #fafafa; border: 1px solid #dce6f0; margin-bottom: 10px; overflow: auto; padding: 5px 10px; }
+.topic .content ul { list-style-type: disc; margin-left: 17px; }
+.topic .content ol { list-style-type: decimal; margin-left: 22px; }
+.topic .content img[align="right"] { margin: 4px 0 5px 15px; }
+.topic .content img[align="left"] { margin: 4px 15px 10px 0; }
+
+/* Tags */
+.topic .tags { margin: 0 0 6px; padding-left: 23px; background: url(../images/tag.png) no-repeat 0 2px; }
+.topic .tags li { display: inline; color: #888; }
+.topic .tags li a { color: #888; text-decoration: none; }
+.topic .tags li a:hover { color: #333; }
+
+/* Info */
+.topic .info { overflow: hidden; zoom: 1; background: #fbfbfb; padding: 5px 15px; }
+.topic .info li { float: left; margin-right: 15px; }
+.topic .info li a { text-decoration: none; }
+
+.topic .info li.date { color: #777; }
+.topic .info li.username a { font-weight: bold; color: #333; }
+.topic .info li.username a:hover { text-decoration: underline; }
+.topic .info li.voting { padding-right: 15px; border-right: 1px solid #ddd; }
+.topic .info li.comments-link a { padding-left: 15px; color: #333; font-weight: bold; background: url(../images/comments.png) no-repeat 0 2px; }
+.topic .info li.comments-link a span { color: #777; }
+.topic .info li.comments-link a:hover { text-decoration: underline; }
+
+/* Poll */
+.topic .poll { margin-bottom: 15px; }
+
+.topic .poll .poll-vote { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 10px; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.topic .poll .poll-vote li { margin-bottom: 5px; }
+.topic .poll .poll-vote li label { display: inline; }
+
+.topic .poll .poll-result { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.topic .poll .poll-result li { margin-bottom: 20px; }
+.topic .poll .poll-result li dl { overflow: hidden; zoom: 1; }
+.topic .poll .poll-result li dl dt { float: left; width: 50px; text-align: right; padding-right: 15px; }
+.topic .poll .poll-result li dl dt span { color: #aaa; }
+.topic .poll .poll-result li dl dd { float: left; width: 400px; }
+.topic .poll .poll-result li dl dd div { height: 5px; margin-top: 5px; background: #ccc; overflow: hidden; }
+.topic .poll .poll-result li.most dl dd div { background: #555; }
+
+.topic .poll .poll-total { color: #aaa; }

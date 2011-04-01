@@ -1,0 +1,76 @@
+/* Voting */
+.voting { overflow: hidden; zoom: 1; }
+
+.voting .total { float: left; padding: 0 7px; font-weight: bold; color: #aaa; }
+.voting .total a { text-decoration: none; color: #999; outline: none; }
+
+.voting.positive .total { color: #390; }
+.voting.negative .total { color: #f00; }
+
+.voting .plus,
+.voting .minus 			{ width: 10px; height: 10px; float: left; display: block; background: url(../images/voting.png) no-repeat; position: relative; top: 4px; outline: none; }
+.voting .plus 			{ background-position: 0 0; }
+.voting .minus 			{ background-position: -20px 0; }
+.voting .plus:hover 	{ background-position: -10px 0; }
+.voting .minus:hover 	{ background-position: -30px 0; }
+
+.voting.voted.plus 	.plus 			{ background-position: -10px 0; }
+.voting.voted.minus .minus 			{ background-position: -30px 0; }
+.voting.voted.plus 	.minus:hover 	{ background-position: -20px 0; }
+.voting.voted.minus .plus:hover 	{ background-position: 0 0; }
+
+.voting.guest .plus:hover 	{ background-position: 0 0; }
+.voting.guest .minus:hover 	{ background-position: -20px 0; }
+
+
+/* Favorite */
+.favourite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; }
+.favourite:hover 	{ background-position: 0 -16px !important; }
+.favourite.active 	{ background-position: 0 -16px; }
+
+
+/* Pagination */
+.pagination ul li { display: inline; margin-right: 5px; }
+.pagination ul li.active { color: #aaa; }
+.pagination.pagination-comments { margin-bottom: 15px; }
+
+
+/* Switcher */
+.switcher { overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.switcher li { float: left; margin-right: 3px; }
+.switcher li a { float: left; padding: 1px 10px 2px; text-decoration: none; color: #777; background: #eee; }
+.switcher li.active a {  border: 0; color: #eee; background: #555; }
+
+.switcher-block { overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.switcher-block li { float: left; padding: 1px 10px 2px; margin-right: 3px; color: #777; background: #eee; cursor: pointer; }
+.switcher-block li:hover { background: #ddd; }
+.switcher-block li.active { color: #eee; background: #555; }
+
+
+/* System messages */
+.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice { background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
+
+
+/* Actions */
+.actions { overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.actions li a { overflow: hidden; zoom: 1; margin-bottom: 10px; color: #333; text-decoration: none; }
+.actions li { float: left; margin-right: 10px; }
+.actions li .edit { padding-left: 15px; background: url(../images/edit.png) no-repeat 0 1px; }
+.actions li .delete { padding-left: 14px; background: url(../images/delete.png) no-repeat 0 2px; }
+.actions li .rss { padding-left: 15px; background: url(../images/rss.png) no-repeat 0 1px; }
+.actions li a:hover { text-decoration: underline; }
+
+
+/* Misc */
+.user { padding-left: 12px; background: url(../images/user.png) no-repeat 0 2px; color: #555; }
+.user.inactive { color: #888; }
+
+.center { width: 300px; margin: 0 auto; }
+
+.table { width: 100%; margin-bottom: 15px; }
+.table thead td { background: #fafafa; }
+.table td { border: 1px solid #eee; padding: 5px; }
+.table tr.active td { background: #F1FCEF; }
+
+.right { float: right; }
