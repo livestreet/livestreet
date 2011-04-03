@@ -61,7 +61,7 @@ var comments = {
 		// Delete all preview blocks
 		$("#comment_preview").remove();
 		if (idComment != 0) { var el = $('#comment_id_'+idComment); } else { var el = $('#add_comment_root'); }
-		el.after($('<div/>', {id: "reply_"+idComment, class: "reply"}));
+		el.after($('<div/>', {id: "reply_"+idComment, 'class': "reply"}));
 		$('#form_comment').appendTo("#reply_"+idComment);
 		$('#form_comment_text').val('');
 		if (!bNoFocus) $('#form_comment_text').focus();
@@ -106,7 +106,7 @@ var comments = {
 	
 	// Вставка комментария
 	inject: function(idCommentParent, idComment, sHtml) {
-		var newComment = $('<div>', {class: 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);		
+		var newComment = $('<div>', {'class': 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);		
 		if (idCommentParent) {	
 			$('#comment_wrapper_id_'+idCommentParent).append(newComment);
 		} else {
@@ -142,7 +142,7 @@ var comments = {
 	preview: function() {
 		$("#comment_preview").remove();
 		if ($("#form_comment_text").val() == '') return;
-		$(".reply").before($("<div>", {id: "comment_preview", class: "comment-preview"}));
+		$(".reply").before($("<div>", {id: "comment_preview", 'class': "comment-preview"}));
 		ajaxTextPreview('form_comment_text', false, 'comment_preview');		
 	},
 	
