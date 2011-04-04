@@ -36,7 +36,7 @@ mySettings = {
 		{name:'Ссылка', className:'editor-link', key:'L', openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
 		{separator:'---------------' },
 		{name:'Очистить от тегов', className:'editor-clean', replaceWith: function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },		
-		{name:'Предпросмотр', className:'editor-preview',  call:'preview'},
-		{name:'Вставить разделитель <cut>', className:'editor-cut', openWith:'<cut>', className:'cut'}
+		{name:'Вставить разделитель <cut>', className:'editor-cut', openWith:'<cut>'},
+		{name:'Предпросмотр', className:'editor-preview',  call:'preview'}
 	]
 }
