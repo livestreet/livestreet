@@ -212,7 +212,7 @@ class ModuleText extends Module {
 			}				
 		}
 
-		return array($sTextShort,$sTextNew,htmlspecialchars($sTextCut));
+		return array($sTextShort,$sTextNew,$sTextCut ? htmlspecialchars($sTextCut) : null);
 	}
 }
 ?>
