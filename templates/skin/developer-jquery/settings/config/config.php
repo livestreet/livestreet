@@ -10,6 +10,7 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/libs/jquery.rich-array.min.js",
 	"___path.static.skin___/js/libs/markitup/jquery.markitup.js",
 	"___path.static.skin___/js/libs/markitup/sets/default/set.js",
+	"___path.static.skin___/js/main.js",
 	"___path.static.skin___/js/autocomplete.js",
 	"___path.static.skin___/js/favourite.js",
 	"___path.static.skin___/js/blocks.js",
@@ -19,7 +20,6 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/comments.js",
 	"___path.static.skin___/js/blog.js",
 	"___path.static.skin___/js/friend.js",
-	"___path.static.skin___/js/main.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

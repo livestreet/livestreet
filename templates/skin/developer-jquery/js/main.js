@@ -1,3 +1,10 @@
+Function.prototype.bind = function(context) {
+	var fn = this;
+	return function() {
+		return fn.apply(context, arguments);
+	};
+};
+
 $(document).ready(function(){
 	// Всплывающие окна
 	$('#login_form').jqm({trigger: '#login_form_show'});
