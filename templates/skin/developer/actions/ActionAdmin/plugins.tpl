@@ -27,9 +27,9 @@
 					<td>{$aPlugin.property->author->data|escape:'html'}</td>													
 					<td>
 						{if $aPlugin.is_active}
-							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate">{$aLang.plugins_plugin_deactivate}</a>
+							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_deactivate}</a>
 						{else}
-							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate">{$aLang.plugins_plugin_activate}</a>
+							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_activate}</a>
 						{/if}
 					</td>
 				</tr>

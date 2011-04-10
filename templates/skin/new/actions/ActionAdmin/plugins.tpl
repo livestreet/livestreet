@@ -21,7 +21,7 @@
 							<td class="name"><a class="title">{$aPlugin.property->name->data|escape:'html'}</a><br />{$aPlugin.property->description->data}<br />{$aPlugin.property->homepage}</td>
 							<td class="version">{$aPlugin.property->version|escape:'html'}</td>
 							<td class="author">{$aPlugin.property->author->data|escape:'html'}</td>													
-							<td class="{if $aPlugin.is_active}deactivate{else}activate{/if}"><strong>{if $aPlugin.is_active}<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate">{$aLang.plugins_plugin_deactivate}</a>{else}<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate">{$aLang.plugins_plugin_activate}</a>{/if}</strong></td>
+							<td class="{if $aPlugin.is_active}deactivate{else}activate{/if}"><strong>{if $aPlugin.is_active}<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_deactivate}</a>{else}<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_activate}</a>{/if}</strong></td>
 						</tr>
 						{/foreach}
 					</tbody>

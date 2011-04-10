@@ -99,6 +99,7 @@ class ActionAdmin extends Action {
 	 * @param string $sAction
 	 */
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
+		$this->Security_ValidateSendForm();
 		if(!in_array($sAction,array('activate','deactivate'))) {
 			$this->Message_AddError($this->Lang_Get('plugins_unknown_action'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('plugins'));
