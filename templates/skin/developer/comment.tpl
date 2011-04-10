@@ -24,7 +24,7 @@
 		{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
 			<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
 		{/if}
-		
+		{hook run='comment_action' comment=$oComment}
 		{if $oComment->getTargetType()!='talk'}						
 			<li class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
 				<a href="#" class="plus" onclick="lsVote.vote({$oComment->getId()},this,1,'comment'); return false;"></a>

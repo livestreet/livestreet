@@ -55,6 +55,7 @@
    									{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
    										<li><a href="#" class="repair" onclick="lsCmtTree.toggleComment(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
    									{/if}
+   									{hook run='comment_action' comment=$oComment}
    									{if $oUserCurrent and !$bNoCommentFavourites}
 										<li class="favorite {if $oComment->getIsFavourite()}active{/if}"><a href="#" onclick="lsFavourite.toggle({$oComment->getId()},this,'comment'); return false;"></a></li>	
 									{/if}												
