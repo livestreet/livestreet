@@ -1,7 +1,7 @@
 {include file='header.tpl' menu='people'}
 
 
-<h2>{$aLang.user_list}: {$oCountry->getName()}</h2>
+<h2>{$aLang.user_list}: {$oCountry->getName()|escape:'html'}</h2>
 
 {if $aUsersCountry}
 	<table class="table">
@@ -19,7 +19,7 @@
 		{foreach from=$aUsersCountry item=oUser}
 			{assign var="oSession" value=$oUser->getSession()}
 			<tr>
-				<td><a href="{router page='profile'}{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>														
+				<td><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></td>														
 				<td>{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
 				<td>{date_format date=$oUser->getDateRegister()}</td>
 				<td>{$oUser->getSkill()}</td>							

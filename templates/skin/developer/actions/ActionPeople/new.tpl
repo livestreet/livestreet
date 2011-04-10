@@ -17,7 +17,7 @@
 		<tbody>
 		{foreach from=$aUsersRegister item=oUser}
 			<tr>
-				<td><a href="{router page='profile'}{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>														
+				<td><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></td>														
 				<td align="center">{date_format date=$oUser->getDateRegister()}</td>
 				<td align="center">{$oUser->getSkill()}</td>							
 				<td align="center"><strong>{$oUser->getRating()}</strong></td>

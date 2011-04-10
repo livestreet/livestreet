@@ -2,7 +2,7 @@
 
 			<div class="page people">
 				
-				<h1>{$aLang.user_list}: {$oCity->getName()}</h1>
+				<h1>{$aLang.user_list}: {$oCity->getName()|escape:'html'}</h1>
 				
 				{if $aUsersCity}
 				<table>
@@ -20,7 +20,7 @@
 					{foreach from=$aUsersCity item=oUser}
 					{assign var="oSession" value=$oUser->getSession()}
 						<tr>
-							<td class="user"><a href="{router page='profile'}{$oUser->getLogin()}/"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{router page='profile'}{$oUser->getLogin()}/" class="link">{$oUser->getLogin()}</a></td>														
+							<td class="user"><a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" /></a><a href="{$oUser->getUserWebPath()}" class="link">{$oUser->getLogin()}</a></td>														
 							<td class="date">{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
 							<td class="date">{date_format date=$oUser->getDateRegister()}</td>
 							<td class="strength">{$oUser->getSkill()}</td>							
