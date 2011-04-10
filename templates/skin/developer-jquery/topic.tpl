@@ -65,7 +65,7 @@
 
 	<ul class="tags">
 		{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-			<li><a href="{router page='tag'}{$sTag|escape:'html'}/">{$sTag|escape:'html'}</a>{if !$smarty.foreach.tags_list.last}, {/if}</li>
+			<li><a href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a>{if !$smarty.foreach.tags_list.last}, {/if}</li>
 		{/foreach}								
 	</ul>
 
