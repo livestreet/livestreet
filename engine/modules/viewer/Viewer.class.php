@@ -287,10 +287,13 @@ class ModuleViewer extends Module {
 		 * Загружаем пути до шаблонов плагинов
 		 */
 		$aTemplateWebPathPlugin=array();
+		$aTemplatePathPlugin=array();
 		foreach ($aPlugins as $k=>$oPlugin) {
 			$aTemplateWebPathPlugin[$k]=Plugin::GetTemplateWebPath(get_class($oPlugin));
+			$aTemplatePathPlugin[$k]=Plugin::GetTemplatePath(get_class($oPlugin));
 		}
 		$this->Assign("aTemplateWebPathPlugin",$aTemplateWebPathPlugin);
+		$this->Assign("aTemplatePathPlugin",$aTemplatePathPlugin);
 	}
 	
 	/**
