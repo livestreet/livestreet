@@ -104,10 +104,9 @@ class MapperORM extends Mapper {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
 						
-		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
-		list($sOrder,$sLimit)=$this->BuildFilterMore($aFilter,$oEntitySample);
+		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);		
 				
-		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";		
+		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} ";		
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));		
 		if($aRow=call_user_func_array(array($this->oDb,'selectRow'),$aQueryParams)) {
 			return $aRow['c'];
