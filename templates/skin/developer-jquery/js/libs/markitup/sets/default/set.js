@@ -22,7 +22,7 @@ mySettings = {
 		{separator:'---------------' },
 		{name:'Жирный', className:'editor-bold', key:'B', openWith:'(!(<strong>|!|<b>)!)', closeWith:'(!(</strong>|!|</b>)!)' },
 		{name:'Наклонный', className:'editor-italic', key:'I', openWith:'(!(<em>|!|<i>)!)', closeWith:'(!(</em>|!|</i>)!)'  },
-		{name:'Перечеркнутый', className:'editor-stroke', key:'S', openWith:'<del>', closeWith:'</del>' },
+		{name:'Перечеркнутый', className:'editor-stroke', key:'S', openWith:'<s>', closeWith:'</s>' },
 		{name:'Подчеркнутый', className:'editor-underline', key:'U', openWith:'<u>', closeWith:'</u>' },
 		{name:'Цитата', className:'editor-quote', key:'Q', openWith:'<blockquote>', closeWith:'</blockquote>' },
 		{name:'Код', className:'editor-code', openWith:'<code>', closeWith:'</code>' },
