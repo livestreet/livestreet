@@ -138,13 +138,6 @@ class MapperORM extends Mapper {
 	
 	
 	public function BuildFilter($aFilter,$oEntitySample) {
-		if (isset($aFilter['#where']) and is_array($aFilter['#where'])) {
-			// '#where' => array('id = ?d OR name = ?' => array(1,'admin'));
-			foreach ($aFilter['#where'] as $sFilterFields => $aValues) {
-				return array($aValues,' and '. trim($sFilterFields) .' '); // возвращает первый элемент
-			}			
-		}
-
 		$aFilterFields=array();
 		foreach ($aFilter as $k=>$v) {
 			if (substr($k,0,1)=='#' || (is_string($v) && substr($v,0,1)=='#')) {
@@ -166,6 +159,13 @@ class MapperORM extends Mapper {
 				$sFilterFields.=" and {$sFieldCurrent} {$sConditionCurrent} ( ?a ) ";
 			} else {
 				$sFilterFields.=" and {$sFieldCurrent} {$sConditionCurrent} ? ";
+			}
+		}
+        if (isset($aFilter['#where']) and is_array($aFilter['#where'])) {
+            // '#where' => array('id = ?d OR name = ?' => array(1,'admin'));
+            foreach ($aFilter['#where'] as $sFilterKey => $aValues) {
+                $aFilterFields = array_merge($aFilterFields, $aValues);
+                $sFilterFields .= ' and '. trim($sFilterKey) .' ';
 			}
 		}
 		return array($aFilterFields,$sFilterFields);
