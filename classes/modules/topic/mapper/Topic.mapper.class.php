@@ -145,10 +145,11 @@ class ModuleTopic_MapperTopic extends Mapper {
 	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {
 		$sWhere=$this->buildFilter($aFilter);
 		
-		if(isset($aFilter['order']) and !is_array($aFilter['order'])) {
+		if(!isset($aFilter['order'])) {
+			$aFilter['order'] = 't.topic_date_add desc';
+		}
+		if (!is_array($aFilter['order'])) {
 			$aFilter['order'] = array($aFilter['order']);
-		} else {
-			$aFilter['order'] = array('t.topic_date_add desc');
 		}
 		
 		$sql = "SELECT 
@@ -197,6 +198,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 	public function GetAllTopics($aFilter) {
 		$sWhere=$this->buildFilter($aFilter);
 		
+		if(!isset($aFilter['order'])) {
+			$aFilter['order'] = 't.topic_id desc';
+		}
+		if (!is_array($aFilter['order'])) {
+			$aFilter['order'] = array($aFilter['order']);
+		}
+		
 		$sql = "SELECT 
 						t.topic_id							
 					FROM 
@@ -207,7 +215,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 						".$sWhere."
 						AND
 						t.blog_id=b.blog_id										
-					ORDER by t.topic_id desc";		
+					ORDER by ".implode(', ', $aFilter['order'])." ";		
 		$aTopics=array();
 		if ($aRows=$this->oDb->select($sql)) {			
 			foreach ($aRows as $aTopic) {
