@@ -27,6 +27,7 @@ require_once(LS_DKCACHE_PATH.'Cache/Backend/Profiler.php');
  */
 define('SYS_CACHE_TYPE_FILE','file');
 define('SYS_CACHE_TYPE_MEMORY','memory');
+define('SYS_CACHE_TYPE_XCACHE','xcache');
 
 /**
  * Модуль кеширования
@@ -82,8 +83,14 @@ class ModuleCache extends Module {
 			
 			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
+		} elseif ($this->sCacheType==SYS_CACHE_TYPE_XCACHE) {
+			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/Xcache.php');
+			$aConfigMem=Config::Get('xcache');
+			
+			$oCahe = new Zend_Cache_Backend_Xcache(is_array($aConfigMem) ? $aConfigMem : array());
+			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
-			throw new Exception("Wrong type of caching: ".$this->sCacheType." (file, memory)");
+			throw new Exception("Wrong type of caching: ".$this->sCacheType." (file, memory, xcache)");
 		}
 		/**
 		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
