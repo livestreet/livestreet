@@ -36,6 +36,7 @@
 				var elm = ed.selection.getNode();
 				var href ='http://';
 				var action = 'insert';				
+				var url = '';
 				elm = ed.dom.getParent(elm, "A");
 				if (elm != null && elm.nodeName == "A") {		
 					action = 'update';	
