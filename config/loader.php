@@ -14,6 +14,13 @@
 *
 ---------------------------------------------------------
 */
+
+/**
+ * Основные константы
+ */
+define('LS_VERSION','0.4.3');
+define('SYS_HACKER_CONSOLE',false);
+
 /**
  * Operations with Config object
  */

@@ -16,8 +16,7 @@
 */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-define('LS_VERSION','0.4.2');
-define('SYS_HACKER_CONSOLE',false);
+
 header('Content-Type: text/html; charset=utf-8');
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
