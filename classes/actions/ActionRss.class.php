@@ -60,7 +60,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getTextShort();
+			$item['description']=$this->getTopicText($oTopic);
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
@@ -89,7 +89,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl(); 
-			$item['description']=$oTopic->getTextShort();
+			$item['description']=$this->getTopicText($oTopic);
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
@@ -188,7 +188,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getTextShort();
+			$item['description']=$this->getTopicText($oTopic);
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
@@ -222,7 +222,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getTextShort();
+			$item['description']=$this->getTopicText($oTopic);
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
@@ -266,7 +266,7 @@ class ActionRss extends Action {
 			$item['title']=$oTopic->getTitle();
 			$item['guid']=$oTopic->getUrl();
 			$item['link']=$oTopic->getUrl();
-			$item['description']=$oTopic->getTextShort();
+			$item['description']=$this->getTopicText($oTopic);
 			$item['pubDate']=$oTopic->getDateAdd();
 			$item['author']=$oTopic->getUser()->getLogin();
 			$item['category']=htmlspecialchars($oTopic->getTags());
@@ -278,5 +278,24 @@ class ActionRss extends Action {
 		$this->Viewer_Assign('aItems',$topics);
 		$this->SetTemplateAction('index');
 	}
+	
+	/**
+	 * Формирует текст топика для RSS
+	 *
+	 */
+	protected function getTopicText($oTopic) {
+		$sText=$oTopic->getTextShort();
+		if ($oTopic->getTextShort()!=$oTopic->getText()) {
+			$sText.="<br><a href=\"{$oTopic->getUrl()}#cut\" title=\"{$this->Lang_Get('topic_read_more')}\">";
+			if ($oTopic->getCutText()) {
+				$sText.=htmlspecialchars($oTopic->getCutText());
+			} else {
+				$sText.=$this->Lang_Get('topic_read_more');
+			}
+			$sText.="</a>";
+		}
+		return $sText;
+	}
+	
 }
 ?>
