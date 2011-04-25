@@ -272,7 +272,7 @@ class LiveImage {
 			if(!function_exists($sResizeFunction)) $sResizeFunction = 'imagecopyresized';
 			if(isset($ct) and $ct!=-1) $sResizeFunction = 'imagecopyresized';
 							 				
-			if(!@$sResizeFunction($tmp,$this->image,0,0,0,0,$width,$height,$this->width,$this->height)) {
+			if(!@$sResizeFunction($tmp,$this->image,0,0,$start_width,$start_height,$width,$height,$width,$height)) {
 				imagedestroy($tmp);
 				return false;
 			}
