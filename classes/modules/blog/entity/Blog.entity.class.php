@@ -33,10 +33,10 @@ class ModuleBlog_EntityBlog extends Entity
         return $this->_aData['blog_type'];
     }
     public function getDateAdd() {
-        return $this->_aData['blog_data_add'];
+        return $this->_aData['blog_date_add'];
     }
     public function getDateEdit() {
-        return $this->_aData['blog_data_edit'];
+        return $this->_aData['blog_date_edit'];
     }
     public function getRating() {        
         return number_format(round($this->_aData['blog_rating'],2), 2, '.', '');
@@ -109,10 +109,10 @@ class ModuleBlog_EntityBlog extends Entity
         $this->_aData['blog_type']=$data;
     }
     public function setDateAdd($data) {
-        $this->_aData['blog_data_add']=$data;
+        $this->_aData['blog_date_add']=$data;
     }   
     public function setDateEdit($data) {
-        $this->_aData['blog_data_edit']=$data;
+        $this->_aData['blog_date_edit']=$data;
     } 
     public function setRating($data) {
         $this->_aData['blog_rating']=$data;
