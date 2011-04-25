@@ -962,8 +962,7 @@ class ModuleViewer extends Module {
 				/**
 				 * Если файл существует, обрабатываем
 				 */
-				if(file_exists($sFile)) { 
-					$sFileContent = file_get_contents($sFile);
+				if($sFileContent = @file_get_contents($sFile)) {
 					if($sType=='css'){ 
 						$sFileContent = $this->ConvertPathInCss($sFileContent,$sFile);
 						$sFileContent = $this->CompressCss($sFileContent);
@@ -1038,7 +1037,7 @@ class ModuleViewer extends Module {
 			/**
 			 * Обрабатываем относительный путь
 			 */
-			$sFilePathAbsolute = $this->GetWebPath(realpath($sDir.$sFilePathAbsolute));
+			$sFilePathAbsolute = $this->GetWebPath($this->GetRealpath($sDir.$sFilePathAbsolute));
 			/**
 			 * Заменяем относительные пути в файле на абсолютные
 			 */
@@ -1062,6 +1061,32 @@ class ModuleViewer extends Module {
 		 * с расчетом на возможное их слияние в будущем
 		 */
 		return rtrim($sContent,";").";".PHP_EOL;
+	}
+	
+	/**
+	 * Аналог realpath + обработка URL
+	 *
+	 * @param unknown_type $sPath
+	 * @return unknown
+	 */
+	protected function GetRealpath($sPath) {
+		if (preg_match("@^(http|https):@",$sPath)) {
+			$aUrl=parse_url($sPath);
+			$sPath=$aUrl['path'];
+			
+			$aParts = array();
+			$sPath = preg_replace('~/\./~', '/', $sPath);
+			foreach (explode('/', preg_replace('~/+~', '/', $sPath)) as $sPart ) {
+				if ($sPart === "..") {
+					array_pop($aParts);
+				} elseif ($sPart!="") {
+					$aParts[] = $sPart;
+				}
+			}
+			return ( (array_key_exists('scheme', $aUrl)) ? $aUrl['scheme'] . '://' . $aUrl['host'] : "" ) . "/" . implode("/", $aParts);
+		} else {
+			return realpath($sPath);
+		}
 	}
 	
 	/**
