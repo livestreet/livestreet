@@ -1383,7 +1383,7 @@ class ActionBlog extends Action {
 			case ModuleACL::CAN_DELETE_BLOG_EMPTY_ONLY :
 				if(is_array($aTopics) and count($aTopics)) {
 					$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_not_empty'),$this->Lang_Get('error'),true);
-					Router::Location($oBlog()->getUrlFull());
+					Router::Location($oBlog->getUrlFull());
 				}
 				break;
 			case ModuleACL::CAN_DELETE_BLOG_WITH_TOPICS :
@@ -1396,14 +1396,14 @@ class ActionBlog extends Action {
 				if($sBlogIdNew=getRequest('topic_move_to') and ($sBlogIdNew!=-1) and is_array($aTopics) and count($aTopics)) {
 					if(!$oBlogNew = $this->Blog_GetBlogById($sBlogIdNew)){
 						$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_move_error'),$this->Lang_Get('error'),true);
-						Router::Location($oBlog()->getUrlFull());
+						Router::Location($oBlog->getUrlFull());
 					}
 					/**
 					 * Если выбранный блог является персональным, возвращаем ошибку
 					 */
 					if($oBlogNew->getType()=='personal') {
 						$this->Message_AddErrorSingle($this->Lang_Get('blog_admin_delete_move_personal'),$this->Lang_Get('error'),true);
-						Router::Location($oBlog()->getUrlFull());					
+						Router::Location($oBlog->getUrlFull());
 					}
 					/**
 					 * Перемещаем топики
@@ -1423,7 +1423,7 @@ class ActionBlog extends Action {
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_delete_success'),$this->Lang_Get('attention'),true);
 			Router::Location(Router::GetPath('blogs'));
 		} else {
-			Router::Location($oBlog()->getUrlFull());
+			Router::Location($oBlog->getUrlFull());
 		}
 	}
 	
