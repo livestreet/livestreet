@@ -867,6 +867,21 @@ class ModuleViewer extends Module {
 			 * Исключаем эти файлы из основной выдачи
 			 */
 			$aResult[$sType] = array_diff($aResult[$sType],$aFilesHack);
+			
+			/**
+			 * Аналогично выделяем файлы, которые не нужно объединять со всеми
+			 * TODO: объединить в один цикл с $aFilesHack
+			 */
+			$aFilesNoMerge = array_filter(
+				$this->aFilesParams[$sType], 
+				create_function(
+					'$aParams',
+					'return array_key_exists("merge",(array)$aParams) and !$aParams["merge"];'
+				)	
+			);
+			$aFilesNoMerge = array_intersect(array_keys($aFilesNoMerge),$aResult[$sType]);
+			$aResult[$sType] = array_diff($aResult[$sType],$aFilesNoMerge);
+			
 			/**
 			 * Добавляем файлы поблочно
 			 */
@@ -899,6 +914,7 @@ class ModuleViewer extends Module {
 			 * Добавляем файлы хаков
 			 */
 			if(is_array($aFilesHack) && count($aFilesHack)) $aHeadFiles[$sType] = array_merge($aHeadFiles[$sType],$aFilesHack);	
+			if(is_array($aFilesNoMerge) && count($aFilesNoMerge)) $aHeadFiles[$sType] = array_merge($aHeadFiles[$sType],$aFilesNoMerge);
 		}
 		
 		/**
@@ -938,7 +954,10 @@ class ModuleViewer extends Module {
 			 */
 			ob_start();
 			foreach ($aFiles as $sFile) {				
-				$sFile=$this->GetServerPath($sFile);
+				// если файл локальный
+				if (strpos($sFile,Config::Get('path.root.web'))!==false) {
+					$sFile=$this->GetServerPath($sFile);
+				}
 				list($sFile,)=explode('?',$sFile,2);
 				/**
 				 * Если файл существует, обрабатываем
