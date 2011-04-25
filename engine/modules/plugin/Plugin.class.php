@@ -21,12 +21,6 @@
  */
 class ModulePlugin extends Module {
 	/**
-	 * Файл содержащий информацию об активированных плагинах
-	 *
-	 * @var string
-	 */
-	const PLUGIN_ACTIVATION_FILE = 'plugins.dat';
-	/**
 	 * Файл описания плагина
 	 *
 	 * @var string 
@@ -303,7 +297,7 @@ class ModulePlugin extends Module {
 		/**
 		 * Читаем данные из файла PLUGINS.DAT
 		 */		
-		$aPlugins=@file($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE);
+		$aPlugins=@file($this->sPluginsDir.Config::Get('sys.plugins.activation_file'));
 		$aPlugins =(is_array($aPlugins))?array_unique(array_map('trim',$aPlugins)):array();
 		
 		return $aPlugins;
@@ -321,7 +315,7 @@ class ModulePlugin extends Module {
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
 		 */
-		if (@file_put_contents($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE, implode(PHP_EOL,$aPlugins))) {			
+		if (@file_put_contents($this->sPluginsDir.Config::Get('sys.plugins.activation_file'), implode(PHP_EOL,$aPlugins))) {			
 			return true;
 		}		
 		return false;

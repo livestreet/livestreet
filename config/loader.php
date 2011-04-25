@@ -140,7 +140,7 @@ if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
  * и include-файлы /plugins/[plugin_name]/include/*.php
  */
 $sPluginsDir = Config::Get('path.root.server').'/plugins';
-$sPluginsListFile = $sPluginsDir.'/plugins.dat';
+$sPluginsListFile = $sPluginsDir.'/'.Config::Get('sys.plugins.activation_file');
 if($aPluginsList=@file($sPluginsListFile)) {
 	$aPluginsList=array_map('trim',$aPluginsList);
 	foreach ($aPluginsList as $sPlugin) {

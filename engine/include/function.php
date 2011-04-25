@@ -430,7 +430,7 @@ function func_camelize($sStr) {
 
 function func_list_plugins($bAll = false){
 	$sPluginsDir = Config::Get('path.root.server').'/plugins';
-	$sPluginsListFile = $sPluginsDir.'/plugins.dat';
+	$sPluginsListFile = $sPluginsDir.'/'.Config::Get('sys.plugins.activation_file');
 	$aPlugin = array();
 	if($bAll){
 		$aPluginRaw = array();

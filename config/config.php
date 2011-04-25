@@ -64,6 +64,10 @@ $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compil
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
 /**
+ * Настройки плагинов
+ */
+$config['sys']['plugins']['activation_file'] = 'plugins.dat'; // файл со списком активных плагинов в каталоге /plugins/
+/**
  * Настройки куков
  */
 $config['sys']['cookie']['host'] = null; // хост для установки куков
