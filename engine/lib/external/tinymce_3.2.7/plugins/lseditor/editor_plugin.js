@@ -16,13 +16,14 @@
 						
 			ed.addCommand('mceLsEditorImage', function() {        		        		
         		ed.windowManager.open({
-					file : url + '/image.htm?v=4',
+					file : url + '/image.htm?v=5',
 					width : 480,
 					height : 190,
 					inline : 1
 				}, {
 					plugin_url : url,
 					DIR_WEB_ROOT: DIR_WEB_ROOT,
+					ajaxurl: aRouter['ajax'],
 					LIVESTREET_SECURITY_KEY: LIVESTREET_SECURITY_KEY,
 					msgErrorBox: msgErrorBox,
 					msgNoticeBox: msgNoticeBox

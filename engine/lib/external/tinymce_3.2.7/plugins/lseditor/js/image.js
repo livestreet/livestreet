@@ -19,7 +19,7 @@ var lsImageDialog = {
             	}
         	}
     	}       	
-    	req.open(null, tinyMCEPopup.getWindowArg('DIR_WEB_ROOT')+'/include/ajax/uploadImg.php', true);    
+    	req.open(null, tinyMCEPopup.getWindowArg('ajaxurl')+'upload/image/', true);    
     	req.send( { value: value, security_ls_key: tinyMCEPopup.getWindowArg('LIVESTREET_SECURITY_KEY') } );
 	}
 };
