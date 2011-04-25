@@ -282,7 +282,10 @@ class ModulePlugin extends Module {
 							unset($aActivePlugins[array_shift($aIndex)]);
 						}
 					}
-					$this->SetActivePlugins($aActivePlugins);
+					if (!$this->SetActivePlugins($aActivePlugins)) {
+						$this->Message_AddError($this->Lang_Get('plugins_activation_file_write_error'),$this->Lang_Get('error'),true);
+						return;
+					}
 				}
 				return $bResult;
 			
@@ -318,7 +321,10 @@ class ModulePlugin extends Module {
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
 		 */
-		file_put_contents($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE, implode(PHP_EOL,$aPlugins));
+		if (@file_put_contents($this->sPluginsDir.self::PLUGIN_ACTIVATION_FILE, implode(PHP_EOL,$aPlugins))) {			
+			return true;
+		}		
+		return false;
 	}
 	
 	/**

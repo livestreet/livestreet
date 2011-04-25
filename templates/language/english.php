@@ -781,6 +781,7 @@ return array(
 	'plugins_activation_overlap' => 'Conflict with an active plugin. Resource %%resource%% reconfigured to %%delegate%% by %%plugin%% plugin.',
 	'plugins_activation_overlap_inherit' => 'Conflict with an active plugin. Resource %%resource%% used as inheritor in %%plugin%% plugin.',
 	'plugins_activation_file_not_found' => 'Plugin not found',
+	'plugins_activation_file_write_error' => 'Plugin file is not writable',
 	'plugins_activation_version_error' => 'Plugin requires LiveStreet kernel ver. %%version%% or higher',
 	'plugins_activation_requires_error' => 'Plugin requires activated <b>%%plugin%%</b> plugin',
 	'plugins_submit_delete' => 'Delete plugins',
