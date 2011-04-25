@@ -175,6 +175,16 @@ abstract class Plugin extends Object {
 	}
 	
 	/**
+	 * Выполняет SQL
+	 *
+	 * @param string $sSql
+	 * @return array
+	 */
+	protected function ExportSQLQuery($sSql) {
+		return $this->Database_ExportSQLQuery($sSql);
+	}
+	
+	/**
 	 * Проверяет наличие таблицы в БД
 	 *
 	 * @param unknown_type $sTableName

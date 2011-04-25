@@ -102,7 +102,13 @@ class ModuleDatabase extends Module {
 		return $aQueryStats;
 	}
 	
-	
+	/**
+	 * Экспорт SQL дампа
+	 *
+	 * @param unknown_type $sFilePath
+	 * @param unknown_type $aConfig
+	 * @return unknown
+	 */
 	public function ExportSQL($sFilePath,$aConfig=null) {
 		if(!is_file($sFilePath)){
 			return array('result'=>false,'errors'=>array("cant find file '$sFilePath'"));
@@ -110,6 +116,17 @@ class ModuleDatabase extends Module {
 			return array('result'=>false,'errors'=>array("cant read file '$sFilePath'"));
 		}
 		$sFileQuery = file_get_contents($sFilePath);
+		return $this->ExportSQLQuery($sFileQuery,$aConfig);
+	}
+	
+	/**
+	 * Экспорт SQL
+	 *
+	 * @param unknown_type $sFileQuery
+	 * @param unknown_type $aConfig
+	 * @return unknown
+	 */
+	public function ExportSQLQuery($sFileQuery,$aConfig=null) {
 		/**
 		 * Замена префикса таблиц
 		 */
