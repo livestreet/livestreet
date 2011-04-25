@@ -26,7 +26,7 @@ class ActionBlogs extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuHeadItemSelect='blog';
+	protected $sMenuHeadItemSelect='blogs';
 	
 	public function Init() {		
 	}
