@@ -188,7 +188,7 @@ abstract class Plugin extends Object {
 	 * Проверяет наличие таблицы в БД
 	 *
 	 * @param unknown_type $sTableName
-	 * @return unknown
+	 * @return bool
 	 */
 	protected function isTableExists($sTableName) {
 		return $this->Database_isTableExists($sTableName);
@@ -197,12 +197,23 @@ abstract class Plugin extends Object {
 	/**
 	 * Проверяет наличие поля в таблице
 	 *
-	 * @param unknown_type $sTableName
-	 * @param unknown_type $sFieldName
-	 * @return unknown
+	 * @param string $sTableName
+	 * @param string $sFieldName
+	 * @return bool
 	 */
 	protected function isFieldExists($sTableName,$sFieldName) {
 		return $this->Database_isFieldExists($sTableName,$sFieldName);
+	}
+	
+	/**
+	 * Добавляет тип в поле enum
+	 *
+	 * @param string $sTableName
+	 * @param string $sFieldName
+	 * @param string $sType
+	 */
+	protected function addEnumType($sTableName,$sFieldName,$sType) {
+		$this->Database_addEnumType($sTableName,$sFieldName,$sType);
 	}
 	
 	/**

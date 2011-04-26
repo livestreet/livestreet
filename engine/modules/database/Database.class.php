@@ -198,6 +198,32 @@ class ModuleDatabase extends Module {
 		}
 		return false;
 	}
+	
+	/**
+	 * Доавляет новый тип в поле таблицы с типом enum
+	 *
+	 * @param string $sTableName
+	 * @param string $sFieldName
+	 * @param string $sType
+	 * @param array $aConfig
+	 */
+	public function addEnumType($sTableName,$sFieldName,$sType,$aConfig=null) {
+		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);		
+		$sQuery="SHOW COLUMNS FROM  `{$sTableName}`";
+		
+		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
+			foreach ($aRows as $aRow){
+				if ($aRow['Field'] == $sFieldName) break;
+			}
+			if (strpos($aRow['Type'], "'{$sType}'") === FALSE) {
+				$aRow['Type'] =str_ireplace('enum(', "enum('{$sType}',", $aRow['Type']);
+				$sQuery="ALTER TABLE `{$sTableName}` MODIFY `{$sFieldName}` ".$aRow['Type'];
+				$sQuery.= ($aRow['Null']=='NO') ? ' NOT NULL ' : ' NULL ';
+				$sQuery.= is_null($aRow['Default']) ? ' DEFAULT NULL ' : " DEFAULT '{$aRow['Default']}' ";
+				$this->GetConnect($aConfig)->select($sQuery);
+			}
+		}
+	}
 		
 }
 
