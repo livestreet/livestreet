@@ -162,11 +162,39 @@ class ModuleDatabase extends Module {
 		return array('result'=>false,'errors'=>$aErrors);
 	}
 	
+	/**
+	 * Проверяет существование таблицы
+	 *
+	 * @param string $sTableName
+	 * @param array $aConfig
+	 * @return bool
+	 */
 	public function isTableExists($sTableName,$aConfig=null) {
 		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
 		$sQuery="SHOW TABLES LIKE '{$sTableName}'";
 		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
 			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Проверяет существование поля в таблице
+	 *
+	 * @param string $sTableName
+	 * @param string $sFieldName
+	 * @param array $aConfig
+	 * @return bool
+	 */
+	public function isFieldExists($sTableName,$sFieldName,$aConfig=null) {
+		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
+		$sQuery="SHOW FIELDS FROM '{$sTableName}'";
+		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
+			foreach ($aRows as $aRow){
+				if ($aRow['Field'] == $sFieldName){
+					return true;
+				}
+			}
 		}
 		return false;
 	}

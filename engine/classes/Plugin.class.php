@@ -195,6 +195,17 @@ abstract class Plugin extends Object {
 	}
 	
 	/**
+	 * Проверяет наличие поля в таблице
+	 *
+	 * @param unknown_type $sTableName
+	 * @param unknown_type $sFieldName
+	 * @return unknown
+	 */
+	protected function isFieldExists($sTableName,$sFieldName) {
+		return $this->Database_isFieldExists($sTableName,$sFieldName);
+	}
+	
+	/**
 	 * Получает версию плагина
 	 *
 	 * @return unknown
