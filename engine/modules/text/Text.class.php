@@ -46,54 +46,45 @@ class ModuleText extends Module {
 	 *
 	 */
 	protected function JevixConfig() {
-		// разрешаем в параметрах символ &
-		unset($this->oJevix->entities1['&']);
-		// Разрешённые теги
-		$this->oJevix->cfgAllowTags(array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote'));
-		// Коротие теги типа
-		$this->oJevix->cfgSetTagShort(array('br','img', 'hr', 'cut'));
-		// Преформатированные теги
-		$this->oJevix->cfgSetTagPreformatted(array('pre','code','video'));
-		// Разрешённые параметры тегов		
-		$this->oJevix->cfgAllowTagParams('img', array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center', 'middle'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int'));
-		$this->oJevix->cfgAllowTagParams('a', array('title', 'href', 'rel' => '#text', 'name' => '#text', 'target' => array('_blank')));
-		$this->oJevix->cfgAllowTagParams('cut', array('name'));
-		$this->oJevix->cfgAllowTagParams('object', array('width' => '#int', 'height' => '#int', 'data' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')), 'type' => '#text'));
-		$this->oJevix->cfgAllowTagParams('param', array('name' => '#text', 'value' => '#text'));
-		$this->oJevix->cfgAllowTagParams('embed', array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text'));
-		$this->oJevix->cfgAllowTagParams('acronym', array('title'));
-		$this->oJevix->cfgAllowTagParams('abbr', array('title'));
-		// Параметры тегов являющиеся обязательными
-		$this->oJevix->cfgSetTagParamsRequired('img', 'src');
-		//$this->oJevix->cfgSetTagParamsRequired('a', 'href');
-		// Теги которые необходимо вырезать из текста вместе с контентом
-		$this->oJevix->cfgSetTagCutWithContent(array('script', 'iframe', 'style'));
-		// Вложенные теги
-		$this->oJevix->cfgSetTagChilds('ul', array('li'), false, true);
-		$this->oJevix->cfgSetTagChilds('ol', array('li'), false, true);
-		$this->oJevix->cfgSetTagChilds('object', 'param', false, true);
-		$this->oJevix->cfgSetTagChilds('object', 'embed', false, false);
-		// Если нужно оставлять пустые не короткие теги
-		$this->oJevix->cfgSetTagIsEmpty(array('param','embed','a'));
-		// Не нужна авто-расстановка <br>
-		$this->oJevix->cfgSetTagNoAutoBr(array('ul','ol','object'));
-		// Теги с обязательными параметрами		
-		$this->oJevix->cfgSetTagParamDefault('embed','wmode','opaque',true);
-		if (Config::Get('view.noindex')) {			
-			$this->oJevix->cfgSetTagParamDefault('a','rel','nofollow',true);
-		}
-		// Отключение авто-добавления <br>
-		$this->oJevix->cfgSetAutoBrMode(true);
-		// Автозамена
-		$this->oJevix->cfgSetAutoReplace(array('+/-', '(c)', '(с)', '(r)', '(C)', '(С)', '(R)'), array('±', '©', '©', '®', '©', '©', '®'));
-		//$this->oJevix->cfgSetXHTMLMode(false);
-		$this->oJevix->cfgSetTagNoTypography('code');
-		$this->oJevix->cfgSetTagNoTypography('video');
-		$this->oJevix->cfgSetTagNoTypography('object');
-		// Теги, после которых необходимо пропускать одну пробельную строку
-		$this->oJevix->cfgSetTagBlockType(array('h4','h5','h6','ol','ul','blockquote','pre'));
+		// загружаем конфиг
+		$this->LoadJevixConfig();
 	}
 	
+	/**
+	 * Загружает конфиг Jevix'а
+	 *
+	 * @param string $sType Тип конфига
+	 * @param bool $bClear
+	 */
+	public function LoadJevixConfig($sType='default',$bClear=true) {
+		if ($bClear) {
+			$this->oJevix->tagsRules=array();
+		}
+		$aConfig=Config::Get('jevix.'.$sType);
+		if (is_array($aConfig)) {
+			foreach ($aConfig as $sMethod => $aExec) {
+				foreach ($aExec as $aParams) {
+					call_user_func_array(array($this->oJevix,$sMethod), $aParams);
+				}
+			}
+			/**
+			 * Хардкодим некоторые параметры
+			 */
+			unset($this->oJevix->entities1['&']); // разрешаем в параметрах символ &
+			if (Config::Get('view.noindex') and isset($this->oJevix->tagsRules['a'])) {
+				$this->oJevix->cfgSetTagParamDefault('a','rel','nofollow',true);
+			}
+		}
+	}
+	
+	/**
+	 * Возвращает объект Jevix
+	 *
+	 * @return unknown
+	 */
+	public function GetJevix() {
+		return $this->oJevix;
+	}
 	/**
 	 * Парсинг текста с помощью Jevix
 	 *
@@ -101,7 +92,11 @@ class ModuleText extends Module {
 	 * @param array $aError
 	 * @return string
 	 */
-	public function JevixParser($sText,&$aError=null) {		
+	public function JevixParser($sText,&$aError=null) {
+		// Если конфиг пустой, то загружаем его
+		if (!count($this->oJevix->tagsRules)) {
+			$this->LoadJevixConfig();
+		}
 		$sResult=$this->oJevix->parse($sText,$aError);
 		return $sResult;
 	}

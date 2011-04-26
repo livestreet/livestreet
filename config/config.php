@@ -440,5 +440,10 @@ $config['compress']['js']['use']    = true;    // указывает на нео
 setlocale(LC_ALL, "ru_RU.UTF-8");
 date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/timezones.php
 
+/**
+ * Настройки типографа текста Jevix
+ */
+$config['jevix']=require(dirname(__FILE__).'/jevix.php');
+
 return $config;
 ?>
