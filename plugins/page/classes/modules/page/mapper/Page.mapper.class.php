@@ -32,7 +32,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 			page_sort,			
 			page_auto_br
 			)
-			VALUES(?, ?,	?,	?,  ?,  ?,  ?,  ?,  ?d,  ?d,  ?d)
+			VALUES(?, ?,	?,	?,  ?,  ?,  ?,  ?,  ?d,  ?d,  ?d,  ?d)
 		";			
 		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr())) 
 		{
