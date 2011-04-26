@@ -318,11 +318,13 @@ class ModuleViewer extends Module {
 		 * Если шаблон найден то выводим, иначе ошибка
 		 * Предварительно проверяем наличие делегата
 		 */
-		$sTemplate=$this->Plugin_GetDelegate('template',$sTemplate);
-		if ($this->TemplateExists($sTemplate)) {
-			$this->oSmarty->display($sTemplate);
-		} else {
-			throw new Exception('Can not find the template: '.$sTemplate);
+		if ($sTemplate) {
+			$sTemplate=$this->Plugin_GetDelegate('template',$sTemplate);
+			if ($this->TemplateExists($sTemplate)) {
+				$this->oSmarty->display($sTemplate);
+			} else {
+				throw new Exception('Can not find the template: '.$sTemplate);
+			}
 		}
 	}
 	/**

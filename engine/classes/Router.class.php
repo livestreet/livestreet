@@ -65,9 +65,20 @@ class Router extends Object {
 		$this->oEngine=Engine::getInstance();
 		$this->oEngine->Init();		
 		$this->ExecAction();
+		$this->Shutdown(false);
+	}
+	
+	/**
+	 * Завершение работы роутинга
+	 *
+	 */
+	public function Shutdown($bExit=true) {
 		$this->AssignVars();
 		$this->oEngine->Shutdown();
 		$this->Viewer_Display($this->oAction->GetTemplate());
+		if ($bExit) {
+			exit();
+		}
 	}
 	/**
 	 * Парсим URL 
