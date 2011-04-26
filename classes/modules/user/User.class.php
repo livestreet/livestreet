@@ -412,14 +412,16 @@ class ModuleUser extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return unknown
 	 */
-	public function Authorization(ModuleUser_EntityUser $oUser,$bRemember=true) {	
+	public function Authorization(ModuleUser_EntityUser $oUser,$bRemember=true,$sKey=null) {	
 		if (!$oUser->getId() or !$oUser->getActivate()) {
 			return false;
 		}
 		/**
 		 * Генерим новый ключ авторизаии для куков
 		 */
-		$sKey=md5(func_generator().time().$oUser->getLogin());
+		if(is_null($sKey)){
+			$sKey=md5(func_generator().time().$oUser->getLogin());
+		}
 		/**
 		 * Создаём новую сессию
 		 */
