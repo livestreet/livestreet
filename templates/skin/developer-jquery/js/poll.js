@@ -15,7 +15,9 @@ function addField() {
 		$.notifier.error(null, LANG_POLL_ERROR);
 		return false;
 	}
-	$("#question_list li:first-child").clone().appendTo("#question_list").append($('<a href="#" style="margin-left: 5px;">'+LANG_DELETE+'</a>').bind("click", deleteField));
+	var newItem = $("#question_list li:first-child").clone();
+	newItem.appendTo("#question_list").append($('<a href="#" style="margin-left: 5px;">'+LANG_DELETE+'</a>').bind("click", deleteField));
+	newItem.find('input').val('');
 }
 
 // Удаляет вариант ответа
