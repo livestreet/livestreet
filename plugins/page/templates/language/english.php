@@ -46,6 +46,7 @@ return array(
 	'page_create_sort_notice' => 'Sets the sorting when displaying',
 	'page_create_sort_error' => 'Sorting must be a number',
 	'page_create_active' => 'Show active page',	
+	'page_create_auto_br' => 'auto BR (new line)',
 	'page_create_main' => 'display on the main page',
 	'page_create_submit_save' => 'Save',
 	'page_create_submit_save_ok' => 'New page has been created',

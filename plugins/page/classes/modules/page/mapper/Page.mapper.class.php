@@ -29,11 +29,12 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 			page_seo_description,
 			page_active,			
 			page_main,			
-			page_sort			
+			page_sort,			
+			page_auto_br
 			)
 			VALUES(?, ?,	?,	?,  ?,  ?,  ?,  ?,  ?d,  ?d,  ?d)
 		";			
-		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort())) 
+		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr())) 
 		{
 			return $iId;
 		}		
@@ -52,10 +53,11 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 			page_seo_description = ? ,
 			page_active	 = ?, 		
 			page_main	 = ?,		
-			page_sort	 = ? 		
+			page_sort	 = ?, 		
+			page_auto_br	 = ?
 			WHERE page_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getId())) 
+		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr(),$oPage->getId())) 
 		{
 			return true;
 		}		

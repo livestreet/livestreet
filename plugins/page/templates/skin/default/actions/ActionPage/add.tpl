@@ -83,6 +83,8 @@
 	<input type="text" id="page_sort" name="page_sort" value="{$_aRequest.page_sort}" class="input-wide" />
 	<span class="note">{$aLang.page_create_sort_notice}</span></p>
 
+	<p><label><input type="checkbox" id="page_auto_br" name="page_auto_br" value="1" class="checkbox" {if $_aRequest.page_auto_br==1}checked{/if}/>{$aLang.page_create_auto_br}</label></p>
+	
 	<p><label><input type="checkbox" id="page_active" name="page_active" value="1" class="checkbox" {if $_aRequest.page_active==1}checked{/if} />{$aLang.page_create_active}</label></p>
 	
 	<p><label><input type="checkbox" id="page_main" name="page_main" value="1" class="checkbox" {if $_aRequest.page_main==1}checked{/if} />{$aLang.page_create_main}</label></p>

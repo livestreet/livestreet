@@ -55,7 +55,10 @@ class PluginPage_ModulePage_EntityPage extends Entity
     }
     public function getSort() {
         return $this->_aData['page_sort'];
-    }     
+    }   
+    public function getAutoBr() {
+        return $this->_aData['page_auto_br'];
+    }  
     
     public function getLevel() {
         return $this->_aData['level'];
@@ -102,6 +105,9 @@ class PluginPage_ModulePage_EntityPage extends Entity
     }
     public function setSort($data) {
         $this->_aData['page_sort']=$data;
+    }
+    public function setAutoBr($data) {
+        $this->_aData['page_auto_br']=$data;
     }
 }
 ?>

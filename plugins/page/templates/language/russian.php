@@ -46,6 +46,7 @@ return array(
 	'page_create_sort_notice' => 'Устанавливает сортировку при отображении',
 	'page_create_sort_error' => 'Сортировка должна быть числом',
 	'page_create_active' => 'показывать страницу',	
+	'page_create_auto_br' => 'автоматические переносы строк',
 	'page_create_main' => 'отображать на главной странице',	
 	'page_create_submit_save' => 'сохранить',
 	'page_create_submit_save_ok' => 'Новая страница добавлена',

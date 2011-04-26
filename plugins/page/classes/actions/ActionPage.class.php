@@ -118,6 +118,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 					$_REQUEST['page_active']=$oPageEdit->getActive();	
 					$_REQUEST['page_main']=$oPageEdit->getMain();	
 					$_REQUEST['page_sort']=$oPageEdit->getSort();	
+					$_REQUEST['page_auto_br']=$oPageEdit->getAutoBr();
 					$_REQUEST['page_id']=$oPageEdit->getId();						
 				}	else {
 					/**
@@ -198,6 +199,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 * Обновляем свойства страницы
 		 */		
 		$oPageEdit->setActive(getRequest('page_active') ? 1 : 0);
+		$oPageEdit->setAutoBr(getRequest('page_auto_br') ? 1 : 0);
 		$oPageEdit->setMain(getRequest('page_main') ? 1 : 0);
 		$oPageEdit->setDateEdit(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {
@@ -242,6 +244,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 */
 		$oPage=Engine::GetEntity('PluginPage_Page');
 		$oPage->setActive(getRequest('page_active') ? 1 : 0);
+		$oPage->setAutoBr(getRequest('page_auto_br') ? 1 : 0);
 		$oPage->setMain(getRequest('page_main') ? 1 : 0);
 		$oPage->setDateAdd(date("Y-m-d H:i:s"));
 		if (getRequest('page_pid')==0) {

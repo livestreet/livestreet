@@ -6,7 +6,11 @@
 		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}
-			{$oPage->getText()|nl2br}
+			{if $oPage->getAutoBr()}
+				{$oPage->getText()|nl2br}
+			{else}
+				{$oPage->getText()}
+			{/if}
 		{/if}
 	</div>
 </div>
