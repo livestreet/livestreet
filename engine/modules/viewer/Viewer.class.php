@@ -1250,13 +1250,9 @@ class ModuleViewer extends Module {
 		$iPrevPage = $iCurrentPage>1 ? $iCurrentPage-1 : false;
 		
 		$sGetParams='';
-		foreach ($aGetParamsList as $sName => $sValue) {
-			$sGetParams.=$sName.'='.urlencode($sValue).'&';
+		if (is_string($aGetParamsList) or count($aGetParamsList)){
+			$sGetParams='?'.(is_array($aGetParamsList) ? http_build_query($aGetParamsList,'','&') : $aGetParamsList);
 		}
-		if ($sGetParams!='') {
-			$sGetParams='?'.trim($sGetParams,'&');
-		}
-		
 		$aPaging=array(
 			'aPagesLeft' => $aPagesLeft,
 			'aPagesRight' => $aPagesRight,
