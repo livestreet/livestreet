@@ -47,12 +47,12 @@
 	{hook run='body_begin'}
 
 	<div id="container">
-		{include file=header_top.tpl}
+		{include file='header_top.tpl'}
 
 		<div id="wrapper">
 			<div id="content">
-				{include file=window_login.tpl}
-				{include file=nav.tpl}
-				{include file=system_message.tpl}
+				{include file='window_login.tpl'}
+				{include file='nav.tpl'}
+				{include file='system_message.tpl'}
 				
 				{hook run='content_begin'}

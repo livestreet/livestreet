@@ -1,7 +1,7 @@
 <div class="block">
 	<h2>{$aLang.talk_speaker_title}</h2>
 
-	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator() }
+	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 		<form onsubmit="talk.addToTalk({$oTalk->getId()}); return false;">
 			<p><label>{$aLang.talk_speaker_add_label}:<br />
 			<input type="text" id="talk_speaker_add" name="add" class="input-wide autocomplete-users" /></label></p>
