@@ -1,15 +1,7 @@
-//MooTools, <http://mootools.net>, My Object Oriented (JavaScript) Tools. Copyright (c) 2006-2009 Valerio Proietti, <http://mad4milk.net>, MIT Style License.
-//MooTools More, <http://mootools.net/more>. Copyright (c) 2006-2009 Aaron Newton <http://clientcide.com/>, Valerio Proietti <http://mad4milk.net> & the MooTools team <http://mootools.net/developers>, MIT Style License.
-/* Clientcide Copyright (c) 2006-2009, http://www.clientcide.com/wiki/cnet-libraries#license*/
-
-//Contents: Core, Browser, Array, Function, Number, String, Hash, Event, Class, Class.Extras, Element, Element.Event, Element.Style, Element.Dimensions, Selectors, DomReady, JSON, Cookie, Swiff, Fx, Fx.CSS, Fx.Tween, Fx.Morph, Fx.Transitions, Request, Request.HTML, Request.JSON, More, Element.Forms, Fx.Slide, Fx.Scroll, Fx.SmoothScroll, Assets, Tips, Clientcide, dbug, Class.ToElement, StyleWriter, Element.Measure, Element.Position, Class.Binds, Element.Shortcuts, Element.Pin, Class.Occlude, IframeShim, StickyWin, Mask, StickyWin.Modal
-
-//This lib: http://www.clientcide.com/js/build.php?requireLibs[]=mootools-core&require[]=Element.Forms&require[]=Fx.Slide&require[]=Fx.SmoothScroll&require[]=Assets&require[]=Tips&require[]=Clientcide&require[]=dbug&require[]=Class.ToElement&require[]=StyleWriter&require[]=StickyWin&require[]=StickyWin.Modal&compression=none
-
 /*
 ---
 
-script: Core.js
+name: Core
 
 description: The core of MooTools, contains all the base functions and the Native and Hash implementations. Required by all the other scripts.
 
@@ -20,17 +12,17 @@ copyright: Copyright (c) 2006-2008 [Valerio Proietti](http://mad4milk.net/).
 authors: The MooTools production team (http://mootools.net/developers/)
 
 inspiration:
-- Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
-- Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+  - Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
+  - Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
 
-provides: [Mootools, Native, Hash.base, Array.each, $util]
+provides: [MooTools, Native, Hash.base, Array.each, $util]
 
 ...
 */
 
 var MooTools = {
-	'version': '1.2.4',
-	'build': '0d9113241a90b9cd5643b926795852a2026710d4'
+	'version': '1.2.5',
+	'build': '008d8f0f2fcc2044e54fdd3635341aaab274e757'
 };
 
 var Native = function(options){
@@ -297,18 +289,18 @@ function $unlink(object){
 	}
 	return unlinked;
 };
+
+
 /*
 ---
 
-script: Browser.js
+name: Browser
 
 description: The Browser Core. Contains Browser initialization, Window and Document, and the Browser Hash.
 
 license: MIT-style license.
 
-requires: 
-- /Native
-- /$util
+requires: [Native, $util]
 
 provides: [Browser, Window, Document, $exec]
 
@@ -465,20 +457,20 @@ var Document = new Native({
 Document.Prototype = {$family: {name: 'document'}};
 
 new Document(document);
+
+
 /*
 ---
 
-script: Array.js
+name: Array
 
 description: Contains Array Prototypes like each, contains, and erase.
 
 license: MIT-style license.
 
-requires:
-- /$util
-- /Array.each
+requires: [$util, Array.each]
 
-provides: [Array]
+provides: Array
 
 ...
 */
@@ -615,23 +607,27 @@ Array.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Function.js
+name: Function
 
 description: Contains Function Prototypes like create, bind, pass, and delay.
 
 license: MIT-style license.
 
-requires:
-- /Native
-- /$util
+requires: [Native, $util]
 
-provides: [Function]
+provides: Function
 
 ...
 */
+
+try {
+	delete Function.prototype.bind;
+} catch(e){}
 
 Function.implement({
 
@@ -686,20 +682,20 @@ Function.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Number.js
+name: Number
 
 description: Contains Number Prototypes like limit, round, times, and ceil.
 
 license: MIT-style license.
 
-requires:
-- /Native
-- /$util
+requires: [Native, $util]
 
-provides: [Number]
+provides: Number
 
 ...
 */
@@ -740,19 +736,20 @@ Number.alias('times', 'each');
 	});
 	Number.implement(methods);
 })(['abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'exp', 'floor', 'log', 'max', 'min', 'pow', 'sin', 'sqrt', 'tan']);
+
+
 /*
 ---
 
-script: String.js
+name: String
 
 description: Contains String Prototypes like camelCase, capitalize, test, and toInt.
 
 license: MIT-style license.
 
-requires:
-- /Native
+requires: Native
 
-provides: [String]
+provides: String
 
 ...
 */
@@ -834,19 +831,20 @@ String.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Hash.js
+name: Hash
 
 description: Contains Hash Prototypes. Provides a means for overcoming the JavaScript practical impossibility of extending native Objects.
 
 license: MIT-style license.
 
-requires:
-- /Hash.base
+requires: Hash.base
 
-provides: [Hash]
+provides: Hash
 
 ...
 */
@@ -977,24 +975,20 @@ Hash.implement({
 });
 
 Hash.alias({keyOf: 'indexOf', hasValue: 'contains'});
+
+
 /*
 ---
 
-script: Event.js
+name: Event
 
 description: Contains the Event Class, to make the event object cross-browser.
 
 license: MIT-style license.
 
-requires:
-- /Window
-- /Document
-- /Hash
-- /Array
-- /Function
-- /String
+requires: [Window, Document, Hash, Array, Function, String]
 
-provides: [Event]
+provides: Event
 
 ...
 */
@@ -1105,25 +1099,20 @@ Event.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Class.js
+name: Class
 
 description: Contains the Class Function for easily creating, extending, and implementing reusable Classes.
 
 license: MIT-style license.
 
-requires:
-- /$util
-- /Native
-- /Array
-- /String
-- /Function
-- /Number
-- /Hash
+requires: [$util, Native, Array, String, Function, Number, Hash]
 
-provides: [Class]
+provides: Class
 
 ...
 */
@@ -1272,19 +1261,20 @@ Class.Mutators = {
 	}
 	
 };
+
+
 /*
 ---
 
-script: Class.Extras.js
+name: Class.Extras
 
 description: Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
 
 license: MIT-style license.
 
-requires:
-- /Class
+requires: Class
 
-provides: [Chain, Events, Options]
+provides: [Chain, Events, Options, Class.Extras]
 
 ...
 */
@@ -1381,23 +1371,18 @@ var Options = new Class({
 	}
 
 });
+
+
 /*
 ---
 
-script: Element.js
+name: Element
 
 description: One of the most important items in MooTools. Contains the dollar function, the dollars function, and an handful of cross-browser, time-saver methods to let you easily work with HTML Elements.
 
 license: MIT-style license.
 
-requires:
-- /Window
-- /Document
-- /Array
-- /String
-- /Function
-- /Number
-- /Hash
+requires: [Window, Document, Array, String, Function, Number, Hash]
 
 provides: [Element, Elements, $, $$, Iframe]
 
@@ -1504,18 +1489,35 @@ Elements.implement({
 
 });
 
+(function(){
+
+/*<ltIE8>*/
+var createElementAcceptsHTML;
+try {
+	var x = document.createElement('<input name=x>');
+	createElementAcceptsHTML = (x.name == 'x');
+} catch(e){}
+
+var escapeQuotes = function(html){
+	return ('' + html).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+};
+/*</ltIE8>*/
+
 Document.implement({
 
 	newElement: function(tag, props){
-		if (Browser.Engine.trident && props){
-			['name', 'type', 'checked'].each(function(attribute){
-				if (!props[attribute]) return;
-				tag += ' ' + attribute + '="' + props[attribute] + '"';
-				if (attribute != 'checked') delete props[attribute];
-			});
-			tag = '<' + tag + '>';
+		if (props && props.checked != null) props.defaultChecked = props.checked;
+		/*<ltIE8>*/// Fix for readonly name and type properties in IE < 8
+		if (createElementAcceptsHTML && props){
+			tag = '<' + tag;
+			if (props.name) tag += ' name="' + escapeQuotes(props.name) + '"';
+			if (props.type) tag += ' type="' + escapeQuotes(props.type) + '"';
+			tag += '>';
+			delete props.name;
+			delete props.type;
 		}
-		return document.id(this.createElement(tag)).set(props);
+		/*</ltIE8>*/
+		return this.id(this.createElement(tag)).set(props);
 	},
 
 	newTextNode: function(text){
@@ -1566,6 +1568,8 @@ Document.implement({
 	})()
 
 });
+
+})();
 
 if (window.$ == null) Window.implement({
 	$: function(el, nc){
@@ -1630,6 +1634,7 @@ var get = function(uid){
 var clean = function(item, retain){
 	if (!item) return;
 	var uid = item.uid;
+	if (retain !== true) retain = false;
 	if (Browser.Engine.trident){
 		if (item.clearAttributes){
 			var clone = retain && item.cloneNode(false);
@@ -2090,20 +2095,20 @@ if (Browser.Engine.webkit && Browser.Engine.version < 420) Element.Properties.te
 		return text;
 	}
 };
+
+
 /*
 ---
 
-script: Element.Event.js
+name: Element.Event
 
 description: Contains Element methods for dealing with events. This file also includes mouseenter and mouseleave custom Element Events.
 
 license: MIT-style license.
 
-requires: 
-- /Element
-- /Event
+requires: [Element, Event]
 
-provides: [Element.Event]
+provides: Element.Event
 
 ...
 */
@@ -2210,6 +2215,12 @@ Native.implement([Element, Window, Document], {
 
 });
 
+// IE9
+try {
+	if (typeof HTMLElement != 'undefined')
+		HTMLElement.prototype.fireEvent = Element.prototype.fireEvent;
+} catch(e){}
+
 Element.NativeEvents = {
 	click: 2, dblclick: 2, mouseup: 2, mousedown: 2, contextmenu: 2, //mouse buttons
 	mousewheel: 2, DOMMouseScroll: 2, //mouse wheel
@@ -2248,19 +2259,20 @@ Element.Events = new Hash({
 });
 
 })();
+
+
 /*
 ---
 
-script: Element.Style.js
+name: Element.Style
 
 description: Contains methods for interacting with the styles of Elements in a fashionable way.
 
 license: MIT-style license.
 
-requires:
-- /Element
+requires: Element
 
-provides: [Element.Style]
+provides: Element.Style
 
 ...
 */
@@ -2397,23 +2409,24 @@ Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, bor
 	Short.borderStyle[bds] = Short[bd][bds] = All[bds] = '@';
 	Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = 'rgb(@, @, @)';
 });
+
+
 /*
 ---
 
-script: Element.Dimensions.js
+name: Element.Dimensions
 
 description: Contains methods to work with size, scroll, or positioning of Elements and the window object.
 
 license: MIT-style license.
 
 credits:
-- Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
-- Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
+  - Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
+  - Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
 
-requires:
-- /Element
+requires: Element
 
-provides: [Element.Dimensions]
+provides: Element.Dimensions
 
 ...
 */
@@ -2655,19 +2668,20 @@ Native.implement([Window, Document, Element], {
 	}
 
 });
+
+
 /*
 ---
 
-script: Selectors.js
+name: Selectors
 
 description: Adds advanced CSS-style querying capabilities for targeting HTML Elements. Includes pseudo selectors.
 
 license: MIT-style license.
 
-requires:
-- /Element
+requires: Element
 
-provides: [Selectors]
+provides: Selectors
 
 ...
 */
@@ -3031,19 +3045,20 @@ Selectors.Pseudo = new Hash({
 	}
 
 });
+
+
 /*
 ---
 
-script: DomReady.js
+name: DomReady
 
 description: Contains the custom event domready.
 
 license: MIT-style license.
 
-requires:
-- /Element.Event
+requires: Element.Event
 
-provides: [DomReady]
+provides: DomReady
 
 ...
 */
@@ -3084,25 +3099,22 @@ Element.Events.domready = {
 	}
 
 })();
+
+
 /*
 ---
 
-script: JSON.js
+name: JSON
 
 description: JSON encoder and decoder.
 
 license: MIT-style license.
 
-See Also: <http://www.json.org/>
+see: <http://www.json.org/>
 
-requires:
-- /Array
-- /String
-- /Number
-- /Function
-- /Hash
+requires: [Array, String, Number, Function, Hash]
 
-provides: [JSON]
+provides: JSON
 
 ...
 */
@@ -3145,29 +3157,21 @@ var JSON = new Hash(this.JSON && {
 
 });
 
-Native.implement([Hash, Array, String, Number], {
 
-	toJSON: function(){
-		return JSON.encode(this);
-	}
-
-});
 /*
 ---
 
-script: Cookie.js
+name: Cookie
 
 description: Class for creating, reading, and deleting browser Cookies.
 
 license: MIT-style license.
 
-credits:
-- Based on the functions by Peter-Paul Koch (http://quirksmode.org).
+credits: Based on the functions by Peter-Paul Koch (http://quirksmode.org).
 
-requires:
-- /Options
+requires: Options
 
-provides: [Cookie]
+provides: Cookie
 
 ...
 */
@@ -3226,23 +3230,22 @@ Cookie.read = function(key){
 Cookie.dispose = function(key, options){
 	return new Cookie(key, options).dispose();
 };
+
+
 /*
 ---
 
-script: Swiff.js
+name: Swiff
 
 description: Wrapper for embedding SWF movies. Supports External Interface Communication.
 
 license: MIT-style license.
 
-credits: 
-- Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
+credits: Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
 
-requires:
-- /Options
-- /$util
+requires: [Options, $util]
 
-provides: [Swiff]
+provides: Swiff
 
 ...
 */
@@ -3336,21 +3339,20 @@ Swiff.remote = function(obj, fn){
 	var rs = obj.CallFunction('<invoke name="' + fn + '" returntype="javascript">' + __flash__argumentsToXML(arguments, 2) + '</invoke>');
 	return eval(rs);
 };
+
+
 /*
 ---
 
-script: Fx.js
+name: Fx
 
 description: Contains the basic animation logic to be extended by all other Fx Classes.
 
 license: MIT-style license.
 
-requires:
-- /Chain
-- /Events
-- /Options
+requires: [Chain, Events, Options]
 
-provides: [Fx]
+provides: Fx
 
 ...
 */
@@ -3478,20 +3480,20 @@ Fx.compute = function(from, to, delta){
 };
 
 Fx.Durations = {'short': 250, 'normal': 500, 'long': 1000};
+
+
 /*
 ---
 
-script: Fx.CSS.js
+name: Fx.CSS
 
 description: Contains the CSS animation logic. Used by Fx.Tween, Fx.Morph, Fx.Elements.
 
 license: MIT-style license.
 
-requires:
-- /Fx
-- /Element.Style
+requires: [Fx, Element.Style]
 
-provides: [Fx.CSS]
+provides: Fx.CSS
 
 ...
 */
@@ -3620,17 +3622,18 @@ Fx.CSS.Parsers = new Hash({
 	}
 
 });
+
+
 /*
 ---
 
-script: Fx.Tween.js
+name: Fx.Tween
 
 description: Formerly Fx.Style, effect to transition any CSS property for an element.
 
 license: MIT-style license.
 
-requires: 
-- /Fx.CSS
+requires: Fx.CSS
 
 provides: [Fx.Tween, Element.fade, Element.highlight]
 
@@ -3724,19 +3727,20 @@ Element.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Fx.Morph.js
+name: Fx.Morph
 
 description: Formerly Fx.Styles, effect to transition any number of CSS properties for an element using an object of rules, or CSS based selector rules.
 
 license: MIT-style license.
 
-requires:
-- /Fx.CSS
+requires: Fx.CSS
 
-provides: [Fx.Morph]
+provides: Fx.Morph
 
 ...
 */
@@ -3802,22 +3806,22 @@ Element.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Fx.Transitions.js
+name: Fx.Transitions
 
 description: Contains a set of advanced transitions to be used with any of the Fx Classes.
 
 license: MIT-style license.
 
-credits:
-- Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
+credits: Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
 
-requires:
-- /Fx
+requires: Fx
 
-provides: [Fx.Transitions]
+provides: Fx.Transitions
 
 ...
 */
@@ -3907,23 +3911,20 @@ Fx.Transitions.extend({
 		return Math.pow(p, [i + 2]);
 	});
 });
+
+
 /*
 ---
 
-script: Request.js
+name: Request
 
 description: Powerful all purpose Request Class. Uses XMLHTTPRequest.
 
 license: MIT-style license.
 
-requires:
-- /Element
-- /Chain
-- /Events
-- /Options
-- /Browser
+requires: [Element, Chain, Events, Options, Browser]
 
-provides: [Request]
+provides: Request
 
 ...
 */
@@ -4145,20 +4146,20 @@ Element.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Request.HTML.js
+name: Request.HTML
 
 description: Extends the basic Request Class with additional methods for interacting with HTML responses.
 
 license: MIT-style license.
 
-requires:
-- /Request
-- /Element
+requires: [Request, Element]
 
-provides: [Request.HTML]
+provides: Request.HTML
 
 ...
 */
@@ -4247,19 +4248,20 @@ Element.implement({
 	}
 
 });
+
+
 /*
 ---
 
-script: Request.JSON.js
+name: Request.JSON
 
 description: Extends the basic Request Class with additional methods for sending and receiving JSON data.
 
 license: MIT-style license.
 
-requires:
-- /Request JSON
+requires: [Request, JSON]
 
-provides: [Request.HTML]
+provides: [Request.JSON]
 
 ...
 */
@@ -4283,6 +4285,9 @@ Request.JSON = new Class({
 	}
 
 });
+
+
+
 //MooTools More, <http://mootools.net/more>. Copyright (c) 2006-2009 Aaron Newton <http://clientcide.com/>, Valerio Proietti <http://mad4milk.net> & the MooTools team <http://mootools.net/developers>, MIT Style License.
 
 /*
@@ -4290,17 +4295,14 @@ Request.JSON = new Class({
 
 script: More.js
 
+name: More
+
 description: MooTools More
 
 license: MIT-style license
 
-authors:
-- Guillermo Rauch
-- Thomas Aylott
-- Scott Kyle
-
 requires:
-- core:1.2.4/MooTools
+  - Core/MooTools
 
 provides: [MooTools.More]
 
@@ -4308,25 +4310,217 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.2.4.4',
-	'build': '6f6057dc645fdb7547689183b2311063bd653ddf'
+	'version': '1.2.5.1',
+	'build': '254884f2b83651bf95260eed5c6cceb838e22d8e'
 };
+
+
+/*
+---
+
+script: MooTools.Lang.js
+
+name: MooTools.Lang
+
+description: Provides methods for localization.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Events
+  - /MooTools.More
+
+provides: [Lang]
+
+...
+*/
+
+(function(){
+
+	var data = {
+		language: 'en-US',
+		languages: {
+			'en-US': {}
+		},
+		cascades: ['en-US']
+	};
+	
+	var cascaded;
+
+	MooTools.lang = new Events();
+
+	$extend(MooTools.lang, {
+
+		setLanguage: function(lang){
+			if (!data.languages[lang]) return this;
+			data.language = lang;
+			this.load();
+			this.fireEvent('langChange', lang);
+			return this;
+		},
+
+		load: function() {
+			var langs = this.cascade(this.getCurrentLanguage());
+			cascaded = {};
+			$each(langs, function(set, setName){
+				cascaded[setName] = this.lambda(set);
+			}, this);
+		},
+
+		getCurrentLanguage: function(){
+			return data.language;
+		},
+
+		addLanguage: function(lang){
+			data.languages[lang] = data.languages[lang] || {};
+			return this;
+		},
+
+		cascade: function(lang){
+			var cascades = (data.languages[lang] || {}).cascades || [];
+			cascades.combine(data.cascades);
+			cascades.erase(lang).push(lang);
+			var langs = cascades.map(function(lng){
+				return data.languages[lng];
+			}, this);
+			return $merge.apply(this, langs);
+		},
+
+		lambda: function(set) {
+			(set || {}).get = function(key, args){
+				return $lambda(set[key]).apply(this, $splat(args));
+			};
+			return set;
+		},
+
+		get: function(set, key, args){
+			if (cascaded && cascaded[set]) return (key ? cascaded[set].get(key, args) : cascaded[set]);
+		},
+
+		set: function(lang, set, members){
+			this.addLanguage(lang);
+			langData = data.languages[lang];
+			if (!langData[set]) langData[set] = {};
+			$extend(langData[set], members);
+			if (lang == this.getCurrentLanguage()){
+				this.load();
+				this.fireEvent('langChange', lang);
+			}
+			return this;
+		},
+
+		list: function(){
+			return Hash.getKeys(data.languages);
+		}
+
+	});
+
+})();
+
+
+/*
+---
+
+script: Log.js
+
+name: Log
+
+description: Provides basic logging functionality for plugins to implement.
+
+license: MIT-style license
+
+authors:
+  - Guillermo Rauch
+  - Thomas Aylott
+  - Scott Kyle
+
+requires:
+  - Core/Class
+  - /MooTools.More
+
+provides: [Log]
+
+...
+*/
+
+(function(){
+
+var global = this;
+
+var log = function(){
+	if (global.console && console.log){
+		try {
+			console.log.apply(console, arguments);
+		} catch(e) {
+			console.log(Array.slice(arguments));
+		}
+	} else {
+		Log.logged.push(arguments);
+	}
+	return this;
+};
+
+var disabled = function(){
+	this.logged.push(arguments);
+	return this;
+};
+
+this.Log = new Class({
+	
+	logged: [],
+	
+	log: disabled,
+	
+	resetLog: function(){
+		this.logged.empty();
+		return this;
+	},
+
+	enableLog: function(){
+		this.log = log;
+		this.logged.each(function(args){
+			this.log.apply(this, args);
+		}, this);
+		return this.resetLog();
+	},
+
+	disableLog: function(){
+		this.log = disabled;
+		return this;
+	}
+	
+});
+
+Log.extend(new Log).enableLog();
+
+// legacy
+Log.logger = function(){
+	return this.log.apply(this, arguments);
+};
+
+})();
+
 
 /*
 ---
 
 script: Class.Binds.js
 
+name: Class.Binds
+
 description: Automagically binds specified methods in a class to the instance of the class.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Class
-- /MooTools.More
+  - Core/Class
+  - /MooTools.More
 
 provides: [Class.Binds]
 
@@ -4353,17 +4547,19 @@ Class.Mutators.initialize = function(initialize){
 
 script: Class.Occlude.js
 
+name: Class.Occlude
+
 description: Prevents a class from being applied to a DOM element twice.
 
 license: MIT-style license.
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires: 
-- core/1.2.4/Class
-- core:1.2.4/Element
-- /MooTools.More
+  - Core/Class
+  - Core/Element
+  - /MooTools.More
 
 provides: [Class.Occlude]
 
@@ -4385,21 +4581,24 @@ Class.Occlude = new Class({
 
 });
 
+
 /*
 ---
 
 script: Element.Forms.js
+
+name: Element.Forms
 
 description: Extends the Element native object to include methods useful in managing inputs.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element
-- /MooTools.More
+  - Core/Element
+  - /MooTools.More
 
 provides: [Element.Forms]
 
@@ -4516,6 +4715,8 @@ Element.implement({
 
 script: Element.Measure.js
 
+name: Element.Measure
+
 description: Extends the Element native object to include methods useful in measuring dimensions.
 
 credits: "Element.measure / .expose methods by Daniel Steigerwald License: MIT-style license. Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz"
@@ -4523,12 +4724,12 @@ credits: "Element.measure / .expose methods by Daniel Steigerwald License: MIT-s
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Style
-- core:1.2.4/Element.Dimensions
-- /MooTools.More
+  - Core/Element.Style
+  - Core/Element.Dimensions
+  - /MooTools.More
 
 provides: [Element.Measure]
 
@@ -4593,29 +4794,33 @@ Element.implement({
 	},
 
 	getComputedSize: function(options){
+		//legacy support for my stupid spelling error
+		if (options && options.plains) options.planes = options.plains;
+		
 		options = $merge({
 			styles: ['padding','border'],
-			plains: {
+			planes: {
 				height: ['top','bottom'],
 				width: ['left','right']
 			},
 			mode: 'both'
 		}, options);
+		
 		var size = {width: 0,height: 0};
 		switch (options.mode){
 			case 'vertical':
 				delete size.width;
-				delete options.plains.width;
+				delete options.planes.width;
 				break;
 			case 'horizontal':
 				delete size.height;
-				delete options.plains.height;
+				delete options.planes.height;
 				break;
 		}
 		var getStyles = [];
 		//this function might be useful in other places; perhaps it should be outside this function?
-		$each(options.plains, function(plain, key){
-			plain.each(function(edge){
+		$each(options.planes, function(plane, key){
+			plane.each(function(edge){
 				options.styles.each(function(style){
 					getStyles.push((style == 'border') ? style + '-' + edge + '-' + 'width' : style + '-' + edge);
 				});
@@ -4624,10 +4829,10 @@ Element.implement({
 		var styles = {};
 		getStyles.each(function(style){ styles[style] = this.getComputedStyle(style); }, this);
 		var subtracted = [];
-		$each(options.plains, function(plain, key){ //keys: width, height, plains: ['left', 'right'], ['top','bottom']
+		$each(options.planes, function(plane, key){ //keys: width, height, planes: ['left', 'right'], ['top','bottom']
 			var capitalized = key.capitalize();
 			size['total' + capitalized] = size['computed' + capitalized] = 0;
-			plain.each(function(edge){ //top, left, right, bottom
+			plane.each(function(edge){ //top, left, right, bottom
 				size['computed' + edge.capitalize()] = 0;
 				getStyles.each(function(style, i){ //padding, border, etc.
 					//'padding-left'.test('left') size['totalWidth'] = size['width'] + [padding-left]
@@ -4665,18 +4870,20 @@ Element.implement({
 
 script: Element.Pin.js
 
+name: Element.Pin
+
 description: Extends the Element native object to include the pin method useful for fixed positioning for elements.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Dimensions
-- core:1.2.4/Element.Style
-- /MooTools.More
+  - Core/Element.Event
+  - Core/Element.Dimensions
+  - Core/Element.Style
+  - /MooTools.More
 
 provides: [Element.Pin]
 
@@ -4684,8 +4891,10 @@ provides: [Element.Pin]
 */
 
 (function(){
-	var supportsPositionFixed = false;
-	window.addEvent('domready', function(){
+	var supportsPositionFixed = false,
+		supportTested = false;
+
+	var testPositionFixed = function(){
 		var test = new Element('div').setStyles({
 			position: 'fixed',
 			top: 0,
@@ -4693,66 +4902,78 @@ provides: [Element.Pin]
 		}).inject(document.body);
 		supportsPositionFixed = (test.offsetTop === 0);
 		test.dispose();
-	});
+		supportTested = true;
+	}
 
 	Element.implement({
 
-		pin: function(enable){
-			if (this.getStyle('display') == 'none') return null;
-			
-			var p,
-					scroll = window.getScroll();
+		pin: function(enable, forceScroll){
+			if (!supportTested) testPositionFixed();
+			if (this.getStyle('display') == 'none') return this;
+
+			var pinnedPosition,
+				scroll = window.getScroll();
+
 			if (enable !== false){
-				p = this.getPosition();
-				if (!this.retrieve('pinned')){
-					var pos = {
-						top: p.y - scroll.y,
-						left: p.x - scroll.x
+				pinnedPosition = this.getPosition(supportsPositionFixed ? document.body : this.getOffsetParent());
+				if (!this.retrieve('pin:_pinned')){
+					var currentPosition = {
+						top: pinnedPosition.y - scroll.y,
+						left: pinnedPosition.x - scroll.x
 					};
-					if (supportsPositionFixed){
-						this.setStyle('position', 'fixed').setStyles(pos);
+
+					if (supportsPositionFixed && !forceScroll){
+						this.setStyle('position', 'fixed').setStyles(currentPosition);
 					} else {
-						this.store('pinnedByJS', true);
-						this.setStyles({
-							position: 'absolute',
-							top: p.y,
-							left: p.x
-						}).addClass('isPinned');
-						this.store('scrollFixer', (function(){
-							if (this.retrieve('pinned'))
-								var scroll = window.getScroll();
-								this.setStyles({
-									top: pos.top.toInt() + scroll.y,
-									left: pos.left.toInt() + scroll.x
-								});
-						}).bind(this));
-						window.addEvent('scroll', this.retrieve('scrollFixer'));
+
+						var parent = this.getOffsetParent(),
+							position = this.getPosition(parent),
+							styles = this.getStyles('left', 'top');
+
+						if (parent && styles.left == 'auto' || styles.top == 'auto') this.setPosition(position);
+						if (this.getStyle('position') == 'static') this.setStyle('position', 'absolute');
+
+						position = {
+							x: styles.left.toInt() - scroll.x,
+							y: styles.top.toInt() - scroll.y
+						};
+
+						var scrollFixer = function(){
+							if (!this.retrieve('pin:_pinned')) return;
+							var scroll = window.getScroll();
+							this.setStyles({
+								left: position.x + scroll.x,
+								top: position.y + scroll.y
+							});
+						}.bind(this);
+
+						this.store('pin:_scrollFixer', scrollFixer);
+						window.addEvent('scroll', scrollFixer);
 					}
-					this.store('pinned', true);
+					this.store('pin:_pinned', true);
 				}
+
 			} else {
-				var op;
-				if (!Browser.Engine.trident){
-					var parent = this.getParent();
-					op = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
-				}
-				p = this.getPosition(op);
-				this.store('pinned', false);
-				var reposition;
-				if (supportsPositionFixed && !this.retrieve('pinnedByJS')){
-					reposition = {
-						top: p.y + scroll.y,
-						left: p.x + scroll.x
-					};
+				if (!this.retrieve('pin:_pinned')) return this;
+
+				var parent = this.getParent(),
+					offsetParent = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
+
+				pinnedPosition = this.getPosition(offsetParent);
+
+				this.store('pin:_pinned', false);
+				var scrollFixer = this.retrieve('pin:_scrollFixer');
+				if (!scrollFixer){
+					this.setStyles({
+						position: 'absolute',
+						top: pinnedPosition.y + scroll.y,
+						left: pinnedPosition.x + scroll.x
+					});
 				} else {
-					this.store('pinnedByJS', false);
-					window.removeEvent('scroll', this.retrieve('scrollFixer'));
-					reposition = {
-						top: p.y,
-						left: p.x
-					};
+					this.store('pin:_scrollFixer', null);
+					window.removeEvent('scroll', scrollFixer);
 				}
-				this.setStyles($merge(reposition, {position: 'absolute'})).removeClass('isPinned');
+				this.removeClass('isPinned');
 			}
 			return this;
 		},
@@ -4762,30 +4983,33 @@ provides: [Element.Pin]
 		},
 
 		togglepin: function(){
-			this.pin(!this.retrieve('pinned'));
+			return this.pin(!this.retrieve('pin:_pinned'));
 		}
 
 	});
 
 })();
 
+
 /*
 ---
 
 script: Element.Position.js
+
+name: Element.Position
 
 description: Extends the Element native object to include methods useful positioning elements relative to others.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Dimensions
-- /Element.Measure
+  - Core/Element.Dimensions
+  - /Element.Measure
 
-provides: [Elements.Position]
+provides: [Element.Position]
 
 ...
 */
@@ -4839,12 +5063,15 @@ Element.implement({
 			if ($type(option) != 'string') return option;
 			option = option.toLowerCase();
 			var val = {};
+			
 			if (option.test('left')) val.x = 'left';
 			else if (option.test('right')) val.x = 'right';
 			else val.x = 'center';
+			
 			if (option.test('upper') || option.test('top')) val.y = 'top';
 			else if (option.test('bottom')) val.y = 'bottom';
 			else val.y = 'center';
+			
 			return val;
 		};
 		options.edge = fixValue(options.edge);
@@ -4922,7 +5149,7 @@ Element.implement({
 		['minimum', 'maximum'].each(function(minmax) {
 			['left', 'top'].each(function(lr) {
 				var val = options[minmax] ? options[minmax][xy[lr]] : null;
-				if (val != null && pos[lr] < val) pos[lr] = val;
+				if (val != null && ((minmax == 'minimum') ? pos[lr] < val: pos[lr] > val)) pos[lr] = val;
 			});
 		});
 		if (rel.getStyle('position') == 'fixed' || options.relFixedPosition){
@@ -4930,10 +5157,13 @@ Element.implement({
 			pos.top+= winScroll.y;
 			pos.left+= winScroll.x;
 		}
+		var relScroll = rel.getScroll();
 		if (options.ignoreScroll) {
-			var relScroll = rel.getScroll();
-			pos.top-= relScroll.y;
-			pos.left-= relScroll.x;
+			pos.top -= relScroll.y;
+			pos.left -= relScroll.x;
+		} else {
+			pos.top += relScroll.y;
+			pos.left += relScroll.x;
 		}
 		if (options.ignoreMargins) {
 			pos.left += (
@@ -4958,21 +5188,24 @@ Element.implement({
 
 })();
 
+
 /*
 ---
 
 script: Element.Shortcuts.js
+
+name: Element.Shortcuts
 
 description: Extends the Element native object to include some shortcut methods.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Style
-- /MooTools.More
+  - Core/Element.Style
+  - /MooTools.More
 
 provides: [Element.Shortcuts]
 
@@ -4988,7 +5221,7 @@ Element.implement({
 	isVisible: function(){
 		var w = this.offsetWidth,
 			h = this.offsetHeight;
-		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.isDisplayed();
+		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.style.display != 'none';
 	},
 
 	toggle: function(){
@@ -5001,38 +5234,51 @@ Element.implement({
 			//IE fails here if the element is not in the dom
 			d = this.getStyle('display');
 		} catch(e){}
-		return this.store('originalDisplay', d || '').setStyle('display', 'none');
+		if (d == "none") return this;
+		return this.store('element:_originalDisplay', d || '').setStyle('display', 'none');
 	},
 
 	show: function(display){
-		display = display || this.retrieve('originalDisplay') || 'block';
+		if (!display && this.isDisplayed()) return this;
+		display = display || this.retrieve('element:_originalDisplay') || 'block';
 		return this.setStyle('display', (display == 'none') ? 'block' : display);
 	},
 
 	swapClass: function(remove, add){
 		return this.removeClass(remove).addClass(add);
 	}
-
 });
 
+Document.implement({
+	clearSelection: function(){
+		if (document.selection && document.selection.empty) {
+			document.selection.empty();
+		} else if (window.getSelection) {
+			var selection = window.getSelection();
+			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+		}
+	}
+});
 
 /*
 ---
 
 script: Fx.Scroll.js
 
+name: Fx.Scroll
+
 description: Effect to smoothly scroll any element, including the window.
 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+  - Valerio Proietti
 
 requires:
-- core:1.2.4/Fx
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Dimensions
-- /MooTools.More
+  - Core/Fx
+  - Core/Element.Event
+  - Core/Element.Dimensions
+  - /MooTools.More
 
 provides: [Fx.Scroll]
 
@@ -5070,7 +5316,7 @@ Fx.Scroll = new Class({
 	set: function(){
 		var now = Array.flatten(arguments);
 		if (Browser.Engine.gecko) now = [Math.round(now[0]), Math.round(now[1])];
-		this.element.scrollTo(now[0], now[1]);
+		this.element.scrollTo(now[0] + this.options.offset.x, now[1] + this.options.offset.y);
 	},
 
 	compute: function(from, to, delta){
@@ -5170,16 +5416,19 @@ Fx.Scroll = new Class({
 
 script: Fx.Slide.js
 
+name: Fx.Slide
+
 description: Effect to slide an element in and out of view.
 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+  - Valerio Proietti
 
 requires:
-- core:1.2.4/Fx Element.Style
-- /MooTools.More
+  - Core/Fx
+  - Core/Element.Style
+  - /MooTools.More
 
 provides: [Fx.Slide]
 
@@ -5193,13 +5442,14 @@ Fx.Slide = new Class({
 	options: {
 		mode: 'vertical',
 		wrapper: false,
-		hideOverflow: true
+		hideOverflow: true,
+		resetHeight: false
 	},
 
 	initialize: function(element, options){
 		this.addEvent('complete', function(){
 			this.open = (this.wrapper['offset' + this.layout.capitalize()] != 0);
-			if (this.open) this.wrapper.setStyle('height', '');
+			if (this.open && this.options.resetHeight) this.wrapper.setStyle('height', '');
 			if (this.open && Browser.Engine.webkit419) this.element.dispose().inject(this.wrapper);
 		}, true);
 		this.element = this.subject = document.id(element);
@@ -5328,16 +5578,18 @@ Element.implement({
 
 script: Fx.SmoothScroll.js
 
+name: Fx.SmoothScroll
+
 description: Class for creating a smooth scrolling effect to all internal links on the page.
 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+  - Valerio Proietti
 
 requires:
-- core:1.2.4/Selectors
-- /Fx.Scroll
+  - Core/Selectors
+  - /Fx.Scroll
 
 provides: [Fx.SmoothScroll]
 
@@ -5386,18 +5638,161 @@ var SmoothScroll = Fx.SmoothScroll = new Class({
 /*
 ---
 
+script: Request.JSONP.js
+
+name: Request.JSONP
+
+description: Defines Request.JSONP, a class for cross domain javascript via script injection.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Guillermo Rauch
+
+requires:
+  - Core/Element
+  - Core/Request
+  - /Log
+
+provides: [Request.JSONP]
+
+...
+*/
+
+Request.JSONP = new Class({
+
+	Implements: [Chain, Events, Options, Log],
+
+	options: {/*
+		onRetry: $empty(intRetries),
+		onRequest: $empty(scriptElement),
+		onComplete: $empty(data),
+		onSuccess: $empty(data),
+		onCancel: $empty(),
+		log: false,
+		*/
+		url: '',
+		data: {},
+		retries: 0,
+		timeout: 0,
+		link: 'ignore',
+		callbackKey: 'callback',
+		injectScript: document.head
+	},
+
+	initialize: function(options){
+		this.setOptions(options);
+		if (this.options.log) this.enableLog();
+		this.running = false;
+		this.requests = 0;
+		this.triesRemaining = [];
+	},
+
+	check: function(){
+		if (!this.running) return true;
+		switch (this.options.link){
+			case 'cancel': this.cancel(); return true;
+			case 'chain': this.chain(this.caller.bind(this, arguments)); return false;
+		}
+		return false;
+	},
+
+	send: function(options){
+		if (!$chk(arguments[1]) && !this.check(options)) return this;
+
+		var type = $type(options), 
+				old = this.options, 
+				index = $chk(arguments[1]) ? arguments[1] : this.requests++;
+		if (type == 'string' || type == 'element') options = {data: options};
+
+		options = $extend({data: old.data, url: old.url}, options);
+
+		if (!$chk(this.triesRemaining[index])) this.triesRemaining[index] = this.options.retries;
+		var remaining = this.triesRemaining[index];
+
+		(function(){
+			var script = this.getScript(options);
+			this.log('JSONP retrieving script with url: ' + script.get('src'));
+			this.fireEvent('request', script);
+			this.running = true;
+
+			(function(){
+				if (remaining){
+					this.triesRemaining[index] = remaining - 1;
+					if (script){
+						script.destroy();
+						this.send(options, index).fireEvent('retry', this.triesRemaining[index]);
+					}
+				} else if(this.running && script && this.options.timeout){
+					script.destroy();
+					this.cancel().fireEvent('failure');
+				}
+			}).delay(this.options.timeout, this);
+		}).delay(Browser.Engine.trident ? 50 : 0, this);
+		return this;
+	},
+
+	cancel: function(){
+		if (!this.running) return this;
+		this.running = false;
+		this.fireEvent('cancel');
+		return this;
+	},
+
+	getScript: function(options){
+		var index = Request.JSONP.counter,
+				data;
+		Request.JSONP.counter++;
+
+		switch ($type(options.data)){
+			case 'element': data = document.id(options.data).toQueryString(); break;
+			case 'object': case 'hash': data = Hash.toQueryString(options.data);
+		}
+
+		var src = options.url + 
+			 (options.url.test('\\?') ? '&' :'?') + 
+			 (options.callbackKey || this.options.callbackKey) + 
+			 '=Request.JSONP.request_map.request_'+ index + 
+			 (data ? '&' + data : '');
+		if (src.length > 2083) this.log('JSONP '+ src +' will fail in Internet Explorer, which enforces a 2083 bytes length limit on URIs');
+
+		var script = new Element('script', {type: 'text/javascript', src: src});
+		Request.JSONP.request_map['request_' + index] = function(){ this.success(arguments, script); }.bind(this);
+		return script.inject(this.options.injectScript);
+	},
+
+	success: function(args, script){
+		if (!this.running) return false;
+		if (script) script.destroy();
+		this.running = false;
+		this.log('JSONP successfully retrieved: ', args);
+		this.fireEvent('complete', args).fireEvent('success', args).callChain();
+	}
+
+});
+
+Request.JSONP.counter = 0;
+Request.JSONP.request_map = {};
+
+
+/*
+---
+
 script: Assets.js
+
+name: Assets
 
 description: Provides methods to dynamically load JavaScript, CSS, and Image files into the document.
 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+  - Valerio Proietti
 
 requires:
-- core:1.2.4/Element.Event
-- /MooTools.More
+  - Core/Element.Event
+  - /MooTools.More
 
 provides: [Assets]
 
@@ -5413,8 +5808,10 @@ var Asset = {
 			check: $lambda(true)
 		}, properties);
 		
-		if (properties.onLoad) properties.onload = properties.onLoad;
-		
+		if (properties.onLoad) {
+			properties.onload = properties.onLoad;
+			delete properties.onLoad;
+		}
 		var script = new Element('script', {src: source, type: 'text/javascript'});
 
 		var load = properties.onload.bind(script), 
@@ -5441,6 +5838,14 @@ var Asset = {
 	},
 
 	css: function(source, properties){
+		properties = properties || {};
+		var onload = properties.onload || properties.onLoad;
+		if (onload) {
+			properties.events = properties.events || {};
+			properties.events.load = onload;
+			delete properties.onload;
+			delete properties.onLoad;
+		}
 		return new Element('link', $merge({
 			rel: 'stylesheet',
 			media: 'screen',
@@ -5460,7 +5865,10 @@ var Asset = {
 		['load', 'abort', 'error'].each(function(name){
 			var type = 'on' + name;
 			var cap = name.capitalize();
-			if (properties['on' + cap]) properties[type] = properties['on' + cap];
+			if (properties['on' + cap]) {
+				properties[type] = properties['on' + cap];
+				delete properties['on' + cap];
+			}
 			var event = properties[type];
 			delete properties[type];
 			image[type] = function(){
@@ -5489,15 +5897,15 @@ var Asset = {
 		sources = $splat(sources);
 		var images = [];
 		var counter = 0;
-		return new Elements(sources.map(function(source){
+		return new Elements(sources.map(function(source, index){
 			return Asset.image(source, $extend(options.properties, {
 				onload: function(){
-					options.onProgress.call(this, counter, sources.indexOf(source));
+					options.onProgress.call(this, counter, index);
 					counter++;
 					if (counter == sources.length) options.onComplete();
 				},
 				onerror: function(){
-					options.onError.call(this, counter, sources.indexOf(source));
+					options.onError.call(this, counter, index);
 					counter++;
 					if (counter == sources.length) options.onComplete();
 				}
@@ -5512,19 +5920,22 @@ var Asset = {
 
 script: IframeShim.js
 
+name: IframeShim
+
 description: Defines IframeShim, a class for obscuring select lists and flash objects in IE.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Style
-- core:1.2.4/Options Events
-- /Element.Position
-- /Class.Occlude
+  - Core/Element.Event
+  - Core/Element.Style
+  - Core/Options
+  - Core/Events
+  - /Element.Position
+  - /Class.Occlude
 
 provides: [IframeShim]
 
@@ -5635,25 +6046,28 @@ window.addEvent('load', function(){
 	IframeShim.ready = true;
 });
 
+
 /*
 ---
 
 script: Mask.js
+
+name: Mask
 
 description: Creates a mask element to cover another.
 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+  - Aaron Newton
 
 requires:
-- core:1.2.4/Options
-- core:1.2.4/Events
-- core:1.2.4/Element.Event
-- /Class.Binds
-- /Element.Position
-- /IframeShim
+  - Core/Options
+  - Core/Events
+  - Core/Element.Event
+  - /Class.Binds
+  - /Element.Position
+  - /IframeShim
 
 provides: [Mask]
 
@@ -5746,7 +6160,7 @@ var Mask = new Class({
 		if (this.options.maskMargins) opt.styles.push('margin');
 		var dim = this.target.getComputedSize(opt);
 		if (this.target == document.body) {
-			var win = window.getSize();
+			var win = window.getScrollSize();
 			if (dim.totalHeight < win.y) dim.totalHeight = win.y;
 			if (dim.totalWidth < win.x) dim.totalWidth = win.x;
 		}
@@ -5835,21 +6249,23 @@ Element.implement({
 
 script: Tips.js
 
+name: Tips
+
 description: Class for creating nice tips that follow the mouse cursor when hovering an element.
 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
-- Christoph Pojer
+  - Valerio Proietti
+  - Christoph Pojer
 
 requires:
-- core:1.2.4/Options
-- core:1.2.4/Events
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Style
-- core:1.2.4/Element.Dimensions
-- /MooTools.More
+  - Core/Options
+  - Core/Events
+  - Core/Element.Event
+  - Core/Element.Style
+  - Core/Element.Dimensions
+  - /MooTools.More
 
 provides: [Tips]
 
@@ -5910,7 +6326,7 @@ this.Tips = new Class({
 			new Element('div', {'class': 'tip-top'}),
 			this.container,
 			new Element('div', {'class': 'tip-bottom'})
-		).inject(document.body);
+		);
 	},
 
 	attach: function(elements){
@@ -5963,7 +6379,7 @@ this.Tips = new Class({
 		
 		$clear(this.timer);
 		this.timer = (function(){
-			this.show(this, element);
+			this.show(element);
 			this.position((this.options.fixed) ? {page: element.getPosition()} : event);
 		}).delay(this.options.showDelay, this);
 	},
@@ -6008,6 +6424,7 @@ this.Tips = new Class({
 
 	show: function(element){
 		if (!this.tip) document.id(this);
+		if (!this.tip.getParent()) this.tip.inject(document.body);
 		this.fireEvent('show', [this.tip, element]);
 	},
 
@@ -6018,7 +6435,10 @@ this.Tips = new Class({
 
 });
 
-})();/*
+})();
+
+
+/*
 Script: Clientcide.js
 	The Clientcide namespace.
 
@@ -6183,8 +6603,7 @@ var StyleWriter = new Class({
 			}catch(e){dbug.log('error: %s',e);}
 		}.bind(this));
 	}
-});
-/*
+});/*
 Script: StickyWin.js
 
 Creates a div within the page with the specified contents at the location relative to the element you specify; basically an in-page popup maker.
@@ -6412,8 +6831,7 @@ StickyWin.Stacker = new Class({
 		$(sw).removeEvent('click', this.click);
 	}
 });
-StickyWin.WM = new StickyWin.Stacker();
-/*
+StickyWin.WM = new StickyWin.Stacker();/*
 Script: StickyWin.Modal.js
 
 This script extends StickyWin and StickyWin.Fx classes to add Mask functionality.
@@ -6439,9 +6857,6 @@ StickyWin.Modal = new Class({
 
 	initialize: function(options) {
 		this.options.maskTarget = this.options.maskTarget || document.body;
-		if (!Browser.Engine.trident) {
-			this.options.maskOptions.style.position='fixed !important';
-		}
 		this.setOptions(options);
 		this.mask = new Mask(this.options.maskTarget, this.options.maskOptions).addEvent('click', function() {
 			if (this.options.hideOnClick) this.hide();
