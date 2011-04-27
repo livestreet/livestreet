@@ -1,7 +1,7 @@
 <div class="block">
 	<h2>{$aLang.talk_speaker_title}</h2>
 
-	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator() }
+	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 		{literal}
 			<script language="JavaScript" type="text/javascript">
 			document.addEvent('domready', function() {

@@ -96,11 +96,11 @@
 {hook run='body_begin'}
 
 <div id="container">
-	{include file=header_top.tpl}
+	{include file='header_top.tpl'}
 
 	<div id="wrapper">
 		<div id="content" {if $noSidebar}style="width: 100%"{/if}>
-			{include file=header_nav.tpl}
+			{include file='header_nav.tpl'}
 
 			{if !$noShowSystemMessage}
 				{include file='system_message.tpl'}

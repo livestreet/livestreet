@@ -42,7 +42,7 @@
 		{/if}
 		{if $nesting < $cmtlevel}        
 		{elseif $nesting > $cmtlevel}    	
-			{section name=closelist1  loop=`$nesting-$cmtlevel+1`}</div></div>{/section}
+			{section name=closelist1  loop=($nesting-$cmtlevel+1)}</div></div>{/section}
 		{elseif not $smarty.foreach.rublist.first}
 			</div></div>
 		{/if}
@@ -52,7 +52,7 @@
 		{include file='comment.tpl'}      														  
 		{assign var="nesting" value=$cmtlevel}    
 		{if $smarty.foreach.rublist.last}
-			{section name=closelist2 loop=`$nesting+1`}</div></div>{/section}    
+			{section name=closelist2 loop=($nesting+1)}</div></div>{/section}    
 		{/if}
 	{/foreach}
 	
@@ -97,5 +97,5 @@
 		{/if}
 	{/if}
 					
-				{include file='comment_paging.tpl' aPagingCmt=`$aPagingCmt`}
+				{include file='comment_paging.tpl' aPagingCmt=$aPagingCmt}
 </div>

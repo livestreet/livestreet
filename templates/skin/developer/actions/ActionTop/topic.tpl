@@ -1,4 +1,4 @@
-{include file='header.tpl' menu="blog" }
+{include file='header.tpl' menu="blog"}
 
 
 <h2>{$aLang.top_topics}</h2>
