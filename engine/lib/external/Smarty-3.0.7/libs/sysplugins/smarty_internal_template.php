@@ -83,6 +83,9 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
      */
     public function __construct($template_resource, $smarty, $_parent = null, $_cache_id = null, $_compile_id = null, $_caching = null, $_cache_lifetime = null)
     {
+    	// Hack for delegate template in LiveStreet
+    	$template_resource=Engine::getInstance()->Plugin_GetDelegate('template',$template_resource);
+    	// End hack -----------------------------------------------------------------------------------
         $this->smarty = &$smarty; 
         // Smarty parameter
         $this->cache_id = $_cache_id === null ? $this->smarty->cache_id : $_cache_id;
