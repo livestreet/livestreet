@@ -902,7 +902,32 @@ class Engine extends Object {
 	}
 	
 	
+	/**
+	 * Автозагрузка классов
+	 *
+	 * @param unknown_type $sClassName
+	 */
+	public static function autoload($sClassName) {
+		$aInfo = Engine::GetClassInfo(
+			$sClassName,
+			Engine::CI_CLASSPATH|Engine::CI_INHERIT
+		);
+		if($aInfo[Engine::CI_INHERIT]){
+			$sInheritClass = $aInfo[Engine::CI_INHERIT];
+			$sParentClass = Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
+			class_alias($sParentClass,$sClassName);
+		}elseif($aInfo[Engine::CI_CLASSPATH]){
+			require_once $aInfo[Engine::CI_CLASSPATH];
+		}elseif(!class_exists($sClassName)){
+			dump("(autoload $sClassName) Can not load CLASS-file");
+			dump($aInfo);
+			//throw new Exception("(autoload '$sClassName') Can not load CLASS-file");
+		}
+	}
+	
 }
+
+spl_autoload_register(array('Engine','autoload'));
 
 /**
  * Short aliases for Engine basic methods
@@ -956,29 +981,6 @@ class LS {
 	public static function __callStatic($sName,$aArgs=array()) {
 		return call_user_func_array(array(self::E(),$sName),$aArgs);
 	}	
-
 }
 
-/**
- * Автозагрузка классов
- *
- * @param unknown_type $sClassName
- */
-function __autoload($sClassName) {
-	$aInfo = Engine::GetClassInfo(
-		$sClassName,
-		Engine::CI_CLASSPATH|Engine::CI_INHERIT
-	);
-	if($aInfo[Engine::CI_INHERIT]){
-		$sInheritClass = $aInfo[Engine::CI_INHERIT];
-		$sParentClass = Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
-		class_alias($sParentClass,$sClassName);
-	}elseif($aInfo[Engine::CI_CLASSPATH]){
-		require_once $aInfo[Engine::CI_CLASSPATH];
-	}elseif(!class_exists($sClassName)){
-		dump("(autoload $sClassName) Can not load CLASS-file");
-		dump($aInfo);
-		//throw new Exception("(autoload '$sClassName') Can not load CLASS-file");
-	}
-}
 ?>
