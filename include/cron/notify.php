@@ -14,7 +14,6 @@
 *
 ---------------------------------------------------------
 */
-define('SYS_HACKER_CONSOLE',false);
 
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 set_include_path(get_include_path().PATH_SEPARATOR.$sDirRoot);
@@ -24,15 +23,14 @@ require_once($sDirRoot."/config/loader.php");
 require_once($sDirRoot."/engine/classes/Cron.class.php");
 
 class NotifyCron extends Cron {
-	protected $sProcessName='NotifyCron';
 	/**
 	 * Выбираем пул заданий и рассылаем по ним e-mail
 	 */
 	public function Client() {
-		$aNotifyTasks = $this->oEngine->Notify_GetTasksDelayed(Config::Get('module.notify.per_process'));
+		$aNotifyTasks = $this->Notify_GetTasksDelayed(Config::Get('module.notify.per_process'));
 		
 		if(empty($aNotifyTasks)) {
-			print PHP_EOL."No tasks are found.";
+			$this->Log("No tasks are found.");
 			return;
 		}
 		/**
@@ -40,14 +38,14 @@ class NotifyCron extends Cron {
 		 */
 		$aArrayId=array();
 		foreach ($aNotifyTasks as $oTask) {
-			$this->oEngine->Notify_SendTask($oTask);
+			$this->Notify_SendTask($oTask);
 			$aArrayId[]=$oTask->getTaskId();
 		}
-		print PHP_EOL."Send notify: ".count($aArrayId);
+		$this->Log("Send notify: ".count($aArrayId));
 		/**
 		 * Удаляем отработанные задания
 		 */
-		$this->oEngine->Notify_DeleteTaskByArrayId($aArrayId);
+		$this->Notify_DeleteTaskByArrayId($aArrayId);
 	}
 }
 

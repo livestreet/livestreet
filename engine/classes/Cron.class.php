@@ -36,9 +36,10 @@ class Cron extends Object {
 	 *
 	 * @var string
 	 */
-	protected $sProcessName='Cron';
+	protected $sProcessName;
 	
 	public function __construct($sLockFile=null) {
+		$this->sProcessName=get_class($this);
 		$this->oEngine=Engine::getInstance();
 		/**
 		 * Инициализируем ядро
@@ -63,8 +64,10 @@ class Cron extends Object {
 	 * @return
 	 */
 	public function Log($sMsg) {
-		$sMsg=$this->sProcessName.': '.$sMsg;
-		$this->oEngine->Logger_Notice($sMsg);		
+		if (Config::Get('sys.logs.cron')) {
+			$sMsg=$this->sProcessName.': '.$sMsg;
+			$this->oEngine->Logger_Notice($sMsg);
+		}
 	}
 	
 	/**
@@ -128,6 +131,10 @@ class Cron extends Object {
 	 */
 	public function Client(){
 		throw new Exception('Call undefined client function');
+	}
+	
+	public function __call($sName,$aArgs) {
+		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
 }
 ?>

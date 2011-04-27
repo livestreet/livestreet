@@ -63,6 +63,12 @@ class ModuleLogger extends Module {
 	 * @var int
 	 */
 	protected $iSizeForRotate=1000000;
+	/**
+	 * Случайное число
+	 *
+	 * @var unknown_type
+	 */
+	protected $iRandom;
 			
 	
 	/**
@@ -72,6 +78,7 @@ class ModuleLogger extends Module {
 	public function Init() {	
 			$this->sPathLogs=Config::Get('path.root.server').'/logs/';		
 			$this->SetFileName(Config::Get('sys.logs.file'));
+			$this->iRandom=rand(1000,9999);
 	}
 	
 	/**
@@ -199,6 +206,7 @@ class ModuleLogger extends Module {
 			 */
 			$msgOut ='['.date("Y-m-d H:i:s").']';
 			$msgOut.='['.getmypid().']';
+			$msgOut.='['.$this->iRandom.']';
 			$msgOut.='['.$this->logLevel[$key].']';
 			$msgOut.='['.$msg.']';
 			/**

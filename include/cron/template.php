@@ -14,7 +14,6 @@
 *
 ---------------------------------------------------------
 */
-define('SYS_HACKER_CONSOLE',false);
 
 $sDirRoot=dirname(dirname(dirname(__FILE__)));
 set_include_path(get_include_path().PATH_SEPARATOR.$sDirRoot);
@@ -24,19 +23,17 @@ require_once($sDirRoot."/config/loader.php");
 require_once($sDirRoot."/engine/classes/Cron.class.php");
 
 class TemplateCacheCleanCron extends Cron {
-	protected $sProcessName='TemplateCacheCleanCron';
 	/**
 	 * Находим все кеш-файлы js и css и удаляем их с сервера
 	 */
 	public function Client() {
-		$sDir = Config::Get('path.smarty.cache');
 		/**
 		 * Выбираем все файлы кеша
 		 */
-		$aFiles = glob($sDir. DIRECTORY_SEPARATOR ."*.{css,js}", GLOB_BRACE);
+		$aFiles = glob(Config::Get('path.smarty.cache'). DIRECTORY_SEPARATOR ."*\*.{css,js}", GLOB_BRACE);
 		if (!$aFiles) $aFiles=array();
 		
-		print PHP_EOL."Cache files count: ".count($aFiles);
+		$this->Log("Cache files count: ".count($aFiles));
 		
 		foreach ($aFiles as $sFilePath) {
 			@unlink($sFilePath);
