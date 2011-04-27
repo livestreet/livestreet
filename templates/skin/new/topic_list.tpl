@@ -89,7 +89,7 @@
 			<!-- /Topic -->
 	{/foreach}	
 		
-    {include file='paging.tpl' aPaging=`$aPaging`}			
+    {include file='paging.tpl' aPaging=$aPaging}			
 	
 {else}
 {$aLang.blog_no_topic}

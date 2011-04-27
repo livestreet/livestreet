@@ -4,6 +4,6 @@
 {include file='blog_list.tpl'}
 </div>
 
-{include file='paging.tpl' aPaging=`$aPaging`}
+{include file='paging.tpl' aPaging=$aPaging}
 
 {include file='footer.tpl'}

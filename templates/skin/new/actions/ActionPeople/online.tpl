@@ -32,7 +32,7 @@
 				{/if}
 			</div>
 
-			{include file='paging.tpl' aPaging=`$aPaging`}
+			{include file='paging.tpl' aPaging=$aPaging}
 			
 			
 {include file='footer.tpl'}

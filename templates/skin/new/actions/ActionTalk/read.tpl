@@ -28,8 +28,7 @@
 				iCountComment=$oTalk->getCountComment()
 				sDateReadLast=$oTalkUser->getDateLast()
 				sNoticeCommentAdd=$aLang.topic_comment_add
-				bNoCommentFavourites=true
-			}
+				bNoCommentFavourites=true}
 			{/if}
 			
 			

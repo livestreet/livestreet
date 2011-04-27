@@ -84,9 +84,9 @@ var msgNoticeBox=new Roar({
 <div id="debug" style="border: 2px #dd0000 solid; display: none;"></div>
 
 <div id="container">
-	{include file=header_top.tpl}	
+	{include file='header_top.tpl'}	
 	
-	{include file=header_nav.tpl}
+	{include file='header_nav.tpl'}
 
 	<!--
 	<div id="extra">
