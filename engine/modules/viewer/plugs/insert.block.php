@@ -44,7 +44,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 		$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	}
 	
-	if (!isset($aParams['block']) or !$oSmarty->template_exists($sBlockTemplate)) {
+	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
 		$oSmarty->trigger_error("Not found template for block: ".$sBlockTemplate);
 		return ;
 	}

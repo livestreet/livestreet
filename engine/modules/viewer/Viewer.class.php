@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/Smarty-2.6.19/libs/Smarty.class.php');
+require_once(Config::Get('path.root.engine').'/lib/external/Smarty-3.0.7/libs/Smarty.class.php');
 require_once(Config::Get('path.root.engine').'/modules/viewer/lsSmarty.class.php');
 require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
 require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
@@ -192,6 +192,7 @@ class ModuleViewer extends Module {
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
 		$this->oSmarty = new lsSmarty();
+		$this->oSmarty->error_reporting=E_ALL^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->template_dir=(array)Config::Get('path.smarty.template');
 		$this->oSmarty->template_dir[]=Config::Get('path.root.server').'/plugins/';
 		/**
@@ -202,7 +203,7 @@ class ModuleViewer extends Module {
 		$this->oSmarty->compile_dir=$sCompilePath;
 		
 		$this->oSmarty->cache_dir=Config::Get('path.smarty.cache');
-		$this->oSmarty->plugins_dir=array(Config::Get('path.smarty.plug'),'plugins');	
+		$this->oSmarty->plugins_dir=array_merge(array(Config::Get('path.smarty.plug'),'plugins'),$this->oSmarty->plugins_dir);	
 		/**
 		 * Получаем настройки блоков из конфигов
 		 */
@@ -445,7 +446,7 @@ class ModuleViewer extends Module {
 	 * @return bool
 	 */
 	public function TemplateExists($sTemplate) {
-		return $this->oSmarty->template_exists($sTemplate);
+		return $this->oSmarty->templateExists($sTemplate);
 	}
 	/**
 	 * Инициализируем параметры отображения блоков
