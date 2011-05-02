@@ -19,7 +19,7 @@
 				{if $oUserCurrent}
 					<td align="center">
 						{if $oUserCurrent->getId()!=$oBlog->getOwnerId() and $oBlog->getType()=='open'}
-							<a href="#" onclick="blogs.ajaxJoinLeaveBlog(this, {$oBlog->getId()}); return false;">
+							<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;">
 								{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}
 							</a>
 						{else}

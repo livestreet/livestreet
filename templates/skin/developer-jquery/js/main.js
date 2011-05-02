@@ -5,6 +5,119 @@ Function.prototype.bind = function(context) {
 	};
 };
 
+
+var ls = ls || {};
+
+/**
+* Управление всплывающими сообщениями
+*/
+ls.msg = (function ($) {
+	/**
+	* Опции
+	*/
+	this.options = {
+		class_notice: 'n-notice',
+		class_error: 'n-error'
+	};
+
+	/**
+	* Отображение информационного сообщения
+	*/
+	this.notice = function(title,msg){
+		$.notifier.broadcast(title, msg, this.options.class_notice);
+	};
+	
+	/**
+	* Отображение сообщения об ошибке 
+	*/
+	this.error = function(title,msg){
+		$.notifier.broadcast(title, msg, this.options.class_error);
+	};
+	
+	return this;
+}).call(ls.msg || {},jQuery);
+
+
+
+/**
+* Дополнительные функции
+*/
+ls = (function ($) {
+	
+	/**
+	* Глобальные опции
+	*/
+	this.options = this.options || {}
+	
+	/**
+	* Выполнение AJAX запроса, автоматически передает security key
+	*/
+	this.ajax = function(url,params,callback,more){
+		more=more || {};
+		params=params || {};
+		params.security_ls_key=LIVESTREET_SECURITY_KEY;
+		
+		$.each(params,function(k,v){
+			if (typeof(v) == "boolean") {
+				params[k]=v ? 1 : 0;
+			}
+		})
+		
+		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
+			url=aRouter['ajax']+url+'/';
+		}
+		
+		$.ajax({
+			type: more.type || "POST",
+			url: url,
+			data: params,
+			dataType: more.dataType || 'json',
+			success: callback || function(msg){
+				ls.debug("base success: ");
+				ls.debug(msg);
+			}.bind(this),
+			error: more.error || function(msg){
+				ls.debug("base error: ");
+				ls.debug(msg);
+			}.bind(this),
+			complete: more.complete || function(msg){
+				ls.debug("base complete: ");
+				ls.debug(msg);
+			}.bind(this)
+		});
+		
+	};
+	
+	/**
+	* Дебаг сообщений
+	*/
+	this.debug = function(msg) {
+		if (this.options.debug) {
+			this.log(msg);
+		}
+	}
+
+	/**
+	* Лог сообщений
+	*/
+	this.log = function(msg) {
+		if (window.console && window.console.log) {
+			console.log(msg);
+		} else {
+			//alert(msg);
+		}
+	}
+		
+	return this;
+}).call(ls || {},jQuery);
+
+
+
+(ls.options || {}).debug=1;
+
+
+
+
 $(document).ready(function(){
 	// Всплывающие окна
 	$('#login_form').jqm({trigger: '#login_form_show'});

@@ -35,15 +35,14 @@ ls.blocks = (function ($) {
 	this.load = function(obj, block, params){
 		var id = $(obj).attr('id');
 		params=$.extend(true,{},this.options.type[id].params || {},params || {});
-		params.security_ls_key=LIVESTREET_SECURITY_KEY;
-
+		
 		var content = $('#'+block+'_content');
 		this.showProgress(content);
 
 		$('[id^="'+block+'_item"]').removeClass(this.options.active);
 		$(obj).addClass(this.options.active);
 
-		$.getJSON(this.options.type[id].url, params, function(result){
+		ls.ajax(this.options.type[id].url, params, function(result){
 			this.onLoad(content,id,result);
 		}.bind(this));
 	};
@@ -62,7 +61,7 @@ ls.blocks = (function ($) {
 		$(this).trigger('load',[content,id,result]);
 		content.empty();
 		if (result.bStateError) {
-			$.notifier.error(null, result.sMsg);
+			ls.msg.error(null, result.sMsg);
 		} else {
 			content.html(result.sText);
 		}

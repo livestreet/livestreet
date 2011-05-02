@@ -18,13 +18,19 @@
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
-	<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);" class="input-200">
+	<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo(this.value);" class="input-200">
 		<option value="0">{$aLang.topic_create_blog_personal}</option>
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
 		{/foreach}
 	</select></p>
 
+	<script language="JavaScript" type="text/javascript">
+		jQuery(document).ready(function($){
+			ls.blog.loadInfo($('#blog_id').val());
+		});
+    </script>
+	
 	<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
 	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
 	<span class="note">{$aLang.topic_create_title_notice}</span></p>
