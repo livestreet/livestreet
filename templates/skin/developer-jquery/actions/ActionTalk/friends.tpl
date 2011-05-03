@@ -5,7 +5,7 @@
 		<div class="block-content">
 			<ul class="list" id="friends">
 				{foreach from=$aUsersFriend item=oFriend}
-					<li><label><input type="checkbox" name="friend[{$oFriend->getId()}]" class="checkbox" />{$oFriend->getLogin()}</label></li>
+					<li><input id="talk_friend_{$oFriend->getId()}" type="checkbox" name="friend[{$oFriend->getId()}]" class="checkbox" /><label for="talk_friend_{$oFriend->getId()}" id="talk_friend_{$oFriend->getId()}_label">{$oFriend->getLogin()}</label></li>
 				{/foreach}
 			</ul>
 		</div>
