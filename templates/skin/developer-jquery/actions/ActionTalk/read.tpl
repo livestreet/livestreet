@@ -18,7 +18,7 @@
 	<ul class="info">
 		<li class="username"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 		<li class="date">{date_format date=$oTalk->getDate()}</li>
-		<li><a href="#" onclick="lsFavourite.toggle({$oTalk->getId()},this,'talk'); return false;" class="favorite {if $oTalk->getIsFavourite()}active{/if}"></a></li>
+		<li><a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a></li>
 	</ul>
 </div>
 

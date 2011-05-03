@@ -1,64 +1,56 @@
-var favourite = {
-	//==================
-	// Опции
-	//==================
+var ls = ls || {};
 
-	classes: {                     
-		active:    	'active',
-		favourite:  'favourite'                                    
-	},
-   
-	typeFavourite: {                
-		topic: {
-			url: 			aRouter['ajax']+'favourite/topic/',
-			targetName: 	'idTopic'
-		},
-		talk: {
-			url: 			aRouter['ajax']+'favourite/talk/',
-			targetName: 	'idTalk'                	                	
-		},
-		comment: {
-			url: 			aRouter['ajax']+'favourite/comment/',
-			targetName: 	'idComment'                	                	
+/**
+* Добавление в избранное
+*/
+ls.favourite = (function ($) {
+	/**
+	* Опции
+	*/
+	this.options = {
+		active: 'active',
+		type: {
+			topic: {
+				url: 			aRouter['ajax']+'favourite/topic/',
+				targetName: 	'idTopic'
+			},
+			talk: {
+				url: 			aRouter['ajax']+'favourite/talk/',
+				targetName: 	'idTalk'
+			},
+			comment: {
+				url: 			aRouter['ajax']+'favourite/comment/',
+				targetName: 	'idComment'
+			}
 		}
-	},
-   
-   
-	//==================
-	// Функции
-	//==================
-	
-	// Добавить/удалить из избранного
-	toggle: function(idTarget, objFavourite, type) {          
-		if (!this.typeFavourite[type]) { return false; }
+	};
 
-		this.objFavourite = $(objFavourite);  
-		this.type = type;  
-		thisObj = this;
-		
-		var value = 1;      
-		if (this.objFavourite.hasClass(this.classes.active)) {
-			value = 0;
-		}
+	/**
+	* Переключение избранного
+	*/
+	this.toggle = function(idTarget, objFavourite, type) {
+		if (!this.options.type[type]) { return false; }
+
+		this.objFavourite = $(objFavourite);
 		
 		var params = {};
-		params['type'] = value;
-		params[this.typeFavourite[type].targetName] = idTarget;
-		params['security_ls_key'] = LIVESTREET_SECURITY_KEY;
+		params['type'] = !this.objFavourite.hasClass(this.options.active);
+		params[this.options.type[type].targetName] = idTarget;
 		
-		$.post(this.typeFavourite[type].url, params, function(result) {
+		ls.ajax(this.options.type[type].url, params, function(result) {
+			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {
-				$.notifier.error(null, result.sMsg);
+				ls.msg.error(null, result.sMsg);
 			} else {
-				$.notifier.notice(null, result.sMsg);
-			   
-				var divFavourite = thisObj.objFavourite;
-				divFavourite.removeClass(thisObj.classes.active);
-				
+				ls.msg.notice(null, result.sMsg);
+				this.objFavourite.removeClass(this.options.active);
 				if (result.bState) {
-					divFavourite.addClass(thisObj.classes.active);
+					this.objFavourite.addClass(this.options.active);
 				}
-			}  
-		});    
+			}
+		}.bind(this));
+		return false;
 	}
-}
+
+	return this;
+}).call(ls.favourite || {},jQuery);

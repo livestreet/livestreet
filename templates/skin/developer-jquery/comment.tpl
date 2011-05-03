@@ -16,7 +16,7 @@
 		{/if}
 		<li class="goto-comment-child"><a href="#" title="{$aLang.comment_goto_child}">↓</a></li>
 		{if $oUserCurrent and !$bNoCommentFavourites}
-			<li><a href="#" onclick="favourite.toggle({$oComment->getId()},this,'comment'); return false;" class="favourite {if $oComment->getIsFavourite()}active{/if}"></a></li>
+			<li><a href="#" onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" class="favourite {if $oComment->getIsFavourite()}active{/if}"></a></li>
 		{/if}
 		{if !$oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
 			<li><a href="#" class="delete" onclick="comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_delete}</a></li>

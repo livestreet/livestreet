@@ -9,7 +9,7 @@ var vote = {
 		minus:  	'minus',
 		positive:	'positive',
 		negative:  	'negative',          
-		total: 		'total',            
+		total: 		'total'            
 	},
    
    

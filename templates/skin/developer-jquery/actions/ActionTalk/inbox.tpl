@@ -30,7 +30,7 @@
 					{/foreach}
 				</td>
 				<td align="center">
-					<a href="#" onclick="favourite.toggle({$oTalk->getId()},this,'talk'); return false;" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
+					<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
 				</td>
 				<td>
 					{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
