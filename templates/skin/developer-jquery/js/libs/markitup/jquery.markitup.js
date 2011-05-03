@@ -464,16 +464,9 @@
 			function renderPreview() {		
 				var phtml;
 				if (options.previewParserPath !== '') {
-					$.ajax({
-						type: 'POST',
-						dataType: 'json',
-						global: false,
-						url: options.previewParserPath,
-						data: $.param({save: 0, security_ls_key: LIVESTREET_SECURITY_KEY})+'&'+options.previewParserVar+'='+encodeURIComponent($$.val()),
-						success: function(data) {
-							writeInPreview( localize(data.sText, 1) ); 
-						}
-					});
+					ls.ajax(options.previewParserPath, {text: $$.val(), save: 0}, function(data){
+						writeInPreview( localize(data.sText, 1) );
+					});				
 				} else {
 					if (!template) {
 						$.ajax({
