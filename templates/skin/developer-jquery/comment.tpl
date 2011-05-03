@@ -26,10 +26,10 @@
 		{/if}
 		{hook run='comment_action' comment=$oComment}
 		{if $oComment->getTargetType()!='talk'}						
-			<li class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
-				<a href="#" class="plus" onclick="vote.vote({$oComment->getId()},this,1,'comment'); return false;"></a>
-				<span class="total">{$oComment->getRating()}</span>
-				<a href="#" class="minus" onclick="vote.vote({$oComment->getId()},this,-1,'comment'); return false;"></a>
+			<li id="vote_area_comment_{$oComment->getId()}" class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
+				<a href="#" class="plus" onclick="return ls.vote.vote({$oComment->getId()},this,1,'comment');"></a>
+				<span id="vote_total_comment_{$oComment->getId()}" class="total">{$oComment->getRating()}</span>
+				<a href="#" class="minus" onclick="return ls.vote.vote({$oComment->getId()},this,-1,'comment');"></a>
 			</li>
 		{/if}
 	</ul>

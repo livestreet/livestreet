@@ -40,6 +40,23 @@ ls.msg = (function ($) {
 
 
 /**
+* Вспомогательные функции
+*/
+ls.tools = (function ($) {
+
+	/**
+	* Переводит первый символ в верхний регистр
+	*/
+	this.ucfirst = function(str) {
+		var f = str.charAt(0).toUpperCase();
+		return f + str.substr(1, str.length-1);
+	}
+
+	return this;
+}).call(ls.tools || {},jQuery);
+
+
+/**
 * Дополнительные функции
 */
 ls = (function ($) {

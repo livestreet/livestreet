@@ -1,99 +1,102 @@
-var vote = {
-	//==================
-	// Опции
-	//==================
-	
-	classes: {
-		voted: 		'voted',                       
-		plus: 		'plus',
-		minus:  	'minus',
-		positive:	'positive',
-		negative:  	'negative',          
-		total: 		'total'            
-	},
-   
-   
-	typeVote: {
-		comment: {
-			url: aRouter['ajax']+'vote/comment/',
-			targetName: 'idComment'
+var ls = ls || {};
+
+/**
+* Динамическая подгрузка блоков
+*/
+ls.vote = (function ($) {
+	/**
+	* Опции
+	*/
+	this.options = {
+		classes: {
+			voted: 		'voted',
+			plus: 		'plus',
+			minus:  	'minus',
+			positive:	'positive',
+			negative:  	'negative'
 		},
-		topic: {
-			url: aRouter['ajax']+'vote/topic/',
-			targetName: 'idTopic'
-		},
-		blog: {
-			url: aRouter['ajax']+'vote/blog/',
-			targetName: 'idBlog'
-		},
-		user: {
-			url: aRouter['ajax']+'vote/user/',
-			targetName: 'idUser'
+		prefix_area: 'vote_area_',
+		prefix_total: 'vote_total_',
+		type: {
+			comment: {
+				url: aRouter['ajax']+'vote/comment/',
+				targetName: 'idComment'
+			},
+			topic: {
+				url: aRouter['ajax']+'vote/topic/',
+				targetName: 'idTopic'
+			},
+			blog: {
+				url: aRouter['ajax']+'vote/blog/',
+				targetName: 'idBlog'
+			},
+			user: {
+				url: aRouter['ajax']+'vote/user/',
+				targetName: 'idUser'
+			}
 		}
-	},
-  
-   
-	//==================
-	// Функции
-	//==================
-   
-	vote: function(idTarget, objVote, value, type) {          
-		if (!this.typeVote[type]) return false;
-	   
-		this.idTarget = idTarget;
-		this.objVote = $(objVote);
-		this.value = value;		
-		thisObj = this;
-				
+	};
+
+	this.vote = function(idTarget, objVote, value, type) {
+		if (!this.options.type[type]) return false;
+		
+		objVote = $(objVote);
 		var params = {};
 		params['value'] = value;
-		params[this.typeVote[type].targetName] = idTarget;
-		params['security_ls_key'] = LIVESTREET_SECURITY_KEY;
+		params[this.options.type[type].targetName] = idTarget;
 		
-		$.post(this.typeVote[type].url, params, function(result) {
-			thisObj.onVote(result, thisObj);
-		});        
-	},
-   
-   
-	onVote: function(result, thisObj) {    
+		ls.ajax(this.options.type[type].url, params, function(result) {
+			this.onVote(idTarget, objVote, value, type, result);
+		}.bind(this));
+		return false;
+	}
+
+	this.onVote = function(idTarget, objVote, value, type, result) {
 		if (result.bStateError) {
-			$.notifier.error(null, result.sMsg);
+			ls.msg.error(null, result.sMsg);
 		} else {
-			$.notifier.notice(null, result.sMsg);
-		   
-			var divVoting = thisObj.objVote.parent();
-			divVoting.addClass(thisObj.classes.voted);
+			ls.msg.notice(null, result.sMsg);
 			
-			if (thisObj.value > 0) {
-				divVoting.addClass(thisObj.classes.plus);
+			var divVoting = $('#'+this.options.prefix_area+type+'_'+idTarget);
+			divVoting.addClass(this.options.classes.voted);
+
+			if (value > 0) {
+				divVoting.addClass(this.options.classes.plus);
 			}
-			if (thisObj.value < 0) {
-				divVoting.addClass(thisObj.classes.minus);
+			if (value < 0) {
+				divVoting.addClass(this.options.classes.minus);
 			}
-		   
-			var divTotal = divVoting.children('.'+thisObj.classes.total); 
 			
-			result.iRating = parseFloat(result.iRating);  
-			
-			divVoting.removeClass(thisObj.classes.negative);    
-			divVoting.removeClass(thisObj.classes.positive); 
-			
-			if (result.iRating > 0) {                        
-				divVoting.addClass(thisObj.classes.positive);
+			var divTotal = $('#'+this.options.prefix_total+type+'_'+idTarget);
+
+			result.iRating = parseFloat(result.iRating);
+
+			divVoting.removeClass(this.options.classes.negative);
+			divVoting.removeClass(this.options.classes.positive);
+
+			if (result.iRating > 0) {
+				divVoting.addClass(this.options.classes.positive);
 				divTotal.text(result.iRating);
 			}
-			if (result.iRating < 0) {                        
-				divVoting.addClass(thisObj.classes.negative);
+			if (result.iRating < 0) {
+				divVoting.addClass(this.options.classes.negative);
 				divTotal.text(result.iRating);
 			}
 			if (result.iRating == 0) {
 				divTotal.text(0);
 			}
-			
-			if (thisObj.type == 'user') {
-				$('#user_skill_'+thisObj.idTarget).text(result.iSkill);
+
+			var method='onVote'+ls.tools.ucfirst(type);
+			if (typeof(this[method])=='function') {
+				this[method].apply(this,[idTarget, objVote, value, type, result]);
 			}
-		}      
+		}
+		$(this).trigger('vote',[idTarget, objVote, value, type, result]);
 	}
-}
+	
+	this.onVoteUser = function(idTarget, objVote, value, type, result) {
+		$('#user_skill_'+idTarget).text(result.iSkill);
+	}
+
+	return this;
+}).call(ls.vote || {},jQuery);

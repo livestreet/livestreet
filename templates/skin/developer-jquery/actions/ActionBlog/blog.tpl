@@ -28,10 +28,10 @@
 
 
 <div class="blog">
-	<div class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
-		<a href="#" class="plus" onclick="vote.vote({$oBlog->getId()},this,1,'blog'); return false;"></a>
-		<div class="total" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
-		<a href="#" class="minus" onclick="vote.vote({$oBlog->getId()},this,-1,'blog'); return false;"></a>
+	<div id="vote_area_blog_{$oBlog->getId()}" class="voting {if $oBlog->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oBlog->getOwnerId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
+		<a href="#" class="plus" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"></a>
+		<div id="vote_total_blog_{$oBlog->getId()}" class="total" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
+		<a href="#" class="minus" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
 	</div>
 	
 	
