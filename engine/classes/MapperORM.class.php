@@ -261,5 +261,68 @@ class MapperORM extends Mapper {
 			return Config::Get('db.table.prefix').$sTable;
 		}
 	}
+
+    /**
+     * Загрузка данных из таблицы связи many_to_many
+     * @param <type> $sDbTableAlias Алиас имени таблицы связи
+     * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой зегружаются объекты.
+     * @param <type> $iEntityId Id сущнсоти, для который загружаются объекты
+     * @param <type> $sRelationKey Название поля в таблице связи с id сущности, объекты которой загружаются по связи.
+     * @return <type> список id из столбца $sRelationKey, у которых столбец $sEntityKey = $iEntityId
+     */
+    public function getManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey)
+    {
+        if (!Config::Get($sDbTableAlias)) return array();
+        $sql = 'SELECT ?# FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
+        return $this->oDb->selectCol($sql, $sRelationKey, $sEntityKey, $iEntityId);
+    }
+
+    /**
+     * Обновление связи many_to_many
+     * @param <type> $sDbTableAlias Алиас имени таблицы связи
+     * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой обновляются связи.
+     * @param <type> $iEntityId Id сущнсоти, для который обновляются связи
+     * @param <type> $sRelationKey Название поля в таблице связи с id сущности, с объектами которой назначаются связи.
+     * @param <type> $aInsertSet Массив id для $sRelationKey, которые нужно добавить
+     * @param <type> $aDeleteSet Массив id для $sRelationKey, которые нужно удалить
+     * @return <type>
+     */
+    public function updateManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey, $aInsertSet, $aDeleteSet)
+    {
+        if (!Config::Get($sDbTableAlias)) return false;
+        if (count($aDeleteSet)) {
+            $sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d AND ?# IN (?a)';
+            $this->oDb->query($sql,  $sEntityKey, $iEntityId, $sRelationKey, $aDeleteSet);
+        }
+
+        if (count($aInsertSet)) {
+            $sql = 'INSERT INTO '.Config::Get($sDbTableAlias).' (?#,?#) VALUES ';
+            $aParams = array();
+            foreach ($aInsertSet as $iId) {
+                $sql .= '(?d, ?d), ';
+                $aParams[] = $iEntityId;
+                $aParams[] = $iId;
+            }
+            $sql = substr($sql, 0, -2); // удаление последних ", "
+            call_user_func_array(array($this->oDb, 'query'), array_merge(array($sql,$sEntityKey, $sRelationKey), $aParams));
+        }
+    }
+
+    /**
+     * Удаление связей many_to_many для объекта. Используется при удалении сущности,
+     * чтобы не удалять большие коллекции связанных объектов через updateManyToManySet(),
+     * где используется IN.
+     * 
+     * @param <type> $sDbTableAlias Алиас имени таблицы связи
+     * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой удаляются связи.
+     * @param <type> $iEntityId Id сущнсоти, для который удаляются связи
+     * @return <type>
+     */
+    public function deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId)
+    {
+        if (!Config::Get($sDbTableAlias)) return false;
+        $sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
+        $this->oDb->query($sql, $sEntityKey, $iEntityId);
+    }
 }
 ?>

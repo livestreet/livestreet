@@ -32,6 +32,8 @@ require_once("ModuleORM.class.php");
 require_once("EntityORM.class.php");
 require_once("MapperORM.class.php");
 
+require_once("ManyToManyRelation.class.php");
+
 
 /**
  * Основной класс движка, который позволяет напрямую обращаться к любому модулю

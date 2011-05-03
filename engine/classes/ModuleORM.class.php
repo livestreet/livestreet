@@ -45,6 +45,13 @@ abstract class ModuleORM extends Module {
 		} elseif ($res) {
 			// есть автоинкремент, устанавливаем его
 			$oEntity->_setData(array($oEntity->_getPrimaryKey() => $res));
+            // Обновление связей many_to_many
+            $aRelationsData = $oEntity->_getRelationsData();
+            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                    $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
+                }
+            }
 			return $oEntity;
 		}
 		return false;
@@ -52,7 +59,15 @@ abstract class ModuleORM extends Module {
 	
 	protected function _UpdateEntity($oEntity) {
 		$res=$this->oMapperORM->UpdateEntity($oEntity);
+
 		if ($res===0 or $res) { // запись не изменилась, либо изменилась
+            // Обновление связей many_to_many
+            $aRelationsData = $oEntity->_getRelationsData();
+            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                    $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
+                }
+            }
 			// сбрасываем кеш
 			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
@@ -75,6 +90,15 @@ abstract class ModuleORM extends Module {
 			// сбрасываем кеш
 			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_delete'));
+
+            // Обновление связей many_to_many
+            $aRelationsData = $oEntity->getRelationsData();
+            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                    $this->_deleteManyToManySet($aRelation[3], $aRelation[4], $oEntity->_getPrimaryKeyValue());
+                }
+            }
+
 			return $oEntity;
 		}
 		return false;
@@ -316,18 +340,29 @@ abstract class ModuleORM extends Module {
 	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
 		 */
 		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
-			$aIndexedEntities=array();
-			foreach ($aEntities as $oEntity) { 
-				$sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
-					$oEntity->_getPrimaryKey() :
-					$oEntity->_getField($aFilter['#index-from']);
-				$aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
-			} 
-			$aEntities = $aIndexedEntities;
+            $aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
 		}
 		
 		return $aEntities;
 	}
+
+    /**
+     * Returns assotiative array, indexed by PRIMARY KEY or another field.
+     * @param <type> $oEntity
+     * @param <type> $aFilter
+     * @return <type>
+     */
+    protected function _setIndexesFromField($aEntities, $aFilter)
+    {
+        $aIndexedEntities=array();
+        foreach ($aEntities as $oEntity) {
+            $sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
+                $oEntity->_getPrimaryKey() :
+                $oEntity->_getField($aFilter['#index-from']);
+            $aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
+        }
+		return $aIndexedEntities;
+    }
 	
 	public function GetCountItemsByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -359,7 +394,13 @@ abstract class ModuleORM extends Module {
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-		return $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+		$aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+
+        if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
+            $aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
+		}
+
+        return $aEntities;
 	}
 	
 	public function __call($sName,$aArgs) {
@@ -513,5 +554,56 @@ abstract class ModuleORM extends Module {
 		}
 		return $aList;
 	}
+
+    /**
+     * Обновление связи many_to_many в бд
+     * @param <type> $aRelation Соответствующий связи элемент массива из $oEntityORM->aRelations
+     * @param <type> $aRelationData Соответствующий связи элемент массива из $oEntityORM->aRelationsData
+     * @param <type> $iEntityId Id сущности, для которой обновляются связи
+     * @return <type>
+     */
+    protected function _updateManyToManySet($aRelation, $aRelationData, $iEntityId)
+    {
+        /*
+         * Описание параметров связи many_to_many
+         * Для примера возьмём такую связь в сущности $oTopic
+         * 'tags' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleTopic_EntityTag', 'tag_id',  'db.table.topic_tag_rel', 'topic_id'),
+         * И используется таблица связи
+         * table prefix_topic_tag_rel
+         *  topic_id | ефп_id
+         * Тогда тут
+         * [0] -> self::RELATION_TYPE_MANY_TO_MANY - тип связи
+         * [1] -> 'ModuleTopic_EntityTag' - имя сущности объектов связи
+         * [2] -> 'tag_id' - названия столбца в таблице связи, в котором содержатся id объектов связи, в нашем случае тегов.
+         * [3] -> 'db.table.topic_tag_rel' - алиас (идентификатор из конфига) таблицы связи.
+         *      Обратите внмание на то, что ORM для определения таблиц сущностей использует модуль и название сущности, то есть
+         *      если мы захотим таблицу связи назвать prefix_topic_tag, что, в общем-то, логично, то будет конфликт имён, потому что
+         *      ModuleTopic_EntityTag также преобразуется в prefix_topic_tag.
+         *      Поэтому необходимо следить за корректным именованием таблиц (точнее алиасов в конфиге, сами таблицы в бд могут
+         *      называться как угодно). В данном примере используется суффикс '_rel'.
+         * [4] -> 'topic_id' - название столбца в таблице связи, в котором содержатся id сущности, для которой объявляется связь,
+         *      в нашем случае топиков
+         */
+        $aSavedSet = $this->oMapperORM->getManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2]);
+        $aCurrentSet = array();
+        foreach ($aRelationData as $oEntity) {
+            $aCurrentSet[] = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
+        }
+        if ($aSavedSet == $aCurrentSet) return;
+        $aInsertSet = array_diff($aCurrentSet, $aSavedSet);
+        $aDeleteSet = array_diff($aSavedSet, $aCurrentSet);
+        $this->oMapperORM->updateManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2], $aInsertSet, $aDeleteSet);
+    }
+
+    /**
+     * Удаление связи many_to_many в бд
+     * @param <type> $sDbTableAlias Алиас имени таблицы связи
+     * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой удаляются связи.
+     * @param <type> $iEntityId Id сущнсоти, для который удаляются связи
+     */
+    protected function _deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId)
+    {
+        $this->oMapperORM->deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId);
+    }
 }
 ?>

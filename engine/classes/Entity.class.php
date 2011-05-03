@@ -21,6 +21,7 @@
  */
 abstract class Entity extends Object {	
 	protected $_aData=array();
+    protected $sPrimaryKey = null;
 
 	/**
 	 * Если передать в конструктор ассоциативный массив свойств и их значений, то они автоматом загрузятся в сущность
@@ -88,5 +89,26 @@ abstract class Entity extends Object {
 			return Engine::getInstance()->_CallModule($sName,$aArgs);
 		}
 	}
+
+    /**
+     * Получение первичного ключа сущности (ключ, а не значение!)
+     */
+    public function _getPrimaryKey()
+    {
+        if (!$this->sPrimaryKey) {
+            if (isset($this->_aData['id'])) {
+                $this->sPrimaryKey = 'id';
+            } else {
+                // Получение primary_key из схемы бд (пока отсутствует)
+                $this->sPrimaryKey = 'id';
+            }
+        }
+
+        return $this->sPrimaryKey;
+    }
+
+    public function _getPrimaryKeyValue() {
+        return $this->_getDataOne($this->_getPrimaryKey());
+    }
 }
 ?>

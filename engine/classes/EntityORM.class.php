@@ -33,6 +33,9 @@ abstract class EntityORM extends Entity {
 	
 	protected $aRelations=array();
 	protected $aRelationsData=array();
+
+    // Объекты связей many_to_many
+    protected $_aManyToManyRelations = array();
 	
 	protected $sPrimaryKey='id';
 	protected $bIsNew=true;
@@ -55,6 +58,10 @@ abstract class EntityORM extends Entity {
 		}
 		return $this->sPrimaryKey;
 	}
+
+    public function _getPrimaryKeyValue() {
+        return $this->_getDataOne($this->_getPrimaryKey());
+    }
 	
 	public function _isNew() {
 		return $this->bIsNew;
@@ -283,7 +290,7 @@ abstract class EntityORM extends Entity {
 	}	
 	
 	public function __call($sName,$aArgs) {
-		$sType=substr($sName,0,strpos(func_underscore($sName),'_'));	
+        $sType=substr($sName,0,strpos(func_underscore($sName),'_'));
 		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {	
 			$sKey=func_underscore(str_replace($sType,'',$sName));
 			if ($sType=='get') {
@@ -326,7 +333,6 @@ abstract class EntityORM extends Entity {
 					}
 					
 					$iPrimaryKeyValue=$this->_getDataOne($this->_getPrimaryKey());
-					
 					$sCmd='';
 					$aCmdArgs=array();
 					switch ($sRelationType) {
@@ -345,10 +351,11 @@ abstract class EntityORM extends Entity {
 						case self::RELATION_TYPE_MANY_TO_MANY :
 						  $sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
 							$aCmdArgs[0]=array(
-								'#join_table'		=> $sRelationJoinTable,
+								'#join_table'		=> Config::Get($sRelationJoinTable),
 								'#relation_key'		=> $sRelationKey,
 								'#by_key'			=> $sRelationJoinTableKey,
 								'#by_value'			=> $iPrimaryKeyValue,
+                                '#index-from-primary' => true // Для MANY_TO_MANY необходимо индексами в $aRelationsData иметь первичные ключи сущностей
 							);
 							break;
 						default:
@@ -360,6 +367,10 @@ abstract class EntityORM extends Entity {
 					$res=Engine::GetInstance()->_CallModule($sCmd,$aCmdArgs);
 
 					$this->aRelationsData[$sKey]=$res;
+                    // Создаём объекты-обёртки для связей MANY_TO_MANY
+                    if ($sRelationType == self::RELATION_TYPE_MANY_TO_MANY) {
+                        $this->_aManyToManyRelations[$sKey] = new LS_ManyToManyRelation($this->aRelationsData[$sKey]);
+                    }
 					return $res;
 				}
 				
@@ -380,5 +391,25 @@ abstract class EntityORM extends Entity {
 			return Engine::getInstance()->_CallModule($sName,$aArgs);
 		}
 	}
+
+    public function __get($sName)
+    {
+        // Обработка обращений к обёрткам связей MANY_TO_MANY
+        // Если связь загружена, возвращаем объект связи
+        var_dump(($this->aRelations[strtolower($sName)]));
+        if (isset($this->_aManyToManyRelations[strtolower($sName)])) {
+            return $this->_aManyToManyRelations[strtolower($sName)];
+        // Есл не загружена, но связь с таким именем существет, пробуем загрузить и вернуть объект связи
+        } elseif (isset($this->aRelations[strtolower($sName)]) && $this->aRelations[strtolower($sName)][0] == self::RELATION_TYPE_MANY_TO_MANY) {
+            $sMethod = 'get' . ucfirst($sName);
+            $this->__call($sMethod, array());
+            if (isset($this->_aManyToManyRelations[strtolower($sName)])) {
+                 return $this->_aManyToManyRelations[strtolower($sName)];
+            }
+        // В противном случае возвращаем то, что просили у объекта
+        } else {
+            return $this->$sName;
+        }
+    }
 }
 ?>
