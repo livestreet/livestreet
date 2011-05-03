@@ -8,7 +8,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<td width="20"><input type="checkbox" name="" onclick="checkAll('form_talks_checkbox', this);"></td>
+				<td width="20"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_talks_checkbox', this);"></td>
 				<td width="150">{$aLang.talk_inbox_target}</td>
 				<td width="20"></td>
 				<td>{$aLang.talk_inbox_title}</td>

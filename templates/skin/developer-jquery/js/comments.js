@@ -143,7 +143,7 @@ var comments = {
 		$("#comment_preview").remove();
 		if ($("#form_comment_text").val() == '') return;
 		$(".reply").before($("<div>", {id: "comment_preview", 'class': "comment-preview"}));
-		ajaxTextPreview('form_comment_text', false, 'comment_preview');		
+		ls.tools.textPreview('form_comment_text', false, 'comment_preview');
 	},
 	
 	

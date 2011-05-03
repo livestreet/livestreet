@@ -4,7 +4,7 @@
 {literal}
 <script>
 function submitTags(sTag) {		
-	window.location=DIR_WEB_ROOT+'/tag/'+encodeURIComponent(sTag)+'/';
+	window.location=aRouter['tag']+encodeURIComponent(sTag)+'/';
 	return false;
 }
 </script>

@@ -51,7 +51,42 @@ ls.tools = (function ($) {
 		var f = str.charAt(0).toUpperCase();
 		return f + str.substr(1, str.length-1);
 	}
+	
+	/**
+	* Выделяет все chekbox с определенным css классом
+	*/
+	this.checkAll = function(cssclass, checkbox, invert) {
+		$('.'+cssclass).each(function(index, item){
+			if (invert) {
+				$(item).attr('checked', !$(item).attr("checked"));
+			} else {
+				$(item).attr('checked', $(checkbox).attr("checked"));
+			}
+		});
+	}
 
+	/**
+	* Предпросмотр
+	*/
+	this.textPreview = function(textId, save, divPreview) {
+		var text = $('#'+textId).val();		
+		ls.ajax(aRouter['ajax']+'preview/text/', {text: text, save: save}, function(result){
+			if (!result) {
+				ls.msg.error('Error','Please try again later');
+			}
+			if (result.bStateError) {
+				ls.msg.error('Error','Please try again later');
+			} else {
+				if (!divPreview) {
+					divPreview = 'text_preview';
+				}
+				if ($('#'+divPreview).length) {
+					$('#'+divPreview).html(result.sText);
+				}
+			}
+		});
+	}
+	
 	return this;
 }).call(ls.tools || {},jQuery);
 
@@ -220,7 +255,7 @@ $(document).ready(function(){
 	
 	// Поиск по тегам
 	$('#tag_search_form').submit(function(){
-		window.location = DIR_WEB_ROOT+'/tag/'+$('#tag_search').val()+'/';
+		window.location = aRouter['tag']+$('#tag_search').val()+'/';
 		return false;
 	});
 	
@@ -241,35 +276,6 @@ $(document).ready(function(){
 // ===================
 // Разное
 // ===================
-
-// Отмечает все чекбоксы
-function checkAll(obj, checkbox) {
-	$('.'+obj).each(function(index, item){
-		if ($(checkbox).attr("checked")) {$(item).attr('checked', true);} else {$(item).attr('checked', false);}
-	});	
-}
-
-
-// Предпросмотр
-function ajaxTextPreview(textId, save, divPreview) {
-	var text = $('#'+textId).val();	
-	save = save ? 1 : 0;
-	$.post(aRouter['ajax']+'preview/text/', { text: text, save: save, security_ls_key: LIVESTREET_SECURITY_KEY }, function(result){
-		if (!result) {
-			$.notifier.error('Error','Please try again later');           
-		}
-		if (result.bStateError) {
-			$.notifier.error('Error','Please try again later');
-		} else {    	
-			if (!divPreview) {
-				divPreview = 'text_preview';
-			}            	
-			if ($('#'+divPreview).length) {
-				$('#'+divPreview).html(result.sText);
-			}
-		}
-	});
-}
 
 
 // Загрузка изображения
