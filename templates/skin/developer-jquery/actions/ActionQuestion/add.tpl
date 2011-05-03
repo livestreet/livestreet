@@ -43,7 +43,7 @@
 			{foreach from=$_aRequest.answer item=sAnswer key=i}
 				<li>
 					<input type="text" value="{$sAnswer}" name="answer[]" class="input input-300" {if $bEditDisabled}disabled{/if} />
-					{if !$bEditDisabled}&nbsp;<a href="#" onClick="dropField(this); return false;">{$aLang.topic_poll_delete_item}</a>{/if}
+					{if !$bEditDisabled and $i>1} <a href="#" onClick="return ls.poll.removeAnswer(this);">{$aLang.topic_poll_delete_item}</a>{/if}
 				</li>
 			{/foreach}
 		{else}
@@ -51,7 +51,7 @@
 			<li><input type="text" value="" name="answer[]" class="input input-300" {if $bEditDisabled}disabled{/if} /></li>
 		{/if}
 	</ul>
-	{if !$bEditDisabled}<p><a href="#" onClick="addField(); return false;">{$aLang.topic_poll_add_item}</a></p>{/if}
+	{if !$bEditDisabled}<p><a href="#" onClick="ls.poll.addAnswer(); return false;">{$aLang.topic_poll_add_item}</a></p>{/if}
 
 	<p><label for="topic_text">{$aLang.topic_question_create_text}:</label><br />
 	<textarea name="topic_text" id="topic_text" rows="20" class="input-wide">{$_aRequest.topic_text}</textarea></p>

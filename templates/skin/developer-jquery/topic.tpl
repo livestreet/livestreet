@@ -36,8 +36,8 @@
 						{/foreach}
 					</ul>
 
-					<input type="submit" value="{$aLang.topic_question_vote}" onclick="ajaxPollVote({$oTopic->getId()},$('#topic_answer_{$oTopic->getId()}_value').val());" />
-					<input type="submit" value="{$aLang.topic_question_abstain}" onclick="ajaxPollVote({$oTopic->getId()},-1)" />
+					<input type="submit" value="{$aLang.topic_question_vote}" onclick="ls.poll.vote({$oTopic->getId()},$('#topic_answer_{$oTopic->getId()}_value').val());" />
+					<input type="submit" value="{$aLang.topic_question_abstain}" onclick="ls.poll.vote({$oTopic->getId()},-1)" />
 					<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
 				{else}
 					{include file='topic_question.tpl'}
