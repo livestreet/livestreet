@@ -130,6 +130,68 @@ ls = (function ($) {
 
 
 
+/**
+* Автокомплитер
+*/
+ls.autocomplete = (function ($) {
+	/**
+	* Добавляет автокомплитер к полю ввода
+	*/
+	this.add = function(obj, sPath, multiple) {
+		if (multiple) {
+			obj.bind("keydown", function(event) {
+				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				source: function(request, response) {
+					ls.ajax(sPath,{value: ls.autocomplete.extractLast(request.term)},function(data){
+						response(data.aItems);
+					});
+				},
+				search: function() {
+					var term = ls.autocomplete.extractLast(this.value);
+					if (term.length < 2) {
+						return false;
+					}
+				},
+				focus: function() {
+					return false;
+				},
+				select: function(event, ui) {
+					var terms = ls.autocomplete.split(this.value);
+					terms.pop();
+					terms.push(ui.item.value);
+					terms.push("");
+					this.value = terms.join(", ");
+					return false;
+				}
+			});
+		} else {
+			obj.autocomplete({
+				source: function(request, response) {
+					ls.ajax(sPath,{value: ls.autocomplete.extractLast(request.term)},function(data){
+						response(data.aItems);
+					});
+				}
+			});
+		}
+	}
+
+	this.split = function(val) {
+		return val.split( /,\s*/ );
+	}
+	
+	this.extractLast = function(term) {
+		return ls.autocomplete.split(term).pop();
+	}
+	
+	return this;
+}).call(ls.autocomplete || {},jQuery);
+
+
+
 (ls.options || {}).debug=1;
 
 
@@ -164,10 +226,10 @@ $(document).ready(function(){
 	
 	
 	// Автокомплит
-	autocompleteAdd($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
-	autocompleteAdd($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
-	autocompleteAdd($(".autocomplete-city"), aRouter['ajax']+'autocompleter/city/', false);
-	autocompleteAdd($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
+	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
+	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
+	ls.autocomplete.add($(".autocomplete-city"), aRouter['ajax']+'autocompleter/city/', false);
+	ls.autocomplete.add($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
 
 	
 	// Скролл
