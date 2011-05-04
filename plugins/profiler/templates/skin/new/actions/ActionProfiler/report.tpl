@@ -31,5 +31,5 @@
 				<input type="submit" name="submit_report_delete" value="{$aLang.profiler_report_delete}" onclick="return ($$('.form_reports_checkbox').length==0)?false:confirm('{$aLang.profiler_report_delete_confirm}');">
 				</form>
 			</div>
-{include file='paging.tpl' aPaging=`$aPaging`}
+{include file='paging.tpl' aPaging=$aPaging}
 {include file='footer.tpl'}
