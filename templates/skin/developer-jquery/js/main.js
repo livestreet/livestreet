@@ -141,6 +141,51 @@ ls = (function ($) {
 	};
 	
 	/**
+	* Выполнение AJAX отправки формы, включая загрузку файлов
+	*/
+	this.ajaxSubmit = function(url,form,callback,more) {
+		more=more || {};	
+		if (typeof(form)=='string') {
+			form=$('#'+form);
+		}
+		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
+			url=aRouter['ajax']+url+'/';
+		}
+		
+		var options={
+			type: 'POST',
+			url: url,
+			dataType: more.dataType || 'json',
+			data: { security_ls_key: LIVESTREET_SECURITY_KEY },
+			success: callback || function(msg){
+				ls.debug("base success: ");
+				ls.debug(msg);
+			}.bind(this),
+			error: more.error || function(x,s,e){
+				ls.debug("base error: ");
+				ls.debug(x);
+			}.bind(this)
+
+		}
+		
+		form.ajaxSubmit(options);
+	}
+
+	/**
+	* Загрузка изображения
+	*/
+	this.ajaxUploadImg = function(form, sToLoad) {
+		ls.ajaxSubmit('upload/image/',form,function(data){
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				$.markItUp({ replaceWith: data.sText} );
+				$('#form_upload_img').jqmHide();
+			}
+		});
+	}
+	
+	/**
 	* Дебаг сообщений
 	*/
 	this.debug = function(msg) {
@@ -270,27 +315,3 @@ $(document).ready(function(){
 	// Скролл
 	$(window)._scrollable();
 });
-
-
-
-// ===================
-// Разное
-// ===================
-
-
-// Загрузка изображения
-function ajaxUploadImg(value, sToLoad) {	
-	var req = new JsHttpRequest();
-	req.onreadystatechange = function() {
-		if (req.readyState == 4) {
-			if (req.responseJS.bStateError) {
-				$.notifier.error(req.responseJS.sMsgTitle,req.responseJS.sMsg);				
-			} else {
-				$.markItUp({ replaceWith: req.responseJS.sText} );
-				$('#form_upload_img').jqmHide();
-			}
-		}
-	}
-	req.open(null, aRouter['ajax']+'upload/image/', true);
-	req.send( { value: value, security_ls_key: LIVESTREET_SECURITY_KEY } );
-}

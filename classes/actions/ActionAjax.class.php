@@ -677,7 +677,7 @@ class ActionAjax extends Action {
 	 *
 	 */
 	protected function EventUploadImage() {
-		$this->Viewer_SetResponseAjax('jsHttpRequest');
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
 		if (!$this->oUserCurrent) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;

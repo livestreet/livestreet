@@ -2,7 +2,7 @@
 			<h3>{$aLang.uploadimg}</h3>
 			<p>
 				<label>{$aLang.uploadimg_file}:<br />
-				<input type="file" name="img_file" value="" class="input-wide" /></label>
+				<input type="file" name="img_file" id="img_file" value="" class="input-wide" /></label>
 			</p>
 			<p>
 				<label>{$aLang.uploadimg_url}:<br />
@@ -20,7 +20,7 @@
 			<p><label>{$aLang.uploadimg_title}:<br />
 			<input type="text" class="input-wide" name="title" value="" /></label></p>
 			{hook run="uploadimg_additional"}
-			<input type="button" value="{$aLang.uploadimg_submit}" onclick="ajaxUploadImg(document.getElementById('form_upload_img'));" />
-			<input type="button" value="{$aLang.uploadimg_cancel}" onclick="hideImgUploadForm(); return false;" class="jqmClose" />
+			<input type="button" value="{$aLang.uploadimg_submit}" onclick="ls.ajaxUploadImg('form_upload_img','{$sToLoad}');" />
+			<input type="button" value="{$aLang.uploadimg_cancel}" class="jqmClose" />
 		</form>
 	

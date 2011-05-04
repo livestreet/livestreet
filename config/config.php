@@ -392,6 +392,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Piechart/moocanvas.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Piechart/piechart.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/vlaCal-v2.1/jslib/vlaCal-v2.1.js",
+	"___path.root.engine_lib___/external/MooTools_1.2/plugs/iFrameFormRequest/iFrameFormRequest.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
 	"___path.static.skin___/js/vote.js",
 	"___path.static.skin___/js/favourites.js",

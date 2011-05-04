@@ -150,6 +150,12 @@ class ModuleViewer extends Module {
 	 */
 	protected $sResponseAjax=null;
 	/**
+	 * Отправляет специфичный для ответа header
+	 *
+	 * @var unknown_type
+	 */
+	protected $bResponseSpecificHeader=true;
+	/**
 	 * Список меню для рендеринга
 	 *
 	 * @var array
@@ -366,12 +372,18 @@ class ModuleViewer extends Module {
 				$GLOBALS['_RESULT'][$key]=$value;
 			}
 		} elseif ($sType=='json') {
-			if (!headers_sent()) {
+			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');
 			} 	
 			echo json_encode($this->aVarsAjax);
+		} elseif ($sType=='jsonIframe') {
+			// Оборачивает json в тег <textarea>, это не дает браузеру выполнить HTML, который вернул iframe
+			if ($this->bResponseSpecificHeader and !headers_sent()) {
+				header('Content-type: application/json');
+			} 	
+			echo '<textarea>'.json_encode($this->aVarsAjax).'</textarea>';
 		} elseif ($sType=='jsonp') {
-			if (!headers_sent()) {
+			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');
 			} 	
 			echo getRequest('jsonpCallback','callback').'('.json_encode($this->aVarsAjax).');';
@@ -392,7 +404,7 @@ class ModuleViewer extends Module {
 	 *
 	 * @param unknown_type $sResponseAjax
 	 */
-	public function SetResponseAjax($sResponseAjax='jsHttpRequest') {
+	public function SetResponseAjax($sResponseAjax='jsHttpRequest',$bResponseSpecificHeader=true) {
 		/**
 		 * Проверка на безопасную обработку ajax запроса
 		 */
@@ -407,6 +419,7 @@ class ModuleViewer extends Module {
 			$this->Security_ValidateSendForm();
 		}
 		$this->sResponseAjax=$sResponseAjax;
+		$this->bResponseSpecificHeader=$bResponseSpecificHeader;
 	}
 	/**
 	 * Загружает переменную в шаблон

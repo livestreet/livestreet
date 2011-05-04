@@ -109,18 +109,23 @@ function hideImgUploadForm() {
 var winFormImgUpload;
 
 
-function ajaxUploadImg(value,sToLoad) {	
-	var req = new JsHttpRequest();
-	req.onreadystatechange = function() {
-		if (req.readyState == 4) {
-			if (req.responseJS.bStateError) {
-				msgErrorBox.alert(req.responseJS.sMsgTitle,req.responseJS.sMsg);				
+function ajaxUploadImg(form,sToLoad) {
+	if (typeof(form)=='string') {
+		form=$(form);
+	}
+			
+	var iFrame = new iFrameFormRequest(form.getProperty('id'),{
+		url: aRouter['ajax']+'upload/image/',
+		dataType: 'json',
+		params: {security_ls_key: LIVESTREET_SECURITY_KEY},
+		onComplete: function(response){
+			if (response.bStateError) {
+				msgErrorBox.alert(response.sMsgTitle,response.sMsg);				
 			} else {				
-				lsPanel.putText(sToLoad,req.responseJS.sText);
+				lsPanel.putText(sToLoad,response.sText);
 				hideImgUploadForm();
 			}
 		}
-	}
-	req.open(null, aRouter['ajax']+'upload/image/', true);
-	req.send( { value: value, security_ls_key: LIVESTREET_SECURITY_KEY } );
+	});
+	iFrame.send();
 }
