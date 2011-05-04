@@ -396,7 +396,6 @@ abstract class EntityORM extends Entity {
     {
         // Обработка обращений к обёрткам связей MANY_TO_MANY
         // Если связь загружена, возвращаем объект связи
-        var_dump(($this->aRelations[strtolower($sName)]));
         if (isset($this->_aManyToManyRelations[strtolower($sName)])) {
             return $this->_aManyToManyRelations[strtolower($sName)];
         // Есл не загружена, но связь с таким именем существет, пробуем загрузить и вернуть объект связи
