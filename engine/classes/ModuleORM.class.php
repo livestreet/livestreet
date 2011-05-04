@@ -48,7 +48,7 @@ abstract class ModuleORM extends Module {
             // Обновление связей many_to_many
             $aRelationsData = $oEntity->_getRelationsData();
             foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
-                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && isset($aRelationsData[$sRelName])) {
                     $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
                 }
             }
@@ -370,8 +370,20 @@ abstract class ModuleORM extends Module {
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-			
-		$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+
+        $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+		$sCacheKey=$sEntityFullRoot.'_count_items_by_filter_'.serialize($aFilter);
+		$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+		$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+		// переопределяем из параметров
+		if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
+		if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
+		if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
+
+		if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
+			$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+			$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+		}
 
 		return $iCount;
 	}
@@ -394,13 +406,56 @@ abstract class ModuleORM extends Module {
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-		$aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+
+        $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+		$sCacheKey=$sEntityFullRoot.'_items_by_join_table_'.serialize($aJoinData);
+		$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+		$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+		// переопределяем из параметров
+		if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
+		if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
+		if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
+
+		if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
+			$aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+			$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+		}
+
+        /**
+		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
+		 */
+		if (isset($aFilter['#page'])) {
+			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByJoinTable($aJoinData,$sEntityFull));
+		}
 
         if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
             $aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
 		}
 
         return $aEntities;
+	}
+
+    public function GetCountItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
+		if (is_null($sEntityFull)) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
+		} elseif (!substr_count($sEntityFull,'_')) {
+			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
+		}
+
+        $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+		$sCacheKey=$sEntityFullRoot.'_count_items_by_join_table_'.serialize($aJoinData);
+		$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+		$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+		// переопределяем из параметров
+		if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
+		if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
+		if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
+		if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
+			$iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
+			$this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
+		}
+
+        return $iCount;
 	}
 	
 	public function __call($sName,$aArgs) {
