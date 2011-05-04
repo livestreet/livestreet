@@ -49,6 +49,10 @@ abstract class ModuleORM extends Module {
             $aRelationsData = $oEntity->_getRelationsData();
             foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
                 if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && isset($aRelationsData[$sRelName])) {
+                    // Сброс кэша по связям
+                    $sEntity=$this->Plugin_GetRootDelegater('entity',$aRelation[1]);
+                    $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
+                    
                     $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
                 }
             }
@@ -65,6 +69,10 @@ abstract class ModuleORM extends Module {
             $aRelationsData = $oEntity->_getRelationsData();
             foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
                 if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                    // Сброс кэша по связям
+                    $sEntity=$this->Plugin_GetRootDelegater('entity',$aRelation[1]);
+                    $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
+
                     $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
                 }
             }
@@ -328,19 +336,19 @@ abstract class ModuleORM extends Module {
 			}
 			
 		}
+
+        /**
+	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
+		 */
+		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
+            $aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
+		}
 		
 		/**
 		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByFilter($aFilter,$sEntityFull));
-		}
-		
-		/**
-	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
-		 */
-		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
-            $aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
 		}
 		
 		return $aEntities;
@@ -421,15 +429,15 @@ abstract class ModuleORM extends Module {
 			$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
 		}
 
+        if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
+            $aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
+		}
+
         /**
 		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByJoinTable($aJoinData,$sEntityFull));
-		}
-
-        if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
-            $aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
 		}
 
         return $aEntities;
