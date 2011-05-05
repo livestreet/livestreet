@@ -272,7 +272,7 @@ abstract class ModuleORM extends Module {
 		}	
 
         // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (isset($aFilter['#cache']) && !$aFilter['#cache']) {
+        if (key_exists($aFilter,'#cache') && !$aFilter['#cache']) {
             $aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
         } else {
             $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
@@ -380,7 +380,7 @@ abstract class ModuleORM extends Module {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
         // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (isset($aFilter['#cache']) && !$aFilter['#cache']) {
+        if (key_exists($aFilter,'#cache') && !$aFilter['#cache']) {
             $iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
         } else {
             $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
@@ -421,7 +421,7 @@ abstract class ModuleORM extends Module {
 		}
 
         // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (isset($aJoinData['#cache']) && !$aJoinData['#cache']) {
+        if (key_exists($aJoinData, '#cache') && !$aJoinData['#cache']) {
             $aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
         } else {
             $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
@@ -462,7 +462,7 @@ abstract class ModuleORM extends Module {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
         // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (isset($aJoinData['#cache']) && !$aJoinData['#cache']) {
+        if (key_exists($aJoinData, '#cache') && !$aJoinData['#cache']) {
             $iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
         } else {
             $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
