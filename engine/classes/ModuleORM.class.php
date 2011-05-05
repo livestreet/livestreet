@@ -385,7 +385,7 @@ abstract class ModuleORM extends Module {
         } else {
             $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
             $sCacheKey=$sEntityFullRoot.'_count_items_by_filter_'.serialize($aFilter);
-            $aCacheTags=array();
+            $aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
             $iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
             // переопределяем из параметров
             if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
@@ -473,6 +473,8 @@ abstract class ModuleORM extends Module {
             if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
             if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
             if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
+
+            $aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
 
             if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
                 $iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
