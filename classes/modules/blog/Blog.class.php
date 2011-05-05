@@ -375,7 +375,7 @@ class ModuleBlog extends Module {
 	 * @param  (null|int|array) $iRole
 	 * @return array
 	 */
-	public function GetBlogUsersByBlogId($sBlogId,$iRole=null) {
+	public function GetBlogUsersByBlogId($sBlogId,$iRole=null,$iPage=1,$iPerPage=100) {
 		$aFilter=array(
 			'blog_id'=> $sBlogId,			
 		);
@@ -383,23 +383,23 @@ class ModuleBlog extends Module {
 			$aFilter['user_role']=$iRole;	
 		}
 		$s=serialize($aFilter);
-		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_$s"))) {				
-			$data = $this->oMapperBlog->GetBlogUsers($aFilter);
-			$this->Cache_Set($data, "blog_relation_user_by_filter_$s", array("blog_relation_change_blog_{$sBlogId}"), 60*60*24*3);
+		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_{$s}_{$iPage}_{$iPerPage}"))) {				
+			$data = array('collection'=>$this->oMapperBlog->GetBlogUsers($aFilter,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, "blog_relation_user_by_filter_{$s}_{$iPage}_{$iPerPage}", array("blog_relation_change_blog_{$sBlogId}"), 60*60*24*3);
 		}
 		/**
 		 * Достаем дополнительные данные, для этого формируем список юзеров и делаем мульти-запрос
 		 */
-		if ($data) {
+		if ($data['collection']) {
 			$aUserId=array();
-			foreach ($data as $oBlogUser) {
+			foreach ($data['collection'] as $oBlogUser) {
 				$aUserId[]=$oBlogUser->getUserId();
 			}
 			$aUsers=$this->User_GetUsersAdditionalData($aUserId);
 			$aBlogs=$this->Blog_GetBlogsAdditionalData($sBlogId);
 			
 			$aResults=array();
-			foreach ($data as $oBlogUser) {
+			foreach ($data['collection'] as $oBlogUser) {
 				if (isset($aUsers[$oBlogUser->getUserId()])) {
 					$oBlogUser->setUser($aUsers[$oBlogUser->getUserId()]);
 				} else {
@@ -412,7 +412,7 @@ class ModuleBlog extends Module {
 				}
 				$aResults[$oBlogUser->getUserId()]=$oBlogUser;
 			}
-			$data=$aResults;
+			$data['collection']=$aResults;
 		}
 		return $data;		
 	}

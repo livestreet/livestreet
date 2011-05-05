@@ -119,7 +119,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('delete','EventDeleteBlog');
-		$this->AddEvent('admin','EventAdminBlog');
+		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page(\d+))?$/i','EventAdminBlog');
 		$this->AddEvent('invite','EventInviteBlog');
 		
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
@@ -416,18 +416,29 @@ class ActionBlog extends Action {
 			$this->Blog_UpdateBlog($oBlog);
 		}
 		/**
+		 * Текущая страница
+		 */
+		$iPage= $this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		/**
 		 * Получаем список подписчиков блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId(
+		$aResult=$this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
 			array(
 				ModuleBlog::BLOG_USER_ROLE_BAN,
 				ModuleBlog::BLOG_USER_ROLE_USER,
 				ModuleBlog::BLOG_USER_ROLE_MODERATOR,
 				ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR
-			)
+			),$iPage,Config::Get('module.blog.users_per_page')
 		);
-
+		$aBlogUsers=$aResult['collection'];
+				
+		/**
+		 * Формируем постраничность
+		 */		
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,Router::GetPath('blog')."admin/{$oBlog->getId()}");
+		$this->Viewer_Assign('aPaging',$aPaging);
+		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
 		
@@ -443,8 +454,8 @@ class ActionBlog extends Action {
 		 * и добавляем блок-форму для приглашения 
 		 */
 		if($oBlog->getType()=='close') {
-			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_INVITE);				
-			$this->Viewer_Assign('aBlogUsersInvited',$aBlogUsersInvited);
+			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_INVITE,null);
+			$this->Viewer_Assign('aBlogUsersInvited',$aBlogUsersInvited['collection']);
 			$this->Viewer_AddBlock('right','actions/ActionBlog/invited.tpl');
 		}
 	}
@@ -770,9 +781,12 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER);
-		$aBlogModerators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_MODERATOR);
-		$aBlogAdministrators=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		$aBlogUsersResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER);
+		$aBlogUsers=$aBlogUsersResult['collection'];
+		$aBlogModeratorsResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+		$aBlogModerators=$aBlogModeratorsResult['collection'];
+		$aBlogAdministratorsResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
+		$aBlogAdministrators=$aBlogAdministratorsResult['collection'];
 		
 		/**
 		 * Для админов проекта получаем список блогов и передаем их во вьювер
@@ -1069,9 +1083,10 @@ class ActionBlog extends Action {
 		}		
 		
 		/**
-		 * Получаем список пользователей блога (любого статуса)		 
+		 * Получаем список пользователей блога (любого статуса)		
+		 * Это полный АХТУНГ - исправить! 
 		 */
-		$aBlogUsers = $this->Blog_GetBlogUsersByBlogId(
+		$aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
 			array(
 				ModuleBlog::BLOG_USER_ROLE_BAN,
@@ -1080,8 +1095,9 @@ class ActionBlog extends Action {
 				ModuleBlog::BLOG_USER_ROLE_USER,
 				ModuleBlog::BLOG_USER_ROLE_MODERATOR,
 				ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR
-			)
+			),null // пока костылем
 		);
+		$aBlogUsers=$aBlogUsersResult['collection'];
 		$aUsers=explode(',',$sUsers);
 
 		$aResult=array();

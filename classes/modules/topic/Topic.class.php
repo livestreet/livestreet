@@ -1241,7 +1241,8 @@ class ModuleTopic extends Module {
 	 * @param unknown_type $oUserTopic
 	 */
 	public function SendNotifyTopicNew($oBlog,$oTopic,$oUserTopic) {
-		$aBlogUsers=$this->Blog_GetBlogUsersByBlogId($oBlog->getId());
+		$aBlogUsersResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),null,null); // нужно постранично пробегаться по всем
+		$aBlogUsers=$aBlogUsersResult['collection'];
 		foreach ($aBlogUsers as $oBlogUser) {
 			if ($oBlogUser->getUserId()==$oUserTopic->getId()) {
 				continue;

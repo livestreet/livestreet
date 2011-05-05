@@ -37,6 +37,8 @@
 								
 				<input type="submit" name="submit_blog_admin" value="{$aLang.blog_admin_users_submit}">
 			</form>
+			<br>
+			{include file='paging.tpl' aPaging=$aPaging}
 		{else}
 			{$aLang.blog_admin_users_empty} 
 		{/if}

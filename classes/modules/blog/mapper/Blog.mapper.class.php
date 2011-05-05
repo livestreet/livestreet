@@ -126,7 +126,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 		return false;
 	}
 	
-	public function GetBlogUsers($aFilter) {
+	public function GetBlogUsers($aFilter,&$iCount=null,$iCurrPage=null,$iPerPage=null) {
 		$sWhere=' 1=1 ';
 		if (isset($aFilter['blog_id'])) {
 			$sWhere.=" AND bu.blog_id =  ".(int)$aFilter['blog_id'];
@@ -148,11 +148,17 @@ class ModuleBlog_MapperBlog extends Mapper {
 				FROM 
 					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
-					".$sWhere." 					
-				;
-					";		
+					".$sWhere." ";	
+		
+		if (is_null($iCurrPage)) {
+			$aRows=$this->oDb->select($sql);
+		} else {
+			$sql.=" LIMIT ?d, ?d ";
+			$aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage);
+		}
+			
 		$aBlogUsers=array();
-		if ($aRows=$this->oDb->select($sql)) {
+		if ($aRows) {
 			foreach ($aRows as $aUser) {
 				$aBlogUsers[]=Engine::GetEntity('Blog_BlogUser',$aUser);
 			}
