@@ -2,7 +2,7 @@
 
 
 
-			<h1>{$aLang.blog_admin}: <a href="{router page='blog'}{$oBlogEdit->getUrl()}/">{$oBlogEdit->getTitle()}</a></h1>
+			<h1>{$aLang.blog_admin}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()}</a></h1>
 
 		{if $aBlogUsers}
 			<form action="" method="POST" enctype="multipart/form-data">

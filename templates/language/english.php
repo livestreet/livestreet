@@ -50,6 +50,7 @@ return array(
 	'blog_user_moderators' => 'Moderators',
 	'blog_user_moderators_empty' => 'No moderators here',
 	'blog_user_readers' => 'Readers',	
+	'blog_user_readers_all' => 'All readers',
 	'blog_user_readers_empty' => 'No readers here',	
 	/**
 	 * Blog votings

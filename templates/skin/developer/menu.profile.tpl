@@ -1,9 +1,9 @@
 <ul class="menu">
 	<li {if $sAction=='profile'}class="active"{/if}>
-		<a href="{router page='profile'}{$oUserProfile->getLogin()}/">{$aLang.user_menu_profile}</a>
+		<a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile}</a>
 		{if $sAction=='profile'}
 			<ul class="sub-menu">
-				<li {if $aParams[0]=='whois' or $aParams[0]==''}class="active"{/if}><a href="{router page='profile'}{$oUserProfile->getLogin()}/">{$aLang.user_menu_profile_whois}</a></li>
+				<li {if $aParams[0]=='whois' or $aParams[0]==''}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
 				<li {if $aParams[0]=='favourites' and $aParams[1]!='comments'}class="active"{/if}><a href="{router page='profile'}{$oUserProfile->getLogin()}/favourites/">{$aLang.user_menu_profile_favourites}</a>{if $iCountTopicFavourite} ({$iCountTopicFavourite}){/if}</li>
 				<li {if $aParams[1]=='comments'}class="active"{/if}><a href="{router page='profile'}{$oUserProfile->getLogin()}/favourites/comments/">{$aLang.user_menu_profile_favourites_comments}</a>{if $iCountCommentFavourite} ({$iCountCommentFavourite}){/if}</li>
 				{hook run='menu_profile_profile_item'}

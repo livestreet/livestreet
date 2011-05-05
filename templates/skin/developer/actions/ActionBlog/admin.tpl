@@ -18,9 +18,9 @@
 				{foreach from=$aBlogUsers item=oBlogUser}
 					{assign var="oUser" value=$oBlogUser->getUser()}
 					<tr>
-						<td><a href="{router page='profile'}{$oUser->getLogin()}/">{$oUser->getLogin()}</a></td>
+						<td><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></td>
 						{if $oUser->getId()==$oUserCurrent->getId()}
-							<td colspan="3" align="center">{$aLang.blog_admin_users_current_administrator}</td>
+							<td colspan="4" align="center">{$aLang.blog_admin_users_current_administrator}</td>
 						{else}
 							<td align="center"><input type="radio" name="user_rank[{$oUser->getId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if} /></td>
 							<td align="center"><input type="radio" name="user_rank[{$oUser->getId()}]" value="moderator" {if $oBlogUser->getIsModerator()}checked{/if} /></td>

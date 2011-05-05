@@ -85,6 +85,9 @@
 		{assign var="oUser" value=$oBlogUser->getUser()}
 			<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a>
 		{/foreach}
+		{if count($aBlogUsers)<$iCountBlogUsers}
+			<br/><a href="{$oBlog->getUrlFull()}users/">{$aLang.blog_user_readers_all}</a>
+		{/if}
 	{else}
 		{$aLang.blog_user_readers_empty}
 	{/if}		

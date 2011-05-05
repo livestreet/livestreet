@@ -153,6 +153,9 @@ function toggleBlogDeleteForm(id,link) {
 								<li><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 							{/foreach}
 						</ul>
+						{if count($aBlogUsers)<$iCountBlogUsers}
+							<br/><a href="{$oBlog->getUrlFull()}users/">{$aLang.blog_user_readers_all}</a>
+						{/if}
 						{else}
    	 						{$aLang.blog_user_readers_empty}
     					{/if}

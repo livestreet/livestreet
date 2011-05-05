@@ -50,6 +50,7 @@ return array(
 	'blog_user_moderators' => 'Модераторы',
 	'blog_user_moderators_empty' => 'Модераторов здесь не замечено',
 	'blog_user_readers' => 'Читатели',	
+	'blog_user_readers_all' => 'Все читатели блога',
 	'blog_user_readers_empty' => 'Читателей здесь не замечено',	
 	/**
 	 * Голосование за блог

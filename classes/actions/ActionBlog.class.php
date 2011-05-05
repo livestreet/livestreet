@@ -134,7 +134,9 @@ class ActionBlog extends Action {
 				
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i','EventShowBlog');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i','EventShowBlog');
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i','EventShowBlog');			
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i','EventShowBlog');
+		
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page(\d+))?$/i','EventShowUsers');
 	}
 		
 	
@@ -718,6 +720,52 @@ class ActionBlog extends Action {
 		$this->SetTemplateAction('topic');
 	}
 	
+	/**
+	 * Страница со списком читателей блога
+	 *
+	 * @return unknown
+	 */
+	protected function EventShowUsers() {
+		$sBlogUrl=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли блог с таким УРЛ
+		 */		
+		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='';
+		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
+		/**
+		 * Текущая страница
+		 */
+		$iPage= $this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		$aBlogUsersResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER,$iPage,Config::Get('module.blog.users_per_page'));
+		$aBlogUsers=$aBlogUsersResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */		
+		$aPaging=$this->Viewer_MakePaging($aBlogUsersResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,$oBlog->getUrlFull().'users');
+		$this->Viewer_Assign('aPaging',$aPaging);
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('blog_collective_show_users',array('oBlog'=>$oBlog));
+		/**
+		 * Загружаем переменные в шаблон
+		 */				
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
+		$this->Viewer_Assign('iCountBlogUsers',$aBlogUsersResult['count']);
+		$this->Viewer_Assign('oBlog',$oBlog);
+		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('users');
+	}
+	
 	protected function EventShowBlog() {
 		$sBlogUrl=$this->sCurrentEvent;		
 		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new')) ? $this->GetParamEventMatch(0,0) : 'good';			
@@ -781,7 +829,7 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список юзеров блога
 		 */
-		$aBlogUsersResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER);
+		$aBlogUsersResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_USER,1,Config::Get('module.blog.users_per_page'));
 		$aBlogUsers=$aBlogUsersResult['collection'];
 		$aBlogModeratorsResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_MODERATOR);
 		$aBlogModerators=$aBlogModeratorsResult['collection'];
@@ -808,9 +856,9 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);		
 		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
-		$this->Viewer_Assign('iCountBlogUsers',count($aBlogUsers));
-		$this->Viewer_Assign('iCountBlogModerators',count($aBlogModerators));
-		$this->Viewer_Assign('iCountBlogAdministrators',count($aBlogAdministrators)+1);		
+		$this->Viewer_Assign('iCountBlogUsers',$aBlogUsersResult['count']);
+		$this->Viewer_Assign('iCountBlogModerators',$aBlogModeratorsResult['count']);
+		$this->Viewer_Assign('iCountBlogAdministrators',$aBlogAdministratorsResult['count']+1);		
 		$this->Viewer_Assign('oBlog',$oBlog);
 		$this->Viewer_Assign('bCloseBlog',$bCloseBlog);		
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
