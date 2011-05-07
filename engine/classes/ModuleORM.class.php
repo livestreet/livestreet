@@ -394,7 +394,7 @@ abstract class ModuleORM extends Module {
 
             if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
                 $iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
-                $this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+                $this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
             }
         }
 
