@@ -7,6 +7,10 @@
 	
 	font-size: 12px;
 	z-index: 9999; 
+	
+	/* IE 6 Fix */
+	_position: absolute; 
+	_top: expression( eval(document.documentElement.scrollBottom) + 10 +"px" );
 }
 
 #notifier .n-box { 
@@ -17,22 +21,15 @@
 	
 	color: #fff; 
 	background: #000; 
+	
 	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	
+	cursor: pointer;
 }
 #notifier .n-box h3 { color: #fff; font-size: 14px; font-weight: bold; margin-bottom: 3px; }
 #notifier .n-box p { margin: 0; }
-#notifier .n-box .n-close { 
-	display: none; 
-	width: 10px; 
-	height: 10px; 
-	
-	position: absolute; 
-	top: 5px; 
-	right: 5px;
-	
-	background: #ff0; 
-	cursor: pointer; 
-}
 
-#notifier .n-box.n-notice { background: rgb(255, 241, 168); color: #333; }
+#notifier .n-box.n-notice { background: #FFF1A8; color: #333; }
 #notifier .n-box.n-error { background: #000; color: #fff; opacity: 0.8; }

@@ -46,8 +46,7 @@
 		
 
 		box: function(notice){
-			var box	= $("<div id=\"" + notice.id + "\" class=\"" + this.options.box_class + "\"></div>");
-			box.append($("<span class=\"" + this.options.close_class + "\"></span>"));					
+			var box	= $("<div id=\"" + notice.id + "\" class=\"" + this.options.box_class + "\"></div>");				
 			if (notice.ttl != null) box.append($("<h3></h3>").append(notice.ttl));
 			box.append($("<p></p>").append(notice.msg));
 			box.hide().show();
@@ -58,10 +57,10 @@
 					
 
 		events: function(box, seed){
-			$(box).children("span").bind(
+			$(box).bind(
 				'click',
 				function(){
-					var seed = $(this).parent().attr("id");
+					var seed = $(this).attr("id");
 					$.notifier.destroy(seed, true);
 				}
 			)
