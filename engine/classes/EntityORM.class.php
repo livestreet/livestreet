@@ -334,23 +334,23 @@ abstract class EntityORM extends Entity {
 					
 					$iPrimaryKeyValue=$this->_getDataOne($this->_getPrimaryKey());
 					$sCmd='';
-					$aCmdArgs=array();
+					$mCmdArgs=array();
 					switch ($sRelationType) {
 						case self::RELATION_TYPE_BELONGS_TO :
 							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelPrimaryKey);
-							$aCmdArgs[0]=$this->_getDataOne($sRelationKey);
+							$mCmdArgs=$this->_getDataOne($sRelationKey);
 							break;
 						case self::RELATION_TYPE_HAS_ONE :
 							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}By".func_camelize($sRelationKey);
-							$aCmdArgs[0]=$iPrimaryKeyValue;
+							$mCmdArgs=$iPrimaryKeyValue;
 							break;
 						case self::RELATION_TYPE_HAS_MANY :
 							$sCmd="{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByFilter";
-							$aCmdArgs[0]=array($sRelationKey => $iPrimaryKeyValue);
+							$mCmdArgs=array($sRelationKey => $iPrimaryKeyValue);
 							break;
 						case self::RELATION_TYPE_MANY_TO_MANY :
 						  $sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
-							$aCmdArgs[0]=array(
+							$mCmdArgs=array(
 								'#join_table'		=> Config::Get($sRelationJoinTable),
 								'#relation_key'		=> $sRelationKey,
 								'#by_key'			=> $sRelationJoinTableKey,
@@ -361,16 +361,21 @@ abstract class EntityORM extends Entity {
 						default:
 							break;
 					}
-					if(is_array($aCmdArgs[0]) && array_key_exists(0,$aArgs) && is_array($aArgs[0])) {
-						$aCmdArgs[0] = array_merge($aCmdArgs[0], $aArgs[0]);
+					// Нужно ли учитывать дополнительный фильтр
+					$bUseFilter = is_array($mCmdArgs) && array_key_exists(0,$aArgs) && is_array($aArgs[0]);
+					if($bUseFilter) {
+						$mCmdArgs = array_merge($mCmdArgs, $aArgs[0]);
 					}
-					$res=Engine::GetInstance()->_CallModule($sCmd,$aCmdArgs);
+					$res=Engine::GetInstance()->_CallModule($sCmd, array($mCmdArgs));
 
-					$this->aRelationsData[$sKey]=$res;
-                    // Создаём объекты-обёртки для связей MANY_TO_MANY
-                    if ($sRelationType == self::RELATION_TYPE_MANY_TO_MANY) {
-                        $this->_aManyToManyRelations[$sKey] = new LS_ManyToManyRelation($this->aRelationsData[$sKey]);
-                    }
+					// Сохраняем данные только в случае "чистой" выборки
+					if(!$bUseFilter) {
+						$this->aRelationsData[$sKey]=$res;
+						// Создаём объекты-обёртки для связей MANY_TO_MANY
+						if ($sRelationType == self::RELATION_TYPE_MANY_TO_MANY) {
+							$this->_aManyToManyRelations[$sKey] = new LS_ManyToManyRelation($this->aRelationsData[$sKey]);
+						}
+					}
 					return $res;
 				}
 				
