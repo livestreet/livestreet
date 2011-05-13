@@ -67,7 +67,7 @@ abstract class ModuleORM extends Module {
             // Обновление связей many_to_many
             $aRelationsData = $oEntity->_getRelationsData();
             foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
-                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && isset($aRelationsData[$sRelName])) {
                     // Сброс кэша по связям
                     $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('m2m_'.$aRelation[2].$aRelation[4].$oEntity->_getPrimaryKeyValue()));
                     $this->_updateManyToManySet($aRelation, $aRelationsData[$sRelName], $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
@@ -97,7 +97,6 @@ abstract class ModuleORM extends Module {
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_delete'));
 
             // Обновление связей many_to_many
-            $aRelationsData = $oEntity->getRelationsData();
             foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
                 if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
                     $this->_deleteManyToManySet($aRelation[3], $aRelation[4], $oEntity->_getPrimaryKeyValue());
