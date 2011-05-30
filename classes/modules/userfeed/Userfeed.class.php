@@ -2,8 +2,8 @@
 
 class ModuleUserfeed extends Module
 {
-    const SUBSCRIBE_TYPE_BLOG = 1;
-    const SUBSCRIBE_TYPE_USER = 2;
+    const SUBSCRIBE_TYPE_BLOG = 1; // Подписки на топики по блогу
+    const SUBSCRIBE_TYPE_USER = 2;// Подписки на топики по юзеру
 
     protected $oMapper = null;
 
@@ -12,21 +12,47 @@ class ModuleUserfeed extends Module
         $this->oMapper=Engine::GetMapper(__CLASS__);
     }
 
+    /**
+     * Подписать пользователя
+     * @param type $iUserId Id подписываемого пользователя
+     * @param type $iSubscribeType Тип подписки (см. константы класса)
+     * @param type $iTargetId Id цели подписки
+     */
     public function subscribeUser($iUserId, $iSubscribeType, $iTargetId)
     {
         return $this->oMapper->subscribeUser($iUserId, $iSubscribeType, $iTargetId);
     }
 
+    /**
+     * Отписать пользователя
+     * @param type $iUserId Id подписываемого пользователя
+     * @param type $iSubscribeType Тип подписки (см. константы класса)
+     * @param type $iTargetId Id цели подписки
+     */
     public function unsubscribeUser($iUserId, $iSubscribeType, $iTargetId)
     {
-        return $this->unsubscribeUser($iUserId, $iSubscribeType, $iTargetId);
+        return $this->oMapper->unsubscribeUser($iUserId, $iSubscribeType, $iTargetId);
     }
 
-    public function updateSubscribes($iUserId, $aUserSubscribes)
+    /**
+     * Обновить подписки пользователя
+     * @param type $iUserId Id подписываемого пользователя
+     * @param type $aUserSubscribes Массив подписок array('blogs' => array(), 'users'=> array())
+     * @param type $iType users или blogs если нужно обновить толкьо один тип подписки
+     * @return type
+     */
+    public function updateSubscribes($iUserId, $aUserSubscribes, $iType = null)
     {
-        return $this->updateSubscribes($iUserId, $aUserSubscribes);
+        return $this->oMapper->updateSubscribes($iUserId, $aUserSubscribes, $iType);
     }
 
+    /**
+     * Получить ленту топиков по подписке
+     * @param type $iUserId Id пользователя, для которого получаем ленту
+     * @param type $iCount Число получаемых записей (если null, из конфига)
+     * @param type $iFromId Получить записи, начиная с указанной
+     * @return type
+     */
     public function read($iUserId, $iCount = null, $iFromId = null)
     {
         if (!$iCount) $iCount = Config::Get('module.userfeed.count_default');
@@ -35,21 +61,26 @@ class ModuleUserfeed extends Module
         return $this->Topic_getTopicsAdditionalData($aTopicsIds);
     }
 
+    /**
+     * Получить список подписок пользователя
+     * @param type $iUserId Id пользователя, для которого загружаются подписки
+     * @return type
+     */
     public function getUserSubscribes($iUserId)
     {
         $aUserSubscribes = $this->oMapper->getUserSubscribes($iUserId);
         $aResult = array('blogs' => array(), 'users' => array());
         if (count($aUserSubscribes['blogs'])) {
-            $aResult['blogs'] = $this->Blog_getBlogsByArrayId($aUserSubscribes['blogs']);
-//            foreach ($aUserSubscribes['blogs'] as $iBlogId) {
-//                $oBlog = $this->Blog_getBlogById($iBlogId);
-//                if ($oBlog) {
-//                    $aResult['blogs'][] = $oBlog;
-//                }
-//            }
+            $aBlogs = $this->Blog_getBlogsByArrayId($aUserSubscribes['blogs']);
+            foreach ($aBlogs as $oBlog) {
+                $aResult['blogs'][$oBlog->getId()] = $oBlog;
+            }
         }
         if (count($aUserSubscribes['users'])) {
-            $aResult['users'] = $this->User_getUsersByArrayId($aUserSubscribes['users']);
+            $aUsers = $this->User_getUsersByArrayId($aUserSubscribes['users']);
+            foreach ($aUsers as $oUser) {
+                $aResult['users'][$oUser->getId()] = $oUser;
+            }
         }
 
         return $aResult;

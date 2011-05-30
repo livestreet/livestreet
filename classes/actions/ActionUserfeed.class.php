@@ -16,27 +16,128 @@ class ActionUserfeed extends Action
     protected function RegisterEvent()
     {
         $this->AddEvent('index', 'EventIndex');
+        $this->AddEvent('update', 'EventUpdateSubscribes');
+        $this->AddEvent('subscribe', 'EventSubscribe');
+        $this->AddEvent('subscribeByLogin', 'EventSubscribeByLogin');
+        $this->AddEvent('unsubscribe', 'EventUnSubscribe');
+        $this->AddEvent('get_more', 'EventGetMore');
     }
 
     protected function EventIndex()
     {
         $aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
         $this->Viewer_Assign('aTopics', $aTopics);
+        if (count($aTopics)) {
+            $this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
+        }
         $this->SetTemplateAction('list');
     }
 
-    protected function subscribe()
+    protected function EventGetMore()
     {
+        $iFromId = getRequest('last_id');
+        if (!$iFromId)  {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            return;
+        }
+        $this->Viewer_SetResponseAjax('json');
+        $aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
 
+        $oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aTopics',  $aTopics);
+		$sFeed = $oViewer->Fetch('topic_list.tpl');
+        $this->Viewer_AssignAjax('result', $sFeed);
+        $this->Viewer_AssignAjax('topics_count', count($aTopics));
+
+        if (count($aTopics)) {
+            $this->Viewer_AssignAjax('iUserfeedLastId', end($aTopics)->getId());
+        }
     }
 
-    protected function unsubscribe()
+    protected function EventSubscribe()
     {
-
+        $this->Viewer_SetResponseAjax('json');
+        if (!getRequest('id')) {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+        }
+        $sType = getRequest('type');
+        $iType = null;
+        switch($sType) {
+            case 'blogs':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+                break;
+            case 'users':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+                break;
+            default:
+                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                return;
+        }
+        $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
     }
 
-    protected function updateSubscribes()
+    protected function EventSubscribeByLogin()
     {
+        $this->Viewer_SetResponseAjax('json');
+        if (!getRequest('login')) {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            return;
+        }
+        $oUser = $this->User_getUserByLogin(getRequest('login'));
+        $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
+        $this->Viewer_AssignAjax('uid', $oUser->getId());
+        $this->Viewer_AssignAjax('user_login', $oUser->getLogin());
+        $this->Viewer_AssignAjax('user_web_path', $oUser->getuserWebPath());
+        $this->Viewer_AssignAjax('lang_error_msg', $this->Lang_Get('userfeed_subscribes_already_subscribed'));
+        $this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
+        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+    }
 
+    protected function EventUnsubscribe()
+    {
+        $this->Viewer_SetResponseAjax('json');
+        if (!getRequest('id')) {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            return;
+        }
+        $sType = getRequest('type');
+        $iType = null;
+        switch($sType) {
+            case 'blogs':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+                break;
+            case 'users':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+                break;
+            default:
+                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                return;
+        }
+        $this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+    }
+
+    protected function EventUpdateSubscribes()
+    {
+        $this->Viewer_SetResponseAjax('json');
+        $sType = getRequest('type');
+        $iType = null;
+        switch($sType) {
+            case 'blogs':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+                break;
+            case 'users':
+                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+                break;
+            default:
+                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                return;
+        }
+        $aIds = explode(',', getRequest('ids'));
+        $aUserSubscribes = array('users' => array(), 'blogs' => array());
+        $aUserSubscribes[$sType] = $aIds;
+        $this->Userfeed_updateSubscribes($this->oUserCurrent->getId(), $aUserSubscribes, $iType);
+        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
     }
 }

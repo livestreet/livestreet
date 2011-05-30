@@ -805,28 +805,32 @@ a.button.small em { background: url(../images/button-small.gif) no-repeat right 
 
 
 
-/* Static page edit 
--------------------------------------------------------------------*/ 
-table.admin_page th {vertical-align:bottom; border: none;  border-bottom: solid #B0C1D3 1px;  padding:.2em .6em .2em .65em; background:#e2e4e4; font-size:0.9em; font-weight:normal; color:#6e6e6e;  } 
-table.admin_page td { padding:6px 8px 6px 8px; border: none; border-right: solid #B0C1D3 1px; } 
-table.admin_page tr.colored td { background-color:#EEF6FB; } 
-table.admin_page tr.colored_sel td { background-color:#D9FBC2; } 
-table.admin_page { font-size:0.9em;  border:none;  margin:20px 0px 30px 0px; border-bottom:solid 1px #B0C1D3; }   
-table.admin_page td:first-child { border-left: solid #B0C1D3 1px } 
-table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit'); } 
+/* Static page edit
+-------------------------------------------------------------------*/
+table.admin_page th {vertical-align:bottom; border: none;  border-bottom: solid #B0C1D3 1px;  padding:.2em .6em .2em .65em; background:#e2e4e4; font-size:0.9em; font-weight:normal; color:#6e6e6e;  }
+table.admin_page td { padding:6px 8px 6px 8px; border: none; border-right: solid #B0C1D3 1px; }
+table.admin_page tr.colored td { background-color:#EEF6FB; }
+table.admin_page tr.colored_sel td { background-color:#D9FBC2; }
+table.admin_page { font-size:0.9em;  border:none;  margin:20px 0px 30px 0px; border-bottom:solid 1px #B0C1D3; }
+table.admin_page td:first-child { border-left: solid #B0C1D3 1px }
+table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == null ? 'solid #B0C1D3 1px' : 'inherit'); }
 
 
 .hidden {display: none;}
 
 
 /* Stat
--------------------------------------------------------------------*/ 
+-------------------------------------------------------------------*/
 .stat-performance { padding: 20px; background: #f0f7fd; border-top: 1px solid #d1e7f9; color: #333; }
 .stat-performance table { margin-top: 15px; }
 .stat-performance table td { width: 200px; vertical-align: top; }
 .stat-performance h4 { font-weight: bold; color: #81B2DB; }
 
-
+/* Userfeed
+-------------------------------------------------------------------*/
+.userfeed-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.userfeed-get-more:hover { background: #f0f7fd;}
+.userfeed_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
 
 
 
