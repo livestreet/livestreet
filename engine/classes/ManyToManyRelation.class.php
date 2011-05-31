@@ -10,10 +10,11 @@ class LS_ManyToManyRelation
     // Ссылка на $oEntityORM->aRelationsData[<relation_name>],
     // где relation_name - имя сязи, которую представляет объект
     protected $_aCollection = array();
+    protected $bUpdated = false;
 
-    public function __construct(&$aCollection)
+    public function __construct($aCollection)
     {
-        $this->_aCollection = &$aCollection;
+        $this->_aCollection = $aCollection;
     }
 
     /**
@@ -22,6 +23,7 @@ class LS_ManyToManyRelation
      */
     public function add($oEntity)
     {
+        $this->bUpdated = true;
         $this->_aCollection[$oEntity->_getPrimaryKeyValue()] = $oEntity;
     }
 
@@ -31,6 +33,7 @@ class LS_ManyToManyRelation
      */
     public function delete($iId)
     {
+        $this->bUpdated = true;
         if (is_array($iId)) {
             foreach ($iId as $id) {
                 if (isset($this->_aCollection[$id])) {
@@ -40,6 +43,16 @@ class LS_ManyToManyRelation
         } elseif (isset($this->_aCollection[$iId])) {
             unset($this->_aCollection[$iId]);
         }
+    }
+
+    public function getCollection()
+    {
+        return $this->_aCollection;
+    }
+
+    public function isUpdated()
+    {
+        return $this->bUpdated;
     }
 }
 

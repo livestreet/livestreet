@@ -19,33 +19,33 @@
  * Абстрактный класс сущности ORM
  *
  */
-abstract class EntityORM extends Entity {	
-	
+abstract class EntityORM extends Entity {
+
 	const RELATION_TYPE_BELONGS_TO='belongs_to';
 	const RELATION_TYPE_HAS_MANY='has_many';
 	const RELATION_TYPE_HAS_ONE='has_one';
 	const RELATION_TYPE_MANY_TO_MANY='many_to_many';
 	const RELATION_TYPE_TREE='tree';
-	
-	protected $_aOriginalData=array(); 
-	
+
+	protected $_aOriginalData=array();
+
 	protected $aFields=array();
-	
+
 	protected $aRelations=array();
 	protected $aRelationsData=array();
 
     // Объекты связей many_to_many
     protected $_aManyToManyRelations = array();
-	
+
 	protected $sPrimaryKey='id';
 	protected $bIsNew=true;
-	
-	
+
+
 	public function __construct($aParam=false) {
 		parent::__construct($aParam);
 		$this->aRelations=$this->_getRelations();
 	}
-	
+
 	public function _getPrimaryKey() {
 		if(!$this->_getDataOne($this->sPrimaryKey)) {
 			if($this->_getFields()) {
@@ -62,15 +62,15 @@ abstract class EntityORM extends Entity {
     public function _getPrimaryKeyValue() {
         return $this->_getDataOne($this->_getPrimaryKey());
     }
-	
+
 	public function _isNew() {
 		return $this->bIsNew;
 	}
-	
+
 	public function _SetIsNew($bIsNew) {
 		$this->bIsNew=$bIsNew;
 	}
-	
+
 	public function Add() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -79,7 +79,7 @@ abstract class EntityORM extends Entity {
 			}
 		return false;
 	}
-	
+
 	public function Update() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -88,7 +88,7 @@ abstract class EntityORM extends Entity {
 			}
 		return false;
 	}
-	
+
 	public function Save() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -97,7 +97,7 @@ abstract class EntityORM extends Entity {
 			}
 		return false;
 	}
-	
+
 	public function Delete() {
 		if ($this->beforeDelete())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -105,33 +105,33 @@ abstract class EntityORM extends Entity {
 				return $res;
 			}
 		return false;
-	}	
-	
+	}
+
 	public function Reload() {
 		return $this->_Method(__FUNCTION__);
-	}	
-	
+	}
+
 	public function ShowColumns() {
 		return $this->_Method(__FUNCTION__ .'From');
 	}
 
-	
+
 	protected function beforeSave() {
 		return true;
 	}
-	
+
 	protected function afterSave() {
-		
+
 	}
-	
+
 	protected function beforeDelete() {
 		return true;
 	}
-	
+
 	protected function afterDelete() {
-		
+
 	}
-	
+
 
 	public function getChildren() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
@@ -139,7 +139,7 @@ abstract class EntityORM extends Entity {
 		}
 		return $this->__call(__FUNCTION__);
 	}
-	
+
 	public function getDescendants() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -160,7 +160,7 @@ abstract class EntityORM extends Entity {
 		}
 		return $this->__call(__FUNCTION__);
 	}
-	
+
 	public function setChildren($aChildren=array()) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['children'] = $aChildren;
@@ -168,8 +168,8 @@ abstract class EntityORM extends Entity {
 			$aArgs = func_get_args();
 			return $this->__call(__FUNCTION__,$aArgs);
 		}
-	}	
-	
+	}
+
 	public function setDescendants($aDescendants=array()) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['descendants'] = $aDescendants;
@@ -187,7 +187,7 @@ abstract class EntityORM extends Entity {
 			return $this->__call(__FUNCTION__,$aArgs);
 		}
 	}
-	
+
 	public function setAncestors($oParent=null) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['ancestors'] = $oParent;
@@ -196,23 +196,23 @@ abstract class EntityORM extends Entity {
 			return $this->__call(__FUNCTION__,$aArgs);
 		}
 	}
-	
-	protected function _Method($sName) {		
+
+	protected function _Method($sName) {
 		$sModuleName=Engine::GetModuleName($this);
 		$sEntityName=Engine::GetEntityName($this);
-		$sPluginPrefix=Engine::GetPluginPrefix($this);	
+		$sPluginPrefix=Engine::GetPluginPrefix($this);
 		/**
 		 * If Module not exists, try to find its root Delegater
 		 */
 		$aClassInfo = Engine::GetClassInfo($sPluginPrefix.'Module_'.$sModuleName,Engine::CI_MODULE);
 		if(empty($aClassInfo[Engine::CI_MODULE]) && $sRootDelegater=$this->Plugin_GetRootDelegater('entity',get_class($this))) {
 			$sModuleName=Engine::GetModuleName($sRootDelegater);
-			$sPluginPrefix=Engine::GetPluginPrefix($sRootDelegater);	
+			$sPluginPrefix=Engine::GetPluginPrefix($sRootDelegater);
 		}
 		return Engine::GetInstance()->_CallModule("{$sPluginPrefix}{$sModuleName}_{$sName}{$sEntityName}",array($this));
 	}
 
-	
+
 	public function _setData($aData) {
 		if(is_array($aData)) {
 			foreach ($aData as $sKey => $val) {
@@ -225,18 +225,18 @@ abstract class EntityORM extends Entity {
 			$this->_aOriginalData = $this->_aData;
 		}
 	}
-	
+
 	public function _getOriginalData() {
 		return $this->_aOriginalData;
 	}
-	
+
 	public function _getFields() {
 		if(empty($this->aFields)) {
 			$this->aFields=$this->ShowColumns();
 		}
 		return $this->aFields;
 	}
-	
+
 	public function _getField($sField,$iPersistence=3) {
 		if($aFields=$this->_getFields()) {
 			if(in_array($sField,$aFields)) {
@@ -267,7 +267,7 @@ abstract class EntityORM extends Entity {
 		}
 		return $sField;
 	}
-	
+
 	public function _getRelations() {
 		$sParent=get_parent_class($this);
 		if(substr_count($sParent,'_Inherits_') || substr_count($sParent,'_Inherit_')) {
@@ -279,7 +279,7 @@ abstract class EntityORM extends Entity {
 			$aParentRelations=$oEntityParent->_getRelations();
 		}
 		return array_merge($aParentRelations,$this->aRelations);
-	}	
+	}
 
 	public function _getRelationsData() {
 		return $this->aRelationsData;
@@ -287,11 +287,11 @@ abstract class EntityORM extends Entity {
 
 	public function _setRelationsData($aData) {
 		$this->aRelationsData=$aData;
-	}	
-	
+	}
+
 	public function __call($sName,$aArgs) {
         $sType=substr($sName,0,strpos(func_underscore($sName),'_'));
-		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {	
+		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {
 			$sKey=func_underscore(str_replace($sType,'',$sName));
 			if ($sType=='get') {
 				if (isset($this->_aData[$sKey])) {
@@ -315,15 +315,15 @@ abstract class EntityORM extends Entity {
 						$sRelationJoinTable=$this->aRelations[$sKey][3];
 						$sRelationJoinTableKey=isset($this->aRelations[$sKey][4]) ? $this->aRelations[$sKey][4] : $this->_getPrimaryKey();
 					}
-					
+
 					/**
 					 * Если связь уже загруженна, то возвращаем сразу результат
 					 */
 					if (array_key_exists($sKey,$this->aRelationsData)) {
 						return $this->aRelationsData[$sKey];
 					}
-					
-					
+
+
 					$sRelModuleName=Engine::GetModuleName($sEntityRel);
 					$sRelEntityName=Engine::GetEntityName($sEntityRel);
 					$sRelPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
@@ -331,7 +331,7 @@ abstract class EntityORM extends Entity {
 					if($oRelEntity=Engine::GetEntity($sEntityRel) and method_exists($oRelEntity,'_getPrimaryKey')) { // для совместимости с сущностями Entity
 						$sRelPrimaryKey=$oRelEntity->_getPrimaryKey();
 					}
-					
+
 					$iPrimaryKeyValue=$this->_getDataOne($this->_getPrimaryKey());
 					$sCmd='';
 					$mCmdArgs=array();
@@ -378,7 +378,7 @@ abstract class EntityORM extends Entity {
 					}
 					return $res;
 				}
-				
+
 				return null;
 			} elseif ($sType=='set' and array_key_exists(0,$aArgs)) {
 				if (array_key_exists($sKey,$this->aRelations)) {
@@ -413,6 +413,13 @@ abstract class EntityORM extends Entity {
         // В противном случае возвращаем то, что просили у объекта
         } else {
             return $this->$sName;
+        }
+    }
+
+    public function resetRelationsData($sKey)
+    {
+        if (isset($this->aRelationsData[$sKey])) {
+            unset($this->aRelationsData[$sKey]);
         }
     }
 }
