@@ -27,11 +27,11 @@ $config['view']['noindex']          = true;   // "прятать" или нет 
 $config['view']['img_resize_width'] = 500;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
 $config['view']['img_max_width'] = 3000;    // максимальная ширина загружаемых изображений в пикселях
 $config['view']['img_max_height'] = 3000;    // максимальная высота загружаемых изображений в пикселях
-$config['view']['img_max_size_url'] = 500;    // максимальный размер картинки в kB для загрузки по URL 
+$config['view']['img_max_size_url'] = 500;    // максимальный размер картинки в kB для загрузки по URL
 $config['view']['no_assign']   = array('db'); // список групп конфигурации, которые необходимо исключить из передачи во Viewer. Только для системного пользования.
 
 /**
- * Настройка основных блоков 
+ * Настройка основных блоков
  */
 $config['block']['stream']['row'] = 20;  // сколько записей выводить в блоке "Прямой эфир"
 $config['block']['blogs']['row']  = 10;  // сколько записей выводить в блоке "Блоги"
@@ -40,14 +40,14 @@ $config['block']['blogs']['row']  = 10;  // сколько записей выв
  * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
  * $config['path']['root']['web']    = 'http://'.$_SERVER['HTTP_HOST'].'/subdir';
  * $config['path']['root']['server'] = $_SERVER['DOCUMENT_ROOT'].'/subdir';
- * и возможно придёться увеличить значение SYS_OFFSET_REQUEST_URL на число вложенных директорий, 
- * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1 
+ * и возможно придёться увеличить значение SYS_OFFSET_REQUEST_URL на число вложенных директорий,
+ * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
  */
 $config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
 $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
 /**
  * Для CLI режима использовать
- * $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе 
+ * $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
  */
 $config['path']['root']['engine']     = '___path.root.server___/engine';  // полный путь до сайта в файловой системе;
 $config['path']['root']['engine_lib'] = '___path.root.web___/engine/lib'; // полный путь до сайта в файловой системе
@@ -135,13 +135,13 @@ $config['lang']['path']    = '___path.root.server___/templates/language'; // п�
  */
 $config['acl']['create']['blog']['rating']                =  1;  // порог рейтинга при котором юзер может создать коллективный блог
 $config['acl']['create']['comment']['rating']             = -10; // порог рейтинга при котором юзер может добавлять комментарии
-$config['acl']['create']['comment']['limit_time']         =  10; // время в секундах между постингом комментариев, если 0 то ограничение по времени не будет работать 
-$config['acl']['create']['comment']['limit_time_rating']  = -1;  // рейтинг, выше которого перестаёт действовать ограничение по времени на постинг комментов. Не имеет смысла при $config['acl']['create']['comment']['limit_time']=0 
-$config['acl']['create']['topic']['limit_time']           =  240;// время в секундах между созданием записей, если 0 то ограничение по времени не будет работать 
-$config['acl']['create']['topic']['limit_time_rating']    =  5;  // рейтинг, выше которого перестаёт действовать ограничение по времени на создание записей 
-$config['acl']['create']['talk']['limit_time']        =  300; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать 
+$config['acl']['create']['comment']['limit_time']         =  10; // время в секундах между постингом комментариев, если 0 то ограничение по времени не будет работать
+$config['acl']['create']['comment']['limit_time_rating']  = -1;  // рейтинг, выше которого перестаёт действовать ограничение по времени на постинг комментов. Не имеет смысла при $config['acl']['create']['comment']['limit_time']=0
+$config['acl']['create']['topic']['limit_time']           =  240;// время в секундах между созданием записей, если 0 то ограничение по времени не будет работать
+$config['acl']['create']['topic']['limit_time_rating']    =  5;  // рейтинг, выше которого перестаёт действовать ограничение по времени на создание записей
+$config['acl']['create']['talk']['limit_time']        =  300; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать
 $config['acl']['create']['talk']['limit_time_rating'] =  1;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
-$config['acl']['create']['talk_comment']['limit_time']        =  10; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать 
+$config['acl']['create']['talk_comment']['limit_time']        =  10; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать
 $config['acl']['create']['talk_comment']['limit_time_rating'] =  5;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
 $config['acl']['vote']['comment']['rating']               = -3;  // порог рейтинга при котором юзер может голосовать за комментарии
 $config['acl']['vote']['blog']['rating']                  = -5;  // порог рейтинга при котором юзер может голосовать за блог
@@ -169,7 +169,7 @@ $config['module']['user']['per_page']    = 15;          // Число юзеро
 $config['module']['user']['friend_notice']['delete'] = false; // Отправить talk-сообщение в случае удаления пользователя из друзей
 $config['module']['user']['friend_notice']['accept'] = false; // Отправить talk-сообщение в случае одобрения заявки на добавление в друзья
 $config['module']['user']['friend_notice']['reject'] = false; // Отправить talk-сообщение в случае отклонения заявки на добавление в друзья
-$config['module']['user']['avatar_size'] = array(64,48,24,0); // Список размеров аватаров у пользователя. 0 - исходный размер 
+$config['module']['user']['avatar_size'] = array(64,48,24,0); // Список размеров аватаров у пользователя. 0 - исходный размер
 $config['module']['user']['login']['min_size'] = 3; // Минимальное количество символов в логине
 $config['module']['user']['login']['max_size'] = 30; // Максимальное количество символов в логине
 // Модуль Comment
@@ -188,8 +188,8 @@ $config['module']['talk']['max_errors'] = 4;
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках
 // Модуль Lang
 $config['module']['lang']['delete_undefined'] = true;   // Если установлена true, то модуль будет автоматически удалять из языковых конструкций переменные вида %%var%%, по которым не была произведена замена
-// Модуль Notify 
-$config['module']['notify']['delayed']        = false;  // Указывает на необходимость использовать режим отложенной рассылки сообщений на email 
+// Модуль Notify
+$config['module']['notify']['delayed']        = true;  // Указывает на необходимость использовать режим отложенной рассылки сообщений на email
 $config['module']['notify']['insert_single']  = false;  // Если опция установлена в true, систему будет собирать записи заданий удаленной публикации, для вставки их в базу единым INSERT
 $config['module']['notify']['per_process']    = 10;     // Количество отложенных заданий, обрабатываемых одним крон-процессом
 // Модуль Image
@@ -221,6 +221,10 @@ $config['module']['image']['topic']['round_corner']   = false;
 // Модуль Security
 $config['module']['security']['key']   = "livestreet_security_key"; // ключ сессии для хранения security-кода
 $config['module']['security']['hash']  = "livestreet_security_key"; // "примесь" к строке, хешируемой в качестве security-кода
+
+$config['module']['userfeed']['count_default'] = 10; // Число топиков в ленте по умолчанию
+
+$config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
@@ -264,8 +268,12 @@ $config['db']['table']['country_user']        = '___db.table.prefix___country_us
 $config['db']['table']['reminder']            = '___db.table.prefix___reminder';
 $config['db']['table']['session']             = '___db.table.prefix___session';
 $config['db']['table']['notify_task']         = '___db.table.prefix___notify_task';
+$config['db']['table']['userfeed_subscribe']  = '___db.table.prefix___userfeed_subscribe';
+$config['db']['table']['stream_subscribe']    = '___db.table.prefix___stream_subscribe';
+$config['db']['table']['stream_event']        = '___db.table.prefix___stream_event';
+$config['db']['table']['stream_config']       = '___db.table.prefix___stream_config';
 
-$config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM 
+$config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
  * Настройка memcache
  */
@@ -305,7 +313,9 @@ $config['router']['page']['question']      = 'ActionQuestion';
 $config['router']['page']['blogs']         = 'ActionBlogs';
 $config['router']['page']['search']        = 'ActionSearch';
 $config['router']['page']['admin']         = 'ActionAdmin';
-$config['router']['page']['ajax']         = 'ActionAjax';
+$config['router']['page']['ajax']          = 'ActionAjax';
+$config['router']['page']['feed']          = 'ActionUserfeed';
+$config['router']['page']['stream']        = 'ActionStream';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';
@@ -314,7 +324,7 @@ $config['router']['config']['action_not_found'] = 'error';
  * Настройки вывода блоков
  */
 $config['block']['rule_index_blog'] = array(
-	'path' => array( 
+	'path' => array(
 		'___path.root.web___/blog$',
 		'___path.root.web___/blog/*$',
 		'___path.root.web___/blog/*/page\d+$',
@@ -332,10 +342,10 @@ $config['block']['rule_index_blog'] = array(
 );
 
 $config['block']['rule_topic_type'] = array(
-	'action'  => array( 
-		'link'     => array('add','edit'), 
-		'question' => array('add','edit'), 
-		'topic'    => array('add','edit')  
+	'action'  => array(
+		'link'     => array('add','edit'),
+		'question' => array('add','edit'),
+		'topic'    => array('add','edit')
 	),
 	'blocks'  => array( 'right' => array('block.blogInfo.tpl') ),
 );
@@ -366,6 +376,31 @@ $config['block']['rule_talk_add'] = array(
 $config['block']['rule_talk_read'] = array(
 	'action'  => array( 'talk' => array('read') ),
 	'blocks'  => array( 'right' => array('actions/ActionTalk/speakers.tpl') ),
+);
+
+$config['block']['userfeedBlogs'] = array(
+	'action'  => array('feed'),
+	'blocks'  => array(
+                    'right' => array(
+                        'userfeedBlogs'=> array()
+                    )
+                )
+);
+$config['block']['userfeedUsers'] = array(
+	'action'  => array('feed'),
+	'blocks'  => array(
+                    'right' => array(
+                        'userfeedUsers'=> array()
+                    )
+                )
+);
+$config['block']['streamconfig'] = array(
+	'action'  => array('stream'),
+	'blocks'  => array(
+                    'right' => array(
+                        'streamConfig'=> array()
+                    )
+                )
 );
 
 
@@ -400,11 +435,13 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/questions.js",
 	"___path.static.skin___/js/block_loader.js",
 	"___path.static.skin___/js/friend.js",
-	"___path.static.skin___/js/blog.js",	
+	"___path.static.skin___/js/blog.js",
 	"___path.static.skin___/js/other.js",
 	"___path.static.skin___/js/login.js",
 	"___path.static.skin___/js/panel.js",
 	"___path.static.skin___/js/messages.js",
+    "___path.static.skin___/js/userfeed.js",
+    "___path.static.skin___/js/stream.js",
 	"___path.static.skin___/js/Autocompleter.LS.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Piechart/moocanvas.js"=>array('browser'=>'IE'),
 );
@@ -413,11 +450,11 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/Roar.css",
 	"___path.static.skin___/css/piechart.css",
 	"___path.static.skin___/css/Autocompleter.css",
-	"___path.static.skin___/css/prettify.css",	
+	"___path.static.skin___/css/prettify.css",
 	"___path.static.skin___/css/vlaCal-v2.1.css",
 	"___path.static.skin___/css/ie6.css?v=1"=>array('browser'=>'IE 6'),
-	"___path.static.skin___/css/ie7.css?v=1"=>array('browser'=>'gte IE 7'),	
-	"___path.static.skin___/css/simple_comments.css"=>array('browser'=>'gt IE 6'),	
+	"___path.static.skin___/css/ie7.css?v=1"=>array('browser'=>'gte IE 7'),
+	"___path.static.skin___/css/simple_comments.css"=>array('browser'=>'gt IE 6'),
 );
 
 /**

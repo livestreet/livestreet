@@ -50,7 +50,7 @@ class ActionBlog extends Action {
 	 * @var unknown_type
 	 */
 	protected $oUserCurrent=null;
-	
+
 	/**
 	 * Число новых топиков в коллективных блогах
 	 *
@@ -81,7 +81,7 @@ class ActionBlog extends Action {
 	 * @var unknown_type
 	 */
 	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin','delete','invite','ajaxaddcomment','ajaxaddbloginvite');
-	
+
 	/**
 	 * Инизиализация экшена
 	 *
@@ -95,55 +95,55 @@ class ActionBlog extends Action {
 		/**
 		 * Достаём текущего пользователя
 		 */
-		$this->oUserCurrent=$this->User_GetUserCurrent();	
-			
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+
 		/**
 		 * Подсчитываем новые топики
 		 */
 		$this->iCountTopicsCollectiveNew=$this->Topic_GetCountTopicsCollectiveNew();
-		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();	
+		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsBlogNew=$this->iCountTopicsCollectiveNew;
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
 	}
-	
+
 	/**
 	 * Регистрируем евенты, по сути определяем УРЛы вида /blog/.../
 	 *
 	 */
-	protected function RegisterEvent() {			
+	protected function RegisterEvent() {
 		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEvent('good','EventTopics');
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
-		
+
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('delete','EventDeleteBlog');
 		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page(\d+))?$/i','EventAdminBlog');
 		$this->AddEvent('invite','EventInviteBlog');
-		
+
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
 		$this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
 		$this->AddEvent('ajaxblogjoin', 'AjaxBlogJoin');
-		
+
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i','EventShowTopic');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i','EventShowTopic');
-				
+
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i','EventShowBlog');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i','EventShowBlog');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i','EventShowBlog');
-		
+
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page(\d+))?$/i','EventShowUsers');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
-	 */	
+	 */
 	/**
 	 * Добавление нового блога
 	 *
@@ -155,28 +155,28 @@ class ActionBlog extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='add';
-		$this->sMenuItemSelect='add_blog';				
+		$this->sMenuItemSelect='add_blog';
 		/**
 		 * Проверяем авторизован ли пользователь
 		 */
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
-		}		
+		}
 		/**
 		 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
 		 */
 		if (!$this->ACL_CanCreateBlog($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('blog_create_acl'),$this->Lang_Get('error'));
 			return Router::Action('error');
-		}		
+		}
 		/**
 		 * Запускаем проверку корректности ввода полей при добалении блога.
 		 * Дополнительно проверяем, что был отправлен POST запрос.
 		 */
 		if (!$this->checkBlogFields()) {
-			return false;	
-		}	
+			return false;
+		}
 		/**
 		 * Если всё ок то пытаемся создать блог
 		 */
@@ -195,7 +195,7 @@ class ActionBlog extends Action {
 		$oBlog->setAvatar(null);
 		/**
 		* Загрузка аватара, делаем ресайзы
-		*/			
+		*/
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 			if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
 				$oBlog->setAvatar($sPath);
@@ -214,12 +214,17 @@ class ActionBlog extends Action {
 			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
+
+            /**
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oBlog->getUserId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
 			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 	}
-	
+
 	/**
 	 * Редактирование блога
 	 *
@@ -231,7 +236,7 @@ class ActionBlog extends Action {
 		 */
 		$this->sMenuSubItemSelect='';
 		$this->sMenuItemSelect='profile';
-		
+
 		/**
 		 * Проверяем передан ли в УРЛе номер блога
 		 */
@@ -255,19 +260,19 @@ class ActionBlog extends Action {
 		/**
 		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
-		}			
-		
+		}
+
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_edit'));
-		
+
 		$this->Viewer_Assign('oBlogEdit',$oBlog);
 		/**
 		 * Устанавливаем шалон для вывода
-		 */		
+		 */
 		$this->SetTemplateAction('add');
 		/**
 		 * Если нажали кнопку "Сохранить"
@@ -283,7 +288,7 @@ class ActionBlog extends Action {
 			/**
 			 * Парсим описание блога на предмет ХТМЛ тегов
 			 */
-			$sText=$this->Text_Parser(getRequest('blog_description'));			
+			$sText=$this->Text_Parser(getRequest('blog_description'));
 			$oBlog->setDescription($sText);
 			/**
 			 * Сбрасываем кеш, если поменяли тип блога
@@ -294,10 +299,10 @@ class ActionBlog extends Action {
 			}
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
-			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога	
+			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога
 			/**
 			* Загрузка аватара, делаем ресайзы
-			*/			
+			*/
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 				if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
 					$oBlog->setAvatar($sPath);
@@ -335,18 +340,18 @@ class ActionBlog extends Action {
 			$_REQUEST['blog_limit_rating_topic']=$oBlog->getLimitRatingTopic();
 			$_REQUEST['blog_id']=$oBlog->getId();
 		}
-		
-		
+
+
 	}
 	/**
 	 * Управление пользователями блога
 	 *
 	 * @return unknown
 	 */
-	protected function EventAdminBlog() {		
+	protected function EventAdminBlog() {
 		/**
 		 * Меню
-		 */		
+		 */
 		$this->sMenuItemSelect='admin';
 		$this->sMenuSubItemSelect='';
 		/**
@@ -366,17 +371,17 @@ class ActionBlog extends Action {
 		/**
 		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return parent::EventNotFound();
-		}					
+		}
 		/**
 		 * Обрабатываем сохранение формы
 		 */
 		if (isPost('submit_blog_admin')) {
 			$this->Security_ValidateSendForm();
-			
+
 			$aUserRank=getRequest('user_rank',array());
 			if (!is_array($aUserRank)) {
 				$aUserRank=array();
@@ -389,10 +394,10 @@ class ActionBlog extends Action {
 				/**
 				 * Увеличиваем число читателей блога
 				 */
-				if (in_array($sRank,array('administrator','moderator','reader')) and $oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_BAN) {					
-					$oBlog->setCountUser($oBlog->getCountUser()+1);					
+				if (in_array($sRank,array('administrator','moderator','reader')) and $oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_BAN) {
+					$oBlog->setCountUser($oBlog->getCountUser()+1);
 				}
-				
+
 				switch ($sRank) {
 					case 'administrator':
 						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
@@ -405,12 +410,12 @@ class ActionBlog extends Action {
 						break;
 					case 'ban':
 						if ($oBlogUser->getUserRole()!=ModuleBlog::BLOG_USER_ROLE_BAN) {
-							$oBlog->setCountUser($oBlog->getCountUser()-1);							
+							$oBlog->setCountUser($oBlog->getCountUser()-1);
 						}
 						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_BAN);
 						break;
 					default:
-						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_GUEST);						
+						$oBlogUser->setUserRole(ModuleBlog::BLOG_USER_ROLE_GUEST);
 				}
 				$this->Blog_UpdateRelationBlogUser($oBlogUser);
 				$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_users_submit_ok'));
@@ -434,26 +439,26 @@ class ActionBlog extends Action {
 			),$iPage,Config::Get('module.blog.users_per_page')
 		);
 		$aBlogUsers=$aResult['collection'];
-				
+
 		/**
 		 * Формируем постраничность
-		 */		
+		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,Router::GetPath('blog')."admin/{$oBlog->getId()}");
 		$this->Viewer_Assign('aPaging',$aPaging);
-		
+
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_admin'));
-		
+
 		$this->Viewer_Assign('oBlogEdit',$oBlog);
 		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
 		/**
 		 * Устанавливаем шалон для вывода
-		 */		
+		 */
 		$this->SetTemplateAction('admin');
-		
+
 		/**
-		 * Если блог закрытый, получаем приглашенных 
-		 * и добавляем блок-форму для приглашения 
+		 * Если блог закрытый, получаем приглашенных
+		 * и добавляем блок-форму для приглашения
 		 */
 		if($oBlog->getType()=='close') {
 			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_INVITE,null);
@@ -461,7 +466,7 @@ class ActionBlog extends Action {
 			$this->Viewer_AddBlock('right','actions/ActionBlog/invited.tpl');
 		}
 	}
-	
+
 	/**
 	 * Проверка полей блога
 	 *
@@ -476,7 +481,7 @@ class ActionBlog extends Action {
 			return false;
 		}
 		$this->Security_ValidateSendForm();
-		
+
 		$bOk=true;
 		/**
 		* Проверяем есть ли название блога
@@ -494,12 +499,12 @@ class ActionBlog extends Action {
 				$bOk=false;
 			}
 		}
-		
+
 		if (!$oBlog) {
 			/**
 			* Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 			* Проверка только в том случаи если создаём новый блог, т.к при редактировании URL нельзя менять
-			*/		
+			*/
 			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {
@@ -538,21 +543,21 @@ class ActionBlog extends Action {
 			$bOk=false;
 		}
 		/**
-		 * Преобразуем ограничение по рейтингу в число 
-		 */				
+		 * Преобразуем ограничение по рейтингу в число
+		 */
 		if (!func_check(getRequest('blog_limit_rating_topic'),'float')) {
 			$this->Message_AddError($this->Lang_Get('blog_create_rating_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
-		
+
 		/**
 		 * Выполнение хуков
 		 */
 		$this->Hook_Run('check_blog_fields', array('bOk'=>&$bOk));
-			
+
 		return $bOk;
 	}
-	
+
 	/**
 	 * Показ всех топиков
 	 *
@@ -566,12 +571,12 @@ class ActionBlog extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;			
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
 		/**
 		 * Получаем список топиков
-		 */					
+		 */
 		$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType);
-		$aTopics=$aResult['collection'];	
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
@@ -584,12 +589,12 @@ class ActionBlog extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('aPaging',$aPaging);		
+		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}	
+	}
 	/**
 	 * Показ топика
 	 *
@@ -598,18 +603,18 @@ class ActionBlog extends Action {
 	 * @return unknown
 	 */
 	protected function EventShowTopic() {
-		$sBlogUrl='';	
+		$sBlogUrl='';
 		if ($this->GetParamEventMatch(0,1)) {
 			// из коллективного блога
 			$sBlogUrl=$this->sCurrentEvent;
 			$iTopicId=$this->GetParamEventMatch(0,1);
-			$this->sMenuItemSelect='blog';			
+			$this->sMenuItemSelect='blog';
 		} else {
 			// из персонального блога
 			$iTopicId=$this->GetEventMatch(1);
-			$this->sMenuItemSelect='log';			
+			$this->sMenuItemSelect='log';
 		}
-		$this->sMenuSubItemSelect='';					
+		$this->sMenuSubItemSelect='';
 		/**
 		 * Проверяем есть ли такой топик
 		 */
@@ -626,8 +631,8 @@ class ActionBlog extends Action {
 		/**
 		 * Определяем права на отображение записи из закрытого блога
 		 */
-		if($oTopic->getBlog()->getType()=='close' 
-			and (!$this->oUserCurrent 
+		if($oTopic->getBlog()->getType()=='close'
+			and (!$this->oUserCurrent
 				|| !in_array(
 						$oTopic->getBlog()->getId(),
 						$this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent)
@@ -637,7 +642,7 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('blog_close_show'),$this->Lang_Get('not_access'));
 			return Router::Action('error');
 		}
-		
+
 		/**
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
 		 */
@@ -671,8 +676,8 @@ class ActionBlog extends Action {
 			$iPageDef=1;
 		}
 		$iPage=getRequest('cmtpage',0) ? (int)getRequest('cmtpage',0) : $iPageDef;
-		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));		
-		$iMaxIdComment=$aReturn['iMaxIdComment'];	
+		$aReturn=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic',$iPage,Config::Get('module.comment.nested_per_page'));
+		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		$aComments=$aReturn['comments'];
 		if (Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
 			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,'');
@@ -698,7 +703,7 @@ class ActionBlog extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));		
+		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
 		/**
 		 * Выставляем SEO данные
 		 */
@@ -707,19 +712,19 @@ class ActionBlog extends Action {
 		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
 		/**
 		 * Загружаем переменные в шаблон
-		 */				
+		 */
 		$this->Viewer_Assign('oTopic',$oTopic);
-		$this->Viewer_Assign('aComments',$aComments);		
+		$this->Viewer_Assign('aComments',$aComments);
 		$this->Viewer_Assign('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AddHtmlTitle($oTopic->getBlog()->getTitle());
 		$this->Viewer_AddHtmlTitle($oTopic->getTitle());
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'comments/'.$oTopic->getId().'/',$oTopic->getTitle());
 		/**
 		 * Устанавливаем шаблон вывода
-		 */	
+		 */
 		$this->SetTemplateAction('topic');
 	}
-	
+
 	/**
 	 * Страница со списком читателей блога
 	 *
@@ -729,7 +734,7 @@ class ActionBlog extends Action {
 		$sBlogUrl=$this->sCurrentEvent;
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
-		 */		
+		 */
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
 		}
@@ -746,7 +751,7 @@ class ActionBlog extends Action {
 		$aBlogUsers=$aBlogUsersResult['collection'];
 		/**
 		 * Формируем постраничность
-		 */		
+		 */
 		$aPaging=$this->Viewer_MakePaging($aBlogUsersResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,$oBlog->getUrlFull().'users');
 		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
@@ -755,7 +760,7 @@ class ActionBlog extends Action {
 		$this->Hook_Run('blog_collective_show_users',array('oBlog'=>$oBlog));
 		/**
 		 * Загружаем переменные в шаблон
-		 */				
+		 */
 		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
 		$this->Viewer_Assign('iCountBlogUsers',$aBlogUsersResult['count']);
 		$this->Viewer_Assign('oBlog',$oBlog);
@@ -765,21 +770,21 @@ class ActionBlog extends Action {
 		 */
 		$this->SetTemplateAction('users');
 	}
-	
+
 	protected function EventShowBlog() {
-		$sBlogUrl=$this->sCurrentEvent;		
-		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new')) ? $this->GetParamEventMatch(0,0) : 'good';			
+		$sBlogUrl=$this->sCurrentEvent;
+		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new')) ? $this->GetParamEventMatch(0,0) : 'good';
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
-		 */		
+		 */
 		if (!($oBlog=$this->Blog_GetBlogByUrl($sBlogUrl))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Определяем права на отображение закрытого блога
-		 */	
-		if($oBlog->getType()=='close' 
-			and (!$this->oUserCurrent 
+		 */
+		if($oBlog->getType()=='close'
+			and (!$this->oUserCurrent
 				or !in_array(
 						$oBlog->getId(),
 						$this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent)
@@ -790,21 +795,21 @@ class ActionBlog extends Action {
 		} else {
 			$bCloseBlog=false;
 		}
-			
+
 		/**
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect=$sShowType;
-		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();		
+		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage= $this->GetParamEventMatch(($sShowType=='good')?0:1,2) ? $this->GetParamEventMatch(($sShowType=='good')?0:1,2) : 1;	
-		
+		$iPage= $this->GetParamEventMatch(($sShowType=='good')?0:1,2) ? $this->GetParamEventMatch(($sShowType=='good')?0:1,2) : 1;
+
 		if (!$bCloseBlog) {
 			/**
 		 	* Получаем список топиков
-		 	*/	
+		 	*/
 			$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);
 			$aTopics=$aResult['collection'];
 			/**
@@ -825,7 +830,7 @@ class ActionBlog extends Action {
 		 * Выставляем SEO данные
 		 */
 		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
-		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));	
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
 		/**
 		 * Получаем список юзеров блога
 		 */
@@ -835,32 +840,32 @@ class ActionBlog extends Action {
 		$aBlogModerators=$aBlogModeratorsResult['collection'];
 		$aBlogAdministratorsResult=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
 		$aBlogAdministrators=$aBlogAdministratorsResult['collection'];
-		
+
 		/**
 		 * Для админов проекта получаем список блогов и передаем их во вьювер
 		 */
 		if($this->oUserCurrent and $this->oUserCurrent->isAdministrator()) {
 			$aBlogs = $this->Blog_GetBlogs();
 			unset($aBlogs[$oBlog->getId()]);
-			
+
 			$this->Viewer_Assign('aBlogs',$aBlogs);
 		}
-		
+
 		/**
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('blog_collective_show',array('oBlog'=>$oBlog,'sShowType'=>$sShowType));
 		/**
 		 * Загружаем переменные в шаблон
-		 */				
-		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);		
+		 */
+		$this->Viewer_Assign('aBlogUsers',$aBlogUsers);
 		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('iCountBlogUsers',$aBlogUsersResult['count']);
 		$this->Viewer_Assign('iCountBlogModerators',$aBlogModeratorsResult['count']);
-		$this->Viewer_Assign('iCountBlogAdministrators',$aBlogAdministratorsResult['count']+1);		
+		$this->Viewer_Assign('iCountBlogAdministrators',$aBlogAdministratorsResult['count']+1);
 		$this->Viewer_Assign('oBlog',$oBlog);
-		$this->Viewer_Assign('bCloseBlog',$bCloseBlog);		
+		$this->Viewer_Assign('bCloseBlog',$bCloseBlog);
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'blog/'.$oBlog->getUrl().'/',$oBlog->getTitle());
 		/**
@@ -875,10 +880,10 @@ class ActionBlog extends Action {
 	protected function AjaxAddComment() {
 		$this->Viewer_SetResponseAjax('json');
 		$this->SubmitComment();
-	}	
+	}
 	/**
 	 * Обработка добавление комментария к топику
-	 *	 
+	 *
 	 * @return bool
 	 */
 	protected function SubmitComment() {
@@ -903,18 +908,18 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		/**
 		* Проверяем разрешено ли постить комменты
 		*/
-		if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {			
+		if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
 		* Проверяем разрешено ли постить комменты по времени
 		*/
-		if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {			
+		if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
 			return;
 		}
@@ -924,12 +929,12 @@ class ActionBlog extends Action {
 		if ($oTopic->getForbidComment()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
 			return;
-		}	
+		}
 		/**
 		* Проверяем текст комментария
 		*/
 		$sText=$this->Text_Parser(getRequest('comment_text'));
-		if (!func_check($sText,'text',2,10000)) {			
+		if (!func_check($sText,'text',2,10000)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -937,7 +942,7 @@ class ActionBlog extends Action {
 		* Проверям на какой коммент отвечаем
 		*/
 		$sParentId=(int)getRequest('reply');
-		if (!func_check($sParentId,'id')) {			
+		if (!func_check($sParentId,'id')) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -946,7 +951,7 @@ class ActionBlog extends Action {
 			/**
 			* Проверяем существует ли комментарий на который отвечаем
 			*/
-			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {				
+			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
 			}
@@ -966,7 +971,7 @@ class ActionBlog extends Action {
 		/**
 		* Проверка на дублирующий коммент
 		*/
-		if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {			
+		if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
 			return;
 		}
@@ -977,31 +982,31 @@ class ActionBlog extends Action {
 		$oCommentNew->setTargetId($oTopic->getId());
 		$oCommentNew->setTargetType('topic');
 		$oCommentNew->setTargetParentId($oTopic->getBlog()->getId());
-		$oCommentNew->setUserId($this->oUserCurrent->getId());		
+		$oCommentNew->setUserId($this->oUserCurrent->getId());
 		$oCommentNew->setText($sText);
 		$oCommentNew->setDate(date("Y-m-d H:i:s"));
 		$oCommentNew->setUserIp(func_getIp());
 		$oCommentNew->setPid($sParentId);
 		$oCommentNew->setTextHash(md5($sText));
-			
+
 		/**
 		* Добавляем коммент
 		*/
 		$this->Hook_Run('comment_add_before', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTopic'=>$oTopic));
 		if ($this->Comment_AddComment($oCommentNew)) {
 			$this->Hook_Run('comment_add_after', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTopic'=>$oTopic));
-			
+
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			if ($oTopic->getPublish()) {
 				/**
 			 	* Добавляем коммент в прямой эфир если топик не в черновиках
-			 	*/					
+			 	*/
 				$oCommentOnline=Engine::GetEntity('Comment_CommentOnline');
 				$oCommentOnline->setTargetId($oCommentNew->getTargetId());
 				$oCommentOnline->setTargetType($oCommentNew->getTargetType());
 				$oCommentOnline->setTargetParentId($oCommentNew->getTargetParentId());
 				$oCommentOnline->setCommentId($oCommentNew->getId());
-				
+
 				$this->Comment_AddCommentOnline($oCommentOnline);
 			}
 			/**
@@ -1023,34 +1028,38 @@ class ActionBlog extends Action {
 				$oUserAuthorComment=$oCommentParent->getUser();
 				$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);
 			}
+            /**
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oCommentNew->getUserId(), ModuleStream::EVENT_ADD_COMMENT, $oCommentNew->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-	}	
-	
+	}
+
 	/**
 	 * Получение новых комментариев
 	 *
 	 */
 	protected function AjaxResponseComment() {
 		$this->Viewer_SetResponseAjax('json');
-		
+
 		if (!$this->oUserCurrent) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		$idTopic=getRequest('idTarget',null,'post');
 		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		$idCommentLast=getRequest('idCommentLast',null,'post');
 		$selfIdComment=getRequest('selfIdComment',null,'post');
 		$aComments=array();
-		
-		if (getRequest('bUsePaging',null,'post') and $selfIdComment) {			
+
+		if (getRequest('bUsePaging',null,'post') and $selfIdComment) {
 			if ($oComment=$this->Comment_GetCommentById($selfIdComment) and $oComment->getTargetId()==$oTopic->getId() and $oComment->getTargetType()=='topic') {
 				$oViewerLocal=$this->Viewer_GetLocalViewer();
 				$oViewerLocal->Assign('oUserCurrent',$this->oUserCurrent);
@@ -1069,10 +1078,10 @@ class ActionBlog extends Action {
 			$aReturn['comments']=$aCmt;
 			$aReturn['iMaxIdComment']=$selfIdComment;
 		} else {
-			$aReturn=$this->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);			
+			$aReturn=$this->Comment_GetCommentsNewByTargetId($oTopic->getId(),'topic',$idCommentLast);
 		}
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
-		
+
 		$oTopicRead=Engine::GetEntity('Topic_TopicRead');
 		$oTopicRead->setTopicId($oTopic->getId());
 		$oTopicRead->setUserId($this->oUserCurrent->getId());
@@ -1080,7 +1089,7 @@ class ActionBlog extends Action {
 		$oTopicRead->setCommentIdLast($iMaxIdComment);
 		$oTopicRead->setDateRead(date("Y-m-d H:i:s"));
 		$this->Topic_SetTopicRead($oTopicRead);
-		
+
 		$aCmts=$aReturn['comments'];
 		if ($aCmts and is_array($aCmts)) {
 			foreach ($aCmts as $aCmt) {
@@ -1091,24 +1100,24 @@ class ActionBlog extends Action {
 				);
 			}
 		}
-		
+
 		$this->Viewer_AssignAjax('iMaxIdComment',$iMaxIdComment);
 		$this->Viewer_AssignAjax('aComments',$aComments);
 	}
-	
+
 	/**
-	 * Обработка ajax запроса на отправку 
+	 * Обработка ajax запроса на отправку
 	 * пользователям приглашения вступить в закрытый блог
 	 */
 	protected function AjaxAddBlogInvite() {
 		$this->Viewer_SetResponseAjax('json');
 		$sUsers=getRequest('users',null,'post');
 		$sBlogId=getRequest('idBlog',null,'post');
-		
+
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
-		if (!$this->User_IsAuthorization()) {	
+		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
@@ -1118,21 +1127,21 @@ class ActionBlog extends Action {
 		 */
 		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;			
+			return;
 		}
 		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;	
-		}		
-		
+			return;
+		}
+
 		/**
-		 * Получаем список пользователей блога (любого статуса)		
-		 * Это полный АХТУНГ - исправить! 
+		 * Получаем список пользователей блога (любого статуса)
+		 * Это полный АХТУНГ - исправить!
 		 */
 		$aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
@@ -1158,7 +1167,7 @@ class ActionBlog extends Action {
 				continue;
 			}
 			/**
-			 * Если пользователь пытается добавить инвайт 
+			 * Если пользователь пытается добавить инвайт
 			 * самому себе, возвращаем ошибку
 			 */
 			if(strtolower($sUser)==strtolower($this->oUserCurrent->getLogin())) {
@@ -1166,10 +1175,10 @@ class ActionBlog extends Action {
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
 					'sMsg'=>$this->Lang_Get('blog_user_invite_add_self')
-				);										
+				);
 				continue;
 			}
-			
+
 			/**
 			 * Если пользователь не найден или неактивен,
 			 * возвращаем ошибку
@@ -1192,7 +1201,7 @@ class ActionBlog extends Action {
 				$oBlogUserNew->setBlogId($oBlog->getId());
 				$oBlogUserNew->setUserId($oUser->getId());
 				$oBlogUserNew->setUserRole(ModuleBlog::BLOG_USER_ROLE_INVITE);
-				
+
 				if($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
 					$aResult[]=array(
 						'bStateError'=>false,
@@ -1208,7 +1217,7 @@ class ActionBlog extends Action {
 						'sMsgTitle'=>$this->Lang_Get('error'),
 						'sMsg'=>$this->Lang_Get('system_error'),
 						'sUserLogin'=>$sUser
-					);					
+					);
 				}
 			} else {
 				/**
@@ -1220,10 +1229,10 @@ class ActionBlog extends Action {
 						$sErrorMessage=$this->Lang_Get('blog_user_already_invited',array('login'=>$sUser));
 						break;
 					case ($aBlogUsers[$oUser->getId()]->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST):
-						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>$sUser));						
+						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>$sUser));
 						break;
 					case ($aBlogUsers[$oUser->getId()]->getUserRole()==ModuleBlog::BLOG_USER_ROLE_REJECT):
-						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>$sUser));						
+						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>$sUser));
 						break;
 					default:
 						$sErrorMessage=$this->Lang_Get('system_error');
@@ -1235,9 +1244,9 @@ class ActionBlog extends Action {
 					'sUserLogin'=>$sUser
 				);
 				continue;
-			}		
+			}
 		}
-		
+
 		/**
 		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
 		 */
@@ -1245,18 +1254,18 @@ class ActionBlog extends Action {
 	}
 
 	/**
-	 * Обработка ajax запроса на отправку 
+	 * Обработка ajax запроса на отправку
 	 * повторного приглашения вступить в закрытый блог
 	 */
 	protected function AjaxReBlogInvite() {
 		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
 		$sBlogId=getRequest('idBlog',null,'post');
-		
+
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
-		if (!$this->User_IsAuthorization()) {	
+		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
@@ -1266,7 +1275,7 @@ class ActionBlog extends Action {
 		 */
 		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;			
+			return;
 		}
 		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -1275,23 +1284,23 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());		
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;	
+			return;
 		}
-				
+
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
 		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
 			$this->SendBlogInvite($oBlog,$oUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_add_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-		}			
+		}
 	}
 	/**
-	 * Выполняет отправку приглашения в блог 
+	 * Выполняет отправку приглашения в блог
 	 * (по внутренней почте и на email)
 	 *
 	 * @param ModuleBlog_EntityBlog $oBlog
@@ -1333,25 +1342,25 @@ class ActionBlog extends Action {
 		);
 		/**
 		 * Удаляем отправляющего юзера из переписки
-		 */	
+		 */
 		$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());
 	}
-	
+
 	/**
 	 * Обработка отправленого пользователю приглашения вступить в блог
 	 */
-	protected function EventInviteBlog() {	
+	protected function EventInviteBlog() {
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
 		$sCode=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
 
 		if (!$sCode) {
 			return $this->EventNotFound();
 		}
-		
+
 		list($sBlogId,$sUserId)=explode('_',$sCode,2);
-		
+
 		$sAction=$this->GetParam(0);
-		
+
 		/**
 		 * Получаем текущего пользователя
 		 */
@@ -1371,7 +1380,7 @@ class ActionBlog extends Action {
 		if((!$oBlog=$this->Blog_GetBlogById($sBlogId)) || $oBlog->getType()!='close') {
 			return $this->EventNotFound();
 		}
-				
+
 		/**
 		 * Получаем связь "блог-пользователь" и проверяем,
 		 * чтобы ее тип был INVITE или REJECT
@@ -1383,14 +1392,14 @@ class ActionBlog extends Action {
 			$sMessage=$this->Lang_Get('blog_user_invite_already_done');
 			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
-			return ;						
+			return ;
 		}
 		if(!in_array($oBlogUser->getUserRole(),array(ModuleBlog::BLOG_USER_ROLE_INVITE,ModuleBlog::BLOG_USER_ROLE_REJECT))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
-		
+
 		/**
 		 * Обновляем роль пользователя до читателя
 		 */
@@ -1398,7 +1407,7 @@ class ActionBlog extends Action {
 		if(!$this->Blog_UpdateRelationBlogUser($oBlogUser)) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
-			return ;						
+			return ;
 		}
 		if ($sAction=='accept') {
 			/**
@@ -1409,10 +1418,14 @@ class ActionBlog extends Action {
 			$sMessage=$this->Lang_Get('blog_user_invite_accept');
 		} else {
 			$sMessage=$this->Lang_Get('blog_user_invite_reject');
-		}		
+		}
+         /**
+         * Добавляем событие в ленту
+         */
+        $this->Stream_write($oBlogUser->getId(), ModuleStream::EVENT_JOIN_BLOG, $oBlog->getId());
 		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
-		
-		Router::Location(Router::GetPath('talk'));		
+
+		Router::Location(Router::GetPath('talk'));
 	}
 
 	/**
@@ -1454,7 +1467,7 @@ class ActionBlog extends Action {
 				/**
 				 * Если указан идентификатор блога для перемещения,
 				 * то делаем попытку переместить топики.
-				 * 
+				 *
 				 * (-1) - выбран пункт меню "удалить топики".
 				 */
 				if($sBlogIdNew=getRequest('topic_move_to') and ($sBlogIdNew!=-1) and is_array($aTopics) and count($aTopics)) {
@@ -1476,21 +1489,21 @@ class ActionBlog extends Action {
 				}
 				break;
 			default:
-				return parent::EventNotFound();	
+				return parent::EventNotFound();
 		}
 		/**
 		 * Удаляяем блог и перенаправляем пользователя к списку блогов
 		 */
-		$this->Hook_Run('blog_delete_before', array('sBlogId'=>$sBlogId));		
+		$this->Hook_Run('blog_delete_before', array('sBlogId'=>$sBlogId));
 		if($this->Blog_DeleteBlog($sBlogId)) {
-			$this->Hook_Run('blog_delete_after', array('sBlogId'=>$sBlogId));			
+			$this->Hook_Run('blog_delete_after', array('sBlogId'=>$sBlogId));
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_admin_delete_success'),$this->Lang_Get('attention'),true);
 			Router::Location(Router::GetPath('blogs'));
 		} else {
 			Router::Location($oBlog->getUrlFull());
 		}
 	}
-	
+
 	/**
 	 * Получение описания блога
 	 *
@@ -1498,21 +1511,21 @@ class ActionBlog extends Action {
 	protected function AjaxBlogInfo() {
 		$this->Viewer_SetResponseAjax('json');
 		$sBlogId=getRequest('idBlog',null,'post');
-		
+
 		if ($sBlogId==0) {
-			if ($this->oUserCurrent) {				
+			if ($this->oUserCurrent) {
 				$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
 			}
 		} else {
 			$oBlog=$this->Blog_GetBlogById($sBlogId);
 		}
 
-		if ($oBlog) {			
+		if ($oBlog) {
 			$sText=$oBlog->getDescription();
 			$this->Viewer_AssignAjax('sText',$sText);
 		}
 	}
-	
+
 	/**
 	 * Подключение/отключение к блогу
 	 *
@@ -1523,18 +1536,18 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		$idBlog=getRequest('idBlog',null,'post');
 		if (!($oBlog=$this->Blog_GetBlogById($idBlog))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		if (!in_array($oBlog->getType(),array('open','close'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('blog_join_error_invite'),$this->Lang_Get('error'));
 			return;
 		}
-		
+
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		if (!$oBlogUser || ($oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST && $oBlog->getType()=='close')) {
 			if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()) {
@@ -1559,45 +1572,45 @@ class ActionBlog extends Action {
 					 * Увеличиваем число читателей блога
 					 */
 					$oBlog->setCountUser($oBlog->getCountUser()+1);
-					$this->Blog_UpdateBlog($oBlog);					
+					$this->Blog_UpdateBlog($oBlog);
 					$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
-				} else {					
+				} else {
 					$sMsg=($oBlog->getType()=='close')
 					? $this->Lang_Get('blog_join_error_invite')
 					: $this->Lang_Get('system_error');
 					$this->Message_AddErrorSingle($sMsg,$this->Lang_Get('error'));
 					return;
 				}
-			} else {				
+			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('blog_join_error_self'),$this->Lang_Get('attention'));
 				return;
 			}
-		}		
+		}
 		if ($oBlogUser && $oBlogUser->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST) {
 			/**
 			 * Покидаем блог
-			 */					
+			 */
 			if ($this->Blog_DeleteRelationBlogUser($oBlogUser)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('blog_leave_ok'),$this->Lang_Get('attention'));
-				$this->Viewer_AssignAjax('bState',false);				
+				$this->Viewer_AssignAjax('bState',false);
 				/**
 				 * Уменьшаем число читателей блога
 				 */
 				$oBlog->setCountUser($oBlog->getCountUser()-1);
 				$this->Blog_UpdateBlog($oBlog);
 				$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
-			} else {				
+			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
 			}
-		}		
+		}
 	}
-	
+
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {		
+	public function EventShutdown() {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
@@ -1609,7 +1622,7 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsBlogNew',$this->iCountTopicsBlogNew);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
-		
+
 		$this->Viewer_Assign('BLOG_USER_ROLE_GUEST', ModuleBlog::BLOG_USER_ROLE_GUEST);
 		$this->Viewer_Assign('BLOG_USER_ROLE_USER', ModuleBlog::BLOG_USER_ROLE_USER);
 		$this->Viewer_Assign('BLOG_USER_ROLE_MODERATOR', ModuleBlog::BLOG_USER_ROLE_MODERATOR);

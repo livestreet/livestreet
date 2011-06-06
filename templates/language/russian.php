@@ -721,6 +721,37 @@ return array(
     'userfeed_subscribes_updated' => 'Настройки ленты сохранены',
     'userfeed_get_more' => 'Получить ещё статьи',
 
+    /**
+     * Stream
+     */
+    'stream_block_config_title' => 'Настройка ленты',
+    'stream_block_users_title' => 'Люди',
+    'stream_block_config_append' => 'Добавить',
+    'stream_block_users_friends' => 'Друзья',
+    'stream_subscribes_already_subscribed' => 'Вы уже подписаны на этого пользователя',
+    'stream_subscribes_updated' => 'Настройки ленты сохранены',
+    'stream_get_more' => 'Получить ещё события',
+    'stream_event_type_add_topic' => 'Добавление топика',
+    'stream_event_type_add_comment' => 'Добавление комментария',
+    'stream_event_type_add_blog' => 'Добавление блога',
+    'stream_event_type_vote_topic' => 'Голосование за топик',
+    'stream_event_type_vote_comment' => 'Голосование за комменатрий',
+    'stream_event_type_vote_blog' => 'Голосование за блог',
+    'stream_event_type_vote_user' => 'Голосование за пользователя',
+    'stream_event_type_make_friends' => 'Добавление в друзья',
+    'stream_event_type_join_blog' => 'Вступление в блог',
+
+    'stream_list_user' => 'Пользователь',
+    'stream_list_event_add_topic' => 'добавил новый топик',
+    'stream_list_event_add_blog' => 'добавил новый блог',
+    'stream_list_event_add_comment' => 'прокомментировал топик',
+    'stream_list_event_vote_topic' => 'оцнил топик',
+    'stream_list_event_vote_blog' => 'оценил блог',
+    'stream_list_event_vote_user' => 'оценил пользователя',
+    'stream_list_event_vote_comment' => 'оценил комментарий к топику',
+    'stream_list_event_join_blog' => 'вступил в блог',
+    'stream_list_event_make_friends' => 'добавил в друзья пользователя',
+
 	/**
 	 * Рейтинг TOP
 	 */
