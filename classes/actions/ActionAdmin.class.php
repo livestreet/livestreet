@@ -19,49 +19,50 @@
  * Класс обработки УРЛа вида /comments/
  *
  */
-class ActionAdmin extends Action {	
-	
+class ActionAdmin extends Action {
+
 	/**
 	 * Главное меню
 	 *
 	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='admin';
-	
+
 	public function Init() {
 		if(!$this->User_IsAuthorization() or !$oUserCurrent=$this->User_GetUserCurrent() or !$oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}
-		
+
 		$this->oUserCurrent=$oUserCurrent;
 	}
-	
-	protected function RegisterEvent() {	
+
+	protected function RegisterEvent() {
 		$this->AddEvent('plugins','EventPlugins');
 		$this->AddEvent('restorecomment','EventRestoreComment');
+		$this->AddEvent('userfields','EventUserfields');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
-	 */	
-	
+	 */
+
 	protected function EventRestoreComment() {
 		set_time_limit(0);
 		$this->Comment_RestoreTree();
 		$this->Cache_Clean();
 		die('restore ok');
 	}
-	
-	protected function EventPlugins() {		
+
+	protected function EventPlugins() {
 		$this->sMenuHeadItemSelect='plugins';
 		/**
 		 * Обработка удаления плагинов
 		 */
 		if (isPost('submit_plugins_del')) {
 			$this->Security_ValidateSendForm();
-			
+
 			$aPluginsDelete=getRequest('plugin_del');
 			if (is_array($aPluginsDelete)) {
 				$this->Plugin_Delete(array_keys($aPluginsDelete));
@@ -75,7 +76,7 @@ class ActionAdmin extends Action {
 		}
 		/**
 		 * Передан ли номер страницы
-		 */			
+		 */
 		$iPage=	preg_match("/^\d+$/i",$this->GetEventMatch(2)) ? $this->GetEventMatch(2) : 1;
 		/**
 		 * Получаем список блогов
@@ -83,7 +84,7 @@ class ActionAdmin extends Action {
 		$aPlugins=$this->Plugin_GetList();
 		/**
 		 * Загружаем переменные в шаблон
-		 */						
+		 */
 		$this->Viewer_Assign("aPlugins",$aPlugins);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugins_administartion_title'));
 		/**
@@ -91,7 +92,45 @@ class ActionAdmin extends Action {
 		 */
 		$this->SetTemplateAction('plugins');
 	}
-	
+
+    protected function EventUserFields()
+    {
+        /**
+         * Получаем список контактов
+         */
+        switch(getRequest('action')) {
+            case 'add':
+                $this->Viewer_SetResponseAjax('json');
+                if (!getRequest('name')) {
+                    $this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
+                    return;
+                }
+                $iId = $this->User_addUserField(getRequest('name'));
+                if(!$iId) {
+                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                    return;
+                }
+                $this->Viewer_AssignAjax('id', $iId);
+                $this->Viewer_AssignAjax('lang_delete', $this->Lang_Get('user_field_delete'));
+                $this->Message_AddNotice($this->Lang_Get('user_field_added'),$this->Lang_Get('attention'));
+                break;
+            case 'delete':
+                $this->Viewer_SetResponseAjax('json');
+                if (!getRequest('id')) {
+                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                    return;
+                }
+                $this->User_deleteUserField(getRequest('id'));
+                $this->Message_AddNotice($this->Lang_Get('user_field_deleted'),$this->Lang_Get('attention'));
+                break;
+            default:
+                $aUserFields = $this->User_getUserFields();
+                $this->Viewer_Assign('aUserFields',$aUserFields);
+                $this->SetTemplateAction('user_fields');
+                $this->Viewer_AppendScript(Config::Get('path.static.skin').'js/other.js');
+        }
+    }
+
 	/**
 	 * Активация\деактивация плагина
 	 *
@@ -108,21 +147,22 @@ class ActionAdmin extends Action {
 		 * Активируем\деактивируем плагин
 		 */
 		if($bResult=$this->Plugin_Toggle($sPlugin,$sAction)) {
-			$this->Message_AddNotice($this->Lang_Get('plugins_action_ok'),$this->Lang_Get('attention'),true);	
+			$this->Message_AddNotice($this->Lang_Get('plugins_action_ok'),$this->Lang_Get('attention'),true);
 		} else {
-			if(!($aMessages=$this->Message_GetErrorSession()) or !count($aMessages)) $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);			
+			if(!($aMessages=$this->Message_GetErrorSession()) or !count($aMessages)) $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 		}
 		/**
 		 * Возвращаем на страницу управления плагинами
 		 */
 		Router::Location(Router::GetPath('admin').'plugins/');
 	}
-	
-	/**
+
+
+    /**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {		
+	public function EventShutdown() {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */

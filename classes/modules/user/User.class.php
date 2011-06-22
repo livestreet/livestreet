@@ -156,7 +156,7 @@ class ModuleUser extends Module {
 		}
 		/**
 		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
-		 */		
+		 */
 		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aUsers));
 		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);
 		$aUserIdNeedStore=$aUserIdNeedQuery;
@@ -182,7 +182,7 @@ class ModuleUser extends Module {
 		$aUsers=func_array_sort_by_keys($aUsers,$aUserId);
 		return $aUsers;
 	}
-	
+
 	/**
 	 * Алиас для корректной работы ORM
 	 *
@@ -192,7 +192,7 @@ class ModuleUser extends Module {
 	public function GetUserItemsByArrayId($aUserId) {
 		return $this->GetUsersByArrayId($aUserId);
 	}
-	
+
 	public function GetUsersByArrayIdSolid($aUserId) {
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -248,7 +248,7 @@ class ModuleUser extends Module {
 		}
 		/**
 		 * Смотрим каких юзеров не было в кеше и делаем запрос в БД
-		 */		
+		 */
 		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aSessions));
 		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);
 		$aUserIdNeedStore=$aUserIdNeedQuery;
@@ -412,7 +412,7 @@ class ModuleUser extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return unknown
 	 */
-	public function Authorization(ModuleUser_EntityUser $oUser,$bRemember=true,$sKey=null) {	
+	public function Authorization(ModuleUser_EntityUser $oUser,$bRemember=true,$sKey=null) {
 		if (!$oUser->getId() or !$oUser->getActivate()) {
 			return false;
 		}
@@ -448,7 +448,7 @@ class ModuleUser extends Module {
 		if ($this->oUserCurrent) {
 			return;
 		}
-		if (isset($_COOKIE['key']) and $sKey=$_COOKIE['key']) {			
+		if (isset($_COOKIE['key']) and $sKey=$_COOKIE['key']) {
 			if ($oUser=$this->GetUserBySessionKey($sKey)) {
 				$this->Authorization($oUser);
 			} else {
@@ -689,7 +689,7 @@ class ModuleUser extends Module {
 		}
 		/**
 		 * Смотрим каких френдов не было в кеше и делаем запрос в БД
-		 */		
+		 */
 		$aUserIdNeedQuery=array_diff($aUserId,array_keys($aFriends));
 		$aUserIdNeedQuery=array_diff($aUserIdNeedQuery,$aUserIdNotNeedQuery);
 		$aUserIdNeedStore=$aUserIdNeedQuery;
@@ -735,7 +735,7 @@ class ModuleUser extends Module {
 		$aFriends=array();
 		$s=join(',',$aUserId);
 		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}_id_{$s}"))) {
-			$data = $this->oMapper->GetFriendsByArrayId($aUserId,$sUserId);			
+			$data = $this->oMapper->GetFriendsByArrayId($aUserId,$sUserId);
 			foreach ($data as $oFriend) {
 				$aFriends[$oFriend->getFriendId($sUserId)]=$oFriend;
 			}
@@ -770,7 +770,7 @@ class ModuleUser extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
 		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
 		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
-		
+
 		return $this->oMapper->AddFriend($oFriend);
 	}
 	/**
@@ -784,7 +784,7 @@ class ModuleUser extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
 		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
 		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
-		
+
 		// устанавливаем статус дружбы "удалено"
 		$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_DELETE,$oFriend->getUserId());
 		return $this->oMapper->UpdateFriend($oFriend);
@@ -800,9 +800,9 @@ class ModuleUser extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("friend_change_user_{$oFriend->getUserFrom()}","friend_change_user_{$oFriend->getUserTo()}"));
 		$this->Cache_Delete("user_friend_{$oFriend->getUserFrom()}_{$oFriend->getUserTo()}");
 		$this->Cache_Delete("user_friend_{$oFriend->getUserTo()}_{$oFriend->getUserFrom()}");
-		return $this->oMapper->EraseFriend($oFriend);		
+		return $this->oMapper->EraseFriend($oFriend);
 	}
-	
+
 	/**
 	 * Обновляет информацию о друге
 	 *
@@ -821,7 +821,7 @@ class ModuleUser extends Module {
 	 * Получает список друзей
 	 *
 	 * @param  string $sUserId
-	 * @return array	 
+	 * @return array
 	 */
 	public function GetUsersFriend($sUserId) {
 		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}"))) {
@@ -1063,7 +1063,7 @@ class ModuleUser extends Module {
 	public function GetReminderByCode($sCode) {
 		return $this->oMapper->GetReminderByCode($sCode);
 	}
-	
+
 	/**
 	 * Upload user avatar on server
 	 * Make resized images
@@ -1076,7 +1076,7 @@ class ModuleUser extends Module {
 		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
 			return false;
 		}
-		
+
 		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
 		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
 			return false;
@@ -1089,7 +1089,7 @@ class ModuleUser extends Module {
 		 */
 		$oImage = new LiveImage($sFileTmp);
 		/**
-		 * Если объект изображения не создан, 
+		 * Если объект изображения не создан,
 		 * возвращаем ошибку
 		 */
 		if($sError=$oImage->get_last_error()) {
@@ -1098,12 +1098,12 @@ class ModuleUser extends Module {
 			@unlink($sFileTmp);
 			return false;
 		}
-		
-		$oImage = $this->Image_CropSquare($oImage);		
+
+		$oImage = $this->Image_CropSquare($oImage);
 		$oImage->set_jpg_quality($aParams['jpg_quality']);
 		$oImage->output(null,$sFileTmp);
-		
-		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {			
+
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {
 			$aSize=Config::Get('module.user.avatar_size');
 			foreach ($aSize as $iSize) {
 				if ($iSize==0) {
@@ -1123,7 +1123,7 @@ class ModuleUser extends Module {
 		 * В случае ошибки, возвращаем false
 		 */
 		return false;
-	}	
+	}
 	/**
 	 * Delete avatar from server
 	 *
@@ -1140,7 +1140,7 @@ class ModuleUser extends Module {
 			}
 		}
 	}
-		
+
 	/**
 	 * Upload user foto
 	 *
@@ -1152,14 +1152,14 @@ class ModuleUser extends Module {
 		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
 			return false;
 		}
-				
+
 		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
 		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
 			return false;
 		}
 		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('foto');
-		
+
 		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),250,null,true,$aParams)) {
 			@unlink($sFileTmp);
 			/**
@@ -1185,10 +1185,61 @@ class ModuleUser extends Module {
 	 * @param unknown_type $sLogin
 	 */
 	public function CheckLogin($sLogin) {
-		if (preg_match("/^[\da-z\_\-]{".Config::Get('module.user.login.min_size').','.Config::Get('module.user.login.max_size')."}$/i",$sLogin)){ 
-			return true; 
+		if (preg_match("/^[\da-z\_\-]{".Config::Get('module.user.login.min_size').','.Config::Get('module.user.login.max_size')."}$/i",$sLogin)){
+			return true;
 		}
 		return false;
 	}
+
+    /**
+     * Получить дополниетльные поля профиля пользователя
+     * @return type 
+     */
+    public function getUserFields()
+    {
+        return $this->oMapper->getUserFields();
+    }
+
+    /**
+     * Получить значения дополнительных полей профиля пользователя
+     * @param type $iUserId
+     * @param type $bOnlyNoEmpty Загружать только непустые поля
+     * @return type 
+     */
+    public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true)
+    {
+        return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
+    }
+
+    /**
+     * Установить значения дополнительных полей профиля пользователя
+     * @param type $iUserId
+     * @param type $aFields Ассоциативный массив полей id => value
+     * @return type 
+     */
+    public function setUserFieldsValues($iUserId, $aFields)
+    {
+        return $this->oMapper->setUserFieldsValues($iUserId, $aFields);
+    }
+
+    /**
+     * Добавить поле    
+     * @param type $sName
+     * @return type 
+     */
+    public function addUserField($sName)
+    {
+        return $this->oMapper->addUserField($sName);
+    }
+
+    /**
+     * Удалить поле
+     * @param type $iId
+     * @return type 
+     */
+    public function deleteUserField($iId)
+    {
+        return $this->oMapper->deleteUserField($iId);
+    }
 }
 ?>

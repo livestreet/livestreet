@@ -173,6 +173,10 @@ class ActionProfile extends Action {
 		 * Получаем список блогов которые создал юзер
 		 */
 		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserProfile->getId());
+        /**
+         * Получаем список контактов
+         */
+        $aUserFields = $this->User_getUserFieldsValues($this->oUserProfile->getId());
 		/**
 		 * Вызов хуков
 		 */
@@ -185,6 +189,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
+		$this->Viewer_Assign('aUserFields',$aUserFields);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
 		/**

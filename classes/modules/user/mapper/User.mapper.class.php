@@ -17,13 +17,13 @@
 
 class ModuleUser_MapperUser extends Mapper {
 	protected $oUserCurrent=null;
-	
+
 	public function SetUserCurrent($oUserCurrent)  {
 		$this->oUserCurrent=$oUserCurrent;
 	}
-	
+
 	public function Add(ModuleUser_EntityUser $oUser) {
-		$sql = "INSERT INTO ".Config::Get('db.table.user')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.user')."
 			(user_login,
 			user_password,
 			user_mail,
@@ -33,52 +33,52 @@ class ModuleUser_MapperUser extends Mapper {
 			user_activate_key
 			)
 			VALUES(?,  ?,	?,	?,	?,	?,	?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oUser->getLogin(),$oUser->getPassword(),$oUser->getMail(),$oUser->getDateRegister(),$oUser->getIpRegister(),$oUser->getActivate(),$oUser->getActivateKey())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function Update(ModuleUser_EntityUser $oUser) {
-		$sql = "UPDATE ".Config::Get('db.table.user')." 
-			SET 
+		$sql = "UPDATE ".Config::Get('db.table.user')."
+			SET
 				user_password = ? ,
-				user_mail = ? ,					
-				user_skill = ? ,				
+				user_mail = ? ,
+				user_skill = ? ,
 				user_date_activate = ? ,
-				user_date_comment_last = ? ,				
+				user_date_comment_last = ? ,
 				user_rating = ? ,
 				user_count_vote = ? ,
-				user_activate = ? , 
-				user_profile_name = ? , 
-				user_profile_sex = ? , 
-				user_profile_country = ? , 
-				user_profile_region = ? , 
-				user_profile_city = ? , 
-				user_profile_birthday = ? , 
-				user_profile_site = ? , 
-				user_profile_site_name = ? , 
-				user_profile_icq = ? , 
+				user_activate = ? ,
+				user_profile_name = ? ,
+				user_profile_sex = ? ,
+				user_profile_country = ? ,
+				user_profile_region = ? ,
+				user_profile_city = ? ,
+				user_profile_birthday = ? ,
+				user_profile_site = ? ,
+				user_profile_site_name = ? ,
+				user_profile_icq = ? ,
 				user_profile_about = ? ,
 				user_profile_date = ? ,
 				user_profile_avatar = ?	,
-				user_profile_foto = ? ,	
+				user_profile_foto = ? ,
 				user_settings_notice_new_topic = ?	,
 				user_settings_notice_new_comment = ? ,
 				user_settings_notice_new_talk = ?	,
 				user_settings_notice_reply_comment = ? ,
-				user_settings_notice_new_friend = ? 		
+				user_settings_notice_new_friend = ?
 			WHERE user_id = ?
-		";			
+		";
 		if ($this->oDb->query($sql,$oUser->getPassword(),
-								   $oUser->getMail(),								   
-								   $oUser->getSkill(),								   
+								   $oUser->getMail(),
+								   $oUser->getSkill(),
 								   $oUser->getDateActivate(),
-								   $oUser->getDateCommentLast(),							   
+								   $oUser->getDateCommentLast(),
 								   $oUser->getRating(),
 								   $oUser->getCountVote(),
-								   $oUser->getActivate(),								   
+								   $oUser->getActivate(),
 								   $oUser->getProfileName(),
 								   $oUser->getProfileSex(),
 								   $oUser->getProfileCountry(),
@@ -88,150 +88,150 @@ class ModuleUser_MapperUser extends Mapper {
 								   $oUser->getProfileSite(),
 								   $oUser->getProfileSiteName(),
 								   $oUser->getProfileIcq(),
-								   $oUser->getProfileAbout(),	
-								   $oUser->getProfileDate(),	
+								   $oUser->getProfileAbout(),
+								   $oUser->getProfileDate(),
 								   $oUser->getProfileAvatar(),
 								   $oUser->getProfileFoto(),
 								   $oUser->getSettingsNoticeNewTopic(),
 								   $oUser->getSettingsNoticeNewComment(),
 								   $oUser->getSettingsNoticeNewTalk(),
-								   $oUser->getSettingsNoticeReplyComment(),	
-								   $oUser->getSettingsNoticeNewFriend(),			   
+								   $oUser->getSettingsNoticeReplyComment(),
+								   $oUser->getSettingsNoticeNewFriend(),
 								   $oUser->getId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-		
+
+
 	public function GetUserBySessionKey($sKey) {
-		$sql = "SELECT 
-					s.user_id 
-				FROM					
+		$sql = "SELECT
+					s.user_id
+				FROM
 					".Config::Get('db.table.session')." as s
-				WHERE 
-					s.session_key = ? 					
+				WHERE
+					s.session_key = ?
 				";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
 			return $aRow['user_id'];
 		}
 		return null;
 	}
-	
+
 	public function CreateSession(ModuleUser_EntitySession $oSession) {
-		$sql = "REPLACE INTO ".Config::Get('db.table.session')." 
-			SET 
+		$sql = "REPLACE INTO ".Config::Get('db.table.session')."
+			SET
 				session_key = ? ,
 				user_id = ? ,
 				session_ip_create = ? ,
 				session_ip_last = ? ,
-				session_date_create = ? ,		
-				session_date_last = ? 
-		";			
+				session_date_create = ? ,
+				session_date_last = ?
+		";
 		return $this->oDb->query($sql,$oSession->getKey(), $oSession->getUserId(), $oSession->getIpCreate(), $oSession->getIpLast(), $oSession->getDateCreate(), $oSession->getDateLast());
 	}
-	
+
 	public function UpdateSession(ModuleUser_EntitySession $oSession) {
-		$sql = "UPDATE ".Config::Get('db.table.session')." 
-			SET 
-				session_ip_last = ? ,	
-				session_date_last = ? 
+		$sql = "UPDATE ".Config::Get('db.table.session')."
+			SET
+				session_ip_last = ? ,
+				session_date_last = ?
 			WHERE user_id = ?
-		";			
+		";
 		return $this->oDb->query($sql,$oSession->getIpLast(), $oSession->getDateLast(), $oSession->getUserId());
 	}
-	
+
 	public function GetSessionsByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
-		$sql = "SELECT 
-					s.*						 
-				FROM 
-					".Config::Get('db.table.session')." as s					
-				WHERE 
+
+		$sql = "SELECT
+					s.*
+				FROM
+					".Config::Get('db.table.session')." as s
+				WHERE
 					s.user_id IN(?a) ";
 		$aRes=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId)) {
 			foreach ($aRows as $aRow) {
 				$aRes[]=Engine::GetEntity('User_Session',$aRow);
 			}
-		}		
+		}
 		return $aRes;
 	}
-	
+
 	public function GetUsersByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
-		$sql = "SELECT 
+
+		$sql = "SELECT
 					u.*	,
-					IF(ua.user_id IS NULL,0,1) as user_is_administrator 						 
-				FROM 
-					".Config::Get('db.table.user')." as u	
-					LEFT JOIN ".Config::Get('db.table.user_administrator')." AS ua ON u.user_id=ua.user_id 
-				WHERE 
-					u.user_id IN(?a) 								
+					IF(ua.user_id IS NULL,0,1) as user_is_administrator
+				FROM
+					".Config::Get('db.table.user')." as u
+					LEFT JOIN ".Config::Get('db.table.user_administrator')." AS ua ON u.user_id=ua.user_id
+				WHERE
+					u.user_id IN(?a)
 				ORDER BY FIELD(u.user_id,?a) ";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
 			foreach ($aRows as $aUser) {
 				$aUsers[]=Engine::GetEntity('User',$aUser);
 			}
-		}		
+		}
 		return $aUsers;
 	}
-	
-	public function GetUserByActivateKey($sKey) {		
-		$sql = "SELECT 
+
+	public function GetUserByActivateKey($sKey) {
+		$sql = "SELECT
 				u.user_id
-			FROM 
-				".Config::Get('db.table.user')." as u				
+			FROM
+				".Config::Get('db.table.user')." as u
 			WHERE u.user_activate_key = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sKey)) {
 			return $aRow['user_id'];
 		}
 		return null;
 	}
-	
-		
-	public function GetUserByMail($sMail) {		
-		$sql = "SELECT 
+
+
+	public function GetUserByMail($sMail) {
+		$sql = "SELECT
 				u.user_id
-			FROM 
-				".Config::Get('db.table.user')." as u 				
+			FROM
+				".Config::Get('db.table.user')." as u
 			WHERE u.user_mail = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sMail)) {
 			return $aRow['user_id'];
 		}
 		return null;
 	}
-	
-	public function GetUserByLogin($sLogin) {		
-		$sql = "SELECT 
-				u.user_id  
-			FROM 
-				".Config::Get('db.table.user')." as u 	
-			WHERE 
+
+	public function GetUserByLogin($sLogin) {
+		$sql = "SELECT
+				u.user_id
+			FROM
+				".Config::Get('db.table.user')." as u
+			WHERE
 				u.user_login = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sLogin)) {
 			return $aRow['user_id'];
 		}
 		return null;
 	}
-	
-	
+
+
 	public function GetUsersByDateLast($iLimit) {
-		$sql = "SELECT 
-			user_id		 
-			FROM 
-				".Config::Get('db.table.session')."				
-			ORDER BY 
-				session_date_last DESC		
-			LIMIT 0, ?d		
-				";	
+		$sql = "SELECT
+			user_id
+			FROM
+				".Config::Get('db.table.session')."
+			ORDER BY
+				session_date_last DESC
+			LIMIT 0, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -240,18 +240,18 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
+
 	public function GetUsersByDateRegister($iLimit) {
-		$sql = "SELECT 
-			user_id		 
-			FROM 
-				".Config::Get('db.table.user')."	  
+		$sql = "SELECT
+			user_id
+			FROM
+				".Config::Get('db.table.user')."
 			WHERE
-				 user_activate = 1			
-			ORDER BY 
-				user_id DESC		
-			LIMIT 0, ?d		
-				";	
+				 user_activate = 1
+			ORDER BY
+				user_id DESC
+			LIMIT 0, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -260,18 +260,18 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
+
 	public function GetUsersRating($sType,&$iCount,$iCurrPage,$iPerPage) {
-		$sql = "SELECT 
-			user_id		 
-			FROM 
+		$sql = "SELECT
+			user_id
+			FROM
 				".Config::Get('db.table.user')."
-			WHERE 
-				user_rating ".($sType=='good' ? '>=0' : '<0')."	 and user_activate = 1			
-			ORDER BY 
-				user_rating ".($sType=='good' ? 'DESC' : 'ASC').", user_skill desc	
-			LIMIT ?d, ?d				
-				";	
+			WHERE
+				user_rating ".($sType=='good' ? '>=0' : '<0')."	 and user_activate = 1
+			ORDER BY
+				user_rating ".($sType=='good' ? 'DESC' : 'ASC').", user_skill desc
+			LIMIT ?d, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
@@ -280,78 +280,78 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	
+
+
 	public function GetCountUsers() {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";			
+		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
 		$result=$this->oDb->selectRow($sql);
 		return $result['count'];
 	}
-	
+
 	public function GetCountUsersActive($sDateActive) {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";			
+		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";
 		$result=$this->oDb->selectRow($sql,$sDateActive);
 		return $result['count'];
 	}
-	
-	
+
+
 	public function GetCountUsersSex() {
-		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";			
+		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";
 		$result=$this->oDb->select($sql);
 		return $result;
 	}
-	
+
 	public function GetCountUsersCountry($sLimit) {
 		$sql = "
-			SELECT 
+			SELECT
 				cu.count,
 				c.country_name as name
-			FROM ( 
-					SELECT 
+			FROM (
+					SELECT
 						count(user_id) as count,
-						country_id 
-					FROM 
+						country_id
+					FROM
 						".Config::Get('db.table.country_user')."
-					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d 
+					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d
 				) as cu
-				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id	
-			ORDER BY c.country_name		
-		";		
+				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id
+			ORDER BY c.country_name
+		";
 		$result=$this->oDb->select($sql,$sLimit);
 		return $result;
 	}
-	
+
 	public function GetCountUsersCity($sLimit) {
 		$sql = "
-			SELECT 
+			SELECT
 				cu.count,
 				c.city_name as name
-			FROM ( 
-					SELECT 
+			FROM (
+					SELECT
 						count(user_id) as count,
-						city_id 
-					FROM 
+						city_id
+					FROM
 						".Config::Get('db.table.city_user')."
 					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
 				) as cu
-				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id		
-			ORDER BY c.city_name	
-		";		
+				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id
+			ORDER BY c.city_name
+		";
 		$result=$this->oDb->select($sql,$sLimit);
 		return $result;
 	}
-	
-	public function GetUsersByLoginLike($sUserLogin,$iLimit) {		
-		$sql = "SELECT 
-				user_id					 
-			FROM 
-				".Config::Get('db.table.user')."	
+
+	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
+		$sql = "SELECT
+				user_id
+			FROM
+				".Config::Get('db.table.user')."
 			WHERE
 				user_activate = 1
 				and
-				user_login LIKE ?			
-			LIMIT 0, ?d		
-				";	
+				user_login LIKE ?
+			LIMIT 0, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserLogin.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -360,20 +360,20 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public function AddFriend(ModuleUser_EntityFriend $oFriend) {
-		$sql = "INSERT INTO ".Config::Get('db.table.friend')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.friend')."
 			(user_from,
 			user_to,
 			status_from,
-			status_to		
+			status_to
 			)
 			VALUES(?d, ?d, ?d, ?d)
-		";			
+		";
 		if (
 			$this->oDb->query(
 				$sql,
@@ -384,35 +384,35 @@ class ModuleUser_MapperUser extends Mapper {
 			)===0
 		) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function EraseFriend(ModuleUser_EntityFriend $oFriend) {
-		$sql = "DELETE FROM ".Config::Get('db.table.friend')." 
+		$sql = "DELETE FROM ".Config::Get('db.table.friend')."
 			WHERE
 				user_from = ?d
 				AND
-				user_to = ?d				
-		";			
-		if ($this->oDb->query($sql,$oFriend->getUserFrom(),$oFriend->getUserTo())) 
+				user_to = ?d
+		";
+		if ($this->oDb->query($sql,$oFriend->getUserFrom(),$oFriend->getUserTo()))
 		{
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function UpdateFriend(ModuleUser_EntityFriend $oFriend) {
 		$sql = "
 			UPDATE ".Config::Get('db.table.friend')."
-			SET 
+			SET
 				status_from = ?d,
-				status_to   = ?d 
+				status_to   = ?d
 			WHERE
 				user_from = ?d
 				AND
-				user_to = ?d		
-		";			
+				user_to = ?d
+		";
 		if(
 			$this->oDb->query(
 				$sql,
@@ -423,10 +423,10 @@ class ModuleUser_MapperUser extends Mapper {
 			)
 		) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	/**
 	 * Получить отношей дружбы по массиву идентификаторов
 	 *
@@ -440,30 +440,30 @@ class ModuleUser_MapperUser extends Mapper {
 			return array();
 		}
 
-		$sql = "SELECT 
-					*						 
-				FROM 
-					".Config::Get('db.table.friend')." 				
-				WHERE 
+		$sql = "SELECT
+					*
+				FROM
+					".Config::Get('db.table.friend')."
+				WHERE
 					( `user_from`=?d AND `user_to` IN(?a) )
 					OR
 					( `user_from` IN(?a) AND `user_to`=?d )
-				";			
+				";
 		$aRows=$this->oDb->select(
 			$sql,
 			$sUserId,$aArrayId,
 			$aArrayId,$sUserId
-		);			
+		);
 		$aRes=array();
 		if ($aRows) {
 			foreach ($aRows as $aRow) {
 				$aRow['user']=$sUserId;
 				$aRes[]=Engine::GetEntity('User_Friend',$aRow);
 			}
-		}			
+		}
 		return $aRes;
 	}
-	
+
 	/**
 	 * Получить список друзей указанного пользователя
 	 *
@@ -472,17 +472,17 @@ class ModuleUser_MapperUser extends Mapper {
 	 * @return array
 	 */
 	public function GetUsersFriend($sUserId) {
-		$sql = "SELECT 
+		$sql = "SELECT
 					uf.user_from,
-					uf.user_to							
-				FROM 
-					".Config::Get('db.table.friend')." as uf				
-				WHERE 	
+					uf.user_to
+				FROM
+					".Config::Get('db.table.friend')." as uf
+				WHERE
 					( uf.user_from = ?d
 					OR
 					uf.user_to = ?d )
-					AND 
-					( 	uf.status_from + uf.status_to = ?d 
+					AND
+					( 	uf.status_from + uf.status_to = ?d
 					OR
 						(uf.status_from = ?d AND uf.status_to = ?d )
 					)
@@ -494,7 +494,7 @@ class ModuleUser_MapperUser extends Mapper {
 				$sUserId,
 				ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
 				ModuleUser::USER_FRIEND_ACCEPT,
-				ModuleUser::USER_FRIEND_ACCEPT 
+				ModuleUser::USER_FRIEND_ACCEPT
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -505,7 +505,7 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return array_unique($aUsers);
 	}
-	
+
 	/**
 	 * Получить список заявок на добавление в друзья от указанного пользователя
 	 *
@@ -514,13 +514,13 @@ class ModuleUser_MapperUser extends Mapper {
 	 * @return array
 	 */
 	public function GetUsersFriendOffer($sUserId,$iStatus=ModuleUser::USER_FRIEND_NULL) {
-		$sql = "SELECT 
-					uf.user_to							
-				FROM 
-					".Config::Get('db.table.friend')." as uf				
-				WHERE 	
+		$sql = "SELECT
+					uf.user_to
+				FROM
+					".Config::Get('db.table.friend')." as uf
+				WHERE
 					uf.user_from = ?d
-					AND 
+					AND
 					uf.status_from = ?d
 					AND
 					uf.status_to = ?d
@@ -530,7 +530,7 @@ class ModuleUser_MapperUser extends Mapper {
 				$sql,
 				$sUserId,
 				ModuleUser::USER_FRIEND_OFFER,
-				$iStatus 
+				$iStatus
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -539,7 +539,7 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aUsers;
 	}
-	
+
 	/**
 	 * Получить список заявок на добавление в друзья от указанного пользователя
 	 *
@@ -548,13 +548,13 @@ class ModuleUser_MapperUser extends Mapper {
 	 * @return array
 	 */
 	public function GetUserSelfFriendOffer($sUserId,$iStatus=ModuleUser::USER_FRIEND_NULL) {
-		$sql = "SELECT 
+		$sql = "SELECT
 					uf.user_from
-				FROM 
-					".Config::Get('db.table.friend')." as uf				
-				WHERE 	
+				FROM
+					".Config::Get('db.table.friend')." as uf
+				WHERE
 					uf.user_to = ?d
-					AND 
+					AND
 					uf.status_from = ?d
 					AND
 					uf.status_to = ?d
@@ -564,7 +564,7 @@ class ModuleUser_MapperUser extends Mapper {
 				$sql,
 				$sUserId,
 				ModuleUser::USER_FRIEND_OFFER,
-				$iStatus 
+				$iStatus
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -573,12 +573,12 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aUsers;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	public function GetInviteByCode($sCode,$iUsed=0) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.invite')." WHERE invite_code = ? and invite_used = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode,$iUsed)) {
@@ -586,35 +586,35 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function AddInvite(ModuleUser_EntityInvite $oInvite) {
-		$sql = "INSERT INTO ".Config::Get('db.table.invite')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.invite')."
 			(invite_code,
 			user_from_id,
-			invite_date_add			
+			invite_date_add
 			)
 			VALUES(?,  ?,	?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oInvite->getCode(),$oInvite->getUserFromId(),$oInvite->getDateAdd())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function UpdateInvite(ModuleUser_EntityInvite $oInvite) {
-		$sql = "UPDATE ".Config::Get('db.table.invite')." 
-			SET 
+		$sql = "UPDATE ".Config::Get('db.table.invite')."
+			SET
 				user_to_id = ? ,
-				invite_date_used = ? ,	
-				invite_used =? 		
+				invite_date_used = ? ,
+				invite_used =?
 			WHERE invite_id = ?
-		";			
+		";
 		if ($this->oDb->query($sql,$oInvite->getUserToId(), $oInvite->getDateUsed(), $oInvite->getUsed(), $oInvite->getId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function GetCountInviteUsedByDate($sUserIdFrom,$sDate) {
 		$sql = "SELECT count(invite_id) as count FROM ".Config::Get('db.table.invite')." WHERE user_from_id = ?d and invite_date_add >= ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom,$sDate)) {
@@ -622,7 +622,7 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return 0;
 	}
-	
+
 	public function GetCountInviteUsed($sUserIdFrom) {
 		$sql = "SELECT count(invite_id) as count FROM ".Config::Get('db.table.invite')." WHERE user_from_id = ?d";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdFrom)) {
@@ -630,13 +630,13 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return 0;
 	}
-	
-	public function GetUsersInvite($sUserId) {					
-		$sql = "SELECT 
-					i.user_to_id										
-				FROM 
-					".Config::Get('db.table.invite')." as i				
-				WHERE 	
+
+	public function GetUsersInvite($sUserId) {
+		$sql = "SELECT
+					i.user_to_id
+				FROM
+					".Config::Get('db.table.invite')." as i
+				WHERE
 					i.user_from_id = ?d	";
 		$aUsers=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
@@ -646,31 +646,31 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aUsers;
 	}
-	
+
 	public function GetUserInviteFrom($sUserIdTo) {
-		$sql = "SELECT 
-					i.user_from_id										
-				FROM 
-					".Config::Get('db.table.invite')." as i				
-				WHERE 	
-					i.user_to_id = ?d																		
-				LIMIT 0,1;	
+		$sql = "SELECT
+					i.user_from_id
+				FROM
+					".Config::Get('db.table.invite')." as i
+				WHERE
+					i.user_to_id = ?d
+				LIMIT 0,1;
 					";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserIdTo)) {
 			return $aRow['user_from_id'];
 		}
 		return null;
 	}
-	
-	public function SetCountryUser($sCountryId,$sUserId) {		
-		$sql = "REPLACE ".Config::Get('db.table.country_user')." 
-			SET 
+
+	public function SetCountryUser($sCountryId,$sUserId) {
+		$sql = "REPLACE ".Config::Get('db.table.country_user')."
+			SET
 				country_id = ? ,
-				user_id = ? 
-		";			
+				user_id = ?
+		";
 		return $this->oDb->query($sql,$sCountryId,$sUserId);
 	}
-	
+
 	public function GetCountryByName($sName) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.country')." WHERE country_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
@@ -678,19 +678,19 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function GetUsersByCountry($sCountry,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "
 			SELECT cu.user_id
 			FROM
 				".Config::Get('db.table.country')." as c,
-				".Config::Get('db.table.country_user')." as cu 
+				".Config::Get('db.table.country_user')." as cu
 			WHERE
 				c.country_name = ?
 				AND
-				c.country_id=cu.country_id 				
+				c.country_id=cu.country_id
 			ORDER BY cu.user_id DESC
-			LIMIT ?d, ?d ";	
+			LIMIT ?d, ?d ";
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCountry,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
@@ -699,7 +699,7 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
+
 	public function GetUsersByCity($sCity,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "
 			SELECT cu.user_id
@@ -709,9 +709,9 @@ class ModuleUser_MapperUser extends Mapper {
 			WHERE
 				c.city_name = ?
 				AND
-				c.city_id=cu.city_id 				
+				c.city_id=cu.city_id
 			ORDER BY cu.user_id DESC
-			LIMIT ?d, ?d ";	
+			LIMIT ?d, ?d ";
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCity,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
@@ -720,28 +720,28 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
+
 	public function AddCountry(ModuleUser_EntityCountry $oCountry) {
-		$sql = "INSERT INTO ".Config::Get('db.table.country')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.country')."
 			(country_name)
 			VALUES(?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oCountry->getName())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
-	
-	public function SetCityUser($sCityId,$sUserId) {		
-		$sql = "REPLACE ".Config::Get('db.table.city_user')." 
-			SET 
+
+
+	public function SetCityUser($sCityId,$sUserId) {
+		$sql = "REPLACE ".Config::Get('db.table.city_user')."
+			SET
 				city_id = ? ,
-				user_id = ? 
-		";			
+				user_id = ?
+		";
 		return $this->oDb->query($sql,$sCityId,$sUserId);
 	}
-	
+
 	public function GetCityByName($sName) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.city')." WHERE city_name = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
@@ -749,27 +749,27 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function AddCity(ModuleUser_EntityCity $oCity) {
-		$sql = "INSERT INTO ".Config::Get('db.table.city')." 
+		$sql = "INSERT INTO ".Config::Get('db.table.city')."
 			(city_name)
 			VALUES(?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oCity->getName())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
-	public function GetCityByNameLike($sName,$iLimit) {		
-		$sql = "SELECT 
-				*					 
-			FROM 
-				".Config::Get('db.table.city')."	
+
+	public function GetCityByNameLike($sName,$iLimit) {
+		$sql = "SELECT
+				*
+			FROM
+				".Config::Get('db.table.city')."
 			WHERE
-				city_name LIKE ?														
-			LIMIT 0, ?d		
-				";	
+				city_name LIKE ?
+			LIMIT 0, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -778,16 +778,16 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	public function GetCountryByNameLike($sName,$iLimit) {		
-		$sql = "SELECT 
-				*					 
-			FROM 
-				".Config::Get('db.table.country')."	
+
+	public function GetCountryByNameLike($sName,$iLimit) {
+		$sql = "SELECT
+				*
+			FROM
+				".Config::Get('db.table.country')."
 			WHERE
-				country_name LIKE ?														
-			LIMIT 0, ?d		
-				";	
+				country_name LIKE ?
+			LIMIT 0, ?d
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -796,35 +796,111 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	public function AddReminder(ModuleUser_EntityReminder $oReminder) {		
-		$sql = "REPLACE ".Config::Get('db.table.reminder')." 
-			SET 
+
+	public function AddReminder(ModuleUser_EntityReminder $oReminder) {
+		$sql = "REPLACE ".Config::Get('db.table.reminder')."
+			SET
 				reminder_code = ? ,
 				user_id = ? ,
 				reminder_date_add = ? ,
 				reminder_date_used = ? ,
 				reminder_date_expire = ? ,
-				reminde_is_used = ? 				
-		";			
+				reminde_is_used = ?
+		";
 		return $this->oDb->query($sql,$oReminder->getCode(),$oReminder->getUserId(),$oReminder->getDateAdd(),$oReminder->getDateUsed(),$oReminder->getDateExpire(),$oReminder->getIsUsed());
 	}
-	
+
 	public function UpdateReminder(ModuleUser_EntityReminder $oReminder) {
 		return $this->AddReminder($oReminder);
 	}
-	
+
 	public function GetReminderByCode($sCode) {
-		$sql = "SELECT 
-					*										
-				FROM 
-					".Config::Get('db.table.reminder')." 				
-				WHERE 	
+		$sql = "SELECT
+					*
+				FROM
+					".Config::Get('db.table.reminder')."
+				WHERE
 					reminder_code = ?";
 		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {
 			return Engine::GetEntity('User_Reminder',$aRow);
 		}
 		return null;
 	}
+
+    public function getUserFields()
+    {
+        $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields');
+        $aFields = $this->oDb->select($sql);
+        if (!count($aFields)) {
+            return array();
+        }
+        $aResult = array();
+        foreach($aFields as $aField) {
+            $aResult[$aField['id']] = $aField;
+        }
+        return $aResult;
+    }
+
+    public function getUserFieldsValues($iUserId, $bOnlyNoEmpty)
+    {
+        $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields');
+        $aFields = $this->oDb->select($sql);
+        if (!count($aFields)) {
+            return array();
+        }
+        $sql = 'SELECT field_id, value FROM '.Config::Get('db.table.user_fields_values').' WHERE
+                user_id = ?d';
+        $aValues = array();
+        $aValues = $this->oDb->select($sql, $iUserId);
+
+        $aResult = array();
+        foreach($aFields as $aField) {
+            $aResult[$aField['id']] = $aField;
+            $aResult[$aField['id']]['value'] = null;
+        }
+        foreach($aValues as $aValue) {
+            if (isset($aResult[$aValue['field_id']])) {
+                if ($aValue['value']) {
+                    $aResult[$aValue['field_id']]['value'] = $aValue['value'];
+                }
+            }
+        }
+        if ($bOnlyNoEmpty) {
+            foreach ($aResult as $aField) {
+                if (!$aField['value']) {
+                    unset ($aResult[$aField['id']]);
+                }
+            }
+        }
+        return $aResult;
+    }
+
+    public function setUserFieldsValues($iUserId, $aFields)
+    {
+        if (!count($aFields)) return;
+        foreach ($aFields as $iId => $sValue) {
+            $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields_values').' WHERE user_id = ?d AND field_id = ?';
+            if ($this->oDb->select($sql, $iUserId, $iId)) {
+                $sql = 'UPDATE '.Config::Get('db.table.user_fields_values').' SET value = ? WHERE field_id = ? AND user_id = ?d';
+            } else {
+                $sql = 'INSERT INTO '.Config::Get('db.table.user_fields_values').' SET value = ?, field_id = ?, user_id = ?d';
+            }
+            $this->oDb->query($sql, $sValue, $iId, $iUserId);
+        }
+    }
+
+    public function addUserField($sName)
+    {
+        $sql =  'INSERT INTO '.Config::Get('db.table.user_fields').' SET
+                    name = ?';
+        return $this->oDb->query($sql, $sName);
+    }
+
+    public function deleteUserField($sName)
+    {
+        $sql =  'DELETE FROM '.Config::Get('db.table.user_fields').' WHERE
+                    id = ?';
+        $this->oDb->query($sql, $sName);
+    }
 }
 ?>

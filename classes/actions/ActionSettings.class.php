@@ -38,9 +38,9 @@ class ActionSettings extends Action {
 	 * @var unknown_type
 	 */
 	protected $oUserCurrent=null;
-	
+
 	/**
-	 * Инициализация 
+	 * Инициализация
 	 *
 	 * @return unknown
 	 */
@@ -50,37 +50,37 @@ class ActionSettings extends Action {
 		 */
 		if (!$this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
-			return Router::Action('error'); 
+			return Router::Action('error');
 		}
 		/**
 		 * Получаем текущего юзера
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
-		$this->SetDefaultEvent('profile');	
+		$this->SetDefaultEvent('profile');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));
 	}
-	
-	protected function RegisterEvent() {		
-		$this->AddEvent('profile','EventProfile');		
-		$this->AddEvent('invite','EventInvite');	
-		$this->AddEvent('tuning','EventTuning');			
+
+	protected function RegisterEvent() {
+		$this->AddEvent('profile','EventProfile');
+		$this->AddEvent('invite','EventInvite');
+		$this->AddEvent('tuning','EventTuning');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
 	protected function EventTuning() {
 		$this->sMenuItemSelect='settings';
 		$this->sMenuSubItemSelect='tuning';
-		
+
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
-		
+
 		if (isPost('submit_settings_tuning')) {
-			$this->Security_ValidateSendForm();			
-			
+			$this->Security_ValidateSendForm();
+
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewTalk( getRequest('settings_notice_new_talk') ? 1 : 0 );
@@ -94,32 +94,32 @@ class ActionSettings extends Action {
 			}
 		}
 	}
-	
+
 	/**
 	 * Показ и обработка формы приглаешний
 	 *
 	 * @return unknown
 	 */
-	protected function EventInvite() {		
+	protected function EventInvite() {
 		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
-		
+
 		$this->sMenuItemSelect='invite';
-		$this->sMenuSubItemSelect='';		
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));		
-		
+		$this->sMenuSubItemSelect='';
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));
+
 		if (isPost('submit_invite')) {
-			$this->Security_ValidateSendForm();			
-			
+			$this->Security_ValidateSendForm();
+
 			$bError=false;
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));		
-				$bError=true;		
+				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));
+				$bError=true;
 			}
 			if (!func_check(getRequest('invite_mail'),'mail')) {
-				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));		
-				$bError=true;		
+				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));
+				$bError=true;
 			}
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
@@ -127,24 +127,25 @@ class ActionSettings extends Action {
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
 			}
 		}
-		
+
 		$this->Viewer_Assign('iCountInviteAvailable',$this->User_GetCountInviteAvailable($this->oUserCurrent));
-		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));		
+		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
 	}
-	
+
 	/**
 	 * Выводит форму для редактирования профиля и обрабатывает её
 	 *
 	 */
 	protected function EventProfile() {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
+        $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
 		if (isPost('submit_profile_edit')) {
 			$this->Security_ValidateSendForm();
-						
-			$bError=false;			
+
+			$bError=false;
 			/**
 		 	* Заполняем профиль из полей формы
 		 	*/
@@ -165,7 +166,7 @@ class ActionSettings extends Action {
 					$bError=true;
 				} else {
 					$this->oUserCurrent->setMail(getRequest('mail'));
-				}				
+				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
@@ -228,7 +229,7 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileSite(getRequest('profile_site'));
 			} else {
 				$this->oUserCurrent->setProfileSite(null);
-			} 
+			}
 			/**
 			 * Проверяем название сайта
 			 */
@@ -236,7 +237,7 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileSiteName(getRequest('profile_site_name'));
 			} else {
 				$this->oUserCurrent->setProfileSiteName(null);
-			} 
+			}
 			/**
 			 * Проверяем информацию о себе
 			 */
@@ -244,10 +245,10 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileAbout(getRequest('profile_about'));
 			} else {
 				$this->oUserCurrent->setProfileAbout(null);
-			} 		
+			}
 			/**
 			 * Проверка на смену пароля
-			 */			
+			 */
 			if (getRequest('password','')!='') {
 				if (func_check(getRequest('password'),'password',5)) {
 					if (getRequest('password')==getRequest('password_confirm')) {
@@ -265,10 +266,10 @@ class ActionSettings extends Action {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
 				}
-			}		
+			}
 			/**
 			 * Загрузка аватара, делаем ресайзы
-			 */		
+			 */
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
 				/**
 				 * Получаем список текущих аватаров
@@ -280,7 +281,7 @@ class ActionSettings extends Action {
 						$aUserAvatars[$iSize] = $this->oUserCurrent->getProfileAvatarPath($iSize);
 					}
 				}
-				
+
 				if($sPath=$this->User_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
 					$this->oUserCurrent->setProfileAvatar($sPath);
 					/**
@@ -293,7 +294,7 @@ class ActionSettings extends Action {
 					}
 				} else {
 					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));					
+					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
 				}
 			}
 			/**
@@ -301,14 +302,14 @@ class ActionSettings extends Action {
 			 */
 			if (getRequest('avatar_delete')) {
 				$this->User_DeleteAvatar($this->oUserCurrent);
-				$this->oUserCurrent->setProfileAvatar(null);		
+				$this->oUserCurrent->setProfileAvatar(null);
 			}
 			/**
 			 * Загрузка фото, делаем ресайзы
-			 */			
-			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {				
-				if ($sFileFoto=$this->User_UploadFoto($_FILES['foto'],$this->oUserCurrent)) {	
-					$this->oUserCurrent->setProfileFoto($sFileFoto);			
+			 */
+			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {
+				if ($sFileFoto=$this->User_UploadFoto($_FILES['foto'],$this->oUserCurrent)) {
+					$this->oUserCurrent->setProfileFoto($sFileFoto);
 				} else {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_foto_error'),$this->Lang_Get('error'));
@@ -327,7 +328,7 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
 			 * Сохраняем изменения профиля
-		 	*/		
+		 	*/
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					/**
@@ -352,27 +353,38 @@ class ActionSettings extends Action {
 						}
 						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
 					}
-					
+
+                    /**
+                     * Обрабатываем дополнительные поля
+                     */
+                    $aFields = $this->User_getUserFields();
+                    $aData = array();
+                    foreach ($aFields as $iId => $aField) {
+                        if (isset($_REQUEST['profile_user_field_'.$iId])) {
+                            $aData[$iId] = getRequest('profile_user_field_'.$iId);
+                        }
+                    }
+                    $this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {		
+	public function EventShutdown() {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
-		
-		$this->Hook_Run('action_shutdown_settings');	
+
+		$this->Hook_Run('action_shutdown_settings');
 	}
 }
 ?>
