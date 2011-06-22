@@ -272,6 +272,8 @@ $config['db']['table']['userfeed_subscribe']  = '___db.table.prefix___userfeed_s
 $config['db']['table']['stream_subscribe']    = '___db.table.prefix___stream_subscribe';
 $config['db']['table']['stream_event']        = '___db.table.prefix___stream_event';
 $config['db']['table']['stream_config']       = '___db.table.prefix___stream_config';
+$config['db']['table']['user_field']         = '___db.table.prefix___user_field';
+$config['db']['table']['user_field_value']  = '___db.table.prefix___user_field_value';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
