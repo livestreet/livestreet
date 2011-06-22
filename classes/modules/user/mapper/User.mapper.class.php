@@ -829,7 +829,7 @@ class ModuleUser_MapperUser extends Mapper {
 
     public function getUserFields()
     {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields');
+        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
         $aFields = $this->oDb->select($sql);
         if (!count($aFields)) {
             return array();
@@ -843,12 +843,12 @@ class ModuleUser_MapperUser extends Mapper {
 
     public function getUserFieldsValues($iUserId, $bOnlyNoEmpty)
     {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields');
+        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
         $aFields = $this->oDb->select($sql);
         if (!count($aFields)) {
             return array();
         }
-        $sql = 'SELECT field_id, value FROM '.Config::Get('db.table.user_fields_values').' WHERE
+        $sql = 'SELECT field_id, value FROM '.Config::Get('db.table.user_field_value').' WHERE
                 user_id = ?d';
         $aValues = array();
         $aValues = $this->oDb->select($sql, $iUserId);
@@ -879,11 +879,11 @@ class ModuleUser_MapperUser extends Mapper {
     {
         if (!count($aFields)) return;
         foreach ($aFields as $iId => $sValue) {
-            $sql = 'SELECT * FROM '.Config::Get('db.table.user_fields_values').' WHERE user_id = ?d AND field_id = ?';
+            $sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
             if ($this->oDb->select($sql, $iUserId, $iId)) {
-                $sql = 'UPDATE '.Config::Get('db.table.user_fields_values').' SET value = ? WHERE field_id = ? AND user_id = ?d';
+                $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE field_id = ? AND user_id = ?d';
             } else {
-                $sql = 'INSERT INTO '.Config::Get('db.table.user_fields_values').' SET value = ?, field_id = ?, user_id = ?d';
+                $sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, field_id = ?, user_id = ?d';
             }
             $this->oDb->query($sql, $sValue, $iId, $iUserId);
         }
@@ -891,14 +891,14 @@ class ModuleUser_MapperUser extends Mapper {
 
     public function addUserField($sName)
     {
-        $sql =  'INSERT INTO '.Config::Get('db.table.user_fields').' SET
+        $sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
                     name = ?';
         return $this->oDb->query($sql, $sName);
     }
 
     public function deleteUserField($sName)
     {
-        $sql =  'DELETE FROM '.Config::Get('db.table.user_fields').' WHERE
+        $sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
                     id = ?';
         $this->oDb->query($sql, $sName);
     }
