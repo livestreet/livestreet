@@ -20,50 +20,6 @@ class ModuleStream_MapperStream extends Mapper
         $this->oDb->query($sql, $iUserId, $iTargetUserId);
     }
 
-    public function readByFilter($aParams, $aLimit)
-    {
-        if (!is_array($aParams) || !count($aParams)) return array();
-
-        $sql = 'SELECT * FROM ' . Config::Get('db.table.stream_event'). 'WHERE 1=2';
-        $aSqlParams = array();
-        // Перебирается каждый тип события, т.к. для каждого типа событий назначаются свои фильтры
-        foreach ($aParams as $iEventType => $aFilter) {
-            $sql .= ' OR (event_type = ?d';
-            $aSqlParams[] = $iEventType;
-            if (is_array($aFilter) && count($aFilter)) {
-                // Перебор кажого элементра фильтра для обрабатываемого типа событий
-                foreach ($aFilter as $sKey => $sValue) {
-                    $sql .= ' AND ?# = ?';
-                    $aSqlParams[] = $sKey;
-                    $aSqlParams[] = $sValue;
-                }
-            }
-            $sql .= ')';
-        }
-
-        $sql .= ' ORDER BY `id` DESC';
-
-        $sLimit='';
-		if ($aLimit) { // допустимы варианты: limit=10 , limit=array(10) , limit=array(10,15)
-			if (is_numeric($aLimit)) {
-				$iBegin=0;
-				$iEnd=$aLimit;
-			} elseif (is_array($aLimit)) {
-				if (count($aLimit)>1) {
-					$iBegin=$aLimit[0];
-					$iEnd=$aLimit[1];
-				} else {
-					$iBegin=0;
-					$iEnd=$aLimit[0];
-				}
-			}
-			$sLimit=" LIMIT {$iBegin}, {$iEnd}";
-		}
-        $sql .= $sLimit;
-
-        return call_user_func_array(array($this->oDb, 'select'), array_merge(array($sql), $aSqlParams));
-    }
-
     public function read($iEventTypes, $aUsesrList, $iCount, $iFromId)
     {
         $sql = 'SELECT * FROM ' . Config::Get('db.table.stream_event'). ' WHERE
