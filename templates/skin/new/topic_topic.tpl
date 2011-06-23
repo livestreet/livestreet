@@ -9,9 +9,8 @@
 					{if $oTopic->getPublish()==0}	
 						<img src="{cfg name='path.static.skin'}/images/topic_unpublish.gif" border="0" title="{$aLang.topic_unpublish}" width="16" height="16" alt="{$aLang.topic_unpublish}">
 					{/if}
-					{if $bTopicList}
+                                             {if $bTopicList}
                                                     <a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
-                                                    
                                              {else}
                                                  {$oTopic->getTitle()|escape:'html'}
                                              {/if}
@@ -26,40 +25,8 @@
   					{/if}
 				</ul>				
 				<div class="content">
-				
-				
-    		
-    		<div id="topic_question_area_{$oTopic->getId()}">
-    		{if !$oTopic->getUserQuestionIsVote()} 		
-    			<ul class="poll-new">	
-				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}				
-					<li><label for="topic_answer_{$oTopic->getId()}_{$key}"><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}"  value="{$key}" onchange="$('topic_answer_{$oTopic->getId()}_value').setProperty('value',this.value);"/> {$aAnswer.text|escape:'html'}</label></li>				
-				{/foreach}
-					<li>
-					<input type="submit"  value="{$aLang.topic_question_vote}" onclick="ajaxQuestionVote({$oTopic->getId()},$('topic_answer_{$oTopic->getId()}_value').getProperty('value'));">
-					<input type="submit"  value="{$aLang.topic_question_abstain}"  onclick="ajaxQuestionVote({$oTopic->getId()},-1)">
-					</li>				
-					<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1">				
-				</ul>				
-				<span>{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()}. {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</span><br>			
-			{else}			
-				<ul class="poll">				
-				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}	
-				<li {if $oTopic->getQuestionAnswerMax()==$aAnswer.count}class="most"{/if}>		
-					<dl>
-					<dt><span>{$oTopic->getQuestionAnswerPercent($key)}%</span><br />({$aAnswer.count})</dt>
-					<dd>{$aAnswer.text|escape:'html'}<br /><div style="width: {$oTopic->getQuestionAnswerPercent($key)}%;" ><span></span></div></dd>
-					</dl>
-				</li>
-				{/foreach}	
-				</ul>						
-				<span>{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()}. {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</span><br>
-			{/if}
-			</div>
-			<br>	
-						
-				{if $bTopicList}
-                                            {$oTopic->getTextShort()}
+                                             {if $bTopicList}
+                                                    {$oTopic->getTextShort()}
                                                     {if $oTopic->getTextShort()!=$oTopic->getText()}
                                                         <br><br>( <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
                                                         {if $oTopic->getCutText()}
@@ -69,10 +36,11 @@
                                                         {/if}      			
                                                         </a> )
                                                     {/if}
-
                                              {else}
-                                                {$oTopic->getText()}
-                                             {/if}
+                                                    
+                                                    {$oTopic->getText()}
+                                                {/if}
+					
 				</div>				
 				<ul class="tags">
 					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
@@ -85,7 +53,7 @@
 					<li class="minus"><a href="#" onclick="lsVote.vote({$oTopic->getId()},this,-1,'topic'); return false;"></a></li>
 					<li class="date">{date_format date=$oTopic->getDateAdd()}</li>
 					<li class="author"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
-                                {if $bTopicList}
+                                            {if $bTopicList}
                                                     <li class="comments-total">
                                                         {if $oTopic->getCountComment()>0}
                                                             <a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}"><span class="red">{$oTopic->getCountComment()}</span>{if $oTopic->getCountCommentNew()}<span class="green">+{$oTopic->getCountCommentNew()}</span>{/if}</a>
