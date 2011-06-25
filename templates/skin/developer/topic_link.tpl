@@ -9,11 +9,8 @@
 		{if $oTopic->getPublish()==0}	
 			<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
 		{/if}
-		{if $bTopicList}
-                        <a href="{$oTopic->getUrl()}" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
-                 {else}
-                     {$oTopic->getTitle()|escape:'html'}
-                 {/if}
+		<img src="{cfg name='path.static.skin'}/images/topic_link.png" title="{$aLang.topic_link}" alt="{$aLang.topic_link}" />
+		<a href="{router page='link'}go/{$oTopic->getId()}/" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
 	</h2>
 	
 	
@@ -30,36 +27,6 @@
 
 
 	<div class="content">
-                <div id="topic_question_area_{$oTopic->getId()}" class="poll">
-                    {if !$oTopic->getUserQuestionIsVote()}
-                        <ul class="poll-vote">
-                            {foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-                                <li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="$('topic_answer_{$oTopic->getId()}_value').setProperty('value',this.value);" /> {$aAnswer.text|escape:'html'}</label></li>
-                            {/foreach}
-                        </ul>
-
-                        <input type="submit" value="{$aLang.topic_question_vote}" onclick="ajaxQuestionVote({$oTopic->getId()},$('topic_answer_{$oTopic->getId()}_value').getProperty('value'));" />
-                        <input type="submit" value="{$aLang.topic_question_abstain}" onclick="ajaxQuestionVote({$oTopic->getId()},-1)" />
-                        <input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
-                    {else}
-                        <ul class="poll-result">
-                                                    {foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-                                                        <li {if $oTopic->getQuestionAnswerMax()==$aAnswer.count}class="most"{/if}>
-                                                            <dl>
-                                                                <dt>
-                                                                    <strong>{$oTopic->getQuestionAnswerPercent($key)}%</strong><br />
-                                                                    <span>({$aAnswer.count})</span>
-                                                                </dt>
-                                                                <dd>{$aAnswer.text|escape:'html'}<div style="width: {$oTopic->getQuestionAnswerPercent($key)}%;" ></div></dd>
-                                                            </dl>
-                                                        </li>
-                                                    {/foreach}
-                                                </ul>
-
-                                                <p class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</p>
-                    {/if}
-                </div>
-
 		{if  $bTopicList}
 			{$oTopic->getTextShort()}
 			{if $oTopic->getTextShort()!=$oTopic->getText()}
@@ -95,6 +62,7 @@
 		<li class="username"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>	
 		<li class="date">{date_format date=$oTopic->getDateAdd()}</li>
 		<li><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;" class="favorite {if $oUserCurrent}{if $oTopic->getIsFavourite()}active{/if}{else}fav-guest{/if}"></a></li>
+			<li><a href="{router page='link'}go/{$oTopic->getId()}/" title="{$aLang.topic_link_count_jump}: {$oTopic->getLinkCountJump()}">{$oTopic->getLinkUrl(true)}</a></li>
 		{if  $bTopicList}
 			<li class="comments-link">
 				{if $oTopic->getCountComment()>0}

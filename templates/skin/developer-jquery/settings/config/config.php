@@ -20,6 +20,8 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/comments.js",
 	"___path.static.skin___/js/blog.js",
 	"___path.static.skin___/js/friend.js",
+         "___path.static.skin___/js/userfeed.js",
+         "___path.static.skin___/js/stream.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

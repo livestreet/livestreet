@@ -9,7 +9,7 @@
 		{if $oTopic->getPublish()==0}	
 			<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
 		{/if}
-		{if $bTopicList}
+                 {if $bTopicList}
                         <a href="{$oTopic->getUrl()}" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
                  {else}
                      {$oTopic->getTitle()|escape:'html'}
@@ -30,36 +30,6 @@
 
 
 	<div class="content">
-                <div id="topic_question_area_{$oTopic->getId()}" class="poll">
-                    {if !$oTopic->getUserQuestionIsVote()}
-                        <ul class="poll-vote">
-                            {foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-                                <li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="$('topic_answer_{$oTopic->getId()}_value').setProperty('value',this.value);" /> {$aAnswer.text|escape:'html'}</label></li>
-                            {/foreach}
-                        </ul>
-
-                        <input type="submit" value="{$aLang.topic_question_vote}" onclick="ajaxQuestionVote({$oTopic->getId()},$('topic_answer_{$oTopic->getId()}_value').getProperty('value'));" />
-                        <input type="submit" value="{$aLang.topic_question_abstain}" onclick="ajaxQuestionVote({$oTopic->getId()},-1)" />
-                        <input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
-                    {else}
-                        <ul class="poll-result">
-                                                    {foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-                                                        <li {if $oTopic->getQuestionAnswerMax()==$aAnswer.count}class="most"{/if}>
-                                                            <dl>
-                                                                <dt>
-                                                                    <strong>{$oTopic->getQuestionAnswerPercent($key)}%</strong><br />
-                                                                    <span>({$aAnswer.count})</span>
-                                                                </dt>
-                                                                <dd>{$aAnswer.text|escape:'html'}<div style="width: {$oTopic->getQuestionAnswerPercent($key)}%;" ></div></dd>
-                                                            </dl>
-                                                        </li>
-                                                    {/foreach}
-                                                </ul>
-
-                                                <p class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</p>
-                    {/if}
-                </div>
-
 		{if  $bTopicList}
 			{$oTopic->getTextShort()}
 			{if $oTopic->getTextShort()!=$oTopic->getText()}

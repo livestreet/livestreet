@@ -84,6 +84,11 @@ document.addEvent('domready', function() {
 		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
 	</p>
 
+        {if count($aUserFields)}
+            {foreach from=$aUserFields item=aField}
+                <p><label for="profile_user_field_{$aField.id}">{$aField.name}:</label><br /><input type="text" class="w300" name="profile_user_field_{$aField.id}" id="profile_user_field_{$aField.id}" value="{$aField.value}"/></p>
+            {/foreach}
+        {/if}
 	<p>
 		<label for="profile_about">{$aLang.settings_profile_about}:</label><br />
 		<textarea class="input-300" name="profile_about" id="profile_about">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>

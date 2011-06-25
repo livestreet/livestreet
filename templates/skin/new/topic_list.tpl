@@ -1,8 +1,5 @@
 {if count($aTopics)>0}	
 	{foreach from=$aTopics item=oTopic}   
-			{assign var="oBlog" value=$oTopic->getBlog()} 
-			{assign var="oUser" value=$oTopic->getUser()} 
-			{assign var="oVote" value=$oTopic->getVote()} 
 			<!-- Topic -->	
                            {assign var="sTopicTemplateName" value="topic_`$oTopic->getType()`.tpl"}
                            {include file=$sTopicTemplateName bTopicList=true}

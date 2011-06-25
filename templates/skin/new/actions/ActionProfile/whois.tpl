@@ -91,14 +91,14 @@
 						</td>
 					</tr>
 					{/if}
-                    {if count($aUserFields)}
-                        {foreach from=$aUserFields item=aField}
-                            <tr>
-                                <td class="var">{$aField.name}:</td>
-                                <td>{$aField.value}</td>
-                            </tr>
-                        {/foreach}
-                    {/if}
+                                                {if count($aUserFields)}
+                                                    {foreach from=$aUserFields item=aField}
+                                                        <tr>
+                                                            <td class="var">{$aField.name}:</td>
+                                                            <td>{$aField.value}</td>
+                                                        </tr>
+                                                    {/foreach}
+                                                {/if}
 
 					{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 				</table>

@@ -3,7 +3,7 @@
 {else}
 	{include file='header.tpl' menu='blog'}
 {/if}
-			{include file='topic.tpl'}			
+                            {include file="topic.tpl"}
 			
 			{include 
 				file='comment_tree.tpl' 	

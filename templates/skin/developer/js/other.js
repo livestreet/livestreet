@@ -118,3 +118,43 @@ function ajaxUploadImg(form,sToLoad) {
 	});
 	iFrame.send();
 }
+
+function addUserfield() {
+    var name = $('user_fields_add_name').get('value');
+    new Request.JSON({
+            url: aRouter['admin']+'userfields',
+            data: {'action':'add', 'name':name, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            onSuccess: function(data) { // запрос выполнен уcпешно
+                if (!data.bStateError) {
+                    var liElement = new Element('li', {
+                        'id':'field_'+data.id,
+                        'html':name+' '
+                    });
+                    var linkElement = new Element('a', {
+                        'href':'javascript:deleteUserfield('+data.id+')',
+                        'html':data.lang_delete
+                    })
+                    linkElement.inject(liElement);
+                    liElement.inject($('user_field_list'));
+                    msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
+                } else {
+                    msgErrorBox.alert(data.sMsgTitle,data.sMsg);
+                }
+            }
+        }).send();
+}
+
+function deleteUserfield(id) {
+    new Request.JSON({
+            url: aRouter['admin']+'userfields',
+            data: {'action':'delete', 'id':id, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            onSuccess: function(data) { // запрос выполнен уcпешно
+                if (!data.bStateError) {
+                    $('field_'+id).dispose();
+                    msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
+                } else {
+                    msgErrorBox.alert(data.sMsgTitle,data.sMsg);
+                }
+            }
+        }).send();
+}

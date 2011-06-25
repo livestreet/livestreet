@@ -24,7 +24,7 @@
 </div>
 
 
-{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite()}
+{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite()|| count($aUserFields)}
 	<h2>{$aLang.profile_privat}</h2>
 	<table class="table">		
 		{if $oUserProfile->getProfileSex()!='other'}
@@ -82,6 +82,14 @@
 				</td>
 			</tr>
 		{/if}
+                    {if count($aUserFields)}
+                        {foreach from=$aUserFields item=aField}
+                            <tr>
+                                <td class="var">{$aField.name}:</td>
+                                <td>{$aField.value}</td>
+                            </tr>
+                        {/foreach}
+                    {/if}
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 	</table>
 {/if}

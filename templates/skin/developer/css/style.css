@@ -380,6 +380,17 @@ p { margin-bottom: 18px; }
 .stat-performance table td { width: 200px; vertical-align: top; }
 .stat-performance h4 { font-weight: bold; color: #81B2DB; }
 
+/* Userfeed
+-------------------------------------------------------------------*/
+.userfeed-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.userfeed-get-more:hover { background: #f0f7fd;}
+.userfeed_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
+
+/* Stream
+-------------------------------------------------------------------*/
+.stream-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.stream-get-more:hover { background: #f0f7fd;}
+.stream_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
 
 
 

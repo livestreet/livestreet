@@ -1,9 +1,9 @@
-function lsUserfeedClass() {
+function lsStreamClass() {
     this.isBusy = false;
-    this.subscribe = function (sType, iId) {
+    this.subscribe = function (iTargetUserId) {
         new Request.JSON({
-            url: aRouter['feed']+'subscribe',
-            data: {'type':sType, 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            url: aRouter['stream']+'subscribe',
+            data: {'id':iTargetUserId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
@@ -11,10 +11,21 @@ function lsUserfeedClass() {
             }
         }).send();
     }
-    this.unsubscribe = function (sType, iId) {
+    this.unsubscribe = function (iId) {
         new Request.JSON({
-            url: aRouter['feed']+'unsubscribe',
-            data: {'type':sType, 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            url: aRouter['stream']+'unsubscribe',
+            data: { 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            onSuccess: function(data) { // запрос выполнен уcпешно
+                if (!data.bStateError) {
+                    msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
+                }
+            }
+        }).send();
+    }
+    this.switchEventType = function (iType) {
+        new Request.JSON({
+            url: aRouter['stream']+'switchEventType',
+            data: { 'type':iType, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
@@ -23,14 +34,14 @@ function lsUserfeedClass() {
         }).send();
     }
     this.appendUser = function() {
-        sLogin = $('userfeed_users_complete').get('value');
+        sLogin = $('stream_users_complete').get('value');
         if (!sLogin) return;
         new Request.JSON({
-            url: aRouter['feed']+'subscribeByLogin',
+            url: aRouter['stream']+'subscribeByLogin',
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
-                    checkbox = $('usf_u_'+data.uid);
+                    checkbox = $('strm_u_'+data.uid);
                     if (checkbox) {
                         if ($(checkbox).get('checked')) {
                             msgErrorBox.alert(data.lang_error_title,data.lang_error_msg);
@@ -42,10 +53,10 @@ function lsUserfeedClass() {
                         var liElement = new Element('li');
                         var checkboxElement = new Element('input', {
                             'type':'checkbox',
-                            'class':'userfeedUserCheckbox',
-                            'id':'usf_u_'+data.uid,
+                            'class':'streamUserCheckbox',
+                            'id':'strm_u_'+data.uid,
                             'checked':'checked',
-                            'onClick':'if ($(this).get(\'checked\')) {lsUserfeed.subscribe(\'users\','+data.uid+')} else {lsUserfeed.unsubscribe(\'users\','+data.uid+')}'
+                            'onClick':'if ($(this).get(\'checked\')) {lsStream.subscribe('+data.uid+')} else {lsStream.unsubscribe('+data.uid+')}'
                         });
                         checkboxElement.inject(liElement);
                         var linkElement = new Element('a', {
@@ -53,7 +64,7 @@ function lsUserfeedClass() {
                            'html':data.user_login
                         });
                         linkElement.inject(liElement);
-                        liElement.inject($('userfeed_block_users_list'));
+                        liElement.inject($('stream_block_users_list'));
                         msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                     }
                 }
@@ -64,25 +75,25 @@ function lsUserfeedClass() {
         if (this.isBusy) {
             return;
         }
-        lastId = $('userfeed_last_id').get('value');
+        lastId = $('stream_last_id').get('value');
         if (!lastId) return;
-        $('userfeed_get_more').addClass('userfeed_loading');
+        $('stream_get_more').addClass('stream_loading');
         this.isBusy = true;
         new Request.JSON({
-            url: aRouter['feed']+'get_more',
+            url: aRouter['stream']+'get_more',
             data: {'last_id':lastId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
-                if (!data.bStateError && data.topics_count) {
-                    $('userfeed_loaded_topics').set('html', $('userfeed_loaded_topics').get('html')+data.result);
-                    $('userfeed_last_id').set('value', data.iUserfeedLastId);
+                if (!data.bStateErro && data.events_count) {
+                    $('stream_loaded_events').set('html', $('stream_loaded_events').get('html')+data.result);
+                    $('stream_last_id').set('value', data.iStreamLastId);
                 }
-                if (!data.topics_count) {
-                    $('userfeed_get_more').setStyles({'display':'none'});
+                if (!data.events_count) {
+                    $('stream_get_more').setStyles({'display':'none'});
                 }
-                $('userfeed_get_more').removeClass('userfeed_loading');
-                lsUserfeed.isBusy = false;
+                $('stream_get_more').removeClass('stream_loading');
+                lsStream.isBusy = false;
             }
         }).send();
     }
 }
-var lsUserfeed  = new lsUserfeedClass;
+var lsStream  = new lsStreamClass;

@@ -218,7 +218,7 @@ class ActionBlog extends Action {
             /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oBlog->getUserId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
+            $this->Stream_write($oBlog->getOwnerId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
 			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
