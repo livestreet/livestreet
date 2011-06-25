@@ -529,7 +529,7 @@ abstract class ModuleORM extends Module {
 
 		if (preg_match("@^loadtreeof([\w]+)$@i",$sName,$aMatch)) {
 			$sEntityFull = array_key_exists(1,$aMatch) ? $aMatch[1] : null;
-			return $this->LoadTree($sEntityFull);
+			return $this->LoadTree($aArgs[0], $sEntityFull);
 		}
 
 		$sNameUnderscore=func_underscore($sName);
