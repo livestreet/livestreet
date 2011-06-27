@@ -65,4 +65,4 @@ ls.stream =( function ($) {
         }.bind(this));
     }
     return this;
-}).call(ls.stream || {},$);
+}).call(ls.stream || {},jQuery);

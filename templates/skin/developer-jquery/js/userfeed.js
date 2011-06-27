@@ -58,4 +58,4 @@ ls.userfeed =( function ($) {
         }.bind(this));
     }
     return this;
-}).call(ls.userfeed || {},$);
+}).call(ls.userfeed || {},jQuery);
