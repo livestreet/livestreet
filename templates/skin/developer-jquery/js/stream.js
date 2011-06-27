@@ -3,7 +3,7 @@ var ls = ls || {};
 ls.stream =( function ($) {
     this.isBusy = false;
     this.subscribe = function (iTargetUserId) {
-        jls.ajax(aRouter['stream']+'subscribe', {'id':iTargetUserId}, function(data) { 
+        ls.ajax(aRouter['stream']+'subscribe', {'id':iTargetUserId}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
