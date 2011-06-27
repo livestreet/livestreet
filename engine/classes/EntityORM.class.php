@@ -401,14 +401,14 @@ abstract class EntityORM extends Entity {
     {
         // Обработка обращений к обёрткам связей MANY_TO_MANY
         // Если связь загружена, возвращаем объект связи
-        if (isset($this->_aManyToManyRelations[strtolower($sName)])) {
-            return $this->_aManyToManyRelations[strtolower($sName)];
+        if (isset($this->_aManyToManyRelations[func_underscore($sName)])) {
+            return $this->_aManyToManyRelations[func_underscore($sName)];
         // Есл не загружена, но связь с таким именем существет, пробуем загрузить и вернуть объект связи
-        } elseif (isset($this->aRelations[strtolower($sName)]) && $this->aRelations[strtolower($sName)][0] == self::RELATION_TYPE_MANY_TO_MANY) {
-            $sMethod = 'get' . ucfirst($sName);
+        } elseif (isset($this->aRelations[func_underscore($sName)]) && $this->aRelations[func_underscore($sName)][0] == self::RELATION_TYPE_MANY_TO_MANY) {
+            $sMethod = 'get' . func_camelize($sName);
             $this->__call($sMethod, array());
-            if (isset($this->_aManyToManyRelations[strtolower($sName)])) {
-                 return $this->_aManyToManyRelations[strtolower($sName)];
+            if (isset($this->_aManyToManyRelations[func_underscore($sName)])) {
+                 return $this->_aManyToManyRelations[func_underscore($sName)];
             }
         // В противном случае возвращаем то, что просили у объекта
         } else {
