@@ -31,7 +31,7 @@
                     <strong>{$aLang.stream_block_users_title}</strong><br />
         <input type="text" id="stream_users_complete" autocomplete="off" onclick/>
         <a href="javascript:ls.stream.appendUser()">{$aLang.stream_block_config_append}</a>
-        <ul id="userfeed_block_users_list">
+        <ul id="stream_block_users_list">
             {if count($aStreamSubscribedUsers)}
                 {foreach from=$aStreamSubscribedUsers item=oUser}
                     {assign var=iUserId value=$oUser->getId()}
