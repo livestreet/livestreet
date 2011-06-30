@@ -48,4 +48,8 @@
 {else}				
 	{$aLang.comment_was_delete}
 {/if}
+{if $oUserCurrent}
+	<div class="comment" id="comment_preview_{$oComment->getId()}" style="display: none;"><div class="comment-inner"><div class="content"></div></div></div>					
+	<div class="reply" id="reply_{$oComment->getId()}" style="display: none;"></div>	
+{/if}	
 </div>
