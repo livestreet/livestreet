@@ -16,7 +16,7 @@ document.addEvent('domready', function() {
 {/literal}
 
 {if $oConfig->GetValue('view.tinymce')}
-	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce_3.2.7/tiny_mce.js"></script>
+	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
 
 	{literal}
 	<script type="text/javascript">
@@ -40,7 +40,12 @@ document.addEvent('domready', function() {
 		plugins : "lseditor,safari,inlinepopups,media,pagebreak",
 		convert_urls : false,
 		extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
-		language : TINYMCE_LANG
+		language : TINYMCE_LANG,
+                inline_styles:false,
+                formats : {
+                    underline : {inline : 'u', exact : true},
+                     strikethrough : {inline : 's', exact : true}
+                },
 	});
 	</script>
 	{/literal}

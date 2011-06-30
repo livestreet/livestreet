@@ -6,7 +6,7 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote'),
+				array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe'),
 			),			
 		),
 		// Коротие теги типа
@@ -57,7 +57,11 @@ return array(
 			array(
 				'abbr',
 				array('title')
-			),			
+			),
+                           array(
+				'iframe',
+				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com')))
+			),
 		),
 		// Параметры тегов являющиеся обязательными
 		'cfgSetTagParamsRequired' => array(
@@ -69,7 +73,7 @@ return array(
 		// Теги которые необходимо вырезать из текста вместе с контентом
 		'cfgSetTagCutWithContent' => array(
 			array(
-				array('script', 'iframe', 'style')
+				array('script',  'style')
 			),
 		),
 		// Вложенные теги
@@ -102,7 +106,7 @@ return array(
 		// Если нужно оставлять пустые не короткие теги
 		'cfgSetTagIsEmpty' => array(
 			array(
-				array('param','embed','a')
+				array('param','embed','a','iframe')
 			),
 		),
 		// Не нужна авто-расстановка <br>

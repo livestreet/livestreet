@@ -16,7 +16,7 @@ document.addEvent('domready', function() {
 
 
 {if $oConfig->GetValue('view.tinymce')}
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce_3.2.7/tiny_mce.js"></script>
+<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
 
 <script type="text/javascript">
 {literal}
@@ -38,6 +38,11 @@ tinyMCE.init({
     forced_root_block : '', // Needed for 3.x
     force_p_newlines : false,    
     plugins : "lseditor,safari,inlinepopups,media,pagebreak",
+    inline_styles:false,
+    formats : {
+        underline : {inline : 'u', exact : true},
+        strikethrough : {inline : 's', exact : true}
+    },
     convert_urls : false,
     extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
     pagebreak_separator :"<cut>",

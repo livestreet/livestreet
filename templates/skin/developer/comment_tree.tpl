@@ -80,6 +80,52 @@
 						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
 						{hook run='form_add_comment_panel_end'}
 					</div>
+                                    {else}
+                                        <script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
+                                        {literal}
+
+                                        <script type="text/javascript">
+                                        tinyMCE.init({
+                                            mode : "textareas",
+                                            theme : "advanced",
+                                            theme_advanced_toolbar_location : "top",
+                                            theme_advanced_toolbar_align : "left",
+                                            theme_advanced_buttons1 : "bold,italic,underline,strikethrough,lslink,lsquote",
+                                            theme_advanced_buttons2 : "",
+                                            theme_advanced_buttons3 : "",
+                                            theme_advanced_statusbar_location : "bottom",
+                                            theme_advanced_resizing : true,
+                                            theme_advanced_resize_horizontal : 0,
+                                            theme_advanced_resizing_use_cookie : 0,
+                                            theme_advanced_path : false,
+                                            object_resizing : true,
+                                            force_br_newlines : true,
+                                            forced_root_block : '', // Needed for 3.x
+                                            force_p_newlines : false,    
+                                            plugins : "lseditor,safari,inlinepopups,media,pagebreak",
+                                            convert_urls : false,
+                                            extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
+                                            pagebreak_separator :"<cut>",
+                                            media_strict : false,
+                                            language : TINYMCE_LANG,
+                                            inline_styles:false,
+                                            formats : {
+                                                underline : {inline : 'u', exact : true},
+                                                 strikethrough : {inline : 's', exact : true}
+                                            },
+                                            setup : function(ed) {
+                                                // Display an alert onclick
+                                                ed.onKeyPress.add(function(ed, e) {
+                                                    key = e.keyCode || e.which;
+                                                    if(e.ctrlKey && (key == 13)) {
+                                                        $('form_comment').getElement('input[name=submit_comment]').click();
+                                                        return false;
+                                                    }
+                                                });
+                                             }
+                                        });
+                                        </script>
+                                        {/literal}
 				{/if}
 				
 				<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">

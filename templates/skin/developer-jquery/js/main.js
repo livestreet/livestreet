@@ -286,7 +286,9 @@ $(document).ready(function(){
 	
 	
 	// Подключаем редактор
-    $('#topic_text').markItUp(mySettings);
+        if (!BLOG_USE_TINYMCE) {
+            $('#topic_text').markItUp(mySettings);
+        }
 	
 	
 	// Datepicker

@@ -260,7 +260,9 @@ var lsCmtTreeClass = new Class({
 		formObj=$(formObj);		
 		var params=formObj.toQueryString();
 		params=params+'&security_ls_key='+LIVESTREET_SECURITY_KEY;
-		
+		if (BLOG_USE_TINYMCE) {
+                    $('form_comment').getElement('input[name=submit_comment]').set('disabled', 'disabled');
+                  }
 		new Request.JSON({
 			url: thisObj.typeComment[targetType].url_add,
 			noCache: true,
@@ -268,17 +270,23 @@ var lsCmtTreeClass = new Class({
 			onSuccess: function(result){
 				if (!result) {
             		thisObj.enableFormComment();
-                	msgErrorBox.alert('Error','Please try again later');  
-                	return;         
-        		}      
-        		if (result.bStateError) {        			
-					thisObj.enableFormComment();        			
-                	msgErrorBox.alert(result.sMsgTitle,result.sMsg);
-        		} else {
-        			thisObj.responseNewComment(targetId,targetType,$('update-comments'),result.sCommentId,true);        			   								
-        		}
-			},
+                            msgErrorBox.alert('Error','Please try again later');  
+                            return;         
+                        }      
+                        if (result.bStateError) {        			
+                            thisObj.enableFormComment();        			
+                            msgErrorBox.alert(result.sMsgTitle,result.sMsg);
+                        } else {
+                            thisObj.responseNewComment(targetId,targetType,$('update-comments'),result.sCommentId,true);        			   								
+                        }
+                            if (BLOG_USE_TINYMCE) {
+                                $('form_comment').getElement('input[name=submit_comment]').set('disabled', '');
+                              }
+                        },
 			onFailure: function(){
+                                    if (BLOG_USE_TINYMCE) {
+                                        $('form_comment').getElement('input[name=submit_comment]').set('disabled', '');
+                                      }
 				msgErrorBox.alert('Error','Please try again later');
 			}
 		}).send();
@@ -431,3 +439,51 @@ window.addEvent('keyup', function(e) {
 		return false;
 	}
 });
+if(BLOG_USE_TINYMCE) {
+  lsCmtTreeClass.prototype._addComment = lsCmtTreeClass.prototype.addComment;
+  
+  lsCmtTreeClass.prototype.addComment = function(formObj,targetId,targetType) {
+    $(formObj).getElement('textarea').value = tinyMCE.activeEditor.getContent();
+    return this._addComment(formObj,targetId,targetType);
+  };  
+  
+  lsCmtTreeClass.prototype.toggleCommentForm = function(idComment) {
+    if (!$('reply_'+this.iCurrentShowFormComment) || !$('reply_'+idComment)) {
+      return;
+    } 
+    divCurrentForm=$('reply_'+this.iCurrentShowFormComment);
+    divNextForm=$('reply_'+idComment);
+        
+    var slideCurrentForm = new Fx.Slide(divCurrentForm);
+    var slideNextForm = new Fx.Slide(divNextForm);
+    
+    tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
+    
+    $('comment_preview_'+this.iCurrentShowFormComment).set('html','').setStyle('display','none');
+    if (this.iCurrentShowFormComment==idComment) {
+      tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
+      slideCurrentForm.toggle();      
+      slideCurrentForm.addEvent('complete', function() {
+        tinyMCE.activeEditor.focus();
+      });
+      
+      return;
+    }
+    
+    slideCurrentForm.slideOut();
+    divNextForm.set('html',divCurrentForm.get('html'));
+    divCurrentForm.set('html','');    
+    divNextForm.setStyle('display','block');
+    slideNextForm.hide();
+    tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
+      
+    slideNextForm.slideIn();
+    
+    $('form_comment_text').setProperty('value','');
+    $('form_comment_reply').setProperty('value',idComment);
+    this.iCurrentShowFormComment=idComment;
+    slideNextForm.addEvent('complete', function() {
+      tinyMCE.activeEditor.focus();
+    });
+  }
+}

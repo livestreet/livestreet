@@ -13,6 +13,9 @@ var comments = {
 			url_response: 	aRouter.talk+'ajaxresponsecomment/'
 		}
 	},
+    
+    
+        iCurrentShowFormComment:0,
 	
 	
 	//==================
@@ -27,7 +30,9 @@ var comments = {
 		var params = formObj.serialize() + '&security_ls_key=' + LIVESTREET_SECURITY_KEY;
 		
       	$('#form_comment_text').addClass('loader').attr('readonly',true);
-		
+                  if (BLOG_USE_TINYMCE) {
+                    $('#form_comment input[name=submit_comment]').attr('disabled', 'disabled');
+                  }
 		$.post(thisObj.typeComment[targetType].url_add, params, function(result){
 			if (!result) {
 				thisObj.enableFormComment();
@@ -44,6 +49,9 @@ var comments = {
 				// Load new comments
 				thisObj.load(targetId, targetType, result.sCommentId, true);        			   								
 			}
+                            if (BLOG_USE_TINYMCE) {
+                                $('#form_comment input[name=submit_comment]').attr('disabled', '');
+                            }
 		});
 	},
 	
@@ -56,17 +64,11 @@ var comments = {
 	
 	// Показывает/скрывает форму комментирования
 	toggleCommentForm: function(idComment, bNoFocus) {
-		if ($('#reply_'+idComment).length) { return; }
-		
-		// Delete all preview blocks
-		$("#comment_preview").remove();
-		if (idComment != 0) { var el = $('#comment_id_'+idComment); } else { var el = $('#add_comment_root'); }
-		el.after($('<div/>', {id: "reply_"+idComment, 'class': "reply"}));
 		$('#form_comment').appendTo("#reply_"+idComment);
 		$('#form_comment_text').val('');
 		if (!bNoFocus) $('#form_comment_text').focus();
 		$('#form_comment_reply').val(idComment);
-		$("[id^=reply]:not(#reply_"+idComment+")").remove();
+                  $("#reply_"+idComment).css('display','block');
 	},
 	
 	
@@ -202,3 +204,51 @@ var comments = {
 $(document).ready(function(){
 	comments.calcNewComments();
 });
+
+if(BLOG_USE_TINYMCE) {
+  comments._add = comments.add;
+  
+  comments.add = function(formObj,targetId,targetType) {
+    $('#'+formObj+' textarea').val( tinyMCE.activeEditor.getContent());
+    return this._add(formObj,targetId,targetType);
+  };  
+  
+  comments.toggleCommentForm = function(idComment) {
+    if (!$('#reply_'+this.iCurrentShowFormComment) || !$('#reply_'+idComment)) {
+      return;
+    } 
+     tinyMCE.activeEditor.setContent('');
+    divCurrentForm=$('#reply_'+this.iCurrentShowFormComment);
+    divNextForm=$('#reply_'+idComment);
+    //var slideCurrentForm = new Fx.Slide(divCurrentForm);
+    //var slideNextForm = new Fx.Slide(divNextForm);
+    
+    tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
+    
+    $('#comment_preview_'+this.iCurrentShowFormComment).html('').css('display','none');
+    if (this.iCurrentShowFormComment==idComment) {
+      tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
+      //slideCurrentForm.toggle();      
+      //slideCurrentForm.addEvent('complete', function() {
+        //tinyMCE.activeEditor.focus();
+      //});
+      
+      return;
+    }
+    
+    //slideCurrentForm.slideOut();
+    divNextForm[0].innerHTML = divCurrentForm.html();
+    divCurrentForm.html('');   
+    //slideNextForm.hide();
+    divNextForm.css('display','block');
+    tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
+    //slideNextForm.slideIn();
+    
+    $('#form_comment_text').val('');
+    $('#form_comment_reply').val(idComment);
+    this.iCurrentShowFormComment=idComment;
+    //slideNextForm.addEvent('complete', function() {
+      //tinyMCE.activeEditor.focus();
+    //});
+  }
+}

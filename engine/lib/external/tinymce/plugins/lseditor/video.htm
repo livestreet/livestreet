@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+	<title>{#lseditor.video_title}</title>	
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>	
+	<script type="text/javascript" src="js/video.js"></script>	
+	<link href="css/video.css" rel="stylesheet" type="text/css" />
+	<base target="_self" />
+</head>
+<body id="advimage" style="display: none">
+    <form onsubmit="lsVideoDialog.insert(document.getElementById('form_video_html').value);return false;" action="#" > 
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#lseditor.video_title}</a></span></li>
+				
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+						<legend>{#lseditor.video_add}</legend>	
+												
+						<table class="properties">		
+						<tr>							
+							<td width="100%">
+							<textarea rows="10" name="" id="form_video_html" style="width: 100%;"></textarea>
+							</td>
+						</tr>							
+						</table>
+				</fieldset>
+			</div>		
+
+			
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="submit" id="insert" name="insert" value="{#lseditor.insert}" />
+			</div>
+
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{#lseditor.cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+    </form>
+</body> 
+</html> 
