@@ -60,7 +60,7 @@ return array(
 			),
                            array(
 				'iframe',
-				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com')))
+				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')))
 			),
 		),
 		// Параметры тегов являющиеся обязательными
