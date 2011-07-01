@@ -384,7 +384,15 @@ class ModuleTalk extends Module {
 			);
 		}
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user"));
-		return $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve);
+		$ret =  $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve);
+                   
+                   // Удаляем пустые беседы, если в них нет пользователей
+                   foreach ($aTalkId as $sTalkId) {
+                       if (!count($this->GetUsersTalk($sTalkId, array(self::TALK_USER_ACTIVE)))) {
+                           $this->DeleteTalk($sTalkId);
+                       }
+                   }    
+                   return $ret;
 	}
 	/**
 	 * Есть ли юзер в этом разговоре
@@ -707,5 +715,10 @@ class ModuleTalk extends Module {
 
 		return $aTalks;
 	}
+    
+        public function DeleteTalk($iTalkId)
+        {
+            $this->oMapper->deleteTalk($iTalkId);
+        }
 }
 ?>
