@@ -100,7 +100,7 @@ class ModuleLang extends Module {
 				if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
 					$sFileConfig=$sDirConfig.$sDirModule.'/'.$sLangName.'.php';
 					if (file_exists($sFileConfig)) {
-						$this->AddMessages(include($sFileConfig));
+						$this->AddMessages(include($sFileConfig), array('category' =>'module', 'name' =>$sDirModule));
 					}					
 				}
 			}
@@ -119,7 +119,7 @@ class ModuleLang extends Module {
 				if($aFiles and count($aFiles)) {
 						foreach ($aFiles as $sFile) {
 							if (file_exists($sFile)) {
-								$this->AddMessages(include($sFile));
+								$this->AddMessages(include($sFile), array('category' =>'plugin', 'name' =>$sPluginName));
 							}
 					}
 				}
@@ -186,22 +186,35 @@ class ModuleLang extends Module {
 	 * @return string
 	 */
 	public function Get($sName,$aReplace=array()) {
-		if (isset($this->aLangMsg[$sName])) {
-			$sTranslate=$this->aLangMsg[$sName];
+                  if (Config::Get('lang.use_blocks')  && strpos($sName, '.')) {
+                      $sLang = &$this->aLangMsg;
+                      $aKeys = explode('.', $sName);
+                      foreach ($aKeys as $k) {
+                          if (isset($sLang[$k])) {
+                              $sLang = $sLang[$k];
+                          } else {
+                              return  'NOT_FOUND_LANG_TEXT';
+                          }
+                      }
+                  } else {
+                        if (isset($this->aLangMsg[$sName])) {
+                            $sLang=$this->aLangMsg[$sName];
+                        } else {
+                            return 'NOT_FOUND_LANG_TEXT';
+                        }
+                  }
 
-			if(is_array($aReplace)&&count($aReplace)&&is_string($sTranslate)) { 
-				foreach ($aReplace as $sFrom => $sTo) {
-					$aReplacePairs["%%{$sFrom}%%"]=$sTo;
-				}
-				$sTranslate=strtr($sTranslate,$aReplacePairs);
-			}
+                   if(is_array($aReplace)&&count($aReplace)&&is_string($sLang)) {
+                        foreach ($aReplace as $sFrom => $sTo) {
+                            $aReplacePairs["%%{$sFrom}%%"]=$sTo;
+                        }
+                        $sLang=strtr($sLang,$aReplacePairs);
+                    }
 
-			if(Config::Get('module.lang.delete_undefined') and is_string($sTranslate)) {
-				$sTranslate=preg_replace("/\%\%[\S]+\%\%/U",'',$sTranslate);
-			}
-			return $sTranslate;
-		}
-		return 'NOT_FOUND_LANG_TEXT';
+                    if(Config::Get('module.lang.delete_undefined') and is_string($sLang)) {
+                        $sLang=preg_replace("/\%\%[\S]+\%\%/U",'',$sLang);
+                    }
+                    return $sLang;
 	}
 	
 	/**
@@ -209,13 +222,22 @@ class ModuleLang extends Module {
      *
      * @param array $aMessages     
      */
-	public function AddMessages($aMessages) {
+	public function AddMessages($aMessages, $aBlock = null) {
 		if (is_array($aMessages)) {
-			if (count($this->aLangMsg)==0) {
-				$this->aLangMsg = $aMessages;
-			} else {
-				$this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
-			}
+                           if (Config::Get('lang.use_blocks') && is_array($aBlock)) {
+                               if ($aBlock['category']) {
+                                   if (!isset($aBlock['category']) || !$aBlock['category']) {$aBlock['category'] = array();}
+                                   $this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
+                               } else {
+                                   $this->aLangMsg [$aBlock['name']] = $aMessages;
+                               }
+                           } else {
+                                if (count($this->aLangMsg)==0) {
+                                    $this->aLangMsg = $aMessages;
+                                } else {
+                                    $this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
+                                }
+                           }
 		}
 	}
 
