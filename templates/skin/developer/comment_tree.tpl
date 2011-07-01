@@ -70,14 +70,14 @@
 				{if !$oConfig->GetValue('view.tinymce')}
 					<div class="panel-form">
 						{hook run='form_add_comment_panel_begin'}
-						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/bold_ru.gif" width="20" height="20" title="{$aLang.panel_b}"></a>
-						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/italic_ru.gif" width="20" height="20" title="{$aLang.panel_i}"></a>	 			
-						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/underline_ru.gif" width="20" height="20" title="{$aLang.panel_u}"></a>	 			
-						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.gif" width="20" height="20" title="{$aLang.panel_s}"></a>	 			
+						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','b'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/bold.png" title="{$aLang.panel_b}"></a>
+						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','i'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/italic.png" title="{$aLang.panel_i}"></a>	 			
+						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','u'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/underline.png" title="{$aLang.panel_u}"></a>	 			
+						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','s'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.png" title="{$aLang.panel_s}"></a>	 			
 						&nbsp;
-						<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','{$aLang.panel_url_promt}'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/link.gif" width="20" height="20"  title="{$aLang.panel_url}"></a>
-						<a href="#" onclick="lsPanel.putQuote('form_comment_text'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/quote.gif" width="20" height="20" title="{$aLang.panel_quote}"></a>
-						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/code.gif" width="30" height="20" title="{$aLang.panel_code}"></a>
+						<a href="#" onclick="lsPanel.putTagUrl('form_comment_text','{$aLang.panel_url_promt}'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/link.png"  title="{$aLang.panel_url}"></a>
+						<a href="#" onclick="lsPanel.putQuote('form_comment_text'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/quote.png" title="{$aLang.panel_quote}"></a>
+						<a href="#" onclick="lsPanel.putTagAround('form_comment_text','code'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/code.png" title="{$aLang.panel_code}"></a>
 						{hook run='form_add_comment_panel_end'}
 					</div>
                                     {else}

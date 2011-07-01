@@ -141,8 +141,9 @@ p { margin-bottom: 18px; }
 
 .center { width: 300px; margin: 0 auto; }
 
-.panel-form { padding: 2px; background: #eee; width: 98%; }
-.panel-form img { vertical-align: top; }
+.panel-form { background: #eaecea; padding: 5px 5px 5px; }
+.panel-form img { vertical-align: middle; margin-right: 2px; }
+.panel-form select { width: auto; font-size: 12px; font-family: Arial, sans-serif; }
 
 .table { width: 100%; margin-bottom: 10px; }
 .table thead td { background: #fafafa; }
