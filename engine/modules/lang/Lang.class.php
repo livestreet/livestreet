@@ -69,7 +69,7 @@ class ModuleLang extends Module {
 				$this->aLangMsg=array();
 				$this->LoadLangFiles($this->sDefaultLang);			
 				if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
-				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}", array(), 60*60);
+				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}_{Config::Get('view.skin')}", array(), 60*60);
 			}
 		} else {
 			$this->LoadLangFiles($this->sDefaultLang);
@@ -225,8 +225,8 @@ class ModuleLang extends Module {
 	public function AddMessages($aMessages, $aBlock = null) {
 		if (is_array($aMessages)) {
                            if (Config::Get('lang.use_blocks') && is_array($aBlock)) {
-                               if ($aBlock['category']) {
-                                   if (!isset($aBlock['category']) || !$aBlock['category']) {$aBlock['category'] = array();}
+                               if (isset($aBlock['category'])) {
+                                   if (!isset($aBlock['category']) || !$aBlock['category']) {$this->aLangMsg[$aBlock['category']] = array();}
                                    $this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
                                } else {
                                    $this->aLangMsg [$aBlock['name']] = $aMessages;
