@@ -69,7 +69,7 @@ class ModuleLang extends Module {
 				$this->aLangMsg=array();
 				$this->LoadLangFiles($this->sDefaultLang);			
 				if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
-				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}_{Config::Get('view.skin')}", array(), 60*60);
+				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}_".Config::Get('view.skin'), array(), 60*60);
 			}
 		} else {
 			$this->LoadLangFiles($this->sDefaultLang);
