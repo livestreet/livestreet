@@ -1,9 +1,14 @@
 {if count($aStreamEvents)}
-    <ul>
+    <ul class="stream-list">
         {foreach from=$aStreamEvents item=aEvent}
             {assign var=initiatorId value=$aEvent.initiator}
             {assign var=initiator value=$aStreamUsers.$initiatorId}
-            <li>{date_format date=$aEvent.date_added}: {$aLang.stream_list_user} <a href="{$initiator->getUserWebPath()}">{$initiator->getLogin()}</a>
+            <li class="stream-item-type-{$aEvent.event_type}">
+				<a href="{$initiator->getUserWebPath()}"><img src="{$initiator->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+				<span class="date">{date_format date=$aEvent.date_added}</span> 
+				
+				<a href="{$initiator->getUserWebPath()}"><strong>{$initiator->getLogin()}</strong></a>
+				
                 {if $aEvent.event_type == $STREAM_EVENT_TYPE.ADD_TOPIC.id}
                     {assign var=topicId value=$aEvent.target_id}
                     {assign var=topic value=$aStreamTopics.$topicId}

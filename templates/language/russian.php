@@ -730,7 +730,13 @@ return array(
     'userfeed_block_users_friends' => 'Друзья',
     'userfeed_subscribes_already_subscribed' => 'Вы уже подписаны на топики этого пользователя',
     'userfeed_subscribes_updated' => 'Настройки ленты сохранены',
-    'userfeed_get_more' => 'Получить ещё статьи',
+    'userfeed_get_more' => 'Получить ещё топики',
+	
+	'userfeed_title' => 'Лента',
+	
+    'userfeed_settings_note_follow_blogs' => 'Выберите блоги которые вы хотели бы читать',
+    'userfeed_settings_note_follow_user' => 'Добавьте людей, топики которых вы хотели бы читать',
+    'userfeed_settings_note_follow_friend' => 'Выберите друзей, топики которых вы хотели бы читать',
 
     /**
      * Stream
@@ -762,6 +768,12 @@ return array(
     'stream_list_event_vote_comment' => 'оценил комментарий к топику',
     'stream_list_event_join_blog' => 'вступил в блог',
     'stream_list_event_make_friends' => 'добавил в друзья пользователя',
+	
+    'stream_personal_title' => 'Активность',
+	
+    'stream_settings_note_filter' => 'Выберите действия которые будут отслеживаться',
+    'stream_settings_note_follow_user' => 'Добавьте людей за активностью которых вы хотели бы следить',
+    'stream_settings_note_follow_friend' => 'Выберите друзей за активностью которых вы хотели бы следить',
 
 	/**
 	 * Рейтинг TOP

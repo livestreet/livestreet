@@ -834,9 +834,34 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 
 /* Stream
 -------------------------------------------------------------------*/
-.stream-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.stream-get-more {display:block; margin: 0 30px; text-align:center; height:2.5em; padding-top:1em; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none;}
 .stream-get-more:hover { background: #f0f7fd;}
 .stream_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
+
+.stream-header { margin: 0 30px 20px; }
+
+.stream-list { margin: 0 30px 20px; }
+.stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }
+.stream-list li .avatar { position: absolute; top: 10px; left: 10px; }
+.stream-list li .date { display: block; color: #999; }
+.stream-list li a { text-decoration: none; }
+.stream-list li a:hover { text-decoration: underline; }
+
+.block.stream-settings {  }
+.block.stream-settings h1 { margin-bottom: 7px; }
+.block.stream-settings h3 { margin-bottom: 7px; }
+.block.stream-settings p.sp-note { margin-bottom: 15px; color: #aaa; }
+.block.stream-settings input.input-checkbox { position: relative; top: 2px; margin: 0 2px 0 1px; }
+.block.stream-settings ul.stream-settings-filter { padding-bottom: 15px; margin: 0 0 15px 0; border-bottom: 1px solid #eee; }
+.block.stream-settings ul.stream-settings-filter li { margin-bottom: 5px; }
+.block.stream-settings ul.stream-settings-friends li { padding-bottom: 5px; }
+.block.stream-settings ul.stream-settings-blogs li { padding-bottom: 5px; }
+.block.stream-settings .stream-settings-userlist { padding-bottom: 15px; margin: 0 0 15px 0; border-bottom: 1px solid #eee; }
+.block.stream-settings .stream-settings-userlist p { margin-bottom: 10px; }
+.block.stream-settings .stream-settings-userlist p input { border: 1px solid #ccc; padding: 3px; margin-right: 5px; }
+.block.stream-settings .stream-settings-userlist p a { border-bottom: 1px dashed #70AAE0; text-decoration: none; }
+.block.stream-settings .stream-settings-userlist p a:hover { color: #555; border-color: #555; }
+.block.stream-settings .stream-settings-userlist li { padding-bottom: 5px; }
 
 
 

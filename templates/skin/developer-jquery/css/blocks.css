@@ -25,3 +25,17 @@
 .block .cloud li a.w8 { font-size: 20px; }
 .block .cloud li a.w9 { font-size: 22px; }
 .block .cloud li a.w10 { font-size: 22px; }
+
+/* Stream Settings */
+.block.stream-settings h2 { margin-bottom: 7px; }
+.block.stream-settings h3 { margin-bottom: 7px; }
+.block.stream-settings p.note { margin-bottom: 15px; color: #aaa; }
+.block.stream-settings input.input-checkbox { position: relative; top: 2px; margin: 0 2px 0 1px; }
+.block.stream-settings ul li { padding-bottom: 5px; }
+.block.stream-settings .stream-settings-filter { padding-bottom: 15px; margin: 0 0 15px 0; border-bottom: 1px solid #ddd; }
+.block.stream-settings .stream-settings-userlist { padding-bottom: 15px; margin: 0 0 15px 0; border-bottom: 1px solid #ddd; }
+.block.stream-settings .stream-settings-userlist p { margin-bottom: 10px; }
+.block.stream-settings .stream-settings-userlist p input { border: 1px solid #ccc; padding: 3px; margin-right: 5px; }
+.block.stream-settings .stream-settings-userlist p a { border-bottom: 1px dashed #70AAE0; text-decoration: none; }
+.block.stream-settings .stream-settings-userlist p a:hover { color: #555; border-color: #555; }
+.block.stream-settings .stream-settings-userlist li { padding-bottom: 5px; }

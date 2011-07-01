@@ -69,3 +69,20 @@
 .stat-performance table { }
 .stat-performance table td { width: 200px; vertical-align: top; }
 .stat-performance h4 { font-weight: bold; }
+
+/* Userfeed */
+.userfeed-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.userfeed-get-more:hover { background: #f0f7fd;}
+.userfeed_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
+
+/* Stream */
+.stream-get-more { display: block; text-align: center; padding: 12px 0; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none; }
+.stream-get-more:hover { background: #f0f7fd; }
+.stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
+
+.stream-list { margin: 0 0 20px; }
+.stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }
+.stream-list li .avatar { position: absolute; top: 10px; left: 10px; }
+.stream-list li .date { display: block; color: #999; }
+.stream-list li a { text-decoration: none; }
+.stream-list li a:hover { text-decoration: underline; }
