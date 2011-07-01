@@ -186,7 +186,7 @@ class ModuleLang extends Module {
 	 * @return string
 	 */
 	public function Get($sName,$aReplace=array()) {
-                  if (Config::Get('lang.use_blocks')  && strpos($sName, '.')) {
+                  if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
                       $sLang = &$this->aLangMsg;
                       $aKeys = explode('.', $sName);
                       foreach ($aKeys as $k) {
@@ -224,20 +224,19 @@ class ModuleLang extends Module {
      */
 	public function AddMessages($aMessages, $aBlock = null) {
 		if (is_array($aMessages)) {
-                           if (Config::Get('lang.use_blocks') && is_array($aBlock)) {
+                           if (!Config::Get('lang.disable_blocks') && is_array($aBlock)) {
                                if (isset($aBlock['category'])) {
                                    if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
                                    $this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
                                } else {
                                    $this->aLangMsg [$aBlock['name']] = $aMessages;
                                }
-                           } else {
-                                if (count($this->aLangMsg)==0) {
-                                    $this->aLangMsg = $aMessages;
-                                } else {
-                                    $this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
-                                }
-                           }
+                           } 
+                            if (count($this->aLangMsg)==0) {
+                                $this->aLangMsg = $aMessages;
+                            } else {
+                                $this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
+                            }
 		}
 	}
 
