@@ -226,7 +226,7 @@ class ModuleLang extends Module {
 		if (is_array($aMessages)) {
                            if (Config::Get('lang.use_blocks') && is_array($aBlock)) {
                                if (isset($aBlock['category'])) {
-                                   if (!isset($aBlock['category']) || !$aBlock['category']) {$this->aLangMsg[$aBlock['category']] = array();}
+                                   if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
                                    $this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
                                } else {
                                    $this->aLangMsg [$aBlock['name']] = $aMessages;
