@@ -413,6 +413,10 @@ class ActionAjax extends Action {
 			return;
 		}
 
+                  if (!$oTopic->getPublish()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('error_favorite_topic_is_draft'),$this->Lang_Get('error'));
+			return;
+		}
 
 		$oFavouriteTopic=$this->Topic_GetFavouriteTopic($oTopic->getId(),$this->oUserCurrent->getId());
 		if (!$oFavouriteTopic and $iType) {

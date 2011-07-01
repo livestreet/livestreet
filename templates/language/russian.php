@@ -193,6 +193,8 @@ return array(
 	'topic_favourite_add_already' => 'Этот топик уже есть в вашем избранном',
 	'topic_favourite_del' => 'удалить из избранного',
 	'topic_favourite_del_ok' => 'Топик удален из избранного',
+    
+         'error_favorite_topic_is_draft' => 'Топик из черновиков нельзя добавить в избранное',
 
 	'block_stream_comments_all' => 'Весь эфир',
 	'block_stream_topics_all' => 'Весь эфир',
