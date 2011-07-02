@@ -28,7 +28,7 @@ CREATE TABLE `prefix_user_field` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `prefixc_user_field_value` (
+CREATE TABLE `prefix_user_field_value` (
   `user_id` int(11) DEFAULT NULL,
   `field_id` int(11) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL
