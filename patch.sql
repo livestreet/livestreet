@@ -16,7 +16,7 @@ CREATE TABLE `prefix_stream_config` (
 
 CREATE TABLE `prefix_stream_event` (
     `id` int(11) NOT NULL primary key auto_increment,
-    `event_type` tinyint(3) NOT NULL,
+    `event_type` int(11) NOT NULL,
     `target_id` int(11) NOT NULL,
     `initiator` int(11) NOT NULL,
     `date_added` timestamp not null default current_timestamp
