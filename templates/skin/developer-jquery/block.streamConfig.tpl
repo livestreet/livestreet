@@ -23,7 +23,7 @@
 						id="strn_et_{$aEventType.id}"
 						{math equation="x & y" x=$aEventType.id y=$aStreamConfig.event_types assign=bStreamChecked}
 						{if $bStreamChecked}checked="checked"{/if}
-						onClick="if ($(this).get('checked')) { lsStream.switchEventType( {$aEventType.id}) } else { lsStream.switchEventType( {$aEventType.id})  } " />
+						onClick="if ($(this).get('checked')) { ls.stream.switchEventType( {$aEventType.id}) } else { ls.stream.switchEventType( {$aEventType.id})  } " />
 				{$aEventType.name}</label>
 			</li>
 		{/foreach}
@@ -37,9 +37,9 @@
 	<div class="stream-settings-userlist">
 		<p><input type="text" id="stream_users_complete" autocomplete="off" />
 		<a href="javascript:ls.stream.appendUser()">{$aLang.stream_block_config_append}</a></p>
-		
-		<ul id="userfeed_block_users_list">
-			{if count($aStreamSubscribedUsers)}
+		{if count($aStreamSubscribedUsers)}
+                        <ul id="userfeed_block_users_list">
+			
 				{foreach from=$aStreamSubscribedUsers item=oUser}
 					{assign var=iUserId value=$oUser->getId()}
 					{if !isset($aStreamFriends.$iUserId)}
@@ -47,13 +47,16 @@
 									type="checkbox"
 									id="strm_u_{$iUserId}"
 									checked="checked"
-									onClick="if ($(this).get('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
+									onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
 							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 						</li>
 					{/if}
 				{/foreach}
-			{/if}
-		</ul>
+                        </ul>
+                {else}
+                    <ul id="stream_block_users_list"></ul>
+                    <p id="stream_no_subscribed_users">{$aLang.stream_no_subscribed_users}</p>
+                {/if}
 	</div>
 	
 	
@@ -69,7 +72,7 @@
 							type="checkbox"
 							id="strm_u_{$iUserId}"
 							{if isset($aStreamSubscribedUsers.$iUserId)} checked="checked"{/if}
-							onClick="if ($(this).get('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
+							onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
 					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 				</li>
 			{/foreach}

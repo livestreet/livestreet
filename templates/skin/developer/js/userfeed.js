@@ -29,6 +29,7 @@ function lsUserfeedClass() {
             url: aRouter['feed']+'subscribeByLogin',
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
+                $('userfeed_no_subscribed_users').dispose();
                 if (!data.bStateError) {
                     checkbox = $('usf_u_'+data.uid);
                     if (checkbox) {

@@ -11,6 +11,8 @@ class ActionUserfeed extends Action
             parent::EventNotFound();
         }
         $this->SetDefaultEvent('index');
+        
+        $this->Viewer_Assign('sMenuItemSelect', 'feed');
     }
 
     protected function RegisterEvent()
@@ -29,6 +31,11 @@ class ActionUserfeed extends Action
         $this->Viewer_Assign('aTopics', $aTopics);
         if (count($aTopics)) {
             $this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
+        }
+        if (count($aTopics) < Config::Get('module.userfeed.count_default')) {
+            $this->Viewer_Assign('bDisableGetMoreButton', true);
+        } else {
+            $this->Viewer_Assign('bDisableGetMoreButton', false);
         }
         $this->SetTemplateAction('list');
     }

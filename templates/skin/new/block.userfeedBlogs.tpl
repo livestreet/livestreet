@@ -18,6 +18,8 @@
                     </li>
                 {/foreach}
             </ul>
+        {else}
+             <p>{$aLang.userfeed_no_blogs}</p>
         {/if}
     </div></div>
     <div class="bl"><div class="br"></div></div>

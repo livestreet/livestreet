@@ -28,6 +28,7 @@ ls.stream =( function ($) {
         if (!sLogin) return;
         ls.ajax(aRouter['stream']+'subscribeByLogin', {'login':sLogin}, function(data) {
             if (!data.bStateError) {
+                $('#stream_no_subscribed_users').remove();
                 var checkbox = $('#strm_u_'+data.uid);
                 if (checkbox.length) {
                     if (checkbox.attr('checked')) {

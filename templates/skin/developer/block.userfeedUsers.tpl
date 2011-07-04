@@ -25,9 +25,9 @@
 	<div class="stream-settings-userlist">
 		<p><input type="text" id="userfeed_users_complete" autocomplete="off" />
 		<a href="javascript:lsUserfeed.appendUser()">{$aLang.userfeed_block_users_append}</a></p>
-		
-		<ul id="userfeed_block_users_list">
 		{if count($aUserfeedSubscribedUsers)}
+		<ul id="userfeed_block_users_list">
+
 			{foreach from=$aUserfeedSubscribedUsers item=oUser}
 				{assign var=iUserId value=$oUser->getId()}
 				{if !isset($aUserfeedFriends.$iUserId)}
@@ -40,8 +40,11 @@
 					</li>
 				{/if}
 			{/foreach}
-		{/if}
 		</ul>
+                {else}
+                    <ul id="userfeed_block_users_list"></ul>
+                    <p id="userfeed_no_subscribed_users">{$aLang.userfeed_no_subscribed_users}</p>
+                {/if}
 	</div>
 	
 

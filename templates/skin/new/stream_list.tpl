@@ -8,7 +8,6 @@
 				<span class="date">{date_format date=$aEvent.date_added}</span> 
 				
 				<a href="{$initiator->getUserWebPath()}"><strong>{$initiator->getLogin()}</strong></a>
-				
                 {if $aEvent.event_type == $STREAM_EVENT_TYPE.ADD_TOPIC.id}
                     {assign var=topicId value=$aEvent.target_id}
                     {assign var=topic value=$aStreamTopics.$topicId}

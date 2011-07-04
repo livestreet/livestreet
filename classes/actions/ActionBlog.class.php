@@ -215,10 +215,10 @@ class ActionBlog extends Action {
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
 
-            /**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oBlog->getOwnerId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
+                            /**
+                             * Добавляем событие в ленту
+                             */
+                            $this->Stream_write($oBlog->getOwnerId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
 			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -1574,6 +1574,10 @@ class ActionBlog extends Action {
 					$oBlog->setCountUser($oBlog->getCountUser()+1);
 					$this->Blog_UpdateBlog($oBlog);
 					$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
+                                            /**
+                                             * Добавляем событие в ленту
+                                             */
+                                            $this->Stream_write($this->oUserCurrent->getId(), ModuleStream::EVENT_JOIN_BLOG, $oBlog->getId());
 				} else {
 					$sMsg=($oBlog->getType()=='close')
 					? $this->Lang_Get('blog_join_error_invite')

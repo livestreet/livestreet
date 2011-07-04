@@ -41,6 +41,7 @@ function lsStreamClass() {
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
+                    $('stream_no_subscribed_users').dispose();
                     checkbox = $('strm_u_'+data.uid);
                     if (checkbox) {
                         if ($(checkbox).get('checked')) {

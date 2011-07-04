@@ -45,23 +45,25 @@
 		<div class="stream-settings-userlist">
 			<p><input type="text" id="stream_users_complete" autocomplete="off" />
 			<a href="javascript:lsStream.appendUser()">{$aLang.stream_block_config_append}</a></p>
-			
-			<ul id="userfeed_block_users_list">
-				{if count($aStreamSubscribedUsers)}
-					{foreach from=$aStreamSubscribedUsers item=oUser}
-						{assign var=iUserId value=$oUser->getId()}
-						{if !isset($aStreamFriends.$iUserId)}
-							<li><input class="streamUserCheckbox input-checkbox"
-										type="checkbox"
-										id="strm_u_{$iUserId}"
-										checked="checked"
-										onClick="if ($(this).get('checked')) { lsStream.subscribe({$iUserId}) } else { lsStream.unsubscribe({$iUserId}) } " />
-								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-							</li>
-						{/if}
-					{/foreach}
-				{/if}
-			</ul>
+			{if count($aStreamSubscribedUsers)}
+                                <ul id="stream_block_users_list">
+                                        {foreach from=$aStreamSubscribedUsers item=oUser}
+                                            {assign var=iUserId value=$oUser->getId()}
+                                            {if !isset($aStreamFriends.$iUserId)}
+                                                <li><input class="streamUserCheckbox input-checkbox"
+                                                            type="checkbox"
+                                                            id="strm_u_{$iUserId}"
+                                                            checked="checked"
+                                                            onClick="if ($(this).get('checked')) { lsStream.subscribe({$iUserId}) } else { lsStream.unsubscribe({$iUserId}) } " />
+                                                    <a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+                                                </li>
+                                            {/if}
+                                        {/foreach}
+                                </ul>
+                            {else}
+                                <ul id="stream_block_users_list"></ul>
+                                <p id="stream_no_subscribed_users">{$aLang.stream_no_subscribed_users}</p>
+                            {/if}
 		</div>
 		
 		

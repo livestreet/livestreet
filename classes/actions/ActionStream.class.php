@@ -21,6 +21,8 @@ class ActionStream extends Action
                                                     'MAKE_FRIENDS' => array('id' => ModuleStream::EVENT_MAKE_FRIENDS, 'name' => $this->Lang_Get('stream_event_type_make_friends')),
                                                     'JOIN_BLOG' => array('id' => ModuleStream::EVENT_JOIN_BLOG, 'name' => $this->Lang_Get('stream_event_type_join_blog'))
             ));
+        
+            $this->Viewer_Assign('sMenuItemSelect', 'stream');
     }
 
     public function Shutdown()
@@ -50,6 +52,11 @@ class ActionStream extends Action
             $this->Viewer_Assign('aStreamBlogs', $aEvents['blogs']);
             $this->Viewer_Assign('aStreamUsers', $aEvents['users']);
             $this->Viewer_Assign('aStreamComments', $aEvents['comments']);
+            if (count($aEvents['events']) < Config::Get('module.stream.count_default')) {
+                $this->Viewer_Assign('bDisableGetMoreButton', true);
+            } else {
+                $this->Viewer_Assign('bDisableGetMoreButton', false);
+            }
         }
         $this->SetTemplateAction('list');
     }

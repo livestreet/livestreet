@@ -15,5 +15,7 @@
 				</li>
 			{/foreach}
 		</ul>
-	{/if}
+	{else}
+             <p>{$aLang.userfeed_no_blogs}</p>
+        {/if}
 </div>

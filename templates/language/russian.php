@@ -737,11 +737,14 @@ return array(
     'userfeed_settings_note_follow_blogs' => 'Выберите блоги которые вы хотели бы читать',
     'userfeed_settings_note_follow_user' => 'Добавьте людей, топики которых вы хотели бы читать',
     'userfeed_settings_note_follow_friend' => 'Выберите друзей, топики которых вы хотели бы читать',
+    
+    'userfeed_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чьи топики хотите видеть',
+    'userfeed_no_blogs' => 'Вы не вступили ни в один блог',
 
     /**
      * Stream
      */
-    'stream_block_config_title' => 'Настройка ленты',
+    'stream_block_config_title' => 'Настройка событий',
     'stream_block_users_title' => 'Люди',
     'stream_block_config_append' => 'Добавить',
     'stream_block_users_friends' => 'Друзья',
@@ -757,6 +760,8 @@ return array(
     'stream_event_type_vote_user' => 'Голосование за пользователя',
     'stream_event_type_make_friends' => 'Добавление в друзья',
     'stream_event_type_join_blog' => 'Вступление в блог',
+    'stream_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чью активность хотите видеть',
+    'stream_no_events' => 'Лента активности пуста',
 
     'stream_list_user' => 'Пользователь',
     'stream_list_event_add_topic' => 'добавил новый топик',
