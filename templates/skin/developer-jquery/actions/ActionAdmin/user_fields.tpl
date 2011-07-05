@@ -9,13 +9,13 @@
         <input type="text" id="user_fields_form_title" />
         <input type="hidden" id="user_fields_form_action" />
         <input type="hidden" id="user_fields_form_id" />
-        <a href="javascript:userfieldApplyForm()">Ok</a>
+        <a href="javascript:ls.userfield.applyForm()">Ok</a>
      </div>
-    <a href="javascript:userfieldShowAddForm()">{$aLang.user_field_add}</a>
+    <a href="javascript:ls.userfield.showAddForm()">{$aLang.user_field_add}</a>
     <br /><br />
     <ul id="user_field_list">
         {foreach from=$aUserFields item=aField}
-            <li id="field_{$aField.id}"><span class="userfield_admin_name">{$aField.name}</span >("<span class="userfield_admin_title">{$aField.title}</span>")<a href="javascript:userfieldShowEditForm({$aField.id})">{$aLang.user_field_update}</a> <a href="javascript:deleteUserfield({$aField.id})">{$aLang.user_field_delete}</a></li>
+            <li id="field_{$aField.id}"><span class="userfield_admin_name">{$aField.name}</span >("<span class="userfield_admin_title">{$aField.title}</span>")<a href="javascript:ls.userfield.showEditForm({$aField.id})">{$aLang.user_field_update}</a> <a href="javascript:ls.userfield.deleteUserfield({$aField.id})">{$aLang.user_field_delete}</a></li>
         {/foreach}
     </ul>
 </div>

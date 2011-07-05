@@ -143,7 +143,7 @@ class ActionAdmin extends Action {
                 $aUserFields = $this->User_getUserFields();
                 $this->Viewer_Assign('aUserFields',$aUserFields);
                 $this->SetTemplateAction('user_fields');
-                $this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/other.js');
+                $this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/userfield.js');
         }
     }
     public function checkUserField()
