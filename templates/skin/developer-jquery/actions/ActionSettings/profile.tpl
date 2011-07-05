@@ -61,7 +61,7 @@
 	</p>
         {if count($aUserFields)}
             {foreach from=$aUserFields item=aField}
-                <p><label for="profile_user_field_{$aField.id}">{$aField.name}:</label><br /><input type="text" class="w300" name="profile_user_field_{$aField.id}" id="profile_user_field_{$aField.id}" value="{$aField.value}"/></p>
+                <p><label for="profile_user_field_{$aField.id}">{$aField.name}:</label><br /><input type="text" class="w300" name="profile_user_field_{$aField.id}" id="profile_user_field_{$aField.id}" value="{$aField.value|escape:'html'}"/></p>
             {/foreach}
         {/if}
 	<p>

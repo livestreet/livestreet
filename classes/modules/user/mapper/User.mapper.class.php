@@ -840,6 +840,16 @@ class ModuleUser_MapperUser extends Mapper {
         }
         return $aResult;
     }
+    
+     public function getUserFieldValueByName($iUserId, $sName)
+    {
+        $sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE 
+                        user_id = ?d 
+                        AND  
+                        field_id = (SELECT id FROM '.Config::Get('db.table.user_field').' WHERE name =?)';
+        $ret = $this->oDb->selectCol($sql, $iUserId, $sName);
+        return $ret[0];
+    }
 
     public function getUserFieldsValues($iUserId, $bOnlyNoEmpty)
     {
@@ -889,18 +899,40 @@ class ModuleUser_MapperUser extends Mapper {
         }
     }
 
-    public function addUserField($sName)
+    public function addUserField($sName, $sTitle)
     {
         $sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
-                    name = ?';
-        return $this->oDb->query($sql, $sName);
+                    name = ?, title = ?';
+        return $this->oDb->query($sql, $sName, $sTitle);
     }
 
-    public function deleteUserField($sName)
+    public function deleteUserField($iId)
     {
+        $sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').' WHERE field_id = ?d';
+        $this->oDb->query($sql, $iId);
         $sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
-                    id = ?';
-        $this->oDb->query($sql, $sName);
+                    id = ?d';
+        $this->oDb->query($sql, $iId);
+    }
+    
+    public function updateUserField($iId, $sName, $sTitle)
+    {
+        $sql =  'UPDATE '.Config::Get('db.table.user_field').' SET 
+                    name = ?, title = ?
+                    WHERE id = ?d';
+        $this->oDb->query($sql, $sName, $sTitle, $iId);
+    }
+    
+    public function userFieldExistsByName($sName, $iId)
+    {
+        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE name = ? {AND id != ?d}';
+        return $this->oDb->select($sql, $sName, $iId ? $iId : DBSIMPLE_SKIP);
+    }
+    
+    public function userFieldExistsById($iId)
+    {
+        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE id = ?d';
+        return $this->oDb->select($sql, $iId);
     }
 }
 ?>

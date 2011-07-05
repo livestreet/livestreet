@@ -86,7 +86,7 @@
                     {foreach from=$aUserFields item=aField}
                         <tr>
                             <td class="var">{$aField.name}:</td>
-                            <td>{$aField.value}</td>
+                            <td>{$aField.value|escape:'html'}</td>
                         </tr>
                     {/foreach}
                 {/if}

@@ -95,23 +95,20 @@ class ActionAdmin extends Action {
 
     protected function EventUserFields()
     {
-        /**
-         * Получаем список контактов
-         */
         switch(getRequest('action')) {
             case 'add':
                 $this->Viewer_SetResponseAjax('json');
-                if (!getRequest('name')) {
-                    $this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
+                 if (!$this->checkUserField()) {
                     return;
                 }
-                $iId = $this->User_addUserField(getRequest('name'));
+                $iId = $this->User_addUserField(getRequest('name'), getRequest('title'));
                 if(!$iId) {
                     $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
                     return;
                 }
                 $this->Viewer_AssignAjax('id', $iId);
                 $this->Viewer_AssignAjax('lang_delete', $this->Lang_Get('user_field_delete'));
+                $this->Viewer_AssignAjax('lang_edit', $this->Lang_Get('user_field_update'));
                 $this->Message_AddNotice($this->Lang_Get('user_field_added'),$this->Lang_Get('attention'));
                 break;
             case 'delete':
@@ -123,12 +120,47 @@ class ActionAdmin extends Action {
                 $this->User_deleteUserField(getRequest('id'));
                 $this->Message_AddNotice($this->Lang_Get('user_field_deleted'),$this->Lang_Get('attention'));
                 break;
+            case 'update':
+                $this->Viewer_SetResponseAjax('json');
+                if (!getRequest('id')) {
+                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                    return;
+                }
+                if (!$this->User_userFieldExistsById(getRequest('id'))) {
+                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                    return false;
+                }
+                if (!$this->checkUserField()) {
+                    return;
+                }
+                if ($this->User_updateUserField(getRequest('id'), getRequest('name'), getRequest('title'))) {
+                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                    return;
+                }
+                $this->Message_AddNotice($this->Lang_Get('user_field_updated'),$this->Lang_Get('attention'));
+                break;
             default:
                 $aUserFields = $this->User_getUserFields();
                 $this->Viewer_Assign('aUserFields',$aUserFields);
                 $this->SetTemplateAction('user_fields');
                 $this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/other.js');
         }
+    }
+    public function checkUserField()
+    {
+         if (!getRequest('title')) {
+            $this->Message_AddError($this->Lang_Get('user_field_error_add_no_title'),$this->Lang_Get('error'));
+            return false;
+        }
+        if (!getRequest('name')) {
+            $this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
+            return false;
+        }
+        if ($this->User_userFieldExistsByName(getRequest('name'), getRequest('id'))) {
+            $this->Message_AddError($this->Lang_Get('user_field_error_name_exists'),$this->Lang_Get('error'));
+            return false;
+        }
+        return true;
     }
 
 	/**

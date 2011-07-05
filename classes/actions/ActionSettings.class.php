@@ -138,7 +138,7 @@ class ActionSettings extends Action {
 	 */
 	protected function EventProfile() {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
-        $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
+                  $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
@@ -354,18 +354,20 @@ class ActionSettings extends Action {
 						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
 					}
 
-                    /**
-                     * Обрабатываем дополнительные поля
-                     */
-                    $aFields = $this->User_getUserFields();
-                    $aData = array();
-                    foreach ($aFields as $iId => $aField) {
-                        if (isset($_REQUEST['profile_user_field_'.$iId])) {
-                            $aData[$iId] = getRequest('profile_user_field_'.$iId);
-                        }
-                    }
-                    $this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
+                                                /**
+                                                 * Обрабатываем дополнительные поля
+                                                 */
+                                                $aFields = $this->User_getUserFields();
+                                                $aData = array();
+                                                foreach ($aFields as $iId => $aField) {
+                                                    if (isset($_REQUEST['profile_user_field_'.$iId])) {
+                                                        $aData[$iId] = getRequest('profile_user_field_'.$iId);
+                                                    }
+                                                }
+                                                $this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
+                                            $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
+
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}

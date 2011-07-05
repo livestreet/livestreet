@@ -500,15 +500,21 @@ return array(
 	'profile_date_last' => 'Последний визит',
 	'profile_social_contacts' => 'Контакты и социальные сервисы',
 
-    /**
-     * UserFields
-     */
-    'user_field_admin_title' => 'Поля контактов пользователей',
-    'user_field_add' => 'Добавить',
-    'user_field_added' => 'Поле успешно добавлено',
-    'user_field_delete' => 'Удалить',
-    'user_field_deleted' => 'Поле удалено',
-    'user_field_error_add_no_name' => 'Необходимо указать название поля',
+        /**
+         * UserFields
+         */
+        'user_field_admin_title' => 'Поля контактов пользователей',
+        'user_field_add' => 'Добавить',
+        'user_field_added' => 'Поле успешно добавлено',
+        'user_field_update' => 'Изменить',
+        'user_field_updated' => 'Поле успешно изменено',
+        'user_field_delete' => 'Удалить',
+        'user_field_deleted' => 'Поле удалено',
+        'userfield_form_name' => 'Имя',
+        'userfield_form_title' => 'Заголовок',
+        'user_field_error_add_no_name' => 'Необходимо указать название поля',
+        'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
+        'user_field_error_name_exists' => 'Поле с таким именем уже существует',
 
 
 	/**

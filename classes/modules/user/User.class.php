@@ -1210,6 +1210,17 @@ class ModuleUser extends Module {
     {
         return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
     }
+    
+     /**
+     * Получить по имени поля его значение дял определённого пользователя
+     * @param type $iUserId
+     * @param type $bOnlyNoEmpty Загружать только непустые поля
+     * @return type 
+     */
+    public function getUserFieldValueByName($iUserId, $sName)
+    {
+        return $this->oMapper->getUserFieldValueByName($iUserId, $sName);
+    }
 
     /**
      * Установить значения дополнительных полей профиля пользователя
@@ -1227,9 +1238,19 @@ class ModuleUser extends Module {
      * @param type $sName
      * @return type 
      */
-    public function addUserField($sName)
+    public function addUserField($sName, $sTitle)
     {
-        return $this->oMapper->addUserField($sName);
+        return $this->oMapper->addUserField($sName, $sTitle);
+    }
+    
+    /**
+     * Изменить поле    
+     * @param type $sName
+     * @return type 
+     */
+    public function updateUserField($iId, $sName, $sTitle)
+    {
+        return $this->oMapper->updateUserField($iId, $sName, $sTitle);
     }
 
     /**
@@ -1240,6 +1261,16 @@ class ModuleUser extends Module {
     public function deleteUserField($iId)
     {
         return $this->oMapper->deleteUserField($iId);
+    }
+    
+    public function userFieldExistsByName($sName, $iId = null)
+    {
+        return $this->oMapper->userFieldExistsByName($sName, $iId);
+    }
+    
+     public function userFieldExistsById($iId)
+    {
+        return $this->oMapper->userFieldExistsById($iId);
     }
 }
 ?>

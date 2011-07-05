@@ -24,7 +24,8 @@ CREATE TABLE `prefix_stream_event` (
 
 CREATE TABLE `prefix_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
