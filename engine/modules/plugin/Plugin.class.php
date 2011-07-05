@@ -50,7 +50,8 @@ class ModulePlugin extends Module {
 		'mapper' => array(),
 		'action' => array(),
 		'entity' => array(),
-		'template' => array()
+		'template' => array(),
+                  'block' => array(),
 	);
 	
 	/**
@@ -418,10 +419,10 @@ class ModulePlugin extends Module {
 	 * @param  string $sFrom
 	 * @return string
 	 */
-	public function GetDelegate($sType,$sFrom) {		
+	public function GetDelegate($sType,$sFrom) {
 		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {			
 			return $this->aDelegates[$sType][$sFrom]['delegate'];
-		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {			
+		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {	
 			return $aInherit['inherit'];
 		}
 		return $sFrom;

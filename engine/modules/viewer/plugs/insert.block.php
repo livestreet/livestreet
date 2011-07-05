@@ -36,14 +36,15 @@ function smarty_insert_block($aParams,&$oSmarty) {
 		require_once(Config::Get('path.root.server').'/engine/classes/ActionPlugin.class.php');
 		
 		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/block.'.$aParams['block'].'.tpl';	
-		$sBlockClass = Config::Get('path.root.server').'/plugins/'.$aParams['params']['plugin'].'/classes/blocks/Block'.$sBlock.'.class.php';
+                  $sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_'.$sBlock;
 		$sCmd='$oBlock=new Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock.'($aParamsBlock);';
 	} else {		
 		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','block.'.$aParams['block'].'.tpl');
-		$sBlockClass = Config::Get('path.root.server').'/classes/blocks/Block'.$sBlock.'.class.php';
 		$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	}
-	
+         $sBlock=Engine::getInstance()->Plugin_GetDelegate('block','Block'.$sBlock);
+         
+         
 	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
 		$oSmarty->trigger_error("Not found template for block: ".$sBlockTemplate);
 		return ;
@@ -58,8 +59,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	/**
 	 * Подключаем необходимый обработчик
 	 */
-	require_once($sBlockClass);	
-	eval($sCmd);
+	         $oBlock = new $sBlock($aParams);
 	/**
 	 * Запускаем обработчик
 	 */

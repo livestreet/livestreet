@@ -88,6 +88,12 @@ class Engine extends Object {
 	 * @var int
 	 */
 	const CI_INHERIT = 128;
+    
+        /**
+	 * Имя блока
+	 * @var int
+	 */
+	const CI_BLOCK = 256;
 	
 	/**
 	 * Префикс плагина
@@ -122,10 +128,10 @@ class Engine extends Object {
 	
 	/**
 	 * Объекты
-	 * CI_ACTION | CI_MAPPER | CI_HOOK | CI_PLUGIN | CI_ACTION | CI_MODULE | CI_ENTITY
+	 * CI_ACTION | CI_MAPPER | CI_HOOK | CI_PLUGIN | CI_ACTION | CI_MODULE | CI_ENTITY | CI_BLOCK
 	 * @var int
 	 */
-	const CI_OBJECT = 95;
+	const CI_OBJECT = 351 ;
 	
 	static protected $oInstance=null;
 	
@@ -764,6 +770,12 @@ class Engine extends Object {
 				: null
 			;
 		}
+                  if($iFlag & self::CI_BLOCK){
+			$aResult[self::CI_BLOCK] = preg_match('/^(?:Plugin[^_]+_|)Block([^_]+)$/',$sClassName,$aMatches)
+				? $aMatches[1]
+				: null
+			;
+		}
 		if($iFlag & self::CI_METHOD){
 			$sModuleName = isset($aResult[self::CI_MODULE])
 				? $aResult[self::CI_MODULE]
@@ -889,6 +901,18 @@ class Engine extends Object {
 			}else{
 				// Хук ядра
 				$sPath .= 'classes/hooks/Hook'.$aInfo[self::CI_HOOK].'.class.php';
+			}
+                   }elseif($aInfo[self::CI_BLOCK]){
+			// Блок
+			if($aInfo[self::CI_PLUGIN]){
+				// Блок плагина
+				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+					.'/classes/blocks/Block'.$aInfo[self::CI_BLOCK]
+					.'.class.php';
+				;
+			}else{
+				// Блок ядра
+				$sPath .= 'classes/blocks/Block'.$aInfo[self::CI_BLOCK].'.class.php';
 			}
 		}elseif($aInfo[self::CI_PLUGIN]){
 			// Плагин
