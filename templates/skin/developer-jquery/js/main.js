@@ -69,7 +69,7 @@ ls.tools = (function ($) {
 	* Предпросмотр
 	*/
 	this.textPreview = function(textId, save, divPreview) {
-		var text = $('#'+textId).val();		
+		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent()  : $('#'+textId).val();
 		ls.ajax(aRouter['ajax']+'preview/text/', {text: text, save: save}, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');

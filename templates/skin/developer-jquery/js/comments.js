@@ -141,11 +141,11 @@ var comments = {
 	
 	
 	// Предпросмотр комментария
-	preview: function() {
-		$("#comment_preview").remove();
+	preview: function(id) {
+		
 		if ($("#form_comment_text").val() == '') return;
-		$(".reply").before($("<div>", {id: "comment_preview", 'class': "comment-preview"}));
-		ls.tools.textPreview('form_comment_text', false, 'comment_preview');
+                  $("#comment_preview_"+this.iCurrentShowFormComment).css('display', 'block');
+		ls.tools.textPreview('form_comment_text', false, 'comment_preview_'+this.iCurrentShowFormComment);
 	},
 	
 	
@@ -211,7 +211,13 @@ if(BLOG_USE_TINYMCE) {
   comments.add = function(formObj,targetId,targetType) {
     $('#'+formObj+' textarea').val( tinyMCE.activeEditor.getContent());
     return this._add(formObj,targetId,targetType);
-  };  
+  }; 
+  
+  comments._preview = comments.preview;
+  comments.preview = function () {
+      $("#form_comment_text").val(tinyMCE.activeEditor.getContent());
+      return this._preview();
+  }
   
   comments.toggleCommentForm = function(idComment) {
     if (!$('#reply_'+this.iCurrentShowFormComment) || !$('#reply_'+idComment)) {
