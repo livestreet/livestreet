@@ -33,14 +33,11 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	 * принадлежит ли блок одному из плагинов, или является пользовательским классом движка
 	 */
 	if(isset($aParams['params']) and isset($aParams['params']['plugin'])) {
-		require_once(Config::Get('path.root.server').'/engine/classes/ActionPlugin.class.php');
 		
 		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/block.'.$aParams['block'].'.tpl';	
                   $sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_'.$sBlock;
-		$sCmd='$oBlock=new Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock.'($aParamsBlock);';
 	} else {		
 		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','block.'.$aParams['block'].'.tpl');
-		$sCmd='$oBlock=new Block'.$sBlock.'($aParamsBlock);';
 	}
          $sBlock=Engine::getInstance()->Plugin_GetDelegate('block','Block'.$sBlock);
          
