@@ -432,7 +432,7 @@ class ModuleBlog extends Module {
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("blog_relation_user_by_filter_$s"))) {				
 			$data = $this->oMapperBlog->GetBlogUsers($aFilter);
-			$this->Cache_Set($data, "blog_relation_user_by_filter_$s", array("blog_relation_change_{$sUserId}"), 60*60*24*3);
+			$this->Cache_Set($data, "blog_relation_user_by_filter_$s", array("blog_update", "blog_relation_change_{$sUserId}"), 60*60*24*3);
 		}
 		/**
 		 * Достаем дополнительные данные, для этого формируем список блогов и делаем мульти-запрос
@@ -556,7 +556,7 @@ class ModuleBlog extends Module {
 			foreach ($data as $oBlogUser) {
 				$aBlogUsers[$oBlogUser->getBlogId()]=$oBlogUser;
 			}
-			$this->Cache_Set($aBlogUsers, "blog_relation_user_{$sUserId}_id_{$s}", array("blog_relation_change_{$sUserId}"), 60*60*24*1);
+			$this->Cache_Set($aBlogUsers, "blog_relation_user_{$sUserId}_id_{$s}", array("blog_update", "blog_relation_change_{$sUserId}"), 60*60*24*1);
 			return $aBlogUsers;
 		}		
 		return $data;
