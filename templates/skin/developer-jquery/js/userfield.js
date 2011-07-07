@@ -68,7 +68,7 @@ ls.userfield =( function ($) {
     }
 
     this.deleteUserfield = function(id) {
-        ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id,}, function(data) { 
+        ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id}, function(data) { 
             if (!data.bStateError) {
                 $('#field_'+id).remove();
                 ls.msg.notice(data.sMsgTitle,data.sMsg);
