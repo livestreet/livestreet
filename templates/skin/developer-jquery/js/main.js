@@ -283,12 +283,13 @@ $(document).ready(function(){
 	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
 	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
 	$('#form_upload_img').jqm();
+	$('#userfield_form').jqm();
 	
 	
 	// Подключаем редактор
-        if (!BLOG_USE_TINYMCE) {
-            $('#topic_text').markItUp(mySettings);
-        }
+	if (!BLOG_USE_TINYMCE) {
+		$('#topic_text').markItUp(mySettings);
+	}
 	
 	
 	// Datepicker

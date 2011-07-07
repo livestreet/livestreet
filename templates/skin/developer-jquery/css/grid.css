@@ -86,3 +86,13 @@
 .stream-list li .date { display: block; color: #999; }
 .stream-list li a { text-decoration: none; }
 .stream-list li a:hover { text-decoration: underline; }
+
+/* Userfields */
+.userfield-list { width: 350px; }
+.userfield-list li { background: #f7f7f7; margin-bottom: 1px; padding: 10px 5px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
+.userfield-list li .uf-actions { float: right; }
+.userfield-list li .uf-actions img { vertical-align: top; }
+.userfield-list li .userfield_admin_name { font-weight: bold; color: #333; }
+
+.userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
+.userfield-add:hover { color: #333; border-color: #333; }

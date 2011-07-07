@@ -418,6 +418,36 @@ p { margin-bottom: 18px; }
 .block.stream-settings .stream-settings-userlist p a:hover { color: #555; border-color: #555; }
 .block.stream-settings .stream-settings-userlist li { padding-bottom: 5px; }
 
+/* Userfields
+-------------------------------------------------------------------*/
+.userfield-list { width: 350px; border-top: 1px solid #eee; }
+.userfield-list li { border-bottom: 1px solid #eee; padding: 10px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
+.userfield-list li .uf-actions { float: right; }
+.userfield-list li .uf-actions img { vertical-align: top; }
+.userfield-list li .userfield_admin_name { font-weight: bold; color: #333; }
+
+.userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
+.userfield-add:hover { color: #333; border-color: #333; }
+
+.userfield-form { 
+	display: none; 
+
+	width: 180px; 
+	padding: 15px; 
+	margin-left: -75px; 
+	position: absolute; 
+	left: 50%;
+	
+	background-color: #fff; 
+	border: 1px solid #ccc; 
+	-moz-box-shadow: 0 0 10px #ddd;
+	-webkit-box-shadow: 0 0 10px #ddd;
+	box-shadow: 0 0 10px #ddd;
+}
+.userfield-form p { margin-bottom: 10px; }
+.userfield-form .input-text { width: 174px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+
+
 
 
 

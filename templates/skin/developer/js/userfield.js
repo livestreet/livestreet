@@ -27,6 +27,12 @@ function userfieldApplyForm()
     }
 }
 
+
+function userfieldCloseForm()
+{
+    $('userfield_form').setStyle('display','none');
+}
+
 function addUserfield() {
     var name = $('user_fields_form_name').get('value');
     var title = $('user_fields_form_title').get('value');
@@ -37,18 +43,14 @@ function addUserfield() {
                 if (!data.bStateError) {
                     var liElement = new Element('li', {
                         'id':'field_'+data.id,
-                        'html':'<span class="userfield_admin_name">'+name+'</span >("<span class="userfield_admin_title">'+title+'</span>")'
+                        'html':'<span class="userfield_admin_name">'+name+'</span> / <span class="userfield_admin_title">'+title+'</span>'
                     });
-                    var linkEditElement = new Element('a', {
-                        'href':'javascript:userfieldShowEditForm('+data.id+')',
-                        'html':data.lang_edit
-                    })
-                    var linkDeleteElement = new Element('a', {
-                        'href':'javascript:deleteUserfield('+data.id+')',
-                        'html':data.lang_delete
+                    var actionsElement = new Element('div', {
+                        'class':'uf-actions',
+						'html': '<a href="javascript:userfieldShowEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
+								'<a href="javascript:deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a>'
                     });
-                    linkEditElement.inject(liElement);
-                    linkDeleteElement.inject(liElement);
+                    actionsElement.inject(liElement);
                     liElement.inject($('user_field_list'));
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                 } else {
