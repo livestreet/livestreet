@@ -836,7 +836,7 @@ class ModuleUser_MapperUser extends Mapper {
         }
         $aResult = array();
         foreach($aFields as $aField) {
-            $aResult[$aField['id']] = $aField;
+            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
         }
         return $aResult;
     }
@@ -865,20 +865,19 @@ class ModuleUser_MapperUser extends Mapper {
 
         $aResult = array();
         foreach($aFields as $aField) {
-            $aResult[$aField['id']] = $aField;
-            $aResult[$aField['id']]['value'] = null;
+            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
         }
         foreach($aValues as $aValue) {
             if (isset($aResult[$aValue['field_id']])) {
                 if ($aValue['value']) {
-                    $aResult[$aValue['field_id']]['value'] = $aValue['value'];
+                    $aResult[$aValue['field_id']]->setValue($aValue['value']);
                 }
             }
         }
         if ($bOnlyNoEmpty) {
-            foreach ($aResult as $aField) {
-                if (!$aField['value']) {
-                    unset ($aResult[$aField['id']]);
+            foreach ($aResult as $oField) {
+                if (!$oField->getValue()) {
+                    unset ($aResult[$oField->getId()]);
                 }
             }
         }
@@ -888,7 +887,7 @@ class ModuleUser_MapperUser extends Mapper {
     public function setUserFieldsValues($iUserId, $aFields)
     {
         if (!count($aFields)) return;
-        foreach ($aFields as $iId => $sValue) {
+        foreach ($aFields as $iId =>$sValue) {
             $sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
             if ($this->oDb->select($sql, $iUserId, $iId)) {
                 $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE field_id = ? AND user_id = ?d';
@@ -899,11 +898,11 @@ class ModuleUser_MapperUser extends Mapper {
         }
     }
 
-    public function addUserField($sName, $sTitle)
+    public function addUserField($oField)
     {
         $sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
-                    name = ?, title = ?';
-        return $this->oDb->query($sql, $sName, $sTitle);
+                    name = ?, title = ?, pattern = ?';
+        return $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern());
     }
 
     public function deleteUserField($iId)
@@ -915,12 +914,12 @@ class ModuleUser_MapperUser extends Mapper {
         $this->oDb->query($sql, $iId);
     }
     
-    public function updateUserField($iId, $sName, $sTitle)
+    public function updateUserField($oField)
     {
         $sql =  'UPDATE '.Config::Get('db.table.user_field').' SET 
-                    name = ?, title = ?
+                    name = ?, title = ?, pattern = ?
                     WHERE id = ?d';
-        $this->oDb->query($sql, $sName, $sTitle, $iId);
+        $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getId());
     }
     
     public function userFieldExistsByName($sName, $iId)

@@ -88,7 +88,7 @@
 .stream-list li a:hover { text-decoration: underline; }
 
 /* Userfields */
-.userfield-list { width: 350px; }
+.userfield-list { width: 450px; }
 .userfield-list li { background: #f7f7f7; margin-bottom: 1px; padding: 10px 5px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
 .userfield-list li .uf-actions { float: right; }
 .userfield-list li .uf-actions img { vertical-align: top; }

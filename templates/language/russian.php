@@ -513,6 +513,7 @@ return array(
         'user_field_deleted' => 'Поле удалено',
         'userfield_form_name' => 'Имя',
         'userfield_form_title' => 'Заголовок',
+        'userfield_form_pattern' => 'Шаблон (значение подставляется в токен {*})',
         'user_field_error_add_no_name' => 'Необходимо указать название поля',
         'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
         'user_field_error_name_exists' => 'Поле с таким именем уже существует',

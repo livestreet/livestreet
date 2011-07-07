@@ -1238,9 +1238,9 @@ class ModuleUser extends Module {
      * @param type $sName
      * @return type 
      */
-    public function addUserField($sName, $sTitle)
+    public function addUserField($oField)
     {
-        return $this->oMapper->addUserField($sName, $sTitle);
+        return $this->oMapper->addUserField($oField);
     }
     
     /**
@@ -1248,9 +1248,9 @@ class ModuleUser extends Module {
      * @param type $sName
      * @return type 
      */
-    public function updateUserField($iId, $sName, $sTitle)
+    public function updateUserField($oField)
     {
-        return $this->oMapper->updateUserField($iId, $sName, $sTitle);
+        return $this->oMapper->updateUserField($oField);
     }
 
     /**

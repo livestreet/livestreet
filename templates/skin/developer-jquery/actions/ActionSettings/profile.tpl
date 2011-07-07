@@ -60,8 +60,8 @@
 		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
 	</p>
         {if count($aUserFields)}
-            {foreach from=$aUserFields item=aField}
-                <p><label for="profile_user_field_{$aField.id}">{$aField.name}:</label><br /><input type="text" class="w300" name="profile_user_field_{$aField.id}" id="profile_user_field_{$aField.id}" value="{$aField.value|escape:'html'}"/></p>
+            {foreach from=$aUserFields item=oField}
+                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()}:</label><br /><input type="text" class="w300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
             {/foreach}
         {/if}
 	<p>

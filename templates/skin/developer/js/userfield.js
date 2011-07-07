@@ -1,7 +1,9 @@
+
 function userfieldShowAddForm()
 {
     $('user_fields_form_name').set('value', '');
     $('user_fields_form_title').set('value', '');
+    $('user_fields_form_pattern').set('value', '');
     $('user_fields_form_id').set('value', '');
     $('user_fields_form_action').set('value','add');
     $('userfield_form').setStyle('display','block');
@@ -9,10 +11,12 @@ function userfieldShowAddForm()
 function userfieldShowEditForm(id)
 {
     $('user_fields_form_action').set('value','update');
-    var name = $('field_'+id).getElement(' .userfield_admin_name').innerHTML;
-    var title = $('field_'+id).getElement('.userfield_admin_title').innerHTML;
+    var name = $('field_'+id).getElement(' .userfield_admin_name').get('text');
+    var title = $('field_'+id).getElement('.userfield_admin_title').get('text');
+    var pattern = $('field_'+id).getElement('.userfield_admin_pattern').get('text');
     $('user_fields_form_name').set('value', name);
     $('user_fields_form_title').set('value', title);
+    $('user_fields_form_pattern').set('value', pattern);
     $('user_fields_form_id').set('value', id);
     $('userfield_form').setStyle('display','block');
 }
@@ -27,7 +31,6 @@ function userfieldApplyForm()
     }
 }
 
-
 function userfieldCloseForm()
 {
     $('userfield_form').setStyle('display','none');
@@ -36,22 +39,26 @@ function userfieldCloseForm()
 function addUserfield() {
     var name = $('user_fields_form_name').get('value');
     var title = $('user_fields_form_title').get('value');
+    var pattern = $('user_fields_form_pattern').get('value');
     new Request.JSON({
             url: aRouter['admin']+'userfields',
-            data: {'action':'add', 'name':name, 'title':title, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            data: {'action':'add', 'name':name, 'title':title, 'pattern':pattern, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
                     var liElement = new Element('li', {
                         'id':'field_'+data.id,
-                        'html':'<span class="userfield_admin_name">'+name+'</span> / <span class="userfield_admin_title">'+title+'</span>'
+                        'html':'<span class="userfield_admin_name"></span> / <span class="userfield_admin_title"></span> / <span class="userfield_admin_pattern"></span>'
                     });
                     var actionsElement = new Element('div', {
                         'class':'uf-actions',
-						'html': '<a href="javascript:userfieldShowEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
-								'<a href="javascript:deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a>'
+						'html': '<a href="javascript:userfieldShowEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.gif"></a> '+
+								'<a href="javascript:deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.gif"></a>'
                     });
                     actionsElement.inject(liElement);
                     liElement.inject($('user_field_list'));
+                    $('field_'+id).getElement(' .userfield_admin_name').set('html', name);
+                    $('field_'+id).getElement('.userfield_admin_title').set('html', title);
+                    $('field_'+id).getElement('.userfield_admin_pattern').set('text', pattern);
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                 } else {
                     msgErrorBox.alert(data.sMsgTitle,data.sMsg);
@@ -64,13 +71,15 @@ function updateUserfield() {
     var id = $('user_fields_form_id').get('value');
     var name = $('user_fields_form_name').get('value');
     var title = $('user_fields_form_title').get('value');
+    var pattern = $('user_fields_form_pattern').get('value');
     new Request.JSON({
             url: aRouter['admin']+'userfields',
-            data: {'action':'update', 'id':id, 'name':name, 'title':title, 'security_ls_key':LIVESTREET_SECURITY_KEY},
+            data: {'action':'update', 'id':id, 'name':name, 'title':title, 'pattern':pattern, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
                     $('field_'+id).getElement(' .userfield_admin_name').set('html', name);
                     $('field_'+id).getElement('.userfield_admin_title').set('html', title);
+                    $('field_'+id).getElement('.userfield_admin_pattern').set('text', pattern);
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                 } else {
                     msgErrorBox.alert(data.sMsgTitle,data.sMsg);

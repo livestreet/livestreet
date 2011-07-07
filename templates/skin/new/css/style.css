@@ -868,7 +868,7 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 
 /* Userfields
 -------------------------------------------------------------------*/
-.userfield-list { width: 350px; border-top: 1px solid #eee; }
+.userfield-list { width: 450px; border-top: 1px solid #eee; }
 .userfield-list li { border-bottom: 1px solid #eee; padding: 10px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
 .userfield-list li .uf-actions { float: right; }
 .userfield-list li .uf-actions img { vertical-align: top; }

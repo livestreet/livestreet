@@ -83,10 +83,10 @@
 			</tr>
 		{/if}
                 {if count($aUserFields)}
-                    {foreach from=$aUserFields item=aField}
+                    {foreach from=$aUserFields item=oField}
                         <tr>
-                            <td class="var">{$aField.name}:</td>
-                            <td>{$aField.value|escape:'html'}</td>
+                            <td class="var">{$oField->getTitle()}:</td>
+                            <td>{$oField->getValue(true,true)}</td>
                         </tr>
                     {/foreach}
                 {/if}
