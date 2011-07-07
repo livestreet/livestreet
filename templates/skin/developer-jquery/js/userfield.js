@@ -34,7 +34,7 @@ ls.userfield =( function ($) {
         var name = $('#user_fields_form_name').val();
         var title = $('#user_fields_form_title').val();
         var pattern = $('#user_fields_form_pattern').val();
-        ls.ajax(aRouter['admin']+'userfields', {'action':'add', 'name':name,  'title':title,  'pattern':pattern, 'security_ls_key':LIVESTREET_SECURITY_KEY}, function(data) { 
+        ls.ajax(aRouter['admin']+'userfields', {'action':'add', 'name':name,  'title':title,  'pattern':pattern}, function(data) { 
             if (!data.bStateError) {
                 liElement = '<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_title"></span>'+
 				'<div class="uf-actions"><a href="javascript:ls.userfield.showEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
@@ -55,7 +55,7 @@ ls.userfield =( function ($) {
         var name = $('#user_fields_form_name').val();
         var title = $('#user_fields_form_title').val();
         var pattern = $('#user_fields_form_pattern').val();
-        ls.ajax(aRouter['admin']+'userfields', {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern,'security_ls_key':LIVESTREET_SECURITY_KEY}, function(data) { 
+        ls.ajax(aRouter['admin']+'userfields', {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern}, function(data) { 
             if (!data.bStateError) {
                 $('#field_'+id+' .userfield_admin_name').html(name);
                 $('#field_'+id+' .userfield_admin_title').html(title);
@@ -68,7 +68,7 @@ ls.userfield =( function ($) {
     }
 
     this.deleteUserfield = function(id) {
-        ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id,  'security_ls_key':LIVESTREET_SECURITY_KEY}, function(data) { 
+        ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id,}, function(data) { 
             if (!data.bStateError) {
                 $('#field_'+id).remove();
                 ls.msg.notice(data.sMsgTitle,data.sMsg);
