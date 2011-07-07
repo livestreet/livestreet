@@ -505,6 +505,7 @@ return array(
          */
         'user_field_admin_title' => 'Поля контактов пользователей',
         'user_field_add' => 'Добавить',
+        'user_field_cancel' => 'Отмена',
         'user_field_added' => 'Поле успешно добавлено',
         'user_field_update' => 'Изменить',
         'user_field_updated' => 'Поле успешно изменено',
