@@ -724,6 +724,7 @@ a.profiler.active          { background: #70aae0; color: white; }
 .plugins thead td.name { padding-left: 32px; }
 .plugins thead td.version, .plugins td.version { width: 40px; text-align: center; }
 .plugins thead td.author, .plugins td.author, .plugins tbody td.action { width: 120px; text-align: center; }
+.plugins td.settings { width: 250px; text-align: center; }
 .plugins tbody td { padding: 7px 0; vertical-align: top; }
 .plugins td.name { overflow: hidden; }
 .plugins td.name img { float: left; padding-bottom: 5px; margin-right: 7px; width: 24px; height: 24px; }

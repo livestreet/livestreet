@@ -853,6 +853,7 @@ return array(
 	'plugins_plugin_action' => '',
 	'plugins_plugin_activate' => 'Активировать',
 	'plugins_plugin_deactivate' => 'Деактивировать',
+	'plugins_plugin_settings' => 'Страница настройки',
 	'plugins_unknown_action' => 'Указано неизвестное действие',
 	'plugins_action_ok' => 'Успешно выполнено',
 	'plugins_activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',

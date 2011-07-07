@@ -8,7 +8,8 @@
 				<td width="20"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this);" /></td>
 				<td>{$aLang.plugins_plugin_name}</td>
 				<td>{$aLang.plugins_plugin_version}</td>
-				<td>{$aLang.plugins_plugin_author}</td>														
+				<td>{$aLang.plugins_plugin_author}</td>
+                                    <td>{$aLang.plugins_plugin_settings}</td>
 				<td>{$aLang.plugins_plugin_action}</td>
 			</tr>
 		</thead>
@@ -23,7 +24,8 @@
 						{$aPlugin.property->homepage}
 					</td>
 					<td>{$aPlugin.property->version|escape:'html'}</td>
-					<td>{$aPlugin.property->author->data|escape:'html'}</td>													
+					<td>{$aPlugin.property->author->data|escape:'html'}</td>				
+                                             <td>{if $aPlugin.is_active}<a href="{$aPlugin.property->settings}">{$aPlugin.property->settings}</a>{else}{$aPlugin.property->settings}{/if}</td>
 					<td>
 						{if $aPlugin.is_active}
 							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_deactivate}</a>

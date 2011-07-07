@@ -98,7 +98,8 @@ class ModulePlugin extends Module {
 					$this->Xlang($oXml,'author',$sLang);
 					$this->Xlang($oXml,'description',$sLang);
 					$oXml->homepage=$this->Text_Parser($oXml->homepage);
-
+					$oXml->settings=preg_replace('/{([^}]+)}/',Router::GetPath('$1'),$oXml->settings);
+                                             
 					$this->aPluginsList[$sPlugin]['property']=$oXml;
 				} else {
 					/**
