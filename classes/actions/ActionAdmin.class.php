@@ -32,11 +32,13 @@ class ActionAdmin extends Action {
 		if(!$this->User_IsAuthorization() or !$oUserCurrent=$this->User_GetUserCurrent() or !$oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}
+                  $this->SetDefaultEvent('index');
 
 		$this->oUserCurrent=$oUserCurrent;
 	}
 
 	protected function RegisterEvent() {
+		$this->AddEvent('index','EventIndex');
 		$this->AddEvent('plugins','EventPlugins');
 		$this->AddEvent('restorecomment','EventRestoreComment');
 		$this->AddEvent('userfields','EventUserfields');
@@ -47,6 +49,10 @@ class ActionAdmin extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+    
+         protected function EventIndex() {
+             
+         }
 
 	protected function EventRestoreComment() {
 		set_time_limit(0);
@@ -101,7 +107,12 @@ class ActionAdmin extends Action {
                  if (!$this->checkUserField()) {
                     return;
                 }
-                $iId = $this->User_addUserField(getRequest('name'), getRequest('title'));
+                $oField = Engine::GetEntity('User_Field');
+                $oField->setName(getRequest('name'));
+                $oField->setTitle(getRequest('title'));
+                $oField->setPattern(getRequest('pattern'));
+                
+                $iId = $this->User_addUserField($oField);
                 if(!$iId) {
                     $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
                     return;
@@ -133,7 +144,13 @@ class ActionAdmin extends Action {
                 if (!$this->checkUserField()) {
                     return;
                 }
-                if ($this->User_updateUserField(getRequest('id'), getRequest('name'), getRequest('title'))) {
+                $oField = Engine::GetEntity('User_Field');
+                $oField->setId(getRequest('id'));
+                $oField->setName(getRequest('name'));
+                $oField->setTitle(getRequest('title'));
+                $oField->setPattern(getRequest('pattern'));
+                
+                if ($this->User_updateUserField($oField)) {
                     $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
                     return;
                 }

@@ -787,6 +787,10 @@ return array(
     'stream_settings_note_filter' => 'Выберите действия которые будут отслеживаться',
     'stream_settings_note_follow_user' => 'Добавьте людей за активностью которых вы хотели бы следить',
     'stream_settings_note_follow_friend' => 'Выберите друзей за активностью которых вы хотели бы следить',
+    
+    'admin_list_plugins' => 'Управление плагинами',
+    'admin_list_userfields' => 'Настрйока пользовательских полей',
+    'admin_list_restorecomment' => 'Перестроение дерева комментариев',
 
 	/**
 	 * Рейтинг TOP
