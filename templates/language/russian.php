@@ -829,6 +829,7 @@ return array(
 	'uploadimg_align_no' => 'нет',
 	'uploadimg_align_left' => 'слева',
 	'uploadimg_align_right' => 'справа',
+	'uploadimg_align_center' => 'по центру',
 	'uploadimg_submit' => 'Загрузить',
 	'uploadimg_cancel' => 'Отмена',
 	'uploadimg_title' => 'Описание',

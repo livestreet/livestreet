@@ -15,6 +15,7 @@
 					<option value="">{$aLang.uploadimg_align_no}</option>
 					<option value="left">{$aLang.uploadimg_align_left}</option>
 					<option value="right">{$aLang.uploadimg_align_right}</option>
+					<option value="center">{$aLang.uploadimg_align_center}</option>
 				</select>
 			</p>
 			<p><label>{$aLang.uploadimg_title}:<br />

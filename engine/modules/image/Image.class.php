@@ -351,8 +351,12 @@ class ModuleImage extends Module {
 			 */
 			if(!isset($aParams['alt'])) $aParams['alt']=$aParams['title'];
 		}
-		if (isset($aParams['align']) and in_array($aParams['align'],array('left','right'))) {
-			$sText.=' align="'.htmlspecialchars($aParams['align']).'" ';
+		if (isset($aParams['align']) and in_array($aParams['align'],array('left','right','center'))) {
+			if ($aParams['align'] == 'center') {
+				$sText.=' class="image-center"';
+			} else {
+				$sText.=' align="'.htmlspecialchars($aParams['align']).'" ';
+			}
 		}
 		$sAlt = isset($aParams['alt'])
 			? ' alt="'.htmlspecialchars($aParams['alt']).'"'

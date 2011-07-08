@@ -15,6 +15,7 @@
 .topic .content ol { list-style-type: decimal; margin-left: 22px; }
 .topic .content img[align="right"] { margin: 4px 0 5px 15px; }
 .topic .content img[align="left"] { margin: 4px 15px 10px 0; }
+.topic .content img.image-center { display: block; margin: 0 auto; }
 
 /* Tags */
 .topic .tags { margin: 0 0 6px; padding-left: 23px; background: url(../images/tag.png) no-repeat 0 2px; }

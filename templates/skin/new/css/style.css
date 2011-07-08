@@ -237,6 +237,7 @@ select { width: 99%; }
 /* Generic Style of Topic */
 .topic .content { font-size: 14px; line-height: 20px; margin-bottom: 15px; font-family: Verdana, sans-serif;}
 .topic .content img { margin: 5px; }
+.topic .content img.image-center { display: block; margin: 0 auto; }
 .topic .content p { margin-bottom: 15px; }
 
 .topic .content ul, ol { margin-bottom: 15px; margin-left: 20px; }
