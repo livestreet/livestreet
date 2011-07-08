@@ -33,14 +33,14 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	 * принадлежит ли блок одному из плагинов, или является пользовательским классом движка
 	 */
 	if(isset($aParams['params']) and isset($aParams['params']['plugin'])) {
-		
 		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/block.'.$aParams['block'].'.tpl';	
-                  $sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_'.$sBlock;
+                  $sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock;
 	} else {		
 		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','block.'.$aParams['block'].'.tpl');
+                  $sBlock ='Block'.$sBlock;
 	}
-         $sBlock=Engine::getInstance()->Plugin_GetDelegate('block','Block'.$sBlock);
-         
+
+         $sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
          
 	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
 		$oSmarty->trigger_error("Not found template for block: ".$sBlockTemplate);
