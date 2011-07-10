@@ -18,7 +18,7 @@
  * Модуль поддержки языковых файлов
  *
  */
-class ModuleLang extends Module {		
+class ModuleLang extends Module {
 	/**
 	 * Текущий язык ресурса
 	 *
@@ -41,7 +41,7 @@ class ModuleLang extends Module {
 	 * @var array
 	 */
 	protected $aLangMsg=array();
-	
+
 	/**
 	 * Инициализация модуля
 	 *
@@ -49,7 +49,7 @@ class ModuleLang extends Module {
 	 */
 	public function Init() {
 		$this->Hook_Run('lang_init_start');
-		
+
 		$this->sCurrentLang = Config::Get('lang.current');
 		$this->sDefaultLang = Config::Get('lang.default');
 		$this->sLangPath = Config::Get('lang.path');
@@ -60,14 +60,14 @@ class ModuleLang extends Module {
 	 *
 	 * @return null
 	 */
-	protected function InitLang() {		
+	protected function InitLang() {
 		/**
 		 * Если используется кеширование через memcaсhed, то сохраняем данные языкового файла в кеш
 		 */
-		if (Config::Get('sys.cache.type')=='memory') {			
+		if (Config::Get('sys.cache.type')=='memory') {
 			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}"))) {
 				$this->aLangMsg=array();
-				$this->LoadLangFiles($this->sDefaultLang);			
+				$this->LoadLangFiles($this->sDefaultLang);
 				if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
 				$this->Cache_Set($this->aLangMsg, "lang_{$this->sCurrentLang}_".Config::Get('view.skin'), array(), 60*60);
 			}
@@ -79,7 +79,7 @@ class ModuleLang extends Module {
 		/**
 		 * Загружаем в шаблон
 		 */
-		$this->Viewer_Assign('aLang',$this->aLangMsg);		
+		$this->Viewer_Assign('aLang',$this->aLangMsg);
 	}
 	/**
 	 * Загружает текстовки из языковых файлов
@@ -87,9 +87,9 @@ class ModuleLang extends Module {
 	 * @return null
 	 */
 	protected function LoadLangFiles($sLangName) {
-		$sLangFilePath = $this->sLangPath.'/'.$sLangName.'.php'; 
+		$sLangFilePath = $this->sLangPath.'/'.$sLangName.'.php';
 		if(file_exists($sLangFilePath)) {
-			$this->AddMessages(include($sLangFilePath));							
+			$this->AddMessages(include($sLangFilePath));
 		}
 		/**
 		 * Ищет языковые файлы модулей и объединяет их с текущим
@@ -101,38 +101,38 @@ class ModuleLang extends Module {
 					$sFileConfig=$sDirConfig.$sDirModule.'/'.$sLangName.'.php';
 					if (file_exists($sFileConfig)) {
 						$this->AddMessages(include($sFileConfig), array('category' =>'module', 'name' =>$sDirModule));
-					}					
+					}
 				}
 			}
 			closedir($hDirConfig);
 		}
-		
+
 		/**
 		 * Ищет языковые файлы актвиированных плагинов
 		 */
 		if($aPluginList = Engine::getInstance()->GetPlugins()) {
 			$aPluginList=array_keys($aPluginList);
 			$sDir=Config::Get('path.root.server').'/plugins/';
-			
+
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDir.$sPluginName.'/templates/language/'.$sLangName.'.php');
 				if($aFiles and count($aFiles)) {
-						foreach ($aFiles as $sFile) {
-							if (file_exists($sFile)) {
-								$this->AddMessages(include($sFile), array('category' =>'plugin', 'name' =>$sPluginName));
-							}
+					foreach ($aFiles as $sFile) {
+						if (file_exists($sFile)) {
+							$this->AddMessages(include($sFile), array('category' =>'plugin', 'name' =>$sPluginName));
+						}
 					}
 				}
 			}
 
 		}
-		
+
 		/**
 		 * Ищет языковой файл текущего шаблона
 		 */
 		$this->LoadLangFileTemplate($sLangName);
 	}
-	
+
 	/**
 	 * Загружает языковой файл текущего шаблона
 	 *
@@ -168,7 +168,7 @@ class ModuleLang extends Module {
 	 */
 	public function GetLangDefault() {
 		return $this->sDefaultLang;
-	}	
+	}
 	/**
 	 * Получить список текстовок
 	 *
@@ -186,37 +186,37 @@ class ModuleLang extends Module {
 	 * @return string
 	 */
 	public function Get($sName,$aReplace=array()) {
-                  if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
-                      $sLang = &$this->aLangMsg;
-                      $aKeys = explode('.', $sName);
-                      foreach ($aKeys as $k) {
-                          if (isset($sLang[$k])) {
-                              $sLang = $sLang[$k];
-                          } else {
-                              return  'NOT_FOUND_LANG_TEXT';
-                          }
-                      }
-                  } else {
-                        if (isset($this->aLangMsg[$sName])) {
-                            $sLang=$this->aLangMsg[$sName];
-                        } else {
-                            return 'NOT_FOUND_LANG_TEXT';
-                        }
-                  }
+		if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
+			$sLang = &$this->aLangMsg;
+			$aKeys = explode('.', $sName);
+			foreach ($aKeys as $k) {
+				if (isset($sLang[$k])) {
+					$sLang = $sLang[$k];
+				} else {
+					return  'NOT_FOUND_LANG_TEXT';
+				}
+			}
+		} else {
+			if (isset($this->aLangMsg[$sName])) {
+				$sLang=$this->aLangMsg[$sName];
+			} else {
+				return 'NOT_FOUND_LANG_TEXT';
+			}
+		}
 
-                   if(is_array($aReplace)&&count($aReplace)&&is_string($sLang)) {
-                        foreach ($aReplace as $sFrom => $sTo) {
-                            $aReplacePairs["%%{$sFrom}%%"]=$sTo;
-                        }
-                        $sLang=strtr($sLang,$aReplacePairs);
-                    }
+		if(is_array($aReplace)&&count($aReplace)&&is_string($sLang)) {
+			foreach ($aReplace as $sFrom => $sTo) {
+				$aReplacePairs["%%{$sFrom}%%"]=$sTo;
+			}
+			$sLang=strtr($sLang,$aReplacePairs);
+		}
 
-                    if(Config::Get('module.lang.delete_undefined') and is_string($sLang)) {
-                        $sLang=preg_replace("/\%\%[\S]+\%\%/U",'',$sLang);
-                    }
-                    return $sLang;
+		if(Config::Get('module.lang.delete_undefined') and is_string($sLang)) {
+			$sLang=preg_replace("/\%\%[\S]+\%\%/U",'',$sLang);
+		}
+		return $sLang;
 	}
-	
+
 	/**
      * Добавить к текстовкам массив сообщений
      *
@@ -224,19 +224,19 @@ class ModuleLang extends Module {
      */
 	public function AddMessages($aMessages, $aBlock = null) {
 		if (is_array($aMessages)) {
-                           if (!Config::Get('lang.disable_blocks') && is_array($aBlock)) {
-                               if (isset($aBlock['category'])) {
-                                   if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
-                                   $this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
-                               } else {
-                                   $this->aLangMsg [$aBlock['name']] = $aMessages;
-                               }
-                           } 
-                            if (count($this->aLangMsg)==0) {
-                                $this->aLangMsg = $aMessages;
-                            } else {
-                                $this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
-                            }
+			if (!Config::Get('lang.disable_blocks') && is_array($aBlock)) {
+				if (isset($aBlock['category'])) {
+					if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
+					$this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
+				} else {
+					$this->aLangMsg [$aBlock['name']] = $aMessages;
+				}
+			}
+			if (count($this->aLangMsg)==0) {
+				$this->aLangMsg = $aMessages;
+			} else {
+				$this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
+			}
 		}
 	}
 
@@ -249,7 +249,7 @@ class ModuleLang extends Module {
 	public function AddMessage($sKey, $sMessage) {
 		$this->aLangMsg[$sKey] = $sMessage;
 	}
-	
+
 	/**
 	 * Завершаем работу модуля
 	 *
