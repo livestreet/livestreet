@@ -309,7 +309,7 @@ select { width: 99%; }
 .block .bl { height: 19px; background: url(../images/sidebar-bl.gif) no-repeat bottom left; }
 .block .br { height: 19px; background: url(../images/sidebar-br.gif) no-repeat bottom right; }
 .block .cl { background: url(../images/sidebar-cl.gif) repeat-y left; }
-.block .cr { padding: 0px 25px; background: url(../images/sidebar-cr.gif) repeat-y right; }
+.block .cr { padding: 0px 25px; background: url(../images/sidebar-cr.gif) repeat-y right; overflow: hidden; }
 
 .tags .tl { height: 19px; background: url(../images/sidebar-tags-tl.gif) no-repeat top left; }
 .tags .tr { height: 19px; background: url(../images/sidebar-tags-tr.gif) no-repeat top right; }
@@ -824,10 +824,10 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 
 /* Stat
 -------------------------------------------------------------------*/
-.stat-performance { padding: 20px; background: #f0f7fd; border-top: 1px solid #d1e7f9; color: #333; }
+.stat-performance { padding: 20px; background: #fff; border: 1px solid #ddd; color: #333; margin: 0 20px; border-radius: 10px; }
 .stat-performance table { margin-top: 15px; }
 .stat-performance table td { width: 200px; vertical-align: top; }
-.stat-performance h4 { font-weight: bold; color: #81B2DB; }
+.stat-performance h4 { font-weight: bold; }
 
 /* Userfeed
 -------------------------------------------------------------------*/
@@ -881,9 +881,9 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 .userfield-form { 
 	display: none; 
 
-	width: 180px; 
+	width: 270px; 
 	padding: 15px; 
-	margin-left: -75px; 
+	margin-left: -120px; 
 	position: absolute; 
 	left: 50%;
 	
@@ -894,7 +894,7 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 	box-shadow: 0 0 10px #ddd;
 }
 .userfield-form p { margin-bottom: 10px; }
-.userfield-form .input-text { width: 174px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+.userfield-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
 
 
 

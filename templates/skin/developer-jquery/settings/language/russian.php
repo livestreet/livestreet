@@ -13,7 +13,7 @@ return array(
 	'comment_leave' => 'Оставить комменатрий',
 	'topic_poll_add_item' => 'Добавить вариант',
 	'topic_poll_delete_item' => 'Удалить',
-	'admin_plugins_manage' => 'Управление плагинами',
+	'admin_title' => 'Админка',
 );
 
 ?>

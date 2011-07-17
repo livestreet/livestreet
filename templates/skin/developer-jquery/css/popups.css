@@ -27,6 +27,6 @@
 
 
 /* Add userfield popup */
-.userfield-form { width: 180px; padding: 15px; margin-left: -75px; position: absolute; top: 100px; left: 50%; background-color: #fff; border: 1px solid #666; display: none; }
+.userfield-form { width: 270px; padding: 15px; margin-left: -120px; position: absolute; top: 100px; left: 50%; background-color: #fff; border: 1px solid #666; display: none; }
 .userfield-form p { margin-bottom: 10px; }
-.userfield-form .input-text { width: 174px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+.userfield-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }

@@ -431,11 +431,11 @@ p { margin-bottom: 18px; }
 .userfield-add:hover { color: #333; border-color: #333; }
 
 .userfield-form { 
-	display: none; 
+	display: none;
 
-	width: 180px; 
+	width: 270px; 
 	padding: 15px; 
-	margin-left: -75px; 
+	margin-left: -120px; 
 	position: absolute; 
 	left: 50%;
 	
@@ -446,7 +446,7 @@ p { margin-bottom: 18px; }
 	box-shadow: 0 0 10px #ddd;
 }
 .userfield-form p { margin-bottom: 10px; }
-.userfield-form .input-text { width: 174px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+.userfield-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
 
 
 

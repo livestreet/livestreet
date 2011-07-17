@@ -1,4 +1,4 @@
-{include file='header.tpl' showWhiteBack=true}
+{include file='header.tpl'}
 
 <ul>
     <li><a href="{router page="admin"}plugins">{$aLang.admin_list_plugins}</a></li>

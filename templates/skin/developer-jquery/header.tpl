@@ -62,7 +62,7 @@
 		{include file='header_top.tpl'}
 
 		<div id="wrapper">
-			<div id="content">
+			<div id="content" {if $noSidebar}style="width: 915px"{/if}>
 				{include file='window_login.tpl'}
 				{include file='nav.tpl'}
 				{include file='system_message.tpl'}

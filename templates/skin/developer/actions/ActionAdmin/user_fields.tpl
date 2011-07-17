@@ -32,8 +32,8 @@
                            / <span class="userfield_admin_pattern">{$oField->getPattern()|escape:"html"}</span>
 			
 			<div class="uf-actions">
-				<a href="javascript:userfieldShowEditForm({$oField->getId()})" title="{$aLang.user_field_update}"><img src="{cfg name='path.static.skin'}/images/edit.gif" alt="image" /></a> 
-				<a href="javascript:deleteUserfield({$oField->getId()})" title="{$aLang.user_field_delete}"><img src="{cfg name='path.static.skin'}/images/delete.gif" alt="image" /></a>
+				<a href="javascript:userfieldShowEditForm({$oField->getId()})" title="{$aLang.user_field_update}"><img src="{cfg name='path.static.skin'}/images/edit.png" alt="image" /></a> 
+				<a href="javascript:deleteUserfield({$oField->getId()})" title="{$aLang.user_field_delete}"><img src="{cfg name='path.static.skin'}/images/delete.png" alt="image" /></a>
 			</div>
 		</li>
 	{/foreach}

@@ -9,7 +9,7 @@
 	<div id="footer">
 		<div class="right">Powered by <a href="http://livestreetcms.ru">LiveStreet CMS</a></div>
 		Автор шаблона &mdash; <a href="http://deniart.ru">deniart</a>
-		{if $oUserCurrent and $oUserCurrent->isAdministrator()}| <a href="{cfg name='path.root.web'}/admin/plugins">{$aLang.admin_plugins_manage}</a>{/if}
+		{if $oUserCurrent and $oUserCurrent->isAdministrator()}| <a href="{cfg name='path.root.web'}/admin">{$aLang.admin_title}</a>{/if}
 	</div>
 
 </div><!-- /container -->
