@@ -12,7 +12,7 @@
         <a class="stream-get-more" id="stream_get_more" href="javascript:ls.stream.getMore()">{$aLang.stream_get_more} &darr;</a>
     {/if}
 {else}
-    <p style="margin-left:30px">{$aLang.stream_no_events}</p>
+    {$aLang.stream_no_events}
 {/if}
 
 
