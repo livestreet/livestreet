@@ -3,21 +3,24 @@ var ls = ls || {};
 ls.stream =( function ($) {
     this.isBusy = false;
     this.subscribe = function (iTargetUserId) {
-        ls.ajax(aRouter['stream']+'subscribe', {'id':iTargetUserId}, function(data) { 
+        ls.ajax(aRouter['stream']+'subscribe/', {'id':iTargetUserId}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
+                } else {
+                    ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
+                
             });
     }
     this.unsubscribe = function (iId) {
-         ls.ajax(aRouter['stream']+'unsubscribe', {'id':iId}, function(data) { 
+         ls.ajax(aRouter['stream']+'unsubscribe/', {'id':iId}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
             });
     }
     this.switchEventType = function (iType) {
-         ls.ajax(aRouter['stream']+'switchEventType', { 'type':iType}, function(data) { 
+         ls.ajax(aRouter['stream']+'switchEventType/', { 'type':iType}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
@@ -26,7 +29,7 @@ ls.stream =( function ($) {
     this.appendUser = function() {
         var sLogin = $('#stream_users_complete').val();
         if (!sLogin) return;
-        ls.ajax(aRouter['stream']+'subscribeByLogin', {'login':sLogin}, function(data) {
+        ls.ajax(aRouter['stream']+'subscribeByLogin/', {'login':sLogin}, function(data) {
             if (!data.bStateError) {
                 $('#stream_no_subscribed_users').remove();
                 var checkbox = $('#strm_u_'+data.uid);
@@ -42,6 +45,8 @@ ls.stream =( function ($) {
                     $('#stream_block_users_list').append(liElement);
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
+            } else {
+                ls.msg.notice(data.sMsgTitle,data.sMsg);
             }
         });
     }
@@ -53,7 +58,7 @@ ls.stream =( function ($) {
         if (!lastId) return;
         $('#stream_get_more').addClass('stream_loading');
         this.isBusy = true;
-        ls.ajax(aRouter['stream']+'get_more', {'last_id':lastId}, function(data) {
+        ls.ajax(aRouter['stream']+'get_more/', {'last_id':lastId}, function(data) {
             if (!data.bStateError && data.topics_count) {
                 $('#stream_loaded_topics').append(data.result);
                 $('#stream_last_id').attr('value', data.iStreamLastId);

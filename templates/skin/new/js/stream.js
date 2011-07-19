@@ -2,7 +2,7 @@ function lsStreamClass() {
     this.isBusy = false;
     this.subscribe = function (iTargetUserId) {
         new Request.JSON({
-            url: aRouter['stream']+'subscribe',
+            url: aRouter['stream']+'subscribe/',
             data: {'id':iTargetUserId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
@@ -13,7 +13,7 @@ function lsStreamClass() {
     }
     this.unsubscribe = function (iId) {
         new Request.JSON({
-            url: aRouter['stream']+'unsubscribe',
+            url: aRouter['stream']+'unsubscribe/',
             data: { 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
@@ -24,7 +24,7 @@ function lsStreamClass() {
     }
     this.switchEventType = function (iType) {
         new Request.JSON({
-            url: aRouter['stream']+'switchEventType',
+            url: aRouter['stream']+'switchEventType/',
             data: { 'type':iType, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
@@ -37,7 +37,7 @@ function lsStreamClass() {
         sLogin = $('stream_users_complete').get('value');
         if (!sLogin) return;
         new Request.JSON({
-            url: aRouter['stream']+'subscribeByLogin',
+            url: aRouter['stream']+'subscribeByLogin/',
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
@@ -81,7 +81,7 @@ function lsStreamClass() {
         $('stream_get_more').addClass('stream_loading');
         this.isBusy = true;
         new Request.JSON({
-            url: aRouter['stream']+'get_more',
+            url: aRouter['stream']+'get_more/',
             data: {'last_id':lastId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateErro && data.events_count) {

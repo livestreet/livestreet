@@ -11,6 +11,9 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/libs/markitup/jquery.markitup.js",
 	"___path.static.skin___/js/libs/markitup/sets/default/set.js",
 	"___path.static.skin___/js/libs/jquery.form.js",
+	"___path.static.skin___/js/libs/jquery.jqplugin.1.0.2.min.js",
+	"___path.static.skin___/js/libs/jquery.cookie.js",
+         "___path.static.skin___/js/ls.lang.ru.js",
 	"___path.static.skin___/js/main.js",
 	"___path.static.skin___/js/favourite.js",
 	"___path.static.skin___/js/blocks.js",
@@ -22,6 +25,7 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/friend.js",
          "___path.static.skin___/js/userfeed.js",
          "___path.static.skin___/js/stream.js",
+         "___path.static.skin___/js/other.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

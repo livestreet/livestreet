@@ -1,0 +1,97 @@
+/* MILKBOX */
+
+#mbOverlay {
+	position: absolute;
+	left: 0;
+	width:100%;
+	background-color: #000; /* set the Milkbox overlay color // opacity: see the js options */
+	z-index:1000;
+	cursor: pointer;
+}
+
+#mbCenter {
+	/* for default width and height, see the js options */
+	position: absolute;
+	z-index:1001;
+	overflow:hidden;
+	left: 50%;
+	top:10%;/* overwritten in the js options to properly position the milkbox when activated in a scrolled window */
+	background-color: #fff;/* set the Milkbox background color */
+	border: 5px solid #fff;/* set the Milkbox border */
+	margin:0; padding:5px;/* set the Milkbox padding */
+}
+
+.mbLoading{ background: #fff url(loading.gif) no-repeat center; }/* IMAGE: loading gif */
+
+#mbCanvas{ margin:0; padding:0; height:0; border:none; font-size:0; overflow:hidden; }
+
+.mbClear{ clear:both; height:0; margin:0; padding:0; font-size:0; overflow:hidden; }
+
+
+/* *** BOTTOM *** */
+
+#mbBottom { 
+	/* set text options */
+	font-family: Verdana, Arial, Geneva, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666;
+	line-height: 1.4em;
+	text-align: left;
+	padding-top:8px;
+	margin:0;
+}
+
+/* navigation */
+/* be careful if you change buttons dimensions */
+
+#mbNavigation{
+	float:right;
+	width:27px;
+	padding-top:3px;
+	border-left:1px solid #9c9c9c;/* set nav border */
+}
+
+
+#mbCount{ 
+	width:55px; 
+	overflow:hidden;
+	padding-top:1px;
+	float:right;
+	text-align:right;
+	font-size:9px; /* count font size */
+}
+
+#mbCloseLink, #mbPrevLink, #mbNextLink, #mbPlayPause{
+	outline:none;
+	display:block;
+	float:right;
+	height:19px;
+	cursor: pointer;
+}
+
+
+#mbPrevLink, #mbNextLink{ width:15px; }
+#mbPrevLink{ background: transparent url(prev.gif) no-repeat; }/* IMAGE: prev */
+#mbNextLink{ background: transparent url(next.gif) no-repeat; }/* IMAGE: next */
+
+#mbPlayPause{ width:13px; }
+#mbPlayPause{ background: transparent url(play-pause.gif) no-repeat; }/* IMAGE: prev */
+
+
+/* NOTE: doesn't work in ie6, so, just see the js options :) */
+a#mbPrevLink:hover,a#mbNextLink:hover,a#mbCloseLink:hover,a#mbPlayPause:hover { background-position: 0 -22px; }
+
+#mbCloseLink {
+	width:17px;
+	background: transparent url(close.gif) no-repeat;/* IMAGE: close */
+}
+
+/* description */
+
+#mbDescription{
+	margin-right:27px;
+	padding:0px 10px 0 0;
+	font-weight: normal;
+	text-align:justify;
+}
+

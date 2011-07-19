@@ -287,7 +287,35 @@ class ModuleTopic_EntityTopic extends Entity
     	$this->setExtra($this->aExtra);
     }
     
+    // Методы для фото-топика
     
+    public function getPhotos($iFromId = null, $iCount = null)
+    {
+        return $this->Topic_getPhotosByTopicId($this->getId(), $iFromId, $iCount);
+    }
+    
+     public function getPhotosCount()
+    {
+        return $this->Topic_getCountPhotosByTopicId($this->getId());
+    }
+    
+    public function getMainPhotoId()
+    {
+         $this->extractExtra();
+         return $this->aExtra['main_photo'];
+    }
+    
+    public function getMainPhoto()
+    {
+         $this->extractExtra();
+         return $this->Topic_getTopicPhotoById($this->aExtra['main_photo']);
+    }
+    
+    public function getMainPhotoDescription()
+    {
+         $this->extractExtra();
+         return $this->aExtra['main_photo_description'];
+    }
     
     //*************************************************************************************************************************************************
 	public function setId($data) {
@@ -380,6 +408,21 @@ class ModuleTopic_EntityTopic extends Entity
     }
     public function setIsFavourite($data) {
         $this->_aData['topic_is_favourite']=$data;
+    }
+    
+    // Методы для фото-топика
+
+    public function setMainPhoto($iPhotoId)
+    {
+         $this->extractExtra();
+         $this->aExtra['main_photo'] = $iPhotoId;
+         $this->setExtra($this->aExtra);
+    }
+    public function setMainPhotoDescription($sDescription)
+    {
+         $this->extractExtra();
+         $this->aExtra['main_photo_description'] = $sDescription;
+         $this->setExtra($this->aExtra);
     }
 }
 ?>

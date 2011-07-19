@@ -1405,5 +1405,136 @@ class ModuleTopic extends Module {
 		@unlink($sFileTmp);
 		return ModuleImage::UPLOAD_IMAGE_ERROR;
 	}
+         public function getTopicPhotoById($iPhotoId)
+         {
+             return $this->oMapperTopic->getTopicPhotoById($iPhotoId);
+         }
+         public function getPhotosByTopicId($iTopicId, $iFromId = null, $iCount = null)
+         {
+             return $this->oMapperTopic->getPhotosByTopicId($iTopicId, $iFromId, $iCount);
+         }
+         
+         public function getPhotosByTargetTmp($sTargetTmp)
+         {
+             return $this->oMapperTopic->getPhotosByTargetTmp($sTargetTmp);
+         }
+         
+         public function getCountPhotosByTopicId($iTopicId)
+         {
+             return $this->oMapperTopic->getCountPhotosByTopicId($iTopicId);
+         }
+         public function getCountPhotosByTargetTmp($sTargetTmp)
+         {
+             return $this->oMapperTopic->getCountPhotosByTargetTmp($sTargetTmp);
+         }
+         
+         public function getTopicMainPhoto($iTopicId)
+         {
+             return $this->oMapperTopic->getTopicMainPhoto($iTopicId);
+         }
+         
+         public function addTopicPhoto($oPhoto)
+         {
+             return $this->oMapperTopic->addTopicPhoto($oPhoto);
+         }
+         
+         public function updateTopicPhoto($oPhoto)
+         {
+             $this->oMapperTopic->updateTopicPhoto($oPhoto);
+         }
+    
+         public function deleteTopicPhoto($oPhoto)
+         {
+             $this->oMapperTopic->deleteTopicPhoto($oPhoto->getId());
+             
+             $sUploadsDir = Config::Get('path.root.server') . Config::Get('path.uploads.root') . '/';
+            unlink($sUploadsDir . $oPhoto->getPath());
+            list ($sFileBase, $sFileExt) =  explode('.', $oPhoto->getPath());
+            $aSizes=Config::Get('topic.image.size');
+            // Удаляем все сгенерированные миниатюры основываясь на данных из конфига.
+            foreach ($aSizes as $aSize)
+            {
+                $sFileName = $sUploadsDir . $sFileBase.'_'.$aSize['w'];
+                if ($aSize['crop'])
+                {
+                    $sFileName .= 'crop';
+                }
+                $sFileName .=  '.' . $sFileExt;
+                unlink($sFileName);
+            }
+            return;
+         }
+         
+         public function uploadImage($aFile)
+        {
+            if(!is_array($aFile) || !isset($aFile['tmp_name']))
+            {
+                return false;
+            }
+
+            $sFileName = func_generator(10);
+            $sIdDir = $this->getIdDir();
+            $sPath = Config::Get('path.root.server') . Config::Get('path.uploads.root') . '/' .  $sIdDir;
+
+            if (!is_dir($sPath))
+            {
+                mkdir($sPath, 0755, true);
+            }
+
+            $sFile = $sPath . $sFileName;
+            if (!move_uploaded_file($aFile['tmp_name'],$sFile))
+            {
+                return false;
+            }
+
+            $aParams=$this->Image_BuildParams('topic');
+
+            $oImage = new LiveImage($sFile);
+            /**
+             * Если объект изображения не создан,
+             * возвращаем ошибку
+             */
+            if($sError=$oImage->get_last_error()) {
+                // Вывод сообщения об ошибки, произошедшей при создании объекта изображения
+                $this->Message_AddError($sError,$this->Lang_Get('error'));
+                @unlink($sFile);
+                return false;
+            }
+
+            // Добавляем к загруженному файлу расширение
+            rename($sFile, $sFile . '.' . $oImage->get_image_params('format'));
+            $sFile = $sFile . '.' . $oImage->get_image_params('format');
+
+            $aSizes=Config::Get('topic.image.size');
+            // превращаем путь в относительный, т.к. графическая библиотека полные не понимает
+            $sPath= str_replace(Config::Get('path.root.server'), '', $sPath);
+            foreach ($aSizes as $aSize)
+            {
+                // Для каждого указанного в конфиге размера генерируем картинку
+                $sNewFileName = $sFileName.'_'.$aSize['w'];
+                $oImage = new LiveImage($sFile);
+                if ($aSize['crop'])
+                {
+                    $this->Image_CropProportion($oImage, $aSize['w'], $aSize['h'], true);
+                    $sNewFileName .= 'crop';
+                }
+                $this->Image_Resize($sFile,$sPath,$sNewFileName,Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$aSize['w'],$aSize['h'],true,$aParams,$oImage);
+            }
+
+            $sFile =  $sIdDir . $sFileName . '.' . $oImage->get_image_params('format');
+            return $sFile;
+	}
+    
+        /**
+        * Получение пути до каталога, куда загружаются изображения
+        * @param int $iTopicId
+        * @return string Путь вида 'images/topic/00/00/00/<id>/YYYY/mm/dd/
+        */
+        private function getIdDir()
+        {
+            $sDateDir = date('Y/m/d');
+
+            return 'images/topic/' . $sDateDir . '/';
+        }
 }
 ?>

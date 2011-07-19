@@ -3,14 +3,14 @@ var ls = ls || {};
 ls.userfeed =( function ($) {
     this.isBusy = false;
     this.subscribe = function (sType, iId) {
-       ls.ajax(aRouter['feed']+'subscribe', {'type':sType, 'id':iId}, function(data) { 
+       ls.ajax(aRouter['feed']+'subscribe/', {'type':sType, 'id':iId}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
             });
     }
     this.unsubscribe = function (sType, iId) {
-         ls.ajax(aRouter['feed']+'unsubscribe', {'type':sType, 'id':iId}, function(data) { 
+         ls.ajax(aRouter['feed']+'unsubscribe/', {'type':sType, 'id':iId}, function(data) { 
                 if (!data.bStateError) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
@@ -19,7 +19,7 @@ ls.userfeed =( function ($) {
     this.appendUser = function() {
         var sLogin = $('#userfeed_users_complete').val();
         if (!sLogin) return;
-         ls.ajax(aRouter['feed']+'subscribeByLogin', {'login':sLogin}, function(data) {
+         ls.ajax(aRouter['feed']+'subscribeByLogin/', {'login':sLogin}, function(data) {
                 if (!data.bStateError) {
                     $('#stream_no_subscribed_users').remove();
                     var checkbox = $('#usf_u_'+data.uid);
@@ -46,7 +46,7 @@ ls.userfeed =( function ($) {
         if (!lastId) return;
         $('#userfeed_get_more').addClass('userfeed_loading');
         this.isBusy = true;
-        ls.ajax(aRouter['feed']+'get_more', {'last_id':lastId}, function(data) {
+        ls.ajax(aRouter['feed']+'get_more/', {'last_id':lastId}, function(data) {
             if (!data.bStateError && data.topics_count) {
                 $('#userfeed_loaded_topics').append(data.result);
                 $('#userfeed_last_id').attr('value', data.iUserfeedLastId);

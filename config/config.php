@@ -275,6 +275,7 @@ $config['db']['table']['stream_event']        = '___db.table.prefix___stream_eve
 $config['db']['table']['stream_config']       = '___db.table.prefix___stream_config';
 $config['db']['table']['user_field']         = '___db.table.prefix___user_field';
 $config['db']['table']['user_field_value']  = '___db.table.prefix___user_field_value';
+$config['db']['table']['topic_photo']  = '___db.table.prefix___topic_photo';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -319,6 +320,7 @@ $config['router']['page']['admin']         = 'ActionAdmin';
 $config['router']['page']['ajax']          = 'ActionAjax';
 $config['router']['page']['feed']          = 'ActionUserfeed';
 $config['router']['page']['stream']        = 'ActionStream';
+$config['router']['page']['photoset']        = 'ActionPhotoset';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';
@@ -433,6 +435,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/vlaCal-v2.1/jslib/vlaCal-v2.1.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/iFrameFormRequest/iFrameFormRequest.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
+         "___path.static.skin___/js/ls.lang.ru.js",
 	"___path.static.skin___/js/vote.js",
 	"___path.static.skin___/js/favourites.js",
 	"___path.static.skin___/js/questions.js",
@@ -474,7 +477,7 @@ $config['compress']['css']['template']            = "highest_compression";
 /**
  * Параметры компрессии js-файлов
  */
-$config['compress']['js']['merge']  =true;    // указывает на необходимость слияния файлов по указанным блокам.
+$config['compress']['js']['merge']  = true;    // указывает на необходимость слияния файлов по указанным блокам.
 $config['compress']['js']['use']    = true;    // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 
 /**
@@ -487,6 +490,38 @@ date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/time
  * Настройки типографа текста Jevix
  */
 $config['jevix']=require(dirname(__FILE__).'/jevix.php');
+
+/**
+ * Настройка топика-фотосета
+ */
+$config['module']['image']['topic']['jpg_quality'] = 100;
+$config['module']['topic']['photoset']['photo_max_size'] = 1*1024; //kb
+$config['module']['topic']['photoset']['count_photos_min'] = 2;
+$config['module']['topic']['photoset']['count_photos_max'] = 30;
+$config['module']['topic']['photoset']['per_page'] = 5;
+$config['topic']['image']['width'] = 1000;
+$config['topic']['image']['size'] = array(
+                  array(
+			'w' => 1000,
+			'h' => null,
+			'crop' => false,
+		),
+                  array(
+			'w' => 500,
+			'h' => null,
+			'crop' => false,
+		),
+		array(
+			'w' => 100,
+			'h' => null,
+			'crop' => false,
+		),
+		array(
+			'w' => 50,
+			'h' => 50,
+			'crop' => true,
+		)
+	);
 
 return $config;
 ?>

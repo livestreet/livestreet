@@ -2,18 +2,20 @@ function lsUserfeedClass() {
     this.isBusy = false;
     this.subscribe = function (sType, iId) {
         new Request.JSON({
-            url: aRouter['feed']+'subscribe',
+            url: aRouter['feed']+'subscribe/',
             data: {'type':sType, 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
+                } else {
+                    msgErrorBox.alert(data.sMsgTitle,data.sMsg);
                 }
             }
         }).send();
     }
     this.unsubscribe = function (sType, iId) {
         new Request.JSON({
-            url: aRouter['feed']+'unsubscribe',
+            url: aRouter['feed']+'unsubscribe/',
             data: {'type':sType, 'id':iId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
@@ -26,7 +28,7 @@ function lsUserfeedClass() {
         sLogin = $('userfeed_users_complete').get('value');
         if (!sLogin) return;
         new Request.JSON({
-            url: aRouter['feed']+'subscribeByLogin',
+            url: aRouter['feed']+'subscribeByLogin/',
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 $('userfeed_no_subscribed_users').dispose();
@@ -57,6 +59,8 @@ function lsUserfeedClass() {
                         liElement.inject($('userfeed_block_users_list'));
                         msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                     }
+                } else {
+                    msgErrorBox.alert(data.sMsgTitle,data.sMsg);
                 }
             }
         }).send();
@@ -70,7 +74,7 @@ function lsUserfeedClass() {
         $('userfeed_get_more').addClass('userfeed_loading');
         this.isBusy = true;
         new Request.JSON({
-            url: aRouter['feed']+'get_more',
+            url: aRouter['feed']+'get_more/',
             data: {'last_id':lastId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError && data.topics_count) {

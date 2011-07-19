@@ -671,6 +671,84 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}		
 		return false;
 	}
-	
+    
+         public function getPhotosByTopicId($iTopicId, $iFromId, $iCount)
+         {
+                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';
+                $aPhotos = $this->oDb->select($sql, $iTopicId, ($iFromId !== null) ? $iFromId : DBSIMPLE_SKIP, $iCount);
+                $aReturn = array();
+                if (is_array($aPhotos) && count($aPhotos)) {
+                    foreach($aPhotos as $aPhoto) {
+                        $aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+                    }
+                }
+                return $aReturn;
+         }
+         
+         public function getPhotosByTargetTmp($sTargetTmp)
+         {
+                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
+                $aPhotos = $this->oDb->select($sql, $sTargetTmp);
+                $aReturn = array();
+                if (is_array($aPhotos) && count($aPhotos)) {
+                    foreach($aPhotos as $aPhoto) {
+                        $aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+                    }
+                }
+                return $aReturn;
+         }
+         
+         public function getTopicPhotoById($iPhotoId)
+         {
+                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE id = ?d';
+                $aPhoto = $this->oDb->selectRow($sql, $iPhotoId);
+                if ($aPhoto) {
+                    return Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+                } else {
+                    return null;
+                }
+         }
+         
+         public function getCountPhotosByTopicId($iTopicId)
+         {
+                $sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d';
+                $aPhotosCount = $this->oDb->selectCol($sql, $iTopicId);
+                return $aPhotosCount[0];
+         }
+         
+         public function getCountPhotosByTargetTmp($sTargetTmp)
+         {
+                $sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
+                $aPhotosCount = $this->oDb->selectCol($sql, $sTargetTmp);
+                return $aPhotosCount[0];
+         }
+         
+         public function addTopicPhoto($oPhoto)
+         {
+             if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
+             $sTargetType = ($oPhoto->getTopicId()) ? 'topic_id' : 'target_tmp';
+             $iTargetId = ($sTargetType == 'topic_id') ? $oPhoto->getTopicId() : $oPhoto->getTargetTmp();
+             $sql = 'INSERT INTO '. Config::Get('db.table.topic_photo') . ' SET
+                        path = ?, description = ?, ?# = ?';
+             return $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $sTargetType, $iTargetId);
+         }
+         
+         public function updateTopicPhoto($oPhoto)
+         {
+             if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
+             if ($oPhoto->getTopicId()) {
+                 $oPhoto->setTargetTmp = null;
+             }
+             $sql = 'UPDATE '. Config::Get('db.table.topic_photo') . ' SET
+                        path = ?, description = ?, topic_id = ?d, target_tmp=? WHERE id = ?d';
+             $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $oPhoto->getTopicId(), $oPhoto->getTargetTmp(), $oPhoto->getId());
+         }
+         
+         public function deleteTopicPhoto($iPhotoId)
+         {
+             $sql = 'DELETE FROM '. Config::Get('db.table.topic_photo') . ' WHERE
+                        id= ?d';
+             $this->oDb->query($sql, $iPhotoId);
+         }
 }
 ?>

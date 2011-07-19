@@ -299,7 +299,30 @@ return array(
 	'topic_vote_ok' => 'Ваш голос учтен',
 	'topic_vote_ok_abstain' => 'Вы воздержались для просмотра рейтинга топика',
 	'topic_vote_count' => 'всего проголосовало',
-
+    
+        /**
+         * Фотосет
+         */
+         'topic_photoset_create' => 'Создание фотосета',
+         'topic_photoset_edit' => 'Редактирование фотосета',
+         'topic_photoset_upload_title' => 'Загрузка изображений',
+         'topic_photoset_upload_rules' => 'Доступна загрузка изображений в формат JPG, PNG, GIF<br />Размер изображений не должен превышать %%SIZE%% Kб<br />Максимальное число загружаемых изображений: %%COUNT%%',
+         'topic_photoset_choose_image' => 'Выберите изображение для загрузки',
+         'topic_photoset_is_preview' => 'Отмечено как превью к топику',
+         'topic_photoset_mark_as_preview' => 'Отметить как превью',
+         'topic_photoset_show_all' => 'Показать все %%COUNT%% фото',
+         'topic_photoset_count_images' => ' изображений',
+         'topic_photoset_show_more' => 'Показать ещё фото',
+         'topic_photoset_error_count_photos' => 'В топике может быть от %%MIN%% до %%MAX%% фото',
+         'topic_photoset_title' => 'Фотосет',
+         'topic_photoset_photo_deleted' => 'Фото удалено',
+         'topic_photoset_photo_added' => 'Фото добавлено',
+         'topic_photoset_error_too_much_photos' => 'Топик может содержать не более %%MAX%% фото',
+         'topic_photoset_title_edit' => 'Редактирование фотосета',
+         'topic_photoset_title_create' => 'Создание фотосета',
+         'topic_photoset_error_bad_filesize' => 'Размер фото должен быть не более %%MAX%% Кб',
+         'topic_photoset_photos' => 'фото',
+    
 	/**
 	 * Комментарии
 	 */
@@ -748,6 +771,7 @@ return array(
     
     'userfeed_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чьи топики хотите видеть',
     'userfeed_no_blogs' => 'Вы не вступили ни в один блог',
+    'userfeed_error_subscribe_to_yourself' => 'Вы не можете подписаться на себя',
 
     /**
      * Stream
@@ -775,7 +799,7 @@ return array(
     'stream_list_event_add_topic' => 'добавил новый топик',
     'stream_list_event_add_blog' => 'добавил новый блог',
     'stream_list_event_add_comment' => 'прокомментировал топик',
-    'stream_list_event_vote_topic' => 'оцнил топик',
+    'stream_list_event_vote_topic' => 'оценил топик',
     'stream_list_event_vote_blog' => 'оценил блог',
     'stream_list_event_vote_user' => 'оценил пользователя',
     'stream_list_event_vote_comment' => 'оценил комментарий к топику',
