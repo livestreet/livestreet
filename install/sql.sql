@@ -674,12 +674,6 @@ ALTER TABLE `prefix_invite`
   ADD CONSTRAINT `prefix_invite_fk1` FOREIGN KEY (`user_to_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_page`
---
-ALTER TABLE `prefix_page`
-  ADD CONSTRAINT `prefix_page_fk` FOREIGN KEY (`page_pid`) REFERENCES `prefix_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `prefix_reminder`
 --
 ALTER TABLE `prefix_reminder`
