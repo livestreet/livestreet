@@ -35,10 +35,6 @@ class ActionPhotoset extends Action {
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
-//		if (!$this->User_IsAuthorization()) {
-//			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
-//			return Router::Action('error'); 
-//		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title'));
@@ -48,12 +44,12 @@ class ActionPhotoset extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {		
-		$this->AddEvent('add','EventAdd');					
-		$this->AddEvent('edit','EventEdit');		
-		$this->AddEvent('deleteimage','EventDeleteImage');		
-		$this->AddEvent('upload','EventUpload');		
-		$this->AddEvent('getMore','EventGetMore');		
-		$this->AddEvent('setimagedescription','EventSetImageDescription');		
+		$this->AddEvent('add','EventAdd'); // Добавление топика		
+		$this->AddEvent('edit','EventEdit'); // Редактирование топика		
+		$this->AddEvent('deleteimage','EventDeleteImage'); // Удаление изображения		
+		$this->AddEvent('upload','EventUpload'); // Загрузка изображения
+		$this->AddEvent('getMore','EventGetMore');	// Загрузка изображения на сервер
+		$this->AddEvent('setimagedescription','EventSetImageDescription'); // Установка описания к фото
 	}
 		
 	
@@ -106,9 +102,11 @@ class ActionPhotoset extends Action {
     
          protected function EventUpload()
          {
+             // Флеш не передаёт куки, поэтому эмулируем передачу SSID
              if (isset($_REQUEST['SSID'])) {
                 session_id($_REQUEST['SSID']);
              }
+             // В зависимости от типа загрузчика устанавливается тип ответа
              if (getRequest('is_iframe')) {
                 $this->Viewer_SetResponseAjax('jsonIframe', false);
              } else {
@@ -117,6 +115,7 @@ class ActionPhotoset extends Action {
              $iTopicId = getRequest('topic_id');
              $sTargetId = null;
              $iCountPhotos = 0;
+             // Если от сервера не пришёл id топика, то пытаемся определить временный код для нового топика. Если и его нет. то это ошибка
              if (!$iTopicId) {
                  $sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequest('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
                  if (!$sTargetId) {
@@ -160,7 +159,7 @@ class ActionPhotoset extends Action {
          }
 	
 	/**
-	 * Редактирование ссылки
+	 * Редактирование 
 	 *
 	 * @return unknown
 	 */
@@ -237,6 +236,7 @@ class ActionPhotoset extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));	
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title_create'));
+                   // Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
                   if (empty($_COOKIE['ls_photoset_target_tmp'])) {
                        setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600);
                   } else {

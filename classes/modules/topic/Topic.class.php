@@ -1405,44 +1405,82 @@ class ModuleTopic extends Module {
 		@unlink($sFileTmp);
 		return ModuleImage::UPLOAD_IMAGE_ERROR;
 	}
+        /**
+         * Получить изображение из фотосета по его id
+         * @param type $iPhotoId
+         * @return type 
+         */
          public function getTopicPhotoById($iPhotoId)
          {
              return $this->oMapperTopic->getTopicPhotoById($iPhotoId);
          }
+         
+         /**
+          * Получить список изображений из фотосета по id топика
+          * @param type $iTopicId
+          * @param type $iFromId
+          * @param type $iCount
+          * @return type 
+          */
          public function getPhotosByTopicId($iTopicId, $iFromId = null, $iCount = null)
          {
              return $this->oMapperTopic->getPhotosByTopicId($iTopicId, $iFromId, $iCount);
          }
          
+         /**
+          * Получить список изображений из фотосета по временному коду
+          * @param type $sTargetTmp
+          * @return type 
+          */
          public function getPhotosByTargetTmp($sTargetTmp)
          {
              return $this->oMapperTopic->getPhotosByTargetTmp($sTargetTmp);
          }
          
+         /**
+          * Получить число изображений из фотосета по id топика
+          * @param type $iTopicId
+          * @return type 
+          */
          public function getCountPhotosByTopicId($iTopicId)
          {
              return $this->oMapperTopic->getCountPhotosByTopicId($iTopicId);
          }
+         
+         /**
+          * Получить число изображений из фотосета по id топика
+          * @param type $sTargetTmp
+          * @return type 
+          */
          public function getCountPhotosByTargetTmp($sTargetTmp)
          {
              return $this->oMapperTopic->getCountPhotosByTargetTmp($sTargetTmp);
          }
          
-         public function getTopicMainPhoto($iTopicId)
-         {
-             return $this->oMapperTopic->getTopicMainPhoto($iTopicId);
-         }
-         
+         /**
+          * Добавить к топику изображение
+          * @param type $oPhoto
+          * @return type 
+          */
          public function addTopicPhoto($oPhoto)
          {
              return $this->oMapperTopic->addTopicPhoto($oPhoto);
          }
          
+         /**
+          * обновить данные по изображению
+          * @param type $oPhoto 
+          */
          public function updateTopicPhoto($oPhoto)
          {
              $this->oMapperTopic->updateTopicPhoto($oPhoto);
          }
     
+         /**
+          * Удалить изображение
+          * @param type $oPhoto
+          * @return type 
+          */
          public function deleteTopicPhoto($oPhoto)
          {
              $this->oMapperTopic->deleteTopicPhoto($oPhoto->getId());
@@ -1465,6 +1503,11 @@ class ModuleTopic extends Module {
             return;
          }
          
+         /**
+          * Загрузить изображение
+          * @param type $aFile
+          * @return string 
+          */
          public function uploadImage($aFile)
         {
             if(!is_array($aFile) || !isset($aFile['tmp_name']))
