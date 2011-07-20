@@ -266,6 +266,10 @@ abstract class ModuleORM extends Module {
 	}
 
 	public function GetItemsByFilter($aFilter=array(),$sEntityFull=null) {
+		if (is_null($aFilter)) {
+			$aFilter = array();
+		}
+
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
 		} elseif (!substr_count($sEntityFull,'_')) {
