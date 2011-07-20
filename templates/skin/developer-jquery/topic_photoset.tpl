@@ -80,7 +80,7 @@
 			</ul>
 			<input type="hidden" id="photo_number" value="{$iPhotoNumber}" />
 			<input type="hidden" id="last_photo_id" value="{$iLastPhotoId}" />
-			<a href="javascript:getMorePhotos({$oTopic->getId()})" id="topic-photo-more" class="topic-photo-more">{$aLang.topic_photoset_show_more} &darr;</a>
+			<a href="javascript:ls.photoset.getMore({$oTopic->getId()})" id="topic-photo-more" class="topic-photo-more">{$aLang.topic_photoset_show_more} &darr;</a>
 		</div>
 	{/if}
 	<!-- /Topic Photo Image List -->

@@ -116,7 +116,7 @@ tinyMCE.init({
             <p id="topic-photo-upload-input" class="topic-photo-upload-input">
                 <label for="">{$aLang.topic_photoset_choose_image}:</label><br />
                 <input type="file" id="photoset-upload-file" name="Filedata" />
-                <a href="javascript:photosetUploadPhoto()" >upload</a>
+                <a href="javascript:ls.photoset.upload()" >upload</a>
                 <input type="hidden" name="is_iframe" value="true" />
                 <input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
             </p>
@@ -183,7 +183,7 @@ tinyMCE.init({
 			<div class="topic-photo-upload-rules">
                                     {$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
-                            <a href="javascript:photosetShowUploadForm()">Загрузить фото</a>
+                            <a href="javascript:ls.photoset.showForm()">Загрузить фото</a>
 			<input type="hidden" name="topic_main_photo" id="topic_main_photo" />
 			<ul id="swfu_images">
                                 {if count($aPhotos)}
@@ -193,13 +193,13 @@ tinyMCE.init({
                                          {/if}
                                         <li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
                                             <img src="{$oPhoto->getWebPath(100)}" alt="image" />
-                                            <textarea onBlur="topicImageSetDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
-                                            <a href="javascript:deleteTopicImage({$oPhoto->getId()})" class="image-delete">Удалить</a>
+                                            <textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
+                                            <a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="image-delete">Удалить</a>
                                             <span class="photo-preview-state">
                                                  {if $bIsMainPhoto}
                                                     {$aLang.topic_photoset_is_preview}
                                                 {else}
-                                                    <a href="javascript:setTopicMainPhoto({$oPhoto->getId()})" class="mark-as-preview">{$aLang.topic_photoset_mark_as_preview}</a>
+                                                    <a href="javascript:ls.photoset.setPreview({$oPhoto->getId()})" class="mark-as-preview">{$aLang.topic_photoset_mark_as_preview}</a>
                                                 {/if}
                                             </span>
                                         </li>
