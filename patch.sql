@@ -25,7 +25,8 @@ CREATE TABLE `prefix_stream_event` (
 CREATE TABLE `prefix_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `pattern` varchar(255),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -33,4 +34,13 @@ CREATE TABLE `prefix_user_field_value` (
   `user_id` int(11) DEFAULT NULL,
   `field_id` int(11) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `soc_topic_photo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `description` text,
+  `target_tmp` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
