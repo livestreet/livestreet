@@ -794,6 +794,7 @@ return array(
     'stream_event_type_join_blog' => 'Вступление в блог',
     'stream_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чью активность хотите видеть',
     'stream_no_events' => 'Лента активности пуста',
+    'stream_error_subscribe_to_yourself' => 'Вы не можете подписаться на себя',
 
     'stream_list_user' => 'Пользователь',
     'stream_list_event_add_topic' => 'добавил новый топик',

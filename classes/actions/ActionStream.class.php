@@ -73,12 +73,12 @@ class ActionStream extends Action
 
     protected function EventGetMore()
     {
+        $this->Viewer_SetResponseAjax('json');
         $iFromId = getRequest('last_id');
         if (!$iFromId)  {
             $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
             return;
         }
-        $this->Viewer_SetResponseAjax('json');
         $aEvents = $this->Stream_read(null, $iFromId);
 
         $oViewer=$this->Viewer_GetLocalViewer();
@@ -113,6 +113,10 @@ class ActionStream extends Action
         if (!getRequest('id')) {
             $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
         }
+        if ($this->oUserCurrent->getId() == getRequest('id')) {
+            $this->Message_AddError($this->Lang_Get('stream_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+            return;
+        }
         $this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequest('id'));
         $this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
     }
@@ -125,6 +129,14 @@ class ActionStream extends Action
             return;
         }
         $oUser = $this->User_getUserByLogin(getRequest('login'));
+        if (!$oUser) {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            return;
+        }
+        if ($this->oUserCurrent->getId() == $oUser->getId()) {
+            $this->Message_AddError($this->Lang_Get('stream_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+            return;
+        }
         $this->Stream_subscribeUser($this->oUserCurrent->getId(),  $oUser->getId());
         $this->Viewer_AssignAjax('uid', $oUser->getId());
         $this->Viewer_AssignAjax('user_login', $oUser->getLogin());

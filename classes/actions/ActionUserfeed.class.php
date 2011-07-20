@@ -42,12 +42,12 @@ class ActionUserfeed extends Action
 
     protected function EventGetMore()
     {
+        $this->Viewer_SetResponseAjax('json');
         $iFromId = getRequest('last_id');
         if (!$iFromId)  {
             $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
             return;
         }
-        $this->Viewer_SetResponseAjax('json');
         $aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
 
         $oViewer=$this->Viewer_GetLocalViewer();
@@ -75,6 +75,10 @@ class ActionUserfeed extends Action
                 break;
             case 'users':
                 $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+                if ($this->oUserCurrent->getId() == getRequest('id')) {
+                    $this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+                    return;
+                }
                 break;
             default:
                 $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -92,6 +96,14 @@ class ActionUserfeed extends Action
             return;
         }
         $oUser = $this->User_getUserByLogin(getRequest('login'));
+        if (!$oUser) {
+            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            return;
+        }
+        if ($this->oUserCurrent->getId() == $oUser->getId()) {
+            $this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+            return;
+        }
         $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
         $this->Viewer_AssignAjax('uid', $oUser->getId());
         $this->Viewer_AssignAjax('user_login', $oUser->getLogin());
