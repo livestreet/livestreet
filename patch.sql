@@ -36,7 +36,7 @@ CREATE TABLE `prefix_user_field_value` (
   `value` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `soc_topic_photo` (
+CREATE TABLE `prefix_topic_photo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `topic_id` int(11) NOT NULL,
   `path` varchar(255) NOT NULL,
