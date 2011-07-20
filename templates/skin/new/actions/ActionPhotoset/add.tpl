@@ -110,7 +110,7 @@ tinyMCE.init({
                     },
 
                     // Debug Settings
-                    debug: true
+                    debug: false
                 });
             });
         }
@@ -222,7 +222,10 @@ tinyMCE.init({
                            <div id="notice_wrap"></div>
 		</div>
             
-                  <textarea name="topic_main_photo_description" id="topic_main_photo_description" rows="20">{$_aRequest.topic_main_photo_description}</textarea></p>
+                  <p>
+                        <label for="topic_maim_photo_description">{$aLang.topic_photoset_main_photo_description}:</label><br />
+                        <textarea name="topic_main_photo_description" id="topic_main_photo_description" rows="5">{$_aRequest.topic_main_photo_description}</textarea></p>
+                  </p>
 		<!-- /Topic Photo Add -->
 		
             

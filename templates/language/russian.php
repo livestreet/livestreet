@@ -206,6 +206,7 @@ return array(
 	'topic_menu_add_topic' => 'Топик',
 	'topic_menu_add_question' => 'Опрос',
 	'topic_menu_add_link' => 'Ссылка',
+         'topic_menu_add_photoset' => 'Фотосет',
 	'topic_menu_saved' => 'Черновики',
 	'topic_menu_published' => 'Опубликованные',
 	/**
@@ -322,6 +323,7 @@ return array(
          'topic_photoset_title_create' => 'Создание фотосета',
          'topic_photoset_error_bad_filesize' => 'Размер фото должен быть не более %%MAX%% Кб',
          'topic_photoset_photos' => 'фото',
+         'topic_photoset_main_photo_description' => 'Описание превью',
     
 	/**
 	 * Комментарии

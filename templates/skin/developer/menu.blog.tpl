@@ -47,10 +47,6 @@
 	</li>
 	
 	{if $oUserCurrent}
-		<li {if $sMenuItemSelect=='stream'}class="active"{/if}>
-			<a href="{router page='stream'}">{$aLang.stream_personal_title}</a>
-		</li>
-		
 		<li {if $sMenuItemSelect=='feed'}class="active"{/if}>
 			<a href="{router page='feed'}">{$aLang.userfeed_title}</a>
 		</li>
