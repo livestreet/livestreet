@@ -40,9 +40,9 @@ ls.userfield =( function ($) {
 				'<div class="uf-actions"><a href="javascript:ls.userfield.showEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
 				'<a href="javascript:ls.userfield.deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a></div>';
                 $('#user_field_list').append(liElement);
-                $('#field_'+id+' .userfield_admin_name').html(name);
-                $('#field_'+id+' .userfield_admin_title').html(title);
-                $('#field_'+id+' .userfield_admin_pattern').text(pattern);
+                $('#field_'+data.id+' .userfield_admin_name').html(name);
+                $('#field_'+data.id+' .userfield_admin_title').html(title);
+                $('#field_'+data.id+' .userfield_admin_pattern').text(pattern);
                 ls.msg.notice(data.sMsgTitle,data.sMsg);
             } else {
                 ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -68,7 +68,8 @@ ls.userfield =( function ($) {
     }
 
     this.deleteUserfield = function(id) {
-        ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id}, function(data) { 
+	if (!confirm(lsLang['userfield_confirm_delete'])) {return;}
+	ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id}, function(data) { 
             if (!data.bStateError) {
                 $('#field_'+id).remove();
                 ls.msg.notice(data.sMsgTitle,data.sMsg);

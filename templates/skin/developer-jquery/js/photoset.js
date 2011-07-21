@@ -6,8 +6,8 @@ ls.photoset =( function ($) {
         if (!response.bStateError) {
             template = '<li id="photo_'+response.id+'"><a href="#"><img src="'+response.file+'" alt="image" /></a>'
                                 +'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)"></textarea><br />'
-                                +'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="image-delete">'+lsLang['delete']+'</a>'
-                                +'<span class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="mark-as-preview">'+lsLang['mark_as_preview']+'</a></span></li>';
+                                +'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="image-delete">'+lsLang['photoset_delete']+'</a>'
+                                +'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="mark-as-preview">'+lsLang['photoset_mark_as_preview']+'</a></span></li>';
             $('#swfu_images').append(template);
             ls.msg.notice(response.sMsgTitle,response.sMsg);
         } else {
@@ -18,7 +18,8 @@ ls.photoset =( function ($) {
 
     this.deletePhoto = function(id)
     {
-        ls.ajax(aRouter['photoset']+'deleteimage', {'id':id}, function(response){
+	if (!confirm(lsLang['photoset_confirm_delete'])) {return;}
+	ls.ajax(aRouter['photoset']+'deleteimage', {'id':id}, function(response){
                         if (!response.bStateError) {
                             $('#photo_'+id).remove();
                            ls.msg.notice(response.sMsgTitle,response.sMsg);
@@ -34,10 +35,11 @@ ls.photoset =( function ($) {
 
         $('.marked-as-preview').each(function (index, el) {
             $(el).removeClass('marked-as-preview');
-            $(el).children('span').html('<a href="javascript:ls.photoset.setDescription('+$(el).attr('id').slice($(el).attr('id').lastIndexOf('_')+1)+')" class="mark-as-preview">'+lsLang['mark_as_preview']+'</a>');
+	tmpId = $(el).attr('id').slice($(el).attr('id').lastIndexOf('_')+1);
+            $('#photo_preview_state_'+tmpId).html('<a href="javascript:ls.photoset.setDescription('+tmpId+')" class="mark-as-preview">'+lsLang['photoset_mark_as_preview']+'</a>');
         });
         $('#photo_'+id).addClass('marked-as-preview');
-        $('#photo_'+id).children('span').html(lsLang['preview']);
+	$('#photo_preview_state_'+id).html(lsLang['photoset_preview']);
     }
 
     this.setPreviewDescription = function(id, text)

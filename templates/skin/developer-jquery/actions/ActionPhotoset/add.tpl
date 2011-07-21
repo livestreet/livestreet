@@ -195,7 +195,7 @@ tinyMCE.init({
                                             <img src="{$oPhoto->getWebPath(100)}" alt="image" />
                                             <textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
                                             <a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="image-delete">Удалить</a>
-                                            <span class="photo-preview-state">
+                                            <span id="photo_preview_state_{$oPhoto->getId()}" class="photo-preview-state">
                                                  {if $bIsMainPhoto}
                                                     {$aLang.topic_photoset_is_preview}
                                                 {else}

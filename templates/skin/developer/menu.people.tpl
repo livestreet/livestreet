@@ -9,10 +9,5 @@
 			</ul>
 		{/if}
 	</li>
-        {if $oUserCurrent}
-		<li {if $sMenuItemSelect=='stream'}class="active"{/if}>
-			<a href="{router page='stream'}">{$aLang.stream_personal_title}</a>
-		</li>
-	{/if}
 	{hook run='menu_people'}
 </ul>

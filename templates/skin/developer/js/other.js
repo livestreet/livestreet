@@ -137,6 +137,7 @@ function addTopicImage(response)
 
 function deleteTopicImage(id)
 {
+	if (!confirm(lsLang['userfield_confirm_delete'])) {return;}
     new Request.JSON({
 		url: aRouter['photoset']+'deleteimage',
 		data: {'id':id, 'security_ls_key': LIVESTREET_SECURITY_KEY },

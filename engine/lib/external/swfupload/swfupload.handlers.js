@@ -35,7 +35,11 @@ function fileQueueError(file, errorCode, message) {
 
 function fileDialogComplete(numFilesSelected, numFilesQueued) {
 	try {
-                photosetCloseForm();
+               if (!window.jQuery) {
+                   photosetCloseForm();
+               } else {
+                  ls.photoset.closeForm();
+               }
 		if (numFilesQueued > 0) {
 			this.startUpload();
 		}
@@ -69,7 +73,7 @@ function uploadSuccess(file, serverData) {
                            if (!window.jQuery) {
                                addTopicImage(JSON.decode(serverData, true));
                            } else {
-                               addTopicImage(jQuery.parseJSON(serverData));
+                              ls.photoset.addPhoto(jQuery.parseJSON(serverData));
                            }
 			
 			progress.setStatus("Image uploaded.");

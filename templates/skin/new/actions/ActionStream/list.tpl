@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='people'}
+{include file='header.tpl'}
 
 
 <h2 class="stream-header">{$aLang.stream_personal_title}</h2>

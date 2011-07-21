@@ -89,6 +89,7 @@ function updateUserfield() {
 }
 
 function deleteUserfield(id) {
+	if (!confirm(lsLang['userfield_confirm_delete'])) {return;}
     new Request.JSON({
             url: aRouter['admin']+'userfields',
             data: {'action':'delete', 'id':id, 'security_ls_key':LIVESTREET_SECURITY_KEY},
