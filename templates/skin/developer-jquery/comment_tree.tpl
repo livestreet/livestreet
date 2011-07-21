@@ -1,7 +1,7 @@
 {if $oUserCurrent}
 	<div class="update" id="update" style="{if $aPagingCmt and $aPagingCmt.iCountPage>1}display:none;{/if}">
-		<div class="refresh"><img class="update-comments" id="update-comments" alt="" src="{cfg name='path.static.skin'}/images/update.gif" onclick="comments.load({$iTargetId},'{$sTargetType}'); return false;"/></div>
-		<div class="new-comments" id="new_comments_counter" style="display: none;" onclick="comments.goToNextComment();"></div>
+		<div class="refresh"><img class="update-comments" id="update-comments" alt="" src="{cfg name='path.static.skin'}/images/update.gif" onclick="ls.comments.load({$iTargetId},'{$sTargetType}'); return false;"/></div>
+		<div class="new-comments" id="new_comments_counter" style="display: none;" onclick="ls.comments.goToNextComment();"></div>
 		<input type="hidden" id="comment_last_id" value="{$iMaxIdComment}" />
 		<input type="hidden" id="comment_use_paging" value="{if $aPagingCmt and $aPagingCmt.iCountPage>1}1{/if}" />
 	</div>
@@ -44,7 +44,7 @@
 	{$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
-		<h4 class="reply-header" id="add_comment_root"><a href="#" onclick="comments.toggleCommentForm(0); return false;">{$aLang.comment_leave}</a></h4>
+		<h4 class="reply-header" id="add_comment_root"><a href="#" onclick="ls.comments.toggleCommentForm(0); return false;">{$aLang.comment_leave}</a></h4>
 		
 		<div id="reply_0" class="reply">
                         {if $oConfig->GetValue('view.tinymce')}
@@ -99,8 +99,8 @@
                                     {/if}	
 			<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 				<textarea name="comment_text" id="form_comment_text" class="input-wide"></textarea>
-				<input type="button" value="{$aLang.comment_preview}" onclick="comments.preview();" />    	
-				<input type="submit" name="submit_comment" value="{$aLang.comment_add}" onclick="comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" />    	
+				<input type="button" value="{$aLang.comment_preview}" onclick="ls.comments.preview();" />
+				<input type="submit" name="submit_comment" value="{$aLang.comment_add}" onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" />
 				<input type="hidden" name="reply" value="0" id="form_comment_reply" />
 				<input type="hidden" name="cmt_target_id" value="{$iTargetId}" />
 			</form>

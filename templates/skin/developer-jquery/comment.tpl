@@ -12,17 +12,17 @@
 		<li class="date">{date_format date=$oComment->getDate()}</li>
 		<li><a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}">#</a></li>	
 		{if $oComment->getPid()}
-			<li class="goto-comment-parent"><a href="#" onclick="comments.goToParentComment({$oComment->getId()},{$oComment->getPid()}); return false;" title="{$aLang.comment_goto_parent}">↑</a></li>
+			<li class="goto-comment-parent"><a href="#" onclick="ls.comments.goToParentComment({$oComment->getId()},{$oComment->getPid()}); return false;" title="{$aLang.comment_goto_parent}">↑</a></li>
 		{/if}
 		<li class="goto-comment-child"><a href="#" title="{$aLang.comment_goto_child}">↓</a></li>
 		{if $oUserCurrent and !$bNoCommentFavourites}
 			<li><a href="#" onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" class="favourite {if $oComment->getIsFavourite()}active{/if}"></a></li>
 		{/if}
 		{if !$oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
-			<li><a href="#" class="delete" onclick="comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_delete}</a></li>
+			<li><a href="#" class="delete" onclick="ls.comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_delete}</a></li>
 		{/if}
 		{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-			<li><a href="#" class="repair" onclick="comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
+			<li><a href="#" class="repair" onclick="ls.comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
 		{/if}
 		{hook run='comment_action' comment=$oComment}
 		{if $oComment->getTargetType()!='talk'}						
@@ -42,7 +42,7 @@
 		
 	{if $oUserCurrent}
 		<div class="actions">
-			{if !$oComment->getDelete() and !$bAllowNewComment}<a href="#" onclick="comments.toggleCommentForm({$oComment->getId()}); return false;" class="reply-link">{$aLang.comment_answer}</a>{/if}
+			{if !$oComment->getDelete() and !$bAllowNewComment}<a href="#" onclick="ls.comments.toggleCommentForm({$oComment->getId()}); return false;" class="reply-link">{$aLang.comment_answer}</a>{/if}
 		</div>
 	{/if}
 {else}				
