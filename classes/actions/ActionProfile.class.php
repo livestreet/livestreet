@@ -479,7 +479,7 @@ class ActionProfile extends Action {
 				 */
 				$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 				if($this->User_UpdateFriend($oFriend)) {
-                    $this->Stream_write($oFriend->getUserFrom(), ModuleStream::EVENT_MAKE_FRIENDS, $oFriend->getUserTo());
+                    $this->Stream_write($oFriend->getUserFrom(), 'make_friends', $oFriend->getUserTo());
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 
 					$oViewerLocal=$this->GetViewerLocal();

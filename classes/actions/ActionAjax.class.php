@@ -122,7 +122,7 @@ class ActionAjax extends Action {
             /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oTopicCommentVote->getVoterId(), ModuleStream::EVENT_VOTE_COMMENT, $oComment->getId());
+            $this->Stream_write($oTopicCommentVote->getVoterId(), 'vote_comment', $oComment->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error'),$this->Lang_Get('error'));
 			return;
@@ -193,7 +193,7 @@ class ActionAjax extends Action {
              /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oTopicVote->getVoterId(), ModuleStream::EVENT_VOTE_TOPIC, $oTopic->getId());
+            $this->Stream_write($oTopicVote->getVoterId(), 'vote_topic', $oTopic->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -247,7 +247,7 @@ class ActionAjax extends Action {
                          /**
                          * Добавляем событие в ленту
                          */
-                        $this->Stream_write($oBlogVote->getVoterId(), ModuleStream::EVENT_VOTE_BLOG, $oBlog->getId());
+                        $this->Stream_write($oBlogVote->getVoterId(), 'vote_blog', $oBlog->getId());
 					} else {
 						$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('attention'));
 						return;
@@ -327,7 +327,7 @@ class ActionAjax extends Action {
              /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oUserVote->getVoterId(), ModuleStream::EVENT_VOTE_USER, $oUser->getId());
+            $this->Stream_write($oUserVote->getVoterId(), 'vote_user', $oUser->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;

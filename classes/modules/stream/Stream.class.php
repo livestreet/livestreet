@@ -1,189 +1,232 @@
 <?php
 class ModuleStream extends Module
 {
-    const EVENT_ALL = 1023;
-    const EVENT_ADD_TOPIC = 2;
-    const EVENT_ADD_COMMENT = 4;
-    const EVENT_ADD_BLOG = 8;
-    const EVENT_VOTE_TOPIC = 16;
-    const EVENT_VOTE_COMMENT = 32;
-    const EVENT_VOTE_BLOG = 64;
-    const EVENT_VOTE_USER = 128;
-    const EVENT_MAKE_FRIENDS = 256;
-    const EVENT_JOIN_BLOG = 512;
+	const EVENT_ALL = 1023;
+	const EVENT_ADD_TOPIC = 2;
+	const EVENT_ADD_COMMENT = 4;
+	const EVENT_ADD_BLOG = 8;
+	const EVENT_VOTE_TOPIC = 16;
+	const EVENT_VOTE_COMMENT = 32;
+	const EVENT_VOTE_BLOG = 64;
+	const EVENT_VOTE_USER = 128;
+	const EVENT_MAKE_FRIENDS = 256;
+	const EVENT_JOIN_BLOG = 512;
+	
+	protected $oMapper = null;
 
-    protected $oMapper = null;
+	protected $aEventTypes = array(
+		'add_topic' => array('related' => 'topics'),
+		'add_comment' => array('related' => 'comments'),
+		'add_blog' => array('related' => 'blogs'),
+		'vote_topic' => array('related' => 'topics'),
+		'vote_comment' => array('related' => 'comments'),
+		'vote_blog' => array('related' => 'blogs'),
+		'vote_user' => array('related' => 'users'),
+		'make_friends' => array('related' => 'users'),
+		'join_blog' => array('related' => 'blogs')
+	);
+	
+	public function Init()
+	{
+		$this->oMapper=Engine::GetMapper(__CLASS__);
+	}
+	
+	public function getEventTypes()
+	{
+		return $this->aEventTypes;
+	}
+	
+	/**
+	 * Подписать пользователя
+	 * @param type $iUserId Id подписываемого пользователя
+	 * @param type $iSubscribeType Тип подписки (см. константы класса)
+	 * @param type $iTargetId Id цели подписки
+	 */
+	public function subscribeUser($iUserId, $iTargetUserId)
+	{
+		return $this->oMapper->subscribeUser($iUserId, $iTargetUserId);
+	}
 
-    public function Init()
-    {
-        $this->oMapper=Engine::GetMapper(__CLASS__);
-    }
+	/**
+	 * Отписать пользователя
+	 * @param type $iUserId Id подписываемого пользователя
+	 * @param type $iSubscribeType Тип подписки (см. константы класса)
+	 * @param type $iTargetId Id цели подписки
+	 */
+	public function unsubscribeUser($iUserId, $iTargetUserId)
+	{
+		return $this->oMapper->unsubscribeUser($iUserId, $iTargetUserId);
+	}
 
-    /**
-     * Подписать пользователя
-     * @param type $iUserId Id подписываемого пользователя
-     * @param type $iSubscribeType Тип подписки (см. константы класса)
-     * @param type $iTargetId Id цели подписки
-     */
-    public function subscribeUser($iUserId, $iTargetUserId)
-    {
-        return $this->oMapper->subscribeUser($iUserId, $iTargetUserId);
-    }
+	/**
+	 * Редактирвоание списка событий, на которые подписан юзер
+	 * @param type $iUserId
+	 * @param type $iType
+	 * @return type
+	 */
+	public function switchUserEventType($iUserId, $sType)
+	{
+		return $this->oMapper->switchUserEventType($iUserId, $sType);
+	}
 
-    /**
-     * Отписать пользователя
-     * @param type $iUserId Id подписываемого пользователя
-     * @param type $iSubscribeType Тип подписки (см. константы класса)
-     * @param type $iTargetId Id цели подписки
-     */
-    public function unsubscribeUser($iUserId, $iTargetUserId)
-    {
-        return $this->oMapper->unsubscribeUser($iUserId, $iTargetUserId);
-    }
+	/**
+	 * Запись события в ленту
+	 * @param type $oUser
+	 * @param type $iEventType
+	 * @param type $iTargetId
+	 */
+	public function write($oUser, $sEventType, $iTargetId)
+	{
+		$this->oMapper->addEvent($oUser, $sEventType, $iTargetId);
+	}
 
-    /**
-     * Редактирвоание списка событий, на которые подписан юзер
-     * @param type $iUserId
-     * @param type $iType
-     * @return type
-     */
-    public function switchUserEventType($iUserId, $iType)
-    {
-        return $this->oMapper->switchUserEventType($iUserId, $iType);
-    }
+	/**
+	 * Удалеине события из ленты
+	 * @param type $oUser
+	 * @param type $iEventType
+	 * @param type $iTargetId
+	 */
+	public function delete($oUser, $sEventType, $iTargetId)
+	{
+		$this->oMapper->deleteEvent($oUser, $sEventType, $iTargetId);
+	}
 
-    /**
-     * Запись события в ленту
-     * @param type $oUser
-     * @param type $iEventType
-     * @param type $iTargetId
-     */
-    public function write($oUser, $iEventType, $iTargetId)
-    {
-        $this->oMapper->addEvent($oUser, $iEventType, $iTargetId);
-    }
+	/**
+	 * Чтение ленты событий
+	 * @param type $iCount
+	 * @param type $iFromId
+	 * @return type
+	 */
+	public function read($iCount = null, $iFromId = null)
+	{
+		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
 
-    /**
-     * Удалеине события из ленты
-     * @param type $oUser
-     * @param type $iEventType
-     * @param type $iTargetId
-     */
-    public function delete($oUser, $iEventType, $iTargetId)
-    {
-        $this->oMapper->deleteEvent($oUser, $iEventType, $iTargetId);
-    }
+		$oUser = $this->User_getUserCurrent();
+		$aEventTypes = $this->getTypesList($oUser->getId());
+		if (!count($aEventTypes)) return array('events' => array());
+		$aUsersList = $this->getUsersList();
+		if (!count($aUsersList)) return array('events' => array());
 
-    /**
-     * Чтение ленты событий
-     * @param type $iCount
-     * @param type $iFromId
-     * @return type
-     */
-    public function read($iCount = null, $iFromId = null)
-    {
-        if (!$iCount) $iCount = Config::Get('module.stream.count_default');
+		$aEvents = array();
+		$aEvents = $this->oMapper->read($aEventTypes, $aUsersList, $iCount, $iFromId);
+		
+		/*
+		 * Создание массива для загрузки дополнительных объектов. необходимых при отображении ленты
+		 */
+		$aNeededObjects = array();
+		$aResult = array('events' => $aEvents);
+		foreach ($this->aEventTypes as $aType) {
+			if (!isset($aNeededObjects[$aType['related']])) {
+				$aNeededObjects[$aType['related']] = array();
+				$aResult[$aType['related']] = array();
+			}
+		}
+		if (!count($aEvents)) array('events' => array());
+		foreach ($aEvents as $aEvent) {
+			if (!in_array($aEvent['initiator'], $aNeededObjects['users'])) {
+				$aNeededObjects['users'][] = $aEvent['initiator'];
+			}
+			$sRelatedType = $this->aEventTypes[$aEvent['event_type']]['related'];
+			if (isset($aNeededObjects[$sRelatedType])) {
+				$aNeededObjects[$sRelatedType][] = $aEvent['target_id'];
+			}
+		}
+		
+		foreach ($aNeededObjects as $sType => $aList) {
+			if (count($aList)) {
+				$sFunction = 'loadRelated' . ucfirst($sType);
+				if (method_exists($this, $sFunction)) {
+					$this->$sFunction($aList, $aResult);
+				}
+			}
+		}
+		return$aResult;
+	}
 
-        $oUser = $this->User_getUserCurrent();
-        $aUserConfig = $this->getUserConfig($oUser->getId());
-        $aEventTypes = $aUserConfig['event_types'];
-        if (!count($aEventTypes)) return array('events' => array());
-        $aUsesrList = $this->getUsersList();
-        if (!$aUsesrList) return array('events' => array());
+	protected function loadRelatedTopics($aIds, &$aRelatedObjects)
+	{
+		$aTopicsUnsorted =$this->Topic_getTopicsAdditionalData($aIds);
+		foreach ($aTopicsUnsorted as $oTopic) {
+			if (!isset($aRelatedObjects['topics'][$oTopic->getId()] )) {
+				$aRelatedObjects['topics'][$oTopic->getId()] = $oTopic;
+			}
+		}
+	}
+	
+	protected function loadRelatedBlogs($aIds, &$aRelatedObjects)
+	{
+		$aBlogsUnsorted =$this->Blog_getBlogsByArrayId($aIds);
+		foreach ($aBlogsUnsorted as $oBlog) {
+			if (!isset($aRelatedObjects['blogs'][$oBlog->getId()] )) {
+				$aRelatedObjects['blogs'][$oBlog->getId()] = $oBlog;
+			}
+		}
+	}
+	protected function loadRelatedComments($aIds, &$aRelatedObjects)
+	{
+		$aCommentsUnsorted =$this->Comment_getCommentsByArrayId($aIds);
+		foreach ($aCommentsUnsorted as $oComment) {
+			if (!isset($aRelatedObjects['comments'][$oComment->getId()] )) {
+				$aRelatedObjects['comments'][$oComment->getId()] = $oComment;
+			}
+		}
+		$aTopics = array();
+		foreach($aComments as $oComment) {
+			if (!isset($aRelatedObjects['topics'][$oComment->getTargetId()])) {
+				$aTopics[] = $oComment->getTargetId();
+			}
+		}
+		$this->loadRelatedTopics($aTopics, $aRelatedObjects);
+		
+	}
+	protected function loadRelatedUsers($aIds, &$aRelatedObjects)
+	{
+		$aRelatedObjects['users'] =  $this->User_getUsersByArrayId($aIds);
+		$aUsersUnsorted =$this->User_getUsersByArrayId($aIds);
+		foreach ($aUsersUnsorted as $oUser) {
+			if (!isset($aRelatedObjects['users'][$oUser->getId()] )) {
+				$aRelatedObjects['users'][$oUser->getId()] = $oUser;
+			}
+		}
+	}
+	
+	/**
+	 * Получение списка пользователей, на которых подписан пользователь
+	 * @param type $iUserId
+	 * @return type
+	 */
+	public function getUserSubscribes($iUserId)
+	{
+		$aIds = $this->oMapper->getUserSubscribes($iUserId);
+		$aResult = array();
+		if (count($aIds)) {
+			$aUsers = $this->User_getUsersByArrayId($aIds);
+			foreach ($aUsers as $oUser) {
+				$aResult[$oUser->getId()] = $oUser;
+			}
+		}
+		return $aResult;
+	}
 
-        $aEvents = array();
-        $aEvents = $this->oMapper->read($aEventTypes, $aUsesrList, $iCount, $iFromId);
+	/**
+	 * Получение типов событий, на которые подписан пользователь
+	 * @param type $iUserId
+	 * @return type
+	 */
+	public function getTypesList($iUserId)
+	{
+		return $this->oMapper->getTypesList($iUserId);
+	}
 
-        $aNeededObjects = array('topics' => array(), 'blogs' => array(), 'users' => array(), 'comments' => array());
-        if (!count($aEvents)) array('events' => array());
-        foreach ($aEvents as $aEvent) {
-            if (!in_array($aEvent['initiator'], $aNeededObjects['users'])) {
-                $aNeededObjects['users'][] = $aEvent['initiator'];
-            }
-            switch ($aEvent['event_type']) {
-                case self::EVENT_ADD_TOPIC: case self::EVENT_VOTE_TOPIC:
-                    if (!in_array($aEvent['target_id'], $aNeededObjects['topics'])) {
-                        $aNeededObjects['topics'][] = $aEvent['target_id'];
-                    }
-                    break;
-                case self::EVENT_ADD_COMMENT:  case self::EVENT_VOTE_COMMENT:
-                    if (!in_array($aEvent['target_id'], $aNeededObjects['comments'])) {
-                        $aNeededObjects['comments'][] = $aEvent['target_id'];
-                    }
-                    break;
-                case self::EVENT_ADD_BLOG: case self::EVENT_VOTE_BLOG: case self::EVENT_JOIN_BLOG:
-                    if (!in_array($aEvent['target_id'], $aNeededObjects['blogs'])) {
-                        $aNeededObjects['blogs'][] = $aEvent['target_id'];
-                    }
-                    break;
-                case self::EVENT_VOTE_USER: case self::EVENT_MAKE_FRIENDS:
-                    if (!in_array($aEvent['target_id'], $aNeededObjects['users'])) {
-                        $aNeededObjects['users'][] = $aEvent['target_id'];
-                    }
-                    break;
-            }
-        }
-        $aTopics = array();
-        if (count($aNeededObjects['topics'])) {
-            $aTopics = $this->Topic_getTopicsAdditionalData($aNeededObjects['topics']);
-        }
-        $aBlogs = array();
-        if (count($aNeededObjects['blogs'])) {
-            $aBlogs = $this->Blog_getBlogsByArrayId($aNeededObjects['blogs']);
-        }
-        $aUsers = array();
-        if (count($aNeededObjects['users'])) {
-            $aUsers = $this->User_getUsersByArrayId($aNeededObjects['users']);
-        }
-        $aComments = array();
-        if (count($aNeededObjects['comments'])) {
-            $aComments = $this->Comment_getCommentsByArrayId($aNeededObjects['comments']);
-            foreach($aComments as $oComment) {
-                if (!isset($aTopics[$oComment->getTargetId()])) {
-                    $aTopics[$oComment->getTargetId()] = $this->Topic_getTopicById($oComment->getTargetId());
-                }
-            }
-        }
-        return array('events' => $aEvents, 'topics' => $aTopics, 'blogs' => $aBlogs, 'users' => $aUsers, 'comments' => $aComments);
-    }
-
-    /**
-     * Получение списка пользователей, на которых подписан пользователь
-     * @param type $iUserId
-     * @return type
-     */
-    public function getUserSubscribes($iUserId)
-    {
-        $aIds = $this->oMapper->getUserSubscribes($iUserId);
-        $aResult = array();
-        if (count($aIds)) {
-            $aUsers = $this->User_getUsersByArrayId($aIds);
-            foreach ($aUsers as $oUser) {
-                $aResult[$oUser->getId()] = $oUser;
-            }
-        }
-        return $aResult;
-    }
-
-    /**
-     * Получение настроек ленты
-     * @param type $iUserId
-     * @return type
-     */
-    public function getUserConfig($iUserId)
-    {
-        return $this->oMapper->getUserConfig($iUserId);
-    }
-
-    /**
-     * Получение списка id пользователей, на которых подписан пользователь
-     * @return type
-     */
-    protected function getUsersList()
-    {
-        $iUserId = $this->User_getUserCurrent()->getId();
-        $aList = $this->oMapper->getUserSubscribes($iUserId);
-        return $aList;
-    }
+	/**
+	 * Получение списка id пользователей, на которых подписан пользователь
+	 * @return type
+	 */
+	protected function getUsersList()
+	{
+		$iUserId = $this->User_getUserCurrent()->getId();
+		$aList = $this->oMapper->getUserSubscribes($iUserId);
+		return $aList;
+	}
 
 }

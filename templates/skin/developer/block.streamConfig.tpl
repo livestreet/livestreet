@@ -22,18 +22,21 @@
 	
 	<p class="sp-note">{$aLang.stream_settings_note_filter}</p>
 
-	<ul class="stream-settings-filter">
-		{foreach from=$STREAM_EVENT_TYPE item=aEventType}
-			<li><label><input class="streamEventTypeCheckbox input-checkbox"
-						type="checkbox"
-						id="strn_et_{$aEventType.id}"
-						{math equation="x & y" x=$aEventType.id y=$aStreamConfig.event_types assign=bStreamChecked}
-						{if $bStreamChecked}checked="checked"{/if}
-						onClick="if ($(this).get('checked')) { lsStream.switchEventType( {$aEventType.id}) } else { lsStream.switchEventType( {$aEventType.id})  } " />
-				{$aEventType.name}</label>
-			</li>
-		{/foreach}
-	</ul>
+<ul class="stream-settings-filter">
+	{foreach from=$aStreamEventTypes key=sType item=aEventType}
+		<li>
+			<label>
+				<input class="streamEventTypeCheckbox input-checkbox"
+					type="checkbox"
+					id="strn_et_{$sType}"
+					{if in_array($sType, $aStreamTypesList)}checked="checked"{/if}
+					onClick="if ($(this).get('checked')) { lsStream.switchEventType( '{$sType}') } else { lsStream.switchEventType( '{$sType}')  } " />
+				{assign var=langKey value="stream_event_type_`$sType`"}
+				{$aLang.$langKey}
+			</label>
+		</li>
+	{/foreach}
+</ul>
 	
 	
 	<h3>{$aLang.stream_block_users_title}</h3>

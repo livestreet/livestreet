@@ -24,7 +24,7 @@
 
 $config['entity_prefix']  = '';
 $config['sphinx']['host'] = 'localhost';
-$config['sphinx']['port'] = '3312';
+$config['sphinx']['port'] = '9312';
 
 return $config;
 ?>

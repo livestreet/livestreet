@@ -218,7 +218,7 @@ class ActionBlog extends Action {
                             /**
                              * Добавляем событие в ленту
                              */
-                            $this->Stream_write($oBlog->getOwnerId(), ModuleStream::EVENT_ADD_BLOG, $oBlog->getId());
+                            $this->Stream_write($oBlog->getOwnerId(), 'add_blog', $oBlog->getId());
 			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -1031,7 +1031,7 @@ class ActionBlog extends Action {
             /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oCommentNew->getUserId(), ModuleStream::EVENT_ADD_COMMENT, $oCommentNew->getId());
+            $this->Stream_write($oCommentNew->getUserId(), 'add_comment', $oCommentNew->getId());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -1422,7 +1422,7 @@ class ActionBlog extends Action {
          /**
          * Добавляем событие в ленту
          */
-        $this->Stream_write($oBlogUser->getId(), ModuleStream::EVENT_JOIN_BLOG, $oBlog->getId());
+        $this->Stream_write($oBlogUser->getId(), 'join_blog', $oBlog->getId());
 		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
 
 		Router::Location(Router::GetPath('talk'));
@@ -1577,7 +1577,7 @@ class ActionBlog extends Action {
                                             /**
                                              * Добавляем событие в ленту
                                              */
-                                            $this->Stream_write($this->oUserCurrent->getId(), ModuleStream::EVENT_JOIN_BLOG, $oBlog->getId());
+                                            $this->Stream_write($this->oUserCurrent->getId(), 'join_blog', $oBlog->getId());
 				} else {
 					$sMsg=($oBlog->getType()=='close')
 					? $this->Lang_Get('blog_join_error_invite')

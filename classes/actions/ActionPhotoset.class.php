@@ -381,6 +381,10 @@ class ActionPhotoset extends Action {
                                 }
                             }
                             setcookie('ls_photoset_target_tmp', null); 
+			/**
+				 * Добавляем событие в ленту
+				 */
+				$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
