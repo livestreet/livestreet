@@ -36,7 +36,7 @@ ls.userfield =( function ($) {
         var pattern = $('#user_fields_form_pattern').val();
         ls.ajax(aRouter['admin']+'userfields', {'action':'add', 'name':name,  'title':title,  'pattern':pattern}, function(data) { 
             if (!data.bStateError) {
-                liElement = '<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_title"></span>'+
+                liElement = '<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_pattern"></span>'+
 				'<div class="uf-actions"><a href="javascript:ls.userfield.showEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
 				'<a href="javascript:ls.userfield.deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a></div>';
                 $('#user_field_list').append(liElement);
