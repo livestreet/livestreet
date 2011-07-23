@@ -130,6 +130,7 @@ class ModuleTopic_EntityTopic extends Entity
     public function getIsFavourite() {
         return $this->_aData['topic_is_favourite'];
     }
+    
     /***************************************************************************************************************************************************
      * методы расширения типов топика
      ***************************************************************************************************************************************************     
@@ -140,15 +141,30 @@ class ModuleTopic_EntityTopic extends Entity
     		$this->aExtra=unserialize($this->getExtra());
     	}
     }
+    
+    protected function setExtraValue($sName,$data) {
+    	$this->extractExtra();
+    	$this->aExtra[$sName]=$data;
+    	$this->setExtra($this->aExtra);
+    }
+    
+    protected function getExtraValue($sName) {
+    	$this->extractExtra();
+    	if (isset($this->aExtra[$sName])) {
+    		return $this->aExtra[$sName];
+    	}
+    	return null;
+    }
+    
     // методы для топика-ссылки
     public function getLinkUrl($bShort=false) {
     	if ($this->getType()!='link') {
     		return null;
     	}
-    	$this->extractExtra();
-    	if (isset($this->aExtra['url'])) {     		    		
+    	
+    	if ($this->getExtraValue('url')) {
     		if ($bShort) {
-    			$sUrl=htmlspecialchars($this->aExtra['url']);
+    			$sUrl=htmlspecialchars($this->getExtraValue('url'));
     			if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
     				$sUrl=$aMatch[1];
     			}
@@ -158,7 +174,7 @@ class ModuleTopic_EntityTopic extends Entity
     			}
     			return $sUrl;
     		}
-    		$sUrl=$this->aExtra['url'];
+    		$sUrl=$this->getExtraValue('url');
     		if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
     			$sUrl=$aMatch[1];
     		}
@@ -170,27 +186,19 @@ class ModuleTopic_EntityTopic extends Entity
         if ($this->getType()!='link') {
     		return;
     	}
-    	$this->extractExtra();
-    	$this->aExtra['url']=$data;
-    	$this->setExtra($this->aExtra);
+    	$this->setExtraValue('url',$data);
     }
     public function getLinkCountJump() {
     	if ($this->getType()!='link') {
     		return null;
     	}
-    	$this->extractExtra();
-    	if (isset($this->aExtra['count_jump'])) {
-    		return (int)$this->aExtra['count_jump'];
-    	}
-    	return 0;
+    	return (int)$this->getExtraValue('count_jump');
     }
     public function setLinkCountJump($data) {
         if ($this->getType()!='link') {
     		return;
     	}
-    	$this->extractExtra();
-    	$this->aExtra['count_jump']=$data;
-    	$this->setExtra($this->aExtra);
+    	$this->setExtraValue('count_jump',$data);
     }
     //методы для топика-вопроса
     public function addQuestionAnswer($data) {
@@ -205,17 +213,15 @@ class ModuleTopic_EntityTopic extends Entity
     	if ($this->getType()!='question') {
     		return;
     	}
-    	$this->extractExtra();
-    	$this->aExtra['answers']=array();
-    	$this->setExtra($this->aExtra);
+    	$this->setExtraValue('answers',array());
     }
     public function getQuestionAnswers() {
     	if ($this->getType()!='question') {
     		return null;
     	}
-    	$this->extractExtra();
-    	if (isset($this->aExtra['answers'])) {
-    		return $this->aExtra['answers'];
+    	
+    	if ($this->getExtraValue('answers')) {
+    		return $this->getExtraValue('answers');
     	}
     	return array();
     }
@@ -254,68 +260,47 @@ class ModuleTopic_EntityTopic extends Entity
     	if ($this->getType()!='question') {
     		return null;
     	}
-    	$this->extractExtra();
-    	if (isset($this->aExtra['count_vote'])) {
-    		return (int)$this->aExtra['count_vote'];
-    	}
-    	return 0;
+    	
+    	return (int)$this->getExtraValue('count_vote');
     }
     public function setQuestionCountVote($data) {
         if ($this->getType()!='question') {
     		return;
     	}
-    	$this->extractExtra();
-    	$this->aExtra['count_vote']=$data;
-    	$this->setExtra($this->aExtra);
+    	$this->setExtraValue('count_vote',$data);
     }
     public function getQuestionCountVoteAbstain() {
     	if ($this->getType()!='question') {
     		return null;
     	}
-    	$this->extractExtra();
-    	if (isset($this->aExtra['count_vote_abstain'])) {
-    		return (int)$this->aExtra['count_vote_abstain'];
-    	}
-    	return 0;
+    	
+    	return (int)$this->getExtraValue('count_vote_abstain');
     }
     public function setQuestionCountVoteAbstain($data) {
         if ($this->getType()!='question') {
     		return;
     	}
-    	$this->extractExtra();
-    	$this->aExtra['count_vote_abstain']=$data;
-    	$this->setExtra($this->aExtra);
+    	$this->setExtraValue('count_vote_abstain',$data);
     }
-    
+
     // Методы для фото-топика
-    
-    public function getPhotos($iFromId = null, $iCount = null)
-    {
-        return $this->Topic_getPhotosByTopicId($this->getId(), $iFromId, $iCount);
+
+    public function getPhotosetPhotos($iFromId = null, $iCount = null) {
+    	return $this->Topic_getPhotosByTopicId($this->getId(), $iFromId, $iCount);
     }
-    
-     public function getPhotosCount()
-    {
-        return $this->Topic_getCountPhotosByTopicId($this->getId());
+    public function getPhotosetCount() {
+    	return $this->getExtraValue('count_photo');
     }
-    
-    public function getMainPhotoId()
-    {
-         $this->extractExtra();
-         return $this->aExtra['main_photo'];
+    public function getPhotosetMainPhotoId() {
+    	return $this->getExtraValue('main_photo_id');
     }
-    
-    public function getMainPhoto()
-    {
-         $this->extractExtra();
-         return $this->Topic_getTopicPhotoById($this->aExtra['main_photo']);
+    public function setPhotosetMainPhotoId($data) {
+    	$this->setExtraValue('main_photo_id',$data);
     }
-    
-    public function getMainPhotoDescription()
-    {
-         $this->extractExtra();
-         return $this->aExtra['main_photo_description'];
+    public function setPhotosetCount($data) {
+    	$this->setExtraValue('count_photo',$data);
     }
+
     
     //*************************************************************************************************************************************************
 	public function setId($data) {
@@ -410,19 +395,5 @@ class ModuleTopic_EntityTopic extends Entity
         $this->_aData['topic_is_favourite']=$data;
     }
     
-    // Методы для фото-топика
-
-    public function setMainPhoto($iPhotoId)
-    {
-         $this->extractExtra();
-         $this->aExtra['main_photo'] = $iPhotoId;
-         $this->setExtra($this->aExtra);
-    }
-    public function setMainPhotoDescription($sDescription)
-    {
-         $this->extractExtra();
-         $this->aExtra['main_photo_description'] = $sDescription;
-         $this->setExtra($this->aExtra);
-    }
 }
 ?>

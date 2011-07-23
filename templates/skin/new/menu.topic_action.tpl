@@ -7,7 +7,7 @@
 						<li {if $sMenuItemSelect=='topic'}class="active"{/if}><div><a href="{router page='topic'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_topic}</a></div></li>						
 						<li {if $sMenuItemSelect=='question'}class="active"{/if}><div><a href="{router page='question'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_question}</a></div></li>
 						<li {if $sMenuItemSelect=='link'}class="active"{/if}><div><a href="{router page='link'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_link}</a></div></li>
-                                                      <li {if $sMenuItemSelect=='photoset'}class="active"{/if}><a href="{router page='photoset'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_photoset}</a></li>
+						<li {if $sMenuItemSelect=='photoset'}class="active"{/if}><div><a href="{router page='photoset'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_photoset}</a></div></li>
 						{hook run='menu_topic_action_add_item'}
 						<li ><div><a href="{router page='blog'}add/"><font color="Red">{$aLang.blog_menu_create}</font></a></div></li>
 					</ul>

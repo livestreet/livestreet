@@ -56,7 +56,14 @@ class ModuleSession extends Module {
 				Config::Get('sys.session.host')
 			);
 			if(!session_id()) {
-				session_regenerate_id();
+				/**
+				 * Даем возможность флешу задавать id сессии
+				 */
+				if (isset($_SERVER['HTTP_USER_AGENT']) and in_array($_SERVER['HTTP_USER_AGENT'],array('Shockwave Flash','Adobe Flash Player')) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
+					session_id(getRequest('SSID'));
+				} else {
+					session_regenerate_id();
+				}
 			}
 			session_start();			
 		} else {

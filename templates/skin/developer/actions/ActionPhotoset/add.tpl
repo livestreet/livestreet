@@ -136,14 +136,14 @@ tinyMCE.init({
             </p>
         </form>
 	<form action="" method="POST" enctype="multipart/form-data">
-		{hook run='form_add_topic_topic_begin'}
+		{hook run='form_add_topic_photoset_begin'}
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 		
-		<p><label for="blog_id">{$aLang.topic_create_blog}</label>
-		<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
+		<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
+		<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);" class="input-300">
 			<option value="0">{$aLang.topic_create_blog_personal}</option>
 			{foreach from=$aBlogsAllow item=oBlog}
-				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
+				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 			{/foreach}     					
 		</select></p>
 		
@@ -152,11 +152,12 @@ tinyMCE.init({
 		</script>
 		
 		<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
-		<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="w100p" /><br />
-		<span class="form_note">{$aLang.topic_create_title_notice}</span>
+		<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
+		<span class="note">{$aLang.topic_create_title_notice}</span>
 		</p>
 
-		<p>{if !$oConfig->GetValue('view.tinymce')}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
+		<p>
+		<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
 		{if !$oConfig->GetValue('view.tinymce')}
 			<div class="panel_form">
 				{hook run='form_add_topic_panel_begin'}
@@ -186,7 +187,7 @@ tinyMCE.init({
 				{hook run='form_add_topic_panel_end'}
 			</div>
 		{/if}
-		<textarea name="topic_text" class="mceEditor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
+		<textarea name="topic_text" class="input-wide" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
 		
 		<!-- Topic Photo Add -->
 		<div class="topic-photo-upload">
@@ -196,7 +197,7 @@ tinyMCE.init({
                                     {$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
                             <a href="javascript:photosetShowUploadForm()">Загрузить фото</a>
-			<input type="hidden" name="topic_main_photo" id="topic_main_photo" />
+			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 			<ul id="swfu_images">
                                 {if count($aPhotos)}
                                     {foreach from=$aPhotos item=oPhoto}
@@ -204,7 +205,7 @@ tinyMCE.init({
                                             {assign var=bIsMainPhoto value=true}
                                          {/if}
                                         <li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
-                                            <img src="{$oPhoto->getWebPath(100)}" alt="image" />
+                                            <img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
                                             <textarea onBlur="topicImageSetDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
                                             <a href="javascript:deleteTopicImage({$oPhoto->getId()})" class="image-delete">Удалить</a>
                                             <span class="photo-preview-state">
@@ -220,30 +221,25 @@ tinyMCE.init({
                                 {/if}
 			</ul>
                            <div id="notice_wrap"></div>
-		</div>
-                  <p>
-                        <label for="topic_maim_photo_description">{$aLang.topic_photoset_main_photo_description}:</label><br />
-                        <textarea name="topic_main_photo_description" id="topic_main_photo_description" rows="5">{$_aRequest.topic_main_photo_description}</textarea></p>
-                  </p>
+		</div>                 
 		<!-- /Topic Photo Add -->
 		
-            
 		
 		<p><label for="topic_tags">{$aLang.topic_create_tags}:</label><br />
-		<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="w100p" /><br />
-		<span class="form_note">{$aLang.topic_create_tags_notice}</span></p>
+		<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-wide" /><br />
+		<span class="note">{$aLang.topic_create_tags_notice}</span></p>
 									
 		<p><label for="topic_forbid_comment"><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
 		&mdash; {$aLang.topic_create_forbid_comment}</label><br />
-		<span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span></p>
+		<span class="note">{$aLang.topic_create_forbid_comment_notice}</span></p>
 
 		{if $oUserCurrent->isAdministrator()}
 			<p><label for="topic_publish_index"><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
 			&mdash; {$aLang.topic_create_publish_index}</label><br />
-			<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
+			<span class="note">{$aLang.topic_create_publish_index_notice}</span></p>
 		{/if}
 		
-		{hook run='form_add_topic_topic_end'}					
+		{hook run='form_add_topic_photoset_end'}					
 		<p class="buttons">
 		<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
 		<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;

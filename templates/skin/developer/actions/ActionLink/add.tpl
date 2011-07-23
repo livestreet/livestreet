@@ -36,7 +36,7 @@ document.addEvent('domready', function() {
 	<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);" class="input-200">
 		<option value="0">{$aLang.topic_create_blog_personal}</option>
 		{foreach from=$aBlogsAllow item=oBlog}
-			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
+			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 		{/foreach}
 	</select></p>
 

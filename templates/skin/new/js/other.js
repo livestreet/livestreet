@@ -130,6 +130,12 @@ function ajaxUploadImg(form,sToLoad) {
 	iFrame.send();
 }
 
+
+
+
+var idLastPhotoset=0;
+var isLoadingPhotoset=false;
+
 function addTopicImage(response)
 { 
     if (!response.bStateError) {
@@ -157,7 +163,7 @@ function deleteTopicImage(id)
                         $('photo_'+id).dispose();
                         msgNoticeBox.alert(response.sMsgTitle,response.sMsg);
                     } else {
-                        msgErrorBox.alert('Error','Please try again later');
+                        msgErrorBox.alert(response.sMsgTitle,response.sMsg);
                     }
                 }
         	}).send();
@@ -180,7 +186,7 @@ function topicImageSetDescription(id, text)
 		url: aRouter['photoset']+'setimagedescription',
 		data: {'id':id, 'text':text, 'security_ls_key': LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){
-                    if (!bStateError) {
+                    if (!result.bStateError) {
                         
                     } else {
                         msgErrorBox.alert('Error','Please try again later');
@@ -191,25 +197,27 @@ function topicImageSetDescription(id, text)
 
 function getMorePhotos(topic_id)
 {
-    var last_id = $('last_photo_id').get('value');
+	if (isLoadingPhotoset) return;
+	isLoadingPhotoset=true;
+	    
     new Request.JSON({
 		url: aRouter['photoset']+'getmore',
-		data: {'topic_id':topic_id, 'last_id':last_id, 'security_ls_key': LIVESTREET_SECURITY_KEY },
+		data: {'topic_id':topic_id, 'last_id':idLastPhotoset, 'security_ls_key': LIVESTREET_SECURITY_KEY },
 		onSuccess: function(result){
+					isLoadingPhotoset=false;
                     if (!result.bStateError) {
                         if (result.photos) {
-                            var photoNumber = $('photo_number').get('value');
                             result.photos.each(function(photo) {
-                                var image = '<div class="image-number">'+(photoNumber++)+'</div><a class="photoset-image" href="'+photo.path+'" rel="milkbox[photoset]" title="'+photo.description+'"><img src="'+photo.path_thumb+'" alt="'+photo.description+'" /></a>';
+                                var image = '<a class="photoset-image" href="'+photo.path+'" rel="milkbox[photoset]" title="'+photo.description+'"><img src="'+photo.path_thumb+'" alt="'+photo.description+'" /></a>';
                                 var liElement = new Element('li', {'html':image});
                                 liElement.inject($('topic-photo-images'));
-                                $('photo_number').set('value', photoNumber);
-                                $('last_photo_id').set('value', photo.id);
-                                $$('.photoset-image').each(function(el) {console.log(el);el.removeEvents('click')});
+                                idLastPhotoset=photo.id;
+                                $$('.photoset-image').each(function(el) {el.removeEvents('click')});
                                 milkbox = new Milkbox();
                             });
-                        } else {
-                            $('topic-photo-more').dispose();
+                        }
+                        if (!result.bHaveNext || !result.photos) {
+                        	$('topic-photo-more').dispose();
                         }
                     } else {
                         msgErrorBox.alert('Error','Please try again later');

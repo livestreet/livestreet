@@ -350,7 +350,8 @@ $config['block']['rule_topic_type'] = array(
 	'action'  => array(
 		'link'     => array('add','edit'),
 		'question' => array('add','edit'),
-		'topic'    => array('add','edit')
+		'topic'    => array('add','edit'),
+		'photoset'    => array('add','edit')
 	),
 	'blocks'  => array( 'right' => array('block.blogInfo.tpl') ),
 );
@@ -494,34 +495,34 @@ $config['jevix']=require(dirname(__FILE__).'/jevix.php');
 /**
  * Настройка топика-фотосета
  */
-$config['module']['image']['topic']['jpg_quality'] = 100;
-$config['module']['topic']['photoset']['photo_max_size'] = 1*1024; //kb
-$config['module']['topic']['photoset']['count_photos_min'] = 2;
-$config['module']['topic']['photoset']['count_photos_max'] = 30;
-$config['module']['topic']['photoset']['per_page'] = 5;
-$config['topic']['image']['width'] = 1000;
-$config['topic']['image']['size'] = array(
-                  array(
-			'w' => 1000,
-			'h' => null,
-			'crop' => false,
-		),
-                  array(
-			'w' => 500,
-			'h' => null,
-			'crop' => false,
-		),
-		array(
-			'w' => 100,
-			'h' => null,
-			'crop' => false,
-		),
-		array(
-			'w' => 50,
-			'h' => 50,
-			'crop' => true,
-		)
-	);
+$config['module']['image']['photoset']['jpg_quality'] = 100; // настройка модуля Image, качество обработки фото
+$config['module']['topic']['photoset']['photo_max_size'] = 1*1024; //kb  // максимально допустимый размер фото
+$config['module']['topic']['photoset']['count_photos_min'] = 2; // минимальное количество фоток
+$config['module']['topic']['photoset']['count_photos_max'] = 30; // максимальное количество фоток
+$config['module']['topic']['photoset']['per_page'] = 20; // число фоток для одновременной загрузки
+//$config['topic']['image']['width'] = 1000;
+$config['module']['topic']['photoset']['size'] = array( // список размеров превью, которые необходимо делать при загрузке фото
+	array(
+		'w' => 1000,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 500,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 100,
+		'h' => 65,
+		'crop' => true,
+	),
+	array(
+		'w' => 50,
+		'h' => 50,
+		'crop' => true,
+	)
+);
 
 return $config;
 ?>

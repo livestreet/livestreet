@@ -136,14 +136,14 @@ tinyMCE.init({
             </p>
         </form>
 	<form action="" method="POST" enctype="multipart/form-data">
-		{hook run='form_add_topic_topic_begin'}
+		{hook run='form_add_topic_photoset_begin'}
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 		
 		<p><label for="blog_id">{$aLang.topic_create_blog}</label>
 		<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
 			<option value="0">{$aLang.topic_create_blog_personal}</option>
 			{foreach from=$aBlogsAllow item=oBlog}
-				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
+				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 			{/foreach}     					
 		</select></p>
 		
@@ -193,10 +193,10 @@ tinyMCE.init({
 			<h2>{$aLang.topic_photoset_upload_title}</h2>
 			
 			<div class="topic-photo-upload-rules">
-                                    {$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
+            	{$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
-                            <a href="javascript:photosetShowUploadForm()">Загрузить фото</a>
-			<input type="hidden" name="topic_main_photo" id="topic_main_photo" />
+            <a href="javascript:photosetShowUploadForm()">Загрузить фото</a>
+			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}"/>
 			<ul id="swfu_images">
                                 {if count($aPhotos)}
                                     {foreach from=$aPhotos item=oPhoto}
@@ -204,7 +204,7 @@ tinyMCE.init({
                                             {assign var=bIsMainPhoto value=true}
                                          {/if}
                                         <li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
-                                            <img src="{$oPhoto->getWebPath(100)}" alt="image" />
+                                            <img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
                                             <textarea onBlur="topicImageSetDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
                                             <a href="javascript:deleteTopicImage({$oPhoto->getId()})" class="image-delete">Удалить</a>
                                             <span class="photo-preview-state">
@@ -220,12 +220,7 @@ tinyMCE.init({
                                 {/if}
 			</ul>
                            <div id="notice_wrap"></div>
-		</div>
-            
-                  <p>
-                        <label for="topic_maim_photo_description">{$aLang.topic_photoset_main_photo_description}:</label><br />
-                        <textarea name="topic_main_photo_description" id="topic_main_photo_description" rows="5">{$_aRequest.topic_main_photo_description}</textarea></p>
-                  </p>
+		</div>        
 		<!-- /Topic Photo Add -->
 		
             
@@ -244,7 +239,7 @@ tinyMCE.init({
 			<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
 		{/if}
 		
-		{hook run='form_add_topic_topic_end'}					
+		{hook run='form_add_topic_photoset_end'}					
 		<p class="buttons">
 		<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
 		<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;

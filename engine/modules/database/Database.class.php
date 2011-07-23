@@ -92,7 +92,7 @@ class ModuleDatabase extends Module {
 	
 	
 	public function GetStats() {
-		$aQueryStats=array('time'=>0,'count'=>-3);
+		$aQueryStats=array('time'=>0,'count'=>-1); // не считаем тот самый костыльный запрос, который устанавливает настройки DB соединения
 		foreach ($this->aInstance as $oDb) {
 			$aStats=$oDb->_statistics;
 			$aQueryStats['time']+=$aStats['time'];

@@ -121,15 +121,17 @@ tinyMCE.init({
                 <input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
             </p>
         </form>
+
 	<form action="" method="POST" enctype="multipart/form-data">
-		{hook run='form_add_topic_topic_begin'}
+		{hook run='form_add_topic_photoset_begin'}
+		
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 		
-		<p><label for="blog_id">{$aLang.topic_create_blog}</label>
-		<select name="blog_id" id="blog_id" onChange="ajaxBlogInfo(this.value);">
+		<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
+		<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo(this.value);" class="input-300">
 			<option value="0">{$aLang.topic_create_blog_personal}</option>
 			{foreach from=$aBlogsAllow item=oBlog}
-				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()}</option>
+				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 			{/foreach}     					
 		</select></p>
 		
@@ -140,51 +142,24 @@ tinyMCE.init({
 		</script>
 		
 		<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
-		<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="w100p" /><br />
-		<span class="form_note">{$aLang.topic_create_title_notice}</span>
+		<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
+		<span class="note">{$aLang.topic_create_title_notice}</span>
 		</p>
 
-		<p>{if !$oConfig->GetValue('view.tinymce')}<div class="note">{$aLang.topic_create_text_notice}</div>{/if}<label for="topic_text">{$aLang.topic_create_text}:</label>
-		{if !$oConfig->GetValue('view.tinymce')}
-			<div class="panel_form">
-				{hook run='form_add_topic_panel_begin'}
-				<select onchange="lsPanel.putTagAround('topic_text',this.value); this.selectedIndex=0; return false;">
-					<option value="">{$aLang.panel_title}</option>
-					<option value="h4">{$aLang.panel_title_h4}</option>
-					<option value="h5">{$aLang.panel_title_h5}</option>
-					<option value="h6">{$aLang.panel_title_h6}</option>
-				</select>            			
-				<select onchange="lsPanel.putList('topic_text',this); return false;">
-					<option value="">{$aLang.panel_list}</option>
-					<option value="ul">{$aLang.panel_list_ul}</option>
-					<option value="ol">{$aLang.panel_list_ol}</option>
-				</select>
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','b'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/bold.png" title="{$aLang.panel_b}"></a>
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','i'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/italic.png" title="{$aLang.panel_i}"></a>	 			
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','u'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/underline.png" title="{$aLang.panel_u}"></a>	 			
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','s'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.png" title="{$aLang.panel_s}"></a>	 			
-				&nbsp;
-				<a href="#" onclick="lsPanel.putTagUrl('topic_text','{$aLang.panel_url_promt}'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/link.png"  title="{$aLang.panel_url}"></a>
-				<a href="#" onclick="lsPanel.putQuote('topic_text'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/quote.png" title="{$aLang.panel_quote}"></a>
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','code'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/code.png" title="{$aLang.panel_code}"></a>
-				<a href="#" onclick="lsPanel.putTagAround('topic_text','video'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/video.png" title="{$aLang.panel_video}"></a>
-		
-				<a href="#" onclick="showImgUploadForm(); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/img.png" title="{$aLang.panel_image}"></a> 			
-				<a href="#" onclick="lsPanel.putText('topic_text','<cut>'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/cut.png" title="{$aLang.panel_cut}"></a>	
-				{hook run='form_add_topic_panel_end'}
-			</div>
-		{/if}
-		<textarea name="topic_text" class="mceEditor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
+		<p>
+		<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
+		<textarea name="topic_text" class="mceEditor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
+		</p>
 		
 		<!-- Topic Photo Add -->
 		<div class="topic-photo-upload">
 			<h2>{$aLang.topic_photoset_upload_title}</h2>
 			
 			<div class="topic-photo-upload-rules">
-                                    {$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
+				{$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
-                            <a href="javascript:ls.photoset.showForm()">Загрузить фото</a>
-			<input type="hidden" name="topic_main_photo" id="topic_main_photo" />
+            <a href="javascript:ls.photoset.showForm()">Загрузить фото</a>
+			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 			<ul id="swfu_images">
                                 {if count($aPhotos)}
                                     {foreach from=$aPhotos item=oPhoto}
@@ -192,7 +167,7 @@ tinyMCE.init({
                                             {assign var=bIsMainPhoto value=true}
                                          {/if}
                                         <li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
-                                            <img src="{$oPhoto->getWebPath(100)}" alt="image" />
+                                            <img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
                                             <textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
                                             <a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="image-delete">Удалить</a>
                                             <span id="photo_preview_state_{$oPhoto->getId()}" class="photo-preview-state">
@@ -209,34 +184,29 @@ tinyMCE.init({
 			</ul>
                            <div id="notice_wrap"></div>
 		</div>
-            
-                  <p>
-                        <label for="topic_maim_photo_description">{$aLang.topic_photoset_main_photo_description}:</label><br />
-                        <textarea name="topic_main_photo_description" id="topic_main_photo_description" rows="5">{$_aRequest.topic_main_photo_description}</textarea></p>
-                  </p>
 		<!-- /Topic Photo Add -->
 		
-            
-		
+          
 		<p><label for="topic_tags">{$aLang.topic_create_tags}:</label><br />
-		<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="w100p" /><br />
-		<span class="form_note">{$aLang.topic_create_tags_notice}</span></p>
-									
-		<p><label for="topic_forbid_comment"><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if}/> 
-		&mdash; {$aLang.topic_create_forbid_comment}</label><br />
-		<span class="form_note">{$aLang.topic_create_forbid_comment_notice}</span></p>
+		<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-wide autocomplete-tags-sep" /><br />
+		<span class="note">{$aLang.topic_create_tags_notice}</span></p>
 
+		<p><label for="topic_forbid_comment"><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if} />
+		{$aLang.topic_create_forbid_comment}</label><br />
+		<span class="note">{$aLang.topic_create_forbid_comment_notice}</span></p>
+	
 		{if $oUserCurrent->isAdministrator()}
-			<p><label for="topic_publish_index"><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if}/> 
-			&mdash; {$aLang.topic_create_publish_index}</label><br />
-			<span class="form_note">{$aLang.topic_create_publish_index_notice}</span></p>
+			<p><label for="topic_publish_index"><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if} />
+			{$aLang.topic_create_publish_index}</label><br />
+			<span class="note">{$aLang.topic_create_publish_index_notice}</span></p>
 		{/if}
-		
-		{hook run='form_add_topic_topic_end'}					
+
+		{hook run='form_add_topic_photoset_end'}
+							
 		<p class="buttons">
-		<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
-		<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;
-		<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
+			<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
+			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;
+			<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 		</p>
 	</form>
         
@@ -244,4 +214,3 @@ tinyMCE.init({
 
 
 {include file='footer.tpl'}
-

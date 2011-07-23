@@ -672,6 +672,42 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return false;
 	}
     
+	
+	
+	/**
+	 * Возвращает список фоток из фото-сета по списку id фоток
+	 *
+	 * @param unknown_type $aArrayId
+	 * @return unknown
+	 */
+	public function GetTopicPhotosByArrayId($aArrayId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+
+		$sql = "SELECT
+					*							 
+				FROM 
+					".Config::Get('db.table.topic_photo')."		
+				WHERE 
+					id IN(?a) 								
+				ORDER BY FIELD(id,?a) ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
+			foreach ($aRows as $aPhoto) {
+				$aReturn[]=Engine::GetEntity('Topic_TopicPhoto',$aPhoto);
+			}
+		}
+		return $aReturn;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
          public function getPhotosByTopicId($iTopicId, $iFromId, $iCount)
          {
                 $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';

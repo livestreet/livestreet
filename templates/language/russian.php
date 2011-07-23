@@ -312,18 +312,18 @@ return array(
          'topic_photoset_is_preview' => 'Отмечено как превью к топику',
          'topic_photoset_mark_as_preview' => 'Отметить как превью',
          'topic_photoset_show_all' => 'Показать все %%COUNT%% фото',
-         'topic_photoset_count_images' => ' изображений',
+         'topic_photoset_count_images' => 'изображение;изображения;изображений',
          'topic_photoset_show_more' => 'Показать ещё фото',
          'topic_photoset_error_count_photos' => 'В топике может быть от %%MIN%% до %%MAX%% фото',
          'topic_photoset_title' => 'Фотосет',
          'topic_photoset_photo_deleted' => 'Фото удалено',
+         'topic_photoset_photo_deleted_error_last' => 'Нельзя удалить последню фотографию',
          'topic_photoset_photo_added' => 'Фото добавлено',
          'topic_photoset_error_too_much_photos' => 'Топик может содержать не более %%MAX%% фото',
          'topic_photoset_title_edit' => 'Редактирование фотосета',
          'topic_photoset_title_create' => 'Создание фотосета',
          'topic_photoset_error_bad_filesize' => 'Размер фото должен быть не более %%MAX%% Кб',
          'topic_photoset_photos' => 'фото',
-         'topic_photoset_main_photo_description' => 'Описание превью',
     
 	/**
 	 * Комментарии

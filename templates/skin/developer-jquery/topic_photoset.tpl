@@ -5,7 +5,7 @@
 <link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/prettyPhoto/css/prettyPhoto.css" />
 <script type="text/javascript">
 {literal}
-    $(document).ready(function() {	
+    jQuery(document).ready(function($) {	
         $('.photoset-image').prettyPhoto({
                social_tools:'',
                show_title: false,
@@ -35,12 +35,14 @@
                 {/if}
         </ul>
 
-        {assign var=iPhotosCount value=$oTopic->getPhotosCount()}
+    
 	<!-- Topic Photo Preview -->
 	<div class="topic-photo-preview" style="width: 500px">
-                  {assign var=oMainPhoto value=$oTopic->getMainPhoto()}
-		<div class="topic-photo-count">{$iPhotosCount} {$aLang.topic_photoset_photos}</div>
-		<div class="topic-photo-desc">{$oTopic->getMainPhotoDescription()}</div>
+        {assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
+		<div class="topic-photo-count" onclick="window.location='{$oTopic->getUrl()}#photoset'">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
+		{if $oMainPhoto->getDescription()}
+			<div class="topic-photo-desc">{$oMainPhoto->getDescription()}</div>
+		{/if}
 		<img src="{$oMainPhoto->getWebPath(500)}" alt="image" />
 	</div>
 	<!-- /Topic Photo Preview -->
@@ -65,22 +67,23 @@
         <!-- Topic Photo Image List -->
 	{if !$bTopicList}
 		<div class="topic-photo-images">
-			<h2>{$iPhotosCount} {$aLang.topic_photoset_count_images}</h2>
-			
+			<h2>{$oTopic->getPhotosetCount()} {$oTopic->getPhotosetCount()|declension:$aLang.topic_photoset_count_images}</h2>
+			<a name="photoset"></a>
 			<ul id="topic-photo-images" >
-                            {assign var=aPhotos value=$oTopic->getPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
-                            {if count($aPhotos)}
-                                {assign var=iPhotoNumber value=1}
+                            {assign var=aPhotos value=$oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
+                            {if count($aPhotos)}                                
                                 {foreach from=$aPhotos item=oPhoto}
-                                    <li><div class="image-number">{$iPhotoNumber}</div><a  class="photoset-image" href="{$oPhoto->getWebPath()}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>
-                                    {assign var=iPhotoNumber value=$iPhotoNumber+1}
+                                    <li><a class="photoset-image" href="{$oPhoto->getWebPath()}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>                                    
                                     {assign var=iLastPhotoId value=$oPhoto->getId()}
                                 {/foreach}
                             {/if}
+                            <script type="text/javascript">
+                            	ls.photoset.idLast='{$iLastPhotoId}';
+                            </script>
 			</ul>
-			<input type="hidden" id="photo_number" value="{$iPhotoNumber}" />
-			<input type="hidden" id="last_photo_id" value="{$iLastPhotoId}" />
-			<a href="javascript:ls.photoset.getMore({$oTopic->getId()})" id="topic-photo-more" class="topic-photo-more">{$aLang.topic_photoset_show_more} &darr;</a>
+			{if count($aPhotos)<$oTopic->getPhotosetCount()}
+				<a href="javascript:ls.photoset.getMore({$oTopic->getId()})" id="topic-photo-more" class="topic-photo-more">{$aLang.topic_photoset_show_more} &darr;</a>
+			{/if}
 		</div>
 	{/if}
 	<!-- /Topic Photo Image List -->
@@ -113,7 +116,7 @@
                 {/if}
                 {hook run='topic_show_info' topic=$oTopic}
         </ul>
-        {if $tSingle}
+        {if !$bTopicList}
                 {hook run='topic_show_end' topic=$oTopic}
         {/if}
 </div>

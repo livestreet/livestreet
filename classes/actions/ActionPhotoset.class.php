@@ -43,120 +43,199 @@ class ActionPhotoset extends Action {
 	 * Регистрируем евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('add','EventAdd'); // Добавление топика		
-		$this->AddEvent('edit','EventEdit'); // Редактирование топика		
-		$this->AddEvent('deleteimage','EventDeleteImage'); // Удаление изображения		
+	protected function RegisterEvent() {
+		$this->AddEvent('add','EventAdd'); // Добавление топика
+		$this->AddEvent('edit','EventEdit'); // Редактирование топика
+		$this->AddEvent('deleteimage','EventDeletePhoto'); // Удаление изображения
 		$this->AddEvent('upload','EventUpload'); // Загрузка изображения
 		$this->AddEvent('getMore','EventGetMore');	// Загрузка изображения на сервер
-		$this->AddEvent('setimagedescription','EventSetImageDescription'); // Установка описания к фото
+		$this->AddEvent('setimagedescription','EventSetPhotoDescription'); // Установка описания к фото
 	}
-		
-	
+
+
 	/**********************************************************************************
-	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
-	 **********************************************************************************
+	************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
+	**********************************************************************************
+	*/
+
+	/**
+	 * AJAX подгрузка следующих фото
+	 *
+	 * @return unknown
 	 */
+	protected function EventGetMore() {
+		$this->Viewer_SetResponseAjax('json');
+		
+		$oTopic = $this->Topic_getTopicById(getRequest('topic_id'));
+		if (!$oTopic || !getRequest('last_id')) {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return false;
+		}
+		$aPhotos = $oTopic->getPhotosetPhotos(getRequest('last_id'), Config::Get('module.topic.photoset.per_page'));
+		$aResult = array();
+		if (count($aPhotos)) {
+			foreach($aPhotos as $oPhoto) {
+				$aResult[] = array('id' => $oPhoto->getId(), 'path_thumb' => $oPhoto->getWebPath('50crop'), 'path' => $oPhoto->getWebPath(), 'description' => $oPhoto->getDescription());
+			}
+			$this->Viewer_AssignAjax('photos', $aResult);
+		}
+		$this->Viewer_AssignAjax('bHaveNext', count($aPhotos)==Config::Get('module.topic.photoset.per_page'));
+	}
+
+	/**
+	 * AJAX удаление фото
+	 *
+	 */
+	protected function EventDeletePhoto() {
+		$this->Viewer_SetResponseAjax('json');
+		
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error'); 
+		}
+
+		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
+		if ($oPhoto) {
+			if ($oPhoto->getTopicId()) {
+				// проверяем права на топик
+				if ($oTopic=$this->Topic_GetTopicById($oPhoto->getTopicId()) and $this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+					if ($oTopic->getPhotosetCount()>1) {
+						$this->Topic_deleteTopicPhoto($oPhoto);
+						/**
+						 * Если удаляем главную фотку топика, то её необходимо сменить
+						 */
+						if ($oPhoto->getId()==$oTopic->getPhotosetMainPhotoId()) {
+							$aPhotos = $oTopic->getPhotosetPhotos(0,1);
+							$oTopic->setPhotosetMainPhotoId($aPhotos[0]->getId());
+						}
+						$oTopic->setPhotosetCount($oTopic->getPhotosetCount()-1);
+						$this->Topic_UpdateTopic($oTopic);
+						$this->Message_AddNotice($this->Lang_Get('topic_photoset_photo_deleted'), $this->Lang_Get('attention'));
+					} else {
+						$this->Message_AddError($this->Lang_Get('topic_photoset_photo_deleted_error_last'), $this->Lang_Get('error'));
+					}
+					return;
+				}
+			} else {
+				$this->Topic_deleteTopicPhoto($oPhoto);
+				$this->Message_AddNotice($this->Lang_Get('topic_photoset_photo_deleted'), $this->Lang_Get('attention'));
+				return;
+			}
+		}
+		$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+	}
+	/**
+	 * AJAX установка описания фото
+	 *
+	 */
+	protected function EventSetPhotoDescription() {
+		$this->Viewer_SetResponseAjax('json');
+		
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error'); 
+		}
+			
+		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
+		if ($oPhoto) {
+			if ($oPhoto->getTopicId()) {
+				// проверяем права на топик
+				if ($oTopic=$this->Topic_GetTopicById($oPhoto->getTopicId()) and $this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+					$oPhoto->setDescription(htmlspecialchars(getRequest('text')));
+					$this->Topic_updateTopicPhoto($oPhoto);
+				}
+			} else {
+				$oPhoto->setDescription(htmlspecialchars(getRequest('text')));
+				$this->Topic_updateTopicPhoto($oPhoto);
+			}
+		}
+	}
     
-        protected function EventGetMore() 
-        {
-            $this->Viewer_SetResponseAjax('json');
-            $iTopicid = getRequest('topic_id');
-            $oTopic = $this->Topic_getTopicById($iTopicid);
-            if (!$oTopic || !getRequest('last_id')) {
-                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-                     return false;
-            }
-            $aPhotos = $oTopic->getPhotos(getRequest('last_id'), Config::Get('module.topic.photoset.per_page'));
-            $aResult = array();
-            if (count ($aPhotos)) {
-                foreach($aPhotos as $oPhoto) {
-                    $aResult[] = array('id' => $oPhoto->getId(), 'path_thumb' => $oPhoto->getWebPath('50crop'), 'path' => $oPhoto->getWebPath(), 'description' => $oPhoto->getDescription());
-                }
-                $this->Viewer_AssignAjax('photos', $aResult);
-            }
-        }
-        
-        protected function EventDeleteImage()
-        {
-            $this->Viewer_SetResponseAjax('json');
-            $iId = getRequest('id');
-            $oPhoto = $this->Topic_getTopicPhotoById($iId);
-            if ($oPhoto) {
-                $this->Topic_deleteTopicPhoto($oPhoto);
-                $this->Message_AddNotice($this->Lang_Get('topic_photoset_photo_deleted'), $this->Lang_Get('attention'));
-            }
-        }
-    
-        protected function EventSetImageDescription()
-        {
-            $this->Viewer_SetResponseAjax('json');
-            $iPhotoId = getRequest('id');
-            $oPhoto = $this->Topic_getTopicPhotoById($iPhotoId);
-            if ($oPhoto) {
-                $oPhoto->setDescription(getRequest('text'));
-                $this->Topic_updateTopicPhoto($oPhoto);
-            }
-        }
-    
-    
-         protected function EventUpload()
-         {
-             // Флеш не передаёт куки, поэтому эмулируем передачу SSID
-             if (isset($_REQUEST['SSID'])) {
-                session_id($_REQUEST['SSID']);
-             }
-             // В зависимости от типа загрузчика устанавливается тип ответа
-             if (getRequest('is_iframe')) {
-                $this->Viewer_SetResponseAjax('jsonIframe', false);
-             } else {
-                $this->Viewer_SetResponseAjax('json');
-             }  
-             $iTopicId = getRequest('topic_id');
-             $sTargetId = null;
-             $iCountPhotos = 0;
-             // Если от сервера не пришёл id топика, то пытаемся определить временный код для нового топика. Если и его нет. то это ошибка
-             if (!$iTopicId) {
-                 $sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequest('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
-                 if (!$sTargetId) {
-                     $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-                     return false;
-                 }
-                 $iCountPhotos = $this->Topic_getCountPhotosByTargetTmp($sTargetId);
-             } else {
-                 $oTopic = $this->Topic_getTopicById($iTopicId);
-                 if (!$oTopic) {
-                     $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-                     return false;
-                 }
-                 $iCountPhotos = $this->Topic_getCountPhotosByTopicId($iTopicId);
-             }
-             if ($iCountPhotos >= Config::Get('module.topic.photoset.count_photos_max')) {
-                 $this->Message_AddError($this->Lang_Get('topic_photoset_error_too_much_photos', array('%%MAX%%' => Config::Get('module.topic.photoset.count_photos_max'))), $this->Lang_Get('error'));
-                 return false;
-             }
-             if (filesize($_FILES['Filedata']['tmp_name']) > Config::Get('module.topic.photoset.photo_max_size')*1024) {
-                 $this->Message_AddError($this->Lang_Get('topic_photoset_error_bad_filesize', array('MAX' => Config::Get('module.topic.photoset.photo_max_size'))), $this->Lang_Get('error'));
-                 return false;
-             }
-             $sFile = $this->Topic_uploadImage($_FILES['Filedata']);
-             if ($sFile) {
-                 $oPhoto = Engine::GetEntity('Topic_TopicPhoto');
-                 $oPhoto->setPath($sFile);
-                 if ($iTopicId) {
-                     $oPhoto->setTopicId($iTopicId);
-                 } else {
-                     $oPhoto->setTargetTmp($sTargetId);
-                 }
-                 $iId = $this->Topic_addTopicPhoto($oPhoto);
-                 $oPhoto->setId($iId);
-                 $this->Viewer_AssignAjax('file', $oPhoto->getWebPath(100));
-                 $this->Viewer_AssignAjax('id', $oPhoto->getId());
-                 $this->Message_AddNotice($this->Lang_Get('topic_photoset_photo_added'), $this->Lang_Get('attention'));
-             } else {
-                 $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-             }
-         }
+	/**
+     * AJAX загрузка фоток
+     *
+     * @return unknown
+     */
+	protected function EventUpload() {		
+		// В зависимости от типа загрузчика устанавливается тип ответа
+		if (getRequest('is_iframe')) {
+			$this->Viewer_SetResponseAjax('jsonIframe', false);
+		} else {
+			$this->Viewer_SetResponseAjax('json');
+		}
+		
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error'); 
+		}
+		
+		if (!isset($_FILES['Filedata']['tmp_name'])) {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return false;
+		}
+		
+		$iTopicId = getRequest('topic_id');
+		$sTargetId = null;
+		$iCountPhotos = 0;
+		// Если от сервера не пришёл id топика, то пытаемся определить временный код для нового топика. Если и его нет. то это ошибка
+		if (!$iTopicId) {
+			$sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequest('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
+			if (!$sTargetId) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+			$iCountPhotos = $this->Topic_getCountPhotosByTargetTmp($sTargetId);
+		} else {
+			$oTopic = $this->Topic_getTopicById($iTopicId);
+			if (!$oTopic or !$this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+			$iCountPhotos = $this->Topic_getCountPhotosByTopicId($iTopicId);
+		}
+		if ($iCountPhotos >= Config::Get('module.topic.photoset.count_photos_max')) {
+			$this->Message_AddError($this->Lang_Get('topic_photoset_error_too_much_photos', array('MAX' => Config::Get('module.topic.photoset.count_photos_max'))), $this->Lang_Get('error'));
+			return false;
+		}
+		if (filesize($_FILES['Filedata']['tmp_name']) > Config::Get('module.topic.photoset.photo_max_size')*1024) {
+			$this->Message_AddError($this->Lang_Get('topic_photoset_error_bad_filesize', array('MAX' => Config::Get('module.topic.photoset.photo_max_size'))), $this->Lang_Get('error'));
+			return false;
+		}
+		$sFile = $this->Topic_UploadTopicPhoto($_FILES['Filedata']);
+		if ($sFile) {
+			$oPhoto = Engine::GetEntity('Topic_TopicPhoto');
+			$oPhoto->setPath($sFile);
+			if ($iTopicId) {
+				$oPhoto->setTopicId($iTopicId);
+			} else {
+				$oPhoto->setTargetTmp($sTargetId);
+			}
+			if ($oPhoto = $this->Topic_addTopicPhoto($oPhoto)) {
+				// если редактируем топик, то обновляем число фоток в нём
+				if (isset($oTopic)) {
+					$oTopic->setPhotosetCount($oTopic->getPhotosetCount()+1);
+					$this->Topic_UpdateTopic($oTopic);
+				}
+
+				$this->Viewer_AssignAjax('file', $oPhoto->getWebPath('100crop'));
+				$this->Viewer_AssignAjax('id', $oPhoto->getId());
+				$this->Message_AddNotice($this->Lang_Get('topic_photoset_photo_added'), $this->Lang_Get('attention'));
+			} else {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+		}
+	}
 	
 	/**
 	 * Редактирование 
@@ -164,6 +243,13 @@ class ActionPhotoset extends Action {
 	 * @return unknown
 	 */
 	protected function EventEdit() {
+		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error'); 
+		}
 		/**
 		 * Меню
 		 */
@@ -215,11 +301,10 @@ class ActionPhotoset extends Action {
 			$_REQUEST['topic_id']=$oTopic->getId();
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
 			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
-			$_REQUEST['topic_main_photo']=$oTopic->getMainPhotoId();
-			$_REQUEST['topic_main_photo_description']=$oTopic->getMainPhotoDescription();
+			$_REQUEST['topic_main_photo']=$oTopic->getPhotosetMainPhotoId();
 			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 		}	
-                    $this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTopicId($oTopic->getId()));
+		$this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTopicId($oTopic->getId()));
 	}
 	/**
 	 * Добавление ссылки
@@ -228,25 +313,33 @@ class ActionPhotoset extends Action {
 	 */
 	protected function EventAdd() {
 		/**
+		 * Проверяем авторизован ли юзер
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return Router::Action('error'); 
+		}
+		/**
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='add';
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));	
+		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title_create'));
-                   // Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
-                  if (empty($_COOKIE['ls_photoset_target_tmp'])) {
-                       setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600);
-                  } else {
-                       setcookie('ls_photoset_target_tmp', $_COOKIE['ls_photoset_target_tmp'], time()+24*3600); 
-                      $this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']));
-                  }
+		
+		// Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
+		if (empty($_COOKIE['ls_photoset_target_tmp'])) {
+			setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600);
+		} else {
+			setcookie('ls_photoset_target_tmp', $_COOKIE['ls_photoset_target_tmp'], time()+24*3600);
+			$this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']));
+		}
 		/**
 		 * Обрабатываем отправку формы
 		 */
-		return $this->SubmitAdd();		
+		return $this->SubmitAdd();
 	}
 	
 	/**
@@ -307,21 +400,21 @@ class ActionPhotoset extends Action {
 		$oTopic->setTitle(getRequest('topic_title'));								
 		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
 		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextSource(getRequest('topic_text'));				
+		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
 		$oTopic->setCutText(null);
 		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getTitle()));
-        
-                  $aPhotos = $this->Topic_getPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']);
-                  if (getRequest('topic_main_photo')) {
-                      $oTopic->setMainPhoto(getRequest('topic_main_photo'));
-                  } else {
-                      $oFirstPhoto = $aPhotos[0];
-                      $oTopic->setMainPhoto($oFirstPhoto->getId());
-                  }
-                  $oTopic->setMainPhotoDescription(getRequest('topic_main_photo_description'));
+
+		$sTargetTmp=$_COOKIE['ls_photoset_target_tmp'];
+		$aPhotos = $this->Topic_getPhotosByTargetTmp($sTargetTmp);
+		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequest('topic_main_photo')) and $oPhotoMain->getTargetTmp()==$sTargetTmp)) {
+			$oPhotoMain=$aPhotos[0];
+		}
+		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
+		$oTopic->setPhotosetCount(count($aPhotos));
+
 		/**
 		 * Проверяем топик на уникальность
 		 */
@@ -373,18 +466,25 @@ class ActionPhotoset extends Action {
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}
-                            if (count($aPhotos)) {
-                                foreach($aPhotos as $oPhoto) {
-                                    $oPhoto->setTargetTmp(null);
-                                    $oPhoto->setTopicId($oTopic->getId());
-                                    $this->Topic_updateTopicPhoto($oPhoto);
-                                }
-                            }
-                            setcookie('ls_photoset_target_tmp', null); 
 			/**
-				 * Добавляем событие в ленту
-				 */
-				$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
+			 * Привязываем фото к id топика
+			 * здесь нужно это делать одним запросом, а не перебором сущностей
+			 */
+			if (count($aPhotos)) {
+				foreach($aPhotos as $oPhoto) {
+					$oPhoto->setTargetTmp(null);
+					$oPhoto->setTopicId($oTopic->getId());
+					$this->Topic_updateTopicPhoto($oPhoto);
+				}
+			}
+			/**
+			 * Удаляем временную куку
+			 */
+			setcookie('ls_photoset_target_tmp', null);
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -443,17 +543,15 @@ class ActionPhotoset extends Action {
 		$oTopic->setTextSource(getRequest('topic_text'));		
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());
-                  $oTopic->setMainPhoto(getRequest('topic_main_photo'));
-
-                  $aPhotos = $oTopic->getPhotos();
-                  if (getRequest('topic_main_photo')) {
-                      $oTopic->setMainPhoto(getRequest('topic_main_photo'));
-                  } else {
-                      $oFirstPhoto = $aPhotos[0];
-                      $oTopic->setMainPhoto($oFirstPhoto->getId());
-                  }
-		$oTopic->setMainPhotoDescription(getRequest('topic_main_photo_description'));
 		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getTitle()));
+
+		$aPhotos = $oTopic->getPhotosetPhotos();
+		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequest('topic_main_photo')) and $oPhotoMain->getTopicId()==$oTopic->getId())) {
+			$oPhotoMain=$aPhotos[0];
+		}
+		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
+		$oTopic->setPhotosetCount(count($aPhotos));
+		
 		/**
 		 * Проверяем топик на уникальность
 		 */
@@ -576,24 +674,24 @@ class ActionPhotoset extends Action {
 		} else {
 			$_REQUEST['topic_tags']=join(',',$aTagsNew);
 		}
-        
-                  $iTopicId = getRequest('topic_id');
-                  $sTargetId = null;
-                  $iCountPhotos = 0;
-                  if (!$oTopic) {
-                     $sTargetId = $_COOKIE['ls_photoset_target_tmp'];
-                     if (!$sTargetId) {
-                         $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-                         return false;
-                     }
-                     $iCountPhotos = $this->Topic_getCountPhotosByTargetTmp($sTargetId);
-                  } else {
-                     $iCountPhotos = $this->Topic_getCountPhotosByTopicId($oTopic->getId());                     
-                  }
-                  if ($iCountPhotos < Config::Get('module.topic.photoset.count_photos_min') || $iCountPhotos  > Config::Get('module.topic.photoset.count_photos_max')) {
-                      $this->Message_AddError($this->Lang_Get('topic_photoset_error_count_photos', array('%%MIN%%' => Config::Get('module.topic.photoset.count_photos_min'), '%%MAX%%' => Config::Get('module.topic.photoset.count_photos_max'))), $this->Lang_Get('error'));
-                      return false;
-                  }
+
+		$iTopicId = getRequest('topic_id');
+		$sTargetId = null;
+		$iCountPhotos = 0;
+		if (!$oTopic) {
+			if (isset($_COOKIE['ls_photoset_target_tmp'])) {
+				$iCountPhotos = $this->Topic_getCountPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']);
+			} else {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+		} else {
+			$iCountPhotos = $this->Topic_getCountPhotosByTopicId($oTopic->getId());
+		}
+		if ($iCountPhotos < Config::Get('module.topic.photoset.count_photos_min') || $iCountPhotos  > Config::Get('module.topic.photoset.count_photos_max')) {
+			$this->Message_AddError($this->Lang_Get('topic_photoset_error_count_photos', array('MIN' => Config::Get('module.topic.photoset.count_photos_min'), 'MAX' => Config::Get('module.topic.photoset.count_photos_max'))), $this->Lang_Get('error'));
+			return false;
+		}
 
 		/**
 		 * Выполнение хуков
