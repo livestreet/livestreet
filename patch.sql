@@ -50,7 +50,7 @@ DROP TABLE `prefix_stream_config`;
 CREATE TABLE `prefix_stream_user_type` (
   `user_id` int(11) NOT NULL,
   `event_type` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `prefix_topic` CHANGE topic_type topic_type ENUM('topic','link','question','photoset') NOT NULL DEFAULT 'topic';
 
