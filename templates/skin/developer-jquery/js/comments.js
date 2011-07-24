@@ -100,7 +100,7 @@ ls.comments = (function ($) {
 		}
 
 		objImg = $('#update-comments');
-		objImg.attr('src', DIR_STATIC_SKIN+'/images/update_act.gif');
+		objImg.addClass('active');
 
 		var params = { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget };
 		if (selfIdComment) { 
@@ -111,7 +111,7 @@ ls.comments = (function ($) {
 		}
 
 		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
-			objImg.attr('src', DIR_STATIC_SKIN+'/images/update.gif');
+			objImg.removeClass('active');
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
 			if (result.bStateError) {

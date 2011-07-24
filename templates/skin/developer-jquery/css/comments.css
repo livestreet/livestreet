@@ -1,15 +1,11 @@
-/* --------------------------------------------------------------
-	!UPDATE
--------------------------------------------------------------- */
-.update { padding: 7px 7px 5px 7px; float: right; position: fixed; top: 220px; right: 0; text-align: center; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; _position: absolute; _top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
-.update .update-comments { cursor: pointer; vertical-align: top; }
+/* Update button */
+.update { padding: 7px 7px 6px 7px; float: right; position: fixed; top: 220px; right: 0; text-align: center; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; _position: absolute; _top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); }
+.update .update-comments { width: 16px; height: 16px; cursor: pointer; background: url(../images/update.gif) no-repeat; }
+.update .update-comments.active { background: url(../images/update_act.gif) no-repeat; }
 .update .new-comments { border-top: 1px solid #ececed; color: #333; padding-top: 7px; margin-top: 3px; cursor: pointer; }
 
 
-
-/* --------------------------------------------------------------
-	!COMMENTS
--------------------------------------------------------------- */
+/* Comments */
 .comments { margin-bottom: 10px;  }
 .comments .comment-wrapper { overflow: hidden; zoom: 1; position: relative; }
 .comments .comment-wrapper .comment-wrapper { padding-left: 25px; }
