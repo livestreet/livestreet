@@ -307,6 +307,7 @@ return array(
          'topic_photoset_create' => 'Создание фотосета',
          'topic_photoset_edit' => 'Редактирование фотосета',
          'topic_photoset_upload_title' => 'Загрузка изображений',
+         'topic_photoset_upload_choose' => 'Загрузить фото',
          'topic_photoset_upload_rules' => 'Доступна загрузка изображений в формат JPG, PNG, GIF<br />Размер изображений не должен превышать %%SIZE%% Kб<br />Максимальное число загружаемых изображений: %%COUNT%%',
          'topic_photoset_choose_image' => 'Выберите изображение для загрузки',
          'topic_photoset_is_preview' => 'Отмечено как превью к топику',
@@ -318,13 +319,16 @@ return array(
          'topic_photoset_title' => 'Фотосет',
          'topic_photoset_photo_deleted' => 'Фото удалено',
          'topic_photoset_photo_deleted_error_last' => 'Нельзя удалить последню фотографию',
+         'topic_photoset_photo_delete' => 'Удалить',
+         'topic_photoset_photo_delete_confirm' => 'Удалить фото?',
          'topic_photoset_photo_added' => 'Фото добавлено',
          'topic_photoset_error_too_much_photos' => 'Топик может содержать не более %%MAX%% фото',
          'topic_photoset_title_edit' => 'Редактирование фотосета',
          'topic_photoset_title_create' => 'Создание фотосета',
          'topic_photoset_error_bad_filesize' => 'Размер фото должен быть не более %%MAX%% Кб',
          'topic_photoset_photos' => 'фото',
-    
+                 
+            
 	/**
 	 * Комментарии
 	 */
@@ -535,6 +539,7 @@ return array(
         'user_field_update' => 'Изменить',
         'user_field_updated' => 'Поле успешно изменено',
         'user_field_delete' => 'Удалить',
+        'user_field_delete_confirm' => 'Удалить поле?',
         'user_field_deleted' => 'Поле удалено',
         'userfield_form_name' => 'Имя',
         'userfield_form_title' => 'Заголовок',

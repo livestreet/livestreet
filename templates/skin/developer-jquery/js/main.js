@@ -38,6 +38,41 @@ ls.msg = (function ($) {
 }).call(ls.msg || {},jQuery);
 
 
+/**
+* Доступ к языковым текстовкам (предварительно должны быть прогружены в шаблон)
+*/
+ls.lang = (function ($) {
+	/**
+	* Набор текстовок
+	*/
+	this.msgs = {};
+
+	/**
+	* Загрузка текстовок
+	*/
+	this.load = function(msgs){
+		this.msgs=msgs;
+	};
+	
+	/**
+	* Отображение сообщения об ошибке 
+	*/
+	this.get = function(name,replace){
+		if (this.msgs[name]) {
+			var value=this.msgs[name];
+			if (replace) {
+				$.each(replace,function(k,v){
+					value=value.replace(new RegExp('%%'+k+'%%','g'),v);
+				});
+			}
+			return value;
+		}
+		return '';
+	};
+	
+	return this;
+}).call(ls.lang || {},jQuery);
+
 
 /**
 * Вспомогательные функции

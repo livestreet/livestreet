@@ -1,5 +1,24 @@
 <?php
+/*-------------------------------------------------------
+*
+*   LiveStreet Engine Social Networking
+*   Copyright © 2008 Mzhelskiy Maxim
+*
+*--------------------------------------------------------
+*
+*   Official site: www.livestreet.ru
+*   Contact e-mail: rus.engine@gmail.com
+*
+*   GNU General Public License, version 2:
+*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+---------------------------------------------------------
+*/
 
+/**
+ * Обработка УРЛа вида /photoset/ - управление своими топиками(тип: фотосет)
+ *
+ */
 class ActionPhotoset extends Action {
 	/**
 	 * Главное меню
@@ -38,6 +57,14 @@ class ActionPhotoset extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title'));
+		
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'topic_photoset_photo_delete','topic_photoset_mark_as_preview','topic_photoset_photo_delete_confirm','topic_photoset_mark_as_preview',
+			'topic_photoset_is_preview'
+		));
 	}
 	/**
 	 * Регистрируем евенты

@@ -1,3 +1,39 @@
+var lsLangClass = new Class({	
+			
+	initialize: function(){
+		this.msgs = {};	
+	},
+	
+	/**
+	* Загрузка текстовок
+	*/
+	load: function(msgs) {
+		this.msgs=msgs;
+	},
+	
+	/**
+	* Отображение сообщения об ошибке 
+	*/
+	get: function(name,replace){
+		if (this.msgs[name]) {
+			var value=this.msgs[name];
+			if (replace) {
+				(new Hash(replace)).each(function(v,k){
+					value=value.replace(new RegExp('%%'+k+'%%','g'),v);
+				});
+			}
+			return value;
+		}
+		return '';
+	}
+	
+});
+
+var lsLang = new lsLangClass();
+
+
+
+
 function ajaxTextPreview(textId,save,divPreview) {
 	var text;    
 	if (BLOG_USE_TINYMCE && tinyMCE && (ed=tinyMCE.get(textId))) {
@@ -128,8 +164,8 @@ function addTopicImage(response)
     if (!response.bStateError) {
         template = '<a href="#"><img src="'+response.file+'" alt="image" /></a>'
                             +'<textarea onBlur="topicImageSetDescription('+response.id+', this.value)"></textarea><br />'
-                            +'<a href="javascript:deleteTopicImage('+response.id+')" class="image-delete">'+lsLang['delete']+'</a>'
-                            +'<span class="photo-preview-state"><a href="javascript:setTopicMainPhoto('+response.id+')" class="mark-as-preview">'+lsLang['mark_as_preview']+'</a></span>';
+                            +'<a href="javascript:deleteTopicImage('+response.id+')" class="image-delete">'+lsLang.get('topic_photoset_photo_delete')+'</a>'
+                            +'<span class="photo-preview-state"><a href="javascript:setTopicMainPhoto('+response.id+')" class="mark-as-preview">'+lsLang.get('topic_photoset_mark_as_preview')+'</a></span>';
         liElement= new Element('li', {'id':'photo_'+response.id,'html':template})
         liElement.inject('swfu_images');
         msgNoticeBox.alert(response.sMsgTitle,response.sMsg);
@@ -141,7 +177,7 @@ function addTopicImage(response)
 
 function deleteTopicImage(id)
 {
-	if (!confirm(lsLang['userfield_confirm_delete'])) {return;}
+	if (!confirm(lsLang.get('topic_photoset_photo_delete_confirm'))) {return;}
     new Request.JSON({
 		url: aRouter['photoset']+'deleteimage',
 		data: {'id':id, 'security_ls_key': LIVESTREET_SECURITY_KEY },
@@ -161,10 +197,10 @@ function setTopicMainPhoto(id)
     $('topic_main_photo').set('value', id);
     $$('..marked-as-preview').each(function (el) {
         el.removeClass('marked-as-preview');
-        el.getElement('span').set('html','<a href="javascript:setTopicMainPhoto('+el.get('id').slice(el.get('id').lastIndexOf('_')+1)+')" class="mark-as-preview">'+lsLang['mark_as_preview']+'</a>')
+        el.getElement('span').set('html','<a href="javascript:setTopicMainPhoto('+el.get('id').slice(el.get('id').lastIndexOf('_')+1)+')" class="mark-as-preview">'+lsLang.get('topic_photoset_mark_as_preview')+'</a>')
     });
     $('photo_'+id).addClass('marked-as-preview');
-    $('photo_'+id).getElement('span').set('html', lsLang['preview']);
+    $('photo_'+id).getElement('span').set('html', lsLang.get('topic_photoset_is_preview'));
 }
 
 function topicImageSetDescription(id, text)

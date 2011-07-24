@@ -20,37 +20,36 @@
 	{/if}
 	
 	<script>
-		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
-		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
-		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
-                  var BLOG_USE_TINYMCE='{cfg name="view.tinymce"}';
-		
-		var LANG_JOIN 				= '{$aLang.blog_join}';
-		var LANG_LEAVE 				= '{$aLang.blog_leave}';
-		var LANG_DELETE 			= '{$aLang.blog_delete}';
-		var LANG_POLL_ERROR 		= '{$aLang.topic_question_create_answers_error_max}';
+	var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
+	var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+	var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
+	var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
 
-		var IMG_PATH_LOADER 		= DIR_STATIC_SKIN + '/images/loader.gif';
-		
-                  var TINYMCE_LANG='en';
-		{if $oConfig->GetValue('lang.current')=='russian'}
-			TINYMCE_LANG='ru';
-		{/if}
-            
-		var aRouter = new Array();
-		{foreach from=$aRouter key=sPage item=sPath}
-			aRouter['{$sPage}'] = '{$sPath}';
-		{/foreach}
+	var LANG_JOIN 				= '{$aLang.blog_join}';
+	var LANG_LEAVE 				= '{$aLang.blog_leave}';
+	var LANG_DELETE 			= '{$aLang.blog_delete}';
+	var LANG_POLL_ERROR 		= '{$aLang.topic_question_create_answers_error_max}';
+
+	var IMG_PATH_LOADER 		= DIR_STATIC_SKIN + '/images/loader.gif';
+
+	var TINYMCE_LANG='en';
+	{if $oConfig->GetValue('lang.current')=='russian'}
+		TINYMCE_LANG='ru';
+	{/if}
+
+	var aRouter = new Array();
+	{foreach from=$aRouter key=sPage item=sPath}
+		aRouter['{$sPage}'] = '{$sPath}';
+	{/foreach}
 	</script>
 
 	{$aHtmlHeadFiles.js}
     
-          {literal}
 	<script language="JavaScript" type="text/javascript">
-            var tinyMCE=false;
+		var tinyMCE=false;
+		ls.lang.load({json var=$aLangJs});
 	</script>
-	{/literal}
-
+	
 	{hook run='html_head_end'}
 </head>
 

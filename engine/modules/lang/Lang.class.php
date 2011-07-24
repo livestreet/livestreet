@@ -41,6 +41,12 @@ class ModuleLang extends Module {
 	 * @var array
 	 */
 	protected $aLangMsg=array();
+	/**
+	 * Список текстовок для JS
+	 *
+	 * @var unknown_type
+	 */
+	protected $aLangMsgJs=array();
 
 	/**
 	 * Инициализация модуля
@@ -76,10 +82,43 @@ class ModuleLang extends Module {
 			if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
 		}
 
+		$this->LoadLangJs();
 		/**
 		 * Загружаем в шаблон
 		 */
 		$this->Viewer_Assign('aLang',$this->aLangMsg);
+	}
+	/**
+	 * Загружает из конфига текстовки для JS
+	 *
+	 */
+	protected function LoadLangJs() {
+		$aMsg=Config::Get('lang.load_to_js');
+		if (is_array($aMsg) and count($aMsg)) {
+			$this->aLangMsgJs=$aMsg;
+		}
+	}
+	/**
+	 * Прогружает в шаблон текстовки в виде JS
+	 *
+	 */
+	protected function AssignToJs() {
+		$aLangMsg=array();
+		foreach ($this->aLangMsgJs as $sName) {
+			$aLangMsg[$sName]=$this->Get($sName,array(),false);
+		}
+		$this->Viewer_Assign('aLangJs',$aLangMsg);
+	}
+	/**
+	 * Добавляет текстовку к JS
+	 *
+	 * @param unknown_type $aKeys
+	 */
+	public function AddLangJs($aKeys) {
+		if (!is_array($aKeys)) {
+			$aKeys=array($aKeys);
+		}
+		$this->aLangMsgJs=array_merge($this->aLangMsgJs,$aKeys);
 	}
 	/**
 	 * Загружает текстовки из языковых файлов
@@ -185,7 +224,7 @@ class ModuleLang extends Module {
 	 * @param  array  $aReplace
 	 * @return string
 	 */
-	public function Get($sName,$aReplace=array()) {
+	public function Get($sName,$aReplace=array(),$bDelete=true) {
 		if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
 			$sLang = &$this->aLangMsg;
 			$aKeys = explode('.', $sName);
@@ -211,7 +250,7 @@ class ModuleLang extends Module {
 			$sLang=strtr($sLang,$aReplacePairs);
 		}
 
-		if(Config::Get('module.lang.delete_undefined') and is_string($sLang)) {
+		if(Config::Get('module.lang.delete_undefined') and $bDelete and is_string($sLang)) {
 			$sLang=preg_replace("/\%\%[\S]+\%\%/U",'',$sLang);
 		}
 		return $sLang;
@@ -255,6 +294,10 @@ class ModuleLang extends Module {
 	 *
 	 */
 	public function Shutdown() {
+		/**
+		 * Делаем выгрузку необходимых текстовок в шаблон в виде js
+		 */
+		$this->AssignToJs();
 	}
 }
 ?>

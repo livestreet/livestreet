@@ -157,6 +157,11 @@ class ActionAdmin extends Action {
                 $this->Message_AddNotice($this->Lang_Get('user_field_updated'),$this->Lang_Get('attention'));
                 break;
             default:
+            	/**
+				 * Загружаем в шаблон JS текстовки
+				 */
+            	$this->Lang_AddLangJs(array('user_field_delete_confirm'));
+            	
                 $aUserFields = $this->User_getUserFields();
                 $this->Viewer_Assign('aUserFields',$aUserFields);
                 $this->SetTemplateAction('user_fields');

@@ -9,7 +9,6 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/vlaCal-v2.1/jslib/vlaCal-v2.1.js",
 	"___path.root.engine_lib___/external/MooTools_1.2/plugs/iFrameFormRequest/iFrameFormRequest.js",
-	"___path.static.skin___/js/ls.lang.ru.js",
 	"___path.static.skin___/js/vote.js",
 	"___path.static.skin___/js/favourites.js",
 	"___path.static.skin___/js/questions.js",

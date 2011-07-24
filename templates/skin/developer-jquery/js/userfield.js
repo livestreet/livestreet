@@ -68,7 +68,7 @@ ls.userfield =( function ($) {
     }
 
     this.deleteUserfield = function(id) {
-	if (!confirm(lsLang['userfield_confirm_delete'])) {return;}
+	if (!confirm(ls.lang.get('user_field_delete_confirm'))) {return;}
 	ls.ajax(aRouter['admin']+'userfields', {'action':'delete', 'id':id}, function(data) { 
             if (!data.bStateError) {
                 $('#field_'+id).remove();

@@ -50,22 +50,21 @@
 
 	{$aHtmlHeadFiles.js}
 
-
-	{literal}
 	<script language="JavaScript" type="text/javascript">
 	var tinyMCE=false;
+	lsLang.load({json var=$aLangJs});
 	var msgErrorBox=new Roar({
 				position: 'upperRight',
 				className: 'roar-error',
-				margin: {x: 30, y: 10}
+				margin: { x: 30, y: 10 }
 			});
 	var msgNoticeBox=new Roar({
 				position: 'upperRight',
 				className: 'roar-notice',
-				margin: {x: 30, y: 10}
+				margin: { x: 30, y: 10 }
 			});
 	</script>
-	{/literal}
+	
 
 	{if $oUserCurrent && $oConfig->GetValue('module.talk.reload')}
 		{literal}
