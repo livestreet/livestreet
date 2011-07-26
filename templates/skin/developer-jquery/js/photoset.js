@@ -40,7 +40,7 @@ ls.photoset =( function ($) {
 		$('.marked-as-preview').each(function (index, el) {
 			$(el).removeClass('marked-as-preview');
 			tmpId = $(el).attr('id').slice($(el).attr('id').lastIndexOf('_')+1);
-			$('#photo_preview_state_'+tmpId).html('<a href="javascript:ls.photoset.setDescription('+tmpId+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a>');
+			$('#photo_preview_state_'+tmpId).html('<a href="javascript:ls.photoset.setPreview('+tmpId+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a>');
 		});
 		$('#photo_'+id).addClass('marked-as-preview');
 		$('#photo_preview_state_'+id).html(ls.lang.get('topic_photoset_is_preview'));
