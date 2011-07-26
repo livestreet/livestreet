@@ -171,7 +171,7 @@ class ModuleStream extends Module
 			}
 		}
 		$aTopics = array();
-		foreach($aComments as $oComment) {
+		foreach($aCommentsUnsorted as $oComment) {
 			if (!isset($aRelatedObjects['topics'][$oComment->getTargetId()])) {
 				$aTopics[] = $oComment->getTargetId();
 			}
