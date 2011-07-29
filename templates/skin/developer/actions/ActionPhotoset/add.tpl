@@ -57,65 +57,23 @@ tinyMCE.init({
 	{include file='window_load_img.tpl' sToLoad='topic_text'}
 {/if}
 
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/swfupload/swfupload.swfobject.js"></script>
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/swfupload/swfupload.handlers.js"></script>
 <script type="text/javascript">
-    {literal}
         if (Browser.Plugins.Flash.version) {
-            {/literal}
-            var path_root_engine_lib = '{cfg name='path.root.engine_lib'}';
-            var topic_id = '{$_aRequest.topic_id}';
-            var SSID='{$_sPhpSessionId}'
-            {literal}
-            var target_tmp = (Cookie.read('ls_photoset_target_tmp')) ? Cookie.read('ls_photoset_target_tmp') : 0;
-           
-            document.addEvent('domready', function() {	
-                 swfu = new SWFUpload({
-                    // Backend Settings
-                    upload_url: aRouter['photoset']+"upload",
-                    post_params: {'ls_photoset_target_tmp':target_tmp,'topic_id':topic_id, 'SSID':SSID, 'security_ls_key': LIVESTREET_SECURITY_KEY},
-
-                    // File Upload Settings
-                    file_types : "*.jpg; *.JPG;*.png;*.gif",
-                    file_types_description : "Images",
-                    file_upload_limit : "0",
-
-                    // Event Handler Settings - these functions as defined in Handlers.js
-                    //  The handlers are not part of SWFUpload but are part of my website and control how
-                    //  my website reacts to the SWFUpload events.
-                    file_queue_error_handler : fileQueueError,
-                    file_dialog_complete_handler : fileDialogComplete,
-                    upload_progress_handler : uploadProgress,
-                    upload_error_handler : uploadError,
-                    upload_success_handler : uploadSuccess,
-                    upload_complete_handler : uploadComplete,
-
-                    // Button Settings
-                    button_placeholder_id : "topic-photo-upload-input",
-                    button_width: 122,
-                    button_height: 30,
-                    button_text : '<span class="button">Загрузить фото</span>',
-                    button_text_style : '.button { font-family: Helvetica, Arial, sans-serif; font-size: 14pt; } .buttonSmall { font-size: 10pt; }',
-                    button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
-                    button_text_left_padding: 6,
-                    button_text_top_padding: 3,
-                    button_cursor: SWFUpload.CURSOR.HAND,
-
-                    // Flash Settings
-                    flash_url : path_root_engine_lib+'/external/swfupload/swfupload.swf',
-
-                    custom_settings : {
-                        upload_target : "notice_wrap"
-                    },
-
-                    // Debug Settings
-                    debug: false
-                });
-            });
-        }
-    {/literal}
+            lsSWFUpload.addEvent('load',function() {
+            	initSwfUpload({
+            		post_params: { 'topic_id':'{$_aRequest.topic_id}' },
+            		events: {
+            			UploadProgress: swfHandlerUploadProgress,
+            			FileDialogComplete: swfHandlerFileDialogComplete,
+            			UploadSuccess: swfHandlerUploadSuccess,
+            			UploadComplete: swfHandlerUploadComplete
+            		}
+            	});
+            });            
+        }    
 </script>
+
+
 <div class="topic" style="display: none;">
 	<div class="content" id="text_preview"></div>
 </div>
@@ -126,11 +84,12 @@ tinyMCE.init({
 	{else}
 		<h1>{$aLang.topic_photoset_edit}</h1>
 	{/if}
-        <form id="photoset-upload-form" method="POST" enctype="multipart/form-data">
+        <form id="photoset-upload-form" method="POST" enctype="multipart/form-data"  onsubmit="return false;">
             <p id="topic-photo-upload-input" class="topic-photo-upload-input">
                 <label for="">{$aLang.topic_photoset_choose_image}:</label><br />
-                <input type="file" id="photoset-upload-file" name="Filedata" />
-                <a href="javascript:photosetUploadPhoto()" >upload</a>
+                <input type="file" id="photoset-upload-file" name="Filedata" /><br><br>
+                <button onclick="photosetUploadPhoto();">{$aLang.topic_photoset_upload_choose}</button>
+                <button onclick="photosetCloseForm();">{$aLang.topic_photoset_upload_close}</button>
                 <input type="hidden" name="is_iframe" value="true" />
                 <input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
             </p>
@@ -196,7 +155,7 @@ tinyMCE.init({
 			<div class="topic-photo-upload-rules">
                                     {$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
-                            <a href="javascript:photosetShowUploadForm()">{$aLang.topic_photoset_upload_choose}</a>
+                            
 			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 			<ul id="swfu_images">
                                 {if count($aPhotos)}
@@ -220,7 +179,7 @@ tinyMCE.init({
                                     {/foreach}
                                 {/if}
 			</ul>
-                           <div id="notice_wrap"></div>
+			<a href="javascript:photosetShowUploadForm()" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
 		</div>                 
 		<!-- /Topic Photo Add -->
 		

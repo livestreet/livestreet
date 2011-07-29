@@ -63,7 +63,7 @@ class ActionPhotoset extends Action {
 		 */
 		$this->Lang_AddLangJs(array(
 			'topic_photoset_photo_delete','topic_photoset_mark_as_preview','topic_photoset_photo_delete_confirm','topic_photoset_mark_as_preview',
-			'topic_photoset_is_preview'
+			'topic_photoset_is_preview','topic_photoset_upload_choose'
 		));
 	}
 	/**

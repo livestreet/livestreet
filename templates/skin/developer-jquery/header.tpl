@@ -22,7 +22,9 @@
 	<script>
 	var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
 	var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+	var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
 	var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
+	var SESSION_ID				= '{$_sPhpSessionId}';
 	var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
 
 	var LANG_JOIN 				= '{$aLang.blog_join}';

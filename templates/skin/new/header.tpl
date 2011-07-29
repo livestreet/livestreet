@@ -21,11 +21,13 @@
 <script language="JavaScript" type="text/javascript">
 var DIR_WEB_ROOT='{cfg name="path.root.web"}';
 var DIR_STATIC_SKIN='{cfg name="path.static.skin"}';
+var DIR_ROOT_ENGINE_LIB= '{cfg name="path.root.engine_lib"}';
 var BLOG_USE_TINYMCE='{cfg name="view.tinymce"}';
 var TALK_RELOAD_PERIOD='{cfg name="module.talk.period"}';
 var TALK_RELOAD_REQUEST='{cfg name="module.talk.request"}'; 
 var TALK_RELOAD_MAX_ERRORS='{cfg name="module.talk.max_errors"}';
 var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
+var SESSION_ID = '{$_sPhpSessionId}';
 
 var TINYMCE_LANG='en';
 {if $oConfig->GetValue('lang.current')=='russian'}

@@ -308,6 +308,7 @@ return array(
          'topic_photoset_edit' => 'Редактирование фотосета',
          'topic_photoset_upload_title' => 'Загрузка изображений',
          'topic_photoset_upload_choose' => 'Загрузить фото',
+         'topic_photoset_upload_close' => 'Закрыть',
          'topic_photoset_upload_rules' => 'Доступна загрузка изображений в формат JPG, PNG, GIF<br />Размер изображений не должен превышать %%SIZE%% Kб<br />Максимальное число загружаемых изображений: %%COUNT%%',
          'topic_photoset_choose_image' => 'Выберите изображение для загрузки',
          'topic_photoset_is_preview' => 'Отмечено как превью к топику',

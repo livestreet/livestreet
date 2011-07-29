@@ -4,11 +4,51 @@ ls.photoset =( function ($) {
 	
 	this.idLast=0;
 	this.isLoading=false;
+	this.swfu;
 	
-	this.addPhoto = function(response)
-	{
+	this.initSwfUpload = function(opt) {
+		opt=opt || {};
+		opt.button_placeholder_id = 'photoset-start-upload';
+		opt.post_params.ls_photoset_target_tmp = $.cookie('ls_photoset_target_tmp') ? $.cookie('ls_photoset_target_tmp') : 0;
+		
+		this.swfu = ls.swfupload.init(opt);
+		
+		$(this.swfu).bind('eUploadProgress',this.swfHandlerUploadProgress);
+		$(this.swfu).bind('eFileDialogComplete',this.swfHandlerFileDialogComplete);
+		$(this.swfu).bind('eUploadSuccess',this.swfHandlerUploadSuccess);
+		$(this.swfu).bind('eUploadComplete',this.swfHandlerUploadComplete);
+	}
+	
+	this.swfHandlerUploadProgress = function(e, file, bytesLoaded, percent) {
+		$('#photoset_photo_empty_progress').text(file.name+': '+( percent==100 ? 'resize..' : percent +'%'));
+	}
+	
+	this.swfHandlerFileDialogComplete = function(e, numFilesSelected, numFilesQueued) {
+		if (numFilesQueued>0) {
+			ls.photoset.addPhotoEmpty();
+		}
+	}
+	
+	this.swfHandlerUploadSuccess = function(e, file, serverData) {
+		ls.photoset.addPhoto(jQuery.parseJSON(serverData));
+	}
+	
+	this.swfHandlerUploadComplete = function(e, file, next) {
+		if (next>0) {
+			ls.photoset.addPhotoEmpty();
+		}
+	}
+	
+	this.addPhotoEmpty = function() {
+		template = '<li id="photoset_photo_empty"><img src="'+DIR_STATIC_SKIN + '/images/loader.gif'+'" alt="image" style="margin-left: 35px;margin-top: 20px;" />'
+					+'<div id="photoset_photo_empty_progress" style="height: 60px;width: 350px;padding: 3px;border: 1px solid #DDDDDD;"></div><br /></li>';
+		$('#swfu_images').append(template);
+	}
+	
+	this.addPhoto = function(response) {
+		$('#photoset_photo_empty').remove();
 		if (!response.bStateError) {
-			template = '<li id="photo_'+response.id+'"><a href="#"><img src="'+response.file+'" alt="image" /></a>'
+			template = '<li id="photo_'+response.id+'"><img src="'+response.file+'" alt="image" />'
 						+'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)"></textarea><br />'
 						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="image-delete">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
 						+'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a></span></li>';
@@ -17,7 +57,7 @@ ls.photoset =( function ($) {
 		} else {
 			ls.msg.error(response.sMsgTitle,response.sMsg);
 		}
-		photosetCloseForm();
+		ls.photoset.closeForm();
 	}
 
 	this.deletePhoto = function(id)
@@ -91,8 +131,10 @@ ls.photoset =( function ($) {
 
 	this.upload = function()
 	{
+		ls.photoset.addPhotoEmpty();
 		ls.ajaxSubmit(aRouter['photoset']+'upload/',$('#photoset-upload-form'),function(data){
 			if (data.bStateError) {
+				$('#photoset_photo_empty').remove();
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
 				ls.photoset.addPhoto(data);
@@ -103,15 +145,21 @@ ls.photoset =( function ($) {
 
 	this.closeForm = function()
 	{
-		$('#photoset-upload-form').css('left', '-300px');
+		$('#photoset-upload-form').hide();
 	}
 
 	this.showForm = function()
 	{
-		if ($('#photoset-upload-file').length) {
-			$('#photoset-upload-file').val( '');
+		var $select = $('#photoset-start-upload');
+		if ($select.length) {
+			var pos = $select.offset();
+			w = $select.outerWidth();
+			h = $select.outerHeight();
+			t = pos.top + h - 30  + 'px';
+			l = pos.left - 15 + 'px';
+			$('#photoset-upload-form').css({'top':t,'left':l});
 		}
-		$('#photoset-upload-form').css('left', '50%');
+		$('#photoset-upload-form').show();
 	}
 	return this;
 }).call(ls.photoset || {},jQuery);
