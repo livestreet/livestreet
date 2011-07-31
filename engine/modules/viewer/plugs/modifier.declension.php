@@ -63,21 +63,11 @@ function smarty_modifier_declension_russian($forms, $count)
  * @return string
  */
 function smarty_modifier_declension($count, $forms, $language='')
-{
-	global $currentLanguage, $Language;
+{	
 	if (!$language)
-		$language = $currentLanguage;
+		$language = Engine::getInstance()->Lang_GetLang();
 
 	$count = abs($count);
-
-	// Пытаемся выщемить термин из словаря
-	if (preg_match('/^(.*)\/(.*)$/', $forms, $termine))
-	{
-		if ($termine[1] && $termine[2])
-		{
-			$forms = $Language[$termine[1]][$termine[2]];
-		}
-	}
 
 	// Выделяем отдельные словоформы
 	$forms = explode(';', $forms);
