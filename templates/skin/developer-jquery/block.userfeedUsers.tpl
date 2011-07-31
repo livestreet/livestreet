@@ -32,7 +32,7 @@
 								type="checkbox"
 								id="usf_u_{$iUserId}"
 								checked="checked"
-								onClick="if ($(this).get('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
+								onClick="if ($(this).attr('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
 						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 					</li>
 				{/if}
@@ -57,7 +57,7 @@
 							type="checkbox"
 							id="usf_u_{$iUserId}"
 							{if isset($aUserfeedSubscribedUsers.$iUserId)} checked="checked"{/if}
-							onClick="if ($(this).get('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
+							onClick="if ($(this).attr('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
 					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 				</li>
 			{/foreach}
