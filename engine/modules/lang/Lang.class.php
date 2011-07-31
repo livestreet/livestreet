@@ -71,7 +71,7 @@ class ModuleLang extends Module {
 		 * Если используется кеширование через memcaсhed, то сохраняем данные языкового файла в кеш
 		 */
 		if (Config::Get('sys.cache.type')=='memory') {
-			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}"))) {
+			if (false === ($this->aLangMsg = $this->Cache_Get("lang_{$this->sCurrentLang}_".Config::Get('view.skin')))) {
 				$this->aLangMsg=array();
 				$this->LoadLangFiles($this->sDefaultLang);
 				if($this->sCurrentLang!=$this->sDefaultLang) $this->LoadLangFiles($this->sCurrentLang);
