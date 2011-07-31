@@ -45,7 +45,7 @@ tinyMCE.init({
 
 <script type="text/javascript">
         if (jQuery.browser.flash) {
-            $(ls.swfupload).bind('load',function() {
+            jQuery(ls.swfupload).bind('load',function() {
             	ls.photoset.initSwfUpload({
             		post_params: { 'topic_id':'{$_aRequest.topic_id}' }
             	});
