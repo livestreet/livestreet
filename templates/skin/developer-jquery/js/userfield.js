@@ -11,8 +11,8 @@ ls.userfield =( function ($) {
     
     this.showEditForm = function(id) {
         $('#user_fields_form_action').val('update');
-        var name = $('#field_'+id+' .userfield_admin_name').html();
-        var title = $('#field_'+id+' .userfield_admin_title').html();
+        var name = $('#field_'+id+' .userfield_admin_name').text();
+        var title = $('#field_'+id+' .userfield_admin_title').text();
         var pattern = $('#field_'+id+' .userfield_admin_pattern').text();
         $('#user_fields_form_name').val(name);
         $('#user_fields_form_title').val(title);
@@ -40,8 +40,8 @@ ls.userfield =( function ($) {
 				'<div class="uf-actions"><a href="javascript:ls.userfield.showEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
 				'<a href="javascript:ls.userfield.deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a></div>';
                 $('#user_field_list').append(liElement);
-                $('#field_'+data.id+' .userfield_admin_name').html(name);
-                $('#field_'+data.id+' .userfield_admin_title').html(title);
+                $('#field_'+data.id+' .userfield_admin_name').text(name);
+                $('#field_'+data.id+' .userfield_admin_title').text(title);
                 $('#field_'+data.id+' .userfield_admin_pattern').text(pattern);
                 ls.msg.notice(data.sMsgTitle,data.sMsg);
             } else {
@@ -57,8 +57,8 @@ ls.userfield =( function ($) {
         var pattern = $('#user_fields_form_pattern').val();
         ls.ajax(aRouter['admin']+'userfields', {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern}, function(data) { 
             if (!data.bStateError) {
-                $('#field_'+id+' .userfield_admin_name').html(name);
-                $('#field_'+id+' .userfield_admin_title').html(title);
+                $('#field_'+id+' .userfield_admin_name').text(name);
+                $('#field_'+id+' .userfield_admin_title').text(title);
                 $('#field_'+id+' .userfield_admin_pattern').text(pattern);
                 ls.msg.notice(data.sMsgTitle,data.sMsg);
             } else {

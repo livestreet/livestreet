@@ -27,8 +27,8 @@
 
 <ul class="userfield-list" id="user_field_list">
 	{foreach from=$aUserFields item=oField}
-		<li id="field_{$oField->getId()}"><span class="userfield_admin_name">{$oField->getName()}</span>
-			/ <span class="userfield_admin_title">{$oField->getTitle()}</span>
+		<li id="field_{$oField->getId()}"><span class="userfield_admin_name">{$oField->getName()|escape:"html"}</span>
+			/ <span class="userfield_admin_title">{$oField->getTitle()|escape:"html"}</span>
                            / <span class="userfield_admin_pattern">{$oField->getPattern()|escape:"html"}</span>
 			
 			<div class="uf-actions">

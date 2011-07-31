@@ -51,14 +51,14 @@ function addUserfield() {
                     });
                     var actionsElement = new Element('div', {
                         'class':'uf-actions',
-						'html': '<a href="javascript:userfieldShowEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.gif"></a> '+
-								'<a href="javascript:deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.gif"></a>'
+						'html': '<a href="javascript:userfieldShowEditForm('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/edit.png"></a> '+
+								'<a href="javascript:deleteUserfield('+data.id+')"><img src="'+DIR_STATIC_SKIN+'/images/delete.png"></a>'
                     });
                     actionsElement.inject(liElement);
                     liElement.inject($('user_field_list'));
-                    $('field_'+id).getElement(' .userfield_admin_name').set('html', name);
-                    $('field_'+id).getElement('.userfield_admin_title').set('html', title);
-                    $('field_'+id).getElement('.userfield_admin_pattern').set('text', pattern);
+                    $('field_'+data.id).getElement(' .userfield_admin_name').set('text', name);
+                    $('field_'+data.id).getElement('.userfield_admin_title').set('text', title);
+                    $('field_'+data.id).getElement('.userfield_admin_pattern').set('text', pattern);
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                 } else {
                     msgErrorBox.alert(data.sMsgTitle,data.sMsg);
@@ -77,8 +77,8 @@ function updateUserfield() {
             data: {'action':'update', 'id':id, 'name':name, 'title':title, 'pattern':pattern, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
-                    $('field_'+id).getElement(' .userfield_admin_name').set('html', name);
-                    $('field_'+id).getElement('.userfield_admin_title').set('html', title);
+                    $('field_'+id).getElement(' .userfield_admin_name').set('text', name);
+                    $('field_'+id).getElement('.userfield_admin_title').set('text', title);
                     $('field_'+id).getElement('.userfield_admin_pattern').set('text', pattern);
                     msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
                 } else {

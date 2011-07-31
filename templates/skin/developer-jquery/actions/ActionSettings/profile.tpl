@@ -61,7 +61,7 @@
 	</p>
         {if count($aUserFields)}
             {foreach from=$aUserFields item=oField}
-                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()}:</label><br /><input type="text" class="w300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
+                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="w300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
             {/foreach}
         {/if}
 	<p>
