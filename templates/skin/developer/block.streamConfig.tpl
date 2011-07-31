@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 {literal}
 <script language="JavaScript" type="text/javascript">
     document.addEvent('domready', function() {
@@ -30,7 +31,7 @@
 					type="checkbox"
 					id="strn_et_{$sType}"
 					{if in_array($sType, $aStreamTypesList)}checked="checked"{/if}
-					onClick="if ($(this).get('checked')) { lsStream.switchEventType( '{$sType}') } else { lsStream.switchEventType( '{$sType}')  } " />
+					onClick="lsStream.switchEventType('{$sType}')" />
 				{assign var=langKey value="stream_event_type_`$sType`"}
 				{$aLang.$langKey}
 			</label>
@@ -87,3 +88,4 @@
 		</ul>
 	{/if}
 </div>
+{/if}

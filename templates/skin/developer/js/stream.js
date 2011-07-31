@@ -43,11 +43,13 @@ function lsStreamClass() {
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
-                    $('stream_no_subscribed_users').dispose();
+                	if ($('stream_no_subscribed_users')) {
+                    	$('stream_no_subscribed_users').dispose();
+                	}
                     checkbox = $('strm_u_'+data.uid);
                     if (checkbox) {
                         if ($(checkbox).get('checked')) {
-                            msgErrorBox.alert(data.lang_error_title,data.lang_error_msg);
+                            msgErrorBox.alert(lsLang.get('error'),lsLang.get('stream_subscribes_already_subscribed'));
                         } else {
                             $(checkbox).set('checked', 'on');
                             msgNoticeBox.alert(data.sMsgTitle,data.sMsg);
@@ -89,7 +91,7 @@ function lsStreamClass() {
             data: {'last_id':lastId, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateErro && data.events_count) {
-                    $('stream_loaded_events').set('html', $('stream_loaded_events').get('html')+data.result);
+                    $('stream-list').set('html', $('stream-list').get('html')+data.result);
                     $('stream_last_id').set('value', data.iStreamLastId);
                 }
                 if (!data.events_count) {

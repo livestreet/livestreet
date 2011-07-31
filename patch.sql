@@ -55,3 +55,5 @@ CREATE TABLE `prefix_stream_user_type` (
 ALTER TABLE `prefix_topic` CHANGE topic_type topic_type ENUM('topic','link','question','photoset') NOT NULL DEFAULT 'topic';
 
 ALTER TABLE `prefix_stream_event` CHANGE event_type event_type varchar(100) not null;
+
+ALTER TABLE `prefix_stream_event` CHANGE `initiator` `user_id` INT( 11 ) NOT NULL;

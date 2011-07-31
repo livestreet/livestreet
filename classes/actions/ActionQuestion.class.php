@@ -287,9 +287,9 @@ class ActionQuestion extends Action {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}			
 			/**
-				 * Добавляем событие в ленту
-				 */
-				$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));

@@ -338,6 +338,12 @@ class ActionProfile extends Action {
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 					$this->NoticeFriendOffer($oUser,'accept');
 
+					/**
+					 * Добавляем событие в ленту
+					 */
+					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
+					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
+					
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
 					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
@@ -479,7 +485,11 @@ class ActionProfile extends Action {
 				 */
 				$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 				if($this->User_UpdateFriend($oFriend)) {
-                    $this->Stream_write($oFriend->getUserFrom(), 'make_friends', $oFriend->getUserTo());
+					/**
+					 * Добавляем событие в ленту
+					 */
+					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
+                    $this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 
 					$oViewerLocal=$this->GetViewerLocal();

@@ -215,10 +215,10 @@ class ActionBlog extends Action {
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
 
-                            /**
-                             * Добавляем событие в ленту
-                             */
-                            $this->Stream_write($oBlog->getOwnerId(), 'add_blog', $oBlog->getId());
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oBlog->getOwnerId(), 'add_blog', $oBlog->getId());
 			Router::Location($oBlog->getUrlFull());
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -1416,13 +1416,13 @@ class ActionBlog extends Action {
 			$oBlog->setCountUser($oBlog->getCountUser()+1);
 			$this->Blog_UpdateBlog($oBlog);
 			$sMessage=$this->Lang_Get('blog_user_invite_accept');
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oBlogUser->getUserId(), 'join_blog', $oBlog->getId());
 		} else {
 			$sMessage=$this->Lang_Get('blog_user_invite_reject');
 		}
-         /**
-         * Добавляем событие в ленту
-         */
-        $this->Stream_write($oBlogUser->getId(), 'join_blog', $oBlog->getId());
 		$this->Message_AddNotice($sMessage,$this->Lang_Get('attention'),true);
 
 		Router::Location(Router::GetPath('talk'));
@@ -1574,10 +1574,10 @@ class ActionBlog extends Action {
 					$oBlog->setCountUser($oBlog->getCountUser()+1);
 					$this->Blog_UpdateBlog($oBlog);
 					$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
-                                            /**
-                                             * Добавляем событие в ленту
-                                             */
-                                            $this->Stream_write($this->oUserCurrent->getId(), 'join_blog', $oBlog->getId());
+					/**
+					 * Добавляем событие в ленту
+					 */
+					$this->Stream_write($this->oUserCurrent->getId(), 'join_blog', $oBlog->getId());
 				} else {
 					$sMsg=($oBlog->getType()=='close')
 					? $this->Lang_Get('blog_join_error_invite')

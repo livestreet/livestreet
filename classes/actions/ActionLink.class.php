@@ -311,11 +311,11 @@ class ActionLink extends Action {
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
-			}		
+			}
 			/**
-				 * Добавляем событие в ленту
-				 */
-				$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));

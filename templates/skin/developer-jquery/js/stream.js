@@ -4,8 +4,8 @@ ls.stream =( function ($) {
     this.isBusy = false;
     this.subscribe = function (iTargetUserId) {
         ls.ajax(aRouter['stream']+'subscribe/', {'id':iTargetUserId}, function(data) { 
-                if (!data.bStateError) {
-                    ls.msg.notice(data.sMsgTitle,data.sMsg);
+                if (data.bStateError) {
+                    ls.msg.error(data.sMsgTitle,data.sMsg);
                 } else {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
@@ -35,7 +35,7 @@ ls.stream =( function ($) {
                 var checkbox = $('#strm_u_'+data.uid);
                 if (checkbox.length) {
                     if (checkbox.attr('checked')) {
-                        ls.msg.error(data.lang_error_title,data.lang_error_msg);
+                        ls.msg.error(ls.lang.get('error'),ls.lang.get('stream_subscribes_already_subscribed'));
                     } else {
                         checkbox.attr('checked', 'on');
                         ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -46,7 +46,7 @@ ls.stream =( function ($) {
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }
             } else {
-                ls.msg.notice(data.sMsgTitle,data.sMsg);
+                ls.msg.error(data.sMsgTitle,data.sMsg);
             }
         });
     }
@@ -59,11 +59,11 @@ ls.stream =( function ($) {
         $('#stream_get_more').addClass('stream_loading');
         this.isBusy = true;
         ls.ajax(aRouter['stream']+'get_more/', {'last_id':lastId}, function(data) {
-            if (!data.bStateError && data.topics_count) {
-                $('#stream_loaded_topics').append(data.result);
+            if (!data.bStateError && data.events_count) {
+                $('#stream-list').append(data.result);
                 $('#stream_last_id').attr('value', data.iStreamLastId);
             }
-            if (!data.topics_count) {
+            if (!data.events_count) {
                 $('#stream_get_more').css({'display':'none'});
             }
             $('#stream_get_more').removeClass('stream_loading');

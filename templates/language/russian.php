@@ -798,7 +798,7 @@ return array(
     'stream_event_type_vote_comment' => 'Голосование за комменатрий',
     'stream_event_type_vote_blog' => 'Голосование за блог',
     'stream_event_type_vote_user' => 'Голосование за пользователя',
-    'stream_event_type_make_friends' => 'Добавление в друзья',
+    'stream_event_type_add_friend' => 'Добавление в друзья',
     'stream_event_type_join_blog' => 'Вступление в блог',
     'stream_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чью активность хотите видеть',
     'stream_no_events' => 'Лента активности пуста',
@@ -813,7 +813,7 @@ return array(
     'stream_list_event_vote_user' => 'оценил пользователя',
     'stream_list_event_vote_comment' => 'оценил комментарий к топику',
     'stream_list_event_join_blog' => 'вступил в блог',
-    'stream_list_event_make_friends' => 'добавил в друзья пользователя',
+    'stream_list_event_add_friend' => 'добавил в друзья пользователя',
 	
     'stream_personal_title' => 'Активность',
 	

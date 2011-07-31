@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 {literal}
 <script language="JavaScript" type="text/javascript">
     jQuery(document).ready( function() {
@@ -24,7 +25,7 @@
 					type="checkbox"
 					id="strn_et_{$sType}"
 					{if in_array($sType, $aStreamTypesList)}checked="checked"{/if}
-					onClick="if ($(this).get('checked')) { ls.stream.switchEventType( '{$sType}') } else { ls.stream.switchEventType( '{$sType}')  } " />
+					onClick="ls.stream.switchEventType('{$sType}')" />
 				{assign var=langKey value="stream_event_type_`$sType`"}
 				{$aLang.$langKey}
 			</label>
@@ -82,3 +83,4 @@
 		</ul>
 	{/if}
 </div>
+{/if}

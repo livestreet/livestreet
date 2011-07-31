@@ -1,4 +1,19 @@
 <?php
+/*-------------------------------------------------------
+*
+*   LiveStreet Engine Social Networking
+*   Copyright © 2008 Mzhelskiy Maxim
+*
+*--------------------------------------------------------
+*
+*   Official site: www.livestreet.ru
+*   Contact e-mail: rus.engine@gmail.com
+*
+*   GNU General Public License, version 2:
+*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+---------------------------------------------------------
+*/
 
 class ActionStream extends Action
 {
@@ -14,6 +29,12 @@ class ActionStream extends Action
 		$this->Viewer_Assign('aStreamEventTypes', $this->Stream_getEventTypes());
 
 		$this->Viewer_Assign('sMenuItemSelect', 'stream');
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'stream_subscribes_already_subscribed','error'
+		));
 	}
 
 	public function Shutdown()
@@ -33,22 +54,13 @@ class ActionStream extends Action
 
 	protected function EventIndex()
 	{
-		$aEvents = $this->Stream_read();
-		$this->Viewer_Assign('aStreamEvents', $aEvents['events']);
-		if (isset($aEvents['events']) && count($aEvents['events'])) {
-			$aLastEvent = end($aEvents['events']);
-			$this->Viewer_Assign('iStreamLastId', $aLastEvent['id']);
-			$this->Viewer_Assign('aStreamTopics', $aEvents['topics']);
-			$this->Viewer_Assign('aStreamBlogs', $aEvents['blogs']);
-			$this->Viewer_Assign('aStreamUsers', $aEvents['users']);
-			$this->Viewer_Assign('aStreamComments', $aEvents['comments']);
-			if (count($aEvents['events']) < Config::Get('module.stream.count_default')) {
-				$this->Viewer_Assign('bDisableGetMoreButton', true);
-			} else {
-				$this->Viewer_Assign('bDisableGetMoreButton', false);
-			}
+		$aEvents = $this->Stream_Read();
+		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
 		}
-		$this->SetTemplateAction('list');
 	}
 
 	protected function EventSwitchEventType()
@@ -69,28 +81,23 @@ class ActionStream extends Action
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		$aEvents = $this->Stream_read(null, $iFromId);
+		$aEvents = $this->Stream_Read(null, $iFromId);
 
 		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents['events']);
-		if (isset($aEvents['events']) && count($aEvents['events'])) {
-			$aLastEvent = end($aEvents['events']);
-			$oViewer->Assign('iStreamLastId', $aLastEvent['id']);
-			$this->Viewer_AssignAjax('iStreamLastId', $aLastEvent['id']);
-			$oViewer->Assign('aStreamTopics', $aEvents['topics']);
-			$oViewer->Assign('aStreamBlogs', $aEvents['blogs']);
-			$oViewer->Assign('aStreamUsers', $aEvents['users']);
-			$oViewer->Assign('aStreamComments', $aEvents['comments']);
+		$oViewer->Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
 		}
-		$sFeed = $oViewer->Fetch('stream_list.tpl');
-		$this->Viewer_AssignAjax('result', $sFeed);
-		$this->Viewer_AssignAjax('events_count', count($aEvents['events']));
+				
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('events_count', count($aEvents));
 	}
 
 	protected function EventSubscribe()
 	{
 		$this->Viewer_SetResponseAjax('json');
-		if (!getRequest('id')) {
+		if (!$this->User_getUserById(getRequest('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 		if ($this->oUserCurrent->getId() == getRequest('id')) {
@@ -110,7 +117,7 @@ class ActionStream extends Action
 		}
 		$oUser = $this->User_getUserByLogin(getRequest('login'));
 		if (!$oUser) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>getRequest('login'))),$this->Lang_Get('error'));
 			return;
 		}
 		if ($this->oUserCurrent->getId() == $oUser->getId()) {
@@ -121,15 +128,13 @@ class ActionStream extends Action
 		$this->Viewer_AssignAjax('uid', $oUser->getId());
 		$this->Viewer_AssignAjax('user_login', $oUser->getLogin());
 		$this->Viewer_AssignAjax('user_web_path', $oUser->getuserWebPath());
-		$this->Viewer_AssignAjax('lang_error_msg', $this->Lang_Get('userfeed_subscribes_already_subscribed'));
-		$this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 
 	protected function EventUnsubscribe()
 	{
 		$this->Viewer_SetResponseAjax('json');
-		if (!getRequest('id')) {
+		if (!$this->User_getUserById(getRequest('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequest('id'));
