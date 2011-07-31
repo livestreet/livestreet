@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 <div class="block stream-settings">
 	<h2>{$aLang.userfeed_block_blogs_title}</h2>
 	
@@ -19,3 +20,4 @@
              <p>{$aLang.userfeed_no_blogs}</p>
         {/if}
 </div>
+{/if}

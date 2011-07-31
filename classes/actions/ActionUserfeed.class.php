@@ -97,7 +97,7 @@ class ActionUserfeed extends Action
         }
         $oUser = $this->User_getUserByLogin(getRequest('login'));
         if (!$oUser) {
-            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>getRequest('login'))),$this->Lang_Get('error'));
             return;
         }
         if ($this->oUserCurrent->getId() == $oUser->getId()) {

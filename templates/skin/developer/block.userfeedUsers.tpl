@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 {literal}
 <script language="JavaScript" type="text/javascript">
     document.addEvent('domready', function() {
@@ -67,3 +68,4 @@
 		</ul>
 	{/if}
 </div>
+{/if}

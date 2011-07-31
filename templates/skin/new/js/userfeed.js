@@ -32,7 +32,7 @@ function lsUserfeedClass() {
             data: {'login':sLogin, 'security_ls_key':LIVESTREET_SECURITY_KEY},
             onSuccess: function(data) { // запрос выполнен уcпешно
                 if (!data.bStateError) {
-                     $('userfeed_no_subscribed_users').dispose();
+                    if ($('userfeed_no_subscribed_users')) $('userfeed_no_subscribed_users').destroy();
                     checkbox = $('usf_u_'+data.uid);
                     if (checkbox) {
                         if ($(checkbox).get('checked')) {

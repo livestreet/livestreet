@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 <div class="block stream-settings">
     <div class="tl"><div class="tr"></div></div>
     <div class="cl"><div class="cr">
@@ -24,3 +25,4 @@
     </div></div>
     <div class="bl"><div class="br"></div></div>
 </div>
+{/if}

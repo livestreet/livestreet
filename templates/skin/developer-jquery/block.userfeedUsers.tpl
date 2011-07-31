@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 {literal}
 <script language="JavaScript" type="text/javascript">
     jQuery(document).ready( function() {
@@ -63,3 +64,4 @@
 		</ul>
 	{/if}
 </div>
+{/if}

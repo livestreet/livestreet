@@ -20,8 +20,10 @@ ls.userfeed =( function ($) {
         var sLogin = $('#userfeed_users_complete').val();
         if (!sLogin) return;
          ls.ajax(aRouter['feed']+'subscribeByLogin/', {'login':sLogin}, function(data) {
-                if (!data.bStateError) {
-                    $('#stream_no_subscribed_users').remove();
+                if (data.bStateError) {
+                	ls.msg.error(data.sMsgTitle,data.sMsg);
+                } else {
+                    $('#userfeed_no_subscribed_users').remove();
                     var checkbox = $('#usf_u_'+data.uid);
                     if (checkbox.length) {
                         if (checkbox.attr('checked')) {
