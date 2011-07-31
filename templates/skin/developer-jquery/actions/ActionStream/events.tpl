@@ -25,6 +25,8 @@
 					{$aLang.stream_list_event_join_blog} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'add_friend'}
 					{$aLang.stream_list_event_add_friend} <a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+				{else}
+					{hook run="stream_list_event_`$oStreamEvent->getEventType()`" oStreamEvent=$oStreamEvent}
 				{/if}
 			</li>
 		{/foreach}

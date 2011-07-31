@@ -52,7 +52,20 @@ class ModuleStream extends Module {
 	public function getEventTypes() {
 		return $this->aEventTypes;
 	}
-
+	/**
+	 * Добавляет новый тип события, метод для расширения списка событий плагинами
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $aParams
+	 * @return unknown
+	 */
+	public function AddEventType($sName,$aParams) {
+		if (!key_exists($sName,$this->aEventTypes)) {
+			$this->aEventTypes[$sName]=$aParams;
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Добавление события в БД
 	 *
