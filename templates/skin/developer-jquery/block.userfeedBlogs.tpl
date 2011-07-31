@@ -12,7 +12,7 @@
 							type="checkbox"
 							{if isset($aUserfeedSubscribedBlogs.$iBlogId)} checked="checked"{/if}
 							onClick="if (jQuery(this).attr('checked')) { ls.userfeed.subscribe('blogs',{$iBlogId}) } else { ls.userfeed.unsubscribe('blogs',{$iBlogId}) } " />
-					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()}</a>
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
 				</li>
 			{/foreach}
 		</ul>
