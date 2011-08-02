@@ -1,19 +1,18 @@
 <?php
 
 $config['head']['default']['js']  = array(
-	"___path.root.engine_lib___/external/JsHttpRequest/JsHttpRequest.js", 
-	"___path.static.skin___/js/libs/jquery.js",
-	"___path.static.skin___/js/libs/jquery-ui-1.8.10.custom.min.js",
-	"___path.static.skin___/js/libs/jquery.notifier.js",
-	"___path.static.skin___/js/libs/jquery.jqmodal.js",
-	"___path.static.skin___/js/libs/jquery.scrollto.js",
-	"___path.static.skin___/js/libs/jquery.rich-array.min.js",
+	"___path.root.engine_lib___/external/jquery/jquery.js",
+	"___path.root.engine_lib___/external/jquery/jquery-ui.js",
+	"___path.root.engine_lib___/external/jquery/jquery.notifier.js",
+	"___path.root.engine_lib___/external/jquery/jquery.jqmodal.js",
+	"___path.root.engine_lib___/external/jquery/jquery.scrollto.js",
+	"___path.root.engine_lib___/external/jquery/jquery.rich-array.min.js",
 	"___path.static.skin___/js/libs/markitup/jquery.markitup.js",
 	"___path.static.skin___/js/libs/markitup/sets/default/set.js",
-	"___path.static.skin___/js/libs/jquery.form.js",
-	"___path.static.skin___/js/libs/jquery.jqplugin.1.0.2.min.js",
-	"___path.static.skin___/js/libs/jquery.cookie.js",
-	"___path.static.skin___/js/libs/jquery.serializejson.js",
+	"___path.root.engine_lib___/external/jquery/jquery.form.js",
+	"___path.root.engine_lib___/external/jquery/jquery.jqplugin.js",
+	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
+	"___path.root.engine_lib___/external/jquery/jquery.serializejson.js",
 	"___path.static.skin___/js/main.js",
 	"___path.static.skin___/js/favourite.js",
 	"___path.static.skin___/js/blocks.js",
@@ -41,7 +40,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/jquery.notifier.css",
 	"___path.static.skin___/js/libs/markitup/skins/simple/style.css",
 	"___path.static.skin___/js/libs/markitup/sets/default/style.css",
-	"___path.static.skin___/css/smoothness/jquery-ui-1.8.10.custom.css",
+	"___path.static.skin___/css/smoothness/jquery-ui.css",
 );
 
 /**
