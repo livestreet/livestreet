@@ -795,8 +795,10 @@ class ModuleBlog extends Module {
 		 */
 		$oImage = $this->Image_CropSquare($oImage);
 		
-		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_48x48",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),48,48,false,$aParams,$oImage)) {
-			$aSize=Config::Get('module.blog.avatar_size');
+		$aSize=Config::Get('module.blog.avatar_size');
+		rsort($aSize,SORT_NUMERIC);
+		$sSizeBig=array_shift($aSize);
+		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_{$sSizeBig}x{$sSizeBig}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$sSizeBig,$sSizeBig,false,$aParams,$oImage)) {
 			foreach ($aSize as $iSize) {
 				if ($iSize==0) {
 					$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams,$oImage);

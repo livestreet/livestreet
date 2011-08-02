@@ -69,8 +69,8 @@ class ModuleBlog_EntityBlog extends Entity
         return $this->_aData['vote'];
     }
     public function getAvatarPath($iSize=48) {   
-    	if ($sPath=$this->getAvatar()) { 	
-        	return str_replace('_48x48',(($iSize==0)?"":"_{$iSize}x{$iSize}"),$sPath);;
+    	if ($sPath=$this->getAvatar()) {
+        	return preg_replace("#_\d{1,3}x\d{1,3}(\.\w{3,4})$#",(($iSize==0)?"":"_{$iSize}x{$iSize}\\1"),$sPath);
     	} else {
     		return Config::Get('path.static.skin').'/images/avatar_blog_'.$iSize.'x'.$iSize.'.gif';
     	}
