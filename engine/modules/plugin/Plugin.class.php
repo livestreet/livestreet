@@ -278,6 +278,10 @@ class ModulePlugin extends Module {
 							unset($aActivePlugins[array_shift($aIndex)]);
 						}
 					}
+					/**
+					 * Сбрасываем весь кеш, т.к. могут быть закешированы унаследованые плагинами сущности
+					 */
+					$this->Cache_Clean();
 					if (!$this->SetActivePlugins($aActivePlugins)) {
 						$this->Message_AddError($this->Lang_Get('plugins_activation_file_write_error'),$this->Lang_Get('error'),true);
 						return;
