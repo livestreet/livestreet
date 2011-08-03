@@ -13,7 +13,7 @@
    THE SOFTWARE.
 */
 (function ($) {
-	$.getScript("http://java.com/js/deployJava.js");
+	//$.getScript("http://java.com/js/deployJava.js");
 
 	//checks if browser object exists
 	if (typeof $.browser === "undefined" || !$.browser) {
@@ -76,6 +76,7 @@
 		isSupported(i);
 	});
 	//uses sun script to detect if java plugin is available
+	/*
 	$.getScript("http://java.com/js/deployJava.js", function () {
 		if (deployJava.versionCheck("1.6.0+") || deployJava.versionCheck("1.4") || deployJava.versionCheck("1.5.0*")) {
 			$.browser.java = true;
@@ -83,4 +84,5 @@
 			$.browser.java = false;
 		}
 	});
+	*/
 })(jQuery);
