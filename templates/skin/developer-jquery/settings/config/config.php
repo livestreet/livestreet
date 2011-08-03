@@ -7,8 +7,8 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.jqmodal.js",
 	"___path.root.engine_lib___/external/jquery/jquery.scrollto.js",
 	"___path.root.engine_lib___/external/jquery/jquery.rich-array.min.js",
-	"___path.static.skin___/js/libs/markitup/jquery.markitup.js",
-	"___path.static.skin___/js/libs/markitup/sets/default/set.js",
+	"___path.root.engine_lib___/external/jquery/markitup/jquery.markitup.js",
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/set.js",
 	"___path.root.engine_lib___/external/jquery/jquery.form.js",
 	"___path.root.engine_lib___/external/jquery/jquery.jqplugin.js",
 	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
@@ -38,8 +38,8 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/blocks.css",
 	"___path.static.skin___/css/jquery.jqmodal.css",
 	"___path.static.skin___/css/jquery.notifier.css",
-	"___path.static.skin___/js/libs/markitup/skins/simple/style.css",
-	"___path.static.skin___/js/libs/markitup/sets/default/style.css",
+	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
 );
 
