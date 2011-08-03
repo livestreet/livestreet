@@ -38,6 +38,7 @@
 /* Menu */
 #nav .menu { padding-bottom: 25px; }
 #nav .menu li { float: left; color: #777; padding: 3px 7px 4px 7px; background: #eee; margin-right: 5px; }
+#nav .menu li a.new { color: #390; }
 #nav .menu li a { text-decoration: none; color: #777; }
 #nav .menu li.active { position: relative; background: #333; }
 #nav .menu li.active a { color: #fff; }

@@ -1,6 +1,6 @@
 <ul class="menu">
 	<li {if $sMenuItemSelect=='index'}class="active"{/if}>
-		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}+{$iCountTopicsNew}{/if}
+		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}<a href="{router page='new'}" class="new">+{$iCountTopicsNew}</a>{/if}
 		{if $sMenuItemSelect=='index'}
 			<ul class="sub-menu">
 				<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all_good}</a></li>
@@ -11,7 +11,7 @@
 	</li>
 
 	<li {if $sMenuItemSelect=='blog'}class="active"{/if}>
-		<a href="{router page='blog'}">{$aLang.blog_menu_collective}</a> {if $iCountTopicsCollectiveNew>0}+{$iCountTopicsCollectiveNew}{/if}
+		<a href="{router page='blog'}">{$aLang.blog_menu_collective}</a> {if $iCountTopicsCollectiveNew>0}<a href="{router page='blog'}new/" class="new">+{$iCountTopicsCollectiveNew}</a>{/if}
 		{if $sMenuItemSelect=='blog'}
 			<ul class="sub-menu">
 				<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></li>
@@ -23,7 +23,7 @@
 	</li>
 
 	<li {if $sMenuItemSelect=='log'}class="active"{/if}>
-		<a href="{router page='personal_blog'}">{$aLang.blog_menu_personal}</a> {if $iCountTopicsPersonalNew>0}+{$iCountTopicsPersonalNew}{/if}
+		<a href="{router page='personal_blog'}">{$aLang.blog_menu_personal}</a> {if $iCountTopicsPersonalNew>0}<a href="{router page='personal_blog'}new/" class="new">+{$iCountTopicsPersonalNew}</a>{/if}
 		{if $sMenuItemSelect=='log'}
 			<ul class="sub-menu">
 				<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{router page='personal_blog'}">{$aLang.blog_menu_personal_good}</a></li>
