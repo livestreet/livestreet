@@ -321,9 +321,9 @@ class ModulePlugin extends Module {
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
 		 */
-		if (@file_put_contents($this->sPluginsDir.Config::Get('sys.plugins.activation_file'), implode(PHP_EOL,$aPlugins))) {			
+		if (@file_put_contents($this->sPluginsDir.Config::Get('sys.plugins.activation_file'), implode(PHP_EOL,$aPlugins))!==false) {			
 			return true;
-		}		
+		}
 		return false;
 	}
 	
