@@ -637,16 +637,19 @@ return array(
 	'panel_url_promt' => 'Введите ссылку',
 	'panel_code' => 'код',
 	'panel_video' => 'видео',
+	'panel_video_promt' => 'Введите ссылку на видео',
 	'panel_image' => 'изображение',
 	'panel_cut' => 'кат',
 	'panel_quote' => 'цитировать',
 	'panel_list' => 'Список',
 	'panel_list_ul' => 'UL LI',
 	'panel_list_ol' => 'OL LI',
+	'panel_list_li' => 'пункт списка',
 	'panel_title' => 'Заголовок',
 	'panel_title_h4' => 'H4',
 	'panel_title_h5' => 'H5',
 	'panel_title_h6' => 'H6',
+	'panel_clear_tags' => 'очистить от тегов',
 
 	/**
 	 * Блоки

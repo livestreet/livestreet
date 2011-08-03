@@ -8,7 +8,6 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.scrollto.js",
 	"___path.root.engine_lib___/external/jquery/jquery.rich-array.min.js",
 	"___path.root.engine_lib___/external/jquery/markitup/jquery.markitup.js",
-	"___path.root.engine_lib___/external/jquery/markitup/sets/default/set.js",
 	"___path.root.engine_lib___/external/jquery/jquery.form.js",
 	"___path.root.engine_lib___/external/jquery/jquery.jqplugin.js",
 	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
@@ -22,9 +21,10 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/comments.js",
 	"___path.static.skin___/js/blog.js",
 	"___path.static.skin___/js/friend.js",
-         "___path.static.skin___/js/userfeed.js",
-         "___path.static.skin___/js/stream.js",
-         "___path.static.skin___/js/photoset.js",
+	"___path.static.skin___/js/userfeed.js",
+	"___path.static.skin___/js/stream.js",
+	"___path.static.skin___/js/photoset.js",
+	"___path.static.skin___/js/markup_settings.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

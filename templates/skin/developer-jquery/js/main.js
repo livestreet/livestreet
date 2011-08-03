@@ -51,7 +51,7 @@ ls.lang = (function ($) {
 	* Загрузка текстовок
 	*/
 	this.load = function(msgs){
-		this.msgs=msgs;
+		$.extend(true,this.msgs,msgs);
 	};
 	
 	/**
@@ -417,20 +417,13 @@ ls.autocomplete = (function ($) {
 
 
 
-$(document).ready(function(){
+jQuery(document).ready(function($){
 	// Всплывающие окна
 	$('#login_form').jqm({trigger: '#login_form_show'});
 	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
 	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
 	$('#form_upload_img').jqm();
 	$('#userfield_form').jqm();
-	
-	
-	// Подключаем редактор
-	if (!BLOG_USE_TINYMCE) {
-		$('#topic_text').markItUp(mySettings);
-	}
-	
 	
 	// Datepicker
 	$('.date-picker').datepicker({ 
