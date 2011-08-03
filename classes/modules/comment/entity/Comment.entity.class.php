@@ -60,7 +60,7 @@ class ModuleComment_EntityComment extends Entity
         return $this->_aData['comment_delete'];
     }
     public function getPublish() {
-        return $this->_aData['comment_publish'];
+        return $this->_getDataOne('comment_publish') ? 1 : 0;
     }
     public function getTextHash() {
         return $this->_aData['comment_text_hash'];

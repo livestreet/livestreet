@@ -988,6 +988,7 @@ class ActionBlog extends Action {
 		$oCommentNew->setUserIp(func_getIp());
 		$oCommentNew->setPid($sParentId);
 		$oCommentNew->setTextHash(md5($sText));
+		$oCommentNew->setPublish($oTopic->getPublish());
 
 		/**
 		* Добавляем коммент
