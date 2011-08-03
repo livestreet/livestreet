@@ -9,12 +9,11 @@
 // ----------------------------------------------------------------------------
 // Basic set. Feel free to add more tags
 // ----------------------------------------------------------------------------
+
 mySettings = {	
 	onShiftEnter:  	{keepDefault:false, replaceWith:'<br />\n'},
 	onCtrlEnter:  	{keepDefault:false, openWith:'\n<p>', closeWith:'</p>'},
 	onTab:    		{keepDefault:false, replaceWith:'    '},
-	previewParserPath: aRouter['ajax']+'preview/text/',
-	previewParserVar: 'text',
 	markupSet:  [ 	
 		{name:'H4', className:'editor-h4', openWith:'<h4>', closeWith:'</h4>' },
 		{name:'H5', className:'editor-h5', openWith:'<h5>', closeWith:'</h5>' },
@@ -37,6 +36,5 @@ mySettings = {
 		{separator:'---------------' },
 		{name:'Очистить от тегов', className:'editor-clean', replaceWith: function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },		
 		{name:'Вставить разделитель <cut>', className:'editor-cut', openWith:'<cut>'},
-		{name:'Предпросмотр', className:'editor-preview',  call:'preview'}
 	]
 }

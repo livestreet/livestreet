@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
 // markItUp! Universal MarkUp Engine, JQuery plugin
-// v 1.1.x
+// v 1.1.11
 // Dual licensed under the MIT and GPL licenses.
 // ----------------------------------------------------------------------------
-// Copyright (C) 2007-2010 Jay Salvat
+// Copyright (C) 2007-2011 Jay Salvat
 // http://markitup.jaysalvat.com/
 // ----------------------------------------------------------------------------
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,6 +36,7 @@
 					previewAutoRefresh:		true,
 					previewPosition:		'after',
 					previewTemplatePath:	'~/templates/preview.html',
+					previewParser:			false,
 					previewParserPath:		'',
 					previewParserVar:		'data',
 					resizeHandle:			true,
@@ -164,7 +165,7 @@
 							return false;
 						}).bind("focusin", function(){
                             $$.focus();
-						}).mousedown(function() {
+						}).mouseup(function() {
 							if (button.call) {
 								eval(button.call)();
 							}
@@ -233,22 +234,39 @@
 
 			// build block to insert
 			function build(string) {
-				var openWith 	= prepare(clicked.openWith);
-				var placeHolder = prepare(clicked.placeHolder);
-				var replaceWith = prepare(clicked.replaceWith);
-				var closeWith 	= prepare(clicked.closeWith);
+				var openWith 			= prepare(clicked.openWith);
+				var placeHolder 		= prepare(clicked.placeHolder);
+				var replaceWith 		= prepare(clicked.replaceWith);
+				var closeWith 			= prepare(clicked.closeWith);
+				var openBlockWith 		= prepare(clicked.openBlockWith);
+				var closeBlockWith 		= prepare(clicked.closeBlockWith);
+				var multiline 			= clicked.multiline;
+				
 				if (replaceWith !== "") {
 					block = openWith + replaceWith + closeWith;
 				} else if (selection === '' && placeHolder !== '') {
 					block = openWith + placeHolder + closeWith;
 				} else {
-					string = string || selection;						
-					if (string.match(/ $/)) {
-						block = openWith + string.replace(/ $/, '') + closeWith + ' ';
-					} else {
-						block = openWith + string + closeWith;
+					string = string || selection;
+
+					var lines = selection.split(/\r?\n/), blocks = [];
+					for (var l=0; l < lines.length; l++) {
+						line = lines[l];
+						if ($.trim(line) == '') {
+							continue;
+						}
+						if (line.match(/ +$/)) {
+							blocks.push(openWith + line.replace(/ $/, '') + closeWith + ' ');
+						} else {
+							blocks.push(openWith + line + closeWith);
+						}
 					}
+					
+					block = blocks.join("\n");
 				}
+
+				block = openBlockWith + block + closeBlockWith;
+
 				return {	block:block, 
 							openWith:openWith, 
 							replaceWith:replaceWith, 
@@ -262,7 +280,6 @@
 				var len, j, n, i;
 				hash = clicked = button;
 				get();
-
 				$.extend(hash, {	line:"", 
 						 			root:options.root,
 									textarea:textarea, 
@@ -276,12 +293,12 @@
 				// callbacks before insertion
 				prepare(options.beforeInsert);
 				prepare(clicked.beforeInsert);
-				if (ctrlKey === true && shiftKey === true) {
+				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
 					prepare(clicked.beforeMultiInsert);
 				}			
 				$.extend(hash, { line:1 });
-				
-				if (ctrlKey === true && shiftKey === true) {
+
+				if ((ctrlKey === true && shiftKey === true)) {
 					lines = selection.split(/\r?\n/);
 					for (j = 0, n = lines.length, i = 0; i < n; i++) {
 						if ($.trim(lines[i]) !== '') {
@@ -333,7 +350,7 @@
 				$.extend(hash, { line:'', selection:selection });
 
 				// callbacks after insertion
-				if (ctrlKey === true && shiftKey === true) {
+				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
 					prepare(clicked.afterMultiInsert);
 				}
 				prepare(clicked.afterInsert);
@@ -358,7 +375,7 @@
 			// Substract linefeed in IE
 			function fixIeBug(string) {
 				if ($.browser.msie) {
-					return string.length - string.replace(/\r/g, '').length;
+					return string.length - string.replace(/\r*/g, '').length;
 				}
 				return 0;
 			}
@@ -398,27 +415,26 @@
 
 				scrollPosition = textarea.scrollTop;
 				if (document.selection) {
-					selection = document.selection;	
-					if ($.browser.msie) { // ie	
-						var range = selection.createRange();
-						var stored_range = range.duplicate();
-						stored_range.moveToElementText(textarea);
-						stored_range.setEndPoint('EndToEnd', range);
-						var s = stored_range.text.length - range.text.length;
-	
-						caretPosition = s - (textarea.value.substr(0, s).length - textarea.value.substr(0, s).replace(/\r/g, '').length);
-						selection = range.text;
+					selection = document.selection.createRange().text;
+					if ($.browser.msie) { // ie
+						var range = document.selection.createRange(), rangeCopy = range.duplicate();
+						rangeCopy.moveToElementText(textarea);
+						caretPosition = -1;
+						while(rangeCopy.inRange(range)) {
+							rangeCopy.moveStart('character');
+							caretPosition ++;
+						}
 					} else { // opera
 						caretPosition = textarea.selectionStart;
 					}
 				} else { // gecko & webkit
 					caretPosition = textarea.selectionStart;
+
 					selection = textarea.value.substring(caretPosition, textarea.selectionEnd);
 				} 
 				return selection;
 			}
 
-			// #FIXED
 			// open preview window
 			function preview() {
 				if (!previewWindow || previewWindow.closed) {
@@ -428,13 +444,13 @@
 							previewWindow.close();
 						});
 					} else {
-						iFrame = $('<div class="markItUpPreviewFrame"></div>');
+						iFrame = $('<iframe class="markItUpPreviewFrame"></iframe>');
 						if (options.previewPosition == 'after') {
 							iFrame.insertAfter(footer);
 						} else {
 							iFrame.insertBefore(header);
 						}	
-						previewWindow = true;
+						previewWindow = iFrame[iFrame.length - 1].contentWindow || frame[iFrame.length - 1];
 					}
 				} else if (altKey === true) {
 					if (iFrame) {
@@ -457,16 +473,22 @@
  				renderPreview();
 			}
 
-			
-			
-			
-			// #FIXED
 			function renderPreview() {		
 				var phtml;
-				if (options.previewParserPath !== '') {
-					ls.ajax(options.previewParserPath, {text: $$.val(), save: 0}, function(data){
-						writeInPreview( localize(data.sText, 1) );
-					});				
+				if (options.previewParser && typeof options.previewParser === 'function') {
+					var data = options.previewParser( $$.val() );
+					writeInPreview( localize(data, 1) ); 
+				} else if (options.previewParserPath !== '') {
+					$.ajax({
+						type: 'POST',
+						dataType: 'text',
+						global: false,
+						url: options.previewParserPath,
+						data: options.previewParserVar+'='+encodeURIComponent($$.val()),
+						success: function(data) {
+							writeInPreview( localize(data, 1) ); 
+						}
+					});
 				} else {
 					if (!template) {
 						$.ajax({
@@ -481,25 +503,34 @@
 				}
 				return false;
 			}
-			// #FIXED END
 			
 			function writeInPreview(data) {
-				iFrame.html(data);
+				if (previewWindow.document) {			
+					try {
+						sp = previewWindow.document.documentElement.scrollTop
+					} catch(e) {
+						sp = 0;
+					}	
+					previewWindow.document.open();
+					previewWindow.document.write(data);
+					previewWindow.document.close();
+					previewWindow.document.documentElement.scrollTop = sp;
+				}
 			}
 			
 			// set keys pressed
 			function keyPressed(e) { 
 				shiftKey = e.shiftKey;
 				altKey = e.altKey;
-				ctrlKey = (!(e.altKey && e.ctrlKey)) ? e.ctrlKey : false;
+				ctrlKey = (!(e.altKey && e.ctrlKey)) ? (e.ctrlKey || e.metaKey) : false;
 
 				if (e.type === 'keydown') {
 					if (ctrlKey === true) {
-						li = $("a[accesskey="+String.fromCharCode(e.keyCode)+"]", header).parent('li');
+						li = $('a[accesskey="'+String.fromCharCode(e.keyCode)+'"]', header).parent('li');
 						if (li.length !== 0) {
 							ctrlKey = false;
 							setTimeout(function() {
-								li.triggerHandler('mousedown');
+								li.triggerHandler('mouseup');
 							},1);
 							return false;
 						}
