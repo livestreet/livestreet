@@ -290,6 +290,12 @@ class ActionPhotoset extends Action {
 			return parent::EventNotFound();
 		}
 		/**
+		 * Проверяем тип топика
+		 */
+		if ($oTopic->getType()!='photoset') {
+			return parent::EventNotFound();
+		}
+		/**
 		 * Если права на редактирование
 		 */		
 		if (!$this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
