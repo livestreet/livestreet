@@ -44,6 +44,7 @@ ls.comments = (function ($) {
 		$('#comment-button-submit').attr('disabled', 'disabled');
 		
 		ls.ajax(this.options.type[targetType].url_add, formObj.serializeJSON(), function(result){
+			$('#comment-button-submit').removeAttr('disabled');
 			if (!result) {
 				this.enableFormComment();
 				ls.msg.error('Error','Please try again later');
@@ -59,7 +60,6 @@ ls.comments = (function ($) {
 				// Load new comments
 				this.load(targetId, targetType, result.sCommentId, true);
 			}
-			$('#comment-button-submit').attr('disabled', '');
 		}.bind(this));
 	}
 
@@ -231,6 +231,38 @@ ls.comments = (function ($) {
 		this.scrollToComment(pid);
 		return false;
 	}
+	
+	// Сворачивание комментариев
+	this.checkFolding = function() {
+		$(".folding").each(function(index, element){
+			if ($(element).parent(".comment").next(".comment-wrapper").length == 0) {
+				$(element).hide();
+			} else {
+				$(element).show();
+			}
+		});
+		return false;
+	}
+	
+	this.expandComment = function(folding) {
+		$(folding).removeClass("folded").parent().nextAll(".comment-wrapper").show();
+	}
+	
+	this.collapseComment = function(folding) {
+		$(folding).addClass("folded").parent().nextAll(".comment-wrapper").hide();
+	}
+
+	this.expandCommentAll = function() {
+		$.each($(".folding"),function(k,v){
+			this.expandComment(v);
+		}.bind(this))
+	}
+	
+	this.collapseCommentAll = function() {
+		$.each($(".folding"),function(k,v){
+			this.collapseComment(v);
+		}.bind(this))
+	}
 
 	this.init = function() {
 		this.initEvent();
@@ -249,12 +281,20 @@ ls.comments = (function ($) {
 				return false;
 			}
 		});
+		
+		$(".folding").click(function(e){
+			if ($(e.target).hasClass("folded")) {
+				this.expandComment(e.target);
+			} else {
+				this.collapseComment(e.target);
+			}
+		}.bind(this));
 	}
 
 	return this;
 }).call(ls.comments || {},jQuery);
 
 
-$(document).ready(function(){
+jQuery(document).ready(function(){
 	ls.comments.init();
 });

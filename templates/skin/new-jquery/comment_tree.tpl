@@ -12,8 +12,8 @@
 	{if $sTargetType=='topic'}
 	<a href="{router page='rss'}comments/{$iTargetId}/" class="rss">RSS</a>
 	{/if}
-	<a href="#" onclick="lsCmtTree.collapseNodeAll(); return false;" onfocus="blur();">{$aLang.comment_collapse}</a> /
-	<a href="#" onclick="lsCmtTree.expandNodeAll(); return false;" onfocus="blur();">{$aLang.comment_expand}</a>
+	<a href="#" onclick="ls.comments.collapseCommentAll(); return false;" onfocus="blur();">{$aLang.comment_collapse}</a> /
+	<a href="#" onclick="ls.comments.expandCommentAll(); return false;" onfocus="blur();">{$aLang.comment_expand}</a>
 </div>
 
 <a name="comments"></a>
@@ -106,7 +106,7 @@
 					<script type="text/javascript">
 					jQuery(document).ready(function($){
 						ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li"});
-						// Подключаем редактор		
+						// РџРѕРґРєР»СЋС‡Р°РµРј СЂРµРґР°РєС‚РѕСЂ
 						$('#form_comment_text').markItUp(getMarkitupCommentSettings());
 					});
 					</script>
