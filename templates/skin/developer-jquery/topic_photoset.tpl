@@ -15,7 +15,7 @@
     });
 {/literal}
 </script>
-<div class="topic photo"">
+<div class="topic photo">
         <h2 class="title">
                 <a href="{$oBlog->getUrlFull()}" class="title-blog">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
                 {if $oTopic->getPublish()==0}   
