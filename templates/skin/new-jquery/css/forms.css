@@ -1,0 +1,8 @@
+.input-wide { width: 98%; _width: 97%; padding: 2px; }
+.input-100 { width: 100px; padding: 2px; }
+.input-200 { width: 200px; padding: 2px; }
+.input-300 { width: 300px; padding: 2px; }
+.note { font-size: 12px; color: #aaa; }
+.checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
+.question-list { margin-bottom: 15px; }
+.question-list li { margin-bottom: 3px; }

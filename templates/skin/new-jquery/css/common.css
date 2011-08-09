@@ -1,0 +1,104 @@
+/* Voting */
+.voting { overflow: hidden; zoom: 1; }
+
+.voting .total { float: left; padding: 0 7px; color: #aaa; }
+.voting .total a { text-decoration: none; color: #999; outline: none; }
+
+.voting.positive .total { color: #390; }
+.voting.negative .total { color: #f00; }
+
+.voting .plus,
+.voting .minus 			{ width: 9px; height: 11px; float: left; display: block; background: url(../images/voting.png) no-repeat; position: relative; top: 4px; outline: none; }
+.voting .plus 			{ background-position: 0 0; }
+.voting .minus 			{ background-position: -18px 0; }
+.voting .plus:hover 	{ background-position: -9px 0; }
+.voting .minus:hover 	{ background-position: -27px 0; }
+
+.voting.voted.plus 	.plus 			{ background-position: -9px 0; }
+.voting.voted.minus .minus 			{ background-position: -27px 0; }
+.voting.voted.plus 	.minus:hover 	{ background-position: -18px 0; }
+.voting.voted.minus .plus:hover 	{ background-position: 0 0; }
+
+.voting.guest .plus:hover 	{ background-position: 0 0; }
+.voting.guest .minus:hover 	{ background-position: -18px 0; }
+
+
+/* Favorite */
+.favourite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; }
+.favourite:hover 	{ background-position: 0 -16px; }
+.favourite.active 	{ background-position: 0 -16px; }
+
+
+/* Pagination */
+.pagination {  }
+.pagination p { font-size: 16px; color: #bbb; margin-bottom: 10px; }
+.pagination ul { overflow: hidden; font-family: Verdana, Sans-Serif; }
+.pagination ul li { float: left; margin-right: 8px; }
+.pagination ul li.active { font-weight: bold; }
+.pagination ul li.active { background: url(../images/pagination.gif) no-repeat top right; padding: 0 6px 1px 3px; border-left: 1px solid #eee; }
+
+
+/* Switcher */
+.switcher { overflow: hidden; zoom: 1; margin-bottom: 15px; font-size: 11px; padding-bottom: 3px; }
+.switcher li { float: left; padding: 1px 7px 1px; color: #A2A2A2; background: #fff; position: relative; line-height: 14px; cursor: pointer; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.switcher li a { color: #A2A2A2; text-decoration: none; }
+.switcher li:first-child { -moz-border-radius-topleft: 5px; -moz-border-radius-bottomleft: 5px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-left: 1px solid #ddd; }
+.switcher li:last-child { -moz-border-radius-topright: 5px; -moz-border-radius-bottomright: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-right: 1px solid #ddd; }
+.switcher li.active { color: #fff; background: #83DC5F; border-color: #83DC5F; box-shadow: 0 1px 0 #75C656 inset; }
+.switcher li.active a { color: #fff; }
+.switcher li.active:before { content: ""; position: absolute; bottom: -4px; left: 8px; width: 5px; height: 3px; background: url(../images/arrows.png) -9px 0 no-repeat; }
+
+
+/* System messages */
+.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice { background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
+
+
+/* Actions */
+.actions { overflow: hidden; zoom: 1; margin-bottom: 10px; font-size: 11px; }
+.actions a { overflow: hidden; zoom: 1; margin-bottom: 10px; margin-right: 10px; text-decoration: none; }
+.actions li { float: left; }
+.actions .edit { padding-left: 16px; background: url(../images/edit.gif) no-repeat 0 1px; }
+.actions .delete { padding-left: 15px; background: url(../images/delete.gif) no-repeat 0 1px; color: #f00; }
+.actions .rss { display: block; width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat -70px -250px; margin-right: 4px; position: relative; top: 3px; }
+.actions .join { position: relative; top: 3px; }
+.actions a:hover { text-decoration: underline; }
+
+
+/* Misc */
+.user { padding-left: 12px; background: url(../images/icons.gif) no-repeat 0 -107px; color: #555; }
+.user.inactive { color: #888; }
+
+.padding { padding: 10px 20px; }
+
+.tags-search { position: relative; left: -20px; margin-bottom: 20px; }
+.tags-input { width: 400px; font-size: 18px; padding: 4px 4px 6px; border: 1px solid #ccc; color: #555; background: #fafafa; }
+
+.center { width: 300px; margin: 0 auto; }
+
+.join { width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat 0 -250px; cursor: pointer; }
+.join.active { background-position: -10px -250px; }
+
+.table { width: 100%; margin-bottom: 15px; }
+.table td { padding: 5px; }
+.table tr.active td { background: #F1FCEF; }
+.table thead td { background: #F0F1F1; font-weight: bold; }
+.table tbody td { padding: 5px; border-bottom: 1px solid #ddd; font-size: 11px; }
+
+.table.table-people {  }
+.table.table-people .avatar { vertical-align: middle; margin-right: 7px; }
+.table.table-people td { padding: 5px 10px; vertical-align: middle; }
+.table.table-people .username { font-weight: bold; color: #999; }
+.table.table-people .strength { font-weight: bold; color: #70AAE0; }
+.table.table-people .date { color: #999; }
+.table.table-people .rating strong { font-weight: bold; color: #fff; background: #FF68CF; padding: 5px 10px; }
+
+.table.table-talk tbody td { color: #999; }
+.table.table-talk td { padding: 5px; }
+.table.table-talk td .username { padding-left: 13px; background: url(../images/icons.gif) 0 -108px no-repeat; margin-right: 5px; }
+.table.table-talk td .username.inactive { color: #bbb; }
+.table.table-talk a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; }
+.table.table-talk a.favourite.active { background-position: -50px -40px; }
+.table.table-talk a.favourite:hover { background-position: -50px -40px; }
+
+.right { float: right; }

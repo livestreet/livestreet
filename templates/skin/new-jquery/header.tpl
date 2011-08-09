@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="ru">
+<head>
+	{hook run='html_head_begin'}
+	
+	<title>{$sHtmlTitle}</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="{$sHtmlDescription}" />
+	<meta name="keywords" content="{$sHtmlKeywords}" />
+
+	{$aHtmlHeadFiles.css}
+
+	<link href="{cfg name='path.static.skin'}/images/favicon.ico" rel="shortcut icon" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
+
+	{if $aHtmlRssAlternate}
+		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
+	{/if}
+	
+	<script>
+	var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
+	var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+	var DIR_ROOT_ENGINE_LIB     = '{cfg name="path.root.engine_lib"}'; 
+	var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
+	var SESSION_ID              = '{$_sPhpSessionId}'; 
+	var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
+
+	var LANG_JOIN 				= '{$aLang.blog_join}';
+	var LANG_LEAVE 				= '{$aLang.blog_leave}';
+	var LANG_DELETE 			= '{$aLang.blog_delete}';
+	var LANG_POLL_ERROR 		= '{$aLang.topic_question_create_answers_error_max}';
+
+	var IMG_PATH_LOADER 		= DIR_STATIC_SKIN + '/images/loader.gif';
+
+	var TINYMCE_LANG='en';
+	{if $oConfig->GetValue('lang.current')=='russian'}
+		TINYMCE_LANG='ru';
+	{/if}
+
+	var aRouter = new Array();
+	{foreach from=$aRouter key=sPage item=sPath}
+		aRouter['{$sPage}'] = '{$sPath}';
+	{/foreach}
+	</script>
+
+	{$aHtmlHeadFiles.js}
+    
+	<script language="JavaScript" type="text/javascript">
+		var tinyMCE=false;
+		ls.lang.load({json var=$aLangJs});
+	</script>
+	
+	{hook run='html_head_end'}
+</head>
+
+
+<body>
+	{hook run='body_begin'}
+	{include file='header_top.tpl'}
+	{include file='nav.tpl'}
+
+	<div id="container">
+		<div id="wrapper" class="{if $showUpdateButton}show-update-button{/if}">
+			<div id="content">
+				<div id="content-inner" {if $noSidebar}style="width: 915px"{/if}>
+					{include file='window_login.tpl'}
+					{include file='system_message.tpl'}
+					
+					{hook run='content_begin'}
