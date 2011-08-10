@@ -7,16 +7,6 @@ var lsSWFUploadClass = new Class({
 			
 	initialize: function(){
 		this.swfu = null;
-		
-		Asset.javascript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js');
-		Asset.javascript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js', {			
-			events: {
-				load: function(){
-					this.initOptions();
-					this.fireEvent('load');
-				}.bind(this)
-			}
-		});
 	},
 	
 	initOptions: function() {
@@ -60,6 +50,17 @@ var lsSWFUploadClass = new Class({
 		};		
 	},
 	
+	loadSwf: function() {
+		Asset.javascript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js');
+		Asset.javascript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js', {			
+			events: {
+				load: function(){
+					this.initOptions();
+					this.fireEvent('load');
+				}.bind(this)
+			}
+		});
+	},
 	
 	init: function(opt) {
 		this.setOptions(opt);		
@@ -292,7 +293,12 @@ function initSwfUpload(opt) {
 	opt.button_placeholder_id = 'photoset-start-upload';
 	opt.post_params.ls_photoset_target_tmp = Cookie.read('ls_photoset_target_tmp') ? Cookie.read('ls_photoset_target_tmp') : 0;
 
-	var swfu = lsSWFUpload.init(opt);	
+
+	lsSWFUpload.addEvent('load',function() {
+		var swfu = lsSWFUpload.init(opt);
+	});
+
+	lsSWFUpload.loadSwf();
 }
 
 function swfHandlerUploadProgress(file, bytesLoaded, percent) {

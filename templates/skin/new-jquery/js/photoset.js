@@ -11,12 +11,16 @@ ls.photoset =( function ($) {
 		opt.button_placeholder_id = 'photoset-start-upload';
 		opt.post_params.ls_photoset_target_tmp = $.cookie('ls_photoset_target_tmp') ? $.cookie('ls_photoset_target_tmp') : 0;
 		
-		this.swfu = ls.swfupload.init(opt);
+		$(ls.swfupload).bind('load',function() {
+			this.swfu = ls.swfupload.init(opt);
+
+			$(this.swfu).bind('eUploadProgress',this.swfHandlerUploadProgress);
+			$(this.swfu).bind('eFileDialogComplete',this.swfHandlerFileDialogComplete);
+			$(this.swfu).bind('eUploadSuccess',this.swfHandlerUploadSuccess);
+			$(this.swfu).bind('eUploadComplete',this.swfHandlerUploadComplete);
+		}.bind(this));
 		
-		$(this.swfu).bind('eUploadProgress',this.swfHandlerUploadProgress);
-		$(this.swfu).bind('eFileDialogComplete',this.swfHandlerFileDialogComplete);
-		$(this.swfu).bind('eUploadSuccess',this.swfHandlerUploadSuccess);
-		$(this.swfu).bind('eUploadComplete',this.swfHandlerUploadComplete);
+		ls.swfupload.loadSwf();
 	}
 	
 	this.swfHandlerUploadProgress = function(e, file, bytesLoaded, percent) {

@@ -58,19 +58,17 @@ tinyMCE.init({
 {/if}
 
 <script type="text/javascript">
-        if (Browser.Plugins.Flash.version) {
-            lsSWFUpload.addEvent('load',function() {
-            	initSwfUpload({
-            		post_params: { 'topic_id':'{$_aRequest.topic_id}' },
-            		events: {
-            			UploadProgress: swfHandlerUploadProgress,
-            			FileDialogComplete: swfHandlerFileDialogComplete,
-            			UploadSuccess: swfHandlerUploadSuccess,
-            			UploadComplete: swfHandlerUploadComplete
-            		}
-            	});
-            });            
-        }    
+	if (Browser.Plugins.Flash.version) {
+		initSwfUpload({
+			post_params: { 'topic_id':'{$_aRequest.topic_id}' },
+			events: {
+				UploadProgress: swfHandlerUploadProgress,
+				FileDialogComplete: swfHandlerFileDialogComplete,
+				UploadSuccess: swfHandlerUploadSuccess,
+				UploadComplete: swfHandlerUploadComplete
+			}
+		});
+	}
 </script>
 
 

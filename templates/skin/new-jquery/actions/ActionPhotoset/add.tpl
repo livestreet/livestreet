@@ -51,13 +51,11 @@ tinyMCE.init({
 {/if}
 
 <script type="text/javascript">
-        if (jQuery.browser.flash) {
-            jQuery(ls.swfupload).bind('load',function() {
-            	ls.photoset.initSwfUpload({
-            		post_params: { 'topic_id':'{$_aRequest.topic_id}' }
-            	});
-            });            
-        }    
+if (jQuery.browser.flash) {
+	ls.photoset.initSwfUpload({
+		post_params: { 'topic_id':'{$_aRequest.topic_id}' }
+	});
+}
 </script>
 
 <div class="topic" style="display: none;">

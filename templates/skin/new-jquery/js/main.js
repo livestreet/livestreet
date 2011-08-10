@@ -81,15 +81,6 @@ ls.swfupload = (function ($) {
 	
 	this.swfu = null;
 	
-	$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(){
-		
-	}.bind(this));
-	
-	$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(){
-		this.initOptions();
-		$(this).trigger('load');
-	}.bind(this));
-	
 	this.initOptions = function() {
 		
 		this.swfOptions = {
@@ -133,7 +124,16 @@ ls.swfupload = (function ($) {
 		
 	}
 	
-	
+	this.loadSwf = function() {
+		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(){
+
+		}.bind(this));
+
+		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(){
+			this.initOptions();
+			$(this).trigger('load');
+		}.bind(this));
+	}
 	
 	this.init = function(opt) {
 		if (opt) {
