@@ -364,9 +364,9 @@ class ActionPhotoset extends Action {
 		
 		// Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
 		if (empty($_COOKIE['ls_photoset_target_tmp'])) {
-			setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600);
+			setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 		} else {
-			setcookie('ls_photoset_target_tmp', $_COOKIE['ls_photoset_target_tmp'], time()+24*3600);
+			setcookie('ls_photoset_target_tmp', $_COOKIE['ls_photoset_target_tmp'], time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 			$this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']));
 		}
 		/**
