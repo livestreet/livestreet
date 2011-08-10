@@ -66,7 +66,7 @@
 				{if $oTopic->getCountComment()>0}
 					<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oTopic->getCountComment()} <span>{if $oTopic->getCountCommentNew()}+{$oTopic->getCountCommentNew()}{/if}</span></a>
 				{else}
-					<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_add}">0</a>
+					<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_add}">{$aLang.topic_comment_add}</a>
 				{/if}
 			</li>
 		{/if}
