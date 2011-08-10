@@ -63,8 +63,8 @@
 
 	<div id="container">
 		<div id="wrapper" class="{if $showUpdateButton}show-update-button{/if}">
-			<div id="content">
-				<div id="content-inner" {if $noSidebar}style="width: 915px"{/if}>
+			<div id="content" {if $noSidebar}style="width: 100%"{/if}>
+				<div id="content-inner">
 					{include file='window_login.tpl'}
 					{include file='system_message.tpl'}
 					
