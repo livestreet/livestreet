@@ -1594,6 +1594,15 @@ class ModuleTopic extends Module {
 			return false;
 		}
 
+		/**
+		 * Превышает максимальные размеры из конфига
+		 */
+		if (($oImage->get_image_params('width')>Config::Get('view.img_max_width')) or ($oImage->get_image_params('height')>Config::Get('view.img_max_height'))) {
+				$this->Message_AddError($this->Lang_Get('topic_photoset_error_size'),$this->Lang_Get('error'));
+				@unlink($sFileTmp);
+				return false;
+		}
+		
 		// Добавляем к загруженному файлу расширение
 		$sFile=$sFileTmp.'.'.$oImage->get_image_params('format');
 		rename($sFileTmp,$sFile);

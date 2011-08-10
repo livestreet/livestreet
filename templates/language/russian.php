@@ -317,6 +317,7 @@ return array(
          'topic_photoset_count_images' => 'изображение;изображения;изображений',
          'topic_photoset_show_more' => 'Показать ещё фото',
          'topic_photoset_error_count_photos' => 'В топике может быть от %%MIN%% до %%MAX%% фото',
+         'topic_photoset_error_size' => 'У изображения слишком большое разрешение',
          'topic_photoset_title' => 'Фотосет',
          'topic_photoset_photo_deleted' => 'Фото удалено',
          'topic_photoset_photo_deleted_error_last' => 'Нельзя удалить последню фотографию',
