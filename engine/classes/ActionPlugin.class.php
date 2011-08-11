@@ -58,7 +58,7 @@ abstract class ActionPlugin extends Action {
 				array_map(
 					create_function(
 						'$sPath',
-						'preg_match("/skin\/([\w]+)\/actions/i",$sPath,$aMatches); return $aMatches[1];'
+						'preg_match("/skin\/([\w\-]+)\/actions/i",$sPath,$aMatches); return $aMatches[1];'
 					),
 					$aPaths
 				)
