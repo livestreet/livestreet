@@ -6,7 +6,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<td width="20"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this);" /></td>
+				<td width="20"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this, true);" /></td>
 				<td>{$aLang.plugins_plugin_name}</td>
 				<td>{$aLang.plugins_plugin_version}</td>
 				<td>{$aLang.plugins_plugin_author}</td>

@@ -108,7 +108,7 @@
 		{/if}
 		{hook run='topic_show_info' topic=$oTopic}
 	</ul>
-	{if $tSingle}
+	{if !$bTopicList}
 		{hook run='topic_show_end' topic=$oTopic}
 	{/if}
 </div>
