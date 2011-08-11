@@ -1,4 +1,4 @@
-.topic { margin-bottom: 50px; padding-left: 20px; position: relative; }
+.topic { margin-bottom: 50px; padding-left: 20px; position: relative; zoom: 1;}
 
 /* Title */
 .topic .title { margin-bottom: 3px; font-size: 22px; font-family: Verdana, sans-serif; }
