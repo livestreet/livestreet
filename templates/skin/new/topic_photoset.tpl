@@ -1,8 +1,7 @@
 {assign var="oBlog" value=$oTopic->getBlog()} 
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()} 
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/milkbox-3.0.1/js/milkbox.js"></script>	
-<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/milkbox-3.0.1/css/milkbox.css" />
+
 <div class="topic photo">
 	<div class="favorite {if $oUserCurrent}{if $oTopic->getIsFavourite()}active{/if}{else}fav-guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
 	
@@ -68,6 +67,9 @@
 	
 	<!-- Topic Photo Image List -->
 	{if !$bTopicList}
+		<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/milkbox-3.0.1/js/milkbox.js"></script>	
+		<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/milkbox-3.0.1/css/milkbox.css" />
+		
 		<div class="topic-photo-images">
 			<h2>{$oTopic->getPhotosetCount()} {$oTopic->getPhotosetCount()|declension:$aLang.topic_photoset_count_images}</h2>
 			<a name="photoset"></a>

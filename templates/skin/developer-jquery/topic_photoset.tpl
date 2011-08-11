@@ -1,20 +1,7 @@
 {assign var="oBlog" value=$oTopic->getBlog()}
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()}
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/prettyPhoto/js/prettyPhoto.js"></script>	
-<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/prettyPhoto/css/prettyPhoto.css" />
-<script type="text/javascript">
-{literal}
-    jQuery(document).ready(function($) {	
-        $('.photoset-image').prettyPhoto({
-               social_tools:'',
-               show_title: false,
-               slideshow:false,
-               deeplinking: false
-        });
-    });
-{/literal}
-</script>
+
 <div class="topic photo">
         <h2 class="title">
                 <a href="{$oBlog->getUrlFull()}" class="title-blog">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
@@ -66,6 +53,20 @@
 
         <!-- Topic Photo Image List -->
 	{if !$bTopicList}
+		<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/prettyPhoto/js/prettyPhoto.js"></script>	
+		<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/prettyPhoto/css/prettyPhoto.css" />
+		<script type="text/javascript">
+		    jQuery(document).ready(function($) {	
+		        $('.photoset-image').prettyPhoto({
+		               social_tools:'',
+		               show_title: false,
+		               slideshow:false,
+		               deeplinking: false
+		        });
+		    });
+		</script>
+		
+		
 		<div class="topic-photo-images">
 			<h2>{$oTopic->getPhotosetCount()} {$oTopic->getPhotosetCount()|declension:$aLang.topic_photoset_count_images}</h2>
 			<a name="photoset"></a>
