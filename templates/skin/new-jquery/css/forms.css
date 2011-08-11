@@ -6,3 +6,8 @@
 .checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
 .question-list { margin-bottom: 15px; }
 .question-list li { margin-bottom: 3px; }
+
+
+.markItUp  { width: 100%; }
+.markItUpEditor { width: 100%; }
+.markItUpHeader { width: 100%; }

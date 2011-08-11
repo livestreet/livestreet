@@ -28,6 +28,8 @@ $config['head']['default']['js']  = array(
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
+	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",	
 	"___path.static.skin___/css/main.css",
 	"___path.static.skin___/css/grid.css",
 	"___path.static.skin___/css/common.css",
@@ -38,8 +40,6 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/blocks.css",
 	"___path.static.skin___/css/jquery.jqmodal.css",
 	"___path.static.skin___/css/jquery.notifier.css",
-	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
-	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
 );
 
