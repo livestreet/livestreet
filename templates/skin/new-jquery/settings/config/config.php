@@ -47,7 +47,7 @@ $config['head']['default']['css'] = array(
  * Настройки вывода блоков
  */
 $config['block']['rule_blogs'] = array(
-	'action'  => array( 'blogs', 'settings' ),
+	'action'  => array( 'blogs' ),
 	'blocks'  => array( 'right' => array('stream') ),
 );
 

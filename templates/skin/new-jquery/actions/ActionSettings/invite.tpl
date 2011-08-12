@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='settings'}
+{include file='header.tpl' menu='settings' showWhiteBack=true}
 
 
 <h2>{$aLang.settings_invite}</h2>
