@@ -1,13 +1,9 @@
-Smarty 3.0.7
+Smarty 3.0.8
 
 Author: Monte Ohrt <monte at ohrt dot com >
 Author: Uwe Tews
 
 AN INTRODUCTION TO SMARTY 3
-
-NOTICE for 3.0.7 release:
-
-Mostly bug fixes, performance improvements and one security patch regarding arbitrary file access with security enabled.
 
 NOTICE for 3.0.5 release:
 
