@@ -456,5 +456,6 @@ jQuery(document).ready(function($){
 	$("#show_blog_info").click(function(){
 		$("#blog_info").slideToggle(500);
 		$("#show_blog_info").toggleClass("inactive");
+		return false;
 	});
 });
