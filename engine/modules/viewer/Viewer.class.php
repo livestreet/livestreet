@@ -493,6 +493,12 @@ class ModuleViewer extends Module {
 		if ($sType=='undefined') {
 			return false;
 		}
+		/**
+		 * Если тип "template" и есть параметр "dir", то получаем полный путь до шаблона
+		 */
+		if ($sType=='template' and isset($aParams['dir'])) {
+			$sName=rtrim($aParams['dir'],'/').'/'.ltrim($sName,'/');
+		}
 		$this->aBlocks[$sGroup][]=array(
 			'type'     => $sType,
 			'name'     => $sName,
@@ -558,7 +564,7 @@ class ModuleViewer extends Module {
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */
 			return 'block';
-		} elseif ($this->TemplateExists($sName)) {
+		} elseif ($this->TemplateExists(is_null($sDir) ? $sName : rtrim($sDir,'/').'/'.ltrim($sName,'/'))) {
 			/**
 			 * Если найден шаблон по имени блока то считаем его простым шаблоном
 			 */
