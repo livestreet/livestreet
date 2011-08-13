@@ -119,7 +119,10 @@ ls.comments = (function ($) {
 			} else {
 				var aCmt = result.aComments;
 				if (aCmt.length > 0 && result.iMaxIdComment) { 
-					$("#comment_last_id").val(result.iMaxIdComment); 
+					$("#comment_last_id").val(result.iMaxIdComment);
+					if ($('#block_stream_item_comment').length && ls.blocks) {
+						ls.blocks.load($('#block_stream_item_comment'), 'block_stream');
+					}
 				}
 				if (selfIdComment) { 
 					this.toggleCommentForm(0, true); 
