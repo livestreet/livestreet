@@ -24,7 +24,8 @@
 #header .pages { overflow: hidden; zoom: 1; padding: 32px 0 0; list-style: none; float: left; font-size: 15px; }
 #header .pages li { float: left; margin-right: 10px; position: relative; }
 #header .pages li a { color: #BEBEBE; text-decoration: underline; padding: 2px 5px 3px; }
-#header .pages li.active a { color: #666; text-decoration: none; }
+#header .pages li.active a { color: #FFFFFF; font-size: 24px; line-height: 24px; text-decoration: none; }
+#header .pages li.active { top: -5px; }
 
 #header .profile { color: #777; text-align: right; position: absolute; top: 15px; right: 23px; padding-right: 60px; font-size: 11px; color: #AFAFAF; line-height: 12px; }
 #header .profile li { margin-bottom: 6px; }

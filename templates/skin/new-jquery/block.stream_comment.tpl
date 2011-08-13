@@ -16,5 +16,5 @@
 
 
 <div class="bottom">
-	<a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a>
+	<a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> | <a href="{router page='rss'}allcomments/">RSS</a>
 </div>
