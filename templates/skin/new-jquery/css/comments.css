@@ -28,7 +28,7 @@
 .comment-preview { padding: 5px 10px; margin-bottom: 5px; background: #fafafa; }
 .comments-header { padding-left: 20px; margin-bottom: 20px; }
 .comments-header h3 { font-size: 18px; font-family: Verdana, sans-serif; margin-bottom: 3px; }
-.comments-header a.rss { background: url("http://livestreet.ru/templates/skin/new/images/icons.gif") no-repeat scroll -70px -247px transparent; margin-right: 20px; padding-left: 14px; }
+.comments-header a.rss { background: url(../images/icons.gif) no-repeat scroll -70px -247px transparent; margin-right: 20px; padding-left: 14px; }
 
 /* Comment */
 .comment { margin-bottom: 20px; position: relative; padding-left: 20px; }
