@@ -49,6 +49,7 @@
 /* Menu */
 #nav .menu { padding-bottom: 30px; float: left; font-size: 15px; margin: 11px 0 0 0; }
 #nav .menu li { float: left; color: #51B038; padding: 3px 10px 4px 10px; margin-right: 5px; position: relative; }
+#nav .menu li a.new { color: #390; }
 #nav .menu li a { text-decoration: none; color: #838383; }
 #nav .menu li a:hover { color: #333; }
 #nav .menu li.active { position: relative; background: #fff; border-bottom: 1px solid #ddd; }

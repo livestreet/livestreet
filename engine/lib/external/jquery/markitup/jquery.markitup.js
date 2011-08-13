@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // markItUp! Universal MarkUp Engine, JQuery plugin
-// v 1.1.11
+// v 1.1.12
 // Dual licensed under the MIT and GPL licenses.
 // ----------------------------------------------------------------------------
 // Copyright (C) 2007-2011 Jay Salvat
@@ -250,13 +250,12 @@
 					string = string || selection;
 
 					var lines = selection.split(/\r?\n/), blocks = [];
+					
 					for (var l=0; l < lines.length; l++) {
 						line = lines[l];
-						if ($.trim(line) == '') {
-							continue;
-						}
-						if (line.match(/ +$/)) {
-							blocks.push(openWith + line.replace(/ $/, '') + closeWith + ' ');
+						var trailingSpaces;
+						if (trailingSpaces = line.match(/ *$/)) {
+							blocks.push(openWith + line.replace(/ *$/g, '') + closeWith + trailingSpaces);
 						} else {
 							blocks.push(openWith + line + closeWith);
 						}
