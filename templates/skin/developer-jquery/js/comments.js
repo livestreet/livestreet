@@ -72,6 +72,11 @@ ls.comments = (function ($) {
 
 	// Показывает/скрывает форму комментирования
 	this.toggleCommentForm = function(idComment, bNoFocus) {
+		$('#comment_preview_'+this.iCurrentShowFormComment).html('').css('display','none');
+		if (this.iCurrentShowFormComment==idComment && $('#reply_'+idComment).css('display')=='block') {
+			$('#reply_'+idComment).hide();
+			return;
+		}
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
 		}
@@ -80,7 +85,6 @@ ls.comments = (function ($) {
 		if (!bNoFocus) $('#form_comment_text').focus();
 		$('#form_comment_reply').val(idComment);
 		$("#reply_"+idComment).css('display','block');
-		$('#comment_preview_'+this.iCurrentShowFormComment).html('').css('display','none');
 		this.iCurrentShowFormComment=idComment;
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
