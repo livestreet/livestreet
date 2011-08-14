@@ -60,7 +60,7 @@
 </head>
 
 
-<body>
+<body onload="prettyPrint()">
 	{hook run='body_begin'}
 	{include file='header_top.tpl'}
 	{include file='nav.tpl'}

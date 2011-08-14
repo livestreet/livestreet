@@ -12,6 +12,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.jqplugin.js",
 	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
 	"___path.root.engine_lib___/external/jquery/jquery.serializejson.js",
+	"___path.root.engine_lib___/external/prettify/prettify.js",
 	"___path.static.skin___/js/main.js",
 	"___path.static.skin___/js/favourite.js",
 	"___path.static.skin___/js/blocks.js",
@@ -41,6 +42,7 @@ $config['head']['default']['css'] = array(
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
 	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
+	"___path.root.engine_lib___/external/prettify/prettify.css",
 );
 
 /**

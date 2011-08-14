@@ -60,7 +60,7 @@
 </head>
 
 
-<body>
+<body onload="prettyPrint()">
 	{hook run='body_begin'}
 
 	<div id="container">
