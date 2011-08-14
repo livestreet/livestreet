@@ -162,7 +162,7 @@ if (jQuery.browser.flash) {
 							
 		<p class="buttons">
 			<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
-			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('topic_text',false); return false;" />&nbsp;
+			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().css('display','block'); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
 			<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 		</p>
 	</form>
