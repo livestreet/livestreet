@@ -1,3 +1,5 @@
+{if $oUserProfile}
+
 {if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
 	<div class="block">				
 		<ul id="profile_actions">
@@ -24,3 +26,5 @@
 		<img src="{$oUserProfile->getProfileFoto()}" alt="photo" />
 	{/if}
 </div>
+
+{/if}
