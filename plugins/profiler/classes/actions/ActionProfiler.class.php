@@ -138,7 +138,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aReports',$aReports);
 		$this->Viewer_Assign('aDatabaseStat',($aData=$this->PluginProfiler_Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));		
-		$this->Viewer_AddBlock('right',$this->getTemplatePathPlugin().'/actions/ActionProfiler/sidebar.tpl');
+		$this->Viewer_AddBlock('right','actions/ActionProfiler/sidebar.tpl',array('plugin'=>'profiler'));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('profiler_report_page_title'));
 	}
 	
@@ -208,7 +208,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 	 * @return 
 	 */
 	protected function EventAjaxLoadReport() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		
 		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));
 		$bTreeView=getRequest('bTreeView',false,'post');
@@ -232,7 +232,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 	 * @return 
 	 */	
 	protected function EventAjaxLoadEntriesByFilter() {
-		$this->Viewer_SetResponseAjax();
+		$this->Viewer_SetResponseAjax('json');
 		
 		$sAction = $this->GetParam(0);
 		$sReportId=str_replace('report_','',getRequest('reportId',null,'post'));

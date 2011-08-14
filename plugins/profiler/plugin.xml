@@ -6,10 +6,11 @@
 	<author>
 		<lang name="default">LiveStreet Developers Team</lang>
 	</author>
-	<homepage>http://livestreet.ru/</homepage>
-	<version>1.0.1</version>
+	<homepage>http://livestreet.ru</homepage>
+	<settings>{profiler}</settings>
+	<version>1.2.0</version>
 	<requires>
-		<livestreet>0.4.1</livestreet>
+		<livestreet>0.4.2</livestreet>
 		<plugins>
 
 		</plugins>
