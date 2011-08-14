@@ -1,14 +1,13 @@
-{include file='header.tpl' menu='topic_action' showWhiteBack=true}
+{include file='header.tpl' menu='topic_action' }
 
 
 {if $oConfig->GetValue('view.tinymce')}
-<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
+<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
 
 <script type="text/javascript">
 {literal}
 tinyMCE.init({
-	mode : "specific_textareas",
-         editor_selector : "mceEditor",
+	mode : "textareas",
 	theme : "advanced",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
@@ -62,11 +61,11 @@ if (jQuery.browser.flash) {
 	<div class="content" id="text_preview"></div>
 </div>
 
-<div class="profile-user">
+
 	{if $sEvent=='add'}
-		<h1>{$aLang.topic_photoset_create}</h1>
+		<h2>{$aLang.topic_photoset_create}</h2>
 	{else}
-		<h1>{$aLang.topic_photoset_edit}</h1>
+		<h2>{$aLang.topic_photoset_edit}</h2>
 	{/if}
         <form id="photoset-upload-form" method="POST" enctype="multipart/form-data" onsubmit="return false;">
             <p id="topic-photo-upload-input" class="topic-photo-upload-input">
@@ -106,7 +105,7 @@ if (jQuery.browser.flash) {
 
 		<p>
 		<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
-		<textarea name="topic_text" class="mceEditor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
+		<textarea name="topic_text" id="topic_text" rows="20" class="input-wide">{$_aRequest.topic_text}</textarea>
 		</p>
 		
 		<!-- Topic Photo Add -->
@@ -162,12 +161,11 @@ if (jQuery.browser.flash) {
 							
 		<p class="buttons">
 			<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
-			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().css('display','block'); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
+			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
 			<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 		</p>
 	</form>
         
-</div>
 
 
 {include file='footer.tpl'}

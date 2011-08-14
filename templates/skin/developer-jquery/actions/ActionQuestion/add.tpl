@@ -74,7 +74,7 @@
 
 	<p class="buttons">
 			<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
-			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().css('display','block'); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
+			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',true); return false;" />&nbsp;
 			<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 	</p>
 </form>
