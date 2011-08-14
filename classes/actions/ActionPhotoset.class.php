@@ -430,14 +430,19 @@ class ActionPhotoset extends Action {
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('photoset');
-		$oTopic->setTitle(getRequest('topic_title'));								
-		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
+		$oTopic->setTitle(getRequest('topic_title'));
+		/**
+		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
+		 */
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut(getRequest('topic_text'));
+		$oTopic->setCutText($sTextCut);
+		$oTopic->setText($this->Text_Parser($sTextNew));
+		$oTopic->setTextShort($this->Text_Parser($sTextShort));
+		
 		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
-		$oTopic->setCutText(null);
 		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getTitle()));
 
 		$sTargetTmp=$_COOKIE['ls_photoset_target_tmp'];
@@ -571,8 +576,15 @@ class ActionPhotoset extends Action {
 		 * Теперь можно смело редактировать топик
 		 */		
 		$oTopic->setBlogId($oBlog->getId());						
-		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
+		$oTopic->setTitle(getRequest('topic_title'));
+		/**
+		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
+		 */
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut(getRequest('topic_text'));
+		$oTopic->setCutText($sTextCut);
+		$oTopic->setText($this->Text_Parser($sTextNew));
+		$oTopic->setTextShort($this->Text_Parser($sTextShort));
+		
 		$oTopic->setTextSource(getRequest('topic_text'));		
 		$oTopic->setTags(getRequest('topic_tags'));		
 		$oTopic->setUserIp(func_getIp());

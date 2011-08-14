@@ -34,22 +34,23 @@
 	</div>
 	<!-- /Topic Photo Preview -->
 
-        <div class="content">
-                {if $bTopicList}
-                        {$oTopic->getTextShort()}
-                        {if $oTopic->getTextShort()!=$oTopic->getText()}
-                                <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
-                                {if $oTopic->getCutText()}
-                                        {$oTopic->getCutText()}
-                                {else}
-                                        {$aLang.topic_read_more}
-                                {/if}                           
-                                </a>
-                        {/if}
-                {else}
-                        {$oTopic->getText()}
-                {/if}
-        </div> 
+	{assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
+	<div class="content">
+		{if $bTopicList}
+			{$oTopic->getTextShort()}
+			{if $oTopic->getTextShort()!=$oTopic->getText()}
+				<br /><a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
+				{if $oTopic->getCutText()}
+					{$oTopic->getCutText()}
+				{else}
+					{$aLang.topic_photoset_show_all|ls_lang:"COUNT%%`$iPhotosCount`"} &rarr;
+				{/if}                           
+				</a>
+			{/if}
+		{else}
+			{$oTopic->getText()}
+		{/if}
+	</div> 
 
         <!-- Topic Photo Image List -->
 	{if !$bTopicList}

@@ -37,25 +37,18 @@
 	</div>
 	<!-- /Topic Photo Preview -->
 	
-	
+	{assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
 	<div class="content">
 		{if $bTopicList}
 			{$oTopic->getTextShort()}
-			
-			
-			<!-- Cut link -->
-			<br /><br /><a href="{$oTopic->getUrl()}">{$aLang.topic_photoset_show_all|ls_lang:"COUNT%%`$iPhotosCount`"} &rarr;</a>
-			<!-- /Cut link -->
-			
-			
 			{if $oTopic->getTextShort()!=$oTopic->getText()}
-				<br><br>( <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
+				<br /><a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
 				{if $oTopic->getCutText()}
 					{$oTopic->getCutText()}
 				{else}
-					{$aLang.topic_read_more}
-				{/if}      			
-				</a> )
+					{$aLang.topic_photoset_show_all|ls_lang:"COUNT%%`$iPhotosCount`"} &rarr;
+				{/if}                           
+				</a>
 			{/if}
 		{else}
 			{$oTopic->getText()}

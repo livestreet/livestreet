@@ -38,16 +38,16 @@
 		<img src="{$oMainPhoto->getWebPath(500)}" alt="image" />
 	</div>
 	
-
+	{assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
 	<div class="content">
 		{if $bTopicList}
 			{$oTopic->getTextShort()}
 			{if $oTopic->getTextShort()!=$oTopic->getText()}
-				<a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
+				<br /><a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
 				{if $oTopic->getCutText()}
 					{$oTopic->getCutText()}
 				{else}
-					{$aLang.topic_read_more}
+					{$aLang.topic_photoset_show_all|ls_lang:"COUNT%%`$iPhotosCount`"} &rarr;
 				{/if}                           
 				</a>
 			{/if}
