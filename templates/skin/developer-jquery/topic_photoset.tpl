@@ -75,7 +75,7 @@
                             {assign var=aPhotos value=$oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
                             {if count($aPhotos)}                                
                                 {foreach from=$aPhotos item=oPhoto}
-                                    <li><a class="photoset-image" href="{$oPhoto->getWebPath()}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>                                    
+                                    <li><a class="photoset-image" href="{$oPhoto->getWebPath(1000)}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>                                    
                                     {assign var=iLastPhotoId value=$oPhoto->getId()}
                                 {/foreach}
                             {/if}
