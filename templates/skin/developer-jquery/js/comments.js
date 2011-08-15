@@ -32,6 +32,8 @@ ls.comments = (function ($) {
 	};
 
 	this.iCurrentShowFormComment=0;
+	this.iCurrentViewComment=null;
+	this.aCommentNew=[];
 
 	// Добавляет комментарий
 	this.add = function(formObj, targetId, targetType) {
@@ -67,7 +69,7 @@ ls.comments = (function ($) {
 	// Активирует форму
 	this.enableFormComment = function() {
 		$('#form_comment_text').removeClass(this.options.classes.form_loader).attr('readonly',false);
-	},
+	}
 
 
 	// Показывает/скрывает форму комментирования
@@ -84,12 +86,13 @@ ls.comments = (function ($) {
 		$('#form_comment_text').val('');
 		if (!bNoFocus) $('#form_comment_text').focus();
 		$('#form_comment_reply').val(idComment);
-		$("#reply_"+idComment).css('display','block');
+		$('.reply').hide();
+		$('#reply_'+idComment).css('display','block');
 		this.iCurrentShowFormComment=idComment;
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		}
-	},
+	}
 
 
 	// Подгружает новые комментарии
@@ -128,22 +131,33 @@ ls.comments = (function ($) {
 						ls.blocks.load($('#block_stream_item_comment'), 'block_stream');
 					}
 				}
+				var iCountOld=0;
+				if (bNotFlushNew) {
+					iCountOld=this.aCommentNew.length;
+				} else {
+					this.aCommentNew=[];
+				}
 				if (selfIdComment) { 
 					this.toggleCommentForm(0, true); 
+					this.setCountNewComment(aCmt.length-1+iCountOld);
 				} else { 
-					this.setCountNewComment(aCmt.length); 
+					this.setCountNewComment(aCmt.length+iCountOld); 
 				}
 
 				$.each(aCmt, function(index, item) { 
+					if (!(selfIdComment && selfIdComment==item.id)) {
+						this.aCommentNew.push(item.id);
+					}
 					this.inject(item.idParent, item.id, item.html); 
 				}.bind(this));
 
 				if (selfIdComment && $('#comment_id_'+selfIdComment).length) { 
 					this.scrollToComment(selfIdComment);
 				}
+				//this.checkFolding();
 			}
 		}.bind(this));
-	},
+	}
 
 
 	// Вставка комментария
@@ -154,7 +168,7 @@ ls.comments = (function ($) {
 		} else {
 			$('#comments').append(newComment);
 		}
-	},
+	}
 
 
 	// Удалить/восстановить комментарий
@@ -175,7 +189,7 @@ ls.comments = (function ($) {
 				$(obj).text(result.sTextToggle);
 			}
 		}.bind(this));
-	},
+	}
 
 
 	// Предпросмотр комментария
@@ -186,7 +200,7 @@ ls.comments = (function ($) {
 		if ($("#form_comment_text").val() == '') return;
 		$("#comment_preview_"+this.iCurrentShowFormComment).css('display', 'block');
 		ls.tools.textPreview('form_comment_text', false, 'comment_preview_'+this.iCurrentShowFormComment);
-	},
+	}
 
 
 	// Устанавливает число новых комментариев
@@ -196,33 +210,41 @@ ls.comments = (function ($) {
 		} else {
 			$('#new_comments_counter').text(0).hide();
 		}
-	},
+	}
 
 
 	// Вычисляет кол-во новых комментариев
 	this.calcNewComments = function() {
-		this.setCountNewComment($('.'+this.options.classes.comment+'.'+this.options.classes.comment_new).length);
-	},
+		var aCommentsNew = $('.'+this.options.classes.comment+'.'+this.options.classes.comment_new);
+		this.setCountNewComment(aCommentsNew.length);
+		$.each(aCommentsNew,function(k,v){
+			this.aCommentNew.push(parseInt($(v).attr('id').replace('comment_id_','')));
+		}.bind(this));
+	}
 
 
 	// Переход к следующему комментарию
 	this.goToNextComment = function() {
-		var aCommentsNew = $('.'+this.options.classes.comment+'.'+this.options.classes.comment_new);
-
-		$.scrollTo($(aCommentsNew[0]), 1000, {offset: -250});
-		$('[id^=comment_id_]').removeClass(this.options.classes.comment_current);
-		$(aCommentsNew[0]).removeClass(this.options.classes.comment_new).addClass(this.options.classes.comment_current);
-
-		this.setCountNewComment(aCommentsNew.length - 1);
-	},
+		if (this.aCommentNew[0]) {
+			if ($('#comment_id_'+this.aCommentNew[0]).length) {
+				this.scrollToComment(this.aCommentNew[0]);
+			}
+			this.aCommentNew.shift();
+		}
+		this.setCountNewComment(this.aCommentNew.length);
+	}
 
 
 	// Прокрутка к комментарию
 	this.scrollToComment = function(idComment) {
 		$.scrollTo('#comment_id_'+idComment, 1000, {offset: -250});
-		$('[id^=comment_id_]').removeClass(this.options.classes.comment_current);
+						
+		if (this.iCurrentViewComment) {
+			$('#comment_id_'+this.iCurrentViewComment).removeClass(this.options.classes.comment_current);
+		}				
 		$('#comment_id_'+idComment).addClass(this.options.classes.comment_current);
-	},
+		this.iCurrentViewComment=idComment;		
+	}
 
 
 	// Прокрутка к родительскому комментарию
@@ -238,7 +260,8 @@ ls.comments = (function ($) {
 		this.scrollToComment(pid);
 		return false;
 	}
-	
+
+
 	// Сворачивание комментариев
 	this.checkFolding = function() {
 		$(".folding").each(function(index, element){
@@ -270,10 +293,11 @@ ls.comments = (function ($) {
 			this.collapseComment(v);
 		}.bind(this))
 	}
-
+	
 	this.init = function() {
 		this.initEvent();
 		this.calcNewComments();
+		//this.checkFolding();
 		
 		if (typeof(this.options.wysiwyg)!='number') {
 			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);
