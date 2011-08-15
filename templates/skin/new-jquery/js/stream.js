@@ -41,7 +41,7 @@ ls.stream =( function ($) {
                         ls.msg.notice(data.sMsgTitle,data.sMsg);
                     }
                 } else {
-                    var liElement='<li><input type="checkbox" class="streamUserCheckbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe(\'users\','+data.uid+')} else {ls.stream.unsubscribe(\'users\','+data.uid+')}" /><a href="'+data.user_web_path+'">'+data.user_login+'</a></li>';
+                    var liElement='<li><input type="checkbox" class="streamUserCheckbox input-checkbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe(\'users\','+data.uid+')} else {ls.stream.unsubscribe(\'users\','+data.uid+')}" /> <a href="'+data.user_web_path+'">'+data.user_login+'</a></li>';
                     $('#stream_block_users_list').append(liElement);
                     ls.msg.notice(data.sMsgTitle,data.sMsg);
                 }

@@ -41,21 +41,20 @@
 	<div class="stream-settings-userlist">
 		<p><input type="text" id="stream_users_complete" autocomplete="off" />
 		<a href="javascript:ls.stream.appendUser()">{$aLang.stream_block_config_append}</a></p>
-		{if count($aStreamSubscribedUsers)}
-                        <ul id="userfeed_block_users_list">
-			
-				{foreach from=$aStreamSubscribedUsers item=oUser}
-					{assign var=iUserId value=$oUser->getId()}
-					{if !isset($aStreamFriends.$iUserId)}
-						<li><input class="streamUserCheckbox input-checkbox"
-									type="checkbox"
-									id="strm_u_{$iUserId}"
-									checked="checked"
-									onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
-							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-						</li>
-					{/if}
-				{/foreach}
+				{if count($aStreamSubscribedUsers)}
+                        <ul id="stream_block_users_list">
+						{foreach from=$aStreamSubscribedUsers item=oUser}
+							{assign var=iUserId value=$oUser->getId()}
+							{if !isset($aStreamFriends.$iUserId)}
+								<li><input class="streamUserCheckbox input-checkbox"
+											type="checkbox"
+											id="strm_u_{$iUserId}"
+											checked="checked"
+											onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
+									<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+								</li>
+							{/if}
+						{/foreach}
                         </ul>
                 {else}
                     <ul id="stream_block_users_list"></ul>
