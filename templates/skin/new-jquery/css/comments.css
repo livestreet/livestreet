@@ -66,8 +66,8 @@
 
 /* Content */
 .comment .content { color: #000; margin: 0 30px 10px 0; border: 1px solid #DDDEDE; background: #f7f7f7; border-radius: 7px; padding: 8px 30px 9px 10px; }
-.comment .content pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
-.comment .content blockquote {font-style: italic; padding: 5px 10px; background: #ffffff; border: 1px solid #ddd;}
+.comment pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
+.comment blockquote {font-style: italic; padding: 5px 10px; background: #ffffff; border: 1px solid #ddd;}
 
 /* Actions */
 .comment .actions { font-size: 11px; }

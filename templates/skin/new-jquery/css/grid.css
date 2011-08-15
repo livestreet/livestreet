@@ -100,7 +100,7 @@
 .blog .blog-info { display: none; background: #F4F4F6; padding: 25px 30px; border-radius: 10px; }
 .blog .blog-info h3 { font-size: 22px; color: #555; font-family: Verdana, sans-serif; }
 .blog .blog-info p { border-bottom: 1px solid #DADADA; padding-bottom: 15px; margin-bottom: 0; }
-.blog .blog-info .user { margin-right: 5px;  }
+.blog .blog-info .user { margin-right: 5px; }
 
 .blog .blog-wrapper { overflow: hidden; zoom: 1; margin-bottom: 40px; border-top: 1px solid #fff; padding: 20px 0 0; }
 .blog .blog-wrapper .blog-admins { float: left; width: 50%; }
@@ -139,6 +139,7 @@
 .user-profile-table { width: 100%; }
 .user-profile-table td { vertical-align: top; padding: 0 0 5px; }
 .user-profile-table td.var { width: 150px; font-weight: bold; color: #999; }
+.user-profile-table td .user { margin-right: 7px; }
 
 /* Stat */
 .stat-performance { padding: 15px 20px; background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }

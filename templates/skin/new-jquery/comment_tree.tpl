@@ -114,7 +114,7 @@
 				
 				
 				{if $oUserCurrent}
-					<div class="comment" id="comment_preview_0" style="display: none;"><div class="comment-inner"><div class="content"></div></div></div>					
+					<div class="comment-preview" id="comment_preview_0" style="display: none;"><div class="comment-inner"><div class="content"></div></div></div>					
 				{/if}
 				
 				<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">

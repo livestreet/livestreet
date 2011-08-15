@@ -17,10 +17,10 @@
 
 /* Top Blogs */
 .block.blogs ul.list { border-top: 1px solid #eee; }
-.block.blogs ul.list li { padding: 5px 0 5px; border-bottom: 1px solid #eee; }
+.block.blogs ul.list li { padding: 5px 0 5px; border-bottom: 1px solid #eee; overflow: hidden; zoom: 1; }
 .block.blogs ul.list li a { color: #777; }
 .block.blogs ul.list li img { vertical-align: top; }
-.block.blogs ul.list li .rating { float: right; font-weight: bold; }
+.block.blogs ul.list li .rating { float: right; font-weight: bold; margin-left: 10px; }
 
 /* Tags */
 .block.tags { background: #F7F8F9; box-shadow: none; border-color: #EAEBEB; }

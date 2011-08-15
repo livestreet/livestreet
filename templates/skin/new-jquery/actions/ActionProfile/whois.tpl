@@ -109,7 +109,7 @@
 			<td class="var">{$aLang.profile_friends}:</td>
 			<td>
 				{foreach from=$aUsersFriend item=oUser}        						
-					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+					<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a>
 				{/foreach}
 			</td>
 		</tr>

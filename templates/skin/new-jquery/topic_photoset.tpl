@@ -29,9 +29,9 @@
 
     
 	
-	<div class="topic-photo-preview" style="width: 500px">
+	<div class="topic-photo-preview" onclick="window.location='{$oTopic->getUrl()}#photoset'" style="width: 500px">
         {assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
-		<div class="topic-photo-count" onclick="window.location='{$oTopic->getUrl()}#photoset'">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
+		<div class="topic-photo-count">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
 		{if $oMainPhoto->getDescription()}
 			<div class="topic-photo-desc">{$oMainPhoto->getDescription()}</div>
 		{/if}

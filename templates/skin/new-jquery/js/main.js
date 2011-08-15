@@ -446,7 +446,6 @@ jQuery(document).ready(function($){
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
 	ls.autocomplete.add($(".autocomplete-city"), aRouter['ajax']+'autocompleter/city/', false);
 	ls.autocomplete.add($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
-	ls.autocomplete.add($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
 
 	
 	// Скролл
