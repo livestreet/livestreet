@@ -85,7 +85,7 @@
 .blog .voting .total { font-weight: normal; padding: 4px 10px 5px; font-size: 14px; }
 .blog .voting .plus { margin: 4px 6px 0 0; }
 .blog .voting .minus { margin: 4px 0 0 6px; }
-.blog .voting .text { font-size: 10px; color: #aaa; text-align: center; }
+.blog .voting .text { font-size: 10px; color: #aaa; text-align: center; clear: both; }
 .blog .voting.positive .total { background: #68BF46; color: #fff; }
 .blog .voting.negative .total { background: #FF3B3C; color: #fff; }
 
@@ -125,7 +125,7 @@
 .user-profile .voting .total { font-weight: normal; padding: 4px 10px 5px; font-size: 14px; }
 .user-profile .voting .plus { margin: 4px 6px 0 0; }
 .user-profile .voting .minus { margin: 4px 0 0 6px; }
-.user-profile .voting .text { font-size: 10px; color: #aaa; text-align: center; }
+.user-profile .voting .text { font-size: 10px; color: #aaa; text-align: center; clear: both; }
 .user-profile .voting.positive .total { background: #68BF46; color: #fff; }
 .user-profile .voting.negative .total { background: #FF3B3C; color: #fff; }
 

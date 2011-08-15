@@ -56,17 +56,17 @@
 
 	<p>
 		<label for="profile_site">{$aLang.settings_profile_site}:</label><br />
-		<label for="profile_site"><input type="text" style="margin-bottom: 5px;" id="profile_site" name="profile_site" value="{$oUserCurrent->getProfileSite()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_url}</label><br />
-		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
+		<label for="profile_site"><input type="text" style="margin-bottom: 5px;" id="profile_site" name="profile_site" class="input-200" value="{$oUserCurrent->getProfileSite()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_url}</label><br />
+		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" class="input-200" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
 	</p>
         {if count($aUserFields)}
             {foreach from=$aUserFields item=oField}
-                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="w300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
+                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="input-200" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
             {/foreach}
         {/if}
 	<p>
 		<label for="profile_about">{$aLang.settings_profile_about}:</label><br />
-		<textarea class="input-300" name="profile_about" id="profile_about">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>
+		<textarea cols="50" rows="5" name="profile_about" id="profile_about">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>
 	</p>
 
 	<p>
