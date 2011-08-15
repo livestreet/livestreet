@@ -5,7 +5,7 @@
 
 
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<form id="blog_delete_form" class="blog-delete-form" action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
+	<form id="blog_delete_form" class="blog-delete-form jqmWindow" action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
 		<a href="#" class="close jqmClose"></a>
 	
 		<p>{$aLang.blog_admin_delete_move}</p>

@@ -10,15 +10,30 @@
     position: fixed;
     top: 25%;
     left: 50%;
-    
-    margin-left: -150px;
-    width: 300px;
+	z-index: 200;
     
     background-color: #fff;
     color: #333;
-    border: 1px solid #666;
-    padding: 15px;
+	border: 1px solid #777;
+    padding: 20px 25px 25px;
+
+	background: rgb(249,249,249);
+	background: -moz-linear-gradient(top, rgba(249,249,249,1) 0%, rgba(241,241,241,1) 50%, rgba(222,222,222,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(50%,rgba(241,241,241,1)), color-stop(100%,rgba(222,222,222,1)));
+	background: -webkit-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
+	background: -o-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
+	background: -ms-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#dedede',GradientType=0 );
+	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%); 
+	
+	border-radius: 10px;
+	overflow: hidden; 
+	zoom: 1;
 }
+.jqmWindow h3 { margin-bottom: 15px; color: #999; }
+.jqmWindow label { color: #777; }
+.jqmWindow .close { position: absolute; top: 5px; right: 5px; width: 14px; height: 14px; outline: none; background: url(../images/close.png) no-repeat; }
+
 
 .jqmOverlay { background-color: #000; }
 

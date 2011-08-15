@@ -11,7 +11,7 @@
 {elseif !$oUserFriend}	
 	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" id="add_friend_show">{$aLang.user_friend_add}</a>						</li>
 
-	<form id="add_friend_form" class="add-friend-form" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
+	<form id="add_friend_form" class="add-friend-form jqmWindow" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
 		<a href="#" class="close jqmClose"></a>
 		
 		<label for="add_friend_text">{$aLang.user_friend_add_text_label}</label><br />

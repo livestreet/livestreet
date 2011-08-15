@@ -11,3 +11,24 @@
 .markItUp  { width: 100%; }
 .markItUpEditor { width: 100%; }
 .markItUpHeader { width: 100%; }
+
+.button { 
+	background: rgb(254,254,254);
+	background: -moz-linear-gradient(top, rgba(254,254,254,1) 0%, rgba(233,233,233,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,254,254,1)), color-stop(100%,rgba(233,233,233,1)));
+	background: -webkit-linear-gradient(top, rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%);
+	background: -o-linear-gradient(top, rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%);
+	background: -ms-linear-gradient(top, rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#e9e9e9',GradientType=0 );
+	background: linear-gradient(top, rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%);
+
+	border-radius: 15px; 
+	border: none; 
+	font-family: Arial, sans-serif; 
+	padding: 4px 13px 3px;
+	color: #444;
+	text-shadow: 0 1px 0 #fff;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #fafafa;
+	cursor: pointer;
+}

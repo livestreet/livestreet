@@ -68,7 +68,7 @@
 /* Search */
 #nav .search { position: absolute; bottom: 25px; right: 20px; }
 #nav .search .text { width: 200px; border: 1px solid #ccc; border-radius: 13px; padding: 4px 13px; color: #777; box-shadow: 0 2px 2px #eee inset; }
-#nav .search .button { width: 18px; height: 18px; position: absolute; top: 4px; right: 7px; border: none; background: url(../images/search.png) no-repeat; cursor: pointer; }
+#nav .search .button { width: 18px; height: 18px; position: absolute; top: 4px; right: 3px; border: none; background: url(../images/search.png) no-repeat; cursor: pointer; }
 
 /* Search */
 #nav .button-publish { float: left; text-decoration: none; background: url(../images/button_publish.gif) no-repeat; color: #333; margin-top: 45px; margin-right: 35px; }
