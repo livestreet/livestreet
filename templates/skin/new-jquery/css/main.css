@@ -12,6 +12,8 @@ h3 { font-size: 18px; }
 a 			{ color: #70AAE0; }
 a:hover 	{ text-decoration: none; }
 
+a.dashed { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
+
 p { margin-bottom: 18px; }
 
 

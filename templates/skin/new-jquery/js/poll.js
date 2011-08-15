@@ -29,7 +29,7 @@ ls.poll = (function ($) {
 		}
 		var newItem = $("#question_list li:first-child").clone();
 		newItem.find('a').remove();
-		newItem.appendTo("#question_list").append($('<a href="#">'+LANG_DELETE+'</a>').click(function(ev){
+		newItem.appendTo("#question_list").append($('<a href="#" class="dashed">'+LANG_DELETE+'</a>').click(function(ev){
 			return this.removeAnswer(ev.target);
 		}.bind(this)));
 		newItem.find('input').val('');

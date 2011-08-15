@@ -4,7 +4,7 @@
 	<div class="block-content">
 		<form action="{router page='talk'}" method="GET" name="talk_filter_form">
 			<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label><br />
-			<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-wide" /><br />
+			<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-wide autocomplete-users" /><br />
 			<span class="note">{$aLang.talk_filter_notice_sender}</span></p>
 
 			<p><label for="talk_filter_keyword">{$aLang.talk_filter_label_keyword}:</label><br />
