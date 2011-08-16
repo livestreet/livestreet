@@ -14,6 +14,6 @@
 
 
 <div class="bottom">
-	<a href="{router page='new'}">{$aLang.block_stream_topics_all}</a>
+	<a href="{router page='new'}">{$aLang.block_stream_topics_all}</a> | <a href="{router page='rss'}new/">RSS</a>
 </div>
 					
