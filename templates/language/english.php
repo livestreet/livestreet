@@ -252,7 +252,7 @@ return array(
 	'topic_link_title_create' => 'Add link',
 	'topic_link_create' => 'Create link-topic',
 	'topic_link_edit' => 'Edit link-topic',
-	'topic_link_count_jump' => 'Go to link:',
+	'topic_link_count_jump' => 'Go to link',
 	'topic_link_create_url' => "Link's URL",
 	'topic_link_create_url_notice' => 'E.g., http://livestreet.ru/blog/dev_livestreet/113.html',
 	'topic_link_create_url_error' => 'Link should consist of 2 upto 200 chars',

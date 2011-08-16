@@ -8,7 +8,11 @@
 		{if $oTopic->getPublish()==0}   
 			<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
 		{/if}
-		<a href="{$oTopic->getUrl()}" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
+		{if $bTopicList}
+			<a href="{$oTopic->getUrl()}" class="title-topic">{$oTopic->getTitle()|escape:'html'}</a>
+		{else}
+			{$oTopic->getTitle()|escape:'html'}
+		{/if}
 	</h1>
 	
 	<a href="#" onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></a>

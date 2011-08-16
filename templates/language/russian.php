@@ -255,7 +255,7 @@ return array(
 	'topic_link_title_create' => 'Добавление ссылки',
 	'topic_link_create' => 'Создание топика-ссылки',
 	'topic_link_edit' => 'Редактирование топика-ссылки',
-	'topic_link_count_jump' => 'переходов по ссылке:',
+	'topic_link_count_jump' => 'переходов по ссылке',
 	'topic_link_create_url' => 'Ссылка',
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html',
 	'topic_link_create_url_error' => 'Ссылка должна быть от 2 до 200 символов',
