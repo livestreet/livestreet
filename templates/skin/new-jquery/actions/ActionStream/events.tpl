@@ -11,6 +11,7 @@
 					{$aLang.stream_list_event_add_topic} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'add_comment'}
 					{$aLang.stream_list_event_add_comment} <a href="{$oTarget->getTarget()->getUrl()}#comment{$oTarget->getId()}">{$oTarget->getTarget()->getTitle()|escape:'html'}</a>
+					<div class="stream-comment-preview">{$oTarget->getTarget()->getText()|strip_tags|truncate:200}</div>
 				{elseif $oStreamEvent->getEventType() == 'add_blog'}
 					{$aLang.stream_list_event_add_blog} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'vote_blog'}
