@@ -39,7 +39,7 @@
 					{/if}
 					&nbsp;
 					{if $oTalk->getCountComment()}
-						{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}+{$oTalkUserAuthor->getCommentCountNew()}{/if}
+						{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}<span class="green">+{$oTalkUserAuthor->getCommentCountNew()}</span>{/if}
 					{/if}
 				</td>
 				<td align="center" class="date">{date_format date=$oTalk->getDate()}</td>
@@ -48,7 +48,7 @@
 		</tbody>
 	</table>
 
-	<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return ($$('.form_talks_checkbox:checked').length==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" />
+	<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return ($('.form_talks_checkbox:checked').length==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" />
 </form>
 
 			
