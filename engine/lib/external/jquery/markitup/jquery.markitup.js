@@ -248,8 +248,11 @@
 					block = openWith + placeHolder + closeWith;
 				} else {
 					string = string || selection;
-
-					var lines = selection.split(/\r?\n/), blocks = [];
+					
+					var lines = [string], blocks = [];
+					if (multiline===true) {
+						lines = string.split(/\r?\n/);
+					}
 					
 					for (var l=0; l < lines.length; l++) {
 						line = lines[l];
