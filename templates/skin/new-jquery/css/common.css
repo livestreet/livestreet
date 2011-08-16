@@ -66,7 +66,7 @@
 
 
 /* Misc */
-.user { padding-left: 12px; background: url(../images/icons.gif) no-repeat 0 -107px; color: #555; }
+.user { padding-left: 12px; background: url(../images/icons.gif) no-repeat 0 -107px; color: #555; text-decoration: none;}
 .user.inactive { color: #888; }
 
 .padding { padding: 10px 20px; }
@@ -95,7 +95,7 @@
 
 .table.table-talk tbody td { color: #999; }
 .table.table-talk td { padding: 5px; }
-.table.table-talk td .username { padding-left: 13px; background: url(../images/icons.gif) 0 -108px no-repeat; margin-right: 5px; }
+.table.table-talk td .username { padding-left: 13px; background: url(../images/icons.gif) 0 -108px no-repeat; margin-right: 5px; text-decoration: none;}
 .table.table-talk td .username.inactive { color: #bbb; }
 .table.table-talk a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; }
 .table.table-talk a.favourite.active { background-position: -50px -40px; }
