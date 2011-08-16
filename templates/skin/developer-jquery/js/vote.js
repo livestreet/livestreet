@@ -76,7 +76,7 @@ ls.vote = (function ($) {
 
 			if (result.iRating > 0) {
 				divVoting.addClass(this.options.classes.positive);
-				divTotal.text(result.iRating);
+				divTotal.text('+'+result.iRating);
 			}
 			if (result.iRating < 0) {
 				divVoting.addClass(this.options.classes.negative);
