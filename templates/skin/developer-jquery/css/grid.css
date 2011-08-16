@@ -80,6 +80,7 @@
 .stream-get-more { display: block; text-align: center; padding: 12px 0; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none; }
 .stream-get-more:hover { background: #f0f7fd; }
 .stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
+.stream-comment-preview { padding: 5px 10px; background: #f3f3f3; margin-top: 5px; }
 
 .stream-list { margin: 0 0 20px; }
 .stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }

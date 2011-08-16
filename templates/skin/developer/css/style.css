@@ -394,6 +394,7 @@ p { margin-bottom: 18px; }
 .stream-get-more {display:block; text-align:center; height:2.5em; padding-top:1em; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none;}
 .stream-get-more:hover { background: #f0f7fd;}
 .stream_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
+.stream-comment-preview { padding: 5px 10px; background: #f3f3f3; margin-top: 5px; }
 
 .stream-header { margin: 0 0 20px; }
 
