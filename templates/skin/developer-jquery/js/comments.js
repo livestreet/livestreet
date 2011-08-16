@@ -298,6 +298,7 @@ ls.comments = (function ($) {
 		this.initEvent();
 		this.calcNewComments();
 		//this.checkFolding();
+		this.toggleCommentForm(this.iCurrentShowFormComment);
 		
 		if (typeof(this.options.wysiwyg)!='number') {
 			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);
