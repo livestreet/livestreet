@@ -1,5 +1,5 @@
 {assign var="noSidebar" value=true}
-{include file='header.tpl'}
+{include file='header.light.tpl'}
 
 
 <div class="center">
@@ -14,4 +14,4 @@
 </div>
 
 
-{include file='footer.tpl'}
+{include file='footer.light.tpl'}

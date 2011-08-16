@@ -40,7 +40,7 @@
 
 /* Switcher */
 .switcher { overflow: hidden; zoom: 1; margin-bottom: 15px; font-size: 11px; padding-bottom: 3px; }
-.switcher li { float: left; padding: 1px 7px 1px; color: #A2A2A2; background: #fff; position: relative; line-height: 14px; cursor: pointer; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.switcher li { float: left; padding: 1px 7px 1px; color: #A2A2A2; background: #fff; position: relative; line-height: 15px; cursor: pointer; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
 .switcher li a { color: #A2A2A2; text-decoration: none; }
 .switcher li:first-child { -moz-border-radius-topleft: 5px; -moz-border-radius-bottomleft: 5px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-left: 1px solid #ddd; }
 .switcher li:last-child { -moz-border-radius-topright: 5px; -moz-border-radius-bottomright: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-right: 1px solid #ddd; }
@@ -74,7 +74,10 @@
 .tags-search { position: relative; left: -20px; margin-bottom: 20px; }
 .tags-input { width: 400px; font-size: 18px; padding: 4px 4px 6px; border: 1px solid #ccc; color: #555; background: #fafafa; }
 
-.center { width: 300px; margin: 0 auto; }
+.center { width: 400px; margin: 0 auto; }
+.center .input-text { border: 1px solid #ccc; width: 386px; padding: 4px 6px; font-size: 18px; font-family: Arial, sans-serif; }
+.center h2 { color: #888; }
+.center .button-login { float: right; }
 
 .join { width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat 0 -250px; cursor: pointer; }
 .join.active { background-position: -10px -250px; }

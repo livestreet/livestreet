@@ -1,5 +1,5 @@
 {assign var="noSidebar" value=true}
-{include file='header.tpl'}
+{include file='header.light.tpl'}
 
 
 <div class="center">
@@ -9,9 +9,9 @@
 		<p><label for="mail">{$aLang.password_reminder_email}<br />
 		<input type="text" name="mail" id="name" class="input-200" /></label></p>	
 
-		<input type="submit" name="submit_reminder" value="{$aLang.password_reminder_submit}" />
+		<input type="submit" name="submit_reminder" class="button" value="{$aLang.password_reminder_submit}" />
 	</form>
 </div>
 
 
-{include file='footer.tpl'}
+{include file='footer.light.tpl'}

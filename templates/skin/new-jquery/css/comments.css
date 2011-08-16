@@ -44,12 +44,12 @@
 .comment .voting.negative .total { color: #f00; }
 
 /* Comment Highlights */
-.comment 					.content	{ background: #f7f7f7; }
-.comment.deleted 			.content	{ background: #c5c5c5; }
-.comment.deleted.not-admin 	.content 	{ padding: 5px 10px; min-height: 0; background: #f7f7f7; color: #888; }
-.comment.self 				.content	{ background: #fdf5e6; }
-.comment.new 				.content	{ background: #e4fbf1; }
-.comment.current 			.content	{ background: #cdf5a6; }
+.comment .content, 						.comment .content:before					{ background-color: #f7f7f7; }
+.comment.deleted .content, 				.comment.deleted .content:before 			{ background-color: #c5c5c5; }
+.comment.deleted.not-admin .content, 	.comment.deleted.not-admin .content:before 	{ padding: 5px 10px; min-height: 0; background-color: #f7f7f7; color: #888; }
+.comment.self .content, 				.comment.self .content:before 				{ background-color: #fdf5e6; }
+.comment.new .content, 					.comment.new .content:before 				{ background-color: #e4fbf1; }
+.comment.current .content, 				.comment.current .content:before 			{ background-color: #cdf5a6; }
 
 /* Info Block */
 .comment .info { overflow: hidden; zoom: 1; font-size: 10px; line-height: 14px; margin-bottom: 5px; position: relative; padding: 12px 0 0 31px; }
@@ -65,7 +65,8 @@
 .comment .info li a {  }
 
 /* Content */
-.comment .content { color: #000; margin: 0 30px 10px 0; border: 1px solid #DDDEDE; background: #f7f7f7; border-radius: 7px; padding: 8px 30px 9px 10px; }
+.comment .content { color: #000; margin: 0 30px 10px 0; border: 1px solid #DDDEDE; background: #f7f7f7; border-radius: 7px; padding: 8px 30px 9px 10px; position: relative; }
+.comment .content:before { content: ""; position: absolute; bottom: -9px; left: 10px; width: 7px; height: 9px; background: #F7F7F7 url(../images/comment_arrow.png) 0 0 no-repeat; }
 .comment pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
 .comment blockquote {font-style: italic; padding: 5px 10px; background: #ffffff; border: 1px solid #ddd;}
 

@@ -2,6 +2,7 @@
 -------------------- */
 #container 	{ margin: 0 auto 20px; max-width: 1600px; min-width: 960px; }
 #header 	{ min-width: 960px; height: 80px; margin: 0 auto; max-width: 1570px; position: relative; overflow: hidden; zoom: 1; padding: 0 15px; background: #222; }
+#header-light { text-align: center; padding: 20px 0; background: #fff; width: 400px; margin: 20px auto 40px; border-radius: 5px; }
 #wrapper 	{ overflow: hidden; zoom: 1; padding: 0 20px 20px; }
 #wrapper.show-update-button { padding-right: 55px; }
 #wrapper.white-back { background: #fff; margin: 0 20px 30px 20px;}
@@ -40,10 +41,16 @@
 #header .auth .login-link { font-size: 18px; }
 
 
+/* Header Light
+-------------------- */
+#header-light .logo { font-size: 28px; text-decoration: none; color: #777; }
+#header-light .logo:hover { color: #555; }
+
+
 
 /* Navigation
 -------------------- */
-#nav { margin: 0 auto 15px; max-width: 1600px; min-width: 960px; background: url(../images/nav.png) no-repeat; position: relative; }
+#nav { margin: 0 auto 15px; max-width: 1600px; min-width: 960px; background: url(../images/nav.png) no-repeat; position: relative; zoom: 1; }
 #nav-inner { height: 92px; padding: 0 0 0 0; margin-left: 20px; background: url(../images/nav.png) 100% 0 no-repeat; overflow: hidden; zoom: 1; }
 
 /* Menu */

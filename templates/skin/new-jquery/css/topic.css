@@ -11,7 +11,7 @@
 .topic .content h5 { font-size: 20px; line-height: 1.3em; margin-bottom: 10px; }
 .topic .content h6 { font-size: 18px; line-height: 1.3em; margin-bottom: 10px; }
 .topic .content blockquote { background: #fafafa; padding: 10px 15px; color: #555; margin-bottom: 5px; clear: both; }
-.topic .content pre, .comment .content pre { background: url(../images/code.gif); border: 1px solid #dce6f0; overflow: auto; padding: 5px 10px; margin-right: 10px;}
+.topic .content pre, .comment .content pre { overflow: auto; width: 95%; padding: 5px 2%; margin-bottom: 10px; background: #f8f8f8 url(../images/code.gif); border: 1px solid #dce6f0; clear: both; }
 .topic .content ul { list-style-type: disc; margin-left: 17px; }
 .topic .content ol { list-style-type: decimal; margin-left: 22px; }
 .topic .content img[align="right"] { margin: 4px 0 5px 15px; }

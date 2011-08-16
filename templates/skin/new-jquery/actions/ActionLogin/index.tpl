@@ -1,5 +1,5 @@
 {assign var="noSidebar" value=true}
-{include file='header.tpl'}
+{include file='header.light.tpl'}
 
 
 <div class="center">
@@ -12,16 +12,17 @@
 
 		{hook run='form_login_begin'}
 
+		<p><label>{$aLang.user_login}<br /><input type="text" name="login" class="input-text" /></label></p>
+		<p><label>{$aLang.user_password}<br /><input type="password" name="password" class="input-text" /></label></p>
+		
+		<input type="submit" name="submit_login" class="button button-login" value="{$aLang.user_login_submit}" />
+		<label><input type="checkbox" name="remember" checked class="checkbox" />{$aLang.user_login_remember}</label>
+		
+		<br /><br />
 		<p><a href="{router page='registration'}">{$aLang.user_registration}</a><br />
 		<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a></p>
 
-		<p><label>{$aLang.user_login}<br /><input type="text" name="login" class="input-200" /></label></p>
-		<p><label>{$aLang.user_password}<br /><input type="password" name="password" class="input-200" /></label></p>
-		<p><label><input type="checkbox" name="remember" checked class="checkbox" />{$aLang.user_login_remember}</label></p>
-
 		{hook run='form_login_end'}
-
-		<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" />
 	</form>
 
 
@@ -38,4 +39,4 @@
 </div>
 
 
-{include file='footer.tpl'}
+{include file='footer.light.tpl'}
