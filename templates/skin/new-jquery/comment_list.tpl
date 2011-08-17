@@ -29,7 +29,7 @@
 				<li class="avatar"><a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a></li>
 				<li class="username"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 				<li class="date">{date_format date=$oComment->getDate()}</li>
-				<li><a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="comment-link"></a></li>
+				<li><a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" class="comment-link"></a></li>
 			</ul>	
 		</div>
 	{/foreach}	
