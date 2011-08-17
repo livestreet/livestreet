@@ -8,7 +8,7 @@
 				<li {if $sMenuItemSelect=='link'}class="active"{/if}><a href="{router page='link'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_link}</a></li>
                 <li {if $sMenuItemSelect=='photoset'}class="active"{/if}><a href="{router page='photoset'}{$sMenuSubItemSelect}/">{$aLang.topic_menu_add_photoset}</a></li>
 				{hook run='menu_topic_action_add_item'}
-				<li ><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
+				<li {if $sMenuItemSelect=='add_blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
 			</ul>
 		{/if}
 	</li>
