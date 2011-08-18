@@ -292,7 +292,7 @@ abstract class EntityORM extends Entity {
 	public function __call($sName,$aArgs) {
         $sType=substr($sName,0,strpos(func_underscore($sName),'_'));
 		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {
-			$sKey=func_underscore(str_replace($sType,'',$sName));
+			$sKey=func_underscore(preg_replace('/'.$sType.'/','',$sName, 1));
 			if ($sType=='get') {
 				if (isset($this->_aData[$sKey])) {
 					return $this->_aData[$sKey];
