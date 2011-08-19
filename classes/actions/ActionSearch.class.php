@@ -47,16 +47,23 @@ class ActionSearch extends Action {
 			 */
 			$aTopics = $this->Topic_GetTopicsAdditionalData(array_keys($this->aSphinxRes['matches']));			
 			/**
+			 * Конфигурируем парсер jevix
+			 */
+			$this->Text_LoadJevixConfig('search');			
+			/**
 			 *  Делаем сниппеты 
 			 */
 			foreach($aTopics AS $oTopic){
-				$oTopic->setTextShort($this->Sphinx_GetSnippet(
+				/**
+				 * т.к. текст в сниппетах небольшой, то можно прогнать через парсер
+				 */
+				$oTopic->setTextShort($this->Text_JevixParser($this->Sphinx_GetSnippet(
 					$oTopic->getText(), 
 					'topics', 
 					$aReq['q'], 
 					'<span class="searched-item">', 
 					'</span>'
-				));
+				)));
 			}						
 			/**
 			 *  Отправляем данные в шаблон 
@@ -89,17 +96,21 @@ class ActionSearch extends Action {
 			 *  Получаем топик-объекты по списку идентификаторов
 			 */		
 			$aComments = $this->Comment_GetCommentsAdditionalData(array_keys($this->aSphinxRes['matches']));			
+			/**
+			 * Конфигурируем парсер jevix
+			 */
+			$this->Text_LoadJevixConfig('search');
 			/** 
 			 * Делаем сниппеты 
 			 */
 			foreach($aComments AS $oComment){
-				$oComment->setText($this->Sphinx_GetSnippet(
+				$oComment->setText($this->Text_JevixParser($this->Sphinx_GetSnippet(
 					htmlspecialchars($oComment->getText()), 
 					'comments', 
 					$aReq['q'], 
 					'<span class="searched-item">', 
 					'</span>'
-				));
+				)));
 			}			
 			/**
 			 *  Отправляем данные в шаблон 

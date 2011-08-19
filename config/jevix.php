@@ -150,4 +150,22 @@ return array(
 		),
 		
 	),
+	
+	// настройки для обработки текста в результатах поиска
+	'search' => array(
+		// Разрешённые теги
+		'cfgAllowTags' => array(
+			// вызов метода с параметрами
+			array(
+				array('span'),
+			),			
+		),
+		// Разрешённые параметры тегов
+		'cfgAllowTagParams' => array(
+			array(
+				'span',
+				array('class' => '#text')
+			),			
+		),
+	),
 );
