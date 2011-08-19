@@ -60,6 +60,22 @@ abstract class Entity extends Object {
 	}
 	
 	/**
+	 * Рекурсивное преобразование объекта и вложенных объектов в массив
+	 */
+	public function _getDataArray()
+	{
+		$aResult = array();
+		foreach ($this->_aData as $sKey => $sValue) {
+			if (is_object($sValue) && $sValue instanceOf Entity) {
+				$aResult[$sKey] = $sValue->_getDataArray();
+			} else {
+				$aResult[$sKey] = $sValue;
+			}
+		}
+		return $aResult;
+	}
+	
+	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
 	 * @param string $sName
