@@ -784,6 +784,11 @@ function parse($string) {
             }
             if (!($this->str_char == ')' && in_array($string{$i}, $GLOBALS['csstidy']['whitespace']) && !$this->str_in_str)) {
                 $this->cur_string .= $temp_add;
+            } else {
+            	// path http://www.pixelastic.com/blog/188:css3-gradients-with-csstidy
+            	if ($this->sub_value=="-webkit-gradient" || $this->sub_value=="-moz-linear-gradient") {
+            		$this->cur_string.=' ';
+            	}
             }
             if($string{$i} == $this->str_char && !csstidy::escaped($string,$i) && !$this->str_in_str)
             {
