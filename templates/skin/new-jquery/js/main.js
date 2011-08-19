@@ -320,6 +320,7 @@ ls = (function ($) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
 				$.markItUp({ replaceWith: data.sText} );
+				$('#form_upload_img').find('input[type="text"], input[type="file"]').val('');
 				$('#form_upload_img').jqmHide();
 			}
 		});
