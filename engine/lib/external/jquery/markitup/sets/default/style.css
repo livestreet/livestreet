@@ -16,6 +16,7 @@
 .markItUp .editor-li a 			{ background-image:url(images/li.png); }
 
 .markItUp .editor-picture a 	{ background-image:url(images/picture.png); }
+.markItUp .editor-image a 		{ background-image:url(images/image.png); }
 .markItUp .editor-link a 		{ background-image:url(images/link.png); }
 
 .markItUp .editor-clean a 		{ background-image:url(images/clean.png); }
