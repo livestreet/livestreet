@@ -5,7 +5,7 @@
 					<h1>{$aLang.block_city_tags}</h1>					
 					<ul class="cloud">
 						{foreach from=$aCityList item=aCity}
-							<li><a class="w{$aCity.size}" rel="tag" href="{router page='people'}city/{$aCity.name|escape:'html'}/" >{$aCity.name|escape:'html'}</a></li>	
+							<li><a class="w{$aCity.size}" rel="tag" href="{router page='people'}city/{$aCity.name|escape:'url'}/" >{$aCity.name|escape:'html'}</a></li>	
 						{/foreach}					
 					</ul>									
 				</div></div>
