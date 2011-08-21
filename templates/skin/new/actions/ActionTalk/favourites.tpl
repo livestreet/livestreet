@@ -3,6 +3,7 @@
 
 			<div class="topic people top-blogs talk-table">
 				<h1>{$aLang.talk_favourite_inbox}</h1>
+				{if $aTalks}
 				<table>
 					<thead>
 						<tr>
@@ -47,6 +48,9 @@
 					{/foreach}
 					</tbody>
 				</table>
+				{else}
+					{$aLang.talk_favourite_empty}
+				{/if}
 			</div>
 {include file='paging.tpl' aPaging=$aPaging}
 {include file='footer.tpl'}

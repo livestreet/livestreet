@@ -50,7 +50,7 @@
 	
 	
 	<ul class="pages">
-		<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.clean_posts}</a></li>
+		<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}">{$aLang.topic_title}</a></li>
 		<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
 		<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
 		{if $oUserCurrent}

@@ -30,6 +30,7 @@ return array(
 	'blogs_owner' => 'Смотритель',
 	'blogs_personal_title' => 'Блог им.',
 	'blogs_personal_description' => 'Это ваш персональный блог.',
+	'blog_closed' => 'Закрытый блог',
 
 	'blog_no_topic' => 'Сюда еще никто не успел написать',
 	'blog_rss' => 'RSS лента',
@@ -72,6 +73,7 @@ return array(
 	'blog_join_error_self' => 'Зачем вы хотите вступить в этот блог? Вы и так его хозяин!',
 	'blog_leave' => 'покинуть блог',
 	'blog_leave_ok' => 'Вы покинули блог',
+	'blog_join_leave' => 'Вступить/Покинуть',
 	/**
 	 * Меню блогов
 	 */
@@ -179,7 +181,7 @@ return array(
 	'topic_user' => 'авторский текст',
 	'topic_time_limit' => 'Вам нельзя создавать топики слишком часто',
 	'topic_comment_read' => 'читать комментарии',
-	'topic_comment_add' => 'комментировать',
+	'topic_comment_add' => 'Оставить комментарий',
 	'topic_comment_add_title' => 'написать комментарий',
 	'topic_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов и не содержать разного рода каку',
 	'topic_comment_acl' => 'Ваш рейтинг слишком мал для написания комментариев',
@@ -193,9 +195,7 @@ return array(
 	'topic_favourite_add_already' => 'Этот топик уже есть в вашем избранном',
 	'topic_favourite_del' => 'удалить из избранного',
 	'topic_favourite_del_ok' => 'Топик удален из избранного',
-    
-         'error_favorite_topic_is_draft' => 'Топик из черновиков нельзя добавить в избранное',
-
+	'error_favorite_topic_is_draft' => 'Топик из черновиков нельзя добавить в избранное',
 	'block_stream_comments_all' => 'Весь эфир',
 	'block_stream_topics_all' => 'Весь эфир',
 	'comments_all' => 'Прямой эфир',
@@ -280,6 +280,8 @@ return array(
 	'topic_question_create_title_notice' => 'Вопрос должен быть наполнен смыслом, чтобы можно было понять, о чем будет опрос.',
 	'topic_question_create_title_error' => 'Вопрос должен быть от 2 до 200 символов',
 	'topic_question_create_answers' => 'Варианты ответов',
+	'topic_question_create_answers_add' => 'Добавить вариант',
+	'topic_question_create_answers_delete' => 'Удалить',
 	'topic_question_create_answers_error' => 'Ответ должен быть от 1 до 100 символов',
 	'topic_question_create_answers_error_min' => 'Вариантов ответа должно быть как минимум два',
 	'topic_question_create_answers_error_max' => 'Максимально возможное число вариантов ответа 20',
@@ -726,6 +728,7 @@ return array(
 	'talk_favourite_add_already' => 'Это письмо уже есть в вашем избранном',
 	'talk_favourite_del' => 'удалить из избранного',
 	'talk_favourite_del_ok' => 'Письмо удалено из избранного',
+	'talk_favourite_empty' => 'Нет писем в избранном',
 
 	'talk_filter_title' => 'Фильтровать',
 	'talk_filter_erase' => 'Сбросить фильтр',
@@ -888,6 +891,11 @@ return array(
 	'notify_subject_reminder_code' => 'Восстановление пароля',
 	'notify_subject_reminder_password' => 'Новый пароль',
 
+	/**
+	 * Админка
+	 */
+	'admin_title' => 'Админка',
+	
 	/**
 	 * Страница администрирования плагинов
 	 */

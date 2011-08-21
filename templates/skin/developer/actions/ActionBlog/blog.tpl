@@ -16,7 +16,7 @@
 	<ul class="actions">
 		<li><a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">Rss</a></li>
 		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
-			<li><a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.clean_leave}{else}{$aLang.clean_join}{/if}</a></li>
+			<li><a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</a></li>
 		{/if}
 		{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
 			<li>

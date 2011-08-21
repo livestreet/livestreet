@@ -53,7 +53,7 @@
 {else}
 	{if $oUserCurrent}
 		<div class="reply-area">
-			<h4 class="reply-header" id="add_comment_root"><a href="#" onclick="ls.comments.toggleCommentForm(0); return false;">{$aLang.comment_leave}</a></h4>
+			<h4 class="reply-header" id="add_comment_root"><a href="#" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a></h4>
 			
 			<div id="reply_0" class="reply">
 				{if $oConfig->GetValue('view.tinymce')}

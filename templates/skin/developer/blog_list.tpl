@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<td>{$aLang.blogs_title}</td>
-			{if $oUserCurrent}<td align="center">{$aLang.clean_join_leave}</td>{/if}
+			{if $oUserCurrent}<td align="center">{$aLang.blog_join_leave}</td>{/if}
 			<td align="center">{$aLang.blogs_readers}</td>														
 			<td align="center">{$aLang.blogs_rating}</td>
 		</tr>
@@ -14,13 +14,13 @@
 			<tr>
 				<td>
 					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>
-					{if $oBlog->getType()=='close'}<img src="{cfg name='path.static.skin'}/images/lock.png" alt="[x]" title="{$aLang.clean_blog_closed}" />{/if}
+					{if $oBlog->getType()=='close'}<img src="{cfg name='path.static.skin'}/images/lock.png" alt="[x]" title="{$aLang.blog_closed}" />{/if}
 				</td>
 				{if $oUserCurrent}
 					<td align="center">
 						{if $oUserCurrent->getId()!=$oBlog->getOwnerId() and $oBlog->getType()=='open'}
 							<a href="#" onclick="ajaxJoinLeaveBlog(this,{$oBlog->getId()}); return false;">
-								{if $oBlog->getUserIsJoin()}{$aLang.clean_leave}{else}{$aLang.clean_join}{/if}
+								{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}
 							</a>
 						{/if}
 					</td>
