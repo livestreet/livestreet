@@ -84,7 +84,6 @@ ls.comments = (function ($) {
 		}
 		$('#form_comment').appendTo("#reply_"+idComment);
 		$('#form_comment_text').val('');
-		if (!bNoFocus) $('#form_comment_text').focus();
 		$('#form_comment_reply').val(idComment);
 		$('.reply').hide();
 		$('#reply_'+idComment).css('display','block');
@@ -92,6 +91,7 @@ ls.comments = (function ($) {
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		}
+		if (!bNoFocus) $('#form_comment_text').focus();
 	}
 
 
