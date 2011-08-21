@@ -165,5 +165,12 @@ ls.photoset =( function ($) {
 		}
 		$('#photoset-upload-form').show();
 	}
+	
+	this.showMainPhoto = function(id) {
+		$('#photoset-main-preview-'+id).css('width',$('#photoset-main-image-'+id).outerWidth());
+		$('#photoset-photo-count-'+id).show();
+		$('#photoset-photo-desc-'+id).show();
+	}
+	
 	return this;
 }).call(ls.photoset || {},jQuery);

@@ -2,6 +2,12 @@
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()} 
 
+<script language="JavaScript" type="text/javascript">
+window.addEvent('load', function() {	
+	photosetShowMainPhoto({$oTopic->getId()});
+});
+</script>
+
 <div class="topic photo">
 	<div class="favorite {if $oUserCurrent}{if $oTopic->getIsFavourite()}active{/if}{else}fav-guest{/if}"><a href="#" onclick="lsFavourite.toggle({$oTopic->getId()},this,'topic'); return false;"></a></div>
 	
@@ -30,13 +36,13 @@
 	
 	{assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
 	<!-- Topic Photo Preview -->
-	<div class="topic-photo-preview" style="width: 500px">
+	<div class="topic-photo-preview" id="photoset-main-preview-{$oTopic->getId()}">
         {assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
-		<div class="topic-photo-count" onclick="window.location='{$oTopic->getUrl()}#photoset'">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
+		<div class="topic-photo-count" onclick="window.location='{$oTopic->getUrl()}#photoset'" id="photoset-photo-count-{$oTopic->getId()}">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
 		{if $oMainPhoto->getDescription()}
-			<div class="topic-photo-desc">{$oMainPhoto->getDescription()}</div>
+			<div class="topic-photo-desc" id="photoset-photo-desc-{$oTopic->getId()}">{$oMainPhoto->getDescription()}</div>
 		{/if}
-		<img src="{$oMainPhoto->getWebPath(500)}" alt="image" />
+		<img src="{$oMainPhoto->getWebPath(500)}" alt="image" id="photoset-main-image-{$oTopic->getId()}" />
 	</div>
 	<!-- /Topic Photo Preview -->
 	

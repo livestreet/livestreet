@@ -454,3 +454,14 @@ function photosetShowUploadForm()
     $('photoset-upload-form').position({relativeTo: $('photoset-start-upload'), position: 'bottomLeft', offset: {x: -15, y:-27}});
     $('photoset-upload-form').setStyle('display','block');
 }
+
+function photosetShowMainPhoto(id)
+{
+	$('photoset-main-preview-'+id).setStyle('width',$('photoset-main-image-'+id).getSize().x);
+	if ($('photoset-photo-count-'+id)) {
+		$('photoset-photo-count-'+id).show();
+	}
+	if ($('photoset-photo-desc-'+id)) {
+		$('photoset-photo-desc-'+id).show();
+	}
+}

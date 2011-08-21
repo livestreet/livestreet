@@ -68,8 +68,8 @@
 .topic.photo {  }
 .topic.photo .topic-photo-preview { position: relative; margin-bottom: 15px; cursor: pointer; }
 .topic.photo .topic-photo-preview img { vertical-align: top; }
-.topic.photo .topic-photo-preview .topic-photo-count { cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
-.topic.photo .topic-photo-preview .topic-photo-desc { width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
+.topic.photo .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
+.topic.photo .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
 
 .topic.photo .topic-photo-images { padding-top: 10px; margin-bottom: 15px; }
 .topic.photo .topic-photo-images h2 { border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 15px; }
