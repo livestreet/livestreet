@@ -1,8 +1,21 @@
 .block { padding: 15px 20px; background: #fff; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 7px; box-shadow: 0 0 5px #eee; }
 .block h2 { font-size: 20px; font-family: Tahoma, sans-serif; }
+.block.nostyle { padding: 20px 25px; background: none; margin: 0px; border: none; box-shadow: none;}
 
 .block .bottom { padding-top: 5px; font-size: 11px; text-align: right; }
 .block .bottom a {  }
+
+/* Contacts */
+.block.contacts img { padding: 7px; border: 1px solid #ccc; }
+.block.contacts ul { margin-top: 5px; }
+.block.contacts ul li { padding: 3px 0 3px 25px; }
+.block.contacts ul li.icq { background: url(../images/icons-contacts.gif) no-repeat scroll 0px 2px; }
+.block.contacts ul li.jabber { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -23px; }
+.block.contacts ul li.skype { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -47px; margin-bottom: 10px; }
+.block.contacts ul li.lj { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -73px; }
+.block.contacts ul li.vk { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -99px; margin-bottom: 10px; }
+.block.contacts ul li.email { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -122px; }
+.block.contacts ul li.phone { background: url(../images/icons-contacts.gif) no-repeat scroll 0px -145px; }
 
 /* Stream */
 .block.stream ul.list { border-top: 1px solid #eee; font-size: 11px; line-height: 16px; color: #999; }

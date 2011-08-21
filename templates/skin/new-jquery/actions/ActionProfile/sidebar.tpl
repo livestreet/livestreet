@@ -10,12 +10,12 @@
 {/if}
 
 
-<div class="block">
+<div class="block contacts nostyle">
 	{if $oUserProfile->getProfileIcq()}
 		<h2>{$aLang.profile_social_contacts}</h2>
 		<ul>
 			{if $oUserProfile->getProfileIcq()}
-				<li>ICQ: <a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
+				<li class="icq"><a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
 			{/if}					
 		</ul>
 	{/if}
