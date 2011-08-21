@@ -241,15 +241,15 @@
 					case 'image':
 						imgPreloader = new Image();
 
-						// Preload the neighbour images
-						nextImage = new Image();
-						if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
-						prevImage = new Image();
-						if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
-
 						$pp_pic_holder.find('#pp_full_res')[0].innerHTML = settings.image_markup.replace(/{path}/g,pp_images[set_position]);
 
 						imgPreloader.onload = function(){
+							// Preload the neighbour images
+							nextImage = new Image();
+							if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
+							prevImage = new Image();
+							if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
+
 							// Fit item to viewport
 							pp_dimensions = _fitToViewport(imgPreloader.width,imgPreloader.height);
 
