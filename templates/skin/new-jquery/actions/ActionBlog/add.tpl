@@ -72,11 +72,18 @@
 	<span class="note">{$aLang.blog_create_url_notice}</span></p>
 
 	<p><label for="blog_type">{$aLang.blog_create_type}:</label><br />
-	<select name="blog_type" id="blog_type" class="input-200">
+	<select name="blog_type" id="blog_type" class="input-200" onChange="ls.blog.loadInfoType(jQuery(this).val());">
 		<option value="open" {if $_aRequest.blog_type=='open'}selected{/if}>{$aLang.blog_create_type_open}</option>
 		<option value="close" {if $_aRequest.blog_type=='close'}selected{/if}>{$aLang.blog_create_type_close}</option>
 	</select><br />
-	<span class="note">{$aLang.blog_create_type_open_notice}</span></p>
+	<span class="note" id="blog_type_note">{$aLang.blog_create_type_open_notice}</span>
+	<span id="blog_type_note_open" style="display:none;">{$aLang.blog_create_type_open_notice}</span>
+	<span id="blog_type_note_close" style="display:none;">{$aLang.blog_create_type_close_notice}</span></p>
+	<script type="text/javascript">
+	jQuery(document).ready(function($){
+		ls.blog.loadInfoType($('#blog_type').val());
+	});
+	</script>
 
 	<p><label for="blog_description">{$aLang.blog_create_description}:</label><br />
 	<textarea name="blog_description" id="blog_description" rows="20" class="input-wide">{$_aRequest.blog_description}</textarea><br />

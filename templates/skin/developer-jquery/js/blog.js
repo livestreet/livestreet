@@ -80,5 +80,12 @@ ls.blog = (function ($) {
 		});
 	}
 	
+	/**
+	* Отображение информации о типе блога
+	*/
+	this.loadInfoType = function(type) {
+		$('#blog_type_note').text($('#blog_type_note_'+type).text());
+	}
+	
 	return this;
 }).call(ls.blog || {},jQuery);
