@@ -676,7 +676,7 @@ class ActionPhotoset extends Action {
 		}
 				
 
-		if (!func_check(getRequest('topic_text',null,'post'),'text',0,500)) {
+		if (!func_check(getRequest('topic_text',null,'post'),'text',0,Config::Get('module.topic.max_length'))) {
 			$this->Message_AddError($this->Lang_Get('topic_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
