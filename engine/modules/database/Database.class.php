@@ -188,7 +188,7 @@ class ModuleDatabase extends Module {
 	 */
 	public function isFieldExists($sTableName,$sFieldName,$aConfig=null) {
 		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
-		$sQuery="SHOW FIELDS FROM '{$sTableName}'";
+		$sQuery="SHOW FIELDS FROM `{$sTableName}`";
 		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
 			foreach ($aRows as $aRow){
 				if ($aRow['Field'] == $sFieldName){
