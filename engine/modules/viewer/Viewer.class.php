@@ -404,7 +404,7 @@ class ModuleViewer extends Module {
 	 *
 	 * @param unknown_type $sResponseAjax
 	 */
-	public function SetResponseAjax($sResponseAjax='jsHttpRequest',$bResponseSpecificHeader=true) {
+	public function SetResponseAjax($sResponseAjax='jsHttpRequest',$bResponseSpecificHeader=true, $bValidate=true) {
 		/**
 		 * Проверка на безопасную обработку ajax запроса
 		 */
@@ -415,7 +415,7 @@ class ModuleViewer extends Module {
 			}
 		}
 		// Для возможности кросс-доменных запросов
-		if ($sResponseAjax!='jsonp') {
+		if ($sResponseAjax!='jsonp' && $bValidate) {
 			$this->Security_ValidateSendForm();
 		}
 		$this->sResponseAjax=$sResponseAjax;
