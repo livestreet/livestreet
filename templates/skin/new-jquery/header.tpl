@@ -66,7 +66,7 @@
 	{include file='nav.tpl'}
 
 	<div id="container">
-		<div id="wrapper" class="{if $showUpdateButton}show-update-button{/if} {if $showWhiteBack}white-back{/if}">
+		<div id="wrapper" class="{if $oUserCurrent and $showUpdateButton}show-update-button{/if} {if $showWhiteBack}white-back{/if}">
 			<div id="content" {if $noSidebar}style="width: 100%"{/if}>
 				<div id="content-inner">
 					{include file='window_login.tpl'}
