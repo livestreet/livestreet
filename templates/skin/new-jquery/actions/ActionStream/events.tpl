@@ -3,7 +3,7 @@
 			{assign var=oTarget value=$oStreamEvent->getTarget()}
 			<li class="stream-item-type-{$oStreamEvent->getEventType()}">
 				<a href="{$oStreamEvent->getUser()->getUserWebPath()}"><img src="{$oStreamEvent->getUser()->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
-				<span class="date">{date_format date=$oStreamEvent->getDateAdded()}</span> 
+				<span class="date" title="{date_format date=$oStreamEvent->getDateAdded()}">{date_format date=$oStreamEvent->getDateAdded() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</span> 
 
 				<a href="{$oStreamEvent->getUser()->getUserWebPath()}"><strong>{$oStreamEvent->getUser()->getLogin()}</strong></a>
 			
