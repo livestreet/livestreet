@@ -13,9 +13,9 @@
 					{$aLang.stream_list_event_add_comment} <a href="{$oTarget->getTarget()->getUrl()}#comment{$oTarget->getId()}">{$oTarget->getTarget()->getTitle()|escape:'html'}</a>
 					<div class="stream-comment-preview">{$oTarget->getText()|strip_tags|truncate:200}</div>
 				{elseif $oStreamEvent->getEventType() == 'add_blog'}
-					{$aLang.stream_list_event_add_blog} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
+					{$aLang.stream_list_event_add_blog} <a href="{$oTarget->getUrlFull()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'vote_blog'}
-					{$aLang.stream_list_event_vote_blog} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
+					{$aLang.stream_list_event_vote_blog} <a href="{$oTarget->getUrlFull()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'vote_topic'}
 					{$aLang.stream_list_event_vote_topic} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'vote_comment'}
@@ -23,7 +23,7 @@
 				{elseif $oStreamEvent->getEventType() == 'vote_user'}
 					{$aLang.stream_list_event_vote_user} <a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
 				{elseif $oStreamEvent->getEventType() == 'join_blog'}
-					{$aLang.stream_list_event_join_blog} <a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
+					{$aLang.stream_list_event_join_blog} <a href="{$oTarget->getUrlFull()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'add_friend'}
 					{$aLang.stream_list_event_add_friend} <a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
 				{else}
