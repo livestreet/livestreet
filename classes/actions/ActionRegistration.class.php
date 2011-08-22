@@ -79,6 +79,14 @@ class ActionRegistration extends Action {
 			if (!$this->User_CheckLogin(getRequest('login'))) {
 				$this->Message_AddError($this->Lang_Get('registration_login_error'),$this->Lang_Get('error'));
 				$bError=true;
+			} else {
+				/**
+				 * А не занят ли логин?
+				 */
+				if ($this->User_GetUserByLogin(getRequest('login'))) {
+					$this->Message_AddError($this->Lang_Get('registration_login_error_used'),$this->Lang_Get('error'));
+					$bError=true;
+				}
 			}
 			/**
 			 * Проверка мыла
@@ -86,6 +94,14 @@ class ActionRegistration extends Action {
 			if (!func_check(getRequest('mail'),'mail')) {
 				$this->Message_AddError($this->Lang_Get('registration_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
+			} else {
+				/**
+				 * А не занято ли мыло?
+				 */
+				if ($this->User_GetUserByMail(getRequest('mail'))) {
+					$this->Message_AddError($this->Lang_Get('registration_mail_error_used'),$this->Lang_Get('error'));
+					$bError=true;
+				}
 			}
 			/**
 			 * Проверка пароля
@@ -104,20 +120,7 @@ class ActionRegistration extends Action {
 				$this->Message_AddError($this->Lang_Get('registration_captcha_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
-			/**
-			 * А не занят ли логин?
-			 */
-			if ($this->User_GetUserByLogin(getRequest('login'))) {
-				$this->Message_AddError($this->Lang_Get('registration_login_error_used'),$this->Lang_Get('error'));
-				$bError=true;
-			}
-			/**
-			 * А не занято ли мыло?
-			 */
-			if ($this->User_GetUserByMail(getRequest('mail'))) {
-				$this->Message_AddError($this->Lang_Get('registration_mail_error_used'),$this->Lang_Get('error'));
-				$bError=true;
-			}
+									
 			/**
 			 * Если всё то пробуем зарегить
 			 */
