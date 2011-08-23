@@ -57,3 +57,5 @@ ALTER TABLE `prefix_topic` CHANGE topic_type topic_type ENUM('topic','link','que
 ALTER TABLE `prefix_stream_event` CHANGE event_type event_type varchar(100) not null;
 
 ALTER TABLE `prefix_stream_event` CHANGE `initiator` `user_id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `prefix_topic_photo` CHANGE `topic_id` `topic_id` INT( 11 ) DEFAULT NULL;
