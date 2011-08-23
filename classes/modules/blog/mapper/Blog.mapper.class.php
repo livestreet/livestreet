@@ -63,20 +63,35 @@ class ModuleBlog_MapperBlog extends Mapper {
 		return false;
 	}
 	
-	public function GetBlogsByArrayId($aArrayId) {
+	public function GetBlogsByArrayId($aArrayId,$aOrder=null) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
+		
+		if (!is_array($aOrder)) $aOrder=array($aOrder);
+		$sOrder='';
+		foreach ($aOrder as $key=>$value) {
+			$value=(string)$value;
+			if (!in_array($key,array('blog_id','blog_title','blog_type','blog_rating','blog_count_user','blog_date_add'))) {
+				unset($aOrder[$key]);
+			} elseif (in_array($value,array('asc','desc'))) {
+				$sOrder.=" {$key} {$value},";
+			}
+		}
+		$sOrder=trim($sOrder,',');
+
 		$sql = "SELECT 
-					b.*							 
+					*							 
 				FROM 
-					".Config::Get('db.table.blog')." as b					
+					".Config::Get('db.table.blog')."
 				WHERE 
-					b.blog_id IN(?a) 								
-				ORDER BY FIELD(b.blog_id,?a) ";
+					blog_id IN(?a) 		
+				ORDER BY 						
+					{ FIELD(blog_id,?a) } ";
+		if ($sOrder!='') $sql.=$sOrder;
+		
 		$aBlogs=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
+		if ($aRows=$this->oDb->select($sql,$aArrayId,$sOrder=='' ? $aArrayId : DBSIMPLE_SKIP)) {
 			foreach ($aRows as $aBlog) {
 				$aBlogs[]=Engine::GetEntity('Blog',$aBlog);
 			}

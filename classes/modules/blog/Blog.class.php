@@ -56,7 +56,7 @@ class ModuleBlog extends Module {
 	 * Получает дополнительные данные(объекты) для блогов по их ID
 	 *
 	 */
-	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner'=>array(),'relation_user')) {
+	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner'=>array(),'relation_user'),$aOrder=null) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
@@ -64,7 +64,7 @@ class ModuleBlog extends Module {
 		/**
 		 * Получаем блоги
 		 */
-		$aBlogs=$this->GetBlogsByArrayId($aBlogId);
+		$aBlogs=$this->GetBlogsByArrayId($aBlogId,$aOrder);
 		/**
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
@@ -118,12 +118,12 @@ class ModuleBlog extends Module {
 	 *
 	 * @param array $aUserId
 	 */
-	public function GetBlogsByArrayId($aBlogId) {
+	public function GetBlogsByArrayId($aBlogId,$aOrder=null) {
 		if (!$aBlogId) {
 			return array();
 		}
 		if (Config::Get('sys.cache.solid')) {
-			return $this->GetBlogsByArrayIdSolid($aBlogId);
+			return $this->GetBlogsByArrayIdSolid($aBlogId,$aOrder);
 		}
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
@@ -183,7 +183,7 @@ class ModuleBlog extends Module {
 	 * @param unknown_type $aBlogId
 	 * @return unknown
 	 */
-	public function GetBlogsByArrayIdSolid($aBlogId) {
+	public function GetBlogsByArrayIdSolid($aBlogId,$aOrder=null) {
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);
 		}
@@ -191,7 +191,7 @@ class ModuleBlog extends Module {
 		$aBlogs=array();	
 		$s=join(',',$aBlogId);
 		if (false === ($data = $this->Cache_Get("blog_id_{$s}"))) {			
-			$data = $this->oMapperBlog->GetBlogsByArrayId($aBlogId);
+			$data = $this->oMapperBlog->GetBlogsByArrayId($aBlogId,$aOrder);
 			foreach ($data as $oBlog) {
 				$aBlogs[$oBlog->getId()]=$oBlog;
 			}
