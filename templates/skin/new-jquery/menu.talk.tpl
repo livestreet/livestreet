@@ -1,5 +1,5 @@
 <ul class="menu">
-	<li class="active"><a href="#">{$aLang.talk_menu_inbox}</a>
+	<li class="active"><a href="{router page='talk'}">{$aLang.talk_menu_inbox}</a>
 		<ul class="sub-menu">					
 			<li {if $sEvent=='inbox'}class="active"{/if}><div><a href="{router page='talk'}">{$aLang.talk_menu_inbox_list}</a></div></li>
 			<li {if $sEvent=='add'}class="active"{/if}><div><a href="{router page='talk'}add/">{$aLang.talk_menu_inbox_create}</a></div></li>
