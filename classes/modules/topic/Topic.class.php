@@ -206,6 +206,10 @@ class ModuleTopic extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
 		$this->Cache_Delete("topic_{$iTopicId}");
 		/**
+		 * Удаляем контент топика
+		 */
+		$this->DeleteTopicContentByTopicId($iTopicId);
+		/**
 		 * Удаляем комментарии к топику. 
 		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
 		 */
@@ -295,6 +299,16 @@ class ModuleTopic extends Module {
 		return false;
 	}	
 		
+	/**
+	 * Удаление контента топика по его номеру
+	 *
+	 * @param unknown_type $iTopicId
+	 * @return unknown
+	 */
+	public function DeleteTopicContentByTopicId($iTopicId) {
+		return $this->oMapperTopic->DeleteTopicContentByTopicId($iTopicId);
+	}
+	
 	/**
 	 * Получить топик по айдишнику
 	 *

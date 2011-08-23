@@ -79,7 +79,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return false;
 	}
 	
-	
+	public function DeleteTopicContentByTopicId($iTopicId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.topic_content')." WHERE topic_id = ?d ";
+		if ($this->oDb->query($sql,$iTopicId)) {
+			return true;
+		}		
+		return false;
+	}
 	
 	public function DeleteTopicTagsByTopicId($sTopicId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.topic_tag')." 
