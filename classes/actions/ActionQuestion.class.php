@@ -61,6 +61,13 @@ class ActionQuestion extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');		
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title'));
+		
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'topic_question_create_answers_error_max','delete'
+		));
 	}
 	/**
 	 * Регистрируем евенты

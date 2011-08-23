@@ -15,9 +15,9 @@ ls.blog = (function ($) {
 			} else {
 				obj = $(obj);
 				ls.msg.notice(null, result.sMsg);
-				obj.text(LANG_JOIN);
+				obj.text(ls.lang.get('blog_join'));
 				if (result.bState) {
-					obj.text(LANG_LEAVE);
+					obj.text(ls.lang.get('blog_leave'));
 				}
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
 			}

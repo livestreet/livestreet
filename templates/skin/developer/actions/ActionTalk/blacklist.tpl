@@ -66,7 +66,7 @@
 						'id'    : 'blacklist_item_'+sId,
 						'href'  : "#",
 						'class' : 'delete',
-						'text' 	: LANG_BLOG_DELETE,
+						'text' 	: lsLang.get('delete'),
 						'events': {
 							'click': function() {
 								deleteFromBlackList(this);

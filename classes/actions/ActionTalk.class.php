@@ -52,6 +52,13 @@ class ActionTalk extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('inbox');	
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox'));
+		
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'delete'
+		));
 	}
 	
 	protected function RegisterEvent() {		

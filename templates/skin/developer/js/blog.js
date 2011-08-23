@@ -14,9 +14,9 @@ function ajaxJoinLeaveBlog(obj,idBlog) {
             } else {
             	msgNoticeBox.alert(result.sMsgTitle,result.sMsg);
             	if (obj)  {
-            		obj.set('html',LANG_JOIN);
+            		obj.set('html',lsLang.get('blog_join'));
             		if (result.bState) {
-            			obj.set('html',LANG_LEAVE);
+            			obj.set('html',lsLang.get('blog_leave'));
             		}
             		divCount=$('blog_user_count_'+idBlog);
             		if (divCount) {

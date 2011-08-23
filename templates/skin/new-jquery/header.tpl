@@ -31,13 +31,6 @@
 	var SESSION_ID              = '{$_sPhpSessionId}'; 
 	var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
 
-	var LANG_JOIN 				= '{$aLang.blog_join}';
-	var LANG_LEAVE 				= '{$aLang.blog_leave}';
-	var LANG_DELETE 			= '{$aLang.blog_delete}';
-	var LANG_POLL_ERROR 		= '{$aLang.topic_question_create_answers_error_max}';
-
-	var IMG_PATH_LOADER 		= DIR_STATIC_SKIN + '/images/loader.gif';
-
 	var TINYMCE_LANG='en';
 	{if $oConfig->GetValue('lang.current')=='russian'}
 		TINYMCE_LANG='ru';

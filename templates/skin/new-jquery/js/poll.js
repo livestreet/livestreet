@@ -24,12 +24,12 @@ ls.poll = (function ($) {
 	*/
 	this.addAnswer = function() {
 		if($("#question_list li").length == 20) {
-			ls.msg.error(null, LANG_POLL_ERROR);
+			ls.msg.error(null, ls.lang.get('topic_question_create_answers_error_max'));
 			return false;
 		}
 		var newItem = $("#question_list li:first-child").clone();
 		newItem.find('a').remove();
-		newItem.appendTo("#question_list").append($('<a href="#" class="dashed">'+LANG_DELETE+'</a>').click(function(ev){
+		newItem.appendTo("#question_list").append($('<a href="#" class="dashed">'+ls.lang.get('delete')+'</a>').click(function(ev){
 			return this.removeAnswer(ev.target);
 		}.bind(this)));
 		newItem.find('input').val('');

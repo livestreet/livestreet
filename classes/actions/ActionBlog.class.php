@@ -104,6 +104,13 @@ class ActionBlog extends Action {
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsBlogNew=$this->iCountTopicsCollectiveNew;
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+		
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'blog_join','blog_leave'
+		));
 	}
 
 	/**

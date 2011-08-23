@@ -24,7 +24,7 @@ ls.talk = (function ($) {
 						if($('#speaker_list').length == 0) {
 							$('#speaker_list_block').append($('<ul class="list" id="speaker_list"></ul>'));
 						}
-						$('#speaker_list').append($('<li id="speaker_item_'+item.sUserId+'_area"><a href="'+item.sUserLink+'" class="user">'+item.sUserLogin+'</a> - <a href="#" id="speaker_item_'+item.sUserId+'" class="delete">'+LANG_DELETE+'</a></li>'));
+						$('#speaker_list').append($('<li id="speaker_item_'+item.sUserId+'_area"><a href="'+item.sUserLink+'" class="user">'+item.sUserLogin+'</a> - <a href="#" id="speaker_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>'));
 					}
 				});
 			}
@@ -76,7 +76,7 @@ ls.talk = (function ($) {
 						if($('#black_list').length == 0) {
 							$('#black_list_block').append($('<ul class="list" id="black_list"></ul>'));
 						}
-						$('#black_list').append($('<li id="blacklist_item_'+item.sUserId+'_area"><a href="#" class="user">'+item.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+item.sUserId+'" class="delete">'+LANG_DELETE+'</a></li>'));
+						$('#black_list').append($('<li id="blacklist_item_'+item.sUserId+'_area"><a href="#" class="user">'+item.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>'));
 					}
 				});
 			}

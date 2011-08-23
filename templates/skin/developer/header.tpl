@@ -45,12 +45,9 @@
 		{foreach from=$aRouter key=sPage item=sPath}
 			aRouter['{$sPage}']='{$sPath}';
 		{/foreach}
-
-		var LANG_JOIN = '{$aLang.blog_join}';
-		var LANG_LEAVE = '{$aLang.blog_leave}';
+				
 		var LANG_COMMENT_FOLD = '{$aLang.comment_fold}';
 		var LANG_COMMENT_UNFOLD = '{$aLang.comment_unfold}';
-		var LANG_BLOG_DELETE = '{$aLang.blog_delete}';
 	</script>
 
 

@@ -29,6 +29,12 @@ class ActionBlogs extends Action {
 	protected $sMenuHeadItemSelect='blogs';
 	
 	public function Init() {		
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'blog_join','blog_leave'
+		));
 	}
 	
 	protected function RegisterEvent() {	
