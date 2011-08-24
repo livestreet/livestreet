@@ -114,6 +114,13 @@ class ModuleStream extends Module {
 		 * Получаем типы событий
 		 */
 		$aEventTypes = $this->getTypesList($iUserId);
+		if (Config::Get('module.stream.disable_vote_events')) {
+			foreach ($aEventTypes as $i => $sType) {
+				if (substr($sType, 0, 4) == 'vote') {
+					unset ($aEventTypes[$i]);
+				}
+			}
+		}
 		if (!count($aEventTypes)) return array();
 		/**
 		 * Получаем список тех на кого подписан

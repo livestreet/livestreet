@@ -228,6 +228,7 @@ $config['module']['security']['hash']  = "livestreet_security_key"; // "прим
 $config['module']['userfeed']['count_default'] = 10; // Число топиков в ленте по умолчанию
 
 $config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
+$config['module']['stream']['disable_vote_events'] = false; 
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
