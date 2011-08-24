@@ -74,7 +74,7 @@
 
 /* Search */
 #nav .search { position: absolute; bottom: 25px; right: 20px; }
-#nav .search .text { width: 200px; border: 1px solid #ccc; border-radius: 13px; padding: 4px 13px; color: #777; box-shadow: 0 2px 2px #eee inset; }
+#nav .search .text { width: 165px; border: 1px solid #ccc; border-radius: 13px; padding: 4px 35px 4px 13px; color: #777; box-shadow: 0 2px 2px #eee inset; }
 #nav .search .button { width: 18px; height: 18px; position: absolute; top: 4px; right: 3px; border: none; background: url(../images/search.png) no-repeat; cursor: pointer; }
 
 /* Search */
