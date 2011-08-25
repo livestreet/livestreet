@@ -716,9 +716,18 @@ class ModuleTalk extends Module {
 		return $aTalks;
 	}
     
-        public function DeleteTalk($iTalkId)
-        {
-            $this->oMapper->deleteTalk($iTalkId);
-        }
+	/**
+	 * Удаление письма из БД
+	 *
+	 * @param unknown_type $iTalkId
+	 */
+	public function DeleteTalk($iTalkId) {
+		$this->oMapper->deleteTalk($iTalkId);
+		/**
+		 * Удаляем комментарии к письму. 
+		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
+		 */
+		$this->Comment_DeleteCommentByTargetId($iTalkId,'talk');
+	}
 }
 ?>

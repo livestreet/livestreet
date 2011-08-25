@@ -34,16 +34,13 @@ class ModuleTalk_MapperTalk extends Mapper {
 		return false;
 	}
     
-         public function DeleteTalk(ModuleTalk_EntityTalk $iTalkId) {
-            // Удаление беседы
-            $sql = 'DELETE FROM '.Config::Get('db.table.talk').'  WHERE talk_id = ?d';
-            $this->oDb->query($sql,$iTalkId); 
-            // Физическое удаление пользователей беседы (не флагом)
-            $sql = 'DELETE FROM '.Config::Get('db.table.talk_user').'  WHERE talk_id = ?d';
-            $this->oDb->query($sql,$iTalkId); 
-            // Удаление комментариев к беседе
-            $sql = 'DELETE FROM '.Config::Get('db.table.comment').'  WHERE target_type = "talk" AND target_id = ?d';
-            $this->oDb->query($sql,$iTalkId); 
+	public function DeleteTalk($iTalkId) {
+		// Удаление беседы
+		$sql = 'DELETE FROM '.Config::Get('db.table.talk').'  WHERE talk_id = ?d';
+		$this->oDb->query($sql,$iTalkId);
+		// Физическое удаление пользователей беседы (не флагом)
+		$sql = 'DELETE FROM '.Config::Get('db.table.talk_user').'  WHERE talk_id = ?d';
+		$this->oDb->query($sql,$iTalkId);
 	}
 
 	public function UpdateTalk(ModuleTalk_EntityTalk $oTalk) {
