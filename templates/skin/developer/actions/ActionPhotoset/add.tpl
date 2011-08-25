@@ -116,7 +116,7 @@ tinyMCE.init({
 		<p>
 		<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
 		{if !$oConfig->GetValue('view.tinymce')}
-			<div class="panel_form">
+			<div class="panel-form">
 				{hook run='form_add_topic_panel_begin'}
 				<select onchange="lsPanel.putTagAround('topic_text',this.value); this.selectedIndex=0; return false;">
 					<option value="">{$aLang.panel_title}</option>
@@ -135,6 +135,7 @@ tinyMCE.init({
 				<a href="#" onclick="lsPanel.putTagAround('topic_text','s'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/strikethrough.png" title="{$aLang.panel_s}"></a>	 			
 				&nbsp;
 				<a href="#" onclick="lsPanel.putTagUrl('topic_text','{$aLang.panel_url_promt}'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/link.png"  title="{$aLang.panel_url}"></a>
+				<a href="#" onclick="lsPanel.putTagUser('topic_text','{$aLang.panel_user_promt}'); return false;"><img src="{cfg name='path.static.skin'}/images/panel/user.png"  title="{$aLang.panel_user}" /></a>
 				<a href="#" onclick="lsPanel.putQuote('topic_text'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/quote.png" title="{$aLang.panel_quote}"></a>
 				<a href="#" onclick="lsPanel.putTagAround('topic_text','code'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/code.png" title="{$aLang.panel_code}"></a>
 				<a href="#" onclick="lsPanel.putTagAround('topic_text','video'); return false;" class="button"><img src="{cfg name='path.static.skin'}/images/panel/video.png" title="{$aLang.panel_video}"></a>

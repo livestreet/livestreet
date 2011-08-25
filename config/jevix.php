@@ -6,13 +6,13 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe'),
+				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe'),
 			),			
 		),
 		// Коротие теги типа
 		'cfgSetTagShort' => array(
 			array(
-				array('br','img', 'hr', 'cut')
+				array('br','img', 'hr', 'cut','ls')
 			),
 		),
 		// Преформатированные теги
@@ -58,9 +58,13 @@ return array(
 				'abbr',
 				array('title')
 			),
-                           array(
+			array(
 				'iframe',
 				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')))
+			),
+			array(
+				'ls',
+				array('user'=>'#text')
 			),
 		),
 		// Параметры тегов являющиеся обязательными
@@ -148,7 +152,12 @@ return array(
 				array('h4','h5','h6','ol','ul','blockquote','pre')
 			)
 		),
-		
+		'cfgSetTagCallbackFull' => array(
+			array(
+				'ls',
+				array('_this_','CallbackTagLs'),
+			),
+		),
 	),
 	
 	// настройки для обработки текста в результатах поиска

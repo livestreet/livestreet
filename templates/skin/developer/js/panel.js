@@ -56,6 +56,18 @@ var lsPanelClass = new Class({
         }
 	},
 	
+	putTagUser: function(obj,sPromt) {
+		obj=$(obj);
+		var sel=obj.getSelectedText();
+		if (sel) {
+			this.putText(obj,'<ls user="'+sel+'"/>');
+		} else {
+			if (text=prompt(sPromt,'')) {
+				this.putText(obj,'<ls user="'+text+'"/>');
+			}
+		}
+	},
+	
 	putQuote: function(obj) {
 		obj=$(obj);
 		selText=this.getSelectedText();

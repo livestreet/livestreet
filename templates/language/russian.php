@@ -654,6 +654,8 @@ return array(
 	'panel_title_h5' => 'H5',
 	'panel_title_h6' => 'H6',
 	'panel_clear_tags' => 'очистить от тегов',
+	'panel_user' => 'вставить пользователя',
+	'panel_user_promt' => 'Введите логин пользователя',
 
 	/**
 	 * Блоки

@@ -64,6 +64,11 @@ class ModuleText extends Module {
 		if (is_array($aConfig)) {
 			foreach ($aConfig as $sMethod => $aExec) {
 				foreach ($aExec as $aParams) {
+					if (in_array(strtolower($sMethod),array_map("strtolower",array('cfgSetTagCallbackFull','cfgSetTagCallback')))) {
+						if (isset($aParams[1][0]) and $aParams[1][0]=='_this_') {
+							$aParams[1][0]=$this;
+						}
+					}
 					call_user_func_array(array($this->oJevix,$sMethod), $aParams);
 				}
 			}
@@ -208,6 +213,23 @@ class ModuleText extends Module {
 		}
 
 		return array($sTextShort,$sTextNew,$sTextCut ? htmlspecialchars($sTextCut) : null);
+	}
+	
+	/**
+	 * Обработка тега <ls> в тексте
+	 *
+	 * @param unknown_type $sTag
+	 * @param unknown_type $aParams
+	 * @return unknown
+	 */
+	public function CallbackTagLs($sTag,$aParams) {
+		$sText='';
+		if (isset($aParams['user'])) {
+			if ($oUser=$this->User_getUserByLogin($aParams['user'])) {
+				$sText.="<a href=\"{$oUser->getUserWebPath()}\" class=\"ls-user\">{$oUser->getLogin()}</a> ";
+			}
+		}
+		return $sText;
 	}
 }
 ?>

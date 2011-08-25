@@ -943,3 +943,5 @@ table.admin_page td  {  /* IE: */ border-left: expression(previousSibling == nul
 }
 #photoset-upload-form p { margin-bottom: 10px; }
 #photoset-upload-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+
+.ls-user { padding-right: 3px; color: #999; font-weight: bold; text-decoration: none; background: url(../images/icons.gif) no-repeat scroll 0 -105px; padding-left: 13px; }

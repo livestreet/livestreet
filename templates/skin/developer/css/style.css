@@ -136,7 +136,7 @@ p { margin-bottom: 18px; }
 
 
 /* Misc */
-.user { padding-left: 12px; background: url(../images/user.png) no-repeat 0 2px; color: #555; }
+.user, .ls-user { padding-left: 12px; background: url(../images/user.png) no-repeat 0 2px; color: #555; }
 .user.inactive { color: #888; }
 
 .center { width: 300px; margin: 0 auto; }
