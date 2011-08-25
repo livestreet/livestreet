@@ -152,8 +152,9 @@ class Jevix{
 	const TR_TAG_NO_TYPOGRAPHY = 12; // Отключение типографирования для тега
 	const TR_TAG_IS_EMPTY = 13;      // Не короткий тег с пустым содержанием имеет право существовать
 	const TR_TAG_NO_AUTO_BR = 14;    // Тег в котором не нужна авто-расстановка <br>
-	const TR_TAG_CALLBACK = 15;      // Тег обрабатывается callback-функцией
+	const TR_TAG_CALLBACK = 15;      // Тег обрабатывается callback-функцией - в обработку уходит только контент тега(короткие теги не обрабатываются)
 	const TR_TAG_BLOCK_TYPE = 16;    // Тег после которого не нужна автоподстановка доп. <br> 
+	const TR_TAG_CALLBACK_FULL = 17;    // Тег обрабатывается callback-функцией - в обработку уходит весь тег
 
 	/**
 	 * Классы символов генерируются symclass.php
@@ -340,7 +341,7 @@ class Jevix{
 		$this->tagsRules[$tag][self::TR_PARAM_AUTO_ADD][$param] = array('value'=>$value, 'rewrite'=>$isRewrite);
 	}
 
-/**
+	/**
 	 * КОНФИГУРАЦИЯ: Устанавливаем callback-функцию на обработку содержимого тега
 	 * @param string $tag тег
 	 * @param mixed $callback функция
@@ -350,6 +351,16 @@ class Jevix{
 		$this->tagsRules[$tag][self::TR_TAG_CALLBACK] = $callback;
 	}
 
+	/**
+	 * КОНФИГУРАЦИЯ: Устанавливаем callback-функцию на обработку содержимого тега
+	 * @param string $tag тег
+	 * @param mixed $callback функция
+	 */
+	function cfgSetTagCallbackFull($tag, $callback = null){
+		if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
+		$this->tagsRules[$tag][self::TR_TAG_CALLBACK_FULL] = $callback;
+	}
+	
 	/**
 	 * Автозамена
 	 *
@@ -1019,22 +1030,28 @@ class Jevix{
 		if (!isset($tagRules[self::TR_TAG_IS_EMPTY]) or !$tagRules[self::TR_TAG_IS_EMPTY]) {
 			if(!$short && $content == '') return '';
 		}
-		// Собираем тег
-		$text='<'.$tag;
-
-		// Параметры
-		foreach($resParams as $param => $value) {
-			if ($value != '') {
-				$text.=' '.$param.'="'.$value.'"';
-			}
-		}
 		
-		// Закрытие тега (если короткий то без контента)
-		$text.= $short && $this->isXHTMLMode ? '/>' : '>';
-		if(isset($tagRules[self::TR_TAG_CONTAINER])) $text .= "\r\n";
-		if(!$short) $text.= $content.'</'.$tag.'>';
-		if($parentTagIsContainer) $text .= "\r\n";
-		if($tag == 'br') $text.="\r\n";
+		// Если тег обрабатывает "полным" колбеком
+		if (isset($tagRules[self::TR_TAG_CALLBACK_FULL])) {
+			$text = call_user_func($tagRules[self::TR_TAG_CALLBACK_FULL], $tag, $resParams);
+		} else {
+			// Собираем тег
+			$text='<'.$tag;
+
+			// Параметры
+			foreach($resParams as $param => $value) {
+				if ($value != '') {
+					$text.=' '.$param.'="'.$value.'"';
+				}
+			}
+
+			// Закрытие тега (если короткий то без контента)
+			$text.= $short && $this->isXHTMLMode ? '/>' : '>';
+			if(isset($tagRules[self::TR_TAG_CONTAINER])) $text .= "\r\n";
+			if(!$short) $text.= $content.'</'.$tag.'>';
+			if($parentTagIsContainer) $text .= "\r\n";
+			if($tag == 'br') $text.="\r\n";
+		}
 		return $text;
 	}
 
