@@ -9,8 +9,15 @@
 	<div class="folding"></div>
 	
 	
-	<div id="comment_content_id_{$oComment->getId()}" class="content">						
-		{$oComment->getText()}
+	<div id="comment_content_id_{$oComment->getId()}" class="content">
+		{if $oComment->isBad()}
+			<div style="display: none;" id="comment_text_{$oComment->getId()}">
+				{$oComment->getText()}
+			</div>
+			 <a href="#" onclick="jQuery('#comment_text_{$oComment->getId()}').show();jQuery(this).hide();return false;">{$aLang.comment_bad_open}</a>
+		{else}	
+			{$oComment->getText()}
+		{/if}
 	</div>
 	
 	
