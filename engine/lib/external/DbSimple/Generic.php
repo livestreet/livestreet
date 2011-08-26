@@ -83,7 +83,7 @@ class DbSimple_Generic
      * Choose database driver according to DSN. Return new instance
      * of this driver.
      */
-    function& connect($dsn)
+    static public function connect($dsn)
     {
         // Load database driver and create its instance.
         $parsed = DbSimple_Generic::parseDSN($dsn);
@@ -146,7 +146,7 @@ class DbSimple_Generic
      * Parse a data source name.
      * See parse_url() for details. 
      */
-    function parseDSN($dsn)
+    static public function parseDSN($dsn)
     {
         if (is_array($dsn)) return $dsn;
         $parsed = @parse_url($dsn);
@@ -383,7 +383,7 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
     /**
      * string _performEscape(mixed $s, bool $isIdent=false)
      */
-    function _performEscape($s, $isIdent)
+    function _performEscape($s, $isIdent=false)
     {
         die("Method must be defined in derived class. Abstract function called at ".__FILE__." line ".__LINE__);
     }
@@ -393,7 +393,7 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
      * 
      * Returns new blob object.
      */
-    function& _performNewBlob($id)
+    function& _performNewBlob($id=null)
     {
         die("Method must be defined in derived class. Abstract function called at ".__FILE__." line ".__LINE__);
     }
