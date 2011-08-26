@@ -138,7 +138,7 @@ ls.comments = (function ($) {
 					this.aCommentNew=[];
 				}
 				if (selfIdComment) { 
-					this.toggleCommentForm(0, true); 
+					this.toggleCommentForm(this.iCurrentShowFormComment, true); 
 					this.setCountNewComment(aCmt.length-1+iCountOld);
 				} else { 
 					this.setCountNewComment(aCmt.length+iCountOld); 
