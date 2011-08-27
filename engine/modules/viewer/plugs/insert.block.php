@@ -56,7 +56,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	/**
 	 * Подключаем необходимый обработчик
 	 */
-	         $oBlock = new $sBlock($aParams);
+	$oBlock = new $sBlock($aParamsBlock);
 	/**
 	 * Запускаем обработчик
 	 */
