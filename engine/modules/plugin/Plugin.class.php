@@ -132,7 +132,7 @@ class ModulePlugin extends Module {
 		$aPlugins=$this->GetList();
 		if(!isset($aPlugins[$sPlugin])) return null;
 		
-		$sPluginName=ucfirst($sPlugin);
+		$sPluginName=func_camelize($sPlugin);
 		
 		switch ($sAction) {
 			case 'activate':
@@ -175,7 +175,7 @@ class ModulePlugin extends Module {
 									$this->Message_AddError(
 										$this->Lang_Get('plugins_activation_requires_error',
 											array(
-												'plugin'=>ucfirst($sReqPlugin)
+												'plugin'=>func_camelize($sReqPlugin)
 											)
 										),
 										$this->Lang_Get('error'),

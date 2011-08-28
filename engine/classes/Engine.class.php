@@ -387,7 +387,7 @@ class Engine extends Object {
 					foreach ($aFiles as $sFile) {
 						if (preg_match("/Hook([^_]+)\.class\.php$/i",basename($sFile),$aMatch)) {
 							//require_once($sFile);
-							$sPluginName = ucfirst($sPluginName);
+							$sPluginName = func_camelize($sPluginName);
 							$sClassName="Plugin{$sPluginName}_Hook{$aMatch[1]}";
 							$oHook=new $sClassName;
 							$oHook->RegisterHook();
@@ -405,7 +405,7 @@ class Engine extends Object {
 	protected function LoadPlugins() {
 		if($aPluginList = func_list_plugins()) {
 			foreach ($aPluginList as $sPluginName) {
-				$sClassName='Plugin'.ucfirst($sPluginName);
+				$sClassName='Plugin'.func_camelize($sPluginName);
 				$oPlugin=new $sClassName;
 				$oPlugin->Delegate();
 				$this->aPlugins[$sPluginName]=$oPlugin;
@@ -836,7 +836,7 @@ class Engine extends Object {
 			// Сущность
 			if($aInfo[self::CI_PLUGIN]){
 				// Сущность модуля плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/entity/'.$aInfo[self::CI_ENTITY].'.entity.class.php'
 				;
@@ -850,7 +850,7 @@ class Engine extends Object {
 			// Маппер
 			if($aInfo[self::CI_PLUGIN]){
 				// Маппер модуля плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/mapper/'.$aInfo[self::CI_MAPPER].'.mapper.class.php'
 				;
@@ -864,7 +864,7 @@ class Engine extends Object {
 			// Экшн
 			if($aInfo[self::CI_PLUGIN]){
 				// Экшн плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/actions/Action'.$aInfo[self::CI_ACTION].'.class.php'
 				;
 			}else{
@@ -877,7 +877,7 @@ class Engine extends Object {
 			// Модуль
 			if($aInfo[self::CI_PLUGIN]){
 				// Модуль плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/'.$aInfo[self::CI_MODULE].'.class.php';
 				;
@@ -894,7 +894,7 @@ class Engine extends Object {
 			// Хук
 			if($aInfo[self::CI_PLUGIN]){
 				// Хук плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/hooks/Hook'.$aInfo[self::CI_HOOK]
 					.'.class.php';
 				;
@@ -906,7 +906,7 @@ class Engine extends Object {
 			// Блок
 			if($aInfo[self::CI_PLUGIN]){
 				// Блок плагина
-				$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+				$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 					.'/classes/blocks/Block'.$aInfo[self::CI_BLOCK]
 					.'.class.php';
 				;
@@ -916,7 +916,7 @@ class Engine extends Object {
 			}
 		}elseif($aInfo[self::CI_PLUGIN]){
 			// Плагин
-			$sPath .= 'plugins/'.strtolower($aInfo[self::CI_PLUGIN])
+			$sPath .= 'plugins/'.func_underscore($aInfo[self::CI_PLUGIN])
 				.'/Plugin'.$aInfo[self::CI_PLUGIN]
 				.'.class.php';
 			;
