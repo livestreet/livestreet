@@ -18,7 +18,7 @@
 /**
  * Настройки HTML вида
  */
-$config['view']['skin']        = 'new';                                                              // шаблон(скин)
+$config['view']['skin']        = 'new-jquery';                                                              // шаблон(скин)
 $config['view']['name']        = 'LiveStreet - бесплатный движок социальной сети';                   // название сайта
 $config['view']['description'] = 'LiveStreet - официальный сайт бесплатного движка социальной сети'; // seo description
 $config['view']['keywords']    = 'движок, livestreet, блоги, социальная сеть, бесплатный, php';      // seo keywords
