@@ -301,7 +301,7 @@ class ModuleImage extends Module {
 	 * @param  string $sPath
 	 * @return string
 	 */
-	public function GetServerPath($sPath) {		
+	public function GetServerPath($sPath) {
 		/**
 		 * Определяем, принадлежит ли этот адрес основному домену 
 		 */
@@ -311,8 +311,11 @@ class ModuleImage extends Module {
 		/**
 		 * Выделяем адрес пути
 		 */
-		$sPath = parse_url($sPath,PHP_URL_PATH);
-		return rtrim(Config::Get('path.root.server'),'/').'/'.ltrim($sPath,'/');
+		$sPath = ltrim(parse_url($sPath,PHP_URL_PATH),'/');
+		if($iOffset = Config::Get('path.offset_request_url')){
+			$sPath = preg_replace('#^([^/]+/*){'.$iOffset.'}#msi', '', $sPath);
+		}
+		return rtrim(Config::Get('path.root.server'),'/').'/'.$sPath;
 	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
