@@ -1,162 +1,226 @@
 <?php
+/*-------------------------------------------------------
+*
+*   LiveStreet Engine Social Networking
+*   Copyright © 2008 Mzhelskiy Maxim
+*
+*--------------------------------------------------------
+*
+*   Official site: www.livestreet.ru
+*   Contact e-mail: rus.engine@gmail.com
+*
+*   GNU General Public License, version 2:
+*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+---------------------------------------------------------
+*/
 
-class ActionUserfeed extends Action
-{
-    protected $oUserCurrent;
+/**
+ * Обрабатывает пользовательские ленты контента
+ *
+ */
+class ActionUserfeed extends Action {
+	/**
+	 * Текущий пользователь
+	 *
+	 * @var unknown_type
+	 */
+	protected $oUserCurrent;
 
-    public function Init()
-    {
-        $this->oUserCurrent = $this->User_getUserCurrent();
-        if (!$this->oUserCurrent) {
-            parent::EventNotFound();
-        }
-        $this->SetDefaultEvent('index');
-        
-        $this->Viewer_Assign('sMenuItemSelect', 'feed');
-    }
+	/**
+	 * Инициализация
+	 *
+	 */
+	public function Init() {
+		/**
+		 * Доступ только у авторизованных пользователей
+		 */
+		$this->oUserCurrent = $this->User_getUserCurrent();
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
+		$this->SetDefaultEvent('index');
 
-    protected function RegisterEvent()
-    {
-        $this->AddEvent('index', 'EventIndex');
-        $this->AddEvent('update', 'EventUpdateSubscribes');
-        $this->AddEvent('subscribe', 'EventSubscribe');
-        $this->AddEvent('subscribeByLogin', 'EventSubscribeByLogin');
-        $this->AddEvent('unsubscribe', 'EventUnSubscribe');
-        $this->AddEvent('get_more', 'EventGetMore');
-    }
+		$this->Viewer_Assign('sMenuItemSelect', 'feed');
+	}
 
-    protected function EventIndex()
-    {
-        $aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
-        $this->Viewer_Assign('aTopics', $aTopics);
-        if (count($aTopics)) {
-            $this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
-        }
-        if (count($aTopics) < Config::Get('module.userfeed.count_default')) {
-            $this->Viewer_Assign('bDisableGetMoreButton', true);
-        } else {
-            $this->Viewer_Assign('bDisableGetMoreButton', false);
-        }
-        $this->SetTemplateAction('list');
-    }
+	/**
+	 * Регистрация евентов
+	 *
+	 */
+	protected function RegisterEvent() {
+		$this->AddEvent('index', 'EventIndex');
+		$this->AddEvent('subscribe', 'EventSubscribe');
+		$this->AddEvent('subscribeByLogin', 'EventSubscribeByLogin');
+		$this->AddEvent('unsubscribe', 'EventUnSubscribe');
+		$this->AddEvent('get_more', 'EventGetMore');
+	}
 
-    protected function EventGetMore()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        $iFromId = getRequest('last_id');
-        if (!$iFromId)  {
-            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-            return;
-        }
-        $aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
+	/**
+	 * Выводит ленту контента(топики) для пользователя
+	 *
+	 */
+	protected function EventIndex() {
+		/**
+		 * Получаем топики
+		 */
+		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
+		$this->Viewer_Assign('aTopics', $aTopics);
+		if (count($aTopics)) {
+			$this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
+		}
+		if (count($aTopics) < Config::Get('module.userfeed.count_default')) {
+			$this->Viewer_Assign('bDisableGetMoreButton', true);
+		} else {
+			$this->Viewer_Assign('bDisableGetMoreButton', false);
+		}
+		$this->SetTemplateAction('list');
+	}
 
-        $oViewer=$this->Viewer_GetLocalViewer();
+	/**
+	 * Подгрузка ленты топиков (замена постраничности)
+	 *
+	 */
+	protected function EventGetMore() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Проверяем последний просмотренный ID топика
+		 */
+		$iFromId = getRequest('last_id');
+		if (!$iFromId)  {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем топики
+		 */
+		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
+		/**
+		 * Загружаем данные в ajax ответ
+		 */
+		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aTopics',  $aTopics);
-		$sFeed = $oViewer->Fetch('topic_list.tpl');
-        $this->Viewer_AssignAjax('result', $sFeed);
-        $this->Viewer_AssignAjax('topics_count', count($aTopics));
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('topic_list.tpl'));
+		$this->Viewer_AssignAjax('topics_count', count($aTopics));
 
-        if (count($aTopics)) {
-            $this->Viewer_AssignAjax('iUserfeedLastId', end($aTopics)->getId());
-        }
-    }
+		if (count($aTopics)) {
+			$this->Viewer_AssignAjax('iUserfeedLastId', end($aTopics)->getId());
+		}
+	}
 
-    protected function EventSubscribe()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        if (!getRequest('id')) {
-            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-        }
-        $sType = getRequest('type');
-        $iType = null;
-        switch($sType) {
-            case 'blogs':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
-                break;
-            case 'users':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
-                if ($this->oUserCurrent->getId() == getRequest('id')) {
-                    $this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
-                    return;
-                }
-                break;
-            default:
-                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                return;
-        }
-        $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
-        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
-    }
+	/**
+	 * Подписка на контент блога или пользователя
+	 *
+	 */
+	protected function EventSubscribe() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Проверяем наличие ID блога или пользователя
+		 */
+		if (!getRequest('id')) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}
+		$sType = getRequest('type');
+		$iType = null;
+		/**
+		 * Определяем тип подписки
+		 */
+		switch($sType) {
+			case 'blogs':
+				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+				break;
+			case 'users':
+				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+				if ($this->oUserCurrent->getId() == getRequest('id')) {
+					$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+					return;
+				}
+				break;
+			default:
+				$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+		}
+		/**
+		 * Подписываем
+		 */
+		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+	}
 
-    protected function EventSubscribeByLogin()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        if (!getRequest('login')) {
-            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-            return;
-        }
-        $oUser = $this->User_getUserByLogin(getRequest('login'));
-        if (!$oUser) {
-            $this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>getRequest('login'))),$this->Lang_Get('error'));
-            return;
-        }
-        if ($this->oUserCurrent->getId() == $oUser->getId()) {
-            $this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
-            return;
-        }
-        $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
-        $this->Viewer_AssignAjax('uid', $oUser->getId());
-        $this->Viewer_AssignAjax('user_login', $oUser->getLogin());
-        $this->Viewer_AssignAjax('user_web_path', $oUser->getuserWebPath());
-        $this->Viewer_AssignAjax('lang_error_msg', $this->Lang_Get('userfeed_subscribes_already_subscribed'));
-        $this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
-        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
-    }
+	/**
+	 * Подписка на пользвователя по логину
+	 *
+	 */
+	protected function EventSubscribeByLogin() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Передан ли логин
+		 */
+		if (!getRequest('login')) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Проверяем существование прользователя
+		 */
+		$oUser = $this->User_getUserByLogin(getRequest('login'));
+		if (!$oUser) {
+			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>getRequest('login'))),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Не даем подписаться на самого себя
+		 */
+		if ($this->oUserCurrent->getId() == $oUser->getId()) {
+			$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Подписываем
+		 */
+		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
+		/**
+		 * Загружаем данные ajax ответ
+		 */
+		$this->Viewer_AssignAjax('uid', $oUser->getId());
+		$this->Viewer_AssignAjax('user_login', $oUser->getLogin());
+		$this->Viewer_AssignAjax('user_web_path', $oUser->getuserWebPath());
+		$this->Viewer_AssignAjax('lang_error_msg', $this->Lang_Get('userfeed_subscribes_already_subscribed'));
+		$this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
+		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+	}
 
-    protected function EventUnsubscribe()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        if (!getRequest('id')) {
-            $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-            return;
-        }
-        $sType = getRequest('type');
-        $iType = null;
-        switch($sType) {
-            case 'blogs':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
-                break;
-            case 'users':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
-                break;
-            default:
-                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                return;
-        }
-        $this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
-        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
-    }
-
-    protected function EventUpdateSubscribes()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        $sType = getRequest('type');
-        $iType = null;
-        switch($sType) {
-            case 'blogs':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
-                break;
-            case 'users':
-                $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
-                break;
-            default:
-                $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                return;
-        }
-        $aIds = explode(',', getRequest('ids'));
-        $aUserSubscribes = array('users' => array(), 'blogs' => array());
-        $aUserSubscribes[$sType] = $aIds;
-        $this->Userfeed_updateSubscribes($this->oUserCurrent->getId(), $aUserSubscribes, $iType);
-        $this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
-    }
+	/**
+	 * Отписка от блога или пользователя
+	 *
+	 */
+	protected function EventUnsubscribe() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!getRequest('id')) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		$sType = getRequest('type');
+		$iType = null;
+		/**
+		 * Определяем от чего отписываемся
+		 */
+		switch($sType) {
+			case 'blogs':
+				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+				break;
+			case 'users':
+				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+				break;
+			default:
+				$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+				return;
+		}
+		/**
+		 * Отписываем пользователя
+		 */
+		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+	}
+		
 }

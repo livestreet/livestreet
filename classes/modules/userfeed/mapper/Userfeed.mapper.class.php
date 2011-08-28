@@ -20,39 +20,7 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
         $this->oDb->query($sql, $iUserId, $iSubscribeType, $iTargetId);
     }
 
-    public function updateSubscribes($iUserId, $aUserSubscribes, $iType)
-    {
-        if (!$iType) {
-            $sql = 'DELETE FROM ' . Config::Get('db.table.userfeed_subscribe') . ' WHERE
-                user_id = ?d ';
-            $this->oDb->query($sql, $iUserId);
-        } else {
-            $sql = 'DELETE FROM ' . Config::Get('db.table.userfeed_subscribe') . ' WHERE
-                user_id = ?d AND subscribe_type = ?d ';
-            $this->oDb->query($sql, $iUserId, $iType);
-        }
-
-        $sql = 'INSERT INTO ' . Config::Get('db.table.userfeed_subscribe') . ' (user_id, subscribe_type, target_id) VALUES ';
-        $aValues = array();
-        if (count($aUserSubscribes['blogs'])) {
-            foreach ($aUserSubscribes['blogs'] as $iTargetId) {
-                $sql .= ' (?d, ?d, ?d),';
-                $aValues = array_merge($aValues, array($iUserId, ModuleUserfeed::SUBSCRIBE_TYPE_BLOG, $iTargetId));
-            }
-        }
-        if (count($aUserSubscribes['users'])) {
-            foreach ($aUserSubscribes['users'] as $iTargetId) {
-                $sql .= ' (?d, ?d, ?d),';
-                $aValues = array_merge($aValues, array($iUserId, ModuleUserfeed::SUBSCRIBE_TYPE_USER, $iTargetId));
-            }
-        }
-
-        $sql = substr($sql, 0, -1);
-
-        return call_user_func_array(array($this->oDb, 'query'), array_merge(array($sql), $aValues));
-
-    }
-
+    
     public function getUserSubscribes($iUserId)
     {
         $sql = 'SELECT subscribe_type, target_id FROM ' . Config::Get('db.table.userfeed_subscribe') . ' WHERE user_id = ?d';

@@ -33,19 +33,7 @@ class ModuleUserfeed extends Module
     {
         return $this->oMapper->unsubscribeUser($iUserId, $iSubscribeType, $iTargetId);
     }
-
-    /**
-     * Обновить подписки пользователя
-     * @param type $iUserId Id подписываемого пользователя
-     * @param type $aUserSubscribes Массив подписок array('blogs' => array(), 'users'=> array())
-     * @param type $iType users или blogs если нужно обновить толкьо один тип подписки
-     * @return type
-     */
-    public function updateSubscribes($iUserId, $aUserSubscribes, $iType = null)
-    {
-        return $this->oMapper->updateSubscribes($iUserId, $aUserSubscribes, $iType);
-    }
-
+    
     /**
      * Получить ленту топиков по подписке
      * @param type $iUserId Id пользователя, для которого получаем ленту
