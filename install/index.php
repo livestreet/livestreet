@@ -1193,7 +1193,16 @@ class Install {
 		/**
 		 * Добавляем новый тип топика
 		 */
-		$this->addEnumTypeDatabase($aParams['prefix'].$sTableName,'topic_type','photoset');
+		$this->addEnumTypeDatabase($aParams['prefix'].'topic','topic_type','photoset');
+		/**
+		 * Если установлен плагин "page", то обновляем его таблицу
+		 */
+		$sTable=$aParams['prefix'].'page';
+		if ($this->isTableExistsDatabase($sTable)) {
+			if (!$this->isFieldExistsDatabase($sTable,'page_auto_br')) {
+				mysql_query("ALTER TABLE `{$sTable}` ADD `page_auto_br` TINYINT( 1 ) NOT NULL DEFAULT '1'");
+			}
+		}
 		
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
@@ -1221,6 +1230,37 @@ class Install {
 				mysql_query($sQuery);
 			}
 		}
+	}
+	/**
+	 * Проверяет существование таблицы
+	 *
+	 * @param unknown_type $sTableName
+	 * @return unknown
+	 */
+	public function isTableExistsDatabase($sTableName) {
+		$sQuery="SHOW TABLES LIKE '{$sTableName}'";
+		if ($res=mysql_query($sQuery)) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет существование поля таблицы
+	 *
+	 * @param unknown_type $sTableName
+	 * @param unknown_type $sFieldName
+	 * @return unknown
+	 */
+	public function isFieldExistsDatabase($sTableName,$sFieldName) {
+		$sQuery="SHOW FIELDS FROM `{$sTableName}`";
+		if ($res=mysql_query($sQuery)) {
+			while($aRow = mysql_fetch_assoc($res)) {
+				if ($aRow['Field'] == $sFieldName){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	/**
 	 * Валидирует данные администратора
