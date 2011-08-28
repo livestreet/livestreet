@@ -80,7 +80,7 @@ class ActionBlog extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin','delete','invite','ajaxaddcomment','ajaxaddbloginvite');
+	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin','delete','invite','ajaxaddcomment','ajaxaddbloginvite','ajaxresponsecomment','ajaxrebloginvite','ajaxbloginfo','ajaxblogjoin');
 
 	/**
 	 * Инизиализация экшена
@@ -1195,8 +1195,8 @@ class ActionBlog extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser)),
-					'sUserLogin'=>$sUser
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser))),
+					'sUserLogin'=>htmlspecialchars($sUser)
 				);
 				continue;
 			}
@@ -1214,8 +1214,8 @@ class ActionBlog extends Action {
 					$aResult[]=array(
 						'bStateError'=>false,
 						'sMsgTitle'=>$this->Lang_Get('attention'),
-						'sMsg'=>$this->Lang_Get('blog_user_invite_add_ok',array('login'=>$sUser)),
-						'sUserLogin'=>$sUser,
+						'sMsg'=>$this->Lang_Get('blog_user_invite_add_ok',array('login'=>htmlspecialchars($sUser))),
+						'sUserLogin'=>htmlspecialchars($sUser),
 						'sUserWebPath'=>$oUser->getUserWebPath()
 					);
 					$this->SendBlogInvite($oBlog,$oUser);
@@ -1224,7 +1224,7 @@ class ActionBlog extends Action {
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
 						'sMsg'=>$this->Lang_Get('system_error'),
-						'sUserLogin'=>$sUser
+						'sUserLogin'=>htmlspecialchars($sUser)
 					);
 				}
 			} else {
@@ -1234,13 +1234,13 @@ class ActionBlog extends Action {
 				 */
 				switch (true) {
 					case ($aBlogUsers[$oUser->getId()]->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE):
-						$sErrorMessage=$this->Lang_Get('blog_user_already_invited',array('login'=>$sUser));
+						$sErrorMessage=$this->Lang_Get('blog_user_already_invited',array('login'=>htmlspecialchars($sUser)));
 						break;
 					case ($aBlogUsers[$oUser->getId()]->getUserRole()>ModuleBlog::BLOG_USER_ROLE_GUEST):
-						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>$sUser));
+						$sErrorMessage=$this->Lang_Get('blog_user_already_exists',array('login'=>htmlspecialchars($sUser)));
 						break;
 					case ($aBlogUsers[$oUser->getId()]->getUserRole()==ModuleBlog::BLOG_USER_ROLE_REJECT):
-						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>$sUser));
+						$sErrorMessage=$this->Lang_Get('blog_user_already_reject',array('login'=>htmlspecialchars($sUser)));
 						break;
 					default:
 						$sErrorMessage=$this->Lang_Get('system_error');
@@ -1249,7 +1249,7 @@ class ActionBlog extends Action {
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
 					'sMsg'=>$sErrorMessage,
-					'sUserLogin'=>$sUser
+					'sUserLogin'=>htmlspecialchars($sUser)
 				);
 				continue;
 			}

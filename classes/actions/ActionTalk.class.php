@@ -393,7 +393,7 @@ class ActionTalk extends Action {
 						str_replace(
 							'login',
 							$oUser->getLogin(),
-							$this->Lang_Get('talk_user_in_blacklist',array('login'=>$oUser->getLogin()))
+							$this->Lang_Get('talk_user_in_blacklist',array('login'=>htmlspecialchars($oUser->getLogin())))
 						),
 						$this->Lang_Get('error')
 					);
@@ -642,16 +642,16 @@ class ActionTalk extends Action {
 						$aResult[]=array(
 							'bStateError'=>false,
 							'sMsgTitle'=>$this->Lang_Get('attention'),
-							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>$sUser)),
+							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>htmlspecialchars($sUser))),
 							'sUserId'=>$oUser->getId(),
-							'sUserLogin'=>$sUser
+							'sUserLogin'=>htmlspecialchars($sUser)
 						);
 					} else {
 						$aResult[]=array(
 							'bStateError'=>true,
 							'sMsgTitle'=>$this->Lang_Get('error'),
 							'sMsg'=>$this->Lang_Get('system_error'),
-							'sUserLogin'=>$sUser
+							'sUserLogin'=>htmlspecialchars($sUser)
 						);					
 					}
 				} else {
@@ -660,8 +660,8 @@ class ActionTalk extends Action {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
-						'sMsg'=>$this->Lang_Get('talk_blacklist_user_already_have',array('login'=>$sUser)),
-						'sUserLogin'=>$sUser
+						'sMsg'=>$this->Lang_Get('talk_blacklist_user_already_have',array('login'=>htmlspecialchars($sUser))),
+						'sUserLogin'=>htmlspecialchars($sUser)
 					);
 					continue;
 				}
@@ -669,8 +669,8 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser)),
-					'sUserLogin'=>$sUser
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser))),
+					'sUserLogin'=>htmlspecialchars($sUser)
 				);
 			}					
 		}
@@ -700,7 +700,7 @@ class ActionTalk extends Action {
 		// Если пользователь не существуем, возращаем ошибку
 		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
+				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($idTarget))),
 				$this->Lang_Get('error')				
 			);
 			return;				
@@ -762,7 +762,7 @@ class ActionTalk extends Action {
 		// возвращаем ошибку
 		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>$idTarget)),
+				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($idTarget))),
 				$this->Lang_Get('error')				
 			);
 			return;				
@@ -890,7 +890,7 @@ class ActionTalk extends Action {
 									$aResult[]=array(
 										'bStateError'=>false,
 										'sMsgTitle'=>$this->Lang_Get('attention'),
-										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
+										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 										'sUserId'=>$oUser->getId(),
 										'sUserLogin'=>$oUser->getLogin(),
 										'sUserLink'=>$oUser->getUserWebPath()
@@ -910,7 +910,7 @@ class ActionTalk extends Action {
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
-									'sMsg'=>$this->Lang_Get('talk_speaker_user_already_exist',array('login'=>$sUser))
+									'sMsg'=>$this->Lang_Get('talk_speaker_user_already_exist',array('login'=>htmlspecialchars($sUser)))
 								);								
 								break;
 							// Если пользователь удалил себя из разговора самостоятельно,
@@ -919,7 +919,7 @@ class ActionTalk extends Action {
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
-									'sMsg'=>$this->Lang_Get('talk_speaker_delete_by_self',array('login'=>$sUser))
+									'sMsg'=>$this->Lang_Get('talk_speaker_delete_by_self',array('login'=>htmlspecialchars($sUser)))
 								);								
 								break;
 							
@@ -946,7 +946,7 @@ class ActionTalk extends Action {
 							$aResult[]=array(
 								'bStateError'=>false,
 								'sMsgTitle'=>$this->Lang_Get('attention'),
-								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',$sUser)),
+								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 								'sUserId'=>$oUser->getId(),
 								'sUserLogin'=>$oUser->getLogin(),
 								'sUserLink'=>$oUser->getUserWebPath()	
@@ -964,7 +964,7 @@ class ActionTalk extends Action {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
-						'sMsg'=>$this->Lang_Get('talk_user_in_blacklist',array('login'=>$sUser))
+						'sMsg'=>$this->Lang_Get('talk_user_in_blacklist',array('login'=>htmlspecialchars($sUser)))
 					);						
 				}
 			} else {
@@ -972,7 +972,7 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>$sUser))
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser)))
 				);
 			}	
 		}
