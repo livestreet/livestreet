@@ -23,6 +23,14 @@
 class ModuleSession extends Module {
 	protected $sId=null;
 	protected $aData=array();	
+	/**
+	 * Список user-agent'ов для флеш плеера
+	 *
+	 * @var array
+	 */
+	protected $aFlashUserAgent=array(
+		'Shockwave Flash','Adobe Flash Player','Adobe Flash Player 10'
+	);
 	
 	/**
 	 * Использовать или нет стандартный механизм сессий
@@ -59,7 +67,7 @@ class ModuleSession extends Module {
 				/**
 				 * Даем возможность флешу задавать id сессии
 				 */
-				if (isset($_SERVER['HTTP_USER_AGENT']) and in_array($_SERVER['HTTP_USER_AGENT'],array('Shockwave Flash','Adobe Flash Player')) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
+				if (isset($_SERVER['HTTP_USER_AGENT']) and in_array($_SERVER['HTTP_USER_AGENT'],$this->aFlashUserAgent) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
 					session_id(getRequest('SSID'));
 				} else {
 					session_regenerate_id();
