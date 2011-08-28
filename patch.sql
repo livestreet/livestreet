@@ -59,3 +59,42 @@ ALTER TABLE `prefix_stream_event` CHANGE event_type event_type varchar(100) not 
 ALTER TABLE `prefix_stream_event` CHANGE `initiator` `user_id` INT( 11 ) NOT NULL;
 
 ALTER TABLE `prefix_topic_photo` CHANGE `topic_id` `topic_id` INT( 11 ) DEFAULT NULL;
+
+ALTER TABLE `prefix_userfeed_subscribe` ADD INDEX ( `user_id` , `subscribe_type` , `target_id` ) ;
+ALTER TABLE `prefix_stream_subscribe` ADD INDEX ( `user_id` , `target_user_id` ); 
+ALTER TABLE `prefix_stream_event` ADD INDEX ( `event_type` , `user_id` ) ;
+ALTER TABLE `prefix_user_field` ADD INDEX ( `name` ) ;
+ALTER TABLE `prefix_user_field_value` ADD INDEX ( `user_id` , `field_id` ) ;
+ALTER TABLE `prefix_user_field_value` ADD INDEX ( `field_id` ) ;
+ALTER TABLE `prefix_topic_photo` ADD INDEX ( `topic_id` ) ;
+ALTER TABLE `prefix_topic_photo` ADD INDEX ( `target_tmp` ) ;
+ALTER TABLE `prefix_stream_user_type` ADD INDEX ( `user_id` , `event_type` ) ;
+
+ALTER TABLE `prefix_userfeed_subscribe` CHANGE `user_id` `user_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_userfeed_subscribe` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
+`user_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_stream_subscribe` CHANGE `user_id` `user_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_stream_subscribe` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
+`user_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_user_field_value` CHANGE `user_id` `user_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_user_field_value` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
+`user_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_topic_photo` CHANGE `topic_id` `topic_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_topic_photo` ADD FOREIGN KEY ( `topic_id` ) REFERENCES `prefix_topic` (
+`topic_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_stream_user_type` CHANGE `user_id` `user_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_stream_user_type` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
+`user_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_user_field_value` ADD FOREIGN KEY ( `field_id` ) REFERENCES `prefix_user_field` (
+`id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `prefix_stream_event` CHANGE `user_id` `user_id` INT( 11 ) UNSIGNED NOT NULL ;
+ALTER TABLE `prefix_stream_event` ADD INDEX ( `user_id` ) ;
+ALTER TABLE `prefix_stream_event` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
+`user_id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;

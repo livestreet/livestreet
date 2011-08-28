@@ -17,7 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
-define('LS_VERSION','0.4.2');
+define('LS_VERSION','0.5.0');
 
 class Install {
 	/**
@@ -66,43 +66,43 @@ class Install {
 	 *
 	 * @var array
 	 */
-	var $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend',5=>'Finish');
+	protected $aSteps = array(0=>'Start',1=>'Db',2=>'Admin',3=>'End',4=>'Extend',5=>'Finish');
 	/**
 	 * Шаги в обычном режиме инсталляции
 	 *
 	 * @var array
 	 */
-	var $aSimpleModeSteps = array('Start','Db','Admin','End');
+	protected $aSimpleModeSteps = array('Start','Db','Admin','End');
 	/**
 	 * Количество шагов, которые необходимо указывать в инсталляционных параметрах
 	 * 
 	 * @var int
 	 */
-	var $iStepCount = null;
+	protected $iStepCount = null;
 	/**
 	 * Массив сообщений для пользователя
 	 *
 	 * @var array
 	 */
-	var $aMessages = array();
+	protected $aMessages = array();
 	/**
 	 * Директория с шаблонами
 	 *
 	 * @var string
 	 */
-	var $sTemplatesDir = 'templates';
+	protected $sTemplatesDir = 'templates';
 	/**
 	 * Директория с языковыми файлами инсталлятора
 	 *
 	 * @var string
 	 */
-	var $sLangInstallDir = 'language';	
+	protected $sLangInstallDir = 'language';	
 	/**
 	 * Массив с переменными шаблонизатора
 	 *
 	 * @var array
 	 */
-	var $aTemplateVars = array(
+	protected $aTemplateVars = array(
 		'___CONTENT___' => '',
 		'___FORM_ACTION___' => '',
 		'___NEXT_STEP_DISABLED___' => '',
@@ -117,7 +117,7 @@ class Install {
 	 *
 	 * @var array
 	 */
-	var $aValidEnv = array(
+	protected $aValidEnv = array(
         'safe_mode'  => array ('0','off',''), 
         'register_globals' => array ('0','off',''), 
         'allow_url_fopen' => array ('1','on'), 
@@ -131,42 +131,42 @@ class Install {
      *
      * @var string
      */
-    var $sConfigDir="";
+    protected $sConfigDir="";
     /**
      * Директория хранения скинов сайта 
      *
      * @var string
      */
-    var $sSkinDir="";
+    protected $sSkinDir="";
     /**
      * Директория хранения языковых файлов движка
      *
      * @var string
      */
-    var $sLangDir="";
+    protected $sLangDir="";
     /**
      * Текущий язык инсталлятора
      *
      * @var string
      */
-    var $sLangCurrent = '';
+    protected $sLangCurrent = '';
     /**
      * Язык инсталлятора, который будет использован по умолчанию
      *
      * @var string
      */
-    var $sLangDefault = 'russian';
+    protected $sLangDefault = 'russian';
     /**
      * Языковые текстовки
      *
      * @var array
      */
-    var $aLang = array();    
+    protected $aLang = array();    
     /**
      * Инициализация основных настроек
      *
      */
-    function __construct() {
+    public function __construct() {
     	$this->sConfigDir = dirname(__FILE__).'/../config';
     	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
     	$this->sLangDir   = dirname(__FILE__).'/../templates/language';
@@ -191,7 +191,7 @@ class Install {
      * @access protected
      * @param  string $sLang
      */
-    function LoadLanguageFile($sLang) {
+    protected function LoadLanguageFile($sLang) {
     	$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
     	if(!file_exists($sFilePath)) return false;
     	
@@ -205,7 +205,7 @@ class Install {
      * @param  array  $aParams
      * @return string
      */
-    function Lang($sKey,$aParams=array()) {
+    protected function Lang($sKey,$aParams=array()) {
     	if(!array_key_exists($sKey,$this->aLang))
     		return 'Unknown language key';
     	
@@ -223,7 +223,7 @@ class Install {
 	 * @param  string $sKey
 	 * @return mixed
 	 */
-	function GetSessionVar($sKey,$mDefault=null) {
+	protected function GetSessionVar($sKey,$mDefault=null) {
 		return array_key_exists($sKey,$_SESSION) ? unserialize($_SESSION[$sKey]) : $mDefault;
 	}
 	/**
@@ -233,7 +233,7 @@ class Install {
 	 * @param  mixed  $mVar
 	 * @return bool
 	 */
-	function SetSessionVar($sKey,$mVar) {
+	protected function SetSessionVar($sKey,$mVar) {
 		$_SESSION[$sKey] = serialize($mVar);
 		return true;
 	}
@@ -243,7 +243,7 @@ class Install {
 	 * @param  string $sKey
 	 * @return bool
 	 */
-	function DestroySessionVar($sKey) {
+	protected function DestroySessionVar($sKey) {
 		if(!array_key_exists($sKey,$_SESSION)) return false;
 		
 		unset($_SESSION[$sKey]);
@@ -256,7 +256,7 @@ class Install {
 	 * @param  string $sTemplateName
 	 * @return string
 	 */
-	function Fetch($sTemplateName) {
+	protected function Fetch($sTemplateName) {
 		if(!file_exists($this->sTemplatesDir.'/'.$sTemplateName)) return false;
 		
 		$sTemplate = file_get_contents($this->sTemplatesDir.'/'.$sTemplateName);
@@ -268,7 +268,7 @@ class Install {
 	 * @param  string $sTempString
 	 * @return string
 	 */
-	function FetchString($sTempString) {
+	protected function FetchString($sTempString) {
 		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTempString);		
 	}
 	/**
@@ -284,7 +284,7 @@ class Install {
 	 * @param string $sValue
 	 * @param string $sGetFromSession
 	 */
-	function Assign($sName,$sValue,$sFromSession=null) {
+	protected function Assign($sName,$sValue,$sFromSession=null) {
 		if($sFromSession==self::GET_VAR_FROM_SESSION) $sValue=$this->GetSessionVar($sName,$sValue);
 		if($sFromSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sValue);
 		
@@ -296,7 +296,7 @@ class Install {
 	 * @param  string $sTemplate
 	 * @return null
 	 */
-	function Layout($sTemplate) {
+	protected function Layout($sTemplate) {
 		if(!$sLayoutContent = $this->Fetch($sTemplate)) {
 			return false;
 		}
@@ -337,7 +337,7 @@ class Install {
 	 * @param  string $sPath
 	 * @return bool
 	 */
-	function SaveConfig($sName,$sVar,$sPath) {
+	protected function SaveConfig($sName,$sVar,$sPath) {
 		if(!file_exists($sPath)) {
 			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_exists',array('path'=>$sPath)));			
 			return false;
@@ -369,7 +369,7 @@ class Install {
 	 * @param  mixed $mVar
 	 * @return string
 	 */
-	function ConvertToString($mVar) {
+	protected function ConvertToString($mVar) {
 		switch(true) {
 			case is_string($mVar):
 				return "'".addslashes($mVar)."'";
@@ -397,7 +397,7 @@ class Install {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	function GetRequest($sName,$default=null,$bSession=null) {		
+	protected function GetRequest($sName,$default=null,$bSession=null) {		
 		if (array_key_exists($sName,$_REQUEST)) {
 			$sResult = (is_string($_REQUEST[$sName])) 
 				? trim(stripslashes($_REQUEST[$sName]))
@@ -421,7 +421,7 @@ class Install {
 	 *
 	 * @call $this->Step{__Name__} 
 	 */
-	function Run($sStepName=null) {
+	public function Run($sStepName=null) {
 		if(is_null($sStepName)){ 
 			$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
 		} else {
@@ -470,7 +470,7 @@ class Install {
 	 * @access protected
 	 * @return bool
 	 */
-	function SetStep($sStepName) {
+	protected function SetStep($sStepName) {
 		if(!$sStepName or !in_array($sStepName,$this->aSteps)) return null;
 		$this->Assign('install_step_number',array_search($sStepName,$this->aSteps)+1);		
 	}
@@ -479,7 +479,7 @@ class Install {
 	 *
 	 * @param int $iStepCount
 	 */
-	function SetStepCount($iStepCount) {
+	protected function SetStepCount($iStepCount) {
 		$this->iStepCount = $iStepCount;
 	}
 	
@@ -487,7 +487,7 @@ class Install {
 	 * Первый шаг инсталяции.
 	 * Валидация окружения.
 	 */
-	function StepStart() {
+	protected function StepStart() {
 		if(!$this->ValidateEnviroment()) {
 			$this->Assign('next_step_disabled', 'disabled');
 		} else {
@@ -507,7 +507,7 @@ class Install {
 	 * Запрос данных соединения с базой данных.
 	 * Запись полученных данных в лог.
 	 */	
-	function StepDb() {
+	protected function StepDb() {
 		if(!$this->GetRequest('install_db_params')) {
 			/**
 			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
@@ -622,7 +622,7 @@ class Install {
 					/**
 					 * Если указана конвертация старой базы данных
 					 */
-					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert.sql',$aParams));
+					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.4.2_to_0.5.sql',$aParams));
 					if(!$bResult) {
 						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 						$this->Layout('steps/db.tpl');
@@ -650,7 +650,7 @@ class Install {
 	 * Запрос данных администратора и сохранение их в базе данных
 	 * 
 	 */
-	function StepAdmin() {
+	protected function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
 		$this->SetStep('Admin');
 		/**
@@ -708,7 +708,7 @@ class Install {
 	/**
 	 * Завершающий этап. Переход в расширенный режим
 	 */
-	function StepEnd() {
+	protected function StepEnd() {
 		$this->SetStep('End');
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'End');
@@ -722,7 +722,7 @@ class Install {
 	/**
 	 * Расширенный режим ввода дополнительных настроек.
 	 */
-	function StepExtend() {
+	protected function StepExtend() {
 		/**
 		 * Выводим на экран кнопку @Next
 		 */
@@ -920,7 +920,7 @@ class Install {
 	/**
 	 * Окончание работы инсталлятора. Предупреждение о необходимости удаления.
 	 */
-	function StepFinish() {
+	protected function StepFinish() {
 		$this->SetStep('Finish');
 		$this->Assign('next_step_display','none');
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Finish');
@@ -931,7 +931,7 @@ class Install {
 	 * 
 	 * @return bool
 	 */
-	function ValidateEnviroment() {
+	protected function ValidateEnviroment() {
 		$bOk = true;
 		
 		if(!version_compare(PHP_VERSION, '5.1.2', '>=')) {
@@ -1042,7 +1042,7 @@ class Install {
 	 * @param  array $aParams
 	 * @return mixed
 	 */
-	function ValidateDBConnection($aParams) {
+	protected function ValidateDBConnection($aParams) {
 		$oDb = @mysql_connect($aParams['server'].':'.$aParams['port'],$aParams['user'],$aParams['password']);
 		if( $oDb ) {
 			/**
@@ -1067,7 +1067,7 @@ class Install {
 	 * @param  bool   $bCreate
 	 * @return bool
 	 */
-	function SelectDatabase($sName,$bCreate=false) {
+	protected function SelectDatabase($sName,$bCreate=false) {
 		if(@mysql_select_db($sName)) return true;
 
 		if($bCreate){ 
@@ -1082,7 +1082,7 @@ class Install {
 	 * @param  string $sFilePath
 	 * @return array
 	 */
-	function CreateTables($sFilePath,$aParams) {
+	protected function CreateTables($sFilePath,$aParams) {
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
 		
@@ -1137,7 +1137,7 @@ class Install {
 	 * @param  array $aParams
 	 * @return bool
 	 */
-	function ValidateConvertDatabase($aParams) {
+	protected function ValidateConvertDatabase($aParams) {
 		/**
 		 * Проверяем, нуждается ли база в конвертации или нет
 		 * Смотрим, какие таблицы существуют в базе данных
@@ -1156,11 +1156,11 @@ class Install {
 		return !in_array($aParams['prefix'].'comment',$aDbTables);
 	}
 	/**
-	 * Конвертирует базу данных версии 0.3.1 в базу данных версии 0.4
+	 * Конвертирует базу данных версии 0.4.2 в базу данных версии 0.5
 	 *
 	 * @return bool
 	 */
-	function ConvertDatabase($sFilePath,$aParams) {	
+	protected function ConvertDatabase($sFilePath,$aParams) {	
 		if(!$this->ValidateConvertDatabase($aParams)) {
 			return array('result'=>true,'errors'=>array($this->Lang("error_database_converted_already")));
 		}
@@ -1191,230 +1191,9 @@ class Install {
 			}
 		}
 		/**
-		 * Обновляем пути до аватаров и фото у юзеров
+		 * Добавляем новый тип топика
 		 */
-		$sTable=$aParams['prefix'].'user';
-		if($aResults = mysql_query("SELECT * FROM {$sTable}")){ 
-			while($aRow = mysql_fetch_assoc($aResults)) {
-				if ($aRow['user_profile_avatar']==0) {
-					$sSqlUpdate="UPDATE {$sTable} SET user_profile_avatar = NULL WHERE user_id={$aRow['user_id']}";
-				} else {
-					$sAvatarPath=$this->GetPathRootWeb().'/uploads/images/'.$aRow['user_id'].'/avatar_100x100.'.$aRow['user_profile_avatar_type'];
-					$sAvatarPath=mysql_escape_string($sAvatarPath);
-					$sSqlUpdate="UPDATE {$sTable} SET user_profile_avatar = '{$sAvatarPath}' WHERE user_id={$aRow['user_id']}";
-				}				
-				if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
-				
-				if ($aRow['user_profile_foto']) {
-					$sAvatarPath=$this->GetPathRootWeb().$aRow['user_profile_foto'];
-					$sAvatarPath=mysql_escape_string($sAvatarPath);
-					$sSqlUpdate="UPDATE {$sTable} SET user_profile_foto = '{$sAvatarPath}' WHERE user_id={$aRow['user_id']}";
-					if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
-				}
-			}			
-		}
-		/**
-		 * Удаляем поле user_profile_avatar_type
-		 */
-		if(!mysql_query("ALTER TABLE  `{$sTable}` DROP  `user_profile_avatar_type`;")) $aErrors[] = mysql_error();
-				
-		/**
-		 * Обновляем пути до аватаров у блогов
-		 */
-		$sTable=$aParams['prefix'].'blog';
-		if($aResults = mysql_query("SELECT * FROM {$sTable}")){ 
-			while($aRow = mysql_fetch_assoc($aResults)) {
-				if ($aRow['blog_avatar']==0) {
-					$sSqlUpdate="UPDATE {$sTable} SET blog_avatar = NULL WHERE blog_id={$aRow['blog_id']}";
-				} else {
-					$sAvatarPath=$this->GetPathRootWeb().'/uploads/images/'.$aRow['user_owner_id'].'/avatar_blog_'.$aRow['blog_url'].'_48x48.'.$aRow['blog_avatar_type'];
-					$sAvatarPath=mysql_escape_string($sAvatarPath);
-					$sSqlUpdate="UPDATE {$sTable} SET blog_avatar = '{$sAvatarPath}' WHERE blog_id={$aRow['blog_id']}";
-				}				
-				if(!mysql_query($sSqlUpdate)) $aErrors[] = mysql_error();
-			}			
-		}
-		/**
-		 * Удаляем поле blog_avatar_type
-		 */
-		if(!mysql_query("ALTER TABLE  `{$sTable}` DROP  `blog_avatar_type`;")) $aErrors[] = mysql_error();
-		
-				
-		/**
-		 * Переводим в одну таблицу vote`ы
-		 */
-		$aVoteTables = array(
-			$aParams['prefix'].'blog_vote'=>'blog',
-			$aParams['prefix'].'user_vote'=>'user',
-			$aParams['prefix'].'topic_comment_vote'=>'comment'
-		);
-		foreach ($aVoteTables as $sTable=>$sTarget) {
-			$sVoteSelect = "SELECT * FROM {$sTable} WHERE 1";
-			if(!$aResults = mysql_query($sVoteSelect)){ 
-				$aErrors[] = $this->Lang('error_table_select',array('table'=>$sTable));
-				continue;
-			}
-			/**
-			 * Переносим в новую таблицу с указанием target`а
-			 */
-			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
-				$sQuery = "INSERT INTO `{$aParams['prefix']}vote` 
-							SET
-								target_id = '{$aRow[$sTarget.'_id']}',
-								target_type = '{$sTarget}',
-								user_voter_id = '{$aRow['user_voter_id']}',
-								vote_direction = '".(($aRow['vote_delta']>=0)?1:-1)."', 
-								vote_value = '{$aRow['vote_delta']}',
-								vote_date = '".date("Y-m-d H:i:s")."'";
-				if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
-			}
-			mysql_free_result($aResults);
-		}
-
-		/**
-		 * Переводим в одну таблицу комментарии
-		 */
-		$sCommentIdMaxQuery = "SELECT MAX( comment_id ) AS max_id FROM {$aParams['prefix']}comment";
-		/**
-		 * Получаем максимальный идентификатор комментариев к топикам
-		 */
-		if(!$aResults = mysql_query($sCommentIdMaxQuery) ){
-			$aErrors[] = $this->Lang('error_table_select',array('table'=>'comments'));
-		} else {
-			$aRow=mysql_fetch_row($aResults);
-			$iMaxId = $aRow[0]+1;
-
-			$sTalkCommentSelect = "SELECT * FROM {$aParams['prefix']}talk_comment";
-			if(!$aResults = mysql_query($sTalkCommentSelect)){ 
-				$aErrors[] = $this->Lang('error_table_select', array('table'=>'talk_comment'));
-			} else {
-				$iAutoIncrement = $iMaxId;
-				while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
-					$aRow['talk_comment_id']+=$iMaxId;
-					/**
-					 * Выбираем максимальный айдишник
-					 */
-					$iAutoIncrement = ($aRow['talk_comment_id']>$iAutoIncrement) 
-						? $aRow['talk_comment_id']
-						: $iAutoIncrement;
-						
-					$aRow['talk_comment_pid']= is_int($aRow['talk_comment_pid']) ? $aRow['talk_comment_id']+$iMaxId : "NULL"; 
-					$sQuery = "INSERT INTO `{$aParams['prefix']}comment` 
-								SET
-									comment_id = '{$aRow['talk_comment_id']}',
-									comment_pid = {$aRow['talk_comment_pid']}, 
-									target_id = '{$aRow['talk_id']}',
-									target_type = 'talk',
-									target_parent_id = '0',
-									user_id = '{$aRow['user_id']}',
-									comment_text = '".mysql_real_escape_string($aRow['talk_comment_text'])."',
-									comment_text_hash = '".md5($aRow['talk_comment_text'])."',
-									comment_date = '{$aRow['talk_comment_date']}',
-									comment_user_ip = '{$aRow['talk_comment_user_ip']}',
-									comment_rating = '0',
-									comment_count_vote = '0',
-									comment_delete = '0',
-									comment_publish = '1' ";
-					if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
-				}
-				$iAutoIncrement++;
-				/**
-				 * Устанавливаем в таблице новое значение авто инкремента
-				 */
-				@mysql_query("ALTER {$aParams['prefix']}comment AUTO_INCREMENT={$iAutoIncrement}");
-				mysql_free_result($aResults);
-			}
-		}
-		/**
-		 * Обновляем количество комментариев к письмам
-		 */
-		$sTalkSql = "SELECT talk_id FROM {$aParams['prefix']}talk";
-		if($aResults = mysql_query($sTalkSql)){
-			while($aRow = mysql_fetch_assoc($aResults)) {
-				$sTalkCountSql = "SELECT count(comment_id) as c FROM {$aParams['prefix']}comment WHERE `target_id`={$aRow['talk_id']} AND `target_type`='talk'";
-				if($aResultsCount = mysql_query($sTalkCountSql) and $aRowCount = mysql_fetch_assoc($aResultsCount)){
-					mysql_query("UPDATE {$aParams['prefix']}talk SET talk_count_comment = {$aRowCount['c']} WHERE talk_id = {$aRow['talk_id']} ");
-				}
-			}
-		}
-		/**
-		 * Для каждого комментария к топику указываем соответствующий ему идентификатор блога
-		 */
-		$sParentUpdateQuery = "
-			UPDATE `{$aParams['prefix']}comment`
-			SET `target_parent_id` = 
-				( SELECT blog_id FROM `{$aParams['prefix']}topic` as t WHERE t.topic_id=target_id )
-			WHERE `target_type` = 'topic'
-		";
-		if(!mysql_query($sParentUpdateQuery)) 
-			$aErrors[] = mysql_error();
-		
-		/**
-		 * Выбираем пары взаимной дружбы и заносим в базу данынх
-		 */
-		$sFriendsQuery = "SELECT * FROM {$aParams['prefix']}friend";
-		/**
-		 * Получаем максимальный идентификатор комментариев к топикам
-		 */
-		if(!$aResults = mysql_query($sFriendsQuery) ){
-			$aErrors[] = $this->Lang('error_freind_table_select');
-		} else {
-			/**
-			 * Архив для хранения индексов "не использованых" строк таблицы
-			 */
-			$aFriends=array();
-			while($aRow = mysql_fetch_array($aResults, MYSQL_ASSOC)) {
-				/**
-				 * Если имеется запись с френдами, стоящими в обратном порядке,
-				 * то вторую запись удаляем, первую приводим к нормальным статусам
-				 */
-				$sRevIndex = $aRow['user_to'].'_'.$aRow['user_from'];		
-
-				$iPosition=array_search($sRevIndex, $aFriends);			
-				if($iPosition!==false) {
-					/**
-					 * Обновляем статусы
-					 */
-					if(!mysql_query("UPDATE {$aParams['prefix']}friend SET status_from=1, status_to=2 WHERE user_from='{$aRow['user_to']}' AND user_to='{$aRow['user_from']}'")) 
-						$aErrors[] = mysql_error();
-					/**
-					 * Удаляем дубль-строку
-					 */
-					if(!mysql_query("DELETE FROM {$aParams['prefix']}friend WHERE user_from='{$aRow['user_from']}' AND user_to='{$aRow['user_to']}'")) 
-						$aErrors[] = mysql_error();
-					/**
-					 * Удаляем значение из списка индексов
-					 */
-					unset($aFriends[$iPosition]);
-				} else {
-					$aFriends[] = $aRow['user_from'].'_'.$aRow['user_to'];
-				}
-			}
-			/**
-			 * Если остались индексы, удаляем соответствующие им строки
-			 */
-			if(count($aFriends)>0) {
-				foreach ($aFriends as $sIndex) {
-					list($sFrom,$sTo)=explode('_',$sIndex,2);
-					if(!mysql_query("DELETE FROM {$aParams['prefix']}friend WHERE user_from='{$sFrom}' AND user_to='{$sTo}'")) 
-						$aErrors[] = mysql_error();
-				}
-			}
-			mysql_free_result($aResults);			
-		}
-		
-		/**
-		 * Конвертируем пользователей блогов в роли
-		 */
-		$sTable=$aParams['prefix'].'blog_user';
-		mysql_query("UPDATE {$sTable} SET user_role = 1 WHERE is_moderator = 0 AND is_administrator = 0 ");
-		mysql_query("UPDATE {$sTable} SET user_role = 2 WHERE is_moderator = 1 ");
-		mysql_query("UPDATE {$sTable} SET user_role = 4 WHERE is_administrator = 1 ");
-		/**
-		 * Удаляем старые поля
-		 */		
-		if(!mysql_query("ALTER TABLE `{$sTable}` DROP `is_moderator`, DROP `is_administrator`;")) $aErrors[] = mysql_error();
-		
+		$this->addEnumTypeDatabase($aParams['prefix'].$sTableName,'topic_type','photoset');
 		
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
@@ -1422,11 +1201,33 @@ class Install {
 		return array('result'=>false,'errors'=>$aErrors);		
 	}	
 	/**
+	 * Добавление значения в поле таблицы с типом enum
+	 *
+	 * @param unknown_type $sTableName
+	 * @param unknown_type $sFieldName
+	 * @param unknown_type $sType
+	 */
+	public function addEnumTypeDatabase($sTableName,$sFieldName,$sType) {
+		$sQuery="SHOW COLUMNS FROM  `{$sTableName}`";
+		if ($res=mysql_query($sQuery)) {
+			while($aRow = mysql_fetch_assoc($res)) {
+				if ($aRow['Field'] == $sFieldName) break;
+			}
+			if (strpos($aRow['Type'], "'{$sType}'") === FALSE) {
+				$aRow['Type'] =str_ireplace('enum(', "enum('{$sType}',", $aRow['Type']);
+				$sQuery="ALTER TABLE `{$sTableName}` MODIFY `{$sFieldName}` ".$aRow['Type'];
+				$sQuery.= ($aRow['Null']=='NO') ? ' NOT NULL ' : ' NULL ';
+				$sQuery.= is_null($aRow['Default']) ? ' DEFAULT NULL ' : " DEFAULT '{$aRow['Default']}' ";
+				mysql_query($sQuery);
+			}
+		}
+	}
+	/**
 	 * Валидирует данные администратора
 	 *
 	 * @return bool;
 	 */
-	function ValidateAdminFields() {
+	protected function ValidateAdminFields() {
 		$bOk = true;
 		$aErrors = array();
 		
@@ -1459,7 +1260,7 @@ class Install {
 	 * @param  string $sPrefix
 	 * @return bool
 	 */
-	function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
+	protected function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
         $sQuery = "
         	UPDATE `{$sPrefix}user`
         	SET 
@@ -1477,7 +1278,7 @@ class Install {
 	 * @param  string [$sPrefix = "prefix_"
 	 * @return bool
 	 */
-	function UpdateUserBlog($sBlogName,$sPrefix="prefix_") {
+	protected function UpdateUserBlog($sBlogName,$sPrefix="prefix_") {
         $sQuery = "
         	UPDATE `{$sPrefix}blog`
         	SET 
@@ -1493,7 +1294,7 @@ class Install {
 	 * @param array $aTables
 	 * @return bool
 	 */
-	function IsUseDbTable($sQuery,$aTables) {
+	protected function IsUseDbTable($sQuery,$aTables) {
 		foreach($aTables as $sTable){
 			if(substr_count($sQuery, "`{$sTable}`")) return true;
 		}
@@ -1504,7 +1305,7 @@ class Install {
 	 *
 	 * @return array
 	 */
-	function GetSkinList() {
+	protected function GetSkinList() {
 		/**
 		 * Получаем список каталогов
 		 */
@@ -1518,7 +1319,7 @@ class Install {
 	 *
 	 * @return array
 	 */
-	function GetLangList() {
+	protected function GetLangList() {
 		/**
 		 * Получаем список каталогов
 		 */
@@ -1533,7 +1334,7 @@ class Install {
 	 * @access protected
 	 * @return null
 	 */
-	function SavePath() {
+	protected function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
 		$this->SaveConfig('path.root.web',$this->GetPathRootWeb(), $sLocalConfigFile); 
 		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile);		
@@ -1546,11 +1347,11 @@ class Install {
 		$this->SaveConfig('path.offset_request_url', count($aDirs), $sLocalConfigFile);
 	}
 	
-	function GetPathRootWeb() {
+	protected function GetPathRootWeb() {
 		return rtrim('http://'.$_SERVER['HTTP_HOST'],'/').str_replace('/install/index.php','',$_SERVER['PHP_SELF']);
 	}
 	
-	function GetPathRootServer() {
+	protected function GetPathRootServer() {
 		return rtrim(dirname(dirname(__FILE__)),'/');
 	}
 }

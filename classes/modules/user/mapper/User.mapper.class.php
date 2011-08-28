@@ -890,11 +890,11 @@ class ModuleUser_MapperUser extends Mapper {
         foreach ($aFields as $iId =>$sValue) {
             $sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
             if ($this->oDb->select($sql, $iUserId, $iId)) {
-                $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE field_id = ? AND user_id = ?d';
+                $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
             } else {
-                $sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, field_id = ?, user_id = ?d';
+                $sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
             }
-            $this->oDb->query($sql, $sValue, $iId, $iUserId);
+            $this->oDb->query($sql, $sValue, $iUserId, $iId);
         }
     }
 

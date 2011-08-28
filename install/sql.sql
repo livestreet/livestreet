@@ -1,5 +1,5 @@
 --
--- Database LiveStreet version 0.4
+-- Database LiveStreet version 0.5
 --
 
 -- --------------------------------------------------------
@@ -27,14 +27,14 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
   KEY `blog_type` (`blog_type`),
   KEY `blog_url` (`blog_url`),
   KEY `blog_title` (`blog_title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `prefix_blog`
 --
 
 INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`) VALUES
-(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2009-05-10 00:00:00', NULL, 0.000, 0, 0, -1000.000, NULL, '0');
+(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2011-08-28 00:00:00', NULL, 0.000, 0, 0, -1000.000, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -51,11 +51,6 @@ CREATE TABLE IF NOT EXISTS `prefix_blog_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `prefix_blog_user`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -67,12 +62,7 @@ CREATE TABLE IF NOT EXISTS `prefix_city` (
   `city_name` varchar(30) NOT NULL,
   PRIMARY KEY (`city_id`),
   KEY `city_name` (`city_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_city`
---
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -86,11 +76,6 @@ CREATE TABLE IF NOT EXISTS `prefix_city_user` (
   UNIQUE KEY `user_id` (`user_id`),
   KEY `city_id` (`city_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_city_user`
---
-
 
 -- --------------------------------------------------------
 
@@ -120,12 +105,7 @@ CREATE TABLE IF NOT EXISTS `prefix_comment` (
   KEY `type_delete_publish` (`target_type`,`comment_delete`,`comment_publish`),
   KEY `user_type` (`user_id`,`target_type`),
   KEY `target_parent_id` (`target_parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_comment`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -143,12 +123,7 @@ CREATE TABLE IF NOT EXISTS `prefix_comment_online` (
   UNIQUE KEY `id_type` (`target_id`,`target_type`),
   KEY `comment_id` (`comment_id`),
   KEY `type_parent` (`target_type`,`target_parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_comment_online`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -161,12 +136,7 @@ CREATE TABLE IF NOT EXISTS `prefix_country` (
   `country_name` varchar(30) NOT NULL,
   PRIMARY KEY (`country_id`),
   KEY `country_name` (`country_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_country`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -180,11 +150,6 @@ CREATE TABLE IF NOT EXISTS `prefix_country_user` (
   UNIQUE KEY `user_id` (`user_id`),
   KEY `country_id` (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_country_user`
---
-
 
 -- --------------------------------------------------------
 
@@ -202,11 +167,6 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite` (
   KEY `id_type` (`target_id`,`target_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `prefix_favourite`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -221,11 +181,6 @@ CREATE TABLE IF NOT EXISTS `prefix_friend` (
   PRIMARY KEY (`user_from`,`user_to`),
   KEY `user_to` (`user_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_friend`
---
-
 
 -- --------------------------------------------------------
 
@@ -246,12 +201,7 @@ CREATE TABLE IF NOT EXISTS `prefix_invite` (
   KEY `user_from_id` (`user_from_id`),
   KEY `user_to_id` (`user_to_id`),
   KEY `invite_date_add` (`invite_date_add`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_invite`
---
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -269,12 +219,7 @@ CREATE TABLE IF NOT EXISTS `prefix_notify_task` (
   `notify_task_status` tinyint(2) unsigned DEFAULT NULL,
   PRIMARY KEY (`notify_task_id`),
   KEY `date_created` (`date_created`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_notify_task`
---
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -292,11 +237,6 @@ CREATE TABLE IF NOT EXISTS `prefix_reminder` (
   PRIMARY KEY (`reminder_code`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_reminder`
---
-
 
 -- --------------------------------------------------------
 
@@ -316,10 +256,46 @@ CREATE TABLE IF NOT EXISTS `prefix_session` (
   KEY `session_date_last` (`session_date_last`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `prefix_session`
+-- Table structure for table `prefix_stream_event`
 --
 
+CREATE TABLE IF NOT EXISTS `prefix_stream_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_type` varchar(100) NOT NULL,
+  `target_id` int(11) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `event_type` (`event_type`,`user_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prefix_stream_subscribe`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_stream_subscribe` (
+  `user_id` int(11) unsigned NOT NULL,
+  `target_user_id` int(11) NOT NULL,
+  KEY `user_id` (`user_id`,`target_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prefix_stream_user_type`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_stream_user_type` (
+  `user_id` int(11) unsigned NOT NULL,
+  `event_type` varchar(100) DEFAULT NULL,
+  KEY `user_id` (`user_id`,`event_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -341,12 +317,7 @@ CREATE TABLE IF NOT EXISTS `prefix_talk` (
   KEY `talk_title` (`talk_title`),
   KEY `talk_date` (`talk_date`),
   KEY `talk_date_last` (`talk_date_last`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_talk`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -360,11 +331,6 @@ CREATE TABLE IF NOT EXISTS `prefix_talk_blacklist` (
   PRIMARY KEY (`user_id`,`user_target_id`),
   KEY `prefix_talk_blacklist_fk_target` (`user_target_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_talk_blacklist`
---
-
 
 -- --------------------------------------------------------
 
@@ -386,11 +352,6 @@ CREATE TABLE IF NOT EXISTS `prefix_talk_user` (
   KEY `talk_user_active` (`talk_user_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `prefix_talk_user`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -401,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `prefix_topic` (
   `topic_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `blog_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  `topic_type` enum('topic','link','question') NOT NULL DEFAULT 'topic',
+  `topic_type` enum('topic','link','question','photoset') NOT NULL DEFAULT 'topic',
   `topic_title` varchar(200) NOT NULL,
   `topic_tags` varchar(250) NOT NULL COMMENT 'tags separated by a comma',
   `topic_date_add` datetime NOT NULL,
@@ -424,12 +385,7 @@ CREATE TABLE IF NOT EXISTS `prefix_topic` (
   KEY `topic_rating` (`topic_rating`),
   KEY `topic_publish` (`topic_publish`),
   KEY `topic_text_hash` (`topic_text_hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_topic`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -446,10 +402,22 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_content` (
   PRIMARY KEY (`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `prefix_topic_content`
+-- Table structure for table `prefix_topic_photo`
 --
 
+CREATE TABLE IF NOT EXISTS `prefix_topic_photo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) unsigned NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `description` text,
+  `target_tmp` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `target_tmp` (`target_tmp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -464,11 +432,6 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_question_vote` (
   UNIQUE KEY `topic_id_user_id` (`topic_id`,`user_voter_id`),
   KEY `user_voter_id` (`user_voter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_topic_question_vote`
---
-
 
 -- --------------------------------------------------------
 
@@ -485,11 +448,6 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_read` (
   UNIQUE KEY `topic_id_user_id` (`topic_id`,`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_topic_read`
---
-
 
 -- --------------------------------------------------------
 
@@ -508,12 +466,7 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_tag` (
   KEY `user_id` (`user_id`),
   KEY `blog_id` (`blog_id`),
   KEY `topic_tag_text` (`topic_tag_text`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `prefix_topic_tag`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -560,14 +513,27 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   KEY `user_activate` (`user_activate`),
   KEY `user_rating` (`user_rating`),
   KEY `user_profile_sex` (`user_profile_sex`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `prefix_user`
 --
 
 INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_site`, `user_profile_site_name`, `user_profile_icq`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2009-05-10 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2011-08-28 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prefix_userfeed_subscribe`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_userfeed_subscribe` (
+  `user_id` int(11) unsigned NOT NULL,
+  `subscribe_type` tinyint(4) NOT NULL,
+  `target_id` int(11) NOT NULL,
+  KEY `user_id` (`user_id`,`subscribe_type`,`target_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -590,6 +556,35 @@ INSERT INTO `prefix_user_administrator` (`user_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prefix_user_field`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_user_field` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `pattern` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prefix_user_field_value`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_user_field_value` (
+  `user_id` int(11) unsigned NOT NULL,
+  `field_id` int(11) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  KEY `user_id` (`user_id`,`field_id`),
+  KEY `field_id` (`field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `prefix_vote`
 --
 
@@ -603,11 +598,6 @@ CREATE TABLE IF NOT EXISTS `prefix_vote` (
   PRIMARY KEY (`target_id`,`target_type`,`user_voter_id`),
   KEY `user_voter_id` (`user_voter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `prefix_vote`
---
-
 
 --
 -- Constraints for dumped tables
@@ -686,6 +676,24 @@ ALTER TABLE `prefix_session`
   ADD CONSTRAINT `prefix_session_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `prefix_stream_event`
+--
+ALTER TABLE `prefix_stream_event`
+  ADD CONSTRAINT `prefix_stream_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prefix_stream_subscribe`
+--
+ALTER TABLE `prefix_stream_subscribe`
+  ADD CONSTRAINT `prefix_stream_subscribe_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prefix_stream_user_type`
+--
+ALTER TABLE `prefix_stream_user_type`
+  ADD CONSTRAINT `prefix_stream_user_type_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `prefix_talk`
 --
 ALTER TABLE `prefix_talk`
@@ -719,6 +727,12 @@ ALTER TABLE `prefix_topic_content`
   ADD CONSTRAINT `prefix_topic_content_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `prefix_topic_photo`
+--
+ALTER TABLE `prefix_topic_photo`
+  ADD CONSTRAINT `prefix_topic_photo_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `prefix_topic_question_vote`
 --
 ALTER TABLE `prefix_topic_question_vote`
@@ -741,10 +755,23 @@ ALTER TABLE `prefix_topic_tag`
   ADD CONSTRAINT `prefix_topic_tag_fk2` FOREIGN KEY (`blog_id`) REFERENCES `prefix_blog` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `prefix_userfeed_subscribe`
+--
+ALTER TABLE `prefix_userfeed_subscribe`
+  ADD CONSTRAINT `prefix_userfeed_subscribe_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `prefix_user_administrator`
 --
 ALTER TABLE `prefix_user_administrator`
   ADD CONSTRAINT `user_administrator_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prefix_user_field_value`
+--
+ALTER TABLE `prefix_user_field_value`
+  ADD CONSTRAINT `prefix_user_field_value_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `prefix_user_field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_user_field_value_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `prefix_vote`
