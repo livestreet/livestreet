@@ -30,6 +30,7 @@ return array(
 	'blogs_owner' => 'Owner',
 	'blogs_personal_title' => "Blogger's name",
 	'blogs_personal_description' => 'This is your personal blog.',
+	'blog_closed' => 'Private blog',
 	
 	'blog_no_topic' => 'No one posted here yet',
 	'blog_rss' => 'RSS feed',
@@ -61,7 +62,7 @@ return array(
 	'blog_vote_error_already' => "You've already voted for this blog!",
 	'blog_vote_error_self' => "You can't vote for your own blog!",
 	'blog_vote_error_acl' => "You don't have enough rating or power to vote!",
-	'blog_vote_error_close' => "You can't vote for a [close blog]",
+	'blog_vote_error_close' => "You can't vote for a private blog",
 	'blog_vote_ok' => 'Your vote counted',
 	/**
 	 * Register/Unregister to the blog
@@ -72,6 +73,7 @@ return array(
 	'blog_join_error_self' => "Why would you join this blog? You're already it's owner!",	
 	'blog_leave' => 'Unjoin this blog',	
 	'blog_leave_ok' => "You're unjoined this blog",	
+	'blog_join_leave' => 'Join/Unjoin',
 	/**
 	 * Blog menu
 	 */
@@ -193,6 +195,7 @@ return array(
 	'topic_favourite_add_already' => 'This topic is already in your favourites',
 	'topic_favourite_del' => 'Remove from favourites',
 	'topic_favourite_del_ok' => 'Topic removed from favourites',
+	'error_favorite_topic_is_draft' => 'Topic of the draft can not be added to favorites',
 	
 	'block_stream_comments_all' => 'All comment block',
 	'block_stream_topics_all' => 'All topics block',
@@ -204,6 +207,7 @@ return array(
 	'topic_menu_add_topic' => 'Add Topic',
 	'topic_menu_add_question' => 'Add question',
 	'topic_menu_add_link' => 'Add link',
+	'topic_menu_add_photoset' => 'Photoset',
 	'topic_menu_saved' => 'Drafts',
 	'topic_menu_published' => 'Published',
 	/**
@@ -277,6 +281,8 @@ return array(
 	'topic_question_create_title_notice' => 'Question should be meaningful to reflect the meaning of the poll.',
 	'topic_question_create_title_error' => 'Question should consist of 2 upto 200 chars',
 	'topic_question_create_answers' => "Answer variants",	
+	'topic_question_create_answers_add' => 'Add answer',
+	'topic_question_create_answers_delete' => 'Delete',
 	'topic_question_create_answers_error' => 'Answer should consist of 1 upto 100 chars',	
 	'topic_question_create_answers_error_min' => 'There should be at least 2 answers',	
 	'topic_question_create_answers_error_max' => 'Maximium available answers should is 20',	
@@ -297,11 +303,40 @@ return array(
 	'topic_vote_ok' => 'Your vote counted',
 	'topic_vote_ok_abstain' => 'You\'ve abstained in order to view topic raiting',
 	'topic_vote_count' => 'All votes',
-	
+
+	/**
+	 * Photoset
+	 */
+	'topic_photoset_create' => 'Create a photoset',
+	'topic_photoset_edit' => 'Update a photoset',
+	'topic_photoset_upload_title' => 'Upload images',
+	'topic_photoset_upload_choose' => 'Upload photo',
+	'topic_photoset_upload_close' => 'Close',
+	'topic_photoset_upload_rules' => 'Download images available in format JPG, PNG, GIF <br/> Image size should not exceed %%SIZE%% Kb <br /> Maximum number of uploaded images: %%COUNT%%',
+	'topic_photoset_choose_image' => 'Select the image to download',
+	'topic_photoset_is_preview' => 'Marked as a preview to topic',
+	'topic_photoset_mark_as_preview' => 'Mark as preview',
+	'topic_photoset_show_all' => 'Display all %%COUNT%% count',
+	'topic_photoset_count_images' => 'image;images;images',
+	'topic_photoset_show_more' => 'View more photos',
+	'topic_photoset_error_count_photos' => 'In the topic can be from %%MIN%% to %%MAX%% count',
+	'topic_photoset_error_size' => 'The image resolution is too large',
+	'topic_photoset_title' => 'Photoset',
+	'topic_photoset_photo_deleted' => 'Photo removed',
+	'topic_photoset_photo_deleted_error_last' => 'You can not delete the last photo',
+	'topic_photoset_photo_delete' => 'Delete',
+	'topic_photoset_photo_delete_confirm' => 'Delete photo?',
+	'topic_photoset_photo_added' => 'Photo added',
+	'topic_photoset_error_too_much_photos' => 'Topic can contain no more than %%MAX%% count',
+	'topic_photoset_title_edit' => 'Edit photoset',
+	'topic_photoset_title_create' => 'Create a photoset',
+	'topic_photoset_error_bad_filesize' => 'Photo size must be less than %%MAX%% Kb',
+	'topic_photoset_photos' => 'photos',
+
 	/**
 	 * Comments
 	 */
-	'comment_title' => 'Comments',
+	 'comment_title' => 'Comments',
 	'comment_collapse' => 'Collapse comments',
 	'comment_expand' => 'Expand comments',
 	'comment_goto_parent' => 'Reply to',
@@ -498,7 +533,25 @@ return array(
 	'profile_date_last' => 'Last visit',
 	'profile_social_contacts' => 'Contacts and social services',
 	
-	
+	/**
+	 * UserFields
+	 */
+	'user_field_admin_title' => 'Contact fields users',
+	'user_field_add' => 'Add',
+	'user_field_cancel' => 'Cancel',
+	'user_field_added' => 'The field is added successfully',
+	'user_field_update' => 'Edit',
+	'user_field_updated' => 'Field successfully changed',
+	'user_field_delete' => 'Delete',
+	'user_field_delete_confirm' => 'Remove the field?',
+	'user_field_deleted' => 'Field is removed',
+	'userfield_form_name' => 'Name',
+	'userfield_form_title' => 'Title',
+	'userfield_form_pattern' => 'Template (value is substituted into the token {*})',
+	'user_field_error_add_no_name' => 'You must specify the name of the field',
+	'user_field_error_add_no_title' => 'You must specify a title field',
+	'user_field_error_name_exists' => 'Field with that name already exists',
+
 	
 	/**
 	 * Configs.
@@ -585,18 +638,24 @@ return array(
 	'panel_s' => 'strike through',
 	'panel_url' => 'type link',
 	'panel_url_promt' => 'Type link',
+	'panel_image_promt' => 'Enter the link to an image',
 	'panel_code' => 'code',
 	'panel_video' => 'video',
+	'panel_video_promt' => 'Enter a link to the video',
 	'panel_image' => 'image',
 	'panel_cut' => 'cut',
 	'panel_quote' => 'quote',
 	'panel_list' => 'List',
 	'panel_list_ul' => 'UL LI',
 	'panel_list_ol' => 'OL LI',
+	'panel_list_li' => 'list item',
 	'panel_title' => 'Header',
 	'panel_title_h4' => 'H4',
 	'panel_title_h5' => 'H5',
 	'panel_title_h6' => 'H6',
+	'panel_clear_tags' => 'clean up the tags',
+	'panel_user' => 'user inserted',
+	'panel_user_promt' => 'Enter the user login',
 	
 	/**
 	 * Blocks
@@ -671,6 +730,7 @@ return array(
 	'talk_favourite_add_already' => 'This message is already in your Favourites\' list',
 	'talk_favourite_del' => 'remove from favourites',
 	'talk_favourite_del_ok' => 'Message removed from Favourites\' list',	
+	'talk_favourite_empty' => 'No letters to favorites',
 	
 	'talk_filter_title' => 'Filter',
 	'talk_filter_erase' => 'Remove filter',
@@ -710,6 +770,73 @@ return array(
 	
 	'talk_not_found' => 'Message not found',
 	
+	
+	/**
+     * Userfeed
+     */
+    'userfeed_block_blogs_title' => 'Blogs',
+    'userfeed_block_users_title' => 'Users',
+    'userfeed_block_users_append' => 'Add',
+    'userfeed_block_users_friends' => 'Friends',
+    'userfeed_subscribes_already_subscribed' => 'You are already subscribed to the topics of this user',
+    'userfeed_subscribes_updated' => 'Settings saved',
+    'userfeed_get_more' => 'Get more topics',
+	
+	'userfeed_title' => 'Feed',
+	
+    'userfeed_settings_note_follow_blogs' => 'Choose the blogs that you\'d like to read',
+    'userfeed_settings_note_follow_user' => 'Add users, topics you\'d like to read',
+    'userfeed_settings_note_follow_friend' => 'Select friends topics you\'d like to read',
+    
+    'userfeed_no_subscribed_users' => 'You have not yet subscribed to the user',
+    'userfeed_no_blogs' => 'You have not entered into any blog',
+    'userfeed_error_subscribe_to_yourself' => 'You can not sign up for yourself',
+
+    /**
+     * Stream
+     */
+    'stream_block_config_title' => 'Settings stream',
+    'stream_block_users_title' => 'Users',
+    'stream_block_config_append' => 'Add',
+    'stream_block_users_friends' => 'Friends',
+    'stream_subscribes_already_subscribed' => 'You are already subscribed to this member',
+    'stream_subscribes_updated' => 'Settings saved',
+    'stream_get_more' => 'Get more events',
+    'stream_event_type_add_topic' => 'Add a topic',
+    'stream_event_type_add_comment' => 'Add comment',
+    'stream_event_type_add_blog' => 'Adding a blog',
+    'stream_event_type_vote_topic' => 'Vote for Topic',
+    'stream_event_type_vote_comment' => 'Vote for your comment',
+    'stream_event_type_vote_blog' => 'Vote for blog',
+    'stream_event_type_vote_user' => 'Voting for the user',
+    'stream_event_type_add_friend' => 'Add to Friends',
+    'stream_event_type_join_blog' => 'Join to Blog',
+    'stream_no_subscribed_users' => 'You have not yet subscribed to the user',
+    'stream_no_events' => 'Stream is empty',
+    'stream_error_subscribe_to_yourself' => 'You can not sign up for yourself',
+
+    'stream_list_user' => 'User',
+    'stream_list_event_add_topic' => 'added a new topic',
+    'stream_list_event_add_blog' => 'added a new blog',
+    'stream_list_event_add_comment' => 'commented on the topic',
+    'stream_list_event_vote_topic' => 'voted topic',
+    'stream_list_event_vote_blog' => 'voted blog',
+    'stream_list_event_vote_user' => 'voted user',
+    'stream_list_event_vote_comment' => 'voted comment',
+    'stream_list_event_join_blog' => 'join to blog',
+    'stream_list_event_add_friend' => 'add to friends',
+	
+    'stream_personal_title' => 'Stream',
+	
+    'stream_settings_note_filter' => 'Select the actions that will be tracked',
+    'stream_settings_note_follow_user' => 'Add people to the activity that you would like to watch',
+    'stream_settings_note_follow_friend' => 'Choose your friends for the activity that you would like to watch',
+    
+    'admin_list_plugins' => 'Manage plugins',
+    'admin_list_userfields' => 'Configuring custom fields',
+    'admin_list_restorecomment' => 'Rebuilding a tree comments',
+	
+	
 	/**
 	 * Rating TOP
 	 */
@@ -747,6 +874,7 @@ return array(
 	'uploadimg_align_no' => 'No',
 	'uploadimg_align_left' => 'Left',
 	'uploadimg_align_right' => 'Right',
+	'uploadimg_align_center' => 'Center',
 	'uploadimg_submit' => 'Submit',
 	'uploadimg_cancel' => 'Cancel',
 	'uploadimg_title' => 'Title',
@@ -768,6 +896,11 @@ return array(
 	'notify_subject_reminder_password' => 'New password',
 	
 	/**
+	 * Админка
+	 */
+	'admin_title' => 'Admin',
+	
+	/**
 	 * Plugin administration page
 	 */
 	'plugins_administartion_title' => 'Plugin administration',
@@ -777,6 +910,7 @@ return array(
 	'plugins_plugin_action' => '',
 	'plugins_plugin_activate' => 'Activate',
 	'plugins_plugin_deactivate' => 'Deactivate',
+	'plugins_plugin_settings' => 'Settings',
 	'plugins_unknown_action' => 'Requested unknown action',
 	'plugins_action_ok' => 'Action successfully completed',
 	'plugins_activation_overlap' => 'Conflict with an active plugin. Resource %%resource%% reconfigured to %%delegate%% by %%plugin%% plugin.',
@@ -808,6 +942,7 @@ return array(
 	'not_access' => 'No access',	
 	'install_directory_exists' => 'To continue your work with portal please delete /install directory.',	
 	'login' => 'Login',	
+	'delete' => 'Delete',
 	'date_day' => 'day',
 	'date_month' => 'month',
 	

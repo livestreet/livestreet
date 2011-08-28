@@ -805,7 +805,7 @@ return array(
     'stream_event_type_add_comment' => 'Добавление комментария',
     'stream_event_type_add_blog' => 'Добавление блога',
     'stream_event_type_vote_topic' => 'Голосование за топик',
-    'stream_event_type_vote_comment' => 'Голосование за комменатрий',
+    'stream_event_type_vote_comment' => 'Голосование за комментарий',
     'stream_event_type_vote_blog' => 'Голосование за блог',
     'stream_event_type_vote_user' => 'Голосование за пользователя',
     'stream_event_type_add_friend' => 'Добавление в друзья',
