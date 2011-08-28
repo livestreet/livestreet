@@ -86,6 +86,9 @@ CREATE TABLE IF NOT EXISTS `prefix_city_user` (
 CREATE TABLE IF NOT EXISTS `prefix_comment` (
   `comment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `comment_pid` int(11) unsigned DEFAULT NULL,
+  `comment_left` int(11) NOT NULL,
+  `comment_right` int(11) NOT NULL,
+  `comment_level` int(11) NOT NULL,
   `target_id` int(11) unsigned DEFAULT NULL,
   `target_type` enum('topic','talk') NOT NULL DEFAULT 'topic',
   `target_parent_id` int(11) NOT NULL DEFAULT '0',
@@ -104,7 +107,10 @@ CREATE TABLE IF NOT EXISTS `prefix_comment` (
   KEY `id_type` (`target_id`,`target_type`),
   KEY `type_delete_publish` (`target_type`,`comment_delete`,`comment_publish`),
   KEY `user_type` (`user_id`,`target_type`),
-  KEY `target_parent_id` (`target_parent_id`)
+  KEY `target_parent_id` (`target_parent_id`),
+  KEY `comment_left` (`comment_left`),
+  KEY `comment_right` (`comment_right`),
+  KEY `comment_level` (`comment_level`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

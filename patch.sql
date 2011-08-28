@@ -98,3 +98,11 @@ ALTER TABLE `prefix_stream_event` ADD INDEX ( `user_id` ) ;
 ALTER TABLE `prefix_stream_event` ADD FOREIGN KEY ( `user_id` ) REFERENCES `prefix_user` (
 `user_id`
 ) ON DELETE CASCADE ON UPDATE CASCADE ;
+
+
+ALTER TABLE  `prefix_comment` ADD  `comment_left` INT NOT NULL AFTER  `comment_pid`;
+ALTER TABLE  `prefix_comment` ADD  `comment_right` INT NOT NULL AFTER  `comment_left`;
+ALTER TABLE  `prefix_comment` ADD  `comment_level` INT NOT NULL AFTER  `comment_right`;
+ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_left` );
+ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_right` );
+ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_level` );
