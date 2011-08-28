@@ -23,15 +23,28 @@ abstract class ModuleORM extends Module {
 
 	protected $oMapperORM=null;
 
+	/**
+	 * Инициализация
+	 *
+	 */
 	public function Init() {
 		$this->_LoadMapperORM();
 	}
 
+	/**
+	 * Загрузка маппера
+	 *
+	 */
 	protected function _LoadMapperORM() {
 		$this->oMapperORM=new MapperORM($this->oEngine->Database_GetConnect());
 	}
 
-
+	/**
+	 * Добавление сущности в БД
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _AddEntity($oEntity) {
 		$res=$this->oMapperORM->AddEntity($oEntity);
 		// сбрасываем кеш
@@ -45,44 +58,56 @@ abstract class ModuleORM extends Module {
 		} elseif ($res) {
 			// есть автоинкремент, устанавливаем его
 			$oEntity->_setData(array($oEntity->_getPrimaryKey() => $res));
-            // Обновление связей many_to_many
-            $aRelationsData = $oEntity->_getRelationsData();
-            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
-                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
-                    // Сброс кэша по связям
-                    $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('m2m_'.$aRelation[2].$aRelation[4].$oEntity->_getPrimaryKeyValue()));
-                    $this->_updateManyToManySet($aRelation, $oEntity->$sRelName->getCollection(), $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
-                    $oEntity->resetRelationsData($sRelName);
-                }
-            }
+			// Обновление связей many_to_many
+			$aRelationsData = $oEntity->_getRelationsData();
+			foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+				if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
+					// Сброс кэша по связям
+					$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('m2m_'.$aRelation[2].$aRelation[4].$oEntity->_getPrimaryKeyValue()));
+					$this->_updateManyToManySet($aRelation, $oEntity->$sRelName->getCollection(), $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
+					$oEntity->resetRelationsData($sRelName);
+				}
+			}
 			return $oEntity;
 		}
 		return false;
 	}
 
+	/**
+	 * Обновление сущности в БД
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _UpdateEntity($oEntity) {
 		$res=$this->oMapperORM->UpdateEntity($oEntity);
 
 		if ($res===0 or $res) { // запись не изменилась, либо изменилась
-            // Обновление связей many_to_many
-            $aRelationsData = $oEntity->_getRelationsData();
-            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
-                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
-                    // Сброс кэша по связям
+			// Обновление связей many_to_many
+			$aRelationsData = $oEntity->_getRelationsData();
+			foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+				if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
+					// Сброс кэша по связям
 
-                    $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('m2m_'.$aRelation[2].$aRelation[4].$oEntity->_getPrimaryKeyValue()));
-                    $this->_updateManyToManySet($aRelation, $oEntity->$sRelName->getCollection(), $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
-                    $oEntity->resetRelationsData($sRelName);
-                }
-            }
+					$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('m2m_'.$aRelation[2].$aRelation[4].$oEntity->_getPrimaryKeyValue()));
+					$this->_updateManyToManySet($aRelation, $oEntity->$sRelName->getCollection(), $oEntity->_getDataOne($oEntity->_getPrimaryKey()));
+					$oEntity->resetRelationsData($sRelName);
+				}
+			}
 			// сбрасываем кеш
 			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_save'));
-            return $oEntity;
+			return $oEntity;
 		}
 		return false;
 	}
 
+	/**
+	 * Сохранение сущности в БД
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _SaveEntity($oEntity) {
 		if ($oEntity->_isNew()) {
 			return $this->_AddEntity($oEntity);
@@ -91,6 +116,12 @@ abstract class ModuleORM extends Module {
 		}
 	}
 
+	/**
+	 * Удаление сущности из БД
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _DeleteEntity($oEntity) {
 		$res=$this->oMapperORM->DeleteEntity($oEntity);
 		if ($res) {
@@ -98,18 +129,24 @@ abstract class ModuleORM extends Module {
 			$sEntity=$this->Plugin_GetRootDelegater('entity',get_class($oEntity));
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array($sEntity.'_delete'));
 
-            // Обновление связей many_to_many
-            foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
-                if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
-                    $this->_deleteManyToManySet($aRelation[3], $aRelation[4], $oEntity->_getPrimaryKeyValue());
-                }
-            }
+			// Обновление связей many_to_many
+			foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
+				if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY) {
+					$this->_deleteManyToManySet($aRelation[3], $aRelation[4], $oEntity->_getPrimaryKeyValue());
+				}
+			}
 
 			return $oEntity;
 		}
 		return false;
 	}
 
+	/**
+	 * Обновляет данные сущности из БД
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _ReloadEntity($oEntity) {
 		if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
 			if($sPrimaryKeyValue=$oEntity->_getDataOne($sPrimaryKey)) {
@@ -124,12 +161,23 @@ abstract class ModuleORM extends Module {
 	}
 
 
+	/**
+	 * Список полей сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _ShowColumnsFrom($oEntity) {
 		$res=$this->oMapperORM->ShowColumnsFrom($oEntity);
 		return $res;
 	}
 
-
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список прямых потомков
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _GetChildrenOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
 			$aRelationsData=$oEntity->_getRelationsData();
@@ -151,7 +199,12 @@ abstract class ModuleORM extends Module {
 		return false;
 	}
 
-
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает предка
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _GetParentOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
 			$aRelationsData=$oEntity->_getRelationsData();
@@ -173,7 +226,12 @@ abstract class ModuleORM extends Module {
 		return false;
 	}
 
-
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех предков
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _GetAncestorsOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
 			$aRelationsData=$oEntity->_getRelationsData();
@@ -195,7 +253,12 @@ abstract class ModuleORM extends Module {
 		return false;
 	}
 
-
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех потомков
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	protected function _GetDescendantsOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
 			$aRelationsData=$oEntity->_getRelationsData();
@@ -218,7 +281,13 @@ abstract class ModuleORM extends Module {
 		return false;
 	}
 
-
+	/**
+	 * Для сущностей со связью RELATION_TYPE_TREE возвращает список сущностей в виде дерева
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function LoadTree($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
@@ -255,6 +324,13 @@ abstract class ModuleORM extends Module {
 		return false;
 	}
 
+	/**
+	 * Получить сущность по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
@@ -265,6 +341,13 @@ abstract class ModuleORM extends Module {
 		return $this->oMapperORM->GetByFilter($aFilter,$sEntityFull);
 	}
 
+	/**
+	 * Получить список сущностей по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetItemsByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($aFilter)) {
 			$aFilter = array();
@@ -276,24 +359,24 @@ abstract class ModuleORM extends Module {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
 
-        // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (array_key_exists('#cache', $aFilter) && !$aFilter['#cache']) {
-            $aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
-        } else {
-            $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
-            $sCacheKey=$sEntityFullRoot.'_items_by_filter_'.serialize($aFilter);
-            $aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
-            $iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
-            // переопределяем из параметров
-            if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
-            if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
-            if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
+		// Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
+		if (array_key_exists('#cache', $aFilter) && !$aFilter['#cache']) {
+			$aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
+		} else {
+			$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+			$sCacheKey=$sEntityFullRoot.'_items_by_filter_'.serialize($aFilter);
+			$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+			$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+			// переопределяем из параметров
+			if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
+			if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
+			if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
 
-            if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
-                $aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
-                $this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
-            }
-        }
+			if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
+				$aEntities=$this->oMapperORM->GetItemsByFilter($aFilter,$sEntityFull);
+				$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+			}
+		}
 		/**
 		 * Если необходимо подцепить связанные данные
 		 */
@@ -343,11 +426,11 @@ abstract class ModuleORM extends Module {
 
 		}
 
-        /**
+		/**
 	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
 		 */
 		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
-            $aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
+			$aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
 		}
 
 		/**
@@ -360,64 +443,78 @@ abstract class ModuleORM extends Module {
 		return $aEntities;
 	}
 
-    /**
+	/**
      * Returns assotiative array, indexed by PRIMARY KEY or another field.
      * @param <type> $oEntity
      * @param <type> $aFilter
      * @return <type>
      */
-    protected function _setIndexesFromField($aEntities, $aFilter)
-    {
-        $aIndexedEntities=array();
-        foreach ($aEntities as $oEntity) {
-            $sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
-                $oEntity->_getPrimaryKey() :
-                $oEntity->_getField($aFilter['#index-from']);
-            $aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
-        }
+	protected function _setIndexesFromField($aEntities, $aFilter)
+	{
+		$aIndexedEntities=array();
+		foreach ($aEntities as $oEntity) {
+			$sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
+			$oEntity->_getPrimaryKey() :
+			$oEntity->_getField($aFilter['#index-from']);
+			$aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
+		}
 		return $aIndexedEntities;
-    }
+	}
 
+	/**
+	 * Получить количество сущностей по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetCountItemsByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-        // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (array_key_exists('#cache', $aFilter) && !$aFilter['#cache']) {
-            $iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
-        } else {
-            $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
-            $sCacheKey=$sEntityFullRoot.'_count_items_by_filter_'.serialize($aFilter);
-            $aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
-            $iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
-            // переопределяем из параметров
-            if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
-            if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
-            if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
+		// Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
+		if (array_key_exists('#cache', $aFilter) && !$aFilter['#cache']) {
+			$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+		} else {
+			$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+			$sCacheKey=$sEntityFullRoot.'_count_items_by_filter_'.serialize($aFilter);
+			$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+			$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+			// переопределяем из параметров
+			if (isset($aFilter['#cache'][0])) $sCacheKey=$aFilter['#cache'][0];
+			if (isset($aFilter['#cache'][1])) $aCacheTags=$aFilter['#cache'][1];
+			if (isset($aFilter['#cache'][2])) $iCacheTime=$aFilter['#cache'][2];
 
-            if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
-                $iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
-                $this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
-            }
-        }
+			if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
+				$iCount=$this->oMapperORM->GetCountItemsByFilter($aFilter,$sEntityFull);
+				$this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
+			}
+		}
 
 		return $iCount;
 	}
 
 	/*
-	 * Returns associative array of entities, indexed by PRIMARY KEY
-	 */
+	* Returns associative array of entities, indexed by PRIMARY KEY
+	*/
 	public function GetItemsByArray($aFilter,$sEntityFull=null) {
 		foreach ($aFilter as $k=>$v) {
-				$aFilter["{$k} IN"]=$v;
-				unset($aFilter[$k]);
+			$aFilter["{$k} IN"]=$v;
+			unset($aFilter[$k]);
 		}
 		$aFilter[] = '#index-from-primary';
 		return $this->GetItemsByFilter($aFilter,$sEntityFull);
 	}
 
+	/**
+	 * Получить сущности по связанной таблице
+	 *
+	 * @param unknown_type $aJoinData
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
@@ -425,69 +522,76 @@ abstract class ModuleORM extends Module {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
 
-        // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (array_key_exists('#cache', $aJoinData) && !$aJoinData['#cache']) {
-            $aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
-        } else {
-            $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
-            $sCacheKey=$sEntityFullRoot.'_items_by_join_table_'.serialize($aJoinData);
-            $aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
-            $iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
-            // переопределяем из параметров
-            if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
-            if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
-            if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
+		// Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
+		if (array_key_exists('#cache', $aJoinData) && !$aJoinData['#cache']) {
+			$aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+		} else {
+			$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+			$sCacheKey=$sEntityFullRoot.'_items_by_join_table_'.serialize($aJoinData);
+			$aCacheTags=array($sEntityFullRoot.'_save',$sEntityFullRoot.'_delete');
+			$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+			// переопределяем из параметров
+			if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
+			if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
+			if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
 
-             // Добавление тега для обработки MANY_TO_MANY
-            $aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
-            if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
-                $aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
-                $this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
-            }
-        }
-
-        if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
-            $aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
+			// Добавление тега для обработки MANY_TO_MANY
+			$aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
+			if (false === ($aEntities = $this->Cache_Get($sCacheKey))) {
+				$aEntities = $this->oMapperORM->GetItemsByJoinTable($aJoinData,$sEntityFull);
+				$this->Cache_Set($aEntities,$sCacheKey, $aCacheTags, $iCacheTime);
+			}
 		}
 
-        /**
+		if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
+			$aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
+		}
+
+		/**
 		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByJoinTable($aJoinData,$sEntityFull));
 		}
 
-        return $aEntities;
+		return $aEntities;
 	}
 
-    public function GetCountItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
+	/**
+	 * Получить число сущностей по связанной таблице
+	 *
+	 * @param unknown_type $aJoinData
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
+	public function GetCountItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.Engine::GetModuleName(get_class($this));
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-        // Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
-        if (array_key_exists( '#cache', $aJoinData) && !$aJoinData['#cache']) {
-            $iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
-        } else {
-            $sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
-            $sCacheKey=$sEntityFullRoot.'_count_items_by_join_table_'.serialize($aJoinData);
-            $aCacheTags=array();
-            $iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
-            // переопределяем из параметров
-            if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
-            if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
-            if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
+		// Если параметр #cache указан и пуст, значит игнорируем кэширование для запроса
+		if (array_key_exists( '#cache', $aJoinData) && !$aJoinData['#cache']) {
+			$iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
+		} else {
+			$sEntityFullRoot=$this->Plugin_GetRootDelegater('entity',$sEntityFull);
+			$sCacheKey=$sEntityFullRoot.'_count_items_by_join_table_'.serialize($aJoinData);
+			$aCacheTags=array();
+			$iCacheTime=60*60*24; // скорее лучше хранить в свойстве сущности, для возможности выборочного переопределения
+			// переопределяем из параметров
+			if (isset($aJoinData['#cache'][0])) $sCacheKey=$aJoinData['#cache'][0];
+			if (isset($aJoinData['#cache'][1])) $aCacheTags=$aJoinData['#cache'][1];
+			if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
 
-            $aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
+			$aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
 
-            if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
-                $iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
-                $this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
-            }
-        }
+			if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
+				$iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
+				$this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
+			}
+		}
 
-        return $iCount;
+		return $iCount;
 	}
 
 	public function __call($sName,$aArgs) {
@@ -612,8 +716,8 @@ abstract class ModuleORM extends Module {
 		 * getUserItemsAll()	get_user_items_all
 		 */
 		if (preg_match("@^get_([a-z]+)_all$@i",$sNameUnderscore,$aMatch) ||
-			preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
-			) {
+		preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
+		) {
 			$aFilter=array();
 			if (isset($aArgs[0]) and is_array($aArgs[0])) {
 				$aFilter=$aArgs[0];
@@ -624,16 +728,24 @@ abstract class ModuleORM extends Module {
 		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
 
+	/**
+	 * Построение дерева
+	 *
+	 * @param unknown_type $aItems
+	 * @param unknown_type $aList
+	 * @param unknown_type $iLevel
+	 * @return unknown
+	 */
 	static function buildTree($aItems,$aList=array(),$iLevel=0) {
 		foreach($aItems as $oEntity) {
 			$aChildren=$oEntity->getChildren();
 			$bHasChildren = !empty($aChildren);
 			$sEntityId = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
 			$aList[$sEntityId] = array(
-				'entity'		 => $oEntity,
-				'parent_id'		 => $oEntity->getParentId(),
-				'children_count' => $bHasChildren ? count($aChildren) : 0,
-				'level'			 => $iLevel,
+			'entity'		 => $oEntity,
+			'parent_id'		 => $oEntity->getParentId(),
+			'children_count' => $bHasChildren ? count($aChildren) : 0,
+			'level'			 => $iLevel,
 			);
 			if($bHasChildren) {
 				$aList=self::buildTree($aChildren,$aList,$iLevel+1);
@@ -642,55 +754,52 @@ abstract class ModuleORM extends Module {
 		return $aList;
 	}
 
-    /**
+	/**
      * Обновление связи many_to_many в бд
      * @param <type> $aRelation Соответствующий связи элемент массива из $oEntityORM->aRelations
      * @param <type> $aRelationData Соответствующий связи элемент массива из $oEntityORM->aRelationsData
      * @param <type> $iEntityId Id сущности, для которой обновляются связи
      * @return <type>
      */
-    protected function _updateManyToManySet($aRelation, $aRelationData, $iEntityId)
-    {
-        /*
-         * Описание параметров связи many_to_many
-         * Для примера возьмём такую связь в сущности $oTopic
-         * 'tags' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleTopic_EntityTag', 'tag_id',  'db.table.topic_tag_rel', 'topic_id'),
-         * И используется таблица связи
-         * table prefix_topic_tag_rel
-         *  topic_id | ефп_id
-         * Тогда тут
-         * [0] -> self::RELATION_TYPE_MANY_TO_MANY - тип связи
-         * [1] -> 'ModuleTopic_EntityTag' - имя сущности объектов связи
-         * [2] -> 'tag_id' - названия столбца в таблице связи, в котором содержатся id объектов связи, в нашем случае тегов.
-         * [3] -> 'db.table.topic_tag_rel' - алиас (идентификатор из конфига) таблицы связи.
-         *      Обратите внмание на то, что ORM для определения таблиц сущностей использует модуль и название сущности, то есть
-         *      если мы захотим таблицу связи назвать prefix_topic_tag, что, в общем-то, логично, то будет конфликт имён, потому что
-         *      ModuleTopic_EntityTag также преобразуется в prefix_topic_tag.
-         *      Поэтому необходимо следить за корректным именованием таблиц (точнее алиасов в конфиге, сами таблицы в бд могут
-         *      называться как угодно). В данном примере используется суффикс '_rel'.
-         * [4] -> 'topic_id' - название столбца в таблице связи, в котором содержатся id сущности, для которой объявляется связь,
-         *      в нашем случае топиков
-         */
-        $aSavedSet = $this->oMapperORM->getManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2]);
-        $aCurrentSet = array();
-        foreach ($aRelationData as $oEntity) {
-            $aCurrentSet[] = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
-        }
-        if ($aSavedSet == $aCurrentSet) return;
-        $aInsertSet = array_diff($aCurrentSet, $aSavedSet);
-        $aDeleteSet = array_diff($aSavedSet, $aCurrentSet);
-        $this->oMapperORM->updateManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2], $aInsertSet, $aDeleteSet);
-    }
+	protected function _updateManyToManySet($aRelation, $aRelationData, $iEntityId) {
+		/*
+		* Описание параметров связи many_to_many
+		* Для примера возьмём такую связь в сущности $oTopic
+		* 'tags' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleTopic_EntityTag', 'tag_id',  'db.table.topic_tag_rel', 'topic_id'),
+		* И используется таблица связи
+		* table prefix_topic_tag_rel
+		*  topic_id | ефп_id
+		* Тогда тут
+		* [0] -> self::RELATION_TYPE_MANY_TO_MANY - тип связи
+		* [1] -> 'ModuleTopic_EntityTag' - имя сущности объектов связи
+		* [2] -> 'tag_id' - названия столбца в таблице связи, в котором содержатся id объектов связи, в нашем случае тегов.
+		* [3] -> 'db.table.topic_tag_rel' - алиас (идентификатор из конфига) таблицы связи.
+		*      Обратите внмание на то, что ORM для определения таблиц сущностей использует модуль и название сущности, то есть
+		*      если мы захотим таблицу связи назвать prefix_topic_tag, что, в общем-то, логично, то будет конфликт имён, потому что
+		*      ModuleTopic_EntityTag также преобразуется в prefix_topic_tag.
+		*      Поэтому необходимо следить за корректным именованием таблиц (точнее алиасов в конфиге, сами таблицы в бд могут
+		*      называться как угодно). В данном примере используется суффикс '_rel'.
+		* [4] -> 'topic_id' - название столбца в таблице связи, в котором содержатся id сущности, для которой объявляется связь,
+		*      в нашем случае топиков
+		*/
+		$aSavedSet = $this->oMapperORM->getManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2]);
+		$aCurrentSet = array();
+		foreach ($aRelationData as $oEntity) {
+			$aCurrentSet[] = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
+		}
+		if ($aSavedSet == $aCurrentSet) return;
+		$aInsertSet = array_diff($aCurrentSet, $aSavedSet);
+		$aDeleteSet = array_diff($aSavedSet, $aCurrentSet);
+		$this->oMapperORM->updateManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2], $aInsertSet, $aDeleteSet);
+	}
 
-    /**
+	/**
      * Удаление связи many_to_many в бд
      * @param <type> $sDbTableAlias Алиас имени таблицы связи
      * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой удаляются связи.
      * @param <type> $iEntityId Id сущнсоти, для который удаляются связи
      */
-    protected function _deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId)
-    {
-        $this->oMapperORM->deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId);
-    }
+	protected function _deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId) {
+		$this->oMapperORM->deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId);
+	}
 }
-?>

@@ -54,6 +54,10 @@ class ActionAdmin extends Action {
 
 	}
 
+	/**
+	 * Перестроение дерева комментариев, актуально при $config['module']['comment']['use_nested'] = true;
+	 *
+	 */
 	protected function EventRestoreComment() {
 		set_time_limit(0);
 		$this->Comment_RestoreTree();
@@ -63,6 +67,11 @@ class ActionAdmin extends Action {
 		$this->SetTemplateAction('index');
 	}
 
+	/**
+	 * Страница со списком плагинов
+	 *
+	 * @return unknown
+	 */
 	protected function EventPlugins() {
 		$this->sMenuHeadItemSelect='plugins';
 		/**
@@ -101,91 +110,131 @@ class ActionAdmin extends Action {
 		$this->SetTemplateAction('plugins');
 	}
 
-    protected function EventUserFields()
-    {
-        switch(getRequest('action')) {
-            case 'add':
-                $this->Viewer_SetResponseAjax('json');
-                 if (!$this->checkUserField()) {
-                    return;
-                }
-                $oField = Engine::GetEntity('User_Field');
-                $oField->setName(getRequest('name'));
-                $oField->setTitle(getRequest('title'));
-                $oField->setPattern(getRequest('pattern'));
-                
-                $iId = $this->User_addUserField($oField);
-                if(!$iId) {
-                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                    return;
-                }
-                $this->Viewer_AssignAjax('id', $iId);
-                $this->Viewer_AssignAjax('lang_delete', $this->Lang_Get('user_field_delete'));
-                $this->Viewer_AssignAjax('lang_edit', $this->Lang_Get('user_field_update'));
-                $this->Message_AddNotice($this->Lang_Get('user_field_added'),$this->Lang_Get('attention'));
-                break;
-            case 'delete':
-                $this->Viewer_SetResponseAjax('json');
-                if (!getRequest('id')) {
-                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                    return;
-                }
-                $this->User_deleteUserField(getRequest('id'));
-                $this->Message_AddNotice($this->Lang_Get('user_field_deleted'),$this->Lang_Get('attention'));
-                break;
-            case 'update':
-                $this->Viewer_SetResponseAjax('json');
-                if (!getRequest('id')) {
-                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                    return;
-                }
-                if (!$this->User_userFieldExistsById(getRequest('id'))) {
-                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                    return false;
-                }
-                if (!$this->checkUserField()) {
-                    return;
-                }
-                $oField = Engine::GetEntity('User_Field');
-                $oField->setId(getRequest('id'));
-                $oField->setName(getRequest('name'));
-                $oField->setTitle(getRequest('title'));
-                $oField->setPattern(getRequest('pattern'));
-                
-                if ($this->User_updateUserField($oField)) {
-                    $this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-                    return;
-                }
-                $this->Message_AddNotice($this->Lang_Get('user_field_updated'),$this->Lang_Get('attention'));
-                break;
-            default:
-            	/**
+	/**
+	 * Управление полями пользователя
+	 *
+	 * @return unknown
+	 */
+	protected function EventUserFields()
+	{
+		switch(getRequest('action')) {
+			/**
+        	 * Создание нового поля
+        	 */
+			case 'add':
+				/**
+				 * Обрабатываем как ajax запрос (json)
+				 */
+				$this->Viewer_SetResponseAjax('json');
+				if (!$this->checkUserField()) {
+					return;
+				}
+				$oField = Engine::GetEntity('User_Field');
+				$oField->setName(getRequest('name'));
+				$oField->setTitle(getRequest('title'));
+				$oField->setPattern(getRequest('pattern'));
+
+				$iId = $this->User_addUserField($oField);
+				if(!$iId) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
+				/**
+				 * Прогружаем переменные в ajax ответ
+				 */
+				$this->Viewer_AssignAjax('id', $iId);
+				$this->Viewer_AssignAjax('lang_delete', $this->Lang_Get('user_field_delete'));
+				$this->Viewer_AssignAjax('lang_edit', $this->Lang_Get('user_field_update'));
+				$this->Message_AddNotice($this->Lang_Get('user_field_added'),$this->Lang_Get('attention'));
+				break;
+			/**
+			 * Удаление поля
+			 */
+			case 'delete':
+				/**
+				 * Обрабатываем как ajax запрос (json)
+				 */
+				$this->Viewer_SetResponseAjax('json');
+				if (!getRequest('id')) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
+				$this->User_deleteUserField(getRequest('id'));
+				$this->Message_AddNotice($this->Lang_Get('user_field_deleted'),$this->Lang_Get('attention'));
+				break;
+			/**
+			 * Изменение поля
+			 */
+			case 'update':
+				/**
+				 * Обрабатываем как ajax запрос (json)
+				 */
+				$this->Viewer_SetResponseAjax('json');
+				if (!getRequest('id')) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
+				if (!$this->User_userFieldExistsById(getRequest('id'))) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return false;
+				}
+				if (!$this->checkUserField()) {
+					return;
+				}
+				$oField = Engine::GetEntity('User_Field');
+				$oField->setId(getRequest('id'));
+				$oField->setName(getRequest('name'));
+				$oField->setTitle(getRequest('title'));
+				$oField->setPattern(getRequest('pattern'));
+
+				if ($this->User_updateUserField($oField)) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
+				$this->Message_AddNotice($this->Lang_Get('user_field_updated'),$this->Lang_Get('attention'));
+				break;
+			/**
+			 * Показываем страницу со списком полей
+			 */
+			default:
+				/**
 				 * Загружаем в шаблон JS текстовки
 				 */
-            	$this->Lang_AddLangJs(array('user_field_delete_confirm'));
-            	
-                $aUserFields = $this->User_getUserFields();
-                $this->Viewer_Assign('aUserFields',$aUserFields);
-                $this->SetTemplateAction('user_fields');
-                $this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/userfield.js');
-        }
-    }
-    public function checkUserField()
-    {
-         if (!getRequest('title')) {
-            $this->Message_AddError($this->Lang_Get('user_field_error_add_no_title'),$this->Lang_Get('error'));
-            return false;
-        }
-        if (!getRequest('name')) {
-            $this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
-            return false;
-        }
-        if ($this->User_userFieldExistsByName(getRequest('name'), getRequest('id'))) {
-            $this->Message_AddError($this->Lang_Get('user_field_error_name_exists'),$this->Lang_Get('error'));
-            return false;
-        }
-        return true;
-    }
+				$this->Lang_AddLangJs(array('user_field_delete_confirm'));
+				/**
+				 * Получаем список всех полей
+				 */
+				$aUserFields = $this->User_getUserFields();
+				$this->Viewer_Assign('aUserFields',$aUserFields);
+				$this->SetTemplateAction('user_fields');
+				$this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/userfield.js');
+		}
+	}
+	
+	/**
+	 * Проверка поля на корректность
+	 *
+	 * @return unknown
+	 */
+	public function checkUserField()
+	{
+		if (!getRequest('title')) {
+			$this->Message_AddError($this->Lang_Get('user_field_error_add_no_title'),$this->Lang_Get('error'));
+			return false;
+		}
+		if (!getRequest('name')) {
+			$this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
+			return false;
+		}
+		/**
+		 * Не допускаем дубликатов по имени
+		 */
+		if ($this->User_userFieldExistsByName(getRequest('name'), getRequest('id'))) {
+			$this->Message_AddError($this->Lang_Get('user_field_error_name_exists'),$this->Lang_Get('error'));
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Активация\деактивация плагина

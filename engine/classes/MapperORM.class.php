@@ -21,6 +21,12 @@
  */
 class MapperORM extends Mapper {
 	
+	/**
+	 * Добавление сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	public function AddEntity($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
 		
@@ -28,6 +34,12 @@ class MapperORM extends Mapper {
 		return $this->oDb->query($sql,$oEntity->_getData());
 	}
 	
+	/**
+	 * Обновление сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	public function UpdateEntity($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
 		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
@@ -46,6 +58,12 @@ class MapperORM extends Mapper {
 		}
 	}
 	
+	/**
+	 * Удаление сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	public function DeleteEntity($oEntity) {		
 		$sTableName = self::GetTableName($oEntity);
 		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
@@ -64,6 +82,13 @@ class MapperORM extends Mapper {
 		}
 	}
 	
+	/**
+	 * Получение сущности по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetByFilter($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
@@ -80,6 +105,13 @@ class MapperORM extends Mapper {
 		}
 	}
 
+	/**
+	 * Получение списка сущностей по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetItemsByFilter($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
@@ -100,6 +132,13 @@ class MapperORM extends Mapper {
 		return $aItems;
 	}
 	
+	/**
+	 * Получение числа сущностей по фильтру
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetCountItemsByFilter($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
@@ -114,28 +153,42 @@ class MapperORM extends Mapper {
 		return 0;
 	}
 	
+	/**
+	 * Получение сущностей по связанной таблице
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
 	public function GetItemsByJoinTable($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
-    $sPrimaryKey = $oEntitySample->_getPrimaryKey();
-    
+		$sPrimaryKey = $oEntitySample->_getPrimaryKey();
+
 		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 		list($sOrder,$sLimit)=$this->BuildFilterMore($aFilter,$oEntitySample);
 
 		$sql = "SELECT a.*, b.* FROM ?# a LEFT JOIN ".$sTableName." b ON b.?# = a.?# WHERE a.?#=? {$sFilterFields} {$sOrder} {$sLimit}";
 		$aQueryParams=array_merge(array($sql,$aFilter['#join_table'],$sPrimaryKey,$aFilter['#relation_key'],$aFilter['#by_key'],$aFilter['#by_value']),array_values($aFilterFields));
-		
+
 		$aItems = array();
 		if($aRows=call_user_func_array(array($this->oDb,'select'),$aQueryParams)) {
 			foreach($aRows as $aRow) {
 				$oEntity=Engine::GetEntity($sEntityFull,$aRow);
 				$oEntity->_SetIsNew(false);
 				$aItems[] = $oEntity;
-			}			
+			}
 		}
 		return $aItems;
 	}
 
+	/**
+	 * Получение числа сущностей по связанной таблице
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $sEntityFull
+	 * @return unknown
+	 */
     public function GetCountItemsByJoinTable($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
 		$sTableName = self::GetTableName($sEntityFull);
@@ -157,6 +210,13 @@ class MapperORM extends Mapper {
 		return 0;
 	}
 	
+	/**
+	 * Построение фильтра
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $oEntitySample
+	 * @return unknown
+	 */
 	public function BuildFilter($aFilter,$oEntitySample) {
 		$aFilterFields=array();
 		foreach ($aFilter as $k=>$v) {
@@ -191,6 +251,13 @@ class MapperORM extends Mapper {
 		return array($aFilterFields,$sFilterFields);
 	}
 	
+	/**
+	 * Построение дополнительного фильтра
+	 *
+	 * @param unknown_type $aFilter
+	 * @param unknown_type $oEntitySample
+	 * @return unknown
+	 */
 	public function BuildFilterMore($aFilter,$oEntitySample) {
 		// Сортировка
 		$sOrder='';
@@ -239,12 +306,24 @@ class MapperORM extends Mapper {
 		}
 		return array($sOrder,$sLimit);
 	}
-		
+
+	/**
+	 * Список колонок сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	public function ShowColumnsFrom($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
 		return $this->ShowColumnsFromTable($sTableName);
 	}
 	
+	/**
+	 * Список колонок таблицы
+	 *
+	 * @param unknown_type $sTableName
+	 * @return unknown
+	 */
 	public function ShowColumnsFromTable($sTableName) {
 		if (false === ($aItems = Engine::getInstance()->Cache_GetLife("columns_table_{$sTableName}"))) {
 			$sql = "SHOW COLUMNS FROM ".$sTableName;
@@ -261,7 +340,13 @@ class MapperORM extends Mapper {
 		}
 		return $aItems;
 	}
-	
+
+	/**
+	 * Возвращает имя таблицы для сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
 	public static function GetTableName($oEntity) {
 		/**
 		 * Варианты таблиц:
@@ -282,7 +367,7 @@ class MapperORM extends Mapper {
 		}
 	}
 
-    /**
+	/**
      * Загрузка данных из таблицы связи many_to_many
      * @param <type> $sDbTableAlias Алиас имени таблицы связи
      * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой зегружаются объекты.
@@ -290,14 +375,13 @@ class MapperORM extends Mapper {
      * @param <type> $sRelationKey Название поля в таблице связи с id сущности, объекты которой загружаются по связи.
      * @return <type> список id из столбца $sRelationKey, у которых столбец $sEntityKey = $iEntityId
      */
-    public function getManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey)
-    {
-        if (!Config::Get($sDbTableAlias)) return array();
-        $sql = 'SELECT ?# FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
-        return $this->oDb->selectCol($sql, $sRelationKey, $sEntityKey, $iEntityId);
-    }
+	public function getManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey) {
+		if (!Config::Get($sDbTableAlias)) return array();
+		$sql = 'SELECT ?# FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
+		return $this->oDb->selectCol($sql, $sRelationKey, $sEntityKey, $iEntityId);
+	}
 
-    /**
+	/**
      * Обновление связи many_to_many
      * @param <type> $sDbTableAlias Алиас имени таблицы связи
      * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой обновляются связи.
@@ -307,28 +391,27 @@ class MapperORM extends Mapper {
      * @param <type> $aDeleteSet Массив id для $sRelationKey, которые нужно удалить
      * @return <type>
      */
-    public function updateManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey, $aInsertSet, $aDeleteSet)
-    {
-        if (!Config::Get($sDbTableAlias)) return false;
-        if (count($aDeleteSet)) {
-            $sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d AND ?# IN (?a)';
-            $this->oDb->query($sql,  $sEntityKey, $iEntityId, $sRelationKey, $aDeleteSet);
-        }
+	public function updateManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId, $sRelationKey, $aInsertSet, $aDeleteSet) {
+		if (!Config::Get($sDbTableAlias)) return false;
+		if (count($aDeleteSet)) {
+			$sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d AND ?# IN (?a)';
+			$this->oDb->query($sql,  $sEntityKey, $iEntityId, $sRelationKey, $aDeleteSet);
+		}
 
-        if (count($aInsertSet)) {
-            $sql = 'INSERT INTO '.Config::Get($sDbTableAlias).' (?#,?#) VALUES ';
-            $aParams = array();
-            foreach ($aInsertSet as $iId) {
-                $sql .= '(?d, ?d), ';
-                $aParams[] = $iEntityId;
-                $aParams[] = $iId;
-            }
-            $sql = substr($sql, 0, -2); // удаление последних ", "
-            call_user_func_array(array($this->oDb, 'query'), array_merge(array($sql,$sEntityKey, $sRelationKey), $aParams));
-        }
-    }
+		if (count($aInsertSet)) {
+			$sql = 'INSERT INTO '.Config::Get($sDbTableAlias).' (?#,?#) VALUES ';
+			$aParams = array();
+			foreach ($aInsertSet as $iId) {
+				$sql .= '(?d, ?d), ';
+				$aParams[] = $iEntityId;
+				$aParams[] = $iId;
+			}
+			$sql = substr($sql, 0, -2); // удаление последних ", "
+			call_user_func_array(array($this->oDb, 'query'), array_merge(array($sql,$sEntityKey, $sRelationKey), $aParams));
+		}
+	}
 
-    /**
+	/**
      * Удаление связей many_to_many для объекта. Используется при удалении сущности,
      * чтобы не удалять большие коллекции связанных объектов через updateManyToManySet(),
      * где используется IN.
@@ -338,11 +421,9 @@ class MapperORM extends Mapper {
      * @param <type> $iEntityId Id сущнсоти, для который удаляются связи
      * @return <type>
      */
-    public function deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId)
-    {
-        if (!Config::Get($sDbTableAlias)) return false;
-        $sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
-        $this->oDb->query($sql, $sEntityKey, $iEntityId);
-    }
+	public function deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId) {
+		if (!Config::Get($sDbTableAlias)) return false;
+		$sql = 'DELETE FROM '.Config::Get($sDbTableAlias).' WHERE ?# = ?d';
+		$this->oDb->query($sql, $sEntityKey, $iEntityId);
+	}
 }
-?>

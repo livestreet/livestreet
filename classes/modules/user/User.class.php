@@ -1191,86 +1191,90 @@ class ModuleUser extends Module {
 		return false;
 	}
 
-    /**
+	/**
      * Получить дополниетльные поля профиля пользователя
      * @return type 
      */
-    public function getUserFields()
-    {
-        return $this->oMapper->getUserFields();
-    }
+	public function getUserFields() {
+		return $this->oMapper->getUserFields();
+	}
 
-    /**
+	/**
      * Получить значения дополнительных полей профиля пользователя
      * @param type $iUserId
      * @param type $bOnlyNoEmpty Загружать только непустые поля
      * @return type 
      */
-    public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true)
-    {
-        return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
-    }
-    
-     /**
+	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true) {
+		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
+	}
+
+	/**
      * Получить по имени поля его значение дял определённого пользователя
      * @param type $iUserId
      * @param type $bOnlyNoEmpty Загружать только непустые поля
      * @return type 
      */
-    public function getUserFieldValueByName($iUserId, $sName)
-    {
-        return $this->oMapper->getUserFieldValueByName($iUserId, $sName);
-    }
+	public function getUserFieldValueByName($iUserId, $sName) {
+		return $this->oMapper->getUserFieldValueByName($iUserId, $sName);
+	}
 
-    /**
+	/**
      * Установить значения дополнительных полей профиля пользователя
      * @param type $iUserId
      * @param type $aFields Ассоциативный массив полей id => value
      * @return type 
      */
-    public function setUserFieldsValues($iUserId, $aFields)
-    {
-        return $this->oMapper->setUserFieldsValues($iUserId, $aFields);
-    }
+	public function setUserFieldsValues($iUserId, $aFields) {
+		return $this->oMapper->setUserFieldsValues($iUserId, $aFields);
+	}
 
-    /**
+	/**
      * Добавить поле    
      * @param type $sName
      * @return type 
      */
-    public function addUserField($oField)
-    {
-        return $this->oMapper->addUserField($oField);
-    }
-    
-    /**
+	public function addUserField($oField) {
+		return $this->oMapper->addUserField($oField);
+	}
+
+	/**
      * Изменить поле    
      * @param type $sName
      * @return type 
      */
-    public function updateUserField($oField)
-    {
-        return $this->oMapper->updateUserField($oField);
-    }
+	public function updateUserField($oField) {
+		return $this->oMapper->updateUserField($oField);
+	}
 
-    /**
+	/**
      * Удалить поле
      * @param type $iId
      * @return type 
      */
-    public function deleteUserField($iId)
-    {
-        return $this->oMapper->deleteUserField($iId);
-    }
-    
-    public function userFieldExistsByName($sName, $iId = null)
-    {
-        return $this->oMapper->userFieldExistsByName($sName, $iId);
-    }
-    
-     public function userFieldExistsById($iId)
-    {
-        return $this->oMapper->userFieldExistsById($iId);
-    }
+	public function deleteUserField($iId) {
+		return $this->oMapper->deleteUserField($iId);
+	}
+
+	/**
+	 * Проверяет существует ли поле с таким именем
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $iId
+	 * @return unknown
+	 */
+	public function userFieldExistsByName($sName, $iId = null) {
+		return $this->oMapper->userFieldExistsByName($sName, $iId);
+	}
+
+	/**
+	 * Проверяет существует ли поле с таким ID
+	 *
+	 * @param unknown_type $iId
+	 * @return unknown
+	 */
+	public function userFieldExistsById($iId) {
+		return $this->oMapper->userFieldExistsById($iId);
+	}
 }
 ?>

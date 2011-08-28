@@ -16,11 +16,15 @@
 */
 
 /**
- * Абстрактный класс сущности ORM
+ * Абстрактный класс сущности ORM - аналог active record
  *
  */
 abstract class EntityORM extends Entity {
 
+	/**
+	 * Типы связей сущностей
+	 *
+	 */
 	const RELATION_TYPE_BELONGS_TO='belongs_to';
 	const RELATION_TYPE_HAS_MANY='has_many';
 	const RELATION_TYPE_HAS_ONE='has_one';
@@ -29,15 +33,39 @@ abstract class EntityORM extends Entity {
 
 	protected $_aOriginalData=array();
 
+	/**
+	 * Список полей таблицы сущности
+	 *
+	 * @var unknown_type
+	 */
 	protected $aFields=array();
 
+	/**
+	 * Список связей
+	 *
+	 * @var unknown_type
+	 */
 	protected $aRelations=array();
+	/**
+	 * Список данных связей
+	 *
+	 * @var unknown_type
+	 */
 	protected $aRelationsData=array();
 
     // Объекты связей many_to_many
     protected $_aManyToManyRelations = array();
-
+	/**
+	 * Primary key таблицы сущности
+	 *
+	 * @var unknown_type
+	 */
 	protected $sPrimaryKey='id';
+	/**
+	 * Флаг новая или нет сущность
+	 *
+	 * @var unknown_type
+	 */
 	protected $bIsNew=true;
 
 
@@ -46,6 +74,11 @@ abstract class EntityORM extends Entity {
 		$this->aRelations=$this->_getRelations();
 	}
 
+	/**
+	 * Получение primary key из схемы таблицы
+	 *
+	 * @return unknown
+	 */
 	public function _getPrimaryKey() {
 		if(!$this->_getDataOne($this->sPrimaryKey)) {
 			if($this->_getFields()) {
@@ -59,18 +92,38 @@ abstract class EntityORM extends Entity {
 		return $this->sPrimaryKey;
 	}
 
+	/**
+	 * Получение значения primary key
+	 *
+	 * @return unknown
+	 */
     public function _getPrimaryKeyValue() {
         return $this->_getDataOne($this->_getPrimaryKey());
     }
 
+    /**
+     * Новая или нет сущность
+     *
+     * @return unknown
+     */
 	public function _isNew() {
 		return $this->bIsNew;
 	}
 
+	/**
+	 * Установка флага "новая"
+	 *
+	 * @param unknown_type $bIsNew
+	 */
 	public function _SetIsNew($bIsNew) {
 		$this->bIsNew=$bIsNew;
 	}
 
+	/**
+	 * Добавление сущности в БД
+	 *
+	 * @return unknown
+	 */
 	public function Add() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -80,6 +133,11 @@ abstract class EntityORM extends Entity {
 		return false;
 	}
 
+	/**
+	 * Обновление сущности в БД
+	 *
+	 * @return unknown
+	 */
 	public function Update() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -89,6 +147,11 @@ abstract class EntityORM extends Entity {
 		return false;
 	}
 
+	/**
+	 * Сохранение сощности в БД (если новая то создается)
+	 *
+	 * @return unknown
+	 */
 	public function Save() {
 		if ($this->beforeSave())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -98,6 +161,11 @@ abstract class EntityORM extends Entity {
 		return false;
 	}
 
+	/**
+	 * Удаление сущности из БД
+	 *
+	 * @return unknown
+	 */
 	public function Delete() {
 		if ($this->beforeDelete())
 			if ($res=$this->_Method(__FUNCTION__)) {
@@ -107,32 +175,63 @@ abstract class EntityORM extends Entity {
 		return false;
 	}
 
+	/**
+	 * Обновляет данные сущности из БД
+	 *
+	 * @return unknown
+	 */
 	public function Reload() {
 		return $this->_Method(__FUNCTION__);
 	}
 
+	/**
+	 * Список полей сущности
+	 *
+	 * @return unknown
+	 */
 	public function ShowColumns() {
 		return $this->_Method(__FUNCTION__ .'From');
 	}
 
-
+	/**
+	 * Хук, срабатывает перед сохранением сущности
+	 *
+	 * @return unknown
+	 */
 	protected function beforeSave() {
 		return true;
 	}
 
+	/**
+	 * Хук, срабатывает после сохранением сущности
+	 *
+	 */
 	protected function afterSave() {
 
 	}
 
+	/**
+	 * Хук, срабатывает перед удалением сущности
+	 *
+	 * @return unknown
+	 */
 	protected function beforeDelete() {
 		return true;
 	}
 
+	/**
+	 * Хук, срабатывает после удаления сущности
+	 *
+	 */
 	protected function afterDelete() {
 
 	}
 
-
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список прямых потомков
+	 *
+	 * @return unknown
+	 */
 	public function getChildren() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -140,6 +239,11 @@ abstract class EntityORM extends Entity {
 		return $this->__call(__FUNCTION__);
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех потомков
+	 *
+	 * @return unknown
+	 */
 	public function getDescendants() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -147,6 +251,11 @@ abstract class EntityORM extends Entity {
 		return $this->__call(__FUNCTION__);
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает предка
+	 *
+	 * @return unknown
+	 */
 	public function getParent() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -154,6 +263,11 @@ abstract class EntityORM extends Entity {
 		return $this->__call(__FUNCTION__);
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех предков
+	 *
+	 * @return unknown
+	 */
 	public function getAncestors() {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			return $this->_Method(__FUNCTION__ .'Of');
@@ -161,6 +275,12 @@ abstract class EntityORM extends Entity {
 		return $this->__call(__FUNCTION__);
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE устанавливает потомков
+	 *
+	 * @param unknown_type $aChildren
+	 * @return unknown
+	 */
 	public function setChildren($aChildren=array()) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['children'] = $aChildren;
@@ -170,6 +290,12 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE устанавливает потомков
+	 *
+	 * @param unknown_type $aDescendants
+	 * @return unknown
+	 */
 	public function setDescendants($aDescendants=array()) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['descendants'] = $aDescendants;
@@ -179,6 +305,12 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE устанавливает предка
+	 *
+	 * @param unknown_type $oParent
+	 * @return unknown
+	 */
 	public function setParent($oParent=null) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['parent'] = $oParent;
@@ -188,6 +320,12 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
+	/**
+	 * Для сущности со связью RELATION_TYPE_TREE устанавливает предков
+	 *
+	 * @param unknown_type $oParent
+	 * @return unknown
+	 */
 	public function setAncestors($oParent=null) {
 		if(in_array(self::RELATION_TYPE_TREE,$this->aRelations)) {
 			$this->aRelationsData['ancestors'] = $oParent;
@@ -197,6 +335,12 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
+	/**
+	 * Проксирует вызов методов в модуль сущности
+	 *
+	 * @param unknown_type $sName
+	 * @return unknown
+	 */
 	protected function _Method($sName) {
 		$sModuleName=Engine::GetModuleName($this);
 		$sEntityName=Engine::GetEntityName($this);
@@ -212,7 +356,11 @@ abstract class EntityORM extends Entity {
 		return Engine::GetInstance()->_CallModule("{$sPluginPrefix}{$sModuleName}_{$sName}{$sEntityName}",array($this));
 	}
 
-
+	/**
+	 * Устанавливает данные сущности
+	 *
+	 * @param unknown_type $aData
+	 */
 	public function _setData($aData) {
 		if(is_array($aData)) {
 			foreach ($aData as $sKey => $val) {
@@ -226,10 +374,20 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
+	/**
+	 * Возвращает все данные сущности
+	 *
+	 * @return unknown
+	 */
 	public function _getOriginalData() {
 		return $this->_aOriginalData;
 	}
 
+	/**
+	 * Возвращает список полей сущности
+	 *
+	 * @return unknown
+	 */
 	public function _getFields() {
 		if(empty($this->aFields)) {
 			$this->aFields=$this->ShowColumns();
@@ -237,6 +395,13 @@ abstract class EntityORM extends Entity {
 		return $this->aFields;
 	}
 
+	/**
+	 * Возвращает поле в нужном формате
+	 *
+	 * @param unknown_type $sField
+	 * @param unknown_type $iPersistence
+	 * @return unknown
+	 */
 	public function _getField($sField,$iPersistence=3) {
 		if($aFields=$this->_getFields()) {
 			if(in_array($sField,$aFields)) {
@@ -268,6 +433,11 @@ abstract class EntityORM extends Entity {
 		return $sField;
 	}
 
+	/**
+	 * Возвращает список связей
+	 *
+	 * @return unknown
+	 */
 	public function _getRelations() {
 		$sParent=get_parent_class($this);
 		if(substr_count($sParent,'_Inherits_') || substr_count($sParent,'_Inherit_')) {
@@ -281,14 +451,31 @@ abstract class EntityORM extends Entity {
 		return array_merge($aParentRelations,$this->aRelations);
 	}
 
+	/**
+	 * Возвращает список данный связей
+	 *
+	 * @return unknown
+	 */
 	public function _getRelationsData() {
 		return $this->aRelationsData;
 	}
 
+	/**
+	 * Устанавливает данные связей
+	 *
+	 * @param unknown_type $aData
+	 */
 	public function _setRelationsData($aData) {
 		$this->aRelationsData=$aData;
 	}
 
+	/**
+	 * Вызов методов сущности
+	 *
+	 * @param unknown_type $sName
+	 * @param unknown_type $aArgs
+	 * @return unknown
+	 */
 	public function __call($sName,$aArgs) {
         $sType=substr($sName,0,strpos(func_underscore($sName),'_'));
 		if (!strpos($sName,'_') and in_array($sType,array('get','set','reload'))) {
@@ -397,8 +584,7 @@ abstract class EntityORM extends Entity {
 		}
 	}
 
-    public function __get($sName)
-    {
+    public function __get($sName) {
         // Обработка обращений к обёрткам связей MANY_TO_MANY
         // Если связь загружена, возвращаем объект связи
         if (isset($this->_aManyToManyRelations[func_underscore($sName)])) {
@@ -416,11 +602,14 @@ abstract class EntityORM extends Entity {
         }
     }
 
-    public function resetRelationsData($sKey)
-    {
+    /**
+     * Сбрасывает данные необходимой связи
+     *
+     * @param unknown_type $sKey
+     */
+    public function resetRelationsData($sKey) {
         if (isset($this->aRelationsData[$sKey])) {
             unset($this->aRelationsData[$sKey]);
         }
     }
 }
-?>

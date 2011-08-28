@@ -1,4 +1,20 @@
 <?php
+/*-------------------------------------------------------
+*
+*   LiveStreet Engine Social Networking
+*   Copyright © 2008 Mzhelskiy Maxim
+*
+*--------------------------------------------------------
+*
+*   Official site: www.livestreet.ru
+*   Contact e-mail: rus.engine@gmail.com
+*
+*   GNU General Public License, version 2:
+*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+---------------------------------------------------------
+*/
+
 /**
  * Класс. представляющий собой обёертку для связей MANY_TO_MANY.
  * Позволяет оперровать коллекцией загруженных по связи эдементов через имя связи
@@ -55,5 +71,3 @@ class LS_ManyToManyRelation
         return $this->bUpdated;
     }
 }
-
-?>
