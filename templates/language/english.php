@@ -899,6 +899,7 @@ return array(
 	 * Админка
 	 */
 	'admin_title' => 'Admin',
+	'admin_comment_restore_tree' => 'Tree comments restore successful',
 	
 	/**
 	 * Plugin administration page
