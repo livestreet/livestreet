@@ -3,6 +3,10 @@
 .block .bottom { padding-top: 5px; font-size: 11px; }
 .block .bottom a { color: #333; }
 
+.block .stream-settings-userlist ul, 
+.block .stream-settings-friends,
+.block .stream-settings-blogs { overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+
 /* Stream */
 .block.stream ul.list { border-top: 1px dashed #ddd; }
 .block.stream ul.list li { padding: 7px 0 10px; border-bottom: 1px dashed #ddd; }

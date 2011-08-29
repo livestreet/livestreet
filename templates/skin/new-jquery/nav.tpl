@@ -12,7 +12,7 @@
 		
 		<form action="{router page='search'}topics/" method="GET" class="search">
 			<input class="text" type="text" onblur="if (!value) value=defaultValue" onclick="if (value==defaultValue) value=''" value="{$aLang.search}" name="q" />
-			<input class="button" type="submit" value="" />
+			<input class="search-submit" type="submit" value="" />
 		</form>
 	</div>
 </div>

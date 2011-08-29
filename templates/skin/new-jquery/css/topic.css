@@ -19,7 +19,7 @@
 .topic .content img.image-center { display: block; margin: 0 auto; }
 
 /* Tags */
-.topic .tags { margin: 0 0 6px; padding-left: 13px; background: url(../images/tag.png) no-repeat 0 5px; }
+.topic .tags { margin: 0 0 6px; padding-left: 13px; background: url(../images/tag.png) no-repeat 0 5px; zoom: 1; }
 .topic .tags li { display: inline; color: #777; }
 .topic .tags li a { color: #777; text-decoration: none; }
 .topic .tags li a:hover { color: #fff; background: #777; }

@@ -5,6 +5,10 @@
 .block .bottom { padding-top: 5px; font-size: 11px; text-align: right; }
 .block .bottom a {  }
 
+.block .stream-settings-userlist ul, 
+.block .stream-settings-friends,
+.block .stream-settings-blogs { overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+
 /* Contacts */
 .block.contacts img { padding: 7px; border: 1px solid #ccc; }
 .block.contacts ul { margin-top: 5px; }

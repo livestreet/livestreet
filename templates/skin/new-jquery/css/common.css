@@ -43,7 +43,9 @@
 .switcher li { float: left; padding: 1px 7px 1px; color: #A2A2A2; background: #fff; position: relative; line-height: 15px; cursor: pointer; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
 .switcher li a { color: #A2A2A2; text-decoration: none; }
 .switcher li:first-child { -moz-border-radius-topleft: 5px; -moz-border-radius-bottomleft: 5px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-left: 1px solid #ddd; }
+.switcher li.first-child { border-left: 1px solid #ddd; }
 .switcher li:last-child { -moz-border-radius-topright: 5px; -moz-border-radius-bottomright: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-right: 1px solid #ddd; }
+.switcher li.last-child { border-right: 1px solid #ddd; }
 .switcher li.active { color: #fff; background: #83DC5F; border-color: #83DC5F; box-shadow: 0 1px 0 #75C656 inset; }
 .switcher li.active a { color: #fff; }
 .switcher li.active:before { content: ""; position: absolute; bottom: -4px; left: 8px; width: 5px; height: 3px; background: url(../images/arrows.png) -9px 0 no-repeat; }
@@ -55,13 +57,13 @@
 
 
 /* Actions */
-.actions { overflow: hidden; zoom: 1; margin-bottom: 10px; font-size: 11px; }
-.actions a { overflow: hidden; zoom: 1; margin-bottom: 10px; margin-right: 10px; text-decoration: none; }
-.actions li { float: left; }
+.actions { overflow: hidden; zoom: 1; font-size: 11px; }
+.actions a { overflow: hidden; zoom: 1; margin-right: 10px; text-decoration: none; }
+.actions li { float: left;}
 .actions .edit { padding-left: 16px; background: url(../images/edit.gif) no-repeat 0 1px; }
 .actions .delete { padding-left: 15px; background: url(../images/delete.gif) no-repeat 0 1px; color: #f00; }
-.actions .rss { display: block; width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat -70px -250px; margin-right: 4px; position: relative; top: 3px; }
-.actions .join { position: relative; top: 3px; }
+.actions .rss { display: block; width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat -70px -250px; margin-right: 4px; margin-top: 4px; }
+.actions .join { margin-top: 4px; }
 .actions a:hover { text-decoration: underline; }
 
 

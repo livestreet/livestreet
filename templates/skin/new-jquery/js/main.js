@@ -459,4 +459,11 @@ jQuery(document).ready(function($){
 		$("#show_blog_info").toggleClass("inactive");
 		return false;
 	});
+	
+	
+	// Detecting IE6-IE8
+	if ($.browser.msie && $.browser.version.substr(0,1) <= 8) { 
+		$(".switcher li:first-child").addClass("first-child");
+		$(".switcher li:last-child").addClass("last-child");
+	}
 });

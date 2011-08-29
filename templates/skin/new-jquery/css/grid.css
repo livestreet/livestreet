@@ -65,7 +65,7 @@
 
 /* Sub-menu */
 #nav .sub-menu { position: absolute; top: 35px; left: 0; width: 500px; font-size: 11px; }
-#nav .sub-menu li { margin-right: 5px; line-height: 12px; padding: 3px 10px 5px 10px !important; border-radius: 12px; }
+#nav .sub-menu li { margin-right: 5px; line-height: 13px; padding: 3px 10px 5px 10px !important; border-radius: 12px; }
 #nav .sub-menu li a { color: #777 !important; text-decoration: underline; }
 #nav .sub-menu li a:hover { text-decoration: none !important; }
 #nav .sub-menu li.active { background: #555; color: #fff; font-weight: bold; background: #83DC5F; box-shadow: 0 2px 0 #75C656 inset; }
@@ -75,7 +75,7 @@
 /* Search */
 #nav .search { position: absolute; bottom: 25px; right: 20px; }
 #nav .search .text { width: 165px; border: 1px solid #ccc; border-radius: 13px; padding: 4px 35px 4px 13px; color: #777; box-shadow: 0 2px 2px #eee inset; }
-#nav .search .button { width: 18px; height: 18px; position: absolute; top: 4px; right: 3px; border: none; background: url(../images/search.png) no-repeat; cursor: pointer; }
+#nav .search .search-submit { width: 18px; height: 18px; position: absolute; top: 4px; right: 7px; *top: 5px; border: none; background: url(../images/search.png) no-repeat; cursor: pointer; }
 
 /* Search */
 #nav .button-publish { float: left; text-decoration: none; background: url(../images/button_publish.gif) no-repeat; color: #333; margin-top: 45px; margin-right: 35px; }
@@ -98,7 +98,7 @@
 
 .blog .blog-header { overflow: hidden; zoom: 1; position: relative; padding: 0 100px 0 30px; }
 .blog .blog-header img { position: absolute; top: 0; left: 0; }
-.blog .blog-header h2 { font-size: 24px; float: left; line-height: 1.2em; margin-top: -4px; }
+.blog .blog-header h2 { font-size: 24px; line-height: 1.3em; margin-top: -4px; }
 .blog .blog-header h2 a { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
 .blog .blog-header h2.inactive a { color: #ccc; border-color: #ccc; }
 
@@ -118,7 +118,7 @@
 .blog-list-table { }
 .blog-list-table tbody { color: #999; }
 .blog-list-table td .avatar { float: left; position: relative; top: 2px; }
-.blog-list-table td .title { font-size: 18px; }
+.blog-list-table td .title { font-size: 18px; line-height: 22px; }
 .blog-list-table td .user { font-weight: bold; color: #999; background: url(../images/icons.gif) 0 -108px no-repeat; }
 .blog-list-table td .private { position: relative; top: 2px; }
 .blog-list-table td p { margin-bottom: 0; color: #999; }

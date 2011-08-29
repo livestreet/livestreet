@@ -421,6 +421,10 @@ p { margin-bottom: 18px; }
 .block.stream-settings .stream-settings-userlist p a:hover { color: #555; border-color: #555; }
 .block.stream-settings .stream-settings-userlist li { padding-bottom: 5px; }
 
+.block .stream-settings-userlist ul, 
+.block .stream-settings-friends,
+.block .stream-settings-blogs { overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+
 /* Userfields
 -------------------------------------------------------------------*/
 .userfield-list { width: 450px; border-top: 1px solid #eee; }

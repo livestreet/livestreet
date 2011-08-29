@@ -31,6 +31,6 @@
 #notifier .n-box h3 { color: #fff; font-size: 14px; font-weight: bold; margin-bottom: 3px; }
 #notifier .n-box p { margin: 0; }
 
-#notifier .n-box.n-notice { background: #FFF1A8; color: #000; opacity: 0.9; }
+#notifier .n-box.n-notice { background: #64DD49; color: #000; opacity: 0.95; }
 #notifier .n-box.n-notice h3 { color: #333; }
 #notifier .n-box.n-error { background: #BC0000; color: #fff; opacity: 0.8; }
