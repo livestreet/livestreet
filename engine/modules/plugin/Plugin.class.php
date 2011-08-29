@@ -122,10 +122,11 @@ class ModulePlugin extends Module {
 	 */
 	protected function Xlang($oXml,$sProperty,$sLang) {
 		$sProperty=trim($sProperty);
-		
-		$oXml->$sProperty->data = count($data=$oXml->xpath("{$sProperty}/lang[@name='{$sLang}']")) 
-			? $this->Text_Parser(trim((string)array_shift($data)))
-			: $this->Text_Parser(trim((string)array_shift($oXml->xpath("{$sProperty}/lang[@name='default']"))));	
+
+		if (!count($data=$oXml->xpath("{$sProperty}/lang[@name='{$sLang}']"))) {
+			$data=$oXml->xpath("{$sProperty}/lang[@name='default']");
+		}
+		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
 	}
 	
 	public function Toggle($sPlugin,$sAction) {
