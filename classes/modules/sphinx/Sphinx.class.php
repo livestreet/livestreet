@@ -57,7 +57,8 @@ class ModuleSphinx extends Module {
 		/**
 		 * используем кеширование при поиске
 		 */
-		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}";		
+		$sExtraFilters = serialize($aExtraFilters);
+		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}_{$sExtraFilters}";		
 		if (false === ($data = $this->Cache_Get($cacheKey))) {
 			/**
 			 * Параметры поиска
