@@ -14,9 +14,18 @@
 *
 ---------------------------------------------------------
 */
+$config=array();
+
 $config['table']['page']                = '___db.table.prefix___page';
 
 Config::Set('router.page.page', 'PluginPage_ActionPage');
+
+// Settings for plugin Sitemap
+$config['sitemap'] = array (
+    'cache_lifetime' => 60 * 60 * 24, // 24 hours
+    'sitemap_priority' => '0.8',
+    'sitemap_changefreq' => 'monthly'
+);
 
 return $config;
 ?>

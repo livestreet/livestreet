@@ -19,10 +19,17 @@
  * Запрещаем напрямую через браузер обращение к этому файлу.
  */
 if (!class_exists('Plugin')) {
-	die('Hacking attemp!');
+	die('Hacking attempt!');
 }
 
 class PluginPage extends Plugin {
+
+	protected $aInherits = array(
+		'module' => array(
+			'PluginSitemap_ModuleSitemap' => 'PluginPage_ModuleSitemap',
+		),
+	);
+
 	
 	/**
 	 * Активация плагина "Статические страницы".

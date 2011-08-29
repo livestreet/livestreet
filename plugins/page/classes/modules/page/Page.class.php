@@ -204,5 +204,27 @@ class PluginPage_ModulePage extends Module {
 	public function GetMaxSortByPid($sPid) {
 		return $this->oMapper->GetMaxSortByPid($sPid);
 	}
+	
+	/**
+     * Get count of pages
+     *
+     * @return integer
+     */
+	public function getCountOfActivePages() {
+		return (int)$this->oMapper->getCountOfActivePages();
+	}
+
+	/**
+     * Get list of active pages
+     *
+     * @param integer $iCount
+     * @param integer $iCurrPage
+     * @param integer $iPerPage
+     * @return array
+     */
+	public function getListOfActivePages(&$iCount, $iCurrPage, $iPerPage) {
+		return $this->oMapper->getListOfActivePages($iCount, $iCurrPage, Config::Get('plugin.sitemap.objects_per_page'));
+	}
+
 }
 ?>
