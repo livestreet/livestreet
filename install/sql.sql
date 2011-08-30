@@ -415,15 +415,15 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_content` (
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_photo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topic_id` int(11) unsigned NOT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `topic_id` int(11) unsigned default NULL,
   `path` varchar(255) NOT NULL,
   `description` text,
-  `target_tmp` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `target_tmp` varchar(40) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `topic_id` (`topic_id`),
   KEY `target_tmp` (`target_tmp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
