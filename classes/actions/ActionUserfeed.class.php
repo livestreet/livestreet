@@ -128,9 +128,23 @@ class ActionUserfeed extends Action {
 		switch($sType) {
 			case 'blogs':
 				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_BLOG;
+				/**
+				 * Проверяем существование блога
+				 */
+				if (!$this->Blog_GetBlogById(getRequest('id'))) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
 				break;
 			case 'users':
 				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+				/**
+				 * Проверяем существование пользователя
+				 */
+				if (!$this->User_GetUserById(getRequest('id'))) {
+					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+					return;
+				}
 				if ($this->oUserCurrent->getId() == getRequest('id')) {
 					$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
 					return;
