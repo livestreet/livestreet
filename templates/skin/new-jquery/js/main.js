@@ -227,6 +227,14 @@ ls.tools = (function ($) {
 		});
 	}
 	
+	/**
+	* Возвращает выделенный текст на странице
+	*/
+	this.getSelectedText = function(){
+		if ($.browser.msie) return document.selection.createRange().text;
+		return document.getSelection();
+	}
+	
 	return this;
 }).call(ls.tools || {},jQuery);
 

@@ -24,7 +24,7 @@ function getMarkitupSettings() {
 			{name: ls.lang.get('panel_i'), className:'editor-italic', key:'I', openWith:'(!(<em>|!|<i>)!)', closeWith:'(!(</em>|!|</i>)!)'  },
 			{name: ls.lang.get('panel_s'), className:'editor-stroke', key:'S', openWith:'<s>', closeWith:'</s>' },
 			{name: ls.lang.get('panel_u'), className:'editor-underline', key:'U', openWith:'<u>', closeWith:'</u>' },
-			{name: ls.lang.get('panel_quote'), className:'editor-quote', key:'Q', openWith:'<blockquote>', closeWith:'</blockquote>' },
+			{name: ls.lang.get('panel_quote'), className:'editor-quote', key:'Q', replaceWith: function(m) { if (m.selectionOuter) return '<blockquote>'+m.selectionOuter+'</blockquote>'; else if (m.selection) return '<blockquote>'+m.selection+'</blockquote>'; else return '<blockquote></blockquote>' } },
 			{name: ls.lang.get('panel_code'), className:'editor-code', openWith:'<code>', closeWith:'</code>' },
 			{separator:'---------------' },
 	        {name: ls.lang.get('panel_list'), className:'editor-ul', openWith:'<ul>\n', closeWith:'</ul>\n' },
