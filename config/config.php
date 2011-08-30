@@ -230,6 +230,37 @@ $config['module']['userfeed']['count_default'] = 10; // Число топико�
 $config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
 $config['module']['stream']['disable_vote_events'] = false; 
 
+/**
+ * Настройка топика-фотосета
+ */
+$config['module']['image']['photoset']['jpg_quality'] = 100; // настройка модуля Image, качество обработки фото
+$config['module']['topic']['photoset']['photo_max_size'] = 6*1024; //kb  // максимально допустимый размер фото
+$config['module']['topic']['photoset']['count_photos_min'] = 2; // минимальное количество фоток
+$config['module']['topic']['photoset']['count_photos_max'] = 30; // максимальное количество фоток
+$config['module']['topic']['photoset']['per_page'] = 20; // число фоток для одновременной загрузки
+$config['module']['topic']['photoset']['size'] = array( // список размеров превью, которые необходимо делать при загрузке фото
+	array(
+		'w' => 1000,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 500,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 100,
+		'h' => 65,
+		'crop' => true,
+	),
+	array(
+		'w' => 50,
+		'h' => 50,
+		'crop' => true,
+	)
+);
+
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
 /**
@@ -505,37 +536,6 @@ date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/time
  */
 $config['jevix']=require(dirname(__FILE__).'/jevix.php');
 
-/**
- * Настройка топика-фотосета
- */
-$config['module']['image']['photoset']['jpg_quality'] = 100; // настройка модуля Image, качество обработки фото
-$config['module']['topic']['photoset']['photo_max_size'] = 1*1024; //kb  // максимально допустимый размер фото
-$config['module']['topic']['photoset']['count_photos_min'] = 2; // минимальное количество фоток
-$config['module']['topic']['photoset']['count_photos_max'] = 30; // максимальное количество фоток
-$config['module']['topic']['photoset']['per_page'] = 20; // число фоток для одновременной загрузки
-//$config['topic']['image']['width'] = 1000;
-$config['module']['topic']['photoset']['size'] = array( // список размеров превью, которые необходимо делать при загрузке фото
-	array(
-		'w' => 1000,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 500,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 100,
-		'h' => 65,
-		'crop' => true,
-	),
-	array(
-		'w' => 50,
-		'h' => 50,
-		'crop' => true,
-	)
-);
 
 return $config;
 ?>
