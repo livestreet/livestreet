@@ -164,7 +164,7 @@
 						}).click(function() {
 							return false;
 						}).bind("focusin", function(){
-                            $$.focus();
+                            //$$.focus();
 						}).mouseup(function() {
 							if (button.call) {
 								eval(button.call)();
@@ -286,6 +286,7 @@
 						 			root:options.root,
 									textarea:textarea, 
 									selection:(selection||''), 
+									selectionOuter:(selectionOuter||''), 
 									caretPosition:caretPosition,
 									ctrlKey:ctrlKey, 
 									shiftKey:shiftKey, 
@@ -413,6 +414,12 @@
 
 			// get the selection
 			function get() {
+				// get the selection by outer text
+				if ($.browser.msie) {
+					selectionOuter=document.selection.createRange().text;
+				} else {
+					selectionOuter=document.getSelection();
+				}
 				textarea.focus();
 
 				scrollPosition = textarea.scrollTop;
