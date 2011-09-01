@@ -18,13 +18,9 @@
 /**
  * Конфиг модуля "search"
  */
-//define('SEARCH_ENTITY_PREFIX','');
-//define('SEARCH_SPHINX_HOST','localhost');
-//define('SEARCH_SPHINX_PORT','3312');
-
 $config['entity_prefix']  = '';
 $config['sphinx']['host'] = 'localhost';
-$config['sphinx']['port'] = '9312';
+$config['sphinx']['port'] = '3312';
 
 return $config;
 ?>
