@@ -1,5 +1,4 @@
 {include file='header.tpl' menu='topic_action'}
-{include file='window_load_img.tpl' sToLoad='topic_text'}
 
 {if $oConfig->GetValue('view.tinymce')}
 <script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>

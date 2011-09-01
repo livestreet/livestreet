@@ -1,5 +1,4 @@
 {include file='header.tpl' menu='topic_action'}
-{include file='window_load_img.tpl' sToLoad='topic_text'}
 
 
 {if $oConfig->GetValue('view.tinymce')}

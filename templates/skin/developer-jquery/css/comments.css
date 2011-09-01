@@ -10,7 +10,7 @@
 .comments .comment-wrapper { overflow: hidden; zoom: 1; position: relative; }
 .comments .comment-wrapper .comment-wrapper { padding-left: 25px; }
 
-.comment-preview { padding: 5px 10px; margin-bottom: 5px; background: #fafafa; }
+.comment-preview { padding: 5px 10px; margin-bottom: 5px; background: #fafafa; overflow: hidden; zoom: 1; }
 
 /* Comment */
 .comment { margin-bottom: 10px; }
@@ -36,7 +36,7 @@
 .comment .info li a { text-decoration: none; }
 
 /* Content */
-.comment .content { color: #000; padding-right: 20px; line-height: 13px; }
+.comment .content { color: #000; padding-right: 20px; line-height: 13px; overflow: hidden; zoom: 1; }
 
 /* Actions */
 .comment .actions { font-size: 11px; }
