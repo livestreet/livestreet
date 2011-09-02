@@ -36,6 +36,8 @@
                                         <input type="submit" value="{$aLang.topic_question_vote}" onclick="ls.poll.vote({$oTopic->getId()},$('#topic_answer_{$oTopic->getId()}_value').val());" />
                                         <input type="submit" value="{$aLang.topic_question_abstain}" onclick="ls.poll.vote({$oTopic->getId()},-1)" />
                                         <input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
+                                        
+                                        <p class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</p>
                                 {else}
                                         <ul class="poll-result">
                                                 {foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
