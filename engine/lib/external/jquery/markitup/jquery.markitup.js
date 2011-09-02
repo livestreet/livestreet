@@ -415,10 +415,17 @@
 			// get the selection
 			function get() {
 				// get the selection by outer text
-				if ($.browser.msie) {
-					selectionOuter=document.selection.createRange().text;
-				} else {
-					selectionOuter=document.getSelection();
+				selectionOuter = '';
+				if(window.getSelection){
+					selectionOuter = window.getSelection().toString();
+				} else if(window.document.selection){
+					var sel = window.document.selection.createRange();
+					selectionOuter = sel.text || sel;
+					if(selectionOuter.toString) {
+						selectionOuter = selectionOuter.toString();
+					} else {
+						selectionOuter='';
+					}
 				}
 				textarea.focus();
 
