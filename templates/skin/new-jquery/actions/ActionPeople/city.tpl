@@ -11,7 +11,7 @@
 				<td align="center" width="160">{$aLang.user_date_last}</td>												
 				<td align="center" width="160">{$aLang.user_date_registration}</td>
 				<td align="center" width="60">{$aLang.user_skill}</td>
-				<td align="center" width="60">{$aLang.user_rating}</td>
+				<td align="center" width="80">{$aLang.user_rating}</td>
 			</tr>
 		</thead>
 		

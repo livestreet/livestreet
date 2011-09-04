@@ -79,7 +79,7 @@
 
 /* Search */
 #nav .button-publish { float: left; text-decoration: none; background: url(../images/button_publish.gif) no-repeat; color: #333; margin-top: 45px; margin-right: 35px; }
-#nav .button-publish span { float: left; background: url(../images/button_publish.gif) 100% 0 no-repeat; margin-left: 25px; padding: 2px 25px 3px 0; }
+#nav .button-publish span { float: left; background: url(../images/button_publish.gif) 100% 0 no-repeat; margin-left: 25px; padding: 2px 25px 3px 0; cursor: pointer; }
 
 
 /* Misc blocks
@@ -129,7 +129,7 @@
 .user-profile h3 { font-size: 24px; line-height: 1em; margin-bottom: 10px; }
 .user-profile p.realname { font-size: 18px; color: #999; }
 
-.user-profile .voting { position: absolute; top: 0px; right: 75px; z-index: 100; }
+.user-profile .voting { position: absolute; top: 0px; right: 85px; z-index: 100; }
 .user-profile .voting .total { font-weight: normal; padding: 4px 10px 5px; font-size: 14px; }
 .user-profile .voting .plus { margin: 4px 6px 0 0; }
 .user-profile .voting .minus { margin: 4px 0 0 6px; }
