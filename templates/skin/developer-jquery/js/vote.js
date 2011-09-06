@@ -17,6 +17,7 @@ ls.vote = (function ($) {
 		},
 		prefix_area: 'vote_area_',
 		prefix_total: 'vote_total_',
+		prefix_count: 'vote_count_',
 		type: {
 			comment: {
 				url: aRouter['ajax']+'vote/comment/',
@@ -68,6 +69,11 @@ ls.vote = (function ($) {
 			}
 			
 			var divTotal = $('#'+this.options.prefix_total+type+'_'+idTarget);
+			var divCount = $('#'+this.options.prefix_count+type+'_'+idTarget);
+			
+			if (divCount.length>0 && result.iCountVote) {
+				divCount.text(parseInt(result.iCountVote));
+			}
 
 			result.iRating = parseFloat(result.iRating);
 

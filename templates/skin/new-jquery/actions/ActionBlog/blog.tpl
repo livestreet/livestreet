@@ -33,7 +33,7 @@
 		<a href="#" class="plus" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"></a>
 		<div id="vote_total_blog_{$oBlog->getId()}" class="total" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
 		<a href="#" class="minus" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
-		<div class="text">{$aLang.blog_vote_count}: <span>{$oBlog->getCountVote()}</span></div>
+		<div class="text">{$aLang.blog_vote_count}: <span id="vote_count_blog_{$oBlog->getId()}">{$oBlog->getCountVote()}</span></div>
 	</div>
 	
 	

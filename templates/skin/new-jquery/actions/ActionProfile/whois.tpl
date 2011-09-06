@@ -15,7 +15,7 @@
 		<a href="#" class="plus" onclick="return ls.vote.vote({$oUserProfile->getId()},this,1,'user');"></a>
 		<div id="vote_total_user_{$oUserProfile->getId()}" class="total" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{$oUserProfile->getRating()}</div>
 		<a href="#" class="minus" onclick="return ls.vote.vote({$oUserProfile->getId()},this,-1,'user');"></a>
-		<div class="text">{$aLang.blog_vote_count}: <span>{$oUserProfile->getCountVote()}</span></div>
+		<div class="text">{$aLang.blog_vote_count}: <span id="vote_count_user_{$oUserProfile->getId()}">{$oUserProfile->getCountVote()}</span></div>
 	</div>
 
 
