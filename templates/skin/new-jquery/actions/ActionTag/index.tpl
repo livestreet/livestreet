@@ -1,9 +1,9 @@
 {include file='header.tpl'}
 
 
-<form action="" method="GET" onsubmit="return submitTags(this.tag.value);" class="tags-search">
+<form action="" method="GET" onsubmit="return submitTags(this.tag.value);" class="tags-search" id="tag_search_form">
 	<img src="{cfg name='path.static.skin'}/images/tagcloud.gif" border="0" style="margin-left: 13px;">&nbsp;
-	<input type="text" name="tag" value="{$sTag|escape:'html'}" class="tags-input" >
+	<input type="text" name="tag" value="{$sTag|escape:'html'}" class="tags-input" id="tag_search" >
 </form>
 
 
