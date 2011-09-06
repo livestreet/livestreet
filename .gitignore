@@ -2,3 +2,4 @@
 /templates/cache/
 /templates/compiled/
 /logs/
+/tmp/
