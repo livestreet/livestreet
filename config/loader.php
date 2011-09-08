@@ -19,7 +19,6 @@
  * Основные константы
  */
 define('LS_VERSION','0.5');
-define('SYS_HACKER_CONSOLE',false);
 
 /**
  * Operations with Config object

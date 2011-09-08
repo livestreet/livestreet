@@ -41,17 +41,26 @@ if (!function_exists('mb_strtolower')) {
 }
 
 /**
- * функция вывода отладочных сообщений через "хакерскую" консоль Дмитрия Котерова
+ * Проверяет запрос послан как ajax или нет
+ * Пришлось продублировать здесь, чтобы получить к ней доступ до подключения роутера
+ *
+ * @return unknown
  */
-if (defined('SYS_HACKER_CONSOLE')) {
-	if (SYS_HACKER_CONSOLE) {
-		require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
-		new Debug_HackerConsole_Main(true);
-	}
+function isAjaxRequest() {
+	return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
 }
 
+/**
+ * функция вывода отладочных сообщений через "хакерскую" консоль Дмитрия Котерова
+ */
+if (Config::Get('sys.logs.hacker_console') && !isAjaxRequest()) {
+	require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
+	new Debug_HackerConsole_Main(true);
+}
+
+
 function dump($msg) {	
-	if (SYS_HACKER_CONSOLE) {
+	if (Config::Get('sys.logs.hacker_console') && !isAjaxRequest()) {
 		call_user_func(array('Debug_HackerConsole_Main', 'out'), $msg);
 	} else {
 		//var_dump($msg);

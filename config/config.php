@@ -117,6 +117,7 @@ $config['sys']['logs']['cron']     		 = true;    	    // логировать и
 $config['sys']['logs']['cron_file']      = 'cron.log';      // файл лога запуска крон-процессов
 $config['sys']['logs']['profiler']       = false;           // логировать или нет профилирование процессов
 $config['sys']['logs']['profiler_file']  = 'profiler.log';  // файл лога профилирования процессов
+$config['sys']['logs']['hacker_console']  = false;  		// позволяет удобно выводить логи дебага через функцию dump(), использя "хакерскую" консоль Дмитрия Котерова
 /**
  * Общие настройки
  */

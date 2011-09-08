@@ -369,6 +369,15 @@ class Router extends Object {
 	}
 	
 	/**
+	 * Проверяет запрос послан как ajax или нет
+	 *
+	 * @return unknown
+	 */
+	static public function GetIsAjaxRequest() {
+		return isAjaxRequest();
+	}
+	
+	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
 	 * @param string $sName
