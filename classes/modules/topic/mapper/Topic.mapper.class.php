@@ -465,6 +465,12 @@ class ModuleTopic_MapperTopic extends Mapper {
 			}
 			$sWhere.=" AND (".join(" OR ",(array)$aBlogTypes).")";
 		}
+		if (isset($aFilter['topic_type'])) {
+			if(!is_array($aFilter['topic_type'])) {
+				$aFilter['topic_type']=array($aFilter['topic_type']);
+			}
+			$sWhere.=" AND t.topic_type IN ('".join("','",array_map('mysql_escape_string',$aFilter['topic_type']))."')";
+		}
 		return $sWhere;
 	}
 	
