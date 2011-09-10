@@ -278,7 +278,7 @@ ls = (function ($) {
 			url=aRouter['ajax']+url+'/';
 		}
 		
-		$.ajax({
+		return $.ajax({
 			type: more.type || "POST",
 			url: url,
 			data: params,
