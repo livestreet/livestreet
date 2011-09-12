@@ -29,7 +29,7 @@ function smarty_function_cfg($aParams,&$oSmarty) {
 		return ;
 	}
 	require_once(Config::Get('path.root.engine').'/lib/internal/ConfigSimple/Config.class.php');
-	if(!isset($aParams['instacne'])) {
+	if(!isset($aParams['instance'])) {
 		$aParams['instance'] = Config::DEFAULT_CONFIG_INSTANCE;
 	}
 	
