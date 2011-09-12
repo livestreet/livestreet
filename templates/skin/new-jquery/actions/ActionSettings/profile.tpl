@@ -81,13 +81,13 @@
 		<img src="{$oUserCurrent->getProfileAvatarPath(24)}" /><br />
 		<input type="checkbox" id="avatar_delete" name="avatar_delete" value="on" class="checkbox" /><label for="avatar_delete">{$aLang.settings_profile_avatar_delete}</label><br /><br />
 	{/if}
-	<p><label for="avatar">{$aLang.settings_profile_avatar}:</label><br /><input type="file" id="avatar" name="avatar"/></p>
+	<p><label for="avatar">{$aLang.settings_profile_avatar}:</label><br /><input type="file" id="avatar" name="avatar" accept="image/png,image/gif,image/pjpeg,image/jpeg,image/jpg" /></p>
 
 	{if $oUserCurrent->getProfileFoto()}
 		<img src="{$oUserCurrent->getProfileFoto()}" /><br />
 		<input type="checkbox" id="foto_delete" name="foto_delete" value="on" class="checkbox" /><label for="foto_delete">{$aLang.settings_profile_foto_delete}</label><br /><br />
 	{/if}
-	<p><label for="foto">{$aLang.settings_profile_foto}:</label><br /><input type="file" id="foto" name="foto" /></p>
+	<p><label for="foto">{$aLang.settings_profile_foto}:</label><br /><input type="file" id="foto" name="foto" accept="image/png,image/gif,image/pjpeg,image/jpeg,image/jpg" /></p>
 
 	{hook run='form_settings_profile_end'}
 	<p><input type="submit" value="{$aLang.settings_profile_submit}" name="submit_profile_edit" /></p>
