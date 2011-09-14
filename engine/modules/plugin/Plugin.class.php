@@ -287,6 +287,11 @@ class ModulePlugin extends Module {
 						$this->Message_AddError($this->Lang_Get('plugins_activation_file_write_error'),$this->Lang_Get('error'),true);
 						return;
 					}
+					/**
+					 * Очищаем компиленые шаблоны от Smarty
+					 */
+					$oSmarty=$this->Viewer_GetSmartyObject();
+					$oSmarty->clearCompiledTemplate();
 				}
 				return $bResult;
 			
