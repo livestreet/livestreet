@@ -53,40 +53,29 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
         }
         return $aResult;
     }
+        
+    public function readFeed($aUserSubscribes, $iCount, $iFromId) {
+    	$sql = "
+							SELECT 		
+								t.topic_id										
+							FROM 
+								".Config::Get('db.table.topic')." as t,
+								".Config::Get('db.table.blog')." as b
+							WHERE 
+								t.topic_publish = 1 
+								AND t.blog_id=b.blog_id 
+								AND b.blog_type!='close' 
+								{ AND t.topic_id < ?d }
+								AND ( 1=0 { OR t.blog_id IN (?a) } { OR t.user_id IN (?a) } ) 								
+                            ORDER BY t.topic_id DESC	
+                            { LIMIT 0, ?d }";
 
-    public function readFeed($aUserSubscribes, $iCount, $iFromId)
-    {
-        if (!count($aUserSubscribes['blogs']) && !count($aUserSubscribes['users'])) return array();
-
-        $sql = 'SELECT topic_id FROM ' . Config::Get('db.table.topic') . ' WHERE topic_publish = 1 AND ';
-        $aParams = array();
-        // Если получаем не последние, а более ранние записи, начиная с пределённой.
-        if ($iFromId) {
-            $sql .= 'topic_id < ?d AND (';
-            $aParams[] = $iFromId;
-        }
-        if (count($aUserSubscribes['blogs'])) {
-            $sql .= 'blog_id IN (?a) OR ';
-            $aParams[] = $aUserSubscribes['blogs'];
-        }
-        if (count($aUserSubscribes['users'])) {
-            $sql .= 'user_id IN (?a)';
-            $aParams[] = $aUserSubscribes['users'];
-        }
-        // Если в конце лишний OR, убираем
-        if (substr($sql, -3) == 'OR ') {
-            $sql = substr($sql, 0, -4);
-        }
-        // Закрываем скобку. если получали не последние записи
-        if ($iFromId) {
-            $sql .= ')';
-        }
-        $sql .= ' ORDER BY topic_id DESC';
-        if ($iCount) {
-            $sql .= ' LIMIT 0,?d';
-            $aParams[] = $iCount;
-        }
-        $aTopics = call_user_func_array(array($this->oDb, 'selectCol'), array_merge(array($sql), $aParams));
-        return $aTopics;
+    	$aTopics=$aTopics=$this->oDb->selectCol($sql,
+    		$iFromId ? $iFromId : DBSIMPLE_SKIP,
+    		count($aUserSubscribes['blogs']) ? $aUserSubscribes['blogs'] : DBSIMPLE_SKIP,
+    		count($aUserSubscribes['users']) ? $aUserSubscribes['users'] : DBSIMPLE_SKIP,
+    		$iCount ? $iCount : DBSIMPLE_SKIP
+    	);
+    	return $aTopics;
     }
 }
