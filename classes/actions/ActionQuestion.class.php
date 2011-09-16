@@ -302,7 +302,7 @@ class ActionQuestion extends Action {
 			/**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -422,7 +422,7 @@ class ActionQuestion extends Action {
 			/**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
