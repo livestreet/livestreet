@@ -358,7 +358,6 @@ class ActionPhotoset extends Action {
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
 			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 			$_REQUEST['topic_main_photo']=$oTopic->getPhotosetMainPhotoId();
-			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
 		}
 		$this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTopicId($oTopic->getId()));
 	}
