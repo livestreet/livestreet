@@ -25,6 +25,16 @@ class ModuleStream_MapperStream extends Mapper {
 		return false;
 	}	
 	
+	public function GetEventByTarget($sEventType, $iTargetId) {
+		$sql = "SELECT * FROM
+					".Config::Get('db.table.stream_event')."
+				WHERE target_id = ?d AND event_type = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$iTargetId,$sEventType)) {
+			return Engine::GetEntity('ModuleStream_EntityEvent',$aRow);
+		}
+		return null;
+	}
+	
 	public function UpdateEvent($oObject) {
 		$sql = "UPDATE ".Config::Get('db.table.stream_event')." SET ?a WHERE id = ?d ";			
 		return $this->oDb->query($sql,$oObject->_getData(array('publish')),$oObject->getId());
@@ -47,6 +57,7 @@ class ModuleStream_MapperStream extends Mapper {
 				WHERE
 					event_type IN (?a) 
 					AND user_id IN (?a)
+					AND publish = 1
 					{ AND id < ?d }	
 				ORDER BY id DESC
 				{ LIMIT 0,?d }';

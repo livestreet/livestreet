@@ -274,9 +274,12 @@ CREATE TABLE IF NOT EXISTS `prefix_stream_event` (
   `target_id` int(11) NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `publish` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `event_type` (`event_type`,`user_id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `publish` (`publish`),
+  KEY `target_id` (`target_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

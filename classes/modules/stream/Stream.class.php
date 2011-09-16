@@ -80,18 +80,51 @@ class ModuleStream extends Module {
 		return false;
 	}
 	/**
+	 * Обновление события
+	 *
+	 * @param unknown_type $oObject
+	 * @return unknown
+	 */
+	public function UpdateEvent($oObject) {
+		return $this->oMapper->UpdateEvent($oObject);
+	}
+	/**
+	 * Получает событие по типу и его ID
+	 *
+	 * @param unknown_type $sEventType
+	 * @param unknown_type $iTargetId
+	 * @return unknown
+	 */
+	public function GetEventByTarget($sEventType, $iTargetId) {
+		return $this->oMapper->GetEventByTarget($sEventType, $iTargetId);
+	}
+	/**
 	 * Запись события в ленту
 	 * @param type $oUser
 	 * @param type $iEventType
 	 * @param type $iTargetId
 	 */
-	public function Write($iUserId, $sEventType, $iTargetId) {
-		$oEvent=Engine::GetEntity('Stream_Event');
-		$oEvent->setEventType($sEventType);
-		$oEvent->setUserId($iUserId);
-		$oEvent->setTargetId($iTargetId);
-		$oEvent->setDateAdded(date("Y-m-d H:i:s"));
-		$this->AddEvent($oEvent);
+	public function Write($iUserId, $sEventType, $iTargetId, $iPublish=1) {
+		if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId)) {
+			/**
+			 * Событие уже было
+			 */
+			if ($oEvent->getPublish()!=$iPublish) {
+				$oEvent->setPublish($iPublish);
+				$this->UpdateEvent($oEvent);
+			}
+		} elseif ($iPublish) {
+			/**
+			 * Создаем новое событие
+			 */
+			$oEvent=Engine::GetEntity('Stream_Event');
+			$oEvent->setEventType($sEventType);
+			$oEvent->setUserId($iUserId);
+			$oEvent->setTargetId($iTargetId);
+			$oEvent->setDateAdded(date("Y-m-d H:i:s"));
+			$oEvent->setPublish($iPublish);
+			$this->AddEvent($oEvent);
+		}
 	}
 	/**
 	 * Чтение потока пользователя

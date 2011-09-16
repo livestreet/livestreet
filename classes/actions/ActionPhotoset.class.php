@@ -543,9 +543,9 @@ class ActionPhotoset extends Action {
 			 */
 			setcookie('ls_photoset_target_tmp', null);
 			/**
-			 * Добавляем событие в ленту
-			 */
-			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -666,6 +666,10 @@ class ActionPhotoset extends Action {
 		 */
 		if ($this->Topic_UpdateTopic($oTopic)) {
 			$this->Hook_Run('topic_edit_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog,'bSendNotify'=>&$bSendNotify));
+			/**
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */

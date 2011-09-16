@@ -354,7 +354,7 @@ class ActionTopic extends Action {
             /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId());
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -479,6 +479,10 @@ class ActionTopic extends Action {
 				$this->Comment_UpdateTargetParentByTargetId($oTopic->getBlogId(), 'topic', $oTopic->getId());
 				$this->Comment_UpdateTargetParentByTargetIdOnline($oTopic->getBlogId(), 'topic', $oTopic->getId());
 			}
+			/**
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish());
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
