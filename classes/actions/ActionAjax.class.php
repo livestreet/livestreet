@@ -839,6 +839,11 @@ class ActionAjax extends Action {
 			$sMsg=$this->Lang_Get('comment_repair_ok');
 			$sTextToggle=$this->Lang_Get('comment_delete');
 		}
+		/**
+		 * Обновление события в ленте активности
+		 */
+		$this->Stream_write($oComment->getUserId(), 'add_comment', $oComment->getId(), !$oComment->getDelete());
+		
 		$this->Message_AddNoticeSingle($sMsg,$this->Lang_Get('attention'));
 		$this->Viewer_AssignAjax('bState',$bState);
 		$this->Viewer_AssignAjax('sTextToggle',$sTextToggle);

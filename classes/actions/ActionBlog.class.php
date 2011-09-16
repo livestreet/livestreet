@@ -1039,7 +1039,7 @@ class ActionBlog extends Action {
             /**
              * Добавляем событие в ленту
              */
-            $this->Stream_write($oCommentNew->getUserId(), 'add_comment', $oCommentNew->getId());
+            $this->Stream_write($oCommentNew->getUserId(), 'add_comment', $oCommentNew->getId(), $oTopic->getPublish());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
