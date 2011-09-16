@@ -11,7 +11,7 @@
 				<li><input class="userfeedBlogCheckbox input-checkbox"
 							type="checkbox"
 							{if isset($aUserfeedSubscribedBlogs.$iBlogId)} checked="checked"{/if}
-							onClick="if (jQuery(this).attr('checked')) { ls.userfeed.subscribe('blogs',{$iBlogId}) } else { ls.userfeed.unsubscribe('blogs',{$iBlogId}) } " />
+							onClick="if (jQuery(this).prop('checked')) { ls.userfeed.subscribe('blogs',{$iBlogId}) } else { ls.userfeed.unsubscribe('blogs',{$iBlogId}) } " />
 					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
 				</li>
 			{/foreach}

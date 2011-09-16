@@ -52,7 +52,7 @@
 											type="checkbox"
 											id="strm_u_{$iUserId}"
 											checked="checked"
-											onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
+											onClick="if (jQuery(this).prop('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
 									<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 								</li>
 							{/if}
@@ -77,7 +77,7 @@
 							type="checkbox"
 							id="strm_u_{$iUserId}"
 							{if isset($aStreamSubscribedUsers.$iUserId)} checked="checked"{/if}
-							onClick="if ($(this).attr('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
+							onClick="if (jQuery(this).prop('checked')) { ls.stream.subscribe({$iUserId}) } else { ls.stream.unsubscribe({$iUserId}) } " />
 					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 				</li>
 			{/foreach}
