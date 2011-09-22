@@ -700,7 +700,7 @@ class ModuleComment extends Module {
 	public function AddFavouriteComment(ModuleFavourite_EntityFavourite $oFavourite) {	
 		if( ($oFavourite->getTargetType()=='comment') 
 				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
-					&& $oComment->getTargetType()=='topic') {
+					&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
 						return $this->Favourite_AddFavourite($oFavourite);
 					}
 		return false;
@@ -714,7 +714,7 @@ class ModuleComment extends Module {
 	public function DeleteFavouriteComment(ModuleFavourite_EntityFavourite $oFavourite) {
 		if( ($oFavourite->getTargetType()=='comment') 
 				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
-					&& $oComment->getTargetType()=='topic') {
+					&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
 						return $this->Favourite_DeleteFavourite($oFavourite);
 		}
 		return false;
