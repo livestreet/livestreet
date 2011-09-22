@@ -1,6 +1,9 @@
 {include file='header.tpl'}
 {include file='menu.talk.tpl'}
 
+<div class="topic" style="display: none;">
+	<div class="content" id="text_preview"></div>
+</div>
 
 <h2>{$aLang.talk_create}</h2>
 
@@ -21,6 +24,7 @@
 	{hook run='form_add_talk_end'}
 	
 	<input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add" />
+	<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('talk_text',false); return false;" />		
 </form>
 
 

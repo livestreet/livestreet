@@ -53,6 +53,9 @@ document.addEvent('domready', function() {
 	{include file='window_load_img.tpl' sToLoad='talk_text'}
 {/if}
 
+<div class="topic" style="display: none;">
+	<div class="content" id="text_preview"></div>
+</div>
 
 <div class="topic">
 	<h2>{$aLang.talk_create}</h2>
@@ -96,7 +99,9 @@ document.addEvent('domready', function() {
 		{/if}
 		<textarea name="talk_text" id="talk_text" rows="12" class="input-wide">{$_aRequest.talk_text}</textarea></p>
 		{hook run='form_add_talk_end'}
-		<p><input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add" /></p>
+		<p><input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add" />
+		<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="$('text_preview').getParent('div').setStyle('display','block'); ajaxTextPreview('talk_text',false); return false;" />		
+		</p>
 	</form>
 </div>
 
