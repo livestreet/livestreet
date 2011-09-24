@@ -3,7 +3,7 @@
 /**
  * Project:     Smarty: the PHP compiling template engine
  * File:        Smarty.class.php
- * SVN:         $Id: Smarty.class.php 4074 2011-04-22 02:19:14Z uwe.tews@googlemail.com $
+ * SVN:         $Id: Smarty.class.php 4225 2011-07-26 18:09:31Z uwe.tews@googlemail.com $
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Uwe Tews
  * @package Smarty
- * @version 3.0.8
+ * @version 3.0.9
  */
 
 /**
@@ -87,7 +87,7 @@ class Smarty extends Smarty_Internal_Data {
 	* constant definitions
 	*/
     // smarty version
-    const SMARTY_VERSION = 'Smarty-3.0.8';
+    const SMARTY_VERSION = 'Smarty-3.0.9';
   	//define variable scopes
 	const SCOPE_LOCAL = 0;
 	const SCOPE_PARENT = 1;
@@ -236,6 +236,8 @@ class Smarty extends Smarty_Internal_Data {
     public $inheritance = false;
     // generate deprecated function call notices?
     public $deprecation_notices = true;
+    // internal flag for getTags()
+    public $get_used_tags = false;
     // Smarty 2 BC
     public $_version = self::SMARTY_VERSION;
     // self pointer to Smarty object
@@ -715,6 +717,17 @@ class Smarty extends Smarty_Internal_Data {
     }
 
     /**
+    * Return array of tag/attributes of all tags used by an template
+    *
+    * @param object $templae template object
+    * @return array of tag/attributes
+    */
+    public function getTags(Smarty_Internal_Template $template)
+    {
+        return Smarty_Internal_Utility::getTags($template);
+    }
+
+    /**
     * clean up properties on cloned object
      */
     public function __clone()
@@ -724,8 +737,8 @@ class Smarty extends Smarty_Internal_Data {
     	// clear assigned tpl vars
     	$this->tpl_vars = array();
     	// clear objects for external methods
-    	unset($this->register);
-    	unset($this->filter);
+    	unset($this->Register);
+    	unset($this->Filter);
 	}
 
 
