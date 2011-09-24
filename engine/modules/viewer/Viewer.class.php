@@ -597,23 +597,25 @@ class ModuleViewer extends Module {
 			 * то выбираем следующее правило
 			 */
 			if(!array_key_exists('action',$aRule) && !array_key_exists('path',$aRule)) continue;
-			if(in_array($sAction, (array)$aRule['action'])) $bUse=true;			
-			if(array_key_exists($sAction,(array)$aRule['action'])) {
-				/**
-				 * Если задан список event`ов и текущий в него не входит,
-				 * переходи к следующему действию.
-				 */
-				foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {
-					if(substr($sEventPreg,0,1)!='/') {
-						/**
-						* значит это название event`a
-						*/
-						if($sEvent==$sEventPreg) { $bUse=true; break; }
-					} else {
-						/**
-						* это регулярное выражение
-						*/
-						if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
+			if (isset($aRule['action'])) {
+				if(in_array($sAction, (array)$aRule['action'])) $bUse=true;
+				if(array_key_exists($sAction,(array)$aRule['action'])) {
+					/**
+					 * Если задан список event`ов и текущий в него не входит,
+					 * переходи к следующему действию.
+					 */
+					foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {
+						if(substr($sEventPreg,0,1)!='/') {
+							/**
+							 * значит это название event`a
+							 */
+							if($sEvent==$sEventPreg) { $bUse=true; break; }
+						} else {
+							/**
+							 * это регулярное выражение
+							 */
+							if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
+						}
 					}
 				}
 			}
