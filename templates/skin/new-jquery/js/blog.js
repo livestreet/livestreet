@@ -15,10 +15,7 @@ ls.blog = (function ($) {
 			} else {
 				obj = $(obj);
 				ls.msg.notice(null, result.sMsg);
-				obj.removeClass("active");
-				if (result.bState) {
-					obj.addClass("active");
-				}
+				obj.toggleClass("active");
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
 			}
 		});
