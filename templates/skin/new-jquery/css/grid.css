@@ -34,7 +34,7 @@
 #header .profile .message.new { background: url(../images/icons.gif) no-repeat right -17px; color: #ffea00; }
 #header .profile .create { color: #f79cf3; }
 #header .profile .logout { color: #AFAFAF; text-decoration: none; }
-#header .profile .avatar { position: absolute; top: 0; right: 0; }
+#header .profile .avatar { position: absolute; top: 0; right: 0; width: 48px; height: 48px;}
 #header .profile a:hover { color: #ddd; }
 
 #header .auth { position: absolute; top: 28px; right: 33px; color: #ddd; }

@@ -15,7 +15,7 @@
 */
 
 
-LiveStreet 0.5
+LiveStreet 0.5.1
 
 INSTALLATION
 1. Copy files to the engine to the desired directory site
@@ -28,7 +28,13 @@ Upgrading from 0.4.2
 2. Copy files to the engine to the desired directory site
 3. Copy the file to a new directory on your config.local.php old version 0.4.2 and copy the directory /uploads/ all files
 4. Enter the address http://you_site/install/
-5. Follow the instructions of the installer. When you create the database required By clicking the "Convert base 0.4.2 in 0.5"
+5. Follow the instructions of the installer. When you create the database required By clicking the "Convert base 0.4.2 in 0.5.1"
+
+Upgrading from 0.5
+0. Be sure to make backup of your site and database
+1. Delete old files (except /config/config.local.php and directory /uploads/ all files) and copy the new files to a directory site
+2.1 Enter the address http://you_site/install/ and to step in creating a database to mark checkbox "Convert 0.5 DB to 0.5.1 "
+2.2 Or execute the SQL patch /install/convert_0.5_to_0.5.1.sql in phpMyAdmin or via the console MySQL, replacing prefix tables (prefix_) in the database on your
 
 
 Configuration and Tuning Engines

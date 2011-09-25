@@ -17,7 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
-define('LS_VERSION','0.5.0');
+define('LS_VERSION','0.5.1');
 
 class Install {
 	/**
@@ -536,6 +536,7 @@ class Install {
 		$aParams['password'] = $this->GetRequest('install_db_password','');
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
 		$aParams['convert']  = $this->GetRequest('install_db_convert',0);
+		$aParams['convert_from_05']  = $this->GetRequest('install_db_convert_from_05',0);
 		$aParams['prefix']   = $this->GetRequest('install_db_prefix','prefix_');
 		$aParams['engine']   = $this->GetRequest('install_db_engine','InnoDB');
 
@@ -546,6 +547,7 @@ class Install {
 		$this->Assign('install_db_password', $aParams['password'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_create_check', (($aParams['create'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_convert_check', (($aParams['convert'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
+		$this->Assign('install_db_convert_from_05_check', (($aParams['convert_from_05'])?'checked="checked"':''), self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_prefix', $aParams['prefix'], self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_engine', $aParams['engine'], self::SET_VAR_IN_SESSION);
 		/**
@@ -606,7 +608,7 @@ class Install {
 			 * Открываем .sql файл и добавляем в базу недостающие таблицы
 			 */
 			if($this->GetSessionVar('INSTALL_DATABASE_DONE','')!=md5(serialize(array($aParams['server'],$aParams['name'])))){
-				if(!$aParams['convert']) {
+				if(!$aParams['convert'] && !$aParams['convert_from_05']) {
 					$aRes=$this->CreateTables('sql.sql',$aParams);
 					if ($aRes) {
 						list($bResult,$aErrors) = array_values($aRes);
@@ -618,11 +620,21 @@ class Install {
 					} else {
 						return $this->StepAdmin();
 					}
-				} else {
+				} elseif ($aParams['convert']) {
 					/**
 					 * Если указана конвертация старой базы данных
 					 */
-					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.4.2_to_0.5.sql',$aParams));
+					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.4.2_to_0.5.1.sql',$aParams));
+					if(!$bResult) {
+						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+						$this->Layout('steps/db.tpl');
+						return false;
+					}
+				} elseif ($aParams['convert_from_05']) {
+					/**
+					 * Если указана конвертация старой базы данных ( 0.5 -> 0.5.1 )
+					 */
+					list($bResult,$aErrors) = array_values($this->ConvertDatabaseFrom05('convert_0.5_to_0.5.1.sql',$aParams));
 					if(!$bResult) {
 						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 						$this->Layout('steps/db.tpl');
@@ -1208,7 +1220,63 @@ class Install {
 			return array('result'=>true,'errors'=>null);
 		}
 		return array('result'=>false,'errors'=>$aErrors);		
-	}	
+	}
+	/**
+	 * Проверяем, нуждается ли база в конвертации или нет
+	 *
+	 * @param  array $aParams
+	 * @return bool
+	 */
+	protected function ValidateConvertDatabaseFrom05($aParams) {
+		/**
+		 * Проверяем, нуждается ли база в конвертации или нет
+		 * 
+		 */ 
+		$sTable=$aParams['prefix'].'stream_event';
+		return !$this->isFieldExistsDatabase($sTable,'publish');
+	}
+	/**
+	 * Конвертирует базу данных версии 0.5 в базу данных версии 0.5.1
+	 *
+	 * @return bool
+	 */
+	protected function ConvertDatabaseFrom05($sFilePath,$aParams) {	
+		if(!$this->ValidateConvertDatabaseFrom05($aParams)) {
+			return array('result'=>false,'errors'=>array($this->Lang("error_database_converted_already")));
+		}
+		
+		$sFileQuery = @file_get_contents($sFilePath);
+		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
+		
+		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
+		$aQuery=explode(';',$sFileQuery);
+		/**
+		 * Массив для сбора ошибок
+		 */
+		$aErrors = array();	
+
+		/**
+		 * Выполняем запросы по очереди
+		 */
+		foreach($aQuery as $sQuery){
+			$sQuery = trim($sQuery);
+			/**
+			 * Заменяем движек, если таковой указан в запросе
+			 */
+			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
+			
+			if($sQuery!='') {
+				$bResult=mysql_query($sQuery);
+				if(!$bResult) $aErrors[] = mysql_error();
+			}
+		}		
+		
+		if(count($aErrors)==0) {
+			return array('result'=>true,'errors'=>null);
+		}
+		return array('result'=>false,'errors'=>$aErrors);		
+	}
+	
 	/**
 	 * Добавление значения в поле таблицы с типом enum
 	 *
