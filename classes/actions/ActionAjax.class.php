@@ -815,7 +815,9 @@ class ActionAjax extends Action {
 	 *
 	 */
 	protected function EventCommentDelete() {
-		if (!$this->oUserCurrent or !$this->oUserCurrent->isAdministrator()) {
+        
+        
+		if (!$this->ACL_CanDeleteComment($this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return;
 		}
