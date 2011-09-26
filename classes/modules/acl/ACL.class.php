@@ -381,6 +381,21 @@ class ModuleACL extends Module {
 		}
 		
 		return false;
-	}		
+	}
+    
+    /**
+	 * Проверяет может ли пользователь удалить комментарий
+	 *
+	 * @param  Entity_User $oUser
+	 * @return bool
+	 */
+	public function CanDeleteComment($oUser) {
+        
+		if (!$oUser || !$oUser->isAdministrator()) {
+			return false;
+		}
+        
+        return true;
+	}
 }
 ?>
