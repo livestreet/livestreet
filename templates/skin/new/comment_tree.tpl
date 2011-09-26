@@ -44,8 +44,9 @@
 				{assign var="nesting" value="-1"}
 				{foreach from=$aComments item=oComment name=rublist}
 					{assign var="cmtlevel" value=$oComment->getLevel()}
-					{if $cmtlevel>$oConfig->GetValue('module.comment.max_tree')}
+					{if $cmtlevel>=$oConfig->GetValue('module.comment.max_tree')}
 						{assign var="cmtlevel" value=$oConfig->GetValue('module.comment.max_tree')}
+						{assign var="bAllowNewComment" value="false"}
 					{/if}
    					{if $nesting < $cmtlevel}        
     				{elseif $nesting > $cmtlevel}    	
