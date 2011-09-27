@@ -397,5 +397,85 @@ class ModuleACL extends Module {
         
         return true;
 	}
+    
+    /**
+	 * Проверяет может ли пользователь публиковать на главной
+	 *
+	 * @param  Entity_User $oUser
+	 * @return bool
+	 */
+	public function IsAllowPublishIndex(ModuleUser_EntityUser $oUser) {
+        
+		if ($oUser->isAdministrator()) {
+			return true;
+		}
+        
+        return false;
+	}
+    
+    /**
+	 * Проверяет можно или нет пользователю редактировать данный блог
+	 *
+	 * @param  object $oBlog
+	 * @param  object $oUser
+	 * @return bool
+	 */
+	public function IsAllowEditBlog($oBlog,$oUser) {
+        
+        if ($oUser->isAdministrator()) {
+            return true;
+        }
+
+        /**
+         * Разрешаем если это создатель блога
+         */
+        if ($oBlog->getOwnerId() == $oUser->getId()) {
+            return true;
+        }
+
+        /**
+         * Явлется ли авторизованный пользователь администратором блога
+         */
+        $oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId());
+
+        if ($oBlogUser && $oBlogUser->getIsAdministrator()) {
+            return true;
+        }
+
+        return false;
+	}	
+    
+    /**
+	 * Проверяет можно или нет пользователю управлять пользователями блога
+	 *
+	 * @param  object $oBlog
+	 * @param  object $oUser
+	 * @return bool
+	 */
+	public function IsAllowAdminBlog($oBlog,$oUser) {
+        
+        if ($oUser->isAdministrator()) {
+            return true;
+        }
+
+        /**
+         * Разрешаем если это создатель блога
+         */
+        if ($oBlog->getOwnerId() == $oUser->getId()) {
+            return true;
+        }
+
+        /**
+         * Явлется ли авторизованный пользователь администратором блога
+         */
+        $oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId());
+
+        if ($oBlogUser && $oBlogUser->getIsAdministrator()) {
+            return true;
+        }
+
+        return false;
+	}	
+    
 }
 ?>
