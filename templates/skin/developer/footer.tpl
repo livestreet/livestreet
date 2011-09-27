@@ -7,7 +7,7 @@
 	</div><!-- /wrapper -->
 
 	<div id="footer">
-		<div class="right">Powered by <a href="http://livestreetcms.com">LiveStreet CMS</a></div>
+		<div class="right">{hook run='copyright'}</div>
 		Автор шаблона &mdash; <a href="http://deniart.ru">deniart</a>
 		{hook run='footer_end'}
 	</div>
