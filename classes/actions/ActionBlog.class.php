@@ -264,14 +264,13 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
+		
 		/**
-		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
-		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+         * Проверка на право редактировать блог
+         */
+        if (!$this->ACL_IsAllowEditBlog($oBlog, $this->oUserCurrent)) {
 			return parent::EventNotFound();
-		}
+        }
 
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_edit'));
@@ -375,14 +374,14 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-		/**
-		 * Явлется ли авторизованный пользователь хозяином блога, либо его администратором
-		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
-		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
-		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+		
+        /**
+         * Проверка на право управлением пользователями блога
+         */
+        if (!$this->ACL_IsAllowAdminBlog($oBlog, $this->oUserCurrent)) {
 			return parent::EventNotFound();
-		}
+        }
+        
 		/**
 		 * Обрабатываем сохранение формы
 		 */

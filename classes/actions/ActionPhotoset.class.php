@@ -497,7 +497,7 @@ class ActionPhotoset extends Action {
 		 * Принудительный вывод на главную
 		 */
 		$oTopic->setPublishIndex(0);
-		if ($this->oUserCurrent->isAdministrator())	{
+		if ($this->ACL_IsAllowPublishIndex($this->oUserCurrent))	{
 			if (getRequest('topic_publish_index')) {
 				$oTopic->setPublishIndex(1);
 			}
@@ -645,7 +645,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Принудительный вывод на главную
 		 */
-		if ($this->oUserCurrent->isAdministrator())	{
+		if ($this->ACL_IsAllowPublishIndex($this->oUserCurrent))	{
 			if (getRequest('topic_publish_index')) {
 				$oTopic->setPublishIndex(1);
 			} else {
