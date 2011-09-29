@@ -359,7 +359,7 @@ ls = (function ($) {
 	*/
 	this.log = function(msg) {
 		if (window.console && window.console.log) {
-			console.log(msg);
+		//	console.log(msg);
 		} else {
 			//alert(msg);
 		}
