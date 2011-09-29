@@ -16,7 +16,7 @@
 						
 			ed.addCommand('mceLsEditorImage', function() {        		        		
         		ed.windowManager.open({
-					file : url + '/image.htm?v=5',
+					file : url + '/image.htm?v=6',
 					width : 480,
 					height : 190,
 					inline : 1

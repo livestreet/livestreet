@@ -5,15 +5,15 @@
 	<title>{#lseditor.image_title}</title>	
 	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script type="text/javascript" src="../../utils/mctabs.js"></script>	
-	<script type="text/javascript" src="js/image.js?v=3"></script>
-	<script type="text/javascript" src="../../../JsHttpRequest/JsHttpRequest.js"></script>
-        	<script type="text/javascript" src="../../../MooTools_1.2/mootools-1.2.js?v=1.2.5"></script>
-	<script type="text/javascript" src="../../../MooTools_1.2/plugs/iFrameFormRequest/iFrameFormRequest.js"></script>
+	<script type="text/javascript" src="js/image.js?v=4"></script>
+	<script type="text/javascript" src="../../../jquery/jquery.js"></script>
+   	<script type="text/javascript" src="../../../jquery/jquery.form.js"></script>
+
 	<link href="css/image.css" rel="stylesheet" type="text/css" />
         <base target="_self" />
 </head>
 <body id="advimage" style="display: none">
-    <form onsubmit="lsImageDialog.ajaxUploadImg(document.getElementById('form_upload_img'));return false;" action="#" id="form_upload_img" enctype="multipart/form-data"  method="POST" > 
+    <form onsubmit="lsImageDialog.ajaxUploadImg('form_upload_img');return false;" action="#" id="form_upload_img" enctype="multipart/form-data"  method="POST" > 
 		<div class="tabs">
 			<ul>
 				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#lseditor.image_upload}</a></span></li>				
