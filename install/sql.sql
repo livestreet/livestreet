@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS `prefix_city_user` (
 CREATE TABLE IF NOT EXISTS `prefix_comment` (
   `comment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `comment_pid` int(11) unsigned DEFAULT NULL,
-  `comment_left` int(11) NOT NULL,
-  `comment_right` int(11) NOT NULL,
-  `comment_level` int(11) NOT NULL,
+  `comment_left` int(11) NOT NULL DEFAULT '0',
+  `comment_right` int(11) NOT NULL DEFAULT '0',
+  `comment_level` int(11) NOT NULL DEFAULT '0',
   `target_id` int(11) unsigned DEFAULT NULL,
   `target_type` enum('topic','talk') NOT NULL DEFAULT 'topic',
   `target_parent_id` int(11) NOT NULL DEFAULT '0',

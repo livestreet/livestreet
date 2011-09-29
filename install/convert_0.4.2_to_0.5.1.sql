@@ -67,6 +67,9 @@ ALTER TABLE  `prefix_comment` ADD  `comment_level` INT NOT NULL AFTER  `comment_
 ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_left` );
 ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_right` );
 ALTER TABLE  `prefix_comment` ADD INDEX (  `comment_level` );
+ALTER TABLE `prefix_comment` CHANGE `comment_left` `comment_left` INT( 11 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_comment` CHANGE `comment_right` `comment_right` INT( 11 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_comment` CHANGE `comment_level` `comment_level` INT( 11 ) NOT NULL DEFAULT '0';
 
 -- Добавляет новый тип топика 'photoset', этот запрос автоматически выполняется через инсталлятор при конвертации БД (для сохранения ваших кастомных типов топиков)
 -- ALTER TABLE  `prefix_topic` CHANGE topic_type topic_type ENUM('topic','link','question','photoset') NOT NULL DEFAULT 'topic';
