@@ -25,6 +25,7 @@ document.addEvent('domready', function() {
 				{else}
 					<h1>{$aLang.topic_link_edit}</h1>
 				{/if}
+				{hook run='add_topic_link_begin'}
 				<form action="" method="POST" enctype="multipart/form-data">
 					{hook run='form_add_topic_link_begin'}
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
@@ -72,9 +73,8 @@ document.addEvent('domready', function() {
 					<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 					</p>
 				</form>
-
+				{hook run='add_topic_link_end'}
 			</div>
 
 
 {include file='footer.tpl'}
-

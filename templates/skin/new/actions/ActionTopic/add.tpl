@@ -69,6 +69,7 @@ tinyMCE.init({
 				{else}
 					<h1>{$aLang.topic_topic_edit}</h1>
 				{/if}
+				{hook run='add_topic_topic_begin'}
 				<form action="" method="POST" enctype="multipart/form-data">
 					{hook run='form_add_topic_topic_begin'}
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
@@ -144,9 +145,8 @@ tinyMCE.init({
 					<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 					</p>
 				</form>
-
+				{hook run='add_topic_topic_end'}
 			</div>
 
 
 {include file='footer.tpl'}
-

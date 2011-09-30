@@ -11,7 +11,7 @@
 	<h2>{$aLang.topic_link_edit}</h2>
 {/if}
 
-
+{hook run='add_topic_link_begin'}
 <form action="" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_topic_link_begin'}
 
@@ -64,8 +64,7 @@
 			<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
 	</p>
 </form>
-
+{hook run='add_topic_link_end'}
 
 
 {include file='footer.tpl'}
-
