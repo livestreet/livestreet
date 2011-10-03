@@ -316,7 +316,7 @@ class ModuleTopic extends Module {
 	 * @return unknown
 	 */
 	public function GetTopicById($sId) {		
-		$aTopics=$this->GetTopicsAdditionalData($sId);
+		$aTopics=$this->Topic_GetTopicsAdditionalData($sId);
 		if (isset($aTopics[$sId])) {
 			return $aTopics[$sId];
 		}
@@ -430,7 +430,7 @@ class ModuleTopic extends Module {
 		/**
 		 * Получаем записи по переданому массиву айдишников
 		 */
-		$data['collection']=$this->GetTopicsAdditionalData($data['collection']);		
+		$data['collection']=$this->Topic_GetTopicsAdditionalData($data['collection']);		
 		return $data;
 	}
 	/**
