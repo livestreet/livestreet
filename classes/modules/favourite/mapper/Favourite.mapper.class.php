@@ -279,6 +279,29 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 			return true;
 		}
 		return false;
-	}	
+	}
+
+    public function GetCountFavouritesByTargetId($sTargetId,$sTargetType,$aExcludeTarget) {
+		$sql = "SELECT
+					count(user_id) as count
+				FROM
+					".Config::Get('db.table.favourite')."
+				WHERE
+						target_id = ?
+					AND
+						target_publish = 1
+					AND
+						target_type = ?
+					{ AND target_id NOT IN (?a) }
+					;";
+		return ( $aRow=$this->oDb->selectRow(
+						$sql,$sTargetId,
+						$sTargetType,
+						(count($aExcludeTarget) ? $aExcludeTarget : DBSIMPLE_SKIP)
+					)
+				)
+					? $aRow['count']
+					: false;
+	}
 }
 ?>
