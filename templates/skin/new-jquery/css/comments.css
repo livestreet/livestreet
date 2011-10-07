@@ -62,6 +62,7 @@
 .comment .info li a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; position: relative; top: 4px; }
 .comment .info li a.favourite.active { background-position: -50px -40px; }
 .comment .info li a.favourite:hover { background-position: -50px -40px; }
+.comment .info li .favourite-count { margin-left: 2px; position: relative; top: 1px; }
 .comment .info li a {  }
 
 /* Content */

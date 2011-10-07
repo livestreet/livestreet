@@ -42,9 +42,9 @@
 .topic .info li.comments-link a:hover span { background: #390; color: #fff; }
 .topic .info li.url a { padding-left: 16px; background: url(../images/topic_link.gif) 0 1px no-repeat; font-size: 11px; }
 
-.topic .favourite { position: absolute; top: 8px; left: -8px; height: 16px; width: 20px; background: url(../images/icons.gif) no-repeat 0 -40px; }
-.topic .favourite:hover { background: url(../images/icons.gif) no-repeat -20px -40px;  }
-.topic .favourite.active { background: url(../images/icons.gif) no-repeat -20px -40px;  }
+.topic .favourite { position: absolute; top: 8px; left: -8px; height: 16px; width: 20px; background: url(../images/icons.gif) no-repeat 0 -40px; text-align: center; font-weight: bold; text-decoration: none; }
+.topic .favourite:hover { background: url(../images/icons.gif) no-repeat -20px -40px; color: #fff; }
+.topic .favourite.active { background: url(../images/icons.gif) no-repeat -20px -40px; color: #fff; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; font-size: 14px; }

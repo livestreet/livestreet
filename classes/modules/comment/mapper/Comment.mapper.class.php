@@ -489,13 +489,14 @@ class ModuleComment_MapperComment extends Mapper {
 				comment_text= ?,
 				comment_rating= ?f,
 				comment_count_vote= ?d,
+				comment_count_favourite= ?d,
 				comment_delete = ?d ,
 				comment_publish = ?d ,
 				comment_text_hash = ?
 			WHERE
 				comment_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oComment->getText(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId())) {
+		if ($this->oDb->query($sql,$oComment->getText(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getCountFavourite(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId())) {
 			return true;
 		}		
 		return false;

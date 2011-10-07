@@ -341,5 +341,30 @@ class ModuleFavourite extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
 		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);		
 	}
+
+    /**
+	 * Возвращает число пользователей добавивших таргет определенного типа в избранное
+	 *
+	 * @param  string $sTargetId
+	 * @param  string $sTargetType
+	 * @return array
+	 */
+	public function GetCountFavouritesByTargetId($sTargetId,$sTargetType,$aExcludeTarget=array()) {
+		$s=serialize($aExcludeTarget);
+        $sCacheTagName = "{$sTargetType}_count_favourite_{$sTargetId}_{$s}";
+		if (false === ($data = $this->Cache_Get($sCacheTagName))) {
+			$data = $this->oMapper->GetCountFavouritesByTargetId($sTargetId,$sTargetType,$aExcludeTarget);
+			$this->Cache_Set(
+				$data,
+				$sCacheTagName,
+				array(
+					"favourite_{$sTargetType}_change",
+					"favourite_{$sTargetType}_change_user_{$sTargetId}"
+				),
+				60*60*24*1
+			);
+		}
+		return $data;
+	}
 }
 ?>

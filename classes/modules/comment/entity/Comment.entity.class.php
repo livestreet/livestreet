@@ -87,8 +87,11 @@ class ModuleComment_EntityComment extends Entity
     }
      public function getIsFavourite() {
         return $this->_aData['comment_is_favourite'];
-    }   
-    
+    }
+
+    public function getCountFavourite() {
+        return $this->_aData['comment_count_favourite'];
+    }
     
     
 	public function setId($data) {
@@ -155,6 +158,9 @@ class ModuleComment_EntityComment extends Entity
     }  
     public function setIsFavourite($data) {
         $this->_aData['comment_is_favourite']=$data;
-    }      
+    }
+    public function setCountFavourite($data) {
+        $this->_aData['comment_count_favourite']=$data;
+    }
 }
 ?>

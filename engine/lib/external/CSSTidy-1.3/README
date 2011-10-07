@@ -1,6 +1,21 @@
 CSSTidy
+---
 
-Changelog: http://cdburnerxp.se/cssparse/csstidy/changelog.php
+CSSTidy is a CSS minifier 
+Since the original project (http://csstidy.sourceforge.net/index.php) has been suspended
+here is the import of https://csstidy.svn.sourceforge.net/svnroot/csstidy on 2010-11-14
+
+master branch corresponds to the trunk of svn repository and shoul be stabilized
+v1.3 branch corresponds to the last stable relase published by the author.
+It integrates some bugfixes and a 1.3.1 version has been taged
+Only PHP version is here maintained
+
+---
+
+CSSTidy
+
+Original Tracker : 
+http://sourceforge.net/tracker/?group_id=148404&atid=771415
 
 css_optimiser.php is the web-interface, css_parser.php contains the PHP class (CSSTidy).
 
@@ -12,17 +27,17 @@ Additional to that it applies some optimisations and fixes to the CSS code.
 An online version should be available here: http://cdburnerxp.se/cssparse/css_optimiser.php
 
 
+	Copyright 2005, 2006, 2007 Florian Schmitz
 
-CSSTidy is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  CSSTidy is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation; either version 2.1 of the License, or
+  (at your option) any later version.
+  
+  CSSTidy is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
 
-CSSTidy is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with CSSTidy; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.

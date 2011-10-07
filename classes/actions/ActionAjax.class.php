@@ -419,6 +419,7 @@ class ActionAjax extends Action {
 		}
 
 		$oFavouriteTopic=$this->Topic_GetFavouriteTopic($oTopic->getId(),$this->oUserCurrent->getId());
+        $iCountFavorite=$this->Favourite_GetCountFavouritesByTargetId($oTopic->getId(),'topic');
 		if (!$oFavouriteTopic and $iType) {
 			$oFavouriteTopicNew=Engine::GetEntity('Favourite',
 				array(
@@ -428,9 +429,11 @@ class ActionAjax extends Action {
 					'target_publish' => $oTopic->getPublish()
 				)
 			);
-			if ($this->Topic_AddFavouriteTopic($oFavouriteTopicNew)) {
+            $oTopic->setCountFavourite($iCountFavorite+1);
+			if ($this->Topic_AddFavouriteTopic($oFavouriteTopicNew) and $this->Topic_UpdateTopic($oTopic)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_add_ok'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',true);
+                $this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
@@ -445,9 +448,11 @@ class ActionAjax extends Action {
 			return;
 		}
 		if ($oFavouriteTopic and !$iType) {
-			if ($this->Topic_DeleteFavouriteTopic($oFavouriteTopic)) {
+            $oTopic->setCountFavourite($iCountFavorite-1);
+			if ($this->Topic_DeleteFavouriteTopic($oFavouriteTopic) and $this->Topic_UpdateTopic($oTopic)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_del_ok'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',false);
+                $this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
@@ -479,6 +484,7 @@ class ActionAjax extends Action {
 		}
 
 		$oFavouriteComment=$this->Comment_GetFavouriteComment($oComment->getId(),$this->oUserCurrent->getId());
+        $iCountFavorite=$this->Favourite_GetCountFavouritesByTargetId($oComment->getId(),'comment');
 		if (!$oFavouriteComment and $iType) {
 			$oFavouriteCommentNew=Engine::GetEntity('Favourite',
 				array(
@@ -488,9 +494,11 @@ class ActionAjax extends Action {
 					'target_publish' => $oComment->getPublish()
 				)
 			);
-			if ($this->Comment_AddFavouriteComment($oFavouriteCommentNew)) {
+            $oComment->setCountFavourite($iCountFavorite+1);
+			if ($this->Comment_AddFavouriteComment($oFavouriteCommentNew) and $this->Comment_UpdateComment($oComment)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_add_ok'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',true);
+                $this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
@@ -505,9 +513,11 @@ class ActionAjax extends Action {
 			return;
 		}
 		if ($oFavouriteComment and !$iType) {
-			if ($this->Comment_DeleteFavouriteComment($oFavouriteComment)) {
+            $oComment->setCountFavourite($iCountFavorite-1);
+			if ($this->Comment_DeleteFavouriteComment($oFavouriteComment) and $this->Comment_UpdateComment($oComment)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_del_ok'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',false);
+                $this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
