@@ -112,7 +112,7 @@ jQuery(window).load(function($) {
                 </li>
                 <li class="username"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
                 <li class="date">{date_format date=$oTopic->getDateAdd()}</li>
-                <li><a href="#" onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></a></li>
+                <li><a href="#" onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></a><span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{else}&nbsp;{/if}</span></li>
                 {if $bTopicList}
                         <li class="comments-link">
                                 {if $oTopic->getCountComment()>0}

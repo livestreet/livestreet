@@ -47,6 +47,8 @@ ls.favourite = (function ($) {
 				if (result.bState) {
 					this.objFavourite.addClass(this.options.active);
 				}
+                
+                $('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 			}
 		}.bind(this));
 		return false;
