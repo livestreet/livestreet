@@ -114,7 +114,7 @@
 					<div class="comment-preview" id="comment_preview_0" style="display: none;"><div class="comment-inner"><div class="content"></div></div></div>
 				{/if}
 
-				<form action="" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
+				<form action="#" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 					<textarea name="comment_text" id="form_comment_text" class="input-wide"></textarea>
 					<input type="button" value="{$aLang.comment_preview}" onclick="ls.comments.preview();" />
 					<input type="submit" name="submit_comment" value="{$aLang.comment_add}" id="comment-button-submit" onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" />
