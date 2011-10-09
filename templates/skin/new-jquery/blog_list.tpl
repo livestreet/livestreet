@@ -1,13 +1,13 @@
 <table class="table blog-list-table table-people">
 	<thead>
 		<tr>
-			<td>{$aLang.blogs_title}</td>
-			{if $oUserCurrent}<td align="center" width="100px">{$aLang.blog_join_leave}</td>{/if}
-			<td align="center" width="60px">{$aLang.blogs_readers}</td>														
-			<td align="center" width="60px">{$aLang.blogs_rating}</td>
+			<td class="blog-title">{$aLang.blogs_title}</td>
+			{if $oUserCurrent}<td class="blog-join-leave">{$aLang.blog_join_leave}</td>{/if}
+			<td class="blog-readers-count">{$aLang.blogs_readers}</td>
+			<td class="blog-rating">{$aLang.blogs_rating}</td>
 		</tr>
 	</thead>
-	
+
 	<tbody>
 		{foreach from=$aBlogs item=oBlog}
 			{assign var="oUserOwner" value=$oBlog->getOwner()}
