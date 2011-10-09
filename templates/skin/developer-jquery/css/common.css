@@ -24,9 +24,10 @@
 
 
 /* Favorite */
-.favourite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; }
+.favourite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; float: left;}
 .favourite:hover 	{ background-position: 0 -16px !important; }
 .favourite.active 	{ background-position: 0 -16px; }
+.favourite-count    { color: #333; font-weight: bold; float: left; margin-left: 2px; }
 
 
 /* Pagination */

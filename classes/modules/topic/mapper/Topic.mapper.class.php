@@ -383,13 +383,14 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_count_vote= ?d,
 				topic_count_read= ?d,
 				topic_count_comment= ?d, 
+				topic_count_favourite= ?d,
 				topic_cut_text = ? ,
 				topic_forbid_comment = ? ,
 				topic_text_hash = ? 
 			WHERE
 				topic_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId())) {
+		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId())) {
 			$this->UpdateTopicContent($oTopic);
 			return true;
 		}		
@@ -798,5 +799,25 @@ class ModuleTopic_MapperTopic extends Mapper {
                         id= ?d';
              $this->oDb->query($sql, $iPhotoId);
          }
+         
+         public function RecalculateFavourite() {
+            $sql = "
+                UPDATE ".Config::Get('db.table.topic')." t 
+                SET t.topic_count_favourite = (
+                    SELECT count(f.user_id)
+                    FROM ".Config::Get('db.table.favourite')." f
+                    WHERE 
+                        f.target_id = t.topic_id
+                    AND
+                        f.target_publish = 1
+                    AND
+                        f.target_type = 'topic'
+                )
+            ";			
+            if ($this->oDb->query($sql)) {
+                return true;
+            }
+            return false;		
+        }
 }
 ?>
