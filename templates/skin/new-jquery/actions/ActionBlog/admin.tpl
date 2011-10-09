@@ -2,7 +2,7 @@
 {include file='menu.blog_edit.tpl'}
 
 {if $aBlogUsers}
-	<form action="" method="POST" enctype="multipart/form-data">
+	<form action="#" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 		<table class="table">
 			<thead>

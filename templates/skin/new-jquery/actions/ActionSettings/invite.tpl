@@ -3,7 +3,7 @@
 
 <h2>{$aLang.settings_invite}</h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p>

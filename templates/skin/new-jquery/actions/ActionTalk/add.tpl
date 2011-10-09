@@ -53,7 +53,7 @@
 
 <h2>{$aLang.talk_create}</h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_talk_begin'}
 	
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />

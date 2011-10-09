@@ -13,7 +13,7 @@
 {/if}
 
 {hook run='add_topic_question_begin'}
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_topic_question_begin'}
 	
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />

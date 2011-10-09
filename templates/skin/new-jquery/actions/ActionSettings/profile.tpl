@@ -3,7 +3,7 @@
 
 <h2>{$aLang.settings_profile_edit}</h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 
 	{hook run='form_settings_profile_begin'}
 
