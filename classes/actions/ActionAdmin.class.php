@@ -42,6 +42,7 @@ class ActionAdmin extends Action {
 		$this->AddEvent('plugins','EventPlugins');
 		$this->AddEvent('restorecomment','EventRestoreComment');
 		$this->AddEvent('userfields','EventUserfields');
+		$this->AddEvent('recalcfavourite','EventRecalculateFavourite');
 	}
 
 
@@ -67,6 +68,20 @@ class ActionAdmin extends Action {
 		$this->SetTemplateAction('index');
 	}
 
+  	/**
+	 * Перестроение дерева комментариев, актуально при $config['module']['comment']['use_nested'] = true;
+	 *
+	 */
+	protected function EventRecalculateFavourite() {
+		set_time_limit(0);
+		$this->Comment_RecalculateFavourite();
+		$this->Topic_RecalculateFavourite();
+		$this->Cache_Clean();
+		
+		$this->Message_AddNotice($this->Lang_Get('admin_favourites_recalculated'),$this->Lang_Get('attention'));
+		$this->SetTemplateAction('index');
+	}
+    
 	/**
 	 * Страница со списком плагинов
 	 *

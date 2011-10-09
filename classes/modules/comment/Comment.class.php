@@ -886,5 +886,15 @@ class ModuleComment extends Module {
 			}			
 		}		
 	}
+    
+    /**
+     * Пересчитывает счетчик избранных комментариев
+     *
+     * @return type 
+     */
+    public function RecalculateFavourite(){
+        return $this->oMapper->RecalculateFavourite();    
+    }
+    
 }
 ?>
