@@ -67,24 +67,25 @@
 	{else}
 		<h2>{$aLang.topic_photoset_edit}</h2>
 	{/if}
-        <form id="photoset-upload-form" method="POST" enctype="multipart/form-data" onsubmit="return false;">
-            <p id="topic-photo-upload-input" class="topic-photo-upload-input">
-                <label for="">{$aLang.topic_photoset_choose_image}:</label><br />
-                <input type="file" id="photoset-upload-file" name="Filedata" /><br><br>
 
-                <button onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
-                <button onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
-                <input type="hidden" name="is_iframe" value="true" />
-                <input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
-            </p>
-        </form>
+	<form id="photoset-upload-form" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+		<p id="topic-photo-upload-input" class="topic-photo-upload-input">
+			<label for="photoset-upload-file">{$aLang.topic_photoset_choose_image}:</label><br />
+			<input type="file" id="photoset-upload-file" name="Filedata" /><br><br>
+
+			<button onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
+			<button onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
+			<input type="hidden" name="is_iframe" value="true" />
+			<input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
+		</p>
+	</form>
 
 	{hook run='add_topic_photoset_begin'}
 	<form action="#" method="POST" enctype="multipart/form-data">
 		{hook run='form_add_topic_photoset_begin'}
-		
+
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
-		
+
 		<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
 		<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo(this.value);" class="input-wide">
 			<option value="0">{$aLang.topic_create_blog_personal}</option>
@@ -92,7 +93,7 @@
 				<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 			{/foreach}
 		</select></p>
-		
+
 		<script>
 			jQuery(document).ready(function($){
 				ls.blog.loadInfo($('#blog_id').val());
@@ -108,7 +109,7 @@
 		<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
 		<textarea name="topic_text" id="topic_text" rows="20" class="input-wide">{$_aRequest.topic_text}</textarea>
 		</p>
-		
+
 		<!-- Topic Photo Add -->
 		<div class="topic-photo-upload">
 			<h2>{$aLang.topic_photoset_upload_title}</h2>
@@ -118,32 +119,32 @@
 			</div>
 			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 			<ul id="swfu_images">
-                                {if count($aPhotos)}
-                                    {foreach from=$aPhotos item=oPhoto}
-                                        {if $_aRequest.topic_main_photo && $_aRequest.topic_main_photo == $oPhoto->getId()}
-                                            {assign var=bIsMainPhoto value=true}
-                                         {/if}
-                                        <li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
-                                            <img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
-                                            <textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
-                                            <a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="image-delete">{$aLang.topic_photoset_photo_delete}</a>
-                                            <span id="photo_preview_state_{$oPhoto->getId()}" class="photo-preview-state">
-                                                 {if $bIsMainPhoto}
-                                                    {$aLang.topic_photoset_is_preview}
-                                                {else}
-                                                    <a href="javascript:ls.photoset.setPreview({$oPhoto->getId()})" class="mark-as-preview">{$aLang.topic_photoset_mark_as_preview}</a>
-                                                {/if}
-                                            </span>
-                                        </li>
-                                        {assign var=bIsMainPhoto value=false}
-                                    {/foreach}
-                                {/if}
+				{if count($aPhotos)}
+					{foreach from=$aPhotos item=oPhoto}
+						{if $_aRequest.topic_main_photo && $_aRequest.topic_main_photo == $oPhoto->getId()}
+							{assign var=bIsMainPhoto value=true}
+						{/if}
+						<li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
+							<img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
+							<textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)">{$oPhoto->getDescription()}</textarea><br />
+							<a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="image-delete">{$aLang.topic_photoset_photo_delete}</a>
+							<span id="photo_preview_state_{$oPhoto->getId()}" class="photo-preview-state">
+								{if $bIsMainPhoto}
+									{$aLang.topic_photoset_is_preview}
+								{else}
+									<a href="javascript:ls.photoset.setPreview({$oPhoto->getId()})" class="mark-as-preview">{$aLang.topic_photoset_mark_as_preview}</a>
+								{/if}
+							</span>
+						</li>
+						{assign var=bIsMainPhoto value=false}
+					{/foreach}
+				{/if}
 			</ul>
 			<a href="javascript:ls.photoset.showForm()" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
 		</div>
 		<!-- /Topic Photo Add -->
-		
-          
+
+
 		<p><label for="topic_tags">{$aLang.topic_create_tags}:</label><br />
 		<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-wide autocomplete-tags-sep" /><br />
 		<span class="note">{$aLang.topic_create_tags_notice}</span></p>
@@ -151,7 +152,7 @@
 		<p><label for="topic_forbid_comment"><input type="checkbox" id="topic_forbid_comment" name="topic_forbid_comment" class="checkbox" value="1" {if $_aRequest.topic_forbid_comment==1}checked{/if} />
 		{$aLang.topic_create_forbid_comment}</label><br />
 		<span class="note">{$aLang.topic_create_forbid_comment_notice}</span></p>
-	
+
 		{if $oUserCurrent->isAdministrator()}
 			<p><label for="topic_publish_index"><input type="checkbox" id="topic_publish_index" name="topic_publish_index" class="checkbox" value="1" {if $_aRequest.topic_publish_index==1}checked{/if} />
 			{$aLang.topic_create_publish_index}</label><br />
@@ -159,7 +160,7 @@
 		{/if}
 
 		{hook run='form_add_topic_photoset_end'}
-							
+
 		<p class="buttons">
 			<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
 			<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
