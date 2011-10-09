@@ -1,28 +1,28 @@
 {include file='header.tpl' menu='people'}
 
-				
+
 <h2>{$aLang.user_list_new}</h2>
 
 {if $aUsersRegister}
 	<table class="table table-people">
 		<thead>
 			<tr>
-				<td>{$aLang.user}</td>													
-				<td align="center" width="170">{$aLang.user_date_registration}</td>
-				<td align="center" width="60">{$aLang.user_skill}</td>
-				<td align="center" width="80">{$aLang.user_rating}</td>
+				<td class="user-login">{$aLang.user}</td>
+				<td class="user-date-registration">{$aLang.user_date_registration}</td>
+				<td class="user-skill">{$aLang.user_skill}</td>
+				<td class="user-rating">{$aLang.user_rating}</td>
 			</tr>
 		</thead>
 		
 		<tbody>
 		{foreach from=$aUsersRegister item=oUser}
 			<tr>
-				<td><a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" class="avatar" /></a><a href="{$oUser->getUserWebPath()}" class="username">{$oUser->getLogin()}</a></td>														
-				<td align="center" class="date">{date_format date=$oUser->getDateRegister()}</td>
-				<td align="center" class="strength">{$oUser->getSkill()}</td>							
-				<td align="center" class="rating"><strong>{$oUser->getRating()}</strong></td>
+				<td class="user-login"><a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="" class="avatar" /></a><a href="{$oUser->getUserWebPath()}" class="username">{$oUser->getLogin()}</a></td>														
+				<td class="user-date-registration date">{date_format date=$oUser->getDateRegister()}</td>
+				<td class="user-skill strength">{$oUser->getSkill()}</td>
+				<td class="user-rating rating"><strong>{$oUser->getRating()}</strong></td>
 			</tr>
-		{/foreach}						
+		{/foreach}
 		</tbody>
 	</table>
 {else}

@@ -85,27 +85,33 @@
 .join { width: 10px; height: 10px; background: url(../images/icons.gif) no-repeat 0 -250px; cursor: pointer; }
 .join.active { background-position: -10px -250px; }
 
-.table { width: 100%; margin-bottom: 15px; }
-.table td { padding: 5px; }
-.table tr.active td { background: #F1FCEF; }
-.table thead td { background: #F0F1F1; font-weight: bold; }
-.table tbody td { padding: 5px; border-bottom: 1px solid #ddd; font-size: 11px; }
+table { width: 100%; margin-bottom: 15px; }
+table td { padding: 5px; }
+table tr.active td { background: #F1FCEF; }
+table thead td { background: #F0F1F1; font-weight: bold; }
+table tbody td { padding: 5px; border-bottom: 1px solid #ddd; font-size: 11px; }
 
-.table.table-people {  }
-.table.table-people .avatar { vertical-align: middle; margin-right: 7px; }
-.table.table-people td { padding: 5px 10px; vertical-align: middle; }
-.table.table-people .username { font-weight: bold; color: #999; }
-.table.table-people .strength { font-weight: bold; color: #70AAE0; }
-.table.table-people .date { color: #999; }
-.table.table-people .rating strong { font-weight: bold; color: #fff; background: #FF68CF; padding: 5px 10px; }
+table.table-people {  }
+table.table-people td { padding: 5px 10px; vertical-align: middle; }
+table.table-people td.user-skill, table.table-people td.user-rating, table.table-people td.user-date-last { text-align: center; }
+table.table-people td.user-skill { width: 60px; }
+table.table-people td.user-rating { width: 80px; }
+table.table-people td.user-date-last, table.table-people td.user-date-registration { width: 170px; }
+table.table-people .avatar { vertical-align: middle; margin-right: 7px; }
+table.table-people .username { font-weight: bold; color: #999; }
+table.table-people .strength { font-weight: bold; color: #70AAE0; }
+table.table-people .date { color: #999; }
+table.table-people .rating strong { font-weight: bold; color: #fff; background: #FF68CF; padding: 5px 10px; }
 
-.table.table-talk tbody td { color: #999; }
-.table.table-talk td { padding: 5px; }
-.table.table-talk td .username { padding-left: 13px; background: url(../images/icons.gif) 0 -108px no-repeat; margin-right: 5px; text-decoration: none;}
-.table.table-talk td .username.inactive { color: #bbb; }
-.table.table-talk a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; }
-.table.table-talk a.favourite.active { background-position: -50px -40px; }
-.table.table-talk a.favourite:hover { background-position: -50px -40px; }
+table.table-talk tbody td { color: #999; }
+table.table-talk td { padding: 5px; }
+table.table-talk td .username { padding-left: 13px; background: url(../images/icons.gif) 0 -108px no-repeat; margin-right: 5px; text-decoration: none;}
+table.table-talk td .username.inactive { color: #bbb; }
+table.table-talk a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; }
+table.table-talk a.favourite.active { background-position: -50px -40px; }
+table.table-talk a.favourite:hover { background-position: -50px -40px; }
 
 .right { float: right; }
 span.green { color: #008000; }
+
+img.tagcloud { border: 0; margin-left: 13px; }

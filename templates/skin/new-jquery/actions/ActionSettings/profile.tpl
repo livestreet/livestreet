@@ -3,7 +3,7 @@
 
 <h2>{$aLang.settings_profile_edit}</h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 
 	{hook run='form_settings_profile_begin'}
 
@@ -26,7 +26,7 @@
 		<label><input type="radio" name="profile_sex" id="profile_sex_o"  value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_other}</label>
 	</p>
 	<p>
-		<label for="">{$aLang.settings_profile_birthday}:</label><br />
+		<label>{$aLang.settings_profile_birthday}:</label><br />
 		<select name="profile_birthday_day">
 			<option value="">{$aLang.date_day}</option>
 			{section name=date_day start=1 loop=32 step=1}
