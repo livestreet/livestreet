@@ -116,6 +116,9 @@
 .blog .blog-wrapper .user-list li img { display: block; margin: 0 auto 2px; }
 
 .blog-list-table { }
+.blog-list-table thead td.blog-join-leave, .blog-list-table thead td.blog-readers-count, .blog-list-table thead td.blog-rating { text-align: center; width: 60px; }
+.blog-list-table thead td.blog-join-leave { width: 100px; }
+.blog-list-table tbody td.blog-join-leave, .blog-list-table tbody td.blog-readers-count, .blog-list-table tbody td.blog-rating { text-align: center; }
 .blog-list-table tbody { color: #999; }
 .blog-list-table td.blog-join-leave, .blog-list-table td.blog-readers-count, .blog-list-table td.blog-rating { text-align: center; width: 60px; }
 .blog-list-table td.blog-join-leave { width: 100px; }
