@@ -96,7 +96,7 @@ table.table-people td { padding: 5px 10px; vertical-align: middle; }
 table.table-people td.user-skill, table.table-people td.user-rating, table.table-people td.user-date-last { text-align: center; }
 table.table-people td.user-skill { width: 60px; }
 table.table-people td.user-rating { width: 80px; }
-table.table-people td.user-date-last { width: 170px; }
+table.table-people td.user-date-last, table.table-people td.user-date-registration { width: 170px; }
 table.table-people .avatar { vertical-align: middle; margin-right: 7px; }
 table.table-people .username { font-weight: bold; color: #999; }
 table.table-people .strength { font-weight: bold; color: #70AAE0; }
