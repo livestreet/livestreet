@@ -2,10 +2,10 @@
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()}
 
-<script type="text/javascript">
-jQuery(window).load(function($) {
-	ls.photoset.showMainPhoto({$oTopic->getId()});
-});
+<script>
+	jQuery(window).load(function($) {
+		ls.photoset.showMainPhoto({$oTopic->getId()});
+	});
 </script>
 
 <div class="topic photo">
@@ -68,9 +68,9 @@ jQuery(window).load(function($) {
 
 
 	{if !$bTopicList}
-		<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/prettyPhoto/js/prettyPhoto.js"></script>	
+		<script src="{cfg name='path.root.engine_lib'}/external/prettyPhoto/js/prettyPhoto.js"></script>	
 		<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/prettyPhoto/css/prettyPhoto.css" />
-		<script type="text/javascript">
+		<script>
 		    jQuery(document).ready(function($) {	
 		        $('.photoset-image').prettyPhoto({
 		               social_tools:'',
@@ -92,7 +92,7 @@ jQuery(window).load(function($) {
 						{assign var=iLastPhotoId value=$oPhoto->getId()}
 					{/foreach}
 				{/if}
-				<script type="text/javascript">
+				<script>
 					ls.photoset.idLast='{$iLastPhotoId}';
 				</script>
 			</ul>

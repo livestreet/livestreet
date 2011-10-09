@@ -25,7 +25,7 @@
 		{/foreach}
 	</select></p>
 
-	<script language="JavaScript" type="text/javascript">
+	<script>
 		jQuery(document).ready(function($){
 			ls.blog.loadInfo($('#blog_id').val());
 		});
