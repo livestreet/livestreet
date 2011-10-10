@@ -27,7 +27,7 @@
 
 		{if $nesting < $cmtlevel}
 		{elseif $nesting > $cmtlevel}
-			{section name=closelist1  loop=$nesting-$cmtlevel+1}</div>{/section}
+			{section name=closelist1 loop=$nesting-$cmtlevel+1}</div>{/section}
 		{elseif not $smarty.foreach.rublist.first}
 			</div>
 		{/if}

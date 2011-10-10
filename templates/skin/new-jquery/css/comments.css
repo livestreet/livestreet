@@ -1,19 +1,19 @@
 /* Update button */
-.update { 
-	padding: 8px; 
-	float: right; 
-	position: fixed; 
-	top: 220px; 
-	right: 0; 
+.update {
+	padding: 8px;
+	float: right;
+	position: fixed;
+	top: 220px;
+	right: 0;
 	z-index: 100;
-	text-align: center; 
-	background: #FAFBFB; 
+	text-align: center;
+	background: #FAFBFB;
 	border-radius: 10px 0 0 10px;
-	border-top: 1px solid #eee; 
-	border-bottom: 1px solid #ddd; 
-	border-left: 1px solid #ddd; 
-	_position: absolute; 
-	_top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); 
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	_position: absolute;
+	_top: expression( eval(document.documentElement.scrollTop) + 220 +"px" );
 }
 .update .update-comments { width: 26px; height: 26px; cursor: pointer; background: url(../images/update.gif) no-repeat; }
 .update .update-comments.active { background: url(../images/update_act.gif) no-repeat; }
@@ -62,7 +62,7 @@
 .comment .info li a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; position: relative; top: 4px; }
 .comment .info li a.favourite.active { background-position: -50px -40px; }
 .comment .info li a.favourite:hover { background-position: -50px -40px; }
-.comment .info li a {  }
+.comment .info li a { }
 
 /* Content */
 .comment .content { color: #000; margin: 0 30px 10px 0; border: 1px solid #DDDEDE; background: #f7f7f7; border-radius: 7px; padding: 8px 30px 9px 10px; position: relative; overflow: hidden; zoom: 1; }

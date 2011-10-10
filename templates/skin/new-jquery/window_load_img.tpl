@@ -24,4 +24,3 @@
 	<input type="button" value="{$aLang.uploadimg_submit}" class="button" onclick="ls.ajaxUploadImg('form_upload_img','{$sToLoad}');" />
 	<input type="button" value="{$aLang.uploadimg_cancel}" class="button jqmClose" />
 </form>
-	

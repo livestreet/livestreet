@@ -27,7 +27,7 @@
 						{/if}
 					</td>
 				{/if}
-				<td class="blog-readers-count date" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>													
+				<td class="blog-readers-count date" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>
 				<td class="blog-rating rating"><strong>{$oBlog->getRating()}</strong></td>
 			</tr>
 		{/foreach}

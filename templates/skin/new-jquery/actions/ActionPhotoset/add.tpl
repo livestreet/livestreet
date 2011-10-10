@@ -22,7 +22,7 @@
 		object_resizing : true,
 		force_br_newlines : true,
 		forced_root_block : '', // Needed for 3.x
-		force_p_newlines : false,    
+		force_p_newlines : false,
 		plugins : "lseditor,safari,inlinepopups,media,pagebreak",
 		inline_styles:false,
 		formats : {
@@ -43,7 +43,7 @@
 	<script>
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-			// Подключаем редактор		
+			// Подключаем редактор
 			$('#topic_text').markItUp(getMarkitupSettings());
 		});
 	</script>
@@ -84,7 +84,7 @@
 	<form action="#" method="POST" enctype="multipart/form-data">
 		{hook run='form_add_topic_photoset_begin'}
 
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
+		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 		<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
 		<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo(this.value);" class="input-wide">
@@ -99,7 +99,7 @@
 				ls.blog.loadInfo($('#blog_id').val());
 			});
 		</script>
-		
+
 		<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
 		<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
 		<span class="note">{$aLang.topic_create_title_notice}</span>
@@ -113,7 +113,7 @@
 		<!-- Topic Photo Add -->
 		<div class="topic-photo-upload">
 			<h2>{$aLang.topic_photoset_upload_title}</h2>
-			
+
 			<div class="topic-photo-upload-rules">
 				{$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>

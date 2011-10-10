@@ -33,7 +33,7 @@
 			object_resizing : true,
 			force_br_newlines : true,
 			forced_root_block : '', // Needed for 3.x
-			force_p_newlines : false,    
+			force_p_newlines : false,
 			plugins : "lseditor,safari,inlinepopups,media,pagebreak",
 			convert_urls : false,
 			extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
@@ -53,7 +53,7 @@
 	<script>
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li"});
-			// Подключаем редактор		
+			// Подключаем редактор
 			$('#blog_description').markItUp(getMarkitupSettings());
 		});
 	</script>

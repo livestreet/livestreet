@@ -20,7 +20,7 @@
 	{/if}
 
 	{if $bRefreshToHome}
-		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
+		<meta HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
 
 	<script>
@@ -48,7 +48,7 @@
 		var tinyMCE=false;
 		ls.lang.load({json var=$aLangJs});
 	</script>
-	
+
 	{hook run='html_head_end'}
 </head>
 
@@ -64,5 +64,5 @@
 				<div id="content-inner">
 					{include file='window_login.tpl'}
 					{include file='system_message.tpl'}
-					
+
 					{hook run='content_begin'}

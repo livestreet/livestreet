@@ -22,7 +22,7 @@
 			object_resizing : true,
 			force_br_newlines : true,
 			forced_root_block : '', // Needed for 3.x
-			force_p_newlines : false,    
+			force_p_newlines : false,
 			plugins : "lseditor,safari,inlinepopups,media,pagebreak",
 			convert_urls : false,
 			extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
@@ -42,7 +42,7 @@
 	<script>
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-			// Подключаем редактор		
+			// Подключаем редактор
 			$('#topic_text').markItUp(getMarkitupSettings());
 		});
 	</script>
@@ -79,8 +79,8 @@
 		jQuery(document).ready(function($){
 			ls.blog.loadInfo($('#blog_id').val());
 		});
-    </script>
-	
+	</script>
+
 	<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
 	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
 	<span class="note">{$aLang.topic_create_title_notice}</span></p>
@@ -108,7 +108,7 @@
 		<input type="submit" name="submit_topic_publish" value="{$aLang.topic_create_submit_publish}" class="right" />
 		<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',false); return false;" />&nbsp;
 		<input type="submit" name="submit_topic_save" value="{$aLang.topic_create_submit_save}" />
-	</p>	
+	</p>
 </form>
 {hook run='add_topic_topic_end'}
 

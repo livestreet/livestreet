@@ -30,7 +30,7 @@
 
 
 /* Pagination */
-.pagination {  }
+.pagination { }
 .pagination p { font-size: 16px; color: #bbb; margin-bottom: 10px; }
 .pagination ul { overflow: hidden; font-family: Verdana, Sans-Serif; }
 .pagination ul li { float: left; margin-right: 8px; }
@@ -91,7 +91,7 @@ table tr.active td { background: #F1FCEF; }
 table thead td { background: #F0F1F1; font-weight: bold; }
 table tbody td { padding: 5px; border-bottom: 1px solid #ddd; font-size: 11px; }
 
-table.table-people {  }
+table.table-people { }
 table.table-people td { padding: 5px 10px; vertical-align: middle; }
 table.table-people td.user-skill, table.table-people td.user-rating, table.table-people td.user-date-last { text-align: center; }
 table.table-people td.user-skill { width: 60px; }

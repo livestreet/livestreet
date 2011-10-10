@@ -9,9 +9,9 @@
 				{/foreach}
 			</ul>
 		</div>
-		
+
 		<div class="bottom">
-			<a href="#" id="friend_check_all">{$aLang.block_friends_check}</a> | 
+			<a href="#" id="friend_check_all">{$aLang.block_friends_check}</a> |
 			<a href="#" id="friend_uncheck_all">{$aLang.block_friends_uncheck}</a>
 		</div>
 	{else}

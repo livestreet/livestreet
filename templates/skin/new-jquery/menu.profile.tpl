@@ -20,6 +20,6 @@
 			</ul>
 		{/if}
 	</li>
-	
+
 	{hook run='menu_profile'}
 </ul>

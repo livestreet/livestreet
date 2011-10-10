@@ -2,7 +2,7 @@
 
 /* Title */
 .topic .title { margin-bottom: 3px; font-size: 22px; font-family: Verdana, sans-serif; }
-.topic .title a {  }
+.topic .title a { }
 
 /* Content */
 .topic .content { overflow: hidden; zoom: 1; margin-bottom: 15px; font-size: 14px; font-family: Verdana, sans-serif; line-height: 20px; }
@@ -43,8 +43,8 @@
 .topic .info li.url a { padding-left: 16px; background: url(../images/topic_link.gif) 0 1px no-repeat; font-size: 11px; }
 
 .topic .favourite { position: absolute; top: 8px; left: -8px; height: 16px; width: 20px; background: url(../images/icons.gif) no-repeat 0 -40px; }
-.topic .favourite:hover { background: url(../images/icons.gif) no-repeat -20px -40px;  }
-.topic .favourite.active { background: url(../images/icons.gif) no-repeat -20px -40px;  }
+.topic .favourite:hover { background: url(../images/icons.gif) no-repeat -20px -40px; }
+.topic .favourite.active { background: url(../images/icons.gif) no-repeat -20px -40px; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; font-size: 14px; }
@@ -65,7 +65,7 @@
 .topic .poll .poll-total { color: #aaa; }
 
 /* Topic Photo */
-.topic.photo {  }
+.topic.photo { }
 .topic.photo .topic-photo-preview { position: relative; margin-bottom: 15px; cursor: pointer; }
 .topic.photo .topic-photo-preview img { vertical-align: top; }
 .topic.photo .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
@@ -98,13 +98,13 @@
 .topic-photo-upload .topic-photo-upload-input input { margin-top: 3px; }
 
 #photoset-upload-form {
-	width: 270px; 
+	width: 270px;
 	padding: 15px;
 	position: absolute;
 	top:70%;
 	display: none;
-	background-color: #fff; 
-	border: 1px solid #ccc; 
+	background-color: #fff;
+	border: 1px solid #ccc;
 	-moz-box-shadow: 0 0 10px #ddd;
 	-webkit-box-shadow: 0 0 10px #ddd;
 	box-shadow: 0 0 10px #ddd;

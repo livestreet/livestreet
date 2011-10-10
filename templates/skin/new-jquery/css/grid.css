@@ -6,7 +6,7 @@
 #wrapper 	{ overflow: hidden; zoom: 1; padding: 0 20px 20px; }
 #wrapper.show-update-button { padding-right: 55px; }
 #wrapper.white-back { background: #fff; margin: 0 20px 30px 20px;}
-#wrapper.white-back #content {  }
+#wrapper.white-back #content { }
 #content 	{ width: 66.5%; float: left; margin-right: 1.5%; background: #fff; }
 #content-inner { padding: 20px; }
 #sidebar	{ width: 32%; float: left; }

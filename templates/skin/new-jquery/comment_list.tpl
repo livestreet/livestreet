@@ -12,13 +12,13 @@
 		</div>
 
 		<div class="comment">
-			<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() ||  strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if}   {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if}  ">
+			<div class="voting {if $oComment->getRating()>0}positive{elseif $oComment->getRating()<0}negative{/if} {if !$oUserCurrent || $oComment->getUserId()==$oUserCurrent->getId() || strtotime($oComment->getDate())<$smarty.now-$oConfig->GetValue('acl.vote.comment.limit_time')}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{else}minus{/if}{/if} ">
 				<span class="total">{if $oComment->getRating()>0}+{/if}{$oComment->getRating()}</span>
 			</div>
 
 			<div class="content">
 				{if $oComment->isBad()}
-					<div style="color: #aaa;">{$oComment->getText()}</div>						
+					<div style="color: #aaa;">{$oComment->getText()}</div>
 				{else}
 					{$oComment->getText()}
 				{/if}
@@ -30,7 +30,7 @@
 				<li class="username"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 				<li class="date">{date_format date=$oComment->getDate()}</li>
 				<li><a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" class="comment-link"></a></li>
-			</ul>	
+			</ul>
 		</div>
 	{/foreach}
 </div>

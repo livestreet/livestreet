@@ -32,11 +32,11 @@ ls.favourite = (function ($) {
 		if (!this.options.type[type]) { return false; }
 
 		this.objFavourite = $(objFavourite);
-		
+
 		var params = {};
 		params['type'] = !this.objFavourite.hasClass(this.options.active);
 		params[this.options.type[type].targetName] = idTarget;
-		
+
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {

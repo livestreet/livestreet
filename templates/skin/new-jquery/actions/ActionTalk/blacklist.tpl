@@ -1,6 +1,6 @@
 <div class="block">
 	<h2>{$aLang.talk_blacklist_title}</h2>
-	
+
 
 	<form onsubmit="return ls.talk.addToBlackList();">
 		<p><label>{$aLang.talk_balcklist_add_label}:<br />

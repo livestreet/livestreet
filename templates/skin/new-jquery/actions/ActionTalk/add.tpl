@@ -21,7 +21,7 @@
 			object_resizing : true,
 			force_br_newlines : true,
 			forced_root_block : '', // Needed for 3.x
-			force_p_newlines : false,    
+			force_p_newlines : false,
 			plugins : "lseditor,safari,inlinepopups,media,pagebreak",
 			convert_urls : false,
 			extended_valid_elements : "embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
@@ -41,7 +41,7 @@
 	<script>
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-			// Подключаем редактор		
+			// Подключаем редактор
 			$('#talk_text').markItUp(getMarkitupSettings());
 		});
 	</script>
@@ -55,7 +55,7 @@
 
 <form action="#" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_talk_begin'}
-	
+
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p><label for="talk_users">{$aLang.talk_create_users}:</label><br />
@@ -66,9 +66,9 @@
 
 	<p><label for="talk_text">{$aLang.talk_create_text}:</label>
 	<textarea name="talk_text" id="talk_text" rows="12" class="input-wide">{$_aRequest.talk_text}</textarea></p>
-	
+
 	{hook run='form_add_talk_end'}
-	
+
 	<input type="submit" value="{$aLang.talk_create_submit}" name="submit_talk_add" />
 	<input type="submit" name="submit_preview" value="{$aLang.topic_create_submit_preview}" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('talk_text',false); return false;" />&nbsp;
 </form>
