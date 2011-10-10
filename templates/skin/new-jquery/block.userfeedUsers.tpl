@@ -1,6 +1,6 @@
 {if $oUserCurrent}
 {literal}
-	<script>
+	<script type="text/javascript">
 		jQuery(document).ready( function() {
 			ls.autocomplete.add(jQuery('#userfeed_users_complete'), aRouter['ajax']+'autocompleter/user/?security_ls_key='+LIVESTREET_SECURITY_KEY);
 			jQuery('#userfeed_users_complete').keydown(function (event) {

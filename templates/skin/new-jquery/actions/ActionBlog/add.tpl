@@ -13,9 +13,9 @@
 
 
 {if $oConfig->GetValue('view.tinymce')}
-	<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
+	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
 
-	<script>
+	<script type="text/javascript">
 		{literal}
 		tinyMCE.init({
 			mode : "textareas",
@@ -50,7 +50,7 @@
 	</script>
 {else}
 	{include file='window_load_img.tpl' sToLoad='topic_text'}
-	<script>
+	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li"});
 			// Подключаем редактор
@@ -79,7 +79,7 @@
 	<span class="note" id="blog_type_note">{$aLang.blog_create_type_open_notice}</span>
 	<span id="blog_type_note_open" style="display:none;">{$aLang.blog_create_type_open_notice}</span>
 	<span id="blog_type_note_close" style="display:none;">{$aLang.blog_create_type_close_notice}</span></p>
-	<script>
+	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.blog.loadInfoType($('#blog_type').val());
 		});
