@@ -62,7 +62,8 @@
 .comment .info li a.favourite { float: left; width: 10px; height: 8px; background: url(../images/icons.gif) -40px -40px no-repeat; position: relative; top: 4px; }
 .comment .info li a.favourite.active { background-position: -50px -40px; }
 .comment .info li a.favourite:hover { background-position: -50px -40px; }
-.comment .info li a { }
+.comment .info li span.favourite-count { color: #390; margin-left: 2px; position: relative; top: 1px; }
+.comment .info li a {  }
 
 /* Content */
 .comment .content { color: #000; margin: 0 30px 10px 0; border: 1px solid #DDDEDE; background: #f7f7f7; border-radius: 7px; padding: 8px 30px 9px 10px; position: relative; overflow: hidden; zoom: 1; }

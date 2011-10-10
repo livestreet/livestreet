@@ -1635,6 +1635,15 @@ class ModuleTopic extends Module {
 		
 		return $this->Image_GetWebPath($sFile);
 	}
+    
+    /**
+     * Пересчитывает счетчик избранных топиков
+     *
+     * @return type 
+     */
+    public function RecalculateFavourite(){
+        return $this->oMapperTopic->RecalculateFavourite();    
+    }
 	
 }
 ?>

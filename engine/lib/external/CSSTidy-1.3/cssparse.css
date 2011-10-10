@@ -1,4 +1,6 @@
-body {
+@import url("cssparsed.css");
+
+html, body {
 font:0.8em Verdana,Helvetica,sans-serif;
 background:#F8F8F6;
 }
@@ -16,6 +18,9 @@ display:block;
 margin:0.5em 0;
 padding:1em;
 border:solid #7284AB 2px;
+}
+fieldset.code_output {
+display:inline;
 }
 
 h1 {
@@ -53,30 +58,6 @@ legend {
 background:#c4E1C3;
 padding:2px 4px;
 border:dashed 1px;
-}
-
-span.at {
-color:darkblue;
-}
-
-span.format {
-color:gray;
-}
-
-span.property {
-color:green;
-}
-
-span.selector {
-color:blue;
-}
-
-span.value {
-color:red;
-}
-
-span.comment {
-color:orange;
 }
 
 textarea#css_text {

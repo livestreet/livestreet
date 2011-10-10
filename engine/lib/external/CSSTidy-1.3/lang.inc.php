@@ -1,183 +1,248 @@
 <?php
+
+/**
+ * Localization of CSS Optimiser Interface of CSSTidy
+ *
+ * Copyright 2005, 2006, 2007 Florian Schmitz
+ *
+ * This file is part of CSSTidy.
+ *
+ *  CSSTidy is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation; either version 2.1 of the License, or
+ *   (at your option) any later version.
+ *
+ *   CSSTidy is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License
+ * @package csstidy
+ * @author Florian Schmitz (floele at gmail dot com) 2005-2007
+  * @author Brett Zamir (brettz9 at yahoo dot com) 2007
+ */
+
+
 if(isset($_GET['lang'])) {
-	$l = $_GET['lang'];
-} else {
-	$l = getenv('HTTP_ACCEPT_LANGUAGE');
-	$l = strtolower(substr($l,0,2));
+    $l = $_GET['lang'];
 }
-$l = ($l == 'de' || $l == 'fr' || $l == 'zh') ? $l : 'en';
+else if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    $l = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    $l = strtolower(substr($l, 0, 2));
+}
+else {
+    $l = '';
+}
+
+$l = (in_array($l, array('de', 'fr', 'zh'))) ? $l : 'en';
+
+// note 5 in all but French, and 40 in all are orphaned
 
 $lang = array();
 $lang['en'][0] = 'CSS Formatter and Optimiser/Optimizer (based on CSSTidy ';
-$lang['de'][0] = 'CSS Formatierer und Optimierer (basierend auf CSSTidy ';
 $lang['en'][1] = 'CSS Formatter and Optimiser';
-$lang['de'][1] = 'CSS Formatierer und Optimierer';
 $lang['en'][2] = '(based on';
-$lang['de'][2] = '(basierend auf';
 $lang['en'][3] = '(plaintext)';
-$lang['de'][3] = '(Textversion)';
 $lang['en'][4] = 'Important Note:';
-$lang['de'][4] = 'Wichtiger Hinweis:';
-$lang['en'][6] = 'Your code should be well-formed. This is <strong>no validator</strong> which points out errors in your CSS code. To make sure that your code is valid, use the <a href="http://jigsaw.w3.org/css-validator/">W3C Validator</a>.';
-$lang['de'][6] = 'Der CSS Code sollte wohlgeformt sein. Der CSS Code wird <strong>nicht auf Gültigkeit überprüft</strong>. Um sicherzugehen dass dein Code valide ist, benutze den <a href="http://jigsaw.w3.org/css-validator/">W3C Validierungsservice</a>.';
+$lang['en'][6] = 'Your code should be well-formed. This is <strong>not a validator</strong> which points out errors in your CSS code. To make sure that your code is valid, use the <a href="http://jigsaw.w3.org/css-validator/">W3C Validator</a>.';
 $lang['en'][7] = 'all comments are removed';
-$lang['de'][7] = 'alle Kommentare werden entfernt';
 $lang['en'][8] = 'CSS Input:';
-$lang['de'][8] = 'CSS Eingabe:';        
 $lang['en'][9] = 'CSS-Code:';
-$lang['de'][9] = 'CSS-Code:';         
 $lang['en'][10] = 'CSS from URL:';
-$lang['de'][10] = 'CSS von URL:';      
 $lang['en'][11] = 'Code Layout:';
-$lang['de'][11] = 'Code Layout:';             
-$lang['en'][12] = 'Compression&nbsp;(code&nbsp;layout):';
-$lang['de'][12] = 'Komprimierung&nbsp;(Code&nbsp;Layout):';           
+$lang['en'][12] = 'Compression&#160;(code&#160;layout):';
 $lang['en'][13] = 'Highest (no readability, smallest size)';
-$lang['de'][13] = 'Höchste (keine Lesbarkeit, niedrigste Größe)';    
 $lang['en'][14] = 'High (moderate readability, smaller size)';
-$lang['de'][14] = 'Hoch (mittelmäßige Lesbarkeit, geringe Größe)';      
 $lang['en'][15] = 'Standard (balance between readability and size)';
-$lang['de'][15] = 'Standard (Kompromiss zwischen Lesbarkeit und Größe)';
 $lang['en'][16] = 'Low (higher readability)';
-$lang['de'][16] = 'Niedrig (höhere Lesbarkeit)';   
 $lang['en'][17] = 'Custom (enter below)';
-$lang['de'][17] = 'Benutzerdefiniert (unten eingeben)';      
 $lang['en'][18] = 'Custom <a href="http://csstidy.sourceforge.net/templates.php">template</a>';
-$lang['de'][18] = 'Benutzerdefinierte <a href="http://csstidy.sourceforge.net/templates.php">Vorlage</a>';   
 $lang['en'][19] = 'Options';
-$lang['de'][19] = 'Optionen';   
 $lang['en'][20] = 'Sort Selectors (caution)';
-$lang['de'][20] = 'Selektoren sortieren (Vorsicht)';     
 $lang['en'][21] = 'Sort Properties';
-$lang['de'][21] = 'Eigenschaften sortieren';      
 $lang['en'][22] = 'Regroup selectors';
-$lang['de'][22] = 'Selektoren umgruppieren';        
 $lang['en'][23] = 'Optimise shorthands';
-$lang['de'][23] = 'Shorthands optimieren';     
 $lang['en'][24] = 'Compress colors';
-$lang['de'][24] = 'Farben komprimieren';       
 $lang['en'][25] = 'Lowercase selectors';
-$lang['de'][25] = 'Selektoren in Kleinbuchstaben';       
 $lang['en'][26] = 'Case for properties:';
-$lang['de'][26] = 'Groß-/Kleinschreibung für Eigenschaften';         
 $lang['en'][27] = 'Lowercase';
-$lang['de'][27] = 'Kleinbuchstaben';     
-$lang['en'][28] = 'No or invalid CSS input or wrong URL!'; 
-$lang['de'][28] = 'Keine oder ungültige CSS Eingabe oder falsche URL!';
+$lang['en'][28] = 'No or invalid CSS input or wrong URL!';
 $lang['en'][29] = 'Uppercase';
-$lang['de'][29] = 'Großbuchstaben';  
 $lang['en'][30] = 'lowercase elementnames needed for XHTML';
-$lang['de'][30] = 'kleingeschriebene Elementnamen benötigt für XHTML';   
 $lang['en'][31] = 'Remove unnecessary backslashes';
-$lang['de'][31] = 'Unnötige Backslashes entfernen'; 
 $lang['en'][32] = 'convert !important-hack';
-$lang['de'][32] = '!important-Hack konvertieren';
 $lang['en'][33] = 'Output as file';
-$lang['de'][33] = 'Als Datei ausgeben';
-$lang['en'][34] = 'Bigger compression because of smaller newlines (copy &amp; paste doesn\'t work)';
-$lang['de'][34] = 'Größere Komprimierung augrund von kleineren Neuezeile-Zeichen';    
+$lang['en'][34] = 'Bigger compression because of smaller newlines (copy &#38; paste doesn\'t work)';
 $lang['en'][35] = 'Process CSS';
-$lang['de'][35] = 'CSS verarbeiten';    
 $lang['en'][36] = 'Compression Ratio';
-$lang['de'][36] = 'Komprimierungsrate';   
 $lang['en'][37] = 'Input';
-$lang['de'][37] = 'Eingabe';    
 $lang['en'][38] = 'Output';
-$lang['de'][38] = 'Ausgabe';
 $lang['en'][39] = 'Language';
-$lang['de'][39] = 'Sprache';
 $lang['en'][41] = 'Attention: This may change the behaviour of your CSS Code!';
-$lang['de'][41] = 'Achtung: Dies könnte das Verhalten ihres CSS-Codes verändern!';
 $lang['en'][42] = 'Remove last ;';
-$lang['de'][42] = 'Letztes ; entfernen';
 $lang['en'][43] = 'Discard invalid properties';
-$lang['de'][43] = 'Ungültige Eigenschaften entfernen';
 $lang['en'][44] = 'Only safe optimisations';
-$lang['de'][44] = 'Nur sichere Optimierungen';
 $lang['en'][45] = 'Compress font-weight';
-$lang['de'][45] = 'font-weight komprimieren';
 $lang['en'][46] = 'Save comments';
-$lang['de'][46] = 'Kommentare beibehalten';
 $lang['en'][47] = 'Do not change anything';
 $lang['en'][48] = 'Only seperate selectors (split at ,)';
 $lang['en'][49] = 'Merge selectors with the same properties (fast)';
 $lang['en'][50] = 'Merge selectors intelligently (slow)';
+$lang['en'][51] = 'Preserve CSS';
+$lang['en'][52] = 'Save comments, hacks, etc. Most optimisations can *not* be applied if this is enabled.';
+$lang['en'][53] = 'None';
+$lang['en'][54] = 'Don\'t optimise';
+$lang['en'][55] = 'Safe optimisations';
+$lang['en'][56] = 'All optimisations';
+$lang['en'][57] = 'Add timestamp';
+$lang['en'][58] = 'Copy to clipboard';
+$lang['en'][59] = 'Back to top';
+$lang['en'][60] = 'Your browser doesn\'t support copy to clipboard.';
+$lang['en'][61] = 'For bugs and suggestions feel free to';
+$lang['en'][62] = 'contact me';
+$lang['en'][63] = 'Output CSS code as complete HTML document';
+$lang['en'][64] = 'Code';
+$lang['en'][65] = 'CSS to style CSS output';
+$lang['en'][66] = 'You need to go to about:config in your URL bar, select \'signed.applets.codebase_principal_support\' in the filter field, and set its value to true in order to use this feature; however, be aware that doing so increases security risks.';
+
+
+$lang['de'][0] = 'CSS Formatierer und Optimierer (basierend auf CSSTidy ';
+$lang['de'][1] = 'CSS Formatierer und Optimierer';
+$lang['de'][2] = '(basierend auf';
+$lang['de'][3] = '(Textversion)';
+$lang['de'][4] = 'Wichtiger Hinweis:';
+$lang['de'][6] = 'Der CSS Code sollte wohlgeformt sein. Der CSS Code wird <strong>nicht auf Gültigkeit überprüft</strong>. Um sicherzugehen dass dein Code valide ist, benutze den <a href="http://jigsaw.w3.org/css-validator/">W3C Validierungsservice</a>.';
+$lang['de'][7] = 'alle Kommentare werden entfernt';
+$lang['de'][8] = 'CSS Eingabe:';
+$lang['de'][9] = 'CSS-Code:';
+$lang['de'][10] = 'CSS von URL:';
+$lang['de'][11] = 'Code Layout:';
+$lang['de'][12] = 'Komprimierung&#160;(Code&#160;Layout):';
+$lang['de'][13] = 'Höchste (keine Lesbarkeit, niedrigste Größe)';
+$lang['de'][14] = 'Hoch (mittelmäßige Lesbarkeit, geringe Größe)';
+$lang['de'][15] = 'Standard (Kompromiss zwischen Lesbarkeit und Größe)';
+$lang['de'][16] = 'Niedrig (höhere Lesbarkeit)';
+$lang['de'][17] = 'Benutzerdefiniert (unten eingeben)';
+$lang['de'][18] = 'Benutzerdefinierte <a href="http://csstidy.sourceforge.net/templates.php">Vorlage</a>';
+$lang['de'][19] = 'Optionen';   
+$lang['de'][20] = 'Selektoren sortieren (Vorsicht)';
+$lang['de'][21] = 'Eigenschaften sortieren';
+$lang['de'][22] = 'Selektoren umgruppieren';
+$lang['de'][23] = 'Shorthands optimieren';
+$lang['de'][24] = 'Farben komprimieren';
+$lang['de'][25] = 'Selektoren in Kleinbuchstaben';
+$lang['de'][26] = 'Groß-/Kleinschreibung für Eigenschaften';
+$lang['de'][27] = 'Kleinbuchstaben';
+$lang['de'][28] = 'Keine oder ungültige CSS Eingabe oder falsche URL!';
+$lang['de'][29] = 'Großbuchstaben';
+$lang['de'][30] = 'kleingeschriebene Elementnamen benötigt für XHTML';
+$lang['de'][31] = 'Unnötige Backslashes entfernen'; 
+$lang['de'][32] = '!important-Hack konvertieren';
+$lang['de'][33] = 'Als Datei ausgeben';
+$lang['de'][34] = 'Größere Komprimierung augrund von kleineren Neuezeile-Zeichen';
+$lang['de'][35] = 'CSS verarbeiten';
+$lang['de'][36] = 'Komprimierungsrate';
+$lang['de'][37] = 'Eingabe';
+$lang['de'][38] = 'Ausgabe';
+$lang['de'][39] = 'Sprache';
+$lang['de'][41] = 'Achtung: Dies könnte das Verhalten ihres CSS-Codes verändern!';
+$lang['de'][42] = 'Letztes ; entfernen';
+$lang['de'][43] = 'Ungültige Eigenschaften entfernen';
+$lang['de'][44] = 'Nur sichere Optimierungen';
+$lang['de'][45] = 'font-weight komprimieren';
+$lang['de'][46] = 'Kommentare beibehalten';
 $lang['de'][47] = 'Nichts ändern';
 $lang['de'][48] = 'Selektoren nur trennen (am Komma)';
 $lang['de'][49] = 'Selektoren mit gleichen Eigenschaften zusammenfassen (schnell)';
 $lang['de'][50] = 'Selektoren intelligent zusammenfassen (langsam!)';
-$lang['en'][51] = 'Preserve CSS';
 $lang['de'][51] = 'CSS erhalten';
-$lang['en'][52] = 'Save comments, hacks, etc. Most optimisations can *not* be applied if this is enabled.';
 $lang['de'][52] = 'Kommentare, Hacks, etc. speichern. Viele Optimierungen sind dann aber nicht mehr möglich.';
-$lang['en'][53] = 'None';
 $lang['de'][53] = 'Keine';
-$lang['en'][54] = 'Don\'t optimise';
 $lang['de'][54] = 'Nicht optimieren';
-$lang['en'][55] = 'Safe optimisations';
 $lang['de'][55] = 'Sichere Optimierungen';
-$lang['en'][56] = 'All optimisations';
 $lang['de'][56] = 'Alle Optimierungen';
-$lang['en'][57] = 'Add timestamp';
 $lang['de'][57] = 'Zeitstempel hinzufügen';
+$lang['de'][58] = 'Copy to clipboard';
+$lang['de'][59] = 'Back to top';
+$lang['de'][60] = 'Your browser doesn\'t support copy to clipboard.';
+$lang['de'][61] = 'For bugs and suggestions feel free to';
+$lang['de'][62] = 'contact me';
+$lang['de'][63] = 'Output CSS code as complete HTML document';
+$lang['de'][64] = 'Code';
+$lang['de'][65] = 'CSS to style CSS output';
+$lang['de'][66] = 'You need to go to about:config in your URL bar, select \'signed.applets.codebase_principal_support\' in the filter field, and set its value to true in order to use this feature; however, be aware that doing so increases security risks.';
 
-$lang['fr'][0] = 'CSS Formatteur et Optimiseur (basé sur CSSTidy  ';
+
+$lang['fr'][0] = 'CSS Formatteur et Optimiseur (basé sur CSSTidy ';
 $lang['fr'][1] = 'CSS Formatteur et Optimiseur';
 $lang['fr'][2] = '(basé sur ';
-$lang['fr'][3] = '(Version Text)';
-$lang['fr'][4] = 'notes Importantes:';
-$lang['fr'][5] = 'les mêmes sélecteurs et les propriétés sont automatiquement fusionnés';
-$lang['fr'][6] = 'votre code doit être Valide. Ce n\'est <strong>pas un validateur</strong> qui signale des erreurs dans votre code de CSS. Assurez-vous que votre code est correct en utilisant le le validateur : <a href="http://jigsaw.w3.org/css-validator/">W3C Validator</a>';
+$lang['fr'][3] = '(Version texte)';
+$lang['fr'][4] = 'Note Importante&#160;:';
+$lang['fr'][6] = 'Votre code doit être valide. Ce n’est <strong>pas un validateur</strong> qui signale les erreurs dans votre code CSS. Pour être sûr que votre code est correct, utilisez le validateur&#160;: <a href="http://jigsaw.w3.org/css-validator/">W3C Validator</a>.';
 $lang['fr'][7] = 'tous les commentaires sont enlevés';
-$lang['fr'][8] = 'Champ CSS:';
-$lang['fr'][9] = 'CSS-Code:';
-$lang['fr'][10] = 'CSS en provenance d\'une URL:<br />';
-$lang['fr'][11] = 'Mise en page du code:';
-$lang['fr'][12] = 'Compression (Mise en page du code):';
-$lang['fr'][13] = 'Le plus compact (aucune lisibilité, plus petite taille)';
-$lang['fr'][14] = 'Trés compact (lisibilité modérée, plus petite taille)';
-$lang['fr'][15] = 'Normale (équilibre entre la lisibilité et la taille)';
-$lang['fr'][16] = 'Peu compact (une lisibilité plus élevée)';
+$lang['fr'][8] = 'Champ CSS&#160;:';
+$lang['fr'][9] = 'Code CSS&#160;:';
+$lang['fr'][10] = 'CSS en provenance d’une URL&#160;:<br />';
+$lang['fr'][11] = 'Mise en page du code&#160;:';
+$lang['fr'][12] = 'Compression (mise en page du code)&#160;:';
+$lang['fr'][13] = 'La plus élevée (aucune lisibilité, taille minimale)';
+$lang['fr'][14] = 'Élevée (lisibilité modérée, petite taille)';
+$lang['fr'][15] = 'Normale (équilibre entre lisibilité et taille)';
+$lang['fr'][16] = 'Faible (lisibilité élevée)';
 $lang['fr'][17] = 'Sur mesure (entrer ci-dessous)';
-$lang['fr'][18] = 'Sur mesure <a href="http://csstidy.sourceforge.net/templates.php">Gabarit</a>';
+$lang['fr'][18] = '<a href="http://csstidy.sourceforge.net/templates.php">Gabarit</a> sur mesure';
 $lang['fr'][19] = 'Options';
 $lang['fr'][20] = 'Trier les sélecteurs (attention)';
 $lang['fr'][21] = 'Trier les propriétés';
-$lang['fr'][22] = 'Fusionner les sélecteurs';
-$lang['fr'][23] = 'Optimise shorthands';
+$lang['fr'][22] = 'Regrouper les sélecteurs';
+$lang['fr'][23] = 'Propriétés raccourcies';
 $lang['fr'][24] = 'Compresser les couleurs';
 $lang['fr'][25] = 'Sélecteurs en minuscules';
-$lang['fr'][26] = 'Cases (Minuscules &amp; Majuscule) pour les propriétés:';
-$lang['fr'][27] = 'Minuscules';
-$lang['fr'][28] = 'CSS non valide ou URL incorrecte!';
+$lang['fr'][26] = 'Case pour les propriétés&#160;:';
+$lang['fr'][27] = 'Minuscule';
+$lang['fr'][28] = 'CSS non valide ou URL incorrecte&#160;!';
 $lang['fr'][29] = 'Majuscule';
 $lang['fr'][30] = 'les noms des éléments en minuscules (indispensables pour XHTML)';
 $lang['fr'][31] = 'enlever les antislashs inutiles';
 $lang['fr'][32] = 'convertir !important-hack';
 $lang['fr'][33] = 'Sauver en tant que fichier';
-$lang['fr'][34] = 'Une plus grande compression en raison de plus petits caractères';
-$lang['fr'][35] = 'Compresser le CSS';
+$lang['fr'][34] = 'Meilleure compression grâce aux caractères de saut de ligne plus petits (copier &#38; coller ne marche pas)';
+$lang['fr'][35] = 'Compresser la CSS';
 $lang['fr'][36] = 'Facteur de Compression';
 $lang['fr'][37] = 'Entrée';
 $lang['fr'][38] = 'Sortie';
-$lang['fr'][39] = 'Language';
-$lang['fr'][41] = 'Attention :  ceci peut changer le comportement de votre code de CSS !';
+$lang['fr'][39] = 'Langue';
+$lang['fr'][41] = 'Attention&#160;: ceci peut changer le comportement de votre code CSS&#160;!';
 $lang['fr'][42] = 'Enlever le dernier ;';
 $lang['fr'][43] = 'Supprimer les propriétés non valide';
 $lang['fr'][44] = 'Seulement les optimisations sûres';
 $lang['fr'][45] = 'Compresser font-weight';
 $lang['fr'][46] = 'Sauvegarder les commentaires ';
-$lang['fr'][47] = 'Ne changer rien';
+$lang['fr'][47] = 'Ne rien changer';
 $lang['fr'][48] = 'Sépare les sélecteurs (sépare au niveau de ,)';
-$lang['fr'][49] = 'Fusionne les sélecteurs avec les mêmes propriétés (rapides)';
+$lang['fr'][49] = 'Fusionne les sélecteurs avec les mêmes propriétés (rapide)';
 $lang['fr'][50] = 'Fusionne les sélecteurs intelligemment (lent)';
-$lang['fr'][51] = 'Preserve CSS';
-$lang['fr'][52] = 'Save comments, hacks, etc. Most optimisations can *not* be applied if this is enabled.';
-$lang['fr'][53] = 'None';
-$lang['fr'][54] = 'Don\'t optimise';
-$lang['fr'][55] = 'Safe optimisations';
-$lang['fr'][56] = 'All optimisations';
-$lang['fr'][57] = 'Add timestamp';
+$lang['fr'][51] = 'Préserver la CSS';
+$lang['fr'][52] = 'Sauvegarder les commentaires, hacks, etc. La plupart des optimisations ne peuvent *pas* être appliquées si cela est activé.';
+$lang['fr'][53] = 'Aucun';
+$lang['fr'][54] = 'Ne pas optimiser';
+$lang['fr'][55] = 'Optimisations sûres';
+$lang['fr'][56] = 'Toutes les optimisations';
+$lang['fr'][57] = 'Ajouter un timestamp';
+$lang['fr'][58] = 'Copier dans le presse-papiers';
+$lang['fr'][59] = 'Retour en haut';
+$lang['fr'][60] = 'Votre navigateur ne suporte pas la copie vers le presse-papiers.';
+$lang['fr'][61] = 'Pour signaler des bugs ou pour des suggestions,';
+$lang['fr'][62] = 'contactez-moi';
+$lang['fr'][63] = 'Sauver le code CSS comme document complet HTML';
+$lang['fr'][64] = 'Code';
+$lang['fr'][65] = 'CSS pour colorier la sortie CSS';
+$lang['fr'][66] = 'Vous devez aller dans about:config dans votre barre d’adresse, selectionner \'signed.applets.codebase_principal_support\' dans le champ Filtre et attribuez-lui la valeur \'true\' pour utiliser cette fonctionnalité; toutefois, soyez conscient que cela augmente les risques de sécurité.';
+
 
 $lang['zh'][0] = 'CSS整形與最佳化工具(使用 CSSTidy ';
 $lang['zh'][1] = 'CSS整形與最佳化工具';
@@ -212,7 +277,7 @@ $lang['zh'][30] = 'XHTML必須使用小寫的元素名稱';
 $lang['zh'][31] = '移除不必要的反斜線';
 $lang['zh'][32] = '轉換 !important-hack';
 $lang['zh'][33] = '輸出成檔案形式';
-$lang['zh'][34] = '由於比較少換行字元, 會有更大的壓縮比率(複製&amp;貼上沒有用)';
+$lang['zh'][34] = '由於比較少換行字元, 會有更大的壓縮比率(複製&#38;貼上沒有用)';
 $lang['zh'][35] = '執行';
 $lang['zh'][36] = '壓縮比率';
 $lang['zh'][37] = '輸入';
@@ -235,4 +300,12 @@ $lang['zh'][54] = '不做最佳化';
 $lang['zh'][55] = '安全地最佳化';
 $lang['zh'][56] = '全部最佳化';
 $lang['zh'][57] = '加上時間戳記';
-?>
+$lang['zh'][58] = '复制到剪贴板';
+$lang['zh'][59] = '回到页面上方';
+$lang['zh'][60] = '你的浏览器不支持复制到剪贴板。';
+$lang['zh'][61] = '如果程序有错误或你有建议，欢迎';
+$lang['zh'][62] = '和我联系';
+$lang['zh'][63] = 'Output CSS code as complete HTML document';
+$lang['zh'][64] = '代码';
+$lang['zh'][65] = 'CSS to style CSS output';
+$lang['zh'][66] = 'You need to go to about:config in your URL bar, select \'signed.applets.codebase_principal_support\' in the filter field, and set its value to true in order to use this feature; however, be aware that doing so increases security risks.';

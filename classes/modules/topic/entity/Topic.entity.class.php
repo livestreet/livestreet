@@ -130,6 +130,9 @@ class ModuleTopic_EntityTopic extends Entity
     public function getIsFavourite() {
         return $this->_aData['topic_is_favourite'];
     }
+    public function getCountFavourite() {
+        return $this->_aData['topic_count_favourite'];
+    }
     
     /***************************************************************************************************************************************************
      * методы расширения типов топика
@@ -394,6 +397,8 @@ class ModuleTopic_EntityTopic extends Entity
     public function setIsFavourite($data) {
         $this->_aData['topic_is_favourite']=$data;
     }
-    
+    public function setCountFavourite($data) {
+        $this->_aData['topic_count_favourite']=$data;
+    }
 }
 ?>

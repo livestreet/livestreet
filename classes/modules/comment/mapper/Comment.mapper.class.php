@@ -489,13 +489,14 @@ class ModuleComment_MapperComment extends Mapper {
 				comment_text= ?,
 				comment_rating= ?f,
 				comment_count_vote= ?d,
+				comment_count_favourite= ?d,
 				comment_delete = ?d ,
 				comment_publish = ?d ,
 				comment_text_hash = ?
 			WHERE
 				comment_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oComment->getText(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId())) {
+		if ($this->oDb->query($sql,$oComment->getText(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getCountFavourite(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId())) {
 			return true;
 		}		
 		return false;
@@ -648,6 +649,26 @@ class ModuleComment_MapperComment extends Mapper {
 			return $aRows;
 		}
 		return array();
+	}
+    
+    public function RecalculateFavourite() {
+		$sql = "
+            UPDATE ".Config::Get('db.table.comment')." c 
+            SET c.comment_count_favourite = (
+                SELECT count(f.user_id)
+                FROM ".Config::Get('db.table.favourite')." f
+                WHERE 
+                    f.target_id = c.comment_id
+                AND
+					f.target_publish = 1
+				AND
+					f.target_type = 'comment'
+            )
+		";			
+		if ($this->oDb->query($sql)) {
+			return true;
+		}
+		return false;		
 	}
 }
 ?>
