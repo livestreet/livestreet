@@ -1,7 +1,7 @@
 {include file='header.tpl' menu='blog'}
 
 
-<h2>{$aLang.top_comments}</h2>	
+<h2>{$aLang.top_comments}</h2>
 
 <ul class="switcher">
 	<li {if $aParams[0] and $aParams[0]=='24h'}class="active"{/if}><a href="{router page='top'}comment/24h/">{$aLang.blog_menu_top_period_24h}</a></li>

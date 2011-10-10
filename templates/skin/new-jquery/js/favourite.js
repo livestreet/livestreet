@@ -29,14 +29,16 @@ ls.favourite = (function ($) {
 	* Переключение избранного
 	*/
 	this.toggle = function(idTarget, objFavourite, type) {
-		if (!this.options.type[type]) { return false; }
+		if (!this.options.type[type]) {
+			return false;
+		}
 
 		this.objFavourite = $(objFavourite);
-		
+
 		var params = {};
 		params['type'] = !this.objFavourite.hasClass(this.options.active);
 		params[this.options.type[type].targetName] = idTarget;
-		
+
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {
@@ -48,7 +50,7 @@ ls.favourite = (function ($) {
 					this.objFavourite.addClass(this.options.active);
 				}
 
-                $('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
+				$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 			}
 		}.bind(this));
 		return false;

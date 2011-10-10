@@ -3,19 +3,19 @@
 
 /* The Window's CSS z-index value is respected (takes priority). If none is supplied,
 	the Window's z-index value will be set to 3000 by default (via jqModal.js). */
-	
+
 .jqmWindow {
-    display: none;
-    
-    position: fixed;
-    top: 25%;
-    left: 50%;
+	display: none;
+
+	position: fixed;
+	top: 25%;
+	left: 50%;
 	z-index: 200;
-    
-    background-color: #fff;
-    color: #333;
+
+	background-color: #fff;
+	color: #333;
 	border: 1px solid #777;
-    padding: 20px 25px 25px;
+	padding: 20px 25px 25px;
 
 	background: rgb(249,249,249);
 	background: -moz-linear-gradient(top, rgba(249,249,249,1) 0%, rgba(241,241,241,1) 50%, rgba(222,222,222,1) 100%);
@@ -24,10 +24,10 @@
 	background: -o-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
 	background: -ms-linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#dedede',GradientType=0 );
-	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%); 
-	
+	background: linear-gradient(top, rgba(249,249,249,1) 0%,rgba(241,241,241,1) 50%,rgba(222,222,222,1) 100%);
+
 	border-radius: 10px;
-	overflow: hidden; 
+	overflow: hidden;
 	zoom: 1;
 }
 .jqmWindow h3 { margin-bottom: 15px; color: #999; }
@@ -39,14 +39,14 @@
 
 /* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */
 * iframe.jqm {position:absolute;top:0;left:0;z-index:-1;
-	width: expression(this.parentNode.offsetWidth+'px');
-	height: expression(this.parentNode.offsetHeight+'px');
+			  width: expression(this.parentNode.offsetWidth+'px');
+			  height: expression(this.parentNode.offsetHeight+'px');
 }
 
 /* Fixed posistioning emulation for IE6
      Star selector used to hide definition from browsers other than IE6
      For valid CSS, use a conditional include instead */
 * html .jqmWindow {
-     position: absolute;
-     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+	position: absolute;
+	top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
 }

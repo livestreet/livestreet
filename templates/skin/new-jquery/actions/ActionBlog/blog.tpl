@@ -7,7 +7,7 @@
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
 	<form id="blog_delete_form" class="blog-delete-form jqmWindow" action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
 		<a href="#" class="close jqmClose"></a>
-	
+
 		<p>{$aLang.blog_admin_delete_move}</p>
 		<p><select name="topic_move_to">
 			<option value="-1">{$aLang.blog_delete_clear}</option>
@@ -19,7 +19,7 @@
 				</optgroup>
 			{/if}
 		</select></p>
-		
+
 		<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" />
 		<input type="submit" value="{$aLang.blog_delete}" />
 	</form>
@@ -35,14 +35,14 @@
 		<a href="#" class="minus" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
 		<div class="text">{$aLang.blog_vote_count}: <span id="vote_count_blog_{$oBlog->getId()}">{$oBlog->getCountVote()}</span></div>
 	</div>
-	
-	
+
+
 	<div class="blog-header">
 		<img src="{$oBlog->getAvatarPath(24)}" alt="avatar" class="avatar" />
 		<h2 id="show_blog_info"><a href="#">{$oBlog->getTitle()|escape:'html'}</a></h2>
 	</div>
-	
-	
+
+
 	<ul class="actions">
 		<li><a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss"></a></li>
 		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
@@ -59,13 +59,13 @@
 			</li>
 		{/if}
 	</ul>
-	
-	
+
+
 	<div class="blog-info" id="blog_info">
 		<h3>{$aLang.blog_about}</h3>
-		<p>{$oBlog->getDescription()|nl2br}</p>			
-		
-		
+		<p>{$oBlog->getDescription()|nl2br}</p>
+
+
 		<div class="blog-wrapper">
 			<div class="blog-admins">
 				<h3>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators})</h3>
@@ -75,39 +75,39 @@
 						<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(48)}" alt="avatar" title="{$oUserOwner->getLogin()}"/></a>
 						<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
 					</li>
-					{if $aBlogAdministrators}			
+					{if $aBlogAdministrators}
 						{foreach from=$aBlogAdministrators item=oBlogUser}
 							{assign var="oUser" value=$oBlogUser->getUser()}
 							<li>
-								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt=""  title="{$oUser->getLogin()}"/></a>
+								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="" title="{$oUser->getLogin()}"/></a>
 								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 							</li>
-						{/foreach}	
-					{/if}	
+						{/foreach}
+					{/if}
 				</ul>
 			</div>
-			
+
 			<div class="blog-mods">
 				<h3>{$aLang.blog_user_moderators} ({$iCountBlogModerators})</h3>
 				{if $aBlogModerators}
 					<ul class="user-list">
-						{foreach from=$aBlogModerators item=oBlogUser}  
-						{assign var="oUser" value=$oBlogUser->getUser()}								
+						{foreach from=$aBlogModerators item=oBlogUser}
+						{assign var="oUser" value=$oBlogUser->getUser()}
 							<li>
-								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt=""  title="{$oUser->getLogin()}"/></a>
+								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="" title="{$oUser->getLogin()}"/></a>
 								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 							</li>
-						{/foreach}	
-					</ul>					
+						{/foreach}
+					</ul>
 				{else}
 					{$aLang.blog_user_moderators_empty}
 				{/if}
 			</div>
 		</div>
 
-		
-		
-		
+
+
+
 		<h3>{$aLang.blog_user_readers} ({$iCountBlogUsers})</h3>
 		{if $aBlogUsers}
 			{foreach from=$aBlogUsers item=oBlogUser}
@@ -119,7 +119,7 @@
 			{/if}
 		{else}
 			{$aLang.blog_user_readers_empty}
-		{/if}		
+		{/if}
 	</div>
 </div>
 

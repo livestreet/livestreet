@@ -1,10 +1,10 @@
 {if $oUserProfile}
 
 {if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
-	<div class="block">				
+	<div class="block">
 		<ul id="profile_actions">
 			{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
-			<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
+			<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>
 		</ul>
 	</div>
 {/if}
@@ -16,12 +16,12 @@
 		<ul>
 			{if $oUserProfile->getProfileIcq()}
 				<li class="icq"><a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
-			{/if}					
+			{/if}
 		</ul>
 	{/if}
-	
+
 	<br />
-	
+
 	{if $oUserProfile->getProfileFoto()}
 		<img src="{$oUserProfile->getProfileFoto()}" alt="photo" />
 	{/if}

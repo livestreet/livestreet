@@ -4,7 +4,7 @@ var ls = ls || {};
 * Управление пользователями
 */
 ls.user = (function ($) {
-	
+
 	/**
 	* Добавление в друзья
 	*/
@@ -54,6 +54,6 @@ ls.user = (function ($) {
 		});
 		return false;
 	}
-	
+
 	return this;
 }).call(ls.user || {},jQuery);

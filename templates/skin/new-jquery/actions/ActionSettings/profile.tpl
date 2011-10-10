@@ -3,7 +3,7 @@
 
 <h2>{$aLang.settings_profile_edit}</h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 
 	{hook run='form_settings_profile_begin'}
 
@@ -23,10 +23,10 @@
 		{$aLang.settings_profile_sex}:<br />
 		<label><input type="radio" name="profile_sex" id="profile_sex_m" value="man" {if $oUserCurrent->getProfileSex()=='man'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_man}</label><br />
 		<label><input type="radio" name="profile_sex" id="profile_sex_w" value="woman" {if $oUserCurrent->getProfileSex()=='woman'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_woman}</label><br />
-		<label><input type="radio" name="profile_sex" id="profile_sex_o"  value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_other}</label>
+		<label><input type="radio" name="profile_sex" id="profile_sex_o" value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_other}</label>
 	</p>
 	<p>
-		<label for="">{$aLang.settings_profile_birthday}:</label><br />
+		<label>{$aLang.settings_profile_birthday}:</label><br />
 		<select name="profile_birthday_day">
 			<option value="">{$aLang.date_day}</option>
 			{section name=date_day start=1 loop=32 step=1}
@@ -59,11 +59,11 @@
 		<label for="profile_site"><input type="text" style="margin-bottom: 5px;" id="profile_site" name="profile_site" class="input-200" value="{$oUserCurrent->getProfileSite()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_url}</label><br />
 		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" class="input-200" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
 	</p>
-        {if count($aUserFields)}
-            {foreach from=$aUserFields item=oField}
-                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="input-200" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
-            {/foreach}
-        {/if}
+	{if count($aUserFields)}
+		{foreach from=$aUserFields item=oField}
+			<p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="input-200" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
+		{/foreach}
+	{/if}
 	<p>
 		<label for="profile_about">{$aLang.settings_profile_about}:</label><br />
 		<textarea cols="50" rows="5" name="profile_about" id="profile_about">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>

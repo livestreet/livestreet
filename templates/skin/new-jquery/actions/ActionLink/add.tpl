@@ -12,7 +12,7 @@
 {/if}
 
 {hook run='add_topic_link_begin'}
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="#" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_topic_link_begin'}
 
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
@@ -25,12 +25,12 @@
 		{/foreach}
 	</select></p>
 
-	<script language="JavaScript" type="text/javascript">
+	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.blog.loadInfo($('#blog_id').val());
 		});
-    </script>
-	
+	</script>
+
 	<p><label for="topic_title">{$aLang.topic_create_title}:</label><br />
 	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-wide" /><br />
 	<span class="note">{$aLang.topic_create_title_notice}</span></p>
@@ -55,7 +55,7 @@
 		{$aLang.topic_create_publish_index}</label><br />
 		<span class="note">{$aLang.topic_create_publish_index_notice}</span></p>
 	{/if}
-	
+
 	{hook run='form_add_topic_link_end'}
 
 	<p class="buttons">

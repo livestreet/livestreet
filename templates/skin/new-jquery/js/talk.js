@@ -4,7 +4,7 @@ var ls = ls || {};
 * Функционал личных сообщений
 */
 ls.talk = (function ($) {
-	
+
 	/**
 	* Добавляет пользователя к переписке
 	*/
@@ -12,7 +12,7 @@ ls.talk = (function ($) {
 		var sUsers = $('#talk_speaker_add').val();
 		if(!sUsers) return false;
 		$('#talk_speaker_add').val('');
-		
+
 		ls.ajax(aRouter['talk']+'ajaxaddtalkuser/', {users: sUsers, idTalk: idTalk}, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -37,7 +37,7 @@ ls.talk = (function ($) {
 	*/
 	this.removeFromTalk = function(link, idTalk) {
 		link = $(link);
-		
+
 		$('#'+link.attr('id')+'_area').fadeOut(500,function(){
 			$(this).remove();
 		});
@@ -56,7 +56,7 @@ ls.talk = (function ($) {
 
 		return false;
 	}
-	
+
 	/**
 	* Добавляет пользователя в черный список
 	*/
@@ -64,7 +64,7 @@ ls.talk = (function ($) {
 		var sUsers = $('#talk_blacklist_add').val();
 		if(!sUsers) return false;
 		$('#talk_blacklist_add').val('');
-		
+
 		ls.ajax(aRouter['talk']+'ajaxaddtoblacklist/', {users: sUsers}, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -83,13 +83,13 @@ ls.talk = (function ($) {
 		});
 		return false;
 	}
-	
+
 	/**
 	* Удаляет пользователя из черного списка
 	*/
 	this.removeFromBlackList = function(link) {
 		link = $(link);
-		
+
 		$('#'+link.attr('id')+'_area').fadeOut(500,function(){
 			$(this).remove();
 		});
@@ -107,7 +107,7 @@ ls.talk = (function ($) {
 		});
 		return false;
 	}
-	
+
 	/**
 	* Добавляет или удаляет друга из списка получателей
 	*/
@@ -119,7 +119,7 @@ ls.talk = (function ($) {
 		if (add) { to.push(login); to = $.richArray.unique(to); } else { to = $.richArray.without(to, login); }
 		$('#talk_users').val(to.join(', '));
 	}
-	
+
 	return this;
 }).call(ls.talk || {},jQuery);
 
@@ -129,7 +129,7 @@ jQuery(document).ready(function($){
 	$('#friends input:checkbox').change(function(){
 		ls.talk.toggleRecipient($('#'+$(this).attr('id')+'_label').text(), $(this).attr('checked'));
 	});
-	
+
 	// Добавляем всех друзей в список получателей
 	$('#friend_check_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
@@ -138,7 +138,7 @@ jQuery(document).ready(function($){
 		});
 		return false;
 	});
-	
+
 	// Удаляем всех друзей из списка получателей
 	$('#friend_uncheck_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
@@ -147,13 +147,13 @@ jQuery(document).ready(function($){
 		});
 		return false;
 	});
-	
+
 	// Удаляем пользователя из черного списка
 	$("#black_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromBlackList(this);
 		return false;
 	});
-	
+
 	// Удаляем пользователя из переписки
 	$("#speaker_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromTalk(this, $('#talk_id').val());

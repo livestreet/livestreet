@@ -35,7 +35,7 @@ ls.blocks = (function ($) {
 	this.load = function(obj, block, params){
 		var id = $(obj).attr('id');
 		params=$.extend(true,{},this.options.type[id].params || {},params || {});
-		
+
 		var content = $('#'+block+'_content');
 		this.showProgress(content);
 

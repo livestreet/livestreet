@@ -5,16 +5,16 @@
 
 <ul class="switcher">
 {foreach from=$aRes.aCounts item=iCount key=sType name="sTypes"}
-	<li {if $aReq.sType == $sType}class="active"{/if}>					
+	<li {if $aReq.sType == $sType}class="active"{/if}>
 		<a href="{router page='search'}{$sType}/?q={$aReq.q|escape:'html'}">
-			{$iCount} 
+			{$iCount}
 			{if $sType=="topics"}
 				{$aLang.search_results_count_topics}
 			{elseif $sType=="comments"}
 				{$aLang.search_results_count_comments}
 			{/if}
 		</a>
-	</li>				
+	</li>
 {/foreach}
 </ul>
 

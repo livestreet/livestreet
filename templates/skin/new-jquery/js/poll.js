@@ -4,7 +4,7 @@ var ls = ls || {};
 * Опросы
 */
 ls.poll = (function ($) {
-	
+
 	/**
 	* Голосование в опросе
 	*/
@@ -34,7 +34,7 @@ ls.poll = (function ($) {
 		}.bind(this)));
 		newItem.find('input').val('');
 	}
-	
+
 	/**
 	* Удаляет вариант ответа
 	*/
@@ -42,6 +42,6 @@ ls.poll = (function ($) {
 		$(obj).parent("li").remove();
 		return false;
 	}
-	
+
 	return this;
 }).call(ls.poll || {},jQuery);

@@ -4,7 +4,7 @@ var ls = ls || {};
 * JS функционал для блогов
 */
 ls.blog = (function ($) {
-	
+
 	/**
 	* Вступить или покинуть блог
 	*/
@@ -48,7 +48,7 @@ ls.blog = (function ($) {
 				});
 			}
 		});
-		
+
 		return false;
 	}
 
@@ -63,10 +63,10 @@ ls.blog = (function ($) {
 				ls.msg.notice(null, result.sMsg);
 			}
 		});
-		
+
 		return false;
 	}
-	
+
 	/**
 	* Отображение информации о блоге
 	*/
@@ -79,13 +79,13 @@ ls.blog = (function ($) {
 			}
 		});
 	}
-	
+
 	/**
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
 		$('#blog_type_note').text($('#blog_type_note_'+type).text());
 	}
-	
+
 	return this;
 }).call(ls.blog || {},jQuery);
