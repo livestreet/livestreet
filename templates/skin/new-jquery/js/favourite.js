@@ -29,7 +29,9 @@ ls.favourite = (function ($) {
 	* Переключение избранного
 	*/
 	this.toggle = function(idTarget, objFavourite, type) {
-		if (!this.options.type[type]) { return false; }
+		if (!this.options.type[type]) {
+			return false;
+		}
 
 		this.objFavourite = $(objFavourite);
 
@@ -48,7 +50,7 @@ ls.favourite = (function ($) {
 					this.objFavourite.addClass(this.options.active);
 				}
 
-                $('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
+				$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 			}
 		}.bind(this));
 		return false;
