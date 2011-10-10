@@ -4,7 +4,7 @@
 
 <div class="topic">
 	<h1 class="title">
-		{if $oTopic->getPublish()==0}   
+		{if $oTopic->getPublish()==0}
 			<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
 		{/if}
 		{if $bTopicList}
@@ -13,15 +13,17 @@
 			{$oTopic->getTitle()|escape:'html'}
 		{/if}
 	</h1>
-	
-	<a href="#" onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"><span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{else}&nbsp;{/if}</span></a>
 
-	
-	
+	<a href="#" onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}">
+		<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{else}&nbsp;{/if}</span>
+	</a>
+
+
+
 	<div class="info-top">
 		<a href="{$oBlog->getUrlFull()}" class="title-blog">{$oBlog->getTitle()|escape:'html'}</a>
-	
-		<span class="actions">                                                                   
+
+		<span class="actions">
 			{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() or $oBlog->getUserIsModerator() or $oBlog->getOwnerId()==$oUserCurrent->getId())}
 				<a href="{cfg name='path.root.web'}/{$oTopic->getType()}/edit/{$oTopic->getId()}/" title="{$aLang.topic_edit}" class="edit">{$aLang.topic_edit}</a>
 			{/if}
@@ -41,20 +43,20 @@
 					{$oTopic->getCutText()}
 				{else}
 					{$aLang.topic_read_more}
-				{/if}                           
+				{/if}
 				</a>
 			{/if}
 		{else}
 			 {$oTopic->getText()}
 		{/if}
-	</div> 
+	</div>
 
 
 
 	<ul class="tags">
 		{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
 			<li><a href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a>{if !$smarty.foreach.tags_list.last}, {/if}</li>
-		{/foreach}                                                             
+		{/foreach}
 	</ul>
 
 

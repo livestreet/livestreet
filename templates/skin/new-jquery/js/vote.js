@@ -9,15 +9,15 @@ ls.vote = (function ($) {
 	*/
 	this.options = {
 		classes: {
-			voted: 		'voted',
-			plus: 		'plus',
-			minus:  	'minus',
+			voted:		'voted',
+			plus:		'plus',
+			minus:		'minus',
 			positive:	'positive',
-			negative:  	'negative'
+			negative:	'negative'
 		},
-		prefix_area: 'vote_area_',
-		prefix_total: 'vote_total_',
-		prefix_count: 'vote_count_',
+		prefix_area:	'vote_area_',
+		prefix_total:	'vote_total_',
+		prefix_count:	'vote_count_',
 		type: {
 			comment: {
 				url: aRouter['ajax']+'vote/comment/',
@@ -40,12 +40,12 @@ ls.vote = (function ($) {
 
 	this.vote = function(idTarget, objVote, value, type) {
 		if (!this.options.type[type]) return false;
-		
+
 		objVote = $(objVote);
 		var params = {};
 		params['value'] = value;
 		params[this.options.type[type].targetName] = idTarget;
-		
+
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			this.onVote(idTarget, objVote, value, type, result);
 		}.bind(this));
@@ -57,7 +57,7 @@ ls.vote = (function ($) {
 			ls.msg.error(null, result.sMsg);
 		} else {
 			ls.msg.notice(null, result.sMsg);
-			
+
 			var divVoting = $('#'+this.options.prefix_area+type+'_'+idTarget);
 			divVoting.addClass(this.options.classes.voted);
 
@@ -67,10 +67,10 @@ ls.vote = (function ($) {
 			if (value < 0) {
 				divVoting.addClass(this.options.classes.minus);
 			}
-			
+
 			var divTotal = $('#'+this.options.prefix_total+type+'_'+idTarget);
 			var divCount = $('#'+this.options.prefix_count+type+'_'+idTarget);
-			
+
 			if (divCount.length>0 && result.iCountVote) {
 				divCount.text(parseInt(result.iCountVote));
 			}
@@ -99,7 +99,7 @@ ls.vote = (function ($) {
 		}
 		$(this).trigger('vote',[idTarget, objVote, value, type, result]);
 	}
-	
+
 	this.onVoteUser = function(idTarget, objVote, value, type, result) {
 		$('#user_skill_'+idTarget).text(result.iSkill);
 	}

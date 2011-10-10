@@ -1,19 +1,19 @@
 /* Update button */
-.update { 
-	padding: 8px; 
-	float: right; 
-	position: fixed; 
-	top: 220px; 
-	right: 0; 
+.update {
+	padding: 8px;
+	float: right;
+	position: fixed;
+	top: 220px;
+	right: 0;
 	z-index: 100;
-	text-align: center; 
-	background: #FAFBFB; 
+	text-align: center;
+	background: #FAFBFB;
 	border-radius: 10px 0 0 10px;
-	border-top: 1px solid #eee; 
-	border-bottom: 1px solid #ddd; 
-	border-left: 1px solid #ddd; 
-	_position: absolute; 
-	_top: expression( eval(document.documentElement.scrollTop) + 220 +"px" ); 
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	_position: absolute;
+	_top: expression( eval(document.documentElement.scrollTop) + 220 +"px" );
 }
 .update .update-comments { width: 26px; height: 26px; cursor: pointer; background: url(../images/update.gif) no-repeat; }
 .update .update-comments.active { background: url(../images/update_act.gif) no-repeat; }

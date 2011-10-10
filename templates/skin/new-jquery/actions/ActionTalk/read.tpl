@@ -33,6 +33,6 @@
 	sNoticeCommentAdd=$aLang.topic_comment_add
 	bNoCommentFavourites=true}
 {/if}
-			
-			
+
+
 {include file='footer.tpl'}

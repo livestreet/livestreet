@@ -1,5 +1,5 @@
 {if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<div class="stat-performance">	
+	<div class="stat-performance">
 		<table>
 			<tr>
 				<td>
@@ -15,7 +15,7 @@
 					time: <strong>{$aStatsPerformance.cache.time}</strong>
 				</td>
 				<td>
-					<h4>PHP</h4>	
+					<h4>PHP</h4>
 					time load modules: <strong>{$aStatsPerformance.engine.time_load_module}</strong><br />
 					full time: <strong>{$iTimeFullPerformance}</strong>
 				</td>

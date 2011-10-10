@@ -24,7 +24,7 @@
 		<input type="password" value="" id="repass" name="password_confirm" class="input-text input-wide" /></label></p>
 
 		{$aLang.registration_captcha}<br />
-		<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();" />
+		<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&amp;n='+Math.random();" alt="it's img captcha" />
 
 		<p><input type="text" name="captcha" value="" maxlength="3" class="input-text input-100" /></p>
 

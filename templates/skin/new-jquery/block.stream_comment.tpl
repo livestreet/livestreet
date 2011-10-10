@@ -3,7 +3,7 @@
 		{assign var="oUser" value=$oComment->getUser()}
 		{assign var="oTopic" value=$oComment->getTarget()}
 		{assign var="oBlog" value=$oTopic->getBlog()}
-		
+
 		<li {if $smarty.foreach.cmt.iteration % 2 == 1}class="even"{/if}>
 			<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a> &rarr;
 			<span class="stream-comment-icon"></span>

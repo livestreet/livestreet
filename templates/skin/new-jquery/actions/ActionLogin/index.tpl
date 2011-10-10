@@ -14,10 +14,10 @@
 
 		<p><label>{$aLang.user_login}<br /><input type="text" name="login" class="input-text" /></label></p>
 		<p><label>{$aLang.user_password}<br /><input type="password" name="password" class="input-text" /></label></p>
-		
+
 		<input type="submit" name="submit_login" class="button button-login" value="{$aLang.user_login_submit}" />
 		<label><input type="checkbox" name="remember" checked class="checkbox" />{$aLang.user_login_remember}</label>
-		
+
 		<br /><br />
 		<p><a href="{router page='registration'}">{$aLang.user_registration}</a><br />
 		<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a></p>
