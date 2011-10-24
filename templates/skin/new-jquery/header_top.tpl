@@ -29,7 +29,7 @@
 	{/if}
 
 
-	<a href="{cfg name='path.root.web'}" class="logo">Live<span>Street</span></a>
+	<a href="{cfg name='path.root.web'}" class="logo">{cfg name='view.name'}</a>
 
 
 	<ul class="pages">

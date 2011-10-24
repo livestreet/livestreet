@@ -4,3 +4,13 @@
 /logs/
 /tmp/
 /config/config.local.php
+
+templates/skin/new-jquery/actions/.DS_Store
+
+templates/skin/new-jquery/.DS_Store
+
+templates/skin/.DS_Store
+
+templates/.DS_Store
+
+.DS_Store
