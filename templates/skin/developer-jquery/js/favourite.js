@@ -38,7 +38,7 @@ ls.favourite = (function ($) {
 		params[this.options.type[type].targetName] = idTarget;
 		
 		ls.ajax(this.options.type[type].url, params, function(result) {
-			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
+			$(this).trigger('toggleSuccessful',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

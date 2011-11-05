@@ -97,7 +97,7 @@ ls.vote = (function ($) {
 				this[method].apply(this,[idTarget, objVote, value, type, result]);
 			}
 		}
-		$(this).trigger('vote',[idTarget, objVote, value, type, result]);
+		$(this).trigger('voteSuccessful',[idTarget, objVote, value, type, result]);
 	}
 	
 	this.onVoteUser = function(idTarget, objVote, value, type, result) {
