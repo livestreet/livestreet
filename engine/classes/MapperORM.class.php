@@ -50,9 +50,9 @@ class MapperORM extends Mapper {
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
 			$sWhere = implode(' AND ',array_map(create_function(
-				'$k,$v',
-				'return "{$k} = \"".mysql_escape_string($v)."\"";'
-			),array_keys($aOriginalData),array_values($aOriginalData)));
+				'$k,$v,$oDb',
+				'return "{$oDb->escape($k,true)} = {$oDb->escape($v)}";'
+			),array_keys($aOriginalData),array_values($aOriginalData),array_fill(0,count($aOriginalData),$this->oDb)));
 			$sql = "UPDATE ".$sTableName." SET ?a WHERE 1=1 AND ". $sWhere; 
 			return $this->oDb->query($sql,$oEntity->_getData());
 		}
@@ -74,9 +74,9 @@ class MapperORM extends Mapper {
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
 			$sWhere = implode(' AND ',array_map(create_function(
-				'$k,$v',
-				'return "{$k} = \"".mysql_escape_string($v)."\"";'
-			),array_keys($aOriginalData),array_values($aOriginalData)));
+				'$k,$v,$oDb',
+				'return "{$oDb->escape($k,true)} = {$oDb->escape($v)}";'
+			),array_keys($aOriginalData),array_values($aOriginalData),array_fill(0,count($aOriginalData),$this->oDb)));
 			$sql = "DELETE FROM ".$sTableName." WHERE 1=1 AND ". $sWhere; 
 			return $this->oDb->query($sql);
 		}
