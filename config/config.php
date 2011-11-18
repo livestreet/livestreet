@@ -216,7 +216,7 @@ $config['module']['image']['default']['round_corner_radius']  = '18';
 $config['module']['image']['default']['round_corner_rate']    = '40';
 $config['module']['image']['default']['path']['watermarks']   = '___path.root.server___/engine/lib/external/LiveImage/watermarks/';
 $config['module']['image']['default']['path']['fonts']        = '___path.root.server___/engine/lib/external/LiveImage/fonts/';
-$config['module']['image']['default']['jpg_quality']          = 100;  // Число от 0 до 100
+$config['module']['image']['default']['jpg_quality']          = 95;  // Число от 0 до 100
 
 $config['module']['image']['foto']['watermark_use']  = false;
 $config['module']['image']['foto']['round_corner']   = false;
