@@ -29,7 +29,7 @@ class ModuleSession extends Module {
 	 * @var array
 	 */
 	protected $aFlashUserAgent=array(
-		'Shockwave Flash','Adobe Flash Player','Adobe Flash Player 10'
+		'Shockwave Flash'
 	);
 	
 	/**
@@ -67,7 +67,8 @@ class ModuleSession extends Module {
 				/**
 				 * Даем возможность флешу задавать id сессии
 				 */
-				if (isset($_SERVER['HTTP_USER_AGENT']) and in_array($_SERVER['HTTP_USER_AGENT'],$this->aFlashUserAgent) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
+				$sUserAgent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null; 
+				if ($sUserAgent and (in_array($sUserAgent,$this->aFlashUserAgent) or strpos($sUserAgent,"Adobe Flash Player")===0) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
 					session_id(getRequest('SSID'));
 				} else {
 					session_regenerate_id();
