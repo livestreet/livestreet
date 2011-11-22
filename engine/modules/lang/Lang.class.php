@@ -226,7 +226,7 @@ class ModuleLang extends Module {
 	 */
 	public function Get($sName,$aReplace=array(),$bDelete=true) {
 		if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
-			$sLang = &$this->aLangMsg;
+			$sLang = $this->aLangMsg;
 			$aKeys = explode('.', $sName);
 			foreach ($aKeys as $k) {
 				if (isset($sLang[$k])) {
