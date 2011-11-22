@@ -115,7 +115,9 @@
 				{/if}
 
 				<form action="#" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
+					{hook run='form_add_comment_begin'}
 					<textarea name="comment_text" id="form_comment_text" class="input-wide"></textarea>
+					{hook run='form_add_comment_end'}
 					<input type="button" value="{$aLang.comment_preview}" onclick="ls.comments.preview();" />
 					<input type="submit" name="submit_comment" value="{$aLang.comment_add}" id="comment-button-submit" onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" />
 					<input type="hidden" name="reply" value="0" id="form_comment_reply" />
