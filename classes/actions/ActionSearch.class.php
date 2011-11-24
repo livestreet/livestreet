@@ -20,9 +20,9 @@
  *
  */
 class ActionSearch extends Action {	
-	private $sTypesEnabled = array('topics' => array('topic_publish' => 1), 'comments' => array('comment_delete' => 0));
-	private $aSphinxRes = null;
-	private $bIsResults = FALSE;
+	protected $sTypesEnabled = array('topics' => array('topic_publish' => 1), 'comments' => array('comment_delete' => 0));
+	protected $aSphinxRes = null;
+	protected $bIsResults = FALSE;
 	
 	public function Init() {
 		$this->SetDefaultEvent('index');
@@ -172,7 +172,7 @@ class ActionSearch extends Action {
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	private function PrepareResults($aReq, $iLimit){
+	protected function PrepareResults($aReq, $iLimit){
 		/**
 		 *  Количество результатов по типам
 		 */
