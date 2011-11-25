@@ -6,7 +6,7 @@ require_once(Config::Get('path.root.engine').'/lib/external/Sphinx/sphinxapi.php
  *
  */
 class ModuleSphinx extends Module {
-	private $oSphinx = null;
+	protected $oSphinx = null;
 	
 	/**
 	 * Инициализация
