@@ -122,7 +122,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		if ($aRows=$this->oDb->select($sql,
 				isset($aFilter['active']) ? $aFilter['active']:DBSIMPLE_SKIP,
 				isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,				
-				(array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $sPid : DBSIMPLE_SKIP
+				(array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $aFilter['pid'] : DBSIMPLE_SKIP
 				)) {
 			return $aRows;
 		}
