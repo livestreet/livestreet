@@ -809,7 +809,13 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
                     if (!is_array($value)) return 'DBSIMPLE_ERROR_VALUE_NOT_ARRAY';
                     $parts = array();
                     foreach ($value as $k=>$v) {
-                        $v = $v === null? 'NULL' : $this->escape($v);
+                        if ($v === null) {
+                        	$v = 'NULL';
+                        } elseif ($v === false) {
+                        	$v = '0';
+                        } else {
+                        	$v = $this->escape($v);
+                        }
                         if (!is_int($k)) {
                             $k = $this->escape($k, true);
                             $parts[] = "$k=$v";
