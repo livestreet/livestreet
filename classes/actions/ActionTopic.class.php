@@ -539,7 +539,7 @@ class ActionTopic extends Action {
 		 * проверяем ввод тегов
 		 */
 		$sTags=getRequest('topic_tags',null,'post');
-		$aTags=explode(',',$sTags);
+		$aTags=explode(',',rtrim($sTags,"\r\n\t\0\x0B ."));
 		$aTagsNew=array();
 		$aTagsNewLow=array();
 		foreach ($aTags as $sTag) {
