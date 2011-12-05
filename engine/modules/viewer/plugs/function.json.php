@@ -26,7 +26,7 @@ function smarty_function_json($params, &$smarty)
 {
 
     if (!array_key_exists('var', $params)) {
-        $smarty->trigger_error("json: missing 'var' parameter");
+		trigger_error("json: missing 'var' parameter",E_USER_WARNING);
         return;
     }
     

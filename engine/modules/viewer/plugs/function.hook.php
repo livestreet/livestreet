@@ -25,7 +25,7 @@
  */
 function smarty_function_hook($aParams,&$oSmarty) {	
 	if(empty($aParams['run'])) {
-		$oSmarty->trigger_error("Hook: missing 'run' parametr");
+		trigger_error("Hook: missing 'run' parametr",E_USER_WARNING);
 		return;
 	}
 	
