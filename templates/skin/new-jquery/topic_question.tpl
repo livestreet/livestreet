@@ -70,7 +70,7 @@
 
 
 	<div class="content">
-
+		{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
 		{if $bTopicList}
 			{$oTopic->getTextShort()}
 			{if $oTopic->getTextShort()!=$oTopic->getText()}
@@ -85,6 +85,7 @@
 		{else}
 			{$oTopic->getText()}
 		{/if}
+		{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 	</div>
 
 
