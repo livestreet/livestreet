@@ -511,7 +511,7 @@ class ActionQuestion extends Action {
 		 * проверяем ввод тегов 
 		 */
 		$sTags=getRequest('topic_tags');
-		$aTags=explode(',',$sTags);
+		$aTags=explode(',',rtrim($sTags,"\r\n\t\0\x0B ."));
 		$aTagsNew=array();
 		foreach ($aTags as $sTag) {
 			$sTag=trim($sTag);
