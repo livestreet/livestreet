@@ -53,14 +53,12 @@ function isAjaxRequest() {
 /**
  * функция вывода отладочных сообщений через "хакерскую" консоль Дмитрия Котерова
  */
-if (Config::Get('sys.logs.hacker_console') && !isAjaxRequest()) {
-	require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
-	new Debug_HackerConsole_Main(true);
-}
-
-
-function dump($msg) {	
+function dump($msg) {
 	if (Config::Get('sys.logs.hacker_console') && !isAjaxRequest()) {
+		if (!class_exists('Debug_HackerConsole_Main')) {
+			require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
+			new Debug_HackerConsole_Main(true);
+		}
 		call_user_func(array('Debug_HackerConsole_Main', 'out'), $msg);
 	} else {
 		//var_dump($msg);
