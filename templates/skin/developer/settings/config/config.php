@@ -29,6 +29,8 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/autocompleter.css",
 	"___path.static.skin___/css/vlacal.css",
 );
+$config['skin']['lib']['mootools'] = true;
+$config['skin']['lib']['jshttprequest'] = true;
 
 return $config;
 ?>
