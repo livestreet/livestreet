@@ -491,6 +491,7 @@ $config['head']['default']['js']  = array(
 	"___path.static.skin___/js/stream.js",
 	"___path.static.skin___/js/photoset.js",
 	"___path.static.skin___/js/markup_settings.js",
+	"___path.static.skin___/js/hook.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
