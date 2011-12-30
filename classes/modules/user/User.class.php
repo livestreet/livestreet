@@ -44,7 +44,7 @@ class ModuleUser extends Module {
 		 */
 		$sUserId=$this->Session_Get('user_id');
 		if ($sUserId and $oUser=$this->GetUserById($sUserId) and $oUser->getActivate()) {
-			if ($this->oSession=$this->GetSessionByUserId($oUser->getId())) {
+			if ($this->oSession=$oUser->getSession()) {
 				/**
 				 * Сюда можно вставить условие на проверку айпишника сессии
 				 */
