@@ -38,8 +38,6 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/ie7.css?v=1"=>array('browser'=>'gte IE 7'),
 	"___path.static.skin___/css/simple_comments.css"=>array('browser'=>'gt IE 6'),
 );
-$config['skin']['lib']['mootools'] = true;
-$config['skin']['lib']['jshttprequest'] = true;
 
 return $config;
 ?>
