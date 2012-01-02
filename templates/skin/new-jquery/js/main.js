@@ -450,6 +450,9 @@ ls.autocomplete = (function ($) {
 
 
 jQuery(document).ready(function($){
+	// Хук начала инициализации javascript-составляющих шаблона
+	ls.hook.run('ls_template_init_start',[],window);
+	
 	// Всплывающие окна
 	$('#login_form').jqm({trigger: '#login_form_show'});
 	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
@@ -458,6 +461,9 @@ jQuery(document).ready(function($){
 	$('#userfield_form').jqm();
 
 	// Datepicker
+	/**
+	 * TODO: навесить языки на datepicker
+	 */
 	$('.date-picker').datepicker({
 		dateFormat: 'dd.mm.yy',
 		dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
@@ -496,4 +502,7 @@ jQuery(document).ready(function($){
 		$(".switcher li:first-child").addClass("first-child");
 		$(".switcher li:last-child").addClass("last-child");
 	}
+
+	// Хук конца инициализации javascript-составляющих шаблона
+	ls.hook.run('ls_template_init_end',[],window);
 });
