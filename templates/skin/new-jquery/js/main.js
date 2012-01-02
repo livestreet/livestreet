@@ -89,7 +89,7 @@ ls.swfupload = (function ($) {
 			post_params: {'SSID':SESSION_ID, 'security_ls_key': LIVESTREET_SECURITY_KEY},
 
 			// File Upload Settings
-			file_types : "*.jpg; *.JPG;*.png;*.gif",
+			file_types : "*.jpg;*.jpe;*.jpeg;*.png;*.gif;*.JPG;*.JPE;*.JPEG;*.PNG;*.GIF",
 			file_types_description : "Images",
 			file_upload_limit : "0",
 
@@ -125,11 +125,11 @@ ls.swfupload = (function ($) {
 	}
 
 	this.loadSwf = function() {
-		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(){
-
+		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(data,textStatus){
+			
 		}.bind(this));
 
-		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(){
+		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(data,textStatus){
 			this.initOptions();
 			$(this).trigger('load');
 		}.bind(this));
@@ -210,7 +210,9 @@ ls.tools = (function ($) {
 	*/
 	this.textPreview = function(textId, save, divPreview) {
 		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent() : $('#'+textId).val();
-		ls.ajax(aRouter['ajax']+'preview/text/', {text: text, save: save}, function(result){
+		var ajaxUrl = aRouter['ajax']+'preview/text/';
+		/*textPreviewAjaxBefore*/ //-textPreviewAjaxBefore
+		ls.ajax(ajaxUrl, {text: text, save: save}, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 			}
@@ -220,8 +222,10 @@ ls.tools = (function ($) {
 				if (!divPreview) {
 					divPreview = 'text_preview';
 				}
+				/*textPreviewDisplayBefore*/ //-textPreviewDisplayBefore
 				if ($('#'+divPreview).length) {
 					$('#'+divPreview).html(result.sText);
+					/*textPreviewDisplayAfter*/ //-textPreviewDisplayAfter
 				}
 			}
 		});
@@ -277,8 +281,8 @@ ls = (function ($) {
 		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
 			url=aRouter['ajax']+url+'/';
 		}
-
-		return $.ajax({
+		
+		var ajaxOptions = {
 			type: more.type || "POST",
 			url: url,
 			data: params,
@@ -295,7 +299,11 @@ ls = (function ($) {
 				ls.debug("base complete: ");
 				ls.debug(msg);
 			}.bind(this)
-		});
+		};
+		
+		ls.hook.run('ls_ajax_before', [ajaxOptions], this);
+		
+		return $.ajax(ajaxOptions);
 
 	};
 
@@ -326,7 +334,9 @@ ls = (function ($) {
 			}.bind(this)
 
 		}
-
+		
+		ls.hook.run('ls_ajaxsubmit_before', [options], this);
+		
 		form.ajaxSubmit(options);
 	}
 
@@ -334,6 +344,7 @@ ls = (function ($) {
 	* Загрузка изображения
 	*/
 	this.ajaxUploadImg = function(form, sToLoad) {
+		/*ajaxUploadImgBefore*/ //-ajaxUploadImgBefore
 		ls.ajaxSubmit('upload/image/',form,function(data){
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -341,6 +352,7 @@ ls = (function ($) {
 				$.markItUp({ replaceWith: data.sText} );
 				$('#form_upload_img').find('input[type="text"], input[type="file"]').val('');
 				$('#form_upload_img').jqmHide();
+				/*ajaxUploadImgAfter*/ //-ajaxUploadImgAfter
 			}
 		});
 	}
@@ -456,7 +468,7 @@ jQuery(document).ready(function($){
 
 	// Поиск по тегам
 	$('#tag_search_form').submit(function(){
-		window.location = aRouter['tag']+$('#tag_search').val()+'/';
+		window.location = aRouter['tag']+encodeURIComponent($('#tag_search').val())+'/';
 		return false;
 	});
 
@@ -466,7 +478,6 @@ jQuery(document).ready(function($){
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
 	ls.autocomplete.add($(".autocomplete-city"), aRouter['ajax']+'autocompleter/city/', false);
 	ls.autocomplete.add($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
-
 
 	// Скролл
 	$(window)._scrollable();
