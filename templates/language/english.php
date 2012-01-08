@@ -404,6 +404,7 @@ return array(
 	'user_friend_add_text_label' => 'Introduce yourself :',
 	'user_friend_add_submit' => 'Submit',
 	'user_friend_add_cansel' => 'Cancel',
+	'user_friend_add_time_limit' => 'You too often send private messages, try adding to friend later',
 	'user_friend_offer_not_found' => 'Request not found',
 	'user_friend_offer_already_done' => 'This request processed already',
 	'user_friend_accept_notice_title' => 'Your request accepted',

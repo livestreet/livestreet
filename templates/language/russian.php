@@ -404,6 +404,7 @@ return array(
 	'user_friend_add_text_label' => 'Представьтесь:',
 	'user_friend_add_submit' => 'Отправить',
 	'user_friend_add_cansel' => 'Отмена',
+	'user_friend_add_time_limit' => 'Вы слишком часто отправляете личные сообщения, попробуйте добавить в друзья позже',
 	'user_friend_offer_not_found' => 'Заявка не найдена',
 	'user_friend_offer_already_done' => 'Заявка уже обработана',
 	'user_friend_accept_notice_title' => 'Ваша заявка одобрена',

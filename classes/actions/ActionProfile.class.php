@@ -536,6 +536,14 @@ class ActionProfile extends Action {
 	}
 
 	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
+		/**
+		 * Ограничения на добавления в друзья, т.к. приглашение отправляется в личку, то и ограничиваем по ней
+		 */
+		if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('user_friend_add_time_limit'),$this->Lang_Get('error'));
+			return false;
+		}
+
 		$sUserText=$this->Text_Parser($sUserText);
 
 		$oFriendNew=Engine::GetEntity('User_Friend');
