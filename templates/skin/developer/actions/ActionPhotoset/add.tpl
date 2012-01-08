@@ -60,7 +60,7 @@ tinyMCE.init({
 <script type="text/javascript">
 	if (Browser.Plugins.Flash.version) {
 		initSwfUpload({
-			post_params: { 'topic_id':'{$_aRequest.topic_id}' },
+			post_params: { 'topic_id': {json var=$_aRequest.topic_id} },
 			events: {
 				UploadProgress: swfHandlerUploadProgress,
 				FileDialogComplete: swfHandlerFileDialogComplete,

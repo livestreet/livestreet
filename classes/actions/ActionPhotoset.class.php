@@ -337,6 +337,10 @@ class ActionPhotoset extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('add');
+
+		if (!is_numeric(getRequest('topic_id'))) {
+			$_REQUEST['topic_id']='';
+		}
 		/**
 		 * Проверяем отправлена ли форма с данными(хотяб одна кнопка)
 		 */		
@@ -383,6 +387,10 @@ class ActionPhotoset extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title_create'));
+
+		if (!is_numeric(getRequest('topic_id'))) {
+			$_REQUEST['topic_id']='';
+		}
 
 		// Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
 		if (empty($_COOKIE['ls_photoset_target_tmp'])) {

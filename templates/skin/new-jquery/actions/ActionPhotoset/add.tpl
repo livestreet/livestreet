@@ -52,7 +52,7 @@ tinyMCE.init({
 <script type="text/javascript">
 if (jQuery.browser.flash) {
 	ls.photoset.initSwfUpload({
-		post_params: { 'topic_id':'{$_aRequest.topic_id}' }
+		post_params: { 'topic_id': {json var=$_aRequest.topic_id} }
 	});
 }
 </script>
