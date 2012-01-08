@@ -682,6 +682,7 @@ return array(
 	'talk_create_users' => 'Кому',
 	'talk_create_users_error' => 'Необходимо указать, кому вы хотите отправить сообщение',
 	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином',
+	'talk_create_users_error_many' => 'Слишком много адресатов',
 	'talk_create_title' => 'Заголовок',
 	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
 	'talk_create_text' => 'Сообщение',

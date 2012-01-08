@@ -411,6 +411,10 @@ class ActionTalk extends Action {
 			$_REQUEST['talk_users']='';
 			$bOk=false;
 		} else {
+			if (count($aUsersNew)>Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
+				$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+				$bOk=false;
+			}
 			$_REQUEST['talk_users']=join(',',$aUsersNew);
 		}
 		

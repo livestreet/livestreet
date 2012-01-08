@@ -682,6 +682,7 @@ return array(
 	'talk_create_users' => 'To',
 	'talk_create_users_error' => 'You have to list recipients of your message',
 	'talk_create_users_error_not_found' => 'We don\'t have user with login',
+	'talk_create_users_error_many' => 'Too many recipients',
 	'talk_create_title' => 'Subject',
 	'talk_create_title_error' => 'Subject should consist of 2 upto 200 chars',
 	'talk_create_text' => 'Message',
