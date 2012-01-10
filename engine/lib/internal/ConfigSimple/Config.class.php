@@ -112,10 +112,18 @@ class Config {
 		return self::getInstance($sInstance);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function GetConfig() {
 		return $this->aConfig;
 	}
 
+	/**
+	 * @param array $aConfig
+	 * @param bool $bRewrite
+	 * @return bool
+	 */
 	public function SetConfig($aConfig=array(),$bRewrite=true) {
 
 		if (is_array($aConfig)) {
@@ -128,8 +136,7 @@ class Config {
 			}
 			return true;
 		}
-		$this->aConfig=array();
-		$this->aLocalCache=array();
+		$this->aLocalCache=$this->aConfig=array();
 		return false;
 	}
 
@@ -182,20 +189,16 @@ class Config {
 		if(is_array($cfg)) {
 			foreach($cfg as $k=>$v) {
 				$k_replaced = self::KeyReplace($k, $sInstance);
-				if($k==$k_replaced) {
-					$cfg[$k] = self::KeyReplace($v,$sInstance);
-				} else {
-					$cfg[$k_replaced] = self::KeyReplace($v,$sInstance);
-					unset($cfg[$k]);
-				}
+				unset($cfg[$k]);
+				$cfg[$k_replaced] = self::KeyReplace($v,$sInstance);
 			}
-		} else {
-			if(preg_match('~___([\S|\.|]+)___~Ui',$cfg))
-				$cfg = preg_replace_callback(
-					'~___([\S|\.]+)___~Ui',
-					create_function('$value','return Config::Get($value[1],"'.$sInstance.'");'),
-					$cfg
-				);
+		}
+		else {
+			$cfg = preg_replace_callback(
+				'~___([\S|\.]+)___~Ui',
+				create_function('$value', 'return Config::Get($value[1],"' . $sInstance . '");'),
+				$cfg
+			);
 		}
 		return $cfg;
 	}
