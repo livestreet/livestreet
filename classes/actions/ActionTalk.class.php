@@ -854,8 +854,14 @@ class ActionTalk extends Action {
 		$aTalkUsers=$oTalk->getTalkUsers();
 		$aUsers=explode(',',$sUsers);
 		// Получаем список пользователей, которые не принимают письма
-		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());			
-		
+		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
+
+		// ограничения на максимальное число участников разговора
+		if (count($aTalkUsers)>=Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
+			$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+			return;
+		}
+
 		// Обрабатываем добавление по каждому переданному логину пользователя
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);
