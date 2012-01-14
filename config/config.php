@@ -478,6 +478,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
 	"___path.root.engine_lib___/external/jquery/jquery.serializejson.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
+	"___path.root.engine_lib___/external/swfobject/swfobject.js",
 	"___path.static.skin___/js/main.js",
 	"___path.static.skin___/js/favourite.js",
 	"___path.static.skin___/js/blocks.js",

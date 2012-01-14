@@ -4,6 +4,23 @@ Function.prototype.bind = function(context) {
 		return fn.apply(context, arguments);
 	};
 };
+String.prototype.tr = function(a,p) {
+	var k;
+	var p = typeof(p)=='string' ? p : '';
+	var s = this;
+	for(k in a){
+		var tk = p?p.split('/'):[];
+		tk[tk.length] = k;
+		var tp = tk.join('/');
+		if(typeof(a[k])=='object'){
+			s = s.tr(a[k],tp);
+		}else{
+			s = s.replace((new RegExp('%%'+tp+'%%', 'g')), a[k]);
+		};
+	};
+	return s;
+};
+
 
 
 var ls = ls || {};
@@ -61,9 +78,7 @@ ls.lang = (function ($) {
 		if (this.msgs[name]) {
 			var value=this.msgs[name];
 			if (replace) {
-				$.each(replace,function(k,v){
-					value=value.replace(new RegExp('%%'+k+'%%','g'),v);
-				});
+				value = value.tr(replace);
 			}
 			return value;
 		}
@@ -125,14 +140,19 @@ ls.swfupload = (function ($) {
 	}
 
 	this.loadSwf = function() {
-		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(data,textStatus){
-			
-		}.bind(this));
-
-		$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(data,textStatus){
+		if(window.SWFUpload){
 			this.initOptions();
 			$(this).trigger('load');
-		}.bind(this));
+		}else{
+			$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(data,textStatus){
+				
+			}.bind(this));
+			
+			$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(data,textStatus){
+				this.initOptions();
+				$(this).trigger('load');
+			}.bind(this));
+		}
 	}
 
 	this.init = function(opt) {
@@ -211,13 +231,14 @@ ls.tools = (function ($) {
 	this.textPreview = function(textId, save, divPreview) {
 		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent() : $('#'+textId).val();
 		var ajaxUrl = aRouter['ajax']+'preview/text/';
+		var ajaxOptions = {text: text, save: save};
 		/*textPreviewAjaxBefore*/ //-textPreviewAjaxBefore
-		ls.ajax(ajaxUrl, {text: text, save: save}, function(result){
+		ls.ajax(ajaxUrl, ajaxOptions, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 			}
 			if (result.bStateError) {
-				ls.msg.error('Error','Please try again later');
+				ls.msg.error(result.sMsgTitle||'Error',result.sMsg||'Please try again later');
 			} else {
 				if (!divPreview) {
 					divPreview = 'text_preview';
@@ -360,18 +381,18 @@ ls = (function ($) {
 	/**
 	* Дебаг сообщений
 	*/
-	this.debug = function(msg) {
+	this.debug = function() {
 		if (this.options.debug) {
-			this.log(msg);
+			this.log.apply(this,arguments);
 		}
 	}
 
 	/**
 	* Лог сообщений
 	*/
-	this.log = function(msg) {
+	this.log = function() {
 		if (window.console && window.console.log) {
-			console.log(msg);
+			Function.prototype.bind.call(console.log, console).apply(console, arguments);
 		} else {
 			//alert(msg);
 		}
