@@ -34,6 +34,10 @@ ls.blocks = (function ($) {
 	*/
 	this.load = function(obj, block, params){
 		var id = $(obj).attr('id');
+		/*loadBefore*/ //-loadBefore
+		
+		if(!id) return;
+		
 		params=$.extend(true,{},this.options.type[id].params || {},params || {});
 		
 		var content = $('#'+block+'_content');
@@ -64,6 +68,7 @@ ls.blocks = (function ($) {
 			ls.msg.error(null, result.sMsg);
 		} else {
 			content.html(result.sText);
+			ls.hook.run('ls_block_onload_html_after',[content,id,result],this);
 		}
 	};
 
@@ -73,7 +78,7 @@ ls.blocks = (function ($) {
 /**
 * Подключаем действующие блоки
 */
-jQuery(document).ready(function($){
+jQuery(function($){
 	$('[id^="block_stream_item"]').click(function(){
 		ls.blocks.load(this, 'block_stream');
 		return false;

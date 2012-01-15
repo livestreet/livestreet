@@ -24,14 +24,14 @@ ls.hook = (function ($) {
 	
 	this.cloneFunc = function(func,as_text,no_def) {
 		var f;
-		if(typeof func=='string'){
+		if($.type(func)=='string'){
 			eval('f = '+func+';');
-		}else if(typeof func=='object'){
+		}else if($.type(func)=='array'){
 			f = func[0][func[1]];
 		}else{
 			f = func;
 		}
-		if(typeof f=='function'){
+		if($.type(f)=='function'){
 			var fbody = f.toString().replace(/^(function)([^\(]*)\(/gi, '$1 (');
 			if(typeof as_text!='undefined' && as_text){
 				if(typeof no_def!='undefined' && no_def){
@@ -52,14 +52,14 @@ ls.hook = (function ($) {
 	 */
 	this.inject = function(func,funcInj,marker) {
 		var funcBody = ls.hook.cloneFunc(func, 1);
-		var funcDefinition = (typeof func=='string'?func:(typeof func=='object'?'func[0][func[1]]':'func'))+' = ';
+		var funcDefinition = ($.type(func)=='string'?func:($.type(func)=='array'?'func[0][func[1]]':'func'))+' = ';
 		var replaceFrom = /\{/m;
 		var replaceTo = '{ ';
-		if(typeof marker == 'string'){
+		if($.type(marker) == 'string'){
 			replaceFrom = new RegExp('(/\\*'+marker+'\\*/)', 'm');
 			replaceTo = '$1';
 		}
-		if(typeof funcInj=='function'){
+		if($.type(funcInj)=='function'){
 			var funcInjName = 'funcInj'+Math.floor(Math.random()*1000000);
 			eval('window["'+funcInjName+'"] = funcInj;');
 			eval(funcDefinition + funcBody.replace(replaceFrom,replaceTo+funcInjName+'.apply(this, arguments); '));
@@ -91,12 +91,15 @@ ls.hook = (function ($) {
 			});
 			for(var i in hooks[name]){
 				var callback = hooks[name][i].callback;
-				if(typeof callback == 'function'){
+				if($.type(callback) == 'function'){
 					callback.apply(o, params);
-				}else if(typeof callback == 'object'){
+				}else if($.type(callback) == 'array'){
+					//console.log(callback);
 					callback[0][callback[1]].apply(o, params);
-				}else{
+				}else if($.type(callback) == 'string'){
 					eval('(function(){'+callback+'}).apply(o, params);');
+				}else{
+					ls.debug('cant call hook "'+name+'"['+i+']');
 				}
 			}
 		}
