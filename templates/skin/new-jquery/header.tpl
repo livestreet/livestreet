@@ -53,7 +53,7 @@
 </head>
 
 
-<body onload="prettyPrint()">
+<body onload="prettyPrint()" class="ls-template-new-jquery">
 	{hook run='body_begin'}
 	{include file='header_top.tpl'}
 	{include file='nav.tpl'}

@@ -53,7 +53,7 @@
 </head>
 
 
-<body onload="prettyPrint()">
+<body onload="prettyPrint()" class="ls-template-developer-jquery">
 	{hook run='body_begin'}
 
 	<div id="container">
