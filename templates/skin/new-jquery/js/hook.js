@@ -56,7 +56,7 @@ ls.hook = (function ($) {
 		var replaceFrom = /\{/m;
 		var replaceTo = '{ ';
 		if($.type(marker) == 'string'){
-			replaceFrom = new RegExp('(/\\*'+marker+'\\*/)', 'm');
+			replaceFrom = new RegExp('(\'\\*'+marker+'\\*\'[\r\n\t ]*;?)', 'm');
 			replaceTo = '$1';
 		}
 		if($.type(funcInj)=='function'){

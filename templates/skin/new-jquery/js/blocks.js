@@ -34,7 +34,7 @@ ls.blocks = (function ($) {
 	*/
 	this.load = function(obj, block, params){
 		var id = $(obj).attr('id');
-		/*loadBefore*/ //-loadBefore
+		'*loadBefore*'; '*/loadBefore*';
 		
 		if(!id) return;
 		
