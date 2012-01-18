@@ -140,20 +140,50 @@ ls.swfupload = (function ($) {
 	}
 
 	this.loadSwf = function() {
-		if(window.SWFUpload){
+		var f = {};
+		
+		f.onSwfobject = function(){
+			if(window.swfobject && swfobject.swfupload){
+				f.onSwfobjectSwfupload();
+			}else{
+				ls.debug('window.swfobject && swfobject.swfupload is undefined, load swfobject/plugin/swfupload.js');
+				$.getScript(
+					DIR_ROOT_ENGINE_LIB+'/external/swfobject/plugin/swfupload.js',
+					f.onSwfobjectSwfupload
+				);
+			}
+		}.bind(this);
+		
+		f.onSwfobjectSwfupload = function(){
+			if(window.SWFUpload){
+				f.onSwfupload();
+			}else{
+				ls.debug('window.SWFUpload is undefined, load swfupload/swfupload.js');
+				$.getScript(
+					DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',
+					f.onSwfupload
+				);
+			}
+		}.bind(this);
+		
+		f.onSwfupload = function(){
 			this.initOptions();
 			$(this).trigger('load');
-		}else{
-			$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.swfobject.js',function(data,textStatus){
-				
-			}.bind(this));
-			
-			$.getScript(DIR_ROOT_ENGINE_LIB+'/external/swfupload/swfupload.js',function(data,textStatus){
-				this.initOptions();
-				$(this).trigger('load');
-			}.bind(this));
-		}
-	}
+		}.bind(this);
+		
+		
+		(function(){
+			if(window.swfobject){
+				f.onSwfobject();
+			}else{
+				ls.debug('window.swfobject is undefined, load swfobject/swfobject.js');
+				$.getScript(
+					DIR_ROOT_ENGINE_LIB+'/external/swfobject/swfobject.js',
+					f.onSwfobject
+				);
+			}
+		}.bind(this))();
+	};
 
 	this.init = function(opt) {
 		if (opt) {
