@@ -8,7 +8,7 @@ String.prototype.tr = function(a,p) {
 	var k;
 	var p = typeof(p)=='string' ? p : '';
 	var s = this;
-	for(k in a){
+	$.each(a,function(k){
 		var tk = p?p.split('/'):[];
 		tk[tk.length] = k;
 		var tp = tk.join('/');
@@ -17,7 +17,7 @@ String.prototype.tr = function(a,p) {
 		}else{
 			s = s.replace((new RegExp('%%'+tp+'%%', 'g')), a[k]);
 		};
-	};
+	});
 	return s;
 };
 
