@@ -353,8 +353,9 @@ class MapperORM extends Mapper {
 		 * 	prefix_user -> если модуль совпадает с сущностью
 		 * 	prefix_user_invite -> если модуль не сопадает с сущностью
 		 */
-		$sModuleName = func_underscore(Engine::GetModuleName($oEntity));
-		$sEntityName = func_underscore(Engine::GetEntityName($oEntity));
+		$sClass = Engine::getInstance()->Plugin_GetDelegater('entity', is_object($oEntity)?get_class($oEntity):$oEntity);
+		$sModuleName = func_underscore(Engine::GetModuleName($sClass));
+		$sEntityName = func_underscore(Engine::GetEntityName($sClass));
 		if (strpos($sEntityName,$sModuleName)===0) {
 			$sTable=func_underscore($sEntityName);
 		} else {
