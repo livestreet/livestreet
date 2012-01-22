@@ -6,3 +6,7 @@
 .checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
 .question-list { margin-bottom: 15px; }
 .question-list li { margin-bottom: 3px; }
+
+.markItUp { width: 100%; }
+.markItUpEditor { width: 100%; -moz-box-sizing: border-box; box-sizing: border-box; }
+.markItUpHeader { width: 100%; -moz-box-sizing: border-box; box-sizing: border-box; height: 28px; }

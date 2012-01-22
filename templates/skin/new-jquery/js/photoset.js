@@ -11,7 +11,7 @@ ls.photoset =( function ($) {
 		opt.button_placeholder_id = 'photoset-start-upload';
 		opt.post_params.ls_photoset_target_tmp = $.cookie('ls_photoset_target_tmp') ? $.cookie('ls_photoset_target_tmp') : 0;
 
-		$(ls.swfupload).bind('load',function() {
+		$(ls.swfupload).unbind('load').bind('load',function() {
 			this.swfu = ls.swfupload.init(opt);
 
 			$(this.swfu).bind('eUploadProgress',this.swfHandlerUploadProgress);
