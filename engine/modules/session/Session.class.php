@@ -73,8 +73,8 @@ class ModuleSession extends Module {
 				} else {
 					session_regenerate_id();
 				}
+				session_start();
 			}
-			session_start();			
 		} else {
 			$this->SetId();
 			$this->ReadData();
