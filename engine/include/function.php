@@ -443,7 +443,7 @@ function func_list_plugins($bAll = false){
 	$aPlugin = array();
 	if($bAll){
 		$aPluginRaw = array();
-		$aPaths = glob("$aPluginRaw/*", GLOB_ONLYDIR);
+		$aPaths = glob("$sPluginsDir/*", GLOB_ONLYDIR);
 		if($aPaths)
 		foreach($aPaths as $sPath){
 			$aPluginRaw[] = basename($sPath);
