@@ -41,7 +41,7 @@
 		</select>
 		<select name="profile_birthday_year">
 			<option value="">{$aLang.date_year}</option>
-			{section name=date_year start=1940 loop=2000 step=1}
+			{section name=date_year loop=$smarty.now|date_format:"%Y"+1 max=$smarty.now|date_format:"%Y"-2012+130 step=-1}
 				<option value="{$smarty.section.date_year.index}" {if $smarty.section.date_year.index==$oUserCurrent->getProfileBirthday()|date_format:"%Y"}selected{/if}>{$smarty.section.date_year.index}</option>
 			{/section}
 		</select>
