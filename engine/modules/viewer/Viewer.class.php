@@ -231,9 +231,7 @@ class ModuleViewer extends Module {
 	 * return ModuleViewer
 	 */
 	public function GetLocalViewer() {
-		$sClass = $this->Plugin_GetDelegate('module', __CLASS__);
-		
-		$oViewerLocal=new $sClass(Engine::getInstance());
+		$oViewerLocal=new ModuleViewer(Engine::getInstance());
 		$oViewerLocal->Init(true);
 		$oViewerLocal->VarAssign();
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());
