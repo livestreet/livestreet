@@ -48,9 +48,41 @@ jQuery(document).ready(function($){
 
 
 
+/*****************
+ * BLOCKS
+ */
+
+/**
+ * Подключаем действующие блоки
+ */
+jQuery(function($){
+	$('[id^="block_stream_item"]').click(function(){
+		ls.blocks.load(this, 'block_stream');
+		return false;
+	});
+
+	$('[id^="block_blogs_item"]').click(function(){
+		ls.blocks.load(this, 'block_blogs');
+		return false;
+	});
+});
+
+
 /****************
  * COMMENTS
  */
+
+/**
+* Обработка комментариев
+*/
+ls.comments = (function ($) {
+	/**
+	* Опции
+	*/
+	this.options.folding = false;
+
+	return this;
+}).call(ls.comments || {},jQuery);
 
 jQuery(document).ready(function(){
 	ls.comments.init();
@@ -67,11 +99,10 @@ ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,para
 	$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 });
 
+
 /****************
  * TALK
  */
-
-
 
 
 jQuery(document).ready(function($){
