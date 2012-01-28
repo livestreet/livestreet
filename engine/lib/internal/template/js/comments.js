@@ -28,7 +28,8 @@ ls.comments = (function ($) {
 			comment_goto_parent: 'goto-comment-parent',
 			comment_goto_child: 'goto-comment-child'
 		},
-		wysiwyg: null
+		wysiwyg: null,
+		folding: true
 	};
 
 	this.iCurrentShowFormComment=0;
@@ -74,19 +75,23 @@ ls.comments = (function ($) {
 
 	// Показывает/скрывает форму комментирования
 	this.toggleCommentForm = function(idComment, bNoFocus) {
-		$('#comment_preview_'+this.iCurrentShowFormComment).html('').css('display','none');
-		if (this.iCurrentShowFormComment==idComment && $('#reply_'+idComment).css('display')=='block') {
-			$('#reply_'+idComment).hide();
+		var newReplay = $("#reply_"+idComment);
+		if(!newReplay.length){
+			return;
+		}
+		$('#comment_preview_'+this.iCurrentShowFormComment).empty().hide();
+		if (this.iCurrentShowFormComment==idComment && newReplay.is(':visible')) {
+			$(newReplay).hide();
 			return;
 		}
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
 		}
-		$('#form_comment').appendTo("#reply_"+idComment);
+		$('#form_comment').appendTo(newReplay);
 		$('#form_comment_text').val('');
 		$('#form_comment_reply').val(idComment);
 		$('.reply').hide();
-		$('#reply_'+idComment).css('display','block');
+		newReplay.show();
 		this.iCurrentShowFormComment=idComment;
 		if (this.options.wysiwyg) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
@@ -155,7 +160,7 @@ ls.comments = (function ($) {
 				if (selfIdComment && $('#comment_id_'+selfIdComment).length) { 
 					this.scrollToComment(selfIdComment);
 				}
-				//this.checkFolding();
+				this.checkFolding();
 			}
 		}.bind(this));
 	}
@@ -175,7 +180,11 @@ ls.comments = (function ($) {
 
 	// Удалить/восстановить комментарий
 	this.toggle = function(obj, commentId) {
-		ls.ajax(aRouter['ajax']+'comment/delete/', { idComment: commentId }, function(result){
+		var url = aRouter['ajax']+'comment/delete/';
+		var params = { idComment: commentId };
+		
+		'*toggleBefore*'; '*/toggleBefore*';
+		ls.ajax(url, params, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 			}
@@ -200,7 +209,7 @@ ls.comments = (function ($) {
 			$("#form_comment_text").val(tinyMCE.activeEditor.getContent());
 		}
 		if ($("#form_comment_text").val() == '') return;
-		$("#comment_preview_"+this.iCurrentShowFormComment).css('display', 'block');
+		$("#comment_preview_"+this.iCurrentShowFormComment).show();
 		ls.tools.textPreview('form_comment_text', false, 'comment_preview_'+this.iCurrentShowFormComment);
 	}
 
@@ -208,7 +217,7 @@ ls.comments = (function ($) {
 	// Устанавливает число новых комментариев
 	this.setCountNewComment = function(count) {
 		if (count > 0) {
-			$('#new_comments_counter').css('display','block').text(count);
+			$('#new_comments_counter').show().text(count);
 		} else {
 			$('#new_comments_counter').text(0).hide();
 		}
@@ -266,6 +275,9 @@ ls.comments = (function ($) {
 
 	// Сворачивание комментариев
 	this.checkFolding = function() {
+		if(!ls.comments.options.folding){
+			return false;
+		}
 		$(".folding").each(function(index, element){
 			if ($(element).parent(".comment").next(".comment-wrapper").length == 0) {
 				$(element).hide();
@@ -299,12 +311,13 @@ ls.comments = (function ($) {
 	this.init = function() {
 		this.initEvent();
 		this.calcNewComments();
-		//this.checkFolding();
+		this.checkFolding();
 		this.toggleCommentForm(this.iCurrentShowFormComment);
 		
 		if (typeof(this.options.wysiwyg)!='number') {
 			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);
 		}
+		ls.hook.run('ls_comments_init_after',[],this);
 	}
 	
 	this.initEvent = function() {
@@ -316,19 +329,16 @@ ls.comments = (function ($) {
 			}
 		});
 		
-		$(".folding").click(function(e){
-			if ($(e.target).hasClass("folded")) {
-				this.expandComment(e.target);
-			} else {
-				this.collapseComment(e.target);
-			}
-		}.bind(this));
+		if(ls.comments.options.folding){
+			$(".folding").click(function(e){
+				if ($(e.target).hasClass("folded")) {
+					this.expandComment(e.target);
+				} else {
+					this.collapseComment(e.target);
+				}
+			}.bind(this));
+		}
 	}
 
 	return this;
 }).call(ls.comments || {},jQuery);
-
-
-jQuery(document).ready(function(){
-	ls.comments.init();
-});

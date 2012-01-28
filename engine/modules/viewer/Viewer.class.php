@@ -177,8 +177,8 @@ class ModuleViewer extends Module {
 		 * Load template config
 		 */
 		if (!$bLocal) {
-			if(file_exists(Config::Get('path.smarty.template').'/settings/config/config.php')) {
-				Config::LoadFromFile(Config::Get('path.smarty.template').'/settings/config/config.php',false);
+			if(file_exists($sFile = Config::Get('path.smarty.template').'/settings/config/config.php')) {
+				Config::LoadFromFile($sFile,false);
 			}
 		}
 		/**

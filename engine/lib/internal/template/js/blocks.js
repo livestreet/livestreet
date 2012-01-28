@@ -47,7 +47,9 @@ ls.blocks = (function ($) {
 		$(obj).addClass(this.options.active);
 
 		ls.ajax(this.options.type[id].url, params, function(result){
-			this.onLoad(content,id,result);
+			var args = [content,id,result];
+			'*onLoadBefore*'; '*/onLoadBefore*';
+			this.onLoad.apply(this,args);
 		}.bind(this));
 	};
 
@@ -62,30 +64,15 @@ ls.blocks = (function ($) {
 	* Обработка результатов загрузки
 	*/
 	this.onLoad = function(content,id,result) {
-		$(this).trigger('loadSuccessful',[content,id,result]);
+		$(this).trigger('load',arguments);
 		content.empty();
 		if (result.bStateError) {
 			ls.msg.error(null, result.sMsg);
 		} else {
 			content.html(result.sText);
-			ls.hook.run('ls_block_onload_html_after',[content,id,result],this);
+			ls.hook.run('ls_block_onload_html_after',arguments,this);
 		}
 	};
 
 	return this;
 }).call(ls.blocks || {},jQuery);
-
-/**
-* Подключаем действующие блоки
-*/
-jQuery(function($){
-	$('[id^="block_stream_item"]').click(function(){
-		ls.blocks.load(this, 'block_stream');
-		return false;
-	});
-
-	$('[id^="block_blogs_item"]').click(function(){
-		ls.blocks.load(this, 'block_blogs');
-		return false;
-	});
-});
