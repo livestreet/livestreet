@@ -329,7 +329,7 @@ ls.comments = (function ($) {
 			}
 		});
 		
-		if(ls.comments.options.folding){
+		if(this.options.folding){
 			$(".folding").click(function(e){
 				if ($(e.target).hasClass("folded")) {
 					this.expandComment(e.target);
