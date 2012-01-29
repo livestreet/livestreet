@@ -137,7 +137,7 @@ jQuery(document).ready(function(){
  * BLOG
  */
 
-ls.hook.add('ls_blog_toggle_join_after', function(idBlog,result,elementText){
+ls.hook.add('ls_blog_toggle_join_after', function(idBlog,result){
 	if(result.bState){
 		this.addClass("active");
 	}else{

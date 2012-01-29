@@ -25,11 +25,10 @@ ls.blog = (function ($) {
 					: ls.lang.get(blog_join)
 				;
 				
-				var elementText = $('<span/>').text(text);
-				obj.empty().append(elementText);
+				obj.empty().text(text);
 				
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
-				ls.hook.run('ls_blog_toggle_join_after',[idBlog,result,elementText],obj);
+				ls.hook.run('ls_blog_toggle_join_after',[idBlog,result],obj);
 			}
 		});
 	};
