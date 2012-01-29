@@ -81,7 +81,7 @@ ls.comments = (function ($) {
 		}
 		$('#comment_preview_'+this.iCurrentShowFormComment).empty().hide();
 		if (this.iCurrentShowFormComment==idComment && newReplay.is(':visible')) {
-			$(newReplay).hide();
+			newReplay.hide();
 			return;
 		}
 		if (this.options.wysiwyg) {
@@ -275,7 +275,7 @@ ls.comments = (function ($) {
 
 	// Сворачивание комментариев
 	this.checkFolding = function() {
-		if(!ls.comments.options.folding){
+		if(!this.options.folding){
 			return false;
 		}
 		$(".folding").each(function(index, element){
