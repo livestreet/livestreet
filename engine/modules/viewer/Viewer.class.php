@@ -177,8 +177,8 @@ class ModuleViewer extends Module {
 		 * Load template config
 		 */
 		if (!$bLocal) {
-			if(file_exists(Config::Get('path.smarty.template').'/settings/config/config.php')) {
-				Config::LoadFromFile(Config::Get('path.smarty.template').'/settings/config/config.php',false);
+			if(file_exists($sFile = Config::Get('path.smarty.template').'/settings/config/config.php')) {
+				Config::LoadFromFile($sFile,false);
 			}
 		}
 		/**
@@ -229,7 +229,9 @@ class ModuleViewer extends Module {
 	 * return ModuleViewer
 	 */
 	public function GetLocalViewer() {
-		$oViewerLocal=new ModuleViewer(Engine::getInstance());
+		$sClass = $this->Plugin_GetDelegate('module', __CLASS__);
+		
+		$oViewerLocal=new $sClass(Engine::getInstance());
 		$oViewerLocal->Init(true);
 		$oViewerLocal->VarAssign();
 		$oViewerLocal->Assign('aLang',$this->Lang_GetLangMsg());

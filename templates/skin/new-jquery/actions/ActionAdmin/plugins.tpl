@@ -20,12 +20,12 @@
 				<tr {if $aPlugin.is_active}class="active"{/if}>
 					<td><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
 					<td>
-						<h3>{$aPlugin.property->name->data|escape:'html'}</h3>
+						<h3>{$aPlugin.property->name->data}</h3>
 						{$aPlugin.property->description->data}<br />
 						{$aPlugin.property->homepage}
 					</td>
 					<td>{$aPlugin.property->version|escape:'html'}</td>
-					<td>{$aPlugin.property->author->data|escape:'html'}</td>
+					<td>{$aPlugin.property->author->data}</td>
 					<td>{if $aPlugin.is_active}<a href="{$aPlugin.property->settings}">{$aPlugin.property->settings}</a>{else}{$aPlugin.property->settings}{/if}</td>
 					<td>
 						{if $aPlugin.is_active}
