@@ -53,6 +53,7 @@ class ModuleCache extends Module {
 					);
 	
 	protected $aStoreLife=array();
+	protected $sPrefixSmartCache='for-smart-cache-';
 	/**
 	 * Инициализируем нужный тип кеша
 	 *
@@ -125,7 +126,25 @@ class ModuleCache extends Module {
 		} else {
 			return $this->multiGet($sName);
 		}
-	}	
+	}
+	/**
+	 * Получения значения из "умного" кеша для борьбы с конкурирующими запросами
+	 *
+	 * @param $sName
+	 * @return bool|unknown
+	 */
+	public function SmartGet($sName) {
+		if (!$this->bUseCache) {
+			return false;
+		}
+		/**
+		 * Если данных в основном кеше нет, то перекладываем их из временного
+		 */
+		if (($data=$this->Get($sName))===false) {
+			$this->Set($this->Get($this->sPrefixSmartCache.$sName),$sName,array(),60); // храним данные из временного в основном не долго
+		}
+		return $data;
+	}
 	/**
 	 * псевдо поддержка мульти-запросов к кешу
 	 *
@@ -188,6 +207,19 @@ class ModuleCache extends Module {
 			$data=serialize($data);
 		}
 		return $this->oBackendCache->save($data,$sName,$aTags,$iTimeLife);
+	}
+	/**
+	 * Устанавливаем значение в "умном" кеша для борьбы с конкурирующими запросами
+	 *
+	 * @param mixed $data
+	 * @param string $sName
+	 * @param array $aTags
+	 * @param int $iTimeLife
+	 * @return bool
+	 */
+	public function SmartSet($data,$sName,$aTags=array(),$iTimeLife=false) {
+		$this->Set($data,$this->sPrefixSmartCache.$sName,array(),$iTimeLife!==false ? $iTimeLife+60 : false);
+		return $this->Set($data,$sName,$aTags,$iTimeLife);
 	}
 	/**
 	 * Удаляет значение из кеша по ключу(имени)
