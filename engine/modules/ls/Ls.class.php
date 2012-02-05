@@ -279,9 +279,6 @@ class ModuleLs extends Module {
 			//закрываем сокет
 			fclose($socket);
 			$sData = trim(substr($sData, strpos($sData, "\r\n\r\n") + 4));
-			if (preg_match("#^[^{]+(.*)[^}]+$#",$sData,$aMatch)) {
-				$sData=$aMatch[1];
-			}
 			return $sData;
 		}
 	}
