@@ -64,7 +64,7 @@ ls.blocks = (function ($) {
 	* Обработка результатов загрузки
 	*/
 	this.onLoad = function(content,id,result) {
-		$(this).trigger('load',arguments);
+		$(this).trigger('loadResponse',arguments);
 		content.empty();
 		if (result.bStateError) {
 			ls.msg.error(null, result.sMsg);
