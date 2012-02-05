@@ -231,7 +231,11 @@ $config['module']['security']['hash']  = "livestreet_security_key"; // "прим
 $config['module']['userfeed']['count_default'] = 10; // Число топиков в ленте по умолчанию
 
 $config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
-$config['module']['stream']['disable_vote_events'] = false; 
+$config['module']['stream']['disable_vote_events'] = false;
+// Модуль Ls
+$config['module']['ls']['send_general'] = true;	// Отправка на сервер LS общей информации о сайте (домен, версия LS и плагинов)
+$config['module']['ls']['use_counter'] = true;	// Использование счетчика GA
+
 
 /**
  * Настройка топика-фотосета

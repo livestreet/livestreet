@@ -845,6 +845,9 @@ class Engine extends Object {
 				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/entity/'.$aInfo[self::CI_ENTITY].'.entity.class.php'
 				;
+				if(!is_file($sPath)){
+					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+				}
 			}
 		}elseif($aInfo[self::CI_MAPPER]){
 			// Маппер
@@ -859,6 +862,9 @@ class Engine extends Object {
 				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/mapper/'.$aInfo[self::CI_MAPPER].'.mapper.class.php'
 				;
+				if(!is_file($sPath)){
+					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+				}
 			}
 		}elseif($aInfo[self::CI_ACTION]){
 			// Экшн
