@@ -89,7 +89,7 @@ ls.hook = (function ($) {
 					: (a.priority < b.priority ? -1 : 0)
 				;
 			});
-			for(var i in hooks[name]){
+			$.each(hooks[name], function(i){
 				var callback = hooks[name][i].callback;
 				if($.type(callback) == 'function'){
 					callback.apply(o, params);
@@ -101,7 +101,7 @@ ls.hook = (function ($) {
 				}else{
 					ls.debug('cant call hook "'+name+'"['+i+']');
 				}
-			}
+			});
 		}
 	};
 	

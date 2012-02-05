@@ -9,12 +9,18 @@ ls.poll = (function ($) {
 	* Голосование в опросе
 	*/
 	this.vote = function(idTopic, idAnswer) {
-		ls.ajax(aRouter['ajax']+'vote/question/', {idTopic: idTopic, idAnswer: idAnswer}, function(result) {
+		var url = aRouter['ajax']+'vote/question/';
+		var params = {idTopic: idTopic, idAnswer: idAnswer};
+		'*voteBefore*'; '*/voteBefore*';
+		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				ls.msg.notice(null, result.sMsg);
-				$('#topic_question_area_'+idTopic).html(result.sText);
+				var area = $('#topic_question_area_'+idTopic);
+				'*voteDisplayBefore*'; '*/voteDisplayBefore*';
+				area.html(result.sText);
+				ls.hook.run('ls_pool_vote_after',[idTopic, idAnswer,result],area);
 			}
 		});
 	}
@@ -29,10 +35,13 @@ ls.poll = (function ($) {
 		}
 		var newItem = $("#question_list li:first-child").clone();
 		newItem.find('a').remove();
-		newItem.appendTo("#question_list").append($('<a href="#">'+ls.lang.get('delete')+'</a>').click(function(ev){
-			return this.removeAnswer(ev.target);
-		}.bind(this)));
+		var removeAnchor = $('<a href="#"/>').text(ls.lang.get('delete')).click(function(e){
+			e.preventDefault();
+			return this.removeAnswer(e.target);
+		}.bind(this));
+		newItem.appendTo("#question_list").append(removeAnchor);
 		newItem.find('input').val('');
+		ls.hook.run('ls_pool_add_answer_after',[removeAnchor],newItem);
 	}
 	
 	/**

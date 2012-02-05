@@ -37,8 +37,9 @@ ls.favourite = (function ($) {
 		params['type'] = !this.objFavourite.hasClass(this.options.active);
 		params[this.options.type[type].targetName] = idTarget;
 		
+		'*toggleBefore*'; '*/toggleBefore*';
 		ls.ajax(this.options.type[type].url, params, function(result) {
-			$(this).trigger('toggleSuccessful',[idTarget,objFavourite,type,params,result]);
+			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -47,8 +48,7 @@ ls.favourite = (function ($) {
 				if (result.bState) {
 					this.objFavourite.addClass(this.options.active);
 				}
-                
-                $('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
+				ls.hook.run('ls_favourite_toggle_after',[idTarget,objFavourite,type,params,result],this);
 			}
 		}.bind(this));
 		return false;

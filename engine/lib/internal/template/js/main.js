@@ -22,7 +22,6 @@ String.prototype.tr = function(a,p) {
 };
 
 
-
 var ls = ls || {};
 
 /**
@@ -95,9 +94,10 @@ ls.lang = (function ($) {
 ls.swfupload = (function ($) {
 
 	this.swfu = null;
+	this.swfOptions = {};
 
 	this.initOptions = function() {
-
+		
 		this.swfOptions = {
 			// Backend Settings
 			upload_url: aRouter['photoset']+"upload",
@@ -136,7 +136,9 @@ ls.swfupload = (function ($) {
 			// Debug Settings
 			debug: false
 		};
-
+		
+		ls.hook.run('ls_swfupload_init_options_after',arguments,this.swfOptions)
+		
 	}
 
 	this.loadSwf = function() {
@@ -184,6 +186,7 @@ ls.swfupload = (function ($) {
 			}
 		}.bind(this))();
 	};
+	
 
 	this.init = function(opt) {
 		if (opt) {
@@ -259,7 +262,7 @@ ls.tools = (function ($) {
 	* Предпросмотр
 	*/
 	this.textPreview = function(textId, save, divPreview) {
-		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent() : $('#'+textId).val();
+		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent()  : $('#'+textId).val();
 		var ajaxUrl = aRouter['ajax']+'preview/text/';
 		var ajaxOptions = {text: text, save: save};
 		'*textPreviewAjaxBefore*'; '*/textPreviewAjaxBefore*';
@@ -273,9 +276,10 @@ ls.tools = (function ($) {
 				if (!divPreview) {
 					divPreview = 'text_preview';
 				}
+				var elementPreview = $('#'+divPreview);
 				'*textPreviewDisplayBefore*'; '*/textPreviewDisplayBefore*';
-				if ($('#'+divPreview).length) {
-					$('#'+divPreview).html(result.sText);
+				if (elementPreview.length) {
+					elementPreview.html(result.sText);
 					'*textPreviewDisplayAfter*'; '*/textPreviewDisplayAfter*';
 				}
 			}
@@ -300,6 +304,7 @@ ls.tools = (function ($) {
 		}
 		return text;
 	}
+
 
 	return this;
 }).call(ls.tools || {},jQuery);
@@ -332,7 +337,7 @@ ls = (function ($) {
 		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
 			url=aRouter['ajax']+url+'/';
 		}
-		
+
 		var ajaxOptions = {
 			type: more.type || "POST",
 			url: url,
@@ -353,9 +358,8 @@ ls = (function ($) {
 		};
 		
 		ls.hook.run('ls_ajax_before', [ajaxOptions], this);
-		
-		return $.ajax(ajaxOptions);
 
+		return $.ajax(ajaxOptions);
 	};
 
 	/**
@@ -374,7 +378,7 @@ ls = (function ($) {
 			type: 'POST',
 			url: url,
 			dataType: more.dataType || 'json',
-			data: { security_ls_key: LIVESTREET_SECURITY_KEY },
+			data: {security_ls_key: LIVESTREET_SECURITY_KEY},
 			success: callback || function(msg){
 				ls.debug("base success: ");
 				ls.debug(msg);
@@ -385,7 +389,7 @@ ls = (function ($) {
 			}.bind(this)
 
 		}
-		
+
 		ls.hook.run('ls_ajaxsubmit_before', [options], this);
 		
 		form.ajaxSubmit(options);
@@ -400,7 +404,7 @@ ls = (function ($) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
-				$.markItUp({ replaceWith: data.sText} );
+				$.markItUp({replaceWith: data.sText} );
 				$('#form_upload_img').find('input[type="text"], input[type="file"]').val('');
 				$('#form_upload_img').jqmHide();
 				'*ajaxUploadImgAfter*'; '*/ajaxUploadImgAfter*';
@@ -496,64 +500,3 @@ ls.autocomplete = (function ($) {
 
 
 (ls.options || {}).debug=1;
-
-
-
-
-jQuery(document).ready(function($){
-	// Хук начала инициализации javascript-составляющих шаблона
-	ls.hook.run('ls_template_init_start',[],window);
-	
-	// Всплывающие окна
-	$('#login_form').jqm({trigger: '#login_form_show'});
-	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
-	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
-	$('#form_upload_img').jqm();
-	$('#userfield_form').jqm();
-
-	// Datepicker
-	/**
-	 * TODO: навесить языки на datepicker
-	 */
-	$('.date-picker').datepicker({
-		dateFormat: 'dd.mm.yy',
-		dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-		monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-		firstDay: 1
-	});
-
-
-	// Поиск по тегам
-	$('#tag_search_form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($('#tag_search').val())+'/';
-		return false;
-	});
-
-
-	// Автокомплит
-	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
-	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
-	ls.autocomplete.add($(".autocomplete-city"), aRouter['ajax']+'autocompleter/city/', false);
-	ls.autocomplete.add($(".autocomplete-country"), aRouter['ajax']+'autocompleter/country/', false);
-
-	// Скролл
-	$(window)._scrollable();
-
-
-	// Show blog info
-	$("#show_blog_info").click(function(){
-		$("#blog_info").slideToggle(500);
-		$("#show_blog_info").toggleClass("inactive");
-		return false;
-	});
-
-
-	// Detecting IE6-IE8
-	if ($.browser.msie && $.browser.version.substr(0,1) <= 8) {
-		$(".switcher li:first-child").addClass("first-child");
-		$(".switcher li:last-child").addClass("last-child");
-	}
-
-	// Хук конца инициализации javascript-составляющих шаблона
-	ls.hook.run('ls_template_init_end',[],window);
-});
