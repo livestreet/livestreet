@@ -280,7 +280,7 @@ function func_text_words($sText,$iCountWords) {
 		
 	$iCount=0;
 	$aWordsResult=array();
-	$aWords=preg_split("/\s+/",$sText);	
+	$aWords=preg_split("/\s+/u",$sText);	
 	for($i=0;$i<count($aWords);$i++) {
 		if ($iCount>=$iCountWords) {
 			break;
