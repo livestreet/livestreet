@@ -277,25 +277,11 @@ function func_rmdir($sPath) {
  * @param unknown_type $iCountWords
  */
 function func_text_words($sText,$iCountWords) {
-	$sText=str_replace("\r\n",'[<rn>]',$sText);
-	$sText=str_replace("\n",'[<n>]',$sText);
-		
-	$iCount=0;
-	$aWordsResult=array();
-	$aWords=preg_split("/\s+/",$sText);	
-	for($i=0;$i<count($aWords);$i++) {
-		if ($iCount>=$iCountWords) {
-			break;
-		}
-		if ($aWords[$i]!='[<rn>]' and $aWords[$i]!='[<n>]') {
-			$aWordsResult[]=$aWords[$i];
-			$iCount++;
-		}
+	$aWords = preg_split('#[\s\r\n]+#um',$sText);
+	if($iCountWords < count($aWords)){
+		$aWords = array_slice($aWords,0,$iCountWords);
 	}
-	$sText=join(' ',$aWordsResult);	
-	$sText=str_replace('[<rn>]'," ",$sText);
-	$sText=str_replace('[<n>]'," ",$sText);	
-	return $sText;	
+	return join(' ', $aWords);	
 }
 
 /**
