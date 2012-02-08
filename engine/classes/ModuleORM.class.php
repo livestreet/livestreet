@@ -173,6 +173,17 @@ abstract class ModuleORM extends Module {
 	}
 
 	/**
+	 * Primary индекс сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
+	protected function _ShowPrimaryIndexFrom($oEntity) {
+		$res=$this->oMapperORM->ShowPrimaryIndexFrom($oEntity);
+		return $res;
+	}
+
+	/**
 	 * Для сущности со связью RELATION_TYPE_TREE возвращает список прямых потомков
 	 *
 	 * @param unknown_type $oEntity
@@ -617,6 +628,10 @@ abstract class ModuleORM extends Module {
 
 		if (preg_match("@^showcolumnsfrom([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_ShowColumnsFrom($aArgs[0]);
+		}
+
+		if (preg_match("@^showprimaryindexfrom([\w]+)$@i",$sName,$aMatch)) {
+			return $this->_ShowPrimaryIndexFrom($aArgs[0]);
 		}
 
 		if (preg_match("@^getchildrenof([\w]+)$@i",$sName,$aMatch)) {

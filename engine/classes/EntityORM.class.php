@@ -60,7 +60,7 @@ abstract class EntityORM extends Entity {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sPrimaryKey='id';
+	protected $sPrimaryKey=null;
 	/**
 	 * Флаг новая или нет сущность
 	 *
@@ -77,15 +77,16 @@ abstract class EntityORM extends Entity {
 	/**
 	 * Получение primary key из схемы таблицы
 	 *
-	 * @return unknown
+	 * @return string | array
 	 */
 	public function _getPrimaryKey() {
-		if(!$this->_getDataOne($this->sPrimaryKey)) {
-			if($this->_getFields()) {
-				if(array_key_exists('#primary_key',$this->aFields)) {
-					$this->sPrimaryKey = $this->aFields['#primary_key'];
+		if(!$this->sPrimaryKey) {
+			if ($aIndex=$this->ShowPrimaryIndex()) {
+				if (count($aIndex)>1) {
+					// Составной индекс
+					$this->sPrimaryKey=$aIndex;
 				} else {
-					$this->sPrimaryKey = $this->_getField($this->sPrimaryKey,2);
+					$this->sPrimaryKey=$aIndex[1];
 				}
 			}
 		}
@@ -190,6 +191,15 @@ abstract class EntityORM extends Entity {
 	 * @return unknown
 	 */
 	public function ShowColumns() {
+		return $this->_Method(__FUNCTION__ .'From');
+	}
+
+	/**
+	 * Primary индекс сущности
+	 *
+	 * @return unknown
+	 */
+	public function ShowPrimaryIndex() {
 		return $this->_Method(__FUNCTION__ .'From');
 	}
 
@@ -515,7 +525,7 @@ abstract class EntityORM extends Entity {
 					$sRelEntityName=Engine::GetEntityName($sEntityRel);
 					$sRelPluginPrefix=Engine::GetPluginPrefix($sEntityRel);
 					$sRelPrimaryKey='id';
-					if($oRelEntity=Engine::GetEntity($sEntityRel) and method_exists($oRelEntity,'_getPrimaryKey')) { // для совместимости с сущностями Entity
+					if($oRelEntity=Engine::GetEntity($sEntityRel)) {
 						$sRelPrimaryKey=$oRelEntity->_getPrimaryKey();
 					}
 
@@ -558,10 +568,10 @@ abstract class EntityORM extends Entity {
 					// Сохраняем данные только в случае "чистой" выборки
 					if(!$bUseFilter) {
 						$this->aRelationsData[$sKey]=$res;
-						// Создаём объекты-обёртки для связей MANY_TO_MANY
-						if ($sRelationType == self::RELATION_TYPE_MANY_TO_MANY) {
-							$this->_aManyToManyRelations[$sKey] = new LS_ManyToManyRelation($this->aRelationsData[$sKey]);
-						}
+					}
+					// Создаём объекты-обёртки для связей MANY_TO_MANY
+					if ($sRelationType == self::RELATION_TYPE_MANY_TO_MANY) {
+						$this->_aManyToManyRelations[$sKey] = new LS_ManyToManyRelation($res);
 					}
 					return $res;
 				}

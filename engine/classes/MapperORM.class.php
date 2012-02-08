@@ -42,11 +42,18 @@ class MapperORM extends Mapper {
 	 */
 	public function UpdateEntity($oEntity) {
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
-				
-		if(!empty($iPrimaryKeyValue)) {
-			$sql = "UPDATE ".$sTableName." SET ?a WHERE ".$oEntity->_getPrimaryKey()." = ? "; 
-			return $this->oDb->query($sql,$oEntity->_getData(),$iPrimaryKeyValue);
+
+		if($aPrimaryKey=$oEntity->_getPrimaryKey()) {
+			// Возможен составной ключ
+			if (!is_array($aPrimaryKey)) {
+				$aPrimaryKey=array($aPrimaryKey);
+			}
+			$sWhere=' 1 = 1 ';
+			foreach ($aPrimaryKey as $sField) {
+				$sWhere.=' and '.$this->oDb->escape($sField,true)." = ".$this->oDb->escape($oEntity->_getDataOne($sField));
+			}
+			$sql = "UPDATE ".$sTableName." SET ?a WHERE {$sWhere}";
+			return $this->oDb->query($sql,$oEntity->_getData());
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
 			$sWhere = implode(' AND ',array_map(create_function(
@@ -66,11 +73,18 @@ class MapperORM extends Mapper {
 	 */
 	public function DeleteEntity($oEntity) {		
 		$sTableName = self::GetTableName($oEntity);
-		$iPrimaryKeyValue=$oEntity->_getDataOne($oEntity->_getPrimaryKey());
 		
-		if(!empty($iPrimaryKeyValue)) {
-			$sql = "DELETE FROM ".$sTableName." WHERE ".$oEntity->_getPrimaryKey()." = ? "; 
-			return $this->oDb->query($sql,$iPrimaryKeyValue);
+		if($aPrimaryKey=$oEntity->_getPrimaryKey()) {
+			// Возможен составной ключ
+			if (!is_array($aPrimaryKey)) {
+				$aPrimaryKey=array($aPrimaryKey);
+			}
+			$sWhere=' 1 = 1 ';
+			foreach ($aPrimaryKey as $sField) {
+				$sWhere.=' and '.$this->oDb->escape($sField,true)." = ".$this->oDb->escape($oEntity->_getDataOne($sField));
+			}
+			$sql = "DELETE FROM ".$sTableName." WHERE {$sWhere}";
+			return $this->oDb->query($sql);
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
 			$sWhere = implode(' AND ',array_map(create_function(
@@ -337,6 +351,39 @@ class MapperORM extends Mapper {
 				}
 			}
 			Engine::getInstance()->Cache_SetLife($aItems, "columns_table_{$sTableName}");
+		}
+		return $aItems;
+	}
+
+	/**
+	 * Primary индекс сущности
+	 *
+	 * @param unknown_type $oEntity
+	 * @return unknown
+	 */
+	public function ShowPrimaryIndexFrom($oEntity) {
+		$sTableName = self::GetTableName($oEntity);
+		return $this->ShowPrimaryIndexFromTable($sTableName);
+	}
+
+	/**
+	 * Primary индекс таблицы
+	 *
+	 * @param unknown_type $sTableName
+	 * @return unknown
+	 */
+	public function ShowPrimaryIndexFromTable($sTableName) {
+		if (false === ($aItems = Engine::getInstance()->Cache_GetLife("index_table_{$sTableName}"))) {
+			$sql = "SHOW INDEX FROM ".$sTableName;
+			$aItems = array();
+			if($aRows=$this->oDb->select($sql)) {
+				foreach($aRows as $aRow) {
+					if ($aRow['Key_name']=='PRIMARY') {
+						$aItems[$aRow['Seq_in_index']]=$aRow['Column_name'];
+					}
+				}
+			}
+			Engine::getInstance()->Cache_SetLife($aItems, "index_table_{$sTableName}");
 		}
 		return $aItems;
 	}
