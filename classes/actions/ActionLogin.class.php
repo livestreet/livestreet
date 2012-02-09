@@ -41,7 +41,13 @@ class ActionLogin extends Action {
 	 * Обрабатываем процесс залогинивания
 	 *
 	 */
-	protected function EventLogin() {	
+	protected function EventLogin() {
+		/**
+		 * Если уже авторизирован
+		 */
+		if($this->User_GetUserCurrent()) {
+			Router::Location(Config::Get('path.root.web').'/');
+		}
 		/**
 		 * Если нажали кнопку "Войти"
 		 */
