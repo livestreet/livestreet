@@ -134,7 +134,7 @@
 			<td>{$aLang.profile_blogs_self}:</td>
 			<td>							
 				{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
-					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
@@ -146,7 +146,7 @@
 			<td>
 				{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
 					{assign var="oBlog" value=$oBlogUser->getBlog()}
-					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
@@ -158,7 +158,7 @@
 			<td>
 				{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
 					{assign var="oBlog" value=$oBlogUser->getBlog()}
-					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
@@ -170,7 +170,7 @@
 			<td>
 				{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
 					{assign var="oBlog" value=$oBlogUser->getBlog()}
-					<a href="{router page='blog'}{$oBlog->getUrl()}/">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
 		</tr>
