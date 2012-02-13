@@ -115,3 +115,5 @@ table.table-talk a.favourite:hover { background-position: -50px -40px; }
 span.green { color: #008000; }
 
 img.tagcloud { border: 0; margin-left: 13px; }
+
+.searched-item { background: #fffacd; }
