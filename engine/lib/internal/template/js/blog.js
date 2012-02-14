@@ -21,8 +21,8 @@ ls.blog = (function ($) {
 				ls.msg.notice(null, result.sMsg);
 				
 				var text = result.bState
-					? ls.lang.get(blog_leave)
-					: ls.lang.get(blog_join)
+					? ls.lang.get('blog_leave')
+					: ls.lang.get('blog_join')
 				;
 				
 				obj.empty().text(text);
