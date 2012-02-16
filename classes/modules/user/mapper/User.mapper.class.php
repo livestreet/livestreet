@@ -283,20 +283,20 @@ class ModuleUser_MapperUser extends Mapper {
 
 
 	public function GetCountUsers() {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
+		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
 		$result=$this->oDb->selectRow($sql);
 		return $result['count'];
 	}
 
 	public function GetCountUsersActive($sDateActive) {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";
+		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";
 		$result=$this->oDb->selectRow($sql,$sDateActive);
 		return $result['count'];
 	}
 
 
 	public function GetCountUsersSex() {
-		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";
+		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(*) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";
 		$result=$this->oDb->select($sql);
 		return $result;
 	}
@@ -308,7 +308,7 @@ class ModuleUser_MapperUser extends Mapper {
 				c.country_name as name
 			FROM (
 					SELECT
-						count(user_id) as count,
+						count(*) as count,
 						country_id
 					FROM
 						".Config::Get('db.table.country_user')."
@@ -328,7 +328,7 @@ class ModuleUser_MapperUser extends Mapper {
 				c.city_name as name
 			FROM (
 					SELECT
-						count(user_id) as count,
+						count(*) as count,
 						city_id
 					FROM
 						".Config::Get('db.table.city_user')."
