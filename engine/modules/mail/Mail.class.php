@@ -32,6 +32,7 @@ class ModuleMail extends Module {
 	protected $sUsername;
 	protected $sPassword;
 	protected $bSmtpAuth;
+	protected $sSmtpSecure;
 	/**
 	 * Метод отправки почты
 	 *
@@ -79,6 +80,7 @@ class ModuleMail extends Module {
 		$this->sUsername = Config::Get('sys.mail.smtp.user');
 		$this->sPassword = Config::Get('sys.mail.smtp.password');
 		$this->bSmtpAuth = Config::Get('sys.mail.smtp.auth');	
+		$this->sSmtpSecure = Config::Get('sys.mail.smtp.secure');
 		/**
 		 * Метод отправки почты
 		 */
@@ -105,6 +107,7 @@ class ModuleMail extends Module {
 		$this->oMailer->Username=$this->sUsername;
 		$this->oMailer->Password=$this->sPassword;
 		$this->oMailer->SMTPAuth=$this->bSmtpAuth;
+		$this->oMailer->SMTPSecure=$this->sSmtpSecure;
 		$this->oMailer->Mailer=$this->sMailerType;
 		$this->oMailer->WordWrap=$this->iWordWrap;
 		$this->oMailer->CharSet=$this->sCharSet;
