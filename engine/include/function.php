@@ -138,11 +138,9 @@ function func_htmlspecialchars(&$data, $walkIndex = null)
 {
 	if (!is_array($data)) 
 	{
-		$data = htmlspecialchars(&$data);
+		$data = htmlspecialchars($data);
 		return;
 	}
-	
-	
 	array_walk($data, __FUNCTION__);	
 }
 
