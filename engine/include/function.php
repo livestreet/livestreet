@@ -130,20 +130,20 @@ function func_generator($iLength=10) {
 /**
  * htmlspecialchars умеющая обрабатывать массивы
  *
- * @param unknown_type $data
+ * @param mixed $data
+ * @param int %walkIndex - represents the key/index of the array being recursively htmlspecialchars'ed
+ * @return void
  */
-function func_htmlspecialchars(&$data) {
-	if (is_array($data)) {
-		foreach ($data as $sKey => $value) {
-			if (is_array($value)) {
-				func_htmlspecialchars($data[$sKey]);
-			} else {
-				$data[$sKey]=htmlspecialchars($value);
-			}
-		}
-	} else {
-		$data=htmlspecialchars($data);
+function func_htmlspecialchars(&$data, $walkIndex = null) 
+{
+	if (!is_array($data)) 
+	{
+		$data = htmlspecialchars(&$data);
+		return;
 	}
+	
+	
+	array_walk($data, __FUNCTION__);	
 }
 
 /**
