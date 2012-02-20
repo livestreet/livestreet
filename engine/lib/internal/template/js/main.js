@@ -8,7 +8,7 @@ String.prototype.tr = function(a,p) {
 	var k;
 	var p = typeof(p)=='string' ? p : '';
 	var s = this;
-	$.each(a,function(k){
+	jQuery.each(a,function(k){
 		var tk = p?p.split('/'):[];
 		tk[tk.length] = k;
 		var tp = tk.join('/');

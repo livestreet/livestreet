@@ -5,7 +5,8 @@
 <script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
 
 <script type="text/javascript">
-	{literal}
+{literal}
+jQuery(function($){
 	tinyMCE.init({
 		mode : "textareas",
 		theme : "advanced",
@@ -35,7 +36,8 @@
 		media_strict : false,
 		language : TINYMCE_LANG
 	});
-	{/literal}
+});
+{/literal}
 </script>
 
 {else}
