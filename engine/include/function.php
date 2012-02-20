@@ -136,12 +136,11 @@ function func_generator($iLength=10) {
  */
 function func_htmlspecialchars(&$data, $walkIndex = null) 
 {
-	if (!is_array($data)) 
-	{
+	if(is_string($data)){
 		$data = htmlspecialchars($data);
-		return;
+	}elseif(is_array($data)){
+		array_walk($data, __FUNCTION__);
 	}
-	array_walk($data, __FUNCTION__);	
 }
 
 /**
