@@ -941,10 +941,6 @@ class Engine extends Object {
 		if($aInfo[Engine::CI_INHERIT]){
 			$sInheritClass = $aInfo[Engine::CI_INHERIT];
 			$sParentClass = Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
-			$aParentInfo = Engine::GetClassInfo(
-				$sParentClass,
-				Engine::CI_CLASSPATH
-			);
 			if(!class_alias($sParentClass,$sClassName)){
 				class_alias('Object',$sClassName);
 			}
