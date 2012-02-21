@@ -91,6 +91,7 @@ $config['sys']['mail']['smtp']['host']     = 'localhost';            // Наст
 $config['sys']['mail']['smtp']['port']     = 25;                     // Настройки SMTP - порт
 $config['sys']['mail']['smtp']['user']     = '';                     // Настройки SMTP - пользователь
 $config['sys']['mail']['smtp']['password'] = '';                     // Настройки SMTP - пароль
+$config['sys']['mail']['smtp']['secure']   = '';                     // Настройки SMTP - протокол шифрования: tls, ssl
 $config['sys']['mail']['smtp']['auth']     = true;                   // Использовать авторизацию при отправке
 $config['sys']['mail']['include_comment']  = true;                   // Включает в уведомление о новых комментах текст коммента
 $config['sys']['mail']['include_talk']     = true;                   // Включает в уведомление о новых личных сообщениях текст сообщения
