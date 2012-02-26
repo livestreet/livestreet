@@ -1,5 +1,11 @@
 Function.prototype.bind = function(context) {
 	var fn = this;
+	if(jQuery.type(fn) != 'function'){
+		throw new TypeError('Function.prototype.bind: call on non-function');
+	};
+	if(jQuery.type(context) == 'null'){
+		throw new TypeError('Function.prototype.bind: cant be bound to null');
+	};
 	return function() {
 		return fn.apply(context, arguments);
 	};
@@ -25,8 +31,8 @@ String.prototype.tr = function(a,p) {
 var ls = ls || {};
 
 /**
-* Управление всплывающими сообщениями
-*/
+ * Управление всплывающими сообщениями
+ */
 ls.msg = (function ($) {
 	/**
 	* Опции
@@ -425,7 +431,7 @@ ls = (function ($) {
 	* Лог сообщений
 	*/
 	this.log = function() {
-		if (window.console && window.console.log) {
+		if (!$.browser.msie && window.console && window.console.log) {
 			Function.prototype.bind.call(console.log, console).apply(console, arguments);
 		} else {
 			//alert(msg);
