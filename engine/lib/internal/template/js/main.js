@@ -143,9 +143,9 @@ ls.swfupload = (function ($) {
 			debug: false
 		};
 		
-		ls.hook.run('ls_swfupload_init_options_after',arguments,this.swfOptions)
+		ls.hook.run('ls_swfupload_init_options_after',arguments,this.swfOptions);
 		
-	}
+	};
 
 	this.loadSwf = function() {
 		var f = {};
@@ -200,31 +200,31 @@ ls.swfupload = (function ($) {
 		}
 		this.swfu = new SWFUpload(this.swfOptions);
 		return this.swfu;
-	}
+	};
 
 	this.handlerFileQueueError = function(file, errorCode, message) {
 		$(this).trigger('eFileQueueError',[file, errorCode, message]);
-	}
+	};
 
 	this.handlerFileDialogComplete = function(numFilesSelected, numFilesQueued) {
 		$(this).trigger('eFileDialogComplete',[numFilesSelected, numFilesQueued]);
 		if (numFilesQueued>0) {
 			this.startUpload();
 		}
-	}
+	};
 
 	this.handlerUploadProgress = function(file, bytesLoaded) {
 		var percent = Math.ceil((bytesLoaded / file.size) * 100);
 		$(this).trigger('eUploadProgress',[file, bytesLoaded, percent]);
-	}
+	};
 
 	this.handlerUploadError = function(file, errorCode, message) {
 		$(this).trigger('eUploadError',[file, errorCode, message]);
-	}
+	};
 
 	this.handlerUploadSuccess = function(file, serverData) {
 		$(this).trigger('eUploadSuccess',[file, serverData]);
-	}
+	};
 
 	this.handlerUploadComplete = function(file) {
 		var next = this.getStats().files_queued;
@@ -232,7 +232,7 @@ ls.swfupload = (function ($) {
 			this.startUpload();
 		}
 		$(this).trigger('eUploadComplete',[file, next]);
-	}
+	};
 
 	return this;
 }).call(ls.swfupload || {},jQuery);
@@ -249,7 +249,7 @@ ls.tools = (function ($) {
 	this.ucfirst = function(str) {
 		var f = str.charAt(0).toUpperCase();
 		return f + str.substr(1, str.length-1);
-	}
+	};
 
 	/**
 	* Выделяет все chekbox с определенным css классом
@@ -262,7 +262,7 @@ ls.tools = (function ($) {
 				$(item).attr('checked', $(checkbox).attr("checked"));
 			}
 		});
-	}
+	};
 
 	/**
 	* Предпросмотр
@@ -290,7 +290,7 @@ ls.tools = (function ($) {
 				}
 			}
 		});
-	}
+	};
 
 	/**
 	* Возвращает выделенный текст на странице
@@ -309,7 +309,7 @@ ls.tools = (function ($) {
 			}
 		}
 		return text;
-	}
+	};
 
 
 	return this;
@@ -324,7 +324,7 @@ ls = (function ($) {
 	/**
 	* Глобальные опции
 	*/
-	this.options = this.options || {}
+	this.options = this.options || {};
 
 	/**
 	* Выполнение AJAX запроса, автоматически передает security key
@@ -338,7 +338,7 @@ ls = (function ($) {
 			if (typeof(v) == "boolean") {
 				params[k]=v ? 1 : 0;
 			}
-		})
+		});
 
 		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
 			url=aRouter['ajax']+url+'/';
@@ -394,12 +394,12 @@ ls = (function ($) {
 				ls.debug(x);
 			}.bind(this)
 
-		}
+		};
 
 		ls.hook.run('ls_ajaxsubmit_before', [options], this);
 		
 		form.ajaxSubmit(options);
-	}
+	};
 
 	/**
 	* Загрузка изображения
@@ -416,7 +416,7 @@ ls = (function ($) {
 				'*ajaxUploadImgAfter*'; '*/ajaxUploadImgAfter*';
 			}
 		});
-	}
+	};
 
 	/**
 	* Дебаг сообщений
@@ -425,7 +425,7 @@ ls = (function ($) {
 		if (this.options.debug) {
 			this.log.apply(this,arguments);
 		}
-	}
+	};
 
 	/**
 	* Лог сообщений
@@ -436,7 +436,7 @@ ls = (function ($) {
 		} else {
 			//alert(msg);
 		}
-	}
+	};
 
 	return this;
 }).call(ls || {},jQuery);
@@ -490,15 +490,15 @@ ls.autocomplete = (function ($) {
 				}
 			});
 		}
-	}
+	};
 
 	this.split = function(val) {
 		return val.split( /,\s*/ );
-	}
+	};
 
 	this.extractLast = function(term) {
 		return ls.autocomplete.split(term).pop();
-	}
+	};
 
 	return this;
 }).call(ls.autocomplete || {},jQuery);
