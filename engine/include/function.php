@@ -128,19 +128,16 @@ function func_generator($iLength=10) {
 /**
  * htmlspecialchars умеющая обрабатывать массивы
  *
- * @param unknown_type $data
+ * @param mixed $data
+ * @param int %walkIndex - represents the key/index of the array being recursively htmlspecialchars'ed
+ * @return void
  */
-function func_htmlspecialchars(&$data) {
-	if (is_array($data)) {
-		foreach ($data as $sKey => $value) {
-			if (is_array($value)) {
-				func_htmlspecialchars($data[$sKey]);
-			} else {
-				$data[$sKey]=htmlspecialchars($value);
-			}
-		}
-	} else {
-		$data=htmlspecialchars($data);
+function func_htmlspecialchars(&$data, $walkIndex = null) 
+{
+	if(is_string($data)){
+		$data = htmlspecialchars($data);
+	}elseif(is_array($data)){
+		array_walk($data, __FUNCTION__);
 	}
 }
 
@@ -402,7 +399,11 @@ if (!function_exists('array_intersect_key')) {
 
 if (!function_exists('class_alias')) {
     function class_alias($original, $alias) {
+    	if(!class_exists($original)){
+    		return false;
+    	}
         eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
+        return true;
     }
 }
 

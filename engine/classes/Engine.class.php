@@ -947,7 +947,9 @@ class Engine extends Object {
 		if($aInfo[Engine::CI_INHERIT]){
 			$sInheritClass = $aInfo[Engine::CI_INHERIT];
 			$sParentClass = Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
-			class_alias($sParentClass,$sClassName);
+			if(!class_alias($sParentClass,$sClassName)){
+				dump("(autoload $sParentClass) Can not load CLASS-file");
+			}
 		}elseif($aInfo[Engine::CI_CLASSPATH]){
 			require_once $aInfo[Engine::CI_CLASSPATH];
 		}elseif(!class_exists($sClassName)){

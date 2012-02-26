@@ -4,7 +4,8 @@
 	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
 
 	<script type="text/javascript">
-		{literal}
+	{literal}
+	jQuery(function($){
 		tinyMCE.init({
 			mode : "textareas",
 			theme : "advanced",
@@ -31,10 +32,11 @@
 			inline_styles:false,
 			formats : {
 				underline : {inline : 'u', exact : true},
-				 strikethrough : {inline : 's', exact : true}
+				strikethrough : {inline : 's', exact : true}
 			}
 		});
-		{/literal}
+	});
+	{/literal}
 	</script>
 {else}
 	{include file='window_load_img.tpl' sToLoad='talk_text'}

@@ -57,6 +57,7 @@
 					{literal}
 
 					<script type="text/javascript">
+					jQuery(function($){
 						tinyMCE.init({
 							mode : "textareas",
 							theme : "advanced",
@@ -82,8 +83,8 @@
 							language : TINYMCE_LANG,
 							inline_styles:false,
 							formats : {
-								 underline : {inline : 'u', exact : true},
-								 strikethrough : {inline : 's', exact : true}
+								underline : {inline : 'u', exact : true},
+								strikethrough : {inline : 's', exact : true}
 							},
 							setup : function(ed) {
 								// Display an alert onclick
@@ -94,8 +95,9 @@
 										return false;
 									}
 								});
-							 }
+							}
 						});
+					});
 					</script>
 					{/literal}
 				{else}
