@@ -42,7 +42,12 @@
 	border-left: 1px solid #c0cad5; 
 	border-right: 1px solid #c0cad5; 
 }
-.markItUpHeader ul	{ overflow: visible; zoom: 1; }
+.markItUpHeader ul	{
+	overflow: visible;
+	zoom: 1;
+	display: inline-block;
+	*display: inline; /* ie <= 7 */
+}
 .markItUpHeader ul li	{ list-style: none; float: left; position: relative; margin-right: 6px; }
 .markItUpHeader ul li: hover > ul{ display: block; }
 .markItUpHeader ul .markItUpDropMenu {
