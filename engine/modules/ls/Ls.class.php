@@ -101,10 +101,11 @@ class ModuleLs extends Module {
 		 * Ограничения на запуск отправки, чтобы не нагружать сайт
 		 * Отправляем 1 раз в день ночью в промежутке 00:00-07:00, делаем по 20 попыток отправки в день
 		 */
-		if ((int)date('G')<0 || (int)date('G')>=7) {
-			if ($aData=$this->GetMarkerFile(date("Y-m-d")) and (isset($aData['is_send']) or (isset($aData['count_try']) and $aData['count_try']>20))) {
-				return;
-			}
+		if ((int)date('G')>=7) {
+			return;
+		}
+		if ($aData=$this->GetMarkerFile(date("Y-m-d")) and (isset($aData['is_send']) or (isset($aData['count_try']) and $aData['count_try']>20))) {
+			return;
 		}
 
 		$this->aDataForSend=$this->GetDataForSendToLs();
