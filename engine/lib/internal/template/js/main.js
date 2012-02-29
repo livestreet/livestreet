@@ -340,7 +340,7 @@ ls = (function ($) {
 			}
 		});
 
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
+		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
 			url=aRouter['ajax']+url+'/';
 		}
 
@@ -376,7 +376,7 @@ ls = (function ($) {
 		if (typeof(form)=='string') {
 			form=$('#'+form);
 		}
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0) {
+		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
 			url=aRouter['ajax']+url+'/';
 		}
 
