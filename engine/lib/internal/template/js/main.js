@@ -349,17 +349,17 @@ ls = (function ($) {
 			url: url,
 			data: params,
 			dataType: more.dataType || 'json',
-			success: callback || function(msg){
-				ls.debug("base success: ");
-				ls.debug(msg);
+			success: callback || function(){
+				ls.debug("ajax success: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this),
 			error: more.error || function(msg){
-				ls.debug("base error: ");
-				ls.debug(msg);
+				ls.debug("ajax error: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this),
 			complete: more.complete || function(msg){
-				ls.debug("base complete: ");
-				ls.debug(msg);
+				ls.debug("ajax complete: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this)
 		};
 		
@@ -385,13 +385,13 @@ ls = (function ($) {
 			url: url,
 			dataType: more.dataType || 'json',
 			data: {security_ls_key: LIVESTREET_SECURITY_KEY},
-			success: callback || function(msg){
-				ls.debug("base success: ");
-				ls.debug(msg);
+			success: callback || function(){
+				ls.debug("ajax success: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this),
-			error: more.error || function(x,s,e){
-				ls.debug("base error: ");
-				ls.debug(x);
+			error: more.error || function(){
+				ls.debug("ajax error: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this)
 
 		};
