@@ -869,6 +869,15 @@ return array(
 	'plugins_activation_requires_error' => 'Plugin requires activated <b>%%plugin%%</b> plugin',
 	'plugins_submit_delete' => 'Delete plugins',
 	'plugins_delete_confirm' => 'Do you really want to delete those plugins?',
+	/**
+	 * Validation
+	 */
+	'validate_string_too_long' => 'Field %%field%% is too long (maximum is %%max%% characters).',
+	'validate_string_too_short' => 'Field %%field%% is too short (minimum is %%min%% characters)',
+	'validate_string_no_lenght' => 'Field %%field%% is of the wrong length (should be %%length%% characters)',
+	/**
+	 * System
+	 */
 	'system_error_event_args' => 'Wrong number of arguments during event addition',
 	'system_error_event_method' => 'Added event method not found',
 	'system_error_404' => 'Unfortunately there is no such page. Probably deleted or wasn\'t there in the first place.',
