@@ -258,7 +258,7 @@ function databaseErrorHandler($message, $info) {
 	/**
 	 * Если стоит вывод ошибок то выводим ошибку на экран(браузер)
 	 */
-	if (error_reporting()) {
+	if (error_reporting() && ini_get('display_errors')) {
 		exit($msg);
 	}
 }
