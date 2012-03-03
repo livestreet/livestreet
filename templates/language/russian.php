@@ -875,6 +875,17 @@ return array(
 	'validate_string_too_long' => 'Поле %%field%% слишком длинное (максимально допустимо %%max%% символов)',
 	'validate_string_too_short' => 'Поле %%field%% слишком короткое (минимально допустимо %%min%% символов)',
 	'validate_string_no_lenght' => 'Поле %%field%% неверной длины (необходимо %%length%% символов)',
+	'validate_email_not_valid' => 'Поле %%field%% не соотвествует формату email адреса',
+	'validate_number_must_integer' => 'Поле %%field%% должно быть целым числом',
+	'validate_number_must_number' => 'Поле %%field%% должно быть числом',
+	'validate_number_too_small' => 'Поле %%field%% слишком маленькое (минимально допустимо число %%min%%)',
+	'validate_number_too_big' => 'Поле %%field%% слишком большое (максимально допустимо число %%max%%)',
+	'validate_type_error' => 'Поле %%field%% должно иметь тип %%type%%',
+	'validate_date_format_invalid' => 'Поле %%field%% имеет неверный формат даты',
+	'validate_boolean_invalid' => 'Поле %%field%% должно быть %%true%% или %%false%%',
+	'validate_required_must_be' => 'Поле %%field%% должно иметь значение %%value%%',
+	'validate_required_cannot_blank' => 'Поле %%field%% не может быть пустым',
+	'validate_url_not_valid' => 'Поле %%field%% не соотвествует формату URL адреса',
 	/**
 	 * Системные сообщения
 	 */

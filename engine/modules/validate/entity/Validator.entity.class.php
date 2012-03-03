@@ -100,10 +100,13 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 				}
 			}
 		}
-		foreach ($aReplace as $sFrom => $sTo) {
-			$aReplacePairs["%%{$sFrom}%%"]=$sTo;
+		if ($aReplace) {
+			foreach ($aReplace as $sFrom => $sTo) {
+				$aReplacePairs["%%{$sFrom}%%"]=$sTo;
+			}
+			$sMsgDefault=strtr($sMsgDefault,$aReplacePairs);
 		}
-		return strtr($sMsgDefault,$aReplacePairs);
+		return $sMsgDefault;
 	}
 
 	/**

@@ -875,6 +875,17 @@ return array(
 	'validate_string_too_long' => 'Field %%field%% is too long (maximum is %%max%% characters).',
 	'validate_string_too_short' => 'Field %%field%% is too short (minimum is %%min%% characters)',
 	'validate_string_no_lenght' => 'Field %%field%% is of the wrong length (should be %%length%% characters)',
+	'validate_email_not_valid' => 'Field %%field%% is not a valid email address',
+	'validate_number_must_integer' => 'Field %%field%% must be an integer',
+	'validate_number_must_number' => 'Field %%field%% must be a number',
+	'validate_number_too_small' => 'Field %%field%% is too small (minimum is %%min%%)',
+	'validate_number_too_big' => 'Field %%field%% is too big (maximum is %%max%%)',
+	'validate_type_error' => 'Field %%field%% must be %%type%%',
+	'validate_date_format_invalid' => 'Field %%field%% is invalid format',
+	'validate_boolean_invalid' => 'Field %%field%% must be either %%true%% or %%false%%',
+	'validate_required_must_be' => 'Field %%field%% must be %%value%%',
+	'validate_required_cannot_blank' => 'Field %%field%% cannot be blank',
+	'validate_url_not_valid' => 'Field %%field%% is not a valid URL',
 	/**
 	 * System
 	 */
