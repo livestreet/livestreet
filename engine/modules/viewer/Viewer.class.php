@@ -776,22 +776,55 @@ class ModuleViewer extends Module {
 	 * Функции добавления js-скриптов и css-каскадов
 	 */
 	public function AppendScript($sJs,$aParams=array()) {
+		if ($this->ExistsHeadFileByName('js',$aParams)) {
+			return true;
+		}
 		$this->aJsInclude['append'][] = $sJs;
 		$this->aFilesParams['js'][$sJs] = $aParams;
 	}
 	public function PrependScript($sJs,$aParams=array()) {
+		if ($this->ExistsHeadFileByName('js',$aParams)) {
+			return true;
+		}
 		$this->aJsInclude['prepend'][] = $sJs;
 		$this->aFilesParams['js'][$sJs] = $aParams;		
 	}
 	public function AppendStyle($sCss,$aParams=array()) {
+		if ($this->ExistsHeadFileByName('css',$aParams)) {
+			return true;
+		}
 		$this->aCssInclude['append'][] = $sCss;
 		$this->aFilesParams['css'][$sCss] = $aParams;
 	}
 	public function PrependStyle($sCss,$aParams=array()) {
+		if ($this->ExistsHeadFileByName('css',$aParams)) {
+			return true;
+		}
 		$this->aCssInclude['prepend'][] = $sCss;		
 		$this->aFilesParams['css'][$sCss] = $aParams;
-	}	
-	
+	}
+	/**
+	 * Проверка на дубль по имени (параметр name) js или css файла
+	 * Позволяет избежать повторного подключения уже используемой библиотеки
+	 *
+	 * @param $sType
+	 * @param $aParams
+	 *
+	 * @return bool
+	 */
+	protected function ExistsHeadFileByName($sType,$aParams) {
+		if (isset($aParams['name'])) {
+			/**
+			 * Проверяем на дубликат по имени
+			 */
+			foreach($this->aFilesParams[$sType] as $aParamsFile) {
+				if (isset($aParamsFile['name']) and strtolower($aParams['name'])==strtolower($aParamsFile['name'])) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	/**
 	 * Строит массив для подключения css и js,
 	 * преобразовывает их в строку для HTML 
