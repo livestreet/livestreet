@@ -94,13 +94,14 @@ class ModuleValidate extends Module {
 		/**
 		 * Если в качестве имени валидатора указан метод объекта, то создаем специальный валидатор
 		 */
-		if(method_exists($oObject,$sName)) {
+		$sMethod='validate'.func_camelize($sName);
+		if(method_exists($oObject,$sMethod)) {
 			$oValidator=Engine::GetEntity('ModuleValidate_EntityValidatorInline');
 			if (!is_null($aFields)) {
 				$oValidator->fields=$aFields;
 			}
 			$oValidator->object=$oObject;
-			$oValidator->method=$sName;
+			$oValidator->method=$sMethod;
 			$oValidator->params=$aParams;
 			if(isset($aParams['skipOnError'])) {
 				$oValidator->skipOnError=$aParams['skipOnError'];
