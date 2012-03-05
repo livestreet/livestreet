@@ -39,11 +39,11 @@
 		{if !$oTopic->getUserQuestionIsVote()}
 			<ul class="poll-vote">
 				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-					<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="$('#topic_answer_{$oTopic->getId()}_value').val($(this).val());" /> {$aAnswer.text|escape:'html'}</label></li>
+					<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="jQuery('#topic_answer_{$oTopic->getId()}_value').val(jQuery(this).val());" /> {$aAnswer.text|escape:'html'}</label></li>
 				{/foreach}
 			</ul>
 
-			<input type="submit" value="{$aLang.topic_question_vote}" onclick="ls.poll.vote({$oTopic->getId()},$('#topic_answer_{$oTopic->getId()}_value').val());" />
+			<input type="submit" value="{$aLang.topic_question_vote}" onclick="ls.poll.vote({$oTopic->getId()},jQuery('#topic_answer_{$oTopic->getId()}_value').val());" />
 			<input type="submit" value="{$aLang.topic_question_abstain}" onclick="ls.poll.vote({$oTopic->getId()},-1)" />
 			<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
 
