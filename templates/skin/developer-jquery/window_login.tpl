@@ -1,26 +1,29 @@
 {if !$oUserCurrent}
-	<div class="login-form" id="login_form">
-		<a href="#" class="close jqmClose"></a>
-		
-		<form action="{router page='login'}" method="POST">
+	<div class="jqmWindow modal-login" id="login_form">
+		<header>
 			<h3>{$aLang.user_authorization}</h3>
-
+			<a href="#" class="close jqmClose"></a>
+		</header>
+		
+		
+		<form action="{router page='login'}" method="post">
 			{hook run='form_login_popup_begin'}
 
-			<p><label>{$aLang.user_login}:<br />
-			<input type="text" class="input-text" name="login" id="login-input"/></label></p>
+			<p><label for="login">{$aLang.user_login}:</label>
+			<input type="text" name="login" id="login" class="input-text input-width-full"></p>
 			
-			<p><label>{$aLang.user_password}:<br />
-			<input type="password" name="password" class="input-text" /></label></p>
+			<p><label for="password">{$aLang.user_password}:</label>
+			<input type="password" name="password" id="password" class="input-text input-width-full"></p>
 			
-			<p><label><input type="checkbox" name="remember" class="checkbox" checked />{$aLang.user_login_remember}</label></p>
+			<p><label><input type="checkbox" name="remember" class="input-checkbox" checked> {$aLang.user_login_remember}</label></p>
 
 			{hook run='form_login_popup_end'}
 
-			<input type="submit" name="submit_login" value="{$aLang.user_login_submit}" /><br /><br />
+			<button name="submit_login" class="button button-primary">{$aLang.user_login_submit}</button>
 			
-			<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a><br />
-			<a href="{router page='registration'}">{$aLang.user_registration}</a>
+			<br /><br />
+			
+			<a href="{router page='login'}reminder/">{$aLang.user_password_reminder}</a>
 		</form>
 	</div>
 {/if}

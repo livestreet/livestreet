@@ -1,18 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 
-<html lang="ru">
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="ru"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="ru"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="ru"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
+
 <head>
 	{hook run='html_head_begin'}
 	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
 	<title>{$sHtmlTitle}</title>
 	
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="description" content="{$sHtmlDescription}" />
-	<meta name="keywords" content="{$sHtmlKeywords}" />
+	<meta name="description" content="{$sHtmlDescription}">
+	<meta name="keywords" content="{$sHtmlKeywords}">
+	
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	{$aHtmlHeadFiles.css}
 
-	<link href="{cfg name='path.static.skin'}/images/favicon.ico" rel="shortcut icon" />
+	<link href="{cfg name='path.static.skin'}/images/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
 	{if $aHtmlRssAlternate}
@@ -23,46 +31,76 @@
 		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
 	
-	<script language="JavaScript" type="text/javascript">
-	var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
-	var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
-	var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
-	var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
-	var SESSION_ID				= '{$_sPhpSessionId}';
-	var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
 	
-	var TINYMCE_LANG='en';
-	{if $oConfig->GetValue('lang.current')=='russian'}
-		TINYMCE_LANG='ru';
-	{/if}
+	<script>
+		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
+		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+		var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
+		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
+		var SESSION_ID				= '{$_sPhpSessionId}';
+		var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
+		
+		var TINYMCE_LANG = 'en';
+		{if $oConfig->GetValue('lang.current') == 'russian'}
+			TINYMCE_LANG = 'ru';
+		{/if}
 
-	var aRouter = new Array();
-	{foreach from=$aRouter key=sPage item=sPath}
-		aRouter['{$sPage}'] = '{$sPath}';
-	{/foreach}
+		var aRouter = new Array();
+		{foreach from=$aRouter key=sPage item=sPath}
+			aRouter['{$sPage}'] = '{$sPath}';
+		{/foreach}
 	</script>
-
+	
+	
 	{$aHtmlHeadFiles.js}
-    
-	<script language="JavaScript" type="text/javascript">
-		var tinyMCE=false;
-		ls.lang.load({json var=$aLangJs});
+	
+	
+	<script>
+		var tinyMCE = false;
+		ls.lang.load({json var = $aLangJs});
 	</script>
+	
 	
 	{hook run='html_head_end'}
 </head>
 
 
-<body onload="prettyPrint()">
+
+{if $oUserCurrent}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'} {* Юзер или администраро *}
+	
+	{if $oUserCurrent->isAdministrator()}
+		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'} {* Администратор *}
+	{/if}
+{else}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'} {* Гость *}
+{/if}
+
+{if !$oUserCurrent or ($oUserCurrent and !$oUserCurrent->isAdministrator())}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'} {* Гость или юзер *}
+{/if}
+
+
+
+<body class="{$body_classes}">
 	{hook run='body_begin'}
 
+	
+	{include file='toolbar.tpl'}
+	
+	
 	<div id="container">
 		{include file='header_top.tpl'}
+		{include file='nav.tpl'}
 
 		<div id="wrapper">
-			<div id="content" {if $noSidebar}style="width: 915px"{/if}>
+			{if !$noSidebar && $sidebarPosition == 'left'}
+				{include file='sidebar.tpl'}
+			{/if}
+		
+			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
 				{include file='window_login.tpl'}
-				{include file='nav.tpl'}
+				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				
 				{hook run='content_begin'}

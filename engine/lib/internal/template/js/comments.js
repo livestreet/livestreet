@@ -75,27 +75,18 @@ ls.comments = (function ($) {
 
 	// Показывает/скрывает форму комментирования
 	this.toggleCommentForm = function(idComment, bNoFocus) {
-		var newReplay = $("#reply_"+idComment);
-		if(!newReplay.length){
-			return;
-		}
-		$('#comment_preview_'+this.iCurrentShowFormComment).empty().hide();
-		if (this.iCurrentShowFormComment==idComment && newReplay.is(':visible')) {
-			newReplay.hide();
-			return;
-		}
-		if (this.options.wysiwyg) {
-			tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
-		}
-		$('#form_comment').appendTo(newReplay);
+		if (this.iCurrentShowFormComment == idComment && idComment == 0) return;
+	
+		$('#comment_preview_' + this.iCurrentShowFormComment).remove();
 		$('#form_comment_text').val('');
+		
+		if (this.iCurrentShowFormComment == idComment) idComment = 0;
+		
+		$('#reply').insertAfter('#comment_id_'+idComment);
 		$('#form_comment_reply').val(idComment);
-		$('.reply').hide();
-		newReplay.show();
-		this.iCurrentShowFormComment=idComment;
-		if (this.options.wysiwyg) {
-			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
-		}
+		
+		this.iCurrentShowFormComment = idComment;
+		
 		if (!bNoFocus) $('#form_comment_text').focus();
 	};
 
@@ -205,14 +196,13 @@ ls.comments = (function ($) {
 
 	// Предпросмотр комментария
 	this.preview = function(divPreview) {
-		var divPreview = divPreview ? divPreview : 'comment_preview_'+this.iCurrentShowFormComment;
-		ls.debug(divPreview);
 		if (this.options.wysiwyg) {
 			$("#form_comment_text").val(tinyMCE.activeEditor.getContent());
 		}
 		if ($("#form_comment_text").val() == '') return;
-		$("#"+divPreview).show();
-		ls.tools.textPreview('form_comment_text', false, divPreview);
+		$("#comment_preview_" + this.iCurrentShowFormComment).remove();
+		$('#reply').before('<div id="comment_preview_' + this.iCurrentShowFormComment +'" class="comment-preview text"></div>');
+		ls.tools.textPreview('form_comment_text', false, 'comment_preview_' + this.iCurrentShowFormComment);
 	};
 
 
@@ -315,6 +305,8 @@ ls.comments = (function ($) {
 		this.calcNewComments();
 		this.checkFolding();
 		this.toggleCommentForm(this.iCurrentShowFormComment);
+		
+		if (this.options.wysiwyg) tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		
 		if (typeof(this.options.wysiwyg)!='number') {
 			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);

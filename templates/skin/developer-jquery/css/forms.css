@@ -1,12 +1,28 @@
-.input-wide { width: 98%; _width: 97%; padding: 2px; }
-.input-100 { width: 100px; padding: 2px; }
-.input-200 { width: 200px; padding: 2px; }
-.input-300 { width: 300px; padding: 2px; }
-.note { font-size: 12px; color: #aaa; }
-.checkbox { position: relative; top: 2px; margin: 0 4px 0 1px; }
+.input-text 		{ width: 150px; padding: 5px; border: 1px solid #ddd; border-radius: 3px; -moz-box-sizing: border-box; box-sizing: border-box; }
+.input-text:focus 	{ border-color: #4D90FE; box-shadow: 0 0 3px #4D90FE; }
+.input-checkbox 	{ position: relative; top: 1px; margin: 0 2px 0 1px; }
+
+.input-width-full 	{ width: 100%; }
+.input-width-50 	{ width: 50px; }
+.input-width-100 	{ width: 100px; }
+.input-width-150 	{ width: 150px; }
+.input-width-200 	{ width: 200px; }
+.input-width-300 	{ width: 300px; }
+.input-width-400 	{ width: 400px; }
+.input-width-500 	{ width: 500px; }
+
 .question-list { margin-bottom: 15px; }
 .question-list li { margin-bottom: 3px; }
 
-.markItUp { width: 100%; }
-.markItUpEditor { width: 100%; -moz-box-sizing: border-box; box-sizing: border-box; }
-.markItUpHeader { width: 100%; -moz-box-sizing: border-box; box-sizing: border-box; }
+select 		{ padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
+
+fieldset { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
+fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
+
+input:-moz-placeholder { color: #aaa;}
+
+form p { margin-bottom: 20px; }
+form label { display: block; margin-bottom: 3px; }
+
+.note { display: block; margin-top: 3px; font-size: 12px; color: #aaa; }
+.note.note-header { margin-bottom: 20px; }

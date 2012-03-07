@@ -1,4 +1,4 @@
-<ul class="menu">
+<ul class="nav nav-nested">
 	<li {if $sMenuSubItemSelect=='add'}class="active"{/if}>
 		<a href="{cfg name='path.root.web'}/{if $sMenuItemSelect=='add_blog'}topic{else}{$sMenuItemSelect}{/if}/add/">{$aLang.topic_menu_add}</a>
 		{if $sMenuSubItemSelect=='add'}

@@ -1,0 +1,14 @@
+/* --------------------------------------------
+	СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
+-------------------------------------------- */
+
+.profile { min-height: 48px; margin-bottom: 0; padding: 0 100px 20px 65px; position: relative; border-bottom: 1px solid #ddd; }
+
+.profile .avatar 	{ position: absolute; top: 0; left: 0; }
+.profile .vote 		{ position: absolute; top: 0; right: 0; background: #eee; padding: 3px 6px; border-radius: 3px; }
+.profile .strength 	{ position: absolute; top: 28px; right: 0; background: #eee; padding: 3px 6px; border-radius: 3px; }
+
+.profile .user-login { font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 5px; }
+.profile .user-name { color: #777; }
+
+.profile-page-header { font-size: 12px; font-weight: bold; margin-bottom: 20px; background: #eee; color: #555; padding: 5px 10px 6px; }

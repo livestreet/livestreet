@@ -1,5 +1,5 @@
-<div class="block">
-	<h2>{$aLang.user_stats}</h2>
+<section class="block">
+	<h3>{$aLang.user_stats}</h3>
 	
 	<ul>
 		<li>{$aLang.user_stats_all}: <strong>{$aStat.count_all}</strong></li>
@@ -14,7 +14,8 @@
 		<li>{$aLang.user_stats_sex_woman}: <strong>{$aStat.count_sex_woman}</strong></li>
 		<li>{$aLang.user_stats_sex_other}: <strong>{$aStat.count_sex_other}</strong></li>
 	</ul>
-</div>
+</section>
+
 
 {insert name="block" block='tagsCountry'}
 {insert name="block" block='tagsCity'}

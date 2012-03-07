@@ -4,6 +4,7 @@
 	{else}
 		{assign var="sGetSep" value='?'}
 	{/if}
+	
 	<div class="pagination pagination-comments">				
 		<ul>
 			<li>{$aLang.paging}:</li>				
@@ -43,7 +44,6 @@
 				{/if}
 			
 			{/if}
-			
 		</ul>
 	</div>
 {/if}

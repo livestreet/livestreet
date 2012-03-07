@@ -1,20 +1,18 @@
-<div class="block">
-	<h2>{$aLang.block_friends}</h2>
+<section class="block">
+	<h3>{$aLang.block_friends}</h3>
 
 	{if $aUsersFriend}
-		<div class="block-content">
-			<ul class="list" id="friends">
-				{foreach from=$aUsersFriend item=oFriend}
-					<li><input id="talk_friend_{$oFriend->getId()}" type="checkbox" name="friend[{$oFriend->getId()}]" class="checkbox" /><label for="talk_friend_{$oFriend->getId()}" id="talk_friend_{$oFriend->getId()}_label">{$oFriend->getLogin()}</label></li>
-				{/foreach}
-			</ul>
-		</div>
+		<ul class="list" id="friends">
+			{foreach from=$aUsersFriend item=oFriend}
+				<li><input id="talk_friend_{$oFriend->getId()}" type="checkbox" name="friend[{$oFriend->getId()}]" class="checkbox" /><label for="talk_friend_{$oFriend->getId()}" id="talk_friend_{$oFriend->getId()}_label">{$oFriend->getLogin()}</label></li>
+			{/foreach}
+		</ul>
 		
-		<div class="bottom">
+		<footer>
 			<a href="#" id="friend_check_all">{$aLang.block_friends_check}</a> | 
 			<a href="#" id="friend_uncheck_all">{$aLang.block_friends_uncheck}</a>
-		</div>
+		</footer>
 	{else}
-		{$aLang.block_friends_empty}
+		<div class="notice-empty">{$aLang.block_friends_empty}</div>
 	{/if}
-</div>
+</section>

@@ -1,4 +1,4 @@
-<div id="sidebar">
+<aside id="sidebar" {if $sidebarPosition == 'left'}class="sidebar-left"{/if}>
 	{if isset($aBlocks.right)}
 		{foreach from=$aBlocks.right item=aBlock}
 			{if $aBlock.type=='block'}
@@ -9,4 +9,4 @@
 			{/if}
 		{/foreach}
 	{/if}
-</div>
+</aside>

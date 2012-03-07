@@ -1,30 +1,18 @@
-{if $oUserProfile}
-
-{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
-	<div class="block">				
-		<ul id="profile_actions">
-			{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
-			<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
-		</ul>
-	</div>
-{/if}
-
-
-<div class="block">
-	{if $oUserProfile->getProfileIcq()}
-		<h2>{$aLang.profile_social_contacts}</h2>
-		<ul>
-			{if $oUserProfile->getProfileIcq()}
-				<li>ICQ: <a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
-			{/if}					
-		</ul>
-	{/if}
-	
-	<br />
-	
+<section class="block block-type-profile">
 	{if $oUserProfile->getProfileFoto()}
-		<img src="{$oUserProfile->getProfileFoto()}" alt="photo" />
+		<a href="{router page='profile'}{$oUserProfile->getLogin()}/">
+			<img src="{$oUserProfile->getProfileFoto()}" alt="photo" class="profile-photo" />
+		</a>
+	{else}
+		<a href="{router page='profile'}{$oUserProfile->getLogin()}/">
+			<img src="{cfg name='path.static.skin'}/images/no_photo.png" alt="photo" class="profile-photo" />
+		</a>
 	{/if}
-</div>
 
-{/if}
+	<ul class="nav nav-profile">
+		<li class="active"><a href="#">Стена</a></li>
+		<li><a href="#">Информация</a></li>
+		<li><a href="#">Публикации</a></li>
+		<li><a href="#">Избранное</a></li>
+	</ul>
+</section>

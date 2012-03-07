@@ -1,28 +1,54 @@
-{include file='header.tpl' menu="profile"}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl'}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
 {assign var="oVote" value=$oUserProfile->getVote()}
 			
-<div class="user-profile">
+			
+<div class="profile">
+	<img src="{$oUserProfile->getProfileAvatarPath(48)}" alt="avatar" class="avatar" />
+	
+	<div id="vote_area_user_{$oUserProfile->getId()}" class="vote {if $oUserProfile->getRating()>=0}vote-count-positive{else}vote-count-negative{/if} {if $oVote} voted {if $oVote->getDirection()>0}voted-up{elseif $oVote->getDirection()<0}voted-down{/if}{/if}">
+		<a href="#" class="vote-up" onclick="return ls.vote.vote({$oUserProfile->getId()},this,1,'user');"></a>
+		<div id="vote_total_user_{$oUserProfile->getId()}" class="vote-count" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{$oUserProfile->getRating()}</div>
+		<a href="#" class="vote-down" onclick="return ls.vote.vote({$oUserProfile->getId()},this,-1,'user');"></a>
+	</div>
+	
 	<p class="strength">
 		{$aLang.user_skill}: <strong class="total" id="user_skill_{$oUserProfile->getId()}">{$oUserProfile->getSkill()}</strong>
 	</p>
 
-
-	<div id="vote_area_user_{$oUserProfile->getId()}" class="voting {if $oUserProfile->getRating()>=0}positive{else}negative{/if} {if !$oUserCurrent || $oUserProfile->getId()==$oUserCurrent->getId()}guest{/if} {if $oVote} voted {if $oVote->getDirection()>0}plus{elseif $oVote->getDirection()<0}minus{/if}{/if}">
-		<a href="#" class="plus" onclick="return ls.vote.vote({$oUserProfile->getId()},this,1,'user');"></a>
-		<div id="vote_total_user_{$oUserProfile->getId()}" class="total" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{$oUserProfile->getRating()}</div>
-		<a href="#" class="minus" onclick="return ls.vote.vote({$oUserProfile->getId()},this,-1,'user');"></a>
-	</div>
-
-
-	<img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" class="avatar" />
-	<h3>{$oUserProfile->getLogin()}</h3>
+	
+	<h2 class="page-header user-login">{$oUserProfile->getLogin()}</h2>
+	
 	{if $oUserProfile->getProfileName()}
-		{$oUserProfile->getProfileName()|escape:'html'}					
-	{/if}										
+		<p class="user-name">{$oUserProfile->getProfileName()|escape:'html'}</p>
+	{/if}
+
+	{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}				
+		<ul id="profile_actions">
+			{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
+			<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
+		</ul>
+	{/if}	
 </div>
 
+<h3 class="profile-page-header">Стена</h3>
+
+<div id="menu">
+	{include file='menu.profile.tpl'}
+</div>
+
+
+	{if $oUserProfile->getProfileIcq()}
+		<h3>{$aLang.profile_social_contacts}</h3>
+		
+		<ul>
+			{if $oUserProfile->getProfileIcq()}
+				<li>ICQ: <a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
+			{/if}					
+		</ul>
+	{/if}
 
 {if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
 	<h2>{$aLang.profile_privat}</h2>
@@ -134,7 +160,7 @@
 			<td>{$aLang.profile_blogs_self}:</td>
 			<td>							
 				{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
-					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
 				{/foreach}
 			</td>
 		</tr>

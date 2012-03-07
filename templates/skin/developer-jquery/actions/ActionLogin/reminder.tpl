@@ -2,16 +2,16 @@
 {include file='header.tpl'}
 
 
-<div class="center">
-	<form action="{router page='login'}reminder/" method="POST">
-		<h2>{$aLang.password_reminder}</h2>
 
-		<p><label for="mail">{$aLang.password_reminder_email}<br />
-		<input type="text" name="mail" id="name" class="input-200" /></label></p>	
+<h2 class="page-header">{$aLang.password_reminder}</h2>
 
-		<input type="submit" name="submit_reminder" value="{$aLang.password_reminder_submit}" />
-	</form>
-</div>
+<form action="{router page='login'}reminder/" method="POST">
+	<p><label for="mail">{$aLang.password_reminder_email}</label>
+	<input type="text" name="mail" id="name" class="input-200" /></p>	
+
+	<input type="submit" name="submit_reminder" value="{$aLang.password_reminder_submit}" />
+</form>
+
 
 
 {include file='footer.tpl'}

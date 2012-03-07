@@ -1,11 +1,8 @@
 {include file='header.tpl'}
-
-
-<h2>{$aLang.top_comments}</h2>	
-
 {include file='menu.top.tpl'}
 
-<ul class="switcher">
+
+<ul class="nav nav-pills">
 	<li {if $aParams[0] and $aParams[0]=='24h'}class="active"{/if}><a href="{router page='top'}comment/24h/">{$aLang.blog_menu_top_period_24h}</a></li>
 	<li {if $aParams[0] and $aParams[0]=='7d'}class="active"{/if}><a href="{router page='top'}comment/7d/">{$aLang.blog_menu_top_period_7d}</a></li>
 	<li {if $aParams[0] and $aParams[0]=='30d'}class="active"{/if}><a href="{router page='top'}comment/30d/">{$aLang.blog_menu_top_period_30d}</a></li>

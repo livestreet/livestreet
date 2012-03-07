@@ -1,0 +1,12 @@
+/* --------------------------------------------
+	БЛОГ
+-------------------------------------------- */
+
+.blog { padding: 15px; background: #eee; margin-bottom: 40px; }
+
+.blog .blog-header { margin-bottom: 20px; position: relative; padding-left: 63px; padding-right: 100px; }
+.blog .blog-header .page-header { margin-bottom: 7px; }
+.blog .blog-header .avatar { position: absolute; top: 0; left: 0; }
+.blog .blog-header .vote { position: absolute; top: 0; right: 0; }
+
+.blog .blog-description { margin-bottom: 20px; }

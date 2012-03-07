@@ -1,7 +1,7 @@
 var ls = ls || {};
 
 /**
-* Динамическая подгрузка блоков
+* Голосование
 */
 ls.vote = (function ($) {
 	/**
@@ -10,10 +10,10 @@ ls.vote = (function ($) {
 	this.options = {
 		classes: {
 			voted: 		'voted',
-			plus: 		'plus',
-			minus:  	'minus',
-			positive:	'positive',
-			negative:  	'negative'
+			plus: 		'voted-up',
+			minus:  	'voted-down',
+			positive:	'vote-count-positive',
+			negative:  	'vote-count-negative'
 		},
 		prefix_area: 'vote_area_',
 		prefix_total: 'vote_total_',

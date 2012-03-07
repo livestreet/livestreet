@@ -1,7 +1,7 @@
 {include file='header.tpl' menu='blog'}
-
-
 {include file='topic_list.tpl'}
+
+
 
 {if count($aTopics)}
     {if !$bDisableGetMoreButton}
@@ -10,7 +10,9 @@
         <a class="stream-get-more" id="userfeed_get_more" href="javascript:ls.userfeed.getMore()">{$aLang.userfeed_get_more} &darr;</a>
     {/if}
 {else}
-    <p style="margin-left:30px">{$aLang.userfeed_no_events}</p>
+    {$aLang.userfeed_no_events}
 {/if}
+
+
 
 {include file='footer.tpl'}

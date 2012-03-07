@@ -1,4 +1,4 @@
-<ul class="menu">
+<ul class="nav nav-nested">
 	<li {if $sMenuItemSelect=='index'}class="active"{/if}>
 		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}<a href="{router page='new'}" class="new">+{$iCountTopicsNew}</a>{/if}
 		{if $sMenuItemSelect=='index'}

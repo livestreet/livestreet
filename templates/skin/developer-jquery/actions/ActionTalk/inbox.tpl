@@ -49,7 +49,7 @@
 		</tbody>
 	</table>
 
-	<input type="submit" name="submit_talk_del" value="{$aLang.talk_inbox_delete}" onclick="return (jQuery('.form_talks_checkbox:checked').size()==0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" />
+	<button name="submit_talk_del" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');">{$aLang.talk_inbox_delete}</button>
 </form>
 
 			

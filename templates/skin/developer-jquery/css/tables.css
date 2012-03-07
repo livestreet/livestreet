@@ -1,0 +1,20 @@
+/* -------------------------------------------------------------------
+	“¿¡À»÷€
+------------------------------------------------------------------- */
+
+.table { width: 100%; margin-bottom: 15px; }
+.table th { text-align: left; }
+.table td, .table th { border-bottom: 1px solid #eee; padding: 10px; }
+.table tr.active td { background: #CBF4BC; }
+.table .align-center { text-align: center; }
+.table .valign-middle { vertical-align: middle; }
+
+.table.table-blogs td.table-blogs-cell-name 	{ width: 30%; }
+.table.table-blogs td.table-blogs-cell-name .avatar { float: left; margin-right: 10px; }
+.table.table-blogs td.table-blogs-cell-rating 	{ width: 15%; font-weight: bold; }
+.table.table-blogs .table-blogs-cell-readers 	{ width: 15%; text-align: center; vertical-align: middle; }
+.table.table-blogs .table-blogs-cell-join 		{ text-align: center; vertical-align: middle; }
+.table.table-blogs .table-blogs-cell-rating 	{ text-align: center; vertical-align: middle; }
+
+.table.table-plugins .table-plugins-cell-checkbox { width: 20px; padding: 12px 0 10px 10px; }
+.table.table-plugins h3 { font-weight: bold; font-size: 17px; line-height: 20px; margin-bottom: 5px; }

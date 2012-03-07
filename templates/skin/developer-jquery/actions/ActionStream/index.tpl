@@ -1,7 +1,7 @@
 {include file='header.tpl'}
 
 
-<h2 class="stream-header">{$aLang.stream_personal_title}</h2>
+<h2 class="page-header">{$aLang.stream_personal_title}</h2>
 
 {if count($aStreamEvents)}
 	<ul class="stream-list" id="stream-list">

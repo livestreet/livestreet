@@ -1,47 +1,41 @@
 .topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+.topic:last-child { margin-bottom: 0; }
 
-/* Title */
-.topic .title a { color: #333; }
-.topic .title a.title-blog { color: #333; }
-.topic .title a.title-topic { color: #333; }
-.topic .title a:hover { color: #666; }
+/* Header */
+.topic .topic-header .topic-title 		{ font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
+.topic .topic-header .topic-title a 	{ text-decoration: none; }
+.topic .topic-header .topic-url 		{ margin-bottom: 15px; }
+.topic .topic-header .topic-url a 		{ background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
+.topic .topic-header .topic-info 		{ margin-bottom: 25px; color: #777; }
+.topic .topic-header .topic-info time 	{ margin-right: 15px; }
 
 /* Content */
-.topic .content { overflow: hidden; zoom: 1; margin-bottom: 15px; }
-.topic .content p { margin-bottom: 18px; }
-.topic .content blockquote { background: #fafafa; padding: 10px 15px; color: #555; margin-bottom: 5px; clear: both; }
-.topic .content pre, .comment .content pre { background: #fafafa; border: 1px solid #dce6f0; margin-bottom: 10px; overflow: auto; padding: 5px 10px; }
-.topic .content ul { list-style-type: disc; margin-left: 17px; }
-.topic .content ol { list-style-type: decimal; margin-left: 30px; }
-.topic .content img[align="right"] { margin: 4px 0 5px 15px; }
-.topic .content img[align="left"] { margin: 4px 15px 10px 0; }
-.topic .content img.image-center { display: block; margin: 0 auto; }
+.topic .topic-content { margin-bottom: 15px; }
+.topic .topic-content.text { color: #333; }
 
 /* Tags */
-.topic .tags { margin: 0 0 6px; padding-left: 23px; background: url(../images/tag.png) no-repeat 0 2px; }
-.topic .tags li { display: inline; color: #888; }
-.topic .tags li a { color: #888; text-decoration: none; }
-.topic .tags li a:hover { color: #333; }
+.topic .topic-footer .topic-tags 			{ margin: 0 0 15px; }
+.topic .topic-footer .topic-tags li 		{ display: inline; color: #888; }
 
 /* Info */
-.topic .info { overflow: hidden; zoom: 1; background: #fbfbfb; padding: 5px 15px; }
-.topic .info li { float: left; margin-right: 15px; }
-.topic .info li a { text-decoration: none; }
+.topic .topic-footer .topic-info 		{ overflow: hidden; background: #eee; border-radius: 3px; }
+.topic .topic-footer .topic-info li 	{ float: left; padding: 8px 15px;border-right: 1px solid #fff; }
+.topic .topic-footer .topic-info li a 	{ text-decoration: none; }
 
-.topic .info li.date { color: #777; }
-.topic .info li.username a { font-weight: bold; color: #333; }
-.topic .info li.username a:hover { text-decoration: underline; }
-.topic .info li.voting { padding-right: 15px; border-right: 1px solid #ddd; }
-.topic .info li.comments-link a { padding-left: 15px; color: #333; font-weight: bold; background: url(../images/comments.png) no-repeat 0 2px; }
-.topic .info li.comments-link a span { color: #777; }
-.topic .info li.comments-link a:hover { text-decoration: underline; }
+.topic .topic-footer .topic-info li.topic-info-author a 		{ font-weight: bold; color: #333; }
+.topic .topic-footer .topic-info li.topic-info-author a:hover 	{ text-decoration: underline; }
+.topic .topic-footer .topic-info li.topic-info-comments a		{  }
+.topic .topic-footer .topic-info li.topic-info-comments a span 	{ color: #777; }
+.topic .topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
 
 /* Poll */
-.topic .poll { margin-bottom: 15px; }
+.topic .poll { margin-bottom: 15px; background: #f7f7f7; padding: 15px; }
 
-.topic .poll .poll-vote { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 10px; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-.topic .poll .poll-vote li { margin-bottom: 5px; }
+.topic .poll .poll-vote { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.topic .poll .poll-vote li { margin-bottom: 10px; }
+.topic .poll .poll-vote li:last-child { margin-bottom: 0; }
 .topic .poll .poll-vote li label { display: inline; }
+.topic .poll .poll-vote li input { position: relative; top: 1px; margin-right: 2px; }
 
 .topic .poll .poll-result { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
 .topic .poll .poll-result li { margin-bottom: 20px; }
@@ -52,24 +46,24 @@
 .topic .poll .poll-result li dl dd div { height: 5px; margin-top: 5px; background: #ccc; overflow: hidden; }
 .topic .poll .poll-result li.most dl dd div { background: #555; }
 
-.topic .poll .poll-total { color: #aaa; }
+.topic .poll .poll-total { color: #aaa; margin-top: 15px; }
 
 /* Topic Photo */
-.topic.photo {  }
-.topic.photo .topic-photo-preview { position: relative; margin-bottom: 15px; }
-.topic.photo .topic-photo-preview img { vertical-align: top; }
-.topic.photo .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
-.topic.photo .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
+.topic.topic-type-photoset {  }
+.topic.topic-type-photoset .topic-photo-preview { position: relative; margin-bottom: 15px; }
+.topic.topic-type-photoset .topic-photo-preview img { vertical-align: top; }
+.topic.topic-type-photoset .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
+.topic.topic-type-photoset .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
 
-.topic.photo .topic-photo-images { padding-top: 10px; }
-.topic.photo .topic-photo-images h2 { border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 15px; }
-.topic.photo .topic-photo-images ul { overflow: hidden; zoom: 1; }
-.topic.photo .topic-photo-images ul li { float: left; margin: 0 9px 9px 0; position: relative; }
-.topic.photo .topic-photo-images ul li .image-number { display: none; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 1px 6px; font-size: 11px; background: rgba(0,0,0,.6); }
-.topic.photo .topic-photo-images ul li:hover .image-number { display: block; }
-.topic.photo .topic-photo-images ul li img { vertical-align: top; }
-.topic.photo .topic-photo-images .topic-photo-more { display: block; border-top: 1px solid #dbe6f0; text-align: center; padding: 10px 0; margin-bottom: 15px; text-decoration: none; background: #f3f7fa; color: #7b90a5; }
-.topic.photo .topic-photo-images .topic-photo-more:hover { background: #eaf2f8; }
+.topic.topic-type-photoset .topic-photo-images { padding-top: 10px; margin-bottom: 15px; }
+.topic.topic-type-photoset .topic-photo-images h2 { border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 15px; }
+.topic.topic-type-photoset .topic-photo-images ul { overflow: hidden; zoom: 1; }
+.topic.topic-type-photoset .topic-photo-images ul li { float: left; margin: 0 9px 9px 0; position: relative; }
+.topic.topic-type-photoset .topic-photo-images ul li .image-number { display: none; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 1px 6px; font-size: 11px; background: rgba(0,0,0,.6); }
+.topic.topic-type-photoset .topic-photo-images ul li:hover .image-number { display: block; }
+.topic.topic-type-photoset .topic-photo-images ul li img { vertical-align: top; }
+.topic.topic-type-photoset .topic-photo-images .topic-photo-more { display: block; border-top: 1px solid #dbe6f0; text-align: center; padding: 10px 0; margin-bottom: 15px; text-decoration: none; background: #f3f7fa; color: #7b90a5; }
+.topic.topic-type-photoset .topic-photo-images .topic-photo-more:hover { background: #eaf2f8; }
 
 .topic-photo-upload { background: #fafafa; padding: 15px 15px 15px; margin-bottom: 20px; }
 .topic-photo-upload h2 { margin-bottom: 15px; }

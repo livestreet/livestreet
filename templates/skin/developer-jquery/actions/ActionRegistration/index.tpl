@@ -2,37 +2,39 @@
 {include file='header.tpl'}
 
 
-<div class="center">
-	<form action="{router page='registration'}" method="POST">
-		<h2>{$aLang.registration}</h2>
 
-		{hook run='form_registration_begin'}
+<h2 class="page-header">{$aLang.registration}</h2>
 
-		<p><label>{$aLang.registration_login}<br />
-		<input type="text" name="login" value="{$_aRequest.login}" class="input-wide" /><br />
-		<span class="note">{$aLang.registration_login_notice}</span></label></p>
 
-		<p><label>{$aLang.registration_mail}<br />
-		<input type="text" name="mail" value="{$_aRequest.mail}" class="input-wide" /><br />
-		<span class="note">{$aLang.registration_mail_notice}</span></label></p>
+<form action="{router page='registration'}" method="post">
+	{hook run='form_registration_begin'}
 
-		<p><label>{$aLang.registration_password}<br />
-		<input type="password" name="password" value="" class="input-wide" /><br />
-		<span class="note">{$aLang.registration_password_notice}</span></label></p>
+	<p><label for="login">{$aLang.registration_login}</label>
+	<input type="text" name="login" id="login" value="{$_aRequest.login}" class="input-text input-width-300" />
+	<small class="note">{$aLang.registration_login_notice}</small></p>
 
-		<p><label>{$aLang.registration_password_retry}<br />
-		<input type="password" value="" id="repass" name="password_confirm" class="input-wide" /></label></p>
+	<p><label for="mail">{$aLang.registration_mail}</label>
+	<input type="text" name="mail" id="mail" value="{$_aRequest.mail}" class="input-text input-width-300" />
+	<small class="note">{$aLang.registration_mail_notice}</small></p>
 
-		{$aLang.registration_captcha}<br />
-		<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();" />
+	<p><label for="password">{$aLang.registration_password}</label>
+	<input type="password" name="password" id="password" value="" class="input-text input-width-300" />
+	<small class="note">{$aLang.registration_password_notice}</small></p>
 
-		<p><input type="text" name="captcha" value="" maxlength="3" class="input-100" /></p>
+	<p><label for="repass">{$aLang.registration_password_retry}</label>
+	<input type="password" value="" id="repass" name="password_confirm" class="input-text input-width-300" /></p>
 
-		{hook run='form_registration_end'}
+	<p><label for="captcha">{$aLang.registration_captcha}</label>
+	<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" 
+		 onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();"
+		 class="mb-10" /><br />
+	<input type="text" name="captcha" id="captcha" value="" maxlength="3" class="input-text input-width-100" /></p>
 
-		<input type="submit" name="submit_register" value="{$aLang.registration_submit}" />
-	</form>
-</div>
+	{hook run='form_registration_end'}
+
+	<input type="submit" name="submit_register" value="{$aLang.registration_submit}" class="button" />
+</form>
+
 
 
 {include file='footer.tpl'}

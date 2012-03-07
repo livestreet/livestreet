@@ -1,10 +1,11 @@
 {if $aCountryList && count($aCountryList)>0}
-	<div class="block">				
-		<h2>{$aLang.block_country_tags}</h2>					
-		<ul class="cloud">
+	<section class="block">				
+		<h3>{$aLang.block_country_tags}</h3>
+		
+		<ul class="tag-cloud">
 			{foreach from=$aCountryList item=aCountry}
-				<li><a class="w{$aCountry.size}" rel="tag" href="{router page='people'}country/{$aCountry.name|escape:'url'}/">{$aCountry.name|escape:'html'}</a></li>	
+				<li><a class="tag-size-{$aCountry.size}" href="{router page='people'}country/{$aCountry.name|escape:'url'}/">{$aCountry.name|escape:'html'}</a></li>	
 			{/foreach}					
 		</ul>									
-	</div>
+	</section>
 {/if}

@@ -1,77 +1,181 @@
-/* Voting */
-.voting { overflow: hidden; zoom: 1; }
 
-.voting .total { float: left; padding: 0 7px; font-weight: bold; color: #aaa; }
-.voting .total a { text-decoration: none; color: #999; outline: none; }
+/* Голосование 
+---------------------------------------------------------------*/
+.vote {  }
 
-.voting.positive .total { color: #390; }
-.voting.negative .total { color: #f00; }
+.vote .vote-count { display: inline-block; font-weight: bold; color: #aaa; }
+.vote .vote-count a { text-decoration: none; color: #999; outline: none; }
 
-.voting .plus,
-.voting .minus 			{ width: 10px; height: 10px; float: left; display: block; background: url(../images/voting.png) no-repeat; position: relative; top: 4px; outline: none; }
-.voting .plus 			{ background-position: 0 0; }
-.voting .minus 			{ background-position: -20px 0; }
-.voting .plus:hover 	{ background-position: -10px 0; }
-.voting .minus:hover 	{ background-position: -30px 0; }
+.vote.vote-count-positive .vote-count { color: #390; }
+.vote.vote-count-negative .vote-count { color: #f00; }
 
-.voting.voted.plus 	.plus 			{ background-position: -10px 0; }
-.voting.voted.minus .minus 			{ background-position: -30px 0; }
-.voting.voted.plus 	.minus:hover 	{ background-position: -20px 0; }
-.voting.voted.minus .plus:hover 	{ background-position: 0 0; }
+.vote .vote-up,
+.vote .vote-down 		{ display: inline-block; cursor: pointer; vertical-align: text-top; width: 14px; height: 14px; background: url(../images/icons.png) no-repeat; opacity: .5; }
+.vote .vote-up 			{ background-position: -408px -96px; }
+.vote .vote-down 		{ background-position: -433px -96px; }
+.vote .vote-up:hover 	{ opacity: .8; }
+.vote .vote-down:hover 	{ opacity: .8; }
 
-.voting.guest .plus:hover 	{ background-position: 0 0; }
-.voting.guest .minus:hover 	{ background-position: -20px 0; }
-
-
-/* Favorite */
-.favourite 			{ background: url(../images/favorite.png) no-repeat; display: block; height: 16px; width: 16px; position: relative; top: 1px; float: left;}
-.favourite:hover 	{ background-position: 0 -16px !important; }
-.favourite.active 	{ background-position: 0 -16px; }
-.favourite-count    { color: #333; font-weight: bold; float: left; margin-left: 2px; }
+.vote.voted.voted-up 	.vote-up 			{ opacity: 1; }
+.vote.voted.voted-down 	.vote-down 			{ opacity: 1; }
+.vote.voted.voted-up 	.vote-down:hover 	{ opacity: .3; }
+.vote.voted.voted-down 	.vote-up:hover 		{ opacity: .3; }
 
 
-/* Pagination */
+
+/* Избранное 
+---------------------------------------------------------------*/
+.favourite 			{ display: inline-block; width: 14px; height: 14px; vertical-align: text-top; background: url(../images/icons.png) -96px 0 no-repeat; opacity: .3; cursor: pointer; }
+.favourite.active 	{ opacity: 1; }
+.favourite:hover 	{ opacity: .8; }
+.favourite-count    { margin-left: 0; font-weight: bold; }
+
+
+
+/* Пагинация 
+---------------------------------------------------------------*/
 .pagination ul li { display: inline; margin-right: 5px; }
 .pagination ul li.active { color: #aaa; }
 .pagination.pagination-comments { margin-bottom: 15px; }
 
 
-/* Switcher */
-.switcher { overflow: hidden; zoom: 1; margin-bottom: 10px; }
-.switcher li { float: left; margin-right: 3px; }
-.switcher li a { float: left; padding: 1px 10px 2px; text-decoration: none; color: #777; background: #eee; }
-.switcher li.active a {  border: 0; color: #eee; background: #555; }
 
-.switcher-block { overflow: hidden; zoom: 1; margin-bottom: 10px; }
-.switcher-block li { float: left; padding: 1px 10px 2px; margin-right: 3px; color: #777; background: #eee; cursor: pointer; }
-.switcher-block li:hover { background: #ddd; }
-.switcher-block li.active { color: #eee; background: #555; }
-
-
-/* System messages */
-.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
-.system-message-notice { background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
-
-
-/* Actions */
+/* Actions 
+---------------------------------------------------------------*/
 .actions { overflow: hidden; zoom: 1; margin-bottom: 10px; }
-.actions li a { overflow: hidden; zoom: 1; margin-bottom: 10px; color: #333; text-decoration: none; }
+.actions li a { overflow: hidden; zoom: 1; margin-bottom: 10px; text-decoration: none; }
 .actions li { float: left; margin-right: 10px; }
-.actions li .edit { padding-left: 15px; background: url(../images/edit.png) no-repeat 0 1px; }
-.actions li .delete { padding-left: 14px; background: url(../images/delete.png) no-repeat 0 2px; }
-.actions li .rss { padding-left: 15px; background: url(../images/rss.png) no-repeat 0 1px; }
+.actions li .edit { }
+.actions li .delete { }
+.actions li .rss { }
 .actions li a:hover { text-decoration: underline; }
 
 
+
+/* Toolbar 
+---------------------------------------------------------------*/
+.toolbar 			{ float: right; position: fixed; top: 220px; right: 10px; z-index: 100; }
+.toolbar section 	{ width: 16px; padding: 10px; background: #fff; border-radius: 3px; box-shadow: 0 0 5px rgba(0,0,0,.1); margin-bottom: 10px; }
+
+/* Admin button */
+.toolbar .toolbar-admin a { display: block; width: 16px; height: 16px; background: url(../images/icons.png) -431px 1px no-repeat; }
+
+/* Update comments button */
+.toolbar .toolbar-update { }
+.toolbar .toolbar-update .update-comments 			{ width: 16px; height: 16px; cursor: pointer; background: url(../images/update.gif) no-repeat; }
+.toolbar .toolbar-update .update-comments.active 	{ background-position: -16px 0; }
+.toolbar .toolbar-update .new-comments 				{ border-top: 1px solid #ececed; color: #333; padding-top: 7px; margin-top: 3px; cursor: pointer; text-align: center; }
+
+
+
+/* Список пользователей 
+---------------------------------------------------------------*/
+.user-list 				{ border-top: 1px solid #eee; }
+.user-list li 			{ min-height: 48px; padding: 7px 0 10px 58px; border-bottom: 1px solid #eee; position: relative; }
+.user-list li p 		{ padding-top: 2px; font-size: 11px; }
+.user-list li a 		{ text-decoration: none; }
+.user-list li .avatar 	{ position: absolute; top: 10px; left: 0; margin-right: 10px; }
+.user-list li .author 	{ font-weight: bold; color: #333; }
+
+
+
+/* Поиск 
+---------------------------------------------------------------*/
+.search { width: 200px; margin-bottom: 20px; position: relative; }
+.search .input-text { width: 200px; padding-right: 25px; }
+.search .input-submit { border: none; width: 16px; height: 16px; position: absolute; top: 6px; right: 5px; opacity: .7; }
+.search .input-submit:hover { opacity: 1; }
+
+
+
+/* Облако тегов 
+---------------------------------------------------------------*/
+.tag-cloud li { display: inline; margin-right: 5px; line-height: 22px; }
+.tag-cloud li a { text-decoration: none; white-space: nowrap; }
+.tag-cloud li .tag-size-1 	{ font-size: 12px; }
+.tag-cloud li .tag-size-2 	{ font-size: 12px; }
+.tag-cloud li .tag-size-3 	{ font-size: 14px; }
+.tag-cloud li .tag-size-4 	{ font-size: 14px; }
+.tag-cloud li .tag-size-5 	{ font-size: 18px; }
+.tag-cloud li .tag-size-6 	{ font-size: 18px; }
+.tag-cloud li .tag-size-7 	{ font-size: 20px; }
+.tag-cloud li .tag-size-8 	{ font-size: 20px; }
+.tag-cloud li .tag-size-9 	{ font-size: 22px; }
+.tag-cloud li .tag-size-10 	{ font-size: 22px; }
+
+
+
+/* Шапка сайта
+-------------------------------------- */
+#header a { text-decoration: none; }
+
+#header .site-name { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; }
+#header .site-name a:hover { color: #444AA3; }
+#header .site-description { width: 500px; color: #777; font-size: 15px; }
+
+
+
+/* Разное
+-------------------- */
+
+
+/* Stat */
+.stat-performance { display: none; width: 910px; margin: 0 auto 20px; padding: 15px 20px; background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.stat-performance table { }
+.stat-performance table td { width: 200px; vertical-align: top; }
+.stat-performance h4 { font-weight: bold; }
+
+/* Userfeed */
+.userfeed-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
+.userfeed-get-more:hover { background: #f0f7fd;}
+.userfeed_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
+
+/* Stream */
+.stream-get-more { display: block; text-align: center; padding: 12px 0; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none; }
+.stream-get-more:hover { background: #f0f7fd; }
+.stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
+.stream-comment-preview { padding: 5px 10px; background: #f3f3f3; margin-top: 5px; }
+
+.stream-list { margin: 0 0 20px; }
+.stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }
+.stream-list li .avatar { position: absolute; top: 10px; left: 10px; }
+.stream-list li .date { display: block; color: #999; }
+.stream-list li a { text-decoration: none; }
+.stream-list li a:hover { text-decoration: underline; }
+
+/* Userfields */
+.userfield-list { width: 450px; }
+.userfield-list li { background: #f7f7f7; margin-bottom: 1px; padding: 10px 5px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
+.userfield-list li .uf-actions { float: right; }
+.userfield-list li .uf-actions img { vertical-align: top; }
+.userfield-list li .userfield_admin_name { font-weight: bold; color: #333; }
+
+.userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
+.userfield-add:hover { color: #333; border-color: #333; }
+
 /* Misc */
-.user, .ls-user { padding-left: 12px; background: url(../images/user.png) no-repeat 0 2px; color: #555; }
-.user.inactive { color: #888; }
+.avatar-edit { margin-bottom: 15px; }
+.avatar-edit img { vertical-align: bottom; }
+.avatar-edit label { margin-top: 10px; }
 
-.center { width: 300px; margin: 0 auto; }
 
-.table { width: 100%; margin-bottom: 15px; }
-.table thead td { background: #fafafa; }
-.table td { border: 1px solid #eee; padding: 5px; }
-.table tr.active td { background: #F1FCEF; }
 
-.right { float: right; }
+/* Хелперы 
+---------------------------------------------------------------*/
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix 		{ zoom: 1; }
+
+.user, .ls-user { font-weight: bold; color: #333; }
+.user .icon-user { margin-right: 3px; }
+.user.inactive { color: #aaa; }
+
+.notice-empty { color: #aaa; }
+
+/* System messages */
+.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice 	{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }

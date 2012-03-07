@@ -1,12 +1,12 @@
-<div class="block blogs" id="block_blogs">
-	<h2>{$aLang.block_blogs}</h2>
+<div class="block" id="block_blogs">
+	<h3>{$aLang.block_blogs}</h3>
 	
 	
-	<ul class="switcher-block">
-		<li id="block_blogs_item_top" class="active">{$aLang.block_blogs_top}</li>
+	<ul class="nav nav-pills">
+		<li id="block_blogs_item_top" class="active"><a href="#">{$aLang.block_blogs_top}</a></li>
 		{if $oUserCurrent}
-			<li id="block_blogs_item_join">{$aLang.block_blogs_join}</li>
-			<li id="block_blogs_item_self">{$aLang.block_blogs_self}</li>
+			<li id="block_blogs_item_join"><a href="#">{$aLang.block_blogs_join}</a></li>
+			<li id="block_blogs_item_self"><a href="#">{$aLang.block_blogs_self}</a></li>
 		{/if}
 	</ul>
 	
@@ -16,7 +16,7 @@
 	</div>
 
 	
-	<div class="bottom">
+	<footer>
 		<a href="{router page='blogs'}">{$aLang.block_blogs_all}</a>
-	</div>
+	</footer>
 </div>

@@ -52,7 +52,7 @@ ls.userfeed =( function ($) {
 						ls.msg.notice(data.sMsgTitle,data.sMsg);
 					}
 				} else {
-					var liElement=$('<li><input type="checkbox" class="userfeedUserCheckbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.userfeed.subscribe(\'users\','+data.uid+')} else {ls.userfeed.unsubscribe(\'users\','+data.uid+')}" /><a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
+					var liElement=$('<li><input type="checkbox" class="userfeedUserCheckbox input-checkbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.userfeed.subscribe(\'users\','+data.uid+')} else {ls.userfeed.unsubscribe(\'users\','+data.uid+')}" /><a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
 					$('#userfeed_block_users_list').append(liElement);
 					ls.msg.notice(data.sMsgTitle,data.sMsg);
 				}
