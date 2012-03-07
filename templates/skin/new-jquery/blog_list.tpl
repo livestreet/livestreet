@@ -16,7 +16,7 @@
 					<a href="{router page='blog'}{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(24)}" alt="" class="avatar" /></a>
 					<a href="{router page='blog'}{$oBlog->getUrl()}/" class="title">{$oBlog->getTitle()|escape:'html'}</a>
 					{if $oBlog->getType()=='close'}<img src="{cfg name='path.static.skin'}/images/lock.png" alt="[x]" title="{$aLang.blog_closed}" class="private" />{/if}
-					<p>{$aLang.blogs_owner}: <a href="{router page='profile'}{$oUserOwner->getLogin()}/" class="user">{$oUserOwner->getLogin()}</a></p>
+					<p>{$aLang.blogs_owner}: <a href="{$oUserOwner->getUserWebPath()}" class="user">{$oUserOwner->getLogin()}</a></p>
 				</td>
 				{if $oUserCurrent}
 					<td class="blog-join-leave">
