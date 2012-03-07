@@ -147,10 +147,11 @@
 .user-profile .strength .total { background: #70AAE0; font-size: 14px; padding: 4px 10px 5px; font-weight: normal; color: #fff; }
 .user-profile .strength .text { font-size: 10px; color: #aaa; text-align: center; }
 
-.user-profile-header { font-size: 18px; margin-bottom: 7px; border-bottom: 1px solid #ccc; }
+.user-profile-header { font-size: 18px; padding-bottom: 3px; margin-bottom: 15px; border-bottom: 1px solid #ddd; }
 
-.user-profile-table { width: 100%; }
+.user-profile-table { width: 100%; font-size: 12px; }
 .user-profile-table td { vertical-align: top; padding: 0 0 5px; }
+.user-profile-table tbody td { font-size: 12px; border-bottom: none; }
 .user-profile-table td.var { width: 150px; font-weight: bold; color: #999; }
 .user-profile-table td .user { margin-right: 7px; }
 
