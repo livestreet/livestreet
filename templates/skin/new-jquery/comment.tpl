@@ -56,8 +56,4 @@
 {else}
 	{$aLang.comment_was_delete}
 {/if}
-{if $oUserCurrent}
-	<div class="comment-preview" id="comment_preview_{$oComment->getId()}" style="display: none;"></div>
-	<div class="reply" id="reply_{$oComment->getId()}" style="display: none;"></div>
-{/if}
 </div>

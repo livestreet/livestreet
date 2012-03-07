@@ -50,7 +50,7 @@
 {else}
 	{if $oUserCurrent}
 		<div class="reply-area">
-			<h4 class="reply-header" id="add_comment_root"><a href="#" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a></h4>
+			<h4 class="reply-header" id="comment_id_0"><a href="#" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a></h4>
 
 				{if $oConfig->GetValue('view.tinymce')}
 					<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
@@ -111,11 +111,7 @@
 					</script>
 				{/if}
 
-			<div id="reply_0" class="reply">
-				{if $oUserCurrent}
-					<div class="comment-preview" id="comment_preview_0" style="display: none;"><div class="comment-inner"><div class="content"></div></div></div>
-				{/if}
-
+			<div id="reply" class="reply">
 				<form action="#" method="POST" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 					{hook run='form_add_comment_begin'}
 					<textarea name="comment_text" id="form_comment_text" class="input-wide"></textarea>
