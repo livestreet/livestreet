@@ -75,18 +75,27 @@ ls.comments = (function ($) {
 
 	// Показывает/скрывает форму комментирования
 	this.toggleCommentForm = function(idComment, bNoFocus) {
-		if (this.iCurrentShowFormComment == idComment && idComment == 0) return;
-	
+		var reply=$('#reply');
+		if(!reply.length){
+			return;
+		}
 		$('#comment_preview_' + this.iCurrentShowFormComment).remove();
+
+		if (this.iCurrentShowFormComment==idComment && reply.is(':visible')) {
+			reply.hide();
+			return;
+		}
+		if (this.options.wysiwyg) {
+			tinyMCE.execCommand('mceRemoveControl',true,'form_comment_text');
+		}
+		reply.insertAfter('#comment_id_'+idComment).show();
 		$('#form_comment_text').val('');
-		
-		if (this.iCurrentShowFormComment == idComment) idComment = 0;
-		
-		$('#reply').insertAfter('#comment_id_'+idComment);
 		$('#form_comment_reply').val(idComment);
 		
 		this.iCurrentShowFormComment = idComment;
-		
+		if (this.options.wysiwyg) {
+			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
+		}
 		if (!bNoFocus) $('#form_comment_text').focus();
 	};
 
@@ -305,8 +314,6 @@ ls.comments = (function ($) {
 		this.calcNewComments();
 		this.checkFolding();
 		this.toggleCommentForm(this.iCurrentShowFormComment);
-		
-		if (this.options.wysiwyg) tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		
 		if (typeof(this.options.wysiwyg)!='number') {
 			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);
