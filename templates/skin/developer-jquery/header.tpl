@@ -67,17 +67,17 @@
 
 
 {if $oUserCurrent}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'} {* Юзер или администраро *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'} {* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ *}
 	
 	{if $oUserCurrent->isAdministrator()}
-		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'} {* Администратор *}
+		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'} {* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ *}
 	{/if}
 {else}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'} {* Гость *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'} {* пїЅпїЅпїЅпїЅпїЅ *}
 {/if}
 
 {if !$oUserCurrent or ($oUserCurrent and !$oUserCurrent->isAdministrator())}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'} {* Гость или юзер *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'} {* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ *}
 {/if}
 
 
@@ -85,10 +85,6 @@
 <body class="{$body_classes}">
 	{hook run='body_begin'}
 
-	
-	{include file='toolbar.tpl'}
-	
-	
 	<div id="container">
 		{include file='header_top.tpl'}
 		{include file='nav.tpl'}

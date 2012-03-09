@@ -20,6 +20,8 @@
 
 </div> <!-- /container -->
 
+{include file='toolbar.tpl'}
+
 {hook run='body_end'}
 
 </body>

@@ -551,7 +551,15 @@ class ModuleViewer extends Module {
 			$this->aBlocks[$sGroup]=array();
 		}
 	}
-	
+
+	/**
+	 * Возвращает список блоков
+	 *
+	 * @return array
+	 */
+	public function GetBlocks() {
+		return $this->aBlocks;
+	}
 	/**
 	 * Определяет тип блока
 	 *

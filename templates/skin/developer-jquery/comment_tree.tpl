@@ -1,3 +1,10 @@
+{add_block group='toolbar' name='toolbar_comment.tpl'
+	aPagingCmt=$aPagingCmt
+	iTargetId=$iTargetId
+	sTargetType=$sTargetType
+	iMaxIdComment=$iMaxIdComment
+}
+
 <div class="comments" id="comments">
 	<header class="comments-header">
 		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
