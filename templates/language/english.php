@@ -790,6 +790,7 @@ return array(
 	'admin_list_restorecomment' => 'Rebuilding a tree comments',
 	'admin_list_recalcfavourite' => 'Recalculate counters of favorites',
 	'admin_list_recalcvote' => 'Recalculate counters of votes',
+	'admin_list_recalctopic' => 'Recalculate count topics of blogs',
 	/**
 	 * Rating TOP
 	 */
@@ -850,6 +851,7 @@ return array(
 	'admin_comment_restore_tree' => 'Tree comments restore successful',
 	'admin_favourites_recalculated' => 'Favourites counters has been recalculated',
 	'admin_votes_recalculated' => 'Votes counters has been recalculated',
+	'admin_topics_recalculated' => 'Count topics has been recalculated',
 	/**
 	 * Plugin administration page
 	 */

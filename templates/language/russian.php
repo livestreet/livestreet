@@ -790,6 +790,7 @@ return array(
 	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
 	'admin_list_recalcfavourite' => 'Пересчитать счетчики избранных',
 	'admin_list_recalcvote' => 'Пересчитать счетчики голосований',
+	'admin_list_recalctopic' => 'Пересчитать количество топиков в блогах',
 	/**
 	 * Рейтинг TOP
 	 */
@@ -850,6 +851,7 @@ return array(
 	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
 	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
 	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
+	'admin_topics_recalculated' => 'Количество топиков пересчитанно',
 	/**
 	 * Страница администрирования плагинов
 	 */

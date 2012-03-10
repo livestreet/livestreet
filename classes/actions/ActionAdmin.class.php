@@ -44,6 +44,7 @@ class ActionAdmin extends Action {
 		$this->AddEvent('userfields','EventUserfields');
 		$this->AddEvent('recalcfavourite','EventRecalculateFavourite');
 		$this->AddEvent('recalcvote','EventRecalculateVote');
+		$this->AddEvent('recalctopic','EventRecalculateTopic');
 	}
 
 
@@ -92,6 +93,18 @@ class ActionAdmin extends Action {
 		$this->Cache_Clean();
 
 		$this->Message_AddNotice($this->Lang_Get('admin_votes_recalculated'),$this->Lang_Get('attention'));
+		$this->SetTemplateAction('index');
+	}
+
+	/**
+	 * Пересчет количества топиков в блогах
+	 */
+	protected function EventRecalculateTopic() {
+		set_time_limit(0);
+		$this->Blog_RecalculateCountTopic();
+		$this->Cache_Clean();
+
+		$this->Message_AddNotice($this->Lang_Get('admin_topics_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
 

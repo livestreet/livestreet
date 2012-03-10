@@ -4,3 +4,6 @@ ALTER TABLE `prefix_comment` ADD `comment_count_favourite` INT( 11 ) UNSIGNED NO
 ALTER TABLE `prefix_topic` ADD `topic_count_vote_up` INT NOT NULL DEFAULT '0' AFTER `topic_count_vote` ,
 ADD `topic_count_vote_down` INT NOT NULL DEFAULT '0' AFTER `topic_count_vote_up` ,
 ADD `topic_count_vote_abstain` INT NOT NULL DEFAULT '0' AFTER `topic_count_vote_down`;
+
+ALTER TABLE `prefix_blog` ADD `blog_count_topic` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `blog_count_user` ,
+ADD INDEX ( `blog_count_topic` );

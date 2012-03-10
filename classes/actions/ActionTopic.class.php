@@ -346,6 +346,10 @@ class ActionTopic extends Action {
 			 */
 			$oTopic=$this->Topic_GetTopicById($oTopic->getId());
 			/**
+			 * Обновляем количество топиков в блоге
+			 */
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+			/**
 			 * Делаем рассылку спама всем, кто состоит в этом блоге
 			 */
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
@@ -479,6 +483,14 @@ class ActionTopic extends Action {
 				$this->Comment_UpdateTargetParentByTargetId($oTopic->getBlogId(), 'topic', $oTopic->getId());
 				$this->Comment_UpdateTargetParentByTargetIdOnline($oTopic->getBlogId(), 'topic', $oTopic->getId());
 			}
+			/**
+			 * Обновляем количество топиков в блоге
+			 */
+			if ($sBlogIdOld!=$oTopic->getBlogId()) {
+				$this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
+			}
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+
 			/**
              * Добавляем событие в ленту
              */

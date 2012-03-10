@@ -530,6 +530,10 @@ class ActionPhotoset extends Action {
 			 * Получаем топик, чтоб подцепить связанные данные
 			 */
 			$oTopic=$this->Topic_GetTopicById($oTopic->getId());
+			/**
+			 * Обновляем количество топиков в блоге
+			 */
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
 			//Делаем рассылку спама всем, кто состоит в этом блоге
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
@@ -603,6 +607,10 @@ class ActionPhotoset extends Action {
 			return;
 		}
 		/**
+		 * Сохраняем старое значение идентификатора блога
+		 */
+		$sBlogIdOld = $oTopic->getBlogId();
+		/**
 		 * Теперь можно смело редактировать топик
 		 */		
 		$oTopic->setBlogId($oBlog->getId());
@@ -673,6 +681,20 @@ class ActionPhotoset extends Action {
 		 */
 		if ($this->Topic_UpdateTopic($oTopic)) {
 			$this->Hook_Run('topic_edit_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog,'bSendNotify'=>&$bSendNotify));
+			/**
+			 * Обновляем данные в комментариях, если топик был перенесен в новый блог
+			 */
+			if($sBlogIdOld!=$oTopic->getBlogId()) {
+				$this->Comment_UpdateTargetParentByTargetId($oTopic->getBlogId(), 'topic', $oTopic->getId());
+				$this->Comment_UpdateTargetParentByTargetIdOnline($oTopic->getBlogId(), 'topic', $oTopic->getId());
+			}
+			/**
+			 * Обновляем количество топиков в блоге
+			 */
+			if ($sBlogIdOld!=$oTopic->getBlogId()) {
+				$this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
+			}
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
 			/**
              * Добавляем событие в ленту
              */

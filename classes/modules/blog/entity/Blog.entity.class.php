@@ -47,6 +47,9 @@ class ModuleBlog_EntityBlog extends Entity
     public function getCountUser() {
         return $this->_aData['blog_count_user'];
     }
+	public function getCountTopic() {
+		return $this->_aData['blog_count_topic'];
+	}
     public function getLimitRatingTopic() {
         return $this->_aData['blog_limit_rating_topic'];
     }
@@ -123,6 +126,9 @@ class ModuleBlog_EntityBlog extends Entity
     public function setCountUser($data) {
         $this->_aData['blog_count_user']=$data;
     }
+	public function setCountTopic($data) {
+		$this->_aData['blog_count_topic']=$data;
+	}
     public function setLimitRatingTopic($data) {
         $this->_aData['blog_limit_rating_topic']=$data;
     }
