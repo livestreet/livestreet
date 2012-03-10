@@ -350,6 +350,10 @@ class ActionTopic extends Action {
 			 */
 			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
 			/**
+			 * Добавляем автора топика в подписчики на новые комментарии к этому топику
+			 */
+			$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$this->oUserCurrent->getMail());
+			/**
 			 * Делаем рассылку спама всем, кто состоит в этом блоге
 			 */
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {

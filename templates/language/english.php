@@ -344,6 +344,7 @@ return array(
 	'comment_add' => 'Add',
 	'comment_preview' => 'Preview',
 	'comment_unregistered' => 'Only registered users can comment.',
+	'comment_subscribe' => 'subscribe to new comments',
 	/**
 	 * Comment votes
 	 */
@@ -832,7 +833,7 @@ return array(
 	/**
 	 * Notifications
 	 */
-	'notify_subject_comment_new' => 'New comment added to your topic',
+	'notify_subject_comment_new' => 'New comment on topic',
 	'notify_subject_comment_reply' => 'You\'ve recieved reply to your comment',
 	'notify_subject_topic_new' => 'New topic in the blog',
 	'notify_subject_registration_activate' => 'Registration',
@@ -890,6 +891,10 @@ return array(
 	'validate_required_must_be' => 'Field %%field%% must be %%value%%',
 	'validate_required_cannot_blank' => 'Field %%field%% cannot be blank',
 	'validate_url_not_valid' => 'Field %%field%% is not a valid URL',
+	/**
+	 * Подписка
+	 */
+	'subscribe_change_ok' => 'Change the subscription was successful',
 	/**
 	 * System
 	 */

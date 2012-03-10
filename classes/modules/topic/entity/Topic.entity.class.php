@@ -142,6 +142,12 @@ class ModuleTopic_EntityTopic extends Entity
     public function getCountFavourite() {
         return $this->_aData['topic_count_favourite'];
     }
+	public function getSubscribeNewComment() {
+		if (!($oUserCurrent=$this->User_GetUserCurrent())) {
+			return null;
+		}
+		return $this->Subscribe_GetSubscribeByTargetAndMail('topic_new_comment',$this->getId(),$oUserCurrent->getMail());
+	}
     
     /***************************************************************************************************************************************************
      * методы расширения типов топика
