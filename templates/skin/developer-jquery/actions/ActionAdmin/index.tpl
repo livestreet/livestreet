@@ -9,6 +9,7 @@
     <li><a href="{router page="admin"}userfields">{$aLang.admin_list_userfields}</a></li>
     <li><a href="{router page="admin"}restorecomment">{$aLang.admin_list_restorecomment}</a></li>
     <li><a href="{router page="admin"}recalcfavourite">{$aLang.admin_list_recalcfavourite}</a></li>
+    <li><a href="{router page="admin"}recalcvote">{$aLang.admin_list_recalcvote}</a></li>
     {hook run='admin_action_item'}
 </ul>
 

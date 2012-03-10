@@ -43,6 +43,7 @@ class ActionAdmin extends Action {
 		$this->AddEvent('restorecomment','EventRestoreComment');
 		$this->AddEvent('userfields','EventUserfields');
 		$this->AddEvent('recalcfavourite','EventRecalculateFavourite');
+		$this->AddEvent('recalcvote','EventRecalculateVote');
 	}
 
 
@@ -69,7 +70,7 @@ class ActionAdmin extends Action {
 	}
 
   	/**
-	 * Перестроение дерева комментариев, актуально при $config['module']['comment']['use_nested'] = true;
+	 * Пересчет счетчика избранных
 	 *
 	 */
 	protected function EventRecalculateFavourite() {
@@ -81,7 +82,19 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_favourites_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-    
+
+	/**
+	 * Пересчет счетчика голосований
+	 */
+	protected function EventRecalculateVote() {
+		set_time_limit(0);
+		$this->Topic_RecalculateVote();
+		$this->Cache_Clean();
+
+		$this->Message_AddNotice($this->Lang_Get('admin_votes_recalculated'),$this->Lang_Get('attention'));
+		$this->SetTemplateAction('index');
+	}
+
 	/**
 	 * Страница со списком плагинов
 	 *

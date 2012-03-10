@@ -789,6 +789,7 @@ return array(
 	'admin_list_userfields' => 'Настройка пользовательских полей',
 	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
 	'admin_list_recalcfavourite' => 'Пересчитать счетчики избранных',
+	'admin_list_recalcvote' => 'Пересчитать счетчики голосований',
 	/**
 	 * Рейтинг TOP
 	 */
@@ -848,6 +849,7 @@ return array(
 	'admin_title' => 'Админка',
 	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
 	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
+	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
 	/**
 	 * Страница администрирования плагинов
 	 */

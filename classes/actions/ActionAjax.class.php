@@ -183,6 +183,13 @@ class ActionAjax extends Action {
 		}
 		$oTopicVote->setValue($iVal);
 		$oTopic->setCountVote($oTopic->getCountVote()+1);
+		if ($iValue==1) {
+			$oTopic->setCountVoteUp($oTopic->getCountVoteUp()+1);
+		} elseif ($iValue==-1) {
+			$oTopic->setCountVoteDown($oTopic->getCountVoteDown()+1);
+		} elseif ($iValue==0) {
+			$oTopic->setCountVoteAbstain($oTopic->getCountVoteAbstain()+1);
+		}
 		if ($this->Vote_AddVote($oTopicVote) and $this->Topic_UpdateTopic($oTopic)) {
 			if ($iValue) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('topic_vote_ok'),$this->Lang_Get('attention'));

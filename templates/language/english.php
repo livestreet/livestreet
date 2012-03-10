@@ -789,6 +789,7 @@ return array(
 	'admin_list_userfields' => 'Configuring custom fields',
 	'admin_list_restorecomment' => 'Rebuilding a tree comments',
 	'admin_list_recalcfavourite' => 'Recalculate counters of favorites',
+	'admin_list_recalcvote' => 'Recalculate counters of votes',
 	/**
 	 * Rating TOP
 	 */
@@ -848,6 +849,7 @@ return array(
 	'admin_title' => 'Admin',
 	'admin_comment_restore_tree' => 'Tree comments restore successful',
 	'admin_favourites_recalculated' => 'Favourites counters has been recalculated',
+	'admin_votes_recalculated' => 'Votes counters has been recalculated',
 	/**
 	 * Plugin administration page
 	 */
