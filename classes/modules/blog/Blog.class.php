@@ -833,6 +833,25 @@ class ModuleBlog extends Module {
 				@unlink($this->Image_GetServerPath($oBlog->getAvatarPath($iSize)));
 			}		
 		}
-	}	
+	}
+
+	/**
+	 * Пересчет количества топиков в блогах
+	 *
+	 * @return mixed
+	 */
+	public function RecalculateCountTopic() {
+		return $this->oMapperBlog->RecalculateCountTopic();
+	}
+
+	/**
+	 * Пересчет количества топиков в конкретном блоге
+	 *
+	 * @param $iBlogId
+	 * @return mixed
+	 */
+	public function RecalculateCountTopicByBlogId($iBlogId) {
+		return $this->oMapperBlog->RecalculateCountTopic($iBlogId);
+	}
 }
 ?>

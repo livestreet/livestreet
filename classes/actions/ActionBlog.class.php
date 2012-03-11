@@ -1021,20 +1021,28 @@ class ActionBlog extends Action {
 			*/
 			$this->oUserCurrent->setDateCommentLast(date("Y-m-d H:i:s"));
 			$this->User_Update($this->oUserCurrent);
+
+			/**
+			 * Список емайлов на которые не нужно отправлять уведомление
+			 */
+			$aExcludeMail=array($this->oUserCurrent->getMail());
+			/**
+			 * Отправляем уведомление тому на чей коммент ответили
+			 */
+			if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {
+				$oUserAuthorComment=$oCommentParent->getUser();
+				$aExcludeMail[]=$oUserAuthorComment->getMail();
+				$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);
+			}
 			/**
 			* Отправка уведомления автору топика
 			*/
-			$oUserTopic=$oTopic->getUser();
-			if ($oCommentNew->getUserId()!=$oUserTopic->getId()) {
-				$this->Notify_SendCommentNewToAuthorTopic($oUserTopic,$oTopic,$oCommentNew,$this->oUserCurrent);
-			}
-			/**
-			* Отправляем уведомление тому на чей коммент ответили
-			*/
-			if ($oCommentParent and $oCommentParent->getUserId()!=$oTopic->getUserId() and $oCommentNew->getUserId()!=$oCommentParent->getUserId()) {
-				$oUserAuthorComment=$oCommentParent->getUser();
-				$this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment,$oTopic,$oCommentNew,$this->oUserCurrent);
-			}
+			$this->Subscribe_Send('topic_new_comment',$oTopic->getId(),'notify.comment_new.tpl',$this->Lang_Get('notify_subject_comment_new'),array(
+				'oTopic' => $oTopic,
+				'oComment' => $oCommentNew,
+				'oUserComment' => $this->oUserCurrent,
+			),$aExcludeMail);
+
             /**
              * Добавляем событие в ленту
              */

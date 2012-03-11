@@ -344,6 +344,7 @@ return array(
 	'comment_add' => 'добавить',
 	'comment_preview' => 'предпросмотр',
 	'comment_unregistered' => 'Только зарегистрированные и авторизованные пользователи могут оставлять комментарии.',
+	'comment_subscribe' => 'подписаться на новые комментарии',
 	/**
 	 * Голосование за комментарий
 	 */
@@ -789,6 +790,8 @@ return array(
 	'admin_list_userfields' => 'Настройка пользовательских полей',
 	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
 	'admin_list_recalcfavourite' => 'Пересчитать счетчики избранных',
+	'admin_list_recalcvote' => 'Пересчитать счетчики голосований',
+	'admin_list_recalctopic' => 'Пересчитать количество топиков в блогах',
 	/**
 	 * Рейтинг TOP
 	 */
@@ -830,7 +833,7 @@ return array(
 	/**
 	 * Уведомления
 	 */
-	'notify_subject_comment_new' => 'К вашему топику оставили новый комментарий',
+	'notify_subject_comment_new' => 'Новый комментарий к топику',
 	'notify_subject_comment_reply' => 'Вам ответили на ваш комментарий',
 	'notify_subject_topic_new' => 'Новый топик в блоге',
 	'notify_subject_registration_activate' => 'Регистрация',
@@ -848,6 +851,8 @@ return array(
 	'admin_title' => 'Админка',
 	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
 	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
+	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
+	'admin_topics_recalculated' => 'Количество топиков пересчитанно',
 	/**
 	 * Страница администрирования плагинов
 	 */
@@ -886,6 +891,10 @@ return array(
 	'validate_required_must_be' => 'Поле %%field%% должно иметь значение %%value%%',
 	'validate_required_cannot_blank' => 'Поле %%field%% не может быть пустым',
 	'validate_url_not_valid' => 'Поле %%field%% не соотвествует формату URL адреса',
+	/**
+	 * Подписка
+	 */
+	'subscribe_change_ok' => 'Изменение подписки прошло успешно',
 	/**
 	 * Системные сообщения
 	 */

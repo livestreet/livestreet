@@ -51,13 +51,14 @@ class ModuleBlog_MapperBlog extends Mapper {
 				blog_rating= ?f,
 				blog_count_vote = ?d,
 				blog_count_user= ?d,
+				blog_count_topic= ?d,
 				blog_limit_rating_topic= ?f ,
 				blog_url= ?,
 				blog_avatar= ?
 			WHERE
 				blog_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
+		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getCountTopic(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
 			return true;
 		}		
 		return false;
@@ -381,6 +382,31 @@ class ModuleBlog_MapperBlog extends Mapper {
 			WHERE blog_id = ?d
 		";
 		if ($this->oDb->query($sql,$iBlogId)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Пересчитывает число топиков в блогах
+	 *
+	 * @return bool
+	 */
+	public function RecalculateCountTopic($iBlogId=null) {
+		$sql = "
+                UPDATE ".Config::Get('db.table.blog')." b
+                SET b.blog_count_topic = (
+                    SELECT count(*)
+                    FROM ".Config::Get('db.table.topic')." t
+                    WHERE
+                        t.blog_id = b.blog_id
+                    AND
+                        t.topic_publish = 1
+                )
+                WHERE 1=1
+                	{ and b.blog_id = ?d }
+            ";
+		if ($this->oDb->query($sql,is_null($iBlogId) ? DBSIMPLE_SKIP : $iBlogId)) {
 			return true;
 		}
 		return false;

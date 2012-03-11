@@ -1639,11 +1639,19 @@ class ModuleTopic extends Module {
     /**
      * Пересчитывает счетчик избранных топиков
      *
-     * @return type 
+     * @return bool
      */
     public function RecalculateFavourite(){
         return $this->oMapperTopic->RecalculateFavourite();    
     }
-	
+
+	/**
+	 * Пересчитывает счетчики голосований
+	 *
+	 * @return bool
+	 */
+	public function RecalculateVote(){
+		return $this->oMapperTopic->RecalculateVote();
+	}
 }
 ?>

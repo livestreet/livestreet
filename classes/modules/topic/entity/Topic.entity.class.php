@@ -81,6 +81,15 @@ class ModuleTopic_EntityTopic extends Entity
     public function getCountVote() {
         return $this->_aData['topic_count_vote'];
     }
+	public function getCountVoteUp() {
+		return $this->_aData['topic_count_vote_up'];
+	}
+	public function getCountVoteDown() {
+		return $this->_aData['topic_count_vote_down'];
+	}
+	public function getCountVoteAbstain() {
+		return $this->_aData['topic_count_vote_abstain'];
+	}
     public function getCountRead() {
         return $this->_aData['topic_count_read'];
     }
@@ -133,6 +142,12 @@ class ModuleTopic_EntityTopic extends Entity
     public function getCountFavourite() {
         return $this->_aData['topic_count_favourite'];
     }
+	public function getSubscribeNewComment() {
+		if (!($oUserCurrent=$this->User_GetUserCurrent())) {
+			return null;
+		}
+		return $this->Subscribe_GetSubscribeByTargetAndMail('topic_new_comment',$this->getId(),$oUserCurrent->getMail());
+	}
     
     /***************************************************************************************************************************************************
      * методы расширения типов топика
@@ -360,6 +375,15 @@ class ModuleTopic_EntityTopic extends Entity
     public function setCountVote($data) {
         $this->_aData['topic_count_vote']=$data;
     }
+	public function setCountVoteUp($data) {
+		$this->_aData['topic_count_vote_up']=$data;
+	}
+	public function setCountVoteDown($data) {
+		$this->_aData['topic_count_vote_down']=$data;
+	}
+	public function setCountVoteAbstain($data) {
+		$this->_aData['topic_count_vote_abstain']=$data;
+	}
     public function setCountRead($data) {
         $this->_aData['topic_count_read']=$data;
     }
