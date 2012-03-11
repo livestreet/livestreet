@@ -1,4 +1,4 @@
-<div class="jqmWindow modal-image-upload" id="form_upload_img">
+<div class="modal modal-image-upload" id="form_upload_img">
 	<header>
 		<h3>{$aLang.uploadimg}</h3>
 		<a href="#" class="close jqmClose"></a>

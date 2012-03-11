@@ -33,6 +33,8 @@ return array(
 	'admin_plugins' => 'Плагины',
 	'plugins_plugin_settings' => 'Настройки',
 	'user_field_admin_title_add' => 'Добавить поле',
+	
+	'blog_admin_delete' => 'Удаление блога',
 );
 
 ?>

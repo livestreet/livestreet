@@ -494,6 +494,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/blog.js",
 	"___path.root.engine_lib___/internal/template/js/friend.js",
 	"___path.root.engine_lib___/internal/template/js/userfeed.js",
+	"___path.root.engine_lib___/internal/template/js/userfield.js",
 	"___path.root.engine_lib___/internal/template/js/stream.js",
 	"___path.root.engine_lib___/internal/template/js/photoset.js",
 	"___path.root.engine_lib___/internal/template/js/markup_settings.js",
