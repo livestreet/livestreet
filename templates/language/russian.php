@@ -531,6 +531,11 @@ return array(
 	'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
 	'user_field_error_name_exists' => 'Поле с таким именем уже существует',
 	/**
+	 * Стена
+	 */
+	'wall_add_pid_error' => 'На данное сообщение невозможно ответить',
+	'wall_add_error' => 'Ошибка добавления записи на стены',
+	/**
 	 * Настройки
 	 */
 	'settings_profile_edit' => 'Изменение профиля',

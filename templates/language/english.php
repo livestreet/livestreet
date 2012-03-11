@@ -531,6 +531,11 @@ return array(
 	'user_field_error_add_no_title' => 'You must specify a title field',
 	'user_field_error_name_exists' => 'Field with that name already exists',
 	/**
+	 * Wall
+	 */
+	'wall_add_pid_error' => 'At this message can not be reply',
+	'wall_add_error' => 'Error adding a post to the wall',
+	/**
 	 * Configs.
 	 */
 	'settings_profile_edit' => 'Edit profile',

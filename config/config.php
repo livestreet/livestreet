@@ -236,6 +236,9 @@ $config['module']['stream']['disable_vote_events'] = false;
 // Модуль Ls
 $config['module']['ls']['send_general'] = true;	// Отправка на сервер LS общей информации о сайте (домен, версия LS и плагинов)
 $config['module']['ls']['use_counter'] = true;	// Использование счетчика GA
+// Модуль Wall - стена
+$config['module']['wall']['count_last_reply'] = 3;	// Число последних ответов на сообщени на стене для отображения в ленте
+$config['module']['wall']['per_page'] = 3;	// Число сообщений на стене на одну страницу
 
 
 /**
@@ -319,6 +322,7 @@ $config['db']['table']['user_field']          = '___db.table.prefix___user_field
 $config['db']['table']['user_field_value']    = '___db.table.prefix___user_field_value';
 $config['db']['table']['topic_photo']         = '___db.table.prefix___topic_photo';
 $config['db']['table']['subscribe']           = '___db.table.prefix___subscribe';
+$config['db']['table']['wall']           = '___db.table.prefix___wall';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -493,6 +497,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/vote.js",
 	"___path.root.engine_lib___/internal/template/js/poll.js",
 	"___path.root.engine_lib___/internal/template/js/subscribe.js",
+	"___path.root.engine_lib___/internal/template/js/wall.js",
 	"___path.root.engine_lib___/internal/template/js/comments.js",
 	"___path.root.engine_lib___/internal/template/js/blog.js",
 	"___path.root.engine_lib___/internal/template/js/friend.js",
