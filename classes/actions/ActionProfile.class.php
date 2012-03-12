@@ -47,8 +47,9 @@ class ActionProfile extends Action {
 
 		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^$/i','EventWall');
-		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add/i','EventWallAdd');
-		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load/i','EventWallLoad');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add$/i','EventWallAdd');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load$/i','EventWallLoad');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
 	}
@@ -225,12 +226,6 @@ class ActionProfile extends Action {
 		$aWall=$this->Wall_GetWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null),array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aWall',$aWall['collection']);
 		$this->Viewer_Assign('iCountWall',$aWall['count']);
-		if ($aWall['collection']) {
-			reset($aWall['collection']);
-			$this->Viewer_Assign('iWallIdMore',current($aWall['collection'])->getId());
-			$this->Viewer_Assign('iWallIdLess',end($aWall['collection'])->getId());
-		}
-
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -322,11 +317,46 @@ class ActionProfile extends Action {
 		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
-		if ($aWall['collection']) {
-			reset($aWall['collection']);
-			$this->Viewer_AssignAjax('iWallIdMore',current($aWall['collection'])->getId());
-			$this->Viewer_AssignAjax('iWallIdLess',end($aWall['collection'])->getId());
+	}
+
+	public function EventWallLoadReply() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+			return parent::EventNotFound();
 		}
+		if (!($oWall=$this->Wall_GetWallById(getRequest('iPid'))) or $oWall->getPid()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Формируем фильтр для запроса к БД
+		 */
+		$aFilter=array(
+			'wall_user_id'=>$this->oUserProfile->getId(),
+			'pid'=>$oWall->getId()
+		);
+		if (is_numeric(getRequest('iIdLess'))) {
+			$aFilter['id_less']=getRequest('iIdLess');
+		} elseif (is_numeric(getRequest('iIdMore'))) {
+			$aFilter['id_more']=getRequest('iIdMore');
+		} else {
+			$this->Message_AddError($this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем сообщения
+		 */
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
+		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
+		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
 	}
 
 	/**

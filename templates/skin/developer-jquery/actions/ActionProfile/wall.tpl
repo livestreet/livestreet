@@ -41,24 +41,30 @@
 
 
 <script type="text/javascript">
-	jQuery(document).ready(function($){
+
 		ls.wall.init({
-			login:'{$oUserProfile->getLogin()}',
-			id_less:'{$iWallIdLess}',
-			id_more:'{$iWallIdMore}'
+			login:'{$oUserProfile->getLogin()}'
 		});
-	});
+
 </script>
 Написать на стену:<br>
-<textarea rows="4" cols="30" id="wall_text"></textarea>
+<textarea rows="4" cols="30" id="wall-text"></textarea>
 <br>
-<input type="submit" value="отправить" onclick="ls.wall.add(jQuery('#wall_text').val(),0);">
+<input type="submit" value="отправить" onclick="ls.wall.add(jQuery('#wall-text').val(),0);">
 
 <div id="wall-contener">
 	{include file='actions/ActionProfile/wall_items.tpl'}
 </div>
 
-<br>
-<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next">Показать еще, всего <span id="wall-count-next">{$iCountWall}</span></a>
+{if count($aWall)}
+	<br>
+	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next">Показать еще, еще <span id="wall-count-next">{$iCountWall-count($aWall)}</span></a>
+{/if}
+
+<div id="wall-reply-form" style="display:none;">
+	<textarea rows="4" cols="30" id="wall-reply-text"></textarea>
+	<br>
+	<input type="submit" value="отправить" onclick="ls.wall.addReply(jQuery('#wall-reply-text').val());">
+</div>
 
 {include file='footer.tpl'}

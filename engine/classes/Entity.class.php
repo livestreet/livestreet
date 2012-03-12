@@ -34,6 +34,14 @@ abstract class Entity extends Object {
 	 */
 	public function __construct($aParam = false) {
 		$this->_setData($aParam);
+		$this->Init();
+	}
+
+	/**
+	 * Метод инициализации сущности, вызывается при её создании
+	 */
+	public function Init() {
+
 	}
 
 	public function _setData($aData) {
@@ -160,7 +168,7 @@ abstract class Entity extends Object {
 	 * @return array
 	 */
 	public function _getValidators($sField=null) {
-		$aValidators=$this->createValidators();
+		$aValidators=$this->_createValidators();
 
 		$aValidatorsReturn=array();
 		$sScenario=$this->_getValidateScenario();
@@ -183,7 +191,7 @@ abstract class Entity extends Object {
 	 * @return array
 	 * @throws Exception
 	 */
-	public function createValidators() {
+	public function _createValidators() {
 		$aValidators=array();
 		foreach($this->aValidateRules as $aRule) {
 			if(isset($aRule[0],$aRule[1])) {

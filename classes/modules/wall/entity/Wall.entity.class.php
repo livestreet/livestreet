@@ -21,10 +21,13 @@ class ModuleWall_EntityWall extends Entity {
 	 * Определяем правила валидации
 	 */
 	protected $aValidateRules=array(
-		array('text','string','max'=>10,'min'=>1,'allowEmpty'=>false),
 		array('pid','pid'),
 	);
 
+	public function Init() {
+		parent::Init();
+		$this->aValidateRules[]=array('text','string','max'=>Config::Get('module.wall.text_max'),'min'=>Config::Get('module.wall.text_min'),'allowEmpty'=>false);
+	}
 	/**
 	 * Валидация родительского сообщения
 	 *
