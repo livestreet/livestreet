@@ -63,7 +63,7 @@ abstract class LSC {
             $sSourcePath=$sSourceDir.DIRECTORY_SEPARATOR.$sFile;
             $sTargetPath=$sTargetDir.DIRECTORY_SEPARATOR.$sFile;
 
-            $sName=($baseDir==='')? $sFile : $sBaseDir.'/'.$sFile;
+            $sName=($sBaseDir==='')? $sFile : $sBaseDir.'/'.$sFile;
 
             // Строим массив с ключем в виде имени файла или папки, пути к исходнику и пути назначения
             $aList[$sName]=array(
@@ -77,7 +77,7 @@ abstract class LSC {
             }
         }
         closedir($handle);
-        return $list;
+        return $aList;
     }
 
     /*

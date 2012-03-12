@@ -41,8 +41,10 @@ EOD;
 
         // Парсим имена плагинов и пересоздаем массив
         foreach($aList as $sName=>$aFile) {
-            $sTarget=str_ireplace('Example',ucwords($this->_name),$aFile['target']);
-            $sNewName=str_ireplace('Example',ucwords($this->_name),$sName);
+            $sTarget=str_replace('Example',ucwords($this->_name),$aFile['target']);
+            $sTarget=str_replace('example',strtolower($this->_name),$sTarget);
+            $sNewName=str_replace('Example',ucwords($this->_name),$sName);
+            $sNewName=str_replace('example',strtolower($this->_name),$sNewName);
             if($sName != $sNewName)
                 unset($aList[$sName]);
 
@@ -61,7 +63,8 @@ EOD;
      */
     public function generatePlugin($source,$params) {
         $content=file_get_contents($source);
-        $content=str_ireplace('Example',ucwords($this->_name),$content);
+        $content=str_replace('Example',ucwords($this->_name),$content);
+        $content=str_replace('example',strtolower($this->_name),$content);
         return $content;
     }
 }
