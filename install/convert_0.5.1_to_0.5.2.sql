@@ -26,3 +26,19 @@ CREATE TABLE IF NOT EXISTS `prefix_subscribe` (
   KEY `target_id` (`target_id`),
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `prefix_wall` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT NULL,
+  `wall_user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `count_reply` int(11) NOT NULL DEFAULT '0',
+  `last_reply` varchar(100) NOT NULL,
+  `date_add` datetime NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `wall_user_id` (`wall_user_id`),
+  KEY `ip` (`ip`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

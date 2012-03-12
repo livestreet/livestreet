@@ -7,11 +7,11 @@
 	<header class="topic-header">
 		<h1 class="topic-title">
 			{if $oTopic->getPublish() == 0}   
-				<img src="{cfg name='path.static.skin'}/images/draft.png" title="{$aLang.topic_unpublish}" alt="{$aLang.topic_unpublish}" />
+				<i class="icon-tag" title="{$aLang.topic_unpublish}"></i>
 			{/if}
 			
 			{if $oTopic->getType() == 'link'} 
-                <img src="{cfg name='path.static.skin'}/images/topic_link.png" title="{$aLang.topic_link}" alt="{$aLang.topic_link}" />
+				<i class="icon-share-alt" title="{$aLang.topic_link}"></i>
 			{/if}
 			
 			{if $bTopicList}

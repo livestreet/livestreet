@@ -105,13 +105,7 @@
 
 
 
-/* Шапка сайта
--------------------------------------- */
-#header a { text-decoration: none; }
 
-#header .site-name { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; }
-#header .site-name a:hover { color: #444AA3; }
-#header .site-description { width: 500px; color: #777; font-size: 15px; }
 
 
 
@@ -145,9 +139,8 @@
 
 /* Userfields */
 .userfield-list { width: 450px; }
-.userfield-list li { background: #f7f7f7; margin-bottom: 1px; padding: 10px 5px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
-.userfield-list li .uf-actions { float: right; }
-.userfield-list li .uf-actions img { vertical-align: top; }
+.userfield-list li { background: #eee; margin-bottom: 1px; padding: 10px 10px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
+.userfield-list li .userfield-actions { float: right; }
 .userfield-list li .userfield_admin_name { font-weight: bold; color: #333; }
 
 .userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }

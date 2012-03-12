@@ -35,20 +35,20 @@
 
 <h3 class="profile-page-header">Стена</h3>
 
-<div id="menu">
-	{include file='menu.profile.tpl'}
-</div>
+
+{include file='menu.profile.tpl'}
 
 
-	{if $oUserProfile->getProfileIcq()}
-		<h3>{$aLang.profile_social_contacts}</h3>
-		
-		<ul>
-			{if $oUserProfile->getProfileIcq()}
-				<li>ICQ: <a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
-			{/if}					
-		</ul>
-	{/if}
+
+{if $oUserProfile->getProfileIcq()}
+	<h3>{$aLang.profile_social_contacts}</h3>
+	
+	<ul>
+		{if $oUserProfile->getProfileIcq()}
+			<li>ICQ: <a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></li>
+		{/if}					
+	</ul>
+{/if}
 
 {if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
 	<h2>{$aLang.profile_privat}</h2>

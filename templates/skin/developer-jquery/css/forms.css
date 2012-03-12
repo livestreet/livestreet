@@ -11,8 +11,10 @@
 .input-width-400 	{ width: 400px; }
 .input-width-500 	{ width: 500px; }
 
-.question-list { margin-bottom: 15px; }
-.question-list li { margin-bottom: 3px; }
+.poll-create { padding: 15px 20px; margin-bottom: 20px; background: #f7f7f7; }
+.question-list 					{ margin-bottom: 15px; }
+.question-list li 				{ margin-bottom: 5px; }
+.question-list li .input-text	{ margin-right: 10px; }
 
 select 		{ padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
 

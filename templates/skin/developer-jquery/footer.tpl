@@ -9,7 +9,7 @@
 
 	
 	<footer id="footer">
-		<div class="right">
+		<div class="copyright">
 			{hook run='copyright'}
 		</div>
 		

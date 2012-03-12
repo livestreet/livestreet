@@ -4,7 +4,7 @@
 <h2 class="page-header">{$aLang.user_field_admin_title}</h2>
 
 
-<div class="jqmWindow modal-userfields" id="userfield_form">
+<div class="modal" id="userfield_form">
 	<header>
 		<h3>{$aLang.user_field_admin_title_add}</h3>
 		<a href="#" class="close jqmClose"></a>
@@ -23,23 +23,23 @@
 		<input type="hidden" id="user_fields_form_action" />
 		<input type="hidden" id="user_fields_form_id" />
 		
-		<input type="button" value="{$aLang.user_field_add}" onclick="ls.userfield.applyForm(); return false;" class="button" />
+		<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
 	</form>
 </div>
 
  
-<a href="javascript:ls.userfield.showAddForm()" class="link-dashed" id="userfield_form_show">{$aLang.user_field_add}</a>
+<a href="javascript:ls.userfield.showAddForm()" class="link-dotted" id="userfield_form_show">{$aLang.user_field_add}</a>
 <br /><br />
 
 <ul class="userfield-list" id="user_field_list">
 	{foreach from=$aUserFields item=oField}
-		<li id="field_{$oField->getId()}"><span class="userfield_admin_name">{$oField->getName()|escape:"html"}</span>
+		<li id="field_{$oField->getId()}"><strong class="userfield_admin_name">{$oField->getName()|escape:"html"}</strong>
 			/ <span class="userfield_admin_title">{$oField->getTitle()|escape:"html"}</span>
             / <span class="userfield_admin_pattern">{$oField->getPattern()|escape:"html"}</span>
 			
-			<div class="uf-actions">
-				<a href="javascript:ls.userfield.showEditForm({$oField->getId()})" title="{$aLang.user_field_update}"><img src="{cfg name='path.static.skin'}/images/edit.png" alt="image" /></a> 
-				<a href="javascript:ls.userfield.deleteUserfield({$oField->getId()})" title="{$aLang.user_field_delete}"><img src="{cfg name='path.static.skin'}/images/delete.png" alt="image" /></a>
+			<div class="userfield-actions">
+				<a href="javascript:ls.userfield.showEditForm({$oField->getId()})" title="{$aLang.user_field_update}" class="icon-edit"></a> 
+				<a href="javascript:ls.userfield.deleteUserfield({$oField->getId()})" title="{$aLang.user_field_delete}" class="icon-remove"></a>
 			</div>
 		</li>
 	{/foreach}

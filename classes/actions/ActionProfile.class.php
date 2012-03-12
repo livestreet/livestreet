@@ -33,7 +33,10 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserProfile;
 
+	protected $oUserCurrent;
+
 	public function Init() {
+		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 
 	protected function RegisterEvent() {
@@ -43,6 +46,9 @@ class ActionProfile extends Action {
 		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
 
 		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^$/i','EventWall');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add/i','EventWallAdd');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load/i','EventWallLoad');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
 	}
@@ -196,6 +202,131 @@ class ActionProfile extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('whois');
+	}
+
+	/**
+	 * Отображение стены пользователя
+	 */
+	public function EventWall() {
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Получаем записи стены
+		 */
+		$aWall=$this->Wall_GetWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null),array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aWall',$aWall['collection']);
+		$this->Viewer_Assign('iCountWall',$aWall['count']);
+		if ($aWall['collection']) {
+			reset($aWall['collection']);
+			$this->Viewer_Assign('iWallIdMore',current($aWall['collection'])->getId());
+			$this->Viewer_Assign('iWallIdLess',end($aWall['collection'])->getId());
+		}
+
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('wall');
+	}
+
+	/**
+	 * Добавление записи на стену
+	 */
+	public function EventWallAdd() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+			return parent::EventNotFound();
+		}
+
+		$oWall=Engine::GetEntity('Wall');
+		$oWall->setWallUserId($this->oUserProfile->getId());
+		$oWall->setUserId($this->oUserCurrent->getId());
+		$oWall->setText(getRequest('sText'));
+		$oWall->setPid(getRequest('iPid'));
+
+		if ($oWall->_Validate()) {
+			/**
+			 * Экранируем текст и добавляем запись в БД
+			 */
+			$oWall->setText($this->Text_Parser($oWall->getText()));
+			if (!$this->Wall_AddWall($oWall)) {
+				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
+			}
+		} else {
+			/**
+			 * Пробегаем по ошибкам валидации
+			 */
+			foreach($oWall->_getValidateErrors() as $sField=>$aErros) {
+				foreach($aErros as $sError) {
+					$this->Message_AddError($sError,$this->Lang_Get('error'));
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Ajax подгрузка сообщений стены
+	 */
+	public function EventWallLoad() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Формируем фильтр для запроса к БД
+		 */
+		$aFilter=array(
+			'wall_user_id'=>$this->oUserProfile->getId(),
+			'pid'=>null
+		);
+		if (is_numeric(getRequest('iIdLess'))) {
+			$aFilter['id_less']=getRequest('iIdLess');
+		} elseif (is_numeric(getRequest('iIdMore'))) {
+			$aFilter['id_more']=getRequest('iIdMore');
+		} else {
+			$this->Message_AddError($this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем сообщения
+		 */
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aWall',$aWall['collection']);
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items.tpl'));
+		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
+		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+		if ($aWall['collection']) {
+			reset($aWall['collection']);
+			$this->Viewer_AssignAjax('iWallIdMore',current($aWall['collection'])->getId());
+			$this->Viewer_AssignAjax('iWallIdLess',end($aWall['collection'])->getId());
+		}
 	}
 
 	/**
