@@ -42,3 +42,6 @@ CREATE TABLE IF NOT EXISTS `prefix_wall` (
   KEY `wall_user_id` (`wall_user_id`),
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_user_field` ADD `type` VARCHAR( 50 ) NOT NULL AFTER `id` ,
+ADD INDEX ( `type` );

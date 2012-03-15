@@ -30,7 +30,7 @@
 
 <header id="header" role="banner">
 	<hgroup class="site-info">
-		<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='site.name'}</a></h1>
-		<h2 class="site-description">{cfg name='site.description'}</h2>
+		<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
+		<h2 class="site-description">{cfg name='view.description'}</h2>
 	</hgroup>
 </header>

@@ -1,5 +1,14 @@
 {include file='header.tpl' menu='settings' noSidebar=true}
 
+<p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
+	<select name="profile_user_field_type[]">
+	{foreach from=$aUserFieldsContact item=oFieldAll}
+		<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
+	{/foreach}
+	</select>
+	<input type="text" name="profile_user_field_value[]" value="" class="input-text input-width-200">
+	<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+</p>
 
 
 <form method="post" enctype="multipart/form-data">
@@ -24,7 +33,7 @@
 		
 		<p>
 			<label for="profile_sex">{$aLang.settings_profile_sex}:</label>
-			<select name="profile_sex">
+			<select name="profile_sex" id="profile_sex">
 				<option value="man" {if $oUserCurrent->getProfileSex()=='man'}selected{/if}>{$aLang.settings_profile_sex_man}</option>
 				<option value="woman" {if $oUserCurrent->getProfileSex()=='woman'}selected{/if}>{$aLang.settings_profile_sex_woman}</option>
 				<option value="other" {if $oUserCurrent->getProfileSex()=='other'}selected{/if}>{$aLang.settings_profile_sex_other}</option>
@@ -86,14 +95,33 @@
 			<input type="text" id="profile_site" name="profile_site" value="{$oUserCurrent->getProfileSite()|escape:'html'}" placeholder="{$aLang.settings_profile_site_url}" class="input-text input-width-200" />
 			<input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" placeholder="{$aLang.settings_profile_site_name}" class="input-text input-width-200" />
 		</p>
-		
-		{if count($aUserFields)}
-			{foreach from=$aUserFields item=oField}
+
+		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
+		{if count($aUserFieldValues)}
+			{foreach from=$aUserFieldValues item=oField}
 				<p>
 					<label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label>
 					<input type="text" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
 				</p>
 			{/foreach}
+		{/if}
+
+		{assign var="aUserFieldContactValues" value=$oUserCurrent->getUserFieldValues(true,array('contact','social'))}
+		<div id="user-field-contact-contener">
+		{foreach from=$aUserFieldContactValues item=oField}
+			<p class="js-user-field-item">
+				<select name="profile_user_field_type[]">
+				{foreach from=$aUserFieldsContact item=oFieldAll}
+					<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
+				{/foreach}
+				</select>
+				<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
+				<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+			</p>
+		{/foreach}
+		</div>
+		{if $aUserFieldsContact}
+			<a href="#" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</a>
 		{/if}
 	</fieldset>
 	

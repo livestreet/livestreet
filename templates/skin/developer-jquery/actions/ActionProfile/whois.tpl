@@ -50,6 +50,13 @@
 	</ul>
 {/if}
 
+{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact','social'))}
+<ul>
+{foreach from=$aUserFieldContactValues item=oField}
+	<li>{$oField->getTitle()|escape:'html'}: {$oField->getValue(true,true)}</li>
+{/foreach}
+</ul>
+
 {if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
 	<h2>{$aLang.profile_privat}</h2>
 	<table class="table">		
@@ -108,14 +115,14 @@
 				</td>
 			</tr>
 		{/if}
-                {if count($aUserFields)}
-                    {foreach from=$aUserFields item=oField}
-                        <tr>
-                            <td class="var">{$oField->getTitle()|escape:'html'}:</td>
-                            <td>{$oField->getValue(true,true)}</td>
-                        </tr>
-                    {/foreach}
-                {/if}
+		{if count($aUserFields)}
+			{foreach from=$aUserFields item=oField}
+				<tr>
+					<td class="var">{$oField->getTitle()|escape:'html'}:</td>
+					<td>{$oField->getValue(true,true)}</td>
+				</tr>
+			{/foreach}
+		{/if}
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 	</table>
 {/if}

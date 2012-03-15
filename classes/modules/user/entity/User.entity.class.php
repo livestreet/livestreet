@@ -120,7 +120,9 @@ class ModuleUser_EntityUser extends Entity {
     }
     
     
-    
+    public function getUserFieldValues($bOnlyNoEmpty = true, $sType='') {
+		return $this->User_getUserFieldsValues($this->getId(), $bOnlyNoEmpty,$sType);
+	}
     public function getSession() {
         return $this->_aData['session'];
     }

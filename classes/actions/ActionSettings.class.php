@@ -138,7 +138,8 @@ class ActionSettings extends Action {
 	 */
 	protected function EventProfile() {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
-                  $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
+		$this->Viewer_Assign('aUserFields',$this->User_getUserFields(''));
+		$this->Viewer_Assign('aUserFieldsContact',$this->User_getUserFields(array('contact','social')));
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
@@ -354,21 +355,37 @@ class ActionSettings extends Action {
 						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
 					}
 
-                                                /**
-                                                 * Обрабатываем дополнительные поля
-                                                 */
-                                                $aFields = $this->User_getUserFields();
-                                                $aData = array();
-                                                foreach ($aFields as $iId => $aField) {
-                                                    if (isset($_REQUEST['profile_user_field_'.$iId])) {
-                                                        $aData[$iId] = getRequest('profile_user_field_'.$iId);
-                                                    }
-                                                }
-                                                $this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
+					/**
+					 * Обрабатываем дополнительные поля, type = ''
+					 */
+					$aFields = $this->User_getUserFields('');
+					$aData = array();
+					foreach ($aFields as $iId => $aField) {
+						if (isset($_REQUEST['profile_user_field_'.$iId])) {
+							$aData[$iId] = getRequest('profile_user_field_'.$iId);
+						}
+					}
+					$this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
+					/**
+					 * Динамические поля контактов, type = array('contact','social')
+					 */
+					$aType=array('contact','social');
+					$aFields = $this->User_getUserFields($aType);
+					/**
+					 * Удаляем все поля с этим типом
+					 */
+					$this->User_DeleteUserFieldValues($this->oUserCurrent->getId(),$aType);
+					$aFieldsContactType=getRequest('profile_user_field_type');
+					$aFieldsContactValue=getRequest('profile_user_field_value');
+					if (is_array($aFieldsContactType)) {
+						foreach($aFieldsContactType as $k=>$v) {
+							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
+								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), false);
+							}
+						}
+					}
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
-                                            $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
-
-				} else {
+                } else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
 			}

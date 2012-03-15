@@ -34,6 +34,15 @@ class ModuleUser extends Module {
 	protected $oSession=null;
 
 	/**
+	 * Список типов пользовательских полей
+	 *
+	 * @var array
+	 */
+	protected $aUserFieldTypes=array(
+		'social','contact'
+	);
+
+	/**
 	 * Инициализация
 	 *
 	 */
@@ -64,6 +73,25 @@ class ModuleUser extends Module {
 		if (isset($this->oSession)) {
 			$this->UpdateSession();
 		}
+	}
+
+	/**
+	 * Возвращает список типов полей
+	 */
+	public function GetUserFieldTypes() {
+		return $this->aUserFieldTypes;
+	}
+
+	/**
+	 * Добавляет новый тип с пользовательские поля
+	 * @param string $sType
+	 */
+	public function AddUserFieldTypes($sType) {
+		if (!in_array($sType,$this->aUserFieldTypes)) {
+			$this->aUserFieldTypes[]=$sType;
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
@@ -1193,20 +1221,22 @@ class ModuleUser extends Module {
 
 	/**
      * Получить дополниетльные поля профиля пользователя
+	 * @param array $aType Типы полей, null - все типы
      * @return type 
      */
-	public function getUserFields() {
-		return $this->oMapper->getUserFields();
+	public function getUserFields($aType=null) {
+		return $this->oMapper->getUserFields($aType);
 	}
 
 	/**
      * Получить значения дополнительных полей профиля пользователя
-     * @param type $iUserId
-     * @param type $bOnlyNoEmpty Загружать только непустые поля
-     * @return type 
+     * @param int $iUserId
+     * @param bool $bOnlyNoEmpty Загружать только непустые поля
+     * @param array $aType Типы полей, null - все типы
+     * @return type
      */
-	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true) {
-		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
+	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true, $aType=array('')) {
+		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty, $aType);
 	}
 
 	/**
@@ -1225,8 +1255,8 @@ class ModuleUser extends Module {
      * @param type $aFields Ассоциативный массив полей id => value
      * @return type 
      */
-	public function setUserFieldsValues($iUserId, $aFields) {
-		return $this->oMapper->setUserFieldsValues($iUserId, $aFields);
+	public function setUserFieldsValues($iUserId, $aFields, $bSingle=true) {
+		return $this->oMapper->setUserFieldsValues($iUserId, $aFields, $bSingle);
 	}
 
 	/**
@@ -1275,6 +1305,10 @@ class ModuleUser extends Module {
 	 */
 	public function userFieldExistsById($iId) {
 		return $this->oMapper->userFieldExistsById($iId);
+	}
+
+	public function DeleteUserFieldValues($iUserId,$aType=null) {
+		return $this->oMapper->DeleteUserFieldValues($iUserId,$aType);
 	}
 }
 ?>

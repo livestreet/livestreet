@@ -11,13 +11,21 @@
 	</header>
 
 	<form>
-		<p><label for="user_fields_add_name">{$aLang.userfield_form_name}:</label>
+		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
+		<select id="user_fields_form_type" class="input-text input-width-full">
+			<option value=""></option>
+			{foreach from=$aUserFieldTypes item=sFieldType}
+				<option value="{$sFieldType}">{$sFieldType}</option>
+			{/foreach}
+		</select></p>
+
+		<p><label for="user_fields_form_name">{$aLang.userfield_form_name}:</label>
 		<input type="text" id="user_fields_form_name" class="input-text input-width-full" /></p>
 		
-		<p><label for="user_fields_add_title">{$aLang.userfield_form_title}:</label>
+		<p><label for="user_fields_form_title">{$aLang.userfield_form_title}:</label>
 		<input type="text" id="user_fields_form_title" class="input-text input-width-full" /></p>
 		
-		<p><label for="user_fields_add_pattern">{$aLang.userfield_form_pattern}:</label>
+		<p><label for="user_fields_form_pattern">{$aLang.userfield_form_pattern}:</label>
 		<input type="text" id="user_fields_form_pattern" class="input-text input-width-full" /></p>
 		
 		<input type="hidden" id="user_fields_form_action" />
@@ -35,8 +43,9 @@
 	{foreach from=$aUserFields item=oField}
 		<li id="field_{$oField->getId()}"><strong class="userfield_admin_name">{$oField->getName()|escape:"html"}</strong>
 			/ <span class="userfield_admin_title">{$oField->getTitle()|escape:"html"}</span>
+            / <span class="userfield_admin_type">{$oField->getType()|escape:"html"}</span>
             / <span class="userfield_admin_pattern">{$oField->getPattern()|escape:"html"}</span>
-			
+
 			<div class="userfield-actions">
 				<a href="javascript:ls.userfield.showEditForm({$oField->getId()})" title="{$aLang.user_field_update}" class="icon-edit"></a> 
 				<a href="javascript:ls.userfield.deleteUserfield({$oField->getId()})" title="{$aLang.user_field_delete}" class="icon-remove"></a>

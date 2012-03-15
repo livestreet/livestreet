@@ -174,6 +174,9 @@ class ActionAdmin extends Action {
 				$oField->setName(getRequest('name'));
 				$oField->setTitle(getRequest('title'));
 				$oField->setPattern(getRequest('pattern'));
+				if (in_array(getRequest('type'),$this->User_GetUserFieldTypes())) {
+					$oField->setType(getRequest('type'));
+				}
 
 				$iId = $this->User_addUserField($oField);
 				if(!$iId) {
@@ -227,6 +230,11 @@ class ActionAdmin extends Action {
 				$oField->setName(getRequest('name'));
 				$oField->setTitle(getRequest('title'));
 				$oField->setPattern(getRequest('pattern'));
+				if (in_array(getRequest('type'),$this->User_GetUserFieldTypes())) {
+					$oField->setType(getRequest('type'));
+				} else {
+					$oField->setType('');
+				}
 
 				if ($this->User_updateUserField($oField)) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -245,10 +253,9 @@ class ActionAdmin extends Action {
 				/**
 				 * Получаем список всех полей
 				 */
-				$aUserFields = $this->User_getUserFields();
-				$this->Viewer_Assign('aUserFields',$aUserFields);
+				$this->Viewer_Assign('aUserFields',$this->User_getUserFields());
+				$this->Viewer_Assign('aUserFieldTypes',$this->User_GetUserFieldTypes());
 				$this->SetTemplateAction('user_fields');
-				$this->Viewer_AppendScript(Config::Get('path.static.skin').'/js/userfield.js');
 		}
 	}
 	

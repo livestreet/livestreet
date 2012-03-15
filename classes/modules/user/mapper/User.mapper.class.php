@@ -827,111 +827,112 @@ class ModuleUser_MapperUser extends Mapper {
 		return null;
 	}
 
-    public function getUserFields()
-    {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
-        $aFields = $this->oDb->select($sql);
-        if (!count($aFields)) {
-            return array();
-        }
-        $aResult = array();
-        foreach($aFields as $aField) {
-            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
-        }
-        return $aResult;
-    }
-    
-     public function getUserFieldValueByName($iUserId, $sName)
-    {
-        $sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE 
+	public function getUserFields($aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
+		$sql = 'SELECT * FROM '.Config::Get('db.table.user_field').' WHERE 1=1 { and type IN (?a) }';
+		$aFields = $this->oDb->select($sql,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
+		if (!count($aFields)) {
+			return array();
+		}
+		$aResult = array();
+		foreach($aFields as $aField) {
+			$aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
+		}
+		return $aResult;
+	}
+
+	public function getUserFieldValueByName($iUserId, $sName) {
+		$sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE
                         user_id = ?d 
                         AND  
                         field_id = (SELECT id FROM '.Config::Get('db.table.user_field').' WHERE name =?)';
-        $ret = $this->oDb->selectCol($sql, $iUserId, $sName);
-        return $ret[0];
-    }
+		$ret = $this->oDb->selectCol($sql, $iUserId, $sName);
+		return $ret[0];
+	}
 
-    public function getUserFieldsValues($iUserId, $bOnlyNoEmpty)
-    {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
-        $aFields = $this->oDb->select($sql);
-        if (!count($aFields)) {
-            return array();
-        }
-        $sql = 'SELECT field_id, value FROM '.Config::Get('db.table.user_field_value').' WHERE
-                user_id = ?d';
-        $aValues = array();
-        $aValues = $this->oDb->select($sql, $iUserId);
+	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty, $aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
 
-        $aResult = array();
-        foreach($aFields as $aField) {
-            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
-        }
-        foreach($aValues as $aValue) {
-            if (isset($aResult[$aValue['field_id']])) {
-                if ($aValue['value']) {
-                    $aResult[$aValue['field_id']]->setValue($aValue['value']);
-                }
-            }
-        }
-        if ($bOnlyNoEmpty) {
-            foreach ($aResult as $oField) {
-                if (!$oField->getValue()) {
-                    unset ($aResult[$oField->getId()]);
-                }
-            }
-        }
-        return $aResult;
-    }
+		/**
+		 * Если запрашиваем без типа, то необходимо вернуть ВСЕ возможные поля с этим типом в не звависимости указал ли их пользователь у себя в профили или нет
+		 * Выглядит костыльно
+		 */
+		if (is_array($aType) and count($aType)==1 and $aType[0]=='') {
+			$sql='SELECT f.*, v.value FROM '.Config::Get('db.table.user_field').' as f LEFT JOIN '.Config::Get('db.table.user_field_value').' as v ON f.id = v.field_id WHERE v.user_id = ?d and f.type IN (?a)';
 
-    public function setUserFieldsValues($iUserId, $aFields)
-    {
-        if (!count($aFields)) return;
-        foreach ($aFields as $iId =>$sValue) {
-            $sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
-            if ($this->oDb->select($sql, $iUserId, $iId)) {
-                $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
-            } else {
-                $sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
-            }
-            $this->oDb->query($sql, $sValue, $iUserId, $iId);
-        }
-    }
+		} else {
+			$sql = 'SELECT v.value, f.* FROM '.Config::Get('db.table.user_field_value').' as v, '.Config::Get('db.table.user_field').' as f
+			WHERE v.user_id = ?d AND v.field_id = f.id { and f.type IN (?a) }';
+		}
+		$aResult=array();
+		if ($aRows=$this->oDb->select($sql, $iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType)) {
+			foreach($aRows as $aRow) {
+				if ($bOnlyNoEmpty and !$aRow['value']) {
+					continue;
+				}
+				$aResult[]=Engine::GetEntity('User_Field', $aRow);
+			}
+		}
+		return $aResult;
+	}
 
-    public function addUserField($oField)
-    {
-        $sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
-                    name = ?, title = ?, pattern = ?';
-        return $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern());
-    }
+	public function setUserFieldsValues($iUserId, $aFields, $bSingle) {
+		if (!count($aFields)) return;
+		foreach ($aFields as $iId =>$sValue) {
+			$sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
+			if ($bSingle and $this->oDb->select($sql, $iUserId, $iId)) {
+				$sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
+			} else {
+				$sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
+			}
+			$this->oDb->query($sql, $sValue, $iUserId, $iId);
+		}
+	}
 
-    public function deleteUserField($iId)
-    {
-        $sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').' WHERE field_id = ?d';
-        $this->oDb->query($sql, $iId);
-        $sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
+	public function addUserField($oField) {
+		$sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
+                    name = ?, title = ?, pattern = ?, type = ?';
+		return $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getType());
+	}
+
+	public function deleteUserField($iId) {
+		$sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').' WHERE field_id = ?d';
+		$this->oDb->query($sql, $iId);
+		$sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
                     id = ?d';
-        $this->oDb->query($sql, $iId);
-    }
-    
-    public function updateUserField($oField)
-    {
-        $sql =  'UPDATE '.Config::Get('db.table.user_field').' SET 
-                    name = ?, title = ?, pattern = ?
+		$this->oDb->query($sql, $iId);
+	}
+
+	public function updateUserField($oField) {
+		$sql =  'UPDATE '.Config::Get('db.table.user_field').' SET
+                    name = ?, title = ?, pattern = ?, type = ?
                     WHERE id = ?d';
-        $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getId());
-    }
-    
-    public function userFieldExistsByName($sName, $iId)
-    {
-        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE name = ? {AND id != ?d}';
-        return $this->oDb->select($sql, $sName, $iId ? $iId : DBSIMPLE_SKIP);
-    }
-    
-    public function userFieldExistsById($iId)
-    {
-        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE id = ?d';
-        return $this->oDb->select($sql, $iId);
-    }
+		$this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getType(), $oField->getId());
+	}
+
+	public function userFieldExistsByName($sName, $iId) {
+		$sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE name = ? {AND id != ?d}';
+		return $this->oDb->select($sql, $sName, $iId ? $iId : DBSIMPLE_SKIP);
+	}
+
+	public function userFieldExistsById($iId) {
+		$sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE id = ?d';
+		return $this->oDb->select($sql, $iId);
+	}
+
+	public function DeleteUserFieldValues($iUserId,$aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
+		$sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').'
+			WHERE user_id = ?d AND field_id IN (
+				SELECT id FROM '.Config::Get('db.table.user_field').' WHERE 1=1 { and type IN (?a) }
+			)';
+		return $this->oDb->query($sql,$iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
+	}
 }
 ?>

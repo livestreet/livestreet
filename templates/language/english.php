@@ -525,6 +525,7 @@ return array(
 	'user_field_delete_confirm' => 'Remove the field?',
 	'user_field_deleted' => 'Field is removed',
 	'userfield_form_name' => 'Name',
+	'userfield_form_type' => 'Type',
 	'userfield_form_title' => 'Title',
 	'userfield_form_pattern' => 'Template (value is substituted into the token {*})',
 	'user_field_error_add_no_name' => 'You must specify the name of the field',

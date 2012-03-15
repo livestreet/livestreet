@@ -525,6 +525,7 @@ return array(
 	'user_field_delete_confirm' => 'Удалить поле?',
 	'user_field_deleted' => 'Поле удалено',
 	'userfield_form_name' => 'Имя',
+	'userfield_form_type' => 'Тип',
 	'userfield_form_title' => 'Заголовок',
 	'userfield_form_pattern' => 'Шаблон (значение подставляется в токен {*})',
 	'user_field_error_add_no_name' => 'Необходимо указать название поля',
