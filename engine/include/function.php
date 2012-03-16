@@ -228,19 +228,10 @@ function func_header_location($sLocation) {
  * @param unknown_type $sNewDir
  */
 function func_mkdir($sBasePath,$sNewDir) {
-	$sBasePath=rtrim($sBasePath,'/');
-	$sBasePath.='/';
-	$sTempPath=$sBasePath;
-	$aNewDir=explode('/',$sNewDir);
-	foreach ($aNewDir as $sDir) {
-		if ($sDir!='.' and $sDir!='') {
-			if (!file_exists($sTempPath.$sDir.'/'))	{
-				@mkdir($sTempPath.$sDir.'/');
-				@chmod($sTempPath.$sDir.'/',0755);
-			}
-			$sTempPath=$sTempPath.$sDir.'/';
-		}
-	}   	
+  $sDirToCheck = rtrim ($sBasePath, '/') . '/' . $sNewDir;
+  if (!is_dir ($sDirToCheck)) {
+    @mkdir ($sDirToCheck, 0755, true);
+  }
 }
 
 /**
