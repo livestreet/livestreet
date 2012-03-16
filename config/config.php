@@ -177,6 +177,7 @@ $config['module']['user']['avatar_size'] = array(64,48,24,0); // Список р
 $config['module']['user']['login']['min_size'] = 3; // Минимальное количество символов в логине
 $config['module']['user']['login']['max_size'] = 30; // Максимальное количество символов в логине
 $config['module']['user']['time_active'] = 60*60*24*7; 	// Число секунд с момента последнего посещения пользователем сайта, в течение которых он считается активным
+$config['module']['user']['usernote_text_max'] = 250; 	// Максимальный размер заметки о пользователе
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
@@ -324,7 +325,8 @@ $config['db']['table']['user_field']          = '___db.table.prefix___user_field
 $config['db']['table']['user_field_value']    = '___db.table.prefix___user_field_value';
 $config['db']['table']['topic_photo']         = '___db.table.prefix___topic_photo';
 $config['db']['table']['subscribe']           = '___db.table.prefix___subscribe';
-$config['db']['table']['wall']           = '___db.table.prefix___wall';
+$config['db']['table']['wall']                = '___db.table.prefix___wall';
+$config['db']['table']['user_note']           = '___db.table.prefix___user_note';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -500,6 +502,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/poll.js",
 	"___path.root.engine_lib___/internal/template/js/subscribe.js",
 	"___path.root.engine_lib___/internal/template/js/wall.js",
+	"___path.root.engine_lib___/internal/template/js/usernote.js",
 	"___path.root.engine_lib___/internal/template/js/comments.js",
 	"___path.root.engine_lib___/internal/template/js/blog.js",
 	"___path.root.engine_lib___/internal/template/js/friend.js",

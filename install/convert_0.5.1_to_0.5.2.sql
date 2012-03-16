@@ -45,3 +45,15 @@ CREATE TABLE IF NOT EXISTS `prefix_wall` (
 
 ALTER TABLE `prefix_user_field` ADD `type` VARCHAR( 50 ) NOT NULL AFTER `id` ,
 ADD INDEX ( `type` );
+
+
+CREATE TABLE IF NOT EXISTS `prefix_user_note` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `target_user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `date_add` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `target_user_id` (`target_user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

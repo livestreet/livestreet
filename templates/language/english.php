@@ -532,6 +532,16 @@ return array(
 	'user_field_error_add_no_title' => 'You must specify a title field',
 	'user_field_error_name_exists' => 'Field with that name already exists',
 	/**
+	 * Note fro user
+	 */
+	'user_note_form_edit' => 'Edit',
+	'user_note_form_delete' => 'Remove',
+	'user_note_form_save' => 'Save',
+	'user_note_form_cancel' => 'Cancel',
+	'user_note_add' => 'Add note',
+	'user_note_save_error' => 'Error on save',
+	'user_note_target_error' => 'Bad user for note',
+	/**
 	 * Wall
 	 */
 	'wall_add_pid_error' => 'At this message can not be reply',

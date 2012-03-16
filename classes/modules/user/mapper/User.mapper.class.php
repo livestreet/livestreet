@@ -934,5 +934,64 @@ class ModuleUser_MapperUser extends Mapper {
 			)';
 		return $this->oDb->query($sql,$iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
 	}
+
+
+	public function GetUserNotesByUserId($iUserId,&$iCount,$iCurrPage,$iPerPage) {
+		$sql = "
+			SELECT *
+			FROM
+				".Config::Get('db.table.user_note')."
+			WHERE
+				user_id = ?d
+			ORDER BY id DESC
+			LIMIT ?d, ?d ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+			}
+		}
+		return $aReturn;
+	}
+
+	public function GetUserNote($iTargetUserId,$iUserId) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_note')." WHERE target_user_id = ?d and user_id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$iTargetUserId,$iUserId)) {
+			return Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+		}
+		return null;
+	}
+
+	public function GetUserNoteById($iId) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_note')." WHERE id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$iId)) {
+			return Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+		}
+		return null;
+	}
+
+	public function DeleteUserNoteById($iId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.user_note')." WHERE id = ?d ";
+		return $this->oDb->query($sql,$iId);
+	}
+
+	public function AddUserNote($oNote) {
+		$sql = "INSERT INTO ".Config::Get('db.table.user_note')." SET ?a ";
+		if ($iId=$this->oDb->query($sql,$oNote->_getData())) {
+			return $iId;
+		}
+		return false;
+	}
+
+
+	public function UpdateUserNote($oNote) {
+		$sql = "UPDATE ".Config::Get('db.table.user_note')."
+			SET
+			 	text = ?
+			WHERE id = ?d
+		";
+		return $this->oDb->query($sql,$oNote->getText(),
+								 $oNote->getId());
+	}
 }
 ?>

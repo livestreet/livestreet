@@ -1310,5 +1310,88 @@ class ModuleUser extends Module {
 	public function DeleteUserFieldValues($iUserId,$aType=null) {
 		return $this->oMapper->DeleteUserFieldValues($iUserId,$aType);
 	}
+
+	/**
+	 * Возвращает список заметок пользователя
+	 *
+	 * @param $iUserId
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @return array
+	 */
+	public function GetUserNotesByUserId($iUserId,$iCurrPage,$iPerPage) {
+		$aResult=$this->oMapper->GetUserNotesByUserId($iUserId,$iCount,$iCurrPage,$iPerPage);
+		/**
+		 * Цепляем пользователей
+		 */
+		$aUserId=array();
+		foreach($aResult as $oNote) {
+			$aUserId[]=$oNote->getTargetUserId();
+		}
+		$aUsers=$this->GetUsersAdditionalData($aUserId,array());
+		foreach($aResult as $oNote) {
+			if (isset($aUsers[$oNote->getTargetUserId()])) {
+				$oNote->setTargetUser($aUsers[$oNote->getTargetUserId()]);
+			} else {
+				$oNote->setTargetUser(Engine::GetEntity('User')); // пустого пользователя во избеания ошибок, т.к. пользователь всегда должен быть
+			}
+		}
+		return array('collection'=>$aResult,'count'=>$iCount);
+	}
+
+	/**
+	 * Возвращет заметку по автору и пользователю
+	 *
+	 * @param $iTargetUserId
+	 * @param $iUserId
+	 * @return ModuleUser_EntityNote
+	 */
+	public function GetUserNote($iTargetUserId,$iUserId) {
+		return $this->oMapper->GetUserNote($iTargetUserId,$iUserId);
+	}
+
+	/**
+	 * Врзвращает заметку по ID
+	 *
+	 * @param $iId
+	 * @return ModuleUser_EntityNote
+	 */
+	public function GetUserNoteById($iId) {
+		return $this->oMapper->GetUserNoteById($iId);
+	}
+
+	/**
+	 * Удаляет заметку по ID
+	 *
+	 * @param $iId
+	 * @return bool
+	 */
+	public function DeleteUserNoteById($iId) {
+		return $this->oMapper->DeleteUserNoteById($iId);
+	}
+
+	/**
+	 * Сохраняет заметку в БД, если ее нет то создает новую
+	 *
+	 * @param $oNote
+	 * @return bool|ModuleUser_EntityNote
+	 */
+	public function SaveNote($oNote) {
+		if (!$oNote->getDateAdd()) {
+			$oNote->setDateAdd(date("Y-m-d H:i:s"));
+		}
+
+		if ($oNoteOld=$this->GetUserNote($oNote->getTargetUserId(),$oNote->getUserId()) ) {
+			$oNoteOld->setText($oNote->getText());
+			$this->oMapper->UpdateUserNote($oNoteOld);
+			return $oNoteOld;
+		} else {
+			if ($iId=$this->oMapper->AddUserNote($oNote)) {
+				$oNote->setId($iId);
+				return $oNote;
+			}
+		}
+		return false;
+	}
 }
 ?>

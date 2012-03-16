@@ -225,4 +225,29 @@
 </table>
 
 
+{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
+	{if $oUserNote}
+		<script type="text/javascript">
+			ls.usernote.sText={json var=$oUserNote->getText()};
+		</script>
+	{/if}
+
+	<div id="usernote-note" {if !$oUserNote}style="display:none;"{/if}>
+		<div id="usernote-note-text">
+			{if $oUserNote}
+				{$oUserNote->getText()}
+			{/if}
+		</div>
+		<a href="#" onclick="return ls.usernote.showForm();">{$aLang.user_note_form_edit}</a>
+		<a href="#" onclick="return ls.usernote.remove({$oUserProfile->getId()});">{$aLang.user_note_form_delete}</a>
+	</div>
+	<div id="usernote-form" style="display:none;">
+		<textarea rows="4" cols="20" id="usernote-form-text"></textarea><br/>
+		<button onclick="return ls.usernote.save({$oUserProfile->getId()});">{$aLang.user_note_form_save}</button>
+		<button onclick="return ls.usernote.hideForm();">{$aLang.user_note_form_cancel}</button>
+	</div>
+	<a href="#" onclick="return ls.usernote.showForm();" id="usernote-button-add" {if $oUserNote}style="display:none;"{/if}>{$aLang.user_note_add}</a>
+{/if}
+
+
 {include file='footer.tpl'}

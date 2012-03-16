@@ -532,6 +532,16 @@ return array(
 	'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
 	'user_field_error_name_exists' => 'Поле с таким именем уже существует',
 	/**
+	 * Заметка пользователя
+	 */
+	'user_note_form_edit' => 'Редактировать',
+	'user_note_form_delete' => 'Удалить',
+	'user_note_form_save' => 'Сохранить',
+	'user_note_form_cancel' => 'Отмена',
+	'user_note_add' => 'Написать заметку',
+	'user_note_save_error' => 'Ошибка сохранения заметки',
+	'user_note_target_error' => 'Неверный пользователь для заметки',
+	/**
 	 * Стена
 	 */
 	'wall_add_pid_error' => 'На данное сообщение невозможно ответить',

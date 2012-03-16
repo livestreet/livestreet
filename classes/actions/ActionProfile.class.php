@@ -44,6 +44,8 @@ class ActionProfile extends Action {
 		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
 		$this->AddEvent('ajaxfrienddelete', 'EventAjaxFriendDelete');
 		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
+		$this->AddEvent('ajax-note-save', 'EventAjaxNoteSave');
+		$this->AddEvent('ajax-note-remove', 'EventAjaxNoteRemove');
 
 		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^$/i','EventWall');
@@ -184,6 +186,12 @@ class ActionProfile extends Action {
          * Получаем список контактов
          */
         $aUserFields = $this->User_getUserFieldsValues($this->oUserProfile->getId());
+		/**
+		 * Заметка текущего пользователя о юзере
+		 */
+		if ($this->oUserCurrent) {
+			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
+		}
 		/**
 		 * Вызов хуков
 		 */
@@ -357,6 +365,64 @@ class ActionProfile extends Action {
 		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+	}
+
+	/**
+	 * Сохраняет заметку о пользователе
+	 */
+	public function EventAjaxNoteSave() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Создаем заметку и проводим валидацию
+		 */
+		$oNote=Engine::GetEntity('ModuleUser_EntityNote');
+		$oNote->setTargetUserId(getRequest('iUserId'));
+		$oNote->setUserId($this->oUserCurrent->getId());
+		$oNote->setText(getRequest('text'));
+
+		if ($oNote->_Validate()) {
+			/**
+			 * Экранируем текст и добавляем запись в БД
+			 */
+			$oNote->setText(htmlspecialchars($oNote->getText()));
+			if ($this->User_SaveNote($oNote)) {
+				$this->Viewer_AssignAjax('sText',$oNote->getText());
+			} else {
+				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
+			}
+		} else {
+			/**
+			 * Пробегаем по ошибкам валидации
+			 */
+			foreach($oNote->_getValidateErrors() as $sField=>$aErros) {
+				foreach($aErros as $sError) {
+					$this->Message_AddError($sError,$this->Lang_Get('error'));
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Удаляет заметку о пользователе
+	 */
+	public function EventAjaxNoteRemove() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		if (!($oUserTarget=$this->User_GetUserById(getRequest('iUserId')))) {
+			return parent::EventNotFound();
+		}
+		if (!($oNote=$this->User_GetUserNote($oUserTarget->getId(),$this->oUserCurrent->getId()))) {
+			return parent::EventNotFound();
+		}
+		$this->User_DeleteUserNoteById($oNote->getId());
 	}
 
 	/**
