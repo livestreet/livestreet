@@ -954,6 +954,20 @@ class ModuleUser_MapperUser extends Mapper {
 		return $aReturn;
 	}
 
+	public function GetCountUserNotesByUserId($iUserId) {
+		$sql = "
+			SELECT count(*) as c
+			FROM
+				".Config::Get('db.table.user_note')."
+			WHERE
+				user_id = ?d
+			";
+		if ($aRow=$this->oDb->selectRow($sql,$iUserId)) {
+			return $aRow['c'];
+		}
+		return 0;
+	}
+
 	public function GetUserNote($iTargetUserId,$iUserId) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.user_note')." WHERE target_user_id = ?d and user_id = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$iTargetUserId,$iUserId)) {

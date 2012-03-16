@@ -150,6 +150,7 @@ class ActionMy extends Action {
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
+		$this->Viewer_Assign('iCountNoteUser',$this->User_GetCountUserNotesByUserId($this->oUserProfile->getId()));
 	}
 }
 ?>

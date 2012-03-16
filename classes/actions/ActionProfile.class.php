@@ -54,6 +54,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^notes/i','/^(page(\d+))?$/i','EventNotes');
 	}
 
 	/**********************************************************************************
@@ -424,6 +425,51 @@ class ActionProfile extends Action {
 		}
 		$this->User_DeleteUserNoteById($oNote->getId());
 	}
+
+
+	public function EventNotes() {
+		/**
+		 * Получаем логин из УРЛа
+		 */
+		$sUserLogin=$this->sCurrentEvent;
+		/**
+		 * Проверяем есть ли такой юзер
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Заметки может читать только сам пользователь
+		 */
+		if (!$this->oUserCurrent or $this->oUserCurrent->getId()!=$this->oUserProfile->getId()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		/**
+		 * Получаем список заметок
+		 */
+		$aResult=$this->User_GetUserNotesByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.user.usernote_per_page'));
+		$aNotes=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/notes');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aNotes',$aNotes);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_notes'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('notes');
+	}
+
 
 	/**
 	 * Добавление пользователя в друзья, по отправленной заявке
@@ -941,6 +987,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
+		$this->Viewer_Assign('iCountNoteUser',$this->User_GetCountUserNotesByUserId($this->oUserProfile->getId()));
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

@@ -482,6 +482,7 @@ return array(
 	 */
 	'user_menu_profile' => 'Профиль',
 	'user_menu_profile_whois' => 'Whois',
+	'user_menu_profile_notes' => 'Заметки',
 	'user_menu_profile_favourites' => 'Избранные топики',
 	'user_menu_profile_favourites_comments' => 'Избранные комментарии',
 	'user_menu_profile_tags' => 'Метки',

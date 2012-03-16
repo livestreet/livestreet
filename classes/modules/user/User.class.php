@@ -1340,6 +1340,16 @@ class ModuleUser extends Module {
 	}
 
 	/**
+	 * Возвращает количество заметок у пользователя
+	 *
+	 * @param $iUserId
+	 * @return mixed
+	 */
+	public function GetCountUserNotesByUserId($iUserId) {
+		return $this->oMapper->GetCountUserNotesByUserId($iUserId);
+	}
+
+	/**
 	 * Возвращет заметку по автору и пользователю
 	 *
 	 * @param $iTargetUserId

@@ -482,6 +482,7 @@ return array(
 	 */
 	'user_menu_profile' => 'Profile',
 	'user_menu_profile_whois' => 'Whois',
+	'user_menu_profile_notes' => 'Notes',
 	'user_menu_profile_favourites' => 'Favourite topics',
 	'user_menu_profile_favourites_comments' => 'Favourite comments',
 	'user_menu_profile_tags' => 'Tags',
