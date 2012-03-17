@@ -145,14 +145,6 @@
 	
 	<fieldset>
 		<legend>Аватар и фото</legend>
-			
-		{if $oUserCurrent->getProfileAvatar()}
-			<img src="{$oUserCurrent->getProfileAvatarPath(100)}" />
-			<img src="{$oUserCurrent->getProfileAvatarPath(64)}" />
-			<img src="{$oUserCurrent->getProfileAvatarPath(24)}" /><br />
-			<input type="checkbox" id="avatar_delete" name="avatar_delete" value="on" class="checkbox" /><label for="avatar_delete">{$aLang.settings_profile_avatar_delete}</label><br />
-		{/if}
-		<p><label for="avatar">{$aLang.settings_profile_avatar}:</label><input type="file" id="avatar" name="avatar"/></p>
 
 		{if $oUserCurrent->getProfileFoto()}
 			<img src="{$oUserCurrent->getProfileFoto()}" /><br />
@@ -167,6 +159,36 @@
 	
 	<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 </form>
+
+
+
+
+
+<script type="text/javascript">
+	jQuery(function($){
+		$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
+			ls.user.uploadAvatar(null,input);
+		});
+
+	});
+</script>
+
+
+<br/><br/>
+<img src="{$oUserCurrent->getProfileAvatarPath(64)}" id="avatar-img" />
+<br/>
+
+<a href="#" id="avatar-upload">{if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br/>
+<a href="#" id="avatar-remove" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
+
+<div id="avatar-resize" style="display:none;">
+	<div>
+		<img src="" alt="" id="avatar-resize-original-img">
+	</div>
+	<button onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
+	<button onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+</div>
+
 
 
 {include file='footer.tpl'}

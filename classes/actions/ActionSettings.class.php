@@ -61,6 +61,10 @@ class ActionSettings extends Action {
 	}
 
 	protected function RegisterEvent() {
+		$this->AddEventPreg('/^profile$/i','/^upload-avatar/i','/^$/i','EventUploadAvatar');
+		$this->AddEventPreg('/^profile$/i','/^resize-avatar/i','/^$/i','EventResizeAvatar');
+		$this->AddEventPreg('/^profile$/i','/^remove-avatar/i','/^$/i','EventRemoveAvatar');
+		$this->AddEventPreg('/^profile$/i','/^cancel-avatar/i','/^$/i','EventCancelAvatar');
 		$this->AddEvent('profile','EventProfile');
 		$this->AddEvent('invite','EventInvite');
 		$this->AddEvent('tuning','EventTuning');
@@ -71,6 +75,105 @@ class ActionSettings extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	/**
+	 * Загрузка временной картинки для аватара
+	 */
+	protected function EventUploadAvatar() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if(!isset($_FILES['avatar']['tmp_name'])) {
+			return false;
+		}
+		/**
+		 * Копируем загруженный файл
+		 */
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($_FILES['avatar']['tmp_name'],$sFileTmp)) {
+			return false;
+		}
+		/**
+		 * Ресайзим и сохраняем именьшенную копию
+		 */
+		$sDir=Config::Get('path.uploads.images')."/tmp/avatars/{$this->oUserCurrent->getId()}";
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
+			$this->Session_Set('sAvatarFileTmp',$sFileAvatar);
+			$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFileAvatar));
+		} else {
+			$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
+		}
+	}
+
+	/**
+	 * Вырезает из временной аватарки область нужного размера, ту что задал пользователь
+	 */
+	protected function EventResizeAvatar() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
+		if (!file_exists($sFileAvatar)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		/**
+		 * Получаем размер области из параметров
+		 */
+		$aSize=array();
+		$aSizeTmp=getRequest('size');
+		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+			$aSize=array('x1'=>$aSizeTmp['x'],'y1'=>$aSizeTmp['y'],'x2'=>$aSizeTmp['x2'],'y2'=>$aSizeTmp['y2']);
+		}
+		/**
+		 * Вырезаем аватарку
+		 */
+		if ($sFileWeb=$this->User_UploadAvatar($sFileAvatar,$this->oUserCurrent,$aSize)) {
+			/**
+			 * Удаляем старые аватарки
+			 */
+			if ($sFileWeb!=$this->oUserCurrent->getProfileAvatar()) {
+				$this->User_DeleteAvatar($this->oUserCurrent);
+			}
+			$this->oUserCurrent->setProfileAvatar($sFileWeb);
+
+			$this->User_Update($this->oUserCurrent);
+			$this->Session_Drop('sAvatarFileTmp');
+			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(64));
+			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_change'));
+		} else {
+			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
+		}
+	}
+
+	/**
+	 * Удаляет аватар
+	 */
+	protected function EventRemoveAvatar() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$this->User_DeleteAvatar($this->oUserCurrent);
+		$this->oUserCurrent->setProfileAvatar(null);
+		$this->User_Update($this->oUserCurrent);
+		/**
+		 * Возвращает дефолтную аватарку
+		 */
+		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(64));
+		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
+	}
+
+	/**
+	 * Отмена ресайза аватарки, необходимо удалить временный файл
+	 */
+	protected function EventCancelAvatar() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Достаем из сессии файл и удаляем
+		 */
+		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
+		if (file_exists($sFileAvatar)) {
+			@unlink($sFileAvatar);
+		}
+		$this->Session_Drop('sAvatarFileTmp');
+	}
 
 	protected function EventTuning() {
 		$this->sMenuItemSelect='settings';
@@ -267,43 +370,6 @@ class ActionSettings extends Action {
 					$bError=true;
 					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
 				}
-			}
-			/**
-			 * Загрузка аватара, делаем ресайзы
-			 */
-			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				/**
-				 * Получаем список текущих аватаров
-				 */
-				$sPathOld = $this->oUserCurrent->getProfileAvatar();
-				$aUserAvatars = array();
-				if($sPathOld) {
-					foreach (array_merge(Config::Get('module.user.avatar_size'),array(100)) as $iSize) {
-						$aUserAvatars[$iSize] = $this->oUserCurrent->getProfileAvatarPath($iSize);
-					}
-				}
-
-				if($sPath=$this->User_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
-					$this->oUserCurrent->setProfileAvatar($sPath);
-					/**
-					 * Удаляем старые, если путь не совпадает с текущими аватарками
-					 */
-					if($sPathOld and $sPath!=$sPathOld and count($aUserAvatars)) {
-						foreach ($aUserAvatars as $iSize=>$sAvatarPath) {
-							@unlink($this->Image_GetServerPath($sAvatarPath));
-						}
-					}
-				} else {
-					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
-				}
-			}
-			/**
-			 * Удалить аватара
-			 */
-			if (getRequest('avatar_delete')) {
-				$this->User_DeleteAvatar($this->oUserCurrent);
-				$this->oUserCurrent->setProfileAvatar(null);
 			}
 			/**
 			 * Загрузка фото, делаем ресайзы

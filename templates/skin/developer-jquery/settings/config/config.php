@@ -2,7 +2,7 @@
 
 $config = array();
 
-$config['view']['theme'] = 'default'; // Текущая цветовая схема
+$config['view']['theme'] = 'default'; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/developer-jquery.js';
@@ -11,7 +11,8 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
 	"___path.static.skin___/css/base.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
-	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",	
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
+	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/grid.css",
 	"___path.static.skin___/css/common.css",
@@ -50,7 +51,7 @@ $config['block']['rule_talk_read'] = array(
 	'blocks'  => array( 'right' => array('actions/ActionTalk/speakers.tpl') ),
 );
 */
-$config['view']['img_resize_width'] = 570;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
+$config['view']['img_resize_width'] = 570;    // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 $config['profile']['photo_resize_width'] = 290;
 
 $config['module']['blog']['avatar_size'] = array(100,64,48,24,0);

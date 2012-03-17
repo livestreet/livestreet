@@ -4,6 +4,8 @@ var ls = ls || {};
 * Управление пользователями
 */
 ls.user = (function ($) {
+
+	this.jcropAvatar=null;
 	
 	/**
 	* Добавление в друзья
@@ -37,7 +39,7 @@ ls.user = (function ($) {
 				$('#add_friend_form').jqmHide();
 				$('#add_friend_item').remove();
 				$('#profile_actions').prepend($(result.sToggleText));
-				ls.hook.run('ls_friend_add_friend_after', [idUser,sAction,result], obj);
+				ls.hook.run('ls_user_add_friend_after', [idUser,sAction,result], obj);
 			}
 		});
 		return false;
@@ -58,11 +60,120 @@ ls.user = (function ($) {
 				ls.msg.notice(null,result.sMsg);
 				$('#delete_friend_item').remove();
 				$('#profile_actions').prepend($(result.sToggleText));
-				ls.hook.run('ls_friend_remove_friend_after', [idUser,sAction,result], obj);
+				ls.hook.run('ls_user_remove_friend_after', [idUser,sAction,result], obj);
 			}
 		});
 		return false;
-	}
+	};
+
+	/**
+	 * Загрузка временной аватарки
+	 * @param form
+	 * @param input
+	 */
+	this.uploadAvatar = function(form,input) {
+		if (!form && input) {
+			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
+				'display': 'none'
+			}).appendTo('body');
+			input.clone().appendTo(form);
+		}
+
+		ls.ajaxSubmit(aRouter['settings']+'profile/upload-avatar/',form,function(data){
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				this.showResizeAvatar(data.sTmpFile);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Показывает форму для ресайза аватарки
+	 * @param sImgFile
+	 */
+	this.showResizeAvatar = function(sImgFile) {
+		if (this.jcropAvatar) {
+			this.jcropAvatar.destroy();
+		}
+		$('#avatar-resize-original-img').attr('src',sImgFile+'?'+Math.random());
+		$('#avatar-resize').show();
+		var $this=this;
+		$('#avatar-resize-original-img').Jcrop({
+			aspectRatio: 1,
+			minSize: [32,32]
+		},function(){
+			$this.jcropAvatar=this;
+		});
+	};
+
+	/**
+	 * Выполняет ресайз аватарки
+	 */
+	this.resizeAvatar = function() {
+		if (!this.jcropAvatar) {
+			return false;
+		}
+		var url = aRouter.settings+'profile/resize-avatar/';
+		var params = {size: this.jcropAvatar.tellSelect()};
+
+		'*resizeAvatarBefore*'; '*/resizeAvatarBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#avatar-img').attr('src',result.sFile+'?'+Math.random());
+				$('#avatar-resize').hide();
+				$('#avatar-remove').show();
+				$('#avatar-upload').text(result.sTitleUpload);
+				ls.hook.run('ls_user_resize_avatar_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
+
+	/**
+	 * Удаление аватарки
+	 */
+	this.removeAvatar = function() {
+		var url = aRouter.settings+'profile/remove-avatar/';
+		var params = {};
+
+		'*removeAvatarBefore*'; '*/removeAvatarBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#avatar-img').attr('src',result.sFile+'?'+Math.random());
+				$('#avatar-remove').hide();
+				$('#avatar-upload').text(result.sTitleUpload);
+				ls.hook.run('ls_user_remove_avatar_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
+
+	/**
+	 * Отмена ресайза аватарки, подчищаем временный данные
+	 */
+	this.cancelAvatar = function() {
+		var url = aRouter.settings+'profile/cancel-avatar/';
+		var params = {};
+
+		'*cancelAvatarBefore*'; '*/cancelAvatarBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#avatar-resize').hide();
+				ls.hook.run('ls_user_cancel_avatar_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
 	
 	return this;
 }).call(ls.user || {},jQuery);

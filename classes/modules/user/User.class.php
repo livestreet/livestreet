@@ -1096,17 +1096,13 @@ class ModuleUser extends Module {
 	 * Upload user avatar on server
 	 * Make resized images
 	 *
-	 * @param  array           $aFile
+	 * @param  string	$sFileTmp
 	 * @param  ModuleUser_EntityUser $oUser
+	 * @param  array $aSize Размер области из которой нужно вырезать картинку - array('x1'=>0,'y1'=>0,'x2'=>100,'y2'=>100)
 	 * @return (string|bool)
 	 */
-	public function UploadAvatar($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+	public function UploadAvatar($sFileTmp,$oUser,$aSize=array()) {
+		if (!file_exists($sFileTmp)) {
 			return false;
 		}
 		$sPath = $this->Image_GetIdDir($oUser->getId());
@@ -1127,9 +1123,53 @@ class ModuleUser extends Module {
 			return false;
 		}
 
-		$oImage = $this->Image_CropSquare($oImage);
-		$oImage->set_jpg_quality($aParams['jpg_quality']);
-		$oImage->output(null,$sFileTmp);
+		if (!$aSize) {
+			$oImage = $this->Image_CropSquare($oImage);
+			$oImage->set_jpg_quality($aParams['jpg_quality']);
+			$oImage->output(null,$sFileTmp);
+		} else {
+			$iWSource=$oImage->get_image_params('width');
+			$iHSource=$oImage->get_image_params('height');
+			/**
+			 * Достаем переменные x1 и т.п. из $aSize
+			 */
+			extract($aSize,EXTR_PREFIX_SAME,'ops');
+			if ($x1>$x2) {
+				// меняем значения переменных
+				$x1 = $x1 + $x2;
+				$x2 = $x1 - $x2;
+				$x1 = $x1 - $x2;
+			}
+			if ($y1>$y2) {
+				$y1 = $y1 + $y2;
+				$y2 = $y1 - $y2;
+				$y1 = $y1 - $y2;
+			}
+			if ($x1<0) {
+				$x1=0;
+			}
+			if ($y1<0) {
+				$y1=0;
+			}
+			if ($x2>$iWSource) {
+				$x2=$iWSource;
+			}
+			if ($y2>$iHSource) {
+				$y2=$iHSource;
+			}
+
+			$iW=$x2-$x1;
+			// Допускаем минимальный клип в 32px (исключая маленькие изображения)
+			if ($iW<32 && $x1+32<=$iWSource) {
+				$iW=32;
+			}
+			$iH=$iW;
+			if ($iH+$y1>$iHSource) {
+				$iH=$iHSource-$y1;
+			}
+			$oImage->crop($iW,$iH,$x1,$y1);
+			$oImage->output(null,$sFileTmp);
+		}
 
 		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {
 			$aSize=Config::Get('module.user.avatar_size');
