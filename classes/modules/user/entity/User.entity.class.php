@@ -133,6 +133,9 @@ class ModuleUser_EntityUser extends Entity {
     		return Config::Get('path.static.skin').'/images/avatar_'.$iSize.'x'.$iSize.'.jpg';
     	}
     }
+	public function getProfileFotoDefault() {
+		return Config::Get('path.static.skin').'/images/userfoto_250.jpg';
+	}
     public function getVote() {
         return $this->_aData['vote'];
     }

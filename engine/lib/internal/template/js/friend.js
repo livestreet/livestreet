@@ -6,7 +6,8 @@ var ls = ls || {};
 ls.user = (function ($) {
 
 	this.jcropAvatar=null;
-	
+	this.jcropFoto=null;
+
 	/**
 	* Добавление в друзья
 	*/
@@ -174,6 +175,115 @@ ls.user = (function ($) {
 
 		return false;
 	};
-	
+
+	/**
+	 * Загрузка временной фотки
+	 * @param form
+	 * @param input
+	 */
+	this.uploadFoto = function(form,input) {
+		if (!form && input) {
+			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
+				'display': 'none'
+			}).appendTo('body');
+			input.clone().appendTo(form);
+		}
+
+		ls.ajaxSubmit(aRouter['settings']+'profile/upload-foto/',form,function(data){
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				this.showResizeFoto(data.sTmpFile);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Показывает форму для ресайза фотки
+	 * @param sImgFile
+	 */
+	this.showResizeFoto = function(sImgFile) {
+		if (this.jcropFoto) {
+			this.jcropFoto.destroy();
+		}
+		$('#foto-resize-original-img').attr('src',sImgFile+'?'+Math.random());
+		$('#foto-resize').show();
+		var $this=this;
+		$('#foto-resize-original-img').Jcrop({
+			minSize: [32,32]
+		},function(){
+			$this.jcropFoto=this;
+		});
+	};
+
+	/**
+	 * Выполняет ресайз фотки
+	 */
+	this.resizeFoto = function() {
+		if (!this.jcropFoto) {
+			return false;
+		}
+		var url = aRouter.settings+'profile/resize-foto/';
+		var params = {size: this.jcropFoto.tellSelect()};
+
+		'*resizeFotoBefore*'; '*/resizeFotoBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#foto-img').attr('src',result.sFile+'?'+Math.random());
+				$('#foto-resize').hide();
+				$('#foto-remove').show();
+				$('#foto-upload').text(result.sTitleUpload);
+				ls.hook.run('ls_user_resize_foto_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
+
+	/**
+	 * Удаление фотки
+	 */
+	this.removeFoto = function() {
+		var url = aRouter.settings+'profile/remove-foto/';
+		var params = {};
+
+		'*removeFotoBefore*'; '*/removeFotoBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#foto-img').attr('src',result.sFile+'?'+Math.random());
+				$('#foto-remove').hide();
+				$('#foto-upload').text(result.sTitleUpload);
+				ls.hook.run('ls_user_remove_foto_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
+
+	/**
+	 * Отмена ресайза фотки, подчищаем временный данные
+	 */
+	this.cancelFoto = function() {
+		var url = aRouter.settings+'profile/cancel-foto/';
+		var params = {};
+
+		'*cancelFotoBefore*'; '*/cancelFotoBefore*';
+		ls.ajax(url, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#foto-resize').hide();
+				ls.hook.run('ls_user_cancel_foto_after', [params, result]);
+			}
+		});
+
+		return false;
+	};
+
+
 	return this;
 }).call(ls.user || {},jQuery);

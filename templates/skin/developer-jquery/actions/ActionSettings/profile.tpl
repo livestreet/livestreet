@@ -141,19 +141,7 @@
 		<p><label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label>
 		<input type="password" id="password_confirm" name="password_confirm" value="" class="input-text input-width-200" /></p>
 	</fieldset>
-	
-	
-	<fieldset>
-		<legend>Аватар и фото</legend>
 
-		{if $oUserCurrent->getProfileFoto()}
-			<img src="{$oUserCurrent->getProfileFoto()}" /><br />
-			<input type="checkbox" id="foto_delete" name="foto_delete" value="on" class="checkbox" /><label for="foto_delete">{$aLang.settings_profile_foto_delete}</label><br />
-		{/if}
-		<p><label for="foto">{$aLang.settings_profile_foto}:</label><input type="file" id="foto" name="foto" /></p>
-	</fieldset>
-	
-	
 	{hook run='form_settings_profile_end'}
 	
 	
@@ -169,7 +157,9 @@
 		$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
 			ls.user.uploadAvatar(null,input);
 		});
-
+		$('#foto-upload').file({ name:'foto' }).choose(function(e, input) {
+			ls.user.uploadFoto(null,input);
+		});
 	});
 </script>
 
@@ -187,6 +177,23 @@
 	</div>
 	<button onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
 	<button onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+</div>
+
+
+
+<br/><br/>
+<img src="{$oUserCurrent->getProfileFoto()}" id="foto-img" />
+<br/>
+
+<a href="#" id="foto-upload">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br/>
+<a href="#" id="foto-remove" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
+
+<div id="foto-resize" style="display:none;">
+	<div>
+		<img src="" alt="" id="foto-resize-original-img">
+	</div>
+	<button onclick="return ls.user.resizeFoto();">{$aLang.settings_profile_avatar_resize_apply}</button>
+	<button onclick="return ls.user.cancelFoto();">{$aLang.settings_profile_avatar_resize_cancel}</button>
 </div>
 
 
