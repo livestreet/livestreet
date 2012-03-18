@@ -55,5 +55,6 @@
 			</a>
 		</li>
 		<li {if $sAction=='profile' && $aParams[0]=='favourites'}class="active"{/if}><a href="{router page='profile'}{$oUserProfile->getLogin()}/favourites/">Избранное</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='friends'}class="active"{/if}><a href="{router page='profile'}{$oUserProfile->getLogin()}/friends/">Друзья</a></li>
 	</ul>
 </section>
