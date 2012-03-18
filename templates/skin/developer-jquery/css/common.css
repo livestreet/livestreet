@@ -49,6 +49,7 @@
 .actions li .delete { }
 .actions li .rss { }
 .actions li a:hover { text-decoration: underline; }
+.actions li a.link-dotted:hover { text-decoration: none; }
 
 
 
@@ -162,6 +163,10 @@
 .clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
 .clearfix 		{ zoom: 1; }
+
+.ta-c { text-align: center !important; }
+.ta-r { text-align: right !important; }
+.va-m { vertical-align: middle; }
 
 .user, .ls-user { font-weight: bold; color: #333; }
 .user .icon-user { margin-right: 3px; }

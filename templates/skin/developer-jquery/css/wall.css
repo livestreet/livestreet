@@ -1,0 +1,19 @@
+/* --------------------------------------------
+	Стена
+-------------------------------------------- */
+
+.wall-submit 					{ margin-bottom: 30px; }
+.wall-submit.wall-submit-reply 	{ margin: 10px 0 10px 25px; }
+.wall-submit p 					{ margin-bottom: 5px; }
+
+.comments.wall,
+.wall .comment 		{ margin-bottom: 2px; }
+
+.comment.wall-comment-reply 					{ min-height: 0; padding-left: 48px; }
+.comment.wall-comment-reply .comment-avatar 	{ width: 30px; height: 30px; }
+.comment.wall-comment-reply .comment-info 		{ margin-bottom: 0; }
+.comment.wall-comment-reply .comment-content 	{ margin-bottom: 0; }
+
+.wall-more 					{ display: block; background: #f7f7f7; text-align: center; padding: 7px 0; font-size: 11px; margin-bottom: 2px; }
+.wall-more:hover 			{ background: #eee; }
+.wall-more.wall-more-reply 	{ margin-left: 25px; }

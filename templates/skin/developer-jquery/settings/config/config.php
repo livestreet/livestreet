@@ -2,7 +2,10 @@
 
 $config = array();
 
-$config['view']['theme'] = 'default'; // ������� �������� �����
+$config['view']['theme'] = 'default';
+
+$config['view']['name']        = 'LiveStreet';
+$config['view']['description'] = 'Официальный сайт бесплатного движка социальной сети';
 
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/developer-jquery.js';
@@ -28,17 +31,18 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/modals.css",
 	"___path.static.skin___/css/blog.css",
 	"___path.static.skin___/css/profile.css",
+	"___path.static.skin___/css/wall.css",
 	"___path.static.skin___/css/jquery.notifier.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
 	"___path.static.skin___/css/mobile.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
 );
-/*
+
 $config['block']['rule_profile'] = array(
 	'action'  => array( 'profile', 'my' ),
 	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
 );
-$config['block']['rule_talk_inbox'] = array(
+/*$config['block']['rule_talk_inbox'] = array(
 	'action'  => array( 'talk' => array('inbox','') ),
 	'blocks'  => array( 'right' => array('actions/ActionTalk/filter.tpl') ),
 );

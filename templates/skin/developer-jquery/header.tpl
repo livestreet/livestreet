@@ -67,17 +67,17 @@
 
 
 {if $oUserCurrent}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'} {* ���� ��� ������������ *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'}
 	
 	{if $oUserCurrent->isAdministrator()}
-		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'} {* ������������� *}
+		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'}
 	{/if}
 {else}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'} {* ����� *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'}
 {/if}
 
 {if !$oUserCurrent or ($oUserCurrent and !$oUserCurrent->isAdministrator())}
-	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'} {* ����� ��� ���� *}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'}
 {/if}
 
 

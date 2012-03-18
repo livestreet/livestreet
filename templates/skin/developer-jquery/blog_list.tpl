@@ -1,14 +1,14 @@
 <table class="table table-blogs">
 	<thead>
 		<tr>
-			<th class="table-blogs-cell-name">{$aLang.blogs_title}</th>
+			<th class="cell-name">{$aLang.blogs_title}</th>
 			
 			{if $oUserCurrent}
-				<th class="table-blogs-cell-join">{$aLang.blog_join_leave}</th>
+				<th class="cell-join">{$aLang.blog_join_leave}</th>
 			{/if}
 			
-			<th class="table-blogs-cell-readers">{$aLang.blogs_readers}</th>														
-			<th class="table-blogs-cell-rating align-center">{$aLang.blogs_rating}</th>
+			<th class="cell-readers">{$aLang.blogs_readers}</th>														
+			<th class="cell-rating align-center">{$aLang.blogs_rating}</th>
 		</tr>
 	</thead>
 	
@@ -18,7 +18,7 @@
 			{assign var="oUserOwner" value=$oBlog->getOwner()}
 			
 			<tr>
-				<td class="table-blogs-cell-name">
+				<td class="cell-name">
 					<a href="{router page='blog'}{$oBlog->getUrl()}/">
 						<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
 					</a>
@@ -31,7 +31,7 @@
 				</td>
 				
 				{if $oUserCurrent}
-					<td class="table-blogs-cell-join">
+					<td class="cell-join">
 						{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
 							<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;">
 								{if $oBlog->getUserIsJoin()}
@@ -46,8 +46,8 @@
 					</td>
 				{/if}
 				
-				<td class="table-blogs-cell-readers" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>													
-				<td class="table-blogs-cell-rating align-center">{$oBlog->getRating()}</td>
+				<td class="cell-readers" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>													
+				<td class="cell-rating align-center">{$oBlog->getRating()}</td>
 			</tr>
 		{/foreach}
 	</tbody>

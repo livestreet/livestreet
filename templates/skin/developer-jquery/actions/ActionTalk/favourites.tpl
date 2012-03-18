@@ -10,7 +10,7 @@
 				<th>{$aLang.talk_inbox_target}</th>
 				<th></th>
 				<th>{$aLang.talk_inbox_title}</th>
-				<th>{$aLang.talk_inbox_date}</th>
+				<th class="ta-r">{$aLang.talk_inbox_date}</th>
 			</tr>
 		</thead>
 
@@ -27,7 +27,7 @@
 					{/foreach}
 
 				</td>
-				<td align="center">
+				<td class="ta-c">
 					<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
 				</td>
 				<td>
@@ -41,7 +41,7 @@
 					{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}+{$oTalkUserAuthor->getCommentCountNew()}{/if}
 				{/if}
 				</td>
-				<td align="center">{date_format date=$oTalk->getDate()}</td>
+				<td class="ta-r">{date_format date=$oTalk->getDate()}</td>
 			</tr>
 		{/foreach}
 		</tbody>

@@ -1,10 +1,10 @@
-<div class="block">
-	<h2>{$aLang.talk_blacklist_title}</h2>
+<section class="block">
+	<h3>{$aLang.talk_blacklist_title}</h3>
 	
 
 	<form onsubmit="return ls.talk.addToBlackList();">
-		<p><label>{$aLang.talk_balcklist_add_label}:<br />
-		<input type="text" id="talk_blacklist_add" name="add" class="input-wide autocomplete-users" /></label></p>
+		<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label>
+		<input type="text" id="talk_blacklist_add" name="add" class="input-text input-width-full autocomplete-users" /></p>
 	</form>
 
 
@@ -17,4 +17,4 @@
 			</ul>
 		{/if}
 	</div>
-</div>
+</section>

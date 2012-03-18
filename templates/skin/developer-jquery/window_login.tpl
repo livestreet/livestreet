@@ -1,5 +1,5 @@
 {if !$oUserCurrent}
-	<div class="jqmWindow modal-login" id="login_form">
+	<div class="modal modal-login" id="login_form">
 		<header>
 			<h3>{$aLang.user_authorization}</h3>
 			<a href="#" class="close jqmClose"></a>

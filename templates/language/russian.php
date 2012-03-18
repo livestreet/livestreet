@@ -25,7 +25,7 @@ return array(
 	 * Блоги
 	 */
 	'blogs' => 'Блоги',
-	'blogs_title' => 'Название и смотритель',
+	'blogs_title' => 'Название',
 	'blogs_readers' => 'Читателей',
 	'blogs_rating' => 'Рейтинг',
 	'blogs_owner' => 'Смотритель',
@@ -697,7 +697,7 @@ return array(
 	'talk_inbox_target' => 'Адресаты',
 	'talk_inbox_title' => 'Тема',
 	'talk_inbox_date' => 'Дата',
-	'talk_inbox_delete' => 'Удалить переписку',
+	'talk_inbox_delete' => 'Удалить выделенное',
 	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
 	'talk_comments' => 'Переписка',
 	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов',

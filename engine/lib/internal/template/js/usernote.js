@@ -13,6 +13,7 @@ ls.usernote =( function ($) {
 		} else {
 			$('#usernote-form-text').val('');
 		}
+		$('#usernote-form-text').focus();
 		return false;
 	};
 

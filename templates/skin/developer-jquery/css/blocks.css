@@ -11,13 +11,19 @@
 .block .max-height-200 { overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
 
 
-/* Block Type - Profile */
-.block.block-type-profile 					{ background: none; border: none; padding: 0; }
-.block.block-type-profile .profile-photo 	{ margin-bottom: 20px; }
-
-
 /* Block Type - Activity Settings */
 .block.block-type-activity h3 		{ margin-bottom: 7px; }
 .block.block-type-activity p 		{ margin-bottom: 15px; }
 .block.block-type-activity ul li 	{ margin-bottom: 5px; }
 .block.block-type-activity .note 	{ display: block; margin-bottom: 15px; color: #aaa; }
+
+
+/* Block Type - Profile */
+.block.block-type-profile 					{ background: none; border: none; padding: 0; }
+.block.block-type-profile .profile-photo 	{ vertical-align: top; }
+
+.block.block-type-profile-note	 			{ background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
+.block.block-type-profile-note p 			{ margin-bottom: 10px; }
+.block.block-type-profile-note .actions 	{ margin-bottom: 0; }
+
+.block.block-type-profile-nav 				{ padding: 0; }

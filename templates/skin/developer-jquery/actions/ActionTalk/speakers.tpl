@@ -1,10 +1,10 @@
-<div class="block">
-	<h2>{$aLang.talk_speaker_title}</h2>
+<section class="block">
+	<h3>{$aLang.talk_speaker_title}</h3>
 
 	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 		<form onsubmit="return ls.talk.addToTalk({$oTalk->getId()});">
-			<p><label>{$aLang.talk_speaker_add_label}:<br />
-			<input type="text" id="talk_speaker_add" name="add" class="input-wide autocomplete-users" /></label></p>
+			<p><label for="talk_speaker_add">{$aLang.talk_speaker_add_label}:</label>
+			<input type="text" id="talk_speaker_add" name="add" class="input-text input-width-full autocomplete-users" /></p>
 			<input type="hidden" id="talk_id" value="{$oTalk->getId()}" />
 		</form>
 	{/if}
@@ -26,4 +26,4 @@
 			</ul>
 		{/if}
 	</div>
-</div>
+</section>

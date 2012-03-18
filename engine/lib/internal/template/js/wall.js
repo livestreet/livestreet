@@ -31,6 +31,7 @@ ls.wall = (function ($) {
 	this.addReply = function(sText) {
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: this.iIdForReply};
+		console.log(params);
 		'*addReplyBefore*'; '*/addReplyBefore*';
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
@@ -62,7 +63,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadNext = function() {
-		var divLast=$('#wall-contener').find('.js-wall-item:last');
+		var divLast=$('#wall-container').find('.js-wall-item:last');
 		if (divLast.length) {
 			var idLess=divLast.attr('id').replace('wall-item-','');
 		} else {
@@ -73,7 +74,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-contener').append(result.sText);
+					$('#wall-container').append(result.sText);
 				}
 				var iCount=result.iCountWall-result.iCountWallReturn;
 				if (iCount) {
@@ -88,7 +89,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadNew = function() {
-		var divFirst=$('#wall-contener').find('.js-wall-item:first');
+		var divFirst=$('#wall-container').find('.js-wall-item:first');
 		if (divFirst.length) {
 			var idMore=divFirst.attr('id').replace('wall-item-','');
 		} else {
@@ -99,7 +100,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-contener').prepend(result.sText);
+					$('#wall-container').prepend(result.sText);
 				}
 				ls.hook.run('ls_wall_loadnew_after',[idMore, result]);
 			}
@@ -108,7 +109,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNew = function(iPid) {
-		var divFirst=$('#wall-reply-contener-'+iPid).find('.js-wall-reply-item::first');
+		var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item::first');
 		if (divFirst.length) {
 			var idMore=divFirst.attr('id').replace('wall-reply-item-','');
 		} else {
@@ -119,7 +120,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-reply-contener-'+iPid).prepend(result.sText);
+					$('#wall-reply-container-'+iPid).prepend(result.sText);
 				}
 				ls.hook.run('ls_wall_loadreplynew_after',[iPid, idMore, result]);
 			}
@@ -128,7 +129,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNext = function(iPid) {
-		var divLast=$('#wall-reply-contener-'+iPid).find('.js-wall-reply-item:last');
+		var divLast=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:last');
 		if (divLast.length) {
 			var idLess=divLast.attr('id').replace('wall-reply-item-','');
 		} else {
@@ -139,7 +140,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-reply-contener-'+iPid).append(result.sText);
+					$('#wall-reply-container-'+iPid).append(result.sText);
 				}
 				var iCount=result.iCountWall-result.iCountWallReturn;
 				if (iCount) {
@@ -158,7 +159,7 @@ ls.wall = (function ($) {
 		if (iId==this.iIdForReply) {
 			reply.toggle();
 		} else {
-			reply.insertBefore($('#wall-reply-contener-'+iId));
+			reply.insertBefore($('#wall-reply-container-'+iId));
 			reply.show();
 			this.iIdForReply=iId;
 		}

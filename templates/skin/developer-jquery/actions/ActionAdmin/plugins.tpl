@@ -9,7 +9,7 @@
 	<table class="table table-plugins">
 		<thead>
 			<tr>
-				<th class="table-plugins-cell-checkbox"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this, true);" /></th>
+				<th class="cell-checkbox"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this, true);" /></th>
 				<th>{$aLang.plugins_plugin_name}</th>
 				<th>{$aLang.plugins_plugin_version}</th>
 				<th>{$aLang.plugins_plugin_author}</th>
@@ -21,7 +21,7 @@
 		<tbody>
 			{foreach from=$aPlugins item=aPlugin}
 				<tr {if $aPlugin.is_active}class="active"{/if}>
-					<td class="table-plugins-cell-checkbox"><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
+					<td class="cell-checkbox"><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
 					<td>
 						<h3>{$aPlugin.property->name->data}</h3>
 						{$aPlugin.property->description->data}
