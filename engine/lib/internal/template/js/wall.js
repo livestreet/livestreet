@@ -31,7 +31,6 @@ ls.wall = (function ($) {
 	this.addReply = function(sText) {
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: this.iIdForReply};
-		console.log(params);
 		'*addReplyBefore*'; '*/addReplyBefore*';
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {

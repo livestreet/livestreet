@@ -1,5 +1,5 @@
 
-/* Голосование 
+/* Р“РѕР»РѕСЃРѕРІР°РЅРёРµ 
 ---------------------------------------------------------------*/
 .vote {  }
 
@@ -23,7 +23,7 @@
 
 
 
-/* Избранное 
+/* РР·Р±СЂР°РЅРЅРѕРµ 
 ---------------------------------------------------------------*/
 .favourite 			{ display: inline-block; width: 14px; height: 14px; vertical-align: text-top; background: url(../images/icons.png) -96px 0 no-repeat; opacity: .3; cursor: pointer; }
 .favourite.active 	{ opacity: 1; }
@@ -32,7 +32,7 @@
 
 
 
-/* Пагинация 
+/* РџР°РіРёРЅР°С†РёСЏ 
 ---------------------------------------------------------------*/
 .pagination ul li { display: inline; margin-right: 5px; }
 .pagination ul li.active { color: #aaa; }
@@ -69,7 +69,7 @@
 
 
 
-/* Список пользователей 
+/* РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ 
 ---------------------------------------------------------------*/
 .user-list 				{ border-top: 1px solid #eee; }
 .user-list li 			{ min-height: 48px; padding: 7px 0 10px 58px; border-bottom: 1px solid #eee; position: relative; }
@@ -80,7 +80,7 @@
 
 
 
-/* Поиск 
+/* РџРѕРёСЃРє 
 ---------------------------------------------------------------*/
 .search { width: 200px; margin-bottom: 20px; position: relative; }
 .search .input-text { width: 200px; padding-right: 25px; }
@@ -89,7 +89,7 @@
 
 
 
-/* Облако тегов 
+/* РћР±Р»Р°РєРѕ С‚РµРіРѕРІ 
 ---------------------------------------------------------------*/
 .tag-cloud li { display: inline; margin-right: 5px; line-height: 22px; }
 .tag-cloud li a { text-decoration: none; white-space: nowrap; }
@@ -110,7 +110,7 @@
 
 
 
-/* Разное
+/* Р Р°Р·РЅРѕРµ
 -------------------- */
 
 
@@ -154,7 +154,7 @@
 
 
 
-/* Хелперы 
+/* РҐРµР»РїРµСЂС‹ 
 ---------------------------------------------------------------*/
 .mb-10 { margin-bottom: 10px; }
 .mb-20 { margin-bottom: 20px; }
