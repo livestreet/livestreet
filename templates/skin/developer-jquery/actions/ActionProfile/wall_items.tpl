@@ -16,7 +16,7 @@
 			</div>
 			
 			<ul class="comment-actions">
-				<li><a href="#" id="wall-button-reply" onclick="return ls.wall.toggleReply({$oWall->getId()});" class="link-dotted">Ответить</a></li>
+				<li></li>
 			</ul>
 		</div>
 		
@@ -33,5 +33,7 @@
 				{include file='actions/ActionProfile/wall_items_reply.tpl'}
 			{/if}
 		</div>
+
+		<a href="#" id="wall-button-reply-{$oWall->getId()}" onclick="return ls.wall.toggleReply({$oWall->getId()});" class="link-dotted">Ответить</a>
 	</div>
 {/foreach}

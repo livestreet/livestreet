@@ -158,7 +158,7 @@ ls.wall = (function ($) {
 		if (iId==this.iIdForReply) {
 			reply.toggle();
 		} else {
-			reply.insertBefore($('#wall-reply-container-'+iId));
+			reply.insertAfter($('#wall-button-reply-'+iId));
 			reply.show();
 			this.iIdForReply=iId;
 		}
