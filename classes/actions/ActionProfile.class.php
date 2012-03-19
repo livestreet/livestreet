@@ -21,12 +21,6 @@
  */
 class ActionProfile extends Action {
 	/**
-	 * Логин юзера из УРЛа
-	 *
-	 * @var unknown_type
-	 */
-	protected $sUserLogin=null;
-	/**
 	 * Объект юзера чей профиль мы смотрим
 	 *
 	 * @var unknown_type
@@ -54,7 +48,12 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
-		$this->AddEventPreg('/^.+$/i','/^notes/i','/^(page(\d+))?$/i','EventNotes');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
+
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page(\d+))?$/i','EventCreatedNotes');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page(\d+))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
 	}
 
 	/**********************************************************************************
@@ -62,24 +61,102 @@ class ActionProfile extends Action {
 	 **********************************************************************************
 	 */
 	/**
-	 * Выводит список избранноего юзера
-	 *
+	 * Проверка корректности профиля
 	 */
-	protected function EventFavourite() {
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
+	protected function CheckUserProfile() {
 		/**
 		 * Проверяем есть ли такой юзер
 		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($this->sCurrentEvent))) {
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Список топиков пользователя
+	 */
+	protected function EventCreatedTopics() {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		if ($this->GetParamEventMatch(1,0)=='topics') {
+			$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		} else {
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		}
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'created/topics');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'personal_blog/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('created_topics');
+	}
+	/**
+	 * Вывод комментариев пользователя
+	 */
+	protected function EventCreatedComments() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		/**
+		 * Получаем список комментов
+		 */
+		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,Config::Get('module.comment.per_page'));
+		$aComments=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'created/comments');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aComments',$aComments);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_comment'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('created_comments');
+	}
+	/**
+	 * Выводит список избранноего юзера
+	 *
+	 */
+	protected function EventFavourite() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Передан ли номер страницы
+		 */
+		if ($this->GetParamEventMatch(1,0)=='topics') {
+			$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		} else {
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		}
 		/**
 		 * Получаем список избранных топиков
 		 */
@@ -88,7 +165,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/favourites');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -99,21 +176,14 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('favourites');
+		$this->SetTemplateAction('favourite_topics');
 	}
 	/**
 	 * Выводит список избранноего юзера
 	 *
 	 */
 	protected function EventFavouriteComments() {
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -128,7 +198,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/favourites/comments');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/comments');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -139,21 +209,14 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('comments');
+		$this->SetTemplateAction('favourite_comments');
 	}
 	/**
 	 * Показывает инфу профиля
 	 *
 	 */
 	protected function EventWhois() {
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -218,14 +281,7 @@ class ActionProfile extends Action {
 	 * Отображение стены пользователя
 	 */
 	public function EventWall() {
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 
@@ -249,14 +305,7 @@ class ActionProfile extends Action {
 		if (!$this->oUserCurrent) {
 			return parent::EventNotFound();
 		}
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 
@@ -292,14 +341,7 @@ class ActionProfile extends Action {
 	 */
 	public function EventWallLoad() {
 		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 
@@ -330,14 +372,7 @@ class ActionProfile extends Action {
 
 	public function EventWallLoadReply() {
 		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 		if (!($oWall=$this->Wall_GetWallById(getRequest('iPid'))) or $oWall->getPid()) {
@@ -427,15 +462,8 @@ class ActionProfile extends Action {
 	}
 
 
-	public function EventNotes() {
-		/**
-		 * Получаем логин из УРЛа
-		 */
-		$sUserLogin=$this->sCurrentEvent;
-		/**
-		 * Проверяем есть ли такой юзер
-		 */
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
+	public function EventCreatedNotes() {
+		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -447,7 +475,7 @@ class ActionProfile extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
 		/**
 		 * Получаем список заметок
 		 */
@@ -456,7 +484,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,Router::GetPath('profile').$this->oUserProfile->getLogin().'/notes');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,$this->oUserProfile->getUserWebPath().'created/notes');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -467,7 +495,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('notes');
+		$this->SetTemplateAction('created_notes');
 	}
 
 

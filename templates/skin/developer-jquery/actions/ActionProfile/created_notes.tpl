@@ -4,14 +4,14 @@
 
 
 {include file='actions/ActionProfile/profile_top.tpl'}
-{include file='menu.profile_submitted.tpl'}
+{include file='menu.profile_created.tpl'}
 
 
 {if $aNotes}
 	<table class="table table-profile-notes" cellspacing="0">
 		{foreach from=$aNotes item=oNote}
 			<tr>
-				<td class="cell-username"><a href="{router page='profile'}{$oNote->getTargetUser()->getLogin()}/">{$oNote->getTargetUser()->getLogin()}</a></td>
+				<td class="cell-username"><a href="{$oNote->getTargetUser()->getUserWebPath()}">{$oNote->getTargetUser()->getLogin()}</a></td>
 				<td class="cell-note">{$oNote->getText()}</td>
 				<td class="cell-date">{date_format date=$oNote->getDateAdd() format="j F Y"}</td>
 			</tr>

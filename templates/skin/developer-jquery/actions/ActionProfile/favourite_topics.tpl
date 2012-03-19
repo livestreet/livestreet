@@ -4,7 +4,6 @@
 
 
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">Избранное</h3>
 
 {include file='menu.profile_favourite.tpl'}
 
@@ -13,4 +12,3 @@
 
 
 {include file='footer.tpl'}
-
