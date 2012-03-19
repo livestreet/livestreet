@@ -27,7 +27,7 @@ class BlockStreamConfig extends Block {
 			$aUserSubscribes = $this->Stream_getUserSubscribes($oUserCurrent->getId());
 			$aFriends = $this->User_getUsersFriend($oUserCurrent->getId());
 			$this->Viewer_Assign('aStreamSubscribedUsers', $aUserSubscribes);
-			$this->Viewer_Assign('aStreamFriends', $aFriends);
+			$this->Viewer_Assign('aStreamFriends', $aFriends['collection']);
 		}
 	}
 }
