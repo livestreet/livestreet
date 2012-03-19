@@ -205,7 +205,9 @@ class ModuleWall extends Module {
 		$aResult=$this->GetWall(array('pid'=>$oWall->getId()),array('id'=>'desc'),1,$iLimit,array());
 		if ($aResult['count']) {
 			$oWall->setCountReply($aResult['count']);
-			$oWall->setLastReply(join(',',array_keys($aResult['collection'])));
+			$aKeys=array_keys($aResult['collection']);
+			sort($aKeys,SORT_NUMERIC);
+			$oWall->setLastReply(join(',',$aKeys));
 			$this->UpdateWall($oWall);
 		}
 	}

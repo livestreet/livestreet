@@ -108,7 +108,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNew = function(iPid) {
-		var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item::first');
+		var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item::last');
 		if (divFirst.length) {
 			var idMore=divFirst.attr('id').replace('wall-reply-item-','');
 		} else {
@@ -119,7 +119,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-reply-container-'+iPid).prepend(result.sText);
+					$('#wall-reply-container-'+iPid).append(result.sText);
 				}
 				ls.hook.run('ls_wall_loadreplynew_after',[iPid, idMore, result]);
 			}
@@ -128,7 +128,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNext = function(iPid) {
-		var divLast=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:last');
+		var divLast=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:first');
 		if (divLast.length) {
 			var idLess=divLast.attr('id').replace('wall-reply-item-','');
 		} else {
@@ -139,7 +139,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				if (result.iCountWall) {
-					$('#wall-reply-container-'+iPid).append(result.sText);
+					$('#wall-reply-container-'+iPid).prepend(result.sText);
 				}
 				var iCount=result.iCountWall-result.iCountWallReturn;
 				if (iCount) {

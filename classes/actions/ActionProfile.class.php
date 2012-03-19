@@ -396,7 +396,7 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем сообщения
 		 */
-		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
 		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
