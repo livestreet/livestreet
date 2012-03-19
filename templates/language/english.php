@@ -484,6 +484,7 @@ return array(
 	'user_menu_profile_whois' => 'Whois',
 	'user_menu_profile_wall' => 'Wall',
 	'user_menu_profile_friends' => 'Friends',
+	'user_menu_profile_stream' => 'Stream',
 	'user_menu_profile_notes' => 'Notes',
 	'user_menu_profile_favourites' => 'Favourites',
 	'user_menu_profile_favourites_topics' => 'Favourite topics',

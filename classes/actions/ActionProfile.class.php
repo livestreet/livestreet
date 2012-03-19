@@ -58,6 +58,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
 
 		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page(\d+))?$/i','EventFriends');
+		$this->AddEventPreg('/^.+$/i','/^stream/i','/^$/i','EventStream');
 	}
 
 	/**********************************************************************************
@@ -77,6 +78,26 @@ class ActionProfile extends Action {
 		return true;
 	}
 
+	/**
+	 * Чтение активности пользователя (stream)
+	 */
+	protected function EventStream() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Читаем события
+		 */
+		$aEvents = $this->Stream_ReadByUserId($this->oUserProfile->getId());
+		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+		}
+		$this->SetTemplateAction('stream');
+	}
 	/**
 	 * Список друзей пользователей
 	 */
