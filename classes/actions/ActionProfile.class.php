@@ -251,12 +251,6 @@ class ActionProfile extends Action {
          */
         $aUserFields = $this->User_getUserFieldsValues($this->oUserProfile->getId());
 		/**
-		 * Заметка текущего пользователя о юзере
-		 */
-		if ($this->oUserCurrent) {
-			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
-		}
-		/**
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('profile_whois_show',array("oUserProfile"=>$this->oUserProfile));
@@ -1021,8 +1015,14 @@ class ActionProfile extends Action {
 		/**
 		 * Общее число публикация и избранного
 		 */
-		$this->Viewer_Assign('iCountCreated',$iCountNoteUser+$iCountTopicUser+$iCountCommentUser);
+		$this->Viewer_Assign('iCountCreated',(($this->oUserCurrent and $this->oUserCurrent->getId()==$this->oUserProfile->getId()) ? $iCountNoteUser : 0) +$iCountTopicUser+$iCountCommentUser);
 		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
+		/**
+		 * Заметка текущего пользователя о юзере
+		 */
+		if ($this->oUserCurrent) {
+			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
+		}
 
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
