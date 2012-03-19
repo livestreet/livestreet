@@ -1009,13 +1009,20 @@ class ActionProfile extends Action {
 		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
 		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
 		$iCountCommentFavourite=$this->Comment_GetCountCommentsFavouriteByUserId($this->oUserProfile->getId());
+		$iCountNoteUser=$this->User_GetCountUserNotesByUserId($this->oUserProfile->getId());
 
 		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);
 		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);
 		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
-		$this->Viewer_Assign('iCountNoteUser',$this->User_GetCountUserNotesByUserId($this->oUserProfile->getId()));
+		$this->Viewer_Assign('iCountNoteUser',$iCountNoteUser);
+		/**
+		 * Общее число публикация и избранного
+		 */
+		$this->Viewer_Assign('iCountCreated',$iCountNoteUser+$iCountTopicUser+$iCountCommentUser);
+		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
+
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

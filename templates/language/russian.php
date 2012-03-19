@@ -482,6 +482,8 @@ return array(
 	 */
 	'user_menu_profile' => 'Профиль',
 	'user_menu_profile_whois' => 'Whois',
+	'user_menu_profile_wall' => 'Стена',
+	'user_menu_profile_friends' => 'Друзья',
 	'user_menu_profile_notes' => 'Заметки',
 	'user_menu_profile_favourites' => 'Избраннное',
 	'user_menu_profile_favourites_topics' => 'Избранные топики',
