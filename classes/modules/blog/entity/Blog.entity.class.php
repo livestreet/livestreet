@@ -89,7 +89,7 @@ class ModuleBlog_EntityBlog extends Entity
     }
     public function getUrlFull() {
         if ($this->getType()=='personal') {
-    		return Router::GetPath('my').$this->getOwner()->getLogin().'/';
+    		return $this->getOwner()->getUserWebPath().'created/topics/';
     	} else {
     		return Router::GetPath('blog').$this->getUrl().'/';
     	}
