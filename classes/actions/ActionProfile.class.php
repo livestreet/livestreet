@@ -1017,6 +1017,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('iCountTopicFavourite',$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite',$iCountCommentFavourite);
 		$this->Viewer_Assign('iCountNoteUser',$iCountNoteUser);
+		$this->Viewer_Assign('iCountWallUser',$this->Wall_GetCountWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null)));
 		/**
 		 * Общее число публикация и избранного
 		 */

@@ -91,6 +91,16 @@ class ModuleWall extends Module {
 		$aResult['collection']=$this->GetWallAdditionalData($aResult['collection'],$aAllowData);
 		return $aResult;
 	}
+	/**
+	 * Возвращает число сообщений на стене по фильтру
+	 *
+	 * @param $aFilter
+	 *
+	 * @return int
+	 */
+	public function GetCountWall($aFilter) {
+		return $this->oMapper->GetCountWall($aFilter);
+	}
 
 	/**
 	 * Получение записей по ID, без дополнительных данных

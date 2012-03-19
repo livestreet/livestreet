@@ -89,6 +89,36 @@ class ModuleWall_MapperWall extends Mapper {
 		return $aResult;
 	}
 
+
+	public function GetCountWall($aFilter) {
+		$sql = "SELECT
+					count(*) as c
+				FROM
+					".Config::Get('db.table.wall')."
+				WHERE
+					1 = 1
+					{ AND pid = ?d }
+					{ AND pid IS NULL AND 1 = ?d }
+					{ AND wall_user_id = ?d }
+					{ AND ip = ? }
+					{ AND id = ?d }
+					{ AND id < ?d }
+					{ AND id > ?d };
+					";
+		if ($aRow=$this->oDb->selectRow($sql,
+										  (isset($aFilter['pid']) and !is_null($aFilter['pid'])) ? $aFilter['pid'] : DBSIMPLE_SKIP,
+										  (array_key_exists('pid',$aFilter) and is_null($aFilter['pid'])) ? 1 : DBSIMPLE_SKIP,
+										  isset($aFilter['wall_user_id']) ? $aFilter['wall_user_id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['ip']) ? $aFilter['ip'] : DBSIMPLE_SKIP,
+										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['id_less']) ? $aFilter['id_less'] : DBSIMPLE_SKIP,
+										  isset($aFilter['id_more']) ? $aFilter['id_more'] : DBSIMPLE_SKIP
+		)) {
+			return $aRow['c'];
+		}
+		return 0;
+	}
+
 	public function GetWallsByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
