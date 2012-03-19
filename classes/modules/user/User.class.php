@@ -848,15 +848,33 @@ class ModuleUser extends Module {
 	/**
 	 * Получает список друзей
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId
+	 * @param  int $iPage
+	 * @param  int $iPerPage
 	 * @return array
 	 */
-	public function GetUsersFriend($sUserId) {
-		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}"))) {
-			$data = $this->oMapper->GetUsersFriend($sUserId);
-			$this->Cache_Set($data, "user_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*60*24*2);
+	public function GetUsersFriend($sUserId,$iPage=1,$iPerPage=10) {
+		$sKey="user_friend_{$sUserId}_{$iPage}_{$iPerPage}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = array('collection'=>$this->oMapper->GetUsersFriend($sUserId,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, $sKey, array("friend_change_user_{$sUserId}"), 60*60*24*2);
 		}
-		$data=$this->GetUsersAdditionalData($data);
+		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
+		return $data;
+	}
+
+	/**
+	 * Получает количество друзей
+	 *
+	 * @param  int $sUserId
+	 * @return array
+	 */
+	public function GetCountUsersFriend($sUserId) {
+		$sKey="count_user_friend_{$sUserId}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = $this->oMapper->GetCountUsersFriend($sUserId);
+			$this->Cache_Set($data, $sKey, array("friend_change_user_{$sUserId}"), 60*60*24*2);
+		}
 		return $data;
 	}
 

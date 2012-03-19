@@ -42,10 +42,12 @@ class ActionProfile extends Action {
 		$this->AddEvent('ajax-note-remove', 'EventAjaxNoteRemove');
 
 		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
+
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^$/i','EventWall');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add$/i','EventWallAdd');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load$/i','EventWallLoad');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
+
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
@@ -54,6 +56,8 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page(\d+))?$/i','EventCreatedTopics');
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
+
+		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page(\d+))?$/i','EventFriends');
 	}
 
 	/**********************************************************************************
@@ -71,6 +75,37 @@ class ActionProfile extends Action {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Список друзей пользователей
+	 */
+	protected function EventFriends() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		/**
+		 * Получаем список комментов
+		 */
+		$aResult=$this->User_GetUsersFriend($this->oUserProfile->getId(),$iPage,Config::Get('module.user.per_page'));
+		$aFriends=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,$this->oUserProfile->getUserWebPath().'friends');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aFriends',$aFriends);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_friends').' '.$this->oUserProfile->getLogin());
+
+		$this->SetTemplateAction('friends');
 	}
 	/**
 	 * Список топиков пользователя
@@ -222,7 +257,7 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список друзей
 		 */
-		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId());
+		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId(),1,Config::Get('module.user.friend_on_profile'));
 
 		if (Config::Get('general.reg.invite')) {
 			/**
@@ -261,7 +296,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogModerators',$aBlogModerators);
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
-		$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
+		$this->Viewer_Assign('aUsersFriend',$aUsersFriend['collection']);
 		$this->Viewer_Assign('aUserFields',$aUserFields);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
@@ -1023,6 +1058,7 @@ class ActionProfile extends Action {
 		if ($this->oUserCurrent) {
 			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
 		}
+		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);

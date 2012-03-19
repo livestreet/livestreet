@@ -125,18 +125,7 @@
 <h2 class="header-table">{$aLang.profile_activity}</h2>
 
 <table class="table table-profile-info">
-	{if $aUsersFriend}
-		<tr>
-			<td class="cell-label">{$aLang.profile_friends}:</td>
-			<td>
-				{foreach from=$aUsersFriend item=oUser}        						
-					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-				{/foreach}
-			</td>
-		</tr>
-	{/if}
-	
-	
+
 	{if $oConfig->GetValue('general.reg.invite') and $oUserInviteFrom}
 		<tr>
 			<td class="cell-label">{$aLang.profile_invite_from}:</td>
@@ -227,6 +216,20 @@
 	{/if}
 </table>
 
+
+<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> {$iCountFriendsUser}</h2>
+
+{if $aUsersFriend}
+	<table class="table table-profile-info">
+		<tr>
+			<td>
+				{foreach from=$aUsersFriend item=oUser}
+					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+				{/foreach}
+			</td>
+		</tr>
+	</table>
+{/if}
 
 
 {include file='footer.tpl'}

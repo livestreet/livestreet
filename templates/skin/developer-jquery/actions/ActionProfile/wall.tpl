@@ -7,7 +7,7 @@
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">Стена</h3>
+<h3 class="profile-page-header">{$aLang.user_menu_profile_wall}</h3>
 
 
 <script>
