@@ -285,5 +285,28 @@ ls.user = (function ($) {
 	};
 
 
+	this.validateRegistrationFields = function(aFields) {
+		var url = aRouter.registration+'ajax-validate-fields/';
+		var params = {fields: aFields};
+
+		'*validateRegistrationFieldBefore*'; '*/validateRegistrationFieldBefore*';
+		ls.ajax(url, params, function(result) {
+			$.each(aFields,function(i,aField){
+				if (result.aErrors && result.aErrors[aField.field][0]) {
+					$('#validate-error-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
+				} else {
+					$('#validate-error-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
+				}
+			});
+			ls.hook.run('ls_user_validate_registration_field_after', [aFields, result]);
+		});
+	};
+
+	this.validateRegistrationField = function(sField,sValue,aParams) {
+		var aFields=[];
+		aFields.push({field: sField, value: sValue, params: aParams || {}});
+		this.validateRegistrationFields(aFields);
+	};
+
 	return this;
 }).call(ls.user || {},jQuery);

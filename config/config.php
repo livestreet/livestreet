@@ -515,7 +515,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/usernote.js",
 	"___path.root.engine_lib___/internal/template/js/comments.js",
 	"___path.root.engine_lib___/internal/template/js/blog.js",
-	"___path.root.engine_lib___/internal/template/js/friend.js",
+	"___path.root.engine_lib___/internal/template/js/user.js",
 	"___path.root.engine_lib___/internal/template/js/userfeed.js",
 	"___path.root.engine_lib___/internal/template/js/userfield.js",
 	"___path.root.engine_lib___/internal/template/js/stream.js",

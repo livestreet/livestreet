@@ -52,6 +52,8 @@ class ActionRegistration extends Action {
 		$this->AddEvent('confirm','EventConfirm');
 		$this->AddEvent('activate','EventActivate');
 		$this->AddEvent('invite','EventInvite');
+
+		$this->AddEvent('ajax-validate-fields','EventAjaxValidateFields');
 	}
 	
 	
@@ -60,7 +62,63 @@ class ActionRegistration extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
+
+	protected function EventAjaxValidateFields() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$oUser=Engine::GetEntity('ModuleUser_EntityUser');
+		$oUser->_setValidateScenario('registration');
+
+		$aFields=getRequest('fields');
+		if (is_array($aFields)) {
+			foreach($aFields as $aField) {
+				if (isset($aField['field']) and isset($aField['value'])) {
+					$sField=$aField['field'];
+					$sValue=$aField['value'];
+
+					switch($sField){
+						case 'login':
+							$oUser->setLogin($sValue);
+							//$oUser->_Validate(array($sField),false);
+							break;
+						case 'mail':
+							$oUser->setMail($sValue);
+							//$oUser->_Validate(array($sField),false);
+							break;
+						case 'captcha':
+							$oUser->setCaptcha($sValue);
+							//$oUser->_Validate(array($sField),false);
+							break;
+						case 'password':
+							$oUser->setPassword($sValue);
+							//$oUser->_Validate(array($sField),false);
+							break;
+						case 'password_confirm':
+							$oUser->setPasswordConfirm($sValue);
+							$oUser->setPassword(isset($aField['params']['password']) ? $aField['params']['password'] : null);
+							//$oUser->_Validate(array($sField),false);
+							break;
+						default:
+							continue;
+							break;
+					}
+					$oUser->_Validate(array($sField),false);
+				}
+			}
+		}
+
+
+
+
+
+		if ($oUser->_hasValidateErrors()) {
+			/**
+			 * Получаем ошибки
+			 */
+			$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
+		}
+	}
 	/**
 	 * Показывает страничку регистрации и обрабатывает её
 	 *
