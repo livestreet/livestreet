@@ -47,6 +47,18 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	 * @var null|array
 	 */
 	public $on=null;
+	/**
+	 * Объект текущей сущности, которая проходит валидацию
+	 *
+	 * @var null|Entity
+	 */
+	protected $oEntityCurrent=null;
+	/**
+	 * Объект текущей сущности, которая проходит валидацию
+	 *
+	 * @var null|string
+	 */
+	protected $sFieldCurrent=null;
 
 	/**
 	 * Основной метод валидации
@@ -121,6 +133,7 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 		} else {
 			$aFields=$this->fields;
 		}
+		$this->oEntityCurrent=$oEntity;
 		/**
 		 * Запускаем валидацию для каждого поля
 		 */
@@ -140,6 +153,7 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	 * @return bool
 	 */
 	public function validateEntityField($oEntity,$sField) {
+		$this->sFieldCurrent=$sField;
 		/**
 		 * Получаем значение поля у сущности через геттер
 		 */
@@ -154,6 +168,18 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 		} else {
 			return true;
 		}
+	}
+	/**
+	 * Возвращает значение поля текущей сущности
+	 *
+	 * @param $sField
+	 * @return mixed|null
+	 */
+	protected function getValueOfCurrentEntity($sField) {
+		if ($this->oEntityCurrent) {
+			return call_user_func_array(array($this->oEntityCurrent,'get'.func_camelize($sField)),array());
+		}
+		return null;
 	}
 }
 ?>
