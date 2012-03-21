@@ -289,7 +289,7 @@ ls.user = (function ($) {
 		var url = aRouter.registration+'ajax-validate-fields/';
 		var params = {fields: aFields};
 
-		'*validateRegistrationFieldBefore*'; '*/validateRegistrationFieldBefore*';
+		'*validateRegistrationFieldsBefore*'; '*/validateRegistrationFieldsBefore*';
 		ls.ajax(url, params, function(result) {
 			$.each(aFields,function(i,aField){
 				if (result.aErrors && result.aErrors[aField.field][0]) {
@@ -298,7 +298,7 @@ ls.user = (function ($) {
 					$('#validate-error-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
 				}
 			});
-			ls.hook.run('ls_user_validate_registration_field_after', [aFields, result]);
+			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, result]);
 		});
 	};
 
