@@ -713,8 +713,8 @@ class ActionBlog extends Action {
 		/**
 		 * Выставляем SEO данные
 		 */
-		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oTopic->getText());
-		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
+		$sTextSeo=strip_tags($oTopic->getText());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo, Config::Get('seo.description_words_count')));
 		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
 		/**
 		 * Загружаем переменные в шаблон
@@ -835,8 +835,8 @@ class ActionBlog extends Action {
 		/**
 		 * Выставляем SEO данные
 		 */
-		$sTextSeo=preg_replace("/<.*>/Ui",' ',$oBlog->getDescription());
-		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo,20));
+		$sTextSeo=strip_tags($oBlog->getDescription());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo, Config::Get('seo.description_words_count')));
 		/**
 		 * Получаем список юзеров блога
 		 */
