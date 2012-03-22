@@ -16,13 +16,18 @@
 			}
 			ls.user.validateRegistrationField($(e.target).attr('name'),$(e.target).val(),aParams);
 		});
+		$('#registration-form').bind('submit',function(){
+			ls.user.registration('registration-form');
+			return false;
+		});
+		$('#registration-form-submit').attr('disabled',false);
 	});
 </script>
 
 <h2 class="page-header">{$aLang.registration}</h2>
 
 
-<form action="{router page='registration'}" method="post">
+<form action="{router page='registration'}" method="post" id="registration-form">
 	{hook run='form_registration_begin'}
 
 	<p><label for="login">{$aLang.registration_login}</label>
@@ -37,8 +42,8 @@
 
 	<p><label for="user-password">{$aLang.registration_password}</label>
 	<input type="password" name="password" id="user-password" value="" class="input-text input-width-300 js-ajax-validate" />
-	<small class="note">{$aLang.registration_password_notice}</small>
-	<small class="validate-error-hide" id="validate-error-password"></small></p>
+	<small class="validate-error-hide" id="validate-error-password"></small>
+	<small class="note">{$aLang.registration_password_notice}</small></p>
 
 	<p><label for="user-password-confirm">{$aLang.registration_password_retry}</label>
 	<input type="password" value="" id="user-password-confirm" name="password_confirm" class="input-text input-width-300 js-ajax-validate" />
@@ -53,7 +58,7 @@
 
 	{hook run='form_registration_end'}
 
-	<input type="submit" name="submit_register" value="{$aLang.registration_submit}" class="button" />
+	<input type="submit" name="submit_register" id="registration-form-submit" disabled="disabled" value="{$aLang.registration_submit}" class="button" />
 </form>
 
 

@@ -54,6 +54,7 @@ class ActionRegistration extends Action {
 		$this->AddEvent('invite','EventInvite');
 
 		$this->AddEvent('ajax-validate-fields','EventAjaxValidateFields');
+		$this->AddEvent('ajax-registration','EventAjaxRegistration');
 	}
 	
 	
@@ -80,24 +81,19 @@ class ActionRegistration extends Action {
 					switch($sField){
 						case 'login':
 							$oUser->setLogin($sValue);
-							//$oUser->_Validate(array($sField),false);
 							break;
 						case 'mail':
 							$oUser->setMail($sValue);
-							//$oUser->_Validate(array($sField),false);
 							break;
 						case 'captcha':
 							$oUser->setCaptcha($sValue);
-							//$oUser->_Validate(array($sField),false);
 							break;
 						case 'password':
 							$oUser->setPassword($sValue);
-							//$oUser->_Validate(array($sField),false);
 							break;
 						case 'password_confirm':
 							$oUser->setPasswordConfirm($sValue);
 							$oUser->setPassword(isset($aField['params']['password']) ? $aField['params']['password'] : null);
-							//$oUser->_Validate(array($sField),false);
 							break;
 						default:
 							continue;
@@ -119,140 +115,96 @@ class ActionRegistration extends Action {
 			$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
 		}
 	}
+
 	/**
-	 * Показывает страничку регистрации и обрабатывает её
-	 *
-	 * @return unknown
+	 * Обработка Ajax регистрации
 	 */
-	protected function EventIndex() {			
+	protected function EventAjaxRegistration() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$oUser=Engine::GetEntity('ModuleUser_EntityUser');
+		$oUser->_setValidateScenario('registration');
+
+		$oUser->setLogin(getRequest('login'));
+		$oUser->setMail(getRequest('mail'));
+		$oUser->setPassword(getRequest('password'));
+		$oUser->setPasswordConfirm(getRequest('password_confirm'));
+		$oUser->setCaptcha(getRequest('captcha'));
+
+		$oUser->setDateRegister(date("Y-m-d H:i:s"));
+		$oUser->setIpRegister(func_getIp());
 		/**
-		 * Если нажали кнопку "Зарегистрироваться"
+		 * Если используется активация, то генерим код активации
 		 */
-		if (isPost('submit_register')) {
-			//Проверяем  входные данные
-			$bError=false;
-			/**
-			 * Проверка логина
-			 */
-			if (!$this->User_CheckLogin(getRequest('login'))) {
-				$this->Message_AddError($this->Lang_Get('registration_login_error'),$this->Lang_Get('error'));
-				$bError=true;
-			} else {
+		if (Config::Get('general.reg.activation')) {
+			$oUser->setActivate(0);
+			$oUser->setActivateKey(md5(func_generator().time()));
+		} else {
+			$oUser->setActivate(1);
+			$oUser->setActivateKey(null);
+		}
+
+		if ($oUser->_Validate()) {
+			$oUser->setPassword(md5($oUser->getPassword()));
+			if ($this->User_Add($oUser)) {
 				/**
-				 * А не занят ли логин?
+				 * Убиваем каптчу
 				 */
-				if ($this->User_GetUserByLogin(getRequest('login'))) {
-					$this->Message_AddError($this->Lang_Get('registration_login_error_used'),$this->Lang_Get('error'));
-					$bError=true;
+				unset($_SESSION['captcha_keystring']);
+				/**
+				 * Создаем персональный блог
+				 */
+				$this->Blog_CreatePersonalBlog($oUser);
+
+
+				/**
+				 * Если юзер зарегистрировался по приглашению то обновляем инвайт
+				 */
+				if (Config::Get('general.reg.invite') and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
+					$oInvite->setUserToId($oUser->getId());
+					$oInvite->setDateUsed(date("Y-m-d H:i:s"));
+					$oInvite->setUsed(1);
+					$this->User_UpdateInvite($oInvite);
 				}
-			}
-			/**
-			 * Проверка мыла
-			 */
-			if (!func_check(getRequest('mail'),'mail')) {
-				$this->Message_AddError($this->Lang_Get('registration_mail_error'),$this->Lang_Get('error'));
-				$bError=true;
-			} else {
 				/**
-				 * А не занято ли мыло?
-				 */
-				if ($this->User_GetUserByMail(getRequest('mail'))) {
-					$this->Message_AddError($this->Lang_Get('registration_mail_error_used'),$this->Lang_Get('error'));
-					$bError=true;
-				}
-			}
-			/**
-			 * Проверка пароля
-			 */
-			if (!func_check(getRequest('password'),'password',5)) {
-				$this->Message_AddError($this->Lang_Get('registration_password_error'),$this->Lang_Get('error'));
-				$bError=true;
-			} elseif (getRequest('password')!=getRequest('password_confirm')) {
-				$this->Message_AddError($this->Lang_Get('registration_password_error_different'),$this->Lang_Get('error'));
-				$bError=true;
-			}
-			/**
-			 * Проверка капчи(циферки с картинки)
-			 */
-			if (!isset($_SESSION['captcha_keystring']) or $_SESSION['captcha_keystring']!=strtolower(getRequest('captcha'))) {
-				$this->Message_AddError($this->Lang_Get('registration_captcha_error'),$this->Lang_Get('error'));
-				$bError=true;
-			}
-									
-			/**
-			 * Если всё то пробуем зарегить
-			 */
-			if (!$bError) {
-				/**
-				 * Создаем юзера
-				 */
-				$oUser=Engine::GetEntity('User');
-				$oUser->setLogin(getRequest('login'));
-				$oUser->setMail(getRequest('mail'));
-				$oUser->setPassword(func_encrypt(getRequest('password')));
-				$oUser->setDateRegister(date("Y-m-d H:i:s"));
-				$oUser->setIpRegister(func_getIp());
-				/**
-				 * Если используется активация, то генерим код активации
+				 * Если стоит регистрация с активацией то проводим её
 				 */
 				if (Config::Get('general.reg.activation')) {
-					$oUser->setActivate(0);
-					$oUser->setActivateKey(md5(func_generator().time()));
+					/**
+					 * Отправляем на мыло письмо о подтверждении регистрации
+					 */
+					$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
+					$this->Viewer_AssignAjax('sUrlRedirect',Router::GetPath('registration').'confirm/');
 				} else {
-					$oUser->setActivate(1);
-					$oUser->setActivateKey(null);
-				}					
-				/**
-				 * Регистрируем
-				 */
-				if ($this->User_Add($oUser)) {	
-					/**
-					 * Убиваем каптчу
-					 */
-					unset($_SESSION['captcha_keystring']);
-					/**
-					 * Создаем персональный блог
-					 */
-					$this->Blog_CreatePersonalBlog($oUser);		
-					
-					
-					/**
-					 * Если юзер зарегистрировался по приглашению то обновляем инвайт
-					 */
-					if (Config::Get('general.reg.invite') and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
-						$oInvite->setUserToId($oUser->getId());
-						$oInvite->setDateUsed(date("Y-m-d H:i:s"));
-						$oInvite->setUsed(1);
-						$this->User_UpdateInvite($oInvite);
-					}
-					/**
-					 * Если стоит регистрация с активацией то проводим её
-					 */
-					if (Config::Get('general.reg.activation')) {
-						/**
-						 * Отправляем на мыло письмо о подтверждении регистрации						 
-						 */					
-						$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
-						Router::Location(Router::GetPath('registration').'confirm/');						
-					} else {
-						$this->Notify_SendRegistration($oUser,getRequest('password'));
-						$this->Viewer_Assign('bRefreshToHome',true);
-						$oUser=$this->User_GetUserById($oUser->getId());
-						$this->User_Authorization($oUser,false);
-						$this->SetTemplateAction('ok');
-						$this->DropInviteRegister();
-					}								
-				} else {
-					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-					return Router::Action('error'); 
+					$this->Notify_SendRegistration($oUser,getRequest('password'));
+					$oUser=$this->User_GetUserById($oUser->getId());
+					$this->User_Authorization($oUser,false);
+					$this->DropInviteRegister();
+
+					$sUrl=Config::Get('module.user.redirect_after_registration');
+					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
+					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
 				}
+			} else {
+				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+				return;
 			}
+		} else {
+			/**
+			 * Получаем ошибки
+			 */
+			$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
 		}
+	}
+
+	/**
+	 * Показывает страничку регистрации
+	 */
+	protected function EventIndex() {			
+
 	}
 	/**
 	 * Обрабатывает активацию аккаунта
-	 *
-	 * @return unknown
 	 */
 	protected function EventActivate() {		
 		$bError=false;
