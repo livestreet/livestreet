@@ -25,7 +25,7 @@ class BlockUserfeedUsers extends Block {
 			$aUserSubscribes = $this->Userfeed_getUserSubscribes($oUserCurrent->getId());
 			$aFriends = $this->User_getUsersFriend($oUserCurrent->getId());
 			$this->Viewer_Assign('aUserfeedSubscribedUsers', $aUserSubscribes['users']);
-			$this->Viewer_Assign('aUserfeedFriends', $aFriends);
+			$this->Viewer_Assign('aUserfeedFriends', $aFriends['collection']);
 		}
 	}
 }

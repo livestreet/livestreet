@@ -471,7 +471,7 @@ class ModuleUser_MapperUser extends Mapper {
 	 * @param  int    $iStatus
 	 * @return array
 	 */
-	public function GetUsersFriend($sUserId) {
+	public function GetUsersFriend($sUserId,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT
 					uf.user_from,
 					uf.user_to
@@ -486,15 +486,17 @@ class ModuleUser_MapperUser extends Mapper {
 					OR
 						(uf.status_from = ?d AND uf.status_to = ?d )
 					)
-					;";
+				LIMIT ?d, ?d ;";
 		$aUsers=array();
-		if ($aRows=$this->oDb->select(
+		if ($aRows=$this->oDb->selectPage(
+				$iCount,
 				$sql,
 				$sUserId,
 				$sUserId,
 				ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
 				ModuleUser::USER_FRIEND_ACCEPT,
-				ModuleUser::USER_FRIEND_ACCEPT
+				ModuleUser::USER_FRIEND_ACCEPT,
+				($iCurrPage-1)*$iPerPage, $iPerPage
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -504,6 +506,34 @@ class ModuleUser_MapperUser extends Mapper {
 			}
 		}
 		return array_unique($aUsers);
+	}
+
+	public function GetCountUsersFriend($sUserId) {
+		$sql = "SELECT
+					count(*) as c
+				FROM
+					".Config::Get('db.table.friend')." as uf
+				WHERE
+					( uf.user_from = ?d
+					OR
+					uf.user_to = ?d )
+					AND
+					( 	uf.status_from + uf.status_to = ?d
+					OR
+						(uf.status_from = ?d AND uf.status_to = ?d )
+					)";
+		if ($aRow=$this->oDb->selectRow(
+			$sql,
+			$sUserId,
+			$sUserId,
+			ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
+			ModuleUser::USER_FRIEND_ACCEPT,
+			ModuleUser::USER_FRIEND_ACCEPT
+		)
+		) {
+			return $aRow['c'];
+		}
+		return 0;
 	}
 
 	/**

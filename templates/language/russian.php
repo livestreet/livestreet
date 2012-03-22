@@ -484,6 +484,7 @@ return array(
 	'user_menu_profile_whois' => 'Whois',
 	'user_menu_profile_wall' => 'Стена',
 	'user_menu_profile_friends' => 'Друзья',
+	'user_menu_profile_stream' => 'Активность',
 	'user_menu_profile_notes' => 'Заметки',
 	'user_menu_profile_favourites' => 'Избраннное',
 	'user_menu_profile_favourites_topics' => 'Избранные топики',
@@ -915,6 +916,14 @@ return array(
 	'validate_required_must_be' => 'Поле %%field%% должно иметь значение %%value%%',
 	'validate_required_cannot_blank' => 'Поле %%field%% не может быть пустым',
 	'validate_url_not_valid' => 'Поле %%field%% не соотвествует формату URL адреса',
+	'validate_captcha_not_valid' => 'Поле %%field%% содержит неверный код',
+	'validate_compare_must_repeated' => 'Поле %%field%% должно повторять %%compare_field%%',
+	'validate_compare_must_not_equal' => 'Поле %%field%% не должно повторять %%compare_value%%',
+	'validate_compare_must_greater' => 'Поле %%field%% должно быть больше чем %%compare_value%%',
+	'validate_compare_must_greater_equal' => 'Поле %%field%% должно быть больше или равно %%compare_value%%',
+	'validate_compare_must_less' => 'Поле %%field%% должно быть меньше чем %%compare_value%%',
+	'validate_compare_must_less_equal' => 'Поле %%field%% должно быть меньше или равно %%compare_value%%',
+	'validate_compare_invalid_operator' => 'У поля %%field%% неверный оператор сравнения %%operator%%',
 	/**
 	 * Подписка
 	 */

@@ -62,6 +62,7 @@ class ActionStream extends Action {
 		$this->AddEvent('unsubscribe', 'EventUnSubscribe');
 		$this->AddEvent('switchEventType', 'EventSwitchEventType');
 		$this->AddEvent('get_more', 'EventGetMore');
+		$this->AddEvent('get_more_user', 'EventGetMoreUser');
 	}
 
 	/**
@@ -126,6 +127,41 @@ class ActionStream extends Action {
 		$this->Viewer_AssignAjax('events_count', count($aEvents));
 	}
 
+	/**
+	 * Погрузка событий для пользователя
+	 *
+	 */
+	protected function EventGetMoreUser() {
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Необходимо передать последний просмотренный ID событий
+		 */
+		$iFromId = getRequest('last_id');
+		if (!$iFromId)  {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		if (!($oUser=$this->User_GetUserById(getRequest('user_id')))) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем события
+		 */
+		$aEvents = $this->Stream_ReadByUserId($oUser->getId(), null, $iFromId);
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+		}
+		/**
+		 * Возвращаем данные в ajax ответе
+		 */
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('events_count', count($aEvents));
+	}
 	/**
 	 * Подписка на пользователя по ID
 	 *

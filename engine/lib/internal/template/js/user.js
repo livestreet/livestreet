@@ -284,6 +284,73 @@ ls.user = (function ($) {
 		return false;
 	};
 
+	/**
+	 * Валидация полей формы при регистрации
+	 * @param aFields
+	 */
+	this.validateRegistrationFields = function(aFields) {
+		var url = aRouter.registration+'ajax-validate-fields/';
+		var params = {fields: aFields};
+
+		'*validateRegistrationFieldsBefore*'; '*/validateRegistrationFieldsBefore*';
+		ls.ajax(url, params, function(result) {
+			$.each(aFields,function(i,aField){
+				if (result.aErrors && result.aErrors[aField.field][0]) {
+					$('#validate-error-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
+				} else {
+					$('#validate-error-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
+				}
+			});
+			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, result]);
+		});
+	};
+
+	/**
+	 * Валидация конкретного поля формы
+	 * @param sField
+	 * @param sValue
+	 * @param aParams
+	 */
+	this.validateRegistrationField = function(sField,sValue,aParams) {
+		var aFields=[];
+		aFields.push({field: sField, value: sValue, params: aParams || {}});
+		this.validateRegistrationFields(aFields);
+	};
+
+	/**
+	 * Ajax регистрация пользователя с проверкой полей формы
+	 * @param form
+	 */
+	this.registration = function(form) {
+		var url = aRouter.registration+'ajax-registration/';
+
+		'*registrationBefore*'; '*/registrationBefore*';
+		ls.ajaxSubmit(url, form, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				if (typeof(form)=='string') {
+					form=$('#'+form);
+				}
+				form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
+				if (result.aErrors) {
+					$.each(result.aErrors,function(sField,aErrors){
+						if (aErrors[0]) {
+							$('#validate-error-'+sField).removeClass('validate-error-hide').addClass('validate-error-show').text(aErrors[0]);
+						}
+					});
+				} else {
+					if (result.sMsg) {
+						ls.msg.notice(null,result.sMsg);
+					}
+					if (result.sUrlRedirect) {
+						window.location=result.sUrlRedirect;
+					}
+				}
+				ls.hook.run('ls_user_registration_after', [form, result]);
+			}
+		});
+	};
 
 	return this;
 }).call(ls.user || {},jQuery);

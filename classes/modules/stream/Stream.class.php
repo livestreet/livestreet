@@ -129,13 +129,12 @@ class ModuleStream extends Module {
 	/**
 	 * Чтение потока пользователя
 	 *
-	 * @param unknown_type $iCount
-	 * @param unknown_type $iFromId
-	 * @param unknown_type $iUserId
-	 * @return unknown
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @param int $iUserId
+	 * @return array
 	 */
 	public function Read($iCount=null,$iFromId=null,$iUserId=null) {
-		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
 		if (!$iUserId) {
 			if ($this->User_getUserCurrent()) {
 				$iUserId=$this->User_getUserCurrent()->getId();
@@ -147,6 +146,47 @@ class ModuleStream extends Module {
 		 * Получаем типы событий
 		 */
 		$aEventTypes = $this->getTypesList($iUserId);
+		/**
+		 * Получаем список тех на кого подписан
+		 */
+		$aUsersList = $this->getUsersList($iUserId);
+
+		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
+	}
+
+	/**
+	 * Чтение активности конкретного пользователя
+	 *
+	 * @param int $iCount
+	 * @param int $iUserId
+	 * @return array
+	 */
+	public function ReadByUserId($iUserId,$iCount=null,$iFromId=null) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=array_keys($this->getEventTypes());
+		/**
+		 * Получаем список тех на кого подписан
+		 */
+		$aUsersList = array($iUserId);
+
+		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
+	}
+
+	/**
+	 * @param array $aEventTypes
+	 * @param array $aUsersList
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @return array
+	 */
+	public function ReadEvents($aEventTypes,$aUsersList,$iCount=null,$iFromId=null) {
+		if (!count($aUsersList)) return array();
+		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
+		/**
+		 * Если не показывать голосования
+		 */
 		if (Config::Get('module.stream.disable_vote_events')) {
 			foreach ($aEventTypes as $i => $sType) {
 				if (substr($sType, 0, 4) == 'vote') {
@@ -155,11 +195,7 @@ class ModuleStream extends Module {
 			}
 		}
 		if (!count($aEventTypes)) return array();
-		/**
-		 * Получаем список тех на кого подписан
-		 */
-		$aUsersList = $this->getUsersList($iUserId);
-		if (!count($aUsersList)) return array();
+
 		/**
 		 * Получаем список событий
 		 */
@@ -219,8 +255,7 @@ class ModuleStream extends Module {
 		}
 		return $aEvents;
 	}
-	
-	
+
 	/**
 	 * Получение типов событий, на которые подписан пользователь
 	 * @param type $iUserId

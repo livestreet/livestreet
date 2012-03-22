@@ -16,6 +16,61 @@
 */
 
 class ModuleUser_EntityUser extends Entity {
+
+	/**
+	 * Определяем правила валидации
+	 */
+	protected $aValidateRules=array(
+		array('login','login','on'=>array('registration','')), // '' - означает дефолтный сценарий
+		array('login','login_exists','on'=>array('registration')),
+		array('mail','email','allowEmpty'=>false,'on'=>array('registration','')),
+		array('mail','mail_exists','on'=>array('registration')),
+		array('captcha','captcha','on'=>array('registration')),
+		array('password','string','allowEmpty'=>false,'min'=>5,'on'=>array('registration')),
+		array('password_confirm','compare','compareField'=>'password','on'=>array('registration')),
+	);
+
+	/**
+	 * Валидация пользователя
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool
+	 */
+	public function ValidateLogin($sValue,$aParams) {
+		if ($this->User_CheckLogin($sValue)) {
+			return true;
+		}
+		return $this->Lang_Get('registration_login_error');
+	}
+	/**
+	 * Проверка логина на существование
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool
+	 */
+	public function ValidateLoginExists($sValue,$aParams) {
+		if (!$this->User_GetUserByLogin($sValue)) {
+			return true;
+		}
+		return $this->Lang_Get('registration_login_error_used');
+	}
+	/**
+	 * Проверка емайла на существование
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool
+	 */
+	public function ValidateMailExists($sValue,$aParams) {
+		if (!$this->User_GetUserByMail($sValue)) {
+			return true;
+		}
+		return $this->Lang_Get('registration_mail_error_used');
+	}
+
+
 	
 	public function getId() {
         return $this->_aData['user_id'];

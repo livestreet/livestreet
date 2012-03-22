@@ -484,6 +484,7 @@ return array(
 	'user_menu_profile_whois' => 'Whois',
 	'user_menu_profile_wall' => 'Wall',
 	'user_menu_profile_friends' => 'Friends',
+	'user_menu_profile_stream' => 'Stream',
 	'user_menu_profile_notes' => 'Notes',
 	'user_menu_profile_favourites' => 'Favourites',
 	'user_menu_profile_favourites_topics' => 'Favourite topics',
@@ -915,6 +916,14 @@ return array(
 	'validate_required_must_be' => 'Field %%field%% must be %%value%%',
 	'validate_required_cannot_blank' => 'Field %%field%% cannot be blank',
 	'validate_url_not_valid' => 'Field %%field%% is not a valid URL',
+	'validate_captcha_not_valid' => 'Field %%field%% is not a valid code',
+	'validate_compare_must_repeated' => 'Field %%field%% must be repeated %%compare_field%%',
+	'validate_compare_must_not_equal' => 'Field %%field%% must not be equal to %%compare_value%%',
+	'validate_compare_must_greater' => 'Field %%field%% must be greater than %%compare_value%%',
+	'validate_compare_must_greater_equal' => 'Field %%field%% must be greater than or equal to %%compare_value%%',
+	'validate_compare_must_less' => 'Field %%field%% must be less than %%compare_value%%',
+	'validate_compare_must_less_equal' => 'Field %%field%% must be less than or equal to %%compare_value%%',
+	'validate_compare_invalid_operator' => 'Field %%field%% invalid operator %%operator%%',
 	/**
 	 * Подписка
 	 */

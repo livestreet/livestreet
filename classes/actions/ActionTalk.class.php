@@ -261,8 +261,9 @@ class ActionTalk extends Action {
 		/**
 		 * Получаем список друзей
 		 */
-		if($aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId())) {				
-			$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
+		$aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId());
+		if($aUsersFriend['collection']) {
+			$this->Viewer_Assign('aUsersFriend',$aUsersFriend['collection']);
 		}				
 		/**
 		 * Проверяем отправлена ли форма с данными
