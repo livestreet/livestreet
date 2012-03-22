@@ -15,9 +15,11 @@
 				{$oWall->getText()}
 			</div>
 			
-			<ul class="comment-actions">
-				<li></li>
-			</ul>
+			{if !$aReplyWall}
+				<ul class="comment-actions">
+					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">Ответить</a></li>
+				</ul>
+			{/if}
 		</div>
 		
 		
@@ -33,7 +35,11 @@
 				{include file='actions/ActionProfile/wall_items_reply.tpl'}
 			{/if}
 		</div>
-
-		<a href="#" id="wall-button-reply-{$oWall->getId()}" onclick="return ls.wall.toggleReply({$oWall->getId()});" class="link-dotted">Ответить</a>
+		
+		
+		<form class="wall-submit wall-submit-reply" {if !$aReplyWall}style="display: none"{/if}>
+			<textarea rows="4" id="wall-reply-text-{$oWall->getId()}" class="input-text input-width-full js-wall-reply-text" placeholder="Ответить..." onclick="return ls.wall.expandReply({$oWall->getId()});"></textarea>
+			<button type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text-{$oWall->getId()}').val(), {$oWall->getId()});" class="button button-primary">Отправить</button>
+		</form>
 	</div>
 {/foreach}

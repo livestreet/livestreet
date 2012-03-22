@@ -8,7 +8,7 @@
 .topic .topic-header .topic-url 		{ margin-bottom: 15px; }
 .topic .topic-header .topic-url a 		{ background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
 .topic .topic-header .topic-info 		{ margin-bottom: 25px; color: #777; }
-.topic .topic-header .topic-info time 	{ margin-right: 15px; }
+.topic .topic-header .topic-info a 		{ margin-right: 15px; }
 
 /* Content */
 .topic .topic-content { margin-bottom: 15px; }

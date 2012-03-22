@@ -2,17 +2,18 @@
 	БЛОКИ
 ------------------------------------------------------------------- */
 
-.block 			{ padding: 20px; background: #fafafa; margin-bottom: 15px; border-radius: 3px; }
+.block 			{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
 
-.block h3 		{ font-size: 20px; line-height: 1em; font-weight: normal; margin-bottom: 20px; }
-.block h3 a 	{ text-decoration: none; }
-.block footer 	{ margin-top: 15px; font-size: 12px; }
+.block .block-header 		{ padding: 13px 20px; background: #EAF6F9; border-bottom: 1px solid #D2E8EF; position: relative; }
+.block .block-header h3 	{ font-size: 16px; line-height: 1em; font-weight: normal; }
+.block .block-header h3 a 	{ text-decoration: none; }
+.block footer 				{ margin-top: 15px; font-size: 12px; }
+.block .block-content 		{ padding: 20px; }
 
-.block .max-height-200 { overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+.block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
 
 
 /* Block Type - Activity Settings */
-.block.block-type-activity h3 		{ margin-bottom: 7px; }
 .block.block-type-activity p 		{ margin-bottom: 15px; }
 .block.block-type-activity ul li 	{ margin-bottom: 5px; }
 .block.block-type-activity .note 	{ display: block; margin-bottom: 15px; color: #aaa; }

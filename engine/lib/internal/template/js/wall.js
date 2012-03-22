@@ -21,6 +21,7 @@ ls.wall = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
+				$('.js-wall-reply-parent-text').val('');
 				this.loadNew();
 				ls.hook.run('ls_wall_add_after',[sText, iPid, result]);
 			}
@@ -28,18 +29,17 @@ ls.wall = (function ($) {
 		return false;
 	};
 
-	this.addReply = function(sText) {
+	this.addReply = function(sText, iPid) {
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
-		var params = {sText: sText, iPid: this.iIdForReply};
+		var params = {sText: sText, iPid: iPid};
 		'*addReplyBefore*'; '*/addReplyBefore*';
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				$('#wall-reply-text').val('');
-				$('#wall-reply-form').hide();
-				this.loadReplyNew(this.iIdForReply);
-				ls.hook.run('ls_wall_addreply_after',[sText, this.iIdForReply, result]);
+				$('.js-wall-reply-text').val('');
+				this.loadReplyNew(iPid);
+				ls.hook.run('ls_wall_addreply_after',[sText, iPid, result]);
 			}
 		}.bind(this));
 		return false;
@@ -154,14 +154,12 @@ ls.wall = (function ($) {
 	};
 
 	this.toggleReply = function(iId) {
-		var reply=$('#wall-reply-form');
-		if (iId==this.iIdForReply) {
-			reply.toggle();
-		} else {
-			reply.insertAfter($('#wall-button-reply-'+iId));
-			reply.show();
-			this.iIdForReply=iId;
-		}
+		$('#wall-item-' + iId + ' .wall-submit-reply').toggle();
+		return false;
+	};
+
+	this.expandReply = function(iId) {
+		$('#wall-item-' + iId + ' .wall-submit-reply').addClass('active');
 		return false;
 	};
 
@@ -173,3 +171,14 @@ ls.wall = (function ($) {
 
 	return this;
 }).call(ls.wall || {},jQuery);
+
+
+jQuery(document).ready(function($){
+	$(document).click(function() {
+		$('.wall-submit-reply.active').removeClass('active');
+	});
+	
+	$('body').on("click", ".wall-submit-reply", function(e) { 
+		e.stopPropagation();
+	});
+});

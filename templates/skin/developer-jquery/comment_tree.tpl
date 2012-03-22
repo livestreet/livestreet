@@ -6,12 +6,14 @@
 }
 
 <div class="comments" id="comments">
-	{if $bAllowSubscribe and $oUserCurrent}
-		<input {if $oSubscribeComment and $oSubscribeComment->getStatus()}checked="checked"{/if} type="checkbox" id="comment_subscribe" onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"> &mdash; <label for="comment_subscribe">{$aLang.comment_subscribe}</label>
-	{/if}
-
 	<header class="comments-header">
 		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
+		
+		{if $bAllowSubscribe and $oUserCurrent}
+			<input {if $oSubscribeComment and $oSubscribeComment->getStatus()}checked="checked"{/if} type="checkbox" id="comment_subscribe" class="input-checkbox" onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);">
+			<label for="comment_subscribe">{$aLang.comment_subscribe}</label>
+		{/if}
+	
 		<a name="comments"></a>
 	</header>
 

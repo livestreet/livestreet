@@ -168,6 +168,8 @@
 .ta-r { text-align: right !important; }
 .va-m { vertical-align: middle; }
 
+.hidden { display: none; }
+
 .user, .ls-user { font-weight: bold; color: #333; }
 .user .icon-user { margin-right: 3px; }
 .user.inactive { color: #aaa; }

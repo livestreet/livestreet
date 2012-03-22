@@ -19,7 +19,7 @@
 
 <form class="wall-submit">
 	<label for="wall-text">Написать на стене:</label>
-	<p><textarea rows="4" id="wall-text" class="input-text input-width-full"></textarea></p>
+	<p><textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea></p>
 
 	<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary">Отправить</button>
 </form>
@@ -33,12 +33,6 @@
 {if count($aWall)}
 	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="wall-more">К предыдущим записям (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</a>
 {/if}
-
-
-<form id="wall-reply-form" class="wall-submit wall-submit-reply" style="display: none;">
-	<p><textarea rows="4" id="wall-reply-text" class="input-text input-width-full"></textarea></p>
-	<button type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text').val());" class="button button-primary">Отправить</button>
-</form>
 
 
 

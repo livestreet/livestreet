@@ -4,7 +4,7 @@
 
 /* Блок с комментариями */
 .comments-header { margin-bottom: 20px; }
-.comments-header h3 { font-size: 24px; }
+.comments-header h3 { font-size: 24px; margin-bottom: 5px; }
 
 .comments { margin-bottom: 30px; }
 
