@@ -365,6 +365,27 @@ class ModuleGeo extends Module {
 		return null;
 	}
 
+	/**
+	 * Возвращает список стран сгруппированных по количеству использований в данном типе объектов
+	 *
+	 * @param $sTargetType
+	 * @param $iLimit
+	 * @return mixed
+	 */
+	public function GetGroupCountriesByTargetType($sTargetType,$iLimit) {
+		return $this->oMapper->GetGroupCountriesByTargetType($sTargetType,$iLimit);
+	}
+
+	/**
+	 * Возвращает список городов сгруппированных по количеству использований в данном типе объектов
+	 *
+	 * @param $sTargetType
+	 * @param $iLimit
+	 * @return mixed
+	 */
+	public function GetGroupCitiesByTargetType($sTargetType,$iLimit) {
+		return $this->oMapper->GetGroupCitiesByTargetType($sTargetType,$iLimit);
+	}
 
 	/**
 	 * Проверка объекта с типом "user"

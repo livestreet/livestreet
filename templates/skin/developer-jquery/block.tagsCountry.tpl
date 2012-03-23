@@ -7,8 +7,8 @@
 		
 		<div class="block-content">
 			<ul class="tag-cloud">
-				{foreach from=$aCountryList item=aCountry}
-					<li><a class="tag-size-{$aCountry.size}" href="{router page='people'}country/{$aCountry.name|escape:'url'}/">{$aCountry.name|escape:'html'}</a></li>	
+				{foreach from=$aCountryList item=oCountry}
+					<li><a class="tag-size-{$oCountry->getSize()}" href="{router page='people'}country/{$oCountry->getId()}/">{$oCountry->getName()|escape:'html'}</a></li>
 				{/foreach}					
 			</ul>	
 		</div>		

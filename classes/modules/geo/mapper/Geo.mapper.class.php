@@ -60,6 +60,58 @@ class ModuleGeo_MapperGeo extends Mapper {
 		return $aResult;
 	}
 
+	public function GetGroupCountriesByTargetType($sTargetType,$iLimit) {
+		$sql = "
+			SELECT
+				t.count,
+				g.*
+			FROM (
+					SELECT
+						count(*) as count,
+						country_id
+					FROM
+						".Config::Get('db.table.geo_target')."
+					WHERE target_type = ? and country_id IS NOT NULL
+					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d
+				) as t
+				JOIN ".Config::Get('db.table.geo_country')." as g on t.country_id=g.id
+			ORDER BY g.name_ru
+		";
+		$aResult=array();
+		if ($aRows=$this->oDb->select($sql,$sTargetType,$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=Engine::GetEntity('ModuleGeo_EntityCountry',$aRow);
+			}
+		}
+		return $aResult;
+	}
+
+	public function GetGroupCitiesByTargetType($sTargetType,$iLimit) {
+		$sql = "
+			SELECT
+				t.count,
+				g.*
+			FROM (
+					SELECT
+						count(*) as count,
+						city_id
+					FROM
+						".Config::Get('db.table.geo_target')."
+					WHERE target_type = ? and city_id IS NOT NULL
+					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
+				) as t
+				JOIN ".Config::Get('db.table.geo_city')." as g on t.city_id=g.id
+			ORDER BY g.name_ru
+		";
+		$aResult=array();
+		if ($aRows=$this->oDb->select($sql,$sTargetType,$iLimit)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=Engine::GetEntity('ModuleGeo_EntityCity',$aRow);
+			}
+		}
+		return $aResult;
+	}
+
 	public function DeleteTargets($aFilter) {
 		if (!$aFilter) {
 			return false;

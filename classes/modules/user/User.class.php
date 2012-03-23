@@ -653,8 +653,6 @@ class ModuleUser extends Module {
 			$aStat['count_sex_man']=(isset($aSex['man']) ? $aSex['man']['count'] : 0);
 			$aStat['count_sex_woman']=(isset($aSex['woman']) ? $aSex['woman']['count'] : 0);
 			$aStat['count_sex_other']=(isset($aSex['other']) ? $aSex['other']['count'] : 0);
-			$aStat['count_country']=$this->oMapper->GetCountUsersCountry(15);
-			$aStat['count_city']=$this->oMapper->GetCountUsersCity(15);
 
 			$this->Cache_Set($aStat, "user_stats", array("user_update","user_new"), 60*60*24*4);
 		}

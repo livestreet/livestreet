@@ -301,45 +301,6 @@ class ModuleUser_MapperUser extends Mapper {
 		return $result;
 	}
 
-	public function GetCountUsersCountry($sLimit) {
-		$sql = "
-			SELECT
-				cu.count,
-				c.country_name as name
-			FROM (
-					SELECT
-						count(*) as count,
-						country_id
-					FROM
-						".Config::Get('db.table.country_user')."
-					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d
-				) as cu
-				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id
-			ORDER BY c.country_name
-		";
-		$result=$this->oDb->select($sql,$sLimit);
-		return $result;
-	}
-
-	public function GetCountUsersCity($sLimit) {
-		$sql = "
-			SELECT
-				cu.count,
-				c.city_name as name
-			FROM (
-					SELECT
-						count(*) as count,
-						city_id
-					FROM
-						".Config::Get('db.table.city_user')."
-					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
-				) as cu
-				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id
-			ORDER BY c.city_name
-		";
-		$result=$this->oDb->select($sql,$sLimit);
-		return $result;
-	}
 
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
 		$sql = "SELECT
