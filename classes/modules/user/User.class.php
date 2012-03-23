@@ -607,38 +607,6 @@ class ModuleUser extends Module {
 		return $data;
 	}
 	/**
-	 * Получить спиок юзеров по стране
-	 *
-	 * @param unknown_type $sCountry
-	 * @param unknown_type $iCurrPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersByCountry($sCountry,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_country_{$sCountry}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersByCountry($sCountry,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_country_{$sCountry}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
-	}
-	/**
-	 * Получить список юзеров по городу
-	 *
-	 * @param unknown_type $sCity
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersByCity($sCity,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_city_{$sCity}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersByCity($sCity,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_city_{$sCity}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
-	}
-	/**
 	 * Получить статистику по юзерам
 	 *
 	 * @return unknown
@@ -983,74 +951,6 @@ class ModuleUser extends Module {
 			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("invate_new_to_{$sUserIdTo}"), 60*60*24*1);
 		}
 		return $this->GetUserById($id);
-	}
-	/**
-	 * Привязывает страну к пользователю
-	 *
-	 * @param unknown_type $sCountryId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function SetCountryUser($sCountryId,$sUserId) {
-		return $this->oMapper->SetCountryUser($sCountryId,$sUserId);
-	}
-	/**
-	 * Получает страну по имени
-	 *
-	 * @param unknown_type $sName
-	 * @return unknown
-	 */
-	public function GetCountryByName($sName) {
-		return $this->oMapper->GetCountryByName($sName);
-	}
-	/**
-	 * Добавляет страну
-	 *
-	 * @param ModuleUser_EntityCountry $oCountry
-	 * @return unknown
-	 */
-	public function AddCountry(ModuleUser_EntityCountry $oCountry) {
-		if ($sId=$this->oMapper->AddCountry($oCountry)) {
-			$oCountry->setId($sId);
-			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("country_new"));
-			return $oCountry;
-		}
-		return false;
-	}
-	/**
-	 * Привязывает город к пользователю
-	 *
-	 * @param unknown_type $sCityId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function SetCityUser($sCityId,$sUserId) {
-		return $this->oMapper->SetCityUser($sCityId,$sUserId);
-	}
-	/**
-	 * Получает город по имени
-	 *
-	 * @param unknown_type $sName
-	 * @return unknown
-	 */
-	public function GetCityByName($sName) {
-		return $this->oMapper->GetCityByName($sName);
-	}
-	/**
-	 * Добавляет город
-	 *
-	 * @param ModuleUser_EntityCity $oCity
-	 * @return unknown
-	 */
-	public function AddCity(ModuleUser_EntityCity $oCity) {
-		if ($sId=$this->oMapper->AddCity($oCity)) {
-			$oCity->setId($sId);
-			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("city_new"));
-			return $oCity;
-		}
-		return false;
 	}
 	/**
 	 * Получает список похожих городов

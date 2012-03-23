@@ -47,8 +47,8 @@ class ActionPeople extends Action {
 		$this->AddEvent('online','EventOnline');	
 		$this->AddEvent('new','EventNew');
 			
-		$this->AddEventPreg('/^country$/i','/^.+$/i','/^(page(\d+))?$/i','EventCountry');
-		$this->AddEventPreg('/^city$/i','/^.+$/i','/^(page(\d+))?$/i','EventCity');
+		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
+		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
 	}
 		
 	
@@ -62,7 +62,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCountry() {		
-		if (!($oCountry=$this->User_GetCountryByName(urldecode($this->getParam(0))))) {
+		if (!($oCountry=$this->Geo_GetCountryById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -74,14 +74,18 @@ class ActionPeople extends Action {
 		 */
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;				
 		/**
-		 * Получаем список юзеров
+		 * Получаем список вязей пользователей со страной
 		 */					
-		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,Config::Get('module.user.per_page'));	
-		$aUsersCountry=$aResult['collection'];
+		$aResult=$this->Geo_GetTargets(array('country_id'=>$oCountry->getId(),'target_type'=>'user'),$iPage,Config::Get('module.user.per_page'));
+		$aUsersId=array();
+		foreach($aResult['collection'] as $oTarget) {
+			$aUsersId[]=$oTarget->getTargetId();
+		}
+		$aUsersCountry=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -96,7 +100,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCity() {		
-		if (!($oCity=$this->User_GetCityByName(urldecode($this->getParam(0))))) {
+		if (!($oCity=$this->Geo_GetCityById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -109,13 +113,17 @@ class ActionPeople extends Action {
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
 		/**
 		 * Получаем список юзеров
-		 */					
-		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,Config::Get('module.user.per_page'));	
-		$aUsersCity=$aResult['collection'];
+		 */
+		$aResult=$this->Geo_GetTargets(array('city_id'=>$oCity->getId(),'target_type'=>'user'),$iPage,Config::Get('module.user.per_page'));
+		$aUsersId=array();
+		foreach($aResult['collection'] as $oTarget) {
+			$aUsersId[]=$oTarget->getTargetId();
+		}
+		$aUsersCity=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
 		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getName());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
