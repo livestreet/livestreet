@@ -335,6 +335,10 @@ $config['db']['table']['topic_photo']         = '___db.table.prefix___topic_phot
 $config['db']['table']['subscribe']           = '___db.table.prefix___subscribe';
 $config['db']['table']['wall']                = '___db.table.prefix___wall';
 $config['db']['table']['user_note']           = '___db.table.prefix___user_note';
+$config['db']['table']['geo_country']         = '___db.table.prefix___geo_country';
+$config['db']['table']['geo_region']          = '___db.table.prefix___geo_region';
+$config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
+$config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -511,6 +515,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/vote.js",
 	"___path.root.engine_lib___/internal/template/js/poll.js",
 	"___path.root.engine_lib___/internal/template/js/subscribe.js",
+	"___path.root.engine_lib___/internal/template/js/geo.js",
 	"___path.root.engine_lib___/internal/template/js/wall.js",
 	"___path.root.engine_lib___/internal/template/js/usernote.js",
 	"___path.root.engine_lib___/internal/template/js/comments.js",

@@ -380,6 +380,18 @@ class ActionSettings extends Action {
 		 	* Заполняем профиль из полей формы
 		 	*/
 			/**
+			 * Определяем гео-объект
+			 */
+			if (getRequest('geo_city')) {
+				$oGeoObject=$this->Geo_GetGeoObject('city',getRequest('geo_city'));
+			} elseif (getRequest('geo_region')) {
+				$oGeoObject=$this->Geo_GetGeoObject('region',getRequest('geo_region'));
+			} elseif (getRequest('geo_country')) {
+				$oGeoObject=$this->Geo_GetGeoObject('country',getRequest('geo_country'));
+			} else {
+				$oGeoObject=null;
+			}
+			/**
 			 * Проверяем имя
 			 */
 			if (func_check(getRequest('profile_name'),'text',2,20)) {
@@ -416,33 +428,6 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",mktime(0,0,0,getRequest('profile_birthday_month'),getRequest('profile_birthday_day'),getRequest('profile_birthday_year'))));
 			} else {
 				$this->oUserCurrent->setProfileBirthday(null);
-			}
-			/**
-			 * Проверяем страну
-			 */
-			if (func_check(getRequest('profile_country'),'text',1,30)) {
-				$this->oUserCurrent->setProfileCountry(getRequest('profile_country'));
-			} else {
-				$this->oUserCurrent->setProfileCountry(null);
-			}
-			/**
-			 * Проверяем регион
-			 * пока отключим регион, т.к. не понятно нужен ли он вообще =)
-			 */
-			/*
-			if (func_check(getRequest('profile_region'),'text',1,30)) {
-				$this->oUserCurrent->setProfileRegion(getRequest('profile_region'));
-			} else {
-				$this->oUserCurrent->setProfileRegion(null);
-			}
-			*/
-			/**
-			 * Проверяем город
-			 */
-			if (func_check(getRequest('profile_city'),'text',1,30)) {
-				$this->oUserCurrent->setProfileCity(getRequest('profile_city'));
-			} else {
-				$this->oUserCurrent->setProfileCity(null);
 			}
 			/**
 			 * Проверяем ICQ
@@ -507,27 +492,32 @@ class ActionSettings extends Action {
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					/**
-					 * Добавляем страну
+					 * Создаем связь с гео-объектом
 					 */
-					if ($this->oUserCurrent->getProfileCountry()) {
-						if (!($oCountry=$this->User_GetCountryByName($this->oUserCurrent->getProfileCountry()))) {
-							$oCountry=Engine::GetEntity('User_Country');
-							$oCountry->setName($this->oUserCurrent->getProfileCountry());
-							$this->User_AddCountry($oCountry);
+					if ($oGeoObject) {
+						$this->Geo_CreateTarget($oGeoObject,'user',$this->oUserCurrent->getId());
+						if ($oCountry=$oGeoObject->getCountry()) {
+							$this->oUserCurrent->setProfileCountry($oCountry->getName());
+						} else {
+							$this->oUserCurrent->setProfileCountry(null);
 						}
-						$this->User_SetCountryUser($oCountry->getId(),$this->oUserCurrent->getId());
-					}
-					/**
-					 * Добавляем город
-					 */
-					if ($this->oUserCurrent->getProfileCity()) {
-						if (!($oCity=$this->User_GetCityByName($this->oUserCurrent->getProfileCity()))) {
-							$oCity=Engine::GetEntity('User_City');
-							$oCity->setName($this->oUserCurrent->getProfileCity());
-							$this->User_AddCity($oCity);
+						if ($oRegion=$oGeoObject->getRegion()) {
+							$this->oUserCurrent->setProfileRegion($oRegion->getName());
+						} else {
+							$this->oUserCurrent->setProfileRegion(null);
 						}
-						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
+						if ($oCity=$oGeoObject->getCity()) {
+							$this->oUserCurrent->setProfileCity($oCity->getName());
+						} else {
+							$this->oUserCurrent->setProfileCity(null);
+						}
+					} else {
+						$this->Geo_DeleteTargetsByTarget('user',$this->oUserCurrent->getId());
+						$this->oUserCurrent->setProfileCountry(null);
+						$this->oUserCurrent->setProfileRegion(null);
+						$this->oUserCurrent->setProfileCity(null);
 					}
+					$this->User_Update($this->oUserCurrent);
 
 					/**
 					 * Обрабатываем дополнительные поля, type = ''
@@ -564,6 +554,27 @@ class ActionSettings extends Action {
 				}
 			}
 		}
+		/**
+		 * Загружаем гео-объект привязки
+		 */
+		$oGeoTarget=$this->Geo_GetTargetByTarget('user',$this->oUserCurrent->getId());
+		$this->Viewer_Assign('oGeoTarget',$oGeoTarget);
+		/**
+		 * Загружаем в шаблон список стран, регионов, городов
+		 */
+		$aCountries=$this->Geo_GetCountries(array(),array('sort'=>'asc'),1,300);
+		$this->Viewer_Assign('aGeoCountries',$aCountries['collection']);
+		if ($oGeoTarget) {
+			if ($oGeoTarget->getCountryId()) {
+				$aRegions=$this->Geo_GetRegions(array('country_id'=>$oGeoTarget->getCountryId()),array('sort'=>'asc'),1,500);
+				$this->Viewer_Assign('aGeoRegions',$aRegions['collection']);
+			}
+			if ($oGeoTarget->getRegionId()) {
+				$aCities=$this->Geo_GetCities(array('region_id'=>$oGeoTarget->getRegionId()),array('sort'=>'asc'),1,500);
+				$this->Viewer_Assign('aGeoCities',$aCities['collection']);
+			}
+		}
+
 	}
 
 	/**

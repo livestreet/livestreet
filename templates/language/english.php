@@ -929,6 +929,12 @@ return array(
 	 */
 	'subscribe_change_ok' => 'Change the subscription was successful',
 	/**
+	 * География
+	 */
+	'geo_select_country' => 'Select country',
+	'geo_select_region' => 'Select region',
+	'geo_select_city' => 'Select city',
+	/**
 	 * System
 	 */
 	'system_error_event_args' => 'Wrong number of arguments during event addition',

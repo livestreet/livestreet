@@ -1,5 +1,12 @@
 {include file='header.tpl' menu='settings' noSidebar=true}
 
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		ls.lang.load({lang_load name="geo_select_city,geo_select_region"});
+		ls.geo.initSelect();
+	});
+</script>
+
 <p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
 	<select name="profile_user_field_type[]">
 	{foreach from=$aUserFieldsContact item=oFieldAll}
@@ -64,15 +71,42 @@
 			</select>
 		</p>
 
-		<p>
-			<label for="profile_country">{$aLang.settings_profile_country}:</label>
-			<input type="text" id="profile_country" name="profile_country" class="input-text input-width-200 autocomplete-country" value="{$oUserCurrent->getProfileCountry()|escape:'html'}" />
-		<p>
-		
-		</p>	
-			<label for="profile_city">{$aLang.settings_profile_city}:</label>
-			<input type="text" id="profile_city" name="profile_city" class="input-text input-width-200 autocomplete-city" value="{$oUserCurrent->getProfileCity()|escape:'html'}" />
-		</p>
+		<div class="js-geo-select">
+
+			<p>
+				<select class="js-geo-country" name="geo_country">
+					<option value="">{$aLang.geo_select_country}</option>
+					{if $aGeoCountries}
+						{foreach from=$aGeoCountries item=oGeoCountry}
+							<option value="{$oGeoCountry->getId()}" {if $oGeoTarget and $oGeoTarget->getCountryId()==$oGeoCountry->getId()}selected="selected"{/if}>{$oGeoCountry->getName()}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</p>
+
+			<p>
+				<select class="js-geo-region" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
+					<option value="">{$aLang.geo_select_region}</option>
+					{if $aGeoRegions}
+						{foreach from=$aGeoRegions item=oGeoRegion}
+							<option value="{$oGeoRegion->getId()}" {if $oGeoTarget and $oGeoTarget->getRegionId()==$oGeoRegion->getId()}selected="selected"{/if}>{$oGeoRegion->getName()}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</p>
+
+			<p>
+				<select class="js-geo-city" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
+					<option value="">{$aLang.geo_select_city}</option>
+					{if $aGeoCities}
+						{foreach from=$aGeoCities item=oGeoCity}
+							<option value="{$oGeoCity->getId()}" {if $oGeoTarget and $oGeoTarget->getCityId()==$oGeoCity->getId()}selected="selected"{/if}>{$oGeoCity->getName()}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</p>
+
+		</div>
 		
 		<p>
 			<label for="profile_about">{$aLang.settings_profile_about}:</label>

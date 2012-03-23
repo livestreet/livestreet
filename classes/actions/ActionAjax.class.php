@@ -57,6 +57,9 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
 
 		$this->AddEventPreg('/^comment$/i','/^delete$/','EventCommentDelete');
+
+		$this->AddEventPreg('/^geo/i','/^get/','/^regions$/','EventGeoGetRegions');
+		$this->AddEventPreg('/^geo/i','/^get/','/^cities/','EventGeoGetCities');
 	}
 
 
@@ -64,6 +67,60 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	/**
+	 * Получение списка регионов по стране
+	 */
+	protected function EventGeoGetRegions() {
+		$iCountryId=getRequest('country');
+		$iLimit=200;
+		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
+			$iLimit=getRequest('limit');
+		}
+
+		if (!($oCountry=$this->Geo_GetGeoObject('country',$iCountryId))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$aResult=$this->Geo_GetRegions(array('country_id'=>$oCountry->getId()),array('sort'=>'asc'),1,$iLimit);
+		$aRegions=array();
+		foreach($aResult['collection'] as $oObject) {
+			$aRegions[]=array(
+				'id' => $oObject->getId(),
+				'name' => $oObject->getName(),
+			);
+		}
+
+		$this->Viewer_AssignAjax('aRegions',$aRegions);
+	}
+
+	/**
+	 * Получение списка городов по региону
+	 */
+	protected function EventGeoGetCities() {
+		$iRegionId=getRequest('region');
+		$iLimit=500;
+		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
+			$iLimit=getRequest('limit');
+		}
+
+		if (!($oRegion=$this->Geo_GetGeoObject('region',$iRegionId))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$aResult=$this->Geo_GetCities(array('region_id'=>$oRegion->getId()),array('sort'=>'asc'),1,$iLimit);
+		$aCities=array();
+		foreach($aResult['collection'] as $oObject) {
+			$aCities[]=array(
+				'id' => $oObject->getId(),
+				'name' => $oObject->getName(),
+			);
+		}
+
+		$this->Viewer_AssignAjax('aCities',$aCities);
+	}
 
 	/**
 	 * Голосование за комментарий
