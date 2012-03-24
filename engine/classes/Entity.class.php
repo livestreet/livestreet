@@ -234,14 +234,20 @@ abstract class Entity extends Object {
 	}
 
 	/**
-	 * Возвращает первую ошибку для поля
+	 * Возвращает первую ошибку для поля или среди всех полей
 	 *
-	 * @param string $sField	Поле сущности
+	 * @param null|string $sField	Поле сущности
 	 *
 	 * @return string|null
 	 */
-	public function _getValidateError($sField) {
-		return isset($this->aValidateErrors[$sField]) ? reset($this->aValidateErrors[$sField]) : null;
+	public function _getValidateError($sField=null) {
+		if ($sField===null) {
+			foreach($this->_getValidateErrors() as $sFieldKey=>$aErros) {
+				return reset($aErros);
+			}
+		} else {
+			return isset($this->aValidateErrors[$sField]) ? reset($this->aValidateErrors[$sField]) : null;
+		}
 	}
 
 	/**

@@ -924,6 +924,8 @@ return array(
 	'validate_compare_must_less' => 'Field %%field%% must be less than %%compare_value%%',
 	'validate_compare_must_less_equal' => 'Field %%field%% must be less than or equal to %%compare_value%%',
 	'validate_compare_invalid_operator' => 'Field %%field%% invalid operator %%operator%%',
+	'validate_regexp_not_valid' => 'Field %%field%% is not valid',
+	'validate_regexp_invalid_pattern' => 'Field %%field%% invalid regular expression',
 	/**
 	 * Подписка
 	 */

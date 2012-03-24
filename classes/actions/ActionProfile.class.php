@@ -374,15 +374,7 @@ class ActionProfile extends Action {
 				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
 			}
 		} else {
-			/**
-			 * Пробегаем по ошибкам валидации
-			 */
-			foreach($oWall->_getValidateErrors() as $sField=>$aErros) {
-				foreach($aErros as $sError) {
-					$this->Message_AddError($sError,$this->Lang_Get('error'));
-					return;
-				}
-			}
+			$this->Message_AddError($oWall->_getValidateError(),$this->Lang_Get('error'));
 		}
 	}
 
@@ -481,15 +473,7 @@ class ActionProfile extends Action {
 				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
 			}
 		} else {
-			/**
-			 * Пробегаем по ошибкам валидации
-			 */
-			foreach($oNote->_getValidateErrors() as $sField=>$aErros) {
-				foreach($aErros as $sError) {
-					$this->Message_AddError($sError,$this->Lang_Get('error'));
-					return;
-				}
-			}
+			$this->Message_AddError($oNote->_getValidateError(),$this->Lang_Get('error'));
 		}
 	}
 
