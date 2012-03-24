@@ -152,9 +152,9 @@ class ActionRegistration extends Action {
 				 */
 				unset($_SESSION['captcha_keystring']);
 				/**
-				 * Создаем персональный блог
+				 * Подписываем пользователя на дефолтные события в ленте активности
 				 */
-				$this->Blog_CreatePersonalBlog($oUser);
+				$this->Stream_switchUserEventDefaultTypes($oUser->getId());
 
 
 				/**

@@ -24,9 +24,17 @@ class ModuleStream extends Module {
 	protected $oMapper = null;
 
 	/**
+	 * Список дефолтных типов событий, они добавляются каждому пользователю при регистрации
+	 *
+	 * @var array
+	 */
+	protected $aEventDefaultTypes=array(
+		'add_topic','add_comment','add_blog','vote_topic','add_friend'
+	);
+	/**
 	 * Типы событий
 	 *
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected $aEventTypes = array(
 		'add_topic' => array('related' => 'topic'),
@@ -60,11 +68,19 @@ class ModuleStream extends Module {
 	 * @return unknown
 	 */
 	public function AddEventType($sName,$aParams) {
-		if (!key_exists($sName,$this->aEventTypes)) {
+		if (!array_key_exists($sName,$this->aEventTypes)) {
 			$this->aEventTypes[$sName]=$aParams;
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * Проверка допустимого типа событий
+	 *
+	 * @param string $sType
+	 */
+	public function IsAllowEventType($sType) {
+		return array_key_exists($sType,$this->aEventTypes);
 	}
 	/**
 	 * Добавление события в БД
@@ -281,13 +297,26 @@ class ModuleStream extends Module {
 		return $this->User_GetUsersAdditionalData($aIds);
 	}
 	/**
-	 * Редактирвоание списка событий, на которые подписан юзер
-	 * @param type $iUserId
-	 * @param type $iType
+	 * Редактирование списка событий, на которые подписан юзер
+	 * @param int $iUserId
+	 * @param string $sType
 	 * @return type
 	 */
 	public function switchUserEventType($iUserId, $sType) {
-		return $this->oMapper->switchUserEventType($iUserId, $sType);
+		if ($this->IsAllowEventType($sType)) {
+			return $this->oMapper->switchUserEventType($iUserId, $sType);
+		}
+		return false;
+	}
+	/**
+	 * Переключает дефолтный список типов событий у пользователя
+	 *
+	 * @param int $iUserId
+	 */
+	public function switchUserEventDefaultTypes($iUserId) {
+		foreach($this->aEventDefaultTypes as $sType) {
+			$this->switchUserEventType($iUserId,$sType);
+		}
 	}
 	/**
 	 * Подписать пользователя

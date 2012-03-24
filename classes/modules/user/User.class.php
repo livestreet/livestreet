@@ -370,6 +370,10 @@ class ModuleUser extends Module {
 			$oUser->setId($sId);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_new'));
+			/**
+			 * Создаем персональный блог
+			 */
+			$this->Blog_CreatePersonalBlog($oUser);
 			return $oUser;
 		}
 		return false;
