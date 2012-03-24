@@ -97,7 +97,7 @@ class ModuleUser extends Module {
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
 	 *
 	 */
-	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session','friend')) {
+	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session','friend','geo_target')) {
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -112,6 +112,7 @@ class ModuleUser extends Module {
 		$aSessions=array();
 		$aFriends=array();
 		$aVote=array();
+		$aGeoTargets=array();
 		if (isset($aAllowData['session'])) {
 			$aSessions=$this->GetSessionsByArrayId($aUserId);
 		}
@@ -121,6 +122,9 @@ class ModuleUser extends Module {
 
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
 			$aVote=$this->Vote_GetVoteByArray($aUserId,'user',$this->oUserCurrent->getId());
+		}
+		if (isset($aAllowData['geo_target'])) {
+			$aGeoTargets=$this->Geo_GetTargetsByTargetArray('user',$aUserId);
 		}
 		/**
 		 * Добавляем данные к результату
@@ -141,6 +145,12 @@ class ModuleUser extends Module {
 				$oUser->setVote($aVote[$oUser->getId()]);
 			} else {
 				$oUser->setVote(null);
+			}
+			if (isset($aGeoTargets[$oUser->getId()])) {
+				$aTargets=$aGeoTargets[$oUser->getId()];
+				$oUser->setGeoTarget(isset($aTargets[0]) ? $aTargets[0] : null);
+			} else {
+				$oUser->setGeoTarget(null);
 			}
 		}
 
@@ -951,34 +961,6 @@ class ModuleUser extends Module {
 			$this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("invate_new_to_{$sUserIdTo}"), 60*60*24*1);
 		}
 		return $this->GetUserById($id);
-	}
-	/**
-	 * Получает список похожих городов
-	 *
-	 * @param unknown_type $sName
-	 * @param unknown_type $iLimit
-	 * @return unknown
-	 */
-	public function GetCityByNameLike($sName,$iLimit) {
-		if (false === ($data = $this->Cache_Get("city_like_{$sName}_{$iLimit}"))) {
-			$data = $this->oMapper->GetCityByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "city_like_{$sName}_{$iLimit}", array("city_new"), 60*60*24*1);
-		}
-		return $data;
-	}
-	/**
-	 * Получает список похожих стран
-	 *
-	 * @param unknown_type $sName
-	 * @param unknown_type $iLimit
-	 * @return unknown
-	 */
-	public function GetCountryByNameLike($sName,$iLimit) {
-		if (false === ($data = $this->Cache_Get("country_like_{$sName}_{$iLimit}"))) {
-			$data = $this->oMapper->GetCountryByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "country_like_{$sName}_{$iLimit}", array("country_new"), 60*60*24*1);
-		}
-		return $data;
 	}
 	/**
 	 * Добавляем воспоминание(восстановление) пароля

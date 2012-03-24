@@ -3,7 +3,8 @@
 
 {assign var="oSession" value=$oUserProfile->getSession()}
 {assign var="oVote" value=$oUserProfile->getVote()}
-			
+{assign var="oGeoTarget" value=$oUserProfile->getGeoTarget()}
+
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
@@ -11,7 +12,7 @@
 
 
 
-{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || ($oUserProfile->getProfileCountry() || $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity()) || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
+{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
 	<h2 class="header-table">{$aLang.profile_privat}</h2>
 	
 	
@@ -38,16 +39,16 @@
 		{/if}
 		
 		
-		{if ($oUserProfile->getProfileCountry()|| $oUserProfile->getProfileRegion() || $oUserProfile->getProfileCity())}
+		{if $oGeoTarget}
 			<tr>
 				<td class="cell-label">{$aLang.profile_place}:</td>
 				<td>
-					{if $oUserProfile->getProfileCountry()}
-						<a href="{router page='people'}country/{$oUserProfile->getProfileCountry()|escape:'html'}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oUserProfile->getProfileCity()},{/if}
+					{if $oGeoTarget->getCountryId()}
+						<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
 					{/if}
 					
-					{if $oUserProfile->getProfileCity()}
-						<a href="{router page='people'}city/{$oUserProfile->getProfileCity()|escape:'html'}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+					{if $oGeoTarget->getCityId()}
+						<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
 					{/if}
 				</td>
 			</tr>

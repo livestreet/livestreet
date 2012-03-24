@@ -26,6 +26,10 @@ class ModuleGeo_MapperGeo extends Mapper {
 	}
 
 	public function GetTargets($aFilter,&$iCount,$iCurrPage,$iPerPage) {
+		if (isset($aFilter['target_id']) and !is_array($aFilter['target_id'])) {
+			$aFilter['target_id']=array($aFilter['target_id']);
+		}
+
 		$sql = "SELECT
 					*
 				FROM
@@ -35,7 +39,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 					{ AND geo_type = ? }
 					{ AND geo_id = ?d }
 					{ AND target_type = ? }
-					{ AND target_id = ?d }
+					{ AND target_id IN ( ?a ) }
 					{ AND country_id = ?d }
 					{ AND region_id = ?d }
 					{ AND city_id = ?d }
@@ -46,7 +50,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 										  isset($aFilter['geo_type']) ? $aFilter['geo_type'] : DBSIMPLE_SKIP,
 										  isset($aFilter['geo_id']) ? $aFilter['geo_id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['target_type']) ? $aFilter['target_type'] : DBSIMPLE_SKIP,
-										  isset($aFilter['target_id']) ? $aFilter['target_id'] : DBSIMPLE_SKIP,
+										  (isset($aFilter['target_id']) and count($aFilter['target_id'])) ? $aFilter['target_id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['country_id']) ? $aFilter['country_id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['region_id']) ? $aFilter['region_id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['city_id']) ? $aFilter['city_id'] : DBSIMPLE_SKIP,

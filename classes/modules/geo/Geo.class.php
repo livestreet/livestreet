@@ -222,6 +222,29 @@ class ModuleGeo extends Module {
 		return null;
 	}
 	/**
+	 * Возвращает список связей для списка объектов одного типа.
+	 *
+	 * @param $sTargetType
+	 * @param $aTargetId
+	 * @return array В качестве ключей используется ID объекта, в качестве значений массив связей этого объекта
+	 */
+	public function GetTargetsByTargetArray($sTargetType,$aTargetId) {
+		if (!is_array($aTargetId)) {
+			$aTargetId=array($aTargetId);
+		}
+		if (!count($aTargetId)) {
+			return array();
+		}
+		$aResult=array();
+		$aTargets=$this->GetTargets(array('target_type'=>$sTargetType,'target_id'=>$aTargetId),1,count($aTargetId));
+		if ($aTargets['count']) {
+			foreach($aTargets['collection'] as $oTarget) {
+				$aResult[$oTarget->getTargetId()][]=$oTarget;
+			}
+		}
+		return $aResult;
+	}
+	/**
 	 * Удаляет связи по фильтру
 	 *
 	 * @param $aFilter

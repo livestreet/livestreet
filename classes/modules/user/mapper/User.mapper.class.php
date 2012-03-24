@@ -653,42 +653,6 @@ class ModuleUser_MapperUser extends Mapper {
 		return null;
 	}
 
-	public function GetCityByNameLike($sName,$iLimit) {
-		$sql = "SELECT
-				*
-			FROM
-				".Config::Get('db.table.city')."
-			WHERE
-				city_name LIKE ?
-			LIMIT 0, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=Engine::GetEntity('User_City',$aRow);
-			}
-		}
-		return $aReturn;
-	}
-
-	public function GetCountryByNameLike($sName,$iLimit) {
-		$sql = "SELECT
-				*
-			FROM
-				".Config::Get('db.table.country')."
-			WHERE
-				country_name LIKE ?
-			LIMIT 0, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=Engine::GetEntity('User_Country',$aRow);
-			}
-		}
-		return $aReturn;
-	}
-
 	public function AddReminder(ModuleUser_EntityReminder $oReminder) {
 		$sql = "REPLACE ".Config::Get('db.table.reminder')."
 			SET

@@ -52,8 +52,6 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
 
 		$this->AddEventPreg('/^autocompleter$/i','/^tag$/','EventAutocompleterTag');
-		$this->AddEventPreg('/^autocompleter$/i','/^city$/','EventAutocompleterCity');
-		$this->AddEventPreg('/^autocompleter$/i','/^country$/','EventAutocompleterCountry');
 		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
 
 		$this->AddEventPreg('/^comment$/i','/^delete$/','EventCommentDelete');
@@ -826,40 +824,6 @@ class ActionAjax extends Action {
 		$aTags=$this->Topic_GetTopicTagsByLike($sValue,10);
 		foreach ($aTags as $oTag) {
 			$aItems[]=$oTag->getText();
-		}
-		$this->Viewer_AssignAjax('aItems',$aItems);
-	}
-
-	/**
-	 * Автоподставновка городов
-	 *
-	 */
-	protected function EventAutocompleterCity() {
-		if (!($sValue=getRequest('value',null,'post'))) {
-			return ;
-		}
-
-		$aItems=array();
-		$aCity=$this->User_GetCityByNameLike($sValue,10);
-		foreach ($aCity as $oCity) {
-			$aItems[]=$oCity->getName();
-		}
-		$this->Viewer_AssignAjax('aItems',$aItems);
-	}
-
-	/**
-	 * Автоподставновка стран
-	 *
-	 */
-	protected function EventAutocompleterCountry() {
-		if (!($sValue=getRequest('value',null,'post'))) {
-			return ;
-		}
-
-		$aItems=array();
-		$aCountry=$this->User_GetCountryByNameLike($sValue,10);
-		foreach ($aCountry as $oCountry) {
-			$aItems[]=$oCountry->getName();
 		}
 		$this->Viewer_AssignAjax('aItems',$aItems);
 	}
