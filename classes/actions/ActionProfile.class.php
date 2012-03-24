@@ -678,7 +678,12 @@ class ActionProfile extends Action {
 					 */
 					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
 					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
-					
+					/**
+					 * Добавляем пользователей к друг другу в ленту активности
+					 */
+					$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
+					$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
+
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
 					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));

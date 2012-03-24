@@ -1593,6 +1593,10 @@ class ActionBlog extends Action {
 					 * Добавляем событие в ленту
 					 */
 					$this->Stream_write($this->oUserCurrent->getId(), 'join_blog', $oBlog->getId());
+					/**
+					 * Добавляем подписку на этот блог в ленту пользователя
+					 */
+					$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_BLOG, $oBlog->getId());
 				} else {
 					$sMsg=($oBlog->getType()=='close')
 					? $this->Lang_Get('blog_join_error_invite')
@@ -1618,6 +1622,10 @@ class ActionBlog extends Action {
 				$oBlog->setCountUser($oBlog->getCountUser()-1);
 				$this->Blog_UpdateBlog($oBlog);
 				$this->Viewer_AssignAjax('iCountUser',$oBlog->getCountUser());
+				/**
+				 * Удаляем подписку на этот блог в ленте пользователя
+				 */
+				$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_BLOG, $oBlog->getId());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
