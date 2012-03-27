@@ -137,7 +137,10 @@ class ModuleTopic_EntityTopic extends Entity
         return $this->_aData['user_question_is_vote'];
     }	
     public function getIsFavourite() {
-        return $this->_aData['topic_is_favourite'];
+		if ($this->getFavourite()) {
+			return true;
+		}
+		return false;
     }
     public function getCountFavourite() {
         return $this->_aData['topic_count_favourite'];
@@ -417,9 +420,6 @@ class ModuleTopic_EntityTopic extends Entity
     }
     public function setDateRead($data) {
         $this->_aData['date_read']=$data;
-    }
-    public function setIsFavourite($data) {
-        $this->_aData['topic_is_favourite']=$data;
     }
     public function setCountFavourite($data) {
         $this->_aData['topic_count_favourite']=$data;

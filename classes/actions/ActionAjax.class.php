@@ -36,6 +36,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
 		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
 
+		$this->AddEventPreg('/^favourite$/i','/^save-tags/','EventFavouriteSaveTags');
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
 		$this->AddEventPreg('/^favourite$/i','/^comment$/','EventFavouriteComment');
 		$this->AddEventPreg('/^favourite$/i','/^talk$/','EventFavouriteTalk');
@@ -452,6 +453,46 @@ class ActionAjax extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
+	}
+
+	/**
+	 * Сохраняет теги для избранного
+	 *
+	 * @return mixed
+	 */
+	protected function EventFavouriteSaveTags() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		if ($oFavourite=$this->Favourite_GetFavourite(getRequest('target_id'),getRequest('target_type'),$this->oUserCurrent->getId())) {
+			$aTags=explode(',',trim(getRequest('tags'),"\r\n\t\0\x0B ."));
+			$aTagsNew=array();
+			$aTagsNewLow=array();
+			$aTagsReturn=array();
+			foreach ($aTags as $sTag) {
+				$sTag=trim($sTag);
+				if (func_check($sTag,'text',2,50) and !in_array(mb_strtolower($sTag,'UTF-8'),$aTagsNewLow)) {
+					$sTagEsc=htmlspecialchars($sTag);
+					$aTagsNew[]=$sTagEsc;
+					$aTagsReturn[]=array(
+						'tag' => $sTagEsc,
+						'url' => $this->oUserCurrent->getUserWebPath().'favourites/'.$oFavourite->getTargetType().'s/tag/'.$sTagEsc.'/', // костыль для URL с множественным числом
+					);
+					$aTagsNewLow[]=mb_strtolower($sTag,'UTF-8');
+				}
+			}
+			if (!count($aTagsNew)) {
+				$oFavourite->setTags('');
+			} else {
+				$oFavourite->setTags(join(',',$aTagsNew));
+			}
+			$this->Viewer_AssignAjax('aTags',$aTagsReturn);
+			$this->Favourite_UpdateFavourite($oFavourite);
+			return;
+		}
+		$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 	}
 
 	/**

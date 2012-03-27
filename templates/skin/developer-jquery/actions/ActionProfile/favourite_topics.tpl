@@ -7,6 +7,11 @@
 
 {include file='menu.profile_favourite.tpl'}
 
+{if $oUserCurrent and $oUserCurrent->getId()==$oUserProfile->getId()}
+	{$aBlockParams.user=$oUserProfile}
+	{insert name="block" block=tagsFavouriteTopic params=$aBlock.params}
+{/if}
+
 {include file='topic_list.tpl'}
 
 

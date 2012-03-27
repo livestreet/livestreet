@@ -54,6 +54,21 @@ ls.blocks = (function ($) {
 	};
 
 	/**
+	 * Переключает вкладки в блоке, без использования Ajax
+	 * @param obj
+	 * @param block
+	 */
+	this.switchTab = function(obj, block) {
+		$('[id^="'+block+'_item"]').removeClass(this.options.active);
+		$(obj).addClass(this.options.active);
+
+		$('[id^="'+block+'_content"]').hide();
+		var id = $(obj).attr('id');
+		var idContent=$(obj).attr('id').replace(block+'_item_',block+'_content_');
+		$('#'+idContent).show();
+	};
+
+	/**
 	* Отображение процесса загрузки
 	*/
 	this.showProgress = function(content) {

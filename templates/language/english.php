@@ -192,6 +192,9 @@ return array(
 	'topic_favourite_add_already' => 'This topic is already in your favourites',
 	'topic_favourite_del' => 'Remove from favourites',
 	'topic_favourite_del_ok' => 'Topic removed from favourites',
+	'topic_favourite_tags_block' => 'Tags of favourite',
+	'topic_favourite_tags_block_all' => 'All tags',
+	'topic_favourite_tags_block_user' => 'My tags',
 	'error_favorite_topic_is_draft' => 'Topic of the draft can not be added to favorites',
 	'block_stream_comments_all' => 'All comment block',
 	'block_stream_topics_all' => 'All topics block',
@@ -936,6 +939,12 @@ return array(
 	'geo_select_country' => 'Select country',
 	'geo_select_region' => 'Select region',
 	'geo_select_city' => 'Select city',
+	/**
+	 * Favourite, general
+	 */
+	'favourite_form_tags_button_save' => 'Save',
+	'favourite_form_tags_button_cancel' => 'Cancel',
+	'favourite_form_tags_button_show' => 'edit my tags',
 	/**
 	 * System
 	 */

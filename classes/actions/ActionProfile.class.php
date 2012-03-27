@@ -51,6 +51,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page(\d+))?$/i','EventFavouriteTopicsTag');
 
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page(\d+))?$/i','EventCreatedNotes');
 		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
@@ -227,6 +228,49 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('favourite_topics');
+	}
+
+	/**
+	 * Список топиков из избранного по тегу
+	 */
+	protected function EventFavouriteTopicsTag() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		if (!$this->oUserCurrent or $this->oUserProfile->getId()!=$this->oUserCurrent->getId()) {
+			return parent::EventNotFound();
+		}
+
+		$sTag=$this->GetParamEventMatch(3,0);
+		/*
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(4,2) ? $this->GetParamEventMatch(4,2) : 1;
+		/**
+		 * Получаем список избранных топиков
+		 */
+		$aResult=$this->Favourite_GetTags(array('target_type'=>'topic','user_id'=>$this->oUserProfile->getId(),'text'=>$sTag),array('target_id'=>'desc'),$iPage,Config::Get('module.topic.per_page'));
+		$aTopicId=array();
+		foreach($aResult['collection'] as $oTag) {
+			$aTopicId[]=$oTag->getTargetId();
+		}
+		$aTopics=$this->Topic_GetTopicsAdditionalData($aTopicId);
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('sFavouriteTag',htmlspecialchars($sTag));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites'));
 		/**

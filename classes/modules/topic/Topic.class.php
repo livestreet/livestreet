@@ -105,9 +105,9 @@ class ModuleTopic extends Module {
 				$oTopic->setVote(null);
 			}
 			if (isset($aFavouriteTopics[$oTopic->getId()])) {
-				$oTopic->setIsFavourite(true);
+				$oTopic->setFavourite($aFavouriteTopics[$oTopic->getId()]);
 			} else {
-				$oTopic->setIsFavourite(false);
+				$oTopic->setFavourite(null);
 			}			
 			if (isset($aTopicsQuestionVote[$oTopic->getId()])) {
 				$oTopic->setUserQuestionIsVote(true);

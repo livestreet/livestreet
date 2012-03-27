@@ -1,6 +1,7 @@
 	{assign var="oBlog" value=$oTopic->getBlog()}
 	{assign var="oUser" value=$oTopic->getUser()}
 	{assign var="oVote" value=$oTopic->getVote()}
+	{assign var="oFavourite" value=$oTopic->getFavourite()}
 
 
 	<footer class="topic-footer">	
@@ -15,11 +16,21 @@
 		</ul>
 
 
-		<ul class="topic-tags">
+		<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
 			<li>{$aLang.block_tags}:</li>
-			{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-				<li><a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a>{if !$smarty.foreach.tags_list.last}, {/if}</li>
-			{/foreach}								 
+			{strip}
+				{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
+					<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+				{/foreach}
+				{if $oUserCurrent}
+					{if $oFavourite}
+						{foreach from=$oFavourite->getTagsArray() item=sTag name=tags_list_user}
+							<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+						{/foreach}
+					{/if}
+					<li class="topic-tags-edit js-favourite-tag-edit" {if !$oFavourite}style="display:none;"{/if}><a href="#" onclick="return ls.favourite.showEditTags({$oTopic->getId()},'topic',this);">{$aLang.favourite_form_tags_button_show}</a></li>
+				{/if}
+			{/strip}
 		</ul>
 
 

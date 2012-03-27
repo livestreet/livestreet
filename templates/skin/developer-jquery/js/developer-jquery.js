@@ -34,6 +34,7 @@ jQuery(document).ready(function($){
 	
 	// Автокомплит
 	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
+	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
 
 	
@@ -61,6 +62,11 @@ jQuery(function($){
 
 	$('[id^="block_blogs_item"]').click(function(){
 		ls.blocks.load(this, 'block_blogs');
+		return false;
+	});
+
+	$('[id^="block_favourite_topic_tags_item"]').click(function(){
+		ls.blocks.switchTab(this, 'block_favourite_topic_tags');
 		return false;
 	});
 });

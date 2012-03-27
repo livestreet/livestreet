@@ -192,6 +192,9 @@ return array(
 	'topic_favourite_add_already' => 'Этот топик уже есть в вашем избранном',
 	'topic_favourite_del' => 'удалить из избранного',
 	'topic_favourite_del_ok' => 'Топик удален из избранного',
+	'topic_favourite_tags_block' => 'Теги избранного',
+	'topic_favourite_tags_block_all' => 'Все теги',
+	'topic_favourite_tags_block_user' => 'Мои теги',
 	'error_favorite_topic_is_draft' => 'Топик из черновиков нельзя добавить в избранное',
 	'block_stream_comments_all' => 'Весь эфир',
 	'block_stream_topics_all' => 'Весь эфир',
@@ -936,6 +939,12 @@ return array(
 	'geo_select_country' => 'Выберите страну',
 	'geo_select_region' => 'Укажите регион',
 	'geo_select_city' => 'Укажите город',
+	/**
+	 * Избранное, общее
+	 */
+	'favourite_form_tags_button_save' => 'Сохранить',
+	'favourite_form_tags_button_cancel' => 'Отмена',
+	'favourite_form_tags_button_show' => 'изменить свои теги',
 	/**
 	 * Системные сообщения
 	 */

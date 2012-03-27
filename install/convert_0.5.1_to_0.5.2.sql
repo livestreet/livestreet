@@ -57,3 +57,16 @@ CREATE TABLE IF NOT EXISTS `prefix_user_note` (
   KEY `user_id` (`user_id`),
   KEY `target_user_id` (`target_user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `prefix_favourite` ADD `tags` VARCHAR( 250 ) NOT NULL;
+CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
+  `user_id` int(10) unsigned NOT NULL,
+  `target_id` int(11) NOT NULL,
+  `target_type` enum('topic','comment','talk') NOT NULL,
+  `is_user` tinyint(1) NOT NULL DEFAULT '0',
+  `text` varchar(50) NOT NULL,
+  KEY `user_id_target_type_id` (`user_id`,`target_type`,`target_id`),
+  KEY `target_type_id` (`target_type`,`target_id`),
+  KEY `is_user` (`is_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

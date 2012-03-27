@@ -308,6 +308,7 @@ $config['db']['table']['vote']                = '___db.table.prefix___vote';
 $config['db']['table']['topic_read']          = '___db.table.prefix___topic_read';
 $config['db']['table']['blog_user']           = '___db.table.prefix___blog_user';
 $config['db']['table']['favourite']           = '___db.table.prefix___favourite';
+$config['db']['table']['favourite_tag']           = '___db.table.prefix___favourite_tag';
 $config['db']['table']['talk']                = '___db.table.prefix___talk';
 $config['db']['table']['talk_user']           = '___db.table.prefix___talk_user';
 $config['db']['table']['talk_blacklist']      = '___db.table.prefix___talk_blacklist';

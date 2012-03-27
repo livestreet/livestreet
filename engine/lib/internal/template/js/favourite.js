@@ -47,12 +47,73 @@ ls.favourite = (function ($) {
 				this.objFavourite.removeClass(this.options.active);
 				if (result.bState) {
 					this.objFavourite.addClass(this.options.active);
+					this.showTags(type,idTarget);
+				} else {
+					this.hideTags(type,idTarget);
 				}
 				ls.hook.run('ls_favourite_toggle_after',[idTarget,objFavourite,type,params,result],this);
 			}
 		}.bind(this));
 		return false;
-	}
+	};
+
+	this.showEditTags = function(idTarget,type,obj) {
+		var form=$('#favourite-form-tags');
+		$('#favourite-form-tags-target-type').val(type);
+		$('#favourite-form-tags-target-id').val(idTarget);
+		var text='';
+		var tags=$('.js-favourite-tags-'+$('#favourite-form-tags-target-type').val()+'-'+$('#favourite-form-tags-target-id').val());
+		tags.find('.js-favourite-tag-user a').each(function(k,tag){
+			if (text) {
+				text=text+', '+$(tag).text();
+			} else {
+				text=$(tag).text();
+			}
+		});
+		$('#favourite-form-tags-tags').val(text);
+		$(obj).parents('.js-favourite-insert-after-form').after(form);
+		form.show();
+
+		return false;
+	};
+
+	this.hideEditTags = function() {
+		$('#favourite-form-tags').hide();
+		return false;
+	};
+
+	this.saveTags = function(form) {
+		var url=aRouter['ajax']+'favourite/save-tags/';
+		'*saveTagsBefore*'; '*/saveTagsBefore*';
+		ls.ajaxSubmit(url, $(form), function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				this.hideEditTags();
+				var type=$('#favourite-form-tags-target-type').val();
+				var tags=$('.js-favourite-tags-'+type+'-'+$('#favourite-form-tags-target-id').val());
+				tags.find('.js-favourite-tag-user').detach();
+				var edit=tags.find('.js-favourite-tag-edit');
+				$.each(result.aTags,function(k,v){
+					edit.before('<li class="'+type+'-tags-user js-favourite-tag-user">, <a rel="tag" href="'+v.url+'">'+v.tag+'</a></li>');
+				});
+
+				ls.hook.run('ls_favourite_save_tags_after',[form,result],this);
+			}
+		}.bind(this));
+		return false;
+	};
+
+	this.hideTags = function(targetType,targetId) {
+		var tags=$('.js-favourite-tags-'+targetType+'-'+targetId);
+		tags.find('.js-favourite-tag-user').detach();
+		tags.find('.js-favourite-tag-edit').hide();
+		this.hideEditTags();
+	};
+
+	this.showTags = function(targetType,targetId) {
+		$('.js-favourite-tags-'+targetType+'-'+targetId).find('.js-favourite-tag-edit').show();
+	};
 
 	return this;
 }).call(ls.favourite || {},jQuery);

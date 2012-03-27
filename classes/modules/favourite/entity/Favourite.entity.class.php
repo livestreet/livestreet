@@ -29,6 +29,12 @@ class ModuleFavourite_EntityFavourite extends Entity
     public function getTargetType() {
     	return $this->_aData['target_type'];
     }
+	public function getTagsArray() {
+		if ($this->getTags()) {
+			return explode(',',$this->getTags());
+		}
+		return array();
+	}
     
 	public function setTargetId($data) {
         $this->_aData['target_id']=$data;

@@ -295,10 +295,65 @@ class ModuleFavourite extends Module {
 	 * @return bool
 	 */
 	public function AddFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
+		if (!$oFavourite->getTags()) {
+			$oFavourite->setTags('');
+		}
+		$this->SetFavouriteTags($oFavourite);
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));						
 		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");						
 		return $this->oMapper->AddFavourite($oFavourite);
+	}
+	/**
+	 * Обновляет запись об избранном
+	 *
+	 * @param ModuleFavourite_EntityFavourite $oFavourite
+	 * @return mixed
+	 */
+	public function UpdateFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
+		if (!$oFavourite->getTags()) {
+			$oFavourite->setTags('');
+		}
+		$this->SetFavouriteTags($oFavourite);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));
+		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");
+		return $this->oMapper->UpdateFavourite($oFavourite);
+	}
+	/**
+	 * Устанавливает список тегов для избранного
+	 *
+	 * @param $oFavourite
+	 */
+	public function SetFavouriteTags($oFavourite,$bAddNew=true) {
+		/**
+		 * Удаляем все теги
+		 */
+		$this->oMapper->DeleteTags($oFavourite);
+		/**
+		 * Добавляем новые
+		 */
+		if ($bAddNew and $oFavourite->getTags()) {
+			/**
+			 * Добавляем теги объекта избранного, если есть
+			 */
+			if ($aTags=$this->GetTagsTarget($oFavourite->getTargetType(),$oFavourite->getTargetId())) {
+				foreach($aTags as $sTag) {
+					$oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
+					$oTag->setText(htmlspecialchars($sTag));
+					$oTag->setIsUser(0);
+					$this->oMapper->AddTag($oTag);
+				}
+			}
+			/**
+			 * Добавляем пользовательские теги
+			 */
+			foreach($oFavourite->getTagsArray() as $sTag) {
+				$oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
+				$oTag->setText($sTag); // htmlspecialchars уже используется при установке тегов
+				$oTag->setIsUser(1);
+				$this->oMapper->AddTag($oTag);
+			}
+		}
 	}
 	/**
 	 * Удаляет таргет из избранного
@@ -307,6 +362,7 @@ class ModuleFavourite extends Module {
 	 * @return bool
 	 */
 	public function DeleteFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
+		$this->SetFavouriteTags($oFavourite,false);
 		//чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));
 		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");
@@ -339,7 +395,58 @@ class ModuleFavourite extends Module {
 		 * Чистим зависимые кеши
 		 */
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
+		$this->DeleteTagByTarget($aTargetId,$sTargetType);
 		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);		
+	}
+	/**
+	 * Возвращает список тегов для объекта избранного
+	 *
+	 * @param $sTargetType
+	 * @param $iTargetId
+	 * @return bool | array
+	 */
+	public function GetTagsTarget($sTargetType,$iTargetId) {
+		$sMethod = 'GetTagsTarget'.func_camelize($sTargetType);
+		if (method_exists($this,$sMethod)) {
+			return $this->$sMethod($iTargetId);
+		}
+		return false;
+	}
+	/**
+	 * Возвращает наиболее часто используемые теги
+	 *
+	 * @param $iUserId
+	 * @param $sTargetType
+	 * @param $bIsUser
+	 * @param $iLimit
+	 * @return mixed
+	 */
+	public function GetGroupTags($iUserId,$sTargetType,$bIsUser,$iLimit) {
+		return $this->oMapper->GetGroupTags($iUserId,$sTargetType,$bIsUser,$iLimit);
+	}
+	/**
+	 * Возвращает список тегов по фильтру
+	 *
+	 * @param $aFilter
+	 * @param $aOrder
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetTags($aFilter,$aOrder,$iCurrPage,$iPerPage) {
+		return array('collection'=>$this->oMapper->GetTags($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+	}
+	/**
+	 * Возвращает список тегов для топика, название метода формируется автоматически из GetTagsTarget()
+	 *
+	 * @param $iTargetId
+	 * @return bool | array
+	 */
+	public function GetTagsTargetTopic($iTargetId) {
+		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+			return $oTopic->getTagsArray();
+		}
+		return false;
 	}
 }
 ?>
