@@ -5,7 +5,7 @@
 			
 			
 			{if $aPaging.iPrevPage}
-				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iPrevPage}/{$aPaging.sGetParams}">{$aLang.paging_previos}</a></li>
+				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iPrevPage}/{$aPaging.sGetParams}" class="js-paging-prev-page">{$aLang.paging_previos}</a></li>
 			{else}
 				<li>{$aLang.paging_previos}</li>
 			{/if}
@@ -21,7 +21,7 @@
 			
 			
 			{if $aPaging.iNextPage}
-				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}">{$aLang.paging_next}</a></li>
+				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}" class="js-paging-next-page">{$aLang.paging_next}</a></li>
 			{else}
 				<li>{$aLang.paging_next}</li>
 			{/if}

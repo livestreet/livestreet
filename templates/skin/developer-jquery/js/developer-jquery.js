@@ -40,6 +40,9 @@ jQuery(document).ready(function($){
 	
 	// Скролл
 	$(window)._scrollable();
+
+	// Тул-бар топиков
+	ls.toolbar.topic.init();
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

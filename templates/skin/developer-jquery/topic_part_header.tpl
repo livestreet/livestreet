@@ -3,7 +3,7 @@
 {assign var="oVote" value=$oTopic->getVote()}
 
 
-<article class="topic topic-type-{$oTopic->getType()}">
+<article class="topic topic-type-{$oTopic->getType()} js-topic">
 	<header class="topic-header">
 		<h1 class="topic-title">
 			{if $oTopic->getPublish() == 0}   
