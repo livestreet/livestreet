@@ -946,6 +946,17 @@ return array(
 	'favourite_form_tags_button_cancel' => 'Cancel',
 	'favourite_form_tags_button_show' => 'edit my tags',
 	/**
+	 * Infobox
+	 */
+	'infobox_blog_create' => 'Created',
+	'infobox_blog_topics' => 'Toics',
+	'infobox_blog_users' => 'Users',
+	'infobox_blog_rating' => 'rating',
+	'infobox_blog_limit_rating' => 'Limit on write',
+	'infobox_blog_topic_last' => 'Last topic',
+	'infobox_blog_url' => 'Read blog',
+	'infobox_blog_rss' => 'Subscribe RSS',
+	/**
 	 * System
 	 */
 	'system_error_event_args' => 'Wrong number of arguments during event addition',

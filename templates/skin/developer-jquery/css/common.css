@@ -179,3 +179,6 @@
 /* System messages */
 .system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
 .system-message-notice 	{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
+
+
+.infobox {border: 1px solid #f00; background: #768bfa;}

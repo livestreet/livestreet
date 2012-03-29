@@ -946,6 +946,17 @@ return array(
 	'favourite_form_tags_button_cancel' => 'Отмена',
 	'favourite_form_tags_button_show' => 'изменить свои теги',
 	/**
+	 * Инфо-блоки
+	 */
+	'infobox_blog_create' => 'Создан',
+	'infobox_blog_topics' => 'Топиков',
+	'infobox_blog_users' => 'Подписчиков',
+	'infobox_blog_rating' => 'Рейтинг',
+	'infobox_blog_limit_rating' => 'Ограничение на постинг',
+	'infobox_blog_topic_last' => 'Последний топик',
+	'infobox_blog_url' => 'Читать блог',
+	'infobox_blog_rss' => 'Подписаться на RSS',
+	/**
 	 * Системные сообщения
 	 */
 	'system_error_event_args' => 'Некорректное число аргументов при добавлении евента',
