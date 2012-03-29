@@ -218,7 +218,7 @@
 </table>
 
 
-<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> {$iCountFriendsUser}</h2>
+<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
 
 {if $aUsersFriend}
 	<table class="table table-profile-info">

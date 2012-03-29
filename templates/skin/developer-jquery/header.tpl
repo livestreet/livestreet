@@ -95,7 +95,7 @@
 			{/if}
 		
 			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
-				{include file='favourite_form_tags.tpl'}
+				{include file='window_favourite_form_tags.tpl'}
 				{include file='window_login.tpl'}
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}

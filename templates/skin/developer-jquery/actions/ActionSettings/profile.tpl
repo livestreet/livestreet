@@ -1,4 +1,5 @@
-{include file='header.tpl' menu='settings' noSidebar=true}
+{assign var="noSidebar" value=true}
+{include file='header.tpl' menu='settings'}
 
 <script type="text/javascript">
 	jQuery(document).ready(function($){
@@ -175,7 +176,55 @@
 		<p><label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label>
 		<input type="password" id="password_confirm" name="password_confirm" value="" class="input-text input-width-200" /></p>
 	</fieldset>
+	
+	
+	
+	
+	<script type="text/javascript">
+		jQuery(function($){
+			$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
+				ls.user.uploadAvatar(null,input);
+			});
+			$('#foto-upload').file({ name:'foto' }).choose(function(e, input) {
+				ls.user.uploadFoto(null,input);
+			});
+		});
+	</script>
 
+
+	<fieldset>
+		<legend>Аватар</legend>
+		
+		<img src="{$oUserCurrent->getProfileAvatarPath(64)}" id="avatar-img" />
+
+		<p><a href="#" id="avatar-upload" class="link-dotted">{if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a>&nbsp;&nbsp;&nbsp;
+		<a href="#" id="avatar-remove" class="link-dotted" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a></p>
+
+		<div id="avatar-resize" style="display:none;">
+			<p><img src="" alt="" id="avatar-resize-original-img"></p>
+			<button class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
+			<button class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+		</div>
+	</fieldset>
+
+	
+	
+	<fieldset>
+		<legend>Фотография</legend>
+		
+		<img src="{$oUserCurrent->getProfileFoto()}" id="foto-img" />
+
+		<p><a href="#" id="foto-upload" class="link-dotted">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a>&nbsp;&nbsp;&nbsp;
+		<a href="#" id="foto-remove" class="link-dotted" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a></p>
+
+		<div id="foto-resize" style="display:none;">
+			<p><img src="" alt="" id="foto-resize-original-img"></p>
+			<button class="button button-primary" onclick="return ls.user.resizeFoto();">{$aLang.settings_profile_avatar_resize_apply}</button>
+			<button class="button" onclick="return ls.user.cancelFoto();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+		</div>
+	</fieldset>
+	
+	
 	{hook run='form_settings_profile_end'}
 	
 	
@@ -186,49 +235,6 @@
 
 
 
-<script type="text/javascript">
-	jQuery(function($){
-		$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
-			ls.user.uploadAvatar(null,input);
-		});
-		$('#foto-upload').file({ name:'foto' }).choose(function(e, input) {
-			ls.user.uploadFoto(null,input);
-		});
-	});
-</script>
-
-
-<br/><br/>
-<img src="{$oUserCurrent->getProfileAvatarPath(64)}" id="avatar-img" />
-<br/>
-
-<a href="#" id="avatar-upload">{if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br/>
-<a href="#" id="avatar-remove" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
-
-<div id="avatar-resize" style="display:none;">
-	<div>
-		<img src="" alt="" id="avatar-resize-original-img">
-	</div>
-	<button onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
-	<button onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
-</div>
-
-
-
-<br/><br/>
-<img src="{$oUserCurrent->getProfileFoto()}" id="foto-img" />
-<br/>
-
-<a href="#" id="foto-upload">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br/>
-<a href="#" id="foto-remove" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
-
-<div id="foto-resize" style="display:none;">
-	<div>
-		<img src="" alt="" id="foto-resize-original-img">
-	</div>
-	<button onclick="return ls.user.resizeFoto();">{$aLang.settings_profile_avatar_resize_apply}</button>
-	<button onclick="return ls.user.cancelFoto();">{$aLang.settings_profile_avatar_resize_cancel}</button>
-</div>
 
 
 

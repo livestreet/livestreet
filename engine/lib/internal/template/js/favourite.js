@@ -71,14 +71,14 @@ ls.favourite = (function ($) {
 			}
 		});
 		$('#favourite-form-tags-tags').val(text);
-		$(obj).parents('.js-favourite-insert-after-form').after(form);
-		form.show();
+		//$(obj).parents('.js-favourite-insert-after-form').after(form);
+		form.jqmShow();
 
 		return false;
 	};
 
 	this.hideEditTags = function() {
-		$('#favourite-form-tags').hide();
+		$('#favourite-form-tags').jqmHide();
 		return false;
 	};
 

@@ -12,6 +12,7 @@ jQuery(document).ready(function($){
 	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
 	$('#form_upload_img').jqm();
 	$('#userfield_form').jqm();
+	$('#favourite-form-tags').jqm();
 	
 	// Datepicker
 	 /**

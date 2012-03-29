@@ -17,6 +17,7 @@
 /* Tags */
 .topic .topic-footer .topic-tags 			{ margin: 0 0 15px; }
 .topic .topic-footer .topic-tags li 		{ display: inline; color: #888; }
+.topic .topic-footer .topic-tags li.topic-tags-edit { margin-left: 20px; }
 
 /* Info */
 .topic .topic-footer .topic-info 		{ overflow: hidden; background: #eee; border-radius: 3px; }
