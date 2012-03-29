@@ -223,14 +223,16 @@ ls.swfupload = (function ($) {
 	};
 
 	this.handlerUploadSuccess = function(file, serverData) {
+                var next = this.getStats().files_queued;
+		if (next > 0) {
+		        this.startUpload();
+		}
 		$(this).trigger('eUploadSuccess',[file, serverData]);
 	};
 
 	this.handlerUploadComplete = function(file) {
 		var next = this.getStats().files_queued;
-		if (next > 0) {
-			this.startUpload();
-		}
+		
 		$(this).trigger('eUploadComplete',[file, next]);
 	};
 
