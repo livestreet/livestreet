@@ -19,6 +19,8 @@
 			
 			<tr>
 				<td class="cell-name">
+					<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});">INFO</a>
+
 					<a href="{router page='blog'}{$oBlog->getUrl()}/">
 						<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
 					</a>

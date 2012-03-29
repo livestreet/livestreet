@@ -516,6 +516,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/vote.js",
 	"___path.root.engine_lib___/internal/template/js/poll.js",
 	"___path.root.engine_lib___/internal/template/js/subscribe.js",
+	"___path.root.engine_lib___/internal/template/js/infobox.js",
 	"___path.root.engine_lib___/internal/template/js/geo.js",
 	"___path.root.engine_lib___/internal/template/js/wall.js",
 	"___path.root.engine_lib___/internal/template/js/usernote.js",

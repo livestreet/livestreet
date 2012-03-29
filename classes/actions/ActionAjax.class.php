@@ -59,6 +59,8 @@ class ActionAjax extends Action {
 
 		$this->AddEventPreg('/^geo/i','/^get/','/^regions$/','EventGeoGetRegions');
 		$this->AddEventPreg('/^geo/i','/^get/','/^cities/','EventGeoGetCities');
+
+		$this->AddEventPreg('/^infobox/i','/^info/','/^blog/','EventInfoboxInfoBlog');
 	}
 
 
@@ -66,6 +68,30 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	/**
+	 * Вывод информации о блоге
+	 */
+	protected function EventInfoboxInfoBlog() {
+		if (!($oBlog=$this->Blog_GetBlogById(getRequest('iBlogId'))) or $oBlog->getType()=='personal') {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+
+		$oViewer->Assign('oBlog',$oBlog);
+		if ($oBlog->getType()!='close' or $oBlog->getUserIsJoin()) {
+			/**
+			 * Получаем последний топик
+			 */
+			$aResult = $this->Topic_GetTopicsByFilter(array('blog_id'=>$oBlog->getId(),'topic_publish'=>1),1,1);
+			$oViewer->Assign('oTopicLast',reset($aResult['collection']));
+		}
+		$oViewer->Assign('oUserCurrent',$this->oUserCurrent);
+
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("infobox.info.blog.tpl"));
+	}
 
 	/**
 	 * Получение списка регионов по стране
