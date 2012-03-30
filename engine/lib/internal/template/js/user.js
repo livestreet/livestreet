@@ -352,5 +352,24 @@ ls.user = (function ($) {
 		});
 	};
 
+	/**
+	 * Поиск пользователей
+	 */
+	this.searchUsers = function(form) {
+		var url = aRouter['people']+'ajax-search/';
+
+		'*searchUsersBefore*'; '*/searchUsersBefore*';
+		ls.ajaxSubmit(url, form, function(result){
+			if (result.bStateError) {
+				$('#users-list-search').hide();
+				$('#users-list-original').show();
+			} else {
+				$('#users-list-original').hide();
+				$('#users-list-search').html(result.sText).show();
+				ls.hook.run('ls_user_search_users_after',[form, result]);
+			}
+		});
+	};
+
 	return this;
 }).call(ls.user || {},jQuery);

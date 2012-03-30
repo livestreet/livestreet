@@ -20,21 +20,12 @@
  *
  */
 class ActionPeople extends Action {
-	/**
-	 * Главное меню
-	 *
-	 * @var unknown_type
-	 */
-	protected $sMenuHeadItemSelect='people';
-	
-	protected $sMenuItemSelect='people';
 		
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {
-		$this->SetDefaultEvent('good');	
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
 	}
 	/**
@@ -42,11 +33,11 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {		
-		$this->AddEvent('good','EventGood');		
-		$this->AddEvent('bad','EventBad');	
-		$this->AddEvent('online','EventOnline');	
+		$this->AddEvent('online','EventOnline');
 		$this->AddEvent('new','EventNew');
-			
+		$this->AddEventPreg('/^(index)?$/i','/^(page(\d+))?$/i','/^$/i','EventIndex');
+		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
+
 		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
 		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
 	}
@@ -56,7 +47,28 @@ class ActionPeople extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
+	/**
+	 * Поиск пользователей
+	 */
+	protected function EventAjaxSearch() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if ($sTitle=getRequest('user_login') and is_string($sTitle)) {
+			$sTitle=str_replace('%','',$sTitle);
+		}
+		if (!$sTitle) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>"%{$sTitle}%"),array('login'=>'asc'),1,100);
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aUsersList',$aResult['collection']);
+		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
+	}
 	/**
 	 * Показывает юзеров по стране
 	 *
@@ -164,36 +176,52 @@ class ActionPeople extends Action {
 		$this->GetStats();		
 	}
 	/**
-	 * Показываем хороших юзеров
+	 * Показываем юзеров
 	 *
 	 */
-	protected function EventGood() {
-		/**
-		 * Получаем статистику
-		 */
-		$this->GetStats();		
-		/**
-		 * Получаем хороших юзеров
-		 */
-		$this->GetUserRating('good');	
-		/**
-		 * Устанавливаем шаблон вывода
-		 */		
-		$this->SetTemplateAction('index');	
-	}		
-	/**
-	 * Показываем плохих юзеров
-	 *
-	 */
-	protected function EventBad() {	
+	protected function EventIndex() {
 		/**
 		 * Получаем статистику
 		 */
 		$this->GetStats();
 		/**
-		 * Получаем хороших юзеров
+		 * По какому полю сортировать
 		 */
-		$this->GetUserRating('bad');
+		$sOrder='user_rating';
+		if (getRequest('order')) {
+			$sOrder=getRequest('order');
+		}
+		/**
+		 * В каком направлении сортировать
+		 */
+		$sOrderWay='desc';
+		if (getRequest('order_way')) {
+			$sOrderWay=getRequest('order_way');
+		}
+		$aFilter=array(
+			'activate' => 1
+		);
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		/**
+		 * Получаем список юзеров
+		 */
+		$aResult=$this->User_GetUsersByFilter($aFilter,array($sOrder=>$sOrderWay),$iPage,Config::Get('module.user.per_page'));
+		$aUsers=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aUsersRating',$aUsers);
+		$this->Viewer_Assign("sUsersOrder",htmlspecialchars($sOrder));
+		$this->Viewer_Assign("sUsersOrderWay",htmlspecialchars($sOrderWay));
+		$this->Viewer_Assign("sUsersOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */		
@@ -212,45 +240,6 @@ class ActionPeople extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aStat',$aStat);
-	}	
-	/**
-	 * Получаем список юзеров 
-	 *
-	 * @param unknown_type $sType
-	 */
-	protected function GetUserRating($sType) {
-		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;				
-		/**
-		 * Получаем список юзеров
-		 */		
-		$aResult=$this->User_GetUsersRating($sType,$iPage,Config::Get('module.user.per_page'));	
-		$aUsersRating=$aResult['collection'];	
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent);
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		if ($aUsersRating) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
-		$this->Viewer_Assign('aUsersRating',$aUsersRating);
-	}
-	
-	/**
-	 * Выполняется при завершении работы экшена
-	 *
-	 */
-	public function EventShutdown() {		
-		/**
-		 * Загружаем в шаблон необходимые переменные
-		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
-		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 	}
 }
 ?>

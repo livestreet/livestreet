@@ -433,6 +433,8 @@ return array(
 	'user_stats_sex_other' => 'Gender not specified',
 	'user_not_found' => 'User <b>%%login%%</b> wasn\'t not found',
 	'user_not_found_by_id' => 'User <b>#%%id%%</b> wasn\'t not found',
+	'user_search_title_hint' => 'Search by login',
+	'user_search_empty' => 'Search no match',
 	/**
 	 * User's profile menu
 	 */

@@ -48,6 +48,9 @@ class ActionBlogs extends Action {
 	 **********************************************************************************
 	 */	
 
+	/**
+	 * Поиск блогов
+	 */
 	protected function EventAjaxSearch() {
 		$this->Viewer_SetResponseAjax('json');
 

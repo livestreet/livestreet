@@ -433,6 +433,8 @@ return array(
 	'user_stats_sex_other' => 'Пол не указан',
 	'user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
 	'user_not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден',
+	'user_search_title_hint' => 'Поиск по логину',
+	'user_search_empty' => 'Поиск не дал результатов',
 	/**
 	 * Меню профиля пользователя
 	 */

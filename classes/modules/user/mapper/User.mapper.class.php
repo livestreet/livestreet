@@ -261,26 +261,6 @@ class ModuleUser_MapperUser extends Mapper {
 		return $aReturn;
 	}
 
-	public function GetUsersRating($sType,&$iCount,$iCurrPage,$iPerPage) {
-		$sql = "SELECT
-			user_id
-			FROM
-				".Config::Get('db.table.user')."
-			WHERE
-				user_rating ".($sType=='good' ? '>=0' : '<0')."	 and user_activate = 1
-			ORDER BY
-				user_rating ".($sType=='good' ? 'DESC' : 'ASC').", user_skill desc
-			LIMIT ?d, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=$aRow['user_id'];
-			}
-		}
-		return $aReturn;
-	}
-
 
 	public function GetCountUsers() {
 		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
@@ -862,6 +842,59 @@ class ModuleUser_MapperUser extends Mapper {
 		";
 		return $this->oDb->query($sql,$oNote->getText(),
 								 $oNote->getId());
+	}
+
+	public function GetUsersByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
+		$aOrderAllow=array('user_id','user_login','user_date_register','user_rating','user_skill','user_profile_name');
+		$sOrder='';
+		foreach ($aOrder as $key=>$value) {
+			if (!in_array($key,$aOrderAllow)) {
+				unset($aOrder[$key]);
+			} elseif (in_array($value,array('asc','desc'))) {
+				$sOrder.=" {$key} {$value},";
+			}
+		}
+		$sOrder=trim($sOrder,',');
+		if ($sOrder=='') {
+			$sOrder=' user_id desc ';
+		}
+
+		$sql = "SELECT
+					user_id
+				FROM
+					".Config::Get('db.table.user')."
+				WHERE
+					1 = 1
+					{ AND user_id = ?d }
+					{ AND user_mail = ? }
+					{ AND user_password = ? }
+					{ AND user_ip_register = ? }
+					{ AND user_activate = ?d }
+					{ AND user_activate_key = ? }
+					{ AND user_profile_sex = ? }
+					{ AND user_login LIKE ? }
+					{ AND user_profile_name LIKE ? }
+				ORDER by {$sOrder}
+				LIMIT ?d, ?d ;
+					";
+		$aResult=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,
+										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
+										  isset($aFilter['password']) ? $aFilter['password'] : DBSIMPLE_SKIP,
+										  isset($aFilter['ip_register']) ? $aFilter['ip_register'] : DBSIMPLE_SKIP,
+										  isset($aFilter['activate']) ? $aFilter['activate'] : DBSIMPLE_SKIP,
+										  isset($aFilter['activate_key']) ? $aFilter['activate_key'] : DBSIMPLE_SKIP,
+										  isset($aFilter['profile_sex']) ? $aFilter['profile_sex'] : DBSIMPLE_SKIP,
+										  isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
+										  isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
+										  ($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=$aRow['user_id'];
+			}
+		}
+		return $aResult;
 	}
 }
 ?>

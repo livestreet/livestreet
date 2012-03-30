@@ -97,7 +97,10 @@ class ModuleUser extends Module {
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
 	 *
 	 */
-	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session','friend','geo_target')) {
+	public function GetUsersAdditionalData($aUserId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('vote','session','friend','geo_target');
+		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -590,35 +593,33 @@ class ModuleUser extends Module {
 		return $data;
 	}
 	/**
+	 * Возвращает список пользователей по фильтру
+	 *
+	 * @param $aFilter
+	 * @param $aOrder
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @param array $aAllowData
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetUsersByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=null) {
+		$sKey="user_filter_".serialize($aFilter).serialize($aOrder)."_{$iCurrPage}_{$iPerPage}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = array('collection'=>$this->oMapper->GetUsersByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, $sKey, array("user_update","user_new"), 60*60*24*2);
+		}
+		$data['collection']=$this->GetUsersAdditionalData($data['collection'],$aAllowData);
+		return $data;
+	}
+	/**
 	 * Получить список юзеров по дате регистрации
 	 *
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
 	public function GetUsersByDateRegister($iLimit=20) {
-		if (false === ($data = $this->Cache_Get("user_date_register_{$iLimit}"))) {
-			$data = $this->oMapper->GetUsersByDateRegister($iLimit);
-			$this->Cache_Set($data, "user_date_register_{$iLimit}", array("user_new"), 60*60*24*3);
-		}
-		$data=$this->GetUsersAdditionalData($data);
-		return $data;
-	}
-	/**
-	 * Получить список юзеров по рейтингу
-	 *
-	 * @param unknown_type $sType
-	 * @param unknown_type $iCount
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersRating($sType,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_rating_{$sType}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersRating($sType,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_rating_{$sType}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
+		$aResult=$this->GetUsersByFilter(array('activate'=>1),array('id'=>'desc'),1,$iLimit);
+		return $aResult['collection'];
 	}
 	/**
 	 * Получить статистику по юзерам
