@@ -93,6 +93,36 @@ ls.lang = (function ($) {
 	return this;
 }).call(ls.lang || {},jQuery);
 
+/**
+ * Методы таймера например, запуск функии через интервал
+ */
+ls.timer = (function ($) {
+
+	this.aTimers={};
+
+	/**
+	 * Запуск метода через определенный период, поддерживает пролонгацию
+	 */
+	this.run = function(fMethod,sUniqKey,aParams,iTime){
+		iTime=iTime || 1500;
+		aParams=aParams || [];
+		sUniqKey=sUniqKey || Math.random();
+
+		if (this.aTimers[sUniqKey]) {
+			clearTimeout(this.aTimers[sUniqKey]);
+			this.aTimers[sUniqKey]=null;
+		}
+		var timeout = setTimeout(function(){
+			clearTimeout(this.aTimers[sUniqKey]);
+			this.aTimers[sUniqKey]=null;
+			fMethod.apply(this,aParams);
+		}.bind(this),iTime);
+		this.aTimers[sUniqKey]=timeout;
+	};
+
+	return this;
+}).call(ls.timer || {},jQuery);
+
 
 /**
 * Flash загрузчик

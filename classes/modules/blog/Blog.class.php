@@ -283,7 +283,7 @@ class ModuleBlog extends Module {
 		if ($sId=$this->oMapperBlog->AddBlog($oBlog)) {
 			$oBlog->setId($sId);
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_new',"blog_new_user_{$oBlog->getOwnerId()}"));						
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_new'));
 			return $oBlog;
 		}
 		return false;
@@ -566,19 +566,35 @@ class ModuleBlog extends Module {
 		$this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
 		return $this->oMapperBlog->UpdateRelationBlogUser($oBlogUser);
 	}
+
+	/**
+	 * Возвращает список блогов по фильтру
+	 *
+	 * @param $aFilter
+	 * @param $aOrder
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @param array $aAllowData
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetBlogsByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=array('owner'=>array(),'relation_user')) {
+		$sKey="blog_filter_".serialize($aFilter).serialize($aOrder)."_{$iCurrPage}_{$iPerPage}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = array('collection'=>$this->oMapperBlog->GetBlogsByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, $sKey, array("blog_update","blog_new"), 60*60*24*2);
+		}
+		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],$aAllowData);
+		return $data;
+	}
 	/**
 	 * Получает список блогов по рейтингу
 	 *
-	 * @param unknown_type $iLimit
-	 * @return unknown
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetBlogsRating($iCurrPage,$iPerPage) {		
-		if (false === ($data = $this->Cache_Get("blog_rating_{$iCurrPage}_{$iPerPage}"))) {				
-			$data = array('collection'=>$this->oMapperBlog->GetBlogsRating($iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "blog_rating_{$iCurrPage}_{$iPerPage}", array("blog_update","blog_new"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetBlogsAdditionalData($data['collection'],array('owner'=>array(),'relation_user'));
-		return $data;
+	public function GetBlogsRating($iCurrPage,$iPerPage) {
+		return $this->GetBlogsByFilter(array('exclude_type'=>'personal'),array('blog_rating'=>'desc'),$iCurrPage,$iPerPage);
 	}
 	/**
 	 * Список подключенных блогов по рейтингу
@@ -595,18 +611,15 @@ class ModuleBlog extends Module {
 		return $data;		
 	}
 	/**
-	 * Список сових блогов по рейтингу
+	 * Список своих блогов по рейтингу
 	 *
 	 * @param unknown_type $sUserId
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
-	public function GetBlogsRatingSelf($sUserId,$iLimit) { 		
-		if (false === ($data = $this->Cache_Get("blog_rating_self_{$sUserId}_{$iLimit}"))) {				
-			$data = $this->oMapperBlog->GetBlogsRatingSelf($sUserId,$iLimit);			
-			$this->Cache_Set($data, "blog_rating_self_{$sUserId}_{$iLimit}", array('blog_update',"blog_new_user_{$sUserId}"), 60*60*24);
-		}
-		return $data;		
+	public function GetBlogsRatingSelf($sUserId,$iLimit) {
+		$aResult=$this->GetBlogsByFilter(array('exclude_type'=>'personal','user_owner_id'=>$sUserId),array('blog_rating'=>'desc'),1,$iLimit);
+		return $aResult['collection'];
 	}	
 	/**
 	 * Получает список блогов в которые может постить юзер

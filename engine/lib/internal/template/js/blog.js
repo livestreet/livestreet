@@ -66,7 +66,7 @@ ls.blog = (function ($) {
 		});
 		
 		return false;
-	}
+	};
 
 	/**
 	* Повторно отправляет приглашение
@@ -86,7 +86,7 @@ ls.blog = (function ($) {
 		});
 		
 		return false;
-	}
+	};
 	
 	/**
 	* Отображение информации о блоге
@@ -105,14 +105,33 @@ ls.blog = (function ($) {
 				ls.hook.run('ls_blog_load_info_after',[idBlog,result],block);
 			}
 		});
-	}
+	};
 	
 	/**
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
 		$('#blog_type_note').text($('#blog_type_note_'+type).text());
-	}
-	
+	};
+
+	/**
+	 * Поиск блогов
+	 */
+	this.searchBlogs = function(form) {
+		var url = aRouter['blogs']+'ajax-search/';
+
+		'*searchBlogsBefore*'; '*/searchBlogsBeforeBefore*';
+		ls.ajaxSubmit(url, form, function(result){
+			if (result.bStateError) {
+				$('#blogs-list-search').hide();
+				$('#blogs-list-original').show();
+			} else {
+				$('#blogs-list-original').hide();
+				$('#blogs-list-search').html(result.sText).show();
+				ls.hook.run('ls_blog_search_blogs_after',[form, result]);
+			}
+		});
+	};
+
 	return this;
 }).call(ls.blog || {},jQuery);

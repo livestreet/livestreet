@@ -25,6 +25,8 @@ return array(
 	 * Blogs
 	 */
 	'blogs' => 'Blogs',
+	'blogs_search_title_hint' => 'Search by title',
+	'blogs_search_empty' => 'No match results',
 	'blogs_title' => "Blog's Title and owner",
 	'blogs_readers' => 'Reader',
 	'blogs_rating' => 'Rating',

@@ -25,6 +25,8 @@ return array(
 	 * Блоги
 	 */
 	'blogs' => 'Блоги',
+	'blogs_search_title_hint' => 'Поиск по названию',
+	'blogs_search_empty' => 'Поиск не дал результатов',
 	'blogs_title' => 'Название',
 	'blogs_readers' => 'Читателей',
 	'blogs_rating' => 'Рейтинг',

@@ -2,6 +2,16 @@
 
 <h2 class="page-header">{$aLang.blogs}</h2>
 
-{include file='blog_list.tpl'}
-{include file='paging.tpl' aPaging="$aPaging"}
+<form action="" method="POST" id="form-blogs-search" onsubmit="return false;">
+	<input type="text" placeholder="{$aLang.blogs_search_title_hint}" autocomplete="off" name="blog_title" value="" onkeyup="ls.timer.run(ls.blog.searchBlogs,'blogs_search',['form-blogs-search'],1000);">
+</form>
+
+<div id="blogs-list-search" style="display:none;"></div>
+
+<div id="blogs-list-original">
+	{router page='blogs' assign=sBlogsRootPage}
+	{include file='blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
+	{include file='paging.tpl' aPaging="$aPaging"}
+</div>
+
 {include file='footer.tpl'}
