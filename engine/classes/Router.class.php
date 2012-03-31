@@ -125,9 +125,6 @@ class Router extends Object {
 		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
 			array_shift($aRequestUrl);
 		}	
-		if (isset($aRequestUrl[0]) and @substr($aRequestUrl[0],0,1)=='?') {
-			$aRequestUrl=array();
-		}
 		$aRequestUrl = array_map('urldecode',$aRequestUrl);
 		return $aRequestUrl;
 	}
