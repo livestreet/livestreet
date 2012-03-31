@@ -660,13 +660,20 @@ class ModuleTopic extends Module {
 	 * @param unknown_type $sShowType
 	 * @return unknown
 	 */
-	public function GetTopicsPersonal($iPage,$iPerPage,$sShowType='good') {
+	public function GetTopicsPersonal($iPage,$iPerPage,$sShowType='good',$sPeriod=null) {
+		if (is_numeric($sPeriod)) {
+			// количество последних секунд
+			$sPeriod=date("Y-m-d H:00:00",time()-$sPeriod);
+		}
 		$aFilter=array(
 			'blog_type' => array(
 				'personal',
 			),
 			'topic_publish' => 1,			
 		);
+		if ($sPeriod) {
+			$aFilter['topic_date_more'] = $sPeriod;
+		}
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
@@ -682,6 +689,12 @@ class ModuleTopic extends Module {
 				break;	
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
+				break;
+			case 'discussed':
+				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');
+				break;
+			case 'top':
+				$aFilter['order']=array('t.topic_rating desc','t.topic_id desc');
 				break;
 			default:
 				break;
@@ -812,13 +825,20 @@ class ModuleTopic extends Module {
 	 * @param unknown_type $sShowType
 	 * @return unknown
 	 */
-	public function GetTopicsCollective($iPage,$iPerPage,$sShowType='good') {
+	public function GetTopicsCollective($iPage,$iPerPage,$sShowType='good',$sPeriod=null) {
+		if (is_numeric($sPeriod)) {
+			// количество последних секунд
+			$sPeriod=date("Y-m-d H:00:00",time()-$sPeriod);
+		}
 		$aFilter=array(
 			'blog_type' => array(
 				'open',
 			),
 			'topic_publish' => 1,			
-		);		
+		);
+		if ($sPeriod) {
+			$aFilter['topic_date_more'] = $sPeriod;
+		}
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
@@ -834,6 +854,12 @@ class ModuleTopic extends Module {
 				break;	
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
+				break;
+			case 'discussed':
+				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');
+				break;
+			case 'top':
+				$aFilter['order']=array('t.topic_rating desc','t.topic_id desc');
 				break;
 			default:
 				break;
@@ -905,11 +931,18 @@ class ModuleTopic extends Module {
 	 * @param unknown_type $sShowType
 	 * @return unknown
 	 */
-	public function GetTopicsByBlog($oBlog,$iPage,$iPerPage,$sShowType='good') {
+	public function GetTopicsByBlog($oBlog,$iPage,$iPerPage,$sShowType='good',$sPeriod=null) {
+		if (is_numeric($sPeriod)) {
+			// количество последних секунд
+			$sPeriod=date("Y-m-d H:00:00",time()-$sPeriod);
+		}
 		$aFilter=array(
 			'topic_publish' => 1,
 			'blog_id' => $oBlog->getId(),			
 		);
+		if ($sPeriod) {
+			$aFilter['topic_date_more'] = $sPeriod;
+		}
 		switch ($sShowType) {
 			case 'good':
 				$aFilter['topic_rating']=array(
@@ -925,6 +958,12 @@ class ModuleTopic extends Module {
 				break;	
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));							
+				break;
+			case 'discussed':
+				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');
+				break;
+			case 'top':
+				$aFilter['order']=array('t.topic_rating desc','t.topic_id desc');
 				break;
 			default:
 				break;

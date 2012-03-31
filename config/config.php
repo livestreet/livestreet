@@ -365,7 +365,6 @@ $config['router']['page']['profile']       = 'ActionProfile';
 $config['router']['page']['my']            = 'ActionMy';
 $config['router']['page']['blog']          = 'ActionBlog';
 $config['router']['page']['personal_blog'] = 'ActionPersonalBlog';
-$config['router']['page']['top']           = 'ActionTop';
 $config['router']['page']['index']         = 'ActionIndex';
 $config['router']['page']['topic']         = 'ActionTopic';
 $config['router']['page']['login']         = 'ActionLogin';

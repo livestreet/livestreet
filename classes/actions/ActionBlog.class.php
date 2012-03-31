@@ -80,7 +80,7 @@ class ActionBlog extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $aBadBlogUrl=array('new','good','bad','edit','add','admin','delete','invite','ajaxaddcomment','ajaxaddbloginvite','ajaxresponsecomment','ajaxrebloginvite','ajaxbloginfo','ajaxblogjoin');
+	protected $aBadBlogUrl=array('new','good','bad','discussed','top','edit','add','admin','delete','invite','ajaxaddcomment','ajaxaddbloginvite','ajaxresponsecomment','ajaxrebloginvite','ajaxbloginfo','ajaxblogjoin');
 
 	/**
 	 * Инизиализация экшена
@@ -122,6 +122,8 @@ class ActionBlog extends Action {
 		$this->AddEvent('good','EventTopics');
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^top$/i','/^(page(\d+))?$/i','EventTopics');
 
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
@@ -142,6 +144,8 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i','EventShowBlog');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i','EventShowBlog');
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i','EventShowBlog');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page(\d+))?$/i','EventShowBlog');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page(\d+))?$/i','EventShowBlog');
 
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page(\d+))?$/i','EventShowUsers');
 	}
@@ -569,7 +573,14 @@ class ActionBlog extends Action {
 	 *
 	 */
 	protected function EventTopics() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
 		$sShowType=$this->sCurrentEvent;
+		if (!in_array($sShowType,array('discussed','top'))) {
+			$sPeriod='all';
+		}
 		/**
 		 * Меню
 		 */
@@ -581,12 +592,19 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем список топиков
 		 */
-		$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType);
+		$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		/**
+		 * Если нет топиков за 1 день, то показываем за неделю (7)
+		 */
+		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and $sPeriod==1) {
+			$sPeriod=7;
+			$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		}
 		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('blog').$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('blog').$sShowType,array('period'=>$sPeriod));
 		/**
 		 * Вызов хуков
 		 */
@@ -596,6 +614,10 @@ class ActionBlog extends Action {
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('aPaging',$aPaging);
+		if (in_array($sShowType,array('discussed','top'))) {
+			$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+			$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('blog').$sShowType.'/');
+		}
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -778,8 +800,15 @@ class ActionBlog extends Action {
 	}
 
 	protected function EventShowBlog() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
 		$sBlogUrl=$this->sCurrentEvent;
-		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new')) ? $this->GetParamEventMatch(0,0) : 'good';
+		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
+		if (!in_array($sShowType,array('discussed','top'))) {
+			$sPeriod='all';
+		}
 		/**
 		 * Проверяем есть ли блог с таким УРЛ
 		 */
@@ -816,14 +845,21 @@ class ActionBlog extends Action {
 			/**
 		 	* Получаем список топиков
 		 	*/
-			$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType);
+			$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+			/**
+			 * Если нет топиков за 1 день, то показываем за неделю (7)
+			 */
+			if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and $sPeriod==1) {
+				$sPeriod=7;
+				$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+			}
 			$aTopics=$aResult['collection'];
 			/**
 		 	* Формируем постраничность
 		 	*/
 			$aPaging=($sShowType=='good')
 			? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,rtrim($oBlog->getUrlFull(),'/'))
-			: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType);
+			: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType,array('period'=>$sPeriod));
 			/**
 		 	* Получаем число новых топиков в текущем блоге
 		 	*/
@@ -831,6 +867,10 @@ class ActionBlog extends Action {
 
 			$this->Viewer_Assign('aPaging',$aPaging);
 			$this->Viewer_Assign('aTopics',$aTopics);
+			if (in_array($sShowType,array('discussed','top'))) {
+				$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+				$this->Viewer_Assign('sPeriodSelectRoot',$oBlog->getUrlFull().$sShowType.'/');
+			}
 		}
 		/**
 		 * Выставляем SEO данные
