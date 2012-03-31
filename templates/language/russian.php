@@ -80,7 +80,9 @@ return array(
 	 * Меню блогов
 	 */
 	'blog_menu_all' => 'Все',
-	'blog_menu_all_good' => 'Хорошие',
+	'blog_menu_all_good' => 'Интересные',
+	'blog_menu_all_discussed' => 'Обсуждаемые',
+	'blog_menu_all_top' => 'TOP',
 	'blog_menu_all_new' => 'Новые',
 	'blog_menu_all_list' => 'Все блоги',
 	'blog_menu_collective' => 'Коллективные',

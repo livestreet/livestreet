@@ -549,6 +549,82 @@ class ModuleTopic extends Module {
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	/**
+	 * Получает список ВСЕХ обсуждаемых топиков
+	 *
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  int | string   $sPeriod
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики,
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.
+	 * @return array
+	 */
+	public function GetTopicsDiscussed($iPage,$iPerPage,$sPeriod=null,$bAddAccessible=true) {
+		if (is_numeric($sPeriod)) {
+			// количество последних секунд
+			$sPeriod=date("Y-m-d H:00:00",time()-$sPeriod);
+		}
+
+		$aFilter=array(
+			'blog_type' => array(
+				'personal',
+				'open',
+			),
+			'topic_publish' => 1
+		);
+		if ($sPeriod) {
+			$aFilter['topic_date_more'] = $sPeriod;
+		}
+		$aFilter['order']=' t.topic_count_comment desc ';
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent && $bAddAccessible) {
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = $aOpenBlogs;
+		}
+		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
+	}
+	/**
+	 * Получает список ВСЕХ рейтинговых топиков
+	 *
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  int | string   $sPeriod
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики,
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.
+	 * @return array
+	 */
+	public function GetTopicsTop($iPage,$iPerPage,$sPeriod=null,$bAddAccessible=true) {
+		if (is_numeric($sPeriod)) {
+			// количество последних секунд
+			$sPeriod=date("Y-m-d H:00:00",time()-$sPeriod);
+		}
+
+		$aFilter=array(
+			'blog_type' => array(
+				'personal',
+				'open',
+			),
+			'topic_publish' => 1
+		);
+		if ($sPeriod) {
+			$aFilter['topic_date_more'] = $sPeriod;
+		}
+		$aFilter['order']=array('t.topic_rating desc','t.topic_id desc');
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent && $bAddAccessible) {
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = $aOpenBlogs;
+		}
+		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
+	}
+	/**
 	 * Получает заданое число последних топиков
 	 *
 	 * @param unknown_type $iCount

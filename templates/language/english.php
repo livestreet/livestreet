@@ -81,6 +81,8 @@ return array(
 	 */
 	'blog_menu_all' => 'All',
 	'blog_menu_all_good' => 'Good',
+	'blog_menu_all_discussed' => 'Discussed',
+	'blog_menu_all_top' => 'TOP',
 	'blog_menu_all_new' => 'New',
 	'blog_menu_all_list' => 'All blogs',
 	'blog_menu_collective' => 'Groupe blogs',

@@ -70,3 +70,5 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
   KEY `target_type_id` (`target_type`,`target_id`),
   KEY `is_user` (`is_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_topic` ADD INDEX ( `topic_count_comment` );
