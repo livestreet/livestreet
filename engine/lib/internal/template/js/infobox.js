@@ -5,86 +5,101 @@ var ls = ls || {};
  */
 ls.infobox = (function ($) {
 
-	this.oInfobox;
-	this.aOptDef={
-		'width': 200,
-		'zIndex' : 100,
-		'offsetY' : 5
-	};
-	/**
-	 * Шаблон поп-апа
-	 */
-	this.sTemplate=['<div class="infobox">',
-						'<div class="infobox-content"></div>',
-						'<div class="infobox-arrow"></div>',
-					'</div>'].join('');
 	/**
 	 * Шаблон процесс-бара
 	 */
 	this.sTemplateProcess=['<div class="infobox-process">process..',
 							'</div>'].join('');
-
-	this.init = function() {
-		this.oInfobox=$(this.sTemplate);
-		this.oInfobox.appendTo('body')
-		.css({position: 'absolute', display: 'none'});
-
-		this.oInfobox.bind('mouseout',function(e){
-			//console.log(e);
-			//this.hide();
-		}.bind(this));
+	this.aLinks=[];
+	this.aOptDef={
+		hideOther: true,
+		className: 'infobox-standart',
+		showOn: 'none',
+		alignTo: 'target',
+		alignX: 'inner-left',
+		alignY: 'bottom',
+		offsetX: -5,
+		offsetY: 5,
+		fade: false,
+		slide: false,
+		bgImageFrameSize: 10,
+		showTimeout: 500,
+		hideTimeout: 100,
+		timeOnScreen: 0,
+		liveEvents: false,
+		allowTipHover: true,
+		followCursor: false,
+		slideOffset: 8,
+		showAniDuration: 300,
+		hideAniDuration: 300,
+		refreshAniDuration: 200
 	};
 
 	this.show = function(oLink,sContent,aOpt) {
 		aOpt=$.extend(true,{},this.aOptDef,aOpt || {});
-		if (!this.oInfobox) {
-			this.init();
+
+		if (aOpt.hideOther) {
+			$.each(this.aLinks,function(k,oLink){
+				this.hide(oLink);
+			}.bind(this));
 		}
-		this.oInfobox.data('oLink',oLink);
+
 		$oLink=$(oLink);
-
-
-		var iLinkWidth = $oLink.innerWidth();
-		var iLinkHeight = $oLink.innerHeight();
-		var iLinkTop  = $oLink.offset().top;
-		var iLinkLeft = $oLink.offset().left;
-
-		this.oInfobox.find('.infobox-content').html(sContent);
-
-		this.oInfobox.css({
-			left: parseInt(iLinkLeft+iLinkWidth/2-aOpt.width/2),
-			top: parseInt(iLinkTop+iLinkHeight+aOpt.offsetY),
-			width: aOpt.width,
-			zIndex: aOpt.zIndex
-		}).show();
-
-		return false;
-	};
-
-	this.hide = function() {
-		this.oInfobox.hide();
-		return false;
-	};
-
-	this.toggle = function(oLink,sContent,aOpt) {
-		if (!this.oInfobox) {
-			this.init();
-		}
-		if (this.oInfobox.is(':visible') && this.oInfobox.data('oLink')==oLink) {
-			this.hide();
+		if ($oLink.data('isPoshytip')) {
+			$oLink.poshytip('update', sContent);
 		} else {
-			this.show(oLink,sContent,aOpt);
+			$oLink.poshytip({
+				className: aOpt.className,
+				content: sContent,
+				showOn: aOpt.showOn,
+				alignTo: aOpt.alignTo,
+				alignX: aOpt.alignX,
+				fade: aOpt.fade,
+				slide: aOpt.slide,
+				alignY: aOpt.alignY,
+				offsetX: aOpt.offsetX,
+				offsetY: aOpt.offsetY,
+				bgImageFrameSize: aOpt.bgImageFrameSize,
+				showTimeout: aOpt.showTimeout,
+				hideTimeout: aOpt.hideTimeout,
+				timeOnScreen: aOpt.timeOnScreen,
+				liveEvents: aOpt.liveEvents,
+				allowTipHover: aOpt.allowTipHover,
+				followCursor: aOpt.followCursor,
+				slideOffset: aOpt.slideOffset,
+				showAniDuration: aOpt.showAniDuration,
+				hideAniDuration: aOpt.hideAniDuration,
+				refreshAniDuration: aOpt.refreshAniDuration
+			});
+			$oLink.data('isPoshytip',1);
+			this.aLinks.push($oLink);
+		}
+
+		$oLink.poshytip('show');
+
+	};
+
+	this.hide = function(oLink) {
+		$(oLink).poshytip('hide');
+		return false;
+	};
+
+	this.hideIfShow = function(oLink) {
+		if ($(oLink).data('poshytip') && $(oLink).data('poshytip').$tip.data('active')) {
+			this.hide(oLink);
+			return true;
 		}
 		return false;
 	};
 
-	this.showProcess = function(oLink) {
-		this.show(oLink,this.sTemplateProcess);
+	this.showProcess = function(oLink,aOpt) {
+		this.show(oLink,this.sTemplateProcess,aOpt);
 	};
+
 
 	this.showInfoBlog = function(oLink,iBlogId) {
-		if (this.oInfobox && this.oInfobox.is(':visible') && this.oInfobox.data('oLink')==oLink) {
-			return this.hide();
+		if (this.hideIfShow(oLink)) {
+			return false;
 		}
 
 		this.showProcess(oLink);
@@ -94,7 +109,7 @@ ls.infobox = (function ($) {
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
-				this.hide();
+				this.hide(oLink);
 			} else {
 				this.show(oLink,result.sText);
 				ls.hook.run('ls_infobox_show_info_blog_after',[oLink, iBlogId, result]);

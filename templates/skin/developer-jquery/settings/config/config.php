@@ -32,6 +32,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/blog.css",
 	"___path.static.skin___/css/profile.css",
 	"___path.static.skin___/css/wall.css",
+	"___path.static.skin___/css/infobox.css",
 	"___path.static.skin___/css/jquery.notifier.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
 	"___path.static.skin___/css/mobile.css",
