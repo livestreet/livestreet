@@ -57,7 +57,7 @@
 		   name="submit_plugins_del" 
 		   value="{$aLang.plugins_submit_delete}" 
 		   class="button" 
-		   onclick="return ($$('.form_plugins_checkbox:checked').length==0)?false:confirm('{$aLang.plugins_delete_confirm}');" />				
+		   onclick="return (jQuery('.form_plugins_checkbox:checked').length==0)?false:confirm('{$aLang.plugins_delete_confirm}');" />
 </form>
 				
 
