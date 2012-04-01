@@ -215,8 +215,9 @@ function func_getIp() {
  *
  * @param unknown_type $sLocation
  */
-function func_header_location($sLocation) {  
-	header("HTTP/1.1 301 Moved Permanently"); 	
+function func_header_location($sLocation) {
+	$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+	header("{$sProtocol} 301 Moved Permanently");
     header('Location: '.$sLocation);
     exit();
 }

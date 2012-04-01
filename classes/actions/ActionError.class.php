@@ -46,7 +46,8 @@ class ActionError extends Action {
 		 */		
 		if ($this->sCurrentEvent=='404') {			
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
-			header("HTTP/1.1 404 Not Found");
+			$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			header("{$sProtocol} 404 Not Found");
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
 		$this->SetTemplateAction('index');
