@@ -4,7 +4,7 @@
 			<img src="{$oUserProfile->getProfileFoto()}" alt="photo" class="profile-photo" />
 		</a>
 	{else}
-		<a href="{router page='profile'}{$oUserProfile->getLogin()}/">
+		<a href="{$oUserProfile->getUserWebPath()}">
 			<img src="{cfg name='path.static.skin'}/images/no_photo.png" alt="photo" class="profile-photo" />
 		</a>
 	{/if}
