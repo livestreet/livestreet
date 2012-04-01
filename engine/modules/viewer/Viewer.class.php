@@ -345,9 +345,9 @@ class ModuleViewer extends Module {
 	/**
 	 * Ответ на ajax запрос
 	 *
-	 * @param unknown_type $sType - jsHttpRequest или json
+	 * @param unknown_type $sType - json | jsonIframe | jsonp
 	 */
-	public function DisplayAjax($sType='jsHttpRequest') {
+	public function DisplayAjax($sType='json') {
 		/**
 		 * Загружаем статус ответа и сообщение
 		 */
@@ -367,11 +367,7 @@ class ModuleViewer extends Module {
 		$this->AssignAjax('sMsgTitle',$sMsgTitle);
 		$this->AssignAjax('sMsg',$sMsg);
 		$this->AssignAjax('bStateError',$bStateError);		
-		if ($sType=='jsHttpRequest') {			
-			foreach ($this->aVarsAjax as $key => $value) {
-				$GLOBALS['_RESULT'][$key]=$value;
-			}
-		} elseif ($sType=='json') {
+		if ($sType=='json') {
 			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');
 			} 	
@@ -404,16 +400,7 @@ class ModuleViewer extends Module {
 	 *
 	 * @param unknown_type $sResponseAjax
 	 */
-	public function SetResponseAjax($sResponseAjax='jsHttpRequest',$bResponseSpecificHeader=true, $bValidate=true) {
-		/**
-		 * Проверка на безопасную обработку ajax запроса
-		 */
-		if ($sResponseAjax) {			
-			if ($sResponseAjax=='jsHttpRequest') {
-				require_once(Config::Get('path.root.engine')."/lib/external/JsHttpRequest/JsHttpRequest.php");
-				$JsHttpRequest = new JsHttpRequest("UTF-8");
-			}
-		}
+	public function SetResponseAjax($sResponseAjax='json',$bResponseSpecificHeader=true, $bValidate=true) {
 		// Для возможности кросс-доменных запросов
 		if ($sResponseAjax!='jsonp' && $bValidate) {
 			$this->Security_ValidateSendForm();

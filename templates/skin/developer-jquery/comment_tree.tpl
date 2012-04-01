@@ -52,7 +52,7 @@
 {else}
 	{if $oUserCurrent}	
 		{if $oConfig->GetValue('view.tinymce')}
-			<script src="{cfg name='path.root.engine_lib'}/external/tinymce/tiny_mce.js"></script>
+			<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
 			<script>tinyMCE.init(getTinymceCommentSettings());</script>
 		{/if}
 		
