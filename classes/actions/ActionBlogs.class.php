@@ -21,13 +21,6 @@
  */
 class ActionBlogs extends Action {	
 	
-	/**
-	 * Главное меню
-	 *
-	 * @var unknown_type
-	 */
-	protected $sMenuHeadItemSelect='blogs';
-	
 	public function Init() {		
 		/**
 		 * Загружаем в шаблон JS текстовки
@@ -116,17 +109,6 @@ class ActionBlogs extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');				
-	}
-	
-	/**
-	 * Выполняется при завершении работы экшена
-	 *
-	 */
-	public function EventShutdown() {		
-		/**
-		 * Загружаем в шаблон необходимые переменные
-		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
 	}
 }
 ?>
