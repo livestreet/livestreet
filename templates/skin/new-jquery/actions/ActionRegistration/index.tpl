@@ -13,7 +13,7 @@
 		<span class="note">{$aLang.registration_login_notice}</span></label></p>
 
 		<p><label>{$aLang.registration_mail}<br />
-		<input type="text" name="mail" value="{$_aRequest.mail}" class="input-text input-wide" /><br />
+		<input type="email" name="mail" value="{$_aRequest.mail}" class="input-text input-wide" /><br />
 		<span class="note">{$aLang.registration_mail_notice}</span></label></p>
 
 		<p><label>{$aLang.registration_password}<br />
