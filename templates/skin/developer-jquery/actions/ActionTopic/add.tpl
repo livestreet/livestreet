@@ -2,15 +2,19 @@
 
 {if $oConfig->GetValue('view.tinymce')}
 	<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
-	<script>tinyMCE.init(getTinymceTopicSettings());</script>
+	<script>
+		jQuery(function($){
+			tinyMCE.init(ls.settings.getTinymce());
+		});
+	</script>
 {else}
 	{include file='window_load_img.tpl' sToLoad='topic_text'}
 	
 	<script>
-		jQuery(document).ready(function($){
+		jQuery(function($){
 			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
 			// Подключаем редактор		
-			$('#topic_text').markItUp(getMarkitupSettings());
+			$('#topic_text').markItUp(ls.settings.getMarkitup());
 		});
 	</script>
 {/if}
@@ -62,7 +66,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
-	<textarea name="topic_text" id="topic_text" rows="20" class="mce-editor">{$_aRequest.topic_text}</textarea></p>
+	<textarea name="topic_text" id="topic_text" rows="20" class="mce-editor input-width-full">{$_aRequest.topic_text}</textarea></p>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

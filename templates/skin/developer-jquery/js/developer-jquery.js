@@ -10,7 +10,7 @@ jQuery(document).ready(function($){
 	$('#login_form').jqm({trigger: '#login_form_show'});
 	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
 	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
-	$('#form_upload_img').jqm();
+	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
 	
