@@ -23,11 +23,12 @@ class ModuleTalk_MapperTalk extends Mapper {
 			talk_text,
 			talk_date,
 			talk_date_last,
-			talk_user_ip			
+			talk_user_id_last,
+			talk_user_ip
 			)
-			VALUES(?d,	?,	?,	?,  ?, ?)
+			VALUES(?d,	?,	?,	?,  ?, ?, ?)
 		";			
-		if ($iId=$this->oDb->query($sql,$oTalk->getUserId(),$oTalk->getTitle(),$oTalk->getText(),$oTalk->getDate(),$oTalk->getDateLast(),$oTalk->getUserIp())) 
+		if ($iId=$this->oDb->query($sql,$oTalk->getUserId(),$oTalk->getTitle(),$oTalk->getText(),$oTalk->getDate(),$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getUserIp()))
 		{
 			return $iId;
 		}		
@@ -46,11 +47,12 @@ class ModuleTalk_MapperTalk extends Mapper {
 	public function UpdateTalk(ModuleTalk_EntityTalk $oTalk) {
 		$sql = "UPDATE ".Config::Get('db.table.talk')." SET			
 				talk_date_last = ? ,
-				talk_count_comment = ? 
+				talk_user_id_last = ? ,
+				talk_count_comment = ?
 			WHERE 
 				talk_id = ?d
 		";			
-		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getCountComment(),$oTalk->getId());
+		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCountComment(),$oTalk->getId());
 	}
 	
 	public function GetTalksByArrayId($aArrayId) {

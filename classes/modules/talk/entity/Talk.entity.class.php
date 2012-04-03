@@ -35,6 +35,9 @@ class ModuleTalk_EntityTalk extends Entity
     public function getDateLast() {
         return $this->_aData['talk_date_last'];
     }
+	public function getUserIdLast() {
+		return $this->_aData['talk_user_id_last'];
+	}
     public function getUserIp() {
         return $this->_aData['talk_user_ip'];
     }
@@ -88,7 +91,10 @@ class ModuleTalk_EntityTalk extends Entity
     }    
     public function setDateLast($data) {
         $this->_aData['talk_date_last']=$data;
-    } 
+    }
+	public function setUserIdLast($data) {
+		$this->_aData['talk_user_id_last']=$data;
+	}
     public function setUserIp($data) {
         $this->_aData['talk_user_ip']=$data;
     }  

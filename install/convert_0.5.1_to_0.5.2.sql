@@ -72,3 +72,6 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `prefix_topic` ADD INDEX ( `topic_count_comment` );
+
+ALTER TABLE `prefix_talk` ADD `talk_user_id_last` INT NOT NULL AFTER `talk_date_last` ,
+ADD INDEX ( `talk_user_id_last` );

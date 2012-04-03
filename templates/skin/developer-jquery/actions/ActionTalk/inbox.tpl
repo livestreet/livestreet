@@ -43,6 +43,11 @@
 							{if $oTalk->getCountComment()}
 								{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}+{$oTalkUserAuthor->getCommentCountNew()}{/if}
 							{/if}
+							{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
+								&rarr;
+							{else}
+								&larr;
+							{/if}
 						</td>
 						<td class="ta-r">{date_format date=$oTalk->getDate()}</td>
 					</tr>

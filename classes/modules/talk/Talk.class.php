@@ -71,6 +71,7 @@ class ModuleTalk extends Module {
 			$oTalk->setText($sText);
 			$oTalk->setDate(date("Y-m-d H:i:s"));
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
+			$oTalk->setUserIdLast($oTalk->getUserId());
 			$oTalk->setUserIp(func_getIp());
 			if ($oTalk=$this->AddTalk($oTalk)) {
 				foreach ($aUserIdTo as $iUserId) {

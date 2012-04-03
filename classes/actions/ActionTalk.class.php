@@ -599,6 +599,7 @@ class ActionTalk extends Action {
 		if ($this->Comment_AddComment($oCommentNew)) {
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
+			$oTalk->setUserIdLast($oCommentNew->getUserId());
 			$oTalk->setCountComment($oTalk->getCountComment()+1);
 			$this->Talk_UpdateTalk($oTalk);
 			/**
