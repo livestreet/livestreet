@@ -23,7 +23,7 @@ ls.poll = (function ($) {
 				ls.hook.run('ls_pool_vote_after',[idTopic, idAnswer,result],area);
 			}
 		});
-	}
+	};
 
 	/**
 	* Добавляет вариант ответа
@@ -42,7 +42,7 @@ ls.poll = (function ($) {
 		newItem.appendTo("#question_list").append(removeAnchor);
 		newItem.find('input').val('');
 		ls.hook.run('ls_pool_add_answer_after',[removeAnchor],newItem);
-	}
+	};
 	
 	/**
 	* Удаляет вариант ответа
@@ -50,7 +50,18 @@ ls.poll = (function ($) {
 	this.removeAnswer = function(obj) {
 		$(obj).parent("li").remove();
 		return false;
-	}
+	};
+
+	this.switchResult = function(bSort,iTopicId) {
+		if (bSort) {
+			$('#poll-result-original-'+iTopicId).hide();
+			$('#poll-result-sort-'+iTopicId).show();
+		} else {
+			$('#poll-result-sort-'+iTopicId).hide();
+			$('#poll-result-original-'+iTopicId).show();
+		}
+		return false;
+	};
 	
 	return this;
 }).call(ls.poll || {},jQuery);

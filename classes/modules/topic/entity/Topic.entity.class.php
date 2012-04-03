@@ -236,13 +236,17 @@ class ModuleTopic_EntityTopic extends Entity
     	}
     	$this->setExtraValue('answers',array());
     }
-    public function getQuestionAnswers() {
+    public function getQuestionAnswers($bSortVote=false) {
     	if ($this->getType()!='question') {
     		return null;
     	}
     	
     	if ($this->getExtraValue('answers')) {
-    		return $this->getExtraValue('answers');
+    		$aAnswers=$this->getExtraValue('answers');
+			if ($bSortVote) {
+				uasort($aAnswers, create_function('$a,$b',"if (\$a['count'] == \$b['count']) { return 0; } return (\$a['count'] < \$b['count']) ? 1 : -1;"));
+			}
+			return $aAnswers;
     	}
     	return array();
     }
