@@ -138,7 +138,7 @@ class ActionTalk extends Action {
 			array_intersect_key(
 				$_REQUEST,
 				array_fill_keys(
-					array('start','end','keyword','sender'),
+					array('start','end','keyword','sender','keyword_text','favourite'),
 					''
 				)
 			)
@@ -220,8 +220,25 @@ class ActionTalk extends Action {
 				unset($_REQUEST['keyword']);
 			}
 		}
+		if($sKeyRequest=getRequest('keyword_text')){
+			$sKeyRequest=urldecode($sKeyRequest);
+			preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
+
+			if(is_array($aWords[1])&&isset($aWords[1])&&count($aWords[1])) {
+				$aFilter['text_like']='%'.implode('%',$aWords[1]).'%';
+			} else {
+				unset($_REQUEST['keyword_text']);
+			}
+		}
 		if($sender=getRequest('sender')){
 			$aFilter['user_login']=urldecode($sender);
+		}
+		if (getRequest('favourite')) {
+			$aTalkIdResult=$this->Favourite_GetFavouritesByUserId($this->oUserCurrent->getId(),'talk',1,500); // ограничиваем
+			$aFilter['id']=$aTalkIdResult['collection'];
+			$_REQUEST['favourite']=1;
+		} else {
+			unset($_REQUEST['favourite']);
 		}
 		
 		return $aFilter;

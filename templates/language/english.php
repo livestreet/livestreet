@@ -736,6 +736,8 @@ return array(
 	'talk_filter_erase_form' => 'Empty form',
 	'talk_filter_label_sender' => 'Sender',
 	'talk_filter_label_keyword' => 'Search in the subjects',
+	'talk_filter_label_keyword_text' => 'Search in the message',
+	'talk_filter_label_favourite' => 'Search in favourites',
 	'talk_filter_label_date' => 'Set dates',
 	'talk_filter_notice_sender' => 'Specify sender\'s login',
 	'talk_filter_notice_keyword' => 'Specify keywords',

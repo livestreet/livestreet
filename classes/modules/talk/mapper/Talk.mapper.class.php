@@ -325,7 +325,10 @@ class ModuleTalk_MapperTalk extends Mapper {
 	 * @param  int $iPerPage
 	 * @return array
 	 */
-	public function GetTalksByFilter($aFilter,&$iCount,$iCurrPage,$iPerPage) {		
+	public function GetTalksByFilter($aFilter,&$iCount,$iCurrPage,$iPerPage) {
+		if (isset($aFilter['id']) and !is_array($aFilter['id'])) {
+			$aFilter['id']=array($aFilter['id']);
+		}
 		$sql = "SELECT 
 					tu.talk_id									
 				FROM 
@@ -337,9 +340,11 @@ class ModuleTalk_MapperTalk extends Mapper {
 					AND tu.talk_user_active = ?d
 					AND u.user_id=t.user_id
 					{ AND tu.user_id = ?d }
+					{ AND tu.talk_id IN (?a) }
 					{ AND t.talk_date <= ? }
 					{ AND t.talk_date >= ? }
 					{ AND t.talk_title LIKE ? }
+					{ AND t.talk_text LIKE ? }
 					{ AND u.user_login = ? }
 					{ AND t.user_id = ? }
 				ORDER BY t.talk_date_last desc, t.talk_date desc
@@ -353,9 +358,11 @@ class ModuleTalk_MapperTalk extends Mapper {
 				$sql,
 				ModuleTalk::TALK_USER_ACTIVE,
 				(!empty($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP),
+				((isset($aFilter['id']) and count($aFilter['id'])) ? $aFilter['id'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_max']) ? $aFilter['date_max'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['keyword']) ? $aFilter['keyword'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['text_like']) ? $aFilter['text_like'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['user_login']) ? $aFilter['user_login'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['sender_id']) ? $aFilter['sender_id'] : DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage, 
