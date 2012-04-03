@@ -44,6 +44,18 @@ jQuery(document).ready(function($){
 
 	// Тул-бар топиков
 	ls.toolbar.topic.init();
+
+	// Всплывающие сообщения
+	$('.js-title-comment, .js-title-topic').poshytip({
+		className: 'infobox-title',
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 5,
+		liveEvents: true,
+		showTimeout: 1500
+	});
+
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
