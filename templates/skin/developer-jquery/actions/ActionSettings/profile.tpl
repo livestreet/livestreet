@@ -34,12 +34,6 @@
 		</p>
 		
 		<p>
-			<label for="mail">{$aLang.settings_profile_mail}:</label>
-			<input type="email" name="mail" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" class="input-text input-width-300" required>
-			<small class="note">{$aLang.settings_profile_mail_notice}</small>
-		</p>
-		
-		<p>
 			<label for="profile_sex">{$aLang.settings_profile_sex}:</label>
 			<select name="profile_sex" id="profile_sex">
 				<option value="man" {if $oUserCurrent->getProfileSex()=='man'}selected{/if}>{$aLang.settings_profile_sex_man}</option>
@@ -159,26 +153,7 @@
 			<a href="#" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</a>
 		{/if}
 	</fieldset>
-	
-	
-		
-	<fieldset>
-		<legend>Пароль</legend>
-		
-		<small class="note note-header">Оставьте поля пустыми если не хотите изменять пароль.</small>
-			
-		<p><label for="password_now">{$aLang.settings_profile_password_current}:</label>
-		<input type="password" name="password_now" id="password_now" value="" class="input-text input-width-200" /></p>
-		
-		<p><label for="password">{$aLang.settings_profile_password_new}:</label>
-		<input type="password" id="password" name="password" value="" class="input-text input-width-200" /></p>
-			
-		<p><label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label>
-		<input type="password" id="password_confirm" name="password_confirm" value="" class="input-text input-width-200" /></p>
-	</fieldset>
-	
-	
-	
+
 	
 	<script type="text/javascript">
 		jQuery(function($){

@@ -617,6 +617,11 @@ return array(
 	'settings_tuning_notice_new_friend' => 'On joining to a friends list',
 	'settings_tuning_submit' => 'Save configs',
 	'settings_tuning_submit_ok' => 'Configs saved',
+	'settings_account' => 'Settings account',
+	'settings_account_password' => 'Password',
+	'settings_account_password_notice' => 'Leave the fields blank if you do not want to change your password.',
+	'settings_account_submit' => 'Save account',
+	'settings_account_submit_ok' => 'Account saved',
 	/**
 	 * Configs menu
 	 */
@@ -624,6 +629,7 @@ return array(
 	'settings_menu_profile' => 'Profile',
 	'settings_menu_tuning' => 'Configs',
 	'settings_menu_invite' => 'Invites',
+	'settings_menu_account' => 'Account',
 	/**
 	 * Password restore
 	 */

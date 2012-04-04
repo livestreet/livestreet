@@ -72,6 +72,7 @@ class ActionSettings extends Action {
 		$this->AddEvent('profile','EventProfile');
 		$this->AddEvent('invite','EventInvite');
 		$this->AddEvent('tuning','EventTuning');
+		$this->AddEvent('account','EventAccount');
 	}
 
 
@@ -362,6 +363,71 @@ class ActionSettings extends Action {
 	}
 
 	/**
+	 * Форма смены пароля, емайла
+	 */
+	protected function EventAccount() {
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
+		$this->sMenuSubItemSelect='account';
+
+		/**
+		 * Если нажали кнопку "Сохранить"
+		 */
+		if (isPost('submit_account_edit')) {
+			$this->Security_ValidateSendForm();
+
+			$bError=false;
+			/**
+			 * Проверка мыла
+			 */
+			if (func_check(getRequest('mail'),'mail')) {
+				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
+					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
+					$bError=true;
+				} else {
+					$this->oUserCurrent->setMail(getRequest('mail'));
+				}
+			} else {
+				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
+				$bError=true;
+			}
+			/**
+			 * Проверка на смену пароля
+			 */
+			if (getRequest('password','')!='') {
+				if (func_check(getRequest('password'),'password',5)) {
+					if (getRequest('password')==getRequest('password_confirm')) {
+						if (func_encrypt(getRequest('password_now'))==$this->oUserCurrent->getPassword()) {
+							$this->oUserCurrent->setPassword(func_encrypt(getRequest('password')));
+						} else {
+							$bError=true;
+							$this->Message_AddError($this->Lang_Get('settings_profile_password_current_error'),$this->Lang_Get('error'));
+						}
+					} else {
+						$bError=true;
+						$this->Message_AddError($this->Lang_Get('settings_profile_password_confirm_error'),$this->Lang_Get('error'));
+					}
+				} else {
+					$bError=true;
+					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
+				}
+			}
+			/**
+			 * Ставим дату последнего изменения
+			 */
+			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			/**
+			 * Сохраняем изменения
+			 */
+			if (!$bError) {
+				if ($this->User_Update($this->oUserCurrent)) {
+					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+				} else {
+					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+				}
+			}
+		}
+	}
+	/**
 	 * Выводит форму для редактирования профиля и обрабатывает её
 	 *
 	 */
@@ -398,20 +464,6 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
 			} else {
 				$this->oUserCurrent->setProfileName(null);
-			}
-			/**
-			 * Проверка мыла
-			 */
-			if (func_check(getRequest('mail'),'mail')) {
-				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
-					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
-					$bError=true;
-				} else {
-					$this->oUserCurrent->setMail(getRequest('mail'));
-				}
-			} else {
-				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
-				$bError=true;
 			}
 			/**
 			 * Проверяем пол
@@ -460,27 +512,6 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileAbout(getRequest('profile_about'));
 			} else {
 				$this->oUserCurrent->setProfileAbout(null);
-			}
-			/**
-			 * Проверка на смену пароля
-			 */
-			if (getRequest('password','')!='') {
-				if (func_check(getRequest('password'),'password',5)) {
-					if (getRequest('password')==getRequest('password_confirm')) {
-						if (func_encrypt(getRequest('password_now'))==$this->oUserCurrent->getPassword()) {
-							$this->oUserCurrent->setPassword(func_encrypt(getRequest('password')));
-						} else {
-							$bError=true;
-							$this->Message_AddError($this->Lang_Get('settings_profile_password_current_error'),$this->Lang_Get('error'));
-						}
-					} else {
-						$bError=true;
-						$this->Message_AddError($this->Lang_Get('settings_profile_password_confirm_error'),$this->Lang_Get('error'));
-					}
-				} else {
-					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
-				}
 			}
 			/**
 			 * Ставим дату последнего изменения профиля

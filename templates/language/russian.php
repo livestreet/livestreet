@@ -617,6 +617,11 @@ return array(
 	'settings_tuning_notice_new_friend' => 'при добавлении вас в друзья',
 	'settings_tuning_submit' => 'сохранить настройки',
 	'settings_tuning_submit_ok' => 'Настройки успешно сохранены',
+	'settings_account' => 'Настройки акаунта',
+	'settings_account_password' => 'Пароль',
+	'settings_account_password_notice' => 'Оставьте поля пустыми если не хотите изменять пароль.',
+	'settings_account_submit' => 'Сохранить изменения',
+	'settings_account_submit_ok' => 'Аккаунт сохранен',
 	/**
 	 * Меню настроек
 	 */
@@ -624,6 +629,7 @@ return array(
 	'settings_menu_profile' => 'Профиль',
 	'settings_menu_tuning' => 'Тюнинг',
 	'settings_menu_invite' => 'Инвайты',
+	'settings_menu_account' => 'Аккаунт',
 	/**
 	 * Восстановление пароля
 	 */
