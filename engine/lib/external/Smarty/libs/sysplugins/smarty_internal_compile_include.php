@@ -132,7 +132,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
                 if (!isset($compiler->smarty->merged_templates_func[$tpl_name]) || $compiler->inheritance) {
                     $tpl = new $compiler->smarty->template_class ($tpl_name, $compiler->smarty, $compiler->template, $compiler->template->cache_id, $compiler->template->compile_id);
                     // save unique function name
-                    $compiler->smarty->merged_templates_func[$tpl_name]['func'] = $tpl->properties['unifunc'] = 'content_'.uniqid('', false);
+                    $compiler->smarty->merged_templates_func[$tpl_name]['func'] = $tpl->properties['unifunc'] = 'content_'. str_replace('.', '_', uniqid('', true));
                     // use current nocache hash for inlined code
                     $compiler->smarty->merged_templates_func[$tpl_name]['nocache_hash'] = $tpl->properties['nocache_hash'] = $compiler->template->properties['nocache_hash'];
                     if ($compiler->template->caching) {
@@ -155,7 +155,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
                         $compiled_code = preg_replace("/(<\?php \/\*%%SmartyHeaderCode:{$tpl->properties['nocache_hash']}%%\*\/(.+?)\/\*\/%%SmartyHeaderCode%%\*\/\?>\n)/s", '', $compiled_code);
                         if ($tpl->has_nocache_code) {
                             // replace nocache_hash
-                            $compiled_code = preg_replace("/{$tpl->properties['nocache_hash']}/", $compiler->template->properties['nocache_hash'], $compiled_code);
+                            $compiled_code = str_replace("{$tpl->properties['nocache_hash']}", $compiler->template->properties['nocache_hash'], $compiled_code);
                             $compiler->template->has_nocache_code = true;
                         }
                         $compiler->merged_templates[$tpl->properties['unifunc']] = $compiled_code;
