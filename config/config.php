@@ -434,19 +434,6 @@ $config['block']['rule_tag'] = array(
 	'action'  => array( 'tag' ),
 	'blocks'  => array( 'right' => array('tags','stream') ),
 );
-$config['block']['rule_talk_inbox'] = array(
-	'action'  => array( 'talk' => array('inbox','') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/filter.tpl', 'actions/ActionTalk/blacklist.tpl') ),
-);
-$config['block']['rule_talk_add'] = array(
-	'action'  => array( 'talk' => array('add') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/friends.tpl') ),
-);
-$config['block']['rule_talk_read'] = array(
-	'action'  => array( 'talk' => array('read') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/speakers.tpl') ),
-);
-
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
 	'blocks'  => array( 'right' => array('stream') ),
