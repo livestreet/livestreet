@@ -35,7 +35,46 @@ class ActionLogin extends Action {
 	protected function RegisterEvent() {		
 		$this->AddEvent('index','EventLogin');	
 		$this->AddEvent('exit','EventExit');	
-		$this->AddEvent('reminder','EventReminder');	
+		$this->AddEvent('reminder','EventReminder');
+
+		$this->AddEvent('ajax-login','EventAjaxLogin');
+	}
+
+	/**
+	 * Ajax авторизация
+	 */
+	protected function EventAjaxLogin() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if (!is_string(getRequest('login')) or !is_string(getRequest('password'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		/**
+		 * Проверяем есть ли такой юзер по логину
+		 */
+		if ((func_check(getRequest('login'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('login')))  or  $oUser=$this->User_GetUserByLogin(getRequest('login'))) {
+			/**
+			 * Сверяем хеши паролей и проверяем активен ли юзер
+			 */
+			if ($oUser->getPassword()==func_encrypt(getRequest('password')) and $oUser->getActivate()) {
+				$bRemember=getRequest('remember',false) ? true : false;
+				/**
+				 * Авторизуем
+				 */
+				$this->User_Authorization($oUser,$bRemember);
+				/**
+				 * Определяем редирект
+				 */
+				$sUrl=Config::Get('module.user.redirect_after_login');
+				if (getRequest('return-path')) {
+					$sUrl=getRequest('return-path');
+				}
+				$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
+				return;
+			}
+		}
+		$this->Message_AddErrorSingle($this->Lang_Get('user_login_bad'));
 	}
 	/**
 	 * Обрабатываем процесс залогинивания
@@ -47,37 +86,6 @@ class ActionLogin extends Action {
 		 */
 		if($this->User_GetUserCurrent()) {
 			Router::Location(Config::Get('path.root.web').'/');
-		}
-		/**
-		 * Если нажали кнопку "Войти"
-		 */
-		if (isPost('submit_login') and is_string(getRequest('login')) and is_string(getRequest('password'))) {
-			/**
-			 * Проверяем есть ли такой юзер по логину
-			 */
-			if ((func_check(getRequest('login'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('login')))  or  $oUser=$this->User_GetUserByLogin(getRequest('login'))) {	
-				/**
-				 * Сверяем хеши паролей и проверяем активен ли юзер
-				 */
-				if ($oUser->getPassword()==func_encrypt(getRequest('password')) and $oUser->getActivate()) {
-					$bRemember=getRequest('remember',false) ? true : false;
-					/**
-					 * Авторизуем
-					 */
-					$this->User_Authorization($oUser,$bRemember);	
-					/**
-					 * Перенаправляем на страницу с которой произошла авторизация
-					 */
-					if (isset($_SERVER['HTTP_REFERER'])) {
-						$sBackUrl=$_SERVER['HTTP_REFERER'];
-						if (strpos($sBackUrl,Router::GetPath('login'))===false) {
-							Router::Location($sBackUrl);
-						}
-					}					 
-					Router::Location(Config::Get('path.root.web').'/');
-				}
-			}			
-			$this->Viewer_Assign('bLoginError',true);
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('login'));
 	}

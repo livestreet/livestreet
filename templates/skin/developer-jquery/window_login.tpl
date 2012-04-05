@@ -1,5 +1,5 @@
 {if !$oUserCurrent}
-	<div class="modal modal-login" id="login_form">
+	<div class="modal modal-login" id="window_login_form">
 		<header>
 			<a href="#" class="close jqmClose"></a>
 		</header>
@@ -15,6 +15,12 @@
 					$('div.tab-content' + this.hash).show();
 					$(this).parent('li').addClass('active');
 				});
+
+				$('#popup-login-form').bind('submit',function(){
+					ls.user.login('popup-login-form');
+					return false;
+				});
+				$('#popup-login-form-submit').attr('disabled',false);
 			});
 		</script>
 		
@@ -27,20 +33,22 @@
 		
 		
 		<div id="tab_content_login" class="tab-content">
-			<form action="{router page='login'}" method="post">
+			<form action="{router page='login'}" method="post" id="popup-login-form">
 				{hook run='form_login_popup_begin'}
 
-				<p><label for="login">{$aLang.user_login}:</label>
-				<input type="text" name="login" id="login" class="input-text input-width-300"></p>
+				<p><label for="popup-login">{$aLang.user_login}:</label>
+				<input type="text" name="login" id="popup-login" class="input-text input-width-300"></p>
 				
-				<p><label for="password">{$aLang.user_password}:</label>
-				<input type="password" name="password" id="password" class="input-text input-width-300"></p>
+				<p><label for="popup-password">{$aLang.user_password}:</label>
+				<input type="password" name="password" id="popup-password" class="input-text input-width-300">
+				<small class="validate-error-hide validate-error-login"></small></p>
 				
 				<p><label><input type="checkbox" name="remember" class="input-checkbox" checked> {$aLang.user_login_remember}</label></p>
 
 				{hook run='form_login_popup_end'}
 
-				<button name="submit_login" class="button button-primary">{$aLang.user_login_submit}</button>
+				<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
+				<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 			</form>
 		</div>
 		

@@ -342,7 +342,6 @@ ls.user = (function ($) {
 				if (result.aErrors) {
 					$.each(result.aErrors,function(sField,aErrors){
 						if (aErrors[0]) {
-							console.log(form.find('.validate-error-field-'+sField));
 							form.find('.validate-error-field-'+sField).removeClass('validate-error-hide').addClass('validate-error-show').text(aErrors[0]);
 						}
 					});
@@ -355,6 +354,34 @@ ls.user = (function ($) {
 					}
 				}
 				ls.hook.run('ls_user_registration_after', [form, result]);
+			}
+		});
+	};
+
+	/**
+	 * Ajax авторизация пользователя с проверкой полей формы
+	 * @param form
+	 */
+	this.login = function(form) {
+		var url = aRouter.login+'ajax-login/';
+
+		'*loginBefore*'; '*/loginBefore*';
+		ls.ajaxSubmit(url, form, function(result) {
+			if (typeof(form)=='string') {
+				form=$('#'+form);
+			}
+			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
+
+			if (result.bStateError) {
+				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+			} else {
+				if (result.sMsg) {
+					ls.msg.notice(null,result.sMsg);
+				}
+				if (result.sUrlRedirect) {
+					window.location=result.sUrlRedirect;
+				}
+				ls.hook.run('ls_user_login_after', [form, result]);
 			}
 		});
 	};
