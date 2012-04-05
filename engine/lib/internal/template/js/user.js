@@ -288,20 +288,26 @@ ls.user = (function ($) {
 	 * Валидация полей формы при регистрации
 	 * @param aFields
 	 */
-	this.validateRegistrationFields = function(aFields) {
+	this.validateRegistrationFields = function(aFields,sForm) {
 		var url = aRouter.registration+'ajax-validate-fields/';
 		var params = {fields: aFields};
+		if (typeof(sForm)=='string') {
+			sForm=$('#'+sForm);
+		}
 
 		'*validateRegistrationFieldsBefore*'; '*/validateRegistrationFieldsBefore*';
 		ls.ajax(url, params, function(result) {
+			if (!sForm) {
+				sForm=$('body'); // поиск полей по всей странице
+			}
 			$.each(aFields,function(i,aField){
 				if (result.aErrors && result.aErrors[aField.field][0]) {
-					$('#validate-error-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
+					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
 				} else {
-					$('#validate-error-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
+					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
 				}
 			});
-			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, result]);
+			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, sForm, result]);
 		});
 	};
 
@@ -311,10 +317,10 @@ ls.user = (function ($) {
 	 * @param sValue
 	 * @param aParams
 	 */
-	this.validateRegistrationField = function(sField,sValue,aParams) {
+	this.validateRegistrationField = function(sField,sValue,sForm,aParams) {
 		var aFields=[];
 		aFields.push({field: sField, value: sValue, params: aParams || {}});
-		this.validateRegistrationFields(aFields);
+		this.validateRegistrationFields(aFields,sForm);
 	};
 
 	/**
@@ -336,7 +342,8 @@ ls.user = (function ($) {
 				if (result.aErrors) {
 					$.each(result.aErrors,function(sField,aErrors){
 						if (aErrors[0]) {
-							$('#validate-error-'+sField).removeClass('validate-error-hide').addClass('validate-error-show').text(aErrors[0]);
+							console.log(form.find('.validate-error-field-'+sField));
+							form.find('.validate-error-field-'+sField).removeClass('validate-error-hide').addClass('validate-error-show').text(aErrors[0]);
 						}
 					});
 				} else {

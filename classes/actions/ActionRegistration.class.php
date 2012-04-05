@@ -182,6 +182,9 @@ class ActionRegistration extends Action {
 					$this->DropInviteRegister();
 
 					$sUrl=Config::Get('module.user.redirect_after_registration');
+					if (getRequest('return-path')) {
+						$sUrl=getRequest('return-path');
+					}
 					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
 					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
 				}
