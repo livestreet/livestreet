@@ -12,7 +12,7 @@
 
 
 
-{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
+{if $oUserCurrent && $oUserCurrent->getId() != $oUserProfile->getId()}
 	<section class="block block-type-profile-note">
 			{if $oUserNote}
 				<script type="text/javascript">
@@ -48,6 +48,11 @@
 <section class="block block-type-profile-nav">
 	<ul class="nav nav-profile">
 		<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
+		
+		{if $oUserCurrent->getId() == $oUserProfile->getId()}
+			<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox} (0)</a></li>
+		{/if}
+		
 		<li {if $sAction=='profile' && $aParams[0]=='wall'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}wall/">{$aLang.user_menu_profile_wall}{if ($iCountWallUser)>0} ({$iCountWallUser}){/if}</a></li>
 		<li {if $sAction=='profile' && $aParams[0]=='created'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.user_menu_publication}{if ($iCountCreated)>0} ({$iCountCreated}){/if}</a></li>
 		<li {if $sAction=='profile' && $aParams[0]=='favourites'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites}{if ($iCountFavourite)>0} ({$iCountFavourite}){/if}</a></li>

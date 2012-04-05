@@ -1,3 +1,4 @@
+{assign var="sidebarPosition" value='left'}
 {include file='header.tpl' noShowSystemMessage=false}
 {include file='menu.talk.tpl'}
 
