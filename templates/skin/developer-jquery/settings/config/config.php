@@ -40,7 +40,7 @@ $config['head']['default']['css'] = array(
 );
 
 $config['block']['rule_profile'] = array(
-	'action'  => array( 'profile' ),
+	'action'  => array( 'profile','talk' ),
 	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
 );
 /*$config['block']['rule_talk_inbox'] = array(

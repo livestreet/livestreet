@@ -49,7 +49,7 @@
 	<ul class="nav nav-profile">
 		<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
 		
-		{if $oUserCurrent->getId() == $oUserProfile->getId()}
+		{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
 			<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox} (0)</a></li>
 		{/if}
 		
