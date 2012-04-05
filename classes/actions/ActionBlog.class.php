@@ -181,6 +181,9 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('blog_create_acl'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
+
+                $this->Hook_Run('blog_add_show');
+
 		/**
 		 * Запускаем проверку корректности ввода полей при добалении блога.
 		 * Дополнительно проверяем, что был отправлен POST запрос.
@@ -275,6 +278,8 @@ class ActionBlog extends Action {
         if (!$this->ACL_IsAllowEditBlog($oBlog, $this->oUserCurrent)) {
 			return parent::EventNotFound();
         }
+                
+                $this->Hook_Run('blog_edit_show',array('oBlog'=>$oBlog));
 
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_edit'));
