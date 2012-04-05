@@ -38,6 +38,7 @@ class ActionLogin extends Action {
 		$this->AddEvent('reminder','EventReminder');
 
 		$this->AddEvent('ajax-login','EventAjaxLogin');
+		$this->AddEvent('ajax-reminder','EventAjaxReminder');
 	}
 
 	/**
@@ -99,16 +100,36 @@ class ActionLogin extends Action {
 		$this->Viewer_Assign('bRefreshToHome',true);
 	}
 	/**
+	 * Ajax запрос на восстановление пароля
+	 */
+	protected function EventAjaxReminder() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {
+			/**
+			 * Формируем и отправляем ссылку на смену пароля
+			 */
+			$oReminder=Engine::GetEntity('User_Reminder');
+			$oReminder->setCode(func_generator(32));
+			$oReminder->setDateAdd(date("Y-m-d H:i:s"));
+			$oReminder->setDateExpire(date("Y-m-d H:i:s",time()+60*60*24*7));
+			$oReminder->setDateUsed(null);
+			$oReminder->setIsUsed(0);
+			$oReminder->setUserId($oUser->getId());
+			if ($this->User_AddReminder($oReminder)) {
+				$this->Message_AddNotice($this->Lang_Get('password_reminder_send_link'));
+				$this->Notify_SendReminderCode($oUser,$oReminder);
+				return;
+			}
+		}
+		$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));
+	}
+	/**
 	 * Обработка напоминания пароля
 	 *
 	 */
 	protected function EventReminder() {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('password_reminder'));
-		
-		if ($this->GetParam(0)=='send') {
-			$this->SetTemplateAction('reminder_send');
-			return ;
-		}
 		
 		/**
 		 * Проверка кода на восстановление пароля и генерация нового пароля
@@ -130,29 +151,6 @@ class ActionLogin extends Action {
 			}
 			$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_code'),$this->Lang_Get('error'));
 			return Router::Action('error');
-		}
-		/**
-		 * Обрабатываем запрос на смену пароля
-		 */
-		if (isPost('submit_reminder')) {
-			if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {	
-				/**
-				 * Формируем и отправляем ссылку на смену пароля
-				 */
-				$oReminder=Engine::GetEntity('User_Reminder');
-				$oReminder->setCode(func_generator(32));
-				$oReminder->setDateAdd(date("Y-m-d H:i:s"));
-				$oReminder->setDateExpire(date("Y-m-d H:i:s",time()+60*60*24*7));
-				$oReminder->setDateUsed(null);
-				$oReminder->setIsUsed(0);
-				$oReminder->setUserId($oUser->getId());
-				if ($this->User_AddReminder($oReminder)) {					
-					$this->Notify_SendReminderCode($oUser,$oReminder);
-					Router::Location(Router::GetPath('login').'reminder/send/');
-				}
-			} else {
-				$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));
-			}
 		}
 	}
 }

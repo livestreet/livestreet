@@ -387,6 +387,35 @@ ls.user = (function ($) {
 	};
 
 	/**
+	 * Ajax запрос на смену пароля
+	 * @param form
+	 */
+	this.reminder = function(form) {
+		var url = aRouter.login+'ajax-reminder/';
+
+		'*reminderBefore*'; '*/reminderBefore*';
+		ls.ajaxSubmit(url, form, function(result) {
+			if (typeof(form)=='string') {
+				form=$('#'+form);
+			}
+			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
+
+			if (result.bStateError) {
+				form.find('.validate-error-reminder').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+			} else {
+				form.find('input').val('');
+				if (result.sMsg) {
+					ls.msg.notice(null,result.sMsg);
+				}
+				if (result.sUrlRedirect) {
+					window.location=result.sUrlRedirect;
+				}
+				ls.hook.run('ls_user_reminder_after', [form, result]);
+			}
+		});
+	};
+
+	/**
 	 * Поиск пользователей
 	 */
 	this.searchUsers = function(form) {

@@ -113,11 +113,21 @@
 		
 		
 		<div id="tab_content_recover" class="tab-content">
-			<form action="{router page='login'}reminder/" method="POST">
-				<p><label for="mail">{$aLang.password_reminder_email}</label>
-				<input type="text" name="mail" id="name" class="input-text input-width-300" /></p>	
+			<script type="text/javascript">
+				jQuery(document).ready(function($){
+					$('#popup-reminder-form').bind('submit',function(){
+						ls.user.reminder('popup-reminder-form');
+						return false;
+					});
+					$('#popup-reminder-form-submit').attr('disabled',false);
+				});
+			</script>
+			<form action="{router page='login'}reminder/" method="POST" id="popup-reminder-form">
+				<p><label for="popup-reminder-mail">{$aLang.password_reminder_email}</label>
+				<input type="text" name="mail" id="popup-reminder-mail" class="input-text input-width-300" />
+				<small class="validate-error-hide validate-error-reminder"></small></p>
 
-				<button name="submit_reminder" class="button button-primary">{$aLang.password_reminder_submit}</button>
+				<button name="submit_reminder" class="button button-primary" id="popup-reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
 			</form>
 		</div>
 	</div>
