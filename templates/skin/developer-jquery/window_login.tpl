@@ -10,10 +10,12 @@
 				$('div.tab-content:not(:first)').hide();
 			
 				$('ul.nav-tabs a').click(function(){
-					$('div.tab-content').hide();
-					$('ul.nav-tabs li').removeClass('active');
-					$('div.tab-content' + this.hash).show();
-					$(this).parent('li').addClass('active');
+					if (this.hash) {
+						$('div.tab-content').hide();
+						$('ul.nav-tabs li').removeClass('active');
+						$('div.tab-content' + this.hash).show();
+						$(this).parent('li').addClass('active');
+					}
 				});
 
 				$('#popup-login-form').bind('submit',function(){
@@ -27,7 +29,11 @@
 		
 		<ul class="nav nav-pills nav-tabs">
 		<li class="active"><a href="#tab_content_login">{$aLang.user_authorization}</a></li>
-			<li><a href="#tab_content_register">{$aLang.registration}</a></li>
+			{if !$oConfig->GetValue('general.reg.invite')}
+				<li><a href="#tab_content_register">{$aLang.registration}</a></li>
+			{else}
+				<li><a href="{router page='registration'}">{$aLang.registration}</a></li>
+			{/if}
 			<li><a href="#tab_content_recover">{$aLang.password_reminder}</a></li>
 		</ul>
 		
@@ -51,8 +57,9 @@
 				<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 			</form>
 		</div>
-		
-		
+
+
+		{if !$oConfig->GetValue('general.reg.invite')}
 		<div id="tab_content_register" class="tab-content">
 			<script type="text/javascript">
 				jQuery(document).ready(function($){
@@ -110,6 +117,7 @@
 				<button name="submit_register" class="button button-primary" id="popup-registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 			</form>
 		</div>
+		{/if}
 		
 		
 		<div id="tab_content_recover" class="tab-content">
