@@ -94,6 +94,9 @@
 .search .input-submit { border: none; width: 16px; height: 16px; position: absolute; top: 6px; right: 5px; opacity: .7; }
 .search .input-submit:hover { opacity: 1; }
 
+.search.search-item { margin-bottom: 15px; width: 100%; }
+.search.search-item .input-text { width: 100%; padding-right: 5px; }
+
 
 
 /* Облако тегов 
@@ -110,6 +113,11 @@
 .tag-cloud li .tag-size-8 	{ font-size: 20px; }
 .tag-cloud li .tag-size-9 	{ font-size: 22px; }
 .tag-cloud li .tag-size-10 	{ font-size: 22px; }
+
+
+/* Валидатор 
+---------------------------------------------------------------*/
+.validate-error-show { color: #f00; font-weight: bold; font-size: 12px; }
 
 
 

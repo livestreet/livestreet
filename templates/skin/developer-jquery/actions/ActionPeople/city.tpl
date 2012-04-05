@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='people'}
+{include file='header.tpl'}
 
 <h2 class="page-header">{$aLang.user_list}: <span>{$oCity->getName()|escape:'html'}</span></h2>
 

@@ -84,6 +84,15 @@
 
 <body class="{$body_classes}">
 	{hook run='body_begin'}
+	
+	
+	{if $oUserCurrent}
+		{include file='window_write.tpl'}
+		{include file='window_favourite_form_tags.tpl'}
+	{else}
+		{include file='window_login.tpl'}
+	{/if}
+	
 
 	<div id="container">
 		{include file='header_top.tpl'}
@@ -95,8 +104,6 @@
 			{/if}
 		
 			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
-				{include file='window_favourite_form_tags.tpl'}
-				{include file='window_login.tpl'}
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				

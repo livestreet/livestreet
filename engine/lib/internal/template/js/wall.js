@@ -154,7 +154,7 @@ ls.wall = (function ($) {
 	};
 
 	this.toggleReply = function(iId) {
-		$('#wall-item-' + iId + ' .wall-submit-reply').toggle();
+		$('#wall-item-' + iId + ' .wall-submit-reply').addClass('active').toggle().children('textarea').focus();
 		return false;
 	};
 
@@ -178,7 +178,7 @@ jQuery(document).ready(function($){
 		$('.wall-submit-reply.active').removeClass('active');
 	});
 	
-	$('body').on("click", ".wall-submit-reply", function(e) { 
+	$('body').on("click", ".wall-submit-reply, .link-dotted", function(e) { 
 		e.stopPropagation();
 	});
 });

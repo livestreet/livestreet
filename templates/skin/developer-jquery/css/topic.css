@@ -31,7 +31,7 @@
 .topic .topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
 
 /* Poll */
-.topic .poll { margin-bottom: 15px; background: #f7f7f7; padding: 15px; }
+.topic .poll { margin-bottom: 15px; background: #fafafa; padding: 15px; }
 
 .topic .poll .poll-vote { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
 .topic .poll .poll-vote li { margin-bottom: 10px; }
@@ -39,7 +39,7 @@
 .topic .poll .poll-vote li label { display: inline; }
 .topic .poll .poll-vote li input { position: relative; top: 1px; margin-right: 2px; }
 
-.topic .poll .poll-result { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.topic .poll .poll-result { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
 .topic .poll .poll-result li { margin-bottom: 20px; }
 .topic .poll .poll-result li dl { overflow: hidden; zoom: 1; }
 .topic .poll .poll-result li dl dt { float: left; width: 50px; text-align: right; padding-right: 15px; }

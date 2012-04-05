@@ -13,6 +13,7 @@ jQuery(document).ready(function($){
 	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
+	$('#modal_write').jqm({trigger: '#modal_write_show'});
 	
 	// Datepicker
 	 /**

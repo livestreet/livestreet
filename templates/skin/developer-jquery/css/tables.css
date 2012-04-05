@@ -26,3 +26,6 @@
 .table.table-profile-info { margin-bottom: 40px; }
 .table.table-profile-info td { vertical-align: top; }
 .table.table-profile-info .cell-label { width: 30%; color: #777; }
+
+.table.table-users .cell-name { font-weight: bold; }
+.table.table-users .cell-name img { vertical-align: middle; margin-right: 5px; }

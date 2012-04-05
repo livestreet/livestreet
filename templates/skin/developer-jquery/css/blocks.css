@@ -28,3 +28,9 @@
 .block.block-type-profile-note .actions 	{ margin-bottom: 0; }
 
 .block.block-type-profile-nav 				{ padding: 0; }
+
+
+/* Block Type - Topic Favourite */
+.block.block-type-favourite-topic { background: none; }
+.block.block-type-favourite-topic .block-header { background: none; border: none; padding: 0 0 10px; }
+.block.block-type-favourite-topic .block-content { display: none; background: #fafafa; }

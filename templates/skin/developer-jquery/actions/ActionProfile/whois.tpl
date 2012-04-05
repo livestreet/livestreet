@@ -218,18 +218,11 @@
 </table>
 
 
-<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
 
 {if $aUsersFriend}
-	<table class="table table-profile-info">
-		<tr>
-			<td>
-				{foreach from=$aUsersFriend item=oUser}
-					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-				{/foreach}
-			</td>
-		</tr>
-	</table>
+	<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
+	
+	{include file='user_list.tpl' aUsersList=$aUsersFriend}
 {/if}
 
 

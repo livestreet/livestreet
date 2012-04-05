@@ -1,53 +1,54 @@
-	<table class="table table-users">
-		{if $bUsersUseOrder}
-			<thead>
+<table class="table table-users">
+	{if $bUsersUseOrder}
+		<thead>
 			<tr>
-				<th class="table-users-cell-name"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user}</a></th>
+				<th class="cell-name"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user}</a></th>
 				<th>{$aLang.user_date_last}</th>
 				<th><a href="{$sUsersRootPage}?order=user_date_register&order_way={if $sUsersOrder=='user_date_register'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user_date_registration}</a></th>
-				<th class="table-users-cell-skill"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user_skill}</a></th>
-				<th class="table-users-cell-rating"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user_rating}</a></th>
+				<th class="cell-skill"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user_skill}</a></th>
+				<th class="cell-rating"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}">{$aLang.user_rating}</a></th>
 			</tr>
-			</thead>
-		{else}
-			<thead>
+		</thead>
+	{else}
+		<thead>
 			<tr>
-				<th class="table-users-cell-name">{$aLang.user}</th>
+				<th class="cell-name">{$aLang.user}</th>
 				<th>{$aLang.user_date_last}</th>
 				<th>{$aLang.user_date_registration}</th>
-				<th class="table-users-cell-skill">{$aLang.user_skill}</th>
-				<th class="table-users-cell-rating">{$aLang.user_rating}</th>
+				<th class="cell-skill">{$aLang.user_skill}</th>
+				<th class="cell-rating">{$aLang.user_rating}</th>
 			</tr>
-			</thead>
-		{/if}
+		</thead>
+	{/if}
 
-		<tbody>
-			{if $aUsersList}
-				{foreach from=$aUsersList item=oUserList}
-					{assign var="oSession" value=$oUserList->getSession()}
-					<tr>
-						<td class="table-users-cell-name"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a></td>
-						<td>{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
-						<td>{date_format date=$oUserList->getDateRegister()}</td>
-						<td class="table-users-cell-skill">{$oUserList->getSkill()}</td>
-						<td class="table-users-cell-rating"><strong>{$oUserList->getRating()}</strong></td>
-					</tr>
-				{/foreach}
-			{else}
+	<tbody>
+		{if $aUsersList}
+			{foreach from=$aUsersList item=oUserList}
+				{assign var="oSession" value=$oUserList->getSession()}
 				<tr>
-					<td colspan="5">
-						{if $sUserListEmpty}
-							{$sUserListEmpty}
-						{else}
-							{$aLang.user_empty}
-						{/if}
+					<td class="cell-name">
+						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+						<a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a>
 					</td>
+					<td>{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
+					<td>{date_format date=$oUserList->getDateRegister()}</td>
+					<td class="cell-skill">{$oUserList->getSkill()}</td>
+					<td class="cell-rating"><strong>{$oUserList->getRating()}</strong></td>
 				</tr>
-			{/if}
-		</tbody>
-	</table>
-
-
+			{/foreach}
+		{else}
+			<tr>
+				<td colspan="5">
+					{if $sUserListEmpty}
+						{$sUserListEmpty}
+					{else}
+						{$aLang.user_empty}
+					{/if}
+				</td>
+			</tr>
+		{/if}
+	</tbody>
+</table>
 
 
 {include file='paging.tpl' aPaging="$aPaging"}

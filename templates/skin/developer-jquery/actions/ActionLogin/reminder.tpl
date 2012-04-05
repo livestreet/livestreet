@@ -9,7 +9,7 @@
 	<p><label for="mail">{$aLang.password_reminder_email}</label>
 	<input type="text" name="mail" id="name" class="input-200" /></p>	
 
-	<input type="submit" name="submit_reminder" value="{$aLang.password_reminder_submit}" />
+	<button name="submit_reminder" class="button button-primary">{$aLang.password_reminder_submit}</button>
 </form>
 
 
