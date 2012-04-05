@@ -24,7 +24,7 @@ class BlockTags extends Block {
 		/**
 		 * Получаем список тегов
 		 */
-		$aTags=$this->oEngine->Topic_GetOpenTopicTags(70);
+		$aTags=$this->oEngine->Topic_GetOpenTopicTags(Config::Get('block.tags.tags_count'));
 		/**
 		 * Расчитываем логарифмическое облако тегов
 		 */
