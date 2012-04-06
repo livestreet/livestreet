@@ -181,5 +181,16 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 		}
 		return null;
 	}
+	/**
+	 * Устанавливает значение поля текущей сущности
+	 *
+	 * @param $sField
+	 * @return mixed|null
+	 */
+	protected function setValueOfCurrentEntity($sField,$sValue) {
+		if ($this->oEntityCurrent) {
+			call_user_func_array(array($this->oEntityCurrent,'set'.func_camelize($sField)),array($sValue));
+		}
+	}
 }
 ?>

@@ -941,6 +941,8 @@ return array(
 	'validate_compare_invalid_operator' => 'У поля %%field%% неверный оператор сравнения %%operator%%',
 	'validate_regexp_not_valid' => 'Поля %%field%% неверное',
 	'validate_regexp_invalid_pattern' => 'У поля %%field%% неверное регулярное выражение',
+	'validate_tags_count_more' => 'Поле %%field%% содержит слишком много тегов (максимально допустимо %%count%%)',
+	'validate_tags_empty' => 'Поле %%field%% не содержит тегов, либо содержит неверные теги (размер тега допустим от %%min%% до %%max%% символов)',
 	/**
 	 * Подписка
 	 */

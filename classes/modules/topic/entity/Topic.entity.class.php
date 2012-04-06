@@ -15,14 +15,61 @@
 ---------------------------------------------------------
 */
 
-class ModuleTopic_EntityTopic extends Entity 
-{    
+class ModuleTopic_EntityTopic extends Entity {
+
+	/**
+	 * Определяем правила валидации
+	 */
+	public function Init() {
+		parent::Init();
+		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'),'on'=>array('topic'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('topic'));
+		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'on'=>array('topic'));
+		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic'));
+		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic'));
+	}
+
 	/**
 	 * массив объектов(не всегда) для дополнительных типов топиков(линки, опросы, подкасты и т.п.)
 	 *
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected $aExtra=null;
+
+	/**
+	 * Проверка топика на уникальность
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool | string
+	 */
+	public function ValidateTopicUnique($sValue,$aParams) {
+		$this->setTextHash(md5($this->getType().$sValue.$this->getTitle()));
+		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->getUserId(),$this->getTextHash())) {
+			if ($iId=$this->getTopicId() and $oTopicEquivalent->getId()==$iId) { // хак, запрашиваем не getId(), а getTopicId() - вернет null если это новый топик без ID
+				return true;
+			}
+			return $this->Lang_Get('topic_create_text_error_unique');
+		}
+		return true;
+	}
+	/**
+	 * Валидация ID блога
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool | string
+	 */
+	public function ValidateBlogId($sValue,$aParams) {
+		if ($sValue==0) {
+			return true; // персональный блог
+		}
+		if ($this->Blog_GetBlogById((string)$sValue)) {
+			return true;
+		}
+		return $this->Lang_Get('topic_create_blog_error_unknown');
+	}
+
 	
     public function getId() {
         return $this->_aData['topic_id'];

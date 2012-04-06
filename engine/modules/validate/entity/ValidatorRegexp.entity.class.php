@@ -57,6 +57,7 @@ class ModuleValidate_EntityValidatorRegexp extends ModuleValidate_EntityValidato
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
+		$sValue=(string)$sValue;
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}
