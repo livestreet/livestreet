@@ -28,15 +28,15 @@ jQuery(document).ready(function($){
 	
 	
 	// Поиск по тегам
-	$('#tag_search_form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($('#tag_search').val())+'/';
+	$('.js-tag-search-form').submit(function(){
+		window.location = aRouter['tag']+encodeURIComponent($(this).find('.js-tag-search').val())+'/';
 		return false;
 	});
 	
 	
 	// Автокомплит
 	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
-	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
+	ls.autocomplete.add($(".autocomplete-tags"), aRouter['ajax']+'autocompleter/tag/', false);
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', true);
 
 	
@@ -84,6 +84,11 @@ jQuery(function($){
 
 	$('[id^="block_favourite_topic_tags_item"]').click(function(){
 		ls.blocks.switchTab(this, 'block_favourite_topic_tags');
+		return false;
+	});
+
+	$('[id^="block_tags_item"]').click(function(){
+		ls.blocks.switchTab(this, 'block_tags');
 		return false;
 	});
 });
