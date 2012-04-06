@@ -434,5 +434,30 @@ ls.user = (function ($) {
 		});
 	};
 
+	/**
+	 * Поиск пользователей по началу логина
+	 */
+	this.searchUsersByPrefix = function(sPrefix,obj) {
+		obj=$(obj);
+		var url = aRouter['people']+'ajax-search/';
+		var params = {user_login: sPrefix, isPrefix: 1};
+
+		'*searchUsersByPrefixBefore*'; '*/searchUsersByPrefixBefore*';
+		ls.ajax(url, params, function(result){
+			$('#user-prefix-filter').find('.active').removeClass('active');
+			obj.parent().addClass('active');
+			if (result.bStateError) {
+				$('#users-list-search').hide();
+				$('#users-list-original').show();
+			} else {
+				$('#users-list-original').hide();
+				$('#users-list-search').html(result.sText).show();
+				ls.hook.run('ls_user_search_users_by_prefix_after',[sPrefix, obj, result]);
+			}
+		});
+		return false;
+	};
+
+
 	return this;
 }).call(ls.user || {},jQuery);

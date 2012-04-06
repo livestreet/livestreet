@@ -896,5 +896,24 @@ class ModuleUser_MapperUser extends Mapper {
 		}
 		return $aResult;
 	}
+
+
+	public function GetGroupPrefixUser($iPrefixLength=1) {
+		$sql = "
+			SELECT SUBSTRING(`user_login` FROM 1 FOR ?d ) as prefix
+			FROM
+				".Config::Get('db.table.user')."
+			WHERE
+				user_activate = 1
+			GROUP BY prefix
+			ORDER BY prefix ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$iPrefixLength)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=mb_strtoupper($aRow['prefix'],'utf-8');
+			}
+		}
+		return $aReturn;
+	}
 }
 ?>

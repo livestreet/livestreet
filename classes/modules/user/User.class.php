@@ -1396,5 +1396,19 @@ class ModuleUser extends Module {
 		}
 		return false;
 	}
+
+	/**
+	 * Возвращает список префиксов логинов пользователей (для алфавитного указателя)
+	 *
+	 * @param int $iPrefixLength
+	 * @return array
+	 */
+	public function GetGroupPrefixUser($iPrefixLength=1) {
+		if (false === ($data = $this->Cache_Get("group_prefix_user_{$iPrefixLength}"))) {
+			$data = $this->oMapper->GetGroupPrefixUser($iPrefixLength);
+			$this->Cache_Set($data, "group_prefix_user_{$iPrefixLength}", array("user_new"), 60*60*24*1);
+		}
+		return $data;
+	}
 }
 ?>
