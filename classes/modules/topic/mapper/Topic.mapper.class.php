@@ -321,7 +321,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return $aReturnSort;
 	}
 
-	public function GetOpenTopicTags($iLimit) {
+	public function GetOpenTopicTags($iLimit,$iUserId=null) {
 		$sql = "
 			SELECT 
 				tt.topic_tag_text,
@@ -329,7 +329,10 @@ class ModuleTopic_MapperTopic extends Mapper {
 			FROM 
 				".Config::Get('db.table.topic_tag')." as tt,
 				".Config::Get('db.table.blog')." as b
-			WHERE 
+			WHERE
+				1 = 1
+				{ AND tt.user_id = ?d }
+				AND
 				tt.blog_id = b.blog_id
 				AND
 				b.blog_type IN ('open','personal')
@@ -341,7 +344,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				";	
 		$aReturn=array();
 		$aReturnSort=array();
-		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+		if ($aRows=$this->oDb->select($sql,is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {				
 				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
 			}

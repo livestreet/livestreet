@@ -49,6 +49,7 @@ class ModuleValidate_EntityValidatorDate extends ModuleValidate_EntityValidator 
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
+		$sValue=(string)$sValue;
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}

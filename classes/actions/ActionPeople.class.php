@@ -61,8 +61,15 @@ class ActionPeople extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return;
 		}
+		if (getRequest('isPrefix')) {
+			$sTitle.='%';
+		} elseif (getRequest('isPostfix')) {
+			$sTitle='%'.$sTitle;
+		} else {
+			$sTitle='%'.$sTitle.'%';
+		}
 
-		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>"%{$sTitle}%"),array('login'=>'asc'),1,100);
+		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('login'=>'asc'),1,100);
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);
@@ -215,10 +222,15 @@ class ActionPeople extends Action {
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
 		/**
+		 * Получаем алфавитный указатель на список пользователей
+		 */
+		$aPrefixUser=$this->User_GetGroupPrefixUser(1);
+		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aUsersRating',$aUsers);
+		$this->Viewer_Assign('aPrefixUser',$aPrefixUser);
 		$this->Viewer_Assign("sUsersOrder",htmlspecialchars($sOrder));
 		$this->Viewer_Assign("sUsersOrderWay",htmlspecialchars($sOrderWay));
 		$this->Viewer_Assign("sUsersOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));

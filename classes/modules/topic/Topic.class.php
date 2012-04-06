@@ -1031,10 +1031,10 @@ class ModuleTopic extends Module {
 	 * @param  int $iLimit
 	 * @return array
 	 */
-	public function GetOpenTopicTags($iLimit) {
-		if (false === ($data = $this->Cache_Get("tag_{$iLimit}_open"))) {			
-			$data = $this->oMapperTopic->GetOpenTopicTags($iLimit);
-			$this->Cache_Set($data, "tag_{$iLimit}_open", array('topic_update','topic_new'), 60*60*24*3);
+	public function GetOpenTopicTags($iLimit,$iUserId=null) {
+		if (false === ($data = $this->Cache_Get("tag_{$iLimit}_{$iUserId}_open"))) {
+			$data = $this->oMapperTopic->GetOpenTopicTags($iLimit,$iUserId);
+			$this->Cache_Set($data, "tag_{$iLimit}_{$iUserId}_open", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		return $data;
 	}	

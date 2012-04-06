@@ -9,7 +9,7 @@
 			<li id="block_favourite_topic_tags_item_all" class="active"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
 			<li id="block_favourite_topic_tags_item_user"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
 
-			{hook run='block_stream_nav_item'}
+			{hook run='block_favourite_topic_tags_nav_item'}
 		</ul>
 		
 		

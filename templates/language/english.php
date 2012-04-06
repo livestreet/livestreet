@@ -941,6 +941,8 @@ return array(
 	'validate_compare_invalid_operator' => 'Field %%field%% invalid operator %%operator%%',
 	'validate_regexp_not_valid' => 'Field %%field%% is not valid',
 	'validate_regexp_invalid_pattern' => 'Field %%field%% invalid regular expression',
+	'validate_tags_count_more' => 'Field %%field%% contains too many tags (maximum is %%count%%)',
+	'validate_tags_empty' => 'Field %%field%% does not contain a tag, or has the wrong tag (size tag from %%min%% to %%max%% characters)',
 	/**
 	 * Подписка
 	 */

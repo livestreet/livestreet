@@ -35,6 +35,22 @@ class BlockTags extends Block {
 		 	*/
 			$this->Viewer_Assign("aTags",$aTags);
 		}
+		/**
+		 * Теги пользователя
+		 */
+		if ($oUserCurrent=$this->User_getUserCurrent()) {
+			$aTags=$this->oEngine->Topic_GetOpenTopicTags(70,$oUserCurrent->getId());
+			/**
+			 * Расчитываем логарифмическое облако тегов
+			 */
+			if ($aTags) {
+				$this->Tools_MakeCloud($aTags);
+				/**
+				 * Устанавливаем шаблон вывода
+				 */
+				$this->Viewer_Assign("aTagsUser",$aTags);
+			}
+		}
 	}
 }
 ?>
