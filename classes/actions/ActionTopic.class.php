@@ -262,7 +262,7 @@ class ActionTopic extends Action {
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
-		$iBlogId=getRequest('blog_id');
+		$iBlogId=$oTopic->getBlogId();
 		if ($iBlogId==0) {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
 		} else {

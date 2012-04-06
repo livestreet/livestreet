@@ -214,17 +214,31 @@ class ActionLink extends Action {
 		 */		
 		if (!isPost('submit_topic_publish') and !isPost('submit_topic_save')) {
 			return false;
-		}	
+		}
+		$oTopic=Engine::GetEntity('Topic');
+		$oTopic->_setValidateScenario('link');
+		/**
+		 * Заполняем поля для валидации
+		 */
+		$oTopic->setBlogId(getRequest('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setUserId($this->oUserCurrent->getId());
+		$oTopic->setType('link');
+		$oTopic->setLinkUrl(getRequest('topic_link_url'));
+		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
 		 */
-		if (!$this->checkTopicFields()) {
+		if (!$this->checkTopicFields($oTopic)) {
 			return false;	
 		}		
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
-		$iBlogId=getRequest('blog_id');	
+		$iBlogId=$oTopic->getBlogId();
 		if ($iBlogId==0) {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
 		} else {
@@ -254,27 +268,10 @@ class ActionLink extends Action {
 		/**
 		 * Теперь можно смело добавлять топик к блогу
 		 */
-		$oTopic=Engine::GetEntity('Topic');
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setUserId($this->oUserCurrent->getId());
-		$oTopic->setType('link');
-		$oTopic->setTitle(getRequest('topic_title'));								
-		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setLinkUrl(getRequest('topic_link_url'));		
-		$oTopic->setTags(getRequest('topic_tags'));
-		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
-		$oTopic->setUserIp(func_getIp());
+		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
 		$oTopic->setCutText(null);
-		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getLinkUrl()));
-		/**
-		 * Проверяем топик на уникальность
-		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
-			return false;			
-		}
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -342,17 +339,31 @@ class ActionLink extends Action {
 	 * @param unknown_type $oTopic
 	 * @return unknown
 	 */
-	protected function SubmitEdit($oTopic) {				
+	protected function SubmitEdit($oTopic) {
+		$oTopic->_setValidateScenario('link');
+		/**
+		 * Сохраняем старое значение идентификатора блога
+		 */
+		$sBlogIdOld = $oTopic->getBlogId();
+		/**
+		 * Заполняем поля для валидации
+		 */
+		$oTopic->setBlogId(getRequest('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setLinkUrl(getRequest('topic_link_url'));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
 		 */
-		if (!$this->checkTopicFields()) {
+		if (!$this->checkTopicFields($oTopic)) {
 			return false;	
 		}
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
-		$iBlogId=getRequest('blog_id');	
+		$iBlogId=$oTopic->getBlogId();
 		if ($iBlogId==0) {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($oTopic->getUserId());
 		} else {
@@ -380,30 +391,11 @@ class ActionLink extends Action {
 			return;
 		}
 		/**
-		 * Сохраняем старое значение идентификатора блога
-		 */
-		$sBlogIdOld = $oTopic->getBlogId();
-		/**
 		 * Теперь можно смело редактировать топик
 		 */		
-		$oTopic->setBlogId($oBlog->getId());		
-		$oTopic->setTitle(getRequest('topic_title'));			
-		$oTopic->setText(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextShort(htmlspecialchars(getRequest('topic_text')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setLinkUrl(getRequest('topic_link_url'));
-		$oTopic->setTags(getRequest('topic_tags'));		
-		$oTopic->setUserIp(func_getIp());
-		$oTopic->setTextHash(md5($oTopic->getType().$oTopic->getText().$oTopic->getLinkUrl()));
-		/**
-		 * Проверяем топик на уникальность
-		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),$oTopic->getTextHash())) {			
-			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
-				return false;
-			}			
-		}
+		$oTopic->setBlogId($oBlog->getId());
+		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
@@ -479,67 +471,19 @@ class ActionLink extends Action {
 	 *
 	 * @return unknown
 	 */
-	protected function checkTopicFields() {
-		$bOk=true;
-		/**
-		 * Проверяем есть ли блог в который постим
-		 */
-		if (!func_check(getRequest('blog_id',null,'post'),'id')) {
-			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли заголовок топика
-		 */
-		if (!func_check(getRequest('topic_title',null,'post'),'text',2,200)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_title_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли ссылка
-		 */
-		if (!func_check(getRequest('topic_link_url',null,'post'),'text',3,200)) {
-			$this->Message_AddError($this->Lang_Get('topic_link_create_url_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли описание топика-ссылки
-		 */
-		if (!func_check(getRequest('topic_text',null,'post'),'text',10,500)) {
-			$this->Message_AddError($this->Lang_Get('topic_link_create_text_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли теги(метки)
-		 */
-		if (!func_check(getRequest('topic_tags',null,'post'),'text',2,500)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * проверяем ввод тегов 
-		 */
-		$sTags=getRequest('topic_tags');
-		$aTags=explode(',',rtrim($sTags,"\r\n\t\0\x0B ."));
-		$aTagsNew=array();
-		foreach ($aTags as $sTag) {
-			$sTag=trim($sTag);
-			if (func_check($sTag,'text',2,50)) {
-				$aTagsNew[]=$sTag;
-			}
-		}
-		if (!count($aTagsNew)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_tags_error_bad'),$this->Lang_Get('error'));
-			$bOk=false;
-		} else {
-			$_REQUEST['topic_tags']=join(',',$aTagsNew);
-		}
+	protected function checkTopicFields($oTopic) {
+		$this->Security_ValidateSendForm();
 
+		$bOk=true;
+		if (!$oTopic->_Validate()) {
+			$this->Message_AddError($oTopic->_getValidateError(),$this->Lang_Get('error'));
+			$bOk=false;
+		}
 		/**
 		 * Выполнение хуков
 		 */
-		$this->Hook_Run('check_link_fields', array('bOk'=>&$bOk));		
-		
+		$this->Hook_Run('check_link_fields', array('bOk'=>&$bOk));
+
 		return $bOk;
 	}
 	/**

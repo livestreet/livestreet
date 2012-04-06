@@ -22,11 +22,13 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function Init() {
 		parent::Init();
-		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'),'on'=>array('topic'));
+		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'),'on'=>array('topic','link'));
 		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('topic'));
-		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'on'=>array('topic'));
-		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic'));
-		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>500,'min'=>10,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('link'));
+		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'on'=>array('topic','link'));
+		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic','link'));
+		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic','link'));
+		$this->aValidateRules[]=array('link_url','url','allowEmpty'=>false,'label'=>$this->Lang_Get('topic_link_create_url'),'on'=>array('link'));
 	}
 
 	/**
@@ -233,7 +235,7 @@ class ModuleTopic_EntityTopic extends Entity {
     	if ($this->getExtraValue('url')) {
     		if ($bShort) {
     			$sUrl=htmlspecialchars($this->getExtraValue('url'));
-    			if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
+    			if (preg_match("/^https?:\/\/(.*)$/i",$sUrl,$aMatch)) {
     				$sUrl=$aMatch[1];
     			}
     			$sUrlShort=substr($sUrl,0,30);
@@ -243,10 +245,10 @@ class ModuleTopic_EntityTopic extends Entity {
     			return $sUrl;
     		}
     		$sUrl=$this->getExtraValue('url');
-    		if (preg_match("/^http:\/\/(.*)$/i",$sUrl,$aMatch)) {
-    			$sUrl=$aMatch[1];
+    		if (!preg_match("/^https?:\/\/(.*)$/i",$sUrl,$aMatch)) {
+    			$sUrl='http://'.$sUrl;
     		}
-    		return 'http://'.$sUrl;
+    		return $sUrl;
     	}
     	return null;
     }    
