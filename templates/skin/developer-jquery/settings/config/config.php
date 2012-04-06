@@ -43,25 +43,12 @@ $config['block']['rule_profile'] = array(
 	'action'  => array( 'profile','talk' ),
 	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
 );
-/*$config['block']['rule_talk_inbox'] = array(
-	'action'  => array( 'talk' => array('inbox','') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/filter.tpl') ),
-);
-$config['block']['rule_talk_add'] = array(
-	'action'  => array( 'talk' => array('add') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/friends.tpl') ),
-);
-$config['block']['rule_talk_read'] = array(
-	'action'  => array( 'talk' => array('read') ),
-	'blocks'  => array( 'right' => array('actions/ActionTalk/speakers.tpl') ),
-);
-*/
+
 $config['view']['img_resize_width'] = 570;
 $config['profile']['photo_resize_width'] = 290;
 
 $config['module']['blog']['avatar_size'] = array(100,64,48,24,0);
 $config['module']['user']['avatar_size'] = array(100,64,48,24,0);
-
 
 return $config;
 ?>

@@ -19,9 +19,10 @@
 .profile .vote.voted .vote-down 				{ display: block; }
 .profile .vote.vote-count-positive .vote-count 	{ color: #5055B2; }
 
-.profile .strength 		{ position: absolute; top: 0; right: 0; }
+.profile .strength 					{ position: absolute; top: 0; right: 0; }
 
-.profile .user-login 	{ font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 5px; }
-.profile .user-name 	{ color: #777; }
+.profile .user-login 				{ font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
+.profile .user-login.no-user-name 	{ position: relative; top: 9px; }
+.profile .user-name 				{ color: #777; }
 
-.profile-page-header 	{ font-size: 12px; font-weight: bold; margin-bottom: 20px; background: #eee; color: #555; padding: 5px 10px 6px; }
+.profile-page-header 				{ font-size: 12px; font-weight: bold; margin-bottom: 20px; background: #eee; color: #555; padding: 5px 10px 6px; }

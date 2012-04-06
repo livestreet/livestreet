@@ -3,7 +3,7 @@
 -------------------------------------------- */
 
 #container 	{ max-width: 1000px; margin: 0 auto; margin-bottom: 20px; }
-#header 	{ padding: 70px 0 70px; position: relative; }
+#header 	{ padding: 50px 0; position: relative; }
 #nav 		{ margin-bottom: 15px; overflow: hidden; }
 #wrapper 	{ overflow: hidden; zoom: 1; padding: 30px; background: #fff; border-bottom: 1px solid #eee; box-shadow: 0 0 3px rgba(0,0,0,.1); }
 #content 	{ float: left; width: 61%; margin-right: 4%; background: #fff; }
@@ -13,7 +13,7 @@
 
 #content.content-full-width { width: 100%; margin-right: 0; }
 
-#content.content-right { margin-right: 0; float: none; margin-left: 311px; width: auto; overflow: hidden; }
+#content.content-right { margin-right: 0; float: none; margin-left: 311px; width: auto; }
 #sidebar.sidebar-left { float: left; width: 250px; padding-right: 30px; border-right: 1px solid #eee; margin-right: 30px; }
 
 

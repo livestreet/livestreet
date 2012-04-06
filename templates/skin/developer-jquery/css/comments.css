@@ -47,7 +47,7 @@
 
 
 /* Info Block */
-.comment .comment-info { margin-bottom: 8px; line-height: 12px; position: relative; top: -2px; }
+.comment .comment-info { margin-bottom: 5px; padding-bottom: 3px; line-height: 12px; position: relative; top: -2px; overflow: hidden; zoom: 1; }
 .comment .comment-info li { float: left; padding-top: 3px; margin-right: 10px; }
 .comment .comment-info li a { text-decoration: none; }
 .comment .comment-info li.comment-author a { font-weight: bold; }

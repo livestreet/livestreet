@@ -3,6 +3,7 @@
 ------------------------------------------------------------------- */
 
 .block 			{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
+.sidebar-left .block { margin-bottom: 10px; }
 
 .block .block-header 		{ padding: 13px 20px; background: #EAF6F9; border-bottom: 1px solid #D2E8EF; position: relative; }
 .block .block-header h3 	{ font-size: 16px; line-height: 1em; font-weight: normal; }
@@ -29,8 +30,15 @@
 
 .block.block-type-profile-nav 				{ padding: 0; }
 
+.block.block-type-profile-actions .block-content { padding: 10px 15px; }
+.block.block-type-profile-actions ul li		{ margin-bottom: 5px; }
+.block.block-type-profile-actions ul li:last-child		{ margin-bottom: 0; }
 
-/* Block Type - Topic Favourite */
-.block.block-type-favourite-topic { background: none; }
-.block.block-type-favourite-topic .block-header { background: none; border: none; padding: 0 0 10px; }
-.block.block-type-favourite-topic .block-content { display: none; background: #fafafa; }
+
+/* Block Type - Foldable */
+.block.block-type-foldable { background: none; }
+.block.block-type-foldable .block-header { background: none; border: none; padding: 0 0 10px; }
+.block.block-type-foldable .block-content { display: none; background: #fafafa; }
+
+.block.block-type-talk-search { margin-bottom: 10px; }
+.block.block-type-talk-friends { margin-bottom: 10px; }
