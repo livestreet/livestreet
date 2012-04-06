@@ -1,9 +1,9 @@
-<section class="block">
+<section class="block block-type-foldable block-type-talk-search">
 	<header class="block-header">
-		<h3>{$aLang.talk_filter_title}</h3>
+		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_talk_search_content').toggle(); return false;">{$aLang.talk_filter_title}</a></h3>
 	</header>
 	
-	<div class="block-content">
+	<div class="block-content" id="block_talk_search_content">
 		<form action="{router page='talk'}" method="GET" name="talk_filter_form">
 			<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label>
 			<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-text input-width-full" />

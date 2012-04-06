@@ -13,16 +13,9 @@
 		<div class="count" id="user_skill_{$oUserProfile->getId()}">{math equation="round(x, 1)" x=$oUserProfile->getSkill()}</div>
 	</div>
 	
-	<h2 class="page-header user-login">{$oUserProfile->getLogin()}</h2>
+	<h2 class="page-header user-login {if !$oUserProfile->getProfileName()}no-user-name{/if}">{$oUserProfile->getLogin()}</h2>
 	
 	{if $oUserProfile->getProfileName()}
 		<p class="user-name">{$oUserProfile->getProfileName()|escape:'html'}</p>
 	{/if}
-
-	{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}				
-		<ul id="profile_actions">
-			{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
-			<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
-		</ul>
-	{/if}	
 </div>

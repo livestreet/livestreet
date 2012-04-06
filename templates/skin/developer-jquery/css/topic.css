@@ -8,7 +8,7 @@
 .topic .topic-header .topic-url 		{ margin-bottom: 15px; }
 .topic .topic-header .topic-url a 		{ background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
 .topic .topic-header .topic-info 		{ margin-bottom: 25px; color: #777; }
-.topic .topic-header .topic-info a 		{ margin-right: 15px; }
+.topic .topic-header .topic-info a 		{ -margin-right: 15px; }
 
 /* Content */
 .topic .topic-content { margin-bottom: 15px; }
@@ -97,3 +97,21 @@
 }
 #photoset-upload-form p { margin-bottom: 10px; }
 #photoset-upload-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
+
+
+/* Topic Talk */
+.topic.topic-type-talk { }
+.topic.topic-type-talk .topic-header { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
+.topic.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
+.topic.topic-type-talk .topic-header .topic-info { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
+.topic.topic-type-talk .topic-header .topic-info .avatar { position: absolute; top: 0; left: 0; }
+.topic.topic-type-talk .topic-header .topic-info .author-wrapper { margin-bottom: 4px; position: relative; top: -2px; }
+.topic.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
+.topic.topic-type-talk .topic-header .topic-info .recipient { margin-right: 10px; }
+.topic.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
+.topic.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
+
+.topic.topic-type-talk .talk-recipients 	{ padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
+.topic.topic-type-talk .talk-recipients h3 	{ font-size: 16px; font-weight: bold; margin-bottom: 10px; }
+
+

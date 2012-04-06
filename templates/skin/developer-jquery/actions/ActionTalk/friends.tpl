@@ -1,10 +1,10 @@
-<section class="block">
+<section class="block block-type-foldable block-type-talk-friends">
 	<header class="block-header">
-		<h3>{$aLang.block_friends}</h3>
+		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_talk_friends_content').toggle(); return false;">{$aLang.block_friends}</a></h3>
 	</header>
 
 	
-	<div class="block-content">
+	<div class="block-content" id="block_talk_friends_content">
 		{if $aUsersFriend}
 			<ul class="list" id="friends">
 				{foreach from=$aUsersFriend item=oFriend}

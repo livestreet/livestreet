@@ -1,9 +1,13 @@
 {assign var="sidebarPosition" value='left'}
 {include file='header.tpl' noShowSystemMessage=false}
+
+{include file='actions/ActionProfile/profile_top.tpl'}
 {include file='menu.talk.tpl'}
 
 
 {if $aTalks}
+	{include file='actions/ActionTalk/filter.tpl'}
+
 	<form action="{router page='talk'}" method="post" id="form_talks_list">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
@@ -40,9 +44,9 @@
 							{else}
 								<a href="{router page='talk'}read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
 							{/if}
-							&nbsp;
+							
 							{if $oTalk->getCountComment()}
-								{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}+{$oTalkUserAuthor->getCommentCountNew()}{/if}
+								({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
 							{/if}
 							{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
 								&rarr;
