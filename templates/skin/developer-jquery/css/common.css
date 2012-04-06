@@ -97,6 +97,10 @@
 .search.search-item { margin-bottom: 15px; width: 100%; }
 .search.search-item .input-text { width: 100%; padding-right: 5px; }
 
+.search-abc { overflow: hidden; zoom: 1; padding: 10px 15px; background: #fafafa; margin-bottom: 15px; }
+.search-abc li { float: left; margin-right: 10px; }
+.search-abc li.active a { color: #333; border: none; }
+
 
 
 /* Облако тегов 
