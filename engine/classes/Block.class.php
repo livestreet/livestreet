@@ -20,7 +20,7 @@
  * Это те блоки которые обрабатывают шаблоны Smarty перед выводом(например блок "Облако тегов")
  *
  */
-abstract class Block extends Object {	
+abstract class Block extends LsObject {
 	protected $oEngine=null;	
 	protected $aParams=array();
 	

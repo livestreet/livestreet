@@ -19,7 +19,7 @@
  * Абстракция хука, от которой наследуются все хуки
  *
  */
-abstract class Hook extends Object {
+abstract class Hook extends LsObject {
 		
 	public function __construct() {		
 		

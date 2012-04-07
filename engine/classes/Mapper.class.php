@@ -19,7 +19,7 @@
  * Абстрактный класс мапера
  *
  */
-abstract class Mapper extends Object {
+abstract class Mapper extends LsObject {
 	protected $oDb;
 		
 	/**

@@ -19,7 +19,7 @@
  * Абстрактный класс экшена
  *
  */
-abstract class Action extends Object {
+abstract class Action extends LsObject {
 	
 	protected $aRegisterEvent=array();
 	protected $aParams=array();

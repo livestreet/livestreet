@@ -19,7 +19,7 @@
  * От этого класса наследуются все остальные
  *
  */
-abstract class Object {
-	
+abstract class LsObject {
+
 }
 ?>

@@ -39,7 +39,7 @@ require_once("ManyToManyRelation.class.php");
  * Основной класс движка, который позволяет напрямую обращаться к любому модулю
  *
  */
-class Engine extends Object {
+class Engine extends LsObject {
 	
 	/**
 	 * Имя плагина

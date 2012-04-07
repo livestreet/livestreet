@@ -20,7 +20,7 @@ require_once("Engine.class.php");
 /**
  * Абстрактный слой работы с крон-процессами
  */
-class Cron extends Object {
+class Cron extends LsObject {
 	/**
 	 * @var Engine
 	 */

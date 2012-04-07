@@ -22,7 +22,7 @@ require_once("ActionPlugin.class.php");
  * Класс роутинга(контроллера)
  * Инициализирует ядро, определяет какой экшен запустить согласно URL'у и запускает его.
  */
-class Router extends Object {
+class Router extends LsObject {
 	
 	protected $aConfigRoute=array();
 	static protected $sAction=null;

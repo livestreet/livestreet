@@ -19,7 +19,7 @@
  * Абстракция плагина, от которой наследуются все плагины
  *
  */
-abstract class Plugin extends Object {
+abstract class Plugin extends LsObject {
 	/**
 	 * Путь к шаблонам с учетом наличия соответствующего skin`a
 	 *

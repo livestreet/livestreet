@@ -21,8 +21,7 @@
  * Например, $oTopic->Tags->add($oTag) или $oTopic->Tags->delete($oTag->getId()) при
  * наличии настроенной MANY_TO_MANY связи 'tags'
  */
-class LS_ManyToManyRelation
-{
+class LS_ManyToManyRelation extends LsObject {
     // Ссылка на $oEntityORM->aRelationsData[<relation_name>],
     // где relation_name - имя сязи, которую представляет объект
     protected $_aCollection = array();

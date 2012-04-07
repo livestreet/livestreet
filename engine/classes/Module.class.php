@@ -19,7 +19,7 @@
  * Абстракция модуля, от которой наследуются все модули
  *
  */
-abstract class Module extends Object {
+abstract class Module extends LsObject {
 	/**
 	 * Engine object
 	 *

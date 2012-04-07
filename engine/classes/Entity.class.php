@@ -19,7 +19,7 @@
  * Абстрактный класс сущности
  *
  */
-abstract class Entity extends Object {
+abstract class Entity extends LsObject {
 	protected $_aData=array();
 	protected $sPrimaryKey = null;
 	protected $aValidateRules=array();
