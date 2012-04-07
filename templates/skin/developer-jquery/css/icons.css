@@ -20,7 +20,7 @@
 	height: 14px;
 	background: url(../images/icons.png) no-repeat; 
 }
-.icon-white {background-image: url(../img/icons-white.png); }
+.icon-white { background-image: url(../images/icons-white.png); }
 
 .icon-glass              { background-position: 0      0; }
 .icon-music              { background-position: -24px  0; }
@@ -147,3 +147,11 @@
 .icon-folder-open        { background-position: -408px -120px; }
 .icon-resize-vertical    { background-position: -432px -119px; }
 .icon-resize-horizontal  { background-position: -456px -118px; }
+
+.icon-contact			{ width: 16px; height: 16px; background: url(../images/icons-contact.png) no-repeat;  } 
+.icon-contact-default	{ background-position: 0 0; } 
+.icon-contact-email		{ background-position: -20px 0; } 
+.icon-contact-icq		{ background-position: -40px 0; } 
+.icon-contact-jabber	{ background-position: -60px 0; } 
+.icon-contact-phone		{ background-position: -80px 0; } 
+.icon-contact-skype		{ background-position: -100px 0; } 

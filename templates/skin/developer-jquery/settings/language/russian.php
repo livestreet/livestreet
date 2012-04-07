@@ -35,6 +35,9 @@ return array(
 	'user_field_admin_title_add' => 'Добавить поле',
 	
 	'blog_admin_delete' => 'Удаление блога',
+	
+	'profile_contacts' => 'Контакты',
+	'profile_social' => 'Аккаунты',
 );
 
 ?>

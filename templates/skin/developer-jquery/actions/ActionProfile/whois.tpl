@@ -77,16 +77,7 @@
 				</td>
 			</tr>
 		{/if}
-		
-		
-		{if count($aUserFields)}
-			{foreach from=$aUserFields item=oField}
-				<tr>
-					<td class="cell-label">{$oField->getTitle()|escape:'html'}:</td>
-					<td>{$oField->getValue(true,true)}</td>
-				</tr>
-			{/foreach}
-		{/if}
+
 		
 		
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
@@ -95,28 +86,44 @@
 
 
 
-
-{if $aUserFieldContactValues || $oUserProfile->getProfileIcq()}
-	<h2 class="header-table">{$aLang.profile_social_contacts}</h2>
+{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact', ''))}
+{if $aUserFieldContactValues || $oUserProfile->getProfileIcq() || count($aUserFields)}
+	<h2 class="header-table">{$aLang.profile_contacts}</h2>
 	
 	<table class="table table-profile-info">
 		{if $oUserProfile->getProfileIcq()}
 			<tr>
-				<td class="cell-label">ICQ:</td>
+				<td class="cell-label"><i class="icon-contact icon-contact-icq"></i> ICQ:</td>
 				<td><a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></td>
 			</tr>
 		{/if}
-
-
-		{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact','social'))}
+		
+		
 		{foreach from=$aUserFieldContactValues item=oField}
 			<tr>
-				<td class="cell-label">{$oField->getTitle()|escape:'html'}:</td>
+				<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
 				<td>{$oField->getValue(true,true)}</td>
 			</tr>
 		{/foreach}
 	</table>
 {/if}
+
+
+{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('social'))}
+{if $aUserFieldContactValues}
+	<h2 class="header-table">{$aLang.profile_social}</h2>
+	
+	<table class="table table-profile-info">
+		{foreach from=$aUserFieldContactValues item=oField}
+			<tr>
+				<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
+				<td>{$oField->getValue(true,true)}</td>
+			</tr>
+		{/foreach}
+	</table>
+{/if}
+
+
 
 
 

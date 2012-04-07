@@ -37,6 +37,11 @@
 				{/if}
 			{/strip}
 		</ul>
+		
+		
+		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
+			social buttons
+		</div>
 
 
 		<ul class="topic-info">
@@ -74,6 +79,7 @@
 				<div onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></div>
 				<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{$oTopic->getCountFavourite()}</span>
 			</li>
+			<li class="topic-info-share"><a href="#" class="icon-share" title="Поделиться" onclick="$('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"></a></li>
 			
 			{if $bTopicList}
 				<li class="topic-info-comments">
