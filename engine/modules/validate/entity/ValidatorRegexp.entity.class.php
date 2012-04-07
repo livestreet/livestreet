@@ -57,7 +57,9 @@ class ModuleValidate_EntityValidatorRegexp extends ModuleValidate_EntityValidato
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
-		$sValue=(string)$sValue;
+		if (is_array($sValue)) {
+			return $this->getMessage($this->Lang_Get('validate_regexp_invalid_pattern',null,false),'msg');
+		}
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}

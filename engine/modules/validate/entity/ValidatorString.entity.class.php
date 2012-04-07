@@ -75,7 +75,9 @@ class ModuleValidate_EntityValidatorString extends ModuleValidate_EntityValidato
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
-		$sValue=(string)$sValue;
+		if (is_array($sValue)) {
+			return $this->getMessage($this->Lang_Get('validate_string_too_short',null,false),'msgTooShort',array('min'=>$this->min));
+		}
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}

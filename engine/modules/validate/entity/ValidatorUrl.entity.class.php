@@ -62,6 +62,9 @@ class ModuleValidate_EntityValidatorUrl extends ModuleValidate_EntityValidator {
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
+		if (is_array($sValue)) {
+			return $this->getMessage($this->Lang_Get('validate_url_not_valid',null,false),'msg');
+		}
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}

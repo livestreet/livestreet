@@ -37,7 +37,9 @@ class ModuleValidate_EntityValidatorCaptcha extends ModuleValidate_EntityValidat
 	 * @return bool|string
 	 */
 	public function validate($sValue) {
-		$sValue=(string)$sValue;
+		if (is_array($sValue)) {
+			return $this->getMessage($this->Lang_Get('validate_captcha_not_valid',null,false),'msg');
+		}
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}
