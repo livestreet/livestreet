@@ -1,3 +1,4 @@
+{hook run='topics_list_begin' aTopics=$aTopics}
 {if count($aTopics)>0}
 	{foreach from=$aTopics item=oTopic}
 		{assign var="sTopicTemplateName" value="topic_`$oTopic->getType()`.tpl"}
