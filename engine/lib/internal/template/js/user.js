@@ -77,7 +77,10 @@ ls.user = (function ($) {
 			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
 				'display': 'none'
 			}).appendTo('body');
-			input.clone().appendTo(form);
+			var clone=input.clone(true);
+			input.hide();
+			clone.insertAfter(input);
+			input.appendTo(form);
 		}
 
 		ls.ajaxSubmit(aRouter['settings']+'profile/upload-avatar/',form,function(data){
@@ -186,7 +189,10 @@ ls.user = (function ($) {
 			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
 				'display': 'none'
 			}).appendTo('body');
-			input.clone().appendTo(form);
+			var clone=input.clone(true);
+			input.hide();
+			clone.insertAfter(input);
+			input.appendTo(form);
 		}
 
 		ls.ajaxSubmit(aRouter['settings']+'profile/upload-foto/',form,function(data){
