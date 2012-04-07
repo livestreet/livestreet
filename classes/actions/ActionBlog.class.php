@@ -314,7 +314,9 @@ class ActionBlog extends Action {
 			}
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
-			//$oBlog->setUrl(getRequest('blog_url'));	// запрещаем смену URL блога
+			if ($this->oUserCurrent->isAdministrator()) {
+				$oBlog->setUrl(getRequest('blog_url'));	// разрешаем смену URL блога только админу
+			}
 			/**
 			 * Загрузка аватара, делаем ресайзы
 			 */
@@ -514,12 +516,10 @@ class ActionBlog extends Action {
 				$bOk=false;
 			}
 		}
-
-		if (!$oBlog) {
-			/**
-			 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
-			 * Проверка только в том случаи если создаём новый блог, т.к при редактировании URL нельзя менять
-			 */
+		/**
+		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
+		 */
+		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
 			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {

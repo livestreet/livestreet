@@ -33,7 +33,7 @@
 
 	
 	<p><label for="blog_url">{$aLang.blog_create_url}:</label>
-	<input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" class="input-text input-width-full" {if $_aRequest.blog_id}disabled{/if} />
+	<input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" class="input-text input-width-full" {if $_aRequest.blog_id and !$oUserCurrent->isAdministrator()}disabled{/if} />
 	<small class="note">{$aLang.blog_create_url_notice}</small></p>
 	
 
@@ -72,8 +72,6 @@
 	
 	{hook run='form_add_blog_end'}
 
-	
-	<input type="hidden" name="blog_id" value="{$_aRequest.blog_id}" />
 	<button name="submit_blog_add" class="button button-primary">{$aLang.blog_create_submit}</button>
 </form>
 
