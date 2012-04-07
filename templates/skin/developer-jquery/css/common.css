@@ -74,6 +74,9 @@
 /* Topic navigation */
 .toolbar .toolbar-topic a.toolbar-topic-prev { border-bottom: 1px solid #eee; }
 
+/* Scroll up */
+.toolbar .toolbar-scrollup { display: none; }
+
 
 
 /* Список пользователей 
@@ -100,6 +103,8 @@
 .search-abc { overflow: hidden; zoom: 1; padding: 10px 15px; background: #fafafa; margin-bottom: 15px; }
 .search-abc li { float: left; margin-right: 10px; }
 .search-abc li.active a { color: #333; border: none; }
+
+.search-tags { margin-bottom: 15px; }
 
 
 

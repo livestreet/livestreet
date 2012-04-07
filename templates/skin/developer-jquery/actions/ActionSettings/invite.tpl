@@ -1,4 +1,5 @@
-{include file='header.tpl' menu='settings' noSidebar=true}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl' menu='settings'}
 
 
 <small class="note note-header input-width-400">Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку "Отправить приглашение"</small>

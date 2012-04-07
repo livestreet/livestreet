@@ -1,5 +1,12 @@
-{include file='header.tpl' menu='settings' noSidebar=true}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl'}
 
+
+
+{include file='actions/ActionProfile/profile_top.tpl'}
+<h3 class="profile-page-header">{$aLang.settings_menu}</h3>
+
+{include file='menu.settings.tpl'}
 
 
 <small class="note note-header input-width-400">Получать уведомление на e-mail:</small>

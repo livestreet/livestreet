@@ -1,5 +1,12 @@
-{assign var="noSidebar" value=true}
-{include file='header.tpl' menu='settings'}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl'}
+
+
+
+{include file='actions/ActionProfile/profile_top.tpl'}
+<h3 class="profile-page-header">{$aLang.settings_menu}</h3>
+
+{include file='menu.settings.tpl'}
 
 
 <form method="post" enctype="multipart/form-data">
@@ -39,11 +46,6 @@
 	
 	<button name="submit_account_edit" class="button button-primary" />{$aLang.settings_account_submit}</button>
 </form>
-
-
-
-
-
 
 
 

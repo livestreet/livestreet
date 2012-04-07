@@ -1,5 +1,13 @@
-{assign var="noSidebar" value=true}
-{include file='header.tpl' menu='settings'}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl'}
+
+
+
+{include file='actions/ActionProfile/profile_top.tpl'}
+<h3 class="profile-page-header">{$aLang.settings_menu}</h3>
+
+{include file='menu.settings.tpl'}
+
 
 <script type="text/javascript">
 	jQuery(document).ready(function($){
@@ -7,6 +15,7 @@
 		ls.geo.initSelect();
 	});
 </script>
+
 
 <p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
 	<select name="profile_user_field_type[]">
@@ -205,11 +214,6 @@
 	
 	<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 </form>
-
-
-
-
-
 
 
 

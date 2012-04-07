@@ -2,8 +2,9 @@
 	БЛОКИ
 ------------------------------------------------------------------- */
 
-.block 			{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
-.sidebar-left .block { margin-bottom: 10px; }
+.block 					{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
+.block:last-child 		{ margin-bottom: 0; }
+.sidebar-left .block 	{ margin-bottom: 10px; }
 
 .block .block-header 		{ padding: 13px 20px; background: #EAF6F9; border-bottom: 1px solid #D2E8EF; position: relative; }
 .block .block-header h3 	{ font-size: 16px; line-height: 1em; font-weight: normal; }

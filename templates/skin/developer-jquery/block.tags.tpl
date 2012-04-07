@@ -14,8 +14,8 @@
 			{hook run='block_tags_nav_item'}
 		</ul>
 
-		<form action="" method="GET" class="js-tag-search-form">
-			<input type="text" name="tag" value="" class="autocomplete-tags js-tag-search" />
+		<form action="" method="GET" class="js-tag-search-form search-tags">
+			<input type="text" name="tag" placeholder="Поиск тегов" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
 		</form>
 
 		<div id="block_tags_content_all">

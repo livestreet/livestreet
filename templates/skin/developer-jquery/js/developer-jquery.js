@@ -43,9 +43,11 @@ jQuery(document).ready(function($){
 	// Скролл
 	$(window)._scrollable();
 
+	
 	// Тул-бар топиков
 	ls.toolbar.topic.init();
 
+	
 	// Всплывающие сообщения
 	$('.js-title-comment, .js-title-topic').poshytip({
 		className: 'infobox-title',
@@ -55,6 +57,16 @@ jQuery(document).ready(function($){
 		offsetX: 5,
 		liveEvents: true,
 		showTimeout: 1500
+	});
+	
+	
+	// Кнопка прокрутки вверх
+	$(window).scroll(function(){
+		if ($(window).scrollTop() > $(window).height() / 2) {
+			$('#toolbar_scrollup').fadeIn(500);
+		} else {
+			$('#toolbar_scrollup').fadeOut(500);
+		}
 	});
 
 	
