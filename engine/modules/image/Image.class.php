@@ -142,8 +142,6 @@ class ModuleImage extends Module {
 			or ($oImage->get_image_params('height')>$iHeightMax)) {
 				return false;
 		}
-		$sFileFullPath=rtrim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
-		$this->CreateDirectory($sDirDest);
 			
 		if ($iWidthDest) {
 			if ($bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
@@ -199,16 +197,13 @@ class ModuleImage extends Module {
 			if(isset($aParams['jpg_quality']) and $oImage->get_image_params('format')=='jpg') {
 				$oImage->set_jpg_quality($aParams['jpg_quality']);
 			}
-			
-			$oImage->output(null,$sFileFullPath);
-			
-			chmod($sFileFullPath,0666);
-			return $sFileFullPath;
-		} elseif (copy($sFileSrc,$sFileFullPath)) {
-			chmod($sFileFullPath,0666);
-			return $sFileFullPath;
+
+			$sFileTmp=Config::Get('sys.cache.dir').func_generator(20);
+			$oImage->output(null,$sFileTmp);
+			return $this->SaveFile($sFileTmp,$sDirDest,$sFileDest,0666,true);
+		} else{
+			return $this->SaveFile($sFileSrc,$sDirDest,$sFileDest,0666,false);
 		}
-		
 		return false;
 	}
 	/**
@@ -286,6 +281,48 @@ class ModuleImage extends Module {
 		 * Возвращаем объект изображения
 		 */
 		return $oImage;
+	}
+	/**
+	 * Сохраняет(копирует) файл изображения
+	 *
+	 * @param $sFileSource	Полный путь до исходного файла
+	 * @param $sDirDest	Каталог для сохранения файла относительно корня сайта
+	 * @param $sFileDest
+	 * @param null $iMode
+	 * @param bool $bRemoveSource
+	 * @return bool | string
+	 */
+	public function SaveFile($sFileSource,$sDirDest,$sFileDest,$iMode=null,$bRemoveSource=false) {
+		$sFileDestFullPath=rtrim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
+		$this->CreateDirectory($sDirDest);
+
+
+		$bResult=copy($sFileSource,$sFileDestFullPath);
+		if ($bResult and !is_null($iMode)) {
+			chmod($sFileDestFullPath,$iMode);
+		}
+		if ($bRemoveSource) {
+			unlink($sFileSource);
+		}
+		/**
+		 * Если копирование прошло успешно, возвращаем новый серверный путь до файла
+		 */
+		if ($bResult) {
+			return $sFileDestFullPath;
+		}
+		return false;
+	}
+	/**
+	 * Удаление файла изображения
+	 *
+	 * @param $sFile
+	 * @return bool
+	 */
+	public function RemoveFile($sFile) {
+		if (file_exists($sFile)) {
+			return unlink($sFile);
+		}
+		return false;
 	}
 	/**
 	 * Создает каталог по указанному адресу (с учетом иерархии)

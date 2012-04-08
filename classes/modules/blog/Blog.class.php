@@ -843,7 +843,7 @@ class ModuleBlog extends Module {
 		if($oBlog->getAvatar()) {		
 			$aSize=array_merge(Config::Get('module.blog.avatar_size'),array(48));
 			foreach ($aSize as $iSize) {
-				@unlink($this->Image_GetServerPath($oBlog->getAvatarPath($iSize)));
+				$this->Image_RemoveFile($this->Image_GetServerPath($oBlog->getAvatarPath($iSize)));
 			}		
 		}
 	}

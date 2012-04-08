@@ -108,10 +108,12 @@ class ActionSettings extends Action {
 				$this->Session_Set('sFotoFileTmp',$sFile);
 				$this->Session_Set('sFotoFilePreviewTmp',$sFilePreview);
 				$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFilePreview));
+				unlink($sFileTmp);
 				return;
 			}
 		}
 		$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
+		unlink($sFileTmp);
 	}
 
 	/**
@@ -154,9 +156,8 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setProfileFoto($sFileWeb);
 			$this->User_Update($this->oUserCurrent);
 
-			if (file_exists($sFilePreview)) {
-				@unlink($sFilePreview);
-			}
+			$this->Image_RemoveFile($sFilePreview);
+
 			$this->Session_Drop('sFotoFileTmp');
 			$this->Session_Drop('sFotoFilePreviewTmp');
 			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFoto());
@@ -192,13 +193,11 @@ class ActionSettings extends Action {
 		 * Достаем из сессии файл и удаляем
 		 */
 		$sFile=$this->Session_Get('sFotoFileTmp');
-		if (file_exists($sFile)) {
-			@unlink($sFile);
-		}
+		$this->Image_RemoveFile($sFile);
+
 		$sFile=$this->Session_Get('sFotoFilePreviewTmp');
-		if (file_exists($sFile)) {
-			@unlink($sFile);
-		}
+		$this->Image_RemoveFile($sFile);
+
 		$this->Session_Drop('sFotoFileTmp');
 		$this->Session_Drop('sFotoFilePreviewTmp');
 	}
@@ -229,6 +228,7 @@ class ActionSettings extends Action {
 		} else {
 			$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
 		}
+		unlink($sFileTmp);
 	}
 
 	/**
@@ -296,9 +296,7 @@ class ActionSettings extends Action {
 		 * Достаем из сессии файл и удаляем
 		 */
 		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
-		if (file_exists($sFileAvatar)) {
-			@unlink($sFileAvatar);
-		}
+		$this->Image_RemoveFile($sFileAvatar);
 		$this->Session_Drop('sAvatarFileTmp');
 	}
 

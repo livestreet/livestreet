@@ -1107,7 +1107,7 @@ class ModuleUser extends Module {
 		if($oUser->getProfileAvatar()) {
 			$aSize=array_merge(Config::Get('module.user.avatar_size'),array(100));
 			foreach ($aSize as $iSize) {
-				@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath($iSize)));
+				$this->Image_RemoveFile($this->Image_GetServerPath($oUser->getProfileAvatarPath($iSize)));
 			}
 		}
 	}
@@ -1198,7 +1198,7 @@ class ModuleUser extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 */
 	public function DeleteFoto($oUser) {
-		@unlink($this->Image_GetServerPath($oUser->getProfileFoto()));
+		$this->Image_RemoveFile($this->Image_GetServerPath($oUser->getProfileFoto()));
 	}
 	/**
 	 * Проверяет логин на корректность

@@ -1673,7 +1673,7 @@ class ModuleTopic extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("photoset_photo_update"));
 		$this->oMapperTopic->deleteTopicPhoto($oPhoto->getId());
 
-		@unlink($this->Image_GetServerPath($oPhoto->getWebPath()));
+		$this->Image_RemoveFile($this->Image_GetServerPath($oPhoto->getWebPath()));
 		$aSizes=Config::Get('module.topic.photoset.size');
 		// Удаляем все сгенерированные миниатюры основываясь на данных из конфига.
 		foreach ($aSizes as $aSize) {
@@ -1681,7 +1681,7 @@ class ModuleTopic extends Module {
 			if ($aSize['crop']) {
 				$sSize .= 'crop';
 			}
-			@unlink($this->Image_GetServerPath($oPhoto->getWebPath($sSize)));
+			$this->Image_RemoveFile($this->Image_GetServerPath($oPhoto->getWebPath($sSize)));
 		}
 		return;
 	}
