@@ -710,6 +710,7 @@ return array(
 	'talk_menu_inbox_list' => 'Переписка',
 	'talk_menu_inbox_create' => 'Новое письмо',
 	'talk_menu_inbox_favourites' => 'Избранное',
+	'talk_menu_inbox_blacklist' => 'Блокировать',
 	'talk_inbox' => 'Почтовый ящик',
 	'talk_inbox_target' => 'Адресаты',
 	'talk_inbox_title' => 'Тема',

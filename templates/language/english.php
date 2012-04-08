@@ -710,6 +710,7 @@ return array(
 	'talk_menu_inbox_list' => 'Correspondence',
 	'talk_menu_inbox_create' => 'Create new',
 	'talk_menu_inbox_favourites' => 'Favourites',
+	'talk_menu_inbox_blacklist' => 'Blacklist',
 	'talk_inbox' => 'Mailbox',
 	'talk_inbox_target' => 'Recipients',
 	'talk_inbox_title' => 'Subject',

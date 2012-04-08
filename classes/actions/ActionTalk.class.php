@@ -68,7 +68,8 @@ class ActionTalk extends Action {
 		$this->AddEvent('delete','EventDelete');
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
-		$this->AddEvent('favourites','EventFavourites');	
+		$this->AddEvent('favourites','EventFavourites');
+		$this->AddEvent('blacklist','EventBlacklist');
 		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
 		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxDeleteFromBlacklist');
 		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');	
@@ -152,11 +153,9 @@ class ActionTalk extends Action {
 			);
 		}
 		
-		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}
@@ -243,7 +242,12 @@ class ActionTalk extends Action {
 		
 		return $aFilter;
 	}
-	
+
+	protected function EventBlacklist() {
+		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
+		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
+	}
+
 	protected function EventFavourites() {				
 		/**
 		 * Передан ли номер страницы
