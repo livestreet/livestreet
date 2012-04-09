@@ -451,6 +451,7 @@ class ActionProfile extends Action {
 		 */
 		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aWall',$aWall['collection']);
+		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
 		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));

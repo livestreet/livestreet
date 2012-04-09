@@ -16,13 +16,14 @@
 	});
 </script>
 
+{if $oUserCurrent}
+	<form class="wall-submit">
+		<label for="wall-text">Написать на стене:</label>
+		<p><textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea></p>
 
-<form class="wall-submit">
-	<label for="wall-text">Написать на стене:</label>
-	<p><textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea></p>
-
-	<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary">Отправить</button>
-</form>
+		<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary">Отправить</button>
+	</form>
+{/if}
 
 
 <div id="wall-container" class="comments wall">
