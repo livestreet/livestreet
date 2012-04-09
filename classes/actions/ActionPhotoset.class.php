@@ -383,6 +383,10 @@ class ActionPhotoset extends Action {
 		 */
 		$this->sMenuSubItemSelect='add';
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_add_show');
+		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
