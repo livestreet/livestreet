@@ -19,7 +19,7 @@
 	<p class="note">{$aLang.userfeed_settings_note_follow_user}</p>
 
 	<div class="stream-settings-userlist">
-		<p><input type="text" id="userfeed_users_complete" autocomplete="off" onclick/>
+		<p><input type="text" id="userfeed_users_complete" autocomplete="off" />
 		<a href="javascript:ls.userfeed.appendUser()">{$aLang.userfeed_block_users_append}</a></p>
 
 		{if count($aUserfeedSubscribedUsers)}

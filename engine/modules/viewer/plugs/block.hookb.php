@@ -27,7 +27,7 @@
  */
 function smarty_block_hookb($aParams,$sContent,&$oSmarty,&$bRepeat) {
 	if(empty($aParams['run'])) {
-		$oSmarty->trigger_error("Hook: missing 'run' parametr");
+		trigger_error("Hook: missing 'run' parametr");
 		return;
 	}
 	

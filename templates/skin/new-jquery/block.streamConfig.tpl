@@ -5,7 +5,7 @@
 		ls.autocomplete.add(jQuery('#stream_users_complete'), aRouter['ajax']+'autocompleter/user/?security_ls_key='+LIVESTREET_SECURITY_KEY);
 		jQuery('#stream_users_complete').keydown(function (event) {
 			if (event.which == 13) {
-				ls.stream.appendUser()
+				ls.stream.appendUser();
 			}
 		});
 	});
@@ -17,23 +17,23 @@
 
 	<p class="note">{$aLang.stream_settings_note_filter}</p>
 
-<ul class="stream-settings-filter">
-	{foreach from=$aStreamEventTypes key=sType item=aEventType}
-		{if !($oConfig->get('module.stream.disable_vote_events') && substr($sType, 0, 4) == 'vote')}
-			<li>
-				<label>
-					<input class="streamEventTypeCheckbox input-checkbox"
-						type="checkbox"
-						id="strn_et_{$sType}"
-						{if in_array($sType, $aStreamTypesList)}checked="checked"{/if}
-						onClick="ls.stream.switchEventType('{$sType}')" />
-					{assign var=langKey value="stream_event_type_`$sType`"}
-					{$aLang.$langKey}
-				</label>
-			</li>
-		{/if}
-	{/foreach}
-</ul>
+	<ul class="stream-settings-filter">
+		{foreach from=$aStreamEventTypes key=sType item=aEventType}
+			{if !($oConfig->get('module.stream.disable_vote_events') && substr($sType, 0, 4) == 'vote')}
+				<li>
+					<label>
+						<input class="streamEventTypeCheckbox input-checkbox"
+							type="checkbox"
+							id="strn_et_{$sType}"
+							{if in_array($sType, $aStreamTypesList)}checked="checked"{/if}
+							onClick="ls.stream.switchEventType('{$sType}')" />
+						{assign var=langKey value="stream_event_type_`$sType`"}
+						{$aLang.$langKey}
+					</label>
+				</li>
+			{/if}
+		{/foreach}
+	</ul>
 
 
 	<h3>{$aLang.stream_block_users_title}</h3>

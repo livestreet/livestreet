@@ -5,6 +5,16 @@ var ls = ls || {};
 */
 ls.talk = (function ($) {
 	
+	this.addToTalkUser = function(aUser, idTalk){
+		if(list.length == 0) {
+			list = $('<ul class="list" id="speaker_list"></ul>');
+			$('#speaker_list_block').append(list);
+		}
+		var listItem = $('<li id="speaker_item_'+aUser.sUserId+'_area"><a href="'+aUser.sUserLink+'" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="speaker_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
+		list.append(listItem);
+		ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,aUser],listItem);
+	};
+	
 	/**
 	* Добавляет пользователя к переписке
 	*/
@@ -25,14 +35,7 @@ ls.talk = (function ($) {
 					if(item.bStateError){
 						ls.msg.notice(null, item.sMsg);
 					} else {
-						var list = $('#speaker_list');
-						if(list.length == 0) {
-							list = $('<ul class="list" id="speaker_list"></ul>');
-							$('#speaker_list_block').append(list);
-						}
-						var listItem = $('<li id="speaker_item_'+item.sUserId+'_area"><a href="'+item.sUserLink+'" class="user">'+item.sUserLogin+'</a> - <a href="#" id="speaker_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>')
-						list.append(listItem);
-						ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,item],listItem);
+						ls.talk.addToTalkUser(item,idTalk);
 					}
 				});
 
@@ -70,7 +73,18 @@ ls.talk = (function ($) {
 		});
 
 		return false;
-	}
+	};
+	
+	this.addToBlackListUser = function(aUser) {
+		var list = $('#black_list');
+		if(list.length == 0) {
+			list = $('<ul class="list" id="black_list"></ul>');
+			$('#black_list_block').append(list);
+		}
+		var listItem = $('<li id="blacklist_item_'+aUser.sUserId+'_area"><a href="#" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
+		$('#black_list').append(listItem);
+		ls.hook.run('ls_talk_add_to_black_list_item_after',[aUser],listItem);
+	};
 	
 	/**
 	* Добавляет пользователя в черный список
@@ -92,21 +106,14 @@ ls.talk = (function ($) {
 					if(item.bStateError){
 						ls.msg.notice(null, item.sMsg);
 					} else {
-						var list = $('#black_list');
-						if(list.length == 0) {
-							list = $('<ul class="list" id="black_list"></ul>');
-							$('#black_list_block').append(list);
-						}
-						var listItem = $('<li id="blacklist_item_'+item.sUserId+'_area"><a href="#" class="user">'+item.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
-						$('#black_list').append(listItem);
-						ls.hook.run('ls_talk_add_to_black_list_item_after',[item],listItem);
+						ls.talk.addToBlackListUser(item);
 					}
 				});
 				ls.hook.run('ls_talk_add_to_black_list_after',[result]);
 			}
 		});
 		return false;
-	}
+	};
 	
 	/**
 	* Удаляет пользователя из черного списка
@@ -135,7 +142,7 @@ ls.talk = (function ($) {
 			ls.hook.run('ls_talk_remove_from_black_list_after',[idTarget],link);
 		});
 		return false;
-	}
+	};
 	
 	/**
 	* Добавляет или удаляет друга из списка получателей
@@ -147,7 +154,7 @@ ls.talk = (function ($) {
 		});
 		if (add) { to.push(login); to = $.richArray.unique(to); } else { to = $.richArray.without(to, login); }
 		$('#talk_users').val(to.join(', '));
-	}
+	};
 	
 	return this;
 }).call(ls.talk || {},jQuery);

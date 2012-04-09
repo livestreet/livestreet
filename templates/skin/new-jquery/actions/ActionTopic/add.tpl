@@ -70,7 +70,7 @@
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p><label for="blog_id">{$aLang.topic_create_blog}</label><br />
-	<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo($(this).val());" class="input-wide">
+	<select name="blog_id" id="blog_id" onChange="ls.blog.loadInfo(this.value);" class="input-wide">
 		<option value="0">{$aLang.topic_create_blog_personal}</option>
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>

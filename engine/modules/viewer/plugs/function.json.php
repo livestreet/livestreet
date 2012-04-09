@@ -26,11 +26,24 @@ function smarty_function_json($params, &$smarty)
 {
 
     if (!array_key_exists('var', $params)) {
-        $smarty->trigger_error("json: missing 'var' parameter");
+        trigger_error("json: missing 'var' parameter");
         return;
     }
     
-    $var = $params['var'];
+    if(class_exists('Entity')
+    && $params['var'] instanceof Entity
+    && function_exists('func_convert_entity_to_array')){
+    	$aMethods = null;
+    	if(!empty($params['methods'])){
+    		$aMethods = is_array($params['methods'])
+    			? $params['methods']
+    			: explode(',', $params['methods'])
+    		;
+    	}
+    	$var = func_convert_entity_to_array($params['var'], $aMethods);
+    }else{
+    	$var = $params['var'];
+    }
     
     $_contents = json_encode($var);
 

@@ -25,7 +25,7 @@
  */
 function smarty_function_cfg($aParams,&$oSmarty) {	
 	if(empty($aParams['name'])) {
-		$oSmarty->trigger_error("Config: missing 'name' parametr");
+		trigger_error("Config: missing 'name' parametr");
 		return ;
 	}
 	require_once(Config::Get('path.root.engine').'/lib/internal/ConfigSimple/Config.class.php');

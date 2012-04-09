@@ -43,7 +43,7 @@ function smarty_insert_block($aParams,&$oSmarty) {
          $sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
          
 	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
-		$oSmarty->trigger_error("Not found template for block: ".$sBlockTemplate);
+		trigger_error("Not found template for block: ".$sBlockTemplate);
 		return ;
 	}
 	/**

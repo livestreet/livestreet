@@ -39,7 +39,7 @@
 		{if !$oTopic->getUserQuestionIsVote()}
 			<ul class="poll-vote">
 				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-					<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="jQuery('#topic_answer_{$oTopic->getId()}_value').val(jQuery(this).val());" /> {$aAnswer.text|escape:'html'}</label></li>
+					<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="jQuery('#topic_answer_{$oTopic->getId()}_value').val(this.value);" /> {$aAnswer.text|escape:'html'}</label></li>
 				{/foreach}
 			</ul>
 

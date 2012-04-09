@@ -21,8 +21,8 @@ ls.blog = (function ($) {
 				ls.msg.notice(null, result.sMsg);
 				
 				var text = result.bState
-					? ls.lang.get(blog_leave)
-					: ls.lang.get(blog_join)
+					? ls.lang.get('blog_leave')
+					: ls.lang.get('blog_join')
 				;
 				
 				obj.empty().text(text);
@@ -33,6 +33,16 @@ ls.blog = (function ($) {
 		});
 	};
 
+	this.addInviteUser = function(aUser,idBlog) {
+		if($('#invited_list').length == 0) {
+			$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
+		}
+		var listItem = $('<li><a href="'+aUser.sUserWebPath+'" class="user">'+aUser.sUserLogin+'</a></li>');
+		$('#invited_list').append(listItem);
+		ls.hook.run('ls_blog_add_invite_user_after',[idBlog,item],listItem);
+	};
+	
+	
 	/**
 	* Отправляет приглашение вступить в блог
 	*/
@@ -53,12 +63,7 @@ ls.blog = (function ($) {
 					if(item.bStateError){
 						ls.msg.error(null, item.sMsg);
 					} else {
-						if($('#invited_list').length == 0) {
-							$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
-						}
-						var listItem = $('<li><a href="'+item.sUserWebPath+'" class="user">'+item.sUserLogin+'</a></li>');
-						$('#invited_list').append(listItem);
-						ls.hook.run('ls_blog_add_invite_user_after',[idBlog,item],listItem);
+						ls.blog.addInviteUser(item,idBlog);
 					}
 				});
 				ls.hook.run('ls_blog_add_invite_after',[idBlog,sUsers,result]);
@@ -86,7 +91,7 @@ ls.blog = (function ($) {
 		});
 		
 		return false;
-	}
+	};
 	
 	/**
 	* Отображение информации о блоге
@@ -105,14 +110,14 @@ ls.blog = (function ($) {
 				ls.hook.run('ls_blog_load_info_after',[idBlog,result],block);
 			}
 		});
-	}
+	};
 	
 	/**
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
 		$('#blog_type_note').text($('#blog_type_note_'+type).text());
-	}
+	};
 	
 	return this;
 }).call(ls.blog || {},jQuery);

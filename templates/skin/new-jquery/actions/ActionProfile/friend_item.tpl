@@ -7,9 +7,9 @@
 {elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL and $oUserFriend->getUserFrom()==$oUserCurrent->getId()}
 	<li>{$aLang.user_friend_offer_send}</li>
 {elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL and $oUserFriend->getUserTo()==$oUserCurrent->getId()}
-	<li id="add_friend_item"><a href="#" title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'accept');">{$aLang.user_friend_add}</a></li>
+	<li><a href="#" title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'accept');">{$aLang.user_friend_add}</a></li>
 {elseif !$oUserFriend}
-	<li id="add_friend_item"><a href="#" title="{$aLang.user_friend_add}" id="add_friend_show">{$aLang.user_friend_add}</a>
+	<li><a href="#" title="{$aLang.user_friend_add}" id="add_friend_show">{$aLang.user_friend_add}</a>
 		<form id="add_friend_form" class="add-friend-form jqmWindow" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
 			<a href="#" class="close jqmClose"></a>
 
@@ -20,5 +20,5 @@
 		</form>
 	</li>
 {else}
-	<li id="add_friend_item"><a href="#" title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'link');">{$aLang.user_friend_add}</a></li>
+	<li><a href="#" title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'link');">{$aLang.user_friend_add}</a></li>
 {/if}

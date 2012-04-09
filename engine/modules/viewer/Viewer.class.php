@@ -561,12 +561,12 @@ class ModuleViewer extends Module {
 	 * @return string('block','template','undefined')
 	 */
 	protected function DefineTypeBlock($sName,$sDir=null) {	
-		if ($this->TemplateExists(is_null($sDir)?'block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
+		if ($this->TemplateExists($sTplBlock = is_null($sDir)?'block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */
 			return 'block';
-		} elseif ($this->TemplateExists(is_null($sDir) ? $sName : rtrim($sDir,'/').'/'.ltrim($sName,'/'))) {
+		} elseif ($this->TemplateExists($sTplTpl = is_null($sDir) ? $sName : rtrim($sDir,'/').'/'.ltrim($sName,'/'))) {
 			/**
 			 * Если найден шаблон по имени блока то считаем его простым шаблоном
 			 */
@@ -575,7 +575,10 @@ class ModuleViewer extends Module {
 			/**
 			 * Считаем что тип не определен
 			 */
-			throw new Exception('Can not find the block`s template: '.$sName);
+			throw new Exception('Can not find the block`s template: '.$sName.' ('
+				.$sTplBlock.', '.$sTplTpl
+				.')')
+			;
 			return 'undefined';
 		}
 	}

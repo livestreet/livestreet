@@ -30,7 +30,15 @@ class Router extends Object {
 	static protected $sActionClass=null;
 	static protected $sPathWebCurrent = null;
 	static protected $aParams=array();
+	/**
+	 * 
+	 * @var Action
+	 */
 	protected $oAction=null;
+	/**
+	 * 
+	 * @var Engine
+	 */
 	protected $oEngine=null;
 	static protected $bShowStats=true;	
 	

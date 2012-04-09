@@ -26,7 +26,7 @@ function smarty_function_lang_load($params, &$smarty)
 {
 
 	if (!array_key_exists('name', $params)) {
-		$smarty->trigger_error("lang_load: missing 'name' parameter");
+		trigger_error("lang_load: missing 'name' parameter");
 		return;
 	}
 

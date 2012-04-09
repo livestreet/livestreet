@@ -37,15 +37,36 @@ class ActionLogin extends Action {
 		$this->AddEvent('exit','EventExit');	
 		$this->AddEvent('reminder','EventReminder');	
 	}
+	
+	/**
+	 * Возврат к предыдущей странице
+	 */
+	protected function GoBack(){
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			$sBackUrl=$_SERVER['HTTP_REFERER'];
+			if (strpos($sBackUrl,Router::GetPath('login'))===false) {
+				Router::Location($sBackUrl);
+			}
+		}
+		Router::Location(Config::Get('path.root.web').'/');
+	}
+	
 	/**
 	 * Обрабатываем процесс залогинивания
 	 *
 	 */
-	protected function EventLogin() {	
+	protected function EventLogin() {
+		/**
+		 * Уже вошли.
+		 */
+		if($this->User_IsAuthorization()){
+			$this->GoBack();
+		}
+		
 		/**
 		 * Если нажали кнопку "Войти"
 		 */
-		if (isPost('submit_login') and is_string(getRequest('login')) and is_string(getRequest('password'))) {
+		elseif (isPost('submit_login') and is_string(getRequest('login')) and is_string(getRequest('password'))) {
 			/**
 			 * Проверяем есть ли такой юзер по логину
 			 */
@@ -62,13 +83,7 @@ class ActionLogin extends Action {
 					/**
 					 * Перенаправляем на страницу с которой произошла авторизация
 					 */
-					if (isset($_SERVER['HTTP_REFERER'])) {
-						$sBackUrl=$_SERVER['HTTP_REFERER'];
-						if (strpos($sBackUrl,Router::GetPath('login'))===false) {
-							Router::Location($sBackUrl);
-						}
-					}					 
-					Router::Location(Config::Get('path.root.web').'/');
+					$this->GoBack();
 				}
 			}			
 			$this->Viewer_Assign('bLoginError',true);

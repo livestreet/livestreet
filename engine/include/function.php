@@ -451,4 +451,20 @@ function func_list_plugins($bAll = false){
 	return $aPlugin;
 }
 
+function func_convert_entity_to_array(Entity $oEntity, $aMethods = null, $sPrefix = ''){
+	if(!is_array($aMethods)){
+		$aMethods = get_class_methods($oEntity);
+	};
+	$aEntity = array();
+	foreach($aMethods as $sMethod){
+		if(!preg_match('#^get([a-z][a-z\d]*)$#i', $sMethod, $aMatch)){
+			continue;
+		}
+		$sProp = strtolower(preg_replace('#([a-z])([A-Z])#', '$1_$2', $aMatch[1]));
+		$mValue = call_user_func(array($oEntity, $sMethod));
+		$aEntity[$sPrefix.$sProp] = $mValue;
+	}
+	return $aEntity;
+}
+
 ?>
