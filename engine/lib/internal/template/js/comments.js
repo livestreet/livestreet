@@ -20,10 +20,10 @@ ls.comments = (function ($) {
 		},
 		classes: {
 			form_loader: 'loader',
-			comment_new: 'new',
-			comment_current: 'current',
-			comment_deleted: 'deleted',
-			comment_self: 'self',
+			comment_new: 'comment-new',
+			comment_current: 'comment-current',
+			comment_deleted: 'comment-deleted',
+			comment_self: 'comment-self',
 			comment: 'comment',
 			comment_goto_parent: 'goto-comment-parent',
 			comment_goto_child: 'goto-comment-child'
