@@ -192,23 +192,6 @@
 	</fieldset>
 
 	
-	
-	<fieldset>
-		<legend>Фотография</legend>
-		
-		<img src="{$oUserCurrent->getProfileFoto()}" id="foto-img" />
-
-		<p><a href="#" id="foto-upload" class="link-dotted">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a>&nbsp;&nbsp;&nbsp;
-		<a href="#" id="foto-remove" class="link-dotted" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a></p>
-
-		<div id="foto-resize" style="display:none;">
-			<p><img src="" alt="" id="foto-resize-original-img"></p>
-			<button class="button button-primary" onclick="return ls.user.resizeFoto();">{$aLang.settings_profile_avatar_resize_apply}</button>
-			<button class="button" onclick="return ls.user.cancelFoto();">{$aLang.settings_profile_avatar_resize_cancel}</button>
-		</div>
-	</fieldset>
-	
-	
 	{hook run='form_settings_profile_end'}
 	
 	
