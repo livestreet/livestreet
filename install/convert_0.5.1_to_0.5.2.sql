@@ -75,3 +75,6 @@ ALTER TABLE `prefix_topic` ADD INDEX ( `topic_count_comment` );
 
 ALTER TABLE `prefix_talk` ADD `talk_user_id_last` INT NOT NULL AFTER `talk_date_last` ,
 ADD INDEX ( `talk_user_id_last` );
+
+ALTER TABLE `prefix_talk` ADD `talk_comment_id_last` INT NULL DEFAULT NULL AFTER `talk_user_ip`;
+ALTER TABLE `prefix_talk_user` ADD INDEX ( `comment_count_new` );

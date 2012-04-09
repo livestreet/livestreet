@@ -110,13 +110,37 @@ class ActionTalk extends Action {
 		if (isPost('submit_talk_del')) {
 			$this->Security_ValidateSendForm();
 			
-			$aTalksIdDel=getRequest('talk_del');
+			$aTalksIdDel=getRequest('talk_select');
 			if (is_array($aTalksIdDel)) {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
 			}
 		}
-		// Составляем фильтр для просмотра писем
+		/**
+		 * Обработка отметки о прочтении
+		 */
+		if (isPost('submit_talk_read')) {
+			$this->Security_ValidateSendForm();
+
+			$aTalksIdDel=getRequest('talk_select');
+			if (is_array($aTalksIdDel)) {
+				$this->Talk_MarkReadTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());
+			}
+		}
+		/**
+		 * Количество сообщений на страницу
+		 */
+		$iPerPage=Config::Get('module.talk.per_page');
+		/**
+		 * Формируем фильтр для поиска сообщений
+		 */
 		$aFilter=$this->BuildFilter();
+		/**
+		 * Если только новые, то добавляем условие в фильтр
+		 */
+		if ($this->GetParam(0)=='new') {
+			$aFilter['only_new']=true;
+			$iPerPage=50; // новых отображаем только последние 50 писем, без постраничности
+		}
 		
 		/**
 		 * Передан ли номер страницы
@@ -126,7 +150,7 @@ class ActionTalk extends Action {
 		 * Получаем список писем
 		 */		
 		$aResult=$this->Talk_GetTalksByFilter(
-			$aFilter,$iPage,Config::Get('module.talk.per_page')
+			$aFilter,$iPage,$iPerPage
 		);
 		
 		$aTalks=$aResult['collection'];	
@@ -134,7 +158,7 @@ class ActionTalk extends Action {
 		 * Формируем постраничность
 		 */			
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
+			$aResult['count'],$iPage,$iPerPage,4,
 			Router::GetPath('talk').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
@@ -145,7 +169,7 @@ class ActionTalk extends Action {
 			)
 		);
 		
-		if(count($aFilter)>1) {
+		if(getRequest('submit_talk_filter')) {
 			$this->Message_AddNotice(
 				($aResult['count'])
 					? $this->Lang_Get('talk_filter_result_count',array('count'=>$aResult['count']))
@@ -306,7 +330,7 @@ class ActionTalk extends Action {
 			return false;
 		}
 		
-		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(getRequest('talk_title')),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
+		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequest('talk_title'))),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -604,6 +628,7 @@ class ActionTalk extends Action {
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
 			$oTalk->setUserIdLast($oCommentNew->getUserId());
+			$oTalk->setCommentIdLast($oCommentNew->getId());
 			$oTalk->setCountComment($oTalk->getCountComment()+1);
 			$this->Talk_UpdateTalk($oTalk);
 			/**

@@ -14,7 +14,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th><input type="checkbox" name="" onclick="ls.tools.checkAll('form_talks_checkbox', this);"></th>
+					<th><input type="checkbox" name="" onclick="ls.tools.checkAll('form_talks_checkbox', this, true);"></th>
 					<th>{$aLang.talk_inbox_target}</th>
 					<th></th>
 					<th>{$aLang.talk_inbox_title}</th>
@@ -26,7 +26,7 @@
 				{foreach from=$aTalks item=oTalk}
 					{assign var="oTalkUserAuthor" value=$oTalk->getTalkUser()}
 					<tr>
-						<td><input type="checkbox" name="talk_del[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
+						<td><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
 						<td>
 							{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
 								{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
@@ -39,11 +39,15 @@
 							<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
 						</td>
 						<td>
-							{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
-								<a href="{router page='talk'}read/{$oTalk->getId()}/"><strong>{$oTalk->getTitle()|escape:'html'}</strong></a>
-							{else}
-								<a href="{router page='talk'}read/{$oTalk->getId()}/">{$oTalk->getTitle()|escape:'html'}</a>
-							{/if}
+							{strip}
+								<a href="{router page='talk'}read/{$oTalk->getId()}/" class="js-title-comment" title="{$oTalk->getTextLast()|strip_tags|truncate:100:'...'}">
+									{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
+										<strong>{$oTalk->getTitle()|escape:'html'}</strong>
+									{else}
+										{$oTalk->getTitle()|escape:'html'}
+									{/if}
+								</a>
+							{/strip}
 							
 							{if $oTalk->getCountComment()}
 								({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
@@ -61,6 +65,7 @@
 		</table>
 
 		<button name="submit_talk_del" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" class="button">{$aLang.talk_inbox_delete}</button>
+		<button name="submit_talk_read" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:true;" class="button">{$aLang.talk_inbox_make_read}</button>
 	</form>
 {else}
 	<div class="notice-empty">Тут ничего нет</div>

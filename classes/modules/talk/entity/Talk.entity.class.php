@@ -41,12 +41,25 @@ class ModuleTalk_EntityTalk extends Entity
     public function getUserIp() {
         return $this->_aData['talk_user_ip'];
     }
+	public function getCommentIdLast() {
+		return $this->_aData['talk_comment_id_last'];
+	}
     public function getCountComment() {
         return $this->_aData['talk_count_comment'];
     }
       
     
-    
+	/**
+	 * Возвращает последний текст(коммент) из письма, если комментов нет, то текст исходного сообщения
+	 *
+	 * @return string
+	 */
+	public function getTextLast() {
+		if ($oComment=$this->getCommentLast()) {
+			return $oComment->getText();
+		}
+		return $this->getText();
+	}
     public function getUsers() {
     	return $this->_aData['users'];
     }
@@ -97,7 +110,10 @@ class ModuleTalk_EntityTalk extends Entity
 	}
     public function setUserIp($data) {
         $this->_aData['talk_user_ip']=$data;
-    }  
+    }
+	public function setCommentIdLast($data) {
+		$this->_aData['talk_comment_id_last']=$data;
+	}
     public function setCountComment($data) {
         $this->_aData['talk_count_comment']=$data;
     }

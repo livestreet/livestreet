@@ -707,6 +707,7 @@ return array(
 	 * Malbox
 	 */
 	'talk_menu_inbox' => 'Mailbox',
+	'talk_menu_inbox_new' => 'Only new',
 	'talk_menu_inbox_list' => 'Correspondence',
 	'talk_menu_inbox_create' => 'Create new',
 	'talk_menu_inbox_favourites' => 'Favourites',
@@ -715,6 +716,7 @@ return array(
 	'talk_inbox_target' => 'Recipients',
 	'talk_inbox_title' => 'Subject',
 	'talk_inbox_date' => 'Date',
+	'talk_inbox_make_read' => 'Mark as read',
 	'talk_inbox_delete' => 'Delete correspondence',
 	'talk_inbox_delete_confirm' => 'Do you really want to delete correspondence?',
 	'talk_comments' => 'Correspondence',

@@ -48,11 +48,12 @@ class ModuleTalk_MapperTalk extends Mapper {
 		$sql = "UPDATE ".Config::Get('db.table.talk')." SET			
 				talk_date_last = ? ,
 				talk_user_id_last = ? ,
+				talk_comment_id_last = ? ,
 				talk_count_comment = ?
 			WHERE 
 				talk_id = ?d
 		";			
-		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCountComment(),$oTalk->getId());
+		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCommentIdLast(),$oTalk->getCountComment(),$oTalk->getId());
 	}
 	
 	public function GetTalksByArrayId($aArrayId) {
@@ -343,6 +344,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 					AND u.user_id=t.user_id
 					{ AND tu.user_id = ?d }
 					{ AND tu.talk_id IN (?a) }
+					{ AND ( tu.comment_count_new > ?d OR tu.date_last IS NULL ) }
 					{ AND t.talk_date <= ? }
 					{ AND t.talk_date >= ? }
 					{ AND t.talk_title LIKE ? }
@@ -361,13 +363,14 @@ class ModuleTalk_MapperTalk extends Mapper {
 				ModuleTalk::TALK_USER_ACTIVE,
 				(!empty($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP),
 				((isset($aFilter['id']) and count($aFilter['id'])) ? $aFilter['id'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['only_new']) ? 0 : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_max']) ? $aFilter['date_max'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['date_min']) ? $aFilter['date_min'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['keyword']) ? $aFilter['keyword'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['text_like']) ? $aFilter['text_like'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['user_login']) ? $aFilter['user_login'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['sender_id']) ? $aFilter['sender_id'] : DBSIMPLE_SKIP),
-				($iCurrPage-1)*$iPerPage, 
+				($iCurrPage-1)*$iPerPage,
 				$iPerPage
 			)
 		) {

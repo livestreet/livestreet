@@ -78,7 +78,10 @@ class ModuleComment extends Module {
 	 * Получает дополнительные данные(объекты) для комментов по их ID
 	 *
 	 */
-	public function GetCommentsAdditionalData($aCommentId,$aAllowData=array('vote','target','favourite','user'=>array())) {
+	public function GetCommentsAdditionalData($aCommentId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('vote','target','favourite','user'=>array());
+		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aCommentId)) {
 			$aCommentId=array($aCommentId);

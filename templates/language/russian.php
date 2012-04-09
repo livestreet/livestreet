@@ -707,6 +707,7 @@ return array(
 	 * Почта
 	 */
 	'talk_menu_inbox' => 'Почтовый ящик',
+	'talk_menu_inbox_new' => 'Только новые',
 	'talk_menu_inbox_list' => 'Переписка',
 	'talk_menu_inbox_create' => 'Новое письмо',
 	'talk_menu_inbox_favourites' => 'Избранное',
@@ -715,6 +716,7 @@ return array(
 	'talk_inbox_target' => 'Адресаты',
 	'talk_inbox_title' => 'Тема',
 	'talk_inbox_date' => 'Дата',
+	'talk_inbox_make_read' => 'Отметить как прочитанное',
 	'talk_inbox_delete' => 'Удалить выделенное',
 	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
 	'talk_comments' => 'Переписка',
