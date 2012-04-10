@@ -19,23 +19,23 @@
  * Регистрация хуков
  *
  */
-class PluginProfiler_HookProfiler extends Hook {    
+class PluginProfiler_HookProfiler extends Hook {
 
-    public function RegisterHook() {    	
-        /**
-         * Хук для вставки HTML кода
-         */
-        if ($oUserCurrent=$this->User_GetUserCurrent() and $oUserCurrent->isAdministrator()) {
-        	$this->AddHook('template_body_end', 'Profiler');
-        }
-    }
+	public function RegisterHook() {
+		/**
+		 * Хук для вставки HTML кода
+		 */
+		if ($oUserCurrent=$this->User_GetUserCurrent() and $oUserCurrent->isAdministrator()) {
+			$this->AddHook('template_body_end', 'Profiler');
+		}
+	}
 
-    /**
-     * Выводим HTML
-     *
-     */
-    public function Profiler() {    	
+	/**
+	 * Выводим HTML
+	 *
+	 */
+	public function Profiler() {
 		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__).'link.tpl');
-    }    
+	}
 }
 ?>

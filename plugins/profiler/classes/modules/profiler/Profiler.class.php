@@ -19,7 +19,7 @@
  * Модуль статических страниц
  *
  */
-class PluginProfiler_ModuleProfiler extends Module {		
+class PluginProfiler_ModuleProfiler extends Module {
 	/**
 	 * Меппер для сохранения логов в базу данных и формирования выборок по данным из базы
 	 *
@@ -33,12 +33,12 @@ class PluginProfiler_ModuleProfiler extends Module {
 	 * @var resource
 	 */
 	protected $hLog;
-	
+
 	/**
 	 * @var string
 	 */
 	protected $sDataDelimiter = "\t";
-	
+
 	/**
 	 * Инициализация модуля
 	 */
@@ -46,7 +46,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 		$this->hLog = @fopen(Config::Get('path.root.server').'/logs/'.Config::Get('sys.logs.profiler_file'),'r+');
 	}
-	
+
 	/**
 	 * Добавить новую запись в базу данных
 	 *
@@ -56,7 +56,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 	public function AddEntry(PluginProfiler_ModuleProfiler_EntityEntry $oEntry) {
 		return $this->oMapper->AddEntry($oEntry);
 	}
-	
+
 	/**
 	 * Читает из лог-файла записи
 	 *
@@ -73,17 +73,17 @@ class PluginProfiler_ModuleProfiler extends Module {
 		 */
 		$sLine=fgets($this->hLog);
 		if(!$sLine) return null;
-		
+
 		$aTime = array();
 		list(
-			  $aTime['request_date'],$aTime['request_id'],$aTime['time_full'],
-			  $aTime['time_start'],$aTime['time_stop'],$aTime['time_id'],
-			  $aTime['time_pid'],$aTime['time_name'],$aTime['time_comment']
+			$aTime['request_date'],$aTime['request_id'],$aTime['time_full'],
+			$aTime['time_start'],$aTime['time_stop'],$aTime['time_id'],
+			$aTime['time_pid'],$aTime['time_name'],$aTime['time_comment']
 			)=explode($this->sDataDelimiter,$sLine,9);
 
 		return Engine::GetEntity('PluginProfiler_Profiler_Entry',$aTime);
 	}
-	
+
 	/**
 	 * Выгружает записи из лога в базу данных
 	 *
@@ -94,20 +94,20 @@ class PluginProfiler_ModuleProfiler extends Module {
 	public function UploadLog($sDateStart,$sPath=null) {
 		if($sPath) $this->hLog = @fopen($sPath,'r+');
 		if(!$this->hLog) return null;
-		
+
 		rewind($this->hLog);
-		
+
 		$iCount=0;
 		while($oEntry=$this->ReadEntry()) {
-			if(strtotime($oEntry->getDate())>strtotime($sDateStart)){ 
+			if(strtotime($oEntry->getDate())>strtotime($sDateStart)){
 				$this->AddEntry($oEntry);
-				$iCount++; 
+				$iCount++;
 			}
 			unset($oEntry);
 		}
 		return $iCount;
 	}
-	
+
 	/**
 	 * Получает дату последней записи профайлера в базе данных
 	 *
@@ -116,20 +116,20 @@ class PluginProfiler_ModuleProfiler extends Module {
 	public function GetDatabaseStat() {
 		return $this->oMapper->GetDatabaseStat();
 	}
-	
+
 	/**
 	 * Очищает файл лога
 	 *
 	 * @return bool
 	 */
 	public function EraseLog() {
-		
+
 	}
-	
+
 	/**
 	 * Получает записи профайлера из базы данных, группированных по уровню "Report"
 	 * TODO: Реализовать кеширование данных
-	 * 
+	 *
 	 * @param  array $aFilter
 	 * @param  int   $iPage
 	 * @param  int   $iPerPage
@@ -141,9 +141,9 @@ class PluginProfiler_ModuleProfiler extends Module {
 			'count'=>$iCount
 		);
 
-		return $data;	
+		return $data;
 	}
-	
+
 	/**
 	 * Получает профайл-отчет по идентификатору
 	 * TODO: доработать система вывода записей в виде дерева
@@ -158,14 +158,14 @@ class PluginProfiler_ModuleProfiler extends Module {
 			 * Если запрошена часть записей, отдельно получаем статистику общей выборки
 			 */
 			$aStat = !is_null($sPid)
-			? $this->GetReportStatById($sId)
-			: array(
+				? $this->GetReportStatById($sId)
+				: array(
 					'count'     => 0,
 					'query'     => 0,
 					'modules'   => array(),
 					'time_full' => 0
 				);
-			
+
 			$oReport = Engine::GetEntity('PluginProfiler_Profiler_Report');
 			$aEntries = $this->BuildEntriesRecursive($aReportRows);
 			foreach ($aEntries as $oEntry) {
@@ -176,18 +176,18 @@ class PluginProfiler_ModuleProfiler extends Module {
 					 */
 					$aStat['count']++;
 					$aStat['time_full']=max($aStat['time_full'],$oEntry->getTimeFull());
-					if($oEntry->getName()=='query') $aStat['query']++;					
+					if($oEntry->getName()=='query') $aStat['query']++;
 				}
 			}
-			
+
 			$oReport->setStat($aStat);
 			return $oReport;
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Получает статистику данного отчета 
+	 * Получает статистику данного отчета
 	 * (количество замеров, общее время, количество запросов к БД, используемые модули)
 	 *
 	 * @param  string $sId
@@ -200,7 +200,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 			'modules'   => array(),
 			'time_full' => 0
 		);
-		
+
 		$aReportRows=$this->oMapper->GetReportStatById($sId);
 		foreach ($aReportRows as $aEntry) {
 			$aStat['count']++;
@@ -212,7 +212,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 		}
 		return $aStat;
 	}
-	
+
 	protected function BuildEntriesRecursive($aEntries,$bBegin=true) {
 		static $aResultEntries;
 		static $iLevel;
@@ -232,12 +232,12 @@ class PluginProfiler_ModuleProfiler extends Module {
 		}
 		$iLevel--;
 		return $aResultEntries;
-	}	
-	
+	}
+
 	/**
 	 * Удаление отчетов из базы данных
 	 * TODO: Добавить обработку кеша данных
-	 * 
+	 *
 	 * @param  array|int $aIds
 	 * @return bool
 	 */
