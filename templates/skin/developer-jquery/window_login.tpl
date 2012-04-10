@@ -104,12 +104,14 @@
 				<input type="password" value="" id="popup-registration-user-password-confirm" name="password_confirm" class="input-text input-width-300 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-password_confirm"></small></p>
 
+				{hookb run="popup_registration_captcha"}
 				<p><label for="popup-registration-captcha">{$aLang.registration_captcha}</label>
 				<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" 
 					 onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();"
 					 class="mb-10" /><br />
 				<input type="text" name="captcha" id="popup-registration-captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-captcha"></small></p>
+				{/hookb}
 
 				{hook run='form_registration_end' isPopup=true}
 

@@ -31,15 +31,15 @@ class ActionRegistration extends Action {
 		 */
 		if ($this->User_IsAuthorization()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('registration_is_authorization'),$this->Lang_Get('attention'));
-			return Router::Action('error'); 
+			return Router::Action('error');
 		}
 		/**
 		 * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
 		 */
-		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {			
-			return Router::Action('registration','invite');			
+		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {
+			return Router::Action('registration','invite');
 		}
-		
+
 		$this->SetDefaultEvent('index');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('registration'));
 	}
@@ -47,8 +47,8 @@ class ActionRegistration extends Action {
 	 * Регистрируем евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('index','EventIndex');			
+	protected function RegisterEvent() {
+		$this->AddEvent('index','EventIndex');
 		$this->AddEvent('confirm','EventConfirm');
 		$this->AddEvent('activate','EventActivate');
 		$this->AddEvent('invite','EventInvite');
@@ -56,9 +56,9 @@ class ActionRegistration extends Action {
 		$this->AddEvent('ajax-validate-fields','EventAjaxValidateFields');
 		$this->AddEvent('ajax-registration','EventAjaxRegistration');
 	}
-	
-	
-	
+
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
@@ -75,6 +75,8 @@ class ActionRegistration extends Action {
 		if (is_array($aFields)) {
 			foreach($aFields as $aField) {
 				if (isset($aField['field']) and isset($aField['value'])) {
+					$this->Hook_Run('registration_validate_field', array('aField'=>&$aField));
+					
 					$sField=$aField['field'];
 					$sValue=$aField['value'];
 
@@ -103,10 +105,6 @@ class ActionRegistration extends Action {
 				}
 			}
 		}
-
-
-
-
 
 		if ($oUser->_hasValidateErrors()) {
 			/**
@@ -144,9 +142,12 @@ class ActionRegistration extends Action {
 			$oUser->setActivateKey(null);
 		}
 
+		$this->Hook_Run('registration_validate_before', array('oUser'=>$oUser));
 		if ($oUser->_Validate()) {
+			$this->Hook_Run('registration_validate_after', array('oUser'=>$oUser));
 			$oUser->setPassword(md5($oUser->getPassword()));
 			if ($this->User_Add($oUser)) {
+				$this->Hook_Run('registration_after', array('oUser'=>$oUser));
 				/**
 				 * Убиваем каптчу
 				 */
@@ -203,21 +204,21 @@ class ActionRegistration extends Action {
 	/**
 	 * Показывает страничку регистрации
 	 */
-	protected function EventIndex() {			
+	protected function EventIndex() {
 
 	}
 	/**
 	 * Обрабатывает активацию аккаунта
 	 */
-	protected function EventActivate() {		
+	protected function EventActivate() {
 		$bError=false;
 		/**
 		 * Проверяет передан ли код активации
 		 */
 		$sActivateKey=$this->GetParam(0);
-		if (!func_check($sActivateKey,'md5')) {				
+		if (!func_check($sActivateKey,'md5')) {
 			$bError=true;
-		}	
+		}
 		/**
 		 * Проверяет верный ли код активации
 		 */
@@ -225,7 +226,7 @@ class ActionRegistration extends Action {
 			$bError=true;
 		}
 		/**
-		 * 
+		 *
 		 */
 		if ($oUser and $oUser->getActivate()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'),$this->Lang_Get('error'));
@@ -248,8 +249,8 @@ class ActionRegistration extends Action {
 		 */
 		if ($this->User_Update($oUser)) {
 			$this->DropInviteRegister();
-			$this->Viewer_Assign('bRefreshToHome',true);						
-			$this->User_Authorization($oUser,false);						
+			$this->Viewer_Assign('bRefreshToHome',true);
+			$this->User_Authorization($oUser,false);
 			return;
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -260,11 +261,11 @@ class ActionRegistration extends Action {
 	 * Обработка кода приглашения при включеном режиме инвайтов
 	 *
 	 */
-	protected function EventInvite() {	
+	protected function EventInvite() {
 		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
-			
+
 		if (isPost('submit_invite')) {
 			/**
 			 * проверяем код приглашения на валидность
@@ -273,7 +274,7 @@ class ActionRegistration extends Action {
 				$sInviteId=$this->GetInviteRegister();
 			} else {
 				$sInviteId=getRequest('invite_code');
-			}			
+			}
 			$oInvate=$this->User_GetInviteByCode($sInviteId);
 			if ($oInvate) {
 				if (!$this->CheckInviteRegister()) {
@@ -281,9 +282,9 @@ class ActionRegistration extends Action {
 				}
 				return Router::Action('registration');
 			} else {
-				$this->Message_AddError($this->Lang_Get('registration_invite_code_error'),$this->Lang_Get('error'));				
+				$this->Message_AddError($this->Lang_Get('registration_invite_code_error'),$this->Lang_Get('error'));
 			}
-		}									
+		}
 	}
 	/**
 	 * Путается ли юзер зарегистрироваться с помощью кода приглашения
@@ -296,22 +297,22 @@ class ActionRegistration extends Action {
 		}
 		return false;
 	}
-	
-	protected function GetInviteRegister() {		
+
+	protected function GetInviteRegister() {
 		return $this->Session_Get('invite_code');
 	}
-	
+
 	protected function DropInviteRegister() {
 		if (Config::Get('general.reg.invite')) {
 			$this->Session_Drop('invite_code');
 		}
 	}
-		
+
 	/**
 	 * Просто выводит шаблон
 	 *
 	 */
-	protected function EventConfirm() {											
+	protected function EventConfirm() {
 	}
 }
 ?>
