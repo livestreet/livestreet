@@ -516,6 +516,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/internal/template/js/toolbar.js",
 	"___path.root.engine_lib___/internal/template/js/settings.js",
 	"___path.root.engine_lib___/internal/template/js/hook.js",
+	"http://yandex.st/share/share.js" => array('merge'=>false),
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

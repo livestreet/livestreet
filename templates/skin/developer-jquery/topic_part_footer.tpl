@@ -40,11 +40,14 @@
 		
 		
 		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
-			social buttons
+			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+			{/hookb}
 		</div>
 
 
 		<ul class="topic-info">
+			{strip}
 			<li id="vote_area_topic_{$oTopic->getId()}" class="vote 
 																{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 																	{if $oTopic->getRating() > 0}
@@ -63,6 +66,7 @@
 																		voted-down
 																	{/if}
 																{/if}">
+			{/strip}
 				<div class="vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"></div>
 				<div class="vote-count" id="vote_total_topic_{$oTopic->getId()}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
 					{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')} 
