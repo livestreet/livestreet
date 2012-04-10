@@ -58,6 +58,20 @@ jQuery(document).ready(function($){
 		liveEvents: true,
 		showTimeout: 1500
 	});
+
+	$('.js-infobox-vote-topic').poshytip({
+		content: function() {
+			var id = $(this).attr('id').replace('vote_total_topic_','vote-info-topic-');
+			return $('#'+id).html();
+		},
+		className: 'infobox-title',
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 2,
+		liveEvents: true,
+		showTimeout: 100
+	});
 	
 	
 	// Кнопка прокрутки вверх

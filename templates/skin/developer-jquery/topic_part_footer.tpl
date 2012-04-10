@@ -67,17 +67,27 @@
 																	{/if}
 																{/if}">
 			{/strip}
+				{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+					{assign var="bVoteInfoShow" value=true}
+				{/if}
 				<div class="vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"></div>
-				<div class="vote-count" id="vote_total_topic_{$oTopic->getId()}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
-					{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')} 
+				<div class="vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" id="vote_total_topic_{$oTopic->getId()}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+					{if $bVoteInfoShow}
 						{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 					{else} 
 						<a href="#" onclick="return ls.vote.vote({$oTopic->getId()},this,0,'topic');">?</a> 
 					{/if}
 				</div>
 				<div href="#" class="vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"></div>
+				{if $bVoteInfoShow}
+					<div id="vote-info-topic-{$oTopic->getId()}" style="display: none;">
+						+ {$oTopic->getCountVoteUp()}<br/>
+						- {$oTopic->getCountVoteDown()}<br/>
+						&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
+					</div>
+				{/if}
 			</li>
-			
+
 			<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 			<li class="topic-info-favourite">
 				<div onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></div>
