@@ -30,12 +30,12 @@ class PluginPage extends Plugin {
 		),
 	);
 
-	
+
 	/**
 	 * Активация плагина "Статические страницы".
 	 * Создание таблицы в базе данных при ее отсутствии.
 	 */
-	public function Activate() {		
+	public function Activate() {
 		if (!$this->isTableExists('prefix_page')) {
 			/**
 			 * При активации выполняем SQL дамп
@@ -44,12 +44,12 @@ class PluginPage extends Plugin {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Инициализация плагина
 	 */
 	public function Init() {
-	
+
 	}
 }
 ?>

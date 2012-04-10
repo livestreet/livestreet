@@ -19,20 +19,20 @@
 class PluginPage_HookSitemap extends Hook {
 
 	/**
-     * Цепляем обработчики на хуки
-     *
-     * @return void
-     */
+	 * Цепляем обработчики на хуки
+	 *
+	 * @return void
+	 */
 	public function RegisterHook() {
 		$this->AddHook('sitemap_index_counters', 'SitemapIndex');
 	}
 
 	/**
-     * Добавляем ссылку на Sitemap страниц в Sitemap Index
-     *
-     * @param array $aCounters
-     * @return void
-     */
+	 * Добавляем ссылку на Sitemap страниц в Sitemap Index
+	 *
+	 * @param array $aCounters
+	 * @return void
+	 */
 	public function SitemapIndex($aCounters) {
 		$aCounters['pages'] = ceil($this->PluginSitemap_Page_GetActivePagesCount() / Config::Get('plugin.sitemap.objects_per_page'));
 	}

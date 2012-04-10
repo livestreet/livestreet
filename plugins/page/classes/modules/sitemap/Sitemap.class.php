@@ -21,10 +21,10 @@
 class PluginPage_ModuleSitemap extends PluginPage_Inherit_PluginSitemap_ModuleSitemap {
 
 	/**
-     * Change data for Sitemap Index
-     *
-     * @return array
-     */
+	 * Change data for Sitemap Index
+	 *
+	 * @return array
+	 */
 	public function getExternalCounters() {
 		$aCounters = parent::getExternalCounters();
 		$aCounters['pages'] = ceil($this->PluginPage_Page_GetCountOfActivePages() / Config::Get('plugin.sitemap.objects_per_page'));
@@ -34,10 +34,10 @@ class PluginPage_ModuleSitemap extends PluginPage_Inherit_PluginSitemap_ModuleSi
 
 	/**
 	 * Get data for static pages Sitemap
-     *
-     * @param integer $iCurrPage
-     * @return array
-     */
+	 *
+	 * @param integer $iCurrPage
+	 * @return array
+	 */
 	public function getDataForPages($iCurrPage) {
 		$iPerPage = Config::Get('plugin.sitemap.objects_per_page');
 		$sCacheKey = "sitemap_pages_{$iCurrPage}_" . $iPerPage;
@@ -49,10 +49,10 @@ class PluginPage_ModuleSitemap extends PluginPage_Inherit_PluginSitemap_ModuleSi
 			$aData = array();
 			foreach ($aPages as $oPage) {
 				$aData[] = $this->PluginSitemap_Sitemap_GetDataForSitemapRow(
-				Router::GetPath('page') . $oPage->getUrlFull(),
-				$oPage->getDateLastMod(),
-				Config::Get('plugin.page.sitemap.sitemap_priority'),
-				Config::Get('plugin.page.sitemap.sitemap_changefreq')
+					Router::GetPath('page') . $oPage->getUrlFull(),
+					$oPage->getDateLastMod(),
+					Config::Get('plugin.page.sitemap.sitemap_priority'),
+					Config::Get('plugin.page.sitemap.sitemap_changefreq')
 				);
 			}
 

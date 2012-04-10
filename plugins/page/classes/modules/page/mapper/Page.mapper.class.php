@@ -16,7 +16,7 @@
 */
 
 class PluginPage_ModulePage_MapperPage extends Mapper {
-	
+
 	public function AddPage(PluginPage_ModulePage_EntityPage $oPage) {
 		$sql = "INSERT INTO ".Config::Get('plugin.page.table.page')." 
 			(page_pid,
@@ -33,14 +33,14 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 			page_auto_br
 			)
 			VALUES(?, ?,	?,	?,  ?,  ?,  ?,  ?,  ?d,  ?d,  ?d,  ?d)
-		";			
-		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr())) 
+		";
+		if ($iId=$this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateAdd(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr()))
 		{
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function UpdatePage(PluginPage_ModulePage_EntityPage $oPage) {
 		$sql = "UPDATE ".Config::Get('plugin.page.table.page')." 
 			SET page_pid = ? ,
@@ -56,27 +56,27 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 			page_sort	 = ?, 		
 			page_auto_br	 = ?
 			WHERE page_id = ?d
-		";			
-		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr(),$oPage->getId())) 
+		";
+		if ($this->oDb->query($sql,$oPage->getPid(),$oPage->getUrl(),$oPage->getUrlFull(),$oPage->getTitle(),$oPage->getText(),$oPage->getDateEdit(),$oPage->getSeoKeywords(),$oPage->getSeoDescription(),$oPage->getActive(),$oPage->getMain(),$oPage->getSort(),$oPage->getAutoBr(),$oPage->getId()))
 		{
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function SetPagesPidToNull() {
 		$sql = "UPDATE ".Config::Get('plugin.page.table.page')." 
 			SET 
 				page_pid = null,
 				page_url_full = page_url 			 				
-		";			
-		if ($this->oDb->query($sql)) 
+		";
+		if ($this->oDb->query($sql))
 		{
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public function GetPageByUrlFull($sUrlFull,$iActive) {
 		$sql = "SELECT * FROM ".Config::Get('plugin.page.table.page')." WHERE page_url_full = ? and page_active = ?d ";
 		if ($aRow=$this->oDb->selectRow($sql,$sUrlFull,$iActive)) {
@@ -84,7 +84,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function GetPageById($sId) {
 		$sql = "SELECT * FROM ".Config::Get('plugin.page.table.page')." WHERE page_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
@@ -92,7 +92,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function deletePageById($sId) {
 		$sql = "DELETE FROM ".Config::Get('plugin.page.table.page')." WHERE page_id = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sId)) {
@@ -100,7 +100,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return false;
 	}
-	
+
 	public function GetPages($aFilter) {
 		$sPidNULL='';
 		if (array_key_exists('pid',$aFilter) and is_null($aFilter['pid'])) {
@@ -120,15 +120,15 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 				ORDER by page_sort desc;	
 					";
 		if ($aRows=$this->oDb->select($sql,
-				isset($aFilter['active']) ? $aFilter['active']:DBSIMPLE_SKIP,
-				isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,				
-				(array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $aFilter['pid'] : DBSIMPLE_SKIP
-				)) {
+									  isset($aFilter['active']) ? $aFilter['active']:DBSIMPLE_SKIP,
+									  isset($aFilter['main']) ? $aFilter['main']:DBSIMPLE_SKIP,
+									  (array_key_exists('pid',$aFilter) and !is_null($aFilter['pid'])) ? $aFilter['pid'] : DBSIMPLE_SKIP
+		)) {
 			return $aRows;
 		}
 		return null;
 	}
-	
+
 	public function GetCountPage() {
 		$sql = "SELECT count(*) as count FROM ".Config::Get('plugin.page.table.page')." ";
 		if ($aRow=$this->oDb->selectRow($sql)) {
@@ -136,7 +136,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function GetPagesByPid($sPid) {
 		$sql = "SELECT 
 					*				
@@ -152,7 +152,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return $aResult;
 	}
-	
+
 	public function GetNextPageBySort($iSort,$sPid,$sWay) {
 		if ($sWay=='up') {
 			$sWay='>';
@@ -171,7 +171,7 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function GetMaxSortByPid($sPid) {
 		$sPidNULL='';
 		if (is_null($sPid)) {
@@ -183,16 +183,16 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 		}
 		return 0;
 	}
-	
-	
+
+
 	/**
-     * List of active pages
-     *
-     * @param integer $iCount
-     * @param integer $iCurrPage
-     * @param integer $iPerPage
-     * @return array
-     */
+	 * List of active pages
+	 *
+	 * @param integer $iCount
+	 * @param integer $iCurrPage
+	 * @param integer $iPerPage
+	 * @return array
+	 */
 	public function getListOfActivePages(&$iCount, $iCurrPage, $iPerPage) {
 		$sql = 'SELECT
                     `page`.*
@@ -215,10 +215,10 @@ class PluginPage_ModulePage_MapperPage extends Mapper {
 	}
 
 	/**
-     * Count of active pages
-     *
-     * @return integer
-     */
+	 * Count of active pages
+	 *
+	 * @return integer
+	 */
 	public function getCountOfActivePages() {
 		$sql = 'SELECT
                     COUNT(`page`.`page_id`)
