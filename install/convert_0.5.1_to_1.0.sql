@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `prefix_subscribe` (
 CREATE TABLE IF NOT EXISTS `prefix_wall` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
-  `wall_user_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `wall_user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `count_reply` int(11) NOT NULL DEFAULT '0',
   `last_reply` varchar(100) NOT NULL,
   `date_add` datetime NOT NULL,
@@ -40,8 +40,14 @@ CREATE TABLE IF NOT EXISTS `prefix_wall` (
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `wall_user_id` (`wall_user_id`),
-  KEY `ip` (`ip`)
+  KEY `ip` (`ip`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_wall`
+  ADD CONSTRAINT `prefix_wall_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_wall_ibfk_1` FOREIGN KEY (`wall_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 ALTER TABLE `prefix_user_field` ADD `type` VARCHAR( 50 ) NOT NULL AFTER `id` ,
 ADD INDEX ( `type` );
@@ -49,14 +55,19 @@ ADD INDEX ( `type` );
 
 CREATE TABLE IF NOT EXISTS `prefix_user_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `target_user_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `target_user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `text` text NOT NULL,
   `date_add` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `target_user_id` (`target_user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_user_note`
+  ADD CONSTRAINT `prefix_user_note_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_user_note_ibfk_1` FOREIGN KEY (`target_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 
 ALTER TABLE `prefix_favourite` ADD `tags` VARCHAR( 250 ) NOT NULL;
@@ -70,6 +81,10 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
   KEY `target_type_id` (`target_type`,`target_id`),
   KEY `is_user` (`is_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_favourite_tag`
+  ADD CONSTRAINT `prefix_favourite_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 ALTER TABLE `prefix_topic` ADD INDEX ( `topic_count_comment` );
 
