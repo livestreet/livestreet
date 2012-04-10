@@ -1209,7 +1209,144 @@ class Install {
 		 * Необходимая конвертация в 1.0 из 0.5.1
 		 */
 
-		
+		/**
+		 * Пересчет количества избранного для топиков
+		 */
+		$sTable1=$aParams['prefix'].'topic';
+		$sTable2=$aParams['prefix'].'favourite';
+		$sQuery = "
+                UPDATE {$sTable1} t
+                SET t.topic_count_favourite = (
+                    SELECT count(f.user_id)
+                    FROM {$sTable2} f
+                    WHERE
+                        f.target_id = t.topic_id
+                    AND
+                        f.target_publish = 1
+                    AND
+                        f.target_type = 'topic'
+                )
+            ";
+		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+		/**
+		 * Пересчет количества избранного для комментов
+		 */
+		$sTable1=$aParams['prefix'].'comment';
+		$sQuery = "
+            UPDATE {$sTable1} c
+            SET c.comment_count_favourite = (
+                SELECT count(f.user_id)
+                FROM {$sTable2} f
+                WHERE
+                    f.target_id = c.comment_id
+                AND
+					f.target_publish = 1
+				AND
+					f.target_type = 'comment'
+            )
+		";
+		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+		/**
+		 * Пересчет счетчиков голосования за топик
+		 */
+		$sTable1=$aParams['prefix'].'topic';
+		$sTable2=$aParams['prefix'].'vote';
+		$sQuery = "
+                UPDATE {$sTable1} t
+                SET t.topic_count_vote_up = (
+                    SELECT count(*)
+                    FROM {$sTable2} v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = 1
+                    AND
+                        v.target_type = 'topic'
+                ), t.topic_count_vote_down = (
+                    SELECT count(*)
+                    FROM {$sTable2} v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = -1
+                    AND
+                        v.target_type = 'topic'
+                ), t.topic_count_vote_abstain = (
+                    SELECT count(*)
+                    FROM {$sTable2} v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = 0
+                    AND
+                        v.target_type = 'topic'
+                )
+            ";
+		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+		/**
+		 * Пересчет количества топиков в блогах
+		 */
+		$sTable1=$aParams['prefix'].'blog';
+		$sTable2=$aParams['prefix'].'topic';
+		$sQuery = "
+                UPDATE {$sTable1} b
+                SET b.blog_count_topic = (
+                    SELECT count(*)
+                    FROM {$sTable2} t
+                    WHERE
+                        t.blog_id = b.blog_id
+                    AND
+                        t.topic_publish = 1
+                )
+            ";
+		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
+		/**
+		 * Проставляем последнего пользователя и последний комментарий во всех личных сообщениях
+		 */
+		$sTable1=$aParams['prefix'].'talk';
+		$sTable2=$aParams['prefix'].'comment';
+		$iPage=1;
+
+		do {
+			$iLimitStart=($iPage-1)*100;
+			$sQuery="SELECT talk_id, user_id FROM {$sTable1} LIMIT {$iLimitStart},100";
+			if(!$aResults = mysql_query($sQuery)){
+				$aErrors[] = mysql_error();
+				break;
+			}
+			if (mysql_num_rows($aResults)) {
+				while($aRow = mysql_fetch_assoc($aResults)) {
+					$iTalk=$aRow['talk_id'];
+					$iUserLast=$aRow['user_id'];
+					$iCommentLast=null;
+					/**
+					 * Запрашиваем последний комментарий из сообщения
+					 */
+					$sQuery2="SELECT comment_id, user_id FROM {$sTable2} WHERE target_id='{$iTalk}' and target_type='talk' ORDER BY comment_id desc LIMIT 0,1";
+					if(!$aResults2 = mysql_query($sQuery2)){
+						$aErrors[] = mysql_error();
+						break;
+					}
+					if($aRow2 = mysql_fetch_assoc($aResults2)) {
+						$iCommentLast=$aRow2['comment_id'];
+						$iUserLast=$aRow2['user_id'];
+					}
+					/**
+					 * Обновляем значения
+					 */
+					$sQuery3="UPDATE {$sTable1} SET talk_user_id_last='{$iUserLast}', talk_comment_id_last={$iCommentLast} WHERE talk_id='{$iTalk}' ";
+					if(!mysql_query($sQuery3)) {
+						$aErrors[] = mysql_error();
+						break;
+					}
+				}
+			} else {
+				break;
+			}
+			$iPage++;
+		} while (1);
+
+
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
 		}
