@@ -23,23 +23,23 @@ class ModulePlugin extends Module {
 	/**
 	 * Файл описания плагина
 	 *
-	 * @var string 
+	 * @var string
 	 */
 	const PLUGIN_XML_FILE = 'plugin.xml';
 	/**
 	 * Путь к директории с плагинами
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $sPluginsDir;
-	
+
 	/**
 	 * Список плагинов
 	 *
 	 * @var unknown_type
 	 */
 	protected $aPluginsList=array();
-	
+
 	/**
 	 * Список engine-rewrite`ов (модули, экшены, сущности, шаблоны)
 	 *
@@ -51,16 +51,16 @@ class ModulePlugin extends Module {
 		'action' => array(),
 		'entity' => array(),
 		'template' => array(),
-                  'block' => array(),
+		'block' => array(),
 	);
-	
+
 	/**
 	 * Стек наследований
 	 *
 	 * @var array
 	 */
-	protected $aInherits=array();	
-	
+	protected $aInherits=array();
+
 	/**
 	 * Инициализация модуля
 	 *
@@ -68,30 +68,30 @@ class ModulePlugin extends Module {
 	public function Init() {
 		$this->sPluginsDir=Config::Get('path.root.server').'/plugins/';
 	}
-	
+
 	/**
 	 * Получает список информации о всех плагинах, загруженных в plugin-директорию
 	 *
 	 * @return array
 	 */
-	public function GetList() {
+	public function GetList($aFilter=array()) {
 		if ($aPaths=glob($this->sPluginsDir.'*',GLOB_ONLYDIR)) {
 			$aList=array_map('basename',$aPaths);
 			$aActivePlugins=$this->GetActivePlugins();
 			foreach($aList as $sPlugin) {
 				$this->aPluginsList[$sPlugin] = array(
-				'code'      => $sPlugin,
-				'is_active' => in_array($sPlugin,$aActivePlugins)
+					'code'      => $sPlugin,
+					'is_active' => in_array($sPlugin,$aActivePlugins)
 				);
 
 				/**
-			 	* Считываем данные из XML файла описания
-			 	*/
+				 * Считываем данные из XML файла описания
+				 */
 				$sPluginXML = $this->sPluginsDir.$sPlugin.'/'.self::PLUGIN_XML_FILE;
 				if($oXml = @simplexml_load_file($sPluginXML)) {
 					/**
-				 	* Обрабатываем данные, считанные из XML-описания
-				 	*/
+					 * Обрабатываем данные, считанные из XML-описания
+					 */
 					$sLang=$this->Lang_GetLang();
 
 					$this->Xlang($oXml,'name',$sLang);
@@ -99,20 +99,30 @@ class ModulePlugin extends Module {
 					$this->Xlang($oXml,'description',$sLang);
 					$oXml->homepage=$this->Text_Parser($oXml->homepage);
 					$oXml->settings=preg_replace('/{([^}]+)}/',Router::GetPath('$1'),$oXml->settings);
-                                             
+
 					$this->aPluginsList[$sPlugin]['property']=$oXml;
 				} else {
 					/**
-				 	* Если XML-файл описания отсутствует, или не является валидным XML,
-				 	* удаляем плагин из списка
-				 	*/
+					 * Если XML-файл описания отсутствует, или не является валидным XML,
+					 * удаляем плагин из списка
+					 */
 					unset($this->aPluginsList[$sPlugin]);
 				}
 			}
 		}
+		/**
+		 * Если нужно сортировать плагины
+		 */
+		if (isset($aFilter['order'])) {
+			if ($aFilter['order']=='name') {
+				$aPlugins=$this->aPluginsList;
+				uasort($aPlugins, create_function('$a,$b',"if ((string)\$a['property']->name->data == (string)\$b['property']->name->data) { return 0; } return ((string)\$a['property']->name->data < (string)\$b['property']->name->data) ? -1 : 1;"));
+				return $aPlugins;
+			}
+		}
 		return $this->aPluginsList;
 	}
-	
+
 	/**
 	 * Получает значение параметра из XML на основе языковой разметки
 	 *
@@ -128,41 +138,41 @@ class ModulePlugin extends Module {
 		}
 		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
 	}
-	
+
 	public function Toggle($sPlugin,$sAction) {
 		$aPlugins=$this->GetList();
 		if(!isset($aPlugins[$sPlugin])) return null;
-		
+
 		$sPluginName=func_camelize($sPlugin);
-		
+
 		switch ($sAction) {
 			case 'activate':
 			case 'deactivate':
 				$sAction=ucfirst($sAction);
-				
+
 				$sFile="{$this->sPluginsDir}{$sPlugin}/Plugin{$sPluginName}.class.php";
 				if(is_file($sFile)) {
 					require_once($sFile);
-					
+
 					$sClassName="Plugin{$sPluginName}";
 					$oPlugin=new $sClassName;
-				
+
 					if($sAction=='Activate') {
 						/**
-						 * Проверяем совместимость с версией LS 						 
+						 * Проверяем совместимость с версией LS
 						 */
-						if(defined('LS_VERSION') 
+						if(defined('LS_VERSION')
 							and version_compare(LS_VERSION,(string)$aPlugins[$sPlugin]['property']->requires->livestreet,'<')) {
-								$this->Message_AddError(
-									$this->Lang_Get(
-										'plugins_activation_version_error',
-										array(
-											'version'=>$aPlugins[$sPlugin]['property']->requires->livestreet)
-										),
-									$this->Lang_Get('error'),
-									true
-								);
-								return;
+							$this->Message_AddError(
+								$this->Lang_Get(
+									'plugins_activation_version_error',
+									array(
+										'version'=>$aPlugins[$sPlugin]['property']->requires->livestreet)
+								),
+								$this->Lang_Get('error'),
+								true
+							);
+							return;
 						}
 						/**
 						 * Проверяем наличие require-плагинов
@@ -175,57 +185,57 @@ class ModulePlugin extends Module {
 									$iConflict++;
 									$this->Message_AddError(
 										$this->Lang_Get('plugins_activation_requires_error',
-											array(
-												'plugin'=>func_camelize($sReqPlugin)
-											)
+														array(
+															'plugin'=>func_camelize($sReqPlugin)
+														)
 										),
 										$this->Lang_Get('error'),
 										true
 									);
 								}
 							}
-							if($iConflict) { return; }							
+							if($iConflict) { return; }
 						}
-						
+
 						/**
 						 * Проверяем, не вступает ли данный плагин в конфликт с уже активированными
-						 * (по поводу объявленных делегатов) 
+						 * (по поводу объявленных делегатов)
 						 */
 						$aPluginDelegates=$oPlugin->GetDelegates();
 						$aPluginInherits=$oPlugin->GetInherits();
 						$iConflict=0;
 						foreach ($this->aDelegates as $sGroup=>$aReplaceList) {
 							$iCount=0;
-							if(isset($aPluginDelegates[$sGroup]) 
+							if(isset($aPluginDelegates[$sGroup])
 								and is_array($aPluginDelegates[$sGroup])
 									and $iCount=count($aOverlap=array_intersect_key($aReplaceList,$aPluginDelegates[$sGroup]))) {
-										$iConflict+=$iCount;
-										foreach ($aOverlap as $sResource=>$aConflict) {
-											$this->Message_AddError(
-												$this->Lang_Get('plugins_activation_overlap', array(
-														'resource'=>$sResource,
-														'delegate'=>$aConflict['delegate'],
-														'plugin'  =>$aConflict['sign']
-												)), 
-												$this->Lang_Get('error'), true
-											);									
-										}
+								$iConflict+=$iCount;
+								foreach ($aOverlap as $sResource=>$aConflict) {
+									$this->Message_AddError(
+										$this->Lang_Get('plugins_activation_overlap', array(
+											'resource'=>$sResource,
+											'delegate'=>$aConflict['delegate'],
+											'plugin'  =>$aConflict['sign']
+										)),
+										$this->Lang_Get('error'), true
+									);
+								}
 							}
-							if(isset($aPluginInherits[$sGroup]) 
+							if(isset($aPluginInherits[$sGroup])
 								and is_array($aPluginInherits[$sGroup])
 									and $iCount=count($aOverlap=array_intersect_key($aReplaceList,$aPluginInherits[$sGroup]))) {
-										$iConflict+=$iCount;
-										foreach ($aOverlap as $sResource=>$aConflict) {
-											$this->Message_AddError(
-												$this->Lang_Get('plugins_activation_overlap', array(
-														'resource'=>$sResource,
-														'delegate'=>$aConflict['delegate'],
-														'plugin'  =>$aConflict['sign']
-												)), 
-												$this->Lang_Get('error'), true
-											);									
-										}
-							}							
+								$iConflict+=$iCount;
+								foreach ($aOverlap as $sResource=>$aConflict) {
+									$this->Message_AddError(
+										$this->Lang_Get('plugins_activation_overlap', array(
+											'resource'=>$sResource,
+											'delegate'=>$aConflict['delegate'],
+											'plugin'  =>$aConflict['sign']
+										)),
+										$this->Lang_Get('error'), true
+									);
+								}
+							}
 							if($iCount){ return; }
 						}
 						/**
@@ -239,18 +249,18 @@ class ModulePlugin extends Module {
 									foreach ($this->aInherits[$sResource]['items'] as $aItem) {
 										$this->Message_AddError(
 											$this->Lang_Get('plugins_activation_overlap_inherit', array(
-													'resource'=>$sResource,													
-													'plugin'  =>$aItem['sign']
-											)), 
+												'resource'=>$sResource,
+												'plugin'  =>$aItem['sign']
+											)),
 											$this->Lang_Get('error'), true
 										);
 									}
 								}
 							}
 						}
-						if($iConflict){ return; }						
+						if($iConflict){ return; }
 					}
-					
+
 					$bResult=$oPlugin->$sAction();
 				} else {
 					/**
@@ -259,7 +269,7 @@ class ModulePlugin extends Module {
 					$this->Message_AddError($this->Lang_Get('plugins_activation_file_not_found'),$this->Lang_Get('error'),true);
 					return;
 				}
-				
+
 				if($bResult) {
 					/**
 					 * Переопределяем список активированных пользователем плагинов
@@ -294,12 +304,12 @@ class ModulePlugin extends Module {
 					$oSmarty->clearCompiledTemplate();
 				}
 				return $bResult;
-			
+
 			default:
 				return null;
 		}
 	}
-	
+
 	/**
 	 * Возвращает список активированных плагинов в системе
 	 *
@@ -308,13 +318,13 @@ class ModulePlugin extends Module {
 	public function GetActivePlugins() {
 		/**
 		 * Читаем данные из файла PLUGINS.DAT
-		 */		
+		 */
 		$aPlugins=@file($this->sPluginsDir.Config::Get('sys.plugins.activation_file'));
 		$aPlugins =(is_array($aPlugins))?array_unique(array_map('trim',$aPlugins)):array();
-		
+
 		return $aPlugins;
 	}
-	
+
 	/**
 	 * Записывает список активных плагинов в файл PLUGINS.DAT
 	 *
@@ -323,16 +333,16 @@ class ModulePlugin extends Module {
 	public function SetActivePlugins($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins = array($aPlugins);
 		$aPlugins=array_unique(array_map('trim',$aPlugins));
-		
+
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
 		 */
-		if (@file_put_contents($this->sPluginsDir.Config::Get('sys.plugins.activation_file'), implode(PHP_EOL,$aPlugins))!==false) {			
+		if (@file_put_contents($this->sPluginsDir.Config::Get('sys.plugins.activation_file'), implode(PHP_EOL,$aPlugins))!==false) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Удаляет плагины с сервера
 	 *
@@ -340,21 +350,21 @@ class ModulePlugin extends Module {
 	 */
 	public function Delete($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins=array($aPlugins);
-		
+
 		$aActivePlugins=$this->GetActivePlugins();
 		foreach ($aPlugins as $sPluginCode) {
 			/**
 			 * Если плагин активен, деактивируем его
 			 */
 			if(in_array($sPluginCode,$aActivePlugins)) $this->Toggle($sPluginCode,'deactivate');
-			
+
 			/**
 			 * Удаляем директорию с плагином
 			 */
 			func_rmdir($this->sPluginsDir.$sPluginCode);
 		}
 	}
-	
+
 	/**
 	 * Перенаправление вызовов на модули, экшены, сущности
 	 *
@@ -369,7 +379,7 @@ class ModulePlugin extends Module {
 		 */
 		if(!is_string($sSign) or !strlen($sSign)) return null;
 		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom or !$sTo) return null;
-		
+
 		$this->aDelegates[$sType][trim($sFrom)]=array(
 			'delegate'=>trim($sTo),
 			'sign'=>$sSign
@@ -381,19 +391,19 @@ class ModulePlugin extends Module {
 	 *
 	 * @param string $sFrom
 	 * @param string $sTo
-	 * @param string $sSign	
+	 * @param string $sSign
 	 */
 	public function Inherit($sFrom,$sTo,$sSign=__CLASS__) {
 		if(!is_string($sSign) or !strlen($sSign)) return null;
 		if(!$sFrom or !$sTo) return null;
-				
+
 		$this->aInherits[trim($sFrom)]['items'][]=array(
 			'inherit'=>trim($sTo),
 			'sign'=>$sSign
 		);
 		$this->aInherits[trim($sFrom)]['position']=count($this->aInherits[trim($sFrom)]['items'])-1;
 	}
-	
+
 	/**
 	 * Получает следующего родителя у наследника.
 	 * ВНИМАНИЕ! Данный метод нужно вызвать только из __autoload()
@@ -401,29 +411,29 @@ class ModulePlugin extends Module {
 	 * @param unknown_type $sFrom
 	 * @return unknown
 	 */
-	public function GetParentInherit($sFrom) {		
+	public function GetParentInherit($sFrom) {
 		if (!isset($this->aInherits[$sFrom]['items']) or count($this->aInherits[$sFrom]['items'])<=1 or $this->aInherits[$sFrom]['position']<1) {
 			return $sFrom;
 		}
-		$this->aInherits[$sFrom]['position']--;		
+		$this->aInherits[$sFrom]['position']--;
 		return $this->aInherits[$sFrom]['items'][$this->aInherits[$sFrom]['position']]['inherit'];
 	}
-	
+
 	public function GetInherits($sFrom) {
 		if (isset($this->aInherits[trim($sFrom)])) {
 			return $this->aInherits[trim($sFrom)]['items'];
 		}
 		return null;
 	}
-	
+
 	public function GetLastInherit($sFrom) {
 		if (isset($this->aInherits[trim($sFrom)])) {
 			return $this->aInherits[trim($sFrom)]['items'][count($this->aInherits[trim($sFrom)]['items'])-1];
 		}
 		return null;
-	}	
+	}
 	/**
-	 * Возвращает делегат модуля, экшена, сущности. 
+	 * Возвращает делегат модуля, экшена, сущности.
 	 * Если делегат не определен, пытается найти наследника, иначе отдает переданный в качестве sender`a параметр
 	 *
 	 * @param  string $sType
@@ -431,28 +441,28 @@ class ModulePlugin extends Module {
 	 * @return string
 	 */
 	public function GetDelegate($sType,$sFrom) {
-		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {			
+		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {
 			return $this->aDelegates[$sType][$sFrom]['delegate'];
-		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {	
+		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {
 			return $aInherit['inherit'];
 		}
 		return $sFrom;
 	}
 
-	public function GetDelegates($sType,$sFrom) {		
-		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {			
+	public function GetDelegates($sType,$sFrom) {
+		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {
 			return array($this->aDelegates[$sType][$sFrom]['delegate']);
 		} else if($aInherits=$this->GetInherits($sFrom)) {
 			return array_map(create_function('$aInherit','return $aInherit["inherit"];'),array_reverse($aInherits));
 		}
 		return null;
 	}
-	
+
 	public function GetDelegationChain($sType,$sTo) {
 		$sRootDelegater = $this->GetRootDelegater($sType,$sTo);
 		return $this->collectAllDelegatesRecursive($sType,array($sRootDelegater));
 	}
-	
+
 	public function GetRootDelegater($sType,$sTo) {
 		$sItem = $sTo;
 		$sItemDelegater = $this->GetDelegater($sType,$sTo);
@@ -461,12 +471,12 @@ class ModulePlugin extends Module {
 				$sRootDelegater = $sItem;
 			}
 			$sItem = $sItemDelegater;
-			$sItemDelegater = $this->GetDelegater($sType,$sItemDelegater); 
+			$sItemDelegater = $this->GetDelegater($sType,$sItemDelegater);
 		}
 		return $sRootDelegater;
 	}
 
-	public function collectAllDelegatesRecursive($sType,$aDelegates) {	
+	public function collectAllDelegatesRecursive($sType,$aDelegates) {
 		foreach($aDelegates as $sClass) {
 			if($aNewDelegates=$this->GetDelegates($sType,$sClass)) {
 				$aDelegates = array_merge($this->collectAllDelegatesRecursive($sType,$aNewDelegates),$aDelegates);
@@ -474,22 +484,22 @@ class ModulePlugin extends Module {
 		}
 		return $aDelegates;
 	}
-	
+
 	/**
 	 * Возвращает делегирующий объект по имени делегата
-	 * 
+	 *
 	 * @param  string $sType Объект
 	 * @param  string $sTo   Делегат
 	 * @return string
 	 */
 	public function GetDelegater($sType,$sTo) {
 		$aDelegateMapper=array_filter(
-			$this->aDelegates[$sType], 
+			$this->aDelegates[$sType],
 			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
 		);
 		if (is_array($aDelegateMapper) and count($aDelegateMapper))	{
 			return array_shift(array_keys($aDelegateMapper));
-		}		
+		}
 		foreach ($this->aInherits as $k=>$v) {
 			$aInheritMapper=array_filter(
 				$v['items'],
@@ -499,11 +509,11 @@ class ModulePlugin extends Module {
 				return $k;
 			}
 		}
-		return $sTo;		
+		return $sTo;
 	}
-	
+
 	/**
-	 * Возвращает подпись делегата модуля, экшена, сущности. 
+	 * Возвращает подпись делегата модуля, экшена, сущности.
 	 *
 	 * @param  string $sType
 	 * @param  string $sFrom
@@ -518,9 +528,9 @@ class ModulePlugin extends Module {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Возвращает true, если установлено правило делегирования 
+	 * Возвращает true, если установлено правило делегирования
 	 * и класс является базовым в данном правиле
 	 *
 	 * @param  string $sType
@@ -528,17 +538,17 @@ class ModulePlugin extends Module {
 	 * @return bool
 	 */
 	public function isDelegater($sType,$sFrom) {
-		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {			
+		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {
 			return true;
-		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {			
+		} elseif ($aInherit=$this->GetLastInherit($sFrom)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Возвращает true, если устано
-	 * 
+	 *
 	 * @param  string $sType
 	 * @param  string $sTo
 	 * @return bool
@@ -549,12 +559,12 @@ class ModulePlugin extends Module {
 		 * @var array
 		 */
 		$aDelegateMapper=array_filter(
-			$this->aDelegates[$sType], 
+			$this->aDelegates[$sType],
 			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
 		);
 		if (is_array($aDelegateMapper) and count($aDelegateMapper))	{
 			return true;
-		}		
+		}
 		foreach ($this->aInherits as $k=>$v) {
 			$aInheritMapper=array_filter(
 				$v['items'],
@@ -566,16 +576,16 @@ class ModulePlugin extends Module {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Возвращает список объектов, доступных для делегирования
-	 * 
+	 *
 	 * @return array
 	 */
 	public function GetDelegateObjectList() {
 		return array_keys($this->aDelegates);
 	}
-	
+
 	/**
 	 * При завершении работы модуля
 	 *

@@ -52,7 +52,7 @@ class ActionAdmin extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-    
+
 	protected function EventIndex() {
 
 	}
@@ -65,12 +65,12 @@ class ActionAdmin extends Action {
 		set_time_limit(0);
 		$this->Comment_RestoreTree();
 		$this->Cache_Clean();
-		
+
 		$this->Message_AddNotice($this->Lang_Get('admin_comment_restore_tree'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
 
-  	/**
+	/**
 	 * Пересчет счетчика избранных
 	 *
 	 */
@@ -79,7 +79,7 @@ class ActionAdmin extends Action {
 		$this->Comment_RecalculateFavourite();
 		$this->Topic_RecalculateFavourite();
 		$this->Cache_Clean();
-		
+
 		$this->Message_AddNotice($this->Lang_Get('admin_favourites_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
@@ -133,13 +133,9 @@ class ActionAdmin extends Action {
 			return $this->SubmitManagePlugin($sPlugin,$sAction);
 		}
 		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=	preg_match("/^\d+$/i",$this->GetEventMatch(2)) ? $this->GetEventMatch(2) : 1;
-		/**
 		 * Получаем список блогов
 		 */
-		$aPlugins=$this->Plugin_GetList();
+		$aPlugins=$this->Plugin_GetList(array('order'=>'name'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -160,8 +156,8 @@ class ActionAdmin extends Action {
 	{
 		switch(getRequest('action')) {
 			/**
-        	 * Создание нового поля
-        	 */
+			 * Создание нового поля
+			 */
 			case 'add':
 				/**
 				 * Обрабатываем как ajax запрос (json)
@@ -258,7 +254,7 @@ class ActionAdmin extends Action {
 				$this->SetTemplateAction('user_fields');
 		}
 	}
-	
+
 	/**
 	 * Проверка поля на корректность
 	 *
@@ -311,7 +307,7 @@ class ActionAdmin extends Action {
 	}
 
 
-    /**
+	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */

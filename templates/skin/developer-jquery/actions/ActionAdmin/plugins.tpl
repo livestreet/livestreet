@@ -36,7 +36,7 @@
 							{if $aPlugin.is_active}
 								<a href="{$aPlugin.property->settings}">{$aLang.plugins_plugin_settings}</a>
 							{else}
-								{$aLang.plugins_plugin_settings}
+
 							{/if}
 						{/if}
 					</td>
