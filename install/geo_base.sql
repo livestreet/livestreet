@@ -19534,8 +19534,6 @@ CREATE TABLE IF NOT EXISTS `prefix_geo_target` (
 -- Дамп данных таблицы `prefix_geo_target`
 --
 
-INSERT INTO `prefix_geo_target` (`geo_type`, `geo_id`, `target_type`, `target_id`, `country_id`, `region_id`, `city_id`) VALUES
-('region', 1040, 'user', 1, 149, 1040, NULL);
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
