@@ -11,14 +11,13 @@
 {elseif !$oUserFriend}
 	<div id="add_friend_form" class="modal">
 		<header class="modal-header">
-			<h3>{$aLang.user_authorization}</h3>
+			<h3>{$aLang.profile_add_friend}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 
 		<form onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');" class="modal-content">
-
 			<p><label for="add_friend_text">{$aLang.user_friend_add_text_label}</label>
-				<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea></p>
+			<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea></p>
 
 			<button class="button button-primary">{$aLang.user_friend_add_submit}</button>
 		</form>

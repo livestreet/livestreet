@@ -201,6 +201,7 @@ return array(
 	'block_stream_comments_all' => 'Весь эфир',
 	'block_stream_topics_all' => 'Весь эфир',
 	'comments_all' => 'Прямой эфир',
+	'add_favourite_tags' => 'Добавить свои теги',
 	/**
 	 * Меню топиков
 	 */
@@ -524,6 +525,7 @@ return array(
 	'profile_date_registration' => 'Зарегистрирован',
 	'profile_date_last' => 'Последний визит',
 	'profile_social_contacts' => 'Контакты и социальные сервисы',
+	'profile_add_friend' => 'Добавить друга',
 	/**
 	 * UserFields
 	 */

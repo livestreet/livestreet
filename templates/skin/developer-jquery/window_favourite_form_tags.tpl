@@ -1,7 +1,7 @@
 {if $oUserCurrent}
 	<div id="favourite-form-tags" class="modal">
 		<header class="modal-header">
-			<h3>{$aLang.user_authorization}</h3>
+			<h3>{$aLang.add_favourite_tags}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 		

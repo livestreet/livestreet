@@ -201,6 +201,7 @@ return array(
 	'block_stream_comments_all' => 'All comment block',
 	'block_stream_topics_all' => 'All topics block',
 	'comments_all' => 'All comments',
+	'add_favourite_tags' => 'Add tags',
 	/**
 	 * Topic menus
 	 */
@@ -524,6 +525,7 @@ return array(
 	'profile_date_registration' => 'Registered at',
 	'profile_date_last' => 'Last visit',
 	'profile_social_contacts' => 'Contacts and social services',
+	'profile_add_friend' => 'Add friend',
 	/**
 	 * UserFields
 	 */
