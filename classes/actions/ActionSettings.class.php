@@ -85,7 +85,7 @@ class ActionSettings extends Action {
 	 * Загрузка временной картинки для фото
 	 */
 	protected function EventUploadFoto() {
-		$this->Viewer_SetResponseAjax('json');
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['foto']['tmp_name'])) {
 			return false;
@@ -206,7 +206,7 @@ class ActionSettings extends Action {
 	 * Загрузка временной картинки для аватара
 	 */
 	protected function EventUploadAvatar() {
-		$this->Viewer_SetResponseAjax('json');
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['avatar']['tmp_name'])) {
 			return false;
