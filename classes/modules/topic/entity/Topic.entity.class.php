@@ -30,6 +30,7 @@ class ModuleTopic_EntityTopic extends Entity {
 		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic','link','question','photoset'));
+		$this->aValidateRules[]=array('topic_type','topic_type','on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('link_url','url','allowEmpty'=>false,'label'=>$this->Lang_Get('topic_link_create_url'),'on'=>array('link'));
 	}
 
@@ -40,6 +41,19 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	protected $aExtra=null;
 
+	/**
+	 * Проверка типа топика
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 * @return bool | string
+	 */
+	public function ValidateTopicType($sValue,$aParams) {
+		if ($this->Topic_IsAllowTopicType($sValue)) {
+			return true;
+		}
+		return $this->Lang_Get('topic_create_type_error');
+	}
 	/**
 	 * Проверка топика на уникальность
 	 *
@@ -167,6 +181,9 @@ class ModuleTopic_EntityTopic extends Entity {
         return $this->_aData['date_read'];
     }  
     public function getUser() {
+		if (!isset($this->_aData['user'])) {
+			$this->_aData['user']=$this->User_GetUserById($this->getUserId());
+		}
         return $this->_aData['user'];
     }
     public function getBlog() {

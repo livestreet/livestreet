@@ -49,6 +49,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^blogs$/i','/^join$/','EventBlogsJoin');
 
 		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
+		$this->AddEventPreg('/^preview$/i','/^topic/','EventPreviewTopic');
 
 		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
 
@@ -807,6 +808,63 @@ class ActionAjax extends Action {
 		}
 	}
 
+	/**
+	 * Предпросмотр топика
+	 *
+	 */
+	protected function EventPreviewTopic() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		if (!$this->Topic_IsAllowTopicType($sType=getRequest('topic_type'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_type_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
+		$oTopic->_setValidateScenario($sType); // зависит от типа топика
+
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+		$oTopic->setUserId($this->oUserCurrent->getId());
+		$oTopic->setType($sType);
+
+		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type'),false);
+
+		if ($oTopic->_hasValidateErrors()) {
+			$this->Message_AddErrorSingle($oTopic->_getValidateError());
+			return false;
+		}
+		/**
+		 * Формируем текст топика
+		 */
+		if (in_array($sType,array('link','question'))) {
+			$oTopic->setCutText(null);
+			$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+			$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+		} else {
+			list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
+			$oTopic->setCutText($sTextCut);
+			$oTopic->setText($this->Text_Parser($sTextNew));
+			$oTopic->setTextShort($this->Text_Parser($sTextShort));
+		}
+		/**
+		 * Рендерим шаблон для предпросмотра топика
+		 */
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('oTopic',$oTopic);
+		$sTemplate="topic_preview_{$oTopic->getType()}.tpl";
+		if (!$this->Viewer_TemplateExists($sTemplate)) {
+			$sTemplate='topic_preview_topic.tpl';
+		}
+		$sTextResult=$oViewer->Fetch($sTemplate);
+		$this->Viewer_AssignAjax('sText',$sTextResult);
+		return true;
+	}
 	/**
 	 * Предпросмотр текста
 	 *
