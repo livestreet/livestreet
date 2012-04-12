@@ -109,3 +109,5 @@ INSERT INTO `prefix_user_field` (`type`, `name`, `title`, `pattern`) VALUES
 ('social', 'facebook', 'Facebook', '<a href="http://facebook.com/{*}">{*}</a>'),
 ('social', 'vkontakte', 'ВКонтакте', '<a href="http://vk.com/{*}">{*}</a>'),
 ('social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/">{*}</a>');
+
+ALTER TABLE `prefix_favourite_tag` ADD INDEX ( `text` );

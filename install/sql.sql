@@ -159,7 +159,8 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
   `text` varchar(50) NOT NULL,
   KEY `user_id_target_type_id` (`user_id`,`target_type`,`target_id`),
   KEY `target_type_id` (`target_type`,`target_id`),
-  KEY `is_user` (`is_user`)
+  KEY `is_user` (`is_user`),
+  KEY `text` (`text`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

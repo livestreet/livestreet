@@ -1572,7 +1572,51 @@ class Install {
 		if(!mysql_query($sQuery)){
 			$aErrors[] = mysql_error();
 		}
-
+		/**
+		 * Добавление тегов в избранное
+		 */
+		$sTablefFavourite=$aParams['prefix'].'favourite';
+		$sTablefTopicTag=$aParams['prefix'].'topic_tag';
+		$sTablefFavouriteTag=$aParams['prefix'].'favourite_tag';
+		$iPage=1;
+		do {
+			$iLimitStart=($iPage-1)*100;
+			$sQuery="SELECT f.user_id, f.target_id, t.topic_tag_text FROM `{$sTablefFavourite}` as f, `{$sTablefTopicTag}` as t WHERE f.`target_type`='topic' and f.`target_id`=t.topic_id  LIMIT {$iLimitStart},100";
+			if(!$aResults = mysql_query($sQuery)){
+				$aErrors[] = mysql_error();
+				break;
+			}
+			if (mysql_num_rows($aResults)) {
+				while($aRow = mysql_fetch_assoc($aResults)) {
+					$iUserId=$aRow['user_id'];
+					$iTargetId=$aRow['target_id'];
+					$sText=mysql_real_escape_string($aRow['topic_tag_text']);
+					/**
+					 * Проверяем наличие
+					 */
+					$sQuery2="SELECT * FROM {$sTablefFavouriteTag} WHERE user_id='{$iUserId}' and target_id='{$iTargetId}' and target_type='topic' and is_user=0 and text='{$sText}' LIMIT 0,1";
+					if(!($aResults2 = mysql_query($sQuery2))){
+						$aErrors[] = mysql_error();
+						break;
+					}
+					if($aRow2 = mysql_fetch_assoc($aResults2)) {
+						// пропускаем
+						break;
+					}
+					/**
+					 * Создаем
+					 */
+					$sQuery2="INSERT INTO {$sTablefFavouriteTag} SET user_id='{$iUserId}', target_id='{$iTargetId}', target_type='topic', is_user=0, text='{$sText}' ";
+					if(!($aResults2 = mysql_query($sQuery2))){
+						$aErrors[] = mysql_error();
+						break;
+					}
+				}
+			} else {
+				break;
+			}
+			$iPage++;
+		} while (1);
 
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
