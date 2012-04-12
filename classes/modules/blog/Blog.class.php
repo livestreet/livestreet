@@ -56,7 +56,10 @@ class ModuleBlog extends Module {
 	 * Получает дополнительные данные(объекты) для блогов по их ID
 	 *
 	 */
-	public function GetBlogsAdditionalData($aBlogId,$aAllowData=array('vote','owner'=>array(),'relation_user'),$aOrder=null) {
+	public function GetBlogsAdditionalData($aBlogId,$aAllowData=null,$aOrder=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('vote','owner'=>array(),'relation_user');
+		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aBlogId)) {
 			$aBlogId=array($aBlogId);

@@ -93,3 +93,8 @@ ADD INDEX ( `talk_user_id_last` );
 
 ALTER TABLE `prefix_talk` ADD `talk_comment_id_last` INT NULL DEFAULT NULL AFTER `talk_user_ip`;
 ALTER TABLE `prefix_talk_user` ADD INDEX ( `comment_count_new` );
+
+DROP TABLE `prefix_country_user`;
+DROP TABLE `prefix_country`;
+DROP TABLE `prefix_city_user`;
+DROP TABLE `prefix_city`;

@@ -1334,8 +1334,125 @@ class Install {
 					/**
 					 * Обновляем значения
 					 */
-					$sQuery3="UPDATE {$sTable1} SET talk_user_id_last='{$iUserLast}', talk_comment_id_last={$iCommentLast} WHERE talk_id='{$iTalk}' ";
+					$sQuery3="UPDATE {$sTable1} SET talk_user_id_last='{$iUserLast}', talk_comment_id_last=".($iCommentLast ? $iCommentLast : 'null')." WHERE talk_id='{$iTalk}' ";
 					if(!mysql_query($sQuery3)) {
+						$aErrors[] = mysql_error();
+						break;
+					}
+				}
+			} else {
+				break;
+			}
+			$iPage++;
+		} while (1);
+		/**
+		 * Перенос стран и городов на новую структуру
+		 */
+		$sTableUser=$aParams['prefix'].'user';
+		$sTableGeoCountry=$aParams['prefix'].'geo_country';
+		$sTableGeoCity=$aParams['prefix'].'geo_city';
+		$sTableGeoRegion=$aParams['prefix'].'geo_region';
+		$sTableGeoTarget=$aParams['prefix'].'geo_target';
+		$iPage=1;
+		do {
+			$iLimitStart=($iPage-1)*100;
+			$sQuery="SELECT * FROM {$sTableUser} WHERE `user_profile_country`  IS NOT NULL and `user_profile_country`<>'' LIMIT {$iLimitStart},100";
+			if(!$aResults = mysql_query($sQuery)){
+				$aErrors[] = mysql_error();
+				break;
+			}
+			if (mysql_num_rows($aResults)) {
+				while($aRow = mysql_fetch_assoc($aResults)) {
+					/**
+					 * Обрабатываем каждого пользователя
+					 */
+					$iUserId=$aRow['user_id'];
+					$sCountry=mysql_real_escape_string($aRow['user_profile_country']);
+					$sCity=mysql_real_escape_string((string)$aRow['user_profile_city']);
+					/**
+					 * Ищем страну в гео-базе
+					 */
+					$sQuery2="SELECT id, name_ru FROM {$sTableGeoCountry} WHERE name_ru='{$sCountry}' or name_en='{$sCountry}' LIMIT 0,1";
+					if(!$aResults2 = mysql_query($sQuery2)){
+						$aErrors[] = mysql_error();
+						break;
+					}
+					if($aRow2 = mysql_fetch_assoc($aResults2)) {
+						$iCountryId=$aRow2['id'];
+						$sCountryName=mysql_real_escape_string($aRow2['name_ru']);
+					} else {
+						$sQuery2="UPDATE {$sTableUser} SET user_profile_country=null, user_profile_region=null, user_profile_city=null WHERE user_id={$iUserId} ";
+						if(!$aResults2 = mysql_query($sQuery2)){
+							$aErrors[] = mysql_error();
+						}
+						break;
+					}
+					/**
+					 * Ищем город в гео-базе
+					 */
+					$iCityId=null;
+					$sCityName=null;
+					$iRegionId=null;
+					$sRegionName=null;
+					if ($sCity) {
+						$sQuery2="SELECT id, region_id, name_ru FROM {$sTableGeoCity} WHERE country_id='{$iCountryId}' and (name_ru='{$sCity}' or name_en='{$sCity}') LIMIT 0,1";
+						if(!$aResults2 = mysql_query($sQuery2)){
+							$aErrors[] = mysql_error();
+							break;
+						}
+						if($aRow2 = mysql_fetch_assoc($aResults2)) {
+							$iCityId=$aRow2['id'];
+							$sCityName=mysql_real_escape_string($aRow2['name_ru']);
+							$iRegionId=$aRow2['region_id'];
+							/**
+							 * Получаем название региона
+							 */
+							$sQuery3="SELECT name_ru FROM {$sTableGeoRegion} WHERE id='{$iRegionId}' LIMIT 0,1";
+							if(!$aResults3 = mysql_query($sQuery3)){
+								$aErrors[] = mysql_error();
+								break;
+							}
+							if($aRow3 = mysql_fetch_assoc($aResults3)) {
+								$sRegionName=mysql_real_escape_string($aRow3['name_ru']);
+							} else {
+								break;
+							}
+						}
+					}
+					/**
+					 * Добавляем связь пользователя с гео-объектом
+					 */
+					$iGeoId=$iCountryId;
+					$sGeoType='country';
+					if ($iCityId) {
+						$iGeoId=$iCityId;
+						$sGeoType='city';
+					}
+					/**
+					 * Проверяем отсутствие связи
+					 */
+					$sQuery2="SELECT * FROM {$sTableGeoTarget} WHERE target_type='user' and target_id='{$iUserId}' LIMIT 0,1";
+					if(!$aResults2 = mysql_query($sQuery2)){
+						$aErrors[] = mysql_error();
+						break;
+					}
+					if($aRow2 = mysql_fetch_assoc($aResults2)) {
+						// пропускаем этого пользователя
+						break;
+					}
+					/**
+					 * Создаем новую связь
+					 */
+					$sQuery2="INSERT INTO {$sTableGeoTarget} SET geo_type='{$sGeoType}', geo_id='{$iGeoId}', target_type='user', target_id='{$iUserId}', country_id=".($iCountryId ? $iCountryId : 'null').", region_id=".($iRegionId ? $iRegionId : 'null')." , city_id=".($iCityId ? $iCityId : 'null')."  ";
+					if(!$aResults2 = mysql_query($sQuery2)){
+						$aErrors[] = mysql_error();
+						break;
+					}
+					/**
+					 * Обновляем информацию о пользователе
+					 */
+					$sQuery2="UPDATE {$sTableUser} SET user_profile_country=".($iCountryId ? "'$sCountryName'" : 'null').", user_profile_region=".($sRegionName ? "'$sRegionName'" : 'null').", user_profile_city=".($sCityName ? "'$sCityName'" : 'null')." WHERE user_id={$iUserId} ";
+					if(!$aResults2 = mysql_query($sQuery2)){
 						$aErrors[] = mysql_error();
 						break;
 					}

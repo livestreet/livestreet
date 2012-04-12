@@ -83,7 +83,7 @@ class ModuleWall extends Module {
 	 *
 	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetWall($aFilter,$aOrder,$iCurrPage=1,$iPerPage=10,$aAllowData=array('user'=>array(),'reply')) {
+	public function GetWall($aFilter,$aOrder,$iCurrPage=1,$iPerPage=10,$aAllowData=null) {
 		$aResult=array(
 			'collection'=>$this->oMapper->GetWall($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),
 			'count'=>$iCount
@@ -130,7 +130,10 @@ class ModuleWall extends Module {
 	 *
 	 * @return array
 	 */
-	public function GetWallAdditionalData($aWallId,$aAllowData=array('user'=>array(),'reply')) {
+	public function GetWallAdditionalData($aWallId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('user'=>array(),'reply');
+		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aWallId)) {
 			$aWallId=array($aWallId);
