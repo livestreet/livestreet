@@ -18,7 +18,7 @@
 /**
  * Основные константы
  */
-define('LS_VERSION','0.5.2');
+define('LS_VERSION','1.0');
 
 /**
  * Operations with Config object

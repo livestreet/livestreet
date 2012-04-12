@@ -15,35 +15,27 @@
 */
 
 
-LiveStreet 0.5.1
+LiveStreet 1.0
 
 INSTALLATION
 1. Copy files to the engine to the desired directory site
 2. Go the address http://you_site/install/
 3. Follow the instructions of the installer.
 
-Upgrading from 0.4.2
+Upgrading from 0.5.1
 0. Be sure to make backup of your site and database
-1. Update to version 0.5 can only database, so copy the new version over the old NOT to install, use a clean directory
+1. Update to version 1.0 can only database, so copy the new version over the old NOT to install, use a clean directory
 2. Copy files to the engine to the desired directory site
-3. Copy the file to a new directory on your config.local.php old version 0.4.2 and copy the directory /uploads/ all files
+3. Copy the file to a new directory on your config.local.php old version 0.5.1 and copy the directory /uploads/ all files
 4. Enter the address http://you_site/install/
-5. Follow the instructions of the installer. When you create the database required By clicking the "Convert base 0.4.2 in 0.5.1"
-
-Upgrading from 0.5
-0. Be sure to make backup of your site and database
-1. Delete old files (except /config/config.local.php and directory /uploads/ all files) and copy the new files to a directory site
-2.1 Enter the address http://you_site/install/ and to step in creating a database to mark checkbox "Convert 0.5 DB to 0.5.1 "
-2.2 Or execute the SQL patch /install/convert_0.5_to_0.5.1.sql in phpMyAdmin or via the console MySQL, replacing prefix tables (prefix_) in the database on your
-
+5. Follow the instructions of the installer. When you create the database required By clicking the "Convert base 0.5.1 in 1.0"
 
 Configuration and Tuning Engines
 Settings are in a file /config/config.php. For them to change is desirable to override these settings in the file config.local.php, this will avoid problems with future upgrades.
 Management plug-ins can be found at /admin/plugins/
 
 STANDARD TEMPLATES
-In version 0.5 includes 4 templates: new + developer - js library MooTools and new-jquery + developer-jquery - a library jQuery.
-Future versions will only support new-jquery templates and developer-jquery, so it is strongly recommended to choose them for installation.
+Version 1.0 support only jQuery templates!
 
 OPPORTUNITIES SEARCH
 LiveStreet supports full-text search on the site using the search engine Sphinx.
