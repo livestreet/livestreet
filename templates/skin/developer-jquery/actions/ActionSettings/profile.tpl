@@ -129,19 +129,6 @@
 	
 	<fieldset>
 		<legend>Контакты</legend>
-		
-		<dl class="form-item">
-			<dt><label for="profile_icq">{$aLang.settings_profile_icq}:</label></dt>
-			<dd><input type="text" name="profile_icq" id="profile_icq" value="{$oUserCurrent->getProfileIcq()|escape:'html'}" class="input-text input-width-300"></dd>
-		</dl>
-
-		<dl class="form-item">
-			<dt><label for="">{$aLang.settings_profile_site}:</label></dt>
-			<dd>
-				<p><input type="text" id="profile_site" name="profile_site" value="{$oUserCurrent->getProfileSite()|escape:'html'}" placeholder="{$aLang.settings_profile_site_url}" class="input-text input-width-300" /></p>
-				<input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" placeholder="{$aLang.settings_profile_site_name}" class="input-text input-width-300" />
-			</dd>
-		</dl>
 
 		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
 		{if count($aUserFieldValues)}

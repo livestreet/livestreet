@@ -480,30 +480,6 @@ class ActionSettings extends Action {
 				$this->oUserCurrent->setProfileBirthday(null);
 			}
 			/**
-			 * Проверяем ICQ
-			 */
-			if (func_check(getRequest('profile_icq'),'id',4,15)) {
-				$this->oUserCurrent->setProfileIcq(getRequest('profile_icq'));
-			} else {
-				$this->oUserCurrent->setProfileIcq(null);
-			}
-			/**
-			 * Проверяем сайт
-			 */
-			if (func_check(getRequest('profile_site'),'text',3,200)) {
-				$this->oUserCurrent->setProfileSite(getRequest('profile_site'));
-			} else {
-				$this->oUserCurrent->setProfileSite(null);
-			}
-			/**
-			 * Проверяем название сайта
-			 */
-			if (func_check(getRequest('profile_site_name'),'text',3,50)) {
-				$this->oUserCurrent->setProfileSiteName(getRequest('profile_site_name'));
-			} else {
-				$this->oUserCurrent->setProfileSiteName(null);
-			}
-			/**
 			 * Проверяем информацию о себе
 			 */
 			if (func_check(getRequest('profile_about'),'text',1,3000)) {

@@ -12,7 +12,7 @@
 
 
 
-{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || $oUserProfile->getProfileSite() || count($aUserFields)}
+{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFields)}
 	<h2 class="header-table">{$aLang.profile_privat}</h2>
 	
 	
@@ -62,24 +62,6 @@
 			</tr>	
 		{/if}
 		
-		
-		{if $oUserProfile->getProfileSite()}
-			<tr>
-				<td class="cell-label">{$aLang.profile_site}:</td>
-				<td>
-					<a href="{$oUserProfile->getProfileSite(true)|escape:'html'}" rel="nofollow">
-						{if $oUserProfile->getProfileSiteName()}
-							{$oUserProfile->getProfileSiteName()|escape:'html'}
-						{else}
-							{$oUserProfile->getProfileSite()|escape:'html'}
-						{/if}
-					</a>
-				</td>
-			</tr>
-		{/if}
-
-		
-		
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 	</table>
 {/if}
@@ -87,18 +69,10 @@
 
 
 {assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact', ''))}
-{if $aUserFieldContactValues || $oUserProfile->getProfileIcq() || count($aUserFields)}
+{if $aUserFieldContactValues}
 	<h2 class="header-table">{$aLang.profile_contacts}</h2>
 	
 	<table class="table table-profile-info">
-		{if $oUserProfile->getProfileIcq()}
-			<tr>
-				<td class="cell-label"><i class="icon-contact icon-contact-icq"></i> ICQ:</td>
-				<td><a href="http://www.icq.com/people/about_me.php?uin={$oUserProfile->getProfileIcq()|escape:'html'}" target="_blank">{$oUserProfile->getProfileIcq()}</a></td>
-			</tr>
-		{/if}
-		
-		
 		{foreach from=$aUserFieldContactValues item=oField}
 			<tr>
 				<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>

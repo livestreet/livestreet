@@ -129,20 +129,6 @@ class ModuleUser_EntityUser extends Entity {
     public function getProfileBirthday() {
         return $this->_aData['user_profile_birthday'];
     }
-    public function getProfileSite($bHtml=false) {
-    	if ($bHtml) {
-    		if (strpos($this->_aData['user_profile_site'],'http://')!==0) {
-    			return 'http://'.$this->_aData['user_profile_site'];
-    		}
-    	}
-        return $this->_aData['user_profile_site'];
-    }
-    public function getProfileSiteName() {
-        return $this->_aData['user_profile_site_name'];
-    }
-    public function getProfileIcq() {
-        return $this->_aData['user_profile_icq'];
-    }
     public function getProfileAbout() {
         return $this->_aData['user_profile_about'];
     }
@@ -274,15 +260,6 @@ class ModuleUser_EntityUser extends Entity {
     }
     public function setProfileBirthday($data) {
     	$this->_aData['user_profile_birthday']=$data;
-    }
-    public function setProfileSite($data) {
-    	$this->_aData['user_profile_site']=$data;
-    }
-    public function setProfileSiteName($data) {
-    	$this->_aData['user_profile_site_name']=$data;
-    }
-    public function setProfileIcq($data) {
-    	$this->_aData['user_profile_icq']=$data;
     }
     public function setProfileAbout($data) {
     	$this->_aData['user_profile_about']=$data;

@@ -1373,7 +1373,7 @@ class Install {
 					 * Ищем страну в гео-базе
 					 */
 					$sQuery2="SELECT id, name_ru FROM {$sTableGeoCountry} WHERE name_ru='{$sCountry}' or name_en='{$sCountry}' LIMIT 0,1";
-					if(!$aResults2 = mysql_query($sQuery2)){
+					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
 						break;
 					}
@@ -1396,7 +1396,7 @@ class Install {
 					$sRegionName=null;
 					if ($sCity) {
 						$sQuery2="SELECT id, region_id, name_ru FROM {$sTableGeoCity} WHERE country_id='{$iCountryId}' and (name_ru='{$sCity}' or name_en='{$sCity}') LIMIT 0,1";
-						if(!$aResults2 = mysql_query($sQuery2)){
+						if(!($aResults2 = mysql_query($sQuery2))){
 							$aErrors[] = mysql_error();
 							break;
 						}
@@ -1432,7 +1432,7 @@ class Install {
 					 * Проверяем отсутствие связи
 					 */
 					$sQuery2="SELECT * FROM {$sTableGeoTarget} WHERE target_type='user' and target_id='{$iUserId}' LIMIT 0,1";
-					if(!$aResults2 = mysql_query($sQuery2)){
+					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
 						break;
 					}
@@ -1444,7 +1444,7 @@ class Install {
 					 * Создаем новую связь
 					 */
 					$sQuery2="INSERT INTO {$sTableGeoTarget} SET geo_type='{$sGeoType}', geo_id='{$iGeoId}', target_type='user', target_id='{$iUserId}', country_id=".($iCountryId ? $iCountryId : 'null').", region_id=".($iRegionId ? $iRegionId : 'null')." , city_id=".($iCityId ? $iCityId : 'null')."  ";
-					if(!$aResults2 = mysql_query($sQuery2)){
+					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
 						break;
 					}
@@ -1452,7 +1452,7 @@ class Install {
 					 * Обновляем информацию о пользователе
 					 */
 					$sQuery2="UPDATE {$sTableUser} SET user_profile_country=".($iCountryId ? "'$sCountryName'" : 'null').", user_profile_region=".($sRegionName ? "'$sRegionName'" : 'null').", user_profile_city=".($sCityName ? "'$sCityName'" : 'null')." WHERE user_id={$iUserId} ";
-					if(!$aResults2 = mysql_query($sQuery2)){
+					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
 						break;
 					}
@@ -1462,6 +1462,116 @@ class Install {
 			}
 			$iPage++;
 		} while (1);
+		/**
+		 * Перенос ICQ и сайта из профиля пользователя
+		 */
+		$sTableUser=$aParams['prefix'].'user';
+		$sTableUserField=$aParams['prefix'].'user_field';
+		$sTableUserFieldValue=$aParams['prefix'].'user_field_value';
+
+		$sFieldIdIcq=null;
+		$sFieldIdWww=null;
+
+		/**
+		 * Получаем ID необходимых полей
+		 */
+		$sQuery2="SELECT id FROM {$sTableUserField} WHERE `type`='contact' and name='icq' LIMIT 0,1";
+		if(!($aResults2 = mysql_query($sQuery2))){
+			$aErrors[] = mysql_error();
+		} else {
+			if($aRow2 = mysql_fetch_assoc($aResults2)) {
+				$sFieldIdIcq=$aRow2['id'];
+			}
+		}
+		$sQuery2="SELECT id FROM {$sTableUserField} WHERE `type`='contact' and name='www' LIMIT 0,1";
+		if(!($aResults2 = mysql_query($sQuery2))){
+			$aErrors[] = mysql_error();
+		} else {
+			if($aRow2 = mysql_fetch_assoc($aResults2)) {
+				$sFieldIdWww=$aRow2['id'];
+			}
+		}
+
+		if ($sFieldIdIcq and $sFieldIdWww) {
+			$iPage=1;
+			do {
+				$iLimitStart=($iPage-1)*100;
+				$sQuery="SELECT * FROM {$sTableUser} WHERE `user_profile_country`  IS NOT NULL and `user_profile_country`<>'' LIMIT {$iLimitStart},100";
+				if(!($aResults = mysql_query($sQuery))){
+					$aErrors[] = mysql_error();
+					break;
+				}
+				if (mysql_num_rows($aResults)) {
+					while($aRow = mysql_fetch_assoc($aResults)) {
+						$iUserId=$aRow['user_id'];
+						$sIcq=$aRow['user_profile_icq'];
+						$sWww=$aRow['user_profile_site'];
+						if ($sIcq) {
+							$sIcq=mysql_real_escape_string($sIcq);
+							/**
+							 * Проверяем отсутствие связи
+							 */
+							$sQuery2="SELECT * FROM {$sTableUserFieldValue} WHERE user_id='{$iUserId}' and field_id='{$sFieldIdIcq}' LIMIT 0,1";
+							if(!($aResults2 = mysql_query($sQuery2))){
+								$aErrors[] = mysql_error();
+							} else {
+								if(!($aRow2 = mysql_fetch_assoc($aResults2))) {
+									/**
+									 * Создаем новую связь
+									 */
+									$sQuery3="INSERT INTO {$sTableUserFieldValue} SET user_id='{$iUserId}', field_id='{$sFieldIdIcq}', value='{$sIcq}' ";
+									if(!$aResults3 = mysql_query($sQuery3)){
+										$aErrors[] = mysql_error();
+									}
+								}
+							}
+						}
+						if ($sWww) {
+							$sWww=str_replace('https://','',$sWww);
+							$sWww=str_replace('http://','',$sWww);
+						}
+						if ($sWww) {
+							$sWww=mysql_real_escape_string($sWww);
+							/**
+							 * Проверяем отсутствие связи
+							 */
+							$sQuery2="SELECT * FROM {$sTableUserFieldValue} WHERE user_id='{$iUserId}' and field_id='{$sFieldIdWww}' LIMIT 0,1";
+							if(!($aResults2 = mysql_query($sQuery2))){
+								$aErrors[] = mysql_error();
+							} else {
+								if(!($aRow2 = mysql_fetch_assoc($aResults2))) {
+									/**
+									 * Создаем новую связь
+									 */
+									$sQuery3="INSERT INTO {$sTableUserFieldValue} SET user_id='{$iUserId}', field_id='{$sFieldIdWww}', value='{$sWww}' ";
+									if(!$aResults3 = mysql_query($sQuery3)){
+										$aErrors[] = mysql_error();
+									}
+								}
+							}
+						}
+					}
+				} else {
+					break;
+				}
+				$iPage++;
+			} while (1);
+		}
+		/**
+		 * Удаляем поля
+		 */
+		$sQuery="ALTER TABLE `{$sTableUser}` DROP `user_profile_site` ";
+		if(!mysql_query($sQuery)){
+			$aErrors[] = mysql_error();
+		}
+		$sQuery="ALTER TABLE `{$sTableUser}` DROP `user_profile_site_name` ";
+		if(!mysql_query($sQuery)){
+			$aErrors[] = mysql_error();
+		}
+		$sQuery="ALTER TABLE `{$sTableUser}` DROP `user_profile_icq` ";
+		if(!mysql_query($sQuery)){
+			$aErrors[] = mysql_error();
+		}
 
 
 		if(count($aErrors)==0) {

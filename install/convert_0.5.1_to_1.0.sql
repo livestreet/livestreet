@@ -98,3 +98,14 @@ DROP TABLE `prefix_country_user`;
 DROP TABLE `prefix_country`;
 DROP TABLE `prefix_city_user`;
 DROP TABLE `prefix_city`;
+
+INSERT INTO `prefix_user_field` (`type`, `name`, `title`, `pattern`) VALUES
+('contact', 'phone', 'Телефон', ''),
+('contact', 'mail', 'E-mail', '<a href="mailto:{*}">{*}</a>'),
+('contact', 'skype', 'Skype', '<a href="skype:{*}">{*}</a>'),
+('contact', 'icq', 'ICQ', '<a href="http://www.icq.com/people/about_me.php?uin={*}">{*}</a>'),
+('contact', 'www', 'Сайт', '<a href="http://{*}">{*}</a>'),
+('social', 'twitter', 'Twitter', '<a href="http://twitter.com/{*}/">{*}</a>'),
+('social', 'facebook', 'Facebook', '<a href="http://facebook.com/{*}">{*}</a>'),
+('social', 'vkontakte', 'ВКонтакте', '<a href="http://vk.com/{*}">{*}</a>'),
+('social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/">{*}</a>');
