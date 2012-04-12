@@ -753,7 +753,7 @@ class Install {
 		$aParams['install_view_name']       = $this->GetRequest('install_view_name','LiveStreet - бесплатный движок социальной сети',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_description']= $this->GetRequest('install_view_description','LiveStreet - официальный сайт бесплатного движка социальной сети',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php',self::GET_VAR_FROM_SESSION);
-		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','new-jquery',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','developer-jquery',self::GET_VAR_FROM_SESSION);
 		
 		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
 		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet',self::GET_VAR_FROM_SESSION);
