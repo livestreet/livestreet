@@ -101,7 +101,7 @@ ls.user = (function ($) {
 			this.jcropAvatar.destroy();
 		}
 		$('#avatar-resize-original-img').attr('src',sImgFile+'?'+Math.random());
-		$('#avatar-resize').show();
+		$('#avatar-resize').jqmShow();
 		var $this=this;
 		$('#avatar-resize-original-img').Jcrop({
 			aspectRatio: 1,
@@ -127,7 +127,7 @@ ls.user = (function ($) {
 				ls.msg.error(null,result.sMsg);
 			} else {
 				$('#avatar-img').attr('src',result.sFile+'?'+Math.random());
-				$('#avatar-resize').hide();
+				$('#avatar-resize').jqmHide();
 				$('#avatar-remove').show();
 				$('#avatar-upload').text(result.sTitleUpload);
 				ls.hook.run('ls_user_resize_avatar_after', [params, result]);
@@ -171,7 +171,7 @@ ls.user = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
-				$('#avatar-resize').hide();
+				$('#avatar-resize').jqmHide();
 				ls.hook.run('ls_user_cancel_avatar_after', [params, result]);
 			}
 		});
@@ -213,7 +213,7 @@ ls.user = (function ($) {
 			this.jcropFoto.destroy();
 		}
 		$('#foto-resize-original-img').attr('src',sImgFile+'?'+Math.random());
-		$('#foto-resize').show();
+		$('#foto-resize').jqmShow();
 		var $this=this;
 		$('#foto-resize-original-img').Jcrop({
 			minSize: [32,32]
@@ -238,7 +238,7 @@ ls.user = (function ($) {
 				ls.msg.error(null,result.sMsg);
 			} else {
 				$('#foto-img').attr('src',result.sFile+'?'+Math.random());
-				$('#foto-resize').hide();
+				$('#foto-resize').jqmHide();
 				$('#foto-remove').show();
 				$('#foto-upload').text(result.sTitleUpload);
 				ls.hook.run('ls_user_resize_foto_after', [params, result]);
@@ -282,7 +282,7 @@ ls.user = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
-				$('#foto-resize').hide();
+				$('#foto-resize').jqmHide();
 				ls.hook.run('ls_user_cancel_foto_after', [params, result]);
 			}
 		});
@@ -309,8 +309,10 @@ ls.user = (function ($) {
 			$.each(aFields,function(i,aField){
 				if (result.aErrors && result.aErrors[aField.field][0]) {
 					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
+					sForm.find('.validate-ok-field-'+aField.field).addClass('hidden');
 				} else {
 					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
+					sForm.find('.validate-ok-field-'+aField.field).removeClass('hidden');
 				}
 			});
 			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, sForm, result]);

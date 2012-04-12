@@ -5,12 +5,12 @@
 
 
 <div class="modal" id="userfield_form">
-	<header>
+	<header class="modal-header">
 		<h3>{$aLang.user_field_admin_title_add}</h3>
 		<a href="#" class="close jqmClose"></a>
 	</header>
 
-	<form>
+	<form class="modal-content">
 		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
 		<select id="user_fields_form_type" class="input-text input-width-full">
 			<option value=""></option>

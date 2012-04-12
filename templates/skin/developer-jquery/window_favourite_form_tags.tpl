@@ -1,12 +1,12 @@
 {if $oUserCurrent}
 	<div id="favourite-form-tags" class="modal">
-		<header>
+		<header class="modal-header">
 			<h3>{$aLang.user_authorization}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 		
 		
-		<form onsubmit="return ls.favourite.saveTags(this);">
+		<form onsubmit="return ls.favourite.saveTags(this);" class="modal-content">
 			<input type="hidden" name="target_type" value="" id="favourite-form-tags-target-type">
 			<input type="hidden" name="target_id" value="" id="favourite-form-tags-target-id">
 

@@ -6,13 +6,13 @@
 
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
 	<div id="blog_delete_form" class="modal">
-		<header>
+		<header class="modal-header">
 			<h3>{$aLang.blog_admin_delete}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 		
 		
-		<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST">
+		<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" class="modal-content">
 			<p><label for="topic_move_to">{$aLang.blog_admin_delete_move}:</label>
 			<select name="topic_move_to" id="topic_move_to" class="input-width-full">
 				<option value="-1">{$aLang.blog_delete_clear}</option>

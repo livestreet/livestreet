@@ -40,3 +40,7 @@
 /* Button Primary */
 .button.button-primary 			{ background: #6a57a9; }
 .button.button-primary:hover 	{ background: #5e4e95; }
+
+
+/* Button Icon */
+.button.button-icon 			{ padding: 7px 10px; }

@@ -596,6 +596,8 @@ return array(
 	'settings_profile_foto' => 'Photo',
 	'settings_profile_foto_error' => 'Can\'t load photo',
 	'settings_profile_foto_delete' => 'delete',
+	'settings_profile_photo_change' => 'Channge photo',
+	'settings_profile_photo_upload' => 'Upload photo',
 	'settings_profile_submit' => 'save profile',
 	'settings_profile_submit_ok' => 'Profile successfully saved',
 	'settings_invite' => 'Invitations management',

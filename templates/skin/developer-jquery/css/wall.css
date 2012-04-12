@@ -19,6 +19,8 @@
 .comment.wall-comment-reply .comment-info 		{ margin-bottom: 0; }
 .comment.wall-comment-reply .comment-content 	{ margin-bottom: 0; }
 
-.wall-more 					{ display: block; background: #f7f7f7; text-align: center; padding: 7px 0; font-size: 11px; margin-bottom: 2px; }
-.wall-more:hover 			{ background: #eee; }
-.wall-more.wall-more-reply 	{ margin-left: 25px; }
+.wall-more 							{ display: block; background: #f7f7f7; text-align: center; padding: 7px 0; font-size: 11px; margin-bottom: 2px; }
+.wall-more:hover 					{ background: #eee; }
+.wall-more.wall-more-reply 			{ margin-left: 25px; }
+.wall-more.loader 					{ background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
+.wall-more.loader .wall-more-inner 	{ visibility: hidden; }

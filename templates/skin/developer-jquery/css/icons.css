@@ -148,10 +148,17 @@
 .icon-resize-vertical    { background-position: -432px -119px; }
 .icon-resize-horizontal  { background-position: -456px -118px; }
 
-.icon-contact			{ width: 16px; height: 16px; background: url(../images/icons-contact.png) no-repeat;  } 
-.icon-contact-default	{ background-position: 0 0; } 
-.icon-contact-email		{ background-position: -20px 0; } 
-.icon-contact-icq		{ background-position: -40px 0; } 
-.icon-contact-jabber	{ background-position: -60px 0; } 
-.icon-contact-phone		{ background-position: -80px 0; } 
-.icon-contact-skype		{ background-position: -100px 0; } 
+.icon-contact				{ width: 16px; height: 16px; background: url(../images/icons-contact.png) no-repeat; } 
+.icon-contact-default		{ background-position: 0 0; } 
+.icon-contact-email			{ background-position: -20px 0; } 
+.icon-contact-icq			{ background-position: -40px 0; } 
+.icon-contact-jabber		{ background-position: -60px 0; } 
+.icon-contact-phone			{ background-position: -80px 0; } 
+.icon-contact-skype			{ background-position: -100px 0; } 
+.icon-contact-vkontakte		{ background-position: -120px 0; } 
+.icon-contact-twitter		{ background-position: -140px 0; } 
+.icon-contact-facebook		{ background-position: -160px 0; } 
+.icon-contact-odnoklassniki	{ background-position: -180px 0; } 
+.icon-contact-www			{ background-position: -200px 0; } 
+
+.icon-ok-green 			{ width: 14px; height: 14px; background: url(../images/icon-ok-green.png) no-repeat; }

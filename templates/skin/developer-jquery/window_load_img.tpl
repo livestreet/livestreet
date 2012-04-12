@@ -1,10 +1,10 @@
 <div class="modal modal-image-upload" id="window_upload_img">
-	<header>
+	<header class="modal-header">
 		<h3>{$aLang.uploadimg}</h3>
 		<a href="#" class="close jqmClose"></a>
 	</header>
 	
-	<form method="POST" action="" enctype="multipart/form-data" id="form_upload_img" onsubmit="return false;">
+	<form method="POST" action="" enctype="multipart/form-data" id="form_upload_img" class="modal-content" onsubmit="return false;">
 		<p><label for="img_file">{$aLang.uploadimg_file}:</label>
 		<input type="file" name="img_file" id="img_file" value="" class="input-text input-width-full" /></p>
 		

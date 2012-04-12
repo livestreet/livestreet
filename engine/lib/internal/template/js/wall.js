@@ -17,6 +17,7 @@ ls.wall = (function ($) {
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
 		'*addBefore*'; '*/addBefore*';
+		$('#wall-text').addClass('loader');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -25,6 +26,7 @@ ls.wall = (function ($) {
 				this.loadNew();
 				ls.hook.run('ls_wall_add_after',[sText, iPid, result]);
 			}
+			$('#wall-text').removeClass('loader');
 		}.bind(this));
 		return false;
 	};
@@ -33,6 +35,7 @@ ls.wall = (function ($) {
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
 		'*addReplyBefore*'; '*/addReplyBefore*';
+		$('#wall-reply-text-' + iPid).addClass('loader');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -41,6 +44,7 @@ ls.wall = (function ($) {
 				this.loadReplyNew(iPid);
 				ls.hook.run('ls_wall_addreply_after',[sText, iPid, result]);
 			}
+			$('#wall-reply-text-' + iPid).removeClass('loader');
 		}.bind(this));
 		return false;
 	};
@@ -68,6 +72,7 @@ ls.wall = (function ($) {
 		} else {
 			return false;
 		}
+		$('#wall-button-next').addClass('loader');
 		this.load(idLess,'',function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -83,6 +88,7 @@ ls.wall = (function ($) {
 				}
 				ls.hook.run('ls_wall_loadnext_after',[idLess, result]);
 			}
+			$('#wall-button-next').removeClass('loader');
 		}.bind(this));
 		return false;
 	};
@@ -134,6 +140,7 @@ ls.wall = (function ($) {
 		} else {
 			return false;
 		}
+		$('#wall-reply-button-next-' + iPid).addClass('loader');
 		this.loadReply(idLess,'',iPid,function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -149,6 +156,7 @@ ls.wall = (function ($) {
 				}
 				ls.hook.run('ls_wall_loadreplynext_after',[iPid, idLess, result]);
 			}
+			$('#wall-reply-button-next-' + iPid).removeClass('loader');
 		}.bind(this));
 		return false;
 	};

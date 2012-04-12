@@ -51,7 +51,7 @@
 .topic .poll .poll-result li dl dd div { height: 5px; margin-top: 5px; background: #ccc; overflow: hidden; }
 .topic .poll .poll-result li.most dl dd div { background: #555; }
 
-.topic .poll .poll-total { color: #aaa; margin-top: 15px; }
+.topic .poll .poll-total { color: #aaa; margin-left: 10px; }
 
 /* Topic Photo */
 .topic.topic-type-photoset {  }

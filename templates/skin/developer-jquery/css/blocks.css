@@ -24,6 +24,7 @@
 /* Block Type - Profile */
 .block.block-type-profile 					{ background: none; border: none; padding: 0; }
 .block.block-type-profile .profile-photo 	{ vertical-align: top; }
+.block.block-type-profile .upload-photo 	{ padding: 7px 10px 10px; background: #f7f7f7; }
 
 .block.block-type-profile-note	 			{ background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
 .block.block-type-profile-note p 			{ margin-bottom: 10px; }

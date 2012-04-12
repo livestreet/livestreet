@@ -2,28 +2,30 @@
 	{if $bBlogsUseOrder}
 		<thead>
 			<tr>
-				<th class="cell-name"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}">{$aLang.blogs_title}</a></th>
+				<th class="cell-name"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_title}</a></th>
 
 				{if $oUserCurrent}
 					<th class="cell-join">{$aLang.blog_join_leave}</th>
 				{/if}
 
-				<th class="cell-readers"><a href="{$sBlogsRootPage}?order=blog_count_user&order_way={if $sBlogOrder=='blog_count_user'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}">{$aLang.blogs_readers}</a></th>
-				<th class="cell-rating align-center"><a href="{$sBlogsRootPage}?order=blog_rating&order_way={if $sBlogOrder=='blog_rating'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}">{$aLang.blogs_rating}</a></th>
+				<th class="cell-readers">
+					<a href="{$sBlogsRootPage}?order=blog_count_user&order_way={if $sBlogOrder=='blog_count_user'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_count_user'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_readers}</a>
+				</th>
+				<th class="cell-rating align-center"><a href="{$sBlogsRootPage}?order=blog_rating&order_way={if $sBlogOrder=='blog_rating'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_rating'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_rating}</a></th>
 			</tr>
 		</thead>
 	{else}
 		<thead>
-		<tr>
-			<th class="cell-name">{$aLang.blogs_title}</th>
+			<tr>
+				<th class="cell-name">{$aLang.blogs_title}</th>
 
-			{if $oUserCurrent}
-				<th class="cell-join">{$aLang.blog_join_leave}</th>
-			{/if}
+				{if $oUserCurrent}
+					<th class="cell-join">{$aLang.blog_join_leave}</th>
+				{/if}
 
-			<th class="cell-readers">{$aLang.blogs_readers}</th>
-			<th class="cell-rating align-center">{$aLang.blogs_rating}</th>
-		</tr>
+				<th class="cell-readers">{$aLang.blogs_readers}</th>
+				<th class="cell-rating align-center">{$aLang.blogs_rating}</th>
+			</tr>
 		</thead>
 	{/if}
 	
@@ -35,17 +37,17 @@
 
 				<tr>
 					<td class="cell-name">
-						<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});">INFO</a>
+						<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="icon-question-sign"></a>
 
+						{if $oBlog->getType() == 'close'}
+							<i title="{$aLang.blog_closed}" class="icon-lock"></i>
+						{/if}
+						
 						<a href="{$oBlog->getUrlFull()}">
 							<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
 						</a>
 
 						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
-
-						{if $oBlog->getType() == 'close'}
-							<i title="{$aLang.blog_closed}" class="icon-lock"></i>
-						{/if}
 					</td>
 
 					{if $oUserCurrent}

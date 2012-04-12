@@ -7,6 +7,9 @@
 .table td, .table th 	{ border-bottom: 1px solid #eee; padding: 10px; }
 .table tr.active td 	{ background: #CBF4BC; }
 
+.table a.asc:after		{ content: "▲"; }
+.table a.desc:after		{ content: "▼"; }
+
 .table.table-blogs .cell-name 			{ width: 30%; }
 .table.table-blogs .cell-name .avatar 	{ float: left; margin-right: 10px; }
 .table.table-blogs .cell-rating 		{ width: 15%; font-weight: bold; }

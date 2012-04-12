@@ -10,12 +10,12 @@
 	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'accept');">{$aLang.user_friend_add}</a></li>
 {elseif !$oUserFriend}
 	<div id="add_friend_form" class="modal">
-		<header>
+		<header class="modal-header">
 			<h3>{$aLang.user_authorization}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 
-		<form onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
+		<form onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');" class="modal-content">
 
 			<p><label for="add_friend_text">{$aLang.user_friend_add_text_label}</label>
 				<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea></p>

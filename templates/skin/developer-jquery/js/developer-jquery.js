@@ -14,6 +14,8 @@ jQuery(document).ready(function($){
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
+	$('#foto-resize').jqm();
+	$('#avatar-resize').jqm();
 	
 	// Datepicker
 	 /**
@@ -50,7 +52,7 @@ jQuery(document).ready(function($){
 	
 	// Всплывающие сообщения
 	$('.js-title-comment, .js-title-topic').poshytip({
-		className: 'infobox-title',
+		className: 'infobox-standart',
 		alignTo: 'target',
 		alignX: 'left',
 		alignY: 'center',
@@ -64,13 +66,23 @@ jQuery(document).ready(function($){
 			var id = $(this).attr('id').replace('vote_total_topic_','vote-info-topic-');
 			return $('#'+id).html();
 		},
-		className: 'infobox-title',
+		className: 'infobox-standart',
 		alignTo: 'target',
 		alignX: 'center',
 		alignY: 'top',
 		offsetX: 2,
 		liveEvents: true,
 		showTimeout: 100
+	});
+	
+	$('.js-tip-help').poshytip({
+		className: 'infobox-standart',
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 5,
+		liveEvents: true,
+		showTimeout: 500
 	});
 	
 	

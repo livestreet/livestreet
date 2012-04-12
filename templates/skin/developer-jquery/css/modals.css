@@ -11,33 +11,31 @@
     
     width: 300px;
     margin-left: -150px;
-    padding: 20px;
 	
     color: #333;
     border: 1px solid #666;
     background-color: #fff;
-	border-radius: 4px;
+	border-radius: 5px;
 	box-shadow: 0 0 15px rgba(0,0,0,.5);
+	overflow: hidden;
 }
 .modal .close { 
 	position: absolute; 
-	top: 10px; 
-	right: 10px; 
+	top: 14px; 
+	right: 14px; 
 	width: 14px; 
 	height: 14px;
-	background: url(../images/icons.png) -312px 0 no-repeat; 
+	background: url(../images/icons.png) -312px 0 no-repeat;
+	opacity: .3;
 }
-.modal header h3 { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+.modal .close:hover { opacity: 1; }
+.modal .modal-header 		{ background: #fafafa; border-bottom: 1px solid #f7f7f7; padding: 5px 20px; }
+.modal .modal-header h3 	{ font-size: 20px; font-weight: bold; margin-right: 20px; }
+.modal .modal-content 		{ padding: 20px; }
 
 .jqmOverlay { background-color: #000; }
 
-/* 	Fixed posistioning emulation for IE6
-    Star selector used to hide definition from browsers other than IE6
-    For valid CSS, use a conditional include instead */
-* html .modal {
-     position: absolute;
-     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
-}
+* html .modal { position: absolute; top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px'); }
 
 
 
@@ -47,7 +45,16 @@
 
 
 /* Добавление топика */
-.modal.modal-write { width: 600px; margin-left: -300px; top: 50px; }
-.modal.modal-write .write-list { overflow: hidden; zoom: 1; }
-.modal.modal-write .write-list li { float: left; width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; }
-.modal.modal-write .write-list li .write-item-image { display: block; width: 100px; height: 100px; text-align: center; background: #fafafa; margin-bottom: 10px; }
+.modal.modal-write { width: 620px; margin-left: -300px; top: 50px; }
+.modal.modal-write .modal-content { padding: 20px 10px 0; }
+.modal.modal-write .write-list {  }
+.modal.modal-write .write-list li { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; display: inline-table; }
+.modal.modal-write .write-list li a { color: #39576B; }
+.modal.modal-write .write-list li .write-item-image { display: block; width: 100px; height: 100px; border-radius: 3px; text-align: center; background: url(../images/write.png) no-repeat; margin-bottom: 10px; }
+.modal.modal-write .write-list li .write-item-image:hover { display: block; width: 100px; height: 100px; border-radius: 3px; text-align: center; background: url(../images/write.png) no-repeat; margin-bottom: 10px; }
+
+.modal.modal-write .write-list li.write-item-type-topic .write-item-image 		{ background-position: 0 0; }
+.modal.modal-write .write-list li.write-item-type-poll .write-item-image 		{ background-position: -100px 0; }
+.modal.modal-write .write-list li.write-item-type-link .write-item-image 		{ background-position: -200px 0; }
+.modal.modal-write .write-list li.write-item-type-photoset .write-item-image 	{ background-position: -300px 0; }
+.modal.modal-write .write-list li.write-item-type-blog .write-item-image 		{ background-position: -400px 0; }

@@ -28,10 +28,6 @@
 </ul>
 
 
-<p>
-	<a href="#" class="link-dotted" onclick="return ls.poll.switchResult(true,{$oTopic->getId()});">Сортировать по убыванию</a>&nbsp;&nbsp;&nbsp;
-	<a href="#" class="link-dotted" onclick="return ls.poll.switchResult(false,{$oTopic->getId()});">Не сортировать</a>
-</p>
+<button class="button button-icon" title="Включить\выключить сортировку" onclick="return ls.poll.switchResult(this, {$oTopic->getId()});"><i class="icon-align-left icon-white"></i></button>
 
-
-<p class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</p>
+<span class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</span>

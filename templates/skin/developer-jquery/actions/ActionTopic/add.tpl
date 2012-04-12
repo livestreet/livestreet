@@ -21,9 +21,6 @@
 
 
 
-<div class="topic" style="display: none;">
-	<div class="content" id="text_preview"></div>
-</div>
 
 
 
@@ -93,6 +90,11 @@
 	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',false); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
 	<button name="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
+
+	
+<div class="topic" style="display: none;">
+	<div class="content" id="text_preview"></div>
+</div>
 
 
 {hook run='add_topic_topic_end'}

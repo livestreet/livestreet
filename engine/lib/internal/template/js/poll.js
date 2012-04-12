@@ -52,13 +52,15 @@ ls.poll = (function ($) {
 		return false;
 	};
 
-	this.switchResult = function(bSort,iTopicId) {
-		if (bSort) {
+	this.switchResult = function(obj, iTopicId) {
+		if ($('#poll-result-sort-'+iTopicId).css('display') == 'none') {
 			$('#poll-result-original-'+iTopicId).hide();
 			$('#poll-result-sort-'+iTopicId).show();
+			$(obj).toggleClass('button-primary');
 		} else {
 			$('#poll-result-sort-'+iTopicId).hide();
 			$('#poll-result-original-'+iTopicId).show();
+			$(obj).toggleClass('button-primary');
 		}
 		return false;
 	};

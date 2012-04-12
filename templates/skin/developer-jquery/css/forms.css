@@ -7,6 +7,7 @@
 .input-width-100 	{ width: 100px; }
 .input-width-150 	{ width: 150px; }
 .input-width-200 	{ width: 200px; }
+.input-width-250 	{ width: 250px; }
 .input-width-300 	{ width: 300px; }
 .input-width-400 	{ width: 400px; }
 .input-width-500 	{ width: 500px; }
@@ -25,9 +26,19 @@ input:-moz-placeholder { color: #aaa;}
 
 form p { margin-bottom: 20px; }
 form label { display: block; margin-bottom: 3px; }
+form .icon-question-sign { cursor: help; }
 
 .note { display: block; margin-top: 3px; font-size: 12px; color: #aaa; }
 .note.note-header { margin-bottom: 20px; }
 
 .validate-error-hide { display: none; }
 .validate-error-show { display: block; }
+
+.captcha-image { vertical-align: top; }
+
+dl.form-item { overflow: hidden; zoom: 1; margin-bottom: 20px; }
+dl.form-item dt { float: left; width: 135px; padding-top: 4px; padding-right: 15px; overflow: hidden; }
+dl.form-item dd { float: left; width: 300px; }
+
+.form-profile { position: relative; }
+.form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }

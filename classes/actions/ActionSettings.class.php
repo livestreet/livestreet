@@ -264,7 +264,7 @@ class ActionSettings extends Action {
 
 			$this->User_Update($this->oUserCurrent);
 			$this->Session_Drop('sAvatarFileTmp');
-			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(64));
+			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
 			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_change'));
 		} else {
 			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
@@ -283,7 +283,7 @@ class ActionSettings extends Action {
 		/**
 		 * Возвращает дефолтную аватарку
 		 */
-		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(64));
+		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
 		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
 	}
 
