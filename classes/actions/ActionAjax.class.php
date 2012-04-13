@@ -813,6 +813,7 @@ class ActionAjax extends Action {
 	 *
 	 */
 	protected function EventPreviewTopic() {
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
 		if (!$this->oUserCurrent) {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
