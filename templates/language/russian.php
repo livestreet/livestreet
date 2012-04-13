@@ -39,6 +39,8 @@ return array(
 	'blog_rating' => 'Рейтинг',
 	'blog_vote_count' => 'голосов',
 	'blog_about' => 'О блоге',
+	'blog_expand_info' => 'Подробнее &darr;',
+	'blog_fold_info' => 'Свернуть &uarr;',
 	/**
 	 * Популярные блоги
 	 */

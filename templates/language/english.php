@@ -39,6 +39,8 @@ return array(
 	'blog_rating' => 'Rating',
 	'blog_vote_count' => 'Votes',
 	'blog_about' => 'About this blog',
+	'blog_expand_info' => 'More &darr;',
+	'blog_fold_info' => 'Fold &uarr;',
 	/**
 	 * Popular Blogs
 	 */

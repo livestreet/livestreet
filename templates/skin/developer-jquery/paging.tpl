@@ -6,15 +6,15 @@
 			
 			{if $aPaging.iPrevPage}
 				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iPrevPage}/{$aPaging.sGetParams}" class="js-paging-prev-page">{$aLang.paging_previos}</a></li>
-			{else}
-				<li>{$aLang.paging_previos}</li>
 			{/if}
 			
 			
 			{foreach from=$aPaging.aPagesLeft item=iPage}
 				<li><a href="{$aPaging.sBaseUrl}/page{$iPage}/{$aPaging.sGetParams}">{$iPage}</a></li>
 			{/foreach}
-			<li class="active">{$aPaging.iCurrentPage}</li>
+			
+			<li class="active"><span>{$aPaging.iCurrentPage}</span></li>
+			
 			{foreach from=$aPaging.aPagesRight item=iPage}
 				<li><a href="{$aPaging.sBaseUrl}/page{$iPage}/{$aPaging.sGetParams}">{$iPage}</a></li>
 			{/foreach}
@@ -22,8 +22,6 @@
 			
 			{if $aPaging.iNextPage}
 				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}" class="js-paging-next-page">{$aLang.paging_next}</a></li>
-			{else}
-				<li>{$aLang.paging_next}</li>
 			{/if}
 			
 			

@@ -34,7 +34,12 @@
 
 /* Пагинация 
 ---------------------------------------------------------------*/
-.pagination ul li { display: inline; margin-right: 5px; }
+.pagination ul { overflow: hidden; zoom: 1; line-height: 1em; }
+.pagination ul li { float: left; margin-right: 5px; }
+.pagination ul li span,
+.pagination ul li a { float: left; padding: 7px 10px; border: 1px solid #eee; border-radius: 3px; }
+.pagination ul li a { background: #f2f2f9; border-color: #dee0ef; }
+.pagination ul li a:hover { background: #EAEAF7; }
 .pagination ul li.active { color: #aaa; }
 .pagination.pagination-comments { margin-bottom: 15px; }
 
@@ -87,6 +92,10 @@
 .user-list li a 		{ text-decoration: none; }
 .user-list li .avatar 	{ position: absolute; top: 10px; left: 0; margin-right: 10px; }
 .user-list li .author 	{ font-weight: bold; color: #333; }
+
+.user-list-avatar 			{ overflow: hidden; zoom: 1; }
+.user-list-avatar li img	{ margin-bottom: 2px; display: block; }
+.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 15px; text-align: center; font-size: 11px; }
 
 
 
@@ -180,8 +189,9 @@
 
 /* Хелперы 
 ---------------------------------------------------------------*/
-.mb-10 { margin-bottom: 10px; }
-.mb-20 { margin-bottom: 20px; }
+.mb-10 { margin-bottom: 10px !important; }
+.mb-15 { margin-bottom: 15px !important; }
+.mb-20 { margin-bottom: 20px !important; }
 
 .clearfix:before,
 .clearfix:after { content: ""; display: table; }
