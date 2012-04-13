@@ -20,6 +20,12 @@
  *
  */
 class ActionPeople extends Action {
+	/**
+	 * Главное меню
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuHeadItemSelect='people';
 		
 	/**
 	 * Инициализация
@@ -252,6 +258,17 @@ class ActionPeople extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aStat',$aStat);
+	}
+
+	/**
+	 * Выполняется при завершении работы экшена
+	 *
+	 */
+	public function EventShutdown() {
+		/**
+		 * Загружаем в шаблон необходимые переменные
+		 */
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 	}
 }
 ?>
