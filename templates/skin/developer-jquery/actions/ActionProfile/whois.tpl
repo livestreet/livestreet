@@ -11,6 +11,13 @@
 <h3 class="profile-page-header">Информация</h3>
 
 
+{if $oUserProfile->getProfileAbout()}					
+	<div class="profile-info-about">
+		<h3>{$aLang.profile_about}</h3>
+		{$oUserProfile->getProfileAbout()|escape:'html'}
+	</div>
+{/if}
+
 
 {if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFields)}
 	<h2 class="header-table">{$aLang.profile_privat}</h2>
@@ -52,14 +59,6 @@
 					{/if}
 				</td>
 			</tr>
-		{/if}
-							
-							
-		{if $oUserProfile->getProfileAbout()}					
-			<tr>
-				<td class="cell-label">{$aLang.profile_about}:</td>
-				<td>{$oUserProfile->getProfileAbout()|escape:'html'}</td>
-			</tr>	
 		{/if}
 		
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
@@ -201,9 +200,9 @@
 
 
 {if $aUsersFriend}
-	<h2 class="header-table"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
+	<h2 class="header-table mb-15"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
 	
-	{include file='user_list.tpl' aUsersList=$aUsersFriend}
+	{include file='user_list_avatar.tpl' aUsersList=$aUsersFriend}
 {/if}
 
 

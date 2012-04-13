@@ -1,7 +1,13 @@
-{include file='header.tpl' menu='blog'}
+{include file='header.tpl'}
 {assign var="oUserOwner" value=$oBlog->getOwner()}
 {assign var="oVote" value=$oBlog->getVote()}
 
+
+<script>
+	jQuery(function($){
+		ls.lang.load({lang_load name="blog_fold_info,blog_expand_info"});
+	});
+</script>
 
 
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
@@ -36,22 +42,23 @@
 <div class="blog">
 	<header class="blog-header">
 		<div id="vote_area_blog_{$oBlog->getId()}" class="vote {if $oBlog->getRating() > 0}vote-count-positive{elseif $oBlog->getRating() < 0}vote-count-negative{/if} {if $oVote} voted {if $oVote->getDirection()>0}voted-up{elseif $oVote->getDirection()<0}voted-down{/if}{/if}">
+			<div class="vote-label">Рейтинг</div>
 			<a href="#" class="vote-up" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"></a>
-			<div id="vote_total_blog_{$oBlog->getId()}" class="vote-count" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
 			<a href="#" class="vote-down" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
+			<div id="vote_total_blog_{$oBlog->getId()}" class="vote-count count" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
 		</div>
 		
 		
 		<img src="{$oBlog->getAvatarPath(48)}" alt="avatar" class="avatar" />
 		
 		
-		<h2 class="page-header">{$oBlog->getTitle()|escape:'html'}</h2>
+		<h2>{$oBlog->getTitle()|escape:'html'}</h2>
 		
 		
 		<ul class="actions">
-			<li><a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">Rss</a></li>
+			<li><a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">RSS</a></li>
 			{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
-				<li><a href="#" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</a></li>
+				<li><a href="#" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;" class="link-dotted">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</a></li>
 			{/if}
 			{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
 				<li>
@@ -67,46 +74,74 @@
 	</header>
 	
 	
-	<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
-	
-	
-	<footer class="blog-footer">
-		<strong>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators}):</strong>							
-		<a href="{$oUserOwner->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUserOwner->getLogin()}</a>
-		{if $aBlogAdministrators}			
-			{foreach from=$aBlogAdministrators item=oBlogUser}
-				{assign var="oUser" value=$oBlogUser->getUser()}  									
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}	
-		{/if}<br />		
+	<div class="blog-more-content" id="blog-more-content" style="display: none;">
+		<div class="blog-content">
+			<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
+		</div>
+		
+		
+		<footer class="blog-footer">
+			<strong>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators}):</strong>							
+			<a href="{$oUserOwner->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUserOwner->getLogin()}</a>
+			{if $aBlogAdministrators}			
+				{foreach from=$aBlogAdministrators item=oBlogUser}
+					{assign var="oUser" value=$oBlogUser->getUser()}  									
+					<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+				{/foreach}	
+			{/if}<br />		
 
-		
-		<strong>{$aLang.blog_user_moderators} ({$iCountBlogModerators}):</strong>
-		{if $aBlogModerators}						
-			{foreach from=$aBlogModerators item=oBlogUser}  
-				{assign var="oUser" value=$oBlogUser->getUser()}									
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}							
-		{else}
-			{$aLang.blog_user_moderators_empty}
-		{/if}<br />
-		
-		
-		<strong>{$aLang.blog_user_readers} ({$iCountBlogUsers}):</strong>
-		{if $aBlogUsers}
-			{foreach from=$aBlogUsers item=oBlogUser}
-				{assign var="oUser" value=$oBlogUser->getUser()}
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}
 			
-			{if count($aBlogUsers) < $iCountBlogUsers}
-				<br /><a href="{$oBlog->getUrlFull()}users/">{$aLang.blog_user_readers_all}</a>
+			<strong>{$aLang.blog_user_moderators} ({$iCountBlogModerators}):</strong>
+			{if $aBlogModerators}						
+				{foreach from=$aBlogModerators item=oBlogUser}  
+					{assign var="oUser" value=$oBlogUser->getUser()}									
+					<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+				{/foreach}							
+			{else}
+				{$aLang.blog_user_moderators_empty}
+			{/if}<br />
+			
+			
+			<strong>{$aLang.blog_user_readers} ({$iCountBlogUsers}):</strong>
+			{if $aBlogUsers}
+				{foreach from=$aBlogUsers item=oBlogUser}
+					{assign var="oUser" value=$oBlogUser->getUser()}
+					<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+				{/foreach}
+				
+				{if count($aBlogUsers) < $iCountBlogUsers}
+					<br /><a href="{$oBlog->getUrlFull()}users/">{$aLang.blog_user_readers_all}</a>
+				{/if}
+			{else}
+				{$aLang.blog_user_readers_empty}
 			{/if}
-		{else}
-			{$aLang.blog_user_readers_empty}
-		{/if}
-	</footer>
+		</footer>
+	</div>
+	
+	<a href="#" class="blog-more" id="blog-more" onclick="return ls.blog.toggleInfo()">{$aLang.blog_expand_info}</a>
 </div>
+
+
+
+<div class="nav-blog-wrapper">
+	<ul class="nav nav-pills nav-blog">
+		<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></li>
+		{if $iCountTopicsBlogNew>0}<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><a href="{$sMenuSubBlogUrl}new/">{$aLang.blog_menu_collective_new} +{$iCountTopicsBlogNew}</a></li>{/if}
+		<li {if $sMenuSubItemSelect=='discussed'}class="active"{/if}><a href="{$sMenuSubBlogUrl}discussed/">{$aLang.blog_menu_collective_discussed}</a></li>
+		<li {if $sMenuSubItemSelect=='top'}class="active"{/if}><a href="{$sMenuSubBlogUrl}top/">{$aLang.blog_menu_collective_top}</a></li>
+		{hook run='menu_blog_blog_item'}
+	</ul>
+
+	{if $sPeriodSelectCurrent}
+		<ul class="nav nav-pills">
+			<li {if $sPeriodSelectCurrent=='1'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=1">{$aLang.blog_menu_top_period_24h}</a></li>
+			<li {if $sPeriodSelectCurrent=='7'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=7">{$aLang.blog_menu_top_period_7d}</a></li>
+			<li {if $sPeriodSelectCurrent=='30'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=30">{$aLang.blog_menu_top_period_30d}</a></li>
+			<li {if $sPeriodSelectCurrent=='all'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=all">{$aLang.blog_menu_top_period_all}</a></li>
+		</ul>
+	{/if}
+</div>
+
 
 
 {if $bCloseBlog}

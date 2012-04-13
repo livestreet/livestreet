@@ -95,7 +95,7 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxbloginfo/';
 		var params = {idBlog: idBlog};
 		
-		'*repeatInviteBefore*'; '*/repeatInviteBefore*';
+		'*loadInfoBefore*'; '*/loadInfoBefore*';
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -131,6 +131,23 @@ ls.blog = (function ($) {
 				ls.hook.run('ls_blog_search_blogs_after',[form, result]);
 			}
 		});
+	};
+
+	/**
+	 * Показать подробную информацию о блоге
+	 */
+	this.toggleInfo = function() {
+		$('#blog-more-content').slideToggle();
+		var more = $('#blog-more');
+		more.toggleClass('expanded');
+		
+		if(more.hasClass('expanded')) {
+			more.html(ls.lang.get('blog_fold_info'));
+		} else {
+			more.html(ls.lang.get('blog_expand_info'));
+		}
+		
+		return false;
 	};
 
 	return this;
