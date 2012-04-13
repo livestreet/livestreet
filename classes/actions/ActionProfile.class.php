@@ -91,7 +91,7 @@ class ActionProfile extends Action {
 		 * Читаем события
 		 */
 		$aEvents = $this->Stream_ReadByUserId($this->oUserProfile->getId());
-		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByUserId($this->oUserProfile->getId()) < Config::Get('module.stream.count_default'));
 		$this->Viewer_Assign('aStreamEvents', $aEvents);
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);

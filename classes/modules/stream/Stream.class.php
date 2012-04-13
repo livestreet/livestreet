@@ -190,6 +190,25 @@ class ModuleStream extends Module {
 		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
 	}
 
+	public function GetCountByUserId($iUserId) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=array_keys($this->getEventTypes());
+		/**
+		 * Если не показывать голосования
+		 */
+		if (Config::Get('module.stream.disable_vote_events')) {
+			foreach ($aEventTypes as $i => $sType) {
+				if (substr($sType, 0, 4) == 'vote') {
+					unset ($aEventTypes[$i]);
+				}
+			}
+		}
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCountByUserId($aEventTypes, $iUserId);
+	}
 	/**
 	 * @param array $aEventTypes
 	 * @param array $aUsersList
