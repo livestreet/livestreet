@@ -894,6 +894,8 @@ return array(
 	'notify_subject_blog_invite_new' => 'Вас пригласили вступить в блог',
 	'notify_subject_reminder_code' => 'Восстановление пароля',
 	'notify_subject_reminder_password' => 'Новый пароль',
+	'notify_subject_wall_reply' => 'Ответ на ваше сообщение на стене',
+	'notify_subject_wall_new' => 'Новое сообщение на вашей стене',
 	/**
 	 * Админка
 	 */

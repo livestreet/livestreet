@@ -894,6 +894,8 @@ return array(
 	'notify_subject_blog_invite_new' => 'You\'ve got a blog membership offer',
 	'notify_subject_reminder_code' => 'Password reminder',
 	'notify_subject_reminder_password' => 'New password',
+	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
+	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
 	/**
 	 * Админка
 	 */

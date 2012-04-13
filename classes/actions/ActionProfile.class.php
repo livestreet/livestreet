@@ -409,12 +409,25 @@ class ActionProfile extends Action {
 		$oWall->setText(getRequest('sText'));
 		$oWall->setPid(getRequest('iPid'));
 
+		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
 		if ($oWall->_Validate()) {
 			/**
 			 * Экранируем текст и добавляем запись в БД
 			 */
 			$oWall->setText($this->Text_Parser($oWall->getText()));
-			if (!$this->Wall_AddWall($oWall)) {
+			$this->Hook_Run('wall_add_before', array('oWall'=>$oWall));
+			if ($this->Wall_AddWall($oWall)) {
+				$this->Hook_Run('wall_add_after', array('oWall'=>$oWall));
+				/**
+				 * Отправляем уведомления
+				 */
+				if ($oWall->getWallUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallNew($oWall,$this->oUserCurrent);
+				}
+				if ($oWallParent=$oWall->GetPidWall() and $oWallParent->getUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallReply($oWallParent,$oWall,$this->oUserCurrent);
+				}
+			} else {
 				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
 			}
 		} else {
