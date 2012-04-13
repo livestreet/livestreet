@@ -562,6 +562,7 @@ return array(
 	 */
 	'wall_add_pid_error' => 'At this message can not be reply',
 	'wall_add_error' => 'Error adding a post to the wall',
+	'wall_add_time_limit' => 'You can\'t send post on wall a frequent rate',
 	/**
 	 * Configs.
 	 */

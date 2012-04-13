@@ -404,6 +404,7 @@ class ActionProfile extends Action {
 		}
 
 		$oWall=Engine::GetEntity('Wall');
+		$oWall->_setValidateScenario('add');
 		$oWall->setWallUserId($this->oUserProfile->getId());
 		$oWall->setUserId($this->oUserCurrent->getId());
 		$oWall->setText(getRequest('sText'));
