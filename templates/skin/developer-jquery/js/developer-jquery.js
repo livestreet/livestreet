@@ -48,6 +48,8 @@ jQuery(document).ready(function($){
 	
 	// Тул-бар топиков
 	ls.toolbar.topic.init();
+	// Кнопка "UP"
+	ls.toolbar.up.init();
 
 	
 	// Всплывающие сообщения
@@ -83,16 +85,6 @@ jQuery(document).ready(function($){
 		offsetX: 5,
 		liveEvents: true,
 		showTimeout: 500
-	});
-	
-	
-	// Кнопка прокрутки вверх
-	$(window).scroll(function(){
-		if ($(window).scrollTop() > $(window).height() / 2) {
-			$('#toolbar_scrollup').fadeIn(500);
-		} else {
-			$('#toolbar_scrollup').fadeOut(500);
-		}
 	});
 
 	

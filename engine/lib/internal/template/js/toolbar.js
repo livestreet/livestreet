@@ -27,6 +27,10 @@ ls.toolbar.topic = (function ($) {
 		}
 	};
 
+	this.reset = function() {
+		this.iCurrentTopic=-1;
+	};
+
 	/**
 	 * Прокрутка следующему топику
 	 */
@@ -70,3 +74,27 @@ ls.toolbar.topic = (function ($) {
 
 	return this;
 }).call(ls.toolbar.topic || {},jQuery);
+
+/**
+ * Функционал кнопки "UP"
+ */
+ls.toolbar.up = (function ($) {
+
+	this.init = function() {
+		$(window).scroll(function(){
+			if ($(window).scrollTop() > $(window).height() / 2) {
+				$('#toolbar_scrollup').fadeIn(500);
+			} else {
+				$('#toolbar_scrollup').fadeOut(500);
+			}
+		});
+	};
+
+	this.goUp = function() {
+		ls.toolbar.topic.reset();
+		$.scrollTo(0, 500);
+		return false;
+	};
+
+	return this;
+}).call(ls.toolbar.up || {},jQuery);
