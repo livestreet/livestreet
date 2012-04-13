@@ -165,8 +165,19 @@ class ModuleUser_EntityUser extends Entity {
 		return $this->User_getUserFieldsValues($this->getId(), $bOnlyNoEmpty,$sType);
 	}
     public function getSession() {
+		if (!isset($this->_aData['session'])) {
+			$this->_aData['session']=$this->User_GetSessionByUserId($this->getId());
+		}
         return $this->_aData['session'];
     }
+	public function isOnline() {
+		if ($oSession=$this->getSession()) {
+			if (time()-strtotime($oSession->getDateLast())<60*10) { // 10 минут
+				return true;
+			}
+		}
+		return false;
+	}
     public function getProfileAvatarPath($iSize=100) {
     	if ($sPath=$this->getProfileAvatar()) { 	
         	return str_replace('_100x100',(($iSize==0)?"":"_{$iSize}x{$iSize}"),$sPath."?".date('His',strtotime($this->getProfileDate())));
