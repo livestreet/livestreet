@@ -87,6 +87,8 @@ jQuery(document).ready(function($){
 		showTimeout: 500
 	});
 
+	// подсветка кода
+	prettyPrint();
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
