@@ -21,12 +21,29 @@ class ModuleWall_EntityWall extends Entity {
 	 * Определяем правила валидации
 	 */
 	protected $aValidateRules=array(
-		array('pid','pid'),
+		array('pid','pid','on'=>array('','add')),
+		array('user_id','time_limit','on'=>array('add')),
 	);
 
 	public function Init() {
 		parent::Init();
-		$this->aValidateRules[]=array('text','string','max'=>Config::Get('module.wall.text_max'),'min'=>Config::Get('module.wall.text_min'),'allowEmpty'=>false);
+		$this->aValidateRules[]=array('text','string','max'=>Config::Get('module.wall.text_max'),'min'=>Config::Get('module.wall.text_min'),'allowEmpty'=>false,'on'=>array('','add'));
+	}
+	/**
+	 * Проверка на ограничение по времени
+	 *
+	 * @param $sValue
+	 * @param $aParams
+	 *
+	 * @return bool
+	 */
+	public function ValidateTimeLimit($sValue,$aParams) {
+		if ($oUser=$this->User_GetUserById($this->getUserId())) {
+			if ($this->ACL_CanAddWallTime($oUser,$this)) {
+				return true;
+			}
+		}
+		return $this->Lang_Get('wall_add_time_limit');
 	}
 	/**
 	 * Валидация родительского сообщения
@@ -61,6 +78,27 @@ class ModuleWall_EntityWall extends Entity {
 			return $this->Wall_GetWallById($this->getPid());
 		}
 		return null;
+	}
+
+	/**
+	 * Проверка на возможность удаления сообщения
+	 *
+	 * @return bool
+	 */
+	public function isAllowDelete() {
+		if ($oUserCurrent=$this->User_GetUserCurrent()) {
+			if ($oUserCurrent->getId()==$this->getWallUserId() or $oUserCurrent->isAdministrator()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function getWallUser() {
+		if (!isset($this->_aData['wall_user'])) {
+			$this->_aData['wall_user']=$this->User_GetUserById($this->getWallUserId());
+		}
+		return $this->_aData['wall_user'];
 	}
 }
 ?>

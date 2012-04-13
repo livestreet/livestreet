@@ -43,6 +43,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 					{ AND country_id = ?d }
 					{ AND region_id = ?d }
 					{ AND city_id = ?d }
+				ORDER BY target_id DESC
 				LIMIT ?d, ?d ;
 					";
 		$aResult=array();

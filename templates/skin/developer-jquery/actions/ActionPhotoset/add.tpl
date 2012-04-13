@@ -32,10 +32,6 @@
 </script>
 
 
-<div class="topic" style="display: none;">
-	<div class="content" id="text_preview"></div>
-</div>
-
 
 {if $sEvent=='add'}
 	<h2 class="page-header">{$aLang.topic_photoset_create}</h2>
@@ -60,7 +56,7 @@
 {hook run='add_topic_photoset_begin'}
 
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add">
 	{hook run='form_add_topic_photoset_begin'}
 	
 	
@@ -148,15 +144,19 @@
 		<small class="note">{$aLang.topic_create_publish_index_notice}</small></p>
 	{/if}
 
+	<input type="hidden" name="topic_type" value="photoset" />
 	
 	{hook run='form_add_topic_photoset_end'}
 			
 			
-	<button name="submit_topic_publish" class="button button-primary">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('topic_text',true); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary">{$aLang.topic_create_submit_publish}</button>
+	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
-	
+
+<div class="topic" style="display: none;">
+	<div class="content" id="text_preview"></div>
+</div>
 	
 {hook run='add_topic_photoset_end'}
 

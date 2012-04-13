@@ -38,6 +38,15 @@ class ModuleWall_MapperWall extends Mapper {
 								 $oWall->getId());
 	}
 
+	public function DeleteWallById($iId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE id = ?d ";
+		return $this->oDb->query($sql,$iId);
+	}
+
+	public function DeleteWallsByPid($iPid) {
+		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE pid = ?d ";
+		return $this->oDb->query($sql,$iPid);
+	}
 
 	public function GetWall($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','date_add');
@@ -64,6 +73,7 @@ class ModuleWall_MapperWall extends Mapper {
 					{ AND pid = ?d }
 					{ AND pid IS NULL AND 1 = ?d }
 					{ AND wall_user_id = ?d }
+					{ AND user_id = ?d }
 					{ AND ip = ? }
 					{ AND id = ?d }
 					{ AND id < ?d }
@@ -76,6 +86,7 @@ class ModuleWall_MapperWall extends Mapper {
 										  (isset($aFilter['pid']) and !is_null($aFilter['pid'])) ? $aFilter['pid'] : DBSIMPLE_SKIP,
 										  (array_key_exists('pid',$aFilter) and is_null($aFilter['pid'])) ? 1 : DBSIMPLE_SKIP,
 										  isset($aFilter['wall_user_id']) ? $aFilter['wall_user_id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['ip']) ? $aFilter['ip'] : DBSIMPLE_SKIP,
 										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['id_less']) ? $aFilter['id_less'] : DBSIMPLE_SKIP,

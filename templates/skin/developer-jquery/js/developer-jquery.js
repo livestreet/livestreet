@@ -48,6 +48,8 @@ jQuery(document).ready(function($){
 	
 	// Тул-бар топиков
 	ls.toolbar.topic.init();
+	// Кнопка "UP"
+	ls.toolbar.up.init();
 
 	
 	// Всплывающие сообщения
@@ -84,17 +86,9 @@ jQuery(document).ready(function($){
 		liveEvents: true,
 		showTimeout: 500
 	});
-	
-	
-	// Кнопка прокрутки вверх
-	$(window).scroll(function(){
-		if ($(window).scrollTop() > $(window).height() / 2) {
-			$('#toolbar_scrollup').fadeIn(500);
-		} else {
-			$('#toolbar_scrollup').fadeOut(500);
-		}
-	});
 
+	// подсветка кода
+	prettyPrint();
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

@@ -69,7 +69,7 @@ class ActionPeople extends Action {
 			$sTitle='%'.$sTitle.'%';
 		}
 
-		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('login'=>'asc'),1,100);
+		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);

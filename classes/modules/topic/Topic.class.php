@@ -22,6 +22,10 @@
 class ModuleTopic extends Module {		
 	protected $oMapperTopic;
 	protected $oUserCurrent=null;
+
+	protected $aTopicTypes=array(
+		'topic','link','question','photoset'
+	);
 		
 	/**
 	 * Инициализация
@@ -30,6 +34,31 @@ class ModuleTopic extends Module {
 	public function Init() {		
 		$this->oMapperTopic=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+	}
+	/**
+	 * Возвращает список типов топика
+	 */
+	public function GetTopicTypes() {
+		return $this->aTopicTypes;
+	}
+	/**
+	 * Добавляет в новый тип топика
+	 */
+	public function AddTopicType($sType) {
+		if (!in_array($sType,$this->aTopicTypes)) {
+			$this->aTopicTypes[]=$sType;
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешен ли данный тип топика
+	 *
+	 * @param $sType
+	 * @return bool
+	 */
+	public function IsAllowTopicType($sType) {
+		return in_array($sType,$this->aTopicTypes);
 	}
 	/**
 	 * Получает дополнительные данные(объекты) для топиков по их ID

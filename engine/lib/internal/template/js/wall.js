@@ -175,18 +175,32 @@ ls.wall = (function ($) {
 		if (opt) {
 			$.extend(true,this.options,opt);
 		}
+		jQuery(function($){
+			$(document).click(function() {
+				$('.wall-submit-reply.active').removeClass('active');
+			});
+
+			$('body').on("click", ".wall-submit-reply, .link-dotted", function(e) {
+				e.stopPropagation();
+			});
+		});
+	};
+
+	this.remove = function(iId) {
+		var url = aRouter['profile']+this.options.login+'/wall/remove/';
+		var params = {iId: iId};
+		'*removeBefore*'; '*/removeBefore*';
+		ls.ajax(url, params, function(result){
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$('#wall-item-'+iId).detach();
+				$('#wall-reply-item-'+iId).detach();
+				ls.hook.run('ls_wall_remove_after',[iId, result]);
+			}
+		});
+		return false;
 	};
 
 	return this;
 }).call(ls.wall || {},jQuery);
-
-
-jQuery(document).ready(function($){
-	$(document).click(function() {
-		$('.wall-submit-reply.active').removeClass('active');
-	});
-	
-	$('body').on("click", ".wall-submit-reply, .link-dotted", function(e) { 
-		e.stopPropagation();
-	});
-});

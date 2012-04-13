@@ -108,7 +108,7 @@ class ActionIndex extends Action {
 		/**
 		 * Если нет топиков за 1 день, то показываем за неделю (7)
 		 */
-		if (!$aResult['count'] and $iPage==1 and $sPeriod==1) {
+		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
 			$sPeriod=7;
 			$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
@@ -152,7 +152,7 @@ class ActionIndex extends Action {
 		/**
 		 * Если нет топиков за 1 день, то показываем за неделю (7)
 		 */
-		if (!$aResult['count'] and $iPage==1 and $sPeriod==1) {
+		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
 			$sPeriod=7;
 			$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}

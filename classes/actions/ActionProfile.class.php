@@ -47,6 +47,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add$/i','EventWallAdd');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load$/i','EventWallLoad');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^remove$/i','EventWallRemove');
 
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
@@ -91,7 +92,7 @@ class ActionProfile extends Action {
 		 * Читаем события
 		 */
 		$aEvents = $this->Stream_ReadByUserId($this->oUserProfile->getId());
-		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByUserId($this->oUserProfile->getId()) < Config::Get('module.stream.count_default'));
 		$this->Viewer_Assign('aStreamEvents', $aEvents);
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
@@ -404,22 +405,59 @@ class ActionProfile extends Action {
 		}
 
 		$oWall=Engine::GetEntity('Wall');
+		$oWall->_setValidateScenario('add');
 		$oWall->setWallUserId($this->oUserProfile->getId());
 		$oWall->setUserId($this->oUserCurrent->getId());
 		$oWall->setText(getRequest('sText'));
 		$oWall->setPid(getRequest('iPid'));
 
+		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
 		if ($oWall->_Validate()) {
 			/**
 			 * Экранируем текст и добавляем запись в БД
 			 */
 			$oWall->setText($this->Text_Parser($oWall->getText()));
-			if (!$this->Wall_AddWall($oWall)) {
+			$this->Hook_Run('wall_add_before', array('oWall'=>$oWall));
+			if ($this->Wall_AddWall($oWall)) {
+				$this->Hook_Run('wall_add_after', array('oWall'=>$oWall));
+				/**
+				 * Отправляем уведомления
+				 */
+				if ($oWall->getWallUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallNew($oWall,$this->oUserCurrent);
+				}
+				if ($oWallParent=$oWall->GetPidWall() and $oWallParent->getUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallReply($oWallParent,$oWall,$this->oUserCurrent);
+				}
+			} else {
 				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
 			}
 		} else {
 			$this->Message_AddError($oWall->_getValidateError(),$this->Lang_Get('error'));
 		}
+	}
+
+	/**
+	 * Удаление записи со стены
+	 */
+	public function EventWallRemove() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		if (!($oWall=$this->Wall_GetWallById(getRequest('iId')))) {
+			return parent::EventNotFound();
+		}
+
+		if ($oWall->isAllowDelete()) {
+			$this->Wall_DeleteWall($oWall);
+			return;
+		}
+		return parent::EventNotFound();
 	}
 
 	/**

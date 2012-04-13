@@ -440,6 +440,7 @@ class ModuleUser_MapperUser extends Mapper {
 							: $aUser['user_from'];
 			}
 		}
+		rsort($aUsers,SORT_NUMERIC);
 		return array_unique($aUsers);
 	}
 

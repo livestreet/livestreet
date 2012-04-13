@@ -71,6 +71,18 @@ class ModuleStream_MapperStream extends Mapper {
 		return $aReturn;
 	}
 
+	public function GetCountByUserId($aEventTypes, $iUserId) {
+		$sql = 'SELECT count(*) as c FROM ' . Config::Get('db.table.stream_event'). '
+				WHERE
+					event_type IN (?a)
+					AND user_id = ?d
+					AND publish = 1 ';
+		if ($aRow=$this->oDb->selectRow($sql,$aEventTypes,$iUserId)) {
+			return $aRow['c'];
+		}
+		return 0;
+	}
+
 	public function switchUserEventType($iUserId, $sEventType) {
 		$sql = 'SELECT * FROM ' . Config::Get('db.table.stream_user_type') . ' WHERE user_id = ?d AND event_type = ?';
 		if ($this->oDb->select($sql, $iUserId, $sEventType)) {

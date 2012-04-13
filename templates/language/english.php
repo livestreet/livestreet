@@ -233,6 +233,7 @@ return array(
 	'topic_create_text_notice' => 'Html tags available',
 	'topic_create_text_error' => "Topic's text should consist of 2 upto 15000 chars",
 	'topic_create_text_error_unique' => "You've already created topic with the same text",
+	'topic_create_type_error' => "Invalid topic type",
 	'topic_create_tags' => 'Tags',
 	'topic_create_tags_notice' => 'Tags should be comma separated. i.e: facebook clone, blogs, rating, google, block.',
 	'topic_create_tags_error_bad' => 'Check that tags syntax is right',
@@ -244,6 +245,7 @@ return array(
 	'topic_create_submit_publish' => 'Publish',
 	'topic_create_submit_save' => 'Save to drafts',
 	'topic_create_submit_preview' => 'Preview',
+	'topic_create_submit_preview_close' => 'Close',
 	'topic_create_submit_notice' => 'Pushing «save to drafts» will save topic to the drafts and will be viewable by you only, showing lock alongside. Push «publish» to make it viewable by everyone.',
 	'topic_create_notice' => "Note: <cut> tag shortens long articles, hiding them totally or partially under the link («Read more»). Hidden part is not visible in the blog but will be available on the full Topic's page.",
 	'topic_create_error' => "During topic creation we've experienced some technical difficulties. Please try again later.",
@@ -562,6 +564,7 @@ return array(
 	 */
 	'wall_add_pid_error' => 'At this message can not be reply',
 	'wall_add_error' => 'Error adding a post to the wall',
+	'wall_add_time_limit' => 'You can\'t send post on wall a frequent rate',
 	/**
 	 * Configs.
 	 */
@@ -894,6 +897,8 @@ return array(
 	'notify_subject_blog_invite_new' => 'You\'ve got a blog membership offer',
 	'notify_subject_reminder_code' => 'Password reminder',
 	'notify_subject_reminder_password' => 'New password',
+	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
+	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
 	/**
 	 * Админка
 	 */

@@ -617,7 +617,49 @@ class ModuleNotify extends Module {
 		$this->Mail_setHTML();
 		$this->Mail_Send();
 	}
-	
+
+	/**
+	 * Уведомление при ответе на сообщение на стене
+	 *
+	 * @param ModuleWall_EntityWall $oWallParent
+	 * @param ModuleWall_EntityWall $oWall
+	 * @param ModuleUser_EntityUser $oUserWall
+	 */
+	public function SendWallReply(ModuleWall_EntityWall $oWallParent, ModuleWall_EntityWall $oWall, ModuleUser_EntityUser $oUser) {
+		$this->Send(
+			$oWallParent->getUser(),
+			'notify.wall.reply.tpl',
+			$this->Lang_Get('notify_subject_wall_reply'),
+			array(
+				'oWallParent' => $oWallParent,
+				'oUserTo' => $oWallParent->getUser(),
+				'oWall' => $oWall,
+				'oUser' => $oUser,
+				'oUserWall' => $oWall->getWallUser(), // кому принадлежит стена
+			)
+		);
+	}
+
+	/**
+	 * Уведомление о новом сообщение на стене
+	 *
+	 * @param ModuleWall_EntityWall $oWall
+	 * @param ModuleUser_EntityUser $oUser
+	 */
+	public function SendWallNew(ModuleWall_EntityWall $oWall, ModuleUser_EntityUser $oUser) {
+		$this->Send(
+			$oWall->getWallUser(),
+			'notify.wall.new.tpl',
+			$this->Lang_Get('notify_subject_wall_new'),
+			array(
+				'oUserTo' => $oWall->getWallUser(),
+				'oWall' => $oWall,
+				'oUser' => $oUser,
+				'oUserWall' => $oWall->getWallUser(), // кому принадлежит стена
+			)
+		);
+	}
+
 	/**
 	 * Универсальный метод отправки уведомлений на email
 	 *

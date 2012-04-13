@@ -601,7 +601,7 @@ class ActionBlog extends Action {
 		/**
 		 * Если нет топиков за 1 день, то показываем за неделю (7)
 		 */
-		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and $sPeriod==1) {
+		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and !getRequest('period')) {
 			$sPeriod=7;
 			$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
@@ -854,7 +854,7 @@ class ActionBlog extends Action {
 			/**
 			 * Если нет топиков за 1 день, то показываем за неделю (7)
 			 */
-			if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and $sPeriod==1) {
+			if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and !getRequest('period')) {
 				$sPeriod=7;
 				$aResult=$this->Topic_GetTopicsByBlog($oBlog,$iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 			}

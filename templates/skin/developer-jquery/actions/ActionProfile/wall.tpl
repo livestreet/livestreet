@@ -31,7 +31,7 @@
 </div>
 
 
-{if count($aWall)}
+{if $iCountWall-count($aWall)}
 	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="wall-more"><span class="wall-more-inner">К предыдущим записям (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
 {/if}
 
