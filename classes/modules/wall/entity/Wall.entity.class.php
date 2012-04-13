@@ -80,6 +80,20 @@ class ModuleWall_EntityWall extends Entity {
 		return null;
 	}
 
+	/**
+	 * Проверка на возможность удаления сообщения
+	 *
+	 * @return bool
+	 */
+	public function isAllowDelete() {
+		if ($oUserCurrent=$this->User_GetUserCurrent()) {
+			if ($oUserCurrent->getId()==$this->getWallUserId() or $oUserCurrent->isAdministrator()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function getWallUser() {
 		if (!isset($this->_aData['wall_user'])) {
 			$this->_aData['wall_user']=$this->User_GetUserById($this->getWallUserId());

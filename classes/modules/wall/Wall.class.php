@@ -225,5 +225,15 @@ class ModuleWall extends Module {
 		}
 	}
 
+	/**
+	 * Удаление сообщения
+	 *
+	 * @param $oWall
+	 */
+	public function DeleteWall($oWall) {
+		$this->oMapper->DeleteWallsByPid($oWall->getId());
+		$this->oMapper->DeleteWallById($oWall->getId());
+	}
+
 }
 ?>

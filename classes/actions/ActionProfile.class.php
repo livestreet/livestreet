@@ -47,6 +47,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^add$/i','EventWallAdd');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load$/i','EventWallLoad');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
+		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^remove$/i','EventWallRemove');
 
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
@@ -434,6 +435,29 @@ class ActionProfile extends Action {
 		} else {
 			$this->Message_AddError($oWall->_getValidateError(),$this->Lang_Get('error'));
 		}
+	}
+
+	/**
+	 * Удаление записи со стены
+	 */
+	public function EventWallRemove() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		if (!($oWall=$this->Wall_GetWallById(getRequest('iId')))) {
+			return parent::EventNotFound();
+		}
+
+		if ($oWall->isAllowDelete()) {
+			$this->Wall_DeleteWall($oWall);
+			return;
+		}
+		return parent::EventNotFound();
 	}
 
 	/**

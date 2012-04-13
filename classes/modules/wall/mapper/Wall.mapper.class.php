@@ -38,6 +38,15 @@ class ModuleWall_MapperWall extends Mapper {
 								 $oWall->getId());
 	}
 
+	public function DeleteWallById($iId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE id = ?d ";
+		return $this->oDb->query($sql,$iId);
+	}
+
+	public function DeleteWallsByPid($iPid) {
+		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE pid = ?d ";
+		return $this->oDb->query($sql,$iPid);
+	}
 
 	public function GetWall($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','date_add');
