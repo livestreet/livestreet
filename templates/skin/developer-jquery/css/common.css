@@ -94,8 +94,8 @@
 .user-list li .author 	{ font-weight: bold; color: #333; }
 
 .user-list-avatar 			{ overflow: hidden; zoom: 1; }
+.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 15px; text-align: center; font-size: 11px; margin-bottom: 10px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
-.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 15px; text-align: center; font-size: 11px; }
 
 
 

@@ -11,10 +11,6 @@
 				<li class="comment-date"><time datetime="{date_format date=$oWall->getDateAdd() format='c'}">{date_format date=$oWall->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time></li>
 			</ul>
 
-			{if $oWall->isAllowDelete()}
-				<a href="#" onclick="return ls.wall.remove({$oWall->getId()});">Удалить</a>
-			{/if}
-
 			<div class="comment-content text">
 				{$oWall->getText()}
 			</div>
@@ -22,6 +18,10 @@
 			{if $oUserCurrent and !$aReplyWall}
 				<ul class="comment-actions">
 					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">Ответить</a></li>
+					
+					{if $oWall->isAllowDelete()}
+						<li><a href="#" onclick="return ls.wall.remove({$oWall->getId()});" class="link-dotted">Удалить</a></li>
+					{/if}
 				</ul>
 			{/if}
 		</div>

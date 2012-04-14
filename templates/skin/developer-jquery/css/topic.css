@@ -31,7 +31,6 @@
 .topic .topic-footer .topic-info li.topic-info-comments a span 	{ color: #777; }
 .topic .topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
 
-
 /* Share */
 .topic .topic-share { display: none; padding: 3px; margin-bottom: 10px; border: 5px solid #eee; }
 
@@ -120,3 +119,7 @@
 .topic.topic-type-talk .talk-recipients h3 	{ font-size: 16px; font-weight: bold; margin-bottom: 10px; }
 
 
+/* Topic Preview */
+.topic-preview { margin-top: 30px; }
+.topic-preview .profile-page-header { border-top: 1px solid #ddd; }
+.topic-preview .topic { margin-bottom: 20px; }

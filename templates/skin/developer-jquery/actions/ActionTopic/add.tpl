@@ -63,7 +63,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
-	<textarea name="topic_text" id="topic_text" rows="20" class="mce-editor input-width-full">{$_aRequest.topic_text}</textarea></p>
+	<textarea name="topic_text" id="topic_text" rows="20" class="mce-editor">{$_aRequest.topic_text}</textarea></p>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
@@ -88,14 +88,12 @@
 	
 	
 	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button name="submit_preview" onclick="ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
 	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 	
-<div class="topic" style="display: none;">
-	<div class="content" id="text_preview"></div>
-</div>
+<div class="topic-preview" style="display: none;" id="text_preview"></div>
 
 
 {hook run='add_topic_topic_end'}

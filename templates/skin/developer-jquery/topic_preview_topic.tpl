@@ -1,5 +1,7 @@
 {assign var="oUser" value=$oTopic->getUser()}
 
+<h3 class="profile-page-header">Предпросмотр</h3>
+
 <article class="topic topic-type-{$oTopic->getType()}">
 	<header class="topic-header">
 		<h1 class="topic-title">
@@ -40,8 +42,7 @@
 	</footer>
 </article>
 
-<hr/>
 
 <button name="submit_topic_publish" class="button button-primary" onclick="jQuery('#submit_topic_publish').trigger('click');">{$aLang.topic_create_submit_publish}</button>
-<button name="submit_preview" onclick="jQuery('#text_preview').html('').parent().hide(); return false;" class="button">{$aLang.topic_create_submit_preview_close}</button>
+<button name="submit_preview" onclick="jQuery('#text_preview').html('').hide(); return false;" class="button">{$aLang.topic_create_submit_preview_close}</button>
 <button name="submit_topic_save" class="button" onclick="jQuery('#submit_topic_save').trigger('click');">{$aLang.topic_create_submit_save}</button>

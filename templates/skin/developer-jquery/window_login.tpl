@@ -10,10 +10,10 @@
 			jQuery(function($){
 				$('div.tab-content:not(:first)').hide();
 			
-				$('ul.nav-tabs a').click(function(){
+				$('ul.nav-pills-tabs a').click(function(){
 					if (this.hash) {
 						$('div.tab-content').hide();
-						$('ul.nav-tabs li').removeClass('active');
+						$('ul.nav-pills-tabs li').removeClass('active');
 						$('div.tab-content' + this.hash).show();
 						$(this).parent('li').addClass('active');
 					}
@@ -28,7 +28,7 @@
 		</script>
 		
 		<div class="modal-content">
-			<ul class="nav nav-pills nav-tabs">
+			<ul class="nav nav-pills nav-pills-tabs">
 				<li class="active"><a href="#tab_content_login">{$aLang.user_login_submit}</a></li>
 				{if !$oConfig->GetValue('general.reg.invite')}
 					<li><a href="#tab_content_register">{$aLang.registration}</a></li>
