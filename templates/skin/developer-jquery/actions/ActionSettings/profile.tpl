@@ -165,9 +165,6 @@
 			$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
 				ls.user.uploadAvatar(null,input);
 			});
-			$('#foto-upload').file({ name:'foto' }).choose(function(e, input) {
-				ls.user.uploadFoto(null,input);
-			});
 		});
 	</script>
 

@@ -4,6 +4,13 @@
 	</a>
 	
 	{if $sAction=='settings' and $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+		<script type="text/javascript">
+			jQuery(function($){
+				$('#foto-upload').file({ name:'foto' }).choose(function(e, input) {
+					ls.user.uploadFoto(null,input);
+				});
+			});
+		</script>
 		<p class="upload-photo">
 			<a href="#" id="foto-upload" class="link-dotted">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_photo_change}{else}{$aLang.settings_profile_photo_upload}{/if}</a><br />
 			<a href="#" id="foto-remove" class="link-dotted" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
