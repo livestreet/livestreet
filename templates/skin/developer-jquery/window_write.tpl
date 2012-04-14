@@ -27,6 +27,10 @@
 				<a href="{router page='blog'}add" class="write-item-image"></a>
 				<a href="{router page='blog'}add" class="write-item-link">Блог</a>
 			</li>
+			<li class="write-item-type-draft">
+				<a href="{router page='topic'}saved/" class="write-item-image"></a>
+				<a href="{router page='topic'}saved/" class="write-item-link">{$aLang.topic_menu_saved} (0)</a>
+			</li>
 		</ul>
 	</div>
 	{/strip}

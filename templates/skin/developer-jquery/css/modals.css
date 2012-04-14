@@ -45,7 +45,7 @@
 
 
 /* Добавление топика */
-.modal.modal-write { width: 620px; margin-left: -300px; top: 50px; }
+.modal.modal-write { width: 740px; margin-left: -370px; top: 50px; }
 .modal.modal-write .modal-content { padding: 20px 10px 0; }
 .modal.modal-write .write-list {  }
 .modal.modal-write .write-list li { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; display: inline-table; }
@@ -58,6 +58,7 @@
 .modal.modal-write .write-list li.write-item-type-link .write-item-image 		{ background-position: -200px 0; }
 .modal.modal-write .write-list li.write-item-type-photoset .write-item-image 	{ background-position: -300px 0; }
 .modal.modal-write .write-list li.write-item-type-blog .write-item-image 		{ background-position: -400px 0; }
+.modal.modal-write .write-list li.write-item-type-draft .write-item-image 		{ background-position: -500px 0; }
 
 
 /* Upload Image */
