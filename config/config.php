@@ -197,7 +197,7 @@ $config['module']['comment']['nested_per_page'] = 0; 	// Число коммен
 $config['module']['comment']['nested_page_reverse'] = true; 	// Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
 $config['module']['comment']['favourite_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено добавлять в избранное
 // Модуль Talk
-$config['module']['talk']['per_page']   = 15;           // Число приватных сообщений на одну страницу
+$config['module']['talk']['per_page']   = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['reload']     = false;
 $config['module']['talk']['request']    = 60;
 $config['module']['talk']['period']     = 20000;

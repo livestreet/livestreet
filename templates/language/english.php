@@ -761,6 +761,7 @@ return array(
 	'talk_filter_notice_keyword' => 'Specify keywords',
 	'talk_filter_notice_date' => 'Date should be in the following format 25.12.2008',
 	'talk_filter_submit' => 'Submit filter',
+	'talk_filter_submit_clear' => 'Clear',
 	'talk_filter_error' => 'Filter error',
 	'talk_filter_error_date_format' => 'Wrong date format',
 	'talk_filter_result_count' => 'Found %%count%% messages',

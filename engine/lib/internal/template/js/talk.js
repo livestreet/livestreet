@@ -70,7 +70,7 @@ ls.talk = (function ($) {
 		});
 
 		return false;
-	}
+	};
 	
 	/**
 	* Добавляет пользователя в черный список
@@ -106,7 +106,7 @@ ls.talk = (function ($) {
 			}
 		});
 		return false;
-	}
+	};
 	
 	/**
 	* Удаляет пользователя из черного списка
@@ -135,7 +135,7 @@ ls.talk = (function ($) {
 			ls.hook.run('ls_talk_remove_from_black_list_after',[idTarget],link);
 		});
 		return false;
-	}
+	};
 	
 	/**
 	* Добавляет или удаляет друга из списка получателей
@@ -147,7 +147,16 @@ ls.talk = (function ($) {
 		});
 		if (add) { to.push(login); to = $.richArray.unique(to); } else { to = $.richArray.without(to, login); }
 		$('#talk_users').val(to.join(', '));
-	}
+	};
+
+	/**
+	 * Очищает поля фильтра
+	 */
+	this.clearFilter = function() {
+		$('#block_talk_search_content').find('input[type="text"]').val('');
+		$('#block_talk_search_content').find('input[type="checkbox"]').removeAttr("checked");
+		return false;
+	};
 	
 	return this;
 }).call(ls.talk || {},jQuery);

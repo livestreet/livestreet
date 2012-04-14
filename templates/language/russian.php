@@ -761,6 +761,7 @@ return array(
 	'talk_filter_notice_keyword' => 'Введите одно или несколько слов',
 	'talk_filter_notice_date' => 'Дата вводится в формате 25.12.2008',
 	'talk_filter_submit' => 'Отфильтровать',
+	'talk_filter_submit_clear' => 'Очистить',
 	'talk_filter_error' => 'Ошибка фильтрации',
 	'talk_filter_error_date_format' => 'Указан неверный формат даты',
 	'talk_filter_result_count' => 'Найдено писем: %%count%%',
