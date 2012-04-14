@@ -119,9 +119,12 @@ ls.blog = (function ($) {
 	 */
 	this.searchBlogs = function(form) {
 		var url = aRouter['blogs']+'ajax-search/';
+		var inputSearch=$('#'+form).find('input');
+		inputSearch.addClass('loader');
 
 		'*searchBlogsBefore*'; '*/searchBlogsBefore*';
 		ls.ajaxSubmit(url, form, function(result){
+			inputSearch.removeClass('loader');
 			if (result.bStateError) {
 				$('#blogs-list-search').hide();
 				$('#blogs-list-original').show();

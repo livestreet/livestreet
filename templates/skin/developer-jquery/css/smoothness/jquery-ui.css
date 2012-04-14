@@ -408,3 +408,7 @@
     width: 200px; /*must have*/
     height: 200px; /*must have*/
 }
+
+.ui-autocomplete-loading {
+	background: #fafafa url(../../images/loader.gif) 50% 50% no-repeat;
+}

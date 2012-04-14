@@ -428,9 +428,12 @@ ls.user = (function ($) {
 	 */
 	this.searchUsers = function(form) {
 		var url = aRouter['people']+'ajax-search/';
+		var inputSearch=$('#'+form).find('input');
+		inputSearch.addClass('loader');
 
 		'*searchUsersBefore*'; '*/searchUsersBefore*';
 		ls.ajaxSubmit(url, form, function(result){
+			inputSearch.removeClass('loader');
 			if (result.bStateError) {
 				$('#users-list-search').hide();
 				$('#users-list-original').show();
@@ -449,9 +452,11 @@ ls.user = (function ($) {
 		obj=$(obj);
 		var url = aRouter['people']+'ajax-search/';
 		var params = {user_login: sPrefix, isPrefix: 1};
+		$('#search-user-login').addClass('loader');
 
 		'*searchUsersByPrefixBefore*'; '*/searchUsersByPrefixBefore*';
 		ls.ajax(url, params, function(result){
+			$('#search-user-login').removeClass('loader');
 			$('#user-prefix-filter').find('.active').removeClass('active');
 			obj.parent().addClass('active');
 			if (result.bStateError) {
