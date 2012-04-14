@@ -26,6 +26,9 @@
 					{$aLang.stream_list_event_join_blog} <a href="{$oTarget->getUrlFull()}">{$oTarget->getTitle()|escape:'html'}</a>
 				{elseif $oStreamEvent->getEventType() == 'add_friend'}
 					{$aLang.stream_list_event_add_friend} <a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+				{elseif $oStreamEvent->getEventType() == 'add_wall'}
+					{$aLang.stream_list_event_add_wall} <a href="{$oTarget->getUrlWall()}">{$oTarget->getWallUser()->getLogin()}</a>
+					<div class="stream-comment-preview">{$oTarget->getText()|strip_tags|truncate:200}</div>
 				{else}
 					{hook run="stream_list_event_`$oStreamEvent->getEventType()`" oStreamEvent=$oStreamEvent}
 				{/if}

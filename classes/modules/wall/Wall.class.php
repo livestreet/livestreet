@@ -132,7 +132,7 @@ class ModuleWall extends Module {
 	 */
 	public function GetWallAdditionalData($aWallId,$aAllowData=null) {
 		if (is_null($aAllowData)) {
-			$aAllowData=array('user'=>array(),'reply');
+			$aAllowData=array('user'=>array(),'wall_user'=>array(),'reply');
 		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aWallId)) {
@@ -144,10 +144,14 @@ class ModuleWall extends Module {
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
 		$aUserId=array();
+		$aWallUserId=array();
 		$aWallReplyId=array();
 		foreach ($aWalls as $oWall) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oWall->getUserId();
+			}
+			if (isset($aAllowData['wall_user'])) {
+				$aWallUserId[]=$oWall->getUserId();
 			}
 			/**
 			 * Список последних записей хранится в строке через запятую
@@ -161,6 +165,7 @@ class ModuleWall extends Module {
 		 * Получаем дополнительные данные
 		 */
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
+		$aWallUsers=isset($aAllowData['wall_user']) && is_array($aAllowData['wall_user']) ? $this->User_GetUsersAdditionalData($aWallUserId,$aAllowData['wall_user']) : $this->User_GetUsersAdditionalData($aWallUserId);
 		$aWallReply=array();
 		if (isset($aAllowData['reply']) and count($aWallReplyId)) {
 			$aWallReply=$this->GetWallAdditionalData($aWallReplyId,array('user'=>array()));
@@ -173,6 +178,11 @@ class ModuleWall extends Module {
 				$oWall->setUser($aUsers[$oWall->getUserId()]);
 			} else {
 				$oWall->setUser(null); // или $oWall->setUser(new ModuleUser_EntityUser());
+			}
+			if (isset($aWallUsers[$oWall->getUserId()])) {
+				$oWall->setWallUser($aWallUsers[$oWall->getUserId()]);
+			} else {
+				$oWall->setWallUser(null);
 			}
 			$aReply=array();
 			if ($oWall->getLastReply()) {

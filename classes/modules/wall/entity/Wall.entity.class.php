@@ -94,11 +94,25 @@ class ModuleWall_EntityWall extends Entity {
 		return false;
 	}
 
+	/**
+	 * Возвращает пользователя, которому принадлежит стена
+	 *
+	 * @return mixed
+	 */
 	public function getWallUser() {
 		if (!isset($this->_aData['wall_user'])) {
 			$this->_aData['wall_user']=$this->User_GetUserById($this->getWallUserId());
 		}
 		return $this->_aData['wall_user'];
+	}
+
+	/**
+	 * Возвращает URL стены
+	 *
+	 * @return string
+	 */
+	public function getUrlWall() {
+		return $this->getWallUser()->getUserWebPath().'wall/';
 	}
 }
 ?>

@@ -29,7 +29,7 @@ class ModuleStream extends Module {
 	 * @var array
 	 */
 	protected $aEventDefaultTypes=array(
-		'add_topic','add_comment','add_blog','vote_topic','add_friend'
+		'add_wall','add_topic','add_comment','add_blog','vote_topic','add_friend'
 	);
 	/**
 	 * Типы событий
@@ -37,6 +37,7 @@ class ModuleStream extends Module {
 	 * @var array
 	 */
 	protected $aEventTypes = array(
+		'add_wall' => array('related' => 'wall'),
 		'add_topic' => array('related' => 'topic'),
 		'add_comment' => array('related' => 'comment'),
 		'add_blog' => array('related' => 'blog'),
@@ -355,7 +356,16 @@ class ModuleStream extends Module {
 	public function unsubscribeUser($iUserId, $iTargetUserId) {
 		return $this->oMapper->unsubscribeUser($iUserId, $iTargetUserId);
 	}
-	
+
+	/**
+	 * Получает список записей на стене
+	 *
+	 * @param unknown_type $aIds
+	 * @return unknown
+	 */
+	protected function loadRelatedWall($aIds) {
+		return $this->Wall_GetWallAdditionalData($aIds);
+	}
 	/**
 	 * Получает список топиков
 	 *

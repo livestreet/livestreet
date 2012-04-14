@@ -429,6 +429,10 @@ class ActionProfile extends Action {
 				if ($oWallParent=$oWall->GetPidWall() and $oWallParent->getUserId()!=$oWall->getUserId()) {
 					$this->Notify_SendWallReply($oWallParent,$oWall,$this->oUserCurrent);
 				}
+				/**
+				 * Добавляем событие в ленту
+				 */
+				$this->Stream_Write($oWall->getUserId(), 'add_wall', $oWall->getId());
 			} else {
 				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
 			}
