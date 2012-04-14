@@ -176,14 +176,36 @@ ls.wall = (function ($) {
 			$.extend(true,this.options,opt);
 		}
 		jQuery(function($){
-			$(document).click(function() {
-				$('.wall-submit-reply.active').removeClass('active');
+			$(document).click(function(e) {
+				if (e.which==1) {
+					$('.wall-submit-reply.active').each(function(k,v){
+						if (!$(v).find('.js-wall-reply-text').val()) {
+							$(v).removeClass('active');
+						}
+					});
+				}
 			});
 
 			$('body').on("click", ".wall-submit-reply, .link-dotted", function(e) {
 				e.stopPropagation();
 			});
-		});
+
+			$('.js-wall-reply-text').bind('keyup', function(e) {
+				key = e.keyCode || e.which;
+				if(e.ctrlKey && (key == 13)) {
+					var id=$(e.target).attr('id').replace('wall-reply-text-','');
+					this.addReply($(e.target).val(), id);
+					return false;
+				}
+			}.bind(this));
+			$('.js-wall-reply-parent-text').bind('keyup', function(e) {
+				key = e.keyCode || e.which;
+				if(e.ctrlKey && (key == 13)) {
+					this.add($(e.target).val(), 0);
+					return false;
+				}
+			}.bind(this));
+		}.bind(this));
 	};
 
 	this.remove = function(iId) {

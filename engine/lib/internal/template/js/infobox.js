@@ -39,17 +39,18 @@ ls.infobox = (function ($) {
 		aOpt=$.extend(true,{},this.aOptDef,aOpt || {});
 
 		if (aOpt.hideOther) {
-			$.each(this.aLinks,function(k,oLink){
-				this.hide(oLink);
-			}.bind(this));
+			this.hideAll();
 		}
 
 		$oLink=$(oLink);
 		if ($oLink.data('isPoshytip')) {
 			$oLink.poshytip('update', sContent);
 		} else {
+			$oLink.on('click',function(e){
+				e.stopPropagation();
+			});
 			$oLink.poshytip({
-				className: aOpt.className,
+				className: 'js-infobox '+aOpt.className,
 				content: sContent,
 				showOn: aOpt.showOn,
 				alignTo: aOpt.alignTo,
@@ -77,6 +78,12 @@ ls.infobox = (function ($) {
 
 		$oLink.poshytip('show');
 
+	};
+
+	this.hideAll = function() {
+		$.each(this.aLinks,function(k,oLink){
+			this.hide(oLink);
+		}.bind(this));
 	};
 
 	this.hide = function(oLink) {
@@ -117,6 +124,17 @@ ls.infobox = (function ($) {
 		}.bind(this));
 		return false;
 	};
+
+	jQuery(function($){
+		$(document).click(function(e) {
+			if (e.which==1 && !$(e.target).data('isPoshytip')) {
+				this.hideAll();
+			}
+		}.bind(this));
+		$('body').on("click", ".js-infobox", function(e) {
+			e.stopPropagation();
+		});
+	}.bind(this));
 
 	return this;
 }).call(ls.infobox || {},jQuery);
