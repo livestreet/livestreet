@@ -161,7 +161,7 @@ class ActionSettings extends Action {
 			$this->Session_Drop('sFotoFileTmp');
 			$this->Session_Drop('sFotoFilePreviewTmp');
 			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFoto());
-			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_change'));
+			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_photo_change'));
 		} else {
 			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
 		}
@@ -181,7 +181,7 @@ class ActionSettings extends Action {
 		 * Возвращает дефолтную аватарку
 		 */
 		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFotoDefault());
-		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
+		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_photo_upload'));
 	}
 
 	/**
