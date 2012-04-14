@@ -216,8 +216,8 @@ ls.wall = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				$('#wall-item-'+iId).fadeOut().remove();
-				$('#wall-reply-item-'+iId).fadeOut().remove();
+				$('#wall-item-'+iId).fadeOut();
+				$('#wall-reply-item-'+iId).fadeOut();
 				ls.hook.run('ls_wall_remove_after',[iId, result]);
 			}
 		});

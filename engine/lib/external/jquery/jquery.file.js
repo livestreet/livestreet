@@ -43,7 +43,7 @@ jQuery.fn.file = function(options) {
 		var input = form.find('input');
 
 		function reset() {
-			var input = $('<input type="file" multiple>').attr('name',config.name).appendTo(form);
+			var input = $('<input type="file" multiple>').attr('name',config.name).css({'cursor':'pointer'}).appendTo(form);
 			input.change(function(e) {
 				input.unbind();
 				input.detach();

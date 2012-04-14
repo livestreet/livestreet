@@ -41,20 +41,18 @@
 .pagination ul li a { background: #f2f2f9; border-color: #dee0ef; }
 .pagination ul li a:hover { background: #EAEAF7; }
 .pagination ul li.active { color: #aaa; }
+.pagination ul li i { opacity: .5; }
+
 .pagination.pagination-comments { margin-bottom: 15px; }
 
 
 
 /* Actions 
 ---------------------------------------------------------------*/
-.actions { overflow: hidden; zoom: 1; margin-bottom: 10px; }
-.actions li a { overflow: hidden; zoom: 1; margin-bottom: 10px; text-decoration: none; }
-.actions li { float: left; margin-right: 10px; }
-.actions li .edit { }
-.actions li .delete { }
-.actions li .rss { }
+.actions 			{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.actions li 		{ float: left; margin-right: 10px; }
+.actions li a 		{ color: #f00; }
 .actions li a:hover { text-decoration: underline; }
-.actions li a.link-dotted:hover { text-decoration: none; }
 
 
 
