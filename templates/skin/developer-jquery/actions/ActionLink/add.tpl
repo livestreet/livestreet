@@ -75,9 +75,7 @@
 	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
-<div class="topic" style="display: none;">
-	<div class="content" id="text_preview"></div>
-</div>
+<div class="topic-preview" id="text_preview"></div>
 
 {hook run='add_topic_link_end'}
 

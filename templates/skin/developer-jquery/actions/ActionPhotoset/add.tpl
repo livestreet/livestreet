@@ -85,7 +85,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
-	<textarea name="topic_text" class="mce-editor input-text input-width-full" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
+	<textarea name="topic_text" class="mce-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
 	
 	
 	<div class="topic-photo-upload">
@@ -154,9 +154,7 @@
 	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
-<div class="topic" style="display: none;">
-	<div class="content" id="text_preview"></div>
-</div>
+<div class="topic-preview" id="text_preview"></div>
 	
 {hook run='add_topic_photoset_end'}
 

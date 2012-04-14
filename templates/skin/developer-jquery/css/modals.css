@@ -58,3 +58,10 @@
 .modal.modal-write .write-list li.write-item-type-link .write-item-image 		{ background-position: -200px 0; }
 .modal.modal-write .write-list li.write-item-type-photoset .write-item-image 	{ background-position: -300px 0; }
 .modal.modal-write .write-list li.write-item-type-blog .write-item-image 		{ background-position: -400px 0; }
+
+
+/* Upload Image */
+.modal-image-upload { width: 500px; margin-left: -250px; }
+
+
+
