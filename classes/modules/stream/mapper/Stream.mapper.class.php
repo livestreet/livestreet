@@ -25,11 +25,11 @@ class ModuleStream_MapperStream extends Mapper {
 		return false;
 	}	
 	
-	public function GetEventByTarget($sEventType, $iTargetId) {
+	public function GetEventByTarget($sEventType, $iTargetId, $iUserId=null) {
 		$sql = "SELECT * FROM
 					".Config::Get('db.table.stream_event')."
-				WHERE target_id = ?d AND event_type = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$iTargetId,$sEventType)) {
+				WHERE target_id = ?d AND event_type = ? { AND user_id = ?d } ";
+		if ($aRow=$this->oDb->selectRow($sql,$iTargetId,$sEventType,is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId)) {
 			return Engine::GetEntity('ModuleStream_EntityEvent',$aRow);
 		}
 		return null;

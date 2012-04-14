@@ -37,16 +37,16 @@ class ModuleStream extends Module {
 	 * @var array
 	 */
 	protected $aEventTypes = array(
-		'add_wall' => array('related' => 'wall'),
-		'add_topic' => array('related' => 'topic'),
-		'add_comment' => array('related' => 'comment'),
-		'add_blog' => array('related' => 'blog'),
+		'add_wall' => array('related' => 'wall','unique'=>true),
+		'add_topic' => array('related' => 'topic','unique'=>true),
+		'add_comment' => array('related' => 'comment','unique'=>true),
+		'add_blog' => array('related' => 'blog','unique'=>true),
 		'vote_topic' => array('related' => 'topic'),
 		'vote_comment' => array('related' => 'comment'),
 		'vote_blog' => array('related' => 'blog'),
 		'vote_user' => array('related' => 'user'),
-		'add_friend' => array('related' => 'user'),
-		'join_blog' => array('related' => 'blog')
+		'add_friend' => array('related' => 'user','unique_user'=>true),
+		'join_blog' => array('related' => 'blog','unique_user'=>true)
 	);
 
 	public function Init() {
@@ -112,8 +112,8 @@ class ModuleStream extends Module {
 	 * @param unknown_type $iTargetId
 	 * @return unknown
 	 */
-	public function GetEventByTarget($sEventType, $iTargetId) {
-		return $this->oMapper->GetEventByTarget($sEventType, $iTargetId);
+	public function GetEventByTarget($sEventType, $iTargetId, $iUserId=null) {
+		return $this->oMapper->GetEventByTarget($sEventType, $iTargetId, $iUserId);
 	}
 	/**
 	 * Запись события в ленту
@@ -122,15 +122,42 @@ class ModuleStream extends Module {
 	 * @param type $iTargetId
 	 */
 	public function Write($iUserId, $sEventType, $iTargetId, $iPublish=1) {
-		if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId)) {
+		if (!$this->IsAllowEventType($sEventType)) {
+			return false;
+		}
+		$aParams=$this->aEventTypes[$sEventType];
+		if (isset($aParams['unique']) and $aParams['unique']) {
 			/**
-			 * Событие уже было
+			 * Проверяем на уникальность
 			 */
-			if ($oEvent->getPublish()!=$iPublish) {
-				$oEvent->setPublish($iPublish);
-				$this->UpdateEvent($oEvent);
+			if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId)) {
+				/**
+				 * Событие уже было
+				 */
+				if ($oEvent->getPublish()!=$iPublish) {
+					$oEvent->setPublish($iPublish);
+					$this->UpdateEvent($oEvent);
+				}
+				return true;
 			}
-		} elseif ($iPublish) {
+		}
+		if (isset($aParams['unique_user']) and $aParams['unique_user']) {
+			/**
+			 * Проверяем на уникальность для конкретного пользователя
+			 */
+			if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId, $iUserId)) {
+				/**
+				 * Событие уже было
+				 */
+				if ($oEvent->getPublish()!=$iPublish) {
+					$oEvent->setPublish($iPublish);
+					$this->UpdateEvent($oEvent);
+				}
+				return true;
+			}
+		}
+
+		if ($iPublish) {
 			/**
 			 * Создаем новое событие
 			 */
@@ -142,6 +169,7 @@ class ModuleStream extends Module {
 			$oEvent->setPublish($iPublish);
 			$this->AddEvent($oEvent);
 		}
+		return true;
 	}
 	/**
 	 * Чтение потока пользователя
