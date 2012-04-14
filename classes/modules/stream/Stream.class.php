@@ -61,6 +61,26 @@ class ModuleStream extends Module {
 	public function getEventTypes() {
 		return $this->aEventTypes;
 	}
+
+	/**
+	 * Возвращает типы событий с учетом фильтра(доступности)
+	 *
+	 * @param null $aTypes
+	 * @return null|unknown
+	 */
+	public function getEventTypesFilter($aTypes=null) {
+		if (is_null($aTypes)) {
+			$aTypes=array_keys($this->getEventTypes());
+		}
+		if (Config::Get('module.stream.disable_vote_events')) {
+			foreach ($aTypes as $i => $sType) {
+				if (substr($sType, 0, 4) == 'vote') {
+					unset ($aTypes[$i]);
+				}
+			}
+		}
+		return $aTypes;
+	}
 	/**
 	 * Добавляет новый тип события, метод для расширения списка событий плагинами
 	 *
@@ -234,24 +254,59 @@ class ModuleStream extends Module {
 		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
 	}
 
+	/**
+	 * Количество событий конкретного пользователя
+	 *
+	 * @param $iUserId
+	 * @return int
+	 */
 	public function GetCountByUserId($iUserId) {
 		/**
 		 * Получаем типы событий
 		 */
-		$aEventTypes=array_keys($this->getEventTypes());
-		/**
-		 * Если не показывать голосования
-		 */
-		if (Config::Get('module.stream.disable_vote_events')) {
-			foreach ($aEventTypes as $i => $sType) {
-				if (substr($sType, 0, 4) == 'vote') {
-					unset ($aEventTypes[$i]);
-				}
-			}
-		}
+		$aEventTypes=$this->getEventTypesFilter();
 		if (!count($aEventTypes)) return 0;
 
-		return $this->oMapper->GetCountByUserId($aEventTypes, $iUserId);
+		return $this->oMapper->GetCount($aEventTypes, $iUserId);
+	}
+
+	/**
+	 * Количество событий на которые подписан пользователь
+	 *
+	 * @param $iUserId
+	 * @return int
+	 */
+	public function GetCountByReaderId($iUserId) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=$this->getEventTypesFilter($this->getTypesList($iUserId));
+		/**
+		 * Получаем список тех на кого подписан
+		 */
+		$aUsersList = $this->getUsersList($iUserId);
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCount($aEventTypes, $aUsersList);
+	}
+
+	/**
+	 * Количество событий на всем сайте
+	 *
+	 * @return int
+	 */
+	public function GetCountAll() {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=$this->getEventTypesFilter();
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCount($aEventTypes, null);
+	}
+
+	public function GetCount($aEventTypes, $aUserId=null) {
+		return $this->oMapper->GetCount($aEventTypes, $aUserId);
 	}
 	/**
 	 * @param array $aEventTypes
@@ -265,16 +320,8 @@ class ModuleStream extends Module {
 			return array();
 		}
 		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
-		/**
-		 * Если не показывать голосования
-		 */
-		if (Config::Get('module.stream.disable_vote_events')) {
-			foreach ($aEventTypes as $i => $sType) {
-				if (substr($sType, 0, 4) == 'vote') {
-					unset ($aEventTypes[$i]);
-				}
-			}
-		}
+
+		$aEventTypes=$this->getEventTypesFilter($aEventTypes);
 		if (!count($aEventTypes)) return array();
 
 		/**

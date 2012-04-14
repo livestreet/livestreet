@@ -87,7 +87,7 @@ class ActionStream extends Action {
 		 * Читаем события
 		 */
 		$aEvents = $this->Stream_Read();
-		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByReaderId($this->oUserCurrent->getId()) < Config::Get('module.stream.count_default'));
 		$this->Viewer_Assign('aStreamEvents', $aEvents);
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
@@ -105,7 +105,7 @@ class ActionStream extends Action {
 		 * Читаем события
 		 */
 		$aEvents = $this->Stream_ReadAll();
-		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountAll() < Config::Get('module.stream.count_default'));
 		$this->Viewer_Assign('aStreamEvents', $aEvents);
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
