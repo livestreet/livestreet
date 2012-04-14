@@ -179,6 +179,8 @@ return array(
 	'topic_title' => 'Топики',
 	'topic_read_more' => 'Читать дальше',
 	'topic_date' => 'дата',
+	'topic_tags' => 'Теги',
+	'topic_tags_empty' => 'нет',
 	'topic_user' => 'авторский текст',
 	'topic_time_limit' => 'Вам нельзя создавать топики слишком часто',
 	'topic_comment_read' => 'читать комментарии',

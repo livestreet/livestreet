@@ -25,9 +25,13 @@
 		<ul class="topic-tags">
 			<li>{$aLang.block_tags}:</li>
 			{strip}
-				{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-					<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
-				{/foreach}
+				{if $oTopic->getTagsArray()}
+					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
+						<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+					{/foreach}
+				{else}
+					<li>{$aLang.topic_tags_empty}</li>
+				{/if}
 			{/strip}
 		</ul>
 

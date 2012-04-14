@@ -179,6 +179,8 @@ return array(
 	'topic_title' => 'Topics',
 	'topic_read_more' => 'Read more',
 	'topic_date' => 'Date',
+	'topic_tags' => 'Tags',
+	'topic_tags_empty' => 'empty',
 	'topic_user' => "Author's  text",
 	'topic_time_limit' => "Can't create topics in such a frequent rate",
 	'topic_comment_read' => 'Read comments',

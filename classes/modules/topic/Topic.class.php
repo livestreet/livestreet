@@ -170,7 +170,7 @@ class ModuleTopic extends Module {
 	public function AddTopic(ModuleTopic_EntityTopic $oTopic) {
 		if ($sId=$this->oMapperTopic->AddTopic($oTopic)) {
 			$oTopic->setId($sId);
-			if ($oTopic->getPublish()) {
+			if ($oTopic->getPublish() and $oTopic->getTags()) {
 				$aTags=explode(',',$oTopic->getTags());
 				foreach ($aTags as $sTag) {
 					$oTag=Engine::GetEntity('Topic_TopicTag');
@@ -293,10 +293,9 @@ class ModuleTopic extends Module {
 				/**
 				 * Обновляем теги
 				 */
-				$aTags=explode(',',$oTopic->getTags());
 				$this->DeleteTopicTagsByTopicId($oTopic->getId());
-				
-				if ($oTopic->getPublish()) {
+				if ($oTopic->getPublish() and $oTopic->getTags()) {
+					$aTags=explode(',',$oTopic->getTags());
 					foreach ($aTags as $sTag) {
 						$oTag=Engine::GetEntity('Topic_TopicTag');
 						$oTag->setTopicId($oTopic->getId());
