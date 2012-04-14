@@ -17,12 +17,16 @@
 
 
 		<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
-			<li>{$aLang.block_tags}:</li>
+			<li>{$aLang.topic_tags}:</li>
 			
 			{strip}
-				{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-					<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
-				{/foreach}
+				{if $oTopic->getTagsArray()}
+					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
+						<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+					{/foreach}
+				{else}
+					<li>{$aLang.topic_tags_empty}</li>
+				{/if}
 				
 				{if $oUserCurrent}
 					{if $oFavourite}
