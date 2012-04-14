@@ -56,14 +56,14 @@ class ModuleStream_MapperStream extends Mapper {
 		$sql = 'SELECT * FROM ' . Config::Get('db.table.stream_event'). '
 				WHERE
 					event_type IN (?a) 
-					AND user_id IN (?a)
+					{ AND user_id IN (?a) }
 					AND publish = 1
 					{ AND id < ?d }	
 				ORDER BY id DESC
 				{ LIMIT 0,?d }';
 
 		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$aEventTypes,$aUsersList,!is_null($iFromId) ? $iFromId : DBSIMPLE_SKIP,!is_null($iCount) ? $iCount : DBSIMPLE_SKIP)) {
+		if ($aRows=$this->oDb->select($sql,$aEventTypes,(!is_null($aUsersList) and count($aUsersList)) ? $aUsersList : DBSIMPLE_SKIP,!is_null($iFromId) ? $iFromId : DBSIMPLE_SKIP,!is_null($iCount) ? $iCount : DBSIMPLE_SKIP)) {
 			foreach ($aRows as $aRow) {
 				$aReturn[]=Engine::GetEntity('Stream_Event',$aRow);
 			}

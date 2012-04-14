@@ -457,14 +457,6 @@ $config['block']['userfeedUsers'] = array(
                     )
                 )
 );
-$config['block']['streamconfig'] = array(
-	'action'  => array('stream'),
-	'blocks'  => array(
-                    'right' => array(
-                        'streamConfig'=> array()
-                    )
-                )
-);
 
 
 /**

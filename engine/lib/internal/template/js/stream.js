@@ -101,6 +101,33 @@ ls.stream =( function ($) {
 		}.bind(this));
 	};
 
+	this.getMoreAll = function () {
+		if (this.isBusy) {
+			return;
+		}
+		var lastId = $('#stream_last_id').val();
+		if (!lastId) return;
+		$('#stream_get_more').addClass('stream_loading');
+		this.isBusy = true;
+
+		var url = aRouter['stream']+'get_more_all/';
+		var params = {'last_id':lastId};
+
+		'*getMoreAllBefore*'; '*/getMoreAllBefore*';
+		ls.ajax(url, params, function(data) {
+			if (!data.bStateError && data.events_count) {
+				$('#stream-list').append(data.result);
+				$('#stream_last_id').attr('value', data.iStreamLastId);
+			}
+			if (!data.events_count) {
+				$('#stream_get_more').hide();
+			}
+			$('#stream_get_more').removeClass('stream_loading');
+			ls.hook.run('ls_stream_get_more_all_after',[lastId, data]);
+			this.isBusy = false;
+		}.bind(this));
+	};
+
 	this.getMoreByUser = function (iUserId) {
 		if (this.isBusy) {
 			return;

@@ -172,6 +172,21 @@ class ModuleStream extends Module {
 	}
 
 	/**
+	 * Чтение всей активности на сайте
+	 *
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @return array
+	 */
+	public function ReadAll($iCount=null,$iFromId=null) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=array_keys($this->getEventTypes());
+
+		return $this->ReadEvents($aEventTypes,null,$iCount,$iFromId);
+	}
+	/**
 	 * Чтение активности конкретного пользователя
 	 *
 	 * @param int $iCount
@@ -212,13 +227,15 @@ class ModuleStream extends Module {
 	}
 	/**
 	 * @param array $aEventTypes
-	 * @param array $aUsersList
+	 * @param array | null $aUsersList
 	 * @param int $iCount
 	 * @param int $iFromId
 	 * @return array
 	 */
 	public function ReadEvents($aEventTypes,$aUsersList,$iCount=null,$iFromId=null) {
-		if (!count($aUsersList)) return array();
+		if (!is_null($aUsersList) and !count($aUsersList)) {
+			return array();
+		}
 		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
 		/**
 		 * Если не показывать голосования

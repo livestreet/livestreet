@@ -26,6 +26,12 @@ class ActionStream extends Action {
 	 * @var unknown_type
 	 */
 	protected $oUserCurrent;
+	/**
+	 * Какое меню активно
+	 *
+	 * @var unknown_type
+	 */
+	protected $sMenuItemSelect='user';
 
 	/**
 	 * Инициализация
@@ -36,13 +42,14 @@ class ActionStream extends Action {
 		 * Лента доступна только для авторизованных
 		 */
 		$this->oUserCurrent = $this->User_getUserCurrent();
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+		if ($this->oUserCurrent) {
+			$this->SetDefaultEvent('user');
+		} else {
+			$this->SetDefaultEvent('all');
 		}
-		$this->SetDefaultEvent('index');
 		$this->Viewer_Assign('aStreamEventTypes', $this->Stream_getEventTypes());
 
-		$this->Viewer_Assign('sMenuItemSelect', 'stream');
+		$this->Viewer_Assign('sMenuHeadItemSelect', 'stream');
 		/**
 		 * Загружаем в шаблон JS текстовки
 		 */
@@ -56,20 +63,26 @@ class ActionStream extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEvent('index', 'EventIndex');
+		$this->AddEvent('user', 'EventUser');
+		$this->AddEvent('all', 'EventAll');
 		$this->AddEvent('subscribe', 'EventSubscribe');
 		$this->AddEvent('subscribeByLogin', 'EventSubscribeByLogin');
 		$this->AddEvent('unsubscribe', 'EventUnSubscribe');
 		$this->AddEvent('switchEventType', 'EventSwitchEventType');
 		$this->AddEvent('get_more', 'EventGetMore');
 		$this->AddEvent('get_more_user', 'EventGetMoreUser');
+		$this->AddEvent('get_more_all', 'EventGetMoreAll');
 	}
 
 	/**
-	 * Список событий в ленте
+	 * Список событий в ленте активности пользователя
 	 *
 	 */
-	protected function EventIndex() {
+	protected function EventUser() {
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
+		$this->Viewer_AddBlock('right','streamConfig');
 		/**
 		 * Читаем события
 		 */
@@ -83,10 +96,30 @@ class ActionStream extends Action {
 	}
 
 	/**
+	 * Список событий в общей ленте активности сайта
+	 *
+	 */
+	protected function EventAll() {
+		$this->sMenuItemSelect='all';
+		/**
+		 * Читаем события
+		 */
+		$aEvents = $this->Stream_ReadAll();
+		$this->Viewer_Assign('bDisableGetMoreButton', count($aEvents) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+		}
+	}
+	/**
 	 * Активаци/деактивация типа события
 	 *
 	 */
 	protected function EventSwitchEventType() {
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		$this->Viewer_SetResponseAjax('json');
 		if (!getRequest('type')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -101,6 +134,9 @@ class ActionStream extends Action {
 	 */
 	protected function EventGetMore() {
 		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
@@ -128,11 +164,49 @@ class ActionStream extends Action {
 	}
 
 	/**
+	 * Погрузка событий для всего сайта
+	 *
+	 */
+	protected function EventGetMoreAll() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
+		/**
+		 * Необходимо передать последний просмотренный ID событий
+		 */
+		$iFromId = getRequest('last_id');
+		if (!$iFromId)  {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем события
+		 */
+		$aEvents = $this->Stream_ReadAll(null, $iFromId);
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+		}
+		/**
+		 * Возвращаем данные в ajax ответе
+		 */
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('events_count', count($aEvents));
+	}
+
+	/**
 	 * Погрузка событий для пользователя
 	 *
 	 */
 	protected function EventGetMoreUser() {
 		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
@@ -168,6 +242,9 @@ class ActionStream extends Action {
 	 */
 	protected function EventSubscribe() {
 		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		/**
 		 * Проверяем существование пользователя
 		 */
@@ -191,6 +268,9 @@ class ActionStream extends Action {
 	 */
 	protected function EventSubscribeByLogin() {
 		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		if (!getRequest('login')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -223,6 +303,9 @@ class ActionStream extends Action {
 	 */
 	protected function EventUnsubscribe() {
 		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			parent::EventNotFound();
+		}
 		if (!$this->User_getUserById(getRequest('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -231,5 +314,16 @@ class ActionStream extends Action {
 		 */
 		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
+	}
+
+	/**
+	 * Выполняется при завершении работы экшена
+	 *
+	 */
+	public function EventShutdown() {
+		/**
+		 * Загружаем в шаблон необходимые переменные
+		 */
+		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 	}
 }
