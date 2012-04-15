@@ -23,7 +23,7 @@
 
 /* Block Type - Profile */
 .block.block-type-profile 							{ background: none; border: none; padding: 0; }
-.block.block-type-profile .profile-photo-wrapper 	{ position: relative; }
+.block.block-type-profile .profile-photo-wrapper 	{ position: relative; min-height: 50px; }
 .block.block-type-profile .profile-photo 			{ vertical-align: top; }
 .block.block-type-profile .status 					{ position: absolute; top: 5px; left: 5px; padding: 0 5px; border-radius: 2px; font-size: 11px; }
 .block.block-type-profile .status.status-online 	{ background: #B7BC1C; color: #fff; }

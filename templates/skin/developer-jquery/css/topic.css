@@ -25,8 +25,8 @@
 .topic .topic-footer .topic-tags li.topic-tags-user a 	{ color: #3CA023; }
 
 /* Info */
-.topic .topic-footer .topic-info 		{ overflow: hidden; background: #eee; border-radius: 3px; }
-.topic .topic-footer .topic-info li 	{ float: left; padding: 8px 15px;border-right: 1px solid #fff; }
+.topic .topic-footer .topic-info 		{ overflow: hidden; background: #f7f7f7; border-radius: 3px; }
+.topic .topic-footer .topic-info li 	{ float: left; padding: 8px 15px; border-right: 1px solid #fff; }
 .topic .topic-footer .topic-info li a 	{ text-decoration: none; }
 
 .topic .topic-footer .topic-info li.topic-info-author a 		{ font-weight: bold; color: #333; }

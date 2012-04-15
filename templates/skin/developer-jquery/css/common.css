@@ -3,14 +3,14 @@
 ---------------------------------------------------------------*/
 .vote {  }
 
-.vote .vote-count { display: inline-block; font-weight: bold; color: #aaa; }
+.vote .vote-count { display: inline-block; font-weight: bold; color: #aaa; font-size: 14px; }
 .vote .vote-count a { text-decoration: none; color: #999; outline: none; }
 
 .vote.vote-count-positive .vote-count { color: #390; }
 .vote.vote-count-negative .vote-count { color: #f00; }
 
 .vote .vote-up,
-.vote .vote-down 		{ display: inline-block; cursor: pointer; vertical-align: text-top; width: 14px; height: 14px; background: url(../images/icons.png) no-repeat; opacity: .5; }
+.vote .vote-down 		{ display: inline-block; cursor: pointer; vertical-align: text-top; width: 14px; height: 14px; background: url(../images/icons.png) no-repeat; opacity: .3; }
 .vote .vote-up 			{ background-position: -408px -96px; }
 .vote .vote-down 		{ background-position: -433px -96px; }
 .vote .vote-up:hover 	{ opacity: .8; }
@@ -94,7 +94,7 @@
 .user-list li .author 	{ font-weight: bold; color: #333; }
 
 .user-list-avatar 			{ overflow: hidden; zoom: 1; }
-.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 15px; text-align: center; font-size: 11px; margin-bottom: 10px; }
+.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; font-size: 11px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
 
 

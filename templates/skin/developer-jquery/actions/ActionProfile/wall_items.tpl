@@ -15,9 +15,11 @@
 				{$oWall->getText()}
 			</div>
 			
-			{if $oUserCurrent and !$aReplyWall}
+			{if ($oUserCurrent and !$aReplyWall) or $oWall->isAllowDelete()}
 				<ul class="comment-actions">
-					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">Ответить</a></li>
+					{if $oUserCurrent and !$aReplyWall}
+						<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">Ответить</a></li>
+					{/if}
 					
 					{if $oWall->isAllowDelete()}
 						<li><a href="#" onclick="return ls.wall.remove({$oWall->getId()});" class="link-dotted">Удалить</a></li>
