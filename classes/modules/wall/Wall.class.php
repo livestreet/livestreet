@@ -243,6 +243,9 @@ class ModuleWall extends Module {
 	public function DeleteWall($oWall) {
 		$this->oMapper->DeleteWallsByPid($oWall->getId());
 		$this->oMapper->DeleteWallById($oWall->getId());
+		if ($oWallParent=$oWall->GetPidWall()) {
+			$this->UpdatePidWall($oWallParent);
+		}
 	}
 
 }
