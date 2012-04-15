@@ -483,7 +483,7 @@ class ActionSettings extends Action {
 			 * Проверяем информацию о себе
 			 */
 			if (func_check(getRequest('profile_about'),'text',1,3000)) {
-				$this->oUserCurrent->setProfileAbout(getRequest('profile_about'));
+				$this->oUserCurrent->setProfileAbout($this->Text_Parser(getRequest('profile_about')));
 			} else {
 				$this->oUserCurrent->setProfileAbout(null);
 			}
