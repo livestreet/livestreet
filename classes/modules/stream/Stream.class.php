@@ -409,6 +409,16 @@ class ModuleStream extends Module {
 		return $this->User_GetUsersAdditionalData($aIds);
 	}
 	/**
+	 * Проверяет подписан ли пользователь на конкретного пользователя
+	 *
+	 * @param $iUserId
+	 * @param $iTargetUserId
+	 * @return bool
+	 */
+	public function IsSubscribe($iUserId,$iTargetUserId) {
+		return $this->oMapper->IsSubscribe($iUserId,$iTargetUserId);
+	}
+	/**
 	 * Редактирование списка событий, на которые подписан юзер
 	 * @param int $iUserId
 	 * @param string $sType
