@@ -151,7 +151,7 @@ class ModuleWall extends Module {
 				$aUserId[]=$oWall->getUserId();
 			}
 			if (isset($aAllowData['wall_user'])) {
-				$aWallUserId[]=$oWall->getUserId();
+				$aWallUserId[]=$oWall->getWallUserId();
 			}
 			/**
 			 * Список последних записей хранится в строке через запятую
@@ -179,8 +179,8 @@ class ModuleWall extends Module {
 			} else {
 				$oWall->setUser(null); // или $oWall->setUser(new ModuleUser_EntityUser());
 			}
-			if (isset($aWallUsers[$oWall->getUserId()])) {
-				$oWall->setWallUser($aWallUsers[$oWall->getUserId()]);
+			if (isset($aWallUsers[$oWall->getWallUserId()])) {
+				$oWall->setWallUser($aWallUsers[$oWall->getWallUserId()]);
 			} else {
 				$oWall->setWallUser(null);
 			}
