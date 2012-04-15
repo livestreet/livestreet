@@ -199,6 +199,8 @@
 .ta-c { text-align: center !important; }
 .ta-r { text-align: right !important; }
 .va-m { vertical-align: middle; }
+.fl-r { float: right !important; }
+.fl-l { float: left !important; }
 
 .hidden { display: none !important; }
 
