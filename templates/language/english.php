@@ -532,6 +532,8 @@ return array(
 	'profile_date_last' => 'Last visit',
 	'profile_social_contacts' => 'Contacts and social services',
 	'profile_add_friend' => 'Add friend',
+	'profile_user_follow' => 'Follow',
+	'profile_user_unfollow' => 'Unfollow',
 	/**
 	 * UserFields
 	 */

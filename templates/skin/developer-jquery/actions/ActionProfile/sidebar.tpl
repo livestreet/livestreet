@@ -36,11 +36,22 @@
 
 
 {if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
+	<script>
+		jQuery(function($){
+			ls.lang.load({lang_load name="profile_user_unfollow,profile_user_follow"});
+		});
+	</script>
+
 	<section class="block block-type-profile-actions">
 		<div class="block-content">
 			<ul class="profile-actions" id="profile_actions">
 				{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
 				<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
+				<li>
+					<a href="#" onclick="ls.user.followToggle(this, {$oUserProfile->getId()}); return false;" class="{if false}follow{/if}">
+						{if false}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
+					</a>
+				</li>						
 			</ul>
 		</div>
 	</section>

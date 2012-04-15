@@ -471,6 +471,20 @@ ls.user = (function ($) {
 		return false;
 	};
 
+	/**
+	 * Подписка
+	 */
+	this.followToggle = function(obj, iUserId) {
+		if ($(obj).hasClass('followed')) { 
+			ls.stream.unsubscribe(iUserId);
+			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_follow'));
+		} else { 
+			ls.stream.subscribe(iUserId);
+			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_unfollow'));
+		} 
+		return false;
+	};
+
 
 	return this;
 }).call(ls.user || {},jQuery);

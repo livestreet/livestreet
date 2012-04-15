@@ -532,6 +532,8 @@ return array(
 	'profile_date_last' => 'Последний визит',
 	'profile_social_contacts' => 'Контакты и социальные сервисы',
 	'profile_add_friend' => 'Добавить друга',
+	'profile_user_follow' => 'Подписаться',
+	'profile_user_unfollow' => 'Отписаться',
 	/**
 	 * UserFields
 	 */

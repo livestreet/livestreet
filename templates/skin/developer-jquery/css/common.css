@@ -49,10 +49,12 @@
 
 /* Actions 
 ---------------------------------------------------------------*/
-.actions 			{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
-.actions li 		{ float: left; margin-right: 10px; }
-.actions li a 		{ color: #f00; }
-.actions li a:hover { text-decoration: underline; }
+.actions 						{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
+.actions li 					{ float: left; margin-right: 10px; }
+.actions li a 					{ color: #f00; }
+.actions li a:hover 			{ text-decoration: underline; }
+.actions li a.link-dotted 		{ border-color: #f00; }
+.actions li a.link-dotted:hover { border-color: #06e; color: #06e; text-decoration: none; }
 
 
 

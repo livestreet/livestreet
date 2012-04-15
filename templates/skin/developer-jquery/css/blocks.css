@@ -39,6 +39,7 @@
 .block.block-type-profile-actions .block-content 		{ padding: 10px 15px; }
 .block.block-type-profile-actions ul li					{ margin-bottom: 5px; }
 .block.block-type-profile-actions ul li:last-child		{ margin-bottom: 0; }
+.block.block-type-profile-actions ul li a.followed		{ color: #f00; }
 
 
 /* Block Type - Foldable */
