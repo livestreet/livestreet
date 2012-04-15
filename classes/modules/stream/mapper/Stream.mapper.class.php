@@ -18,13 +18,13 @@
 class ModuleStream_MapperStream extends Mapper {
 
 	public function AddEvent($oObject) {
-		$sql = "INSERT INTO ".Config::Get('db.table.stream_event')." SET ?a ";			
+		$sql = "INSERT INTO ".Config::Get('db.table.stream_event')." SET ?a ";
 		if ($iId=$this->oDb->query($sql,$oObject->_getData())) {
 			return $iId;
-		}		
+		}
 		return false;
-	}	
-	
+	}
+
 	public function GetEventByTarget($sEventType, $iTargetId, $iUserId=null) {
 		$sql = "SELECT * FROM
 					".Config::Get('db.table.stream_event')."
@@ -34,13 +34,13 @@ class ModuleStream_MapperStream extends Mapper {
 		}
 		return null;
 	}
-	
+
 	public function UpdateEvent($oObject) {
-		$sql = "UPDATE ".Config::Get('db.table.stream_event')." SET ?a WHERE id = ?d ";			
+		$sql = "UPDATE ".Config::Get('db.table.stream_event')." SET ?a WHERE id = ?d ";
 		return $this->oDb->query($sql,$oObject->_getData(array('publish')),$oObject->getId());
 	}
-	
-	
+
+
 	public function getTypesList($iUserId) {
 		$sql = 'SELECT event_type FROM ' . Config::Get('db.table.stream_user_type') . ' WHERE user_id = ?d';
 		$aRet = $this->oDb->selectCol($sql, $iUserId);
@@ -110,6 +110,15 @@ class ModuleStream_MapperStream extends Mapper {
 		$sql = 'DELETE FROM ' . Config::Get('db.table.stream_subscribe') . ' WHERE
 			user_id = ?d AND target_user_id = ?d';
 		$this->oDb->query($sql, $iUserId, $iTargetUserId);
+	}
+
+	public function IsSubscribe($iUserId,$iTargetUserId) {
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.stream_subscribe') . ' WHERE
+				user_id = ?d AND target_user_id = ?d LIMIT 0,1';
+		if ($this->oDb->selectRow($sql, $iUserId, $iTargetUserId)) {
+			return true;
+		}
+		return false;
 	}
 
 }

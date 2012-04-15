@@ -357,8 +357,8 @@ class ModuleUser extends Module {
 	 */
 	public function Shutdown() {
 		if ($this->oUserCurrent) {
-			$iCountTalkNew=$this->Talk_GetCountTalkNew($this->oUserCurrent->getId());
-			$this->Viewer_Assign('iUserCurrentCountTalkNew',$iCountTalkNew);
+			$this->Viewer_Assign('iUserCurrentCountTalkNew',$this->Talk_GetCountTalkNew($this->oUserCurrent->getId()));
+			$this->Viewer_Assign('iUserCurrentCountTopicDraft',$this->Topic_GetCountDraftTopicsByUserId($this->oUserCurrent->getId()));
 		}
 		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent);
 	}
@@ -546,8 +546,8 @@ class ModuleUser extends Module {
 		$this->oSession->setIpLast(func_getIp());
 		if (false === ($data = $this->Cache_Get("user_session_{$this->oSession->getUserId()}"))) {
 			$data=array(
-			'time'=>time(),
-			'session'=>$this->oSession
+				'time'=>time(),
+				'session'=>$this->oSession
 			);
 		} else {
 			$data['session']=$this->oSession;
@@ -1213,68 +1213,68 @@ class ModuleUser extends Module {
 	}
 
 	/**
-     * Получить дополниетльные поля профиля пользователя
+	 * Получить дополниетльные поля профиля пользователя
 	 * @param array $aType Типы полей, null - все типы
-     * @return type 
-     */
+	 * @return type
+	 */
 	public function getUserFields($aType=null) {
 		return $this->oMapper->getUserFields($aType);
 	}
 
 	/**
-     * Получить значения дополнительных полей профиля пользователя
-     * @param int $iUserId
-     * @param bool $bOnlyNoEmpty Загружать только непустые поля
-     * @param array $aType Типы полей, null - все типы
-     * @return type
-     */
+	 * Получить значения дополнительных полей профиля пользователя
+	 * @param int $iUserId
+	 * @param bool $bOnlyNoEmpty Загружать только непустые поля
+	 * @param array $aType Типы полей, null - все типы
+	 * @return type
+	 */
 	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true, $aType=array('')) {
 		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty, $aType);
 	}
 
 	/**
-     * Получить по имени поля его значение дял определённого пользователя
-     * @param type $iUserId
-     * @param type $bOnlyNoEmpty Загружать только непустые поля
-     * @return type 
-     */
+	 * Получить по имени поля его значение дял определённого пользователя
+	 * @param type $iUserId
+	 * @param type $bOnlyNoEmpty Загружать только непустые поля
+	 * @return type
+	 */
 	public function getUserFieldValueByName($iUserId, $sName) {
 		return $this->oMapper->getUserFieldValueByName($iUserId, $sName);
 	}
 
 	/**
-     * Установить значения дополнительных полей профиля пользователя
-     * @param type $iUserId
-     * @param type $aFields Ассоциативный массив полей id => value
-     * @return type 
-     */
+	 * Установить значения дополнительных полей профиля пользователя
+	 * @param type $iUserId
+	 * @param type $aFields Ассоциативный массив полей id => value
+	 * @return type
+	 */
 	public function setUserFieldsValues($iUserId, $aFields, $bSingle=true) {
 		return $this->oMapper->setUserFieldsValues($iUserId, $aFields, $bSingle);
 	}
 
 	/**
-     * Добавить поле    
-     * @param type $sName
-     * @return type 
-     */
+	 * Добавить поле
+	 * @param type $sName
+	 * @return type
+	 */
 	public function addUserField($oField) {
 		return $this->oMapper->addUserField($oField);
 	}
 
 	/**
-     * Изменить поле    
-     * @param type $sName
-     * @return type 
-     */
+	 * Изменить поле
+	 * @param type $sName
+	 * @return type
+	 */
 	public function updateUserField($oField) {
 		return $this->oMapper->updateUserField($oField);
 	}
 
 	/**
-     * Удалить поле
-     * @param type $iId
-     * @return type 
-     */
+	 * Удалить поле
+	 * @param type $iId
+	 * @return type
+	 */
 	public function deleteUserField($iId) {
 		return $this->oMapper->deleteUserField($iId);
 	}
