@@ -133,14 +133,28 @@
 .tag-cloud li .tag-size-10 	{ font-size: 22px; }
 
 
+
 /* Валидатор 
 ---------------------------------------------------------------*/
 .validate-error-show { color: #f00; font-weight: bold; font-size: 12px; }
 
 
 
+/* Выпадающее меню создания топика 
+---------------------------------------------------------------*/
+.create-dropdown { position: relative; margin-right: 120px; }
+.create-dropdown a { font-weight: normal; }
 
+.create-dropdown-link { text-transform: lowercase; }
 
+.create-dropdown-menu { position: absolute; top: 32px; overflow: hidden; background: #fff; border: 1px solid #ddd; min-width: 150px; box-shadow: 0 0 5px #ddd; border-radius: 3px; }
+.create-dropdown-menu li { font-size: 14px; line-height: 1em; }
+.create-dropdown-menu li a { display: block; padding: 10px 15px; }
+.create-dropdown-menu li a:hover { background: #fafafa; }
+.create-dropdown-menu li.active a { color: #333; }
+.create-dropdown-menu li.active a:hover { cursor: default; }
+
+.drafts { float: right; margin-top: 10px; }
 
 
 /* Разное
@@ -192,6 +206,7 @@
 .mb-10 { margin-bottom: 10px !important; }
 .mb-15 { margin-bottom: 15px !important; }
 .mb-20 { margin-bottom: 20px !important; }
+.mb-30 { margin-bottom: 30px !important; }
 
 .clearfix:before,
 .clearfix:after { content: ""; display: table; }

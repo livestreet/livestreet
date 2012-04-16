@@ -1,4 +1,9 @@
-{include file='header.tpl' menu='topic_action' showWhiteBack=true}
+{if $sEvent=='add'}
+	{include file='header.tpl' menu='topic_action'}
+{else}
+	{include file='header.tpl'}
+	<h2 class="page-header">{$aLang.topic_photoset_edit}</h2>
+{/if}
 
 
 {if $oConfig->GetValue('view.tinymce')}
@@ -30,14 +35,6 @@
 		}
 	});
 </script>
-
-
-
-{if $sEvent=='add'}
-	<h2 class="page-header">{$aLang.topic_photoset_create}</h2>
-{else}
-	<h2 class="page-header">{$aLang.topic_photoset_edit}</h2>
-{/if}
 
 
 <form id="photoset-upload-form" method="POST" enctype="multipart/form-data" onsubmit="return false;">

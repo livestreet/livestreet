@@ -101,7 +101,7 @@ return array(
 	'blog_menu_top_period_7d' => 'За 7 дней',
 	'blog_menu_top_period_30d' => 'За 30 дней',
 	'blog_menu_top_period_all' => 'За все время',
-	'blog_menu_create' => 'Создать блог',
+	'blog_menu_create' => 'Блог',
 	/**
 	 * Создание/редактирование блога
 	 */

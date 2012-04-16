@@ -2,13 +2,6 @@
 	{include file='header.tpl' menu='topic_action'}
 {else}
 	{include file='header.tpl'}
-{/if}
-
-
-
-{if $sEvent=='add'}
-	<h2 class="page-header">{$aLang.blog_create}</h2>
-{else}
 	{include file='menu.blog_edit.tpl'}
 {/if}
 	

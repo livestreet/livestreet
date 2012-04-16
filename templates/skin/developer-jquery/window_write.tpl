@@ -27,12 +27,10 @@
 				<a href="{router page='blog'}add" class="write-item-image"></a>
 				<a href="{router page='blog'}add" class="write-item-link">Блог</a>
 			</li>
-			{if $iUserCurrentCountTopicDraft}
-				<li class="write-item-type-draft">
-					<a href="{router page='topic'}saved/" class="write-item-image"></a>
-					<a href="{router page='topic'}saved/" class="write-item-link">{$aLang.topic_menu_saved} ({$iUserCurrentCountTopicDraft})</a>
-				</li>
-			{/if}
+			<li class="write-item-type-draft">
+				<a href="{router page='topic'}saved/" class="write-item-image"></a>
+				<a href="{router page='topic'}saved/" class="write-item-link">{$aLang.topic_menu_saved} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}</a>
+			</li>
 		</ul>
 	</div>
 	{/strip}
