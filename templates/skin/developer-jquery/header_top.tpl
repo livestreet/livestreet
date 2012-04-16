@@ -20,8 +20,8 @@
 			
 			{hook run='userbar_item'}
 		{else}
-			<li><a href="{router page='login'}" id="login_form_show">{$aLang.user_login_submit}</a></li>
-			<li><a href="{router page='registration'}">{$aLang.registration_submit}</a></li>
+			<li><a href="{router page='login'}" class="js-login-form-show">{$aLang.user_login_submit}</a></li>
+			<li><a href="{router page='registration'}" class="js-registration-form-show">{$aLang.registration_submit}</a></li>
 		{/if}
 	</ul>
 </nav>

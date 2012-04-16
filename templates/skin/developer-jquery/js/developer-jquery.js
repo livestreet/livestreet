@@ -7,7 +7,7 @@ jQuery(document).ready(function($){
 	ls.hook.run('ls_template_init_start',[],window);
 	 
 	// Всплывающие окна
-	$('#window_login_form').jqm({trigger: '#login_form_show'});
+	$('#window_login_form').jqm();
 	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
 	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
 	$('#window_upload_img').jqm();
@@ -16,6 +16,26 @@ jQuery(document).ready(function($){
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
 	$('#foto-resize').jqm();
 	$('#avatar-resize').jqm();
+
+	$('.js-registration-form-show').click(function(){
+		if ($('#block_popup_login_item_registration').length) {
+			$('#window_login_form').jqmShow();
+			$('#block_popup_login_item_registration').trigger('click');
+			return false;
+		} else {
+			window.location=aRouter.registration;
+		}
+	});
+
+	$('.js-login-form-show').click(function(){
+		if ($('#block_popup_login_item_login').length) {
+			$('#window_login_form').jqmShow();
+			$('#block_popup_login_item_login').trigger('click');
+			return false;
+		} else {
+			window.location=aRouter.login;
+		}
+	});
 	
 	// Datepicker
 	 /**
