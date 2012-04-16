@@ -8,17 +8,6 @@
 		
 		<script>
 			jQuery(function($){
-				$('div.tab-content:not(:first)').hide();
-			
-				$('ul.nav-pills-tabs a').click(function(){
-					if (this.hash) {
-						$('div.tab-content').hide();
-						$('ul.nav-pills-tabs li').removeClass('active');
-						$('div.tab-content' + this.hash).show();
-						$(this).parent('li').addClass('active');
-					}
-				});
-
 				$('#popup-login-form').bind('submit',function(){
 					ls.user.login('popup-login-form');
 					return false;
@@ -29,17 +18,17 @@
 		
 		<div class="modal-content">
 			<ul class="nav nav-pills nav-pills-tabs">
-				<li class="active"><a href="#tab_content_login">{$aLang.user_login_submit}</a></li>
+				<li class="active" id="block_popup_login_item_login"><a href="#">{$aLang.user_login_submit}</a></li>
 				{if !$oConfig->GetValue('general.reg.invite')}
-					<li><a href="#tab_content_register">{$aLang.registration}</a></li>
+					<li><a href="#" id="block_popup_login_item_registration">{$aLang.registration}</a></li>
 				{else}
 					<li><a href="{router page='registration'}">{$aLang.registration}</a></li>
 				{/if}
-				<li><a href="#tab_content_recover">{$aLang.password_reminder}</a></li>
+				<li><a href="#" id="block_popup_login_item_reminder">{$aLang.password_reminder}</a></li>
 			</ul>
 			
 			
-			<div id="tab_content_login" class="tab-content">
+			<div id="block_popup_login_content_login" class="tab-content">
 				<form action="{router page='login'}" method="post" id="popup-login-form">
 					{hook run='form_login_popup_begin'}
 
@@ -61,7 +50,7 @@
 
 
 			{if !$oConfig->GetValue('general.reg.invite')}
-			<div id="tab_content_register" class="tab-content">
+			<div id="block_popup_login_content_registration" class="tab-content" style="display:none;">
 				<script type="text/javascript">
 					jQuery(document).ready(function($){
 						$('#popup-registration-form').find('input.js-ajax-validate').blur(function(e){
@@ -130,7 +119,7 @@
 			{/if}
 			
 			
-			<div id="tab_content_recover" class="tab-content">
+			<div id="block_popup_login_content_reminder" class="tab-content" style="display:none;">
 				<script type="text/javascript">
 					jQuery(document).ready(function($){
 						$('#popup-reminder-form').bind('submit',function(){

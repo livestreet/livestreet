@@ -20,5 +20,12 @@ ls.topic = (function ($) {
 		});
 	};
 
+	this.insertImageToEditor = function(sUrl) {
+		$.markItUp({replaceWith: '<img src="'+sUrl+'" />'} );
+		$('#window_upload_img').find('input[type="text"]').val('');
+		$('#window_upload_img').jqmHide();
+		return false;
+	};
+
 	return this;
 }).call(ls.topic || {},jQuery);

@@ -876,6 +876,8 @@ return array(
 	 * Загрузка изображений
 	 */
 	'uploadimg' => 'Вставка изображения',
+	'uploadimg_from_pc' => 'С компьютера',
+	'uploadimg_from_link' => 'Из интернета',
 	'uploadimg_file' => 'Файл',
 	'uploadimg_file_error' => 'Невозможно обработать файл, проверьте тип и размер файла',
 	'uploadimg_url' => 'Ссылка на изображение',
@@ -889,6 +891,8 @@ return array(
 	'uploadimg_align_right' => 'справа',
 	'uploadimg_align_center' => 'по центру',
 	'uploadimg_submit' => 'Загрузить',
+	'uploadimg_link_submit_load' => 'Загрузить',
+	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
 	'uploadimg_cancel' => 'Отмена',
 	'uploadimg_title' => 'Описание',
 	/**

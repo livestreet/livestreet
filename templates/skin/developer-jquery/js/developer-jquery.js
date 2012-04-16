@@ -123,6 +123,16 @@ jQuery(function($){
 		ls.blocks.switchTab(this, 'block_tags');
 		return false;
 	});
+
+	$('[id^="block_upload_img_item"]').click(function(){
+		ls.blocks.switchTab(this, 'block_upload_img');
+		return false;
+	});
+
+	$('[id^="block_popup_login_item"]').click(function(){
+		ls.blocks.switchTab(this, 'block_popup_login');
+		return false;
+	});
 });
 
 

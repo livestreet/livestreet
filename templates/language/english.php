@@ -876,6 +876,8 @@ return array(
 	 * Image upload
 	 */
 	'uploadimg' => 'Upload image',
+	'uploadimg_from_pc' => 'From PC',
+	'uploadimg_from_link' => 'From internet',
 	'uploadimg_file' => 'File',
 	'uploadimg_file_error' => 'Can\'t process the file. Please check file type and size.',
 	'uploadimg_url' => 'Image URL',
@@ -889,6 +891,8 @@ return array(
 	'uploadimg_align_right' => 'Right',
 	'uploadimg_align_center' => 'Center',
 	'uploadimg_submit' => 'Submit',
+	'uploadimg_link_submit_load' => 'Upload',
+	'uploadimg_link_submit_paste' => 'Insert as external link',
 	'uploadimg_cancel' => 'Cancel',
 	'uploadimg_title' => 'Title',
 	/**
