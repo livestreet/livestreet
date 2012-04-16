@@ -399,6 +399,16 @@ class ModuleFavourite extends Module {
 		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);		
 	}
 	/**
+	 * Удаление тегов по таргету
+	 *
+	 * @param $aTargetId
+	 * @param $sTargetType
+	 * @return mixed
+	 */
+	public function DeleteTagByTarget($aTargetId,$sTargetType) {
+		return $this->oMapper->DeleteTagByTarget($aTargetId,$sTargetType);
+	}
+	/**
 	 * Возвращает список тегов для объекта избранного
 	 *
 	 * @param $sTargetType
