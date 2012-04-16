@@ -20,11 +20,11 @@
 			<ul class="nav nav-pills nav-pills-tabs">
 				<li class="active" id="block_popup_login_item_login"><a href="#">{$aLang.user_login_submit}</a></li>
 				{if !$oConfig->GetValue('general.reg.invite')}
-					<li><a href="#" id="block_popup_login_item_registration">{$aLang.registration}</a></li>
+					<li id="block_popup_login_item_registration"><a href="#">{$aLang.registration}</a></li>
 				{else}
 					<li><a href="{router page='registration'}">{$aLang.registration}</a></li>
 				{/if}
-				<li><a href="#" id="block_popup_login_item_reminder">{$aLang.password_reminder}</a></li>
+				<li id="block_popup_login_item_reminder"><a href="#">{$aLang.password_reminder}</a></li>
 			</ul>
 			
 			
