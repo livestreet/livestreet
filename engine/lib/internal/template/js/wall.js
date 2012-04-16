@@ -14,11 +14,13 @@ ls.wall = (function ($) {
 	 * Добавление записи
 	 */
 	this.add = function(sText, iPid) {
+		$('.js-button-wall-submit').attr('disabled',true);
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
 		'*addBefore*'; '*/addBefore*';
 		$('#wall-text').addClass('loader');
 		ls.ajax(url, params, function(result) {
+			$('.js-button-wall-submit').attr('disabled',false);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -32,11 +34,13 @@ ls.wall = (function ($) {
 	};
 
 	this.addReply = function(sText, iPid) {
+		$('.js-button-wall-submit').attr('disabled',true);
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
 		'*addReplyBefore*'; '*/addReplyBefore*';
 		$('#wall-reply-text-' + iPid).addClass('loader');
 		ls.ajax(url, params, function(result) {
+			$('.js-button-wall-submit').attr('disabled',false);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
