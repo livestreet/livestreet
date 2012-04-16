@@ -4,9 +4,26 @@
 	{include file='header.tpl'}
 	{include file='menu.blog_edit.tpl'}
 {/if}
+
+{if $oConfig->GetValue('view.tinymce')}
+	<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
+	<script type="text/javascript">
+		jQuery(function($){
+			tinyMCE.init(ls.settings.getTinymceComment());
+		});
+	</script>
+{else}
+	{include file='window_load_img.tpl' sToLoad='blog_description'}
+	<script type="text/javascript">
+		jQuery(function($){
+			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
+			// Подключаем редактор
+			jQuery('#blog_description').markItUp(ls.settings.getMarkitupComment());
+		});
+	</script>
+{/if}
 	
-	
-<script>
+<script type="text/javascript">
 	jQuery(document).ready(function($){
 		ls.lang.load({lang_load name="blog_create_type_open_notice,blog_create_type_close_notice"});
 		ls.blog.loadInfoType($('#blog_type').val());
@@ -39,7 +56,7 @@
 
 	
 	<p><label for="blog_description">{$aLang.blog_create_description}:</label>
-	<textarea name="blog_description" id="blog_description" rows="15" class="input-text input-width-full">{$_aRequest.blog_description}</textarea>
+	<textarea name="blog_description" id="blog_description" rows="15" class="input-text input-width-full mce-editor">{$_aRequest.blog_description}</textarea>
 	<small class="note">{$aLang.blog_create_description_notice}</small></p>
 
 	
