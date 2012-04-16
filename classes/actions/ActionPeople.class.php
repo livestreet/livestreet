@@ -26,7 +26,7 @@ class ActionPeople extends Action {
 	 * @var unknown_type
 	 */
 	protected $sMenuHeadItemSelect='people';
-		
+
 	/**
 	 * Инициализация
 	 *
@@ -38,7 +38,7 @@ class ActionPeople extends Action {
 	 * Регистрируем евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
+	protected function RegisterEvent() {
 		$this->AddEvent('online','EventOnline');
 		$this->AddEvent('new','EventNew');
 		$this->AddEventPreg('/^(index)?$/i','/^(page(\d+))?$/i','/^$/i','EventIndex');
@@ -47,8 +47,8 @@ class ActionPeople extends Action {
 		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
 		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
@@ -60,10 +60,10 @@ class ActionPeople extends Action {
 	protected function EventAjaxSearch() {
 		$this->Viewer_SetResponseAjax('json');
 
-		if ($sTitle=getRequest('user_login') and is_string($sTitle)) {
-			$sTitle=str_replace('%','',$sTitle);
-		}
-		if (!$sTitle) {
+		$sTitle=getRequest('user_login');
+		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
+			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
+		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return;
 		}
@@ -74,7 +74,6 @@ class ActionPeople extends Action {
 		} else {
 			$sTitle='%'.$sTitle.'%';
 		}
-
 		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
 
 		$oViewer=$this->Viewer_GetLocalViewer();
@@ -86,21 +85,21 @@ class ActionPeople extends Action {
 	 * Показывает юзеров по стране
 	 *
 	 */
-	protected function EventCountry() {		
+	protected function EventCountry() {
 		if (!($oCountry=$this->Geo_GetCountryById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();	
+		$this->GetStats();
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;				
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Получаем список вязей пользователей со страной
-		 */					
+		 */
 		$aResult=$this->Geo_GetTargets(array('country_id'=>$oCountry->getId(),'target_type'=>'user'),$iPage,Config::Get('module.user.per_page'));
 		$aUsersId=array();
 		foreach($aResult['collection'] as $oTarget) {
@@ -109,33 +108,33 @@ class ActionPeople extends Action {
 		$aUsersCountry=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
-		 */			
+		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		if ($aUsersCountry) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
+			$this->Viewer_Assign('aPaging',$aPaging);
+		}
 		$this->Viewer_Assign('oCountry',$oCountry);
-		$this->Viewer_Assign('aUsersCountry',$aUsersCountry);				
+		$this->Viewer_Assign('aUsersCountry',$aUsersCountry);
 	}
 	/**
 	 * Показывает юзеров по городу
 	 *
 	 */
-	protected function EventCity() {		
+	protected function EventCity() {
 		if (!($oCity=$this->Geo_GetCityById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();	
+		$this->GetStats();
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Получаем список юзеров
 		 */
@@ -147,16 +146,16 @@ class ActionPeople extends Action {
 		$aUsersCity=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
-		 */			
+		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		if ($aUsersCity) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
+			$this->Viewer_Assign('aPaging',$aPaging);
+		}
 		$this->Viewer_Assign('oCity',$oCity);
-		$this->Viewer_Assign('aUsersCity',$aUsersCity);				
+		$this->Viewer_Assign('aUsersCity',$aUsersCity);
 	}
 	/**
 	 * Показываем последних на сайте
@@ -171,7 +170,7 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();		
+		$this->GetStats();
 	}
 	/**
 	 * Показываем новых на сайте
@@ -186,7 +185,7 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();		
+		$this->GetStats();
 	}
 	/**
 	 * Показываем юзеров
@@ -242,7 +241,7 @@ class ActionPeople extends Action {
 		$this->Viewer_Assign("sUsersOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
 		/**
 		 * Устанавливаем шаблон вывода
-		 */		
+		 */
 		$this->SetTemplateAction('index');
 	}
 	/**
@@ -253,7 +252,7 @@ class ActionPeople extends Action {
 		/**
 		 * Статистика кто, где и т.п.
 		 */
-		$aStat=$this->User_GetStatUsers();		
+		$aStat=$this->User_GetStatUsers();
 		/**
 		 * Загружаем переменные в шаблон
 		 */
