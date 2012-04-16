@@ -31,13 +31,13 @@ class ActionLink extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuItemSelect='link';
+	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuSubItemSelect='add';
+	protected $sMenuSubItemSelect='link';
 	/**
 	 * Текущий юзер
 	 *
@@ -116,11 +116,6 @@ class ActionLink extends Action {
 			return Router::Action('error'); 
 		}
 		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='link';
-		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
@@ -188,10 +183,6 @@ class ActionLink extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error'); 
 		}
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='add';
 		/**
 		 * Вызов хуков
 		 */

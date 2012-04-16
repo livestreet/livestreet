@@ -31,13 +31,13 @@ class ActionQuestion extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuItemSelect='question';
+	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuSubItemSelect='add';
+	protected $sMenuSubItemSelect='question';
 	/**
 	 * Текущий юзер
 	 *
@@ -90,11 +90,6 @@ class ActionQuestion extends Action {
 	 * @return unknown
 	 */
 	protected function EventEdit() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='question';
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
@@ -162,10 +157,6 @@ class ActionQuestion extends Action {
 	 * @return unknown
 	 */
 	protected function EventAdd() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='add';
 		/**
 		 * Вызов хуков
 		 */

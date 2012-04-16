@@ -37,7 +37,7 @@ class ActionTopic extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuSubItemSelect='add';
+	protected $sMenuSubItemSelect='topic';
 	/**
 	 * Текущий юзер
 	 *
@@ -85,11 +85,6 @@ class ActionTopic extends Action {
 	 * @return unknown
 	 */
 	protected function EventEdit() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='topic';
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
@@ -181,10 +176,6 @@ class ActionTopic extends Action {
 	 * @return unknown
 	 */
 	protected function EventAdd() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='add';
 		/**
 		 * Вызов хуков
 		 */

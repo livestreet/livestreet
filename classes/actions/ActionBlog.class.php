@@ -166,7 +166,7 @@ class ActionBlog extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect='add';
-		$this->sMenuItemSelect='add_blog';
+		$this->sMenuItemSelect='blog';
 		/**
 		 * Проверяем авторизован ли пользователь
 		 */

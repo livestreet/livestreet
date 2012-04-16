@@ -31,13 +31,13 @@ class ActionPhotoset extends Action {
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuItemSelect='photoset';
+	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
 	 * @var unknown_type
 	 */
-	protected $sMenuSubItemSelect='add';
+	protected $sMenuSubItemSelect='photoset';
 	/**
 	 * Текущий юзер
 	 *
@@ -301,11 +301,6 @@ class ActionPhotoset extends Action {
 			return Router::Action('error');
 		}
 		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='photoset';
-		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
 		$sTopicId=$this->GetParam(0);
@@ -378,10 +373,6 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='add';
 		/**
 		 * Вызов хуков
 		 */
