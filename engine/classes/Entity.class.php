@@ -16,34 +16,79 @@
 */
 
 /**
- * Абстрактный класс сущности
+ * Абстрактный класс сущности.
+ * При запросе к базе данных удобно возвращать не просто массив данных, а данные в виде специального объекта - Entity.
+ * Основные методы такого объекта делятся на два вида: get-методы и set-методы.
+ * Первые получают свойство объекта по его имени, а вторые устанавливают.
+ * Сущности поддерживает "магические" методы set* и get* , например
+ * <pre>
+ * $oEntity->getMyProperty()
+ * </pre> вернет данные по ключу/полю my_property
  *
+ * @package engine
+ * @since 1.0
  */
 abstract class Entity extends LsObject {
+	/**
+	 * Данные сущности, на этот массив мапятся методы set* и get*
+	 *
+	 * @var array
+	 */
 	protected $_aData=array();
+	/**
+	 * Имя поля с первичным ключом в БД
+	 *
+	 * @var null|string
+	 */
 	protected $sPrimaryKey = null;
+	/**
+	 * Список правил валидации полей
+	 * @see ModuleValidate
+	 *
+	 * @var array
+	 */
 	protected $aValidateRules=array();
+	/**
+	 * Список ошибок валидации в разрезе полей, например
+	 * <pre>
+	 * array(
+	 * 	'title' => array('error one','error two'),
+	 * 	'name' => array('error one','error two'),
+	 * )
+	 * </pre>
+	 *
+	 * @var array
+	 */
 	protected $aValidateErrors=array();
+	/**
+	 * Сценарий валиадции полей
+	 * @see _setValidateScenario
+	 *
+	 * @var string
+	 */
 	protected $sValidateScenario='';
 
 
 	/**
 	 * Если передать в конструктор ассоциативный массив свойств и их значений, то они автоматом загрузятся в сущность
 	 *
-	 * @param array|null $aParam
+	 * @param array|false $aParam	Ассоциативный массив данных сущности
 	 */
 	public function __construct($aParam = false) {
 		$this->_setData($aParam);
 		$this->Init();
 	}
-
 	/**
 	 * Метод инициализации сущности, вызывается при её создании
 	 */
 	public function Init() {
 
 	}
-
+	/**
+	 * Устанавливает данные сущности
+	 *
+	 * @param array $aData	Ассоциативный массив данных сущности
+	 */
 	public function _setData($aData) {
 		if(is_array($aData)) {
 			foreach ($aData as $sKey => $val)    {
@@ -51,7 +96,12 @@ abstract class Entity extends LsObject {
 			}
 		}
 	}
-
+	/**
+	 * Получает массив данных сущности
+	 *
+	 * @param array|null $aKeys	Список полей, данные по которым необходимо вернуть, если не передан, то возвращаются все данные
+	 * @return array
+	 */
 	public function _getData($aKeys=array()) {
 		if(!is_array($aKeys) or !count($aKeys)) return $this->_aData;
 
@@ -63,19 +113,24 @@ abstract class Entity extends LsObject {
 		}
 		return $aReturn;
 	}
-
+	/**
+	 * Возвращает данные по конкретному полю
+	 *
+	 * @param string $sKey	Название поля, например <pre>'my_property'</pre>
+	 * @return null|mixed
+	 */
 	public function _getDataOne($sKey) {
 		if(array_key_exists($sKey,$this->_aData)) {
 			return $this->_aData[$sKey];
 		}
 		return null;
 	}
-
 	/**
 	 * Рекурсивное преобразование объекта и вложенных объектов в массив
+	 *
+	 * @return array
 	 */
-	public function _getDataArray()
-	{
+	public function _getDataArray() {
 		$aResult = array();
 		foreach ($this->_aData as $sKey => $sValue) {
 			if (is_object($sValue) && $sValue instanceOf Entity) {
@@ -86,13 +141,14 @@ abstract class Entity extends LsObject {
 		}
 		return $aResult;
 	}
-
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
+	 * Также производит обработку методов set* и get*
+	 * @see Engine::_CallModule
 	 *
-	 * @param string $sName
-	 * @param array $aArgs
-	 * @return unknown
+	 * @param string $sName Имя метода
+	 * @param array $aArgs Аргументы
+	 * @return mixed
 	 */
 	public function __call($sName,$aArgs) {
 		$sType=strtolower(substr($sName,0,3));
@@ -117,12 +173,13 @@ abstract class Entity extends LsObject {
 			return Engine::getInstance()->_CallModule($sName,$aArgs);
 		}
 	}
-
 	/**
 	 * Получение первичного ключа сущности (ключ, а не значение!)
+	 * @see _getPrimaryKeyValue
+	 *
+	 * @return null|string
 	 */
-	public function _getPrimaryKey()
-	{
+	public function _getPrimaryKey() {
 		if (!$this->sPrimaryKey) {
 			if (isset($this->_aData['id'])) {
 				$this->sPrimaryKey = 'id';
@@ -134,32 +191,32 @@ abstract class Entity extends LsObject {
 
 		return $this->sPrimaryKey;
 	}
-
+	/**
+	 * Возвращает значение первичного ключа/поля
+	 *
+	 * @return mixed|null
+	 */
 	public function _getPrimaryKeyValue() {
 		return $this->_getDataOne($this->_getPrimaryKey());
 	}
-
-
 	/**
 	 * Выполняет валидацию данных сущности
 	 * Если $aFields=null, то выполняется валидация по всем полям из $this->aValidateRules, иначе по пересечению
 	 *
-	 * @param null $attributes
-	 * @param bool $clearErrors
+	 * @param null|array $aFields	Список полей для валидации, если null то по всем полям
+	 * @param bool $bClearErrors	Очищать или нет стек ошибок перед валидацией
 	 *
 	 * @return bool
 	 */
-	public function _Validate($aFields=null, $clearErrors=true) {
-		if($clearErrors) {
+	public function _Validate($aFields=null, $bClearErrors=true) {
+		if($bClearErrors) {
 			$this->_clearValidateErrors();
 		}
 		foreach($this->_getValidators() as $validator) {
 			$validator->validateEntity($this,$aFields);
 		}
-
 		return !$this->_hasValidateErrors();
 	}
-
 	/**
 	 * Возвращает список валидаторов с учетом текущего сценария
 	 *
@@ -184,9 +241,9 @@ abstract class Entity extends LsObject {
 		}
 		return $aValidatorsReturn;
 	}
-
 	/**
 	 * Создает и возвращает список валидаторов для сущности
+	 * @see ModuleValidate::CreateValidator
 	 *
 	 * @return array
 	 * @throws Exception
@@ -202,7 +259,6 @@ abstract class Entity extends LsObject {
 		}
 		return $aValidators;
 	}
-
 	/**
 	 * Проверяет есть ли ошибки валидации
 	 *
@@ -217,7 +273,6 @@ abstract class Entity extends LsObject {
 			return isset($this->aValidateErrors[$sField]);
 		}
 	}
-
 	/**
 	 * Возвращает список ошибок для всех полей или одного поля
 	 *
@@ -232,7 +287,6 @@ abstract class Entity extends LsObject {
 			return isset($this->aValidateErrors[$sField]) ? $this->aValidateErrors[$sField] : array();
 		}
 	}
-
 	/**
 	 * Возвращает первую ошибку для поля или среди всех полей
 	 *
@@ -249,17 +303,15 @@ abstract class Entity extends LsObject {
 			return isset($this->aValidateErrors[$sField]) ? reset($this->aValidateErrors[$sField]) : null;
 		}
 	}
-
 	/**
 	 * Добавляет для поля ошибку в список ошибок
 	 *
 	 * @param string $sField	Поле сущности
-	 * @param string $error		Сообщение об ошибке
+	 * @param string $sError	Сообщение об ошибке
 	 */
-	public function _addValidateError($sField,$error) {
-		$this->aValidateErrors[$sField][]=$error;
+	public function _addValidateError($sField,$sError) {
+		$this->aValidateErrors[$sField][]=$sError;
 	}
-
 	/**
 	 * Очищает список всех ошибок или для конкретного поля
 	 *
@@ -272,7 +324,6 @@ abstract class Entity extends LsObject {
 			unset($this->aValidateErrors[$sField]);
 		}
 	}
-
 	/**
 	 * Возвращает текущий сценарий валидации
 	 *
@@ -281,9 +332,10 @@ abstract class Entity extends LsObject {
 	public function _getValidateScenario() {
 		return $this->sValidateScenario;
 	}
-
 	/**
 	 * Устанавливает сценарий валидации
+	 * Если использовать валидацию без сценария, то будут использоваться только те правила, где нет никаких сценариев, либо указан пустой сценарий ''
+	 * Если указать сценарий, то проверка будет только по правилом, где в списке сценарией есть указанный
 	 *
 	 * @param string $sValue
 	 */

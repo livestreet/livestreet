@@ -17,13 +17,21 @@
 
 /**
  * Абстрактный класс мапера
+ * Вся задача маппера сводится в выполнению запроса к базе данных (или либому другому источнику данных) и возвращения результата в модуль.
  *
+ * @package engine
+ * @since 1.0
  */
 abstract class Mapper extends LsObject {
-	protected $oDb;
-		
 	/**
-	 * Сохраняем коннект к БД
+	 * Объект подключения к базе данных
+	 *
+	 * @var DbSimple_Generic_Database
+	 */
+	protected $oDb;
+
+	/**
+	 * Передаем коннект к БД
 	 *
 	 * @param DbSimple_Generic_Database $oDb
 	 */

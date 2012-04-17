@@ -18,15 +18,23 @@
 require_once("Engine.class.php");
 
 /**
- * Абстрактный слой работы с крон-процессами
+ * Абстрактный класс для работы с крон-процессами.
+ * Например, его использует отложенная рассылка почтовых уведомлений для пользователей.
+ * Обработчик крона не запускается автоматически(!!), его необходимо добавлять в системный крон (nix*: crontab -e)
+ *
+ * @package engine
+ * @since 1.0
  */
 class Cron extends LsObject {
 	/**
+	 * Объект ядра
+	 *
 	 * @var Engine
 	 */
 	protected $oEngine=null;
 	/**
 	 * Дескриптор блокирующего файла
+	 * Если этот файл существует, то крон не запустится повторно.
 	 *
 	 * @var string
 	 */
@@ -37,7 +45,10 @@ class Cron extends LsObject {
 	 * @var string
 	 */
 	protected $sProcessName;
-	
+
+	/**
+	 * @param string|null $sLockFile Полный путь до лок файла, например <pre>Config::Get('sys.cache.dir').'notify.lock'</pre>
+	 */
 	public function __construct($sLockFile=null) {
 		$this->sProcessName=get_class($this);
 		$this->oEngine=Engine::getInstance();
@@ -49,19 +60,16 @@ class Cron extends LsObject {
 		if(!empty($sLockFile)) {
 			$this->oLockFile=fopen($sLockFile,'a');
 		}
-		
 		/**
 		 * Инициализируем лог и делает пометку о старте процесса
 		 */
 		$this->oEngine->Logger_SetFileName(Config::Get('sys.logs.cron_file'));
 		$this->Log('Cron process started');
 	}
-
 	/**
 	 * Делает запись в лог
 	 *
-	 * @param  string $sMsg
-	 * @return
+	 * @param  string $sMsg	Сообщение для записи в лог
 	 */
 	public function Log($sMsg) {
 		if (Config::Get('sys.logs.cron')) {
@@ -69,27 +77,27 @@ class Cron extends LsObject {
 			$this->oEngine->Logger_Notice($sMsg);
 		}
 	}
-	
 	/**
 	 * Проверяет уникальность создаваемого процесса
+	 *
+	 * @return bool
 	 */
 	public function isLock() {
 		return ($this->oLockFile && !flock($this->oLockFile, LOCK_EX|LOCK_NB));
 	}
 	/**
 	 * Снимает блокировку на повторный процесс
+	 *
+	 * @return bool
 	 */
 	public function unsetLock() {
 		return ($this->oLockFile && @flock($this->oLockFile, LOCK_UN));
 	}
-	
 	/**
-	 * Основная функция слоя. Реализует логику работы
-	 * крон процесса с последующей передачей управления
-	 * на пользовательскую функцию
+	 * Основной метод крон-процесса.
+	 * Реализует логику работы крон процесса с последующей передачей управления на пользовательскую функцию
 	 *
-	 * @param ( string|array ) $sFunction
-	 * @param array $aArgs
+	 * @return string
 	 */
 	public function Exec() {
 		/**
@@ -113,15 +121,16 @@ class Cron extends LsObject {
 		
 		return $sContent;
 	}
-	
 	/**
-	 * Здесь будет реализована логика завершения работы cron-процесса
+	 * Завершение крон-процесса
 	 */
 	public function Shutdown() {
 		$this->unsetLock();	
 		$this->Log('Cron process ended');		
 	}
-	
+	/**
+	 * Вызывается при уничтожении объекта
+	 */
 	public function __destruct() {
 		$this->Shutdown();
 	}
@@ -132,7 +141,14 @@ class Cron extends LsObject {
 	public function Client(){
 		throw new Exception('Call undefined client function');
 	}
-	
+	/**
+	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
+	 * @see Engine::_CallModule
+	 *
+	 * @param string $sName Имя метода
+	 * @param array $aArgs Аргументы
+	 * @return mixed
+	 */
 	public function __call($sName,$aArgs) {
 		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
