@@ -404,7 +404,7 @@
 		var opts = $.extend({}, $.fn.poshytip.defaults, options);
 
 		// generate CSS for this tip class if not already generated
-		if (!$('#poshytip-css-' + opts.className)[0])
+		if (opts.injectBaseCss && !$('#poshytip-css-' + opts.className)[0])
 			$(['<style id="poshytip-css-',opts.className,'" type="text/css">',
 				'div.',opts.className,'{visibility:hidden;position:absolute;top:0;left:0;}',
 				'div.',opts.className,' table, div.',opts.className,' td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;}',
@@ -447,6 +447,7 @@
 	$.fn.poshytip.defaults = {
 		content: 		'[title]',	// content to display ('[title]', 'string', element, function(updateCallback){...}, jQuery)
 		className:		'tip-yellow',	// class for the tips
+		injectBaseCss:	false,	// injection default base css in head
 		bgImageFrameSize:	10,		// size in pixels for the background-image (if set in CSS) frame around the inner content of the tip
 		showTimeout:		500,		// timeout before showing the tip (in milliseconds 1000 == 1 second)
 		hideTimeout:		100,		// timeout before hiding the tip
