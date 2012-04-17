@@ -1325,7 +1325,7 @@ class Install {
 					$sQuery2="SELECT comment_id, user_id FROM {$sTable2} WHERE target_id='{$iTalk}' and target_type='talk' ORDER BY comment_id desc LIMIT 0,1";
 					if(!$aResults2 = mysql_query($sQuery2)){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 					if($aRow2 = mysql_fetch_assoc($aResults2)) {
 						$iCommentLast=$aRow2['comment_id'];
@@ -1337,7 +1337,7 @@ class Install {
 					$sQuery3="UPDATE {$sTable1} SET talk_user_id_last='{$iUserLast}', talk_comment_id_last=".($iCommentLast ? $iCommentLast : 'null')." WHERE talk_id='{$iTalk}' ";
 					if(!mysql_query($sQuery3)) {
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 				}
 			} else {
@@ -1356,7 +1356,12 @@ class Install {
 		$iPage=1;
 		do {
 			$iLimitStart=($iPage-1)*100;
-			$sQuery="SELECT * FROM {$sTableUser} WHERE `user_profile_country`  IS NOT NULL and `user_profile_country`<>'' LIMIT {$iLimitStart},100";
+			$sQuery="SELECT * FROM {$sTableUser} WHERE
+					(`user_profile_country`  IS NOT NULL and `user_profile_country`<>'') or
+					(`user_profile_region`  IS NOT NULL and `user_profile_region`<>'') or
+					(`user_profile_city`  IS NOT NULL and `user_profile_city`<>'')
+
+					 LIMIT {$iLimitStart},100";
 			if(!$aResults = mysql_query($sQuery)){
 				$aErrors[] = mysql_error();
 				break;
@@ -1367,6 +1372,13 @@ class Install {
 					 * Обрабатываем каждого пользователя
 					 */
 					$iUserId=$aRow['user_id'];
+					if (!$aRow['user_profile_country']) {
+						$sQuery2="UPDATE {$sTableUser} SET user_profile_country=null, user_profile_region=null, user_profile_city=null WHERE user_id={$iUserId} ";
+						if(!$aResults2 = mysql_query($sQuery2)){
+							$aErrors[] = mysql_error();
+						}
+						continue;
+					}
 					$sCountry=mysql_real_escape_string($aRow['user_profile_country']);
 					$sCity=mysql_real_escape_string((string)$aRow['user_profile_city']);
 					/**
@@ -1375,7 +1387,7 @@ class Install {
 					$sQuery2="SELECT id, name_ru FROM {$sTableGeoCountry} WHERE name_ru='{$sCountry}' or name_en='{$sCountry}' LIMIT 0,1";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 					if($aRow2 = mysql_fetch_assoc($aResults2)) {
 						$iCountryId=$aRow2['id'];
@@ -1385,7 +1397,7 @@ class Install {
 						if(!$aResults2 = mysql_query($sQuery2)){
 							$aErrors[] = mysql_error();
 						}
-						break;
+						continue;
 					}
 					/**
 					 * Ищем город в гео-базе
@@ -1398,7 +1410,7 @@ class Install {
 						$sQuery2="SELECT id, region_id, name_ru FROM {$sTableGeoCity} WHERE country_id='{$iCountryId}' and (name_ru='{$sCity}' or name_en='{$sCity}') LIMIT 0,1";
 						if(!($aResults2 = mysql_query($sQuery2))){
 							$aErrors[] = mysql_error();
-							break;
+							continue;
 						}
 						if($aRow2 = mysql_fetch_assoc($aResults2)) {
 							$iCityId=$aRow2['id'];
@@ -1410,12 +1422,12 @@ class Install {
 							$sQuery3="SELECT name_ru FROM {$sTableGeoRegion} WHERE id='{$iRegionId}' LIMIT 0,1";
 							if(!$aResults3 = mysql_query($sQuery3)){
 								$aErrors[] = mysql_error();
-								break;
+								continue;
 							}
 							if($aRow3 = mysql_fetch_assoc($aResults3)) {
 								$sRegionName=mysql_real_escape_string($aRow3['name_ru']);
 							} else {
-								break;
+								continue;
 							}
 						}
 					}
@@ -1434,11 +1446,11 @@ class Install {
 					$sQuery2="SELECT * FROM {$sTableGeoTarget} WHERE target_type='user' and target_id='{$iUserId}' LIMIT 0,1";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 					if($aRow2 = mysql_fetch_assoc($aResults2)) {
 						// пропускаем этого пользователя
-						break;
+						continue;
 					}
 					/**
 					 * Создаем новую связь
@@ -1446,7 +1458,7 @@ class Install {
 					$sQuery2="INSERT INTO {$sTableGeoTarget} SET geo_type='{$sGeoType}', geo_id='{$iGeoId}', target_type='user', target_id='{$iUserId}', country_id=".($iCountryId ? $iCountryId : 'null').", region_id=".($iRegionId ? $iRegionId : 'null')." , city_id=".($iCityId ? $iCityId : 'null')."  ";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 					/**
 					 * Обновляем информацию о пользователе
@@ -1454,7 +1466,7 @@ class Install {
 					$sQuery2="UPDATE {$sTableUser} SET user_profile_country=".($iCountryId ? "'$sCountryName'" : 'null').", user_profile_region=".($sRegionName ? "'$sRegionName'" : 'null').", user_profile_city=".($sCityName ? "'$sCityName'" : 'null')." WHERE user_id={$iUserId} ";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 				}
 			} else {
@@ -1597,11 +1609,11 @@ class Install {
 					$sQuery2="SELECT * FROM {$sTablefFavouriteTag} WHERE user_id='{$iUserId}' and target_id='{$iTargetId}' and target_type='topic' and is_user=0 and text='{$sText}' LIMIT 0,1";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
 					}
 					if($aRow2 = mysql_fetch_assoc($aResults2)) {
 						// пропускаем
-						break;
+						continue;
 					}
 					/**
 					 * Создаем
@@ -1609,7 +1621,37 @@ class Install {
 					$sQuery2="INSERT INTO {$sTablefFavouriteTag} SET user_id='{$iUserId}', target_id='{$iTargetId}', target_type='topic', is_user=0, text='{$sText}' ";
 					if(!($aResults2 = mysql_query($sQuery2))){
 						$aErrors[] = mysql_error();
-						break;
+						continue;
+					}
+				}
+			} else {
+				break;
+			}
+			$iPage++;
+		} while (1);
+		/**
+		 * Вырезаем теги из информации о пользователе
+		 */
+		$sTableUser=$aParams['prefix'].'user';
+		$iPage=1;
+		do {
+			$iLimitStart=($iPage-1)*100;
+			$sQuery="SELECT * FROM {$sTableUser} WHERE `user_profile_about`  IS NOT NULL and `user_profile_about`<>'' LIMIT {$iLimitStart},100";
+			if(!$aResults = mysql_query($sQuery)){
+				$aErrors[] = mysql_error();
+				break;
+			}
+			if (mysql_num_rows($aResults)) {
+				while($aRow = mysql_fetch_assoc($aResults)) {
+					$sAbout=mysql_real_escape_string(htmlspecialchars(strip_tags($aRow['user_profile_about'])));
+					$iUserId=$aRow['user_id'];
+					/**
+					 * Обновляем информацию о пользователе
+					 */
+					$sQuery2="UPDATE {$sTableUser} SET user_profile_about='{$sAbout}' WHERE user_id={$iUserId} ";
+					if(!($aResults2 = mysql_query($sQuery2))){
+						$aErrors[] = mysql_error();
+						continue;
 					}
 				}
 			} else {
