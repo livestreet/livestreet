@@ -22,7 +22,7 @@
 	$.Poshytip = function(elm, options) {
 		this.$elm = $(elm);
 		this.opts = $.extend({}, $.fn.poshytip.defaults, options);
-		this.$tip = $(['<div class="',this.opts.className,'">',
+		this.$tip = $(['<div class="infobox ',this.opts.className,'">',
 				'<div class="tip-inner tip-bg-image"></div>',
 				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left"></div>',
 			'</div>'].join('')).appendTo(document.body);
@@ -174,7 +174,7 @@
 				this.opacity = this.$tip.css('opacity');
 
 			// check for images - this code is here (i.e. executed each time we show the tip and not on init) due to some browser inconsistencies
-			var bgImage = this.$tip.css('background-image').match(reBgImage),
+			/*var bgImage = this.$tip.css('background-image').match(reBgImage),
 				arrow = this.$arrow.css('background-image').match(reBgImage);
 
 			if (bgImage) {
@@ -223,14 +223,14 @@
 				// IE9, FF4 use float numbers for width/height so use getComputedStyle for them to avoid text wrapping
 				// for details look at: http://vadikom.com/dailies/offsetwidth-offsetheight-useless-in-ie9-firefox4/
 				$table.width('auto').find('td').eq(3).width('auto').end().end().width(document.defaultView && document.defaultView.getComputedStyle && parseFloat(document.defaultView.getComputedStyle(this.$tip[0], null).width) || this.$tip.width()).find('td').eq(3).width('100%');
-			}
+			}*/
 			this.tipOuterW = this.$tip.outerWidth();
 			this.tipOuterH = this.$tip.outerHeight();
-
+			
 			this.calcPos();
 
 			// position and show the arrow image
-			if (arrow && this.pos.arrow) {
+			if (this.pos.arrow) {
 				this.$arrow[0].className = 'tip-arrow tip-arrow-' + this.pos.arrow;
 				this.$arrow.css('visibility', 'inherit');
 			}

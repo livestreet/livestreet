@@ -18,7 +18,7 @@ ls.infobox = (function ($) {
 		alignTo: 'target',
 		alignX: 'inner-left',
 		alignY: 'bottom',
-		offsetX: -5,
+		offsetX: -14,
 		offsetY: 5,
 		fade: false,
 		slide: false,
