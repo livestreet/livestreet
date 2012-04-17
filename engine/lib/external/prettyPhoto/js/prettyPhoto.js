@@ -214,7 +214,7 @@
 
 			// Set the description
 			if(pp_descriptions[set_position] != ""){
-				$pp_pic_holder.find('.pp_description').show().html(unescape(pp_descriptions[set_position]));
+				$pp_pic_holder.find('.pp_description').show().text(unescape(pp_descriptions[set_position]));
 			}else{
 				$pp_pic_holder.find('.pp_description').hide();
 			}
@@ -231,7 +231,7 @@
 			// Fade the holder
 			$pp_pic_holder.fadeIn(function(){
 				// Set the title
-				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.html(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
+				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.text(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
 				
 				imgPreloader = "";
 				skipInjection = false;

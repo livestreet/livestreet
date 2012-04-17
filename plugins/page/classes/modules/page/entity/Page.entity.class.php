@@ -17,6 +17,25 @@
 
 class PluginPage_ModulePage_EntityPage extends Entity 
 {    
+	
+	protected $_aData=array(
+		'page_id' => null,
+		'page_pid' => null,
+		'page_url' => null,
+		'page_url_full' => null,
+		'page_title' => null,
+		'page_text' => null,
+		'page_date_add' => null,
+		'page_date_edit' => null,
+		'page_seo_keywords' => null,
+		'page_seo_description' => null,
+		'page_active' => null,
+		'page_main' => null,
+		'page_sort' => null,
+		'page_auto_br' => null,
+		'level' => null,
+	);
+	
     public function getId() {
         return $this->_aData['page_id'];
     } 

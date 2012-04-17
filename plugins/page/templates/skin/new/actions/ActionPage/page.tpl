@@ -15,4 +15,6 @@
 	</div>
 </div>
 
+{hook run="plugin_page_page_after" oPage=$oPage}
+
 {include file='footer.tpl'}

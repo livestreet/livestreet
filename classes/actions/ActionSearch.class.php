@@ -144,7 +144,7 @@ class ActionSearch extends Action {
 	 *
 	 * @return unknown
 	 */
-	private function PrepareRequest(){
+	protected function PrepareRequest(){
 		$aReq['q'] = getRequest('q');
 		if (!func_check($aReq['q'],'text', 2, 255)) {
 			/**
@@ -153,7 +153,7 @@ class ActionSearch extends Action {
 			 */
 			Router::Location(Router::GetPath('search'));
 		}
-		$aReq['sType'] = strtolower(Router::GetActionEvent());		
+		$aReq['sType'] = Router::GetActionEvent();		
 		/**
 		 * Определяем текущую страницу вывода результата
 		 */

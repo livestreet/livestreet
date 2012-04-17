@@ -108,11 +108,13 @@ ls.comments = (function ($) {
 		if (!bNotFlushNew) { 
 			$('.comment').each(function(index, item){ 
 				$(item).removeClass(this.options.classes.comment_new+' '+this.options.classes.comment_current);
+				'*unflashOld*'; '*/unflashOld*';
 			}.bind(this)); 
 		}
 
 		objImg = $('#update-comments');
 		objImg.addClass('active');
+		'*loadStart*'; '*/loadStart*';
 
 		var params = { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget };
 		if (selfIdComment) { 
@@ -124,6 +126,7 @@ ls.comments = (function ($) {
 
 		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
 			objImg.removeClass('active');
+			'*loadEnd*'; '*/loadEnd*';
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
 			if (result.bStateError) {
@@ -152,10 +155,11 @@ ls.comments = (function ($) {
 
 				$.each(aCmt, function(index, item) { 
 					if (!(selfIdComment && selfIdComment==item.id)) {
-						this.aCommentNew.push(item.id);
+						this.aCommentNew.push(parseInt(item.id));
 					}
 					this.inject(item.idParent, item.id, item.html); 
 				}.bind(this));
+				//this.aCommentNew.sort(function(a,b){return a-b;});
 
 				if (selfIdComment && $('#comment_id_'+selfIdComment).length) { 
 					this.scrollToComment(selfIdComment);
@@ -192,10 +196,13 @@ ls.comments = (function ($) {
 				ls.msg.error(null,result.sMsg);
 			} else {
 				ls.msg.notice(null,result.sMsg);
-
-				$('#comment_id_'+commentId).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
+				
+				var selectorComment = '#comment_id_'+commentId;
+				'*selectorComment*'; '*/selectorComment*';
+				
+				$(selectorComment).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
 				if (result.bState) {
-					$('#comment_id_'+commentId).addClass(this.options.classes.comment_deleted);
+					$(selectorComment).addClass(this.options.classes.comment_deleted);
 				}
 				$(obj).text(result.sTextToggle);
 			}
@@ -233,6 +240,7 @@ ls.comments = (function ($) {
 		$.each(aCommentsNew,function(k,v){
 			this.aCommentNew.push(parseInt($(v).attr('id').replace('comment_id_','')));
 		}.bind(this));
+		//this.aCommentNew.sort(function(a,b){return a-b;});
 	};
 
 
@@ -250,12 +258,17 @@ ls.comments = (function ($) {
 
 	// Прокрутка к комментарию
 	this.scrollToComment = function(idComment) {
-		$.scrollTo('#comment_id_'+idComment, 1000, {offset: -250});
+		var
+			selectorCommentNext = '#comment_id_'+idComment,
+			selectorCommentCurrent = this.iCurrentViewComment ? '#comment_id_'+this.iCurrentViewComment : null
+		;
+		'*selectors*'; '*/selectors*';
+		$.scrollTo(selectorCommentNext, 1000, {offset: -250});
 						
-		if (this.iCurrentViewComment) {
-			$('#comment_id_'+this.iCurrentViewComment).removeClass(this.options.classes.comment_current);
+		if (selectorCommentCurrent) {
+			$(selectorCommentCurrent).removeClass(this.options.classes.comment_current);
 		}				
-		$('#comment_id_'+idComment).addClass(this.options.classes.comment_current);
+		$(selectorCommentNext).addClass(this.options.classes.comment_current);
 		this.iCurrentViewComment=idComment;		
 	};
 
@@ -265,7 +278,7 @@ ls.comments = (function ($) {
 		thisObj = this;
 		$('.'+this.options.classes.comment_goto_child).hide().find('a').unbind();
 
-		$("#comment_id_"+pid).find('.'+this.options.classes.comment_goto_child).show().find("a").bind("click", function(){
+		$("#comment_id_"+pid).find('.'+this.options.classes.comment_goto_child+':eq(0)').show().find("a").bind("click", function(){
 			$(this).parent('.'+thisObj.options.classes.comment_goto_child).hide();
 			thisObj.scrollToComment(id);
 			return false;
