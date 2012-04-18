@@ -18,7 +18,12 @@
 /**
  * Класс представляющий собой обёертку для связей MANY_TO_MANY.
  * Позволяет оперировать коллекцией загруженных по связи элементов через имя связи
- * Например, $oTopic->Tags->add($oTag) или $oTopic->Tags->delete($oTag->getId()) при
+ * Например
+ * <pre>
+ *	$oTopic->Tags->add($oTag)
+ * 	// или
+ * 	$oTopic->Tags->delete($oTag->getId())
+ * </pre> при
  * наличии настроенной MANY_TO_MANY связи 'tags'
  *
  * @package engine.orm
