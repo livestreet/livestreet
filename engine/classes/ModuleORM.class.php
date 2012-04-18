@@ -17,33 +17,47 @@
 
 /**
  * Абстракция модуля ORM
+ * Предоставляет базовые методы для работы с EntityORM, например,
+ * <pre>
+ *	$aUsers=$this->User_GetUserItemsByAgeAndSex(18,'male');
+ * </pre>
  *
+ * @package engine.orm
+ * @since 1.0
  */
 abstract class ModuleORM extends Module {
-
+	/**
+	 * Объект маппера ORM
+	 *
+	 * @var MapperORM
+	 */
 	protected $oMapperORM=null;
 
 	/**
 	 * Инициализация
+	 * В наследнике этот метод нельзя перекрывать, необходимо вызывать через parent::Init();
 	 *
 	 */
 	public function Init() {
 		$this->_LoadMapperORM();
 	}
-
 	/**
-	 * Загрузка маппера
+	 * Загрузка маппера ORM
 	 *
 	 */
 	protected function _LoadMapperORM() {
 		$this->oMapperORM=new MapperORM($this->oEngine->Database_GetConnect());
 	}
-
 	/**
 	 * Добавление сущности в БД
+	 * Вызывается не напрямую, а через сущность, например
+	 * <pre>
+	 *  $oUser->setName('Claus');
+	 * 	$oUser->Add();
+	 * </pre>
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _AddEntity($oEntity) {
 		$res=$this->oMapperORM->AddEntity($oEntity);
@@ -72,16 +86,14 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Обновление сущности в БД
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _UpdateEntity($oEntity) {
 		$res=$this->oMapperORM->UpdateEntity($oEntity);
-
 		if ($res===0 or $res) { // запись не изменилась, либо изменилась
 			// Обновление связей many_to_many
 			$aRelationsData = $oEntity->_getRelationsData();
@@ -101,12 +113,11 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Сохранение сущности в БД
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _SaveEntity($oEntity) {
 		if ($oEntity->_isNew()) {
@@ -115,12 +126,11 @@ abstract class ModuleORM extends Module {
 			return $this->_UpdateEntity($oEntity);
 		}
 	}
-
 	/**
 	 * Удаление сущности из БД
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _DeleteEntity($oEntity) {
 		$res=$this->oMapperORM->DeleteEntity($oEntity);
@@ -140,12 +150,11 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Обновляет данные сущности из БД
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _ReloadEntity($oEntity) {
 		if($sPrimaryKey=$oEntity->_getPrimaryKey()) {
@@ -159,35 +168,29 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
-
 	/**
 	 * Список полей сущности
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return array
 	 */
 	protected function _ShowColumnsFrom($oEntity) {
-		$res=$this->oMapperORM->ShowColumnsFrom($oEntity);
-		return $res;
+		return $this->oMapperORM->ShowColumnsFrom($oEntity);
 	}
-
 	/**
 	 * Primary индекс сущности
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return array
 	 */
 	protected function _ShowPrimaryIndexFrom($oEntity) {
-		$res=$this->oMapperORM->ShowPrimaryIndexFrom($oEntity);
-		return $res;
+		return $this->oMapperORM->ShowPrimaryIndexFrom($oEntity);
 	}
-
 	/**
 	 * Для сущности со связью RELATION_TYPE_TREE возвращает список прямых потомков
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return array
 	 */
 	protected function _GetChildrenOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
@@ -209,12 +212,11 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Для сущности со связью RELATION_TYPE_TREE возвращает предка
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return EntityORM|bool
 	 */
 	protected function _GetParentOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
@@ -236,12 +238,11 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех предков
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return array
 	 */
 	protected function _GetAncestorsOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
@@ -263,12 +264,11 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Для сущности со связью RELATION_TYPE_TREE возвращает список всех потомков
 	 *
-	 * @param unknown_type $oEntity
-	 * @return unknown
+	 * @param EntityORM $oEntity	Объект сущности
+	 * @return array
 	 */
 	protected function _GetDescendantsOfEntity($oEntity) {
 		if(in_array(EntityORM::RELATION_TYPE_TREE,$oEntity->_getRelations())) {
@@ -291,13 +291,12 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Для сущностей со связью RELATION_TYPE_TREE возвращает список сущностей в виде дерева
 	 *
-	 * @param unknown_type $aFilter
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aFilter	Фильтр
+	 * @param string $sEntityFull	Название класса сущности
+	 * @return array|bool
 	 */
 	public function LoadTree($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -334,13 +333,12 @@ abstract class ModuleORM extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Получить сущность по фильтру
 	 *
-	 * @param unknown_type $aFilter
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aFilter	Фильтр
+	 * @param string $sEntityFull	Название класса сущности
+	 * @return EntityORM|null
 	 */
 	public function GetByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -348,16 +346,14 @@ abstract class ModuleORM extends Module {
 		} elseif (!substr_count($sEntityFull,'_')) {
 			$sEntityFull=Engine::GetPluginPrefix($this).'Module'.Engine::GetModuleName($this).'_Entity'.$sEntityFull;
 		}
-
 		return $this->oMapperORM->GetByFilter($aFilter,$sEntityFull);
 	}
-
 	/**
 	 * Получить список сущностей по фильтру
 	 *
-	 * @param unknown_type $aFilter
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aFilter	Фильтр
+	 * @param string|null $sEntityFull	Название класса сущности
+	 * @return array
 	 */
 	public function GetItemsByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($aFilter)) {
@@ -426,7 +422,7 @@ abstract class ModuleORM extends Module {
 				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
 
 				/**
-			 	 * Собираем набор
+				 * Собираем набор
 				 */
 				foreach ($aEntities as $oEntity) {
 					if (isset($aRelData[$oEntity->_getDataOne($sRelKey)])) {
@@ -436,48 +432,43 @@ abstract class ModuleORM extends Module {
 			}
 
 		}
-
 		/**
-	     * Returns assotiative array, indexed by PRIMARY KEY or another field.
+		 * Returns assotiative array, indexed by PRIMARY KEY or another field.
 		 */
 		if (in_array('#index-from-primary', $aFilter) || !empty($aFilter['#index-from'])) {
 			$aEntities = $this->_setIndexesFromField($aEntities, $aFilter);
 		}
-
 		/**
 		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByFilter($aFilter,$sEntityFull));
 		}
-
 		return $aEntities;
 	}
-
 	/**
-     * Returns assotiative array, indexed by PRIMARY KEY or another field.
-     * @param <type> $oEntity
-     * @param <type> $aFilter
-     * @return <type>
-     */
-	protected function _setIndexesFromField($aEntities, $aFilter)
-	{
+	 * Returns assotiative array, indexed by PRIMARY KEY or another field.
+	 *
+	 * @param array $aEntities	Список сущностей
+	 * @param array $aFilter	Фильтр
+	 * @return array
+	 */
+	protected function _setIndexesFromField($aEntities, $aFilter) {
 		$aIndexedEntities=array();
 		foreach ($aEntities as $oEntity) {
 			$sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
-			$oEntity->_getPrimaryKey() :
-			$oEntity->_getField($aFilter['#index-from']);
+				$oEntity->_getPrimaryKey() :
+				$oEntity->_getField($aFilter['#index-from']);
 			$aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
 		}
 		return $aIndexedEntities;
 	}
-
 	/**
 	 * Получить количество сущностей по фильтру
 	 *
-	 * @param unknown_type $aFilter
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aFilter	Фильтр
+	 * @param string $sEntityFull	Название класса сущности
+	 * @return int
 	 */
 	public function GetCountItemsByFilter($aFilter=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -503,13 +494,16 @@ abstract class ModuleORM extends Module {
 				$this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
 			}
 		}
-
 		return $iCount;
 	}
-
-	/*
-	* Returns associative array of entities, indexed by PRIMARY KEY
-	*/
+	/**
+	 * Возвращает список сущностей по фильтру
+	 * В качестве ключей возвращаемого массива используется primary key сущности
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param string|null $sEntityFull	Название класса сущности
+	 * @return array
+	 */
 	public function GetItemsByArray($aFilter,$sEntityFull=null) {
 		foreach ($aFilter as $k=>$v) {
 			$aFilter["{$k} IN"]=$v;
@@ -518,13 +512,12 @@ abstract class ModuleORM extends Module {
 		$aFilter[] = '#index-from-primary';
 		return $this->GetItemsByFilter($aFilter,$sEntityFull);
 	}
-
 	/**
 	 * Получить сущности по связанной таблице
 	 *
-	 * @param unknown_type $aJoinData
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aJoinData	Фильтр
+	 * @param string $sEntityFull	Название класса сущности
+	 * @return array
 	 */
 	public function GetItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -557,23 +550,20 @@ abstract class ModuleORM extends Module {
 		if (in_array('#index-from-primary', $aJoinData) || !empty($aJoinData['#index-from'])) {
 			$aEntities = $this->_setIndexesFromField($aEntities, $aJoinData);
 		}
-
 		/**
 		 * Если запрашиваем постраничный список, то возвращаем сам список и общее количество записей
 		 */
 		if (isset($aFilter['#page'])) {
 			return array('collection'=>$aEntities,'count'=>$this->GetCountItemsByJoinTable($aJoinData,$sEntityFull));
 		}
-
 		return $aEntities;
 	}
-
 	/**
 	 * Получить число сущностей по связанной таблице
 	 *
-	 * @param unknown_type $aJoinData
-	 * @param unknown_type $sEntityFull
-	 * @return unknown
+	 * @param array $aJoinData	Фильтр
+	 * @param string $sEntityFull	Название класса сущности
+	 * @return int
 	 */
 	public function GetCountItemsByJoinTable($aJoinData=array(),$sEntityFull=null) {
 		if (is_null($sEntityFull)) {
@@ -595,16 +585,31 @@ abstract class ModuleORM extends Module {
 			if (isset($aJoinData['#cache'][2])) $iCacheTime=$aJoinData['#cache'][2];
 
 			$aCacheTags[] = 'm2m_'.$aJoinData['#relation_key'].$aJoinData['#by_key'].$aJoinData['#by_value'];
-
 			if (false === ($iCount = $this->Cache_Get($sCacheKey))) {
 				$iCount = $this->oMapperORM->GetCountItemsByJoinTable($aJoinData,$sEntityFull);
 				$this->Cache_Set($iCount,$sCacheKey, $aCacheTags, $iCacheTime);
 			}
 		}
-
 		return $iCount;
 	}
-
+	/**
+	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля.
+	 * Также обрабатывает различные ORM методы сущности, например
+	 * <pre>
+	 * $oUser->Save();
+	 * $oUser->Delete();
+	 * </pre>
+	 * И методы модуля ORM, например
+	 * <pre>
+	 *	$this->User_getUserItemsByName('Claus');
+	 *	$this->User_getUserItemsAll();
+	 * </pre>
+	 * @see Engine::_CallModule
+	 *
+	 * @param string $sName Имя метода
+	 * @param array $aArgs Аргументы
+	 * @return mixed
+	 */
 	public function __call($sName,$aArgs) {
 		if (preg_match("@^add([\w]+)$@i",$sName,$aMatch)) {
 			return $this->_AddEntity($aArgs[0]);
@@ -731,7 +736,7 @@ abstract class ModuleORM extends Module {
 		 * getUserItemsAll()	get_user_items_all
 		 */
 		if (preg_match("@^get_([a-z]+)_all$@i",$sNameUnderscore,$aMatch) ||
-		preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
+			preg_match("@^get_([a-z]+)_items_all$@i",$sNameUnderscore,$aMatch)
 		) {
 			$aFilter=array();
 			if (isset($aArgs[0]) and is_array($aArgs[0])) {
@@ -742,14 +747,13 @@ abstract class ModuleORM extends Module {
 
 		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
-
 	/**
 	 * Построение дерева
 	 *
-	 * @param unknown_type $aItems
-	 * @param unknown_type $aList
-	 * @param unknown_type $iLevel
-	 * @return unknown
+	 * @param array $aItems	Список сущностей
+	 * @param array $aList
+	 * @param int $iLevel	Текущий уровень вложенности
+	 * @return array
 	 */
 	static function buildTree($aItems,$aList=array(),$iLevel=0) {
 		foreach($aItems as $oEntity) {
@@ -757,10 +761,10 @@ abstract class ModuleORM extends Module {
 			$bHasChildren = !empty($aChildren);
 			$sEntityId = $oEntity->_getDataOne($oEntity->_getPrimaryKey());
 			$aList[$sEntityId] = array(
-			'entity'		 => $oEntity,
-			'parent_id'		 => $oEntity->getParentId(),
-			'children_count' => $bHasChildren ? count($aChildren) : 0,
-			'level'			 => $iLevel,
+				'entity'		 => $oEntity,
+				'parent_id'		 => $oEntity->getParentId(),
+				'children_count' => $bHasChildren ? count($aChildren) : 0,
+				'level'			 => $iLevel,
 			);
 			if($bHasChildren) {
 				$aList=self::buildTree($aChildren,$aList,$iLevel+1);
@@ -768,14 +772,13 @@ abstract class ModuleORM extends Module {
 		}
 		return $aList;
 	}
-
 	/**
-     * Обновление связи many_to_many в бд
-     * @param <type> $aRelation Соответствующий связи элемент массива из $oEntityORM->aRelations
-     * @param <type> $aRelationData Соответствующий связи элемент массива из $oEntityORM->aRelationsData
-     * @param <type> $iEntityId Id сущности, для которой обновляются связи
-     * @return <type>
-     */
+	 * Обновление связи many_to_many в бд
+	 *
+	 * @param array $aRelation Соответствующий связи элемент массива из $oEntityORM->aRelations
+	 * @param array $aRelationData Соответствующий связи элемент массива из $oEntityORM->aRelationsData
+	 * @param int $iEntityId Id сущности, для которой обновляются связи
+	 */
 	protected function _updateManyToManySet($aRelation, $aRelationData, $iEntityId) {
 		/*
 		* Описание параметров связи many_to_many
@@ -807,13 +810,13 @@ abstract class ModuleORM extends Module {
 		$aDeleteSet = array_diff($aSavedSet, $aCurrentSet);
 		$this->oMapperORM->updateManyToManySet($aRelation[3], $aRelation[4], $iEntityId, $aRelation[2], $aInsertSet, $aDeleteSet);
 	}
-
 	/**
-     * Удаление связи many_to_many в бд
-     * @param <type> $sDbTableAlias Алиас имени таблицы связи
-     * @param <type> $sEntityKey Название поля в таблице связи с id сущности, для которой удаляются связи.
-     * @param <type> $iEntityId Id сущнсоти, для который удаляются связи
-     */
+	 * Удаление связи many_to_many в бд
+	 *
+	 * @param string $sDbTableAlias Алиас имени таблицы связи
+	 * @param string $sEntityKey Название поля в таблице связи с id сущности, для которой удаляются связи.
+	 * @param int $iEntityId Id сущнсоти, для который удаляются связи
+	 */
 	protected function _deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId) {
 		$this->oMapperORM->deleteManyToManySet($sDbTableAlias, $sEntityKey, $iEntityId);
 	}

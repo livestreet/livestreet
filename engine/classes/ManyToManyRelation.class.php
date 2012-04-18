@@ -21,7 +21,7 @@
  * Например, $oTopic->Tags->add($oTag) или $oTopic->Tags->delete($oTag->getId()) при
  * наличии настроенной MANY_TO_MANY связи 'tags'
  *
- * @package engine
+ * @package engine.orm
  * @since 1.0
  */
 class LS_ManyToManyRelation extends LsObject {

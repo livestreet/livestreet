@@ -32,7 +32,7 @@
  * $aUsers=$this->User_GetUserItemsByFilter(array('#where'=>array('age = ?d and sex = ?' => array(18,'male'))));
  * </pre>
  *
- * @package engine
+ * @package engine.orm
  * @since 1.0
  */
 abstract class EntityORM extends Entity {
