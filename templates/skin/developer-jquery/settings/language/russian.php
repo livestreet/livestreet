@@ -1,8 +1,7 @@
 <?php
 
 return array(
-	'topic_menu_add' => 'Написать',
-	'user_menu_profile_whois' => 'Инфо',	
+	'user_menu_profile_whois' => 'Инфо',
 	'block_empty_no_tags' => 'Нет тегов',	
 	'block_tags' => 'Теги',	
 	'blog_menu_top' => 'Популярное',

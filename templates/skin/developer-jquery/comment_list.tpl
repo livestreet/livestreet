@@ -20,10 +20,16 @@
 			<ul class="comment-info clearfix">
 				<li class="comment-author"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 				<li class="comment-date">
-					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="Ссылка на комментарий">
+					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" class="link-dotted" title="Ссылка на комментарий">
 						<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 					</a>
 				</li>
+				{if $oUserCurrent and !$bNoCommentFavourites}
+					<li class="comment-favourite">
+						<div onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" class="favourite {if $oComment->getIsFavourite()}active{/if}"></div>
+						<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
+					</li>
+				{/if}
 				<li id="vote_area_comment_{$oComment->getId()}" class="vote 
 																		{if $oComment->getRating() > 0}
 																			vote-count-positive

@@ -209,10 +209,10 @@ return array(
 	/**
 	 * Topic menus
 	 */
-	'topic_menu_add' => 'New',
-	'topic_menu_add_topic' => 'Add Topic',
-	'topic_menu_add_question' => 'Add question',
-	'topic_menu_add_link' => 'Add link',
+	'topic_menu_add' => 'Topic',
+	'topic_menu_add_topic' => 'Post',
+	'topic_menu_add_question' => 'Question',
+	'topic_menu_add_link' => 'Link',
 	'topic_menu_add_photoset' => 'Photoset',
 	'topic_menu_saved' => 'Drafts',
 	'topic_menu_published' => 'Published',
