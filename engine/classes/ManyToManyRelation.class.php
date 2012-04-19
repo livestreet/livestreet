@@ -20,9 +20,9 @@
  * Позволяет оперировать коллекцией загруженных по связи элементов через имя связи
  * Например
  * <pre>
- *	$oTopic->Tags->add($oTag)
- * 	// или
- * 	$oTopic->Tags->delete($oTag->getId())
+ * $oTopic->Tags->add($oTag)
+ * // или
+ * $oTopic->Tags->delete($oTag->getId())
  * </pre> при
  * наличии настроенной MANY_TO_MANY связи 'tags'
  *

@@ -19,7 +19,7 @@
 				</time>
 			</p>
 			<p>
-				Кому: 
+				{$aLang.talk_speaker_title}:
 				
 				{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
 					{assign var="oUserRecipient" value=$oTalkUser->getUser()}
@@ -28,7 +28,7 @@
 					{/if}
 				{/foreach}
 				
-				&nbsp;&nbsp;&nbsp;<a href="#" class="link-dotted" onclick="jQuery('#talk_recipients').toggle(); return false;">Редактировать список</a>
+				&nbsp;&nbsp;&nbsp;<a href="#" class="link-dotted" onclick="jQuery('#talk_recipients').toggle(); return false;">{$aLang.talk_speaker_edit}</a>
 			</p>
 		</div>
 	</header>

@@ -11,7 +11,7 @@
 <div id="blogs-list-original">
 	{router page='blogs' assign=sBlogsRootPage}
 	{include file='blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
-	{include file='paging.tpl' aPaging="$aPaging"}
+	{include file='paging.tpl' aPaging=$aPaging}
 </div>
 
 {include file='footer.tpl'}

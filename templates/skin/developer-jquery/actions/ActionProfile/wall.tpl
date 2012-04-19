@@ -10,7 +10,7 @@
 <h3 class="profile-page-header">{$aLang.user_menu_profile_wall}</h3>
 
 
-<script>
+<script type="text/javascript">
 	ls.wall.init({
 		login:'{$oUserProfile->getLogin()}'
 	});
@@ -18,10 +18,10 @@
 
 {if $oUserCurrent}
 	<form class="wall-submit">
-		<label for="wall-text">Написать на стене:</label>
+		<label for="wall-text">{$aLang.wall_add_title}:</label>
 		<p><textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea></p>
 
-		<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary js-button-wall-submit">Отправить</button>
+		<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary js-button-wall-submit">{$aLang.wall_add_submit}</button>
 	</form>
 {/if}
 
@@ -32,7 +32,7 @@
 
 
 {if $iCountWall-count($aWall)}
-	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="wall-more"><span class="wall-more-inner">К предыдущим записям (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
+	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="wall-more"><span class="wall-more-inner">{$aLang.wall_load_more} (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
 {/if}
 
 

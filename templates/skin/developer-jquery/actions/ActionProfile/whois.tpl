@@ -8,7 +8,7 @@
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">Информация</h3>
+<h3 class="profile-page-header">{$aLang.user_menu_profile_whois}</h3>
 
 
 {if $oUserProfile->getProfileAbout()}					
@@ -18,8 +18,9 @@
 	</div>
 {/if}
 
+{assign var="aUserFieldValues" value=$oUserProfile->getUserFieldValues(true,array(''))}
 
-{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFields)}
+{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
 	<h2 class="header-table">{$aLang.profile_privat}</h2>
 	
 	
@@ -60,14 +61,23 @@
 				</td>
 			</tr>
 		{/if}
-		
+
+		{if $aUserFieldValues}
+			{foreach from=$aUserFieldValues item=oField}
+				<tr>
+					<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
+					<td>{$oField->getValue(true,true)}</td>
+				</tr>
+			{/foreach}
+		{/if}
+
 		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
 	</table>
 {/if}
 
 
 
-{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact', ''))}
+{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact'))}
 {if $aUserFieldContactValues}
 	<h2 class="header-table">{$aLang.profile_contacts}</h2>
 	

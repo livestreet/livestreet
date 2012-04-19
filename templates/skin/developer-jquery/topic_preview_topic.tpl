@@ -1,6 +1,6 @@
 {assign var="oUser" value=$oTopic->getUser()}
 
-<h3 class="profile-page-header">Предпросмотр</h3>
+<h3 class="profile-page-header">{$aLang.topic_preview}</h3>
 
 <article class="topic topic-type-{$oTopic->getType()}">
 	<header class="topic-header">

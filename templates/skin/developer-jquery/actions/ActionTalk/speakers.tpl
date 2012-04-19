@@ -5,7 +5,7 @@
 	{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 		<form onsubmit="return ls.talk.addToTalk({$oTalk->getId()});">
 			<p><label for="talk_speaker_add">{$aLang.talk_speaker_add_label}:</label>
-			<input type="text" id="talk_speaker_add" name="add" class="input-text input-width-300 autocomplete-users" /></p>
+			<input type="text" id="talk_speaker_add" name="add" class="input-text input-width-300 autocomplete-users-sep" /></p>
 			<input type="hidden" id="talk_id" value="{$oTalk->getId()}" />
 		</form>
 	{/if}

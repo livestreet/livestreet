@@ -10,8 +10,9 @@
 	{/if}
 
 	{hook run='menu_settings_settings_item'}
-	{hook run='menu_settings'}
 </ul>
+
+{hook run='menu_settings'}
 		
 		
 		

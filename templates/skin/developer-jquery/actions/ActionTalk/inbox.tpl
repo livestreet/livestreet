@@ -68,9 +68,9 @@
 		</table>
 	</form>
 {else}
-	<div class="notice-empty">Тут ничего нет</div>
+	<div class="notice-empty">{$aLang.talk_inbox_empty}</div>
 {/if}
 
 			
-{include file='paging.tpl' aPaging="$aPaging"}
+{include file='paging.tpl' aPaging=$aPaging}
 {include file='footer.tpl'}

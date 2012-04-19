@@ -2,7 +2,6 @@
 	{literal}
 	<script language="JavaScript" type="text/javascript">
 		jQuery(document).ready( function() {
-			ls.autocomplete.add(jQuery('#userfeed_users_complete'), aRouter['ajax']+'autocompleter/user/?security_ls_key='+LIVESTREET_SECURITY_KEY);
 			jQuery('#userfeed_users_complete').keydown(function (event) {
 				if (event.which == 13) {
 					ls.userfeed.appendUser()
@@ -22,7 +21,7 @@
 			<small class="note">{$aLang.userfeed_settings_note_follow_user}</small>
 			
 			<div class="stream-settings-userlist">
-				<p><input type="text" id="userfeed_users_complete" autocomplete="off" class="input-text input-width-200" />
+				<p><input type="text" id="userfeed_users_complete" autocomplete="off" class="autocomplete-users input-text input-width-200" />
 				<a href="javascript:ls.userfeed.appendUser()" class="button">{$aLang.userfeed_block_users_append}</a></p>
 				
 				{if count($aUserfeedSubscribedUsers)}

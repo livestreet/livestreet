@@ -51,4 +51,4 @@
 </table>
 
 
-{include file='paging.tpl' aPaging="$aPaging"}
+{include file='paging.tpl' aPaging=$aPaging}

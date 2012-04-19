@@ -172,6 +172,8 @@ class ActionAdmin extends Action {
 				$oField->setPattern(getRequest('pattern'));
 				if (in_array(getRequest('type'),$this->User_GetUserFieldTypes())) {
 					$oField->setType(getRequest('type'));
+				} else {
+					$oField->setType('');
 				}
 
 				$iId = $this->User_addUserField($oField);

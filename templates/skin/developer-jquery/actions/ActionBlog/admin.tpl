@@ -38,7 +38,7 @@
 			</tbody>
 		</table>
 
-		<input type="submit" class="input-submit" name="submit_blog_admin" value="{$aLang.blog_admin_users_submit}" />
+		<button name="submit_blog_admin" class="button button-primary">{$aLang.blog_admin_users_submit}</button>
 	</form>
 
 	{include file='paging.tpl' aPaging=$aPaging}

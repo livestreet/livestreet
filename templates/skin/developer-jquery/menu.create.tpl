@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
 	jQuery(function($){
 		var menu = $('#create-dropdown-menu');
 	

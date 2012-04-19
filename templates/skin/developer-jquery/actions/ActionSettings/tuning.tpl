@@ -9,7 +9,7 @@
 {include file='menu.settings.tpl'}
 
 
-<small class="note note-header input-width-400">Получать уведомление на e-mail:</small>
+<small class="note note-header input-width-400">{$aLang.settings_tuning_notice}:</small>
 
 <form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">
 	{hook run='form_settings_tuning_begin'}

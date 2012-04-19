@@ -5,7 +5,7 @@
 	<form onsubmit="return ls.blog.addInvite({$oBlogEdit->getId()});">
 		<p>
 			<label for="blog_admin_user_add">{$aLang.blog_admin_user_add_label}:</label>
-			<input type="text" id="blog_admin_user_add" name="add" class="input-text input-width-full autocomplete-users" />
+			<input type="text" id="blog_admin_user_add" name="add" class="input-text input-width-full autocomplete-users-sep" />
 		</p>
 	</form>
 

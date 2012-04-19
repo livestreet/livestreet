@@ -23,11 +23,11 @@
 		
 		<ul class="comment-info">
 			<li class="comment-author">
-				{if $iAuthorId == $oUser->getId()}<span class="comment-topic-author" title="Автор топика">автор</span>{/if}
+				{if $iAuthorId == $oUser->getId()}<span class="comment-topic-author" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">{$aLang.comment_target_author}</span>{/if}
 				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="comment-date">
-				<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="Ссылка на комментарий">
+				<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comment_url_notice}">
 					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 				</a>
 			</li>

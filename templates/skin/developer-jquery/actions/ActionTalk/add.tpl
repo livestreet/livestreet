@@ -19,7 +19,7 @@
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p><label for="talk_users">{$aLang.talk_create_users}:</label>
-	<input type="text" class="input-text input-width-full autocomplete-users" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}" /></p>
+	<input type="text" class="input-text input-width-full autocomplete-users-sep" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}" /></p>
 
 	<p><label for="talk_title">{$aLang.talk_create_title}:</label>
 	<input type="text" class="input-text input-width-full" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}" /></p>

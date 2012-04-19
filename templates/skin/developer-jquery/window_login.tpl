@@ -6,7 +6,7 @@
 		</header>
 		
 		
-		<script>
+		<script type="text/javascript">
 			jQuery(function($){
 				$('#popup-login-form').bind('submit',function(){
 					ls.user.login('popup-login-form');

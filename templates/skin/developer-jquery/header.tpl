@@ -32,7 +32,7 @@
 	{/if}
 	
 	
-	<script>
+	<script type="text/javascript">
 		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
 		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
 		var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
@@ -55,7 +55,7 @@
 	{$aHtmlHeadFiles.js}
 
 	
-	<script>
+	<script type="text/javascript">
 		var tinyMCE = false;
 		ls.lang.load({json var = $aLangJs});
 	</script>

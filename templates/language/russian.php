@@ -178,10 +178,12 @@ return array(
 	 */
 	'topic_title' => 'Топики',
 	'topic_read_more' => 'Читать дальше',
+	'topic_author' => 'Автор топика',
 	'topic_date' => 'дата',
 	'topic_tags' => 'Теги',
 	'topic_tags_empty' => 'нет',
 	'topic_user' => 'авторский текст',
+	'topic_share' => 'Поделиться',
 	'topic_time_limit' => 'Вам нельзя создавать топики слишком часто',
 	'topic_comment_read' => 'читать комментарии',
 	'topic_comment_add' => 'Оставить комментарий',
@@ -252,6 +254,7 @@ return array(
 	'topic_create_notice' => 'Не забывайте: тег <cut> сокращает длинные записи, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика.',
 	'topic_create_error' => 'Возникли технические неполадки при добавлении топика. Пожалуйста, повторите позже.',
 	'topic_edit' => 'Редактировать',
+	'topic_preview' => 'Предпросмотр',
 	'topic_delete' => 'Удалить',
 	'topic_delete_confirm' => 'Вы действительно хотите удалить топик?',
 	/**
@@ -280,6 +283,7 @@ return array(
 	'topic_question_vote_ok' => 'Ваш голос учтен.',
 	'topic_question_vote_already' => 'Ваш голос уже учтен!',
 	'topic_question_vote_result' => 'Проголосовало',
+	'topic_question_vote_result_sort' => 'Включить\выключить сортировку',
 	'topic_question_abstain' => 'воздержаться',
 	'topic_question_abstain_result' => 'Воздержалось',
 	'topic_question_create' => 'Создание топика-опроса',
@@ -342,6 +346,9 @@ return array(
 	 * Комментарии
 	 */
 	'comment_title' => 'Комментарии',
+	'comment_target_author' => 'автор',
+	'comment_count_new' => 'Число новых комментариев',
+	'comment_url_notice' => 'Ссылка на комментарий',
 	'comment_collapse' => 'свернуть',
 	'comment_expand' => 'развернуть',
 	'comment_goto_parent' => 'Ответ на',
@@ -441,7 +448,10 @@ return array(
 	'user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
 	'user_not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден',
 	'user_search_title_hint' => 'Поиск по логину',
+	'user_search_filter_all' => 'Все',
 	'user_search_empty' => 'Поиск не дал результатов',
+	'user_status_online' => 'Онлайн',
+	'user_status_offline' => 'Оффлайн',
 	/**
 	 * Меню профиля пользователя
 	 */
@@ -495,7 +505,7 @@ return array(
 	 * Меню профиля пользователя
 	 */
 	'user_menu_profile' => 'Профиль',
-	'user_menu_profile_whois' => 'Whois',
+	'user_menu_profile_whois' => 'Информация',
 	'user_menu_profile_wall' => 'Стена',
 	'user_menu_profile_friends' => 'Друзья',
 	'user_menu_profile_stream' => 'Активность',
@@ -563,16 +573,27 @@ return array(
 	'user_note_add' => 'Написать заметку',
 	'user_note_save_error' => 'Ошибка сохранения заметки',
 	'user_note_target_error' => 'Неверный пользователь для заметки',
+	'user_note_list_empty' => 'Тут ничего нет',
 	/**
 	 * Стена
 	 */
 	'wall_add_pid_error' => 'На данное сообщение невозможно ответить',
 	'wall_add_error' => 'Ошибка добавления записи на стены',
 	'wall_add_time_limit' => 'Вам нельзя слишком часто писать на стене',
+	'wall_add_title' => 'Написать на стене',
+	'wall_add_submit' => 'Отправить',
+	'wall_load_more' => 'К предыдущим записям',
+	'wall_load_reply_more' => 'Показать все',
+	'wall_action_delete' => 'Удалить',
+	'wall_action_reply' => 'Ответить',
+	'wall_reply_placeholder' => 'Ответить...',
+	'wall_reply_submit' => 'Отправить',
 	/**
 	 * Настройки
 	 */
 	'settings_profile_edit' => 'Изменение профиля',
+	'settings_profile_section_base' => 'Основная информация',
+	'settings_profile_section_contacts' => 'Контакты',
 	'settings_profile_name' => 'Имя',
 	'settings_profile_name_notice' => 'Длина имени не может быть меньше 2 и больше 20 символов.',
 	'settings_profile_mail' => 'E-mail',
@@ -612,6 +633,7 @@ return array(
 	'settings_profile_submit' => 'сохранить профиль',
 	'settings_profile_submit_ok' => 'Профиль успешно сохранён',
 	'settings_invite' => 'Управление приглашениями',
+	'settings_invite_notice' => 'Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку',
 	'settings_invite_available' => 'Доступно',
 	'settings_invite_available_no' => 'У вас пока нет доступных инвайтов',
 	'settings_invite_used' => 'Использовано',
@@ -726,6 +748,7 @@ return array(
 	'talk_menu_inbox_favourites' => 'Избранное',
 	'talk_menu_inbox_blacklist' => 'Блокировать',
 	'talk_inbox' => 'Почтовый ящик',
+	'talk_inbox_empty' => 'Тут ничего нет',
 	'talk_inbox_target' => 'Адресаты',
 	'talk_inbox_title' => 'Тема',
 	'talk_inbox_date' => 'Дата',
@@ -782,6 +805,7 @@ return array(
 	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
 	'talk_blacklist_add_self' => 'Нельзя добавлять в black list себя',
 	'talk_speaker_title' => 'Участники разговора',
+	'talk_speaker_edit' => 'Редактировать список',
 	'talk_speaker_add_label' => 'Добавить пользователя',
 	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
 	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
@@ -975,6 +999,12 @@ return array(
 	 */
 	'subscribe_change_ok' => 'Изменение подписки прошло успешно',
 	/**
+	 * Toolbar
+	 */
+	'toolbar_scrollup_go' => 'Вверх',
+	'toolbar_topic_next' => 'Следующий топик',
+	'toolbar_topic_prev' => 'Предыдущий топик',
+	/**
 	 * География
 	 */
 	'geo_select_country' => 'Выберите страну',
@@ -997,6 +1027,15 @@ return array(
 	'infobox_blog_topic_last' => 'Последний топик',
 	'infobox_blog_url' => 'Читать блог',
 	'infobox_blog_rss' => 'Подписаться на RSS',
+	/**
+	 * Создание
+	 */
+	'block_create' => 'Создать',
+	'block_create_topic_topic' => 'Топик',
+	'block_create_topic_question' => 'Опрос',
+	'block_create_topic_link' => 'Ссылка',
+	'block_create_topic_photoset' => 'Фотосет',
+	'block_create_blog' => 'Блог',
 	/**
 	 * Системные сообщения
 	 */

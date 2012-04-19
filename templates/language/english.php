@@ -178,10 +178,12 @@ return array(
 	 */
 	'topic_title' => 'Topics',
 	'topic_read_more' => 'Read more',
+	'topic_author' => 'Author topic',
 	'topic_date' => 'Date',
 	'topic_tags' => 'Tags',
 	'topic_tags_empty' => 'empty',
 	'topic_user' => "Author's  text",
+	'topic_share' => 'Share',
 	'topic_time_limit' => "Can't create topics in such a frequent rate",
 	'topic_comment_read' => 'Read comments',
 	'topic_comment_add' => 'Add comment',
@@ -252,6 +254,7 @@ return array(
 	'topic_create_notice' => "Note: <cut> tag shortens long articles, hiding them totally or partially under the link («Read more»). Hidden part is not visible in the blog but will be available on the full Topic's page.",
 	'topic_create_error' => "During topic creation we've experienced some technical difficulties. Please try again later.",
 	'topic_edit' => 'Edit',
+	'topic_preview' => 'Preview',
 	'topic_delete' => 'Delete',
 	'topic_delete_confirm' => 'Do you really want to delete this topic?',
 	/**
@@ -280,6 +283,7 @@ return array(
 	'topic_question_vote_ok' => 'Your vote counted.',
 	'topic_question_vote_already' => 'Your vote is been counted already!',
 	'topic_question_vote_result' => 'Votes',
+	'topic_question_vote_result_sort' => 'On/off sort results',
 	'topic_question_abstain' => 'Abstain',
 	'topic_question_abstain_result' => 'Abstained',
 	'topic_question_create' => 'Create poll-topic',
@@ -342,6 +346,9 @@ return array(
 	 * Comments
 	 */
 	'comment_title' => 'Comments',
+	'comment_target_author' => 'author',
+	'comment_count_new' => 'Count new comments',
+	'comment_url_notice' => 'Link to comment',
 	'comment_collapse' => 'Collapse comments',
 	'comment_expand' => 'Expand comments',
 	'comment_goto_parent' => 'Reply to',
@@ -441,7 +448,10 @@ return array(
 	'user_not_found' => 'User <b>%%login%%</b> wasn\'t not found',
 	'user_not_found_by_id' => 'User <b>#%%id%%</b> wasn\'t not found',
 	'user_search_title_hint' => 'Search by login',
+	'user_search_filter_all' => 'All',
 	'user_search_empty' => 'Search no match',
+	'user_status_online' => 'Online',
+	'user_status_offline' => 'Offline',
 	/**
 	 * User's profile menu
 	 */
@@ -563,16 +573,27 @@ return array(
 	'user_note_add' => 'Add note',
 	'user_note_save_error' => 'Error on save',
 	'user_note_target_error' => 'Bad user for note',
+	'user_note_list_empty' => 'Empty list',
 	/**
 	 * Wall
 	 */
 	'wall_add_pid_error' => 'At this message can not be reply',
 	'wall_add_error' => 'Error adding a post to the wall',
 	'wall_add_time_limit' => 'You can\'t send post on wall a frequent rate',
+	'wall_add_title' => 'Write',
+	'wall_add_submit' => 'Submit',
+	'wall_load_more' => 'Load more',
+	'wall_load_reply_more' => 'Show all',
+	'wall_action_delete' => 'Delete',
+	'wall_action_reply' => 'Reply',
+	'wall_reply_placeholder' => 'Reply...',
+	'wall_reply_submit' => 'Submit',
 	/**
 	 * Configs.
 	 */
 	'settings_profile_edit' => 'Edit profile',
+	'settings_profile_section_base' => 'Base info',
+	'settings_profile_section_contacts' => 'Contacts',
 	'settings_profile_name' => 'Name',
 	'settings_profile_name_notice' => 'Name should consist of 2 upto 20 chars.',
 	'settings_profile_mail' => 'E-mail',
@@ -612,6 +633,7 @@ return array(
 	'settings_profile_submit' => 'save profile',
 	'settings_profile_submit_ok' => 'Profile successfully saved',
 	'settings_invite' => 'Invitations management',
+	'settings_invite_notice' => 'You can invite to the site of his friends to do this, simply enter their e-mail and click',
 	'settings_invite_available' => 'Available',
 	'settings_invite_available_no' => 'No invitation available yet',
 	'settings_invite_used' => 'Used',
@@ -726,6 +748,7 @@ return array(
 	'talk_menu_inbox_favourites' => 'Favourites',
 	'talk_menu_inbox_blacklist' => 'Blacklist',
 	'talk_inbox' => 'Mailbox',
+	'talk_inbox_empty' => 'Empty list',
 	'talk_inbox_target' => 'Recipients',
 	'talk_inbox_title' => 'Subject',
 	'talk_inbox_date' => 'Date',
@@ -782,6 +805,7 @@ return array(
 	'talk_blacklist_user_not_found' => 'User <b>%%login%%</b> is not in your black list',
 	'talk_blacklist_add_self' => 'You can\'t add yourself to the blacklist',
 	'talk_speaker_title' => 'Message members',
+	'talk_speaker_edit' => 'Edit members',
 	'talk_speaker_add_label' => 'Add member',
 	'talk_speaker_delete_ok' => 'Member <b>%%login%%</b> deleted successfully',
 	'talk_speaker_user_not_found' => 'User <b>%%login%%</b> is not a member of this message',
@@ -975,6 +999,12 @@ return array(
 	 */
 	'subscribe_change_ok' => 'Change the subscription was successful',
 	/**
+	 * Toolbar
+	 */
+	'toolbar_scrollup_go' => 'Up',
+	'toolbar_topic_next' => 'Next topic',
+	'toolbar_topic_prev' => 'Previous topic',
+	/**
 	 * География
 	 */
 	'geo_select_country' => 'Select country',
@@ -997,6 +1027,15 @@ return array(
 	'infobox_blog_topic_last' => 'Last topic',
 	'infobox_blog_url' => 'Read blog',
 	'infobox_blog_rss' => 'Subscribe RSS',
+	/**
+	 * Create
+	 */
+	'block_create' => 'Create',
+	'block_create_topic_topic' => 'Post',
+	'block_create_topic_question' => 'Poll',
+	'block_create_topic_link' => 'Link',
+	'block_create_topic_photoset' => 'Photoset',
+	'block_create_blog' => 'Blog',
 	/**
 	 * System
 	 */

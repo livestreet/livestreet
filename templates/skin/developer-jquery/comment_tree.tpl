@@ -53,7 +53,7 @@
 	{if $oUserCurrent}	
 		{if $oConfig->GetValue('view.tinymce')}
 			<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
-			<script>
+			<script type="text/javascript">
 				jQuery(function($){
 					tinyMCE.init(ls.settings.getTinymceComment());
 				});

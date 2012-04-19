@@ -2,7 +2,7 @@
 {include file='header.tpl' menu='settings'}
 
 
-<small class="note note-header input-width-400">Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку "Отправить приглашение"</small>
+<small class="note note-header input-width-400">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</small>
 
 <form action="" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
@@ -16,7 +16,7 @@
 	<input type="text" name="invite_mail" id="invite_mail" class="input-text input-width-200" /><br />
 	<small class="note">{$aLang.settings_invite_mail_notice}</small></p>
 
-	<input type="submit" value="{$aLang.settings_invite_submit}" name="submit_invite" class="button" />
+	<button name="submit_invite" class="button button-primary" />{$aLang.settings_invite_submit}</button>
 </form>
 
 

@@ -7,7 +7,7 @@
 			<li class="comment-author"><a href="{$oReplyUser->getUserWebPath()}">{$oReplyUser->getLogin()}</a></li>
 			<li class="comment-date"><time datetime="{date_format date=$oReplyWall->getDateAdd() format='c'}">{date_format date=$oReplyWall->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time></li>
 			{if $oReplyWall->isAllowDelete()}
-				<li><a href="#" onclick="return ls.wall.remove({$oReplyWall->getId()});" class="link-dotted">Удалить</a></li>
+				<li><a href="#" onclick="return ls.wall.remove({$oReplyWall->getId()});" class="link-dotted">{$aLang.wall_action_delete}</a></li>
 			{/if}
 		</ul>
 		

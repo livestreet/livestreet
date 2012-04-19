@@ -8,3 +8,4 @@
 
 	{hook run='menu_stream_item'}
 </ul>
+{hook run='menu_stream'}

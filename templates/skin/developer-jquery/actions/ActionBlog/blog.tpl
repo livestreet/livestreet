@@ -3,7 +3,7 @@
 {assign var="oVote" value=$oBlog->getVote()}
 
 
-<script>
+<script type="text/javascript">
 	jQuery(function($){
 		ls.lang.load({lang_load name="blog_fold_info,blog_expand_info"});
 	});

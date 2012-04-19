@@ -35,7 +35,7 @@
 	
 	
 	<fieldset>
-		<legend>Основная информация</legend>
+		<legend>{$aLang.settings_profile_section_base}</legend>
 		
 		<dl class="form-item">
 			<dt><label for="profile_name">{$aLang.settings_profile_name}:</label></dt>
@@ -123,22 +123,23 @@
 			<dt><label for="profile_about">{$aLang.settings_profile_about}:</label></dt>
 			<dd><textarea name="profile_about" id="profile_about" class="input-text input-width-300" rows="5">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea></dd>
 		</dl>
-	</fieldset>
-	
-	
-	
-	<fieldset>
-		<legend>Контакты</legend>
 
 		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
 		{if count($aUserFieldValues)}
 			{foreach from=$aUserFieldValues item=oField}
 				<dl class="form-item">
 					<dt><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label></dt>
-					<dd><input type="text" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-300"></dd>
+					<dd><input type="text" class="input-text input-width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
 				</dl>
 			{/foreach}
 		{/if}
+
+	</fieldset>
+	
+	
+	
+	<fieldset>
+		<legend>{$aLang.settings_profile_section_contacts}</legend>
 
 		{assign var="aUserFieldContactValues" value=$oUserCurrent->getUserFieldValues(true,array('contact','social'))}
 		<div id="user-field-contact-contener">
