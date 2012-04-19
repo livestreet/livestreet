@@ -11,7 +11,7 @@
 .topic .topic-header .topic-info time 			{ margin-right: 15px; }
 .topic .topic-header .topic-info .topic-blog 	{ margin-right: 15px; }
 .topic .topic-header .topic-info .actions,
-.topic .topic-header .topic-info .actions li	{ display: inline; float: none; }
+.topic .topic-header .topic-info .actions li	{ display: inline; float: none; margin-bottom: 0; }
 .topic .topic-header .topic-info .actions li	{ margin-right: 10px; }
 
 /* Content */

@@ -33,4 +33,4 @@
 
 #notifier .n-box.n-notice { background: #FFF1A8; color: #333; }
 #notifier .n-box.n-notice h3 { color: #333; }
-#notifier .n-box.n-error { background: #000; color: #fff; opacity: 0.8; }
+#notifier .n-box.n-error { background: #000; color: #fff; opacity: 0.8; filter: alpha(opacity=80); }

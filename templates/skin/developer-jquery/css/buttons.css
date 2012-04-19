@@ -28,6 +28,8 @@
 	background: #555;
 
 	cursor: pointer;
+	
+	*margin-right: 5px;
 }
 .button:hover { text-decoration: none; color: #fff; background: #4a4a4a; }
 .button:active { 
@@ -35,6 +37,7 @@
 	-webkit-box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset; 
 	box-shadow: 		0 0 7px rgba(0, 0, 0, .5) inset; 
 }
+.button.fl-r { *margin-right: 0; }
 
 
 /* Button Primary */

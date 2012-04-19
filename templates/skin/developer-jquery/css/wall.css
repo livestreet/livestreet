@@ -2,13 +2,13 @@
 	Стена
 -------------------------------------------- */
 
-.wall-submit 					{ margin-bottom: 30px; }
-.wall-submit.wall-submit-reply 	{ margin: 2px 0 2px 25px; padding: 7px; background: #fafafa; }
-.wall-submit.wall-submit-reply textarea 		{ height: 28px; margin: 0; }
+.wall-submit 									{ margin-bottom: 30px; }
+.wall-submit.wall-submit-reply 					{ margin: 2px 0 2px 25px; padding: 7px; background: #fafafa; }
+.wall-submit.wall-submit-reply textarea 		{ height: 28px; *height: 16px; *width: 590px; margin: 0; }
 .wall-submit.wall-submit-reply button 			{ display: none; }
 .wall-submit.wall-submit-reply.active textarea 	{ height: 80px; margin-bottom: 5px; }
 .wall-submit.wall-submit-reply.active button 	{ display: block; }
-.wall-submit p 					{ margin-bottom: 5px; }
+.wall-submit p 									{ margin-bottom: 5px; }
 
 .comments.wall,
 .wall .comment 					{ margin-bottom: 2px; }

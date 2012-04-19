@@ -475,6 +475,7 @@ $config['head']['rules']['page'] =array(
 );
 
 $config['head']['default']['js']  = array(
+	"___path.root.engine_lib___/external/html5shiv.js" => array('browser'=>'lt IE 9'),
 	"___path.root.engine_lib___/external/jquery/jquery.js",
 	"___path.root.engine_lib___/external/jquery/jquery-ui.js",
 	"___path.root.engine_lib___/external/jquery/jquery.notifier.js",
@@ -489,6 +490,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.file.js",
 	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.js",
 	"___path.root.engine_lib___/external/jquery/poshytip/jquery.poshytip.js",
+	"___path.root.engine_lib___/external/jquery/jquery.placeholder.min.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
 	"___path.root.engine_lib___/internal/template/js/main.js",
 	"___path.root.engine_lib___/internal/template/js/favourite.js",

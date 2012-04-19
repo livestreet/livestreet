@@ -110,6 +110,21 @@ jQuery(document).ready(function($){
 	// подсветка кода
 	prettyPrint();
 	
+	// эмуляция border-sizing в IE
+	var inputs = $('input, textarea')
+	
+	if ($('html').hasClass('ie7')) {
+		if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
+		
+		inputs.each(function(i){
+			var obj = $(this);
+			if (obj.css('box-sizing') == 'border-box') obj.width(2 * obj.width() - obj.outerWidth());
+		});
+	}
+	
+	// эмуляция placeholder'ов в IE
+	inputs.placeholder();
+	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });

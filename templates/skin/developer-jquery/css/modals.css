@@ -27,8 +27,9 @@
 	height: 14px;
 	background: url(../images/icons.png) -312px 0 no-repeat;
 	opacity: .3;
+	filter: alpha(opacity=30);
 }
-.modal .close:hover { opacity: 1; }
+.modal .close:hover { opacity: 1; filter: alpha(opacity=100); }
 .modal .modal-header 		{ background: #fafafa; border-bottom: 1px solid #f7f7f7; padding: 5px 20px; }
 .modal .modal-header h3 	{ font-size: 20px; font-weight: bold; margin-right: 20px; }
 .modal .modal-content 		{ padding: 20px; }
@@ -46,12 +47,11 @@
 
 /* Добавление топика */
 .modal.modal-write { width: 740px; margin-left: -370px; top: 50px; }
-.modal.modal-write .modal-content { padding: 20px 10px 0; }
-.modal.modal-write .write-list {  }
-.modal.modal-write .write-list li { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; display: inline-table; }
+.modal.modal-write .modal-content { padding: 20px 10px 0; *padding: 20px 10px 15px; }
+.modal.modal-write .write-list { *overflow: hidden; *zoom: 1; }
+.modal.modal-write .write-list li { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; display: inline-table; *float: left; }
 .modal.modal-write .write-list li a { color: #39576B; }
 .modal.modal-write .write-list li .write-item-image { display: block; width: 100px; height: 100px; border-radius: 3px; text-align: center; background: url(../images/write.png) no-repeat; margin-bottom: 10px; }
-.modal.modal-write .write-list li .write-item-image:hover { display: block; width: 100px; height: 100px; border-radius: 3px; text-align: center; background: url(../images/write.png) no-repeat; margin-bottom: 10px; }
 
 .modal.modal-write .write-list li.write-item-type-topic .write-item-image 		{ background-position: 0 0; }
 .modal.modal-write .write-list li.write-item-type-poll .write-item-image 		{ background-position: -100px 0; }

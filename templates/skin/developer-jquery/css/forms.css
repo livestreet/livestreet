@@ -1,4 +1,12 @@
-.input-text 		{ width: 150px; padding: 5px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,.07) inset; border-radius: 3px; -moz-box-sizing: border-box; box-sizing: border-box; }
+.input-text { 
+	width: 150px; 
+	padding: 5px; 
+	border: 1px solid #ddd; 
+	box-shadow: 0 2px 4px rgba(0,0,0,.07) inset; 
+	border-radius: 3px; 
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+}
 .input-text:focus 	{ border-color: #4D90FE; box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4D90FE; }
 .input-checkbox 	{ position: relative; top: 1px; margin: 0 2px 0 1px; }
 
@@ -22,7 +30,7 @@ select 		{ padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
 fieldset { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
 fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
 
-input:-moz-placeholder { color: #aaa;}
+input:-moz-placeholder { color: #aaa; }
 
 form p { margin-bottom: 20px; }
 form label { display: block; margin-bottom: 3px; }
@@ -42,3 +50,5 @@ dl.form-item dd { float: left; width: 300px; }
 
 .form-profile { position: relative; }
 .form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
+
+.placeholder { color: #aaa; }

@@ -40,8 +40,8 @@
 .comment.comment-self				{ background: #c5f7ea; }
 .comment.comment-new 				{ background: #fbfba8; }
 .comment.comment-current 			{ background: #a5e7fa; }
-.comment.comment-bad 				{ opacity: 0.3; }
-.comment.comment-bad:hover 			{ opacity: 1; }
+.comment.comment-bad 				{ opacity: 0.3; filter: alpha(opacity=30); }
+.comment.comment-bad:hover 			{ opacity: 1; filter: alpha(opacity=100); }
 
 .ls-user-role-not-admin .comment.comment-deleted 	{ padding: 10px 15px; min-height: 0; background: #f7f7f7; color: #888; }
 
