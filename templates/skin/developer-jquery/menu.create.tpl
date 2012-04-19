@@ -24,7 +24,7 @@
 	{strip}
 		<h2 class="page-header">Создать <a href="#" class="create-dropdown-link link-dashed" id="create-dropdown-link">
 			{if $sMenuItemSelect=='topic'}
-				{$aLang.topic_menu_add_topic}
+				{$aLang.topic_menu_add}
 			{elseif $sMenuItemSelect=='blog'}
 				{$aLang.blog_menu_create}
 			{else}
@@ -33,7 +33,7 @@
 		</a></h2>
 	{/strip}
 	<ul class="create-dropdown-menu" id="create-dropdown-menu" style="display: none">
-		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add_topic}</a></li>
+		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
 		<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
 		{hook run='menu_create_item' sMenuItemSelect=$sMenuItemSelect}
 	</ul>

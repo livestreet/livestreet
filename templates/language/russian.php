@@ -209,8 +209,8 @@ return array(
 	/**
 	 * Меню топиков
 	 */
-	'topic_menu_add' => 'Новые',
-	'topic_menu_add_topic' => 'Топик',
+	'topic_menu_add' => 'Топик',
+	'topic_menu_add_topic' => 'Текстовый',
 	'topic_menu_add_question' => 'Опрос',
 	'topic_menu_add_link' => 'Ссылка',
 	'topic_menu_add_photoset' => 'Фотосет',
