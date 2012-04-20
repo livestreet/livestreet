@@ -24,7 +24,7 @@ ls.user = (function ($) {
 		
 		var params = {idUser: idUser, userText: sText};
 		
-		'*addFriendBefore*'; '*/addFriendBefore*';
+		ls.hook.marker('addFriendBefore'); ls.hook.marker('/addFriendBefore');
 		ls.ajax(url, params, function(result){
 			$('#add_friend_form').children().each(function(i, item){$(item).removeAttr('disabled')});
 			if (!result) {
@@ -50,7 +50,7 @@ ls.user = (function ($) {
 		var url = aRouter.profile+'ajaxfrienddelete/';
 		var params = {idUser: idUser,sAction: sAction};
 		
-		'*removeFriendBefore*'; '*/removeFriendBefore*';
+		ls.hook.marker('removeFriendBefore'); ls.hook.marker('/removeFriendBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);

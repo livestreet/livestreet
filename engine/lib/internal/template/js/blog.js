@@ -12,7 +12,7 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxblogjoin/';
 		var params = {idBlog: idBlog};
 		
-		'*toggleJoinBefore*'; '*/toggleJoinBefore*';
+		ls.hook.marker('toggleJoinBefore'); ls.hook.marker('/toggleJoinBefore');
 		ls.ajax(url,params,function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -54,7 +54,7 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxaddbloginvite/';
 		var params = {users: sUsers, idBlog: idBlog};
 		
-		'*addInviteBefore*'; '*/addInviteBefore*';
+		ls.hook.marker('addInviteBefore'); ls.hook.marker('/addInviteBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -80,7 +80,7 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxrebloginvite/';
 		var params = {idUser: idUser, idBlog: idBlog};
 		
-		'*repeatInviteBefore*'; '*/repeatInviteBefore*';
+		ls.hook.marker('repeatInviteBefore'); ls.hook.marker('/repeatInviteBefore');
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -100,7 +100,7 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxbloginfo/';
 		var params = {idBlog: idBlog};
 		
-		'*repeatInviteBefore*'; '*/repeatInviteBefore*';
+		ls.hook.marker('repeatInviteBefore'); ls.hook.marker('/repeatInviteBefore');
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);

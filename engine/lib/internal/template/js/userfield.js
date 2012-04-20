@@ -38,7 +38,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'add', 'name':name,  'title':title,  'pattern':pattern};
 		
-		'*addUserfieldBefore*'; '*/addUserfieldBefore*';
+		ls.hook.marker('addUserfieldBefore'); ls.hook.marker('/addUserfieldBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				liElement = $('<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_pattern"></span>'
@@ -66,7 +66,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern};
 		
-		'*updateUserfieldBefore*'; '*/updateUserfieldBefore*';
+		ls.hook.marker('updateUserfieldBefore'); ls.hook.marker('/updateUserfieldBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id+' .userfield_admin_name').text(name);
@@ -86,7 +86,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'delete', 'id':id};
 		
-		'*updateUserfieldBefore*'; '*/updateUserfieldBefore*';
+		ls.hook.marker('updateUserfieldBefore'); ls.hook.marker('/updateUserfieldBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id).remove();

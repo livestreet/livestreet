@@ -11,14 +11,14 @@ ls.poll = (function ($) {
 	this.vote = function(idTopic, idAnswer) {
 		var url = aRouter['ajax']+'vote/question/';
 		var params = {idTopic: idTopic, idAnswer: idAnswer};
-		'*voteBefore*'; '*/voteBefore*';
+		ls.hook.marker('voteBefore'); ls.hook.marker('/voteBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				ls.msg.notice(null, result.sMsg);
 				var area = $('#topic_question_area_'+idTopic);
-				'*voteDisplayBefore*'; '*/voteDisplayBefore*';
+				ls.hook.marker('voteDisplayBefore'); ls.hook.marker('/voteDisplayBefore');
 				area.html(result.sText);
 				ls.hook.run('ls_pool_vote_after',[idTopic, idAnswer,result],area);
 			}

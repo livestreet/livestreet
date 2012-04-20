@@ -108,13 +108,13 @@ ls.comments = (function ($) {
 		if (!bNotFlushNew) { 
 			$('.comment').each(function(index, item){ 
 				$(item).removeClass(this.options.classes.comment_new+' '+this.options.classes.comment_current);
-				'*unflashOld*'; '*/unflashOld*';
+				ls.hook.marker('unflashOld'); ls.hook.marker('/unflashOld');
 			}.bind(this)); 
 		}
 
 		objImg = $('#update-comments');
 		objImg.addClass('active');
-		'*loadStart*'; '*/loadStart*';
+		ls.hook.marker('loadStart'); ls.hook.marker('/loadStart');
 
 		var params = { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget };
 		if (selfIdComment) { 
@@ -126,7 +126,7 @@ ls.comments = (function ($) {
 
 		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
 			objImg.removeClass('active');
-			'*loadEnd*'; '*/loadEnd*';
+			ls.hook.marker('loadEnd'); ls.hook.marker('/loadEnd');
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
 			if (result.bStateError) {
@@ -187,7 +187,7 @@ ls.comments = (function ($) {
 		var url = aRouter['ajax']+'comment/delete/';
 		var params = { idComment: commentId };
 		
-		'*toggleBefore*'; '*/toggleBefore*';
+		ls.hook.marker('toggleBefore'); ls.hook.marker('/toggleBefore');
 		ls.ajax(url, params, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -198,7 +198,7 @@ ls.comments = (function ($) {
 				ls.msg.notice(null,result.sMsg);
 				
 				var selectorComment = '#comment_id_'+commentId;
-				'*selectorComment*'; '*/selectorComment*';
+				ls.hook.marker('selectorComment'); ls.hook.marker('/selectorComment');
 				
 				$(selectorComment).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
 				if (result.bState) {
@@ -262,7 +262,7 @@ ls.comments = (function ($) {
 			selectorCommentNext = '#comment_id_'+idComment,
 			selectorCommentCurrent = this.iCurrentViewComment ? '#comment_id_'+this.iCurrentViewComment : null
 		;
-		'*selectors*'; '*/selectors*';
+		ls.hook.marker('selectors'); ls.hook.marker('/selectors');
 		$.scrollTo(selectorCommentNext, 1000, {offset: -250});
 						
 		if (selectorCommentCurrent) {

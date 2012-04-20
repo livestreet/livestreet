@@ -56,7 +56,8 @@ ls.hook = (function ($) {
 		var replaceFrom = /\{/m;
 		var replaceTo = '{ ';
 		if($.type(marker) == 'string'){
-			replaceFrom = new RegExp('(\'\\*'+marker+'\\*\'[\r\n\t ]*;?)', 'm');
+			//replaceFrom = new RegExp('(\'\\*'+marker+'\\*\'[\r\n\t ]*;?)', 'm');
+			replaceFrom = new RegExp('(ls\\.hook\\.marker\\(([\'"])'+marker+'(\\2)\\)[\\r\\n\\t ]*;?)','m');
 			replaceTo = '$1';
 		}
 		if($.type(funcInj)=='function'){
@@ -103,6 +104,10 @@ ls.hook = (function ($) {
 				}
 			});
 		}
+	};
+	
+	this.marker = function(name){
+		// noop
 	};
 	
 	return this;

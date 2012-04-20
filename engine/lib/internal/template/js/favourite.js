@@ -37,7 +37,7 @@ ls.favourite = (function ($) {
 		params['type'] = !this.objFavourite.hasClass(this.options.active);
 		params[this.options.type[type].targetName] = idTarget;
 		
-		'*toggleBefore*'; '*/toggleBefore*';
+		ls.hook.marker('toggleBefore'); ls.hook.marker('/toggleBefore');
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {

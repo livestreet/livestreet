@@ -47,7 +47,7 @@ ls.vote = (function ($) {
 		params['value'] = value;
 		params[this.options.type[type].targetName] = idTarget;
 		
-		'*voteBefore*'; '*/voteBefore*';
+		ls.hook.marker('voteBefore'); ls.hook.marker('/voteBefore');
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			var args = [idTarget, objVote, value, type, result];
 			this.onVote.apply(this,args);
