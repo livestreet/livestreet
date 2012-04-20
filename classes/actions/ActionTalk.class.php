@@ -26,6 +26,8 @@ class ActionTalk extends Action {
 	 * @var unknown_type
 	 */
 	protected $oUserCurrent=null;
+
+	protected $sMenuSubItemSelect='';
 	/**
 	 * Массив ID юзеров адресатов
 	 *
@@ -126,6 +128,7 @@ class ActionTalk extends Action {
 				$this->Talk_MarkReadTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());
 			}
 		}
+		$this->sMenuSubItemSelect='inbox';
 		/**
 		 * Количество сообщений на страницу
 		 */
@@ -138,6 +141,7 @@ class ActionTalk extends Action {
 		 * Если только новые, то добавляем условие в фильтр
 		 */
 		if ($this->GetParam(0)=='new') {
+			$this->sMenuSubItemSelect='new';
 			$aFilter['only_new']=true;
 			$iPerPage=50; // новых отображаем только последние 50 писем, без постраничности
 		}
@@ -268,11 +272,13 @@ class ActionTalk extends Action {
 	}
 
 	protected function EventBlacklist() {
+		$this->sMenuSubItemSelect='blacklist';
 		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
 		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
 	}
 
-	protected function EventFavourites() {				
+	protected function EventFavourites() {
+		$this->sMenuSubItemSelect='favourites';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -300,7 +306,8 @@ class ActionTalk extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_favourite_inbox'));
 	}		
 	
-	protected function EventAdd() {		
+	protected function EventAdd() {
+		$this->sMenuSubItemSelect='add';
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
 		
 		/**
@@ -340,6 +347,7 @@ class ActionTalk extends Action {
 	
 	
 	protected function EventRead() {
+		$this->sMenuSubItemSelect='read';
 		/**
 		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
 		 */
@@ -1073,6 +1081,7 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
 
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		/**
 		 * Передаем во вьевер константы состояний участников разговора
 		 */
