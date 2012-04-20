@@ -705,7 +705,9 @@ class ActionTalk extends Action {
 							'sMsgTitle'=>$this->Lang_Get('attention'),
 							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>htmlspecialchars($sUser))),
 							'sUserId'=>$oUser->getId(),
-							'sUserLogin'=>htmlspecialchars($sUser)
+							'sUserLogin'=>htmlspecialchars($sUser),
+							'sUserWebPath'=>$oUser->getUserWebPath(),
+							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 						);
 					} else {
 						$aResult[]=array(
@@ -960,7 +962,9 @@ class ActionTalk extends Action {
 										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 										'sUserId'=>$oUser->getId(),
 										'sUserLogin'=>$oUser->getLogin(),
-										'sUserLink'=>$oUser->getUserWebPath()
+										'sUserLink'=>$oUser->getUserWebPath(),
+										'sUserWebPath'=>$oUser->getUserWebPath(),
+										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 									);
 									$bState=true;
 								} else {
@@ -1016,7 +1020,9 @@ class ActionTalk extends Action {
 								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 								'sUserId'=>$oUser->getId(),
 								'sUserLogin'=>$oUser->getLogin(),
-								'sUserLink'=>$oUser->getUserWebPath()	
+								'sUserLink'=>$oUser->getUserWebPath(),
+								'sUserWebPath'=>$oUser->getUserWebPath(),
+								'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 							);
 							$bState=true;
 					} else {

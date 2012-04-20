@@ -293,7 +293,8 @@ class ActionStream extends Action {
 		$this->Stream_subscribeUser($this->oUserCurrent->getId(),  $oUser->getId());
 		$this->Viewer_AssignAjax('uid', $oUser->getId());
 		$this->Viewer_AssignAjax('user_login', $oUser->getLogin());
-		$this->Viewer_AssignAjax('user_web_path', $oUser->getuserWebPath());
+		$this->Viewer_AssignAjax('user_web_path', $oUser->getUserWebPath());
+		$this->Viewer_AssignAjax('user_avatar_48', $oUser->getProfileAvatarPath(48));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 

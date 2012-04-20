@@ -1268,7 +1268,8 @@ class ActionBlog extends Action {
 						'sMsgTitle'=>$this->Lang_Get('attention'),
 						'sMsg'=>$this->Lang_Get('blog_user_invite_add_ok',array('login'=>htmlspecialchars($sUser))),
 						'sUserLogin'=>htmlspecialchars($sUser),
-						'sUserWebPath'=>$oUser->getUserWebPath()
+						'sUserWebPath'=>$oUser->getUserWebPath(),
+						'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 					);
 					$this->SendBlogInvite($oBlog,$oUser);
 				} else {
