@@ -2,7 +2,7 @@
 {include file='header.tpl'}
 
 
-<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_plugins}</h2>
+<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_plugins}</h2>
 
 
 <form action="{router page='admin'}plugins/" method="post" id="form_plugins_list">

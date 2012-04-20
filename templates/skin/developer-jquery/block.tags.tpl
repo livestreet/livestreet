@@ -26,7 +26,7 @@
 					{/foreach}
 				</ul>
 			{else}
-				<div class="notice-empty">{$aLang.block_empty_no_tags}</div>
+				<div class="notice-empty">{$aLang.block_tags_empty}</div>
 			{/if}
 		</div>
 
@@ -39,7 +39,7 @@
 						{/foreach}
 					</ul>
 					{else}
-					<div class="notice-empty">{$aLang.block_empty_no_tags}</div>
+					<div class="notice-empty">{$aLang.block_tags_empty}</div>
 				{/if}
 			</div>
 		{/if}

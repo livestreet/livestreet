@@ -152,6 +152,7 @@ return array(
 	'blog_admin_users_submit_notice' => "After pushing \"Save\" button, user's permissions will be saved",
 	'blog_admin_users_submit_ok' => 'Permissions saved',
 	'blog_admin_users_submit_error' => "Hmm... Something's wrong",
+	'blog_admin_delete_title' => 'Delete blog',
 	'blog_admin_delete_confirm' => 'Are you sure you want to create blog?',
 	'blog_admin_delete_move' => 'Move topics to the blog',
 	'blog_delete_clear' => 'Delete topics',
@@ -159,8 +160,10 @@ return array(
 	'blog_admin_delete_not_empty' => "You can't delete blog containing records. Please delete all records first.",
 	'blog_admin_delete_move_error' => 'Unable to move topics from the blog which is being deleted',
 	'blog_admin_delete_move_personal' => "Can't move topics to personal blog",
-	'blog_admin_user_add_label' => 'Invite users:',
-	'blog_admin_user_invited' => 'List of invitees:',
+	'blog_admin_user_add_label' => 'Add users',
+	'blog_admin_user_invited' => 'List of invitees',
+	'blog_admin_user_add_header' => 'Invite users',
+	'blog_admin_user_add_empty' => 'No invited users',
 	'blog_close_show' => "It's a 'close blog', you don't have enought rights to see it's content",
 	'blog_user_invite_add_self' => "Can't send invitation to yourself",
 	'blog_user_invite_add_ok' => 'Invitation sent to user %%login%%',
@@ -364,6 +367,7 @@ return array(
 	'comment_preview' => 'Preview',
 	'comment_unregistered' => 'Only registered users can comment.',
 	'comment_subscribe' => 'subscribe to new comments',
+	'comment_declension' => 'comment;comments;comments',
 	/**
 	 * Comment votes
 	 */
@@ -522,6 +526,8 @@ return array(
 	 * Profile
 	 */
 	'profile_privat' => 'Private',
+	'profile_contacts' => 'Contacts',
+	'profile_social' => 'Social',
 	'profile_sex' => 'Gender',
 	'profile_sex_man' => 'Male',
 	'profile_sex_woman' => 'Female',
@@ -548,6 +554,7 @@ return array(
 	 * UserFields
 	 */
 	'user_field_admin_title' => 'Contact fields users',
+	'user_field_admin_title_add' => 'Add field',
 	'user_field_add' => 'Add',
 	'user_field_cancel' => 'Cancel',
 	'user_field_added' => 'The field is added successfully',
@@ -662,7 +669,7 @@ return array(
 	 */
 	'settings_menu' => 'Settings',
 	'settings_menu_profile' => 'Profile',
-	'settings_menu_tuning' => 'Configs',
+	'settings_menu_tuning' => 'Settings site',
 	'settings_menu_invite' => 'Invites',
 	'settings_menu_account' => 'Account',
 	/**
@@ -705,10 +712,12 @@ return array(
 	/**
 	 * Blocks
 	 */
+	'block_tags' => 'Tags',
+	'block_tags_empty' => 'Tags empty',
 	'block_city_tags' => 'Cities',
 	'block_country_tags' => 'Countries',
 	'block_blog_info' => 'Blog description',
-	'block_blog_info_note' => 'Note',
+	'block_blog_info_note' => 'Tip',
 	'block_blog_info_note_text' => '<strong>Tag &lt;cut&gt; shortens long articles</strong>, hiding them totally or partially under the link («read more»). Hidden part is not visible in the blog but will be available on the full Topic\'s page.',
 	'block_blogs' => 'Blogs',
 	'block_blogs_top' => 'Top',
@@ -871,6 +880,10 @@ return array(
 	'stream_settings_note_filter' => 'Select the actions that will be tracked',
 	'stream_settings_note_follow_user' => 'Add people to the activity that you would like to watch',
 	'stream_settings_note_follow_friend' => 'Choose your friends for the activity that you would like to watch',
+	/**
+	 * Admin
+	 */
+	'admin_header' => 'Admin panel',
 	'admin_list_plugins' => 'Manage plugins',
 	'admin_list_userfields' => 'Configuring custom fields',
 	'admin_list_restorecomment' => 'Rebuilding a tree comments',

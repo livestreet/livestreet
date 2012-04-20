@@ -152,6 +152,7 @@ return array(
 	'blog_admin_users_submit_notice' => 'После нажатия на кнопку «Сохранить» права пользователей будут сохранены',
 	'blog_admin_users_submit_ok' => 'Права сохранены',
 	'blog_admin_users_submit_error' => 'Что-то не так',
+	'blog_admin_delete_title' => 'Удаление блога',
 	'blog_admin_delete_confirm' => 'Вы уверены, что хотите удалить блог?',
 	'blog_admin_delete_move' => 'Переместить топики в блог',
 	'blog_delete_clear' => 'Удалить топики',
@@ -159,8 +160,10 @@ return array(
 	'blog_admin_delete_not_empty' => 'Вы не можете удалить блок с записями. Предварительно удалите из блога все записи.',
 	'blog_admin_delete_move_error' => 'Не удалось переместить топики из удаляемого блога',
 	'blog_admin_delete_move_personal' => 'Нельзя перемещать топики в персональный блог',
-	'blog_admin_user_add_label' => 'Пригласить пользователей:',
-	'blog_admin_user_invited' => 'Список приглашенных:',
+	'blog_admin_user_add_label' => 'Добавить пользователей',
+	'blog_admin_user_invited' => 'Список приглашенных',
+	'blog_admin_user_add_header' => 'Пригласить пользователей',
+	'blog_admin_user_add_empty' => 'Нет приглашенных пользователей',
 	'blog_close_show' => 'Это закрытый блог, у вас нет прав на просмотр контента',
 	'blog_user_invite_add_self' => 'Нельзя отправить инвайт самому себе',
 	'blog_user_invite_add_ok' => 'Пользователю %%login%% отправлено приглашение',
@@ -238,17 +241,17 @@ return array(
 	'topic_create_text_error' => 'Текст топика должен быть от 2 до 15000 символов',
 	'topic_create_text_error_unique' => 'Вы уже писали топик с таким содержанием',
 	'topic_create_type_error' => 'Неверный тип топика',
-	'topic_create_tags' => 'Метки',
-	'topic_create_tags_notice' => 'Метки нужно разделять запятой. Например: клон хабры, блоги, рейтинг, google, сиськи, кирпич.',
+	'topic_create_tags' => 'Теги',
+	'topic_create_tags_notice' => 'Теги нужно разделять запятой. Например: google, вконтакте, кирпич',
 	'topic_create_tags_error_bad' => 'Проверьте правильность меток',
 	'topic_create_tags_error' => 'Метки топика должны быть от 2 до 50 символов с общей длиной не более 500 символов',
-	'topic_create_forbid_comment' => 'запретить комментировать',
+	'topic_create_forbid_comment' => 'Запретить комментировать',
 	'topic_create_forbid_comment_notice' => 'Если отметить эту галку, то нельзя будет оставлять комментарии к топику',
-	'topic_create_publish_index' => 'принудительно вывести на главную',
+	'topic_create_publish_index' => 'Принудительно вывести на главную',
 	'topic_create_publish_index_notice' => 'Если отметить эту галку, то топик сразу попадёт на главную страницу (опция доступна только администраторам)',
-	'topic_create_submit_publish' => 'опубликовать',
-	'topic_create_submit_save' => 'сохранить в черновиках',
-	'topic_create_submit_preview' => 'предпросмотр',
+	'topic_create_submit_publish' => 'Опубликовать',
+	'topic_create_submit_save' => 'Сохранить в черновиках',
+	'topic_create_submit_preview' => 'Предпросмотр',
 	'topic_create_submit_preview_close' => 'свернуть',
 	'topic_create_submit_notice' => 'Если нажать кнопку «Сохранить в черновиках», текст топика будет виден только Вам, а рядом с его заголовком будет отображаться замочек. Чтобы топик был виден всем, нажмите «Опубликовать».',
 	'topic_create_notice' => 'Не забывайте: тег <cut> сокращает длинные записи, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика.',
@@ -364,6 +367,7 @@ return array(
 	'comment_preview' => 'предпросмотр',
 	'comment_unregistered' => 'Только зарегистрированные и авторизованные пользователи могут оставлять комментарии.',
 	'comment_subscribe' => 'подписаться на новые комментарии',
+	'comment_declension' => 'комментарий;комментария;комментариев',
 	/**
 	 * Голосование за комментарий
 	 */
@@ -477,7 +481,7 @@ return array(
 	'registration_login_error' => 'Неверный логин, допустим от 3 до 30 символов',
 	'registration_login_error_used' => 'Этот логин уже занят',
 	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина логина не может быть меньше 3 и больше 30 символов.',
-	'registration_mail' => 'Электропочта',
+	'registration_mail' => 'E-mail',
 	'registration_mail_error' => 'Неверный формат e-mail',
 	'registration_mail_error_used' => 'Этот e-mail уже используется',
 	'registration_mail_notice' => 'Для проверки регистрации и в целях безопасности нам нужен адрес вашей электропочты.',
@@ -522,6 +526,8 @@ return array(
 	 * Профиль
 	 */
 	'profile_privat' => 'Личное',
+	'profile_contacts' => 'Контакты',
+	'profile_social' => 'Аккаунты',
 	'profile_sex' => 'Пол',
 	'profile_sex_man' => 'мужской',
 	'profile_sex_woman' => 'женский',
@@ -548,6 +554,7 @@ return array(
 	 * UserFields
 	 */
 	'user_field_admin_title' => 'Поля контактов пользователей',
+	'user_field_admin_title_add' => 'Добавить поле',
 	'user_field_add' => 'Добавить',
 	'user_field_cancel' => 'Отмена',
 	'user_field_added' => 'Поле успешно добавлено',
@@ -662,7 +669,7 @@ return array(
 	 */
 	'settings_menu' => 'Настройки',
 	'settings_menu_profile' => 'Профиль',
-	'settings_menu_tuning' => 'Тюнинг',
+	'settings_menu_tuning' => 'Настройки сайта',
 	'settings_menu_invite' => 'Инвайты',
 	'settings_menu_account' => 'Аккаунт',
 	/**
@@ -705,10 +712,12 @@ return array(
 	/**
 	 * Блоки
 	 */
+	'block_tags' => 'Теги',
+	'block_tags_empty' => 'Нет тегов',
 	'block_city_tags' => 'Города',
 	'block_country_tags' => 'Страны',
 	'block_blog_info' => 'Описание блога',
-	'block_blog_info_note' => 'Заметка',
+	'block_blog_info_note' => 'Совет',
 	'block_blog_info_note_text' => '<strong>Тег &lt;cut&gt; сокращает длинные записи</strong>, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика.',
 	'block_blogs' => 'Блоги',
 	'block_blogs_top' => 'Топ',
@@ -741,7 +750,7 @@ return array(
 	/**
 	 * Почта
 	 */
-	'talk_menu_inbox' => 'Почтовый ящик',
+	'talk_menu_inbox' => 'Сообщения',
 	'talk_menu_inbox_new' => 'Только новые',
 	'talk_menu_inbox_list' => 'Переписка',
 	'talk_menu_inbox_create' => 'Новое письмо',
@@ -871,6 +880,10 @@ return array(
 	'stream_settings_note_filter' => 'Выберите действия которые будут отслеживаться',
 	'stream_settings_note_follow_user' => 'Добавьте людей за активностью которых вы хотели бы следить',
 	'stream_settings_note_follow_friend' => 'Выберите друзей за активностью которых вы хотели бы следить',
+	/**
+	 * Админка
+	 */
+	'admin_header' => 'Админка',
 	'admin_list_plugins' => 'Управление плагинами',
 	'admin_list_userfields' => 'Настройка пользовательских полей',
 	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
@@ -954,7 +967,7 @@ return array(
 	'plugins_plugin_action' => '',
 	'plugins_plugin_activate' => 'Активировать',
 	'plugins_plugin_deactivate' => 'Деактивировать',
-	'plugins_plugin_settings' => 'Страница настройки',
+	'plugins_plugin_settings' => 'Настройки',
 	'plugins_unknown_action' => 'Указано неизвестное действие',
 	'plugins_action_ok' => 'Успешно выполнено',
 	'plugins_activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',

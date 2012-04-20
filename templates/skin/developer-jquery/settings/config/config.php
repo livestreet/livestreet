@@ -4,9 +4,6 @@ $config = array();
 
 $config['view']['theme'] = 'default';
 
-$config['view']['name']        = 'LiveStreet';
-$config['view']['description'] = 'Официальный сайт бесплатного движка социальной сети';
-
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/developer-jquery.js';
 
@@ -38,16 +35,6 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/themes/___view.theme___/style.css",
 );
 
-$config['block']['rule_profile'] = array(
-	'action'  => array( 'profile', 'talk', 'settings'),
-	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
-);
-
-$config['view']['img_resize_width'] = 570;
-$config['profile']['photo_resize_width'] = 290;
-
-$config['module']['blog']['avatar_size'] = array(100,64,48,24,0);
-$config['module']['user']['avatar_size'] = array(100,64,48,24,0);
 
 return $config;
 ?>
