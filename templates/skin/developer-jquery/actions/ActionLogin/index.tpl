@@ -12,7 +12,9 @@
 </script>
 
 <h2 class="page-header">{$aLang.user_authorization}</h2>
-	
+
+{hook run='login_begin'}
+
 <form action="{router page='login'}" method="POST" id="login-form">
 	{hook run='form_login_begin'}
 
@@ -48,6 +50,6 @@
 	</form>
 {/if}
 
-
+{hook run='login_end'}
 
 {include file='footer.tpl'}

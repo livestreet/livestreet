@@ -21,7 +21,7 @@
  */
 class PluginPage_HookPage extends Hook {
 	public function RegisterHook() {
-		$this->AddHook('template_main_menu','Menu');
+		$this->AddHook('template_main_menu_item','Menu');
 	}
 
 	public function Menu() {

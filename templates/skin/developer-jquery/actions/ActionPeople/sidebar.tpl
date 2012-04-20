@@ -1,3 +1,4 @@
+{hook run='people_sidebar_begin'}
 <section class="block">
 	<header class="block-header">
 		<h3>{$aLang.user_stats}</h3>
@@ -24,3 +25,5 @@
 
 {insert name="block" block='tagsCountry'}
 {insert name="block" block='tagsCity'}
+
+{hook run='people_sidebar_end'}

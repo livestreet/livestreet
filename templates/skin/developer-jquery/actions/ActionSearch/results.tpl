@@ -6,8 +6,10 @@
 
 
 <form action="{router page='search'}topics/" class="search">
+	{hook run='search_form_begin'}
 	<input type="text" value="{$aReq.q|escape:'html'}" placeholder="{$aLang.search}" maxlength="255" name="q" class="input-text">
 	<input type="submit" value="" title="{$aLang.search_submit}" class="input-submit icon icon-search">
+	{hook run='search_form_end'}
 </form>
 
 
@@ -21,6 +23,8 @@
 						{$aLang.search_results_count_topics}
 					{elseif $sType=="comments"}
 						{$aLang.search_results_count_comments}
+					{else}
+						{hook run='search_result_item' sType=$sType}
 					{/if}
 				</a>
 			</li>				
@@ -32,6 +36,8 @@
 		{include file='topic_list.tpl'}
 	{elseif $aReq.sType == 'comments'}
 		{include file='comment_list.tpl'}
+	{else}
+		{hook run='search_result' sType=$aReq.sType}
 	{/if}
 {else}
 	{$aLang.search_results_empty}

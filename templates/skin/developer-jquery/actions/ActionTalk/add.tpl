@@ -7,6 +7,7 @@
 
 {include file='actions/ActionTalk/friends.tpl'}
 
+{hook run='talk_add_begin'}
 
 <div class="topic" style="display: none;">
 	<div class="content" id="text_preview"></div>
@@ -33,5 +34,6 @@
 	<button class="button" name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.tools.textPreview('talk_text',false); return false;">{$aLang.topic_create_submit_preview}</button>		
 </form>
 
+{hook run='talk_add_end'}
 
 {include file='footer.tpl'}

@@ -7,4 +7,8 @@
 	<li {if $sMenuSubItemSelect=='comments'}class="active"{/if}>
 		<a href="{$oUserProfile->getUserWebPath()}favourites/comments/">{$aLang.user_menu_profile_favourites_comments}  {if $iCountCommentFavourite} ({$iCountCommentFavourite}) {/if}</a>
 	</li>
+
+	{hook run='menu_profile_favourite_item' oUserProfile=$oUserProfile}
 </ul>
+
+{hook run='menu_profile_favourite' oUserProfile=$oUserProfile}

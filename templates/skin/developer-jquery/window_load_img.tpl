@@ -39,7 +39,9 @@
 		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_link" onsubmit="return false;" style="display: none;" class="tab-content">
 			<p><label for="img_file">{$aLang.uploadimg_url}:</label>
 			<input type="text" name="img_url" id="img_url" value="http://" class="input-text input-width-full" /></p>
-			
+
+			{hook run="uploadimg_link_additional"}
+
 			<button class="button button-primary" onclick="ls.topic.insertImageToEditor(jQuery('#img_url').val());">{$aLang.uploadimg_link_submit_paste}</button>
 			{$aLang.or}
 			<button class="button button-primary" onclick="ls.ajaxUploadImg('block_upload_img_content_link','{$sToLoad}');">{$aLang.uploadimg_link_submit_load}</button>

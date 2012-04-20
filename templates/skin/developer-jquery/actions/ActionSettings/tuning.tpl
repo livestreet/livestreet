@@ -11,6 +11,8 @@
 
 <small class="note note-header input-width-400">{$aLang.settings_tuning_notice}:</small>
 
+{hook run='settings_tuning_begin'}
+
 <form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">
 	{hook run='form_settings_tuning_begin'}
 
@@ -29,6 +31,6 @@
 	<input type="submit" name="submit_settings_tuning" value="{$aLang.settings_tuning_submit}" class="button" />
 </form>
 
-
+{hook run='settings_tuning_end'}
 
 {include file='footer.tpl'}

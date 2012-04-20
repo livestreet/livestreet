@@ -15,6 +15,6 @@
 		</li>
 	{/if}
 	
-	{hook run='menu_profile_created_item'}
+	{hook run='menu_profile_created_item' oUserProfile=$oUserProfile}
 </ul>
-{hook run='menu_profile_created'}
+{hook run='menu_profile_created' oUserProfile=$oUserProfile}

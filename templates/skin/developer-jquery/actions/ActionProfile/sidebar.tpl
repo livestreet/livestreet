@@ -1,3 +1,4 @@
+{hook run='profile_sidebar_begin' oUserProfile=$oUserProfile}
 <section class="block block-type-profile">
 	<div class="profile-photo-wrapper">
 		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
@@ -90,10 +91,11 @@
 	</section>
 {/if}
 
-
+{hook run='profile_sidebar_menu_before' oUserProfile=$oUserProfile}
 
 <section class="block block-type-profile-nav">
 	<ul class="nav nav-profile">
+		{hook run='profile_sidebar_menu_item_first' oUserProfile=$oUserProfile}
 		<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
 		<li {if $sAction=='profile' && $aParams[0]=='wall'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}wall/">{$aLang.user_menu_profile_wall}{if ($iCountWallUser)>0} ({$iCountWallUser}){/if}</a></li>
 		<li {if $sAction=='profile' && $aParams[0]=='created'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.user_menu_publication}{if ($iCountCreated)>0} ({$iCountCreated}){/if}</a></li>
@@ -105,5 +107,8 @@
 			<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox}{if $iUserCurrentCountTalkNew} ({$iUserCurrentCountTalkNew}){/if}</a></li>
 			<li {if $sAction=='settings'}class="active"{/if}><a href="{router page='settings'}">{$aLang.settings_menu}</a></li>
 		{/if}
+		{hook run='profile_sidebar_menu_item_last' oUserProfile=$oUserProfile}
 	</ul>
 </section>
+
+{hook run='profile_sidebar_end' oUserProfile=$oUserProfile}

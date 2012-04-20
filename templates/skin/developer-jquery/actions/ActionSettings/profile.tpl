@@ -27,6 +27,7 @@
 	<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
 </p>
 
+{hook run='settings_profile_begin'}
 
 <form method="post" enctype="multipart/form-data" class="form-profile">
 	{hook run='form_settings_profile_begin'}
@@ -199,6 +200,6 @@
 	<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 </form>
 
-
+{hook run='settings_profile_end'}
 
 {include file='footer.tpl'}
