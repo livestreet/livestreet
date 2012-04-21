@@ -544,7 +544,10 @@ class ModuleViewer extends Module {
 	 *
 	 * @return array
 	 */
-	public function GetBlocks() {
+	public function GetBlocks($bSort=false) {
+		if ($bSort) {
+			$this->SortBlocks();
+		}
 		return $this->aBlocks;
 	}
 	/**

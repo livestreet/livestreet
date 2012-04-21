@@ -29,7 +29,7 @@ function smarty_function_get_blocks($params, &$smarty)
         return;
     }
 
-	$smarty->assign($params['assign'], Engine::getInstance()->Viewer_GetBlocks());
+	$smarty->assign($params['assign'], Engine::getInstance()->Viewer_GetBlocks(true));
 	return '';
 }
 
