@@ -26,6 +26,7 @@
 
 <h2 class="page-header">{$aLang.registration}</h2>
 
+{hook run='registration_begin'}
 
 <form action="{router page='registration'}" method="post" id="registration-form">
 	{hook run='form_registration_begin'}
@@ -67,6 +68,6 @@
 	<button name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 </form>
 
-
+{hook run='registration_end'}
 
 {include file='footer.tpl'}

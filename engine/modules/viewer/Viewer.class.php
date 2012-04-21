@@ -544,7 +544,10 @@ class ModuleViewer extends Module {
 	 *
 	 * @return array
 	 */
-	public function GetBlocks() {
+	public function GetBlocks($bSort=false) {
+		if ($bSort) {
+			$this->SortBlocks();
+		}
 		return $this->aBlocks;
 	}
 	/**
@@ -553,8 +556,8 @@ class ModuleViewer extends Module {
 	 * @param string $sName
 	 * @return string('block','template','undefined')
 	 */
-	protected function DefineTypeBlock($sName,$sDir=null) {	
-		if ($this->TemplateExists(is_null($sDir)?'block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
+	protected function DefineTypeBlock($sName,$sDir=null) {
+		if ($this->TemplateExists(is_null($sDir)?'blocks/block.'.$sName.'.tpl':rtrim($sDir,'/').'/blocks/block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */

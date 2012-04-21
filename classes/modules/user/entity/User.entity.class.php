@@ -73,91 +73,91 @@ class ModuleUser_EntityUser extends Entity {
 
 
 	public function getId() {
-		return $this->_aData['user_id'];
+		return $this->_getDataOne('user_id');
 	}
 	public function getLogin() {
-		return $this->_aData['user_login'];
+		return $this->_getDataOne('user_login');
 	}
 	public function getPassword() {
-		return $this->_aData['user_password'];
+		return $this->_getDataOne('user_password');
 	}
 	public function getMail() {
-		return $this->_aData['user_mail'];
+		return $this->_getDataOne('user_mail');
 	}
 	public function getSkill() {
-		return number_format(round($this->_aData['user_skill'],2), 2, '.', '');
+		return number_format(round($this->_getDataOne('user_skill'),2), 2, '.', '');
 	}
 	public function getDateRegister() {
-		return $this->_aData['user_date_register'];
+		return $this->_getDataOne('user_date_register');
 	}
 	public function getDateActivate() {
-		return $this->_aData['user_date_activate'];
+		return $this->_getDataOne('user_date_activate');
 	}
 	public function getDateCommentLast() {
-		return $this->_aData['user_date_comment_last'];
+		return $this->_getDataOne('user_date_comment_last');
 	}
 	public function getIpRegister() {
-		return $this->_aData['user_ip_register'];
+		return $this->_getDataOne('user_ip_register');
 	}
 	public function getRating() {
-		return number_format(round($this->_aData['user_rating'],2), 2, '.', '');
+		return number_format(round($this->_getDataOne('user_rating'),2), 2, '.', '');
 	}
 	public function getCountVote() {
-		return $this->_aData['user_count_vote'];
+		return $this->_getDataOne('user_count_vote');
 	}
 	public function getActivate() {
-		return $this->_aData['user_activate'];
+		return $this->_getDataOne('user_activate');
 	}
 	public function getActivateKey() {
-		return $this->_aData['user_activate_key'];
+		return $this->_getDataOne('user_activate_key');
 	}
 	public function getProfileName() {
-		return $this->_aData['user_profile_name'];
+		return $this->_getDataOne('user_profile_name');
 	}
 	public function getProfileSex() {
-		return $this->_aData['user_profile_sex'];
+		return $this->_getDataOne('user_profile_sex');
 	}
 	public function getProfileCountry() {
-		return $this->_aData['user_profile_country'];
+		return $this->_getDataOne('user_profile_country');
 	}
 	public function getProfileRegion() {
-		return $this->_aData['user_profile_region'];
+		return $this->_getDataOne('user_profile_region');
 	}
 	public function getProfileCity() {
-		return $this->_aData['user_profile_city'];
+		return $this->_getDataOne('user_profile_city');
 	}
 	public function getProfileBirthday() {
-		return $this->_aData['user_profile_birthday'];
+		return $this->_getDataOne('user_profile_birthday');
 	}
 	public function getProfileAbout() {
-		return $this->_aData['user_profile_about'];
+		return $this->_getDataOne('user_profile_about');
 	}
 	public function getProfileDate() {
-		return $this->_aData['user_profile_date'];
+		return $this->_getDataOne('user_profile_date');
 	}
 	public function getProfileAvatar() {
-		return $this->_aData['user_profile_avatar'];
+		return $this->_getDataOne('user_profile_avatar');
 	}
 	public function getProfileAvatarType() {
 		return ($sPath=$this->getProfileAvatarPath()) ? pathinfo($sPath,PATHINFO_EXTENSION) : null;
 	}
 	public function getProfileFoto() {
-		return $this->_aData['user_profile_foto'];
+		return $this->_getDataOne('user_profile_foto');
 	}
 	public function getSettingsNoticeNewTopic() {
-		return $this->_aData['user_settings_notice_new_topic'];
+		return $this->_getDataOne('user_settings_notice_new_topic');
 	}
 	public function getSettingsNoticeNewComment() {
-		return $this->_aData['user_settings_notice_new_comment'];
+		return $this->_getDataOne('user_settings_notice_new_comment');
 	}
 	public function getSettingsNoticeNewTalk() {
-		return $this->_aData['user_settings_notice_new_talk'];
+		return $this->_getDataOne('user_settings_notice_new_talk');
 	}
 	public function getSettingsNoticeReplyComment() {
-		return $this->_aData['user_settings_notice_reply_comment'];
+		return $this->_getDataOne('user_settings_notice_reply_comment');
 	}
 	public function getSettingsNoticeNewFriend() {
-		return $this->_aData['user_settings_notice_new_friend'];
+		return $this->_getDataOne('user_settings_notice_new_friend');
 	}
 
 
@@ -165,10 +165,10 @@ class ModuleUser_EntityUser extends Entity {
 		return $this->User_getUserFieldsValues($this->getId(), $bOnlyNoEmpty,$sType);
 	}
 	public function getSession() {
-		if (!isset($this->_aData['session'])) {
+		if (!$this->_getDataOne('session')) {
 			$this->_aData['session']=$this->User_GetSessionByUserId($this->getId());
 		}
-		return $this->_aData['session'];
+		return $this->_getDataOne('session');
 	}
 	public function isOnline() {
 		if ($oSession=$this->getSession()) {
@@ -195,13 +195,13 @@ class ModuleUser_EntityUser extends Entity {
 		return Config::Get('path.static.skin').'/images/user_foto_250.png';
 	}
 	public function getVote() {
-		return $this->_aData['vote'];
+		return $this->_getDataOne('vote');
 	}
 	public function getUserIsFriend() {
-		return $this->_aData['user_is_friend'];
+		return $this->_getDataOne('user_is_friend');
 	}
 	public function isAdministrator() {
-		return $this->_aData['user_is_administrator'];
+		return $this->_getDataOne('user_is_administrator');
 	}
 	public function getUserWebPath() {
 		return Router::GetPath('profile').$this->getLogin().'/';
@@ -212,7 +212,7 @@ class ModuleUser_EntityUser extends Entity {
 	 * @return int
 	 */
 	public function getUserFriend() {
-		return $this->_aData['user_friend'];
+		return $this->_getDataOne('user_friend');
 	}
 	/**
 	 * Проверяет подписан ли текущий пользователь на этого

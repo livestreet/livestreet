@@ -18,34 +18,34 @@
 class ModuleTalk_EntityTalk extends Entity 
 {    
     public function getId() {
-        return $this->_aData['talk_id'];
+        return $this->_getDataOne('talk_id');
     }      
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }    
     public function getTitle() {
-        return $this->_aData['talk_title'];
+        return $this->_getDataOne('talk_title');
     }
     public function getText() {
-        return $this->_aData['talk_text'];
+        return $this->_getDataOne('talk_text');
     }    
     public function getDate() {
-        return $this->_aData['talk_date'];
+        return $this->_getDataOne('talk_date');
     }    
     public function getDateLast() {
-        return $this->_aData['talk_date_last'];
+        return $this->_getDataOne('talk_date_last');
     }
 	public function getUserIdLast() {
-		return $this->_aData['talk_user_id_last'];
+		return $this->_getDataOne('talk_user_id_last');
 	}
     public function getUserIp() {
-        return $this->_aData['talk_user_ip'];
+        return $this->_getDataOne('talk_user_ip');
     }
 	public function getCommentIdLast() {
-		return $this->_aData['talk_comment_id_last'];
+		return $this->_getDataOne('talk_comment_id_last');
 	}
     public function getCountComment() {
-        return $this->_aData['talk_count_comment'];
+        return $this->_getDataOne('talk_count_comment');
     }
       
     
@@ -61,13 +61,13 @@ class ModuleTalk_EntityTalk extends Entity
 		return $this->getText();
 	}
     public function getUsers() {
-    	return $this->_aData['users'];
+    	return $this->_getDataOne('users');
     }
     public function getUser() {
-    	return $this->_aData['user'];
+    	return $this->_getDataOne('user');
     }
     public function getTalkUser() {
-    	return $this->_aData['talk_user'];
+    	return $this->_getDataOne('talk_user');
     }
     /**
      * Возращает true, если разговор занесен в избранное
@@ -75,7 +75,7 @@ class ModuleTalk_EntityTalk extends Entity
      * @return bool
      */
     public function getIsFavourite() {
-        return $this->_aData['talk_is_favourite'];
+        return $this->_getDataOne('talk_is_favourite');
     }
 	/**
 	 * Получает пользователей разговора
@@ -83,7 +83,7 @@ class ModuleTalk_EntityTalk extends Entity
 	 * @return array
 	 */
     public function getTalkUsers() {
-    	return $this->_aData['talk_users'];
+    	return $this->_getDataOne('talk_users');
     }
     
     

@@ -231,8 +231,11 @@ class ModuleWall extends Module {
 			$aKeys=array_keys($aResult['collection']);
 			sort($aKeys,SORT_NUMERIC);
 			$oWall->setLastReply(join(',',$aKeys));
-			$this->UpdateWall($oWall);
+		} else {
+			$oWall->setCountReply(0);
+			$oWall->setLastReply('');
 		}
+		$this->UpdateWall($oWall);
 	}
 
 	/**

@@ -81,6 +81,7 @@
 		
 		
 		<footer class="blog-footer">
+			{hook run='blog_info_begin' oBlog=$oBlog}
 			<strong>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators}):</strong>							
 			<a href="{$oUserOwner->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUserOwner->getLogin()}</a>
 			{if $aBlogAdministrators}			
@@ -115,13 +116,14 @@
 			{else}
 				{$aLang.blog_user_readers_empty}
 			{/if}
+			{hook run='blog_info_end' oBlog=$oBlog}
 		</footer>
 	</div>
 	
 	<a href="#" class="blog-more" id="blog-more" onclick="return ls.blog.toggleInfo()">{$aLang.blog_expand_info}</a>
 </div>
 
-
+{hook run='blog_info' oBlog=$oBlog}
 
 <div class="nav-filter-wrapper">
 	<ul class="nav nav-filter">

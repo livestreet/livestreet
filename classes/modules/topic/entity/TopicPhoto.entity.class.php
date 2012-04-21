@@ -4,24 +4,24 @@ class ModuleTopic_EntityTopicPhoto extends Entity
 {
 	public function getId()
 	{
-		return $this->_aData['id'];
+		return $this->_getDataOne('id');
 	}
 	public function getTopicId()
 	{
-		return ( isset($this->_aData['topic_id'])) ? $this->_aData['topic_id'] : null;
+		return $this->_getDataOne('topic_id');
 	}
 	public function getTargetTmp()
 	{
-		return $this->_aData['target_tmp'];
+		return $this->_getDataOne('target_tmp');
 	}
 	public function getDescription()
 	{
-		return ( isset($this->_aData['description'])) ? $this->_aData['description'] : null;
+		return $this->_getDataOne('description');
 	}
 
 	public function getPath()
 	{		
-		return isset($this->_aData['path']) ? $this->_aData['path'] : null;
+		return $this->_getDataOne('path');
 	}
 
 	public function getWebPath($sWidth = null)

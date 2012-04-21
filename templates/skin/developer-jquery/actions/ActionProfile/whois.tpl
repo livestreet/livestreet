@@ -75,7 +75,7 @@
 	</table>
 {/if}
 
-
+{hook run='profile_whois_item_after_privat' oUserProfile=$oUserProfile}
 
 {assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact'))}
 {if $aUserFieldContactValues}
@@ -105,9 +105,6 @@
 		{/foreach}
 	</table>
 {/if}
-
-
-
 
 
 {hook run='profile_whois_item' oUserProfile=$oUserProfile}
@@ -215,5 +212,6 @@
 	{include file='user_list_avatar.tpl' aUsersList=$aUsersFriend}
 {/if}
 
+{hook run='profile_whois_item_end' oUserProfile=$oUserProfile}
 
 {include file='footer.tpl'}

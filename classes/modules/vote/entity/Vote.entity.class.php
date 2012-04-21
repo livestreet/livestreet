@@ -18,23 +18,26 @@
 class ModuleVote_EntityVote extends Entity 
 {    
     public function getTargetId() {
-        return $this->_aData['target_id'];
+        return $this->_getDataOne('target_id');
     }
     public function getTargetType() {
-        return $this->_aData['target_type'];
+        return $this->_getDataOne('target_type');
     }  
     public function getVoterId() {
-        return $this->_aData['user_voter_id'];
+        return $this->_getDataOne('user_voter_id');
     }
     public function getDirection() {
-        return $this->_aData['vote_direction'];
+        return $this->_getDataOne('vote_direction');
     }
     public function getValue() {
-        return $this->_aData['vote_value'];
+        return $this->_getDataOne('vote_value');
     }
     public function getDate() {
-        return $this->_aData['vote_date'];
+		return $this->_getDataOne('vote_date');
     }
+	public function getIp() {
+		return $this->_getDataOne('vote_ip');
+	}
 
     
     
@@ -56,5 +59,8 @@ class ModuleVote_EntityVote extends Entity
     public function setDate($data) {
         $this->_aData['vote_date']=$data;
     }
+	public function setIp($data) {
+		$this->_aData['vote_ip']=$data;
+	}
 }
 ?>

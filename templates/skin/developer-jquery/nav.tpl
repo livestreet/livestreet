@@ -5,6 +5,7 @@
 		<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
 		<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
 
-		{hook run='main_menu'}
+		{hook run='main_menu_item'}
 	</ul>
+	{hook run='main_menu'}
 </nav>

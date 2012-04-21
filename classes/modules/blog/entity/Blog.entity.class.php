@@ -18,46 +18,46 @@
 class ModuleBlog_EntityBlog extends Entity 
 {    
     public function getId() {
-        return $this->_aData['blog_id'];
+        return $this->_getDataOne('blog_id');
     }  
     public function getOwnerId() {
-        return $this->_aData['user_owner_id'];
+        return $this->_getDataOne('user_owner_id');
     }
     public function getTitle() {
-        return $this->_aData['blog_title'];
+        return $this->_getDataOne('blog_title');
     }
     public function getDescription() {
-        return $this->_aData['blog_description'];
+        return $this->_getDataOne('blog_description');
     }
     public function getType() {
-        return $this->_aData['blog_type'];
+        return $this->_getDataOne('blog_type');
     }
     public function getDateAdd() {
-        return $this->_aData['blog_date_add'];
+        return $this->_getDataOne('blog_date_add');
     }
     public function getDateEdit() {
-        return $this->_aData['blog_date_edit'];
+        return $this->_getDataOne('blog_date_edit');
     }
     public function getRating() {        
-        return number_format(round($this->_aData['blog_rating'],2), 2, '.', '');
+        return number_format(round($this->_getDataOne('blog_rating'),2), 2, '.', '');
     }
     public function getCountVote() {
-        return $this->_aData['blog_count_vote'];
+        return $this->_getDataOne('blog_count_vote');
     }
     public function getCountUser() {
-        return $this->_aData['blog_count_user'];
+        return $this->_getDataOne('blog_count_user');
     }
 	public function getCountTopic() {
-		return $this->_aData['blog_count_topic'];
+		return $this->_getDataOne('blog_count_topic');
 	}
     public function getLimitRatingTopic() {
-        return $this->_aData['blog_limit_rating_topic'];
+        return $this->_getDataOne('blog_limit_rating_topic');
     }
 	public function getUrl() {
-        return $this->_aData['blog_url'];
+        return $this->_getDataOne('blog_url');
     }
     public function getAvatar() {
-        return $this->_aData['blog_avatar'];
+        return $this->_getDataOne('blog_avatar');
     }
     public function getAvatarType() {
           return ($sPath=$this->getAvatarPath()) ? pathinfo($sPath,PATHINFO_EXTENSION) : null;
@@ -66,10 +66,10 @@ class ModuleBlog_EntityBlog extends Entity
     
     
     public function getOwner() {
-        return $this->_aData['owner'];
+        return $this->_getDataOne('owner');
     }    
     public function getVote() {
-        return $this->_aData['vote'];
+        return $this->_getDataOne('vote');
     }
     public function getAvatarPath($iSize=48) {   
     	if ($sPath=$this->getAvatar()) {
@@ -79,13 +79,13 @@ class ModuleBlog_EntityBlog extends Entity
     	}
     }
     public function getUserIsJoin() {
-        return $this->_aData['user_is_join'];
+        return $this->_getDataOne('user_is_join');
     }
     public function getUserIsAdministrator() {
-        return $this->_aData['user_is_administrator'];
+        return $this->_getDataOne('user_is_administrator');
     }
     public function getUserIsModerator() {
-        return $this->_aData['user_is_moderator'];
+        return $this->_getDataOne('user_is_moderator');
     }
     public function getUrlFull() {
         if ($this->getType()=='personal') {

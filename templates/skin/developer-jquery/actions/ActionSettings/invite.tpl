@@ -4,7 +4,10 @@
 
 <small class="note note-header input-width-400">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</small>
 
+{hook run='settings_invite_begin'}
+
 <form action="" method="POST" enctype="multipart/form-data">
+	{hook run='form_settings_invite_begin'}
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 	<p>
@@ -16,8 +19,11 @@
 	<input type="text" name="invite_mail" id="invite_mail" class="input-text input-width-200" /><br />
 	<small class="note">{$aLang.settings_invite_mail_notice}</small></p>
 
+	{hook run='form_settings_invite_end'}
+
 	<button name="submit_invite" class="button button-primary" />{$aLang.settings_invite_submit}</button>
 </form>
 
+{hook run='settings_invite_end'}
 
 {include file='footer.tpl'}

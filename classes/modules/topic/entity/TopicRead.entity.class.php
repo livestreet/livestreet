@@ -18,19 +18,19 @@
 class ModuleTopic_EntityTopicRead extends Entity 
 {    
     public function getTopicId() {
-        return $this->_aData['topic_id'];
+        return $this->_getDataOne('topic_id');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getDateRead() {
-        return $this->_aData['date_read'];
+        return $this->_getDataOne('date_read');
     }
     public function getCommentCountLast() {
-        return $this->_aData['comment_count_last'];
+        return $this->_getDataOne('comment_count_last');
     }
     public function getCommentIdLast() {
-        return $this->_aData['comment_id_last'];
+        return $this->_getDataOne('comment_id_last');
     }
 
     

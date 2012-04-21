@@ -29,6 +29,7 @@
 			
 			
 			<div id="block_popup_login_content_login" class="tab-content">
+				{hook run='login_popup_begin'}
 				<form action="{router page='login'}" method="post" id="popup-login-form">
 					{hook run='form_login_popup_begin'}
 
@@ -46,6 +47,7 @@
 					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
 					<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 				</form>
+				{hook run='login_popup_end'}
 			</div>
 
 
@@ -74,7 +76,7 @@
 					});
 				</script>
 
-
+				{hook run='registration_begin' isPopup=true}
 				<form action="{router page='registration'}" method="post" id="popup-registration-form">
 					{hook run='form_registration_begin' isPopup=true}
 
@@ -115,6 +117,7 @@
 					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
 					<button name="submit_register" class="button button-primary" id="popup-registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 				</form>
+				{hook run='registration_end' isPopup=true}
 			</div>
 			{/if}
 			

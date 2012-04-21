@@ -25,11 +25,12 @@ class ModuleVote_MapperVote extends Mapper {
 			user_voter_id,
 			vote_direction,
 			vote_value,			
-			vote_date		
+			vote_date,
+			vote_ip
 			)
-			VALUES(?d, ?, ?d, ?d, ?f, ?)
+			VALUES(?d, ?, ?d, ?d, ?f, ?, ?)
 		";			
-		if ($this->oDb->query($sql,$oVote->getTargetId(),$oVote->getTargetType(),$oVote->getVoterId(),$oVote->getDirection(),$oVote->getValue(),$oVote->getDate())===0) 
+		if ($this->oDb->query($sql,$oVote->getTargetId(),$oVote->getTargetType(),$oVote->getVoterId(),$oVote->getDirection(),$oVote->getValue(),$oVote->getDate(),$oVote->getIp())===0)
 		{
 			return true;
 		}		

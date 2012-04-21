@@ -18,22 +18,22 @@
 class ModuleUser_EntitySession extends Entity 
 {    
     public function getKey() {
-        return $this->_aData['session_key'];
+        return $this->_getDataOne('session_key');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getIpCreate() {
-        return $this->_aData['session_ip_create'];
+        return $this->_getDataOne('session_ip_create');
     }    
     public function getIpLast() {
-        return $this->_aData['session_ip_last'];
+        return $this->_getDataOne('session_ip_last');
     }
     public function getDateCreate() {
-        return $this->_aData['session_date_create'];
+        return $this->_getDataOne('session_date_create');
     }
     public function getDateLast() {
-        return $this->_aData['session_date_last'];
+        return $this->_getDataOne('session_date_last');
     }
         
     

@@ -14,6 +14,8 @@
     {hook run='admin_action_item'}
 </ul>
 
+{hook run='admin_action'}
+
 
 
 {include file='footer.tpl'}

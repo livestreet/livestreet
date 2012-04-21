@@ -26,6 +26,7 @@ class ActionPeople extends Action {
 	 * @var unknown_type
 	 */
 	protected $sMenuHeadItemSelect='people';
+	protected $sMenuItemSelect='all';
 
 	/**
 	 * Инициализация
@@ -162,6 +163,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventOnline() {
+		$this->sMenuItemSelect='online';
 		/**
 		 * Последние по визиту на сайт
 		 */
@@ -177,6 +179,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventNew() {
+		$this->sMenuItemSelect='new';
 		/**
 		 * Последние по регистрации
 		 */
@@ -268,6 +271,7 @@ class ActionPeople extends Action {
 		 * Загружаем в шаблон необходимые переменные
 		 */
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
+		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 	}
 }
 ?>

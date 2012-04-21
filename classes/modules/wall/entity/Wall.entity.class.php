@@ -100,10 +100,10 @@ class ModuleWall_EntityWall extends Entity {
 	 * @return mixed
 	 */
 	public function getWallUser() {
-		if (!isset($this->_aData['wall_user'])) {
+		if (!$this->_getDataOne('wall_user')) {
 			$this->_aData['wall_user']=$this->User_GetUserById($this->getWallUserId());
 		}
-		return $this->_aData['wall_user'];
+		return $this->_getDataOne('wall_user');
 	}
 
 	/**

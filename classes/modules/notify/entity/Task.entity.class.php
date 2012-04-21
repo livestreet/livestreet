@@ -18,25 +18,25 @@
 class ModuleNotify_EntityTask extends Entity 
 {   
     public function getTaskId() {
-        return $this->_aData['notify_task_id'];
+        return $this->_getDataOne('notify_task_id');
     }  
     public function getUserMail() {
-        return $this->_aData['user_mail'];
+        return $this->_getDataOne('user_mail');
     }
     public function getUserLogin() {
-    	return $this->_aData['user_login'];
+    	return $this->_getDataOne('user_login');
     }
     public function getNotifyText() {
-        return $this->_aData['notify_text'];
+        return $this->_getDataOne('notify_text');
     }
     public function getDateCreated() {
-    	return $this->_aData['date_created'];
+    	return $this->_getDataOne('date_created');
     }
     public function getTaskStatus() {
-    	return $this->_aData['notify_task_status'];
+    	return $this->_getDataOne('notify_task_status');
     }
     public function getNotifySubject() {
-    	return $this->_aData['notify_subject'];
+    	return $this->_getDataOne('notify_subject');
     }
     
     

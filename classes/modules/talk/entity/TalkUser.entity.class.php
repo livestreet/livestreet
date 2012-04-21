@@ -18,19 +18,19 @@
 class ModuleTalk_EntityTalkUser extends Entity 
 {    
     public function getTalkId() {
-        return $this->_aData['talk_id'];
+        return $this->_getDataOne('talk_id');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getDateLast() {
-        return $this->_aData['date_last'];
+        return $this->_getDataOne('date_last');
     }
     public function getCommentIdLast() {
-        return $this->_aData['comment_id_last'];
+        return $this->_getDataOne('comment_id_last');
     }
     public function getCommentCountNew() {
-        return $this->_aData['comment_count_new'];
+        return $this->_getDataOne('comment_count_new');
     }
     
     /**
@@ -39,9 +39,7 @@ class ModuleTalk_EntityTalkUser extends Entity
      * @return int
      */
     public function getUserActive(){
-    	return (array_key_exists('talk_user_active',$this->_aData)) 
-    		? $this->_aData['talk_user_active']
-    		: ModuleTalk::TALK_USER_ACTIVE;
+		return $this->_getDataOne('talk_user_active') ? $this->_getDataOne('talk_user_active') : ModuleTalk::TALK_USER_ACTIVE;
     }
     /**
      * Возвращает соответствующий пользователю объект UserEntity
@@ -49,7 +47,7 @@ class ModuleTalk_EntityTalkUser extends Entity
      * @return UserEntity | null
      */
     public function getUser() {    
-   		return $this->_aData['user']; 	
+   		return $this->_getDataOne('user');
     }
    
     

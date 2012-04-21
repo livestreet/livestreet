@@ -27,6 +27,8 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserProfile;
 
+	protected $sMenuSubItemSelect='';
+
 	protected $oUserCurrent;
 
 	public function Init() {
@@ -137,6 +139,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='topics';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -174,6 +177,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='comments';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -207,6 +211,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='topics';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -247,7 +252,7 @@ class ActionProfile extends Action {
 		if (!$this->oUserCurrent or $this->oUserProfile->getId()!=$this->oUserCurrent->getId()) {
 			return parent::EventNotFound();
 		}
-
+		$this->sMenuSubItemSelect='topics';
 		$sTag=$this->GetParamEventMatch(3,0);
 		/*
 		 * Передан ли номер страницы
@@ -287,6 +292,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='comments';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -587,6 +593,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='notes';
 		/**
 		 * Заметки может читать только сам пользователь
 		 */
@@ -1157,6 +1164,7 @@ class ActionProfile extends Action {
 		}
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

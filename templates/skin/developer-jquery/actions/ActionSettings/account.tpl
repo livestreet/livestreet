@@ -8,6 +8,7 @@
 
 {include file='menu.settings.tpl'}
 
+{hook run='settings_account_begin'}
 
 <form method="post" enctype="multipart/form-data">
 	{hook run='form_settings_account_begin'}
@@ -55,6 +56,6 @@
 	<button name="submit_account_edit" class="button button-primary" />{$aLang.settings_account_submit}</button>
 </form>
 
-
+{hook run='settings_account_end'}
 
 {include file='footer.tpl'}
