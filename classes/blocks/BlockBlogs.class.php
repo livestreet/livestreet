@@ -25,7 +25,7 @@ class BlockBlogs extends Block {
 			$aBlogs=$aResult['collection'];
 			$oViewer=$this->Viewer_GetLocalViewer();
 			$oViewer->Assign('aBlogs',$aBlogs);
-			$sTextResult=$oViewer->Fetch("block.blogs_top.tpl");
+			$sTextResult=$oViewer->Fetch("blocks/block.blogs_top.tpl");
 			$this->Viewer_Assign('sBlogsTop',$sTextResult);
 		}
 	}

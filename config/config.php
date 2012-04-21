@@ -419,7 +419,7 @@ $config['block']['rule_topic_type'] = array(
 		'topic'    => array('add','edit'),
 		'photoset'    => array('add','edit')
 	),
-	'blocks'  => array( 'right' => array('block.blogInfo.tpl') ),
+	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl') ),
 );
 $config['block']['rule_people'] = array(
 	'action'  => array( 'people' ),

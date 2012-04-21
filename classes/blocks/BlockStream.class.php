@@ -24,7 +24,7 @@ class BlockStream extends Block {
 		if ($aComments=$this->Comment_GetCommentsOnline('topic',Config::Get('block.stream.row'))) {
 			$oViewer=$this->Viewer_GetLocalViewer();
 			$oViewer->Assign('aComments',$aComments);
-			$sTextResult=$oViewer->Fetch("block.stream_comment.tpl");
+			$sTextResult=$oViewer->Fetch("blocks/block.stream_comment.tpl");
 			$this->Viewer_Assign('sStreamComments',$sTextResult);
 		}
 	}

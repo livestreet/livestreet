@@ -23,25 +23,25 @@
  * @param Smarty $oSmarty
  * @return string
  */
-function smarty_insert_block($aParams,&$oSmarty) {	
+function smarty_insert_block($aParams,&$oSmarty) {
 	/**
 	 * Устанавливаем шаблон
 	 */
-	$sBlock=ucfirst(basename($aParams['block']));	
+	$sBlock=ucfirst(basename($aParams['block']));
 	/**
-	 * Проверяем наличие шаблона. Определяем значения параметров работы в зависимости от того, 
+	 * Проверяем наличие шаблона. Определяем значения параметров работы в зависимости от того,
 	 * принадлежит ли блок одному из плагинов, или является пользовательским классом движка
 	 */
 	if(isset($aParams['params']) and isset($aParams['params']['plugin'])) {
-		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/block.'.$aParams['block'].'.tpl';	
-                  $sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock;
-	} else {		
-		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','block.'.$aParams['block'].'.tpl');
-                  $sBlock ='Block'.$sBlock;
+		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/blocks/block.'.$aParams['block'].'.tpl';
+		$sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock;
+	} else {
+		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','blocks/block.'.$aParams['block'].'.tpl');
+		$sBlock ='Block'.$sBlock;
 	}
 
-         $sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
-         
+	$sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
+
 	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
 		trigger_error("Not found template for block: ".$sBlockTemplate,E_USER_WARNING);
 		return ;
