@@ -13,8 +13,6 @@
 		<button onclick="ls.poll.vote({$oTopic->getId()},-1)" class="button">{$aLang.topic_question_abstain}</button>
 		
 		<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
-
-		<p class="poll-total">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</p>
 	{else}
 		{include file='question_result.tpl'}
 	{/if}

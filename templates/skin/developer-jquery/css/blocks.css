@@ -6,11 +6,12 @@
 .block:last-child 		{ margin-bottom: 0; }
 .sidebar-left .block 	{ margin-bottom: 10px; }
 
-.block .block-header 		{ padding: 13px 20px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
-.block .block-header h3 	{ font-size: 16px; line-height: 1em; font-weight: normal; }
-.block .block-header h3 a 	{ text-decoration: none; color: #333; }
-.block .block-content 		{ padding: 20px; }
-.block footer 				{ margin-top: 15px; font-size: 12px; }
+.block .block-header 					{ padding: 13px 20px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
+.block .block-header h3 				{ font-size: 16px; line-height: 1em; font-weight: normal; }
+.block .block-header h3 a 				{ text-decoration: none; color: #333; }
+.block .block-header h3 a.link-dotted 	{ color: #5055B2; }
+.block .block-content 					{ padding: 20px; }
+.block footer 							{ margin-top: 15px; font-size: 12px; }
 
 .block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
 

@@ -21,7 +21,7 @@
 
 .profile .strength 					{ position: absolute; top: 0; right: 0; }
 
-.profile .user-login 				{ font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
+.profile .user-login 				{ width: 270px; font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
 .profile .user-login.no-user-name 	{ position: relative; top: 9px; }
 .profile .user-name 				{ color: #777; }
 

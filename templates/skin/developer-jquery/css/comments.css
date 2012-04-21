@@ -47,8 +47,8 @@
 
 
 /* Info Block */
-.comment .comment-info { padding: 0 70px 7px 0; line-height: 12px; height: 18px; position: relative; top: -2px; overflow: hidden; zoom: 1; }
-.comment .comment-info li { float: left; padding-top: 3px; margin-right: 10px; }
+.comment .comment-info { padding: 0 70px 7px 0; line-height: 12px; position: relative; top: -2px; overflow: hidden; zoom: 1; }
+.comment .comment-info li { float: left; height: 18px; padding-top: 3px; margin-right: 10px; }
 .comment .comment-info li a { text-decoration: none; }
 .comment .comment-info li.comment-author a { font-weight: bold; }
 .comment .comment-info li.comment-author .comment-topic-author { background: #C9A518; color: #fff; font-size: 11px; border-radius: 3px; padding: 1px 7px; margin-right: 5px; }
@@ -60,6 +60,7 @@
 /* Content */
 .comment .comment-content { margin-bottom: 10px; }
 .comment .comment-content.text { font-size: 13px; }
+.comment .comment-content.text blockquote { background: #fff; border-color: #ccc; padding: 5px 10px; margin-bottom: 5px; }
 
 
 /* Actions */

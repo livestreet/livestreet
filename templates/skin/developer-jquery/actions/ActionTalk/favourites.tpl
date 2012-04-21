@@ -7,13 +7,13 @@
 
 
 {if $aTalks}
-	<table class="table">
+	<table class="table table-talk">
 		<thead>
 			<tr>
-				<th>{$aLang.talk_inbox_target}</th>
-				<th></th>
-				<th>{$aLang.talk_inbox_title}</th>
-				<th class="ta-r">{$aLang.talk_inbox_date}</th>
+				<th class="cell-favourite"></th>
+				<th class="cell-recipients">{$aLang.talk_inbox_target}</th>
+				<th class="cell-title">{$aLang.talk_inbox_title}</th>
+				<th class="cell-date ta-r">{$aLang.talk_inbox_date}</th>
 			</tr>
 		</thead>
 
@@ -21,6 +21,9 @@
 		{foreach from=$aTalks item=oTalk}
 			{assign var="oTalkUserAuthor" value=$oTalk->getTalkUser()}
 			<tr>
+				<td class="cell-favourite">
+					<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
+				</td>
 				<td>
 					{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
 						{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
@@ -29,9 +32,6 @@
 						{/if}
 					{/foreach}
 
-				</td>
-				<td class="ta-c">
-					<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
 				</td>
 				<td>
 				{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
@@ -44,7 +44,7 @@
 					{$oTalk->getCountComment()} {if $oTalkUserAuthor->getCommentCountNew()}+{$oTalkUserAuthor->getCommentCountNew()}{/if}
 				{/if}
 				</td>
-				<td class="ta-r">{date_format date=$oTalk->getDate()}</td>
+				<td class="cell-date ta-r">{date_format date=$oTalk->getDate()}</td>
 			</tr>
 		{/foreach}
 		</tbody>

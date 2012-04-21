@@ -28,7 +28,7 @@
 
 <div class="dropdown-create">
 	{strip}
-		<h2 class="page-header">Создать <a href="#" class="dropdown-create-trigger link-dashed" id="dropdown-create-trigger">
+		<h2 class="page-header">{$aLang.block_create} <a href="#" class="dropdown-create-trigger link-dashed" id="dropdown-create-trigger">
 			{if $sMenuItemSelect=='topic'}
 				{$aLang.topic_menu_add}
 			{elseif $sMenuItemSelect=='blog'}

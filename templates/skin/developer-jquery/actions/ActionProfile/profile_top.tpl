@@ -1,5 +1,6 @@
 <div class="profile">
 	{hook run='profile_top_begin' oUserProfile=$oUserProfile}
+	
 	<a href="{$oUserProfile->getUserWebPath()}"><img src="{$oUserProfile->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 	
 	<div id="vote_area_user_{$oUserProfile->getId()}" class="vote {if $oUserProfile->getRating()>=0}vote-count-positive{else}vote-count-negative{/if} {if $oVote} voted {if $oVote->getDirection()>0}voted-up{elseif $oVote->getDirection()<0}voted-down{/if}{/if}">
@@ -14,10 +15,11 @@
 		<div class="count" id="user_skill_{$oUserProfile->getId()}">{$oUserProfile->getSkill()}</div>
 	</div>
 	
-	<h2 class="page-header user-login {if !$oUserProfile->getProfileName()}no-user-name{/if}">{$oUserProfile->getLogin()}</h2>
+	<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}">{$oUserProfile->getLogin()}</h2>
 	
 	{if $oUserProfile->getProfileName()}
 		<p class="user-name">{$oUserProfile->getProfileName()|escape:'html'}</p>
 	{/if}
+	
 	{hook run='profile_top_end' oUserProfile=$oUserProfile}
 </div>
