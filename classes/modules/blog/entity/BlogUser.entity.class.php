@@ -18,10 +18,10 @@
 class ModuleBlog_EntityBlogUser extends Entity 
 {    
     public function getBlogId() {
-        return $this->_aData['blog_id'];
+        return $this->_getDataOne('blog_id');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getIsModerator() {
         return ($this->getUserRole()==ModuleBlog::BLOG_USER_ROLE_MODERATOR);
@@ -30,14 +30,14 @@ class ModuleBlog_EntityBlogUser extends Entity
         return ($this->getUserRole()==ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
     }
 	public function getUserRole() {
-		return $this->_aData['user_role'];
+		return $this->_getDataOne('user_role');
 	}
     
     public function getBlog() {
-        return $this->_aData['blog'];
+        return $this->_getDataOne('blog');
     }  
     public function getUser() {
-        return $this->_aData['user'];
+        return $this->_getDataOne('user');
     }
 
   

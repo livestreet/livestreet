@@ -64,7 +64,7 @@ class ModuleTopic_EntityTopic extends Entity {
 	public function ValidateTopicUnique($sValue,$aParams) {
 		$this->setTextHash(md5($this->getType().$sValue.$this->getTitle()));
 		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->getUserId(),$this->getTextHash())) {
-			if ($iId=$this->getTopicId() and $oTopicEquivalent->getId()==$iId) { // хак, запрашиваем не getId(), а getTopicId() - вернет null если это новый топик без ID
+			if ($iId=$this->getId() and $oTopicEquivalent->getId()==$iId) {
 				return true;
 			}
 			return $this->Lang_Get('topic_create_text_error_unique');
@@ -90,85 +90,82 @@ class ModuleTopic_EntityTopic extends Entity {
 
 
 	public function getId() {
-		return $this->_aData['topic_id'];
+		return $this->_getDataOne('topic_id');
 	}
 	public function getBlogId() {
-		return $this->_aData['blog_id'];
+		return $this->_getDataOne('blog_id');
 	}
 	public function getUserId() {
-		return $this->_aData['user_id'];
+		return $this->_getDataOne('user_id');
 	}
 	public function getType() {
-		return $this->_aData['topic_type'];
+		return $this->_getDataOne('topic_type');
 	}
 	public function getTitle() {
-		return $this->_aData['topic_title'];
+		return $this->_getDataOne('topic_title');
 	}
 	public function getText() {
-		return $this->_aData['topic_text'];
+		return $this->_getDataOne('topic_text');
 	}
 	public function getTextShort() {
-		return $this->_aData['topic_text_short'];
+		return $this->_getDataOne('topic_text_short');
 	}
 	public function getTextSource() {
-		return $this->_aData['topic_text_source'];
+		return $this->_getDataOne('topic_text_source');
 	}
 	public function getExtra() {
-		if (isset($this->_aData['topic_extra'])) {
-			return $this->_aData['topic_extra'];
-		}
-		return serialize('');
+		return $this->_getDataOne('topic_extra') ? $this->_getDataOne('topic_extra') : serialize('');
 	}
 	public function getTags() {
-		return $this->_aData['topic_tags'];
+		return $this->_getDataOne('topic_tags');
 	}
 	public function getDateAdd() {
-		return $this->_aData['topic_date_add'];
+		return $this->_getDataOne('topic_date_add');
 	}
 	public function getDateEdit() {
-		return $this->_aData['topic_date_edit'];
+		return $this->_getDataOne('topic_date_edit');
 	}
 	public function getUserIp() {
-		return $this->_aData['topic_user_ip'];
+		return $this->_getDataOne('topic_user_ip');
 	}
 	public function getPublish() {
-		return $this->_aData['topic_publish'];
+		return $this->_getDataOne('topic_publish');
 	}
 	public function getPublishDraft() {
-		return $this->_aData['topic_publish_draft'];
+		return $this->_getDataOne('topic_publish_draft');
 	}
 	public function getPublishIndex() {
-		return $this->_aData['topic_publish_index'];
+		return $this->_getDataOne('topic_publish_index');
 	}
 	public function getRating() {
-		return number_format(round($this->_aData['topic_rating'],2), 0, '.', '');
+		return number_format(round($this->_getDataOne('topic_rating'),2), 0, '.', '');
 	}
 	public function getCountVote() {
-		return $this->_aData['topic_count_vote'];
+		return $this->_getDataOne('topic_count_vote');
 	}
 	public function getCountVoteUp() {
-		return $this->_aData['topic_count_vote_up'];
+		return $this->_getDataOne('topic_count_vote_up');
 	}
 	public function getCountVoteDown() {
-		return $this->_aData['topic_count_vote_down'];
+		return $this->_getDataOne('topic_count_vote_down');
 	}
 	public function getCountVoteAbstain() {
-		return $this->_aData['topic_count_vote_abstain'];
+		return $this->_getDataOne('topic_count_vote_abstain');
 	}
 	public function getCountRead() {
-		return $this->_aData['topic_count_read'];
+		return $this->_getDataOne('topic_count_read');
 	}
 	public function getCountComment() {
-		return $this->_aData['topic_count_comment'];
+		return $this->_getDataOne('topic_count_comment');
 	}
 	public function getCutText() {
-		return $this->_aData['topic_cut_text'];
+		return $this->_getDataOne('topic_cut_text');
 	}
 	public function getForbidComment() {
-		return $this->_aData['topic_forbid_comment'];
+		return $this->_getDataOne('topic_forbid_comment');
 	}
 	public function getTextHash() {
-		return $this->_aData['topic_text_hash'];
+		return $this->_getDataOne('topic_text_hash');
 	}
 
 	public function getTagsArray() {
@@ -178,19 +175,19 @@ class ModuleTopic_EntityTopic extends Entity {
 		return array();
 	}
 	public function getCountCommentNew() {
-		return $this->_aData['count_comment_new'];
+		return $this->_getDataOne('count_comment_new');
 	}
 	public function getDateRead() {
-		return $this->_aData['date_read'];
+		return $this->_getDataOne('date_read');
 	}
 	public function getUser() {
-		if (!isset($this->_aData['user'])) {
+		if (!$this->_getDataOne('user')) {
 			$this->_aData['user']=$this->User_GetUserById($this->getUserId());
 		}
-		return $this->_aData['user'];
+		return $this->_getDataOne('user');
 	}
 	public function getBlog() {
-		return $this->_aData['blog'];
+		return $this->_getDataOne('blog');
 	}
 
 
@@ -202,10 +199,10 @@ class ModuleTopic_EntityTopic extends Entity {
 		}
 	}
 	public function getVote() {
-		return $this->_aData['vote'];
+		return $this->_getDataOne('vote');
 	}
 	public function getUserQuestionIsVote() {
-		return $this->_aData['user_question_is_vote'];
+		return $this->_getDataOne('user_question_is_vote');
 	}
 	public function getIsFavourite() {
 		if ($this->getFavourite()) {
@@ -214,7 +211,7 @@ class ModuleTopic_EntityTopic extends Entity {
 		return false;
 	}
 	public function getCountFavourite() {
-		return $this->_aData['topic_count_favourite'];
+		return $this->_getDataOne('topic_count_favourite');
 	}
 	public function getSubscribeNewComment() {
 		if (!($oUserCurrent=$this->User_GetUserCurrent())) {

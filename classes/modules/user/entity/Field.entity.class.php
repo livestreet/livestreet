@@ -17,19 +17,19 @@
 
 class ModuleUser_EntityField extends Entity {
 	public function getId() {
-		return $this->_aData['id'];
+		return $this->_getDataOne('id');
 	}
 	public function getName(){
-		return $this->_aData['name'];
+		return $this->_getDataOne('name');
 	}
 	public function getType(){
-		return $this->_aData['type'];
+		return $this->_getDataOne('type');
 	}
 	public function getTitle(){
-		return $this->_aData['title'];
+		return $this->_getDataOne('title');
 	}
 	public function getPattern(){
-		return $this->_aData['pattern'];
+		return $this->_getDataOne('pattern');
 	}
 	public function getValue($bEscapeValue = false, $bTransformed = false){
 		if (!isset($this->_aData['value']) || !$this->_aData['value']) return '';

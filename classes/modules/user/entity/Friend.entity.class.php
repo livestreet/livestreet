@@ -28,10 +28,10 @@ class ModuleUser_EntityFriend extends Entity
     	if(!$sUserId) {
         	$sUserId=$this->getUserId();
     	}
-    	if($this->_aData['user_from']==$sUserId) {
+    	if($this->_getDataOne('user_from')==$sUserId) {
     		return $this->_aData['user_to'];
     	}
-    	if($this->_aData['user_to']==$sUserId) {
+    	if($this->_getDataOne('user_to')==$sUserId) {
     		return $this->_aData['user_from'];
     	}
     	return false;
@@ -43,24 +43,20 @@ class ModuleUser_EntityFriend extends Entity
      * @return int
      */
     public function getUserId() {
-    	return array_key_exists('user',$this->_aData) 
-    			? $this->_aData['user']
-    			: null;
+		return $this->_getDataOne('user');
     }
 
     public function getUserFrom() {
-        return $this->_aData['user_from'];
+        return $this->_getDataOne('user_from');
     }  
     public function getUserTo() {
-        return $this->_aData['user_to'];
+        return $this->_getDataOne('user_to');
     }  
     public function getStatusFrom() {
-        return $this->_aData['status_from'];
+        return $this->_getDataOne('status_from');
     }  
     public function getStatusTo() {
-        return (empty($this->_aData['status_to']))
-        	? ModuleUser::USER_FRIEND_NULL
-        	: $this->_aData['status_to'];
+		return $this->_getDataOne('status_to') ? $this->_getDataOne('status_to') : ModuleUser::USER_FRIEND_NULL;
     }  
     public function getFriendStatus() {
     	return $this->getStatusFrom()+$this->getStatusTo();
