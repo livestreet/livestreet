@@ -706,14 +706,14 @@ CREATE TABLE IF NOT EXISTS `prefix_user_field` (
 
 INSERT INTO `prefix_user_field` (`id`, `type`, `name`, `title`, `pattern`) VALUES
 (1, 'contact', 'phone', 'Телефон', ''),
-(2, 'contact', 'mail', 'E-mail', '<a href="mailto:{*}">{*}</a>'),
-(3, 'contact', 'skype', 'Skype', '<a href="skype:{*}">{*}</a>'),
-(4, 'contact', 'icq', 'ICQ', '<a href="http://www.icq.com/people/about_me.php?uin={*}">{*}</a>'),
-(5, 'contact', 'www', 'Сайт', '<a href="http://{*}">{*}</a>'),
-(6, 'social', 'twitter', 'Twitter', '<a href="http://twitter.com/{*}/">{*}</a>'),
-(7, 'social', 'facebook', 'Facebook', '<a href="http://facebook.com/{*}">{*}</a>'),
-(8, 'social', 'vkontakte', 'ВКонтакте', '<a href="http://vk.com/{*}">{*}</a>'),
-(9, 'social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/">{*}</a>');
+(2, 'contact', 'mail', 'E-mail', '<a href="mailto:{*}" rel="nofollow">{*}</a>'),
+(3, 'contact', 'skype', 'Skype', '<a href="skype:{*}" rel="nofollow">{*}</a>'),
+(4, 'contact', 'icq', 'ICQ', '<a href="http://www.icq.com/people/about_me.php?uin={*}" rel="nofollow">{*}</a>'),
+(5, 'contact', 'www', 'Сайт', '<a href="http://{*}" rel="nofollow">{*}</a>'),
+(6, 'social', 'twitter', 'Twitter', '<a href="http://twitter.com/{*}/" rel="nofollow">{*}</a>'),
+(7, 'social', 'facebook', 'Facebook', '<a href="http://facebook.com/{*}" rel="nofollow">{*}</a>'),
+(8, 'social', 'vkontakte', 'ВКонтакте', '<a href="http://vk.com/{*}" rel="nofollow">{*}</a>'),
+(9, 'social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/" rel="nofollow">{*}</a>');
 
 -- --------------------------------------------------------
 
