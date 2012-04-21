@@ -36,6 +36,14 @@
 				e.stopPropagation();
 			});
 		}
+			
+			
+		// Update stream
+		$('#stream-update').click(function(){
+			$(this).addClass('active');
+			ls.blocks.load($('#block_stream_item_comment'), 'block_stream');
+			setTimeout( function() { $('#stream-update').removeClass('active'); }, 600 );
+		});
 	});
 </script>
 
@@ -43,6 +51,7 @@
 <section class="block block-type-stream" id="block_stream">
 	<header class="block-header">
 		<h3><a href="{router page='comments'}" title="{$aLang.block_stream_comments_all}">{$aLang.block_stream}</a></h3>
+		<div class="stream-update" id="stream-update"></div>
 	</header>
 	
 	

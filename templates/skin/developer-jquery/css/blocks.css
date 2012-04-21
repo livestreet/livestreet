@@ -15,6 +15,11 @@
 .block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
 
 
+/* Block Type - Stream */
+.block.block-type-stream .stream-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
+.block.block-type-stream .stream-update.active 	{ background-position: -16px 0; }
+
+
 /* Block Type - Activity Settings */
 .block.block-type-activity p 		{ margin-bottom: 15px; }
 .block.block-type-activity ul li 	{ margin-bottom: 5px; }
