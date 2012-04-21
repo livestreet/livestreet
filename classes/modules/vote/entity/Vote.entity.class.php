@@ -35,6 +35,9 @@ class ModuleVote_EntityVote extends Entity
     public function getDate() {
         return $this->_aData['vote_date'];
     }
+	public function getIp() {
+		return $this->_getDataOne('vote_ip');
+	}
 
     
     
@@ -56,5 +59,8 @@ class ModuleVote_EntityVote extends Entity
     public function setDate($data) {
         $this->_aData['vote_date']=$data;
     }
+	public function setIp($data) {
+		$this->_aData['vote_ip']=$data;
+	}
 }
 ?>

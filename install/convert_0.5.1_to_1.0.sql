@@ -111,3 +111,6 @@ INSERT INTO `prefix_user_field` (`type`, `name`, `title`, `pattern`) VALUES
 ('social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/" rel="nofollow">{*}</a>');
 
 ALTER TABLE `prefix_favourite_tag` ADD INDEX ( `text` );
+
+ALTER TABLE `prefix_vote` ADD `vote_ip` VARCHAR( 15 ) NOT NULL DEFAULT '',
+ADD INDEX ( `vote_ip` );

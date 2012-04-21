@@ -769,8 +769,10 @@ CREATE TABLE IF NOT EXISTS `prefix_vote` (
   `vote_direction` tinyint(2) DEFAULT '0',
   `vote_value` float(9,3) NOT NULL DEFAULT '0.000',
   `vote_date` datetime NOT NULL,
+  `vote_ip` varchar(15) NOT NULL DEFAULT '',
   PRIMARY KEY (`target_id`,`target_type`,`user_voter_id`),
-  KEY `user_voter_id` (`user_voter_id`)
+  KEY `user_voter_id` (`user_voter_id`),
+  KEY `vote_ip` (`vote_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
