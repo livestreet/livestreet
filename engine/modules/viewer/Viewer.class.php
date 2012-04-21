@@ -209,14 +209,6 @@ class ModuleViewer extends Module {
 		$this->oSmarty->setCacheDir(Config::Get('path.smarty.cache'));
 		$this->oSmarty->setPluginsDir(array_merge(array(Config::Get('path.smarty.plug'),'plugins'),$this->oSmarty->getPluginsDir()));
 		/**
-		 * Получаем настройки блоков из конфигов
-		 */
-		$this->InitBlockParams();
-		/**
-		 * Добавляем блоки по предзагруженным правилам из конфигов
-		 */
-		$this->BuildBlocks();
-		/**
 		 * Получаем настройки JS, CSS файлов
 		 */
 		$this->InitFileParams();
@@ -1343,7 +1335,16 @@ class ModuleViewer extends Module {
 	 * Загружаем переменные в шаблон при завершении модуля
 	 *
 	 */
-	public function Shutdown() {		
+	public function Shutdown() {
+		/**
+		 * Получаем настройки блоков из конфигов
+		 */
+		$this->InitBlockParams();
+		/**
+		 * Добавляем блоки по предзагруженным правилам из конфигов
+		 */
+		$this->BuildBlocks();
+
 		$this->SortBlocks();
 		/**
 		 * Добавляем JS и CSS по предписанным правилам
