@@ -1,10 +1,10 @@
-.input-text { 
-	width: 150px; 
-	padding: 5px; 
-	border: 1px solid #ddd; 
-	box-shadow: 0 2px 4px rgba(0,0,0,.07) inset; 
-	border-radius: 3px; 
-	-moz-box-sizing: border-box; 
+.input-text {
+	width: 150px;
+	padding: 5px;
+	border: 1px solid #ddd;
+	box-shadow: 0 2px 4px rgba(0,0,0,.07) inset;
+	border-radius: 3px;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 .input-text:focus 	{ border-color: #4D90FE; box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4D90FE; }

@@ -92,13 +92,13 @@
 .topic-photo-upload .topic-photo-upload-input input { margin-top: 3px; }
 
 #photoset-upload-form {
-	width: 270px; 
+	width: 270px;
 	padding: 15px;
 	position: absolute;
 	top:70%;
 	display: none;
-	background-color: #fff; 
-	border: 1px solid #ccc; 
+	background-color: #fff;
+	border: 1px solid #ccc;
 	-moz-box-shadow: 0 0 10px #ddd;
 	-webkit-box-shadow: 0 0 10px #ddd;
 	box-shadow: 0 0 10px #ddd;
