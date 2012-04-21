@@ -1,4 +1,4 @@
-<ul class="user-list">
+<ul class="item-list">
 	{foreach from=$aBlogs item=oBlog}
 		<li>
 			<a href="{router page='blog'}{$oBlog->getUrl()}/"><img src="{$oBlog->getAvatarPath(48)}" alt="avatar" class="avatar" /></a>

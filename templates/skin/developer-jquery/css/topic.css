@@ -53,8 +53,8 @@
 .topic .poll .poll-result li dl dt { float: left; width: 50px; text-align: right; padding-right: 15px; }
 .topic .poll .poll-result li dl dt span { color: #aaa; }
 .topic .poll .poll-result li dl dd { float: left; width: 400px; }
-.topic .poll .poll-result li dl dd div { height: 5px; margin-top: 5px; background: #ccc; overflow: hidden; }
-.topic .poll .poll-result li.most dl dd div { background: #555; }
+.topic .poll .poll-result li dl dd div { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
+.topic .poll .poll-result li.most dl dd div { background: #60CC4E; }
 
 .topic .poll .poll-total { color: #aaa; margin-left: 10px; }
 

@@ -10,11 +10,11 @@
 		<table class="table table-users">
 			<thead>
 				<tr>
-					<th>{$aLang.blog_admin_users}</th>
-					<th>{$aLang.blog_admin_users_administrator}</th>
-					<th>{$aLang.blog_admin_users_moderator}</th>
-					<th>{$aLang.blog_admin_users_reader}</th>
-					<th>{$aLang.blog_admin_users_bun}</th>
+					<th class="cell-name">{$aLang.blog_admin_users}</th>
+					<th class="ta-c">{$aLang.blog_admin_users_administrator}</th>
+					<th class="ta-c">{$aLang.blog_admin_users_moderator}</th>
+					<th class="ta-c">{$aLang.blog_admin_users_reader}</th>
+					<th class="ta-c">{$aLang.blog_admin_users_bun}</th>
 				</tr>
 			</thead>
 			
@@ -23,15 +23,18 @@
 					{assign var="oUser" value=$oBlogUser->getUser()}
 					
 					<tr>
-						<td><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></td>
+						<td class="cell-name">
+							<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+						</td>
 						
 						{if $oUser->getId()==$oUserCurrent->getId()}
 							<td colspan="3">{$aLang.blog_admin_users_current_administrator}</td>
 						{else}
-							<td><input type="radio" name="user_rank[{$oUser->getId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if} /></td>
-							<td><input type="radio" name="user_rank[{$oUser->getId()}]" value="moderator" {if $oBlogUser->getIsModerator()}checked{/if} /></td>
-							<td><input type="radio" name="user_rank[{$oUser->getId()}]" value="reader" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_USER}checked{/if} /></td>
-							<td><input type="radio" name="user_rank[{$oUser->getId()}]" value="ban" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_BAN}checked{/if} /></td>
+							<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if} /></td>
+							<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="moderator" {if $oBlogUser->getIsModerator()}checked{/if} /></td>
+							<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="reader" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_USER}checked{/if} /></td>
+							<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="ban" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_BAN}checked{/if} /></td>
 						{/if}
 					</tr>
 				{/foreach}

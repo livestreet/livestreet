@@ -24,7 +24,7 @@
 			<p><label for="talk_filter_favourite"><input type="checkbox" {if $_aRequest.favourite}checked="checked" {/if} class="input-checkbox" name="favourite" value="1" id="talk_filter_favourite" />
 			{$aLang.talk_filter_label_favourite}</label></p>
 
-			<input type="submit" name="submit_talk_filter" value="{$aLang.talk_filter_submit}" class="button" />
+			<input type="submit" name="submit_talk_filter" value="{$aLang.talk_filter_submit}" class="button button-primary" />
 			<input type="submit" name="" value="{$aLang.talk_filter_submit_clear}" class="button" onclick="return ls.talk.clearFilter();" />
 		</form>
 	</div>

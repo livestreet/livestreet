@@ -1,4 +1,4 @@
-<ul class="user-list">
+<ul class="item-list">
 	{foreach from=$oTopics item=oTopic name="cmt"}
 		{assign var="oUser" value=$oTopic->getUser()}							
 		{assign var="oBlog" value=$oTopic->getBlog()}
@@ -7,7 +7,7 @@
 			<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 			
 			<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a> &rarr;
-			<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
+			<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
 			<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
 			
 			<p>

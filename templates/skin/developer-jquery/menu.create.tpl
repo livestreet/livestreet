@@ -1,28 +1,34 @@
 <script type="text/javascript">
 	jQuery(function($){
-		var menu = $('#create-dropdown-menu');
+		var trigger = $('#dropdown-create-trigger');
+		var menu 	= $('#dropdown-create-menu');
+		var pos 	= trigger.position();
 	
-		var pos = $('#create-dropdown-link').position();
+	
+		// Dropdown
 		menu.css({ 'left': pos.left - 5 });
 	
-		$('.create-dropdown-link').click(function(){
+		trigger.click(function(){
 			menu.slideToggle(); 
 			return false;
 		});
 		
+		
+		// Hide menu
 		$(document).click(function(){
 			menu.slideUp();
 		});
 	
-		$('body').on("click", "#create-dropdown, #create-dropdown-link", function(e) {
+		$('body').on("click", "#dropdown-create-trigger, #dropdown-create-menu", function(e) {
 			e.stopPropagation();
 		});
 	});
 </script>
 
-<div class="create-dropdown" id="create-dropdown">
+
+<div class="dropdown-create">
 	{strip}
-		<h2 class="page-header">Создать <a href="#" class="create-dropdown-link link-dashed" id="create-dropdown-link">
+		<h2 class="page-header">Создать <a href="#" class="dropdown-create-trigger link-dashed" id="dropdown-create-trigger">
 			{if $sMenuItemSelect=='topic'}
 				{$aLang.topic_menu_add}
 			{elseif $sMenuItemSelect=='blog'}
@@ -32,7 +38,8 @@
 			{/if}
 		</a></h2>
 	{/strip}
-	<ul class="create-dropdown-menu" id="create-dropdown-menu" style="display: none">
+	
+	<ul class="dropdown-menu" id="dropdown-create-menu" style="display: none">
 		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
 		<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
 		{hook run='menu_create_item' sMenuItemSelect=$sMenuItemSelect}
@@ -52,5 +59,6 @@
 		{hook run='menu_create_topic_item'}
 	</ul>
 {/if}
+
 
 {hook run='menu_create' sMenuItemSelect=$sMenuItemSelect sMenuSubItemSelect=$sMenuSubItemSelect}

@@ -13,8 +13,8 @@
 		<thead>
 			<tr>
 				<th class="cell-name">{$aLang.user}</th>
-				<th>{$aLang.user_date_last}</th>
-				<th>{$aLang.user_date_registration}</th>
+				<th class="cell-date">{$aLang.user_date_last}</th>
+				<th class="cell-date">{$aLang.user_date_registration}</th>
 				<th class="cell-skill">{$aLang.user_skill}</th>
 				<th class="cell-rating">{$aLang.user_rating}</th>
 			</tr>
@@ -28,10 +28,10 @@
 				<tr>
 					<td class="cell-name">
 						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-						<a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a>
+						<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a></p>
 					</td>
-					<td>{if $oSession}{date_format date=$oSession->getDateLast()}{/if}</td>
-					<td>{date_format date=$oUserList->getDateRegister()}</td>
+					<td class="cell-date">{if $oSession}{date_format date=$oSession->getDateLast() format="d.m.y, H:i"}{/if}</td>
+					<td class="cell-date">{date_format date=$oUserList->getDateRegister() format="d.m.y, H:i"}</td>
 					<td class="cell-skill">{$oUserList->getSkill()}</td>
 					<td class="cell-rating"><strong>{$oUserList->getRating()}</strong></td>
 				</tr>

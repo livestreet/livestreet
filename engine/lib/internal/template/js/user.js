@@ -309,10 +309,10 @@ ls.user = (function ($) {
 			$.each(aFields,function(i,aField){
 				if (result.aErrors && result.aErrors[aField.field][0]) {
 					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
-					sForm.find('.validate-ok-field-'+aField.field).addClass('hidden');
+					sForm.find('.validate-ok-field-'+aField.field).hide();
 				} else {
 					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
-					sForm.find('.validate-ok-field-'+aField.field).removeClass('hidden');
+					sForm.find('.validate-ok-field-'+aField.field).show();
 				}
 			});
 			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, sForm, result]);

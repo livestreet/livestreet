@@ -4,9 +4,10 @@
 
 .blog { background: #fafafa; margin-bottom: 10px; border-radius: 3px; border: 1px solid #eee; overflow: hidden; }
 
-.blog .blog-header { position: relative; padding: 15px 130px 15px 78px; border-bottom: 1px solid #eee; }
-.blog .blog-header h2 { font-size: 20px; font-weight: bold; line-height: 1em; margin-top: 3px; margin-bottom: 7px; }
-.blog .blog-header .avatar { position: absolute; top: 15px; left: 15px; }
+.blog .blog-header 			{ position: relative; padding: 15px 130px 15px 78px; border-bottom: 1px solid #eee; }
+.blog .blog-header h2 		{ font-size: 20px; font-weight: bold; line-height: 1em; margin-top: 3px; margin-bottom: 7px; }
+.blog .blog-header h2 i 	{ position: relative; top: 5px; }
+.blog .blog-header .avatar 	{ position: absolute; top: 15px; left: 15px; }
 
 
 .blog .blog-header .vote-label	{ text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
@@ -29,5 +30,5 @@
 
 .blog .blog-footer { padding: 15px; border-bottom: 1px solid #eee; }
 
-.blog-more { display: block; padding: 10px 0; text-align: center; text-decoration: none; background: #fafafa; }
-.blog-more:hover { background: #eee; }
+.blog-more 			{ display: block; padding: 10px 0; text-align: center; text-decoration: none; background: #fafafa; }
+.blog-more:hover 	{ background: #eee; }
