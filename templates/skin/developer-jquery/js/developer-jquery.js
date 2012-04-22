@@ -1,7 +1,3 @@
-/****************
- * MAIN
- */
-
 jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
@@ -123,74 +119,33 @@ jQuery(document).ready(function($){
 	
 	// эмуляция placeholder'ов в IE
 	inputs.placeholder();
-	
-	// Хук конца инициализации javascript-составляющих шаблона
-	ls.hook.run('ls_template_init_end',[],window);
-});
 
-
-
-/*****************
- * BLOCKS
- */
-
-/**
- * Подключаем действующие блоки
- */
-jQuery(function($){
+	// инизиализация блоков
 	ls.blocks.init('stream',{group_items: true, group_min: 3});
 	ls.blocks.init('blogs');
-
 	ls.blocks.initSwitch('tags');
 	ls.blocks.initSwitch('upload-img');
 	ls.blocks.initSwitch('favourite-topic-tags');
 	ls.blocks.initSwitch('popup-login');
-});
 
-
-/****************
- * COMMENTS
- */
-
-/**
-* Обработка комментариев
-*/
-ls.comments = (function ($) {
-	/**
-	* Опции
-	*/
-	this.options.folding = false;
-
-	return this;
-}).call(ls.comments || {},jQuery);
-
-jQuery(document).ready(function(){
+	// комментарии
+	ls.comments.options.folding = false;
 	ls.comments.init();
-});
 
+	// избранное
+	ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,params,result){
+		$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
+	});
 
+	/****************
+	 * TALK
+	 */
 
-/*****************
- * FAVOURITE
- */
-
-
-ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,params,result){
-	$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
-});
-
-
-/****************
- * TALK
- */
-
-
-jQuery(document).ready(function($){
 	// Добавляем или удаляем друга из списка получателей
 	$('#friends input:checkbox').change(function(){
 		ls.talk.toggleRecipient($('#'+$(this).attr('id')+'_label').text(), $(this).attr('checked'));
 	});
-	
+
 	// Добавляем всех друзей в список получателей
 	$('#friend_check_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
@@ -199,7 +154,7 @@ jQuery(document).ready(function($){
 		});
 		return false;
 	});
-	
+
 	// Удаляем всех друзей из списка получателей
 	$('#friend_uncheck_all').click(function(){
 		$('#friends input:checkbox').each(function(index, item){
@@ -208,17 +163,20 @@ jQuery(document).ready(function($){
 		});
 		return false;
 	});
-	
+
 	// Удаляем пользователя из черного списка
 	$("#black_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromBlackList(this);
 		return false;
 	});
-	
+
 	// Удаляем пользователя из переписки
 	$("#speaker_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromTalk(this, $('#talk_id').val());
 		return false;
 	});
-});
 
+	
+	// Хук конца инициализации javascript-составляющих шаблона
+	ls.hook.run('ls_template_init_end',[],window);
+});
