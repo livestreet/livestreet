@@ -637,7 +637,7 @@ return array(
 	'settings_profile_foto_delete' => 'Удалить',
 	'settings_profile_photo_change' => 'Изменить фотографию',
 	'settings_profile_photo_upload' => 'Загрузить фотографию',
-	'settings_profile_submit' => 'сохранить профиль',
+	'settings_profile_submit' => 'Сохранить',
 	'settings_profile_submit_ok' => 'Профиль успешно сохранён',
 	'settings_invite' => 'Управление приглашениями',
 	'settings_invite_notice' => 'Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку',

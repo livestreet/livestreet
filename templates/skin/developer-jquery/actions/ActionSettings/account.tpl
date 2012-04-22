@@ -53,7 +53,7 @@
 	{hook run='form_settings_account_end'}
 	
 	
-	<button name="submit_account_edit" class="button button-primary" />{$aLang.settings_account_submit}</button>
+	<button name="submit_account_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 </form>
 
 {hook run='settings_account_end'}
