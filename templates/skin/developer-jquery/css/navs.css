@@ -23,10 +23,10 @@
 	background: -ms-linear-gradient(top, #2891d3 0%,#2375c6 100%);
 	background: linear-gradient(top, #2891d3 0%,#2375c6 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2891d3', endColorstr='#2375c6',GradientType=0 );
-	
+
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-	
-	color: #fff; 
+
+	color: #fff;
 }
 
 .nav.nav-pills.nav-pills-profile 		{ margin-bottom: 30px; }
@@ -50,10 +50,10 @@
 
 
 /* Userbar */
-#userbar { 
-	border: 1px solid #ddd; 
-	border-top: none; 
-	
+#userbar {
+	border: 1px solid #ddd;
+	border-top: none;
+
 	background: #ffffff;
 	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f3f3f3));
@@ -61,10 +61,10 @@
 	background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
 	background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
 	background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); 
-	
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
+
 	border-radius: 0 0 4px 4px;
-	box-shadow: 0 0 5px #ddd;	
+	box-shadow: 0 0 5px #ddd;
 }
 #userbar .search { float: left; margin: 5px 0 0 6px; *margin: 4px 0 0 4px; }
 
@@ -110,7 +110,6 @@
 .dropdown-create 		{ position: relative; margin-right: 120px; }
 .dropdown-create a 		{ font-weight: normal; }
 .dropdown-create h2 a 	{ text-transform: lowercase; }
-
 
 
 

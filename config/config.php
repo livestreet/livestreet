@@ -395,16 +395,8 @@ $config['router']['config']['action_not_found'] = 'error';
  * Настройки вывода блоков
  */
 $config['block']['rule_index_blog'] = array(
-	'path' => array(
-		'___path.root.web___/blog$',
-		'___path.root.web___/blog/*$',
-		'___path.root.web___/blog/*/page\d+$',
-		'___path.root.web___/blog/*/*\.html$',
-		'___path.root.web___/blog/*\.html$',
-		'___path.root.web___/top(|(/.+))$',
-	),
 	'action'  => array(
-			'index', 'new'
+			'index', 'blog' => array('{topics}','{topic}','{blog}')
 		),
 	'blocks'  => array(
 			'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))

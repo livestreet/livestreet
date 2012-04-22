@@ -45,6 +45,12 @@ class Router extends LsObject {
 	 */
 	static protected $sActionEvent=null;
 	/**
+	 * Имя текущего евента
+	 *
+	 * @var string|null
+	 */
+	static protected $sActionEventName=null;
+	/**
 	 * Класс текущего экшена
 	 *
 	 * @var string|null
@@ -272,6 +278,7 @@ class Router extends LsObject {
 			$iTimeId=$oProfiler->Start('ExecAction',self::$sAction);
 
 			$res=$this->oAction->ExecEvent();
+			self::$sActionEventName=$this->oAction->GetCurrentEventName();
 
 			$this->Hook_Run("action_shutdown_".strtolower($sActionClass)."_before");
 			$this->oAction->EventShutdown();
@@ -343,6 +350,14 @@ class Router extends LsObject {
 	 */
 	static public function GetActionEvent() {
 		return self::$sActionEvent;
+	}
+	/**
+	 * Возвращает имя текущего евента
+	 *
+	 * @return string
+	 */
+	static public function GetActionEventName() {
+		return self::$sActionEventName;
 	}
 	/**
 	 * Возвращает класс текущего экшена
@@ -455,7 +470,7 @@ class Router extends LsObject {
 	 * @param  string $sPage
 	 * @return string
 	 */
-	protected function Rewrite($sPage) {
+	public function Rewrite($sPage) {
 		return (isset($this->aConfigRoute['rewrite'][$sPage]))
 			? $this->aConfigRoute['rewrite'][$sPage]
 			: $sPage;
@@ -470,7 +485,7 @@ class Router extends LsObject {
 	 * @param  string $sPage
 	 * @return string
 	 */
-	protected function Standart($sPage) {
+	public function Standart($sPage) {
 		$aRewrite=array_flip($this->aConfigRoute['rewrite']);
 		return (isset($aRewrite[$sPage]))
 			? $aRewrite[$sPage]
