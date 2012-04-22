@@ -68,8 +68,9 @@
 	<p>
 		{if $oBlogEdit and $oBlogEdit->getAvatar()}
 			<div class="avatar-edit">
-				<img src="{$oBlogEdit->getAvatarPath(48)}" />
-				<img src="{$oBlogEdit->getAvatarPath(24)}" />
+			{foreach from=$oConfig->GetValue('module.blog.avatar_size') item=iSize}
+                		{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
+            		{/foreach}
 				
 				<label><input type="checkbox" id="avatar_delete" name="avatar_delete" value="on" class="input-checkbox"> {$aLang.blog_create_avatar_delete}</label>
 			</div>
