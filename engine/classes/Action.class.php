@@ -72,6 +72,13 @@ abstract class Action extends LsObject {
 	 */
 	protected $sCurrentEvent=null;
 	/**
+	 * Имя текущий евента
+	 * Позволяет именовать экшены на основе регулярных выражений
+	 *
+	 * @var string|null
+	 */
+	protected $sCurrentEventName=null;
+	/**
 	 * Текущий экшен
 	 *
 	 * @var null|string
@@ -113,7 +120,17 @@ abstract class Action extends LsObject {
 			throw new Exception("Incorrect number of arguments when adding events");
 		}
 		$aEvent=array();
-		$aEvent['method']=func_get_arg($iCountArgs-1);
+		/**
+		 * Последний параметр может быть массивом - содержать имя метода и имя евента(именованный евент)
+		 * Если указан только метод, то имя будет равным названию метода
+		 */
+		$aNames=(array)func_get_arg($iCountArgs-1);
+		$aEvent['method']=$aNames[0];
+		if (isset($aNames[1])) {
+			$aEvent['name']=$aNames[1];
+		} else {
+			$aEvent['name']=$aEvent['method'];
+		}
 		if (!method_exists($this,$aEvent['method'])) {
 			throw new Exception("Method of the event not found: ".$aEvent['method']);
 		}
@@ -148,6 +165,7 @@ abstract class Action extends LsObject {
 						continue 2;
 					}
 				}
+				$this->sCurrentEventName=$aEvent['name'];
 				$sCmd='$result=$this->'.$aEvent['method'].'();';
 				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_before",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
 				eval($sCmd);
@@ -304,6 +322,15 @@ abstract class Action extends LsObject {
 	 */
 	public function GetActionClass() {
 		return Router::GetActionClass();
+	}
+
+	/**
+	 * Возвращает имя евента
+	 *
+	 * @return null|string
+	 */
+	public function GetCurrentEventName() {
+		return $this->sCurrentEventName;
 	}
 
 	/**

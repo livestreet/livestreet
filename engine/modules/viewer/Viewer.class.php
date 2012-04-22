@@ -574,7 +574,8 @@ class ModuleViewer extends Module {
 	 */
 	protected function BuildBlocks() {
 		$sAction = strtolower(Router::GetAction());
-		$sEvent  = strtolower(Router::GetActionEvent());		
+		$sEvent  = strtolower(Router::GetActionEvent());
+		$sEventName  = strtolower(Router::GetActionEventName());
 		foreach($this->aBlockRules as $sName=>$aRule) {
 			$bUse=false;
 			/**
@@ -595,16 +596,24 @@ class ModuleViewer extends Module {
 					 * переходи к следующему действию.
 					 */
 					foreach ((array)$aRule['action'][$sAction] as $sEventPreg) {
-						if(substr($sEventPreg,0,1)!='/') {
+						if(substr($sEventPreg,0,1)=='/') {
 							/**
-							 * значит это название event`a
-							 */
-							if($sEvent==$sEventPreg) { $bUse=true; break; }
-						} else {
-							/**
-							 * это регулярное выражение
+							 * Это регулярное выражение
 							 */
 							if(preg_match($sEventPreg,$sEvent)) { $bUse=true; break; }
+						} elseif (substr($sEventPreg,0,1)=='{') {
+							/**
+							 * Это имя event'a (именованный евент, если его нет, то совпадает с именем метода евента в экшене)
+							 */
+							if(trim($sEventPreg,'{}')==$sEventName) {
+								$bUse=true;
+								break;
+							}
+						} else {
+							/**
+							 * Это название event`a
+							 */
+							if($sEvent==$sEventPreg) { $bUse=true; break; }
 						}
 					}
 				}
