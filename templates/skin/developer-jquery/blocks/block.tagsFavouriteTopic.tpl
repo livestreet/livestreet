@@ -6,14 +6,14 @@
 	
 	<div class="block-content" id="block_favourite_topic_content">
 		<ul class="nav nav-pills">
-			<li id="block_favourite_topic_tags_item_all" class="active"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
-			<li id="block_favourite_topic_tags_item_user"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
+			<li class="active js-block-favourite-topic-tags-item" data-type="all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
+			<li class="js-block-favourite-topic-tags-item" data-type="user"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
 
 			{hook run='block_favourite_topic_tags_nav_item'}
 		</ul>
 		
 		
-		<div id="block_favourite_topic_tags_content_all">
+		<div class="js-block-favourite-topic-tags-content" data-type="all">
 			{if $aFavouriteTopicTags}
 				<ul class="tag-cloud">
 					{foreach from=$aFavouriteTopicTags item=oTag}
@@ -25,7 +25,7 @@
 			{/if}
 		</div>
 		
-		<div id="block_favourite_topic_tags_content_user" style="display: none;">
+		<div class="js-block-favourite-topic-tags-content" data-type="user" style="display: none;">
 			{if $aFavouriteTopicUserTags}
 				<ul class="tag-cloud">
 					{foreach from=$aFavouriteTopicUserTags item=oTag}

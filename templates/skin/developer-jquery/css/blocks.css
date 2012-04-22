@@ -17,8 +17,8 @@
 
 
 /* Block Type - Stream */
-.block.block-type-stream .stream-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
-.block.block-type-stream .stream-update.active 	{ background-position: -16px 0; }
+.block .block-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
+.block .block-update.active 	{ background-position: -16px 0; }
 
 
 /* Block Type - Activity Settings */

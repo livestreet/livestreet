@@ -18,23 +18,21 @@ jQuery(document).ready(function($){
 	$('#avatar-resize').jqm();
 
 	$('.js-registration-form-show').click(function(){
-		if ($('#block_popup_login_item_registration').length) {
+		if (ls.blocks.switchTab('registration','popup-login')) {
 			$('#window_login_form').jqmShow();
-			$('#block_popup_login_item_registration').trigger('click');
-			return false;
 		} else {
 			window.location=aRouter.registration;
 		}
+		return false;
 	});
 
 	$('.js-login-form-show').click(function(){
-		if ($('#block_popup_login_item_login').length) {
+		if (ls.blocks.switchTab('login','popup-login')) {
 			$('#window_login_form').jqmShow();
-			$('#block_popup_login_item_login').trigger('click');
-			return false;
 		} else {
 			window.location=aRouter.login;
 		}
+		return false;
 	});
 	
 	// Datepicker
@@ -140,35 +138,13 @@ jQuery(document).ready(function($){
  * Подключаем действующие блоки
  */
 jQuery(function($){
-	$('[id^="block_stream_item"]').click(function(){
-		ls.blocks.load(this, 'block_stream');
-		return false;
-	});
+	ls.blocks.init('stream',{group_items: true, group_min: 3});
+	ls.blocks.init('blogs');
 
-	$('[id^="block_blogs_item"]').click(function(){
-		ls.blocks.load(this, 'block_blogs');
-		return false;
-	});
-
-	$('[id^="block_favourite_topic_tags_item"]').click(function(){
-		ls.blocks.switchTab(this, 'block_favourite_topic_tags');
-		return false;
-	});
-
-	$('[id^="block_tags_item"]').click(function(){
-		ls.blocks.switchTab(this, 'block_tags');
-		return false;
-	});
-
-	$('[id^="block_upload_img_item"]').click(function(){
-		ls.blocks.switchTab(this, 'block_upload_img');
-		return false;
-	});
-
-	$('[id^="block_popup_login_item"]').click(function(){
-		ls.blocks.switchTab(this, 'block_popup_login');
-		return false;
-	});
+	ls.blocks.initSwitch('tags');
+	ls.blocks.initSwitch('upload-img');
+	ls.blocks.initSwitch('favourite-topic-tags');
+	ls.blocks.initSwitch('popup-login');
 });
 
 

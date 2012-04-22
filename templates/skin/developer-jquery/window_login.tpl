@@ -18,17 +18,17 @@
 		
 		<div class="modal-content">
 			<ul class="nav nav-pills nav-pills-tabs">
-				<li class="active" id="block_popup_login_item_login"><a href="#">{$aLang.user_login_submit}</a></li>
+				<li class="active js-block-popup-login-item" data-type="login"><a href="#">{$aLang.user_login_submit}</a></li>
 				{if !$oConfig->GetValue('general.reg.invite')}
-					<li id="block_popup_login_item_registration"><a href="#">{$aLang.registration}</a></li>
+					<li class="js-block-popup-login-item" data-type="registration"><a href="#">{$aLang.registration}</a></li>
 				{else}
 					<li><a href="{router page='registration'}">{$aLang.registration}</a></li>
 				{/if}
-				<li id="block_popup_login_item_reminder"><a href="#">{$aLang.password_reminder}</a></li>
+				<li class="js-block-popup-login-item" data-type="reminder"><a href="#">{$aLang.password_reminder}</a></li>
 			</ul>
 			
 			
-			<div id="block_popup_login_content_login" class="tab-content">
+			<div class="tab-content js-block-popup-login-content" data-type="login">
 				{hook run='login_popup_begin'}
 				<form action="{router page='login'}" method="post" id="popup-login-form">
 					{hook run='form_login_popup_begin'}
@@ -52,7 +52,7 @@
 
 
 			{if !$oConfig->GetValue('general.reg.invite')}
-			<div id="block_popup_login_content_registration" class="tab-content" style="display:none;">
+			<div data-type="registration" class="tab-content js-block-popup-login-content" style="display:none;">
 				<script type="text/javascript">
 					jQuery(document).ready(function($){
 						$('#popup-registration-form').find('input.js-ajax-validate').blur(function(e){
@@ -122,7 +122,7 @@
 			{/if}
 			
 			
-			<div id="block_popup_login_content_reminder" class="tab-content" style="display:none;">
+			<div data-type="reminder" class="tab-content js-block-popup-login-content" style="display:none;">
 				<script type="text/javascript">
 					jQuery(document).ready(function($){
 						$('#popup-reminder-form').bind('submit',function(){

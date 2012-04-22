@@ -6,11 +6,11 @@
 	
 	<div class="modal-content">
 		<ul class="nav nav-pills nav-pills-tabs">
-			<li class="active" id="block_upload_img_item_pc"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
-			<li id="block_upload_img_item_link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
+			<li class="active js-block-upload-img-item" data-type="pc"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
+			<li class="js-block-upload-img-item" data-type="link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
 		</ul>
 	
-		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_pc" onsubmit="return false;" class="tab-content">
+		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_pc" onsubmit="return false;" class="tab-content js-block-upload-img-content" data-type="pc">
 			<p><label for="img_file">{$aLang.uploadimg_file}:</label>
 			<input type="file" name="img_file" id="img_file" value="" class="input-text input-width-full" /></p>
 			
@@ -36,7 +36,7 @@
 		</form>
 		
 		
-		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_link" onsubmit="return false;" style="display: none;" class="tab-content">
+		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_link" onsubmit="return false;" style="display: none;" class="tab-content js-block-upload-img-content" data-type="link">
 			<p><label for="img_file">{$aLang.uploadimg_url}:</label>
 			<input type="text" name="img_url" id="img_url" value="http://" class="input-text input-width-full" /></p>
 
