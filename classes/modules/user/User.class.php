@@ -1248,8 +1248,8 @@ class ModuleUser extends Module {
 	 * @param type $aFields Ассоциативный массив полей id => value
 	 * @return type
 	 */
-	public function setUserFieldsValues($iUserId, $aFields, $bSingle=true) {
-		return $this->oMapper->setUserFieldsValues($iUserId, $aFields, $bSingle);
+	public function setUserFieldsValues($iUserId, $aFields, $iCountMax=1) {
+		return $this->oMapper->setUserFieldsValues($iUserId, $aFields, $iCountMax);
 	}
 
 	/**

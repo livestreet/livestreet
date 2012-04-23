@@ -711,14 +711,18 @@ class ModuleUser_MapperUser extends Mapper {
 		return $aResult;
 	}
 
-	public function setUserFieldsValues($iUserId, $aFields, $bSingle) {
+	public function setUserFieldsValues($iUserId, $aFields, $iCountMax) {
 		if (!count($aFields)) return;
 		foreach ($aFields as $iId =>$sValue) {
-			$sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
-			if ($bSingle and $this->oDb->select($sql, $iUserId, $iId)) {
+			$sql = 'SELECT count(*) as c FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
+			$aRow=$this->oDb->selectRow($sql, $iUserId, $iId);
+			$iCount=isset($aRow['c']) ? $aRow['c'] : 0;
+			if ($iCount<$iCountMax) {
+				$sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
+			} elseif ($iCount==$iCountMax and $iCount==1) {
 				$sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
 			} else {
-				$sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
+				continue;
 			}
 			$this->oDb->query($sql, $sValue, $iUserId, $iId);
 		}

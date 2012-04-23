@@ -549,7 +549,7 @@ class ActionSettings extends Action {
 					if (is_array($aFieldsContactType)) {
 						foreach($aFieldsContactType as $k=>$v) {
 							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
-								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), false);
+								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), 2);
 							}
 						}
 					}
