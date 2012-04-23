@@ -13,7 +13,7 @@
 
 #content.content-full-width { width: 100%; margin-right: 0; }
 
-#content.content-right { margin-right: 0; float: none; margin-left: 311px; width: auto; }
-#sidebar.sidebar-left { float: left; width: 250px; padding-right: 30px; border-right: 1px solid #eee; margin-right: 30px; }
+#content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
+#sidebar.sidebar-left 		{ float: left; width: 250px; padding-right: 30px; border-right: 1px solid #eee; margin-right: 30px; }
 
 

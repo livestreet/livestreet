@@ -1,3 +1,7 @@
+/* --------------------------------------------
+	ТОПИК
+-------------------------------------------- */
+
 .topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
 .topic:last-child { margin-bottom: 0; }
 

@@ -1,3 +1,7 @@
+/* -------------------------------------------------------------------
+	ФОРМЫ
+------------------------------------------------------------------- */
+
 .input-text {
 	width: 150px;
 	padding: 5px;
@@ -20,17 +24,10 @@
 .input-width-400 	{ width: 400px; }
 .input-width-500 	{ width: 500px; }
 
-.poll-create { padding: 15px 20px; margin-bottom: 20px; background: #f7f7f7; }
-.question-list 					{ margin-bottom: 15px; }
-.question-list li 				{ margin-bottom: 5px; }
-.question-list li .input-text	{ margin-right: 10px; }
-
 select 		{ padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
 
 fieldset { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
 fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
-
-input:-moz-placeholder { color: #aaa; }
 
 form p { margin-bottom: 20px; }
 form label { display: block; margin-bottom: 3px; }
@@ -38,9 +35,6 @@ form .icon-question-sign { cursor: help; }
 
 .note { display: block; margin-top: 3px; font-size: 12px; color: #aaa; }
 .note.note-header { margin-bottom: 20px; }
-
-.validate-error-hide { display: none; }
-.validate-error-show { display: block; }
 
 .captcha-image { vertical-align: top; }
 
@@ -51,4 +45,12 @@ dl.form-item dd { float: left; width: 300px; }
 .form-profile { position: relative; }
 .form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
 
+/* Placeholder */
+input:-moz-placeholder { color: #aaa; }
 .placeholder { color: #aaa; }
+
+
+/* Валидатор 
+---------------------------------------------------------------*/
+.validate-error-hide { display: none; }
+.validate-error-show { display: block; color: #f00; font-weight: bold; font-size: 12px; }

@@ -1,5 +1,9 @@
+/* -------------------------------------------------------------------
+	ОБЩИЕ СТИЛИ
+------------------------------------------------------------------- */
+
 /* Голосование 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .vote .vote-count 							{ display: inline-block; font-weight: bold; color: #aaa; font-size: 14px; }
 .vote .vote-count a 						{ text-decoration: none; color: #999; outline: none; }
 
@@ -21,7 +25,7 @@
 
 
 /* Избранное 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .favourite 			{ display: inline-block; width: 14px; height: 14px; vertical-align: text-top; background: url(../images/icons.png) -96px 0 no-repeat; opacity: .3; filter: alpha(opacity=30); cursor: pointer; }
 .favourite.active 	{ opacity: 1; filter: alpha(opacity=100); }
 .favourite:hover 	{ opacity: .8; filter: alpha(opacity=80); }
@@ -30,7 +34,7 @@
 
 
 /* Пагинация 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; }
 .pagination ul li 				{ float: left; margin-right: 5px; }
 .pagination ul li span,
@@ -42,7 +46,7 @@
 
 
 /* Actions 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .actions 						{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
 .actions li 					{ float: left; margin-right: 10px; }
 .actions li a 					{ color: #D23232; }
@@ -53,7 +57,7 @@
 
 
 /* Toolbar 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .toolbar 					{ float: right; position: fixed; top: 220px; right: 10px; z-index: 100; }
 .toolbar section 			{ width: 34px; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.05); margin-bottom: 10px; }
 .toolbar section a			{ display: block; padding: 10px; }
@@ -79,7 +83,7 @@
 
 
 /* Список пользователей 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .user-list-avatar 			{ overflow: hidden; zoom: 1; }
 .user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; font-size: 11px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
@@ -87,27 +91,27 @@
 
 
 /* Поиск 
----------------------------------------------------------------*/
-.search { width: 200px; margin-bottom: 20px; position: relative; }
-.search .input-text { width: 200px; padding-right: 25px; }
-.search .input-submit { border: none; width: 16px; height: 16px; position: absolute; top: 6px; right: 5px; opacity: .7; filter: alpha(opacity=70); }
-.search .input-submit:hover { opacity: 1; filter: alpha(opacity=100); }
+---------------------------------------------------- */
+.search 						{ width: 200px; margin-bottom: 20px; position: relative; }
+.search .input-text 			{ width: 200px; padding-right: 25px; }
+.search .input-submit 			{ border: none; width: 16px; height: 16px; position: absolute; top: 6px; right: 5px; opacity: .7; filter: alpha(opacity=70); }
+.search .input-submit:hover 	{ opacity: 1; filter: alpha(opacity=100); }
 
-.search.search-item { margin-bottom: 15px; width: 100%; }
+.search.search-item 			{ margin-bottom: 15px; width: 100%; }
 .search.search-item .input-text { width: 100%; padding-right: 5px; }
 
-.search-abc { overflow: hidden; zoom: 1; padding: 10px 15px; background: #fafafa; margin-bottom: 15px; }
-.search-abc li { float: left; margin-right: 10px; }
-.search-abc li.active a { color: #333; border: none; }
+.search-abc 					{ overflow: hidden; zoom: 1; padding: 10px 15px; background: #fafafa; margin-bottom: 15px; }
+.search-abc li 					{ float: left; margin-right: 10px; }
+.search-abc li.active a 		{ color: #333; border: none; }
 
-.search-tags { margin-bottom: 15px; }
+.search-tags 					{ margin-bottom: 15px; }
 
 
 
 /* Облако тегов 
----------------------------------------------------------------*/
-.tag-cloud li { display: inline; margin-right: 5px; line-height: 22px; }
-.tag-cloud li a { text-decoration: none; white-space: nowrap; }
+---------------------------------------------------- */
+.tag-cloud li 				{ display: inline; margin-right: 5px; line-height: 22px; }
+.tag-cloud li a 			{ text-decoration: none; white-space: nowrap; }
 .tag-cloud li .tag-size-1 	{ font-size: 12px; }
 .tag-cloud li .tag-size-2 	{ font-size: 12px; }
 .tag-cloud li .tag-size-3 	{ font-size: 14px; }
@@ -121,14 +125,8 @@
 
 
 
-/* Валидатор 
----------------------------------------------------------------*/
-.validate-error-show { color: #f00; font-weight: bold; font-size: 12px; }
-
-
-
 /* Item List 
----------------------------------------------------------------*/
+---------------------------------------------------- */
 .item-list 					{ border-top: 1px solid #eee; }
 .item-list li 				{ min-height: 51px; padding: 7px 0 10px 58px; border-bottom: 1px solid #eee; position: relative; zoom: 1; }
 .item-list li p 			{ padding-top: 2px; font-size: 11px; }
@@ -139,52 +137,8 @@
 
 
 
-/* Разное
--------------------- */
-
-/* Stat */
-.stat-performance { width: 910px; margin: 0 auto 20px; padding: 15px 20px; background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-.stat-performance table { }
-.stat-performance table td { width: 200px; vertical-align: top; }
-.stat-performance h4 { font-weight: bold; }
-
-/* Userfeed */
-.userfeed-get-more {display:block; width:90%; margin:0px auto; text-align:center; height:2.5em; padding-top:1em;}
-.userfeed-get-more:hover { background: #f0f7fd;}
-.userfeed_loading {background: #F7F7F7 url(../images/loader.gif) no-repeat center;}
-
-/* Stream */
-.stream-get-more { display: block; text-align: center; padding: 12px 0; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none; }
-.stream-get-more:hover { background: #f0f7fd; }
-.stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
-.stream-comment-preview { padding: 5px 10px; background: #f3f3f3; margin-top: 5px; }
-
-.stream-list { margin: 0 0 20px; }
-.stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }
-.stream-list li .avatar { position: absolute; top: 10px; left: 10px; }
-.stream-list li .date { display: block; color: #999; }
-.stream-list li a { text-decoration: none; }
-.stream-list li a:hover { text-decoration: underline; }
-
-/* Userfields */
-.userfield-list { width: 450px; }
-.userfield-list li { background: #eee; margin-bottom: 1px; padding: 10px 10px; overflow: hidden; zoom: 1; line-height: 12px; color: #777; }
-.userfield-list li .userfield-actions { float: right; }
-.userfield-list li .userfield_admin_name { font-weight: bold; color: #333; }
-
-.userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
-.userfield-add:hover { color: #333; border-color: #333; }
-
-/* Misc */
-.avatar-edit { margin-bottom: 15px; }
-.avatar-edit img { vertical-align: bottom; }
-.avatar-edit label { margin-top: 10px; }
-
-.drafts { float: right; margin-top: 10px; }
-
-
-/* Хелперы 
----------------------------------------------------------------*/
+/* Хелперы
+---------------------------------------------------- */
 .mt-10 { margin-bottom: 10px !important; }
 .mt-20 { margin-bottom: 20px !important; }
 
@@ -214,15 +168,17 @@
 	white-space: normal;
 }
 
-.user, .ls-user { font-weight: bold; color: #333; }
-.user .icon-user { margin-right: 3px; }
-.user.inactive { color: #aaa; }
 
-.notice-empty { color: #aaa; }
 
-/* System messages */
+/* Разное
+---------------------------------------------------- */
 .system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
 .system-message-notice 	{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
 
+.notice-empty 			{ color: #aaa; }
+
 .loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
+.user, .ls-user 	{ font-weight: bold; color: #333; }
+.user .icon-user 	{ margin-right: 3px; }
+.user.inactive 		{ color: #aaa; }

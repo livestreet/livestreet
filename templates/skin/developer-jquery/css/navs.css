@@ -1,5 +1,7 @@
-/* Navigation
-------------------------------------------------- */
+/* --------------------------------------------
+	НАВИГАЦИЯ
+-------------------------------------------- */
+
 .nav 					{ overflow: hidden; zoom: 1; }
 .nav li 				{ float: left; }
 
@@ -25,7 +27,6 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2891d3', endColorstr='#2375c6',GradientType=0 );
 
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-
 	color: #fff;
 }
 
@@ -53,6 +54,8 @@
 #userbar {
 	border: 1px solid #ddd;
 	border-top: none;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 0 5px #ddd;
 
 	background: #ffffff;
 	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%);
@@ -62,9 +65,6 @@
 	background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
 	background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
-
-	border-radius: 0 0 4px 4px;
-	box-shadow: 0 0 5px #ddd;
 }
 #userbar .search { float: left; margin: 5px 0 0 6px; *margin: 4px 0 0 4px; }
 
