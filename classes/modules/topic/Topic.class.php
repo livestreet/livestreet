@@ -178,7 +178,7 @@ class ModuleTopic extends Module {
 					$oTag->setUserId($oTopic->getUserId());
 					$oTag->setBlogId($oTopic->getBlogId());
 					$oTag->setText($sTag);
-					$this->oMapperTopic->AddTopicTag($oTag);
+					$this->AddTopicTag($oTag);
 				}
 			}
 			//чистим зависимые кеши
@@ -188,6 +188,15 @@ class ModuleTopic extends Module {
 		return false;
 	}
 
+	/**
+	 * Добавление тега к топику
+	 *
+	 * @param ModuleTopic_EntityTopicTag $oTopicTag
+	 * @return mixed
+	 */
+	public function AddTopicTag(ModuleTopic_EntityTopicTag $oTopicTag) {
+		return $this->oMapperTopic->AddTopicTag($oTopicTag);
+	}
 	/**
 	 * Удаляет теги у топика
 	 *
@@ -302,7 +311,7 @@ class ModuleTopic extends Module {
 						$oTag->setUserId($oTopic->getUserId());
 						$oTag->setBlogId($oTopic->getBlogId());
 						$oTag->setText($sTag);
-						$this->oMapperTopic->AddTopicTag($oTag);
+						$this->AddTopicTag($oTag);
 					}
 				}
 			}
