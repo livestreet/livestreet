@@ -70,28 +70,12 @@ class ActionMy extends Action {
 			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;	
 		} else {
 			$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;	
-		}		
+		}
 		/**
-		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));	
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */				
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('my').$this->oUserProfile->getLogin());		
-		/**
-		 * Загружаем переменные в шаблон
-		 */			
-		$this->Viewer_Assign('aPaging',$aPaging);			
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
-		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'personal_blog/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
-		/**
-		 * Устанавливаем шаблон вывода
+		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
 		 */
-		$this->SetTemplateAction('blog');		
+		$sPage=$iPage==1 ? '' : "page{$iPage}/";
+		Router::Location($this->oUserProfile->getUserWebPath().'created/topics/'.$sPage);
 	}
 	
 	/**
@@ -114,42 +98,10 @@ class ActionMy extends Action {
 		 */	
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
-		 * Получаем список комментов
-		 */		
-		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,Config::Get('module.comment.per_page'));	
-		$aComments=$aResult['collection'];		
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('my').$this->oUserProfile->getLogin().'/comment');		
-		/**
-		 * Загружаем переменные в шаблон
-		 */		
-		$this->Viewer_Assign('aPaging',$aPaging);			
-		$this->Viewer_Assign('aComments',$aComments);	
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_comment'));
-		/**
-		 * Устанавливаем шаблон вывода
-		 */	
-		$this->SetTemplateAction('comment');		
-	}	
-	/**
-	 * Выполняется при завершении работы экшена
-	 *
-	 */
-	public function EventShutdown() {
-		if (!$this->oUserProfile)	 {
-			return ;
-		}
-		/**
-		 * Загружаем в шаблон необходимые переменные
+		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
 		 */
-		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserProfile->getId(),1);
-		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserProfile->getId(),'topic');
-		$this->Viewer_Assign('oUserProfile',$this->oUserProfile);		
-		$this->Viewer_Assign('iCountTopicUser',$iCountTopicUser);		
-		$this->Viewer_Assign('iCountCommentUser',$iCountCommentUser);
+		$sPage=$iPage==1 ? '' : "page{$iPage}/";
+		Router::Location($this->oUserProfile->getUserWebPath().'created/comments/'.$sPage);
 	}
 }
 ?>

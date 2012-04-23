@@ -26,6 +26,8 @@ class ActionTalk extends Action {
 	 * @var unknown_type
 	 */
 	protected $oUserCurrent=null;
+
+	protected $sMenuSubItemSelect='';
 	/**
 	 * Массив ID юзеров адресатов
 	 *
@@ -68,7 +70,8 @@ class ActionTalk extends Action {
 		$this->AddEvent('delete','EventDelete');
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
-		$this->AddEvent('favourites','EventFavourites');	
+		$this->AddEvent('favourites','EventFavourites');
+		$this->AddEvent('blacklist','EventBlacklist');
 		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
 		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxDeleteFromBlacklist');
 		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');	
@@ -109,13 +112,39 @@ class ActionTalk extends Action {
 		if (isPost('submit_talk_del')) {
 			$this->Security_ValidateSendForm();
 			
-			$aTalksIdDel=getRequest('talk_del');
+			$aTalksIdDel=getRequest('talk_select');
 			if (is_array($aTalksIdDel)) {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());				
 			}
 		}
-		// Составляем фильтр для просмотра писем
+		/**
+		 * Обработка отметки о прочтении
+		 */
+		if (isPost('submit_talk_read')) {
+			$this->Security_ValidateSendForm();
+
+			$aTalksIdDel=getRequest('talk_select');
+			if (is_array($aTalksIdDel)) {
+				$this->Talk_MarkReadTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());
+			}
+		}
+		$this->sMenuSubItemSelect='inbox';
+		/**
+		 * Количество сообщений на страницу
+		 */
+		$iPerPage=Config::Get('module.talk.per_page');
+		/**
+		 * Формируем фильтр для поиска сообщений
+		 */
 		$aFilter=$this->BuildFilter();
+		/**
+		 * Если только новые, то добавляем условие в фильтр
+		 */
+		if ($this->GetParam(0)=='new') {
+			$this->sMenuSubItemSelect='new';
+			$aFilter['only_new']=true;
+			$iPerPage=50; // новых отображаем только последние 50 писем, без постраничности
+		}
 		
 		/**
 		 * Передан ли номер страницы
@@ -125,7 +154,7 @@ class ActionTalk extends Action {
 		 * Получаем список писем
 		 */		
 		$aResult=$this->Talk_GetTalksByFilter(
-			$aFilter,$iPage,Config::Get('module.talk.per_page')
+			$aFilter,$iPage,$iPerPage
 		);
 		
 		$aTalks=$aResult['collection'];	
@@ -133,18 +162,18 @@ class ActionTalk extends Action {
 		 * Формируем постраничность
 		 */			
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
+			$aResult['count'],$iPage,$iPerPage,4,
 			Router::GetPath('talk').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
 				array_fill_keys(
-					array('start','end','keyword','sender'),
+					array('start','end','keyword','sender','keyword_text','favourite'),
 					''
 				)
 			)
 		);
 		
-		if(count($aFilter)>1) {
+		if(getRequest('submit_talk_filter')) {
 			$this->Message_AddNotice(
 				($aResult['count'])
 					? $this->Lang_Get('talk_filter_result_count',array('count'=>$aResult['count']))
@@ -152,11 +181,9 @@ class ActionTalk extends Action {
 			);
 		}
 		
-		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);		
 	}
@@ -220,14 +247,38 @@ class ActionTalk extends Action {
 				unset($_REQUEST['keyword']);
 			}
 		}
+		if($sKeyRequest=getRequest('keyword_text')){
+			$sKeyRequest=urldecode($sKeyRequest);
+			preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
+
+			if(is_array($aWords[1])&&isset($aWords[1])&&count($aWords[1])) {
+				$aFilter['text_like']='%'.implode('%',$aWords[1]).'%';
+			} else {
+				unset($_REQUEST['keyword_text']);
+			}
+		}
 		if($sender=getRequest('sender')){
 			$aFilter['user_login']=urldecode($sender);
+		}
+		if (getRequest('favourite')) {
+			$aTalkIdResult=$this->Favourite_GetFavouritesByUserId($this->oUserCurrent->getId(),'talk',1,500); // ограничиваем
+			$aFilter['id']=$aTalkIdResult['collection'];
+			$_REQUEST['favourite']=1;
+		} else {
+			unset($_REQUEST['favourite']);
 		}
 		
 		return $aFilter;
 	}
-	
-	protected function EventFavourites() {				
+
+	protected function EventBlacklist() {
+		$this->sMenuSubItemSelect='blacklist';
+		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
+		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
+	}
+
+	protected function EventFavourites() {
+		$this->sMenuSubItemSelect='favourites';
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -255,14 +306,16 @@ class ActionTalk extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_favourite_inbox'));
 	}		
 	
-	protected function EventAdd() {		
+	protected function EventAdd() {
+		$this->sMenuSubItemSelect='add';
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
 		
 		/**
 		 * Получаем список друзей
 		 */
-		if($aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId())) {				
-			$this->Viewer_Assign('aUsersFriend',$aUsersFriend);
+		$aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId());
+		if($aUsersFriend['collection']) {
+			$this->Viewer_Assign('aUsersFriend',$aUsersFriend['collection']);
 		}				
 		/**
 		 * Проверяем отправлена ли форма с данными
@@ -284,7 +337,7 @@ class ActionTalk extends Action {
 			return false;
 		}
 		
-		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(getRequest('talk_title')),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
+		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequest('talk_title'))),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -294,6 +347,7 @@ class ActionTalk extends Action {
 	
 	
 	protected function EventRead() {
+		$this->sMenuSubItemSelect='read';
 		/**
 		 * Получаем номер сообщения из УРЛ и проверяем существует ли оно
 		 */
@@ -411,6 +465,10 @@ class ActionTalk extends Action {
 			$_REQUEST['talk_users']='';
 			$bOk=false;
 		} else {
+			if (count($aUsersNew)>Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
+				$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+				$bOk=false;
+			}
 			$_REQUEST['talk_users']=join(',',$aUsersNew);
 		}
 		
@@ -569,13 +627,16 @@ class ActionTalk extends Action {
 		$oCommentNew->setUserIp(func_getIp());
 		$oCommentNew->setPid($sParentId);
 		$oCommentNew->setTextHash(md5($sText));
-			
+		$oCommentNew->setPublish(1);
+
 		/**
 		* Добавляем коммент
 		*/
 		if ($this->Comment_AddComment($oCommentNew)) {
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
+			$oTalk->setUserIdLast($oCommentNew->getUserId());
+			$oTalk->setCommentIdLast($oCommentNew->getId());
 			$oTalk->setCountComment($oTalk->getCountComment()+1);
 			$this->Talk_UpdateTalk($oTalk);
 			/**
@@ -644,7 +705,9 @@ class ActionTalk extends Action {
 							'sMsgTitle'=>$this->Lang_Get('attention'),
 							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>htmlspecialchars($sUser))),
 							'sUserId'=>$oUser->getId(),
-							'sUserLogin'=>htmlspecialchars($sUser)
+							'sUserLogin'=>htmlspecialchars($sUser),
+							'sUserWebPath'=>$oUser->getUserWebPath(),
+							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 						);
 					} else {
 						$aResult[]=array(
@@ -849,8 +912,14 @@ class ActionTalk extends Action {
 		$aTalkUsers=$oTalk->getTalkUsers();
 		$aUsers=explode(',',$sUsers);
 		// Получаем список пользователей, которые не принимают письма
-		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());			
-		
+		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
+
+		// ограничения на максимальное число участников разговора
+		if (count($aTalkUsers)>=Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
+			$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+			return;
+		}
+
 		// Обрабатываем добавление по каждому переданному логину пользователя
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);
@@ -893,7 +962,9 @@ class ActionTalk extends Action {
 										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 										'sUserId'=>$oUser->getId(),
 										'sUserLogin'=>$oUser->getLogin(),
-										'sUserLink'=>$oUser->getUserWebPath()
+										'sUserLink'=>$oUser->getUserWebPath(),
+										'sUserWebPath'=>$oUser->getUserWebPath(),
+										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 									);
 									$bState=true;
 								} else {
@@ -949,7 +1020,9 @@ class ActionTalk extends Action {
 								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
 								'sUserId'=>$oUser->getId(),
 								'sUserLogin'=>$oUser->getLogin(),
-								'sUserLink'=>$oUser->getUserWebPath()	
+								'sUserLink'=>$oUser->getUserWebPath(),
+								'sUserWebPath'=>$oUser->getUserWebPath(),
+								'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 							);
 							$bState=true;
 					} else {
@@ -998,7 +1071,23 @@ class ActionTalk extends Action {
 		}		
 		$iCountTalkFavourite=$this->Talk_GetCountTalksFavouriteByUserId($this->oUserCurrent->getId());
 		$this->Viewer_Assign('iCountTalkFavourite',$iCountTalkFavourite);
-		
+
+		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserCurrent->getId());
+		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserCurrent->getId(),1);
+		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserCurrent->getId(),'topic');
+		$iCountCommentFavourite=$this->Comment_GetCountCommentsFavouriteByUserId($this->oUserCurrent->getId());
+		$iCountNoteUser=$this->User_GetCountUserNotesByUserId($this->oUserCurrent->getId());
+
+		$this->Viewer_Assign('oUserProfile',$this->oUserCurrent);
+		$this->Viewer_Assign('iCountWallUser',$this->Wall_GetCountWall(array('wall_user_id'=>$this->oUserCurrent->getId(),'pid'=>null)));
+		/**
+		 * Общее число публикация и избранного
+		 */
+		$this->Viewer_Assign('iCountCreated',$iCountNoteUser+$iCountTopicUser+$iCountCommentUser);
+		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
+		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
+
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		/**
 		 * Передаем во вьевер константы состояний участников разговора
 		 */

@@ -56,6 +56,8 @@ class ActionPersonalBlog extends Action {
 		$this->AddEvent('good','EventTopics');
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
 	}
 		
 	
@@ -68,7 +70,14 @@ class ActionPersonalBlog extends Action {
 	 *
 	 */
 	protected function EventTopics() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
 		$sShowType=$this->sCurrentEvent;
+		if (!in_array($sShowType,array('discussed','top'))) {
+			$sPeriod='all';
+		}
 		/**
 		 * Меню
 		 */
@@ -80,12 +89,19 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Получаем список топиков
 		 */					
-		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType);
-		$aTopics=$aResult['collection'];	
+		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		/**
+		 * Если нет топиков за 1 день, то показываем за неделю (7)
+		 */
+		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and !getRequest('period')) {
+			$sPeriod=7;
+			$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		}
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType,array('period'=>$sPeriod));
 		/**
 		 * Вызов хуков
 		 */
@@ -95,6 +111,10 @@ class ActionPersonalBlog extends Action {
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('aPaging',$aPaging);
+		if (in_array($sShowType,array('discussed','top'))) {
+			$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+			$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('personal_blog').$sShowType.'/');
+		}
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
