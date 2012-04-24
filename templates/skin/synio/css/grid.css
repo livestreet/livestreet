@@ -6,6 +6,7 @@
 #header-wrapper 	{ background: #090909; }
 #header 	{ width: 976px; height: 51px; margin: 0 auto; position: relative; }
 #nav 		{ 
+	min-height: 28px;
 	margin-bottom: 32px; 
 	overflow: hidden; 
 	padding: 12px 17px 15px; 

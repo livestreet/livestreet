@@ -14,7 +14,7 @@ body {
 
 /* Ссылки
 ---------------------------------------------------- */
-a 		{ color: #3f8ad7; text-decoration: none; }
+a 		{ color: #3f8ad7; }
 a:hover { color: #f00; }
 
 a.link-dashed 		{ border-bottom: 1px dashed #5055b2; }
@@ -40,8 +40,46 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 /* Шапка сайта
 ---------------------------------------------------- */
 #header .site-name 			{ font-size: 25px; line-height: 1em; text-transform: lowercase; float: left; padding-top: 11px; margin-right: 30px; margin-left: 18px; }
-#header .site-name a 		{ color: #fff; }
+#header .site-name a 		{ color: #fff; text-decoration: none; }
 #header .site-name a:hover 	{ color: #eee; }
+
+#header .dropdown-user { 
+	min-width: 89px; 
+	height: 51px; 
+	line-height: 47px; 
+	float: right;
+	position: relative;
+	padding-right: 60px; 
+	padding-left: 54px; 
+	
+	background: #353535;
+	background: -moz-linear-gradient(top,  #353535 0%, #020202 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#353535), color-stop(100%,#020202));
+	background: -webkit-linear-gradient(top,  #353535 0%,#020202 100%);
+	background: -o-linear-gradient(top,  #353535 0%,#020202 100%);
+	background: -ms-linear-gradient(top,  #353535 0%,#020202 100%);
+	background: linear-gradient(top,  #353535 0%,#020202 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#353535', endColorstr='#020202',GradientType=0 );
+}
+#header .dropdown-user .dropdown-user-trigger 			{ position: absolute; top: 0; right: 0; width: 36px; height: 51px; border-left: 1px solid #272727; cursor: pointer; }
+#header .dropdown-user .dropdown-user-trigger i 		{ position: absolute; top: 23px; left: 14px; height: 0; width: 0; border: 4px solid transparent; border-top-color: #949aa1; }
+#header .dropdown-user .dropdown-user-trigger.opened 	{ background: #093357; }
+#header .dropdown-user .dropdown-user-trigger.opened i	{ border-top-color: #fff; }
+#header .dropdown-user .username 						{ color: #cfcfcf; font-size: 11px; text-decoration: underline; }
+#header .dropdown-user .username:hover 					{ color: #aaa; }
+#header .dropdown-user .avatar 							{ position: absolute; top: 11px; left: 13px; width: 30px; height: 30px; }
+
+.dropdown-menu.dropdown-user-menu	{ background: #1d1d1d; border: none; border-top: 1px solid #000; border-radius: 0 0 10px 10px; box-shadow: 0 0 7px rgba(0, 0, 0, .5); }
+.dropdown-menu.dropdown-user-menu li { border-bottom: 1px solid #000; border-top: 1px solid #393939; position: relative; }
+.dropdown-menu.dropdown-user-menu li a { height: 50px; padding: 0 10px 0 55px; line-height: 50px; color: #fff; text-decoration: none; }
+.dropdown-menu.dropdown-user-menu li a:hover { background: #093357; color: #fff; }
+.dropdown-menu.dropdown-user-menu li i { position: absolute; top: 15px; left: 17px; width: 21px; height: 21px; background: #555; }
+.dropdown-menu.dropdown-user-menu li:last-child { border-bottom: none; }
+
+#header .auth { float: right; line-height: 49px; font-size: 11px; margin-right: 24px; }
+#header .auth li { float: left; margin-left: 23px; }
+#header .auth li a { color: #cfcfcf; text-decoration: none; }
+#header .auth li a.sign-in { color: #7dc6ff; }
 
 
 

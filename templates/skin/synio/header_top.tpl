@@ -5,6 +5,39 @@
 	</form>
 </nav>-->
 
+<script>
+	jQuery(document).ready(function($){
+		// Dropdown
+		var trigger = $('#dropdown-user-trigger');
+		var menu 	= $('#dropdown-user-menu');
+		var pos 	= $('#dropdown-user').offset();
+
+		menu.appendTo('body').css({ 'left': pos.left, 'top': $('#dropdown-user').height() - 1, 'min-width': $('#dropdown-user').outerWidth(), 'display': 'none' });
+		
+		trigger.click(function(){
+			menu.slideToggle();
+			$(this).toggleClass('opened');
+			return false;
+		});
+		
+		menu.find('a').click(function(){
+			trigger.removeClass('opened').find('a').text( $(this).text() );
+			menu.slideToggle();
+		});
+		
+		// Hide menu
+		$(document).click(function(){
+			trigger.removeClass('opened');
+			menu.slideUp();
+		});
+		
+		$('body').on('click', '#dropdown-user-trigger, #dropdown-user-menu', function(e) {
+			e.stopPropagation();
+		});
+	});
+</script>
+
+
 <div id="header-wrapper">
 	<header id="header" role="banner">
 		{hook run='header_banner_begin'}
@@ -19,30 +52,35 @@
 
 			{hook run='main_menu_item'}
 		</ul>
+		
 		{hook run='main_menu'}
 		
 		
-
-		<!--{hook run='userbar_nav'}
-		<ul class="nav nav-userbar">
-			{if $oUserCurrent}
-				<li class="nav-userbar-username">
-					<a href="{$oUserCurrent->getUserWebPath()}" class="username">
-						<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" class="avatar" />
-						{$oUserCurrent->getLogin()}
-					</a>
-				</li>
-				<li><a href="{router page='topic'}add/" class="write" id="modal_write_show">{$aLang.block_create}</a></li>
-				<li><a href="{router page='talk'}" {if $iUserCurrentCountTalkNew}class="new-messages"{/if} id="new_messages" title="{if $iUserCurrentCountTalkNew}{$aLang.user_privat_messages_new}{/if}">{$aLang.user_privat_messages}{if $iUserCurrentCountTalkNew} ({$iUserCurrentCountTalkNew}){/if}</a></li>
-				<li><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
+		{hook run='userbar_nav'}
+		
+		{if $oUserCurrent}
+			<div class="dropdown-user" id="dropdown-user">
+				<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+				<a href="{$oUserCurrent->getUserWebPath()}" class="username">{$oUserCurrent->getLogin()}</a>
+				
+				<div class="dropdown-user-trigger" id="dropdown-user-trigger"><i></i></div>
+				
+				<ul class="dropdown-menu dropdown-user-menu" id="dropdown-user-menu" style="display: none">
+					<li><i></i><a href="{router page='talk'}" {if $iUserCurrentCountTalkNew}class="new-messages"{/if} id="new_messages">{$aLang.user_privat_messages}</a></li>
+					<li><i></i><a href="{$oUserCurrent->getUserWebPath()}">Мой профиль</a></li> {*r*}
+					<li><i></i><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
+					<li><i></i><a href="{router page='topic'}add/">{$aLang.block_create}</a></li>
+					{hook run='userbar_item'}
+					<li><i></i><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
+				</ul>
+			</div>
+		{else}
+			<ul class="auth">
 				{hook run='userbar_item'}
-				<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
-			{else}
-				{hook run='userbar_item'}
-				<li><a href="{router page='login'}" class="js-login-form-show">{$aLang.user_login_submit}</a></li>
 				<li><a href="{router page='registration'}" class="js-registration-form-show">{$aLang.registration_submit}</a></li>
-			{/if}
-		</ul>-->
+				<li><a href="{router page='login'}" class="js-login-form-show sign-in">{$aLang.user_login_submit}</a></li>
+			</ul>
+		{/if}
 		
 		
 		{hook run='header_banner_end'}

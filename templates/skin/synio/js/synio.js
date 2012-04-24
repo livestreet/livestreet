@@ -65,6 +65,9 @@ jQuery(document).ready(function($){
 	ls.toolbar.topic.init();
 	// Кнопка "UP"
 	ls.toolbar.up.init();
+	
+	
+	$('#toolbar').css('left', $('#wrapper').offset().left + $('#wrapper').outerWidth() + 12);
 
 	
 	// Всплывающие сообщения

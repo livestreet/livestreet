@@ -58,8 +58,8 @@
 
 /* Toolbar 
 ---------------------------------------------------- */
-.toolbar 					{ float: right; position: fixed; top: 220px; right: 10px; z-index: 100; }
-.toolbar section 			{ width: 34px; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.05); margin-bottom: 10px; }
+.toolbar 					{ position: fixed; top: 138px; z-index: 100; }
+.toolbar section 			{ width: 34px; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.05); margin-bottom: 10px; border-radius: 5px; }
 .toolbar section a			{ display: block; padding: 10px; }
 .toolbar section a:hover	{ background: #fafafa; }
 .toolbar section i			{ display: block; }

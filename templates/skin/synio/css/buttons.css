@@ -35,11 +35,9 @@
 	background: linear-gradient(top,  #666666 0%,#555555 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#555555',GradientType=0 );
 
-	/* text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2); */
-	
 	font-family: Verdana, sans-serif;
-
 	cursor: pointer;
+	text-decoration: none;
 	
 	*margin-right: 5px;
 }

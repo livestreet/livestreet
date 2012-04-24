@@ -62,3 +62,10 @@
 
 .block.block-type-talk-search { margin-bottom: 10px; }
 .block.block-type-talk-friends { margin-bottom: 10px; }
+
+
+/* Block Type - Blog List */
+.block.block-type-blogs li { margin-bottom: 10px; }
+.block.block-type-blogs li a { background: #fff; }
+.block.block-type-blogs li strong { float: right; background: #fff; }
+

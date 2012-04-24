@@ -5,6 +5,7 @@
 		{include file='sidebar.tpl'}
 	</div> <!-- /wrapper -->
 
+
 	
 	<footer id="footer">
 		
@@ -13,7 +14,6 @@
 		
 		{hook run='footer_end'}
 	</footer>
-
 </div> <!-- /container -->
 
 {include file='toolbar.tpl'}
