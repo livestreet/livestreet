@@ -285,6 +285,9 @@ class ModuleACL extends Module {
 		if ($oUser->isAdministrator()) {
 			return true;
 		}
+		if ($oUser->getRating()<=Config::Get('acl.create.topic.limit_rating')) {
+			return false;
+		}
 		if ($oBlog->getOwnerId()==$oUser->getId()) {
 			return true;
 		}
