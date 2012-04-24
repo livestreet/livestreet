@@ -637,6 +637,7 @@ return array(
 	'settings_profile_foto_delete' => 'delete',
 	'settings_profile_photo_change' => 'Channge photo',
 	'settings_profile_photo_upload' => 'Upload photo',
+	'settings_profile_field_error_max' => 'You can not add more than %%count%% identical contacts',
 	'settings_profile_submit' => 'save profile',
 	'settings_profile_submit_ok' => 'Profile successfully saved',
 	'settings_invite' => 'Invitations management',

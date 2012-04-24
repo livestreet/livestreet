@@ -637,6 +637,7 @@ return array(
 	'settings_profile_foto_delete' => 'Удалить',
 	'settings_profile_photo_change' => 'Изменить фотографию',
 	'settings_profile_photo_upload' => 'Загрузить фотографию',
+	'settings_profile_field_error_max' => 'Нельзя добавить больше %%count%% одинаковых контактов',
 	'settings_profile_submit' => 'Сохранить',
 	'settings_profile_submit_ok' => 'Профиль успешно сохранён',
 	'settings_invite' => 'Управление приглашениями',

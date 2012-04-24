@@ -434,6 +434,12 @@ class ActionSettings extends Action {
 		$this->Viewer_Assign('aUserFields',$this->User_getUserFields(''));
 		$this->Viewer_Assign('aUserFieldsContact',$this->User_getUserFields(array('contact','social')));
 		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+								  'settings_profile_field_error_max'
+							  ));
+		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
 		if (isPost('submit_profile_edit')) {
@@ -549,7 +555,7 @@ class ActionSettings extends Action {
 					if (is_array($aFieldsContactType)) {
 						foreach($aFieldsContactType as $k=>$v) {
 							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
-								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), 2);
+								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), Config::Get('module.user.userfield_max_identical'));
 							}
 						}
 					}

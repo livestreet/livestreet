@@ -13,12 +13,13 @@
 	jQuery(document).ready(function($){
 		ls.lang.load({lang_load name="geo_select_city,geo_select_region"});
 		ls.geo.initSelect();
+		ls.userfield.iCountMax='{cfg name="module.user.userfield_max_identical"}';
 	});
 </script>
 
 
 <p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
-	<select name="profile_user_field_type[]">
+	<select name="profile_user_field_type[]" onchange="ls.userfield.changeFormField(this);">
 	{foreach from=$aUserFieldsContact item=oFieldAll}
 		<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
 	{/foreach}
@@ -146,7 +147,7 @@
 		<div id="user-field-contact-contener">
 		{foreach from=$aUserFieldContactValues item=oField}
 			<p class="js-user-field-item">
-				<select name="profile_user_field_type[]">
+				<select name="profile_user_field_type[]"  onchange="ls.userfield.changeFormField(this);">
 				{foreach from=$aUserFieldsContact item=oFieldAll}
 					<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
 				{/foreach}

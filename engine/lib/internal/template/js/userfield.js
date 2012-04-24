@@ -1,6 +1,9 @@
 var ls = ls || {};
 
 ls.userfield =( function ($) {
+
+	this.iCountMax = 2;
+
 	this.showAddForm = function(){
 		$('#user_fields_form_name').val('');
 		$('#user_fields_form_title').val('');
@@ -107,8 +110,42 @@ ls.userfield =( function ($) {
 	};
 
 	this.addFormField = function() {
-		$('#user-field-contact-contener').append($('#profile_user_field_template').clone().show());
+		var tpl=$('#profile_user_field_template').clone();
+		/**
+		 * Находим доступный тип контакта
+		 */
+		var value;
+		tpl.find('select').find('option').each(function(k,v){
+			if (this.getCountFormField($(v).val())<this.iCountMax) {
+				value=$(v).val();
+				return false;
+			}
+		}.bind(this));
+
+		if (value) {
+			tpl.find('select').val(value);
+			$('#user-field-contact-contener').append(tpl.show());
+		} else {
+			ls.msg.error('',ls.lang.get('settings_profile_field_error_max',{count: this.iCountMax}));
+		}
 		return false;
+	};
+
+	this.changeFormField = function(obj) {
+		var iCount=this.getCountFormField($(obj).val());
+		if (iCount>this.iCountMax) {
+			ls.msg.error('',ls.lang.get('settings_profile_field_error_max',{count: this.iCountMax}));
+		}
+	};
+
+	this.getCountFormField = function(value) {
+		var iCount=0;
+		$('#user-field-contact-contener').find('select').each(function(k,v){
+			if (value==$(v).val()) {
+				iCount++;
+			}
+		});
+		return iCount;
 	};
 
 	this.removeFormField = function(obj) {
