@@ -142,6 +142,7 @@ class ModuleStream extends Module {
 	 * @param type $iTargetId
 	 */
 	public function Write($iUserId, $sEventType, $iTargetId, $iPublish=1) {
+		$iPublish=(int)$iPublish;
 		if (!$this->IsAllowEventType($sEventType)) {
 			return false;
 		}
