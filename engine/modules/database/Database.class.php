@@ -19,7 +19,13 @@ require_once(Config::Get('path.root.engine').'/lib/external/DbSimple/Generic.php
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова
+ * Модуль используется в основном для создания коннекта к БД и передачи его в маппер
+ * @see Mapper::__construct
+ * Так же предоставляет методы для быстрого выполнения запросов/дампов SQL, актуально для плагинов
+ * @see Plugin::ExportSQL
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleDatabase extends Module {
 	/**
@@ -39,8 +45,8 @@ class ModuleDatabase extends Module {
 	/**
 	 * Получает объект БД
 	 *
-	 * @param array $aConfig - конфиг подключения к БД(хост, логин, пароль, тип бд, имя бд)
-	 * @return DbSimple
+	 * @param array|null $aConfig - конфиг подключения к БД(хост, логин, пароль, тип бд, имя бд), если null, то используются параметры из конфига Config::Get('db.params')
+	 * @return DbSimple_Generic_Database DbSimple
 	 */
 	public function GetConnect($aConfig=null) {
 		/**
@@ -89,8 +95,11 @@ class ModuleDatabase extends Module {
 			return $oDbSimple;
 		}		
 	}
-	
-	
+	/**
+	 * Возвращает статистику использования БД - время и количество запросов
+	 *
+	 * @return array
+	 */
 	public function GetStats() {
 		$aQueryStats=array('time'=>0,'count'=>-1); // не считаем тот самый костыльный запрос, который устанавливает настройки DB соединения
 		foreach ($this->aInstance as $oDb) {
@@ -101,13 +110,13 @@ class ModuleDatabase extends Module {
 		$aQueryStats['time']=round($aQueryStats['time'],3);
 		return $aQueryStats;
 	}
-	
 	/**
-	 * Экспорт SQL дампа
+	 * Экспорт SQL дампа в БД
+	 * @see ExportSQLQuery
 	 *
-	 * @param unknown_type $sFilePath
-	 * @param unknown_type $aConfig
-	 * @return unknown
+	 * @param string $sFilePath	Полный путь до файла SQL
+	 * @param array|null $aConfig	Конфиг подключения к БД
+	 * @return array
 	 */
 	public function ExportSQL($sFilePath,$aConfig=null) {
 		if(!is_file($sFilePath)){
@@ -120,11 +129,11 @@ class ModuleDatabase extends Module {
 	}
 	
 	/**
-	 * Экспорт SQL
+	 * Экспорт SQL в БД
 	 *
-	 * @param unknown_type $sFileQuery
-	 * @param unknown_type $aConfig
-	 * @return unknown
+	 * @param string $sFileQuery	Строка с SQL запросом
+	 * @param array|null $aConfig	Конфиг подключения к БД
+	 * @return array	Возвращает массив вида array('result'=>bool,'errors'=>array())
 	 */
 	public function ExportSQLQuery($sFileQuery,$aConfig=null) {
 		/**
@@ -152,7 +161,6 @@ class ModuleDatabase extends Module {
 				if($bResult===false) $aErrors[] = mysql_error();
 			}
 		}
-
 		/**
 		 * Возвращаем результат выполнения, взависимости от количества ошибок 
 		 */
@@ -161,12 +169,11 @@ class ModuleDatabase extends Module {
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
-	
 	/**
 	 * Проверяет существование таблицы
 	 *
-	 * @param string $sTableName
-	 * @param array $aConfig
+	 * @param string $sTableName	Название таблицы, необходимо перед именем таблицы добавлять "prefix_", это позволит учитывать произвольный префикс таблиц у пользователя
+	 * @param array|null $aConfig	Конфиг подключения к БД
 	 * @return bool
 	 */
 	public function isTableExists($sTableName,$aConfig=null) {
@@ -177,13 +184,12 @@ class ModuleDatabase extends Module {
 		}
 		return false;
 	}
-	
 	/**
 	 * Проверяет существование поля в таблице
 	 *
-	 * @param string $sTableName
-	 * @param string $sFieldName
-	 * @param array $aConfig
+	 * @param string $sTableName	Название таблицы, необходимо перед именем таблицы добавлять "prefix_", это позволит учитывать произвольный префикс таблиц у пользователя
+	 * @param string $sFieldName	Название поля в таблице
+	 * @param array|null $aConfig	Конфиг подключения к БД
 	 * @return bool
 	 */
 	public function isFieldExists($sTableName,$sFieldName,$aConfig=null) {
@@ -198,14 +204,13 @@ class ModuleDatabase extends Module {
 		}
 		return false;
 	}
-	
 	/**
 	 * Доавляет новый тип в поле таблицы с типом enum
 	 *
-	 * @param string $sTableName
-	 * @param string $sFieldName
-	 * @param string $sType
-	 * @param array $aConfig
+	 * @param string $sTableName	Название таблицы, необходимо перед именем таблицы добавлять "prefix_", это позволит учитывать произвольный префикс таблиц у пользователя
+	 * @param string $sFieldName	Название поля в таблице
+	 * @param string $sType	Название типа
+	 * @param array|null $aConfig	Конфиг подключения к БД
 	 */
 	public function addEnumType($sTableName,$sFieldName,$sType,$aConfig=null) {
 		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);		
@@ -230,8 +235,8 @@ class ModuleDatabase extends Module {
 /**
  * Функция хука для перехвата SQL ошибок
  *
- * @param string $message
- * @param unknown_type $info
+ * @param string $message	Сообщение об ошибке
+ * @param array $info	Список информации об ошибке
  */
 function databaseErrorHandler($message, $info) {	
 	/**
@@ -267,7 +272,7 @@ function databaseErrorHandler($message, $info) {
  * Функция логгирования SQL запросов
  *
  * @param object $db
- * @param unknown_type $sql
+ * @param array $sql
  */
 function databaseLogger($db, $sql) {
 	/**
