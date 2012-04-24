@@ -23,7 +23,6 @@
 		<div class="modal" id="foto-resize">
 			<header class="modal-header">
 				<h3>{$aLang.uploadimg}</h3>
-				<a href="#" class="close jqmClose"></a>
 			</header>
 			
 			<div class="modal-content">

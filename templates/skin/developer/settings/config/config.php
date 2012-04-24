@@ -5,7 +5,7 @@ $config = array();
 $config['view']['theme'] = 'default';
 
 $config['head']['default']['js'] = Config::Get('head.default.js');
-$config['head']['default']['js'][] = '___path.static.skin___/js/developer-jquery.js';
+$config['head']['default']['js'][] = '___path.static.skin___/js/developer.js';
 
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",

@@ -10,8 +10,8 @@ jQuery(document).ready(function($){
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
-	$('#foto-resize').jqm();
-	$('#avatar-resize').jqm();
+	$('#foto-resize').jqm({modal: true});
+	$('#avatar-resize').jqm({modal: true});
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {
