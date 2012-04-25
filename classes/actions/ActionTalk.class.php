@@ -162,7 +162,7 @@ class ActionTalk extends Action {
 		 * Формируем постраничность
 		 */			
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,$iPerPage,4,
+			$aResult['count'],$iPage,$iPerPage,Config::Get('pagination.pages.count'),
 			Router::GetPath('talk').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
@@ -295,7 +295,7 @@ class ActionTalk extends Action {
 		 * Формируем постраничность
 		 */			
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),4,
+			$aResult['count'],$iPage,Config::Get('module.talk.per_page'),Config::Get('pagination.pages.count'),
 			Router::GetPath('talk').$this->sCurrentEvent
 		);
 		/**
