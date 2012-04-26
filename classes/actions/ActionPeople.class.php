@@ -110,7 +110,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -148,7 +148,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -228,7 +228,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
 		/**
 		 * Получаем алфавитный указатель на список пользователей
 		 */

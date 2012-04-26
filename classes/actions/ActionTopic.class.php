@@ -211,7 +211,7 @@ class ActionTopic extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('topic').$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('topic').$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */

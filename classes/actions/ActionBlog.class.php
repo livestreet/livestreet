@@ -460,7 +460,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,Router::GetPath('blog')."admin/{$oBlog->getId()}");
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.users_per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blog')."admin/{$oBlog->getId()}");
 		$this->Viewer_Assign('aPaging',$aPaging);
 
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
@@ -609,7 +609,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('blog').$sShowType,array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blog').$sShowType,array('period'=>$sPeriod));
 		/**
 		 * Вызов хуков
 		 */
@@ -713,7 +713,7 @@ class ActionBlog extends Action {
 		$iMaxIdComment=$aReturn['iMaxIdComment'];
 		$aComments=$aReturn['comments'];
 		if (Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
-			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),4,'');
+			$aPaging=$this->Viewer_MakePaging($aReturn['count'],$iPage,Config::Get('module.comment.nested_per_page'),Config::Get('pagination.pages.count'),'');
 			if (!Config::Get('module.comment.nested_page_reverse') and $aPaging) {
 				// переворачиваем страницы в обратном порядке
 				$aPaging['aPagesLeft']=array_reverse($aPaging['aPagesLeft']);
@@ -785,7 +785,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aBlogUsersResult['count'],$iPage,Config::Get('module.blog.users_per_page'),4,$oBlog->getUrlFull().'users');
+		$aPaging=$this->Viewer_MakePaging($aBlogUsersResult['count'],$iPage,Config::Get('module.blog.users_per_page'),Config::Get('pagination.pages.count'),$oBlog->getUrlFull().'users');
 		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
 		 * Вызов хуков
@@ -863,8 +863,8 @@ class ActionBlog extends Action {
 			 * Формируем постраничность
 			 */
 			$aPaging=($sShowType=='good')
-				? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,rtrim($oBlog->getUrlFull(),'/'))
-				: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType,array('period'=>$sPeriod));
+				? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),rtrim($oBlog->getUrlFull(),'/'))
+				: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$oBlog->getUrlFull().$sShowType,array('period'=>$sPeriod));
 			/**
 			 * Получаем число новых топиков в текущем блоге
 			 */

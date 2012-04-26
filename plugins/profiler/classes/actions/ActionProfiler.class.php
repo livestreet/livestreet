@@ -124,7 +124,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('plugin.profiler.per_page'),4,
+			$aResult['count'],$iPage,Config::Get('plugin.profiler.per_page'),Config::Get('pagination.pages.count'),
 			Router::GetPath('profiler').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
