@@ -66,12 +66,22 @@
 				<div class="dropdown-user-trigger" id="dropdown-user-trigger"><i></i></div>
 				
 				<ul class="dropdown-menu dropdown-user-menu" id="dropdown-user-menu" style="display: none">
-					<li><i></i><a href="{router page='talk'}" {if $iUserCurrentCountTalkNew}class="new-messages"{/if} id="new_messages">{$aLang.user_privat_messages}</a></li>
-					<li><i></i><a href="{$oUserCurrent->getUserWebPath()}">Мой профиль</a></li> {*r*}
-					<li><i></i><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
-					<li><i></i><a href="{router page='topic'}add/">{$aLang.block_create}</a></li>
+					<li class="item-stat">
+						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} <i class="arrow icon-synio-arrow-up"></i></span>
+						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} <i class="arrow icon-synio-arrow-down"></i></span>
+					</li>
+					<li class="item-messages">
+						<a href="{router page='talk'}" id="new_messages">
+							<i class="item-icon"></i>
+							{$aLang.user_privat_messages}
+							{if $iUserCurrentCountTalkNew}<div class="new">+{$iUserCurrentCountTalkNew}</div>{/if}
+						</a>
+					</li>
+					<li class="item-profile"><i class="item-icon"></i><a href="{$oUserCurrent->getUserWebPath()}">Мой профиль</a></li> {*r*}
+					<li class="item-settings"><i class="item-icon"></i><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
+					<li class="item-create"><i class="item-icon"></i><a href="{router page='topic'}add/">{$aLang.block_create}</a></li>
 					{hook run='userbar_item'}
-					<li><i></i><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
+					<li class="item-signout"><i class="item-icon"></i><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
 				</ul>
 			</div>
 		{else}
@@ -81,6 +91,8 @@
 				<li><a href="{router page='login'}" class="js-login-form-show sign-in">{$aLang.user_login_submit}</a></li>
 			</ul>
 		{/if}
+		
+		{if $iUserCurrentCountTalkNew}<a href="{router page='talk'}" class="new-messages">+{$iUserCurrentCountTalkNew} <i class="icon-synio-comments-green"></i></a>{/if}
 		
 		
 		{hook run='header_banner_end'}

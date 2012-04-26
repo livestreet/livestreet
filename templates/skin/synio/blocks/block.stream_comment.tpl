@@ -10,12 +10,12 @@
 				<time>{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="H:i"}</time>
 			</p>
 			<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" class="stream-topic">{$oTopic->getTitle()|escape:'html'}</a>
-			<i>{$oTopic->getCountComment()}</i>
+			<span class="block-item-comments"><i class="icon-synio-comments-small"></i>{$oTopic->getCountComment()}</span>
 		</li>
 	{/foreach}
 </ul>
 
 
 <footer>
-	<a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> | <a href="{router page='rss'}allcomments/">RSS</a>
+	<a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> · <a href="{router page='rss'}allcomments/">RSS</a>
 </footer>

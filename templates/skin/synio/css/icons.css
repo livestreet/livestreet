@@ -21,6 +21,10 @@
 	line-height: 14px;
 	background: url(../images/icons.png) no-repeat;
 }
+[class^="icon-synio-"],
+[class*=" icon-synio-"]  { 
+	background: url(../images/icons-synio.png) no-repeat;
+}
 
 .icon-white { background-image: url(../images/icons-white.png); }
 
@@ -164,3 +168,40 @@
 .icon-contact-www			{ background-position: -200px 0; } 
 
 .icon-ok-green 			{ width: 14px; height: 14px; background: url(../images/icon-ok-green.png) no-repeat; }
+
+
+
+
+.icon-synio-arrow-up 		{ width: 9px; height: 9px; background-position: -24px -24px; }
+.icon-synio-arrow-down 		{ width: 9px; height: 9px; background-position: -33px -24px; }
+
+.icon-synio-star-green 		{ width: 11px; height: 11px; background-position: 0 -23px; }
+.icon-synio-star-blue 		{ width: 11px; height: 11px; background-position: 0 -37px; }
+.icon-synio-star-white 		{ width: 11px; height: 11px; background-position: 0 -51px; }
+.icon-synio-star-yellow 	{ width: 11px; height: 11px; background-position: 0 -65px; }
+
+.icon-synio-share-blue 		{ width: 11px; height: 11px; background-position: -12px -37px; }
+.icon-synio-share-white 	{ width: 11px; height: 11px; background-position: -12px -51px; }
+
+.icon-synio-strength 		{ width: 11px; height: 11px; background-position: -12px -23px; }
+
+.icon-synio-comments-green			{ width: 11px; height: 11px; background-position: -46px -23px; }
+.icon-synio-comments-green-filled	{ width: 11px; height: 11px; background-position: -46px -51px; }
+.icon-synio-comments-blue			{ width: 11px; height: 11px; background-position: -46px -37px; }
+.icon-synio-comments-small			{ width: 11px; height: 11px; background-position: -28px -51px; }
+
+.icon-synio-tags					{ width: 15px; height: 11px; background-position: -26px -37px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

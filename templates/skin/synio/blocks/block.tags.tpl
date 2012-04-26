@@ -1,4 +1,4 @@
-<section class="block">
+<section class="block block-type-tags">
 	<header class="block-header">
 		<h3>{$aLang.block_tags}</h3>
 	</header>

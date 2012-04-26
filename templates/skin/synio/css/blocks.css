@@ -11,7 +11,8 @@
 .block .block-header h3 a 				{ text-decoration: none; color: #333; }
 .block .block-header h3 a.link-dotted 	{ color: #5055B2; }
 .block .block-content 					{  }
-.block footer 							{ margin-top: 15px; font-size: 12px; }
+.block footer 							{ margin-top: 15px; font-size: 11px; color: #b9c2c2; }
+.block footer a							{ color: #727a90; }
 
 .block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
 
@@ -26,6 +27,8 @@
 .block.block-type-stream .block-content .latest-list .stream-topic { text-decoration: underline; }
 .block.block-type-stream .block-content .latest-list .author { color: #4c4c4c; text-decoration: underline; }
 .block.block-type-stream .block-content .latest-list .author:hover { color: #f00; }
+.block.block-type-stream .block-content .latest-list .block-item-comments { font-size: 11px; text-decoration: none; color: #818189; white-space: nowrap; }
+.block.block-type-stream .block-content .latest-list .block-item-comments i { position: relative; top: 3px; margin-right: 2px; }
 
 
 /* Block Type - Activity Settings */
@@ -64,8 +67,12 @@
 .block.block-type-talk-friends { margin-bottom: 10px; }
 
 
-/* Block Type - Blog List */
-.block.block-type-blogs li { margin-bottom: 10px; }
-.block.block-type-blogs li a { background: #fff; }
-.block.block-type-blogs li strong { float: right; background: #fff; }
+/* Block Type - Blogs */
+.block.block-type-blogs .block-blog-list li { margin-bottom: 10px; background: url(../images/dots.png)  0% 14px repeat-x; position: relative; padding-right: 50px; }
+.block.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 2px; }
+.block.block-type-blogs .block-blog-list li strong { position: absolute; top: 0; right: 0; background: #fff; padding-left: 2px; font-weight: normal; font-size: 11px; }
+
+
+/* Block Type - Tags */
+.block.block-type-tags .search-tags { background: #f9fbfb; padding: 15px; border-radius: 5px; }
 

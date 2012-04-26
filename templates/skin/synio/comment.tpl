@@ -21,6 +21,17 @@
 		<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" /></a>
 		
 		
+		<div id="comment_content_id_{$oComment->getId()}" class="comment-content text">
+			{$oComment->getText()}
+		</div>
+			
+			
+		{if $oUserCurrent}
+			<ul class="comment-actions">
+			</ul>
+		{/if}
+		
+		
 		<ul class="comment-info">
 			<li class="comment-author">
 				{if $iAuthorId == $oUser->getId()}<span class="comment-topic-author" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">{$aLang.comment_target_author}</span>{/if}
@@ -68,16 +79,8 @@
 					<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 				</li>
 			{/if}
-		</ul>
-		
-		
-		<div id="comment_content_id_{$oComment->getId()}" class="comment-content text">
-			{$oComment->getText()}
-		</div>
 			
-			
-		{if $oUserCurrent}
-			<ul class="comment-actions">
+			{if $oUserCurrent}
 				{if !$oComment->getDelete() and !$bAllowNewComment}
 					<li><a href="#" onclick="ls.comments.toggleCommentForm({$oComment->getId()}); return false;" class="reply-link link-dotted">{$aLang.comment_answer}</a></li>
 				{/if}
@@ -91,8 +94,8 @@
 				{/if}
 				
 				{hook run='comment_action' comment=$oComment}
-			</ul>
-		{/if}
+			{/if}
+		</ul>
 	{else}				
 		{$aLang.comment_was_delete}
 	{/if}	

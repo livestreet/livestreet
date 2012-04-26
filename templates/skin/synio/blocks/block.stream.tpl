@@ -1,7 +1,7 @@
 <section class="block block-type-stream">
 	<header class="block-header">
 		<h3><a href="{router page='comments'}" title="{$aLang.block_stream_comments_all}">{$aLang.block_stream}</a></h3>
-		<div class="block-update js-block-stream-update"></div>
+		<!--<div class="block-update js-block-stream-update"></div>-->
 	</header>
 
 	{hook run='block_stream_nav_item' assign="sItemsHook"}

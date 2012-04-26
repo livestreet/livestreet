@@ -17,7 +17,7 @@ body {
 a 		{ color: #3f8ad7; }
 a:hover { color: #f00; }
 
-a.link-dashed 		{ border-bottom: 1px dashed #5055b2; }
+a.link-dashed 		{ border-bottom: 1px dashed #5055b2; text-decoration: none; }
 a.link-dashed:hover { border-color: #06e; }
 
 a.link-dotted 		{ text-decoration: none; border-bottom: 1px dotted #5055b2; }
@@ -42,6 +42,9 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 #header .site-name 			{ font-size: 25px; line-height: 1em; text-transform: lowercase; float: left; padding-top: 11px; margin-right: 30px; margin-left: 18px; }
 #header .site-name a 		{ color: #fff; text-decoration: none; }
 #header .site-name a:hover 	{ color: #eee; }
+
+#header .new-messages { float: right; color: #3fd54d; font-size: 11px; margin-right: 11px; margin-top: 18px; line-height: 1em; text-decoration: none; }
+#header .new-messages i { position: relative; top: 2px; margin-left: 1px; }
 
 #header .dropdown-user { 
 	min-width: 89px; 
@@ -69,12 +72,25 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 #header .dropdown-user .username:hover 					{ color: #aaa; }
 #header .dropdown-user .avatar 							{ position: absolute; top: 11px; left: 13px; width: 30px; height: 30px; }
 
-.dropdown-menu.dropdown-user-menu	{ background: #1d1d1d; border: none; border-top: 1px solid #000; border-radius: 0 0 10px 10px; box-shadow: 0 0 7px rgba(0, 0, 0, .5); }
-.dropdown-menu.dropdown-user-menu li { border-bottom: 1px solid #000; border-top: 1px solid #393939; position: relative; }
-.dropdown-menu.dropdown-user-menu li a { height: 50px; padding: 0 10px 0 55px; line-height: 50px; color: #fff; text-decoration: none; }
-.dropdown-menu.dropdown-user-menu li a:hover { background: #093357; color: #fff; }
-.dropdown-menu.dropdown-user-menu li i { position: absolute; top: 15px; left: 17px; width: 21px; height: 21px; background: #555; }
-.dropdown-menu.dropdown-user-menu li:last-child { border-bottom: none; }
+.dropdown-menu.dropdown-user-menu							{ background: #1d1d1d; border: none; border-top: 1px solid #000; border-radius: 0 0 10px 10px; box-shadow: 0 0 7px rgba(0, 0, 0, .5); z-index: 30; }
+.dropdown-menu.dropdown-user-menu li 						{ border-bottom: 1px solid #000; border-top: 1px solid #393939; position: relative; }
+.dropdown-menu.dropdown-user-menu li:last-child 			{ border-bottom: none; }
+.dropdown-menu.dropdown-user-menu li:last-child a 			{ border-radius: 0 0 10px 10px; }
+.dropdown-menu.dropdown-user-menu li.item-stat 				{ padding: 20px 17px; font-size: 11px; background: #191919 url(../images/dropdown-user-shadow.png) left bottom repeat-x; }
+.dropdown-menu.dropdown-user-menu li.item-stat .rating 		{ color: #9dd868; margin-right: 21px; }
+.dropdown-menu.dropdown-user-menu li.item-stat .strength 	{ color: #93d3f2; }
+.dropdown-menu.dropdown-user-menu li.item-stat .arrow 		{ position: relative; top: 3px; }
+.dropdown-menu.dropdown-user-menu li.item-stat .icon-synio-star-small 	{ position: relative; top: 2px; }
+.dropdown-menu.dropdown-user-menu li.item-stat .icon-synio-strength 	{ position: relative; top: 1px; }
+.dropdown-menu.dropdown-user-menu li a 						{ height: 50px; padding: 0 10px 0 55px; line-height: 50px; color: #fff; text-decoration: none; }
+.dropdown-menu.dropdown-user-menu li a:hover 				{ background: #093357; color: #fff; }
+.dropdown-menu.dropdown-user-menu li .item-icon 			{ position: absolute; top: 15px; left: 17px; width: 21px; height: 21px; background: url(../images/icons-synio.png) no-repeat; }
+.dropdown-menu.dropdown-user-menu li.item-messages .item-icon 	{ background-position: 0 0; }
+.dropdown-menu.dropdown-user-menu li.item-profile .item-icon 	{ background-position: -23px 0; }
+.dropdown-menu.dropdown-user-menu li.item-settings .item-icon	{ background-position: -46px 0; }
+.dropdown-menu.dropdown-user-menu li.item-create .item-icon 	{ background-position: -69px 0; }
+.dropdown-menu.dropdown-user-menu li.item-signout .item-icon 	{ background-position: -92px 0; }
+.dropdown-menu.dropdown-user-menu li.item-messages .new { position: absolute; top: 15px; right: 7px; cursor: pointer; color: #fff; border-radius: 15px; border: 2px solid #eabe21; line-height: 1em; padding: 2px 7px 3px; }
 
 #header .auth { float: right; line-height: 49px; font-size: 11px; margin-right: 24px; }
 #header .auth li { float: left; margin-left: 23px; }

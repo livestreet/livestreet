@@ -83,5 +83,6 @@
 	
 	padding: 2px 15px 4px;
 	border-radius: 15px;
+	line-height: 17px;
 }
 .button.button-write:hover { background: #2abcfe; }
