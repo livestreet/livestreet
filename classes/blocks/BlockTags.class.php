@@ -39,7 +39,7 @@ class BlockTags extends Block {
 		 * Теги пользователя
 		 */
 		if ($oUserCurrent=$this->User_getUserCurrent()) {
-			$aTags=$this->oEngine->Topic_GetOpenTopicTags(Config::Get('block.tags.open_topic_tags_count'), $oUserCurrent->getId());
+			$aTags=$this->oEngine->Topic_GetOpenTopicTags(Config::Get('block.tags.personal_tags_count'), $oUserCurrent->getId());
 			/**
 			 * Расчитываем логарифмическое облако тегов
 			 */
