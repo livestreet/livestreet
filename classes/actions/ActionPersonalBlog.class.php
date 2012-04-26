@@ -101,7 +101,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType,array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,array('period'=>$sPeriod));
 		/**
 		 * Вызов хуков
 		 */

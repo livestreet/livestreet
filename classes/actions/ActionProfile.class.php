@@ -122,7 +122,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,$this->oUserProfile->getUserWebPath().'friends');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'friends');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -156,7 +156,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'created/topics');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/topics');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -190,7 +190,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'created/comments');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/comments');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -228,7 +228,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -270,7 +270,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -305,7 +305,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/comments');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/comments');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -612,7 +612,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,$this->oUserProfile->getUserWebPath().'created/notes');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/notes');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
