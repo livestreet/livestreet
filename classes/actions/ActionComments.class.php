@@ -72,7 +72,7 @@ class ActionComments extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,Router::GetPath('comments'));	
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('comments'));	
 		/**
 		 * Загружаем переменные в шаблон
 		 */					

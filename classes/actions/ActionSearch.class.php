@@ -217,7 +217,7 @@ class ActionSearch extends Action {
 				$aRes['aCounts'][$aReq['sType']], 
 				$aReq['iPage'], 
 				$iLimit, 
-				4, 
+				Config::Get('pagination.pages.count'), 
 				Router::GetPath('search').$aReq['sType'], 
 				array(
 					'q' => $aReq['q']

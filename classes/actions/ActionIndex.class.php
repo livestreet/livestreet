@@ -116,7 +116,7 @@ class ActionIndex extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'top',array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'top',array('period'=>$sPeriod));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -160,7 +160,7 @@ class ActionIndex extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'discussed',array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'discussed',array('period'=>$sPeriod));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -194,7 +194,7 @@ class ActionIndex extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'new');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'new');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -227,7 +227,7 @@ class ActionIndex extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index'));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */

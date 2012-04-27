@@ -1181,7 +1181,7 @@ class ModuleUser extends Module {
 			$oImage->output(null,$sFileTmp);
 		}
 
-		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),250,null,true,$aParams)) {
+		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('module.user.profile_photo_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			/**
 			 * удаляем старое фото

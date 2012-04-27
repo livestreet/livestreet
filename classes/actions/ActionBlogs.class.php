@@ -95,7 +95,7 @@ class ActionBlogs extends Action {
 		/**
 		 * Формируем постраничность
 		 */		
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.per_page'),4,Router::GetPath('blogs'),array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blogs'),array('order'=>$sOrder,'order_way'=>$sOrderWay));
 		/**
 		 * Загружаем переменные в шаблон
 		 */					
