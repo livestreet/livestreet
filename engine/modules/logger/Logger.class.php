@@ -18,9 +18,14 @@
 /**
  * Модуль логирования
  * Имеет 3 уровня логирования: 'DEBUG','NOTICE','ERROR'
+ * <pre>
+ * $this->Logger_Debug('Debug message');
+ * </pre>
  *
+ * @package engine.modules
+ * @since 1.0
  */
-class ModuleLogger extends Module {	
+class ModuleLogger extends Module {
 	/**
 	 * Уровни логгирования
 	 *
@@ -66,25 +71,23 @@ class ModuleLogger extends Module {
 	/**
 	 * Случайное число
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iRandom;
-			
-	
+
 	/**
 	 * Инициализация, устанавливает имя файла лога
 	 *
 	 */
-	public function Init() {	
-			$this->sPathLogs=Config::Get('path.root.server').'/logs/';		
-			$this->SetFileName(Config::Get('sys.logs.file'));
-			$this->iRandom=rand(1000,9999);
+	public function Init() {
+		$this->sPathLogs=Config::Get('path.root.server').'/logs/';
+		$this->SetFileName(Config::Get('sys.logs.file'));
+		$this->iRandom=rand(1000,9999);
 	}
-	
 	/**
 	 * Уставливает текущий уровень лога, тот уровень при котором будет производиться запись в файл лога
 	 *
-	 * @param int, string('DEBUG','NOTICE','ERROR') $level
+	 * @param int, string('DEBUG','NOTICE','ERROR') $level	Уровень логирования
 	 * @return bool
 	 */
 	public function SetWriteLevel($level) {
@@ -99,7 +102,6 @@ class ModuleLogger extends Module {
 		}
 		return false;
 	}
-	
 	/**
 	 * Возвращает текущий уровень лога
 	 *
@@ -108,16 +110,14 @@ class ModuleLogger extends Module {
 	public function GetWriteLevel() {
 		return $this->writeLevel;
 	}
-	
 	/**
 	 * Использовать трассировку или нет
 	 *
-	 * @param bool $bool
+	 * @param bool $bool	Использовать или нет троссировку в логах
 	 */
 	public function SetUseTrace($bool) {
 		$this->bUseTrace=(bool)$bool;
 	}
-	
 	/**
 	 * Использует трассировку или нет
 	 *
@@ -126,7 +126,6 @@ class ModuleLogger extends Module {
 	public function GetUseTrace() {
 		return $this->bUseTrace;
 	}
-	
 	/**
 	 * Использовать ротацию логов или нет
 	 *
@@ -135,7 +134,6 @@ class ModuleLogger extends Module {
 	public function SetUseRotate($bool) {
 		$this->bUseRotate=(bool)$bool;
 	}
-	
 	/**
 	 * Использует ротацию логов или нет
 	 *
@@ -144,16 +142,14 @@ class ModuleLogger extends Module {
 	public function GetUseRotate() {
 		return $this->bUseRotate;
 	}
-	
 	/**
 	 * Устанавливает имя файла лога
 	 *
 	 * @param string $sFile
 	 */
-	public function SetFileName($sFile){		
-		$this->sFileName=$sFile;		
+	public function SetFileName($sFile){
+		$this->sFileName=$sFile;
 	}
-	
 	/**
 	 * Получает имя файла лога
 	 *
@@ -162,39 +158,35 @@ class ModuleLogger extends Module {
 	public function GetFileName(){
 		return $this->sFileName;
 	}
-	
 	/**
 	 * Запись в лог с уровнем логирования 'DEBUG'
 	 *
-	 * @param string $msg
+	 * @param string $msg	Сообщение для записи в лог
 	 */
 	public function Debug($msg) {
 		$this->log($msg,'DEBUG');
 	}
-	
 	/**
 	 * Запись в лог с уровнем логирования 'ERROR'
 	 *
-	 * @param string $msg
+	 * @param string $msg	Сообщение для записи в лог
 	 */
 	public function Error($msg) {
 		$this->log($msg,'ERROR');
 	}
-	
 	/**
 	 * Запись в лог с уровнем логирования 'NOTICE'
 	 *
-	 * @param string $msg
+	 * @param string $msg	Сообщение для записи в лог
 	 */
 	public function Notice($msg) {
 		$this->log($msg,'NOTICE');
 	}
-	
 	/**
 	 * Записывает лог
 	 *
-	 * @param string $msg
-	 * @param string $sLevel
+	 * @param string $msg	Сообщение для записи в лог
+	 * @param string $sLevel	Уровень логирования
 	 */
 	protected function log($msg,$sLevel) {
 		/**
@@ -212,21 +204,20 @@ class ModuleLogger extends Module {
 			/**
 			 * Если нужно то трассируем
 			 */
-			if ($this->getUseTrace()) {				
+			if ($this->getUseTrace()) {
 				$msgOut.='['.$this->parserTrace(debug_backtrace()).']';
 			}
 			/**
 			 * Записываем
 			 */
 			$this->write($msgOut);
-		}		
+		}
 	}
-	
 	/**
 	 * Выполняет форматирование трассировки
 	 *
 	 * @param array $aTrace
-	 * @return unknown
+	 * @return string
 	 */
 	protected function parserTrace($aTrace) {
 		$msg='';
@@ -243,12 +234,11 @@ class ModuleLogger extends Module {
 		}
 		return $msg;
 	}
-	
 	/**
 	 * Производит сохранение в файл
 	 *
-	 * @param string $msg
-	 * @return unknown
+	 * @param string $msg	Сообщение
+	 * @return bool
 	 */
 	protected function write($msg) {
 		/**
@@ -268,41 +258,41 @@ class ModuleLogger extends Module {
 			 * Запись в файл
 			 */
 			if ($fp=fopen($this->sPathLogs.$this->sFileName,"a")) {
-    			fwrite($fp,$msg."\n");
-    			fclose($fp);    	
-    			/**
-    			 * Если нужно то делаем ротацию
-    			 */
-    			if ($this->bUseRotate) {
-    				$this->rotate();
-    			}
+				fwrite($fp,$msg."\n");
+				fclose($fp);
+				/**
+				 * Если нужно то делаем ротацию
+				 */
+				if ($this->bUseRotate) {
+					$this->rotate();
+				}
 			}
 		}
+		return true;
 	}
-	
 	/**
 	 * Производит ротацию логов
 	 *
 	 */
-	protected function rotate() {	
+	protected function rotate() {
 		clearstatcache();
 		/**
-		 * Если размер файло лога привысил максимальный то сохраняем текущий файл в архивный, а текущий становится пустым
+		 * Если размер файла лога привысил максимальный то сохраняем текущий файл в архивный, а текущий становится пустым
 		 */
 		if (filesize($this->sPathLogs.$this->sFileName)>=$this->iSizeForRotate) {
-			$pathinfo=pathinfo($this->sPathLogs.$this->getFileName());			
+			$pathinfo=pathinfo($this->sPathLogs.$this->getFileName());
 			$name=$pathinfo['basename'];
 			$aName=explode('.',$name);
 			$i=1;
 			while (1) {
 				$sNameNew=$aName[0].".$i.".$aName[1];
-				$sFullNameNew=$pathinfo['dirname'].'/'.$sNameNew;				
-				if (!file_exists($sFullNameNew)) {					
+				$sFullNameNew=$pathinfo['dirname'].'/'.$sNameNew;
+				if (!file_exists($sFullNameNew)) {
 					$this->rotateRename($i-1);
 					break;
-				}				
+				}
 				$i++;
-			}			
+			}
 		}
 	}
 	/**
@@ -310,10 +300,10 @@ class ModuleLogger extends Module {
 	 *
 	 * @param int $numberLast
 	 */
-	protected function rotateRename($numberLast) {		
-		$pathinfo=pathinfo($this->sPathLogs.$this->getFileName());						
-		$aName=explode('.',$pathinfo['basename']);		
-		for ($i=$numberLast;$i>0;$i--) {			
+	protected function rotateRename($numberLast) {
+		$pathinfo=pathinfo($this->sPathLogs.$this->getFileName());
+		$aName=explode('.',$pathinfo['basename']);
+		for ($i=$numberLast;$i>0;$i--) {
 			$sFullNameCur=$pathinfo['dirname'].'/'.$aName[0].".$i.".$aName[1];
 			$sFullNameNew=$pathinfo['dirname'].'/'.$aName[0].'.'.($i+1).'.'.$aName[1];
 			rename($sFullNameCur,$sFullNameNew);

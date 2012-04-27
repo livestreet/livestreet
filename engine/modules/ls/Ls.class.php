@@ -23,13 +23,22 @@
  * Так же вы можете благодаря этому получать уведомления о новых версиях установленных плагинов и шаблонов.
  * Вы всегда можете отключить передачу данных в конфиге, но просим этого не далать, тем самым вы поможете развитию LS CMS. Это важно для нас.
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleLs extends Module {
-
+	/**
+	 * Адрес шлюза
+	 *
+	 * @var string
+	 */
 	protected $sUrlLs='http://sender.livestreetcms.com/push/';
+	/**
+	 * Список данных для отправки
+	 *
+	 * @var array
+	 */
 	protected $aDataForSend=array();
-
-	protected $oMapper;
 
 	/**
 	 * Инициализируем модуль
@@ -38,7 +47,6 @@ class ModuleLs extends Module {
 	public function Init() {
 
 	}
-
 	/**
 	 * Запуск сбора данных
 	 *
@@ -48,7 +56,6 @@ class ModuleLs extends Module {
 		if (!Config::Get('module.ls.send_general')) {
 			return false;
 		}
-
 		/**
 		 * Вставка счетчика
 		 */
@@ -56,13 +63,11 @@ class ModuleLs extends Module {
 			// лучше вставлять в html_head_end, но здесь нужно постараться вставить код в самом конце, чтобы уменьшить вероятность повторного вызова GA, если сайт его использует
 			$this->Hook_AddExecModule('template_body_end','Ls_InjectCounter',-10000);
 		}
-
 		/**
 		 * Отправка данных
 		 */
 		$this->SendToLs();
 	}
-
 	/**
 	 * Вставка счетчика GA с учетом его возможного повторного использования
 	 *
@@ -92,9 +97,8 @@ class ModuleLs extends Module {
 
 		return $sCounter;
 	}
-
 	/**
-	 * Отправка данных на сервер LS
+	 * Отправка данных на шлюз LS
 	 */
 	protected function SendToLs() {
 		/**
@@ -134,7 +138,6 @@ class ModuleLs extends Module {
 			$this->ErrorSendToLs();
 		}
 	}
-
 	/**
 	 * Отмечает факт ошибки при отправки данных, увеличиваем число попыток
 	 */
@@ -149,18 +152,16 @@ class ModuleLs extends Module {
 		}
 		$this->SetMarkerFile(date("Y-m-d"),$aData);
 	}
-
 	/**
 	 * Отмечает факт успешной отправки данных
 	 */
 	protected function SuccessfulSendToLs() {
 		$this->SetMarkerFile(date("Y-m-d"),array('is_send'=>1));
 	}
-
 	/**
 	 * Читает данные из файла
 	 *
-	 * @param $sDate
+	 * @param string $sDate	Дата под которой сохранен файл
 	 * @return bool|mixed
 	 */
 	protected function GetMarkerFile($sDate) {
@@ -173,12 +174,11 @@ class ModuleLs extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Записывает данные в файл
 	 *
-	 * @param $sDate
-	 * @param $aData
+	 * @param string $sDate	Дата
+	 * @param array $aData	Данные
 	 * @return bool
 	 */
 	protected function SetMarkerFile($sDate,$aData) {
@@ -188,7 +188,6 @@ class ModuleLs extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Возвращает строчку для инжекции в шаблон
 	 *
@@ -199,7 +198,6 @@ class ModuleLs extends Module {
 		$sUrl=$this->sUrlLs.'img/?'.$this->makeGetParams($this->aDataForSend);
 		return '<img width="1" height="1" src="'.$sUrl.'">';
 	}
-
 	/**
 	 * Возвращает данные для отправки
 	 *
@@ -227,13 +225,12 @@ class ModuleLs extends Module {
 
 		return $aData;
 	}
-
 	/**
 	 * Чтение URL
 	 *
-	 * @param $sUrl
-	 * @param $aParams
-	 * @return bool|mixed|string
+	 * @param string $sUrl	Урл
+	 * @param array $aParams	параметры
+	 * @return bool|string
 	 */
 	protected function getUrl($sUrl,$aParams) {
 		if (function_exists('curl_init')) {
@@ -283,12 +280,11 @@ class ModuleLs extends Module {
 			return $sData;
 		}
 	}
-
 	/**
 	 * Формирует строку GET параметров
 	 *
-	 * @param array $aParams
-	 * @return array|string
+	 * @param array $aParams	Параметры
+	 * @return string
 	 */
 	protected function makeGetParams($aParams=array()) {
 		$sGetParams='';
@@ -297,7 +293,5 @@ class ModuleLs extends Module {
 		}
 		return $sGetParams;
 	}
-
-
 }
 ?>

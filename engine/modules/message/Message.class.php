@@ -17,7 +17,13 @@
 
 /**
  * Модуль системных сообщений
+ * Позволяет показывать пользователю сообщения двух видов - об ошибке и об успешном действии.
+ * <pre>
+ * $this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+ * </pre>
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleMessage extends Module {
 	/**
@@ -32,103 +38,100 @@ class ModuleMessage extends Module {
 	 * @var array
 	 */
 	protected $aMsgNotice=array();
-	
 	/**
 	 * Массив сообщений, который будут показаны на СЛЕДУЮЩЕЙ страничке
+	 *
 	 * @var array
 	 */
 	protected $aMsgNoticeSession=array();
 	/**
 	 * Массив ошибок, который будут показаны на СЛЕДУЮЩЕЙ страничке
+	 *
 	 * @var array
 	 */
 	protected $aMsgErrorSession=array();
-	
+
 	/**
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {			
+	public function Init() {
 		/**
 		 * Добавляем сообщения и ошибки, которые содержались в сессии
 		 */
-		$aNoticeSession = $this->Session_Get('message_notice_session');		
+		$aNoticeSession = $this->Session_Get('message_notice_session');
 		if(is_array($aNoticeSession) and count($aNoticeSession)) {
-			$this->aMsgNotice = $aNoticeSession;	
-		}		
+			$this->aMsgNotice = $aNoticeSession;
+		}
 		$aErrorSession = $this->Session_Get('message_error_session');
 		if(is_array($aErrorSession) and count($aErrorSession)) {
-			$this->aMsgError = $aErrorSession;				
+			$this->aMsgError = $aErrorSession;
 		}
 	}
-	
 	/**
 	 * При завершении работы модуля передаем списки сообщений в шаблоны Smarty
 	 *
 	 */
-	public function Shutdown() {	
+	public function Shutdown() {
 		/**
 		 * Добавляем в сессию те соощения, которые были отмечены для сессионого использования
 		 */
-	    $this->Session_Set('message_notice_session', $this->GetNoticeSession());
-	    $this->Session_Set('message_error_session', $this->GetErrorSession());
-	    
-		$this->Viewer_Assign('aMsgError',$this->GetError());		
-		$this->Viewer_Assign('aMsgNotice',$this->GetNotice());		
+		$this->Session_Set('message_notice_session', $this->GetNoticeSession());
+		$this->Session_Set('message_error_session', $this->GetErrorSession());
+
+		$this->Viewer_Assign('aMsgError',$this->GetError());
+		$this->Viewer_Assign('aMsgNotice',$this->GetNotice());
 	}
 	/**
 	 * Добавляет новое сообщение об ошибке
 	 *
-	 * @param string $sMsg
-	 * @param string $sTitle
-	 * @param bool   $bUseSession
+	 * @param string $sMsg	Сообщение
+	 * @param string $sTitle	Заголовок
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
 	 */
 	public function AddError($sMsg,$sTitle=null,$bUseSession=false) {
-		if(!$bUseSession) {			
+		if(!$bUseSession) {
 			$this->aMsgError[]=array('msg'=>$sMsg,'title'=>$sTitle);
 		} else {
 			$this->aMsgErrorSession[]=array('msg'=>$sMsg,'title'=>$sTitle);
 		}
 	}
-	
 	/**
 	 * Создаёт идинственное сообщение об ошибке(т.е. очищает все предыдущие)
 	 *
-	 * @param string $sMsg
-	 * @param string $sTitle
-	 * @param bool   $bUseSession
+	 * @param string $sMsg	Сообщение
+	 * @param string $sTitle	Заголовок
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
 	 */
 	public function AddErrorSingle($sMsg,$sTitle=null,$bUseSession=false) {
 		$this->ClearError();
-		$this->AddError($sMsg,$sTitle,$bUseSession);		
+		$this->AddError($sMsg,$sTitle,$bUseSession);
 	}
 	/**
 	 * Добавляет новое сообщение
 	 *
-	 * @param string $sMsg
-	 * @param string $sTitle
-	 * @param bool   $bUseSession
+	 * @param string $sMsg	Сообщение
+	 * @param string $sTitle	Заголовок
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
 	 */
 	public function AddNotice($sMsg,$sTitle=null,$bUseSession=false) {
-		if(!$bUseSession) {		
+		if(!$bUseSession) {
 			$this->aMsgNotice[]=array('msg'=>$sMsg,'title'=>$sTitle);
 		} else {
-			$this->aMsgNoticeSession[]=array('msg'=>$sMsg,'title'=>$sTitle);			
+			$this->aMsgNoticeSession[]=array('msg'=>$sMsg,'title'=>$sTitle);
 		}
 	}
-	
 	/**
 	 * Создаёт идинственное сообщение, удаляя предыдущие
 	 *
-	 * @param string $sMsg
-	 * @param string $sTitle
-	 * @param bool   $bUseSession
+	 * @param string $sMsg	Сообщение
+	 * @param string $sTitle	Заголовок
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
 	 */
 	public function AddNoticeSingle($sMsg,$sTitle=null,$bUseSession=false) {
 		$this->ClearNotice();
-		$this->AddNotice($sMsg,$sTitle,$bUseSession);		
+		$this->AddNotice($sMsg,$sTitle,$bUseSession);
 	}
-	
 	/**
 	 * Очищает стек сообщений
 	 *
@@ -137,7 +140,6 @@ class ModuleMessage extends Module {
 		$this->aMsgNotice=array();
 		$this->aMsgNoticeSession=array();
 	}
-	
 	/**
 	 * Очищает стек ошибок
 	 *
@@ -146,7 +148,6 @@ class ModuleMessage extends Module {
 		$this->aMsgError=array();
 		$this->aMsgErrorSession=array();
 	}
-	
 	/**
 	 * Получает список сообщений об ошибке
 	 *
@@ -155,7 +156,6 @@ class ModuleMessage extends Module {
 	public function GetError() {
 		return $this->aMsgError;
 	}
-	
 	/**
 	 * Получает список сообщений
 	 *
@@ -164,25 +164,23 @@ class ModuleMessage extends Module {
 	public function GetNotice() {
 		return $this->aMsgNotice;
 	}
-	
 	/**
-	 * Возвращает список сообщений, 
+	 * Возвращает список сообщений,
 	 * которые необходимо поместить в сессию
-	 * 
+	 *
 	 * @return array
 	 */
 	public function GetNoticeSession() {
-	    return $this->aMsgNoticeSession;
-	}       	
-
+		return $this->aMsgNoticeSession;
+	}
 	/**
-	 * Возвращает список ошибок, 
+	 * Возвращает список ошибок,
 	 * которые необходимо поместить в сессию
-	 * 
+	 *
 	 * @return array
 	 */
 	public function GetErrorSession() {
-	    return $this->aMsgErrorSession;
-	}       	
+		return $this->aMsgErrorSession;
+	}
 }
 ?>

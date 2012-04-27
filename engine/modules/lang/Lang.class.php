@@ -17,6 +17,8 @@
 /**
  * Модуль поддержки языковых файлов
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleLang extends Module {
 	/**
@@ -29,29 +31,30 @@ class ModuleLang extends Module {
 	 * Язык ресурса, используемый по умолчанию
 	 *
 	 * @var string
-	 */	
+	 */
 	protected $sDefaultLang;
 	/**
 	 * Путь к языковым файлам
 	 *
 	 * @var string
-	 */	
+	 */
 	protected $sLangPath;
 	/**
+	 * Список языковых текстовок
+	 *
 	 * @var array
 	 */
 	protected $aLangMsg=array();
 	/**
 	 * Список текстовок для JS
 	 *
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected $aLangMsgJs=array();
 
 	/**
 	 * Инициализация модуля
 	 *
-	 * @return null
 	 */
 	public function Init() {
 		$this->Hook_Run('lang_init_start');
@@ -64,7 +67,6 @@ class ModuleLang extends Module {
 	/**
 	 * Инициализирует языковой файл
 	 *
-	 * @return null
 	 */
 	protected function InitLang() {
 		/**
@@ -112,7 +114,7 @@ class ModuleLang extends Module {
 	/**
 	 * Добавляет текстовку к JS
 	 *
-	 * @param unknown_type $aKeys
+	 * @param array $aKeys	Список текстовок
 	 */
 	public function AddLangJs($aKeys) {
 		if (!is_array($aKeys)) {
@@ -123,7 +125,7 @@ class ModuleLang extends Module {
 	/**
 	 * Загружает текстовки из языковых файлов
 	 *
-	 * @return null
+	 * @param $sLangName	Язык для загрузки
 	 */
 	protected function LoadLangFiles($sLangName) {
 		$sLangFilePath = $this->sLangPath.'/'.$sLangName.'.php';
@@ -145,7 +147,6 @@ class ModuleLang extends Module {
 			}
 			closedir($hDirConfig);
 		}
-
 		/**
 		 * Ищет языковые файлы актвиированных плагинов
 		 */
@@ -165,17 +166,15 @@ class ModuleLang extends Module {
 			}
 
 		}
-
 		/**
 		 * Ищет языковой файл текущего шаблона
 		 */
 		$this->LoadLangFileTemplate($sLangName);
 	}
-
 	/**
 	 * Загружает языковой файл текущего шаблона
 	 *
-	 * @param unknown_type $sLangName
+	 * @param string $sLangName	Язык для загрузки
 	 */
 	public function LoadLangFileTemplate($sLangName) {
 		$sFile=Config::Get('path.smarty.template').'/settings/language/'.$sLangName.'.php';
@@ -186,7 +185,7 @@ class ModuleLang extends Module {
 	/**
 	 * Установить текущий язык
 	 *
-	 * @param string $sLang
+	 * @param string $sLang	Название языка
 	 */
 	public function SetLang($sLang) {
 		$this->sCurrentLang=$sLang;
@@ -202,7 +201,7 @@ class ModuleLang extends Module {
 	}
 	/**
 	 * Получить дефолтный язык
-	 * 
+	 *
 	 * @return string
 	 */
 	public function GetLangDefault() {
@@ -211,17 +210,17 @@ class ModuleLang extends Module {
 	/**
 	 * Получить список текстовок
 	 *
-	 * @return unknown
+	 * @return array
 	 */
 	public function GetLangMsg() {
 		return $this->aLangMsg;
 	}
-
 	/**
 	 * Получает текстовку по её имени
 	 *
-	 * @param  string $sName
-	 * @param  array  $aReplace
+	 * @param  string $sName	Имя текстовки
+	 * @param  array  $aReplace	Список параметром для замены в текстовке
+	 * @param  bool  $bDelete	Удалять или нет параметры, которые не были заменены
 	 * @return string
 	 */
 	public function Get($sName,$aReplace=array(),$bDelete=true) {
@@ -255,12 +254,12 @@ class ModuleLang extends Module {
 		}
 		return $sLang;
 	}
-
 	/**
-     * Добавить к текстовкам массив сообщений
-     *
-     * @param array $aMessages     
-     */
+	 * Добавить к текстовкам массив сообщений
+	 *
+	 * @param array $aMessages     Список текстовок для добавления
+	 * @param array|null $aBlock	Параметры, позволяют хранить текстовки в структурированном виде, например, тестовки плагина "test" получать как Get('plugin.name.test')
+	 */
 	public function AddMessages($aMessages, $aBlock = null) {
 		if (is_array($aMessages)) {
 			if (!Config::Get('lang.disable_blocks') && is_array($aBlock)) {
@@ -268,7 +267,7 @@ class ModuleLang extends Module {
 					if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
 					$this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
 				} else {
-					$this->aLangMsg [$aBlock['name']] = $aMessages;
+					$this->aLangMsg[$aBlock['name']] = $aMessages;
 				}
 			}
 			if (count($this->aLangMsg)==0) {
@@ -278,17 +277,15 @@ class ModuleLang extends Module {
 			}
 		}
 	}
-
 	/**
-     * Добавить к текстовкам отдельное сообщение
-     *
-     * @param string $sKey
-     * @param string $sMessage     
-     */
+	 * Добавить к текстовкам отдельное сообщение
+	 *
+	 * @param string $sKey	Имя текстовки
+	 * @param string $sMessage	Значение текстовки
+	 */
 	public function AddMessage($sKey, $sMessage) {
 		$this->aLangMsg[$sKey] = $sMessage;
 	}
-
 	/**
 	 * Завершаем работу модуля
 	 *

@@ -99,11 +99,11 @@ class ModuleCache extends Module {
 	 * @var array
 	 */
 	protected $aStats=array(
-						'time' =>0,
-						'count' => 0,
-						'count_get' => 0,
-						'count_set' => 0,
-					);
+		'time' =>0,
+		'count' => 0,
+		'count_get' => 0,
+		'count_set' => 0,
+	);
 	/**
 	 * Хранилище для кеша на время сессии
 	 * @see SetLife
@@ -128,7 +128,7 @@ class ModuleCache extends Module {
 	public function Init() {
 		$this->bUseCache=Config::Get('sys.cache.use');
 		$this->sCacheType=Config::Get('sys.cache.type');
-		
+
 		if (!$this->bUseCache) {
 			return false;
 		}
@@ -142,28 +142,28 @@ class ModuleCache extends Module {
 					'cache_dir' => Config::Get('sys.cache.dir'),
 					'file_name_prefix'	=> Config::Get('sys.cache.prefix'),
 					'read_control_type' => 'crc32',
-					'hashed_directory_level' => Config::Get('sys.cache.directory_level'), 
+					'hashed_directory_level' => Config::Get('sys.cache.directory_level'),
 					'read_control' => true,
 					'file_locking' => true,
 				)
 			);
 			$this->oBackendCache = new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats'));
-		/**
-		 * Кеш на основе Memcached
-		 */
+			/**
+			 * Кеш на основе Memcached
+			 */
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_MEMORY) {
 			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/Memcached.php');
 			$aConfigMem=Config::Get('memcache');
-			
+
 			$oCahe = new Dklab_Cache_Backend_MemcachedMultiload($aConfigMem);
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
-		/**
-		 * Кеш на основе XCache
-		 */
+			/**
+			 * Кеш на основе XCache
+			 */
 		} elseif ($this->sCacheType==SYS_CACHE_TYPE_XCACHE) {
 			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/Xcache.php');
 			$aConfigMem=Config::Get('xcache');
-			
+
 			$oCahe = new Zend_Cache_Backend_Xcache(is_array($aConfigMem) ? $aConfigMem : array());
 			$this->oBackendCache = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($oCahe,array($this,'CalcStats')));
 		} else {
@@ -172,8 +172,8 @@ class ModuleCache extends Module {
 		/**
 		 * Дабы не засорять место протухшим кешем, удаляем его в случайном порядке, например 1 из 50 раз
 		 */
-		if (rand(1,50)==33) {			
-			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);			
+		if (rand(1,50)==33) {
+			$this->Clean(Zend_Cache::CLEANING_MODE_OLD);
 		}
 	}
 	/**
@@ -242,7 +242,7 @@ class ModuleCache extends Module {
 			if ($data and is_array($data)) {
 				$aData=array();
 				foreach ($data as $key => $value) {
-					$aData[$aKv[$key]]=$value;					
+					$aData[$aKv[$key]]=$value;
 				}
 				if (count($aData)>0) {
 					return $aData;
@@ -271,7 +271,7 @@ class ModuleCache extends Module {
 	 * @param  int    $iTimeLife	Время жизни кеша в секундах
 	 * @return bool
 	 */
-	public function Set($data,$sName,$aTags=array(),$iTimeLife=false) {		
+	public function Set($data,$sName,$aTags=array(),$iTimeLife=false) {
 		if (!$this->bUseCache) {
 			return false;
 		}
@@ -279,7 +279,7 @@ class ModuleCache extends Module {
 		 * Т.к. название кеша может быть любым то предварительно хешируем имя кеша
 		 */
 		$sName=md5(Config::Get('sys.cache.prefix').$sName);
-		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {		
+		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {
 			$data=serialize($data);
 		}
 		return $this->oBackendCache->save($data,$sName,$aTags,$iTimeLife);
@@ -335,13 +335,13 @@ class ModuleCache extends Module {
 	 */
 	public function CalcStats($iTime,$sMethod) {
 		$this->aStats['time']+=$iTime;
-		$this->aStats['count']++;	
+		$this->aStats['count']++;
 		if ($sMethod=='Dklab_Cache_Backend_Profiler::load') {
 			$this->aStats['count_get']++;
 		}
 		if ($sMethod=='Dklab_Cache_Backend_Profiler::save') {
 			$this->aStats['count_set']++;
-		}		
+		}
 	}
 	/**
 	 * Возвращает статистику использования кеша
@@ -360,7 +360,7 @@ class ModuleCache extends Module {
 	public function SetLife($data,$sName) {
 		$this->aStoreLife[$sName]=$data;
 	}
-	
+
 	/**
 	 * Получает значение из текущего кеша сессии
 	 *

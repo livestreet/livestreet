@@ -16,8 +16,10 @@
 */
 
 /**
- * Модуль управления плагинами сообщений
+ * Модуль управления плагинами
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModulePlugin extends Module {
 	/**
@@ -32,16 +34,15 @@ class ModulePlugin extends Module {
 	 * @var string
 	 */
 	protected $sPluginsDir;
-
 	/**
 	 * Список плагинов
 	 *
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected $aPluginsList=array();
-
 	/**
 	 * Список engine-rewrite`ов (модули, экшены, сущности, шаблоны)
+	 * Определяет типы объектов, которые может переопределить/унаследовать плагин
 	 *
 	 * @var array
 	 */
@@ -53,7 +54,6 @@ class ModulePlugin extends Module {
 		'template' => array(),
 		'block' => array(),
 	);
-
 	/**
 	 * Стек наследований
 	 *
@@ -68,7 +68,6 @@ class ModulePlugin extends Module {
 	public function Init() {
 		$this->sPluginsDir=Config::Get('path.root.server').'/plugins/';
 	}
-
 	/**
 	 * Получает список информации о всех плагинах, загруженных в plugin-директорию
 	 *
@@ -122,13 +121,12 @@ class ModulePlugin extends Module {
 		}
 		return $this->aPluginsList;
 	}
-
 	/**
 	 * Получает значение параметра из XML на основе языковой разметки
 	 *
-	 * @param SimpleXMLElement $oXml
-	 * @param string           $sProperty
-	 * @param string           $sLang
+	 * @param SimpleXMLElement $oXml	XML узел
+	 * @param string           $sProperty	Свойство, которое нужно вернуть
+	 * @param string           $sLang	Название языка
 	 */
 	protected function Xlang($oXml,$sProperty,$sLang) {
 		$sProperty=trim($sProperty);
@@ -138,7 +136,13 @@ class ModulePlugin extends Module {
 		}
 		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
 	}
-
+	/**
+	 * Переключает состояние плагина  активный/не активный
+	 *
+	 * @param string $sPlugin	Название плагина(код)
+	 * @param $sAction	Действие - activate/deactivate
+	 * @return null|bool
+	 */
 	public function Toggle($sPlugin,$sAction) {
 		$aPlugins=$this->GetList();
 		if(!isset($aPlugins[$sPlugin])) return null;
@@ -309,7 +313,6 @@ class ModulePlugin extends Module {
 				return null;
 		}
 	}
-
 	/**
 	 * Возвращает список активированных плагинов в системе
 	 *
@@ -324,16 +327,15 @@ class ModulePlugin extends Module {
 
 		return $aPlugins;
 	}
-
 	/**
 	 * Записывает список активных плагинов в файл PLUGINS.DAT
 	 *
-	 * @param array|string $aPlugins
+	 * @param array|string $aPlugins	Список плагинов
+	 * @return bool
 	 */
 	public function SetActivePlugins($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins = array($aPlugins);
 		$aPlugins=array_unique(array_map('trim',$aPlugins));
-
 		/**
 		 * Записываем данные в файл PLUGINS.DAT
 		 */
@@ -342,11 +344,10 @@ class ModulePlugin extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Удаляет плагины с сервера
 	 *
-	 * @param array $aPlugins
+	 * @param array $aPlugins	Список плагинов для удаления
 	 */
 	public function Delete($aPlugins) {
 		if(!is_array($aPlugins)) $aPlugins=array($aPlugins);
@@ -364,7 +365,6 @@ class ModulePlugin extends Module {
 			func_rmdir($this->sPluginsDir.$sPluginCode);
 		}
 	}
-
 	/**
 	 * Перенаправление вызовов на модули, экшены, сущности
 	 *
@@ -385,7 +385,6 @@ class ModulePlugin extends Module {
 			'sign'=>$sSign
 		);
 	}
-
 	/**
 	 * Добавляет в стек наследника класса
 	 *
@@ -403,13 +402,12 @@ class ModulePlugin extends Module {
 		);
 		$this->aInherits[trim($sFrom)]['position']=count($this->aInherits[trim($sFrom)]['items'])-1;
 	}
-
 	/**
 	 * Получает следующего родителя у наследника.
 	 * ВНИМАНИЕ! Данный метод нужно вызвать только из __autoload()
 	 *
-	 * @param unknown_type $sFrom
-	 * @return unknown
+	 * @param string $sFrom
+	 * @return string
 	 */
 	public function GetParentInherit($sFrom) {
 		if (!isset($this->aInherits[$sFrom]['items']) or count($this->aInherits[$sFrom]['items'])<=1 or $this->aInherits[$sFrom]['position']<1) {
@@ -418,14 +416,24 @@ class ModulePlugin extends Module {
 		$this->aInherits[$sFrom]['position']--;
 		return $this->aInherits[$sFrom]['items'][$this->aInherits[$sFrom]['position']]['inherit'];
 	}
-
+	/**
+	 * Возвращает список наследуемых классов
+	 *
+	 * @param string $sFrom
+	 * @return null|array
+	 */
 	public function GetInherits($sFrom) {
 		if (isset($this->aInherits[trim($sFrom)])) {
 			return $this->aInherits[trim($sFrom)]['items'];
 		}
 		return null;
 	}
-
+	/**
+	 * Возвращает последнего наследника в цепочке
+	 *
+	 * @param $sFrom
+	 * @return null|string
+	 */
 	public function GetLastInherit($sFrom) {
 		if (isset($this->aInherits[trim($sFrom)])) {
 			return $this->aInherits[trim($sFrom)]['items'][count($this->aInherits[trim($sFrom)]['items'])-1];
@@ -448,7 +456,11 @@ class ModulePlugin extends Module {
 		}
 		return $sFrom;
 	}
-
+	/**
+	 * @param string $sType
+	 * @param string $sFrom
+	 * @return array|null
+	 */
 	public function GetDelegates($sType,$sFrom) {
 		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {
 			return array($this->aDelegates[$sType][$sFrom]['delegate']);
@@ -457,12 +469,24 @@ class ModulePlugin extends Module {
 		}
 		return null;
 	}
-
+	/**
+	 * Возвращает цепочку делегатов
+	 *
+	 * @param string $sType
+	 * @param string $sTo
+	 * @return array
+	 */
 	public function GetDelegationChain($sType,$sTo) {
 		$sRootDelegater = $this->GetRootDelegater($sType,$sTo);
 		return $this->collectAllDelegatesRecursive($sType,array($sRootDelegater));
 	}
-
+	/**
+	 * Возвращает делегируемый класс
+	 *
+	 * @param string $sType
+	 * @param string $sTo
+	 * @return string
+	 */
 	public function GetRootDelegater($sType,$sTo) {
 		$sItem = $sTo;
 		$sItemDelegater = $this->GetDelegater($sType,$sTo);
@@ -475,7 +499,13 @@ class ModulePlugin extends Module {
 		}
 		return $sRootDelegater;
 	}
-
+	/**
+	 * Составляет цепочку делегатов
+	 *
+	 * @param string $sType
+	 * @param string $aDelegates
+	 * @return array
+	 */
 	public function collectAllDelegatesRecursive($sType,$aDelegates) {
 		foreach($aDelegates as $sClass) {
 			if($aNewDelegates=$this->GetDelegates($sType,$sClass)) {
@@ -484,7 +514,6 @@ class ModulePlugin extends Module {
 		}
 		return $aDelegates;
 	}
-
 	/**
 	 * Возвращает делегирующий объект по имени делегата
 	 *
@@ -511,7 +540,6 @@ class ModulePlugin extends Module {
 		}
 		return $sTo;
 	}
-
 	/**
 	 * Возвращает подпись делегата модуля, экшена, сущности.
 	 *
@@ -528,7 +556,6 @@ class ModulePlugin extends Module {
 		}
 		return null;
 	}
-
 	/**
 	 * Возвращает true, если установлено правило делегирования
 	 * и класс является базовым в данном правиле
@@ -545,7 +572,6 @@ class ModulePlugin extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Возвращает true, если устано
 	 *
@@ -555,7 +581,7 @@ class ModulePlugin extends Module {
 	 */
 	public function isDelegated($sType,$sTo) {
 		/**
-		 * Фильтруем меппер делегатов/наследников
+		 * Фильтруем маппер делегатов/наследников
 		 * @var array
 		 */
 		$aDelegateMapper=array_filter(
@@ -576,7 +602,6 @@ class ModulePlugin extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Возвращает список объектов, доступных для делегирования
 	 *
@@ -584,13 +609,6 @@ class ModulePlugin extends Module {
 	 */
 	public function GetDelegateObjectList() {
 		return array_keys($this->aDelegates);
-	}
-
-	/**
-	 * При завершении работы модуля
-	 *
-	 */
-	public function Shutdown() {
 	}
 }
 ?>
