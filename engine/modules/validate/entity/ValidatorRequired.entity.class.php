@@ -25,9 +25,11 @@
 
 /**
  * Валидатор на пустое значение или точное совпадение
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorRequired extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Требуемое значение для точного совпадения
 	 *
@@ -44,7 +46,7 @@ class ModuleValidate_EntityValidatorRequired extends ModuleValidate_EntityValida
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

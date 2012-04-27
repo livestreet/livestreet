@@ -15,8 +15,16 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Базовый класс валидатора
+ * От этого класса наследуются все валидаторы
+ * Public свойства используются в качестве параметров валидатора, котрый можно задавать в правилах
+ * @see Entity::aValidateRules
+ *
+ * @package engine.modules.validate
+ * @since 1.0
+ */
 abstract class ModuleValidate_EntityValidator extends Entity {
-
 	/**
 	 * Пропускать или нет ошибку
 	 *
@@ -67,11 +75,10 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	 * @param $sValue
 	 */
 	abstract public function validate($sValue);
-
 	/**
 	 * Проверяет данные на пустое значение
 	 *
-	 * @param $mValue Данные
+	 * @param mixed $mValue Данные
 	 * @param bool $bTrim Не учитывать пробелы
 	 *
 	 * @return bool
@@ -79,24 +86,23 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	protected function isEmpty($mValue,$bTrim=false) {
 		return $mValue===null || $mValue===array() || $mValue==='' || $bTrim && is_scalar($mValue) && trim($mValue)==='';
 	}
-
 	/**
 	 * Применять или нет сценарий к текущему валидатору
 	 * Для сценария учитываются только те правила, где явно прописан необходимый сценарий
+	 * Если в правиле не прописан сценарий, то он принимает значение '' (пустая строка)
 	 *
-	 * @param $sScenario
+	 * @param string $sScenario Сценарий валидации
 	 *
 	 * @return bool
 	 */
 	public function applyTo($sScenario) {
 		return (empty($this->on) && !$sScenario) || isset($this->on[$sScenario]);
 	}
-
 	/**
 	 * Возвращает сообщение, используется для получения сообщения об ошибке валидатора
 	 *
-	 * @param $sMsgDefault	Дефолтное сообщение
-	 * @param null $sMsgFieldCustom	Поле/параметр в котором может храниться кастомное сообщение. В поле $sMsgFieldCustom."Id" можно хранить ключ текстовки из языкового файла
+	 * @param string $sMsgDefault	Дефолтное сообщение
+	 * @param null|string $sMsgFieldCustom	Поле/параметр в котором может храниться кастомное сообщение. В поле $sMsgFieldCustom."Id" можно хранить ключ текстовки из языкового файла
 	 * @param array $aReplace	Список параметров для замены в сообщении (плейсхолдеры)
 	 *
 	 * @return string
@@ -120,11 +126,10 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 		}
 		return $sMsgDefault;
 	}
-
 	/**
 	 * Запускает валидацию полей сущности
 	 *
-	 * @param $oEntity	Объект сущности
+	 * @param Entity $oEntity	Объект сущности
 	 * @param null $aFields	Список полей для валидации, если пуст то валидируются все поля указанные в правиле
 	 */
 	public function validateEntity($oEntity,$aFields=null) {
@@ -143,12 +148,11 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 			}
 		}
 	}
-
 	/**
 	 * Запускает валидацию конкретного поля сущности
 	 *
-	 * @param $oEntity	Объект сущности
-	 * @param $sField	Поле сущности
+	 * @param Entity $oEntity	Объект сущности
+	 * @param string $sField	Поле сущности
 	 *
 	 * @return bool
 	 */
@@ -165,6 +169,7 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 			 */
 			$sMsg=str_replace('%%field%%',is_null($this->label) ? $sField : $this->label,$sMsg);
 			$oEntity->_addValidateError($sField,$sMsg);
+			return false;
 		} else {
 			return true;
 		}
@@ -172,7 +177,7 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	/**
 	 * Возвращает значение поля текущей сущности
 	 *
-	 * @param $sField
+	 * @param string $sField
 	 * @return mixed|null
 	 */
 	protected function getValueOfCurrentEntity($sField) {
@@ -184,8 +189,8 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 	/**
 	 * Устанавливает значение поля текущей сущности
 	 *
-	 * @param $sField
-	 * @return mixed|null
+	 * @param string $sField
+	 * @param string|mixed $sValue
 	 */
 	protected function setValueOfCurrentEntity($sField,$sValue) {
 		if ($this->oEntityCurrent) {

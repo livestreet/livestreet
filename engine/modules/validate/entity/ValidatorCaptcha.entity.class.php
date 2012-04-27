@@ -17,9 +17,11 @@
 
 /**
  * Валидатор каптчи (число с картинки)
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorCaptcha extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Допускать или нет пустое значение
 	 *
@@ -27,12 +29,10 @@ class ModuleValidate_EntityValidatorCaptcha extends ModuleValidate_EntityValidat
 	 */
 	public $allowEmpty=false;
 
-
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

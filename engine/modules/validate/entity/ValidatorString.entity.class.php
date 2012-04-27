@@ -25,9 +25,11 @@
 
 /**
  * Валидатор текстовых данных на длину
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorString extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Максимальня длина строки
 	 *
@@ -65,12 +67,10 @@ class ModuleValidate_EntityValidatorString extends ModuleValidate_EntityValidato
 	 */
 	public $allowEmpty=true;
 
-
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

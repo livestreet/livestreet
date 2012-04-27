@@ -25,9 +25,11 @@
 
 /**
  * Валидатор URL адресов
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorUrl extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Патерн проверки URL с учетом схемы
 	 *
@@ -57,7 +59,7 @@ class ModuleValidate_EntityValidatorUrl extends ModuleValidate_EntityValidator {
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */
@@ -70,17 +72,21 @@ class ModuleValidate_EntityValidatorUrl extends ModuleValidate_EntityValidator {
 		}
 
 		if(($sValue=$this->validateValue($sValue))!==false) {
-			//
+			/**
+			 * Если проверка от сущности, то возвращаем обновленное значение
+			 */
+			if ($this->oEntityCurrent) {
+				$this->setValueOfCurrentEntity($this->sFieldCurrent,$sValue);
+			}
 		} else {
 			return $this->getMessage($this->Lang_Get('validate_url_not_valid',null,false),'msg');
 		}
 		return true;
 	}
-
 	/**
 	 * Проверка URL на корректность
 	 *
-	 * @param $sValue
+	 * @param string $sValue Данные для валидации
 	 *
 	 * @return bool
 	 */

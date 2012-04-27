@@ -25,9 +25,12 @@
 
 /**
  * Валидатор даты
+ * Валидатор использует внешний класс DateTimeParser
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorDate extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Формат допустимой даты, может содержать список форматов в массиве
 	 *
@@ -44,7 +47,7 @@ class ModuleValidate_EntityValidatorDate extends ModuleValidate_EntityValidator 
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

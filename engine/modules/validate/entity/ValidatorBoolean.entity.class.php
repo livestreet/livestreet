@@ -25,9 +25,11 @@
 
 /**
  * Валидатор булевых значений
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorBoolean extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Значение true
 	 *
@@ -43,7 +45,7 @@ class ModuleValidate_EntityValidatorBoolean extends ModuleValidate_EntityValidat
 	/**
 	 * Строгое сравнение с учетом типов
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $strict=false;
 	/**
@@ -56,7 +58,7 @@ class ModuleValidate_EntityValidatorBoolean extends ModuleValidate_EntityValidat
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

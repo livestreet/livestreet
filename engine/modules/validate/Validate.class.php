@@ -17,11 +17,45 @@
 
 /**
  * Модуль Validate
- * Выполняет валидацию данных по определенным правилам
+ * Выполняет валидацию данных по определенным правилам. Поддерживает как обычную валидацию данных:
+ * <pre>
+ * if (!$this->Validate_Validate('url','http://livestreet.ru')) {
+ * 	var_dump($this->Validate_GetErrors());
+ * }
+ * </pre>
+ * так и валидацию данных сущности:
+ * <pre>
+ * class PluginTest_ModuleMain_EntityTest extends Entity {
+ *	// Определяем правила валидации
+ * 	protected $aValidateRules=array(
+ * 		array('login, name','string','max'=>7,'min'=>'3'),
+ * 		array('title','my','on'=>'register'),
+ * 	);
  *
+ * 	public function ValidateMy($sValue,$aParams) {
+ * 		if ($sValue!='Мега заголовок') {
+ * 			return 'Ошибочный заголовок';
+ * 		}
+ * 		return true;
+ * 	}
+ * }
+ *
+ * // Валидация
+ * $oObject=Engine::GetEntity('PluginTest_ModuleMain_EntityTest');
+ * $oObject->setLogin('bolshoi login');
+ * $oObject->setTitle('zagolovok');
+ *
+ * if ($oObject->_Validate()) {
+ * 	var_dump("OK");
+ * } else {
+ * 	var_dump($oObject->_getValidateErrors());
+ * }
+ * </pre>
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate extends Module {
-
 	/**
 	 * Список ошибок при валидации, заполняется только если использовать валидацию напрямую без сущности
 	 *
@@ -36,13 +70,11 @@ class ModuleValidate extends Module {
 	public function Init() {
 
 	}
-
-
 	/**
 	 * Запускает валидацию данных
 	 *
-	 * @param $sNameValidator	Имя валидатора или метода при использовании параметра $oObject
-	 * @param $mValue	Валидируемое значение
+	 * @param string $sNameValidator	Имя валидатора или метода при использовании параметра $oObject
+	 * @param mixed $mValue	Валидируемое значение
 	 * @param array $aParams	Параметры валидации
 	 * @param null $oObject		Объект в котором необходимо вызвать метод валидации
 	 *
@@ -62,14 +94,13 @@ class ModuleValidate extends Module {
 			return true;
 		}
 	}
-
 	/**
 	 * Создает и возвращает объект валидатора
 	 *
-	 * @param $sName	Имя валидатора или метода при использовании параметра $oObject
-	 * @param $oObject	Объект в котором необходимо вызвать метод валидации
-	 * @param null $aFields	Список полей сущности для которых необходимо провести валидацию
-	 * @param array $aParams
+	 * @param string $sName	Имя валидатора или метода при использовании параметра $oObject
+	 * @param LsObject $oObject	Объект в котором необходимо вызвать метод валидации
+	 * @param null|array $aFields	Список полей сущности для которых необходимо провести валидацию
+	 * @param array $aParams	Параметры
 	 *
 	 * @return mixed
 	 */
@@ -77,7 +108,6 @@ class ModuleValidate extends Module {
 		if(is_string($aFields)) {
 			$aFields=preg_split('/[\s,]+/',$aFields,-1,PREG_SPLIT_NO_EMPTY);
 		}
-
 		/**
 		 * Определяем список сценариев валидации
 		 */
@@ -90,7 +120,6 @@ class ModuleValidate extends Module {
 		} else {
 			$aOn=array();
 		}
-
 		/**
 		 * Если в качестве имени валидатора указан метод объекта, то создаем специальный валидатор
 		 */
@@ -119,11 +148,9 @@ class ModuleValidate extends Module {
 				$oValidator->$sNameParam=$sValue;
 			}
 		}
-
 		$oValidator->on=empty($aOn) ? array() : array_combine($aOn,$aOn);
 		return $oValidator;
 	}
-
 	/**
 	 * Возвращает факт наличия ошибки после валидации
 	 *
@@ -132,7 +159,6 @@ class ModuleValidate extends Module {
 	public function HasErrors() {
 		return count($this->aErrors) ? true : false;
 	}
-
 	/**
 	 * Возвращает список ошибок после валидации
 	 *
@@ -141,7 +167,6 @@ class ModuleValidate extends Module {
 	public function GetErrors() {
 		return $this->aErrors;
 	}
-
 	/**
 	 * Возвращает последнюю ошибку после валидации
 	 *
@@ -158,16 +183,14 @@ class ModuleValidate extends Module {
 			return $this->aErrors[count($this->aErrors)-1];
 		}
 	}
-
 	/**
-	 * Содовляет ошибку в список
+	 * Добавляет ошибку в список
 	 *
-	 * @param $sError
+	 * @param string $sError	Текст ошибки
 	 */
 	public function AddError($sError) {
 		$this->aErrors[]=$sError;
 	}
-
 	/**
 	 * Очищает список ошибок
 	 */

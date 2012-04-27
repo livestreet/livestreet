@@ -25,9 +25,11 @@
 
 /**
  * Валидатор сравнения значений
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorCompare extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Имя поля для сравнения
 	 *
@@ -66,12 +68,10 @@ class ModuleValidate_EntityValidatorCompare extends ModuleValidate_EntityValidat
 	 */
 	public $operator='=';
 
-
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */
@@ -79,7 +79,6 @@ class ModuleValidate_EntityValidatorCompare extends ModuleValidate_EntityValidat
 		if($this->allowEmpty && $this->isEmpty($sValue)) {
 			return true;
 		}
-
 		/**
 		 * Определяем значение для сравнения
 		 */
