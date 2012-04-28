@@ -7,7 +7,7 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'subscribe/';
 		var params = {'type':sType, 'id':iId};
 		
-		'*subscribeBefore*'; '*/subscribeBefore*';
+		ls.hook.marker('subscribeBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -20,7 +20,7 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'unsubscribe/';
 		var params = {'type':sType, 'id':iId};
 		
-		'*unsubscribeBefore*'; '*/unsubscribeBefore*';
+		ls.hook.marker('unsubscribeBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -36,7 +36,7 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'subscribeByLogin/';
 		var params = {'login':sLogin};
 		
-		'*appendUserBefore*'; '*/appendUserBefore*';
+		ls.hook.marker('appendUserBefore');
 		ls.ajax(url, params, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -72,7 +72,7 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'get_more/';
 		var params = {'last_id':lastId};
 		
-		'*getMoreBefore*'; '*/getMoreBefore*';
+		ls.hook.marker('getMoreBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.topics_count) {
 				$('#userfeed_loaded_topics').append(data.result);

@@ -30,7 +30,7 @@ ls.usernote =( function ($) {
 	this.save = function(iUserId) {
 		var url = aRouter['profile']+'ajax-note-save/';
 		var params = {iUserId: iUserId, text: $('#usernote-form-text').val()};
-		'*saveBefore*'; '*/saveBefore*';
+		ls.hook.marker('saveBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -52,7 +52,7 @@ ls.usernote =( function ($) {
 	this.remove = function(iUserId) {
 		var url = aRouter['profile']+'ajax-note-remove/';
 		var params = {iUserId: iUserId};
-		'*saveBefore*'; '*/saveBefore*';
+		ls.hook.marker('removeBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
