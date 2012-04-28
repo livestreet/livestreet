@@ -991,11 +991,12 @@ class ActionAjax extends Action {
 		}
 
 		$oComment->setDelete(($oComment->getDelete()+1)%2);
+		$this->Hook_Run('comment_delete_before', array('oComment'=>$oComment));
 		if (!$this->Comment_UpdateCommentStatus($oComment)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-
+		$this->Hook_Run('comment_delete_after', array('oComment'=>$oComment));
 		if ($bState=(bool)$oComment->getDelete()) {
 			$sMsg=$this->Lang_Get('comment_delete_ok');
 			$sTextToggle=$this->Lang_Get('comment_repair');
