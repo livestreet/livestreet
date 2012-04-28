@@ -224,7 +224,7 @@ class ModuleLang extends Module {
 	 * @return string
 	 */
 	public function Get($sName,$aReplace=array(),$bDelete=true) {
-		if (!Config::Get('lang.disable_blocks')  && strpos($sName, '.')) {
+		if (strpos($sName, '.')) {
 			$sLang = $this->aLangMsg;
 			$aKeys = explode('.', $sName);
 			foreach ($aKeys as $k) {
@@ -258,20 +258,23 @@ class ModuleLang extends Module {
 	 * Добавить к текстовкам массив сообщений
 	 *
 	 * @param array $aMessages     Список текстовок для добавления
-	 * @param array|null $aBlock	Параметры, позволяют хранить текстовки в структурированном виде, например, тестовки плагина "test" получать как Get('plugin.name.test')
+	 * @param array|null $aParams	Параметры, позволяют хранить текстовки в структурированном виде, например, тестовки плагина "test" получать как Get('plugin.name.test')
 	 */
-	public function AddMessages($aMessages, $aBlock = null) {
+	public function AddMessages($aMessages, $aParams = null) {
 		if (is_array($aMessages)) {
-			if (!Config::Get('lang.disable_blocks') && is_array($aBlock)) {
-				if (isset($aBlock['category'])) {
-					if (!isset($this->aLangMsg[$aBlock['category']]) || !$this->aLangMsg[$aBlock['category']]) {$this->aLangMsg[$aBlock['category']] = array();}
-					$this->aLangMsg[$aBlock['category']][$aBlock['name']] = $aMessages;
+			if (isset($aParams['name'])) {
+				$sMsgs=$aMessages;
+				if (isset($aParams['category'])) {
+					if (isset($this->aLangMsg[$aParams['category']][$aParams['name']])) {
+						$sMsgs=array_merge($this->aLangMsg[$aParams['category']][$aParams['name']],$sMsgs);
+					}
+					$this->aLangMsg[$aParams['category']][$aParams['name']]=$sMsgs;
 				} else {
-					$this->aLangMsg[$aBlock['name']] = $aMessages;
+					if (isset($this->aLangMsg[$aParams['name']])) {
+						$sMsgs=array_merge($this->aLangMsg[$aParams['name']],$sMsgs);
+					}
+					$this->aLangMsg[$aParams['name']]=$sMsgs;
 				}
-			}
-			if (count($this->aLangMsg)==0) {
-				$this->aLangMsg = $aMessages;
 			} else {
 				$this->aLangMsg = array_merge($this->aLangMsg, $aMessages);
 			}
