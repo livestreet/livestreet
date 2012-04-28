@@ -183,7 +183,7 @@ ls.comments = (function ($) {
 		var url = aRouter['ajax']+'comment/delete/';
 		var params = { idComment: commentId };
 		
-		'*toggleBefore*'; '*/toggleBefore*';
+		ls.hook.marker('toggleBefore');
 		ls.ajax(url, params, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');

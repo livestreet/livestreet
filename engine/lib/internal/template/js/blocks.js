@@ -34,7 +34,7 @@ ls.blocks = (function ($) {
 	*/
 	this.load = function(obj, block, params){
 		var type = $(obj).data('type');
-		'*loadBefore*'; '*/loadBefore*';
+		ls.hook.marker('loadBefore');
 		
 		if(!type) return;
 		type=block+'_'+type;
@@ -49,7 +49,7 @@ ls.blocks = (function ($) {
 
 		ls.ajax(this.options.type[type].url, params, function(result){
 			var args = [content,result];
-			'*onLoadBefore*'; '*/onLoadBefore*';
+			ls.hook.marker('onLoadBefore');
 			this.onLoad.apply(this,args);
 		}.bind(this));
 	};

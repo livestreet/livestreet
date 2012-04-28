@@ -16,7 +16,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxaddtalkuser/';
 		var params = {users: sUsers, idTalk: idTalk};
 		
-		'*addToTalkBefore*'; '*/addToTalkBefore*';
+		ls.hook.marker('addToTalkBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -56,7 +56,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxdeletetalkuser/';
 		var params = {idTarget: idTarget, idTalk: idTalk};
 
-		'*removeFromTalkBefore*'; '*/removeFromTalkBefore*';
+		ls.hook.marker('removeFromTalkBefore');
 		ls.ajax(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -83,7 +83,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxaddtoblacklist/';
 		var params = {users: sUsers};
 
-		'*addToBlackListBefore*'; '*/addToBlackListBefore*';
+		ls.hook.marker('addToBlackListBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -122,7 +122,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxdeletefromblacklist/';
 		var params = {idTarget: idTarget};
 		
-		'*removeFromBlackListBefore*'; '*/removeFromBlackListBefore*';
+		ls.hook.marker('removeFromBlackListBefore');
 		ls.ajax(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
