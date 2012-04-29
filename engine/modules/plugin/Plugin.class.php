@@ -465,7 +465,11 @@ class ModulePlugin extends Module {
 		if (isset($this->aDelegates[$sType][$sFrom]['delegate'])) {
 			return array($this->aDelegates[$sType][$sFrom]['delegate']);
 		} else if($aInherits=$this->GetInherits($sFrom)) {
-			return array_map(create_function('$aInherit','return $aInherit["inherit"];'),array_reverse($aInherits));
+			$aReturn=array();
+			foreach(array_reverse($aInherits) as $v) {
+				$aReturn[]=$v['inherit'];
+			}
+			return $aReturn;
 		}
 		return null;
 	}
@@ -522,18 +526,22 @@ class ModulePlugin extends Module {
 	 * @return string
 	 */
 	public function GetDelegater($sType,$sTo) {
-		$aDelegateMapper=array_filter(
-			$this->aDelegates[$sType],
-			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
-		);
+		$aDelegateMapper=array();
+		foreach($this->aDelegates[$sType] as $kk=>$vv) {
+			if ($vv['delegate']==$sTo) {
+				$aDelegateMapper[$kk]=$vv;
+			}
+		}
 		if (is_array($aDelegateMapper) and count($aDelegateMapper))	{
 			return array_shift(array_keys($aDelegateMapper));
 		}
 		foreach ($this->aInherits as $k=>$v) {
-			$aInheritMapper=array_filter(
-				$v['items'],
-				create_function('$item','return $item["inherit"]=="'.$sTo.'";')
-			);
+			$aInheritMapper=array();
+			foreach($v['items'] as $kk=>$vv) {
+				if ($vv['inherit']==$sTo) {
+					$aInheritMapper[$kk]=$vv;
+				}
+			}
 			if (is_array($aInheritMapper) and count($aInheritMapper))	{
 				return $k;
 			}
@@ -584,18 +592,22 @@ class ModulePlugin extends Module {
 		 * Фильтруем маппер делегатов/наследников
 		 * @var array
 		 */
-		$aDelegateMapper=array_filter(
-			$this->aDelegates[$sType],
-			create_function('$item','return $item["delegate"]=="'.$sTo.'";')
-		);
+		$aDelegateMapper=array();
+		foreach($this->aDelegates[$sType] as $kk=>$vv) {
+			if ($vv['delegate']==$sTo) {
+				$aDelegateMapper[$kk]=$vv;
+			}
+		}
 		if (is_array($aDelegateMapper) and count($aDelegateMapper))	{
 			return true;
 		}
 		foreach ($this->aInherits as $k=>$v) {
-			$aInheritMapper=array_filter(
-				$v['items'],
-				create_function('$item','return $item["inherit"]=="'.$sTo.'";')
-			);
+			$aInheritMapper=array();
+			foreach($v['items'] as $kk=>$vv) {
+				if ($vv['inherit']==$sTo) {
+					$aInheritMapper[$kk]=$vv;
+				}
+			}
 			if (is_array($aInheritMapper) and count($aInheritMapper))	{
 				return true;
 			}
