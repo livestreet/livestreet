@@ -16,37 +16,38 @@
 */
 
 /**
- * Обработка персональных блогов, т.е. УРла вида /log/
+ * Экшен обработки персональных блогов, т.е. УРла вида /personal_blog/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionPersonalBlog extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='log';
 	/**
 	 * Субменю
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='good';
-	
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->SetDefaultEvent('good');
 	}
-	
 	/**
 	 * Регистрируем необходимые евенты
 	 *
@@ -59,12 +60,13 @@ class ActionPersonalBlog extends Action {
 		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
 	/**
 	 * Показ топиков
 	 *
@@ -85,10 +87,10 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;			
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
 		/**
 		 * Получаем список топиков
-		 */					
+		 */
 		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		/**
 		 * Если нет топиков за 1 день, то показываем за неделю (7)
@@ -119,7 +121,7 @@ class ActionPersonalBlog extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}	
+	}
 	/**
 	 * При завершении экшена загружаем в шаблон необходимые переменные
 	 *
@@ -134,7 +136,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);

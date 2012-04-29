@@ -18,35 +18,47 @@
 /**
  * Обрабатывые авторизацию
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionLogin extends Action {
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
+		/**
+		 * Устанавливаем дефолтный евент
+		 */
 		$this->SetDefaultEvent('index');
+		/**
+		 * Отключаем отображение статистики выполнения
+		 */
 		Router::SetIsShowStats(false);
 	}
 	/**
 	 * Регистрируем евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('index','EventLogin');	
-		$this->AddEvent('exit','EventExit');	
+	protected function RegisterEvent() {
+		$this->AddEvent('index','EventLogin');
+		$this->AddEvent('exit','EventExit');
 		$this->AddEvent('reminder','EventReminder');
 
 		$this->AddEvent('ajax-login','EventAjaxLogin');
 		$this->AddEvent('ajax-reminder','EventAjaxReminder');
 	}
-
 	/**
 	 * Ajax авторизация
 	 */
 	protected function EventAjaxLogin() {
+		/**
+		 * Устанвливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Логин и пароль являются строками?
+		 */
 		if (!is_string(getRequest('login')) or !is_string(getRequest('password'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return;
@@ -79,6 +91,7 @@ class ActionLogin extends Action {
 	}
 	/**
 	 * Обрабатываем процесс залогинивания
+	 * По факту только отображение шаблона, дальше вступает в дело Ajax
 	 *
 	 */
 	protected function EventLogin() {
@@ -103,8 +116,13 @@ class ActionLogin extends Action {
 	 * Ajax запрос на восстановление пароля
 	 */
 	protected function EventAjaxReminder() {
+		/**
+		 * Устанвливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Пользователь с таким емайлом существует?
+		 */
 		if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {
 			/**
 			 * Формируем и отправляем ссылку на смену пароля
@@ -125,16 +143,21 @@ class ActionLogin extends Action {
 		$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));
 	}
 	/**
-	 * Обработка напоминания пароля
+	 * Обработка напоминания пароля, подтверждение смены пароля
 	 *
 	 */
 	protected function EventReminder() {
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('password_reminder'));
-		
 		/**
 		 * Проверка кода на восстановление пароля и генерация нового пароля
 		 */
 		if (func_check($this->GetParam(0),'md5')) {
+			/**
+			 * Проверка кода подтверждения
+			 */
 			if ($oReminder=$this->User_GetReminderByCode($this->GetParam(0))) {
 				if (!$oReminder->getIsUsed() and strtotime($oReminder->getDateExpire())>time() and $oUser=$this->User_GetUserById($oReminder->getUserId())) {
 					$sNewPassword=func_generator(7);
@@ -146,7 +169,7 @@ class ActionLogin extends Action {
 						$this->Notify_SendReminderPassword($oUser,$sNewPassword);
 						$this->SetTemplateAction('reminder_confirm');
 						return ;
-					}					
+					}
 				}
 			}
 			$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_code'),$this->Lang_Get('error'));

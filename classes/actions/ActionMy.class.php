@@ -16,60 +16,63 @@
 */
 
 /**
- * Обработка УРЛа вида /my/
+ * Экшен обработки УРЛа вида /my/
+ * Оставлен только для редиректов со старых УРЛ на новые
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionMy extends Action {
 	/**
-	 * Логин юзера из УРЛа
-	 *
-	 * @var unknown_type
-	 */
-	protected $sUserLogin=null;
-	/**
 	 * Объект юзера чей профиль мы смотрим
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserProfile=null;
-	
+
+	/**
+	 * Инициализация
+	 */
 	public function Init() {
 	}
-	
-	protected function RegisterEvent() {	
+	/**
+	 * Регистрируем евенты
+	 */
+	protected function RegisterEvent() {
 		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^.+$/i','/^blog$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^.+$/i','/^comment$/i','/^(page(\d+))?$/i','EventComments');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
 	/**
 	 * Выводит список топиков которые написал юзер
-	 *	 
+	 * Перенаправляет на профиль пользователя
+	 *
 	 */
 	protected function EventTopics() {
 		/**
 		 * Получаем логин из УРЛа
 		 */
-		$sUserLogin=$this->sCurrentEvent;					
+		$sUserLogin=$this->sCurrentEvent;
 		/**
 		 * Проверяем есть ли такой юзер
-		 */		
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Передан ли номер страницы
-		 */			
-		if ($this->GetParamEventMatch(0,0)=='blog') {			
-			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;	
+		 */
+		if ($this->GetParamEventMatch(0,0)=='blog') {
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		} else {
-			$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;	
+			$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
 		}
 		/**
 		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
@@ -77,25 +80,26 @@ class ActionMy extends Action {
 		$sPage=$iPage==1 ? '' : "page{$iPage}/";
 		Router::Location($this->oUserProfile->getUserWebPath().'created/topics/'.$sPage);
 	}
-	
+
 	/**
 	 * Выводит список комментариев которые написал юзер
-	 *	 
+	 * Перенаправляет на профиль пользователя
+	 *
 	 */
 	protected function EventComments() {
 		/**
 		 * Получаем логин из УРЛа
 		 */
-		$sUserLogin=$this->sCurrentEvent;					
+		$sUserLogin=$this->sCurrentEvent;
 		/**
 		 * Проверяем есть ли такой юзер
-		 */		
-		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {			
+		 */
+		if (!($this->oUserProfile=$this->User_GetUserByLogin($sUserLogin))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Передан ли номер страницы
-		 */	
+		 */
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
