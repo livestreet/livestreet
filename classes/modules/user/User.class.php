@@ -1014,7 +1014,7 @@ class ModuleUser extends Module {
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = new LiveImage($sFileTmp);
+		$oImage = $this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан,
 		 * возвращаем ошибку
@@ -1129,7 +1129,7 @@ class ModuleUser extends Module {
 
 
 		if ($aSize) {
-			$oImage = new LiveImage($sFileTmp);
+			$oImage = $this->Image_CreateImageObject($sFileTmp);
 			/**
 			 * Если объект изображения не создан,
 			 * возвращаем ошибку

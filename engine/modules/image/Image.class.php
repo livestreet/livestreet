@@ -104,6 +104,15 @@ class ModuleImage extends Module {
 		return func_array_merge_assoc($aDefault,$aNamed);
 	}
 	/**
+	 * Возвращает объект изображения
+	 *
+	 * @param $sFile	Путь до изображения
+	 * @return LiveImage
+	 */
+	public function CreateImageObject($sFile) {
+		return new LiveImage($sFile);
+	}
+	/**
 	 * Resize,copy image,
 	 * make rounded corners and add watermark
 	 *
@@ -131,7 +140,7 @@ class ModuleImage extends Module {
 		 * Если объект не передан как параметр,
 		 * создаем новый
 		 */
-		if(!$oImage) $oImage=new LiveImage($sFileSrc);
+		if(!$oImage) $oImage=$this->CreateImageObject($sFileSrc);
 
 		if($oImage->get_last_error()){
 			$this->SetLastError($oImage->get_last_error());
