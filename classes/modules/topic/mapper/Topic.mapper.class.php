@@ -335,7 +335,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				AND
 				tt.blog_id = b.blog_id
 				AND
-				b.blog_type IN ('open','personal')
+				b.blog_type <> 'close'
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
