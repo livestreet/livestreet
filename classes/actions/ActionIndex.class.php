@@ -18,45 +18,47 @@
 /**
  * Обработка главной страницы, т.е. УРЛа вида /index/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionIndex extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='index';
 	/**
 	 * Субменю
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='good';
 	/**
 	 * Число новых топиков
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsNew=0;
 	/**
 	 * Число новых топиков в коллективных блогах
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsCollectiveNew=0;
 	/**
 	 * Число новых топиков в персональных блогах
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsPersonalNew=0;
-	
+
 	/**
 	 * Инициализация
 	 *
@@ -73,18 +75,19 @@ class ActionIndex extends Action {
 	 * Регистрация евентов
 	 *
 	 */
-	protected function RegisterEvent() {		
+	protected function RegisterEvent() {
 		$this->AddEventPreg('/^(page(\d+))?$/i','EventIndex');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventNew');
 		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventDiscussed');
 		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTop');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
 	/**
 	 * Вывод рейтинговых топиков
 	 */
@@ -210,7 +213,7 @@ class ActionIndex extends Action {
 	 *
 	 */
 	protected function EventIndex() {
-		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));	
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));
 		/**
 		 * Меню
 		 */
@@ -221,9 +224,9 @@ class ActionIndex extends Action {
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
 		/**
 		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));			
-		$aTopics=$aResult['collection'];	
+		 */
+		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
@@ -232,12 +235,12 @@ class ActionIndex extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('aPaging',$aPaging);		
+		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}	
+	}
 	/**
 	 * При завершении экшена загружаем переменные в шаблон
 	 *
@@ -248,7 +251,7 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
-		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);	
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 	}
 }
 ?>
