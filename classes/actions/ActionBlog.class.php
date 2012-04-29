@@ -1127,7 +1127,7 @@ class ActionBlog extends Action {
 				$oViewerLocal->Assign('bOneComment',true);
 
 				$oViewerLocal->Assign('oComment',$oComment);
-				$sText=$oViewerLocal->Fetch("comment.tpl");
+				$sText=$oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oTopic->getId(),'topic'));
 				$aCmt=array();
 				$aCmt[]=array(
 					'html' => $sText,
