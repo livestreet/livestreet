@@ -1331,6 +1331,7 @@ class ModuleViewer extends Module {
 		$aPaging=array(
 			'aPagesLeft' => $aPagesLeft,
 			'aPagesRight' => $aPagesRight,
+			'iCount' => $iCount,
 			'iCountPage' => $iCountPage,
 			'iCurrentPage' => $iCurrentPage,
 			'iNextPage' => $iNextPage,
