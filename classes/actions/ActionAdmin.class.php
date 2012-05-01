@@ -16,11 +16,18 @@
 */
 
 /**
- * Класс обработки УРЛа вида /comments/
+ * Экшен обработки УРЛа вида /admin/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionAdmin extends Action {
-
+	/**
+	 * Текущий пользователь
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
+	protected $oUserCurrent=null;
 	/**
 	 * Главное меню
 	 *
@@ -28,7 +35,15 @@ class ActionAdmin extends Action {
 	 */
 	protected $sMenuHeadItemSelect='admin';
 
+	/**
+	 * Инициализация
+	 *
+	 * @return string
+	 */
 	public function Init() {
+		/**
+		 * Если нет прав доступа - перекидываем на 404 страницу
+		 */
 		if(!$this->User_IsAuthorization() or !$oUserCurrent=$this->User_GetUserCurrent() or !$oUserCurrent->isAdministrator()) {
 			return parent::EventNotFound();
 		}
@@ -36,7 +51,9 @@ class ActionAdmin extends Action {
 
 		$this->oUserCurrent=$oUserCurrent;
 	}
-
+	/**
+	 * Регистрация евентов
+	 */
 	protected function RegisterEvent() {
 		$this->AddEvent('index','EventIndex');
 		$this->AddEvent('plugins','EventPlugins');
@@ -53,10 +70,13 @@ class ActionAdmin extends Action {
 	 **********************************************************************************
 	 */
 
+	/**
+	 * Отображение главной страницы админки
+	 * Нет никакой логики, просто отображение дефолтного шаблона евента index.tpl
+	 */
 	protected function EventIndex() {
 
 	}
-
 	/**
 	 * Перестроение дерева комментариев, актуально при $config['module']['comment']['use_nested'] = true;
 	 *
@@ -69,7 +89,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_comment_restore_tree'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-
 	/**
 	 * Пересчет счетчика избранных
 	 *
@@ -83,7 +102,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_favourites_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-
 	/**
 	 * Пересчет счетчика голосований
 	 */
@@ -95,7 +113,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_votes_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-
 	/**
 	 * Пересчет количества топиков в блогах
 	 */
@@ -107,11 +124,9 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_topics_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-
 	/**
 	 * Страница со списком плагинов
 	 *
-	 * @return unknown
 	 */
 	protected function EventPlugins() {
 		$this->sMenuHeadItemSelect='plugins';
@@ -146,11 +161,9 @@ class ActionAdmin extends Action {
 		 */
 		$this->SetTemplateAction('plugins');
 	}
-
 	/**
 	 * Управление полями пользователя
 	 *
-	 * @return unknown
 	 */
 	protected function EventUserFields()
 	{
@@ -256,11 +269,10 @@ class ActionAdmin extends Action {
 				$this->SetTemplateAction('user_fields');
 		}
 	}
-
 	/**
-	 * Проверка поля на корректность
+	 * Проверка поля пользователя на корректность из реквеста
 	 *
-	 * @return unknown
+	 * @return bool
 	 */
 	public function checkUserField()
 	{
@@ -281,12 +293,11 @@ class ActionAdmin extends Action {
 		}
 		return true;
 	}
-
 	/**
 	 * Активация\деактивация плагина
 	 *
-	 * @param string $sPlugin
-	 * @param string $sAction
+	 * @param string $sPlugin	Имя плагина
+	 * @param string $sAction	Действие
 	 */
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
 		$this->Security_ValidateSendForm();
@@ -307,8 +318,6 @@ class ActionAdmin extends Action {
 		 */
 		Router::Location(Router::GetPath('admin').'plugins/');
 	}
-
-
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

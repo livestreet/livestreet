@@ -17,9 +17,12 @@
 
 /**
  * Валидатор для кастомных методов объектов
+ * Валидация происходит через метод внешнего объекта
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorInline extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Метод объекта для валидации, в него передаются параметры: $sValue и $aParam
 	 *
@@ -29,7 +32,7 @@ class ModuleValidate_EntityValidatorInline extends ModuleValidate_EntityValidato
 	/**
 	 * Объект у которого будет вызван метод валидации, дляя сущности - это сам объект сущности
 	 *
-	 * @var object
+	 * @var LsObject object
 	 */
 	public $object;
 	/**
@@ -42,7 +45,7 @@ class ModuleValidate_EntityValidatorInline extends ModuleValidate_EntityValidato
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 * @return bool|string
 	 */
 	public function validate($sValue) {

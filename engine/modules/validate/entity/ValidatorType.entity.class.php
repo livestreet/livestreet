@@ -25,9 +25,12 @@
 
 /**
  * Валидатор типа данных
+ * Для типа дата/время используется внешний валидатор DateTimeParser
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorType extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Допустимый тип данных.
 	 * Допустимые значения: 'string', 'integer', 'float', 'array', 'date', 'time' и 'datetime'.
@@ -63,7 +66,7 @@ class ModuleValidate_EntityValidatorType extends ModuleValidate_EntityValidator 
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

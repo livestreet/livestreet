@@ -72,7 +72,7 @@
  * @package engine.modules
  * @since 1.0
  */
-class ModuleHook extends Module {		
+class ModuleHook extends Module {
 	/**
 	 * Содержит список хуков
 	 *
@@ -98,8 +98,8 @@ class ModuleHook extends Module {
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {	
-		
+	public function Init() {
+
 	}
 	/**
 	 * Добавление обработчика на хук
@@ -223,13 +223,13 @@ class ModuleHook extends Module {
 			/**
 			 * Все хуки делим на обычные(exec) и делигирующие(delegate)
 			 */
-			for ($i=0;$i<count($this->aHooks[$sName]);$i++) {				
+			for ($i=0;$i<count($this->aHooks[$sName]);$i++) {
 				if (isset($this->aHooks[$sName][$i]['params']['delegate']) and $this->aHooks[$sName][$i]['params']['delegate']) {
 					$aHookNumDelegate[$i]=$this->aHooks[$sName][$i]['priority'];
 				} else {
 					$aHookNum[$i]=$this->aHooks[$sName][$i]['priority'];
-				}				
-			}			
+				}
+			}
 			arsort($aHookNum,SORT_NUMERIC);
 			arsort($aHookNumDelegate,SORT_NUMERIC);
 			/**
@@ -239,7 +239,7 @@ class ModuleHook extends Module {
 				$aHook=$this->aHooks[$sName][$iKey];
 				if ($bTemplateHook) {
 					/**
-					 * Если это шаблонных хук то сохраняем результат 
+					 * Если это шаблонных хук то сохраняем результат
 					 */
 					$result['template_result'][]=$this->RunType($aHook,$aVars);
 				} else {
@@ -249,10 +249,10 @@ class ModuleHook extends Module {
 			/**
 			 * Теперь запускаем делигирующие
 			 * Делегирующий хук должен вернуть результат в формате:
-			 * 
+			 *
 			 */
 			foreach ($aHookNumDelegate as $iKey => $iPr) {
-				$aHook=$this->aHooks[$sName][$iKey];				
+				$aHook=$this->aHooks[$sName][$iKey];
 				$result=array(
 					'delegate_result'=>$this->RunType($aHook,$aVars)
 				);

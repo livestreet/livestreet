@@ -25,9 +25,11 @@
 
 /**
  * Валидатор емайл адресов
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorEmail extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Регулярное вырожение для проверки емайла
 	 *
@@ -72,7 +74,7 @@ class ModuleValidate_EntityValidatorEmail extends ModuleValidate_EntityValidator
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */
@@ -88,11 +90,10 @@ class ModuleValidate_EntityValidatorEmail extends ModuleValidate_EntityValidator
 		}
 		return true;
 	}
-
 	/**
 	 * Проверка емайла на корректность
 	 *
-	 * @param $sValue
+	 * @param string $sValue	Данные для валидации
 	 *
 	 * @return bool
 	 */

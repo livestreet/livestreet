@@ -571,10 +571,7 @@ class ModuleComment extends Module {
 		}
 		
 		$iMaxIdComment=max($aComments);		
-		$aCmts=$this->GetCommentsAdditionalData($aComments);				
-		if (!class_exists('ModuleViewer')) {
-			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
-		}
+		$aCmts=$this->GetCommentsAdditionalData($aComments);
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
 		$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewerLocal->Assign('bOneComment',true);
@@ -584,7 +581,7 @@ class ModuleComment extends Module {
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {			
 			$oViewerLocal->Assign('oComment',$oComment);						
-			$sText=$oViewerLocal->Fetch("comment.tpl");
+			$sText=$oViewerLocal->Fetch($this->GetTemplateCommentByTarget($sId,$sTargetType));
 			$aCmt[]=array(
 				'html' => $sText,
 				'obj'  => $oComment,
@@ -593,8 +590,17 @@ class ModuleComment extends Module {
 			
 		return array('comments'=>$aCmt,'iMaxIdComment'=>$iMaxIdComment);		
 	}
-	
-	
+	/**
+	 * Возвращает шаблон комментария для рендеринга
+	 * Плагин может переопределить данный метод и вернуть свой шаблон в зависимости от типа
+	 *
+	 * @param int $iTargetId	ID объекта комментирования
+	 * @param string $sTargetType	Типа объекта комментирования
+	 * @return string
+	 */
+	public function GetTemplateCommentByTarget($iTargetId,$sTargetType) {
+		return "comment.tpl";
+	}
 	
 	/**
 	 * Строит дерево комментариев

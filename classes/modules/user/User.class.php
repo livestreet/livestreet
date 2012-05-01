@@ -1014,7 +1014,7 @@ class ModuleUser extends Module {
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = new LiveImage($sFileTmp);
+		$oImage = $this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан,
 		 * возвращаем ошибку
@@ -1129,7 +1129,7 @@ class ModuleUser extends Module {
 
 
 		if ($aSize) {
-			$oImage = new LiveImage($sFileTmp);
+			$oImage = $this->Image_CreateImageObject($sFileTmp);
 			/**
 			 * Если объект изображения не создан,
 			 * возвращаем ошибку
@@ -1181,7 +1181,7 @@ class ModuleUser extends Module {
 			$oImage->output(null,$sFileTmp);
 		}
 
-		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),250,null,true,$aParams)) {
+		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('module.user.profile_photo_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			/**
 			 * удаляем старое фото

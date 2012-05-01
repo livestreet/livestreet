@@ -1763,7 +1763,7 @@ class ModuleTopic extends Module {
 
 		$aParams=$this->Image_BuildParams('photoset');
 
-		$oImage = new LiveImage($sFileTmp);
+		$oImage =$this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан,
 		 * возвращаем ошибку
@@ -1792,7 +1792,7 @@ class ModuleTopic extends Module {
 		foreach ($aSizes as $aSize) {
 			// Для каждого указанного в конфиге размера генерируем картинку
 			$sNewFileName = $sFileName.'_'.$aSize['w'];
-			$oImage = new LiveImage($sFile);
+			$oImage = $this->Image_CreateImageObject($sFile);
 			if ($aSize['crop']) {
 				$this->Image_CropProportion($oImage, $aSize['w'], $aSize['h'], true);
 				$sNewFileName .= 'crop';

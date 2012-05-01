@@ -795,7 +795,7 @@ class ModuleBlog extends Module {
 		$sPath=$this->Image_GetIdDir($oBlog->getOwnerId());
 		$aParams=$this->Image_BuildParams('avatar');
 
-		$oImage=new LiveImage($sFileTmp);
+		$oImage=$this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан, 
 		 * возвращаем ошибку

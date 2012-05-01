@@ -17,7 +17,8 @@ ls.wall = (function ($) {
 		$('.js-button-wall-submit').attr('disabled',true);
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
-		'*addBefore*'; '*/addBefore*';
+
+		ls.hook.marker('addBefore');
 		$('#wall-text').addClass('loader');
 		ls.ajax(url, params, function(result) {
 			$('.js-button-wall-submit').attr('disabled',false);
@@ -37,7 +38,8 @@ ls.wall = (function ($) {
 		$('.js-button-wall-submit').attr('disabled',true);
 		var url = aRouter['profile']+this.options.login+'/wall/add/';
 		var params = {sText: sText, iPid: iPid};
-		'*addReplyBefore*'; '*/addReplyBefore*';
+
+		ls.hook.marker('addReplyBefore');
 		$('#wall-reply-text-' + iPid).addClass('loader');
 		ls.ajax(url, params, function(result) {
 			$('.js-button-wall-submit').attr('disabled',false);
@@ -56,7 +58,7 @@ ls.wall = (function ($) {
 	this.load = function(iIdLess,iIdMore,callback) {
 		var url = aRouter['profile']+this.options.login+'/wall/load/';
 		var params = {iIdLess: iIdLess ? iIdLess : '', iIdMore: iIdMore ? iIdMore : ''};
-		'*loadBefore*'; '*/loadBefore*';
+		ls.hook.marker('loadBefore');
 		ls.ajax(url, params, callback);
 		return false;
 	};
@@ -64,7 +66,7 @@ ls.wall = (function ($) {
 	this.loadReply = function(iIdLess,iIdMore,iPid,callback) {
 		var url = aRouter['profile']+this.options.login+'/wall/load-reply/';
 		var params = {iIdLess: iIdLess ? iIdLess : '', iIdMore: iIdMore ? iIdMore : '', iPid: iPid};
-		'*loadReplyBefore*'; '*/loadReplyBefore*';
+		ls.hook.marker('loadReplyBefore');
 		ls.ajax(url, params, callback);
 		return false;
 	};
@@ -215,7 +217,7 @@ ls.wall = (function ($) {
 	this.remove = function(iId) {
 		var url = aRouter['profile']+this.options.login+'/wall/remove/';
 		var params = {iId: iId};
-		'*removeBefore*'; '*/removeBefore*';
+		ls.hook.marker('removeBefore');
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);

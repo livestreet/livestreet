@@ -34,13 +34,13 @@ class ModuleDatabase extends Module {
 	 * @var array
 	 */
 	protected $aInstance=array();
-	
+
 	/**
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {		
-		
+	public function Init() {
+
 	}
 	/**
 	 * Получает объект БД
@@ -55,7 +55,7 @@ class ModuleDatabase extends Module {
 		if (is_null($aConfig)) {
 			$aConfig = Config::Get('db.params');
 		}
-		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];		
+		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];
 		/**
 		 * Создаём хеш подключения, уникальный для каждого конфига
 		 */
@@ -69,7 +69,7 @@ class ModuleDatabase extends Module {
 			/**
 			 * Если такого коннекта еще не было то создаём его
 			 */
-			$oDbSimple=DbSimple_Generic::connect($sDSN);	
+			$oDbSimple=DbSimple_Generic::connect($sDSN);
 			/**
 			 * Устанавливаем хук на перехват ошибок при работе с БД
 			 */
@@ -80,20 +80,20 @@ class ModuleDatabase extends Module {
 			if (Config::Get('sys.logs.sql_query')) {
 				$oDbSimple->setLogger('databaseLogger');
 			}
-	     	/**
-	     	 * Устанавливаем настройки соединения, по хорошему этого здесь не должно быть :)
-	     	 * считайте это костылём
-	     	 */
-        	$oDbSimple->query("set character_set_client='utf8', character_set_results='utf8', collation_connection='utf8_bin' ");        	
-        	/**
-        	 * Сохраняем коннект
-        	 */
-			$this->aInstance[$sDSNKey]=$oDbSimple;	
+			/**
+			 * Устанавливаем настройки соединения, по хорошему этого здесь не должно быть :)
+			 * считайте это костылём
+			 */
+			$oDbSimple->query("set character_set_client='utf8', character_set_results='utf8', collation_connection='utf8_bin' ");
+			/**
+			 * Сохраняем коннект
+			 */
+			$this->aInstance[$sDSNKey]=$oDbSimple;
 			/**
 			 * Возвращаем коннект
 			 */
 			return $oDbSimple;
-		}		
+		}
 	}
 	/**
 	 * Возвращает статистику использования БД - время и количество запросов
@@ -127,7 +127,7 @@ class ModuleDatabase extends Module {
 		$sFileQuery = file_get_contents($sFilePath);
 		return $this->ExportSQLQuery($sFileQuery,$aConfig);
 	}
-	
+
 	/**
 	 * Экспорт SQL в БД
 	 *
@@ -155,14 +155,14 @@ class ModuleDatabase extends Module {
 			 * Заменяем движек, если таковой указан в запросе
 			 */
 			if(Config::Get('db.tables.engine')!='InnoDB') $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE=".Config::Get('db.tables.engine'),$sQuery);
-			
+
 			if($sQuery!='') {
 				$bResult=$this->GetConnect($aConfig)->query($sQuery);
 				if($bResult===false) $aErrors[] = mysql_error();
 			}
 		}
 		/**
-		 * Возвращаем результат выполнения, взависимости от количества ошибок 
+		 * Возвращаем результат выполнения, взависимости от количества ошибок
 		 */
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
@@ -213,9 +213,9 @@ class ModuleDatabase extends Module {
 	 * @param array|null $aConfig	Конфиг подключения к БД
 	 */
 	public function addEnumType($sTableName,$sFieldName,$sType,$aConfig=null) {
-		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);		
+		$sTableName = str_replace('prefix_', Config::Get('db.table.prefix'), $sTableName);
 		$sQuery="SHOW COLUMNS FROM  `{$sTableName}`";
-		
+
 		if ($aRows=$this->GetConnect($aConfig)->select($sQuery)) {
 			foreach ($aRows as $aRow){
 				if ($aRow['Field'] == $sFieldName) break;
@@ -229,7 +229,7 @@ class ModuleDatabase extends Module {
 			}
 		}
 	}
-		
+
 }
 
 /**
@@ -238,11 +238,11 @@ class ModuleDatabase extends Module {
  * @param string $message	Сообщение об ошибке
  * @param array $info	Список информации об ошибке
  */
-function databaseErrorHandler($message, $info) {	
+function databaseErrorHandler($message, $info) {
 	/**
 	 * Записываем информацию об ошибке в переменную $msg
-	 */	
-	$msg="SQL Error: $message<br>\n";	
+	 */
+	$msg="SQL Error: $message<br>\n";
 	$msg.=print_r($info,true);
 	/**
 	 * Если нужно логировать SQL ошибке то пишем их в лог
@@ -278,8 +278,8 @@ function databaseLogger($db, $sql) {
 	/**
 	 * Получаем информацию о запросе и сохраняем её в переменной $msg
 	 */
-	$caller = $db->findLibraryCaller();	
-	$msg=print_r($sql,true);	
+	$caller = $db->findLibraryCaller();
+	$msg=print_r($sql,true);
 	/**
 	 * Получаем ядро и сохраняем в логе SQL запрос
 	 */

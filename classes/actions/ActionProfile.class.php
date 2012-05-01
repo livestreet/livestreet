@@ -16,25 +16,40 @@
 */
 
 /**
- * Обрабатывает профайл юзера, т.е. УРЛ вида /profile/login/
+ * Экшен обработки профайла юзера, т.е. УРЛ вида /profile/login/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionProfile extends Action {
 	/**
 	 * Объект юзера чей профиль мы смотрим
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserProfile;
-
+	/**
+	 * Субменю
+	 *
+	 * @var string
+	 */
 	protected $sMenuSubItemSelect='';
-
+	/**
+	 * Текущий пользователь
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
 	protected $oUserCurrent;
 
+	/**
+	 * Инициализация
+	 */
 	public function Init() {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
-
+	/**
+	 * Регистрация евентов
+	 */
 	protected function RegisterEvent() {
 		$this->AddEvent('friendoffer','EventFriendOffer');
 		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
@@ -69,6 +84,7 @@ class ActionProfile extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
 	/**
 	 * Проверка корректности профиля
 	 */
@@ -81,7 +97,6 @@ class ActionProfile extends Action {
 		}
 		return true;
 	}
-
 	/**
 	 * Чтение активности пользователя (stream)
 	 */
@@ -89,7 +104,6 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
 		/**
 		 * Читаем события
 		 */
@@ -109,7 +123,6 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -122,7 +135,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,$this->oUserProfile->getUserWebPath().'friends');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'friends');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -156,7 +169,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'created/topics');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/topics');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -190,7 +203,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'created/comments');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/comments');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -228,7 +241,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -241,7 +254,6 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('favourite_topics');
 	}
-
 	/**
 	 * Список топиков из избранного по тегу
 	 */
@@ -249,6 +261,9 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		/**
+		 * Пользователь авторизован и просматривает свой профиль?
+		 */
 		if (!$this->oUserCurrent or $this->oUserProfile->getId()!=$this->oUserCurrent->getId()) {
 			return parent::EventNotFound();
 		}
@@ -270,7 +285,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -305,7 +320,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/comments');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/comments');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -330,7 +345,9 @@ class ActionProfile extends Action {
 		 * Получаем список друзей
 		 */
 		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId(),1,Config::Get('module.user.friend_on_profile'));
-
+		/**
+		 * Если активен режим инвайтов, то прогружаем дополнительную информацию
+		 */
 		if (Config::Get('general.reg.invite')) {
 			/**
 			 * Получаем список тех кого пригласил юзер
@@ -353,10 +370,10 @@ class ActionProfile extends Action {
 		 * Получаем список блогов которые создал юзер
 		 */
 		$aBlogsOwner=$this->Blog_GetBlogsByOwnerId($this->oUserProfile->getId());
-        /**
-         * Получаем список контактов
-         */
-        $aUserFields = $this->User_getUserFieldsValues($this->oUserProfile->getId());
+		/**
+		 * Получаем список контактов
+		 */
+		$aUserFields = $this->User_getUserFieldsValues($this->oUserProfile->getId());
 		/**
 		 * Вызов хуков
 		 */
@@ -377,7 +394,6 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('whois');
 	}
-
 	/**
 	 * Отображение стены пользователя
 	 */
@@ -385,7 +401,6 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
 		/**
 		 * Получаем записи стены
 		 */
@@ -397,19 +412,26 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('wall');
 	}
-
 	/**
 	 * Добавление записи на стену
 	 */
 	public function EventWallAdd() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			return parent::EventNotFound();
 		}
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
+		/**
+		 * Создаем запись
+		 */
 		$oWall=Engine::GetEntity('Wall');
 		$oWall->_setValidateScenario('add');
 		$oWall->setWallUserId($this->oUserProfile->getId());
@@ -446,39 +468,49 @@ class ActionProfile extends Action {
 			$this->Message_AddError($oWall->_getValidateError(),$this->Lang_Get('error'));
 		}
 	}
-
 	/**
 	 * Удаление записи со стены
 	 */
 	public function EventWallRemove() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			return parent::EventNotFound();
 		}
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
+		/**
+		 * Получаем запись
+		 */
 		if (!($oWall=$this->Wall_GetWallById(getRequest('iId')))) {
 			return parent::EventNotFound();
 		}
-
+		/**
+		 * Если разрешено удаление - удаляем
+		 */
 		if ($oWall->isAllowDelete()) {
 			$this->Wall_DeleteWall($oWall);
 			return;
 		}
 		return parent::EventNotFound();
 	}
-
 	/**
 	 * Ajax подгрузка сообщений стены
 	 */
 	public function EventWallLoad() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-
 		/**
 		 * Формируем фильтр для запроса к БД
 		 */
@@ -495,7 +527,7 @@ class ActionProfile extends Action {
 			return;
 		}
 		/**
-		 * Получаем сообщения
+		 * Получаем сообщения и формируем ответ
 		 */
 		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aWall',$aWall['collection']);
@@ -504,8 +536,13 @@ class ActionProfile extends Action {
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
 	}
-
+	/**
+	 * Подгрузка ответов на стене к сообщению
+	 */
 	public function EventWallLoadReply() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
@@ -529,7 +566,7 @@ class ActionProfile extends Action {
 			return;
 		}
 		/**
-		 * Получаем сообщения
+		 * Получаем сообщения и формируем ответ
 		 */
 		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
@@ -537,16 +574,20 @@ class ActionProfile extends Action {
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
 	}
-
 	/**
 	 * Сохраняет заметку о пользователе
 	 */
 	public function EventAjaxNoteSave() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			return parent::EventNotFound();
 		}
-
 		/**
 		 * Создаем заметку и проводим валидацию
 		 */
@@ -569,11 +610,13 @@ class ActionProfile extends Action {
 			$this->Message_AddError($oNote->_getValidateError(),$this->Lang_Get('error'));
 		}
 	}
-
 	/**
 	 * Удаляет заметку о пользователе
 	 */
 	public function EventAjaxNoteRemove() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->oUserCurrent) {
 			return parent::EventNotFound();
@@ -587,8 +630,9 @@ class ActionProfile extends Action {
 		}
 		$this->User_DeleteUserNoteById($oNote->getId());
 	}
-
-
+	/**
+	 * Список созданных заметок
+	 */
 	public function EventCreatedNotes() {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
@@ -612,7 +656,7 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,$this->oUserProfile->getUserWebPath().'created/notes');
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/notes');
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -625,13 +669,14 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('created_notes');
 	}
-
-
 	/**
 	 * Добавление пользователя в друзья, по отправленной заявке
 	 */
 	public function EventFriendOffer() {
 		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		/**
+		 * Из реквеста дешефруем ID польователя
+		 */
 		$sUserId=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
 		if (!$sUserId) {
 			return $this->EventNotFound();
@@ -639,7 +684,6 @@ class ActionProfile extends Action {
 		list($sUserId,)=explode('_',$sUserId,2);
 
 		$sAction=$this->GetParam(0);
-
 		/**
 		 * Получаем текущего пользователя
 		 */
@@ -647,7 +691,6 @@ class ActionProfile extends Action {
 			return $this->EventNotFound();
 		}
 		$this->oUserCurrent = $this->User_GetUserCurrent();
-
 		/**
 		 * Получаем объект пользователя приславшего заявку,
 		 * если пользователь не найден, переводим в раздел сообщений (Talk) -
@@ -659,7 +702,6 @@ class ActionProfile extends Action {
 			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
-
 		/**
 		 * Получаем связь дружбы из базы данных.
 		 * Если связь не найдена либо статус отличен от OFFER,
@@ -668,12 +710,12 @@ class ActionProfile extends Action {
 		$oFriend=$this->User_GetFriend($this->oUserCurrent->getId(),$oUser->getId(),0);
 		if(!$oFriend
 			|| !in_array(
-					$oFriend->getFriendStatus(),
-					array(
-						ModuleUser::USER_FRIEND_OFFER+ModuleUser::USER_FRIEND_NULL,
-					)
+				$oFriend->getFriendStatus(),
+				array(
+					ModuleUser::USER_FRIEND_OFFER+ModuleUser::USER_FRIEND_NULL,
 				)
-			) {
+			)
+		) {
 			$sMessage=($oFriend)
 				? $this->Lang_Get('user_friend_offer_already_done')
 				: $this->Lang_Get('user_friend_offer_not_found');
@@ -682,7 +724,6 @@ class ActionProfile extends Action {
 			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
-
 		/**
 		 * Устанавливаем новый статус связи
 		 */
@@ -708,11 +749,15 @@ class ActionProfile extends Action {
 		}
 		Router::Location(Router::GetPath('talk'));
 	}
-
+	/**
+	 * Подтверждение заявки на добавления в друзья
+	 */
 	public function EventAjaxFriendAccept() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
-
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -734,7 +779,6 @@ class ActionProfile extends Action {
 			);
 			return;
 		}
-
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
@@ -758,37 +802,35 @@ class ActionProfile extends Action {
 			&& ($oFriend->getStatusFrom()==ModuleUser::USER_FRIEND_OFFER||$oFriend->getStatusFrom()==ModuleUser::USER_FRIEND_ACCEPT)
 			&& ($oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT||$oFriend->getStatusTo()==ModuleUser::USER_FRIEND_NULL)
 			&& $oFriend->getUserTo()==$this->oUserCurrent->getId()) {
-
+			/**
+			 * Меняем статус с отвергнутое, на акцептованное
+			 */
+			$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
+			if($this->User_UpdateFriend($oFriend)) {
+				$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
+				$this->NoticeFriendOffer($oUser,'accept');
 				/**
-				 * Меняем статус с отвергнутое, на акцептованное
+				 * Добавляем событие в ленту
 				 */
-				$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
-				if($this->User_UpdateFriend($oFriend)) {
-					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
-					$this->NoticeFriendOffer($oUser,'accept');
+				$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
+				$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
+				/**
+				 * Добавляем пользователей к друг другу в ленту активности
+				 */
+				$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
+				$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
 
-					/**
-					 * Добавляем событие в ленту
-					 */
-					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
-					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
-					/**
-					 * Добавляем пользователей к друг другу в ленту активности
-					 */
-					$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
-					$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
+				$oViewerLocal=$this->GetViewerLocal();
+				$oViewerLocal->Assign('oUserFriend',$oFriend);
+				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
 
-					$oViewerLocal=$this->GetViewerLocal();
-					$oViewerLocal->Assign('oUserFriend',$oFriend);
-					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
-
-				} else {
-					$this->Message_AddErrorSingle(
-						$this->Lang_Get('system_error'),
-						$this->Lang_Get('error')
-					);
-				}
-				return;
+			} else {
+				$this->Message_AddErrorSingle(
+					$this->Lang_Get('system_error'),
+					$this->Lang_Get('error')
+				);
+			}
+			return;
 		}
 
 		$this->Message_AddErrorSingle(
@@ -797,12 +839,11 @@ class ActionProfile extends Action {
 		);
 		return;
 	}
-
 	/**
 	 * Отправляет пользователю Talk уведомление о принятии или отклонении его заявки
 	 *
 	 * @param ModuleUser_EntityUser $oUser
-	 * @param stirng          $sAction
+	 * @param string $sAction
 	 */
 	protected function NoticeFriendOffer($oUser,$sAction) {
 		/**
@@ -828,12 +869,16 @@ class ActionProfile extends Action {
 		$oTalk=$this->Talk_SendTalk($sTitle,$sText,$this->oUserCurrent,array($oUser),false,false);
 		$this->Talk_DeleteTalkUserByArray($oTalk->getId(),$this->oUserCurrent->getId());
 	}
-
+	/**
+	 * Обработка Ajax добавления в друзья
+	 */
 	public function EventAjaxFriendAdd() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser');
 		$sUserText=getRequest('userText','');
-
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -845,7 +890,6 @@ class ActionProfile extends Action {
 			return;
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
-
 		/**
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
@@ -856,7 +900,6 @@ class ActionProfile extends Action {
 			);
 			return;
 		}
-
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
@@ -895,7 +938,7 @@ class ActionProfile extends Action {
 		 * возвращаем сообщение об ошибке
 		 */
 		if($oFriend->getUserFrom()==$this->oUserCurrent->getId()
-				&& $oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT ) {
+			&& $oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT ) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('user_friend_offer_reject'),
 				$this->Lang_Get('error')
@@ -907,7 +950,7 @@ class ActionProfile extends Action {
 		 * и разрешаем восстановить только удалившему
 		 */
 		if($oFriend->getFriendStatus()>ModuleUser::USER_FRIEND_DELETE
-				&& $oFriend->getFriendStatus()<ModuleUser::USER_FRIEND_REJECT) {
+			&& $oFriend->getFriendStatus()<ModuleUser::USER_FRIEND_REJECT) {
 			/**
 			 * Определяем статус связи текущего пользователя
 			 */
@@ -923,7 +966,7 @@ class ActionProfile extends Action {
 					 * Добавляем событие в ленту
 					 */
 					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
-                    $this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
+					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
 					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
 
 					$oViewerLocal=$this->GetViewerLocal();
@@ -946,7 +989,6 @@ class ActionProfile extends Action {
 			}
 		}
 	}
-
 	/**
 	 * Функция создает локальный объект вьювера для рендеринга html-объектов в ajax запросах
 	 *
@@ -968,7 +1010,14 @@ class ActionProfile extends Action {
 
 		return $oViewerLocal;
 	}
-
+	/**
+	 * Обработка добавления в друзья
+	 *
+	 * @param $oUser
+	 * @param $sUserText
+	 * @param null $oFriend
+	 * @return bool
+	 */
 	protected function SubmitAddFriend($oUser,$sUserText,$oFriend=null) {
 		/**
 		 * Ограничения на добавления в друзья, т.к. приглашение отправляется в личку, то и ограничиваем по ней
@@ -977,9 +1026,13 @@ class ActionProfile extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('user_friend_add_time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
-
+		/**
+		 * Обрабатываем текст заявки
+		 */
 		$sUserText=$this->Text_Parser($sUserText);
-
+		/**
+		 * Создаем связь с другом
+		 */
 		$oFriendNew=Engine::GetEntity('User_Friend');
 		$oFriendNew->setUserTo($oUser->getId());
 		$oFriendNew->setUserFrom($this->oUserCurrent->getId());
@@ -1040,14 +1093,15 @@ class ActionProfile extends Action {
 		$oViewerLocal->Assign('oUserFriend',$oFriendNew);
 		$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
 	}
-
 	/**
 	 * Удаление пользователя из друзей
 	 */
 	public function EventAjaxFriendDelete() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		$sUserId=getRequest('idUser',null,'post');
-
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -1059,7 +1113,6 @@ class ActionProfile extends Action {
 			return;
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
-
 		/**
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
@@ -1070,7 +1123,6 @@ class ActionProfile extends Action {
 			);
 			return;
 		}
-
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
@@ -1096,7 +1148,9 @@ class ActionProfile extends Action {
 			);
 			return;
 		}
-
+		/**
+		 * Удаляем из друзей
+		 */
 		if( $this->User_DeleteFriend($oFriend) ) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_del_ok'),$this->Lang_Get('attention'));
 
@@ -1127,7 +1181,6 @@ class ActionProfile extends Action {
 			return;
 		}
 	}
-
 	/**
 	 * Выполняется при завершении работы экшена
 	 */

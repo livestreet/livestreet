@@ -18,37 +18,38 @@
 /**
  * Обработка УРЛа вида /photoset/ - управление своими топиками(тип: фотосет)
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionPhotoset extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='photoset';
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
 	 *
-	 * @return unknown
 	 */
 	public function Init() {
 		/**
@@ -57,7 +58,6 @@ class ActionPhotoset extends Action {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('add');
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title'));
-
 		/**
 		 * Загружаем в шаблон JS текстовки
 		 */
@@ -88,9 +88,11 @@ class ActionPhotoset extends Action {
 	/**
 	 * AJAX подгрузка следующих фото
 	 *
-	 * @return unknown
 	 */
 	protected function EventGetMore() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Существует ли топик
@@ -116,14 +118,15 @@ class ActionPhotoset extends Action {
 		}
 		$this->Viewer_AssignAjax('bHaveNext', count($aPhotos)==Config::Get('module.topic.photoset.per_page'));
 	}
-
 	/**
 	 * AJAX удаление фото
 	 *
 	 */
 	protected function EventDeletePhoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -131,11 +134,15 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-
+		/**
+		 * Поиск фото по id
+		 */
 		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
 		if ($oPhoto) {
 			if ($oPhoto->getTopicId()) {
-				// проверяем права на топик
+				/**
+				 * Проверяем права на топик
+				 */
 				if ($oTopic=$this->Topic_GetTopicById($oPhoto->getTopicId()) and $this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
 					if ($oTopic->getPhotosetCount()>1) {
 						$this->Topic_deleteTopicPhoto($oPhoto);
@@ -167,8 +174,10 @@ class ActionPhotoset extends Action {
 	 *
 	 */
 	protected function EventSetPhotoDescription() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -176,7 +185,9 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-
+		/**
+		 * Поиск фото по id
+		 */
 		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
 		if ($oPhoto) {
 			if ($oPhoto->getTopicId()) {
@@ -191,20 +202,21 @@ class ActionPhotoset extends Action {
 			}
 		}
 	}
-
 	/**
 	 * AJAX загрузка фоток
 	 *
 	 * @return unknown
 	 */
 	protected function EventUpload() {
-		// В зависимости от типа загрузчика устанавливается тип ответа
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 * В зависимости от типа загрузчика устанавливается тип ответа
+		 */
 		if (getRequest('is_iframe')) {
 			$this->Viewer_SetResponseAjax('jsonIframe', false);
 		} else {
 			$this->Viewer_SetResponseAjax('json');
 		}
-
 		/**
 		 * Проверяем авторизован ли юзер
 		 */
@@ -212,7 +224,9 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-
+		/**
+		 * Файл был загружен?
+		 */
 		if (!isset($_FILES['Filedata']['tmp_name'])) {
 			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 			return false;
@@ -270,7 +284,9 @@ class ActionPhotoset extends Action {
 				$oPhoto->setTargetTmp($sTargetId);
 			}
 			if ($oPhoto = $this->Topic_addTopicPhoto($oPhoto)) {
-				// если редактируем топик, то обновляем число фоток в нём
+				/**
+				 * Если топик уже существует (редактирование), то обновляем число фоток в нём
+				 */
 				if (isset($oTopic)) {
 					$oTopic->setPhotosetCount($oTopic->getPhotosetCount()+1);
 					$this->Topic_UpdateTopic($oTopic);
@@ -286,11 +302,9 @@ class ActionPhotoset extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 		}
 	}
-
 	/**
-	 * Редактирование
+	 * Редактирование топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventEdit() {
 		/**
@@ -361,9 +375,8 @@ class ActionPhotoset extends Action {
 		$this->Viewer_Assign('aPhotos', $this->Topic_getPhotosByTopicId($oTopic->getId()));
 	}
 	/**
-	 * Добавление ссылки
+	 * Добавление топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventAdd() {
 		/**
@@ -386,8 +399,9 @@ class ActionPhotoset extends Action {
 		if (!is_numeric(getRequest('topic_id'))) {
 			$_REQUEST['topic_id']='';
 		}
-
-		// Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
+		/**
+		 * Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
+		 */
 		if (empty($_COOKIE['ls_photoset_target_tmp'])) {
 			setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 		} else {
@@ -399,11 +413,10 @@ class ActionPhotoset extends Action {
 		 */
 		return $this->SubmitAdd();
 	}
-
 	/**
 	 * Обработка добавлени топика
 	 *
-	 * @return unknown
+	 * @return mixed
 	 */
 	protected function SubmitAdd() {
 		/**
@@ -480,7 +493,6 @@ class ActionPhotoset extends Action {
 		}
 		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
 		$oTopic->setPhotosetCount(count($aPhotos));
-
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -562,8 +574,8 @@ class ActionPhotoset extends Action {
 	/**
 	 * Обработка редактирования топика
 	 *
-	 * @param unknown_type $oTopic
-	 * @return unknown
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @return mixed
 	 */
 	protected function SubmitEdit($oTopic) {
 		$oTopic->_setValidateScenario('photoset');
@@ -615,7 +627,6 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
 			return;
 		}
-
 		/**
 		 * Теперь можно смело редактировать топик
 		 */
@@ -734,7 +745,6 @@ class ActionPhotoset extends Action {
 			$this->Message_AddError($this->Lang_Get('topic_photoset_error_count_photos', array('MIN' => Config::Get('module.topic.photoset.count_photos_min'), 'MAX' => Config::Get('module.topic.photoset.count_photos_max'))), $this->Lang_Get('error'));
 			return false;
 		}
-
 		/**
 		 * Выполнение хуков
 		 */

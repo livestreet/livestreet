@@ -27,7 +27,7 @@ ls.user = (function ($) {
 		
 		var params = {idUser: idUser, userText: sText};
 		
-		'*addFriendBefore*'; '*/addFriendBefore*';
+		ls.hook.marker('addFriendBefore');
 		ls.ajax(url, params, function(result){
 			$('#add_friend_form').children().each(function(i, item){$(item).removeAttr('disabled')});
 			if (!result) {
@@ -53,7 +53,7 @@ ls.user = (function ($) {
 		var url = aRouter.profile+'ajaxfrienddelete/';
 		var params = {idUser: idUser,sAction: sAction};
 		
-		'*removeFriendBefore*'; '*/removeFriendBefore*';
+		ls.hook.marker('removeFriendBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -121,7 +121,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/resize-avatar/';
 		var params = {size: this.jcropAvatar.tellSelect()};
 
-		'*resizeAvatarBefore*'; '*/resizeAvatarBefore*';
+		ls.hook.marker('resizeAvatarBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -144,7 +144,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/remove-avatar/';
 		var params = {};
 
-		'*removeAvatarBefore*'; '*/removeAvatarBefore*';
+		ls.hook.marker('removeAvatarBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -166,7 +166,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/cancel-avatar/';
 		var params = {};
 
-		'*cancelAvatarBefore*'; '*/cancelAvatarBefore*';
+		ls.hook.marker('cancelAvatarBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -232,7 +232,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/resize-foto/';
 		var params = {size: this.jcropFoto.tellSelect()};
 
-		'*resizeFotoBefore*'; '*/resizeFotoBefore*';
+		ls.hook.marker('resizeFotoBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -255,7 +255,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/remove-foto/';
 		var params = {};
 
-		'*removeFotoBefore*'; '*/removeFotoBefore*';
+		ls.hook.marker('removeFotoBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -277,7 +277,7 @@ ls.user = (function ($) {
 		var url = aRouter.settings+'profile/cancel-foto/';
 		var params = {};
 
-		'*cancelFotoBefore*'; '*/cancelFotoBefore*';
+		ls.hook.marker('cancelFotoBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -301,7 +301,7 @@ ls.user = (function ($) {
 			sForm=$('#'+sForm);
 		}
 
-		'*validateRegistrationFieldsBefore*'; '*/validateRegistrationFieldsBefore*';
+		ls.hook.marker('validateRegistrationFieldsBefore');
 		ls.ajax(url, params, function(result) {
 			if (!sForm) {
 				sForm=$('body'); // поиск полей по всей странице
@@ -338,7 +338,7 @@ ls.user = (function ($) {
 	this.registration = function(form) {
 		var url = aRouter.registration+'ajax-registration/';
 
-		'*registrationBefore*'; '*/registrationBefore*';
+		ls.hook.marker('registrationBefore');
 		ls.ajaxSubmit(url, form, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
@@ -373,7 +373,7 @@ ls.user = (function ($) {
 	this.login = function(form) {
 		var url = aRouter.login+'ajax-login/';
 
-		'*loginBefore*'; '*/loginBefore*';
+		ls.hook.marker('loginBefore');
 		ls.ajaxSubmit(url, form, function(result) {
 			if (typeof(form)=='string') {
 				form=$('#'+form);
@@ -401,7 +401,7 @@ ls.user = (function ($) {
 	this.reminder = function(form) {
 		var url = aRouter.login+'ajax-reminder/';
 
-		'*reminderBefore*'; '*/reminderBefore*';
+		ls.hook.marker('reminderBefore');
 		ls.ajaxSubmit(url, form, function(result) {
 			if (typeof(form)=='string') {
 				form=$('#'+form);
@@ -431,7 +431,7 @@ ls.user = (function ($) {
 		var inputSearch=$('#'+form).find('input');
 		inputSearch.addClass('loader');
 
-		'*searchUsersBefore*'; '*/searchUsersBefore*';
+		ls.hook.marker('searchUsersBefore');
 		ls.ajaxSubmit(url, form, function(result){
 			inputSearch.removeClass('loader');
 			if (result.bStateError) {
@@ -454,7 +454,7 @@ ls.user = (function ($) {
 		var params = {user_login: sPrefix, isPrefix: 1};
 		$('#search-user-login').addClass('loader');
 
-		'*searchUsersByPrefixBefore*'; '*/searchUsersByPrefixBefore*';
+		ls.hook.marker('searchUsersByPrefixBefore');
 		ls.ajax(url, params, function(result){
 			$('#search-user-login').removeClass('loader');
 			$('#user-prefix-filter').find('.active').removeClass('active');

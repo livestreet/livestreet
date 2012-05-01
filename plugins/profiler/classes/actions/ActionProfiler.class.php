@@ -77,9 +77,9 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 			$aReportsId=getRequest('report_del');
 			if (is_array($aReportsId)) {
 				if($this->PluginProfiler_Profiler_DeleteEntryByRequestId(array_keys($aReportsId))) {
-					$this->Message_AddNotice($this->Lang_Get('profiler_report_delete_success'), $this->Lang_Get('attention'));
+					$this->Message_AddNotice($this->Lang_Get('plugin.profiler.report_delete_success'), $this->Lang_Get('attention'));
 				} else {
-					$this->Message_AddError($this->Lang_Get('profiler_report_delete_error'), $this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('plugin.profiler.report_delete_error'), $this->Lang_Get('error'));
 				}
 			}
 		}
@@ -90,9 +90,9 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		if(getRequest('submit_profiler_import') and getRequest('profiler_date_import')) {
 			$iCount = @$this->PluginProfiler_Profiler_UploadLog(date('Y-m-d H:i:s',strtotime(getRequest('profiler_date_import'))));
 			if(!is_null($iCount)) {
-				$this->Message_AddNotice($this->Lang_Get('profiler_import_report_success',array('count'=>$iCount)), $this->Lang_Get('attention'));
+				$this->Message_AddNotice($this->Lang_Get('plugin.profiler.import_report_success',array('count'=>$iCount)), $this->Lang_Get('attention'));
 			} else {
-				$this->Message_AddError($this->Lang_Get('profiler_import_report_error'), $this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('plugin.profiler.import_report_error'), $this->Lang_Get('error'));
 			}
 		}
 
@@ -116,15 +116,15 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		if(count($aFilter)) {
 			$this->Message_AddNotice(
 				($aResult['count'])
-					? $this->Lang_Get('profiler_filter_result_count',array('count'=>$aResult['count']))
-					: $this->Lang_Get('profiler_filter_result_empty')
+					? $this->Lang_Get('plugin.profiler.filter_result_count',array('count'=>$aResult['count']))
+					: $this->Lang_Get('plugin.profiler.filter_result_empty')
 			);
 		}
 		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging(
-			$aResult['count'],$iPage,Config::Get('plugin.profiler.per_page'),4,
+			$aResult['count'],$iPage,Config::Get('plugin.profiler.per_page'),Config::Get('pagination.pages.count'),
 			Router::GetPath('profiler').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
@@ -139,7 +139,7 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 		$this->Viewer_Assign('aReports',$aReports);
 		$this->Viewer_Assign('aDatabaseStat',($aData=$this->PluginProfiler_Profiler_GetDatabaseStat())?$aData:array('max_date'=>'','count'=>''));
 		$this->Viewer_AddBlock('right','actions/ActionProfiler/sidebar.tpl',array('plugin'=>'profiler'));
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('profiler_report_page_title'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.profiler.report_page_title'));
 	}
 
 	/**
@@ -157,15 +157,15 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 					$aFilter['date_min']="{$y}-{$m}-{$d}";
 				} else {
 					$this->Message_AddError(
-						$this->Lang_Get('profiler_filter_error_date_format'),
-						$this->Lang_Get('profiler_filter_error')
+						$this->Lang_Get('plugin.profiler.filter_error_date_format'),
+						$this->Lang_Get('plugin.profiler.filter_error')
 					);
 					unset($_REQUEST['start']);
 				}
 			} else {
 				$this->Message_AddError(
-					$this->Lang_Get('profiler_filter_error_date_format'),
-					$this->Lang_Get('profiler_filter_error')
+					$this->Lang_Get('plugin.profiler.filter_error_date_format'),
+					$this->Lang_Get('plugin.profiler.filter_error')
 				);
 				unset($_REQUEST['start']);
 			}
@@ -178,15 +178,15 @@ class PluginProfiler_ActionProfiler extends ActionPlugin {
 					$aFilter['date_max']="{$y}-{$m}-{$d} 23:59:59";
 				} else {
 					$this->Message_AddError(
-						$this->Lang_Get('profiler_filter_error_date_format'),
-						$this->Lang_Get('profiler_filter_error')
+						$this->Lang_Get('plugin.profiler.filter_error_date_format'),
+						$this->Lang_Get('plugin.profiler.filter_error')
 					);
 					unset($_REQUEST['end']);
 				}
 			} else {
 				$this->Message_AddError(
-					$this->Lang_Get('profiler_filter_error_date_format'),
-					$this->Lang_Get('profiler_filter_error')
+					$this->Lang_Get('plugin.profiler.filter_error_date_format'),
+					$this->Lang_Get('plugin.profiler.filter_error')
 				);
 				unset($_REQUEST['end']);
 			}

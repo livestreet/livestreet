@@ -7,7 +7,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'subscribe/';
 		var params = {'id':iTargetUserId};
 		
-		'*subscribeBefore*'; '*/subscribeBefore*';
+		ls.hook.marker('subscribeBefore');
 		ls.ajax(url, params, function(data) { 
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -22,7 +22,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'unsubscribe/';
 		var params = {'id':iId};
 		
-		'*unsubscribeBefore*'; '*/unsubscribeBefore*';
+		ls.hook.marker('unsubscribeBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -35,7 +35,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'switchEventType/';
 		var params = {'type':iType};
 		
-		'*switchEventTypeBefore*'; '*/switchEventTypeBefore*';
+		ls.hook.marker('switchEventTypeBefore');
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -51,7 +51,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'subscribeByLogin/';
 		var params = {'login':sLogin};
 		
-		'*appendUserBefore*'; '*/appendUserBefore*';
+		ls.hook.marker('appendUserBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
 				$('#stream_no_subscribed_users').remove();
@@ -86,7 +86,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'get_more/';
 		var params = {'last_id':lastId};
 		
-		'*getMoreBefore*'; '*/getMoreBefore*';
+		ls.hook.marker('getMoreBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.events_count) {
 				$('#stream-list').append(data.result);
@@ -113,7 +113,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'get_more_all/';
 		var params = {'last_id':lastId};
 
-		'*getMoreAllBefore*'; '*/getMoreAllBefore*';
+		ls.hook.marker('getMoreAllBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.events_count) {
 				$('#stream-list').append(data.result);
@@ -140,7 +140,7 @@ ls.stream =( function ($) {
 		var url = aRouter['stream']+'get_more_user/';
 		var params = {'last_id':lastId, user_id: iUserId};
 
-		'*getMoreByUserBefore*'; '*/getMoreByUserBefore*';
+		ls.hook.marker('getMoreByUserBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.events_count) {
 				$('#stream-list').append(data.result);

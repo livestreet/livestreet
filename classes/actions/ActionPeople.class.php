@@ -16,16 +16,23 @@
 */
 
 /**
- * Обработка статистики юзеров, т.е. УРЛа вида /people/
+ * Экшен обработки статистики юзеров, т.е. УРЛа вида /people/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionPeople extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='people';
+	/**
+	 * Меню
+	 *
+	 * @var string
+	 */
 	protected $sMenuItemSelect='all';
 
 	/**
@@ -33,6 +40,9 @@ class ActionPeople extends Action {
 	 *
 	 */
 	public function Init() {
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
 	}
 	/**
@@ -56,11 +66,16 @@ class ActionPeople extends Action {
 	 */
 
 	/**
-	 * Поиск пользователей
+	 * Поиск пользователей по логину
 	 */
 	protected function EventAjaxSearch() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Получаем из реквеста первые быквы для поиска пользователей по логину
+		 */
 		$sTitle=getRequest('user_login');
 		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
 			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
@@ -68,6 +83,9 @@ class ActionPeople extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return;
 		}
+		/**
+		 * Как именно искать: совпадение в любой частилогина, или только начало или конец логина
+		 */
 		if (getRequest('isPrefix')) {
 			$sTitle.='%';
 		} elseif (getRequest('isPostfix')) {
@@ -75,8 +93,13 @@ class ActionPeople extends Action {
 		} else {
 			$sTitle='%'.$sTitle.'%';
 		}
+		/**
+		 * Ищем пользователей
+		 */
 		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
-
+		/**
+		 * Формируем ответ
+		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);
 		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
@@ -87,6 +110,9 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCountry() {
+		/**
+		 * Страна существует?
+		 */
 		if (!($oCountry=$this->Geo_GetCountryById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
@@ -110,7 +136,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -125,6 +151,9 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCity() {
+		/**
+		 * Город существует?
+		 */
 		if (!($oCity=$this->Geo_GetCityById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
@@ -148,7 +177,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -228,7 +257,7 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
 		/**
 		 * Получаем алфавитный указатель на список пользователей
 		 */

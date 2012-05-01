@@ -9,7 +9,7 @@ ls.topic = (function ($) {
 		form=$('#'+form);
 		preview=$('#'+preview);
 		var url = aRouter['ajax']+'preview/topic/';
-		'*previewBefore*'; '*/previewBefore*';
+		ls.hook.marker('previewBefore');
 		ls.ajaxSubmit(url, form, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);

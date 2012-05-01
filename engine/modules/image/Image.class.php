@@ -21,6 +21,8 @@ require_once Config::Get('path.root.engine').'/lib/external/LiveImage/Image.php'
  * Модуль обработки изображений
  * Использует библиотеку LiveImage
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleImage extends Module {
 	/**
@@ -39,25 +41,24 @@ class ModuleImage extends Module {
 	 * Ошибка чтения файла при загрузке изображения
 	 */
 	const UPLOAD_IMAGE_ERROR_READ = 8;
-	
+
 	/**
 	 * Настройки модуля по умолчанию
 	 *
 	 * @var array
 	 */
 	protected $aParamsDefault = array();
-	
 	/**
 	 * Тескт последней ошибки
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sLastErrorText = null;
-	
+
 	/**
 	 * Инициализация модуля
 	 */
-	public function Init() {	
+	public function Init() {
 		$this->aParamsDefault = array(
 			'watermark_use'=>false,
 			'round_corner' =>false
@@ -66,7 +67,7 @@ class ModuleImage extends Module {
 	/**
 	 * Получает текст последней ошибки
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	public function GetLastError() {
 		return $this->sLastErrorText;
@@ -74,7 +75,7 @@ class ModuleImage extends Module {
 	/**
 	 * Устанавливает текст последней ошибки
 	 *
-	 * @param unknown_type $sText
+	 * @param string $sText	Текст ошибки
 	 */
 	public function SetLastError($sText) {
 		$this->sLastErrorText=$sText;
@@ -87,36 +88,45 @@ class ModuleImage extends Module {
 		$this->sLastErrorText=null;
 	}
 	/**
-	 * Merge default and named params for images
+	 * Возврашает параметры для группы, если каких то параметров в группе нет, то используются дефолтные
 	 *
-	 * @param  string $sName
+	 * @param  string $sName	Имя группы
 	 * @return array
 	 */
 	public function BuildParams($sName=null) {
 		if(is_null($sName)) {
 			return Config::Get('module.image.default');
 		}
-		
+
 		$aDefault = (array)Config::Get('module.image.default');
 		$aNamed   = (array)Config::Get('module.image.'.strtolower($sName));
-		
+
 		return func_array_merge_assoc($aDefault,$aNamed);
 	}
 	/**
-	 * Resize,copy image, 
+	 * Возвращает объект изображения
+	 *
+	 * @param $sFile	Путь до изображения
+	 * @return LiveImage
+	 */
+	public function CreateImageObject($sFile) {
+		return new LiveImage($sFile);
+	}
+	/**
+	 * Resize,copy image,
 	 * make rounded corners and add watermark
 	 *
-	 * @param  string $sFileSrc
-	 * @param  string $sDirDest
-	 * @param  string $sFileDest
-	 * @param  int    $iWidthMax
-	 * @param  int    $iHeightMax
-	 * @param  int    $iWidthDest
-	 * @param  int    $iHeightDest
-	 * @param  bool   $bForcedMinSize
-	 * @param  array  $aParams
-	 * @param  object $oImage
-	 * @return string
+	 * @param  string $sFileSrc	Исходный файл изображения
+	 * @param  string $sDirDest	Директория куда нужно сохранить изображение относительно корня сайта (path.root.server)
+	 * @param  string $sFileDest	Имя файла для сохранения, без расширения
+	 * @param  int    $iWidthMax	Максимально допустимая ширина изображения
+	 * @param  int    $iHeightMax	Максимало допустимая высота изображения
+	 * @param  int|null    $iWidthDest	Ширина необходимого изображения на выходе
+	 * @param  int|null    $iHeightDest	Высота необходимого изображения на выходе
+	 * @param  bool   $bForcedMinSize	Растягивать изображение по ширине или нет, если исходное меньше. При false - изображение будет растянуто
+	 * @param  array|null  $aParams		Параметры
+	 * @param  LiveImage|null $oImage	Объект изображения, если null то будет содано автоматически
+	 * @return string|bool	Полный серверный путь до сохраненного изображения
 	 */
 	public function Resize($sFileSrc,$sDirDest,$sFileDest,$iWidthMax,$iHeightMax,$iWidthDest=null,$iHeightDest=null,$bForcedMinSize=true,$aParams=null,$oImage=null) {
 		$this->ClearLastError();
@@ -127,22 +137,22 @@ class ModuleImage extends Module {
 			$aParams=$this->aParamsDefault;
 		}
 		/**
-		 * Если объект не передан как параметр, 
+		 * Если объект не передан как параметр,
 		 * создаем новый
 		 */
-		if(!$oImage) $oImage=new LiveImage($sFileSrc);
-		
+		if(!$oImage) $oImage=$this->CreateImageObject($sFileSrc);
+
 		if($oImage->get_last_error()){
 			$this->SetLastError($oImage->get_last_error());
 			return false;
 		}
 
 		$sFileDest.='.'.$oImage->get_image_params('format');
-		if (($oImage->get_image_params('width')>$iWidthMax) 
+		if (($oImage->get_image_params('width')>$iWidthMax)
 			or ($oImage->get_image_params('height')>$iHeightMax)) {
-				return false;
+			return false;
 		}
-			
+
 		if ($iWidthDest) {
 			if ($bForcedMinSize and ($iWidthDest>$oImage->get_image_params('width'))) {
 				$iWidthDest=$oImage->get_image_params('width');
@@ -153,7 +163,7 @@ class ModuleImage extends Module {
 			 * Если нужно добавить Watermark, то запрещаем ручное управление alfa-каналом
 			 */
 			$oImage->resize($iWidthDest,$iHeightDest,(!$iHeightDest),(!$aParams['watermark_use']));
-			
+
 			/**
 			 * Добавляем watermark согласно в конфигурации заданым параметрам
 			 */
@@ -209,7 +219,7 @@ class ModuleImage extends Module {
 	/**
 	 * Вырезает максимально возможный квадрат
 	 *
-	 * @param  LiveImage $oImage
+	 * @param  LiveImage $oImage	Объект изображения
 	 * @return LiveImage
 	 */
 	public function CropSquare(LiveImage $oImage,$bCenter=true) {
@@ -222,15 +232,15 @@ class ModuleImage extends Module {
 		 * Если высота и ширина совпадают, то возвращаем изначальный вариант
 		 */
 		if($iWidth==$iHeight){ return $oImage; }
-		
+
 		/**
 		 * Вырезаем квадрат из центра
 		 */
 		$iNewSize = min($iWidth,$iHeight);
-		
-		if ($bCenter) {		
+
+		if ($bCenter) {
 			$oImage->crop($iNewSize,$iNewSize,($iWidth-$iNewSize)/2,($iHeight-$iNewSize)/2);
-		} else {			
+		} else {
 			$oImage->crop($iNewSize,$iNewSize,0,0);
 		}
 		/**
@@ -238,18 +248,17 @@ class ModuleImage extends Module {
 		 */
 		return $oImage;
 	}
-	
 	/**
 	 * Вырезает максимально возможный прямоугольный в нужной пропорции
 	 *
-	 * @param LiveImage $oImage
-	 * @param int $iW
-	 * @param int $iH
-	 * @param bool $bCenter
-	 * @return unknown
+	 * @param LiveImage $oImage	Объект изображения
+	 * @param int $iW	Ширина для определения пропорции
+	 * @param int $iH	Высота для определения пропорции
+	 * @param bool $bCenter	Вырезать из центра
+	 * @return LiveImage
 	 */
 	public function CropProportion(LiveImage $oImage,$iW,$iH,$bCenter=true) {
-		
+
 		if(!$oImage || $oImage->get_last_error()) {
 			return false;
 		}
@@ -260,21 +269,21 @@ class ModuleImage extends Module {
 		 */
 		$iProp=round($iW/$iH, 2);
 		if(round($iWidth/$iHeight, 2)==$iProp){ return $oImage; }
-		
+
 		/**
 		 * Вырезаем прямоугольник из центра
-		 */		
+		 */
 		if (round($iWidth/$iHeight, 2)<=$iProp) {
 			$iNewWidth=$iWidth;
 			$iNewHeight=round($iNewWidth/$iProp);
-		} else {			
+		} else {
 			$iNewHeight=$iHeight;
 			$iNewWidth=$iNewHeight*$iProp;
 		}
-		
-		if ($bCenter) {		
+
+		if ($bCenter) {
 			$oImage->crop($iNewWidth,$iNewHeight,($iWidth-$iNewWidth)/2,($iHeight-$iNewHeight)/2);
-		} else {			
+		} else {
 			$oImage->crop($iNewWidth,$iNewHeight,0,0);
 		}
 		/**
@@ -283,19 +292,19 @@ class ModuleImage extends Module {
 		return $oImage;
 	}
 	/**
-	 * Сохраняет(копирует) файл изображения
+	 * Сохраняет(копирует) файл изображения на сервер
+	 * Если переопределить данный метод, то можно сохранять изображения, например, на Amazon S3
 	 *
-	 * @param $sFileSource	Полный путь до исходного файла
-	 * @param $sDirDest	Каталог для сохранения файла относительно корня сайта
-	 * @param $sFileDest
-	 * @param null $iMode
-	 * @param bool $bRemoveSource
+	 * @param string $sFileSource	Полный путь до исходного файла
+	 * @param string $sDirDest	Каталог для сохранения файла относительно корня сайта
+	 * @param string $sFileDest	Имя файла для сохранения
+	 * @param int|null $iMode	Права chmod для файла, например, 0777
+	 * @param bool $bRemoveSource	Удалять исходный файл или нет
 	 * @return bool | string
 	 */
 	public function SaveFile($sFileSource,$sDirDest,$sFileDest,$iMode=null,$bRemoveSource=false) {
 		$sFileDestFullPath=rtrim(Config::Get('path.root.server'),"/").'/'.trim($sDirDest,"/").'/'.$sFileDest;
 		$this->CreateDirectory($sDirDest);
-
 
 		$bResult=copy($sFileSource,$sFileDestFullPath);
 		if ($bResult and !is_null($iMode)) {
@@ -315,7 +324,7 @@ class ModuleImage extends Module {
 	/**
 	 * Удаление файла изображения
 	 *
-	 * @param $sFile
+	 * @param string $sFile	Полный серверный путь до файла
 	 * @return bool
 	 */
 	public function RemoveFile($sFile) {
@@ -327,20 +336,20 @@ class ModuleImage extends Module {
 	/**
 	 * Создает каталог по указанному адресу (с учетом иерархии)
 	 *
-	 * @param string $sDirDest
+	 * @param string $sDirDest	Каталог относительно корня сайта
 	 */
 	public function CreateDirectory($sDirDest) {
-		@func_mkdir(Config::Get('path.root.server'),$sDirDest);		
+		@func_mkdir(Config::Get('path.root.server'),$sDirDest);
 	}
 	/**
 	 * Возвращает серверный адрес по переданному web-адресу
 	 *
-	 * @param  string $sPath
+	 * @param  string $sPath	WEB адрес изображения
 	 * @return string
 	 */
 	public function GetServerPath($sPath) {
 		/**
-		 * Определяем, принадлежит ли этот адрес основному домену 
+		 * Определяем, принадлежит ли этот адрес основному домену
 		 */
 		if(parse_url($sPath,PHP_URL_HOST)!=parse_url(Config::Get('path.root.web'),PHP_URL_HOST)) {
 			return $sPath;
@@ -355,9 +364,9 @@ class ModuleImage extends Module {
 		return rtrim(Config::Get('path.root.server'),'/').'/'.$sPath;
 	}
 	/**
-	 * Возвращает серверный адрес по переданному web-адресу
+	 * Возвращает WEB адрес по переданному серверному адресу
 	 *
-	 * @param  string $sPath
+	 * @param  string $sPath	Серверный адрес(путь) изображения
 	 * @return string
 	 */
 	public function GetWebPath($sPath) {
@@ -368,21 +377,21 @@ class ModuleImage extends Module {
 	/**
 	 * Получает директорию для данного пользователя
 	 * Используется фомат хранения данных (/images/us/er/id/yyyy/mm/dd/file.jpg)
-	 * 
-	 * @param  string $sUserId
+	 *
+	 * @param  int $sId	Целое число, обычно это ID пользователя
 	 * @return string
 	 */
-	public function GetIdDir($sUserId) {
-		return Config::Get('path.uploads.images').'/'.preg_replace('~(.{2})~U', "\\1/", str_pad($sUserId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
+	public function GetIdDir($sId) {
+		return Config::Get('path.uploads.images').'/'.preg_replace('~(.{2})~U', "\\1/", str_pad($sId, 6, "0", STR_PAD_LEFT)).date('Y/m/d');
 	}
 	/**
 	 * Возвращает валидный Html код тега <img>
 	 *
-	 * @param  string $sPath
-	 * @param  array $aParams
+	 * @param  string $sPath	WEB адрес изображения
+	 * @param  array $aParams	Параметры
 	 * @return string
 	 */
-	public function BuildHTML($sPath,$aParams) {		
+	public function BuildHTML($sPath,$aParams) {
 		$sText='<img src="'.$sPath.'" ';
 		if (isset($aParams['title']) and $aParams['title']!='') {
 			$sText.=' title="'.htmlspecialchars($aParams['title']).'" ';
@@ -402,14 +411,8 @@ class ModuleImage extends Module {
 			? ' alt="'.htmlspecialchars($aParams['alt']).'"'
 			: ' alt=""';
 		$sText.=$sAlt.' />';
-		
+
 		return $sText;
-	}
-	
-	/**
-	 * Завершение работы модуля
-	 */
-	public function Shutdown() {
 	}
 }
 ?>

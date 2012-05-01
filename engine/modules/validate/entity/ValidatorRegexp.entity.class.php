@@ -25,9 +25,11 @@
 
 /**
  * Валидатор текстовых данных на регулярное выражение
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorRegexp extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Проверяющее регулярное выражение
 	 *
@@ -47,12 +49,10 @@ class ModuleValidate_EntityValidatorRegexp extends ModuleValidate_EntityValidato
 	 */
 	public $allowEmpty=true;
 
-
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

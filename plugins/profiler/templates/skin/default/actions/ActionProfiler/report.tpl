@@ -9,7 +9,7 @@
 
 
 
-<h2>{$aLang.profiler_reports_title}</h2>
+<h2>{$aLang.plugin.profiler.reports_title}</h2>
 
 <form action="{router page='profiler'}" method="post" id="form_report_list">
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
@@ -19,9 +19,9 @@
 			<tr>
 				<td width="20px"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_reports_checkbox', this, true);"></td>
 				<td></td>
-				<td>{$aLang.profiler_table_date}</td>
-				<td align="center">{$aLang.profiler_table_time_full}</td>
-				<td align="center">{$aLang.profiler_table_count_id}</td>
+				<td>{$aLang.plugin.profiler.table_date}</td>
+				<td align="center">{$aLang.plugin.profiler.table_time_full}</td>
+				<td align="center">{$aLang.plugin.profiler.table_count_id}</td>
 			</tr>
 		</thead>
 		
@@ -38,7 +38,7 @@
 		</tbody>
 	</table>
 
-	<input type="submit" name="submit_report_delete" value="{$aLang.profiler_report_delete}" onclick="return (jQuery('.form_reports_checkbox').length==0)?false:confirm('{$aLang.profiler_report_delete_confirm}');">
+	<input type="submit" name="submit_report_delete" value="{$aLang.plugin.profiler.report_delete}" onclick="return (jQuery('.form_reports_checkbox').length==0)?false:confirm('{$aLang.plugin.profiler.report_delete_confirm}');">
 </form>
 
 				

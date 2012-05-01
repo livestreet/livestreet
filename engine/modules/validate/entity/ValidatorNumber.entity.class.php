@@ -25,9 +25,11 @@
 
 /**
  * Валидатор числовых значений
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorNumber extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Допускать только целое число
 	 *
@@ -77,11 +79,10 @@ class ModuleValidate_EntityValidatorNumber extends ModuleValidate_EntityValidato
 	 */
 	public $numberPattern='/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/';
 
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */

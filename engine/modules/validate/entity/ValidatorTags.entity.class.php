@@ -17,9 +17,11 @@
 
 /**
  * Валидатор тегов - строка с перечислением тегов
+ *
+ * @package engine.modules.validate
+ * @since 1.0
  */
 class ModuleValidate_EntityValidatorTags extends ModuleValidate_EntityValidator {
-
 	/**
 	 * Максимальня длина тега
 	 *
@@ -51,12 +53,10 @@ class ModuleValidate_EntityValidatorTags extends ModuleValidate_EntityValidator 
 	 */
 	public $allowEmpty=false;
 
-
-
 	/**
 	 * Запуск валидации
 	 *
-	 * @param $sValue	Данные для валидации
+	 * @param mixed $sValue	Данные для валидации
 	 *
 	 * @return bool|string
 	 */
