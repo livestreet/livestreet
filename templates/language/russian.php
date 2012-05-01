@@ -42,6 +42,11 @@ return array(
 	'blog_expand_info' => 'Подробнее &darr;',
 	'blog_fold_info' => 'Свернуть &uarr;',
 	/**
+	 * Declensions
+	 */
+	'reader_declension' => 'читатель;читателя;читателей',
+	'topic_declension' => 'топик;топика;топиков',
+	/**
 	 * Популярные блоги
 	 */
 	'blog_popular' => 'Популярные блоги',

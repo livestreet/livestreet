@@ -61,6 +61,7 @@
 .topic .poll .poll-result li.most dl dd div { background: #60CC4E; }
 
 .topic .poll .poll-total { color: #aaa; margin-left: 10px; }
+.topic .poll .button.button-icon.active { background: #43bb34; }
 
 /* Topic Photo */
 .topic.topic-type-photoset {  }

@@ -12,7 +12,7 @@
 				{if $oTopic->getCutText()}
 					{$oTopic->getCutText()}
 				{else}
-					{$aLang.topic_read_more}
+					{$aLang.topic_read_more} &rarr;
 				{/if}
 			</a>
 		{/if}

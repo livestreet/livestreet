@@ -192,6 +192,17 @@
 
 .icon-synio-tags					{ width: 15px; height: 11px; background-position: -26px -37px; }
 
+.icon-synio-actions-edit			{ width: 16px; height: 16px; background-position: -115px -23px; }
+.icon-synio-actions-delete			{ width: 16px; height: 16px; background-position: -131px -23px; }
+.icon-synio-actions-draft			{ width: 16px; height: 16px; background-position: -115px -39px; }
+
+.icon-synio-topic-private			{ width: 23px; height: 23px; background-position: -230px 0; }
+.icon-synio-topic-draft				{ width: 23px; height: 23px; background-position: -253px 0; }
+.icon-synio-topic-link				{ width: 23px; height: 23px; background-position: -276px 0; }
+
+.icon-synio-close					{ width: 16px; height: 16px; background-position: -131px -39px; }
+.icon-synio-link					{ width: 11px; height: 11px; background-position: -11px -65px; }
+
 
 
 

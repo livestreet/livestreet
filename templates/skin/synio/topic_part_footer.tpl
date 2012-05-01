@@ -33,9 +33,11 @@
 		
 		
 		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
-			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-			{/hookb}
+			<div class="topic-share-inner">
+				{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+					<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+				{/hookb}
+			</div>
 		</div>
 
 
@@ -69,13 +71,17 @@
 				</li>
 			{/if}
 			
-			<li id="vote_area_topic_{$oTopic->getId()}" class="vote 
+			{*<li id="vote_area_topic_{$oTopic->getId()}" class="vote 
 																{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 																	{if $oTopic->getRating() > 0}
 																		vote-count-positive
 																	{elseif $oTopic->getRating() < 0}
 																		vote-count-negative
 																	{/if}
+																{/if}
+																
+																{if (strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time') && !$oVote) || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}
+																	vote-nobuttons
 																{/if}
 																
 																{if $oVote} 
@@ -108,7 +114,7 @@
 						&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
 					</div>
 				{/if}
-			</li>
+			</li>*}
 			
 			{hook run='topic_show_info' topic=$oTopic}
 		</ul>

@@ -56,11 +56,11 @@ ls.poll = (function ($) {
 		if ($('#poll-result-sort-'+iTopicId).css('display') == 'none') {
 			$('#poll-result-original-'+iTopicId).hide();
 			$('#poll-result-sort-'+iTopicId).show();
-			$(obj).toggleClass('button-primary');
+			$(obj).toggleClass('active');
 		} else {
 			$('#poll-result-sort-'+iTopicId).hide();
 			$('#poll-result-original-'+iTopicId).show();
-			$(obj).toggleClass('button-primary');
+			$(obj).toggleClass('active');
 		}
 		return false;
 	};

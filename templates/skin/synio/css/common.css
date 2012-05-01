@@ -36,11 +36,15 @@
 ---------------------------------------------------- */
 .pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; }
 .pagination ul li 				{ float: left; margin-right: 5px; }
+.pagination ul li span			{ color: #aaa; }
 .pagination ul li span,
-.pagination ul li a 			{ float: left; padding: 7px 10px; background: #eee; color: #333; }
-.pagination ul li a:hover 		{ background: #ddd; }
-.pagination ul li.active span 	{ color: #bbb; background: #fafafa; }
+.pagination ul li a 			{ float: left; padding: 4px 6px;}
+.pagination ul li a:hover 		{  }
+.pagination ul li.active span 	{ color: #333; border: 1px solid #eee; border-radius: 4px; }
 .pagination ul li i 			{ opacity: .5; filter: alpha(opacity=50); }
+.pagination ul li.prev span,
+.pagination ul li.prev a		{ padding-left: 0; }
+.pagination ul li.next			{ margin-right: 50px; }
 
 
 

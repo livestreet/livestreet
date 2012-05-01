@@ -42,6 +42,11 @@ return array(
 	'blog_expand_info' => 'More &darr;',
 	'blog_fold_info' => 'Fold &uarr;',
 	/**
+	 * Declensions
+	 */
+	'reader_declension' => 'reader;readers;readers',
+	'topic_declension' => 'topic;topics;topics',
+	/**
 	 * Popular Blogs
 	 */
 	'blog_popular' => 'Popular Blogs',
