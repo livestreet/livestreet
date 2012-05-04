@@ -170,12 +170,12 @@ ls.comments = (function ($) {
 	this.inject = function(idCommentParent, idComment, sHtml) {
 		var newComment = $('<div>', {'class': 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);
 		if (idCommentParent) {
-		        var countTree = $('#comment_wrapper_id_'+idCommentParent).parentsUntil('#comments').length;
-		        
-		        if(countTree == MAX_TREE) {
-		            var prevCommentParent = $('#comment_wrapper_id_'+idCommentParent).parent();
-		            idCommentParent = parseInt(prevCommentParent.attr('id').replace('comment_wrapper_id_',''));
-		        }
+			var countTree = $('#comment_wrapper_id_'+idCommentParent).parentsUntil('#comments').length;
+			
+			if(countTree == MAX_TREE) {
+			    var prevCommentParent = $('#comment_wrapper_id_'+idCommentParent).parent();
+			    idCommentParent = parseInt(prevCommentParent.attr('id').replace('comment_wrapper_id_',''));
+			}
 			
 			$('#comment_wrapper_id_'+idCommentParent).append(newComment);
 		} else {
