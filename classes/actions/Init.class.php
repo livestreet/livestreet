@@ -23,7 +23,7 @@
  * @package actions
  * @since 1.0
  */
-class Init {
+class InitAction {
 	/**
 	 * Объект ядра
 	 *
