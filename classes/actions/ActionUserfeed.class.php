@@ -18,12 +18,14 @@
 /**
  * Обрабатывает пользовательские ленты контента
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionUserfeed extends Action {
 	/**
 	 * Текущий пользователь
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent;
 
@@ -43,7 +45,6 @@ class ActionUserfeed extends Action {
 
 		$this->Viewer_Assign('sMenuItemSelect', 'feed');
 	}
-
 	/**
 	 * Регистрация евентов
 	 *
@@ -55,7 +56,6 @@ class ActionUserfeed extends Action {
 		$this->AddEvent('unsubscribe', 'EventUnSubscribe');
 		$this->AddEvent('get_more', 'EventGetMore');
 	}
-
 	/**
 	 * Выводит ленту контента(топики) для пользователя
 	 *
@@ -76,12 +76,14 @@ class ActionUserfeed extends Action {
 		}
 		$this->SetTemplateAction('list');
 	}
-
 	/**
 	 * Подгрузка ленты топиков (замена постраничности)
 	 *
 	 */
 	protected function EventGetMore() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Проверяем последний просмотренный ID топика
@@ -107,12 +109,14 @@ class ActionUserfeed extends Action {
 			$this->Viewer_AssignAjax('iUserfeedLastId', end($aTopics)->getId());
 		}
 	}
-
 	/**
 	 * Подписка на контент блога или пользователя
 	 *
 	 */
 	protected function EventSubscribe() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Проверяем наличие ID блога или пользователя
@@ -160,12 +164,14 @@ class ActionUserfeed extends Action {
 		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-
 	/**
 	 * Подписка на пользвователя по логину
 	 *
 	 */
 	protected function EventSubscribeByLogin() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Передан ли логин
@@ -204,12 +210,14 @@ class ActionUserfeed extends Action {
 		$this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-
 	/**
 	 * Отписка от блога или пользователя
 	 *
 	 */
 	protected function EventUnsubscribe() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!getRequest('id')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -237,5 +245,4 @@ class ActionUserfeed extends Action {
 		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-		
 }

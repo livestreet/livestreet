@@ -16,33 +16,34 @@
 */
 
 /**
- * Обрабатывает настройки профила юзера
+ * Экшен обрабтки настроек профиля юзера (/settings/)
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionSettings extends Action {
 	/**
 	 * Какое меню активно
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='settings';
 	/**
 	 * Какое подменю активно
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='profile';
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
 	 *
-	 * @return unknown
 	 */
 	public function Init() {
 		/**
@@ -57,9 +58,14 @@ class ActionSettings extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('profile');
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));
 	}
-
+	/**
+	 * Регистрация евентов
+	 */
 	protected function RegisterEvent() {
 		$this->AddEventPreg('/^profile$/i','/^upload-avatar/i','/^$/i','EventUploadAvatar');
 		$this->AddEventPreg('/^profile$/i','/^resize-avatar/i','/^$/i','EventResizeAvatar');
@@ -82,9 +88,12 @@ class ActionSettings extends Action {
 	 */
 
 	/**
-	 * Загрузка временной картинки для фото
+	 * Загрузка временной картинки фото для последущего ресайза
 	 */
 	protected function EventUploadFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['foto']['tmp_name'])) {
@@ -102,9 +111,11 @@ class ActionSettings extends Action {
 		 * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
 		 */
 		$sDir=Config::Get('path.uploads.images')."/tmp/fotos/{$this->oUserCurrent->getId()}";
-
 		if ($sFile=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),1000,null,true)) {
 			if ($sFilePreview=$this->Image_Resize($sFileTmp,$sDir,'preview',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
+				/**
+				 * Сохраняем в сессии временный файл с изображением
+				 */
 				$this->Session_Set('sFotoFileTmp',$sFile);
 				$this->Session_Set('sFotoFilePreviewTmp',$sFilePreview);
 				$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFilePreview));
@@ -115,13 +126,17 @@ class ActionSettings extends Action {
 		$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
 		unlink($sFileTmp);
 	}
-
 	/**
 	 * Вырезает из временной фотки область нужного размера, ту что задал пользователь
 	 */
 	protected function EventResizeFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Достаем из сессии временный файл
+		 */
 		$sFile=$this->Session_Get('sFotoFileTmp');
 		$sFilePreview=$this->Session_Get('sFotoFilePreviewTmp');
 		if (!file_exists($sFile)) {
@@ -157,7 +172,9 @@ class ActionSettings extends Action {
 			$this->User_Update($this->oUserCurrent);
 
 			$this->Image_RemoveFile($sFilePreview);
-
+			/**
+			 * Удаляем из сессии
+			 */
 			$this->Session_Drop('sFotoFileTmp');
 			$this->Session_Drop('sFotoFilePreviewTmp');
 			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFoto());
@@ -166,14 +183,17 @@ class ActionSettings extends Action {
 			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
 		}
 	}
-
-
 	/**
 	 * Удаляет фото
 	 */
 	protected function EventRemoveFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Удаляем
+		 */
 		$this->User_DeleteFoto($this->oUserCurrent);
 		$this->oUserCurrent->setProfileFoto(null);
 		$this->User_Update($this->oUserCurrent);
@@ -183,11 +203,13 @@ class ActionSettings extends Action {
 		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFotoDefault());
 		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_photo_upload'));
 	}
-
 	/**
 	 * Отмена ресайза фотки, необходимо удалить временный файл
 	 */
 	protected function EventCancelFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Достаем из сессии файл и удаляем
@@ -197,15 +219,19 @@ class ActionSettings extends Action {
 
 		$sFile=$this->Session_Get('sFotoFilePreviewTmp');
 		$this->Image_RemoveFile($sFile);
-
+		/**
+		 * Удаляем из сессии
+		 */
 		$this->Session_Drop('sFotoFileTmp');
 		$this->Session_Drop('sFotoFilePreviewTmp');
 	}
-	
 	/**
 	 * Загрузка временной картинки для аватара
 	 */
 	protected function EventUploadAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['avatar']['tmp_name'])) {
@@ -219,10 +245,13 @@ class ActionSettings extends Action {
 			return false;
 		}
 		/**
-		 * Ресайзим и сохраняем именьшенную копию
+		 * Ресайзим и сохраняем уменьшенную копию
 		 */
 		$sDir=Config::Get('path.uploads.images')."/tmp/avatars/{$this->oUserCurrent->getId()}";
 		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
+			/**
+			 * Зписываем в сессию
+			 */
 			$this->Session_Set('sAvatarFileTmp',$sFileAvatar);
 			$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFileAvatar));
 		} else {
@@ -230,13 +259,17 @@ class ActionSettings extends Action {
 		}
 		unlink($sFileTmp);
 	}
-
 	/**
 	 * Вырезает из временной аватарки область нужного размера, ту что задал пользователь
 	 */
 	protected function EventResizeAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Получаем файл из сессии
+		 */
 		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
 		if (!file_exists($sFileAvatar)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -270,13 +303,17 @@ class ActionSettings extends Action {
 			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
 		}
 	}
-
 	/**
 	 * Удаляет аватар
 	 */
 	protected function EventRemoveAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
+		/**
+		 * Удаляем
+		 */
 		$this->User_DeleteAvatar($this->oUserCurrent);
 		$this->oUserCurrent->setProfileAvatar(null);
 		$this->User_Update($this->oUserCurrent);
@@ -286,11 +323,13 @@ class ActionSettings extends Action {
 		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
 		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
 	}
-
 	/**
 	 * Отмена ресайза аватарки, необходимо удалить временный файл
 	 */
 	protected function EventCancelAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Достаем из сессии файл и удаляем
@@ -299,13 +338,17 @@ class ActionSettings extends Action {
 		$this->Image_RemoveFile($sFileAvatar);
 		$this->Session_Drop('sAvatarFileTmp');
 	}
-
+	/**
+	 * Дополнительные настройки сайта
+	 */
 	protected function EventTuning() {
 		$this->sMenuItemSelect='settings';
 		$this->sMenuSubItemSelect='tuning';
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
-
+		/**
+		 * Если отправили форму с настройками - сохраняем
+		 */
 		if (isPost('submit_settings_tuning')) {
 			$this->Security_ValidateSendForm();
 
@@ -322,13 +365,14 @@ class ActionSettings extends Action {
 			}
 		}
 	}
-
 	/**
 	 * Показ и обработка формы приглаешний
 	 *
-	 * @return unknown
 	 */
 	protected function EventInvite() {
+		/**
+		 * Только при активном режиме инвайтов
+		 */
 		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
@@ -336,19 +380,30 @@ class ActionSettings extends Action {
 		$this->sMenuItemSelect='invite';
 		$this->sMenuSubItemSelect='';
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));
-
+		/**
+		 * Если отправили форму
+		 */
 		if (isPost('submit_invite')) {
 			$this->Security_ValidateSendForm();
 
 			$bError=false;
+			/**
+			 * Есть права на отправку инфайтов?
+			 */
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));
 				$bError=true;
 			}
+			/**
+			 * Емайл корректен?
+			 */
 			if (!func_check(getRequest('invite_mail'),'mail')) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
+			/**
+			 * Если нет ошибок, то отправляем инвайт
+			 */
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
@@ -359,14 +414,15 @@ class ActionSettings extends Action {
 		$this->Viewer_Assign('iCountInviteAvailable',$this->User_GetCountInviteAvailable($this->oUserCurrent));
 		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
 	}
-
 	/**
 	 * Форма смены пароля, емайла
 	 */
 	protected function EventAccount() {
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
 		$this->sMenuSubItemSelect='account';
-
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
@@ -430,6 +486,9 @@ class ActionSettings extends Action {
 	 *
 	 */
 	protected function EventProfile() {
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
 		$this->Viewer_Assign('aUserFields',$this->User_getUserFields(''));
 		$this->Viewer_Assign('aUserFieldsContact',$this->User_getUserFields(array('contact','social')));
@@ -447,8 +506,8 @@ class ActionSettings extends Action {
 
 			$bError=false;
 			/**
-		 	* Заполняем профиль из полей формы
-		 	*/
+			 * Заполняем профиль из полей формы
+			 */
 			/**
 			 * Определяем гео-объект
 			 */
@@ -499,7 +558,7 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
 			 * Сохраняем изменения профиля
-		 	*/
+			 */
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					/**
@@ -560,7 +619,7 @@ class ActionSettings extends Action {
 						}
 					}
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
-                } else {
+				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
 			}
@@ -587,7 +646,6 @@ class ActionSettings extends Action {
 		}
 
 	}
-
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
@@ -607,7 +665,7 @@ class ActionSettings extends Action {
 		$this->Viewer_Assign('iCountCreated',$iCountNoteUser+$iCountTopicUser+$iCountCommentUser);
 		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
-		
+
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */

@@ -16,33 +16,38 @@
 */
 
 /**
- * Обрабатывает поиск по тегам
+ * Экшен обработки поиска по тегам
  *
+ * @package actions
+ * @since 1.0
  */
-class ActionTag extends Action {	
+class ActionTag extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
+
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {
 	}
-	
-	protected function RegisterEvent() {	
-		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTags');					
+	/**
+	 * Регистрация евентов
+	 */
+	protected function RegisterEvent() {
+		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTags');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
 	/**
 	 * Отображение топиков
 	 *
@@ -55,19 +60,19 @@ class ActionTag extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;		
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
 		/**
 		 * Получаем список топиков
-		 */				
+		 */
 		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));
-		$aTopics=$aResult['collection'];	
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
-		 */		
+		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('tag').htmlspecialchars($sTag));
 		/**
 		 * Загружаем переменные в шаблон
-		 */				
+		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('sTag',$sTag);
@@ -77,14 +82,13 @@ class ActionTag extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('index');		
-	}	
-	
+		$this->SetTemplateAction('index');
+	}
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {		
+	public function EventShutdown() {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */
