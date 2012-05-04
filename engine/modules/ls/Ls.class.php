@@ -53,6 +53,7 @@ class ModuleLs extends Module {
 	 * @return bool
 	 */
 	public function SenderRun() {
+		$this->CheckVerificationKey();
 		if (!Config::Get('module.ls.send_general')) {
 			return false;
 		}
@@ -67,6 +68,20 @@ class ModuleLs extends Module {
 		 * Отправка данных
 		 */
 		$this->SendToLs();
+	}
+	/**
+	 * Проверка ключа, в ответ браузеру выдается только сообщение "ok" или "no"
+	 */
+	public function CheckVerificationKey() {
+		if (Router::GetAction()=='error' and isset($_GET['livestreet_check_verification_key'])) {
+			$sKey=trim((string)Config::Get('module.ls.verification_key'));
+			if ($sKey and $_GET['livestreet_check_verification_key']===$sKey) {
+				echo('ok');
+				exit();
+			}
+			echo('no');
+			exit();
+		}
 	}
 	/**
 	 * Вставка счетчика GA с учетом его возможного повторного использования
@@ -222,6 +237,10 @@ class ModuleLs extends Module {
 		 * Домен
 		 */
 		$aData['domain']=Config::Get('path.root.web');
+		/**
+		 * Ключ верификации (подтверждения прав на сайт)
+		 */
+		$aData['key']=(string)Config::Get('module.ls.verification_key');
 
 		return $aData;
 	}
