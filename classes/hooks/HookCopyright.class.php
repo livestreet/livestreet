@@ -18,12 +18,21 @@
 /**
  * Регистрация хука для вывода ссылки копирайта
  *
+ * @package hooks
+ * @since 1.0
  */
 class HookCopyright extends Hook {
+	/**
+	 * Регистрируем хуки
+	 */
 	public function RegisterHook() {
 		$this->AddHook('template_copyright','CopyrightLink',__CLASS__,-100);
 	}
-
+	/**
+	 * Обработка хука копирайта
+	 *
+	 * @return string
+	 */
 	public function CopyrightLink() {
 		/**
 		 * Выводим везде, кроме страницы списка блогов и списка всех комментов

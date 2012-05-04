@@ -18,9 +18,14 @@
 /**
  * Обрабатывает блок облака тегов
  *
+ * @package blocks
+ * @since 1.0
  */
 class BlockTags extends Block {
-	public function Exec() {			
+	/**
+	 * Запуск обработки
+	 */
+	public function Exec() {
 		/**
 		 * Получаем список тегов
 		 */
@@ -31,8 +36,8 @@ class BlockTags extends Block {
 		if ($aTags) {
 			$this->Tools_MakeCloud($aTags);
 			/**
-		 	* Устанавливаем шаблон вывода
-		 	*/
+			 * Устанавливаем шаблон вывода
+			 */
 			$this->Viewer_Assign("aTags",$aTags);
 		}
 		/**
@@ -53,5 +58,4 @@ class BlockTags extends Block {
 		}
 	}
 }
-
 ?>
