@@ -88,6 +88,9 @@ class ActionPersonalBlog extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('personal_blog').$sShowType.'/');
+		}
 		/**
 		 * Получаем список топиков
 		 */
@@ -103,7 +106,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());
 		/**
 		 * Вызов хуков
 		 */

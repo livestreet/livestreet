@@ -104,6 +104,9 @@ class ActionIndex extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('index').'top/');
+		}
 		/**
 		 * Получаем список топиков
 		 */
@@ -148,6 +151,9 @@ class ActionIndex extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('index').'discussed/');
+		}
 		/**
 		 * Получаем список топиков
 		 */
@@ -222,6 +228,12 @@ class ActionIndex extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
+		/**
+		 * Устанавливаем основной URL для поисковиков
+		 */
+		if ($iPage==1) {
+			$this->Viewer_SetHtmlCanonical(Config::Get('path.root.web').'/');
+		}
 		/**
 		 * Получаем список топиков
 		 */

@@ -130,6 +130,12 @@ class ModuleViewer extends Module {
 	 */
 	protected $aHtmlRssAlternate=null;
 	/**
+	 * Указание поисковику основного URL страницы, для борьбы с дублями
+	 *
+	 * @var string
+	 */
+	protected $sHtmlCanonical;
+	/**
 	 * Html код для подключения js,css
 	 *
 	 * @var array
@@ -277,6 +283,7 @@ class ModuleViewer extends Module {
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
 		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
+		$this->Assign("sHtmlCanonical",$this->sHtmlCanonical);
 		/**
 		 * Загружаем список активных плагинов
 		 */
@@ -1276,6 +1283,17 @@ class ModuleViewer extends Module {
 		$this->sHtmlDescription=$sText;
 	}
 	/**
+	 * Устанавливает основной адрес страницы
+	 *
+	 * @param string $sUrl	URL страницы
+	 * @param bool $bRewrite	Перезаписывать URL, если он уже установлен
+	 */
+	public function SetHtmlCanonical($sUrl,$bRewrite=false) {
+		if (!$this->sHtmlCanonical or $bRewrite) {
+			$this->sHtmlCanonical=$sUrl;
+		}
+	}
+	/**
 	 * Устанавливает альтернативный адрес страницы по RSS
 	 *
 	 * @param string $sUrl	URL
@@ -1339,6 +1357,12 @@ class ModuleViewer extends Module {
 			'sBaseUrl' => rtrim($sBaseUrl,'/'),
 			'sGetParams' => $sGetParams,
 		);
+		/**
+		 * Избавляемся от дублирования страниц с page=1
+		 */
+		if ($aPaging['iCurrentPage']==1) {
+			$this->SetHtmlCanonical($aPaging['sBaseUrl'].'/'.$aPaging['sGetParams']);
+		}
 		return $aPaging;
 	}
 	/**
