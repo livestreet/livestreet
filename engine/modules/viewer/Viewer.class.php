@@ -16,7 +16,6 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty/libs/Smarty.class.php');
-require_once(Config::Get('path.root.engine').'/modules/viewer/lsSmarty.class.php');
 require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
 require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
 
@@ -205,7 +204,7 @@ class ModuleViewer extends Module {
 		/**
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
-		$this->oSmarty = new lsSmarty();
+		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=E_ALL^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
 		/**
@@ -337,6 +336,14 @@ class ModuleViewer extends Module {
 	 */
 	public function GetSmartyObject() {
 		return $this->oSmarty;
+	}
+	/**
+	 * Создает и возвращает объект Smarty
+	 *
+	 * @return Smarty
+	 */
+	public function CreateSmartyObject() {
+		return new Smarty();
 	}
 	/**
 	 * Ответ на ajax запрос
