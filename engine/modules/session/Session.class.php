@@ -17,28 +17,41 @@
 
 /**
  * Модуль для работы с сессиями
- * Заменяет стандартный механизм сессий(session)
+ * Выступает в качестве врапера для стандартного механизма сессий
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleSession extends Module {
+	/**
+	 * ID  сессии
+	 *
+	 * @var null|string
+	 */
 	protected $sId=null;
-	protected $aData=array();	
+	/**
+	 * Данные сессии
+	 *
+	 * @var array
+	 */
+	protected $aData=array();
 	/**
 	 * Список user-agent'ов для флеш плеера
+	 * Используется для передачи ID сессии при обращениии к сайту через flash, например, загрузка файлов через flash
 	 *
 	 * @var array
 	 */
 	protected $aFlashUserAgent=array(
 		'Shockwave Flash'
 	);
-	
 	/**
 	 * Использовать или нет стандартный механизм сессий
+	 * ВНИМАНИЕ! Не рекомендуется ставить false - т.к. этот режим до конца не протестирован
 	 *
 	 * @var bool
 	 */
-	protected $bUseStandartSession;
-	
+	protected $bUseStandartSession=true;
+
 	/**
 	 * Инициализация модуля
 	 *
@@ -50,14 +63,13 @@ class ModuleSession extends Module {
 		 */
 		$this->Start();
 	}
-
 	/**
 	 * Старт сессии
 	 *
 	 */
 	protected function Start() {
 		if ($this->bUseStandartSession) {
-			session_name(Config::Get('sys.session.name'));			
+			session_name(Config::Get('sys.session.name'));
 			session_set_cookie_params(
 				Config::Get('sys.session.timeout'),
 				Config::Get('sys.session.path'),
@@ -67,21 +79,19 @@ class ModuleSession extends Module {
 				/**
 				 * Даем возможность флешу задавать id сессии
 				 */
-				$sUserAgent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null; 
+				$sUserAgent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
 				if ($sUserAgent and (in_array($sUserAgent,$this->aFlashUserAgent) or strpos($sUserAgent,"Adobe Flash Player")===0) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
 					session_id(getRequest('SSID'));
 				} else {
 					session_regenerate_id();
 				}
+				session_start();
 			}
-			session_start();			
 		} else {
 			$this->SetId();
 			$this->ReadData();
 		}
 	}
-		
-	
 	/**
 	 * Устанавливает уникальный идентификатор сессии
 	 *
@@ -105,11 +115,10 @@ class ModuleSession extends Module {
 			);
 		}
 	}
-	
 	/**
 	 * Получает идентификатор текущей сессии
 	 *
-	 */	
+	 */
 	public function GetId() {
 		if ($this->bUseStandartSession) {
 			return session_id();
@@ -117,24 +126,21 @@ class ModuleSession extends Module {
 			return $this->sId;
 		}
 	}
-	
 	/**
 	 * Гинерирует уникальный идентификатор
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	protected function GenerateId() {
 		return md5(func_generator().time());
 	}
-	
 	/**
-	 * Читает данные сессии
+	 * Читает данные сессии в aData
 	 *
 	 */
 	protected function ReadData() {
 		$this->aData=$this->Cache_Get($this->sId);
 	}
-	
 	/**
 	 * Сохраняет данные сессии
 	 *
@@ -142,12 +148,11 @@ class ModuleSession extends Module {
 	protected function Save() {
 		$this->Cache_Set($this->aData,$this->sId,array(),Config::Get('sys.session.timeout'));
 	}
-	
 	/**
 	 * Получает значение из сессии
 	 *
-	 * @param string $sName
-	 * @return unknown
+	 * @param string $sName	Имя параметра
+	 * @return mixed|null
 	 */
 	public function Get($sName) {
 		if ($this->bUseStandartSession) {
@@ -156,12 +161,11 @@ class ModuleSession extends Module {
 			return isset($this->aData[$sName]) ? $this->aData[$sName] : null;
 		}
 	}
-	
 	/**
 	 * Записывает значение в сессию
 	 *
-	 * @param string $sName
-	 * @param unknown_type $data
+	 * @param string $sName	Имя параметра
+	 * @param mixed $data	Данные
 	 */
 	public function Set($sName,$data) {
 		if ($this->bUseStandartSession) {
@@ -169,13 +173,12 @@ class ModuleSession extends Module {
 		} else {
 			$this->aData[$sName]=$data;
 			$this->Save();
-		}		
+		}
 	}
-	
 	/**
 	 * Удаляет значение из сессии
 	 *
-	 * @param string $sName
+	 * @param string $sName	Имя параметра
 	 */
 	public function Drop($sName) {
 		if ($this->bUseStandartSession) {
@@ -185,7 +188,6 @@ class ModuleSession extends Module {
 			$this->Save();
 		}
 	}
-	
 	/**
 	 * Получает разом все данные сессии
 	 *
@@ -198,7 +200,6 @@ class ModuleSession extends Module {
 			return $this->aData;
 		}
 	}
-	
 	/**
 	 * Завершает сессию, дропая все данные
 	 *

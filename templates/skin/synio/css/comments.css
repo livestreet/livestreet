@@ -1,0 +1,103 @@
+/* --------------------------------------------
+	КОММЕНТАРИИ
+-------------------------------------------- */
+
+/* Блок с комментариями */
+.comments-header { margin-bottom: 20px; position: relative; }
+.comments-header h3 { font-size: 27px; margin-bottom: 5px; }
+.comments-header .subscribe { position: absolute; top: 15px; right: 0; font-size: 11px; color: #7b848d; }
+.comments-header .subscribe input { top: 2px; }
+
+.comments { margin-bottom: 30px; }
+
+.comment-wrapper { position: relative; }
+.comment-wrapper .comment-wrapper { padding-left: 40px; }
+
+.comment-preview { padding: 5px 10px 6px; margin-bottom: 10px; background: #fafafa; border: 1px solid #eee; border-radius: 3px; }
+.comment-preview { font-size: 13px; line-height: 18px; }
+
+
+/* Стили для списка комментариев на странице http://ваш_сайт/comments/ */
+.comments.comment-list .comment { margin-bottom: 15px; }
+.comments.comment-list .comment-path { background: #eee; padding: 5px 10px 6px; border-top: 1px solid #ddd; }
+.comments.comment-list .comment-path .blog-name { color: #777; }
+
+
+/* Комментарий */
+.comment { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 40px; position: relative; }
+.comment .deleted { padding: 5px 10px; color: #777; background: #f4f4f4; }
+.comment .comment-avatar { position: absolute; top: 10px; left: 0; width: 30px; height: 30px; }
+
+
+/* Типы комментариев
+ *
+ * deleted 	- 	удаленный комментарий
+ * self 	- 	ваш комментарий
+ * new 		- 	новый, непрочитанный комментарий
+ * current 	- 	активный комментарий, который выделяется при исползование кнопки обновления в тулбаре
+ *
+ */
+.comment 											{ background: #fff; }
+.comment.comment-deleted 	.comment-content 		{ background: #efd5d5; }
+.comment.comment-self		.comment-content		{ background: #fefef1; border-color: #e6e6bd; }
+.comment.comment-new 		.comment-content		{ background: #fbfba8; }
+.comment.comment-current 	.comment-content		{ background: #a5e7fa; }
+.comment.comment-bad 		.comment-content		{ opacity: 0.3; filter: alpha(opacity=30); }
+.comment.comment-bad:hover 	.comment-content		{ opacity: 1; filter: alpha(opacity=100); }
+
+.ls-user-role-not-admin .comment.comment-deleted 	{ padding: 10px 15px; min-height: 0; background: #f7f7f7; color: #888; }
+
+
+/* Info Block */
+.comment .comment-info { padding: 0 70px 7px 0; line-height: 12px; position: relative; top: -2px; overflow: hidden; zoom: 1; font-size: 11px; }
+.comment .comment-info li { float: left; height: 18px; padding-top: 3px; margin-right: 13px; }
+.comment .comment-info li a {  }
+.comment .comment-info li a.link-dotted 		{ color: #727a90; text-decoration: none; border-bottom: 1px dotted #727a90; }
+.comment .comment-info li a.link-dotted:hover { color: #f00; border-color: #f00; }
+.comment .comment-info li.comment-author a { font-weight: bold; color: #727fa0; }
+.comment .comment-info li.comment-author .comment-topic-author { background: #C9A518; color: #fff; font-size: 11px; border-radius: 3px; padding: 1px 7px; margin-right: 5px; }
+.comment .comment-info li.comment-date { color: #818189; }
+.comment .comment-info li.comment-favourite { position: relative; top: 1px; }
+.comment .comment-info li.comment-link { position: relative; top: 1px; }
+.comment .comment-info li.goto a { color: #a2b6cd; text-decoration: none; }
+.comment .comment-info li .favourite-count { font-size: 10px; color: #a2b6cd; position: relative; top: -2px; }
+
+
+.comment .comment-info li.vote { position: absolute; top: 0; right: 0; margin: 0; }
+.comment .comment-info li.vote .vote-count { float: left; color: #949aa1; font-weight: bold; padding-top: 3px; margin-right: 6px; }
+.comment .comment-info li.vote .vote-down { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -69px -55px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-down:hover { background-position: -69px -75px; }
+.comment .comment-info li.vote .vote-up { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -89px -55px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-up:hover { background-position: -89px -75px; }
+
+.comment .comment-info li.vote.vote-count-positive .vote-count { color: #51983c; }
+.comment .comment-info li.vote.vote-count-negative .vote-count { color: #da4242; }
+
+.comment .comment-info li.vote.voted-up .vote-down 		{ display: none; }
+.comment .comment-info li.vote.voted-up .vote-up 		{ background-position: -89px -95px; }
+.comment .comment-info li.vote.voted-down .vote-down 	{ background-position: -69px -95px; }
+.comment .comment-info li.vote.voted-down .vote-up 		{ display: none; }
+
+.comment .comment-info li.vote.vote-expired .vote-up,
+.comment .comment-info li.vote.vote-expired .vote-down { display: none; }
+
+
+.comment .comment-info li.goto-comment-child { display: none; }
+
+
+/* Content */
+.comment .comment-content { margin-bottom: 10px; border: 1px solid #e7ebed; padding: 4px 10px 5px; border-radius: 3px; }
+.comment .comment-content.text { font-size: 13px; }
+.comment .comment-content.text blockquote { background: #fff; border-color: #ccc; padding: 5px 10px; margin-bottom: 5px; }
+
+
+/* Actions */
+.comment .comment-actions li { display: inline; margin-right: 10px; }
+
+
+/* Форма комментирования */
+.reply-header { font-size: 20px; line-height: 1.3em; margin-bottom: 15px; }
+
+.reply { padding-bottom: 10px; }
+.reply textarea { height: 100px; }
+.reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center;}

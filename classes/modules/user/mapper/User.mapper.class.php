@@ -57,9 +57,6 @@ class ModuleUser_MapperUser extends Mapper {
 				user_profile_region = ? ,
 				user_profile_city = ? ,
 				user_profile_birthday = ? ,
-				user_profile_site = ? ,
-				user_profile_site_name = ? ,
-				user_profile_icq = ? ,
 				user_profile_about = ? ,
 				user_profile_date = ? ,
 				user_profile_avatar = ?	,
@@ -85,9 +82,6 @@ class ModuleUser_MapperUser extends Mapper {
 								   $oUser->getProfileRegion(),
 								   $oUser->getProfileCity(),
 								   $oUser->getProfileBirthday(),
-								   $oUser->getProfileSite(),
-								   $oUser->getProfileSiteName(),
-								   $oUser->getProfileIcq(),
 								   $oUser->getProfileAbout(),
 								   $oUser->getProfileDate(),
 								   $oUser->getProfileAvatar(),
@@ -261,85 +255,26 @@ class ModuleUser_MapperUser extends Mapper {
 		return $aReturn;
 	}
 
-	public function GetUsersRating($sType,&$iCount,$iCurrPage,$iPerPage) {
-		$sql = "SELECT
-			user_id
-			FROM
-				".Config::Get('db.table.user')."
-			WHERE
-				user_rating ".($sType=='good' ? '>=0' : '<0')."	 and user_activate = 1
-			ORDER BY
-				user_rating ".($sType=='good' ? 'DESC' : 'ASC').", user_skill desc
-			LIMIT ?d, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=$aRow['user_id'];
-			}
-		}
-		return $aReturn;
-	}
-
 
 	public function GetCountUsers() {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
+		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.user')."  WHERE user_activate = 1";
 		$result=$this->oDb->selectRow($sql);
 		return $result['count'];
 	}
 
 	public function GetCountUsersActive($sDateActive) {
-		$sql = "SELECT count(user_id) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";
+		$sql = "SELECT count(*) as count FROM ".Config::Get('db.table.session')." WHERE session_date_last >= ? ";
 		$result=$this->oDb->selectRow($sql,$sDateActive);
 		return $result['count'];
 	}
 
 
 	public function GetCountUsersSex() {
-		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(user_id) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";
+		$sql = "SELECT user_profile_sex  AS ARRAY_KEY, count(*) as count FROM ".Config::Get('db.table.user')." WHERE user_activate = 1 GROUP BY user_profile_sex ";
 		$result=$this->oDb->select($sql);
 		return $result;
 	}
 
-	public function GetCountUsersCountry($sLimit) {
-		$sql = "
-			SELECT
-				cu.count,
-				c.country_name as name
-			FROM (
-					SELECT
-						count(user_id) as count,
-						country_id
-					FROM
-						".Config::Get('db.table.country_user')."
-					GROUP BY country_id ORDER BY count DESC LIMIT 0, ?d
-				) as cu
-				JOIN ".Config::Get('db.table.country')." as c on cu.country_id=c.country_id
-			ORDER BY c.country_name
-		";
-		$result=$this->oDb->select($sql,$sLimit);
-		return $result;
-	}
-
-	public function GetCountUsersCity($sLimit) {
-		$sql = "
-			SELECT
-				cu.count,
-				c.city_name as name
-			FROM (
-					SELECT
-						count(user_id) as count,
-						city_id
-					FROM
-						".Config::Get('db.table.city_user')."
-					GROUP BY city_id ORDER BY count DESC LIMIT 0, ?d
-				) as cu
-				JOIN ".Config::Get('db.table.city')." as c on cu.city_id=c.city_id
-			ORDER BY c.city_name
-		";
-		$result=$this->oDb->select($sql,$sLimit);
-		return $result;
-	}
 
 	public function GetUsersByLoginLike($sUserLogin,$iLimit) {
 		$sql = "SELECT
@@ -471,7 +406,7 @@ class ModuleUser_MapperUser extends Mapper {
 	 * @param  int    $iStatus
 	 * @return array
 	 */
-	public function GetUsersFriend($sUserId) {
+	public function GetUsersFriend($sUserId,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT
 					uf.user_from,
 					uf.user_to
@@ -486,15 +421,17 @@ class ModuleUser_MapperUser extends Mapper {
 					OR
 						(uf.status_from = ?d AND uf.status_to = ?d )
 					)
-					;";
+				LIMIT ?d, ?d ;";
 		$aUsers=array();
-		if ($aRows=$this->oDb->select(
+		if ($aRows=$this->oDb->selectPage(
+				$iCount,
 				$sql,
 				$sUserId,
 				$sUserId,
 				ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
 				ModuleUser::USER_FRIEND_ACCEPT,
-				ModuleUser::USER_FRIEND_ACCEPT
+				ModuleUser::USER_FRIEND_ACCEPT,
+				($iCurrPage-1)*$iPerPage, $iPerPage
 			)
 		) {
 			foreach ($aRows as $aUser) {
@@ -503,7 +440,36 @@ class ModuleUser_MapperUser extends Mapper {
 							: $aUser['user_from'];
 			}
 		}
+		rsort($aUsers,SORT_NUMERIC);
 		return array_unique($aUsers);
+	}
+
+	public function GetCountUsersFriend($sUserId) {
+		$sql = "SELECT
+					count(*) as c
+				FROM
+					".Config::Get('db.table.friend')." as uf
+				WHERE
+					( uf.user_from = ?d
+					OR
+					uf.user_to = ?d )
+					AND
+					( 	uf.status_from + uf.status_to = ?d
+					OR
+						(uf.status_from = ?d AND uf.status_to = ?d )
+					)";
+		if ($aRow=$this->oDb->selectRow(
+			$sql,
+			$sUserId,
+			$sUserId,
+			ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,
+			ModuleUser::USER_FRIEND_ACCEPT,
+			ModuleUser::USER_FRIEND_ACCEPT
+		)
+		) {
+			return $aRow['c'];
+		}
+		return 0;
 	}
 
 	/**
@@ -662,141 +628,6 @@ class ModuleUser_MapperUser extends Mapper {
 		return null;
 	}
 
-	public function SetCountryUser($sCountryId,$sUserId) {
-		$sql = "REPLACE ".Config::Get('db.table.country_user')."
-			SET
-				country_id = ? ,
-				user_id = ?
-		";
-		return $this->oDb->query($sql,$sCountryId,$sUserId);
-	}
-
-	public function GetCountryByName($sName) {
-		$sql = "SELECT * FROM ".Config::Get('db.table.country')." WHERE country_name = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
-			return Engine::GetEntity('User_Country',$aRow);
-		}
-		return null;
-	}
-
-	public function GetUsersByCountry($sCountry,&$iCount,$iCurrPage,$iPerPage) {
-		$sql = "
-			SELECT cu.user_id
-			FROM
-				".Config::Get('db.table.country')." as c,
-				".Config::Get('db.table.country_user')." as cu
-			WHERE
-				c.country_name = ?
-				AND
-				c.country_id=cu.country_id
-			ORDER BY cu.user_id DESC
-			LIMIT ?d, ?d ";
-		$aReturn=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCountry,($iCurrPage-1)*$iPerPage, $iPerPage)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=$aRow['user_id'];
-			}
-		}
-		return $aReturn;
-	}
-
-	public function GetUsersByCity($sCity,&$iCount,$iCurrPage,$iPerPage) {
-		$sql = "
-			SELECT cu.user_id
-			FROM
-				".Config::Get('db.table.city')." as c,
-				".Config::Get('db.table.city_user')." as cu
-			WHERE
-				c.city_name = ?
-				AND
-				c.city_id=cu.city_id
-			ORDER BY cu.user_id DESC
-			LIMIT ?d, ?d ";
-		$aReturn=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,$sCity,($iCurrPage-1)*$iPerPage, $iPerPage)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=$aRow['user_id'];
-			}
-		}
-		return $aReturn;
-	}
-
-	public function AddCountry(ModuleUser_EntityCountry $oCountry) {
-		$sql = "INSERT INTO ".Config::Get('db.table.country')."
-			(country_name)
-			VALUES(?)
-		";
-		if ($iId=$this->oDb->query($sql,$oCountry->getName())) {
-			return $iId;
-		}
-		return false;
-	}
-
-
-	public function SetCityUser($sCityId,$sUserId) {
-		$sql = "REPLACE ".Config::Get('db.table.city_user')."
-			SET
-				city_id = ? ,
-				user_id = ?
-		";
-		return $this->oDb->query($sql,$sCityId,$sUserId);
-	}
-
-	public function GetCityByName($sName) {
-		$sql = "SELECT * FROM ".Config::Get('db.table.city')." WHERE city_name = ? ";
-		if ($aRow=$this->oDb->selectRow($sql,$sName)) {
-			return Engine::GetEntity('User_City',$aRow);
-		}
-		return null;
-	}
-
-	public function AddCity(ModuleUser_EntityCity $oCity) {
-		$sql = "INSERT INTO ".Config::Get('db.table.city')."
-			(city_name)
-			VALUES(?)
-		";
-		if ($iId=$this->oDb->query($sql,$oCity->getName())) {
-			return $iId;
-		}
-		return false;
-	}
-
-	public function GetCityByNameLike($sName,$iLimit) {
-		$sql = "SELECT
-				*
-			FROM
-				".Config::Get('db.table.city')."
-			WHERE
-				city_name LIKE ?
-			LIMIT 0, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=Engine::GetEntity('User_City',$aRow);
-			}
-		}
-		return $aReturn;
-	}
-
-	public function GetCountryByNameLike($sName,$iLimit) {
-		$sql = "SELECT
-				*
-			FROM
-				".Config::Get('db.table.country')."
-			WHERE
-				country_name LIKE ?
-			LIMIT 0, ?d
-				";
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$sName.'%',$iLimit)) {
-			foreach ($aRows as $aRow) {
-				$aReturn[]=Engine::GetEntity('User_Country',$aRow);
-			}
-		}
-		return $aReturn;
-	}
-
 	public function AddReminder(ModuleUser_EntityReminder $oReminder) {
 		$sql = "REPLACE ".Config::Get('db.table.reminder')."
 			SET
@@ -827,111 +658,261 @@ class ModuleUser_MapperUser extends Mapper {
 		return null;
 	}
 
-    public function getUserFields()
-    {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
-        $aFields = $this->oDb->select($sql);
-        if (!count($aFields)) {
-            return array();
-        }
-        $aResult = array();
-        foreach($aFields as $aField) {
-            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
-        }
-        return $aResult;
-    }
-    
-     public function getUserFieldValueByName($iUserId, $sName)
-    {
-        $sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE 
+	public function getUserFields($aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
+		$sql = 'SELECT * FROM '.Config::Get('db.table.user_field').' WHERE 1=1 { and type IN (?a) }';
+		$aFields = $this->oDb->select($sql,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
+		if (!count($aFields)) {
+			return array();
+		}
+		$aResult = array();
+		foreach($aFields as $aField) {
+			$aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
+		}
+		return $aResult;
+	}
+
+	public function getUserFieldValueByName($iUserId, $sName) {
+		$sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE
                         user_id = ?d 
                         AND  
                         field_id = (SELECT id FROM '.Config::Get('db.table.user_field').' WHERE name =?)';
-        $ret = $this->oDb->selectCol($sql, $iUserId, $sName);
-        return $ret[0];
-    }
+		$ret = $this->oDb->selectCol($sql, $iUserId, $sName);
+		return $ret[0];
+	}
 
-    public function getUserFieldsValues($iUserId, $bOnlyNoEmpty)
-    {
-        $sql = 'SELECT * FROM '.Config::Get('db.table.user_field');
-        $aFields = $this->oDb->select($sql);
-        if (!count($aFields)) {
-            return array();
-        }
-        $sql = 'SELECT field_id, value FROM '.Config::Get('db.table.user_field_value').' WHERE
-                user_id = ?d';
-        $aValues = array();
-        $aValues = $this->oDb->select($sql, $iUserId);
+	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty, $aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
 
-        $aResult = array();
-        foreach($aFields as $aField) {
-            $aResult[$aField['id']] = Engine::GetEntity('User_Field', $aField);
-        }
-        foreach($aValues as $aValue) {
-            if (isset($aResult[$aValue['field_id']])) {
-                if ($aValue['value']) {
-                    $aResult[$aValue['field_id']]->setValue($aValue['value']);
-                }
-            }
-        }
-        if ($bOnlyNoEmpty) {
-            foreach ($aResult as $oField) {
-                if (!$oField->getValue()) {
-                    unset ($aResult[$oField->getId()]);
-                }
-            }
-        }
-        return $aResult;
-    }
+		/**
+		 * Если запрашиваем без типа, то необходимо вернуть ВСЕ возможные поля с этим типом в не звависимости указал ли их пользователь у себя в профили или нет
+		 * Выглядит костыльно
+		 */
+		if (is_array($aType) and count($aType)==1 and $aType[0]=='') {
+			$sql='SELECT f.*, v.value FROM '.Config::Get('db.table.user_field').' as f LEFT JOIN '.Config::Get('db.table.user_field_value').' as v ON f.id = v.field_id WHERE v.user_id = ?d and f.type IN (?a)';
 
-    public function setUserFieldsValues($iUserId, $aFields)
-    {
-        if (!count($aFields)) return;
-        foreach ($aFields as $iId =>$sValue) {
-            $sql = 'SELECT * FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
-            if ($this->oDb->select($sql, $iUserId, $iId)) {
-                $sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
-            } else {
-                $sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
-            }
-            $this->oDb->query($sql, $sValue, $iUserId, $iId);
-        }
-    }
+		} else {
+			$sql = 'SELECT v.value, f.* FROM '.Config::Get('db.table.user_field_value').' as v, '.Config::Get('db.table.user_field').' as f
+			WHERE v.user_id = ?d AND v.field_id = f.id { and f.type IN (?a) }';
+		}
+		$aResult=array();
+		if ($aRows=$this->oDb->select($sql, $iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType)) {
+			foreach($aRows as $aRow) {
+				if ($bOnlyNoEmpty and !$aRow['value']) {
+					continue;
+				}
+				$aResult[]=Engine::GetEntity('User_Field', $aRow);
+			}
+		}
+		return $aResult;
+	}
 
-    public function addUserField($oField)
-    {
-        $sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
-                    name = ?, title = ?, pattern = ?';
-        return $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern());
-    }
+	public function setUserFieldsValues($iUserId, $aFields, $iCountMax) {
+		if (!count($aFields)) return;
+		foreach ($aFields as $iId =>$sValue) {
+			$sql = 'SELECT count(*) as c FROM '.Config::Get('db.table.user_field_value').' WHERE user_id = ?d AND field_id = ?';
+			$aRow=$this->oDb->selectRow($sql, $iUserId, $iId);
+			$iCount=isset($aRow['c']) ? $aRow['c'] : 0;
+			if ($iCount<$iCountMax) {
+				$sql = 'INSERT INTO '.Config::Get('db.table.user_field_value').' SET value = ?, user_id = ?d, field_id = ?';
+			} elseif ($iCount==$iCountMax and $iCount==1) {
+				$sql = 'UPDATE '.Config::Get('db.table.user_field_value').' SET value = ? WHERE user_id = ?d AND field_id = ?';
+			} else {
+				continue;
+			}
+			$this->oDb->query($sql, $sValue, $iUserId, $iId);
+		}
+	}
 
-    public function deleteUserField($iId)
-    {
-        $sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').' WHERE field_id = ?d';
-        $this->oDb->query($sql, $iId);
-        $sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
+	public function addUserField($oField) {
+		$sql =  'INSERT INTO '.Config::Get('db.table.user_field').' SET
+                    name = ?, title = ?, pattern = ?, type = ?';
+		return $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getType());
+	}
+
+	public function deleteUserField($iId) {
+		$sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').' WHERE field_id = ?d';
+		$this->oDb->query($sql, $iId);
+		$sql =  'DELETE FROM '.Config::Get('db.table.user_field').' WHERE
                     id = ?d';
-        $this->oDb->query($sql, $iId);
-    }
-    
-    public function updateUserField($oField)
-    {
-        $sql =  'UPDATE '.Config::Get('db.table.user_field').' SET 
-                    name = ?, title = ?, pattern = ?
+		$this->oDb->query($sql, $iId);
+	}
+
+	public function updateUserField($oField) {
+		$sql =  'UPDATE '.Config::Get('db.table.user_field').' SET
+                    name = ?, title = ?, pattern = ?, type = ?
                     WHERE id = ?d';
-        $this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getId());
-    }
-    
-    public function userFieldExistsByName($sName, $iId)
-    {
-        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE name = ? {AND id != ?d}';
-        return $this->oDb->select($sql, $sName, $iId ? $iId : DBSIMPLE_SKIP);
-    }
-    
-    public function userFieldExistsById($iId)
-    {
-        $sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE id = ?d';
-        return $this->oDb->select($sql, $iId);
-    }
+		$this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getType(), $oField->getId());
+	}
+
+	public function userFieldExistsByName($sName, $iId) {
+		$sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE name = ? {AND id != ?d}';
+		return $this->oDb->select($sql, $sName, $iId ? $iId : DBSIMPLE_SKIP);
+	}
+
+	public function userFieldExistsById($iId) {
+		$sql = 'SELECT id FROM  '.Config::Get('db.table.user_field').' WHERE id = ?d';
+		return $this->oDb->select($sql, $iId);
+	}
+
+	public function DeleteUserFieldValues($iUserId,$aType) {
+		if (!is_null($aType) and !is_array($aType)) {
+			$aType=array($aType);
+		}
+		$sql = 'DELETE FROM '.Config::Get('db.table.user_field_value').'
+			WHERE user_id = ?d AND field_id IN (
+				SELECT id FROM '.Config::Get('db.table.user_field').' WHERE 1=1 { and type IN (?a) }
+			)';
+		return $this->oDb->query($sql,$iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
+	}
+
+
+	public function GetUserNotesByUserId($iUserId,&$iCount,$iCurrPage,$iPerPage) {
+		$sql = "
+			SELECT *
+			FROM
+				".Config::Get('db.table.user_note')."
+			WHERE
+				user_id = ?d
+			ORDER BY id DESC
+			LIMIT ?d, ?d ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+			}
+		}
+		return $aReturn;
+	}
+
+	public function GetCountUserNotesByUserId($iUserId) {
+		$sql = "
+			SELECT count(*) as c
+			FROM
+				".Config::Get('db.table.user_note')."
+			WHERE
+				user_id = ?d
+			";
+		if ($aRow=$this->oDb->selectRow($sql,$iUserId)) {
+			return $aRow['c'];
+		}
+		return 0;
+	}
+
+	public function GetUserNote($iTargetUserId,$iUserId) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_note')." WHERE target_user_id = ?d and user_id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$iTargetUserId,$iUserId)) {
+			return Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+		}
+		return null;
+	}
+
+	public function GetUserNoteById($iId) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_note')." WHERE id = ?d ";
+		if ($aRow=$this->oDb->selectRow($sql,$iId)) {
+			return Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+		}
+		return null;
+	}
+
+	public function DeleteUserNoteById($iId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.user_note')." WHERE id = ?d ";
+		return $this->oDb->query($sql,$iId);
+	}
+
+	public function AddUserNote($oNote) {
+		$sql = "INSERT INTO ".Config::Get('db.table.user_note')." SET ?a ";
+		if ($iId=$this->oDb->query($sql,$oNote->_getData())) {
+			return $iId;
+		}
+		return false;
+	}
+
+
+	public function UpdateUserNote($oNote) {
+		$sql = "UPDATE ".Config::Get('db.table.user_note')."
+			SET
+			 	text = ?
+			WHERE id = ?d
+		";
+		return $this->oDb->query($sql,$oNote->getText(),
+								 $oNote->getId());
+	}
+
+	public function GetUsersByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
+		$aOrderAllow=array('user_id','user_login','user_date_register','user_rating','user_skill','user_profile_name');
+		$sOrder='';
+		foreach ($aOrder as $key=>$value) {
+			if (!in_array($key,$aOrderAllow)) {
+				unset($aOrder[$key]);
+			} elseif (in_array($value,array('asc','desc'))) {
+				$sOrder.=" {$key} {$value},";
+			}
+		}
+		$sOrder=trim($sOrder,',');
+		if ($sOrder=='') {
+			$sOrder=' user_id desc ';
+		}
+
+		$sql = "SELECT
+					user_id
+				FROM
+					".Config::Get('db.table.user')."
+				WHERE
+					1 = 1
+					{ AND user_id = ?d }
+					{ AND user_mail = ? }
+					{ AND user_password = ? }
+					{ AND user_ip_register = ? }
+					{ AND user_activate = ?d }
+					{ AND user_activate_key = ? }
+					{ AND user_profile_sex = ? }
+					{ AND user_login LIKE ? }
+					{ AND user_profile_name LIKE ? }
+				ORDER by {$sOrder}
+				LIMIT ?d, ?d ;
+					";
+		$aResult=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,
+										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
+										  isset($aFilter['password']) ? $aFilter['password'] : DBSIMPLE_SKIP,
+										  isset($aFilter['ip_register']) ? $aFilter['ip_register'] : DBSIMPLE_SKIP,
+										  isset($aFilter['activate']) ? $aFilter['activate'] : DBSIMPLE_SKIP,
+										  isset($aFilter['activate_key']) ? $aFilter['activate_key'] : DBSIMPLE_SKIP,
+										  isset($aFilter['profile_sex']) ? $aFilter['profile_sex'] : DBSIMPLE_SKIP,
+										  isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
+										  isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
+										  ($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=$aRow['user_id'];
+			}
+		}
+		return $aResult;
+	}
+
+
+	public function GetGroupPrefixUser($iPrefixLength=1) {
+		$sql = "
+			SELECT SUBSTRING(`user_login` FROM 1 FOR ?d ) as prefix
+			FROM
+				".Config::Get('db.table.user')."
+			WHERE
+				user_activate = 1
+			GROUP BY prefix
+			ORDER BY prefix ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,$iPrefixLength)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=mb_strtoupper($aRow['prefix'],'utf-8');
+			}
+		}
+		return $aReturn;
+	}
 }
 ?>

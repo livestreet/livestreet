@@ -17,42 +17,33 @@
 
 require_once('Action.class.php');
 /**
- * Абстрактный класс экшена
+ * Абстрактный класс экшена плагина.
+ * От этого класса необходимо наследовать экшены плагина, эот позволит корректно определять текущий шаблон плагина для рендеринга экшена
  *
+ * @package engine
+ * @since 1.0
  */
 abstract class ActionPlugin extends Action {
 	/**
-	 * Путь к шаблонам с учетом наличия соответствующего skin`a
+	 * Полный серверный путь до текущего шаблона плагина
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $sTemplatePathPlugin=null;
-	
+
 	/**
-	 * Конструктор
-	 *
-	 * @param Engine $oEngine
-	 * @param string $sAction
-	 */	
-	public function __construct(Engine $oEngine, $sAction) {
-		parent::__construct($oEngine, $sAction);
-		$this->Viewer_Assign('sTemplatePathPlugin',rtrim($this->getTemplatePathPlugin(),'/'));
-		$this->Viewer_Assign('sTemplateWebPathPlugin',Plugin::GetTemplateWebPath(get_class($this)));
-	}
-	
-	/**
-	 * Возвращает путь к шаблонам плагина
+	 * Возвращает путь к текущему шаблону плагина
 	 *
 	 * @return string
 	 */
-	public function getTemplatePathPlugin() {	
+	public function getTemplatePathPlugin() {
 		if(is_null($this->sTemplatePathPlugin)) {
 			preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$this->GetActionClass(),$aMatches);
 			/**
 			 * Проверяем в списке шаблонов
 			 */
 			$aMatches[1]=strtolower($aMatches[1]);
-			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$aMatches[1].'/templates/skin/*/actions/Action'.ucfirst($aMatches[2]),GLOB_ONLYDIR);			
+			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$aMatches[1].'/templates/skin/*/actions/Action'.ucfirst($aMatches[2]),GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(
 				Config::Get('view.skin'),
 				array_map(
@@ -65,24 +56,24 @@ abstract class ActionPlugin extends Action {
 			))
 				? Config::Get('view.skin')
 				: 'default';
-			
+
 			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}/";
 			$this->sTemplatePathPlugin = is_dir($sDir) ? $sDir : null;
 		}
-		
+
 		return $this->sTemplatePathPlugin;
 	}
-	
+
 	/**
-	 * Установить значение пути к директории шаблонов плагина
+	 * Установить значение пути к директории шаблона плагина
 	 *
-	 * @param  string $sTemplatePath
+	 * @param  string $sTemplatePath	Полный серверный путь до каталога с шаблоном
 	 * @return bool
 	 */
 	public function setTemplatePathPlugin($sTemplatePath) {
 		if(!is_dir($sTemplatePath)) return false;
 		$this->sTemplatePathPlugin = $sTemplatePath;
 	}
-	
+
 }
 ?>

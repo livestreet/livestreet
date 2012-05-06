@@ -18,46 +18,43 @@
 /**
  * Обрабатывает блок облака тегов
  *
+ * @package blocks
+ * @since 1.0
  */
 class BlockTags extends Block {
-	public function Exec() {			
+	/**
+	 * Запуск обработки
+	 */
+	public function Exec() {
 		/**
 		 * Получаем список тегов
 		 */
-		$aTags=$this->oEngine->Topic_GetOpenTopicTags(70);
+		$aTags=$this->oEngine->Topic_GetOpenTopicTags(Config::Get('block.tags.tags_count'));
 		/**
 		 * Расчитываем логарифмическое облако тегов
 		 */
 		if ($aTags) {
-			$iMinSize=1; // минимальный размер шрифта
-			$iMaxSize=10; // максимальный размер шрифта
-			$iSizeRange=$iMaxSize-$iMinSize;
-			
-			$iMin=10000;
-			$iMax=0;
-			foreach ($aTags as $oTag) {
-				if ($iMax<$oTag->getCount()) {
-					$iMax=$oTag->getCount();
-				}
-				if ($iMin>$oTag->getCount()) {
-					$iMin=$oTag->getCount();
-				}
-			}			
-			
-			$iMinCount=log($iMin+1);
-			$iMaxCount=log($iMax+1);
-			$iCountRange=$iMaxCount-$iMinCount;
-			if ($iCountRange==0) {
-				$iCountRange=1;
-			}
-			foreach ($aTags as $oTag) {
-				$iTagSize=$iMinSize+(log($oTag->getCount()+1)-$iMinCount)*($iSizeRange/$iCountRange);
-				$oTag->setSize(round($iTagSize)); // результирующий размер шрифта для тега
-			}
+			$this->Tools_MakeCloud($aTags);
 			/**
-		 	* Устанавливаем шаблон вывода
-		 	*/
+			 * Устанавливаем шаблон вывода
+			 */
 			$this->Viewer_Assign("aTags",$aTags);
+		}
+		/**
+		 * Теги пользователя
+		 */
+		if ($oUserCurrent=$this->User_getUserCurrent()) {
+			$aTags=$this->oEngine->Topic_GetOpenTopicTags(Config::Get('block.tags.personal_tags_count'), $oUserCurrent->getId());
+			/**
+			 * Расчитываем логарифмическое облако тегов
+			 */
+			if ($aTags) {
+				$this->Tools_MakeCloud($aTags);
+				/**
+				 * Устанавливаем шаблон вывода
+				 */
+				$this->Viewer_Assign("aTagsUser",$aTags);
+			}
 		}
 	}
 }

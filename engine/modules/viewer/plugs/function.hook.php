@@ -32,9 +32,16 @@ function smarty_function_hook($aParams,&$oSmarty) {
 	$sHookName='template_'.strtolower($aParams['run']);
 	unset($aParams['run']);
 	$aResultHook=Engine::getInstance()->Hook_Run($sHookName,$aParams);
+
+	$sReturn='';
 	if (array_key_exists('template_result',$aResultHook)) {
-		return join('',$aResultHook['template_result']);
-	}	
-	return '';
+		$sReturn=join('',$aResultHook['template_result']);
+	}
+
+	if (!empty($aParams['assign'])) {
+		$oSmarty->assign($aParams['assign'], $sReturn);
+	} else {
+		return $sReturn;
+	}
 }
 ?>

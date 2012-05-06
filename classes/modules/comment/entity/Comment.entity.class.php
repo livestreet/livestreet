@@ -18,57 +18,57 @@
 class ModuleComment_EntityComment extends Entity 
 {    
     public function getId() {
-        return $this->_aData['comment_id'];
+        return $this->_getDataOne('comment_id');
     } 
     public function getPid() {
-        return $this->_aData['comment_pid'];
+        return $this->_getDataOne('comment_pid');
     } 
     public function getLeft() {
-        return $this->_aData['comment_left'];
+        return $this->_getDataOne('comment_left');
     } 
     public function getRight() {
-        return $this->_aData['comment_right'];
+        return $this->_getDataOne('comment_right');
     }    
     public function getTargetId() {
-        return $this->_aData['target_id'];
+        return $this->_getDataOne('target_id');
     }
     public function getTargetType() {
-        return $this->_aData['target_type'];
+        return $this->_getDataOne('target_type');
     }
     public function getTargetParentId() {
-        return (array_key_exists('target_parent_id',$this->_aData)) ? $this->_aData['target_parent_id'] : 0;
+        return $this->_getDataOne('target_parent_id') ? $this->_getDataOne('target_parent_id') : 0;
     }
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getText() {
-        return $this->_aData['comment_text'];
+        return $this->_getDataOne('comment_text');
     }
     public function getDate() {
-        return $this->_aData['comment_date'];
+        return $this->_getDataOne('comment_date');
     }
     public function getUserIp() {
-        return $this->_aData['comment_user_ip'];
+        return $this->_getDataOne('comment_user_ip');
     }    
     public function getRating() {        
-        return number_format(round($this->_aData['comment_rating'],2), 0, '.', '');
+        return number_format(round($this->_getDataOne('comment_rating'),2), 0, '.', '');
     }
     public function getCountVote() {
-        return $this->_aData['comment_count_vote'];
+        return $this->_getDataOne('comment_count_vote');
     }
     public function getDelete() {
-        return $this->_aData['comment_delete'];
+        return $this->_getDataOne('comment_delete');
     }
     public function getPublish() {
         return $this->_getDataOne('comment_publish') ? 1 : 0;
     }
     public function getTextHash() {
-        return $this->_aData['comment_text_hash'];
+        return $this->_getDataOne('comment_text_hash');
     }
     
         
     public function getLevel() {
-        return $this->_aData['comment_level'];
+        return $this->_getDataOne('comment_level');
     }   
     public function isBad() {    	
         if ($this->getRating()<=Config::Get('module.comment.bad')) {
@@ -77,20 +77,20 @@ class ModuleComment_EntityComment extends Entity
         return false;
     }
     public function getUser() {
-        return $this->_aData['user'];
+        return $this->_getDataOne('user');
     }
     public function getTarget() {
-        return $this->_aData['target'];
+        return $this->_getDataOne('target');
     }
     public function getVote() {
-        return $this->_aData['vote'];
+        return $this->_getDataOne('vote');
     }
      public function getIsFavourite() {
-        return $this->_aData['comment_is_favourite'];
+        return $this->_getDataOne('comment_is_favourite');
     }
 
     public function getCountFavourite() {
-        return $this->_aData['comment_count_favourite'];
+        return $this->_getDataOne('comment_count_favourite');
     }
     
     

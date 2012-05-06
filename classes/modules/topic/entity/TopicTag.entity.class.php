@@ -18,26 +18,26 @@
 class ModuleTopic_EntityTopicTag extends Entity 
 {    
     public function getId() {
-        return $this->_aData['topic_tag_id'];
+        return $this->_getDataOne('topic_tag_id');
     }  
     public function getTopicId() {
-        return $this->_aData['topic_id'];
+        return $this->_getDataOne('topic_id');
     }
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getBlogId() {
-        return $this->_aData['blog_id'];
+        return $this->_getDataOne('blog_id');
     }
     public function getText() {
-        return $this->_aData['topic_tag_text'];
+        return $this->_getDataOne('topic_tag_text');
     }
     
     public function getCount() {
-        return $this->_aData['count'];
+        return $this->_getDataOne('count');
     }
     public function getSize() {
-        return $this->_aData['size'];
+        return $this->_getDataOne('size');
     }
 
   

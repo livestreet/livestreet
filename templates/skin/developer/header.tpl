@@ -1,110 +1,115 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="ru"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="ru"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="ru"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
 
 <head>
 	{hook run='html_head_begin'}
-
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
 	<title>{$sHtmlTitle}</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="description" content="{$sHtmlDescription}" />
-	<meta name="keywords" content="{$sHtmlKeywords}" />
-
+	
+	<meta name="description" content="{$sHtmlDescription}">
+	<meta name="keywords" content="{$sHtmlKeywords}">
+	
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	{$aHtmlHeadFiles.css}
 
-
-	<link href="{cfg name='path.static.skin'}/images/favicon.ico" rel="shortcut icon" />
+	<link href="{cfg name='path.static.skin'}/images/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
 
+	{if $sHtmlCanonical}
+		<link rel="canonical" href="{$sHtmlCanonical}" />
+	{/if}
+	
 	{if $bRefreshToHome}
 		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
 	
-	<script language="JavaScript" type="text/javascript">
-		var DIR_WEB_ROOT='{cfg name="path.root.web"}';
-		var DIR_STATIC_SKIN='{cfg name="path.static.skin"}';
-		var DIR_ROOT_ENGINE_LIB= '{cfg name="path.root.engine_lib"}';
-		var BLOG_USE_TINYMCE='{cfg name="view.tinymce"}';
-		var TALK_RELOAD_PERIOD='{cfg name="module.talk.period"}';
-		var TALK_RELOAD_REQUEST='{cfg name="module.talk.request"}';
-		var TALK_RELOAD_MAX_ERRORS='{cfg name="module.talk.max_errors"}';
+	
+	<script type="text/javascript">
+		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
+		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+		var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
 		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
-		var SESSION_ID = '{$_sPhpSessionId}';
-
-		var TINYMCE_LANG='en';
-		{if $oConfig->GetValue('lang.current')=='russian'}
-			TINYMCE_LANG='ru';
+		var SESSION_ID				= '{$_sPhpSessionId}';
+		var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
+		
+		var TINYMCE_LANG = 'en';
+		{if $oConfig->GetValue('lang.current') == 'russian'}
+			TINYMCE_LANG = 'ru';
 		{/if}
 
-		var aRouter=new Array();
+		var aRouter = new Array();
 		{foreach from=$aRouter key=sPage item=sPath}
-			aRouter['{$sPage}']='{$sPath}';
+			aRouter['{$sPage}'] = '{$sPath}';
 		{/foreach}
-				
-		var LANG_COMMENT_FOLD = '{$aLang.comment_fold}';
-		var LANG_COMMENT_UNFOLD = '{$aLang.comment_unfold}';
-	</script>
-
-
-	{$aHtmlHeadFiles.js}
-
-	<script language="JavaScript" type="text/javascript">
-	var tinyMCE=false;
-	lsLang.load({json var=$aLangJs});
-	var msgErrorBox=new Roar({
-				position: 'upperRight',
-				className: 'roar-error',
-				margin: { x: 30, y: 10 }
-			});
-	var msgNoticeBox=new Roar({
-				position: 'upperRight',
-				className: 'roar-notice',
-				margin: { x: 30, y: 10 }
-			});
 	</script>
 	
+	
+	{$aHtmlHeadFiles.js}
 
-	{if $oUserCurrent && $oConfig->GetValue('module.talk.reload')}
-		{literal}
-		<script language="JavaScript" type="text/javascript">
-			var talkNewMessages=new lsTalkMessagesClass({
-				reload: {
-					request: TALK_RELOAD_REQUEST,
-					url: aRouter['talk']+'ajaxnewmessages/',
-					errors: TALK_RELOAD_MAX_ERRORS
-				}
-			});
-			(function(){
-				talkNewMessages.get();
-			}).periodical(TALK_RELOAD_PERIOD);
-		</script>
-		{/literal}
-	{/if}
+	
+	<script type="text/javascript">
+		var tinyMCE = false;
+		ls.lang.load({json var = $aLangJs});
+	</script>
+	
 	
 	{hook run='html_head_end'}
 </head>
 
 
 
+{if $oUserCurrent}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'}
+	
+	{if $oUserCurrent->isAdministrator()}
+		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'}
+	{/if}
+{else}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-guest'}
+{/if}
 
+{if !$oUserCurrent or ($oUserCurrent and !$oUserCurrent->isAdministrator())}
+	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'}
+{/if}
 
-<body>
+{add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
+{add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
 
-{hook run='body_begin'}
+<body class="{$body_classes}">
+	{hook run='body_begin'}
+	
+	
+	{if $oUserCurrent}
+		{include file='window_write.tpl'}
+		{include file='window_favourite_form_tags.tpl'}
+	{else}
+		{include file='window_login.tpl'}
+	{/if}
+	
 
-<div id="container">
-	{include file='header_top.tpl'}
+	<div id="container">
+		{include file='header_top.tpl'}
+		{include file='nav.tpl'}
 
-	<div id="wrapper">
-		<div id="content" {if $noSidebar}style="width: 100%"{/if}>
-			{include file='header_nav.tpl'}
-
-			{if !$noShowSystemMessage}
-				{include file='system_message.tpl'}
+		<div id="wrapper">
+			{if !$noSidebar && $sidebarPosition == 'left'}
+				{include file='sidebar.tpl'}
 			{/if}
-			{hook run='content_begin'}
+		
+			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
+				{include file='nav_content.tpl'}
+				{include file='system_message.tpl'}
+				
+				{hook run='content_begin'}

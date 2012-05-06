@@ -16,8 +16,18 @@
 */
 
 /**
- * Модуль безопасности 
+ * Модуль безопасности
+ * Необходимо использовать перед обработкой отправленной формы:
+ * <pre>
+ * if (getRequest('submit_add')) {
+ * 	$this->Security_ValidateSendForm();
+ * 	// далее код обработки формы
+ *  ......
+ * }
+ * </pre>
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleSecurity extends Module {
 	/**
@@ -25,23 +35,28 @@ class ModuleSecurity extends Module {
 	 *
 	 */
 	public function Init() {
-		
+
 	}
-
-
+	/**
+	 * Производит валидацию отправки формы/запроса от пользователя, позволяет избежать атаки CSRF
+	 */
 	public function ValidateSendForm() {
-		if (!($this->ValidateSessionKey() && 1)) {
+		if (!($this->ValidateSessionKey())) {
 			die("Hacking attemp!");
 		}
 	}
-	
+	/**
+	 * Проверка на соотвествие реферала
+	 *
+	 * @return bool
+	 */
 	public function ValidateReferal() {
 		if (isset($_SERVER['HTTP_REFERER'])) {
-			$aUrl=parse_url($_SERVER['HTTP_REFERER']);				
+			$aUrl=parse_url($_SERVER['HTTP_REFERER']);
 			if (strcasecmp($aUrl['host'],$_SERVER['HTTP_HOST'])==0) {
 				return true;
-			} elseif (preg_match("/\.".quotemeta($_SERVER['HTTP_HOST'])."$/i",$aUrl['host'])) {				 
-				return true;				
+			} elseif (preg_match("/\.".quotemeta($_SERVER['HTTP_HOST'])."$/i",$aUrl['host'])) {
+				return true;
 			}
 		}
 		return false;
@@ -49,6 +64,7 @@ class ModuleSecurity extends Module {
 	/**
 	 * Проверяет наличие security-ключа в сессии
 	 *
+	 * @param null|string $sCode	Код для проверки, если нет то берется из реквеста
 	 * @return bool
 	 */
 	public function ValidateSessionKey($sCode=null) {
@@ -63,7 +79,7 @@ class ModuleSecurity extends Module {
 	public function SetSessionKey() {
 		$sCode = $this->GenerateSessionKey();
 		$this->Viewer_Assign('LIVESTREET_SECURITY_KEY',$sCode);
-		
+
 		return $sCode;
 	}
 	/**
@@ -74,9 +90,11 @@ class ModuleSecurity extends Module {
 	protected function GenerateSessionKey() {
 		return md5($this->Session_GetId().Config::Get('module.security.hash'));
 	}
-	
+	/**
+	 * Завершение модуля
+	 */
 	public function Shutdown() {
 		$this->SetSessionKey();
-	}	
+	}
 }
 ?>

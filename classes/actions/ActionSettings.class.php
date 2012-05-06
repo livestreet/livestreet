@@ -16,33 +16,34 @@
 */
 
 /**
- * Обрабатывает настройки профила юзера
+ * Экшен обрабтки настроек профиля юзера (/settings/)
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionSettings extends Action {
 	/**
 	 * Какое меню активно
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='settings';
 	/**
 	 * Какое подменю активно
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='profile';
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
 	 *
-	 * @return unknown
 	 */
 	public function Init() {
 		/**
@@ -57,13 +58,27 @@ class ActionSettings extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('profile');
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));
 	}
-
+	/**
+	 * Регистрация евентов
+	 */
 	protected function RegisterEvent() {
+		$this->AddEventPreg('/^profile$/i','/^upload-avatar/i','/^$/i','EventUploadAvatar');
+		$this->AddEventPreg('/^profile$/i','/^resize-avatar/i','/^$/i','EventResizeAvatar');
+		$this->AddEventPreg('/^profile$/i','/^remove-avatar/i','/^$/i','EventRemoveAvatar');
+		$this->AddEventPreg('/^profile$/i','/^cancel-avatar/i','/^$/i','EventCancelAvatar');
+		$this->AddEventPreg('/^profile$/i','/^upload-foto/i','/^$/i','EventUploadFoto');
+		$this->AddEventPreg('/^profile$/i','/^resize-foto/i','/^$/i','EventResizeFoto');
+		$this->AddEventPreg('/^profile$/i','/^remove-foto/i','/^$/i','EventRemoveFoto');
+		$this->AddEventPreg('/^profile$/i','/^cancel-foto/i','/^$/i','EventCancelFoto');
 		$this->AddEvent('profile','EventProfile');
 		$this->AddEvent('invite','EventInvite');
 		$this->AddEvent('tuning','EventTuning');
+		$this->AddEvent('account','EventAccount');
 	}
 
 
@@ -72,12 +87,268 @@ class ActionSettings extends Action {
 	 **********************************************************************************
 	 */
 
+	/**
+	 * Загрузка временной картинки фото для последущего ресайза
+	 */
+	protected function EventUploadFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
+
+		if(!isset($_FILES['foto']['tmp_name'])) {
+			return false;
+		}
+		/**
+		 * Копируем загруженный файл
+		 */
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($_FILES['foto']['tmp_name'],$sFileTmp)) {
+			return false;
+		}
+		/**
+		 * Ресайзим и сохраняем именьшенную копию
+		 * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
+		 */
+		$sDir=Config::Get('path.uploads.images')."/tmp/fotos/{$this->oUserCurrent->getId()}";
+		if ($sFile=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),1000,null,true)) {
+			if ($sFilePreview=$this->Image_Resize($sFileTmp,$sDir,'preview',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
+				/**
+				 * Сохраняем в сессии временный файл с изображением
+				 */
+				$this->Session_Set('sFotoFileTmp',$sFile);
+				$this->Session_Set('sFotoFilePreviewTmp',$sFilePreview);
+				$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFilePreview));
+				unlink($sFileTmp);
+				return;
+			}
+		}
+		$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
+		unlink($sFileTmp);
+	}
+	/**
+	 * Вырезает из временной фотки область нужного размера, ту что задал пользователь
+	 */
+	protected function EventResizeFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Достаем из сессии временный файл
+		 */
+		$sFile=$this->Session_Get('sFotoFileTmp');
+		$sFilePreview=$this->Session_Get('sFotoFilePreviewTmp');
+		if (!file_exists($sFile)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		/**
+		 * Определяем размер большого фото для подсчета множителя пропорции
+		 */
+		$fRation=1;
+		if ($aSizeFile=getimagesize($sFile) and isset($aSizeFile[0])) {
+			$fRation=$aSizeFile[0]/200; // 200 - размер превью по которой пользователь определяет область для ресайза
+			if ($fRation<1) {
+				$fRation=1;
+			}
+		}
+		/**
+		 * Получаем размер области из параметров
+		 */
+		$aSize=array();
+		$aSizeTmp=getRequest('size');
+		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+			$aSize=array('x1'=>round($fRation*$aSizeTmp['x']),'y1'=>round($fRation*$aSizeTmp['y']),'x2'=>round($fRation*$aSizeTmp['x2']),'y2'=>round($fRation*$aSizeTmp['y2']));
+		}
+		/**
+		 * Вырезаем аватарку
+		 */
+		if ($sFileWeb=$this->User_UploadFoto($sFile,$this->oUserCurrent,$aSize)) {
+			/**
+			 * Удаляем старые аватарки
+			 */
+			$this->oUserCurrent->setProfileFoto($sFileWeb);
+			$this->User_Update($this->oUserCurrent);
+
+			$this->Image_RemoveFile($sFilePreview);
+			/**
+			 * Удаляем из сессии
+			 */
+			$this->Session_Drop('sFotoFileTmp');
+			$this->Session_Drop('sFotoFilePreviewTmp');
+			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFoto());
+			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_photo_change'));
+		} else {
+			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
+		}
+	}
+	/**
+	 * Удаляет фото
+	 */
+	protected function EventRemoveFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Удаляем
+		 */
+		$this->User_DeleteFoto($this->oUserCurrent);
+		$this->oUserCurrent->setProfileFoto(null);
+		$this->User_Update($this->oUserCurrent);
+		/**
+		 * Возвращает дефолтную аватарку
+		 */
+		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileFotoDefault());
+		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_photo_upload'));
+	}
+	/**
+	 * Отмена ресайза фотки, необходимо удалить временный файл
+	 */
+	protected function EventCancelFoto() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Достаем из сессии файл и удаляем
+		 */
+		$sFile=$this->Session_Get('sFotoFileTmp');
+		$this->Image_RemoveFile($sFile);
+
+		$sFile=$this->Session_Get('sFotoFilePreviewTmp');
+		$this->Image_RemoveFile($sFile);
+		/**
+		 * Удаляем из сессии
+		 */
+		$this->Session_Drop('sFotoFileTmp');
+		$this->Session_Drop('sFotoFilePreviewTmp');
+	}
+	/**
+	 * Загрузка временной картинки для аватара
+	 */
+	protected function EventUploadAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
+
+		if(!isset($_FILES['avatar']['tmp_name'])) {
+			return false;
+		}
+		/**
+		 * Копируем загруженный файл
+		 */
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($_FILES['avatar']['tmp_name'],$sFileTmp)) {
+			return false;
+		}
+		/**
+		 * Ресайзим и сохраняем уменьшенную копию
+		 */
+		$sDir=Config::Get('path.uploads.images')."/tmp/avatars/{$this->oUserCurrent->getId()}";
+		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
+			/**
+			 * Зписываем в сессию
+			 */
+			$this->Session_Set('sAvatarFileTmp',$sFileAvatar);
+			$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFileAvatar));
+		} else {
+			$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
+		}
+		unlink($sFileTmp);
+	}
+	/**
+	 * Вырезает из временной аватарки область нужного размера, ту что задал пользователь
+	 */
+	protected function EventResizeAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Получаем файл из сессии
+		 */
+		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
+		if (!file_exists($sFileAvatar)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		/**
+		 * Получаем размер области из параметров
+		 */
+		$aSize=array();
+		$aSizeTmp=getRequest('size');
+		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+			$aSize=array('x1'=>$aSizeTmp['x'],'y1'=>$aSizeTmp['y'],'x2'=>$aSizeTmp['x2'],'y2'=>$aSizeTmp['y2']);
+		}
+		/**
+		 * Вырезаем аватарку
+		 */
+		if ($sFileWeb=$this->User_UploadAvatar($sFileAvatar,$this->oUserCurrent,$aSize)) {
+			/**
+			 * Удаляем старые аватарки
+			 */
+			if ($sFileWeb!=$this->oUserCurrent->getProfileAvatar()) {
+				$this->User_DeleteAvatar($this->oUserCurrent);
+			}
+			$this->oUserCurrent->setProfileAvatar($sFileWeb);
+
+			$this->User_Update($this->oUserCurrent);
+			$this->Session_Drop('sAvatarFileTmp');
+			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
+			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_change'));
+		} else {
+			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
+		}
+	}
+	/**
+	 * Удаляет аватар
+	 */
+	protected function EventRemoveAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Удаляем
+		 */
+		$this->User_DeleteAvatar($this->oUserCurrent);
+		$this->oUserCurrent->setProfileAvatar(null);
+		$this->User_Update($this->oUserCurrent);
+		/**
+		 * Возвращает дефолтную аватарку
+		 */
+		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
+		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
+	}
+	/**
+	 * Отмена ресайза аватарки, необходимо удалить временный файл
+	 */
+	protected function EventCancelAvatar() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Достаем из сессии файл и удаляем
+		 */
+		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
+		$this->Image_RemoveFile($sFileAvatar);
+		$this->Session_Drop('sAvatarFileTmp');
+	}
+	/**
+	 * Дополнительные настройки сайта
+	 */
 	protected function EventTuning() {
 		$this->sMenuItemSelect='settings';
 		$this->sMenuSubItemSelect='tuning';
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
-
+		/**
+		 * Если отправили форму с настройками - сохраняем
+		 */
 		if (isPost('submit_settings_tuning')) {
 			$this->Security_ValidateSendForm();
 
@@ -94,13 +365,14 @@ class ActionSettings extends Action {
 			}
 		}
 	}
-
 	/**
 	 * Показ и обработка формы приглаешний
 	 *
-	 * @return unknown
 	 */
 	protected function EventInvite() {
+		/**
+		 * Только при активном режиме инвайтов
+		 */
 		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
@@ -108,19 +380,30 @@ class ActionSettings extends Action {
 		$this->sMenuItemSelect='invite';
 		$this->sMenuSubItemSelect='';
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));
-
+		/**
+		 * Если отправили форму
+		 */
 		if (isPost('submit_invite')) {
 			$this->Security_ValidateSendForm();
 
 			$bError=false;
+			/**
+			 * Есть права на отправку инфайтов?
+			 */
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));
 				$bError=true;
 			}
+			/**
+			 * Емайл корректен?
+			 */
 			if (!func_check(getRequest('invite_mail'),'mail')) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
+			/**
+			 * Если нет ошибок, то отправляем инвайт
+			 */
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
@@ -131,32 +414,22 @@ class ActionSettings extends Action {
 		$this->Viewer_Assign('iCountInviteAvailable',$this->User_GetCountInviteAvailable($this->oUserCurrent));
 		$this->Viewer_Assign('iCountInviteUsed',$this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
 	}
-
 	/**
-	 * Выводит форму для редактирования профиля и обрабатывает её
-	 *
+	 * Форма смены пароля, емайла
 	 */
-	protected function EventProfile() {
+	protected function EventAccount() {
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
-                  $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
+		$this->sMenuSubItemSelect='account';
 		/**
 		 * Если нажали кнопку "Сохранить"
 		 */
-		if (isPost('submit_profile_edit')) {
+		if (isPost('submit_account_edit')) {
 			$this->Security_ValidateSendForm();
 
 			$bError=false;
-			/**
-		 	* Заполняем профиль из полей формы
-		 	*/
-			/**
-			 * Проверяем имя
-			 */
-			if (func_check(getRequest('profile_name'),'text',2,20)) {
-				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
-			} else {
-				$this->oUserCurrent->setProfileName(null);
-			}
 			/**
 			 * Проверка мыла
 			 */
@@ -170,81 +443,6 @@ class ActionSettings extends Action {
 			} else {
 				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
-			}
-			/**
-			 * Проверяем пол
-			 */
-			if (in_array(getRequest('profile_sex'),array('man','woman','other'))) {
-				$this->oUserCurrent->setProfileSex(getRequest('profile_sex'));
-			} else {
-				$this->oUserCurrent->setProfileSex('other');
-			}
-			/**
-			 * Проверяем дату рождения
-			 */
-			if (func_check(getRequest('profile_birthday_day'),'id',1,2) and func_check(getRequest('profile_birthday_month'),'id',1,2) and func_check(getRequest('profile_birthday_year'),'id',4,4)) {
-				$this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",mktime(0,0,0,getRequest('profile_birthday_month'),getRequest('profile_birthday_day'),getRequest('profile_birthday_year'))));
-			} else {
-				$this->oUserCurrent->setProfileBirthday(null);
-			}
-			/**
-			 * Проверяем страну
-			 */
-			if (func_check(getRequest('profile_country'),'text',1,30)) {
-				$this->oUserCurrent->setProfileCountry(getRequest('profile_country'));
-			} else {
-				$this->oUserCurrent->setProfileCountry(null);
-			}
-			/**
-			 * Проверяем регион
-			 * пока отключим регион, т.к. не понятно нужен ли он вообще =)
-			 */
-			/*
-			if (func_check(getRequest('profile_region'),'text',1,30)) {
-				$this->oUserCurrent->setProfileRegion(getRequest('profile_region'));
-			} else {
-				$this->oUserCurrent->setProfileRegion(null);
-			}
-			*/
-			/**
-			 * Проверяем город
-			 */
-			if (func_check(getRequest('profile_city'),'text',1,30)) {
-				$this->oUserCurrent->setProfileCity(getRequest('profile_city'));
-			} else {
-				$this->oUserCurrent->setProfileCity(null);
-			}
-			/**
-			 * Проверяем ICQ
-			 */
-			if (func_check(getRequest('profile_icq'),'id',4,15)) {
-				$this->oUserCurrent->setProfileIcq(getRequest('profile_icq'));
-			} else {
-				$this->oUserCurrent->setProfileIcq(null);
-			}
-			/**
-			 * Проверяем сайт
-			 */
-			if (func_check(getRequest('profile_site'),'text',3,200)) {
-				$this->oUserCurrent->setProfileSite(getRequest('profile_site'));
-			} else {
-				$this->oUserCurrent->setProfileSite(null);
-			}
-			/**
-			 * Проверяем название сайта
-			 */
-			if (func_check(getRequest('profile_site_name'),'text',3,50)) {
-				$this->oUserCurrent->setProfileSiteName(getRequest('profile_site_name'));
-			} else {
-				$this->oUserCurrent->setProfileSiteName(null);
-			}
-			/**
-			 * Проверяем информацию о себе
-			 */
-			if (func_check(getRequest('profile_about'),'text',1,3000)) {
-				$this->oUserCurrent->setProfileAbout(getRequest('profile_about'));
-			} else {
-				$this->oUserCurrent->setProfileAbout(null);
 			}
 			/**
 			 * Проверка на смену пароля
@@ -268,59 +466,91 @@ class ActionSettings extends Action {
 				}
 			}
 			/**
-			 * Загрузка аватара, делаем ресайзы
+			 * Ставим дату последнего изменения
 			 */
-			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				/**
-				 * Получаем список текущих аватаров
-				 */
-				$sPathOld = $this->oUserCurrent->getProfileAvatar();
-				$aUserAvatars = array();
-				if($sPathOld) {
-					foreach (array_merge(Config::Get('module.user.avatar_size'),array(100)) as $iSize) {
-						$aUserAvatars[$iSize] = $this->oUserCurrent->getProfileAvatarPath($iSize);
-					}
+			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			/**
+			 * Сохраняем изменения
+			 */
+			if (!$bError) {
+				if ($this->User_Update($this->oUserCurrent)) {
+					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+				} else {
+					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
+			}
+		}
+	}
+	/**
+	 * Выводит форму для редактирования профиля и обрабатывает её
+	 *
+	 */
+	protected function EventProfile() {
+		/**
+		 * Устанавливаем title страницы
+		 */
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
+		$this->Viewer_Assign('aUserFields',$this->User_getUserFields(''));
+		$this->Viewer_Assign('aUserFieldsContact',$this->User_getUserFields(array('contact','social')));
+		/**
+		 * Загружаем в шаблон JS текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+								  'settings_profile_field_error_max'
+							  ));
+		/**
+		 * Если нажали кнопку "Сохранить"
+		 */
+		if (isPost('submit_profile_edit')) {
+			$this->Security_ValidateSendForm();
 
-				if($sPath=$this->User_UploadAvatar($_FILES['avatar'],$this->oUserCurrent)) {
-					$this->oUserCurrent->setProfileAvatar($sPath);
-					/**
-					 * Удаляем старые, если путь не совпадает с текущими аватарками
-					 */
-					if($sPathOld and $sPath!=$sPathOld and count($aUserAvatars)) {
-						foreach ($aUserAvatars as $iSize=>$sAvatarPath) {
-							@unlink($this->Image_GetServerPath($sAvatarPath));
-						}
-					}
-				} else {
-					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
-				}
+			$bError=false;
+			/**
+			 * Заполняем профиль из полей формы
+			 */
+			/**
+			 * Определяем гео-объект
+			 */
+			if (getRequest('geo_city')) {
+				$oGeoObject=$this->Geo_GetGeoObject('city',getRequest('geo_city'));
+			} elseif (getRequest('geo_region')) {
+				$oGeoObject=$this->Geo_GetGeoObject('region',getRequest('geo_region'));
+			} elseif (getRequest('geo_country')) {
+				$oGeoObject=$this->Geo_GetGeoObject('country',getRequest('geo_country'));
+			} else {
+				$oGeoObject=null;
 			}
 			/**
-			 * Удалить аватара
+			 * Проверяем имя
 			 */
-			if (getRequest('avatar_delete')) {
-				$this->User_DeleteAvatar($this->oUserCurrent);
-				$this->oUserCurrent->setProfileAvatar(null);
+			if (func_check(getRequest('profile_name'),'text',2,20)) {
+				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
+			} else {
+				$this->oUserCurrent->setProfileName(null);
 			}
 			/**
-			 * Загрузка фото, делаем ресайзы
+			 * Проверяем пол
 			 */
-			if (isset($_FILES['foto']) and is_uploaded_file($_FILES['foto']['tmp_name'])) {
-				if ($sFileFoto=$this->User_UploadFoto($_FILES['foto'],$this->oUserCurrent)) {
-					$this->oUserCurrent->setProfileFoto($sFileFoto);
-				} else {
-					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_foto_error'),$this->Lang_Get('error'));
-				}
+			if (in_array(getRequest('profile_sex'),array('man','woman','other'))) {
+				$this->oUserCurrent->setProfileSex(getRequest('profile_sex'));
+			} else {
+				$this->oUserCurrent->setProfileSex('other');
 			}
 			/**
-			 * Удалить фото
+			 * Проверяем дату рождения
 			 */
-			if (isset($_REQUEST['foto_delete'])) {
-				$this->User_DeleteFoto($this->oUserCurrent);
-				$this->oUserCurrent->setProfileFoto(null);
+			if (func_check(getRequest('profile_birthday_day'),'id',1,2) and func_check(getRequest('profile_birthday_month'),'id',1,2) and func_check(getRequest('profile_birthday_year'),'id',4,4)) {
+				$this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",mktime(0,0,0,getRequest('profile_birthday_month'),getRequest('profile_birthday_day'),getRequest('profile_birthday_year'))));
+			} else {
+				$this->oUserCurrent->setProfileBirthday(null);
+			}
+			/**
+			 * Проверяем информацию о себе
+			 */
+			if (func_check(getRequest('profile_about'),'text',1,3000)) {
+				$this->oUserCurrent->setProfileAbout($this->Text_Parser(getRequest('profile_about')));
+			} else {
+				$this->oUserCurrent->setProfileAbout(null);
 			}
 			/**
 			 * Ставим дату последнего изменения профиля
@@ -328,58 +558,114 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
 			 * Сохраняем изменения профиля
-		 	*/
+			 */
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					/**
-					 * Добавляем страну
+					 * Создаем связь с гео-объектом
 					 */
-					if ($this->oUserCurrent->getProfileCountry()) {
-						if (!($oCountry=$this->User_GetCountryByName($this->oUserCurrent->getProfileCountry()))) {
-							$oCountry=Engine::GetEntity('User_Country');
-							$oCountry->setName($this->oUserCurrent->getProfileCountry());
-							$this->User_AddCountry($oCountry);
+					if ($oGeoObject) {
+						$this->Geo_CreateTarget($oGeoObject,'user',$this->oUserCurrent->getId());
+						if ($oCountry=$oGeoObject->getCountry()) {
+							$this->oUserCurrent->setProfileCountry($oCountry->getName());
+						} else {
+							$this->oUserCurrent->setProfileCountry(null);
 						}
-						$this->User_SetCountryUser($oCountry->getId(),$this->oUserCurrent->getId());
+						if ($oRegion=$oGeoObject->getRegion()) {
+							$this->oUserCurrent->setProfileRegion($oRegion->getName());
+						} else {
+							$this->oUserCurrent->setProfileRegion(null);
+						}
+						if ($oCity=$oGeoObject->getCity()) {
+							$this->oUserCurrent->setProfileCity($oCity->getName());
+						} else {
+							$this->oUserCurrent->setProfileCity(null);
+						}
+					} else {
+						$this->Geo_DeleteTargetsByTarget('user',$this->oUserCurrent->getId());
+						$this->oUserCurrent->setProfileCountry(null);
+						$this->oUserCurrent->setProfileRegion(null);
+						$this->oUserCurrent->setProfileCity(null);
 					}
+					$this->User_Update($this->oUserCurrent);
+
 					/**
-					 * Добавляем город
+					 * Обрабатываем дополнительные поля, type = ''
 					 */
-					if ($this->oUserCurrent->getProfileCity()) {
-						if (!($oCity=$this->User_GetCityByName($this->oUserCurrent->getProfileCity()))) {
-							$oCity=Engine::GetEntity('User_City');
-							$oCity->setName($this->oUserCurrent->getProfileCity());
-							$this->User_AddCity($oCity);
+					$aFields = $this->User_getUserFields('');
+					$aData = array();
+					foreach ($aFields as $iId => $aField) {
+						if (isset($_REQUEST['profile_user_field_'.$iId])) {
+							$aData[$iId] = getRequest('profile_user_field_'.$iId);
 						}
-						$this->User_SetCityUser($oCity->getId(),$this->oUserCurrent->getId());
 					}
-
-                                                /**
-                                                 * Обрабатываем дополнительные поля
-                                                 */
-                                                $aFields = $this->User_getUserFields();
-                                                $aData = array();
-                                                foreach ($aFields as $iId => $aField) {
-                                                    if (isset($_REQUEST['profile_user_field_'.$iId])) {
-                                                        $aData[$iId] = getRequest('profile_user_field_'.$iId);
-                                                    }
-                                                }
-                                                $this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
+					$this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
+					/**
+					 * Динамические поля контактов, type = array('contact','social')
+					 */
+					$aType=array('contact','social');
+					$aFields = $this->User_getUserFields($aType);
+					/**
+					 * Удаляем все поля с этим типом
+					 */
+					$this->User_DeleteUserFieldValues($this->oUserCurrent->getId(),$aType);
+					$aFieldsContactType=getRequest('profile_user_field_type');
+					$aFieldsContactValue=getRequest('profile_user_field_value');
+					if (is_array($aFieldsContactType)) {
+						foreach($aFieldsContactType as $k=>$v) {
+							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
+								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), Config::Get('module.user.userfield_max_identical'));
+							}
+						}
+					}
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
-                                            $this->Viewer_Assign('aUserFields', $this->User_getUserFieldsValues($this->oUserCurrent->getId(), false));
-
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
 			}
 		}
-	}
+		/**
+		 * Загружаем гео-объект привязки
+		 */
+		$oGeoTarget=$this->Geo_GetTargetByTarget('user',$this->oUserCurrent->getId());
+		$this->Viewer_Assign('oGeoTarget',$oGeoTarget);
+		/**
+		 * Загружаем в шаблон список стран, регионов, городов
+		 */
+		$aCountries=$this->Geo_GetCountries(array(),array('sort'=>'asc'),1,300);
+		$this->Viewer_Assign('aGeoCountries',$aCountries['collection']);
+		if ($oGeoTarget) {
+			if ($oGeoTarget->getCountryId()) {
+				$aRegions=$this->Geo_GetRegions(array('country_id'=>$oGeoTarget->getCountryId()),array('sort'=>'asc'),1,500);
+				$this->Viewer_Assign('aGeoRegions',$aRegions['collection']);
+			}
+			if ($oGeoTarget->getRegionId()) {
+				$aCities=$this->Geo_GetCities(array('region_id'=>$oGeoTarget->getRegionId()),array('sort'=>'asc'),1,500);
+				$this->Viewer_Assign('aGeoCities',$aCities['collection']);
+			}
+		}
 
+	}
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
 	public function EventShutdown() {
+		$iCountTopicFavourite=$this->Topic_GetCountTopicsFavouriteByUserId($this->oUserCurrent->getId());
+		$iCountTopicUser=$this->Topic_GetCountTopicsPersonalByUser($this->oUserCurrent->getId(),1);
+		$iCountCommentUser=$this->Comment_GetCountCommentsByUserId($this->oUserCurrent->getId(),'topic');
+		$iCountCommentFavourite=$this->Comment_GetCountCommentsFavouriteByUserId($this->oUserCurrent->getId());
+		$iCountNoteUser=$this->User_GetCountUserNotesByUserId($this->oUserCurrent->getId());
+
+		$this->Viewer_Assign('oUserProfile',$this->oUserCurrent);
+		$this->Viewer_Assign('iCountWallUser',$this->Wall_GetCountWall(array('wall_user_id'=>$this->oUserCurrent->getId(),'pid'=>null)));
+		/**
+		 * Общее число публикация и избранного
+		 */
+		$this->Viewer_Assign('iCountCreated',$iCountNoteUser+$iCountTopicUser+$iCountCommentUser);
+		$this->Viewer_Assign('iCountFavourite',$iCountCommentFavourite+$iCountTopicFavourite);
+		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
+
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */

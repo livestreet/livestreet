@@ -18,45 +18,47 @@
 /**
  * Обработка главной страницы, т.е. УРЛа вида /index/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionIndex extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='index';
 	/**
 	 * Субменю
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='good';
 	/**
 	 * Число новых топиков
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsNew=0;
 	/**
 	 * Число новых топиков в коллективных блогах
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsCollectiveNew=0;
 	/**
 	 * Число новых топиков в персональных блогах
 	 *
-	 * @var unknown_type
+	 * @var int
 	 */
 	protected $iCountTopicsPersonalNew=0;
-	
+
 	/**
 	 * Инициализация
 	 *
@@ -73,22 +75,151 @@ class ActionIndex extends Action {
 	 * Регистрация евентов
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventIndex');				
+	protected function RegisterEvent() {
+		$this->AddEventPreg('/^(page(\d+))?$/i','EventIndex');
+		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventNew');
+		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventDiscussed');
+		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTop');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
 	/**
-	 * Реализация евента
+	 * Вывод рейтинговых топиков
+	 */
+	protected function EventTop() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='top';
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('index').'top/');
+		}
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		/**
+		 * Если нет топиков за 1 день, то показываем за неделю (7)
+		 */
+		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
+			$sPeriod=7;
+			$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		}
+		$aTopics=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'top',array('period'=>$sPeriod));
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+		$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('index').'top/');
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('index');
+	}
+	/**
+	 * Вывод обсуждаемых топиков
+	 */
+	protected function EventDiscussed() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='discussed';
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('index').'discussed/');
+		}
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		/**
+		 * Если нет топиков за 1 день, то показываем за неделю (7)
+		 */
+		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
+			$sPeriod=7;
+			$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		}
+		$aTopics=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'discussed',array('period'=>$sPeriod));
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+		$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('index').'discussed/');
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('index');
+	}
+	/**
+	 * Вывод новых топиков
+	 */
+	protected function EventNew() {
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'new/',Config::Get('view.name'));
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='new';
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsNew($iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'new');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('aPaging',$aPaging);
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('index');
+	}
+	/**
+	 * Вывод интересных на главную
 	 *
 	 */
 	protected function EventIndex() {
-		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));	
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'index/',Config::Get('view.name'));
 		/**
 		 * Меню
 		 */
@@ -98,24 +229,30 @@ class ActionIndex extends Action {
 		 */
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
 		/**
+		 * Устанавливаем основной URL для поисковиков
+		 */
+		if ($iPage==1) {
+			$this->Viewer_SetHtmlCanonical(Config::Get('path.root.web').'/');
+		}
+		/**
 		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));			
-		$aTopics=$aResult['collection'];	
+		 */
+		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index'));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('aPaging',$aPaging);		
+		$this->Viewer_Assign('aPaging',$aPaging);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}	
+	}
 	/**
 	 * При завершении экшена загружаем переменные в шаблон
 	 *
@@ -126,7 +263,7 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
-		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);	
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 	}
 }
 ?>

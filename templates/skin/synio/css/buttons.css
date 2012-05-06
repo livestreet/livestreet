@@ -1,0 +1,99 @@
+/* -------------------------------------------------------------------
+	
+	КНОПКИ
+	
+	
+	Примеры использования:
+	
+	<button class="button">Preview</button>
+	<a href="#" class="button">Preview</a>
+	
+	<button class="button button-primary">Save</button>
+	
+------------------------------------------------------------------- */
+
+.button {
+	display: inline-block;
+	
+	padding: 3px 15px 5px;
+	text-align: center;
+	
+	border: 1px solid #dfe3e8;
+	border-radius: 5px;
+	
+	font-size: 13px;
+	line-height: 17px;
+	
+	color: #434343;
+	
+	background: #fbfcfc;
+	background: -moz-linear-gradient(top,  #fbfcfc 0%, #f0f2f5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfcfc), color-stop(100%,#f0f2f5));
+	background: -webkit-linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
+	background: -o-linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
+	background: -ms-linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
+	background: linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfcfc', endColorstr='#f0f2f5',GradientType=0 );
+
+	font-family: Verdana, sans-serif;
+	cursor: pointer;
+	text-decoration: none;
+	
+	*margin-right: 5px;
+}
+.button:hover { text-decoration: none; background: #f0f2f5; }
+.button:active { 
+	-moz-box-shadow: 	0 0 7px rgba(0, 0, 0, .5) inset; 
+	-webkit-box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset; 
+	box-shadow: 		0 0 7px rgba(0, 0, 0, .5) inset; 
+}
+.button.fl-r { *margin-right: 0; }
+
+
+/* Button Primary */
+.button.button-primary { 
+	background: #66cfff;
+	background: -moz-linear-gradient(top,  #66cfff 0%, #2abcfe 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#66cfff), color-stop(100%,#2abcfe));
+	background: -webkit-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: -o-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: -ms-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66cfff', endColorstr='#2abcfe',GradientType=0 );
+	
+	border: 1px solid #27ace8;
+	
+	color: #fff;
+}
+.button.button-primary:hover { background: #2abcfe; }
+
+
+/* Button Icon (Without text) */
+.button.button-icon 			{ padding: 7px 10px; }
+
+
+/* Button Write */
+.button.button-write { 
+	background: #66cfff;
+	background: -moz-linear-gradient(top,  #66cfff 0%, #2abcfe 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#66cfff), color-stop(100%,#2abcfe));
+	background: -webkit-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: -o-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: -ms-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66cfff', endColorstr='#2abcfe',GradientType=0 );
+	
+	border: 1px solid #27ace8;
+	
+	padding: 2px 15px 4px;
+	border-radius: 15px;
+	line-height: 17px;
+	
+	color: #fff;
+	font-size: 11px;
+}
+.button.button-write:hover { background: #2abcfe; }
+
+
+/* Button Small */
+.button.button-small { font-size: 11px; padding: 1px 7px 3px; }

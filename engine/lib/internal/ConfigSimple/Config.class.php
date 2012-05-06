@@ -59,7 +59,7 @@ class Config {
 	/**
 	 * Ограничиваем объект только одним экземпляром
 	 *
-	 * @return ConfigSimple
+	 * @return Config
 	 */
 	static public function getInstance($sName=self::DEFAULT_CONFIG_INSTANCE) {
 		if (isset(self::$aInstance[$sName])) {
@@ -75,7 +75,7 @@ class Config {
 	 *
 	 * @param  string $sFile
 	 * @param  bool $bRewrite
-	 * @return ConfigSimple
+	 * @return Config
 	 */
 	static public function LoadFromFile($sFile,$bRewrite=true,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {
 		// Check if file exists
@@ -92,7 +92,7 @@ class Config {
 	 *
 	 * @param  string $aConfig
 	 * @param  bool   $bRewrite
-	 * @return ConfigSimple
+	 * @return Config
 	 */
 	static public function Load($aConfig,$bRewrite=true,$sInstance=self::DEFAULT_CONFIG_INSTANCE) {
 		// Check if it`s array

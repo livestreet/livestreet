@@ -37,8 +37,14 @@ function smarty_function_router($aParams,&$oSmarty) {
 	/**
 	 * Возвращаем полный адрес к указаному Action
 	 */
-	return (isset($aParams['extend'])) 
+	$sReturn=(isset($aParams['extend']))
 		? $sPath . $aParams['extend'] ."/"
 		: $sPath;
+
+	if (!empty($aParams['assign'])) {
+		$oSmarty->assign($aParams['assign'], $sReturn);
+	} else {
+		return $sReturn;
+	}
 }
 ?>

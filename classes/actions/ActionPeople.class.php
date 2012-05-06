@@ -16,120 +16,183 @@
 */
 
 /**
- * Обработка статистики юзеров, т.е. УРЛа вида /people/
+ * Экшен обработки статистики юзеров, т.е. УРЛа вида /people/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionPeople extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='people';
-	
-	protected $sMenuItemSelect='people';
-		
+	/**
+	 * Меню
+	 *
+	 * @var string
+	 */
+	protected $sMenuItemSelect='all';
+
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {
-		$this->SetDefaultEvent('good');	
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
 	}
 	/**
 	 * Регистрируем евенты
 	 *
 	 */
-	protected function RegisterEvent() {		
-		$this->AddEvent('good','EventGood');		
-		$this->AddEvent('bad','EventBad');	
-		$this->AddEvent('online','EventOnline');	
+	protected function RegisterEvent() {
+		$this->AddEvent('online','EventOnline');
 		$this->AddEvent('new','EventNew');
-			
-		$this->AddEventPreg('/^country$/i','/^.+$/i','/^(page(\d+))?$/i','EventCountry');
-		$this->AddEventPreg('/^city$/i','/^.+$/i','/^(page(\d+))?$/i','EventCity');
+		$this->AddEventPreg('/^(index)?$/i','/^(page(\d+))?$/i','/^$/i','EventIndex');
+		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
+
+		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
+		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
+	/**
+	 * Поиск пользователей по логину
+	 */
+	protected function EventAjaxSearch() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Получаем из реквеста первые быквы для поиска пользователей по логину
+		 */
+		$sTitle=getRequest('user_login');
+		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
+			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		/**
+		 * Как именно искать: совпадение в любой частилогина, или только начало или конец логина
+		 */
+		if (getRequest('isPrefix')) {
+			$sTitle.='%';
+		} elseif (getRequest('isPostfix')) {
+			$sTitle='%'.$sTitle;
+		} else {
+			$sTitle='%'.$sTitle.'%';
+		}
+		/**
+		 * Ищем пользователей
+		 */
+		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
+		/**
+		 * Формируем ответ
+		 */
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aUsersList',$aResult['collection']);
+		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
+	}
 	/**
 	 * Показывает юзеров по стране
 	 *
 	 */
-	protected function EventCountry() {		
-		if (!($oCountry=$this->User_GetCountryByName(urldecode($this->getParam(0))))) {
+	protected function EventCountry() {
+		/**
+		 * Страна существует?
+		 */
+		if (!($oCountry=$this->Geo_GetCountryById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();	
+		$this->GetStats();
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;				
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
-		 * Получаем список юзеров
-		 */					
-		$aResult=$this->User_GetUsersByCountry($oCountry->getName(),$iPage,Config::Get('module.user.per_page'));	
-		$aUsersCountry=$aResult['collection'];
+		 * Получаем список вязей пользователей со страной
+		 */
+		$aResult=$this->Geo_GetTargets(array('country_id'=>$oCountry->getId(),'target_type'=>'user'),$iPage,Config::Get('module.user.per_page'));
+		$aUsersId=array();
+		foreach($aResult['collection'] as $oTarget) {
+			$aUsersId[]=$oTarget->getTargetId();
+		}
+		$aUsersCountry=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getName());
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		if ($aUsersCountry) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
+			$this->Viewer_Assign('aPaging',$aPaging);
+		}
 		$this->Viewer_Assign('oCountry',$oCountry);
-		$this->Viewer_Assign('aUsersCountry',$aUsersCountry);				
+		$this->Viewer_Assign('aUsersCountry',$aUsersCountry);
 	}
 	/**
 	 * Показывает юзеров по городу
 	 *
 	 */
-	protected function EventCity() {		
-		if (!($oCity=$this->User_GetCityByName(urldecode($this->getParam(0))))) {
+	protected function EventCity() {
+		/**
+		 * Город существует?
+		 */
+		if (!($oCity=$this->Geo_GetCityById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();	
+		$this->GetStats();
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;		
+		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		/**
 		 * Получаем список юзеров
-		 */					
-		$aResult=$this->User_GetUsersByCity($oCity->getName(),$iPage,Config::Get('module.user.per_page'));	
-		$aUsersCity=$aResult['collection'];
+		 */
+		$aResult=$this->Geo_GetTargets(array('city_id'=>$oCity->getId(),'target_type'=>'user'),$iPage,Config::Get('module.user.per_page'));
+		$aUsersId=array();
+		foreach($aResult['collection'] as $oTarget) {
+			$aUsersId[]=$oTarget->getTargetId();
+		}
+		$aUsersCity=$this->User_GetUsersAdditionalData($aUsersId);
 		/**
 		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getName());
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		if ($aUsersCity) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
+			$this->Viewer_Assign('aPaging',$aPaging);
+		}
 		$this->Viewer_Assign('oCity',$oCity);
-		$this->Viewer_Assign('aUsersCity',$aUsersCity);				
+		$this->Viewer_Assign('aUsersCity',$aUsersCity);
 	}
 	/**
 	 * Показываем последних на сайте
 	 *
 	 */
 	protected function EventOnline() {
+		$this->sMenuItemSelect='online';
 		/**
 		 * Последние по визиту на сайт
 		 */
@@ -138,13 +201,14 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();		
+		$this->GetStats();
 	}
 	/**
 	 * Показываем новых на сайте
 	 *
 	 */
 	protected function EventNew() {
+		$this->sMenuItemSelect='new';
 		/**
 		 * Последние по регистрации
 		 */
@@ -153,42 +217,63 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем статистику
 		 */
-		$this->GetStats();		
+		$this->GetStats();
 	}
 	/**
-	 * Показываем хороших юзеров
+	 * Показываем юзеров
 	 *
 	 */
-	protected function EventGood() {
-		/**
-		 * Получаем статистику
-		 */
-		$this->GetStats();		
-		/**
-		 * Получаем хороших юзеров
-		 */
-		$this->GetUserRating('good');	
-		/**
-		 * Устанавливаем шаблон вывода
-		 */		
-		$this->SetTemplateAction('index');	
-	}		
-	/**
-	 * Показываем плохих юзеров
-	 *
-	 */
-	protected function EventBad() {	
+	protected function EventIndex() {
 		/**
 		 * Получаем статистику
 		 */
 		$this->GetStats();
 		/**
-		 * Получаем хороших юзеров
+		 * По какому полю сортировать
 		 */
-		$this->GetUserRating('bad');
+		$sOrder='user_rating';
+		if (getRequest('order')) {
+			$sOrder=getRequest('order');
+		}
+		/**
+		 * В каком направлении сортировать
+		 */
+		$sOrderWay='desc';
+		if (getRequest('order_way')) {
+			$sOrderWay=getRequest('order_way');
+		}
+		$aFilter=array(
+			'activate' => 1
+		);
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		/**
+		 * Получаем список юзеров
+		 */
+		$aResult=$this->User_GetUsersByFilter($aFilter,array($sOrder=>$sOrderWay),$iPage,Config::Get('module.user.per_page'));
+		$aUsers=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		/**
+		 * Получаем алфавитный указатель на список пользователей
+		 */
+		$aPrefixUser=$this->User_GetGroupPrefixUser(1);
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aUsersRating',$aUsers);
+		$this->Viewer_Assign('aPrefixUser',$aPrefixUser);
+		$this->Viewer_Assign("sUsersOrder",htmlspecialchars($sOrder));
+		$this->Viewer_Assign("sUsersOrderWay",htmlspecialchars($sOrderWay));
+		$this->Viewer_Assign("sUsersOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
 		/**
 		 * Устанавливаем шаблон вывода
-		 */		
+		 */
 		$this->SetTemplateAction('index');
 	}
 	/**
@@ -199,45 +284,18 @@ class ActionPeople extends Action {
 		/**
 		 * Статистика кто, где и т.п.
 		 */
-		$aStat=$this->User_GetStatUsers();		
+		$aStat=$this->User_GetStatUsers();
 		/**
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aStat',$aStat);
-	}	
-	/**
-	 * Получаем список юзеров 
-	 *
-	 * @param unknown_type $sType
-	 */
-	protected function GetUserRating($sType) {
-		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;				
-		/**
-		 * Получаем список юзеров
-		 */		
-		$aResult=$this->User_GetUsersRating($sType,$iPage,Config::Get('module.user.per_page'));	
-		$aUsersRating=$aResult['collection'];	
-		/**
-		 * Формируем постраничность
-		 */			
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent);
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		if ($aUsersRating) {
-			$this->Viewer_Assign('aPaging',$aPaging);			
-		}	
-		$this->Viewer_Assign('aUsersRating',$aUsersRating);
 	}
-	
+
 	/**
 	 * Выполняется при завершении работы экшена
 	 *
 	 */
-	public function EventShutdown() {		
+	public function EventShutdown() {
 		/**
 		 * Загружаем в шаблон необходимые переменные
 		 */

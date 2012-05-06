@@ -34,6 +34,15 @@ class ModuleUser extends Module {
 	protected $oSession=null;
 
 	/**
+	 * Список типов пользовательских полей
+	 *
+	 * @var array
+	 */
+	protected $aUserFieldTypes=array(
+		'social','contact'
+	);
+
+	/**
 	 * Инициализация
 	 *
 	 */
@@ -65,11 +74,33 @@ class ModuleUser extends Module {
 			$this->UpdateSession();
 		}
 	}
+
+	/**
+	 * Возвращает список типов полей
+	 */
+	public function GetUserFieldTypes() {
+		return $this->aUserFieldTypes;
+	}
+
+	/**
+	 * Добавляет новый тип с пользовательские поля
+	 * @param string $sType
+	 */
+	public function AddUserFieldTypes($sType) {
+		if (!in_array($sType,$this->aUserFieldTypes)) {
+			$this->aUserFieldTypes[]=$sType;
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Получает дополнительные данные(объекты) для юзеров по их ID
 	 *
 	 */
-	public function GetUsersAdditionalData($aUserId,$aAllowData=array('vote','session','friend')) {
+	public function GetUsersAdditionalData($aUserId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('vote','session','friend','geo_target');
+		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
 			$aUserId=array($aUserId);
@@ -84,6 +115,7 @@ class ModuleUser extends Module {
 		$aSessions=array();
 		$aFriends=array();
 		$aVote=array();
+		$aGeoTargets=array();
 		if (isset($aAllowData['session'])) {
 			$aSessions=$this->GetSessionsByArrayId($aUserId);
 		}
@@ -93,6 +125,9 @@ class ModuleUser extends Module {
 
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
 			$aVote=$this->Vote_GetVoteByArray($aUserId,'user',$this->oUserCurrent->getId());
+		}
+		if (isset($aAllowData['geo_target'])) {
+			$aGeoTargets=$this->Geo_GetTargetsByTargetArray('user',$aUserId);
 		}
 		/**
 		 * Добавляем данные к результату
@@ -113,6 +148,12 @@ class ModuleUser extends Module {
 				$oUser->setVote($aVote[$oUser->getId()]);
 			} else {
 				$oUser->setVote(null);
+			}
+			if (isset($aGeoTargets[$oUser->getId()])) {
+				$aTargets=$aGeoTargets[$oUser->getId()];
+				$oUser->setGeoTarget(isset($aTargets[0]) ? $aTargets[0] : null);
+			} else {
+				$oUser->setGeoTarget(null);
 			}
 		}
 
@@ -316,8 +357,8 @@ class ModuleUser extends Module {
 	 */
 	public function Shutdown() {
 		if ($this->oUserCurrent) {
-			$iCountTalkNew=$this->Talk_GetCountTalkNew($this->oUserCurrent->getId());
-			$this->Viewer_Assign('iUserCurrentCountTalkNew',$iCountTalkNew);
+			$this->Viewer_Assign('iUserCurrentCountTalkNew',$this->Talk_GetCountTalkNew($this->oUserCurrent->getId()));
+			$this->Viewer_Assign('iUserCurrentCountTopicDraft',$this->Topic_GetCountDraftTopicsByUserId($this->oUserCurrent->getId()));
 		}
 		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent);
 	}
@@ -332,6 +373,10 @@ class ModuleUser extends Module {
 			$oUser->setId($sId);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('user_new'));
+			/**
+			 * Создаем персональный блог
+			 */
+			$this->Blog_CreatePersonalBlog($oUser);
 			return $oUser;
 		}
 		return false;
@@ -437,7 +482,7 @@ class ModuleUser extends Module {
 		 * Ставим куку
 		 */
 		if ($bRemember) {
-			setcookie('key',$sKey,time()+60*60*24*3,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+			setcookie('key',$sKey,time()+Config::Get('sys.cookie.time'),Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 		}
 	}
 	/**
@@ -501,8 +546,8 @@ class ModuleUser extends Module {
 		$this->oSession->setIpLast(func_getIp());
 		if (false === ($data = $this->Cache_Get("user_session_{$this->oSession->getUserId()}"))) {
 			$data=array(
-			'time'=>time(),
-			'session'=>$this->oSession
+				'time'=>time(),
+				'session'=>$this->oSession
 			);
 		} else {
 			$data['session']=$this->oSession;
@@ -548,67 +593,33 @@ class ModuleUser extends Module {
 		return $data;
 	}
 	/**
+	 * Возвращает список пользователей по фильтру
+	 *
+	 * @param $aFilter
+	 * @param $aOrder
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @param array $aAllowData
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetUsersByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=null) {
+		$sKey="user_filter_".serialize($aFilter).serialize($aOrder)."_{$iCurrPage}_{$iPerPage}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = array('collection'=>$this->oMapper->GetUsersByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, $sKey, array("user_update","user_new"), 60*60*24*2);
+		}
+		$data['collection']=$this->GetUsersAdditionalData($data['collection'],$aAllowData);
+		return $data;
+	}
+	/**
 	 * Получить список юзеров по дате регистрации
 	 *
 	 * @param unknown_type $iLimit
 	 * @return unknown
 	 */
 	public function GetUsersByDateRegister($iLimit=20) {
-		if (false === ($data = $this->Cache_Get("user_date_register_{$iLimit}"))) {
-			$data = $this->oMapper->GetUsersByDateRegister($iLimit);
-			$this->Cache_Set($data, "user_date_register_{$iLimit}", array("user_new"), 60*60*24*3);
-		}
-		$data=$this->GetUsersAdditionalData($data);
-		return $data;
-	}
-	/**
-	 * Получить список юзеров по рейтингу
-	 *
-	 * @param unknown_type $sType
-	 * @param unknown_type $iCount
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersRating($sType,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_rating_{$sType}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersRating($sType,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_rating_{$sType}_{$iPage}_{$iPerPage}", array("user_new","user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
-	}
-	/**
-	 * Получить спиок юзеров по стране
-	 *
-	 * @param unknown_type $sCountry
-	 * @param unknown_type $iCurrPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersByCountry($sCountry,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_country_{$sCountry}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersByCountry($sCountry,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_country_{$sCountry}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
-	}
-	/**
-	 * Получить список юзеров по городу
-	 *
-	 * @param unknown_type $sCity
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
-	 */
-	public function GetUsersByCity($sCity,$iPage,$iPerPage) {
-		if (false === ($data = $this->Cache_Get("user_city_{$sCity}_{$iPage}_{$iPerPage}"))) {
-			$data = array('collection'=>$this->oMapper->GetUsersByCity($sCity,$iCount,$iPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, "user_city_{$sCity}_{$iPage}_{$iPerPage}", array("user_update"), 60*60*24*2);
-		}
-		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
-		return $data;
+		$aResult=$this->GetUsersByFilter(array('activate'=>1),array('id'=>'desc'),1,$iLimit);
+		return $aResult['collection'];
 	}
 	/**
 	 * Получить статистику по юзерам
@@ -625,8 +636,6 @@ class ModuleUser extends Module {
 			$aStat['count_sex_man']=(isset($aSex['man']) ? $aSex['man']['count'] : 0);
 			$aStat['count_sex_woman']=(isset($aSex['woman']) ? $aSex['woman']['count'] : 0);
 			$aStat['count_sex_other']=(isset($aSex['other']) ? $aSex['other']['count'] : 0);
-			$aStat['count_country']=$this->oMapper->GetCountUsersCountry(15);
-			$aStat['count_city']=$this->oMapper->GetCountUsersCity(15);
 
 			$this->Cache_Set($aStat, "user_stats", array("user_update","user_new"), 60*60*24*4);
 		}
@@ -820,15 +829,33 @@ class ModuleUser extends Module {
 	/**
 	 * Получает список друзей
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId
+	 * @param  int $iPage
+	 * @param  int $iPerPage
 	 * @return array
 	 */
-	public function GetUsersFriend($sUserId) {
-		if (false === ($data = $this->Cache_Get("user_friend_{$sUserId}"))) {
-			$data = $this->oMapper->GetUsersFriend($sUserId);
-			$this->Cache_Set($data, "user_friend_{$sUserId}", array("friend_change_user_{$sUserId}"), 60*60*24*2);
+	public function GetUsersFriend($sUserId,$iPage=1,$iPerPage=10) {
+		$sKey="user_friend_{$sUserId}_{$iPage}_{$iPerPage}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = array('collection'=>$this->oMapper->GetUsersFriend($sUserId,$iCount,$iPage,$iPerPage),'count'=>$iCount);
+			$this->Cache_Set($data, $sKey, array("friend_change_user_{$sUserId}"), 60*60*24*2);
 		}
-		$data=$this->GetUsersAdditionalData($data);
+		$data['collection']=$this->GetUsersAdditionalData($data['collection']);
+		return $data;
+	}
+
+	/**
+	 * Получает количество друзей
+	 *
+	 * @param  int $sUserId
+	 * @return array
+	 */
+	public function GetCountUsersFriend($sUserId) {
+		$sKey="count_user_friend_{$sUserId}";
+		if (false === ($data = $this->Cache_Get($sKey))) {
+			$data = $this->oMapper->GetCountUsersFriend($sUserId);
+			$this->Cache_Set($data, $sKey, array("friend_change_user_{$sUserId}"), 60*60*24*2);
+		}
 		return $data;
 	}
 
@@ -941,102 +968,6 @@ class ModuleUser extends Module {
 		return $this->GetUserById($id);
 	}
 	/**
-	 * Привязывает страну к пользователю
-	 *
-	 * @param unknown_type $sCountryId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function SetCountryUser($sCountryId,$sUserId) {
-		return $this->oMapper->SetCountryUser($sCountryId,$sUserId);
-	}
-	/**
-	 * Получает страну по имени
-	 *
-	 * @param unknown_type $sName
-	 * @return unknown
-	 */
-	public function GetCountryByName($sName) {
-		return $this->oMapper->GetCountryByName($sName);
-	}
-	/**
-	 * Добавляет страну
-	 *
-	 * @param ModuleUser_EntityCountry $oCountry
-	 * @return unknown
-	 */
-	public function AddCountry(ModuleUser_EntityCountry $oCountry) {
-		if ($sId=$this->oMapper->AddCountry($oCountry)) {
-			$oCountry->setId($sId);
-			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("country_new"));
-			return $oCountry;
-		}
-		return false;
-	}
-	/**
-	 * Привязывает город к пользователю
-	 *
-	 * @param unknown_type $sCityId
-	 * @param unknown_type $sUserId
-	 * @return unknown
-	 */
-	public function SetCityUser($sCityId,$sUserId) {
-		return $this->oMapper->SetCityUser($sCityId,$sUserId);
-	}
-	/**
-	 * Получает город по имени
-	 *
-	 * @param unknown_type $sName
-	 * @return unknown
-	 */
-	public function GetCityByName($sName) {
-		return $this->oMapper->GetCityByName($sName);
-	}
-	/**
-	 * Добавляет город
-	 *
-	 * @param ModuleUser_EntityCity $oCity
-	 * @return unknown
-	 */
-	public function AddCity(ModuleUser_EntityCity $oCity) {
-		if ($sId=$this->oMapper->AddCity($oCity)) {
-			$oCity->setId($sId);
-			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("city_new"));
-			return $oCity;
-		}
-		return false;
-	}
-	/**
-	 * Получает список похожих городов
-	 *
-	 * @param unknown_type $sName
-	 * @param unknown_type $iLimit
-	 * @return unknown
-	 */
-	public function GetCityByNameLike($sName,$iLimit) {
-		if (false === ($data = $this->Cache_Get("city_like_{$sName}_{$iLimit}"))) {
-			$data = $this->oMapper->GetCityByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "city_like_{$sName}_{$iLimit}", array("city_new"), 60*60*24*1);
-		}
-		return $data;
-	}
-	/**
-	 * Получает список похожих стран
-	 *
-	 * @param unknown_type $sName
-	 * @param unknown_type $iLimit
-	 * @return unknown
-	 */
-	public function GetCountryByNameLike($sName,$iLimit) {
-		if (false === ($data = $this->Cache_Get("country_like_{$sName}_{$iLimit}"))) {
-			$data = $this->oMapper->GetCountryByNameLike($sName,$iLimit);
-			$this->Cache_Set($data, "country_like_{$sName}_{$iLimit}", array("country_new"), 60*60*24*1);
-		}
-		return $data;
-	}
-	/**
 	 * Добавляем воспоминание(восстановление) пароля
 	 *
 	 * @param unknown_type $oReminder
@@ -1068,17 +999,13 @@ class ModuleUser extends Module {
 	 * Upload user avatar on server
 	 * Make resized images
 	 *
-	 * @param  array           $aFile
+	 * @param  string	$sFileTmp
 	 * @param  ModuleUser_EntityUser $oUser
+	 * @param  array $aSize Размер области из которой нужно вырезать картинку - array('x1'=>0,'y1'=>0,'x2'=>100,'y2'=>100)
 	 * @return (string|bool)
 	 */
-	public function UploadAvatar($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+	public function UploadAvatar($sFileTmp,$oUser,$aSize=array()) {
+		if (!file_exists($sFileTmp)) {
 			return false;
 		}
 		$sPath = $this->Image_GetIdDir($oUser->getId());
@@ -1087,7 +1014,7 @@ class ModuleUser extends Module {
 		/**
 		 * Срезаем квадрат
 		 */
-		$oImage = new LiveImage($sFileTmp);
+		$oImage = $this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан,
 		 * возвращаем ошибку
@@ -1099,9 +1026,53 @@ class ModuleUser extends Module {
 			return false;
 		}
 
-		$oImage = $this->Image_CropSquare($oImage);
-		$oImage->set_jpg_quality($aParams['jpg_quality']);
-		$oImage->output(null,$sFileTmp);
+		if (!$aSize) {
+			$oImage = $this->Image_CropSquare($oImage);
+			$oImage->set_jpg_quality($aParams['jpg_quality']);
+			$oImage->output(null,$sFileTmp);
+		} else {
+			$iWSource=$oImage->get_image_params('width');
+			$iHSource=$oImage->get_image_params('height');
+			/**
+			 * Достаем переменные x1 и т.п. из $aSize
+			 */
+			extract($aSize,EXTR_PREFIX_SAME,'ops');
+			if ($x1>$x2) {
+				// меняем значения переменных
+				$x1 = $x1 + $x2;
+				$x2 = $x1 - $x2;
+				$x1 = $x1 - $x2;
+			}
+			if ($y1>$y2) {
+				$y1 = $y1 + $y2;
+				$y2 = $y1 - $y2;
+				$y1 = $y1 - $y2;
+			}
+			if ($x1<0) {
+				$x1=0;
+			}
+			if ($y1<0) {
+				$y1=0;
+			}
+			if ($x2>$iWSource) {
+				$x2=$iWSource;
+			}
+			if ($y2>$iHSource) {
+				$y2=$iHSource;
+			}
+
+			$iW=$x2-$x1;
+			// Допускаем минимальный клип в 32px (исключая маленькие изображения)
+			if ($iW<32 && $x1+32<=$iWSource) {
+				$iW=32;
+			}
+			$iH=$iW;
+			if ($iH+$y1>$iHSource) {
+				$iH=$iHSource-$y1;
+			}
+			$oImage->crop($iW,$iH,$x1,$y1);
+			$oImage->output(null,$sFileTmp);
+		}
 
 		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,'avatar_100x100',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),100,100,false,$aParams)) {
 			$aSize=Config::Get('module.user.avatar_size');
@@ -1136,7 +1107,7 @@ class ModuleUser extends Module {
 		if($oUser->getProfileAvatar()) {
 			$aSize=array_merge(Config::Get('module.user.avatar_size'),array(100));
 			foreach ($aSize as $iSize) {
-				@unlink($this->Image_GetServerPath($oUser->getProfileAvatarPath($iSize)));
+				$this->Image_RemoveFile($this->Image_GetServerPath($oUser->getProfileAvatarPath($iSize)));
 			}
 		}
 	}
@@ -1144,23 +1115,73 @@ class ModuleUser extends Module {
 	/**
 	 * Upload user foto
 	 *
-	 * @param  array           $aFile
+	 * @param  string	$sFileTmp
 	 * @param  ModuleUser_EntityUser $oUser
+	 * @param  array $aSize Размер области из которой нужно вырезать картинку - array('x1'=>0,'y1'=>0,'x2'=>100,'y2'=>100)
 	 * @return string
 	 */
-	public function UploadFoto($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+	public function UploadFoto($sFileTmp,$oUser,$aSize=array()) {
+		if (!file_exists($sFileTmp)) {
 			return false;
 		}
 		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
 		$aParams=$this->Image_BuildParams('foto');
 
-		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),250,null,true,$aParams)) {
+
+		if ($aSize) {
+			$oImage = $this->Image_CreateImageObject($sFileTmp);
+			/**
+			 * Если объект изображения не создан,
+			 * возвращаем ошибку
+			 */
+			if($sError=$oImage->get_last_error()) {
+				// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
+				// $this->Message_AddError($sError,$this->Lang_Get('error'));
+				@unlink($sFileTmp);
+				return false;
+			}
+
+			$iWSource=$oImage->get_image_params('width');
+			$iHSource=$oImage->get_image_params('height');
+			/**
+			 * Достаем переменные x1 и т.п. из $aSize
+			 */
+			extract($aSize,EXTR_PREFIX_SAME,'ops');
+			if ($x1>$x2) {
+				// меняем значения переменных
+				$x1 = $x1 + $x2;
+				$x2 = $x1 - $x2;
+				$x1 = $x1 - $x2;
+			}
+			if ($y1>$y2) {
+				$y1 = $y1 + $y2;
+				$y2 = $y1 - $y2;
+				$y1 = $y1 - $y2;
+			}
+			if ($x1<0) {
+				$x1=0;
+			}
+			if ($y1<0) {
+				$y1=0;
+			}
+			if ($x2>$iWSource) {
+				$x2=$iWSource;
+			}
+			if ($y2>$iHSource) {
+				$y2=$iHSource;
+			}
+
+			$iW=$x2-$x1;
+			// Допускаем минимальный клип в 32px (исключая маленькие изображения)
+			if ($iW<32 && $x1+32<=$iWSource) {
+				$iW=32;
+			}
+			$iH=$y2-$y1;
+			$oImage->crop($iW,$iH,$x1,$y1);
+			$oImage->output(null,$sFileTmp);
+		}
+
+		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('module.user.profile_photo_width'),null,true,$aParams)) {
 			@unlink($sFileTmp);
 			/**
 			 * удаляем старое фото
@@ -1177,7 +1198,7 @@ class ModuleUser extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 */
 	public function DeleteFoto($oUser) {
-		@unlink($this->Image_GetServerPath($oUser->getProfileFoto()));
+		$this->Image_RemoveFile($this->Image_GetServerPath($oUser->getProfileFoto()));
 	}
 	/**
 	 * Проверяет логин на корректность
@@ -1192,66 +1213,68 @@ class ModuleUser extends Module {
 	}
 
 	/**
-     * Получить дополниетльные поля профиля пользователя
-     * @return type 
-     */
-	public function getUserFields() {
-		return $this->oMapper->getUserFields();
+	 * Получить дополниетльные поля профиля пользователя
+	 * @param array $aType Типы полей, null - все типы
+	 * @return type
+	 */
+	public function getUserFields($aType=null) {
+		return $this->oMapper->getUserFields($aType);
 	}
 
 	/**
-     * Получить значения дополнительных полей профиля пользователя
-     * @param type $iUserId
-     * @param type $bOnlyNoEmpty Загружать только непустые поля
-     * @return type 
-     */
-	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true) {
-		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty);
+	 * Получить значения дополнительных полей профиля пользователя
+	 * @param int $iUserId
+	 * @param bool $bOnlyNoEmpty Загружать только непустые поля
+	 * @param array $aType Типы полей, null - все типы
+	 * @return type
+	 */
+	public function getUserFieldsValues($iUserId, $bOnlyNoEmpty = true, $aType=array('')) {
+		return $this->oMapper->getUserFieldsValues($iUserId, $bOnlyNoEmpty, $aType);
 	}
 
 	/**
-     * Получить по имени поля его значение дял определённого пользователя
-     * @param type $iUserId
-     * @param type $bOnlyNoEmpty Загружать только непустые поля
-     * @return type 
-     */
+	 * Получить по имени поля его значение дял определённого пользователя
+	 * @param type $iUserId
+	 * @param type $bOnlyNoEmpty Загружать только непустые поля
+	 * @return type
+	 */
 	public function getUserFieldValueByName($iUserId, $sName) {
 		return $this->oMapper->getUserFieldValueByName($iUserId, $sName);
 	}
 
 	/**
-     * Установить значения дополнительных полей профиля пользователя
-     * @param type $iUserId
-     * @param type $aFields Ассоциативный массив полей id => value
-     * @return type 
-     */
-	public function setUserFieldsValues($iUserId, $aFields) {
-		return $this->oMapper->setUserFieldsValues($iUserId, $aFields);
+	 * Установить значения дополнительных полей профиля пользователя
+	 * @param type $iUserId
+	 * @param type $aFields Ассоциативный массив полей id => value
+	 * @return type
+	 */
+	public function setUserFieldsValues($iUserId, $aFields, $iCountMax=1) {
+		return $this->oMapper->setUserFieldsValues($iUserId, $aFields, $iCountMax);
 	}
 
 	/**
-     * Добавить поле    
-     * @param type $sName
-     * @return type 
-     */
+	 * Добавить поле
+	 * @param type $sName
+	 * @return type
+	 */
 	public function addUserField($oField) {
 		return $this->oMapper->addUserField($oField);
 	}
 
 	/**
-     * Изменить поле    
-     * @param type $sName
-     * @return type 
-     */
+	 * Изменить поле
+	 * @param type $sName
+	 * @return type
+	 */
 	public function updateUserField($oField) {
 		return $this->oMapper->updateUserField($oField);
 	}
 
 	/**
-     * Удалить поле
-     * @param type $iId
-     * @return type 
-     */
+	 * Удалить поле
+	 * @param type $iId
+	 * @return type
+	 */
 	public function deleteUserField($iId) {
 		return $this->oMapper->deleteUserField($iId);
 	}
@@ -1275,6 +1298,117 @@ class ModuleUser extends Module {
 	 */
 	public function userFieldExistsById($iId) {
 		return $this->oMapper->userFieldExistsById($iId);
+	}
+
+	public function DeleteUserFieldValues($iUserId,$aType=null) {
+		return $this->oMapper->DeleteUserFieldValues($iUserId,$aType);
+	}
+
+	/**
+	 * Возвращает список заметок пользователя
+	 *
+	 * @param $iUserId
+	 * @param $iCurrPage
+	 * @param $iPerPage
+	 * @return array
+	 */
+	public function GetUserNotesByUserId($iUserId,$iCurrPage,$iPerPage) {
+		$aResult=$this->oMapper->GetUserNotesByUserId($iUserId,$iCount,$iCurrPage,$iPerPage);
+		/**
+		 * Цепляем пользователей
+		 */
+		$aUserId=array();
+		foreach($aResult as $oNote) {
+			$aUserId[]=$oNote->getTargetUserId();
+		}
+		$aUsers=$this->GetUsersAdditionalData($aUserId,array());
+		foreach($aResult as $oNote) {
+			if (isset($aUsers[$oNote->getTargetUserId()])) {
+				$oNote->setTargetUser($aUsers[$oNote->getTargetUserId()]);
+			} else {
+				$oNote->setTargetUser(Engine::GetEntity('User')); // пустого пользователя во избеания ошибок, т.к. пользователь всегда должен быть
+			}
+		}
+		return array('collection'=>$aResult,'count'=>$iCount);
+	}
+
+	/**
+	 * Возвращает количество заметок у пользователя
+	 *
+	 * @param $iUserId
+	 * @return mixed
+	 */
+	public function GetCountUserNotesByUserId($iUserId) {
+		return $this->oMapper->GetCountUserNotesByUserId($iUserId);
+	}
+
+	/**
+	 * Возвращет заметку по автору и пользователю
+	 *
+	 * @param $iTargetUserId
+	 * @param $iUserId
+	 * @return ModuleUser_EntityNote
+	 */
+	public function GetUserNote($iTargetUserId,$iUserId) {
+		return $this->oMapper->GetUserNote($iTargetUserId,$iUserId);
+	}
+
+	/**
+	 * Врзвращает заметку по ID
+	 *
+	 * @param $iId
+	 * @return ModuleUser_EntityNote
+	 */
+	public function GetUserNoteById($iId) {
+		return $this->oMapper->GetUserNoteById($iId);
+	}
+
+	/**
+	 * Удаляет заметку по ID
+	 *
+	 * @param $iId
+	 * @return bool
+	 */
+	public function DeleteUserNoteById($iId) {
+		return $this->oMapper->DeleteUserNoteById($iId);
+	}
+
+	/**
+	 * Сохраняет заметку в БД, если ее нет то создает новую
+	 *
+	 * @param $oNote
+	 * @return bool|ModuleUser_EntityNote
+	 */
+	public function SaveNote($oNote) {
+		if (!$oNote->getDateAdd()) {
+			$oNote->setDateAdd(date("Y-m-d H:i:s"));
+		}
+
+		if ($oNoteOld=$this->GetUserNote($oNote->getTargetUserId(),$oNote->getUserId()) ) {
+			$oNoteOld->setText($oNote->getText());
+			$this->oMapper->UpdateUserNote($oNoteOld);
+			return $oNoteOld;
+		} else {
+			if ($iId=$this->oMapper->AddUserNote($oNote)) {
+				$oNote->setId($iId);
+				return $oNote;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Возвращает список префиксов логинов пользователей (для алфавитного указателя)
+	 *
+	 * @param int $iPrefixLength
+	 * @return array
+	 */
+	public function GetGroupPrefixUser($iPrefixLength=1) {
+		if (false === ($data = $this->Cache_Get("group_prefix_user_{$iPrefixLength}"))) {
+			$data = $this->oMapper->GetGroupPrefixUser($iPrefixLength);
+			$this->Cache_Set($data, "group_prefix_user_{$iPrefixLength}", array("user_new"), 60*60*24*1);
+		}
+		return $data;
 	}
 }
 ?>

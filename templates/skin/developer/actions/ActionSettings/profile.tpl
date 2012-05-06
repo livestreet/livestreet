@@ -1,122 +1,205 @@
-{include file='header.tpl' menu='settings'}
+{assign var="sidebarPosition" value='left'}
+{include file='header.tpl'}
 
-{literal}
-<script language="JavaScript" type="text/javascript">
-document.addEvent('domready', function() {
-	var inputCity = $('profile_city');
- 
-	new Autocompleter.Request.LS.JSON(inputCity, aRouter['ajax']+'autocompleter/city/?security_ls_key='+LIVESTREET_SECURITY_KEY, {
-		'indicatorClass': 'autocompleter-loading', // class added to the input during request
-		'minLength': 2, // We need at least 1 character
-		'selectMode': 'pick', // Instant completion
-		'multiple': false // Tag support, by default comma separated
+
+
+{include file='actions/ActionProfile/profile_top.tpl'}
+<h3 class="profile-page-header">{$aLang.settings_menu}</h3>
+
+{include file='menu.settings.tpl'}
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		ls.lang.load({lang_load name="geo_select_city,geo_select_region"});
+		ls.geo.initSelect();
+		ls.userfield.iCountMax='{cfg name="module.user.userfield_max_identical"}';
 	});
-	
-	
-	var inputCountry = $('profile_country');
- 
-	new Autocompleter.Request.LS.JSON(inputCountry, aRouter['ajax']+'autocompleter/country/?security_ls_key='+LIVESTREET_SECURITY_KEY, {
-		'indicatorClass': 'autocompleter-loading', // class added to the input during request
-		'minLength': 2, // We need at least 1 character
-		'selectMode': 'pick', // Instant completion
-		'multiple': false // Tag support, by default comma separated
-	});
-});
 </script>
-{/literal}
 
 
-<h2>{$aLang.settings_profile_edit}</h2>
-<form action="" method="POST" enctype="multipart/form-data">
+<p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
+	<select name="profile_user_field_type[]" onchange="ls.userfield.changeFormField(this);">
+	{foreach from=$aUserFieldsContact item=oFieldAll}
+		<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
+	{/foreach}
+	</select>
+	<input type="text" name="profile_user_field_value[]" value="" class="input-text input-width-200">
+	<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+</p>
 
+{hook run='settings_profile_begin'}
+
+<form method="post" enctype="multipart/form-data" class="form-profile">
 	{hook run='form_settings_profile_begin'}
 
-	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}">
+	
+	
+	<fieldset>
+		<legend>{$aLang.settings_profile_section_base}</legend>
+		
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.settings_profile_name}:</label></dt>
+			<dd>
+				<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="input-text input-width-300">
+				<small class="note">{$aLang.settings_profile_name_notice}</small>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="profile_sex">{$aLang.settings_profile_sex}:</label></dt>
+			<dd>
+				<select name="profile_sex" id="profile_sex" class="input-width-300">
+					<option value="man" {if $oUserCurrent->getProfileSex()=='man'}selected{/if}>{$aLang.settings_profile_sex_man}</option>
+					<option value="woman" {if $oUserCurrent->getProfileSex()=='woman'}selected{/if}>{$aLang.settings_profile_sex_woman}</option>
+					<option value="other" {if $oUserCurrent->getProfileSex()=='other'}selected{/if}>{$aLang.settings_profile_sex_other}</option>
+				</select>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="">{$aLang.settings_profile_birthday}:</label></dt>
+			<dd>
+				<select name="profile_birthday_day">
+					<option value="">{$aLang.date_day}</option>
+					{section name=date_day start=1 loop=32 step=1}
+						<option value="{$smarty.section.date_day.index}" {if $smarty.section.date_day.index==$oUserCurrent->getProfileBirthday()|date_format:"%d"}selected{/if}>{$smarty.section.date_day.index}</option>
+					{/section}
+				</select>
+				
+				<select name="profile_birthday_month" style="width: 165px">
+					<option value="">{$aLang.date_month}</option>
+					{section name=date_month start=1 loop=13 step=1}
+						<option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.month_array[$smarty.section.date_month.index][0]}</option>
+					{/section}
+				</select>
+				
+				<select name="profile_birthday_year">
+					<option value="">{$aLang.date_year}</option>
+					{section name=date_year loop=$smarty.now|date_format:"%Y"+1 max=$smarty.now|date_format:"%Y"-2012+130 step=-1}
+						<option value="{$smarty.section.date_year.index}" {if $smarty.section.date_year.index==$oUserCurrent->getProfileBirthday()|date_format:"%Y"}selected{/if}>{$smarty.section.date_year.index}</option>
+					{/section}
+				</select>
+			</dd>
+		</dl>
 
-	<p>
-		<label for="profile_name">{$aLang.settings_profile_name}:</label><br />
-		<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="input-200" /><br />
-		<span class="note">{$aLang.settings_profile_name_notice}</span>
-	</p>
-	<p>
-		<label for="mail">{$aLang.settings_profile_mail}:</label><br />
-		<input type="text" name="mail" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" class="input-200" /><br />
-		<span class="note">{$aLang.settings_profile_mail_notice}</span>
-	</p>
-	<p>
-		{$aLang.settings_profile_sex}:<br />
-		<label><input type="radio" name="profile_sex" id="profile_sex_m" value="man" {if $oUserCurrent->getProfileSex()=='man'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_man}</label><br />
-		<label><input type="radio" name="profile_sex" id="profile_sex_w" value="woman" {if $oUserCurrent->getProfileSex()=='woman'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_woman}</label><br />
-		<label><input type="radio" name="profile_sex" id="profile_sex_o"  value="other" {if $oUserCurrent->getProfileSex()=='other'}checked{/if} class="checkbox" />{$aLang.settings_profile_sex_other}</label>
-	</p>
-	<p>
-		<label for="">{$aLang.settings_profile_birthday}:</label><br />
-		<select name="profile_birthday_day">
-			<option value="">{$aLang.date_day}</option>
-			{section name=date_day start=1 loop=32 step=1}
-				<option value="{$smarty.section.date_day.index}" {if $smarty.section.date_day.index==$oUserCurrent->getProfileBirthday()|date_format:"%d"}selected{/if}>{$smarty.section.date_day.index}</option>
-			{/section}
-		</select>
-		<select name="profile_birthday_month">
-			<option value="">{$aLang.date_month}</option>
-			{section name=date_month start=1 loop=13 step=1}
-				<option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.month_array[$smarty.section.date_month.index][0]}</option>
-			{/section}
-		</select>
-		<select name="profile_birthday_year">
-			<option value="">{$aLang.date_year}</option>
-			{section name=date_year start=1940 loop=2000 step=1}
-				<option value="{$smarty.section.date_year.index}" {if $smarty.section.date_year.index==$oUserCurrent->getProfileBirthday()|date_format:"%Y"}selected{/if}>{$smarty.section.date_year.index}</option>
-			{/section}
-		</select>
-	</p>
+		<dl class="form-item js-geo-select">
+			<dt><label for="">{$aLang.profile_place}:</label></dt>
+			<dd>
+				<p>
+					<select class="js-geo-country input-width-300" name="geo_country">
+						<option value="">{$aLang.geo_select_country}</option>
+						{if $aGeoCountries}
+							{foreach from=$aGeoCountries item=oGeoCountry}
+								<option value="{$oGeoCountry->getId()}" {if $oGeoTarget and $oGeoTarget->getCountryId()==$oGeoCountry->getId()}selected="selected"{/if}>{$oGeoCountry->getName()}</option>
+							{/foreach}
+						{/if}
+					</select>
+				</p>
 
-	<p>
-		<label for="profile_country">{$aLang.settings_profile_country}:</label><br /><input type="text" id="profile_country" name="profile_country" value="{$oUserCurrent->getProfileCountry()|escape:'html'}" /><br />
-		<label for="profile_city">{$aLang.settings_profile_city}:</label><br /><input type="text" id="profile_city" name="profile_city" value="{$oUserCurrent->getProfileCity()|escape:'html'}" /><br />
-	</p>
+				<p>
+					<select class="js-geo-region input-width-300" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
+						<option value="">{$aLang.geo_select_region}</option>
+						{if $aGeoRegions}
+							{foreach from=$aGeoRegions item=oGeoRegion}
+								<option value="{$oGeoRegion->getId()}" {if $oGeoTarget and $oGeoTarget->getRegionId()==$oGeoRegion->getId()}selected="selected"{/if}>{$oGeoRegion->getName()}</option>
+							{/foreach}
+						{/if}
+					</select>
+				</p>
 
-	<p><label for="profile_icq">{$aLang.settings_profile_icq}:</label><br /><input type="text" name="profile_icq" id="profile_icq" value="{$oUserCurrent->getProfileIcq()|escape:'html'}"/></p>
+				
+				<select class="js-geo-city input-width-300" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
+					<option value="">{$aLang.geo_select_city}</option>
+					{if $aGeoCities}
+						{foreach from=$aGeoCities item=oGeoCity}
+							<option value="{$oGeoCity->getId()}" {if $oGeoTarget and $oGeoTarget->getCityId()==$oGeoCity->getId()}selected="selected"{/if}>{$oGeoCity->getName()}</option>
+						{/foreach}
+					{/if}
+				</select>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="profile_about">{$aLang.settings_profile_about}:</label></dt>
+			<dd><textarea name="profile_about" id="profile_about" class="input-text input-width-300" rows="5">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea></dd>
+		</dl>
 
-	<p>
-		<label for="profile_site">{$aLang.settings_profile_site}:</label><br />
-		<label for="profile_site"><input type="text" style="margin-bottom: 5px;" id="profile_site" name="profile_site" value="{$oUserCurrent->getProfileSite()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_url}</label><br />
-		<label for="profile_site_name"><input type="text" id="profile_site_name" name="profile_site_name" value="{$oUserCurrent->getProfileSiteName()|escape:'html'}" /> &mdash; {$aLang.settings_profile_site_name}</label>
-	</p>
+		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
+		{if count($aUserFieldValues)}
+			{foreach from=$aUserFieldValues item=oField}
+				<dl class="form-item">
+					<dt><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label></dt>
+					<dd><input type="text" class="input-text input-width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
+				</dl>
+			{/foreach}
+		{/if}
 
-        {if count($aUserFields)}
-            {foreach from=$aUserFields item=oField}
-                <p><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label><br /><input type="text" class="w300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></p>
-            {/foreach}
-        {/if}
-	<p>
-		<label for="profile_about">{$aLang.settings_profile_about}:</label><br />
-		<textarea class="input-300" name="profile_about" id="profile_about">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>
-	</p>
+	</fieldset>
+	
+	
+	
+	<fieldset>
+		<legend>{$aLang.settings_profile_section_contacts}</legend>
 
-	<p>
-		<label for="password_now">{$aLang.settings_profile_password_current}:</label><br /><input type="password" name="password_now" id="password_now" value="" /><br />
-		<label for="password">{$aLang.settings_profile_password_new}:</label><br /><input type="password" id="password"	name="password" value="" /><br />
-		<label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label><br /><input type="password" id="password_confirm"	name="password_confirm" value="" />
-	</p>
+		{assign var="aUserFieldContactValues" value=$oUserCurrent->getUserFieldValues(true,array('contact','social'))}
+		<div id="user-field-contact-contener">
+		{foreach from=$aUserFieldContactValues item=oField}
+			<p class="js-user-field-item">
+				<select name="profile_user_field_type[]"  onchange="ls.userfield.changeFormField(this);">
+				{foreach from=$aUserFieldsContact item=oFieldAll}
+					<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
+				{/foreach}
+				</select>
+				<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
+				<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+			</p>
+		{/foreach}
+		</div>
+		{if $aUserFieldsContact}
+			<a href="#" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</a>
+		{/if}
+	</fieldset>
 
-	{if $oUserCurrent->getProfileAvatar()}
-		<img src="{$oUserCurrent->getProfileAvatarPath(100)}" />
-		<img src="{$oUserCurrent->getProfileAvatarPath(64)}" />
-		<img src="{$oUserCurrent->getProfileAvatarPath(24)}" /><br />
-		<input type="checkbox" id="avatar_delete" name="avatar_delete" value="on" class="checkbox" /><label for="avatar_delete">{$aLang.settings_profile_avatar_delete}</label><br /><br />
-	{/if}
-	<p><label for="avatar">{$aLang.settings_profile_avatar}:</label><br /><input type="file" id="avatar" name="avatar"/></p>
+	
+	<script type="text/javascript">
+		jQuery(function($){
+			$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
+				ls.user.uploadAvatar(null,input);
+			});
+		});
+	</script>
 
-	{if $oUserCurrent->getProfileFoto()}
-		<img src="{$oUserCurrent->getProfileFoto()}" /><br />
-		<input type="checkbox" id="foto_delete" name="foto_delete" value="on" class="checkbox" /><label for="foto_delete">{$aLang.settings_profile_foto_delete}</label><br /><br />
-	{/if}
-	<p><label for="foto">{$aLang.settings_profile_foto}:</label><br /><input type="file" id="foto" name="foto" /></p>
 
+	<div class="avatar-change">
+		<img src="{$oUserCurrent->getProfileAvatarPath(100)}" id="avatar-img" />
+
+		<div>
+			<a href="#" id="avatar-upload" class="link-dotted">{if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br />
+			<a href="#" id="avatar-remove" class="link-dotted" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
+		</div>
+		
+		<div id="avatar-resize" class="modal">
+			<header class="modal-header">
+				<h3>{$aLang.uploadimg}</h3>
+			</header>
+			
+			<div class="modal-content">
+				<p><img src="" alt="" id="avatar-resize-original-img"></p>
+				<button class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
+				<button class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+			</div>
+		</div>
+	</div>
+
+	
 	{hook run='form_settings_profile_end'}
-	<p><input type="submit" value="{$aLang.settings_profile_submit}" name="submit_profile_edit" /></p>
+	
+	
+	<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 </form>
 
+{hook run='settings_profile_end'}
 
 {include file='footer.tpl'}

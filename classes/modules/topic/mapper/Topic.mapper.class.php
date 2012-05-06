@@ -321,7 +321,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return $aReturnSort;
 	}
 
-	public function GetOpenTopicTags($iLimit) {
+	public function GetOpenTopicTags($iLimit,$iUserId=null) {
 		$sql = "
 			SELECT 
 				tt.topic_tag_text,
@@ -329,10 +329,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 			FROM 
 				".Config::Get('db.table.topic_tag')." as tt,
 				".Config::Get('db.table.blog')." as b
-			WHERE 
+			WHERE
+				1 = 1
+				{ AND tt.user_id = ?d }
+				AND
 				tt.blog_id = b.blog_id
 				AND
-				b.blog_type IN ('open','personal')
+				b.blog_type <> 'close'
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
@@ -341,7 +344,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				";	
 		$aReturn=array();
 		$aReturnSort=array();
-		if ($aRows=$this->oDb->select($sql,$iLimit)) {
+		if ($aRows=$this->oDb->select($sql,is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {				
 				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
 			}
@@ -381,6 +384,9 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_publish_index= ?d,
 				topic_rating= ?f,
 				topic_count_vote= ?d,
+				topic_count_vote_up= ?d,
+				topic_count_vote_down= ?d,
+				topic_count_vote_abstain= ?d,
 				topic_count_read= ?d,
 				topic_count_comment= ?d, 
 				topic_count_favourite= ?d,
@@ -390,7 +396,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 			WHERE
 				topic_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId())) {
+		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountVoteUp(),$oTopic->getCountVoteDown(),$oTopic->getCountVoteAbstain(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId())) {
 			$this->UpdateTopicContent($oTopic);
 			return true;
 		}		
@@ -415,6 +421,9 @@ class ModuleTopic_MapperTopic extends Mapper {
 	
 	protected function buildFilter($aFilter) {
 		$sWhere='';
+		if (isset($aFilter['topic_date_more'])) {
+			$sWhere.=" AND t.topic_date_add >  '".mysql_real_escape_string($aFilter['topic_date_more'])."'";
+		}
 		if (isset($aFilter['topic_publish'])) {
 			$sWhere.=" AND t.topic_publish =  ".(int)$aFilter['topic_publish'];
 		}	
@@ -470,7 +479,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 			if(!is_array($aFilter['topic_type'])) {
 				$aFilter['topic_type']=array($aFilter['topic_type']);
 			}
-			$sWhere.=" AND t.topic_type IN ('".join("','",array_map('mysql_escape_string',$aFilter['topic_type']))."')";
+			$sWhere.=" AND t.topic_type IN ('".join("','",array_map('mysql_real_escape_string',$aFilter['topic_type']))."')";
 		}
 		return $sWhere;
 	}
@@ -713,95 +722,95 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-         public function getPhotosByTopicId($iTopicId, $iFromId, $iCount)
-         {
-                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';
-                $aPhotos = $this->oDb->select($sql, $iTopicId, ($iFromId !== null) ? $iFromId : DBSIMPLE_SKIP, $iCount);
-                $aReturn = array();
-                if (is_array($aPhotos) && count($aPhotos)) {
-                    foreach($aPhotos as $aPhoto) {
-                        $aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-                    }
-                }
-                return $aReturn;
-         }
-         
-         public function getPhotosByTargetTmp($sTargetTmp)
-         {
-                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
-                $aPhotos = $this->oDb->select($sql, $sTargetTmp);
-                $aReturn = array();
-                if (is_array($aPhotos) && count($aPhotos)) {
-                    foreach($aPhotos as $aPhoto) {
-                        $aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-                    }
-                }
-                return $aReturn;
-         }
-         
-         public function getTopicPhotoById($iPhotoId)
-         {
-                $sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE id = ?d';
-                $aPhoto = $this->oDb->selectRow($sql, $iPhotoId);
-                if ($aPhoto) {
-                    return Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-                } else {
-                    return null;
-                }
-         }
-         
-         public function getCountPhotosByTopicId($iTopicId)
-         {
-                $sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d';
-                $aPhotosCount = $this->oDb->selectCol($sql, $iTopicId);
-                return $aPhotosCount[0];
-         }
-         
-         public function getCountPhotosByTargetTmp($sTargetTmp)
-         {
-                $sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
-                $aPhotosCount = $this->oDb->selectCol($sql, $sTargetTmp);
-                return $aPhotosCount[0];
-         }
-         
-         public function addTopicPhoto($oPhoto)
-         {
-             if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
-             $sTargetType = ($oPhoto->getTopicId()) ? 'topic_id' : 'target_tmp';
-             $iTargetId = ($sTargetType == 'topic_id') ? $oPhoto->getTopicId() : $oPhoto->getTargetTmp();
-             $sql = 'INSERT INTO '. Config::Get('db.table.topic_photo') . ' SET
+
+
+
+
+
+
+
+
+	public function getPhotosByTopicId($iTopicId, $iFromId, $iCount)
+	{
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';
+		$aPhotos = $this->oDb->select($sql, $iTopicId, ($iFromId !== null) ? $iFromId : DBSIMPLE_SKIP, $iCount);
+		$aReturn = array();
+		if (is_array($aPhotos) && count($aPhotos)) {
+			foreach($aPhotos as $aPhoto) {
+				$aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+			}
+		}
+		return $aReturn;
+	}
+
+	public function getPhotosByTargetTmp($sTargetTmp)
+	{
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
+		$aPhotos = $this->oDb->select($sql, $sTargetTmp);
+		$aReturn = array();
+		if (is_array($aPhotos) && count($aPhotos)) {
+			foreach($aPhotos as $aPhoto) {
+				$aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+			}
+		}
+		return $aReturn;
+	}
+
+	public function getTopicPhotoById($iPhotoId)
+	{
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE id = ?d';
+		$aPhoto = $this->oDb->selectRow($sql, $iPhotoId);
+		if ($aPhoto) {
+			return Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
+		} else {
+			return null;
+		}
+	}
+
+	public function getCountPhotosByTopicId($iTopicId)
+	{
+		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d';
+		$aPhotosCount = $this->oDb->selectCol($sql, $iTopicId);
+		return $aPhotosCount[0];
+	}
+
+	public function getCountPhotosByTargetTmp($sTargetTmp)
+	{
+		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
+		$aPhotosCount = $this->oDb->selectCol($sql, $sTargetTmp);
+		return $aPhotosCount[0];
+	}
+
+	public function addTopicPhoto($oPhoto)
+	{
+		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
+		$sTargetType = ($oPhoto->getTopicId()) ? 'topic_id' : 'target_tmp';
+		$iTargetId = ($sTargetType == 'topic_id') ? $oPhoto->getTopicId() : $oPhoto->getTargetTmp();
+		$sql = 'INSERT INTO '. Config::Get('db.table.topic_photo') . ' SET
                         path = ?, description = ?, ?# = ?';
-             return $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $sTargetType, $iTargetId);
-         }
-         
-         public function updateTopicPhoto($oPhoto)
-         {
-             if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
-             if ($oPhoto->getTopicId()) {
-                 $oPhoto->setTargetTmp = null;
-             }
-             $sql = 'UPDATE '. Config::Get('db.table.topic_photo') . ' SET
+		return $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $sTargetType, $iTargetId);
+	}
+
+	public function updateTopicPhoto($oPhoto)
+	{
+		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
+		if ($oPhoto->getTopicId()) {
+			$oPhoto->setTargetTmp = null;
+		}
+		$sql = 'UPDATE '. Config::Get('db.table.topic_photo') . ' SET
                         path = ?, description = ?, topic_id = ?d, target_tmp=? WHERE id = ?d';
-             $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $oPhoto->getTopicId(), $oPhoto->getTargetTmp(), $oPhoto->getId());
-         }
-         
-         public function deleteTopicPhoto($iPhotoId)
-         {
-             $sql = 'DELETE FROM '. Config::Get('db.table.topic_photo') . ' WHERE
+		$this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $oPhoto->getTopicId(), $oPhoto->getTargetTmp(), $oPhoto->getId());
+	}
+
+	public function deleteTopicPhoto($iPhotoId)
+	{
+		$sql = 'DELETE FROM '. Config::Get('db.table.topic_photo') . ' WHERE
                         id= ?d';
-             $this->oDb->query($sql, $iPhotoId);
-         }
-         
-         public function RecalculateFavourite() {
-            $sql = "
+		$this->oDb->query($sql, $iPhotoId);
+	}
+
+	public function RecalculateFavourite() {
+		$sql = "
                 UPDATE ".Config::Get('db.table.topic')." t 
                 SET t.topic_count_favourite = (
                     SELECT count(f.user_id)
@@ -813,11 +822,49 @@ class ModuleTopic_MapperTopic extends Mapper {
                     AND
                         f.target_type = 'topic'
                 )
-            ";			
-            if ($this->oDb->query($sql)) {
-                return true;
-            }
-            return false;		
-        }
+            ";
+		if ($this->oDb->query($sql)) {
+			return true;
+		}
+		return false;
+	}
+
+	public function RecalculateVote() {
+		$sql = "
+                UPDATE ".Config::Get('db.table.topic')." t
+                SET t.topic_count_vote_up = (
+                    SELECT count(*)
+                    FROM ".Config::Get('db.table.vote')." v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = 1
+                    AND
+                        v.target_type = 'topic'
+                ), t.topic_count_vote_down = (
+                    SELECT count(*)
+                    FROM ".Config::Get('db.table.vote')." v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = -1
+                    AND
+                        v.target_type = 'topic'
+                ), t.topic_count_vote_abstain = (
+                    SELECT count(*)
+                    FROM ".Config::Get('db.table.vote')." v
+                    WHERE
+                        v.target_id = t.topic_id
+                    AND
+                        v.vote_direction = 0
+                    AND
+                        v.target_type = 'topic'
+                )
+            ";
+		if ($this->oDb->query($sql)) {
+			return true;
+		}
+		return false;
+	}
 }
 ?>

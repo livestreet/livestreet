@@ -19,15 +19,15 @@
  * Модуль статических страниц
  *
  */
-class PluginPage_ModulePage extends Module {		
+class PluginPage_ModulePage extends Module {
 	protected $oMapper;
 	protected $aRebuildIds=array();
-		
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
 	/**
@@ -37,7 +37,7 @@ class PluginPage_ModulePage extends Module {
 	 * @return unknown
 	 */
 	public function AddPage(PluginPage_ModulePage_EntityPage $oPage) {
-		if ($sId=$this->oMapper->AddPage($oPage)) {			
+		if ($sId=$this->oMapper->AddPage($oPage)) {
 			$oPage->setId($sId);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$oPage->getId()}","page_change_urlfull_{$oPage->getUrlFull()}"));
@@ -58,14 +58,14 @@ class PluginPage_ModulePage extends Module {
 			return true;
 		}
 		return false;
-	}	
+	}
 	/**
 	 * Получает страницу по полному УРЛу
 	 *
 	 * @param unknown_type $sUrlFull
 	 */
 	public function GetPageByUrlFull($sUrlFull,$iActive=1) {
-		if (false === ($data = $this->Cache_Get("page_{$sUrlFull}_{$iActive}"))) {			
+		if (false === ($data = $this->Cache_Get("page_{$sUrlFull}_{$iActive}"))) {
 			$data = $this->oMapper->GetPageByUrlFull($sUrlFull,$iActive);
 			if ($data) {
 				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_{$data->getId()}"), 60*60*24*5);
@@ -73,7 +73,7 @@ class PluginPage_ModulePage extends Module {
 				$this->Cache_Set($data, "page_{$sUrlFull}_{$iActive}", array("page_change_urlfull_{$sUrlFull}"), 60*60*24*5);
 			}
 		}
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Получает страницу по её айдишнику
@@ -91,7 +91,7 @@ class PluginPage_ModulePage extends Module {
 	 */
 	public function GetPages($aFilter=array()) {
 		$aPages=array();
-		$aPagesRow=$this->oMapper->GetPages($aFilter);	
+		$aPagesRow=$this->oMapper->GetPages($aFilter);
 		if (count($aPagesRow)) {
 			$aPages=$this->BuildPagesRecursive($aPagesRow);
 		}
@@ -115,14 +115,14 @@ class PluginPage_ModulePage extends Module {
 			$aTemp=$aPage;
 			$aTemp['level']=$iLevel;
 			unset($aTemp['childNodes']);
-			$aResultPages[]=Engine::GetEntity('PluginPage_Page',$aTemp);			
+			$aResultPages[]=Engine::GetEntity('PluginPage_Page',$aTemp);
 			if (isset($aPage['childNodes']) and count($aPage['childNodes'])>0) {
 				$iLevel++;
 				$this->BuildPagesRecursive($aPage['childNodes'],false);
 			}
 		}
 		$iLevel--;
-		
+
 		return $aResultPages;
 	}
 	/**
@@ -130,7 +130,7 @@ class PluginPage_ModulePage extends Module {
 	 *
 	 * @param unknown_type $oPageStart
 	 */
-	public function RebuildUrlFull($oPageStart) {		
+	public function RebuildUrlFull($oPageStart) {
 		$aPages=$this->GetPagesByPid($oPageStart->getId());
 		foreach ($aPages as $oPage) {
 			if ($oPage->getId()==$oPageStart->getId()) {
@@ -143,7 +143,7 @@ class PluginPage_ModulePage extends Module {
 			$oPage->setUrlFull($oPageStart->getUrlFull().'/'.$oPage->getUrl());
 			$this->UpdatePage($oPage);
 			$this->RebuildUrlFull($oPage);
-		}		
+		}
 	}
 	/**
 	 * Получает список дочерних страниц первого уровня
@@ -167,7 +167,7 @@ class PluginPage_ModulePage extends Module {
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('page_change',"page_change_{$sId}"));
 			return true;
 		}
-		return false;		
+		return false;
 	}
 	/**
 	 * Получает число статических страниц
@@ -204,24 +204,24 @@ class PluginPage_ModulePage extends Module {
 	public function GetMaxSortByPid($sPid) {
 		return $this->oMapper->GetMaxSortByPid($sPid);
 	}
-	
+
 	/**
-     * Get count of pages
-     *
-     * @return integer
-     */
+	 * Get count of pages
+	 *
+	 * @return integer
+	 */
 	public function getCountOfActivePages() {
 		return (int)$this->oMapper->getCountOfActivePages();
 	}
 
 	/**
-     * Get list of active pages
-     *
-     * @param integer $iCount
-     * @param integer $iCurrPage
-     * @param integer $iPerPage
-     * @return array
-     */
+	 * Get list of active pages
+	 *
+	 * @param integer $iCount
+	 * @param integer $iCurrPage
+	 * @param integer $iPerPage
+	 * @return array
+	 */
 	public function getListOfActivePages(&$iCount, $iCurrPage, $iPerPage) {
 		return $this->oMapper->getListOfActivePages($iCount, $iCurrPage, Config::Get('plugin.sitemap.objects_per_page'));
 	}

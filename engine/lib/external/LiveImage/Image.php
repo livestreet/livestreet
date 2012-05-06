@@ -72,7 +72,7 @@ class LiveImage {
 	 * 
 	 * @var int
 	 */
-	protected $jpg_quality = null;
+	protected $jpg_quality = 99;
 	/**
 	 * Error texts
 	 *

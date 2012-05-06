@@ -1,0 +1,40 @@
+/* --------------------------------------------
+	БЛОГ
+-------------------------------------------- */
+
+.blog { background: #fafafa; margin-bottom: 10px; border-radius: 3px; border: 1px solid #eee; overflow: hidden; }
+
+
+/* Header */
+.blog .blog-header 			{ position: relative; padding: 15px 130px 15px 78px; border-bottom: 1px solid #eee; }
+.blog .blog-header h2 		{ font-size: 20px; font-weight: bold; line-height: 1em; margin-top: 3px; margin-bottom: 7px; }
+.blog .blog-header h2 i 	{ position: relative; top: 5px; }
+.blog .blog-header .avatar 	{ position: absolute; top: 15px; left: 15px; }
+
+.blog .blog-header .vote-label	{ text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
+.blog .blog-header .count 		{ font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
+
+.blog .blog-header .vote 									{ position: absolute; top: 15px; right: 15px; }
+.blog .blog-header .vote .vote-count 						{ padding-left: 25px; display: block; color: #333; }
+.blog .blog-header .vote .vote-up 							{ position: absolute; top: 22px; left: 0; display: none; }
+.blog .blog-header .vote .vote-down 						{ position: absolute; top: 35px; left: 0; display: none; }
+.blog .blog-header .vote:hover .vote-up,
+.blog .blog-header .vote:hover .vote-down,
+.blog .blog-header .vote.voted .vote-up,
+.blog .blog-header .vote.voted .vote-down 					{ display: inline-block; }
+.blog .blog-header .vote.vote-count-positive .vote-count 	{ color: #5055B2; }
+
+.blog .blog-header .actions { margin-bottom: 0; }
+
+
+/* Content */
+.blog .blog-content { padding: 15px; border-bottom: 1px solid #eee; }
+
+
+/* Footer */
+.blog .blog-footer { padding: 15px; border-bottom: 1px solid #eee; }
+
+
+/* More Button */
+.blog-more 			{ display: block; padding: 10px 0; text-align: center; text-decoration: none; background: #fafafa; }
+.blog-more:hover 	{ background: #eee; }

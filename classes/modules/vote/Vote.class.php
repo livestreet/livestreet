@@ -37,6 +37,9 @@ class ModuleVote extends Module {
 	 * @return unknown
 	 */
 	public function AddVote(ModuleVote_EntityVote $oVote) {
+		if (!$oVote->getIp()) {
+			$oVote->setIp(func_getIp());
+		}
 		if ($this->oMapper->AddVote($oVote)) {
 			$this->Cache_Delete("vote_{$oVote->getTargetType()}_{$oVote->getTargetId()}_{$oVote->getVoterId()}");
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("vote_update_{$oVote->getTargetType()}_{$oVote->getVoterId()}"));

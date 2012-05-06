@@ -24,20 +24,29 @@ class ModuleStream extends Module {
 	protected $oMapper = null;
 
 	/**
+	 * Список дефолтных типов событий, они добавляются каждому пользователю при регистрации
+	 *
+	 * @var array
+	 */
+	protected $aEventDefaultTypes=array(
+		'add_wall','add_topic','add_comment','add_blog','vote_topic','add_friend'
+	);
+	/**
 	 * Типы событий
 	 *
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected $aEventTypes = array(
-		'add_topic' => array('related' => 'topic'),
-		'add_comment' => array('related' => 'comment'),
-		'add_blog' => array('related' => 'blog'),
+		'add_wall' => array('related' => 'wall','unique'=>true),
+		'add_topic' => array('related' => 'topic','unique'=>true),
+		'add_comment' => array('related' => 'comment','unique'=>true),
+		'add_blog' => array('related' => 'blog','unique'=>true),
 		'vote_topic' => array('related' => 'topic'),
 		'vote_comment' => array('related' => 'comment'),
 		'vote_blog' => array('related' => 'blog'),
 		'vote_user' => array('related' => 'user'),
-		'add_friend' => array('related' => 'user'),
-		'join_blog' => array('related' => 'blog')
+		'add_friend' => array('related' => 'user','unique_user'=>true),
+		'join_blog' => array('related' => 'blog','unique_user'=>true)
 	);
 
 	public function Init() {
@@ -52,6 +61,26 @@ class ModuleStream extends Module {
 	public function getEventTypes() {
 		return $this->aEventTypes;
 	}
+
+	/**
+	 * Возвращает типы событий с учетом фильтра(доступности)
+	 *
+	 * @param null $aTypes
+	 * @return null|unknown
+	 */
+	public function getEventTypesFilter($aTypes=null) {
+		if (is_null($aTypes)) {
+			$aTypes=array_keys($this->getEventTypes());
+		}
+		if (Config::Get('module.stream.disable_vote_events')) {
+			foreach ($aTypes as $i => $sType) {
+				if (substr($sType, 0, 4) == 'vote') {
+					unset ($aTypes[$i]);
+				}
+			}
+		}
+		return $aTypes;
+	}
 	/**
 	 * Добавляет новый тип события, метод для расширения списка событий плагинами
 	 *
@@ -60,11 +89,19 @@ class ModuleStream extends Module {
 	 * @return unknown
 	 */
 	public function AddEventType($sName,$aParams) {
-		if (!key_exists($sName,$this->aEventTypes)) {
+		if (!array_key_exists($sName,$this->aEventTypes)) {
 			$this->aEventTypes[$sName]=$aParams;
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * Проверка допустимого типа событий
+	 *
+	 * @param string $sType
+	 */
+	public function IsAllowEventType($sType) {
+		return array_key_exists($sType,$this->aEventTypes);
 	}
 	/**
 	 * Добавление события в БД
@@ -95,8 +132,8 @@ class ModuleStream extends Module {
 	 * @param unknown_type $iTargetId
 	 * @return unknown
 	 */
-	public function GetEventByTarget($sEventType, $iTargetId) {
-		return $this->oMapper->GetEventByTarget($sEventType, $iTargetId);
+	public function GetEventByTarget($sEventType, $iTargetId, $iUserId=null) {
+		return $this->oMapper->GetEventByTarget($sEventType, $iTargetId, $iUserId);
 	}
 	/**
 	 * Запись события в ленту
@@ -105,15 +142,43 @@ class ModuleStream extends Module {
 	 * @param type $iTargetId
 	 */
 	public function Write($iUserId, $sEventType, $iTargetId, $iPublish=1) {
-		if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId)) {
+		$iPublish=(int)$iPublish;
+		if (!$this->IsAllowEventType($sEventType)) {
+			return false;
+		}
+		$aParams=$this->aEventTypes[$sEventType];
+		if (isset($aParams['unique']) and $aParams['unique']) {
 			/**
-			 * Событие уже было
+			 * Проверяем на уникальность
 			 */
-			if ($oEvent->getPublish()!=$iPublish) {
-				$oEvent->setPublish($iPublish);
-				$this->UpdateEvent($oEvent);
+			if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId)) {
+				/**
+				 * Событие уже было
+				 */
+				if ($oEvent->getPublish()!=$iPublish) {
+					$oEvent->setPublish($iPublish);
+					$this->UpdateEvent($oEvent);
+				}
+				return true;
 			}
-		} elseif ($iPublish) {
+		}
+		if (isset($aParams['unique_user']) and $aParams['unique_user']) {
+			/**
+			 * Проверяем на уникальность для конкретного пользователя
+			 */
+			if ($oEvent=$this->GetEventByTarget($sEventType, $iTargetId, $iUserId)) {
+				/**
+				 * Событие уже было
+				 */
+				if ($oEvent->getPublish()!=$iPublish) {
+					$oEvent->setPublish($iPublish);
+					$this->UpdateEvent($oEvent);
+				}
+				return true;
+			}
+		}
+
+		if ($iPublish) {
 			/**
 			 * Создаем новое событие
 			 */
@@ -125,17 +190,17 @@ class ModuleStream extends Module {
 			$oEvent->setPublish($iPublish);
 			$this->AddEvent($oEvent);
 		}
+		return true;
 	}
 	/**
 	 * Чтение потока пользователя
 	 *
-	 * @param unknown_type $iCount
-	 * @param unknown_type $iFromId
-	 * @param unknown_type $iUserId
-	 * @return unknown
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @param int $iUserId
+	 * @return array
 	 */
 	public function Read($iCount=null,$iFromId=null,$iUserId=null) {
-		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
 		if (!$iUserId) {
 			if ($this->User_getUserCurrent()) {
 				$iUserId=$this->User_getUserCurrent()->getId();
@@ -147,19 +212,119 @@ class ModuleStream extends Module {
 		 * Получаем типы событий
 		 */
 		$aEventTypes = $this->getTypesList($iUserId);
-		if (Config::Get('module.stream.disable_vote_events')) {
-			foreach ($aEventTypes as $i => $sType) {
-				if (substr($sType, 0, 4) == 'vote') {
-					unset ($aEventTypes[$i]);
-				}
-			}
-		}
-		if (!count($aEventTypes)) return array();
 		/**
 		 * Получаем список тех на кого подписан
 		 */
 		$aUsersList = $this->getUsersList($iUserId);
-		if (!count($aUsersList)) return array();
+
+		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
+	}
+
+	/**
+	 * Чтение всей активности на сайте
+	 *
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @return array
+	 */
+	public function ReadAll($iCount=null,$iFromId=null) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=array_keys($this->getEventTypes());
+
+		return $this->ReadEvents($aEventTypes,null,$iCount,$iFromId);
+	}
+	/**
+	 * Чтение активности конкретного пользователя
+	 *
+	 * @param int $iCount
+	 * @param int $iUserId
+	 * @return array
+	 */
+	public function ReadByUserId($iUserId,$iCount=null,$iFromId=null) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=array_keys($this->getEventTypes());
+		/**
+		 * Получаем список тех на кого подписан
+		 */
+		$aUsersList = array($iUserId);
+
+		return $this->ReadEvents($aEventTypes,$aUsersList,$iCount,$iFromId);
+	}
+
+	/**
+	 * Количество событий конкретного пользователя
+	 *
+	 * @param $iUserId
+	 * @return int
+	 */
+	public function GetCountByUserId($iUserId) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=$this->getEventTypesFilter();
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCount($aEventTypes, $iUserId);
+	}
+
+	/**
+	 * Количество событий на которые подписан пользователь
+	 *
+	 * @param $iUserId
+	 * @return int
+	 */
+	public function GetCountByReaderId($iUserId) {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=$this->getEventTypesFilter($this->getTypesList($iUserId));
+		/**
+		 * Получаем список тех на кого подписан
+		 */
+		$aUsersList = $this->getUsersList($iUserId);
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCount($aEventTypes, $aUsersList);
+	}
+
+	/**
+	 * Количество событий на всем сайте
+	 *
+	 * @return int
+	 */
+	public function GetCountAll() {
+		/**
+		 * Получаем типы событий
+		 */
+		$aEventTypes=$this->getEventTypesFilter();
+		if (!count($aEventTypes)) return 0;
+
+		return $this->oMapper->GetCount($aEventTypes, null);
+	}
+
+	public function GetCount($aEventTypes, $aUserId=null) {
+		return $this->oMapper->GetCount($aEventTypes, $aUserId);
+	}
+	/**
+	 * @param array $aEventTypes
+	 * @param array | null $aUsersList
+	 * @param int $iCount
+	 * @param int $iFromId
+	 * @return array
+	 */
+	public function ReadEvents($aEventTypes,$aUsersList,$iCount=null,$iFromId=null) {
+		if (!is_null($aUsersList) and !count($aUsersList)) {
+			return array();
+		}
+		if (!$iCount) $iCount = Config::Get('module.stream.count_default');
+
+		$aEventTypes=$this->getEventTypesFilter($aEventTypes);
+		if (!count($aEventTypes)) return array();
+
 		/**
 		 * Получаем список событий
 		 */
@@ -219,8 +384,7 @@ class ModuleStream extends Module {
 		}
 		return $aEvents;
 	}
-	
-	
+
 	/**
 	 * Получение типов событий, на которые подписан пользователь
 	 * @param type $iUserId
@@ -246,13 +410,36 @@ class ModuleStream extends Module {
 		return $this->User_GetUsersAdditionalData($aIds);
 	}
 	/**
-	 * Редактирвоание списка событий, на которые подписан юзер
-	 * @param type $iUserId
-	 * @param type $iType
+	 * Проверяет подписан ли пользователь на конкретного пользователя
+	 *
+	 * @param $iUserId
+	 * @param $iTargetUserId
+	 * @return bool
+	 */
+	public function IsSubscribe($iUserId,$iTargetUserId) {
+		return $this->oMapper->IsSubscribe($iUserId,$iTargetUserId);
+	}
+	/**
+	 * Редактирование списка событий, на которые подписан юзер
+	 * @param int $iUserId
+	 * @param string $sType
 	 * @return type
 	 */
 	public function switchUserEventType($iUserId, $sType) {
-		return $this->oMapper->switchUserEventType($iUserId, $sType);
+		if ($this->IsAllowEventType($sType)) {
+			return $this->oMapper->switchUserEventType($iUserId, $sType);
+		}
+		return false;
+	}
+	/**
+	 * Переключает дефолтный список типов событий у пользователя
+	 *
+	 * @param int $iUserId
+	 */
+	public function switchUserEventDefaultTypes($iUserId) {
+		foreach($this->aEventDefaultTypes as $sType) {
+			$this->switchUserEventType($iUserId,$sType);
+		}
 	}
 	/**
 	 * Подписать пользователя
@@ -272,7 +459,16 @@ class ModuleStream extends Module {
 	public function unsubscribeUser($iUserId, $iTargetUserId) {
 		return $this->oMapper->unsubscribeUser($iUserId, $iTargetUserId);
 	}
-	
+
+	/**
+	 * Получает список записей на стене
+	 *
+	 * @param unknown_type $aIds
+	 * @return unknown
+	 */
+	protected function loadRelatedWall($aIds) {
+		return $this->Wall_GetWallAdditionalData($aIds);
+	}
 	/**
 	 * Получает список топиков
 	 *

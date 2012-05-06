@@ -1,11 +1,11 @@
 --
--- Database LiveStreet version 0.5
+-- Database LiveStreet version 1.0
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_blog`
+-- Структура таблицы `prefix_blog`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_blog` (
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
   `blog_rating` float(9,3) NOT NULL DEFAULT '0.000',
   `blog_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
   `blog_count_user` int(11) unsigned NOT NULL DEFAULT '0',
+  `blog_count_topic` int(10) unsigned NOT NULL DEFAULT '0',
   `blog_limit_rating_topic` float(9,3) NOT NULL DEFAULT '0.000',
   `blog_url` varchar(200) DEFAULT NULL,
   `blog_avatar` varchar(250) DEFAULT NULL,
@@ -26,20 +27,21 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
   KEY `user_owner_id` (`user_owner_id`),
   KEY `blog_type` (`blog_type`),
   KEY `blog_url` (`blog_url`),
-  KEY `blog_title` (`blog_title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+  KEY `blog_title` (`blog_title`),
+  KEY `blog_count_topic` (`blog_count_topic`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `prefix_blog`
+-- Дамп данных таблицы `prefix_blog`
 --
 
-INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`) VALUES
-(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2011-08-28 00:00:00', NULL, 0.000, 0, 0, -1000.000, NULL, '0');
+INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_count_topic`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`) VALUES
+(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2012-04-10 00:00:00', NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_blog_user`
+-- Структура таблицы `prefix_blog_user`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_blog_user` (
@@ -51,36 +53,15 @@ CREATE TABLE IF NOT EXISTS `prefix_blog_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `prefix_city`
+-- Дамп данных таблицы `prefix_blog_user`
 --
 
-CREATE TABLE IF NOT EXISTS `prefix_city` (
-  `city_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `city_name` varchar(30) NOT NULL,
-  PRIMARY KEY (`city_id`),
-  KEY `city_name` (`city_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_city_user`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_city_user` (
-  `city_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  UNIQUE KEY `user_id` (`user_id`),
-  KEY `city_id` (`city_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `prefix_comment`
+-- Структура таблицы `prefix_comment`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_comment` (
@@ -99,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `prefix_comment` (
   `comment_user_ip` varchar(20) NOT NULL,
   `comment_rating` float(9,3) NOT NULL DEFAULT '0.000',
   `comment_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
-  `comment_count_favourite` INT( 11 ) UNSIGNED NOT NULL DEFAULT '0',
+  `comment_count_favourite` int(11) unsigned NOT NULL DEFAULT '0',
   `comment_delete` tinyint(4) NOT NULL DEFAULT '0',
   `comment_publish` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`comment_id`),
@@ -112,12 +93,17 @@ CREATE TABLE IF NOT EXISTS `prefix_comment` (
   KEY `comment_left` (`comment_left`),
   KEY `comment_right` (`comment_right`),
   KEY `comment_level` (`comment_level`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_comment`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_comment_online`
+-- Структура таблицы `prefix_comment_online`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_comment_online` (
@@ -130,38 +116,17 @@ CREATE TABLE IF NOT EXISTS `prefix_comment_online` (
   UNIQUE KEY `id_type` (`target_id`,`target_type`),
   KEY `comment_id` (`comment_id`),
   KEY `type_parent` (`target_type`,`target_parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_comment_online`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_country`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_country` (
-  `country_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `country_name` varchar(30) NOT NULL,
-  PRIMARY KEY (`country_id`),
-  KEY `country_name` (`country_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `prefix_country_user`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_country_user` (
-  `country_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  UNIQUE KEY `user_id` (`user_id`),
-  KEY `country_id` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `prefix_favourite`
+-- Структура таблицы `prefix_favourite`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_favourite` (
@@ -169,15 +134,44 @@ CREATE TABLE IF NOT EXISTS `prefix_favourite` (
   `target_id` int(11) unsigned DEFAULT NULL,
   `target_type` enum('topic','comment','talk') DEFAULT 'topic',
   `target_publish` tinyint(1) DEFAULT '1',
+  `tags` varchar(250) NOT NULL,
   UNIQUE KEY `user_id_target_id_type` (`user_id`,`target_id`,`target_type`),
   KEY `target_publish` (`target_publish`),
   KEY `id_type` (`target_id`,`target_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_favourite`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_friend`
+-- Структура таблицы `prefix_favourite_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_favourite_tag` (
+  `user_id` int(10) unsigned NOT NULL,
+  `target_id` int(11) NOT NULL,
+  `target_type` enum('topic','comment','talk') NOT NULL,
+  `is_user` tinyint(1) NOT NULL DEFAULT '0',
+  `text` varchar(50) NOT NULL,
+  KEY `user_id_target_type_id` (`user_id`,`target_type`,`target_id`),
+  KEY `target_type_id` (`target_type`,`target_id`),
+  KEY `is_user` (`is_user`),
+  KEY `text` (`text`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_favourite_tag`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_friend`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_friend` (
@@ -189,10 +183,15 @@ CREATE TABLE IF NOT EXISTS `prefix_friend` (
   KEY `user_to` (`user_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_friend`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_invite`
+-- Структура таблицы `prefix_invite`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_invite` (
@@ -208,12 +207,17 @@ CREATE TABLE IF NOT EXISTS `prefix_invite` (
   KEY `user_from_id` (`user_from_id`),
   KEY `user_to_id` (`user_to_id`),
   KEY `invite_date_add` (`invite_date_add`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_invite`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_notify_task`
+-- Структура таблицы `prefix_notify_task`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_notify_task` (
@@ -226,12 +230,17 @@ CREATE TABLE IF NOT EXISTS `prefix_notify_task` (
   `notify_task_status` tinyint(2) unsigned DEFAULT NULL,
   PRIMARY KEY (`notify_task_id`),
   KEY `date_created` (`date_created`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_notify_task`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_reminder`
+-- Структура таблицы `prefix_reminder`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_reminder` (
@@ -245,10 +254,15 @@ CREATE TABLE IF NOT EXISTS `prefix_reminder` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_reminder`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_session`
+-- Структура таблицы `prefix_session`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_session` (
@@ -263,10 +277,15 @@ CREATE TABLE IF NOT EXISTS `prefix_session` (
   KEY `session_date_last` (`session_date_last`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_session`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_stream_event`
+-- Структура таблицы `prefix_stream_event`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_stream_event` (
@@ -281,12 +300,17 @@ CREATE TABLE IF NOT EXISTS `prefix_stream_event` (
   KEY `user_id` (`user_id`),
   KEY `publish` (`publish`),
   KEY `target_id` (`target_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_stream_event`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_stream_subscribe`
+-- Структура таблицы `prefix_stream_subscribe`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_stream_subscribe` (
@@ -295,10 +319,15 @@ CREATE TABLE IF NOT EXISTS `prefix_stream_subscribe` (
   KEY `user_id` (`user_id`,`target_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_stream_subscribe`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_stream_user_type`
+-- Структура таблицы `prefix_stream_user_type`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_stream_user_type` (
@@ -307,10 +336,45 @@ CREATE TABLE IF NOT EXISTS `prefix_stream_user_type` (
   KEY `user_id` (`user_id`,`event_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_stream_user_type`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_talk`
+-- Структура таблицы `prefix_subscribe`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_subscribe` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `target_type` varchar(20) NOT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `mail` varchar(50) NOT NULL,
+  `date_add` datetime NOT NULL,
+  `date_remove` datetime DEFAULT NULL,
+  `ip` varchar(20) NOT NULL,
+  `key` varchar(32) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `type` (`target_type`),
+  KEY `mail` (`mail`),
+  KEY `status` (`status`),
+  KEY `key` (`key`),
+  KEY `target_id` (`target_id`),
+  KEY `ip` (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_subscribe`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_talk`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_talk` (
@@ -320,19 +384,27 @@ CREATE TABLE IF NOT EXISTS `prefix_talk` (
   `talk_text` text NOT NULL,
   `talk_date` datetime NOT NULL,
   `talk_date_last` datetime NOT NULL,
+  `talk_user_id_last` int(11) NOT NULL,
   `talk_user_ip` varchar(20) NOT NULL,
+  `talk_comment_id_last` int(11) DEFAULT NULL,
   `talk_count_comment` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`talk_id`),
   KEY `user_id` (`user_id`),
   KEY `talk_title` (`talk_title`),
   KEY `talk_date` (`talk_date`),
-  KEY `talk_date_last` (`talk_date_last`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+  KEY `talk_date_last` (`talk_date_last`),
+  KEY `talk_user_id_last` (`talk_user_id_last`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_talk`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_talk_blacklist`
+-- Структура таблицы `prefix_talk_blacklist`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_talk_blacklist` (
@@ -342,10 +414,15 @@ CREATE TABLE IF NOT EXISTS `prefix_talk_blacklist` (
   KEY `prefix_talk_blacklist_fk_target` (`user_target_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_talk_blacklist`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_talk_user`
+-- Структура таблицы `prefix_talk_user`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_talk_user` (
@@ -359,13 +436,19 @@ CREATE TABLE IF NOT EXISTS `prefix_talk_user` (
   KEY `user_id` (`user_id`),
   KEY `date_last` (`date_last`),
   KEY `date_last_2` (`date_last`),
-  KEY `talk_user_active` (`talk_user_active`)
+  KEY `talk_user_active` (`talk_user_active`),
+  KEY `comment_count_new` (`comment_count_new`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_talk_user`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic`
+-- Структура таблицы `prefix_topic`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic` (
@@ -383,9 +466,12 @@ CREATE TABLE IF NOT EXISTS `prefix_topic` (
   `topic_publish_index` tinyint(1) NOT NULL DEFAULT '0',
   `topic_rating` float(9,3) NOT NULL DEFAULT '0.000',
   `topic_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
+  `topic_count_vote_up` int(11) NOT NULL DEFAULT '0',
+  `topic_count_vote_down` int(11) NOT NULL DEFAULT '0',
+  `topic_count_vote_abstain` int(11) NOT NULL DEFAULT '0',
   `topic_count_read` int(11) unsigned NOT NULL DEFAULT '0',
   `topic_count_comment` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_count_favourite` INT( 11 ) UNSIGNED NOT NULL DEFAULT '0',
+  `topic_count_favourite` int(11) unsigned NOT NULL DEFAULT '0',
   `topic_cut_text` varchar(100) DEFAULT NULL,
   `topic_forbid_comment` tinyint(1) NOT NULL DEFAULT '0',
   `topic_text_hash` varchar(32) NOT NULL,
@@ -395,13 +481,19 @@ CREATE TABLE IF NOT EXISTS `prefix_topic` (
   KEY `topic_date_add` (`topic_date_add`),
   KEY `topic_rating` (`topic_rating`),
   KEY `topic_publish` (`topic_publish`),
-  KEY `topic_text_hash` (`topic_text_hash`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+  KEY `topic_text_hash` (`topic_text_hash`),
+  KEY `topic_count_comment` (`topic_count_comment`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_topic`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic_content`
+-- Структура таблицы `prefix_topic_content`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_content` (
@@ -413,27 +505,37 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_content` (
   PRIMARY KEY (`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_topic_content`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic_photo`
+-- Структура таблицы `prefix_topic_photo`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_photo` (
-  `id` int(11) NOT NULL auto_increment,
-  `topic_id` int(11) unsigned default NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) unsigned DEFAULT NULL,
   `path` varchar(255) NOT NULL,
   `description` text,
-  `target_tmp` varchar(40) default NULL,
-  PRIMARY KEY  (`id`),
+  `target_tmp` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `topic_id` (`topic_id`),
   KEY `target_tmp` (`target_tmp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_topic_photo`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic_question_vote`
+-- Структура таблицы `prefix_topic_question_vote`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_question_vote` (
@@ -444,10 +546,15 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_question_vote` (
   KEY `user_voter_id` (`user_voter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_topic_question_vote`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic_read`
+-- Структура таблицы `prefix_topic_read`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_read` (
@@ -460,10 +567,15 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_read` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_topic_read`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_topic_tag`
+-- Структура таблицы `prefix_topic_tag`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_topic_tag` (
@@ -477,12 +589,17 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_tag` (
   KEY `user_id` (`user_id`),
   KEY `blog_id` (`blog_id`),
   KEY `topic_tag_text` (`topic_tag_text`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_topic_tag`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_user`
+-- Структура таблицы `prefix_user`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_user` (
@@ -505,9 +622,6 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `user_profile_region` varchar(30) DEFAULT NULL,
   `user_profile_city` varchar(30) DEFAULT NULL,
   `user_profile_birthday` datetime DEFAULT NULL,
-  `user_profile_site` varchar(200) DEFAULT NULL,
-  `user_profile_site_name` varchar(50) DEFAULT NULL,
-  `user_profile_icq` bigint(20) unsigned DEFAULT NULL,
   `user_profile_about` text,
   `user_profile_date` datetime DEFAULT NULL,
   `user_profile_avatar` varchar(250) DEFAULT NULL,
@@ -524,19 +638,19 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   KEY `user_activate` (`user_activate`),
   KEY `user_rating` (`user_rating`),
   KEY `user_profile_sex` (`user_profile_sex`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `prefix_user`
+-- Дамп данных таблицы `prefix_user`
 --
 
-INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_site`, `user_profile_site_name`, `user_profile_icq`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2011-08-28 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1);
+INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2012-04-10 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_userfeed_subscribe`
+-- Структура таблицы `prefix_userfeed_subscribe`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_userfeed_subscribe` (
@@ -546,10 +660,15 @@ CREATE TABLE IF NOT EXISTS `prefix_userfeed_subscribe` (
   KEY `user_id` (`user_id`,`subscribe_type`,`target_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_userfeed_subscribe`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_user_administrator`
+-- Структура таблицы `prefix_user_administrator`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_user_administrator` (
@@ -558,7 +677,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user_administrator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `prefix_user_administrator`
+-- Дамп данных таблицы `prefix_user_administrator`
 --
 
 INSERT INTO `prefix_user_administrator` (`user_id`) VALUES
@@ -567,22 +686,39 @@ INSERT INTO `prefix_user_administrator` (`user_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_user_field`
+-- Структура таблицы `prefix_user_field`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pattern` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+  KEY `name` (`name`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Дамп данных таблицы `prefix_user_field`
+--
+
+INSERT INTO `prefix_user_field` (`id`, `type`, `name`, `title`, `pattern`) VALUES
+(1, 'contact', 'phone', 'Телефон', ''),
+(2, 'contact', 'mail', 'E-mail', '<a href="mailto:{*}" rel="nofollow">{*}</a>'),
+(3, 'contact', 'skype', 'Skype', '<a href="skype:{*}" rel="nofollow">{*}</a>'),
+(4, 'contact', 'icq', 'ICQ', '<a href="http://www.icq.com/people/about_me.php?uin={*}" rel="nofollow">{*}</a>'),
+(5, 'contact', 'www', 'Сайт', '<a href="http://{*}" rel="nofollow">{*}</a>'),
+(6, 'social', 'twitter', 'Twitter', '<a href="http://twitter.com/{*}/" rel="nofollow">{*}</a>'),
+(7, 'social', 'facebook', 'Facebook', '<a href="http://facebook.com/{*}" rel="nofollow">{*}</a>'),
+(8, 'social', 'vkontakte', 'ВКонтакте', '<a href="http://vk.com/{*}" rel="nofollow">{*}</a>'),
+(9, 'social', 'odnoklassniki', 'Одноклассники', '<a href="http://www.odnoklassniki.ru/profile/{*}/" rel="nofollow">{*}</a>');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_user_field_value`
+-- Структура таблицы `prefix_user_field_value`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_user_field_value` (
@@ -593,10 +729,37 @@ CREATE TABLE IF NOT EXISTS `prefix_user_field_value` (
   KEY `field_id` (`field_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `prefix_user_field_value`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prefix_vote`
+-- Структура таблицы `prefix_user_note`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_user_note` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `target_user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `text` text NOT NULL,
+  `date_add` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `target_user_id` (`target_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_user_note`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_vote`
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_vote` (
@@ -606,159 +769,186 @@ CREATE TABLE IF NOT EXISTS `prefix_vote` (
   `vote_direction` tinyint(2) DEFAULT '0',
   `vote_value` float(9,3) NOT NULL DEFAULT '0.000',
   `vote_date` datetime NOT NULL,
+  `vote_ip` varchar(15) NOT NULL DEFAULT '',
   PRIMARY KEY (`target_id`,`target_type`,`user_voter_id`),
-  KEY `user_voter_id` (`user_voter_id`)
+  KEY `user_voter_id` (`user_voter_id`),
+  KEY `vote_ip` (`vote_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Constraints for dumped tables
+-- Дамп данных таблицы `prefix_vote`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_wall`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_wall` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT NULL,
+  `wall_user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `count_reply` int(11) NOT NULL DEFAULT '0',
+  `last_reply` varchar(100) NOT NULL,
+  `date_add` datetime NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `wall_user_id` (`wall_user_id`),
+  KEY `ip` (`ip`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_wall`
+--
+
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `prefix_blog`
+-- Ограничения внешнего ключа таблицы `prefix_blog`
 --
 ALTER TABLE `prefix_blog`
   ADD CONSTRAINT `prefix_blog_fk` FOREIGN KEY (`user_owner_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_blog_user`
+-- Ограничения внешнего ключа таблицы `prefix_blog_user`
 --
 ALTER TABLE `prefix_blog_user`
   ADD CONSTRAINT `prefix_blog_user_fk` FOREIGN KEY (`blog_id`) REFERENCES `prefix_blog` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_blog_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_city_user`
---
-ALTER TABLE `prefix_city_user`
-  ADD CONSTRAINT `prefix_city_user_fk` FOREIGN KEY (`city_id`) REFERENCES `prefix_city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prefix_city_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `prefix_comment`
+-- Ограничения внешнего ключа таблицы `prefix_comment`
 --
 ALTER TABLE `prefix_comment`
   ADD CONSTRAINT `prefix_topic_comment_fk` FOREIGN KEY (`comment_pid`) REFERENCES `prefix_comment` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `topic_comment_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_comment_online`
+-- Ограничения внешнего ключа таблицы `prefix_comment_online`
 --
 ALTER TABLE `prefix_comment_online`
   ADD CONSTRAINT `prefix_topic_comment_online_fk1` FOREIGN KEY (`comment_id`) REFERENCES `prefix_comment` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_country_user`
---
-ALTER TABLE `prefix_country_user`
-  ADD CONSTRAINT `prefix_country_user_fk` FOREIGN KEY (`country_id`) REFERENCES `prefix_country` (`country_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prefix_country_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `prefix_favourite`
+-- Ограничения внешнего ключа таблицы `prefix_favourite`
 --
 ALTER TABLE `prefix_favourite`
   ADD CONSTRAINT `prefix_favourite_target_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_friend`
+-- Ограничения внешнего ключа таблицы `prefix_favourite_tag`
+--
+ALTER TABLE `prefix_favourite_tag`
+  ADD CONSTRAINT `prefix_favourite_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_friend`
 --
 ALTER TABLE `prefix_friend`
   ADD CONSTRAINT `prefix_friend_from_fk` FOREIGN KEY (`user_from`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_friend_to_fk` FOREIGN KEY (`user_to`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_invite`
+-- Ограничения внешнего ключа таблицы `prefix_invite`
 --
 ALTER TABLE `prefix_invite`
   ADD CONSTRAINT `prefix_invite_fk` FOREIGN KEY (`user_from_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_invite_fk1` FOREIGN KEY (`user_to_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_reminder`
+-- Ограничения внешнего ключа таблицы `prefix_reminder`
 --
 ALTER TABLE `prefix_reminder`
   ADD CONSTRAINT `prefix_reminder_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_session`
+-- Ограничения внешнего ключа таблицы `prefix_session`
 --
 ALTER TABLE `prefix_session`
   ADD CONSTRAINT `prefix_session_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_stream_event`
+-- Ограничения внешнего ключа таблицы `prefix_stream_event`
 --
 ALTER TABLE `prefix_stream_event`
   ADD CONSTRAINT `prefix_stream_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_stream_subscribe`
+-- Ограничения внешнего ключа таблицы `prefix_stream_subscribe`
 --
 ALTER TABLE `prefix_stream_subscribe`
   ADD CONSTRAINT `prefix_stream_subscribe_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_stream_user_type`
+-- Ограничения внешнего ключа таблицы `prefix_stream_user_type`
 --
 ALTER TABLE `prefix_stream_user_type`
   ADD CONSTRAINT `prefix_stream_user_type_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_talk`
+-- Ограничения внешнего ключа таблицы `prefix_talk`
 --
 ALTER TABLE `prefix_talk`
   ADD CONSTRAINT `prefix_talk_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_talk_blacklist`
+-- Ограничения внешнего ключа таблицы `prefix_talk_blacklist`
 --
 ALTER TABLE `prefix_talk_blacklist`
   ADD CONSTRAINT `prefix_talk_blacklist_fk_target` FOREIGN KEY (`user_target_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_talk_blacklist_fk_user` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_talk_user`
+-- Ограничения внешнего ключа таблицы `prefix_talk_user`
 --
 ALTER TABLE `prefix_talk_user`
   ADD CONSTRAINT `prefix_talk_user_fk` FOREIGN KEY (`talk_id`) REFERENCES `prefix_talk` (`talk_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_talk_user_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic`
+-- Ограничения внешнего ключа таблицы `prefix_topic`
 --
 ALTER TABLE `prefix_topic`
   ADD CONSTRAINT `prefix_topic_fk` FOREIGN KEY (`blog_id`) REFERENCES `prefix_blog` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_topic_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic_content`
+-- Ограничения внешнего ключа таблицы `prefix_topic_content`
 --
 ALTER TABLE `prefix_topic_content`
   ADD CONSTRAINT `prefix_topic_content_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic_photo`
+-- Ограничения внешнего ключа таблицы `prefix_topic_photo`
 --
 ALTER TABLE `prefix_topic_photo`
   ADD CONSTRAINT `prefix_topic_photo_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic_question_vote`
+-- Ограничения внешнего ключа таблицы `prefix_topic_question_vote`
 --
 ALTER TABLE `prefix_topic_question_vote`
   ADD CONSTRAINT `prefix_topic_question_vote_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_topic_question_vote_fk1` FOREIGN KEY (`user_voter_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic_read`
+-- Ограничения внешнего ключа таблицы `prefix_topic_read`
 --
 ALTER TABLE `prefix_topic_read`
   ADD CONSTRAINT `prefix_topic_read_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_topic_read_fk1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_topic_tag`
+-- Ограничения внешнего ключа таблицы `prefix_topic_tag`
 --
 ALTER TABLE `prefix_topic_tag`
   ADD CONSTRAINT `prefix_topic_tag_fk` FOREIGN KEY (`topic_id`) REFERENCES `prefix_topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -766,26 +956,40 @@ ALTER TABLE `prefix_topic_tag`
   ADD CONSTRAINT `prefix_topic_tag_fk2` FOREIGN KEY (`blog_id`) REFERENCES `prefix_blog` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_userfeed_subscribe`
+-- Ограничения внешнего ключа таблицы `prefix_userfeed_subscribe`
 --
 ALTER TABLE `prefix_userfeed_subscribe`
   ADD CONSTRAINT `prefix_userfeed_subscribe_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_user_administrator`
+-- Ограничения внешнего ключа таблицы `prefix_user_administrator`
 --
 ALTER TABLE `prefix_user_administrator`
   ADD CONSTRAINT `user_administrator_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_user_field_value`
+-- Ограничения внешнего ключа таблицы `prefix_user_field_value`
 --
 ALTER TABLE `prefix_user_field_value`
   ADD CONSTRAINT `prefix_user_field_value_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `prefix_user_field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_user_field_value_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prefix_vote`
+-- Ограничения внешнего ключа таблицы `prefix_user_note`
+--
+ALTER TABLE `prefix_user_note`
+  ADD CONSTRAINT `prefix_user_note_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_user_note_ibfk_1` FOREIGN KEY (`target_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_vote`
 --
 ALTER TABLE `prefix_vote`
   ADD CONSTRAINT `prefix_topic_vote_fk1` FOREIGN KEY (`user_voter_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_wall`
+--
+ALTER TABLE `prefix_wall`
+  ADD CONSTRAINT `prefix_wall_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_wall_ibfk_1` FOREIGN KEY (`wall_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;

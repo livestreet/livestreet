@@ -4,15 +4,18 @@
 // ------------------------------------------------------------------*/
 .markItUp a: link,
 .markItUp a: visited { color: #000; text-decoration: none; }
-.markItUp  { width: 600px; margin-bottom: 5px; }
+.markItUp  { margin-bottom: 5px; }
 .markItUpContainer { font: 11px Verdana, Arial, Helvetica, sans-serif; }
 .markItUpEditor {
 	font: 12px "Courier New", Courier, monospace;
 	padding: 5px;
-	width: 587px;
 	height: 200px;
 	line-height: 18px;
 	overflow: auto;
+	width: 100%;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	border: 1px solid #C0CAD5;
 }
 .markItUpPreviewFrame	{
 	overflow: auto;
@@ -35,14 +38,18 @@
 /***************************************************************************************/
 /* first row of buttons */
 .markItUpHeader { 
-	width: 587px;
 	background: #eee; 
 	padding: 5px; 
 	border-top: 1px solid #c0cad5; 
 	border-left: 1px solid #c0cad5; 
 	border-right: 1px solid #c0cad5; 
 }
-.markItUpHeader ul	{ overflow: hidden; zoom: 1; }
+.markItUpHeader ul	{
+	overflow: visible;
+	zoom: 1;
+	display: inline-block;
+	*display: inline; /* ie <= 7 */
+}
 .markItUpHeader ul li	{ list-style: none; float: left; position: relative; margin-right: 6px; }
 .markItUpHeader ul li: hover > ul{ display: block; }
 .markItUpHeader ul .markItUpDropMenu {
@@ -56,8 +63,8 @@
 .markItUpHeader ul ul {
 	display: none;
 	position: absolute;
-	top: 18px; left: 0px;	
-	background: #FFF;
+	top: 16px; left: 0px;	
+	background: #eee;
 	border: 1px solid #000;
 }
 .markItUpHeader ul ul li {
@@ -65,7 +72,7 @@
 	border-bottom: 1px solid #000;
 }
 .markItUpHeader ul ul .markItUpDropMenu {
-	background: #FFF url(images/submenu.png) no-repeat 100% 50%;
+	background: #eee url(images/submenu.png) no-repeat 100% 50%;
 }
 .markItUpHeader ul .markItUpSeparator {
 	margin: 0 6px 0 0;
@@ -100,10 +107,14 @@
 	width: 120px; 
 	padding: 5px 5px 5px 25px;
 	background-position: 2px 50%;
+	color: #000;
+	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
 }
-.markItUpHeader ul ul a: hover  {
-	color: #FFF;
-	background-color: #000;
+.markItUpHeader ul ul a:hover  {
+	background-color: #fff;
 }
 
 

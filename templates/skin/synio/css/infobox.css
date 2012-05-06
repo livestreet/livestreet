@@ -1,0 +1,32 @@
+/* --------------------------------------------
+	ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ
+-------------------------------------------- */
+
+.infobox {
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	text-align: left;
+	padding: 15px;
+	min-width: 50px;
+	max-width: 300px;
+	color: #fff;
+	background: rgba(0,0,0,.8);
+	border-radius: 5px;
+}
+
+.infobox .tip-arrow 					{ position: absolute; width: 0; height: 0; border-width: 6px; border-style: solid; border-color: rgba(0,0,0,.8); }
+.infobox .tip-arrow.tip-arrow-top 		{ top: -12px; left: 15px; border-top-color: transparent !important; border-left-color: transparent !important; border-right-color: transparent !important; }
+.infobox .tip-arrow.tip-arrow-bottom 	{ bottom: -12px; left: 15px; border-bottom-color: transparent !important; border-left-color: transparent !important; border-right-color: transparent !important; }
+.infobox .tip-arrow.tip-arrow-right 	{ top: 50%; margin-top: -6px; right: -12px; border-bottom-color: transparent !important; border-top-color: transparent !important; border-right-color: transparent !important; }
+.infobox .tip-arrow.tip-arrow-left 		{ top: 50%; margin-top: -6px; left: -12px; border-bottom-color: transparent !important; border-top-color: transparent !important; border-left-color: transparent !important; }
+
+.infobox a 			{ color: #B4B8ED; }
+.infobox a:hover 	{ color: #999DDB; }
+
+
+/* Default Tip */
+.infobox.infobox-standart 				{ background: rgba(0,0,0,.8); }
+.infobox.infobox-standart .tip-arrow 	{ border-color: rgba(0,0,0,.8); }

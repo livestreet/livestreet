@@ -25,6 +25,8 @@ return array(
 	 * Blogs
 	 */
 	'blogs' => 'Blogs',
+	'blogs_search_title_hint' => 'Search by title',
+	'blogs_search_empty' => 'No match results',
 	'blogs_title' => "Blog's Title and owner",
 	'blogs_readers' => 'Reader',
 	'blogs_rating' => 'Rating',
@@ -37,6 +39,13 @@ return array(
 	'blog_rating' => 'Rating',
 	'blog_vote_count' => 'Votes',
 	'blog_about' => 'About this blog',
+	'blog_expand_info' => 'More &darr;',
+	'blog_fold_info' => 'Fold &uarr;',
+	/**
+	 * Declensions
+	 */
+	'reader_declension' => 'reader;readers;readers',
+	'topic_declension' => 'topic;topics;topics',
 	/**
 	 * Popular Blogs
 	 */
@@ -79,20 +88,20 @@ return array(
 	 */
 	'blog_menu_all' => 'All',
 	'blog_menu_all_good' => 'Good',
+	'blog_menu_all_discussed' => 'Discussed',
+	'blog_menu_all_top' => 'TOP',
 	'blog_menu_all_new' => 'New',
 	'blog_menu_all_list' => 'All blogs',
 	'blog_menu_collective' => 'Groupe blogs',
 	'blog_menu_collective_good' => 'Good',
 	'blog_menu_collective_new' => 'New',
-	'blog_menu_collective_bad' => 'Bad',
+	'blog_menu_collective_discussed' => 'Discussed',
+	'blog_menu_collective_top' => 'TOP',
 	'blog_menu_personal' => 'Personal',
 	'blog_menu_personal_good' => 'Good',
 	'blog_menu_personal_new' => 'New',
-	'blog_menu_personal_bad' => 'Bad',
-	'blog_menu_top' => 'TOP',
-	'blog_menu_top_blog' => 'Blogs',
-	'blog_menu_top_topic' => 'Topics',
-	'blog_menu_top_comment' => 'Comments',
+	'blog_menu_personal_discussed' => 'Discussed',
+	'blog_menu_personal_top' => 'TOP',
 	'blog_menu_top_period_24h' => 'For the last 24 hours',
 	'blog_menu_top_period_7d' => 'For the last 7 days',
 	'blog_menu_top_period_30d' => 'For the last 30 daysй',
@@ -148,6 +157,7 @@ return array(
 	'blog_admin_users_submit_notice' => "After pushing \"Save\" button, user's permissions will be saved",
 	'blog_admin_users_submit_ok' => 'Permissions saved',
 	'blog_admin_users_submit_error' => "Hmm... Something's wrong",
+	'blog_admin_delete_title' => 'Delete blog',
 	'blog_admin_delete_confirm' => 'Are you sure you want to create blog?',
 	'blog_admin_delete_move' => 'Move topics to the blog',
 	'blog_delete_clear' => 'Delete topics',
@@ -155,8 +165,10 @@ return array(
 	'blog_admin_delete_not_empty' => "You can't delete blog containing records. Please delete all records first.",
 	'blog_admin_delete_move_error' => 'Unable to move topics from the blog which is being deleted',
 	'blog_admin_delete_move_personal' => "Can't move topics to personal blog",
-	'blog_admin_user_add_label' => 'Invite users:',
-	'blog_admin_user_invited' => 'List of invitees:',
+	'blog_admin_user_add_label' => 'Add users',
+	'blog_admin_user_invited' => 'List of invitees',
+	'blog_admin_user_add_header' => 'Invite users',
+	'blog_admin_user_add_empty' => 'No invited users',
 	'blog_close_show' => "It's a 'close blog', you don't have enought rights to see it's content",
 	'blog_user_invite_add_self' => "Can't send invitation to yourself",
 	'blog_user_invite_add_ok' => 'Invitation sent to user %%login%%',
@@ -174,8 +186,12 @@ return array(
 	 */
 	'topic_title' => 'Topics',
 	'topic_read_more' => 'Read more',
+	'topic_author' => 'Author topic',
 	'topic_date' => 'Date',
+	'topic_tags' => 'Tags',
+	'topic_tags_empty' => 'empty',
 	'topic_user' => "Author's  text",
+	'topic_share' => 'Share',
 	'topic_time_limit' => "Can't create topics in such a frequent rate",
 	'topic_comment_read' => 'Read comments',
 	'topic_comment_add' => 'Add comment',
@@ -192,17 +208,21 @@ return array(
 	'topic_favourite_add_already' => 'This topic is already in your favourites',
 	'topic_favourite_del' => 'Remove from favourites',
 	'topic_favourite_del_ok' => 'Topic removed from favourites',
+	'topic_favourite_tags_block' => 'Tags of favourite',
+	'topic_favourite_tags_block_all' => 'All tags',
+	'topic_favourite_tags_block_user' => 'My tags',
 	'error_favorite_topic_is_draft' => 'Topic of the draft can not be added to favorites',
 	'block_stream_comments_all' => 'All comment block',
 	'block_stream_topics_all' => 'All topics block',
 	'comments_all' => 'All comments',
+	'add_favourite_tags' => 'Add tags',
 	/**
 	 * Topic menus
 	 */
-	'topic_menu_add' => 'New',
-	'topic_menu_add_topic' => 'Add Topic',
-	'topic_menu_add_question' => 'Add question',
-	'topic_menu_add_link' => 'Add link',
+	'topic_menu_add' => 'Topic',
+	'topic_menu_add_topic' => 'Post',
+	'topic_menu_add_question' => 'Question',
+	'topic_menu_add_link' => 'Link',
 	'topic_menu_add_photoset' => 'Photoset',
 	'topic_menu_saved' => 'Drafts',
 	'topic_menu_published' => 'Published',
@@ -225,6 +245,7 @@ return array(
 	'topic_create_text_notice' => 'Html tags available',
 	'topic_create_text_error' => "Topic's text should consist of 2 upto 15000 chars",
 	'topic_create_text_error_unique' => "You've already created topic with the same text",
+	'topic_create_type_error' => "Invalid topic type",
 	'topic_create_tags' => 'Tags',
 	'topic_create_tags_notice' => 'Tags should be comma separated. i.e: facebook clone, blogs, rating, google, block.',
 	'topic_create_tags_error_bad' => 'Check that tags syntax is right',
@@ -236,10 +257,12 @@ return array(
 	'topic_create_submit_publish' => 'Publish',
 	'topic_create_submit_save' => 'Save to drafts',
 	'topic_create_submit_preview' => 'Preview',
+	'topic_create_submit_preview_close' => 'Close',
 	'topic_create_submit_notice' => 'Pushing «save to drafts» will save topic to the drafts and will be viewable by you only, showing lock alongside. Push «publish» to make it viewable by everyone.',
 	'topic_create_notice' => "Note: <cut> tag shortens long articles, hiding them totally or partially under the link («Read more»). Hidden part is not visible in the blog but will be available on the full Topic's page.",
 	'topic_create_error' => "During topic creation we've experienced some technical difficulties. Please try again later.",
 	'topic_edit' => 'Edit',
+	'topic_preview' => 'Preview',
 	'topic_delete' => 'Delete',
 	'topic_delete_confirm' => 'Do you really want to delete this topic?',
 	/**
@@ -268,6 +291,7 @@ return array(
 	'topic_question_vote_ok' => 'Your vote counted.',
 	'topic_question_vote_already' => 'Your vote is been counted already!',
 	'topic_question_vote_result' => 'Votes',
+	'topic_question_vote_result_sort' => 'On/off sort results',
 	'topic_question_abstain' => 'Abstain',
 	'topic_question_abstain_result' => 'Abstained',
 	'topic_question_create' => 'Create poll-topic',
@@ -330,6 +354,9 @@ return array(
 	 * Comments
 	 */
 	'comment_title' => 'Comments',
+	'comment_target_author' => 'author',
+	'comment_count_new' => 'Count new comments',
+	'comment_url_notice' => 'Link to comment',
 	'comment_collapse' => 'Collapse comments',
 	'comment_expand' => 'Expand comments',
 	'comment_goto_parent' => 'Reply to',
@@ -344,6 +371,8 @@ return array(
 	'comment_add' => 'Add',
 	'comment_preview' => 'Preview',
 	'comment_unregistered' => 'Only registered users can comment.',
+	'comment_subscribe' => 'subscribe to new comments',
+	'comment_declension' => 'comment;comments;comments',
 	/**
 	 * Comment votes
 	 */
@@ -404,6 +433,7 @@ return array(
 	'user_friend_add_text_label' => 'Introduce yourself :',
 	'user_friend_add_submit' => 'Submit',
 	'user_friend_add_cansel' => 'Cancel',
+	'user_friend_add_time_limit' => 'You too often send private messages, try adding to friend later',
 	'user_friend_offer_not_found' => 'Request not found',
 	'user_friend_offer_already_done' => 'This request processed already',
 	'user_friend_accept_notice_title' => 'Your request accepted',
@@ -426,6 +456,11 @@ return array(
 	'user_stats_sex_other' => 'Gender not specified',
 	'user_not_found' => 'User <b>%%login%%</b> wasn\'t not found',
 	'user_not_found_by_id' => 'User <b>#%%id%%</b> wasn\'t not found',
+	'user_search_title_hint' => 'Search by login',
+	'user_search_filter_all' => 'All',
+	'user_search_empty' => 'Search no match',
+	'user_status_online' => 'Online',
+	'user_status_offline' => 'Offline',
 	/**
 	 * User's profile menu
 	 */
@@ -480,7 +515,12 @@ return array(
 	 */
 	'user_menu_profile' => 'Profile',
 	'user_menu_profile_whois' => 'Whois',
-	'user_menu_profile_favourites' => 'Favourite topics',
+	'user_menu_profile_wall' => 'Wall',
+	'user_menu_profile_friends' => 'Friends',
+	'user_menu_profile_stream' => 'Stream',
+	'user_menu_profile_notes' => 'Notes',
+	'user_menu_profile_favourites' => 'Favourites',
+	'user_menu_profile_favourites_topics' => 'Favourite topics',
 	'user_menu_profile_favourites_comments' => 'Favourite comments',
 	'user_menu_profile_tags' => 'Tags',
 	'user_menu_publication' => 'Publications',
@@ -491,6 +531,8 @@ return array(
 	 * Profile
 	 */
 	'profile_privat' => 'Private',
+	'profile_contacts' => 'Contacts',
+	'profile_social' => 'Social',
 	'profile_sex' => 'Gender',
 	'profile_sex_man' => 'Male',
 	'profile_sex_woman' => 'Female',
@@ -510,10 +552,14 @@ return array(
 	'profile_date_registration' => 'Registered at',
 	'profile_date_last' => 'Last visit',
 	'profile_social_contacts' => 'Contacts and social services',
+	'profile_add_friend' => 'Add friend',
+	'profile_user_follow' => 'Follow',
+	'profile_user_unfollow' => 'Unfollow',
 	/**
 	 * UserFields
 	 */
 	'user_field_admin_title' => 'Contact fields users',
+	'user_field_admin_title_add' => 'Add field',
 	'user_field_add' => 'Add',
 	'user_field_cancel' => 'Cancel',
 	'user_field_added' => 'The field is added successfully',
@@ -523,15 +569,43 @@ return array(
 	'user_field_delete_confirm' => 'Remove the field?',
 	'user_field_deleted' => 'Field is removed',
 	'userfield_form_name' => 'Name',
+	'userfield_form_type' => 'Type',
 	'userfield_form_title' => 'Title',
 	'userfield_form_pattern' => 'Template (value is substituted into the token {*})',
 	'user_field_error_add_no_name' => 'You must specify the name of the field',
 	'user_field_error_add_no_title' => 'You must specify a title field',
 	'user_field_error_name_exists' => 'Field with that name already exists',
 	/**
+	 * Note fro user
+	 */
+	'user_note_form_edit' => 'Edit',
+	'user_note_form_delete' => 'Remove',
+	'user_note_form_save' => 'Save',
+	'user_note_form_cancel' => 'Cancel',
+	'user_note_add' => 'Add note',
+	'user_note_save_error' => 'Error on save',
+	'user_note_target_error' => 'Bad user for note',
+	'user_note_list_empty' => 'Empty list',
+	/**
+	 * Wall
+	 */
+	'wall_add_pid_error' => 'At this message can not be reply',
+	'wall_add_error' => 'Error adding a post to the wall',
+	'wall_add_time_limit' => 'You can\'t send post on wall a frequent rate',
+	'wall_add_title' => 'Write',
+	'wall_add_submit' => 'Submit',
+	'wall_load_more' => 'Load more',
+	'wall_load_reply_more' => 'Show all',
+	'wall_action_delete' => 'Delete',
+	'wall_action_reply' => 'Reply',
+	'wall_reply_placeholder' => 'Reply...',
+	'wall_reply_submit' => 'Submit',
+	/**
 	 * Configs.
 	 */
 	'settings_profile_edit' => 'Edit profile',
+	'settings_profile_section_base' => 'Base info',
+	'settings_profile_section_contacts' => 'Contacts',
 	'settings_profile_name' => 'Name',
 	'settings_profile_name_notice' => 'Name should consist of 2 upto 20 chars.',
 	'settings_profile_mail' => 'E-mail',
@@ -559,12 +633,20 @@ return array(
 	'settings_profile_avatar' => 'Avatar',
 	'settings_profile_avatar_error' => 'Can\'t load avatar',
 	'settings_profile_avatar_delete' => 'delete',
+	'settings_profile_avatar_change' => 'change',
+	'settings_profile_avatar_upload' => 'upload',
+	'settings_profile_avatar_resize_apply' => 'Apply',
+	'settings_profile_avatar_resize_cancel' => 'Cancel',
 	'settings_profile_foto' => 'Photo',
 	'settings_profile_foto_error' => 'Can\'t load photo',
 	'settings_profile_foto_delete' => 'delete',
+	'settings_profile_photo_change' => 'Channge photo',
+	'settings_profile_photo_upload' => 'Upload photo',
+	'settings_profile_field_error_max' => 'You can not add more than %%count%% identical contacts',
 	'settings_profile_submit' => 'save profile',
 	'settings_profile_submit_ok' => 'Profile successfully saved',
 	'settings_invite' => 'Invitations management',
+	'settings_invite_notice' => 'You can invite to the site of his friends to do this, simply enter their e-mail and click',
 	'settings_invite_available' => 'Available',
 	'settings_invite_available_no' => 'No invitation available yet',
 	'settings_invite_used' => 'Used',
@@ -583,13 +665,19 @@ return array(
 	'settings_tuning_notice_new_friend' => 'On joining to a friends list',
 	'settings_tuning_submit' => 'Save configs',
 	'settings_tuning_submit_ok' => 'Configs saved',
+	'settings_account' => 'Settings account',
+	'settings_account_password' => 'Password',
+	'settings_account_password_notice' => 'Leave the fields blank if you do not want to change your password.',
+	'settings_account_submit' => 'Save account',
+	'settings_account_submit_ok' => 'Account saved',
 	/**
 	 * Configs menu
 	 */
 	'settings_menu' => 'Settings',
 	'settings_menu_profile' => 'Profile',
-	'settings_menu_tuning' => 'Configs',
+	'settings_menu_tuning' => 'Settings site',
 	'settings_menu_invite' => 'Invites',
+	'settings_menu_account' => 'Account',
 	/**
 	 * Password restore
 	 */
@@ -630,10 +718,12 @@ return array(
 	/**
 	 * Blocks
 	 */
+	'block_tags' => 'Tags',
+	'block_tags_empty' => 'Tags empty',
 	'block_city_tags' => 'Cities',
 	'block_country_tags' => 'Countries',
 	'block_blog_info' => 'Blog description',
-	'block_blog_info_note' => 'Note',
+	'block_blog_info_note' => 'Tip',
 	'block_blog_info_note_text' => '<strong>Tag &lt;cut&gt; shortens long articles</strong>, hiding them totally or partially under the link («read more»). Hidden part is not visible in the blog but will be available on the full Topic\'s page.',
 	'block_blogs' => 'Blogs',
 	'block_blogs_top' => 'Top',
@@ -667,13 +757,17 @@ return array(
 	 * Malbox
 	 */
 	'talk_menu_inbox' => 'Mailbox',
+	'talk_menu_inbox_new' => 'Only new',
 	'talk_menu_inbox_list' => 'Correspondence',
 	'talk_menu_inbox_create' => 'Create new',
 	'talk_menu_inbox_favourites' => 'Favourites',
+	'talk_menu_inbox_blacklist' => 'Blacklist',
 	'talk_inbox' => 'Mailbox',
+	'talk_inbox_empty' => 'Empty list',
 	'talk_inbox_target' => 'Recipients',
 	'talk_inbox_title' => 'Subject',
 	'talk_inbox_date' => 'Date',
+	'talk_inbox_make_read' => 'Mark as read',
 	'talk_inbox_delete' => 'Delete correspondence',
 	'talk_inbox_delete_confirm' => 'Do you really want to delete correspondence?',
 	'talk_comments' => 'Correspondence',
@@ -682,6 +776,7 @@ return array(
 	'talk_create_users' => 'To',
 	'talk_create_users_error' => 'You have to list recipients of your message',
 	'talk_create_users_error_not_found' => 'We don\'t have user with login',
+	'talk_create_users_error_many' => 'Too many recipients',
 	'talk_create_title' => 'Subject',
 	'talk_create_title_error' => 'Subject should consist of 2 upto 200 chars',
 	'talk_create_text' => 'Message',
@@ -701,11 +796,14 @@ return array(
 	'talk_filter_erase_form' => 'Empty form',
 	'talk_filter_label_sender' => 'Sender',
 	'talk_filter_label_keyword' => 'Search in the subjects',
+	'talk_filter_label_keyword_text' => 'Search in the message',
+	'talk_filter_label_favourite' => 'Search in favourites',
 	'talk_filter_label_date' => 'Set dates',
 	'talk_filter_notice_sender' => 'Specify sender\'s login',
 	'talk_filter_notice_keyword' => 'Specify keywords',
 	'talk_filter_notice_date' => 'Date should be in the following format 25.12.2008',
 	'talk_filter_submit' => 'Submit filter',
+	'talk_filter_submit_clear' => 'Clear',
 	'talk_filter_error' => 'Filter error',
 	'talk_filter_error_date_format' => 'Wrong date format',
 	'talk_filter_result_count' => 'Found %%count%% messages',
@@ -722,6 +820,7 @@ return array(
 	'talk_blacklist_user_not_found' => 'User <b>%%login%%</b> is not in your black list',
 	'talk_blacklist_add_self' => 'You can\'t add yourself to the blacklist',
 	'talk_speaker_title' => 'Message members',
+	'talk_speaker_edit' => 'Edit members',
 	'talk_speaker_add_label' => 'Add member',
 	'talk_speaker_delete_ok' => 'Member <b>%%login%%</b> deleted successfully',
 	'talk_speaker_user_not_found' => 'User <b>%%login%%</b> is not a member of this message',
@@ -757,6 +856,7 @@ return array(
 	'stream_subscribes_already_subscribed' => 'You are already subscribed to this member',
 	'stream_subscribes_updated' => 'Settings saved',
 	'stream_get_more' => 'Get more events',
+	'stream_event_type_add_wall' => 'Add post on wall',
 	'stream_event_type_add_topic' => 'Add a topic',
 	'stream_event_type_add_comment' => 'Add comment',
 	'stream_event_type_add_blog' => 'Adding a blog',
@@ -770,6 +870,7 @@ return array(
 	'stream_no_events' => 'Stream is empty',
 	'stream_error_subscribe_to_yourself' => 'You can not sign up for yourself',
 	'stream_list_user' => 'User',
+	'stream_list_event_add_wall' => 'added a post on wall',
 	'stream_list_event_add_topic' => 'added a new topic',
 	'stream_list_event_add_blog' => 'added a new blog',
 	'stream_list_event_add_comment' => 'commented on the topic',
@@ -779,14 +880,22 @@ return array(
 	'stream_list_event_vote_comment' => 'voted comment',
 	'stream_list_event_join_blog' => 'join to blog',
 	'stream_list_event_add_friend' => 'add to friends',
-	'stream_personal_title' => 'Stream',
+	'stream_menu' => 'Stream',
+	'stream_menu_all' => 'All',
+	'stream_menu_user' => 'I watch',
 	'stream_settings_note_filter' => 'Select the actions that will be tracked',
 	'stream_settings_note_follow_user' => 'Add people to the activity that you would like to watch',
 	'stream_settings_note_follow_friend' => 'Choose your friends for the activity that you would like to watch',
+	/**
+	 * Admin
+	 */
+	'admin_header' => 'Admin panel',
 	'admin_list_plugins' => 'Manage plugins',
 	'admin_list_userfields' => 'Configuring custom fields',
 	'admin_list_restorecomment' => 'Rebuilding a tree comments',
 	'admin_list_recalcfavourite' => 'Recalculate counters of favorites',
+	'admin_list_recalcvote' => 'Recalculate counters of votes',
+	'admin_list_recalctopic' => 'Recalculate count topics of blogs',
 	/**
 	 * Rating TOP
 	 */
@@ -810,6 +919,8 @@ return array(
 	 * Image upload
 	 */
 	'uploadimg' => 'Upload image',
+	'uploadimg_from_pc' => 'From PC',
+	'uploadimg_from_link' => 'From internet',
 	'uploadimg_file' => 'File',
 	'uploadimg_file_error' => 'Can\'t process the file. Please check file type and size.',
 	'uploadimg_url' => 'Image URL',
@@ -823,12 +934,14 @@ return array(
 	'uploadimg_align_right' => 'Right',
 	'uploadimg_align_center' => 'Center',
 	'uploadimg_submit' => 'Submit',
+	'uploadimg_link_submit_load' => 'Upload',
+	'uploadimg_link_submit_paste' => 'Insert as external link',
 	'uploadimg_cancel' => 'Cancel',
 	'uploadimg_title' => 'Title',
 	/**
 	 * Notifications
 	 */
-	'notify_subject_comment_new' => 'New comment added to your topic',
+	'notify_subject_comment_new' => 'New comment on topic',
 	'notify_subject_comment_reply' => 'You\'ve recieved reply to your comment',
 	'notify_subject_topic_new' => 'New topic in the blog',
 	'notify_subject_registration_activate' => 'Registration',
@@ -840,12 +953,16 @@ return array(
 	'notify_subject_blog_invite_new' => 'You\'ve got a blog membership offer',
 	'notify_subject_reminder_code' => 'Password reminder',
 	'notify_subject_reminder_password' => 'New password',
+	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
+	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
 	/**
 	 * Админка
 	 */
 	'admin_title' => 'Admin',
 	'admin_comment_restore_tree' => 'Tree comments restore successful',
 	'admin_favourites_recalculated' => 'Favourites counters has been recalculated',
+	'admin_votes_recalculated' => 'Votes counters has been recalculated',
+	'admin_topics_recalculated' => 'Count topics has been recalculated',
 	/**
 	 * Plugin administration page
 	 */
@@ -867,6 +984,80 @@ return array(
 	'plugins_activation_requires_error' => 'Plugin requires activated <b>%%plugin%%</b> plugin',
 	'plugins_submit_delete' => 'Delete plugins',
 	'plugins_delete_confirm' => 'Do you really want to delete those plugins?',
+	/**
+	 * Validation
+	 */
+	'validate_string_too_long' => 'Field %%field%% is too long (maximum is %%max%% characters).',
+	'validate_string_too_short' => 'Field %%field%% is too short (minimum is %%min%% characters)',
+	'validate_string_no_lenght' => 'Field %%field%% is of the wrong length (should be %%length%% characters)',
+	'validate_email_not_valid' => 'Field %%field%% is not a valid email address',
+	'validate_number_must_integer' => 'Field %%field%% must be an integer',
+	'validate_number_must_number' => 'Field %%field%% must be a number',
+	'validate_number_too_small' => 'Field %%field%% is too small (minimum is %%min%%)',
+	'validate_number_too_big' => 'Field %%field%% is too big (maximum is %%max%%)',
+	'validate_type_error' => 'Field %%field%% must be %%type%%',
+	'validate_date_format_invalid' => 'Field %%field%% is invalid format',
+	'validate_boolean_invalid' => 'Field %%field%% must be either %%true%% or %%false%%',
+	'validate_required_must_be' => 'Field %%field%% must be %%value%%',
+	'validate_required_cannot_blank' => 'Field %%field%% cannot be blank',
+	'validate_url_not_valid' => 'Field %%field%% is not a valid URL',
+	'validate_captcha_not_valid' => 'Field %%field%% is not a valid code',
+	'validate_compare_must_repeated' => 'Field %%field%% must be repeated %%compare_field%%',
+	'validate_compare_must_not_equal' => 'Field %%field%% must not be equal to %%compare_value%%',
+	'validate_compare_must_greater' => 'Field %%field%% must be greater than %%compare_value%%',
+	'validate_compare_must_greater_equal' => 'Field %%field%% must be greater than or equal to %%compare_value%%',
+	'validate_compare_must_less' => 'Field %%field%% must be less than %%compare_value%%',
+	'validate_compare_must_less_equal' => 'Field %%field%% must be less than or equal to %%compare_value%%',
+	'validate_compare_invalid_operator' => 'Field %%field%% invalid operator %%operator%%',
+	'validate_regexp_not_valid' => 'Field %%field%% is not valid',
+	'validate_regexp_invalid_pattern' => 'Field %%field%% invalid regular expression',
+	'validate_tags_count_more' => 'Field %%field%% contains too many tags (maximum is %%count%%)',
+	'validate_tags_empty' => 'Field %%field%% does not contain a tag, or has the wrong tag (size tag from %%min%% to %%max%% characters)',
+	/**
+	 * Подписка
+	 */
+	'subscribe_change_ok' => 'Change the subscription was successful',
+	/**
+	 * Toolbar
+	 */
+	'toolbar_scrollup_go' => 'Up',
+	'toolbar_topic_next' => 'Next topic',
+	'toolbar_topic_prev' => 'Previous topic',
+	/**
+	 * География
+	 */
+	'geo_select_country' => 'Select country',
+	'geo_select_region' => 'Select region',
+	'geo_select_city' => 'Select city',
+	/**
+	 * Favourite, general
+	 */
+	'favourite_form_tags_button_save' => 'Save',
+	'favourite_form_tags_button_cancel' => 'Cancel',
+	'favourite_form_tags_button_show' => 'edit my tags',
+	/**
+	 * Infobox
+	 */
+	'infobox_blog_create' => 'Created',
+	'infobox_blog_topics' => 'Toics',
+	'infobox_blog_users' => 'Users',
+	'infobox_blog_rating' => 'rating',
+	'infobox_blog_limit_rating' => 'Limit on write',
+	'infobox_blog_topic_last' => 'Last topic',
+	'infobox_blog_url' => 'Read blog',
+	'infobox_blog_rss' => 'Subscribe RSS',
+	/**
+	 * Create
+	 */
+	'block_create' => 'Create',
+	'block_create_topic_topic' => 'Post',
+	'block_create_topic_question' => 'Poll',
+	'block_create_topic_link' => 'Link',
+	'block_create_topic_photoset' => 'Photoset',
+	'block_create_blog' => 'Blog',
+	/**
+	 * System
+	 */
 	'system_error_event_args' => 'Wrong number of arguments during event addition',
 	'system_error_event_method' => 'Added event method not found',
 	'system_error_404' => 'Unfortunately there is no such page. Probably deleted or wasn\'t there in the first place.',

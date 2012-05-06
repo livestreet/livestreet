@@ -19,19 +19,64 @@ require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/class.phpm
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer
+ * <pre>
+ * $this->Mail_SetAdress('claus@mail.ru','Claus');
+ * $this->Mail_SetSubject('Hi!');
+ * $this->Mail_SetBody('How are you?');
+ * $this->Mail_setHTML();
+ * $this->Mail_Send();
+ * </pre>
  *
+ * @package engine.modules
+ * @since 1.0
  */
 class ModuleMail extends Module {
-	protected $oMailer;		
 	/**
-	 * Настройки SMTP сервера для отправки писем	
-	 * 
+	 * Основной объект рассылбщика
+	 *
+	 * @var phpmailer
+	 */
+	protected $oMailer;
+	/**
+	 * Настройки SMTP сервера для отправки писем
+	 *
+	 */
+	/**
+	 * Хост smtp
+	 *
+	 * @var string
 	 */
 	protected $sHost;
+	/**
+	 * Порт smtp
+	 *
+	 * @var int
+	 */
 	protected $iPort;
+	/**
+	 * Логин smtp
+	 *
+	 * @var string
+	 */
 	protected $sUsername;
+	/**
+	 * Пароль smtp
+	 *
+	 * @var string
+	 */
 	protected $sPassword;
+	/**
+	 * Треубется или нет авторизация на smtp
+	 *
+	 * @var bool
+	 */
 	protected $bSmtpAuth;
+	/**
+	 * Префикс соединения к smtp - "", "ssl" или "tls"
+	 *
+	 * @var string
+	 */
+	protected $sSmtpSecure;
 	/**
 	 * Метод отправки почты
 	 *
@@ -50,7 +95,7 @@ class ModuleMail extends Module {
 	 * @var int
 	 */
 	protected $iWordWrap=0;
-	
+
 	/**
 	 * Мыло от кого отправляется вся почта
 	 *
@@ -63,22 +108,33 @@ class ModuleMail extends Module {
 	 * @var string
 	 */
 	protected $sFromName;
+	/**
+	 * Тема письма
+	 *
+	 * @var string
+	 */
 	protected $sSubject='';
+	/**
+	 * Текст письма
+	 *
+	 * @var string
+	 */
 	protected $sBody='';
-	
+
 	/**
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {	
+	public function Init() {
 		/**
-	 	 * Настройки SMTP сервера для отправки писем	
-	 	 */	
+		 * Настройки SMTP сервера для отправки писем
+		 */
 		$this->sHost     = Config::Get('sys.mail.smtp.host');
 		$this->iPort     = Config::Get('sys.mail.smtp.port');
 		$this->sUsername = Config::Get('sys.mail.smtp.user');
 		$this->sPassword = Config::Get('sys.mail.smtp.password');
-		$this->bSmtpAuth = Config::Get('sys.mail.smtp.auth');	
+		$this->bSmtpAuth = Config::Get('sys.mail.smtp.auth');
+		$this->sSmtpSecure = Config::Get('sys.mail.smtp.secure');
 		/**
 		 * Метод отправки почты
 		 */
@@ -86,7 +142,7 @@ class ModuleMail extends Module {
 		/**
 		 * Кодировка писем
 		 */
-		$this->sCharSet=Config::Get('sys.mail.charset');		
+		$this->sCharSet=Config::Get('sys.mail.charset');
 		/**
 		 * Мыло от кого отправляется вся почта
 		 */
@@ -95,63 +151,59 @@ class ModuleMail extends Module {
 		 * Имя от кого отправляется вся почта
 		 */
 		$this->sFromName=Config::Get('sys.mail.from_name');
-					
+
 		/**
 		 * Создаём объект phpMailer и устанвливаем ему необходимые настройки
 		 */
-		$this->oMailer = new phpmailer();		
-		$this->oMailer->Host=$this->sHost;	
+		$this->oMailer = new phpmailer();
+		$this->oMailer->Host=$this->sHost;
 		$this->oMailer->Port=$this->iPort;
 		$this->oMailer->Username=$this->sUsername;
 		$this->oMailer->Password=$this->sPassword;
 		$this->oMailer->SMTPAuth=$this->bSmtpAuth;
+		$this->oMailer->SMTPSecure=$this->sSmtpSecure;
 		$this->oMailer->Mailer=$this->sMailerType;
 		$this->oMailer->WordWrap=$this->iWordWrap;
 		$this->oMailer->CharSet=$this->sCharSet;
-		
+
 		$this->oMailer->From=$this->sFrom;
-		$this->oMailer->FromName=$this->sFromName;			
+		$this->oMailer->FromName=$this->sFromName;
 	}
-	
 	/**
 	 * Устанавливает тему сообщения
 	 *
-	 * @param string $sText
+	 * @param string $sText	Тема сообщения
 	 */
 	public function SetSubject($sText) {
 		$this->sSubject=$sText;
 	}
-	
 	/**
 	 * Устанавливает текст сообщения
 	 *
-	 * @param string $sText
+	 * @param string $sText	Текст сообщения
 	 */
 	public function SetBody($sText) {
 		$this->sBody=$sText;
 	}
-	
 	/**
 	 * Добавляем новый адрес получателя
 	 *
-	 * @param string $sMail
-	 * @param string $sName
+	 * @param string $sMail	Емайл
+	 * @param string $sName	Имя
 	 */
 	public function AddAdress($sMail,$sName=null) {
 		$this->oMailer->AddAddress($sMail,$sName);
 	}
-	
 	/**
 	 * Отправляет сообщение(мыло)
 	 *
-	 * @return unknown
+	 * @return bool
 	 */
 	public function Send() {
 		$this->oMailer->Subject=$this->sSubject;
 		$this->oMailer->Body=$this->sBody;
 		return $this->oMailer->Send();
 	}
-	
 	/**
 	 * Очищает все адреса получателей
 	 *
@@ -159,18 +211,16 @@ class ModuleMail extends Module {
 	public function ClearAddresses() {
 		$this->oMailer->ClearAddresses();
 	}
-	
 	/**
 	 * Устанавливает единственный адрес получателя
 	 *
-	 * @param string $sMail
-	 * @param string $sName
+	 * @param string $sMail	Емайл
+	 * @param string $sName	Имя
 	 */
 	public function SetAdress($sMail,$sName=null) {
 		$this->ClearAddresses();
 		$this->oMailer->AddAddress($sMail,$sName);
 	}
-	
 	/**
 	 * Устанавливает режим отправки письма как HTML
 	 *
@@ -178,7 +228,6 @@ class ModuleMail extends Module {
 	public function setHTML() {
 		$this->oMailer->IsHTML(true);
 	}
-
 	/**
 	 * Устанавливает режим отправки письма как Text(Plain)
 	 *

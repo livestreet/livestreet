@@ -18,25 +18,25 @@
 class ModuleUser_EntityInvite extends Entity 
 {    
     public function getId() {
-        return $this->_aData['invite_id'];
+        return $this->_getDataOne('invite_id');
     }  
     public function getCode() {
-        return $this->_aData['invite_code'];
+        return $this->_getDataOne('invite_code');
     }
     public function getUserFromId() {
-        return $this->_aData['user_from_id'];
+        return $this->_getDataOne('user_from_id');
     }
     public function getUserToId() {
-        return $this->_aData['user_to_id'];
+        return $this->_getDataOne('user_to_id');
     }
     public function getDateAdd() {
-        return $this->_aData['invite_date_add'];
+        return $this->_getDataOne('invite_date_add');
     }
     public function getDateUsed() {
-        return $this->_aData['invite_date_used'];
+        return $this->_getDataOne('invite_date_used');
     }
     public function getUsed() {
-        return $this->_aData['invite_used'];
+        return $this->_getDataOne('invite_used');
     }
     
     

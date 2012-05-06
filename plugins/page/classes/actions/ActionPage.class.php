@@ -32,9 +32,9 @@ class PluginPage_ActionPage extends ActionPlugin {
 
 
 	/**********************************************************************************
-	************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
-	**********************************************************************************
-	*/
+	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
+	 **********************************************************************************
+	 */
 
 	/**
 	 * Отображение страницы
@@ -73,11 +73,11 @@ class PluginPage_ActionPage extends ActionPlugin {
 		if ($oPage->getSeoDescription()) {
 			$this->Viewer_SetHtmlDescription($oPage->getSeoDescription());
 		}
-		
+
 		$this->Viewer_Assign('oPage',$oPage);
 		/**
 		 * Устанавливаем шаблон для вывода
-		 */		
+		 */
 		$this->SetTemplateAction('page');
 	}
 
@@ -90,11 +90,11 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 * Если пользователь не авторизован и не админ, то выкидываем его
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
-		if (!$this->oUserCurrent or !$this->oUserCurrent->isAdministrator()) {			
+		if (!$this->oUserCurrent or !$this->oUserCurrent->isAdministrator()) {
 			return $this->EventNotFound();
 		}
-		
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('page_admin'));
+
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.page.admin'));
 		/**
 		 * Обработка создания новой странички
 		 */
@@ -115,11 +115,11 @@ class PluginPage_ActionPage extends ActionPlugin {
 					$_REQUEST['page_text']=$oPageEdit->getText();
 					$_REQUEST['page_seo_keywords']=$oPageEdit->getSeoKeywords();
 					$_REQUEST['page_seo_description']=$oPageEdit->getSeoDescription();
-					$_REQUEST['page_active']=$oPageEdit->getActive();	
-					$_REQUEST['page_main']=$oPageEdit->getMain();	
-					$_REQUEST['page_sort']=$oPageEdit->getSort();	
+					$_REQUEST['page_active']=$oPageEdit->getActive();
+					$_REQUEST['page_main']=$oPageEdit->getMain();
+					$_REQUEST['page_sort']=$oPageEdit->getSort();
 					$_REQUEST['page_auto_br']=$oPageEdit->getAutoBr();
-					$_REQUEST['page_id']=$oPageEdit->getId();						
+					$_REQUEST['page_id']=$oPageEdit->getId();
 				}	else {
 					/**
 					 * Если отправили форму с редактированием, то обрабатываем её
@@ -128,7 +128,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 				}
 				$this->Viewer_Assign('oPageEdit',$oPageEdit);
 			} else {
-				$this->Message_AddError($this->Lang_Get('page_edit_notfound'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('plugin.page.edit_notfound'),$this->Lang_Get('error'));
 				$this->SetParam(0,null);
 			}
 		}
@@ -139,9 +139,9 @@ class PluginPage_ActionPage extends ActionPlugin {
 		if ($this->GetParam(0)=='delete') {
 			$this->Security_ValidateSendForm();
 			if ($this->PluginPage_Page_deletePageById($this->GetParam(1))) {
-				$this->Message_AddNotice($this->Lang_Get('page_admin_action_delete_ok'));
+				$this->Message_AddNotice($this->Lang_Get('plugin.page.admin_action_delete_ok'));
 			} else {
-				$this->Message_AddError($this->Lang_Get('page_admin_action_delete_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('plugin.page.admin_action_delete_error'),$this->Lang_Get('error'));
 			}
 		}
 		/**
@@ -160,7 +160,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 					$iSortNew=$iSortOld-1;
 				} else {
 					$iSortNew=$iSortOld+1;
-				}				
+				}
 			}
 			/**
 			 * Меняем значения сортировки местами
@@ -194,10 +194,10 @@ class PluginPage_ActionPage extends ActionPlugin {
 			$this->Message_AddError($this->Lang_Get('system_error'));
 			return;
 		}
-		
+
 		/**
 		 * Обновляем свойства страницы
-		 */		
+		 */
 		$oPageEdit->setActive(getRequest('page_active') ? 1 : 0);
 		$oPageEdit->setAutoBr(getRequest('page_auto_br') ? 1 : 0);
 		$oPageEdit->setMain(getRequest('page_main') ? 1 : 0);
@@ -206,10 +206,10 @@ class PluginPage_ActionPage extends ActionPlugin {
 			$oPageEdit->setUrlFull(getRequest('page_url'));
 			$oPageEdit->setPid(null);
 		} else {
-			$oPageEdit->setPid(getRequest('page_pid'));			
+			$oPageEdit->setPid(getRequest('page_pid'));
 			$oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid'));
 			$oPageEdit->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
-		}		
+		}
 		$oPageEdit->setSeoDescription(getRequest('page_seo_description'));
 		$oPageEdit->setSeoKeywords(getRequest('page_seo_keywords'));
 		$oPageEdit->setText(getRequest('page_text'));
@@ -221,7 +221,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		 */
 		if ($this->PluginPage_Page_UpdatePage($oPageEdit)) {
 			$this->PluginPage_Page_RebuildUrlFull($oPageEdit);
-			$this->Message_AddNotice($this->Lang_Get('page_edit_submit_save_ok'));
+			$this->Message_AddNotice($this->Lang_Get('plugin.page.edit_submit_save_ok'));
 			$this->SetParam(0,null);
 			$this->SetParam(1,null);
 		} else {
@@ -251,10 +251,10 @@ class PluginPage_ActionPage extends ActionPlugin {
 			$oPage->setUrlFull(getRequest('page_url'));
 			$oPage->setPid(null);
 		} else {
-			$oPage->setPid(getRequest('page_pid'));			
+			$oPage->setPid(getRequest('page_pid'));
 			$oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid'));
 			$oPage->setUrlFull($oPageParent->getUrlFull().'/'.getRequest('page_url'));
-		}		
+		}
 		$oPage->setSeoDescription(getRequest('page_seo_description'));
 		$oPage->setSeoKeywords(getRequest('page_seo_keywords'));
 		$oPage->setText(getRequest('page_text'));
@@ -267,9 +267,9 @@ class PluginPage_ActionPage extends ActionPlugin {
 		}
 		/**
 		 * Добавляем страницу
-		 */		
+		 */
 		if ($this->PluginPage_Page_AddPage($oPage)) {
-			$this->Message_AddNotice($this->Lang_Get('page_create_submit_save_ok'));
+			$this->Message_AddNotice($this->Lang_Get('plugin.page.create_submit_save_ok'));
 			$this->SetParam(0,null);
 		} else {
 			$this->Message_AddError($this->Lang_Get('system_error'));
@@ -280,52 +280,52 @@ class PluginPage_ActionPage extends ActionPlugin {
 	 *
 	 * @return unknown
 	 */
-	protected function CheckPageFields() {		
-		$this->Security_ValidateSendForm();	
-		
+	protected function CheckPageFields() {
+		$this->Security_ValidateSendForm();
+
 		$bOk=true;
 		/**
 		 * Проверяем есть ли заголовок топика
 		 */
 		if (!func_check(getRequest('page_title',null,'post'),'text',2,200)) {
-			$this->Message_AddError($this->Lang_Get('page_create_title_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
-		 */		
+		 */
 		$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url',null,'post'));
 		$_REQUEST['page_url']=$pageUrl;
 		if (!func_check(getRequest('page_url',null,'post'),'login',1,50)) {
-			$this->Message_AddError($this->Lang_Get('page_create_url_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_url_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем на счет плохих УРЛов
 		 */
 		if (in_array(getRequest('page_url',null,'post'),$this->aBadPageUrl)) {
-			$this->Message_AddError($this->Lang_Get('page_create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_url_error_bad').' '.join(',',$this->aBadPageUrl),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание страницы
 		 */
 		if (!func_check(getRequest('page_text',null,'post'),'text',1,50000)) {
-			$this->Message_AddError($this->Lang_Get('page_create_text_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем страницу в которую хотим вложить
 		 */
 		if (getRequest('page_pid')!=0 and !($oPageParent=$this->PluginPage_Page_GetPageById(getRequest('page_pid')))) {
-			$this->Message_AddError($this->Lang_Get('page_create_parent_page_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_parent_page_error'),$this->Lang_Get('error'));
 			$bOk=false;
-		}		
+		}
 		/**
 		 * Проверяем сортировку
 		 */
 		if (getRequest('page_sort') and !is_numeric(getRequest('page_sort'))) {
-			$this->Message_AddError($this->Lang_Get('page_create_sort_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.page.create_sort_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**

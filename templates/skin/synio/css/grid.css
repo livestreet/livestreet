@@ -1,0 +1,37 @@
+/* --------------------------------------------
+	СЕТКА
+-------------------------------------------- */
+
+#container 	{ width: 976px; margin: 0 auto; margin-bottom: 20px; }
+#header-wrapper 	{ background: #090909; }
+#header 	{ width: 976px; height: 51px; margin: 0 auto; position: relative; }
+#nav 		{ 
+	min-height: 28px;
+	margin-bottom: 32px; 
+	overflow: hidden; 
+	padding: 12px 17px 15px; 
+	box-shadow: 0 0 10px rgba(0,0,0,.15); 
+	border-radius: 0 0 10px 10px;
+	position: relative;
+	
+	background: #fdfdfd;
+	background: -moz-linear-gradient(top,  #fdfdfd 0%, #f6f8f9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#f6f8f9));
+	background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
+	background: -o-linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
+	background: -ms-linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
+	background: linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f6f8f9',GradientType=0 );
+}
+#wrapper 	{ width: 888px; overflow: hidden; zoom: 1; padding: 20px 14px 20px 27px; background: #fff url(../images/sidebar-border.png) 654px 0px repeat-y; border-bottom: 1px solid #eee; box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
+#content 	{ float: left; width: 590px; margin-right: 55px; background: #fff; position: relative; }
+#sidebar	{ float: left; width: 242px; }
+#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 20px 0 50px; color: #777; }
+
+
+#content.content-full-width { width: 100%; margin-right: 0; }
+
+#content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
+#sidebar.sidebar-left 		{ float: left; width: 250px; padding-right: 30px; border-right: 1px solid #eee; margin-right: 30px; }
+
+

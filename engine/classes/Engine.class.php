@@ -36,114 +36,165 @@ require_once("ManyToManyRelation.class.php");
 
 
 /**
- * Основной класс движка, который позволяет напрямую обращаться к любому модулю
+ * Основной класс движка. Ядро.
  *
+ * Производит инициализацию плагинов, модулей, хуков.
+ * Через этот класс происходит выполнение методов всех модулей, которые вызываются как <pre>$this->Module_Method();</pre>
+ * Также отвечает за автозагрузку остальных классов движка.
+ *
+ * В произвольном месте (не в классах движка у которых нет обработки метода __call() на выполнение модулей) метод модуля можно вызвать так:
+ * <pre>
+ * Engine::getInstance()->Module_Method();
+ * </pre>
+ *
+ * @package engine
+ * @since 1.0
  */
-class Engine extends Object {
-	
+class Engine extends LsObject {
+
 	/**
 	 * Имя плагина
 	 * @var int
 	 */
 	const CI_PLUGIN = 1;
-	
+
 	/**
 	 * Имя экшна
 	 * @var int
 	 */
 	const CI_ACTION = 2;
-	
+
 	/**
 	 * Имя модуля
 	 * @var int
 	 */
 	const CI_MODULE = 4;
-	
+
 	/**
 	 * Имя сущности
 	 * @var int
 	 */
 	const CI_ENTITY = 8;
-	
+
 	/**
 	 * Имя маппера
 	 * @var int
 	 */
 	const CI_MAPPER = 16;
-	
+
 	/**
 	 * Имя метода
 	 * @var int
 	 */
 	const CI_METHOD = 32;
-	
+
 	/**
 	 * Имя хука
 	 * @var int
 	 */
 	const CI_HOOK = 64;
-	
+
 	/**
 	 * Имя класс наследования
 	 * @var int
 	 */
 	const CI_INHERIT = 128;
-    
-        /**
+
+	/**
 	 * Имя блока
 	 * @var int
 	 */
 	const CI_BLOCK = 256;
-	
+
 	/**
 	 * Префикс плагина
 	 * @var int
 	 */
 	const CI_PPREFIX = 8192;
-	
+
 	/**
 	 * Разобранный класс наследования
 	 * @var int
 	 */
 	const CI_INHERITS = 16384;
-	
+
 	/**
 	 * Путь к файлу класса
 	 * @var int
 	 */
 	const CI_CLASSPATH = 32768;
-	
+
 	/**
 	 * Все свойства класса
 	 * @var int
 	 */
 	const CI_ALL = 65535;
-	
+
 	/**
 	 * Свойства по-умолчанию
 	 * CI_ALL ^ (CI_CLASSPATH | CI_INHERITS | CI_PPREFIX)
 	 * @var int
 	 */
 	const CI_DEFAULT = 8191;
-	
+
 	/**
 	 * Объекты
 	 * CI_ACTION | CI_MAPPER | CI_HOOK | CI_PLUGIN | CI_ACTION | CI_MODULE | CI_ENTITY | CI_BLOCK
 	 * @var int
 	 */
 	const CI_OBJECT = 351 ;
-	
-	static protected $oInstance=null;
-	
-	protected $aModules=array();
-	protected $aPlugins=array();
-	protected $aConfigModule;
-	public $iTimeLoadModule=0;
-	protected $iTimeInit=null;
-	
-		
+
 	/**
-	 * При создании объекта делаем инициализацию
+	 * Текущий экземпляр движка, используется для синглтона.
+	 * @see getInstance использование синглтона
+	 *
+	 * @var Engine
+	 */
+	static protected $oInstance=null;
+	/**
+	 * Список загруженных модулей
+	 *
+	 * @var array
+	 */
+	protected $aModules=array();
+	/**
+	 * Список загруженных плагинов
+	 *
+	 * @var array
+	 */
+	protected $aPlugins=array();
+	/**
+	 * Содержит конфиг модулей.
+	 * Используется для получания списка модулей для авто-загрузки. Остальные модули загружаются при первом обращении.
+	 * В конфиге определен так:
+	 * <pre>
+	 * $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
+	 * </pre>
+	 *
+	 * @var array
+	 */
+	protected $aConfigModule;
+	/**
+	 * Время загрузки модулей в микросекундах
+	 *
+	 * @var int
+	 */
+	public $iTimeLoadModule=0;
+	/**
+	 * Текущее время в микросекундах на момент инициализации ядра(движка).
+	 * Определается так:
+	 * <pre>
+	 * $this->iTimeInit=microtime(true);
+	 * </pre>
+	 *
+	 * @var int|null
+	 */
+	protected $iTimeInit=null;
+
+
+	/**
+	 * Вызывается при создании объекта ядра.
+	 * Устанавливает время старта инициализации и обрабатывает входные параметры PHP
 	 *
 	 */
 	protected function __construct() {
@@ -155,9 +206,15 @@ class Engine extends Object {
 			func_stripslashes($_COOKIE);
 		}
 	}
-	
+
 	/**
-	 * Ограничиваем объект только одним экземпляром
+	 * Ограничиваем объект только одним экземпляром.
+	 * Функционал синглтона.
+	 *
+	 * Используется так:
+	 * <pre>
+	 * Engine::getInstance()->Module_Method();
+	 * </pre>
 	 *
 	 * @return Engine
 	 */
@@ -169,9 +226,9 @@ class Engine extends Object {
 			return self::$oInstance;
 		}
 	}
-	
+
 	/**
-	 * Инициализация
+	 * Инициализация ядра движка
 	 *
 	 */
 	public function Init() {
@@ -201,7 +258,8 @@ class Engine extends Object {
 		$this->Hook_Run('engine_init_complete');
 	}
 	/**
-	 * Завершение работы модуля
+	 * Завершение работы движка
+	 * Завершает все модули.
 	 *
 	 */
 	public function Shutdown() {
@@ -215,28 +273,28 @@ class Engine extends Object {
 		foreach ($this->aModules as $oModule) {
 			if(!$oModule->isInit()) {
 				/**
-			 	* Замеряем время инициализации модуля
-			 	*/
+				 * Замеряем время инициализации модуля
+				 */
 				$oProfiler=ProfilerSimple::getInstance();
 				$iTimeId=$oProfiler->Start('InitModule',get_class($oModule));
-				
+
 				$this->InitModule($oModule);
 
 				$oProfiler->Stop($iTimeId);
 			}
 		}
 	}
-	
+
 	/**
 	 * Инициализирует модуль
-	 * 
-	 * @param unknown_type $oModule
-	 * @param unknown_type $bHookParent
+	 *
+	 * @param Module $oModule	Объект модуля
+	 * @param bool $bHookParent	Вызывает хук на родительском модуле, от которого наследуется текущий
 	 */
 	protected function InitModule($oModule, $bHookParent = true){
 		$sOrigClassName = $sClassName = get_class($oModule);
 		$bRunHooks = false;
-		
+
 		if($this->isInitModule('ModuleHook')){
 			$bRunHooks = true;
 			if($bHookParent){
@@ -265,12 +323,12 @@ class Engine extends Object {
 			$this->Hook_Run($sHookPrefix.'after');
 		}
 	}
-	
+
 	/**
 	 * Проверяет модуль на инициализацию
 	 *
-	 * @param unknown_type $sModuleClass
-	 * @return unknown
+	 * @param string $sModuleClass	Класс модуля
+	 * @return bool
 	 */
 	public function isInitModule($sModuleClass) {
 		if(!in_array($sModuleClass,array('ModulePlugin','ModuleHook'))) {
@@ -281,7 +339,7 @@ class Engine extends Object {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Завершаем работу всех модулей
 	 *
@@ -299,33 +357,33 @@ class Engine extends Object {
 			$oProfiler->Stop($iTimeId);
 		}
 	}
-	
+
 	/**
 	 * Выполняет загрузку модуля по его названию
 	 *
-	 * @param  string $sModuleClass
-	 * @param  bool $bInit - инициализировать модуль или нет
+	 * @param  string $sModuleClass	Класс модуля
+	 * @param  bool $bInit Инициализировать модуль или нет
 	 * @return Module
 	 */
 	public function LoadModule($sModuleClass,$bInit=false) {
 		$tm1=microtime(true);
-		
-		/**		 
+
+		/**
 		 * Создаем объект модуля
-		 */		
+		 */
 		$oModule=new $sModuleClass($this);
 		$this->aModules[$sModuleClass]=$oModule;
 		if ($bInit or $sModuleClass=='ModuleCache') {
 			$this->InitModule($oModule);
-		}		
+		}
 		$tm2=microtime(true);
 		$this->iTimeLoadModule+=$tm2-$tm1;
 		dump("load $sModuleClass - \t\t".($tm2-$tm1)."");
 		return $oModule;
 	}
-	
+
 	/**
-	 * Загружает все используемые модули и передает им в конструктор ядро
+	 * Загружает модули из авто-загрузки и передает им в конструктор ядро
 	 *
 	 */
 	protected function LoadModules() {
@@ -333,7 +391,7 @@ class Engine extends Object {
 		foreach ($this->aConfigModule['autoLoad'] as $sModuleName) {
 			$sModuleClass='Module'.$sModuleName;
 			if(!in_array($sModuleName,array('Plugin','Hook'))) $sModuleClass=$this->Plugin_GetDelegate('module',$sModuleClass);
-			
+
 			if (!isset($this->aModules[$sModuleClass])) {
 				$this->LoadModule($sModuleClass);
 			}
@@ -353,7 +411,7 @@ class Engine extends Object {
 	protected function InitHooks() {
 		$sDirHooks=Config::Get('path.root.server').'/classes/hooks/';
 		$aFiles=glob($sDirHooks.'Hook*.class.php');
-		
+
 		if($aFiles and count($aFiles)) {
 			foreach ($aFiles as $sFile) {
 				if (preg_match("/Hook([^_]+)\.class\.php$/i",basename($sFile),$aMatch)) {
@@ -364,23 +422,21 @@ class Engine extends Object {
 				}
 			}
 		}
-		
+
 		/**
 		 * Подгружаем хуки активных плагинов
 		 */
 		$this->InitPluginHooks();
 	}
-	
+
 	/**
 	 * Инициализация хуков активированных плагинов
 	 *
 	 */
 	protected function InitPluginHooks() {
 		if($aPluginList = func_list_plugins()) {
-			
-			$aFiles=array();
 			$sDirHooks=Config::Get('path.root.server').'/plugins/';
-			
+
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDirHooks.$sPluginName.'/classes/hooks/Hook*.class.php');
 				if($aFiles and count($aFiles)) {
@@ -412,42 +468,43 @@ class Engine extends Object {
 			}
 		}
 	}
-	
+
 	/**
-	 * Инициализация активированных плагинов
+	 * Инициализация активированных(загруженных) плагинов
 	 *
 	 */
 	protected function InitPlugins() {
-		foreach ($this->aPlugins as $oPlugin) {			
+		foreach ($this->aPlugins as $oPlugin) {
 			$oPlugin->Init();
 		}
 	}
-	
+
 	/**
 	 * Возвращает список активных плагинов
 	 *
-	 * @return unknown
+	 * @return array
 	 */
 	public function GetPlugins() {
 		return $this->aPlugins;
 	}
-	
+
 	/**
 	 * Проверяет файл на существование, если используется кеширование memcache то кеширует результат работы
 	 *
-	 * @param  string $sFile
-	 * @return mixed
+	 * @param  string $sFile	Полный путь до файла
+	 * @param  int $iTime	Время жизни кеша
+	 * @return bool
 	 */
 	public function isFileExists($sFile,$iTime=3600) {
 		// пока так
 		return file_exists($sFile);
-		
+
 		if(
-		   !$this->isInit('cache')
-		|| !Config::Get('sys.cache.use')
-		|| Config::Get('sys.cache.type') != 'memory'
+			!$this->isInit('cache')
+			|| !Config::Get('sys.cache.use')
+			|| Config::Get('sys.cache.type') != 'memory'
 		){
-			return file_exists($sFile);	
+			return file_exists($sFile);
 		}
 		if (false === ($data = $this->Cache_Get("file_exists_{$sFile}"))) {
 			$data=file_exists($sFile);
@@ -458,28 +515,33 @@ class Engine extends Object {
 	/**
 	 * Вызывает метод нужного модуля
 	 *
-	 * @param string $sName
-	 * @param array $aArgs
-	 * @return unknown
+	 * @param string $sName	Название метода в полном виде.
+	 * Например <pre>Module_Method</pre>
+	 * @param array $aArgs	Список аргументов
+	 * @return mixed
 	 */
 	public function _CallModule($sName,$aArgs) {
 		list($oModule,$sModuleName,$sMethod)=$this->GetModule($sName);
-		
+
 		if (!method_exists($oModule,$sMethod)) {
 			// comment for ORM testing
 			//throw new Exception("The module has no required method: ".$sModuleName.'->'.$sMethod.'()');
 		}
-				
+		/**
+		 * Замеряем время выполнения метода
+		 */
 		$oProfiler=ProfilerSimple::getInstance();
 		$iTimeId=$oProfiler->Start('callModule',$sModuleName.'->'.$sMethod.'()');
-		
+
 		$sModuleName=strtolower($sModuleName);
 		$aResultHook=array();
 		if (!in_array($sModuleName,array('plugin','hook'))) {
 			$aResultHook=$this->_CallModule('Hook_Run',array('module_'.$sModuleName.'_'.strtolower($sMethod).'_before',&$aArgs));
-		}		
-		
-		if (array_key_exists('delegate_result',$aResultHook)) {			
+		}
+		/**
+		 * Хук может делегировать результат выполнения метода модуля, сам метод при этом не выполняется, происходит только подмена результата
+		 */
+		if (array_key_exists('delegate_result',$aResultHook)) {
 			$result=$aResultHook['delegate_result'];
 		} else {
 			$aArgsRef=array();
@@ -488,11 +550,11 @@ class Engine extends Object {
 			}
 			$result=call_user_func_array(array($oModule,$sMethod),$aArgsRef);
 		}
-				
+
 		if (!in_array($sModuleName,array('plugin','hook'))) {
 			$this->Hook_Run('module_'.$sModuleName.'_'.strtolower($sMethod).'_after',array('result'=>&$result,'params'=>$aArgs));
 		}
-				
+
 		$oProfiler->Stop($iTimeId);
 		return $result;
 	}
@@ -500,7 +562,8 @@ class Engine extends Object {
 	/**
 	 * Возвращает объект модуля, имя модуля и имя вызванного метода
 	 *
-	 * @param  string $sName
+	 * @param  string $sName	Имя метода модуля в полном виде
+	 * Например <pre>Module_Method</pre>
 	 * @return array
 	 */
 	public function GetModule($sName) {
@@ -510,8 +573,8 @@ class Engine extends Object {
 		$aInfo = self::GetClassInfo(
 			$sName,
 			self::CI_MODULE
-			|self::CI_PPREFIX
-			|self::CI_METHOD
+				|self::CI_PPREFIX
+				|self::CI_METHOD
 		);
 		if($aInfo[self::CI_MODULE] && $aInfo[self::CI_METHOD]){
 			$sName = $aInfo[self::CI_MODULE].'_'.$aInfo[self::CI_METHOD];
@@ -519,9 +582,9 @@ class Engine extends Object {
 				$sName = $aInfo[self::CI_PPREFIX].$sName;
 			}
 		}
-		
+
 		$aName=explode("_",$sName);
-		
+
 		if(count($aName)==2) {
 			$sModuleName=$aName[0];
 			$sModuleClass='Module'.$aName[0];
@@ -545,14 +608,24 @@ class Engine extends Object {
 		} else {
 			$oModule=$this->LoadModule($sModuleClass,true);
 		}
-		
+
 		return array($oModule,$sModuleName,$sMethod);
 	}
-	
+
+	/**
+	 * Возвращает статистику выполнения
+	 *
+	 * @return array
+	 */
 	public function getStats() {
 		return array('sql'=>$this->Database_GetStats(),'cache'=>$this->Cache_GetStats(),'engine'=>array('time_load_module'=>round($this->iTimeLoadModule,3)));
 	}
-	
+
+	/**
+	 * Возвращает время старта выполнения движка в микросекундах
+	 *
+	 * @return int
+	 */
 	public function GetTimeInit() {
 		return $this->iTimeInit;
 	}
@@ -560,30 +633,35 @@ class Engine extends Object {
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
 	 *
-	 * @param string $sName
-	 * @param array $aArgs
-	 * @return unknown
+	 * @param string $sName	Имя метода
+	 * @param array $aArgs	Аргументы
+	 * @return mixed
 	 */
 	public function __call($sName,$aArgs) {
 		return $this->_CallModule($sName,$aArgs);
 	}
-	
+
 	/**
 	 * Блокируем копирование/клонирование объекта ядра
 	 *
 	 */
 	protected function __clone() {
-		
+
 	}
-	
+
 	/**
 	 * Получает объект маппера
 	 *
-	 * @param string $sClassName
-	 * @param string $sName
+	 * @param string $sClassName Класс модуля маппера
+	 * @param string|null $sName	Имя маппера
+	 * @param DbSimple_Mysql|null $oConnect	Объект коннекта к БД
+	 * Можно получить так:
+	 * <pre>
+	 * Engine::getInstance()->Database_GetConnect($aConfig);
+	 * </pre>
 	 * @return mixed
 	 */
-	public static function GetMapper($sClassName,$sName=null,$oConnect=null) {		
+	public static function GetMapper($sClassName,$sName=null,$oConnect=null) {
 		$sModuleName = self::GetClassInfo(
 			$sClassName,
 			self::CI_MODULE,
@@ -594,32 +672,33 @@ class Engine extends Object {
 				$sName=$sModuleName;
 			}
 			$sClass=$sClassName.'_Mapper'.$sName;
-			if (!$oConnect) {			
+			if (!$oConnect) {
 				$oConnect=Engine::getInstance()->Database_GetConnect();
 			}
 			$sClass=self::getInstance()->Plugin_GetDelegate('mapper',$sClass);
 			return new $sClass($oConnect);
-		}		
+		}
 		return null;
 	}
-	
+
 	/**
 	 * Создает объект сущности, контролируя варианты кастомизации
 	 *
-	 * @param  string $sName
-	 * @param  mixed  $aParams
-	 * @return mixed
+	 * @param  string $sName	Имя сущности, возможны сокращенные варианты.
+	 * Например <pre>ModuleUser_EntityUser</pre> эквивалентно <pre>User_User</pre> и эквивалентно <pre>User</pre> т.к. имя сущности совпадает с именем модуля
+	 * @param  array  $aParams
+	 * @return Entity
 	 */
 	public static function GetEntity($sName,$aParams=array()) {
 		/**
-		 * Сущности, имеющие такое же название как модуль, 
+		 * Сущности, имеющие такое же название как модуль,
 		 * можно вызывать сокращенно. Например, вместо User_User -> User
 		 */
 		switch (substr_count($sName,'_')) {
 			case 0:
 				$sEntity = $sModule = $sName;
 				break;
-			
+
 			case 1:
 				/**
 				 * Поддержка полного синтаксиса при вызове сущности
@@ -627,17 +706,17 @@ class Engine extends Object {
 				$aInfo = self::GetClassInfo(
 					$sName,
 					self::CI_ENTITY
-					|self::CI_MODULE
-					|self::CI_PLUGIN
+						|self::CI_MODULE
+						|self::CI_PLUGIN
 				);
 				if ($aInfo[self::CI_MODULE]
-				&& $aInfo[self::CI_ENTITY]) {
+					&& $aInfo[self::CI_ENTITY]) {
 					$sName=$aInfo[self::CI_MODULE].'_'.$aInfo[self::CI_ENTITY];
 				}
-				
+
 				list($sModule,$sEntity) = explode('_',$sName,2);
 				/**
-				 * Обслуживание короткой записи сущностей плагинов 
+				 * Обслуживание короткой записи сущностей плагинов
 				 * PluginTest_Test -> PluginTest_ModuleTest_EntityTest
 				 */
 				if($aInfo[self::CI_PLUGIN]) {
@@ -645,7 +724,7 @@ class Engine extends Object {
 					$sModule = $sEntity;
 				}
 				break;
-				
+
 			case 2:
 				/**
 				 * Поддержка полного синтаксиса при вызове сущности плагина
@@ -653,12 +732,12 @@ class Engine extends Object {
 				$aInfo = self::GetClassInfo(
 					$sName,
 					self::CI_ENTITY
-					|self::CI_MODULE
-					|self::CI_PLUGIN
+						|self::CI_MODULE
+						|self::CI_PLUGIN
 				);
 				if ($aInfo[self::CI_PLUGIN]
-				&& $aInfo[self::CI_MODULE]
-				&& $aInfo[self::CI_ENTITY]) {
+					&& $aInfo[self::CI_MODULE]
+					&& $aInfo[self::CI_ENTITY]) {
 					$sName='Plugin'.$aInfo[self::CI_PLUGIN]
 						.'_'.$aInfo[self::CI_MODULE]
 						.'_'.$aInfo[self::CI_ENTITY]
@@ -667,22 +746,22 @@ class Engine extends Object {
 				/**
 				 * Entity плагина
 				 */
-				if($aInfo[self::CI_PLUGIN]) { 
+				if($aInfo[self::CI_PLUGIN]) {
 					list(,$sModule,$sEntity)=explode('_',$sName);
 					$sPlugin = $aInfo[self::CI_PLUGIN];
 				} else {
 					throw new Exception("Unknown entity '{$sName}' given.");
 				}
 				break;
-				
+
 			default:
 				throw new Exception("Unknown entity '{$sName}' given.");
 		}
-						
+
 		$sClass=isset($sPlugin)
 			? 'Plugin'.$sPlugin.'_Module'.$sModule.'_Entity'.$sEntity
 			: 'Module'.$sModule.'_Entity'.$sEntity;
-			
+
 		/**
 		 * If Plugin Entity doesn't exist, search among it's Module delegates
 		 */
@@ -699,38 +778,87 @@ class Engine extends Object {
 				$sClass='Module'.$sModule.'_Entity'.$sEntity;
 			}
 		}
-		
+
 		/**
 		 * Определяем наличие делегата сущности
 		 * Делегирование указывается только в полной форме!
 		 */
-		$sClass=self::getInstance()->Plugin_GetDelegate('entity',$sClass);		
+		$sClass=self::getInstance()->Plugin_GetDelegate('entity',$sClass);
 
 		$oEntity=new $sClass($aParams);
 		return $oEntity;
 	}
-	
-	
+
+	/**
+	 * Возвращает имя плагина моудля если модул принадлежит плагину.
+	 * Например <pre>Openid</pre>
+	 *
+	 * @static
+	 * @param Module $oModule Объект модуля
+	 * @return string|null
+	 */
 	public static function GetPluginName($oModule) {
 		return self::GetClassInfo($oModule, self::CI_PLUGIN, true);
 	}
 
+	/**
+	 * Возвращает префикс плагина
+	 * Например <pre>PluginOpenid_</pre>
+	 *
+	 * @static
+	 * @param Module $oModule Объект модуля
+	 * @return string	Если плагина нет, возвращает пустую строку
+	 */
 	public static function GetPluginPrefix($oModule) {
 		return self::GetClassInfo($oModule, self::CI_PPREFIX, true);
 	}
 
+	/**
+	 * Возвращает имя модуля
+	 *
+	 * @static
+	 * @param Module $oModule Объект модуля
+	 * @return string|null
+	 */
 	public static function GetModuleName($oModule) {
 		return self::GetClassInfo($oModule, self::CI_MODULE, true);
-	}	
-	
+	}
+
+	/**
+	 * Возвращает имя сущности
+	 *
+	 * @static
+	 * @param Entity $oEntity Объект сущности
+	 * @return string|null
+	 */
 	public static function GetEntityName($oEntity) {
 		return self::GetClassInfo($oEntity, self::CI_ENTITY, true);
 	}
-	
+
+	/**
+	 * Возвращает имя экшена
+	 *
+	 * @static
+	 * @param $oAction	Объект экшена
+	 * @return string|null
+	 */
 	public static function GetActionName($oAction) {
 		return self::GetClassInfo($oAction, self::CI_ACTION, true);
 	}
-	
+
+	/**
+	 * Возвращает информацию об объекта или классе
+	 *
+	 * @static
+	 * @param LsObject|string $oObject	Объект или имя класса
+	 * @param int $iFlag	Маска по которой нужно вернуть рузультат. Доступные маски определены в константах CI_*
+	 * Например, получить информацию о плагине и модуле:
+	 * <pre>
+	 * Engine::GetClassInfo($oObject,Engine::CI_PLUGIN | Engine::CI_MODULE);
+	 * </pre>
+	 * @param bool $bSingle	Возвращать полный результат или только первый элемент
+	 * @return array|string|null
+	 */
 	public static function GetClassInfo($oObject,$iFlag=self::CI_DEFAULT,$bSingle=false){
 		$sClassName = is_string($oObject) ? $oObject : get_class($oObject);
 		$aResult = array();
@@ -770,7 +898,7 @@ class Engine extends Object {
 				: null
 			;
 		}
-                  if($iFlag & self::CI_BLOCK){
+		if($iFlag & self::CI_BLOCK){
 			$aResult[self::CI_BLOCK] = preg_match('/^(?:Plugin[^_]+_|)Block([^_]+)$/',$sClassName,$aMatches)
 				? $aMatches[1]
 				: null
@@ -821,16 +949,23 @@ class Engine extends Object {
 		if($iFlag & self::CI_CLASSPATH){
 			$aResult[self::CI_CLASSPATH] = self::GetClassPath($sClassName);
 		}
-		
+
 		return $bSingle ? array_pop($aResult) : $aResult;
 	}
-	
-	
+
+	/**
+	 * Возвращает информацию о пути до файла класса.
+	 * Используется в {@link autoload автозагрузке}
+	 *
+	 * @static
+	 * @param LsObject $oObject Объект - модуль, экшен, плагин, хук, сущность
+	 * @return null|string
+	 */
 	public static function GetClassPath($oObject){
 		$aInfo = self::GetClassInfo(
 			$oObject,
 			self::CI_OBJECT
-		);		
+		);
 		$sPath = Config::get('path.root.server').'/';
 		if($aInfo[self::CI_ENTITY]){
 			// Сущность
@@ -845,6 +980,9 @@ class Engine extends Object {
 				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/entity/'.$aInfo[self::CI_ENTITY].'.entity.class.php'
 				;
+				if(!is_file($sPath)){
+					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+				}
 			}
 		}elseif($aInfo[self::CI_MAPPER]){
 			// Маппер
@@ -859,6 +997,9 @@ class Engine extends Object {
 				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/mapper/'.$aInfo[self::CI_MAPPER].'.mapper.class.php'
 				;
+				if(!is_file($sPath)){
+					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+				}
 			}
 		}elseif($aInfo[self::CI_ACTION]){
 			// Экшн
@@ -902,7 +1043,7 @@ class Engine extends Object {
 				// Хук ядра
 				$sPath .= 'classes/hooks/Hook'.$aInfo[self::CI_HOOK].'.class.php';
 			}
-                   }elseif($aInfo[self::CI_BLOCK]){
+		}elseif($aInfo[self::CI_BLOCK]){
 			// Блок
 			if($aInfo[self::CI_PLUGIN]){
 				// Блок плагина
@@ -922,16 +1063,17 @@ class Engine extends Object {
 			;
 		}else{
 			$sClassName = is_string($oObject) ? $oObject : get_class($oObject);
-			$sPath .= 'engine/classes/'.$sClassName.'.class.php';			
+			$sPath .= 'engine/classes/'.$sClassName.'.class.php';
 		}
 		return is_file($sPath) ? $sPath : null;
 	}
-	
-	
+
+
 	/**
 	 * Автозагрузка классов
 	 *
-	 * @param unknown_type $sClassName
+	 * @param string $sClassName	Название класса
+	 * @return bool
 	 */
 	public static function autoload($sClassName) {
 		$aInfo = Engine::GetClassInfo(
@@ -941,25 +1083,36 @@ class Engine extends Object {
 		if($aInfo[Engine::CI_INHERIT]){
 			$sInheritClass = $aInfo[Engine::CI_INHERIT];
 			$sParentClass = Engine::getInstance()->Plugin_GetParentInherit($sInheritClass);
-			class_alias($sParentClass,$sClassName);
+			if(!class_alias($sParentClass,$sClassName)){
+				dump("(autoload $sParentClass) Can not load CLASS-file");
+			} else {
+				return true;
+			}
 		}elseif($aInfo[Engine::CI_CLASSPATH]){
 			require_once $aInfo[Engine::CI_CLASSPATH];
+			return true;
 		}elseif(!class_exists($sClassName)){
 			dump("(autoload $sClassName) Can not load CLASS-file");
 			dump($aInfo);
 			//throw new Exception("(autoload '$sClassName') Can not load CLASS-file");
 		}
+		return false;
 	}
-	
+
 }
 
+/**
+ * Регистрация автозагрузки классов
+ */
 spl_autoload_register(array('Engine','autoload'));
 
 /**
- * Short aliases for Engine basic methods
- * 
+ * Короткий алиас для вызова основных методов движка
+ *
+ * @package engine
+ * @since 1.0
  */
-class LS {
+class LS extends LsObject {
 
 	static protected $oInstance=null;
 
@@ -971,42 +1124,80 @@ class LS {
 			return self::$oInstance;
 		}
 	}
-
+	/**
+	 * Возвращает ядро
+	 * @see Engine::GetInstance
+	 *
+	 * @return Engine
+	 */
 	public function E() {
 		return Engine::GetInstance();
 	}
-	
+	/**
+	 * Возвращает объект сущности
+	 * @see Engine::GetEntity
+	 *
+	 * @param $sName	Название сущности
+	 * @param array $aParams	Параметры для передачи в конструктор
+	 * @return Entity
+	 */
 	public function Ent($sName,$aParams=array()) {
 		return Engine::GetEntity($sName,$aParams);
 	}
-	
+	/**
+	 * Возвращает объект маппера
+	 * @see Engine::GetMapper
+	 *
+	 * @param $sClassName Класс модуля маппера
+	 * @param string|null $sName	Имя маппера
+	 * @param DbSimple_Mysql|null $oConnect	Объект коннекта к БД
+	 * @return mixed
+	 */
 	public function Mpr($sClassName,$sName=null,$oConnect=null) {
 		return Engine::GetMapper($sClassName,$sName,$oConnect);
 	}
-	
+	/**
+	 * Возвращает текущего авторизованного пользователя
+	 * @see ModuleUser::GetUserCurrent
+	 *
+	 * @return ModuleUser_EntityUser
+	 */
 	public function CurUsr() {
 		return self::E()->User_GetUserCurrent();
 	}
-	
+	/**
+	 * Возвращает true если текущий пользователь администратор
+	 * @see ModuleUser::GetUserCurrent
+	 * @see ModuleUser_EntityUser::isAdministrator
+	 *
+	 * @return bool
+	 */
 	public function Adm() {
 		return self::CurUsr() && self::CurUsr()->isAdministrator();
 	}
-	
 	/**
-	 * In templates we have $LS and can use $LS->Module_Method() instead of $LS->E()->Module_Method();
+	 * Вызов метода модуля
+	 * Например <pre>$LS->Module_Method()</pre>
 	 *
-	 */	
+	 * @param $sName	Полное название метода, например <pre>Module_Method</pre>
+	 * @param array $aArgs Список аргуметов метода
+	 * @return mixed
+	 */
 	public function __call($sName,$aArgs=array()) {
 		return call_user_func_array(array(self::E(),$sName),$aArgs);
-	}	
-	
+	}
 	/**
-	 * With PHP 5.3+ we can use LS::Module_Method() instead of LS::E()->Module_Method();
+	 * Статический вызов метода модуля для PHP >= 5.3
+	 * Например <pre>LS::Module_Method()</pre>
 	 *
+	 * @static
+	 * @param $sName	Полное название метода, например <pre>Module_Method</pre>
+	 * @param array $aArgs Список аргуметов метода
+	 * @return mixed
 	 */
 	public static function __callStatic($sName,$aArgs=array()) {
 		return call_user_func_array(array(self::E(),$sName),$aArgs);
-	}	
+	}
 }
 
 ?>

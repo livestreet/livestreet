@@ -18,12 +18,21 @@
 /**
  * Регистрация хука для вывода ссылки спонсора релиза
  *
+ * @package hooks
+ * @since 1.0
  */
 class HookSponsor extends Hook {
+	/**
+	 * Регистрируем хуки
+	 */
 	public function RegisterHook() {
 		$this->AddHook('template_copyright','SponsorLink',__CLASS__,-100);
 	}
-
+	/**
+	 * Обработка хука копирайта
+	 *
+	 * @return string
+	 */
 	public function SponsorLink() {
 		/**
 		 * Выводим на странице списка блогов и списка всех комментов

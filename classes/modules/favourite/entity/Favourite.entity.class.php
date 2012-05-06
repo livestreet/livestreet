@@ -18,17 +18,23 @@
 class ModuleFavourite_EntityFavourite extends Entity 
 {   
     public function getTargetId() {
-        return $this->_aData['target_id'];
+        return $this->_getDataOne('target_id');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getTargetPublish() {
-        return $this->_aData['target_publish'];
+        return $this->_getDataOne('target_publish');
     }
     public function getTargetType() {
-    	return $this->_aData['target_type'];
+    	return $this->_getDataOne('target_type');
     }
+	public function getTagsArray() {
+		if ($this->getTags()) {
+			return explode(',',$this->getTags());
+		}
+		return array();
+	}
     
 	public function setTargetId($data) {
         $this->_aData['target_id']=$data;

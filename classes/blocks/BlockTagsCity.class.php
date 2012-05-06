@@ -18,47 +18,26 @@
 /**
  * Обрабатывает блок облака тегов городов юзеров
  *
+ * @package blocks
+ * @since 1.0
  */
 class BlockTagsCity extends Block {
+	/**
+	 * Запуск обработки
+	 */
 	public function Exec() {
-		
-		$aStat=$this->User_GetStatUsers();
-		
-		$aCityList=$aStat['count_city'];				
 		/**
-		 * Расчитываем логарифмическое облако тегов
+		 * Получаем города
 		 */
-		if ($aCityList and count($aCityList)>0) {
-			$iMinSize=1; // минимальный размер шрифта
-			$iMaxSize=10; // максимальный размер шрифта
-			$iSizeRange=$iMaxSize-$iMinSize;
-			
-			$iMin=10000;
-			$iMax=0;
-			foreach ($aCityList as $aCity) {
-				if ($iMax<$aCity['count']) {
-					$iMax=$aCity['count'];
-				}
-				if ($iMin>$aCity['count']) {
-					$iMin=$aCity['count'];
-				}
-			}			
-			
-			$iMinCount=log($iMin+1);
-			$iMaxCount=log($iMax+1);
-			$iCountRange=$iMaxCount-$iMinCount;
-			if ($iCountRange==0) {
-				$iCountRange=1;
-			}
-			foreach ($aCityList as $key => $aCity) {
-				$iTagSize=$iMinSize+(log($aCity['count']+1)-$iMinCount)*($iSizeRange/$iCountRange);
-				$aCityList[$key]['size']=round($iTagSize);				
-			}
-			/**
-		 	* Устанавливаем шаблон вывода
-		 	*/
-			$this->Viewer_Assign("aCityList",$aCityList);
-		}
+		$aCities=$this->Geo_GetGroupCitiesByTargetType('user',20);
+		/**
+		 * Формируем облако тегов
+		 */
+		$this->Tools_MakeCloud($aCities);
+		/**
+		 * Выводим в шаблон
+		 */
+		$this->Viewer_Assign("aCityList",$aCities);
 	}
 }
 ?>

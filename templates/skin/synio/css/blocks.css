@@ -1,0 +1,78 @@
+/* -------------------------------------------------------------------
+	БЛОКИ
+------------------------------------------------------------------- */
+
+.block 					{ padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px dotted #dce1e6; }
+.block:last-child 		{ margin-bottom: 0; border: none; }
+.sidebar-left .block 	{ margin-bottom: 10px; }
+
+.block .block-header 					{ position: relative; margin-bottom: 15px; }
+.block .block-header h3 				{ font-size: 22px; line-height: 1em; font-weight: normal; font-family: 'PT Sans', sans-serif; }
+.block .block-header h3 a 				{ text-decoration: none; color: #333; }
+.block .block-header h3 a.link-dotted 	{ color: #5055B2; }
+.block .block-content 					{  }
+.block footer 							{ margin-top: 15px; font-size: 11px; color: #b9c2c2; }
+.block footer a							{ color: #727a90; }
+
+.block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+
+
+/* Block Type - Stream */
+.block .block-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
+.block .block-update.active 	{ background-position: -16px 0; }
+
+.block.block-type-stream .block-content .latest-list { }
+.block.block-type-stream .block-content .latest-list li { margin-bottom: 15px; color: #818189; }
+.block.block-type-stream .block-content .latest-list p { font-size: 11px; }
+.block.block-type-stream .block-content .latest-list .stream-topic { text-decoration: underline; }
+.block.block-type-stream .block-content .latest-list .author { color: #4c4c4c; text-decoration: underline; }
+.block.block-type-stream .block-content .latest-list .author:hover { color: #f00; }
+.block.block-type-stream .block-content .latest-list .block-item-comments { font-size: 11px; text-decoration: none; color: #818189; white-space: nowrap; }
+.block.block-type-stream .block-content .latest-list .block-item-comments i { position: relative; top: 3px; margin-right: 2px; }
+
+
+/* Block Type - Activity Settings */
+.block.block-type-activity p 		{ margin-bottom: 15px; }
+.block.block-type-activity ul li 	{ margin-bottom: 5px; }
+.block.block-type-activity .note 	{ display: block; margin-bottom: 15px; color: #aaa; }
+
+
+/* Block Type - Profile */
+.block.block-type-profile 							{ background: none; border: none; padding: 0; }
+.block.block-type-profile .profile-photo-wrapper 	{ position: relative; min-height: 50px; }
+.block.block-type-profile .profile-photo 			{ vertical-align: top; }
+.block.block-type-profile .status 					{ position: absolute; top: 5px; left: 5px; padding: 0 5px; border-radius: 2px; font-size: 11px; }
+.block.block-type-profile .status.status-online 	{ background: #B7BC1C; color: #fff; }
+.block.block-type-profile .status.status-offline 	{ background: #333; color: #fff; opacity: .5; filter: alpha(opacity=50); }
+.block.block-type-profile .upload-photo 			{ padding: 7px 10px 10px; background: #f7f7f7; }
+
+.block.block-type-profile-note	 			{ background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
+.block.block-type-profile-note p 			{ margin-bottom: 10px; }
+.block.block-type-profile-note .actions 	{ margin-bottom: 0; }
+
+.block.block-type-profile-nav 				{ padding: 0; background: none; }
+
+.block.block-type-profile-actions .block-content 		{ padding: 10px 15px; }
+.block.block-type-profile-actions ul li					{ margin-bottom: 5px; }
+.block.block-type-profile-actions ul li:last-child		{ margin-bottom: 0; }
+.block.block-type-profile-actions ul li a.followed		{ color: #f00; }
+
+
+/* Block Type - Foldable */
+.block.block-type-foldable { background: none; }
+.block.block-type-foldable .block-header { background: none; border: none; padding: 0 0 10px; }
+.block.block-type-foldable .block-content { display: none; background: #fafafa; }
+
+.block.block-type-talk-search { margin-bottom: 10px; }
+.block.block-type-talk-friends { margin-bottom: 10px; }
+
+
+/* Block Type - Blogs */
+.block.block-type-blogs .block-blog-list li { margin-bottom: 10px; background: url(../images/dots.png)  0% 14px repeat-x; position: relative; padding-right: 50px; }
+.block.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 2px; }
+.block.block-type-blogs .block-blog-list li strong { position: absolute; top: 0; right: 0; background: #fff; padding-left: 2px; font-weight: normal; font-size: 11px; }
+
+
+/* Block Type - Tags */
+.block.block-type-tags .search-tags { background: #f9fbfb; padding: 15px; border-radius: 5px; }
+

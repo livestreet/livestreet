@@ -51,13 +51,14 @@ class ModuleBlog_MapperBlog extends Mapper {
 				blog_rating= ?f,
 				blog_count_vote = ?d,
 				blog_count_user= ?d,
+				blog_count_topic= ?d,
 				blog_limit_rating_topic= ?f ,
 				blog_url= ?,
 				blog_avatar= ?
 			WHERE
 				blog_id = ?d
 		";			
-		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
+		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getCountTopic(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
 			return true;
 		}		
 		return false;
@@ -384,6 +385,85 @@ class ModuleBlog_MapperBlog extends Mapper {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Пересчитывает число топиков в блогах
+	 *
+	 * @return bool
+	 */
+	public function RecalculateCountTopic($iBlogId=null) {
+		$sql = "
+                UPDATE ".Config::Get('db.table.blog')." b
+                SET b.blog_count_topic = (
+                    SELECT count(*)
+                    FROM ".Config::Get('db.table.topic')." t
+                    WHERE
+                        t.blog_id = b.blog_id
+                    AND
+                        t.topic_publish = 1
+                )
+                WHERE 1=1
+                	{ and b.blog_id = ?d }
+            ";
+		if ($this->oDb->query($sql,is_null($iBlogId) ? DBSIMPLE_SKIP : $iBlogId)) {
+			return true;
+		}
+		return false;
+	}
+
+	public function GetBlogsByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
+		$aOrderAllow=array('blog_id','blog_title','blog_rating','blog_count_user','blog_count_topic');
+		$sOrder='';
+		foreach ($aOrder as $key=>$value) {
+			if (!in_array($key,$aOrderAllow)) {
+				unset($aOrder[$key]);
+			} elseif (in_array($value,array('asc','desc'))) {
+				$sOrder.=" {$key} {$value},";
+			}
+		}
+		$sOrder=trim($sOrder,',');
+		if ($sOrder=='') {
+			$sOrder=' blog_id desc ';
+		}
+
+		if (isset($aFilter['exclude_type']) and !is_array($aFilter['exclude_type'])) {
+			$aFilter['exclude_type']=array($aFilter['exclude_type']);
+		}
+		if (isset($aFilter['type']) and !is_array($aFilter['type'])) {
+			$aFilter['type']=array($aFilter['type']);
+		}
+
+		$sql = "SELECT
+					blog_id
+				FROM
+					".Config::Get('db.table.blog')."
+				WHERE
+					1 = 1
+					{ AND blog_id = ?d }
+					{ AND user_owner_id = ?d }
+					{ AND blog_type IN (?a) }
+					{ AND blog_type not IN (?a) }
+					{ AND blog_url = ? }
+					{ AND blog_title LIKE ? }
+				ORDER by {$sOrder}
+				LIMIT ?d, ?d ;
+					";
+		$aResult=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,
+										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['user_owner_id']) ? $aFilter['user_owner_id'] : DBSIMPLE_SKIP,
+										  (isset($aFilter['type']) and count($aFilter['type']) ) ? $aFilter['type'] : DBSIMPLE_SKIP,
+										  (isset($aFilter['exclude_type']) and count($aFilter['exclude_type']) ) ? $aFilter['exclude_type'] : DBSIMPLE_SKIP,
+										  isset($aFilter['url']) ? $aFilter['url'] : DBSIMPLE_SKIP,
+										  isset($aFilter['title']) ? $aFilter['title'] : DBSIMPLE_SKIP,
+										  ($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=$aRow['blog_id'];
+			}
+		}
+		return $aResult;
 	}
 }
 ?>

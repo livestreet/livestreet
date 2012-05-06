@@ -16,37 +16,38 @@
 */
 
 /**
- * Обработка персональных блогов, т.е. УРла вида /log/
+ * Экшен обработки персональных блогов, т.е. УРла вида /personal_blog/
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionPersonalBlog extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='log';
 	/**
 	 * Субменю
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='good';
-	
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->SetDefaultEvent('good');
 	}
-	
 	/**
 	 * Регистрируем необходимые евенты
 	 *
@@ -56,19 +57,29 @@ class ActionPersonalBlog extends Action {
 		$this->AddEvent('good','EventTopics');
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
 	}
-		
-	
+
+
 	/**********************************************************************************
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
 	/**
 	 * Показ топиков
 	 *
 	 */
 	protected function EventTopics() {
+		$sPeriod=1; // по дефолту 1 день
+		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequest('period');
+		}
 		$sShowType=$this->sCurrentEvent;
+		if (!in_array($sShowType,array('discussed','top'))) {
+			$sPeriod='all';
+		}
 		/**
 		 * Меню
 		 */
@@ -76,16 +87,26 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;			
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('personal_blog').$sShowType.'/');
+		}
 		/**
 		 * Получаем список топиков
-		 */					
-		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType);
-		$aTopics=$aResult['collection'];	
+		 */
+		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		/**
+		 * Если нет топиков за 1 день, то показываем за неделю (7)
+		 */
+		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and !getRequest('period')) {
+			$sPeriod=7;
+			$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
+		}
+		$aTopics=$aResult['collection'];
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());
 		/**
 		 * Вызов хуков
 		 */
@@ -95,11 +116,15 @@ class ActionPersonalBlog extends Action {
 		 */
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('aPaging',$aPaging);
+		if (in_array($sShowType,array('discussed','top'))) {
+			$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
+			$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('personal_blog').$sShowType.'/');
+		}
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
-	}	
+	}
 	/**
 	 * При завершении экшена загружаем в шаблон необходимые переменные
 	 *
@@ -114,7 +139,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);	
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);

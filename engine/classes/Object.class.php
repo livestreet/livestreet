@@ -18,8 +18,10 @@
 /**
  * От этого класса наследуются все остальные
  *
+ * @package engine
+ * @since 1.0
  */
-abstract class Object {
-	
+abstract class LsObject {
+
 }
 ?>

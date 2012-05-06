@@ -1,34 +1,40 @@
 <?php
 
-$config['head']['default']['js']  = array(
-	"___path.root.engine_lib___/external/JsHttpRequest/JsHttpRequest.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/mootools-1.2.js?v=1.2.4",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Roal/Roar.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Observer.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/Autocompleter/Autocompleter.Request.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/vlaCal-v2.1/jslib/vlaCal-v2.1.js",
-	"___path.root.engine_lib___/external/MooTools_1.2/plugs/iFrameFormRequest/iFrameFormRequest.js",
-	"___path.static.skin___/js/vote.js",
-	"___path.static.skin___/js/favourites.js",
-	"___path.static.skin___/js/questions.js",
-	"___path.static.skin___/js/block_loader.js",
-	"___path.static.skin___/js/friend.js",
-	"___path.static.skin___/js/blog.js",
-	"___path.static.skin___/js/other.js",
-	"___path.static.skin___/js/login.js",
-	"___path.static.skin___/js/panel.js",
-	"___path.static.skin___/js/messages.js",
-	"___path.static.skin___/js/Autocompleter.LS.js",
-         "___path.static.skin___/js/userfeed.js",
-         "___path.static.skin___/js/stream.js",
-);
+$config = array();
+
+$config['view']['theme'] = 'default';
+
+$config['head']['default']['js'] = Config::Get('head.default.js');
+$config['head']['default']['js'][] = '___path.static.skin___/js/developer.js';
+
 $config['head']['default']['css'] = array(
-	"___path.static.skin___/css/style.css",
-	"___path.static.skin___/css/roar.css",
-	"___path.static.skin___/css/autocompleter.css",
-	"___path.static.skin___/css/vlacal.css",
+	"___path.static.skin___/css/reset.css",
+	"___path.static.skin___/css/base.css",
+	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
+	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
+	"___path.root.engine_lib___/external/prettify/prettify.css",
+	"___path.static.skin___/css/grid.css",
+	"___path.static.skin___/css/common.css",
+	"___path.static.skin___/css/text.css",
+	"___path.static.skin___/css/forms.css",
+	"___path.static.skin___/css/buttons.css",
+	"___path.static.skin___/css/navs.css",
+	"___path.static.skin___/css/icons.css",
+	"___path.static.skin___/css/tables.css",
+	"___path.static.skin___/css/topic.css",
+	"___path.static.skin___/css/comments.css",
+	"___path.static.skin___/css/blocks.css",
+	"___path.static.skin___/css/modals.css",
+	"___path.static.skin___/css/blog.css",
+	"___path.static.skin___/css/profile.css",
+	"___path.static.skin___/css/wall.css",
+	"___path.static.skin___/css/infobox.css",
+	"___path.static.skin___/css/jquery.notifier.css",
+	"___path.static.skin___/css/smoothness/jquery-ui.css",
+	"___path.static.skin___/themes/___view.theme___/style.css",
 );
+
 
 return $config;
 ?>

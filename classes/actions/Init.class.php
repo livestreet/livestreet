@@ -20,53 +20,39 @@
  * Он вызывается всегда перед запуском любого экшена. Может выполнять какие то инициализирующие действия, а так же может помочь при введении инвайтов,
  * т.е. перенапрявлять всех неавторизованных юзеров на страницу регистрации по приглашению
  *
+ * @package actions
+ * @since 1.0
  */
-class Init {
+class InitAction {
 	/**
-	 * 
+	 * Объект ядра
+	 *
+	 * @var Engine|null
 	 */
 	protected $oEngine=null;
-	/**
-	 * Текущий юзер
-	 *
-	 * @var unknown_type
-	 */
-	protected $oUserCurrent=null;
 	/**
 	 * Конструктор
 	 *
 	 */
-	public function __construct($oEngine) {		
+	public function __construct($oEngine) {
 		$this->oEngine=$oEngine;
-		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля
+	 * @see Engine::_CallModule
 	 *
-	 * @param string $sName
-	 * @param array $aArgs
-	 * @return unknown
+	 * @param string $sName Имя метода
+	 * @param array $aArgs Аргументы
+	 * @return mixed
 	 */
 	public function __call($sName,$aArgs) {
 		return $this->oEngine->_CallModule($sName,$aArgs);
 	}
-	
 	/**
 	 * Логика инициализации
 	 *
 	 */
-	public function InitAction() {	
-		/**
-		 * Проверяем наличие директории install
-		 */
-		if(is_dir(rtrim(Config::Get('path.root.server'),'/').'/install')){
-			$this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
-			Router::Action('error');
-		}
-		
-		if (!$this->oUserCurrent and Config::Get('general.close') and Router::GetAction()!='registration' and Router::GetAction()!='login') {			
-			Router::Action('login');
-		}
+	public function InitAction() {
 		$this->Hook_Run('init_action');
 	}
 }

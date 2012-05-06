@@ -16,39 +16,40 @@
 */
 
 /**
- * Обработка УРЛа вида /topic/ - управление своими топиками
+ * Экшен обработки УРЛа вида /topic/ - управление своими топиками
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionTopic extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
-	protected $sMenuSubItemSelect='add';
+	protected $sMenuSubItemSelect='topic';
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
 	 *
-	 * @return unknown
 	 */
 	public function Init() {
 		/**
@@ -58,7 +59,13 @@ class ActionTopic extends Action {
 			return parent::EventNotFound();
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Усанавливаем дефолтный евент
+		 */
 		$this->SetDefaultEvent('add');
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_title'));
 	}
 	/**
@@ -82,14 +89,8 @@ class ActionTopic extends Action {
 	/**
 	 * Редактирование топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventEdit() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='';
-		$this->sMenuItemSelect='topic';
 		/**
 		 * Получаем номер топика из УРЛ и проверяем существует ли он
 		 */
@@ -127,14 +128,14 @@ class ActionTopic extends Action {
 		 */
 		if (isset($_REQUEST['submit_topic_publish']) or isset($_REQUEST['submit_topic_save'])) {
 			/**
-		 	* Обрабатываем отправку формы
-		 	*/
+			 * Обрабатываем отправку формы
+			 */
 			return $this->SubmitEdit($oTopic);
 		} else {
 			/**
-		 	* Заполняем поля формы для редактирования
-		 	* Только перед отправкой формы!
-		 	*/
+			 * Заполняем поля формы для редактирования
+			 * Только перед отправкой формы!
+			 */
 			$_REQUEST['topic_title']=$oTopic->getTitle();
 			$_REQUEST['topic_text']=$oTopic->getTextSource();
 			$_REQUEST['topic_tags']=$oTopic->getTags();
@@ -147,7 +148,6 @@ class ActionTopic extends Action {
 	/**
 	 * Удаление топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventDelete() {
 		$this->Security_ValidateSendForm();
@@ -178,13 +178,8 @@ class ActionTopic extends Action {
 	/**
 	 * Добавление топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventAdd() {
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='add';
 		/**
 		 * Вызов хуков
 		 */
@@ -220,7 +215,7 @@ class ActionTopic extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('topic').$this->sCurrentEvent);
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('topic').$this->sCurrentEvent);
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -229,9 +224,8 @@ class ActionTopic extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_'.$this->sCurrentEvent));
 	}
 	/**
-	 * Обработка добавлени топика
+	 * Обработка добавления топика
 	 *
-	 * @return unknown
 	 */
 	protected function SubmitAdd() {
 		/**
@@ -240,16 +234,29 @@ class ActionTopic extends Action {
 		if (!isPost('submit_topic_publish') and !isPost('submit_topic_save')) {
 			return false;
 		}
+		$oTopic=Engine::GetEntity('Topic');
+		$oTopic->_setValidateScenario('topic');
+		/**
+		 * Заполняем поля для валидации
+		 */
+		$oTopic->setBlogId(getRequest('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setUserId($this->oUserCurrent->getId());
+		$oTopic->setType('topic');
+		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
 		 */
-		if (!$this->checkTopicFields()) {
+		if (!$this->checkTopicFields($oTopic)) {
 			return false;
 		}
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
-		$iBlogId=getRequest('blog_id');
+		$iBlogId=$oTopic->getBlogId();
 		if ($iBlogId==0) {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($this->oUserCurrent->getId());
 		} else {
@@ -270,13 +277,6 @@ class ActionTopic extends Action {
 			return false;
 		}
 		/**
-		 * Проверяем топик на уникальность
-		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->oUserCurrent->getId(),md5(getRequest('topic_text')))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
-			return false;
-		}
-		/**
 		 * Проверяем разрешено ли постить топик по времени
 		 */
 		if (isPost('submit_topic_publish') and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
@@ -286,25 +286,15 @@ class ActionTopic extends Action {
 		/**
 		 * Теперь можно смело добавлять топик к блогу
 		 */
-		$oTopic=Engine::GetEntity('Topic');
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setUserId($this->oUserCurrent->getId());
-		$oTopic->setType('topic');
-		$oTopic->setTitle(getRequest('topic_title'));
-		$oTopic->setTextHash(md5(getRequest('topic_text')));
 		/**
 		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
 		 */
-		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut(getRequest('topic_text'));
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
 
 		$oTopic->setCutText($sTextCut);
 		$oTopic->setText($this->Text_Parser($sTextNew));
 		$oTopic->setTextShort($this->Text_Parser($sTextShort));
-
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
-		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
-		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -331,7 +321,6 @@ class ActionTopic extends Action {
 		if (getRequest('topic_forbid_comment')) {
 			$oTopic->setForbidComment(1);
 		}
-
 		/**
 		 * Запускаем выполнение хуков
 		 */
@@ -346,15 +335,23 @@ class ActionTopic extends Action {
 			 */
 			$oTopic=$this->Topic_GetTopicById($oTopic->getId());
 			/**
+			 * Обновляем количество топиков в блоге
+			 */
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+			/**
+			 * Добавляем автора топика в подписчики на новые комментарии к этому топику
+			 */
+			$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$this->oUserCurrent->getMail());
+			/**
 			 * Делаем рассылку спама всем, кто состоит в этом блоге
 			 */
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}
-            /**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -364,20 +361,33 @@ class ActionTopic extends Action {
 	/**
 	 * Обработка редактирования топика
 	 *
-	 * @param unknown_type $oTopic
-	 * @return unknown
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @return mixed
 	 */
 	protected function SubmitEdit($oTopic) {
+		$oTopic->_setValidateScenario('topic');
+		/**
+		 * Сохраняем старое значение идентификатора блога
+		 */
+		$sBlogIdOld = $oTopic->getBlogId();
+		/**
+		 * Заполняем поля для валидации
+		 */
+		$oTopic->setBlogId(getRequest('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
 		 */
-		if (!$this->checkTopicFields()) {
+		if (!$this->checkTopicFields($oTopic)) {
 			return false;
 		}
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
-		$iBlogId=getRequest('blog_id');
+		$iBlogId=$oTopic->getBlogId();
 		if ($iBlogId==0) {
 			$oBlog=$this->Blog_GetPersonalBlogByUserId($oTopic->getUserId());
 		} else {
@@ -398,43 +408,21 @@ class ActionTopic extends Action {
 			return false;
 		}
 		/**
-		 * Проверяем топик на уникальность
-		 */
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($oTopic->getUserId(),md5(getRequest('topic_text')))) {
-			if ($oTopicEquivalent->getId()!=$oTopic->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_text_error_unique'),$this->Lang_Get('error'));
-				return false;
-			}
-		}
-		/**
 		 * Проверяем разрешено ли постить топик по времени
 		 */
 		if (isPost('submit_topic_publish') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
 			return;
 		}
-		/**
-		 * Сохраняем старое значение идентификатора блога
-		 */
-		$sBlogIdOld = $oTopic->getBlogId();
-		/**
-		 * Теперь можно смело редактировать топик
-		 */
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setTitle(getRequest('topic_title'));
-		$oTopic->setTextHash(md5(getRequest('topic_text')));
 		/**
 		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
 		 */
-		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut(getRequest('topic_text'));
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
 
 		$oTopic->setCutText($sTextCut);
 		$oTopic->setText($this->Text_Parser($sTextNew));
 		$oTopic->setTextShort($this->Text_Parser($sTextShort));
-
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
-		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
@@ -480,9 +468,16 @@ class ActionTopic extends Action {
 				$this->Comment_UpdateTargetParentByTargetIdOnline($oTopic->getBlogId(), 'topic', $oTopic->getId());
 			}
 			/**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+			 * Обновляем количество топиков в блоге
+			 */
+			if ($sBlogIdOld!=$oTopic->getBlogId()) {
+				$this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
+			}
+			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
@@ -501,59 +496,18 @@ class ActionTopic extends Action {
 	/**
 	 * Проверка полей формы
 	 *
-	 * @return unknown
+	 * @return bool
 	 */
-	protected function checkTopicFields() {
+	protected function checkTopicFields($oTopic) {
 		$this->Security_ValidateSendForm();
 
 		$bOk=true;
 		/**
-		 * Проверяем есть ли блог в кторый постим
+		 * Валидируем топик
 		 */
-		if (!func_check(getRequest('blog_id',null,'post'),'id')) {
-			$this->Message_AddError($this->Lang_Get('topic_create_blog_error_unknown'),$this->Lang_Get('error'));
+		if (!$oTopic->_Validate()) {
+			$this->Message_AddError($oTopic->_getValidateError(),$this->Lang_Get('error'));
 			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли заголовок топика
-		 */
-		if (!func_check(getRequest('topic_title',null,'post'),'text',2,200)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_title_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли содержание топика
-		 */
-		if (!func_check(getRequest('topic_text',null,'post'),'text',2,Config::Get('module.topic.max_length'))) {
-			$this->Message_AddError($this->Lang_Get('topic_create_text_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли теги(метки)
-		 */
-		if (!func_check(getRequest('topic_tags',null,'post'),'text',2,500)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_tags_error'),$this->Lang_Get('error'));
-			$bOk=false;
-		}
-		/**
-		 * проверяем ввод тегов
-		 */
-		$sTags=getRequest('topic_tags',null,'post');
-		$aTags=explode(',',rtrim($sTags,"\r\n\t\0\x0B ."));
-		$aTagsNew=array();
-		$aTagsNewLow=array();
-		foreach ($aTags as $sTag) {
-			$sTag=trim($sTag);
-			if (func_check($sTag,'text',2,50) and !in_array(mb_strtolower($sTag,'UTF-8'),$aTagsNewLow)) {
-				$aTagsNew[]=$sTag;
-				$aTagsNewLow[]=mb_strtolower($sTag,'UTF-8');
-			}
-		}
-		if (!count($aTagsNew)) {
-			$this->Message_AddError($this->Lang_Get('topic_create_tags_error_bad'),$this->Lang_Get('error'));
-			$bOk=false;
-		} else {
-			$_REQUEST['topic_tags']=join(',',$aTagsNew);
 		}
 		/**
 		 * Выполнение хуков

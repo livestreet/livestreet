@@ -18,13 +18,13 @@
 class ModuleTopic_EntityTopicQuestionVote extends Entity 
 {    
     public function getTopicId() {
-        return $this->_aData['topic_id'];
+        return $this->_getDataOne('topic_id');
     }  
     public function getVoterId() {
-        return $this->_aData['user_voter_id'];
+        return $this->_getDataOne('user_voter_id');
     }
 	public function getAnswer() {
-        return $this->_aData['answer'];
+        return $this->_getDataOne('answer');
     }
     
     

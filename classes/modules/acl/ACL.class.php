@@ -285,6 +285,9 @@ class ModuleACL extends Module {
 		if ($oUser->isAdministrator()) {
 			return true;
 		}
+		if ($oUser->getRating()<=Config::Get('acl.create.topic.limit_rating')) {
+			return false;
+		}
 		if ($oBlog->getOwnerId()==$oUser->getId()) {
 			return true;
 		}
@@ -475,7 +478,43 @@ class ModuleACL extends Module {
         }
 
         return false;
-	}	
+	}
+
+	/**
+	 * Проверка на ограничение по времени на постинг на стене
+	 *
+	 * @param $oUser
+	 * @param $oWall
+	 * @return bool
+	 */
+	public function CanAddWallTime($oUser,$oWall) {
+		// Для администраторов ограничение по времени не действует
+		if($oUser->isAdministrator()
+			or Config::Get('acl.create.wall.limit_time')==0
+			or $oUser->getRating()>=Config::Get('acl.create.wall.limit_time_rating')) {
+			return true;
+		}
+		if ($oWall->getUserId()==$oWall->getWallUserId()) {
+			return true;
+		}
+		/**
+		 * Получаем последнее сообщение
+		 */
+		$aWall=$this->Wall_GetWall(array('user_id'=>$oWall->getUserId()),array('id'=>'desc'),1,1,array());
+		/**
+		 * Если сообщений нет
+		 */
+		if($aWall['count']==0){
+			return true;
+		}
+
+		$oWallLast = array_shift($aWall['collection']);
+		$sDate = strtotime($oWallLast->getDateAdd());
+		if($sDate and ((time()-$sDate)<Config::Get('acl.create.wall.limit_time'))) {
+			return false;
+		}
+		return true;
+	}
     
 }
 ?>

@@ -1,15 +1,15 @@
 <?php
 
-# KCAPTCHA PROJECT VERSION 1.2.6
+# KCAPTCHA PROJECT VERSION 2.0
 
 # Automatic test to tell computers and humans apart
 
-# Copyright by Kruglov Sergei, 2006, 2007, 2008
+# Copyright by Kruglov Sergei, 2006, 2007, 2008, 2011
 # www.captcha.ru, www.kruglov.ru
 
 # System requirements: PHP 4.0.6+ w/ GD
 
-# KCAPTCHA is a free software. You can freely use it for building own site or software.
+# KCAPTCHA is a free software. You can freely use it for developing own site or software.
 # If you use this software as a part of own sofware, you must leave copyright notices intact or add KCAPTCHA copyright notices to own.
 # As a default configuration, KCAPTCHA has a small credits text at bottom of CAPTCHA image.
 # You can remove it, but I would be pleased if you left it. ;)
@@ -48,8 +48,10 @@ class KCAPTCHA{
 			$font_file=$fonts[mt_rand(0, count($fonts)-1)];
 			$font=imagecreatefrompng($font_file);
 			imagealphablending($font, true);
+
 			$fontfile_width=imagesx($font);
 			$fontfile_height=imagesy($font)-1;
+			
 			$font_metrics=array();
 			$symbol=0;
 			$reading_symbol=false;
@@ -81,16 +83,20 @@ class KCAPTCHA{
 
 			// draw text
 			$x=1;
+			$odd=mt_rand(0,1);
+			if($odd==0) $odd=-1;
 			for($i=0;$i<$length;$i++){
 				$m=$font_metrics[$this->keystring{$i}];
 
-				$y=mt_rand(-$fluctuation_amplitude, $fluctuation_amplitude)+($height-$fontfile_height)/2+2;
+				$y=(($i%2)*$fluctuation_amplitude - $fluctuation_amplitude/2)*$odd
+					+ mt_rand(-round($fluctuation_amplitude/3), round($fluctuation_amplitude/3))
+					+ ($height-$fontfile_height)/2;
 
 				if($no_spaces){
 					$shift=0;
 					if($i>0){
 						$shift=10000;
-						for($sy=7;$sy<$fontfile_height-20;$sy+=1){
+						for($sy=3;$sy<$fontfile_height-10;$sy+=1){
 							for($sx=$m['start']-1;$sx<$m['end'];$sx+=1){
 				        		$rgb=imagecolorat($font, $sx, $sy);
 				        		$opacity=$rgb>>24;
@@ -98,9 +104,9 @@ class KCAPTCHA{
 									$left=$sx-$m['start']+$x;
 									$py=$sy+$y;
 									if($py>$height) break;
-									for($px=min($left,$width-1);$px>$left-12 && $px>=0;$px-=1){
+									for($px=min($left,$width-1);$px>$left-200 && $px>=0;$px-=1){
 						        		$color=imagecolorat($img, $px, $py) & 0xff;
-										if($color+$opacity<190){
+										if($color+$opacity<170){ // 170 - threshold
 											if($shift>$left-$px){
 												$shift=$left-$px;
 											}
@@ -124,6 +130,17 @@ class KCAPTCHA{
 			}
 		}while($x>=$width-10); // while not fit in canvas
 
+		//noise
+		$white=imagecolorallocate($font, 255, 255, 255);
+		$black=imagecolorallocate($font, 0, 0, 0);
+		for($i=0;$i<(($height-30)*$x)*$white_noise_density;$i++){
+			imagesetpixel($img, mt_rand(0, $x-1), mt_rand(10, $height-15), $white);
+		}
+		for($i=0;$i<(($height-30)*$x)*$black_noise_density;$i++){
+			imagesetpixel($img, mt_rand(0, $x-1), mt_rand(10, $height-15), $black);
+		}
+
+		
 		$center=$x/2;
 
 		// credits. To remove, see configuration file
@@ -147,7 +164,7 @@ class KCAPTCHA{
 		$rand8=mt_rand(0,31415926)/10000000;
 		// amplitudes
 		$rand9=mt_rand(330,420)/110;
-		$rand10=mt_rand(330,450)/110;
+		$rand10=mt_rand(330,450)/100;
 
 		//wave distortion
 
@@ -200,7 +217,6 @@ class KCAPTCHA{
 		header('Cache-Control: no-store, no-cache, must-revalidate'); 
 		header('Cache-Control: post-check=0, pre-check=0', FALSE); 
 		header('Pragma: no-cache');
-		
 		if(function_exists("imagejpeg")){
 			header("Content-Type: image/jpeg");
 			imagejpeg($img2, null, $jpeg_quality);

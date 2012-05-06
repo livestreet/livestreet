@@ -18,22 +18,22 @@
 class ModuleUser_EntityReminder extends Entity 
 {    
     public function getCode() {
-        return $this->_aData['reminder_code'];
+        return $this->_getDataOne('reminder_code');
     }  
     public function getUserId() {
-        return $this->_aData['user_id'];
+        return $this->_getDataOne('user_id');
     }
     public function getDateAdd() {
-        return $this->_aData['reminder_date_add'];
+        return $this->_getDataOne('reminder_date_add');
     }
     public function getDateUsed() {
-        return $this->_aData['reminder_date_used'];
+        return $this->_getDataOne('reminder_date_used');
     }
     public function getDateExpire() {
-        return $this->_aData['reminder_date_expire'];
+        return $this->_getDataOne('reminder_date_expire');
     }
     public function getIsUsed() {
-        return $this->_aData['reminde_is_used'];
+        return $this->_getDataOne('reminde_is_used');
     }
         
     

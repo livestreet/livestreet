@@ -128,19 +128,16 @@ function func_generator($iLength=10) {
 /**
  * htmlspecialchars умеющая обрабатывать массивы
  *
- * @param unknown_type $data
+ * @param mixed $data
+ * @param int %walkIndex - represents the key/index of the array being recursively htmlspecialchars'ed
+ * @return void
  */
-function func_htmlspecialchars(&$data) {
-	if (is_array($data)) {
-		foreach ($data as $sKey => $value) {
-			if (is_array($value)) {
-				func_htmlspecialchars($data[$sKey]);
-			} else {
-				$data[$sKey]=htmlspecialchars($value);
-			}
-		}
-	} else {
-		$data=htmlspecialchars($data);
+function func_htmlspecialchars(&$data, $walkIndex = null) 
+{
+	if(is_string($data)){
+		$data = htmlspecialchars($data);
+	}elseif(is_array($data)){
+		array_walk($data, __FUNCTION__);
 	}
 }
 
@@ -218,8 +215,9 @@ function func_getIp() {
  *
  * @param unknown_type $sLocation
  */
-function func_header_location($sLocation) {  
-	header("HTTP/1.1 301 Moved Permanently"); 	
+function func_header_location($sLocation) {
+	$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+	header("{$sProtocol} 301 Moved Permanently");
     header('Location: '.$sLocation);
     exit();
 }
@@ -231,19 +229,10 @@ function func_header_location($sLocation) {
  * @param unknown_type $sNewDir
  */
 function func_mkdir($sBasePath,$sNewDir) {
-	$sBasePath=rtrim($sBasePath,'/');
-	$sBasePath.='/';
-	$sTempPath=$sBasePath;
-	$aNewDir=explode('/',$sNewDir);
-	foreach ($aNewDir as $sDir) {
-		if ($sDir!='.' and $sDir!='') {
-			if (!file_exists($sTempPath.$sDir.'/'))	{
-				@mkdir($sTempPath.$sDir.'/');
-				@chmod($sTempPath.$sDir.'/',0755);
-			}
-			$sTempPath=$sTempPath.$sDir.'/';
-		}
-	}   	
+  $sDirToCheck = rtrim ($sBasePath, '/') . '/' . $sNewDir;
+  if (!is_dir ($sDirToCheck)) {
+    @mkdir ($sDirToCheck, 0755, true);
+  }
 }
 
 /**
@@ -275,25 +264,11 @@ function func_rmdir($sPath) {
  * @param unknown_type $iCountWords
  */
 function func_text_words($sText,$iCountWords) {
-	$sText=str_replace("\r\n",'[<rn>]',$sText);
-	$sText=str_replace("\n",'[<n>]',$sText);
-		
-	$iCount=0;
-	$aWordsResult=array();
-	$aWords=preg_split("/\s+/",$sText);	
-	for($i=0;$i<count($aWords);$i++) {
-		if ($iCount>=$iCountWords) {
-			break;
-		}
-		if ($aWords[$i]!='[<rn>]' and $aWords[$i]!='[<n>]') {
-			$aWordsResult[]=$aWords[$i];
-			$iCount++;
-		}
+	$aWords = preg_split('#[\s\r\n]+#um',$sText);
+	if($iCountWords < count($aWords)){
+		$aWords = array_slice($aWords,0,$iCountWords);
 	}
-	$sText=join(' ',$aWordsResult);	
-	$sText=str_replace('[<rn>]'," ",$sText);
-	$sText=str_replace('[<n>]'," ",$sText);	
-	return $sText;	
+	return join(' ', $aWords);	
 }
 
 /**
@@ -416,7 +391,11 @@ if (!function_exists('array_intersect_key')) {
 
 if (!function_exists('class_alias')) {
     function class_alias($original, $alias) {
+    	if(!class_exists($original)){
+    		return false;
+    	}
         eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
+        return true;
     }
 }
 

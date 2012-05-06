@@ -1,0 +1,52 @@
+/* -------------------------------------------------------------------
+	ТАБЛИЦЫ
+------------------------------------------------------------------- */
+
+.table 					{ width: 100%; margin-bottom: 15px; }
+.table th 				{ text-align: left; background: #fafafa; }
+.table td, .table th 	{ border-bottom: 1px solid #eee; padding: 10px; }
+.table tr.active td 	{ background: #CBF4BC; }
+
+.table a.asc:after		{ content: "▲"; }
+.table a.desc:after		{ content: "▼"; }
+
+/* Table Blogs */
+.table.table-blogs .cell-name .avatar 	{ float: left; margin-right: 10px; clear: right; }
+.table.table-blogs .cell-name p		 	{ overflow: hidden; }
+.table.table-blogs .cell-rating 		{ width: 70px; font-weight: bold; }
+.table.table-blogs .cell-readers 		{ width: 70px; text-align: center; vertical-align: middle; }
+.table.table-blogs .cell-join 			{ width: 130px; text-align: center; vertical-align: middle; }
+.table.table-blogs .cell-rating 		{ text-align: center; vertical-align: middle; }
+
+/* Table Plugins */
+.table.table-plugins .cell-checkbox 	{ width: 20px; padding: 12px 0 10px 10px; }
+.table.table-plugins h3 				{ font-weight: bold; font-size: 17px; line-height: 20px; margin-bottom: 5px; }
+
+/* Table Profile Notes */
+.table.table-profile-notes 					{ border-top: 1px solid #eee; }
+.table.table-profile-notes td 				{ vertical-align: top; }
+.table.table-profile-notes .cell-username 	{ width: 20%; font-weight: bold; }
+.table.table-profile-notes .cell-note 		{ width: 50%; }
+.table.table-profile-notes .cell-date 		{ text-align: right; }
+
+/* Table Profile Info */
+.table.table-profile-info 				{ margin-bottom: 40px; }
+.table.table-profile-info td 			{ vertical-align: top; }
+.table.table-profile-info .cell-label 	{ width: 30%; color: #777; }
+
+/* Table Users */
+.table.table-users th 					{ font-size: 11px; }
+.table.table-users .cell-name 			{ font-weight: bold; }
+.table.table-users .cell-name img 		{ float: left; }
+.table.table-users .cell-name .username { margin-left: 32px; width: 120px; position: relative; top: 1px; }
+.table.table-users tbody .cell-date 	{ font-size: 11px; }
+.table.table-users .cell-rating,
+.table.table-users .cell-skill 			{ text-align: center; width: 50px; }
+
+/* Table Talk */
+.table.table-talk .cell-checkbox 		{ width: 20px; padding: 12px 0 10px 10px; }
+.table.table-talk thead .cell-checkbox 	{ padding: 10px 0 10px 10px; }
+.table.table-talk .cell-favourite 		{ width: 20px; padding: 10px 0; text-align: center; }
+.table.table-talk .cell-recipients 		{ width: 100px; }
+.table.table-talk tbody .cell-date 		{ font-size: 11px; width: 130px; }
+.table.table-talk tbody td				{ vertical-align: top; }

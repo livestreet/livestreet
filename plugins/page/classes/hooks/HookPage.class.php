@@ -21,14 +21,14 @@
  */
 class PluginPage_HookPage extends Hook {
 	public function RegisterHook() {
-		$this->AddHook('template_main_menu','Menu');
+		$this->AddHook('template_main_menu_item','Menu');
 	}
 
 	public function Menu() {
 		$aPages=$this->PluginPage_Page_GetPages(array('pid'=>null,'main'=>1,'active'=>1));
-		
-		
-		
+
+
+
 		$this->Viewer_Assign('aPagesMain',$aPages);
 		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__).'main_menu.tpl');
 	}

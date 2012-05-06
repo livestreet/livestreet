@@ -18,9 +18,17 @@
 /**
  * Блок настройки списка блогов в ленте
  *
+ * @package blocks
+ * @since 1.0
  */
 class BlockUserfeedBlogs extends Block {
+	/**
+	 * Запуск обработки
+	 */
 	public function Exec() {
+		/**
+		 * Пользователь авторизован?
+		 */
 		if ($oUserCurrent = $this->User_getUserCurrent()) {
 			$aUserSubscribes = $this->Userfeed_getUserSubscribes($oUserCurrent->getId());
 			/**
@@ -34,7 +42,9 @@ class BlockUserfeedBlogs extends Block {
 			$aBlogsId=array_merge($aBlogsId,$aBlogsOwnerId);
 
 			$aBlogs=$this->Blog_GetBlogsAdditionalData($aBlogsId,array('owner'=>array()),array('blog_title'=>'asc'));
-
+			/**
+			 * Выводим в шаблон
+			 */
 			$this->Viewer_Assign('aUserfeedSubscribedBlogs', $aUserSubscribes['blogs']);
 			$this->Viewer_Assign('aUserfeedBlogs', $aBlogs);
 		}
