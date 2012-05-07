@@ -28,7 +28,11 @@
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
-	
+
+	{if $sHtmlCanonical}
+		<link rel="canonical" href="{$sHtmlCanonical}" />
+	{/if}
+
 	{if $bRefreshToHome}
 		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}

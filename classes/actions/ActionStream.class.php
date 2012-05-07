@@ -16,20 +16,22 @@
 */
 
 /**
- * Обрабатывает ленту активности
+ * Экшен обработки ленты активности
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionStream extends Action {
 	/**
 	 * Текущий пользователь
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent;
 	/**
 	 * Какое меню активно
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='user';
 
@@ -39,7 +41,7 @@ class ActionStream extends Action {
 	 */
 	public function Init() {
 		/**
-		 * Лента доступна только для авторизованных
+		 * Личная лента доступна только для авторизованных, для гостей показываем общую ленту
 		 */
 		$this->oUserCurrent = $this->User_getUserCurrent();
 		if ($this->oUserCurrent) {
@@ -54,10 +56,9 @@ class ActionStream extends Action {
 		 * Загружаем в шаблон JS текстовки
 		 */
 		$this->Lang_AddLangJs(array(
-			'stream_subscribes_already_subscribed','error'
-		));
+								  'stream_subscribes_already_subscribed','error'
+							  ));
 	}
-
 	/**
 	 * Регистрация евентов
 	 *
@@ -79,6 +80,9 @@ class ActionStream extends Action {
 	 *
 	 */
 	protected function EventUser() {
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -94,7 +98,6 @@ class ActionStream extends Action {
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
 		}
 	}
-
 	/**
 	 * Список событий в общей ленте активности сайта
 	 *
@@ -117,23 +120,37 @@ class ActionStream extends Action {
 	 *
 	 */
 	protected function EventSwitchEventType() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
-		$this->Viewer_SetResponseAjax('json');
 		if (!getRequest('type')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
+		/**
+		 * Активируем/деактивируем тип
+		 */
 		$this->Stream_switchUserEventType($this->oUserCurrent->getId(), getRequest('type'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-
 	/**
 	 * Погрузка событий (замена постраничности)
 	 *
 	 */
 	protected function EventGetMore() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -162,13 +179,18 @@ class ActionStream extends Action {
 		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 		$this->Viewer_AssignAjax('events_count', count($aEvents));
 	}
-
 	/**
 	 * Погрузка событий для всего сайта
 	 *
 	 */
 	protected function EventGetMoreAll() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -197,13 +219,18 @@ class ActionStream extends Action {
 		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 		$this->Viewer_AssignAjax('events_count', count($aEvents));
 	}
-
 	/**
-	 * Погрузка событий для пользователя
+	 * Подгрузка событий для пользователя
 	 *
 	 */
 	protected function EventGetMoreUser() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -241,7 +268,13 @@ class ActionStream extends Action {
 	 *
 	 */
 	protected function EventSubscribe() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -261,13 +294,18 @@ class ActionStream extends Action {
 		$this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-	
 	/**
 	 * Подписка на пользователя по логину
 	 *
 	 */
 	protected function EventSubscribeByLogin() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -297,16 +335,24 @@ class ActionStream extends Action {
 		$this->Viewer_AssignAjax('user_avatar_48', $oUser->getProfileAvatarPath(48));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-
 	/**
 	 * Отписка от пользователя
 	 *
 	 */
 	protected function EventUnsubscribe() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
+		/**
+		 * Пользователь авторизован?
+		 */
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
+		/**
+		 * Пользователь с таким ID существует?
+		 */
 		if (!$this->User_getUserById(getRequest('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -316,7 +362,6 @@ class ActionStream extends Action {
 		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

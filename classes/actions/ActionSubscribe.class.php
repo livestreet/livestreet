@@ -15,8 +15,19 @@
 ---------------------------------------------------------
 */
 
-
+/**
+ * Экшен обработки подписок пользователей
+ *
+ * @package actions
+ * @since 1.0
+ */
 class ActionSubscribe extends Action {
+	/**
+	 * Текущий пользователь
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
+	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
@@ -45,7 +56,13 @@ class ActionSubscribe extends Action {
 	 * Отписка от подписки
 	 */
 	protected function EventUnsubscribe() {
+		/**
+		 * Получаем подписку по ключу
+		 */
 		if ($oSubscribe=$this->Subscribe_GetSubscribeByKey($this->getParam(0)) and $oSubscribe->getStatus()==1) {
+			/**
+			 * Отписываем пользователя
+			 */
 			$oSubscribe->setStatus(0);
 			$oSubscribe->setDateRemove(date("Y-m-d H:i:s"));
 			$this->Subscribe_UpdateSubscribe($oSubscribe);
@@ -60,14 +77,14 @@ class ActionSubscribe extends Action {
 		}
 		Router::Location($sUrl);
 	}
-
-
 	/**
 	 * Изменение состояния подписки
 	 */
 	protected function EventAjaxSubscribeToggle() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
 		$this->Viewer_SetResponseAjax('json');
-
 		/**
 		 * Получаем емайл подписки и проверяем его на валидность
 		 */
@@ -108,15 +125,12 @@ class ActionSubscribe extends Action {
 		/**
 		 * Если подписка еще не существовала, то создаем её
 		 */
-		$oSubscribe=$this->Subscribe_AddSubscribeSimple($sTargetType,$sTargetId,$sMail);
-
-		if ($oSubscribe) {
+		if ($oSubscribe=$this->Subscribe_AddSubscribeSimple($sTargetType,$sTargetId,$sMail)) {
 			$oSubscribe->setStatus($iValue);
 			$this->Subscribe_UpdateSubscribe($oSubscribe);
 			$this->Message_AddNotice($this->Lang_Get('subscribe_change_ok'),$this->Lang_Get('attention'));
 			return ;
 		}
-
 		$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		return ;
 	}

@@ -134,7 +134,7 @@ ls.comments = (function ($) {
 					$("#comment_last_id").val(result.iMaxIdComment);
 					$('#count-comments').text(parseInt($('#count-comments').text())+aCmt.length);
 					if (ls.blocks) {
-						ls.blocks.load('#block_stream_item_comment', 'block_stream');
+						ls.blocks.load('.js-block-stream-item', 'stream');
 					}
 				}
 				var iCountOld=0;

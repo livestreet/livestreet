@@ -18,9 +18,17 @@
 /**
  * Обрабатывает блок облака тегов для избранного
  *
+ * @package blocks
+ * @since 1.0
  */
 class BlockTagsFavouriteTopic extends Block {
+	/**
+	 * Запуск обработки
+	 */
 	public function Exec() {
+		/**
+		 * Пользователь авторизован?
+		 */
 		if ($oUserCurrent = $this->User_getUserCurrent()) {
 			if (!($oUser=$this->getParam('user'))) {
 				$oUser=$oUserCurrent;

@@ -16,7 +16,6 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty/libs/Smarty.class.php');
-require_once(Config::Get('path.root.engine').'/modules/viewer/lsSmarty.class.php');
 require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
 require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
 
@@ -130,6 +129,12 @@ class ModuleViewer extends Module {
 	 */
 	protected $aHtmlRssAlternate=null;
 	/**
+	 * Указание поисковику основного URL страницы, для борьбы с дублями
+	 *
+	 * @var string
+	 */
+	protected $sHtmlCanonical;
+	/**
 	 * Html код для подключения js,css
 	 *
 	 * @var array
@@ -199,7 +204,7 @@ class ModuleViewer extends Module {
 		/**
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
-		$this->oSmarty = new lsSmarty();
+		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=E_ALL^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
 		/**
@@ -277,6 +282,7 @@ class ModuleViewer extends Module {
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
 		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
+		$this->Assign("sHtmlCanonical",$this->sHtmlCanonical);
 		/**
 		 * Загружаем список активных плагинов
 		 */
@@ -330,6 +336,14 @@ class ModuleViewer extends Module {
 	 */
 	public function GetSmartyObject() {
 		return $this->oSmarty;
+	}
+	/**
+	 * Создает и возвращает объект Smarty
+	 *
+	 * @return Smarty
+	 */
+	public function CreateSmartyObject() {
+		return new Smarty();
 	}
 	/**
 	 * Ответ на ajax запрос
@@ -1276,6 +1290,17 @@ class ModuleViewer extends Module {
 		$this->sHtmlDescription=$sText;
 	}
 	/**
+	 * Устанавливает основной адрес страницы
+	 *
+	 * @param string $sUrl	URL страницы
+	 * @param bool $bRewrite	Перезаписывать URL, если он уже установлен
+	 */
+	public function SetHtmlCanonical($sUrl,$bRewrite=false) {
+		if (!$this->sHtmlCanonical or $bRewrite) {
+			$this->sHtmlCanonical=$sUrl;
+		}
+	}
+	/**
 	 * Устанавливает альтернативный адрес страницы по RSS
 	 *
 	 * @param string $sUrl	URL
@@ -1339,6 +1364,12 @@ class ModuleViewer extends Module {
 			'sBaseUrl' => rtrim($sBaseUrl,'/'),
 			'sGetParams' => $sGetParams,
 		);
+		/**
+		 * Избавляемся от дублирования страниц с page=1
+		 */
+		if ($aPaging['iCurrentPage']==1) {
+			$this->SetHtmlCanonical($aPaging['sBaseUrl'].'/'.$aPaging['sGetParams']);
+		}
 		return $aPaging;
 	}
 	/**

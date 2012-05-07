@@ -23,6 +23,16 @@
  */
 class ActionError extends Action {
 	/**
+	 * Список специфических HTTP ошибок для которых необходимо отдавать header
+	 *
+	 * @var array
+	 */
+	protected $aHttpErrors=array(
+		'404' => array(
+			'header' => '404 Not Found',
+		),
+	);
+	/**
 	 * Инициализация экшена
 	 *
 	 */
@@ -42,7 +52,7 @@ class ActionError extends Action {
 	 */
 	protected function RegisterEvent() {
 		$this->AddEvent('index','EventError');
-		$this->AddEvent('404','EventError');
+		$this->AddEventPreg('/^\d{3}$/i','EventError');
 	}
 	/**
 	 * Вывод ошибки
@@ -50,12 +60,16 @@ class ActionError extends Action {
 	 */
 	protected function EventError() {
 		/**
-		 * Если эвент равен 404, то значит нужно в хидере послать браузеру HTTP/1.1 404 Not Found
+		 * Если евент равен одной из ошибок из $aHttpErrors, то шлем браузеру специфичный header
+		 * Например, для 404 в хидере будет послан браузеру заголовок HTTP/1.1 404 Not Found
 		 */
-		if ($this->sCurrentEvent=='404') {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
-			$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-			header("{$sProtocol} 404 Not Found");
+		if (array_key_exists($this->sCurrentEvent,$this->aHttpErrors)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$this->sCurrentEvent),$this->sCurrentEvent);
+			$aHttpError=$this->aHttpErrors[$this->sCurrentEvent];
+			if (isset($aHttpError['header'])) {
+				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				header("{$sProtocol} {$aHttpError['header']}");
+			}
 		}
 		/**
 		 * Устанавливаем title страницы

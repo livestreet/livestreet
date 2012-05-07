@@ -583,6 +583,9 @@ class ActionBlog extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		if ($iPage==1 and !getRequest('period')) {
+			$this->Viewer_SetHtmlCanonical(Router::GetPath('blog').$sShowType.'/');
+		}
 		/**
 		 * Получаем список топиков
 		 */
@@ -598,7 +601,7 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blog').$sShowType,array('period'=>$sPeriod));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());
 		/**
 		 * Вызов хуков
 		 */
@@ -838,6 +841,9 @@ class ActionBlog extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage= $this->GetParamEventMatch(($sShowType=='good')?0:1,2) ? $this->GetParamEventMatch(($sShowType=='good')?0:1,2) : 1;
+		if ($iPage==1 and !getRequest('period') and in_array($sShowType,array('discussed','top'))) {
+			$this->Viewer_SetHtmlCanonical($oBlog->getUrlFull().$sShowType.'/');
+		}
 
 		if (!$bCloseBlog) {
 			/**

@@ -16,39 +16,40 @@
 */
 
 /**
- * Обработка УРЛа вида /topic/ - управление своими топиками
+ * Экшен обработки УРЛа вида /topic/ - управление своими топиками
  *
+ * @package actions
+ * @since 1.0
  */
 class ActionTopic extends Action {
 	/**
 	 * Главное меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='blog';
 	/**
 	 * Меню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuItemSelect='topic';
 	/**
 	 * СубМеню
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	protected $sMenuSubItemSelect='topic';
 	/**
 	 * Текущий юзер
 	 *
-	 * @var unknown_type
+	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
 
 	/**
 	 * Инициализация
 	 *
-	 * @return unknown
 	 */
 	public function Init() {
 		/**
@@ -58,7 +59,13 @@ class ActionTopic extends Action {
 			return parent::EventNotFound();
 		}
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Усанавливаем дефолтный евент
+		 */
 		$this->SetDefaultEvent('add');
+		/**
+		 * Устанавливаем title страницы
+		 */
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_title'));
 	}
 	/**
@@ -82,7 +89,6 @@ class ActionTopic extends Action {
 	/**
 	 * Редактирование топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventEdit() {
 		/**
@@ -122,14 +128,14 @@ class ActionTopic extends Action {
 		 */
 		if (isset($_REQUEST['submit_topic_publish']) or isset($_REQUEST['submit_topic_save'])) {
 			/**
-		 	* Обрабатываем отправку формы
-		 	*/
+			 * Обрабатываем отправку формы
+			 */
 			return $this->SubmitEdit($oTopic);
 		} else {
 			/**
-		 	* Заполняем поля формы для редактирования
-		 	* Только перед отправкой формы!
-		 	*/
+			 * Заполняем поля формы для редактирования
+			 * Только перед отправкой формы!
+			 */
 			$_REQUEST['topic_title']=$oTopic->getTitle();
 			$_REQUEST['topic_text']=$oTopic->getTextSource();
 			$_REQUEST['topic_tags']=$oTopic->getTags();
@@ -142,7 +148,6 @@ class ActionTopic extends Action {
 	/**
 	 * Удаление топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventDelete() {
 		$this->Security_ValidateSendForm();
@@ -173,7 +178,6 @@ class ActionTopic extends Action {
 	/**
 	 * Добавление топика
 	 *
-	 * @return unknown
 	 */
 	protected function EventAdd() {
 		/**
@@ -220,9 +224,8 @@ class ActionTopic extends Action {
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_'.$this->sCurrentEvent));
 	}
 	/**
-	 * Обработка добавлени топика
+	 * Обработка добавления топика
 	 *
-	 * @return unknown
 	 */
 	protected function SubmitAdd() {
 		/**
@@ -318,7 +321,6 @@ class ActionTopic extends Action {
 		if (getRequest('topic_forbid_comment')) {
 			$oTopic->setForbidComment(1);
 		}
-
 		/**
 		 * Запускаем выполнение хуков
 		 */
@@ -346,10 +348,10 @@ class ActionTopic extends Action {
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
 				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
 			}
-            /**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+			/**
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			Router::Location($oTopic->getUrl());
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -359,8 +361,8 @@ class ActionTopic extends Action {
 	/**
 	 * Обработка редактирования топика
 	 *
-	 * @param unknown_type $oTopic
-	 * @return unknown
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @return mixed
 	 */
 	protected function SubmitEdit($oTopic) {
 		$oTopic->_setValidateScenario('topic');
@@ -382,8 +384,6 @@ class ActionTopic extends Action {
 		if (!$this->checkTopicFields($oTopic)) {
 			return false;
 		}
-
-
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -414,7 +414,6 @@ class ActionTopic extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
 			return;
 		}
-
 		$oTopic->setBlogId($oBlog->getId());
 		/**
 		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
@@ -475,11 +474,10 @@ class ActionTopic extends Action {
 				$this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
 			}
 			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
-
 			/**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+			 * Добавляем событие в ленту
+			 */
+			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
@@ -504,6 +502,9 @@ class ActionTopic extends Action {
 		$this->Security_ValidateSendForm();
 
 		$bOk=true;
+		/**
+		 * Валидируем топик
+		 */
 		if (!$oTopic->_Validate()) {
 			$this->Message_AddError($oTopic->_getValidateError(),$this->Lang_Get('error'));
 			$bOk=false;
