@@ -2,30 +2,35 @@
 	СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
 -------------------------------------------- */
 
-.profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 300px 20px 65px; position: relative; }
+.profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 0px 20px 0; position: relative; }
 
+.profile .button 		{ float: right; margin-left: 7px; }
 .profile .avatar 		{ position: absolute; top: 0; left: 0; }
+.profile .vote-label	{ text-transform: lowercase; text-align: center; font-size: 10px; color: #aaa; }
+.profile .vote-profile 	{ float: right; margin-left: 10px; }
 
-.profile .vote-label	{ text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
-.profile .count 		{ font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
+.profile .strength 					{ float: right; margin-left: 18px; }
+.profile .strength .count 			{ font-size: 11px; line-height: 1em; text-align: center; padding: 0 10px; line-height: 23px; color: #628fa5; margin-bottom: 0px; background: #edf8fd; border-radius: 15px; height: 24px; box-shadow: 0 2px 3px rgba(0,0,0,.1) inset; }
 
-.profile .vote 									{ position: absolute; top: 0; right: 140px; background: #fff; }
-.profile .vote .vote-count 						{ padding-left: 25px; display: block; }
-.profile .vote .vote-up 						{ position: absolute; top: 22px; left: 0; display: none; }
-.profile .vote .vote-down 						{ position: absolute; top: 35px; left: 0; display: none; }
-.profile .vote:hover .vote-up,
-.profile .vote:hover .vote-down,
-.profile .vote.voted .vote-up,
-.profile .vote.voted .vote-down 				{ display: inline-block; }
-.profile .vote.vote-count-positive .vote-count 	{ color: #5055B2; }
-
-.profile .strength 					{ position: absolute; top: 0; right: 0; }
-
-.profile .user-login 				{ width: 270px; font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
-.profile .user-login.no-user-name 	{ position: relative; top: 9px; }
-.profile .user-name 				{ color: #777; }
+.profile .user-login 				{ width: 240px; font-size: 27px; line-height: 26px; font-weight: normal; margin-bottom: 5px; }
+.profile .user-login.no-user-name 	{  }
+.profile .user-name 				{ color: #949aa1; font-size: 17px; font-family: 'PT Sans', sans-serif; }
 
 .profile-page-header 				{ font-size: 12px; font-weight: bold; margin-bottom: 20px; background: #f5f5f5; border-top: 1px solid #eee; color: #555; padding: 5px 10px 6px; }
 
-.profile-info-about { padding: 13px 20px 20px; background: #F1F9F1; border-radius: 5px; margin-bottom: 30px; color: #000; }
-.profile-info-about h3 { font-size: 18px; margin-bottom: 5px; }
+.profile-info-about 		{ padding: 13px 20px 20px 135px; min-height: 100px; background: #fcfce9; border-radius: 5px; margin-bottom: 30px; color: #000; position: relative; }
+.profile-info-about .avatar { position: absolute; top: 20px; left: 20px; border-radius: 5px; background: #fff; padding: 5px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
+.profile-info-about .avatar img { vertical-align: top; width: 80px; height: 80px;  min-width: 100%; }
+.profile-info-about h3 		{ font-size: 19px; margin-bottom: 5px; }
+
+.profile-left 	{ width: 360px; float: left; margin-right: 40px; }
+.profile-right 	{ width: 185px; float: left; }
+
+.profile-dotted-list { margin-bottom: 50px; }
+.profile-dotted-list li { overflow: hidden; zoom: 1; margin-bottom: 5px; background: url(../images/dots.png)  0% 14px repeat-x; }
+.profile-dotted-list li span { background: #fff; }
+.profile-dotted-list li strong { float: right; width: 190px; font-weight: normal; background: #fff; }
+
+.profile-contact-list { margin-bottom: 50px; }
+.profile-contact-list li { margin-bottom: 5px; padding-left: 21px; position: relative; }
+.profile-contact-list li i { position: absolute; top: 2px; left: 0; }

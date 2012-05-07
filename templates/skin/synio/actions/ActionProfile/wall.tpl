@@ -7,7 +7,7 @@
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">{$aLang.user_menu_profile_wall}</h3>
+{include file='menu.profile.content.tpl'}
 
 
 <script type="text/javascript">
@@ -26,13 +26,13 @@
 {/if}
 
 
-<div id="wall-container" class="comments wall">
+<div id="wall-container" class="wall">
 	{include file='actions/ActionProfile/wall_items.tpl'}
 </div>
 
 
 {if $iCountWall-count($aWall)}
-	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="wall-more"><span class="wall-more-inner">{$aLang.wall_load_more} (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
+	<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="stream-get-more"><span class="wall-more-inner">{$aLang.wall_load_more} (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
 {/if}
 
 

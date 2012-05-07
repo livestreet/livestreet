@@ -1,25 +1,22 @@
-<section class="block block-type-foldable block-type-talk-search">
-	<header class="block-header">
-		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_talk_search_content').toggle(); return false;">{$aLang.talk_filter_title}</a></h3>
+<div class="talk-search" id="block_talk_search">
+	<header>
+		<button name="submit_talk_read" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:true;" class="button">{$aLang.talk_inbox_make_read}</button>
+		<button name="submit_talk_del" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" class="button">{$aLang.talk_inbox_delete}</button>
+		
+		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.talk_filter_title}</a>
 	</header>
 	
-	<div class="block-content" id="block_talk_search_content" {if $_aRequest.submit_talk_filter}style="display:block;" {/if}>
+	<div class="talk-search-content" id="block_talk_search_content" {if $_aRequest.submit_talk_filter}style="display:block;" {/if}>
 		<form action="{router page='talk'}" method="GET" name="talk_filter_form">
-			<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label>
-			<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-text input-width-full" />
-			<small class="note">{$aLang.talk_filter_notice_sender}</small></p>
+			<p><input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" placeholder="{$aLang.talk_filter_label_sender}" class="input-text input-width-250" /></p>
 
-			<p><label for="talk_filter_keyword">{$aLang.talk_filter_label_keyword}:</label>
-			<input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" class="input-text input-width-full" />
-			<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
+			<p><input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" placeholder="{$aLang.talk_filter_label_keyword}" class="input-text input-width-250" /></p>
 
-			<p><label for="talk_filter_keyword_text">{$aLang.talk_filter_label_keyword_text}:</label>
-				<input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" class="input-text input-width-full" />
-				<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
+			<p><input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" placeholder="{$aLang.talk_filter_label_keyword_text}" class="input-text input-width-250" /></p>
 
 			<p><label for="talk_filter_start">{$aLang.talk_filter_label_date}:</label>
-			<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" style="width: 43%" class="input-text date-picker" readonly="readonly" /> &mdash;
-			<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" style="width: 43%" class="input-text date-picker" readonly="readonly" /></p>
+			<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" class="input-text input-text input-width-250 date-picker" readonly="readonly" /> &mdash;
+			<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" class="input-text input-text input-width-250 date-picker" readonly="readonly" /></p>
 
 			<p><label for="talk_filter_favourite"><input type="checkbox" {if $_aRequest.favourite}checked="checked" {/if} class="input-checkbox" name="favourite" value="1" id="talk_filter_favourite" />
 			{$aLang.talk_filter_label_favourite}</label></p>
@@ -28,4 +25,4 @@
 			<input type="submit" name="" value="{$aLang.talk_filter_submit_clear}" class="button" onclick="return ls.talk.clearFilter();" />
 		</form>
 	</div>
-</section>
+</div>

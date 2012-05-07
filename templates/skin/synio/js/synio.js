@@ -67,7 +67,7 @@ jQuery(document).ready(function($){
 	ls.toolbar.up.init();
 	
 	
-	$('#toolbar').css('left', $('#wrapper').offset().left + $('#wrapper').outerWidth() + 12);
+	$('#toolbar').css('left', $('#wrapper').offset().left + $('#wrapper').outerWidth() + 10);
 
 	
 	// Всплывающие сообщения
@@ -183,3 +183,8 @@ jQuery(document).ready(function($){
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
+
+
+ls.talk.toggleSearchForm = function() {
+	$('.talk-search').toggleClass('opened'); return false;
+}

@@ -18,19 +18,22 @@ a 		{ color: #3f8ad7; }
 a:hover { color: #f00; }
 
 a.link-dashed 		{ border-bottom: 1px dashed #5055b2; text-decoration: none; }
-a.link-dashed:hover { border-color: #06e; }
+a.link-dashed:hover { border-color: #f00; }
 
 a.link-dotted 		{ text-decoration: none; border-bottom: 1px dotted #5055b2; }
-a.link-dotted:hover { border-color: #06e; }
+a.link-dotted:hover { border-color: #f00; }
 
 
 
 /* Заголовки
 ---------------------------------------------------- */
-h2.page-header { color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
+h2.page-header { color: #333; font-size: 27px; line-height: 1em; font-weight: normal; margin-bottom: 20px; }
 h2.page-header span { color: #aaa; }
+h2.page-header i { vertical-align: middle; }
 
-h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; font-weight: bold; }
+h2.header-table { margin-bottom: 10px; font-size: 22px; font-weight: normal; }
+h2.header-table a { color: #275ec2; }
+h2.header-table span { color: #949aa1; }
 
 
 
@@ -130,15 +133,28 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 
 /* Stream
 ---------------------------------------------------- */
-.stream-get-more { display: block; text-align: center; padding: 12px 0; background: #fafafa; color: #aaa; border-top: 1px solid #eee; text-decoration: none; }
-.stream-get-more:hover { background: #f0f7fd; }
+.stream-get-more {
+	display: block; text-align: center; padding: 12px 0; color: #258fa7; text-decoration: none;
+	background: #eefbfc;
+	background: -moz-linear-gradient(top,  #eefbfc 0%, #d3edf8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eefbfc), color-stop(100%,#d3edf8));
+	background: -webkit-linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+	background: -o-linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+	background: -ms-linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+	background: linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eefbfc', endColorstr='#d3edf8',GradientType=0 );
+}
+.stream-get-more:hover { background: #eefbfc; color: #258fa7; }
 .stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
-.stream-comment-preview { padding: 5px 10px; background: #f3f3f3; margin-top: 5px; }
+.stream-comment-preview { padding: 5px 10px 6px; background: #fefef1; color: #363636; margin-top: 10px; font-size: 11px; border-radius: 3px; box-shadow: 0 2px 4px #e8e8c0 inset; }
 
 .stream-list { margin: 0 0 20px; }
-.stream-list li { margin-bottom: 5px; min-height: 48px; _height: 48px; background: #fafafa; padding: 10px 15px 10px 70px; position: relative; }
-.stream-list li .avatar { position: absolute; top: 10px; left: 10px; }
-.stream-list li .date { display: block; color: #999; }
+.stream-list li { margin-bottom: 23px; min-height: 48px; _height: 48px; border-bottom: 1px solid #e7ebed; padding: 0 0 20px 60px; position: relative; }
+.stream-list li:last-child { border: none; }
+.stream-list li .info { color: #b9c2c2; font-size: 11px; line-height: 1em; margin-bottom: 8px; }
+.stream-list li .info a { color: #275ec2; }
+.stream-list li .info .date { color: #818189; }
+.stream-list li .avatar { position: absolute; top: 0; left: 0; }
 .stream-list li a { text-decoration: none; }
 .stream-list li a:hover { text-decoration: underline; }
 
@@ -153,6 +169,24 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 
 .userfield-add { text-decoration: none; border-bottom: 1px dashed #70AAE0; }
 .userfield-add:hover { color: #333; border-color: #333; }
+
+
+
+/* Talk
+---------------------------------------------------- */
+.talk-search { padding: 15px; background: #f8fbfe; border-radius: 5px; margin-bottom: 35px; }
+.talk-search header { position: relative; min-height: 27px; }
+.talk-search header .close { position: absolute; top: 3px; right: 0; font-size: 11px; cursor: pointer; }
+.talk-search .talk-search-content { display: none; padding-top: 15px; border-top: 1px solid #fff; }
+.talk-search .talk-search-content p { margin-bottom: 25px; }
+.talk-search.opened header { border-bottom: 1px solid #e8eef5; padding-bottom: 15px; }
+.talk-search.opened .talk-search-content { display: block; }
+
+.talk-search.talk-friends header .close { left: 0; right: auto; }
+.talk-search.talk-friends .friend-list { margin-bottom: 15px; font-weight: bold; }
+.talk-search.talk-friends .friend-list li { margin-bottom: 5px; }
+
+.talk-blacklist-form { padding: 15px; background: #f8fbfe; border-radius: 5px; margin-bottom: 15px; }
 
 
 

@@ -13,26 +13,25 @@
     margin-left: -150px;
 	
     color: #333;
-    border: 1px solid #666;
-    background-color: #fff;
-	border-radius: 5px;
+    background-color: #fbfcfc;
+	border-radius: 10px;
 	box-shadow: 0 0 15px rgba(0,0,0,.5);
 	overflow: hidden;
 }
 .modal .close { 
 	position: absolute; 
-	top: 14px; 
-	right: 14px; 
-	width: 14px; 
-	height: 14px;
-	background: url(../images/icons.png) -312px 0 no-repeat;
-	opacity: .3;
-	filter: alpha(opacity=30);
+	top: 7px; 
+	right: 8px; 
+	width: 16px; 
+	height: 16px; 
+	background: url(../images/icons-synio.png) no-repeat -131px -39px;
+	opacity: .8;
+	filter: alpha(opacity=80);
 }
 .modal .close:hover { opacity: 1; filter: alpha(opacity=100); }
-.modal .modal-header 		{ background: #fafafa; border-bottom: 1px solid #f7f7f7; padding: 5px 20px; }
+.modal .modal-header 		{ padding: 15px 30px 0; }
 .modal .modal-header h3 	{ font-size: 20px; font-weight: bold; margin-right: 20px; }
-.modal .modal-content 		{ padding: 20px; }
+.modal .modal-content 		{ padding: 30px 30px; }
 
 .jqmOverlay { background-color: #000; }
 

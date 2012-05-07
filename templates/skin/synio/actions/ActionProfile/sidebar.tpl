@@ -33,31 +33,32 @@
 		</div>
 	{/if}
 </section>
+	
 
 
 
-{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
-	<script type="text/javascript">
-		jQuery(function($){
-			ls.lang.load({lang_load name="profile_user_unfollow,profile_user_follow"});
-		});
-	</script>
 
-	<section class="block block-type-profile-actions">
-		<div class="block-content">
-			<ul class="profile-actions" id="profile_actions">
-				{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
-				<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
-				<li>
-					<a href="#" onclick="ls.user.followToggle(this, {$oUserProfile->getId()}); return false;" class="{if $oUserProfile->isFollow()}followed{/if}">
-						{if $oUserProfile->isFollow()}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
-					</a>
-				</li>						
-			</ul>
-		</div>
-	</section>
-{/if}	
+{hook run='profile_sidebar_menu_before' oUserProfile=$oUserProfile}
 
+<section class="block block-type-profile-nav">
+	<ul class="nav nav-profile">
+		{hook run='profile_sidebar_menu_item_first' oUserProfile=$oUserProfile}
+		<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='wall'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}wall/">{$aLang.user_menu_profile_wall}{if ($iCountWallUser)>0} ({$iCountWallUser}){/if}</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='created'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.user_menu_publication}{if ($iCountCreated)>0} ({$iCountCreated}){/if}</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='favourites'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites}{if ($iCountFavourite)>0} ({$iCountFavourite}){/if}</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='friends'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.user_menu_profile_friends}{if ($iCountFriendsUser)>0} ({$iCountFriendsUser}){/if}</a></li>
+		<li {if $sAction=='profile' && $aParams[0]=='stream'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}stream/">{$aLang.user_menu_profile_stream}</a></li>
+		
+		{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+			<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox}{if $iUserCurrentCountTalkNew} ({$iUserCurrentCountTalkNew}){/if}</a></li>
+			<li {if $sAction=='settings'}class="active"{/if}><a href="{router page='settings'}">{$aLang.settings_menu}</a></li>
+		{/if}
+		{hook run='profile_sidebar_menu_item_last' oUserProfile=$oUserProfile}
+	</ul>
+</section>
+
+{hook run='profile_sidebar_end' oUserProfile=$oUserProfile}
 
 
 {if $oUserCurrent && $oUserCurrent->getId() != $oUserProfile->getId()}
@@ -91,24 +92,25 @@
 	</section>
 {/if}
 
-{hook run='profile_sidebar_menu_before' oUserProfile=$oUserProfile}
 
-<section class="block block-type-profile-nav">
-	<ul class="nav nav-profile">
-		{hook run='profile_sidebar_menu_item_first' oUserProfile=$oUserProfile}
-		<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}">{$aLang.user_menu_profile_whois}</a></li>
-		<li {if $sAction=='profile' && $aParams[0]=='wall'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}wall/">{$aLang.user_menu_profile_wall}{if ($iCountWallUser)>0} ({$iCountWallUser}){/if}</a></li>
-		<li {if $sAction=='profile' && $aParams[0]=='created'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.user_menu_publication}{if ($iCountCreated)>0} ({$iCountCreated}){/if}</a></li>
-		<li {if $sAction=='profile' && $aParams[0]=='favourites'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites}{if ($iCountFavourite)>0} ({$iCountFavourite}){/if}</a></li>
-		<li {if $sAction=='profile' && $aParams[0]=='friends'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.user_menu_profile_friends}{if ($iCountFriendsUser)>0} ({$iCountFriendsUser}){/if}</a></li>
-		<li {if $sAction=='profile' && $aParams[0]=='stream'}class="active"{/if}><a href="{$oUserProfile->getUserWebPath()}stream/">{$aLang.user_menu_profile_stream}</a></li>
-		
-		{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
-			<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox}{if $iUserCurrentCountTalkNew} ({$iUserCurrentCountTalkNew}){/if}</a></li>
-			<li {if $sAction=='settings'}class="active"{/if}><a href="{router page='settings'}">{$aLang.settings_menu}</a></li>
-		{/if}
-		{hook run='profile_sidebar_menu_item_last' oUserProfile=$oUserProfile}
-	</ul>
-</section>
+{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
+	<script type="text/javascript">
+		jQuery(function($){
+			ls.lang.load({lang_load name="profile_user_unfollow,profile_user_follow"});
+		});
+	</script>
 
-{hook run='profile_sidebar_end' oUserProfile=$oUserProfile}
+	<section class="block block-type-profile-actions">
+		<div class="block-content">
+			<ul class="profile-actions" id="profile_actions">
+				{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
+				<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>					
+				<li>
+					<a href="#" onclick="ls.user.followToggle(this, {$oUserProfile->getId()}); return false;" class="{if $oUserProfile->isFollow()}followed{/if}">
+						{if $oUserProfile->isFollow()}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
+					</a>
+				</li>						
+			</ul>
+		</div>
+	</section>
+{/if}

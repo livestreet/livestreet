@@ -17,16 +17,21 @@
 .comment-preview { font-size: 13px; line-height: 18px; }
 
 
-/* Стили для списка комментариев на странице http://ваш_сайт/comments/ */
-.comments.comment-list .comment { margin-bottom: 15px; }
-.comments.comment-list .comment-path { background: #eee; padding: 5px 10px 6px; border-top: 1px solid #ddd; }
-.comments.comment-list .comment-path .blog-name { color: #777; }
-
-
 /* Комментарий */
 .comment { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 40px; position: relative; }
 .comment .deleted { padding: 5px 10px; color: #777; background: #f4f4f4; }
 .comment .comment-avatar { position: absolute; top: 10px; left: 0; width: 30px; height: 30px; }
+
+
+/* Стили для списка комментариев на странице http://ваш_сайт/comments/ */
+.comments.comment-list .comment { margin-bottom: 50px; padding-left: 0; }
+.comments.comment-list .comment .comment-avatar { position: static; width: 16px; height: 16px; vertical-align: middle; }
+.comments.comment-list .comment .comment-content { margin-bottom: 5px; }
+.comments.comment-list .comment .comment-info li.vote .vote-count { margin-right: 0; }
+.comments.comment-list .comment-path { font-size: 11px; color: #a2b6cd; }
+.comments.comment-list .comment-path .blog-name,
+.comments.comment-list .comment-path .comment-path-comments { color: #000; }
+.comments.comment-list .comment-path .comment-path-topic { color: #275ec2; }
 
 
 /* Типы комментариев

@@ -44,17 +44,23 @@
 .block.block-type-profile .status 					{ position: absolute; top: 5px; left: 5px; padding: 0 5px; border-radius: 2px; font-size: 11px; }
 .block.block-type-profile .status.status-online 	{ background: #B7BC1C; color: #fff; }
 .block.block-type-profile .status.status-offline 	{ background: #333; color: #fff; opacity: .5; filter: alpha(opacity=50); }
-.block.block-type-profile .upload-photo 			{ padding: 7px 10px 10px; background: #f7f7f7; }
+.block.block-type-profile .upload-photo 			{ padding: 10px 30px 15px 30px; background: #f8fbfe; font-size: 11px; }
+.block.block-type-profile .upload-photo a 			{ color: #727a90; border-color: #727a90; }
 
-.block.block-type-profile-note	 			{ background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
-.block.block-type-profile-note p 			{ margin-bottom: 10px; }
-.block.block-type-profile-note .actions 	{ margin-bottom: 0; }
+.block.block-type-profile-note	 				{ border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
+.block.block-type-profile-note p 				{ margin-bottom: 10px; }
+.block.block-type-profile-note .actions 		{ margin-bottom: 0; font-size: 11px; }
+.block.block-type-profile-note .actions a 		{ color: #275ec2; border-color: #275ec2; }
+.block.block-type-profile-note .actions a:hover { color: #f00; border-color: #f00; }
 
-.block.block-type-profile-nav 				{ padding: 0; background: none; }
+.block.block-type-profile-nav 					{ padding: 0; background: none; border: none; }
 
-.block.block-type-profile-actions .block-content 		{ padding: 10px 15px; }
-.block.block-type-profile-actions ul li					{ margin-bottom: 5px; }
+.block.block-type-profile-actions 						{ border: none; }
+.block.block-type-profile-actions .block-content 		{ padding: 0 0 0 30px; }
+.block.block-type-profile-actions ul li					{ margin-bottom: 5px; font-size: 11px; }
 .block.block-type-profile-actions ul li:last-child		{ margin-bottom: 0; }
+.block.block-type-profile-actions ul li a				{ color: #727a90; }
+.block.block-type-profile-actions ul li a:hover			{ color: #f00; }
 .block.block-type-profile-actions ul li a.followed		{ color: #f00; }
 
 

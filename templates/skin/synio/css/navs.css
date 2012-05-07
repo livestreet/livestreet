@@ -12,7 +12,7 @@
 
 /* Nav Pills */
 .nav.nav-pills 				{ margin-bottom: 15px; font-size: 11px; }
-.nav.nav-pills li 			{ margin-right: 10px; border: 1px solid #fff; border-radius: 3px; padding: 0 5px 1px; line-height: 17px; }
+.nav.nav-pills li 			{ margin-right: 10px; border: 1px solid transparent; border-radius: 3px; padding: 0 5px 1px; line-height: 17px; }
 .nav.nav-pills li a 		{ display: block; border-radius: 2px; color: #727a90; text-decoration: underline; }
 .nav.nav-pills li a:hover 	{ color: #333; }
 .nav.nav-pills li.active 	{ border-color: #ebf0f4; }

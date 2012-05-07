@@ -6,23 +6,16 @@
 		
 		
 		
-		<div class="comment-path">
-			<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
-			<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
-			<a href="{$oTopic->getUrl()}#comments">({$oTopic->getCountComment()})</a>
-		</div>
 		
 		
 		<section class="comment">
-			<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" /></a>
-		
-		
-			<ul class="comment-info clearfix">
-				<li class="comment-author"><a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
+			<ul class="comment-info">
+				<li class="comment-author">
+					<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="comment-avatar" /></a>
+					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+				</li>
 				<li class="comment-date">
-					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comment_url_notice}">
-						<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
-					</a>
+					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 				</li>
 				{if $oUserCurrent and !$bNoCommentFavourites}
 					<li class="comment-favourite">
@@ -30,6 +23,11 @@
 						<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 					</li>
 				{/if}
+				<li class="comment-link">
+					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" title="{$aLang.comment_url_notice}">
+						<i class="icon-synio-link"></i>
+					</a>
+				</li>
 				<li id="vote_area_comment_{$oComment->getId()}" class="vote 
 																		{if $oComment->getRating() > 0}
 																			vote-count-positive
@@ -47,6 +45,13 @@
 				{else}
 					{$oComment->getText()}
 				{/if}		
+			</div>
+			
+			
+			<div class="comment-path">
+				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
+				<a href="{$oTopic->getUrl()}" class="comment-path-topic">{$oTopic->getTitle()|escape:'html'}</a>
+				<a href="{$oTopic->getUrl()}#comments" class="comment-path-comments">{$oTopic->getCountComment()}</a>
 			</div>
 		</section>
 	{/foreach}	

@@ -1,10 +1,10 @@
-<section class="block block-type-foldable block-type-favourite-topic">
-	<header class="block-header">
-		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_favourite_topic_content').toggle(); return false;">{$aLang.topic_favourite_tags_block}</a></h3>
+<section class="talk-search talk-friends">
+	<header>
+		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.topic_favourite_tags_block}</a>
 	</header>
 	
 	
-	<div class="block-content" id="block_favourite_topic_content">
+	<div class="talk-search-content" id="block_favourite_topic_content">
 		<ul class="nav nav-pills">
 			<li class="active js-block-favourite-topic-tags-item" data-type="all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
 			<li class="js-block-favourite-topic-tags-item" data-type="user"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>

@@ -1,12 +1,12 @@
-<section class="block block-type-foldable block-type-talk-friends">
-	<header class="block-header">
-		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_talk_friends_content').toggle(); return false;">{$aLang.block_friends}</a></h3>
+<div class="talk-search talk-friends" id="block_talk_search">
+	<header>
+		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.block_friends}</a>
 	</header>
 
 	
-	<div class="block-content" id="block_talk_friends_content">
+	<div class="talk-search-content" id="block_talk_friends_content">
 		{if $aUsersFriend}
-			<ul class="list" id="friends">
+			<ul class="friend-list" id="friends">
 				{foreach from=$aUsersFriend item=oFriend}
 					<li>
 						<input id="talk_friend_{$oFriend->getId()}" type="checkbox" name="friend[{$oFriend->getId()}]" class="input-checkbox" /> 
@@ -15,12 +15,12 @@
 				{/foreach}
 			</ul>
 			
-			<footer>
-				<a href="#" id="friend_check_all">{$aLang.block_friends_check}</a> | 
-				<a href="#" id="friend_uncheck_all">{$aLang.block_friends_uncheck}</a>
-			</footer>
+			<ul class="actions">
+				<li><a href="#" id="friend_check_all" class="link-dotted">{$aLang.block_friends_check}</a></li>
+				<li><a href="#" id="friend_uncheck_all" class="link-dotted">{$aLang.block_friends_uncheck}</a></li>
+			</ul>
 		{else}
 			<div class="notice-empty">{$aLang.block_friends_empty}</div>
 		{/if}
 	</div>
-</section>
+</div>

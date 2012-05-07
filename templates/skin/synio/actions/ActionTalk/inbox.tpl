@@ -1,7 +1,6 @@
 {assign var="sidebarPosition" value='left'}
 {include file='header.tpl' noShowSystemMessage=false}
 
-{include file='actions/ActionProfile/profile_top.tpl'}
 {include file='menu.talk.tpl'}
 
 
@@ -11,9 +10,6 @@
 	<form action="{router page='talk'}" method="post" id="form_talks_list">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 		
-		<button name="submit_talk_del" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" class="button">{$aLang.talk_inbox_delete}</button>
-		<button name="submit_talk_read" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:true;" class="button">{$aLang.talk_inbox_make_read}</button>
-		<br /><br />
 		<table class="table table-talk">
 			<thead>
 				<tr>
