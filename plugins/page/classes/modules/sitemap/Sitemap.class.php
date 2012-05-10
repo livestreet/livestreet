@@ -50,7 +50,7 @@ class PluginPage_ModuleSitemap extends PluginPage_Inherit_PluginSitemap_ModuleSi
 			foreach ($aPages as $oPage) {
 				$aData[] = $this->PluginSitemap_Sitemap_GetDataForSitemapRow(
 					Router::GetPath('page') . $oPage->getUrlFull(),
-					$oPage->getDateLastMod(),
+					$oPage->getDateEdit(),
 					Config::Get('plugin.page.sitemap.sitemap_priority'),
 					Config::Get('plugin.page.sitemap.sitemap_changefreq')
 				);
