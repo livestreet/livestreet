@@ -14,8 +14,8 @@
 			<thead>
 				<tr>
 					<th class="cell-checkbox"><input type="checkbox" name="" class="input-checkbox" onclick="ls.tools.checkAll('form_talks_checkbox', this, true);"></th>
-					<th class="cell-favourite"></th>
 					<th class="cell-recipients">{$aLang.talk_inbox_target}</th>
+					<th class="cell-favourite"></th>
 					<th class="cell-title">{$aLang.talk_inbox_title}</th>
 					<th class="cell-date ta-r">{$aLang.talk_inbox_date}</th>
 				</tr>
@@ -26,18 +26,20 @@
 					{assign var="oTalkUserAuthor" value=$oTalk->getTalkUser()}
 					<tr>
 						<td class="cell-checkbox"><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
+						<td class="cell-recipients">
+							{strip}
+								{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+									{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
+										{assign var="oUser" value=$oTalkUser->getUser()}
+										{if !$smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="username {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
+									{/if}
+								{/foreach}
+							{/strip}
+						</td>
 						<td class="cell-favourite">
 							<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a>
 						</td>
-						<td>
-							{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
-								{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
-								{assign var="oUser" value=$oTalkUser->getUser()}
-									<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
-								{/if}
-							{/foreach}
-						</td>
-						<td>
+						<td class="cell-title">
 							{strip}
 								<a href="{router page='talk'}read/{$oTalk->getId()}/" class="js-title-comment" title="{$oTalk->getTextLast()|strip_tags|truncate:100:'...'}">
 									{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
@@ -49,15 +51,16 @@
 							{/strip}
 							
 							{if $oTalk->getCountComment()}
-								({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
+								<span>{$oTalk->getCountComment()}</span>{if $oTalkUserAuthor->getCommentCountNew()} <span class="new">+{$oTalkUserAuthor->getCommentCountNew()}</span>{/if}
 							{/if}
+							
 							{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
-								&rarr;
+								<i class="icon-synio-arrow-right"></i>
 							{else}
-								&larr;
+								<i class="icon-synio-arrow-left"></i>
 							{/if}
 						</td>
-						<td class="cell-date ta-r">{date_format date=$oTalk->getDate() format="j F Y, H:i"}</td>
+						<td class="cell-date ta-r">{date_format date=$oTalk->getDate() format="j F Y"}</td>
 					</tr>
 				{/foreach}
 			</tbody>

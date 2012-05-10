@@ -6,7 +6,8 @@
 .block:last-child 		{ margin-bottom: 0; border: none; }
 .sidebar-left .block 	{ margin-bottom: 10px; }
 
-.block .block-header 					{ position: relative; margin-bottom: 15px; }
+.block .block-header 					{ position: relative; margin-bottom: 4px; padding-bottom: 16px; }
+.block .block-header.sep 				{ background: url(../images/block-sep.png) 0 100% no-repeat; }
 .block .block-header h3 				{ font-size: 22px; line-height: 1em; font-weight: normal; font-family: 'PT Sans', sans-serif; }
 .block .block-header h3 a 				{ text-decoration: none; color: #333; }
 .block .block-header h3 a.link-dotted 	{ color: #5055B2; }
@@ -15,6 +16,10 @@
 .block footer a							{ color: #727a90; }
 
 .block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+
+.block .nav.nav-pills				{ margin-bottom: 0; margin-top: 15px; }
+.block .nav.nav-pills a 			{ text-decoration: none; border-bottom: 1px dotted #727a90; }
+.block .nav.nav-pills li.active a 	{ border: none; }
 
 
 /* Block Type - Stream */
@@ -33,7 +38,8 @@
 
 /* Block Type - Activity Settings */
 .block.block-type-activity p 		{ margin-bottom: 15px; }
-.block.block-type-activity ul li 	{ margin-bottom: 5px; }
+.block.block-type-activity ul li 	{  }
+.block.block-type-activity ul.stream-settings-blogs li 	{ margin-bottom: 3px; }
 .block.block-type-activity .note 	{ display: block; margin-bottom: 15px; color: #aaa; }
 
 
@@ -75,10 +81,11 @@
 
 /* Block Type - Blogs */
 .block.block-type-blogs .block-blog-list li { margin-bottom: 10px; background: url(../images/dots.png)  0% 14px repeat-x; position: relative; padding-right: 50px; }
-.block.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 2px; }
+.block.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 5px; }
+.block.block-type-blogs .block-blog-list li i { background-color: #fff; position: relative; top: -2px; }
 .block.block-type-blogs .block-blog-list li strong { position: absolute; top: 0; right: 0; background: #fff; padding-left: 2px; font-weight: normal; font-size: 11px; }
 
 
 /* Block Type - Tags */
-.block.block-type-tags .search-tags { background: #f9fbfb; padding: 15px; border-radius: 5px; }
+.block.block-type-tags .search-form-wrapper { margin-bottom: 15px; }
 

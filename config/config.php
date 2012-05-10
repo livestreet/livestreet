@@ -494,6 +494,7 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.js",
 	"___path.root.engine_lib___/external/jquery/poshytip/jquery.poshytip.js",
 	"___path.root.engine_lib___/external/jquery/jquery.placeholder.min.js",
+	"___path.root.engine_lib___/external/jquery/jquery.charcount.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
 	"___path.root.engine_lib___/internal/template/js/main.js",
 	"___path.root.engine_lib___/internal/template/js/favourite.js",

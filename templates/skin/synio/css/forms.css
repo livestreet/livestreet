@@ -33,7 +33,7 @@ form p { margin-bottom: 20px; }
 form label { display: block; margin-bottom: 3px; }
 form .icon-question-sign { cursor: help; }
 
-.note { display: block; margin-top: 3px; font-size: 12px; color: #aaa; }
+.note { display: block; margin-top: 3px; font-size: 11px; line-height: 16px; color: #aaa; }
 .note.note-header { margin-bottom: 20px; }
 
 .captcha-image { vertical-align: top; }

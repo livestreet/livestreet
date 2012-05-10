@@ -68,23 +68,23 @@
 .comment .comment-info li .favourite-count { font-size: 10px; color: #a2b6cd; position: relative; top: -2px; }
 
 
-.comment .comment-info li.vote { position: absolute; top: 0; right: 0; margin: 0; }
-.comment .comment-info li.vote .vote-count { float: left; color: #949aa1; font-weight: bold; padding-top: 3px; margin-right: 6px; }
-.comment .comment-info li.vote .vote-down { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -69px -55px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment .comment-info li.vote .vote-down:hover { background-position: -69px -75px; }
-.comment .comment-info li.vote .vote-up { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -89px -55px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment .comment-info li.vote .vote-up:hover { background-position: -89px -75px; }
+.comment .comment-info li.vote 					{ position: absolute; top: 0; right: 0; margin: 0; }
+.comment .comment-info li.vote .vote-count 		{ float: left; color: #949aa1; font-weight: bold; padding-top: 3px; margin-right: 6px; }
+.comment .comment-info li.vote .vote-down 		{ float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) 0 -130px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-down:hover { background-position: 0 -150px; }
+.comment .comment-info li.vote .vote-up 		{ float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -20px -130px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-up:hover 	{ background-position: -20px -150px; }
 
 .comment .comment-info li.vote.vote-count-positive .vote-count { color: #51983c; }
 .comment .comment-info li.vote.vote-count-negative .vote-count { color: #da4242; }
 
 .comment .comment-info li.vote.voted-up .vote-down 		{ display: none; }
-.comment .comment-info li.vote.voted-up .vote-up 		{ background-position: -89px -95px; }
-.comment .comment-info li.vote.voted-down .vote-down 	{ background-position: -69px -95px; }
+.comment .comment-info li.vote.voted-up .vote-up 		{ background-position: -20px -170px; }
+.comment .comment-info li.vote.voted-down .vote-down 	{ background-position: 0 -170px; }
 .comment .comment-info li.vote.voted-down .vote-up 		{ display: none; }
 
 .comment .comment-info li.vote.vote-expired .vote-up,
-.comment .comment-info li.vote.vote-expired .vote-down { display: none; }
+.comment .comment-info li.vote.vote-expired .vote-down 	{ display: none; }
 
 
 .comment .comment-info li.goto-comment-child { display: none; }

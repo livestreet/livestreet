@@ -65,7 +65,11 @@
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}" class="new">{$oTopic->getCountComment()}</a>
 						<span>+{$oTopic->getCountCommentNew()}</span>
 					{else}
-						<i class="icon-synio-comments-blue"></i>
+						{if $oTopic->getCountComment()}
+							<i class="icon-synio-comments-green-filled"></i>
+						{else}
+							<i class="icon-synio-comments-blue"></i>
+						{/if}
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oTopic->getCountComment()}</a>
 					{/if}
 				</li>

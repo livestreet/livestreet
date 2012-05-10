@@ -22,6 +22,7 @@
 .profile-info-about .avatar { position: absolute; top: 20px; left: 20px; border-radius: 5px; background: #fff; padding: 5px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
 .profile-info-about .avatar img { vertical-align: top; width: 80px; height: 80px;  min-width: 100%; }
 .profile-info-about h3 		{ font-size: 19px; margin-bottom: 5px; }
+.profile-info-about .edit	{ font-size: 11px; }
 
 .profile-left 	{ width: 360px; float: left; margin-right: 40px; }
 .profile-right 	{ width: 185px; float: left; }

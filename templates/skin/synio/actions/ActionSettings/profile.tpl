@@ -170,12 +170,12 @@
 				{/foreach}
 				</select>
 				<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
-				<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+				<a class="icon-synio-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
 			</p>
 		{/foreach}
 		</div>
 		{if $aUserFieldsContact}
-			<a href="#" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</a>
+			<a href="#" onclick="return ls.userfield.addFormField();" class="link-dotted">{$aLang.user_field_add}</a>
 		{/if}
 	</div>
 

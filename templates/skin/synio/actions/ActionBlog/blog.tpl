@@ -93,7 +93,7 @@
 		<ul class="blog-info">{*r*}
 			<li><span>Создан</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
 			<li><span>Топиков</span> <strong>{$oBlog->getCountTopic()}</strong></li>
-			<li><span><a href="#">Читателей</a></span> <strong>{$iCountBlogUsers}</strong></li>
+			<li><span><a href="{$oBlog->getUrlFull()}users/">Читателей</a></span> <strong>{$iCountBlogUsers}</strong></li>
 			<li class="rating"><span>Рейтинг</span> <strong>{$oBlog->getRating()}</strong></li>
 		</ul>
 		
@@ -143,8 +143,8 @@
 		
 		<div class="admin">{*r*}
 			Смотритель — 
-			<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-			<a href="{$oUserCurrent->getUserWebPath()}">{$oUserCurrent->getLogin()}</a>
+			<a href="{router page='profile'}{$oUserOwner->getLogin()}/"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+			<a href="{router page='profile'}{$oUserOwner->getLogin()}/">{$oUserOwner->getLogin()}</a>
 		</div>
 	</footer>
 </div>

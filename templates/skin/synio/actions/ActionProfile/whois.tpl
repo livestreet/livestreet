@@ -12,14 +12,21 @@
 
 
 
-{if $oUserProfile->getProfileAbout()}					
+				
 	<div class="profile-info-about">
 		<a href="{$oUserProfile->getUserWebPath()}" class="avatar"><img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" /></a>
 	
 		<h3>{$aLang.profile_about}</h3>
-		{$oUserProfile->getProfileAbout()}
+		{if $oUserProfile->getProfileAbout()}	
+			{$oUserProfile->getProfileAbout()}
+		{else}
+			<p>Пока ничего не известно...</p>
+			{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+				<a href="{router page='settings'}" class="edit">Редактировать</a>
+			{/if}
+		{/if}
 	</div>
-{/if}
+
 
 
 <div class="wrapper">

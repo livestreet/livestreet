@@ -106,8 +106,8 @@
 	<div id="container">
 		{include file='nav.tpl'}
 
-		<div id="wrapper">
-			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-profile"{/if}>
+		<div id="wrapper" {if $noSidebar}class="no-sidebar"{/if}>
+			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if}>
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				

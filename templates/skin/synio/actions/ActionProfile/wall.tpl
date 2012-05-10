@@ -14,12 +14,18 @@
 	ls.wall.init({
 		login:'{$oUserProfile->getLogin()}'
 	});
+	
+	jQuery(document).ready(function($){
+		$("textarea").charCount({
+			allowed: 250,		
+			warning: 0,	
+		});
+	});
 </script>
 
 {if $oUserCurrent}
 	<form class="wall-submit">
-		<label for="wall-text">{$aLang.wall_add_title}:</label>
-		<p><textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea></p>
+		<textarea rows="4" id="wall-text" class="input-text input-width-full js-wall-reply-parent-text"></textarea>
 
 		<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary js-button-wall-submit">{$aLang.wall_add_submit}</button>
 	</form>

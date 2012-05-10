@@ -1,13 +1,7 @@
-<!--<nav id="userbar" class="clearfix">
-	<form action="{router page='search'}topics/" class="search">
-		<input type="text" placeholder="{$aLang.search}" maxlength="255" name="q" class="input-text">
-		<input type="submit" value="" title="{$aLang.search_submit}" class="input-submit icon icon-search">
-	</form>
-</nav>-->
-
 <script>
 	jQuery(document).ready(function($){
 		// Dropdown
+		var dp 		= $('#dropdown-user');
 		var trigger = $('#dropdown-user-trigger');
 		var menu 	= $('#dropdown-user-menu');
 		var pos 	= $('#dropdown-user').offset();
@@ -16,18 +10,19 @@
 		
 		trigger.click(function(){
 			menu.slideToggle();
-			$(this).toggleClass('opened');
+			dp.toggleClass('opened');
 			return false;
 		});
 		
 		menu.find('a').click(function(){
-			trigger.removeClass('opened').find('a').text( $(this).text() );
+			dp.removeClass('opened');
+			trigger.find('a').text( $(this).text() );
 			menu.slideToggle();
 		});
 		
 		// Hide menu
 		$(document).click(function(){
-			trigger.removeClass('opened');
+			dp.removeClass('opened');
 			menu.slideUp();
 		});
 		
@@ -92,7 +87,7 @@
 			</ul>
 		{/if}
 		
-		{if $iUserCurrentCountTalkNew}<a href="{router page='talk'}" class="new-messages">+{$iUserCurrentCountTalkNew} <i class="icon-synio-comments-green"></i></a>{/if}
+		{if $iUserCurrentCountTalkNew}<a href="{router page='talk'}" class="new-messages">+{$iUserCurrentCountTalkNew} <i class="icon-synio-new-message"></i></a>{/if}
 		
 		
 		{hook run='header_banner_end'}

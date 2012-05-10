@@ -61,9 +61,18 @@
 .table.table-users button				{ float: left; margin-right: 5px; }
 
 /* Table Talk */
-.table.table-talk .cell-checkbox 		{ width: 20px; padding: 12px 0 10px 10px; }
-.table.table-talk thead .cell-checkbox 	{ padding: 10px 0 10px 10px; }
-.table.table-talk .cell-favourite 		{ width: 20px; padding: 10px 0; text-align: center; }
-.table.table-talk .cell-recipients 		{ width: 100px; }
-.table.table-talk tbody .cell-date 		{ font-size: 11px; width: 130px; }
-.table.table-talk tbody td				{ vertical-align: top; }
+.table.table-talk .cell-checkbox 			{ width: 20px; padding: 15px 0 10px 10px; }
+.table.table-talk thead .cell-checkbox 		{ padding: 10px 0 10px 10px; }
+.table.table-talk .cell-favourite 			{ text-align: center; }
+.table.table-talk tbody .cell-favourite 	{ padding: 17px 0; }
+.table.table-talk .cell-recipients 			{ width: 130px; }
+.table.table-talk tbody .cell-recipients 	{ font-size: 11px; }
+.table.table-talk tbody .cell-recipients a 	{ color: #000; }
+.table.table-talk tbody .cell-date 			{ font-size: 11px; width: 115px; }
+.table.table-talk tbody .cell-title 		{  }
+.table.table-talk tbody .cell-title a 		{ color: #275ec2; }
+.table.table-talk tbody .cell-title a:hover	{ color: #f00; }
+.table.table-talk tbody .cell-title span 	{ color: #628fa5; font-weight: bold; margin-left: 4px; }
+.table.table-talk tbody .cell-title .new 	{ color: #32b319; }
+.table.table-talk tbody .cell-title i 		{ position: relative; left: -3px; }
+.table.table-talk tbody td					{ vertical-align: top; }

@@ -22,47 +22,51 @@
 	background: linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfc', endColorstr='#f0f2f5',GradientType=0 );
 }
-.vote-topic .vote-item i				{ width: 12px; height: 12px; display: block; background: url(../images/icons-synio.png) no-repeat; }
+.vote-topic .vote-item i				{ width: 16px; height: 16px; display: block; background: url(../images/icons-synio.png) no-repeat; }
 .vote-topic .vote-item span				{ display: block; border-right: 1px solid #fff; border-top: 1px solid #fefefe; }
 
 .vote-topic .vote-item.vote-up			{ border-radius: 0 15px 15px 0; }
 .vote-topic .vote-item.vote-up i		{ background-position: -83px -23px; }
-.vote-topic .vote-item.vote-up span		{ padding: 4px 9px 5px 6px; }
+.vote-topic .vote-item.vote-up span		{ padding: 2px 7px 3px 4px; }
 
 .vote-topic .vote-item.vote-count 		{ color: #628fa5; line-height: 23px; }
-.vote-topic .vote-item.vote-count i 	{ width: 16px; background-position: -98px -24px; margin-top: 1px; }
-.vote-topic .vote-item.vote-count span 	{ padding: 4px 6px 6px 7px; }
+.vote-topic .vote-item.vote-count i 	{ background-position: -99px -23px; margin-top: 1px; }
+.vote-topic .vote-item.vote-count span 	{ padding: 2px 4px 4px 5px; }
 
 .vote-topic .vote-item.vote-down 		{ border-radius: 15px 0 0 15px; }
-.vote-topic .vote-item.vote-down i		{ background-position: -69px -23px; }
-.vote-topic .vote-item.vote-down span	{ padding: 4px 6px 5px 9px; }
+.vote-topic .vote-item.vote-down i		{ background-position: -67px -23px; }
+.vote-topic .vote-item.vote-down span	{ padding: 2px 4px 3px 7px; }
 
-.vote-topic.voted						{ box-shadow: 0 2px 3px rgba(0,0,0,.3) inset; }
+.vote-topic.voted						{ box-shadow: 0 2px 3px rgba(0,0,0,.2) inset; }
 
 .vote-topic.voted-down 								{ padding: 0; }
 .vote-topic.voted-down .vote-item					{ border: none; background: none; }
 .vote-topic.voted-down .vote-item span				{ border: none; }
 .vote-topic.voted-down .vote-item.vote-up 			{ display: none; }
 .vote-topic.voted-down .vote-item.vote-down 		{ float: right; }
-.vote-topic.voted-down .vote-item.vote-down span 	{ padding: 6px 10px 5px 6px; }
+.vote-topic.voted-down .vote-item.vote-down span 	{ padding: 4px 8px 3px 4px; }
 .vote-topic.voted-down .vote-item.vote-count 		{ color: #da4242; }
 .vote-topic.voted-down .vote-item.vote-count span 	{ padding: 0 3px 0 10px !important; }
+.vote-topic.vote-count-positive.voted-down .vote-item.vote-down i		{ background-position: -67px -39px; }
+.vote-topic.vote-count-negative.voted-down .vote-item.vote-down i		{ background-position: -67px -55px; }
 
 .vote-topic.voted-up 							{ padding: 0; }
 .vote-topic.voted-up .vote-item					{ border: none; background: none; }
 .vote-topic.voted-up .vote-item span			{ border: none; }
 .vote-topic.voted-up .vote-item.vote-down 		{ display: none; }
-.vote-topic.voted-up .vote-item.vote-up span 	{ padding: 6px 10px 5px 6px; }
+.vote-topic.voted-up .vote-item.vote-up span 	{ padding: 4px 8px 3px 4px; }
 .vote-topic.voted-up .vote-item.vote-count 		{ float: left; color: #5fa459; }
 .vote-topic.voted-up .vote-item.vote-count span { padding: 0 3px 0 10px !important; }
+.vote-topic.vote-count-positive.voted-up .vote-item.vote-up i		{ background-position: -83px -39px; }
+.vote-topic.vote-count-negative.voted-up .vote-item.vote-up i		{ background-position: -83px -55px; }
 
 .vote-topic.voted-zero 								{ padding: 0; }
 .vote-topic.voted-zero .vote-item					{ border: none; background: none; }
 .vote-topic.voted-zero .vote-item span				{ border: none; }
 .vote-topic.voted-zero .vote-item.vote-down 		{ display: none; }
 .vote-topic.voted-zero .vote-item.vote-up 			{ float: right; }
-.vote-topic.voted-zero .vote-item.vote-up i 		{ width: 16px; background-position: -98px -24px; margin-top: 1px; }
-.vote-topic.voted-zero .vote-item.vote-up span 		{ padding: 6px 10px 5px 6px; }
+.vote-topic.voted-zero .vote-item.vote-up i 		{ width: 16px; background-position: -99px -23px; margin-top: 1px; }
+.vote-topic.voted-zero .vote-item.vote-up span 		{ padding: 4px 8px 3px 4px; }
 .vote-topic.voted-zero .vote-item.vote-count 		{ float: left; color: #5fa459; }
 .vote-topic.voted-zero .vote-item.vote-count span 	{ padding: 0 3px 0 10px !important; }
 
@@ -138,7 +142,7 @@
 
 /* Toolbar 
 ---------------------------------------------------- */
-.toolbar 					{ position: fixed; top: 138px; z-index: 20; }
+.toolbar 					{ position: fixed; top: 138px; z-index: 20; display: none; }
 .toolbar section 			{ width: 25px; padding: 8px; overflow: hidden; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.03); margin-bottom: 10px; border-radius: 10px; }
 .toolbar section i			{ display: block; width: 25px; height: 25px; }
 
@@ -171,6 +175,12 @@
 .user-list-avatar li 		{ width: 48px; overflow: hidden; float: left; margin-right: 12px; margin-bottom: 12px; text-align: center; font-size: 11px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
 
+.user-list-mini li 			{ padding: 0 25px 4px 5px; margin-bottom: 0; position: relative; }
+.user-list-mini li img 		{ width: 16px; height: 16px; position: relative; top: 4px; margin-right: 2px; }
+.user-list-mini li input 	{ position: relative; top: 3px; }
+.user-list-mini li i 		{ position: absolute; top: 4px; right: 5px; cursor: pointer; display: none; }
+.user-list-mini li:hover	{ background: #fcfce9; }
+.user-list-mini li:hover i	{ display: block; }
 
 
 /* Поиск 
@@ -194,7 +204,12 @@
 .search-item.search-item-abc ul li.active a:hover 	{ color: #333; background: none; }
 .search-item.search-item-abc ul li.active a span 	{ border: none; }
 
-.search-tags 					{ margin-bottom: 15px; }
+.search-tags 							{ margin-bottom: 15px; }
+
+.search-form-wrapper					{ background: #f9fbfb; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+.search-input-wrapper					{ position: relative; }
+.search-input-wrapper .input-submit 	{ position: absolute; top: 6px; right: 5px; width: 16px; height: 16px; border: none; background: url(../images/icons-synio.png) -115px -55px no-repeat; }
+.search-input-wrapper .input-text 		{ padding-right: 25px; }
 
 
 
@@ -252,7 +267,7 @@
 .wrapper 			{ overflow: hidden; zoom: 1; }
 .wrapper-content 	{ padding: 20px 20px; background: #f8fbfe; }
 .wrapper-content h3 { font-size: 15px; margin-bottom: 10px; font-family: Verdana, sans-serif; }
-.wrapper-content.wrapper-content-dark 	{ padding: 15px 15px; background: #f1f7fd; }
+.wrapper-content.wrapper-content-dark 	{ padding: 15px 20px; background: #f1f7fd; }
 
 .word-wrap {
 	white-space: -moz-pre-wrap !important;
@@ -281,3 +296,6 @@
 
 .user-avatar img { width: 16px; height: 16px; vertical-align: middle; margin-right: 1px; }
 .user-avatar a { color: #000; font-size: 11px; }
+.user-avatar.user-avatar-n a { color: #3F8AD7; font-size: 12px; }
+
+.counter.exceeded { color: #f00; }

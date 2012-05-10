@@ -2,7 +2,6 @@
 	{if $bUsersUseOrder}
 		<thead>
 			<tr>
-				<th class="cell-follow"><i class="icon-synio-star-blue"></i></th>
 				<th class="cell-name"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}>{$aLang.user}</a></th>
 				<th></th>
 				<th class="cell-skill"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_skill'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_skill}</a></th>
@@ -12,7 +11,6 @@
 	{else}
 		<thead>
 			<tr>
-				<th class="cell-follow"><i class="icon-synio-star-blue"></i></th>
 				<th class="cell-name">{$aLang.user}</th>
 				<th></th>
 				<th class="cell-skill">{$aLang.user_skill}</th>
@@ -26,7 +24,6 @@
 			{foreach from=$aUsersList item=oUserList}
 				{assign var="oSession" value=$oUserList->getSession()}
 				<tr>
-					<td class="cell-follow"><i class="follow"></i></td>
 					<td class="cell-name">
 						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 						<div class="name {if !$oUserList->getProfileName()}no-realname{/if}">

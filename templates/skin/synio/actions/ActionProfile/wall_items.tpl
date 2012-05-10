@@ -15,9 +15,11 @@
 				{$oWall->getText()}
 			</div>
 			
-			{if $oUserCurrent and !$aReplyWall}
+			{if $oUserCurrent}
 				<ul class="actions wall-item-actions">
-					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">{$aLang.wall_action_reply}</a></li>
+					{if $oUserCurrent and !$aReplyWall}
+						<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">{$aLang.wall_action_reply}</a></li>
+					{/if}
 					{if $oWall->isAllowDelete()}
 						<li><a href="#" onclick="return ls.wall.remove({$oWall->getId()});" class="link-dotted">{$aLang.wall_action_delete}</a></li>
 					{/if}
@@ -26,7 +28,7 @@
 		</div>
 		
 		{if $aReplyWall}
-			<div id="wall-reply-container-{$oWall->getId()}" class="wall-item-replies">
+			<div class="wall-item-replies" id="wall-item-replies-{$oWall->getId()}">
 				{if count($aReplyWall) < $oWall->getCountReply()}
 					<a href="#" onclick="return ls.wall.loadReplyNext({$oWall->getId()});" id="wall-reply-button-next-{$oWall->getId()}" class="wall-more-reply">
 						<span class="wall-more-inner">{$aLang.wall_load_reply_more} <span id="wall-reply-count-next-{$oWall->getId()}">{$oWall->getCountReply()}</span> {$oWall->getCountReply()|declension:$aLang.comment_declension:'russian'}</span>
@@ -34,7 +36,9 @@
 				{/if}
 			
 				{if $aReplyWall}
-					{include file='actions/ActionProfile/wall_items_reply.tpl'}
+					<div class="wall-item-container" id="wall-reply-container-{$oWall->getId()}">
+						{include file='actions/ActionProfile/wall_items_reply.tpl'}
+					</div>
 				{/if}
 			</div>
 		{/if}

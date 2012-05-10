@@ -1,10 +1,7 @@
 <section class="block block-type-tags">
-	<header class="block-header">
+	<header class="block-header sep">
 		<h3>{$aLang.block_tags}</h3>
-	</header>
-	
-	
-	<div class="block-content">
+		
 		<ul class="nav nav-pills">
 			<li class="active js-block-tags-item" data-type="all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
 			{if $oUserCurrent}
@@ -13,9 +10,16 @@
 
 			{hook run='block_tags_nav_item'}
 		</ul>
+	</header>
+	
+	
+	<div class="block-content">
 
-		<form action="" method="GET" class="js-tag-search-form search-tags">
-			<input type="text" name="tag" placeholder="Поиск тегов" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
+		<form action="" method="GET" class="js-tag-search-form search-form-wrapper">
+			<div class="search-input-wrapper">
+				<input type="text" name="tag" placeholder="Поиск тегов" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
+				<input type="submit" value="" class="input-submit" />
+			</div>
 		</form>
 
 		<div class="js-block-tags-content" data-type="all">

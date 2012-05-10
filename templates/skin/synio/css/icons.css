@@ -205,7 +205,16 @@
 
 .icon-synio-add-friend				{ width: 16px; height: 16px; background-position: -147px -23px; }
 .icon-synio-send-message			{ width: 16px; height: 16px; background-position: -163px -23px; }
+.icon-synio-new-message				{ width: 16px; height: 16px; background-position: -163px -55px; }
 .icon-synio-join					{ width: 16px; height: 16px; background-position: -179px -23px; }
+.icon-synio-search					{ width: 16px; height: 16px; background-position: -131px -55px; }
+.icon-synio-submit					{ width: 16px; height: 16px; background-position: -115px -55px; }
+
+.icon-synio-arrow-left				{ width: 16px; height: 16px; background-position: -115px -71px; }
+.icon-synio-arrow-right				{ width: 16px; height: 16px; background-position: -131px -71px; }
+
+.icon-synio-remove					{ width: 24px; height: 24px; background-position: -368px 0; vertical-align: middle; position: relative; top: -2px; }
+.icon-synio-remove:hover			{ background-position: -392px 0; }
 
 
 
