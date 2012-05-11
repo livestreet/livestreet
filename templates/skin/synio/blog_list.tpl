@@ -47,8 +47,8 @@
 						</p>
 						
 						<span class="user-avatar">
-							<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" /></a>
-							<a href="{$oUserCurrent->getUserWebPath()}">{$oUserCurrent->getLogin()}</a>
+							<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" /></a>
+							<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
 						</span>
 					</td>
 
