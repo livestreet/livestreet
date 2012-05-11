@@ -5,7 +5,7 @@
 				<th class="cell-name"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_title}</a></th>
 
 				{if $oUserCurrent}
-					<th class="cell-join">{$aLang.blog_join_leave}</th>
+					<th class="cell-join"></th>
 				{/if}
 
 				<th class="cell-readers">
@@ -37,31 +37,33 @@
 
 				<tr>
 					<td class="cell-name">
-						<a href="{$oBlog->getUrlFull()}">
-							<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
-						</a>
-						
 						<p>
-							<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="icon-question-sign"></a>
-
+							<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a>
+							
 							{if $oBlog->getType() == 'close'}
-								<i title="{$aLang.blog_closed}" class="icon-lock"></i>
+								<i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>
 							{/if}
-
-							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
+							<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="icon-question-sign"></a>
 						</p>
+						
+						<span class="user-avatar">
+							<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" /></a>
+							<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
+						</span>
 					</td>
 
 					{if $oUserCurrent}
 						<td class="cell-join">
 							{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
-								<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="link-dotted">
-									{if $oBlog->getUserIsJoin()}
-										{$aLang.blog_leave}
-									{else}
-										{$aLang.blog_join}
-									{/if}
-								</a>
+								<button onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button button-action button-action-join {if $oBlog->getUserIsJoin()}active{/if}"><i class="icon-synio-join"></i>
+									{*<span>
+										{if $oBlog->getUserIsJoin()}
+											{$aLang.blog_leave}
+										{else}
+											{$aLang.blog_join}
+										{/if}
+									</span>*}
+								</button>
 							{else}
 								&mdash;
 							{/if}

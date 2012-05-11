@@ -29,7 +29,7 @@
 {hook run='add_topic_topic_begin'}
 
 
-<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add">
+<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="wrapper-content">
 	{hook run='form_add_topic_topic_begin'}
 
 	

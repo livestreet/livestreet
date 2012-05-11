@@ -15,7 +15,7 @@
 .button {
 	display: inline-block;
 	
-	padding: 3px 15px 5px;
+	padding: 3px 10px 5px;
 	text-align: center;
 	
 	border: 1px solid #dfe3e8;
@@ -97,3 +97,41 @@
 
 /* Button Small */
 .button.button-small { font-size: 11px; padding: 1px 7px 3px; }
+
+
+/* Button Action */
+.button.button-action {
+	border: none;
+	padding: 4px 4px 3px;
+	
+	background: #c8f5ff;
+	background: -moz-linear-gradient(top,  #c8f5ff 0%, #88c4ea 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c8f5ff), color-stop(100%,#88c4ea));
+	background: -webkit-linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
+	background: -o-linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
+	background: -ms-linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
+	background: linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8f5ff', endColorstr='#88c4ea',GradientType=0 );
+}
+.button.button-action span { display: none; }
+.button.button-action:hover span { display: inline; padding: 0 5px 0 5px; position: relative; top: -2px; color: #fff; }
+.button.button-action.active, 
+.button.button-action:hover { 
+	border: 1px solid #2770e8;
+	box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd;
+	color: #fff;
+	padding: 3px 3px 2px;
+
+	background: #228dfa;
+	background: -moz-linear-gradient(top,  #228dfa 0%, #0362eb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#228dfa), color-stop(100%,#0362eb));
+	background: -webkit-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
+	background: -o-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
+	background: -ms-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
+	background: linear-gradient(top,  #228dfa 0%,#0362eb 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#228dfa', endColorstr='#0362eb',GradientType=0 );
+}
+.button.button-action.button-action-add-friend:hover i { background-position: -147px -39px; }
+.button.button-action.button-action-send-message:hover i { background-position: -163px -39px; }
+.button.button-action.button-action-join.active i,
+.button.button-action.button-action-join:hover i { background-position: -179px -39px; }

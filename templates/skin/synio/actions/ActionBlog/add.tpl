@@ -1,5 +1,5 @@
 {if $sEvent=='add'}
-	{include file='header.tpl' menu='create'}
+	{include file='header.tpl' menu_content='create'}
 {else}
 	{include file='header.tpl'}
 	{include file='menu.blog_edit.tpl'}
@@ -31,7 +31,7 @@
 </script>
 
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="wrapper-content">
 	{hook run='form_add_blog_begin'}
 	
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />

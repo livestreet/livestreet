@@ -567,8 +567,9 @@ class ActionProfile extends Action {
 		}
 		/**
 		 * Получаем сообщения и формируем ответ
+		 * Необходимо вернуть все ответы, но ставим "разумное" ограничение
 		 */
-		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,Config::Get('module.wall.per_page'));
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,300);
 		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
 		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);

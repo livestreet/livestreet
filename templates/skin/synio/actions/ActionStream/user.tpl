@@ -1,5 +1,7 @@
 {include file='header.tpl' menu="stream"}
 
+<h2 class="page-header">{$aLang.stream_menu}</h2>
+
 {if count($aStreamEvents)}
 	<ul class="stream-list" id="stream-list">
 		{include file='actions/ActionStream/events.tpl'}

@@ -2,10 +2,7 @@
 {include file='header.tpl'}
 
 
-
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">{$aLang.settings_menu}</h3>
-
 {include file='menu.settings.tpl'}
 
 

@@ -15,7 +15,7 @@
 		</ul>
 
 		<form action="" method="GET" class="js-tag-search-form search-tags">
-			<input type="text" name="tag" placeholder="Поиск тегов" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
+			<input type="text" name="tag" placeholder="{$aLang.block_tags_search}" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
 		</form>
 
 		<div class="js-block-tags-content" data-type="all">

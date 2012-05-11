@@ -18,18 +18,12 @@
 		<a name="comment{$oComment->getId()}"></a>
 		
 		
-		<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" /></a>
+		
 		
 		
 		<div id="comment_content_id_{$oComment->getId()}" class="comment-content text">
 			{$oComment->getText()}
 		</div>
-			
-			
-		{if $oUserCurrent}
-			<ul class="comment-actions">
-			</ul>
-		{/if}
 		
 		
 		<ul class="comment-info">

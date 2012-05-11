@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
 	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
-	$('#modal_write').jqm({trigger: '#modal_write_show'});
+	$('#modal_write').jqm({trigger: '.js-write-window-show'});
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
 
@@ -45,7 +45,10 @@ jQuery(document).ready(function($){
 	
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($(this).find('.js-tag-search').val())+'/';
+		var val=$(this).find('.js-tag-search').val();
+		if (val) {
+			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
+		}
 		return false;
 	});
 	
@@ -67,7 +70,7 @@ jQuery(document).ready(function($){
 	ls.toolbar.up.init();
 	
 	
-	$('#toolbar').css('left', $('#wrapper').offset().left + $('#wrapper').outerWidth() + 12);
+	$('#toolbar').css({'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 10, 'right': 'auto', 'display': 'block'});
 
 	
 	// Всплывающие сообщения
@@ -183,3 +186,87 @@ jQuery(document).ready(function($){
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
+
+
+ls.talk.toggleSearchForm = function() {
+	$('.talk-search').toggleClass('opened'); return false;
+}
+
+ls.blocks.options.loader = DIR_STATIC_SKIN + '/images/loader-circle.gif';
+
+ls.stream.appendUser = function() {
+	var sLogin = $('#stream_users_complete').val();
+	if (!sLogin) return;
+	
+	var url = aRouter['stream']+'subscribeByLogin/';
+	var params = {'login':sLogin};
+	
+	ls.hook.marker('appendUserBefore');
+	ls.ajax(url, params, function(data) {
+		if (!data.bStateError) {
+			$('#stream_no_subscribed_users').remove();
+			var checkbox = $('#strm_u_'+data.uid);
+			if (checkbox.length) {
+				if (checkbox.attr('checked')) {
+					ls.msg.error(ls.lang.get('error'),ls.lang.get('stream_subscribes_already_subscribed'));
+				} else {
+					checkbox.attr('checked', 'on');
+					ls.msg.notice(data.sMsgTitle,data.sMsg);
+				}
+			} else {
+				var liElement=$('<li><input type="checkbox" class="streamUserCheckbox input-checkbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe(\'users\','+data.uid+')} else {ls.stream.unsubscribe(\'users\','+data.uid+')}" /> <a href="'+data.user_web_path+'"><img src="'+data.user_avatar_48+'" alt="avatar" class="avatar" /></a> <a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
+				$('#stream_block_users_list').append(liElement);
+				ls.msg.notice(data.sMsgTitle,data.sMsg);
+			}
+		} else {
+			ls.msg.error(data.sMsgTitle,data.sMsg);
+		}
+	});
+};
+				
+ls.wall.loadReplyNew = function(iPid) {
+	var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item::last');
+	if (divFirst.length) {
+		var idMore=divFirst.attr('id').replace('wall-reply-item-','');
+	} else {
+		var idMore=-1;
+	}
+	this.loadReply('',idMore,iPid,function(result) {
+		if (result.bStateError) {
+			ls.msg.error(null, result.sMsg);
+		} else {
+			if (result.iCountWall) {
+				if ($('#wall-reply-container-'+iPid).length == 0) {
+					$('#wall-item-'+iPid).find('.wall-item').after('<div class="wall-item-replies"><div id="wall-reply-container-'+iPid+'" class="wall-item-container"></div></div>')
+				}
+				$('#wall-reply-container-'+iPid).append(result.sText);
+			}
+			ls.hook.run('ls_wall_loadreplynew_after',[iPid, idMore, result]);
+		}
+	}.bind(this));
+	return false;
+};
+
+ls.wall.remove = function(iId) {
+	var url = aRouter['profile']+this.options.login+'/wall/remove/';
+	var params = {iId: iId};
+	ls.hook.marker('removeBefore');
+	ls.ajax(url, params, function(result){
+		if (result.bStateError) {
+			ls.msg.error(null, result.sMsg);
+		} else {
+			$('#wall-item-'+iId).fadeOut('slow', function() { $(this).remove(); });
+			$('#wall-reply-item-'+iId).fadeOut('slow', function() { 
+				var rpls = $(this).parent('.wall-item-container').parent();
+				
+				$(this).remove(); 
+				
+				if (rpls.children().find('.wall-item-reply').length == 0) {
+					rpls.remove();
+				}
+			});
+			ls.hook.run('ls_wall_remove_after',[iId, result]);
+		}
+	});
+	return false;
+};

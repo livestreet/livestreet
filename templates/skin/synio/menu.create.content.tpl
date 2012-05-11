@@ -2,21 +2,25 @@
 	jQuery(function($){
 		var trigger = $('#dropdown-create-trigger');
 		var menu 	= $('#dropdown-create-menu');
-		var pos 	= trigger.position();
+		var pos 	= trigger.offset();
 	
 	
 		// Dropdown
-		menu.css({ 'left': pos.left - 5 });
+		menu.find('li.active').prependTo(menu).click(function(){
+			menu.hide();
+			return false;
+		});
+		menu.appendTo('body').css({ 'left': pos.left - 18, 'top': pos.top - 13, 'display': 'none' });
 	
 		trigger.click(function(){
-			menu.slideToggle(); 
+			menu.toggle(); 
 			return false;
 		});
 		
 		
 		// Hide menu
 		$(document).click(function(){
-			menu.slideUp();
+			menu.hide();
 		});
 	
 		$('body').on("click", "#dropdown-create-trigger, #dropdown-create-menu", function(e) {
@@ -33,15 +37,18 @@
 				{$aLang.topic_menu_add}
 			{elseif $sMenuItemSelect=='blog'}
 				{$aLang.blog_menu_create}
+			{elseif $sMenuItemSelect=='talk'}
+				{$aLang.block_create_talk}
 			{else}
 				{hook run='menu_create_item_select' sMenuItemSelect=$sMenuItemSelect}
 			{/if}
 		</a></h2>
 	{/strip}
 	
-	<ul class="dropdown-menu" id="dropdown-create-menu" style="display: none">
+	<ul class="dropdown-menu-create" id="dropdown-create-menu" style="display: none">
 		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
 		<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
+		<li {if $sMenuItemSelect=='talk'}class="active"{/if}><a href="{router page='talk'}add/">{$aLang.block_create_talk}</a></li>
 		{hook run='menu_create_item' sMenuItemSelect=$sMenuItemSelect}
 	</ul>
 </div>

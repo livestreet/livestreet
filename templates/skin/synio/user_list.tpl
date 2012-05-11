@@ -3,8 +3,7 @@
 		<thead>
 			<tr>
 				<th class="cell-name"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}>{$aLang.user}</a></th>
-				<th>{$aLang.user_date_last}</th>
-				<th><a href="{$sUsersRootPage}?order=user_date_register&order_way={if $sUsersOrder=='user_date_register'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_date_register'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_date_registration}</a></th>
+				<th></th>
 				<th class="cell-skill"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_skill'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_skill}</a></th>
 				<th class="cell-rating"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_rating'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_rating}</a></th>
 			</tr>
@@ -13,8 +12,7 @@
 		<thead>
 			<tr>
 				<th class="cell-name">{$aLang.user}</th>
-				<th class="cell-date">{$aLang.user_date_last}</th>
-				<th class="cell-date">{$aLang.user_date_registration}</th>
+				<th></th>
 				<th class="cell-skill">{$aLang.user_skill}</th>
 				<th class="cell-rating">{$aLang.user_rating}</th>
 			</tr>
@@ -27,11 +25,16 @@
 				{assign var="oSession" value=$oUserList->getSession()}
 				<tr>
 					<td class="cell-name">
-						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-						<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a></p>
+						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+						<div class="name {if !$oUserList->getProfileName()}no-realname{/if}">
+							<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a></p>
+							{if $oUserList->getProfileName()}<p class="realname">{$oUserList->getProfileName()}</p>{/if}
+						</div>
 					</td>
-					<td class="cell-date">{if $oSession}{date_format date=$oSession->getDateLast() format="d.m.y, H:i"}{/if}</td>
-					<td class="cell-date">{date_format date=$oUserList->getDateRegister() format="d.m.y, H:i"}</td>
+					<td>			
+						<button class="button button-action button-action-add-friend"><i class="icon-synio-add-friend"></i><span>В друзья</span></button>
+						<button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i></button>
+					</td>
 					<td class="cell-skill">{$oUserList->getSkill()}</td>
 					<td class="cell-rating"><strong>{$oUserList->getRating()}</strong></td>
 				</tr>

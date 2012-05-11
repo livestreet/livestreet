@@ -1,7 +1,6 @@
 {assign var="sidebarPosition" value='left'}
 {include file='header.tpl'}
 
-{include file='actions/ActionProfile/profile_top.tpl'}
 {include file='menu.talk.tpl'}
 
 {assign var="oUser" value=$oTalk->getUser()}
@@ -11,39 +10,27 @@
 	<header class="topic-header">
 		<h1 class="topic-title">{$oTalk->getTitle()|escape:'html'}</h1>
 		
-		<div class="topic-info">
-			<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" width="32px" alt="avatar" class="avatar" /></a>
-			<p class="author-wrapper"><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
-				<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate>
-					{date_format date=$oTalk->getDate() format="j F Y, H:i"}
-				</time>
-			</p>
-			<p>
-				{$aLang.talk_speaker_title}:
-				
-				{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
-					{assign var="oUserRecipient" value=$oTalkUser->getUser()}
-					{if $oUser->getId() != $oUserRecipient->getId()}
-						<a class="{if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" href="{$oUserRecipient->getUserWebPath()}">{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
-					{/if}
-				{/foreach}
-				
-				&nbsp;&nbsp;&nbsp;<a href="#" class="link-dotted" onclick="jQuery('#talk_recipients').toggle(); return false;">{$aLang.talk_speaker_edit}</a>
-			</p>
-		</div>
 	</header>
-	
-	
-	{include file='actions/ActionTalk/speakers.tpl'}
-	
-	
+
+
 	<div class="topic-content text">
 		{$oTalk->getText()}
 	</div>
 	
-	
+	{include file='actions/ActionTalk/speakers.tpl'}
+
+
 	<footer class="topic-footer">
 		<ul class="topic-info">
+			<li class="topic-info-author">
+				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+			</li>
+			<li class="topic-info-date">
+				<time datetime="{date_format date=$oTalk->getDateAdd() format='c'}" pubdate title="{date_format date=$oTalk->getDateAdd() format='j F Y, H:i'}">
+					{date_format date=$oTalk->getDateAdd() format="j F Y, H:i"}
+				</time>
+			</li>
 			<li class="topic-info-favourite"><a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a></li>
 			<li class="delete"><a href="{router page='talk'}delete/{$oTalk->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');" class="delete">{$aLang.delete}</a></li>
 		</ul>

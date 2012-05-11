@@ -23,13 +23,14 @@
 	background: linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f6f8f9',GradientType=0 );
 }
-#wrapper 	{ width: 888px; overflow: hidden; zoom: 1; padding: 20px 14px 20px 27px; background: #fff url(../images/sidebar-border.png) 654px 0px repeat-y; border-bottom: 1px solid #eee; box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
+#wrapper 	{ width: 888px; overflow: hidden; zoom: 1; padding: 20px 14px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 654px 0px repeat-y; border-bottom: 1px solid #eee; box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
 #content 	{ float: left; width: 590px; margin-right: 55px; background: #fff; position: relative; }
 #sidebar	{ float: left; width: 242px; }
-#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 20px 0 50px; color: #777; }
+#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 50px 50px 30px; font-size: 11px; }
 
 
-#content.content-full-width { width: 100%; margin-right: 0; }
+#wrapper.no-sidebar				{ background-image: none; }
+#wrapper.no-sidebar #content 	{ width: 100%; margin-right: 0; }
 
 #content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
 #sidebar.sidebar-left 		{ float: left; width: 250px; padding-right: 30px; border-right: 1px solid #eee; margin-right: 30px; }

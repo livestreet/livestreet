@@ -17,16 +17,21 @@
 .comment-preview { font-size: 13px; line-height: 18px; }
 
 
-/* Стили для списка комментариев на странице http://ваш_сайт/comments/ */
-.comments.comment-list .comment { margin-bottom: 15px; }
-.comments.comment-list .comment-path { background: #eee; padding: 5px 10px 6px; border-top: 1px solid #ddd; }
-.comments.comment-list .comment-path .blog-name { color: #777; }
-
-
 /* Комментарий */
 .comment { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 40px; position: relative; }
 .comment .deleted { padding: 5px 10px; color: #777; background: #f4f4f4; }
 .comment .comment-avatar { position: absolute; top: 10px; left: 0; width: 30px; height: 30px; }
+
+
+/* Стили для списка комментариев на странице http://ваш_сайт/comments/ */
+.comments.comment-list .comment { margin-bottom: 50px; padding-left: 0; }
+.comments.comment-list .comment .comment-avatar { position: static; width: 16px; height: 16px; vertical-align: middle; }
+.comments.comment-list .comment .comment-content { margin-bottom: 5px; }
+.comments.comment-list .comment .comment-info li.vote .vote-count { margin-right: 0; }
+.comments.comment-list .comment-path { font-size: 11px; color: #a2b6cd; }
+.comments.comment-list .comment-path .blog-name,
+.comments.comment-list .comment-path .comment-path-comments { color: #000; }
+.comments.comment-list .comment-path .comment-path-topic { color: #275ec2; }
 
 
 /* Типы комментариев
@@ -63,23 +68,23 @@
 .comment .comment-info li .favourite-count { font-size: 10px; color: #a2b6cd; position: relative; top: -2px; }
 
 
-.comment .comment-info li.vote { position: absolute; top: 0; right: 0; margin: 0; }
-.comment .comment-info li.vote .vote-count { float: left; color: #949aa1; font-weight: bold; padding-top: 3px; margin-right: 6px; }
-.comment .comment-info li.vote .vote-down { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -69px -55px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment .comment-info li.vote .vote-down:hover { background-position: -69px -75px; }
-.comment .comment-info li.vote .vote-up { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -89px -55px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment .comment-info li.vote .vote-up:hover { background-position: -89px -75px; }
+.comment .comment-info li.vote 					{ position: absolute; top: 0; right: 0; margin: 0; }
+.comment .comment-info li.vote .vote-count 		{ float: left; color: #949aa1; font-weight: bold; padding-top: 3px; margin-right: 6px; }
+.comment .comment-info li.vote .vote-down 		{ float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) 0 -130px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-down:hover { background-position: 0 -150px; }
+.comment .comment-info li.vote .vote-up 		{ float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -20px -130px no-repeat; cursor: pointer; margin-left: 4px; }
+.comment .comment-info li.vote .vote-up:hover 	{ background-position: -20px -150px; }
 
 .comment .comment-info li.vote.vote-count-positive .vote-count { color: #51983c; }
 .comment .comment-info li.vote.vote-count-negative .vote-count { color: #da4242; }
 
 .comment .comment-info li.vote.voted-up .vote-down 		{ display: none; }
-.comment .comment-info li.vote.voted-up .vote-up 		{ background-position: -89px -95px; }
-.comment .comment-info li.vote.voted-down .vote-down 	{ background-position: -69px -95px; }
+.comment .comment-info li.vote.voted-up .vote-up 		{ background-position: -20px -170px; }
+.comment .comment-info li.vote.voted-down .vote-down 	{ background-position: 0 -170px; }
 .comment .comment-info li.vote.voted-down .vote-up 		{ display: none; }
 
 .comment .comment-info li.vote.vote-expired .vote-up,
-.comment .comment-info li.vote.vote-expired .vote-down { display: none; }
+.comment .comment-info li.vote.vote-expired .vote-down 	{ display: none; }
 
 
 .comment .comment-info li.goto-comment-child { display: none; }
