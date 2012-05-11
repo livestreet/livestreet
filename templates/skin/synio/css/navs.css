@@ -106,15 +106,16 @@
 
 /* Dropdown */
 .nav.nav-pills li.dropdown 			{ position: relative; }
-.nav.nav-pills li.dropdown a 		{ padding-right: 25px; }
-.nav.nav-pills li.dropdown i 		{ position: absolute; top: 13px; right: 9px; height: 0; width: 0; border: 4px solid transparent; border-top-color: #fff; cursor: pointer; }
+.nav.nav-pills li.dropdown a 		{ padding-right: 12px; }
+.nav.nav-pills li.dropdown i 		{ position: absolute; top: 4px; right: 3px; cursor: pointer; }
 .nav.nav-pills li.dropdown ul 		{ display: none; position: absolute; }
-.nav.nav-pills li.dropdown.opened a { box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset;  }
+.nav.nav-pills li.dropdown.opened a {   }
 
-.dropdown-menu 						{ position: absolute; top: 32px; overflow: hidden; z-index: 10; background: #fff; border: 1px solid #ccc; min-width: 150px; }
-.dropdown-menu li 					{ line-height: 1em; }
-.dropdown-menu li a 				{ display: block; padding: 10px 15px; }
-.dropdown-menu li a:hover 			{ background: #fafafa; }
+.dropdown-menu 						{ padding: 10px 15px 13px; border: 3px solid #edf8fd; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,.5); position: absolute; top: 32px; overflow: hidden; z-index: 10; background: #fff; min-width: 150px; }
+.dropdown-menu li 					{ line-height: 1em; margin-bottom: 15px; }
+.dropdown-menu li:last-child 		{ margin-bottom: 0; }
+.dropdown-menu li a 				{ display: block; }
+.dropdown-menu li a:hover 			{  }
 .dropdown-menu li.active a 			{ color: #aaa; }
 .dropdown-menu li.active a:hover 	{ cursor: default; }
 

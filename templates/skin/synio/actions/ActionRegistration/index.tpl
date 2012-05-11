@@ -1,4 +1,3 @@
-{assign var="noSidebar" value=true}
 {include file='header.tpl'}
 
 <script type="text/javascript">
@@ -28,44 +27,93 @@
 
 {hook run='registration_begin'}
 
-<form action="{router page='registration'}" method="post" id="registration-form">
-	{hook run='form_registration_begin'}
-
-	<p><label for="popup-registration-login">{$aLang.registration_login}</label>
-	<input type="text" name="login" id="popup-registration-login" value="{$_aRequest.login}" class="input-text input-width-300 js-ajax-validate" />
-	<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
-	<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
-	<small class="validate-error-hide validate-error-field-login"></small></p>
-
-	<p><label for="popup-registration-mail">{$aLang.registration_mail}</label>
-	<input type="text" name="mail" id="popup-registration-mail" value="{$_aRequest.mail}" class="input-text input-width-300 js-ajax-validate" />
-	<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
-	<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
-	<small class="validate-error-hide validate-error-field-mail"></small></p>
-
-	<p><label for="popup-registration-user-password">{$aLang.registration_password}</label>
-	<input type="password" name="password" id="popup-registration-user-password" value="" class="input-text input-width-300 js-ajax-validate" />
-	<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
-	<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
-	<small class="validate-error-hide validate-error-field-password"></small></p>
-
-	<p><label for="popup-registration-user-password-confirm">{$aLang.registration_password_retry}</label>
-	<input type="password" value="" id="popup-registration-user-password-confirm" name="password_confirm" class="input-text input-width-300 js-ajax-validate" />
-	<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
-	<small class="validate-error-hide validate-error-field-password_confirm"></small></p>
-
-	{hookb run="registration_captcha"}
-	<p><label for="captcha">{$aLang.registration_captcha}</label>
-	<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" 
-		 onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();" 
-		 class="captcha-image" />
-	<input type="text" name="captcha" id="captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" />
-	<small class="validate-error-hide validate-error-field-captcha"></small></p>
-	{/hookb}
-
-	{hook run='form_registration_end'}
-
-	<button name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+<form action="{router page='registration'}" method="post" id="registration-form" class="registration-form">
+	<div class="wrapper-content">
+		{hook run='form_registration_begin'}
+		
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.registration_login}:</label></dt>
+			<dd>
+				<input type="text" name="login" id="popup-registration-login" value="{$_aRequest.login}" class="input-text input-width-250 js-ajax-validate" />
+				<small class="validate-error-hide validate-error-field-login"></small>
+				
+				<div class="form-item-help">
+					<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
+					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
+				</div>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.registration_mail}:</label></dt>
+			<dd>
+				<input type="text" name="mail" id="popup-registration-mail" value="{$_aRequest.mail}" class="input-text input-width-250 js-ajax-validate" />
+				<small class="validate-error-hide validate-error-field-mail"></small>
+				
+				<div class="form-item-help">
+					<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
+					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
+				</div>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.registration_password}:</label></dt>
+			<dd>
+				<input type="password" name="password" id="popup-registration-user-password" value="" class="input-text input-width-250 js-ajax-validate" />
+				<small class="validate-error-hide validate-error-field-password"></small>
+				
+				<div class="form-item-help">
+					<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
+					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
+				</div>
+			</dd>
+		</dl>
+		
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.registration_password_retry}:</label></dt>
+			<dd>
+				<input type="password" value="" id="popup-registration-user-password-confirm" name="password_confirm" class="input-text input-width-250 js-ajax-validate" />
+				<small class="validate-error-hide validate-error-field-password_confirm"></small>
+				
+				<div class="form-item-help">
+					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
+				</div>
+			</dd>
+		</dl>
+	</div>
+	
+	<div class="wrapper-content wrapper-content-dark">
+		{hookb run="registration_captcha"}
+		<dl class="form-item">
+			<dt><label for="profile_name">{$aLang.registration_captcha}:</label></dt>
+			<dd>
+				<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" 
+					 onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();" 
+					 class="captcha-image" />
+				<input type="text" name="captcha" id="captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" style="width: 165px" />
+				<small class="validate-error-hide validate-error-field-captcha"></small>
+				
+				<div class="form-item-help">
+					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
+				</div>
+			</dd>
+		</dl>
+		{/hookb}
+		
+		{hook run='form_registration_end'}
+	</div>
+	
+	
+	<div class="wrapper-content">
+		<dl class="form-item">
+			<dt></dt>
+			<dd>
+				<button name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+			</dd>
+		</dl>
+		
+	</div>
 </form>
 
 {hook run='registration_end'}

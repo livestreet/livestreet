@@ -23,8 +23,8 @@
 
 
 /* Block Type - Stream */
-.block .block-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
-.block .block-update.active 	{ background-position: -16px 0; }
+.block .block-update 		{ position: absolute; top: 38px; right: 5px; width: 20px; height: 20px; background: url(../images/update-block.gif) no-repeat; cursor: pointer; }
+.block .block-update.active 	{ background-position: -20px 0; }
 
 .block.block-type-stream .block-content .latest-list { }
 .block.block-type-stream .block-content .latest-list li { margin-bottom: 15px; color: #818189; }
@@ -84,6 +84,29 @@
 .block.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 5px; }
 .block.block-type-blogs .block-blog-list li i { background-color: #fff; position: relative; top: -2px; }
 .block.block-type-blogs .block-blog-list li strong { position: absolute; top: 0; right: 0; background: #fff; padding-left: 2px; font-weight: normal; font-size: 11px; }
+
+
+/* Block Type - Blogs */
+.block.block-type-blog {
+	border-radius: 5px;
+	padding: 10px;
+	border-bottom: none;
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f9fbfb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9fbfb));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f9fbfb 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#f9fbfb 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f9fbfb 100%);
+	background: linear-gradient(top,  #ffffff 0%,#f9fbfb 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f9fbfb',GradientType=0 );
+}
+.block.block-type-blog .block-header { margin-bottom: 0; padding: 0 7px 10px; }
+.block.block-type-blog .block-header h3 { font-size: 19px; }
+.block.block-type-blog .block-header h3 a { color: #275ec2; text-decoration: underline; }
+.block.block-type-blog .block-content { padding: 0 7px; }
+.block.block-type-blog footer { font-size: 11px; }
+.block.block-type-blog footer button { margin-right: 10px; }
+.block.block-type-blog footer a { color: #727a90; }
 
 
 /* Block Type - Tags */

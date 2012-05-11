@@ -185,6 +185,18 @@ jQuery(document).ready(function($){
 });
 
 
+ls.blog.toggleBlogInfo = function() {
+	if ($('#blog-mini').css('display') == 'none') {
+		$('#blog-join').appendTo('#blog-mini-header');
+	} else {
+		$('#blog-join').prependTo('#blog-footer');
+	}
+	
+	$('#blog-mini').toggle(); 
+	$('#blog').toggle();
+	return false;
+}
+
 ls.talk.toggleSearchForm = function() {
 	$('.talk-search').toggleClass('opened'); return false;
 }

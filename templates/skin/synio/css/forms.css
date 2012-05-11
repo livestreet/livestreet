@@ -56,4 +56,4 @@ input:-moz-placeholder { color: #aaa; }
 /* Валидатор 
 ---------------------------------------------------------------*/
 .validate-error-hide { display: none; }
-.validate-error-show { display: block; color: #f00; font-weight: bold; font-size: 12px; }
+.validate-error-show { display: block; color: #f00; font-size: 11px; line-height: 14px; padding-top: 3px; }

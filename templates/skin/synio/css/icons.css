@@ -167,8 +167,10 @@
 .icon-contact-odnoklassniki	{ background-position: -180px 0; } 
 .icon-contact-www			{ background-position: -200px 0; } 
 
-.icon-ok-green 			{ width: 14px; height: 14px; background: url(../images/icon-ok-green.png) no-repeat; }
 
+
+.icon-ok-green 				{ width: 18px; height: 20px; background: url(../images/icon-ok-green.png) 0 0 no-repeat; }
+.icon-question-sign      	{ width: 23px; height: 23px; background: url(../images/icons-synio.png) -138px 0 no-repeat; }
 
 
 
@@ -184,6 +186,7 @@
 .icon-synio-share-white 	{ width: 11px; height: 11px; background-position: -12px -51px; }
 
 .icon-synio-strength 		{ width: 11px; height: 11px; background-position: -12px -23px; }
+.icon-synio-arrows 			{ width: 11px; height: 11px; background-position: -22px -65px; }
 
 .icon-synio-comments-green			{ width: 11px; height: 11px; background-position: -46px -23px; }
 .icon-synio-comments-green-filled	{ width: 11px; height: 11px; background-position: -46px -51px; }

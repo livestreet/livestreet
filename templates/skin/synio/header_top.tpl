@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 <script>
 	jQuery(document).ready(function($){
 		// Dropdown
@@ -31,7 +32,7 @@
 		});
 	});
 </script>
-
+{/if}
 
 <div id="header-wrapper">
 	<header id="header" role="banner">
@@ -60,7 +61,7 @@
 				
 				<div class="dropdown-user-trigger" id="dropdown-user-trigger"><i></i></div>
 				
-				<ul class="dropdown-menu dropdown-user-menu" id="dropdown-user-menu" style="display: none">
+				<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none">
 					<li class="item-stat">
 						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} <i class="arrow icon-synio-arrow-up"></i></span>
 						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} <i class="arrow icon-synio-arrow-down"></i></span>

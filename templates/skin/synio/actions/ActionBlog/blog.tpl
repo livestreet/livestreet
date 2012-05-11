@@ -38,18 +38,47 @@
 {/if}
 
 
-<h2 class="page-header">{$oBlog->getTitle()|escape:'html'} {if $oBlog->getType()=='close'} <i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>{/if}</h2>
+<div class="blog-top">
+	<h2 class="page-header">{$oBlog->getTitle()|escape:'html'} {if $oBlog->getType()=='close'} <i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>{/if}</h2>
 
-
+	<div id="vote_area_blog_{$oBlog->getId()}" class="vote-topic 
+															{if $oBlog->getRating() > 0}
+																vote-count-positive
+															{elseif $oBlog->getRating() < 0}
+																vote-count-negative
+															{elseif $oBlog->getRating() == 0}
+																vote-count-zero
+															{/if}
+															
+															{if $oVote} 
+																voted 
+																
+																{if $oVote->getDirection() > 0}
+																	voted-up
+																{elseif $oVote->getDirection() < 0}
+																	voted-down
+																{/if}
+															{/if}
+															
+															{if ($oUserCurrent && $oUserOwner->getId() == $oUserCurrent->getId())}
+																vote-nobuttons
+															{/if}">
+		<a href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"><span><i></i></span></a>
+		<div id="vote_total_blog_{$oBlog->getId()}" class="vote-item vote-count" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}"><span>{if $oBlog->getRating() > 0}+{/if}{$oBlog->getRating()}</span></div>
+		<a href="#" class="vote-item vote-up" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"><span><i></i></span></a>
+	</div>
+</div>
 
 <div class="blog-mini" id="blog-mini">
 	{$iCountBlogUsers} {$iCountBlogUsers|declension:$aLang.reader_declension:'russian'}, 
 	{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension:'russian'}
-	<div class="fl-r">
-		<a href="#" class="link-dotted" onclick="jQuery('#blog-mini').hide(); jQuery('#blog').show(); return false;">О блоге</a>
+	<div class="fl-r" id="blog-mini-header">
+		<a href="#" class="link-dotted" onclick="ls.blog.toggleBlogInfo(); return false;">О блоге</a>
 		<a href="#">RSS</a>
-		<button class="button button-small">Читать в ленте</button>
-	</div>{*r*}
+		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
+			<button class="button button-small" id="blog-join" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>
+		{/if}
+	</div>
 </div>
 
 
@@ -57,18 +86,60 @@
 <div class="blog" id="blog" style="display: none">
 	<div class="blog-inner">
 		<header class="blog-header">
-			{*<div id="vote_area_blog_{$oBlog->getId()}" class="vote {if $oBlog->getRating() > 0}vote-count-positive{elseif $oBlog->getRating() < 0}vote-count-negative{/if} {if $oVote} voted {if $oVote->getDirection()>0}voted-up{elseif $oVote->getDirection()<0}voted-down{/if}{/if}">
-				<div class="vote-label">Рейтинг</div>
-				<a href="#" class="vote-up" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"></a>
-				<a href="#" class="vote-down" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
-				<div id="vote_total_blog_{$oBlog->getId()}" class="vote-count count" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{$oBlog->getRating()}</div>
-			</div>*}
 			
-			{*<ul class="actions">
-				{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
-					<li><a href="#" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;" class="link-dotted">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</a></li>
-				{/if}
-				{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
+			<span class="close" onclick="ls.blog.toggleBlogInfo(); return false;"><a href="#" class="link-dotted">Свернуть</a><i class="icon-synio-close"></i></span>
+			
+			{*r*}
+		</header>
+
+		
+		<div class="blog-content">
+			<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
+		
+			
+			<ul class="blog-info">{*r*}
+				<li><span>Создан</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
+				<li><span>Топиков</span> <strong>{$oBlog->getCountTopic()}</strong></li>
+				<li><span><a href="{$oBlog->getUrlFull()}users/">Читателей</a></span> <strong>{$iCountBlogUsers}</strong></li>
+				<li class="rating"><span>Рейтинг</span> <strong>{$oBlog->getRating()}</strong></li>
+			</ul>
+			
+			
+			{hook run='blog_info_begin' oBlog=$oBlog}
+			<strong>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators})</strong><br />
+			<span class="user-avatar">
+				<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" /></a>		
+				<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
+			</span>
+			{if $aBlogAdministrators}			
+				{foreach from=$aBlogAdministrators item=oBlogUser}
+					{assign var="oUser" value=$oBlogUser->getUser()}  
+					<span class="user-avatar">
+						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a>		
+						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+					</span>
+				{/foreach}	
+			{/if}<br /><br />		
+
+			
+			<strong>{$aLang.blog_user_moderators} ({$iCountBlogModerators})</strong><br />
+			{if $aBlogModerators}						
+				{foreach from=$aBlogModerators item=oBlogUser}  
+					{assign var="oUser" value=$oBlogUser->getUser()}							
+					<span class="user-avatar">
+						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a>		
+						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+					</span>
+				{/foreach}							
+			{else}
+				<span class="notice-empty">{$aLang.blog_user_moderators_empty}</span>
+			{/if}
+			{hook run='blog_info_end' oBlog=$oBlog}
+			
+			
+			
+			{if $oUserCurrent and ($oUserCurrent->getId()==$oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
+				<ul class="actions">
 					<li>
 						<a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}" class="edit">{$aLang.blog_edit}</a></li>
 						{if $oUserCurrent->isAdministrator()}
@@ -77,68 +148,12 @@
 							<a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.blog_delete}" onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a>
 						{/if}
 					</li>
-				{/if}
-			</ul>*}
-			
-			<span class="close" onclick="jQuery('#blog-mini').show(); jQuery('#blog').hide(); return false;"><a href="#" class="link-dotted">Свернуть</a><i class="icon-synio-close"></i></span>
-			
-			{*r*}
-		</header>
-
-		
-		<div class="blog-content">
-			<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
-		</div>
-		
-		<ul class="blog-info">{*r*}
-			<li><span>Создан</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
-			<li><span>Топиков</span> <strong>{$oBlog->getCountTopic()}</strong></li>
-			<li><span><a href="{$oBlog->getUrlFull()}users/">Читателей</a></span> <strong>{$iCountBlogUsers}</strong></li>
-			<li class="rating"><span>Рейтинг</span> <strong>{$oBlog->getRating()}</strong></li>
-		</ul>
-		
-		{*
-		{hook run='blog_info_begin' oBlog=$oBlog}
-		<strong>{$aLang.blog_user_administrators} ({$iCountBlogAdministrators}):</strong>							
-		<a href="{$oUserOwner->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUserOwner->getLogin()}</a>
-		{if $aBlogAdministrators}			
-			{foreach from=$aBlogAdministrators item=oBlogUser}
-				{assign var="oUser" value=$oBlogUser->getUser()}  									
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}	
-		{/if}<br />		
-
-		
-		<strong>{$aLang.blog_user_moderators} ({$iCountBlogModerators}):</strong>
-		{if $aBlogModerators}						
-			{foreach from=$aBlogModerators item=oBlogUser}  
-				{assign var="oUser" value=$oBlogUser->getUser()}									
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}							
-		{else}
-			{$aLang.blog_user_moderators_empty}
-		{/if}<br />
-		
-		
-		<strong>{$aLang.blog_user_readers} ({$iCountBlogUsers}):</strong>
-		{if $aBlogUsers}
-			{foreach from=$aBlogUsers item=oBlogUser}
-				{assign var="oUser" value=$oBlogUser->getUser()}
-				<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
-			{/foreach}
-			
-			{if count($aBlogUsers) < $iCountBlogUsers}
-				<br /><a href="{$oBlog->getUrlFull()}users/">{$aLang.blog_user_readers_all}</a>
+				</ul>
 			{/if}
-		{else}
-			{$aLang.blog_user_readers_empty}
-		{/if}
-		{hook run='blog_info_end' oBlog=$oBlog}
-		*}
+		</div>
 	</div>
 	
-	<footer class="blog-footer">
-		<button class="button button-small">Читать в ленте</button>
+	<footer class="blog-footer" id="blog-footer">
 		<a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">RSS</a>
 		
 		<div class="admin">{*r*}
