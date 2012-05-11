@@ -15,8 +15,8 @@
 				<a href="{router page='blog'}add" class="write-item-link">{$aLang.block_create_blog}</a>
 			</li>
 			<li class="write-item-type-message">
-				<a href="{router page='blog'}add" class="write-item-image"></a>
-				<a href="{router page='blog'}add" class="write-item-link">Сообщение</a>{*r*}
+				<a href="{router page='talk'}add" class="write-item-image"></a>
+				<a href="{router page='talk'}add" class="write-item-link">{$aLang.block_create_talk}</a>
 			</li>
 			<li class="write-item-type-draft">
 				<a href="{router page='topic'}saved/" class="write-item-image"></a>

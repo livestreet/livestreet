@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
 	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
-	$('#modal_write').jqm({trigger: '#modal_write_show'});
+	$('#modal_write').jqm({trigger: '.js-write-window-show'});
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
 
@@ -45,7 +45,10 @@ jQuery(document).ready(function($){
 	
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($(this).find('.js-tag-search').val())+'/';
+		var val=$(this).find('.js-tag-search').val();
+		if (val) {
+			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
+		}
 		return false;
 	});
 	

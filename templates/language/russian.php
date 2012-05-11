@@ -720,6 +720,7 @@ return array(
 	 */
 	'block_tags' => 'Теги',
 	'block_tags_empty' => 'Нет тегов',
+	'block_tags_search' => 'Поиск тегов',
 	'block_city_tags' => 'Города',
 	'block_country_tags' => 'Страны',
 	'block_blog_info' => 'Описание блога',
@@ -1055,6 +1056,7 @@ return array(
 	'block_create_topic_link' => 'Ссылка',
 	'block_create_topic_photoset' => 'Фотосет',
 	'block_create_blog' => 'Блог',
+	'block_create_talk' => 'Сообщение',
 	/**
 	 * Системные сообщения
 	 */
