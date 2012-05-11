@@ -12,4 +12,9 @@ return array(
 	'footer_menu_project_contact' => 'Контакты',
 	'footer_menu_project_advert' => 'Реклама',
 	'footer_menu_project_help' => 'Помощь',
+
+	'blog_leave' => 'Не читать',
+	'blog_join' => 'Читать',
+	'blog_expand_info' => 'О блоге',
+	'blog_fold_info' => 'Свернуть',
 );

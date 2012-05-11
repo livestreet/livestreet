@@ -13,4 +13,9 @@ return array(
 	'footer_menu_project_contact' => 'Contacts',
 	'footer_menu_project_advert' => 'Edvert',
 	'footer_menu_project_help' => 'Help',
+
+	'blog_leave' => 'Leave',
+	'blog_join' => 'Join',
+	'blog_expand_info' => 'About blog',
+	'blog_fold_info' => 'Hide',
 );
