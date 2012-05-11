@@ -43,12 +43,12 @@
 
 
 <div class="blog-mini" id="blog-mini">
-	{$iCountBlogUsers} {$iCountBlogUsers|declension:$aLang.reader_declension:'russian'}, 
+	<span id="blog_user_count_{$oBlog->getId()}">{$iCountBlogUsers}</span> {$iCountBlogUsers|declension:$aLang.reader_declension:'russian'},
 	{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension:'russian'}
 	<div class="fl-r">
-		<a href="#" class="link-dotted" onclick="jQuery('#blog-mini').hide(); jQuery('#blog').show(); return false;">О блоге</a>
-		<a href="#">RSS</a>
-		<button class="button button-small">Читать в ленте</button>
+		<a href="#" class="link-dotted" onclick="return ls.blog.toggleInfo();">{$aLang.blog_expand_info}</a>
+		<a href="{router page='rss'}blog/{$oBlog->getUrl()}/">RSS</a>
+		<button class="button button-small" id="button-blog-join-first-{$oBlog->getId()}" data-button-additional="button-blog-join-second-{$oBlog->getId()}" data-only-text="1" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>
 	</div>{*r*}
 </div>
 
@@ -80,14 +80,14 @@
 				{/if}
 			</ul>*}
 			
-			<span class="close" onclick="jQuery('#blog-mini').show(); jQuery('#blog').hide(); return false;"><a href="#" class="link-dotted">Свернуть</a><i class="icon-synio-close"></i></span>
+			<span class="close" onclick="return ls.blog.toggleInfo();"><a href="#" class="link-dotted">{$aLang.blog_fold_info}</a><i class="icon-synio-close"></i></span>
 			
 			{*r*}
 		</header>
 
 		
 		<div class="blog-content">
-			<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
+			<p class="blog-description">{$oBlog->getDescription()}</p>
 		</div>
 		
 		<ul class="blog-info">{*r*}
@@ -138,13 +138,13 @@
 	</div>
 	
 	<footer class="blog-footer">
-		<button class="button button-small">Читать в ленте</button>
+		<button class="button button-small" id="button-blog-join-second-{$oBlog->getId()}" data-button-additional="button-blog-join-first-{$oBlog->getId()}" data-only-text="1" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>
 		<a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">RSS</a>
 		
-		<div class="admin">{*r*}
-			Смотритель — 
-			<a href="{router page='profile'}{$oUserOwner->getLogin()}/"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-			<a href="{router page='profile'}{$oUserOwner->getLogin()}/">{$oUserOwner->getLogin()}</a>
+		<div class="admin">
+			{$aLang.blogs_owner} —
+			<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
+			<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
 		</div>
 	</footer>
 </div>

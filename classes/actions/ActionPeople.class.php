@@ -102,6 +102,7 @@ class ActionPeople extends Action {
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);
+		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
 	}

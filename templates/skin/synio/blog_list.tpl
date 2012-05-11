@@ -55,14 +55,9 @@
 					{if $oUserCurrent}
 						<td class="cell-join">
 							{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
-								<button onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button button-action button-action-join {if $oBlog->getUserIsJoin()}active{/if}"><i class="icon-synio-join"></i>
-									{*<span>
-										{if $oBlog->getUserIsJoin()}
-											{$aLang.blog_leave}
-										{else}
-											{$aLang.blog_join}
-										{/if}
-									</span>*}
+								<button onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button button-action button-action-join {if $oBlog->getUserIsJoin()}active{/if}">
+									<i class="icon-synio-join"></i>
+									<span>{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</span>
 								</button>
 							{else}
 								&mdash;

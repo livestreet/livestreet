@@ -143,6 +143,22 @@ jQuery(document).ready(function($){
 		$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 	});
 
+	// вступление в блог
+	ls.hook.add('ls_blog_toggle_join_after',function(idBlog,result){
+		if (!this.data('onlyText')) {
+			this.html('<i class="icon-synio-join"></i><span>'+(result.bState ? ls.lang.get('blog_leave') : ls.lang.get('blog_join'))+'</span>');
+			if (result.bState) {
+				this.addClass('active');
+			} else {
+				this.removeClass('active');
+			}
+		} else {
+			if (this.data('buttonAdditional') && $('#'+this.data('buttonAdditional')).length) {
+				$('#'+this.data('buttonAdditional')).html(result.bState ? ls.lang.get('blog_leave') : ls.lang.get('blog_join'));
+			}
+		}
+	});
+
 	/****************
 	 * TALK
 	 */
@@ -268,5 +284,18 @@ ls.wall.remove = function(iId) {
 			ls.hook.run('ls_wall_remove_after',[iId, result]);
 		}
 	});
+	return false;
+};
+
+ls.blog.toggleInfo = function() {
+	if (jQuery('#blog-mini').is(':visible')) {
+		jQuery('#blog-mini').hide();
+		jQuery('#blog').show();
+	} else {
+		jQuery('#blog-mini').show();
+		jQuery('#blog').hide();
+	}
+
+
 	return false;
 };

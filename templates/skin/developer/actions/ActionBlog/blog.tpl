@@ -76,7 +76,7 @@
 	
 	<div class="blog-more-content" id="blog-more-content" style="display: none;">
 		<div class="blog-content">
-			<p class="blog-description">{$oBlog->getDescription()|nl2br}</p>			
+			<p class="blog-description">{$oBlog->getDescription()}</p>
 		</div>
 		
 		
