@@ -6,7 +6,6 @@
 		<ul class="nav nav-pills js-block-stream-nav" {if $sItemsHook}style="display: none;"{/if}>
 			<li class="active js-block-stream-item" data-type="comment"><a href="#">{$aLang.block_stream_comments}</a></li>
 			<li class="js-block-stream-item" data-type="topic"><a href="#">{$aLang.block_stream_topics}</a></li>
-			<li class="js-block-stream-item" data-type="topic"><a href="#">{$aLang.block_stream_topics}</a></li>
 			{$sItemsHook}
 		</ul>
 		
@@ -24,9 +23,6 @@
 	{hook run='block_stream_nav_item' assign="sItemsHook"}
 	
 	<div class="block-content">
-		
-		
-		
 		<div class="js-block-stream-content">
 			{$sStreamComments}
 		</div>

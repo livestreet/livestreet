@@ -106,8 +106,8 @@
 						{assign var="bVoteInfoShow" value=true}
 					{/if}
 					<div href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
-					<div class="vote-item vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" id="vote_total_topic_{$oTopic->getId()}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
-						<span>
+					<div class="vote-item vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+						<span id="vote_total_topic_{$oTopic->getId()}">
 						{if $bVoteInfoShow}
 							{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 						{else}

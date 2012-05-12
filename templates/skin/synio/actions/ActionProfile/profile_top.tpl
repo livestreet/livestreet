@@ -25,8 +25,8 @@
 																		vote-nobuttons
 																	{/if}">
 			<div href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oUserProfile->getId()},this,-1,'user');"><span><i></i></span></div>
-			<div id="vote_total_user_{$oUserProfile->getId()}" class="vote-item vote-count" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">
-				<span>{if $oUserProfile->getRating() > 0}+{/if}{$oUserProfile->getRating()}</span>
+			<div class="vote-item vote-count" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">
+				<span id="vote_total_user_{$oUserProfile->getId()}">{if $oUserProfile->getRating() > 0}+{/if}{$oUserProfile->getRating()}</span>
 			</div>
 			<div href="#" class="vote-item vote-up" onclick="return ls.vote.vote({$oUserProfile->getId()},this,1,'user');"><span><i></i></span></div>
 		</div>

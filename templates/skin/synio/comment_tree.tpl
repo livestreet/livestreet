@@ -5,6 +5,32 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+
+{if $oUserCurrent}
+<script>
+	jQuery(document).ready(function($){
+		$(document).click(function(){
+			if (!$('#reply-top-form').is(':visible')) {
+				$('#reply').hide();
+				$('#reply-top-form').show();
+			}
+		});
+		
+		$('body').on('click', '#reply-top', function(e) {
+			e.stopPropagation();
+		});
+	});
+	
+	ls.comments.expandReplyTop = function() {
+		$('#reply').show().appendTo('#reply-top');
+		$('#reply-top-form').hide();
+		$('#form_comment_text').val('');
+		$('#form_comment_reply').val(0);
+	}
+</script>
+{/if}
+
+
 <div class="comments" id="comments">
 	<header class="comments-header">
 		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
@@ -18,6 +44,15 @@
 	
 		<a name="comments"></a>
 	</header>
+	
+	
+	{if $oUserCurrent}
+		<div id="reply-top">
+			<div class="wall-submit wall-submit-reply wall-submit-comment" id="reply-top-form">
+				<textarea rows="4" class="input-text input-width-full" placeholder="{$aLang.wall_reply_placeholder}" onclick="ls.comments.expandReplyTop();"></textarea>
+			</div>
+		</div>
+	{/if}
 
 
 	{assign var="nesting" value="-1"}

@@ -30,3 +30,7 @@
 /* Default Tip */
 .infobox.infobox-standart 				{ background: rgba(0,0,0,.8); }
 .infobox.infobox-standart .tip-arrow 	{ border-color: rgba(0,0,0,.8); }
+
+/* Default Yellow */
+.infobox.infobox-yellow 				{ background: #fffea8; color: #3e3e16; border-radius: 10px; padding: 15px 20px; font-size: 11px; line-height: 16px; box-shadow: 0 0 15px rgba(0,0,0,.3); }
+.infobox.infobox-yellow .tip-arrow 		{ border-color: #fffea8; }

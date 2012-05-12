@@ -1,7 +1,6 @@
 {if !$oUserCurrent}
 	<div class="modal modal-login" id="window_login_form">
 		<header class="modal-header">
-			<h3>{$aLang.user_authorization}</h3>
 			<a href="#" class="close jqmClose"></a>
 		</header>
 		
@@ -33,19 +32,17 @@
 				<form action="{router page='login'}" method="post" id="popup-login-form">
 					{hook run='form_login_popup_begin'}
 
-					<p><label for="popup-login">{$aLang.user_login}:</label>
-					<input type="text" name="login" id="popup-login" class="input-text input-width-300"></p>
+					<p><input type="text" name="login" id="popup-login" placeholder="{$aLang.user_login}" class="input-text input-width-full"></p>
 					
-					<p><label for="popup-password">{$aLang.user_password}:</label>
-					<input type="password" name="password" id="popup-password" class="input-text input-width-300">
-					<small class="validate-error-hide validate-error-login"></small></p>
+					<p><input type="password" name="password" id="popup-password" placeholder="{$aLang.user_password}" class="input-text input-width-300" style="width: 325px">
+					<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button></p>
 					
-					<p><label><input type="checkbox" name="remember" class="input-checkbox" checked> {$aLang.user_login_remember}</label></p>
+					<label class="remember-label"><input type="checkbox" name="remember" class="input-checkbox" checked /> {$aLang.user_login_remember}</label>
 
+					<small class="validate-error-hide validate-error-login"></small>
 					{hook run='form_login_popup_end'}
 
 					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
-					<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 				</form>
 				{hook run='login_popup_end'}
 			</div>
@@ -82,20 +79,20 @@
 
 					<p><label for="popup-registration-login">{$aLang.registration_login}</label>
 					<input type="text" name="login" id="popup-registration-login" value="{$_aRequest.login}" class="input-text input-width-300 js-ajax-validate" />
-					<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
+					<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
 					<small class="validate-error-hide validate-error-field-login"></small></p>
 
 					<p><label for="popup-registration-mail">{$aLang.registration_mail}</label>
 					<input type="text" name="mail" id="popup-registration-mail" value="{$_aRequest.mail}" class="input-text input-width-300 js-ajax-validate" />
-					<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
+					<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
 					<small class="validate-error-hide validate-error-field-mail"></small></p>
 
 					<p><label for="popup-registration-user-password">{$aLang.registration_password}</label>
 					<input type="password" name="password" id="popup-registration-user-password" value="" class="input-text input-width-300 js-ajax-validate" />
-					<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
+					<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
 					<small class="validate-error-hide validate-error-field-password"></small></p>
 
 					<p><label for="popup-registration-user-password-confirm">{$aLang.registration_password_retry}</label>

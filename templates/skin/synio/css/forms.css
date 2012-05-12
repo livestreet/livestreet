@@ -56,4 +56,17 @@ input:-moz-placeholder { color: #aaa; }
 /* Валидатор 
 ---------------------------------------------------------------*/
 .validate-error-hide { display: none; }
-.validate-error-show { display: block; color: #f00; font-size: 11px; line-height: 14px; padding-top: 3px; }
+.validate-error-show { 	
+	display: block;
+	line-height: 16px;
+	position: relative; 
+	padding: 10px 15px 12px 38px;
+	background: #fefef1 url(../images/error.png) 15px 12px no-repeat;
+	color: #363636; 
+	margin-top: 13px; 
+	font-size: 12px; 
+	border-radius: 3px; 
+	box-shadow: 0 1px 5px #e8e8c0 inset; 
+}
+.validate-error-show:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
+

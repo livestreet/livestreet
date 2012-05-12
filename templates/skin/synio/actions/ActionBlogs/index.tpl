@@ -1,6 +1,4 @@
-{include file='header.tpl' sMenuHeadItemSelect="blogs"}
-
-<h2 class="page-header">{$aLang.blogs}</h2>
+{include file='header.tpl' sMenuHeadItemSelect="blogs" menu_content="blog_list"}
 
 <form action="" method="POST" id="form-blogs-search" onsubmit="return false;" class="search-item">
 	<div class="search-input-wrapper">

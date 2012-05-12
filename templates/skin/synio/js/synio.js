@@ -75,13 +75,13 @@ jQuery(document).ready(function($){
 	
 	// Всплывающие сообщения
 	$('.js-title-comment, .js-title-topic').poshytip({
-		className: 'infobox-standart',
+		className: 'infobox-yellow',
 		alignTo: 'target',
 		alignX: 'left',
 		alignY: 'center',
-		offsetX: 5,
+		offsetX: 10,
 		liveEvents: true,
-		showTimeout: 1500
+		showTimeout: 1000
 	});
 
 	$('.js-infobox-vote-topic').poshytip({
@@ -135,7 +135,6 @@ jQuery(document).ready(function($){
 	ls.blocks.initSwitch('popup-login');
 
 	// комментарии
-	ls.comments.options.folding = false;
 	ls.comments.init();
 
 	// избранное
@@ -197,6 +196,39 @@ jQuery(document).ready(function($){
 		ls.talk.removeFromTalk(this, $('#talk_id').val());
 		return false;
 	});
+	
+	
+	
+	/****************
+	 * DROPDOWN
+	 */ 
+	$('.nav-pills-dropdown').each(function(i) {
+		var menu 	= $(this).clone();
+		
+		$(this).find('li:not(.active)').remove();
+		
+		var active 	= $(this).find('li.active');
+		var pos 	= active.offset();
+		
+		menu.removeClass().addClass('dropdown-menu').hide().appendTo('body').css({ 'left': pos.left - 10, 'top': pos.top + 24, 'display': 'none' });
+		active.addClass('dropdown').append('<i class="icon-synio-arrows"></i>');
+		
+		active.click(function(){
+			menu.slideToggle();
+			return false;
+		});
+	});
+	
+	// Hide menu
+	$(document).click(function(){
+		$('.dropdown-menu').hide();
+	});
+
+	$('body').on("click", ".dropdown-menu", function(e) {
+		e.stopPropagation();
+	});
+	
+	
 
 	
 	// Хук конца инициализации javascript-составляющих шаблона
@@ -205,7 +237,7 @@ jQuery(document).ready(function($){
 
 ls.talk.toggleSearchForm = function() {
 	$('.talk-search').toggleClass('opened'); return false;
-}
+};
 
 ls.blocks.options.loader = DIR_STATIC_SKIN + '/images/loader-circle.gif';
 
@@ -296,4 +328,58 @@ ls.blog.toggleInfo = function() {
 	}
 	
 	return false;
+};
+
+ls.vote.options.classes.voted_zero = 'voted-zero';
+
+ls.vote.onVote = function(idTarget, objVote, value, type, result) {
+	if (result.bStateError) {
+		ls.msg.error(null, result.sMsg);
+	} else {
+		ls.msg.notice(null, result.sMsg);
+		
+		var divVoting = $('#'+this.options.prefix_area+type+'_'+idTarget);
+
+		divVoting.addClass(this.options.classes.voted);
+
+		if (value > 0) {
+			divVoting.addClass(this.options.classes.plus);
+		}
+		if (value < 0) {
+			divVoting.addClass(this.options.classes.minus);
+		}
+		if (value == 0) {
+			divVoting.addClass(this.options.classes.voted_zero);
+		}
+		
+		var divTotal = $('#'+this.options.prefix_total+type+'_'+idTarget);
+		var divCount = $('#'+this.options.prefix_count+type+'_'+idTarget);
+		
+		if (divCount.length>0 && result.iCountVote) {
+			divCount.text(parseInt(result.iCountVote));
+		}
+
+		result.iRating = parseFloat(result.iRating);
+
+		divVoting.removeClass(this.options.classes.negative);
+		divVoting.removeClass(this.options.classes.positive);
+
+		if (result.iRating > 0) {
+			divVoting.addClass(this.options.classes.positive);
+			divTotal.text('+'+result.iRating);
+		}else if (result.iRating < 0) {
+			divVoting.addClass(this.options.classes.negative);
+			divTotal.text(result.iRating);
+		}else if (result.iRating == 0) {
+			divTotal.text(0);
+		}
+
+		var method='onVote'+ls.tools.ucfirst(type);
+		if ($.type(this[method])=='function') {
+			this[method].apply(this,[idTarget, objVote, value, type, result]);
+		}
+
+	}
+	
+	$(this).trigger('vote',[idTarget, objVote, value, type, result]);
 };
