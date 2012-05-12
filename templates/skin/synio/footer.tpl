@@ -11,28 +11,37 @@
 		{if $oUserCurrent}
 			<ul class="footer-list">
 				<li class="footer-list-header word-wrap">{$oUserCurrent->getLogin()}</li>
-				<li><a href="{$oUserCurrent->getUserWebPath()}">Мой профиль</a></li> {*r*}
+				<li><a href="{$oUserCurrent->getUserWebPath()}">{$aLang.footer_menu_user_profile}</a></li>
 				<li><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
-				<li><a href="{router page='topic'}add/">{$aLang.block_create}</a></li>
+				<li><a href="{router page='topic'}add/" class="js-write-window-show">{$aLang.block_create}</a></li>
+				{hook run='footer_menu_user_item' oUser=$oUserCurrent}
+				<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
+			</ul>
+		{else}
+			<ul class="footer-list">
+				<li class="footer-list-header word-wrap">{$aLang.footer_menu_user_quest_title}</li>
+				<li><a href="{router page='registration'}" class="js-registration-form-show">{$aLang.registration_submit}</a></li>
+				<li><a href="{router page='login'}" class="js-login-form-show sign-in">{$aLang.user_login_submit}</a></li>
+				{hook run='footer_menu_user_item' isGuest=true}
 			</ul>
 		{/if}
 		
 		<ul class="footer-list">
-			<li class="footer-list-header">Разделы</li>
-			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a> <i></i></li>
-			<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a> <i></i></li>
-			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a> <i></i></li>
-			<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a> <i></i></li>
-
-			{hook run='main_menu_item'}
+			<li class="footer-list-header">{$aLang.footer_menu_navigate_title}</li>
+			<li><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a></li>
+			<li><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
+			<li><a href="{router page='people'}">{$aLang.people}</a></li>
+			<li><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
+			{hook run='footer_menu_navigate_item'}
 		</ul>
 		
 		<ul class="footer-list">
-			<li class="footer-list-header">LiveStreetCMS</li>
-			<li><a href="#">О проекте</a></li>
-			<li><a href="#">Контакты</a></li>
-			<li><a href="#">Реклама</a></li>
-			<li><a href="#">Помощь</a></li>
+			<li class="footer-list-header">{$aLang.footer_menu_project_title}</li>
+			<li><a href="#">{$aLang.footer_menu_project_about}</a></li>
+			<li><a href="#">{$aLang.footer_menu_project_contact}</a></li>
+			<li><a href="#">{$aLang.footer_menu_project_advert}</a></li>
+			<li><a href="#">{$aLang.footer_menu_project_help}</a></li>
+			{hook run='footer_menu_project_item'}
 		</ul>
 	
 		<div class="copyright">
@@ -40,7 +49,7 @@
 			
 			<div class="design-by">
 				<img src="{cfg name='path.static.skin'}/images/xeoart.png" alt="xeoart" />
-				Дизайн от <a href="#">xeoart</a>
+				Design by <a href="http://xeoart.com">xeoart</a>
 				<div>2012</div>
 			</div>
 		</div>

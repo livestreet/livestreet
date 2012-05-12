@@ -195,7 +195,7 @@ class ActionBlog extends Action {
 		 */
 		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($this->oUserCurrent->getId());
-		$oBlog->setTitle(getRequest('blog_title'));
+		$oBlog->setTitle(strip_tags(getRequest('blog_title')));
 		/**
 		 * Парсим текст на предмет разных ХТМЛ тегов
 		 */
@@ -296,7 +296,7 @@ class ActionBlog extends Action {
 			if (!$this->checkBlogFields($oBlog)) {
 				return false;
 			}
-			$oBlog->setTitle(getRequest('blog_title'));
+			$oBlog->setTitle(strip_tags(getRequest('blog_title')));
 			/**
 			 * Парсим описание блога на предмет ХТМЛ тегов
 			 */

@@ -11,29 +11,15 @@
 		<h1 class="topic-title">{$oTalk->getTitle()|escape:'html'}</h1>
 		
 	</header>
-	
-	
+
+
 	<div class="topic-content text">
 		{$oTalk->getText()}
 	</div>
 	
-	
-	<div class="talk-search talk-recipients">
-		<header class="talk-recipients-header">
-			{$aLang.talk_speaker_title}:
-			
-			{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
-				{assign var="oUserRecipient" value=$oTalkUser->getUser()}
-				<a class="{if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" href="{$oUserRecipient->getUserWebPath()}">{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
-			{/foreach}
-			
-			&nbsp;&nbsp;&nbsp;<a href="#" class="link-dotted" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.talk_speaker_edit}</a>
-		</header>
-		
-		{include file='actions/ActionTalk/speakers.tpl'}
-	</div>
-	
-	
+	{include file='actions/ActionTalk/speakers.tpl'}
+
+
 	<footer class="topic-footer">
 		<ul class="topic-info">
 			<li class="topic-info-author">

@@ -720,6 +720,7 @@ return array(
 	 */
 	'block_tags' => 'Tags',
 	'block_tags_empty' => 'Tags empty',
+	'block_tags_search' => 'Search tags',
 	'block_city_tags' => 'Cities',
 	'block_country_tags' => 'Countries',
 	'block_blog_info' => 'Blog description',
@@ -1055,6 +1056,7 @@ return array(
 	'block_create_topic_link' => 'Link',
 	'block_create_topic_photoset' => 'Photoset',
 	'block_create_blog' => 'Blog',
+	'block_create_talk' => 'Message',
 	/**
 	 * System
 	 */

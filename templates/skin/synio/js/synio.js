@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
 	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
-	$('#modal_write').jqm({trigger: '#modal_write_show'});
+	$('#modal_write').jqm({trigger: '.js-write-window-show'});
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
 
@@ -45,7 +45,10 @@ jQuery(document).ready(function($){
 	
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($(this).find('.js-tag-search').val())+'/';
+		var val=$(this).find('.js-tag-search').val();
+		if (val) {
+			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
+		}
 		return false;
 	});
 	
@@ -140,6 +143,22 @@ jQuery(document).ready(function($){
 		$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
 	});
 
+	// вступление в блог
+	ls.hook.add('ls_blog_toggle_join_after',function(idBlog,result){
+		if (!this.data('onlyText')) {
+			this.html('<i class="icon-synio-join"></i><span>'+(result.bState ? ls.lang.get('blog_leave') : ls.lang.get('blog_join'))+'</span>');
+			if (result.bState) {
+				this.addClass('active');
+			} else {
+				this.removeClass('active');
+			}
+		} else {
+			if (this.data('buttonAdditional') && $('#'+this.data('buttonAdditional')).length) {
+				$('#'+this.data('buttonAdditional')).html(result.bState ? ls.lang.get('blog_leave') : ls.lang.get('blog_join'));
+			}
+		}
+	});
+
 	/****************
 	 * TALK
 	 */
@@ -183,19 +202,6 @@ jQuery(document).ready(function($){
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
-
-
-ls.blog.toggleBlogInfo = function() {
-	if ($('#blog-mini').css('display') == 'none') {
-		$('#blog-join').appendTo('#blog-mini-header');
-	} else {
-		$('#blog-join').prependTo('#blog-footer');
-	}
-	
-	$('#blog-mini').toggle(); 
-	$('#blog').toggle();
-	return false;
-}
 
 ls.talk.toggleSearchForm = function() {
 	$('.talk-search').toggleClass('opened'); return false;
@@ -277,5 +283,17 @@ ls.wall.remove = function(iId) {
 			ls.hook.run('ls_wall_remove_after',[iId, result]);
 		}
 	});
+	return false;
+};
+
+ls.blog.toggleInfo = function() {
+	if ($('#blog-mini').is(':visible')) {
+		$('#blog-mini').hide();
+		$('#blog').show();
+	} else {
+		$('#blog-mini').show();
+		$('#blog').hide();
+	}
+	
 	return false;
 };

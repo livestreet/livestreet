@@ -37,10 +37,11 @@
 		<div class="count" id="user_skill_{$oUserProfile->getId()}">{$oUserProfile->getSkill()}</div>
 		<div class="vote-label">{$aLang.user_skill}</div>
 	</div>
-	
-	<button class="button button-action button-action-add-friend"><i class="icon-synio-add-friend"></i><span>В друзья</span></button>
-	<button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i></button>
-	
+
+	{if $oUserCurrent}
+		<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}"><button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
+	{/if}
+
 	<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}">{$oUserProfile->getLogin()}</h2>
 	
 	{if $oUserProfile->getProfileName()}

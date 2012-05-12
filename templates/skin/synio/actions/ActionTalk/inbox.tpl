@@ -28,11 +28,15 @@
 						<td class="cell-checkbox"><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
 						<td class="cell-recipients">
 							{strip}
+								{assign var="aTalkUserOther" value=[]}
 								{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
 									{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
-										{assign var="oUser" value=$oTalkUser->getUser()}
-										{if !$smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="username {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
+										{$aTalkUserOther[]=$oTalkUser}
 									{/if}
+								{/foreach}
+								{foreach from=$aTalkUserOther item=oTalkUser name=users}
+									{assign var="oUser" value=$oTalkUser->getUser()}
+									{if !$smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="username {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
 								{/foreach}
 							{/strip}
 						</td>
