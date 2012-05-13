@@ -166,9 +166,8 @@ abstract class Action extends LsObject {
 					}
 				}
 				$this->sCurrentEventName=$aEvent['name'];
-				$sCmd='$result=$this->'.$aEvent['method'].'();';
 				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_before",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
-				eval($sCmd);
+				$result=call_user_func_array(array($this,$aEvent['method']),null);
 				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_after",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
 				return $result;
 			}
