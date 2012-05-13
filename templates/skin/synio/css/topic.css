@@ -160,3 +160,5 @@
 .topic-preview { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
 .topic-preview .topic { margin-bottom: 20px; }
+
+.vote-topic-info li { margin-bottom: 3px; }

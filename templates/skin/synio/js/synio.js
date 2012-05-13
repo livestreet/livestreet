@@ -89,11 +89,26 @@ jQuery(document).ready(function($){
 			var id = $(this).attr('id').replace('vote_total_topic_','vote-info-topic-');
 			return $('#'+id).html();
 		},
-		className: 'infobox-standart',
+		className: 'infobox-topic',
 		alignTo: 'target',
 		alignX: 'center',
 		alignY: 'top',
 		offsetX: 2,
+		offsetY: 5,
+		liveEvents: true,
+		showTimeout: 100
+	});
+
+	$('.js-infobox-share').poshytip({
+		content: function() {
+			return $('#topic_share_'+$(this).attr('data')).html();
+		},
+		className: 'infobox-share',
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 2,
+		offsetY: 5,
 		liveEvents: true,
 		showTimeout: 100
 	});
@@ -382,4 +397,29 @@ ls.vote.onVote = function(idTarget, objVote, value, type, result) {
 	}
 	
 	$(this).trigger('vote',[idTarget, objVote, value, type, result]);
+};
+
+
+ls.infobox.aOptDef={
+	hideOther: true,
+	className: 'infobox-help',
+	showOn: 'none',
+	alignTo: 'target',
+	alignX: 'inner-left',
+	alignY: 'bottom',
+	offsetX: -16,
+	offsetY: 5,
+	fade: false,
+	slide: false,
+	bgImageFrameSize: 10,
+	showTimeout: 500,
+	hideTimeout: 100,
+	timeOnScreen: 0,
+	liveEvents: false,
+	allowTipHover: true,
+	followCursor: false,
+	slideOffset: 8,
+	showAniDuration: 300,
+	hideAniDuration: 300,
+	refreshAniDuration: 200
 };

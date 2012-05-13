@@ -219,6 +219,11 @@
 .icon-synio-remove					{ width: 24px; height: 24px; background-position: -368px 0; vertical-align: middle; position: relative; top: -2px; }
 .icon-synio-remove:hover			{ background-position: -392px 0; }
 
+.icon-synio-vote-info-down			{ width: 16px; height: 16px; background-position: -67px -71px; }
+.icon-synio-vote-info-up			{ width: 16px; height: 16px; background-position: -83px -71px; }
+.icon-synio-vote-info-zero			{ width: 16px; height: 16px; background-position: -99px -71px; }
+.icon-synio-vote-info-view			{ width: 16px; height: 16px; background-position: -179px -39px; }
+
 
 
 

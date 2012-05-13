@@ -32,7 +32,7 @@
 		</ul>
 		
 		
-		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
+		<div class="topic-share" id="topic_share_{$oTopic->getId()}" style="display: none;">
 			<div class="topic-share-inner">
 				{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
 					<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
@@ -51,7 +51,7 @@
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 				</time>
 			</li>
-			<li class="topic-info-share" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); jQuery(this).toggleClass('active'); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
+			<li class="topic-info-share js-infobox-share" data="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); jQuery(this).toggleClass('active'); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
 			
 			<li class="topic-info-favourite">
 				<i onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>
@@ -106,8 +106,8 @@
 						{assign var="bVoteInfoShow" value=true}
 					{/if}
 					<div href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
-					<div class="vote-item vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
-						<span id="vote_total_topic_{$oTopic->getId()}">
+					<div class="vote-item vote-count title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+						<span id="vote_total_topic_{$oTopic->getId()}" {if $bVoteInfoShow}class="js-infobox-vote-topic"{/if}">
 						{if $bVoteInfoShow}
 							{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 						{else}
@@ -118,9 +118,12 @@
 					<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>
 					{if $bVoteInfoShow}
 						<div id="vote-info-topic-{$oTopic->getId()}" style="display: none;">
-							+ {$oTopic->getCountVoteUp()}<br/>
-							- {$oTopic->getCountVoteDown()}<br/>
-							&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
+							<ul class="vote-topic-info">
+								<li><i class="icon-synio-vote-info-up"></i> {$oTopic->getCountVoteUp()}</li>
+								<li><i class="icon-synio-vote-info-down"></i> {$oTopic->getCountVoteDown()}</li>
+								<li><i class="icon-synio-vote-info-zero"></i> {$oTopic->getCountVoteAbstain()}</li>
+								<li><i class="icon-synio-vote-info-view"></i> {$oTopic->getCountRead()}</li>
+							</ul>
 						</div>
 					{/if}
 				</div>

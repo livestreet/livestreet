@@ -4,7 +4,7 @@ $config = array();
 
 $config['view']['theme'] = 'default';
 
-$config['module']['user']['profile_photo_width'] = 242;
+$config['module']['user']['profile_photo_width'] = 240;
 
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/synio.js';

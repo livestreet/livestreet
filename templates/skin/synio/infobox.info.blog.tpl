@@ -1,16 +1,20 @@
-{$aLang.infobox_blog_create} &mdash; {$oBlog->getDateAdd()}<br/>
-{$aLang.infobox_blog_topics} &mdash; {$oBlog->getCountTopic()}<br/>
-{$aLang.infobox_blog_users} &mdash; {$oBlog->getCountUser()}<br/>
-{$aLang.infobox_blog_rating} &mdash; {$oBlog->getRating()}<br/>
-{$aLang.infobox_blog_limit_rating} &mdash; {$oBlog->getLimitRatingTopic()}<br/>
+<ul class="blog-info">{*r*}
+	<li><span>{$aLang.infobox_blog_create}</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
+	<li><span>{$aLang.infobox_blog_topics}</span> <strong>{$oBlog->getCountTopic()}</strong></li>
+	<li><span><a href="{$oBlog->getUrlFull()}users/">{$aLang.infobox_blog_users}</a></span> <strong>{$oBlog->getCountUser()}</strong></li>
+
+	<li class="rating"><span>{$aLang.infobox_blog_rating}</span> <strong>{$oBlog->getRating()}</strong></li>
+</ul>
+
 
 {if $oTopicLast}
-	<br/>
 	{$aLang.infobox_blog_topic_last}:<br/>
-	<a href="{$oTopicLast->getUrl()}">{$oTopicLast->getTitle()|escape:'html'}</a>
+	<a href="{$oTopicLast->getUrl()}" class="infobox-topic">{$oTopicLast->getTitle()|escape:'html'}</a>
 {/if}
 
 <br/>
 <br/>
-<a href="{$oBlog->getUrlFull()}">{$aLang.infobox_blog_url}</a><br/>
-<a href="{router page='rss'}blog/{$oBlog->getUrl()}/">{$aLang.infobox_blog_rss}</a><br/>
+<div class="infobox-actions">
+	<a href="{$oBlog->getUrlFull()}">{$aLang.infobox_blog_url}</a><br/>
+	<a href="{router page='rss'}blog/{$oBlog->getUrl()}/">{$aLang.infobox_blog_rss}</a>
+</div>
