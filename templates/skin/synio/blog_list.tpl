@@ -22,14 +22,17 @@
 	{else}
 		<thead>
 			<tr>
+				<th class="cell-info"></th>
 				<th class="cell-name"><div class="cell-tab">{$aLang.blogs_title}</div></th>
 
 				{if $oUserCurrent}
-					<th class="cell-join">{$aLang.blog_join_leave}</th>
+					<th class="cell-join"></th>
 				{/if}
 
 				<th class="cell-readers"><div class="cell-tab">{$aLang.blogs_readers}</div></th>
-				<th class="cell-rating align-center"><div class="cell-tab">{$aLang.blogs_rating}</div></th>
+				<th class="cell-rating cell-tab align-center">
+					<div class="cell-tab-inner active"><span>{$aLang.blogs_rating}</span></div>
+				</th>
 			</tr>
 		</thead>
 	{/if}

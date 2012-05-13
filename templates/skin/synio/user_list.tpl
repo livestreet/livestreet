@@ -20,7 +20,9 @@
 				<th class="cell-name">{$aLang.user}</th>
 				<th></th>
 				<th class="cell-skill">{$aLang.user_skill}</th>
-				<th class="cell-rating">{$aLang.user_rating}</th>
+				<th class="cell-rating cell-tab">
+					<div class="cell-tab-inner active"><span>{$aLang.user_rating}</span></div>
+				</th>
 			</tr>
 		</thead>
 	{/if}

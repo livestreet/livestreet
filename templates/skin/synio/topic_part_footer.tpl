@@ -51,7 +51,7 @@
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 				</time>
 			</li>
-			<li class="topic-info-share js-infobox-share" data="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); jQuery(this).toggleClass('active'); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
+			<li class="topic-info-share js-infobox-share" data-topic-id="{$oTopic->getId()}" ><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
 			
 			<li class="topic-info-favourite">
 				<i onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>

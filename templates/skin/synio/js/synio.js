@@ -101,7 +101,7 @@ jQuery(document).ready(function($){
 
 	$('.js-infobox-share').poshytip({
 		content: function() {
-			return $('#topic_share_'+$(this).attr('data')).html();
+			return $('#topic_share_'+$(this).data('topicId')).html();
 		},
 		className: 'infobox-share',
 		alignTo: 'target',
@@ -110,7 +110,7 @@ jQuery(document).ready(function($){
 		offsetX: 2,
 		offsetY: 5,
 		liveEvents: true,
-		showTimeout: 100
+		showTimeout: 300
 	});
 	
 	$('.js-tip-help').poshytip({
