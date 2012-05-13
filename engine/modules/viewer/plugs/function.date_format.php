@@ -130,8 +130,8 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 		   	default:
 		   		$sDay=null;    
 	    }
-	    if( $sDay ) { 
-	    	$sFormat=str_replace("day",$sDay,$aParams['day']);
+	    if( $sDay ) {
+	    	$sFormat=str_replace("day",preg_replace("#(\w{1})#",'\\\${1}',$sDay),$aParams['day']);
 	    	return date($sFormat,$iDate);
 	    }
 	}
