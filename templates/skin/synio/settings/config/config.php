@@ -37,12 +37,12 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/themes/___view.theme___/style.css",
 );
 
-$config['block']['rule_blog'] = array(
+$config['block']['rule_blog_info'] = array(
 	'action'  => array(
-			'blog' => array('{topics}','{topic}','{blog}')
+			'blog' => array('{topic}')
 		),
 	'blocks'  => array(
-			'right' => array('blocks/block.blog.tpl'=>array('priority'=>130),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
+			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
 		),
 	'clear' => false,
 );

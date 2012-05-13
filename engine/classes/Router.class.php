@@ -320,7 +320,7 @@ class Router extends LsObject {
 	 * @return 'next'
 	 */
 	static public function Action($sAction,$sEvent=null,$aParams=null) {
-		self::$sAction=$sAction;
+		self::$sAction=self::getInstance()->Rewrite($sAction);
 		self::$sActionEvent=$sEvent;
 		if (is_array($aParams)) {
 			self::$aParams=$aParams;

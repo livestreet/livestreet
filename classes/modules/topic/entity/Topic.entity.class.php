@@ -227,7 +227,7 @@ class ModuleTopic_EntityTopic extends Entity {
 
 	protected function extractExtra() {
 		if (is_null($this->aExtra)) {
-			$this->aExtra=unserialize($this->getExtra());
+			$this->aExtra=@unserialize($this->getExtra());
 		}
 	}
 
