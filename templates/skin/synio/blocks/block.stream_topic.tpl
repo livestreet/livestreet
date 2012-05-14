@@ -6,7 +6,7 @@
 		<li class="js-title-comment" title="{$oTopic->getText()|strip_tags|truncate:150:'...'}">
 			<p>
 				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
-				<time>{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="H:i"}</time>
+				<time>{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 			</p>
 			<a href="{$oBlog->getUrlFull()}" class="stream-blog">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
 			<a href="{$oTopic->getUrl()}" class="stream-topic">{$oTopic->getTitle()|escape:'html'}</a>
