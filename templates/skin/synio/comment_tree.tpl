@@ -7,7 +7,7 @@
 
 
 {if $oUserCurrent}
-<script>
+<script type="text/javascript">
 	jQuery(document).ready(function($){
 		$(document).click(function(){
 			if (!$('#reply-top-form').is(':visible')) {
@@ -45,7 +45,7 @@
 		<a name="comments"></a>
 	</header>
 	
-	
+	{*
 	{if $oUserCurrent}
 		<div id="reply-top">
 			<div class="wall-submit wall-submit-reply wall-submit-comment" id="reply-top-form">
@@ -53,7 +53,7 @@
 			</div>
 		</div>
 	{/if}
-
+	*}
 
 	{assign var="nesting" value="-1"}
 	{foreach from=$aComments item=oComment name=rublist}
