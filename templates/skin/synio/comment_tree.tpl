@@ -6,6 +6,7 @@
 }
 
 
+{*
 {if $oUserCurrent}
 <script type="text/javascript">
 	jQuery(document).ready(function($){
@@ -29,7 +30,7 @@
 	}
 </script>
 {/if}
-
+*}
 
 <div class="comments" id="comments">
 	<header class="comments-header">
