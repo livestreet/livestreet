@@ -22,7 +22,7 @@
 
 		<div class="modal modal-upload-photo" id="foto-resize">
 			<header class="modal-header">
-				<h3>{$aLang.uploadimg}</h3>
+				<h3>{$aLang.settings_profile_avatar_resize_title}</h3>
 			</header>
 			
 			<div class="modal-content">

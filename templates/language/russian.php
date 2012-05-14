@@ -635,6 +635,7 @@ return array(
 	'settings_profile_avatar_delete' => 'Удалить',
 	'settings_profile_avatar_change' => 'Изменить аватар',
 	'settings_profile_avatar_upload' => 'Загрузить аватар',
+	'settings_profile_avatar_resize_title' => 'Выбор области',
 	'settings_profile_avatar_resize_apply' => 'Применить',
 	'settings_profile_avatar_resize_cancel' => 'Отменить',
 	'settings_profile_foto' => 'Фото',

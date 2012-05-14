@@ -635,6 +635,7 @@ return array(
 	'settings_profile_avatar_delete' => 'delete',
 	'settings_profile_avatar_change' => 'change',
 	'settings_profile_avatar_upload' => 'upload',
+	'settings_profile_avatar_resize_title' => 'Select area',
 	'settings_profile_avatar_resize_apply' => 'Apply',
 	'settings_profile_avatar_resize_cancel' => 'Cancel',
 	'settings_profile_foto' => 'Photo',

@@ -1,5 +1,5 @@
 /* --------------------------------------------
-	МОДАЛЬНЫЕ ОКНА
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 -------------------------------------------- */
 
 .modal {
@@ -39,7 +39,7 @@
 
 
 
-/* Форма входа */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 .modal.modal-login { width: 450px; margin-left: -225px; top: 50px; }
 .modal.modal-login .nav { margin-bottom: 30px; }
 .modal.modal-login .modal-header { margin-bottom: 0; }
@@ -50,7 +50,7 @@
 .modal.modal-login .icon-ok-green { position: relative; top: -1px; }
 
 
-/* Добавление топика */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 .modal.modal-write { width: 620px; margin-left: -310px; top: 70px; background: #e0eff9; }
 .modal.modal-write .modal-content { padding: 20px 10px 20px; *padding: 20px 10px 25px; }
 .modal.modal-write .write-list { *overflow: hidden; *zoom: 1; }
@@ -75,7 +75,8 @@
 
 /* Upload Image */
 .modal.modal-image-upload { width: 500px; margin-left: -250px; }
-.modal.modal-upload-photo .image-border { float: left; border-radius: 5px; background: #fff; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
+.modal.modal-upload-photo .image-border, .modal.modal-upload-avatar .image-border { float: left; border-radius: 5px; background: #fff; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
+#avatar-resize-original-img { max-width: 200px; width: 100%; }
 
 
 
