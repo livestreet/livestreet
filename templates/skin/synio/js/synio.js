@@ -242,9 +242,24 @@ jQuery(document).ready(function($){
 	$('body').on("click", ".dropdown-menu", function(e) {
 		e.stopPropagation();
 	});
-	
-	
 
+
+	// Help-tags link
+	$('.js-tags-help-link').click(function(){
+		var target=ls.registry.get('tags-help-target-id');
+		if (!target || !$('#'+target).length) {
+			return false;
+		}
+		target=$('#'+target);
+		if ($(this).data('insert')) {
+			var s=$(this).data('insert');
+		} else {
+			var s=$(this).text();
+		}
+		console.log(s);
+		$.markItUp({target: target, replaceWith: s});
+		return false;
+	});
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

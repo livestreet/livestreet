@@ -251,6 +251,7 @@ h2.header-table span { color: #949aa1; }
 }
 .help:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
 .help .help-col { float: left; width: 230px; padding: 0 10px; }
+.help .help-col.help-wide { float: none; width: 96%; }
 .help .help-item { margin-bottom: 20px; }
 .help .help-item:last-child { margin-bottom: 0; }
 .help .help-item h4 { font-family: Verdana, sans-serif; font-size: 11px; color: #727a90; font-weight: bold; }

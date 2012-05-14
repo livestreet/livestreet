@@ -57,36 +57,14 @@
 	<small class="note">{$aLang.topic_create_title_notice}</small></p>
 
 	
-	<label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
+	<label for="topic_text">{$aLang.topic_create_text}:</label>
 	<textarea name="topic_text" id="topic_text" rows="20" class="mce-editor">{$_aRequest.topic_text}</textarea>
 
-	<a href="#" class="link-dotted help-link" onclick="jQuery('#topic-help').toggle(); return false;">{$aLang.topic_create_text_notice}</a>
-	
-	<dl class="help clearfix" id="topic-help">
-		<dt class="help-col help-left">
-			<div class="help-item">
-				<h4><a href="#" class="link-dashed">asdfa</a></h4>
-				asdf asdfa sdfa sfd
-			</div>
-			<div class="help-item">
-				<h4><a href="#" class="link-dashed">asdfa</a></h4>
-				asdf asdfa sdfa sfd
-			</div>
-		</dt>
-		<dd class="help-col help-right">
-			<div class="help-item">
-				<h4><a href="#" class="link-dashed">asdfa</a></h4>
-				asdf asdfa sdfa sfd
-			</div>
-			<div class="help-item">
-				<h4><a href="#" class="link-dashed">asdfa</a></h4>
-				asdf asdfa sdfa sfd
-			</div>
-		</dd>
-	</dl>
-	
-	<br />
-	<br />
+	{if !$oConfig->GetValue('view.tinymce')}
+		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
+		<br />
+		<br />
+	{/if}
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
 	<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text input-width-full autocomplete-tags-sep" />

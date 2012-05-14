@@ -81,9 +81,14 @@
 	<small class="note">{$aLang.topic_create_title_notice}</small></p>
 
 	
-	<p><label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
+	<p><label for="topic_text">{$aLang.topic_create_text}:</label>
 	<textarea name="topic_text" class="mce-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
-	
+
+	{if !$oConfig->GetValue('view.tinymce')}
+	{include file='tags_help.tpl' sTagsTargetId="topic_text"}
+		<br />
+		<br />
+	{/if}
 	
 	<div class="topic-photo-upload">
 		<h2>{$aLang.topic_photoset_upload_title}</h2>

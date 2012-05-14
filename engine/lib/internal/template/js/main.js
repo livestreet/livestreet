@@ -123,6 +123,29 @@ ls.timer = (function ($) {
 	return this;
 }).call(ls.timer || {},jQuery);
 
+/**
+ * Функционал хранения js данных
+ */
+ls.registry = (function ($) {
+
+	this.aData={};
+
+	/**
+	 * Сохранение
+	 */
+	this.set = function(sName,data){
+		this.aData[sName]=data;
+	};
+
+	/**
+	 * Получение
+	 */
+	this.get = function(sName){
+		return this.aData[sName];
+	};
+
+	return this;
+}).call(ls.registry || {},jQuery);
 
 /**
 * Flash загрузчик

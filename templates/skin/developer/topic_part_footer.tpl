@@ -75,6 +75,7 @@
 						+ {$oTopic->getCountVoteUp()}<br/>
 						- {$oTopic->getCountVoteDown()}<br/>
 						&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
+						{hook run='topic_show_vote_stats' topic=$oTopic}
 					</div>
 				{/if}
 			</li>
