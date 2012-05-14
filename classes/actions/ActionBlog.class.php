@@ -606,6 +606,10 @@ class ActionBlog extends Action {
 			$aResult=$this->Topic_GetTopicsCollective($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
 		$aTopics=$aResult['collection'];
+		
+		// Запускаем выполнение хуков
+		$this -> Hook_Run ('blog_topics_topic_show', array ("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */

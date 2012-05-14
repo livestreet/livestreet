@@ -98,6 +98,10 @@ class ActionPersonalBlog extends Action {
 			$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
 		$aTopics=$aResult['collection'];
+		
+		// Запускаем выполнение хуков
+		$this -> Hook_Run ('personalblog_topics_topic_show', array ("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */
