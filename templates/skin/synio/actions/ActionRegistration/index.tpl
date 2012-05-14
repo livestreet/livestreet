@@ -32,9 +32,9 @@
 		{hook run='form_registration_begin'}
 		
 		<dl class="form-item">
-			<dt><label for="profile_name">{$aLang.registration_login}:</label></dt>
+			<dt><label for="registration-login">{$aLang.registration_login}:</label></dt>
 			<dd>
-				<input type="text" name="login" id="popup-registration-login" value="{$_aRequest.login}" class="input-text input-width-250 js-ajax-validate" />
+				<input type="text" name="login" id="registration-login" value="{$_aRequest.login}" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-login"></small>
 				
 				<div class="form-item-help">
@@ -45,9 +45,9 @@
 		</dl>
 		
 		<dl class="form-item">
-			<dt><label for="profile_name">{$aLang.registration_mail}:</label></dt>
+			<dt><label for="registration-mail">{$aLang.registration_mail}:</label></dt>
 			<dd>
-				<input type="text" name="mail" id="popup-registration-mail" value="{$_aRequest.mail}" class="input-text input-width-250 js-ajax-validate" />
+				<input type="text" name="mail" id="registration-mail" value="{$_aRequest.mail}" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-mail"></small>
 				
 				<div class="form-item-help">
@@ -58,9 +58,9 @@
 		</dl>
 		
 		<dl class="form-item">
-			<dt><label for="profile_name">{$aLang.registration_password}:</label></dt>
+			<dt><label for="registration-user-password">{$aLang.registration_password}:</label></dt>
 			<dd>
-				<input type="password" name="password" id="popup-registration-user-password" value="" class="input-text input-width-250 js-ajax-validate" />
+				<input type="password" name="password" id="registration-user-password" value="" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-password"></small>
 				
 				<div class="form-item-help">
@@ -69,15 +69,15 @@
 				</div>
 			</dd>
 		</dl>
-		
+
 		<dl class="form-item">
-			<dt><label for="profile_name">{$aLang.registration_password_retry}:</label></dt>
+			<dt><label for="registration-user-password-confirm">{$aLang.registration_password_retry}:</label></dt>
 			<dd>
-				<input type="password" value="" id="popup-registration-user-password-confirm" name="password_confirm" class="input-text input-width-250 js-ajax-validate" />
+				<input type="password" value="" id="registration-user-password-confirm" name="password_confirm" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-password_confirm"></small>
 				
-				<div class="form-item-help">
-					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
+				<div class="form-item-help validate-ok-field-password_confirm"  style="display: none">
+					<i class="icon-ok-green"></i>
 				</div>
 			</dd>
 		</dl>
@@ -86,16 +86,16 @@
 	<div class="wrapper-content wrapper-content-dark">
 		{hookb run="registration_captcha"}
 		<dl class="form-item">
-			<dt><label for="profile_name">{$aLang.registration_captcha}:</label></dt>
+			<dt><label for="registration-user-captcha">{$aLang.registration_captcha}:</label></dt>
 			<dd>
 				<img src="{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}" 
 					 onclick="this.src='{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random();" 
 					 class="captcha-image" />
-				<input type="text" name="captcha" id="captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" style="width: 165px" />
+				<input type="text" name="captcha" id="registration-user-captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" style="width: 165px" />
 				<small class="validate-error-hide validate-error-field-captcha"></small>
 				
-				<div class="form-item-help">
-					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
+				<div class="form-item-help validate-ok-field-captcha" style="display: none">
+					<i class="icon-ok-green" ></i>
 				</div>
 			</dd>
 		</dl>

@@ -400,26 +400,9 @@ ls.vote.onVote = function(idTarget, objVote, value, type, result) {
 };
 
 
-ls.infobox.aOptDef={
-	hideOther: true,
+ls.infobox.aOptDef=$.extend(true,ls.infobox.aOptDef,{
 	className: 'infobox-help',
-	showOn: 'none',
-	alignTo: 'target',
-	alignX: 'inner-left',
-	alignY: 'bottom',
-	offsetX: -16,
-	offsetY: 5,
-	fade: false,
-	slide: false,
-	bgImageFrameSize: 10,
-	showTimeout: 500,
-	hideTimeout: 100,
-	timeOnScreen: 0,
-	liveEvents: false,
-	allowTipHover: true,
-	followCursor: false,
-	slideOffset: 8,
-	showAniDuration: 300,
-	hideAniDuration: 300,
-	refreshAniDuration: 200
-};
+	offsetX: -16
+});
+ls.infobox.sTemplateProcess=['<div class="infobox-process"><img src="'+DIR_STATIC_SKIN+'/images/loader-circle.gif" />',
+	'</div>'].join('');
