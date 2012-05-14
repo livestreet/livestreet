@@ -18,16 +18,16 @@
 class PluginProfiler_ModuleProfiler_EntityReport extends Entity
 {
 	public function getId() {
-		return $this->_aData['report_id'];
+		return $this->_getDataOne('report_id');
 	}
 	public function getDate() {
-		return $this->_aData['report_date'];
+		return $this->_getDataOne('report_date');
 	}
 	public function getAllEntries() {
-		return isset($this->_aData['report_entries'])?$this->_aData['report_entries']:array();
+		return $this->_getDataOne('report_entries')?$this->_getDataOne('report_entries'):array();
 	}
 	public function getTime() {
-		return isset($this->_aData['report_time_full'])?$this->_aData['report_time_full']:0;
+		return $this->_getDataOne('report_time_full')?$this->_getDataOne('report_time_full'):0;
 	}
 
 	public function getEntriesByName($sName=null) {
@@ -47,7 +47,7 @@ class PluginProfiler_ModuleProfiler_EntityReport extends Entity
 		$sFilter=str_replace('*','[\W]+',$sFilter);
 
 		$aResult=array();
-		foreach ($this->_aData['report_entries'] as $oEntry) {
+		foreach ($this->_getDataOne('report_entries') as $oEntry) {
 			if(preg_match("/{$sFilter}/Ui",$oEntry->getComment())) {
 				$aResult[$oEntry->getId()]=$oEntry;
 			}
@@ -60,7 +60,7 @@ class PluginProfiler_ModuleProfiler_EntityReport extends Entity
 
 	public function getEntriesByPid($sPid) {
 		$aResult=array();
-		foreach ($this->_aData['report_entries'] as $oEntry) {
+		foreach ($this->_getDataOne('report_entries') as $oEntry) {
 			if($oEntry->getPid()==$sPid) $aResult[]=$oEntry;
 		}
 		return $aResult;
@@ -90,7 +90,7 @@ class PluginProfiler_ModuleProfiler_EntityReport extends Entity
 	 * @return array|string|null
 	 */
 	public function getStat($sKey=null) {
-		if(!$sKey) return $this->_aData['report_stat'];
+		if(!$sKey) return $this->_getDataOne('report_stat');
 		if(isset($this->_aData['report_stat'][$sKey])) return $this->_aData['report_stat'][$sKey];
 
 		return null;

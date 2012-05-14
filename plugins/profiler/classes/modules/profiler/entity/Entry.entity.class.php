@@ -18,69 +18,69 @@
 class PluginProfiler_ModuleProfiler_EntityEntry extends Entity
 {
 	public function getRequestId() {
-		return $this->_aData['request_id'];
+		return $this->_getDataOne('request_id');
 	}
 	public function getDate() {
-		return $this->_aData['request_date'];
+		return $this->_getDataOne('request_date');
 	}
 	public function getTimeFull() {
-		return str_replace(',','.',$this->_aData['time_full']);
+		return str_replace(',','.',$this->_getDataOne('time_full'));
 	}
 
 	public function getTimeStart($mode=null) {
 		switch ($mode) {
 			case 'seconds':
-				list($iSeconds,)=explode(' ',$this->_aData['time_start'],2);
+				list($iSeconds,)=explode(' ',$this->_getDataOne('time_start'),2);
 				return $iSeconds;
 
 			case 'time':
-				list(,$iTime)=explode(' ',$this->_aData['time_start'],2);
+				list(,$iTime)=explode(' ',$this->_getDataOne('time_start'),2);
 				return $iTime;
 
 			case null:
 			default:
-				return $this->_aData['time_start'];
+				return $this->_getDataOne('time_start');
 
 		}
 	}
 	public function getTimeStop($mode=null) {
 		switch ($mode) {
 			case 'seconds':
-				list($iSeconds,)=explode(' ',$this->_aData['time_stop'],2);
+				list($iSeconds,)=explode(' ',$this->_getDataOne('time_stop'),2);
 				return $iSeconds;
 
 			case 'time':
-				list(,$iTime)=explode(' ',$this->_aData['time_stop'],2);
+				list(,$iTime)=explode(' ',$this->_getDataOne('time_stop'),2);
 				return $iTime;
 
 			case null:
 			default:
-				return $this->_aData['time_stop'];
+				return $this->_getDataOne('time_stop');
 
 		}
 	}
 
 	public function getId() {
-		return $this->_aData['time_id'];
+		return $this->_getDataOne('time_id');
 	}
 	public function getPid() {
-		return is_null($this->_aData['time_pid']) ? 0 : $this->_aData['time_pid'];
+		return $this->_getDataOne('time_pid') ? $this->_getDataOne('time_pid'): 0;
 	}
 	public function getName() {
-		return $this->_aData['time_name'];
+		return $this->_getDataOne('time_name');
 	}
 	public function getComment() {
-		return $this->_aData['time_comment'];
+		return $this->_getDataOne('time_comment');
 	}
 
 	public function getLevel() {
-		return $this->_aData['level'];
+		return $this->_getDataOne('level');
 	}
 	public function getChildCount() {
-		return $this->_aData['child_count'];
+		return $this->_getDataOne('child_count');
 	}
 	public function getParentTimeFull() {
-		return $this->_aData['parent_time_full'];
+		return $this->_getDataOne('parent_time_full');
 	}
 
 	public function setRequestId($data) {

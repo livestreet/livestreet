@@ -18,50 +18,50 @@
 class PluginPage_ModulePage_EntityPage extends Entity
 {
 	public function getId() {
-		return $this->_aData['page_id'];
+		return $this->_getDataOne('page_id');
 	}
 	public function getPid() {
-		return $this->_aData['page_pid'];
+		return $this->_getDataOne('page_pid');
 	}
 	public function getUrl() {
-		return $this->_aData['page_url'];
+		return $this->_getDataOne('page_url');
 	}
 	public function getUrlFull() {
-		return $this->_aData['page_url_full'];
+		return $this->_getDataOne('page_url_full');
 	}
 	public function getTitle() {
-		return $this->_aData['page_title'];
+		return $this->_getDataOne('page_title');
 	}
 	public function getText() {
-		return $this->_aData['page_text'];
+		return $this->_getDataOne('page_text');
 	}
 	public function getDateAdd() {
-		return $this->_aData['page_date_add'];
+		return $this->_getDataOne('page_date_add');
 	}
 	public function getDateEdit() {
-		return $this->_aData['page_date_edit'];
+		return $this->_getDataOne('page_date_edit');
 	}
 	public function getSeoKeywords() {
-		return $this->_aData['page_seo_keywords'];
+		return $this->_getDataOne('page_seo_keywords');
 	}
 	public function getSeoDescription() {
-		return $this->_aData['page_seo_description'];
+		return $this->_getDataOne('page_seo_description');
 	}
 	public function getActive() {
-		return $this->_aData['page_active'];
+		return $this->_getDataOne('page_active');
 	}
 	public function getMain() {
-		return $this->_aData['page_main'];
+		return $this->_getDataOne('page_main');
 	}
 	public function getSort() {
-		return $this->_aData['page_sort'];
+		return $this->_getDataOne('page_sort');
 	}
 	public function getAutoBr() {
-		return $this->_aData['page_auto_br'];
+		return $this->_getDataOne('page_auto_br');
 	}
 
 	public function getLevel() {
-		return $this->_aData['level'];
+		return $this->_getDataOne('level');
 	}
 
 
