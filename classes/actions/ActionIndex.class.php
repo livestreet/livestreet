@@ -113,6 +113,10 @@ class ActionIndex extends Action {
 			$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
 		$aTopics=$aResult['collection'];
+		
+		// запуск хуков
+		$this->Hook_Run('index_top_topic_show', array("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */
@@ -157,6 +161,10 @@ class ActionIndex extends Action {
 			$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
 		$aTopics=$aResult['collection'];
+		
+		// запуск хуков
+		$this->Hook_Run('index_discussed_topic_show', array("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */
@@ -191,6 +199,10 @@ class ActionIndex extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsNew($iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		
+		// запуск хуков
+		$this->Hook_Run('index_new_topic_show', array("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */
@@ -223,7 +235,11 @@ class ActionIndex extends Action {
 		 * Получаем список топиков
 		 */					
 		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));			
-		$aTopics=$aResult['collection'];	
+		$aTopics=$aResult['collection'];
+		
+		// запуск хуков
+		$this->Hook_Run('index_topic_show', array("aTopics" => $aTopics));
+		
 		/**
 		 * Формируем постраничность
 		 */
@@ -248,7 +264,7 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
-		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);	
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 	}
 }
 ?>
