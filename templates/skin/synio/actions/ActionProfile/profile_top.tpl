@@ -38,7 +38,7 @@
 		<div class="vote-label">{$aLang.user_skill}</div>
 	</div>
 
-	{if $oUserCurrent}
+	{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
 		<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}"><button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
 	{/if}
 
