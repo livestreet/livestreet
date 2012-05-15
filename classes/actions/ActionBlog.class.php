@@ -738,15 +738,15 @@ class ActionBlog extends Action {
 			$this->Topic_SetTopicRead($oTopicRead);
 		}
 		/**
-		 * Вызов хуков
-		 */
-		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
-		/**
 		 * Выставляем SEO данные
 		 */
 		$sTextSeo=strip_tags($oTopic->getText());
 		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo, Config::Get('seo.description_words_count')));
 		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
