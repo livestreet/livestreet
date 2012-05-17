@@ -34,3 +34,6 @@
 .text img[align="right"] { margin: 4px 0 5px 15px; }
 .text img[align="left"] { margin: 4px 15px 10px 0; }
 .text img.image-center { display: block; margin: 0 auto; }
+
+.text object,
+.text img { max-width: 100%; }

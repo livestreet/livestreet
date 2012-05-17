@@ -47,7 +47,7 @@ h2.header-table span { color: #949aa1; }
 #header .site-name a:hover 	{ color: #eee; }
 
 #header .new-messages { float: right; color: #f9de7e; font-size: 11px; margin-right: 11px; margin-top: 18px; line-height: 1em; text-decoration: none; }
-#header .new-messages i { position: relative; }
+#header .new-messages i { position: relative; top: -1px; }
 
 #header .dropdown-user { 
 	min-width: 89px; 
@@ -99,7 +99,7 @@ h2.header-table span { color: #949aa1; }
 .dropdown-user-menu li.item-signout .item-icon 	{ background-position: -92px 0; }
 .dropdown-user-menu li.item-messages .new { position: absolute; top: 15px; right: 7px; cursor: pointer; color: #fff; border-radius: 15px; border: 2px solid #eabe21; line-height: 1em; padding: 2px 7px 3px; }
 
-#header .auth { float: right; line-height: 49px; font-size: 11px; margin-right: 24px; }
+#header .auth { float: right; line-height: 49px; font-size: 11px; margin-right: 17px; }
 #header .auth li { float: left; margin-left: 23px; }
 #header .auth li a { color: #cfcfcf; text-decoration: none; }
 #header .auth li a.sign-in { color: #7dc6ff; }
@@ -123,14 +123,14 @@ h2.header-table span { color: #949aa1; }
 
 /* Навигация
 ---------------------------------------------------- */
-#nav .button.button-write { float: right; margin-left: 35px; margin-top: 2px; }
+#nav .button.button-write { float: right; margin-left: 35px; margin-top: 1px; }
 #nav .search-header { float: right; }
 #nav .search-header .search-header-show { font-size: 11px; margin-top: 4px; }
 #nav .search-header .search-header-show a { color: #878e96; border-color: #878e96; }
 #nav .search-header .search-header-show a:hover { color: #f00; border-color: #f00; }
-#nav .search-header .search-header-form { position: relative; top: 1px; }
-#nav .search-header .search-header-form .input-text { padding-right: 25px; width: 290px; }
-#nav .search-header .search-header-form .input-submit { position: absolute; top: 6px; right: 5px; width: 16px; height: 16px; border: none; background: url(../images/icons-synio.png) -115px -55px no-repeat; }
+#nav .search-header .search-header-form { position: relative; top: 0px; }
+#nav .search-header .search-header-form .input-text { padding: 4px 25px 4px 5px; width: 290px; }
+#nav .search-header .search-header-form .input-submit { position: absolute; top: 5px; right: 5px; width: 16px; height: 16px; border: none; background: url(../images/icons-synio.png) -115px -55px no-repeat; }
 
 
 
@@ -154,6 +154,8 @@ h2.header-table span { color: #949aa1; }
 /* Stream
 ---------------------------------------------------- */
 .stream-get-more {
+	margin-top: 50px;
+	border-radius: 5px;
 	display: block; text-align: center; padding: 12px 0; color: #258fa7; text-decoration: none;
 	background: #eefbfc;
 	background: -moz-linear-gradient(top,  #eefbfc 0%, #d3edf8 100%);

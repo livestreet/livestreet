@@ -22,8 +22,8 @@
 
 
 /* Nav Topic Filter */
-.nav.nav-menu 						{ margin-bottom: 1px; font-size: 11px; border-radius: 13px; border: 1px solid #fff; float: left; }
-.nav.nav-menu li 					{ position: relative; border: 1px solid #dfe3e8; border-left: none; }
+.nav.nav-menu 						{ font-size: 11px; border-radius: 13px; border: 1px solid #fff; float: left; position: relative; }
+.nav.nav-menu li 					{ position: relative; height: 22px; padding: 1px 1px 1px 0; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; }
 .nav.nav-menu li a { 
 	background: #fbfbfc;
 	background: -moz-linear-gradient(top,  #fbfbfc 0%, #f0f2f5 100%);
@@ -32,30 +32,43 @@
 	background: -o-linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
 	background: -ms-linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
 	background: linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfc', endColorstr='#f0f2f5',GradientType=0 );
 
 	height: 22px; 
-	line-height: 20px;
-	
+	line-height: 21px;
 	color: #434343; 
 	padding: 0 13px; 
 	float: left; 
-	border-left: 1px solid #fff; 
-	border-top: 1px solid #fefefe; 
 	text-decoration: none;
+	
+	box-shadow: 1px 0 0 #fff inset, 0 1px 0 #fff inset;
 }
-.nav.nav-menu li a:hover 				{ background: #fafafa; }
-.nav.nav-menu li.active 				{ border: none; }
-.nav.nav-menu li.active a 				{ background: #edf8fd; color: #628fa5; box-shadow: 0 2px 3px #b4d5e2 inset; padding: 0 14px; border: none; height: 25px; line-height: 25px; }
-.nav.nav-menu li:first-child			{ border-radius: 13px 0 0 13px; border-left: 1px solid #dfe3e8; }
-.nav.nav-menu li:first-child a			{ border-radius: 13px 0 0 13px; padding-left: 15px; }
-.nav.nav-menu li:last-child				{ border-radius: 0 13px 13px 0; }
-.nav.nav-menu li:last-child a			{ border-radius: 0 13px 13px 0; padding-right: 15px; }
+.nav.nav-menu li:first-child			{ border-top-left-radius: 13px; border-bottom-left-radius: 13px; }
+.nav.nav-menu li:first-child a			{ border-top-left-radius: 13px; border-bottom-left-radius: 13px; padding-left: 15px; box-shadow: 1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset; }
+.nav.nav-menu li:last-child				{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; }
+.nav.nav-menu li:last-child a			{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; padding-right: 15px; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset; }
+
+.nav.nav-menu li:hover { box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset; }
+.nav.nav-menu li:hover a { 
+	color: #fff;
+	
+	box-shadow: 1px 0 0 #27ace8 inset, 0 -1px 0 #55d0ff inset;
+	
+	background: #4ec4ff;
+	background: -moz-linear-gradient(top,  #4ec4ff 0%, #22b3fe 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ec4ff), color-stop(100%,#22b3fe));
+	background: -webkit-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -o-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+}
+
+.nav.nav-menu li.active 				{ background: #edf8fd; border: none; box-shadow: 0 2px 3px #b4d5e2 inset; }
+.nav.nav-menu li.active a 				{ background: none; color: #628fa5; box-shadow: none; border: none; }
 
 .nav.nav-menu.nav-filter-sub li a 			{ padding: 5px 10px; font-size: 11px; color: #777; }
 .nav.nav-menu.nav-filter-sub li.active a 	{ color: #fff; }
 
-.nav-menu-wrapper { margin-bottom: 40px; }
+.nav-menu-wrapper { margin-bottom: 40px; position: relative; }
 
 
 /* Userbar */
@@ -111,7 +124,7 @@
 .nav.nav-pills li.dropdown ul 		{ display: none; position: absolute; }
 .nav.nav-pills li.dropdown.opened a {   }
 
-.dropdown-menu 						{ padding: 10px 15px 13px; border: 3px solid #edf8fd; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,.5); position: absolute; top: 32px; overflow: hidden; z-index: 10; background: #fff; min-width: 150px; }
+.dropdown-menu 						{ display: none; padding: 10px 15px 13px; border: 3px solid #edf8fd; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,.5); position: absolute; top: 32px; overflow: hidden; z-index: 10; background: #fff; min-width: 150px; }
 .dropdown-menu li 					{ line-height: 1em; margin-bottom: 15px; }
 .dropdown-menu li:last-child 		{ margin-bottom: 0; }
 .dropdown-menu li a 				{ display: block; }

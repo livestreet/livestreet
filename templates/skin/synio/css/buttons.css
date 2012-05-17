@@ -15,14 +15,14 @@
 .button {
 	display: inline-block;
 	
-	padding: 3px 10px 5px;
+	padding: 3px 10px 6px;
 	text-align: center;
 	
 	border: 1px solid #dfe3e8;
 	border-radius: 5px;
 	
 	font-size: 13px;
-	line-height: 17px;
+	line-height: 15px;
 	
 	color: #434343;
 	
@@ -33,7 +33,6 @@
 	background: -o-linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
 	background: -ms-linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
 	background: linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfcfc', endColorstr='#f0f2f5',GradientType=0 );
 
 	font-family: Verdana, sans-serif;
 	cursor: pointer;
@@ -59,7 +58,6 @@
 	background: -o-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	background: -ms-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66cfff', endColorstr='#2abcfe',GradientType=0 );
 	
 	border: 1px solid #27ace8;
 	
@@ -81,7 +79,6 @@
 	background: -o-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	background: -ms-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66cfff', endColorstr='#2abcfe',GradientType=0 );
 	
 	border: 1px solid #27ace8;
 	
@@ -111,7 +108,6 @@
 	background: -o-linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
 	background: -ms-linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
 	background: linear-gradient(top,  #c8f5ff 0%,#88c4ea 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8f5ff', endColorstr='#88c4ea',GradientType=0 );
 }
 .button.button-action span { display: none; }
 .button.button-action:hover span { display: inline; padding: 0 5px 0 5px; position: relative; top: -2px; color: #fff; }
@@ -129,7 +125,6 @@
 	background: -o-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
 	background: -ms-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
 	background: linear-gradient(top,  #228dfa 0%,#0362eb 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#228dfa', endColorstr='#0362eb',GradientType=0 );
 }
 .button.button-action.button-action-add-friend:hover i { background-position: -147px -39px; }
 .button.button-action.button-action-send-message:hover i { background-position: -163px -39px; }

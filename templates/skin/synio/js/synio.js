@@ -70,7 +70,14 @@ jQuery(document).ready(function($){
 	ls.toolbar.up.init();
 	
 	
-	$('#toolbar').css({'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 10, 'right': 'auto', 'display': 'block'});
+	if ($('#toolbar section').length) {
+		if ($(document).width() <= 1024) {
+			$('#container').addClass('toolbar-margin');
+			$('#toolbar').css({'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'right': 'auto', 'display': 'block'});
+		} else {
+			$('#toolbar').css({'right': 10, 'left': 'auto', 'display': 'block'});
+		}
+	}
 
 	
 	// Всплывающие сообщения

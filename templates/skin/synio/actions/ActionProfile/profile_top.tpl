@@ -21,7 +21,7 @@
 																		{/if}
 																	{/if}
 																	
-																	{if $oUserCurrent && $oUserProfile->getId() == $oUserCurrent->getId()}
+																	{if ($oUserCurrent && $oUserProfile->getId() == $oUserCurrent->getId()) || !$oUserCurrent}
 																		vote-nobuttons
 																	{/if}">
 			<div href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oUserProfile->getId()},this,-1,'user');"><span><i></i></span></div>

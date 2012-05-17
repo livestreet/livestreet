@@ -8,6 +8,8 @@
 .profile .avatar 		{ position: absolute; top: 0; left: 0; }
 .profile .vote-label	{ text-transform: lowercase; text-align: center; font-size: 10px; color: #aaa; }
 .profile .vote-profile 	{ float: right; margin-left: 10px; }
+.profile .vote-profile .vote-topic	{ float: none; }
+.profile .vote-profile .vote-topic .vote-item.vote-count	{ cursor: text; }
 
 .profile .strength 					{ float: right; margin-left: 18px; }
 .profile .strength .count 			{ font-size: 11px; line-height: 1em; text-align: center; padding: 0 10px; line-height: 23px; color: #628fa5; margin-bottom: 0px; background: #edf8fd; border-radius: 15px; height: 24px; box-shadow: 0 2px 3px rgba(0,0,0,.1) inset; }
@@ -20,7 +22,7 @@
 
 .profile-info-about 		{ padding: 13px 20px 20px 135px; min-height: 100px; background: #fcfce9; border-radius: 5px; margin-bottom: 30px; color: #000; position: relative; }
 .profile-info-about .avatar { position: absolute; top: 20px; left: 20px; border-radius: 5px; background: #fff; padding: 5px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
-.profile-info-about .avatar img { vertical-align: top; width: 80px; height: 80px;  min-width: 100%; }
+.profile-info-about .avatar img { vertical-align: top; width: 80px; height: 80px; }
 .profile-info-about h3 		{ font-size: 19px; margin-bottom: 5px; }
 .profile-info-about .edit	{ font-size: 11px; }
 

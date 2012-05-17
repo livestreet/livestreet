@@ -20,7 +20,6 @@
 	background: -o-linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
 	background: -ms-linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
 	background: linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfc', endColorstr='#f0f2f5',GradientType=0 );
 }
 .vote-topic .vote-item i				{ width: 16px; height: 16px; display: block; background: url(../images/icons-synio.png) no-repeat; }
 .vote-topic .vote-item span				{ display: block; border-right: 1px solid #fff; border-top: 1px solid #fefefe; }
@@ -292,7 +291,8 @@
 
 .user, .ls-user 	{ font-weight: bold; color: #333; }
 .user .icon-user 	{ margin-right: 3px; }
-.user.inactive 		{ color: #aaa; }
+.username.inactive,
+.user.inactive 		{ color: #aaa !important; }
 
 .user-avatar img { width: 16px; height: 16px; vertical-align: middle; margin-right: 1px; }
 .user-avatar a { color: #000; font-size: 11px; }

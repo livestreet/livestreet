@@ -1,5 +1,5 @@
 {assign var="sidebarPosition" value='left'}
-{include file='header.tpl' menu='settings'}
+{include file='header.tpl'}
 
 {include file='menu.settings.tpl'}
 
