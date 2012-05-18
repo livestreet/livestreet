@@ -23,8 +23,17 @@
 
 		<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary js-button-wall-submit">{$aLang.wall_add_submit}</button>
 	</form>
+{else}
+	<div class="wall-note" id="wall-note-list-empty">
+		<h3>{$aLang.wall_add_quest}</h3>
+	</div>
 {/if}
 
+{if !count($aWall)}
+	<div class="wall-note">
+		<h3>{$aLang.wall_list_empty}</h3>
+	</div>
+{/if}
 
 <div id="wall-container" class="comments wall">
 	{include file='actions/ActionProfile/wall_items.tpl'}

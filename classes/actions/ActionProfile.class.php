@@ -341,6 +341,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='main';
 		/**
 		 * Получаем список друзей
 		 */

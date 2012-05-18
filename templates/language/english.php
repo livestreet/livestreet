@@ -594,6 +594,8 @@ return array(
 	'wall_add_time_limit' => 'You can\'t send post on wall a frequent rate',
 	'wall_add_title' => 'Write',
 	'wall_add_submit' => 'Submit',
+	'wall_add_quest' => 'To be able to post a entries on the wall need to register.',
+	'wall_list_empty' => 'On the wall there are no entries, you can be the first!',
 	'wall_load_more' => 'Load more',
 	'wall_load_reply_more' => 'Show all',
 	'wall_action_delete' => 'Delete',

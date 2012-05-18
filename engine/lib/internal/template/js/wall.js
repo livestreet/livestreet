@@ -26,6 +26,7 @@ ls.wall = (function ($) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				$('.js-wall-reply-parent-text').val('');
+				$('#wall-note-list-empty').hide();
 				this.loadNew();
 				ls.hook.run('ls_wall_add_after',[sText, iPid, result]);
 			}
