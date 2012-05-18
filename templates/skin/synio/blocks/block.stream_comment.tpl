@@ -4,7 +4,7 @@
 		{assign var="oTopic" value=$oComment->getTarget()}
 		{assign var="oBlog" value=$oTopic->getBlog()}
 		
-		<li class="js-title-comment" title="{$oComment->getText()|strip_tags|truncate:100:'...'}">
+		<li class="js-title-comment" title="{$oComment->getText()|strip_tags|trim|truncate:100:'...'}">
 			<p>
 				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
 				<time>{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>

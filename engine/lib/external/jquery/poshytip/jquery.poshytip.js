@@ -35,6 +35,11 @@
 
 	$.Poshytip.prototype = {
 		init: function() {
+			if (this.opts.content=='[title]' && this.opts.showOnlyNotEmpty) {
+				if (!this.$elm.attr('title')) {
+					return;
+				}
+			}
 			tips.push(this);
 
 			// save the original title and a reference to the Poshytip object
@@ -448,6 +453,7 @@
 		content: 		'[title]',	// content to display ('[title]', 'string', element, function(updateCallback){...}, jQuery)
 		className:		'tip-yellow',	// class for the tips
 		injectBaseCss:	false,	// injection default base css in head
+		showOnlyNotEmpty:	true,	// show only not empty content, actual only for content=[title]
 		bgImageFrameSize:	10,		// size in pixels for the background-image (if set in CSS) frame around the inner content of the tip
 		showTimeout:		500,		// timeout before showing the tip (in milliseconds 1000 == 1 second)
 		hideTimeout:		100,		// timeout before hiding the tip

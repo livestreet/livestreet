@@ -4,7 +4,7 @@
 		{assign var="oTopic" value=$oComment->getTarget()}
 		{assign var="oBlog" value=$oTopic->getBlog()}
 		
-		<li class="js-title-comment" title="{$oComment->getText()|strip_tags|truncate:100:'...'}">
+		<li class="js-title-comment" title="{$oComment->getText()|strip_tags|trim|truncate:100:'...'}">
 			<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 			
 			<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a> &rarr;
