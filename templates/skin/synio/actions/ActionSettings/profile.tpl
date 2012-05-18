@@ -114,6 +114,7 @@
 		<br />
 		<br />
 
+		<div class="js-geo-select">
 		<label for="" style="margin-bottom: 7px">{$aLang.profile_place}:</label>
 		<p style="margin-bottom: 15px">
 			<select class="js-geo-country input-width-200" name="geo_country">
@@ -147,6 +148,7 @@
 				{/if}
 			</select>
 		</p>
+		</div>
 		
 		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
 		{if count($aUserFieldValues)}
