@@ -5,7 +5,7 @@
 				<th class="cell-name cell-tab">
 					<div class="cell-tab-inner {if $sUsersOrder=='user_login'}active{/if}"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user}</span></a></div>
 				</th>
-				<th></th>
+				<th>&nbsp;</th>
 				<th class="cell-skill cell-tab">
 					<div class="cell-tab-inner {if $sUsersOrder=='user_skill'}active{/if}"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_skill'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user_skill}</span></a></div>
 				</th>
@@ -18,7 +18,7 @@
 		<thead>
 			<tr>
 				<th class="cell-name">{$aLang.user}</th>
-				<th></th>
+				<th>&nbsp;</th>
 				<th class="cell-skill">{$aLang.user_skill}</th>
 				<th class="cell-rating cell-tab">
 					<div class="cell-tab-inner active"><span>{$aLang.user_rating}</span></div>

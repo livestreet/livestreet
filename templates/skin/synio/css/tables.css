@@ -20,7 +20,7 @@
 .table a.desc:after		{ content: " ↓"; }
 
 .table .cell-tab { padding: 0; }
-.table .cell-tab .cell-tab-inner { position: relative; top: 1px; float: left; border: 1px solid #fff; border-radius: 3px 3px 0 0; border-bottom: none; }
+.table .cell-tab .cell-tab-inner { position: relative; top: 1px; float: left; border: 1px solid transparent; border-radius: 3px 3px 0 0; border-bottom: none; }
 .table .cell-tab .cell-tab-inner.active { background: #fff; border-color: #c3d4dc; }
 
 /* Table Blogs */

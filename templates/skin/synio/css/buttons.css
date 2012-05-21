@@ -42,9 +42,9 @@
 }
 .button:hover { text-decoration: none; background: #f0f2f5; }
 .button:active { 
-	-moz-box-shadow: 	0 0 7px rgba(0, 0, 0, .5) inset; 
-	-webkit-box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset; 
-	box-shadow: 		0 0 7px rgba(0, 0, 0, .5) inset; 
+	-moz-box-shadow: 	0 0 3px rgba(0, 0, 0, .3) inset; 
+	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .3) inset; 
+	box-shadow: 		0 0 3px rgba(0, 0, 0, .3) inset; 
 }
 .button.fl-r { *margin-right: 0; }
 
@@ -89,7 +89,17 @@
 	color: #fff;
 	font-size: 11px;
 }
-.button.button-write:hover { background: #2abcfe; }
+.button.button-write:hover { 
+	background: #4ec4ff;
+	background: -moz-linear-gradient(top,  #4ec4ff 0%, #22b3fe 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ec4ff), color-stop(100%,#22b3fe));
+	background: -webkit-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -o-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+
+	box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset;  
+}
 
 
 /* Button Small */

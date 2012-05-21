@@ -70,6 +70,9 @@
 
 .nav-menu-wrapper { margin-bottom: 40px; position: relative; }
 
+.oldie .nav.nav-menu { border-color: #dfe3e8; border-right: none; }
+.oldie .nav.nav-menu li { border-right: 1px solid #dfe3e8; }
+
 
 /* Userbar */
 #userbar {

@@ -97,6 +97,8 @@
 																		{elseif $oVote->getDirection() == 0}
 																			voted-zero
 																		{/if}
+																	{else}
+																		not-voted
 																	{/if}
 																	
 																	{if (strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time') && !$oVote) || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}

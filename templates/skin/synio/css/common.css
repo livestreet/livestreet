@@ -4,7 +4,7 @@
 
 /* Голосование 
 ---------------------------------------------------- */
-.vote-topic { height: 24px; border-radius: 15px; overflow: hidden; font-size: 11px; float: left; }
+.vote-topic { height: 24px; border-radius: 15px; overflow: hidden; font-size: 11px; float: left; zoom: 1; }
 .vote-topic .vote-item { 
 	cursor: pointer;
 	overflow: hidden;
@@ -24,30 +24,69 @@
 .vote-topic .vote-item i				{ width: 16px; height: 16px; display: block; background: url(../images/icons-synio.png) no-repeat; }
 .vote-topic .vote-item span				{ display: block; border-right: 1px solid #fff; border-top: 1px solid #fefefe; }
 
-.vote-topic .vote-item.vote-up			{ border-radius: 0 15px 15px 0; }
-.vote-topic .vote-item.vote-up i		{ background-position: -83px -23px; }
-.vote-topic .vote-item.vote-up span		{ padding: 2px 7px 3px 4px; }
+.vote-topic .vote-item.vote-up				{ border-radius: 0 15px 15px 0; }
+.vote-topic .vote-item.vote-up i			{ background-position: -83px -23px; }
+.vote-topic .vote-item.vote-up span			{ padding: 2px 7px 3px 4px; }
+.vote-topic.not-voted .vote-item.vote-up:hover		{ 
+	background: #e4fae2;
+	background: -moz-linear-gradient(top,  #e4fae2 0%, #b0e3ac 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4fae2), color-stop(100%,#b0e3ac));
+	background: -webkit-linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+	background: -o-linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+	background: -ms-linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+	background: linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+	
+	border-color: #e4fae2 #ccefca #afe3ab;
+}
+.vote-topic.not-voted .vote-item.vote-up:hover i		{ background-position: -83px -39px; }
+.vote-topic.not-voted .vote-item.vote-up:hover span	{ border-color: transparent; }
 
 .vote-topic .vote-item.vote-count 		{ color: #628fa5; line-height: 23px; }
 .vote-topic .vote-item.vote-count i 	{ background-position: -99px -23px; margin-top: 1px; }
-.vote-topic .vote-item.vote-count span 	{ padding: 2px 4px 4px 5px; }
+.vote-topic .vote-item.vote-count span 	{ padding: 1px 4px 5px 5px; }
+.vote-topic.not-voted .vote-item.vote-count:hover		{ 
+	background: #4ec4ff;
+	background: -moz-linear-gradient(top,  #4ec4ff 0%, #22b3fe 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ec4ff), color-stop(100%,#22b3fe));
+	background: -webkit-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -o-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+
+	box-shadow: 0 -1px 0 rgba(255,255,255,.3) inset;
+	border-color: #27ace8;
+}
+.vote-topic.not-voted .vote-item.vote-count:hover i		{ background-position: -99px -87px; }
+.vote-topic.not-voted .vote-item.vote-count:hover span	{ border-color: transparent; }
 
 .vote-topic .vote-item.vote-down 		{ border-radius: 15px 0 0 15px; }
 .vote-topic .vote-item.vote-down i		{ background-position: -67px -23px; }
 .vote-topic .vote-item.vote-down span	{ padding: 2px 4px 3px 7px; }
+.vote-topic.not-voted .vote-item.vote-down:hover		{ 
+	background: #ffc8c8;
+	background: -moz-linear-gradient(top,  #ffc8c8 0%, #ff8181 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffc8c8), color-stop(100%,#ff8181));
+	background: -webkit-linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+	background: -o-linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+	background: -ms-linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+	background: linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+	
+	border-color: #ffc8c8 #fea8a8 #ff8181;
+}
+.vote-topic.not-voted .vote-item.vote-down:hover i	{ background-position: -67px -55px; }
+.vote-topic.not-voted .vote-item.vote-down:hover span	{ border-color: transparent; }
 
 .vote-topic.voted						{ box-shadow: 0 2px 3px rgba(0,0,0,.2) inset; }
 
 .vote-topic.voted-down 								{ padding: 0; }
 .vote-topic.voted-down .vote-item					{ border: none; background: none; }
 .vote-topic.voted-down .vote-item span				{ border: none; }
-.vote-topic.voted-down .vote-item.vote-up 			{ display: none; }
-.vote-topic.voted-down .vote-item.vote-down 		{ float: right; }
-.vote-topic.voted-down .vote-item.vote-down span 	{ padding: 4px 8px 3px 4px; }
+.vote-topic.voted-down .vote-item.vote-down 		{ display: none; }
+.vote-topic.voted-down .vote-item.vote-up span 		{ padding: 4px 8px 3px 4px; }
 .vote-topic.voted-down .vote-item.vote-count 		{ color: #da4242; }
 .vote-topic.voted-down .vote-item.vote-count span 	{ padding: 0 3px 0 10px !important; }
-.vote-topic.vote-count-positive.voted-down .vote-item.vote-down i		{ background-position: -67px -39px; }
-.vote-topic.vote-count-negative.voted-down .vote-item.vote-down i		{ background-position: -67px -55px; }
+.vote-topic.vote-count-positive.voted-down .vote-item.vote-up i		{ background-position: -67px -39px; }
+.vote-topic.vote-count-negative.voted-down .vote-item.vote-up i		{ background-position: -67px -55px; }
 
 .vote-topic.voted-up 							{ padding: 0; }
 .vote-topic.voted-up .vote-item					{ border: none; background: none; }
@@ -63,11 +102,13 @@
 .vote-topic.voted-zero .vote-item					{ border: none; background: none; }
 .vote-topic.voted-zero .vote-item span				{ border: none; }
 .vote-topic.voted-zero .vote-item.vote-down 		{ display: none; }
-.vote-topic.voted-zero .vote-item.vote-up 			{ float: right; }
-.vote-topic.voted-zero .vote-item.vote-up i 		{ width: 16px; background-position: -99px -23px; margin-top: 1px; }
+.vote-topic.voted-zero .vote-item.vote-up 			{  }
+.vote-topic.voted-zero .vote-item.vote-up i 		{ width: 16px; background-position: -99px -23px; }
 .vote-topic.voted-zero .vote-item.vote-up span 		{ padding: 4px 8px 3px 4px; }
 .vote-topic.voted-zero .vote-item.vote-count 		{ float: left; color: #5fa459; }
 .vote-topic.voted-zero .vote-item.vote-count span 	{ padding: 0 3px 0 10px !important; }
+.vote-topic.vote-count-positive.voted-zero .vote-item.vote-up i		{ background-position: -99px -39px; }
+.vote-topic.vote-count-negative.voted-zero .vote-item.vote-up i		{ background-position: -99px -55px; }
 
 .vote-topic.vote-count-positive.vote-nobuttons,
 .vote-topic.vote-count-positive	.vote-item.vote-count 	{ box-shadow: 0 2px 3px #acd7a7 inset; }
@@ -146,7 +187,9 @@
 .toolbar section i			{ display: block; width: 25px; height: 25px; }
 
 /* Admin button */
-.toolbar .toolbar-admin i 	{ background: url(../images/icons-synio.png) -268px -23px no-repeat; }
+.toolbar .toolbar-admin i 			{ background: url(../images/icons-synio.png) -268px -23px no-repeat; }
+.toolbar .toolbar-admin i:hover 	{ background-position: -268px -48px; }
+.toolbar .toolbar-admin i:active 	{ background-position: -268px -73px; }
 
 /* Update comments button */
 .toolbar .toolbar-update {  }
@@ -157,14 +200,18 @@
 
 /* Topic navigation */
 .toolbar .toolbar-topic 								{ width: 19px; padding: 11px; }
-.toolbar .toolbar-topic a.toolbar-topic-prev i 			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -230px -23px no-repeat; }
-.toolbar .toolbar-topic a.toolbar-topic-prev i:hover 	{ background-position: -249px -23px; }
-.toolbar .toolbar-topic a.toolbar-topic-next i			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -230px -55px no-repeat; }
-.toolbar .toolbar-topic a.toolbar-topic-next i:hover 	{ background-position: -249px -55px; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i 			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -23px no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:hover 	{ background-position: -230px -23px; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:active 	{ background-position: -249px -23px; }
+.toolbar .toolbar-topic a.toolbar-topic-next i			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -55px no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-next i:hover 	{ background-position: -230px -55px; }
+.toolbar .toolbar-topic a.toolbar-topic-next i:active 	{ background-position: -249px -55px; }
 
 /* Scroll up */
-.toolbar .toolbar-scrollup 		{ display: none; }
-.toolbar .toolbar-scrollup i 	{ background: url(../images/icons-synio.png) -293px -23px no-repeat; }
+.toolbar .toolbar-scrollup 			{ display: none; }
+.toolbar .toolbar-scrollup i 		{ background: url(../images/icons-synio.png) -293px -23px no-repeat; }
+.toolbar .toolbar-scrollup i:hover 	{ background-position: -294px -48px; }
+.toolbar .toolbar-scrollup i:active { background-position: -294px -73px; }
 
 
 
@@ -205,10 +252,12 @@
 
 .search-tags 							{ margin-bottom: 15px; }
 
-.search-form-wrapper					{ background: #f9fbfb; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
-.search-input-wrapper					{ position: relative; }
-.search-input-wrapper .input-submit 	{ position: absolute; top: 6px; right: 5px; width: 16px; height: 16px; border: none; background: url(../images/icons-synio.png) -115px -55px no-repeat; }
-.search-input-wrapper .input-text 		{ padding-right: 25px; }
+.search-form-wrapper						{ background: #f9fbfb; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+.search-input-wrapper						{ position: relative; }
+.search-input-wrapper .input-submit 		{ position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border: none; background: url(../images/icons-synio.png) -319px -24px no-repeat; }
+.search-input-wrapper .input-submit:hover 	{ background-position: -341px -24px; }
+.search-input-wrapper .input-submit:active 	{ background-position: -363px -24px; }
+.search-input-wrapper .input-text 			{ padding-right: 25px; }
 
 
 

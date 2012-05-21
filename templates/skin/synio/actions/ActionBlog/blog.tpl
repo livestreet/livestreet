@@ -58,6 +58,8 @@
 																{elseif $oVote->getDirection() < 0}
 																	voted-down
 																{/if}
+															{else}
+																not-voted
 															{/if}
 															
 															{if ($oUserCurrent && $oUserOwner->getId() == $oUserCurrent->getId())}

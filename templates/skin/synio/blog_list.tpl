@@ -1,14 +1,14 @@
-<table class="table table-blogs">
+<table class="table table-blogs" cellspacing="0">
 	{if $bBlogsUseOrder}
 		<thead>
 			<tr>
-				<th class="cell-info"></th>
+				<th class="cell-info">&nbsp;</th>
 				<th class="cell-name cell-tab">
 					<div class="cell-tab-inner {if $sBlogOrder=='blog_title'}active{/if}"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}><span>{$aLang.blogs_title}</span></a></div>
 				</th>
 
 				{if $oUserCurrent}
-					<th class="cell-join"></th>
+					<th class="cell-join">&nbsp;</th>
 				{/if}
 
 				<th class="cell-readers cell-tab">
@@ -22,11 +22,11 @@
 	{else}
 		<thead>
 			<tr>
-				<th class="cell-info"></th>
+				<th class="cell-info">&nbsp;</th>
 				<th class="cell-name"><div class="cell-tab">{$aLang.blogs_title}</div></th>
 
 				{if $oUserCurrent}
-					<th class="cell-join"></th>
+					<th class="cell-join">&nbsp;</th>
 				{/if}
 
 				<th class="cell-readers"><div class="cell-tab">{$aLang.blogs_readers}</div></th>

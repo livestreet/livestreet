@@ -63,8 +63,8 @@
 				
 				<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none">
 					<li class="item-stat">
-						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} <i class="arrow icon-synio-arrow-up"></i></span>
-						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} <i class="arrow icon-synio-arrow-down"></i></span>
+						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} {*<i class="arrow icon-synio-arrow-up"></i>*}</span>
+						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} {*<i class="arrow icon-synio-arrow-down"></i>*}</span>
 					</li>
 					<li class="item-messages">
 						<a href="{router page='talk'}" id="new_messages">

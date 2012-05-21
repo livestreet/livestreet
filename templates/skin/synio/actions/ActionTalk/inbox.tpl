@@ -17,7 +17,7 @@
 				<tr>
 					<th class="cell-checkbox"><input type="checkbox" name="" class="input-checkbox" onclick="ls.tools.checkAll('form_talks_checkbox', this, true);"></th>
 					<th class="cell-recipients">{$aLang.talk_inbox_target}</th>
-					<th class="cell-favourite"></th>
+					<th class="cell-favourite">&nbsp;</th>
 					<th class="cell-title">{$aLang.talk_inbox_title}</th>
 					<th class="cell-date ta-r">{$aLang.talk_inbox_date}</th>
 				</tr>
