@@ -57,7 +57,8 @@
 .topic .topic-footer .topic-info li.topic-info-share.active i,
 .topic .topic-footer .topic-info li.topic-info-share:hover i	{ background-position: -12px -51px; }
 
-.topic .topic-footer .topic-info li.topic-info-comments a		{ color: #727fa0; text-decoration: underline; }
+.topic .topic-footer .topic-info li.topic-info-comments a		{ color: #727fa0; text-decoration: underline; float: left; }
+.topic .topic-footer .topic-info li.topic-info-comments a:hover	{ color: #f00; }
 .topic .topic-footer .topic-info li.topic-info-comments a.new 	{ color: #000; }
 .topic .topic-footer .topic-info li.topic-info-comments span 	{ color: #27a736; }
 .topic .topic-footer .topic-info li.topic-info-comments i 		{ float: left; margin-right: 7px; }
@@ -68,8 +69,7 @@
 .topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
 
 /* Share */
-.topic .topic-share { display: none; border-top: 1px solid #e7ebed; }
-.topic .topic-share-inner { border: 3px solid #f6f8f9; padding: 3px; }
+.topic .topic-share { display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; }
@@ -96,7 +96,7 @@
 
 /* Topic Photo */
 .topic.topic-type-photoset {  }
-.topic.topic-type-photoset .topic-photo-preview { position: relative; margin-bottom: 15px; }
+.topic.topic-type-photoset .topic-photo-preview { position: relative; margin-bottom: 15px; cursor: pointer; }
 .topic.topic-type-photoset .topic-photo-preview img { vertical-align: top; }
 .topic.topic-type-photoset .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
 .topic.topic-type-photoset .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }

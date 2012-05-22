@@ -20,7 +20,7 @@
 .table a.desc:after		{ content: " ↓"; }
 
 .table .cell-tab { padding: 0; }
-.table .cell-tab .cell-tab-inner { position: relative; top: 1px; float: left; border: 1px solid transparent; border-radius: 3px 3px 0 0; border-bottom: none; }
+.table .cell-tab .cell-tab-inner { position: relative; top: 1px; display: inline-block; border: 1px solid transparent; border-radius: 3px 3px 0 0; border-bottom: none; }
 .table .cell-tab .cell-tab-inner.active { background: #fff; border-color: #c3d4dc; }
 
 /* Table Blogs */
@@ -68,7 +68,7 @@
 .table.table-users .cell-name .username { width: 125px; position: relative; top: 1px; margin-bottom: 3px; }
 .table.table-users .cell-name .realname { font-size: 11px; }
 .table.table-users tbody .cell-date 	{ font-size: 11px; }
-.table.table-users .cell-rating,
+.table.table-users .cell-rating			{ text-align: center; width: 70px; }
 .table.table-users .cell-skill 			{ text-align: center; width: 70px; }
 .table.table-users tbody .cell-skill 	{ color: #628fa5; font-size: 11px; font-weight: bold; }
 .table.table-users tbody .cell-rating	{ color: #5fa459; font-size: 11px; }

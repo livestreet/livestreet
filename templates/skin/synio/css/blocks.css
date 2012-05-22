@@ -23,8 +23,9 @@
 
 
 /* Block Type - Stream */
-.block .block-update 		{ position: absolute; top: 38px; right: 5px; width: 20px; height: 20px; background: url(../images/update-block.gif) no-repeat; cursor: pointer; }
-.block .block-update.active 	{ background-position: -20px 0; }
+.block .block-update 			{ position: absolute; top: 38px; right: 5px; width: 20px; height: 20px; background: url(../images/icons-synio.png) 0 -200px no-repeat; cursor: pointer; }
+.block .block-update:hover 		{ background-position: -20px -200px; }
+.block .block-update.active 	{ background-position: -40px -200px; }
 
 .block.block-type-stream .block-content .latest-list { }
 .block.block-type-stream .block-content .latest-list li { margin-bottom: 15px; color: #818189; }

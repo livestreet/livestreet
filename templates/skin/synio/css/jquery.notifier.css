@@ -35,9 +35,8 @@
 	
 	cursor: pointer;
 }
-#notifier .n-box h3 { color: #fff; font-size: 14px; font-weight: bold; margin-bottom: 3px; }
+#notifier .n-box h3 { color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 3px; font-family: Verdana, sans-serif; }
 #notifier .n-box p { margin: 0; }
 
 #notifier .n-box.n-notice { background: #063573; color: #fff; }
-#notifier .n-box.n-notice h3 { color: #333; }
 #notifier .n-box.n-error { background: #850505; color: #fff; }

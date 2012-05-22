@@ -105,20 +105,6 @@ jQuery(document).ready(function($){
 		liveEvents: true,
 		showTimeout: 100
 	});
-
-	$('.js-infobox-share').poshytip({
-		content: function() {
-			return $('#topic_share_'+$(this).data('topicId')).html();
-		},
-		className: 'infobox-share',
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 2,
-		offsetY: 5,
-		liveEvents: true,
-		showTimeout: 300
-	});
 	
 	$('.js-tip-help').poshytip({
 		className: 'infobox-standart',

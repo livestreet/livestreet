@@ -32,12 +32,10 @@
 		</ul>
 		
 		
-		<div class="topic-share" id="topic_share_{$oTopic->getId()}" style="display: none;">
-			<div class="topic-share-inner">
-				{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-					<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-				{/hookb}
-			</div>
+		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
+			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+			{/hookb}
 		</div>
 
 
@@ -51,26 +49,31 @@
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 				</time>
 			</li>
-			<li class="topic-info-share js-infobox-share" data-topic-id="{$oTopic->getId()}" ><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
+			<li class="topic-info-share" data-topic-id="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
 			
-			<li class="topic-info-favourite">
-				<i onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>
+			<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTopic->getId()},$('#fav_topic_{$oTopic->getId()}'),'topic');">
+				<i id="fav_topic_{$oTopic->getId()}" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>
 				<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{$oTopic->getCountFavourite()}</span>
 			</li>
 		
 			{if $bTopicList}
 				<li class="topic-info-comments">
 					{if $oTopic->getCountCommentNew()}
-						<i class="icon-synio-comments-green-filled"></i>
-						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}" class="new">{$oTopic->getCountComment()}</a>
+						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}" class="new">
+							<i class="icon-synio-comments-green-filled"></i>
+							{$oTopic->getCountComment()}
+						</a>
 						<span>+{$oTopic->getCountCommentNew()}</span>
 					{else}
-						{if $oTopic->getCountComment()}
-							<i class="icon-synio-comments-green-filled"></i>
-						{else}
-							<i class="icon-synio-comments-blue"></i>
-						{/if}
-						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oTopic->getCountComment()}</a>
+						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">
+							{if $oTopic->getCountComment()}
+								<i class="icon-synio-comments-green-filled"></i>
+							{else}
+								<i class="icon-synio-comments-blue"></i>
+							{/if}
+							
+							{$oTopic->getCountComment()}
+						</a>
 					{/if}
 				</li>
 			{/if}
