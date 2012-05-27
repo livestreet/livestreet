@@ -107,8 +107,8 @@
 .block.block-type-blog .block-header h3 a { color: #275ec2; text-decoration: underline; }
 .block.block-type-blog .block-content { padding: 0 7px; }
 .block.block-type-blog footer { font-size: 11px; }
-.block.block-type-blog footer button { margin-right: 10px; }
-.block.block-type-blog footer a { color: #727a90; }
+.block.block-type-blog footer button { }
+.block.block-type-blog footer a { color: #727a90; margin-left: 7px; }
 
 
 /* Block Type - Tags */

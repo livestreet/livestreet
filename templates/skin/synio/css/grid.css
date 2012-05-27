@@ -3,7 +3,7 @@
 -------------------------------------------- */
 
 #container 			{ width: 976px; margin: 0 auto; margin-bottom: 20px; }
-#header-wrapper 	{ background: #090909; }
+#header-wrapper 	{ background: #090909; min-width: 976px; }
 #header 			{ width: 976px; height: 51px; margin: 0 auto; position: relative; }
 #nav 		{ 
 	min-height: 26px;
@@ -32,10 +32,9 @@
 #wrapper.no-sidebar				{ background-image: none; }
 #wrapper.no-sidebar #content 	{ width: 100%; margin-right: 0; }
 
-#container.toolbar-margin #wrapper 				{ width: 888px; background: #fff url(../images/sidebar-border.png) 654px 0px repeat-y; }
-#container.toolbar-margin #wrapper #content 	{ width: 590px; }
+#container.toolbar-margin #wrapper 				{ width: 885px; background: #fff url(../images/sidebar-border.png) 651px 0px repeat-y; }
+#container.toolbar-margin #wrapper #content 	{ width: 587px; }
 #container.toolbar-margin #wrapper #sidebar 	{ width: 240px; }
 #container.toolbar-margin #footer 				{ padding-right: 50px; }
 
 #content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
-
