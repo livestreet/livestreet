@@ -13,7 +13,7 @@ ls.vote = (function ($) {
 			plus: 		'voted-up',
 			minus:  	'voted-down',
 			positive:	'vote-count-positive',
-			negative:  	'vote-count-negative'
+			negative:  	'vote-count-negative',
 			voted_zero: 'voted-zero',
 			zero: 	 	'vote-count-zero',
 			not_voted:  'not-voted'
