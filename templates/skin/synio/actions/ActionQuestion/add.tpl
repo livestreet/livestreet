@@ -25,6 +25,11 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.blog.loadInfo($('#blog_id').val());
+			
+			$("textarea#topic_text").charCount({
+				allowed: 500,		
+				warning: 0
+			});
 		});
     </script>
 	
@@ -41,7 +46,7 @@
 				{foreach from=$_aRequest.answer item=sAnswer key=i}
 					<li>
 						<input type="text" value="{$sAnswer}" name="answer[]" class="input-text input-width-300" {if $bEditDisabled}disabled{/if} />
-						{if !$bEditDisabled and $i>1} <a href="#" onClick="return ls.poll.removeAnswer(this);">{$aLang.topic_question_create_answers_delete}</a>{/if}
+						{if !$bEditDisabled and $i>1} <a href="#" class="icon-synio-remove" onClick="return ls.poll.removeAnswer(this);">{$aLang.topic_question_create_answers_delete}</a>{/if}
 					</li>
 				{/foreach}
 			{else}
@@ -56,8 +61,8 @@
 	</div>
 
 	
-	<p><label for="topic_text">{$aLang.topic_question_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></p>
+	<div class="counter-wrapper"><label for="topic_text">{$aLang.topic_question_create_text}:</label>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></div>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

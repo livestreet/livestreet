@@ -38,6 +38,16 @@ form .icon-question-sign { cursor: help; }
 
 .captcha-image { vertical-align: top; }
 
+.counter-wrapper { margin-bottom: 15px; position: relative; }
+.counter-wrapper .counter { color: #777; position: absolute; top: 0; right: 0; }
+.counter-wrapper label { margin-right: 50px; }
+
+.poll-create 					{ padding: 15px 20px; margin-bottom: 20px; background: #F1F7FD; }
+
+.question-list 					{ margin-bottom: 15px; }
+.question-list li 				{ margin-bottom: 5px; }
+.question-list li .input-text	{ margin-right: 5px; }
+
 dl.form-item { overflow: hidden; zoom: 1; margin-bottom: 20px; }
 dl.form-item dt { float: left; width: 125px; padding-top: 4px; padding-right: 15px; overflow: hidden; }
 dl.form-item dd { float: left; width: 250px; }

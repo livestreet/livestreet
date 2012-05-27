@@ -82,13 +82,13 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_create_text}:</label>
-	<textarea name="topic_text" class="mce-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
-
+	<textarea name="topic_text" class="mce-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
 	{if !$oConfig->GetValue('view.tinymce')}
-	{include file='tags_help.tpl' sTagsTargetId="topic_text"}
-		<br />
-		<br />
+		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
 	{/if}
+	</p>
+
+
 	
 	<div class="topic-photo-upload">
 		<h2>{$aLang.topic_photoset_upload_title}</h2>

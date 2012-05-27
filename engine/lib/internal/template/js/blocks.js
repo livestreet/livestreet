@@ -172,6 +172,10 @@ ls.blocks = (function ($) {
 			$('body').on('click', '.js-block-'+block+'-dropdown-trigger, .js-block-'+block+'-dropdown-items', function(e) {
 				e.stopPropagation();
 			});
+		
+			$(window).resize(function(){
+				menu.css({ 'left': $('.js-block-'+block+'-dropdown-trigger').offset().left });
+			});
 		} else {
 			// Transform nav to dropdown
 			$('.js-block-'+block+'-nav').show();

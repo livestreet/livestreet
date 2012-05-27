@@ -229,12 +229,6 @@ h2.header-table span { color: #949aa1; }
 
 .drafts { float: right; font-size: 11px; color: #275ec2; }
 
-.poll-create 					{ padding: 15px 20px; margin-bottom: 20px; background: #f7f7f7; }
-
-.question-list 					{ margin-bottom: 15px; }
-.question-list li 				{ margin-bottom: 5px; }
-.question-list li .input-text	{ margin-right: 10px; }
-
 .content-error { padding: 110px 160px; }
 .content-error h2.page-header { font-weight: bold; font-size: 30px; margin-bottom: 35px; }
 .content-error a { color: #727a90; }

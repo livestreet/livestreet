@@ -102,7 +102,7 @@
 .topic.topic-type-photoset .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
 
 .topic.topic-type-photoset .topic-photo-images { padding-top: 10px; margin-bottom: 15px; }
-.topic.topic-type-photoset .topic-photo-images h2 { border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 15px; }
+.topic.topic-type-photoset .topic-photo-images h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; font-size: 25px; }
 .topic.topic-type-photoset .topic-photo-images ul { overflow: hidden; zoom: 1; }
 .topic.topic-type-photoset .topic-photo-images ul li { float: left; margin: 0 9px 9px 0; position: relative; }
 .topic.topic-type-photoset .topic-photo-images ul li .image-number { display: none; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 1px 6px; font-size: 11px; background: rgba(0,0,0,.6); }
@@ -111,7 +111,7 @@
 .topic.topic-type-photoset .topic-photo-images .topic-photo-more { display: block; border-top: 1px solid #dbe6f0; text-align: center; padding: 10px 0; margin-bottom: 15px; text-decoration: none; background: #f3f7fa; color: #7b90a5; }
 .topic.topic-type-photoset .topic-photo-images .topic-photo-more:hover { background: #eaf2f8; }
 
-.topic-photo-upload { background: #fafafa; padding: 15px 15px 15px; margin-bottom: 20px; }
+.topic-photo-upload { background: #F1F7FD; padding: 15px 15px 15px; margin-bottom: 20px; }
 .topic-photo-upload h2 { margin-bottom: 15px; }
 .topic-photo-upload ul { overflow: hidden; zoom: 1; }
 .topic-photo-upload ul li { min-height: 100px; _height: 100px; margin-bottom: 10px; padding-left: 110px; position: relative; }

@@ -26,7 +26,7 @@
 #wrapper 	{ width: 933px; overflow: hidden; zoom: 1; padding: 20px 16px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 699px 0px repeat-y; border-bottom: 1px solid #eee; box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
 #content 	{ float: left; width: 635px; margin-right: 55px; background: #fff; position: relative; }
 #sidebar	{ float: left; width: 240px; }
-#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 50px 50px 30px; font-size: 11px; }
+#footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 30px; font-size: 11px; }
 
 
 #wrapper.no-sidebar				{ background-image: none; }
@@ -35,6 +35,7 @@
 #container.toolbar-margin #wrapper 				{ width: 888px; background: #fff url(../images/sidebar-border.png) 654px 0px repeat-y; }
 #container.toolbar-margin #wrapper #content 	{ width: 590px; }
 #container.toolbar-margin #wrapper #sidebar 	{ width: 240px; }
+#container.toolbar-margin #footer 				{ padding-right: 50px; }
 
 #content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
 

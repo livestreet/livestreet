@@ -30,6 +30,10 @@
 		$('body').on('click', '#dropdown-user-trigger, #dropdown-user-menu', function(e) {
 			e.stopPropagation();
 		});
+		
+		$(window).resize(function(){
+			menu.css({ 'left': $('#dropdown-user').offset().left });
+		});
 	});
 </script>
 {/if}

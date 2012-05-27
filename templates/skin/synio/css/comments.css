@@ -104,7 +104,7 @@
 
 
 /* Content */
-.comment .comment-content { margin-bottom: 10px; border: 1px solid #e7ebed; padding: 4px 10px 5px; border-radius: 3px; position: relative; }
+.comment .comment-content { margin-bottom: 10px; border: 1px solid #e7ebed; padding: 9px 10px 10px; border-radius: 3px; position: relative; }
 .comment .comment-content.text { font-size: 13px; }
 .comment .comment-content.text blockquote { background: #fff; border-color: #ccc; padding: 5px 10px; margin-bottom: 5px; }
 .comment .comment-content:after { display: block; content: ""; position: absolute; bottom: -12px; left: 10px; width: 0; height: 0; border-width: 6px; border-color: #e7ebed transparent transparent; border-style: solid; }
