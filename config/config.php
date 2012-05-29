@@ -461,6 +461,15 @@ $config['block']['userfeedUsers'] = array(
                     )
                 )
 );
+$config['block']['rule_blog_info'] = array(
+	'action'  => array(
+			'blog' => array('{topic}')
+		),
+	'blocks'  => array(
+			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+		),
+	'clear' => false,
+);
 
 
 /**

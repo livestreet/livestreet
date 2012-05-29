@@ -26,6 +26,7 @@ ls.blog = (function ($) {
 				;
 				
 				obj.empty().text(text);
+				obj.toggleClass('active');
 				
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
 				ls.hook.run('ls_blog_toggle_join_after',[idBlog,result],obj);

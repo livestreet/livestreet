@@ -45,7 +45,7 @@
 						{/if}
 					</td>
 					<td class="cell-skill">{$oUserList->getSkill()}</td>
-					<td class="cell-rating"><strong>{$oUserList->getRating()}</strong></td>
+					<td class="cell-rating {if $oUserList->getRating() < 0}negative{/if}"><strong>{$oUserList->getRating()}</strong></td>
 				</tr>
 			{/foreach}
 		{else}

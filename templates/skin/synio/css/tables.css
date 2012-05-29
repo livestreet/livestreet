@@ -18,6 +18,7 @@
 .table a.desc			{ color: #000; border-color: #000; }
 .table a.asc:after		{ content: " ↑"; }
 .table a.desc:after		{ content: " ↓"; }
+.table .cell-rating.negative { color: #f00 !important; }
 
 .table .cell-tab { padding: 0; }
 .table .cell-tab .cell-tab-inner { position: relative; top: 1px; display: inline-block; border: 1px solid transparent; border-radius: 3px 3px 0 0; border-bottom: none; }

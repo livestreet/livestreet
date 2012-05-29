@@ -76,7 +76,7 @@
 					{/if}
 
 					<td class="cell-readers" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>
-					<td class="cell-rating align-center">{$oBlog->getRating()}</td>
+					<td class="cell-rating align-center {if $oBlog->getRating() < 0}negative{/if}">{$oBlog->getRating()}</td>
 				</tr>
 			{/foreach}
 		{else}

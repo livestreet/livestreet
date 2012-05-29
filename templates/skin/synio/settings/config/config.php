@@ -35,16 +35,6 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/themes/___view.theme___/style.css",
 );
 
-$config['block']['rule_blog_info'] = array(
-	'action'  => array(
-			'blog' => array('{topic}')
-		),
-	'blocks'  => array(
-			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
-		),
-	'clear' => false,
-);
-
 
 return $config;
 ?>
