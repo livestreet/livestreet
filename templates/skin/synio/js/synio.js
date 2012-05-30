@@ -1,6 +1,8 @@
 jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
+	
+	$('body').removeClass('no-js');
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();

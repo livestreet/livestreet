@@ -44,10 +44,10 @@
 		<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}"><button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
 	{/if}
 
-	<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}">{$oUserProfile->getLogin()}</h2>
+	<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getLogin()}</h2>
 	
 	{if $oUserProfile->getProfileName()}
-		<p class="user-name">{$oUserProfile->getProfileName()|escape:'html'}</p>
+		<p class="user-name" itemprop="name">{$oUserProfile->getProfileName()|escape:'html'}</p>
 	{/if}
 	
 	{hook run='profile_top_end' oUserProfile=$oUserProfile}

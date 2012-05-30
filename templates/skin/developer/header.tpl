@@ -108,7 +108,11 @@
 				{include file='sidebar.tpl'}
 			{/if}
 		
-			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
+			<div id="content" role="main" 
+				class="{if $noSidebar}content-full-width{/if} 
+					   {if $sidebarPosition == 'left'}content-right{/if}"
+				{if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+				
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				
