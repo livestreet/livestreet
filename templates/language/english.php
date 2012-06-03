@@ -278,7 +278,7 @@ return array(
 	'topic_link_create_url' => "Link's URL",
 	'topic_link_create_url_notice' => 'E.g., http://livestreet.ru/blog/dev_livestreet/113.html',
 	'topic_link_create_url_error' => 'Link should consist of 2 upto 200 chars',
-	'topic_link_create_text' => 'Short description (500 chars at max., HTML tags forbidden)',
+	'topic_link_create_text' => 'Short description (500 chars at max.)',
 	'topic_link_create_text_notice' => 'HTML tags forbidden',
 	'topic_link_create_text_error' => 'Link description should consist of 10 upto 500 chars',
 	/**
@@ -305,7 +305,7 @@ return array(
 	'topic_question_create_answers_error' => 'Answer should consist of 1 upto 100 chars',
 	'topic_question_create_answers_error_min' => 'There should be at least 2 answers',
 	'topic_question_create_answers_error_max' => 'Maximium available answers should is 20',
-	'topic_question_create_text' => 'Short description (mx. 500 chars, HTML tags forbidden)',
+	'topic_question_create_text' => 'Short description (mx. 500 chars)',
 	'topic_question_create_text_notice' => 'HTML tags forbidden',
 	'topic_question_create_text_error' => 'Poll description should be 500 chars or less',
 	/**

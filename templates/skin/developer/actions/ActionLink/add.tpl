@@ -5,6 +5,7 @@
 	<h2 class="page-header">{$aLang.topic_link_edit}</h2>
 {/if}
 
+{include file='editor.tpl'}
 
 {hook run='add_topic_link_begin'}
 
@@ -42,7 +43,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_link_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></p>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full mce-editor markitup-editor">{$_aRequest.topic_text}</textarea></p>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

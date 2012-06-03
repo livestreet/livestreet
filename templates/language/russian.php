@@ -278,7 +278,7 @@ return array(
 	'topic_link_create_url' => 'Ссылка',
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html',
 	'topic_link_create_url_error' => 'Ссылка должна быть от 2 до 200 символов',
-	'topic_link_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)',
+	'topic_link_create_text' => 'Краткое описание (максимум 500 символов)',
 	'topic_link_create_text_notice' => 'HTML-теги запрещены',
 	'topic_link_create_text_error' => 'Описание ссылки должно быть от 10 до 500 символов',
 	/**
@@ -305,7 +305,7 @@ return array(
 	'topic_question_create_answers_error' => 'Ответ должен быть от 1 до 100 символов',
 	'topic_question_create_answers_error_min' => 'Вариантов ответа должно быть как минимум два',
 	'topic_question_create_answers_error_max' => 'Максимально возможное число вариантов ответа 20',
-	'topic_question_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)',
+	'topic_question_create_text' => 'Краткое описание (максимум 500 символов)',
 	'topic_question_create_text_notice' => 'HTML-теги запрещены',
 	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов',
 	/**

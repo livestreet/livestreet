@@ -6,6 +6,8 @@
 {/if}
 
 
+{include file='editor.tpl'}
+
 {hook run='add_topic_question_begin'}
 
 
@@ -25,11 +27,6 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.blog.loadInfo($('#blog_id').val());
-			
-			$("textarea#topic_text").charCount({
-				allowed: 500,		
-				warning: 0
-			});
 		});
     </script>
 	
@@ -61,9 +58,14 @@
 	</div>
 
 	
-	<div class="counter-wrapper"><label for="topic_text">{$aLang.topic_question_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></div>
+	<label for="topic_text">{$aLang.topic_question_create_text}:</label>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full mce-editor markitup-editor">{$_aRequest.topic_text}</textarea>
 
+	{if !$oConfig->GetValue('view.tinymce')}
+	{include file='tags_help.tpl' sTagsTargetId="topic_text"}
+		<br />
+		<br />
+	{/if}
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
 	<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text input-width-full autocomplete-tags-sep" />
