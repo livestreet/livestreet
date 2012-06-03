@@ -29,6 +29,12 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserProfile;
 	/**
+	 * Главное меню
+	 *
+	 * @var string
+	 */
+	protected $sMenuHeadItemSelect='people';
+	/**
 	 * Субменю
 	 *
 	 * @var string
@@ -1220,6 +1226,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

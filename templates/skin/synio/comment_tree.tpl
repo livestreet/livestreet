@@ -88,25 +88,9 @@
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}
 {else}
-	{if $oUserCurrent}	
-		{if $oConfig->GetValue('view.tinymce')}
-			<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
-			<script type="text/javascript">
-				jQuery(function($){
-					tinyMCE.init(ls.settings.getTinymceComment());
-				});
-			</script>
-		{else}
-			{include file='window_load_img.tpl' sToLoad='form_comment_text'}
-			<script type="text/javascript">
-				jQuery(function($){
-					ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-					// Подключаем редактор
-					jQuery('#form_comment_text').markItUp(ls.settings.getMarkitupComment());
-				});
-			</script>
-		{/if}
-		
+	{if $oUserCurrent}
+
+		{include file='editor.tpl' sImgToLoad='form_comment_text' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
 	
 		<h4 class="reply-header" id="comment_id_0">
 			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>
@@ -117,7 +101,7 @@
 			<form method="post" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 				{hook run='form_add_comment_begin'}
 				
-				<textarea name="comment_text" id="form_comment_text" class=""></textarea>
+				<textarea name="comment_text" id="form_comment_text" class="mce-editor markitup-editor"></textarea>
 				
 				{hook run='form_add_comment_end'}
 				
