@@ -62,6 +62,7 @@ ls.comments = (function ($) {
 
 				// Load new comments
 				this.load(targetId, targetType, result.sCommentId, true);
+				ls.hook.run('ls_comments_add_after',[formObj, targetId, targetType, result]);
 			}
 		}.bind(this));
 	};
@@ -161,6 +162,7 @@ ls.comments = (function ($) {
 					this.scrollToComment(selfIdComment);
 				}
 				this.checkFolding();
+				ls.hook.run('ls_comments_load_after',[idTarget, typeTarget, selfIdComment, bNotFlushNew, result]);
 			}
 		}.bind(this));
 	};
@@ -198,6 +200,7 @@ ls.comments = (function ($) {
 					$('#comment_id_'+commentId).addClass(this.options.classes.comment_deleted);
 				}
 				$(obj).text(result.sTextToggle);
+				ls.hook.run('ls_comments_toggle_after',[obj,commentId,result]);
 			}
 		}.bind(this));
 	};
