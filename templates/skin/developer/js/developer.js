@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
 	
-	$('body').removeClass('no-js');
+	$('html').removeClass('no-js');
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
@@ -175,6 +175,24 @@ jQuery(document).ready(function($){
 	// Удаляем пользователя из переписки
 	$("#speaker_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromTalk(this, $('#talk_id').val());
+		return false;
+	});
+
+
+	// Help-tags link
+	$('.js-tags-help-link').click(function(){
+		var target=ls.registry.get('tags-help-target-id');
+		if (!target || !$('#'+target).length) {
+			return false;
+		}
+		target=$('#'+target);
+		if ($(this).data('insert')) {
+			var s=$(this).data('insert');
+		} else {
+			var s=$(this).text();
+		}
+		console.log(s);
+		$.markItUp({target: target, replaceWith: s});
 		return false;
 	});
 

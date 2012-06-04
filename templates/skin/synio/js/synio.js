@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
 	
-	$('body').removeClass('no-js');
+	$('html').removeClass('no-js');
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
@@ -121,7 +121,7 @@ jQuery(document).ready(function($){
 	prettyPrint();
 	
 	// эмуляция border-sizing в IE
-	var inputs = $('input, textarea')
+	var inputs = $('input.input-text, textarea')
 	
 	if ($('html').hasClass('ie7')) {
 		if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
@@ -273,6 +273,12 @@ jQuery(document).ready(function($){
 		if ($(document).width() <= 1100) {
 			$('#toolbar').css({'top' : eval(document.documentElement.scrollTop) + 136});
 		}
+	});
+	
+	
+	$('.topic').each(function(i){
+		var left = $(this).find('.topic-info-share').position().left;
+		$(this).find('.topic-share .arrow').css('left', left + 1);
 	});
 	 
 	

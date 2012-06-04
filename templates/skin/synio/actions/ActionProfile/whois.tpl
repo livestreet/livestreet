@@ -64,7 +64,7 @@
 				{if $oGeoTarget}
 					<li>
 						<span>{$aLang.profile_place}:</span>
-						<strong itemscope itemtype="http://data-vocabulary.org/Address">
+						<strong itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
 							{if $oGeoTarget->getCountryId()}
 								<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
 							{/if}

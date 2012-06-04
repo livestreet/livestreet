@@ -69,7 +69,8 @@
 .topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
 
 /* Share */
-.topic .topic-share { display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; }
+.topic .topic-share { display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; position: relative; }
+.topic .topic-share .arrow { position: absolute; border: none; width: 15px; height: 11px; background: url(../images/icons-synio.png) no-repeat; background-position: -53px -107px; bottom: -11px; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; }

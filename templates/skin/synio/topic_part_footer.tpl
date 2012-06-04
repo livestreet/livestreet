@@ -36,6 +36,7 @@
 			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
 				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
 			{/hookb}
+			<div class="arrow"></div>
 		</div>
 
 
@@ -88,6 +89,10 @@
 																		{elseif $oTopic->getRating() == 0}
 																			vote-count-zero
 																		{/if}
+																	{/if}
+																	
+																	{if $oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId()}
+																		vote-not-self
 																	{/if}
 																	
 																	{if $oVote} 
