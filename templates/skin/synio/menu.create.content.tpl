@@ -10,7 +10,6 @@
 			menu.hide();
 			return false;
 		});
-		console.log(pos.left);
 		menu.appendTo('body').css({ 'left': pos.left - 18, 'top': pos.top - 13, 'display': 'none' });
 	
 		trigger.click(function(){

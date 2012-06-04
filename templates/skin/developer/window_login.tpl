@@ -45,7 +45,7 @@
 					{hook run='form_login_popup_end'}
 
 					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
-					<button name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
+					<button type="submit" name="submit_login" class="button button-primary" id="popup-login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 				</form>
 				{hook run='login_popup_end'}
 			</div>
@@ -115,7 +115,7 @@
 					{hook run='form_registration_end' isPopup=true}
 
 					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
-					<button name="submit_register" class="button button-primary" id="popup-registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+					<button type="submit" name="submit_register" class="button button-primary" id="popup-registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 				</form>
 				{hook run='registration_end' isPopup=true}
 			</div>
@@ -137,7 +137,7 @@
 					<input type="text" name="mail" id="popup-reminder-mail" class="input-text input-width-300" />
 					<small class="validate-error-hide validate-error-reminder"></small></p>
 
-					<button name="submit_reminder" class="button button-primary" id="popup-reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
+					<button type="submit" name="submit_reminder" class="button button-primary" id="popup-reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
 				</form>
 			</div>
 		</div>

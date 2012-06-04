@@ -70,9 +70,9 @@
 	{hook run='form_add_topic_topic_end'}
 	
 	
-	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button type="submit" name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
+	<button type="submit" name="submit_preview" onclick="ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button type="submit" name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 	

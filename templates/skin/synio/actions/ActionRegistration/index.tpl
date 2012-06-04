@@ -109,7 +109,7 @@
 		<dl class="form-item">
 			<dt></dt>
 			<dd>
-				<button name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+				<button type="submit"  name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 			</dd>
 		</dl>
 		

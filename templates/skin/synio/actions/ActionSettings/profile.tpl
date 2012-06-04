@@ -49,8 +49,8 @@
 							<img src="" alt="" id="avatar-resize-original-img">
 						</div>
 					</div>
-					<button class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
-					<button class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+					<button type="submit"  class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
+					<button type="submit"  class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
 				</div>
 			</div>
 		</div>
@@ -199,7 +199,7 @@
 		{hook run='form_settings_profile_end'}
 		
 		
-		<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
+		<button type="submit"  name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 	</div>
 </form>
 

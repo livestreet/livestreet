@@ -1,7 +1,7 @@
 <div class="talk-search" id="block_talk_search">
 	<header>
-		<button onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>
-		<button onclick="if (confirm('{$aLang.talk_inbox_delete_confirm}')){ ls.talk.removeTalks() };" class="button">{$aLang.talk_inbox_delete}</button>
+		<button type="submit"  onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>
+		<button type="submit"  onclick="if (confirm('{$aLang.talk_inbox_delete_confirm}')){ ls.talk.removeTalks() };" class="button">{$aLang.talk_inbox_delete}</button>
 
 		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.talk_filter_title}</a>
 	</header>

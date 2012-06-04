@@ -13,8 +13,8 @@
 		<input type="hidden" name="submit_talk_read" id="form_talks_list_submit_read" value="" />
 		<input type="hidden" name="submit_talk_del" id="form_talks_list_submit_del" value="" />
 
-		<button onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>
-		<button onclick="if (confirm('{$aLang.talk_inbox_delete_confirm}')){ ls.talk.removeTalks() };" class="button">{$aLang.talk_inbox_delete}</button>
+		<button type="submit" onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>
+		<button type="submit" onclick="if (confirm('{$aLang.talk_inbox_delete_confirm}')){ ls.talk.removeTalks() };" class="button">{$aLang.talk_inbox_delete}</button>
 		<br /><br />
 		<table class="table table-talk">
 			<thead>

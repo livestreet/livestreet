@@ -41,7 +41,7 @@
 			</tbody>
 		</table>
 
-		<button name="submit_blog_admin" class="button button-primary">{$aLang.blog_admin_users_submit}</button>
+		<button type="submit"  name="submit_blog_admin" class="button button-primary">{$aLang.blog_admin_users_submit}</button>
 	</form>
 
 	{include file='paging.tpl' aPaging=$aPaging}

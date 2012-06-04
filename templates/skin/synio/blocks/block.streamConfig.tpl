@@ -80,7 +80,7 @@
 		<div class="block-content">
 			<div class="search-form-wrapper">
 				<div class="search-input-wrapper">
-					<input type="text" id="stream_users_complete" autocomplete="off" placeholder="{$aLang.stream_block_config_append}" class="autocomplete-users input-text input-width-full" />{*r*}
+					<input type="text" id="stream_users_complete" autocomplete="off" placeholder="{$aLang.stream_block_config_append}" class="autocomplete-users input-text input-width-full" />
 					<input type="submit" value="" onclick="ls.stream.appendUser();" class="input-submit" />
 				</div>
 			</div>

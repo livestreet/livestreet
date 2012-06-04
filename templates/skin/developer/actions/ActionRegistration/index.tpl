@@ -65,7 +65,7 @@
 
 	{hook run='form_registration_end'}
 
-	<button name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+	<button type="submit" name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 </form>
 
 {hook run='registration_end'}

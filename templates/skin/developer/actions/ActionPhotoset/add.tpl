@@ -25,8 +25,8 @@
 		<label for="">{$aLang.topic_photoset_choose_image}:</label>
 		<input type="file" id="photoset-upload-file" name="Filedata" /><br><br>
 
-		<button onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
-		<button onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
+		<button type="submit" onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
+		<button type="submit" onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
 		<input type="hidden" name="is_iframe" value="true" />
 		<input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
 	</p>
@@ -133,9 +133,9 @@
 	{hook run='form_add_topic_photoset_end'}
 			
 			
-	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button type="submit" name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
+	<button type="submit" name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button type="submit" name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 <div class="topic-preview" id="text_preview"></div>

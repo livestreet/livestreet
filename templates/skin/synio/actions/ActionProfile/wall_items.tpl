@@ -46,7 +46,7 @@
 		{if $oUserCurrent}
 			<form class="wall-submit wall-submit-reply" {if !$aReplyWall}style="display: none"{/if}>
 				<textarea rows="4" id="wall-reply-text-{$oWall->getId()}" class="input-text input-width-full js-wall-reply-text" placeholder="{$aLang.wall_reply_placeholder}" onclick="return ls.wall.expandReply({$oWall->getId()});"></textarea>
-				<button type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text-{$oWall->getId()}').val(), {$oWall->getId()});" class="button button-primary js-button-wall-submit">{$aLang.wall_reply_submit}</button>
+				<button type="submit"  type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text-{$oWall->getId()}').val(), {$oWall->getId()});" class="button button-primary js-button-wall-submit">{$aLang.wall_reply_submit}</button>
 			</form>
 		{/if}
 	</div>

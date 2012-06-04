@@ -41,7 +41,7 @@
 					</td>
 					<td>
 						{if $oUserCurrent}
-							<a href="{router page='talk'}add/?talk_users={$oUserList->getLogin()}"><button class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
+							<a href="{router page='talk'}add/?talk_users={$oUserList->getLogin()}"><button type="submit"  class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
 						{/if}
 					</td>
 					<td class="cell-skill">{$oUserList->getSkill()}</td>

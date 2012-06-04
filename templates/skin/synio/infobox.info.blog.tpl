@@ -1,4 +1,4 @@
-<ul class="blog-info">{*r*}
+<ul class="blog-info">
 	<li><span>{$aLang.infobox_blog_create}</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
 	<li><span>{$aLang.infobox_blog_topics}</span> <strong>{$oBlog->getCountTopic()}</strong></li>
 	<li><span><a href="{$oBlog->getUrlFull()}users/">{$aLang.infobox_blog_users}</a></span> <strong>{$oBlog->getCountUser()}</strong></li>

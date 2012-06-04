@@ -14,7 +14,7 @@
 			<br />
 			
 			{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
-				<button class="button button-primary {if $oBlog->getUserIsJoin()}active{/if}" id="blog-join" data-only-text="1" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>&nbsp;&nbsp;
+				<button type="submit" class="button button-primary {if $oBlog->getUserIsJoin()}active{/if}" id="blog-join" data-only-text="1" onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>&nbsp;&nbsp;
 			{/if}
 			<a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="rss">RSS</a>
 		</div>
