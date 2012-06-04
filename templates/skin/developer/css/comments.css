@@ -72,4 +72,6 @@
 
 .reply { padding-bottom: 10px; }
 .reply textarea { height: 100px; }
-.reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center;}
+.reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
+
+.reply .mceEditor { display: block; margin-bottom: 10px; }

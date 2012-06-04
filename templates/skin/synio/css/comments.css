@@ -122,5 +122,7 @@
 .reply textarea { height: 100px; }
 .reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center;}
 
+.reply .mceEditor { display: block; margin-bottom: 10px; }
+
 .wall-submit.wall-submit-reply.wall-submit-comment { box-shadow: none; margin-top: 0; margin-bottom: 50px; }
 .wall-submit.wall-submit-reply.wall-submit-comment:after { display: none; }

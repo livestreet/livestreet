@@ -65,7 +65,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_create_text}:</label>
-	<textarea name="topic_text" class="mce-editor markitup-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
+	<textarea name="topic_text" class="mce-editor markitup-editor input-width-full" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
 	{if !$oConfig->GetValue('view.tinymce')}
 		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
 	{/if}
