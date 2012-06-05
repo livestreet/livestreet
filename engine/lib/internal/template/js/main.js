@@ -579,7 +579,7 @@ ls.ie = (function ($) {
 	};
 	
 	return this;
-}).call(ls.autocomplete || {},jQuery);
+}).call(ls.ie || {},jQuery);
 
 
 
