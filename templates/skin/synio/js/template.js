@@ -14,6 +14,7 @@ jQuery(document).ready(function($){
 	$('#modal_write').jqm({trigger: '.js-write-window-show'});
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
+	$('#userfield_form').jqm({toTop: true}); 
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {
@@ -121,16 +122,8 @@ jQuery(document).ready(function($){
 	prettyPrint();
 	
 	// эмуляция border-sizing в IE
-	var inputs = $('input.input-text, textarea')
-	
-	if ($('html').hasClass('ie7')) {
-		if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
-		
-		inputs.each(function(i){
-			var obj = $(this);
-			if (obj.css('box-sizing') == 'border-box') obj.width(2 * obj.width() - obj.outerWidth());
-		});
-	}
+	var inputs = $('input.input-text, textarea');
+	ls.ie.bordersizing(inputs);
 	
 	// эмуляция placeholder'ов в IE
 	inputs.placeholder();
@@ -263,7 +256,6 @@ jQuery(document).ready(function($){
 		} else {
 			var s=$(this).text();
 		}
-		console.log(s);
 		$.markItUp({target: target, replaceWith: s});
 		return false;
 	});
@@ -456,4 +448,4 @@ function toolbarPos() {
 			$('#toolbar').css({'position': 'fixed', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top': 136, 'display': 'block'});
 		}
 	}
-}
+};

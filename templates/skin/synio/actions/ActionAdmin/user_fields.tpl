@@ -31,7 +31,7 @@
 		<input type="hidden" id="user_fields_form_action" />
 		<input type="hidden" id="user_fields_form_id" />
 		
-		<button type="submit"  type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
+		<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
 	</form>
 </div>
 

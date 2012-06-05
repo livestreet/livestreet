@@ -558,4 +558,29 @@ ls.autocomplete = (function ($) {
 
 
 
+/**
+* Костыли для ИЕ
+*/
+ls.ie = (function ($) {
+
+	// эмуляция border-sizing в IE
+	this.bordersizing = function(inputs) {
+		if ($('html').hasClass('ie7')) {
+			if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
+			
+			inputs.each(function(i){
+				var obj = $(this);
+				if (obj.css('box-sizing') == 'border-box') {
+					obj.css('width', '100%');
+					obj.width(2 * obj.width() - obj.outerWidth());
+				}
+			});
+		}
+	};
+	
+	return this;
+}).call(ls.autocomplete || {},jQuery);
+
+
+
 (ls.options || {}).debug=1;

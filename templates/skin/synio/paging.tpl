@@ -13,8 +13,8 @@
 			{else}
 				<li class="next"><span>{$aLang.paging_next} &rarr;</span></li>
 			{/if}
-			
-			
+		</ul>
+		<ul>
 			{if $aPaging.iCurrentPage>1}<li><a href="{$aPaging.sBaseUrl}/{$aPaging.sGetParams}" title="{$aLang.paging_first}">{$aLang.paging_first}</a></li>{/if}
 			
 			{foreach from=$aPaging.aPagesLeft item=iPage}
