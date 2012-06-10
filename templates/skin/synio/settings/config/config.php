@@ -2,6 +2,8 @@
 
 $config = array();
 
+// Максимальная вложенность комментов при отображении
+$config['module']['comment']['max_tree'] = 5;
 $config['view']['theme'] = 'default';
 
 $config['head']['default']['js'] = Config::Get('head.default.js');

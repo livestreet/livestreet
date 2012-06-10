@@ -175,6 +175,13 @@ ls.comments = (function ($) {
 	this.inject = function(idCommentParent, idComment, sHtml) {
 		var newComment = $('<div>', {'class': 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);
 		if (idCommentParent) {
+			// Уровень вложенности родителя
+			var iCurrentTree = $('#comment_wrapper_id_'+idCommentParent).parentsUntil('#comments').length;
+			if(iCurrentTree == ls.registry.get('comment_max_tree')) {
+				// Определяем id предыдушего родителя
+				var prevCommentParent = $('#comment_wrapper_id_'+idCommentParent).parent();
+				idCommentParent = parseInt(prevCommentParent.attr('id').replace('comment_wrapper_id_',''));
+			}
 			$('#comment_wrapper_id_'+idCommentParent).append(newComment);
 		} else {
 			$('#comments').append(newComment);
