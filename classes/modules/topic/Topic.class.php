@@ -332,7 +332,7 @@ class ModuleTopic extends Module {
 				$this->Comment_SetCommentsPublish($oTopic->getId(),'topic',$oTopic->getPublish());
 			}
 			//чистим зависимые кеши			
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}","topic_update_blog_{$oTopic->getBlogId()}"));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}"));
 			$this->Cache_Delete("topic_{$oTopic->getId()}");
 			return true;
 		}
