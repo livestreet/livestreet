@@ -358,8 +358,13 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setSettingsNoticeReplyComment( getRequest('settings_notice_reply_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewFriend( getRequest('settings_notice_new_friend') ? 1 : 0 );
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_tuning_save_before', array('oUser'=>$this->oUserCurrent));
 			if ($this->User_Update($this->oUserCurrent)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_tuning_submit_ok'));
+				$this->Hook_Run('settings_tuning_save_after', array('oUser'=>$this->oUserCurrent));
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			}
@@ -402,12 +407,17 @@ class ActionSettings extends Action {
 				$bError=true;
 			}
 			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_invate_send_before', array('oUser'=>$this->oUserCurrent));
+			/**
 			 * Если нет ошибок, то отправляем инвайт
 			 */
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
+				$this->Hook_Run('settings_invate_send_after', array('oUser'=>$this->oUserCurrent));
 			}
 		}
 
@@ -470,11 +480,16 @@ class ActionSettings extends Action {
 			 */
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_account_save_before', array('oUser'=>$this->oUserCurrent,'bError'=>&$bError));
+			/**
 			 * Сохраняем изменения
 			 */
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+					$this->Hook_Run('settings_account_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
@@ -557,6 +572,10 @@ class ActionSettings extends Action {
 			 */
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_profile_save_before', array('oUser'=>$this->oUserCurrent,'bError'=>&$bError));
+			/**
 			 * Сохраняем изменения профиля
 			 */
 			if (!$bError) {
@@ -619,6 +638,7 @@ class ActionSettings extends Action {
 						}
 					}
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
+					$this->Hook_Run('settings_profile_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
