@@ -120,6 +120,10 @@ class ActionIndex extends Action {
 		}
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'top',array('period'=>$sPeriod));
@@ -167,6 +171,10 @@ class ActionIndex extends Action {
 		}
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'discussed',array('period'=>$sPeriod));
@@ -200,6 +208,10 @@ class ActionIndex extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsNew($iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -239,6 +251,10 @@ class ActionIndex extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsGood($iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */

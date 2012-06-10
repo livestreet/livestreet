@@ -173,6 +173,10 @@ class ActionProfile extends Action {
 		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/topics');
@@ -244,6 +248,10 @@ class ActionProfile extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
