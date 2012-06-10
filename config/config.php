@@ -200,6 +200,7 @@ $config['module']['user']['usernote_text_max'] = 250; 	    // Максималь
 $config['module']['user']['usernote_per_page'] = 20; 	      // Число заметок на одну страницу
 $config['module']['user']['userfield_max_identical'] = 2; 	// Максимальное число контактов одного типа
 $config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
+$config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт

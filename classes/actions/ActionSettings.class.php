@@ -523,7 +523,7 @@ class ActionSettings extends Action {
 			/**
 			 * Проверяем имя
 			 */
-			if (func_check(getRequest('profile_name'),'text',2,20)) {
+			if (func_check(getRequest('profile_name'),'text',2,Config::Get('module.user.name_max'))) {
 				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
 			} else {
 				$this->oUserCurrent->setProfileName(null);
