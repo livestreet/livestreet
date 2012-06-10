@@ -37,7 +37,15 @@ class ModuleUser_EntityField extends Entity {
 
 		if ($bTransformed) {
 			if (!$this->_aData['pattern']) return $this->_aData['value'];
-			return str_replace('{*}', $this->_aData['value'], $this->_aData['pattern']);
+			$sReturn=str_replace('{*}', $this->_aData['value'], $this->_aData['pattern']);
+			/**
+			 * Грязный хак сайта в профиле (
+			 * @todo Сделать валидацию полей в профиле
+			 */
+			if ($this->getName()=='www') {
+				$sReturn=str_replace(array('http://http://','http://https://'),array('http://','https://'),$sReturn);
+			}
+			return $sReturn;
 		} else {
 			return (isset($this->_aData['value'])) ? $this->_aData['value'] : '';
 		}
