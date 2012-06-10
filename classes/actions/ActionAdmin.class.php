@@ -82,6 +82,7 @@ class ActionAdmin extends Action {
 	 *
 	 */
 	protected function EventRestoreComment() {
+		$this->Security_ValidateSendForm();
 		set_time_limit(0);
 		$this->Comment_RestoreTree();
 		$this->Cache_Clean();
@@ -94,6 +95,7 @@ class ActionAdmin extends Action {
 	 *
 	 */
 	protected function EventRecalculateFavourite() {
+		$this->Security_ValidateSendForm();
 		set_time_limit(0);
 		$this->Comment_RecalculateFavourite();
 		$this->Topic_RecalculateFavourite();
@@ -106,6 +108,7 @@ class ActionAdmin extends Action {
 	 * Пересчет счетчика голосований
 	 */
 	protected function EventRecalculateVote() {
+		$this->Security_ValidateSendForm();
 		set_time_limit(0);
 		$this->Topic_RecalculateVote();
 		$this->Cache_Clean();
@@ -117,6 +120,7 @@ class ActionAdmin extends Action {
 	 * Пересчет количества топиков в блогах
 	 */
 	protected function EventRecalculateTopic() {
+		$this->Security_ValidateSendForm();
 		set_time_limit(0);
 		$this->Blog_RecalculateCountTopic();
 		$this->Cache_Clean();
