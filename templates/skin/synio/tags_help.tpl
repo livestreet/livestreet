@@ -16,7 +16,7 @@
 		</div>
 		<div class="help-item">
 			<h4><a href="#" class="link-dashed js-tags-help-link" data-insert="&lt;video&gt;&lt;/video&gt;">&lt;video&gt;http://...&lt;/video&gt;</a></h4>
-			Добавляет в пост видео со следующих хостингов: YouTube, RuTube, Google video, Vimeo, Я.Видео и Видео@Mail.ru
+			Добавляет в пост видео со следующих хостингов: YouTube, RuTube, Vimeo и Я.Видео
 			Вставляйте между тегами только прямую ссылку на видеоролик.
 		</div>
 		<div class="help-item">
