@@ -43,7 +43,8 @@
 		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 		var SESSION_ID				= '{$_sPhpSessionId}';
 		var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
-		
+		var MAX_TREE                    = '{cfg name="module.comment.max_tree"}';
+
 		var TINYMCE_LANG = 'en';
 		{if $oConfig->GetValue('lang.current') == 'russian'}
 			TINYMCE_LANG = 'ru';
