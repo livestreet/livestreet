@@ -266,11 +266,14 @@ jQuery(document).ready(function($){
 			$('#toolbar').css({'top' : eval(document.documentElement.scrollTop) + 136});
 		}
 	});
-	
-	
+
+
 	$('.topic').each(function(i){
-		var left = $(this).find('.topic-info-share').position().left;
-		$(this).find('.topic-share .arrow').css('left', left + 1);
+		var share=$(this).find('.topic-info-share');
+		if (share.length) {
+			var left = $(this).find('.topic-info-share').position().left;
+			$(this).find('.topic-share .arrow').css('left', left + 1);
+		}
 	});
 	 
 	
