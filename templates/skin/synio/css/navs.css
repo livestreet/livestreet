@@ -147,7 +147,7 @@
 .dropdown-menu-create li a:hover 	{ color: #f00; border-color: #f00; }
 .dropdown-menu-create li.active a	{ color: #aaa; border-color: #aaa; }
 
-.nav.nav-pills.nav-pills-dropdown { position: absolute; top: 0; right: 0; margin: 0; }
+.nav.nav-pills.nav-pills-dropdown { position: absolute; top: 0; right: 0; margin: 0; display: none; }
 .nav.nav-pills.nav-pills-dropdown li { margin: 0; }
 
 

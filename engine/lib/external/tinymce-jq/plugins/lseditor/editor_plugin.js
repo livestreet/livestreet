@@ -96,9 +96,9 @@
                      }
                 	});
                 
-                	lb.add('H3', 'h3');
                 	lb.add('H4', 'h4');
-                	lb.add('H5', 'h5');  
+                	lb.add('H5', 'h5');
+                	lb.add('H6', 'h6');  
                 	return lb;           
         		}
         	return null;

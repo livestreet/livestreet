@@ -187,6 +187,21 @@ jQuery(document).ready(function($){
 		$.markItUp({target: target, replaceWith: s});
 		return false;
 	});
+	
+	
+	// Фикс бага с z-index у встроенных видео
+	$("iframe").each(function(){
+		var ifr_source = $(this).attr('src');
+
+		if(ifr_source) {
+			var wmode = "wmode=opaque";
+				
+			if (ifr_source.indexOf('?') != -1) 
+				$(this).attr('src',ifr_source+'&'+wmode);
+			else 
+				$(this).attr('src',ifr_source+'?'+wmode);
+		}
+	});
 
 	
 	// Хук конца инициализации javascript-составляющих шаблона

@@ -212,15 +212,6 @@ h2.header-table span { color: #949aa1; }
 .talk-blacklist-form { padding: 15px; background: #f8fbfe; border-radius: 5px; margin-bottom: 15px; }
 
 
-/* Registration form
----------------------------------------------------- */
-.registration-form .form-item:last-child { margin-bottom: 0; }
-.registration-form dl.form-item dd	{ position: relative; width: 355px; }
-.registration-form dl.form-item dd .form-item-help { width: 100px; height: 20px; position: absolute; top: 1px; right: 0; background: url(../images/dots.png) 0 12px repeat-x; }
-.registration-form dl.form-item dd .form-item-help i { background-color: #f8fbfe; }
-.registration-form dl.form-item dd .form-item-help i.icon-ok-green { position: absolute; top: 3px; right: 0; }
-
-
 
 /* Misc
 ---------------------------------------------------- */

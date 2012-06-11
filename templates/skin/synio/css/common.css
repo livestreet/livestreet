@@ -224,8 +224,8 @@
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
 
 .user-list-mini li 			{ padding: 0 25px 4px 5px; margin-bottom: 0; position: relative; }
-.user-list-mini li img 		{ width: 16px; height: 16px; position: relative; top: 4px; margin-right: 2px; }
-.user-list-mini li input 	{ position: relative; top: 3px; }
+.user-list-mini li img 		{ width: 17px; height: 17px; position: relative; top: 4px; margin-right: 2px; }
+.user-list-mini li input 	{ position: relative; top: 2px; }
 .user-list-mini li i 		{ position: absolute; top: 4px; right: 5px; cursor: pointer; display: none; }
 .user-list-mini li:hover	{ background: #fcfce9; }
 .user-list-mini li:hover i	{ display: block; }
@@ -265,6 +265,7 @@
 
 /* Облако тегов 
 ---------------------------------------------------- */
+.tag-cloud	 				{ text-align: center; }
 .tag-cloud li 				{ display: inline; margin-right: 5px; line-height: 22px; }
 .tag-cloud li a 			{ color: #727a90; white-space: nowrap; }
 .tag-cloud li a:hover 		{ color: #f00; }

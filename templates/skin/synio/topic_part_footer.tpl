@@ -46,7 +46,7 @@
 				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="topic-info-date">
-				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" pubdate title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
+				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 				</time>
 			</li>
@@ -115,9 +115,9 @@
 					{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 						{assign var="bVoteInfoShow" value=true}
 					{/if}
-					<div href="#" class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
-					<div class="vote-item vote-count title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
-						<span id="vote_total_topic_{$oTopic->getId()}" {if $bVoteInfoShow}class="js-infobox-vote-topic"{/if}">
+					<div class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
+					<div class="vote-item vote-count" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+						<span id="vote_total_topic_{$oTopic->getId()}" {if $bVoteInfoShow}class="js-infobox-vote-topic"{/if}>
 						{if $bVoteInfoShow}
 							{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 						{else}

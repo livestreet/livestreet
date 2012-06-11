@@ -207,9 +207,11 @@ jQuery(document).ready(function($){
 	var nav_pills_dropdown = $('.nav-pills-dropdown');
 	 
 	nav_pills_dropdown.each(function(i) {
-		var menu 	= $(this).clone();
+		var obj 	= $(this);
+		var menu 	= obj.clone();
 		
-		$(this).find('li:not(.active)').remove();
+		obj.find('li:not(.active)').remove();
+		obj.show();
 		
 		var timestamp 	= new Date().getTime();
 		var active 		= $(this).find('li.active');
@@ -275,6 +277,22 @@ jQuery(document).ready(function($){
 			$(this).find('.topic-share .arrow').css('left', left + 1);
 		}
 	});
+	
+	
+	// Фикс бага с z-index у встроенных видео
+	$("iframe").each(function(){
+		var ifr_source = $(this).attr('src');
+
+		if(ifr_source) {
+			var wmode = "wmode=opaque";
+				
+			if (ifr_source.indexOf('?') != -1) 
+				$(this).attr('src',ifr_source+'&'+wmode);
+			else 
+				$(this).attr('src',ifr_source+'?'+wmode);
+			}
+	});
+
 	 
 	
 	// Хук конца инициализации javascript-составляющих шаблона
@@ -438,6 +456,38 @@ ls.blocks.initNavigation = function(block,count) {
 		$('.js-block-'+block+'-nav').show();
 		$('.js-block-'+block+'-dropdown').hide();
 	}
+};
+
+
+/**
+ * Валидация полей формы при регистрации
+ * @param aFields
+ */
+ls.user.validateRegistrationFields = function(aFields,sForm) {
+	var url = aRouter.registration+'ajax-validate-fields/';
+	var params = {fields: aFields};
+	if (typeof(sForm)=='string') {
+		sForm=$('#'+sForm);
+	}
+
+	ls.hook.marker('validateRegistrationFieldsBefore');
+	ls.ajax(url, params, function(result) {
+		if (!sForm) {
+			sForm=$('body'); // поиск полей по всей странице
+		}
+		$.each(aFields,function(i,aField){
+			if (result.aErrors && result.aErrors[aField.field][0]) {
+				sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
+				sForm.find('.validate-ok-field-'+aField.field).hide();
+				sForm.find('.form-item-help-'+aField.field).removeClass('active');
+			} else {
+				sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
+				sForm.find('.validate-ok-field-'+aField.field).show();
+				sForm.find('.form-item-help-'+aField.field).addClass('active');
+			}
+		});
+		ls.hook.run('ls_user_validate_registration_fields_after', [aFields, sForm, result]);
+	});
 };
 
 

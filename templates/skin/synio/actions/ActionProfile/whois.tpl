@@ -222,9 +222,7 @@
 			
 			<ul class="profile-contact-list">
 				{foreach from=$aUserFieldContactValues item=oField}
-					<tr>
-						<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
-					</tr>
+					<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
 				{/foreach}
 			</ul>
 		{/if}

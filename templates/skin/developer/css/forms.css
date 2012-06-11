@@ -51,6 +51,8 @@ dl.form-item dd { float: left; width: 300px; }
 input:-moz-placeholder { color: #aaa; }
 .placeholder { color: #aaa; }
 
+.mceEditor { display: block; margin-bottom: 20px; }
+
 
 /* Валидатор 
 ---------------------------------------------------------------*/

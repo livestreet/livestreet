@@ -96,7 +96,7 @@
 					<small class="validate-error-hide validate-error-field-password"></small></p>
 
 					<p>
-					<input type="password" value="" placeholder="{$aLang.registration_password_retry}" id="popup-registration-user-password-confirm" name="password_confirm" class="input-text input-width-300 js-ajax-validate" />
+					<input type="password" name="password_confirm" placeholder="{$aLang.registration_password_retry}" id="popup-registration-user-password-confirm" value="" class="input-text input-width-300 js-ajax-validate" />
 					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
 					<small class="validate-error-hide validate-error-field-password_confirm"></small></p>
 
@@ -134,7 +134,7 @@
 					<input type="text" name="mail" placeholder="{$aLang.password_reminder_email}" id="popup-reminder-mail" class="input-text input-width-300" />
 					<small class="validate-error-hide validate-error-reminder"></small></p>
 
-					<button type="submit"  name="submit_reminder" class="button button-primary" id="popup-reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
+					<button type="submit" name="submit_reminder" class="button button-primary" id="popup-reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
 				</form>
 			</div>
 		</div>

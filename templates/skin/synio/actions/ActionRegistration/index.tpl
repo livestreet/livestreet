@@ -5,12 +5,12 @@
 		$('#registration-form').find('input.js-ajax-validate').blur(function(e){
 			var aParams={ };
 			if ($(e.target).attr('name')=='password_confirm') {
-				aParams['password']=$('#user-password').val();
+				aParams['password']=$('#registration-user-password').val();
 			}
 			if ($(e.target).attr('name')=='password') {
-				aParams['password']=$('#user-password').val();
-				if ($('#user-password-confirm').val()) {
-					ls.user.validateRegistrationField('password_confirm',$('#user-password-confirm').val(),$('#registration-form'),{ 'password': $(e.target).val() });
+				aParams['password']=$('#registration-user-password').val();
+				if ($('#registration-user-password-confirm').val()) {
+					ls.user.validateRegistrationField('password_confirm',$('#registration-user-password-confirm').val(),$('#registration-form'),{ 'password': $(e.target).val() });
 				}
 			}
 			ls.user.validateRegistrationField($(e.target).attr('name'),$(e.target).val(),$('#registration-form'),aParams);
@@ -37,7 +37,7 @@
 				<input type="text" name="login" id="registration-login" value="{$_aRequest.login}" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-login"></small>
 				
-				<div class="form-item-help">
+				<div class="form-item-help form-item-help-login">
 					<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
 				</div>
@@ -50,7 +50,7 @@
 				<input type="text" name="mail" id="registration-mail" value="{$_aRequest.mail}" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-mail"></small>
 				
-				<div class="form-item-help">
+				<div class="form-item-help form-item-help-mail">
 					<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
 				</div>
@@ -63,7 +63,7 @@
 				<input type="password" name="password" id="registration-user-password" value="" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-password"></small>
 				
-				<div class="form-item-help">
+				<div class="form-item-help form-item-help-password">
 					<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
 					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
 				</div>
@@ -76,8 +76,9 @@
 				<input type="password" value="" id="registration-user-password-confirm" name="password_confirm" class="input-text input-width-250 js-ajax-validate" />
 				<small class="validate-error-hide validate-error-field-password_confirm"></small>
 				
-				<div class="form-item-help validate-ok-field-password_confirm"  style="display: none">
-					<i class="icon-ok-green"></i>
+				<div class="form-item-help form-item-help-password_confirm">
+					<i class="icon-ok-green validate-ok-field-password_confirm" style="display: none"></i>
+					<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
 				</div>
 			</dd>
 		</dl>
@@ -94,8 +95,8 @@
 				<input type="text" name="captcha" id="registration-user-captcha" value="" maxlength="3" class="input-text input-width-100 js-ajax-validate" style="width: 165px" />
 				<small class="validate-error-hide validate-error-field-captcha"></small>
 				
-				<div class="form-item-help validate-ok-field-captcha" style="display: none">
-					<i class="icon-ok-green" ></i>
+				<div class="form-item-help form-item-help-captcha">
+					<i class="icon-ok-green validate-ok-field-captcha" style="display: none"></i>
 				</div>
 			</dd>
 		</dl>
@@ -109,7 +110,7 @@
 		<dl class="form-item">
 			<dt></dt>
 			<dd>
-				<button type="submit"  name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
+				<button type="submit" name="submit_register" class="button button-primary" id="registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 			</dd>
 		</dl>
 		
