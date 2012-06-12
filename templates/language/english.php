@@ -1061,6 +1061,31 @@ return array(
 	'block_create_blog' => 'Blog',
 	'block_create_talk' => 'Message',
 	/**
+	 * Description of HTML tags
+	 */
+	'tags_help_link_show' => 'Available in html-tags',
+	'tags_help_special' => 'Special tags',
+	'tags_help_special_cut' => 'Used for large text, hiding part of the text next to a tag (it will say "Read more").',
+	'tags_help_special_cut_name' => 'So you can change the text "Read More" to any text.',
+	'tags_help_special_cut_name_example_name' => 'Details',
+	'tags_help_special_video' => 'Adds to post videos from the following hosts: YouTube, RuTube, Vimeo and Ya.Video. <br/> Insert the tags only direct link to the video.',
+	'tags_help_special_ls_user' => 'Displays the user name in the text.',
+	'tags_help_special_ls_user_example_user' => 'Nick',
+	'tags_help_standart' => 'Standard tags',
+	'tags_help_standart_h' => 'The headings of different levels.',
+	'tags_help_standart_img' => 'Inserting images in the src attribute must specify the full path to the image. Perhaps the alignment attribute align.',
+	'tags_help_standart_a' => 'Insert a link in the href attribute specifies the desired web address, or an anchor (anchor) to navigate the page.',
+	'tags_help_standart_a_example_href' => 'Link',
+	'tags_help_standart_b' => 'Selection of an important text on the page in bold face.',
+	'tags_help_standart_i' => 'Selection of an important text on the page in italics.',
+	'tags_help_standart_s' => 'The text between these tags will be displayed as striked.',
+	'tags_help_standart_u' => 'The text between these tags will be displayed as underlined.',
+	'tags_help_standart_hr' => 'Tag to insert a horizontal line.',
+	'tags_help_standart_blockquote' => 'Use this tag to select citations.',
+	'tags_help_standart_table' => 'A set of tags for creating tables. &lt;td&gt; Tag indicates a table cell, the tag &lt;th&gt; - a cell in the header, &lt;tr&gt; - line of the table. All contents of the table put the tag &lt;table&gt;.',
+	'tags_help_standart_ul' => 'Unnumbered list, each item is given a tag &lt;li&gt;, a set of items in the list put the tag &lt;ul&gt;.',
+	'tags_help_standart_ol' => 'A numbered list, each item is given a tag &lt;li&gt;, a set of items in the list put the tag &lt;ol&gt;.',
+	/**
 	 * System
 	 */
 	'system_error_event_args' => 'Wrong number of arguments during event addition',
