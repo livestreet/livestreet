@@ -412,6 +412,7 @@ return array(
 	'user_login_submit' => 'Войти',
 	'user_login_remember' => 'Запомнить меня',
 	'user_login_bad' => 'Что-то не так! Вероятно, неправильно указан логин (e-mail) или пароль.',
+	'user_not_activated' => 'Вы не активировали вашу учетную запись. <br/> <a href="%%reactivation_path%%">Повторный запрос активации</a>',
 	'user_password' => 'Пароль',
 	'user_password_reminder' => 'Напомнить пароль',
 	'user_exit_notice' => 'Обязательно приходите еще.',
@@ -499,6 +500,14 @@ return array(
 	'registration_captcha_error' => 'Неверный код',
 	'registration_submit' => 'Зарегистрироваться',
 	'registration_ok' => 'Поздравляем! Регистрация прошла успешно',
+
+    /**
+     * Повторный запрос активации
+     */
+    "reactivation" => "Повторный запрос активации",
+    "reactivation_submit" => "Получить ссылку на активацию",
+    "reactivation_send_link" => "Ссылка для активации отправлена на ваш адрес электронной почты.",
+
 	/**
 	 * Голосование за пользователя
 	 */
@@ -959,6 +968,7 @@ return array(
 	'notify_subject_reminder_password' => 'Новый пароль',
 	'notify_subject_wall_reply' => 'Ответ на ваше сообщение на стене',
 	'notify_subject_wall_new' => 'Новое сообщение на вашей стене',
+	'notify_subject_reactvation' => 'Повторный запрос активации',
 	/**
 	 * Админка
 	 */

@@ -412,6 +412,7 @@ return array(
 	'user_login_submit' => 'Login',
 	'user_login_remember' => 'Remember me',
 	'user_login_bad' => 'Something is wrong! Wrong login (e-mail) or password?.',
+    'user_not_activated' => 'You have not activated your account. <br/> <a href="%%reactivation_path%%">Re-activation request</a>',
 	'user_password' => 'Password',
 	'user_password_reminder' => 'Password reminder',
 	'user_exit_notice' => 'Please come again.',
@@ -499,6 +500,12 @@ return array(
 	'registration_captcha_error' => 'Wrong code',
 	'registration_submit' => 'Submit registration',
 	'registration_ok' => 'Congratulation with successful registration!',
+    /**
+     * Re-activation
+     */
+    "reactivation" => "Re-activation request",
+    "reactivation_submit" => "Get a link to the activation",
+    "reactivation_send_link" => "Activation link is sent to your e-mail.",
 	/**
 	 * Vote for users
 	 */
@@ -959,6 +966,7 @@ return array(
 	'notify_subject_reminder_password' => 'New password',
 	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
 	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
+    'notify_subject_reactvation' => 'Re-activation request',
 	/**
 	 * Админка
 	 */
