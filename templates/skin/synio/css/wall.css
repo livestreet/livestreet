@@ -62,6 +62,8 @@
 	background: linear-gradient(top,  #fffffa 0%,#fefef1 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffffa', endColorstr='#fefef1',GradientType=0 );
 }
-.wall-more-reply:hover { color: #898953; }
+.wall-more-reply:hover 				{ color: #898953; }
 .wall-more.loader 					{ background: #F4F4D9 url(../images/loader.gif) 50% 50% no-repeat; }
 .wall-more.loader .wall-more-inner 	{ visibility: hidden; }
+
+.wall-note h3 { font-size: 15px; margin-bottom: 20px; font-family: Verdana, sans-serif; }

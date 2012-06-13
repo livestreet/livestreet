@@ -1,3 +1,4 @@
+{if $oUserCurrent}
 <script>
 	jQuery(document).ready(function($){
 		// Dropdown
@@ -29,9 +30,13 @@
 		$('body').on('click', '#dropdown-user-trigger, #dropdown-user-menu', function(e) {
 			e.stopPropagation();
 		});
+		
+		$(window).resize(function(){
+			menu.css({ 'left': $('#dropdown-user').offset().left });
+		});
 	});
 </script>
-
+{/if}
 
 <div id="header-wrapper">
 	<header id="header" role="banner">
@@ -60,11 +65,13 @@
 				
 				<div class="dropdown-user-trigger" id="dropdown-user-trigger"><i></i></div>
 				
-				<ul class="dropdown-menu dropdown-user-menu" id="dropdown-user-menu" style="display: none">
+				<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none">
 					<li class="item-stat">
-						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} <i class="arrow icon-synio-arrow-up"></i></span>
-						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} <i class="arrow icon-synio-arrow-down"></i></span>
+						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} {*<i class="arrow icon-synio-arrow-up"></i>*}</span>
+						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} {*<i class="arrow icon-synio-arrow-down"></i>*}</span>
+						{hook run='userbar_stat_item'}
 					</li>
+					{hook run='userbar_item_first'}
 					<li class="item-messages">
 						<a href="{router page='talk'}" id="new_messages">
 							<i class="item-icon"></i>
@@ -72,10 +79,10 @@
 							{if $iUserCurrentCountTalkNew}<div class="new">+{$iUserCurrentCountTalkNew}</div>{/if}
 						</a>
 					</li>
-					<li class="item-profile"><i class="item-icon"></i><a href="{$oUserCurrent->getUserWebPath()}">Мой профиль</a></li> {*r*}
+					<li class="item-profile"><i class="item-icon"></i><a href="{$oUserCurrent->getUserWebPath()}">{$aLang.footer_menu_user_profile}</a></li> 
 					<li class="item-settings"><i class="item-icon"></i><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
 					<li class="item-create"><i class="item-icon"></i><a href="{router page='topic'}add/">{$aLang.block_create}</a></li>
-					{hook run='userbar_item'}
+					{hook run='userbar_item_last'}
 					<li class="item-signout"><i class="item-icon"></i><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
 				</ul>
 			</div>

@@ -19,7 +19,7 @@
 			<p><label for="add_friend_text">{$aLang.user_friend_add_text_label}</label>
 			<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea></p>
 
-			<button class="button button-primary">{$aLang.user_friend_add_submit}</button>
+			<button type="submit" class="button button-primary">{$aLang.user_friend_add_submit}</button>
 		</form>
 	</div>
 	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" id="add_friend_show">{$aLang.user_friend_add}</a></li>

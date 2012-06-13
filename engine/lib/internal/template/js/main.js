@@ -123,6 +123,29 @@ ls.timer = (function ($) {
 	return this;
 }).call(ls.timer || {},jQuery);
 
+/**
+ * Функционал хранения js данных
+ */
+ls.registry = (function ($) {
+
+	this.aData={};
+
+	/**
+	 * Сохранение
+	 */
+	this.set = function(sName,data){
+		this.aData[sName]=data;
+	};
+
+	/**
+	 * Получение
+	 */
+	this.get = function(sName){
+		return this.aData[sName];
+	};
+
+	return this;
+}).call(ls.registry || {},jQuery);
 
 /**
 * Flash загрузчик
@@ -532,6 +555,31 @@ ls.autocomplete = (function ($) {
 
 	return this;
 }).call(ls.autocomplete || {},jQuery);
+
+
+
+/**
+* Костыли для ИЕ
+*/
+ls.ie = (function ($) {
+
+	// эмуляция border-sizing в IE
+	this.bordersizing = function(inputs) {
+		if ($('html').hasClass('ie7')) {
+			if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
+			
+			inputs.each(function(i){
+				var obj = $(this);
+				if (obj.css('box-sizing') == 'border-box') {
+					obj.css('width', '100%');
+					obj.width(2 * obj.width() - obj.outerWidth());
+				}
+			});
+		}
+	};
+	
+	return this;
+}).call(ls.ie || {},jQuery);
 
 
 

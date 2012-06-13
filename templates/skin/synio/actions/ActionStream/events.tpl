@@ -28,7 +28,7 @@
 				{$aLang.stream_list_event_vote_user} 
 				<span class="user-avatar user-avatar-n">
 					<a href="{$oTarget->getUserWebPath()}"><img src="{$oTarget->getProfileAvatarPath(24)}" alt="avatar" /></a>
-					<a href="{$oTarget->getUrlWall()}">{$oTarget->getLogin()}</a>
+					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
 				</span>
 			{elseif $oStreamEvent->getEventType() == 'join_blog'}
 				{$aLang.stream_list_event_join_blog} <a href="{$oTarget->getUrlFull()}">{$oTarget->getTitle()|escape:'html'}</a>
@@ -36,7 +36,7 @@
 				{$aLang.stream_list_event_add_friend} 
 				<span class="user-avatar user-avatar-n">
 					<a href="{$oTarget->getUserWebPath()}"><img src="{$oTarget->getProfileAvatarPath(24)}" alt="avatar" /></a>
-					<a href="{$oTarget->getUrlWall()}">{$oTarget->getLogin()}</a>
+					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
 				</span>
 			{elseif $oStreamEvent->getEventType() == 'add_wall'}
 				{$aLang.stream_list_event_add_wall} 

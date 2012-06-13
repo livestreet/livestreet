@@ -24,6 +24,8 @@
 .input-width-400 	{ width: 400px; }
 .input-width-500 	{ width: 500px; }
 
+textarea { -moz-box-sizing: border-box; box-sizing: border-box; }
+
 select 		{ padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
 
 fieldset { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
@@ -48,6 +50,8 @@ dl.form-item dd { float: left; width: 300px; }
 /* Placeholder */
 input:-moz-placeholder { color: #aaa; }
 .placeholder { color: #aaa; }
+
+.mceEditor { display: block; margin-bottom: 20px; }
 
 
 /* Валидатор 

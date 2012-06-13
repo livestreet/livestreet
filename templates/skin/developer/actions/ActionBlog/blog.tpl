@@ -32,7 +32,7 @@
 			</select></p>
 			
 			<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" />
-			<button class="button button-primary">{$aLang.blog_delete}</button>
+			<button type="submit" class="button button-primary">{$aLang.blog_delete}</button>
 		</form>
 	</div>
 {/if}

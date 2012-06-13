@@ -104,6 +104,10 @@ class ActionPersonalBlog extends Action {
 		}
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());

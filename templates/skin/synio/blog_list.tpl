@@ -1,30 +1,38 @@
-<table class="table table-blogs">
+<table class="table table-blogs" cellspacing="0">
 	{if $bBlogsUseOrder}
 		<thead>
 			<tr>
-				<th class="cell-name"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_title}</a></th>
+				<th class="cell-info">&nbsp;</th>
+				<th class="cell-name cell-tab">
+					<div class="cell-tab-inner {if $sBlogOrder=='blog_title'}active{/if}"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}><span>{$aLang.blogs_title}</span></a></div>
+				</th>
 
 				{if $oUserCurrent}
-					<th class="cell-join"></th>
+					<th class="cell-join">&nbsp;</th>
 				{/if}
 
-				<th class="cell-readers">
-					<a href="{$sBlogsRootPage}?order=blog_count_user&order_way={if $sBlogOrder=='blog_count_user'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_count_user'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_readers}</a>
+				<th class="cell-readers cell-tab">
+					<div class="cell-tab-inner {if $sBlogOrder=='blog_count_user'}active{/if}"><a href="{$sBlogsRootPage}?order=blog_count_user&order_way={if $sBlogOrder=='blog_count_user'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_count_user'}class="{$sBlogOrderWay}"{/if}><span>{$aLang.blogs_readers}</span></a></div>
 				</th>
-				<th class="cell-rating align-center"><a href="{$sBlogsRootPage}?order=blog_rating&order_way={if $sBlogOrder=='blog_rating'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_rating'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_rating}</a></th>
+				<th class="cell-rating cell-tab align-center">
+					<div class="cell-tab-inner {if $sBlogOrder=='blog_rating'}active{/if}"><a href="{$sBlogsRootPage}?order=blog_rating&order_way={if $sBlogOrder=='blog_rating'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_rating'}class="{$sBlogOrderWay}"{/if}><span>{$aLang.blogs_rating}</span></a></div>
+				</th>
 			</tr>
 		</thead>
 	{else}
 		<thead>
 			<tr>
-				<th class="cell-name">{$aLang.blogs_title}</th>
+				<th class="cell-info">&nbsp;</th>
+				<th class="cell-name"><div class="cell-tab">{$aLang.blogs_title}</div></th>
 
 				{if $oUserCurrent}
-					<th class="cell-join">{$aLang.blog_join_leave}</th>
+					<th class="cell-join">&nbsp;</th>
 				{/if}
 
-				<th class="cell-readers">{$aLang.blogs_readers}</th>
-				<th class="cell-rating align-center">{$aLang.blogs_rating}</th>
+				<th class="cell-readers"><div class="cell-tab">{$aLang.blogs_readers}</div></th>
+				<th class="cell-rating cell-tab align-center">
+					<div class="cell-tab-inner active"><span>{$aLang.blogs_rating}</span></div>
+				</th>
 			</tr>
 		</thead>
 	{/if}
@@ -36,6 +44,9 @@
 				{assign var="oUserOwner" value=$oBlog->getOwner()}
 
 				<tr>
+					<td class="cell-info">
+						<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="blog-list-info"></a>
+					</td>
 					<td class="cell-name">
 						<p>
 							<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a>
@@ -43,7 +54,6 @@
 							{if $oBlog->getType() == 'close'}
 								<i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>
 							{/if}
-							<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="icon-question-sign"></a>
 						</p>
 						
 						<span class="user-avatar">
@@ -55,7 +65,7 @@
 					{if $oUserCurrent}
 						<td class="cell-join">
 							{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
-								<button onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button button-action button-action-join {if $oBlog->getUserIsJoin()}active{/if}">
+								<button type="submit"  onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button button-action button-action-join {if $oBlog->getUserIsJoin()}active{/if}">
 									<i class="icon-synio-join"></i>
 									<span>{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</span>
 								</button>
@@ -66,7 +76,7 @@
 					{/if}
 
 					<td class="cell-readers" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>
-					<td class="cell-rating align-center">{$oBlog->getRating()}</td>
+					<td class="cell-rating align-center {if $oBlog->getRating() < 0}negative{/if}">{$oBlog->getRating()}</td>
 				</tr>
 			{/foreach}
 		{else}

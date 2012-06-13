@@ -1,7 +1,7 @@
 <div class="block block-type-blogs" id="block_blogs">
 	<header class="block-header sep">
 		<h3>{$aLang.block_blogs}</h3>
-		<!--<div class="block-update js-block-blogs-update"></div>-->
+		<div class="block-update js-block-blogs-update"></div>
 		
 		<ul class="nav nav-pills js-block-blogs-nav">
 			<li class="active js-block-blogs-item" data-type="top"><a href="#">{$aLang.block_blogs_top}</a></li>

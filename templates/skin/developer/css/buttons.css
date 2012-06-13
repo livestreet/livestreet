@@ -62,7 +62,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#43bb34', endColorstr='#3aa62c',GradientType=0 );
 }
 .button.button-primary:hover 	{ background: #3AA62C; }
-
+.button.button-primary.active { background: #D23E3E; }
 
 /* Button Icon (Without text) */
 .button.button-icon 			{ padding: 7px 10px; }

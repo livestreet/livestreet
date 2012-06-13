@@ -29,7 +29,7 @@
 	
 	{hook run='form_login_end'}
 
-	<button name="submit_login" class="button button-primary" id="login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
+	<button type="submit" name="submit_login" class="button button-primary" id="login-form-submit" disabled="disabled">{$aLang.user_login_submit}</button>
 
 		
 	<br />

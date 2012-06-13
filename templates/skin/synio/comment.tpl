@@ -17,12 +17,14 @@
 	{if !$oComment->getDelete() or $bOneComment or ($oUserCurrent and $oUserCurrent->isAdministrator())}
 		<a name="comment{$oComment->getId()}"></a>
 		
+		<div class="folding"></div>
 		
+		<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" /></a>
 		
-		
-		
-		<div id="comment_content_id_{$oComment->getId()}" class="comment-content text">
-			{$oComment->getText()}
+		<div id="comment_content_id_{$oComment->getId()}" class="comment-content">
+			<div class=" text">
+				{$oComment->getText()}
+			</div>
 		</div>
 		
 		

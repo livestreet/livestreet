@@ -65,6 +65,10 @@ class ActionUserfeed extends Action {
 		 * Получаем топики
 		 */
 		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		$this->Viewer_Assign('aTopics', $aTopics);
 		if (count($aTopics)) {
 			$this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
@@ -97,6 +101,10 @@ class ActionUserfeed extends Action {
 		 * Получаем топики
 		 */
 		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Загружаем данные в ajax ответ
 		 */

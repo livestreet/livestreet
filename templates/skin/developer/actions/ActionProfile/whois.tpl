@@ -1,4 +1,5 @@
 {assign var="sidebarPosition" value='left'}
+{assign var="sMenuItemSelect" value='profile'}
 {include file='header.tpl'}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
@@ -50,13 +51,13 @@
 		{if $oGeoTarget}
 			<tr>
 				<td class="cell-label">{$aLang.profile_place}:</td>
-				<td>
+				<td itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
 					{if $oGeoTarget->getCountryId()}
-						<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
+						<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
 					{/if}
 					
 					{if $oGeoTarget->getCityId()}
-						<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+						<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape:'html'}</a>
 					{/if}
 				</td>
 			</tr>

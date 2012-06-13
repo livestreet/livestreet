@@ -29,6 +29,12 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserProfile;
 	/**
+	 * Главное меню
+	 *
+	 * @var string
+	 */
+	protected $sMenuHeadItemSelect='people';
+	/**
 	 * Субменю
 	 *
 	 * @var string
@@ -167,6 +173,10 @@ class ActionProfile extends Action {
 		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'created/topics');
@@ -238,6 +248,10 @@ class ActionProfile extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsFavouriteByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -341,6 +355,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+		$this->sMenuSubItemSelect='main';
 		/**
 		 * Получаем список друзей
 		 */
@@ -1219,6 +1234,7 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
+		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

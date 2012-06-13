@@ -5,6 +5,33 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+
+{*
+{if $oUserCurrent}
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$(document).click(function(){
+			if (!$('#reply-top-form').is(':visible')) {
+				$('#reply').hide();
+				$('#reply-top-form').show();
+			}
+		});
+		
+		$('body').on('click', '#reply-top', function(e) {
+			e.stopPropagation();
+		});
+	});
+	
+	ls.comments.expandReplyTop = function() {
+		$('#reply').show().appendTo('#reply-top');
+		$('#reply-top-form').hide();
+		$('#form_comment_text').val('');
+		$('#form_comment_reply').val(0);
+	}
+</script>
+{/if}
+*}
+
 <div class="comments" id="comments">
 	<header class="comments-header">
 		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
@@ -18,7 +45,16 @@
 	
 		<a name="comments"></a>
 	</header>
-
+	
+	{*
+	{if $oUserCurrent}
+		<div id="reply-top">
+			<div class="wall-submit wall-submit-reply wall-submit-comment" id="reply-top-form">
+				<textarea rows="4" class="input-text input-width-full" placeholder="{$aLang.wall_reply_placeholder}" onclick="ls.comments.expandReplyTop();"></textarea>
+			</div>
+		</div>
+	{/if}
+	*}
 
 	{assign var="nesting" value="-1"}
 	{foreach from=$aComments item=oComment name=rublist}
@@ -52,25 +88,9 @@
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}
 {else}
-	{if $oUserCurrent}	
-		{if $oConfig->GetValue('view.tinymce')}
-			<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
-			<script type="text/javascript">
-				jQuery(function($){
-					tinyMCE.init(ls.settings.getTinymceComment());
-				});
-			</script>
-		{else}
-			{include file='window_load_img.tpl' sToLoad='form_comment_text'}
-			<script type="text/javascript">
-				jQuery(function($){
-					ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-					// Подключаем редактор
-					jQuery('#form_comment_text').markItUp(ls.settings.getMarkitupComment());
-				});
-			</script>
-		{/if}
-		
+	{if $oUserCurrent}
+
+		{include file='editor.tpl' sImgToLoad='form_comment_text' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
 	
 		<h4 class="reply-header" id="comment_id_0">
 			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>
@@ -81,11 +101,11 @@
 			<form method="post" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 				{hook run='form_add_comment_begin'}
 				
-				<textarea name="comment_text" id="form_comment_text" class=""></textarea>
+				<textarea name="comment_text" id="form_comment_text" class="mce-editor markitup-editor input-width-full"></textarea>
 				
 				{hook run='form_add_comment_end'}
 				
-				<button name="submit_comment" 
+				<button type="submit"  name="submit_comment" 
 						id="comment-button-submit" 
 						onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" 
 						class="button button-primary">{$aLang.comment_add}</button>

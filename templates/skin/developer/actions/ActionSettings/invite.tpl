@@ -25,7 +25,7 @@
 
 	{hook run='form_settings_invite_end'}
 
-	<button name="submit_invite" class="button button-primary" />{$aLang.settings_invite_submit}</button>
+	<button type="submit" name="submit_invite" class="button button-primary" />{$aLang.settings_invite_submit}</button>
 </form>
 
 {hook run='settings_invite_end'}

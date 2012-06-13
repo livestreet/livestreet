@@ -62,6 +62,7 @@ ls.comments = (function ($) {
 
 				// Load new comments
 				this.load(targetId, targetType, result.sCommentId, true);
+				ls.hook.run('ls_comments_add_after',[formObj, targetId, targetType, result]);
 			}
 		}.bind(this));
 	};
@@ -97,6 +98,11 @@ ls.comments = (function ($) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		}
 		if (!bNoFocus) $('#form_comment_text').focus();
+		
+		if ($('html').hasClass('ie7')) {
+			var inputs = $('input.input-text, textarea');
+			ls.ie.bordersizing(inputs);
+		}
 	};
 
 
@@ -161,6 +167,7 @@ ls.comments = (function ($) {
 					this.scrollToComment(selfIdComment);
 				}
 				this.checkFolding();
+				ls.hook.run('ls_comments_load_after',[idTarget, typeTarget, selfIdComment, bNotFlushNew, result]);
 			}
 		}.bind(this));
 	};
@@ -170,6 +177,13 @@ ls.comments = (function ($) {
 	this.inject = function(idCommentParent, idComment, sHtml) {
 		var newComment = $('<div>', {'class': 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);
 		if (idCommentParent) {
+			// Уровень вложенности родителя
+			var iCurrentTree = $('#comment_wrapper_id_'+idCommentParent).parentsUntil('#comments').length;
+			if(iCurrentTree == ls.registry.get('comment_max_tree')) {
+				// Определяем id предыдушего родителя
+				var prevCommentParent = $('#comment_wrapper_id_'+idCommentParent).parent();
+				idCommentParent = parseInt(prevCommentParent.attr('id').replace('comment_wrapper_id_',''));
+			}
 			$('#comment_wrapper_id_'+idCommentParent).append(newComment);
 		} else {
 			$('#comments').append(newComment);
@@ -198,6 +212,7 @@ ls.comments = (function ($) {
 					$('#comment_id_'+commentId).addClass(this.options.classes.comment_deleted);
 				}
 				$(obj).text(result.sTextToggle);
+				ls.hook.run('ls_comments_toggle_after',[obj,commentId,result]);
 			}
 		}.bind(this));
 	};

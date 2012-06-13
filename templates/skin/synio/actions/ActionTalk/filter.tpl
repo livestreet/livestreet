@@ -1,8 +1,8 @@
 <div class="talk-search" id="block_talk_search">
 	<header>
-		<button name="submit_talk_read" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:true;" class="button">{$aLang.talk_inbox_make_read}</button>
-		<button name="submit_talk_del" onclick="return (jQuery('.form_talks_checkbox:checked').size() == 0)?false:confirm('{$aLang.talk_inbox_delete_confirm}');" class="button">{$aLang.talk_inbox_delete}</button>
-		
+		<button type="submit"  onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>
+		<button type="submit"  onclick="if (confirm('{$aLang.talk_inbox_delete_confirm}')){ ls.talk.removeTalks() };" class="button">{$aLang.talk_inbox_delete}</button>
+
 		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.talk_filter_title}</a>
 	</header>
 	

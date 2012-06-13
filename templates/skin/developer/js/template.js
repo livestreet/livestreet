@@ -1,6 +1,8 @@
 jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
+	
+	$('html').removeClass('no-js');
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
@@ -12,6 +14,7 @@ jQuery(document).ready(function($){
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
+	$('#userfield_form').jqm({toTop: true}); 
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {
@@ -106,16 +109,8 @@ jQuery(document).ready(function($){
 	prettyPrint();
 	
 	// эмуляция border-sizing в IE
-	var inputs = $('input, textarea')
-	
-	if ($('html').hasClass('ie7')) {
-		if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
-		
-		inputs.each(function(i){
-			var obj = $(this);
-			if (obj.css('box-sizing') == 'border-box') obj.width(2 * obj.width() - obj.outerWidth());
-		});
-	}
+	var inputs = $('input.input-text, textarea');
+	ls.ie.bordersizing(inputs);
 	
 	// эмуляция placeholder'ов в IE
 	inputs.placeholder();
@@ -174,6 +169,38 @@ jQuery(document).ready(function($){
 	$("#speaker_list_block").delegate("a.delete", "click", function(){
 		ls.talk.removeFromTalk(this, $('#talk_id').val());
 		return false;
+	});
+
+
+	// Help-tags link
+	$('.js-tags-help-link').click(function(){
+		var target=ls.registry.get('tags-help-target-id');
+		if (!target || !$('#'+target).length) {
+			return false;
+		}
+		target=$('#'+target);
+		if ($(this).data('insert')) {
+			var s=$(this).data('insert');
+		} else {
+			var s=$(this).text();
+		}
+		$.markItUp({target: target, replaceWith: s});
+		return false;
+	});
+	
+	
+	// Фикс бага с z-index у встроенных видео
+	$("iframe").each(function(){
+		var ifr_source = $(this).attr('src');
+
+		if(ifr_source) {
+			var wmode = "wmode=opaque";
+				
+			if (ifr_source.indexOf('?') != -1) 
+				$(this).attr('src',ifr_source+'&'+wmode);
+			else 
+				$(this).attr('src',ifr_source+'?'+wmode);
+		}
 	});
 
 	

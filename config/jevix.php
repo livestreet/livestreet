@@ -6,7 +6,7 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe'),
+				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','th','tr','td'),
 			),			
 		),
 		// Коротие теги типа
@@ -48,7 +48,7 @@ return array(
 			),
 			array(
 				'embed',
-				array('src' => '#image', 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text')
+				array('src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')), 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text')
 			),
 			array(
 				'acronym',
@@ -65,6 +65,14 @@ return array(
 			array(
 				'ls',
 				array('user'=>'#text')
+			),
+			array(
+				'td',
+				array('colspan'=>'#int','rowspan'=>'#int','align'=>array('right', 'left', 'center', 'justify'),'height'=>'#int','width'=>'#int')
+			),
+			array(
+				'table',
+				array('border'=>'#int','cellpadding'=>'#int','cellspacing'=>'#int','align'=>array('right', 'left', 'center'),'height'=>'#int','width'=>'#int')
 			),
 		),
 		// Параметры тегов являющиеся обязательными
@@ -106,6 +114,18 @@ return array(
 				false,
 				false
 			),
+			array(
+				'table',
+				array('tr'),
+				false,
+				true
+			),
+			array(
+				'tr',
+				array('td','th'),
+				false,
+				true
+			),
 		),
 		// Если нужно оставлять пустые не короткие теги
 		'cfgSetTagIsEmpty' => array(
@@ -116,7 +136,7 @@ return array(
 		// Не нужна авто-расстановка <br>
 		'cfgSetTagNoAutoBr' => array(
 			array(
-				array('ul','ol','object')
+				array('ul','ol','object','table','tr')
 			)
 		),
 		// Теги с обязательными параметрами

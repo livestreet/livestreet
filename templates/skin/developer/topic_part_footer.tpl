@@ -69,12 +69,13 @@
 						<a href="#" onclick="return ls.vote.vote({$oTopic->getId()},this,0,'topic');">?</a> 
 					{/if}
 				</div>
-				<div href="#" class="vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"></div>
+				<div class="vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"></div>
 				{if $bVoteInfoShow}
 					<div id="vote-info-topic-{$oTopic->getId()}" style="display: none;">
 						+ {$oTopic->getCountVoteUp()}<br/>
 						- {$oTopic->getCountVoteDown()}<br/>
 						&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
+						{hook run='topic_show_vote_stats' topic=$oTopic}
 					</div>
 				{/if}
 			</li>

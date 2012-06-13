@@ -432,6 +432,7 @@ class ModuleComment extends Module {
 	public function AddComment(ModuleComment_EntityComment $oComment) {
 		if (Config::Get('module.comment.use_nested')) {
 			$sId=$this->oMapper->AddCommentTree($oComment);
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update"));
 		} else {
 			$sId=$this->oMapper->AddComment($oComment);
 		}

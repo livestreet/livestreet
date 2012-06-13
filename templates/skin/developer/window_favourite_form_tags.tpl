@@ -11,8 +11,8 @@
 			<input type="hidden" name="target_id" value="" id="favourite-form-tags-target-id">
 
 			<p><input type="text" name="tags" value="" id="favourite-form-tags-tags" class="autocomplete-tags-sep input-text input-width-full"></p>
-			<button name="" class="button button-primary" />{$aLang.favourite_form_tags_button_save}</button>
-			<button name="" class="button jqmClose" />{$aLang.favourite_form_tags_button_cancel}</button>
+			<button type="submit" name="" class="button button-primary" />{$aLang.favourite_form_tags_button_save}</button>
+			<button type="submit" name="" class="button jqmClose" />{$aLang.favourite_form_tags_button_cancel}</button>
 		</form>
 	</div>
 {/if}

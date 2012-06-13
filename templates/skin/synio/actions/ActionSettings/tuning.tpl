@@ -22,7 +22,7 @@
 
 	{hook run='form_settings_tuning_end'}
 	<br />
-	<button name="submit_settings_tuning" class="button button-primary">{$aLang.settings_profile_submit}</button>
+	<button type="submit"  name="submit_settings_tuning" class="button button-primary">{$aLang.settings_profile_submit}</button>
 </form>
 
 {hook run='settings_tuning_end'}

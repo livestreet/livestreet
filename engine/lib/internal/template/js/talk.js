@@ -157,6 +157,32 @@ ls.talk = (function ($) {
 		$('#block_talk_search_content').find('input[type="checkbox"]').removeAttr("checked");
 		return false;
 	};
+
+	/**
+	 * Удаление списка писем
+	 */
+	this.removeTalks = function() {
+		if ($('.form_talks_checkbox:checked').length == 0) {
+			return false;
+		}
+		$('#form_talks_list_submit_del').val(1);
+		$('#form_talks_list_submit_read').val(0);
+		$('#form_talks_list').submit();
+		return false;
+	};
+
+	/**
+	 * Пометка о прочтении писем
+	 */
+	this.makeReadTalks = function() {
+		if ($('.form_talks_checkbox:checked').length == 0) {
+			return false;
+		}
+		$('#form_talks_list_submit_read').val(1);
+		$('#form_talks_list_submit_del').val(0);
+		$('#form_talks_list').submit();
+		return false;
+	};
 	
 	return this;
 }).call(ls.talk || {},jQuery);

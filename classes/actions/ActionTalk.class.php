@@ -123,7 +123,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка удаления сообщений
 		 */
-		if (isPost('submit_talk_del')) {
+		if (getRequest('submit_talk_del')) {
 			$this->Security_ValidateSendForm();
 
 			$aTalksIdDel=getRequest('talk_select');
@@ -134,7 +134,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка отметки о прочтении
 		 */
-		if (isPost('submit_talk_read')) {
+		if (getRequest('submit_talk_read')) {
 			$this->Security_ValidateSendForm();
 
 			$aTalksIdDel=getRequest('talk_select');

@@ -67,6 +67,10 @@ class ActionTag extends Action {
 		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('tag').htmlspecialchars($sTag));

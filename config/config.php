@@ -25,8 +25,8 @@ $config['view']['keywords']    = 'движок, livestreet, блоги, соци
 $config['view']['tinymce']         = false;  // использовать или нет визуальный редактор TinyMCE
 $config['view']['noindex']          = true;   // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
 $config['view']['img_resize_width'] = 570;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
-$config['view']['img_max_width'] = 3000;    // максимальная ширина загружаемых изображений в пикселях
-$config['view']['img_max_height'] = 3000;    // максимальная высота загружаемых изображений в пикселях
+$config['view']['img_max_width'] = 5000;    // максимальная ширина загружаемых изображений в пикселях
+$config['view']['img_max_height'] = 5000;    // максимальная высота загружаемых изображений в пикселях
 $config['view']['img_max_size_url'] = 500;    // максимальный размер картинки в kB для загрузки по URL
 $config['view']['no_assign']   = array('db'); // список групп конфигурации, которые необходимо исключить из передачи во Viewer. Только для системного пользования.
 
@@ -200,6 +200,7 @@ $config['module']['user']['usernote_text_max'] = 250; 	    // Максималь
 $config['module']['user']['usernote_per_page'] = 20; 	      // Число заметок на одну страницу
 $config['module']['user']['userfield_max_identical'] = 2; 	// Максимальное число контактов одного типа
 $config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
+$config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
@@ -460,6 +461,15 @@ $config['block']['userfeedUsers'] = array(
                         'userfeedUsers'=> array()
                     )
                 )
+);
+$config['block']['rule_blog_info'] = array(
+	'action'  => array(
+			'blog' => array('{topic}')
+		),
+	'blocks'  => array(
+			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+		),
+	'clear' => false,
 );
 
 

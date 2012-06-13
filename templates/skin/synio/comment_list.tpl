@@ -24,7 +24,7 @@
 					</li>
 				{/if}
 				<li class="comment-link">
-					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" title="{$aLang.comment_url_notice}">
+					<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}" title="{$aLang.comment_url_notice}">
 						<i class="icon-synio-link"></i>
 					</a>
 				</li>
@@ -39,12 +39,14 @@
 			</ul>
 					
 					
-			<div class="comment-content text">						
-				{if $oComment->isBad()}
-					{$oComment->getText()}						
-				{else}
-					{$oComment->getText()}
-				{/if}		
+			<div class="comment-content">						
+				<div class="text">						
+					{if $oComment->isBad()}
+						{$oComment->getText()}						
+					{else}
+						{$oComment->getText()}
+					{/if}		
+				</div>
 			</div>
 			
 			

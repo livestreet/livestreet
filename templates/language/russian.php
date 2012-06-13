@@ -278,7 +278,7 @@ return array(
 	'topic_link_create_url' => 'Ссылка',
 	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html',
 	'topic_link_create_url_error' => 'Ссылка должна быть от 2 до 200 символов',
-	'topic_link_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)',
+	'topic_link_create_text' => 'Краткое описание (максимум 500 символов)',
 	'topic_link_create_text_notice' => 'HTML-теги запрещены',
 	'topic_link_create_text_error' => 'Описание ссылки должно быть от 10 до 500 символов',
 	/**
@@ -305,7 +305,7 @@ return array(
 	'topic_question_create_answers_error' => 'Ответ должен быть от 1 до 100 символов',
 	'topic_question_create_answers_error_min' => 'Вариантов ответа должно быть как минимум два',
 	'topic_question_create_answers_error_max' => 'Максимально возможное число вариантов ответа 20',
-	'topic_question_create_text' => 'Краткое описание (максимум 500 символов, HTML-теги запрещены)',
+	'topic_question_create_text' => 'Краткое описание (максимум 500 символов)',
 	'topic_question_create_text_notice' => 'HTML-теги запрещены',
 	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов',
 	/**
@@ -594,6 +594,8 @@ return array(
 	'wall_add_time_limit' => 'Вам нельзя слишком часто писать на стене',
 	'wall_add_title' => 'Написать на стене',
 	'wall_add_submit' => 'Отправить',
+	'wall_add_quest' => 'Для возможности оставлять записи на стене необходимо зарегистрироваться.',
+	'wall_list_empty' => 'Записей на стене нет, вы можете стать первым!',
 	'wall_load_more' => 'К предыдущим записям',
 	'wall_load_reply_more' => 'Показать все',
 	'wall_action_delete' => 'Удалить',
@@ -635,6 +637,7 @@ return array(
 	'settings_profile_avatar_delete' => 'Удалить',
 	'settings_profile_avatar_change' => 'Изменить аватар',
 	'settings_profile_avatar_upload' => 'Загрузить аватар',
+	'settings_profile_avatar_resize_title' => 'Выбор области',
 	'settings_profile_avatar_resize_apply' => 'Применить',
 	'settings_profile_avatar_resize_cancel' => 'Отменить',
 	'settings_profile_foto' => 'Фото',
@@ -1057,6 +1060,31 @@ return array(
 	'block_create_topic_photoset' => 'Фотосет',
 	'block_create_blog' => 'Блог',
 	'block_create_talk' => 'Сообщение',
+	/**
+	 * Описание HTML тегов
+	 */
+	'tags_help_link_show' => 'Доступны html-теги',
+	'tags_help_special' => 'Специальные теги',
+	'tags_help_special_cut' => 'Используется для больших текстов, скрывает под кат часть текста, следующую за тегом (будет написано «Читать дальше»).',
+	'tags_help_special_cut_name' => 'Так можно превратить надпись «Читать дальше» в любой текст.',
+	'tags_help_special_cut_name_example_name' => 'Подробности',
+	'tags_help_special_video' => 'Добавляет в пост видео со следующих хостингов: YouTube, RuTube, Vimeo и Я.Видео. <br/>Вставляйте между тегами только прямую ссылку на видеоролик.',
+	'tags_help_special_ls_user' => 'Выводит имя пользователя посреди текста.',
+	'tags_help_special_ls_user_example_user' => 'Ник',
+	'tags_help_standart' => 'Стандартные теги',
+	'tags_help_standart_h' => 'Заголовки разного уровня.',
+	'tags_help_standart_img' => 'Вставка изображения, в атрибуте src нужно указывать полный путь к изображению. Возможно выравнивание картинки атрибутом align.',
+	'tags_help_standart_a' => 'Вставка ссылки, в атрибуте href указывается желаемый интернет-адрес или якорь (anchor) для навигации по странице.',
+	'tags_help_standart_a_example_href' => 'Ссылка',
+	'tags_help_standart_b' => 'Выделение важного текста, на странице выделяется жирным начертанием.',
+	'tags_help_standart_i' => 'Выделение важного текста, на странице выделяется курсивом.',
+	'tags_help_standart_s' => 'Текст между этими тегами будет отображаться как зачеркнутый.',
+	'tags_help_standart_u' => 'Текст между этими тегами будет отображаться как подчеркнутый.',
+	'tags_help_standart_hr' => 'Тег для вставки горизонтальной линии.',
+	'tags_help_standart_blockquote' => 'Используйте этот тег для выделения цитат.',
+	'tags_help_standart_table' => 'Набор тегов для создания таблицы. Тег &lt;td&gt; обозначает ячейку таблицы, тег &lt;th&gt; - ячейку в заголовке, &lt;tr&gt; - строчку таблицы. Все содержимое таблицы помещайте в тег &lt;table&gt;.',
+	'tags_help_standart_ul' => 'Ненумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ul&gt;.',
+	'tags_help_standart_ol' => 'Нумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ol&gt;.',
 	/**
 	 * Системные сообщения
 	 */

@@ -6,24 +6,7 @@
 {/if}
 
 
-{if $oConfig->GetValue('view.tinymce')}
-	<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
-	<script type="text/javascript">
-		jQuery(function($){
-			tinyMCE.init(ls.settings.getTinymce());
-		});
-	</script>
-{else}
-	{include file='window_load_img.tpl' sToLoad='topic_text'}
-	
-	<script type="text/javascript">
-		jQuery(function($){
-			ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-			// Подключаем редактор		
-			$('#topic_text').markItUp(ls.settings.getMarkitup());
-		});
-	</script>
-{/if}
+{include file='editor.tpl'}
 
 
 <script type="text/javascript">
@@ -42,8 +25,8 @@
 		<label for="">{$aLang.topic_photoset_choose_image}:</label>
 		<input type="file" id="photoset-upload-file" name="Filedata" /><br><br>
 
-		<button onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
-		<button onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
+		<button type="submit" onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
+		<button type="submit" onclick="ls.photoset.closeForm();">{$aLang.topic_photoset_upload_close}</button>
 		<input type="hidden" name="is_iframe" value="true" />
 		<input type="hidden" name="topic_id" value="{$_aRequest.topic_id}" />
 	</p>
@@ -81,8 +64,12 @@
 	<small class="note">{$aLang.topic_create_title_notice}</small></p>
 
 	
-	<p><label for="topic_text">{$aLang.topic_create_text}{if !$oConfig->GetValue('view.tinymce')} ({$aLang.topic_create_text_notice}){/if}:</label>
-	<textarea name="topic_text" class="mce-editor" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea></p>
+	<p><label for="topic_text">{$aLang.topic_create_text}:</label>
+	<textarea name="topic_text" class="mce-editor markitup-editor input-width-full" id="topic_text" rows="20">{$_aRequest.topic_text}</textarea>
+	{if !$oConfig->GetValue('view.tinymce')}
+		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
+	{/if}
+	</p>
 	
 	
 	<div class="topic-photo-upload">
@@ -146,9 +133,9 @@
 	{hook run='form_add_topic_photoset_end'}
 			
 			
-	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button type="submit" name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
+	<button type="submit" name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button type="submit" name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 <div class="topic-preview" id="text_preview"></div>

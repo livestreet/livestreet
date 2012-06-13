@@ -13,7 +13,10 @@ ls.vote = (function ($) {
 			plus: 		'voted-up',
 			minus:  	'voted-down',
 			positive:	'vote-count-positive',
-			negative:  	'vote-count-negative'
+			negative:  	'vote-count-negative',
+			voted_zero: 'voted-zero',
+			zero: 	 	'vote-count-zero',
+			not_voted:  'not-voted'
 		},
 		prefix_area: 'vote_area_',
 		prefix_total: 'vote_total_',
@@ -71,6 +74,9 @@ ls.vote = (function ($) {
 			if (value < 0) {
 				divVoting.addClass(this.options.classes.minus);
 			}
+			if (value == 0) {
+				divVoting.addClass(this.options.classes.voted_zero);
+			}
 			
 			var divTotal = $('#'+this.options.prefix_total+type+'_'+idTarget);
 			var divCount = $('#'+this.options.prefix_count+type+'_'+idTarget);
@@ -83,6 +89,7 @@ ls.vote = (function ($) {
 
 			divVoting.removeClass(this.options.classes.negative);
 			divVoting.removeClass(this.options.classes.positive);
+			divVoting.removeClass(this.options.classes.not_voted);
 
 			if (result.iRating > 0) {
 				divVoting.addClass(this.options.classes.positive);
@@ -91,6 +98,7 @@ ls.vote = (function ($) {
 				divVoting.addClass(this.options.classes.negative);
 				divTotal.text(result.iRating);
 			}else if (result.iRating == 0) {
+				divVoting.addClass(this.options.classes.zero);
 				divTotal.text(0);
 			}
 

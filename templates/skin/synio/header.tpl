@@ -64,6 +64,7 @@
 	<script type="text/javascript">
 		var tinyMCE = false;
 		ls.lang.load({json var = $aLangJs});
+		ls.registry.set('comment_max_tree','{cfg name="module.comment.max_tree"}');
 	</script>
 	
 	
@@ -107,7 +108,7 @@
 		{include file='nav.tpl'}
 
 		<div id="wrapper" {if $noSidebar}class="no-sidebar"{/if}>
-			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if}>
+			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if} {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				

@@ -238,6 +238,10 @@ class ModuleLs extends Module {
 		 */
 		$aData['domain']=Config::Get('path.root.web');
 		/**
+		 * Шаблон
+		 */
+		$aData['template']=Config::Get('view.skin');
+		/**
 		 * Ключ верификации (подтверждения прав на сайт)
 		 */
 		$aData['key']=(string)Config::Get('module.ls.verification_key');
