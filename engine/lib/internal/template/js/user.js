@@ -24,9 +24,9 @@ ls.user = (function ($) {
 		} else {
 			var url = aRouter.profile+'ajaxfriendadd/';
 		}
-		
+
 		var params = {idUser: idUser, userText: sText};
-		
+
 		ls.hook.marker('addFriendBefore');
 		ls.ajax(url, params, function(result){
 			$('#add_friend_form').children().each(function(i, item){$(item).removeAttr('disabled')});
@@ -52,7 +52,7 @@ ls.user = (function ($) {
 	this.removeFriend = function(obj,idUser,sAction) {
 		var url = aRouter.profile+'ajaxfrienddelete/';
 		var params = {idUser: idUser,sAction: sAction};
-		
+
 		ls.hook.marker('removeFriendBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
@@ -424,6 +424,35 @@ ls.user = (function ($) {
 	};
 
 	/**
+	 * Ajax запрос на ссылку активации
+	 * @param form
+	 */
+	this.reminder = function(form) {
+		var url = aRouter.login+'ajax-reactivation/';
+
+		ls.hook.marker('reactivationBefore');
+		ls.ajaxSubmit(url, form, function(result) {
+			if (typeof(form)=='string') {
+				form=$('#'+form);
+			}
+			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
+
+			if (result.bStateError) {
+				form.find('.validate-error-reactivation').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+			} else {
+				form.find('input').val('');
+				if (result.sMsg) {
+					ls.msg.notice(null,result.sMsg);
+				}
+				if (result.sUrlRedirect) {
+					window.location=result.sUrlRedirect;
+				}
+				ls.hook.run('ls_user_reactivation_after', [form, result]);
+			}
+		});
+	};
+
+	/**
 	 * Поиск пользователей
 	 */
 	this.searchUsers = function(form) {
@@ -475,13 +504,13 @@ ls.user = (function ($) {
 	 * Подписка
 	 */
 	this.followToggle = function(obj, iUserId) {
-		if ($(obj).hasClass('followed')) { 
+		if ($(obj).hasClass('followed')) {
 			ls.stream.unsubscribe(iUserId);
 			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_follow'));
-		} else { 
+		} else {
 			ls.stream.subscribe(iUserId);
 			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_unfollow'));
-		} 
+		}
 		return false;
 	};
 

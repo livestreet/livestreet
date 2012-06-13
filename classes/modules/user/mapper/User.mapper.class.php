@@ -51,6 +51,7 @@ class ModuleUser_MapperUser extends Mapper {
 				user_rating = ? ,
 				user_count_vote = ? ,
 				user_activate = ? ,
+                user_activate_key = ? ,
 				user_profile_name = ? ,
 				user_profile_sex = ? ,
 				user_profile_country = ? ,
@@ -76,6 +77,7 @@ class ModuleUser_MapperUser extends Mapper {
 								   $oUser->getRating(),
 								   $oUser->getCountVote(),
 								   $oUser->getActivate(),
+								   $oUser->getActivateKey(),
 								   $oUser->getProfileName(),
 								   $oUser->getProfileSex(),
 								   $oUser->getProfileCountry(),
@@ -676,8 +678,8 @@ class ModuleUser_MapperUser extends Mapper {
 
 	public function getUserFieldValueByName($iUserId, $sName) {
 		$sql = 'SELECT value FROM '.Config::Get('db.table.user_field_value').'  WHERE
-                        user_id = ?d 
-                        AND  
+                        user_id = ?d
+                        AND
                         field_id = (SELECT id FROM '.Config::Get('db.table.user_field').' WHERE name =?)';
 		$ret = $this->oDb->selectCol($sql, $iUserId, $sName);
 		return $ret[0];
