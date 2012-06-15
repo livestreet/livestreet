@@ -1,16 +1,16 @@
 var ls = ls || {};
 
 /**
-* Управление пользователями
-*/
+ * Управление пользователями
+ */
 ls.user = (function ($) {
 
 	this.jcropAvatar=null;
 	this.jcropFoto=null;
 
 	/**
-	* Добавление в друзья
-	*/
+	 * Добавление в друзья
+	 */
 	this.addFriend = function(obj, idUser, sAction){
 		if(sAction != 'link' && sAction != 'accept') {
 			var sText = $('#add_friend_text').val();
@@ -47,8 +47,8 @@ ls.user = (function ($) {
 	};
 
 	/**
-	* Удаление из друзей
-	*/
+	 * Удаление из друзей
+	 */
 	this.removeFriend = function(obj,idUser,sAction) {
 		var url = aRouter.profile+'ajaxfrienddelete/';
 		var params = {idUser: idUser,sAction: sAction};
@@ -381,7 +381,7 @@ ls.user = (function ($) {
 			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
 
 			if (result.bStateError) {
-				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').html(result.sMsg);
 			} else {
 				if (result.sMsg) {
 					ls.msg.notice(null,result.sMsg);
@@ -427,7 +427,7 @@ ls.user = (function ($) {
 	 * Ajax запрос на ссылку активации
 	 * @param form
 	 */
-	this.reminder = function(form) {
+	this.reactivation = function(form) {
 		var url = aRouter.login+'ajax-reactivation/';
 
 		ls.hook.marker('reactivationBefore');
@@ -443,9 +443,6 @@ ls.user = (function ($) {
 				form.find('input').val('');
 				if (result.sMsg) {
 					ls.msg.notice(null,result.sMsg);
-				}
-				if (result.sUrlRedirect) {
-					window.location=result.sUrlRedirect;
 				}
 				ls.hook.run('ls_user_reactivation_after', [form, result]);
 			}

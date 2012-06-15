@@ -811,8 +811,8 @@ class ModuleNotify extends Module {
 	public function GetTemplatePath($sName,$sPluginName=null) {
 		if ($sPluginName) {
 			$sPluginName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sPluginName,$aMatches)
-			? strtolower($aMatches[1])
-			: strtolower($sPluginName);
+				? strtolower($aMatches[1])
+				: strtolower($sPluginName);
 
 			$sLangDir=Plugin::GetTemplatePath($sPluginName).'notify/'.$this->Lang_GetLang();
 			if(is_dir($sLangDir)) {
@@ -822,9 +822,9 @@ class ModuleNotify extends Module {
 		} else {
 			$sLangDir = 'notify/'.$this->Lang_GetLang();
 			/**
-		 	* Если директория с сообщениями на текущем языке отсутствует,
-		 	* используем язык по умолчанию
-		 	*/
+			 * Если директория с сообщениями на текущем языке отсутствует,
+			 * используем язык по умолчанию
+			 */
 			if(is_dir(rtrim(Config::Get('path.smarty.template'),'/').'/'.$sLangDir)) {
 				return $sLangDir.'/'.$sName;
 			}

@@ -74,10 +74,10 @@ class ActionLogin extends Action {
 			 */
 
 			if ($oUser->getPassword()==func_encrypt(getRequest('password'))) {
-                if (!$oUser->getActivate()) {
-                    $this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
-                    return;
-                }
+				if (!$oUser->getActivate()) {
+					$this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
+					return;
+				}
 				$bRemember=getRequest('remember',false) ? true : false;
 				/**
 				 * Авторизуем
@@ -96,45 +96,39 @@ class ActionLogin extends Action {
 		}
 		$this->Message_AddErrorSingle($this->Lang_Get('user_login_bad'));
 	}
-
-    /**
-     * Повторный запрос активации
-     */
-    protected function EventReactivation()
-    {
-        if($this->User_GetUserCurrent()) {
+	/**
+	 * Повторный запрос активации
+	 */
+	protected function EventReactivation() {
+		if($this->User_GetUserCurrent()) {
 			Router::Location(Config::Get('path.root.web').'/');
 		}
 
-        $this->Viewer_AddHtmlTitle($this->Lang_Get('reactivation'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('reactivation'));
+	}
+	/**
+	 *  Ajax повторной активации
+	 */
+	protected function EventAjaxReactivation() {
+		$this->Viewer_SetResponseAjax('json');
 
-    }
+		if ((func_check(getRequest('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequest('mail')))) {
+			if ($oUser->getActivate()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'));
+				return;
+			} else {
+				$oUser->setActivateKey(md5(func_generator() . time()));
+				if ($this->User_Update($oUser)) {
+					$this->Message_AddNotice($this->Lang_Get('reactivation_send_link'));
+					$this->Notify_SendReactivationCode($oUser);
+					return;
+				}
+			}
+		}
 
-    /**
-     *  Ajax повторной активации
-     */
-    protected function EventAjaxReactivation()
-    {
-        $this->Viewer_SetResponseAjax('json');
-
-        if ((func_check(getRequest('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequest('mail')))) {
-            if ($oUser->getActivate()) {
-                $this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'));
-                return;
-            } else {
-                $oUser->setActivateKey(md5(func_generator() . time()));
-                if ($this->User_Update($oUser)) {
-                    $this->Message_AddNotice($this->Lang_Get('reactivation_send_link'));
-                    $this->Notify_SendReactivationCode($oUser);
-                    return;
-                }
-            }
-        }
-
-        $this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_email'));
-    }
-
-    /**
+		$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_email'));
+	}
+	/**
 	 * Обрабатываем процесс залогинивания
 	 * По факту только отображение шаблона, дальше вступает в дело Ajax
 	 *
