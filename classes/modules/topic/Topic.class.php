@@ -571,7 +571,7 @@ class ModuleTopic extends Module {
 		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
 	}
 	/**
-	 * Получает список ВСЕХ новых топиков
+	 * Получает список новых топиков, ограничение новизны по дате из конфига
 	 *
 	 * @param  int    $iPage
 	 * @param  int    $iPerPage
@@ -589,6 +589,34 @@ class ModuleTopic extends Module {
 			),
 			'topic_publish' => 1,
 			'topic_new' => $sDate,
+		);
+		/**
+		 * Если пользователь авторизирован, то добавляем в выдачу
+		 * закрытые блоги в которых он состоит
+		 */
+		if($this->oUserCurrent && $bAddAccessible) {
+			$aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent);
+			if(count($aOpenBlogs)) $aFilter['blog_type']['close'] = $aOpenBlogs;
+		}
+		return $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage);
+	}
+	/**
+	 * Получает список ВСЕХ новых топиков
+	 *
+	 * @param  int    $iPage
+	 * @param  int    $iPerPage
+	 * @param  bool   $bAddAccessible Указывает на необходимость добавить в выдачу топики,
+	 *                                из блогов доступных пользователю. При указании false,
+	 *                                в выдачу будут переданы только топики из общедоступных блогов.
+	 * @return array
+	 */
+	public function GetTopicsNewAll($iPage,$iPerPage,$bAddAccessible=true) {
+		$aFilter=array(
+			'blog_type' => array(
+				'personal',
+				'open',
+			),
+			'topic_publish' => 1,
 		);
 		/**
 		 * Если пользователь авторизирован, то добавляем в выдачу
@@ -741,6 +769,9 @@ class ModuleTopic extends Module {
 				break;
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
+				break;
+			case 'newall':
+				// нет доп фильтра
 				break;
 			case 'discussed':
 				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');
@@ -907,6 +938,9 @@ class ModuleTopic extends Module {
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
 				break;
+			case 'newall':
+				// нет доп фильтра
+				break;
 			case 'discussed':
 				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');
 				break;
@@ -1010,6 +1044,9 @@ class ModuleTopic extends Module {
 				break;
 			case 'new':
 				$aFilter['topic_new']=date("Y-m-d H:00:00",time()-Config::Get('module.topic.new_time'));
+				break;
+			case 'newall':
+				// нет доп фильтра
 				break;
 			case 'discussed':
 				$aFilter['order']=array('t.topic_count_comment desc','t.topic_id desc');

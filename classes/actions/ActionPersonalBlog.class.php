@@ -57,6 +57,7 @@ class ActionPersonalBlog extends Action {
 		$this->AddEvent('good','EventTopics');
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^newall$/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
 		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
 	}
@@ -83,7 +84,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */

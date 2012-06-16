@@ -120,6 +120,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('good',array('EventTopics','topics'));
 		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
 		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^newall$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
 		$this->AddEventPreg('/^discussed$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
 		$this->AddEventPreg('/^top$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
 
@@ -142,6 +143,7 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^newall$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
 
@@ -578,7 +580,7 @@ class ActionBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -811,7 +813,7 @@ class ActionBlog extends Action {
 			$sPeriod=getRequest('period');
 		}
 		$sBlogUrl=$this->sCurrentEvent;
-		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
+		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','newall','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
 		if (!in_array($sShowType,array('discussed','top'))) {
 			$sPeriod='all';
 		}
@@ -839,7 +841,7 @@ class ActionBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
 		/**
 		 * Передан ли номер страницы
