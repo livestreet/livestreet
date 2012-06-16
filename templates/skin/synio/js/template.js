@@ -293,7 +293,74 @@ jQuery(document).ready(function($){
 			}
 	});
 
-	 
+	// Меню пользователя в шапке
+	(function(){
+		// Dropdown
+		var dp 		= $('#dropdown-user');
+		if (!dp.length) {
+			return;
+		}
+		var trigger = $('#dropdown-user-trigger');
+		var menu 	= $('#dropdown-user-menu');
+		var pos 	= $('#dropdown-user').offset();
+
+		menu.appendTo('body').css({ 'left': pos.left, 'top': $('#dropdown-user').height() - 1, 'min-width': $('#dropdown-user').outerWidth(), 'display': 'none' });
+
+		trigger.click(function(){
+			menu.slideToggle();
+			dp.toggleClass('opened');
+			return false;
+		});
+
+		menu.find('a').click(function(){
+			dp.removeClass('opened');
+			trigger.find('a').text( $(this).text() );
+			menu.slideToggle();
+		});
+
+		// Hide menu
+		$(document).click(function(){
+			dp.removeClass('opened');
+			menu.slideUp();
+		});
+
+		$('body').on('click', '#dropdown-user-trigger, #dropdown-user-menu', function(e) {
+			e.stopPropagation();
+		});
+
+		$(window).resize(function(){
+			menu.css({ 'left': $('#dropdown-user').offset().left });
+		});
+	})();
+
+	// Инициализация строчки поиска
+	(function(){
+		var search_show = $('#search-header-show');
+		if (!search_show.length) {
+			return;
+		}
+		var search_form = $('#search-header-form');
+		var write 		= $('#modal_write_show');
+
+		search_show.click(function(){
+			search_form.toggle().find('.input-text').focus();
+			$(this).toggle();
+			write.toggle();
+			return false;
+		});
+
+		$(document).click(function(){
+			if (search_form.find('.input-text').val() == '') {
+				search_form.hide();
+				search_show.show();
+				write.show();
+			}
+		});
+
+		$('body').on('click', '#search-header-form', function(e) {
+			e.stopPropagation();
+		});
+	})();
 	
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
