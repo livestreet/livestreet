@@ -104,7 +104,7 @@
 		{include file='header_top.tpl'}
 		{include file='nav.tpl'}
 
-		<div id="wrapper">
+		<div id="wrapper" class="{if $sCssWrapperClass}{$sCssWrapperClass}{/if}">
 			{if !$noSidebar && $sidebarPosition == 'left'}
 				{include file='sidebar.tpl'}
 			{/if}
