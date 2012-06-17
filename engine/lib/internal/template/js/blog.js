@@ -88,6 +88,27 @@ ls.blog = (function ($) {
 		
 		return false;
 	};
+
+	/**
+	 * Удаляет приглашение в блог
+	 */
+	this.removeInvite = function(idUser,idBlog) {
+		var url = aRouter['blog']+'ajaxremovebloginvite/';
+		var params = {idUser: idUser, idBlog: idBlog};
+
+		ls.hook.marker('removeInviteBefore');
+		ls.ajax(url, params, function(result){
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$('#blog-invite-remove-item-'+idBlog+'-'+idUser).remove();
+				ls.msg.notice(null, result.sMsg);
+				ls.hook.run('ls_blog_remove_invite_after',[idUser,idBlog,result]);
+			}
+		});
+
+		return false;
+	};
 	
 	/**
 	* Отображение информации о блоге

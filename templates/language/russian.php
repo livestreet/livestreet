@@ -172,6 +172,7 @@ return array(
 	'blog_close_show' => 'Это закрытый блог, у вас нет прав на просмотр контента',
 	'blog_user_invite_add_self' => 'Нельзя отправить инвайт самому себе',
 	'blog_user_invite_add_ok' => 'Пользователю %%login%% отправлено приглашение',
+	'blog_user_invite_remove_ok' => 'Приглашение для пользователя %%login%% удалено',
 	'blog_user_already_invited' => 'Пользователю %%login%% уже отправлен инвайт',
 	'blog_user_already_exists' => 'Пользователь %%login%% уже состоит в блоге',
 	'blog_user_already_reject' => 'Пользователь %%login%% отклонил инвайт',
@@ -181,6 +182,7 @@ return array(
 	'blog_user_invite_accept' => 'Приглашение принято',
 	'blog_user_invite_reject' => 'Приглашение отклонено',
 	'blog_user_invite_readd' => 'повторить',
+	'blog_user_invite_remove' => 'удалить',
 	/**
 	 * Топики
 	 */

@@ -20,9 +20,10 @@
 					{foreach from=$aBlogUsersInvited item=oBlogUser}
 						{assign var='oUser' value=$oBlogUser->getUser()}
 						
-						<li>
+						<li id="blog-invite-remove-item-{$oBlogEdit->getId()}-{$oUser->getId()}">
 							<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a> - 
 							<a href="#" onclick="return ls.blog.repeatInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_readd}</a>
+							<a href="#" onclick="return ls.blog.removeInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_remove}</a>
 						</li>						
 					{/foreach}
 				</ul>

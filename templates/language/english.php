@@ -172,6 +172,7 @@ return array(
 	'blog_close_show' => "It's a 'close blog', you don't have enought rights to see it's content",
 	'blog_user_invite_add_self' => "Can't send invitation to yourself",
 	'blog_user_invite_add_ok' => 'Invitation sent to user %%login%%',
+	'blog_user_invite_remove_ok' => 'Invite for user %%login%% removed',
 	'blog_user_already_invited' => 'Invitation has been sent already to user %%login%%',
 	'blog_user_already_exists' => 'User %%login%% already member of this blog',
 	'blog_user_already_reject' => 'User %%login%% rejected invitation',
@@ -180,7 +181,8 @@ return array(
 	'blog_user_invite_already_done' => 'You already a member of this blog',
 	'blog_user_invite_accept' => 'Invitation accepted',
 	'blog_user_invite_reject' => 'Invitation rejected',
-	'blog_user_invite_readd' => 'Re-add',
+	'blog_user_invite_readd' => 'retry',
+	'blog_user_invite_remove' => 'remove',
 	/**
 	 * Topics
 	 */

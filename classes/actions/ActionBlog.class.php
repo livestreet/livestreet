@@ -134,6 +134,7 @@ class ActionBlog extends Action {
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
+		$this->AddEvent('ajaxremovebloginvite', 'AjaxRemoveBlogInvite');
 		$this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
 		$this->AddEvent('ajaxblogjoin', 'AjaxBlogJoin');
 
@@ -1371,6 +1372,59 @@ class ActionBlog extends Action {
 		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
 			$this->SendBlogInvite($oBlog,$oUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_add_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}
+	}
+	/**
+	 * Обработка ajax запроса на удаление вступить в закрытый блог
+	 */
+	protected function AjaxRemoveBlogInvite() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		$sUserId=getRequest('idUser',null,'post');
+		$sBlogId=getRequest('idBlog',null,'post');
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Проверяем существование блога
+		 */
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Пользователь существует и активен?
+		 */
+		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
+			/**
+			 * Удаляем связь/приглашение
+			 */
+			$this->Blog_DeleteRelationBlogUser($oBlogUser);
+			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_remove_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
