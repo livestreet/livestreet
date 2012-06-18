@@ -259,6 +259,19 @@ abstract class Plugin extends LsObject {
 		return Config::Get('path.root.server').'/plugins/'.$sName.'/';
 	}
 	/**
+	 * Возвращает полный web-адрес до плагина
+	 *
+	 * @param string $sName
+	 * @return string
+	 */
+	static public function GetWebPath($sName) {
+		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
+			? strtolower($aMatches[1])
+			: strtolower($sName);
+
+		return Config::Get('path.root.web').'/plugins/'.$sName.'/';
+	}
+	/**
 	 * Возвращает правильный серверный путь к директории шаблонов с учетом текущего шаблона
 	 * Если пользователь использует шаблон которого нет в плагине, то возвращает путь до шабона плагина 'default'
 	 *
