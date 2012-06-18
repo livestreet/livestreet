@@ -13,8 +13,9 @@
 /* Nav Pills */
 .nav.nav-pills 				{ margin-bottom: 15px; font-size: 11px; }
 .nav.nav-pills li 			{ margin-right: 10px; border: 1px solid transparent; line-height: 13px; border-radius: 5px; padding: 3px 6px 4px; }
-.nav.nav-pills li a 		{ display: block; color: #727a90; text-decoration: underline; }
+.nav.nav-pills li a 		{ display: block; color: #727a90; text-decoration: underline; float: left; }
 .nav.nav-pills li a:hover 	{ color: #333; border-color: #333; }
+.nav.nav-pills li a.new		{ margin-left: 5px; text-decoration: none; }
 .nav.nav-pills li.active 	{ border-color: #ebf0f4; }
 .nav.nav-pills li.active a 	{ color: #628fa5; text-decoration: none; border-color: #ebf0f4; }
 
