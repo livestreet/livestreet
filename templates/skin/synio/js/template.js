@@ -561,7 +561,10 @@ ls.user.validateRegistrationFields = function(aFields,sForm) {
 function toolbarPos() {
 	if ($('#toolbar section').length) {
 		if ($(document).width() <= 1100) {
-			$('#container').addClass('toolbar-margin');
+			if (!$('#container').hasClass('no-resize')) {
+				$('#container').addClass('toolbar-margin');
+			}
+			
 			$('#toolbar').css({'position': 'absolute', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top' : eval(document.documentElement.scrollTop) + 136, 'display': 'block'});
 		} else {
 			$('#container').removeClass('toolbar-margin');

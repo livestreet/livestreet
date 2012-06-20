@@ -32,7 +32,7 @@
 #wrapper.no-sidebar				{ background-image: none; }
 #wrapper.no-sidebar #content 	{ width: 100%; margin-right: 0; }
 
-#container.toolbar-margin #wrapper 				{ width: 885px; background: #fff url(../images/sidebar-border.png) 651px 0px repeat-y; }
+#container.toolbar-margin #wrapper 				{ width: 885px; background-position: 651px 0px; }
 #container.toolbar-margin #wrapper #content 	{ width: 587px; }
 #container.toolbar-margin #wrapper #sidebar 	{ width: 240px; }
 #container.toolbar-margin #footer 				{ padding-right: 50px; }
