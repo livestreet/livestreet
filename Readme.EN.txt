@@ -42,13 +42,6 @@ LiveStreet supports full-text search on the site using the search engine Sphinx.
 Accordingly, if you need search on the site, you must install and configure the server Sphinx, a sample configuration file (sphinx.conf) is located in the directory /install/
 
 
-DISABLE SPONSORED LINK
-Since LiveStreet engine is free, we insert in each release of some internal pages link to sponsor's current release.
-This helps us to get financial investments to the project and accelerate its development.
-If you are totally against sponsored links, you can remove it by removing the file /classes/hooks/HookSponsor.class.php
-We urge you not to delete link the sponsor.
-
-
 For all questions, please visit Eanglish community http://livestreetcms.net
 Official site of the project http://livestreetcms.com
 Russian community http://livestreet.ru
