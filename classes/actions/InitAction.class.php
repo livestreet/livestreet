@@ -52,7 +52,7 @@ class InitAction {
 	 * Логика инициализации
 	 *
 	 */
-	public function InitAction() {
+	public function Init() {
 		$this->Hook_Run('init_action');
 	}
 }
