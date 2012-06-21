@@ -236,7 +236,7 @@ class Router extends LsObject {
 		/**
 		 * Сначала запускаем инициализирующий экшен
 		 */
-		require_once(Config::Get('path.root.server').'/classes/actions/Init.class.php');
+		require_once(Config::Get('path.root.server').'/classes/actions/InitAction.class.php');
 		$oActionInit=new InitAction($this->oEngine);
 		$oActionInit->InitAction();
 

@@ -533,7 +533,8 @@ class ModulePlugin extends Module {
 			}
 		}
 		if (is_array($aDelegateMapper) and count($aDelegateMapper))	{
-			return array_shift(array_keys($aDelegateMapper));
+			$aKeys=array_keys($aDelegateMapper);
+			return array_shift($aKeys);
 		}
 		foreach ($this->aInherits as $k=>$v) {
 			$aInheritMapper=array();
