@@ -234,11 +234,9 @@ class Router extends LsObject {
 	public function ExecAction() {
 		$this->DefineActionClass();
 		/**
-		 * Сначала запускаем инициализирующий экшен
+		 * Сначала запускаем инициализирующий евент
 		 */
-		require_once(Config::Get('path.root.server').'/classes/actions/InitAction.class.php');
-		$oActionInit=new InitAction($this->oEngine);
-		$oActionInit->Init();
+		$this->Hook_Run('init_action');
 
 		$sActionClass=$this->DefineActionClass();
 		/**
