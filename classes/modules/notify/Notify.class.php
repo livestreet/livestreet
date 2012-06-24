@@ -49,9 +49,6 @@ class ModuleNotify extends Module {
 	 *
 	 */
 	public function Init() {
-		if (!class_exists('ModuleViewer')) {
-			require_once(Config::Get('path.root.engine')."/modules/viewer/Viewer.class.php");
-		}
 		$this->oViewerLocal=$this->Viewer_GetLocalViewer();
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
@@ -71,50 +68,17 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeNewComment()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oTopic',$oTopic);
-		$this->oViewerLocal->Assign('oComment',$oComment);
-		$this->oViewerLocal->Assign('oUserComment',$oUserComment);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.comment_new.tpl'));
-
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_comment_new'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_comment_new'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.comment_new.tpl',
+			$this->Lang_Get('notify_subject_comment_new'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oTopic' => $oTopic,
+				'oComment' => $oComment,
+				'oUserComment' => $oUserComment,
+			)
+		);
 	}
 
 	/**
@@ -132,49 +96,17 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeReplyComment()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oTopic',$oTopic);
-		$this->oViewerLocal->Assign('oComment',$oComment);
-		$this->oViewerLocal->Assign('oUserComment',$oUserComment);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.comment_reply.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_comment_reply'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_comment_reply'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.comment_reply.tpl',
+			$this->Lang_Get('notify_subject_comment_reply'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oTopic' => $oTopic,
+				'oComment' => $oComment,
+				'oUserComment' => $oUserComment,
+			)
+		);
 	}
 
 	/**
@@ -192,49 +124,17 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeNewTopic()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oTopic',$oTopic);
-		$this->oViewerLocal->Assign('oBlog',$oBlog);
-		$this->oViewerLocal->Assign('oUserTopic',$oUserTopic);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.topic_new.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_topic_new').' «'.htmlspecialchars($oBlog->getTitle()).'»',
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_topic_new').' «'.htmlspecialchars($oBlog->getTitle()).'»');
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.topic_new.tpl',
+			$this->Lang_Get('notify_subject_topic_new').' «'.htmlspecialchars($oBlog->getTitle()).'»',
+			array(
+				'oUserTo' => $oUserTo,
+				'oTopic' => $oTopic,
+				'oBlog' => $oBlog,
+				'oUserTopic' => $oUserTopic,
+			)
+		);
 	}
 	/**
 	 * Отправляет уведомление с новым линком активации
@@ -242,23 +142,14 @@ class ModuleNotify extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 */
 	public function SendReactivationCode(ModuleUser_EntityUser $oUser) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUser',$oUser);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.reactivation.tpl'));
-
-		/**
-		 * Отправляем мыло
-		 */
-		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject($this->Lang_Get('notify_subject_reactvation'));
-		$this->Mail_SetBody($sBody);
-		$this->Mail_setHTML();
-		$this->Mail_Send();
+		$this->Send(
+			$oUser,
+			'notify.reactivation.tpl',
+			$this->Lang_Get('notify_subject_reactvation'),
+			array(
+				'oUser' => $oUser,
+			)
+		);
 	}
 
 	/**
@@ -268,24 +159,15 @@ class ModuleNotify extends Module {
 	 * @param string $sPassword
 	 */
 	public function SendRegistrationActivate(ModuleUser_EntityUser $oUser,$sPassword) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUser',$oUser);
-		$this->oViewerLocal->Assign('sPassword',$sPassword);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.registration_activate.tpl'));
-
-		/**
-		 * Отправляем мыло
-		 */
-		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject($this->Lang_Get('notify_subject_registration_activate'));
-		$this->Mail_SetBody($sBody);
-		$this->Mail_setHTML();
-		$this->Mail_Send();
+		$this->Send(
+			$oUser,
+			'notify.registration_activate.tpl',
+			$this->Lang_Get('notify_subject_registration_activate'),
+			array(
+				'oUser' => $oUser,
+				'sPassword' => $sPassword,
+			)
+		);
 	}
 
 	/**
@@ -295,24 +177,15 @@ class ModuleNotify extends Module {
 	 * @param string $sPassword
 	 */
 	public function SendRegistration(ModuleUser_EntityUser $oUser,$sPassword) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUser',$oUser);
-		$this->oViewerLocal->Assign('sPassword',$sPassword);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.registration.tpl'));
-
-		/**
-		 * Отправляем мыло
-		 */
-		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject($this->Lang_Get('notify_subject_registration'));
-		$this->Mail_SetBody($sBody);
-		$this->Mail_setHTML();
-		$this->Mail_Send();
+		$this->Send(
+			$oUser,
+			'notify.registration.tpl',
+			$this->Lang_Get('notify_subject_registration'),
+			array(
+				'oUser' => $oUser,
+				'sPassword' => $sPassword,
+			)
+		);
 	}
 
 	/**
@@ -323,48 +196,16 @@ class ModuleNotify extends Module {
 	 * @param ModuleUser_EntityInvite $oInvite
 	 */
 	public function SendInvite(ModuleUser_EntityUser $oUserFrom,$sMailTo,ModuleUser_EntityInvite $oInvite) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);
-		$this->oViewerLocal->Assign('sMailTo',$sMailTo);
-		$this->oViewerLocal->Assign('oInvite',$oInvite);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch('notify/'.$this->Lang_GetLang()."/notify.invite.tpl");
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $sMailTo,
-					'user_login'     => null,
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_invite'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($sMailTo);
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_invite'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$sMailTo,
+			'notify.invite.tpl',
+			$this->Lang_Get('notify_subject_invite'),
+			array(
+				'sMailTo' => $sMailTo,
+				'oUserFrom' => $oUserFrom,
+				'oInvite' => $oInvite,
+			)
+		);
 	}
 
 	/**
@@ -381,48 +222,16 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeNewTalk()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);
-		$this->oViewerLocal->Assign('oTalk',$oTalk);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.talk_new.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_talk_new'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_talk_new'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.talk_new.tpl',
+			$this->Lang_Get('notify_subject_talk_new'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oUserFrom' => $oUserFrom,
+				'oTalk' => $oTalk,
+			)
+		);
 	}
 
 	public function SendTalkCommentNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom,ModuleTalk_EntityTalk $oTalk,ModuleComment_EntityComment $oTalkComment) {
@@ -432,49 +241,17 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeNewTalk()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);
-		$this->oViewerLocal->Assign('oTalk',$oTalk);
-		$this->oViewerLocal->Assign('oTalkComment',$oTalkComment);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.talk_comment_new.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_talk_comment_new'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_talk_comment_new'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.talk_comment_new.tpl',
+			$this->Lang_Get('notify_subject_talk_comment_new'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oUserFrom' => $oUserFrom,
+				'oTalk' => $oTalk,
+				'oTalkComment' => $oTalkComment,
+			)
+		);
 	}
 
 	/**
@@ -490,50 +267,17 @@ class ModuleNotify extends Module {
 		if (!$oUserTo->getSettingsNoticeNewFriend()) {
 			return ;
 		}
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);
-		$this->oViewerLocal->Assign('sText',$sText);
-		$this->oViewerLocal->Assign('sPath',$sPath);
-
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.user_friend_new.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_user_friend_new'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_user_friend_new'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.user_friend_new.tpl',
+			$this->Lang_Get('notify_subject_user_friend_new'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oUserFrom' => $oUserFrom,
+				'sText' => $sText,
+				'sPath' => $sPath,
+			)
+		);
 	}
 
 	/**
@@ -543,50 +287,17 @@ class ModuleNotify extends Module {
 	 * @param ModuleUser_EntityUser $oUserFrom
 	 */
 	public function SendBlogUserInvite(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom, ModuleBlog_EntityBlog $oBlog,$sPath) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUserTo',$oUserTo);
-		$this->oViewerLocal->Assign('oUserFrom',$oUserFrom);
-		$this->oViewerLocal->Assign('oBlog',$oBlog);
-		$this->oViewerLocal->Assign('sPath',$sPath);
-
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.blog_invite_new.tpl'));
-		/**
-		 * Если в конфигураторе указан отложенный метод отправки,
-		 * то добавляем задание в массив. В противном случае,
-		 * сразу отсылаем на email
-		 */
-		if(Config::Get('module.notify.delayed')) {
-			$oNotifyTask=Engine::GetEntity(
-				'Notify_Task',
-				array(
-					'user_mail'      => $oUserTo->getMail(),
-					'user_login'     => $oUserTo->getLogin(),
-					'notify_text'    => $sBody,
-					'notify_subject' => $this->Lang_Get('notify_subject_blog_invite_new'),
-					'date_created'   => date("Y-m-d H:i:s"),
-					'notify_task_status' => self::NOTIFY_TASK_STATUS_NULL,
-				)
-			);
-			if(Config::Get('module.notify.insert_single')) {
-				$this->aTask[] = $oNotifyTask;
-			} else {
-				$this->oMapper->AddTask($oNotifyTask);
-			}
-		} else {
-			/**
-			 * Отправляем мыло
-			 */
-			$this->Mail_SetAdress($oUserTo->getMail(),$oUserTo->getLogin());
-			$this->Mail_SetSubject($this->Lang_Get('notify_subject_blog_invite_new'));
-			$this->Mail_SetBody($sBody);
-			$this->Mail_setHTML();
-			$this->Mail_Send();
-		}
+		$this->Send(
+			$oUserTo,
+			'notify.blog_invite_new.tpl',
+			$this->Lang_Get('notify_subject_blog_invite_new'),
+			array(
+				'oUserTo' => $oUserTo,
+				'oUserFrom' => $oUserFrom,
+				'oBlog' => $oBlog,
+				'sPath' => $sPath,
+			)
+		);
 	}
 
 	/**
@@ -596,24 +307,15 @@ class ModuleNotify extends Module {
 	 * @param ModuleUser_EntityReminder $oReminder
 	 */
 	public function SendReminderCode(ModuleUser_EntityUser $oUser,ModuleUser_EntityReminder $oReminder) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUser',$oUser);
-		$this->oViewerLocal->Assign('oReminder',$oReminder);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.reminder_code.tpl'));
-
-		/**
-		 * Отправляем мыло
-		 */
-		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject($this->Lang_Get('notify_subject_reminder_code'));
-		$this->Mail_SetBody($sBody);
-		$this->Mail_setHTML();
-		$this->Mail_Send();
+		$this->Send(
+			$oUser,
+			'notify.reminder_code.tpl',
+			$this->Lang_Get('notify_subject_reminder_code'),
+			array(
+				'oUser' => $oUser,
+				'oReminder' => $oReminder,
+			)
+		);
 	}
 	/**
 	 * Уведомление с новым паролем после его восставновления
@@ -622,24 +324,15 @@ class ModuleNotify extends Module {
 	 * @param unknown_type $sNewPassword
 	 */
 	public function SendReminderPassword(ModuleUser_EntityUser $oUser,$sNewPassword) {
-		/**
-		 * Передаём в шаблон переменные
-		 */
-		$this->oViewerLocal->Assign('oUser',$oUser);
-		$this->oViewerLocal->Assign('sNewPassword',$sNewPassword);
-		/**
-		 * Формируем шаблон
-		 */
-		$sBody=$this->oViewerLocal->Fetch($this->GetTemplatePath('notify.reminder_password.tpl'));
-
-		/**
-		 * Отправляем мыло
-		 */
-		$this->Mail_SetAdress($oUser->getMail(),$oUser->getLogin());
-		$this->Mail_SetSubject($this->Lang_Get('notify_subject_reminder_password'));
-		$this->Mail_SetBody($sBody);
-		$this->Mail_setHTML();
-		$this->Mail_Send();
+		$this->Send(
+			$oUser,
+			'notify.reminder_password.tpl',
+			$this->Lang_Get('notify_subject_reminder_password'),
+			array(
+				'oUser' => $oUser,
+				'sNewPassword' => $sNewPassword,
+			)
+		);
 	}
 
 	/**
