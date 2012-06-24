@@ -52,7 +52,7 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 	/**
 	 * Обновление подписки
 	 *
-	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe
+	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe	Объект подписки
 	 * @return int
 	 */
 	public function UpdateSubscribe($oSubscribe) {

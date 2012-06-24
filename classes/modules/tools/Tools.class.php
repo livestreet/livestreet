@@ -18,21 +18,26 @@
 /**
  * Модуль Tools - различные вспомогательные методы
  *
+ * @package modules.tools
+ * @since 1.0
  */
 class ModuleTools extends Module {
-			
 	/**
 	 * Инициализация
 	 *
 	 */
 	public function Init() {
+
 	}
 
 	/**
 	 * Строит логарифмическое облако - расчитывает значение size в зависимости от count
 	 * У объектов в коллекции обязательно должны быть методы getCount() и setSize()
 	 *
-	 * @param array $aCollection
+	 * @param aray $aCollection	Список тегов
+	 * @param int $iMinSize	Минимальный размер
+	 * @param int $iMaxSize	Максимальный размер
+	 * @return array
 	 */
 	public function MakeCloud($aCollection,$iMinSize=1,$iMaxSize=10) {
 		if (count($aCollection)) {
