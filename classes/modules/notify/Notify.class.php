@@ -18,6 +18,8 @@
 /**
  * Модуль рассылок уведомлений пользователям
  *
+ * @package modules.notify
+ * @since 1.0
  */
 class ModuleNotify extends Module {
 	/**
@@ -37,11 +39,12 @@ class ModuleNotify extends Module {
 	 */
 	protected $aTask=array();
 	/**
-	 * Меппер
+	 * Объект маппера
 	 *
-	 * @var Mapper_Notify
+	 * @var ModuleNotify_MapperNotify
 	 */
 	protected $oMapper=null;
+
 	/**
 	 * Инициализация модуля
 	 * Создаём локальный экземпляр модуля Viewer
@@ -52,21 +55,21 @@ class ModuleNotify extends Module {
 		$this->oViewerLocal=$this->Viewer_GetLocalViewer();
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
-
 	/**
 	 * Отправляет юзеру уведомление о новом комментарии в его топике
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleTopic_EntityTopic $oTopic
-	 * @param CommentEntity_TopicComment $oComment
-	 * @param ModuleUser_EntityUser $oUserComment
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя кому отправляем
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @param ModuleComment_EntityComment $oComment	Объект комментария
+	 * @param ModuleUser_EntityUser $oUserComment	Объект пользователя, написавшего комментарий
+	 * @return bool
 	 */
 	public function SendCommentNewToAuthorTopic(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleComment_EntityComment $oComment, ModuleUser_EntityUser $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeNewComment()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -79,22 +82,23 @@ class ModuleNotify extends Module {
 				'oUserComment' => $oUserComment,
 			)
 		);
+		return true;
 	}
-
 	/**
 	 * Отправляет юзеру уведомление об ответе на его комментарий
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleTopic_EntityTopic $oTopic
-	 * @param CommentEntity_TopicComment $oComment
-	 * @param ModuleUser_EntityUser $oUserComment
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя кому отправляем
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @param ModuleComment_EntityComment $oComment	Объект комментария
+	 * @param ModuleUser_EntityUser $oUserComment	Объект пользователя, написавшего комментарий
+	 * @return bool
 	 */
 	public function SendCommentReplyToAuthorParentComment(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleComment_EntityComment $oComment, ModuleUser_EntityUser $oUserComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeReplyComment()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -107,22 +111,23 @@ class ModuleNotify extends Module {
 				'oUserComment' => $oUserComment,
 			)
 		);
+		return true;
 	}
-
 	/**
 	 * Отправляет юзеру уведомление о новом топике в блоге, в котором он состоит
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleTopic_EntityTopic $oTopic
-	 * @param ModuleBlog_EntityBlog $oBlog
-	 * @param ModuleUser_EntityUser $oUserTopic
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя кому отправляем
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @param ModuleBlog_EntityBlog $oBlog	Объект блога
+	 * @param ModuleUser_EntityUser $oUserTopic	Объект пользователя, написавшего топик
+	 * @return bool
 	 */
 	public function SendTopicNewToSubscribeBlog(ModuleUser_EntityUser $oUserTo, ModuleTopic_EntityTopic $oTopic, ModuleBlog_EntityBlog $oBlog, ModuleUser_EntityUser $oUserTopic) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeNewTopic()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -135,11 +140,12 @@ class ModuleNotify extends Module {
 				'oUserTopic' => $oUserTopic,
 			)
 		);
+		return true;
 	}
 	/**
 	 * Отправляет уведомление с новым линком активации
 	 *
-	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
 	 */
 	public function SendReactivationCode(ModuleUser_EntityUser $oUser) {
 		$this->Send(
@@ -151,12 +157,11 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Отправляет уведомление при регистрации с активацией
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param string $sPassword
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
+	 * @param string $sPassword	Пароль пользователя
 	 */
 	public function SendRegistrationActivate(ModuleUser_EntityUser $oUser,$sPassword) {
 		$this->Send(
@@ -169,12 +174,11 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Отправляет уведомление о регистрации
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param string $sPassword
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
+	 * @param string $sPassword	Пароль пользователя
 	 */
 	public function SendRegistration(ModuleUser_EntityUser $oUser,$sPassword) {
 		$this->Send(
@@ -187,13 +191,12 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Отправляет инвайт
 	 *
-	 * @param ModuleUser_EntityUser $oUserFrom
-	 * @param string $sMailTo
-	 * @param ModuleUser_EntityInvite $oInvite
+	 * @param ModuleUser_EntityUser $oUserFrom	Пароль пользователя, который отправляет инвайт
+	 * @param string $sMailTo	Емайл на который отправляем инвайт
+	 * @param ModuleUser_EntityInvite $oInvite	Объект инвайта
 	 */
 	public function SendInvite(ModuleUser_EntityUser $oUserFrom,$sMailTo,ModuleUser_EntityInvite $oInvite) {
 		$this->Send(
@@ -207,20 +210,20 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Отправляет уведомление при новом личном сообщении
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleUser_EntityUser $oUserFrom
-	 * @param ModuleTalk_EntityTalk $oTalk
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя, которому отправляем сообщение
+	 * @param ModuleUser_EntityUser $oUserFrom	Объект пользователя, который отправляет сообщение
+	 * @param ModuleTalk_EntityTalk $oTalk	Объект сообщения
+	 * @return bool
 	 */
 	public function SendTalkNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom,ModuleTalk_EntityTalk $oTalk) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeNewTalk()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -232,14 +235,23 @@ class ModuleNotify extends Module {
 				'oTalk' => $oTalk,
 			)
 		);
+		return true;
 	}
-
+	/**
+	 * Отправляет уведомление о новом сообщение в личке
+	 *
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя, которому отправляем уведомление
+	 * @param ModuleUser_EntityUser $oUserFrom	Объект пользователя, которыф написал комментарий
+	 * @param ModuleTalk_EntityTalk $oTalk	Объект сообщения
+	 * @param ModuleComment_EntityComment $oTalkComment	Объект комментария
+	 * @return bool
+	 */
 	public function SendTalkCommentNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom,ModuleTalk_EntityTalk $oTalk,ModuleComment_EntityComment $oTalkComment) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeNewTalk()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -252,20 +264,23 @@ class ModuleNotify extends Module {
 				'oTalkComment' => $oTalkComment,
 			)
 		);
+		return true;
 	}
-
 	/**
 	 * Отправляет пользователю сообщение о добавлении его в друзья
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleUser_EntityUser $oUserFrom
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя
+	 * @param ModuleUser_EntityUser $oUserFrom	Объект пользователя, которого добавляем в друзья
+	 * @param string $sText	Текст сообщения
+	 * @param string $sPath	URL для подтверждения дружбы
+	 * @return bool
 	 */
 	public function SendUserFriendNew(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom, $sText,$sPath) {
 		/**
 		 * Проверяем можно ли юзеру рассылать уведомление
 		 */
 		if (!$oUserTo->getSettingsNoticeNewFriend()) {
-			return ;
+			return false;
 		}
 		$this->Send(
 			$oUserTo,
@@ -278,13 +293,15 @@ class ModuleNotify extends Module {
 				'sPath' => $sPath,
 			)
 		);
+		return true;
 	}
-
 	/**
 	 * Отправляет пользователю сообщение о приглашение его в закрытый блог
 	 *
-	 * @param ModuleUser_EntityUser $oUserTo
-	 * @param ModuleUser_EntityUser $oUserFrom
+	 * @param ModuleUser_EntityUser $oUserTo	Объект пользователя, который отправляет приглашение
+	 * @param ModuleUser_EntityUser $oUserFrom	Объект пользователя, которого приглашаем
+	 * @param ModuleBlog_EntityBlog $oBlog	Объект блога
+	 * @param $sPath
 	 */
 	public function SendBlogUserInvite(ModuleUser_EntityUser $oUserTo,ModuleUser_EntityUser $oUserFrom, ModuleBlog_EntityBlog $oBlog,$sPath) {
 		$this->Send(
@@ -299,12 +316,11 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Уведомление при восстановлении пароля
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param ModuleUser_EntityReminder $oReminder
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
+	 * @param ModuleUser_EntityReminder $oReminder	объект напоминания пароля
 	 */
 	public function SendReminderCode(ModuleUser_EntityUser $oUser,ModuleUser_EntityReminder $oReminder) {
 		$this->Send(
@@ -320,8 +336,8 @@ class ModuleNotify extends Module {
 	/**
 	 * Уведомление с новым паролем после его восставновления
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param unknown_type $sNewPassword
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
+	 * @param string $sNewPassword	Новый пароль
 	 */
 	public function SendReminderPassword(ModuleUser_EntityUser $oUser,$sNewPassword) {
 		$this->Send(
@@ -334,13 +350,12 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Уведомление при ответе на сообщение на стене
 	 *
-	 * @param ModuleWall_EntityWall $oWallParent
-	 * @param ModuleWall_EntityWall $oWall
-	 * @param ModuleUser_EntityUser $oUserWall
+	 * @param ModuleWall_EntityWall $oWallParent	Объект сообщения на стене, на которое отвечаем
+	 * @param ModuleWall_EntityWall $oWall	Объект нового сообщения на стене
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
 	 */
 	public function SendWallReply(ModuleWall_EntityWall $oWallParent, ModuleWall_EntityWall $oWall, ModuleUser_EntityUser $oUser) {
 		$this->Send(
@@ -356,12 +371,11 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Уведомление о новом сообщение на стене
 	 *
-	 * @param ModuleWall_EntityWall $oWall
-	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleWall_EntityWall $oWall	Объект нового сообщения на стене
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
 	 */
 	public function SendWallNew(ModuleWall_EntityWall $oWall, ModuleUser_EntityUser $oUser) {
 		$this->Send(
@@ -376,15 +390,14 @@ class ModuleNotify extends Module {
 			)
 		);
 	}
-
 	/**
 	 * Универсальный метод отправки уведомлений на email
 	 *
-	 * @param ModuleUser_EntityUser | string $oUserTo - кому отправляем (пользователь или email)
-	 * @param unknown_type $sTemplate - шаблон для отправки
-	 * @param unknown_type $sSubject - тема письма
-	 * @param unknown_type $aAssign - ассоциативный массив для загрузки переменных в шаблон письма
-	 * @param unknown_type $sPluginName - плагин из которого происходит отправка
+	 * @param ModuleUser_EntityUser|string $oUserTo Кому отправляем (пользователь или email)
+	 * @param string $sTemplate Шаблон для отправки
+	 * @param string $sSubject Тема письма
+	 * @param array $aAssign Ассоциативный массив для загрузки переменных в шаблон письма
+	 * @param string|null $sPluginName Плагин из которого происходит отправка
 	 */
 	public function Send($oUserTo,$sTemplate,$sSubject,$aAssign=array(),$sPluginName=null) {
 		if ($oUserTo instanceof ModuleUser_EntityUser) {
@@ -437,8 +450,6 @@ class ModuleNotify extends Module {
 			$this->Mail_Send();
 		}
 	}
-
-
 	/**
 	 * При завершении работы модуля проверяем наличие
 	 * отложенных заданий в массиве и при необходимости
@@ -450,12 +461,10 @@ class ModuleNotify extends Module {
 			$this->aTask=array();
 		}
 	}
-
 	/**
-	 * Получает массив заданий на публикацию из базы
-	 * с указанным количественным ограничением (выборка FIFO)
+	 * Получает массив заданий на публикацию из базы с указанным количественным ограничением (выборка FIFO)
 	 *
-	 * @param  int   $iLimit
+	 * @param  int	$iLimit	Количество
 	 * @return array
 	 */
 	public function GetTasksDelayed($iLimit=10) {
@@ -466,7 +475,7 @@ class ModuleNotify extends Module {
 	/**
 	 * Отправляет на e-mail
 	 *
-	 * @param ModuleNotify_EntityTask $oTask
+	 * @param ModuleNotify_EntityTask $oTask	Объект задания на отправку
 	 */
 	public function SendTask($oTask) {
 		$this->Mail_SetAdress($oTask->getUserMail(),$oTask->getUserLogin());
@@ -478,7 +487,7 @@ class ModuleNotify extends Module {
 	/**
 	 * Удаляет отложенное Notify-задание из базы
 	 *
-	 * @param  ModuleNotify_EntityTask $oTask
+	 * @param  ModuleNotify_EntityTask $oTask	Объект задания на отправку
 	 * @return bool
 	 */
 	public function DeleteTask($oTask) {
@@ -487,18 +496,17 @@ class ModuleNotify extends Module {
 	/**
 	 * Удаляет отложенные Notify-задания по списку идентификаторов
 	 *
-	 * @param  array $aArrayId
+	 * @param  array $aArrayId	Список ID заданий на отправку
 	 * @return bool
 	 */
 	public function DeleteTaskByArrayId($aArrayId) {
 		return $this->oMapper->DeleteTaskByArrayId($aArrayId);
 	}
-
 	/**
 	 * Возвращает путь к шаблону по переданному имени
 	 *
-	 * @param  string $sName
-	 * @param  string $sPluginName
+	 * @param  string $sName	Название шаблона
+	 * @param  string $sPluginName	Название или класс плагина
 	 * @return string
 	 */
 	public function GetTemplatePath($sName,$sPluginName=null) {

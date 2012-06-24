@@ -15,17 +15,33 @@
 ---------------------------------------------------------
 */
 
-class ModuleSubscribe_MapperSubscribe extends Mapper {	
-	
+/**
+ * Объект маппера для работы с БД
+ *
+ * @package modules.subscribe
+ * @since 1.0
+ */
+class ModuleSubscribe_MapperSubscribe extends Mapper {
+	/**
+	 * Добавляет подписку в БД
+	 *
+	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe	Объект подписки
+	 * @return int|bool
+	 */
 	public function AddSubscribe($oSubscribe) {
-		$sql = "INSERT INTO ".Config::Get('db.table.subscribe')." SET ?a ";			
+		$sql = "INSERT INTO ".Config::Get('db.table.subscribe')." SET ?a ";
 		if ($iId=$this->oDb->query($sql,$oSubscribe->_getData())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
-			
+	/**
+	 * Получение подписки по типы и емайлу
+	 *
+	 * @param string $sType	Тип
+	 * @param string $sMail	Емайл
+	 * @return ModuleSubscribe_EntitySubscribe|null
+	 */
 	public function GetSubscribeByTypeAndMail($sType,$sMail) {
 		$sql = "SELECT * FROM ".Config::Get('db.table.subscribe')." WHERE target_type = ? and mail = ?";
 		if ($aRow=$this->oDb->selectRow($sql,$sType,$sMail)) {
@@ -33,21 +49,33 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 		}
 		return null;
 	}
-	
-	
+	/**
+	 * Обновление подписки
+	 *
+	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe
+	 * @return int
+	 */
 	public function UpdateSubscribe($oSubscribe) {
 		$sql = "UPDATE ".Config::Get('db.table.subscribe')." 
 			SET 
 			 	status = ?, 
 			 	date_remove = ?
 			WHERE id = ?d
-		";			
+		";
 		return $this->oDb->query($sql,$oSubscribe->getStatus(),
-									$oSubscribe->getDateRemove(),
-									$oSubscribe->getId());
+								 $oSubscribe->getDateRemove(),
+								 $oSubscribe->getId());
 	}
-
-
+	/**
+	 * Возвращает список подписок по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCount	Возвращает общее количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetSubscribes($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','date_add','status');
 		$sOrder='';

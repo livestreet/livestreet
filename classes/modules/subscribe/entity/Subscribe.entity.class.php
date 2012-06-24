@@ -15,7 +15,13 @@
 ---------------------------------------------------------
 */
 
-class ModuleSubscribe_EntitySubscribe extends Entity {    
-    
+/**
+ * Объект сущности подписки
+ *
+ * @package modules.subscribe
+ * @since 1.0
+ */
+class ModuleSubscribe_EntitySubscribe extends Entity {
+
 }
 ?>

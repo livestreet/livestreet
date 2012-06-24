@@ -16,8 +16,10 @@
 */
 
 /**
- * Модуль управления рейтингами и силой 
+ * Модуль управления рейтингами и силой
  *
+ * @package modules.rating
+ * @since 1.0
  */
 class ModuleRating extends Module {
 
@@ -25,14 +27,16 @@ class ModuleRating extends Module {
 	 * Инициализация модуля
 	 *
 	 */
-	public function Init() {		
-		
+	public function Init() {
+
 	}
 	/**
 	 * Расчет рейтинга при голосовании за комментарий
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param CommentEntity_TopicComment $oComment
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя, который голосует
+	 * @param ModuleComment_EntityComment $oComment	Объект комментария
+	 * @param int $iValue
+	 * @return int
 	 */
 	public function VoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment, $iValue) {
 		/**
@@ -41,7 +45,7 @@ class ModuleRating extends Module {
 		$oComment->setRating($oComment->getRating()+$iValue);
 		/**
 		 * Начисляем силу автору коммента, используя логарифмическое распределение
-		 */		
+		 */
 		$skill=$oUser->getSkill();
 		$iMinSize=0.004;
 		$iMaxSize=0.5;
@@ -51,7 +55,7 @@ class ModuleRating extends Module {
 		$iCountRange=$iMaxCount-$iMinCount;
 		if ($iCountRange==0) {
 			$iCountRange=1;
-		}		
+		}
 		if ($skill>50 and $skill<200) {
 			$skill_new=$skill/70;
 		} elseif ($skill>=200) {
@@ -73,9 +77,10 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга и силы при гоосовании за топик
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param ModuleTopic_EntityTopic $oTopic
-	 * @param unknown_type $iValue
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя, который голосует
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @param int $iValue
+	 * @return int
 	 */
 	public function VoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic, $iValue) {
 		$skill=$oUser->getSkill();
@@ -93,7 +98,7 @@ class ModuleRating extends Module {
 		$oTopic->setRating($oTopic->getRating()+$iDeltaRating);
 		/**
 		 * Начисляем силу и рейтинг автору топика, используя логарифмическое распределение
-		 */			
+		 */
 		$iMinSize=0.1;
 		$iMaxSize=8;
 		$iSizeRange=$iMaxSize-$iMinSize;
@@ -102,7 +107,7 @@ class ModuleRating extends Module {
 		$iCountRange=$iMaxCount-$iMinCount;
 		if ($iCountRange==0) {
 			$iCountRange=1;
-		}		
+		}
 		if ($skill>50 and $skill<200) {
 			$skill_new=$skill/70;
 		} elseif ($skill>=200) {
@@ -125,15 +130,16 @@ class ModuleRating extends Module {
 	/**
 	 * Расчет рейтинга и силы при голосовании за блог
 	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @param ModuleBlog_EntityBlog $oBlog
-	 * @param unknown_type $iValue
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя, который голосует
+	 * @param ModuleBlog_EntityBlog $oBlog	Объект блога
+	 * @param int $iValue
+	 * @return int
 	 */
-	public function VoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog, $iValue) {		
+	public function VoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog, $iValue) {
 		/**
 		 * Устанавливаем рейтинг блога, используя логарифмическое распределение
-		 */		
-		$skill=$oUser->getSkill();	
+		 */
+		$skill=$oUser->getSkill();
 		$iMinSize=1.13;
 		$iMaxSize=15;
 		$iSizeRange=$iMaxSize-$iMinSize;
@@ -142,7 +148,7 @@ class ModuleRating extends Module {
 		$iCountRange=$iMaxCount-$iMinCount;
 		if ($iCountRange==0) {
 			$iCountRange=1;
-		}		
+		}
 		if ($skill>50 and $skill<200) {
 			$skill_new=$skill/20;
 		} elseif ($skill>=200) {
@@ -162,12 +168,13 @@ class ModuleRating extends Module {
 	 *
 	 * @param ModuleUser_EntityUser $oUser
 	 * @param ModuleUser_EntityUser $oUserTarget
-	 * @param unknown_type $iValue
+	 * @param int $iValue
+	 * @return float
 	 */
-	public function VoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget, $iValue) {		
+	public function VoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget, $iValue) {
 		/**
 		 * Начисляем силу и рейтинг юзеру, используя логарифмическое распределение
-		 */			
+		 */
 		$skill=$oUser->getSkill();
 		$iMinSize=0.42;
 		$iMaxSize=3.2;
@@ -177,7 +184,7 @@ class ModuleRating extends Module {
 		$iCountRange=$iMaxCount-$iMinCount;
 		if ($iCountRange==0) {
 			$iCountRange=1;
-		}		
+		}
 		if ($skill>50 and $skill<200) {
 			$skill_new=$skill/40;
 		} elseif ($skill>=200) {
@@ -187,14 +194,10 @@ class ModuleRating extends Module {
 		}
 		$iDelta=$iMinSize+(log($skill_new+1)-$iMinCount)*($iSizeRange/$iCountRange);
 		/**
-		 * Сохраняем силу и рейтинг
-		 */		
-		$iRatingNew=$oUserTarget->getRating()+$iValue*$iDelta;		
-		//$iSkillNew=$oUserTarget->getSkill()+$iValue*$iDelta/3.67;
-		//$iSkillNew=($iSkillNew<0) ? 0 : $iSkillNew;		
-		//$oUserTarget->setSkill($iSkillNew);
+		 * Определяем новый рейтинг
+		 */
+		$iRatingNew=$oUserTarget->getRating()+$iValue*$iDelta;
 		$oUserTarget->setRating($iRatingNew);
-		///$this->User_Update($oUserTarget);
 		return $iValue*$iDelta;
 	}
 }

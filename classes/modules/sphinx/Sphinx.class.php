@@ -4,18 +4,27 @@ require_once(Config::Get('path.root.engine').'/lib/external/Sphinx/sphinxapi.php
 /**
  * Модуль для работы с машиной полнотекстового поиска Sphinx
  *
+ * @package modules.sphinx
+ * @since 1.0
  */
 class ModuleSphinx extends Module {
+	/**
+	 * Объект сфинкса
+	 *
+	 * @var SphinxClient|null
+	 */
 	protected $oSphinx = null;
-	
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->InitSphinx();
 	}
-	
+	/**
+	 * Инициализация сфинкса
+	 */
 	protected function InitSphinx() {
 		/**
 		 * Получаем объект Сфинкса(из Сфинкс АПИ)
@@ -27,17 +36,13 @@ class ModuleSphinx extends Module {
 		 */
 		$this->oSphinx->SetSortMode(SPH_SORT_EXTENDED, "@weight DESC, @id DESc");
 	}
-	
-	public function Shutdown() {
-		
-	}
 	/**
 	 * Возвращает число найденых элементов в зависимоти от их типа
 	 *
-	 * @param unknown_type $sTerms
-	 * @param unknown_type $sObjType
-	 * @param unknown_type $aExtraFilters
-	 * @return unknown
+	 * @param string $sTerms	Поисковый запрос
+	 * @param string $sObjType	Тип поиска
+	 * @param array $aExtraFilters	Список фильтров
+	 * @return int
 	 */
 	public function GetNumResultsByType($sTerms, $sObjType = 'topics', $aExtraFilters){
 		$aResults = $this->FindContent($sTerms, $sObjType, 1, 1, $aExtraFilters);
@@ -46,25 +51,25 @@ class ModuleSphinx extends Module {
 	/**
 	 * Непосредственно сам поиск
 	 *
-	 * @param unknown_type $sTerms
-	 * @param unknown_type $sObjType
-	 * @param unknown_type $iOffset
-	 * @param unknown_type $iLimit
-	 * @param unknown_type $aExtraFilters
-	 * @return unknown
+	 * @param string $sTerms	Поисковый запрос
+	 * @param string $sObjType	Тип поиска
+	 * @param int $iOffset	Сдвиг элементов
+	 * @param int $iLimit	Количество элементов
+	 * @param array $aExtraFilters	Список фильтров
+	 * @return array
 	 */
 	public function FindContent($sTerms, $sObjType, $iOffset, $iLimit, $aExtraFilters){
 		/**
 		 * используем кеширование при поиске
 		 */
 		$sExtraFilters = serialize($aExtraFilters);
-		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}_{$sExtraFilters}";		
+		$cacheKey = Config::Get('module.search.entity_prefix')."searchResult_{$sObjType}_{$sTerms}_{$iOffset}_{$iLimit}_{$sExtraFilters}";
 		if (false === ($data = $this->Cache_Get($cacheKey))) {
 			/**
 			 * Параметры поиска
 			 */
 			$this->oSphinx->SetMatchMode(SPH_MATCH_ALL);
-			$this->oSphinx->SetLimits($iOffset, $iLimit);			
+			$this->oSphinx->SetLimits($iOffset, $iLimit);
 			/**
 			 * Устанавливаем атрибуты поиска
 			 */
@@ -72,7 +77,7 @@ class ModuleSphinx extends Module {
 			if(!is_null($aExtraFilters)){
 				foreach($aExtraFilters AS $sAttribName => $sAttribValue){
 					$this->oSphinx->SetFilter(
-						$sAttribName, 
+						$sAttribName,
 						(is_array($sAttribValue)) ? $sAttribValue : array($sAttribValue)
 					);
 				}
@@ -82,7 +87,7 @@ class ModuleSphinx extends Module {
 			 */
 			if(!is_array($data = $this->oSphinx->Query($sTerms, Config::Get('module.search.entity_prefix').$sObjType.'Index'))) {
 				return FALSE; // Скорее всего недоступен демон searchd
-			}				
+			}
 			/**
 			 * Если результатов нет, то и в кеш писать не стоит...
 			 * хотя тут момент спорный
@@ -96,7 +101,7 @@ class ModuleSphinx extends Module {
 	/**
 	 * Получить ошибку при последнем обращении к поиску
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	public function GetLastError(){
 		return $this->oSphinx->GetLastError();
@@ -104,18 +109,18 @@ class ModuleSphinx extends Module {
 	/**
 	 * Получаем сниппеты(превью найденых элементов)
 	 *
-	 * @param unknown_type $sText
-	 * @param unknown_type $sIndex
-	 * @param unknown_type $sTerms
-	 * @param unknown_type $before_match
-	 * @param unknown_type $after_match
-	 * @return unknown
+	 * @param string $sText	Текст
+	 * @param string $sIndex	Название индекса
+	 * @param string $sTerms	Поисковый запрос
+	 * @param string $before_match	Добавляемый текст перед ключом
+	 * @param string $after_match	Добавляемый текст после ключа
+	 * @return array
 	 */
 	public function GetSnippet($sText, $sIndex, $sTerms, $before_match, $after_match){
 		$aReturn = $this->oSphinx->BuildExcerpts(array($sText), Config::Get('module.search.entity_prefix').$sIndex.'Index', $sTerms, array(
-				'before_match' => $before_match, 
-				'after_match' => $after_match, 
-			)
+																  'before_match' => $before_match,
+																  'after_match' => $after_match,
+															  )
 		);
 		return $aReturn[0];
 	}
