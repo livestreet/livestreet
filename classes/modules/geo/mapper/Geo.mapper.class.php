@@ -15,16 +15,35 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Объект маппера для работы с БД
+ *
+ * @package modules.geo
+ * @since 1.0
+ */
 class ModuleGeo_MapperGeo extends Mapper {
-	
+	/**
+	 * Добавляет связь объекта с гео-объектом в БД
+	 *
+	 * @param ModuleGeo_EntityTarget $oTarget	Объект связи с владельцем
+	 * @return ModuleGeo_EntityTarget|bool
+	 */
 	public function AddTarget($oTarget) {
 		$sql = "INSERT INTO ".Config::Get('db.table.geo_target')." SET ?a ";
 		if ($this->oDb->query($sql,$oTarget->_getData())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-
+	/**
+	 * Возвращает список связей по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param int $iCount	Возвращает количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetTargets($aFilter,&$iCount,$iCurrPage,$iPerPage) {
 		if (isset($aFilter['target_id']) and !is_array($aFilter['target_id'])) {
 			$aFilter['target_id']=array($aFilter['target_id']);
@@ -64,7 +83,13 @@ class ModuleGeo_MapperGeo extends Mapper {
 		}
 		return $aResult;
 	}
-
+	/**
+	 * Возвращает список стран сгруппированных по количеству использований в данном типе объектов
+	 *
+	 * @param string $sTargetType	Тип владельца
+	 * @param int $iLimit	Количество элементов
+	 * @return array
+	 */
 	public function GetGroupCountriesByTargetType($sTargetType,$iLimit) {
 		$sql = "
 			SELECT
@@ -90,7 +115,13 @@ class ModuleGeo_MapperGeo extends Mapper {
 		}
 		return $aResult;
 	}
-
+	/**
+	 * Возвращает список городов сгруппированных по количеству использований в данном типе объектов
+	 *
+	 * @param string $sTargetType	Тип владельца
+	 * @param int $iLimit	Количество элементов
+	 * @return array
+	 */
 	public function GetGroupCitiesByTargetType($sTargetType,$iLimit) {
 		$sql = "
 			SELECT
@@ -116,7 +147,12 @@ class ModuleGeo_MapperGeo extends Mapper {
 		}
 		return $aResult;
 	}
-
+	/**
+	 * Удаляет связи по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @return bool|int
+	 */
 	public function DeleteTargets($aFilter) {
 		if (!$aFilter) {
 			return false;
@@ -144,7 +180,16 @@ class ModuleGeo_MapperGeo extends Mapper {
 								 isset($aFilter['city_id']) ? $aFilter['city_id'] : DBSIMPLE_SKIP
 		);
 	}
-
+	/**
+	 * Возвращает список стран по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCount	Возвращает количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetCountries($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','name_ru','name_en','sort');
 		$sOrder='';
@@ -192,7 +237,16 @@ class ModuleGeo_MapperGeo extends Mapper {
 		}
 		return $aResult;
 	}
-
+	/**
+	 * Возвращает список стран по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCount	Возвращает количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetRegions($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','name_ru','name_en','sort','country_id');
 		$sOrder='';
@@ -244,7 +298,16 @@ class ModuleGeo_MapperGeo extends Mapper {
 		}
 		return $aResult;
 	}
-
+	/**
+	 * Возвращает список стран по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCount	Возвращает количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetCities($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('id','name_ru','name_en','sort','country_id','region_id');
 		$sOrder='';

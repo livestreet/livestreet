@@ -104,10 +104,10 @@
 
 	{include file='header_top.tpl'}
 	
-	<div id="container">
+	<div id="container" class="{hook run='container_class'}">
 		{include file='nav.tpl'}
 
-		<div id="wrapper" class="{if $noSidebar}no-sidebar{/if} {if $sCssWrapperClass}{$sCssWrapperClass}{/if}">
+		<div id="wrapper" class="{if $noSidebar}no-sidebar{/if}{hook run='wrapper_class'}">
 			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if} {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}

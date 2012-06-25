@@ -15,7 +15,13 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Объект сущности региона
+ *
+ * @package modules.geo
+ * @since 1.0
+ */
 class ModuleGeo_EntityRegion extends ModuleGeo_EntityGeo {
-    
+
 }
 ?>

@@ -100,11 +100,11 @@
 	{/if}
 	
 
-	<div id="container">
+	<div id="container" class="{hook run='container_class'}">
 		{include file='header_top.tpl'}
 		{include file='nav.tpl'}
 
-		<div id="wrapper" class="{if $sCssWrapperClass}{$sCssWrapperClass}{/if}">
+		<div id="wrapper" class="{hook run='wrapper_class'}">
 			{if !$noSidebar && $sidebarPosition == 'left'}
 				{include file='sidebar.tpl'}
 			{/if}

@@ -15,6 +15,12 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Объект связи гео-объекта с владельцем
+ *
+ * @package modules.geo
+ * @since 1.0
+ */
 class ModuleGeo_EntityTarget extends Entity {
     
 }

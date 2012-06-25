@@ -531,7 +531,7 @@ return array(
 	'user_menu_profile_friends' => 'Друзья',
 	'user_menu_profile_stream' => 'Активность',
 	'user_menu_profile_notes' => 'Заметки',
-	'user_menu_profile_favourites' => 'Избраннное',
+	'user_menu_profile_favourites' => 'Избранное',
 	'user_menu_profile_favourites_topics' => 'Избранные топики',
 	'user_menu_profile_favourites_comments' => 'Избранные комментарии',
 	'user_menu_profile_tags' => 'Метки',

@@ -18,7 +18,7 @@
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 require_once(Config::Get('path.root.engine').'/lib/internal/ProfilerSimple/Profiler.class.php');
 
-require_once("Object.class.php");
+require_once("LsObject.class.php");
 require_once("Plugin.class.php");
 require_once("Block.class.php");
 require_once("Hook.class.php");
@@ -610,6 +610,25 @@ class Engine extends LsObject {
 		}
 
 		return array($oModule,$sModuleName,$sMethod);
+	}
+
+	/**
+	 * Возвращает объект модуля
+	 *
+	 * @param string $sName Имя модуля
+	 */
+	public function GetModuleObject($sName) {
+		if(self::GetPluginPrefix($sName)){
+			if(substr_count($sName,'_')<2) {
+				$sName.='_x';
+			}
+		} else {
+			if(substr_count($sName,'_')<1) {
+				$sName.='_x';
+			}
+		}
+		$aCallArray=$this->GetModule($sName);
+		return $aCallArray[0];
 	}
 
 	/**
