@@ -15,8 +15,19 @@
 ---------------------------------------------------------
 */
 
-class ModuleTopic_MapperTopic extends Mapper {	
-		
+/**
+ * Объект маппера для работы с БД
+ *
+ * @package modules.topic
+ * @since 1.0
+ */
+class ModuleTopic_MapperTopic extends Mapper {
+	/**
+	 * Добавляет топик
+	 *
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @return int|bool
+	 */
 	public function AddTopic(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic')." 
 			(blog_id,
@@ -34,17 +45,22 @@ class ModuleTopic_MapperTopic extends Mapper {
 			topic_text_hash			
 			)
 			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?, ?, ?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getUserId(),$oTopic->getType(),$oTopic->getTitle(),
-			$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash())) 
+								   $oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash()))
 		{
 			$oTopic->setId($iId);
 			$this->AddTopicContent($oTopic);
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Добавляет контент топика
+	 *
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @return int|bool
+	 */
 	public function AddTopicContent(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_content')." 
 			(topic_id,			
@@ -54,15 +70,20 @@ class ModuleTopic_MapperTopic extends Mapper {
 			topic_extra			
 			)
 			VALUES(?d,  ?,	?,	?, ? )
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oTopic->getId(),$oTopic->getText(),
-			$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra())) 
+								   $oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra()))
 		{
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Добавление тега к топику
+	 *
+	 * @param ModuleTopic_EntityTopicTag $oTopicTag	Объект тега топика
+	 * @return int
+	 */
 	public function AddTopicTag(ModuleTopic_EntityTopicTag $oTopicTag) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_tag')." 
 			(topic_id,
@@ -71,45 +92,66 @@ class ModuleTopic_MapperTopic extends Mapper {
 			topic_tag_text		
 			)
 			VALUES(?d,  ?d,  ?d,	?)
-		";			
-		if ($iId=$this->oDb->query($sql,$oTopicTag->getTopicId(),$oTopicTag->getUserId(),$oTopicTag->getBlogId(),$oTopicTag->getText())) 
+		";
+		if ($iId=$this->oDb->query($sql,$oTopicTag->getTopicId(),$oTopicTag->getUserId(),$oTopicTag->getBlogId(),$oTopicTag->getText()))
 		{
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Удаление контента топика по его номеру
+	 *
+	 * @param int $iTopicId	ID топика
+	 * @return bool
+	 */
 	public function DeleteTopicContentByTopicId($iTopicId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.topic_content')." WHERE topic_id = ?d ";
 		if ($this->oDb->query($sql,$iTopicId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Удаляет теги у топика
+	 *
+	 * @param int $sTopicId	ID топика
+	 * @return bool
+	 */
 	public function DeleteTopicTagsByTopicId($sTopicId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.topic_tag')." 
 			WHERE
 				topic_id = ?d				
-		";			
+		";
 		if ($this->oDb->query($sql,$sTopicId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Удаляет топик.
+	 * Если тип таблиц в БД InnoDB, то удалятся всё связи по топику(комменты,голосования,избранное)
+	 *
+	 * @param int $sTopicId Объект топика или ID
+	 * @return bool
+	 */
 	public function DeleteTopic($sTopicId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.topic')." 
 			WHERE
 				topic_id = ?d				
-		";			
+		";
 		if ($this->oDb->query($sql,$sTopicId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-		
+	/**
+	 * Получает топик по уникальному хешу(текст топика)
+	 *
+	 * @param int $sUserId
+	 * @param string $sHash
+	 * @return int|null
+	 */
 	public function GetTopicUnique($sUserId,$sHash) {
 		$sql = "SELECT topic_id FROM ".Config::Get('db.table.topic')." 
 			WHERE 				
@@ -123,12 +165,17 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return null;
 	}
-	
+	/**
+	 * Получить список топиков по списку айдишников
+	 *
+	 * @param array $aArrayId	Список ID топиков
+	 * @return array
+	 */
 	public function GetTopicsByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
+
 		$sql = "SELECT 
 					t.*,
 					tc.*							 
@@ -143,21 +190,28 @@ class ModuleTopic_MapperTopic extends Mapper {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=Engine::GetEntity('Topic',$aTopic);
 			}
-		}		
+		}
 		return $aTopics;
 	}
-	
-	
+	/**
+	 * Список топиков по фильтру
+	 *
+	 * @param  array $aFilter	Фильтр
+	 * @param  int   $iCount	Возвращает общее число элементов
+	 * @param  int   $iCurrPage	Номер страницы
+	 * @param  int   $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
 	public function GetTopics($aFilter,&$iCount,$iCurrPage,$iPerPage) {
 		$sWhere=$this->buildFilter($aFilter);
-		
+
 		if(!isset($aFilter['order'])) {
 			$aFilter['order'] = 't.topic_date_add desc';
 		}
 		if (!is_array($aFilter['order'])) {
 			$aFilter['order'] = array($aFilter['order']);
 		}
-		
+
 		$sql = "SELECT 
 						t.topic_id							
 					FROM 
@@ -169,19 +223,24 @@ class ModuleTopic_MapperTopic extends Mapper {
 						AND
 						t.blog_id=b.blog_id										
 					ORDER BY ".
-						implode(', ', $aFilter['order'])
-				."
-					LIMIT ?d, ?d";		
+			implode(', ', $aFilter['order'])
+			."
+					LIMIT ?d, ?d";
 		$aTopics=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {			
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
 			}
-		}				
+		}
 		return $aTopics;
 	}
-	
-	public function GetCountTopics($aFilter) {		
+	/**
+	 * Количество топиков по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @return int
+	 */
+	public function GetCountTopics($aFilter) {
 		$sWhere=$this->buildFilter($aFilter);
 		$sql = "SELECT 
 					count(t.topic_id) as count									
@@ -194,23 +253,28 @@ class ModuleTopic_MapperTopic extends Mapper {
 					".$sWhere."								
 					
 					AND
-					t.blog_id=b.blog_id;";		
+					t.blog_id=b.blog_id;";
 		if ($aRow=$this->oDb->selectRow($sql)) {
 			return $aRow['count'];
 		}
 		return false;
 	}
-	
+	/**
+	 * Возвращает все топики по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @return array
+	 */
 	public function GetAllTopics($aFilter) {
 		$sWhere=$this->buildFilter($aFilter);
-		
+
 		if(!isset($aFilter['order'])) {
 			$aFilter['order'] = 't.topic_id desc';
 		}
 		if (!is_array($aFilter['order'])) {
 			$aFilter['order'] = array($aFilter['order']);
 		}
-		
+
 		$sql = "SELECT 
 						t.topic_id							
 					FROM 
@@ -221,18 +285,27 @@ class ModuleTopic_MapperTopic extends Mapper {
 						".$sWhere."
 						AND
 						t.blog_id=b.blog_id										
-					ORDER by ".implode(', ', $aFilter['order'])." ";		
+					ORDER by ".implode(', ', $aFilter['order'])." ";
 		$aTopics=array();
-		if ($aRows=$this->oDb->select($sql)) {			
+		if ($aRows=$this->oDb->select($sql)) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
 			}
-		}		
+		}
 
-		return $aTopics;		
+		return $aTopics;
 	}
-	
-	public function GetTopicsByTag($sTag,$aExcludeBlog,&$iCount,$iCurrPage,$iPerPage) {		
+	/**
+	 * Получает список топиков по тегу
+	 *
+	 * @param  string $sTag	Тег
+	 * @param  array    $aExcludeBlog	Список ID блогов для исключения
+	 * @param  int    $iCount	Возвращает общее количество элементов
+	 * @param  int    $iCurrPage	Номер страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
+	public function GetTopicsByTag($sTag,$aExcludeBlog,&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "				
 							SELECT 		
 								topic_id										
@@ -243,13 +316,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 								{ AND blog_id NOT IN (?a) }
                             ORDER BY topic_id DESC	
                             LIMIT ?d, ?d ";
-		
+
 		$aTopics=array();
 		if ($aRows=$this->oDb->selectPage(
-				$iCount,$sql,$sTag,
-				(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
-				($iCurrPage-1)*$iPerPage, $iPerPage
-			)
+			$iCount,$sql,$sTag,
+			(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
+			($iCurrPage-1)*$iPerPage, $iPerPage
+		)
 		) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
@@ -257,8 +330,14 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aTopics;
 	}
-	
-	
+	/**
+	 * Получает топики по рейтингу и дате
+	 *
+	 * @param string $sDate	Дата
+	 * @param int $iLimit	Количество
+	 * @param array $aExcludeBlog	Список ID блогов для исключения
+	 * @return array
+	 */
 	public function GetTopicsRatingByDate($sDate,$iLimit,$aExcludeBlog=array()) {
 		$sql = "SELECT 
 						t.topic_id										
@@ -272,13 +351,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 						t.topic_rating >= 0
 						{ AND t.blog_id NOT IN(?a) } 																	
 					ORDER by t.topic_rating desc, t.topic_id desc
-					LIMIT 0, ?d ";		
+					LIMIT 0, ?d ";
 		$aTopics=array();
 		if ($aRows=$this->oDb->select(
-				$sql,$sDate,
-				(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
-				$iLimit
-			)
+			$sql,$sDate,
+			(is_array($aExcludeBlog)&&count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
+			$iLimit
+		)
 		) {
 			foreach ($aRows as $aTopic) {
 				$aTopics[]=$aTopic['topic_id'];
@@ -286,7 +365,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aTopics;
 	}
-	
+	/**
+	 * Получает список тегов топиков
+	 *
+	 * @param int $iLimit	Количество
+	 * @param array $aExcludeTopic	Список ID топиков для исключения
+	 * @return array
+	 */
 	public function GetTopicTags($iLimit,$aExcludeTopic=array()) {
 		$sql = "SELECT 
 			tt.topic_tag_text,
@@ -301,26 +386,32 @@ class ModuleTopic_MapperTopic extends Mapper {
 			ORDER BY 
 				count desc		
 			LIMIT 0, ?d
-				";	
+				";
 		$aReturn=array();
 		$aReturnSort=array();
 		if ($aRows=$this->oDb->select(
-				$sql,
-				(is_array($aExcludeTopic)&&count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
-				$iLimit
-			)
+			$sql,
+			(is_array($aExcludeTopic)&&count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
+			$iLimit
+		)
 		) {
-			foreach ($aRows as $aRow) {				
+			foreach ($aRows as $aRow) {
 				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
 			}
 			ksort($aReturn);
 			foreach ($aReturn as $aRow) {
-				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);				
+				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);
 			}
 		}
 		return $aReturnSort;
 	}
-
+	/**
+	 * Получает список тегов из топиков открытых блогов (open,personal)
+	 *
+	 * @param  int $iLimit	Количество
+	 * @param  int|null $iUserId	ID пользователя, чью теги получаем
+	 * @return array
+	 */
 	public function GetOpenTopicTags($iLimit,$iUserId=null) {
 		$sql = "
 			SELECT 
@@ -341,36 +432,45 @@ class ModuleTopic_MapperTopic extends Mapper {
 			ORDER BY 
 				count desc		
 			LIMIT 0, ?d
-				";	
+				";
 		$aReturn=array();
 		$aReturnSort=array();
 		if ($aRows=$this->oDb->select($sql,is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId,$iLimit)) {
-			foreach ($aRows as $aRow) {				
+			foreach ($aRows as $aRow) {
 				$aReturn[mb_strtolower($aRow['topic_tag_text'],'UTF-8')]=$aRow;
 			}
 			ksort($aReturn);
 			foreach ($aReturn as $aRow) {
-				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);				
+				$aReturnSort[]=Engine::GetEntity('Topic_TopicTag',$aRow);
 			}
 		}
 		return $aReturnSort;
 	}
-
-	
+	/**
+	 * Увеличивает у топика число комментов
+	 *
+	 * @param int $sTopicId	ID топика
+	 * @return bool
+	 */
 	public function increaseTopicCountComment($sTopicId) {
 		$sql = "UPDATE ".Config::Get('db.table.topic')." 
 			SET 
 				topic_count_comment=topic_count_comment+1
 			WHERE
 				topic_id = ?
-		";			
+		";
 		if ($this->oDb->query($sql,$sTopicId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-	public function UpdateTopic(ModuleTopic_EntityTopic $oTopic) {		
+	/**
+	 * Обновляет топик
+	 *
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @return bool
+	 */
+	public function UpdateTopic(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "UPDATE ".Config::Get('db.table.topic')." 
 			SET 
 				blog_id= ?d,
@@ -395,15 +495,20 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_text_hash = ? 
 			WHERE
 				topic_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountVoteUp(),$oTopic->getCountVoteDown(),$oTopic->getCountVoteAbstain(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId())) {
 			$this->UpdateTopicContent($oTopic);
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-	public function UpdateTopicContent(ModuleTopic_EntityTopic $oTopic) {		
+	/**
+	 * Обновляет контент топика
+	 *
+	 * @param ModuleTopic_EntityTopic $oTopic	Объект топика
+	 * @return bool
+	 */
+	public function UpdateTopicContent(ModuleTopic_EntityTopic $oTopic) {
 		$sql = "UPDATE ".Config::Get('db.table.topic_content')." 
 			SET 				
 				topic_text= ?,
@@ -412,13 +517,18 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_extra= ?
 			WHERE
 				topic_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$oTopic->getText(),$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra(),$oTopic->getId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Строит строку условий для SQL запроса топиков
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @return string
+	 */
 	protected function buildFilter($aFilter) {
 		$sWhere='';
 		if (isset($aFilter['topic_date_more'])) {
@@ -426,7 +536,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		if (isset($aFilter['topic_publish'])) {
 			$sWhere.=" AND t.topic_publish =  ".(int)$aFilter['topic_publish'];
-		}	
+		}
 		if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
 			$sPublishIndex='';
 			if (isset($aFilter['topic_rating']['publish_index']) and $aFilter['topic_rating']['publish_index']==1) {
@@ -436,7 +546,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				$sWhere.=" AND ( t.topic_rating >= ".(float)$aFilter['topic_rating']['value']." {$sPublishIndex} ) ";
 			} else {
 				$sWhere.=" AND ( t.topic_rating < ".(float)$aFilter['topic_rating']['value']."  ) ";
-			}			
+			}
 		}
 		if (isset($aFilter['topic_new'])) {
 			$sWhere.=" AND t.topic_date_add >=  '".$aFilter['topic_new']."'";
@@ -468,8 +578,8 @@ class ModuleTopic_MapperTopic extends Mapper {
 					$sType=$aBlogId;
 					$aBlogId=array();
 				}
-				
-				$aBlogTypes[] = (count($aBlogId)==0) 
+
+				$aBlogTypes[] = (count($aBlogId)==0)
 					? "(b.blog_type='".$sType."')"
 					: "(b.blog_type='".$sType."' AND t.blog_id IN ('".join("','",$aBlogId)."'))";
 			}
@@ -483,9 +593,15 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $sWhere;
 	}
-	
+	/**
+	 * Получает список тегов по первым буквам тега
+	 *
+	 * @param string $sTag	Тэг
+	 * @param int $iLimit	Количество
+	 * @return bool
+	 */
 	public function GetTopicTagsByLike($sTag,$iLimit) {
-		$sTag=mb_strtolower($sTag,"UTF-8");		
+		$sTag=mb_strtolower($sTag,"UTF-8");
 		$sql = "SELECT 
 				topic_tag_text					 
 			FROM 
@@ -495,7 +611,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 			GROUP BY 
 				topic_tag_text					
 			LIMIT 0, ?d		
-				";	
+				";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sTag.'%',$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -504,8 +620,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	public function UpdateTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {		
+	/**
+	 * Обновляем дату прочтения топика
+	 *
+	 * @param ModuleTopic_EntityTopicRead $oTopicRead	Объект факта чтения топика
+	 * @return int
+	 */
+	public function UpdateTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {
 		$sql = "UPDATE ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
@@ -515,11 +636,16 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id = ? 
 				AND				
 				user_id = ? 
-		";			
+		";
 		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
-	}	
-
-	public function AddTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {		
+	}
+	/**
+	 * Устанавливаем дату прочтения топика
+	 *
+	 * @param ModuleTopic_EntityTopicRead $oTopicRead	Объект факта чтения топика
+	 * @return bool
+	 */
+	public function AddTopicRead(ModuleTopic_EntityTopicRead $oTopicRead) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_read')." 
 			SET 
 				comment_count_last = ? ,
@@ -527,32 +653,38 @@ class ModuleTopic_MapperTopic extends Mapper {
 				date_read = ? ,
 				topic_id = ? ,							
 				user_id = ? 
-		";			
+		";
 		return $this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
 	}
 	/**
 	 * Удаляет записи о чтении записей по списку идентификаторов
 	 *
-	 * @param  array $aTopicId
+	 * @param  array $aTopicId	Список ID топиков
 	 * @return bool
-	 */				
+	 */
 	public function DeleteTopicReadByArrayId($aTopicId) {
 		$sql = "
 			DELETE FROM ".Config::Get('db.table.topic_read')." 
 			WHERE
 				topic_id IN(?a)				
-		";			
+		";
 		if ($this->oDb->query($sql,$aTopicId)) {
 			return true;
 		}
 		return false;
 	}
-			
+	/**
+	 * Получить список просмотром/чтения топиков по списку айдишников
+	 *
+	 * @param array $aArrayId	Список ID топиков
+	 * @param int $sUserId	ID пользователя
+	 * @return array
+	 */
 	public function GetTopicsReadByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
+
 		$sql = "SELECT 
 					t.*							 
 				FROM 
@@ -567,10 +699,15 @@ class ModuleTopic_MapperTopic extends Mapper {
 			foreach ($aRows as $aRow) {
 				$aReads[]=Engine::GetEntity('Topic_TopicRead',$aRow);
 			}
-		}		
+		}
 		return $aReads;
 	}
-	
+	/**
+	 * Добавляет факт голосования за топик-вопрос
+	 *
+	 * @param ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote	Объект голосования в топике-опросе
+	 * @return bool
+	 */
 	public function AddTopicQuestionVote(ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_question_vote')." 
 			(topic_id,
@@ -578,20 +715,25 @@ class ModuleTopic_MapperTopic extends Mapper {
 			answer		
 			)
 			VALUES(?d,  ?d,	?f)
-		";			
-		if ($this->oDb->query($sql,$oTopicQuestionVote->getTopicId(),$oTopicQuestionVote->getVoterId(),$oTopicQuestionVote->getAnswer())===0) 
+		";
+		if ($this->oDb->query($sql,$oTopicQuestionVote->getTopicId(),$oTopicQuestionVote->getVoterId(),$oTopicQuestionVote->getAnswer())===0)
 		{
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-		
+	/**
+	 * Получить список голосований в топике-опросе по списку айдишников
+	 *
+	 * @param array $aArrayId	Список ID топиков
+	 * @param int $sUserId	ID пользователя
+	 * @return array
+	 */
 	public function GetTopicsQuestionVoteByArray($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-				
+
 		$sql = "SELECT 
 					v.*							 
 				FROM 
@@ -606,57 +748,54 @@ class ModuleTopic_MapperTopic extends Mapper {
 			foreach ($aRows as $aRow) {
 				$aVotes[]=Engine::GetEntity('Topic_TopicQuestionVote',$aRow);
 			}
-		}		
+		}
 		return $aVotes;
 	}
-	
 	/**
 	 * Перемещает топики в другой блог
 	 *
-	 * @param  array  $aTopics
-	 * @param  string $sBlogId
+	 * @param  array  $aTopics	Список ID топиков
+	 * @param  int $sBlogId	ID блога
 	 * @return bool
-	 */	
+	 */
 	public function MoveTopicsByArrayId($aTopics,$sBlogId) {
 		if(!is_array($aTopics)) $aTopics = array($aTopics);
-		
+
 		$sql = "UPDATE ".Config::Get('db.table.topic')."
 			SET 
 				blog_id= ?d
 			WHERE
 				topic_id IN(?a)
-		";			
+		";
 		if ($this->oDb->query($sql,$sBlogId,$aTopics)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
 	/**
 	 * Перемещает топики в другой блог
 	 *
-	 * @param  string $sBlogId
-	 * @param  string $sBlogIdNew
+	 * @param  int $sBlogId	ID старого блога
+	 * @param  int $sBlogIdNew	ID нового блога
 	 * @return bool
-	 */	
+	 */
 	public function MoveTopics($sBlogId,$sBlogIdNew) {
 		$sql = "UPDATE ".Config::Get('db.table.topic')."
 			SET 
 				blog_id= ?d
 			WHERE
 				blog_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$sBlogIdNew,$sBlogId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
 	/**
 	 * Перемещает теги топиков в другой блог
 	 *
-	 * @param string $sBlogId
-	 * @param string $sBlogIdNew
+	 * @param int $sBlogId	ID старого блога
+	 * @param int $sBlogIdNew	ID нового блога
 	 * @return bool
 	 */
 	public function MoveTopicsTags($sBlogId,$sBlogIdNew) {
@@ -665,42 +804,38 @@ class ModuleTopic_MapperTopic extends Mapper {
 				blog_id= ?d
 			WHERE
 				blog_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$sBlogIdNew,$sBlogId)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
 	/**
 	 * Перемещает теги топиков в другой блог
 	 *
-	 * @param array $aTopics
-	 * @param string $sBlogId
+	 * @param array $aTopics	Список ID топиков
+	 * @param int $sBlogId	ID блога
 	 * @return bool
 	 */
 	public function MoveTopicsTagsByArrayId($aTopics,$sBlogId) {
 		if(!is_array($aTopics)) $aTopics = array($aTopics);
-		
+
 		$sql = "UPDATE ".Config::Get('db.table.topic_tag')."
 			SET 
 				blog_id= ?d
 			WHERE
 				topic_id IN(?a)
-		";			
+		";
 		if ($this->oDb->query($sql,$sBlogId,$aTopics)) {
 			return true;
-		}		
+		}
 		return false;
 	}
-    
-	
-	
 	/**
-	 * Возвращает список фоток из фото-сета по списку id фоток
+	 * Возвращает список фотографий к топику-фотосет по списку id фоток
 	 *
-	 * @param unknown_type $aArrayId
-	 * @return unknown
+	 * @param array $aPhotoId	Список ID фото
+	 * @return array
 	 */
 	public function GetTopicPhotosByArrayId($aArrayId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
@@ -722,16 +857,15 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aReturn;
 	}
-
-
-
-
-
-
-
-
-	public function getPhotosByTopicId($iTopicId, $iFromId, $iCount)
-	{
+	/**
+	 * Получить список изображений из фотосета по id топика
+	 *
+	 * @param int $iTopicId	ID топика
+	 * @param int|null $iFromId	ID с которого начинать выборку
+	 * @param int|null $iCount	Количество
+	 * @return array
+	 */
+	public function getPhotosByTopicId($iTopicId, $iFromId, $iCount) {
 		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';
 		$aPhotos = $this->oDb->select($sql, $iTopicId, ($iFromId !== null) ? $iFromId : DBSIMPLE_SKIP, $iCount);
 		$aReturn = array();
@@ -742,9 +876,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aReturn;
 	}
-
-	public function getPhotosByTargetTmp($sTargetTmp)
-	{
+	/**
+	 * Получить список изображений из фотосета по временному коду
+	 *
+	 * @param string $sTargetTmp	Временный ключ
+	 * @return array
+	 */
+	public function getPhotosByTargetTmp($sTargetTmp) {
 		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
 		$aPhotos = $this->oDb->select($sql, $sTargetTmp);
 		$aReturn = array();
@@ -755,9 +893,13 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return $aReturn;
 	}
-
-	public function getTopicPhotoById($iPhotoId)
-	{
+	/**
+	 * Получить изображение из фотосета по его id
+	 *
+	 * @param int $iPhotoId	ID фото
+	 * @return ModuleTopic_EntityTopicPhoto|null
+	 */
+	public function getTopicPhotoById($iPhotoId) {
 		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE id = ?d';
 		$aPhoto = $this->oDb->selectRow($sql, $iPhotoId);
 		if ($aPhoto) {
@@ -766,23 +908,35 @@ class ModuleTopic_MapperTopic extends Mapper {
 			return null;
 		}
 	}
-
-	public function getCountPhotosByTopicId($iTopicId)
-	{
+	/**
+	 * Получить число изображений из фотосета по id топика
+	 *
+	 * @param int $iTopicId	ID топика
+	 * @return int
+	 */
+	public function getCountPhotosByTopicId($iTopicId) {
 		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d';
 		$aPhotosCount = $this->oDb->selectCol($sql, $iTopicId);
 		return $aPhotosCount[0];
 	}
-
-	public function getCountPhotosByTargetTmp($sTargetTmp)
-	{
+	/**
+	 * Получить число изображений из фотосета по id топика
+	 *
+	 * @param string $sTargetTmp	Временный ключ
+	 * @return int
+	 */
+	public function getCountPhotosByTargetTmp($sTargetTmp) {
 		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
 		$aPhotosCount = $this->oDb->selectCol($sql, $sTargetTmp);
 		return $aPhotosCount[0];
 	}
-
-	public function addTopicPhoto($oPhoto)
-	{
+	/**
+	 * Добавить к топику изображение
+	 *
+	 * @param ModuleTopic_EntityTopicPhoto $oPhoto	Объект фото к топику-фотосету
+	 * @return bool
+	 */
+	public function addTopicPhoto($oPhoto) {
 		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
 		$sTargetType = ($oPhoto->getTopicId()) ? 'topic_id' : 'target_tmp';
 		$iTargetId = ($sTargetType == 'topic_id') ? $oPhoto->getTopicId() : $oPhoto->getTargetTmp();
@@ -790,9 +944,12 @@ class ModuleTopic_MapperTopic extends Mapper {
                         path = ?, description = ?, ?# = ?';
 		return $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $sTargetType, $iTargetId);
 	}
-
-	public function updateTopicPhoto($oPhoto)
-	{
+	/**
+	 * Обновить данные по изображению
+	 *
+	 * @param ModuleTopic_EntityTopicPhoto $oPhoto Объект фото
+	 */
+	public function updateTopicPhoto($oPhoto) {
 		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
 		if ($oPhoto->getTopicId()) {
 			$oPhoto->setTargetTmp = null;
@@ -801,14 +958,21 @@ class ModuleTopic_MapperTopic extends Mapper {
                         path = ?, description = ?, topic_id = ?d, target_tmp=? WHERE id = ?d';
 		$this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $oPhoto->getTopicId(), $oPhoto->getTargetTmp(), $oPhoto->getId());
 	}
-
-	public function deleteTopicPhoto($iPhotoId)
-	{
+	/**
+	 * Удалить изображение
+	 *
+	 * @param int $iPhotoId	ID фото
+	 */
+	public function deleteTopicPhoto($iPhotoId) {
 		$sql = 'DELETE FROM '. Config::Get('db.table.topic_photo') . ' WHERE
                         id= ?d';
 		$this->oDb->query($sql, $iPhotoId);
 	}
-
+	/**
+	 * Пересчитывает счетчик избранных топиков
+	 *
+	 * @return bool
+	 */
 	public function RecalculateFavourite() {
 		$sql = "
                 UPDATE ".Config::Get('db.table.topic')." t 
@@ -828,7 +992,11 @@ class ModuleTopic_MapperTopic extends Mapper {
 		}
 		return false;
 	}
-
+	/**
+	 * Пересчитывает счетчики голосований
+	 *
+	 * @return bool
+	 */
 	public function RecalculateVote() {
 		$sql = "
                 UPDATE ".Config::Get('db.table.topic')." t
