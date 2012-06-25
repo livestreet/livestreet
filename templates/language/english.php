@@ -46,6 +46,7 @@ return array(
 	 */
 	'reader_declension' => 'reader;readers;readers',
 	'topic_declension' => 'topic;topics;topics',
+	'draft_declension' => 'draft;drafts;drafts',
 	/**
 	 * Popular Blogs
 	 */
