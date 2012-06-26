@@ -873,6 +873,8 @@ class ModuleBlog extends Module {
 	 * @return bool
 	 */
 	public function RecalculateCountTopic() {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update'));
 		return $this->oMapperBlog->RecalculateCountTopic();
 	}
 	/**
@@ -882,6 +884,9 @@ class ModuleBlog extends Module {
 	 * @return bool
 	 */
 	public function RecalculateCountTopicByBlogId($iBlogId) {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update',"blog_update_{$iBlogId}"));
+		$this->Cache_Delete("blog_{$iBlogId}");
 		return $this->oMapperBlog->RecalculateCountTopic($iBlogId);
 	}
 }
