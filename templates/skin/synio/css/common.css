@@ -26,7 +26,7 @@
 
 .vote-topic .vote-item.vote-up				{ border-radius: 0 15px 15px 0; }
 .vote-topic .vote-item.vote-up i			{ background-position: -83px -23px; }
-.vote-topic .vote-item.vote-up span			{ padding: 2px 7px 3px 4px; }
+.vote-topic .vote-item.vote-up span			{ padding: 2px 7px 3px 4px; border-radius: 0 15px 15px 0; }
 .vote-topic.not-voted .vote-item.vote-up:hover		{ 
 	background: #e4fae2;
 	background: -moz-linear-gradient(top,  #e4fae2 0%, #b0e3ac 100%);
@@ -41,10 +41,10 @@
 .vote-topic.not-voted .vote-item.vote-up:hover i		{ background-position: -83px -39px; }
 .vote-topic.not-voted .vote-item.vote-up:hover span	{ border-color: transparent; }
 
-.vote-topic .vote-item.vote-count 		{ color: #628fa5; line-height: 23px; }
+.vote-topic .vote-item.vote-count 		{ color: #628fa5; line-height: 23px; border-left: transparent; border-right: transparent; }
 .vote-topic .vote-item.vote-count i 	{ background-position: -99px -23px; margin-top: 1px; }
 .vote-topic .vote-item.vote-count span 	{ padding: 1px 4px 5px 5px; }
-.topic .vote-topic.vote-not-self.not-voted .vote-item.vote-count:hover		{ 
+.topic .vote-topic.vote-not-self.not-voted.vote-not-expired .vote-item.vote-count:hover		{ 
 	background: #4ec4ff;
 	background: -moz-linear-gradient(top,  #4ec4ff 0%, #22b3fe 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4ec4ff), color-stop(100%,#22b3fe));

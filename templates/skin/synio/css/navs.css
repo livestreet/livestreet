@@ -45,7 +45,7 @@
 }
 .nav.nav-menu li:first-child			{ border-top-left-radius: 13px; border-bottom-left-radius: 13px; }
 .nav.nav-menu li:first-child a			{ border-top-left-radius: 13px; border-bottom-left-radius: 13px; padding-left: 15px; box-shadow: 1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset; }
-.nav.nav-menu li:last-child				{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; }
+.nav.nav-menu li:last-child				{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; box-shadow: 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; padding-right: 0; }
 .nav.nav-menu li:last-child a			{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; padding-right: 15px; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset; }
 
 .nav.nav-menu li:hover { box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset; }
