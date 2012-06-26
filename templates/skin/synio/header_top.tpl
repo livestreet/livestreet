@@ -27,8 +27,8 @@
 				
 				<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none">
 					<li class="item-stat">
-						<span class="rating"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()} {*<i class="arrow icon-synio-arrow-up"></i>*}</span>
-						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()} {*<i class="arrow icon-synio-arrow-down"></i>*}</span>
+						<span class="rating {if $oUserCurrent->getRating() < 0}negative{/if}"><i class="icon-synio-star-green"></i> {$oUserCurrent->getRating()}</span>
+						<span class="strength"><i class="icon-synio-strength"></i> {$oUserCurrent->getSkill()}</span>
 						{hook run='userbar_stat_item'}
 					</li>
 					{hook run='userbar_item_first'}

@@ -91,7 +91,7 @@
 																		{/if}
 																	{/if}
 																	
-																	{if $oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId()}
+																	{if !$oUserCurrent or ($oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId())}
 																		vote-not-self
 																	{/if}
 																	

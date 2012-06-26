@@ -84,6 +84,7 @@ h2.header-table span { color: #949aa1; }
 .dropdown-user-menu li:last-child a 					{ border-radius: 0 0 10px 10px; }
 .dropdown-user-menu li.item-stat 						{ padding: 20px 17px; font-size: 11px; background: #191919 url(../images/dropdown-user-shadow.png) left bottom repeat-x; }
 .dropdown-user-menu li.item-stat .rating 				{ color: #9dd868; margin-right: 21px; }
+.dropdown-user-menu li.item-stat .rating.negative 		{ color: #d95f5f; }
 .dropdown-user-menu li.item-stat .rating i 				{ position: relative; top: 2px; }
 .dropdown-user-menu li.item-stat .strength 				{ color: #93d3f2; }
 .dropdown-user-menu li.item-stat .arrow 				{ position: relative; top: 3px; }

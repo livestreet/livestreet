@@ -439,8 +439,8 @@ class Install {
 			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,$sStepName);
 		}
 
-		$this->Assign('next_step_display', ($iKey == count($this->aSteps)-1)?'none':'block');
-		$this->Assign('prev_step_display', ($iKey == 0) ? 'none' : 'block');
+		$this->Assign('next_step_display', ($iKey == count($this->aSteps)-1)?'none':'inline-block');
+		$this->Assign('prev_step_display', ($iKey == 0) ? 'none' : 'inline-block');
 		
 		/**
 		 * Если шаг отновиться к simple mode, то корректируем количество шагов
@@ -741,7 +741,7 @@ class Install {
 		/**
 		 * Выводим на экран кнопку @Next
 		 */
-		$this->Assign('next_step_display','block');
+		$this->Assign('next_step_display','inline-block');
 		/**
 		 * Сохраняем в сессию название текущего шага
 		 */
