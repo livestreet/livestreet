@@ -48,6 +48,7 @@
 .blog .blog-header .close i	{ margin-left: 5px; }
 .blog .blog-header .close a	{ color: #727a90; border-color: #727a90; }
 .blog .blog-header .close a:hover { color: #f00; border-color: #f00; }
+.blog .blog-header .avatar 	{ position: absolute; top: -10px; left: 7px; width: 39px; height: 39px; }
 
 .blog .blog-header .vote-label	{ text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
 .blog .blog-header .count 		{ font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
