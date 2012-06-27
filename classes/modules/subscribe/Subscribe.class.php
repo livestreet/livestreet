@@ -146,9 +146,12 @@ class ModuleSubscribe extends Module {
 	 * @param string $sTargetType	Тип
 	 * @param string $sTargetId	ID владельца
 	 * @param string $sMail	Емайл
-	 * @return ModuleSubscribe_EntitySubscribe
+	 * @return ModuleSubscribe_EntitySubscribe|bool
 	 */
 	public function AddSubscribeSimple($sTargetType,$sTargetId,$sMail) {
+		if (!$sMail) {
+			return false;
+		}
 		if (!($oSubscribe=$this->Subscribe_GetSubscribeByTargetAndMail($sTargetType,$sTargetId,$sMail))) {
 			$oSubscribe=Engine::GetEntity('Subscribe');
 			$oSubscribe->setTargetType($sTargetType);
