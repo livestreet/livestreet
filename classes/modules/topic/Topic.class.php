@@ -676,7 +676,7 @@ class ModuleTopic extends Module {
 		if ($sPeriod) {
 			$aFilter['topic_date_more'] = $sPeriod;
 		}
-		$aFilter['order']=' t.topic_count_comment desc ';
+		$aFilter['order']=' t.topic_count_comment desc, t.topic_id desc ';
 		/**
 		 * Если пользователь авторизирован, то добавляем в выдачу
 		 * закрытые блоги в которых он состоит
