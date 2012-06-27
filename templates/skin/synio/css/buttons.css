@@ -137,6 +137,7 @@
 	background: -ms-linear-gradient(top,  #228dfa 0%,#0362eb 100%);
 	background: linear-gradient(top,  #228dfa 0%,#0362eb 100%);
 }
+.button.button-action:hover i { vertical-align: top; position: relative; top: -1px; }
 .button.button-action.button-action-add-friend:hover i { background-position: -147px -39px; }
 .button.button-action.button-action-send-message:hover i { background-position: -163px -39px; }
 .button.button-action.button-action-join.active i,

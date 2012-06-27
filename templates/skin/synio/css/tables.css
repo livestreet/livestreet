@@ -7,8 +7,8 @@
 .table td 				{ padding: 13px 10px; }
 .table th,
 .table .cell-tab .cell-tab-inner { padding: 6px 10px 8px; }
-.table tr.active td 	{ background: #CBF4BC; }
 .table tr:hover td		{ background: #f5fdff; }
+.table tr.active td 	{ background: #CBF4BC; }
 .table tbody td			{ border-top: 1px solid #f1f3f5; }
 .table tbody tr:first-child	td	{ border-top: none; }
 
