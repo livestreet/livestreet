@@ -15,16 +15,26 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Сущность записи на стене
+ *
+ * @package modules.wall
+ * @since 1.0
+ */
 class ModuleWall_EntityWall extends Entity {
-
 	/**
 	 * Определяем правила валидации
+	 *
+	 * @var array
 	 */
 	protected $aValidateRules=array(
 		array('pid','pid','on'=>array('','add')),
 		array('user_id','time_limit','on'=>array('add')),
 	);
 
+	/**
+	 * Инициализация
+	 */
 	public function Init() {
 		parent::Init();
 		$this->aValidateRules[]=array('text','string','max'=>Config::Get('module.wall.text_max'),'min'=>Config::Get('module.wall.text_min'),'allowEmpty'=>false,'on'=>array('','add'));
@@ -32,10 +42,9 @@ class ModuleWall_EntityWall extends Entity {
 	/**
 	 * Проверка на ограничение по времени
 	 *
-	 * @param $sValue
-	 * @param $aParams
-	 *
-	 * @return bool
+	 * @param string $sValue	Проверяемое значение
+	 * @param array $aParams	Параметры
+	 * @return bool|string
 	 */
 	public function ValidateTimeLimit($sValue,$aParams) {
 		if ($oUser=$this->User_GetUserById($this->getUserId())) {
@@ -48,10 +57,9 @@ class ModuleWall_EntityWall extends Entity {
 	/**
 	 * Валидация родительского сообщения
 	 *
-	 * @param $sValue
-	 * @param $aParams
-	 *
-	 * @return bool
+	 * @param string $sValue	Проверяемое значение
+	 * @param array $aParams	Параметры
+	 * @return bool|string
 	 */
 	public function ValidatePid($sValue,$aParams) {
 		if (!$sValue) {
@@ -67,11 +75,10 @@ class ModuleWall_EntityWall extends Entity {
 		}
 		return $this->Lang_Get('wall_add_pid_error');
 	}
-
 	/**
 	 * Возвращает родительскую запись
 	 *
-	 * @return ModuleWall_EntityWall
+	 * @return ModuleWall_EntityWall|null
 	 */
 	public function GetPidWall() {
 		if ($this->getPid()) {
@@ -79,7 +86,6 @@ class ModuleWall_EntityWall extends Entity {
 		}
 		return null;
 	}
-
 	/**
 	 * Проверка на возможность удаления сообщения
 	 *
@@ -93,11 +99,10 @@ class ModuleWall_EntityWall extends Entity {
 		}
 		return false;
 	}
-
 	/**
 	 * Возвращает пользователя, которому принадлежит стена
 	 *
-	 * @return mixed
+	 * @return ModuleUser_EntityUser|null
 	 */
 	public function getWallUser() {
 		if (!$this->_getDataOne('wall_user')) {
@@ -105,7 +110,6 @@ class ModuleWall_EntityWall extends Entity {
 		}
 		return $this->_getDataOne('wall_user');
 	}
-
 	/**
 	 * Возвращает URL стены
 	 *

@@ -80,8 +80,6 @@ class ModuleUser extends Module {
 		 * В куках стоит время на сколько запоминать юзера
 		 */
 		$this->AutoLogin();
-
-		$this->oMapper->SetUserCurrent($this->oUserCurrent);
 		/**
 		 * Обновляем сессию
 		 */
@@ -1371,7 +1369,6 @@ class ModuleUser extends Module {
 	public function GetCountUserNotesByUserId($iUserId) {
 		return $this->oMapper->GetCountUserNotesByUserId($iUserId);
 	}
-
 	/**
 	 * Возвращет заметку по автору и пользователю
 	 *
