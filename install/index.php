@@ -750,13 +750,13 @@ class Install {
 		/**
 		 * Получаем значения запрашиваемых данных либо устанавливаем принятые по умолчанию
 		 */
-		$aParams['install_view_name']       = $this->GetRequest('install_view_name','LiveStreet - бесплатный движок социальной сети',self::GET_VAR_FROM_SESSION);
-		$aParams['install_view_description']= $this->GetRequest('install_view_description','LiveStreet - официальный сайт бесплатного движка социальной сети',self::GET_VAR_FROM_SESSION);
-		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','движок, livestreet, блоги, социальная сеть, бесплатный, php',self::GET_VAR_FROM_SESSION);
-		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','developer',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_name']       = $this->GetRequest('install_view_name','Your Site',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_description']= $this->GetRequest('install_view_description','Description your site',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','site, google, internet',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','synio',self::GET_VAR_FROM_SESSION);
 		
 		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
-		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик LiveStreet',self::GET_VAR_FROM_SESSION);
+		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик Your Site',self::GET_VAR_FROM_SESSION);
 		
 		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false,self::GET_VAR_FROM_SESSION);
