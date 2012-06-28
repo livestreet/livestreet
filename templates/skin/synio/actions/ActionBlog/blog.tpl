@@ -76,7 +76,7 @@
 	{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension:'russian'}
 	<div class="fl-r" id="blog-mini-header">
 		<a href="#" class="link-dotted" onclick="ls.blog.toggleInfo(); return false;">{$aLang.blog_expand_info}</a>
-		<a href="#">RSS</a>
+		<a href="{router page='rss'}blog/{$oBlog->getUrl()}/">RSS</a>
 		{if $oUserCurrent and $oUserCurrent->getId()!=$oBlog->getOwnerId()}
 			<button type="submit"  class="button button-small" id="button-blog-join-first-{$oBlog->getId()}" data-button-additional="button-blog-join-second-{$oBlog->getId()}" data-only-text="1" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>
 		{/if}
