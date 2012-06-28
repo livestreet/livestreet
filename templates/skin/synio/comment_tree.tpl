@@ -8,7 +8,7 @@
 
 <div class="comments" id="comments">
 	<header class="comments-header">
-		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
+		<h3><span id="count-comments">{$iCountComment}</span> {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
 		
 		{if $bAllowSubscribe and $oUserCurrent}
 			<div class="subscribe">
