@@ -111,6 +111,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCountry() {
+		$this->sMenuItemSelect='country';
 		/**
 		 * Страна существует?
 		 */
@@ -152,6 +153,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCity() {
+		$this->sMenuItemSelect='city';
 		/**
 		 * Город существует?
 		 */
