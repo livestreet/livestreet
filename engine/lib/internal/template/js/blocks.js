@@ -87,6 +87,7 @@ ls.blocks = (function ($) {
 				$(v).show();
 			}
 		});
+		ls.hook.run('ls_blocks_switch_tab_after',[obj, block],this);
 		return true;
 	};
 
