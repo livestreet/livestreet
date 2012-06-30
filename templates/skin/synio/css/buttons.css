@@ -49,6 +49,8 @@
 }
 .button.fl-r { *margin-right: 0; }
 
+.opera .button { padding-top: 4px; padding-bottom: 5px; }
+
 
 /* Button Primary */
 .button.button-primary { 
