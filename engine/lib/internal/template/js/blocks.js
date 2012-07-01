@@ -182,6 +182,7 @@ ls.blocks = (function ($) {
 			$('.js-block-'+block+'-nav').show();
 			$('.js-block-'+block+'-dropdown').hide();
 		}
+		ls.hook.run('ls_blocks_init_navigation_after',[block,count],this);
 	};
 
 	return this;
