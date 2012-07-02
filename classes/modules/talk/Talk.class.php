@@ -446,7 +446,7 @@ class ModuleTalk extends Module {
 								  array(
 									  'target_id' => $sTalkId,
 									  'target_type' => 'talk',
-									  'user_id' => $this->oUserCurrent->getId()
+									  'user_id' => $sUserId
 								  )
 				)
 			);
