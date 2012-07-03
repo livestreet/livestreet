@@ -60,7 +60,7 @@
 .topic .topic-footer .topic-info li.topic-info-comments a		{ color: #727fa0; text-decoration: underline; float: left; }
 .topic .topic-footer .topic-info li.topic-info-comments a:hover	{ color: #f00; }
 .topic .topic-footer .topic-info li.topic-info-comments a.new 	{ color: #000; }
-.topic .topic-footer .topic-info li.topic-info-comments span 	{ color: #27a736; }
+.topic .topic-footer .topic-info li.topic-info-comments span 	{ color: #27a736; margin-left: 5px; }
 .topic .topic-footer .topic-info li.topic-info-comments i 		{ float: left; margin-right: 7px; }
 
 .topic .topic-footer .topic-info li.topic-info-favourite 			{ padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
@@ -150,6 +150,7 @@
 .topic.topic-type-talk .talk-recipients 			{ padding: 15px; background: #f8fbfe; margin-bottom: 0; border-radius: 0; }
 .topic.topic-type-talk .talk-recipients-header 		{ font-size: 11px; min-height: 0; }
 .topic.topic-type-talk .talk-recipients-content h3 	{ font-size: 16px; font-weight: normal; margin-bottom: 10px; }
+.topic.topic-type-talk .topic-footer .topic-info li.topic-info-favourite i		{ margin-right: 0; }
 
 
 /* Topic Link */

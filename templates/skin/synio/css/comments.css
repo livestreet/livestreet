@@ -54,9 +54,9 @@
 .comment.comment-self		.comment-content		{ background: #fefef1; border-color: #e6e6bd; }
 .comment.comment-self		.comment-content:after 	{ border-color: #e6e6bd transparent transparent; }
 .comment.comment-self 		.comment-content:before { border-color: #fefef1 transparent transparent; }
-.comment.comment-new 		.comment-content		{ background: #e4fbf1; border-color: #d0e8dd; }
-.comment.comment-new		.comment-content:after 	{ border-color: #d0e8dd transparent transparent; }
-.comment.comment-new 		.comment-content:before { border-color: #e4fbf1 transparent transparent; }
+.comment.comment-new 		.comment-content		{ background: #fff; border-color: #dddb5c; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); }
+.comment.comment-new		.comment-content:after 	{ border-color: #dddb5c transparent transparent; }
+.comment.comment-new 		.comment-content:before { border-color: #fff transparent transparent; }
 .comment.comment-current 	.comment-content		{ background: #cdf5a6; border-color: #bae48e; }
 .comment.comment-current	.comment-content:after 	{ border-color: #bae48e transparent transparent; }
 .comment.comment-current 	.comment-content:before { border-color: #cdf5a6 transparent transparent; }
@@ -73,7 +73,18 @@
 .comment .comment-info li a.link-dotted 		{ color: #727a90; text-decoration: none; border-bottom: 1px dotted #727a90; }
 .comment .comment-info li a.link-dotted:hover { color: #f00; border-color: #f00; }
 .comment .comment-info li.comment-author a { font-weight: bold; color: #727fa0; }
-.comment .comment-info li.comment-author .comment-topic-author { background: #C9A518; color: #fff; font-size: 11px; border-radius: 3px; padding: 1px 7px; margin-right: 5px; }
+.comment .comment-info li.comment-author.comment-topic-author a { color: #4b5468; }
+.comment .comment-info li.comment-author.comment-topic-author { 
+	background: rgb(254,255,163);
+	background: -moz-linear-gradient(left,  rgba(254,255,163,1) 0%, rgba(255,255,255,1) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(254,255,163,1)), color-stop(100%,rgba(255,255,255,1)));
+	background: -webkit-linear-gradient(left,  rgba(254,255,163,1) 0%,rgba(255,255,255,1) 100%);
+	background: -o-linear-gradient(left,  rgba(254,255,163,1) 0%,rgba(255,255,255,1) 100%);
+	background: -ms-linear-gradient(left,  rgba(254,255,163,1) 0%,rgba(255,255,255,1) 100%);
+	background: linear-gradient(to right,  rgba(254,255,163,1) 0%,rgba(255,255,255,1) 100%);
+	
+	padding-left: 7px;
+}
 .comment .comment-info li.comment-date { color: #818189; }
 .comment .comment-info li.comment-favourite { position: relative; top: 1px; }
 .comment .comment-info li.comment-link { position: relative; top: 1px; }
