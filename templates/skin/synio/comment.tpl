@@ -29,7 +29,7 @@
 		
 		
 		<ul class="comment-info">
-			<li class="comment-author {if $iAuthorId == $oUser->getId()}comment-topic-author{/if}" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">
+			<li class="comment-author {if $iAuthorId == $oUser->getId()}comment-topic-author{/if}" title="{if $iAuthorId == $oUser->getId() and $sAuthorNotice}{$sAuthorNotice}{/if}">
 				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="comment-date">
