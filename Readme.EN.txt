@@ -15,7 +15,7 @@
 */
 
 
-LiveStreet 1.0-dev
+LiveStreet 1.0
 
 INSTALLATION
 1. Copy files to the engine to the desired directory site
