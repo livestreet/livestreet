@@ -89,7 +89,7 @@
 	<div class="blog-inner">
 		<header class="blog-header">
 			<img src="{$oBlog->getAvatarPath(48)}" alt="avatar" class="avatar" />
-			<span class="close" onclick="ls.blog.toggleInfo(); return false;"><a href="#" class="link-dotted">Свернуть</a><i class="icon-synio-close"></i></span>
+			<span class="close" onclick="ls.blog.toggleInfo(); return false;"><a href="#" class="link-dotted">{$aLang.blog_fold_info}</a><i class="icon-synio-close"></i></span>
 		</header>
 
 		
