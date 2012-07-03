@@ -106,7 +106,7 @@
 	border: 1px solid #ccc;
 	-moz-box-shadow: 0 0 10px #ddd;
 	-webkit-box-shadow: 0 0 10px #ddd;
-	box-shadow: 0 0 10px #ddd;
+	-webkit-box-shadow: 0 0 10px #ddd; box-shadow: 0 0 10px #ddd;
 }
 #photoset-upload-form p { margin-bottom: 10px; }
 #photoset-upload-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }

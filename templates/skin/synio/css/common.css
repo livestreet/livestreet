@@ -53,7 +53,7 @@
 	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 
-	box-shadow: 0 -1px 0 rgba(255,255,255,.3) inset;
+	-webkit-box-shadow: 0 -1px 0 rgba(255,255,255,.3) inset; box-shadow: 0 -1px 0 rgba(255,255,255,.3) inset;
 	border-color: #27ace8;
 }
 .vote-topic.not-voted .vote-item.vote-count:hover i		{ background-position: -99px -87px; }
@@ -76,7 +76,7 @@
 .vote-topic.not-voted .vote-item.vote-down:hover i	{ background-position: -67px -55px; }
 .vote-topic.not-voted .vote-item.vote-down:hover span	{ border-color: transparent; }
 
-.vote-topic.voted						{ box-shadow: 0 2px 3px rgba(0,0,0,.2) inset; }
+.vote-topic.voted						{ -webkit-box-shadow: 0 2px 3px rgba(0,0,0,.2) inset; box-shadow: 0 2px 3px rgba(0,0,0,.2) inset; }
 
 .vote-topic.voted-down 								{ padding: 0; }
 .vote-topic.voted-down .vote-item					{ border: none; background: none; }
@@ -111,38 +111,38 @@
 .vote-topic.vote-count-negative.voted-zero .vote-item.vote-up i		{ background-position: -99px -55px; }
 
 .vote-topic.vote-count-positive.vote-nobuttons,
-.vote-topic.vote-count-positive	.vote-item.vote-count 	{ box-shadow: 0 2px 3px #acd7a7 inset; }
+.vote-topic.vote-count-positive	.vote-item.vote-count 	{ -webkit-box-shadow: 0 2px 3px #acd7a7 inset; box-shadow: 0 2px 3px #acd7a7 inset; }
 .vote-topic.vote-count-negative.vote-nobuttons,
-.vote-topic.vote-count-negative	.vote-item.vote-count 	{ box-shadow: 0 2px 3px #e95e5e inset; }
+.vote-topic.vote-count-negative	.vote-item.vote-count 	{ -webkit-box-shadow: 0 2px 3px #e95e5e inset; box-shadow: 0 2px 3px #e95e5e inset; }
 .vote-topic.vote-count-zero.vote-nobuttons,
-.vote-topic.vote-count-zero	.vote-item.vote-count 		{ box-shadow: 0 2px 3px #b4d5e2 inset; }
+.vote-topic.vote-count-zero	.vote-item.vote-count 		{ -webkit-box-shadow: 0 2px 3px #b4d5e2 inset; box-shadow: 0 2px 3px #b4d5e2 inset; }
 
 .vote-topic.vote-nobuttons 								{  }
 .vote-topic.vote-nobuttons .vote-item 					{ border: none; }
 .vote-topic.vote-nobuttons .vote-item span 				{ border: none; }
 .vote-topic.vote-nobuttons .vote-item.vote-up,
 .vote-topic.vote-nobuttons .vote-item.vote-down 		{ display: none; }
-.vote-topic.vote-nobuttons .vote-item.vote-count 		{ border-radius: 15px; padding: 0 5px; box-shadow: none; }
+.vote-topic.vote-nobuttons .vote-item.vote-count 		{ border-radius: 15px; padding: 0 5px; -webkit-box-shadow: none; box-shadow: none; }
 
 .vote-topic.vote-count-positive .vote-item.vote-count					{ background: #def7dc; color: #5fa459; height: 24px; border: none; }
 .vote-topic.vote-count-positive .vote-item.vote-count span 				{ border: none; padding: 0 7px; }
 .vote-topic.vote-count-positive.voted									{ background: #def7dc; }
 .vote-topic.vote-count-positive.voted .vote-item.vote-count,
-.vote-topic.vote-count-positive.vote-nobuttons .vote-item.vote-count	{ box-shadow: none; background: none; }
+.vote-topic.vote-count-positive.vote-nobuttons .vote-item.vote-count	{ -webkit-box-shadow: none; box-shadow: none; background: none; }
 .vote-topic.vote-count-positive.vote-nobuttons							{ background: #def7dc; }
 
 .vote-topic.vote-count-negative .vote-item.vote-count					{ background: #ff8a8a; color: #da4242; height: 24px; border: none; }
 .vote-topic.vote-count-negative .vote-item.vote-count span 				{ border: none; padding: 0 7px; }
 .vote-topic.vote-count-negative.voted									{ background: #ff8a8a; }
 .vote-topic.vote-count-negative.voted .vote-item.vote-count,
-.vote-topic.vote-count-negative.vote-nobuttons .vote-item.vote-count	{ box-shadow: none; background: none; }
+.vote-topic.vote-count-negative.vote-nobuttons .vote-item.vote-count	{ -webkit-box-shadow: none; box-shadow: none; background: none; }
 .vote-topic.vote-count-negative.vote-nobuttons							{ background: #ff8a8a; }
 
 .vote-topic.vote-count-zero .vote-item.vote-count						{ background: #edf8fd; color: #628fa5; height: 24px; border: none; }
 .vote-topic.vote-count-zero .vote-item.vote-count span 					{ border: none; padding: 0 7px; }
 .vote-topic.vote-count-zero.voted										{ background: #edf8fd; }
 .vote-topic.vote-count-zero.voted .vote-item.vote-count,
-.vote-topic.vote-count-zero.vote-nobuttons .vote-item.vote-count		{ box-shadow: none; background: none; }
+.vote-topic.vote-count-zero.vote-nobuttons .vote-item.vote-count		{ -webkit-box-shadow: none; box-shadow: none; background: none; }
 .vote-topic.vote-count-zero.vote-nobuttons								{ background: #edf8fd; }
 
 
@@ -185,7 +185,7 @@
 /* Toolbar 
 ---------------------------------------------------- */
 .toolbar 					{ position: fixed; top: 136px; z-index: 20; display: none; }
-.toolbar section 			{ width: 25px; padding: 8px; overflow: hidden; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.03); margin-bottom: 10px; border-radius: 10px; }
+.toolbar section 			{ width: 25px; padding: 8px; overflow: hidden; line-height: 14px; background: #fff; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.03); box-shadow: 0 0 5px rgba(0,0,0,.03); margin-bottom: 10px; border-radius: 10px; }
 .toolbar section i			{ display: block; width: 25px; height: 25px; }
 
 /* Admin button */

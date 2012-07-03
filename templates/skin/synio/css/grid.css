@@ -10,7 +10,7 @@
 	margin-bottom: 32px; 
 	overflow: hidden; 
 	padding: 12px 17px 15px; 
-	box-shadow: 0 0 10px rgba(0,0,0,.15); 
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,.15); box-shadow: 0 0 10px rgba(0,0,0,.15); 
 	border-radius: 0 0 10px 10px;
 	position: relative;
 	
@@ -22,8 +22,8 @@
 	background: -ms-linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
 	background: linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
 }
-#wrapper 	{ width: 933px; overflow: hidden; zoom: 1; padding: 20px 16px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 699px 0px repeat-y; border-bottom: 1px solid #eee; box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
-#content 	{ float: left; width: 635px; margin-right: 55px; background: #fff; position: relative; }
+#wrapper 	{ width: 933px; overflow: hidden; zoom: 1; padding: 20px 16px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 699px 0px repeat-y; border-bottom: 1px solid #eee; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.05); box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
+#content 	{ float: left; width: 635px; min-height: 1px; margin-right: 55px; background: #fff; position: relative; }
 #sidebar	{ float: left; width: 240px; }
 #footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 30px; font-size: 11px; }
 

@@ -42,7 +42,7 @@ h2.header-table span { color: #949aa1; }
 
 /* Шапка сайта
 ---------------------------------------------------- */
-#header .site-name 			{ font-size: 25px; line-height: 1em; text-transform: lowercase; float: left; padding-top: 11px; margin-right: 30px; margin-left: 18px; }
+#header .site-name 			{ font-size: 25px; line-height: 1em; float: left; padding-top: 11px; margin-right: 30px; margin-left: 18px; }
 #header .site-name a 		{ color: #fff; text-decoration: none; }
 #header .site-name a:hover 	{ color: #eee; }
 
@@ -78,7 +78,7 @@ h2.header-table span { color: #949aa1; }
 #header .dropdown-user .username:hover 					{ color: #aaa; }
 #header .dropdown-user .avatar 							{ position: absolute; top: 11px; left: 13px; width: 30px; height: 30px; }
 
-.dropdown-user-menu										{ position: absolute; background: #1d1d1d; border: none; border-top: 1px solid #000; border-radius: 0 0 10px 10px; box-shadow: 0 0 7px rgba(0, 0, 0, .5); z-index: 30; }
+.dropdown-user-menu										{ position: absolute; background: #1d1d1d; border: none; border-top: 1px solid #000; border-radius: 0 0 10px 10px; -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, .5); box-shadow: 0 0 7px rgba(0, 0, 0, .5); z-index: 30; }
 .dropdown-user-menu li 									{ border-bottom: 1px solid #000; border-top: 1px solid #393939; position: relative; }
 .dropdown-user-menu li:last-child 						{ border-bottom: none; }
 .dropdown-user-menu li:last-child a 					{ border-radius: 0 0 10px 10px; }
@@ -170,7 +170,7 @@ h2.header-table span { color: #949aa1; }
 .stream-get-more:hover { background: #eefbfc; color: #258fa7; }
 .stream-get-more.loader { background-image: url(../images/loader.gif); background-repeat: no-repeat; background-position: 50% 50%; }
 .stream_loading { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
-.stream-comment-preview { position: relative; padding: 5px 10px 6px; background: #fefef1; color: #363636; margin-top: 13px; font-size: 11px; border-radius: 3px; box-shadow: 0 2px 4px #e8e8c0 inset; }
+.stream-comment-preview { position: relative; padding: 5px 10px 6px; background: #fefef1; color: #363636; margin-top: 13px; font-size: 11px; border-radius: 3px; -webkit-box-shadow: 0 2px 4px #e8e8c0 inset; box-shadow: 0 2px 4px #e8e8c0 inset; }
 .stream-comment-preview:after 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #e8e8c0 transparent; border-style: solid; }
 
 .stream-list { margin: 0 0 20px; }
@@ -236,7 +236,7 @@ h2.header-table span { color: #949aa1; }
 	margin-top: 13px; 
 	font-size: 11px; 
 	border-radius: 3px; 
-	box-shadow: 0 0 5px #e8e8c0 inset; 
+	-webkit-box-shadow: 0 0 5px #e8e8c0 inset; box-shadow: 0 0 5px #e8e8c0 inset; 
 }
 .help:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
 .help .help-col { float: left; width: 230px; padding: 0 10px; }

@@ -27,7 +27,7 @@
 	#header, #userbar, #nav, #sidebar, #footer, #comments, .toolbar, .nav-filter-wrapper, 
 	.topic-footer, .stat-performance, .topic-actions, .reply-header, .nav { display: none !important; }
 	
-	#wrapper { box-shadow: none; border: 0; padding: 0; }
+	#wrapper { -webkit-box-shadow: none; box-shadow: none; border: 0; padding: 0; }
 	#content { width: 100%; margin: 0; }
 	
 	.topic { margin-bottom: 100px; }

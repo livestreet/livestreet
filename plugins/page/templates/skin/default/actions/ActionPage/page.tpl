@@ -2,7 +2,7 @@
 {include file='header.tpl'}
 
 <div class="topic">
-	<div class="content">
+	<div class="topic-content text">
 		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}

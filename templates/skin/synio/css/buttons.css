@@ -101,7 +101,7 @@
 	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 
-	box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset;  
+	-webkit-box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset; box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset;  
 }
 
 
@@ -127,7 +127,7 @@
 .button.button-action.active, 
 .button.button-action:hover { 
 	border: 1px solid #2770e8;
-	box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd;
+	-webkit-box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd; box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd;
 	color: #fff;
 	padding: 3px 3px 2px;
 

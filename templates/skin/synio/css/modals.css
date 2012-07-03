@@ -15,7 +15,7 @@
     color: #333;
     background-color: #fbfcfc;
 	border-radius: 10px;
-	box-shadow: 0 0 15px rgba(0,0,0,.5);
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,.5); box-shadow: 0 0 15px rgba(0,0,0,.5);
 	overflow: hidden;
 }
 .modal .close { 
@@ -46,7 +46,7 @@
 .modal.modal-login .remember-label input { top: 2px; }
 .modal.modal-login .icon-question-sign { position: relative; top: -3px; }
 .modal.modal-login .icon-ok-green { position: relative; top: -1px; }
-.modal.modal-login .js-block-popup-login-content .button { position: relative; top: -1px; margin-left: 2px; }
+.modal.modal-login .js-block-popup-login-content .button { position: relative; top: -1px; margin-left: 1px; }
 .ie .modal.modal-login .js-block-popup-login-content .button { margin-left: 1px; }
 
 
@@ -76,7 +76,7 @@
 
 /* Upload Image */
 .modal.modal-image-upload { width: 500px; margin-left: -250px; }
-.modal.modal-upload-photo .image-border, .modal.modal-upload-avatar .image-border { float: left; border-radius: 5px; background: #fff; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 5px rgba(0,0,0,.2); }
+.modal.modal-upload-photo .image-border, .modal.modal-upload-avatar .image-border { float: left; border-radius: 5px; background: #fff; padding: 5px; margin-bottom: 15px; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2); }
 #avatar-resize-original-img { max-width: 200px; width: 100%; }
 
 
