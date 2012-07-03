@@ -24,7 +24,7 @@
 
 /* Nav Topic Filter */
 .nav.nav-menu 						{ font-size: 11px; border-radius: 13px; border: 1px solid #fff; float: left; position: relative; }
-.nav.nav-menu li 					{ position: relative; height: 22px; padding: 1px 1px 1px 0; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; }
+.nav.nav-menu li 					{ position: relative; height: 22px; padding: 1px 1px 1px 0; -webkit-box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; }
 .nav.nav-menu li a { 
 	background: #fbfbfc;
 	background: -moz-linear-gradient(top,  #fbfbfc 0%, #f0f2f5 100%);
@@ -48,7 +48,7 @@
 .nav.nav-menu li:last-child				{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; -webkit-box-shadow: 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; box-shadow: 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset; padding-right: 0; }
 .nav.nav-menu li:last-child a			{ border-top-right-radius: 13px; border-bottom-right-radius: 13px; padding-right: 15px; box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset; }
 
-.nav.nav-menu li:hover { box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset; }
+.nav.nav-menu li:hover { -webkit-box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset; box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset; }
 .nav.nav-menu li:hover a { 
 	color: #fff;
 	
