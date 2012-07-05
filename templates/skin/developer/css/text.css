@@ -4,6 +4,8 @@
 
 .text { font-size: 15px; line-height: 1.6em; overflow: hidden; zoom: 1; }
 
+.text a	{ text-decoration: underline; }
+
 .text h4 { font-size: 24px; margin-bottom: 7px; font-weight: bold; }
 .text h5 { font-size: 20px; margin-bottom: 7px; font-weight: bold; }
 .text h6 { font-size: 18px; margin-bottom: 7px; font-weight: bold; }

@@ -17,6 +17,10 @@ body {
 a 		{ color: #3f8ad7; }
 a:hover { color: #f00; }
 
+.text a:visited, 
+.topic .topic-header .topic-title a:visited,
+.block.block-type-stream .block-content .latest-list .stream-topic { color: #1D2273; }
+
 a.link-dashed 		{ border-bottom: 1px dashed #5055b2; text-decoration: none; }
 a.link-dashed:hover { border-color: #f00; }
 

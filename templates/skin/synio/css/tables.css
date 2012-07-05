@@ -39,7 +39,7 @@
 .table.table-blogs .cell-readers 		{ width: 90px; text-align: center; vertical-align: middle; }
 .table.table-blogs tbody .cell-readers 	{ text-align: center; vertical-align: middle; font-size: 11px; }
 .table.table-blogs .cell-join 			{ width: 130px; text-align: center; vertical-align: middle; }
-.table.table-blogs .cell-rating 		{ text-align: center; vertical-align: middle; }
+.table.table-blogs .cell-rating 		{ width: 90px; text-align: center; vertical-align: middle; }
 
 /* Table Plugins */
 .table.table-plugins .cell-checkbox 	{ width: 20px; padding: 12px 0 10px 10px; }

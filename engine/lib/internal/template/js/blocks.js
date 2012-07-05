@@ -153,10 +153,12 @@ ls.blocks = (function ($) {
 			// Dropdown
 			var trigger = $('.js-block-'+block+'-dropdown-trigger');
 			var menu 	= $('.js-block-'+block+'-dropdown-items');
-			var pos 	= trigger.offset();
 
-			menu.appendTo('body').css({ 'left': pos.left, 'top': pos.top + 30, 'display': 'none' });
+			menu.appendTo('body').css({'display': 'none'});
 			trigger.click(function(){
+				var pos = $(this).offset();
+				console.log(pos.left);
+				menu.css({ 'left': pos.left, 'top': pos.top + 30, 'z-index': 2100 });
 				menu.slideToggle();
 				$(this).toggleClass('opened');
 				return false;

@@ -17,9 +17,9 @@
 	{else}
 		<thead>
 			<tr>
-				<th class="cell-name">{$aLang.user}</th>
+				<th class="cell-name cell-tab"><div class="cell-tab-inner">{$aLang.user}</div></th>
 				<th>&nbsp;</th>
-				<th class="cell-skill">{$aLang.user_skill}</th>
+				<th class="cell-skill cell-tab"><div class="cell-tab-inner">{$aLang.user_skill}</div></th>
 				<th class="cell-rating cell-tab">
 					<div class="cell-tab-inner active"><span>{$aLang.user_rating}</span></div>
 				</th>
@@ -50,7 +50,7 @@
 			{/foreach}
 		{else}
 			<tr>
-				<td colspan="5">
+				<td colspan="4">
 					{if $sUserListEmpty}
 						{$sUserListEmpty}
 					{else}
