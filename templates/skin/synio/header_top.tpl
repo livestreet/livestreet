@@ -4,7 +4,16 @@
 		<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
 		
 		
-		<ul class="nav nav-main">
+		<script type="text/javascript">
+			jQuery(window).load(function () {
+				$('#nav-main').width($('#header').width() - $('#header').find('h1.site-name').outerWidth(true) - 1);
+				console.log($('#header').width());
+				console.log($('#header').find('h1.site-name').outerWidth(true));
+			});
+		</script>
+		
+		
+		<ul class="nav nav-main" id="nav-main">
 			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a> <i></i></li>
 			<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a> <i></i></li>
 			<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a> <i></i></li>
