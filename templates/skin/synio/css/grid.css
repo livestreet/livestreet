@@ -4,7 +4,7 @@
 
 #container 			{ width: 976px; margin: 0 auto; margin-bottom: 20px; }
 #header-wrapper 	{ background: #090909; min-width: 976px; }
-#header 			{ width: 976px; height: 51px; margin: 0 auto; position: relative; }
+#header 			{ width: 696px; height: 51px; margin: 0 auto; position: relative; padding-right: 280px; }
 #nav 		{ 
 	min-height: 26px;
 	margin-bottom: 32px; 

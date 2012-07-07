@@ -23,6 +23,7 @@
 				<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 				<a href="{$oUserCurrent->getUserWebPath()}" class="username">{$oUserCurrent->getLogin()}</a>
 				
+				<div class="dropdown-user-shadow"></div>
 				<div class="dropdown-user-trigger" id="dropdown-user-trigger"><i></i></div>
 				
 				<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none">

@@ -17,9 +17,7 @@ body {
 a 		{ color: #3f8ad7; }
 a:hover { color: #f00; }
 
-.text a:visited, 
-.topic .topic-header .topic-title a:visited,
-.block.block-type-stream .block-content .latest-list .stream-topic { color: #1D2273; }
+.text a:visited { color: #1D2273; }
 
 a.link-dashed 		{ border-bottom: 1px dashed #5055b2; text-decoration: none; }
 a.link-dashed:hover { border-color: #f00; }
@@ -50,15 +48,17 @@ h2.header-table span { color: #949aa1; }
 #header .site-name a 		{ color: #fff; text-decoration: none; }
 #header .site-name a:hover 	{ color: #eee; }
 
-#header .new-messages { float: right; color: #f9de7e; font-size: 11px; margin-right: 11px; margin-top: 18px; line-height: 1em; text-decoration: none; }
+#header .new-messages { position: absolute; top: 0; right: 205px; color: #f9de7e; font-size: 11px; margin-right: 11px; margin-top: 18px; line-height: 1em; text-decoration: none; }
 #header .new-messages i { position: relative; top: -1px; }
+.mozilla #header .new-messages i { top: 0; }
 
 #header .dropdown-user { 
-	min-width: 89px; 
+	width: 89px; 
 	height: 51px; 
 	line-height: 47px; 
-	float: right;
-	position: relative;
+	position: absolute;
+	top: 0;
+	right: 0;
 	padding-right: 60px; 
 	padding-left: 54px; 
 	
@@ -78,7 +78,9 @@ h2.header-table span { color: #949aa1; }
 #header .dropdown-user.opened .dropdown-user-trigger 	{ background: #093357; }
 #header .dropdown-user .dropdown-user-trigger:hover i,
 #header .dropdown-user.opened .dropdown-user-trigger i	{ border-top-color: #fff; }
-#header .dropdown-user .username 						{ color: #cfcfcf; font-size: 11px; text-decoration: underline; }
+#header .dropdown-user .dropdown-user-shadow			{ height: 51px; width: 51px; background: url(../images/icons-synio.png) 0 -230px no-repeat; position: absolute; top: 0; right: 36px; }
+#header .dropdown-user.opened .dropdown-user-shadow		{ background-position: 0 -281px; }
+#header .dropdown-user .username 						{ color: #cfcfcf; font-size: 11px; text-decoration: underline; white-space: nowrap; max-width: 89px; overflow: hidden; display: block; }
 #header .dropdown-user .username:hover 					{ color: #aaa; }
 #header .dropdown-user .avatar 							{ position: absolute; top: 11px; left: 13px; width: 30px; height: 30px; }
 
