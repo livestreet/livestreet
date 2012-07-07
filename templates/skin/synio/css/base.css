@@ -106,7 +106,7 @@ h2.header-table span { color: #949aa1; }
 .dropdown-user-menu li.item-signout .item-icon 			{ background-position: -92px 0; }
 .dropdown-user-menu li.item-messages .new 				{ position: absolute; top: 15px; right: 7px; cursor: pointer; color: #fff; border-radius: 15px; border: 2px solid #eabe21; line-height: 1em; padding: 2px 7px 3px; }
 
-#header .auth { float: right; line-height: 49px; font-size: 11px; margin-right: 17px; }
+#header .auth { position: absolute; top: 0; right: 0; line-height: 49px; font-size: 11px; margin-right: 17px; }
 #header .auth li { float: left; margin-left: 23px; }
 #header .auth li a { color: #cfcfcf; text-decoration: none; }
 #header .auth li a.sign-in { color: #7dc6ff; }
