@@ -6,7 +6,7 @@
 		
 		<script type="text/javascript">
 			jQuery(window).load(function () {
-				jQuery('#nav-main').width($('#header').width() - jQuery('#header').find('h1.site-name').outerWidth(true) - 1);
+				jQuery('#nav-main').width(jQuery('#header').width() - jQuery('#header').find('h1.site-name').outerWidth(true) - 1);
 			});
 		</script>
 		
