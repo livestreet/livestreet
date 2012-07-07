@@ -4,13 +4,6 @@
 		<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
 		
 		
-		<script type="text/javascript">
-			jQuery(window).load(function () {
-				jQuery('#nav-main').width(jQuery('#header').width() - jQuery('#header').find('h1.site-name').outerWidth(true) - 1).css('display','block');
-			});
-		</script>
-		
-		
 		<ul class="nav nav-main" id="nav-main">
 			<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a> <i></i></li>
 			<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a> <i></i></li>

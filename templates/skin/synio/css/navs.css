@@ -104,8 +104,7 @@
 
 
 /* Nav Main */
-.nav.nav-main 					{ float: left; height: 51px; overflow: hidden; display: none; }
-.no-js .nav.nav-main 			{ display: block; }
+.nav.nav-main 					{ height: 51px; overflow: hidden; }
 .nav.nav-main li 				{ margin-right: 22px; position: relative; height: 51px; line-height: 49px; }
 .nav.nav-main li a 				{ color: #cfcfcf; text-decoration: none; }
 .nav.nav-main li a:hover 		{ color: #aaa; }
