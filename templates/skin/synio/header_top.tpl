@@ -5,10 +5,8 @@
 		
 		
 		<script type="text/javascript">
-			jQuery(window).load(function () {
+			jQuery(window).load(function ($) {
 				$('#nav-main').width($('#header').width() - $('#header').find('h1.site-name').outerWidth(true) - 1);
-				console.log($('#header').width());
-				console.log($('#header').find('h1.site-name').outerWidth(true));
 			});
 		</script>
 		
