@@ -32,6 +32,7 @@ jQuery(document).ready(function($){
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
 	$('#userfield_form').jqm({toTop: true}); 
+	$('#photoset-upload-form').jqm({trigger: '#photoset-start-upload'});
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {

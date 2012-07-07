@@ -128,22 +128,6 @@
 .topic-photo-upload .topic-photo-upload-input { margin-bottom: 20px; }
 .topic-photo-upload .topic-photo-upload-input input { margin-top: 3px; }
 
-#photoset-upload-form {
-	width: 270px;
-	padding: 15px;
-	position: absolute;
-	top:70%;
-	display: none;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	-moz-box-shadow: 0 0 10px #ddd;
-	-webkit-box-shadow: 0 0 10px #ddd;
-	-webkit-box-shadow: 0 0 10px #ddd; box-shadow: 0 0 10px #ddd;
-}
-#photoset-upload-form p { margin-bottom: 10px; }
-#photoset-upload-form .input-text { width: 262px; border: 1px solid #ccc; margin: 0; padding: 3px; font-family: Arial, sans-serif; font-size: 12px; }
-
-
 /* Topic Talk */
 .topic.topic-type-talk header .topic-info 			{ background: #f8fbfe; font-size: 11px; padding: 15px; border-radius: 5px; margin-bottom: 0; }
 
@@ -151,7 +135,6 @@
 .topic.topic-type-talk .talk-recipients-header 		{ font-size: 11px; min-height: 0; }
 .topic.topic-type-talk .talk-recipients-content h3 	{ font-size: 16px; font-weight: normal; margin-bottom: 10px; }
 .topic.topic-type-talk .topic-footer .topic-info li.topic-info-favourite i		{ margin-right: 0; }
-
 
 /* Topic Link */
 .topic.topic-type-link { }
