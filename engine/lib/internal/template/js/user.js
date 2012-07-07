@@ -338,8 +338,10 @@ ls.user = (function ($) {
 	this.registration = function(form) {
 		var url = aRouter.registration+'ajax-registration/';
 
+		this.formLoader(form);
 		ls.hook.marker('registrationBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
@@ -363,7 +365,7 @@ ls.user = (function ($) {
 				}
 				ls.hook.run('ls_user_registration_after', [form, result]);
 			}
-		});
+		}.bind(this));
 	};
 
 	/**
@@ -373,8 +375,10 @@ ls.user = (function ($) {
 	this.login = function(form) {
 		var url = aRouter.login+'ajax-login/';
 
+		this.formLoader(form);
 		ls.hook.marker('loginBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}
@@ -391,6 +395,24 @@ ls.user = (function ($) {
 				}
 				ls.hook.run('ls_user_login_after', [form, result]);
 			}
+		}.bind(this));
+	};
+
+	/**
+	 * Показывает лоадер в полях формы
+	 * @param form
+	 * @param bHide
+	 */
+	this.formLoader = function(form,bHide) {
+		if (typeof(form)=='string') {
+			form=$('#'+form);
+		}
+		form.find('input[type="text"], input[type="password"]').each(function(k,v){
+			if (bHide) {
+				$(v).removeClass('loader');
+			} else {
+				$(v).addClass('loader');
+			}
 		});
 	};
 
@@ -401,8 +423,10 @@ ls.user = (function ($) {
 	this.reminder = function(form) {
 		var url = aRouter.login+'ajax-reminder/';
 
+		this.formLoader(form);
 		ls.hook.marker('reminderBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}
@@ -420,7 +444,7 @@ ls.user = (function ($) {
 				}
 				ls.hook.run('ls_user_reminder_after', [form, result]);
 			}
-		});
+		}.bind(this));
 	};
 
 	/**
