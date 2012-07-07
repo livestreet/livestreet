@@ -27,8 +27,8 @@
 				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="topic-info-date">
-				<time datetime="{date_format date=$oTalk->getDateAdd() format='c'}" pubdate title="{date_format date=$oTalk->getDateAdd() format='j F Y, H:i'}">
-					{date_format date=$oTalk->getDateAdd() format="j F Y, H:i"}
+				<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate title="{date_format date=$oTalk->getDate() format='j F Y, H:i'}">
+					{date_format date=$oTalk->getDate() format="j F Y, H:i"}
 				</time>
 			</li>
 			<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTalk->getId()},$('#fav_topic_{$oTalk->getId()}'),'talk');"><i id="fav_topic_{$oTalk->getId()}" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></i></li>
