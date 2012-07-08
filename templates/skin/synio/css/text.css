@@ -39,3 +39,7 @@
 
 .text object,
 .text img { max-width: 100%; vertical-align: top; }
+
+.text .ls-user { color: #333; }
+.text .ls-user:visited { color: #333; }
+.text .ls-user:hover { color: #555; }

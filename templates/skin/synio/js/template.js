@@ -99,6 +99,12 @@ jQuery(document).ready(function($){
 		toolbarPos();
 	});
 
+	$(window).scroll(function(){
+		if ($(document).width() <= 1100) {
+			toolbarPos();
+		}
+	});
+
 
 	// Всплывающие сообщения
 	$('.js-title-comment, .js-title-topic').poshytip({
@@ -336,13 +342,6 @@ jQuery(document).ready(function($){
 	});
 
 
-	$(window).scroll(function(){
-		if ($(document).width() <= 1100) {
-			$('#toolbar').css({'top' : eval(document.documentElement.scrollTop) + 136});
-		}
-	});
-
-
 	$('.topic').each(function(i){
 		var share=$(this).find('.topic-info-share');
 		if (share.length) {
@@ -474,8 +473,8 @@ function toolbarPos() {
 			if (!$('#container').hasClass('no-resize')) {
 				$('#container').addClass('toolbar-margin');
 			}
-
-			$('#toolbar').css({'position': 'absolute', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top' : eval(document.documentElement.scrollTop) + 136, 'display': 'block'});
+			$('#toolbar').css({'position': 'absolute', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top' : $(document).scrollTop() + 136, 'display': 'block'});
+			console.log($('#toolbar').css('top'));
 		} else {
 			$('#container').removeClass('toolbar-margin');
 			$('#toolbar').css({'position': 'fixed', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top': 136, 'display': 'block'});
