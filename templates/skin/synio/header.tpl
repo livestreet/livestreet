@@ -66,6 +66,22 @@
 	</script>
 	
 	
+	{if {cfg name='view.grid.type'} == 'fluid'}
+		<style>
+			{literal} #container { {/literal}
+				min-width: {cfg name='view.grid.fluid_min_width'}px;
+				max-width: {cfg name='view.grid.fluid_max_width'}px;
+			{literal} } {/literal}
+		</style>
+	{else}
+		<style>
+			{literal} #container { {/literal}
+				width: {cfg name='view.grid.fixed_width'}px;
+			{literal} } {/literal}
+		</style>
+	{/if}
+	
+	
 	{hook run='html_head_end'}
 </head>
 
@@ -88,7 +104,7 @@
 {add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
 {add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
 
-<body class="{$body_classes}">
+<body class="{$body_classes} width-{cfg name='view.grid.type'}"">
 	{hook run='body_begin'}
 	
 	
@@ -100,12 +116,19 @@
 	{/if}
 	
 
-	{include file='header_top.tpl'}
+
+	
+	<div id="header-back"></div>
 	
 	<div id="container" class="{hook run='container_class'}">
+		{include file='header_top.tpl'}
 		{include file='nav.tpl'}
 
 		<div id="wrapper" class="{if $noSidebar}no-sidebar{/if}{hook run='wrapper_class'}">
+			{if !$noSidebar}
+				{include file='sidebar.tpl'}
+			{/if}
+		
 			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if} {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}

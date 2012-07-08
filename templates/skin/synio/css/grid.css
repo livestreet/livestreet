@@ -2,9 +2,9 @@
 	СЕТКА
 -------------------------------------------- */
 
-#container 			{ width: 976px; margin: 0 auto; margin-bottom: 20px; }
-#header-wrapper 	{ background: #090909; min-width: 976px; }
-#header 			{ width: 706px; height: 51px; margin: 0 auto; position: relative; padding-right: 270px; }
+#container 			{ margin: 0 auto; margin-bottom: 20px; padding: 0 48px; }
+#header-back 		{ position: absolute; top: 0; left: 0; width: 100%; height: 51px; background: #090909; }
+#header 			{ background: #090909; height: 51px; margin: 0 auto; position: relative; padding-right: 270px; }
 #nav 		{ 
 	min-height: 26px;
 	margin-bottom: 32px; 
@@ -22,18 +22,14 @@
 	background: -ms-linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
 	background: linear-gradient(top,  #fdfdfd 0%,#f6f8f9 100%);
 }
-#wrapper 	{ width: 933px; overflow: hidden; zoom: 1; padding: 20px 16px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 699px 0px repeat-y; border-bottom: 1px solid #eee; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.05); box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
-#content 	{ float: left; width: 635px; min-height: 1px; margin-right: 55px; background: #fff; position: relative; }
-#sidebar	{ float: left; width: 240px; }
+#wrapper 	{ overflow: hidden; zoom: 1; padding: 20px 16px 20px 27px; margin-bottom: 60px; background: #fff url(../images/sidebar-border.png) 100% 0px repeat-y; border-bottom: 1px solid #eee; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.05); box-shadow: 0 0 5px rgba(0,0,0,.05); border-radius: 10px; }
+#content 	{ min-height: 1px; margin-right: 295px; background: #fff; position: relative; }
+#sidebar	{ float: right; width: 240px; }
 #footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 30px; font-size: 11px; }
 
 
 #wrapper.no-sidebar				{ background-image: none; }
 #wrapper.no-sidebar #content 	{ width: 100%; margin-right: 0; }
 
-#container.toolbar-margin #wrapper 				{ width: 885px; background-position: 651px 0px; }
-#container.toolbar-margin #wrapper #content 	{ width: 587px; }
-#container.toolbar-margin #wrapper #sidebar 	{ width: 240px; }
-#container.toolbar-margin #footer 				{ padding-right: 50px; }
-
-#content.content-right 		{ margin-right: 0; float: none; margin-left: 311px; width: auto; }
+#container.toolbar-margin 	{ padding: 0; }
+#container.toolbar-margin #wrapper 	{ margin-right: 48px; }
