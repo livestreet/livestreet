@@ -68,16 +68,16 @@
 	
 	{if {cfg name='view.grid.type'} == 'fluid'}
 		<style>
-			{literal} #container { {/literal}
+			#container {
 				min-width: {cfg name='view.grid.fluid_min_width'}px;
 				max-width: {cfg name='view.grid.fluid_max_width'}px;
-			{literal} } {/literal}
+			}
 		</style>
 	{else}
 		<style>
-			{literal} #container { {/literal}
+			#container {
 				width: {cfg name='view.grid.fixed_width'}px;
-			{literal} } {/literal}
+			}
 		</style>
 	{/if}
 	
