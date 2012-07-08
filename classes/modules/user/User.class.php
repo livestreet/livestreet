@@ -457,6 +457,9 @@ class ModuleUser extends Module {
 	 * @return ModuleUser_EntityUser|null
 	 */
 	public function GetUserById($sId) {
+		if (!is_numeric($sId)) {
+			return null;
+		}
 		$aUsers=$this->GetUsersAdditionalData($sId);
 		if (isset($aUsers[$sId])) {
 			return $aUsers[$sId];

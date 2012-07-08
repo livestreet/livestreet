@@ -237,6 +237,9 @@ class ModuleBlog extends Module {
 	 * @return ModuleBlog_EntityBlog|null
 	 */
 	public function GetBlogById($sBlogId) {
+		if (!is_numeric($sBlogId)) {
+			return null;
+		}
 		$aBlogs=$this->GetBlogsAdditionalData($sBlogId);
 		if (isset($aBlogs[$sBlogId])) {
 			return $aBlogs[$sBlogId];

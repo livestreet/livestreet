@@ -376,6 +376,9 @@ class ModuleTopic extends Module {
 	 * @return ModuleTopic_EntityTopic|null
 	 */
 	public function GetTopicById($sId) {
+		if (!is_numeric($sId)) {
+			return null;
+		}
 		$aTopics=$this->GetTopicsAdditionalData($sId);
 		if (isset($aTopics[$sId])) {
 			return $aTopics[$sId];

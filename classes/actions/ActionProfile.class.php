@@ -610,7 +610,7 @@ class ActionProfile extends Action {
 		$oNote=Engine::GetEntity('ModuleUser_EntityNote');
 		$oNote->setTargetUserId(getRequest('iUserId'));
 		$oNote->setUserId($this->oUserCurrent->getId());
-		$oNote->setText(getRequest('text'));
+		$oNote->setText((string)getRequest('text'));
 
 		if ($oNote->_Validate()) {
 			/**
@@ -693,7 +693,7 @@ class ActionProfile extends Action {
 		/**
 		 * Из реквеста дешефруем ID польователя
 		 */
-		$sUserId=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
+		$sUserId=xxtea_decrypt(base64_decode(rawurldecode((string)getRequest('code'))), Config::Get('module.talk.encrypt'));
 		if (!$sUserId) {
 			return $this->EventNotFound();
 		}

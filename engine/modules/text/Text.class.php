@@ -142,6 +142,9 @@ class ModuleText extends Module {
 	 * @return string
 	 */
 	public function Parser($sText) {
+		if (!is_string($sText)) {
+			return '';
+		}
 		$sResult=$this->FlashParamParser($sText);
 		$sResult=$this->JevixParser($sResult);
 		$sResult=$this->VideoParser($sResult);

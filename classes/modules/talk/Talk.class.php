@@ -377,6 +377,9 @@ class ModuleTalk extends Module {
 	 * @return ModuleTalk_EntityTalk|null
 	 */
 	public function GetTalkById($sId) {
+		if (!is_numeric($sId)) {
+			return null;
+		}
 		$aTalks=$this->GetTalksAdditionalData($sId);
 		if (isset($aTalks[$sId])) {
 			$aResult=$this->GetTalkUsersByTalkId($sId);

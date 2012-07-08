@@ -132,7 +132,7 @@ class ActionUserfeed extends Action {
 		if (!getRequest('id')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-		$sType = getRequest('type');
+		$sType = (string)getRequest('type');
 		$iType = null;
 		/**
 		 * Определяем тип подписки
@@ -184,7 +184,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Передан ли логин
 		 */
-		if (!getRequest('login')) {
+		if (!getRequest('login') or !is_string(getRequest('login'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -231,7 +231,7 @@ class ActionUserfeed extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		$sType = getRequest('type');
+		$sType = (string)getRequest('type');
 		$iType = null;
 		/**
 		 * Определяем от чего отписываемся
