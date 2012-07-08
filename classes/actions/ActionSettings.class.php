@@ -158,7 +158,10 @@ class ActionSettings extends Action {
 		 */
 		$aSize=array();
 		$aSizeTmp=getRequest('size');
-		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+		if (isset($aSizeTmp['x']) and is_numeric($aSizeTmp['x'])
+			and isset($aSizeTmp['y']) and is_numeric($aSizeTmp['y'])
+				and isset($aSizeTmp['x2']) and is_numeric($aSizeTmp['x2'])
+					and isset($aSizeTmp['y2']) and is_numeric($aSizeTmp['y2'])) {
 			$aSize=array('x1'=>round($fRation*$aSizeTmp['x']),'y1'=>round($fRation*$aSizeTmp['y']),'x2'=>round($fRation*$aSizeTmp['x2']),'y2'=>round($fRation*$aSizeTmp['y2']));
 		}
 		/**
@@ -280,7 +283,10 @@ class ActionSettings extends Action {
 		 */
 		$aSize=array();
 		$aSizeTmp=getRequest('size');
-		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+		if (isset($aSizeTmp['x']) and is_numeric($aSizeTmp['x'])
+			and isset($aSizeTmp['y']) and is_numeric($aSizeTmp['y'])
+				and isset($aSizeTmp['x2']) and is_numeric($aSizeTmp['x2'])
+					and isset($aSizeTmp['y2']) and is_numeric($aSizeTmp['y2'])) {
 			$aSize=array('x1'=>$aSizeTmp['x'],'y1'=>$aSizeTmp['y'],'x2'=>$aSizeTmp['x2'],'y2'=>$aSizeTmp['y2']);
 		}
 		/**
@@ -615,7 +621,7 @@ class ActionSettings extends Action {
 					$aData = array();
 					foreach ($aFields as $iId => $aField) {
 						if (isset($_REQUEST['profile_user_field_'.$iId])) {
-							$aData[$iId] = getRequest('profile_user_field_'.$iId);
+							$aData[$iId] = (string)getRequest('profile_user_field_'.$iId);
 						}
 					}
 					$this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
@@ -632,7 +638,7 @@ class ActionSettings extends Action {
 					$aFieldsContactValue=getRequest('profile_user_field_value');
 					if (is_array($aFieldsContactType)) {
 						foreach($aFieldsContactType as $k=>$v) {
-							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
+							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k]) and is_string($aFieldsContactValue[$k])) {
 								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), Config::Get('module.user.userfield_max_identical'));
 							}
 						}

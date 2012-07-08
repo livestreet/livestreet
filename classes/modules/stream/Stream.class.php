@@ -108,6 +108,9 @@ class ModuleStream extends Module {
 	 * @return bool
 	 */
 	public function IsAllowEventType($sType) {
+		if (!is_string($sType)) {
+			return false;
+		}
 		return array_key_exists($sType,$this->aEventTypes);
 	}
 	/**

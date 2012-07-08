@@ -203,6 +203,9 @@ class ModuleWall extends Module {
 	 * @return ModuleWall_EntityWall
 	 */
 	public function GetWallById($iId) {
+		if (!is_numeric($iId)) {
+			return null;
+		}
 		$aResult=$this->GetWallAdditionalData($iId);
 		if (isset($aResult[$iId])) {
 			return $aResult[$iId];

@@ -207,7 +207,7 @@ class ActionBlog extends Action {
 		$oBlog->setType(getRequest('blog_type'));
 		$oBlog->setDateAdd(date("Y-m-d H:i:s"));
 		$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
-		$oBlog->setUrl(getRequest('blog_url'));
+		$oBlog->setUrl((string)getRequest('blog_url'));
 		$oBlog->setAvatar(null);
 		/**
 		 * Загрузка аватара, делаем ресайзы
@@ -315,7 +315,7 @@ class ActionBlog extends Action {
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 			if ($this->oUserCurrent->isAdministrator()) {
-				$oBlog->setUrl(getRequest('blog_url'));	// разрешаем смену URL блога только админу
+				$oBlog->setUrl((string)getRequest('blog_url'));	// разрешаем смену URL блога только админу
 			}
 			/**
 			 * Загрузка аватара, делаем ресайзы
@@ -501,21 +501,23 @@ class ActionBlog extends Action {
 		if (!func_check(getRequest('blog_title'),'text',2,200)) {
 			$this->Message_AddError($this->Lang_Get('blog_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли уже блог с таким названием
-		 */
-		if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
-			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
-				$this->Message_AddError($this->Lang_Get('blog_create_title_error_unique'),$this->Lang_Get('error'));
-				$bOk=false;
+		} else {
+			/**
+			 * Проверяем есть ли уже блог с таким названием
+			 */
+			if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
+				if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
+					$this->Message_AddError($this->Lang_Get('blog_create_title_error_unique'),$this->Lang_Get('error'));
+					$bOk=false;
+				}
 			}
 		}
+
 		/**
 		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 		 */
 		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
-			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
+			$blogUrl=preg_replace("/\s+/",'_',(string)getRequest('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {
 				$this->Message_AddError($this->Lang_Get('blog_create_url_error'),$this->Lang_Get('error'));
@@ -532,7 +534,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли уже блог с таким URL
 		 */
-		if ($oBlogExists=$this->Blog_GetBlogByUrl(getRequest('blog_url'))) {
+		if ($oBlogExists=$this->Blog_GetBlogByUrl((string)getRequest('blog_url'))) {
 			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
 				$this->Message_AddError($this->Lang_Get('blog_create_url_error_unique'),$this->Lang_Get('error'));
 				$bOk=false;
@@ -1200,7 +1202,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем существование блога
 		 */
-		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId) or !is_string($sUsers)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -1486,7 +1488,7 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем код подтверждения из ревеста и дешефруем его
 		 */
-		$sCode=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
+		$sCode=xxtea_decrypt(base64_decode(rawurldecode((string)getRequest('code'))), Config::Get('module.blog.encrypt'));
 		if (!$sCode) {
 			return $this->EventNotFound();
 		}

@@ -50,6 +50,9 @@ class ModuleComment extends Module {
 	 * @return ModuleComment_EntityComment|null
 	 */
 	public function GetCommentById($sId) {
+		if (!is_numeric($sId)) {
+			return null;
+		}
 		$aComments=$this->GetCommentsAdditionalData($sId);
 		if (isset($aComments[$sId])) {
 			return $aComments[$sId];

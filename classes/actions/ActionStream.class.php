@@ -309,7 +309,7 @@ class ActionStream extends Action {
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
-		if (!getRequest('login')) {
+		if (!getRequest('login') or !is_string(getRequest('login'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}

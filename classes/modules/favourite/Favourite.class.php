@@ -45,6 +45,9 @@ class ModuleFavourite extends Module {
 	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavourite($sTargetId,$sTargetType,$sUserId) {
+		if (!is_numeric($sTargetId) or !is_string($sTargetType)) {
+			return null;
+		}
 		$data=$this->GetFavouritesByArray($sTargetId,$sTargetType,$sUserId);
 		return (isset($data[$sTargetId]))
 			? $data[$sTargetId]
