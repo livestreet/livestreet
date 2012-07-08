@@ -87,14 +87,14 @@ class ActionBlogs extends Action {
 		 */
 		$sOrder='blog_rating';
 		if (getRequest('order')) {
-			$sOrder=getRequest('order');
+			$sOrder=(string)getRequest('order');
 		}
 		/**
 		 * В каком направлении сортировать
 		 */
 		$sOrderWay='desc';
 		if (getRequest('order_way')) {
-			$sOrderWay=getRequest('order_way');
+			$sOrderWay=(string)getRequest('order_way');
 		}
 		/**
 		 * Фильтр поиска блогов
