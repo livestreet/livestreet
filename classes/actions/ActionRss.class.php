@@ -133,13 +133,13 @@ class ActionRss extends Action {
 	 */
 	protected function RssComments() {
 		/**
-		 * Вычисляем топики из закрытых блогов, чтобы исключить их из выдачи
+		 * Получаем закрытые блоги, чтобы исключить их из выдачи
 		 */
-		$aCloseTopics = $this->Topic_GetTopicsCloseByUser();
+		$aCloseBlogs = $this->Blog_GetInaccessibleBlogsByUser();
 		/**
 		 * Получаем комментарии
 		 */
-		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2,$aCloseTopics);
+		$aResult=$this->Comment_GetCommentsAll('topic',1,Config::Get('module.comment.per_page')*2,array(),$aCloseBlogs);
 		$aComments=$aResult['collection'];
 		/**
 		 * Формируем данные канала RSS
