@@ -74,8 +74,8 @@ class ActionTopic extends Action {
 	 */
 	protected function RegisterEvent() {
 		$this->AddEvent('add','EventAdd');
-		$this->AddEventPreg('/^published$/i','/^(page(\d+))?$/i','EventShowTopics');
-		$this->AddEventPreg('/^saved$/i','/^(page(\d+))?$/i','EventShowTopics');
+		$this->AddEventPreg('/^published$/i','/^(page([1-9]\d{0,5}))?$/i','EventShowTopics');
+		$this->AddEventPreg('/^saved$/i','/^(page([1-9]\d{0,5}))?$/i','EventShowTopics');
 		$this->AddEvent('edit','EventEdit');
 		$this->AddEvent('delete','EventDelete');
 	}

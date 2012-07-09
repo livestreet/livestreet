@@ -39,7 +39,7 @@ class ActionTag extends Action {
 	 * Регистрация евентов
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTags');
+		$this->AddEventPreg('/^.+$/i','/^(page([1-9]\d{0,5}))?$/i','EventTags');
 	}
 
 

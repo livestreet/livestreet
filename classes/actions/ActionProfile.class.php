@@ -72,17 +72,17 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^remove$/i','EventWallRemove');
 
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page(\d+))?$/i','EventFavouriteTopicsTag');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavouriteComments');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page([1-9]\d{0,5}))?$/i','EventFavouriteTopicsTag');
 
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page(\d+))?$/i','EventCreatedNotes');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page(\d+))?$/i','EventCreatedTopics');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedNotes');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedComments');
 
-		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page(\d+))?$/i','EventFriends');
+		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page([1-9]\d{0,5}))?$/i','EventFriends');
 		$this->AddEventPreg('/^.+$/i','/^stream/i','/^$/i','EventStream');
 	}
 

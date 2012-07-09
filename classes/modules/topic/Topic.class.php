@@ -517,7 +517,10 @@ class ModuleTopic extends Module {
 	 * @param  array|null   $aAllowData	Список типов данных для подгрузки в топики
 	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=null) {
+	public function GetTopicsByFilter($aFilter,$iPage=1,$iPerPage=10,$aAllowData=null) {
+		if (!is_numeric($iPage) or $iPage<=0) {
+			$iPage=1;
+		}
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {
 			$data = array(

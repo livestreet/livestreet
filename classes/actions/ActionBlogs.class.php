@@ -37,7 +37,7 @@ class ActionBlogs extends Action {
 	 * Регистрируем евенты
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventShowBlogs');
+		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventShowBlogs');
 		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
 	}
 
