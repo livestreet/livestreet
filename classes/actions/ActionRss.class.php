@@ -186,8 +186,8 @@ class ActionRss extends Action {
 		/**
 		 * Получаем комментарии
 		 */
-		$aComments=$this->Comment_GetCommentsByTargetId($oTopic->getId(),'topic');
-		$aComments=$aComments['comments'];
+		$aResult=$this->Comment_GetCommentsByFilter(array('target_id'=>$oTopic->getId(),'target_type'=>'topic','delete'=>0),array('comment_id'=>'desc'),1,100);
+		$aComments=$aResult['collection'];
 		/**
 		 * Формируем данные канала RSS
 		 */
