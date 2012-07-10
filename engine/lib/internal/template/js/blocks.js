@@ -96,7 +96,7 @@ ls.blocks = (function ($) {
 	*/
 	this.showProgress = function(content) {
 		content.height(content.height());
-		content.empty().css({'background': 'url(' + this.options.loader + ') no-repeat center center', 'min-height': 60});
+		content.empty().css({'background': 'url(' + this.options.loader + ') no-repeat center top', 'min-height': 70});
 	};
 
 	/**
@@ -104,7 +104,7 @@ ls.blocks = (function ($) {
 	*/
 	this.onLoad = function(content,result) {
 		$(this).trigger('loadSuccessful',arguments);
-		content.empty().css({'background': 'none', 'height': 'auto', 'min-height': 'auto'});
+		content.empty().css({'background': 'none', 'height': 'auto', 'min-height': 0});
 		if (result.bStateError) {
 			ls.msg.error(null, result.sMsg);
 		} else {
