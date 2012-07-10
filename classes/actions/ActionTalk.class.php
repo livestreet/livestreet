@@ -162,7 +162,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
+		$iPage=preg_match("/^page([1-9]\d{0,5})$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
 		/**
 		 * Получаем список писем
 		 */
@@ -319,7 +319,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
+		$iPage=preg_match("/^page([1-9]\d{0,5})$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
 		/**
 		 * Получаем список писем
 		 */

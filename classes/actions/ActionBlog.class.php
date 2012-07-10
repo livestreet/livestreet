@@ -116,18 +116,18 @@ class ActionBlog extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 		$this->AddEvent('good',array('EventTopics','topics'));
-		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^newall$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^discussed$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^top$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('delete','EventDeleteBlog');
-		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page(\d+))?$/i','EventAdminBlog');
+		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventAdminBlog');
 		$this->AddEvent('invite','EventInviteBlog');
 
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
@@ -141,14 +141,14 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i',array('EventShowTopic','topic'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i',array('EventShowTopic','topic'));
 
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^newall$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page(\d+))?$/i','EventShowUsers');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page([1-9]\d{0,5}))?$/i','EventShowUsers');
 	}
 
 

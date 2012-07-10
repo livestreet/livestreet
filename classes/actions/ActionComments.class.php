@@ -45,7 +45,7 @@ class ActionComments extends Action {
 	 * Регистрация евентов
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventComments');
+		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventComments');
 		$this->AddEventPreg('/^\d+$/i','EventShowComment');
 	}
 

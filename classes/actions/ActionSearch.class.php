@@ -181,7 +181,7 @@ class ActionSearch extends Action {
 		/**
 		 * Определяем текущую страницу вывода результата
 		 */
-		$aReq['iPage'] = intval(preg_replace('#^page(\d+)$#', '\1', $this->getParam(0)));
+		$aReq['iPage'] = intval(preg_replace('#^page([1-9]\d{0,5})$#', '\1', $this->getParam(0)));
 		if(!$aReq['iPage']) { $aReq['iPage'] = 1; }
 		/**
 		 *  Передача данных в шаблонизатор

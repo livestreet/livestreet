@@ -880,5 +880,68 @@ class ModuleComment_MapperComment extends Mapper {
 		}
 		return false;
 	}
+
+	/**
+	 * Получает список комментариев по фильтру
+	 *
+	 * @param array $aFilter	Фильтр выборки
+	 * @param array $aOrder		Сортировка
+	 * @param int $iCount		Возвращает общее количество элментов
+	 * @param int $iCurrPage	Номер текущей страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @return array
+	 */
+	public function GetCommentsByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
+		$aOrderAllow=array('comment_id','comment_pid','comment_rating','comment_date');
+		$sOrder='';
+		foreach ($aOrder as $key=>$value) {
+			if (!in_array($key,$aOrderAllow)) {
+				unset($aOrder[$key]);
+			} elseif (in_array($value,array('asc','desc'))) {
+				$sOrder.=" {$key} {$value},";
+			}
+		}
+		$sOrder=trim($sOrder,',');
+		if ($sOrder=='') {
+			$sOrder=' comment_id desc ';
+		}
+
+		if (isset($aFilter['target_type']) and !is_array($aFilter['target_type'])) {
+			$aFilter['target_type']=array($aFilter['target_type']);
+		}
+
+		$sql = "SELECT
+					comment_id
+				FROM
+					".Config::Get('db.table.comment')."
+				WHERE
+					1 = 1
+					{ AND comment_id = ?d }
+					{ AND user_id = ?d }
+					{ AND target_parent_id = ?d }
+					{ AND target_id = ?d }
+					{ AND target_type IN (?a) }
+					{ AND comment_delete = ?d }
+					{ AND comment_publish = ?d }
+				ORDER by {$sOrder}
+				LIMIT ?d, ?d ;
+					";
+		$aResult=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,
+										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['target_parent_id']) ? $aFilter['target_parent_id'] : DBSIMPLE_SKIP,
+										  isset($aFilter['target_id']) ? $aFilter['target_id'] : DBSIMPLE_SKIP,
+										  (isset($aFilter['target_type']) and count($aFilter['target_type']) ) ? $aFilter['target_type'] : DBSIMPLE_SKIP,
+										  isset($aFilter['delete']) ? $aFilter['delete'] : DBSIMPLE_SKIP,
+										  isset($aFilter['publish']) ? $aFilter['publish'] : DBSIMPLE_SKIP,
+										  ($iCurrPage-1)*$iPerPage, $iPerPage
+		)) {
+			foreach ($aRows as $aRow) {
+				$aResult[]=$aRow['comment_id'];
+			}
+		}
+		return $aResult;
+	}
 }
 ?>

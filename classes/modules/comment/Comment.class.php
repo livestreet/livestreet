@@ -934,5 +934,22 @@ class ModuleComment extends Module {
 	public function RecalculateFavourite() {
 		return $this->oMapper->RecalculateFavourite();
 	}
+	/**
+	 * Получает список комментариев по фильтру
+	 *
+	 * @param array $aFilter	Фильтр выборки
+	 * @param array $aOrder		Сортировка
+	 * @param int $iCurrPage	Номер текущей страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @param array $aAllowData		Список типов данных, которые нужно подтянуть к списку комментов
+	 * @return array
+	 */
+	public function GetCommentsByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('target','user'=>array());
+		}
+		$aCollection=$this->oMapper->GetCommentsByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage);
+		return array('collection'=>$this->GetCommentsAdditionalData($aCollection,$aAllowData),'count'=>$iCount);
+	}
 }
 ?>

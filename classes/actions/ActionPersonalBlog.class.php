@@ -53,13 +53,13 @@ class ActionPersonalBlog extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEvent('good','EventTopics');
-		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^newall$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 	}
 
 

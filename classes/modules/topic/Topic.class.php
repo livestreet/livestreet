@@ -517,18 +517,16 @@ class ModuleTopic extends Module {
 	 * @param  array|null   $aAllowData	Список типов данных для подгрузки в топики
 	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetTopicsByFilter($aFilter,$iPage=0,$iPerPage=0,$aAllowData=null) {
+	public function GetTopicsByFilter($aFilter,$iPage=1,$iPerPage=10,$aAllowData=null) {
+		if (!is_numeric($iPage) or $iPage<=0) {
+			$iPage=1;
+		}
 		$s=serialize($aFilter);
 		if (false === ($data = $this->Cache_Get("topic_filter_{$s}_{$iPage}_{$iPerPage}"))) {
-			$data = ($iPage*$iPerPage!=0)
-				? array(
-					'collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),
-					'count'=>$iCount
-				)
-				: array(
-					'collection'=>$this->oMapperTopic->GetAllTopics($aFilter),
-					'count'=>$this->GetCountTopicsByFilter($aFilter)
-				);
+			$data = array(
+				'collection'=>$this->oMapperTopic->GetTopics($aFilter,$iCount,$iPage,$iPerPage),
+				'count'=>$iCount
+			);
 			$this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update','topic_new'), 60*60*24*3);
 		}
 		$data['collection']=$this->GetTopicsAdditionalData($data['collection'],$aAllowData);
@@ -875,29 +873,6 @@ class ModuleTopic extends Module {
 			$this->Cache_Set($data, "topic_count_user_{$s}", array("topic_update_user_{$sUserId}"), 60*60*24);
 		}
 		return 	$data;
-	}
-	/**
-	 * Получает список идентификаторов топиков
-	 * из закрытых блогов по юзеру
-	 *
-	 * @param  int $sUserId	ID пользователя
-	 * @return array
-	 */
-	public function GetTopicsCloseByUser($sUserId=null) {
-		if(!is_null($sUserId) && $oUser=$this->User_GetUserById($sUserId)) {
-			$aCloseBlogs=$this->Blog_GetInaccessibleBlogsByUser($oUser);
-			$aFilter=array(
-				'topic_publish' => 1,
-				'blog_id' => $aCloseBlogs,
-			);
-		} else {
-			$aFilter=array(
-				'topic_publish' => 1,
-				'blog_type' => array('close'),
-			);
-		}
-		$aTopics=$this->GetTopicsByFilter($aFilter);
-		return array_keys($aTopics['collection']);
 	}
 	/**
 	 * Получает список топиков из указанного блога
