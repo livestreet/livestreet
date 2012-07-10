@@ -233,8 +233,8 @@
 
 /* Поиск 
 ---------------------------------------------------- */
-.search 						{ width: 200px; margin-bottom: 20px; position: relative; }
-.search .input-text 			{ width: 200px; padding-right: 25px; }
+.search 						{ margin-bottom: 20px; position: relative; }
+.search .input-text 			{ padding-right: 25px; }
 .search .input-submit 			{ border: none; width: 16px; height: 16px; position: absolute; top: 6px; right: 5px; opacity: .7; filter: alpha(opacity=70); }
 .search .input-submit:hover 	{ opacity: 1; filter: alpha(opacity=100); }
 
