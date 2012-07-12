@@ -90,6 +90,7 @@ ls.vote = (function ($) {
 			divVoting.removeClass(this.options.classes.negative);
 			divVoting.removeClass(this.options.classes.positive);
 			divVoting.removeClass(this.options.classes.not_voted);
+			divVoting.removeClass(this.options.classes.zero);
 
 			if (result.iRating > 0) {
 				divVoting.addClass(this.options.classes.positive);
