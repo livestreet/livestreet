@@ -62,9 +62,9 @@
 					{if $oTopic->getCountCommentNew()}
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}" class="new">
 							<i class="icon-synio-comments-green-filled"></i>
-							{$oTopic->getCountComment()}
+							<span>{$oTopic->getCountComment()}</span>
+							<span class="count">+{$oTopic->getCountCommentNew()}</span>
 						</a>
-						<span>+{$oTopic->getCountCommentNew()}</span>
 					{else}
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">
 							{if $oTopic->getCountComment()}
@@ -73,7 +73,7 @@
 								<i class="icon-synio-comments-blue"></i>
 							{/if}
 							
-							{$oTopic->getCountComment()}
+							<span>{$oTopic->getCountComment()}</span>
 						</a>
 					{/if}
 				</li>

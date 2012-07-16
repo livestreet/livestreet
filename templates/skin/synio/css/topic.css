@@ -57,11 +57,12 @@
 .topic .topic-footer .topic-info li.topic-info-share.active i,
 .topic .topic-footer .topic-info li.topic-info-share:hover i	{ background-position: -12px -51px; }
 
-.topic .topic-footer .topic-info li.topic-info-comments a		{ color: #727fa0; text-decoration: underline; float: left; }
-.topic .topic-footer .topic-info li.topic-info-comments a:hover	{ color: #f00; }
-.topic .topic-footer .topic-info li.topic-info-comments a.new 	{ color: #000; }
-.topic .topic-footer .topic-info li.topic-info-comments span 	{ color: #27a736; margin-left: 5px; }
-.topic .topic-footer .topic-info li.topic-info-comments i 		{ float: left; margin-right: 7px; }
+.topic .topic-footer .topic-info li.topic-info-comments a			{ color: #727fa0; float: left; }
+.topic .topic-footer .topic-info li.topic-info-comments a:hover		{ color: #f00; }
+.topic .topic-footer .topic-info li.topic-info-comments a.new 		{ color: #000; }
+.topic .topic-footer .topic-info li.topic-info-comments span 		{ text-decoration: underline; }
+.topic .topic-footer .topic-info li.topic-info-comments span.count 	{ color: #27a736; text-decoration: none; }
+.topic .topic-footer .topic-info li.topic-info-comments i 			{ float: left; margin-right: 7px; }
 
 .topic .topic-footer .topic-info li.topic-info-favourite 			{ padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
 .topic .topic-footer .topic-info li.topic-info-favourite i 			{ float: left; margin-right: 3px; }

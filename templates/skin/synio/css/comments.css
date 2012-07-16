@@ -14,7 +14,7 @@
 .comment-wrapper .comment-wrapper { padding-left: 40px; }
 
 .comment-preview { padding: 5px 10px 6px; margin-bottom: 10px; background: #fafafa; border: 1px solid #eee; border-radius: 3px; }
-.comment-preview { font-size: 13px; line-height: 18px; }
+.comment-preview { font-size: 13px; line-height: 1.6em; }
 
 
 /* Комментарий */
