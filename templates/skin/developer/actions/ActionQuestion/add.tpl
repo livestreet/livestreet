@@ -31,7 +31,7 @@
 	
 	
 	<p><label for="topic_title">{$aLang.topic_question_create_title}:</label>
-	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}disabled{/if} /><br />
+	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}readonly="readonly"{/if} /><br />
 	<small class="note">{$aLang.topic_question_create_title_notice}</small></p>
 
 	
