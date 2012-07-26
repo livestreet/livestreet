@@ -108,6 +108,7 @@ ls.user = (function ($) {
 			minSize: [32,32]
 		},function(){
 			$this.jcropAvatar=this;
+			this.setSelect([0,0,500,500]);
 		});
 	};
 
@@ -219,6 +220,7 @@ ls.user = (function ($) {
 			minSize: [32,32]
 		},function(){
 			$this.jcropFoto=this;
+			this.setSelect([0,0,500,500]);
 		});
 	};
 
