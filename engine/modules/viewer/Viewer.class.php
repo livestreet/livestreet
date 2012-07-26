@@ -383,8 +383,7 @@ class ModuleViewer extends Module {
 			/**
 			 * Избавляемся от бага, когда в возвращаемом тексте есть &quot;
 			 */
-			$sResponse=str_replace('&quot;','&amp;quot;',json_encode($this->aVarsAjax));
-			echo '<textarea>'.$sResponse.'</textarea>';
+			echo '<textarea>'.htmlspecialchars(json_encode($this->aVarsAjax)).'</textarea>';
 		} elseif ($sType=='jsonp') {
 			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');
