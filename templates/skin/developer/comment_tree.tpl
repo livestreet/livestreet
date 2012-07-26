@@ -5,6 +5,8 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+{hook run='comment_tree_begin' iTargetId=$iTargetId sTargetType=$sTargetType}
+
 <div class="comments" id="comments">
 	<header class="comments-header">
 		<h3><span id="count-comments">{$iCountComment}</span> {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
@@ -46,6 +48,7 @@
 	
 {include file='comment_paging.tpl' aPagingCmt=$aPagingCmt}
 
+{hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}

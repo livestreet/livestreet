@@ -687,7 +687,10 @@ class ActionTalk extends Action {
 		/**
 		 * Добавляем коммент
 		 */
+		$this->Hook_Run('talk_comment_add_before', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTalk'=>$oTalk));
 		if ($this->Comment_AddComment($oCommentNew)) {
+			$this->Hook_Run('talk_comment_add_after', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTalk'=>$oTalk));
+
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
 			$oTalk->setUserIdLast($oCommentNew->getUserId());

@@ -5,6 +5,7 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+{hook run='comment_tree_begin' iTargetId=$iTargetId sTargetType=$sTargetType}
 
 <div class="comments" id="comments">
 	<header class="comments-header">
@@ -48,6 +49,7 @@
 	
 {include file='comment_paging.tpl' aPagingCmt=$aPagingCmt}
 
+{hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}
