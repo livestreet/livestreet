@@ -46,7 +46,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 	/**
 	 * Текущая дата и сдвиг времени для пользователя
 	 */
-	if ($oUserCurrent->getSettingsTimezone()) {
+	if ($oUserCurrent and $oUserCurrent->getSettingsTimezone()) {
 		$iDiff=(date('I') + $oUserCurrent->getSettingsTimezone() - (strtotime(date("Y-m-d H:i:s"))-strtotime(gmdate("Y-m-d H:i:s")))/3600)*3600;
 	} else {
 		$iDiff=0; // пользователю показываем время от зоны из основного конфига
