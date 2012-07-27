@@ -77,7 +77,8 @@ class ModuleUser_MapperUser extends Mapper {
 				user_settings_notice_new_comment = ? ,
 				user_settings_notice_new_talk = ?	,
 				user_settings_notice_reply_comment = ? ,
-				user_settings_notice_new_friend = ?
+				user_settings_notice_new_friend = ? ,
+				user_settings_timezone = ?
 			WHERE user_id = ?
 		";
 		if ($this->oDb->query($sql,$oUser->getPassword(),
@@ -104,6 +105,7 @@ class ModuleUser_MapperUser extends Mapper {
 							  $oUser->getSettingsNoticeNewTalk(),
 							  $oUser->getSettingsNoticeReplyComment(),
 							  $oUser->getSettingsNoticeNewFriend(),
+							  $oUser->getSettingsTimezone(),
 							  $oUser->getId())) {
 			return true;
 		}
@@ -1073,6 +1075,61 @@ class ModuleUser_MapperUser extends Mapper {
 		";
 		return $this->oDb->query($sql,$oNote->getText(),
 								 $oNote->getId());
+	}
+	/**
+	 * Добавляет запись о смене емайла
+	 *
+	 * @param ModuleUser_EntityChangemail $oChangemail	Объект смены емайла
+	 * @return int|null
+	 */
+	public function AddUserChangemail($oChangemail) {
+		$sql = "INSERT INTO ".Config::Get('db.table.user_changemail')." SET ?a ";
+		if ($iId=$this->oDb->query($sql,$oChangemail->_getData())) {
+			return $iId;
+		}
+		return false;
+	}
+	/**
+	 * Обновляет запись о смене емайла
+	 *
+	 * @param ModuleUser_EntityChangemail $oChangemail	Объект смены емайла
+	 * @return int
+	 */
+	public function UpdateUserChangemail($oChangemail) {
+		$sql = "UPDATE ".Config::Get('db.table.user_changemail')."
+			SET
+			 	date_used = ?,
+			 	confirm_from = ?d,
+			 	confirm_to = ?d
+			WHERE id = ?d
+		";
+		return $this->oDb->query($sql,$oChangemail->getDateUsed(),$oChangemail->getConfirmFrom(),$oChangemail->getConfirmTo(),$oChangemail->getId());
+	}
+	/**
+	 * Возвращает объект смены емайла по коду подтверждения
+	 *
+	 * @param string $sCode Код подтверждения
+	 * @return ModuleUser_EntityChangemail|null
+	 */
+	public function GetUserChangemailByCodeFrom($sCode) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_changemail')." WHERE code_from = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {
+			return Engine::GetEntity('ModuleUser_EntityChangemail',$aRow);
+		}
+		return null;
+	}
+	/**
+	 * Возвращает объект смены емайла по коду подтверждения
+	 *
+	 * @param string $sCode Код подтверждения
+	 * @return ModuleUser_EntityChangemail|null
+	 */
+	public function GetUserChangemailByCodeTo($sCode) {
+		$sql = "SELECT * FROM ".Config::Get('db.table.user_changemail')." WHERE code_to = ? ";
+		if ($aRow=$this->oDb->selectRow($sql,$sCode)) {
+			return Engine::GetEntity('ModuleUser_EntityChangemail',$aRow);
+		}
+		return null;
 	}
 	/**
 	 * Возвращает список пользователей по фильтру
