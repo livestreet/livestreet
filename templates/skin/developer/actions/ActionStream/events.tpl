@@ -14,6 +14,12 @@
 			</li>
 		{/if}
 
+
+
+
+
+
+
 		<li class="stream-item stream-item-type-{$oStreamEvent->getEventType()}">
 			<a href="{$oStreamEvent->getUser()->getUserWebPath()}"><img src="{$oStreamEvent->getUser()->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 			<span class="date" title="{date_format date=$oStreamEvent->getDateAdded()}">{date_format date=$oStreamEvent->getDateAdded() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</span> 
@@ -57,7 +63,7 @@
 
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-			ls.stream.dateLast = '{$sDateLast}';
+			ls.stream.dateLast = {json var=$sDateLast};
 		});
 	</script>
 {/if}
