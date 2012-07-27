@@ -2,7 +2,7 @@
 	{foreach from=$aStreamEvents item=oStreamEvent}		
 		{assign var=oTarget value=$oStreamEvent->getTarget()}
 
-		{if {date_format date=$oStreamEvent->getDateAdded() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y"} != $sDateLast}
+		{if {date_format date=$oStreamEvent->getDateAdded() format="j F Y"} != $sDateLast}
 			{assign var=sDateLast value={date_format date=$oStreamEvent->getDateAdded() format="j F Y"}}
 			
 			<li class="stream-header-date">
@@ -13,12 +13,6 @@
 				{/if}
 			</li>
 		{/if}
-
-		<script type="text/javascript">
-			jQuery(document).ready(function($){
-				ls.stream.dateLast = '{$sDateLast}';
-			});
-		</script>
 
 		<li class="stream-item stream-item-type-{$oStreamEvent->getEventType()}">
 			<a href="{$oStreamEvent->getUser()->getUserWebPath()}"><img src="{$oStreamEvent->getUser()->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
@@ -72,4 +66,11 @@
 			{/if}
 		</li>
 	{/foreach}
+
+
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+			ls.stream.dateLast = '{$sDateLast}';
+		});
+	</script>
 {/if}
