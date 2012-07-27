@@ -465,8 +465,6 @@ class ActionSettings extends Action {
 				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
 					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
 					$bError=true;
-				} else {
-					$this->oUserCurrent->setMail(getRequest('mail'));
 				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
@@ -507,6 +505,15 @@ class ActionSettings extends Action {
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+					/**
+					 * Подтверждение смены емайла
+					 */
+					if (getRequest('mail') and getRequest('mail')!=$this->oUserCurrent->getMail()) {
+						if ($this->User_MakeUserChangemail($this->oUserCurrent,getRequest('mail'))) {
+							$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
+						}
+					}
+
 					$this->Hook_Run('settings_account_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));

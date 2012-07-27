@@ -624,6 +624,9 @@ return array(
 	'settings_profile_mail_error' => 'Wrong e-mail format',
 	'settings_profile_mail_error_used' => 'This e-mail is already in use',
 	'settings_profile_mail_notice' => 'Your real e-mail address fo notifications.',
+	'settings_profile_mail_change_from_notice' => 'On your old e-mail sent a confirmation email for changing',
+	'settings_profile_mail_change_to_notice' => 'Thank you! <br/> on your new email address sent another confirmation.',
+	'settings_profile_mail_change_ok' => 'Your email is changed to <b>%%mail%%</b>',
 	'settings_profile_sex' => 'Gender',
 	'settings_profile_sex_man' => 'male',
 	'settings_profile_sex_woman' => 'female',
@@ -972,6 +975,7 @@ return array(
 	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
 	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
 	'notify_subject_reactvation' => 'Re-activation request',
+	'notify_subject_user_changemail' => 'Confirmation of change email',
 	/**
 	 * Админка
 	 */

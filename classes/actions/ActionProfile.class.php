@@ -84,6 +84,9 @@ class ActionProfile extends Action {
 
 		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page([1-9]\d{0,5}))?$/i','EventFriends');
 		$this->AddEventPreg('/^.+$/i','/^stream/i','/^$/i','EventStream');
+
+		$this->AddEventPreg('/^changemail$/i','/^confirm-from/i','/^\w{32}$/i','EventChangemailConfirmFrom');
+		$this->AddEventPreg('/^changemail$/i','/^confirm-to/i','/^\w{32}$/i','EventChangemailConfirmTo');
 	}
 
 	/**********************************************************************************
@@ -1196,6 +1199,59 @@ class ActionProfile extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
+	}
+	/**
+	 * Обработка подтверждения старого емайла при его смене
+	 */
+	public function EventChangemailConfirmFrom() {
+		if (!($oChangemail=$this->User_GetUserChangemailByCodeFrom($this->GetParamEventMatch(1,0)))) {
+			return parent::EventNotFound();
+		}
+
+		if ($oChangemail->getConfirmFrom() or strtotime($oChangemail->getDateExpired())<time()) {
+			return parent::EventNotFound();
+		}
+
+		$oChangemail->setConfirmFrom(1);
+		$this->User_UpdateUserChangemail($oChangemail);
+
+		/**
+		 * Отправляем уведомление
+		 */
+		$oUser=$this->User_GetUserById($oChangemail->getUserId());
+		$this->Notify_Send($oChangemail->getMailTo(),
+						   'notify.user_changemail_to.tpl',
+						   $this->Lang_Get('notify_subject_user_changemail'),
+						   array(
+							   'oUser' => $oUser,
+							   'oChangemail' => $oChangemail,
+						   ));
+
+		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_to_notice'));
+		$this->SetTemplateAction('changemail_confirm');
+	}
+	/**
+	 * Обработка подтверждения нового емайла при смене старого
+	 */
+	public function EventChangemailConfirmTo() {
+		if (!($oChangemail=$this->User_GetUserChangemailByCodeTo($this->GetParamEventMatch(1,0)))) {
+			return parent::EventNotFound();
+		}
+
+		if (!$oChangemail->getConfirmFrom() or $oChangemail->getConfirmTo() or strtotime($oChangemail->getDateExpired())<time()) {
+			return parent::EventNotFound();
+		}
+
+		$oChangemail->setConfirmTo(1);
+		$oChangemail->setDateUsed(date("Y-m-d H:i:s"));
+		$this->User_UpdateUserChangemail($oChangemail);
+
+		$oUser=$this->User_GetUserById($oChangemail->getUserId());
+		$oUser->setMail($oChangemail->getMailTo());
+		$this->User_Update($oUser);
+
+		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
+		$this->SetTemplateAction('changemail_confirm');
 	}
 	/**
 	 * Выполняется при завершении работы экшена

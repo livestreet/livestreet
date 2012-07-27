@@ -1436,5 +1436,74 @@ class ModuleUser extends Module {
 		}
 		return $data;
 	}
+	/**
+	 * Добавляет запись о смене емайла
+	 *
+	 * @param ModuleUser_EntityChangemail $oChangemail	Объект смены емайла
+	 * @return bool|ModuleUser_EntityChangemail
+	 */
+	public function AddUserChangemail($oChangemail) {
+		if ($sId=$this->oMapper->AddUserChangemail($oChangemail)) {
+			$oChangemail->setId($sId);
+			return $oChangemail;
+		}
+		return false;
+	}
+	/**
+	 * Обновляет запись о смене емайла
+	 *
+	 * @param ModuleUser_EntityChangemail $oChangemail	Объект смены емайла
+	 * @return int
+	 */
+	public function UpdateUserChangemail($oChangemail) {
+		return $this->oMapper->UpdateUserChangemail($oChangemail);
+	}
+	/**
+	 * Возвращает объект смены емайла по коду подтверждения
+	 *
+	 * @param string $sCode Код подтверждения
+	 * @return ModuleUser_EntityChangemail|null
+	 */
+	public function GetUserChangemailByCodeFrom($sCode) {
+		return $this->oMapper->GetUserChangemailByCodeFrom($sCode);
+	}
+	/**
+	 * Возвращает объект смены емайла по коду подтверждения
+	 *
+	 * @param string $sCode Код подтверждения
+	 * @return ModuleUser_EntityChangemail|null
+	 */
+	public function GetUserChangemailByCodeTo($sCode) {
+		return $this->oMapper->GetUserChangemailByCodeTo($sCode);
+	}
+	/**
+	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
+	 * @param string $sMailNew	Новый емайл
+	 * @return bool|ModuleUser_EntityChangemail
+	 */
+	public function MakeUserChangemail($oUser,$sMailNew) {
+		$oChangemail=Engine::GetEntity('ModuleUser_EntityChangemail');
+		$oChangemail->setUserId($oUser->getId());
+		$oChangemail->setDateAdd(date("Y-m-d H:i:s"));
+		$oChangemail->setDateExpired(date("Y-m-d H:i:s",time()+3*24*60*60)); // 3 дня для смены емайла
+		$oChangemail->setMailFrom($oUser->getMail());
+		$oChangemail->setMailTo($sMailNew);
+		$oChangemail->setCodeFrom(func_generator(32));
+		$oChangemail->setCodeTo(func_generator(32));
+		if ($this->AddUserChangemail($oChangemail)) {
+			/**
+			 * Отправляем уведомление
+			 */
+			$this->Notify_Send($oUser,
+							   'notify.user_changemail_from.tpl',
+							   $this->Lang_Get('notify_subject_user_changemail'),
+							   array(
+								   'oUser' => $oUser,
+								   'oChangemail' => $oChangemail,
+							   ));
+			return $oChangemail;
+		}
+		return false;
+	}
 }
 ?>
