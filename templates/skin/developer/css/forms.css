@@ -49,7 +49,7 @@ dl.form-item dd { float: left; width: 300px; }
 .form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
 
 /* Placeholder */
-input:-moz-placeholder { color: #aaa; }
+:-moz-placeholder { color: #aaa; }
 .placeholder { color: #aaa; }
 
 .mceEditor { display: block; margin-bottom: 20px; }

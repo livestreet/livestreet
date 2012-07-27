@@ -169,6 +169,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
+		$oViewer->Assign('sDateLast', getRequest('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
@@ -209,6 +210,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
+		$oViewer->Assign('sDateLast', getRequest('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
@@ -253,6 +255,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
+		$oViewer->Assign('sDateLast', getRequest('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());

@@ -59,6 +59,7 @@ ls.blog = (function ($) {
 						}
 						var listItem = $('<li><a href="'+item.sUserWebPath+'" class="user">'+item.sUserLogin+'</a></li>');
 						$('#invited_list').append(listItem);
+						$('#blog-invite-empty').hide();
 						ls.hook.run('ls_blog_add_invite_user_after',[idBlog,item],listItem);
 					}
 				});
@@ -103,6 +104,7 @@ ls.blog = (function ($) {
 			} else {
 				$('#blog-invite-remove-item-'+idBlog+'-'+idUser).remove();
 				ls.msg.notice(null, result.sMsg);
+				if ($('#invited_list li').length == 0) $('#blog-invite-empty').show();
 				ls.hook.run('ls_blog_remove_invite_after',[idUser,idBlog,result]);
 			}
 		});

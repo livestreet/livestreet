@@ -27,9 +27,9 @@
 						</li>						
 					{/foreach}
 				</ul>
-			{else}
-				<span class="notice-empty">{$aLang.blog_admin_user_add_empty}</span>
 			{/if}
+
+			<span id="blog-invite-empty" class="notice-empty" {if $aBlogUsersInvited}style="display: none"{/if}>{$aLang.blog_admin_user_add_empty}</span>
 		</div>
 	</div>
 </section>

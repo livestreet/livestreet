@@ -31,7 +31,8 @@
 .block.block-type-stream .block-content .latest-list li { margin-bottom: 15px; color: #818189; }
 .block.block-type-stream .block-content .latest-list p { font-size: 11px; }
 .block.block-type-stream .block-content .latest-list .stream-topic { text-decoration: underline; }
-.block.block-type-stream .block-content .latest-list .stream-blog { font-weight: bold; }
+.block.block-type-stream .block-content .latest-list .stream-blog { color: #4128B1; }
+.block.block-type-stream .block-content .latest-list .stream-blog:hover { color: #f00; }
 .block.block-type-stream .block-content .latest-list .author { color: #4c4c4c; text-decoration: underline; }
 .block.block-type-stream .block-content .latest-list .author:hover { color: #f00; }
 .block.block-type-stream .block-content .latest-list .block-item-comments { font-size: 11px; text-decoration: none; color: #818189; white-space: nowrap; }

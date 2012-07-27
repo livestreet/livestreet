@@ -21,15 +21,18 @@
 						{assign var='oUser' value=$oBlogUser->getUser()}
 						
 						<li id="blog-invite-remove-item-{$oBlogEdit->getId()}-{$oUser->getId()}">
-							<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a> - 
+							<span class="user-avatar user-avatar-n">
+								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a>
+								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+							</span> -
 							<a href="#" onclick="return ls.blog.repeatInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_readd}</a>
 							<a href="#" onclick="return ls.blog.removeInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_remove}</a>
 						</li>
 					{/foreach}
 				</ul>
-			{else}
-				<span class="notice-empty">{$aLang.blog_admin_user_add_empty}</span>
 			{/if}
+
+			<span id="blog-invite-empty" class="notice-empty" {if $aBlogUsersInvited}style="display: none"{/if}>{$aLang.blog_admin_user_add_empty}</span>
 		</div>
 	</div>
 </section>

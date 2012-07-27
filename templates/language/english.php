@@ -1143,5 +1143,6 @@ return array(
 	'date_minutes_back_less' => 'Less than a minute ago',
 	'date_hours_back' => '%%hours%% hours ago; %%hours%% hours ago; %%hours%% hours ago',
 	'date_hours_back_less' => 'Less than an hour ago',
+	'today' => 'Today',
 );
 ?>

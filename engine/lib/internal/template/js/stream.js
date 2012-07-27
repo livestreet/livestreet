@@ -2,6 +2,7 @@ var ls = ls || {};
 
 ls.stream =( function ($) {
 	this.isBusy = false;
+	this.dateLast = null;
 
 	this.subscribe = function (iTargetUserId) {
 		var url = aRouter['stream']+'subscribe/';
@@ -85,7 +86,7 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more/';
-		var params = {'last_id':lastId};
+		var params = {'last_id':lastId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreBefore');
 		ls.ajax(url, params, function(data) {
@@ -112,7 +113,7 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more_all/';
-		var params = {'last_id':lastId};
+		var params = {'last_id':lastId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreAllBefore');
 		ls.ajax(url, params, function(data) {
@@ -139,7 +140,7 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more_user/';
-		var params = {'last_id':lastId, user_id: iUserId};
+		var params = {'last_id':lastId, user_id: iUserId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreByUserBefore');
 		ls.ajax(url, params, function(data) {
