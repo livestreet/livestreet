@@ -341,7 +341,7 @@
 .loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 				{ font-weight: bold; color: #333; }
-.user:before, .ls-user:before 	{ content: ''; display: inline-block; width: 14px; height: 14px; margin-right: 3px; background: url(../images/icons.png) -168px 0 no-repeat; vertical-align: middle; }
+.user:before, .ls-user:before 	{ content: ''; display: inline-block; width: 12px; height: 12px; margin-right: 4px; background: url(../images/icons-synio.png) -165px -75px no-repeat; vertical-align: middle; position: relative; top: -1px; }
 .user .icon-user 				{ margin-right: 3px; }
 .username.inactive,
 .user.inactive 					{ color: #aaa !important; }

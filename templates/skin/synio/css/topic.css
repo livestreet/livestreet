@@ -2,7 +2,7 @@
 	ТОПИК
 -------------------------------------------- */
 
-.topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+.topic { margin-bottom: 50px; }
 .topic:last-child { margin-bottom: 0; }
 
 /* Header */
@@ -50,7 +50,7 @@
 
 .topic .topic-footer .topic-info li.topic-info-date				{ color: #7b848d; }
 
-.topic .topic-footer .topic-info li.topic-info-share			{ padding: 6px; cursor: pointer; border-radius: 4px; }
+.topic .topic-footer .topic-info li.topic-info-share			{ padding: 6px; cursor: pointer; border-radius: 4px; position: relative; }
 .topic .topic-footer .topic-info li.topic-info-share i			{ float: left; }
 .topic .topic-footer .topic-info li.topic-info-share.active,
 .topic .topic-footer .topic-info li.topic-info-share:hover		{ background: #64ceff; }
@@ -70,8 +70,10 @@
 .topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
 
 /* Share */
-.topic .topic-share { display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; position: relative; }
-.topic .topic-share .arrow { position: absolute; border: none; width: 15px; height: 11px; background: url(../images/icons-synio.png) no-repeat; background-position: -53px -107px; bottom: -11px; }
+.topic .topic-share 				{ display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; position: relative; }
+.topic .topic-share .close			{ content: ''; position: absolute; top: -9px; right: -9px; width: 19px; height: 22px; background: url(../images/icons-synio.png) -479px -26px no-repeat; cursor: pointer; opacity: .8; }
+.topic .topic-share .close:hover			{ opacity: 1; }
+.topic .topic-share .arrow 			{ position: absolute; border: none; width: 15px; height: 11px; background: url(../images/icons-synio.png) no-repeat; background-position: -53px -107px; bottom: -11px; }
 
 /* Poll */
 .topic .poll { margin-bottom: 15px; }

@@ -40,6 +40,6 @@
 .text object,
 .text img { max-width: 100%; vertical-align: top; }
 
-.text .ls-user { color: #333; }
-.text .ls-user:visited { color: #333; }
-.text .ls-user:hover { color: #555; }
+.text .ls-user { }
+.text .ls-user:visited { color: #3F8AD7; }
+.text .ls-user:hover { color: #f00; }

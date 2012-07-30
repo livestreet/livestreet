@@ -365,6 +365,40 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	// Меню
+	(function(){
+		var trigger = $('#dropdown-mainmenu-trigger');
+
+		if (!trigger.length) {
+			return;
+		}
+
+		var menu 	= $('#dropdown-mainmenu-menu');
+		menu.appendTo('body').css('display', 'none');
+
+		trigger.click(function(){
+			var pos = trigger.offset();
+			menu.css({ 'left': pos.left, 'top': pos.top + trigger.height() + 10, 'min-width': trigger.outerWidth() });
+			menu.slideToggle();
+			trigger.toggleClass('opened');
+			return false;
+		});
+
+		// Hide menu
+		$(document).click(function(){
+			trigger.removeClass('opened');
+			menu.slideUp();
+		});
+
+		$('body').on('click', '#dropdown-mainmenu-trigger, #dropdown-mainmenu-menu', function(e) {
+			e.stopPropagation();
+		});
+
+		$(window).resize(function(){
+			menu.css({ 'left': $('#dropdown-mainmenu-trigger').offset().left });
+		});
+	})();
+
 	// Меню пользователя в шапке
 	(function(){
 		// Dropdown
@@ -480,3 +514,41 @@ function toolbarPos() {
 		}
 	}
 };
+
+
+// Группировка не влезающих пунктов в главном меню
+jQuery(window).load(function () {
+	navMainGroup();
+});
+
+jQuery(window).resize(function () {
+	navMainGroup();
+});
+
+function navMainGroup() {
+	var $ 			  = jQuery;
+	var more_li       = $('#nav-main li.nav-main-more');
+	var li            = $('#nav-main li:not(.nav-main-more)');
+	var width_lis     = 0;
+	var vis_count     = 0;
+	var is_outofbox   = false;
+
+	$('#dropdown-mainmenu-menu').hide();
+
+	li.each(function(i){
+		if (!is_outofbox && $(this).offset().top < 10) {
+			width_lis += $(this).outerWidth(true);
+			vis_count++;
+		} else {
+			is_outofbox = true;
+			$(this).appendTo('#dropdown-mainmenu-menu');
+		}
+	});
+
+	if ($('#dropdown-mainmenu-menu li').length > 0) {
+		if ($('#nav-main').width() - width_lis < more_li.width()) {
+			$( li[vis_count - 1] ).prependTo('#dropdown-mainmenu-menu');
+		}
+		more_li.show();
+	}
+}
