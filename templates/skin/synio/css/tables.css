@@ -27,9 +27,7 @@
 /* Table Blogs */
 .table.table-blogs .cell-info { width: 19px; padding-right: 0; padding-left: 0; }
 .table.table-blogs tbody .cell-info { vertical-align: top; }
-.table.table-blogs .cell-info .blog-list-info { width: 19px; height: 19px; display: block; background: url(../images/icons-synio.png) 0 -107px no-repeat; cursor: pointer; }
-.table.table-blogs .cell-info .blog-list-info:hover,
-.table.table-blogs .cell-info .blog-list-info.active { background-position: -19px -107px; }
+.table.table-blogs tbody .cell-info .blog-list-info { display: block; }
 .table.table-blogs .cell-name { padding-left: 3px; }
 .table.table-blogs .cell-name .avatar 	{ float: left; margin-right: 10px; clear: right; }
 .table.table-blogs .cell-name p		 	{ overflow: hidden; margin-bottom: 5px; }

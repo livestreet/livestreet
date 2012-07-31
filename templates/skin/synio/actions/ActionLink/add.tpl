@@ -23,7 +23,8 @@
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 		{/foreach}
-	</select></p>
+	</select>
+	<small class="note">{$aLang.topic_create_blog_notice}</small></p>
 
 	
 	<script type="text/javascript">

@@ -5,7 +5,7 @@
 
 <article class="topic topic-type-{$oTopic->getType()} js-topic">
 	<header class="topic-header">
-		<h1 class="topic-title">
+		<h1 class="topic-title word-wrap">
 			{if $bTopicList}
 				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
 			{else}
@@ -23,7 +23,10 @@
 		
 		
 		<div class="topic-info">
-			<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
+			<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a> 
+			{if $oBlog->getType() != 'personal'}
+				<a href="#" class="blog-list-info" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});"></a>
+			{/if}
 		</div>
 		
 		{if $oUserCurrent and ($oUserCurrent->getId()==$oTopic->getUserId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() or $oBlog->getUserIsModerator() or $oBlog->getOwnerId()==$oUserCurrent->getId())}

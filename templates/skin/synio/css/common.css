@@ -355,3 +355,7 @@
 .page-header-menu { overflow: hidden; zoom: 1; margin-bottom: 10px; }
 .page-header-menu .page-header { float: left; margin-right: 20px; margin-bottom: 10px; }
 .page-header-menu .nav.nav-pills { margin-top: 5px; float: left; }
+
+.blog-list-info { width: 19px; height: 19px; display: inline-block; background: url(../images/icons-synio.png) 0 -107px no-repeat; cursor: pointer; }
+.blog-list-info:hover,
+.blog-list-info.active { background-position: -19px -107px; }

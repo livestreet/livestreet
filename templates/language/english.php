@@ -241,6 +241,7 @@ return array(
 	'topic_create_blog_error_nojoin' => "You're not a member of this blog!",
 	'topic_create_blog_error_noacl' => "You don't have enough power to post to this blog",
 	'topic_create_blog_error_noallow' => "You can't write to this blog",
+	'topic_create_blog_notice' => 'You need to join blog to post to it.',
 	'topic_create_title' => 'Title',
 	'topic_create_title_notice' => 'Title should be meaningful to reflect the meaning of the topic.',
 	'topic_create_title_error' => "Topic's title should consist of 2 upto 200 chars",

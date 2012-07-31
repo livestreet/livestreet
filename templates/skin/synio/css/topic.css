@@ -13,8 +13,9 @@
 .topic .topic-header .topic-title i 			{ position: relative; top: 9px; cursor: help; margin-right: 5px; }
 .topic .topic-header .topic-info 				{ margin-bottom: 25px; color: #777; }
 .topic .topic-header .topic-info time 			{ margin-right: 15px; }
-.topic .topic-header .topic-info .topic-blog 	{ margin-right: 15px; font-family: 'PT Sans', sans-serif; font-size: 18px; color: #000; text-decoration: underline; }
+.topic .topic-header .topic-info .topic-blog 	{ font-family: 'PT Sans', sans-serif; font-size: 18px; color: #000; text-decoration: underline; }
 .topic .topic-header .topic-info .topic-blog:hover 	{ color: #666; }
+.topic .topic-header .topic-info .blog-list-info 	{ position: relative; top: 5px; }
 .topic .topic-header .topic-actions 			{ background: #fcfce9; border-radius: 5px; padding: 10px 15px; font-size: 11px; overflow: hidden; }
 .topic .topic-header .topic-actions li 			{ float: left; margin-right: 18px; }
 .topic .topic-header .topic-actions li.draft a	{ color: #27964c; }
@@ -70,9 +71,9 @@
 .topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
 
 /* Share */
-.topic .topic-share 				{ display: none; border: 3px solid #edf8fd; padding: 3px; border-radius: 5px; margin-bottom: 10px; position: relative; }
-.topic .topic-share .close			{ content: ''; position: absolute; top: -9px; right: -9px; width: 19px; height: 22px; background: url(../images/icons-synio.png) -479px -26px no-repeat; cursor: pointer; opacity: .8; }
-.topic .topic-share .close:hover			{ opacity: 1; }
+.topic .topic-share 				{ display: none; border: 3px solid #edf8fd; padding: 3px 35px 3px 3px; border-radius: 10px; margin-bottom: 10px; position: relative; }
+.topic .topic-share .close			{ content: ''; position: absolute; top: 7px; right: 7px; width: 19px; height: 22px; background: url(../images/icons-synio.png) -479px -26px no-repeat; cursor: pointer; opacity: .8; }
+.topic .topic-share .close:hover	{ opacity: 1; }
 .topic .topic-share .arrow 			{ position: absolute; border: none; width: 15px; height: 11px; background: url(../images/icons-synio.png) no-repeat; background-position: -53px -107px; bottom: -11px; }
 
 /* Poll */

@@ -11,7 +11,7 @@
 
 		{hook run='main_menu_item'}
 
-		<li class="nav-main-more"><a href="#" id="dropdown-mainmenu-trigger" onclick="return false">еще</a></li>
+		<li class="nav-main-more"><a href="#" id="dropdown-mainmenu-trigger" onclick="return false">{$aLang.more}</a></li>
 	</ul>
 
 	<ul class="dropdown-nav-main dropdown-menu" id="dropdown-mainmenu-menu"></ul>

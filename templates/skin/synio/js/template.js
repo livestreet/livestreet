@@ -119,7 +119,7 @@ jQuery(document).ready(function($){
 
 	$('.js-infobox-vote-topic').poshytip({
 		content: function() {
-			var id = $(this).attr('id').replace('vote_total_topic_','vote-info-topic-');
+			var id = $(this).attr('id').replace('vote_area_topic_','vote-info-topic-');
 			return $('#'+id).html();
 		},
 		className: 'infobox-topic',
