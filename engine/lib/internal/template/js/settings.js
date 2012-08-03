@@ -78,7 +78,7 @@ ls.settings = (function ($) {
 			force_br_newlines :						true,
 			forced_root_block : 					'', // Needed for 3.x
 			force_p_newlines : 						false,
-			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak",
+			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak,autoresize",
 			convert_urls : 							false,
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",
@@ -111,7 +111,7 @@ ls.settings = (function ($) {
 			force_br_newlines : 					true,
 			forced_root_block : 					'', // Needed for 3.x
 			force_p_newlines : 						false,
-			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak",
+			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak,autoresize",
 			convert_urls : 							false,
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",
