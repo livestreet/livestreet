@@ -33,7 +33,9 @@
 				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="comment-date">
-				<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
+				<time datetime="{date_format date=$oComment->getDate() format='c'}" title="{date_format date=$oComment->getDate() format="j F Y, H:i"}">
+					{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+				</time>
 			</li>
 			
 			

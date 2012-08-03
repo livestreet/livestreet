@@ -48,7 +48,7 @@
 			</li>
 			<li class="topic-info-date">
 				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
-					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
+					{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 				</time>
 			</li>
 			<li class="topic-info-share" data-topic-id="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>

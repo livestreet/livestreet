@@ -890,6 +890,7 @@ return array(
 	'stream_no_events' => 'Stream is empty',
 	'stream_error_subscribe_to_yourself' => 'You can not sign up for yourself',
 	'stream_list_user' => 'User',
+
 	'stream_list_event_add_wall' => 'added a post on wall',
 	'stream_list_event_add_topic' => 'added a new topic',
 	'stream_list_event_add_blog' => 'added a new blog',
@@ -900,6 +901,18 @@ return array(
 	'stream_list_event_vote_comment' => 'voted comment',
 	'stream_list_event_join_blog' => 'join to blog',
 	'stream_list_event_add_friend' => 'add to friends',
+
+	'stream_list_event_add_wall_female' => 'added a post on wall',
+	'stream_list_event_add_topic_female' => 'added a new topic',
+	'stream_list_event_add_blog_female' => 'added a new blog',
+	'stream_list_event_add_comment_female' => 'commented on the topic',
+	'stream_list_event_vote_topic_female' => 'voted topic',
+	'stream_list_event_vote_blog_female' => 'voted blog',
+	'stream_list_event_vote_user_female' => 'voted user',
+	'stream_list_event_vote_comment_female' => 'voted comment',
+	'stream_list_event_join_blog_female' => 'join to blog',
+	'stream_list_event_add_friend_female' => 'add to friends',
+
 	'stream_menu' => 'Stream',
 	'stream_menu_all' => 'All',
 	'stream_menu_user' => 'I watch',

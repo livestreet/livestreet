@@ -902,6 +902,18 @@ return array(
 	'stream_list_event_vote_comment' => 'оценил комментарий к топику',
 	'stream_list_event_join_blog' => 'вступил в блог',
 	'stream_list_event_add_friend' => 'добавил в друзья пользователя',
+
+	'stream_list_event_add_wall_female' => 'добавила запись на стену',
+	'stream_list_event_add_topic_female' => 'добавила новый топик',
+	'stream_list_event_add_blog_female' => 'добавила новый блог',
+	'stream_list_event_add_comment_female' => 'прокомментировала топик',
+	'stream_list_event_vote_topic_female' => 'оценила топик',
+	'stream_list_event_vote_blog_female' => 'оценила блог',
+	'stream_list_event_vote_user_female' => 'оценила пользователя',
+	'stream_list_event_vote_comment_female' => 'оценила комментарий к топику',
+	'stream_list_event_join_blog_female' => 'вступила в блог',
+	'stream_list_event_add_friend_female' => 'добавила в друзья пользователя',
+
 	'stream_menu' => 'Активность',
 	'stream_menu_all' => 'Вся',
 	'stream_menu_user' => 'Я слежу',
