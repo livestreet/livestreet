@@ -154,6 +154,16 @@ jQuery(document).ready(function($){
 		showTimeout: 500
 	});
 
+	$('.js-infobox').poshytip({
+		className: 'infobox-topic',
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetY: 5,
+		liveEvents: true,
+		showTimeout: 300
+	});
+
 	// подсветка кода
 	prettyPrint();
 

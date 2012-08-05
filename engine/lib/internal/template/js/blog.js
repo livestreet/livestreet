@@ -135,7 +135,7 @@ ls.blog = (function ($) {
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
-		$('#blog_type_note').text($('#blog_type_note_'+type).text());
+		$('#blog_type_note').text(ls.lang.get('blog_create_type_' + type + '_notice'));
 	};
 
 	/**
