@@ -426,6 +426,19 @@ class ModuleUser_EntityUser extends Entity {
 			return $this->Stream_IsSubscribe($oUserCurrent->getId(),$this->getId());
 		}
 	}
+	/**
+	 * Возвращает объект заметки о подльзователе, которую оставил текущий пользователй
+	 *
+	 * @return ModuleUser_EntityNote|null
+	 */
+	public function getUserNote() {
+		$oUserCurrent=$this->User_GetUserCurrent();
+		if ($this->_getDataOne('user_note')===null and $oUserCurrent) {
+			$this->_aData['user_note']=$this->User_GetUserNote($this->getId(),$oUserCurrent->getId());
+		}
+		return $this->_getDataOne('user_note');
+	}
+
 
 	/**
 	 * Устанавливает ID пользователя

@@ -1285,7 +1285,7 @@ class ActionProfile extends Action {
 		 * Заметка текущего пользователя о юзере
 		 */
 		if ($this->oUserCurrent) {
-			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
+			$this->Viewer_Assign('oUserNote',$this->oUserProfile->getUserNote());
 		}
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 

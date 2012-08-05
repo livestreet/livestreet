@@ -117,7 +117,7 @@ class ModuleUser extends Module {
 	 */
 	public function GetUsersAdditionalData($aUserId,$aAllowData=null) {
 		if (is_null($aAllowData)) {
-			$aAllowData=array('vote','session','friend','geo_target');
+			$aAllowData=array('vote','session','friend','geo_target','note');
 		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aUserId)) {
@@ -134,6 +134,7 @@ class ModuleUser extends Module {
 		$aFriends=array();
 		$aVote=array();
 		$aGeoTargets=array();
+		$aNotes=array();
 		if (isset($aAllowData['session'])) {
 			$aSessions=$this->GetSessionsByArrayId($aUserId);
 		}
@@ -146,6 +147,9 @@ class ModuleUser extends Module {
 		}
 		if (isset($aAllowData['geo_target'])) {
 			$aGeoTargets=$this->Geo_GetTargetsByTargetArray('user',$aUserId);
+		}
+		if (isset($aAllowData['note']) and $this->oUserCurrent) {
+			$aNotes=$this->GetUserNotesByArray($aUserId,$this->oUserCurrent->getId());
 		}
 		/**
 		 * Добавляем данные к результату
@@ -172,6 +176,13 @@ class ModuleUser extends Module {
 				$oUser->setGeoTarget(isset($aTargets[0]) ? $aTargets[0] : null);
 			} else {
 				$oUser->setGeoTarget(null);
+			}
+			if (isset($aAllowData['note'])) {
+				if (isset($aNotes[$oUser->getId()])) {
+					$oUser->setUserNote($aNotes[$oUser->getId()]);
+				} else {
+					$oUser->setUserNote(false);
+				}
 			}
 		}
 
@@ -1392,12 +1403,43 @@ class ModuleUser extends Module {
 		return $this->oMapper->GetUserNoteById($iId);
 	}
 	/**
+	 * Возвращает список заметок пользователя по ID целевых юзеров
+	 *
+	 * @param array $aUserId	Список ID целевых пользователей
+	 * @param int $sUserId	ID пользователя, кто оставлял заметки
+	 * @return array
+	 */
+	public function GetUserNotesByArray($aUserId,$sUserId) {
+		if (!$aUserId) {
+			return array();
+		}
+		if (!is_array($aUserId)) {
+			$aUserId=array($aUserId);
+		}
+		$aUserId=array_unique($aUserId);
+		$aNotes=array();
+		$s=join(',',$aUserId);
+		if (false === ($data = $this->Cache_Get("user_notes_{$sUserId}_id_{$s}"))) {
+			$data = $this->oMapper->GetUserNotesByArrayUserId($aUserId,$sUserId);
+			foreach ($data as $oNote) {
+				$aNotes[$oNote->getTargetUserId()]=$oNote;
+			}
+
+			$this->Cache_Set($aNotes, "user_notes_{$sUserId}_id_{$s}", array("user_note_change_by_user_{$sUserId}"), 60*60*24*1);
+			return $aNotes;
+		}
+		return $data;
+	}
+	/**
 	 * Удаляет заметку по ID
 	 *
 	 * @param int $iId	ID заметки
 	 * @return bool
 	 */
 	public function DeleteUserNoteById($iId) {
+		if ($oNote=$this->GetUserNoteById($iId)) {
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("user_note_change_by_user_{$oNote->getUserId()}"));
+		}
 		return $this->oMapper->DeleteUserNoteById($iId);
 	}
 	/**
@@ -1411,6 +1453,7 @@ class ModuleUser extends Module {
 			$oNote->setDateAdd(date("Y-m-d H:i:s"));
 		}
 
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("user_note_change_by_user_{$oNote->getUserId()}"));
 		if ($oNoteOld=$this->GetUserNote($oNote->getTargetUserId(),$oNote->getUserId()) ) {
 			$oNoteOld->setText($oNote->getText());
 			$this->oMapper->UpdateUserNote($oNoteOld);

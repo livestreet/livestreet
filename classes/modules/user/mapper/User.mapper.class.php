@@ -1039,6 +1039,33 @@ class ModuleUser_MapperUser extends Mapper {
 		return null;
 	}
 	/**
+	 * Возвращает список заметок пользователя по ID целевых юзеров
+	 *
+	 * @param array $aArrayId	Список ID целевых пользователей
+	 * @param int $sUserId	ID пользователя, кто оставлял заметки
+	 * @return array
+	 */
+	public function GetUserNotesByArrayUserId($aArrayId,$sUserId) {
+		if (!is_array($aArrayId) or count($aArrayId)==0) {
+			return array();
+		}
+
+		$sql = "SELECT
+					*
+				FROM
+					".Config::Get('db.table.user_note')."
+				WHERE target_user_id IN (?a) and user_id = ?d
+				";
+		$aRows=$this->oDb->select($sql,$aArrayId,$sUserId);
+		$aRes=array();
+		if ($aRows) {
+			foreach ($aRows as $aRow) {
+				$aRes[]=Engine::GetEntity('ModuleUser_EntityNote',$aRow);
+			}
+		}
+		return $aRes;
+	}
+	/**
 	 * Удаляет заметку по ID
 	 *
 	 * @param int $iId	ID заметки
