@@ -900,5 +900,14 @@ class ModuleBlog extends Module {
 		$this->Cache_Delete("blog_{$iBlogId}");
 		return $this->oMapperBlog->RecalculateCountTopic($iBlogId);
 	}
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param array $aBlogId	Список ID блогов
+	 * @return array
+	 */
+	public function GetBlogItemsByArrayId($aBlogId) {
+		return $this->GetBlogsByArrayId($aBlogId);
+	}
 }
 ?>

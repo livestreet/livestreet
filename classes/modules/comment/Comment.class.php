@@ -951,5 +951,14 @@ class ModuleComment extends Module {
 		$aCollection=$this->oMapper->GetCommentsByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage);
 		return array('collection'=>$this->GetCommentsAdditionalData($aCollection,$aAllowData),'count'=>$iCount);
 	}
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param array $aCommentId	Список ID комментариев
+	 * @return array
+	 */
+	public function GetCommentItemsByArrayId($aCommentId) {
+		return $this->GetCommentsByArrayId($aCommentId);
+	}
 }
 ?>

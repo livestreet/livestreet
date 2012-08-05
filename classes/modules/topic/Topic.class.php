@@ -1844,5 +1844,14 @@ class ModuleTopic extends Module {
 	public function RecalculateVote(){
 		return $this->oMapperTopic->RecalculateVote();
 	}
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param array $aTopocId	Список ID топиков
+	 * @return array
+	 */
+	public function GetTopicItemsByArrayId($aTopocId) {
+		return $this->GetTopicsByArrayId($aTopocId);
+	}
 }
 ?>
