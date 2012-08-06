@@ -1,5 +1,5 @@
 --
--- Database LiveStreet version 1.0
+-- Database LiveStreet version 1.0.1
 --
 
 -- --------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
 --
 
 INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_count_topic`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`) VALUES
-(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2012-04-10 00:00:00', NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0');
+(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2012-08-07 00:00:00', NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -631,6 +631,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `user_settings_notice_new_talk` tinyint(1) NOT NULL DEFAULT '1',
   `user_settings_notice_reply_comment` tinyint(1) NOT NULL DEFAULT '1',
   `user_settings_notice_new_friend` tinyint(1) NOT NULL DEFAULT '1',
+  `user_settings_timezone` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_login` (`user_login`),
   UNIQUE KEY `user_mail` (`user_mail`),
@@ -644,8 +645,8 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
 -- Дамп данных таблицы `prefix_user`
 --
 
-INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2012-04-10 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1);
+INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`, `user_settings_timezone`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2012-04-10 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -682,6 +683,35 @@ CREATE TABLE IF NOT EXISTS `prefix_user_administrator` (
 
 INSERT INTO `prefix_user_administrator` (`user_id`) VALUES
 (1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_user_changemail`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_user_changemail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `date_add` datetime NOT NULL,
+  `date_used` datetime DEFAULT NULL,
+  `date_expired` datetime NOT NULL,
+  `mail_from` varchar(50) NOT NULL,
+  `mail_to` varchar(50) NOT NULL,
+  `code_from` varchar(32) NOT NULL,
+  `code_to` varchar(32) NOT NULL,
+  `confirm_from` tinyint(1) NOT NULL DEFAULT '0',
+  `confirm_to` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `code_from` (`code_from`),
+  KEY `code_to` (`code_to`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Дамп данных таблицы `prefix_user_changemail`
+--
+
 
 -- --------------------------------------------------------
 
@@ -966,6 +996,12 @@ ALTER TABLE `prefix_userfeed_subscribe`
 --
 ALTER TABLE `prefix_user_administrator`
   ADD CONSTRAINT `user_administrator_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_user_changemail`
+--
+ALTER TABLE `prefix_user_changemail`
+  ADD CONSTRAINT `prefix_user_changemail_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `prefix_user_field_value`
