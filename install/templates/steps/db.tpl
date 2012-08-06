@@ -17,6 +17,7 @@
 <p>
 	<label><input type="checkbox" class="input-checkbox" name="install_db_create" value="1" ___INSTALL_DB_CREATE_CHECK___ /> ___LANG_DB_PARAMS_CREATE___</label>
 	<label><input type="checkbox" class="input-checkbox" name="install_db_convert" value="1" ___INSTALL_DB_CONVERT_CHECK___ /> ___LANG_DB_PARAMS_CONVERT___</label>
+	<label><input type="checkbox" class="input-checkbox" name="install_db_convert_from_10" value="1" ___INSTALL_DB_CONVERT_FROM_10_CHECK___ /> ___LANG_DB_PARAMS_CONVERT_FROM_10___</label>
 </p>
 
 <p><label for="install_db_user">___LANG_DB_PARAMS_USER___:</label>

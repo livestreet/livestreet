@@ -17,7 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
-define('LS_VERSION','1.0');
+define('LS_VERSION','1.0.1');
 
 class Install {
 	/**
@@ -637,7 +637,17 @@ class Install {
 					/**
 					 * Если указана конвертация старой базы данных
 					 */
-					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.5.1_to_1.0.sql',$aParams));
+					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.5.1_to_1.0.1.sql',$aParams));
+					if(!$bResult) {
+						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
+						$this->Layout('steps/db.tpl');
+						return false;
+					}
+				} elseif ($aParams['convert_from_10']) {
+					/**
+					 * Если указана конвертация старой базы данных (1.0 -> 1.0.1)
+					 */
+					list($bResult,$aErrors) = array_values($this->ConvertDatabaseFrom10('convert_1.0_to_1.0.1.sql',$aParams));
 					if(!$bResult) {
 						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 						$this->Layout('steps/db.tpl');
@@ -1171,7 +1181,7 @@ class Install {
 		return !in_array($aParams['prefix'].'user_note',$aDbTables);
 	}
 	/**
-	 * Конвертирует базу данных версии 0.5.1 в базу данных версии 1.0
+	 * Конвертирует базу данных версии 0.5.1 в базу данных версии 1.0.1
 	 *
 	 * @return bool
 	 */
@@ -1206,7 +1216,7 @@ class Install {
 			}
 		}
 		/**
-		 * Необходимая конвертация в 1.0 из 0.5.1
+		 * Необходимая конвертация в 1.0.1 из 0.5.1
 		 */
 
 		/**
@@ -1664,6 +1674,61 @@ class Install {
 			return array('result'=>true,'errors'=>null);
 		}
 		return array('result'=>false,'errors'=>$aErrors);		
+	}
+	/**
+	 * Проверяем, нуждается ли база в конвертации или нет
+	 *
+	 * @param array $aParams
+	 * @return bool
+	 */
+	protected function ValidateConvertDatabaseFrom10($aParams) {
+		/**
+		 * Проверяем, нуждается ли база в конвертации или нет
+		 *
+		 */
+		$sTable=$aParams['prefix'].'user';
+		return !$this->isFieldExistsDatabase($sTable,'user_settings_timezone');
+	}
+	/**
+	 * Конвертирует базу данных версии 1.0 в базу данных версии 1.0.1
+	 *
+	 * @return bool
+	 */
+	protected function ConvertDatabaseFrom10($sFilePath,$aParams) {
+		if(!$this->ValidateConvertDatabaseFrom10($aParams)) {
+			return array('result'=>false,'errors'=>array($this->Lang("error_database_converted_already")));
+		}
+
+		$sFileQuery = @file_get_contents($sFilePath);
+		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
+
+		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
+		$aQuery=explode(';',$sFileQuery);
+		/**
+		 * Массив для сбора ошибок
+		 */
+		$aErrors = array();
+
+		/**
+		 * Выполняем запросы по очереди
+		 */
+		foreach($aQuery as $sQuery){
+			$sQuery = trim($sQuery);
+			/**
+			 * Заменяем движек, если таковой указан в запросе
+			 */
+			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
+
+			if($sQuery!='') {
+				$bResult=mysql_query($sQuery);
+				if(!$bResult) $aErrors[] = mysql_error();
+			}
+		}
+
+		if(count($aErrors)==0) {
+			return array('result'=>true,'errors'=>null);
+		}
+		return array('result'=>false,'errors'=>$aErrors);
 	}
 	/**
 	 * Добавление значения в поле таблицы с типом enum
