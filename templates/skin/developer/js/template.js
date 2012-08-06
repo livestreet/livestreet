@@ -89,14 +89,26 @@ jQuery(document).ready(function($){
 
 	
 	// Всплывающие сообщения
-	$('.js-title-comment, .js-title-topic').poshytip({
-		className: 'infobox-standart',
+	if (ls.registry.get('block_stream_show_tip')) {
+		$('.js-title-comment, .js-title-topic').poshytip({
+			className: 'infobox-yellow',
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 10,
+			liveEvents: true,
+			showTimeout: 1000
+		});
+	}
+
+	$('.js-title-talk').poshytip({
+		className: 'infobox-yellow',
 		alignTo: 'target',
 		alignX: 'left',
 		alignY: 'center',
-		offsetX: 5,
+		offsetX: 10,
 		liveEvents: true,
-		showTimeout: 1500
+		showTimeout: 500
 	});
 
 	$('.js-infobox-vote-topic').poshytip({
@@ -121,6 +133,12 @@ jQuery(document).ready(function($){
 		offsetX: 5,
 		liveEvents: true,
 		showTimeout: 500
+	});
+
+	$('.js-infobox').poshytip({
+		className: 'infobox-standart',
+		liveEvents: true,
+		showTimeout: 300
 	});
 
 	// подсветка кода

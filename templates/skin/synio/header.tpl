@@ -105,7 +105,7 @@
 {add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
 {add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
 
-<body class="{$body_classes} width-{cfg name='view.grid.type'}"">
+<body class="{$body_classes} width-{cfg name='view.grid.type'}">
 	{hook run='body_begin'}
 	
 	
