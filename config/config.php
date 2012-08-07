@@ -475,20 +475,6 @@ $config['block']['rule_blog_info'] = array(
 );
 
 
-/**
- * Настройки вывода js и css файлов
- */
-$config['head']['rules']['page'] =array(
-	'path'=>$config['path']['root']['web'].'/page/',
-	'js' => array(
-		'exclude' => array(
-			"___path.static.skin___/js/vote.js",
-			"___path.static.skin___/js/favourites.js",
-			"___path.static.skin___/js/questions.js",
-		)
-	),
-);
-
 $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/html5shiv.js" => array('browser'=>'lt IE 9'),
 	"___path.root.engine_lib___/external/jquery/jquery.js",
