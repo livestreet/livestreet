@@ -619,7 +619,7 @@ class ActionProfile extends Action {
 			/**
 			 * Экранируем текст и добавляем запись в БД
 			 */
-			$oNote->setText(htmlspecialchars($oNote->getText()));
+			$oNote->setText(htmlspecialchars(strip_tags($oNote->getText())));
 			if ($this->User_SaveNote($oNote)) {
 				$this->Viewer_AssignAjax('sText',$oNote->getText());
 			} else {

@@ -3,7 +3,7 @@
 		{assign var="oUser" value=$oTopic->getUser()}							
 		{assign var="oBlog" value=$oTopic->getBlog()}
 		
-		<li class="js-title-comment" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'}">
+		<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape:'html'}">
 			<p>
 				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
 				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}">
