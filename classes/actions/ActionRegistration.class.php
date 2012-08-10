@@ -40,10 +40,6 @@ class ActionRegistration extends Action {
 		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {
 			return Router::Action('registration','invite');
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$this->SetDefaultEvent('index');
 		/**
 		 * Устанавливаем title страницы
@@ -71,7 +67,6 @@ class ActionRegistration extends Action {
 	 **********************************************************************************
 	 */
 
-<<<<<<< HEAD
 	/**
 	 * Ajax валидация форму регистрации
 	 */
@@ -99,24 +94,6 @@ class ActionRegistration extends Action {
 					/**
 					 * Список полей для валидации
 					 */
-=======
-
-	protected function EventAjaxValidateFields() {
-		$this->Viewer_SetResponseAjax('json');
-
-		$oUser=Engine::GetEntity('ModuleUser_EntityUser');
-		$oUser->_setValidateScenario('registration');
-
-		$aFields=getRequest('fields');
-		if (is_array($aFields)) {
-			foreach($aFields as $aField) {
-				if (isset($aField['field']) and isset($aField['value'])) {
-					$this->Hook_Run('registration_validate_field', array('aField'=>&$aField));
-					
-					$sField=$aField['field'];
-					$sValue=$aField['value'];
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 					switch($sField){
 						case 'login':
 							$oUser->setLogin($sValue);
@@ -138,17 +115,13 @@ class ActionRegistration extends Action {
 							continue;
 							break;
 					}
-<<<<<<< HEAD
 					/**
 					 * Валидируем поле
 					 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 					$oUser->_Validate(array($sField),false);
 				}
 			}
 		}
-<<<<<<< HEAD
 		/**
 		 * Возникли ошибки?
 		 */
@@ -259,106 +232,6 @@ class ActionRegistration extends Action {
 	/**
 	 * Показывает страничку регистрации
 	 * Просто вывод шаблона
-=======
-
-		if ($oUser->_hasValidateErrors()) {
-			/**
-			 * Получаем ошибки
-			 */
-			$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
-		}
-	}
-
-	/**
-	 * Обработка Ajax регистрации
-	 */
-	protected function EventAjaxRegistration() {
-		$this->Viewer_SetResponseAjax('json');
-
-		$oUser=Engine::GetEntity('ModuleUser_EntityUser');
-		$oUser->_setValidateScenario('registration');
-
-		$oUser->setLogin(getRequest('login'));
-		$oUser->setMail(getRequest('mail'));
-		$oUser->setPassword(getRequest('password'));
-		$oUser->setPasswordConfirm(getRequest('password_confirm'));
-		$oUser->setCaptcha(getRequest('captcha'));
-
-		$oUser->setDateRegister(date("Y-m-d H:i:s"));
-		$oUser->setIpRegister(func_getIp());
-		/**
-		 * Если используется активация, то генерим код активации
-		 */
-		if (Config::Get('general.reg.activation')) {
-			$oUser->setActivate(0);
-			$oUser->setActivateKey(md5(func_generator().time()));
-		} else {
-			$oUser->setActivate(1);
-			$oUser->setActivateKey(null);
-		}
-
-		$this->Hook_Run('registration_validate_before', array('oUser'=>$oUser));
-		if ($oUser->_Validate()) {
-			$this->Hook_Run('registration_validate_after', array('oUser'=>$oUser));
-			$oUser->setPassword(md5($oUser->getPassword()));
-			if ($this->User_Add($oUser)) {
-				$this->Hook_Run('registration_after', array('oUser'=>$oUser));
-				/**
-				 * Убиваем каптчу
-				 */
-				unset($_SESSION['captcha_keystring']);
-				/**
-				 * Подписываем пользователя на дефолтные события в ленте активности
-				 */
-				$this->Stream_switchUserEventDefaultTypes($oUser->getId());
-
-
-				/**
-				 * Если юзер зарегистрировался по приглашению то обновляем инвайт
-				 */
-				if (Config::Get('general.reg.invite') and $oInvite=$this->User_GetInviteByCode($this->GetInviteRegister())) {
-					$oInvite->setUserToId($oUser->getId());
-					$oInvite->setDateUsed(date("Y-m-d H:i:s"));
-					$oInvite->setUsed(1);
-					$this->User_UpdateInvite($oInvite);
-				}
-				/**
-				 * Если стоит регистрация с активацией то проводим её
-				 */
-				if (Config::Get('general.reg.activation')) {
-					/**
-					 * Отправляем на мыло письмо о подтверждении регистрации
-					 */
-					$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
-					$this->Viewer_AssignAjax('sUrlRedirect',Router::GetPath('registration').'confirm/');
-				} else {
-					$this->Notify_SendRegistration($oUser,getRequest('password'));
-					$oUser=$this->User_GetUserById($oUser->getId());
-					$this->User_Authorization($oUser,false);
-					$this->DropInviteRegister();
-
-					$sUrl=Config::Get('module.user.redirect_after_registration');
-					if (getRequest('return-path')) {
-						$sUrl=getRequest('return-path');
-					}
-					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
-					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
-				}
-			} else {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-				return;
-			}
-		} else {
-			/**
-			 * Получаем ошибки
-			 */
-			$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
-		}
-	}
-
-	/**
-	 * Показывает страничку регистрации
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	 */
 	protected function EventIndex() {
 
@@ -421,13 +294,9 @@ class ActionRegistration extends Action {
 		if (!Config::Get('general.reg.invite')) {
 			return parent::EventNotFound();
 		}
-<<<<<<< HEAD
 		/**
 		 * Обработка отправки формы с кодом приглашения
 		 */
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (isPost('submit_invite')) {
 			/**
 			 * проверяем код приглашения на валидность
@@ -459,34 +328,22 @@ class ActionRegistration extends Action {
 		}
 		return false;
 	}
-<<<<<<< HEAD
 	/**
 	 * Вожвращает код приглашения из сессии
 	 *
 	 * @return string
 	 */
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected function GetInviteRegister() {
 		return $this->Session_Get('invite_code');
 	}
-<<<<<<< HEAD
 	/**
 	 * Удаляет код приглашения из сессии
 	 */
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected function DropInviteRegister() {
 		if (Config::Get('general.reg.invite')) {
 			$this->Session_Drop('invite_code');
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Просто выводит шаблон для подтверждения регистрации
 	 *

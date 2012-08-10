@@ -11,22 +11,14 @@ ls.poll = (function ($) {
 	this.vote = function(idTopic, idAnswer) {
 		var url = aRouter['ajax']+'vote/question/';
 		var params = {idTopic: idTopic, idAnswer: idAnswer};
-<<<<<<< HEAD
 		ls.hook.marker('voteBefore');
-=======
-		ls.hook.marker('voteBefore'); ls.hook.marker('/voteBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				ls.msg.notice(null, result.sMsg);
 				var area = $('#topic_question_area_'+idTopic);
-<<<<<<< HEAD
 				ls.hook.marker('voteDisplayBefore');
-=======
-				ls.hook.marker('voteDisplayBefore'); ls.hook.marker('/voteDisplayBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 				area.html(result.sText);
 				ls.hook.run('ls_pool_vote_after',[idTopic, idAnswer,result],area);
 			}

@@ -25,11 +25,7 @@
  */
 function smarty_function_cfg($aParams,&$oSmarty) {	
 	if(empty($aParams['name'])) {
-<<<<<<< HEAD
 		trigger_error("Config: missing 'name' parametr",E_USER_WARNING);
-=======
-		trigger_error("Config: missing 'name' parametr");
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return ;
 	}
 	require_once(Config::Get('path.root.engine').'/lib/internal/ConfigSimple/Config.class.php');

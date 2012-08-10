@@ -50,11 +50,7 @@ ls.vote = (function ($) {
 		params['value'] = value;
 		params[this.options.type[type].targetName] = idTarget;
 		
-<<<<<<< HEAD
 		ls.hook.marker('voteBefore');
-=======
-		ls.hook.marker('voteBefore'); ls.hook.marker('/voteBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			var args = [idTarget, objVote, value, type, result];
 			this.onVote.apply(this,args);

@@ -46,11 +46,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'add', 'name':name,  'title':title,  'pattern':pattern,  'type':type};
 		
-<<<<<<< HEAD
 		ls.hook.marker('addUserfieldBefore');
-=======
-		ls.hook.marker('addUserfieldBefore'); ls.hook.marker('/addUserfieldBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				liElement = $('<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_pattern"></span> / <span class="userfield_admin_type"></span>'
@@ -80,11 +76,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern, 'type':type};
 		
-<<<<<<< HEAD
 		ls.hook.marker('updateUserfieldBefore');
-=======
-		ls.hook.marker('updateUserfieldBefore'); ls.hook.marker('/updateUserfieldBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id+' .userfield_admin_name').text(name);
@@ -105,11 +97,7 @@ ls.userfield =( function ($) {
 		var url = aRouter['admin']+'userfields';
 		var params = {'action':'delete', 'id':id};
 		
-<<<<<<< HEAD
 		ls.hook.marker('deleteUserfieldBefore');
-=======
-		ls.hook.marker('updateUserfieldBefore'); ls.hook.marker('/updateUserfieldBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id).remove();

@@ -28,8 +28,6 @@ class ActionTalk extends Action {
 	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
-
-	protected $sMenuSubItemSelect='';
 	/**
 	 * Подменю
 	 *
@@ -127,11 +125,7 @@ class ActionTalk extends Action {
 		 */
 		if (getRequest('submit_talk_del')) {
 			$this->Security_ValidateSendForm();
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			$aTalksIdDel=getRequest('talk_select');
 			if (is_array($aTalksIdDel)) {
 				$this->Talk_DeleteTalkUserByArray(array_keys($aTalksIdDel),$this->oUserCurrent->getId());
@@ -140,11 +134,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка отметки о прочтении
 		 */
-<<<<<<< HEAD
 		if (getRequest('submit_talk_read')) {
-=======
-		if (isPost('submit_talk_read')) {
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			$this->Security_ValidateSendForm();
 
 			$aTalksIdDel=getRequest('talk_select');
@@ -169,10 +159,6 @@ class ActionTalk extends Action {
 			$aFilter['only_new']=true;
 			$iPerPage=50; // новых отображаем только последние 50 писем, без постраничности
 		}
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -189,11 +175,7 @@ class ActionTalk extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging(
-<<<<<<< HEAD
 			$aResult['count'],$iPage,$iPerPage,Config::Get('pagination.pages.count'),
-=======
-			$aResult['count'],$iPage,$iPerPage,4,
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			Router::GetPath('talk').$this->sCurrentEvent,
 			array_intersect_key(
 				$_REQUEST,
@@ -203,13 +185,9 @@ class ActionTalk extends Action {
 				)
 			)
 		);
-<<<<<<< HEAD
 		/**
 		 * Показываем сообщение, если происходит поиск по фильтру
 		 */
-=======
-		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if(getRequest('submit_talk_filter')) {
 			$this->Message_AddNotice(
 				($aResult['count'])
@@ -217,10 +195,6 @@ class ActionTalk extends Action {
 					: $this->Lang_Get('talk_filter_result_empty')
 			);
 		}
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -298,7 +272,6 @@ class ActionTalk extends Action {
 				unset($_REQUEST['keyword']);
 			}
 		}
-<<<<<<< HEAD
 		/**
 		 * Ключевые слова в тексте сообщения
 		 */
@@ -316,27 +289,7 @@ class ActionTalk extends Action {
 		 * Отправитель
 		 */
 		if($sender=getRequest('sender') and is_string($sender)){
-=======
-		if($sKeyRequest=getRequest('keyword_text')){
-			$sKeyRequest=urldecode($sKeyRequest);
-			preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
-
-			if(is_array($aWords[1])&&isset($aWords[1])&&count($aWords[1])) {
-				$aFilter['text_like']='%'.implode('%',$aWords[1]).'%';
-			} else {
-				unset($_REQUEST['keyword_text']);
-			}
-		}
-		if($sender=getRequest('sender')){
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			$aFilter['user_login']=urldecode($sender);
-		}
-		if (getRequest('favourite')) {
-			$aTalkIdResult=$this->Favourite_GetFavouritesByUserId($this->oUserCurrent->getId(),'talk',1,500); // ограничиваем
-			$aFilter['id']=$aTalkIdResult['collection'];
-			$_REQUEST['favourite']=1;
-		} else {
-			unset($_REQUEST['favourite']);
 		}
 		/**
 		 * Искать только в избранных письмах
@@ -350,7 +303,6 @@ class ActionTalk extends Action {
 		}
 		return $aFilter;
 	}
-<<<<<<< HEAD
 	/**
 	 * Отображение списка блэк-листа
 	 */
@@ -362,15 +314,6 @@ class ActionTalk extends Action {
 	/**
 	 * Отображение списка избранных писем
 	 */
-=======
-
-	protected function EventBlacklist() {
-		$this->sMenuSubItemSelect='blacklist';
-		$aUsersBlacklist=$this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
-		$this->Viewer_Assign('aUsersBlacklist',$aUsersBlacklist);
-	}
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected function EventFavourites() {
 		$this->sMenuSubItemSelect='favourites';
 		/**
@@ -398,15 +341,10 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_favourite_inbox'));
-<<<<<<< HEAD
 	}
 	/**
 	 * Страница создания письма
 	 */
-=======
-	}		
-	
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected function EventAdd() {
 		$this->sMenuSubItemSelect='add';
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
@@ -416,11 +354,7 @@ class ActionTalk extends Action {
 		$aUsersFriend=$this->User_GetUsersFriend($this->oUserCurrent->getId());
 		if($aUsersFriend['collection']) {
 			$this->Viewer_Assign('aUsersFriend',$aUsersFriend['collection']);
-<<<<<<< HEAD
 		}
-=======
-		}				
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Проверяем отправлена ли форма с данными
 		 */
@@ -440,13 +374,9 @@ class ActionTalk extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('talk_time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
-<<<<<<< HEAD
 		/**
 		 * Отправляем письмо
 		 */
-=======
-		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequest('talk_title'))),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
@@ -754,10 +684,6 @@ class ActionTalk extends Action {
 		$oCommentNew->setPid($sParentId);
 		$oCommentNew->setTextHash(md5($sText));
 		$oCommentNew->setPublish(1);
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Добавляем коммент
 		 */
@@ -1062,7 +988,6 @@ class ActionTalk extends Action {
 		 */
 		$aTalkUsers=$oTalk->getTalkUsers();
 		$aUsers=explode(',',$sUsers);
-<<<<<<< HEAD
 		/**
 		 * Получаем список пользователей, которые не принимают письма
 		 */
@@ -1077,18 +1002,6 @@ class ActionTalk extends Action {
 		/**
 		 * Обрабатываем добавление по каждому переданному логину пользователя
 		 */
-=======
-		// Получаем список пользователей, которые не принимают письма
-		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
-
-		// ограничения на максимальное число участников разговора
-		if (count($aTalkUsers)>=Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
-			return;
-		}
-
-		// Обрабатываем добавление по каждому переданному логину пользователя
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		foreach ($aUsers as $sUser) {
 			$sUser=trim($sUser);
 			if($sUser=='') {
@@ -1184,7 +1097,6 @@ class ActionTalk extends Action {
 												  'talk_user_active'=>ModuleTalk::TALK_USER_ACTIVE
 											  )
 							)
-<<<<<<< HEAD
 						)
 					) {
 						$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
@@ -1199,21 +1111,6 @@ class ActionTalk extends Action {
 							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
 						);
 						$bState=true;
-=======
-						) {
-							$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
-							$aResult[]=array(
-								'bStateError'=>false,
-								'sMsgTitle'=>$this->Lang_Get('attention'),
-								'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
-								'sUserId'=>$oUser->getId(),
-								'sUserLogin'=>$oUser->getLogin(),
-								'sUserLink'=>$oUser->getUserWebPath(),
-								'sUserWebPath'=>$oUser->getUserWebPath(),
-								'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
-							);
-							$bState=true;
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 					} else {
 						$aResult[]=array(
 							'bStateError'=>true,

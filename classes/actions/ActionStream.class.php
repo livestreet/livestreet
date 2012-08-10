@@ -31,11 +31,7 @@ class ActionStream extends Action {
 	/**
 	 * Какое меню активно
 	 *
-<<<<<<< HEAD
 	 * @var string
-=======
-	 * @var unknown_type
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	 */
 	protected $sMenuItemSelect='user';
 
@@ -84,12 +80,9 @@ class ActionStream extends Action {
 	 *
 	 */
 	protected function EventUser() {
-<<<<<<< HEAD
 		/**
 		 * Пользователь авторизован?
 		 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -123,36 +116,13 @@ class ActionStream extends Action {
 		}
 	}
 	/**
-	 * Список событий в общей ленте активности сайта
-	 *
-	 */
-	protected function EventAll() {
-		$this->sMenuItemSelect='all';
-		/**
-		 * Читаем события
-		 */
-		$aEvents = $this->Stream_ReadAll();
-		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountAll() < Config::Get('module.stream.count_default'));
-		$this->Viewer_Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
-		}
-	}
-	/**
 	 * Активаци/деактивация типа события
 	 *
 	 */
 	protected function EventSwitchEventType() {
-<<<<<<< HEAD
 		/**
 		 * Устанавливаем формат Ajax ответа
 		 */
-=======
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
-		}
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$this->Viewer_SetResponseAjax('json');
 		/**
 		 * Пользователь авторизован?
@@ -178,12 +148,9 @@ class ActionStream extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-<<<<<<< HEAD
 		/**
 		 * Пользователь авторизован?
 		 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -300,79 +267,6 @@ class ActionStream extends Action {
 		$this->Viewer_AssignAjax('events_count', count($aEvents));
 	}
 	/**
-	 * Погрузка событий для всего сайта
-	 *
-	 */
-	protected function EventGetMoreAll() {
-		$this->Viewer_SetResponseAjax('json');
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
-		}
-		/**
-		 * Необходимо передать последний просмотренный ID событий
-		 */
-		$iFromId = getRequest('last_id');
-		if (!$iFromId)  {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Получаем события
-		 */
-		$aEvents = $this->Stream_ReadAll(null, $iFromId);
-
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
-		}
-		/**
-		 * Возвращаем данные в ajax ответе
-		 */
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
-	}
-
-	/**
-	 * Погрузка событий для пользователя
-	 *
-	 */
-	protected function EventGetMoreUser() {
-		$this->Viewer_SetResponseAjax('json');
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
-		}
-		/**
-		 * Необходимо передать последний просмотренный ID событий
-		 */
-		$iFromId = getRequest('last_id');
-		if (!$iFromId)  {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		if (!($oUser=$this->User_GetUserById(getRequest('user_id')))) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Получаем события
-		 */
-		$aEvents = $this->Stream_ReadByUserId($oUser->getId(), null, $iFromId);
-
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
-		}
-		/**
-		 * Возвращаем данные в ajax ответе
-		 */
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
-	}
-	/**
 	 * Подписка на пользователя по ID
 	 *
 	 */
@@ -381,12 +275,9 @@ class ActionStream extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-<<<<<<< HEAD
 		/**
 		 * Пользователь авторизован?
 		 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$this->oUserCurrent) {
 			parent::EventNotFound();
 		}
@@ -415,7 +306,6 @@ class ActionStream extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-<<<<<<< HEAD
 		/**
 		 * Пользователь авторизован?
 		 */
@@ -423,12 +313,6 @@ class ActionStream extends Action {
 			parent::EventNotFound();
 		}
 		if (!getRequest('login') or !is_string(getRequest('login'))) {
-=======
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
-		}
-		if (!getRequest('login')) {
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -463,7 +347,6 @@ class ActionStream extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-<<<<<<< HEAD
 		/**
 		 * Пользователь авторизован?
 		 */
@@ -473,11 +356,6 @@ class ActionStream extends Action {
 		/**
 		 * Пользователь с таким ID существует?
 		 */
-=======
-		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
-		}
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$this->User_getUserById(getRequest('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
@@ -487,10 +365,6 @@ class ActionStream extends Action {
 		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

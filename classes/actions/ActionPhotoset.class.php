@@ -303,11 +303,7 @@ class ActionPhotoset extends Action {
 		}
 	}
 	/**
-<<<<<<< HEAD
 	 * Редактирование топика
-=======
-	 * Редактирование
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	 *
 	 */
 	protected function EventEdit() {
@@ -399,10 +395,6 @@ class ActionPhotoset extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title_create'));
-
-		if (!is_numeric(getRequest('topic_id'))) {
-			$_REQUEST['topic_id']='';
-		}
 
 		if (!is_numeric(getRequest('topic_id'))) {
 			$_REQUEST['topic_id']='';
@@ -501,10 +493,6 @@ class ActionPhotoset extends Action {
 		}
 		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
 		$oTopic->setPhotosetCount(count($aPhotos));
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -639,7 +627,6 @@ class ActionPhotoset extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
 			return;
 		}
-
 		/**
 		 * Теперь можно смело редактировать топик
 		 */

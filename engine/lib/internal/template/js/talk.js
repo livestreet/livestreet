@@ -6,7 +6,6 @@ var ls = ls || {};
 ls.talk = (function ($) {
 	
 	this.addToTalkUser = function(aUser, idTalk){
-<<<<<<< HEAD
 		var list = $('#speaker_list');
 		if(list.length == 0) {
 			list = $('<ul class="list" id="speaker_list"></ul>');
@@ -15,15 +14,6 @@ ls.talk = (function ($) {
 		var listItem = $('<li id="speaker_item_'+aUser.sUserId+'_area"><a href="'+aUser.sUserLink+'" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="speaker_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>')
 		list.append(listItem);
 		ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,aUser,list],listItem);
-=======
-		if(list.length == 0) {
-			list = $('<ul class="list" id="speaker_list"></ul>');
-			$('#speaker_list_block').append(list);
-		}
-		var listItem = $('<li id="speaker_item_'+aUser.sUserId+'_area"><a href="'+aUser.sUserLink+'" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="speaker_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
-		list.append(listItem);
-		ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,aUser],listItem);
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	};
 	
 	/**
@@ -37,11 +27,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxaddtalkuser/';
 		var params = {users: sUsers, idTalk: idTalk};
 		
-<<<<<<< HEAD
 		ls.hook.marker('addToTalkBefore');
-=======
-		ls.hook.marker('addToTalkBefore'); ls.hook.marker('/addToTalkBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -74,11 +60,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxdeletetalkuser/';
 		var params = {idTarget: idTarget, idTalk: idTalk};
 
-<<<<<<< HEAD
 		ls.hook.marker('removeFromTalkBefore');
-=======
-		ls.hook.marker('removeFromTalkBefore'); ls.hook.marker('/removeFromTalkBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -116,11 +98,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxaddtoblacklist/';
 		var params = {users: sUsers};
 
-<<<<<<< HEAD
 		ls.hook.marker('addToBlackListBefore');
-=======
-		ls.hook.marker('addToBlackListBefore'); ls.hook.marker('/addToBlackListBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -152,11 +130,7 @@ ls.talk = (function ($) {
 		var url = aRouter['talk']+'ajaxdeletefromblacklist/';
 		var params = {idTarget: idTarget};
 		
-<<<<<<< HEAD
 		ls.hook.marker('removeFromBlackListBefore');
-=======
-		ls.hook.marker('removeFromBlackListBefore'); ls.hook.marker('/removeFromBlackListBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -182,7 +156,6 @@ ls.talk = (function ($) {
 		if (add) { to.push(login); to = $.richArray.unique(to); } else { to = $.richArray.without(to, login); }
 		$('#talk_users').val(to.join(', '));
 	};
-<<<<<<< HEAD
 
 	/**
 	 * Очищает поля фильтра
@@ -218,8 +191,6 @@ ls.talk = (function ($) {
 		$('#form_talks_list').submit();
 		return false;
 	};
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	
 	return this;
 }).call(ls.talk || {},jQuery);

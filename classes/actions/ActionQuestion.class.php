@@ -202,13 +202,8 @@ class ActionQuestion extends Action {
 		 * Проверка корректности полей формы
 		 */
 		if (!$this->checkTopicFields($oTopic)) {
-<<<<<<< HEAD
 			return false;
 		}
-=======
-			return false;	
-		}		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -243,13 +238,8 @@ class ActionQuestion extends Action {
 		 * Теперь можно смело добавлять топик к блогу
 		 */
 		$oTopic->setBlogId($oBlog->getId());
-<<<<<<< HEAD
 		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
 		$oTopic->setTextShort($oTopic->getText());
-=======
-		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
-		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$oTopic->setCutText(null);
 		/**
 		 * Варианты ответов
@@ -380,17 +370,10 @@ class ActionQuestion extends Action {
 
 		/**
 		 * Теперь можно смело редактировать топик
-<<<<<<< HEAD
 		 */
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
 		$oTopic->setTextShort($oTopic->getText());
-=======
-		 */		
-		$oTopic->setBlogId($oBlog->getId());						
-		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
-		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * изменяем вопрос/ответы только если еще никто не голосовал
 		 */
@@ -452,15 +435,9 @@ class ActionQuestion extends Action {
 			}
 			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
 			/**
-<<<<<<< HEAD
 			 * Добавляем событие в ленту
 			 */
 			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
-=======
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
@@ -490,10 +467,6 @@ class ActionQuestion extends Action {
 			$this->Message_AddError($oTopic->_getValidateError(),$this->Lang_Get('error'));
 			$bOk=false;
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * проверяем заполнение ответов только если еще никто не голосовал
 		 */
@@ -526,10 +499,6 @@ class ActionQuestion extends Action {
 				$bOk=false;
 			}
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Выполнение хуков
 		 */

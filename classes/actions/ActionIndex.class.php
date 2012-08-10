@@ -75,20 +75,12 @@ class ActionIndex extends Action {
 	 * Регистрация евентов
 	 *
 	 */
-<<<<<<< HEAD
 	protected function RegisterEvent() {
 		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventIndex');
 		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventNew');
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventNewAll');
 		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventDiscussed');
 		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTop');
-=======
-	protected function RegisterEvent() {		
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventIndex');
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventNew');
-		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventDiscussed');
-		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTop');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	}
 
 
@@ -96,10 +88,7 @@ class ActionIndex extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Вывод рейтинговых топиков
 	 */
@@ -116,7 +105,6 @@ class ActionIndex extends Action {
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
-<<<<<<< HEAD
 		if ($iPage==1 and !getRequest('period')) {
 			$this->Viewer_SetHtmlCanonical(Router::GetPath('index').'top/');
 		}
@@ -265,102 +253,6 @@ class ActionIndex extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'newall');
-=======
-		/**
-		 * Получаем список топиков
-		 */
-		$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		/**
-		 * Если нет топиков за 1 день, то показываем за неделю (7)
-		 */
-		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
-			$sPeriod=7;
-			$aResult=$this->Topic_GetTopicsTop($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		}
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'top',array('period'=>$sPeriod));
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
-		$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('index').'top/');
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('index');
-	}
-	/**
-	 * Вывод обсуждаемых топиков
-	 */
-	protected function EventDiscussed() {
-		$sPeriod=1; // по дефолту 1 день
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
-		}
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='discussed';
-		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
-		/**
-		 * Получаем список топиков
-		 */
-		$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		/**
-		 * Если нет топиков за 1 день, то показываем за неделю (7)
-		 */
-		if (!$aResult['count'] and $iPage==1 and !getRequest('period')) {
-			$sPeriod=7;
-			$aResult=$this->Topic_GetTopicsDiscussed($iPage,Config::Get('module.topic.per_page'),$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		}
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'discussed',array('period'=>$sPeriod));
-		/**
-		 * Загружаем переменные в шаблон
-		 */
-		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('sPeriodSelectCurrent',$sPeriod);
-		$this->Viewer_Assign('sPeriodSelectRoot',Router::GetPath('index').'discussed/');
-		/**
-		 * Устанавливаем шаблон вывода
-		 */
-		$this->SetTemplateAction('index');
-	}
-	/**
-	 * Вывод новых топиков
-	 */
-	protected function EventNew() {
-		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'new/',Config::Get('view.name'));
-		/**
-		 * Меню
-		 */
-		$this->sMenuSubItemSelect='new';
-		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
-		/**
-		 * Получаем список топиков
-		 */
-		$aResult=$this->Topic_GetTopicsNew($iPage,Config::Get('module.topic.per_page'));
-		$aTopics=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('index').'new');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */

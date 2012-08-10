@@ -128,65 +128,17 @@ class ActionLogin extends Action {
 
 		$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_email'));
 	}
-	
-	/**
-	 * Возврат к предыдущей странице
-	 */
-	protected function GoBack(){
-		if (isset($_SERVER['HTTP_REFERER'])) {
-			$sBackUrl=$_SERVER['HTTP_REFERER'];
-			if (strpos($sBackUrl,Router::GetPath('login'))===false) {
-				Router::Location($sBackUrl);
-			}
-		}
-		Router::Location(Config::Get('path.root.web').'/');
-	}
-	
 	/**
 	 * Обрабатываем процесс залогинивания
 	 * По факту только отображение шаблона, дальше вступает в дело Ajax
 	 *
 	 */
 	protected function EventLogin() {
-<<<<<<< HEAD
-=======
-		/**
-		 * Уже вошли.
-		 */
-		if($this->User_IsAuthorization()){
-			$this->GoBack();
-		}
-		
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Если уже авторизирован
 		 */
-<<<<<<< HEAD
 		if($this->User_GetUserCurrent()) {
 			Router::Location(Config::Get('path.root.web').'/');
-=======
-		elseif (isPost('submit_login') and is_string(getRequest('login')) and is_string(getRequest('password'))) {
-			/**
-			 * Проверяем есть ли такой юзер по логину
-			 */
-			if ((func_check(getRequest('login'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('login')))  or  $oUser=$this->User_GetUserByLogin(getRequest('login'))) {	
-				/**
-				 * Сверяем хеши паролей и проверяем активен ли юзер
-				 */
-				if ($oUser->getPassword()==func_encrypt(getRequest('password')) and $oUser->getActivate()) {
-					$bRemember=getRequest('remember',false) ? true : false;
-					/**
-					 * Авторизуем
-					 */
-					$this->User_Authorization($oUser,$bRemember);	
-					/**
-					 * Перенаправляем на страницу с которой произошла авторизация
-					 */
-					$this->GoBack();
-				}
-			}			
-			$this->Viewer_Assign('bLoginError',true);
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('login'));
 	}

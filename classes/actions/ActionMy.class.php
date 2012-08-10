@@ -68,19 +68,7 @@ class ActionMy extends Action {
 		}
 		/**
 		 * Передан ли номер страницы
-<<<<<<< HEAD
-=======
-		 */			
-		if ($this->GetParamEventMatch(0,0)=='blog') {			
-			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;	
-		} else {
-			$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;	
-		}
-		/**
-		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		 */
-<<<<<<< HEAD
 		if ($this->GetParamEventMatch(0,0)=='blog') {
 			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
 		} else {
@@ -89,8 +77,6 @@ class ActionMy extends Action {
 		/**
 		 * Выполняем редирект на новый URL, в новых версиях LS экшен "my" будет удален
 		 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$sPage=$iPage==1 ? '' : "page{$iPage}/";
 		Router::Location($this->oUserProfile->getUserWebPath().'created/topics/'.$sPage);
 	}

@@ -105,18 +105,10 @@ ls.hook = (function ($) {
 			});
 		}
 	};
-<<<<<<< HEAD
 
 	this.marker = function(name){
 		// noop
 	};
 
-=======
-	
-	this.marker = function(name){
-		// noop
-	};
-	
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	return this;
 }).call(ls.hook || {},jQuery);

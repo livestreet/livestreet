@@ -54,10 +54,10 @@
 						{/if}
 					</td>
 					<td align="center">  
-						<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{$aTemplateWebPathPlugin.page|cat:'images/edit.png'}" alt="{$aLang.plugin.page.admin_action_edit|html}" title="{$aLang.plugin.page.admin_action_edit|html}" /></a>
-						<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()|html}»: {$aLang.plugin.page.admin_action_delete_confirm|html}');"><img src="{$aTemplateWebPathPlugin.page|cat:'images/delete.png'}" alt="{$aLang.plugin.page.admin_action_delete|html}" title="{$aLang.plugin.page.admin_action_delete|html}" /></a>
-						<a href="{router page='page'}admin/sort/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/up.png'}" alt="{$aLang.plugin.page.admin_sort_up|html}" title="{$aLang.plugin.page.admin_sort_up|html} ({$oPage->getSort()})" /></a>
-						<a href="{router page='page'}admin/sort/{$oPage->getId()}/down/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/down.png'}" alt="{$aLang.plugin.page.admin_sort_down|html}" title="{$aLang.plugin.page.admin_sort_down|html} ({$oPage->getSort()})" /></a>
+						<a href="{router page='page'}admin/edit/{$oPage->getId()}/"><img src="{$aTemplateWebPathPlugin.page|cat:'images/edit.png'}" alt="{$aLang.plugin.page.admin_action_edit}" title="{$aLang.plugin.page.admin_action_edit}" /></a>
+						<a href="{router page='page'}admin/delete/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oPage->getTitle()}»: {$aLang.plugin.page.admin_action_delete_confirm}');"><img src="{$aTemplateWebPathPlugin.page|cat:'images/delete.png'}" alt="{$aLang.plugin.page.admin_action_delete}" title="{$aLang.plugin.page.admin_action_delete}" /></a>
+						<a href="{router page='page'}admin/sort/{$oPage->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/up.png'}" alt="{$aLang.plugin.page.admin_sort_up}" title="{$aLang.plugin.page.admin_sort_up} ({$oPage->getSort()})" /></a>
+						<a href="{router page='page'}admin/sort/{$oPage->getId()}/down/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/down.png'}" alt="{$aLang.plugin.page.admin_sort_down}" title="{$aLang.plugin.page.admin_sort_down} ({$oPage->getSort()})" /></a>
 					</td>
 				</tr>
 			{/foreach}

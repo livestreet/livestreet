@@ -26,11 +26,7 @@ function smarty_function_lang_load($params, &$smarty)
 {
 
 	if (!array_key_exists('name', $params)) {
-<<<<<<< HEAD
 		trigger_error("lang_load: missing 'name' parameter",E_USER_WARNING);
-=======
-		trigger_error("lang_load: missing 'name' parameter");
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return;
 	}
 

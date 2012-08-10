@@ -384,8 +384,6 @@ class ActionTopic extends Action {
 		if (!$this->checkTopicFields($oTopic)) {
 			return false;
 		}
-
-
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -416,10 +414,6 @@ class ActionTopic extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
 			return;
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$oTopic->setBlogId($oBlog->getId());
 		/**
 		 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
@@ -480,18 +474,10 @@ class ActionTopic extends Action {
 				$this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
 			}
 			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
-<<<<<<< HEAD
 			/**
 			 * Добавляем событие в ленту
 			 */
 			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
-=======
-
-			/**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
@@ -516,12 +502,9 @@ class ActionTopic extends Action {
 		$this->Security_ValidateSendForm();
 
 		$bOk=true;
-<<<<<<< HEAD
 		/**
 		 * Валидируем топик
 		 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$oTopic->_Validate()) {
 			$this->Message_AddError($oTopic->_getValidateError(),$this->Lang_Get('error'));
 			$bOk=false;

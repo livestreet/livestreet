@@ -37,11 +37,7 @@ ls.favourite = (function ($) {
 		params['type'] = !this.objFavourite.hasClass(this.options.active);
 		params[this.options.type[type].targetName] = idTarget;
 		
-<<<<<<< HEAD
 		ls.hook.marker('toggleBefore');
-=======
-		ls.hook.marker('toggleBefore'); ls.hook.marker('/toggleBefore');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(this.options.type[type].url, params, function(result) {
 			$(this).trigger('toggle',[idTarget,objFavourite,type,params,result]);
 			if (result.bStateError) {

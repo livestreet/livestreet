@@ -55,18 +55,11 @@ class ActionPersonalBlog extends Action {
 	protected function RegisterEvent() {
 		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEvent('good','EventTopics');
-<<<<<<< HEAD
 		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
-=======
-		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	}
 
 
@@ -101,7 +94,6 @@ class ActionPersonalBlog extends Action {
 		}
 		/**
 		 * Получаем список топиков
-<<<<<<< HEAD
 		 */
 		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		/**
@@ -116,26 +108,10 @@ class ActionPersonalBlog extends Action {
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
-=======
-		 */					
-		$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		/**
-		 * Если нет топиков за 1 день, то показываем за неделю (7)
-		 */
-		if (in_array($sShowType,array('discussed','top')) and !$aResult['count'] and $iPage==1 and !getRequest('period')) {
-			$sPeriod=7;
-			$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
-		}
-		$aTopics=$aResult['collection'];
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Формируем постраничность
 		 */
-<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('personal_blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());
-=======
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('personal_blog').$sShowType,array('period'=>$sPeriod));
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Вызов хуков
 		 */

@@ -70,13 +70,10 @@ class ActionAdmin extends Action {
 	 **********************************************************************************
 	 */
 
-<<<<<<< HEAD
 	/**
 	 * Отображение главной страницы админки
 	 * Нет никакой логики, просто отображение дефолтного шаблона евента index.tpl
 	 */
-=======
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected function EventIndex() {
 
 	}
@@ -93,10 +90,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_comment_restore_tree'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Пересчет счетчика избранных
 	 *
@@ -111,7 +104,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_favourites_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-<<<<<<< HEAD
 	/**
 	 * Пересчет счетчика голосований
 	 */
@@ -136,33 +128,6 @@ class ActionAdmin extends Action {
 		$this->Message_AddNotice($this->Lang_Get('admin_topics_recalculated'),$this->Lang_Get('attention'));
 		$this->SetTemplateAction('index');
 	}
-=======
-
-	/**
-	 * Пересчет счетчика голосований
-	 */
-	protected function EventRecalculateVote() {
-		set_time_limit(0);
-		$this->Topic_RecalculateVote();
-		$this->Cache_Clean();
-
-		$this->Message_AddNotice($this->Lang_Get('admin_votes_recalculated'),$this->Lang_Get('attention'));
-		$this->SetTemplateAction('index');
-	}
-
-	/**
-	 * Пересчет количества топиков в блогах
-	 */
-	protected function EventRecalculateTopic() {
-		set_time_limit(0);
-		$this->Blog_RecalculateCountTopic();
-		$this->Cache_Clean();
-
-		$this->Message_AddNotice($this->Lang_Get('admin_topics_recalculated'),$this->Lang_Get('attention'));
-		$this->SetTemplateAction('index');
-	}
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Страница со списком плагинов
 	 *
@@ -308,10 +273,6 @@ class ActionAdmin extends Action {
 				$this->SetTemplateAction('user_fields');
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Проверка поля пользователя на корректность из реквеста
 	 *
@@ -361,11 +322,6 @@ class ActionAdmin extends Action {
 		 */
 		Router::Location(Router::GetPath('admin').'plugins/');
 	}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Выполняется при завершении работы экшена
 	 *

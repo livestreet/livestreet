@@ -568,13 +568,8 @@ class ModuleViewer extends Module {
 	 * @param string|null $sDir	Путь до блока, обычно определяется автоматички для плагинов, если передать параметр 'plugin'=>'myplugin'
 	 * @return string ('block','template','undefined')
 	 */
-<<<<<<< HEAD
-	protected function DefineTypeBlock($sName,$sDir=null) {
-		if ($this->TemplateExists(is_null($sDir)?'blocks/block.'.$sName.'.tpl':rtrim($sDir,'/').'/blocks/block.'.$sName.'.tpl')) {
-=======
 	protected function DefineTypeBlock($sName,$sDir=null) {	
-		if ($this->TemplateExists($sTplBlock = is_null($sDir)?'block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
+		if ($this->TemplateExists($sTplBlock = is_null($sDir)?'blocks/block.'.$sName.'.tpl':rtrim($sDir,'/').'/block.'.$sName.'.tpl')) {
 			/**
 			 * Если найден шаблон вида block.name.tpl то считаем что тип 'block'
 			 */

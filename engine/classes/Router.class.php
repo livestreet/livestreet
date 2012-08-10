@@ -70,25 +70,15 @@ class Router extends LsObject {
 	 */
 	static protected $aParams=array();
 	/**
-<<<<<<< HEAD
 	 * Объект текущего экшена
 	 *
 	 * @var Action|null
-=======
-	 * 
-	 * @var Action
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	 */
 	protected $oAction=null;
 	/**
-<<<<<<< HEAD
 	 * Объект ядра
 	 *
 	 * @var Engine|null
-=======
-	 * 
-	 * @var Engine
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	 */
 	protected $oEngine=null;
 	/**

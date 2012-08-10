@@ -25,21 +25,13 @@
  */
 function smarty_function_router($aParams,&$oSmarty) {	
 	if(empty($aParams['page'])) {
-<<<<<<< HEAD
 		trigger_error("Router: missing 'page' parametr",E_USER_WARNING);
-=======
-		trigger_error("Router: missing 'page' parametr");
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return ;
 	}
 	require_once(Config::Get('path.root.engine').'/classes/Router.class.php');
 	
 	if(!$sPath = Router::GetPath($aParams['page'])) {
-<<<<<<< HEAD
 		trigger_error("Router: unknown 'page' given",E_USER_WARNING);
-=======
-		trigger_error("Router: unknown 'page' given");
->>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return ;
 	}
 	/**
