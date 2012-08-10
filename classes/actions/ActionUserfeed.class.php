@@ -65,6 +65,10 @@ class ActionUserfeed extends Action {
 		 * Получаем топики
 		 */
 		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		$this->Viewer_Assign('aTopics', $aTopics);
 		if (count($aTopics)) {
 			$this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
@@ -98,6 +102,10 @@ class ActionUserfeed extends Action {
 		 */
 		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
 		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
 		 * Загружаем данные в ajax ответ
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
@@ -124,7 +132,7 @@ class ActionUserfeed extends Action {
 		if (!getRequest('id')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-		$sType = getRequest('type');
+		$sType = (string)getRequest('type');
 		$iType = null;
 		/**
 		 * Определяем тип подписки
@@ -176,7 +184,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Передан ли логин
 		 */
-		if (!getRequest('login')) {
+		if (!getRequest('login') or !is_string(getRequest('login'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -223,7 +231,7 @@ class ActionUserfeed extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		$sType = getRequest('type');
+		$sType = (string)getRequest('type');
 		$iType = null;
 		/**
 		 * Определяем от чего отписываемся
@@ -244,5 +252,23 @@ class ActionUserfeed extends Action {
 		 */
 		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+	}
+	/**
+	 * При завершении экшена загружаем в шаблон необходимые переменные
+	 *
+	 */
+	public function EventShutdown() {
+		/**
+		 * Подсчитываем новые топики
+		 */
+		$iCountTopicsCollectiveNew=$this->Topic_GetCountTopicsCollectiveNew();
+		$iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
+		$iCountTopicsNew=$iCountTopicsCollectiveNew+$iCountTopicsPersonalNew;
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);
+		$this->Viewer_Assign('iCountTopicsPersonalNew',$iCountTopicsPersonalNew);
+		$this->Viewer_Assign('iCountTopicsNew',$iCountTopicsNew);
 	}
 }

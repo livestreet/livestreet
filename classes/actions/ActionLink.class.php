@@ -268,8 +268,8 @@ class ActionLink extends Action {
 		 * Теперь можно смело добавлять топик к блогу
 		 */
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
-		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
+		$oTopic->setTextShort($oTopic->getText());
 		$oTopic->setCutText(null);
 		/**
 		 * Публикуем или сохраняем
@@ -393,8 +393,8 @@ class ActionLink extends Action {
 		 * Теперь можно смело редактировать топик
 		 */
 		$oTopic->setBlogId($oBlog->getId());
-		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
-		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
+		$oTopic->setTextShort($oTopic->getText());
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */

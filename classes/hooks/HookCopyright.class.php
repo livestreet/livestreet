@@ -37,10 +37,7 @@ class HookCopyright extends Hook {
 		/**
 		 * Выводим везде, кроме страницы списка блогов и списка всех комментов
 		 */
-		if (!(Router::GetAction()=='blogs' or Router::GetAction()=='comments')) {
-			return '&copy; Powered by <a href="http://livestreetcms.org">LiveStreet CMS</a>';
-		}
-		return '';
+		return '&copy; Powered by <a href="http://livestreetcms.org">LiveStreet CMS</a>';
 	}
 }
 ?>

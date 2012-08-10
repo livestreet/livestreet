@@ -149,7 +149,7 @@ ls.photoset =( function ($) {
 
 	this.closeForm = function()
 	{
-		$('#photoset-upload-form').hide();
+		$('#photoset-upload-form').jqmHide();
 	}
 
 	this.showForm = function()

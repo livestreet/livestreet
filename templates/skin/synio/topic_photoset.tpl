@@ -7,11 +7,11 @@
 	});
 </script>
 
- 
-<div class="topic-photo-preview" id="photoset-main-preview-{$oTopic->getId()}">
-	{assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
-	
-	<div class="topic-photo-count" id="photoset-photo-count-{$oTopic->getId()}" onclick="window.location='{$oTopic->getUrl()}#photoset'">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
+
+{assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
+{if $oMainPhoto}
+<div class="topic-photo-preview" id="photoset-main-preview-{$oTopic->getId()}" onclick="window.location='{$oTopic->getUrl()}#photoset'">
+	<div class="topic-photo-count" id="photoset-photo-count-{$oTopic->getId()}">{$oTopic->getPhotosetCount()} {$aLang.topic_photoset_photos}</div>
 	
 	{if $oMainPhoto->getDescription()}
 		<div class="topic-photo-desc" id="photoset-photo-desc-{$oTopic->getId()}">{$oMainPhoto->getDescription()}</div>
@@ -19,7 +19,7 @@
 	
 	<img src="{$oMainPhoto->getWebPath(500)}" alt="image" id="photoset-main-image-{$oTopic->getId()}" />
 </div>
-
+{/if}
 
 {assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
 <div class="topic-content text">

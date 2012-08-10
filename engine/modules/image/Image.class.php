@@ -334,6 +334,19 @@ class ModuleImage extends Module {
 		return false;
 	}
 	/**
+	 * Копирует файл изображения в локальную файловую систему
+	 *
+	 * @param string $sFileSource	Полный серверный путь до файла (может быть на удаленном сервере)
+	 * @param string $sFileDistLocal	Полный серверный путь до локального файла
+	 * @return bool
+	 */
+	public function CopyFileToLocal($sFileSource,$sFileDistLocal) {
+		if (@copy($sFileSource,$sFileDistLocal)) {
+			return true;
+		}
+		return false;
+	}
+	/**
 	 * Создает каталог по указанному адресу (с учетом иерархии)
 	 *
 	 * @param string $sDirDest	Каталог относительно корня сайта

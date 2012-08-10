@@ -9,13 +9,15 @@
 
 	<form action="{router page='talk'}" method="post" id="form_talks_list">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-		
+		<input type="hidden" name="submit_talk_read" id="form_talks_list_submit_read" value="" />
+		<input type="hidden" name="submit_talk_del" id="form_talks_list_submit_del" value="" />
+
 		<table class="table table-talk">
 			<thead>
 				<tr>
 					<th class="cell-checkbox"><input type="checkbox" name="" class="input-checkbox" onclick="ls.tools.checkAll('form_talks_checkbox', this, true);"></th>
 					<th class="cell-recipients">{$aLang.talk_inbox_target}</th>
-					<th class="cell-favourite"></th>
+					<th class="cell-favourite">&nbsp;</th>
 					<th class="cell-title">{$aLang.talk_inbox_title}</th>
 					<th class="cell-date ta-r">{$aLang.talk_inbox_date}</th>
 				</tr>
@@ -45,7 +47,7 @@
 						</td>
 						<td class="cell-title">
 							{strip}
-								<a href="{router page='talk'}read/{$oTalk->getId()}/" class="js-title-comment" title="{$oTalk->getTextLast()|strip_tags|truncate:100:'...'}">
+								<a href="{router page='talk'}read/{$oTalk->getId()}/" class="js-title-talk" title="{$oTalk->getTextLast()|strip_tags|truncate:100:'...'|escape:'html'}">
 									{if $oTalkUserAuthor->getCommentCountNew() or !$oTalkUserAuthor->getDateLast()}
 										<strong>{$oTalk->getTitle()|escape:'html'}</strong>
 									{else}

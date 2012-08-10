@@ -53,12 +53,13 @@ class ActionPersonalBlog extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEvent('good','EventTopics');
-		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTopics');
+		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 	}
 
 
@@ -83,7 +84,7 @@ class ActionPersonalBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -103,6 +104,10 @@ class ActionPersonalBlog extends Action {
 			$aResult=$this->Topic_GetTopicsPersonal($iPage,Config::Get('module.topic.per_page'),$sShowType,$sPeriod=='all' ? null : $sPeriod*60*60*24);
 		}
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */

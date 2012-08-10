@@ -62,6 +62,7 @@ ls.comments = (function ($) {
 
 				// Load new comments
 				this.load(targetId, targetType, result.sCommentId, true);
+				ls.hook.run('ls_comments_add_after',[formObj, targetId, targetType, result]);
 			}
 		}.bind(this));
 	};
@@ -97,6 +98,11 @@ ls.comments = (function ($) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		}
 		if (!bNoFocus) $('#form_comment_text').focus();
+		
+		if ($('html').hasClass('ie7')) {
+			var inputs = $('input.input-text, textarea');
+			ls.ie.bordersizing(inputs);
+		}
 	};
 
 
@@ -108,11 +114,13 @@ ls.comments = (function ($) {
 		if (!bNotFlushNew) { 
 			$('.comment').each(function(index, item){ 
 				$(item).removeClass(this.options.classes.comment_new+' '+this.options.classes.comment_current);
+				ls.hook.marker('unflashOld');
 			}.bind(this)); 
 		}
 
 		objImg = $('#update-comments');
 		objImg.addClass('active');
+		ls.hook.marker('loadStart');
 
 		var params = { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget };
 		if (selfIdComment) { 
@@ -124,6 +132,7 @@ ls.comments = (function ($) {
 
 		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
 			objImg.removeClass('active');
+			ls.hook.marker('loadEnd');
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
 			if (result.bStateError) {
@@ -134,7 +143,10 @@ ls.comments = (function ($) {
 					$("#comment_last_id").val(result.iMaxIdComment);
 					$('#count-comments').text(parseInt($('#count-comments').text())+aCmt.length);
 					if (ls.blocks) {
-						ls.blocks.load('.js-block-stream-item', 'stream');
+						var curItemBlock=ls.blocks.getCurrentItem('stream');
+						if (curItemBlock.data('type')=='comment') {
+							ls.blocks.load(curItemBlock, 'stream');
+						}
 					}
 				}
 				var iCountOld=0;
@@ -152,7 +164,7 @@ ls.comments = (function ($) {
 
 				$.each(aCmt, function(index, item) { 
 					if (!(selfIdComment && selfIdComment==item.id)) {
-						this.aCommentNew.push(item.id);
+						this.aCommentNew.push(parseInt(item.id));
 					}
 					this.inject(item.idParent, item.id, item.html); 
 				}.bind(this));
@@ -161,6 +173,7 @@ ls.comments = (function ($) {
 					this.scrollToComment(selfIdComment);
 				}
 				this.checkFolding();
+				ls.hook.run('ls_comments_load_after',[idTarget, typeTarget, selfIdComment, bNotFlushNew, result]);
 			}
 		}.bind(this));
 	};
@@ -170,6 +183,13 @@ ls.comments = (function ($) {
 	this.inject = function(idCommentParent, idComment, sHtml) {
 		var newComment = $('<div>', {'class': 'comment-wrapper', id: 'comment_wrapper_id_'+idComment}).html(sHtml);
 		if (idCommentParent) {
+			// Уровень вложенности родителя
+			var iCurrentTree = $('#comment_wrapper_id_'+idCommentParent).parentsUntil('#comments').length;
+			if(iCurrentTree == ls.registry.get('comment_max_tree')) {
+				// Определяем id предыдушего родителя
+				var prevCommentParent = $('#comment_wrapper_id_'+idCommentParent).parent();
+				idCommentParent = parseInt(prevCommentParent.attr('id').replace('comment_wrapper_id_',''));
+			}
 			$('#comment_wrapper_id_'+idCommentParent).append(newComment);
 		} else {
 			$('#comments').append(newComment);
@@ -192,12 +212,16 @@ ls.comments = (function ($) {
 				ls.msg.error(null,result.sMsg);
 			} else {
 				ls.msg.notice(null,result.sMsg);
-
-				$('#comment_id_'+commentId).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
+				
+				var selectorComment = '#comment_id_'+commentId;
+				ls.hook.marker('selectorComment');
+				
+				$(selectorComment).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
 				if (result.bState) {
-					$('#comment_id_'+commentId).addClass(this.options.classes.comment_deleted);
+					$(selectorComment).addClass(this.options.classes.comment_deleted);
 				}
 				$(obj).text(result.sTextToggle);
+				ls.hook.run('ls_comments_toggle_after',[obj,commentId,result]);
 			}
 		}.bind(this));
 	};
@@ -205,13 +229,14 @@ ls.comments = (function ($) {
 
 	// Предпросмотр комментария
 	this.preview = function(divPreview) {
+		var divPreview = divPreview ? divPreview : 'comment_preview_'+this.iCurrentShowFormComment;
 		if (this.options.wysiwyg) {
 			$("#form_comment_text").val(tinyMCE.activeEditor.getContent());
 		}
 		if ($("#form_comment_text").val() == '') return;
-		$("#comment_preview_" + this.iCurrentShowFormComment).remove();
-		$('#reply').before('<div id="comment_preview_' + this.iCurrentShowFormComment +'" class="comment-preview text"></div>');
-		ls.tools.textPreview('form_comment_text', false, 'comment_preview_' + this.iCurrentShowFormComment);
+		$("#"+divPreview).remove();
+		$('#reply').before('<div id="' + divPreview +'" class="comment-preview text"></div>');
+		ls.tools.textPreview('form_comment_text', false, divPreview);
 	};
 
 
@@ -249,12 +274,17 @@ ls.comments = (function ($) {
 
 	// Прокрутка к комментарию
 	this.scrollToComment = function(idComment) {
-		$.scrollTo('#comment_id_'+idComment, 1000, {offset: -250});
+		var
+			selectorCommentNext = '#comment_id_'+idComment,
+			selectorCommentCurrent = this.iCurrentViewComment ? '#comment_id_'+this.iCurrentViewComment : null
+		;
+		ls.hook.marker('selectors');
+		$.scrollTo(selectorCommentNext, 1000, {offset: -250});
 						
-		if (this.iCurrentViewComment) {
-			$('#comment_id_'+this.iCurrentViewComment).removeClass(this.options.classes.comment_current);
+		if (selectorCommentCurrent) {
+			$(selectorCommentCurrent).removeClass(this.options.classes.comment_current);
 		}				
-		$('#comment_id_'+idComment).addClass(this.options.classes.comment_current);
+		$(selectorCommentNext).addClass(this.options.classes.comment_current);
 		this.iCurrentViewComment=idComment;		
 	};
 
@@ -264,7 +294,7 @@ ls.comments = (function ($) {
 		thisObj = this;
 		$('.'+this.options.classes.comment_goto_child).hide().find('a').unbind();
 
-		$("#comment_id_"+pid).find('.'+this.options.classes.comment_goto_child).show().find("a").bind("click", function(){
+		$("#comment_id_"+pid).find('.'+this.options.classes.comment_goto_child+':eq(0)').show().find("a").bind("click", function(){
 			$(this).parent('.'+thisObj.options.classes.comment_goto_child).hide();
 			thisObj.scrollToComment(id);
 			return false;

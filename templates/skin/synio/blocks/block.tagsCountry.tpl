@@ -6,7 +6,7 @@
 		
 		
 		<div class="block-content">
-			<ul class="tag-cloud">
+			<ul class="tag-cloud word-wrap">
 				{foreach from=$aCountryList item=oCountry}
 					<li><a class="tag-size-{$oCountry->getSize()}" href="{router page='people'}country/{$oCountry->getId()}/">{$oCountry->getName()|escape:'html'}</a></li>
 				{/foreach}					

@@ -156,7 +156,7 @@
 
 .icon-contact				{ width: 16px; height: 16px; background: url(../images/icons-contact.png) no-repeat; } 
 .icon-contact-default		{ background-position: 0 0; } 
-.icon-contact-email			{ background-position: -20px 0; } 
+.icon-contact-mail			{ background-position: -20px 0; } 
 .icon-contact-icq			{ background-position: -40px 0; } 
 .icon-contact-jabber		{ background-position: -60px 0; } 
 .icon-contact-phone			{ background-position: -80px 0; } 
@@ -167,15 +167,17 @@
 .icon-contact-odnoklassniki	{ background-position: -180px 0; } 
 .icon-contact-www			{ background-position: -200px 0; } 
 
-.icon-ok-green 			{ width: 14px; height: 14px; background: url(../images/icon-ok-green.png) no-repeat; }
 
+
+.icon-ok-green 				{ width: 18px; height: 20px; background: url(../images/icons-synio.png) -479px -2px no-repeat; }
+.icon-question-sign      	{ width: 23px; height: 23px; background: url(../images/icons-synio.png) -138px 0 no-repeat; }
 
 
 
 .icon-synio-arrow-up 		{ width: 9px; height: 9px; background-position: -24px -24px; }
 .icon-synio-arrow-down 		{ width: 9px; height: 9px; background-position: -33px -24px; }
 
-.icon-synio-star-green 		{ width: 11px; height: 11px; background-position: 0 -23px; }
+.icon-synio-star-green 		{ width: 12px; height: 11px; background-position: 0 -23px; }
 .icon-synio-star-blue 		{ width: 11px; height: 11px; background-position: 0 -37px; }
 .icon-synio-star-white 		{ width: 11px; height: 11px; background-position: 0 -51px; }
 .icon-synio-star-yellow 	{ width: 11px; height: 11px; background-position: 0 -65px; }
@@ -183,7 +185,8 @@
 .icon-synio-share-blue 		{ width: 11px; height: 11px; background-position: -12px -37px; }
 .icon-synio-share-white 	{ width: 11px; height: 11px; background-position: -12px -51px; }
 
-.icon-synio-strength 		{ width: 11px; height: 11px; background-position: -12px -23px; }
+.icon-synio-rating 			{ width: 11px; height: 11px; background-position: -12px -23px; }
+.icon-synio-arrows 			{ width: 11px; height: 11px; background-position: -22px -65px; }
 
 .icon-synio-comments-green			{ width: 11px; height: 11px; background-position: -46px -23px; }
 .icon-synio-comments-green-filled	{ width: 11px; height: 11px; background-position: -46px -51px; }
@@ -207,7 +210,7 @@
 .icon-synio-send-message			{ width: 16px; height: 16px; background-position: -163px -23px; }
 .icon-synio-new-message				{ width: 16px; height: 16px; background-position: -163px -55px; }
 .icon-synio-join					{ width: 16px; height: 16px; background-position: -179px -23px; }
-.icon-synio-search					{ width: 16px; height: 16px; background-position: -131px -55px; }
+.icon-synio-search					{ width: 16px; height: 16px; background-position: -147px -55px; }
 .icon-synio-submit					{ width: 16px; height: 16px; background-position: -115px -55px; }
 
 .icon-synio-arrow-left				{ width: 16px; height: 16px; background-position: -115px -71px; }
@@ -215,6 +218,11 @@
 
 .icon-synio-remove					{ width: 24px; height: 24px; background-position: -368px 0; vertical-align: middle; position: relative; top: -2px; }
 .icon-synio-remove:hover			{ background-position: -392px 0; }
+
+.icon-synio-vote-info-down			{ width: 16px; height: 16px; background-position: -67px -71px; }
+.icon-synio-vote-info-up			{ width: 16px; height: 16px; background-position: -83px -71px; }
+.icon-synio-vote-info-zero			{ width: 16px; height: 16px; background-position: -99px -71px; }
+.icon-synio-vote-info-view			{ width: 16px; height: 16px; background-position: -179px -39px; }
 
 
 

@@ -15,13 +15,19 @@
 ---------------------------------------------------------
 */
 
-class ModuleBlog_MapperBlog extends Mapper {	
-	protected $oUserCurrent=null;
-	
-	public function SetUserCurrent($oUserCurrent)  {
-		$this->oUserCurrent=$oUserCurrent;
-	}
-	
+/**
+ * Маппер для работы с БД по части блогов
+ *
+ * @package modules.blog
+ * @since 1.0
+ */
+class ModuleBlog_MapperBlog extends Mapper {
+	/**
+	 * Добавляет блог в БД
+	 *
+	 * @param ModuleBlog_EntityBlog $oBlog	Объект блога
+	 * @return int|bool
+	 */
 	public function AddBlog(ModuleBlog_EntityBlog $oBlog) {
 		$sql = "INSERT INTO ".Config::Get('db.table.blog')." 
 			(user_owner_id,
@@ -34,14 +40,19 @@ class ModuleBlog_MapperBlog extends Mapper {
 			blog_avatar
 			)
 			VALUES(?d,  ?,	?,	?,	?,	?, ?, ?)
-		";			
+		";
 		if ($iId=$this->oDb->query($sql,$oBlog->getOwnerId(),$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateAdd(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar())) {
 			return $iId;
-		}		
+		}
 		return false;
 	}
-	
-	public function UpdateBlog(ModuleBlog_EntityBlog $oBlog) {		
+	/**
+	 * Обновляет блог в БД
+	 *
+	 * @param ModuleBlog_EntityBlog $oBlog	Объект блога
+	 * @return bool
+	 */
+	public function UpdateBlog(ModuleBlog_EntityBlog $oBlog) {
 		$sql = "UPDATE ".Config::Get('db.table.blog')." 
 			SET 
 				blog_title= ?,
@@ -57,18 +68,24 @@ class ModuleBlog_MapperBlog extends Mapper {
 				blog_avatar= ?
 			WHERE
 				blog_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getCountTopic(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Получает список блогов по ID
+	 *
+	 * @param array $aArrayId	Список ID блогов
+	 * @param array|null $aOrder	Сортировка блогов
+	 * @return array
+	 */
 	public function GetBlogsByArrayId($aArrayId,$aOrder=null) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-		
+
 		if (!is_array($aOrder)) $aOrder=array($aOrder);
 		$sOrder='';
 		foreach ($aOrder as $key=>$value) {
@@ -90,7 +107,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				ORDER BY 						
 					{ FIELD(blog_id,?a) } ";
 		if ($sOrder!='') $sql.=$sOrder;
-		
+
 		$aBlogs=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$sOrder=='' ? $aArrayId : DBSIMPLE_SKIP)) {
 			foreach ($aRows as $aBlog) {
@@ -98,8 +115,13 @@ class ModuleBlog_MapperBlog extends Mapper {
 			}
 		}
 		return $aBlogs;
-	}	
-	
+	}
+	/**
+	 * Добавляет свзяь пользователя с блогом в БД
+	 *
+	 * @param ModuleBlog_EntityBlogUser $oBlogUser	Объект отношения пользователя с блогом
+	 * @return bool
+	 */
 	public function AddRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$sql = "INSERT INTO ".Config::Get('db.table.blog_user')." 
 			(blog_id,
@@ -107,27 +129,37 @@ class ModuleBlog_MapperBlog extends Mapper {
 			user_role
 			)
 			VALUES(?d,  ?d, ?d)
-		";			
+		";
 		if ($this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId(),$oBlogUser->getUserRole())===0) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Удаляет отношение пользователя с блогом
+	 *
+	 * @param ModuleBlog_EntityBlogUser $oBlogUser	Объект отношения пользователя с блогом
+	 * @return bool
+	 */
 	public function DeleteRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$sql = "DELETE FROM ".Config::Get('db.table.blog_user')." 
 			WHERE
 				blog_id = ?d
 				AND
 				user_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-		
-	public function UpdateRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {		
+	/**
+	 * Обновляет отношение пользователя с блогом
+	 *
+	 * @param ModuleBlog_EntityBlogUser $oBlogUser	Объект отношения пользователя с блогом
+	 * @return bool
+	 */
+	public function UpdateRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser) {
 		$sql = "UPDATE ".Config::Get('db.table.blog_user')." 
 			SET 
 				user_role = ?d			
@@ -135,13 +167,21 @@ class ModuleBlog_MapperBlog extends Mapper {
 				blog_id = ?d 
 				AND
 				user_id = ?d
-		";			
+		";
 		if ($this->oDb->query($sql,$oBlogUser->getUserRole(),$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+	/**
+	 * Получает список отношений пользователей с блогами
+	 *
+	 * @param array $aFilter	Фильтр поиска отношений
+	 * @param int $iCount	Возвращает общее количество элементов
+	 * @param int $iCurrPage	Номер текущейс страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @return array
+	 */
 	public function GetBlogUsers($aFilter,&$iCount=null,$iCurrPage=null,$iPerPage=null) {
 		$sWhere=' 1=1 ';
 		if (isset($aFilter['blog_id'])) {
@@ -154,25 +194,25 @@ class ModuleBlog_MapperBlog extends Mapper {
 			if(!is_array($aFilter['user_role'])) {
 				$aFilter['user_role']=array($aFilter['user_role']);
 			}
-			$sWhere.=" AND bu.user_role IN ('".join("', '",$aFilter['user_role'])."')";		
+			$sWhere.=" AND bu.user_role IN ('".join("', '",$aFilter['user_role'])."')";
 		} else {
 			$sWhere.=" AND bu.user_role>".ModuleBlog::BLOG_USER_ROLE_GUEST;
 		}
-		
+
 		$sql = "SELECT
 					bu.*				
 				FROM 
 					".Config::Get('db.table.blog_user')." as bu
 				WHERE 
-					".$sWhere." ";	
-		
+					".$sWhere." ";
+
 		if (is_null($iCurrPage)) {
 			$aRows=$this->oDb->select($sql);
 		} else {
 			$sql.=" LIMIT ?d, ?d ";
 			$aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage);
 		}
-			
+
 		$aBlogUsers=array();
 		if ($aRows) {
 			foreach ($aRows as $aUser) {
@@ -181,12 +221,18 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aBlogUsers;
 	}
-
-	public function GetBlogUsersByArrayBlog($aArrayId,$sUserId) {	
+	/**
+	 * Получает список отношений пользователя к блогам
+	 *
+	 * @param array $aArrayId Список ID блогов
+	 * @param int $sUserId ID блогов
+	 * @return array
+	 */
+	public function GetBlogUsersByArrayBlog($aArrayId,$sUserId) {
 		if (!is_array($aArrayId) or count($aArrayId)==0) {
 			return array();
 		}
-			
+
 		$sql = "SELECT 
 					bu.*				
 				FROM 
@@ -194,7 +240,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				WHERE 
 					bu.blog_id IN(?a) 					
 					AND
-					bu.user_id = ?d ";		
+					bu.user_id = ?d ";
 		$aBlogUsers=array();
 		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
 			foreach ($aRows as $aUser) {
@@ -203,8 +249,12 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aBlogUsers;
 	}
-	
-		
+	/**
+	 * Получает ID персонального блога пользователя
+	 *
+	 * @param int $sUserId ID пользователя
+	 * @return int|null
+	 */
 	public function GetPersonalBlogByUserId($sUserId) {
 		$sql = "SELECT blog_id FROM ".Config::Get('db.table.blog')." WHERE user_owner_id = ?d and blog_type='personal'";
 		if ($aRow=$this->oDb->selectRow($sql,$sUserId)) {
@@ -212,8 +262,12 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return null;
 	}
-	
-		
+	/**
+	 * Получает блог по названию
+	 *
+	 * @param string $sTitle Нащвание блога
+	 * @return ModuleBlog_EntityBlog|null
+	 */
 	public function GetBlogByTitle($sTitle) {
 		$sql = "SELECT blog_id FROM ".Config::Get('db.table.blog')." WHERE blog_title = ? ";
 		if ($aRow=$this->oDb->selectRow($sql,$sTitle)) {
@@ -221,11 +275,13 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return null;
 	}
-	
-
-	
-	
-	public function GetBlogByUrl($sUrl) {		
+	/**
+	 * Получает блог по URL
+	 *
+	 * @param string $sUrl URL блога
+	 * @return ModuleBlog_EntityBlog|null
+	 */
+	public function GetBlogByUrl($sUrl) {
 		$sql = "SELECT 
 				b.blog_id 
 			FROM 
@@ -238,7 +294,12 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return null;
 	}
-	
+	/**
+	 * Получить список блогов по хозяину
+	 *
+	 * @param int $sUserId ID пользователя
+	 * @return array
+	 */
 	public function GetBlogsByOwnerId($sUserId) {
 		$sql = "SELECT 
 			b.blog_id			 
@@ -248,7 +309,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				b.user_owner_id = ? 
 				AND
 				b.blog_type<>'personal'				
-				";	
+				";
 		$aBlogs=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId)) {
 			foreach ($aRows as $aBlog) {
@@ -257,7 +318,11 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aBlogs;
 	}
-	
+	/**
+	 * Возвращает список всех не персональных блогов
+	 *
+	 * @return array
+	 */
 	public function GetBlogs() {
 		$sql = "SELECT 
 			b.blog_id			 
@@ -265,7 +330,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				".Config::Get('db.table.blog')." as b				
 			WHERE 				
 				b.blog_type<>'personal'				
-				";	
+				";
 		$aBlogs=array();
 		if ($aRows=$this->oDb->select($sql)) {
 			foreach ($aRows as $aBlog) {
@@ -274,8 +339,15 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aBlogs;
 	}
-		
-	public function GetBlogsRating(&$iCount,$iCurrPage,$iPerPage) {		
+	/**
+	 * Возвращает список не персональных блогов с сортировкой по рейтингу
+	 *
+	 * @param int $iCount Возвращает общее количество элементов
+	 * @param int $iCurrPage	Номер текущей страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @return array
+	 */
+	public function GetBlogsRating(&$iCount,$iCurrPage,$iPerPage) {
 		$sql = "SELECT 
 					b.blog_id													
 				FROM 
@@ -283,7 +355,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				WHERE 									
 					b.blog_type<>'personal'									
 				ORDER by b.blog_rating desc
-				LIMIT ?d, ?d 	";		
+				LIMIT ?d, ?d 	";
 		$aReturn=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,($iCurrPage-1)*$iPerPage, $iPerPage)) {
 			foreach ($aRows as $aRow) {
@@ -292,8 +364,14 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	public function GetBlogsRatingJoin($sUserId,$iLimit) {		
+	/**
+	 * Получает список блогов в которых состоит пользователь
+	 *
+	 * @param int $sUserId ID пользователя
+	 * @param int $iLimit	Ограничение на выборку элементов
+	 * @return array
+	 */
+	public function GetBlogsRatingJoin($sUserId,$iLimit) {
 		$sql = "SELECT 
 					b.*													
 				FROM 
@@ -308,7 +386,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 				ORDER by b.blog_rating desc
 				LIMIT 0, ?d 
 				;	
-					";		
+					";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -317,8 +395,14 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aReturn;
 	}
-	
-	public function GetBlogsRatingSelf($sUserId,$iLimit) {		
+	/**
+	 * Получает список блогов, которые создал пользователь
+	 *
+	 * @param int $sUserId ID пользователя
+	 * @param int $iLimit	Ограничение на выборку элементов
+	 * @return array
+	 */
+	public function GetBlogsRatingSelf($sUserId,$iLimit) {
 		$sql = "SELECT 
 					b.*													
 				FROM 					
@@ -329,7 +413,7 @@ class ModuleBlog_MapperBlog extends Mapper {
 					b.blog_type<>'personal'													
 				ORDER by b.blog_rating desc
 				LIMIT 0, ?d 
-			;";		
+			;";
 		$aReturn=array();
 		if ($aRows=$this->oDb->select($sql,$sUserId,$iLimit)) {
 			foreach ($aRows as $aRow) {
@@ -338,7 +422,11 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aReturn;
 	}
-	
+	/**
+	 * Возвращает полный список закрытых блогов
+	 *
+	 * @return array
+	 */
 	public function GetCloseBlogs() {
 		$sql = "SELECT b.blog_id										
 				FROM ".Config::Get('db.table.blog')." as b					
@@ -352,28 +440,26 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return $aReturn;
 	}
-	
 	/**
 	 * Удаление блога из базы данных
 	 *
-	 * @param  int  $iBlogId
-	 * @return bool	 
+	 * @param  int  $iBlogId ID блога
+	 * @return bool
 	 */
 	public function DeleteBlog($iBlogId) {
 		$sql = "
 			DELETE FROM ".Config::Get('db.table.blog')." 
 			WHERE blog_id = ?d				
-		";			
+		";
 		if ($this->oDb->query($sql,$iBlogId)) {
 			return true;
 		}
 		return false;
 	}
-	
 	/**
 	 * Удалить пользователей блога по идентификатору блога
 	 *
-	 * @param  int  $iBlogId
+	 * @param  int  $iBlogId	ID блога
 	 * @return bool
 	 */
 	public function DeleteBlogUsersByBlogId($iBlogId) {
@@ -386,10 +472,10 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return false;
 	}
-
 	/**
 	 * Пересчитывает число топиков в блогах
 	 *
+	 * @param int|null $iBlogId ID блога
 	 * @return bool
 	 */
 	public function RecalculateCountTopic($iBlogId=null) {
@@ -411,7 +497,16 @@ class ModuleBlog_MapperBlog extends Mapper {
 		}
 		return false;
 	}
-
+	/**
+	 * Получает список блогов по фильтру
+	 *
+	 * @param array $aFilter	Фильтр выборки
+	 * @param array $aOrder		Сортировка
+	 * @param int $iCount		Возвращает общее количество элментов
+	 * @param int $iCurrPage	Номер текущей страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @return array
+	 */
 	public function GetBlogsByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('blog_id','blog_title','blog_rating','blog_count_user','blog_count_topic');
 		$sOrder='';

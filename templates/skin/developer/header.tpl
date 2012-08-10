@@ -15,8 +15,6 @@
 	
 	<meta name="description" content="{$sHtmlDescription}">
 	<meta name="keywords" content="{$sHtmlKeywords}">
-	
-	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	{$aHtmlHeadFiles.css}
 
@@ -62,7 +60,25 @@
 	<script type="text/javascript">
 		var tinyMCE = false;
 		ls.lang.load({json var = $aLangJs});
+		ls.registry.set('comment_max_tree',{json var=$oConfig->Get('module.comment.max_tree')});
+		ls.registry.set('block_stream_show_tip',{json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
+	
+	
+	{if {cfg name='view.grid.type'} == 'fluid'}
+		<style>
+			#container {
+				min-width: {cfg name='view.grid.fluid_min_width'}px;
+				max-width: {cfg name='view.grid.fluid_max_width'}px;
+			}
+		</style>
+	{else}
+		<style>
+			#container {
+				width: {cfg name='view.grid.fixed_width'}px;
+			}
+		</style>
+	{/if}
 	
 	
 	{hook run='html_head_end'}
@@ -87,7 +103,10 @@
 {add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
 {add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
 
-<body class="{$body_classes}">
+
+
+
+<body class="{$body_classes} width-{cfg name='view.grid.type'}">
 	{hook run='body_begin'}
 	
 	
@@ -99,16 +118,20 @@
 	{/if}
 	
 
-	<div id="container">
+	<div id="container" class="{hook run='container_class'}">
 		{include file='header_top.tpl'}
 		{include file='nav.tpl'}
 
-		<div id="wrapper">
+		<div id="wrapper" class="{hook run='wrapper_class'}">
 			{if !$noSidebar && $sidebarPosition == 'left'}
 				{include file='sidebar.tpl'}
 			{/if}
 		
-			<div id="content" role="main" {if $noSidebar}class="content-full-width"{/if} {if $sidebarPosition == 'left'}class="content-right"{/if}>
+			<div id="content" role="main" 
+				class="{if $noSidebar}content-full-width{/if} 
+					   {if $sidebarPosition == 'left'}content-right{/if}"
+				{if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+				
 				{include file='nav_content.tpl'}
 				{include file='system_message.tpl'}
 				

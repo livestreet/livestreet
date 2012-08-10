@@ -20,7 +20,7 @@
 
 		<div class="js-block-tags-content" data-type="all">
 			{if $aTags}
-				<ul class="tag-cloud">
+				<ul class="tag-cloud word-wrap">
 					{foreach from=$aTags item=oTag}
 						<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 					{/foreach}
@@ -33,7 +33,7 @@
 		{if $oUserCurrent}
 			<div class="js-block-tags-content" data-type="user" style="display: none;">
 				{if $aTagsUser}
-					<ul class="tag-cloud">
+					<ul class="tag-cloud word-wrap">
 						{foreach from=$aTagsUser item=oTag}
 							<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 						{/foreach}

@@ -18,15 +18,15 @@
 /**
  * Настройки HTML вида
  */
-$config['view']['skin']        = 'developer';                                                              // шаблон(скин)
-$config['view']['name']        = 'LiveStreet';                   // название сайта
-$config['view']['description'] = 'LiveStreet - официальный сайт бесплатного движка социальной сети'; // seo description
-$config['view']['keywords']    = 'движок, livestreet, блоги, социальная сеть, бесплатный, php';      // seo keywords
+$config['view']['skin']        = 'synio';                                                              // шаблон(скин)
+$config['view']['name']        = 'Your Site';                   // название сайта
+$config['view']['description'] = 'Description your site'; // seo description
+$config['view']['keywords']    = 'site, google, internet';      // seo keywords
 $config['view']['tinymce']         = false;  // использовать или нет визуальный редактор TinyMCE
 $config['view']['noindex']          = true;   // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
 $config['view']['img_resize_width'] = 570;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
-$config['view']['img_max_width'] = 3000;    // максимальная ширина загружаемых изображений в пикселях
-$config['view']['img_max_height'] = 3000;    // максимальная высота загружаемых изображений в пикселях
+$config['view']['img_max_width'] = 5000;    // максимальная ширина загружаемых изображений в пикселях
+$config['view']['img_max_height'] = 5000;    // максимальная высота загружаемых изображений в пикселях
 $config['view']['img_max_size_url'] = 500;    // максимальный размер картинки в kB для загрузки по URL
 $config['view']['no_assign']   = array('db'); // список групп конфигурации, которые необходимо исключить из передачи во Viewer. Только для системного пользования.
 
@@ -39,6 +39,7 @@ $config['seo']['description_words_count'] = 20;               // количес�
  * Настройка основных блоков
  */
 $config['block']['stream']['row'] = 20;                       // сколько записей выводить в блоке "Прямой эфир"
+$config['block']['stream']['show_tip'] = true;                // выводить или нет всплывающие сообщения в блоке "Прямой эфир"
 $config['block']['blogs']['row']  = 10;                       // сколько записей выводить в блоке "Блоги"
 $config['block']['tags']['tags_count'] = 70;                  // сколько тегов выводить в блоке "теги"
 $config['block']['tags']['personal_tags_count'] = 70;         // сколько тегов пользователя выводить в блоке "теги"
@@ -100,7 +101,7 @@ $config['sys']['session']['path']     = '___sys.cookie.path___'; // путь с�
  */
 $config['sys']['mail']['type']             = 'mail';                 // Какой тип отправки использовать
 $config['sys']['mail']['from_email']       = 'admin@admin.adm';      // Мыло с которого отправляются все уведомления
-$config['sys']['mail']['from_name']        = 'Почтовик LiveStreet';  // Имя с которого отправляются все уведомления
+$config['sys']['mail']['from_name']        = 'Почтовик Your Site';  // Имя с которого отправляются все уведомления
 $config['sys']['mail']['charset']          = 'UTF-8';                // Какую кодировку использовать в письмах
 $config['sys']['mail']['smtp']['host']     = 'localhost';            // Настройки SMTP - хост
 $config['sys']['mail']['smtp']['port']     = 25;                     // Настройки SMTP - порт
@@ -200,6 +201,7 @@ $config['module']['user']['usernote_text_max'] = 250; 	    // Максималь
 $config['module']['user']['usernote_per_page'] = 20; 	      // Число заметок на одну страницу
 $config['module']['user']['userfield_max_identical'] = 2; 	// Максимальное число контактов одного типа
 $config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
+$config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
@@ -354,6 +356,7 @@ $config['db']['table']['geo_country']         = '___db.table.prefix___geo_countr
 $config['db']['table']['geo_region']          = '___db.table.prefix___geo_region';
 $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
 $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
+$config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -461,21 +464,16 @@ $config['block']['userfeedUsers'] = array(
                     )
                 )
 );
-
-
-/**
- * Настройки вывода js и css файлов
- */
-$config['head']['rules']['page'] =array(
-	'path'=>$config['path']['root']['web'].'/page/',
-	'js' => array(
-		'exclude' => array(
-			"___path.static.skin___/js/vote.js",
-			"___path.static.skin___/js/favourites.js",
-			"___path.static.skin___/js/questions.js",
-		)
-	),
+$config['block']['rule_blog_info'] = array(
+	'action'  => array(
+			'blog' => array('{topic}')
+		),
+	'blocks'  => array(
+			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+		),
+	'clear' => false,
 );
+
 
 $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/html5shiv.js" => array('browser'=>'lt IE 9'),

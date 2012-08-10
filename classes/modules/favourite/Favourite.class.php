@@ -16,47 +16,55 @@
 */
 
 /**
- * Модуль для работы с голосованиями
+ * Модуль для работы с избранным
  *
+ * @package modules.favourite
+ * @since 1.0
  */
-class ModuleFavourite extends Module {		
-	protected $oMapper;	
-		
+class ModuleFavourite extends Module {
+	/**
+	 * Объект маппера
+	 *
+	 * @var ModuleFavourite_MapperFavourite
+	 */
+	protected $oMapper;
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 	}
-	
 	/**
 	 * Получает информацию о том, найден ли таргет в избранном или нет
 	 *
-	 * @param  string $sTargetId
-	 * @param  string $sTargetType
-	 * @param  string $sUserId
+	 * @param  int $sTargetId	ID владельца
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  int $sUserId	ID пользователя
 	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavourite($sTargetId,$sTargetType,$sUserId) {
+		if (!is_numeric($sTargetId) or !is_string($sTargetType)) {
+			return null;
+		}
 		$data=$this->GetFavouritesByArray($sTargetId,$sTargetType,$sUserId);
 		return (isset($data[$sTargetId]))
 			? $data[$sTargetId]
 			: null;
 	}
-	
 	/**
 	 * Получить список избранного по списку айдишников
 	 *
-	 * @param  array  $aTargetId
-	 * @param  string $sTargetType
-	 * @param  string $sUserId
+	 * @param  array  $aTargetId	Список ID владельцев
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  int $sUserId	ID пользователя
 	 * @return array
 	 */
 	public function GetFavouritesByArray($aTargetId,$sTargetType,$sUserId) {
 		if (!$aTargetId) {
 			return array();
-		}	
+		}
 		if (Config::Get('sys.cache.solid')) {
 			return $this->GetFavouritesByArraySolid($aTargetId,$sTargetType,$sUserId);
 		}
@@ -70,25 +78,25 @@ class ModuleFavourite extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aTargetId,"favourite_{$sTargetType}_",'_'.$sUserId);
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {
 			/**
 			 * проверяем что досталось из кеша
 			 */
 			foreach ($aCacheKeys as $sValue => $sKey ) {
-				if (array_key_exists($sKey,$data)) {	
+				if (array_key_exists($sKey,$data)) {
 					if ($data[$sKey]) {
 						$aFavourite[$data[$sKey]->getTargetId()]=$data[$sKey];
 					} else {
 						$aIdNotNeedQuery[]=$sValue;
 					}
-				} 
+				}
 			}
 		}
 		/**
 		 * Смотрим чего не было в кеше и делаем запрос в БД
-		 */		
-		$aIdNeedQuery=array_diff($aTargetId,array_keys($aFavourite));		
-		$aIdNeedQuery=array_diff($aIdNeedQuery,$aIdNotNeedQuery);		
+		 */
+		$aIdNeedQuery=array_diff($aTargetId,array_keys($aFavourite));
+		$aIdNeedQuery=array_diff($aIdNeedQuery,$aIdNotNeedQuery);
 		$aIdNeedStore=$aIdNeedQuery;
 		if ($data = $this->oMapper->GetFavouritesByArray($aIdNeedQuery,$sTargetType,$sUserId)) {
 			foreach ($data as $oFavourite) {
@@ -105,193 +113,191 @@ class ModuleFavourite extends Module {
 		 */
 		foreach ($aIdNeedStore as $sId) {
 			$this->Cache_Set(null, "favourite_{$sTargetType}_{$sId}_{$sUserId}", array(), 60*60*24*7);
-		}		
+		}
 		/**
 		 * Сортируем результат согласно входящему массиву
 		 */
 		$aFavourite=func_array_sort_by_keys($aFavourite,$aTargetId);
-		return $aFavourite;		
+		return $aFavourite;
 	}
 	/**
 	 * Получить список избранного по списку айдишников, но используя единый кеш
 	 *
-	 * @param  array  $aTargetId
-	 * @param  string $sTargetType
-	 * @param  string $sUserId
+	 * @param  array  $aTargetId	Список ID владельцев
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  int $sUserId	ID пользователя
 	 * @return array
 	 */
 	public function GetFavouritesByArraySolid($aTargetId,$sTargetType,$sUserId) {
 		if (!is_array($aTargetId)) {
 			$aTargetId=array($aTargetId);
 		}
-		$aTargetId=array_unique($aTargetId);	
-		$aFavourites=array();	
-		$s=join(',',$aTargetId);	
-		if (false === ($data = $this->Cache_Get("favourite_{$sTargetType}_{$sUserId}_id_{$s}"))) {			
+		$aTargetId=array_unique($aTargetId);
+		$aFavourites=array();
+		$s=join(',',$aTargetId);
+		if (false === ($data = $this->Cache_Get("favourite_{$sTargetType}_{$sUserId}_id_{$s}"))) {
 			$data = $this->oMapper->GetFavouritesByArray($aTargetId,$sTargetType,$sUserId);
 			foreach ($data as $oFavourite) {
 				$aFavourites[$oFavourite->getTargetId()]=$oFavourite;
 			}
 			$this->Cache_Set($aFavourites, "favourite_{$sTargetType}_{$sUserId}_id_{$s}", array("favourite_{$sTargetType}_change_user_{$sUserId}"), 60*60*24*1);
 			return $aFavourites;
-		}		
+		}
 		return $data;
 	}
-	
 	/**
-	 * Получает список таргеов из избранного
+	 * Получает список таргетов из избранного
 	 *
-	 * @param  string $sUserId
-	 * @param  string $sTargetType
-	 * @param  int $iCount
-	 * @param  int $iCurrPage
-	 * @param  int $iPerPage
+	 * @param  int $sUserId	ID пользователя
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  int $iCurrPage	Номер страницы
+	 * @param  int $iPerPage	Количество элементов на страницу
+	 * @param  array $aExcludeTarget	Список ID владельцев для исклчения
 	 * @return array
 	 */
-	public function GetFavouritesByUserId($sUserId,$sTargetType,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {		
+	public function GetFavouritesByUserId($sUserId,$sTargetType,$iCurrPage,$iPerPage,$aExcludeTarget=array()) {
 		$s=serialize($aExcludeTarget);
-		if (false === ($data = $this->Cache_Get("{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}"))) {			
+		if (false === ($data = $this->Cache_Get("{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}"))) {
 			$data = array(
 				'collection' => $this->oMapper->GetFavouritesByUserId($sUserId,$sTargetType,$iCount,$iCurrPage,$iPerPage,$aExcludeTarget),
 				'count'      => $iCount
 			);
 			$this->Cache_Set(
-				$data, 
-				"{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}", 
+				$data,
+				"{$sTargetType}_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_{$s}",
 				array(
 					"favourite_{$sTargetType}_change",
 					"favourite_{$sTargetType}_change_user_{$sUserId}"
-				), 
+				),
 				60*60*24*1
 			);
-		}		
+		}
 		return $data;
 	}
 	/**
 	 * Возвращает число таргетов определенного типа в избранном по ID пользователя
 	 *
-	 * @param  string $sUserId
-	 * @param  string $sTargetType
+	 * @param  int $sUserId	ID пользователя
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  array $aExcludeTarget	Список ID владельцев для исклчения
 	 * @return array
 	 */
 	public function GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget=array()) {
 		$s=serialize($aExcludeTarget);
-		if (false === ($data = $this->Cache_Get("{$sTargetType}_count_favourite_user_{$sUserId}_{$s}"))) {			
+		if (false === ($data = $this->Cache_Get("{$sTargetType}_count_favourite_user_{$sUserId}_{$s}"))) {
 			$data = $this->oMapper->GetCountFavouritesByUserId($sUserId,$sTargetType,$aExcludeTarget);
 			$this->Cache_Set(
-				$data, 
-				"{$sTargetType}_count_favourite_user_{$sUserId}_{$s}", 
+				$data,
+				"{$sTargetType}_count_favourite_user_{$sUserId}_{$s}",
 				array(
 					"favourite_{$sTargetType}_change",
 					"favourite_{$sTargetType}_change_user_{$sUserId}"
-				), 
+				),
 				60*60*24*1
 			);
 		}
 		return $data;
 	}
-
 	/**
-	 * Получает список комментариев к записям открытых блогов 
+	 * Получает список комментариев к записям открытых блогов
 	 * из избранного указанного пользователя
 	 *
-	 * @param  string $sUserId
-	 * @param  int $iCurrPage
-	 * @param  int $iPerPage
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int $iCurrPage	Номер страницы
+	 * @param  int $iPerPage	Количество элементов на страницу
 	 * @return array
 	 */
-	public function GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage) {		
-		if (false === ($data = $this->Cache_Get("comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {			
+	public function GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage) {
+		if (false === ($data = $this->Cache_Get("comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {
 			$data = array(
 				'collection' => $this->oMapper->GetFavouriteOpenCommentsByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),
 				'count'      => $iCount
 			);
 			$this->Cache_Set(
-				$data, 
-				"comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open", 
+				$data,
+				"comment_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open",
 				array(
 					"favourite_comment_change",
 					"favourite_comment_change_user_{$sUserId}"
-				), 
-				60*60*24*1
-			);
-		}		
-		return $data;
-	}	
-	/**
-	 * Возвращает число комментариев к открытым блогам в избранном по ID пользователя
-	 *
-	 * @param  string $sUserId
-	 * @return array
-	 */
-	public function GetCountFavouriteOpenCommentsByUserId($sUserId) {
-		if (false === ($data = $this->Cache_Get("comment_count_favourite_user_{$sUserId}_open"))) {			
-			$data = $this->oMapper->GetCountFavouriteOpenCommentsByUserId($sUserId);
-			$this->Cache_Set(
-				$data, 
-				"comment_count_favourite_user_{$sUserId}_open", 
-				array(
-					"favourite_comment_change",
-					"favourite_comment_change_user_{$sUserId}"
-				), 
+				),
 				60*60*24*1
 			);
 		}
 		return $data;
-	}	
+	}
 	/**
-	 * Получает список топиков из открытых блогов 
-	 * из избранного указанного пользователя
+	 * Возвращает число комментариев к открытым блогам в избранном по ID пользователя
 	 *
-	 * @param  string $sUserId
-	 * @param  int $iCurrPage
-	 * @param  int $iPerPage
+	 * @param  int $sUserId	ID пользователя
 	 * @return array
 	 */
-	public function GetFavouriteOpenTopicsByUserId($sUserId,$iCurrPage,$iPerPage) {		
-		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {			
+	public function GetCountFavouriteOpenCommentsByUserId($sUserId) {
+		if (false === ($data = $this->Cache_Get("comment_count_favourite_user_{$sUserId}_open"))) {
+			$data = $this->oMapper->GetCountFavouriteOpenCommentsByUserId($sUserId);
+			$this->Cache_Set(
+				$data,
+				"comment_count_favourite_user_{$sUserId}_open",
+				array(
+					"favourite_comment_change",
+					"favourite_comment_change_user_{$sUserId}"
+				),
+				60*60*24*1
+			);
+		}
+		return $data;
+	}
+	/**
+	 * Получает список топиков из открытых блогов
+	 * из избранного указанного пользователя
+	 *
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int $iCurrPage	Номер страницы
+	 * @param  int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
+	public function GetFavouriteOpenTopicsByUserId($sUserId,$iCurrPage,$iPerPage) {
+		if (false === ($data = $this->Cache_Get("topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open"))) {
 			$data = array(
 				'collection' => $this->oMapper->GetFavouriteOpenTopicsByUserId($sUserId,$iCount,$iCurrPage,$iPerPage),
 				'count'      => $iCount
 			);
 			$this->Cache_Set(
-				$data, 
-				"topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open", 
+				$data,
+				"topic_favourite_user_{$sUserId}_{$iCurrPage}_{$iPerPage}_open",
 				array(
 					"favourite_topic_change",
 					"favourite_topic_change_user_{$sUserId}"
-				), 
-				60*60*24*1
-			);
-		}		
-		return $data;
-	}	
-	/**
-	 * Возвращает число топиков в открытых блогах 
-	 * из избранного по ID пользователя
-	 *
-	 * @param  string $sUserId
-	 * @return array
-	 */
-	public function GetCountFavouriteOpenTopicsByUserId($sUserId) {
-		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}_open"))) {			
-			$data = $this->oMapper->GetCountFavouriteOpenTopicsByUserId($sUserId);
-			$this->Cache_Set(
-				$data, 
-				"topic_count_favourite_user_{$sUserId}_open", 
-				array(
-					"favourite_topic_change",
-					"favourite_topic_change_user_{$sUserId}"
-				), 
+				),
 				60*60*24*1
 			);
 		}
 		return $data;
-	}		
+	}
+	/**
+	 * Возвращает число топиков в открытых блогах из избранного по ID пользователя
+	 *
+	 * @param  string $sUserId	ID пользователя
+	 * @return array
+	 */
+	public function GetCountFavouriteOpenTopicsByUserId($sUserId) {
+		if (false === ($data = $this->Cache_Get("topic_count_favourite_user_{$sUserId}_open"))) {
+			$data = $this->oMapper->GetCountFavouriteOpenTopicsByUserId($sUserId);
+			$this->Cache_Set(
+				$data,
+				"topic_count_favourite_user_{$sUserId}_open",
+				array(
+					"favourite_topic_change",
+					"favourite_topic_change_user_{$sUserId}"
+				),
+				60*60*24*1
+			);
+		}
+		return $data;
+	}
 	/**
 	 * Добавляет таргет в избранное
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite Объект избранного
 	 * @return bool
 	 */
 	public function AddFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
@@ -300,15 +306,15 @@ class ModuleFavourite extends Module {
 		}
 		$this->SetFavouriteTags($oFavourite);
 		//чистим зависимые кеши
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));						
-		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");						
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$oFavourite->getTargetType()}_change_user_{$oFavourite->getUserId()}"));
+		$this->Cache_Delete("favourite_{$oFavourite->getTargetType()}_{$oFavourite->getTargetId()}_{$oFavourite->getUserId()}");
 		return $this->oMapper->AddFavourite($oFavourite);
 	}
 	/**
 	 * Обновляет запись об избранном
 	 *
-	 * @param ModuleFavourite_EntityFavourite $oFavourite
-	 * @return mixed
+	 * @param ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
+	 * @return bool
 	 */
 	public function UpdateFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
 		if (!$oFavourite->getTags()) {
@@ -322,7 +328,8 @@ class ModuleFavourite extends Module {
 	/**
 	 * Устанавливает список тегов для избранного
 	 *
-	 * @param $oFavourite
+	 * @param ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
+	 * @param bool $bAddNew	Добавлять новые теги или нет
 	 */
 	public function SetFavouriteTags($oFavourite,$bAddNew=true) {
 		/**
@@ -358,7 +365,7 @@ class ModuleFavourite extends Module {
 	/**
 	 * Удаляет таргет из избранного
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
 	 * @return bool
 	 */
 	public function DeleteFavourite(ModuleFavourite_EntityFavourite $oFavourite) {
@@ -371,22 +378,22 @@ class ModuleFavourite extends Module {
 	/**
 	 * Меняет параметры публикации у таргета
 	 *
-	 * @param  string $sTargetId
-	 * @param  string $sTargetType 
-	 * @param  string $iPublish
+	 * @param  array|int $aTargetId	Список ID владельцев
+	 * @param  string $sTargetType 	Тип владельца
+	 * @param  int $iPublish	Флаг публикации
 	 * @return bool
 	 */
 	public function SetFavouriteTargetPublish($aTargetId,$sTargetType,$iPublish) {
 		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
-		
+
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
 		return $this->oMapper->SetFavouriteTargetPublish($aTargetId,$sTargetType,$iPublish);
 	}
 	/**
 	 * Удаляет избранное по списку идентификаторов таргетов
 	 *
-	 * @param  array|int $aTargetId
-	 * @param  string    $sTargetType
+	 * @param  array|int $aTargetId	Список ID владельцев
+	 * @param  string    $sTargetType	Тип владельца
 	 * @return bool
 	 */
 	public function DeleteFavouriteByTargetId($aTargetId, $sTargetType) {
@@ -396,14 +403,14 @@ class ModuleFavourite extends Module {
 		 */
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("favourite_{$sTargetType}_change"));
 		$this->DeleteTagByTarget($aTargetId,$sTargetType);
-		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);		
+		return $this->oMapper->DeleteFavouriteByTargetId($aTargetId,$sTargetType);
 	}
 	/**
 	 * Удаление тегов по таргету
 	 *
-	 * @param $aTargetId
-	 * @param $sTargetType
-	 * @return mixed
+	 * @param array $aTargetId	Список ID владельцев
+	 * @param string $sTargetType	Тип владельца
+	 * @return bool
 	 */
 	public function DeleteTagByTarget($aTargetId,$sTargetType) {
 		return $this->oMapper->DeleteTagByTarget($aTargetId,$sTargetType);
@@ -411,9 +418,9 @@ class ModuleFavourite extends Module {
 	/**
 	 * Возвращает список тегов для объекта избранного
 	 *
-	 * @param $sTargetType
-	 * @param $iTargetId
-	 * @return bool | array
+	 * @param string $sTargetType	Тип владельца
+	 * @param int $iTargetId	ID владельца
+	 * @return bool|array
 	 */
 	public function GetTagsTarget($sTargetType,$iTargetId) {
 		$sMethod = 'GetTagsTarget'.func_camelize($sTargetType);
@@ -425,11 +432,11 @@ class ModuleFavourite extends Module {
 	/**
 	 * Возвращает наиболее часто используемые теги
 	 *
-	 * @param $iUserId
-	 * @param $sTargetType
-	 * @param $bIsUser
-	 * @param $iLimit
-	 * @return mixed
+	 * @param int $iUserId	ID пользователя
+	 * @param string $sTargetType	Тип владельца
+	 * @param bool $bIsUser	Возвращает все теги ли только пользовательские
+	 * @param int $iLimit	Количество элементов
+	 * @return array
 	 */
 	public function GetGroupTags($iUserId,$sTargetType,$bIsUser,$iLimit) {
 		return $this->oMapper->GetGroupTags($iUserId,$sTargetType,$bIsUser,$iLimit);
@@ -437,10 +444,10 @@ class ModuleFavourite extends Module {
 	/**
 	 * Возвращает список тегов по фильтру
 	 *
-	 * @param $aFilter
-	 * @param $aOrder
-	 * @param $iCurrPage
-	 * @param $iPerPage
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
 	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetTags($aFilter,$aOrder,$iCurrPage,$iPerPage) {
@@ -448,9 +455,10 @@ class ModuleFavourite extends Module {
 	}
 	/**
 	 * Возвращает список тегов для топика, название метода формируется автоматически из GetTagsTarget()
+	 * @see GetTagsTarget
 	 *
-	 * @param $iTargetId
-	 * @return bool | array
+	 * @param int $iTargetId	ID владельца
+	 * @return bool|array
 	 */
 	public function GetTagsTargetTopic($iTargetId) {
 		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {

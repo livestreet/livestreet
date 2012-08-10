@@ -18,4 +18,7 @@ return array(
 	'blog_join' => 'Join',
 	'blog_expand_info' => 'About blog',
 	'blog_fold_info' => 'Hide',
+	
+	'profile_about_empty' => 'Empty...',
+	'profile_about_edit' => 'Edit',
 );

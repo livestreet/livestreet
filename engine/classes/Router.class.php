@@ -234,11 +234,9 @@ class Router extends LsObject {
 	public function ExecAction() {
 		$this->DefineActionClass();
 		/**
-		 * Сначала запускаем инициализирующий экшен
+		 * Сначала запускаем инициализирующий евент
 		 */
-		require_once(Config::Get('path.root.server').'/classes/actions/Init.class.php');
-		$oActionInit=new InitAction($this->oEngine);
-		$oActionInit->InitAction();
+		$this->Hook_Run('init_action');
 
 		$sActionClass=$this->DefineActionClass();
 		/**
@@ -320,7 +318,7 @@ class Router extends LsObject {
 	 * @return 'next'
 	 */
 	static public function Action($sAction,$sEvent=null,$aParams=null) {
-		self::$sAction=$sAction;
+		self::$sAction=self::getInstance()->Rewrite($sAction);
 		self::$sActionEvent=$sEvent;
 		if (is_array($aParams)) {
 			self::$aParams=$aParams;

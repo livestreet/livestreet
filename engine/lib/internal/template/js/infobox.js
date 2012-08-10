@@ -77,7 +77,6 @@ ls.infobox = (function ($) {
 		}
 
 		$oLink.poshytip('show');
-
 	};
 
 	this.hideAll = function() {

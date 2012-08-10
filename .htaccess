@@ -1,9 +1,12 @@
 AddDefaultCharset UTF-8
 Options -Indexes
 RewriteEngine On
+#RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ ./index.php
+# Alternative rule
+#RewriteRule ^(.*)$ /index.php
 
 <Files "plugins.dat">
 order allow,deny

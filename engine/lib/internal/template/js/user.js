@@ -1,16 +1,16 @@
 var ls = ls || {};
 
 /**
-* Управление пользователями
-*/
+ * Управление пользователями
+ */
 ls.user = (function ($) {
 
 	this.jcropAvatar=null;
 	this.jcropFoto=null;
 
 	/**
-	* Добавление в друзья
-	*/
+	 * Добавление в друзья
+	 */
 	this.addFriend = function(obj, idUser, sAction){
 		if(sAction != 'link' && sAction != 'accept') {
 			var sText = $('#add_friend_text').val();
@@ -24,9 +24,9 @@ ls.user = (function ($) {
 		} else {
 			var url = aRouter.profile+'ajaxfriendadd/';
 		}
-		
+
 		var params = {idUser: idUser, userText: sText};
-		
+
 		ls.hook.marker('addFriendBefore');
 		ls.ajax(url, params, function(result){
 			$('#add_friend_form').children().each(function(i, item){$(item).removeAttr('disabled')});
@@ -47,12 +47,12 @@ ls.user = (function ($) {
 	};
 
 	/**
-	* Удаление из друзей
-	*/
+	 * Удаление из друзей
+	 */
 	this.removeFriend = function(obj,idUser,sAction) {
 		var url = aRouter.profile+'ajaxfrienddelete/';
 		var params = {idUser: idUser,sAction: sAction};
-		
+
 		ls.hook.marker('removeFriendBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
@@ -108,6 +108,7 @@ ls.user = (function ($) {
 			minSize: [32,32]
 		},function(){
 			$this.jcropAvatar=this;
+			this.setSelect([0,0,500,500]);
 		});
 	};
 
@@ -219,6 +220,7 @@ ls.user = (function ($) {
 			minSize: [32,32]
 		},function(){
 			$this.jcropFoto=this;
+			this.setSelect([0,0,500,500]);
 		});
 	};
 
@@ -338,8 +340,10 @@ ls.user = (function ($) {
 	this.registration = function(form) {
 		var url = aRouter.registration+'ajax-registration/';
 
+		this.formLoader(form);
 		ls.hook.marker('registrationBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
@@ -363,7 +367,7 @@ ls.user = (function ($) {
 				}
 				ls.hook.run('ls_user_registration_after', [form, result]);
 			}
-		});
+		}.bind(this));
 	};
 
 	/**
@@ -373,15 +377,17 @@ ls.user = (function ($) {
 	this.login = function(form) {
 		var url = aRouter.login+'ajax-login/';
 
+		this.formLoader(form);
 		ls.hook.marker('loginBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}
 			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
 
 			if (result.bStateError) {
-				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').html(result.sMsg);
 			} else {
 				if (result.sMsg) {
 					ls.msg.notice(null,result.sMsg);
@@ -390,6 +396,24 @@ ls.user = (function ($) {
 					window.location=result.sUrlRedirect;
 				}
 				ls.hook.run('ls_user_login_after', [form, result]);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Показывает лоадер в полях формы
+	 * @param form
+	 * @param bHide
+	 */
+	this.formLoader = function(form,bHide) {
+		if (typeof(form)=='string') {
+			form=$('#'+form);
+		}
+		form.find('input[type="text"], input[type="password"]').each(function(k,v){
+			if (bHide) {
+				$(v).removeClass('loader');
+			} else {
+				$(v).addClass('loader');
 			}
 		});
 	};
@@ -401,8 +425,10 @@ ls.user = (function ($) {
 	this.reminder = function(form) {
 		var url = aRouter.login+'ajax-reminder/';
 
+		this.formLoader(form);
 		ls.hook.marker('reminderBefore');
 		ls.ajaxSubmit(url, form, function(result) {
+			this.formLoader(form,true);
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}
@@ -419,6 +445,32 @@ ls.user = (function ($) {
 					window.location=result.sUrlRedirect;
 				}
 				ls.hook.run('ls_user_reminder_after', [form, result]);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Ajax запрос на ссылку активации
+	 * @param form
+	 */
+	this.reactivation = function(form) {
+		var url = aRouter.login+'ajax-reactivation/';
+
+		ls.hook.marker('reactivationBefore');
+		ls.ajaxSubmit(url, form, function(result) {
+			if (typeof(form)=='string') {
+				form=$('#'+form);
+			}
+			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
+
+			if (result.bStateError) {
+				form.find('.validate-error-reactivation').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
+			} else {
+				form.find('input').val('');
+				if (result.sMsg) {
+					ls.msg.notice(null,result.sMsg);
+				}
+				ls.hook.run('ls_user_reactivation_after', [form, result]);
 			}
 		});
 	};
@@ -475,13 +527,13 @@ ls.user = (function ($) {
 	 * Подписка
 	 */
 	this.followToggle = function(obj, iUserId) {
-		if ($(obj).hasClass('followed')) { 
+		if ($(obj).hasClass('followed')) {
 			ls.stream.unsubscribe(iUserId);
 			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_follow'));
-		} else { 
+		} else {
 			ls.stream.subscribe(iUserId);
 			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_unfollow'));
-		} 
+		}
 		return false;
 	};
 

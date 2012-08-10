@@ -1,8 +1,5 @@
 			{hook run='content_end'}
 		</div> <!-- /content -->
-
-		
-		{include file='sidebar.tpl'}
 	</div> <!-- /wrapper -->
 
 
@@ -35,14 +32,20 @@
 			{hook run='footer_menu_navigate_item'}
 		</ul>
 		
-		<ul class="footer-list">
-			<li class="footer-list-header">{$aLang.footer_menu_project_title}</li>
-			<li><a href="#">{$aLang.footer_menu_project_about}</a></li>
-			<li><a href="#">{$aLang.footer_menu_project_contact}</a></li>
-			<li><a href="#">{$aLang.footer_menu_project_advert}</a></li>
-			<li><a href="#">{$aLang.footer_menu_project_help}</a></li>
-			{hook run='footer_menu_project_item'}
-		</ul>
+		
+		{* RU: Тут можно добавить свой блок со ссылками, расскоментируйте блок кода ниже и добавьте свои ссылки *}
+		{* EN: You can add additional block with links here, just uncomment code below and add your links *}
+		
+		{*
+			<ul class="footer-list">
+				<li class="footer-list-header">{$aLang.footer_menu_project_title}</li>
+				<li><a href="#">{$aLang.footer_menu_project_about}</a></li>
+				<li><a href="#">{$aLang.footer_menu_project_contact}</a></li>
+				<li><a href="#">{$aLang.footer_menu_project_advert}</a></li>
+				<li><a href="#">{$aLang.footer_menu_project_help}</a></li>
+				{hook run='footer_menu_project_item'}
+			</ul>
+		*}
 	
 		<div class="copyright">
 			{hook run='copyright'}

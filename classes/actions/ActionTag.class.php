@@ -39,7 +39,7 @@ class ActionTag extends Action {
 	 * Регистрация евентов
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTags');
+		$this->AddEventPreg('/^.+$/i','/^(page([1-9]\d{0,5}))?$/i','EventTags');
 	}
 
 
@@ -66,6 +66,10 @@ class ActionTag extends Action {
 		 */
 		$aResult=$this->Topic_GetTopicsByTag($sTag,$iPage,Config::Get('module.topic.per_page'));
 		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
 		/**
 		 * Формируем постраничность
 		 */

@@ -39,9 +39,9 @@ class ActionMy extends Action {
 	 * Регистрируем евенты
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^.+$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^.+$/i','/^blog$/i','/^(page(\d+))?$/i','EventTopics');
-		$this->AddEventPreg('/^.+$/i','/^comment$/i','/^(page(\d+))?$/i','EventComments');
+		$this->AddEventPreg('/^.+$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^.+$/i','/^blog$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^.+$/i','/^comment$/i','/^(page([1-9]\d{0,5}))?$/i','EventComments');
 	}
 
 

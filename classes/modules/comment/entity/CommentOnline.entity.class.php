@@ -15,32 +15,93 @@
 ---------------------------------------------------------
 */
 
-class ModuleComment_EntityCommentOnline extends Entity 
-{          
-    public function getTargetId() {
-        return $this->_getDataOne('target_id');
-    }
-    public function getTargetType() {
-        return $this->_getDataOne('target_type');
-    }
+/**
+ * Объект сущности прямого эфира
+ *
+ * @package modules.comment
+ * @since 1.0
+ */
+class ModuleComment_EntityCommentOnline extends Entity {
+	/**
+	 * Возвращает первичный ключ сущности
+	 *
+	 * @return int|null
+	 */
+	public function getCommentOnlineId() {
+		return $this->_getDataOne('comment_online_id');
+	}
+	/**
+	 * Возвращает ID владельца
+	 *
+	 * @return int|null
+	 */
+	public function getTargetId() {
+		return $this->_getDataOne('target_id');
+	}
+	/**
+	 * Возвращает тип владельца
+	 *
+	 * @return string|null
+	 */
+	public function getTargetType() {
+		return $this->_getDataOne('target_type');
+	}
+	/**
+	 * Возвращает ID комментария
+	 *
+	 * @return int|null
+	 */
 	public function getCommentId() {
-        return $this->_getDataOne('comment_id');
-    }
-    public function getTargetParentId() {
-        return $this->_getDataOne('target_parent_id') ? $this->_getDataOne('target_parent_id') : 0;
-    }    
-    	
-    public function setTargetId($data) {
-        $this->_aData['target_id']=$data;
-    }
-    public function setTargetType($data) {
-        $this->_aData['target_type']=$data;
-    }
-    public function setCommentId($data) {
-        $this->_aData['comment_id']=$data;
-    }
-    public function setTargetParentId($data) {
-    	$this->_aData['target_parent_id']=$data;
-    }    
+		return $this->_getDataOne('comment_id');
+	}
+	/**
+	 * Возвращает ID родителя владельца
+	 *
+	 * @return int
+	 */
+	public function getTargetParentId() {
+		return $this->_getDataOne('target_parent_id') ? $this->_getDataOne('target_parent_id') : 0;
+	}
+
+	/**
+	 * Устанавливает первичный ключ сущности
+	 *
+	 * @param int $data
+	 */
+	public function setCommentOnlineId($data) {
+		$this->_aData['comment_online_id']=$data;
+	}
+	/**
+	 * Устанавливает ID владельца
+	 *
+	 * @param int $data
+	 */
+	public function setTargetId($data) {
+		$this->_aData['target_id']=$data;
+	}
+	/**
+	 * Устанавливает тип владельца
+	 *
+	 * @param string $data
+	 */
+	public function setTargetType($data) {
+		$this->_aData['target_type']=$data;
+	}
+	/**
+	 * Устанавливает ID комментария
+	 *
+	 * @param int $data
+	 */
+	public function setCommentId($data) {
+		$this->_aData['comment_id']=$data;
+	}
+	/**
+	 * Устанавливает ID родителя владельца
+	 *
+	 * @param int $data
+	 */
+	public function setTargetParentId($data) {
+		$this->_aData['target_parent_id']=$data;
+	}
 }
 ?>

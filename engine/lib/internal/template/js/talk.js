@@ -5,6 +5,17 @@ var ls = ls || {};
 */
 ls.talk = (function ($) {
 	
+	this.addToTalkUser = function(aUser, idTalk){
+		var list = $('#speaker_list');
+		if(list.length == 0) {
+			list = $('<ul class="list" id="speaker_list"></ul>');
+			$('#speaker_list_block').append(list);
+		}
+		var listItem = $('<li id="speaker_item_'+aUser.sUserId+'_area"><a href="'+aUser.sUserLink+'" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="speaker_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>')
+		list.append(listItem);
+		ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,aUser,list],listItem);
+	};
+	
 	/**
 	* Добавляет пользователя к переписке
 	*/
@@ -25,14 +36,7 @@ ls.talk = (function ($) {
 					if(item.bStateError){
 						ls.msg.notice(null, item.sMsg);
 					} else {
-						var list = $('#speaker_list');
-						if(list.length == 0) {
-							list = $('<ul class="list" id="speaker_list"></ul>');
-							$('#speaker_list_block').append(list);
-						}
-						var listItem = $('<li id="speaker_item_'+item.sUserId+'_area"><a href="'+item.sUserLink+'" class="user">'+item.sUserLogin+'</a> - <a href="#" id="speaker_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>')
-						list.append(listItem);
-						ls.hook.run('ls_talk_add_to_talk_item_after',[idTalk,item],listItem);
+						ls.talk.addToTalkUser(item,idTalk);
 					}
 				});
 
@@ -72,6 +76,17 @@ ls.talk = (function ($) {
 		return false;
 	};
 	
+	this.addToBlackListUser = function(aUser) {
+		var list = $('#black_list');
+		if(list.length == 0) {
+			list = $('<ul class="list" id="black_list"></ul>');
+			$('#black_list_block').append(list);
+		}
+		var listItem = $('<li id="blacklist_item_'+aUser.sUserId+'_area"><a href="#" class="user">'+aUser.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+aUser.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
+		$('#black_list').append(listItem);
+		ls.hook.run('ls_talk_add_to_black_list_item_after',[aUser],listItem);
+	};
+	
 	/**
 	* Добавляет пользователя в черный список
 	*/
@@ -92,14 +107,7 @@ ls.talk = (function ($) {
 					if(item.bStateError){
 						ls.msg.notice(null, item.sMsg);
 					} else {
-						var list = $('#black_list');
-						if(list.length == 0) {
-							list = $('<ul class="list" id="black_list"></ul>');
-							$('#black_list_block').append(list);
-						}
-						var listItem = $('<li id="blacklist_item_'+item.sUserId+'_area"><a href="#" class="user">'+item.sUserLogin+'</a> - <a href="#" id="blacklist_item_'+item.sUserId+'" class="delete">'+ls.lang.get('delete')+'</a></li>');
-						$('#black_list').append(listItem);
-						ls.hook.run('ls_talk_add_to_black_list_item_after',[item],listItem);
+						ls.talk.addToBlackListUser(item);
 					}
 				});
 				ls.hook.run('ls_talk_add_to_black_list_after',[result]);
@@ -155,6 +163,32 @@ ls.talk = (function ($) {
 	this.clearFilter = function() {
 		$('#block_talk_search_content').find('input[type="text"]').val('');
 		$('#block_talk_search_content').find('input[type="checkbox"]').removeAttr("checked");
+		return false;
+	};
+
+	/**
+	 * Удаление списка писем
+	 */
+	this.removeTalks = function() {
+		if ($('.form_talks_checkbox:checked').length == 0) {
+			return false;
+		}
+		$('#form_talks_list_submit_del').val(1);
+		$('#form_talks_list_submit_read').val(0);
+		$('#form_talks_list').submit();
+		return false;
+	};
+
+	/**
+	 * Пометка о прочтении писем
+	 */
+	this.makeReadTalks = function() {
+		if ($('.form_talks_checkbox:checked').length == 0) {
+			return false;
+		}
+		$('#form_talks_list_submit_read').val(1);
+		$('#form_talks_list_submit_del').val(0);
+		$('#form_talks_list').submit();
 		return false;
 	};
 	

@@ -63,6 +63,7 @@ ls.settings = (function ($) {
 			mode : 									"specific_textareas",
 			editor_selector : 						"mce-editor",
 			theme : 								"advanced",
+			content_css : 							DIR_STATIC_SKIN + "/css/reset.css" + "," + DIR_STATIC_SKIN + "/css/tinymce.css?" + new Date().getTime(),
 			theme_advanced_toolbar_location : 		"top",
 			theme_advanced_toolbar_align : 			"left",
 			theme_advanced_buttons1 : 				"lshselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,undo,redo,|,lslink,unlink,lsvideo,lsimage,pagebreak,code",
@@ -77,7 +78,7 @@ ls.settings = (function ($) {
 			force_br_newlines :						true,
 			forced_root_block : 					'', // Needed for 3.x
 			force_p_newlines : 						false,
-			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak",
+			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak,autoresize",
 			convert_urls : 							false,
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",
@@ -95,6 +96,7 @@ ls.settings = (function ($) {
 		return {
 			mode : 									"textareas",
 			theme : 								"advanced",
+			content_css : 							DIR_STATIC_SKIN + "/css/reset.css" + "," + DIR_STATIC_SKIN + "/css/tinymce.css?" + new Date().getTime(),
 			theme_advanced_toolbar_location : 		"top",
 			theme_advanced_toolbar_align : 			"left",
 			theme_advanced_buttons1 : 				"bold,italic,underline,strikethrough,lslink,lsquote",
@@ -109,7 +111,7 @@ ls.settings = (function ($) {
 			force_br_newlines : 					true,
 			forced_root_block : 					'', // Needed for 3.x
 			force_p_newlines : 						false,
-			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak",
+			plugins : 								"lseditor,safari,inlinepopups,media,pagebreak,autoresize",
 			convert_urls : 							false,
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",

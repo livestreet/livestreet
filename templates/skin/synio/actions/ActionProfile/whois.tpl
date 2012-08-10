@@ -1,5 +1,6 @@
 {assign var="sidebarPosition" value='left'}
-{include file='header.tpl'}
+{assign var="sMenuItemSelect" value='profile'}
+{include file='header.tpl' menu='people'}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
 {assign var="oVote" value=$oUserProfile->getVote()}
@@ -8,24 +9,24 @@
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
-{include file='menu.profile.content.tpl'}
+{include file='menu.profile_whois.tpl'}
 
 
 
-				
-	<div class="profile-info-about">
-		<a href="{$oUserProfile->getUserWebPath()}" class="avatar"><img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" /></a>
-	
-		<h3>{$aLang.profile_about}</h3>
-		{if $oUserProfile->getProfileAbout()}	
-			{$oUserProfile->getProfileAbout()}
-		{else}
-			<p>Пока ничего не известно...</p>
-			{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
-				<a href="{router page='settings'}" class="edit">Редактировать</a>
-			{/if}
-		{/if}
-	</div>
+<div class="profile-info-about">
+	<a href="{$oUserProfile->getUserWebPath()}" class="avatar"><img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" itemprop="photo" /></a>
+
+	<h3>{$aLang.profile_about}</h3>
+	{if $oUserProfile->getProfileAbout()}	
+		<p>{$oUserProfile->getProfileAbout()}</p>
+	{else}
+		<p>{$aLang.profile_about_empty}</p>
+	{/if}
+	<br />
+	{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+		<a href="{router page='settings'}" class="edit">{$aLang.profile_about_edit}</a>
+	{/if}
+</div>
 
 
 
@@ -63,13 +64,13 @@
 				{if $oGeoTarget}
 					<li>
 						<span>{$aLang.profile_place}:</span>
-						<strong>
+						<strong itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
 							{if $oGeoTarget->getCountryId()}
-								<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
+								<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
 							{/if}
 							
 							{if $oGeoTarget->getCityId()}
-								<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+								<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape:'html'}</a>
 							{/if}
 						</strong>
 					</li>
@@ -221,9 +222,7 @@
 			
 			<ul class="profile-contact-list">
 				{foreach from=$aUserFieldContactValues item=oField}
-					<tr>
-						<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
-					</tr>
+					<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
 				{/foreach}
 			</ul>
 		{/if}

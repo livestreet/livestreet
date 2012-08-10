@@ -18,7 +18,7 @@
 /**
  * Основные константы
  */
-define('LS_VERSION','1.0-dev');
+define('LS_VERSION','1.0.1');
 
 /**
  * Operations with Config object
@@ -68,7 +68,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
 		if ($sFileInclude !='.' and $sFileInclude !='..' and is_file($sFileIncludePathFull)) {
 			$aPathInfo=pathinfo($sFileIncludePathFull);
-			if (strtolower($aPathInfo['extension'])=='php') {
+			if (isset($aPathInfo['extension']) and strtolower($aPathInfo['extension'])=='php') {
 				require_once($sDirInclude.$sFileInclude);
 			}
 		}
@@ -85,7 +85,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
 		if ($sFileInclude !='.' and $sFileInclude !='..' and is_file($sFileIncludePathFull)) {
 			$aPathInfo=pathinfo($sFileIncludePathFull);
-			if (strtolower($aPathInfo['extension'])=='php') {
+			if (isset($aPathInfo['extension']) and strtolower($aPathInfo['extension'])=='php') {
 				require_once($sDirInclude.$sFileInclude);
 			}
 		}

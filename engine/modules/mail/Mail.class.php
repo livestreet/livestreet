@@ -120,7 +120,13 @@ class ModuleMail extends Module {
 	 * @var string
 	 */
 	protected $sBody='';
-
+	/**
+	 * Строка последней ошибки
+	 * 
+	 * @var string
+	 */
+	protected $sError;
+	
 	/**
 	 * Инициализация модуля
 	 *
@@ -192,7 +198,9 @@ class ModuleMail extends Module {
 	 * @param string $sName	Имя
 	 */
 	public function AddAdress($sMail,$sName=null) {
+		ob_start();
 		$this->oMailer->AddAddress($sMail,$sName);
+		$this->sError = ob_get_clean();
 	}
 	/**
 	 * Отправляет сообщение(мыло)
@@ -202,7 +210,10 @@ class ModuleMail extends Module {
 	public function Send() {
 		$this->oMailer->Subject=$this->sSubject;
 		$this->oMailer->Body=$this->sBody;
-		return $this->oMailer->Send();
+		ob_start();
+		$bResult = $this->oMailer->Send();
+		$this->sError = ob_get_clean();
+		return $bResult;
 	}
 	/**
 	 * Очищает все адреса получателей
@@ -219,7 +230,9 @@ class ModuleMail extends Module {
 	 */
 	public function SetAdress($sMail,$sName=null) {
 		$this->ClearAddresses();
+		ob_start();
 		$this->oMailer->AddAddress($sMail,$sName);
+		$this->sError = ob_get_clean();
 	}
 	/**
 	 * Устанавливает режим отправки письма как HTML
@@ -234,6 +247,15 @@ class ModuleMail extends Module {
 	 */
 	public function setPlain() {
 		$this->oMailer->IsHTML(false);
+	}
+	
+	/**
+	 * Возвращает строку последней ошибки
+	 * 
+	 * @return string
+	 */
+	public function GetError(){
+		return $this->sError;
 	}
 }
 ?>

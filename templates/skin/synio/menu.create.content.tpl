@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	jQuery(function($){
+	jQuery(window).load(function () {
 		var trigger = $('#dropdown-create-trigger');
 		var menu 	= $('#dropdown-create-menu');
 		var pos 	= trigger.offset();
@@ -25,6 +25,10 @@
 	
 		$('body').on("click", "#dropdown-create-trigger, #dropdown-create-menu", function(e) {
 			e.stopPropagation();
+		});
+		
+		$(window).resize(function(){
+			menu.css({ 'left': $('#dropdown-create-trigger').offset().left - 18 });
 		});
 	});
 </script>

@@ -205,7 +205,7 @@ class ModuleViewer extends Module {
 		 * Создаём объект Smarty и устанавливаем необходиму параметры
 		 */
 		$this->oSmarty = $this->CreateSmartyObject();
-		$this->oSmarty->error_reporting=E_ALL^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
+		$this->oSmarty->error_reporting=error_reporting()^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
@@ -380,7 +380,10 @@ class ModuleViewer extends Module {
 			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');
 			}
-			echo '<textarea>'.json_encode($this->aVarsAjax).'</textarea>';
+			/**
+			 * Избавляемся от бага, когда в возвращаемом тексте есть &quot;
+			 */
+			echo '<textarea>'.htmlspecialchars(json_encode($this->aVarsAjax)).'</textarea>';
 		} elseif ($sType=='jsonp') {
 			if ($this->bResponseSpecificHeader and !headers_sent()) {
 				header('Content-type: application/json');

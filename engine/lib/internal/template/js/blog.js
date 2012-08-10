@@ -26,6 +26,7 @@ ls.blog = (function ($) {
 				;
 				
 				obj.empty().text(text);
+				obj.toggleClass('active');
 				
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
 				ls.hook.run('ls_blog_toggle_join_after',[idBlog,result],obj);
@@ -33,6 +34,16 @@ ls.blog = (function ($) {
 		});
 	};
 
+	ls.blog.addInviteUser = function(aUser,idBlog) {
+		if($('#invited_list').length == 0) {
+			$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
+		}
+		var listItem = $('<li><a href="'+aUser.sUserWebPath+'" class="user">'+aUser.sUserLogin+'</a></li>');
+		$('#invited_list').append(listItem);
+		ls.hook.run('ls_blog_add_invite_user_after',[idBlog,aUser],listItem);
+	};
+	
+	
 	/**
 	* Отправляет приглашение вступить в блог
 	*/
@@ -53,12 +64,7 @@ ls.blog = (function ($) {
 					if(item.bStateError){
 						ls.msg.error(null, item.sMsg);
 					} else {
-						if($('#invited_list').length == 0) {
-							$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
-						}
-						var listItem = $('<li><a href="'+item.sUserWebPath+'" class="user">'+item.sUserLogin+'</a></li>');
-						$('#invited_list').append(listItem);
-						ls.hook.run('ls_blog_add_invite_user_after',[idBlog,item],listItem);
+						ls.blog.addInviteUser(item,idBlog);
 					}
 				});
 				ls.hook.run('ls_blog_add_invite_after',[idBlog,sUsers,result]);
@@ -87,6 +93,28 @@ ls.blog = (function ($) {
 		
 		return false;
 	};
+
+	/**
+	 * Удаляет приглашение в блог
+	 */
+	this.removeInvite = function(idUser,idBlog) {
+		var url = aRouter['blog']+'ajaxremovebloginvite/';
+		var params = {idUser: idUser, idBlog: idBlog};
+
+		ls.hook.marker('removeInviteBefore');
+		ls.ajax(url, params, function(result){
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$('#blog-invite-remove-item-'+idBlog+'-'+idUser).remove();
+				ls.msg.notice(null, result.sMsg);
+				if ($('#invited_list li').length == 0) $('#blog-invite-empty').show();
+				ls.hook.run('ls_blog_remove_invite_after',[idUser,idBlog,result]);
+			}
+		});
+
+		return false;
+	};
 	
 	/**
 	* Отображение информации о блоге
@@ -111,7 +139,7 @@ ls.blog = (function ($) {
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
-		$('#blog_type_note').text($('#blog_type_note_'+type).text());
+		$('#blog_type_note').text(ls.lang.get('blog_create_type_' + type + '_notice'));
 	};
 
 	/**

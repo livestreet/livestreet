@@ -123,7 +123,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка удаления сообщений
 		 */
-		if (isPost('submit_talk_del')) {
+		if (getRequest('submit_talk_del')) {
 			$this->Security_ValidateSendForm();
 
 			$aTalksIdDel=getRequest('talk_select');
@@ -134,7 +134,7 @@ class ActionTalk extends Action {
 		/**
 		 * Обработка отметки о прочтении
 		 */
-		if (isPost('submit_talk_read')) {
+		if (getRequest('submit_talk_read')) {
 			$this->Security_ValidateSendForm();
 
 			$aTalksIdDel=getRequest('talk_select');
@@ -162,7 +162,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
+		$iPage=preg_match("/^page([1-9]\d{0,5})$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
 		/**
 		 * Получаем список писем
 		 */
@@ -262,7 +262,7 @@ class ActionTalk extends Action {
 		/**
 		 * Ключевые слова в теме сообщения
 		 */
-		if($sKeyRequest=getRequest('keyword')){
+		if($sKeyRequest=getRequest('keyword') and is_string($sKeyRequest)){
 			$sKeyRequest=urldecode($sKeyRequest);
 			preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
 
@@ -275,7 +275,7 @@ class ActionTalk extends Action {
 		/**
 		 * Ключевые слова в тексте сообщения
 		 */
-		if($sKeyRequest=getRequest('keyword_text')){
+		if($sKeyRequest=getRequest('keyword_text') and is_string($sKeyRequest)){
 			$sKeyRequest=urldecode($sKeyRequest);
 			preg_match_all('~(\S+)~u',$sKeyRequest,$aWords);
 
@@ -288,7 +288,7 @@ class ActionTalk extends Action {
 		/**
 		 * Отправитель
 		 */
-		if($sender=getRequest('sender')){
+		if($sender=getRequest('sender') and is_string($sender)){
 			$aFilter['user_login']=urldecode($sender);
 		}
 		/**
@@ -319,7 +319,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передан ли номер страницы
 		 */
-		$iPage=preg_match("/^page(\d+)$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
+		$iPage=preg_match("/^page([1-9]\d{0,5})$/i",$this->getParam(0),$aMatch) ? $aMatch[1] : 1;
 		/**
 		 * Получаем список писем
 		 */
@@ -478,7 +478,7 @@ class ActionTalk extends Action {
 		 * Проверяем адресатов
 		 */
 		$sUsers=getRequest('talk_users');
-		$aUsers=explode(',',$sUsers);
+		$aUsers=explode(',',(string)$sUsers);
 		$aUsersNew=array();
 		$aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
 
@@ -687,7 +687,10 @@ class ActionTalk extends Action {
 		/**
 		 * Добавляем коммент
 		 */
+		$this->Hook_Run('talk_comment_add_before', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTalk'=>$oTalk));
 		if ($this->Comment_AddComment($oCommentNew)) {
+			$this->Hook_Run('talk_comment_add_after', array('oCommentNew'=>$oCommentNew,'oCommentParent'=>$oCommentParent,'oTalk'=>$oTalk));
+
 			$this->Viewer_AssignAjax('sCommentId',$oCommentNew->getId());
 			$oTalk->setDateLast(date("Y-m-d H:i:s"));
 			$oTalk->setUserIdLast($oCommentNew->getUserId());
@@ -721,7 +724,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequest('users',null,'post');
+		$sUsers=(string)getRequest('users',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -814,7 +817,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=getRequest('idTarget',null,'post');
+		$idTarget=(string)getRequest('idTarget',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -879,8 +882,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=getRequest('idTarget',null,'post');
-		$idTalk=getRequest('idTalk',null,'post');
+		$idTarget=(string)getRequest('idTarget',null,'post');
+		$idTalk=(string)getRequest('idTalk',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -957,8 +960,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequest('users',null,'post');
-		$idTalk=getRequest('idTalk',null,'post');
+		$sUsers=(string)getRequest('users',null,'post');
+		$idTalk=(string)getRequest('idTalk',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */

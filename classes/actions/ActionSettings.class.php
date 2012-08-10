@@ -158,7 +158,10 @@ class ActionSettings extends Action {
 		 */
 		$aSize=array();
 		$aSizeTmp=getRequest('size');
-		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+		if (isset($aSizeTmp['x']) and is_numeric($aSizeTmp['x'])
+			and isset($aSizeTmp['y']) and is_numeric($aSizeTmp['y'])
+				and isset($aSizeTmp['x2']) and is_numeric($aSizeTmp['x2'])
+					and isset($aSizeTmp['y2']) and is_numeric($aSizeTmp['y2'])) {
 			$aSize=array('x1'=>round($fRation*$aSizeTmp['x']),'y1'=>round($fRation*$aSizeTmp['y']),'x2'=>round($fRation*$aSizeTmp['x2']),'y2'=>round($fRation*$aSizeTmp['y2']));
 		}
 		/**
@@ -280,7 +283,10 @@ class ActionSettings extends Action {
 		 */
 		$aSize=array();
 		$aSizeTmp=getRequest('size');
-		if (isset($aSizeTmp['x']) and $aSizeTmp['x'] and isset($aSizeTmp['y']) and isset($aSizeTmp['x2']) and isset($aSizeTmp['y2'])) {
+		if (isset($aSizeTmp['x']) and is_numeric($aSizeTmp['x'])
+			and isset($aSizeTmp['y']) and is_numeric($aSizeTmp['y'])
+				and isset($aSizeTmp['x2']) and is_numeric($aSizeTmp['x2'])
+					and isset($aSizeTmp['y2']) and is_numeric($aSizeTmp['y2'])) {
 			$aSize=array('x1'=>$aSizeTmp['x'],'y1'=>$aSizeTmp['y'],'x2'=>$aSizeTmp['x2'],'y2'=>$aSizeTmp['y2']);
 		}
 		/**
@@ -346,11 +352,17 @@ class ActionSettings extends Action {
 		$this->sMenuSubItemSelect='tuning';
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
+		$aTimezoneList=array('-12','-11','-10','-9.5','-9','-8','-7','-6','-5','-4.5','-4','-3.5','-3','-2','-1','0','1','2','3','3.5','4','4.5','5','5.5','5.75','6','6.5','7','8','8.75','9','9.5','10','10.5','11','11.5','12','12.75','13','14');
+		$this->Viewer_Assign('aTimezoneList',$aTimezoneList);
 		/**
 		 * Если отправили форму с настройками - сохраняем
 		 */
 		if (isPost('submit_settings_tuning')) {
 			$this->Security_ValidateSendForm();
+
+			if (in_array(getRequest('settings_general_timezone'),$aTimezoneList)) {
+				$this->oUserCurrent->setSettingsTimezone(getRequest('settings_general_timezone'));
+			}
 
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewComment( getRequest('settings_notice_new_comment') ? 1 : 0 );
@@ -358,10 +370,21 @@ class ActionSettings extends Action {
 			$this->oUserCurrent->setSettingsNoticeReplyComment( getRequest('settings_notice_reply_comment') ? 1 : 0 );
 			$this->oUserCurrent->setSettingsNoticeNewFriend( getRequest('settings_notice_new_friend') ? 1 : 0 );
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_tuning_save_before', array('oUser'=>$this->oUserCurrent));
 			if ($this->User_Update($this->oUserCurrent)) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_tuning_submit_ok'));
+				$this->Hook_Run('settings_tuning_save_after', array('oUser'=>$this->oUserCurrent));
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			}
+		} else {
+			if (is_null($this->oUserCurrent->getSettingsTimezone())) {
+				$_REQUEST['settings_general_timezone']=(strtotime(date("Y-m-d H:i:s"))-strtotime(gmdate("Y-m-d H:i:s")))/3600 - date('I');
+			} else {
+				$_REQUEST['settings_general_timezone']=$this->oUserCurrent->getSettingsTimezone();
 			}
 		}
 	}
@@ -402,12 +425,17 @@ class ActionSettings extends Action {
 				$bError=true;
 			}
 			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_invate_send_before', array('oUser'=>$this->oUserCurrent));
+			/**
 			 * Если нет ошибок, то отправляем инвайт
 			 */
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
+				$this->Hook_Run('settings_invate_send_after', array('oUser'=>$this->oUserCurrent));
 			}
 		}
 
@@ -437,8 +465,6 @@ class ActionSettings extends Action {
 				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
 					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
 					$bError=true;
-				} else {
-					$this->oUserCurrent->setMail(getRequest('mail'));
 				}
 			} else {
 				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
@@ -470,11 +496,25 @@ class ActionSettings extends Action {
 			 */
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
 			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_account_save_before', array('oUser'=>$this->oUserCurrent,'bError'=>&$bError));
+			/**
 			 * Сохраняем изменения
 			 */
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+					/**
+					 * Подтверждение смены емайла
+					 */
+					if (getRequest('mail') and getRequest('mail')!=$this->oUserCurrent->getMail()) {
+						if ($this->User_MakeUserChangemail($this->oUserCurrent,getRequest('mail'))) {
+							$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
+						}
+					}
+
+					$this->Hook_Run('settings_account_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}
@@ -523,7 +563,7 @@ class ActionSettings extends Action {
 			/**
 			 * Проверяем имя
 			 */
-			if (func_check(getRequest('profile_name'),'text',2,20)) {
+			if (func_check(getRequest('profile_name'),'text',2,Config::Get('module.user.name_max'))) {
 				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
 			} else {
 				$this->oUserCurrent->setProfileName(null);
@@ -556,6 +596,10 @@ class ActionSettings extends Action {
 			 * Ставим дату последнего изменения профиля
 			 */
 			$this->oUserCurrent->setProfileDate(date("Y-m-d H:i:s"));
+			/**
+			 * Запускаем выполнение хуков
+			 */
+			$this->Hook_Run('settings_profile_save_before', array('oUser'=>$this->oUserCurrent,'bError'=>&$bError));
 			/**
 			 * Сохраняем изменения профиля
 			 */
@@ -596,7 +640,7 @@ class ActionSettings extends Action {
 					$aData = array();
 					foreach ($aFields as $iId => $aField) {
 						if (isset($_REQUEST['profile_user_field_'.$iId])) {
-							$aData[$iId] = getRequest('profile_user_field_'.$iId);
+							$aData[$iId] = (string)getRequest('profile_user_field_'.$iId);
 						}
 					}
 					$this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
@@ -613,12 +657,13 @@ class ActionSettings extends Action {
 					$aFieldsContactValue=getRequest('profile_user_field_value');
 					if (is_array($aFieldsContactType)) {
 						foreach($aFieldsContactType as $k=>$v) {
-							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k])) {
+							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k]) and is_string($aFieldsContactValue[$k])) {
 								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), Config::Get('module.user.userfield_max_identical'));
 							}
 						}
 					}
 					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
+					$this->Hook_Run('settings_profile_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 				}

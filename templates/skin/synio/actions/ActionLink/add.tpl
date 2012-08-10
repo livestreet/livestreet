@@ -6,6 +6,8 @@
 {/if}
 
 
+{include file='editor.tpl'}
+
 {hook run='add_topic_link_begin'}
 
 
@@ -21,7 +23,8 @@
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 		{/foreach}
-	</select></p>
+	</select>
+	<small class="note">{$aLang.topic_create_blog_notice}</small></p>
 
 	
 	<script type="text/javascript">
@@ -41,8 +44,8 @@
 	<small class="note">{$aLang.topic_link_create_url_notice}</small></p>
 
 	
-	<p><label for="topic_text">{$aLang.topic_link_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></p>
+	<label for="topic_text">{$aLang.topic_link_create_text}:</label>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.topic_text}</textarea>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
@@ -68,9 +71,9 @@
 	{hook run='form_add_topic_link_end'}
 
 	
-	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button type="submit"  name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
+	<button type="submit"  name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button type="submit"  name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 <div class="topic-preview" id="text_preview"></div>

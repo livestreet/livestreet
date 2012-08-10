@@ -5,7 +5,7 @@
 
 <article class="topic topic-type-{$oTopic->getType()} js-topic">
 	<header class="topic-header">
-		<h1 class="topic-title">
+		<h1 class="topic-title word-wrap">
 			{if $oTopic->getPublish() == 0}   
 				<i class="icon-tag" title="{$aLang.topic_unpublish}"></i>
 			{/if}
@@ -32,7 +32,7 @@
 		<div class="topic-info">
 			<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
 			
-			<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" pubdate title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
+			<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
 				{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 			</time>
 			

@@ -38,15 +38,19 @@
 				<a href="#" id="avatar-remove" class="link-dotted" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
 			</div>
 			
-			<div id="avatar-resize" class="modal">
+			<div id="avatar-resize" class="modal modal-upload-avatar">
 				<header class="modal-header">
-					<h3>{$aLang.uploadimg}</h3>
+					<h3>{$aLang.settings_profile_avatar_resize_title}</h3>
 				</header>
 				
 				<div class="modal-content">
-					<p><img src="" alt="" id="avatar-resize-original-img"></p>
-					<button class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
-					<button class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
+					<div class="clearfix">
+						<div class="image-border">
+							<img src="" alt="" id="avatar-resize-original-img">
+						</div>
+					</div>
+					<button type="submit"  class="button button-primary" onclick="return ls.user.resizeAvatar();">{$aLang.settings_profile_avatar_resize_apply}</button>
+					<button type="submit"  class="button" onclick="return ls.user.cancelAvatar();">{$aLang.settings_profile_avatar_resize_cancel}</button>
 				</div>
 			</div>
 		</div>
@@ -110,6 +114,7 @@
 		<br />
 		<br />
 
+		<div class="js-geo-select">
 		<label for="" style="margin-bottom: 7px">{$aLang.profile_place}:</label>
 		<p style="margin-bottom: 15px">
 			<select class="js-geo-country input-width-200" name="geo_country">
@@ -143,6 +148,7 @@
 				{/if}
 			</select>
 		</p>
+		</div>
 		
 		{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
 		{if count($aUserFieldValues)}
@@ -193,7 +199,7 @@
 		{hook run='form_settings_profile_end'}
 		
 		
-		<button name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
+		<button type="submit"  name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
 	</div>
 </form>
 

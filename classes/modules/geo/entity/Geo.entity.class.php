@@ -15,6 +15,12 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Объект сущности гео-объекта
+ *
+ * @package modules.geo
+ * @since 1.0
+ */
 class ModuleGeo_EntityGeo extends Entity {
 
 	/**
@@ -39,7 +45,6 @@ class ModuleGeo_EntityGeo extends Entity {
 		}
 		return $sName;
 	}
-
 	/**
 	 * Возвращает тип гео-объекта
 	 *
@@ -55,7 +60,6 @@ class ModuleGeo_EntityGeo extends Entity {
 		}
 		return null;
 	}
-
 	/**
 	 * Возвращает гео-объект страны
 	 *
@@ -74,7 +78,6 @@ class ModuleGeo_EntityGeo extends Entity {
 		}
 		return null;
 	}
-
 	/**
 	 * Возвращает гео-объект региона
 	 *
@@ -93,7 +96,6 @@ class ModuleGeo_EntityGeo extends Entity {
 		}
 		return null;
 	}
-
 	/**
 	 * Возвращает гео-объект города
 	 *
@@ -112,6 +114,5 @@ class ModuleGeo_EntityGeo extends Entity {
 		}
 		return null;
 	}
-
 }
 ?>

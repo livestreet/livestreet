@@ -18,7 +18,7 @@
 	<input type="text" name="mail" id="reminder-mail" class="input-text input-width-200" />
 	<small class="validate-error-hide validate-error-reminder"></small></p>
 
-	<button name="submit_reminder" class="button button-primary" id="reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
+	<button type="submit" name="submit_reminder" class="button button-primary" id="reminder-form-submit" disabled="disabled">{$aLang.password_reminder_submit}</button>
 </form>
 
 

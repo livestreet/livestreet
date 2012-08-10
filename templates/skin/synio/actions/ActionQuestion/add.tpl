@@ -6,6 +6,8 @@
 {/if}
 
 
+{include file='editor.tpl'}
+
 {hook run='add_topic_question_begin'}
 
 
@@ -20,7 +22,8 @@
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 		{/foreach}
-	</select></p>
+	</select>
+	<small class="note">{$aLang.topic_create_blog_notice}</small></p>
 
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
@@ -30,7 +33,7 @@
 	
 	
 	<p><label for="topic_title">{$aLang.topic_question_create_title}:</label>
-	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}disabled{/if} /><br />
+	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}readonly="readonly"{/if} /><br />
 	<small class="note">{$aLang.topic_question_create_title_notice}</small></p>
 
 	
@@ -41,7 +44,7 @@
 				{foreach from=$_aRequest.answer item=sAnswer key=i}
 					<li>
 						<input type="text" value="{$sAnswer}" name="answer[]" class="input-text input-width-300" {if $bEditDisabled}disabled{/if} />
-						{if !$bEditDisabled and $i>1} <a href="#" onClick="return ls.poll.removeAnswer(this);">{$aLang.topic_question_create_answers_delete}</a>{/if}
+						{if !$bEditDisabled and $i>1} <a href="#" class="icon-synio-remove" onClick="return ls.poll.removeAnswer(this);"></a>{/if}
 					</li>
 				{/foreach}
 			{else}
@@ -57,9 +60,12 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_question_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-text input-width-full">{$_aRequest.topic_text}</textarea></p>
-
-	
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.topic_text}</textarea>
+	{if !$oConfig->GetValue('view.tinymce')}
+		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
+	{/if}
+	</p>
+		
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>
 	<input type="text" id="topic_tags" name="topic_tags" value="{$_aRequest.topic_tags}" class="input-text input-width-full autocomplete-tags-sep" />
 	<small class="note">{$aLang.topic_create_tags_notice}</small></p>
@@ -82,9 +88,9 @@
 
 	{hook run='form_add_topic_question_end'}
 
-	<button name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
-	<button name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
-	<button name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
+	<button type="submit"  name="submit_topic_publish" id="submit_topic_publish" class="button button-primary fl-r">{$aLang.topic_create_submit_publish}</button>
+	<button type="submit"  name="submit_preview" onclick="jQuery('#text_preview').parent().show(); ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+	<button type="submit"  name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 </form>
 
 <div class="topic-preview" id="text_preview"></div>
