@@ -168,7 +168,7 @@ class ActionSearch extends Action {
 	 *
 	 * @return array
 	 */
-	private function PrepareRequest(){
+	protected function PrepareRequest(){
 		$aReq['q'] = getRequest('q');
 		if (!func_check($aReq['q'],'text', 2, 255)) {
 			/**
@@ -177,7 +177,11 @@ class ActionSearch extends Action {
 			 */
 			Router::Location(Router::GetPath('search'));
 		}
+<<<<<<< HEAD
 		$aReq['sType'] = strtolower(Router::GetActionEvent());
+=======
+		$aReq['sType'] = Router::GetActionEvent();		
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Определяем текущую страницу вывода результата
 		 */

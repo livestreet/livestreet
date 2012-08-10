@@ -114,13 +114,21 @@ ls.comments = (function ($) {
 		if (!bNotFlushNew) { 
 			$('.comment').each(function(index, item){ 
 				$(item).removeClass(this.options.classes.comment_new+' '+this.options.classes.comment_current);
+<<<<<<< HEAD
 				ls.hook.marker('unflashOld');
+=======
+				ls.hook.marker('unflashOld'); ls.hook.marker('/unflashOld');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			}.bind(this)); 
 		}
 
 		objImg = $('#update-comments');
 		objImg.addClass('active');
+<<<<<<< HEAD
 		ls.hook.marker('loadStart');
+=======
+		ls.hook.marker('loadStart'); ls.hook.marker('/loadStart');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 		var params = { idCommentLast: idCommentLast, idTarget: idTarget, typeTarget: typeTarget };
 		if (selfIdComment) { 
@@ -132,7 +140,11 @@ ls.comments = (function ($) {
 
 		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
 			objImg.removeClass('active');
+<<<<<<< HEAD
 			ls.hook.marker('loadEnd');
+=======
+			ls.hook.marker('loadEnd'); ls.hook.marker('/loadEnd');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
 			if (result.bStateError) {
@@ -168,6 +180,7 @@ ls.comments = (function ($) {
 					}
 					this.inject(item.idParent, item.id, item.html); 
 				}.bind(this));
+				//this.aCommentNew.sort(function(a,b){return a-b;});
 
 				if (selfIdComment && $('#comment_id_'+selfIdComment).length) { 
 					this.scrollToComment(selfIdComment);
@@ -203,7 +216,11 @@ ls.comments = (function ($) {
 		var url = aRouter['ajax']+'comment/delete/';
 		var params = { idComment: commentId };
 		
+<<<<<<< HEAD
 		ls.hook.marker('toggleBefore');
+=======
+		ls.hook.marker('toggleBefore'); ls.hook.marker('/toggleBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -214,7 +231,11 @@ ls.comments = (function ($) {
 				ls.msg.notice(null,result.sMsg);
 				
 				var selectorComment = '#comment_id_'+commentId;
+<<<<<<< HEAD
 				ls.hook.marker('selectorComment');
+=======
+				ls.hook.marker('selectorComment'); ls.hook.marker('/selectorComment');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 				
 				$(selectorComment).removeClass(this.options.classes.comment_self+' '+this.options.classes.comment_new+' '+this.options.classes.comment_deleted+' '+this.options.classes.comment_current);
 				if (result.bState) {
@@ -257,6 +278,7 @@ ls.comments = (function ($) {
 		$.each(aCommentsNew,function(k,v){
 			this.aCommentNew.push(parseInt($(v).attr('id').replace('comment_id_','')));
 		}.bind(this));
+		//this.aCommentNew.sort(function(a,b){return a-b;});
 	};
 
 
@@ -278,7 +300,11 @@ ls.comments = (function ($) {
 			selectorCommentNext = '#comment_id_'+idComment,
 			selectorCommentCurrent = this.iCurrentViewComment ? '#comment_id_'+this.iCurrentViewComment : null
 		;
+<<<<<<< HEAD
 		ls.hook.marker('selectors');
+=======
+		ls.hook.marker('selectors'); ls.hook.marker('/selectors');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$.scrollTo(selectorCommentNext, 1000, {offset: -250});
 						
 		if (selectorCommentCurrent) {

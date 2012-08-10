@@ -324,7 +324,11 @@ ls.tools = (function ($) {
 		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent()  : $('#'+textId).val();
 		var ajaxUrl = aRouter['ajax']+'preview/text/';
 		var ajaxOptions = {text: text, save: save};
+<<<<<<< HEAD
 		ls.hook.marker('textPreviewAjaxBefore');
+=======
+		ls.hook.marker('textPreviewAjaxBefore'); ls.hook.marker('/textPreviewAjaxBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(ajaxUrl, ajaxOptions, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
@@ -336,10 +340,18 @@ ls.tools = (function ($) {
 					divPreview = 'text_preview';
 				}
 				var elementPreview = $('#'+divPreview);
+<<<<<<< HEAD
 				ls.hook.marker('textPreviewDisplayBefore');
+=======
+				ls.hook.marker('textPreviewDisplayBefore'); ls.hook.marker('/textPreviewDisplayBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 				if (elementPreview.length) {
 					elementPreview.html(result.sText);
+<<<<<<< HEAD
 					ls.hook.marker('textPreviewDisplayAfter');
+=======
+					ls.hook.marker('textPreviewDisplayAfter'); ls.hook.marker('/textPreviewDisplayAfter');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 				}
 			}
 		});
@@ -458,16 +470,26 @@ ls = (function ($) {
 	* Загрузка изображения
 	*/
 	this.ajaxUploadImg = function(form, sToLoad) {
+<<<<<<< HEAD
 		var formSelector = '#window_upload_img';
 		ls.hook.marker('ajaxUploadImgBefore');
+=======
+		ls.hook.marker('ajaxUploadImgBefore'); ls.hook.marker('/ajaxUploadImgBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajaxSubmit('upload/image/',form,function(data){
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
 				$.markItUp({replaceWith: data.sText} );
+<<<<<<< HEAD
 				$(formSelector).find('input[type="text"], input[type="file"]').val('');
 				$(formSelector).jqmHide();
 				ls.hook.marker('ajaxUploadImgAfter');
+=======
+				$('#form_upload_img').find('input[type="text"], input[type="file"]').val('');
+				$('#form_upload_img').jqmHide();
+				ls.hook.marker('ajaxUploadImgAfter'); ls.hook.marker('/ajaxUploadImgAfter');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			}
 		});
 	};

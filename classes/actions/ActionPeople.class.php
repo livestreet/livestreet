@@ -28,11 +28,14 @@ class ActionPeople extends Action {
 	 * @var string
 	 */
 	protected $sMenuHeadItemSelect='people';
+<<<<<<< HEAD
 	/**
 	 * Меню
 	 *
 	 * @var string
 	 */
+=======
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	protected $sMenuItemSelect='all';
 
 	/**
@@ -40,9 +43,12 @@ class ActionPeople extends Action {
 	 *
 	 */
 	public function Init() {
+<<<<<<< HEAD
 		/**
 		 * Устанавливаем title страницы
 		 */
+=======
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
 	}
 	/**
@@ -52,11 +58,19 @@ class ActionPeople extends Action {
 	protected function RegisterEvent() {
 		$this->AddEvent('online','EventOnline');
 		$this->AddEvent('new','EventNew');
+<<<<<<< HEAD
 		$this->AddEventPreg('/^(index)?$/i','/^(page([1-9]\d{0,5}))?$/i','/^$/i','EventIndex');
 		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
 
 		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventCountry');
 		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventCity');
+=======
+		$this->AddEventPreg('/^(index)?$/i','/^(page(\d+))?$/i','/^$/i','EventIndex');
+		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
+
+		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
+		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	}
 
 
@@ -66,6 +80,7 @@ class ActionPeople extends Action {
 	 */
 
 	/**
+<<<<<<< HEAD
 	 * Поиск пользователей по логину
 	 */
 	protected function EventAjaxSearch() {
@@ -103,6 +118,31 @@ class ActionPeople extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);
 		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
+=======
+	 * Поиск пользователей
+	 */
+	protected function EventAjaxSearch() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$sTitle=getRequest('user_login');
+		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
+			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		if (getRequest('isPrefix')) {
+			$sTitle.='%';
+		} elseif (getRequest('isPostfix')) {
+			$sTitle='%'.$sTitle;
+		} else {
+			$sTitle='%'.$sTitle.'%';
+		}
+		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aUsersList',$aResult['collection']);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
 	}
@@ -111,10 +151,13 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCountry() {
+<<<<<<< HEAD
 		$this->sMenuItemSelect='country';
 		/**
 		 * Страна существует?
 		 */
+=======
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!($oCountry=$this->Geo_GetCountryById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
@@ -138,7 +181,11 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
+<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
+=======
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCountry->getId());
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -153,10 +200,13 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCity() {
+<<<<<<< HEAD
 		$this->sMenuItemSelect='city';
 		/**
 		 * Город существует?
 		 */
+=======
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!($oCity=$this->Geo_GetCityById($this->getParam(0)))) {
 			return parent::EventNotFound();
 		}
@@ -180,7 +230,11 @@ class ActionPeople extends Action {
 		/**
 		 * Формируем постраничность
 		 */
+<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
+=======
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').$this->sCurrentEvent.'/'.$oCity->getId());
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -236,6 +290,7 @@ class ActionPeople extends Action {
 		 */
 		$sOrder='user_rating';
 		if (getRequest('order')) {
+<<<<<<< HEAD
 			$sOrder=(string)getRequest('order');
 		}
 		/**
@@ -261,6 +316,33 @@ class ActionPeople extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+=======
+			$sOrder=getRequest('order');
+		}
+		/**
+		 * В каком направлении сортировать
+		 */
+		$sOrderWay='desc';
+		if (getRequest('order_way')) {
+			$sOrderWay=getRequest('order_way');
+		}
+		$aFilter=array(
+			'activate' => 1
+		);
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		/**
+		 * Получаем список юзеров
+		 */
+		$aResult=$this->User_GetUsersByFilter($aFilter,array($sOrder=>$sOrderWay),$iPage,Config::Get('module.user.per_page'));
+		$aUsers=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Получаем алфавитный указатель на список пользователей
 		 */

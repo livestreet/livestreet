@@ -128,6 +128,12 @@ class ModuleMail extends Module {
 	protected $sError;
 	
 	/**
+	 * Строка последней ошибки
+	 * 
+	 * @var string
+	 */
+	protected $sError;
+	/**
 	 * Инициализация модуля
 	 *
 	 */

@@ -232,8 +232,13 @@ class ActionLink extends Action {
 		 * Проверка корректности полей формы
 		 */
 		if (!$this->checkTopicFields($oTopic)) {
+<<<<<<< HEAD
 			return false;
 		}
+=======
+			return false;	
+		}		
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Определяем в какой блог делаем запись
 		 */
@@ -268,8 +273,13 @@ class ActionLink extends Action {
 		 * Теперь можно смело добавлять топик к блогу
 		 */
 		$oTopic->setBlogId($oBlog->getId());
+<<<<<<< HEAD
 		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
 		$oTopic->setTextShort($oTopic->getText());
+=======
+		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$oTopic->setCutText(null);
 		/**
 		 * Публикуем или сохраняем
@@ -357,7 +367,11 @@ class ActionLink extends Action {
 		 * Проверка корректности полей формы
 		 */
 		if (!$this->checkTopicFields($oTopic)) {
+<<<<<<< HEAD
 			return false;
+=======
+			return false;	
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		}
 		/**
 		 * Определяем в какой блог делаем запись
@@ -391,10 +405,17 @@ class ActionLink extends Action {
 		}
 		/**
 		 * Теперь можно смело редактировать топик
+<<<<<<< HEAD
 		 */
 		$oTopic->setBlogId($oBlog->getId());
 		$oTopic->setText($this->Text_Parser($oTopic->getTextSource()));
 		$oTopic->setTextShort($oTopic->getText());
+=======
+		 */		
+		$oTopic->setBlogId($oBlog->getId());
+		$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+		$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
@@ -447,9 +468,15 @@ class ActionLink extends Action {
 			}
 			$this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
 			/**
+<<<<<<< HEAD
 			 * Добавляем событие в ленту
 			 */
 			$this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+=======
+             * Добавляем событие в ленту
+             */
+            $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),$oTopic->getPublish() && $oBlog->getType()!='close');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			/**
 			 * Рассылаем о новом топике подписчикам блога
 			 */
@@ -483,6 +510,10 @@ class ActionLink extends Action {
 		 * Выполнение хуков
 		 */
 		$this->Hook_Run('check_link_fields', array('bOk'=>&$bOk));
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return $bOk;
 	}
 	/**

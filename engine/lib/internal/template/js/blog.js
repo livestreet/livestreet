@@ -12,7 +12,11 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxblogjoin/';
 		var params = {idBlog: idBlog};
 		
+<<<<<<< HEAD
 		ls.hook.marker('toggleJoinBefore');
+=======
+		ls.hook.marker('toggleJoinBefore'); ls.hook.marker('/toggleJoinBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url,params,function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -34,6 +38,7 @@ ls.blog = (function ($) {
 		});
 	};
 
+<<<<<<< HEAD
 	ls.blog.addInviteUser = function(aUser,idBlog) {
 		if($('#invited_list').length == 0) {
 			$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
@@ -41,6 +46,15 @@ ls.blog = (function ($) {
 		var listItem = $('<li><a href="'+aUser.sUserWebPath+'" class="user">'+aUser.sUserLogin+'</a></li>');
 		$('#invited_list').append(listItem);
 		ls.hook.run('ls_blog_add_invite_user_after',[idBlog,aUser],listItem);
+=======
+	this.addInviteUser = function(aUser,idBlog) {
+		if($('#invited_list').length == 0) {
+			$('#invited_list_block').append($('<ul class="list" id="invited_list"></ul>'));
+		}
+		var listItem = $('<li><a href="'+aUser.sUserWebPath+'" class="user">'+aUser.sUserLogin+'</a></li>');
+		$('#invited_list').append(listItem);
+		ls.hook.run('ls_blog_add_invite_user_after',[idBlog,item],listItem);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	};
 	
 	
@@ -55,7 +69,11 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxaddbloginvite/';
 		var params = {users: sUsers, idBlog: idBlog};
 		
+<<<<<<< HEAD
 		ls.hook.marker('addInviteBefore');
+=======
+		ls.hook.marker('addInviteBefore'); ls.hook.marker('/addInviteBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -81,7 +99,11 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxrebloginvite/';
 		var params = {idUser: idUser, idBlog: idBlog};
 		
+<<<<<<< HEAD
 		ls.hook.marker('repeatInviteBefore');
+=======
+		ls.hook.marker('repeatInviteBefore'); ls.hook.marker('/repeatInviteBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -93,6 +115,7 @@ ls.blog = (function ($) {
 		
 		return false;
 	};
+<<<<<<< HEAD
 
 	/**
 	 * Удаляет приглашение в блог
@@ -115,6 +138,8 @@ ls.blog = (function ($) {
 
 		return false;
 	};
+=======
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	
 	/**
 	* Отображение информации о блоге
@@ -123,7 +148,11 @@ ls.blog = (function ($) {
 		var url = aRouter['blog']+'ajaxbloginfo/';
 		var params = {idBlog: idBlog};
 		
+<<<<<<< HEAD
 		ls.hook.marker('loadInfoBefore');
+=======
+		ls.hook.marker('repeatInviteBefore'); ls.hook.marker('/repeatInviteBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -139,6 +168,7 @@ ls.blog = (function ($) {
 	* Отображение информации о типе блога
 	*/
 	this.loadInfoType = function(type) {
+<<<<<<< HEAD
 		$('#blog_type_note').text(ls.lang.get('blog_create_type_' + type + '_notice'));
 	};
 
@@ -181,5 +211,10 @@ ls.blog = (function ($) {
 		return false;
 	};
 
+=======
+		$('#blog_type_note').text($('#blog_type_note_'+type).text());
+	};
+	
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	return this;
 }).call(ls.blog || {},jQuery);

@@ -7,7 +7,11 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'subscribe/';
 		var params = {'type':sType, 'id':iId};
 		
+<<<<<<< HEAD
 		ls.hook.marker('subscribeBefore');
+=======
+		ls.hook.marker('subscribeBefore'); ls.hook.marker('/subscribeBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -20,7 +24,11 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'unsubscribe/';
 		var params = {'type':sType, 'id':iId};
 		
+<<<<<<< HEAD
 		ls.hook.marker('unsubscribeBefore');
+=======
+		ls.hook.marker('unsubscribeBefore'); ls.hook.marker('/unsubscribeBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
@@ -36,7 +44,11 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'subscribeByLogin/';
 		var params = {'login':sLogin};
 		
+<<<<<<< HEAD
 		ls.hook.marker('appendUserBefore');
+=======
+		ls.hook.marker('appendUserBefore'); ls.hook.marker('/appendUserBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -72,7 +84,11 @@ ls.userfeed =( function ($) {
 		var url = aRouter['feed']+'get_more/';
 		var params = {'last_id':lastId};
 		
+<<<<<<< HEAD
 		ls.hook.marker('getMoreBefore');
+=======
+		ls.hook.marker('getMoreBefore'); ls.hook.marker('/getMoreBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.topics_count) {
 				$('#userfeed_loaded_topics').append(data.result);

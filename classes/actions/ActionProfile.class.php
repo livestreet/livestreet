@@ -47,9 +47,16 @@ class ActionProfile extends Action {
 	 */
 	protected $oUserCurrent;
 
+<<<<<<< HEAD
 	/**
 	 * Инициализация
 	 */
+=======
+	protected $sMenuSubItemSelect='';
+
+	protected $oUserCurrent;
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	public function Init() {
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
@@ -72,6 +79,7 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^remove$/i','EventWallRemove');
 
+<<<<<<< HEAD
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavouriteComments');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
 		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
@@ -87,6 +95,20 @@ class ActionProfile extends Action {
 
 		$this->AddEventPreg('/^changemail$/i','/^confirm-from/i','/^\w{32}$/i','EventChangemailConfirmFrom');
 		$this->AddEventPreg('/^changemail$/i','/^confirm-to/i','/^\w{32}$/i','EventChangemailConfirmTo');
+=======
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page(\d+))?$/i','EventFavouriteTopicsTag');
+
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page(\d+))?$/i','EventCreatedNotes');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page(\d+))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
+
+		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page(\d+))?$/i','EventFriends');
+		$this->AddEventPreg('/^.+$/i','/^stream/i','/^$/i','EventStream');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	}
 
 	/**********************************************************************************
@@ -106,6 +128,7 @@ class ActionProfile extends Action {
 		}
 		return true;
 	}
+<<<<<<< HEAD
 	/**
 	 * Чтение активности пользователя (stream)
 	 */
@@ -129,13 +152,147 @@ class ActionProfile extends Action {
 	 * Список друзей пользователей
 	 */
 	protected function EventFriends() {
+=======
+
+	/**
+	 * Чтение активности пользователя (stream)
+	 */
+	protected function EventStream() {
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
+
+		/**
+		 * Читаем события
+		 */
+		$aEvents = $this->Stream_ReadByUserId($this->oUserProfile->getId());
+		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByUserId($this->oUserProfile->getId()) < Config::Get('module.stream.count_default'));
+		$this->Viewer_Assign('aStreamEvents', $aEvents);
+		if (count($aEvents)) {
+			$oEvenLast=end($aEvents);
+			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+		}
+		$this->SetTemplateAction('stream');
+	}
+	/**
+	 * Список друзей пользователей
+	 */
+	protected function EventFriends() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
 		/**
 		 * Передан ли номер страницы
 		 */
 		$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		/**
+		 * Получаем список комментов
+		 */
+		$aResult=$this->User_GetUsersFriend($this->oUserProfile->getId(),$iPage,Config::Get('module.user.per_page'));
+		$aFriends=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),4,$this->oUserProfile->getUserWebPath().'friends');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aFriends',$aFriends);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_friends').' '.$this->oUserProfile->getLogin());
+
+		$this->SetTemplateAction('friends');
+	}
+	/**
+	 * Список топиков пользователя
+	 */
+	protected function EventCreatedTopics() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		$this->sMenuSubItemSelect='topics';
+		/**
+		 * Передан ли номер страницы
+		 */
+		if ($this->GetParamEventMatch(1,0)=='topics') {
+			$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		} else {
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		}
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsPersonalByUser($this->oUserProfile->getId(),1,$iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'created/topics');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'personal_blog/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('created_topics');
+	}
+	/**
+	 * Вывод комментариев пользователя
+	 */
+	protected function EventCreatedComments() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		$this->sMenuSubItemSelect='comments';
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		/**
+		 * Получаем список комментов
+		 */
+		$aResult=$this->Comment_GetCommentsByUserId($this->oUserProfile->getId(),'topic',$iPage,Config::Get('module.comment.per_page'));
+		$aComments=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'created/comments');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aComments',$aComments);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_comment'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('created_comments');
+	}
+	/**
+	 * Выводит список избранноего юзера
+	 *
+	 */
+	protected function EventFavourite() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		$this->sMenuSubItemSelect='topics';
+		/**
+		 * Передан ли номер страницы
+		 */
+		if ($this->GetParamEventMatch(1,0)=='topics') {
+			$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		} else {
+			$iPage=$this->GetParamEventMatch(1,2) ? $this->GetParamEventMatch(1,2) : 1;
+		}
 		/**
 		 * Получаем список комментов
 		 */
@@ -258,7 +415,11 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
+<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics');
+=======
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -271,6 +432,7 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('favourite_topics');
 	}
+<<<<<<< HEAD
 	/**
 	 * Список топиков из избранного по тегу
 	 */
@@ -303,6 +465,38 @@ class ActionProfile extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
+=======
+
+	/**
+	 * Список топиков из избранного по тегу
+	 */
+	protected function EventFavouriteTopicsTag() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		if (!$this->oUserCurrent or $this->oUserProfile->getId()!=$this->oUserCurrent->getId()) {
+			return parent::EventNotFound();
+		}
+		$this->sMenuSubItemSelect='topics';
+		$sTag=$this->GetParamEventMatch(3,0);
+		/*
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(4,2) ? $this->GetParamEventMatch(4,2) : 1;
+		/**
+		 * Получаем список избранных топиков
+		 */
+		$aResult=$this->Favourite_GetTags(array('target_type'=>'topic','user_id'=>$this->oUserProfile->getId(),'text'=>$sTag),array('target_id'=>'desc'),$iPage,Config::Get('module.topic.per_page'));
+		$aTopicId=array();
+		foreach($aResult['collection'] as $oTag) {
+			$aTopicId[]=$oTag->getTargetId();
+		}
+		$aTopics=$this->Topic_GetTopicsAdditionalData($aTopicId);
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/topics/tag/'.htmlspecialchars($sTag));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -337,7 +531,11 @@ class ActionProfile extends Action {
 		/**
 		 * Формируем постраничность
 		 */
+<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),Config::Get('pagination.pages.count'),$this->oUserProfile->getUserWebPath().'favourites/comments');
+=======
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.comment.per_page'),4,$this->oUserProfile->getUserWebPath().'favourites/comments');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -363,9 +561,13 @@ class ActionProfile extends Action {
 		 * Получаем список друзей
 		 */
 		$aUsersFriend=$this->User_GetUsersFriend($this->oUserProfile->getId(),1,Config::Get('module.user.friend_on_profile'));
+<<<<<<< HEAD
 		/**
 		 * Если активен режим инвайтов, то прогружаем дополнительную информацию
 		 */
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (Config::Get('general.reg.invite')) {
 			/**
 			 * Получаем список тех кого пригласил юзер
@@ -412,6 +614,7 @@ class ActionProfile extends Action {
 		 */
 		$this->SetTemplateAction('whois');
 	}
+<<<<<<< HEAD
 	/**
 	 * Отображение стены пользователя
 	 */
@@ -456,6 +659,257 @@ class ActionProfile extends Action {
 		$oWall->setUserId($this->oUserCurrent->getId());
 		$oWall->setText(getRequest('sText'));
 		$oWall->setPid(getRequest('iPid'));
+=======
+
+	/**
+	 * Отображение стены пользователя
+	 */
+	public function EventWall() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Получаем записи стены
+		 */
+		$aWall=$this->Wall_GetWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null),array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aWall',$aWall['collection']);
+		$this->Viewer_Assign('iCountWall',$aWall['count']);
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('wall');
+	}
+
+	/**
+	 * Добавление записи на стену
+	 */
+	public function EventWallAdd() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		$oWall=Engine::GetEntity('Wall');
+		$oWall->_setValidateScenario('add');
+		$oWall->setWallUserId($this->oUserProfile->getId());
+		$oWall->setUserId($this->oUserCurrent->getId());
+		$oWall->setText(getRequest('sText'));
+		$oWall->setPid(getRequest('iPid'));
+
+		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
+		if ($oWall->_Validate()) {
+			/**
+			 * Экранируем текст и добавляем запись в БД
+			 */
+			$oWall->setText($this->Text_Parser($oWall->getText()));
+			$this->Hook_Run('wall_add_before', array('oWall'=>$oWall));
+			if ($this->Wall_AddWall($oWall)) {
+				$this->Hook_Run('wall_add_after', array('oWall'=>$oWall));
+				/**
+				 * Отправляем уведомления
+				 */
+				if ($oWall->getWallUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallNew($oWall,$this->oUserCurrent);
+				}
+				if ($oWallParent=$oWall->GetPidWall() and $oWallParent->getUserId()!=$oWall->getUserId()) {
+					$this->Notify_SendWallReply($oWallParent,$oWall,$this->oUserCurrent);
+				}
+				/**
+				 * Добавляем событие в ленту
+				 */
+				$this->Stream_Write($oWall->getUserId(), 'add_wall', $oWall->getId());
+			} else {
+				$this->Message_AddError($this->Lang_Get('wall_add_error'),$this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($oWall->_getValidateError(),$this->Lang_Get('error'));
+		}
+	}
+
+	/**
+	 * Удаление записи со стены
+	 */
+	public function EventWallRemove() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		if (!($oWall=$this->Wall_GetWallById(getRequest('iId')))) {
+			return parent::EventNotFound();
+		}
+
+		if ($oWall->isAllowDelete()) {
+			$this->Wall_DeleteWall($oWall);
+			return;
+		}
+		return parent::EventNotFound();
+	}
+
+	/**
+	 * Ajax подгрузка сообщений стены
+	 */
+	public function EventWallLoad() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Формируем фильтр для запроса к БД
+		 */
+		$aFilter=array(
+			'wall_user_id'=>$this->oUserProfile->getId(),
+			'pid'=>null
+		);
+		if (is_numeric(getRequest('iIdLess'))) {
+			$aFilter['id_less']=getRequest('iIdLess');
+		} elseif (is_numeric(getRequest('iIdMore'))) {
+			$aFilter['id_more']=getRequest('iIdMore');
+		} else {
+			$this->Message_AddError($this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем сообщения
+		 */
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aWall',$aWall['collection']);
+		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items.tpl'));
+		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
+		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+	}
+
+	public function EventWallLoadReply() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		if (!($oWall=$this->Wall_GetWallById(getRequest('iPid'))) or $oWall->getPid()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Формируем фильтр для запроса к БД
+		 */
+		$aFilter=array(
+			'wall_user_id'=>$this->oUserProfile->getId(),
+			'pid'=>$oWall->getId()
+		);
+		if (is_numeric(getRequest('iIdLess'))) {
+			$aFilter['id_less']=getRequest('iIdLess');
+		} elseif (is_numeric(getRequest('iIdMore'))) {
+			$aFilter['id_more']=getRequest('iIdMore');
+		} else {
+			$this->Message_AddError($this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем сообщения
+		 */
+		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,Config::Get('module.wall.per_page'));
+		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
+		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
+		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+	}
+
+	/**
+	 * Сохраняет заметку о пользователе
+	 */
+	public function EventAjaxNoteSave() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		/**
+		 * Создаем заметку и проводим валидацию
+		 */
+		$oNote=Engine::GetEntity('ModuleUser_EntityNote');
+		$oNote->setTargetUserId(getRequest('iUserId'));
+		$oNote->setUserId($this->oUserCurrent->getId());
+		$oNote->setText(getRequest('text'));
+
+		if ($oNote->_Validate()) {
+			/**
+			 * Экранируем текст и добавляем запись в БД
+			 */
+			$oNote->setText(htmlspecialchars($oNote->getText()));
+			if ($this->User_SaveNote($oNote)) {
+				$this->Viewer_AssignAjax('sText',$oNote->getText());
+			} else {
+				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($oNote->_getValidateError(),$this->Lang_Get('error'));
+		}
+	}
+
+	/**
+	 * Удаляет заметку о пользователе
+	 */
+	public function EventAjaxNoteRemove() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		if (!($oUserTarget=$this->User_GetUserById(getRequest('iUserId')))) {
+			return parent::EventNotFound();
+		}
+		if (!($oNote=$this->User_GetUserNote($oUserTarget->getId(),$this->oUserCurrent->getId()))) {
+			return parent::EventNotFound();
+		}
+		$this->User_DeleteUserNoteById($oNote->getId());
+	}
+
+
+	public function EventCreatedNotes() {
+		if (!$this->CheckUserProfile()) {
+			return parent::EventNotFound();
+		}
+		$this->sMenuSubItemSelect='notes';
+		/**
+		 * Заметки может читать только сам пользователь
+		 */
+		if (!$this->oUserCurrent or $this->oUserCurrent->getId()!=$this->oUserProfile->getId()) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(2,2) ? $this->GetParamEventMatch(2,2) : 1;
+		/**
+		 * Получаем список заметок
+		 */
+		$aResult=$this->User_GetUserNotesByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.user.usernote_per_page'));
+		$aNotes=$aResult['collection'];
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.usernote_per_page'),4,$this->oUserProfile->getUserWebPath().'created/notes');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aNotes',$aNotes);
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_notes'));
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('created_notes');
+	}
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
 		if ($oWall->_Validate()) {
@@ -839,9 +1293,26 @@ class ActionProfile extends Action {
 				$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
 				$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
 
+<<<<<<< HEAD
 				$oViewerLocal=$this->GetViewerLocal();
 				$oViewerLocal->Assign('oUserFriend',$oFriend);
 				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+=======
+					/**
+					 * Добавляем событие в ленту
+					 */
+					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
+					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
+					/**
+					 * Добавляем пользователей к друг другу в ленту активности
+					 */
+					$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
+					$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
+
+					$oViewerLocal=$this->GetViewerLocal();
+					$oViewerLocal->Assign('oUserFriend',$oFriend);
+					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 			} else {
 				$this->Message_AddErrorSingle(
@@ -1045,9 +1516,13 @@ class ActionProfile extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('user_friend_add_time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
+<<<<<<< HEAD
 		/**
 		 * Обрабатываем текст заявки
 		 */
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$sUserText=$this->Text_Parser($sUserText);
 		/**
 		 * Создаем связь с другом
@@ -1285,12 +1760,20 @@ class ActionProfile extends Action {
 		 * Заметка текущего пользователя о юзере
 		 */
 		if ($this->oUserCurrent) {
+<<<<<<< HEAD
 			$this->Viewer_Assign('oUserNote',$this->oUserProfile->getUserNote());
 		}
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
+=======
+			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
+		}
+		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
+
+		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$this->Viewer_Assign('USER_FRIEND_NULL',ModuleUser::USER_FRIEND_NULL);
 		$this->Viewer_Assign('USER_FRIEND_OFFER',ModuleUser::USER_FRIEND_OFFER);
 		$this->Viewer_Assign('USER_FRIEND_ACCEPT',ModuleUser::USER_FRIEND_ACCEPT);

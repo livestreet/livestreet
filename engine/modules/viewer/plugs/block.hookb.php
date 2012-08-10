@@ -27,7 +27,11 @@
  */
 function smarty_block_hookb($aParams,$sContent,&$oSmarty,&$bRepeat) {
 	if(empty($aParams['run'])) {
+<<<<<<< HEAD
 		trigger_error("Hook: missing 'run' parametr",E_USER_WARNING);
+=======
+		trigger_error("Hook: missing 'run' parametr");
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return;
 	}
 	

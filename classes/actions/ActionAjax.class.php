@@ -90,6 +90,84 @@ class ActionAjax extends Action {
 	 * Вывод информации о блоге
 	 */
 	protected function EventInfoboxInfoBlog() {
+		if (!($oBlog=$this->Blog_GetBlogById(getRequest('iBlogId'))) or $oBlog->getType()=='personal') {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+
+		$oViewer->Assign('oBlog',$oBlog);
+		if ($oBlog->getType()!='close' or $oBlog->getUserIsJoin()) {
+			/**
+			 * Получаем последний топик
+			 */
+			$aResult = $this->Topic_GetTopicsByFilter(array('blog_id'=>$oBlog->getId(),'topic_publish'=>1),1,1);
+			$oViewer->Assign('oTopicLast',reset($aResult['collection']));
+		}
+		$oViewer->Assign('oUserCurrent',$this->oUserCurrent);
+
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("infobox.info.blog.tpl"));
+	}
+
+	/**
+	 * Получение списка регионов по стране
+	 */
+	protected function EventGeoGetRegions() {
+		$iCountryId=getRequest('country');
+		$iLimit=200;
+		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
+			$iLimit=getRequest('limit');
+		}
+
+		if (!($oCountry=$this->Geo_GetGeoObject('country',$iCountryId))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$aResult=$this->Geo_GetRegions(array('country_id'=>$oCountry->getId()),array('sort'=>'asc'),1,$iLimit);
+		$aRegions=array();
+		foreach($aResult['collection'] as $oObject) {
+			$aRegions[]=array(
+				'id' => $oObject->getId(),
+				'name' => $oObject->getName(),
+			);
+		}
+
+		$this->Viewer_AssignAjax('aRegions',$aRegions);
+	}
+
+	/**
+	 * Получение списка городов по региону
+	 */
+	protected function EventGeoGetCities() {
+		$iRegionId=getRequest('region');
+		$iLimit=500;
+		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
+			$iLimit=getRequest('limit');
+		}
+
+		if (!($oRegion=$this->Geo_GetGeoObject('region',$iRegionId))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		$aResult=$this->Geo_GetCities(array('region_id'=>$oRegion->getId()),array('sort'=>'asc'),1,$iLimit);
+		$aCities=array();
+		foreach($aResult['collection'] as $oObject) {
+			$aCities[]=array(
+				'id' => $oObject->getId(),
+				'name' => $oObject->getName(),
+			);
+		}
+
+		$this->Viewer_AssignAjax('aCities',$aCities);
+	}
+
+	/**
+	 * Вывод информации о блоге
+	 */
+	protected function EventInfoboxInfoBlog() {
 		/**
 		 * Если блог существует и он не персональный
 		 */
@@ -628,6 +706,46 @@ class ActionAjax extends Action {
 		$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 	}
 	/**
+	 * Сохраняет теги для избранного
+	 *
+	 * @return mixed
+	 */
+	protected function EventFavouriteSaveTags() {
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		if ($oFavourite=$this->Favourite_GetFavourite(getRequest('target_id'),getRequest('target_type'),$this->oUserCurrent->getId())) {
+			$aTags=explode(',',trim(getRequest('tags'),"\r\n\t\0\x0B ."));
+			$aTagsNew=array();
+			$aTagsNewLow=array();
+			$aTagsReturn=array();
+			foreach ($aTags as $sTag) {
+				$sTag=trim($sTag);
+				if (func_check($sTag,'text',2,50) and !in_array(mb_strtolower($sTag,'UTF-8'),$aTagsNewLow)) {
+					$sTagEsc=htmlspecialchars($sTag);
+					$aTagsNew[]=$sTagEsc;
+					$aTagsReturn[]=array(
+						'tag' => $sTagEsc,
+						'url' => $this->oUserCurrent->getUserWebPath().'favourites/'.$oFavourite->getTargetType().'s/tag/'.$sTagEsc.'/', // костыль для URL с множественным числом
+					);
+					$aTagsNewLow[]=mb_strtolower($sTag,'UTF-8');
+				}
+			}
+			if (!count($aTagsNew)) {
+				$oFavourite->setTags('');
+			} else {
+				$oFavourite->setTags(join(',',$aTagsNew));
+			}
+			$this->Viewer_AssignAjax('aTags',$aTagsReturn);
+			$this->Favourite_UpdateFavourite($oFavourite);
+			return;
+		}
+		$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+	}
+
+	/**
 	 * Обработка избранного - топик
 	 *
 	 */
@@ -975,6 +1093,7 @@ class ActionAjax extends Action {
 		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
 		$oTopic->_setValidateScenario($sType); // зависит от типа топика
 
+<<<<<<< HEAD
 		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
 		$oTopic->setTextSource(getRequest('topic_text'));
 		$oTopic->setTags(getRequest('topic_tags'));
@@ -1015,6 +1134,63 @@ class ActionAjax extends Action {
 		/**
 		 * Передаем результат в ajax ответ
 		 */
+=======
+	/**
+	 * Предпросмотр топика
+	 *
+	 */
+	protected function EventPreviewTopic() {
+		$this->Viewer_SetResponseAjax('jsonIframe',false);
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		if (!$this->Topic_IsAllowTopicType($sType=getRequest('topic_type'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_type_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
+		$oTopic->_setValidateScenario($sType); // зависит от типа топика
+
+		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+		$oTopic->setTextSource(getRequest('topic_text'));
+		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
+		$oTopic->setUserId($this->oUserCurrent->getId());
+		$oTopic->setType($sType);
+
+		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type'),false);
+
+		if ($oTopic->_hasValidateErrors()) {
+			$this->Message_AddErrorSingle($oTopic->_getValidateError());
+			return false;
+		}
+		/**
+		 * Формируем текст топика
+		 */
+		if (in_array($sType,array('link','question'))) {
+			$oTopic->setCutText(null);
+			$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
+			$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
+		} else {
+			list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
+			$oTopic->setCutText($sTextCut);
+			$oTopic->setText($this->Text_Parser($sTextNew));
+			$oTopic->setTextShort($this->Text_Parser($sTextShort));
+		}
+		/**
+		 * Рендерим шаблон для предпросмотра топика
+		 */
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('oTopic',$oTopic);
+		$sTemplate="topic_preview_{$oTopic->getType()}.tpl";
+		if (!$this->Viewer_TemplateExists($sTemplate)) {
+			$sTemplate='topic_preview_topic.tpl';
+		}
+		$sTextResult=$oViewer->Fetch($sTemplate);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		$this->Viewer_AssignAjax('sText',$sTextResult);
 		return true;
 	}
@@ -1119,11 +1295,17 @@ class ActionAjax extends Action {
 		foreach ($aTags as $oTag) {
 			$aItems[]=$oTag->getText();
 		}
+<<<<<<< HEAD
 		/**
 		 * Передаем результат в ajax ответ
 		 */
 		$this->Viewer_AssignAjax('aItems',$aItems);
 	}
+=======
+		$this->Viewer_AssignAjax('aItems',$aItems);
+	}
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	/**
 	 * Автоподставновка пользователей
 	 *

@@ -104,6 +104,10 @@ class ActionBlog extends Action {
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsBlogNew=$this->iCountTopicsCollectiveNew;
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем в шаблон JS текстовки
 		 */
@@ -116,6 +120,7 @@ class ActionBlog extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
+<<<<<<< HEAD
 		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 		$this->AddEvent('good',array('EventTopics','topics'));
 		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
@@ -123,6 +128,14 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+=======
+		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEvent('good',array('EventTopics','topics'));
+		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^discussed$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^top$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
@@ -141,12 +154,20 @@ class ActionBlog extends Action {
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i',array('EventShowTopic','topic'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i',array('EventShowTopic','topic'));
 
+<<<<<<< HEAD
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+=======
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page([1-9]\d{0,5}))?$/i','EventShowUsers');
 	}
@@ -185,7 +206,13 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('blog_create_acl'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
+<<<<<<< HEAD
 		$this->Hook_Run('blog_add_show');
+=======
+
+		$this->Hook_Run('blog_add_show');
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Запускаем проверку корректности ввода полей при добалении блога.
 		 * Дополнительно проверяем, что был отправлен POST запрос.
@@ -270,12 +297,21 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Проверка на право редактировать блог
 		 */
 		if (!$this->ACL_IsAllowEditBlog($oBlog, $this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
+<<<<<<< HEAD
+=======
+
+		$this->Hook_Run('blog_edit_show',array('oBlog'=>$oBlog));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 		$this->Hook_Run('blog_edit_show',array('oBlog'=>$oBlog));
 		/**
@@ -315,7 +351,11 @@ class ActionBlog extends Action {
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 			if ($this->oUserCurrent->isAdministrator()) {
+<<<<<<< HEAD
 				$oBlog->setUrl((string)getRequest('blog_url'));	// разрешаем смену URL блога только админу
+=======
+				$oBlog->setUrl(getRequest('blog_url'));	// разрешаем смену URL блога только админу
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			}
 			/**
 			 * Загрузка аватара, делаем ресайзы
@@ -382,12 +422,20 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Проверка на право управлением пользователями блога
 		 */
 		if (!$this->ACL_IsAllowAdminBlog($oBlog, $this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Обрабатываем сохранение формы
 		 */
@@ -512,12 +560,20 @@ class ActionBlog extends Action {
 				}
 			}
 		}
+<<<<<<< HEAD
 
 		/**
 		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 		 */
 		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
 			$blogUrl=preg_replace("/\s+/",'_',(string)getRequest('blog_url'));
+=======
+		/**
+		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
+		 */
+		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
+			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {
 				$this->Message_AddError($this->Lang_Get('blog_create_url_error'),$this->Lang_Get('error'));
@@ -610,7 +666,11 @@ class ActionBlog extends Action {
 		/**
 		 * Формируем постраничность
 		 */
+<<<<<<< HEAD
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('blog').$sShowType,in_array($sShowType,array('discussed','top')) ? array('period'=>$sPeriod) : array());
+=======
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,Router::GetPath('blog').$sShowType,array('period'=>$sPeriod));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Вызов хуков
 		 */
@@ -742,6 +802,15 @@ class ActionBlog extends Action {
 		 * Вызов хуков
 		 */
 		$this->Hook_Run('topic_show',array("oTopic"=>$oTopic));
+<<<<<<< HEAD
+=======
+		/**
+		 * Выставляем SEO данные
+		 */
+		$sTextSeo=strip_tags($oTopic->getText());
+		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo, Config::Get('seo.description_words_count')));
+		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -816,7 +885,11 @@ class ActionBlog extends Action {
 			$sPeriod=getRequest('period');
 		}
 		$sBlogUrl=$this->sCurrentEvent;
+<<<<<<< HEAD
 		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','newall','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
+=======
+		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		if (!in_array($sShowType,array('discussed','top'))) {
 			$sPeriod='all';
 		}
@@ -871,8 +944,13 @@ class ActionBlog extends Action {
 			 * Формируем постраничность
 			 */
 			$aPaging=($sShowType=='good')
+<<<<<<< HEAD
 				? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),rtrim($oBlog->getUrlFull(),'/'))
 				: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),$oBlog->getUrlFull().$sShowType,array('period'=>$sPeriod));
+=======
+				? $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,rtrim($oBlog->getUrlFull(),'/'))
+				: $this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),4,$oBlog->getUrlFull().$sShowType,array('period'=>$sPeriod));
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			/**
 			 * Получаем число новых топиков в текущем блоге
 			 */
@@ -1096,6 +1174,10 @@ class ActionBlog extends Action {
 				'oComment' => $oCommentNew,
 				'oUserComment' => $this->oUserCurrent,
 			),$aExcludeMail);
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			/**
 			 * Добавляем событие в ленту
 			 */

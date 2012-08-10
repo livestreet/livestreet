@@ -29,6 +29,7 @@ function smarty_function_json($params, &$smarty)
 		return;
 	}
 
+<<<<<<< HEAD
 	if(class_exists('Entity')
 		&& $params['var'] instanceof Entity) {
 		$aMethods = null;
@@ -42,6 +43,29 @@ function smarty_function_json($params, &$smarty)
 	} else {
 		$var = $params['var'];
 	}
+=======
+    if (!array_key_exists('var', $params)) {
+        trigger_error("json: missing 'var' parameter");
+        return;
+    }
+    
+    if(class_exists('Entity')
+    && $params['var'] instanceof Entity
+    && function_exists('func_convert_entity_to_array')){
+    	$aMethods = null;
+    	if(!empty($params['methods'])){
+    		$aMethods = is_array($params['methods'])
+    			? $params['methods']
+    			: explode(',', $params['methods'])
+    		;
+    	}
+    	$var = func_convert_entity_to_array($params['var'], $aMethods);
+    }else{
+    	$var = $params['var'];
+    }
+    
+    $_contents = json_encode($var);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 
 	$_contents = json_encode($var);
 

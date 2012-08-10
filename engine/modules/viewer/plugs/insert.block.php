@@ -43,7 +43,11 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	$sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
 
 	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
+<<<<<<< HEAD
 		trigger_error("Not found template for block: ".$sBlockTemplate,E_USER_WARNING);
+=======
+		trigger_error("Not found template for block: ".$sBlockTemplate);
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		return ;
 	}
 	/**

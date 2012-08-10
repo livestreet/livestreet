@@ -15,6 +15,7 @@
 ---------------------------------------------------------
 */
 
+<<<<<<< HEAD
 class PluginPage_ModulePage_EntityPage extends Entity
 {
 	public function getId() {
@@ -67,6 +68,79 @@ class PluginPage_ModulePage_EntityPage extends Entity
 
 
 
+=======
+class PluginPage_ModulePage_EntityPage extends Entity 
+{    
+	
+	protected $_aData=array(
+		'page_id' => null,
+		'page_pid' => null,
+		'page_url' => null,
+		'page_url_full' => null,
+		'page_title' => null,
+		'page_text' => null,
+		'page_date_add' => null,
+		'page_date_edit' => null,
+		'page_seo_keywords' => null,
+		'page_seo_description' => null,
+		'page_active' => null,
+		'page_main' => null,
+		'page_sort' => null,
+		'page_auto_br' => null,
+		'level' => null,
+	);
+	
+    public function getId() {
+        return $this->_aData['page_id'];
+    } 
+    public function getPid() {
+        return $this->_aData['page_pid'];
+    }
+    public function getUrl() {
+        return $this->_aData['page_url'];
+    }
+    public function getUrlFull() {
+        return $this->_aData['page_url_full'];
+    }
+    public function getTitle() {
+        return $this->_aData['page_title'];
+    }
+    public function getText() {
+        return $this->_aData['page_text'];
+    }
+    public function getDateAdd() {
+        return $this->_aData['page_date_add'];
+    }
+    public function getDateEdit() {
+        return $this->_aData['page_date_edit'];
+    }
+    public function getSeoKeywords() {
+        return $this->_aData['page_seo_keywords'];
+    }
+    public function getSeoDescription() {
+        return $this->_aData['page_seo_description'];
+    }
+    public function getActive() {
+        return $this->_aData['page_active'];
+    }
+    public function getMain() {
+        return $this->_aData['page_main'];
+    }
+    public function getSort() {
+        return $this->_aData['page_sort'];
+    }   
+    public function getAutoBr() {
+        return $this->_aData['page_auto_br'];
+    }  
+    
+    public function getLevel() {
+        return $this->_aData['level'];
+    }
+    
+      
+     
+    
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 	public function setId($data) {
 		$this->_aData['page_id']=$data;
 	}

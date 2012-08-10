@@ -60,6 +60,7 @@ class ActionError extends Action {
 	 */
 	protected function EventError() {
 		/**
+<<<<<<< HEAD
 		 * Если евент равен одной из ошибок из $aHttpErrors, то шлем браузеру специфичный header
 		 * Например, для 404 в хидере будет послан браузеру заголовок HTTP/1.1 404 Not Found
 		 */
@@ -70,6 +71,14 @@ class ActionError extends Action {
 				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 				header("{$sProtocol} {$aHttpError['header']}");
 			}
+=======
+		 * Если эвент равен 404, то значит нужно в хидере послать браузеру HTTP/1.1 404 Not Found
+		 */		
+		if ($this->sCurrentEvent=='404') {			
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error_404'),'404');
+			$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			header("{$sProtocol} 404 Not Found");
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		}
 		/**
 		 * Устанавливаем title страницы

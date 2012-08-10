@@ -7,9 +7,15 @@ ls.stream =( function ($) {
 	this.subscribe = function (iTargetUserId) {
 		var url = aRouter['stream']+'subscribe/';
 		var params = {'id':iTargetUserId};
+<<<<<<< HEAD
 
 		ls.hook.marker('subscribeBefore');
 		ls.ajax(url, params, function(data) {
+=======
+		
+		ls.hook.marker('subscribeBefore'); ls.hook.marker('/subscribeBefore');
+		ls.ajax(url, params, function(data) { 
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
@@ -22,9 +28,15 @@ ls.stream =( function ($) {
 	this.unsubscribe = function (iId) {
 		var url = aRouter['stream']+'unsubscribe/';
 		var params = {'id':iId};
+<<<<<<< HEAD
 
 		ls.hook.marker('unsubscribeBefore');
 		ls.ajax(url, params, function(data) {
+=======
+		
+		ls.hook.marker('unsubscribeBefore'); ls.hook.marker('/unsubscribeBefore');
+		ls.ajax(url, params, function(data) { 
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_unsubscribe_after',[params,data]);
@@ -35,9 +47,15 @@ ls.stream =( function ($) {
 	this.switchEventType = function (iType) {
 		var url = aRouter['stream']+'switchEventType/';
 		var params = {'type':iType};
+<<<<<<< HEAD
 
 		ls.hook.marker('switchEventTypeBefore');
 		ls.ajax(url, params, function(data) {
+=======
+		
+		ls.hook.marker('switchEventTypeBefore'); ls.hook.marker('/switchEventTypeBefore');
+		ls.ajax(url, params, function(data) { 
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_switch_event_type_after',[params,data]);
@@ -51,8 +69,13 @@ ls.stream =( function ($) {
 
 		var url = aRouter['stream']+'subscribeByLogin/';
 		var params = {'login':sLogin};
+<<<<<<< HEAD
 
 		ls.hook.marker('appendUserBefore');
+=======
+		
+		ls.hook.marker('appendUserBefore'); ls.hook.marker('/appendUserBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
 				$('#stream_no_subscribed_users').remove();
@@ -86,9 +109,15 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more/';
+<<<<<<< HEAD
 		var params = {'last_id':lastId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreBefore');
+=======
+		var params = {'last_id':lastId};
+		
+		ls.hook.marker('getMoreBefore'); ls.hook.marker('/getMoreBefore');
+>>>>>>> branch 'master' of git@github.com:1d10t/livestreet.git
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.events_count) {
 				$('#stream-list').append(data.result);
