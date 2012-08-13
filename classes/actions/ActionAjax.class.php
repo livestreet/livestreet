@@ -973,6 +973,7 @@ class ActionAjax extends Action {
 		 * Создаем объект топика для валидации данных
 		 */
 		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
+		/* @var $oTopic ModuleTopic_EntityTopic */
 		$oTopic->_setValidateScenario($sType); // зависит от типа топика
 
 		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
@@ -981,10 +982,46 @@ class ActionAjax extends Action {
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType($sType);
+		
+		// Убираем иконку черновика
+		$oTopic->setPublish(1);
+		$oTopic->setPublishDraft(1);
+		
+		// Специфические поля, зависящие от типа топика
+		switch($sType){
+			case 'link':
+				$oTopic->setLinkUrl(getRequest('topic_link_url'));
+				break;
+			case 'question':
+				$oTopic->clearQuestionAnswer();
+				foreach (getRequest('answer',array()) as $sAnswer) {
+					$oTopic->addQuestionAnswer($sAnswer);
+				}
+				break;
+			case 'photoset':
+				$sTargetTmp=$_COOKIE['ls_photoset_target_tmp'];
+				$aPhotos = $this->Topic_getPhotosByTargetTmp($sTargetTmp);
+				if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequest('topic_main_photo'))
+				and $oPhotoMain->getTargetTmp()==$sTargetTmp)
+				and count($aPhotos)) {
+					$oPhotoMain=reset($aPhotos);
+					$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
+					$oTopic->setPhotosetMainPhoto($oPhotoMain);
+				}
+				$oTopic->setPhotosetCount(count($aPhotos));
+				$oTopic->setPhotosetPhotosTmp($aPhotos);
+				break;
+		}
+		
+		// Пользовательские поля
+		$this->Hook_Run('topic_preview_set_vars', array(
+			$oTopic, $this->oUserCurrent
+		));
+		
 		/**
 		 * Валидируем необходимые поля топика
 		 */
-		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type'),false);
+		$oTopic->_Validate(array('topic_title','topic_text','tags','topic_type'),false);
 		if ($oTopic->_hasValidateErrors()) {
 			$this->Message_AddErrorSingle($oTopic->_getValidateError());
 			return false;

@@ -2,7 +2,7 @@
 /**
  * Project:     Smarty: the PHP compiling template engine
  * File:        Smarty.class.php
- * SVN:         $Id: Smarty.class.php 4551 2012-02-06 20:45:10Z rodneyrehm $
+ * SVN:         $Id: Smarty.class.php 4614 2012-05-24 15:13:19Z rodneyrehm $
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
  * @author Uwe Tews
  * @author Rodney Rehm
  * @package Smarty
- * @version 3.1.8
+ * @version 3.1-DEV
  */
 
 /**
@@ -113,7 +113,7 @@ class Smarty extends Smarty_Internal_TemplateBase {
     /**
      * smarty version
      */
-    const SMARTY_VERSION = 'Smarty-3.1.8';
+    const SMARTY_VERSION = 'Smarty-3.1.11';
 
     /**
      * define variable scopes
@@ -190,6 +190,10 @@ class Smarty extends Smarty_Internal_TemplateBase {
      */
     public static $_UTF8_MODIFIER = 'u';
     
+    /**
+     * Flag denoting if operating system is windows
+     */
+    public static $_IS_WINDOWS = false;
     
     /**#@+
      * variables
@@ -1463,6 +1467,9 @@ class Smarty extends Smarty_Internal_TemplateBase {
         restore_error_handler();
     }
 }
+
+// Check if we're running on windows
+Smarty::$_IS_WINDOWS = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 
 // let PCRE (preg_*) treat strings as ISO-8859-1 if we're not dealing with UTF-8
 if (Smarty::$_CHARSET !== 'UTF-8') {

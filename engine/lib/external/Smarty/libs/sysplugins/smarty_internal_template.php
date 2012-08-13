@@ -115,9 +115,6 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
      */
     public function __construct($template_resource, $smarty, $_parent = null, $_cache_id = null, $_compile_id = null, $_caching = null, $_cache_lifetime = null)
     {
-		// Hack for delegate template in LiveStreet
-		$template_resource=Engine::getInstance()->Plugin_GetDelegate('template',$template_resource);
-		// End hack
         $this->smarty = &$smarty;
         // Smarty parameter
         $this->cache_id = $_cache_id === null ? $this->smarty->cache_id : $_cache_id;
@@ -269,6 +266,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
         // get variables from calling scope
         if ($parent_scope == Smarty::SCOPE_LOCAL) {
             $tpl->tpl_vars = $this->tpl_vars;
+            $tpl->tpl_vars['smarty'] = clone $this->tpl_vars['smarty'];
         } elseif ($parent_scope == Smarty::SCOPE_PARENT) {
             $tpl->tpl_vars = &$this->tpl_vars;
         } elseif ($parent_scope == Smarty::SCOPE_GLOBAL) {
@@ -308,6 +306,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
         // get variables from calling scope
         if ($parent_scope == Smarty::SCOPE_LOCAL ) {
             $tpl->tpl_vars = $this->tpl_vars;
+            $tpl->tpl_vars['smarty'] = clone $this->tpl_vars['smarty'];
         } elseif ($parent_scope == Smarty::SCOPE_PARENT) {
             $tpl->tpl_vars = &$this->tpl_vars;
         } elseif ($parent_scope == Smarty::SCOPE_GLOBAL) {
@@ -445,7 +444,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
                         $mtime = $this->source->timestamp;
                     } else {
                         // file and php types can be checked without loading the respective resource handlers
-                        $mtime = filemtime($_file_to_check[0]);
+                        $mtime = @filemtime($_file_to_check[0]);
                     }
                 } elseif ($_file_to_check[2] == 'string') {
                     continue;
@@ -453,7 +452,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
                     $source = Smarty_Resource::source(null, $this->smarty, $_file_to_check[0]);
                     $mtime = $source->timestamp;
                 }
-                if ($mtime > $_file_to_check[1]) {
+                if (!$mtime || $mtime > $_file_to_check[1]) {
                     $is_valid = false;
                     break;
                 }

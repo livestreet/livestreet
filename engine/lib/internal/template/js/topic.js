@@ -14,8 +14,9 @@ ls.topic = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				preview.show().html(result.sText);
+				preview.empty().show().html(result.sText);
 				ls.hook.run('ls_topic_preview_after',[form, preview, result]);
+				$.scrollTo(preview);
 			}
 		});
 	};

@@ -39,7 +39,7 @@ class ModuleTopic_EntityTopic extends Entity {
 		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('topic','photoset'));
 		$this->aValidateRules[]=array('topic_text_source','string','max'=>500,'min'=>10,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('link'));
 		$this->aValidateRules[]=array('topic_text_source','string','max'=>500,'allowEmpty'=>true,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('question'));
-		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'),'on'=>array('topic','link','question','photoset'));
+		$this->aValidateRules[]=array('tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'),'on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('topic_type','topic_type','on'=>array('topic','link','question','photoset'));
@@ -652,6 +652,10 @@ class ModuleTopic_EntityTopic extends Entity {
 	 * @return array
 	 */
 	public function getPhotosetPhotos($iFromId = null, $iCount = null) {
+		if(!$this->getId()){
+			$aPhotos = $this->getPhotosetPhotosTmp();
+			return is_array($aPhotos) ? $aPhotos : array();
+		}
 		return $this->Topic_getPhotosByTopicId($this->getId(), $iFromId, $iCount);
 	}
 	/**
