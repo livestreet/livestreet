@@ -31,7 +31,8 @@
 .block.block-type-stream .block-content .latest-list li { margin-bottom: 15px; color: #818189; }
 .block.block-type-stream .block-content .latest-list p { font-size: 11px; }
 .block.block-type-stream .block-content .latest-list .stream-topic { text-decoration: underline; }
-.block.block-type-stream .block-content .latest-list .stream-blog { font-weight: bold; }
+.block.block-type-stream .block-content .latest-list .stream-blog { color: #4128B1; }
+.block.block-type-stream .block-content .latest-list .stream-blog:hover { color: #f00; }
 .block.block-type-stream .block-content .latest-list .author { color: #4c4c4c; text-decoration: underline; }
 .block.block-type-stream .block-content .latest-list .author:hover { color: #f00; }
 .block.block-type-stream .block-content .latest-list .block-item-comments { font-size: 11px; text-decoration: none; color: #818189; white-space: nowrap; }
@@ -46,14 +47,17 @@
 
 
 /* Block Type - Profile */
-.block.block-type-profile 							{ background: none; border: none; padding: 0; }
-.block.block-type-profile .profile-photo-wrapper 	{ position: relative; min-height: 50px; }
-.block.block-type-profile .profile-photo 			{ vertical-align: top; max-width: 240px; }
-.block.block-type-profile .status 					{ position: absolute; top: 5px; left: 5px; padding: 0 5px; border-radius: 2px; font-size: 11px; line-height: 17px; }
-.block.block-type-profile .status.status-online 	{ background: #B7BC1C; color: #fff; }
-.block.block-type-profile .status.status-offline 	{ background: #333; color: #fff; opacity: .5; filter: alpha(opacity=50); }
-.block.block-type-profile .upload-photo 			{ padding: 10px 30px 15px 30px; background: #f8fbfe; font-size: 11px; }
-.block.block-type-profile .upload-photo a 			{ color: #727a90; border-color: #727a90; }
+.block.block-type-profile 								{ background: none; border: none; padding: 0; }
+.block.block-type-profile .profile-photo-wrapper 		{ position: relative; min-height: 50px; }
+.block.block-type-profile .profile-photo 				{ vertical-align: top; max-width: 240px; }
+.block.block-type-profile .status 						{ position: absolute; top: 10px; left: 0; padding: 0 0 0 10px; font-size: 11px; line-height: 18px; height: 20px; }
+.block.block-type-profile .status:before 				{ content: ''; position: absolute; top: 0; right: -20px; width: 0; height: 0; border-width: 10px; border-style: solid; border-color: #333; border-color: #333 transparent #333 #333; }
+.block.block-type-profile .status.status-online			{ background: #8961e4; color: #fff; }
+.block.block-type-profile .status.status-online:before 	{ border-color: #8961e4 transparent #8961e4 #8961e4; }
+.block.block-type-profile .status.status-offline		{ background: #fff; color: #333; opacity: .5; filter: alpha(opacity=50); }
+.block.block-type-profile .status.status-offline:before { border-color: #fff transparent #fff #fff; }
+.block.block-type-profile .upload-photo 				{ padding: 10px 30px 15px 30px; background: #f8fbfe; font-size: 11px; }
+.block.block-type-profile .upload-photo a 				{ color: #727a90; border-color: #727a90; }
 
 .block.block-type-profile-note	 				{ border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
 .block.block-type-profile-note p 				{ margin-bottom: 10px; }

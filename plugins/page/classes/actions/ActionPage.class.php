@@ -294,7 +294,7 @@ class PluginPage_ActionPage extends ActionPlugin {
 		/**
 		 * Проверяем есть ли заголовок топика, с заменой всех пробельных символов на "_"
 		 */
-		$pageUrl=preg_replace("/\s+/",'_',getRequest('page_url',null,'post'));
+		$pageUrl=preg_replace("/\s+/",'_',(string)getRequest('page_url',null,'post'));
 		$_REQUEST['page_url']=$pageUrl;
 		if (!func_check(getRequest('page_url',null,'post'),'login',1,50)) {
 			$this->Message_AddError($this->Lang_Get('plugin.page.create_url_error'),$this->Lang_Get('error'));

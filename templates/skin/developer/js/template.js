@@ -3,6 +3,23 @@ jQuery(document).ready(function($){
 	ls.hook.run('ls_template_init_start',[],window);
 	
 	$('html').removeClass('no-js');
+	
+	// Определение браузера
+	if ($.browser.opera) {
+		$('body').addClass('opera opera' + parseInt($.browser.version));
+	}
+	if ($.browser.mozilla) {
+		$('body').addClass('mozilla mozilla' + parseInt($.browser.version));
+	}
+	if ($.browser.webkit) {
+		$('body').addClass('webkit webkit' + parseInt($.browser.version));
+	}
+	if ($.browser.msie) {
+		$('body').addClass('ie');
+		if (parseInt($.browser.version) > 8) {
+			$('body').addClass('ie' + parseInt($.browser.version));
+		}
+	}
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
@@ -15,6 +32,7 @@ jQuery(document).ready(function($){
 	$('#foto-resize').jqm({modal: true});
 	$('#avatar-resize').jqm({modal: true});
 	$('#userfield_form').jqm({toTop: true}); 
+	$('#photoset-upload-form').jqm({trigger: '#photoset-start-upload'});
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {
@@ -71,14 +89,26 @@ jQuery(document).ready(function($){
 
 	
 	// Всплывающие сообщения
-	$('.js-title-comment, .js-title-topic').poshytip({
-		className: 'infobox-standart',
+	if (ls.registry.get('block_stream_show_tip')) {
+		$('.js-title-comment, .js-title-topic').poshytip({
+			className: 'infobox-yellow',
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 10,
+			liveEvents: true,
+			showTimeout: 1000
+		});
+	}
+
+	$('.js-title-talk').poshytip({
+		className: 'infobox-yellow',
 		alignTo: 'target',
 		alignX: 'left',
 		alignY: 'center',
-		offsetX: 5,
+		offsetX: 10,
 		liveEvents: true,
-		showTimeout: 1500
+		showTimeout: 500
 	});
 
 	$('.js-infobox-vote-topic').poshytip({
@@ -103,6 +133,12 @@ jQuery(document).ready(function($){
 		offsetX: 5,
 		liveEvents: true,
 		showTimeout: 500
+	});
+
+	$('.js-infobox').poshytip({
+		className: 'infobox-standart',
+		liveEvents: true,
+		showTimeout: 300
 	});
 
 	// подсветка кода

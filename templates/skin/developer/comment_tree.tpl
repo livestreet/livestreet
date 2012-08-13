@@ -5,9 +5,11 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+{hook run='comment_tree_begin' iTargetId=$iTargetId sTargetType=$sTargetType}
+
 <div class="comments" id="comments">
 	<header class="comments-header">
-		<h3>{$iCountComment} {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
+		<h3><span id="count-comments">{$iCountComment}</span> {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
 		
 		{if $bAllowSubscribe and $oUserCurrent}
 			<input {if $oSubscribeComment and $oSubscribeComment->getStatus()}checked="checked"{/if} type="checkbox" id="comment_subscribe" class="input-checkbox" onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);">
@@ -46,6 +48,7 @@
 	
 {include file='comment_paging.tpl' aPagingCmt=$aPagingCmt}
 
+{hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}

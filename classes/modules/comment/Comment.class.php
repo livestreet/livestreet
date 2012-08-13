@@ -18,40 +18,56 @@
 /**
  * Модуль для работы с комментариями
  *
+ * @package modules.comment
+ * @since 1.0
  */
 class ModuleComment extends Module {
-	protected $oMapper;	
+	/**
+	 * Объект маппера
+	 *
+	 * @var ModuleComment_MapperComment
+	 */
+	protected $oMapper;
+	/**
+	 * Объект текущего пользователя
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
 	protected $oUserCurrent=null;
-		
+
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {			
+	public function Init() {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
-		$this->oUserCurrent=$this->User_GetUserCurrent();		
+		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
 	/**
 	 * Получить коммент по айдишнику
 	 *
-	 * @param unknown_type $sId
-	 * @return unknown
+	 * @param int $sId	ID комментария
+	 * @return ModuleComment_EntityComment|null
 	 */
 	public function GetCommentById($sId) {
-		$aComments=$this->GetCommentsAdditionalData($sId);			
+		if (!is_numeric($sId)) {
+			return null;
+		}
+		$aComments=$this->GetCommentsAdditionalData($sId);
 		if (isset($aComments[$sId])) {
 			return $aComments[$sId];
-		}		
+		}
 		return null;
 	}
 	/**
 	 * Получает уникальный коммент, это помогает спастись от дублей комментов
 	 *
-	 * @param unknown_type $sTargetId
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $sUserId
-	 * @param unknown_type $sCommentPid
-	 * @param unknown_type $sHash
+	 * @param int $sTargetId	ID владельца комментария
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param int $sUserId	ID пользователя
+	 * @param int $sCommentPid	ID родительского комментария
+	 * @param string $sHash	Хеш строка текста комментария
+	 * @return ModuleComment_EntityComment|null
 	 */
 	public function GetCommentUnique($sTargetId,$sTargetType,$sUserId,$sCommentPid,$sHash) {
 		$sId=$this->oMapper->GetCommentUnique($sTargetId,$sTargetType,$sUserId,$sCommentPid,$sHash);
@@ -60,23 +76,28 @@ class ModuleComment extends Module {
 	/**
 	 * Получить все комменты
 	 *
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $iPage
-	 * @param unknown_type $iPerPage
-	 * @return unknown
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param int $iPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @param array $aExcludeTarget	Список ID владельцев, которые необходимо исключить из выдачи
+	 * @param array $aExcludeParentTarget	Список ID родителей владельцев, которые необходимо исключить из выдачи, например, исключить комментарии топиков к определенным блогам(закрытым)
+	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetCommentsAll($sTargetType,$iPage,$iPerPage,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {		
+	public function GetCommentsAll($sTargetType,$iPage,$iPerPage,$aExcludeTarget=array(),$aExcludeParentTarget=array()) {
 		$s=serialize($aExcludeTarget).serialize($aExcludeParentTarget);
-		if (false === ($data = $this->Cache_Get("comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
+		if (false === ($data = $this->Cache_Get("comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {
 			$data = array('collection'=>$this->oMapper->GetCommentsAll($sTargetType,$iCount,$iPage,$iPerPage,$aExcludeTarget,$aExcludeParentTarget),'count'=>$iCount);
 			$this->Cache_Set($data, "comment_all_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*1);
 		}
 		$data['collection']=$this->GetCommentsAdditionalData($data['collection'],array('target','favourite','user'=>array()));
-		return $data;		 	
-	}	
+		return $data;
+	}
 	/**
 	 * Получает дополнительные данные(объекты) для комментов по их ID
 	 *
+	 * @param array $aCommentId	Список ID комментов
+	 * @param array|null $aAllowData	Список типов дополнительных данных, которые нужно получить для комментариев
+	 * @return array
 	 */
 	public function GetCommentsAdditionalData($aCommentId,$aAllowData=null) {
 		if (is_null($aAllowData)) {
@@ -93,17 +114,16 @@ class ModuleComment extends Module {
 		/**
 		 * Формируем ID дополнительных данных, которые нужно получить
 		 */
-		$aUserId=array();	
-		$aTargetId=array('topic'=>array(),'talk'=>array());	
+		$aUserId=array();
+		$aTargetId=array('topic'=>array(),'talk'=>array());
 		foreach ($aComments as $oComment) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oComment->getUserId();
 			}
 			if (isset($aAllowData['target'])) {
 				$aTargetId[$oComment->getTargetType()][]=$oComment->getTargetId();
-			}			
+			}
 		}
-		
 		/**
 		 * Получаем дополнительные данные
 		 */
@@ -113,13 +133,13 @@ class ModuleComment extends Module {
 		 */
 		$aTargets=array();
 		//$aTargets['topic']=isset($aAllowData['target']) && is_array($aAllowData['target']) ? $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],$aAllowData['target']) : $this->Topic_GetTopicsAdditionalData($aTargetId['topic']);
-		$aTargets['topic']=$this->Topic_GetTopicsAdditionalData($aTargetId['topic'],array('blog'=>array('owner'=>array())));
+		$aTargets['topic']=$this->Topic_GetTopicsAdditionalData($aTargetId['topic'],array('blog'=>array('owner'=>array()),'user'=>array()));
 		$aVote=array();
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-			$aVote=$this->Vote_GetVoteByArray($aCommentId,'comment',$this->oUserCurrent->getId());			
+			$aVote=$this->Vote_GetVoteByArray($aCommentId,'comment',$this->oUserCurrent->getId());
 		}
 		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
-			$aFavouriteComments=$this->Favourite_GetFavouritesByArray($aCommentId,'comment',$this->oUserCurrent->getId());	
+			$aFavouriteComments=$this->Favourite_GetFavouritesByArray($aCommentId,'comment',$this->oUserCurrent->getId());
 		}
 		/**
 		 * Добавляем данные к результату
@@ -136,7 +156,7 @@ class ModuleComment extends Module {
 				$oComment->setTarget(null);
 			}
 			if (isset($aVote[$oComment->getId()])) {
-				$oComment->setVote($aVote[$oComment->getId()]);				
+				$oComment->setVote($aVote[$oComment->getId()]);
 			} else {
 				$oComment->setVote(null);
 			}
@@ -144,15 +164,15 @@ class ModuleComment extends Module {
 				$oComment->setIsFavourite(true);
 			} else {
 				$oComment->setIsFavourite(false);
-			}						
+			}
 		}
-		
 		return $aComments;
 	}
 	/**
 	 * Список комментов по ID
 	 *
-	 * @param array $aUserId
+	 * @param array $aCommentId	Список ID комментариев
+	 * @return array
 	 */
 	public function GetCommentsByArrayId($aCommentId) {
 		if (!$aCommentId) {
@@ -171,25 +191,25 @@ class ModuleComment extends Module {
 		 * Делаем мульти-запрос к кешу
 		 */
 		$aCacheKeys=func_build_cache_keys($aCommentId,'comment_');
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {			
+		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {
 			/**
-			 * проверяем что досталось из кеша
+			 * Проверяем что досталось из кеша
 			 */
 			foreach ($aCacheKeys as $sValue => $sKey ) {
-				if (array_key_exists($sKey,$data)) {	
+				if (array_key_exists($sKey,$data)) {
 					if ($data[$sKey]) {
 						$aComments[$data[$sKey]->getId()]=$data[$sKey];
 					} else {
 						$aCommentIdNotNeedQuery[]=$sValue;
 					}
-				} 
+				}
 			}
 		}
 		/**
 		 * Смотрим каких комментов не было в кеше и делаем запрос в БД
-		 */		
-		$aCommentIdNeedQuery=array_diff($aCommentId,array_keys($aComments));		
-		$aCommentIdNeedQuery=array_diff($aCommentIdNeedQuery,$aCommentIdNotNeedQuery);		
+		 */
+		$aCommentIdNeedQuery=array_diff($aCommentId,array_keys($aComments));
+		$aCommentIdNeedQuery=array_diff($aCommentIdNeedQuery,$aCommentIdNotNeedQuery);
 		$aCommentIdNeedStore=$aCommentIdNeedQuery;
 		if ($data = $this->oMapper->GetCommentsByArrayId($aCommentIdNeedQuery)) {
 			foreach ($data as $oComment) {
@@ -206,36 +226,42 @@ class ModuleComment extends Module {
 		 */
 		foreach ($aCommentIdNeedStore as $sId) {
 			$this->Cache_Set(null, "comment_{$sId}", array(), 60*60*24*4);
-		}		
+		}
 		/**
 		 * Сортируем результат согласно входящему массиву
 		 */
 		$aComments=func_array_sort_by_keys($aComments,$aCommentId);
-		return $aComments;		
-	}	
+		return $aComments;
+	}
+	/**
+	 * Получает список комментариев по ID используя единый кеш
+	 *
+	 * @param array $aCommentId Список ID комментариев
+	 * @return array
+	 */
 	public function GetCommentsByArrayIdSolid($aCommentId) {
 		if (!is_array($aCommentId)) {
 			$aCommentId=array($aCommentId);
 		}
-		$aCommentId=array_unique($aCommentId);	
-		$aComments=array();	
+		$aCommentId=array_unique($aCommentId);
+		$aComments=array();
 		$s=join(',',$aCommentId);
-		if (false === ($data = $this->Cache_Get("comment_id_{$s}"))) {			
+		if (false === ($data = $this->Cache_Get("comment_id_{$s}"))) {
 			$data = $this->oMapper->GetCommentsByArrayId($aCommentId);
 			foreach ($data as $oComment) {
 				$aComments[$oComment->getId()]=$oComment;
 			}
 			$this->Cache_Set($aComments, "comment_id_{$s}", array("comment_update"), 60*60*24*1);
 			return $aComments;
-		}		
+		}
 		return $data;
 	}
 	/**
-	 * Получть все комменты сгрупированные по топику(для вывода прямого эфира)
+	 * Получить все комменты сгрупированные по типу(для вывода прямого эфира)
 	 *
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $iLimit
-	 * @return unknown
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param int $iLimit	Количество элементов
+	 * @return array
 	 */
 	public function GetCommentsOnline($sTargetType,$iLimit) {
 		/**
@@ -244,35 +270,35 @@ class ModuleComment extends Module {
 		$aCloseBlogs = ($this->oUserCurrent)
 			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
 			: $this->Blog_GetInaccessibleBlogsByUser();
-			
+
 		$s=serialize($aCloseBlogs);
-		
-		if (false === ($data = $this->Cache_Get("comment_online_{$sTargetType}_{$s}_{$iLimit}"))) {			
+
+		if (false === ($data = $this->Cache_Get("comment_online_{$sTargetType}_{$s}_{$iLimit}"))) {
 			$data = $this->oMapper->GetCommentsOnline($sTargetType,$aCloseBlogs,$iLimit);
 			$this->Cache_Set($data, "comment_online_{$sTargetType}_{$s}_{$iLimit}", array("comment_online_update_{$sTargetType}"), 60*60*24*1);
 		}
 		$data=$this->GetCommentsAdditionalData($data);
-		return $data;		
+		return $data;
 	}
 	/**
 	 * Получить комменты по юзеру
 	 *
-	 * @param  string $sId
-	 * @param  string $sTargetType
-	 * @param  int    $iPage
-	 * @param  int    $iPerPage
+	 * @param  int $sId	ID пользователя
+	 * @param  string $sTargetType	Тип владельца комментария
+	 * @param  int    $iPage	Номер страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
 	 * @return array
 	 */
-	public function GetCommentsByUserId($sId,$sTargetType,$iPage,$iPerPage) {	
+	public function GetCommentsByUserId($sId,$sTargetType,$iPage,$iPerPage) {
 		/**
 		 * Исключаем из выборки идентификаторы закрытых блогов
 		 */
-		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
-			? array()			
+		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId())
+			? array()
 			: $this->Blog_GetInaccessibleBlogsByUser();
 		$s=serialize($aCloseBlogs);
-			
-		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {			
+
+		if (false === ($data = $this->Cache_Get("comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}"))) {
 			$data = array('collection'=>$this->oMapper->GetCommentsByUserId($sId,$sTargetType,$iCount,$iPage,$iPerPage,array(),$aCloseBlogs),'count'=>$iCount);
 			$this->Cache_Set($data, "comment_user_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}_{$s}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
@@ -282,20 +308,20 @@ class ModuleComment extends Module {
 	/**
 	 * Получает количество комментариев одного пользователя
 	 *
-	 * @param  string $sId
-	 * @param  string $sTargetType
+	 * @param  id $sId ID пользователя
+	 * @param  string $sTargetType	Тип владельца комментария
 	 * @return int
 	 */
 	public function GetCountCommentsByUserId($sId,$sTargetType) {
 		/**
 		 * Исключаем из выборки идентификаторы закрытых блогов
 		 */
-		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId()) 
-			? array()			
+		$aCloseBlogs = ($this->oUserCurrent && $sId==$this->oUserCurrent->getId())
+			? array()
 			: $this->Blog_GetInaccessibleBlogsByUser();
-		$s=serialize($aCloseBlogs);		
-		
-		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}_{$s}"))) {			
+		$s=serialize($aCloseBlogs);
+
+		if (false === ($data = $this->Cache_Get("comment_count_user_{$sId}_{$sTargetType}_{$s}"))) {
 			$data = $this->oMapper->GetCountCommentsByUserId($sId,$sTargetType,array(),$aCloseBlogs);
 			$this->Cache_Set($data, "comment_count_user_{$sId}_{$sTargetType}", array("comment_new_user_{$sId}_{$sTargetType}","comment_update_status_{$sTargetType}"), 60*60*24*2);
 		}
@@ -304,9 +330,9 @@ class ModuleComment extends Module {
 	/**
 	 * Получить комменты по рейтингу и дате
 	 *
-	 * @param  string $sDate
-	 * @param  string $sTargetType
-	 * @param  int    $iLimit
+	 * @param  string $sDate	Дата за которую выводить рейтинг, т.к. кеширование происходит по дате, то дату лучше передавать с точностью до часа (минуты и секунды как 00:00)
+	 * @param  string $sTargetType	Тип владельца комментария
+	 * @param  int    $iLimit	Количество элементов
 	 * @return array
 	 */
 	public function GetCommentsRatingByDate($sDate,$sTargetType,$iLimit=20) {
@@ -317,27 +343,29 @@ class ModuleComment extends Module {
 			? $this->Blog_GetInaccessibleBlogsByUser($this->oUserCurrent)
 			: $this->Blog_GetInaccessibleBlogsByUser();
 		$s=serialize($aCloseBlogs);
-		
-		//т.к. время передаётся с точностью 1 час то можно по нему замутить кеширование
-		if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}"))) {			
+		/**
+		 * Т.к. время передаётся с точностью 1 час то можно по нему замутить кеширование
+		 */
+		if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}"))) {
 			$data = $this->oMapper->GetCommentsRatingByDate($sDate,$sTargetType,$iLimit,array(),$aCloseBlogs);
 			$this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}", array("comment_new_{$sTargetType}","comment_update_status_{$sTargetType}","comment_update_rating_{$sTargetType}"), 60*60*24*2);
 		}
-		$data=$this->GetCommentsAdditionalData($data);	
+		$data=$this->GetCommentsAdditionalData($data);
 		return $data;
 	}
 	/**
-	 * Получить комменты для топика
+	 * Получить комменты по владельцу
 	 *
-	 * @param  string $sId
-	 * @param  string $sTargetType
-	 * @return object
+	 * @param  int $sId	ID владельца коммента
+	 * @param  string $sTargetType	Тип владельца комментария
+	 * @param  int $iPage	Номер страницы
+	 * @param  int $iPerPage	Количество элементов на страницу
+	 * @return array('comments'=>array,'iMaxIdComment'=>int)
 	 */
-	public function GetCommentsByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {	
-
+	public function GetCommentsByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {
 		if (Config::Get('module.comment.use_nested')) {
 			return $this->GetCommentsTreeByTargetId($sId,$sTargetType,$iPage,$iPerPage);
-		} 
+		}
 
 		if (false === ($aCommentsRec = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}"))) {
 			$aCommentsRow=$this->oMapper->GetCommentsByTargetId($sId,$sTargetType);
@@ -356,22 +384,23 @@ class ModuleComment extends Module {
 		}
 		return $aComments;
 
-	}	
-	
+	}
 	/**
 	 * Получает комменты используя nested set
 	 *
-	 * @param unknown_type $sId
-	 * @param unknown_type $sTargetType
-	 * @return unknown
+	 * @param int $sId	ID владельца коммента
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param  int $iPage	Номер страницы
+	 * @param  int $iPerPage	Количество элементов на страницу
+	 * @return array('comments'=>array,'iMaxIdComment'=>int,'count'=>int)
 	 */
 	public function GetCommentsTreeByTargetId($sId,$sTargetType,$iPage=1,$iPerPage=0) {
 		if (!Config::Get('module.comment.nested_page_reverse') and $iPerPage and $iCountPage=ceil($this->GetCountCommentsRootByTargetId($sId,$sTargetType)/$iPerPage)) {
 			$iPage=$iCountPage-$iPage+1;
 		}
-		$iPage=$iPage<1 ? 1 : $iPage;		
+		$iPage=$iPage<1 ? 1 : $iPage;
 		if (false === ($aReturn = $this->Cache_Get("comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}"))) {
-			
+
 			/**
 			 * Нужно или нет использовать постраничное разбиение комментариев
 			 */
@@ -380,19 +409,32 @@ class ModuleComment extends Module {
 			} else {
 				$aComments=$this->oMapper->GetCommentsTreeByTargetId($sId,$sTargetType);
 				$iCount=count($aComments);
-			}			
+			}
 			$iMaxIdComment=count($aComments) ? max($aComments) : 0;
 			$aReturn=array('comments'=>$aComments,'iMaxIdComment'=>$iMaxIdComment,'count'=>$iCount);
 			$this->Cache_Set($aReturn, "comment_tree_target_{$sId}_{$sTargetType}_{$iPage}_{$iPerPage}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*2);
-		}		
+		}
 		$aReturn['comments']=$this->GetCommentsAdditionalData($aReturn['comments']);
 		return $aReturn;
 	}
-	
+	/**
+	 * Возвращает количество дочерних комментариев у корневого коммента
+	 *
+	 * @param int $sId	ID владельца коммента
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @return int
+	 */
 	public function GetCountCommentsRootByTargetId($sId,$sTargetType) {
 		return $this->oMapper->GetCountCommentsRootByTargetId($sId,$sTargetType);
 	}
-	
+	/**
+	 * Возвращает номер страницы, на которой расположен комментарий
+	 *
+	 * @param int $sId	ID владельца коммента
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param ModuleComment_EntityComment $oComment	Объект комментария
+	 * @return bool|int
+	 */
 	public function GetPageCommentByTargetId($sId,$sTargetType,$oComment) {
 		if (!Config::Get('module.comment.nested_per_page')) {
 			return 1;
@@ -416,18 +458,17 @@ class ModuleComment extends Module {
 			$oCommentRoot=$oComment;
 		}
 		$iCount=ceil($this->oMapper->GetCountCommentsAfterByTargetId($sId,$sTargetType,$oCommentRoot->getLeft())/Config::Get('module.comment.nested_per_page'));
-		
+
 		if (!Config::Get('module.comment.nested_page_reverse') and $iCountPage=ceil($this->GetCountCommentsRootByTargetId($sId,$sTargetType)/Config::Get('module.comment.nested_per_page'))) {
 			$iCount=$iCountPage-$iCount+1;
-		}		
+		}
 		return $iCount ? $iCount : 1;
 	}
-	
 	/**
 	 * Добавляет коммент
 	 *
-	 * @param  ModuleComment_EntityComment $oComment
-	 * @return bool
+	 * @param  ModuleComment_EntityComment $oComment	Объект комментария
+	 * @return bool|ModuleComment_EntityComment
 	 */
 	public function AddComment(ModuleComment_EntityComment $oComment) {
 		if (Config::Get('module.comment.use_nested')) {
@@ -450,13 +491,13 @@ class ModuleComment extends Module {
 	/**
 	 * Обновляет коммент
 	 *
-	 * @param  ModuleComment_EntityComment $oComment
+	 * @param  ModuleComment_EntityComment $oComment	Объект комментария
 	 * @return bool
 	 */
-	public function UpdateComment(ModuleComment_EntityComment $oComment) {		
-		if ($this->oMapper->UpdateComment($oComment)) {		
+	public function UpdateComment(ModuleComment_EntityComment $oComment) {
+		if ($this->oMapper->UpdateComment($oComment)) {
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));				
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update","comment_update_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));
 			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
@@ -465,14 +506,14 @@ class ModuleComment extends Module {
 	/**
 	 * Обновляет рейтинг у коммента
 	 *
-	 * @param  ModuleComment_EntityComment $oComment
+	 * @param  ModuleComment_EntityComment $oComment	Объект комментария
 	 * @return bool
 	 */
-	public function UpdateCommentRating(ModuleComment_EntityComment $oComment) {		
-		if ($this->oMapper->UpdateComment($oComment)) {		
+	public function UpdateCommentRating(ModuleComment_EntityComment $oComment) {
+		if ($this->oMapper->UpdateComment($oComment)) {
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_rating_{$oComment->getTargetType()}"));
-			$this->Cache_Delete("comment_{$oComment->getId()}");			
+			$this->Cache_Delete("comment_{$oComment->getId()}");
 			return true;
 		}
 		return false;
@@ -480,15 +521,15 @@ class ModuleComment extends Module {
 	/**
 	 * Обновляет статус у коммента - delete или publish
 	 *
-	 * @param  ModuleComment_EntityComment $oComment
+	 * @param  ModuleComment_EntityComment $oComment	Объект комментария
 	 * @return bool
 	 */
-	public function UpdateCommentStatus(ModuleComment_EntityComment $oComment) {		
-		if ($this->oMapper->UpdateComment($oComment)) {	
+	public function UpdateCommentStatus(ModuleComment_EntityComment $oComment) {
+		if ($this->oMapper->UpdateComment($oComment)) {
 			/**
 			 * Если комментарий удаляется, удаляем его из прямого эфира
 			 */
-			if($oComment->getDelete()) $this->DeleteCommentOnlineByArrayId($oComment->getId(),$oComment->getTargetType());	
+			if($oComment->getDelete()) $this->DeleteCommentOnlineByArrayId($oComment->getId(),$oComment->getTargetType());
 			/**
 			 * Обновляем избранное
 			 */
@@ -496,8 +537,8 @@ class ModuleComment extends Module {
 			/**
 			 * Чистим зависимые кеши
 			 */
-			if(Config::Get('sys.cache.solid')){ 
-				$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update"));			
+			if(Config::Get('sys.cache.solid')){
+				$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update"));
 			}
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$oComment->getTargetType()}"));
 			$this->Cache_Delete("comment_{$oComment->getId()}");
@@ -508,27 +549,27 @@ class ModuleComment extends Module {
 	/**
 	 * Устанавливает publish у коммента
 	 *
-	 * @param  string $sTargetId
-	 * @param  string $sTargetType
-	 * @param  int    $iPublish
+	 * @param  int $sTargetId	ID владельца коммента
+	 * @param  string $sTargetType	Тип владельца комментария
+	 * @param  int    $iPublish	Статус отображать комментарии или нет
 	 * @return bool
 	 */
-	public function SetCommentsPublish($sTargetId,$sTargetType,$iPublish) {		
+	public function SetCommentsPublish($sTargetId,$sTargetType,$iPublish) {
 		if(!$aComments = $this->GetCommentsByTargetId($sTargetId,$sTargetType)) {
 			return false;
 		}
 		if(!isset($aComments['comments']) or count($aComments)==0) {
 			return;
 		}
-		
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$sTargetType}"));		
+
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_update_status_{$sTargetType}"));
 		/**
 		 * Если статус публикации успешно изменен, то меняем статус в отметке "избранное".
 		 * Если комментарии снимаются с публикации, удаляем их из прямого эфира.
 		 */
 		if($this->oMapper->SetCommentsPublish($sTargetId,$sTargetType,$iPublish)){
 			$this->Favourite_SetFavouriteTargetPublish(array_keys($aComments['comments']),'comment',$iPublish);
-			if($iPublish!=1) $this->DeleteCommentOnlineByTargetId($sTargetId,$sTargetType);	
+			if($iPublish!=1) $this->DeleteCommentOnlineByTargetId($sTargetId,$sTargetType);
 			return true;
 		}
 		return false;
@@ -536,9 +577,9 @@ class ModuleComment extends Module {
 	/**
 	 * Удаляет коммент из прямого эфира
 	 *
-	 * @param unknown_type $sTargetId
-	 * @param unknown_type $sTargetType
-	 * @return unknown
+	 * @param  int $sTargetId	ID владельца коммента
+	 * @param  string $sTargetType	Тип владельца комментария
+	 * @return bool
 	 */
 	public function DeleteCommentOnlineByTargetId($sTargetId,$sTargetType) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
@@ -547,31 +588,31 @@ class ModuleComment extends Module {
 	/**
 	 * Добавляет новый коммент в прямой эфир
 	 *
-	 * @param ModuleComment_EntityCommentOnline $oCommentOnline
+	 * @param ModuleComment_EntityCommentOnline $oCommentOnline	Объект онлайн комментария
+	 * @return bool|int
 	 */
 	public function AddCommentOnline(ModuleComment_EntityCommentOnline $oCommentOnline) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$oCommentOnline->getTargetType()}"));
 		return $this->oMapper->AddCommentOnline($oCommentOnline);
 	}
-	
 	/**
-	 * Получить новые комменты для топика
+	 * Получить новые комменты для владельца
 	 *
-	 * @param unknown_type $sId
-	 * @param unknown_type $sTargetType
-	 * @param unknown_type $sIdCommentLast - last read comment
-	 * @return unknown
+	 * @param int $sId	ID владельца коммента
+	 * @param string $sTargetType	Тип владельца комментария
+	 * @param int $sIdCommentLast ID последнего прочитанного комментария
+	 * @return array('comments'=>array,'iMaxIdComment'=>int)
 	 */
 	public function GetCommentsNewByTargetId($sId,$sTargetType,$sIdCommentLast) {
-		if (false === ($aComments = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}_{$sIdCommentLast}"))) {			
-			$aComments=$this->oMapper->GetCommentsNewByTargetId($sId,$sTargetType,$sIdCommentLast);			
+		if (false === ($aComments = $this->Cache_Get("comment_target_{$sId}_{$sTargetType}_{$sIdCommentLast}"))) {
+			$aComments=$this->oMapper->GetCommentsNewByTargetId($sId,$sTargetType,$sIdCommentLast);
 			$this->Cache_Set($aComments, "comment_target_{$sId}_{$sTargetType}_{$sIdCommentLast}", array("comment_new_{$sTargetType}_{$sId}"), 60*60*24*1);
-		}			
+		}
 		if (count($aComments)==0) {
 			return array('comments'=>array(),'iMaxIdComment'=>0);
 		}
-		
-		$iMaxIdComment=max($aComments);		
+
+		$iMaxIdComment=max($aComments);
 		$aCmts=$this->GetCommentsAdditionalData($aComments);
 		$oViewerLocal=$this->Viewer_GetLocalViewer();
 		$oViewerLocal->Assign('oUserCurrent',$this->User_GetUserCurrent());
@@ -580,16 +621,15 @@ class ModuleComment extends Module {
 			$oViewerLocal->Assign('bNoCommentFavourites',true);
 		}
 		$aCmt=array();
-		foreach ($aCmts as $oComment) {			
-			$oViewerLocal->Assign('oComment',$oComment);						
+		foreach ($aCmts as $oComment) {
+			$oViewerLocal->Assign('oComment',$oComment);
 			$sText=$oViewerLocal->Fetch($this->GetTemplateCommentByTarget($sId,$sTargetType));
 			$aCmt[]=array(
 				'html' => $sText,
 				'obj'  => $oComment,
-			);			
+			);
 		}
-			
-		return array('comments'=>$aCmt,'iMaxIdComment'=>$iMaxIdComment);		
+		return array('comments'=>$aCmt,'iMaxIdComment'=>$iMaxIdComment);
 	}
 	/**
 	 * Возвращает шаблон комментария для рендеринга
@@ -602,13 +642,12 @@ class ModuleComment extends Module {
 	public function GetTemplateCommentByTarget($iTargetId,$sTargetType) {
 		return "comment.tpl";
 	}
-	
 	/**
 	 * Строит дерево комментариев
 	 *
-	 * @param unknown_type $aComments
-	 * @param unknown_type $bBegin
-	 * @return unknown
+	 * @param array $aComments	Список комментариев
+	 * @param bool $bBegin	Флаг начала построения дерева, для инициализации параметров внутри метода
+	 * @return array('comments'=>array,'iMaxIdComment'=>int)
 	 */
 	protected function BuildCommentsRecursive($aComments,$bBegin=true) {
 		static $aResultCommnets;
@@ -618,7 +657,7 @@ class ModuleComment extends Module {
 			$aResultCommnets=array();
 			$iLevel=0;
 			$iMaxIdComment=0;
-		}		
+		}
 		foreach ($aComments as $aComment) {
 			$aTemp=$aComment;
 			if ($aComment['comment_id']>$iMaxIdComment) {
@@ -632,117 +671,114 @@ class ModuleComment extends Module {
 				$this->BuildCommentsRecursive($aComment['childNodes'],false);
 			}
 		}
-		$iLevel--;		
+		$iLevel--;
 		return array('comments'=>$aResultCommnets,'iMaxIdComment'=>$iMaxIdComment);
 	}
-	
 	/**
 	 * Получает привязку комментария к ибранному(добавлен ли коммент в избранное у юзера)
 	 *
-	 * @param  string $sCommentId
-	 * @param  string $sUserId
+	 * @param  int $sCommentId	ID комментария
+	 * @param  int $sUserId	ID пользователя
 	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavouriteComment($sCommentId,$sUserId) {
 		return $this->Favourite_GetFavourite($sCommentId,'comment',$sUserId);
 	}
-	
 	/**
 	 * Получить список избранного по списку айдишников
 	 *
-	 * @param array $aCommentId
+	 * @param array $aCommentId	Список ID комментов
+	 * @param int $sUserId	ID пользователя
+	 * @return array
 	 */
 	public function GetFavouriteCommentsByArray($aCommentId,$sUserId) {
 		return $this->Favourite_GetFavouritesByArray($aCommentId,'comment',$sUserId);
 	}
-
 	/**
 	 * Получить список избранного по списку айдишников, но используя единый кеш
 	 *
-	 * @param array  $aCommentId
-	 * @param int    $sUserId
+	 * @param array  $aCommentId	Список ID комментов
+	 * @param int    $sUserId	ID пользователя
 	 * @return array
 	 */
 	public function GetFavouriteCommentsByArraySolid($aCommentId,$sUserId) {
 		return $this->Favourite_GetFavouritesByArraySolid($aCommentId,'comment',$sUserId);
 	}
-
 	/**
 	 * Получает список комментариев из избранного пользователя
 	 *
-	 * @param  string $sUserId
-	 * @param  int    $iCount
-	 * @param  int    $iCurrPage
-	 * @param  int    $iPerPage
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int    $iCurrPage	Номер страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
 	 * @return array
 	 */
-	public function GetCommentsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {		
+	public function GetCommentsFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {
 		$aCloseTopics = array();
 		/**
 		 * Получаем список идентификаторов избранных комментов
 		 */
-		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId()) 
+		$data = ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId())
 			? $this->Favourite_GetFavouritesByUserId($sUserId,'comment',$iCurrPage,$iPerPage,$aCloseTopics)
 			: $this->Favourite_GetFavouriteOpenCommentsByUserId($sUserId,$iCurrPage,$iPerPage);
 		/**
 		 * Получаем комменты по переданому массиву айдишников
-		 */		
-		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);		
-		return $data;		
+		 */
+		$data['collection']=$this->GetCommentsAdditionalData($data['collection']);
+		return $data;
 	}
 	/**
 	 * Возвращает число комментариев в избранном
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId	ID пользователя
 	 * @return int
 	 */
 	public function GetCountCommentsFavouriteByUserId($sUserId) {
 		return ($this->oUserCurrent && $sUserId==$this->oUserCurrent->getId())
 			? $this->Favourite_GetCountFavouritesByUserId($sUserId,'comment')
 			: $this->Favourite_GetCountFavouriteOpenCommentsByUserId($sUserId);
-	}	
+	}
 	/**
 	 * Добавляет комментарий в избранное
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
-	 * @return bool
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
+	 * @return bool|ModuleFavourite_EntityFavourite
 	 */
-	public function AddFavouriteComment(ModuleFavourite_EntityFavourite $oFavourite) {	
-		if( ($oFavourite->getTargetType()=='comment') 
-				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
-					&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
-						return $this->Favourite_AddFavourite($oFavourite);
-					}
+	public function AddFavouriteComment(ModuleFavourite_EntityFavourite $oFavourite) {
+		if( ($oFavourite->getTargetType()=='comment')
+			&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId()))
+			&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
+			return $this->Favourite_AddFavourite($oFavourite);
+		}
 		return false;
 	}
 	/**
 	 * Удаляет комментарий из избранного
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
 	 * @return bool
 	 */
 	public function DeleteFavouriteComment(ModuleFavourite_EntityFavourite $oFavourite) {
-		if( ($oFavourite->getTargetType()=='comment') 
-				&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId())) 
-					&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
-						return $this->Favourite_DeleteFavourite($oFavourite);
+		if( ($oFavourite->getTargetType()=='comment')
+			&& ($oComment=$this->Comment_GetCommentById($oFavourite->getTargetId()))
+			&& in_array($oComment->getTargetType(),Config::get('module.comment.favourite_target_allow'))) {
+			return $this->Favourite_DeleteFavourite($oFavourite);
 		}
 		return false;
 	}
 	/**
-	 * Удаляет комментарии из избранного по списку 
+	 * Удаляет комментарии из избранного по списку
 	 *
-	 * @param  array $aCommentId
+	 * @param  array $aCommentId	Список ID комментариев
 	 * @return bool
-	 */	
+	 */
 	public function DeleteFavouriteCommentsByArrayId($aCommentId) {
-		return $this->Favourite_DeleteFavouriteByTargetId($aCommentId, 'comment');	
+		return $this->Favourite_DeleteFavouriteByTargetId($aCommentId, 'comment');
 	}
 	/**
 	 * Удаляет комментарии из базы данных
-	 * 
-	 * @param   array|int $aTargetId
-	 * @param   string $sTargetType
+	 *
+	 * @param   array|int $aTargetId	Список ID владельцев
+	 * @param   string $sTargetType	Тип владельцев
 	 * @return  bool
 	 */
 	public function DeleteCommentByTargetId($aTargetId,$sTargetType) {
@@ -771,7 +807,7 @@ class ModuleComment extends Module {
 			 */
 			foreach($aCommentsId as $iCommentId) $this->Cache_Delete("comment_{$iCommentId}");
 		}
-		if($this->oMapper->DeleteCommentByTargetId($aTargetId,$sTargetType)){ 
+		if($this->oMapper->DeleteCommentByTargetId($aTargetId,$sTargetType)){
 			/**
 			 * Удаляем комментарии из избранного
 			 */
@@ -779,7 +815,7 @@ class ModuleComment extends Module {
 			/**
 			 * Удаляем комментарии к топику из прямого эфира
 			 */
-			$this->DeleteCommentOnlineByArrayId($aCommentsId,$sTargetType);			
+			$this->DeleteCommentOnlineByArrayId($aCommentsId,$sTargetType);
 			/**
 			 * Удаляем голосование за комментарии
 			 */
@@ -788,12 +824,11 @@ class ModuleComment extends Module {
 		}
 		return false;
 	}
-	
 	/**
 	 * Удаляет коммент из прямого эфира по массиву переданных идентификаторов
 	 *
-	 * @param  (array|int) $aCommentId
-	 * @param  string      $sTargetType
+	 * @param  array|int $aCommentId
+	 * @param  string      $sTargetType	Тип владельцев
 	 * @return bool
 	 */
 	public function DeleteCommentOnlineByArrayId($aCommentId,$sTargetType) {
@@ -804,77 +839,72 @@ class ModuleComment extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
 		return $this->oMapper->DeleteCommentOnlineByArrayId($aCommentId,$sTargetType);
 	}
-	
 	/**
 	 * Меняем target parent по массиву идентификаторов
-	 * 
-	 * @param  string $sParentId
-	 * @param  string $sTargetType
-	 * @param  array|string $aTargetId
+	 *
+	 * @param  int $sParentId	Новый ID родителя владельца
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  array|int $aTargetId	Список ID владельцев
 	 * @return bool
 	 */
 	public function UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId) {
 		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
 		// чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new_{$sTargetType}"));
-		
+
 		return $this->oMapper->UpdateTargetParentByTargetId($sParentId, $sTargetType, $aTargetId);
 	}
-	
 	/**
 	 * Меняем target parent по массиву идентификаторов в таблице комментариев online
-	 * 
-	 * @param  string $sParentId
-	 * @param  string $sTargetType
-	 * @param  array|string $aTargetId
+	 *
+	 * @param  int $sParentId	Новый ID родителя владельца
+	 * @param  string $sTargetType	Тип владельца
+	 * @param  array|int $aTargetId	Список ID владельцев
 	 * @return bool
 	 */
 	public function UpdateTargetParentByTargetIdOnline($sParentId, $sTargetType, $aTargetId) {
 		if(!is_array($aTargetId)) $aTargetId = array($aTargetId);
 		// чистим зависимые кеши
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
-		
+
 		return $this->oMapper->UpdateTargetParentByTargetIdOnline($sParentId, $sTargetType, $aTargetId);
 	}
-	
 	/**
 	 * Меняет target parent на новый
 	 *
-	 * @param string $sParentId
-	 * @param string $sTargetType
-	 * @param string $sParentIdNew
+	 * @param int $sParentId	Прежний ID родителя владельца
+	 * @param string $sTargetType	Тип владельца
+	 * @param int $sParentIdNew	Новый ID родителя владельца
 	 * @return bool
 	 */
 	public function MoveTargetParent($sParentId, $sTargetType, $sParentIdNew) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new_{$sTargetType}"));
 		return $this->oMapper->MoveTargetParent($sParentId, $sTargetType, $sParentIdNew);
 	}
-	
 	/**
 	 * Меняет target parent на новый в прямом эфире
 	 *
-	 * @param string $sParentId
-	 * @param string $sTargetType
-	 * @param string $sParentIdNew
+	 * @param int $sParentId	Прежний ID родителя владельца
+	 * @param string $sTargetType	Тип владельца
+	 * @param int $sParentIdNew	Новый ID родителя владельца
 	 * @return bool
 	 */
 	public function MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_online_update_{$sTargetType}"));
 		return $this->oMapper->MoveTargetParentOnline($sParentId, $sTargetType, $sParentIdNew);
 	}
-	
 	/**
 	 * Перестраивает дерево комментариев
 	 * Восстанавливает значения left, right и level
 	 *
-	 * @param unknown_type $aTargetId
-	 * @param unknown_type $sTargetType
+	 * @param int $aTargetId	Список ID владельцев
+	 * @param string $sTargetType	Тип владельца
 	 */
 	public function RestoreTree($aTargetId=null,$sTargetType=null) {
 		// обработать конкретную сущность
 		if (!is_null($aTargetId) and !is_null($sTargetType)) {
 			$this->oMapper->RestoreTree(null,0,-1,$aTargetId,$sTargetType);
-			return ;			
+			return ;
 		}
 		$aType=array();
 		// обработать все сущности конкретного типа
@@ -892,19 +922,43 @@ class ModuleComment extends Module {
 				foreach ($aResult as $Row) {
 					$this->oMapper->RestoreTree(null,0,-1,$Row['target_id'],$sTargetType);
 				}
-				$iPage++;				
-			}			
-		}		
+				$iPage++;
+			}
+		}
 	}
-    
-    /**
-     * Пересчитывает счетчик избранных комментариев
-     *
-     * @return type 
-     */
-    public function RecalculateFavourite(){
-        return $this->oMapper->RecalculateFavourite();    
-    }
-    
+	/**
+	 * Пересчитывает счетчик избранных комментариев
+	 *
+	 * @return bool
+	 */
+	public function RecalculateFavourite() {
+		return $this->oMapper->RecalculateFavourite();
+	}
+	/**
+	 * Получает список комментариев по фильтру
+	 *
+	 * @param array $aFilter	Фильтр выборки
+	 * @param array $aOrder		Сортировка
+	 * @param int $iCurrPage	Номер текущей страницы
+	 * @param int $iPerPage		Количество элементов на одну страницу
+	 * @param array $aAllowData		Список типов данных, которые нужно подтянуть к списку комментов
+	 * @return array
+	 */
+	public function GetCommentsByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('target','user'=>array());
+		}
+		$aCollection=$this->oMapper->GetCommentsByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage);
+		return array('collection'=>$this->GetCommentsAdditionalData($aCollection,$aAllowData),'count'=>$iCount);
+	}
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param array $aCommentId	Список ID комментариев
+	 * @return array
+	 */
+	public function GetCommentItemsByArrayId($aCommentId) {
+		return $this->GetCommentsByArrayId($aCommentId);
+	}
 }
 ?>

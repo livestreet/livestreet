@@ -4,14 +4,14 @@
 
 
 <div>
-	<h2>{$aLang.plugin.page.admin}</h2>
+	<h2 class="page-header">{$aLang.plugin.page.admin}</h2>
 	
 	
 	{if $aParams.0=='new'}
-		<h3>{$aLang.plugin.page.create}</h3>
+		<h3 class="page-sub-header">{$aLang.plugin.page.create}</h3>
 		{include file=$aTemplatePathPlugin.page|cat:'actions/ActionPage/add.tpl'}
 	{elseif $aParams.0=='edit'}
-		<h3>{$aLang.plugin.page.edit} «{$oPageEdit->getTitle()}»</h3>
+		<h3 class="page-sub-header">{$aLang.plugin.page.edit} «{$oPageEdit->getTitle()}»</h3>
 		{include file=$aTemplatePathPlugin.page|cat:'actions/ActionPage/add.tpl'}
 	{else}
 		<a href="{router page='page'}admin/new/" class="page-new">{$aLang.plugin.page.new}</a><br /><br />
@@ -21,11 +21,11 @@
 	<table cellspacing="0" class="table">
 		<thead>
 			<tr>
-				<td width="180px">{$aLang.plugin.page.admin_title}</td>
-				<td align="center" >{$aLang.plugin.page.admin_url}</td>    	
-				<td align="center" width="50px">{$aLang.plugin.page.admin_active}</td>    	   	
-				<td align="center" width="70px">{$aLang.plugin.page.admin_main}</td>    	   	
-				<td align="center" width="80px">{$aLang.plugin.page.admin_action}</td>
+				<th width="180px">{$aLang.plugin.page.admin_title}</th>
+				<th align="center" >{$aLang.plugin.page.admin_url}</th>    	
+				<th align="center" width="50px">{$aLang.plugin.page.admin_active}</th>    	   	
+				<th align="center" width="70px">{$aLang.plugin.page.admin_main}</th>    	   	
+				<th align="center" width="80px">{$aLang.plugin.page.admin_action}</th>
 			</tr>
 		</thead>
 		

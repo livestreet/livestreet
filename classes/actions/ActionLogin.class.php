@@ -44,9 +44,11 @@ class ActionLogin extends Action {
 		$this->AddEvent('index','EventLogin');
 		$this->AddEvent('exit','EventExit');
 		$this->AddEvent('reminder','EventReminder');
+		$this->AddEvent('reactivation','EventReactivation');
 
 		$this->AddEvent('ajax-login','EventAjaxLogin');
 		$this->AddEvent('ajax-reminder','EventAjaxReminder');
+		$this->AddEvent('ajax-reactivation','EventAjaxReactivation');
 	}
 	/**
 	 * Ajax авторизация
@@ -70,7 +72,12 @@ class ActionLogin extends Action {
 			/**
 			 * Сверяем хеши паролей и проверяем активен ли юзер
 			 */
-			if ($oUser->getPassword()==func_encrypt(getRequest('password')) and $oUser->getActivate()) {
+
+			if ($oUser->getPassword()==func_encrypt(getRequest('password'))) {
+				if (!$oUser->getActivate()) {
+					$this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
+					return;
+				}
 				$bRemember=getRequest('remember',false) ? true : false;
 				/**
 				 * Авторизуем
@@ -88,6 +95,38 @@ class ActionLogin extends Action {
 			}
 		}
 		$this->Message_AddErrorSingle($this->Lang_Get('user_login_bad'));
+	}
+	/**
+	 * Повторный запрос активации
+	 */
+	protected function EventReactivation() {
+		if($this->User_GetUserCurrent()) {
+			Router::Location(Config::Get('path.root.web').'/');
+		}
+
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('reactivation'));
+	}
+	/**
+	 *  Ajax повторной активации
+	 */
+	protected function EventAjaxReactivation() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if ((func_check(getRequest('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequest('mail')))) {
+			if ($oUser->getActivate()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'));
+				return;
+			} else {
+				$oUser->setActivateKey(md5(func_generator() . time()));
+				if ($this->User_Update($oUser)) {
+					$this->Message_AddNotice($this->Lang_Get('reactivation_send_link'));
+					$this->Notify_SendReactivationCode($oUser);
+					return;
+				}
+			}
+		}
+
+		$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_email'));
 	}
 	/**
 	 * Обрабатываем процесс залогинивания

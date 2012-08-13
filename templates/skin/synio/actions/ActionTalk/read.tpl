@@ -27,12 +27,13 @@
 				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			<li class="topic-info-date">
-				<time datetime="{date_format date=$oTalk->getDateAdd() format='c'}" pubdate title="{date_format date=$oTalk->getDateAdd() format='j F Y, H:i'}">
-					{date_format date=$oTalk->getDateAdd() format="j F Y, H:i"}
+				<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate title="{date_format date=$oTalk->getDate() format='j F Y, H:i'}">
+					{date_format date=$oTalk->getDate() format="j F Y, H:i"}
 				</time>
 			</li>
-			<li class="topic-info-favourite"><a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></a></li>
+			<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTalk->getId()},$('#fav_topic_{$oTalk->getId()}'),'talk');"><i id="fav_topic_{$oTalk->getId()}" class="favourite {if $oTalk->getIsFavourite()}active{/if}"></i></li>
 			<li class="delete"><a href="{router page='talk'}delete/{$oTalk->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');" class="delete">{$aLang.delete}</a></li>
+			{hook run='talk_read_info_item' talk=$oTalk}
 		</ul>
 	</footer>
 </article>

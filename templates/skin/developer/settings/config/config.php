@@ -4,6 +4,23 @@ $config = array();
 
 $config['view']['theme'] = 'default';
 
+
+/* Grid type:
+ * 
+ * fluid - резина
+ * fixed - фиксированная ширина
+ */
+$config['view']['grid']['type'] = 'fixed';
+
+/* Fluid settings */
+$config['view']['grid']['fluid_min_width'] = 1000;
+$config['view']['grid']['fluid_max_width'] = 1400;
+
+/* Fixed settings */
+$config['view']['grid']['fixed_width'] = 1000;
+
+
+
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/template.js';
 
@@ -33,6 +50,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/jquery.notifier.css",
 	"___path.static.skin___/css/smoothness/jquery-ui.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
+	"___path.static.skin___/css/print.css",
 );
 
 

@@ -18,16 +18,35 @@
 /**
  * Модуль разговоров(почта)
  *
+ * @package modules.talk
+ * @since 1.0
  */
 class ModuleTalk extends Module {
 	/**
 	 * Статус TalkUser в базе данных
+	 * Пользователь активен в разговоре
 	 */
 	const TALK_USER_ACTIVE = 1;
+	/**
+	 * Пользователь удалил разговор
+	 */
 	const TALK_USER_DELETE_BY_SELF = 2;
+	/**
+	 * Пользователя удалил из разговора автор письма
+	 */
 	const TALK_USER_DELETE_BY_AUTHOR = 4;
 
+	/**
+	 * Объект маппера
+	 *
+	 * @var ModuleTalk_MapperTalk
+	 */
 	protected $oMapper;
+	/**
+	 * Объект текущего пользователя
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
 	protected $oUserCurrent=null;
 
 	/**
@@ -41,11 +60,13 @@ class ModuleTalk extends Module {
 	/**
 	 * Формирует и отправляет личное сообщение
 	 *
-	 * @param string $sTitle
-	 * @param string $sText
-	 * @param int | ModuleUser_EntityUser $oUserFrom
-	 * @param array | int | ModuleUser_EntityUser $aUserTo
-	 * @param bool $bSendNotify
+	 * @param string $sTitle	Заголовок сообщения
+	 * @param string $sText	Текст сообщения
+	 * @param int|ModuleUser_EntityUser $oUserFrom	Пользователь от которого отправляем
+	 * @param array|int|ModuleUser_EntityUser $aUserTo	Пользователь которому отправляем
+	 * @param bool $bSendNotify	Отправлять или нет уведомление на емайл
+	 * @param bool $bUseBlacklist	Исклюать или нет пользователей из блэклиста
+	 * @return ModuleTalk_EntityTalk|bool
 	 */
 	public function SendTalk($sTitle,$sText,$oUserFrom,$aUserTo,$bSendNotify=true,$bUseBlacklist=true) {
 		$iUserIdFrom=$oUserFrom instanceof ModuleUser_EntityUser ? $oUserFrom->getId() : (int)$oUserFrom;
@@ -101,8 +122,8 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет новую тему разговора
 	 *
-	 * @param ModuleTopic_EntityTopic $oTalk
-	 * @return unknown
+	 * @param ModuleTalk_EntityTalk $oTalk Объект сообщения
+	 * @return ModuleTalk_EntityTalk|bool
 	 */
 	public function AddTalk(ModuleTalk_EntityTalk $oTalk) {
 		if ($sId=$this->oMapper->AddTalk($oTalk)) {
@@ -116,17 +137,19 @@ class ModuleTalk extends Module {
 	/**
 	 * Обновление разговора
 	 *
-	 * @param ModuleTalk_EntityTalk $oTalk
+	 * @param ModuleTalk_EntityTalk $oTalk	Объект сообщения
+	 * @return int
 	 */
 	public function UpdateTalk(ModuleTalk_EntityTalk $oTalk) {
 		$this->Cache_Delete("talk_{$oTalk->getId()}");
 		return $this->oMapper->UpdateTalk($oTalk);
 	}
-
-
 	/**
 	 * Получает дополнительные данные(объекты) для разговоров по их ID
 	 *
+	 * @param array $aTalkId	Список ID сообщений
+	 * @param array|null $aAllowData	Список дополнительных типов подгружаемых в объект
+	 * @return array
 	 */
 	public function GetTalksAdditionalData($aTalkId,$aAllowData=null) {
 		if (is_null($aAllowData)) {
@@ -205,7 +228,8 @@ class ModuleTalk extends Module {
 	/**
 	 * Получить список разговоров по списку айдишников
 	 *
-	 * @param unknown_type $aTalkId
+	 * @param array $aTalkId	Список ID сообщений
+	 * @return array
 	 */
 	public function GetTalksByArrayId($aTalkId) {
 		if (Config::Get('sys.cache.solid')) {
@@ -263,6 +287,12 @@ class ModuleTalk extends Module {
 		$aTalks=func_array_sort_by_keys($aTalks,$aTalkId);
 		return $aTalks;
 	}
+	/**
+	 * Получить список разговоров по списку айдишников, используя общий кеш
+	 *
+	 * @param array $aTalkId	Список ID сообщений
+	 * @return array
+	 */
 	public function GetTalksByArrayIdSolid($aTalkId) {
 		if (!is_array($aTalkId)) {
 			$aTalkId=array($aTalkId);
@@ -283,7 +313,9 @@ class ModuleTalk extends Module {
 	/**
 	 * Получить список отношений разговор-юзер по списку айдишников
 	 *
-	 * @param unknown_type $aTalkId
+	 * @param array $aTalkId	Список ID сообщений
+	 * @param int $sUserId	ID пользователя
+	 * @return array
 	 */
 	public function GetTalkUsersByArray($aTalkId,$sUserId) {
 		if (!is_array($aTalkId)) {
@@ -341,10 +373,13 @@ class ModuleTalk extends Module {
 	/**
 	 * Получает тему разговора по айдишнику
 	 *
-	 * @param unknown_type $sId
-	 * @return unknown
+	 * @param int $sId	ID сообщения
+	 * @return ModuleTalk_EntityTalk|null
 	 */
 	public function GetTalkById($sId) {
+		if (!is_numeric($sId)) {
+			return null;
+		}
 		$aTalks=$this->GetTalksAdditionalData($sId);
 		if (isset($aTalks[$sId])) {
 			$aResult=$this->GetTalkUsersByTalkId($sId);
@@ -359,8 +394,8 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет юзера к разговору(теме)
 	 *
-	 * @param ModuleTalk_EntityTalkUser $oTalkUser
-	 * @return unknown
+	 * @param ModuleTalk_EntityTalkUser $oTalkUser	Объект связи пользователя и сообщения(разговора)
+	 * @return bool
 	 */
 	public function AddTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {
 		$this->Cache_Delete("talk_{$oTalkUser->getTalkId()}");
@@ -375,8 +410,8 @@ class ModuleTalk extends Module {
 	/**
 	 * Помечает разговоры как прочитанные
 	 *
-	 * @param $aTalkId
-	 * @param $iUserId
+	 * @param array $aTalkId	Список ID сообщений
+	 * @param int $iUserId	ID пользователя
 	 */
 	public function MarkReadTalkUserByArray($aTalkId,$iUserId) {
 		if(!is_array($aTalkId)){
@@ -398,10 +433,12 @@ class ModuleTalk extends Module {
 	/**
 	 * Удаляет юзера из разговора
 	 *
-	 * @param ModuleTalk_EntityTalkUser $oTalkUser
-	 * @return unknown
+	 * @param array $aTalkId	Список ID сообщений
+	 * @param int $sUserId	ID пользователя
+	 * @param int $iActive	Статус связи
+	 * @return bool
 	 */
-	public function DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve=self::TALK_USER_DELETE_BY_SELF) {
+	public function DeleteTalkUserByArray($aTalkId,$sUserId,$iActive=self::TALK_USER_DELETE_BY_SELF) {
 		if(!is_array($aTalkId)){
 			$aTalkId=array($aTalkId);
 		}
@@ -412,7 +449,7 @@ class ModuleTalk extends Module {
 								  array(
 									  'target_id' => $sTalkId,
 									  'target_type' => 'talk',
-									  'user_id' => $this->oUserCurrent->getId()
+									  'user_id' => $sUserId
 								  )
 				)
 			);
@@ -425,7 +462,7 @@ class ModuleTalk extends Module {
 			);
 		}
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user"));
-		$ret =  $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iAcitve);
+		$ret =  $this->oMapper->DeleteTalkUserByArray($aTalkId,$sUserId,$iActive);
 
 		// Удаляем пустые беседы, если в них нет пользователей
 		foreach ($aTalkId as $sTalkId) {
@@ -438,9 +475,9 @@ class ModuleTalk extends Module {
 	/**
 	 * Есть ли юзер в этом разговоре
 	 *
-	 * @param unknown_type $sTalkId
-	 * @param unknown_type $sUserId
-	 * @return unknown
+	 * @param int $sTalkId	ID разговора
+	 * @param int $sUserId	ID пользователя
+	 * @return ModuleTalk_EntityTalkUser|null
 	 */
 	public function GetTalkUser($sTalkId,$sUserId) {
 		$aTalkUser=$this->GetTalkUsersByArray($sTalkId,$sUserId);
@@ -452,10 +489,10 @@ class ModuleTalk extends Module {
 	/**
 	 * Получить все темы разговора где есть юзер
 	 *
-	 * @param  string $sUserId
-	 * @param  int    $iPage
-	 * @param  int    $iPerPage
-	 * @return array
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int    $iPage	Номер страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
+	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetTalksByUserId($sUserId,$iPage,$iPerPage) {
 		$data=array(
@@ -463,7 +500,6 @@ class ModuleTalk extends Module {
 			'count'=>$iCount
 		);
 		$aTalks=$this->GetTalksAdditionalData($data['collection']);
-
 		/**
 		 * Добавляем данные об участниках разговора
 		 */
@@ -477,14 +513,13 @@ class ModuleTalk extends Module {
 		$data['collection']=$aTalks;
 		return $data;
 	}
-
 	/**
 	 * Получить все темы разговора по фильтру
 	 *
-	 * @param  array  $aFilter
-	 * @param  int    $iPage
-	 * @param  int    $iPerPage
-	 * @return array
+	 * @param  array  $aFilter	Фильтр
+	 * @param  int    $iPage	Номер страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
+	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetTalksByFilter($aFilter,$iPage,$iPerPage) {
 		$data=array(
@@ -506,12 +541,11 @@ class ModuleTalk extends Module {
 		$data['collection']=$aTalks;
 		return $data;
 	}
-
 	/**
 	 * Обновляет связку разговор-юзер
 	 *
-	 * @param ModuleTalk_EntityTalkUser $oTalkUser
-	 * @return unknown
+	 * @param ModuleTalk_EntityTalkUser $oTalkUser	Объект связи пользователя с разговором
+	 * @return bool
 	 */
 	public function UpdateTalkUser(ModuleTalk_EntityTalkUser $oTalkUser) {
 		//чистим зависимые кеши
@@ -519,12 +553,11 @@ class ModuleTalk extends Module {
 		$this->Cache_Delete("talk_user_{$oTalkUser->getTalkId()}_{$oTalkUser->getUserId()}");
 		return $this->oMapper->UpdateTalkUser($oTalkUser);
 	}
-
 	/**
 	 * Получает число новых тем и комментов где есть юзер
 	 *
-	 * @param unknown_type $sUserId
-	 * @return unknown
+	 * @param int $sUserId	ID пользователя
+	 * @return int
 	 */
 	public function GetCountTalkNew($sUserId) {
 		if (false === ($data = $this->Cache_Get("talk_count_all_new_user_{$sUserId}"))) {
@@ -533,13 +566,11 @@ class ModuleTalk extends Module {
 		}
 		return $data;
 	}
-
-
 	/**
 	 * Получает список юзеров в теме разговора
 	 *
-	 * @param  string $sTalkId
-	 * @param  array  $aActive
+	 * @param  int $sTalkId	ID разговора
+	 * @param  array  $aActive	Список статусов
 	 * @return array
 	 */
 	public function GetUsersTalk($sTalkId,$aActive=array()) {
@@ -548,11 +579,10 @@ class ModuleTalk extends Module {
 		$data=$this->oMapper->GetUsersTalk($sTalkId,$aActive);
 		return $this->User_GetUsersAdditionalData($data);
 	}
-
 	/**
 	 * Возвращает массив пользователей, участвующих в разговоре
 	 *
-	 * @param  string $sTalkId
+	 * @param  int $sTalkId	ID разговора
 	 * @return array
 	 */
 	public function GetTalkUsersByTalkId($sTalkId) {
@@ -578,59 +608,55 @@ class ModuleTalk extends Module {
 		}
 		return $aTalkUsers;
 	}
-
 	/**
 	 * Увеличивает число новых комментов у юзеров
 	 *
-	 * @param unknown_type $sTalkId
-	 * @param unknown_type $aExcludeId
-	 * @return unknown
+	 * @param int $sTalkId	ID разговора
+	 * @param array $aExcludeId	Список ID пользователей для исключения
+	 * @return int
 	 */
 	public function increaseCountCommentNew($sTalkId,$aExcludeId=null) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user_{$sTalkId}"));
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("update_talk_user"));
 		return $this->oMapper->increaseCountCommentNew($sTalkId,$aExcludeId);
 	}
-
 	/**
 	 * Получает привязку письма к ибранному(добавлено ли письмо в избранное у юзера)
 	 *
-	 * @param  string $sTalkId
-	 * @param  string $sUserId
+	 * @param  int $sTalkId	ID разговора
+	 * @param  int $sUserId	ID пользователя
 	 * @return ModuleFavourite_EntityFavourite|null
 	 */
 	public function GetFavouriteTalk($sTalkId,$sUserId) {
 		return $this->Favourite_GetFavourite($sTalkId,'talk',$sUserId);
 	}
-
 	/**
 	 * Получить список избранного по списку айдишников
 	 *
-	 * @param array $aTalkId
+	 * @param array $aTalkId	Список ID разговоров
+	 * @param int $sUserId	ID пользователя
+	 * @return array
 	 */
 	public function GetFavouriteTalkByArray($aTalkId,$sUserId) {
 		return $this->Favourite_GetFavouritesByArray($aTalkId,'talk',$sUserId);
 	}
-
 	/**
 	 * Получить список избранного по списку айдишников, но используя единый кеш
 	 *
-	 * @param array  $aTalkId
-	 * @param int    $sUserId
+	 * @param array  $aTalkId	Список ID разговоров
+	 * @param int    $sUserId	ID пользователя
 	 * @return array
 	 */
 	public function GetFavouriteTalksByArraySolid($aTalkId,$sUserId) {
 		return $this->Favourite_GetFavouritesByArraySolid($aTalkId,'talk',$sUserId);
 	}
-
 	/**
 	 * Получает список писем из избранного пользователя
 	 *
-	 * @param  string $sUserId
-	 * @param  int    $iCount
-	 * @param  int    $iCurrPage
-	 * @param  int    $iPerPage
-	 * @return array
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int    $iCurrPage	Номер текущей страницы
+	 * @param  int    $iPerPage	Количество элементов на страницу
+	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetTalksFavouriteByUserId($sUserId,$iCurrPage,$iPerPage) {
 		// Получаем список идентификаторов избранных комментов
@@ -655,7 +681,7 @@ class ModuleTalk extends Module {
 	/**
 	 * Возвращает число писем в избранном
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId ID пользователя
 	 * @return int
 	 */
 	public function GetCountTalksFavouriteByUserId($sUserId) {
@@ -664,7 +690,7 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавляет письмо в избранное
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
 	 * @return bool
 	 */
 	public function AddFavouriteTalk(ModuleFavourite_EntityFavourite $oFavourite) {
@@ -675,7 +701,7 @@ class ModuleTalk extends Module {
 	/**
 	 * Удаляет письмо из избранного
 	 *
-	 * @param  ModuleFavourite_EntityFavourite $oFavourite
+	 * @param  ModuleFavourite_EntityFavourite $oFavourite	Объект избранного
 	 * @return bool
 	 */
 	public function DeleteFavouriteTalk(ModuleFavourite_EntityFavourite $oFavourite) {
@@ -686,29 +712,27 @@ class ModuleTalk extends Module {
 	/**
 	 * Получает информацию о пользователях, занесенных в блеклист
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId	ID пользователя
 	 * @return array
 	 */
 	public function GetBlacklistByUserId($sUserId) {
 		$data=$this->oMapper->GetBlacklistByUserId($sUserId);
 		return $this->User_GetUsersAdditionalData($data);
 	}
-
 	/**
 	 * Возвращает пользователей, у которых данный занесен в Blacklist
 	 *
-	 * @param  string $sUserId
+	 * @param  int $sUserId ID пользователя
 	 * @return array
 	 */
 	public function GetBlacklistByTargetId($sUserId) {
 		return $this->oMapper->GetBlacklistByTargetId($sUserId);
 	}
-
 	/**
 	 * Добавление пользователя в блеклист по переданному идентификатору
 	 *
-	 * @param  string $sTargetId
-	 * @param  string $sUserId
+	 * @param  int $sTargetId	ID пользователя, которого добавляем в блэклист
+	 * @param  int $sUserId	ID пользователя
 	 * @return bool
 	 */
 	public function AddUserToBlacklist($sTargetId, $sUserId) {
@@ -717,8 +741,8 @@ class ModuleTalk extends Module {
 	/**
 	 * Добавление пользователя в блеклист по списку идентификаторов
 	 *
-	 * @param  array $aTargetId
-	 * @param  string $sUserId
+	 * @param  array $aTargetId	Список ID пользователей, которых добавляем в блэклист
+	 * @param  int $sUserId	ID пользователя
 	 * @return bool
 	 */
 	public function AddUserArrayToBlacklist($aTargetId, $sUserId) {
@@ -730,21 +754,20 @@ class ModuleTalk extends Module {
 	/**
 	 * Удаляем пользователя из блеклиста
 	 *
-	 * @param  string $sTargetId
-	 * @param  string $sUserId
+	 * @param  int $sTargetId	ID пользователя, которого удаляем из блэклиста
+	 * @param  int $sUserId	ID пользователя
 	 * @return bool
 	 */
 	public function DeleteUserFromBlacklist($sTargetId, $sUserId) {
 		return $this->oMapper->DeleteUserFromBlacklist($sTargetId, $sUserId);
 	}
-
 	/**
 	 * Возвращает список последних инбоксов пользователя,
 	 * отправленных не более чем $iTimeLimit секунд назад
 	 *
-	 * @param  string $sUserId
-	 * @param  int    $iTimeLimit
-	 * @param  int    $iCountLimit
+	 * @param  int $sUserId	ID пользователя
+	 * @param  int    $iTimeLimit	Количество секунд
+	 * @param  int    $iCountLimit	Количество
 	 * @return array
 	 */
 	public function GetLastTalksByUserId($sUserId,$iTimeLimit,$iCountLimit=1) {
@@ -756,11 +779,10 @@ class ModuleTalk extends Module {
 
 		return $aTalks;
 	}
-
 	/**
 	 * Удаление письма из БД
 	 *
-	 * @param unknown_type $iTalkId
+	 * @param int $iTalkId	ID разговора
 	 */
 	public function DeleteTalk($iTalkId) {
 		$this->oMapper->deleteTalk($iTalkId);

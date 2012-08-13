@@ -17,9 +17,9 @@
 	{else}
 		<thead>
 			<tr>
-				<th class="cell-name">{$aLang.user}</th>
+				<th class="cell-name cell-tab"><div class="cell-tab-inner">{$aLang.user}</div></th>
 				<th>&nbsp;</th>
-				<th class="cell-skill">{$aLang.user_skill}</th>
+				<th class="cell-skill cell-tab"><div class="cell-tab-inner">{$aLang.user_skill}</div></th>
 				<th class="cell-rating cell-tab">
 					<div class="cell-tab-inner active"><span>{$aLang.user_rating}</span></div>
 				</th>
@@ -31,6 +31,7 @@
 		{if $aUsersList}
 			{foreach from=$aUsersList item=oUserList}
 				{assign var="oSession" value=$oUserList->getSession()}
+				{assign var="oUserNote" value=$oUserList->getUserNote()}
 				<tr>
 					<td class="cell-name">
 						<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
@@ -41,6 +42,9 @@
 					</td>
 					<td>
 						{if $oUserCurrent}
+							{if $oUserNote}
+								<button type="button" class="button button-action button-action-note js-infobox" title="{$oUserNote->getText()|escape:'html'}"><i class="icon-synio-comments-green"></i></button>
+							{/if}
 							<a href="{router page='talk'}add/?talk_users={$oUserList->getLogin()}"><button type="submit"  class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
 						{/if}
 					</td>
@@ -50,7 +54,7 @@
 			{/foreach}
 		{else}
 			<tr>
-				<td colspan="5">
+				<td colspan="4">
 					{if $sUserListEmpty}
 						{$sUserListEmpty}
 					{else}

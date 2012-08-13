@@ -116,36 +116,39 @@ class ActionBlog extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^good$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^good$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 		$this->AddEvent('good',array('EventTopics','topics'));
-		$this->AddEventPreg('/^bad$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^discussed$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
-		$this->AddEventPreg('/^top$/i','/^(page(\d+))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
+		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventTopics','topics'));
 
 		$this->AddEvent('add','EventAddBlog');
 		$this->AddEvent('edit','EventEditBlog');
 		$this->AddEvent('delete','EventDeleteBlog');
-		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page(\d+))?$/i','EventAdminBlog');
+		$this->AddEventPreg('/^admin$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventAdminBlog');
 		$this->AddEvent('invite','EventInviteBlog');
 
 		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
 		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('ajaxaddbloginvite', 'AjaxAddBlogInvite');
 		$this->AddEvent('ajaxrebloginvite', 'AjaxReBlogInvite');
+		$this->AddEvent('ajaxremovebloginvite', 'AjaxRemoveBlogInvite');
 		$this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
 		$this->AddEvent('ajaxblogjoin', 'AjaxBlogJoin');
 
 		$this->AddEventPreg('/^(\d+)\.html$/i','/^$/i',array('EventShowTopic','topic'));
 		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(\d+)\.html$/i',array('EventShowTopic','topic'));
 
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page(\d+))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^bad$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^new$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^newall$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^top$/i','/^(page([1-9]\d{0,5}))?$/i',array('EventShowBlog','blog'));
 
-		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page(\d+))?$/i','EventShowUsers');
+		$this->AddEventPreg('/^[\w\-\_]+$/i','/^users$/i','/^(page([1-9]\d{0,5}))?$/i','EventShowUsers');
 	}
 
 
@@ -204,7 +207,7 @@ class ActionBlog extends Action {
 		$oBlog->setType(getRequest('blog_type'));
 		$oBlog->setDateAdd(date("Y-m-d H:i:s"));
 		$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
-		$oBlog->setUrl(getRequest('blog_url'));
+		$oBlog->setUrl((string)getRequest('blog_url'));
 		$oBlog->setAvatar(null);
 		/**
 		 * Загрузка аватара, делаем ресайзы
@@ -312,7 +315,7 @@ class ActionBlog extends Action {
 			$oBlog->setType(getRequest('blog_type'));
 			$oBlog->setLimitRatingTopic(getRequest('blog_limit_rating_topic'));
 			if ($this->oUserCurrent->isAdministrator()) {
-				$oBlog->setUrl(getRequest('blog_url'));	// разрешаем смену URL блога только админу
+				$oBlog->setUrl((string)getRequest('blog_url'));	// разрешаем смену URL блога только админу
 			}
 			/**
 			 * Загрузка аватара, делаем ресайзы
@@ -498,21 +501,23 @@ class ActionBlog extends Action {
 		if (!func_check(getRequest('blog_title'),'text',2,200)) {
 			$this->Message_AddError($this->Lang_Get('blog_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
-		}
-		/**
-		 * Проверяем есть ли уже блог с таким названием
-		 */
-		if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
-			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
-				$this->Message_AddError($this->Lang_Get('blog_create_title_error_unique'),$this->Lang_Get('error'));
-				$bOk=false;
+		} else {
+			/**
+			 * Проверяем есть ли уже блог с таким названием
+			 */
+			if ($oBlogExists=$this->Blog_GetBlogByTitle(getRequest('blog_title'))) {
+				if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
+					$this->Message_AddError($this->Lang_Get('blog_create_title_error_unique'),$this->Lang_Get('error'));
+					$bOk=false;
+				}
 			}
 		}
+
 		/**
 		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 		 */
 		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
-			$blogUrl=preg_replace("/\s+/",'_',getRequest('blog_url'));
+			$blogUrl=preg_replace("/\s+/",'_',(string)getRequest('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequest('blog_url'),'login',2,50)) {
 				$this->Message_AddError($this->Lang_Get('blog_create_url_error'),$this->Lang_Get('error'));
@@ -529,7 +534,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли уже блог с таким URL
 		 */
-		if ($oBlogExists=$this->Blog_GetBlogByUrl(getRequest('blog_url'))) {
+		if ($oBlogExists=$this->Blog_GetBlogByUrl((string)getRequest('blog_url'))) {
 			if (!$oBlog or $oBlog->getId()!=$oBlogExists->getId()) {
 				$this->Message_AddError($this->Lang_Get('blog_create_url_error_unique'),$this->Lang_Get('error'));
 				$bOk=false;
@@ -578,7 +583,7 @@ class ActionBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -811,7 +816,7 @@ class ActionBlog extends Action {
 			$sPeriod=getRequest('period');
 		}
 		$sBlogUrl=$this->sCurrentEvent;
-		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
+		$sShowType=in_array($this->GetParamEventMatch(0,0),array('bad','new','newall','discussed','top')) ? $this->GetParamEventMatch(0,0) : 'good';
 		if (!in_array($sShowType,array('discussed','top'))) {
 			$sPeriod='all';
 		}
@@ -839,7 +844,7 @@ class ActionBlog extends Action {
 		/**
 		 * Меню
 		 */
-		$this->sMenuSubItemSelect=$sShowType;
+		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
 		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
 		/**
 		 * Передан ли номер страницы
@@ -1197,7 +1202,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем существование блога
 		 */
-		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId) or !is_string($sUsers)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -1374,6 +1379,59 @@ class ActionBlog extends Action {
 		}
 	}
 	/**
+	 * Обработка ajax запроса на удаление вступить в закрытый блог
+	 */
+	protected function AjaxRemoveBlogInvite() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		$sUserId=getRequest('idUser',null,'post');
+		$sBlogId=getRequest('idBlog',null,'post');
+		/**
+		 * Если пользователь не авторизирован, возвращаем ошибку
+		 */
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$this->oUserCurrent=$this->User_GetUserCurrent();
+		/**
+		 * Проверяем существование блога
+		 */
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Пользователь существует и активен?
+		 */
+		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
+		 */
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
+		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
+		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
+			/**
+			 * Удаляем связь/приглашение
+			 */
+			$this->Blog_DeleteRelationBlogUser($oBlogUser);
+			$this->Message_AddNoticeSingle($this->Lang_Get('blog_user_invite_remove_ok',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		}
+	}
+	/**
 	 * Выполняет отправку приглашения в блог
 	 * (по внутренней почте и на email)
 	 *
@@ -1430,7 +1488,7 @@ class ActionBlog extends Action {
 		/**
 		 * Получаем код подтверждения из ревеста и дешефруем его
 		 */
-		$sCode=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.blog.encrypt'));
+		$sCode=xxtea_decrypt(base64_decode(rawurldecode((string)getRequest('code'))), Config::Get('module.blog.encrypt'));
 		if (!$sCode) {
 			return $this->EventNotFound();
 		}

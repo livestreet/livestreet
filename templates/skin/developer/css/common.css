@@ -59,7 +59,7 @@
 /* Toolbar 
 ---------------------------------------------------- */
 .toolbar 					{ float: right; position: fixed; top: 220px; right: 10px; z-index: 100; }
-.toolbar section 			{ width: 34px; line-height: 14px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,.05); margin-bottom: 10px; }
+.toolbar section 			{ width: 34px; line-height: 14px; background: #fff; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.05); box-shadow: 0 0 5px rgba(0,0,0,.05); margin-bottom: 10px; }
 .toolbar section a			{ display: block; padding: 10px; }
 .toolbar section a:hover	{ background: #fafafa; }
 .toolbar section i			{ display: block; }
@@ -110,8 +110,9 @@
 
 /* Облако тегов 
 ---------------------------------------------------- */
+.tag-cloud 					{ width: 100%; }
 .tag-cloud li 				{ display: inline; margin-right: 5px; line-height: 22px; }
-.tag-cloud li a 			{ text-decoration: none; white-space: nowrap; }
+.tag-cloud li a 			{ text-decoration: none; }
 .tag-cloud li .tag-size-1 	{ font-size: 12px; }
 .tag-cloud li .tag-size-2 	{ font-size: 12px; }
 .tag-cloud li .tag-size-3 	{ font-size: 14px; }
@@ -164,7 +165,6 @@
 	white-space: -o-pre-wrap; 
 	white-space: pre-wrap;
 	word-wrap: break-word; 
-	word-break: break-all;
 	white-space: normal;
 }
 
@@ -180,5 +180,5 @@
 .loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 	{ font-weight: bold; color: #333; }
-.user .icon-user 	{ margin-right: 3px; }
+.ls-user:before 	{ content: ''; display: inline-block; width: 14px; height: 14px; margin-right: 3px; background: url(../images/icons.png) -168px 0 no-repeat; vertical-align: middle; }
 .user.inactive 		{ color: #aaa; }

@@ -24,7 +24,7 @@
 				<div class="search-form-wrapper">
 					<div class="search-input-wrapper">
 						<input type="text" id="userfeed_users_complete" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="autocomplete-users input-text input-width-full" />
-						<input type="submit" value="" onclick="ls.userfeed.appendUser();" class="input-submit" />
+						<div onclick="ls.userfeed.appendUser();" class="input-submit"></div>
 					</div>
 				</div>
 				

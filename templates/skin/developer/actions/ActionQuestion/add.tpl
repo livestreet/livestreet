@@ -21,7 +21,8 @@
 		{foreach from=$aBlogsAllow item=oBlog}
 			<option value="{$oBlog->getId()}" {if $_aRequest.blog_id==$oBlog->getId()}selected{/if}>{$oBlog->getTitle()|escape:'html'}</option>
 		{/foreach}
-	</select></p>
+	</select>
+	<small class="note">{$aLang.topic_create_blog_notice}</small></p>
 
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
@@ -31,7 +32,7 @@
 	
 	
 	<p><label for="topic_title">{$aLang.topic_question_create_title}:</label>
-	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}disabled{/if} /><br />
+	<input type="text" id="topic_title" name="topic_title" value="{$_aRequest.topic_title}" class="input-text input-width-full" {if $bEditDisabled}readonly="readonly"{/if} /><br />
 	<small class="note">{$aLang.topic_question_create_title_notice}</small></p>
 
 	

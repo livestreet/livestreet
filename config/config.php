@@ -18,10 +18,10 @@
 /**
  * Настройки HTML вида
  */
-$config['view']['skin']        = 'developer';                                                              // шаблон(скин)
-$config['view']['name']        = 'LiveStreet';                   // название сайта
-$config['view']['description'] = 'LiveStreet - официальный сайт бесплатного движка социальной сети'; // seo description
-$config['view']['keywords']    = 'движок, livestreet, блоги, социальная сеть, бесплатный, php';      // seo keywords
+$config['view']['skin']        = 'synio';                                                              // шаблон(скин)
+$config['view']['name']        = 'Your Site';                   // название сайта
+$config['view']['description'] = 'Description your site'; // seo description
+$config['view']['keywords']    = 'site, google, internet';      // seo keywords
 $config['view']['tinymce']         = false;  // использовать или нет визуальный редактор TinyMCE
 $config['view']['noindex']          = true;   // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
 $config['view']['img_resize_width'] = 570;    // до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты
@@ -39,6 +39,7 @@ $config['seo']['description_words_count'] = 20;               // количес�
  * Настройка основных блоков
  */
 $config['block']['stream']['row'] = 20;                       // сколько записей выводить в блоке "Прямой эфир"
+$config['block']['stream']['show_tip'] = true;                // выводить или нет всплывающие сообщения в блоке "Прямой эфир"
 $config['block']['blogs']['row']  = 10;                       // сколько записей выводить в блоке "Блоги"
 $config['block']['tags']['tags_count'] = 70;                  // сколько тегов выводить в блоке "теги"
 $config['block']['tags']['personal_tags_count'] = 70;         // сколько тегов пользователя выводить в блоке "теги"
@@ -100,7 +101,7 @@ $config['sys']['session']['path']     = '___sys.cookie.path___'; // путь с�
  */
 $config['sys']['mail']['type']             = 'mail';                 // Какой тип отправки использовать
 $config['sys']['mail']['from_email']       = 'admin@admin.adm';      // Мыло с которого отправляются все уведомления
-$config['sys']['mail']['from_name']        = 'Почтовик LiveStreet';  // Имя с которого отправляются все уведомления
+$config['sys']['mail']['from_name']        = 'Почтовик Your Site';  // Имя с которого отправляются все уведомления
 $config['sys']['mail']['charset']          = 'UTF-8';                // Какую кодировку использовать в письмах
 $config['sys']['mail']['smtp']['host']     = 'localhost';            // Настройки SMTP - хост
 $config['sys']['mail']['smtp']['port']     = 25;                     // Настройки SMTP - порт
@@ -355,6 +356,7 @@ $config['db']['table']['geo_country']         = '___db.table.prefix___geo_countr
 $config['db']['table']['geo_region']          = '___db.table.prefix___geo_region';
 $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
 $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
+$config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 /**
@@ -472,20 +474,6 @@ $config['block']['rule_blog_info'] = array(
 	'clear' => false,
 );
 
-
-/**
- * Настройки вывода js и css файлов
- */
-$config['head']['rules']['page'] =array(
-	'path'=>$config['path']['root']['web'].'/page/',
-	'js' => array(
-		'exclude' => array(
-			"___path.static.skin___/js/vote.js",
-			"___path.static.skin___/js/favourites.js",
-			"___path.static.skin___/js/questions.js",
-		)
-	),
-);
 
 $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/html5shiv.js" => array('browser'=>'lt IE 9'),

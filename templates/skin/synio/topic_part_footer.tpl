@@ -37,6 +37,7 @@
 				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
 			{/hookb}
 			<div class="arrow"></div>
+			<div class="close" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"></div>
 		</div>
 
 
@@ -47,14 +48,14 @@
 			</li>
 			<li class="topic-info-date">
 				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
-					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
+					{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 				</time>
 			</li>
 			<li class="topic-info-share" data-topic-id="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
 			
 			<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTopic->getId()},$('#fav_topic_{$oTopic->getId()}'),'topic');">
 				<i id="fav_topic_{$oTopic->getId()}" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>
-				<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{$oTopic->getCountFavourite()}</span>
+				<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}">{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{/if}</span>
 			</li>
 		
 			{if $bTopicList}
@@ -62,9 +63,9 @@
 					{if $oTopic->getCountCommentNew()}
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}" class="new">
 							<i class="icon-synio-comments-green-filled"></i>
-							{$oTopic->getCountComment()}
+							<span>{$oTopic->getCountComment()}</span>
+							<span class="count">+{$oTopic->getCountCommentNew()}</span>
 						</a>
-						<span>+{$oTopic->getCountCommentNew()}</span>
 					{else}
 						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">
 							{if $oTopic->getCountComment()}
@@ -73,10 +74,15 @@
 								<i class="icon-synio-comments-blue"></i>
 							{/if}
 							
-							{$oTopic->getCountComment()}
+							<span>{$oTopic->getCountComment()}</span>
 						</a>
 					{/if}
 				</li>
+			{/if}
+
+
+			{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+				{assign var="bVoteInfoShow" value=true}
 			{/if}
 			
 			<li class="topic-info-vote">
@@ -91,7 +97,7 @@
 																		{/if}
 																	{/if}
 																	
-																	{if $oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId()}
+																	{if !$oUserCurrent or ($oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId())}
 																		vote-not-self
 																	{/if}
 																	
@@ -111,18 +117,21 @@
 																	
 																	{if (strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time') && !$oVote) || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}
 																		vote-nobuttons
-																	{/if}">
-					{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-						{assign var="bVoteInfoShow" value=true}
-					{/if}
+																	{/if}
+																	
+																	{if strtotime($oTopic->getDateAdd()) > $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+																		vote-not-expired
+																	{/if}
+
+																	{if $bVoteInfoShow}js-infobox-vote-topic{/if}">
 					<div class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
 					<div class="vote-item vote-count" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
-						<span id="vote_total_topic_{$oTopic->getId()}" {if $bVoteInfoShow}class="js-infobox-vote-topic"{/if}>
-						{if $bVoteInfoShow}
-							{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
-						{else}
-							<i onclick="return ls.vote.vote({$oTopic->getId()},this,0,'topic');"></i>
-						{/if}
+						<span id="vote_total_topic_{$oTopic->getId()}">
+							{if $bVoteInfoShow}
+								{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
+							{else}
+								<i onclick="return ls.vote.vote({$oTopic->getId()},this,0,'topic');"></i>
+							{/if}
 						</span>
 					</div>
 					<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>

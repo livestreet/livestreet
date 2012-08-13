@@ -93,6 +93,10 @@ class ActionAjax extends Action {
 		/**
 		 * Если блог существует и он не персональный
 		 */
+		if (!is_string(getRequest('iBlogId'))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
 		if (!($oBlog=$this->Blog_GetBlogById(getRequest('iBlogId'))) or $oBlog->getType()=='personal') {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return;
@@ -596,7 +600,7 @@ class ActionAjax extends Action {
 			/**
 			 * Обрабатываем теги
 			 */
-			$aTags=explode(',',trim(getRequest('tags'),"\r\n\t\0\x0B ."));
+			$aTags=explode(',',trim((string)getRequest('tags'),"\r\n\t\0\x0B ."));
 			$aTagsNew=array();
 			$aTagsNewLow=array();
 			$aTagsReturn=array();
@@ -1019,7 +1023,7 @@ class ActionAjax extends Action {
 	 *
 	 */
 	protected function EventPreviewText() {
-		$sText=getRequest('text',null,'post');
+		$sText=(string)getRequest('text',null,'post');
 		$bSave=getRequest('save',null,'post');
 		/**
 		 * Экранировать или нет HTML теги
@@ -1104,7 +1108,7 @@ class ActionAjax extends Action {
 		/**
 		 * Первые буквы тега переданы?
 		 */
-		if (!($sValue=getRequest('value',null,'post'))) {
+		if (!($sValue=getRequest('value',null,'post')) or !is_string($sValue)) {
 			return ;
 		}
 		$aItems=array();
@@ -1128,7 +1132,7 @@ class ActionAjax extends Action {
 		/**
 		 * Первые буквы логина переданы?
 		 */
-		if (!($sValue=getRequest('value',null,'post'))) {
+		if (!($sValue=getRequest('value',null,'post')) or !is_string($sValue)) {
 			return ;
 		}
 		$aItems=array();

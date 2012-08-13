@@ -23,13 +23,13 @@
 		<thead>
 			<tr>
 				<th class="cell-info">&nbsp;</th>
-				<th class="cell-name"><div class="cell-tab">{$aLang.blogs_title}</div></th>
+				<th class="cell-name cell-tab"><div class="cell-tab-inner"><span>{$aLang.blogs_title}</span></div></th>
 
 				{if $oUserCurrent}
 					<th class="cell-join">&nbsp;</th>
 				{/if}
 
-				<th class="cell-readers"><div class="cell-tab">{$aLang.blogs_readers}</div></th>
+				<th class="cell-readers cell-tab"><div class="cell-tab-inner"><span>{$aLang.blogs_readers}</span></div></th>
 				<th class="cell-rating cell-tab align-center">
 					<div class="cell-tab-inner active"><span>{$aLang.blogs_rating}</span></div>
 				</th>
@@ -81,7 +81,7 @@
 			{/foreach}
 		{else}
 			<tr>
-				<td colspan="3">
+				<td colspan="5">
 					{if $sBlogsEmptyList}
 						{$sBlogsEmptyList}
 					{else}

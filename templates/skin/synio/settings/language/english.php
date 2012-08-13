@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Русский языковой файл.
- * Содержит текстовки шаблона.
- */
+* English language file.
+*/
 return array(
 	'footer_menu_user_profile' => 'My profile',
 	'footer_menu_user_quest_title' => 'You do',

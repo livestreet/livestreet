@@ -55,7 +55,7 @@
 	border: 1px solid #ddd;
 	border-top: none;
 	border-radius: 0 0 4px 4px;
-	box-shadow: 0 0 5px #ddd;
+	-webkit-box-shadow: 0 0 5px #ddd; box-shadow: 0 0 5px #ddd;
 
 	background: #ffffff;
 	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%);
@@ -84,7 +84,7 @@
 .nav.nav-main li a:hover 		{ background: #333; }
 .nav.nav-main li:first-child a 	{ border-radius: 4px 0 0 4px; }
 .nav.nav-main li:last-child  a 	{ border-radius: 0 4px 4px 0; }
-.nav.nav-main li.active a 		{ background: #3a3a3a; color: #bbb; box-shadow: 0 0 7px rgba(0,0,0,.15) inset; }
+.nav.nav-main li.active a 		{ background: #3a3a3a; color: #bbb; -webkit-box-shadow: 0 0 7px rgba(0,0,0,.15) inset; box-shadow: 0 0 7px rgba(0,0,0,.15) inset; }
 
 
 /* Nav Profile */
@@ -98,9 +98,9 @@
 .nav.nav-pills li.dropdown a 		{ padding-right: 25px; }
 .nav.nav-pills li.dropdown i 		{ position: absolute; top: 13px; right: 9px; height: 0; width: 0; border: 4px solid transparent; border-top-color: #fff; cursor: pointer; }
 .nav.nav-pills li.dropdown ul 		{ display: none; position: absolute; }
-.nav.nav-pills li.dropdown.opened a { box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset;  }
+.nav.nav-pills li.dropdown.opened a { -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset; box-shadow: 0 0 7px rgba(0, 0, 0, .5) inset;  }
 
-.dropdown-menu 						{ position: absolute; top: 32px; overflow: hidden; background: #fff; border: 1px solid #ccc; min-width: 150px; box-shadow: 0 0 5px rgba(0,0,0,.2); border-radius: 3px; }
+.dropdown-menu 						{ position: absolute; top: 32px; overflow: hidden; background: #fff; border: 1px solid #ccc; min-width: 150px; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2); border-radius: 3px; }
 .dropdown-menu li 					{ font-size: 14px; line-height: 1em; }
 .dropdown-menu li a 				{ display: block; padding: 10px 15px; }
 .dropdown-menu li a:hover 			{ background: #fafafa; }

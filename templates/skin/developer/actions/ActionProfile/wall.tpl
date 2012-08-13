@@ -30,7 +30,7 @@
 {/if}
 
 {if !count($aWall)}
-	<div class="wall-note">
+	<div id="wall-note-list-empty" class="wall-note">
 		<h3>{$aLang.wall_list_empty}</h3>
 	</div>
 {/if}

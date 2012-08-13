@@ -46,6 +46,7 @@ return array(
 	 */
 	'reader_declension' => 'читатель;читателя;читателей',
 	'topic_declension' => 'топик;топика;топиков',
+	'draft_declension' => 'черновик;черновика;черновиков',
 	/**
 	 * Популярные блоги
 	 */
@@ -172,6 +173,7 @@ return array(
 	'blog_close_show' => 'Это закрытый блог, у вас нет прав на просмотр контента',
 	'blog_user_invite_add_self' => 'Нельзя отправить инвайт самому себе',
 	'blog_user_invite_add_ok' => 'Пользователю %%login%% отправлено приглашение',
+	'blog_user_invite_remove_ok' => 'Приглашение для пользователя %%login%% удалено',
 	'blog_user_already_invited' => 'Пользователю %%login%% уже отправлен инвайт',
 	'blog_user_already_exists' => 'Пользователь %%login%% уже состоит в блоге',
 	'blog_user_already_reject' => 'Пользователь %%login%% отклонил инвайт',
@@ -181,6 +183,7 @@ return array(
 	'blog_user_invite_accept' => 'Приглашение принято',
 	'blog_user_invite_reject' => 'Приглашение отклонено',
 	'blog_user_invite_readd' => 'повторить',
+	'blog_user_invite_remove' => 'удалить',
 	/**
 	 * Топики
 	 */
@@ -238,6 +241,7 @@ return array(
 	'topic_create_blog_error_nojoin' => 'Вы не состоите в этом блоге!',
 	'topic_create_blog_error_noacl' => 'Вы еще недостаточно окрепли, чтобы постить в этот блог',
 	'topic_create_blog_error_noallow' => 'Вы не можете писать в этот блог',
+	'topic_create_blog_notice' => 'Для того чтобы написать в определенный блог, вы должны, для начала, вступить в него.',
 	'topic_create_title' => 'Заголовок',
 	'topic_create_title_notice' => 'Заголовок должен быть наполнен смыслом, чтобы можно было понять, о чем будет топик.',
 	'topic_create_title_error' => 'Название топика должно быть от 2 до 200 символов',
@@ -412,6 +416,7 @@ return array(
 	'user_login_submit' => 'Войти',
 	'user_login_remember' => 'Запомнить меня',
 	'user_login_bad' => 'Что-то не так! Вероятно, неправильно указан логин (e-mail) или пароль.',
+	'user_not_activated' => 'Вы не активировали вашу учетную запись. <br/> <a href="%%reactivation_path%%">Повторный запрос активации</a>',
 	'user_password' => 'Пароль',
 	'user_password_reminder' => 'Напомнить пароль',
 	'user_exit_notice' => 'Обязательно приходите еще.',
@@ -499,6 +504,14 @@ return array(
 	'registration_captcha_error' => 'Неверный код',
 	'registration_submit' => 'Зарегистрироваться',
 	'registration_ok' => 'Поздравляем! Регистрация прошла успешно',
+
+	/**
+	 * Повторный запрос активации
+	 */
+	"reactivation" => "Повторный запрос активации",
+	"reactivation_submit" => "Получить ссылку на активацию",
+	"reactivation_send_link" => "Ссылка для активации отправлена на ваш адрес электронной почты.",
+
 	/**
 	 * Голосование за пользователя
 	 */
@@ -519,7 +532,7 @@ return array(
 	'user_menu_profile_friends' => 'Друзья',
 	'user_menu_profile_stream' => 'Активность',
 	'user_menu_profile_notes' => 'Заметки',
-	'user_menu_profile_favourites' => 'Избраннное',
+	'user_menu_profile_favourites' => 'Избранное',
 	'user_menu_profile_favourites_topics' => 'Избранные топики',
 	'user_menu_profile_favourites_comments' => 'Избранные комментарии',
 	'user_menu_profile_tags' => 'Метки',
@@ -614,6 +627,9 @@ return array(
 	'settings_profile_mail_error' => 'Неверный формат e-mail',
 	'settings_profile_mail_error_used' => 'Этот емайл уже занят',
 	'settings_profile_mail_notice' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
+	'settings_profile_mail_change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
+	'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено еще одно подтверждение.',
+	'settings_profile_mail_change_ok' => 'Ваш емайл изменен на <b>%%mail%%</b>',
 	'settings_profile_sex' => 'Пол',
 	'settings_profile_sex_man' => 'мужской',
 	'settings_profile_sex_woman' => 'женский',
@@ -666,6 +682,8 @@ return array(
 	'settings_tuning_notice_new_talk' => 'при новом личном сообщении',
 	'settings_tuning_notice_reply_comment' => 'при ответе на комментарий',
 	'settings_tuning_notice_new_friend' => 'при добавлении вас в друзья',
+	'settings_tuning_general' => 'Общие настройки',
+	'settings_tuning_general_timezone' => 'Часовой пояс',
 	'settings_tuning_submit' => 'сохранить настройки',
 	'settings_tuning_submit_ok' => 'Настройки успешно сохранены',
 	'settings_account' => 'Настройки акаунта',
@@ -884,6 +902,18 @@ return array(
 	'stream_list_event_vote_comment' => 'оценил комментарий к топику',
 	'stream_list_event_join_blog' => 'вступил в блог',
 	'stream_list_event_add_friend' => 'добавил в друзья пользователя',
+
+	'stream_list_event_add_wall_female' => 'добавила запись на стену',
+	'stream_list_event_add_topic_female' => 'добавила новый топик',
+	'stream_list_event_add_blog_female' => 'добавила новый блог',
+	'stream_list_event_add_comment_female' => 'прокомментировала топик',
+	'stream_list_event_vote_topic_female' => 'оценила топик',
+	'stream_list_event_vote_blog_female' => 'оценила блог',
+	'stream_list_event_vote_user_female' => 'оценила пользователя',
+	'stream_list_event_vote_comment_female' => 'оценила комментарий к топику',
+	'stream_list_event_join_blog_female' => 'вступила в блог',
+	'stream_list_event_add_friend_female' => 'добавила в друзья пользователя',
+
 	'stream_menu' => 'Активность',
 	'stream_menu_all' => 'Вся',
 	'stream_menu_user' => 'Я слежу',
@@ -959,6 +989,8 @@ return array(
 	'notify_subject_reminder_password' => 'Новый пароль',
 	'notify_subject_wall_reply' => 'Ответ на ваше сообщение на стене',
 	'notify_subject_wall_new' => 'Новое сообщение на вашей стене',
+	'notify_subject_reactvation' => 'Повторный запрос активации',
+	'notify_subject_user_changemail' => 'Подтверждение смены емайла',
 	/**
 	 * Админка
 	 */
@@ -994,7 +1026,7 @@ return array(
 	'validate_string_too_long' => 'Поле %%field%% слишком длинное (максимально допустимо %%max%% символов)',
 	'validate_string_too_short' => 'Поле %%field%% слишком короткое (минимально допустимо %%min%% символов)',
 	'validate_string_no_lenght' => 'Поле %%field%% неверной длины (необходимо %%length%% символов)',
-	'validate_email_not_valid' => 'Поле %%field%% не соотвествует формату email адреса',
+	'validate_email_not_valid' => 'Поле %%field%% не соответствует формату email адреса',
 	'validate_number_must_integer' => 'Поле %%field%% должно быть целым числом',
 	'validate_number_must_number' => 'Поле %%field%% должно быть числом',
 	'validate_number_too_small' => 'Поле %%field%% слишком маленькое (минимально допустимо число %%min%%)',
@@ -1004,7 +1036,7 @@ return array(
 	'validate_boolean_invalid' => 'Поле %%field%% должно быть %%true%% или %%false%%',
 	'validate_required_must_be' => 'Поле %%field%% должно иметь значение %%value%%',
 	'validate_required_cannot_blank' => 'Поле %%field%% не может быть пустым',
-	'validate_url_not_valid' => 'Поле %%field%% не соотвествует формату URL адреса',
+	'validate_url_not_valid' => 'Поле %%field%% не соответствует формату URL адреса',
 	'validate_captcha_not_valid' => 'Поле %%field%% содержит неверный код',
 	'validate_compare_must_repeated' => 'Поле %%field%% должно повторять %%compare_field%%',
 	'validate_compare_must_not_equal' => 'Поле %%field%% не должно повторять %%compare_value%%',
@@ -1132,5 +1164,50 @@ return array(
 	'date_minutes_back_less' => 'Менее минуты назад',
 	'date_hours_back' => '%%hours%% час назад; %%hours%% часа назад; %%hours%% часов назад',
 	'date_hours_back_less' => 'Менее часа назад',
+	'today' => 'Сегодня',
+	'more' => 'еще',
+
+	'timezone_list'=> array(
+		'-12' => '[UTC − 12] Меридиан смены дат (запад)',
+		'-11' => '[UTC − 11] о. Мидуэй, Самоа',
+		'-10' => '[UTC − 10] Гавайи',
+		'-9.5' => '[UTC − 9:30] Маркизские острова',
+		'-9' => '[UTC − 9] Аляска',
+		'-8' => '[UTC − 8] Тихоокеанское время (США и Канада) и Тихуана',
+		'-7' => '[UTC − 7] Аризона',
+		'-6' => '[UTC − 6] Мехико, Центральная Америка, Центральное время (США и Канада)',
+		'-5' => '[UTC − 5] Индиана (восток), Восточное время (США и Канада)',
+		'-4.5' => '[UTC − 4:30] Венесуэла',
+		'-4' => '[UTC − 4] Сантьяго, Атлантическое время (Канада)',
+		'-3.5' => '[UTC − 3:30] Ньюфаундленд',
+		'-3' => '[UTC − 3] Бразилия, Гренландия',
+		'-2' => '[UTC − 2] Среднеатлантическое время',
+		'-1' => '[UTC − 1] Азорские острова, острова Зелёного мыса',
+		'0' => '[UTC] Время по Гринвичу: Дублин, Лондон, Лиссабон, Эдинбург',
+		'1' => '[UTC + 1] Берлин, Мадрид, Париж, Рим, Западная Центральная Африка',
+		'2' => '[UTC + 2] Афины, Вильнюс, Киев, Минск, Рига, Таллин, Центральная Африка',
+		'3' => '[UTC + 3] Волгоград, Москва, Самара, Санкт-Петербург',
+		'3.5' => '[UTC + 3:30] Тегеран',
+		'4' => '[UTC + 4] Баку, Ереван, Тбилиси',
+		'4.5' => '[UTC + 4:30] Кабул',
+		'5' => '[UTC + 5] Екатеринбург, Исламабад, Карачи, Оренбург, Ташкент',
+		'5.5' => '[UTC + 5:30] Бомбей, Калькутта, Мадрас, Нью-Дели',
+		'5.75' => '[UTC + 5:45] Катманду',
+		'6' => '[UTC + 6] Алматы, Астана, Новосибирск, Омск',
+		'6.5' => '[UTC + 6:30] Рангун',
+		'7' => '[UTC + 7] Бангкок, Красноярск',
+		'8' => '[UTC + 8] Гонконг, Иркутск, Пекин, Сингапур',
+		'8.75' => '[UTC + 8:45] Юго-восточная Западная Австралия',
+		'9' => '[UTC + 9] Токио, Сеул, Чита, Якутск',
+		'9.5' => '[UTC + 9:30] Дарвин',
+		'10' => '[UTC + 10] Владивосток, Канберра, Мельбурн, Сидней',
+		'10.5' => '[UTC + 10:30] Лорд-Хау',
+		'11' => '[UTC + 11] Камчатка, Магадан, Сахалин, Соломоновы о-ва',
+		'11.5' => '[UTC + 11:30] Остров Норфолк',
+		'12' => '[UTC + 12] Новая Зеландия, Фиджи',
+		'12.75' => '[UTC + 12:45] Острова Чатем',
+		'13' => '[UTC + 13] Острова Феникс, Тонга',
+		'14' => '[UTC + 14] Остров Лайн'
+	)
 );
 ?>

@@ -223,8 +223,12 @@ ls.wall = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				$('#wall-item-'+iId).fadeOut();
-				$('#wall-reply-item-'+iId).fadeOut();
+				$('#wall-item-'+iId).fadeOut('slow', function() {
+					ls.hook.run('ls_wall_remove_item_fade',[iId, result],this);
+				});
+				$('#wall-reply-item-'+iId).fadeOut('slow', function() {
+					ls.hook.run('ls_wall_remove_reply_item_fade',[iId, result],this);
+				});
 				ls.hook.run('ls_wall_remove_after',[iId, result]);
 			}
 		});

@@ -2,19 +2,22 @@
 	Class: prettyPhoto
 	Use: Lightbox clone for jQuery
 	Author: Stephane Caron (http://www.no-margin-for-errors.com)
-	Version: 3.1.3
+	Version: 3.1.4
 ------------------------------------------------------------------------- */
 (function($) {
-	$.prettyPhoto = {version: '3.1.3'};
+	$.prettyPhoto = {version: '3.1.4'};
 	
 	$.fn.prettyPhoto = function(pp_settings) {
 		pp_settings = jQuery.extend({
+			hook: 'rel', /* the attribute tag to use for prettyPhoto hooks. default: 'rel'. For HTML5, use "data-rel" or similar. */
 			animation_speed: 'fast', /* fast/slow/normal */
+			ajaxcallback: function() {},
 			slideshow: 5000, /* false OR interval time in ms */
 			autoplay_slideshow: false, /* true/false */
 			opacity: 0.80, /* Value between 0 and 1 */
 			show_title: true, /* true/false */
 			allow_resize: true, /* Resize the photos bigger than viewport. true/false */
+			allow_expand: true, /* Allow the user to expand a resized image. true/false */
 			default_width: 500,
 			default_height: 344,
 			counter_separator_label: '/', /* The separator for the gallery counter 1 "of" 2 */
@@ -26,11 +29,11 @@
 			modal: false, /* If set to true, only the close button will close the window */
 			deeplinking: true, /* Allow prettyPhoto to update the url to enable deeplinking. */
 			overlay_gallery: true, /* If set to true, a gallery will overlay the fullscreen image on mouse over */
+			overlay_gallery_max: 30, /* Maximum number of pictures in the overlay gallery */
 			keyboard_shortcuts: true, /* Set to false if you open forms inside prettyPhoto */
 			changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
 			callback: function(){}, /* Called when prettyPhoto is closed */
 			ie6_fallback: true,
-			tumb_gallery: true,
 			markup: '<div class="pp_pic_holder"> \
 						<div class="ppt">&nbsp;</div> \
 						<div class="pp_top"> \
@@ -87,7 +90,7 @@
 			iframe_markup: '<iframe src ="{path}" width="{width}" height="{height}" frameborder="no"></iframe>',
 			inline_markup: '<div class="pp_inline">{content}</div>',
 			custom_markup: '',
-			social_tools: '<div class="twitter"><a href="http://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div><div class="facebook"><iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&href={location_href}&amp;layout=button_count&amp;show_faces=true&amp;width=500&amp;action=like&amp;font&amp;colorscheme=light&amp;height=23" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:23px;" allowTransparency="true"></iframe></div>' /* html or false to disable */
+			social_tools: '<div class="twitter"><a href="http://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div><div class="facebook"><iframe src="//www.facebook.com/plugins/like.php?locale=en_US&href={location_href}&amp;layout=button_count&amp;show_faces=true&amp;width=500&amp;action=like&amp;font&amp;colorscheme=light&amp;height=23" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:23px;" allowTransparency="true"></iframe></div>' /* html or false to disable */
 		}, pp_settings);
 		
 		// Global variables accessible only by prettyPhoto
@@ -143,20 +146,19 @@
 			if(settings.ie6_fallback && $.browser.msie && parseInt($.browser.version) == 6) settings.theme = "light_square"; // Fallback to a supported theme for IE6
 			
 			// Find out if the picture is part of a set
-			theRel = $(this).attr('rel');
+			theRel = $(this).attr(settings.hook);
 			galleryRegExp = /\[(?:.*)\]/;
 			isSet = (galleryRegExp.exec(theRel)) ? true : false;
 			
 			// Put the SRCs, TITLEs, ALTs into an array.
-			pp_images = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr('rel').indexOf(theRel) != -1) return $(n).attr('href'); }) : $.makeArray($(this).attr('href'));
-			pp_images_tumb = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr('rel').indexOf(theRel) != -1) return $(n).find('img').attr('src'); }) : $.makeArray($(this).find('img').attr('src'));
-			pp_titles = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr('rel').indexOf(theRel) != -1) return ($(n).find('img').attr('alt')) ? $(n).find('img').attr('alt') : ""; }) : $.makeArray($(this).find('img').attr('alt'));
-			pp_descriptions = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr('rel').indexOf(theRel) != -1) return ($(n).attr('title')) ? $(n).attr('title') : ""; }) : $.makeArray($(this).attr('title'));
+			pp_images = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return $(n).attr('href'); }) : $.makeArray($(this).attr('href'));
+			pp_titles = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return ($(n).find('img').attr('alt')) ? $(n).find('img').attr('alt') : ""; }) : $.makeArray($(this).find('img').attr('alt'));
+			pp_descriptions = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return ($(n).attr('title')) ? $(n).attr('title') : ""; }) : $.makeArray($(this).attr('title'));
 			
-			if(pp_images.length > 30) settings.overlay_gallery = false;
+			if(pp_images.length > settings.overlay_gallery_max) settings.overlay_gallery = false;
 			
 			set_position = jQuery.inArray($(this).attr('href'), pp_images); // Define where in the array the clicked item is positionned
-			rel_index = (isSet) ? set_position : $("a[rel^='"+theRel+"']").index($(this));
+			rel_index = (isSet) ? set_position : $("a["+settings.hook+"^='"+theRel+"']").index($(this));
 			
 			_build_overlay(this); // Build the overlay {this} being the caller
 			
@@ -184,7 +186,7 @@
 				pp_titles = (arguments[1]) ? $.makeArray(arguments[1]) : $.makeArray("");
 				pp_descriptions = (arguments[2]) ? $.makeArray(arguments[2]) : $.makeArray("");
 				isSet = (pp_images.length > 1) ? true : false;
-				set_position = 0;
+				set_position = (arguments[3])? arguments[3]: 0;
 				_build_overlay(event.target); // Build the overlay {this} being the caller
 			}
 
@@ -213,8 +215,8 @@
 			$pp_pic_holder.find('.currentTextHolder').text((set_position+1) + settings.counter_separator_label + $(pp_images).size());
 
 			// Set the description
-			if(pp_descriptions[set_position] != ""){
-				$pp_pic_holder.find('.pp_description').show().text(unescape(pp_descriptions[set_position]));
+			if(typeof pp_descriptions[set_position] != 'undefined' && pp_descriptions[set_position] != ""){
+				$pp_pic_holder.find('.pp_description').show().html(unescape(pp_descriptions[set_position]));
 			}else{
 				$pp_pic_holder.find('.pp_description').hide();
 			}
@@ -231,7 +233,7 @@
 			// Fade the holder
 			$pp_pic_holder.fadeIn(function(){
 				// Set the title
-				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.text(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
+				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.html(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
 				
 				imgPreloader = "";
 				skipInjection = false;
@@ -241,15 +243,15 @@
 					case 'image':
 						imgPreloader = new Image();
 
+						// Preload the neighbour images
+						nextImage = new Image();
+						if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
+						prevImage = new Image();
+						if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
+
 						$pp_pic_holder.find('#pp_full_res')[0].innerHTML = settings.image_markup.replace(/{path}/g,pp_images[set_position]);
 
 						imgPreloader.onload = function(){
-							// Preload the neighbour images
-							nextImage = new Image();
-							if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
-							prevImage = new Image();
-							if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
-
 							// Fit item to viewport
 							pp_dimensions = _fitToViewport(imgPreloader.width,imgPreloader.height);
 
@@ -395,7 +397,9 @@
 			rel_index = set_position;
 
 			if(!doresize) doresize = true; // Allow the resizing of the images
-			$('.pp_contract').removeClass('pp_contract').addClass('pp_expand');
+			if(settings.allow_expand) {
+				$('.pp_contract').removeClass('pp_contract').addClass('pp_expand');
+			}
 
 			_hideContent(function(){ $.prettyPhoto.open(); });
 		};
@@ -510,7 +514,7 @@
 			// Resize picture the holder
 			$pp_pic_holder.animate({
 				'top': projectedTop,
-				'left': (windowWidth/2) - (pp_dimensions['containerWidth']/2),
+				'left': ((windowWidth/2) - (pp_dimensions['containerWidth']/2) < 0) ? 0 : (windowWidth/2) - (pp_dimensions['containerWidth']/2),
 				width:pp_dimensions['containerWidth']
 			},settings.animation_speed,function(){
 				$pp_pic_holder.find('.pp_hoverContainer,#fullResImage').height(pp_dimensions['height']).width(pp_dimensions['width']);
@@ -520,10 +524,12 @@
 				// Show the nav
 				if(isSet && _getFileType(pp_images[set_position])=="image") { $pp_pic_holder.find('.pp_hoverContainer').show(); }else{ $pp_pic_holder.find('.pp_hoverContainer').hide(); }
 			
-				if(pp_dimensions['resized']){ // Fade the resizing link if the image is resized
-					$('a.pp_expand,a.pp_contract').show();
-				}else{
-					$('a.pp_expand').hide();
+				if(settings.allow_expand) {
+					if(pp_dimensions['resized']){ // Fade the resizing link if the image is resized
+						$('a.pp_expand,a.pp_contract').show();
+					}else{
+						$('a.pp_expand').hide();
+					}
 				}
 				
 				if(settings.autoplay_slideshow && !pp_slideshow && !pp_open) $.prettyPhoto.startSlideshow();
@@ -534,6 +540,7 @@
 			});
 			
 			_insert_gallery();
+			pp_settings.ajaxcallback();
 		};
 		
 		/**
@@ -746,7 +753,7 @@
 			if(settings.social_tools)
 				facebook_like_link = settings.social_tools.replace('{location_href}', encodeURIComponent(location.href)); 
 
-			settings.markup=settings.markup.replace('{pp_social}',(settings.social_tools)?facebook_like_link:''); 
+			settings.markup = settings.markup.replace('{pp_social}',''); 
 			
 			$('body').append(settings.markup); // Inject the markup
 			
@@ -762,11 +769,7 @@
 						img_src = '';
 					}else{
 						classname = '';
-						if (settings.tumb_gallery) {
-							img_src = pp_images_tumb[i];
-						} else {
-							img_src = pp_images[i];
-						}
+						img_src = pp_images[i];
 					}
 					toInject += "<li class='"+classname+"'><a href='#'><img src='" + img_src + "' width='50' alt='' /></a></li>";
 				};
@@ -833,20 +836,23 @@
 
 			$('a.pp_close').bind('click',function(){ $.prettyPhoto.close(); return false; });
 
-			$('a.pp_expand').bind('click',function(e){
-				// Expand the image
-				if($(this).hasClass('pp_expand')){
-					$(this).removeClass('pp_expand').addClass('pp_contract');
-					doresize = false;
-				}else{
-					$(this).removeClass('pp_contract').addClass('pp_expand');
-					doresize = true;
-				};
+
+			if(settings.allow_expand) {
+				$('a.pp_expand').bind('click',function(e){
+					// Expand the image
+					if($(this).hasClass('pp_expand')){
+						$(this).removeClass('pp_expand').addClass('pp_contract');
+						doresize = false;
+					}else{
+						$(this).removeClass('pp_contract').addClass('pp_expand');
+						doresize = true;
+					};
+				
+					_hideContent(function(){ $.prettyPhoto.open(); });
 			
-				_hideContent(function(){ $.prettyPhoto.open(); });
-		
-				return false;
-			});
+					return false;
+				});
+			}
 		
 			$pp_pic_holder.find('.pp_previous, .pp_nav .pp_arrow_previous').bind('click',function(){
 				$.prettyPhoto.changePage('previous');
@@ -874,7 +880,7 @@
 
 			// Little timeout to make sure all the prettyPhoto initialize scripts has been run.
 			// Useful in the event the page contain several init scripts.
-			setTimeout(function(){ $("a[rel^='"+hashRel+"']:eq("+hashIndex+")").trigger('click'); },50);
+			setTimeout(function(){ $("a["+pp_settings.hook+"^='"+hashRel+"']:eq("+hashIndex+")").trigger('click'); },50);
 		}
 		
 		return this.unbind('click.prettyphoto').bind('click.prettyphoto',$.prettyPhoto.initialize); // Return the jQuery object for chaining. The unbind method is used to avoid click conflict when the plugin is called more than once
@@ -882,20 +888,18 @@
 	
 	function getHashtag(){
 		url = location.href;
-		hashtag = (url.indexOf('#!') != -1) ? decodeURI(url.substring(url.indexOf('#!')+2,url.length)) : false;
+		hashtag = (url.indexOf('#prettyPhoto') !== -1) ? decodeURI(url.substring(url.indexOf('#prettyPhoto')+1,url.length)) : false;
+
 		return hashtag;
 	};
 	
 	function setHashtag(){
 		if(typeof theRel == 'undefined') return; // theRel is set on normal calls, it's impossible to deeplink using the API
-		location.hash = '!' + theRel + '/'+rel_index+'/';
+		location.hash = theRel + '/'+rel_index+'/';
 	};
 	
 	function clearHashtag(){
-		// Clear the hashtag only if it was set by prettyPhoto
-		url = location.href;
-		hashtag = (url.indexOf('#!prettyPhoto')) ? true : false;
-		if(hashtag) location.hash = "!prettyPhoto";
+		if ( location.href.indexOf('#prettyPhoto') !== -1 ) location.hash = "prettyPhoto";
 	}
 	
 	function getParam(name,url){

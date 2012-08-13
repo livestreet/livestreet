@@ -76,10 +76,11 @@ class ActionIndex extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^(page(\d+))?$/i','EventIndex');
-		$this->AddEventPreg('/^new$/i','/^(page(\d+))?$/i','EventNew');
-		$this->AddEventPreg('/^discussed/i','/^(page(\d+))?$/i','EventDiscussed');
-		$this->AddEventPreg('/^top/i','/^(page(\d+))?$/i','EventTop');
+		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventIndex');
+		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventNew');
+		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventNewAll');
+		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventDiscussed');
+		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTop');
 	}
 
 
@@ -216,6 +217,42 @@ class ActionIndex extends Action {
 		 * Формируем постраничность
 		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'new');
+		/**
+		 * Загружаем переменные в шаблон
+		 */
+		$this->Viewer_Assign('aTopics',$aTopics);
+		$this->Viewer_Assign('aPaging',$aPaging);
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('index');
+	}
+	/**
+	 * Вывод ВСЕХ новых топиков
+	 */
+	protected function EventNewAll() {
+		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'new/',Config::Get('view.name'));
+		/**
+		 * Меню
+		 */
+		$this->sMenuSubItemSelect='new';
+		/**
+		 * Передан ли номер страницы
+		 */
+		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
+		/**
+		 * Получаем список топиков
+		 */
+		$aResult=$this->Topic_GetTopicsNewAll($iPage,Config::Get('module.topic.per_page'));
+		$aTopics=$aResult['collection'];
+		/**
+		 * Вызов хуков
+		 */
+		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		/**
+		 * Формируем постраничность
+		 */
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.topic.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('index').'newall');
 		/**
 		 * Загружаем переменные в шаблон
 		 */

@@ -87,6 +87,7 @@ ls.blocks = (function ($) {
 				$(v).show();
 			}
 		});
+		ls.hook.run('ls_blocks_switch_tab_after',[obj, block],this);
 		return true;
 	};
 
@@ -94,7 +95,8 @@ ls.blocks = (function ($) {
 	* Отображение процесса загрузки
 	*/
 	this.showProgress = function(content) {
-		content.html($('<div />').css('text-align','center').append($('<img>', {src: this.options.loader})));
+		content.height(content.height());
+		content.empty().css({'background': 'url(' + this.options.loader + ') no-repeat center top', 'min-height': 70});
 	};
 
 	/**
@@ -102,7 +104,7 @@ ls.blocks = (function ($) {
 	*/
 	this.onLoad = function(content,result) {
 		$(this).trigger('loadSuccessful',arguments);
-		content.empty();
+		content.empty().css({'background': 'none', 'height': 'auto', 'min-height': 0});
 		if (result.bStateError) {
 			ls.msg.error(null, result.sMsg);
 		} else {
@@ -152,10 +154,11 @@ ls.blocks = (function ($) {
 			// Dropdown
 			var trigger = $('.js-block-'+block+'-dropdown-trigger');
 			var menu 	= $('.js-block-'+block+'-dropdown-items');
-			var pos 	= trigger.offset();
 
-			menu.appendTo('body').css({ 'left': pos.left, 'top': pos.top + 30, 'display': 'none' });
+			menu.appendTo('body').css({'display': 'none'});
 			trigger.click(function(){
+				var pos = $(this).offset();
+				menu.css({ 'left': pos.left, 'top': pos.top + 30, 'z-index': 2100 });
 				menu.slideToggle();
 				$(this).toggleClass('opened');
 				return false;
@@ -181,6 +184,7 @@ ls.blocks = (function ($) {
 			$('.js-block-'+block+'-nav').show();
 			$('.js-block-'+block+'-dropdown').hide();
 		}
+		ls.hook.run('ls_blocks_init_navigation_after',[block,count],this);
 	};
 
 	return this;

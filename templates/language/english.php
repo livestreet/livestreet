@@ -46,6 +46,7 @@ return array(
 	 */
 	'reader_declension' => 'reader;readers;readers',
 	'topic_declension' => 'topic;topics;topics',
+	'draft_declension' => 'draft;drafts;drafts',
 	/**
 	 * Popular Blogs
 	 */
@@ -172,6 +173,7 @@ return array(
 	'blog_close_show' => "It's a 'close blog', you don't have enought rights to see it's content",
 	'blog_user_invite_add_self' => "Can't send invitation to yourself",
 	'blog_user_invite_add_ok' => 'Invitation sent to user %%login%%',
+	'blog_user_invite_remove_ok' => 'Invite for user %%login%% removed',
 	'blog_user_already_invited' => 'Invitation has been sent already to user %%login%%',
 	'blog_user_already_exists' => 'User %%login%% already member of this blog',
 	'blog_user_already_reject' => 'User %%login%% rejected invitation',
@@ -180,7 +182,8 @@ return array(
 	'blog_user_invite_already_done' => 'You already a member of this blog',
 	'blog_user_invite_accept' => 'Invitation accepted',
 	'blog_user_invite_reject' => 'Invitation rejected',
-	'blog_user_invite_readd' => 'Re-add',
+	'blog_user_invite_readd' => 'retry',
+	'blog_user_invite_remove' => 'remove',
 	/**
 	 * Topics
 	 */
@@ -238,6 +241,7 @@ return array(
 	'topic_create_blog_error_nojoin' => "You're not a member of this blog!",
 	'topic_create_blog_error_noacl' => "You don't have enough power to post to this blog",
 	'topic_create_blog_error_noallow' => "You can't write to this blog",
+	'topic_create_blog_notice' => 'You need to join blog to post to it.',
 	'topic_create_title' => 'Title',
 	'topic_create_title_notice' => 'Title should be meaningful to reflect the meaning of the topic.',
 	'topic_create_title_error' => "Topic's title should consist of 2 upto 200 chars",
@@ -412,6 +416,7 @@ return array(
 	'user_login_submit' => 'Login',
 	'user_login_remember' => 'Remember me',
 	'user_login_bad' => 'Something is wrong! Wrong login (e-mail) or password?.',
+	'user_not_activated' => 'You have not activated your account. <br/> <a href="%%reactivation_path%%">Re-activation request</a>',
 	'user_password' => 'Password',
 	'user_password_reminder' => 'Password reminder',
 	'user_exit_notice' => 'Please come again.',
@@ -499,6 +504,12 @@ return array(
 	'registration_captcha_error' => 'Wrong code',
 	'registration_submit' => 'Submit registration',
 	'registration_ok' => 'Congratulation with successful registration!',
+	/**
+	 * Re-activation
+	 */
+	"reactivation" => "Re-activation request",
+	"reactivation_submit" => "Get a link to the activation",
+	"reactivation_send_link" => "Activation link is sent to your e-mail.",
 	/**
 	 * Vote for users
 	 */
@@ -614,6 +625,9 @@ return array(
 	'settings_profile_mail_error' => 'Wrong e-mail format',
 	'settings_profile_mail_error_used' => 'This e-mail is already in use',
 	'settings_profile_mail_notice' => 'Your real e-mail address fo notifications.',
+	'settings_profile_mail_change_from_notice' => 'On your old e-mail sent a confirmation email for changing',
+	'settings_profile_mail_change_to_notice' => 'Thank you! <br/> on your new email address sent another confirmation.',
+	'settings_profile_mail_change_ok' => 'Your email is changed to <b>%%mail%%</b>',
 	'settings_profile_sex' => 'Gender',
 	'settings_profile_sex_man' => 'male',
 	'settings_profile_sex_woman' => 'female',
@@ -666,6 +680,8 @@ return array(
 	'settings_tuning_notice_new_talk' => 'on a new Personal Message',
 	'settings_tuning_notice_reply_comment' => 'on reply to comment',
 	'settings_tuning_notice_new_friend' => 'On joining to a friends list',
+	'settings_tuning_general' => 'General settings',
+	'settings_tuning_general_timezone' => 'Timezone',
 	'settings_tuning_submit' => 'Save configs',
 	'settings_tuning_submit_ok' => 'Configs saved',
 	'settings_account' => 'Settings account',
@@ -874,6 +890,7 @@ return array(
 	'stream_no_events' => 'Stream is empty',
 	'stream_error_subscribe_to_yourself' => 'You can not sign up for yourself',
 	'stream_list_user' => 'User',
+
 	'stream_list_event_add_wall' => 'added a post on wall',
 	'stream_list_event_add_topic' => 'added a new topic',
 	'stream_list_event_add_blog' => 'added a new blog',
@@ -884,6 +901,18 @@ return array(
 	'stream_list_event_vote_comment' => 'voted comment',
 	'stream_list_event_join_blog' => 'join to blog',
 	'stream_list_event_add_friend' => 'add to friends',
+
+	'stream_list_event_add_wall_female' => 'added a post on wall',
+	'stream_list_event_add_topic_female' => 'added a new topic',
+	'stream_list_event_add_blog_female' => 'added a new blog',
+	'stream_list_event_add_comment_female' => 'commented on the topic',
+	'stream_list_event_vote_topic_female' => 'voted topic',
+	'stream_list_event_vote_blog_female' => 'voted blog',
+	'stream_list_event_vote_user_female' => 'voted user',
+	'stream_list_event_vote_comment_female' => 'voted comment',
+	'stream_list_event_join_blog_female' => 'join to blog',
+	'stream_list_event_add_friend_female' => 'add to friends',
+
 	'stream_menu' => 'Stream',
 	'stream_menu_all' => 'All',
 	'stream_menu_user' => 'I watch',
@@ -959,6 +988,8 @@ return array(
 	'notify_subject_reminder_password' => 'New password',
 	'notify_subject_wall_reply' => 'You\'ve recieved reply to your post on wall',
 	'notify_subject_wall_new' => 'You\'ve recieved new post on your wall',
+	'notify_subject_reactvation' => 'Re-activation request',
+	'notify_subject_user_changemail' => 'Confirmation of change email',
 	/**
 	 * Админка
 	 */
@@ -1132,5 +1163,49 @@ return array(
 	'date_minutes_back_less' => 'Less than a minute ago',
 	'date_hours_back' => '%%hours%% hours ago; %%hours%% hours ago; %%hours%% hours ago',
 	'date_hours_back_less' => 'Less than an hour ago',
+	'today' => 'Today',
+
+	'timezone_list'=> array(
+		'-12' => '[UTC - 12] Baker Island Time',
+		'-11' => '[UTC - 11] Niue Time, Samoa Standard Time',
+		'-10' => '[UTC - 10] Hawaii-Aleutian Standard Time, Cook Island Time',
+		'-9.5' => '[UTC - 9:30] Marquesas Islands Time',
+		'-9' => '[UTC - 9] Alaska Standard Time, Gambier Island Time',
+		'-8' => '[UTC - 8] Pacific Standard Time',
+		'-7' => '[UTC - 7] Mountain Standard Time',
+		'-6' => '[UTC - 6] Central Standard Time',
+		'-5' => '[UTC - 5] Eastern Standard Time',
+		'-4.5' => '[UTC - 4:30] Venezuelan Standard Time',
+		'-4' => '[UTC - 4] Atlantic Standard Time',
+		'-3.5' => '[UTC - 3:30] Newfoundland Standard Time',
+		'-3' => '[UTC - 3] Amazon Standard Time, Central Greenland Time',
+		'-2' => '[UTC - 2] Fernando de Noronha Time, South Georgia &amp; the South Sandwich Islands Time',
+		'-1' => '[UTC - 1] Azores Standard Time, Cape Verde Time, Eastern Greenland Time',
+		'0' => '[UTC] Western European Time, Greenwich Mean Time',
+		'1' => '[UTC + 1] Central European Time, West African Time',
+		'2' => '[UTC + 2] Eastern European Time, Central African Time',
+		'3' => '[UTC + 3] Moscow Standard Time, Eastern African Time',
+		'3.5' => '[UTC + 3:30] Iran Standard Time',
+		'4' => '[UTC + 4] Gulf Standard Time, Samara Standard Time',
+		'4.5' => '[UTC + 4:30] Afghanistan Time',
+		'5' => '[UTC + 5] Pakistan Standard Time, Yekaterinburg Standard Time',
+		'5.5' => '[UTC + 5:30] Indian Standard Time, Sri Lanka Time',
+		'5.75' => '[UTC + 5:45] Nepal Time',
+		'6' => '[UTC + 6] Bangladesh Time, Bhutan Time, Novosibirsk Standard Time',
+		'6.5' => '[UTC + 6:30] Cocos Islands Time, Myanmar Time',
+		'7' => '[UTC + 7] Indochina Time, Krasnoyarsk Standard Time',
+		'8' => '[UTC + 8] Chinese Standard Time, Australian Western Standard Time, Irkutsk Standard Time',
+		'8.75' => '[UTC + 8:45] Southeastern Western Australia Standard Time',
+		'9' => '[UTC + 9] Japan Standard Time, Korea Standard Time, Chita Standard Time',
+		'9.5' => '[UTC + 9:30] Australian Central Standard Time',
+		'10' => '[UTC + 10] Australian Eastern Standard Time, Vladivostok Standard Time',
+		'10.5' => '[UTC + 10:30] Lord Howe Standard Time',
+		'11' => '[UTC + 11] Solomon Island Time, Magadan Standard Time',
+		'11.5' => '[UTC + 11:30] Norfolk Island Time',
+		'12' => '[UTC + 12] New Zealand Time, Fiji Time, Kamchatka Standard Time',
+		'12.75' => '[UTC + 12:45] Chatham Islands Time',
+		'13' => '[UTC + 13] Tonga Time, Phoenix Islands Time',
+		'14' => '[UTC + 14] Line Island Time'
+	)
 );
 ?>

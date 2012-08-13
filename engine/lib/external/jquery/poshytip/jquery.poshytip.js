@@ -23,7 +23,7 @@
 		this.$elm = $(elm);
 		this.opts = $.extend({}, $.fn.poshytip.defaults, options);
 		this.$tip = $(['<div class="infobox ',this.opts.className,'">',
-				'<div class="tip-inner tip-bg-image"></div>',
+				'<div class="tip-inner tip-bg-image word-wrap"></div>',
 				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left"></div>',
 			'</div>'].join('')).appendTo(document.body);
 		this.$arrow = this.$tip.find('div.tip-arrow');

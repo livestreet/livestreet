@@ -15,6 +15,13 @@
 ---------------------------------------------------------
 */
 
+/**
+ * Объект сущности события в активности
+ *
+ * @package modules.stream
+ * @since 1.0
+ */
 class ModuleStream_EntityEvent extends Entity {
+
 }
 ?>

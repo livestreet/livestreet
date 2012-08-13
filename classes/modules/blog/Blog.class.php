@@ -237,6 +237,9 @@ class ModuleBlog extends Module {
 	 * @return ModuleBlog_EntityBlog|null
 	 */
 	public function GetBlogById($sBlogId) {
+		if (!is_numeric($sBlogId)) {
+			return null;
+		}
 		$aBlogs=$this->GetBlogsAdditionalData($sBlogId);
 		if (isset($aBlogs[$sBlogId])) {
 			return $aBlogs[$sBlogId];
@@ -613,7 +616,10 @@ class ModuleBlog extends Module {
 	 * @param array $aAllowData	Список типов данных, которые нужно подтянуть к списку блогов
 	 * @return array('collection'=>array,'count'=>int)
 	 */
-	public function GetBlogsByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=array('owner'=>array(),'relation_user')) {
+	public function GetBlogsByFilter($aFilter,$aOrder,$iCurrPage,$iPerPage,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('owner'=>array(),'relation_user');
+		}
 		$sKey="blog_filter_".serialize($aFilter).serialize($aOrder)."_{$iCurrPage}_{$iPerPage}";
 		if (false === ($data = $this->Cache_Get($sKey))) {
 			$data = array('collection'=>$this->oMapperBlog->GetBlogsByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
@@ -722,7 +728,12 @@ class ModuleBlog extends Module {
 				 * которые являются откытыми для данного пользователя
 				 */
 				$aOpenBlogs=$this->GetBlogUsersByUserId($oUser->getId(),null,true);
-				$aCloseBlogs=array_diff($aCloseBlogs,$aOpenBlogs);
+				/**
+				 * Получаем закрытые блоги, где пользователь является автором
+				 */
+				$aOwnerBlogs=$this->GetBlogsByFilter(array('type'=>'close','user_owner_id'=>$oUser->getId()),array(),1,100,array());
+				$aOwnerBlogs=array_keys($aOwnerBlogs['collection']);
+				$aCloseBlogs=array_diff($aCloseBlogs,$aOpenBlogs,$aOwnerBlogs);
 			}
 			/**
 			 * Сохраняем в кеш
@@ -873,6 +884,8 @@ class ModuleBlog extends Module {
 	 * @return bool
 	 */
 	public function RecalculateCountTopic() {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update'));
 		return $this->oMapperBlog->RecalculateCountTopic();
 	}
 	/**
@@ -882,7 +895,19 @@ class ModuleBlog extends Module {
 	 * @return bool
 	 */
 	public function RecalculateCountTopicByBlogId($iBlogId) {
+		//чистим зависимые кеши
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update',"blog_update_{$iBlogId}"));
+		$this->Cache_Delete("blog_{$iBlogId}");
 		return $this->oMapperBlog->RecalculateCountTopic($iBlogId);
+	}
+	/**
+	 * Алиас для корректной работы ORM
+	 *
+	 * @param array $aBlogId	Список ID блогов
+	 * @return array
+	 */
+	public function GetBlogItemsByArrayId($aBlogId) {
+		return $this->GetBlogsByArrayId($aBlogId);
 	}
 }
 ?>

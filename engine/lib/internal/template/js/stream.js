@@ -2,13 +2,14 @@ var ls = ls || {};
 
 ls.stream =( function ($) {
 	this.isBusy = false;
-	
+	this.dateLast = null;
+
 	this.subscribe = function (iTargetUserId) {
 		var url = aRouter['stream']+'subscribe/';
 		var params = {'id':iTargetUserId};
-		
+
 		ls.hook.marker('subscribeBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax(url, params, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
@@ -17,40 +18,40 @@ ls.stream =( function ($) {
 			}
 		});
 	};
-	
+
 	this.unsubscribe = function (iId) {
 		var url = aRouter['stream']+'unsubscribe/';
 		var params = {'id':iId};
-		
+
 		ls.hook.marker('unsubscribeBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_unsubscribe_after',[params,data]);
 			}
 		});
 	};
-	
+
 	this.switchEventType = function (iType) {
 		var url = aRouter['stream']+'switchEventType/';
 		var params = {'type':iType};
-		
+
 		ls.hook.marker('switchEventTypeBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_switch_event_type_after',[params,data]);
 			}
 		});
 	};
-	
+
 	this.appendUser = function() {
 		var sLogin = $('#stream_users_complete').val();
 		if (!sLogin) return;
-		
+
 		var url = aRouter['stream']+'subscribeByLogin/';
 		var params = {'login':sLogin};
-		
+
 		ls.hook.marker('appendUserBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
@@ -64,16 +65,17 @@ ls.stream =( function ($) {
 						ls.msg.notice(data.sMsgTitle,data.sMsg);
 					}
 				} else {
-					var liElement=$('<li><input type="checkbox" class="streamUserCheckbox input-checkbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe(\'users\','+data.uid+')} else {ls.stream.unsubscribe(\'users\','+data.uid+')}" /> <a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
+					var liElement=$('<li><input type="checkbox" class="streamUserCheckbox input-checkbox" id="strm_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe('+data.uid+')} else {ls.stream.unsubscribe('+data.uid+')}" /> <a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
 					$('#stream_block_users_list').append(liElement);
 					ls.msg.notice(data.sMsgTitle,data.sMsg);
 				}
+				ls.hook.run('ls_stream_append_user_after',[checkbox.length,data]);
 			} else {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			}
 		});
 	};
-	
+
 	this.getMore = function () {
 		if (this.isBusy) {
 			return;
@@ -82,10 +84,10 @@ ls.stream =( function ($) {
 		if (!lastId) return;
 		$('#stream_get_more').addClass('stream_loading');
 		this.isBusy = true;
-		
+
 		var url = aRouter['stream']+'get_more/';
-		var params = {'last_id':lastId};
-		
+		var params = {'last_id':lastId,'date_last':this.dateLast};
+
 		ls.hook.marker('getMoreBefore');
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError && data.events_count) {
@@ -111,7 +113,7 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more_all/';
-		var params = {'last_id':lastId};
+		var params = {'last_id':lastId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreAllBefore');
 		ls.ajax(url, params, function(data) {
@@ -138,7 +140,7 @@ ls.stream =( function ($) {
 		this.isBusy = true;
 
 		var url = aRouter['stream']+'get_more_user/';
-		var params = {'last_id':lastId, user_id: iUserId};
+		var params = {'last_id':lastId, user_id: iUserId,'date_last':this.dateLast};
 
 		ls.hook.marker('getMoreByUserBefore');
 		ls.ajax(url, params, function(data) {
@@ -154,6 +156,6 @@ ls.stream =( function ($) {
 			this.isBusy = false;
 		}.bind(this));
 	};
-	
+
 	return this;
 }).call(ls.stream || {},jQuery);

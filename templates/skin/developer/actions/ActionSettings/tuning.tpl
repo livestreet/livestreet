@@ -22,6 +22,18 @@
 		<label><input {if $oUserCurrent->getSettingsNoticeReplyComment()}checked{/if} type="checkbox" id="settings_notice_reply_comment" name="settings_notice_reply_comment" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_reply_comment}</label>
 		<label><input {if $oUserCurrent->getSettingsNoticeNewFriend()}checked{/if} type="checkbox" id="settings_notice_new_friend" name="settings_notice_new_friend" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_new_friend}</label>
 	</fieldset>
+
+	<fieldset>
+		<legend>{$aLang.settings_tuning_general}</legend>
+
+		<label>{$aLang.settings_tuning_general_timezone}:
+			<select name="settings_general_timezone" class="input-width-400">
+			{foreach from=$aTimezoneList item=sTimezone}
+				<option value="{$sTimezone}" {if $_aRequest.settings_general_timezone==$sTimezone}selected="selected"{/if}>{$aLang.timezone_list[$sTimezone]}</option>
+			{/foreach}
+			</select>
+		</label>
+	</fieldset>
 	
 	{hook run='form_settings_tuning_end'}
 	

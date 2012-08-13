@@ -52,11 +52,11 @@ class ActionPeople extends Action {
 	protected function RegisterEvent() {
 		$this->AddEvent('online','EventOnline');
 		$this->AddEvent('new','EventNew');
-		$this->AddEventPreg('/^(index)?$/i','/^(page(\d+))?$/i','/^$/i','EventIndex');
+		$this->AddEventPreg('/^(index)?$/i','/^(page([1-9]\d{0,5}))?$/i','/^$/i','EventIndex');
 		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
 
-		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCountry');
-		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page(\d+))?$/i','EventCity');
+		$this->AddEventPreg('/^country$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventCountry');
+		$this->AddEventPreg('/^city$/i','/^\d+$/i','/^(page([1-9]\d{0,5}))?$/i','EventCity');
 	}
 
 
@@ -111,6 +111,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCountry() {
+		$this->sMenuItemSelect='country';
 		/**
 		 * Страна существует?
 		 */
@@ -152,6 +153,7 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function EventCity() {
+		$this->sMenuItemSelect='city';
 		/**
 		 * Город существует?
 		 */
@@ -234,14 +236,14 @@ class ActionPeople extends Action {
 		 */
 		$sOrder='user_rating';
 		if (getRequest('order')) {
-			$sOrder=getRequest('order');
+			$sOrder=(string)getRequest('order');
 		}
 		/**
 		 * В каком направлении сортировать
 		 */
 		$sOrderWay='desc';
 		if (getRequest('order_way')) {
-			$sOrderWay=getRequest('order_way');
+			$sOrderWay=(string)getRequest('order_way');
 		}
 		$aFilter=array(
 			'activate' => 1

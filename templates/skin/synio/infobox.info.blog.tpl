@@ -1,3 +1,5 @@
+<img src="{$oBlog->getAvatarPath(48)}" alt="avatar" /><br /><br />
+
 <ul class="blog-info">
 	<li><span>{$aLang.infobox_blog_create}</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
 	<li><span>{$aLang.infobox_blog_topics}</span> <strong>{$oBlog->getCountTopic()}</strong></li>

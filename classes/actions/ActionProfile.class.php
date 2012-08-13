@@ -72,18 +72,21 @@ class ActionProfile extends Action {
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^load-reply$/i','EventWallLoadReply');
 		$this->AddEventPreg('/^.+$/i','/^wall$/i','/^remove$/i','EventWallRemove');
 
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page(\d+))?$/i','EventFavouriteComments');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page(\d+))?$/i','EventFavourite');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page(\d+))?$/i','EventFavourite');
-		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page(\d+))?$/i','EventFavouriteTopicsTag');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^comments$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavouriteComments');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^(page([1-9]\d{0,5}))?$/i','EventFavourite');
+		$this->AddEventPreg('/^.+$/i','/^favourites$/i','/^topics/i','/^tag/i','/^.+/i','/^(page([1-9]\d{0,5}))?$/i','EventFavouriteTopicsTag');
 
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page(\d+))?$/i','EventCreatedNotes');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page(\d+))?$/i','EventCreatedTopics');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page(\d+))?$/i','EventCreatedTopics');
-		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page(\d+))?$/i','EventCreatedComments');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^notes/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedNotes');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^topics/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedTopics');
+		$this->AddEventPreg('/^.+$/i','/^created/i','/^comments$/i','/^(page([1-9]\d{0,5}))?$/i','EventCreatedComments');
 
-		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page(\d+))?$/i','EventFriends');
+		$this->AddEventPreg('/^.+$/i','/^friends/i','/^(page([1-9]\d{0,5}))?$/i','EventFriends');
 		$this->AddEventPreg('/^.+$/i','/^stream/i','/^$/i','EventStream');
+
+		$this->AddEventPreg('/^changemail$/i','/^confirm-from/i','/^\w{32}$/i','EventChangemailConfirmFrom');
+		$this->AddEventPreg('/^changemail$/i','/^confirm-to/i','/^\w{32}$/i','EventChangemailConfirmTo');
 	}
 
 	/**********************************************************************************
@@ -610,13 +613,13 @@ class ActionProfile extends Action {
 		$oNote=Engine::GetEntity('ModuleUser_EntityNote');
 		$oNote->setTargetUserId(getRequest('iUserId'));
 		$oNote->setUserId($this->oUserCurrent->getId());
-		$oNote->setText(getRequest('text'));
+		$oNote->setText((string)getRequest('text'));
 
 		if ($oNote->_Validate()) {
 			/**
 			 * Экранируем текст и добавляем запись в БД
 			 */
-			$oNote->setText(htmlspecialchars($oNote->getText()));
+			$oNote->setText(htmlspecialchars(strip_tags($oNote->getText())));
 			if ($this->User_SaveNote($oNote)) {
 				$this->Viewer_AssignAjax('sText',$oNote->getText());
 			} else {
@@ -693,7 +696,7 @@ class ActionProfile extends Action {
 		/**
 		 * Из реквеста дешефруем ID польователя
 		 */
-		$sUserId=xxtea_decrypt(base64_decode(rawurldecode(getRequest('code'))), Config::Get('module.talk.encrypt'));
+		$sUserId=xxtea_decrypt(base64_decode(rawurldecode((string)getRequest('code'))), Config::Get('module.talk.encrypt'));
 		if (!$sUserId) {
 			return $this->EventNotFound();
 		}
@@ -1198,6 +1201,59 @@ class ActionProfile extends Action {
 		}
 	}
 	/**
+	 * Обработка подтверждения старого емайла при его смене
+	 */
+	public function EventChangemailConfirmFrom() {
+		if (!($oChangemail=$this->User_GetUserChangemailByCodeFrom($this->GetParamEventMatch(1,0)))) {
+			return parent::EventNotFound();
+		}
+
+		if ($oChangemail->getConfirmFrom() or strtotime($oChangemail->getDateExpired())<time()) {
+			return parent::EventNotFound();
+		}
+
+		$oChangemail->setConfirmFrom(1);
+		$this->User_UpdateUserChangemail($oChangemail);
+
+		/**
+		 * Отправляем уведомление
+		 */
+		$oUser=$this->User_GetUserById($oChangemail->getUserId());
+		$this->Notify_Send($oChangemail->getMailTo(),
+						   'notify.user_changemail_to.tpl',
+						   $this->Lang_Get('notify_subject_user_changemail'),
+						   array(
+							   'oUser' => $oUser,
+							   'oChangemail' => $oChangemail,
+						   ));
+
+		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_to_notice'));
+		$this->SetTemplateAction('changemail_confirm');
+	}
+	/**
+	 * Обработка подтверждения нового емайла при смене старого
+	 */
+	public function EventChangemailConfirmTo() {
+		if (!($oChangemail=$this->User_GetUserChangemailByCodeTo($this->GetParamEventMatch(1,0)))) {
+			return parent::EventNotFound();
+		}
+
+		if (!$oChangemail->getConfirmFrom() or $oChangemail->getConfirmTo() or strtotime($oChangemail->getDateExpired())<time()) {
+			return parent::EventNotFound();
+		}
+
+		$oChangemail->setConfirmTo(1);
+		$oChangemail->setDateUsed(date("Y-m-d H:i:s"));
+		$this->User_UpdateUserChangemail($oChangemail);
+
+		$oUser=$this->User_GetUserById($oChangemail->getUserId());
+		$oUser->setMail($oChangemail->getMailTo());
+		$this->User_Update($oUser);
+
+		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
+		$this->SetTemplateAction('changemail_confirm');
+	}
+	/**
 	 * Выполняется при завершении работы экшена
 	 */
 	public function EventShutdown() {
@@ -1229,7 +1285,7 @@ class ActionProfile extends Action {
 		 * Заметка текущего пользователя о юзере
 		 */
 		if ($this->oUserCurrent) {
-			$this->Viewer_Assign('oUserNote',$this->User_GetUserNote($this->oUserProfile->getId(),$this->oUserCurrent->getId()));
+			$this->Viewer_Assign('oUserNote',$this->oUserProfile->getUserNote());
 		}
 		$this->Viewer_Assign('iCountFriendsUser',$this->User_GetCountUsersFriend($this->oUserProfile->getId()));
 

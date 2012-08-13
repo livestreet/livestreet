@@ -14,17 +14,16 @@
 	
 	
 	<div class="block-content">
-
 		<form action="" method="GET" class="js-tag-search-form search-form-wrapper">
 			<div class="search-input-wrapper">
 				<input type="text" name="tag" placeholder="{$aLang.block_tags_search}" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
-				<input type="submit" value="" class="input-submit" />
+				<div class="input-submit" onclick="jQuery('.js-tag-search-form').submit()"></div>
 			</div>
 		</form>
 
 		<div class="js-block-tags-content" data-type="all">
 			{if $aTags}
-				<ul class="tag-cloud">
+				<ul class="tag-cloud word-wrap">
 					{foreach from=$aTags item=oTag}
 						<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 					{/foreach}
@@ -37,7 +36,7 @@
 		{if $oUserCurrent}
 			<div class="js-block-tags-content" data-type="user" style="display: none;">
 				{if $aTagsUser}
-					<ul class="tag-cloud">
+					<ul class="tag-cloud word-wrap">
 						{foreach from=$aTagsUser item=oTag}
 							<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 						{/foreach}

@@ -18,28 +18,36 @@
 /**
  * Модуль Wall - записи на стене профиля пользователя
  *
+ * @package modules.wall
+ * @since 1.0
  */
 class ModuleWall extends Module {
-			
+	/**
+	 * Объект маппера
+	 *
+	 * @var ModuleWall_MapperWall
+	 */
 	protected $oMapper;
+	/**
+	 * Объект текущего пользователя
+	 *
+	 * @var ModuleUser_EntityUser|null
+	 */
 	protected $oUserCurrent;
 
-			
 	/**
 	 * Инициализация
 	 *
 	 */
-	public function Init() {		
+	public function Init() {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 	}
-
 	/**
 	 * Добавление записи на стену
 	 *
-	 * @param ModuleWall_EntityWall $oWall
-	 *
-	 * @return bool | ModuleWall_EntityWall
+	 * @param ModuleWall_EntityWall $oWall	Объект записи на стене
+	 * @return bool|ModuleWall_EntityWall
 	 */
 	public function AddWall($oWall) {
 		if (!$oWall->getDateAdd()) {
@@ -60,27 +68,23 @@ class ModuleWall extends Module {
 		}
 		return false;
 	}
-
 	/**
 	 * Обновление записи
 	 *
-	 * @param ModuleWall_EntityWall $oWall
-	 *
+	 * @param ModuleWall_EntityWall $oWall	Объект записи на стене
 	 * @return bool
 	 */
 	public function UpdateWall($oWall) {
 		return $this->oMapper->UpdateWall($oWall);
 	}
-
 	/**
 	 * Получение списка записей по фильтру
 	 *
-	 * @param $aFilter
-	 * @param $aOrder
-	 * @param int $iCurrPage
-	 * @param int $iPerPage
-	 * @param array $aAllowData
-	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $aOrder	Сортировка
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @param array $aAllowData	Список типов дополнительных данных для подгрузки в сообщения стены
 	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetWall($aFilter,$aOrder,$iCurrPage=1,$iPerPage=10,$aAllowData=null) {
@@ -94,19 +98,16 @@ class ModuleWall extends Module {
 	/**
 	 * Возвращает число сообщений на стене по фильтру
 	 *
-	 * @param $aFilter
-	 *
+	 * @param array $aFilter	Фильтр
 	 * @return int
 	 */
 	public function GetCountWall($aFilter) {
 		return $this->oMapper->GetCountWall($aFilter);
 	}
-
 	/**
 	 * Получение записей по ID, без дополнительных данных
 	 *
-	 * @param array $aWallId
-	 *
+	 * @param array $aWallId	Список ID сообщений
 	 * @return array
 	 */
 	public function GetWallsByArrayId($aWallId) {
@@ -121,13 +122,11 @@ class ModuleWall extends Module {
 		}
 		return $aWalls;
 	}
-
 	/**
 	 * Получение записей по ID с дополнительные связаными данными
 	 *
-	 * @param $aWallId
-	 * @param array $aAllowData
-	 *
+	 * @param array $aWallId	Список ID сообщений
+	 * @param array $aAllowData	Список типов дополнительных данных для подгрузки в сообщения стены
 	 * @return array
 	 */
 	public function GetWallAdditionalData($aWallId,$aAllowData=null) {
@@ -197,27 +196,26 @@ class ModuleWall extends Module {
 		}
 		return $aWalls;
 	}
-
 	/**
 	 * Получение записи по ID
 	 *
-	 * @param int $iId
-	 *
+	 * @param int $iId	ID сообщения/записи
 	 * @return ModuleWall_EntityWall
 	 */
 	public function GetWallById($iId) {
+		if (!is_numeric($iId)) {
+			return null;
+		}
 		$aResult=$this->GetWallAdditionalData($iId);
 		if (isset($aResult[$iId])) {
 			return $aResult[$iId];
 		}
 		return null;
 	}
-
 	/**
 	 * Обновляет родительские данные у записи - количество ответов и ID последних ответов
 	 *
-	 * @param ModuleWall_EntityWall $oWall
-	 *
+	 * @param ModuleWall_EntityWall $oWall	Объект записи на стене
 	 * @param null|int $iLimit
 	 */
 	public function UpdatePidWall($oWall,$iLimit=null) {
@@ -237,11 +235,10 @@ class ModuleWall extends Module {
 		}
 		$this->UpdateWall($oWall);
 	}
-
 	/**
 	 * Удаление сообщения
 	 *
-	 * @param $oWall
+	 * @param ModuleWall_EntityWall $oWall	Объект записи на стене
 	 */
 	public function DeleteWall($oWall) {
 		$this->oMapper->DeleteWallsByPid($oWall->getId());
@@ -250,6 +247,5 @@ class ModuleWall extends Module {
 			$this->UpdatePidWall($oWallParent);
 		}
 	}
-
 }
 ?>

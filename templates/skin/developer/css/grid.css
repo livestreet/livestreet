@@ -2,10 +2,10 @@
 	СЕТКА
 -------------------------------------------- */
 
-#container 	{ width: 1000px; margin: 0 auto; margin-bottom: 20px; }
+#container 	{ margin: 0 auto; margin-bottom: 20px; }
 #header 	{ padding: 50px 0; position: relative; }
 #nav 		{ margin-bottom: 15px; overflow: hidden; }
-#wrapper 	{ overflow: hidden; zoom: 1; padding: 30px; background: #fff; border-bottom: 1px solid #eee; box-shadow: 0 0 3px rgba(0,0,0,.1); }
+#wrapper 	{ overflow: hidden; zoom: 1; padding: 30px; background: #fff; border-bottom: 1px solid #eee; -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1); box-shadow: 0 0 3px rgba(0,0,0,.1); }
 #content 	{ float: left; width: 61%; margin-right: 4%; background: #fff; position: relative; }
 #sidebar	{ float: left; width: 35%; }
 #footer 	{ overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 20px 0 50px; color: #777; }
