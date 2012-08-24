@@ -55,11 +55,21 @@ class ModulePlugin extends Module {
 		'block' => array(),
 	);
 	/**
-	 * Стек наследований
+	 * Стек наследований классов
 	 *
 	 * @var array
 	 */
 	protected $aInherits=array();
+	
+	/**
+	 * Списки наследований шаблонов
+	 * {
+	 * 	parent.tpl: [ child1.tpl, child2.tpl, .. ]
+	 * }
+	 *
+	 * @var array
+	 */
+	protected $aTemplateInherits=array();
 
 	/**
 	 * Инициализация модуля
@@ -145,7 +155,7 @@ class ModulePlugin extends Module {
 	 */
 	public function Toggle($sPlugin,$sAction) {
 		$aPlugins=$this->GetList();
-		if(!isset($aPlugins[$sPlugin])) return null;
+		if(!isset($aPlugins[$sPlugin])) return;
 
 		$sPluginName=func_camelize($sPlugin);
 
@@ -310,7 +320,7 @@ class ModulePlugin extends Module {
 				return $bResult;
 
 			default:
-				return null;
+				return;
 		}
 	}
 	/**
@@ -368,17 +378,17 @@ class ModulePlugin extends Module {
 	/**
 	 * Перенаправление вызовов на модули, экшены, сущности
 	 *
-	 * @param  string $sType
-	 * @param  string $sFrom
-	 * @param  string $sTo
-	 * @param  string $sSign
+	 * @param  string $sType	Тип (например: шаблон, сущность, животное, здание, ...)
+	 * @param  string $sFrom	Кого именно заменяем
+	 * @param  string $sTo		Кем заменяем
+	 * @param  string $sSign	А кто-кто-кто-о-о же это сде-елал???
 	 */
 	public function Delegate($sType,$sFrom,$sTo,$sSign=__CLASS__) {
 		/**
 		 * Запрещаем неподписанные делегаты
 		 */
-		if(!is_string($sSign) or !strlen($sSign)) return null;
-		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom or !$sTo) return null;
+		if(!is_string($sSign) or !strlen($sSign)) return;
+		if(!in_array($sType,array_keys($this->aDelegates)) or !$sFrom or !$sTo) return;
 
 		$this->aDelegates[$sType][trim($sFrom)]=array(
 			'delegate'=>trim($sTo),
@@ -388,13 +398,13 @@ class ModulePlugin extends Module {
 	/**
 	 * Добавляет в стек наследника класса
 	 *
-	 * @param string $sFrom
-	 * @param string $sTo
-	 * @param string $sSign
+	 * @param string $sFrom	Отец
+	 * @param string $sTo	Дитё
+	 * @param string $sSign	А кто-кто-кто-о-о же это сде-елал???
 	 */
 	public function Inherit($sFrom,$sTo,$sSign=__CLASS__) {
-		if(!is_string($sSign) or !strlen($sSign)) return null;
-		if(!$sFrom or !$sTo) return null;
+		if(!is_string($sSign) or !strlen($sSign)) return;
+		if(!$sFrom or !$sTo) return;
 
 		$this->aInherits[trim($sFrom)]['items'][]=array(
 			'inherit'=>trim($sTo),
@@ -622,6 +632,55 @@ class ModulePlugin extends Module {
 	 */
 	public function GetDelegateObjectList() {
 		return array_keys($this->aDelegates);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param string $sFrom
+	 * @param string $sTo
+	 */
+	public function InheritTepmplate($sParent,$sChild){
+		if(!isset($this->aTemplateInherits[$sParent])){
+			$this->aTemplateInherits[$sParent] = array();
+		}
+		$aList = &$this->aTemplateInherits[$sParent];
+		// Здесть всё по-сырому
+		$aList[] = $sChild;
+	}
+	
+	/**
+	 * Получаем строку шаблона для Smarty->display() со всеми наследованиями.
+	 * 
+	 * @param string $sTemplate 
+	 * @return string
+	 */
+	public function GetTemplateString($sTemplate, $bAsArray=false){
+		if(empty($this->aTemplateInherits[$sTemplate])){
+			$sTemplate = $this->GetDelegate('template', $sTemplate);
+			return $bAsArray ? array($sTemplate) : $sTemplate;
+		}
+		$aList = &$this->aTemplateInherits[$sTemplate];
+		$sParent = $sTemplate;
+		// таки да, родитель может быть подменен полностью
+		$sTemplate = $this->GetDelegate('template', $sTemplate);
+		$aChain = array($sTemplate);
+		foreach($aList as $sChild){
+			// и наследник зачем-то может быть подменен полностью
+			$aChilds = $this->GetTemplateString($sChild, true);
+			// потому что нельзя
+			if(!in_array($sParent, $aChilds)){
+				$aChain = array_merge($aChain,$aChilds);
+			}
+		}
+		// и на всякий случай
+		$aChain = array_reverse( // последний повтор главнее
+			array_unique( // а первые повторы выпилим
+				array_reverse($aChain)
+			)
+		);
+		return $bAsArray ? $aChain : 'extends:'.join('|',$aChain);
 	}
 }
 ?>

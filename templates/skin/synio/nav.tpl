@@ -3,9 +3,13 @@
 		{if in_array($menu,$aMenuContainers)}{$aMenuFetch.$menu}{else}{include file="menu.$menu.tpl"}{/if}
 	{/if}
 	
+	{block name="button_write_wrap"}
 	{if $oUserCurrent}
+		{block name="button_write"}
 		<a href="{router page='topic'}add/" class="button button-write js-write-window-show" id="modal_write_show">{$aLang.block_create}</a>
+		{/block}
 	{/if}
+	{/block}
 	
 	<div class="search-header">
 		<div class="search-header-show" id="search-header-show"><i class="icon-synio-search"></i> <a href="#" class="link-dotted">{$aLang.search_submit}</a></div>

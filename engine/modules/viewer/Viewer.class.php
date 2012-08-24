@@ -321,7 +321,7 @@ class ModuleViewer extends Module {
 		 * Предварительно проверяем наличие делегата
 		 */
 		if ($sTemplate) {
-			$sTemplate=$this->Plugin_GetDelegate('template',$sTemplate);
+			$sTemplate=$this->Plugin_GetTemplateString($sTemplate);
 			if ($this->TemplateExists($sTemplate)) {
 				$this->oSmarty->display($sTemplate);
 			} else {

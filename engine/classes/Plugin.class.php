@@ -60,17 +60,23 @@ abstract class Plugin extends LsObject {
 	 * @see Engine::LoadPlugins
 	 */
 	final function Delegate() {
+		$sThisClass = get_class($this);
 		$aDelegates=$this->GetDelegates();
 		foreach ($aDelegates as $sObjectName=>$aParams) {
 			foreach ($aParams as $sFrom=>$sTo) {
-				$this->Plugin_Delegate($sObjectName,$sFrom,$sTo,get_class($this));
+				$this->Plugin_Delegate($sObjectName,$sFrom,$sTo,$sThisClass);
 			}
 		}
 
 		$aInherits=$this->GetInherits();
 		foreach ($aInherits as $sObjectName=>$aParams) {
 			foreach ($aParams as $sFrom=>$sTo) {
-				$this->Plugin_Inherit($sFrom,$sTo,get_class($this));
+				if($sObjectName == 'template'){
+					list($sFrom,$sTo)=$this->MakeDelegateParams($sObjectName,$sFrom,$sTo);
+					$this->Plugin_InheritTepmplate($sFrom,$sTo,$sThisClass);
+				}else{
+					$this->Plugin_Inherit($sFrom,$sTo);
+				}
 			}
 		}
 	}
@@ -123,10 +129,10 @@ abstract class Plugin extends LsObject {
 	/**
 	 * Преобразовывает краткую форму имен делегатов в полную
 	 *
-	 * @param $sObjectName	Название типа объекта делегата
-	 * @see ModulePlugin::aDelegates
-	 * @param $sFrom	Что делегируем
-	 * @param $sTo		Что делегирует
+	 * @see	ModulePlugin::aDelegates
+	 * @param $sObjectName	string	Название типа объекта делегата
+	 * @param $sFrom	string	Что заменяем
+	 * @param $sTo	string	Чем заменяем
 	 * @return array
 	 */
 	public function MakeDelegateParams($sObjectName,$sFrom,$sTo) {

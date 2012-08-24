@@ -2,6 +2,8 @@
 
 {block name="topic_content_wrap" prepend}
 	<div id="topic_question_area_{$oTopic->getId()}" class="poll">
+		
+		
 		{if !$oTopic->getUserQuestionIsVote()}
 			<ul class="poll-vote">
 				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
@@ -22,5 +24,6 @@
 		{else}
 			{include file='question_result.tpl'}
 		{/if}
+		
 	</div>
 {/block}{*/topic_content_wrap*}
