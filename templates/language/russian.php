@@ -628,7 +628,7 @@ return array(
 	'settings_profile_mail_error_used' => 'Этот емайл уже занят',
 	'settings_profile_mail_notice' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
 	'settings_profile_mail_change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
-	'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено еще одно подтверждение.',
+	'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
 	'settings_profile_mail_change_ok' => 'Ваш емайл изменен на <b>%%mail%%</b>',
 	'settings_profile_sex' => 'Пол',
 	'settings_profile_sex_man' => 'мужской',
