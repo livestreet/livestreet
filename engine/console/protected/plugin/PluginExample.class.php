@@ -68,6 +68,7 @@ class PluginExample extends Plugin {
         /*
         $this->ExportSQL(dirname(__FILE__).'/deinstall.sql'); // Выполнить деактивационный sql, если надо.
         */
+        return true;
     }
 
 
