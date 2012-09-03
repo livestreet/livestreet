@@ -509,8 +509,12 @@ class ActionSettings extends Action {
 					 * Подтверждение смены емайла
 					 */
 					if (getRequest('mail') and getRequest('mail')!=$this->oUserCurrent->getMail()) {
-						if ($this->User_MakeUserChangemail($this->oUserCurrent,getRequest('mail'))) {
-							$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
+						if ($oChangemail=$this->User_MakeUserChangemail($this->oUserCurrent,getRequest('mail'))) {
+							if ($oChangemail->getMailFrom()) {
+								$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
+							} else {
+								$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_to_notice'));
+							}
 						}
 					}
 

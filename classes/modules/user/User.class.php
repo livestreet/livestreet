@@ -1520,6 +1520,8 @@ class ModuleUser extends Module {
 		return $this->oMapper->GetUserChangemailByCodeTo($sCode);
 	}
 	/**
+	 * Формирование процесса смены емайла в профиле пользователя
+	 *
 	 * @param ModuleUser_EntityUser $oUser	Объект пользователя
 	 * @param string $sMailNew	Новый емайл
 	 * @return bool|ModuleUser_EntityChangemail
@@ -1529,21 +1531,40 @@ class ModuleUser extends Module {
 		$oChangemail->setUserId($oUser->getId());
 		$oChangemail->setDateAdd(date("Y-m-d H:i:s"));
 		$oChangemail->setDateExpired(date("Y-m-d H:i:s",time()+3*24*60*60)); // 3 дня для смены емайла
-		$oChangemail->setMailFrom($oUser->getMail());
+		$oChangemail->setMailFrom($oUser->getMail() ? $oUser->getMail() : '');
 		$oChangemail->setMailTo($sMailNew);
 		$oChangemail->setCodeFrom(func_generator(32));
 		$oChangemail->setCodeTo(func_generator(32));
 		if ($this->AddUserChangemail($oChangemail)) {
 			/**
-			 * Отправляем уведомление
+			 * Если у пользователя раньше не было емайла, то сразу шлем подтверждение на новый емайл
 			 */
-			$this->Notify_Send($oUser,
-							   'notify.user_changemail_from.tpl',
-							   $this->Lang_Get('notify_subject_user_changemail'),
-							   array(
-								   'oUser' => $oUser,
-								   'oChangemail' => $oChangemail,
-							   ));
+			if (!$oChangemail->getMailFrom()) {
+				$oChangemail->setConfirmFrom(1);
+				$this->User_UpdateUserChangemail($oChangemail);
+				/**
+				 * Отправляем уведомление на новый емайл
+				 */
+				$this->Notify_Send($oChangemail->getMailTo(),
+								   'notify.user_changemail_to.tpl',
+								   $this->Lang_Get('notify_subject_user_changemail'),
+								   array(
+									   'oUser' => $oUser,
+									   'oChangemail' => $oChangemail,
+								   ));
+
+			} else {
+				/**
+				 * Отправляем уведомление на старый емайл
+				 */
+				$this->Notify_Send($oUser,
+								   'notify.user_changemail_from.tpl',
+								   $this->Lang_Get('notify_subject_user_changemail'),
+								   array(
+									   'oUser' => $oUser,
+									   'oChangemail' => $oChangemail,
+								   ));
+			}
 			return $oChangemail;
 		}
 		return false;

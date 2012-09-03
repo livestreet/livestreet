@@ -34,7 +34,7 @@ class BlockUserfeedBlogs extends Block {
 			/**
 			 * Получаем список ID блогов, в которых состоит пользователь
 			 */
-			$aBlogsId = $this->Blog_getBlogUsersByUserId($oUserCurrent->getId(), array(ModuleBlog::BLOG_USER_ROLE_USER,ModuleBlog::BLOG_USER_ROLE_MODERATOR,ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR),true);
+			$aBlogsId = $this->Blog_GetBlogUsersByUserId($oUserCurrent->getId(), array(ModuleBlog::BLOG_USER_ROLE_USER,ModuleBlog::BLOG_USER_ROLE_MODERATOR,ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR),true);
 			/**
 			 * Получаем список ID блогов, которые создал пользователь
 			 */
