@@ -28,7 +28,7 @@ return array(
 	'error_db_saved'=>'Не удалось сохранить данные в базе.',
 	'error_db_no_data'=>"Не удалось получить данные из базы.",
 	
-	'error_local_config_invalid'=>'Файл локальной конфигурации config.local.php не найден.',
+	'error_local_config_invalid'=>'Файл локальной конфигурации config/config.local.php не найден.',
 	
 	'site_name_invalid'=>'Указано недопустимое название сайта.',
 	'site_description_invalid'=>'Указано недопустимое описание сайта.',
