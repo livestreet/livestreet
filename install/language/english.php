@@ -65,7 +65,7 @@ return array(
 	'php_params_simplexml'=>'SimpleXML support',
 	
 	'local_config'=>'Local Configuration',
-	'local_config_file'=>'File config.local.php exists and writable',
+	'local_config_file'=>'File /config/config.local.php exists and writable',
 	'local_temp_dir'=>'Directory /tmp exists and writable',
 	'local_logs_dir'=>'Directory /logs exists and writable',
 	'local_uploads_dir'=>'Directory /uploads exists and writable',
