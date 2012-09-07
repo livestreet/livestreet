@@ -28,7 +28,7 @@ return array(
 	'error_db_saved'=>'Не удалось сохранить данные в базе.',
 	'error_db_no_data'=>"Не удалось получить данные из базы.",
 	
-	'error_local_config_invalid'=>'Файл локальной конфигурации config/config.local.php не найден.',
+	'error_local_config_invalid'=>'Файл локальной конфигурации /config/config.local.php не найден.',
 	
 	'site_name_invalid'=>'Указано недопустимое название сайта.',
 	'site_description_invalid'=>'Указано недопустимое описание сайта.',
@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'Установка LiveStreet',
 	'step'=>'Шаг',
 	
-	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 1.0.1. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
+	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 1.0.1. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на /config/config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
 	
 	'php_params'=>'Основные настройки PHP',
 	'php_params_version'=>'PHP версии не ниже 5.2.0',
@@ -65,7 +65,7 @@ return array(
 	'php_params_simplexml'=>'Поддержка SimpleXML',
 	
 	'local_config'=>'Локальная конфигурация',
-	'local_config_file'=>'Файл config.local.php существует и доступен для записи',
+	'local_config_file'=>'Файл /config/config.local.php существует и доступен для записи',
 	'local_temp_dir'=>'Директория /tmp существует и доступна для записи',
 	'local_logs_dir'=>'Директория /logs существует и доступна для записи',
 	'local_uploads_dir'=>'Директория /uploads существует и доступна для записи',
