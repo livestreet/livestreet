@@ -28,7 +28,7 @@ return array(
 	'error_db_saved'=>'Unable to save data into the DB.',
 	'error_db_no_data'=>"Unable to get data from the DB.",
 	
-	'error_local_config_invalid'=>"Can't find local configuration file - config.local.php.",
+	'error_local_config_invalid'=>"Can't find local configuration file - config/config.local.php.",
 	
 	'site_name_invalid'=>'Chosen site name is not allowed.',
 	'site_description_invalid'=>'Chosen site description is not allowed.',
