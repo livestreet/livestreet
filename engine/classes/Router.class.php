@@ -63,6 +63,12 @@ class Router extends LsObject {
 	 */
 	static protected $sPathWebCurrent = null;
 	/**
+	 * Исходный полный url (до применения псевдонимов из $config['router']['uri'])
+	 *
+	 * @var string|null
+	 */
+	static protected $sPathWebOriginal = null;
+	/**
 	 * Список параметров ЧПУ url
 	 * <pre>/action/event/param0/param1/../paramN/</pre>
 	 *
@@ -123,6 +129,12 @@ class Router extends LsObject {
 		$this->DefineActionClass(); // Для возможности ДО инициализации модулей определить какой action/event запрошен
 		$this->oEngine=Engine::getInstance();
 		$this->oEngine->Init();
+
+		// Установить canonical link в случае, если были использованы псевдонимы (т.е. путь изменился)
+		if(self::$sPathWebCurrent!=self::$sPathWebOriginal) {
+			$this->Viewer_SetHtmlCanonical(self::$sPathWebCurrent);
+		}
+
 		$this->ExecAction();
 		$this->Shutdown(false);
 	}
@@ -169,6 +181,8 @@ class Router extends LsObject {
 		 * Формируем $sPathWebCurrent ДО применения реврайтов
 		 */
 		self::$sPathWebCurrent=Config::Get('path.root.web')."/".join('/',$this->GetRequestArray($sReq));
+		// ...и сохраняем в self::$sPathWebOriginal
+		self::$sPathWebOriginal=self::$sPathWebCurrent;
 		return $sReq;
 	}
 	/**
@@ -197,7 +211,13 @@ class Router extends LsObject {
 		 */
 		$sReq=implode('/',$aRequestUrl);
 		if($aRewrite=Config::Get('router.uri')) {
-			$sReq = preg_replace(array_keys($aRewrite), array_values($aRewrite), $sReq);
+			// определить, были ли замены
+			$rewritesCount=0;
+			$sReq=preg_replace(array_keys($aRewrite), array_values($aRewrite), $sReq, -1, $rewritesCount);
+			if($rewritesCount>0) {
+				// Обновить $sPathWebCurrent по результату rewrite - для последующего сравнения с исходным
+				self::$sPathWebCurrent=Config::Get('path.root.web').'/'.$sReq;
+			}
 		}
 		return ($sReq=='') ? array() : explode('/',$sReq);
 	}
