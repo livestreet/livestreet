@@ -4,7 +4,7 @@
 	</header>
 	
 	<div class="block-content">
-		<p id="block_blog_info"></p>
+		<p>{$aLang.block_blog_info}</p>
 	</div>	
 </section>
 
