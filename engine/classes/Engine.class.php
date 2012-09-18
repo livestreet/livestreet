@@ -691,8 +691,14 @@ class Engine extends LsObject {
 				$sName=$sModuleName;
 			}
 			$sClass=$sClassName.'_Mapper'.$sName;
+			$dbConf = null;
+			
+			if ($sName=='User') {
+				$dbConf = Config::Get('db_user.params');	
+			}
+			
 			if (!$oConnect) {
-				$oConnect=Engine::getInstance()->Database_GetConnect();
+				$oConnect=Engine::getInstance()->Database_GetConnect($dbConf);
 			}
 			$sClass=self::getInstance()->Plugin_GetDelegate('mapper',$sClass);
 			return new $sClass($oConnect);
