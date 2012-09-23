@@ -28,7 +28,7 @@ return array(
 	'error_db_saved'=>'Unable to save data into the DB.',
 	'error_db_no_data'=>"Unable to get data from the DB.",
 	
-	'error_local_config_invalid'=>"Can't find local configuration file - config.local.php.",
+	'error_local_config_invalid'=>"Can't find local configuration file - /config/config.local.php.",
 	
 	'site_name_invalid'=>'Chosen site name is not allowed.',
 	'site_description_invalid'=>'Chosen site description is not allowed.',
@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'LiveStreet Installation',
 	'step'=>'Step',
 	
-	'start_paragraph'=>'<p>Welcome to LiveStreet &copy; 1.0.1 installation. </p><p><b>Notice:</b> You have to rename file - /config/config.local.php.dist to config.local.php and apply read-write (rw) permision to it.</p><p><b>Notice:</b> Make sure that the following directories have rw permissions: /tmp, /logs, /uploads, /templates/compiled, /templates/cache</p>',
+	'start_paragraph'=>'<p>Welcome to LiveStreet &copy; 1.0.1 installation. </p><p><b>Notice:</b> You have to rename file - /config/config.local.php.dist to /config/config.local.php and apply read-write (rw) permision to it.</p><p><b>Notice:</b> Make sure that the following directories have rw permissions: /tmp, /logs, /uploads, /templates/compiled, /templates/cache</p>',
 	
 	'php_params'=>'General PHP Configuration',
 	'php_params_version'=>'PHP ver. 5.2.0 or higher',
@@ -65,7 +65,7 @@ return array(
 	'php_params_simplexml'=>'SimpleXML support',
 	
 	'local_config'=>'Local Configuration',
-	'local_config_file'=>'File config.local.php exists and writable',
+	'local_config_file'=>'File /config/config.local.php exists and writable',
 	'local_temp_dir'=>'Directory /tmp exists and writable',
 	'local_logs_dir'=>'Directory /logs exists and writable',
 	'local_uploads_dir'=>'Directory /uploads exists and writable',
