@@ -34,6 +34,7 @@
 			changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
 			callback: function(){}, /* Called when prettyPhoto is closed */
 			ie6_fallback: true,
+			tumb_gallery: true,
 			markup: '<div class="pp_pic_holder"> \
 						<div class="ppt">&nbsp;</div> \
 						<div class="pp_top"> \
@@ -152,6 +153,7 @@
 			
 			// Put the SRCs, TITLEs, ALTs into an array.
 			pp_images = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return $(n).attr('href'); }) : $.makeArray($(this).attr('href'));
+			pp_images_tumb = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr('rel').indexOf(theRel) != -1) return $(n).find('img').attr('src'); }) : $.makeArray($(this).find('img').attr('src'));
 			pp_titles = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return ($(n).find('img').attr('alt')) ? $(n).find('img').attr('alt') : ""; }) : $.makeArray($(this).find('img').attr('alt'));
 			pp_descriptions = (isSet) ? jQuery.map(matchedObjects, function(n, i){ if($(n).attr(settings.hook).indexOf(theRel) != -1) return ($(n).attr('title')) ? $(n).attr('title') : ""; }) : $.makeArray($(this).attr('title'));
 			
@@ -216,7 +218,7 @@
 
 			// Set the description
 			if(typeof pp_descriptions[set_position] != 'undefined' && pp_descriptions[set_position] != ""){
-				$pp_pic_holder.find('.pp_description').show().html(unescape(pp_descriptions[set_position]));
+				$pp_pic_holder.find('.pp_description').show().text(unescape(pp_descriptions[set_position]));
 			}else{
 				$pp_pic_holder.find('.pp_description').hide();
 			}
@@ -233,7 +235,7 @@
 			// Fade the holder
 			$pp_pic_holder.fadeIn(function(){
 				// Set the title
-				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.html(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
+				(settings.show_title && pp_titles[set_position] != "" && typeof pp_titles[set_position] != "undefined") ? $ppt.text(unescape(pp_titles[set_position])) : $ppt.html('&nbsp;');
 				
 				imgPreloader = "";
 				skipInjection = false;
@@ -243,15 +245,15 @@
 					case 'image':
 						imgPreloader = new Image();
 
-						// Preload the neighbour images
-						nextImage = new Image();
-						if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
-						prevImage = new Image();
-						if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
-
 						$pp_pic_holder.find('#pp_full_res')[0].innerHTML = settings.image_markup.replace(/{path}/g,pp_images[set_position]);
 
 						imgPreloader.onload = function(){
+							// Preload the neighbour images
+							nextImage = new Image();
+							if(isSet && set_position < $(pp_images).size() -1) nextImage.src = pp_images[set_position + 1];
+							prevImage = new Image();
+							if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
+
 							// Fit item to viewport
 							pp_dimensions = _fitToViewport(imgPreloader.width,imgPreloader.height);
 
@@ -769,7 +771,11 @@
 						img_src = '';
 					}else{
 						classname = '';
-						img_src = pp_images[i];
+						if (settings.tumb_gallery) {
+							img_src = pp_images_tumb[i];
+						} else {
+							img_src = pp_images[i];
+						}
 					}
 					toInject += "<li class='"+classname+"'><a href='#'><img src='" + img_src + "' width='50' alt='' /></a></li>";
 				};
