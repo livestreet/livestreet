@@ -27,8 +27,25 @@ $config['db']['params']['port'] = '3306';
 $config['db']['params']['user'] = 'root';
 $config['db']['params']['pass'] = '';
 $config['db']['params']['type']   = 'mysql';
-$config['db']['params']['dbname'] = 'social';
+$config['db']['params']['dbname'] = 'mydb';
 $config['db']['table']['prefix'] = 'prefix_';
+
+
+/**
+ * Настройка путей
+ * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
+ * $config['path']['root']['web']    = 'http://'.$_SERVER['HTTP_HOST'].'/subdir';
+ * и возможно придёться увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
+ * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
+ */
+$config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
+$config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
+$config['path']['offset_request_url'] = 0;                                   // иногда помогает если сервер использует внутренние реврайты
+
+
+$config['compress']['css']['merge'] = false;       // указывает на необходимость слияния файлов по указанным блокам.
+$config['compress']['js']['merge']  = false;    // указывает на необходимость слияния файлов по указанным блокам.
+
 
 return $config;
 ?>
