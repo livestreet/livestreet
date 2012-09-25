@@ -58,7 +58,9 @@
 
 
 	<div id="container" class="{hook run='container_class'}">
+		{include file='header_top.tpl'}
 
-		{include file='system_message.tpl'}
-				
-		{hook run='content_begin'}
+		<div id="content">
+			{include file='system_message.tpl'}
+					
+			{hook run='content_begin'}

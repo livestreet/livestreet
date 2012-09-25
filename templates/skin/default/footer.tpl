@@ -1,14 +1,15 @@
-			{hook run='content_end'}
+		{hook run='content_end'}
+	</div> <!-- /content -->
 
-	
 	<footer id="footer">
+		footer
+
 		<div class="copyright">
 			{hook run='copyright'}
 		</div>
-		
+
 		{hook run='footer_end'}
 	</footer>
-
 </div> <!-- /container -->
 
 

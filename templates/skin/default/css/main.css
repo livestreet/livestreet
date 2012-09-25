@@ -1,0 +1,37 @@
+
+/* General
+---------------------------------------------------- */
+body {
+	font: normal 13px/18px Arial, sans-serif;
+	padding: 20px;
+}
+
+
+/* Some basic styles
+---------------------------------------------------- */
+h1, h2, h3 ,h4, h5, h6 { font-family: Arial, sans-serif; font-weight: bold; }
+h2 { font-size: 20px; line-height: 28px; margin-bottom: 10px; }
+h3 { font-size: 18px; line-height: 26px; margin-bottom: 10px; }
+
+
+/* Grid
+---------------------------------------------------- */
+#container 	{ width: 900px; margin: 0 auto; }
+#header 	{ padding: 10px; }
+#content 	{ padding: 10px; }
+#footer 	{ padding: 10px 10px 30px; }
+
+
+/* Stat
+---------------------------------------------------- */
+.stat-performance          { width: 860px; margin: 0 auto; padding: 15px 20px; background: #fafafa; }
+.stat-performance table td { width: 200px; vertical-align: top; color: #777; }
+.stat-performance h4       { font-weight: bold; color: #000; }
+
+
+/* System messages
+---------------------------------------------------- */
+.system-message-error 			{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice 			{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
+.system-message-notice a		{ color: #479839; text-decoration: underline; }
+.system-message-notice a:hover	{ color: #4bb23b; }
