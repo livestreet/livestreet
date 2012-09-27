@@ -1,10 +1,15 @@
-		{hook run='content_end'}
-	</div> <!-- /content -->
+			{hook run='content_end'}
+		</div> <!-- /content -->
 
-	<footer id="footer">
+		{include file='sidebar.tpl'}
+	</div> <!-- /wrapper -->
+
+	<footer id="footer" class="clearfix">
 		footer
 
 		<div class="copyright">
+			© Powered by <a href="http://livestreetcms.org/">LiveStreet CMS</a>
+
 			{hook run='copyright'}
 		</div>
 

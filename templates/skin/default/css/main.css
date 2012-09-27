@@ -13,13 +13,34 @@ h1, h2, h3 ,h4, h5, h6 { font-family: Arial, sans-serif; font-weight: bold; }
 h2 { font-size: 20px; line-height: 28px; margin-bottom: 10px; }
 h3 { font-size: 18px; line-height: 26px; margin-bottom: 10px; }
 
+p { margin-bottom: 10px; }
+
 
 /* Grid
 ---------------------------------------------------- */
-#container 	{ width: 900px; margin: 0 auto; }
-#header 	{ padding: 10px; }
-#content 	{ padding: 10px; }
-#footer 	{ padding: 10px 10px 30px; }
+#container { width: 900px; margin: 0 auto 20px; }
+#header    { padding: 10px; margin-bottom: 20px; background: #f7f7f7; }
+#nav       { padding: 10px; margin-bottom: 20px; margin-bottom: 20px; background: #f7f7f7; }
+#wrapper   { margin-bottom: 20px; }
+#content   { padding: 10px; float: left; width: 560px; margin-right: 20px; background: #f7f7f7; }
+#sidebar   { float: left; width: 300px; }
+#footer    { padding: 10px; background: #f7f7f7; }
+
+
+/* Footer
+---------------------------------------------------- */
+#footer .copyright { float: right; }
+
+
+/* Navigation
+---------------------------------------------------- */
+#nav ul li { float: left; margin-right: 20px; }
+
+
+/* Blocks
+---------------------------------------------------- */
+.block            { padding: 10px; margin-bottom: 20px; background: #f7f7f7; }
+.block:last-child { margin-bottom: 0; }
 
 
 /* Stat
@@ -35,3 +56,11 @@ h3 { font-size: 18px; line-height: 26px; margin-bottom: 10px; }
 .system-message-notice 			{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
 .system-message-notice a		{ color: #479839; text-decoration: underline; }
 .system-message-notice a:hover	{ color: #4bb23b; }
+
+
+/* Helpers
+---------------------------------------------------- */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix 		{ zoom: 1; }
