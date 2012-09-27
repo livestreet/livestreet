@@ -1,7 +1,9 @@
 			{hook run='content_end'}
 		</div> <!-- /content -->
 
-		{include file='sidebar.tpl'}
+		{if !$noSidebar}
+			{include file='sidebar.tpl'}
+		{/if}
 	</div> <!-- /wrapper -->
 
 	<footer id="footer" class="clearfix">

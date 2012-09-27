@@ -175,6 +175,19 @@ $config['db']['table']['prefix'] = 'prefix_';
 $config['db']['table']['mytable']                = '___db.table.prefix___mytable';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
+
+/**
+ * Настройки вывода блоков
+ */
+$config['block']['rule_index_blog'] = array(
+	'action'  => array(
+		'index'
+	),
+	'blocks'  => array(
+		'right' => array('blocks/block.index.tpl'=>array('priority'=>100))
+	),
+	'clear' => false,
+);
 /**
  * Настройка memcache
  */
