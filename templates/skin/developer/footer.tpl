@@ -1,5 +1,6 @@
-			{hook run='content_end'}
-		</div> <!-- /content -->
+				{hook run='content_end'}
+			</div> <!-- /content -->
+		</div> <!-- /content-wrapper -->
 
 		
 		{if !$noSidebar && $sidebarPosition != 'left'}

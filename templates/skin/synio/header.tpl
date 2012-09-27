@@ -130,8 +130,9 @@
 				{include file='sidebar.tpl'}
 			{/if}
 		
-			<div id="content" role="main" {if $sidebarPosition == 'left'}class="content-profile"{/if} {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
-				{include file='nav_content.tpl'}
-				{include file='system_message.tpl'}
-				
-				{hook run='content_begin'}
+			<div id="content-wrapper" {if $sidebarPosition == 'left'}class="content-profile"{/if}>
+				<div id="content" role="main" {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+					{include file='nav_content.tpl'}
+					{include file='system_message.tpl'}
+					
+					{hook run='content_begin'}

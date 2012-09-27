@@ -4,7 +4,7 @@
 	</header>
 	
 	<div class="block-content">
-		<p id="block_blog_info"></p>
+		<p id="block_blog_info" class="text"></p>
 	</div>	
 </section>
 

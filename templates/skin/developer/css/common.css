@@ -140,8 +140,10 @@
 
 /* Хелперы
 ---------------------------------------------------- */
-.mt-10 { margin-bottom: 10px !important; }
-.mt-20 { margin-bottom: 20px !important; }
+.mt-10 { margin-top: 10px !important; }
+.mt-15 { margin-top: 15px !important; }
+.mt-20 { margin-top: 20px !important; }
+.mt-30 { margin-top: 30px !important; }
 
 .mb-10 { margin-bottom: 10px !important; }
 .mb-15 { margin-bottom: 15px !important; }
@@ -180,5 +182,14 @@
 .loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 	{ font-weight: bold; color: #333; }
-.ls-user:before 	{ content: ''; display: inline-block; width: 14px; height: 14px; margin-right: 3px; background: url(../images/icons.png) -168px 0 no-repeat; vertical-align: middle; }
+.ls-user 	        { display: inline-block; }
+.ls-user:before 	{
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 3px;
+	background: url(../images/icons.png) -168px 0 no-repeat;
+	vertical-align: middle;
+}
 .user.inactive 		{ color: #aaa; }
