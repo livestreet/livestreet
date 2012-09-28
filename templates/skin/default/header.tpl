@@ -56,13 +56,14 @@
 <body class="">
 	{hook run='body_begin'}
 
+	{include file='modal_test.tpl'}
 
 	<div id="container" class="{hook run='container_class'}">
 		{include file='header_top.tpl'}
 		{include file='nav.tpl'}
 
 		<div id="wrapper" class="clearfix">
-			<div id="content">
+			<div id="content" class="{if $noSidebar}content-full-width{/if}">
 				{include file='system_message.tpl'}
 						
 				{hook run='content_begin'}

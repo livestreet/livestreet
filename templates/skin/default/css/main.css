@@ -15,6 +15,12 @@ h3 { font-size: 18px; line-height: 26px; margin-bottom: 10px; }
 
 p { margin-bottom: 10px; }
 
+a                   { color: #00e; }
+a:hover             { color: #f00; }
+
+a.link-dotted       { text-decoration: none; border-bottom: 1px dotted #00e; }
+a.link-dotted:hover { color: #f00; border-color: #f00; text-decoration: none; }
+
 
 /* Grid
 ---------------------------------------------------- */
@@ -25,6 +31,8 @@ p { margin-bottom: 10px; }
 #content   { padding: 10px; float: left; width: 560px; margin-right: 20px; background: #f7f7f7; }
 #sidebar   { float: left; width: 300px; }
 #footer    { padding: 10px; background: #f7f7f7; }
+
+#content.content-full-width { width: 880px; }
 
 
 /* Footer
