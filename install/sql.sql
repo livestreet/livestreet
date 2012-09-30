@@ -501,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_content` (
   `topic_text` longtext NOT NULL,
   `topic_text_short` text NOT NULL,
   `topic_text_source` longtext NOT NULL,
-  `topic_extra` text NOT NULL,
+  `topic_extra` longtext NOT NULL,
   PRIMARY KEY (`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
