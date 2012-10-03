@@ -19,7 +19,7 @@
  * Настройки HTML вида
  */
 $config['view']['skin']        = 'synio';                                                              // шаблон(скин)
-$config['view']['name']        = 'Your Site';                   // название сайта
+$config['view']['name']        = 'WTF';                   // название сайта
 $config['view']['description'] = 'Description your site'; // seo description
 $config['view']['keywords']    = 'site, google, internet';      // seo keywords
 $config['view']['tinymce']         = false;  // использовать или нет визуальный редактор TinyMCE
@@ -521,7 +521,7 @@ $config['head']['default']['js']  = array(
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
-	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",	
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
 	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/main.css",
