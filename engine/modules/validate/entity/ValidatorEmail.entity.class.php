@@ -31,14 +31,14 @@
  */
 class ModuleValidate_EntityValidatorEmail extends ModuleValidate_EntityValidator {
 	/**
-	 * Регулярное вырожение для проверки емайла
+	 * Регулярное выражение для проверки емайла
 	 *
 	 * @var string
 	 * @see http://www.regular-expressions.info/email.html
 	 */
 	public $pattern='/^[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/';
 	/**
-	 * Регулярное вырожение для проверки емайла с именем отправителя.
+	 * Регулярное выражение для проверки емайла с именем отправителя.
 	 * Используется только при allowName = true
 	 *
 	 * @var string
