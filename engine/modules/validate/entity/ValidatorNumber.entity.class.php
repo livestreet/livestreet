@@ -67,13 +67,13 @@ class ModuleValidate_EntityValidatorNumber extends ModuleValidate_EntityValidato
 	 */
 	public $msgTooSmall;
 	/**
-	 * Регулярное вырожение для целого числа
+	 * Регулярное выражение для целого числа
 	 *
 	 * @var string
 	 */
 	public $integerPattern='/^\s*[+-]?\d+\s*$/';
 	/**
-	 * Регулярное вырожение для числа, допускается дробное
+	 * Регулярное выражение для числа, допускается дробное
 	 *
 	 * @var string
 	 */
