@@ -549,6 +549,13 @@ $config['compress']['css']['optimise_shorthands'] = 1;
 $config['compress']['css']['remove_last_;']       = true;
 $config['compress']['css']['css_level']           = 'CSS2.1';
 $config['compress']['css']['template']            = "highest_compression";
+/*
+ * Версия файла CSS. Может использоваться для принудительного обновления закэшированного в браузере
+ * файла. Вынесите этот параметр в config.local.php и увиличивайте его на единицу, каждый раз
+ * когда хотите чтобы барузеры всех ваших посетителей обязательно перечитали стили.
+ * Подробнее см. http://speedupyourwebsite.ru/books/reactive-websites/
+ */
+$config['compress']['css']['version']             = 0;
 /**
  * Параметры компрессии js-файлов
  */

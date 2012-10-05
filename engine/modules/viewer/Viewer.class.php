@@ -1223,8 +1223,10 @@ class ModuleViewer extends Module {
 	protected function BuildHtmlHeadFiles($aFileList) {
 		$aHeader=array('js'=>'','css'=>'');
 
+		$sCssVersion = ($v = Config::Get('compress.css.version')) ? '?v=' . $v : '';
+
 		foreach ((array)$aFileList['css'] as $sCss) {
-			$aHeader['css'].=$this->WrapHtmlHack("<link rel='stylesheet' type='text/css' href='{$sCss}' />", $sCss, 'css').PHP_EOL;
+			$aHeader['css'].=$this->WrapHtmlHack("<link rel='stylesheet' type='text/css' href='{$sCss}{$sCssVersion}' />", $sCss, 'css').PHP_EOL;
 		}
 		foreach((array)$aFileList['js'] as $sJs) {
 			$aHeader['js'].=$this->WrapHtmlHack("<script type='text/javascript' src='{$sJs}'></script>",$sJs,'js').PHP_EOL;
