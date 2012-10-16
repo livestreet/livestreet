@@ -202,11 +202,13 @@ class ModuleViewer extends Module {
 		$this->sHtmlDescription=Config::Get('view.description');
 
 		/**
-		 * Создаём объект Smarty и устанавливаем необходиму параметры
+		 * Создаём объект Smarty и устанавливаем необходимые параметры
 		 */
 		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=error_reporting()^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
+        $this->oSmarty->compile_check = Config::Get('smarty.compile_check');
+
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */

@@ -78,6 +78,7 @@ $config['path']['smarty']['template'] = '___path.root.server___/templates/skin/_
 $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compiled';
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
+$config['smarty']['compile_check']    = false;
 /**
  * Настройки плагинов
  */

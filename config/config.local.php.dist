@@ -30,5 +30,10 @@ $config['db']['params']['type']   = 'mysql';
 $config['db']['params']['dbname'] = 'social';
 $config['db']['table']['prefix'] = 'prefix_';
 
+/**
+ * Настройки шаблонизатора Smarty
+ */
+ $config['smarty']['compile_check']    = true;
+
 return $config;
 ?>
