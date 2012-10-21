@@ -78,7 +78,10 @@ $config['path']['smarty']['template'] = '___path.root.server___/templates/skin/_
 $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compiled';
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
-$config['smarty']['compile_check']    = false;
+/**
+* включение/включение проверки изменений в шаблоне. false - при измении шаблона необходимо удалять скомпилированный шаблон для того что бы изменения вступили в силу 
+*/
+$config['smarty']['compile_check']    = false; 
 /**
  * Настройки плагинов
  */
