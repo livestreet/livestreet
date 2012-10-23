@@ -29,8 +29,8 @@ jQuery(document).ready(function($){
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
-	$('#foto-resize').jqm({modal: true});
-	$('#avatar-resize').jqm({modal: true});
+	$('#foto-resize').jqm({modal: true, toTop: true});
+	$('#avatar-resize').jqm({modal: true, toTop: true});
 	$('#userfield_form').jqm({toTop: true}); 
 	$('#photoset-upload-form').jqm({trigger: '#photoset-start-upload'});
 
