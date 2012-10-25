@@ -1,0 +1,9 @@
+# behat.yml
+default:
+    extensions:
+      mink_extension.phar:
+            base_url: http://livestreet.test/
+            mink_loader: mink.phar
+            goutte: 
+              server_parameters: 
+                  APP_ENV: test
