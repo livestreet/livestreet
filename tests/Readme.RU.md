@@ -10,6 +10,7 @@
 
 3. Выполнить команду ```cd tests/behat; php behat.phar```. Примерный вывод результата работы команды:
 
+```
     DROP DATABASE social_test 
     CREATE DATABASE social_test 
     SELECTED DATABASE social_test 
@@ -45,3 +46,4 @@
     5 scenarios (5 passed)
     14 steps (14 passed)
     0m2.225s
+```
