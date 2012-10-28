@@ -48,7 +48,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -114,7 +114,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -124,14 +124,23 @@ if ($hDirConfig = opendir($sDirConfig)) {
 	closedir($hDirConfig);
 }
 
-/**
- * Подгружаем файлы локального и продакшн-конфига
- */
-if(file_exists(Config::Get('path.root.server').'/config/config.local.php')) {
-	Config::LoadFromFile(Config::Get('path.root.server').'/config/config.local.php',false);
-}
-if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
-	Config::LoadFromFile(Config::Get('path.root.server').'/config/config.stable.php',false);
+if(isset($_SERVER['HTTP_APP_ENV']) && $_SERVER['HTTP_APP_ENV']=='test') {
+    /**
+     * Подгружаем файл тестового конфига
+     */
+    if(file_exists(Config::Get('path.root.server').'/config/config.test.php')) {
+        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.test.php',false);
+    }
+} else {
+    /**
+     * Подгружаем файлы локального и продакшн-конфига
+     */
+    if(file_exists(Config::Get('path.root.server').'/config/config.local.php')) {
+        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.local.php',false);
+    }
+    if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
+        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.stable.php',false);
+    }
 }
 
 /**
@@ -157,7 +166,7 @@ if($aPluginsList=@file($sPluginsListFile)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -170,7 +179,7 @@ if($aPluginsList=@file($sPluginsListFile)) {
 		if($aIncludeFiles and count($aIncludeFiles)) {
 			foreach ($aIncludeFiles as $sPath) {
 				require_once($sPath);
-			}		
+			}
 		}
 	}
 }
