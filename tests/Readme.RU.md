@@ -8,14 +8,14 @@
 
 2) В конфиге для Behat (tests/behat/behat.yml) сменить значение опции base_url на хост, под которым проект доступен локально.
 
-3) Выполнить команду ```cd tests/behat; php behat.phar```. Примерный вывод результата работы команды:
+3) Выполнить команду ```cd tests/behat; HTTP_APP_ENV=test php behat.phar```. Примерный вывод результата работы команды:
 
 ```
-DROP DATABASE social_test 
-CREATE DATABASE social_test 
-SELECTED DATABASE social_test 
-ExportSQL DATABASE social_test 
-ExportSQL DATABASE social_test -> geo_base 
+DROP DATABASE social_test
+CREATE DATABASE social_test
+SELECTED DATABASE social_test
+ExportSQL DATABASE social_test
+ExportSQL DATABASE social_test -> geo_base
 Feature: LiveStreet standart features
   Test base functionality of LiveStreet
 
