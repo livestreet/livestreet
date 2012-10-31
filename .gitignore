@@ -5,3 +5,5 @@
 /tmp/
 /config/config.local.php
 /config/config.test.php
+.gitmodules
+plugins
