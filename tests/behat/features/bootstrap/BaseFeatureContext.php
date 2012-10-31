@@ -16,7 +16,7 @@ require_once("tests/LoadFixtures.php");
 /**
  * LiveStreet custom feature context
  */
-class FeatureContext extends MinkContext
+class BaseFeatureContext extends MinkContext
 {
 
     protected static $fixturesLoader = null;
