@@ -20,7 +20,9 @@ Feature: LiveStreet standart features
     Then I should see "iPad 3 rumored to come this March with quad-core chip and 4G LTE "
     Then I should see "Toshiba unveils 13.3-inch AT330 Android ICS 4.0 tablet"
 
-  Scenario: See User Profile
-    Given I am on "/profile/Golfer/"
-    Then I should see "Sergey Doryba"
-    Then I should see "... Sergey Doryba profile description"
+    @mink:selenium2
+      Scenario: See User Profile
+        Given I am on "/profile/Golfer/"
+        Then I should see "Sergey Doryba"
+        Then I should see "... Sergey Doryba profile description"
+        Then I wait "5000"
