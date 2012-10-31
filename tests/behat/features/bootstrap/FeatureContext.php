@@ -37,7 +37,7 @@ class FeatureContext extends MinkContext
     /**
      * Purge DB and load fixtures before running each test
      *
-     * @BeforeSuite
+     * @BeforeScenario
      */
     public static function prepare($event){
         $fixturesLoader = self::getFixturesLoader();
@@ -54,6 +54,16 @@ class FeatureContext extends MinkContext
     {
         $fixturesLoader = $this->getFixturesLoader();
         $fixturesLoader->loadPluginFixtures($plugin);
+    }
+
+
+    /**
+     * @Given /^I am activated plugin "([^"]*)"$/
+     */
+    public function ActivatedPlugin($plugin)
+    {
+        $pluginActivation =  new LoadFixtures();
+        $pluginActivation->activationPlugin($plugin);
     }
 
 }

@@ -34,5 +34,7 @@ $config['db']['table']['prefix'] = 'prefix_';
 $config['sys']['cache']['use']    = false;               // использовать кеширование или нет
 $config['sys']['cache']['solid']  = false;
 
+$config['module']['user']['captcha_use_registration'] = false;  // проверять поле капчи при регистрации пользователя
+
 return $config;
 ?>

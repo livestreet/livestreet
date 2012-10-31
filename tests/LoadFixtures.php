@@ -17,8 +17,8 @@ class LoadFixtures
     private $aReferences = array();
 
     /**
-    * @var Engine
-    */
+     * @var Engine
+     */
     private $oEngine;
 
     /**
@@ -29,10 +29,6 @@ class LoadFixtures
     private $sDirFixtures;
 
     public function __construct() {
-        if (file_exists(Config::Get('path.root.server') . '/config/config.test.php')) {
-            Config::LoadFromFile(Config::Get('path.root.server') . '/config/config.test.php', false);
-        }
-
         $this->oEngine = Engine::getInstance();
         $this->oEngine->Init();
         $this->sDirFixtures = realpath((dirname(__FILE__)) . "/fixtures/");
@@ -47,40 +43,58 @@ class LoadFixtures
      *
      * @return bool
      */
-     public function purgeDB() {
+    public function purgeDB() {
         $sDbname = Config::Get('db.params.dbname');
 
         if (mysql_select_db($sDbname)) {
-            mysql_query("DROP DATABASE $sDbname");
-            echo "DROP DATABASE $sDbname \n";
+
+            $result = mysql_query("SELECT concat('TRUNCATE TABLE ', TABLE_NAME)
+                                   FROM INFORMATION_SCHEMA.TABLES
+                                   WHERE TABLE_SCHEMA  = '" . $sDbname . "'");
+
+            mysql_query('SET FOREIGN_KEY_CHECKS = 0');
+            echo "TRUNCATE TABLE FROM TEST BASE";
+            while ($row = mysql_fetch_row($result)) {
+                if (!mysql_query($row[0])) {
+                    // exception
+                    throw new Exception("TRUNCATE TABLE FROM TEST BASE - Exception");
+                }
+            }
+            mysql_query('SET FOREIGN_KEY_CHECKS = 1');
+
+            mysql_free_result($result);
+        } else {
+
+            if (mysql_query("CREATE DATABASE IF NOT EXISTS $sDbname") === false) {
+                // exception
+                throw new Exception("DB \"$sDbname\" is not Created");
+                echo "CREATE DATABASE $sDbname \n";
+                return mysql_error();
+            } else {
+
+                mysql_select_db($sDbname);
+
+                // Load dump from install_base.sql
+                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/install_base.sql');
+
+                if (!$result['result']) {
+                    // exception
+                    throw new Exception("DB is not exported with file install_base.sql");
+                    return $result['errors'];
+                }
+                echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
+                // Load dump from geo_base.sql
+                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/geo_base.sql');
+
+                if (!$result['result']) {
+                    // exception
+                    throw new Exception("DB is not exported with file geo_base.sql");
+                    return $result['errors'];
+                }
+                echo "ExportSQL DATABASE $sDbname -> geo_base \n";
+
+            }
         }
-
-        if (mysql_query("CREATE DATABASE $sDbname") === false) {
-            return mysql_error();
-        }
-        echo "CREATE DATABASE $sDbname \n";
-
-        if (mysql_select_db($sDbname) === false) {
-            return mysql_error();
-        }
-
-        echo "SELECTED DATABASE $sDbname \n";
-        // Load dump from install_base.sql
-        $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/install_base.sql');
-
-        if (!$result['result']) {
-            return $result['errors'];
-        }
-        // Load dump from geo_base.sql
-        $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/geo_base.sql');
-
-        if (!$result['result']) {
-            return $result['errors'];
-        }
-
-        echo "ExportSQL DATABASE $sDbname \n";
-        echo "ExportSQL DATABASE $sDbname -> geo_base \n";
-
         return true;
     }
 
@@ -101,22 +115,19 @@ class LoadFixtures
             preg_match("/([a-zA-Z]+Fixtures).php$/", $sFilePath, $matches);
             $sClassName = $matches[1];
             $iOrder = forward_static_call(array($sClassName, 'getOrder'));
-            if (!array_key_exists($iOrder, $aFixtures)) {
-                $aFixtures[$iOrder] = $sClassName;
-            } else {
-                //@todo разруливание одинаковых ордеров
-                throw new Exception("Duplicated order number $iOrder in $sClassName");
-            }
+            $aFixtures[$iOrder][] = $sClassName;
         }
         ksort($aFixtures);
 
         if (count($aFixtures)) {
-            foreach ($aFixtures as $iOrder => $sClassName) {
-                // @todo референсы дублируются в каждом объекте фиксту + в этом объекте
-                $oFixtures = new $sClassName($this->oEngine, $this->aReferences);
-                $oFixtures->load();
-                $aFixtureReference = $oFixtures->getReferences();
-                $this->aReferences = array_merge($this->aReferences, $aFixtureReference);
+            foreach ($aFixtures as $iOrder => $aClassNames) {
+                foreach ($aClassNames as $sClassName) {
+                    // @todo референсы дублируются в каждом объекте фиксту + в этом объекте
+                    $oFixtures = new $sClassName($this->oEngine, $this->aReferences);
+                    $oFixtures->load();
+                    $aFixtureReference = $oFixtures->getReferences();
+                    $this->aReferences = array_merge($this->aReferences, $aFixtureReference);
+                }
             }
         }
     }
@@ -127,14 +138,23 @@ class LoadFixtures
      * @param string $plugin
      * @return void
      */
-    public function loadPluginFixtures($plugin){
-        $sPath = Config::Get('path.root.server').'/plugins/' . $plugin . '/tests/fixtures';
+    public function loadPluginFixtures($plugin) {
+        $sPath = Config::Get('path.root.server') . '/plugins/' . $plugin . '/tests/fixtures';
         if (!is_dir($sPath)) {
             throw new InvalidArgumentException('Plugin not found by LS directory: ' . $sPath, 10);
         }
 
         $this->sDirFixtures = $sPath;
         $this->loadFixtures();
+    }
+
+    /**
+     * Function of activate plugin
+     *
+     * @param string $plugin
+     */
+    public function activationPlugin($plugin){
+        $this->oEngine->ModulePlugin_Toggle($plugin,'Activate');
     }
 
 }

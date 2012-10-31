@@ -58,7 +58,12 @@ $config['pagination']['pages']['count'] = 4;                  // количес�
  * и возможно придёться увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
  * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
  */
-$config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
+if (isset($_SERVER['HTTP_HOST'])) {
+    $config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
+} else {
+    // for CLI scripts. or you can append "HTTP_HOST=http://yoursite.url" before script run command
+    $config['path']['root']['web']        = null;
+}
 $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
 /**
  * Для CLI режима использовать
@@ -205,6 +210,8 @@ $config['module']['user']['usernote_per_page'] = 20; 	      // Число зам
 $config['module']['user']['userfield_max_identical'] = 2; 	// Максимальное число контактов одного типа
 $config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
 $config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
+$config['module']['user']['captcha_use_registration'] = true;  // проверять поле капчи при регистрации пользователя
+
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
@@ -524,7 +531,7 @@ $config['head']['default']['js']  = array(
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
-	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",	
+	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
 	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/main.css",
