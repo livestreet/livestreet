@@ -3,7 +3,7 @@ config/config.local.php
 config/config.test.php
 install
 logs/
-plugins/
+plugins/.gitignore
 templates/cache/
 templates/compiled/
 tmp/
