@@ -16,7 +16,7 @@ require_once("tests/LoadFixtures.php");
 /**
  * LiveStreet custom feature context
  */
-class FeatureContext extends MinkContext
+class BaseFeatureContext extends MinkContext
 {
 
     protected static $fixturesLoader = null;
@@ -64,6 +64,14 @@ class FeatureContext extends MinkContext
     {
         $pluginActivation =  new LoadFixtures();
         $pluginActivation->activationPlugin($plugin);
+    }
+
+    /**
+     * @Then /^I wait "([^"]*)"$/
+     */
+    public function iWait($time_wait)
+    {
+        $this->getSession()->wait($time_wait);
     }
 
 }
