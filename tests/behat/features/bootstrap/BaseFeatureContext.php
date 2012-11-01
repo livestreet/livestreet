@@ -66,4 +66,12 @@ class BaseFeatureContext extends MinkContext
         $pluginActivation->activationPlugin($plugin);
     }
 
+    /**
+     * @Then /^I wait "([^"]*)"$/
+     */
+    public function iWait($time_wait)
+    {
+        $this->getSession()->wait($time_wait);
+    }
+
 }
