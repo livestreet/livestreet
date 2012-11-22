@@ -21,8 +21,8 @@ before_script:
   - ./tests/travis/apache_setup.sh
   - ./tests/travis/mysql_setup.sh
   - mysql -u root -e "USE social_test; SHOW TABLES;"
-  - cp ./tests/travis/configs/config.test.php.dist config/config.test.php
-  - cp ./tests/travis/configs/config.test.php.dist config/config.local.php
+  - cp ./config/config.test.php.dist config/config.test.php
+  - cp ./config/config.test.php.dist config/config.local.php
   - sudo sed -i s/sql-mode/#sql-mode/ /etc/mysql/my.cnf
   - sudo /etc/init.d/mysql restart
   - sleep 5
