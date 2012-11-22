@@ -1,9 +1,9 @@
 .gitmodules
 config/config.local.php
 config/config.test.php
-logs/
-plugins/.gitignore
-templates/cache/
-templates/compiled/
-tmp/
-uploads/
+logs/*
+plugins/*
+templates/cache/*
+templates/compiled/*
+tmp/*
+uploads/*
