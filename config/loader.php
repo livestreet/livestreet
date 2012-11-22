@@ -130,6 +130,10 @@ if(isset($_SERVER['HTTP_APP_ENV']) && $_SERVER['HTTP_APP_ENV']=='test') {
      */
     if(file_exists(Config::Get('path.root.server').'/config/config.test.php')) {
         Config::LoadFromFile(Config::Get('path.root.server').'/config/config.test.php',false);
+    } else {
+        throw new Exception("Config for test envirenment is not found.
+            Rename /config/config.test.php.dist to /config/config.test.php and rewrite DB settings.
+            After that check base_url in /test/behat/behat.yml it option must be correct site url.");
     }
 } else {
     /**
