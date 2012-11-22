@@ -8,7 +8,7 @@
 
 2) В конфиге для Behat (tests/behat/behat.yml) сменить значение опции base_url на хост, под которым проект доступен локально.
 
-3) Выполнить команду ```cd tests/behat; HTTP_APP_ENV=test php behat.phar```. Примерный вывод результата работы команды:
+3) Выполнить команду ```HTTP_APP_ENV=test php tests/behat/behat.phar -c tests/behat/behat.yml```. Примерный вывод результата работы команды:
 
 ```
 DROP DATABASE social_test
