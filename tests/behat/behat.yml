@@ -3,7 +3,11 @@ default:
     extensions:
       mink_extension.phar:
             base_url: http://livestreet.test/
+            default_session: goutte
             mink_loader: mink.phar
-            goutte: 
-              server_parameters: 
-                  APP_ENV: test
+            goutte:
+                server_parameters:
+                    APP_ENV: test
+            selenium2:
+                wd_host: 'http://127.0.0.1:4444/wd/hub'
+                capabilities: { "browser": "firefox", "browserVersion": "10", "browserName": "firefox", "version": "10"}
