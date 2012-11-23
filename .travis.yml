@@ -39,7 +39,5 @@ before_script:
   - java -jar /tmp/selenium-server-standalone.jar > /dev/null &
   - sleep 5
 
-  # goto test's folder
-  - cd tests/behat/
 
-script: HTTP_APP_ENV=test php behat.phar
+script: HTTP_APP_ENV=test php tests/behat/behat.phar -c tests/behat/behat.yml
