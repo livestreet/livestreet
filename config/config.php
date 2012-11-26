@@ -565,6 +565,10 @@ $config['compress']['css']['template']            = "highest_compression";
 $config['compress']['js']['merge']  = true;    // указывает на необходимость слияния файлов по указанным блокам.
 $config['compress']['js']['use']    = true;    // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 
+
+$config['defaults']['top_period'] = 1;
+$config['defaults']['discussed_period'] = 1;
+$config['defaults']['index_default'] = '';
 /**
  * Установка локали
  */
