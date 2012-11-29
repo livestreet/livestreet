@@ -54,7 +54,11 @@ Feature: LiveStreet standart features
 
 
 5) При написании дополнительных тестов используются следующие правила:
-    а) Доступ из всех контектов з контексту MINK должен производится через функцию getMinkContext()
+    а) Доступ из базового контекcта к контексту MINK должен производится через функцию getMinkContext()
     Пример получения доступа к сессии: $this->getMinkContext()->getSession()
 
-    б) Получение доступа к базовому обьекту Engine производится посредством метода: $this->getEngine()
+б) Получение доступа к базовому обьекту Engine производится посредством метода: $this->getEngine()
+
+Прим:     public function getEngine() {
+              return $this->getSubcontext('base')->getEngine();
+          }

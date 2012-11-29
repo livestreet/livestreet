@@ -4,6 +4,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
     Behat\MinkExtension\Context\MinkContext,
+    Behat\Mink\Exception\ExpectationException,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
@@ -154,17 +155,18 @@ class BaseFeatureContext extends BehatContext
      */
     public function iWantToLoginAs($sUserLogin)
     {
-        $moduleUser = $this->getEngine()->GetModuleObject('ModuleUser');
-
-        $oUser = $moduleUser->GetUserByLogin($sUserLogin);
+        $oUser = $this->getEngine()->User_GetUserByLogin($sUserLogin);
         if (!$oUser) {
             throw new ExpectationException( sprintf('User %s not found', $sUserLogin), $this->getMinkContext()->getSession());
         }
 
-        $moduleUser->Authorization($oUser, true);
-        $sSessionKey = $moduleUser->GetSessionByUserId($oUser->getId())->getKey();
+        $this->getEngine()->User_Authorization($oUser, true);
+        $oSession = $this->getEngine()->User_GetSessionByUserId($oUser->getId());
+        if (!$oSession) {
+            throw new ExpectationException( 'Session non created', $this->getMinkContext()->getSession());
+        }
 
-        $this->getMinkContext()->getSession()->getDriver()->setCookie("key", $sSessionKey);
+        $this->getMinkContext()->getSession()->getDriver()->setCookie("key", $oSession->getKey());
     }
 
     /**
