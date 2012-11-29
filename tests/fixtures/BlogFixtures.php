@@ -11,11 +11,11 @@ class BlogFixtures extends AbstractFixtures
 
     public function load()
     {
-        $oUserStfalcon = $this->getReference('user-golfer');
+        $oUserFirst = $this->getReference('user-first');
 
         /* @var $oBlogGadgets ModuleBlog_EntityBlog */
         $oBlogGadgets = Engine::GetEntity('Blog');
-        $oBlogGadgets->setOwnerId($oUserStfalcon->getId());
+        $oBlogGadgets->setOwnerId($oUserFirst->getId());
         $oBlogGadgets->setTitle("Gadgets");
         $oBlogGadgets->setDescription('Offers latest gadget reviews');
         $oBlogGadgets->setType('open');
