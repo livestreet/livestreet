@@ -73,12 +73,12 @@ class LoadFixtures
 
                 mysql_select_db($sDbname);
 
-                // Load dump from install_base.sql
+                // Load dump from sql.sql
                 $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/sql.sql');
 
                 if (!$result['result']) {
                     // exception
-                    throw new Exception("DB is not exported with file install_base.sql");
+                    throw new Exception("DB is not exported with file sql.sql");
                     return $result['errors'];
                 }
                 echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
