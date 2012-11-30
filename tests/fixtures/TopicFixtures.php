@@ -13,7 +13,7 @@ class TopicFixtures extends AbstractFixtures
 
     public function load()
     {
-        $oUserFirst = $this->getReference('user-first');
+        $oUserFirst = $this->getReference('user-golfer');
         $oBlogGadgets = $this->getReference('blog-gadgets');
 
         $oTopicToshiba = $this->_createTopic($oBlogGadgets->getBlogId(), $oUserFirst->getId(),

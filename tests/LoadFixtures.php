@@ -74,7 +74,7 @@ class LoadFixtures
                 mysql_select_db($sDbname);
 
                 // Load dump from install_base.sql
-                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/install_base.sql');
+                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/sql.sql');
 
                 if (!$result['result']) {
                     // exception

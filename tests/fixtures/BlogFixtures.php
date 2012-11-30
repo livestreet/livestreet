@@ -11,7 +11,7 @@ class BlogFixtures extends AbstractFixtures
 
     public function load()
     {
-        $oUserFirst = $this->getReference('user-first');
+        $oUserFirst = $this->getReference('user-golfer');
 
         /* @var $oBlogGadgets ModuleBlog_EntityBlog */
         $oBlogGadgets = Engine::GetEntity('Blog');
