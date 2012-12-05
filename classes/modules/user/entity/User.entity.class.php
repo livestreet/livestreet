@@ -23,6 +23,19 @@
  */
 class ModuleUser_EntityUser extends Entity {
 	/**
+	 * Определяем дополнительные правила валидации
+	 *
+	 * @param array
+	 */
+	public function __construct($aParam = false) {
+		if (Config::Get('module.user.captcha_use_registration')) {
+			$this->aValidateRules[] = array('captcha', 'captcha', 'on' => array('registration'));
+		}
+
+		parent::__construct($aParam);
+	}
+
+	/**
 	 * Определяем правила валидации
 	 *
 	 * @var array
@@ -32,7 +45,6 @@ class ModuleUser_EntityUser extends Entity {
 		array('login','login_exists','on'=>array('registration')),
 		array('mail','email','allowEmpty'=>false,'on'=>array('registration','')),
 		array('mail','mail_exists','on'=>array('registration')),
-		array('captcha','captcha','on'=>array('registration')),
 		array('password','string','allowEmpty'=>false,'min'=>5,'on'=>array('registration')),
 		array('password_confirm','compare','compareField'=>'password','on'=>array('registration')),
 	);
