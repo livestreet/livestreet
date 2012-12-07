@@ -5,6 +5,7 @@
 .block 					{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
 .block:last-child 		{ margin-bottom: 0; }
 .sidebar-left .block 	{ margin-bottom: 10px; }
+.block .text            { font-size: 13px; line-height: 18px; }
 
 .block .block-header 					{ padding: 13px 20px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
 .block .block-header h3 				{ font-size: 16px; line-height: 1em; font-weight: normal; }

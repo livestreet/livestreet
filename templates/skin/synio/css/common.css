@@ -296,8 +296,10 @@
 
 /* Хелперы
 ---------------------------------------------------- */
-.mt-10 { margin-bottom: 10px !important; }
-.mt-20 { margin-bottom: 20px !important; }
+.mt-10 { margin-top: 10px !important; }
+.mt-15 { margin-top: 15px !important; }
+.mt-20 { margin-top: 20px !important; }
+.mt-30 { margin-top: 30px !important; }
 
 .mb-10 { margin-bottom: 10px !important; }
 .mb-15 { margin-bottom: 15px !important; }
@@ -341,7 +343,18 @@
 .loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 				{ font-weight: bold; color: #333; }
-.user:before, .ls-user:before 	{ content: ''; display: inline-block; width: 12px; height: 12px; margin-right: 4px; background: url(../images/icons-synio.png) -165px -75px no-repeat; vertical-align: middle; position: relative; top: -1px; }
+.ls-user 				        { display: inline-block; }
+.user:before, .ls-user:before 	{
+	content: '';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-right: 4px;
+	background: url(../images/icons-synio.png) -165px -75px no-repeat;
+	vertical-align: middle;
+	position: relative;
+	top: -1px;
+}
 .user .icon-user 				{ margin-right: 3px; }
 .username.inactive,
 .user.inactive 					{ color: #aaa !important; }

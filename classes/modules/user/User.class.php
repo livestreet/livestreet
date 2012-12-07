@@ -522,7 +522,7 @@ class ModuleUser extends Module {
 		 * Ставим куку
 		 */
 		if ($bRemember) {
-			setcookie('key',$sKey,time()+Config::Get('sys.cookie.time'),Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+			setcookie('key',$sKey,time()+Config::Get('sys.cookie.time'),Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'),false,true);
 		}
 		return true;
 	}
@@ -1245,7 +1245,10 @@ class ModuleUser extends Module {
 	 * @return bool
 	 */
 	public function CheckLogin($sLogin) {
-		if (preg_match("/^[\da-z\_\-]{".Config::Get('module.user.login.min_size').','.Config::Get('module.user.login.max_size')."}$/i",$sLogin)){
+		$charset = Config::Get('module.user.login.charset');
+		$min = Config::Get('module.user.login.min_size');
+		$max = Config::Get('module.user.login.max_size');
+		if (preg_match('/^[' . $charset . ']{' . $min . ',' . $max . '}$/i',$sLogin)){
 			return true;
 		}
 		return false;

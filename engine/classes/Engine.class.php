@@ -363,11 +363,18 @@ class Engine extends LsObject {
 	 *
 	 * @param  string $sModuleClass	Класс модуля
 	 * @param  bool $bInit Инициализировать модуль или нет
+	 *
+	 * @throws RuntimeException если класс $sModuleClass не существует
+	 *
 	 * @return Module
 	 */
 	public function LoadModule($sModuleClass,$bInit=false) {
 		$tm1=microtime(true);
 
+		if (!class_exists($sModuleClass))
+		{
+			throw new RuntimeException(sprintf('Class "%s" not found!', $sModuleClass));
+		}
 		/**
 		 * Создаем объект модуля
 		 */

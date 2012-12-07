@@ -23,14 +23,14 @@ jQuery(document).ready(function($){
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
-	$('#blog_delete_form').jqm({trigger: '#blog_delete_show'});
-	$('#add_friend_form').jqm({trigger: '#add_friend_show'});
+	$('#blog_delete_form').jqm({trigger: '#blog_delete_show', toTop: true});
+	$('#add_friend_form').jqm({trigger: '#add_friend_show', toTop: true});
 	$('#window_upload_img').jqm();
 	$('#userfield_form').jqm();
 	$('#favourite-form-tags').jqm();
 	$('#modal_write').jqm({trigger: '#modal_write_show'});
-	$('#foto-resize').jqm({modal: true});
-	$('#avatar-resize').jqm({modal: true});
+	$('#foto-resize').jqm({modal: true, toTop: true});
+	$('#avatar-resize').jqm({modal: true, toTop: true});
 	$('#userfield_form').jqm({toTop: true}); 
 	$('#photoset-upload-form').jqm({trigger: '#photoset-start-upload'});
 

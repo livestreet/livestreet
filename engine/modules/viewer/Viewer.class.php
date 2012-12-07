@@ -1029,13 +1029,12 @@ class ModuleViewer extends Module {
 	 * использует файловое кеширование
 	 *
 	 * @param  array  $aFiles	Список файлов
-	 * @param  string $sType	Тип файло - js, css
+	 * @param  string $sType	Тип файла - js, css
 	 * @return array
 	 */
 	protected function Compress($aFiles,$sType) {
 		$sCacheDir  = $this->sCacheDir."/".Config::Get('view.skin');
 		$sCacheName = $sCacheDir."/".md5(serialize($aFiles).'_head').".{$sType}";
-		$sPathServer = Config::Get('path.root.server');
 		$sPathWeb    = Config::Get('path.root.web');
 		/**
 		 * Если кеш существует, то берем из кеша
@@ -1054,7 +1053,7 @@ class ModuleViewer extends Module {
 			ob_start();
 			foreach ($aFiles as $sFile) {
 				// если файл локальный
-				if (strpos($sFile,Config::Get('path.root.web'))!==false) {
+				if (strpos($sFile, $sPathWeb)!==false) {
 					$sFile=$this->GetServerPath($sFile);
 				}
 				list($sFile,)=explode('?',$sFile,2);
