@@ -341,7 +341,9 @@ class ActionAjax extends Action {
 		} elseif ($iValue==0) {
 			$oTopic->setCountVoteAbstain($oTopic->getCountVoteAbstain()+1);
 		}
+		$this->Hook_Run('topic_vote_before',array('oTopic'=>$oTopic,'oTopicVote'=>$oTopicVote,'VoteValue' => $iValue));
 		if ($this->Vote_AddVote($oTopicVote) and $this->Topic_UpdateTopic($oTopic)) {
+			$this->Hook_Run('topic_vote_after',array('oTopic'=>$oTopic,'oTopicVote'=>$oTopicVote, 'VoteValue' => $iValue));
 			if ($iValue) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('topic_vote_ok'),$this->Lang_Get('attention'));
 			} else {
