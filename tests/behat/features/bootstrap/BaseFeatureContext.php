@@ -160,7 +160,7 @@ class BaseFeatureContext extends BehatContext
             throw new ExpectationException( sprintf('User %s not found', $sUserLogin), $this->getMinkContext()->getSession());
         }
 
-        $this->getEngine()->User_Authorization($oUser, true);
+        $this->getEngine()->User_Authorization($oUser, false);
         $oSession = $this->getEngine()->User_GetSessionByUserId($oUser->getId());
         if (!$oSession) {
             throw new ExpectationException( 'Session non created', $this->getMinkContext()->getSession());
