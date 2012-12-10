@@ -47,3 +47,17 @@ Feature: LiveStreet standart features
 14 steps (14 passed)
 0m2.225s
 ```
+
+4) Для тестирования плагинов используется команда
+    HTTP_APP_ENV=test php behat.phar --config='../../plugins/(название плагина)/tests/behat/behat.yml'
+
+
+5) При написании дополнительных тестов используются следующие правила:
+    а) Доступ из базового контекcта к контексту MINK должен производится через функцию getMinkContext()
+    Пример получения доступа к сессии: $this->getMinkContext()->getSession()
+
+б) Получение доступа к базовому обьекту Engine производится посредством метода: $this->getEngine()
+
+Прим:     public function getEngine() {
+              return $this->getSubcontext('base')->getEngine();
+          }

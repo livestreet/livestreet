@@ -11,26 +11,42 @@ class UserFixtures extends AbstractFixtures
 
     public function load()
     {
+        $oUserFirst = $this->_createUser('user-golfer', 'qwerty','user_first@info.com', '2012-11-1 00:10:20');
 
-        $oUserGolfer = Engine::GetEntity('User');
-        $oUserGolfer->setLogin('golfer');
-        $oUserGolfer->setPassword(md5('qwerty'));
-        $oUserGolfer->setMail('golfer@gmail.com');
+        $oUserFirst->getId();
+        $oUserFirst->setProfileName('Golfer FullName');
+        $oUserFirst->setProfileAbout('... Golfer profile description');
+        $oUserFirst->setProfileSex('man');
 
-        $oUserGolfer->setUserDateRegister(date("Y-m-d H:i:s")); // @todo freeze
-        $oUserGolfer->setUserIpRegister('127.0.0.1');
-        $oUserGolfer->setUserActivate('1');
-        $oUserGolfer->setUserActivateKey('0');
+        $this->oEngine->User_Update($oUserFirst);
+        $this->addReference('user-golfer', $oUserFirst);
 
-        $this->oEngine->User_Add($oUserGolfer);
+    }
 
-        $oUserGolfer->setProfileName('Sergey Doryba');
-        $oUserGolfer->setProfileAbout('...  Sergey Doryba profile description');
-        $oUserGolfer->setProfileSex('man');
+    /**
+     * Create user with default values
+     *
+     * @param string $sUserName
+     * @param string $sPassword
+     * @param string $sMail
+     * @param string $sDate
+     *
+     * @return ModuleTopic_EntityUser
+     */
+    private function _createUser($sUserName, $sPassword,$sMail,$sDate)
+    {
+        $oUser = Engine::GetEntity('User');
+        $oUser->setLogin($sUserName);
+        $oUser->setPassword(md5($sPassword));
+        $oUser->setMail($sMail);
+        $oUser->setUserDateRegister($sDate);
+        $oUser->setUserIpRegister('127.0.0.1');
+        $oUser->setUserActivate('1');
+        $oUser->setUserActivateKey('0');
 
-        $this->oEngine->User_Update($oUserGolfer);
-        $this->addReference('user-golfer', $oUserGolfer);
+        $this->oEngine->User_Add($oUser);
+
+        return $oUser;
     }
 
 }
-
