@@ -298,6 +298,10 @@ ls.user = (function ($) {
 	 */
 	this.validateRegistrationFields = function(aFields,sForm) {
 		var url = aRouter.registration+'ajax-validate-fields/';
+		for (var name in aFields)
+		{
+			aFields[name] = encodeURIComponent(aFields[name]);
+		}
 		var params = {fields: aFields};
 		if (typeof(sForm)=='string') {
 			sForm=$('#'+sForm);
