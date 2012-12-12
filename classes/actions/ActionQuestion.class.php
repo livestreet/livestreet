@@ -190,10 +190,10 @@ class ActionQuestion extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('question');
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
@@ -246,7 +246,7 @@ class ActionQuestion extends Action {
 		 */
 		$oTopic->clearQuestionAnswer();
 		foreach (getRequest('answer',array()) as $sAnswer) {
-			$oTopic->addQuestionAnswer($sAnswer);
+			$oTopic->addQuestionAnswer((string)$sAnswer);
 		}
 		/**
 		 * Публикуем или сохраняем
@@ -324,12 +324,12 @@ class ActionQuestion extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
 		if ($oTopic->getQuestionCountVote()==0) {
-			$oTopic->setTitle(strip_tags(getRequest('topic_title')));
+			$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
 		}
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
@@ -380,7 +380,7 @@ class ActionQuestion extends Action {
 		if ($oTopic->getQuestionCountVote()==0) {
 			$oTopic->clearQuestionAnswer();
 			foreach (getRequest('answer',array()) as $sAnswer) {
-				$oTopic->addQuestionAnswer($sAnswer);
+				$oTopic->addQuestionAnswer((string)$sAnswer);
 			}
 		}
 		/**
@@ -476,6 +476,7 @@ class ActionQuestion extends Action {
 			 */
 			$aAnswers=getRequest('answer',array());
 			foreach ($aAnswers as $key => $sAnswer) {
+				$sAnswer=(string)$sAnswer;
 				if (trim($sAnswer)=='') {
 					unset($aAnswers[$key]);
 					continue;

@@ -169,7 +169,7 @@ class ActionSearch extends Action {
 	 * @return array
 	 */
 	private function PrepareRequest(){
-		$aReq['q'] = getRequest('q');
+		$aReq['q'] = getRequestStr('q');
 		if (!func_check($aReq['q'],'text', 2, 255)) {
 			/**
 			 * Если запрос слишком короткий перенаправляем на начальную страницу поиска

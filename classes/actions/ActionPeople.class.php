@@ -236,14 +236,14 @@ class ActionPeople extends Action {
 		 */
 		$sOrder='user_rating';
 		if (getRequest('order')) {
-			$sOrder=(string)getRequest('order');
+			$sOrder=getRequestStr('order');
 		}
 		/**
 		 * В каком направлении сортировать
 		 */
 		$sOrderWay='desc';
 		if (getRequest('order_way')) {
-			$sOrderWay=(string)getRequest('order_way');
+			$sOrderWay=getRequestStr('order_way');
 		}
 		$aFilter=array(
 			'activate' => 1

@@ -124,7 +124,7 @@ class ActionAjax extends Action {
 	 * Получение списка регионов по стране
 	 */
 	protected function EventGeoGetRegions() {
-		$iCountryId=getRequest('country');
+		$iCountryId=getRequestStr('country');
 		$iLimit=200;
 		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
 			$iLimit=getRequest('limit');
@@ -156,7 +156,7 @@ class ActionAjax extends Action {
 	 * Получение списка городов по региону
 	 */
 	protected function EventGeoGetCities() {
-		$iRegionId=getRequest('region');
+		$iRegionId=getRequestStr('region');
 		$iLimit=500;
 		if (is_numeric(getRequest('limit')) and getRequest('limit')>0) {
 			$iLimit=getRequest('limit');
@@ -199,7 +199,7 @@ class ActionAjax extends Action {
 		/**
 		 * Комментарий существует?
 		 */
-		if (!($oComment=$this->Comment_GetCommentById(getRequest('idComment',null,'post')))) {
+		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('idComment',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_noexists'),$this->Lang_Get('error'));
 			return;
 		}
@@ -234,7 +234,7 @@ class ActionAjax extends Action {
 		/**
 		 * Как именно голосует пользователь
 		 */
-		$iValue=getRequest('value',null,'post');
+		$iValue=getRequestStr('value',null,'post');
 		if (!in_array($iValue,array('1','-1'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_value'),$this->Lang_Get('attention'));
 			return;
@@ -279,7 +279,7 @@ class ActionAjax extends Action {
 		/**
 		 * Топик существует?
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequest('idTopic',null,'post')))) {
+		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('idTopic',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -307,7 +307,7 @@ class ActionAjax extends Action {
 		/**
 		 * Как проголосовал пользователь
 		 */
-		$iValue=getRequest('value',null,'post');
+		$iValue=getRequestStr('value',null,'post');
 		if (!in_array($iValue,array('1','-1','0'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('attention'));
 			return;
@@ -372,7 +372,7 @@ class ActionAjax extends Action {
 		/**
 		 * Блог существует?
 		 */
-		if (!($oBlog=$this->Blog_GetBlogById(getRequest('idBlog',null,'post')))) {
+		if (!($oBlog=$this->Blog_GetBlogById(getRequestStr('idBlog',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -395,7 +395,7 @@ class ActionAjax extends Action {
 		 */
 		switch($this->ACL_CanVoteBlog($this->oUserCurrent,$oBlog)) {
 			case ModuleACL::CAN_VOTE_BLOG_TRUE:
-				$iValue=getRequest('value',null,'post');
+				$iValue=getRequestStr('value',null,'post');
 				if (in_array($iValue,array('1','-1'))) {
 					$oBlogVote=Engine::GetEntity('Vote');
 					$oBlogVote->setTargetId($oBlog->getId());
@@ -450,7 +450,7 @@ class ActionAjax extends Action {
 		/**
 		 * Пользователь существует?
 		 */
-		if (!($oUser=$this->User_GetUserById(getRequest('idUser',null,'post')))) {
+		if (!($oUser=$this->User_GetUserById(getRequestStr('idUser',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -478,7 +478,7 @@ class ActionAjax extends Action {
 		/**
 		 * Как проголосовал
 		 */
-		$iValue=getRequest('value',null,'post');
+		$iValue=getRequestStr('value',null,'post');
 		if (!in_array($iValue,array('1','-1'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('attention'));
 			return;
@@ -525,8 +525,8 @@ class ActionAjax extends Action {
 		/**
 		 * Параметры голосования
 		 */
-		$idAnswer=getRequest('idAnswer',null,'post');
-		$idTopic=getRequest('idTopic',null,'post');
+		$idAnswer=getRequestStr('idAnswer',null,'post');
+		$idTopic=getRequestStr('idTopic',null,'post');
 		/**
 		 * Топик существует?
 		 */
@@ -596,11 +596,11 @@ class ActionAjax extends Action {
 		/**
 		 * Объект уже должен быть в избранном
 		 */
-		if ($oFavourite=$this->Favourite_GetFavourite(getRequest('target_id'),getRequest('target_type'),$this->oUserCurrent->getId())) {
+		if ($oFavourite=$this->Favourite_GetFavourite(getRequestStr('target_id'),getRequestStr('target_type'),$this->oUserCurrent->getId())) {
 			/**
 			 * Обрабатываем теги
 			 */
-			$aTags=explode(',',trim((string)getRequest('tags'),"\r\n\t\0\x0B ."));
+			$aTags=explode(',',trim(getRequestStr('tags'),"\r\n\t\0\x0B ."));
 			$aTagsNew=array();
 			$aTagsNewLow=array();
 			$aTagsReturn=array();
@@ -642,7 +642,7 @@ class ActionAjax extends Action {
 		/**
 		 * Можно только добавить или удалить из избранного
 		 */
-		$iType=getRequest('type',null,'post');
+		$iType=getRequestStr('type',null,'post');
 		if (!in_array($iType,array('1','0'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -650,7 +650,7 @@ class ActionAjax extends Action {
 		/**
 		 * Топик существует?
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequest('idTopic',null,'post')))) {
+		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('idTopic',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -719,7 +719,7 @@ class ActionAjax extends Action {
 		/**
 		 * Можно только добавить или удалить из избранного
 		 */
-		$iType=getRequest('type',null,'post');
+		$iType=getRequestStr('type',null,'post');
 		if (!in_array($iType,array('1','0'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -727,7 +727,7 @@ class ActionAjax extends Action {
 		/**
 		 * Комментарий существует?
 		 */
-		if (!($oComment=$this->Comment_GetCommentById(getRequest('idComment',null,'post')))) {
+		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('idComment',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -789,7 +789,7 @@ class ActionAjax extends Action {
 		/**
 		 * Можно только добавить или удалить из избранного
 		 */
-		$iType=getRequest('type',null,'post');
+		$iType=getRequestStr('type',null,'post');
 		if (!in_array($iType,array('1','0'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -797,7 +797,7 @@ class ActionAjax extends Action {
 		/**
 		 *	Сообщение существует?
 		 */
-		if (!($oTalk=$this->Talk_GetTalkById(getRequest('idTalk',null,'post')))) {
+		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('idTalk',null,'post')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -965,7 +965,7 @@ class ActionAjax extends Action {
 		/**
 		 * Допустимый тип топика?
 		 */
-		if (!$this->Topic_IsAllowTopicType($sType=getRequest('topic_type'))) {
+		if (!$this->Topic_IsAllowTopicType($sType=getRequestStr('topic_type'))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_type_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -975,9 +975,9 @@ class ActionAjax extends Action {
 		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
 		$oTopic->_setValidateScenario($sType); // зависит от типа топика
 
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType($sType);
@@ -1023,7 +1023,7 @@ class ActionAjax extends Action {
 	 *
 	 */
 	protected function EventPreviewText() {
-		$sText=(string)getRequest('text',null,'post');
+		$sText=getRequestStr('text',null,'post');
 		$bSave=getRequest('save',null,'post');
 		/**
 		 * Экранировать или нет HTML теги
@@ -1163,7 +1163,7 @@ class ActionAjax extends Action {
 		/**
 		 * Комментарий существует?
 		 */
-		$idComment=getRequest('idComment',null,'post');
+		$idComment=getRequestStr('idComment',null,'post');
 		if (!($oComment=$this->Comment_GetCommentById($idComment))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
