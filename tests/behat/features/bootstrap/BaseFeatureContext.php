@@ -110,7 +110,7 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
-     * @Then /^I should see in element "([^"]*)" values:$/
+     * @Then /^I should see in element by css "([^"]*)" values:$/
      */
     public function iShouldSeeInContainerValues($objectId, TableNode $table)
     {
@@ -133,7 +133,7 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
-     * @Then /^I should not see in element "([^"]*)" values:$/
+     * @Then /^I should not see in element by css "([^"]*)" values:$/
      */
     public function iShouldNotSeeInContainerValues($objectId, TableNode $table)
     {
@@ -207,7 +207,7 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
-     * @Given /^I press element css "([^"]*)"$/
+     * @Given /^I press element by css "([^"]*)"$/
      */
     public function IPressElementCss($path)
     {
@@ -218,5 +218,19 @@ class BaseFeatureContext extends BehatContext
         else {
             throw new ExpectationException('Button not found', $this->getMinkContext()->getSession());
         }
+    }
+
+    /**
+     * @Then /^I set carma "([^"]*)" to user "([^"]*)"$/
+     */
+    public function iSetCarmaToUser($carmaPoints, $userName)
+    {
+        $oUser = $this->getEngine()->User_GetUserByLogin($userName);
+        if (!$oUser) {
+            throw new ExpectationException('User non exists', $this->getSession());
+        }
+
+        $oUser->setRating((int)$carmaPoints);
+        $this->getEngine()->User_Update($oUser);
     }
 }
