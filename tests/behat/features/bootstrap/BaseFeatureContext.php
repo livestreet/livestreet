@@ -132,6 +132,29 @@ class BaseFeatureContext extends BehatContext
         }
     }
 
+    /**
+     * @Then /^I should not see in element "([^"]*)" values:$/
+     */
+    public function iShouldNotSeeInContainerValues($objectId, TableNode $table)
+    {
+        $element = $this->getMinkContext()->getSession()->getPage()->find('css', "#{$objectId}");
+
+        if ($element) {
+            $content = $element->getHtml();
+
+            foreach ($table->getHash() as $genreHash) {
+                $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
+                if (preg_match($regex, $content)) {
+                    $message = sprintf('The string "%s" was found in container', $genreHash['value']);
+                    throw new ExpectationException($message, $this->getMinkContext()->getSession());
+                }
+            }
+        }
+        else {
+            throw new ExpectationException('Container not found', $this->getMinkContext()->getSession());
+        }
+    }
+
 
     /**
      * Get content type and compare with set
@@ -160,7 +183,7 @@ class BaseFeatureContext extends BehatContext
             throw new ExpectationException( sprintf('User %s not found', $sUserLogin), $this->getMinkContext()->getSession());
         }
 
-        $this->getEngine()->User_Authorization($oUser, false);
+        $this->getEngine()->User_Authorization($oUser, true);
         $oSession = $this->getEngine()->User_GetSessionByUserId($oUser->getId());
         if (!$oSession) {
             throw new ExpectationException( 'Session non created', $this->getMinkContext()->getSession());
@@ -183,5 +206,17 @@ class BaseFeatureContext extends BehatContext
         }
     }
 
-
+    /**
+     * @Given /^I press element css "([^"]*)"$/
+     */
+    public function IPressElementCss($path)
+    {
+        $element = $this->getMinkContext()->getSession()->getPage()->find('css', $path );
+        if ($element) {
+            $element->click();
+        }
+        else {
+            throw new ExpectationException('Button not found', $this->getMinkContext()->getSession());
+        }
+    }
 }
