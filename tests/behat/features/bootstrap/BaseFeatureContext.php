@@ -110,7 +110,7 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
-     * @Then /^I should see in element "([^"]*)" values:$/
+     * @Then /^I should see in element by css "([^"]*)" values:$/
      */
     public function iShouldSeeInContainerValues($objectId, TableNode $table)
     {
@@ -123,6 +123,29 @@ class BaseFeatureContext extends BehatContext
                 $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
                 if (!preg_match($regex, $content)) {
                     $message = sprintf('The string "%s" was not found anywhere in container', $genreHash['value']);
+                    throw new ExpectationException($message, $this->getMinkContext()->getSession());
+                }
+            }
+        }
+        else {
+            throw new ExpectationException('Container not found', $this->getMinkContext()->getSession());
+        }
+    }
+
+    /**
+     * @Then /^I should not see in element by css "([^"]*)" values:$/
+     */
+    public function iShouldNotSeeInContainerValues($objectId, TableNode $table)
+    {
+        $element = $this->getMinkContext()->getSession()->getPage()->find('css', "#{$objectId}");
+
+        if ($element) {
+            $content = $element->getHtml();
+
+            foreach ($table->getHash() as $genreHash) {
+                $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
+                if (preg_match($regex, $content)) {
+                    $message = sprintf('The string "%s" was found in container', $genreHash['value']);
                     throw new ExpectationException($message, $this->getMinkContext()->getSession());
                 }
             }
@@ -160,7 +183,7 @@ class BaseFeatureContext extends BehatContext
             throw new ExpectationException( sprintf('User %s not found', $sUserLogin), $this->getMinkContext()->getSession());
         }
 
-        $this->getEngine()->User_Authorization($oUser, false);
+        $this->getEngine()->User_Authorization($oUser, true);
         $oSession = $this->getEngine()->User_GetSessionByUserId($oUser->getId());
         if (!$oSession) {
             throw new ExpectationException( 'Session non created', $this->getMinkContext()->getSession());
@@ -183,5 +206,31 @@ class BaseFeatureContext extends BehatContext
         }
     }
 
+    /**
+     * @Given /^I press element by css "([^"]*)"$/
+     */
+    public function IPressElementCss($path)
+    {
+        $element = $this->getMinkContext()->getSession()->getPage()->find('css', $path );
+        if ($element) {
+            $element->click();
+        }
+        else {
+            throw new ExpectationException('Button not found', $this->getMinkContext()->getSession());
+        }
+    }
 
+    /**
+     * @Then /^I set carma "([^"]*)" to user "([^"]*)"$/
+     */
+    public function iSetCarmaToUser($carmaPoints, $userName)
+    {
+        $oUser = $this->getEngine()->User_GetUserByLogin($userName);
+        if (!$oUser) {
+            throw new ExpectationException('User non exists', $this->getSession());
+        }
+
+        $oUser->setRating((int)$carmaPoints);
+        $this->getEngine()->User_Update($oUser);
+    }
 }
