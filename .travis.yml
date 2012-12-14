@@ -19,7 +19,7 @@ before_script:
   # launch apache, MySQL and PHPUnit Selenium installers
   - ./tests/travis/apache_setup.sh
   - ./tests/travis/mysql_setup.sh
-  - mysql -u root -e "USE social_test; SHOW TABLES;"
+  - mysql -u root -e "USE social_test; SHOW TABLES;" | wc -l
   - cp ./config/config.test.php.dist config/config.test.php
   - cp ./config/config.test.php.dist config/config.local.php
   - sudo sed -i s/sql-mode/#sql-mode/ /etc/mysql/my.cnf
@@ -28,8 +28,7 @@ before_script:
 
   # get HTML of main page (for debug)
   - firefox --version
-  - wget -O /tmp/livestreet.test http://livestreet.test
-  - cat /tmp/livestreet.test
+  - wget -S http://livestreet.test -O /dev/null
 
   # start virtual display
   - sh -e /etc/init.d/xvfb start
@@ -40,7 +39,5 @@ before_script:
   - java -jar /tmp/selenium-server-standalone.jar > /dev/null &
   - sleep 5
 
-  # goto test's folder
-  - cd tests/behat/
 
-script: HTTP_APP_ENV=test php behat.phar
+script: HTTP_APP_ENV=test php tests/behat/behat.phar -c tests/behat/behat.yml
