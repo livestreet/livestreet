@@ -80,6 +80,7 @@ class ActionTag extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('sTag',$sTag);
+		$this->Viewer_SetHtmlCanonical(Router::GetPath('tag').htmlspecialchars($sTag));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('tag_title'));
 		$this->Viewer_AddHtmlTitle($sTag);
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'tag/'.$sTag.'/',$sTag);
