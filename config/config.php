@@ -83,6 +83,10 @@ $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compil
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
 /**
+* включение/включение проверки изменений в шаблоне. false - при измении шаблона необходимо удалять скомпилированный шаблон для того что бы изменения вступили в силу 
+*/
+$config['smarty']['compile_check']    = false; 
+/**
  * Настройки плагинов
  */
 $config['sys']['plugins']['activation_file'] = 'plugins.dat'; // файл со списком активных плагинов в каталоге /plugins/
