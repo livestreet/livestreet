@@ -215,7 +215,7 @@ class ModuleViewer extends Module {
 		if(!is_dir($sCompilePath)) @mkdir($sCompilePath);
 		$this->oSmarty->setCompileDir($sCompilePath);
 		$this->oSmarty->setCacheDir(Config::Get('path.smarty.cache'));
-		$this->oSmarty->setPluginsDir(array_merge(array(Config::Get('path.smarty.plug'),'plugins'),$this->oSmarty->getPluginsDir()));
+		$this->oSmarty->addPluginsDir(array(Config::Get('path.smarty.plug'),'plugins'));
 		/**
 		 * Получаем настройки JS, CSS файлов
 		 */
