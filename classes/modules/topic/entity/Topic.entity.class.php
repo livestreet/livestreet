@@ -395,6 +395,39 @@ class ModuleTopic_EntityTopic extends Entity {
 		return false;
 	}
 	/**
+	 * Проверяет разрешение на удаление топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowDelete() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowDeleteTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на редактирование топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowEdit() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowEditTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на какое-либо действие для топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowAction() {
+		if ($this->User_GetUserCurrent()) {
+			return $this->getIsAllowEdit() || $this->getIsAllowDelete();
+		}
+		return false;
+	}
+	/**
 	 * Возвращает количество добавивших топик в избранное
 	 *
 	 * @return int|null
