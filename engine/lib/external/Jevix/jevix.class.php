@@ -123,6 +123,8 @@ class Jevix{
 	protected $tagsStack;
 	protected $openedTag;
 	protected $autoReplace; // Автозамена
+	protected $linkProtocolAllow=array();
+	protected $linkProtocolAllowDefault=array('http','https','ftp');
 	protected $isXHTMLMode  = true; // <br/>, <img/>
 	protected $isAutoBrMode = true; // \n = <br/>
 	protected $isAutoLinkMode = true;
@@ -369,6 +371,23 @@ class Jevix{
 	 */
 	function cfgSetAutoReplace($from, $to){
 		$this->autoReplace = array('from' => $from, 'to' => $to);
+	}
+
+	/**
+	 * Устанавливает список разрешенных протоколов для ссылок (http, ftp и т.п.)
+	 *
+	 * @param array $aProtocol Список протоколов
+	 * @param bool $bClearDefault Удалить дефолтные протоколы?
+	 */
+	function cfgSetLinkProtocolAllow($aProtocol, $bClearDefault=false){
+		if (!is_array($aProtocol)) {
+			$aProtocol=array($aProtocol);
+		}
+		if ($bClearDefault) {
+			$this->linkProtocolAllow=$aProtocol;
+		} else {
+			$this->linkProtocolAllow=array_merge($this->linkProtocolAllowDefault,$aProtocol);
+		}
 	}
 
 	/**
@@ -984,7 +1003,8 @@ class Jevix{
 							continue(2);
 						}
 						// HTTP в начале если нет
-						if(!preg_match('/^(http|https|ftp):\/\//ui', $value) && !preg_match('/^(\/|\#)/ui', $value) && !preg_match('/^(mailto):/ui', $value) ) $value = 'http://'.$value;
+						$sProtocols=join('|',$this->linkProtocolAllow ? $this->linkProtocolAllow : $this->linkProtocolAllowDefault);
+						if(!preg_match('/^('.$sProtocols.'):\/\//ui', $value) && !preg_match('/^(\/|\#)/ui', $value) && !preg_match('/^(mailto):/ui', $value) ) $value = 'http://'.$value;
 						break;
 
 					case '#image':
