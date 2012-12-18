@@ -992,16 +992,10 @@ class ActionAjax extends Action {
 		/**
 		 * Формируем текст топика
 		 */
-		if (in_array($sType,array('link','question'))) {
-			$oTopic->setCutText(null);
-			$oTopic->setText(htmlspecialchars($oTopic->getTextSource()));
-			$oTopic->setTextShort(htmlspecialchars($oTopic->getTextSource()));
-		} else {
-			list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
-			$oTopic->setCutText($sTextCut);
-			$oTopic->setText($this->Text_Parser($sTextNew));
-			$oTopic->setTextShort($this->Text_Parser($sTextShort));
-		}
+		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
+		$oTopic->setCutText($sTextCut);
+		$oTopic->setText($this->Text_Parser($sTextNew));
+		$oTopic->setTextShort($this->Text_Parser($sTextShort));
 		/**
 		 * Рендерим шаблон для предпросмотра топика
 		 */
