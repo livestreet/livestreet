@@ -121,7 +121,7 @@ $config['sys']['mail']['include_talk']     = true;                   // Вклю
  */
 // Устанавливаем настройки кеширования
 $config['sys']['cache']['use']    = true;               // использовать кеширование или нет
-$config['sys']['cache']['type']   = 'file';             // тип кеширования: file и memory. memory использует мемкеш
+$config['sys']['cache']['type']   = 'file';             // тип кеширования: file, xcache и memory. memory использует мемкеш, xcache - использует XCache
 $config['sys']['cache']['dir']    = '___path.root.server___/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 $config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
 $config['sys']['cache']['directory_level'] = 1;         // уровень вложенности директорий файлового кеша
