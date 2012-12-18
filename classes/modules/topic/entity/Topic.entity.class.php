@@ -360,6 +360,14 @@ class ModuleTopic_EntityTopic extends Entity {
 		}
 	}
 	/**
+	 * Возвращает полный URL до страницы редактировани топика
+	 *
+	 * @return string
+	 */
+	public function getUrlEdit() {
+		return Router::GetPath($this->getType()).'edit/'.$this->getId().'/';
+	}
+	/**
 	 * Возвращает объект голосования за топик текущим пользователем
 	 *
 	 * @return ModuleVote_EntityVote|null
