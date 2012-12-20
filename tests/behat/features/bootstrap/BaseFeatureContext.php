@@ -235,17 +235,11 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
-     * @When /^I put the file "([^"]*)" to "([^"]*)" for plugin "([^"]*)"$/
+     * @When /^I put the file "([^"]*)" to "([^"]*)"$/
      */
-    public function iPutTheFileTo($fileName, $path, $plugin)
+    public function iPutTheFileTo($fileName, $path)
     {
-        if ($plugin != 'main') {
-            $fixturePath = realpath((dirname(__FILE__)) . "/../../../../plugins/{$plugin}/tests/fixtures/");
-        }
-        else {
-            $fixturePath = realpath((dirname(__FILE__)) . "/../../../../tests/fixtures/");
-        }
-
+        $fixturePath = realpath((dirname(__FILE__)) . "/../../../../");
         $this->getMinkContext()->attachFileToField($path, $fixturePath . $fileName);
     }
 }
