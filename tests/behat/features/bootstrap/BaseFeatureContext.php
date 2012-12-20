@@ -233,4 +233,13 @@ class BaseFeatureContext extends BehatContext
         $oUser->setRating((int)$carmaPoints);
         $this->getEngine()->User_Update($oUser);
     }
+
+    /**
+     * @When /^I put the file "([^"]*)" to "([^"]*)"$/
+     */
+    public function iPutTheFileTo($fileName, $path)
+    {
+        $fixturePath = realpath((dirname(__FILE__)) . "/../../../../");
+        $this->getMinkContext()->attachFileToField($path, $fixturePath . $fileName);
+    }
 }
