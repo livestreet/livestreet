@@ -233,4 +233,19 @@ class BaseFeatureContext extends BehatContext
         $oUser->setRating((int)$carmaPoints);
         $this->getEngine()->User_Update($oUser);
     }
+
+    /**
+     * @When /^I put the file "([^"]*)" to "([^"]*)" for plugin "([^"]*)"$/
+     */
+    public function iPutTheFileTo($fileName, $path, $plugin)
+    {
+        if ($plugin != 'main') {
+            $fixturePath = realpath((dirname(__FILE__)) . "/../../../../plugins/{$plugin}/tests/fixtures/");
+        }
+        else {
+            $fixturePath = realpath((dirname(__FILE__)) . "/../../../../tests/fixtures/");
+        }
+
+        $this->getMinkContext()->attachFileToField($path, $fixturePath . $fileName);
+    }
 }
