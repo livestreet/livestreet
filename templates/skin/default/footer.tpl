@@ -1,5 +1,5 @@
-			{hook run='content_end'}
-		</div> <!-- /content -->
+				{hook run='content_end'}
+			</div> <!-- /content -->
 
 		{if !$noSidebar}
 			{include file='sidebar.tpl'}

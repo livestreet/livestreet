@@ -202,11 +202,12 @@ class ModuleViewer extends Module {
 		$this->sHtmlDescription=Config::Get('view.description');
 
 		/**
-		 * Создаём объект Smarty и устанавливаем необходиму параметры
+		 * Создаём объект Smarty и устанавливаем необходимые параметры
 		 */
 		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=error_reporting()^E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
+		$this->oSmarty->compile_check=Config::Get('smarty.compile_check');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */
@@ -214,7 +215,7 @@ class ModuleViewer extends Module {
 		if(!is_dir($sCompilePath)) @mkdir($sCompilePath);
 		$this->oSmarty->setCompileDir($sCompilePath);
 		$this->oSmarty->setCacheDir(Config::Get('path.smarty.cache'));
-		$this->oSmarty->setPluginsDir(array_merge(array(Config::Get('path.smarty.plug'),'plugins'),$this->oSmarty->getPluginsDir()));
+		$this->oSmarty->addPluginsDir(array(Config::Get('path.smarty.plug'),'plugins'));
 		/**
 		 * Получаем настройки JS, CSS файлов
 		 */
@@ -1029,13 +1030,12 @@ class ModuleViewer extends Module {
 	 * использует файловое кеширование
 	 *
 	 * @param  array  $aFiles	Список файлов
-	 * @param  string $sType	Тип файло - js, css
+	 * @param  string $sType	Тип файла - js, css
 	 * @return array
 	 */
 	protected function Compress($aFiles,$sType) {
 		$sCacheDir  = $this->sCacheDir."/".Config::Get('view.skin');
 		$sCacheName = $sCacheDir."/".md5(serialize($aFiles).'_head').".{$sType}";
-		$sPathServer = Config::Get('path.root.server');
 		$sPathWeb    = Config::Get('path.root.web');
 		/**
 		 * Если кеш существует, то берем из кеша
@@ -1054,7 +1054,7 @@ class ModuleViewer extends Module {
 			ob_start();
 			foreach ($aFiles as $sFile) {
 				// если файл локальный
-				if (strpos($sFile,Config::Get('path.root.web'))!==false) {
+				if (strpos($sFile, $sPathWeb)!==false) {
 					$sFile=$this->GetServerPath($sFile);
 				}
 				list($sFile,)=explode('?',$sFile,2);

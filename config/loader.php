@@ -18,7 +18,7 @@
 /**
  * Основные константы
  */
-define('LS_VERSION','1.0.1');
+define('LS_VERSION','1.0.2.dev');
 
 /**
  * Operations with Config object
@@ -48,7 +48,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -114,7 +114,7 @@ if ($hDirConfig = opendir($sDirConfig)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -157,7 +157,7 @@ if($aPluginsList=@file($sPluginsListFile)) {
 						// то сливаем старые и новое значения ассоциативно
 						Config::Set(
 							$sKey,
-							func_array_merge_assoc(Config::Get($sKey), $aConfig) 
+							func_array_merge_assoc(Config::Get($sKey), $aConfig)
 						);
 					}
 				}
@@ -170,7 +170,7 @@ if($aPluginsList=@file($sPluginsListFile)) {
 		if($aIncludeFiles and count($aIncludeFiles)) {
 			foreach ($aIncludeFiles as $sPath) {
 				require_once($sPath);
-			}		
+			}
 		}
 	}
 }
