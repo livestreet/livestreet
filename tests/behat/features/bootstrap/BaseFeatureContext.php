@@ -25,6 +25,7 @@ class BaseFeatureContext extends BehatContext
 
     public function __construct()
     {
+        $this->sDirRoot = dirname(realpath((dirname(__FILE__)) . "/../../../"));
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
@@ -241,5 +242,21 @@ class BaseFeatureContext extends BehatContext
     {
         $fixturePath = realpath((dirname(__FILE__)) . "/../../../../");
         $this->getMinkContext()->attachFileToField($path, $fixturePath . $fileName);
+    }
+
+    /**
+     * @Then /^run script "([^"]*)" and result should contain "([^"]*)"$/
+     */
+    public function runScript($scriptPath, $regex)
+    {
+        if (!file_exists($this->sDirRoot . $scriptPath)) {
+            throw new ExpectationException('Script file not found', $this->getMinkContext()->getSession());
+        }
+
+        $response = shell_exec($this->sDirRoot . $scriptPath);
+
+        if (!preg_match($regex, $response)) {
+            throw new ExpectationException('Invalid script response', $this->getMinkContext()->getSession());
+        }
     }
 }
