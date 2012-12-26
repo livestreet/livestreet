@@ -739,6 +739,7 @@ class ActionBlog extends Action {
 		$sTextSeo=strip_tags($oTopic->getText());
 		$this->Viewer_SetHtmlDescription(func_text_words($sTextSeo, Config::Get('seo.description_words_count')));
 		$this->Viewer_SetHtmlKeywords($oTopic->getTags());
+		$this->Viewer_SetHtmlCanonical($oTopic->getUrl());
 		/**
 		 * Вызов хуков
 		 */
