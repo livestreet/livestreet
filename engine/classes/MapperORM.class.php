@@ -231,7 +231,7 @@ class MapperORM extends Mapper {
 		$sFilterFields='';
 		foreach ($aFilterFields as $k => $v) {
 			$aK=explode(' ',trim($k));
-			$sFieldCurrent=$aK[0];
+			$sFieldCurrent=$this->oDb->escape($aK[0],true);
 			$sConditionCurrent=' = ';
 			if (count($aK)>1) {
 				$sConditionCurrent=strtolower($aK[1]);
@@ -273,7 +273,7 @@ class MapperORM extends Mapper {
 				} elseif (!in_array($value,array('asc','desc'))) {
 					$value='asc';
 				}
-				$key = $oEntitySample->_getField($key);
+				$key = $this->oDb->escape($oEntitySample->_getField($key),true);
 				$sOrder.=" {$key} {$value},";
 			}
 			$sOrder=trim($sOrder,',');
