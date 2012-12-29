@@ -360,6 +360,14 @@ class ModuleTopic_EntityTopic extends Entity {
 		}
 	}
 	/**
+	 * Возвращает полный URL до страницы редактировани топика
+	 *
+	 * @return string
+	 */
+	public function getUrlEdit() {
+		return Router::GetPath($this->getType()).'edit/'.$this->getId().'/';
+	}
+	/**
 	 * Возвращает объект голосования за топик текущим пользователем
 	 *
 	 * @return ModuleVote_EntityVote|null
@@ -383,6 +391,39 @@ class ModuleTopic_EntityTopic extends Entity {
 	public function getIsFavourite() {
 		if ($this->getFavourite()) {
 			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на удаление топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowDelete() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowDeleteTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на редактирование топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowEdit() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowEditTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на какое-либо действие для топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowAction() {
+		if ($this->User_GetUserCurrent()) {
+			return $this->getIsAllowEdit() || $this->getIsAllowDelete();
 		}
 		return false;
 	}

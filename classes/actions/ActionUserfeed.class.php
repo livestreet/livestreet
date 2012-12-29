@@ -92,7 +92,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Проверяем последний просмотренный ID топика
 		 */
-		$iFromId = getRequest('last_id');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -132,7 +132,7 @@ class ActionUserfeed extends Action {
 		if (!getRequest('id')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-		$sType = (string)getRequest('type');
+		$sType = getRequestStr('type');
 		$iType = null;
 		/**
 		 * Определяем тип подписки
@@ -143,7 +143,7 @@ class ActionUserfeed extends Action {
 				/**
 				 * Проверяем существование блога
 				 */
-				if (!$this->Blog_GetBlogById(getRequest('id'))) {
+				if (!$this->Blog_GetBlogById(getRequestStr('id'))) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return;
 				}
@@ -153,11 +153,11 @@ class ActionUserfeed extends Action {
 				/**
 				 * Проверяем существование пользователя
 				 */
-				if (!$this->User_GetUserById(getRequest('id'))) {
+				if (!$this->User_GetUserById(getRequestStr('id'))) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return;
 				}
-				if ($this->oUserCurrent->getId() == getRequest('id')) {
+				if ($this->oUserCurrent->getId() == getRequestStr('id')) {
 					$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
 					return;
 				}
@@ -169,7 +169,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Подписываем
 		 */
-		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequestStr('id'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**
@@ -191,9 +191,9 @@ class ActionUserfeed extends Action {
 		/**
 		 * Проверяем существование прользователя
 		 */
-		$oUser = $this->User_getUserByLogin(getRequest('login'));
+		$oUser = $this->User_getUserByLogin(getRequestStr('login'));
 		if (!$oUser) {
-			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>htmlspecialchars(getRequest('login')))),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>htmlspecialchars(getRequestStr('login')))),$this->Lang_Get('error'));
 			return;
 		}
 		/**
@@ -231,7 +231,7 @@ class ActionUserfeed extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		$sType = (string)getRequest('type');
+		$sType = getRequestStr('type');
 		$iType = null;
 		/**
 		 * Определяем от чего отписываемся
@@ -250,7 +250,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Отписываем пользователя
 		 */
-		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequest('id'));
+		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequestStr('id'));
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**

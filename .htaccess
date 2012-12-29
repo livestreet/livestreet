@@ -12,4 +12,8 @@ RewriteRule ^(.*)$ ./index.php
 order allow,deny
 deny from all
 </Files>
+<Files "plugin.xml">
+order allow,deny
+deny from all
+</Files>
 

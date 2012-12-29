@@ -360,8 +360,8 @@ class ActionSettings extends Action {
 		if (isPost('submit_settings_tuning')) {
 			$this->Security_ValidateSendForm();
 
-			if (in_array(getRequest('settings_general_timezone'),$aTimezoneList)) {
-				$this->oUserCurrent->setSettingsTimezone(getRequest('settings_general_timezone'));
+			if (in_array(getRequestStr('settings_general_timezone'),$aTimezoneList)) {
+				$this->oUserCurrent->setSettingsTimezone(getRequestStr('settings_general_timezone'));
 			}
 
 			$this->oUserCurrent->setSettingsNoticeNewTopic( getRequest('settings_notice_new_topic') ? 1 : 0 );
@@ -420,7 +420,7 @@ class ActionSettings extends Action {
 			/**
 			 * Емайл корректен?
 			 */
-			if (!func_check(getRequest('invite_mail'),'mail')) {
+			if (!func_check(getRequestStr('invite_mail'),'mail')) {
 				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
@@ -433,7 +433,7 @@ class ActionSettings extends Action {
 			 */
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
-				$this->Notify_SendInvite($this->oUserCurrent,getRequest('invite_mail'),$oInvite);
+				$this->Notify_SendInvite($this->oUserCurrent,getRequestStr('invite_mail'),$oInvite);
 				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
 				$this->Hook_Run('settings_invate_send_after', array('oUser'=>$this->oUserCurrent));
 			}
@@ -461,8 +461,8 @@ class ActionSettings extends Action {
 			/**
 			 * Проверка мыла
 			 */
-			if (func_check(getRequest('mail'),'mail')) {
-				if ($oUserMail=$this->User_GetUserByMail(getRequest('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
+			if (func_check(getRequestStr('mail'),'mail')) {
+				if ($oUserMail=$this->User_GetUserByMail(getRequestStr('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
 					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
 					$bError=true;
 				}
@@ -473,11 +473,11 @@ class ActionSettings extends Action {
 			/**
 			 * Проверка на смену пароля
 			 */
-			if (getRequest('password','')!='') {
-				if (func_check(getRequest('password'),'password',5)) {
-					if (getRequest('password')==getRequest('password_confirm')) {
-						if (func_encrypt(getRequest('password_now'))==$this->oUserCurrent->getPassword()) {
-							$this->oUserCurrent->setPassword(func_encrypt(getRequest('password')));
+			if (getRequestStr('password','')!='') {
+				if (func_check(getRequestStr('password'),'password',5)) {
+					if (getRequestStr('password')==getRequestStr('password_confirm')) {
+						if (func_encrypt(getRequestStr('password_now'))==$this->oUserCurrent->getPassword()) {
+							$this->oUserCurrent->setPassword(func_encrypt(getRequestStr('password')));
 						} else {
 							$bError=true;
 							$this->Message_AddError($this->Lang_Get('settings_profile_password_current_error'),$this->Lang_Get('error'));
@@ -508,8 +508,8 @@ class ActionSettings extends Action {
 					/**
 					 * Подтверждение смены емайла
 					 */
-					if (getRequest('mail') and getRequest('mail')!=$this->oUserCurrent->getMail()) {
-						if ($oChangemail=$this->User_MakeUserChangemail($this->oUserCurrent,getRequest('mail'))) {
+					if (getRequestStr('mail') and getRequestStr('mail')!=$this->oUserCurrent->getMail()) {
+						if ($oChangemail=$this->User_MakeUserChangemail($this->oUserCurrent,getRequestStr('mail'))) {
 							if ($oChangemail->getMailFrom()) {
 								$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
 							} else {
@@ -556,43 +556,43 @@ class ActionSettings extends Action {
 			 * Определяем гео-объект
 			 */
 			if (getRequest('geo_city')) {
-				$oGeoObject=$this->Geo_GetGeoObject('city',getRequest('geo_city'));
+				$oGeoObject=$this->Geo_GetGeoObject('city',getRequestStr('geo_city'));
 			} elseif (getRequest('geo_region')) {
-				$oGeoObject=$this->Geo_GetGeoObject('region',getRequest('geo_region'));
+				$oGeoObject=$this->Geo_GetGeoObject('region',getRequestStr('geo_region'));
 			} elseif (getRequest('geo_country')) {
-				$oGeoObject=$this->Geo_GetGeoObject('country',getRequest('geo_country'));
+				$oGeoObject=$this->Geo_GetGeoObject('country',getRequestStr('geo_country'));
 			} else {
 				$oGeoObject=null;
 			}
 			/**
 			 * Проверяем имя
 			 */
-			if (func_check(getRequest('profile_name'),'text',2,Config::Get('module.user.name_max'))) {
-				$this->oUserCurrent->setProfileName(getRequest('profile_name'));
+			if (func_check(getRequestStr('profile_name'),'text',2,Config::Get('module.user.name_max'))) {
+				$this->oUserCurrent->setProfileName(getRequestStr('profile_name'));
 			} else {
 				$this->oUserCurrent->setProfileName(null);
 			}
 			/**
 			 * Проверяем пол
 			 */
-			if (in_array(getRequest('profile_sex'),array('man','woman','other'))) {
-				$this->oUserCurrent->setProfileSex(getRequest('profile_sex'));
+			if (in_array(getRequestStr('profile_sex'),array('man','woman','other'))) {
+				$this->oUserCurrent->setProfileSex(getRequestStr('profile_sex'));
 			} else {
 				$this->oUserCurrent->setProfileSex('other');
 			}
 			/**
 			 * Проверяем дату рождения
 			 */
-			if (func_check(getRequest('profile_birthday_day'),'id',1,2) and func_check(getRequest('profile_birthday_month'),'id',1,2) and func_check(getRequest('profile_birthday_year'),'id',4,4)) {
-				$this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",mktime(0,0,0,getRequest('profile_birthday_month'),getRequest('profile_birthday_day'),getRequest('profile_birthday_year'))));
+			if (func_check(getRequestStr('profile_birthday_day'),'id',1,2) and func_check(getRequestStr('profile_birthday_month'),'id',1,2) and func_check(getRequestStr('profile_birthday_year'),'id',4,4)) {
+				$this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",mktime(0,0,0,getRequestStr('profile_birthday_month'),getRequestStr('profile_birthday_day'),getRequestStr('profile_birthday_year'))));
 			} else {
 				$this->oUserCurrent->setProfileBirthday(null);
 			}
 			/**
 			 * Проверяем информацию о себе
 			 */
-			if (func_check(getRequest('profile_about'),'text',1,3000)) {
-				$this->oUserCurrent->setProfileAbout($this->Text_Parser(getRequest('profile_about')));
+			if (func_check(getRequestStr('profile_about'),'text',1,3000)) {
+				$this->oUserCurrent->setProfileAbout($this->Text_Parser(getRequestStr('profile_about')));
 			} else {
 				$this->oUserCurrent->setProfileAbout(null);
 			}
@@ -644,7 +644,7 @@ class ActionSettings extends Action {
 					$aData = array();
 					foreach ($aFields as $iId => $aField) {
 						if (isset($_REQUEST['profile_user_field_'.$iId])) {
-							$aData[$iId] = (string)getRequest('profile_user_field_'.$iId);
+							$aData[$iId] = getRequestStr('profile_user_field_'.$iId);
 						}
 					}
 					$this->User_setUserFieldsValues($this->oUserCurrent->getId(), $aData);
@@ -661,6 +661,7 @@ class ActionSettings extends Action {
 					$aFieldsContactValue=getRequest('profile_user_field_value');
 					if (is_array($aFieldsContactType)) {
 						foreach($aFieldsContactType as $k=>$v) {
+							$v=(string)$v;
 							if (isset($aFields[$v]) and isset($aFieldsContactValue[$k]) and is_string($aFieldsContactValue[$k])) {
 								$this->User_setUserFieldsValues($this->oUserCurrent->getId(), array($v=>$aFieldsContactValue[$k]), Config::Get('module.user.userfield_max_identical'));
 							}

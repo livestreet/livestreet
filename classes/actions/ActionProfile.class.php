@@ -454,8 +454,8 @@ class ActionProfile extends Action {
 		$oWall->_setValidateScenario('add');
 		$oWall->setWallUserId($this->oUserProfile->getId());
 		$oWall->setUserId($this->oUserCurrent->getId());
-		$oWall->setText(getRequest('sText'));
-		$oWall->setPid(getRequest('iPid'));
+		$oWall->setText(getRequestStr('sText'));
+		$oWall->setPid(getRequestStr('iPid'));
 
 		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
 		if ($oWall->_Validate()) {
@@ -506,7 +506,7 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем запись
 		 */
-		if (!($oWall=$this->Wall_GetWallById(getRequest('iId')))) {
+		if (!($oWall=$this->Wall_GetWallById(getRequestStr('iId')))) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -565,7 +565,7 @@ class ActionProfile extends Action {
 		if (!$this->CheckUserProfile()) {
 			return parent::EventNotFound();
 		}
-		if (!($oWall=$this->Wall_GetWallById(getRequest('iPid'))) or $oWall->getPid()) {
+		if (!($oWall=$this->Wall_GetWallById(getRequestStr('iPid'))) or $oWall->getPid()) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -611,9 +611,9 @@ class ActionProfile extends Action {
 		 * Создаем заметку и проводим валидацию
 		 */
 		$oNote=Engine::GetEntity('ModuleUser_EntityNote');
-		$oNote->setTargetUserId(getRequest('iUserId'));
+		$oNote->setTargetUserId(getRequestStr('iUserId'));
 		$oNote->setUserId($this->oUserCurrent->getId());
-		$oNote->setText((string)getRequest('text'));
+		$oNote->setText(getRequestStr('text'));
 
 		if ($oNote->_Validate()) {
 			/**
@@ -641,7 +641,7 @@ class ActionProfile extends Action {
 			return parent::EventNotFound();
 		}
 
-		if (!($oUserTarget=$this->User_GetUserById(getRequest('iUserId')))) {
+		if (!($oUserTarget=$this->User_GetUserById(getRequestStr('iUserId')))) {
 			return parent::EventNotFound();
 		}
 		if (!($oNote=$this->User_GetUserNote($oUserTarget->getId(),$this->oUserCurrent->getId()))) {
@@ -696,7 +696,7 @@ class ActionProfile extends Action {
 		/**
 		 * Из реквеста дешефруем ID польователя
 		 */
-		$sUserId=xxtea_decrypt(base64_decode(rawurldecode((string)getRequest('code'))), Config::Get('module.talk.encrypt'));
+		$sUserId=xxtea_decrypt(base64_decode(rawurldecode(getRequestStr('code'))), Config::Get('module.talk.encrypt'));
 		if (!$sUserId) {
 			return $this->EventNotFound();
 		}
@@ -776,7 +776,7 @@ class ActionProfile extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUserId=getRequest('idUser',null,'post');
+		$sUserId=getRequestStr('idUser',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -896,8 +896,8 @@ class ActionProfile extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUserId=getRequest('idUser');
-		$sUserText=getRequest('userText','');
+		$sUserId=getRequestStr('idUser');
+		$sUserText=getRequestStr('userText','');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -1120,7 +1120,7 @@ class ActionProfile extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUserId=getRequest('idUser',null,'post');
+		$sUserId=getRequestStr('idUser',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */

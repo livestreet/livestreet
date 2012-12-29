@@ -674,6 +674,7 @@ class ModuleComment_MapperComment extends Mapper {
 				target_id IN (?a)
 				AND
 				target_type = ?
+				ORDER BY comment_id DESC
 		";
 		if ($this->oDb->query($sql,$aTargetId,$sTargetType)) {
 			return true;

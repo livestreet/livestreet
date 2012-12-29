@@ -216,7 +216,7 @@ class ActionTalk extends Action {
 		/**
 		 * Дата старта поиска
 		 */
-		if($start=getRequest('start')) {
+		if($start=getRequestStr('start')) {
 			if(func_check($start,'text',6,10) && substr_count($start,'.')==2) {
 				list($d,$m,$y)=explode('.',$start);
 				if(@checkdate($m,$d,$y)) {
@@ -239,7 +239,7 @@ class ActionTalk extends Action {
 		/**
 		 * Дата окончания поиска
 		 */
-		if($end=getRequest('end')) {
+		if($end=getRequestStr('end')) {
 			if(func_check($end,'text',6,10) && substr_count($end,'.')==2) {
 				list($d,$m,$y)=explode('.',$end);
 				if(@checkdate($m,$d,$y)) {
@@ -377,7 +377,7 @@ class ActionTalk extends Action {
 		/**
 		 * Отправляем письмо
 		 */
-		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequest('talk_title'))),$this->Text_Parser(getRequest('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
+		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequestStr('talk_title'))),$this->Text_Parser(getRequestStr('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -463,14 +463,14 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем есть ли заголовок
 		 */
-		if (!func_check(getRequest('talk_title'),'text',2,200)) {
+		if (!func_check(getRequestStr('talk_title'),'text',2,200)) {
 			$this->Message_AddError($this->Lang_Get('talk_create_title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
-		if (!func_check(getRequest('talk_text'),'text',2,3000)) {
+		if (!func_check(getRequestStr('talk_text'),'text',2,3000)) {
 			$this->Message_AddError($this->Lang_Get('talk_create_text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
@@ -537,7 +537,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idCommentLast=getRequest('idCommentLast');
+		$idCommentLast=getRequestStr('idCommentLast');
 		/**
 		 * Проверям авторизован ли пользователь
 		 */
@@ -548,7 +548,7 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем разговор
 		 */
-		if (!($oTalk=$this->Talk_GetTalkById(getRequest('idTarget')))) {
+		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('idTarget')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -611,7 +611,7 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем разговор
 		 */
-		if (!($oTalk=$this->Talk_GetTalkById(getRequest('cmt_target_id')))) {
+		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('cmt_target_id')))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -629,7 +629,7 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем текст комментария
 		 */
-		$sText=$this->Text_Parser(getRequest('comment_text'));
+		$sText=$this->Text_Parser(getRequestStr('comment_text'));
 		if (!func_check($sText,'text',2,3000)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
 			return;
@@ -724,7 +724,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=(string)getRequest('users',null,'post');
+		$sUsers=getRequestStr('users',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -817,7 +817,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=(string)getRequest('idTarget',null,'post');
+		$idTarget=getRequestStr('idTarget',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -882,8 +882,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=(string)getRequest('idTarget',null,'post');
-		$idTalk=(string)getRequest('idTalk',null,'post');
+		$idTarget=getRequestStr('idTarget',null,'post');
+		$idTalk=getRequestStr('idTalk',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -960,8 +960,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=(string)getRequest('users',null,'post');
-		$idTalk=(string)getRequest('idTalk',null,'post');
+		$sUsers=getRequestStr('users',null,'post');
+		$idTalk=getRequestStr('idTalk',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */

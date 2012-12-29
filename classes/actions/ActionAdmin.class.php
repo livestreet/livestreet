@@ -148,7 +148,7 @@ class ActionAdmin extends Action {
 		/**
 		 * Получаем название плагина и действие
 		 */
-		if($sPlugin=getRequest('plugin',null,'get') and $sAction=getRequest('action',null,'get')) {
+		if($sPlugin=getRequestStr('plugin',null,'get') and $sAction=getRequestStr('action',null,'get')) {
 			return $this->SubmitManagePlugin($sPlugin,$sAction);
 		}
 		/**
@@ -171,7 +171,7 @@ class ActionAdmin extends Action {
 	 */
 	protected function EventUserFields()
 	{
-		switch(getRequest('action')) {
+		switch(getRequestStr('action')) {
 			/**
 			 * Создание нового поля
 			 */
@@ -184,11 +184,11 @@ class ActionAdmin extends Action {
 					return;
 				}
 				$oField = Engine::GetEntity('User_Field');
-				$oField->setName(getRequest('name'));
-				$oField->setTitle(getRequest('title'));
-				$oField->setPattern(getRequest('pattern'));
-				if (in_array(getRequest('type'),$this->User_GetUserFieldTypes())) {
-					$oField->setType(getRequest('type'));
+				$oField->setName(getRequestStr('name'));
+				$oField->setTitle(getRequestStr('title'));
+				$oField->setPattern(getRequestStr('pattern'));
+				if (in_array(getRequestStr('type'),$this->User_GetUserFieldTypes())) {
+					$oField->setType(getRequestStr('type'));
 				} else {
 					$oField->setType('');
 				}
@@ -214,11 +214,11 @@ class ActionAdmin extends Action {
 				 * Обрабатываем как ajax запрос (json)
 				 */
 				$this->Viewer_SetResponseAjax('json');
-				if (!getRequest('id')) {
+				if (!getRequestStr('id')) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return;
 				}
-				$this->User_deleteUserField(getRequest('id'));
+				$this->User_deleteUserField(getRequestStr('id'));
 				$this->Message_AddNotice($this->Lang_Get('user_field_deleted'),$this->Lang_Get('attention'));
 				break;
 			/**
@@ -229,11 +229,11 @@ class ActionAdmin extends Action {
 				 * Обрабатываем как ajax запрос (json)
 				 */
 				$this->Viewer_SetResponseAjax('json');
-				if (!getRequest('id')) {
+				if (!getRequestStr('id')) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return;
 				}
-				if (!$this->User_userFieldExistsById(getRequest('id'))) {
+				if (!$this->User_userFieldExistsById(getRequestStr('id'))) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return false;
 				}
@@ -241,12 +241,12 @@ class ActionAdmin extends Action {
 					return;
 				}
 				$oField = Engine::GetEntity('User_Field');
-				$oField->setId(getRequest('id'));
-				$oField->setName(getRequest('name'));
-				$oField->setTitle(getRequest('title'));
-				$oField->setPattern(getRequest('pattern'));
-				if (in_array(getRequest('type'),$this->User_GetUserFieldTypes())) {
-					$oField->setType(getRequest('type'));
+				$oField->setId(getRequestStr('id'));
+				$oField->setName(getRequestStr('name'));
+				$oField->setTitle(getRequestStr('title'));
+				$oField->setPattern(getRequestStr('pattern'));
+				if (in_array(getRequestStr('type'),$this->User_GetUserFieldTypes())) {
+					$oField->setType(getRequestStr('type'));
 				} else {
 					$oField->setType('');
 				}
@@ -280,18 +280,18 @@ class ActionAdmin extends Action {
 	 */
 	public function checkUserField()
 	{
-		if (!getRequest('title')) {
+		if (!getRequestStr('title')) {
 			$this->Message_AddError($this->Lang_Get('user_field_error_add_no_title'),$this->Lang_Get('error'));
 			return false;
 		}
-		if (!getRequest('name')) {
+		if (!getRequestStr('name')) {
 			$this->Message_AddError($this->Lang_Get('user_field_error_add_no_name'),$this->Lang_Get('error'));
 			return false;
 		}
 		/**
 		 * Не допускаем дубликатов по имени
 		 */
-		if ($this->User_userFieldExistsByName(getRequest('name'), getRequest('id'))) {
+		if ($this->User_userFieldExistsByName(getRequestStr('name'), getRequestStr('id'))) {
 			$this->Message_AddError($this->Lang_Get('user_field_error_name_exists'),$this->Lang_Get('error'));
 			return false;
 		}

@@ -418,7 +418,7 @@ class ModuleTalk extends Module {
 			$aTalkId=array($aTalkId);
 		}
 		foreach ($aTalkId as $sTalkId) {
-			if ($oTalk=$this->Talk_GetTalkById($sTalkId)) {
+			if ($oTalk=$this->Talk_GetTalkById((string)$sTalkId)) {
 				if ($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$iUserId)) {
 					$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
 					if ($oTalk->getCommentIdLast()) {
@@ -447,7 +447,7 @@ class ModuleTalk extends Module {
 			$this->DeleteFavouriteTalk(
 				Engine::GetEntity('Favourite',
 								  array(
-									  'target_id' => $sTalkId,
+									  'target_id' => (string)$sTalkId,
 									  'target_type' => 'talk',
 									  'user_id' => $sUserId
 								  )
@@ -456,6 +456,7 @@ class ModuleTalk extends Module {
 		}
 		// Нужно почистить зависимые кеши
 		foreach ($aTalkId as $sTalkId) {
+			$sTalkId=(string)$sTalkId;
 			$this->Cache_Clean(
 				Zend_Cache::CLEANING_MODE_MATCHING_TAG,
 				array("update_talk_user_{$sTalkId}")
@@ -466,6 +467,7 @@ class ModuleTalk extends Module {
 
 		// Удаляем пустые беседы, если в них нет пользователей
 		foreach ($aTalkId as $sTalkId) {
+			$sTalkId=(string)$sTalkId;
 			if (!count($this->GetUsersTalk($sTalkId, array(self::TALK_USER_ACTIVE)))) {
 				$this->DeleteTalk($sTalkId);
 			}

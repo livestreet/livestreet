@@ -97,7 +97,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Существует ли топик
 		 */
-		$oTopic = $this->Topic_getTopicById(getRequest('topic_id'));
+		$oTopic = $this->Topic_getTopicById(getRequestStr('topic_id'));
 		if (!$oTopic || !getRequest('last_id')) {
 			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 			return false;
@@ -105,7 +105,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Получаем список фото
 		 */
-		$aPhotos = $oTopic->getPhotosetPhotos(getRequest('last_id'), Config::Get('module.topic.photoset.per_page'));
+		$aPhotos = $oTopic->getPhotosetPhotos(getRequestStr('last_id'), Config::Get('module.topic.photoset.per_page'));
 		$aResult = array();
 		if (count($aPhotos)) {
 			/**
@@ -137,7 +137,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Поиск фото по id
 		 */
-		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
+		$oPhoto = $this->Topic_getTopicPhotoById(getRequestStr('id'));
 		if ($oPhoto) {
 			if ($oPhoto->getTopicId()) {
 				/**
@@ -188,16 +188,16 @@ class ActionPhotoset extends Action {
 		/**
 		 * Поиск фото по id
 		 */
-		$oPhoto = $this->Topic_getTopicPhotoById(getRequest('id'));
+		$oPhoto = $this->Topic_getTopicPhotoById(getRequestStr('id'));
 		if ($oPhoto) {
 			if ($oPhoto->getTopicId()) {
 				// проверяем права на топик
 				if ($oTopic=$this->Topic_GetTopicById($oPhoto->getTopicId()) and $this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
-					$oPhoto->setDescription(htmlspecialchars(strip_tags(getRequest('text'))));
+					$oPhoto->setDescription(htmlspecialchars(strip_tags(getRequestStr('text'))));
 					$this->Topic_updateTopicPhoto($oPhoto);
 				}
 			} else {
-				$oPhoto->setDescription(htmlspecialchars(strip_tags(getRequest('text'))));
+				$oPhoto->setDescription(htmlspecialchars(strip_tags(getRequestStr('text'))));
 				$this->Topic_updateTopicPhoto($oPhoto);
 			}
 		}
@@ -232,12 +232,12 @@ class ActionPhotoset extends Action {
 			return false;
 		}
 
-		$iTopicId = getRequest('topic_id');
+		$iTopicId = getRequestStr('topic_id');
 		$sTargetId = null;
 		$iCountPhotos = 0;
 		// Если от сервера не пришёл id топика, то пытаемся определить временный код для нового топика. Если и его нет. то это ошибка
 		if (!$iTopicId) {
-			$sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequest('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
+			$sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequestStr('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
 			if (!$sTargetId) {
 				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 				return false;
@@ -430,10 +430,10 @@ class ActionPhotoset extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('photoset');
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
@@ -488,7 +488,7 @@ class ActionPhotoset extends Action {
 
 		$sTargetTmp=$_COOKIE['ls_photoset_target_tmp'];
 		$aPhotos = $this->Topic_getPhotosByTargetTmp($sTargetTmp);
-		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequest('topic_main_photo')) and $oPhotoMain->getTargetTmp()==$sTargetTmp)) {
+		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequestStr('topic_main_photo')) and $oPhotoMain->getTargetTmp()==$sTargetTmp)) {
 			$oPhotoMain=$aPhotos[0];
 		}
 		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());
@@ -586,10 +586,10 @@ class ActionPhotoset extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы
@@ -640,7 +640,7 @@ class ActionPhotoset extends Action {
 		$oTopic->setTextShort($this->Text_Parser($sTextShort));
 
 		$aPhotos = $oTopic->getPhotosetPhotos();
-		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequest('topic_main_photo')) and $oPhotoMain->getTopicId()==$oTopic->getId())) {
+		if (!($oPhotoMain=$this->Topic_getTopicPhotoById(getRequestStr('topic_main_photo')) and $oPhotoMain->getTopicId()==$oTopic->getId())) {
 			$oPhotoMain=$aPhotos[0];
 		}
 		$oTopic->setPhotosetMainPhotoId($oPhotoMain->getId());

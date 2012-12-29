@@ -161,6 +161,12 @@ return array(
 				array('±', '©', '©', '®', '©', '©', '®')
 			)
 		),
+		// Список допустимых протоколов для ссылок
+		'cfgSetLinkProtocolAllow' => array(
+			array(
+				array('http','https','ftp')
+			)
+		),
 		'cfgSetTagNoTypography' => array(			
 			array(
 				array('code','video','object')

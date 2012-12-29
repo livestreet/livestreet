@@ -87,8 +87,8 @@ class ActionLogin extends Action {
 				 * Определяем редирект
 				 */
 				$sUrl=Config::Get('module.user.redirect_after_login');
-				if (getRequest('return-path')) {
-					$sUrl=getRequest('return-path');
+				if (getRequestStr('return-path')) {
+					$sUrl=getRequestStr('return-path');
 				}
 				$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
 				return;
@@ -112,7 +112,7 @@ class ActionLogin extends Action {
 	protected function EventAjaxReactivation() {
 		$this->Viewer_SetResponseAjax('json');
 
-		if ((func_check(getRequest('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequest('mail')))) {
+		if ((func_check(getRequestStr('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequestStr('mail')))) {
 			if ($oUser->getActivate()) {
 				$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'));
 				return;
@@ -162,7 +162,7 @@ class ActionLogin extends Action {
 		/**
 		 * Пользователь с таким емайлом существует?
 		 */
-		if ((func_check(getRequest('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('mail')))) {
+		if ((func_check(getRequestStr('mail'),'mail') and $oUser=$this->User_GetUserByMail(getRequestStr('mail')))) {
 			/**
 			 * Формируем и отправляем ссылку на смену пароля
 			 */

@@ -136,7 +136,7 @@ class ActionStream extends Action {
 		/**
 		 * Активируем/деактивируем тип
 		 */
-		$this->Stream_switchUserEventType($this->oUserCurrent->getId(), getRequest('type'));
+		$this->Stream_switchUserEventType($this->oUserCurrent->getId(), getRequestStr('type'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**
@@ -157,7 +157,7 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequest('last_id');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -169,7 +169,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequest('date_last'));
+		$oViewer->Assign('sDateLast', getRequestStr('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
@@ -198,7 +198,7 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequest('last_id');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -210,7 +210,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequest('date_last'));
+		$oViewer->Assign('sDateLast', getRequestStr('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
@@ -239,12 +239,12 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequest('last_id');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		if (!($oUser=$this->User_GetUserById(getRequest('user_id')))) {
+		if (!($oUser=$this->User_GetUserById(getRequestStr('user_id')))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -255,7 +255,7 @@ class ActionStream extends Action {
 
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequest('date_last'));
+		$oViewer->Assign('sDateLast', getRequestStr('date_last'));
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
@@ -284,17 +284,17 @@ class ActionStream extends Action {
 		/**
 		 * Проверяем существование пользователя
 		 */
-		if (!$this->User_getUserById(getRequest('id'))) {
+		if (!$this->User_getUserById(getRequestStr('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-		if ($this->oUserCurrent->getId() == getRequest('id')) {
+		if ($this->oUserCurrent->getId() == getRequestStr('id')) {
 			$this->Message_AddError($this->Lang_Get('stream_error_subscribe_to_yourself'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
 		 * Подписываем на пользователя
 		 */
-		$this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequest('id'));
+		$this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequestStr('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**
@@ -319,9 +319,9 @@ class ActionStream extends Action {
 		/**
 		 * Проверяем существование пользователя
 		 */
-		$oUser = $this->User_getUserByLogin(getRequest('login'));
+		$oUser = $this->User_getUserByLogin(getRequestStr('login'));
 		if (!$oUser) {
-			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>htmlspecialchars(getRequest('login')))),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>htmlspecialchars(getRequestStr('login')))),$this->Lang_Get('error'));
 			return;
 		}
 		if ($this->oUserCurrent->getId() == $oUser->getId()) {
@@ -356,13 +356,13 @@ class ActionStream extends Action {
 		/**
 		 * Пользователь с таким ID существует?
 		 */
-		if (!$this->User_getUserById(getRequest('id'))) {
+		if (!$this->User_getUserById(getRequestStr('id'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 		/**
 		 * Отписываем
 		 */
-		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequest('id'));
+		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequestStr('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**
