@@ -58,7 +58,7 @@ class ActionBlogs extends Action {
 		/**
 		 * Получаем из реквеста первые буквы блога
 		 */
-		if ($sTitle=getRequest('blog_title') and is_string($sTitle)) {
+		if ($sTitle=getRequestStr('blog_title')) {
 			$sTitle=str_replace('%','',$sTitle);
 		}
 		if (!$sTitle) {
@@ -87,14 +87,14 @@ class ActionBlogs extends Action {
 		 */
 		$sOrder='blog_rating';
 		if (getRequest('order')) {
-			$sOrder=(string)getRequest('order');
+			$sOrder=getRequestStr('order');
 		}
 		/**
 		 * В каком направлении сортировать
 		 */
 		$sOrderWay='desc';
 		if (getRequest('order_way')) {
-			$sOrderWay=(string)getRequest('order_way');
+			$sOrderWay=getRequestStr('order_way');
 		}
 		/**
 		 * Фильтр поиска блогов

@@ -2,6 +2,7 @@ The user <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a> l
 {if $oConfig->GetValue('sys.mail.include_talk')}
 	Message: <i>{$oTalkComment->getText()}</i>	<br>			
 {/if}
+<br>
 Do not forget to register before!							
 <br><br>
 Best regards, site administration <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>

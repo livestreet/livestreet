@@ -354,6 +354,7 @@ class ModulePlugin extends Module {
 
 		$aActivePlugins=$this->GetActivePlugins();
 		foreach ($aPlugins as $sPluginCode) {
+			if (!is_string($sPluginCode)) continue;
 			/**
 			 * Если плагин активен, деактивируем его
 			 */

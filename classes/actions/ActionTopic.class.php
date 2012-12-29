@@ -239,10 +239,10 @@ class ActionTopic extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType('topic');
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
@@ -373,10 +373,10 @@ class ActionTopic extends Action {
 		/**
 		 * Заполняем поля для валидации
 		 */
-		$oTopic->setBlogId(getRequest('blog_id'));
-		$oTopic->setTitle(strip_tags(getRequest('topic_title')));
-		$oTopic->setTextSource(getRequest('topic_text'));
-		$oTopic->setTags(getRequest('topic_tags'));
+		$oTopic->setBlogId(getRequestStr('blog_id'));
+		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
+		$oTopic->setTextSource(getRequestStr('topic_text'));
+		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserIp(func_getIp());
 		/**
 		 * Проверка корректности полей формы

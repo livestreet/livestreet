@@ -28,9 +28,8 @@ class LoadFixtures
      */
     private $sDirFixtures;
 
-    public function __construct() {
-        $this->oEngine = Engine::getInstance();
-        $this->oEngine->Init();
+    public function __construct($oEngine) {
+        $this->oEngine = $oEngine;
         $this->sDirFixtures = realpath((dirname(__FILE__)) . "/fixtures/");
     }
 
@@ -53,7 +52,7 @@ class LoadFixtures
                                    WHERE TABLE_SCHEMA  = '" . $sDbname . "'");
 
             mysql_query('SET FOREIGN_KEY_CHECKS = 0');
-            echo "TRUNCATE TABLE FROM TEST BASE";
+            echo "TRUNCATE TABLE FROM TEST BASE\n";
             while ($row = mysql_fetch_row($result)) {
                 if (!mysql_query($row[0])) {
                     // exception
@@ -82,7 +81,7 @@ class LoadFixtures
                     throw new Exception("DB is not exported with file sql.sql");
                     return $result['errors'];
                 }
-                echo "ExportSQL DATABASE $sDbname -> sql.sql \n";
+                echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
                 // Load dump from geo_base.sql
                 $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/geo_base.sql');
 
@@ -95,6 +94,17 @@ class LoadFixtures
 
             }
         }
+
+        // Load dump from INSERT_BASE (SQL-Query)
+        $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/insert.sql');
+
+        if (!$result['result']) {
+            // exception
+            throw new Exception("DB is not exported with file insert.sql");
+            return $result['errors'];
+        }
+        echo "Export INSERT SQL to DATABASE $sDbname\n";
+
         return true;
     }
 
@@ -124,6 +134,9 @@ class LoadFixtures
                 foreach ($aClassNames as $sClassName) {
                     // @todo референсы дублируются в каждом объекте фиксту + в этом объекте
                     $oFixtures = new $sClassName($this->oEngine, $this->aReferences);
+                    if (!$oFixtures instanceof AbstractFixtures) {
+                        throw new Exception($sClassName . " must extend of AbstractFixtures");
+                    }
                     $oFixtures->load();
                     $aFixtureReference = $oFixtures->getReferences();
                     $this->aReferences = array_merge($this->aReferences, $aFixtureReference);
@@ -146,16 +159,7 @@ class LoadFixtures
 
         $this->sDirFixtures = $sPath;
         $this->loadFixtures();
+        echo "Load Fixture Plugin ... ---> {$plugin}\n";
     }
-
-    /**
-     * Function of activate plugin
-     *
-     * @param string $plugin
-     */
-    public function activationPlugin($plugin){
-        $this->oEngine->ModulePlugin_Toggle($plugin,'Activate');
-    }
-
 }
 

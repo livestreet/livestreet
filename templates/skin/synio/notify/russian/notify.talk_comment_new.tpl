@@ -2,6 +2,7 @@
 {if $oConfig->GetValue('sys.mail.include_talk')}
 	Текст сообщения: <i>{$oTalkComment->getText()}</i>	<br>			
 {/if}
+<br>
 Не забудьте предварительно авторизоваться!							
 <br><br>
 С уважением, администрация сайта <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
