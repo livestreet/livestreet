@@ -65,10 +65,11 @@
 .topic .topic-footer .topic-info li.topic-info-comments span.count 	{ color: #27a736; text-decoration: none; }
 .topic .topic-footer .topic-info li.topic-info-comments i 			{ float: left; margin-right: 7px; }
 
-.topic .topic-footer .topic-info li.topic-info-favourite 			{ padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
-.topic .topic-footer .topic-info li.topic-info-favourite i 			{ float: left; margin-right: 3px; }
-.topic .topic-footer .topic-info li.topic-info-favourite:hover		{ background: #64ceff; color: #fff; }
-.topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
+.topic .topic-footer .topic-info li.topic-info-favourite                   { padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
+.topic .topic-footer .topic-info li.topic-info-favourite .favourite        { float: left; }
+.topic .topic-footer .topic-info li.topic-info-favourite .favourite-count  { margin-left: 4px;}
+.topic .topic-footer .topic-info li.topic-info-favourite:hover             { background: #64ceff; color: #fff; }
+.topic .topic-footer .topic-info li.topic-info-favourite:hover .favourite  { background-position: 0 -51px; }
 
 /* Share */
 .topic .topic-share 				{ display: none; border: 3px solid #edf8fd; padding: 3px 35px 3px 3px; border-radius: 10px; margin-bottom: 10px; position: relative; }
