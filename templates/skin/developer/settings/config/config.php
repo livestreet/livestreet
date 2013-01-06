@@ -26,6 +26,7 @@ $config['head']['default']['js'][] = '___path.static.skin___/js/template.js';
 
 $config['head']['default']['css'] = array(
 	"___path.root.server___/templates/framework/css/reset.css",
+	"___path.root.server___/templates/framework/css/helpers.css",
 	"___path.static.skin___/css/base.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
 	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
