@@ -235,8 +235,8 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.placeholder.min.js",
 	"___path.root.engine_lib___/external/jquery/jquery.charcount.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
-	"___path.root.engine_lib___/internal/template/js/main.js",
-	"___path.root.engine_lib___/internal/template/js/hook.js",
+	"___path.root.server___/templates/framework/js/main.js",
+	"___path.root.server___/templates/framework/js/hook.js",
 );
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
