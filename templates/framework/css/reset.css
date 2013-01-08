@@ -118,8 +118,10 @@ p { margin: 0; }
  * Address styling not present in IE 8/9, Safari 5, and Chrome.
  */
 
-abbr[title] {
+abbr[title],
+acronym[title] {
     border-bottom: 1px dotted;
+    cursor: help;
 }
 
 /**
@@ -164,11 +166,11 @@ samp {
  * Improve readability of pre-formatted text in all browsers.
  */
 
-pre {
+/* pre {
     white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
-}
+} */
 
 /**
  * Set consistent quote types.
