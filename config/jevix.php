@@ -6,7 +6,7 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','th','tr','td'),
+				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'small', 'video', 'em', 'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','tbody','thead','th','tr','td'),
 			),			
 		),
 		// Коротие теги типа
@@ -67,6 +67,10 @@ return array(
 				array('user'=>'#text')
 			),
 			array(
+				'th',
+				array('colspan'=>'#int','rowspan'=>'#int','align'=>array('right', 'left', 'center', 'justify'),'height'=>'#int','width'=>'#int')
+			),
+			array(
 				'td',
 				array('colspan'=>'#int','rowspan'=>'#int','align'=>array('right', 'left', 'center', 'justify'),'height'=>'#int','width'=>'#int')
 			),
@@ -116,7 +120,19 @@ return array(
 			),
 			array(
 				'table',
-				array('tr'),
+				array('tr','tbody','thead'),
+				false,
+				true
+			),
+			array(
+				'tbody',
+				array('tr','td'),
+				false,
+				true
+			),
+			array(
+				'thead',
+				array('tr','th'),
 				false,
 				true
 			),
@@ -136,7 +152,7 @@ return array(
 		// Не нужна авто-расстановка <br>
 		'cfgSetTagNoAutoBr' => array(
 			array(
-				array('ul','ol','object','table','tr')
+				array('ul','ol','object','table','tr','tbody','thead')
 			)
 		),
 		// Теги с обязательными параметрами
@@ -175,7 +191,7 @@ return array(
 		// Теги, после которых необходимо пропускать одну пробельную строку
 		'cfgSetTagBlockType' => array(
 			array(
-				array('h4','h5','h6','ol','ul','blockquote','pre')
+				array('h4','h5','h6','ol','ul','blockquote','pre','table','iframe')
 			)
 		),
 		'cfgSetTagCallbackFull' => array(
