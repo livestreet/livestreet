@@ -33,8 +33,28 @@
 .nav.nav-pills.nav-pills-profile 		{ margin-bottom: 30px; }
 
 
+/* Nav Menu */
+.nav.nav-menu             { margin-bottom: 15px; }
+.nav.nav-menu li          { margin-right: 3px; }
+.nav.nav-menu li a        { border-radius: 2px; padding: 5px 12px; background: #f5f5f5; color: #888; }
+.nav.nav-menu li a:hover  { background: #eaeaea; }
+.nav.nav-menu li.active a {
+	background: #2891d3;
+	background: -moz-linear-gradient(top, #2891d3 0%, #2375c6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2891d3), color-stop(100%,#2375c6));
+	background: -webkit-linear-gradient(top, #2891d3 0%,#2375c6 100%);
+	background: -o-linear-gradient(top, #2891d3 0%,#2375c6 100%);
+	background: -ms-linear-gradient(top, #2891d3 0%,#2375c6 100%);
+	background: linear-gradient(top, #2891d3 0%,#2375c6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2891d3', endColorstr='#2375c6',GradientType=0 );
+
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	color: #fff;
+}
+
+
 /* Nav Topic Filter */
-.nav.nav-filter 						{ margin-bottom: 1px; }
+.nav.nav-filter                         { margin-bottom: 1px; }
 .nav.nav-filter li 						{ margin-right: 1px; position: relative; }
 .nav.nav-filter li a 					{ background: #eee; color: #333; padding: 7px 13px; float: left; }
 .nav.nav-filter li a:hover 				{ background: #ddd; }

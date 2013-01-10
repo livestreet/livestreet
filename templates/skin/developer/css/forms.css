@@ -48,9 +48,14 @@ dl.form-item dd { float: left; width: 300px; }
 .form-profile { position: relative; }
 .form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
 
+
 /* Placeholder */
-:-moz-placeholder { color: #aaa; }
-.placeholder { color: #aaa; }
+:-moz-placeholder           { color: #aaa; }
+::-webkit-input-placeholder { color: #aaa; }
+
+/* IE placeholder */
+.placeholder                { color: #aaa; }
+
 
 .mceEditor { display: block; margin-bottom: 20px; }
 

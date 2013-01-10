@@ -134,5 +134,7 @@
 
 .reply .mceEditor { display: block; margin-bottom: 10px; }
 
+.comment-wrapper .reply { margin-left: 40px; }
+
 .wall-submit.wall-submit-reply.wall-submit-comment { -webkit-box-shadow: none; box-shadow: none; margin-top: 0; margin-bottom: 50px; }
 .wall-submit.wall-submit-reply.wall-submit-comment:after { display: none; }

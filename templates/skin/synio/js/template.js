@@ -194,7 +194,9 @@ jQuery(document).ready(function($){
 
 	// избранное
 	ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,params,result){
-		$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
+		var favCount = $('#fav_count_'+type+'_'+idTarget);
+		favCount.text(result.iCount);
+		result.iCount > 0 ? favCount.show() : favCount.hide();
 	});
 
 	// вступление в блог

@@ -78,6 +78,13 @@ class LS_ManyToManyRelation extends LsObject {
 		}
 	}
 	/**
+	 * Удаляет все объекты
+	 */
+	public function clear() {
+		$this->bUpdated = true;
+		$this->_aCollection=array();
+	}
+	/**
 	 * Возвращает список объектов связи
 	 *
 	 * @return array
