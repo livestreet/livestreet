@@ -129,9 +129,9 @@ class MapperORM extends Mapper {
 		$sTableName = self::GetTableName($sEntityFull);
 
 		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
-		list($sOrder,$sLimit)=$this->BuildFilterMore($aFilter,$oEntitySample);
+		list($sOrder,$sLimit,$sGroup)=$this->BuildFilterMore($aFilter,$oEntitySample);
 
-		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sOrder} {$sLimit} ";
+		$sql = "SELECT * FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sGroup} {$sOrder} {$sLimit} ";
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
 		$aItems=array();
 		if($aRows=call_user_func_array(array($this->oDb,'select'),$aQueryParams)) {
@@ -305,7 +305,23 @@ class MapperORM extends Mapper {
 			}
 			$sLimit="LIMIT {$iBegin}, {$iEnd}";
 		}
-		return array($sOrder,$sLimit);
+
+		// Группировка
+		$sGroup='';
+		if (isset($aFilter['#group'])) {
+			if(!is_array($aFilter['#group'])) {
+				$aFilter['#group'] = array($aFilter['#group']);
+			}
+			foreach ($aFilter['#group'] as $sField) {
+				$sField = $this->oDb->escape($oEntitySample->_getField($sField),true);
+				$sGroup.=" {$sField},";
+			}
+			$sGroup=trim($sGroup,',');
+			if ($sGroup!='') {
+				$sGroup="GROUP BY {$sGroup}";
+			}
+		}
+		return array($sOrder,$sLimit,$sGroup);
 	}
 	/**
 	 * Список колонок/полей сущности
