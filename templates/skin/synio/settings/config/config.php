@@ -34,6 +34,7 @@ $config['head']['default']['css'] = array(
 	"___path.root.server___/templates/framework/css/reset.css",
 	"___path.root.server___/templates/framework/css/helpers.css",
 	"___path.root.server___/templates/framework/css/text.css",
+	"___path.root.server___/templates/framework/css/buttons.css",
 
 	// Template styles
 	"___path.static.skin___/css/base.css",

@@ -43,11 +43,11 @@ h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-botto
 
 /* Шапка сайта
 ---------------------------------------------------- */
-#header a { text-decoration: none; color: #333; }
+#header a                  { text-decoration: none; color: #000; }
 
-#header .site-name { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; }
-#header .site-name a:hover { color: #444AA3; }
-#header .site-description { width: 500px; color: #777; font-size: 15px; }
+#header .site-name         { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; text-align: center; }
+#header .site-name a:hover { color: #3a41b8; }
+#header .site-description  { max-width: 500px; margin: 0 auto; color: #777; font-size: 15px; }
 
 
 

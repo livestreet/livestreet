@@ -29,6 +29,8 @@ $config['head']['default']['css'] = array(
 	"___path.root.server___/templates/framework/css/reset.css",
 	"___path.root.server___/templates/framework/css/helpers.css",
 	"___path.root.server___/templates/framework/css/text.css",
+	"___path.root.server___/templates/framework/css/buttons.css",
+	"___path.root.server___/templates/framework/css/forms.css",
 
 	// Template styles
 	"___path.static.skin___/css/base.css",
@@ -38,8 +40,6 @@ $config['head']['default']['css'] = array(
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/grid.css",
 	"___path.static.skin___/css/common.css",
-	"___path.static.skin___/css/forms.css",
-	"___path.static.skin___/css/buttons.css",
 	"___path.static.skin___/css/navs.css",
 	"___path.static.skin___/css/icons.css",
 	"___path.static.skin___/css/tables.css",
