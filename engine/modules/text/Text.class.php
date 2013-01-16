@@ -199,6 +199,8 @@ class ModuleText extends Module {
 	public function CodeSourceParser($sText) {
 		$sText=str_replace("<code>",'<pre class="prettyprint">',$sText);
 		$sText=str_replace("</code>",'</pre>',$sText);
+		$sText=str_replace("<codeline>",'<code class="prettyprint">',$sText);
+		$sText=str_replace("</codeline>",'</code>',$sText);
 		return $sText;
 	}
 	/**
