@@ -21,23 +21,20 @@ a:hover { color: #06e; }
 .topic .topic-header .topic-title a:visited,
 .item-list li a:visited { color: #1D2273; }
 
-a.link-dashed 		{ border-bottom: 1px dashed #5055b2; }
-a.link-dashed:hover { border-color: #06e; }
-
-a.link-dotted 		{ text-decoration: none; border-bottom: 1px dotted #5055b2; }
-a.link-dotted:hover { border-color: #06e; }
-
 
 
 /* Заголовки
 ---------------------------------------------------- */
-h2.page-header { color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
-h2.page-header span { color: #aaa; }
+.page-header      { color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
+.page-header span { color: #aaa; }
 
-h2.header-table { margin-bottom: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; font-weight: bold; }
+/* Dropdown support */
+.page-header.page-header-publish .dropdown-toggle              { text-transform: lowercase; }
+.page-header.page-header-publish .dropdown-toggle:after        { border-top-color: #5055B2; }
+.page-header.page-header-publish .dropdown-toggle.active       { background: transparent; color: #9496ea; }
+.page-header.page-header-publish .dropdown-toggle.active:after { border-top-color: #9496ea; }
 
-
-
+.header-table     { margin-bottom: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; font-weight: bold; }
 
 
 

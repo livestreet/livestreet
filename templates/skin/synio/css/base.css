@@ -19,12 +19,6 @@ a:hover { color: #f00; }
 
 .text a:visited { color: #1D2273; }
 
-a.link-dashed 		{ border-bottom: 1px dashed #5055b2; text-decoration: none; }
-a.link-dashed:hover { border-color: #f00; }
-
-a.link-dotted 		{ text-decoration: none; border-bottom: 1px dotted #5055b2; }
-a.link-dotted:hover { border-color: #f00; }
-
 
 
 /* Заголовки

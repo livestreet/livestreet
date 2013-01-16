@@ -151,34 +151,6 @@ ls.blocks = (function ($) {
 		if ($('.js-block-'+block+'-nav').find('li').length >= count) {
 			$('.js-block-'+block+'-nav').hide();
 			$('.js-block-'+block+'-dropdown').show();
-			// Dropdown
-			var trigger = $('.js-block-'+block+'-dropdown-trigger');
-			var menu 	= $('.js-block-'+block+'-dropdown-items');
-
-			menu.appendTo('body').css({'display': 'none'});
-			trigger.click(function(){
-				var pos = $(this).offset();
-				menu.css({ 'left': pos.left, 'top': pos.top + 30, 'z-index': 2100 });
-				menu.slideToggle();
-				$(this).toggleClass('opened');
-				return false;
-			});
-			menu.find('a').click(function(){
-				trigger.removeClass('opened').find('a').text( $(this).text() );
-				menu.slideToggle();
-			});
-			// Hide menu
-			$(document).click(function(){
-				trigger.removeClass('opened');
-				menu.slideUp();
-			});
-			$('body').on('click', '.js-block-'+block+'-dropdown-trigger, .js-block-'+block+'-dropdown-items', function(e) {
-				e.stopPropagation();
-			});
-		
-			$(window).resize(function(){
-				menu.css({ 'left': $('.js-block-'+block+'-dropdown-trigger').offset().left });
-			});
 		} else {
 			// Transform nav to dropdown
 			$('.js-block-'+block+'-nav').show();
