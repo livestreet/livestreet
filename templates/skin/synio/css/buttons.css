@@ -1,23 +1,10 @@
-/* -------------------------------------------------------------------
-	
-	КНОПКИ
-	
-	
-	Примеры использования:
-	
-	<button class="button">Preview</button>
-	<a href="#" class="button">Preview</a>
-	
-	<button class="button button-primary">Save</button>
-	
-------------------------------------------------------------------- */
+/*
+ * Buttons
+ */
 
 .button {
-	display: inline-block;
-	
 	padding: 3px 10px 6px;
 	*padding: 3px 10px 4px;
-	text-align: center;
 	
 	border: 1px solid #dfe3e8;
 	border-radius: 5px;
@@ -36,20 +23,12 @@
 	background: linear-gradient(top,  #fbfcfc 0%,#f0f2f5 100%);
 
 	font-family: Verdana, sans-serif;
-	cursor: pointer;
-	text-decoration: none;
-	
-	*margin-right: 5px;
-}
-.button:hover { text-decoration: none; background: #f0f2f5; }
-.button:active { 
-	-moz-box-shadow: 	0 0 3px rgba(0, 0, 0, .3) inset; 
-	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .3) inset; 
-	box-shadow: 		0 0 3px rgba(0, 0, 0, .3) inset; 
-}
-.button.fl-r { *margin-right: 0; }
 
-.opera .button { padding-top: 4px; padding-bottom: 5px; }
+	text-shadow: none;
+}
+.button:hover { background: #f0f2f5; }
+
+.opera .button { padding: 4px 10px 5px; }
 
 
 /* Button Primary */
@@ -62,15 +41,9 @@
 	background: -ms-linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	
-	border: 1px solid #27ace8;
-	
-	color: #fff;
+	border-color: #27ace8;
 }
 .button.button-primary:hover { background: #2abcfe; }
-
-
-/* Button Icon (Without text) */
-.button.button-icon 			{ padding: 7px 10px; }
 
 
 /* Button Write */
@@ -101,7 +74,9 @@
 	background: -ms-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 	background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
 
-	-webkit-box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset; box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset;  
+	-webkit-box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset; 
+	   -moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset; 
+	        box-shadow: 0 -1px 0 rgba(255, 255, 255, .5) inset;  
 }
 
 
@@ -127,7 +102,8 @@
 .button.button-action.active, 
 .button.button-action:hover { 
 	border: 1px solid #2770e8;
-	-webkit-box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd; box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd;
+	-webkit-box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd; 
+	        box-shadow: 0 -1px 0 #128af3 inset, 0 2px 2px #ddd;
 	color: #fff;
 	padding: 3px 3px 2px;
 
@@ -163,7 +139,8 @@
 	background: -ms-linear-gradient(top,  #6ce777 0%,#4ace56 100%);
 	background: linear-gradient(top,  #6ce777 0%,#4ace56 100%);
 	border: none;
-	box-shadow: none; -webkit-box-shadow: none;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
 	padding: 6px 6px 6px 7px;
 	cursor: default;
 }

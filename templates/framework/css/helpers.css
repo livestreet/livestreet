@@ -1,0 +1,77 @@
+/* 
+ * Helpers
+ */
+
+
+/* Margins */
+.mt-10 { margin-top: 10px !important; }
+.mt-15 { margin-top: 15px !important; }
+.mt-20 { margin-top: 20px !important; }
+.mt-30 { margin-top: 30px !important; }
+
+.mb-10 { margin-bottom: 10px !important; }
+.mb-15 { margin-bottom: 15px !important; }
+.mb-20 { margin-bottom: 20px !important; }
+.mb-30 { margin-bottom: 30px !important; }
+
+
+/* Paddings */
+.pt-10 { padding-top: 10px !important; }
+.pt-15 { padding-top: 15px !important; }
+.pt-20 { padding-top: 20px !important; }
+.pt-30 { padding-top: 30px !important; }
+
+.pb-10 { padding-bottom: 10px !important; }
+.pb-15 { padding-bottom: 15px !important; }
+.pb-20 { padding-bottom: 20px !important; }
+.pb-30 { padding-bottom: 30px !important; }
+
+
+/* Text Align */
+.ta-c { text-align: center !important; }
+.ta-r { text-align: right !important; }
+
+
+/* Floats */
+.fl-r, .float-right { float: right !important; }
+.fl-l, .float-left  { float: left !important; }
+
+
+/* Misc */
+.va-m { vertical-align: middle !important; }
+
+
+/* Clearfix */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix       { zoom: 1; }
+
+
+/* Word Wrap */
+.word-wrap {
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap; 
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+
+/* Width */
+/* TODO: Delete input-width */
+.input-width-full, .width-full { width: 100%; }
+.input-width-50 ,  .width-50   { width: 50px; }
+.input-width-100,  .width-100  { width: 100px; }
+.input-width-150,  .width-150  { width: 150px; }
+.input-width-200,  .width-200  { width: 200px; }
+.input-width-250,  .width-250  { width: 250px; }
+.input-width-300,  .width-300  { width: 300px; }
+.input-width-400,  .width-400  { width: 400px; }
+.input-width-500,  .width-500  { width: 500px; }
+
+
+/* Links */
+.link-dashed { text-decoration: none; border-bottom: 1px dashed; }
+.link-dotted { text-decoration: none; border-bottom: 1px dotted; }

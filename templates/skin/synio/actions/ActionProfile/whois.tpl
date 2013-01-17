@@ -18,7 +18,7 @@
 
 	<h3>{$aLang.profile_about}</h3>
 	{if $oUserProfile->getProfileAbout()}	
-		<p>{$oUserProfile->getProfileAbout()}</p>
+		<p class="text">{$oUserProfile->getProfileAbout()}</p>
 	{else}
 		<p>{$aLang.profile_about_empty}</p>
 	{/if}

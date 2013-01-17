@@ -100,6 +100,9 @@
 	{assign var=body_classes value=$body_classes|cat:' ls-user-role-not-admin'}
 {/if}
 
+{assign var=body_classes value=$body_classes|cat:' ls-template-'|cat:{cfg name="view.skin"}}
+
+
 {add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
 {add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
 

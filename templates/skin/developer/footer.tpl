@@ -1,4 +1,4 @@
-				{hook run='content_end'}
+﻿				{hook run='content_end'}
 			</div> <!-- /content -->
 		</div> <!-- /content-wrapper -->
 
