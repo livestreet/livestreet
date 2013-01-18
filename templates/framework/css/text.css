@@ -27,15 +27,13 @@
 	overflow: auto;
 	clear: both;
 }
-/* @todo: Add inline code
-
 .text code {
     background: #fcfcfc;
     font-family: Menlo, Monaco, Consolas, monospace;
     border: 1px solid #eaeaea;
     border-radius: 3px;
     padding: 2px 5px;
-} */
+}
 
 
 /* Quotes */

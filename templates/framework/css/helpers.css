@@ -33,8 +33,8 @@
 
 
 /* Floats */
-.fl-r { float: right !important; }
-.fl-l { float: left !important; }
+.fl-r, .float-right { float: right !important; }
+.fl-l, .float-left  { float: left !important; }
 
 
 /* Misc */
@@ -57,3 +57,21 @@
   word-wrap: break-word;
   white-space: normal;
 }
+
+
+/* Width */
+/* TODO: Delete input-width */
+.input-width-full, .width-full { width: 100%; }
+.input-width-50 ,  .width-50   { width: 50px; }
+.input-width-100,  .width-100  { width: 100px; }
+.input-width-150,  .width-150  { width: 150px; }
+.input-width-200,  .width-200  { width: 200px; }
+.input-width-250,  .width-250  { width: 250px; }
+.input-width-300,  .width-300  { width: 300px; }
+.input-width-400,  .width-400  { width: 400px; }
+.input-width-500,  .width-500  { width: 500px; }
+
+
+/* Links */
+.link-dashed { text-decoration: none; border-bottom: 1px dashed; }
+.link-dotted { text-decoration: none; border-bottom: 1px dotted; }

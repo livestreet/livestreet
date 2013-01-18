@@ -6,7 +6,7 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'small', 'video', 'em', 'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','tbody','thead','th','tr','td'),
+				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'small', 'video', 'em', 'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'codeline', 'object', 'param', 'embed', 'blockquote', 'iframe','table','tbody','thead','th','tr','td'),
 			),			
 		),
 		// Коротие теги типа
@@ -18,7 +18,7 @@ return array(
 		// Преформатированные теги
 		'cfgSetTagPreformatted' => array(
 			array(
-				array('pre','code','video')
+				array('pre','code','codeline','video')
 			),
 		),
 		// Разрешённые параметры тегов

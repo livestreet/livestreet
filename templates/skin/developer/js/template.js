@@ -20,6 +20,9 @@ jQuery(document).ready(function($){
 			$('body').addClass('ie' + parseInt($.browser.version));
 		}
 	}
+
+	// Dropdowns
+	$('[data-toggle=dropdown]').dropdown();
 	 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
