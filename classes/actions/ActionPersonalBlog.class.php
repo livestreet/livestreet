@@ -58,8 +58,8 @@ class ActionPersonalBlog extends Action {
 		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
-		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
-		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 	}
 
 
