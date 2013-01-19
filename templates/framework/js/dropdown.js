@@ -61,8 +61,8 @@
 			if (isAjax) {
 				$menu.find('li > a').click(function () {
 					if (isChangeText) $this.text($(this).text());
-					$menu.find('li').removeClass('open');
-					$(this).parent('li').addClass('open');
+					$menu.find('li').removeClass('active');
+					$(this).parent('li').addClass('active');
 					menuToggle($this, $menu);
 				});
 			}
