@@ -397,14 +397,28 @@ class MapperORM extends Mapper {
 		 * Варианты таблиц:
 		 * 	prefix_user -> если модуль совпадает с сущностью
 		 * 	prefix_user_invite -> если модуль не сопадает с сущностью
+		 * Если сущность плагина:
+		 * 	prefix_pluginname_user
+		 * 	prefix_pluginname_user_invite
 		 */
 		$sClass = Engine::getInstance()->Plugin_GetDelegater('entity', is_object($oEntity)?get_class($oEntity):$oEntity);
+		$sPluginName = func_underscore(Engine::GetPluginName($sClass));
 		$sModuleName = func_underscore(Engine::GetModuleName($sClass));
 		$sEntityName = func_underscore(Engine::GetEntityName($sClass));
 		if (strpos($sEntityName,$sModuleName)===0) {
 			$sTable=func_underscore($sEntityName);
 		} else {
 			$sTable=func_underscore($sModuleName).'_'.func_underscore($sEntityName);
+		}
+		if ($sPluginName) {
+			$sTablePlugin=$sPluginName.'_'.$sTable;
+			/**
+			 * Для обратной совместимости с 1.0.1
+			 * Если такая таблица определена в конфиге, то ок, если нет, то используем старый вариант без имени плагина
+			 */
+			if (Config::Get('db.table.'.$sTablePlugin)) {
+				$sTable=$sTablePlugin;
+			}
 		}
 		/**
 		 * Если название таблиц переопределено в конфиге, то возвращаем его

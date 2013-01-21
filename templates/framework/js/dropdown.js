@@ -26,16 +26,20 @@
 		});
 
 		this.each(function () {
+			// TODO: Fix options
 			var 
-				$this        = $(this),
-				$menu        = $('#' + $this.data('dropdown-menu')),
-				isFloatRight = $this.data('dropdown-align') != undefined,
-				isAjax       = $this.data('dropdown-ajax') != undefined;
-				isChangeText = $this.data('dropdown-change-text') == undefined;
+				$this          = $(this),
+				$menu          = $('#' + $this.data('dropdown-menu')),
+				isPullRight    = $this.data('dropdown-align') != undefined,
+				isAjax         = $this.data('dropdown-ajax') != undefined,
+				isChangeText   = $this.data('dropdown-change-text') == undefined,
+				isAppendToBody = $this.data('dropdown-append-to-body') == undefined;
 
-			$menu.appendTo('body');
+			if (isAppendToBody) $menu.appendTo('body');
 
 			// Set text
+			options.defaultActiveText = $this.data('dropdown-default-text') || options.defaultActiveText;
+
 			if (isChangeText)  {
 				var activeText = $menu.find('li.active').text();
 				$this.text(activeText.length > 0 ? activeText : options.defaultActiveText);
@@ -43,12 +47,12 @@
 
 			// Resize
 			$(window).resize(function () {
-				positionMenu($this, $menu, isFloatRight);
+				positionMenu($this, $menu, isPullRight , isAppendToBody);
 			});
 
 			// Click
 			$this.click(function () {
-				positionMenu($this, $menu, isFloatRight);
+				positionMenu($this, $menu, isPullRight , isAppendToBody);
 				menuToggle($this, $menu);
 				hideDropdowns($this, $menu);
 				return false;
@@ -66,27 +70,27 @@
 
 		// Hide dropdowns
 		function hideDropdowns (currentDropdown, currentMenu) {
-			objects.not(currentDropdown).removeClass('active');
+			objects.not(currentDropdown).removeClass('open');
 			$('.dropdown-menu:visible').not(currentMenu).hide(); // TODO: Fix selector
 		}
 
 		// Position menu
-		function positionMenu (toggle, menu, isFloatRight) {
+		function positionMenu (toggle, menu, isPullRight , isAppendToBody) {
 			var
 				pos    = toggle.offset(),
 				height = toggle.outerHeight(),
 				width  = toggle.outerWidth();
 
 			menu.css({
-				'top': pos.top + height + options.menuTopOffset,
-				'left': isFloatRight ? 'auto' : pos.left,
-				'right': isFloatRight ? $(window).width() - pos.left - width : 'auto'
+				'top': isAppendToBody ? pos.top + height + options.menuTopOffset : height + options.menuTopOffset,
+				'left': isAppendToBody ? ( isPullRight  ? 'auto' : pos.left ) : 0,
+				'right': isAppendToBody ? ( isPullRight  ? $(window).width() - pos.left - width : 'auto' ) : 'auto'
 			});
 		}
 
 		// Menu toggle
 		function menuToggle(toggle, menu) {
-			toggle.toggleClass('active');
+			toggle.toggleClass('open');
 			menu.toggle();
 		}
 	};
