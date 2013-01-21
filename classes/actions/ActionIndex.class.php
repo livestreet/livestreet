@@ -97,8 +97,8 @@ class ActionIndex extends Action {
 	 */
 	protected function EventTop() {
 		$sPeriod=Config::Get('defaults.top_period'); // по дефолт берется из конфига
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
+		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequestStr('period');
 		}
 		/**
 		 * Меню
@@ -148,8 +148,8 @@ class ActionIndex extends Action {
 	 */
 	protected function EventDiscussed() {
 		$sPeriod=Config::Get('defaults.discussed_period'); // по дефолту 1 день
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
+		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequestStr('period');
 		}
 		/**
 		 * Меню
