@@ -363,11 +363,18 @@ class Engine extends LsObject {
 	 *
 	 * @param  string $sModuleClass	Класс модуля
 	 * @param  bool $bInit Инициализировать модуль или нет
+	 *
+	 * @throws RuntimeException если класс $sModuleClass не существует
+	 *
 	 * @return Module
 	 */
 	public function LoadModule($sModuleClass,$bInit=false) {
 		$tm1=microtime(true);
 
+		if (!class_exists($sModuleClass))
+		{
+			throw new RuntimeException(sprintf('Class "%s" not found!', $sModuleClass));
+		}
 		/**
 		 * Создаем объект модуля
 		 */
@@ -1149,7 +1156,7 @@ class LS extends LsObject {
 	 *
 	 * @return Engine
 	 */
-	public function E() {
+	static public function E() {
 		return Engine::GetInstance();
 	}
 	/**
@@ -1160,7 +1167,7 @@ class LS extends LsObject {
 	 * @param array $aParams	Параметры для передачи в конструктор
 	 * @return Entity
 	 */
-	public function Ent($sName,$aParams=array()) {
+	static public function Ent($sName,$aParams=array()) {
 		return Engine::GetEntity($sName,$aParams);
 	}
 	/**
@@ -1172,7 +1179,7 @@ class LS extends LsObject {
 	 * @param DbSimple_Mysql|null $oConnect	Объект коннекта к БД
 	 * @return mixed
 	 */
-	public function Mpr($sClassName,$sName=null,$oConnect=null) {
+	static public function Mpr($sClassName,$sName=null,$oConnect=null) {
 		return Engine::GetMapper($sClassName,$sName,$oConnect);
 	}
 	/**
@@ -1181,7 +1188,7 @@ class LS extends LsObject {
 	 *
 	 * @return ModuleUser_EntityUser
 	 */
-	public function CurUsr() {
+	static public function CurUsr() {
 		return self::E()->User_GetUserCurrent();
 	}
 	/**
@@ -1191,7 +1198,7 @@ class LS extends LsObject {
 	 *
 	 * @return bool
 	 */
-	public function Adm() {
+	static public function Adm() {
 		return self::CurUsr() && self::CurUsr()->isAdministrator();
 	}
 	/**

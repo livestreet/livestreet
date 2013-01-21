@@ -33,8 +33,8 @@ if(isset($_REQUEST[session_name()])){
 }
 
 foreach ($_REQUEST as $key => $value) {
-	if (preg_match("/^[\w\d]{5,40}$/",(string)$value)) {
-		session_name($key);
+	if (preg_match("/^.{5,100}$/",(string)$value)) {
+		@session_name($key);
 		session_start();
 		break;
 	}

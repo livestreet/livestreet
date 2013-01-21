@@ -66,5 +66,18 @@ class ModuleTools extends Module {
 		}
 		return $aCollection;
 	}
+
+	/**
+	 * Преобразует спец символы в html последовательнось, поведение аналогично htmlspecialchars, кроме преобразования амперсанта "&"
+	 *
+	 * @param string $sText
+	 *
+	 * @return string
+	 */
+	public function Urlspecialchars($sText) {
+		$aTable=get_html_translation_table();
+		unset($aTable['&']);
+		return strtr($sText,$aTable);
+	}
 }
 ?>

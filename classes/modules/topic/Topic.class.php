@@ -249,10 +249,14 @@ class ModuleTopic extends Module {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
 		$this->Cache_Delete("topic_{$sTopicId}");
 		/**
+		 * Список изображений
+		 */
+		$aPhotos=$this->getPhotosByTopicId($sTopicId);
+		/**
 		 * Если топик успешно удален, удаляем связанные данные
 		 */
 		if($bResult=$this->oMapperTopic->DeleteTopic($sTopicId)){
-			return $this->DeleteTopicAdditionalData($sTopicId);
+			return $this->DeleteTopicAdditionalData($sTopicId,$aPhotos);
 		}
 
 		return false;
@@ -263,7 +267,7 @@ class ModuleTopic extends Module {
 	 * @param  int  $iTopicId	ID топика
 	 * @return bool
 	 */
-	public function DeleteTopicAdditionalData($iTopicId) {
+	public function DeleteTopicAdditionalData($iTopicId,$aPhotos=array()) {
 		/**
 		 * Чистим зависимые кеши
 		 */
@@ -297,7 +301,7 @@ class ModuleTopic extends Module {
 		/**
 		 * Удаляем фото у топика фотосета
 		 */
-		if ($aPhotos=$this->getPhotosByTopicId($iTopicId)) {
+		if (count($aPhotos)) {
 			foreach ($aPhotos as $oPhoto) {
 				$this->deleteTopicPhoto($oPhoto);
 			}

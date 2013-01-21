@@ -37,8 +37,8 @@ class ModuleTopic_EntityTopic extends Entity {
 		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'),'on'=>array('topic','link','photoset'));
 		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_question_create_title'),'on'=>array('question'));
 		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('topic','photoset'));
-		$this->aValidateRules[]=array('topic_text_source','string','max'=>500,'min'=>10,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('link'));
-		$this->aValidateRules[]=array('topic_text_source','string','max'=>500,'allowEmpty'=>true,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('question'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.link_max_length'),'min'=>10,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('link'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.question_max_length'),'allowEmpty'=>true,'label'=>$this->Lang_Get('topic_create_text'),'on'=>array('question'));
 		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'),'on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('blog_id','blog_id','on'=>array('topic','link','question','photoset'));
 		$this->aValidateRules[]=array('topic_text_source','topic_unique','on'=>array('topic','link','question','photoset'));
@@ -360,6 +360,14 @@ class ModuleTopic_EntityTopic extends Entity {
 		}
 	}
 	/**
+	 * Возвращает полный URL до страницы редактировани топика
+	 *
+	 * @return string
+	 */
+	public function getUrlEdit() {
+		return Router::GetPath($this->getType()).'edit/'.$this->getId().'/';
+	}
+	/**
 	 * Возвращает объект голосования за топик текущим пользователем
 	 *
 	 * @return ModuleVote_EntityVote|null
@@ -383,6 +391,39 @@ class ModuleTopic_EntityTopic extends Entity {
 	public function getIsFavourite() {
 		if ($this->getFavourite()) {
 			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на удаление топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowDelete() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowDeleteTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на редактирование топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowEdit() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			return $this->ACL_IsAllowEditTopic($this,$oUser);
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешение на какое-либо действие для топика у текущего пользователя
+	 *
+	 * @return bool
+	 */
+	public function getIsAllowAction() {
+		if ($this->User_GetUserCurrent()) {
+			return $this->getIsAllowEdit() || $this->getIsAllowDelete();
 		}
 		return false;
 	}

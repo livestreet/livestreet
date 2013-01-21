@@ -311,10 +311,20 @@ class ModuleACL extends Module {
 		/**
 		 * Если модер или админ блога
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
-		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
-			return true;
+		if ($this->User_GetUserCurrent() and $this->User_GetUserCurrent()->getId()==$oUser->getId()) {
+			/**
+			 * Для авторизованного пользователя данный код будет работать быстрее
+			 */
+			if ($oTopic->getBlog()->getUserIsAdministrator() or $oTopic->getBlog()->getUserIsModerator()) {
+				return true;
+			}
+		} else {
+			$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+			if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 	/**
@@ -340,9 +350,18 @@ class ModuleACL extends Module {
 		/**
 		 * Если модер или админ блога
 		 */
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
-		if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
-			return true;
+		if ($this->User_GetUserCurrent() and $this->User_GetUserCurrent()->getId()==$oUser->getId()) {
+			/**
+			 * Для авторизованного пользователя данный код будет работать быстрее
+			 */
+			if ($oTopic->getBlog()->getUserIsAdministrator() or $oTopic->getBlog()->getUserIsModerator()) {
+				return true;
+			}
+		} else {
+			$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+			if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+				return true;
+			}
 		}
 		return false;
 	}

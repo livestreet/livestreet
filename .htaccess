@@ -8,8 +8,17 @@ RewriteRule ^(.*)$ ./index.php
 # Alternative rule
 #RewriteRule ^(.*)$ /index.php
 
-<Files "plugins.dat">
-order allow,deny
-deny from all
-</Files>
 
+# Deny access
+<Files "plugins.dat">
+	order allow,deny
+	deny from all
+</Files>
+<Files "plugin.xml">
+	order allow,deny
+	deny from all
+</Files>
+<Files ~ "\.tpl$">
+    Order allow,deny
+    Deny from all
+</Files>

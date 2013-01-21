@@ -74,7 +74,7 @@ class ModuleMessage extends Module {
 	 */
 	public function Shutdown() {
 		/**
-		 * Добавляем в сессию те соощения, которые были отмечены для сессионого использования
+		 * Добавляем в сессию те сообщения, которые были отмечены для сессионного использования
 		 */
 		$this->Session_Set('message_notice_session', $this->GetNoticeSession());
 		$this->Session_Set('message_error_session', $this->GetErrorSession());
@@ -87,7 +87,7 @@ class ModuleMessage extends Module {
 	 *
 	 * @param string $sMsg	Сообщение
 	 * @param string $sTitle	Заголовок
-	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращении пользователя к сайту
 	 */
 	public function AddError($sMsg,$sTitle=null,$bUseSession=false) {
 		if(!$bUseSession) {
@@ -97,11 +97,11 @@ class ModuleMessage extends Module {
 		}
 	}
 	/**
-	 * Создаёт идинственное сообщение об ошибке(т.е. очищает все предыдущие)
+	 * Создаёт единственное сообщение об ошибке(т.е. очищает все предыдущие)
 	 *
 	 * @param string $sMsg	Сообщение
 	 * @param string $sTitle	Заголовок
-	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращении пользователя к сайту
 	 */
 	public function AddErrorSingle($sMsg,$sTitle=null,$bUseSession=false) {
 		$this->ClearError();
@@ -112,7 +112,7 @@ class ModuleMessage extends Module {
 	 *
 	 * @param string $sMsg	Сообщение
 	 * @param string $sTitle	Заголовок
-	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращении пользователя к сайту
 	 */
 	public function AddNotice($sMsg,$sTitle=null,$bUseSession=false) {
 		if(!$bUseSession) {
@@ -122,11 +122,11 @@ class ModuleMessage extends Module {
 		}
 	}
 	/**
-	 * Создаёт идинственное сообщение, удаляя предыдущие
+	 * Создаёт единственное сообщение, удаляя предыдущие
 	 *
 	 * @param string $sMsg	Сообщение
 	 * @param string $sTitle	Заголовок
-	 * @param bool   $bUseSession	Показать сообщение при следующем обращии пользователя к сайту
+	 * @param bool   $bUseSession	Показать сообщение при следующем обращении пользователя к сайту
 	 */
 	public function AddNoticeSingle($sMsg,$sTitle=null,$bUseSession=false) {
 		$this->ClearNotice();

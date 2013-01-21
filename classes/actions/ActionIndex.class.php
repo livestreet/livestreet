@@ -79,8 +79,8 @@ class ActionIndex extends Action {
 		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventIndex');
 		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventNew');
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventNewAll');
-		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventDiscussed');
-		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTop');
+		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i','EventDiscussed');
+		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i','EventTop');
 	}
 
 
@@ -94,8 +94,8 @@ class ActionIndex extends Action {
 	 */
 	protected function EventTop() {
 		$sPeriod=1; // по дефолту 1 день
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
+		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequestStr('period');
 		}
 		/**
 		 * Меню
@@ -145,8 +145,8 @@ class ActionIndex extends Action {
 	 */
 	protected function EventDiscussed() {
 		$sPeriod=1; // по дефолту 1 день
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
+		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequestStr('period');
 		}
 		/**
 		 * Меню

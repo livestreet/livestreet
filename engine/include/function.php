@@ -103,6 +103,19 @@ function getRequest($sName,$default=null,$sType=null) {
 }
 
 /**
+ * функция доступа к GET POST параметрам, которая значение принудительно приводит к строке
+ *
+ * @param string $sName
+ * @param mixed $default
+ * @param string $sType
+ *
+ * @return string
+ */
+function getRequestStr($sName,$default=null,$sType=null) {
+	return (string)getRequest($sName,$default,$sType);
+}
+
+/**
  * Определяет был ли передан указанный параметр методом POST
  *
  * @param  string $sName
@@ -206,7 +219,8 @@ function func_encrypt($sData) {
  * @return unknown
  */
 function func_getIp() {
-    return $_SERVER['REMOTE_ADDR'];
+	// Если запускаем через консоль, то REMOTE_ADDR не определен
+    return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 } 
 
 

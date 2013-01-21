@@ -96,7 +96,7 @@ class ModulePlugin extends Module {
 					$this->Xlang($oXml,'name',$sLang);
 					$this->Xlang($oXml,'author',$sLang);
 					$this->Xlang($oXml,'description',$sLang);
-					$oXml->homepage=$this->Text_Parser($oXml->homepage);
+					$oXml->homepage=$this->Text_Parser((string)$oXml->homepage);
 					$oXml->settings=preg_replace('/{([^}]+)}/',Router::GetPath('$1'),$oXml->settings);
 
 					$this->aPluginsList[$sPlugin]['property']=$oXml;
@@ -354,6 +354,7 @@ class ModulePlugin extends Module {
 
 		$aActivePlugins=$this->GetActivePlugins();
 		foreach ($aPlugins as $sPluginCode) {
+			if (!is_string($sPluginCode)) continue;
 			/**
 			 * Если плагин активен, деактивируем его
 			 */

@@ -68,15 +68,16 @@ class PluginExample extends Plugin {
         /*
         $this->ExportSQL(dirname(__FILE__).'/deinstall.sql'); // Выполнить деактивационный sql, если надо.
         */
+        return true;
     }
 
 
     // Инициализация плагина
     public function Init() {
-        $this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."/css/style.css"); // Добавление своего CSS
-        $this->Viewer_AppendScript(Plugin::GetTemplatePath(__CLASS__)."/js/script.js"); // Добавление своего JS
+        $this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/style.css"); // Добавление своего CSS
+        $this->Viewer_AppendScript(Plugin::GetTemplatePath(__CLASS__)."js/script.js"); // Добавление своего JS
 
-        //$this->Viewer_AddMenu('blog',Plugin::GetTemplatePath(__CLASS__).'/menu.blog.tpl'); // например, задаем свой вид меню
+        //$this->Viewer_AddMenu('blog',Plugin::GetTemplatePath(__CLASS__).'menu.blog.tpl'); // например, задаем свой вид меню
     }
 }
 ?>

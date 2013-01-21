@@ -148,11 +148,11 @@ class ActionRegistration extends Action {
 		/**
 		 * Заполняем поля (данные)
 		 */
-		$oUser->setLogin(getRequest('login'));
-		$oUser->setMail(getRequest('mail'));
-		$oUser->setPassword(getRequest('password'));
-		$oUser->setPasswordConfirm(getRequest('password_confirm'));
-		$oUser->setCaptcha(getRequest('captcha'));
+		$oUser->setLogin(getRequestStr('login'));
+		$oUser->setMail(getRequestStr('mail'));
+		$oUser->setPassword(getRequestStr('password'));
+		$oUser->setPasswordConfirm(getRequestStr('password_confirm'));
+		$oUser->setCaptcha(getRequestStr('captcha'));
 		$oUser->setDateRegister(date("Y-m-d H:i:s"));
 		$oUser->setIpRegister(func_getIp());
 		/**
@@ -198,10 +198,10 @@ class ActionRegistration extends Action {
 					/**
 					 * Отправляем на мыло письмо о подтверждении регистрации
 					 */
-					$this->Notify_SendRegistrationActivate($oUser,getRequest('password'));
+					$this->Notify_SendRegistrationActivate($oUser,getRequestStr('password'));
 					$this->Viewer_AssignAjax('sUrlRedirect',Router::GetPath('registration').'confirm/');
 				} else {
-					$this->Notify_SendRegistration($oUser,getRequest('password'));
+					$this->Notify_SendRegistration($oUser,getRequestStr('password'));
 					$oUser=$this->User_GetUserById($oUser->getId());
 					/**
 					 * Сразу авторизуем
@@ -212,8 +212,8 @@ class ActionRegistration extends Action {
 					 * Определяем URL для редиректа после авторизации
 					 */
 					$sUrl=Config::Get('module.user.redirect_after_registration');
-					if (getRequest('return-path')) {
-						$sUrl=getRequest('return-path');
+					if (getRequestStr('return-path')) {
+						$sUrl=getRequestStr('return-path');
 					}
 					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
 					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
@@ -304,7 +304,7 @@ class ActionRegistration extends Action {
 			if ($this->CheckInviteRegister()) {
 				$sInviteId=$this->GetInviteRegister();
 			} else {
-				$sInviteId=getRequest('invite_code');
+				$sInviteId=getRequestStr('invite_code');
 			}
 			$oInvate=$this->User_GetInviteByCode($sInviteId);
 			if ($oInvate) {

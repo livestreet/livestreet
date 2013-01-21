@@ -418,7 +418,7 @@ class ModuleTalk extends Module {
 			$aTalkId=array($aTalkId);
 		}
 		foreach ($aTalkId as $sTalkId) {
-			if ($oTalk=$this->Talk_GetTalkById($sTalkId)) {
+			if ($oTalk=$this->Talk_GetTalkById((string)$sTalkId)) {
 				if ($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$iUserId)) {
 					$oTalkUser->setDateLast(date("Y-m-d H:i:s"));
 					if ($oTalk->getCommentIdLast()) {
@@ -447,7 +447,7 @@ class ModuleTalk extends Module {
 			$this->DeleteFavouriteTalk(
 				Engine::GetEntity('Favourite',
 								  array(
-									  'target_id' => $sTalkId,
+									  'target_id' => (string)$sTalkId,
 									  'target_type' => 'talk',
 									  'user_id' => $sUserId
 								  )
@@ -456,6 +456,7 @@ class ModuleTalk extends Module {
 		}
 		// Нужно почистить зависимые кеши
 		foreach ($aTalkId as $sTalkId) {
+			$sTalkId=(string)$sTalkId;
 			$this->Cache_Clean(
 				Zend_Cache::CLEANING_MODE_MATCHING_TAG,
 				array("update_talk_user_{$sTalkId}")
@@ -466,6 +467,7 @@ class ModuleTalk extends Module {
 
 		// Удаляем пустые беседы, если в них нет пользователей
 		foreach ($aTalkId as $sTalkId) {
+			$sTalkId=(string)$sTalkId;
 			if (!count($this->GetUsersTalk($sTalkId, array(self::TALK_USER_ACTIVE)))) {
 				$this->DeleteTalk($sTalkId);
 			}
@@ -585,7 +587,10 @@ class ModuleTalk extends Module {
 	 * @param  int $sTalkId	ID разговора
 	 * @return array
 	 */
-	public function GetTalkUsersByTalkId($sTalkId) {
+	public function GetTalkUsersByTalkId($sTalkId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('user'=>array());
+		}
 		if (false === ($aTalkUsers = $this->Cache_Get("talk_relation_user_by_talk_id_{$sTalkId}"))) {
 			$aTalkUsers = $this->oMapper->GetTalkUsers($sTalkId);
 			$this->Cache_Set($aTalkUsers, "talk_relation_user_by_talk_id_{$sTalkId}", array("update_talk_user_{$sTalkId}"), 60*60*24*1);
@@ -596,7 +601,7 @@ class ModuleTalk extends Module {
 			foreach ($aTalkUsers as $oTalkUser) {
 				$aUserId[]=$oTalkUser->getUserId();
 			}
-			$aUsers = $this->User_GetUsersAdditionalData($aUserId);
+			$aUsers = $this->User_GetUsersAdditionalData($aUserId,isset($aAllowData['user']) && is_array($aAllowData['user']) ? $aAllowData['user'] : null);
 
 			foreach ($aTalkUsers as $oTalkUser){
 				if(isset($aUsers[$oTalkUser->getUserId()])) {

@@ -191,12 +191,11 @@ class Config {
 				}
 			}
 		} else {
-			if(preg_match('~___([\S|\.|]+)___~Ui',$cfg))
-				$cfg = preg_replace_callback(
-					'~___([\S|\.]+)___~Ui',
-					create_function('$value','return Config::Get($value[1],"'.$sInstance.'");'),
-					$cfg
-				);
+			if(preg_match_all('~___([\S|\.]+)___~Ui',$cfg,$aMatch,PREG_SET_ORDER)) {
+				foreach($aMatch as $aItem) {
+					$cfg=str_replace('___'.$aItem[1].'___',Config::Get($aItem[1],$sInstance),$cfg);
+				}
+			}
 		}
 		return $cfg;
 	}

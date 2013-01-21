@@ -58,8 +58,8 @@ class ActionPersonalBlog extends Action {
 		$this->AddEventPreg('/^bad$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^new$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 		$this->AddEventPreg('/^newall$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
-		$this->AddEventPreg('/^discussed/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
-		$this->AddEventPreg('/^top/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^discussed$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
+		$this->AddEventPreg('/^top$/i','/^(page([1-9]\d{0,5}))?$/i','EventTopics');
 	}
 
 
@@ -74,8 +74,8 @@ class ActionPersonalBlog extends Action {
 	 */
 	protected function EventTopics() {
 		$sPeriod=1; // по дефолту 1 день
-		if (in_array(getRequest('period'),array(1,7,30,'all'))) {
-			$sPeriod=getRequest('period');
+		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
+			$sPeriod=getRequestStr('period');
 		}
 		$sShowType=$this->sCurrentEvent;
 		if (!in_array($sShowType,array('discussed','top'))) {
