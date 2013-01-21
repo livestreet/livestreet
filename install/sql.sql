@@ -1,5 +1,5 @@
 --
--- Database LiveStreet version 1.0.1
+-- Database LiveStreet version 1.0.2
 --
 
 -- --------------------------------------------------------

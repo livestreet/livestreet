@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'LiveStreet Installation',
 	'step'=>'Step',
 	
-	'start_paragraph'=>'<p>Welcome to LiveStreet &copy; 1.0.1 installation. </p><p><b>Notice:</b> You have to rename file - /config/config.local.php.dist to /config/config.local.php and apply read-write (rw) permision to it.</p><p><b>Notice:</b> Make sure that the following directories have rw permissions: /tmp, /logs, /uploads, /templates/compiled, /templates/cache</p>',
+	'start_paragraph'=>'<p>Welcome to LiveStreet &copy; 1.0.2 installation. </p><p><b>Notice:</b> You have to rename file - /config/config.local.php.dist to /config/config.local.php and apply read-write (rw) permision to it.</p><p><b>Notice:</b> Make sure that the following directories have rw permissions: /tmp, /logs, /uploads, /templates/compiled, /templates/cache</p>',
 	
 	'php_params'=>'General PHP Configuration',
 	'php_params_version'=>'PHP ver. 5.2.0 or higher',
@@ -79,8 +79,8 @@ return array(
 	'db_params_port_notice'=>'It might be a good choice to leave it as 3306 :)',
 	'db_params_name'=>'DB name',
 	'db_params_create'=>'Create DB',
-	'db_params_convert'=>'Convert 0.5.1 DB to 1.0.1',
-	'db_params_convert_from_10'=>'Convert 1.0 DB to 1.0.1',
+	'db_params_convert'=>'Convert 0.5.1 DB to 1.0.2',
+	'db_params_convert_from_10'=>'Convert 1.0 DB to 1.0.2',
 	'db_params_user'=>'Username',
 	'db_params_password'=>'Password',
 	'db_params_prefix'=>"Table's prefix",
@@ -89,7 +89,7 @@ return array(
 	'db_params_engine_notice'=>'InnoDB is recommended',
 	
 	'error_table_select'=>'Query error whilst getting data from %%table%%',
-	'error_database_converted_already'=>'DB structure suits v. 1.0.1 hence conversion aborted',
+	'error_database_converted_already'=>'DB structure suits v. 1.0.2 hence conversion aborted',
 	
 	'admin_params'=>'Administrator Details Configuration',
 	'admin_params_login'=>'Login',
