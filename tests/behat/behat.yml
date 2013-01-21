@@ -4,6 +4,7 @@ default:
       mink_extension.phar:
             base_url: http://livestreet.test/
             default_session: goutte
+            show_cmd: 'firefox %s'
             mink_loader: mink.phar
             goutte:
                 server_parameters:
