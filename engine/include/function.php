@@ -219,7 +219,8 @@ function func_encrypt($sData) {
  * @return unknown
  */
 function func_getIp() {
-    return $_SERVER['REMOTE_ADDR'];
+	// Если запускаем через консоль, то REMOTE_ADDR не определен
+    return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 } 
 
 
