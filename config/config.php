@@ -560,7 +560,6 @@ $config['compress']['css']['template']            = "highest_compression";
 $config['compress']['js']['merge']  = true;    // указывает на необходимость слияния файлов по указанным блокам.
 $config['compress']['js']['use']    = true;    // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
 
-
 $config['defaults']['top_period'] = 1; // Период по умолчанию на который указывает ссылка index/top (варианты: 1,7,30,'all')
 $config['defaults']['discussed_period'] = 1; //Период по умолчанию на который указывает ссылка index/discussed (варианты: 1,7,30,'all')
 $config['defaults']['index_default'] = ''; //Страница по умолчанию которая отображается при заходе на / (варианты: '','top',discussed','new','newall')
