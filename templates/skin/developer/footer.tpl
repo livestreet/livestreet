@@ -2,20 +2,20 @@
 			</div> <!-- /content -->
 		</div> <!-- /content-wrapper -->
 
-		
+
 		{if !$noSidebar && $sidebarPosition != 'left'}
 			{include file='sidebar.tpl'}
 		{/if}
 	</div> <!-- /wrapper -->
 
-	
+
 	<footer id="footer">
 		<div class="copyright">
 			{hook run='copyright'}
 		</div>
-		
+
 		Автор шаблона &mdash; <a href="http://deniart.ru">deniart</a>
-		
+
 		{hook run='footer_end'}
 	</footer>
 

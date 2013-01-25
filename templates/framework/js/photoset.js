@@ -1,16 +1,16 @@
 var ls = ls || {};
 
 ls.photoset =( function ($) {
-	
+
 	this.idLast=0;
 	this.isLoading=false;
 	this.swfu;
-	
+
 	this.initSwfUpload = function(opt) {
 		opt=opt || {};
 		opt.button_placeholder_id = 'photoset-start-upload';
 		opt.post_params.ls_photoset_target_tmp = $.cookie('ls_photoset_target_tmp') ? $.cookie('ls_photoset_target_tmp') : 0;
-		
+
 		$(ls.swfupload).unbind('load').bind('load',function() {
 			this.swfu = ls.swfupload.init(opt);
 
@@ -19,36 +19,36 @@ ls.photoset =( function ($) {
 			$(this.swfu).bind('eUploadSuccess',this.swfHandlerUploadSuccess);
 			$(this.swfu).bind('eUploadComplete',this.swfHandlerUploadComplete);
 		}.bind(this));
-		
+
 		ls.swfupload.loadSwf();
 	}
-	
+
 	this.swfHandlerUploadProgress = function(e, file, bytesLoaded, percent) {
 		$('#photoset_photo_empty_progress').text(file.name+': '+( percent==100 ? 'resize..' : percent +'%'));
 	}
-	
+
 	this.swfHandlerFileDialogComplete = function(e, numFilesSelected, numFilesQueued) {
 		if (numFilesQueued>0) {
 			ls.photoset.addPhotoEmpty();
 		}
 	}
-	
+
 	this.swfHandlerUploadSuccess = function(e, file, serverData) {
 		ls.photoset.addPhoto(jQuery.parseJSON(serverData));
 	}
-	
+
 	this.swfHandlerUploadComplete = function(e, file, next) {
 		if (next>0) {
 			ls.photoset.addPhotoEmpty();
 		}
 	}
-	
+
 	this.addPhotoEmpty = function() {
 		template = '<li id="photoset_photo_empty"><img src="'+DIR_STATIC_SKIN + '/images/loader.gif'+'" alt="image" style="margin-left: 35px;margin-top: 20px;" />'
 					+'<div id="photoset_photo_empty_progress" style="height: 60px;width: 350px;padding: 3px;border: 1px solid #DDDDDD;"></div><br /></li>';
 		$('#swfu_images').append(template);
 	}
-	
+
 	this.addPhoto = function(response) {
 		$('#photoset_photo_empty').remove();
 		if (!response.bStateError) {
@@ -106,7 +106,7 @@ ls.photoset =( function ($) {
 	{
 		if (this.isLoading) return;
 		this.isLoading=true;
-				
+
 		ls.ajax(aRouter['photoset']+'getmore', {'topic_id':topic_id, 'last_id':this.idLast}, function(result){
 			this.isLoading=false;
 			if (!result.bStateError) {
@@ -154,23 +154,14 @@ ls.photoset =( function ($) {
 
 	this.showForm = function()
 	{
-		var $select = $('#photoset-start-upload');
-		if ($select.length) {
-			var pos = $select.offset();
-			w = $select.outerWidth();
-			h = $select.outerHeight();
-			t = pos.top + h - 30  + 'px';
-			l = pos.left - 15 + 'px';
-			$('#photoset-upload-form').css({'top':t,'left':l});
-		}
-		$('#photoset-upload-form').show();
+		$('#photoset-upload-form').jqmShow();
 	}
-	
+
 	this.showMainPhoto = function(id) {
 		$('#photoset-main-preview-'+id).css('width',$('#photoset-main-image-'+id).outerWidth());
 		$('#photoset-photo-count-'+id).show();
 		$('#photoset-photo-desc-'+id).show();
 	}
-	
+
 	return this;
 }).call(ls.photoset || {},jQuery);

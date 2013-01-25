@@ -1,7 +1,7 @@
 <div class="modal modal-write" id="modal-write">
 	<header class="modal-header">
 		<h3>{$aLang.block_create}</h3>
-		<a href="#" class="close " data-toggle="modal-close"></a>
+		<a href="#" class="modal-close" data-toggle="modal-close"></a>
 	</header>
 
 	{strip}

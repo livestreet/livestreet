@@ -8,31 +8,35 @@
 
 (function($) {
 	$.fn.tab = function (options) {
-		var tabsSelector = '[data-toggle=tabs]';
-
 		this.each(function () {
-			var 
+			var
 				$this     = $(this),
-				$tabFirst = $this.closest(tabsSelector).find('li').eq(0);
-			
-			if (!$tabFirst.hasClass('active')) activateTab($tabFirst);
+				$tabFirst = $this.closest($.tab.tabsSelector).find('li').eq(0);
+
+			if (!$tabFirst.hasClass('active')) $.tab.activate($tabFirst);
 
 			// Click
 			$this.click(function () {
-				activateTab($this);
+				$.tab.activate($this);
 				return false;
 			});
 		});
+	};
 
-		// Activate tab
-		function activateTab (tab) {
+	$.fn.tabActivate = function () {
+		$.tab.activate($(this));
+	};
+
+	$.tab = {
+		tabsSelector: '[data-toggle=tabs]',
+		activate: function (tab) {
 			var
 				$pane = $('#' + tab.data('tab-target')),
 				dropdown = tab.closest('ul').parent('li');
 
-			tab.addClass('active').closest(tabsSelector).find('li').not(tab).removeClass('active');
+			tab.addClass('active').closest(this.tabsSelector).find('li').not(tab).removeClass('active');
 			if (dropdown.length > 0) dropdown.addClass('active');
-			$pane.show().parent('.tabs-content').find('.tab-pane').not($pane).hide();
+			$pane.show().parent('[data-toggle=tab-content]').find('[data-toggle=tab-pane]').not($pane).hide();
 		}
 	};
 })(jQuery);

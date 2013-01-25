@@ -7,12 +7,12 @@
 
 <head>
 	{hook run='html_head_begin'}
-	
+
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	
+
 	<title>{$sHtmlTitle}</title>
-	
+
 	<meta name="description" content="{$sHtmlDescription}">
 	<meta name="keywords" content="{$sHtmlKeywords}">
 
@@ -28,12 +28,12 @@
 	{if $sHtmlCanonical}
 		<link rel="canonical" href="{$sHtmlCanonical}" />
 	{/if}
-	
+
 	{if $bRefreshToHome}
 		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
-	
-	
+
+
 	<script type="text/javascript">
 		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
 		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
@@ -41,7 +41,7 @@
 		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 		var SESSION_ID				= '{$_sPhpSessionId}';
 		var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
-		
+
 		var TINYMCE_LANG = 'en';
 		{if $oConfig->GetValue('lang.current') == 'russian'}
 			TINYMCE_LANG = 'ru';
@@ -52,19 +52,19 @@
 			aRouter['{$sPage}'] = '{$sPath}';
 		{/foreach}
 	</script>
-	
-	
+
+
 	{$aHtmlHeadFiles.js}
 
-	
+
 	<script type="text/javascript">
 		var tinyMCE = false;
 		ls.lang.load({json var = $aLangJs});
 		ls.registry.set('comment_max_tree',{json var=$oConfig->Get('module.comment.max_tree')});
 		ls.registry.set('block_stream_show_tip',{json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
-	
-	
+
+
 	{if {cfg name='view.grid.type'} == 'fluid'}
 		<style>
 			#container {
@@ -79,8 +79,8 @@
 			}
 		</style>
 	{/if}
-	
-	
+
+
 	{hook run='html_head_end'}
 </head>
 
@@ -88,7 +88,7 @@
 
 {if $oUserCurrent}
 	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'}
-	
+
 	{if $oUserCurrent->isAdministrator()}
 		{assign var=body_classes value=$body_classes|cat:' ls-user-role-admin'}
 	{/if}
@@ -111,15 +111,15 @@
 
 <body class="{$body_classes} width-{cfg name='view.grid.type'}">
 	{hook run='body_begin'}
-	
-	
+
+
 	{if $oUserCurrent}
-		{include file='window_write.tpl'}
-		{include file='window_favourite_form_tags.tpl'}
+		{include file='modals/modal_write.tpl'}
+		{include file='modals/modal_favourite_form_tags.tpl'}
 	{else}
-		{include file='window_login.tpl'}
+		{include file='modals/modal_login.tpl'}
 	{/if}
-	
+
 
 	<div id="container" class="{hook run='container_class'}">
 		{include file='header_top.tpl'}
@@ -129,13 +129,13 @@
 			{if !$noSidebar && $sidebarPosition == 'left'}
 				{include file='sidebar.tpl'}
 			{/if}
-		
+
 			<div id="content-wrapper" class="{if $sidebarPosition == 'left'}content-right{/if}">
-				<div id="content" role="main" 
+				<div id="content" role="main"
 					class="{if $noSidebar}content-full-width{/if}"
 					{if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
-					
+
 					{include file='nav_content.tpl'}
 					{include file='system_message.tpl'}
-					
+
 					{hook run='content_begin'}
