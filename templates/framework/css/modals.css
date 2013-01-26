@@ -1,0 +1,65 @@
+/*
+ * Modal
+ */
+
+
+/* Base class */
+.modal {
+    display: none;
+    margin: 50px auto;
+    width: 500px;
+    color: #333;
+    border: 1px solid #666;
+    background-color: #fff;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,.5);
+	   -moz-box-shadow: 0 0 15px rgba(0,0,0,.5);
+	        box-shadow: 0 0 15px rgba(0,0,0,.5);
+	overflow: hidden;
+	z-index: 9999;
+}
+
+
+/* Close button */
+.modal .modal-close:before,
+.modal .close:before { display: block;  content: "×";}
+.modal .modal-close,
+.modal .close {
+	position: absolute;
+	top: 9px;
+	right: 14px;
+	font-weight: bold;
+	font-size: 26px;
+	line-height: 1em;
+	color: #000;
+	opacity: .3;
+	filter: alpha(opacity=30);
+}
+.modal .modal-close:hover,
+.modal .close:hover { opacity: .7; filter: alpha(opacity=70); }
+
+
+/* Header */
+.modal .modal-header    { background: #fafafa; border-bottom: 1px solid #f7f7f7; padding: 5px 20px; position: relative; }
+.modal .modal-header h3 { font-size: 20px; font-weight: bold; margin-right: 20px; }
+
+
+/* Content */
+.modal .modal-content   { padding: 20px; }
+
+
+/* Footer */
+.modal .modal-footer    { background: #fafafa; border-top: 1px solid #f7f7f7; padding: 15px 20px; }
+
+
+/* Overlay */
+.modal-overlay {
+	display: none;
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9JREFUeNpiYmBgaAAIMAAAjwCD5Hc2/AAAAABJRU5ErkJggg==);;
+	background: rgba(0,0,0,.5);
+	z-index: 9998;
+	overflow: auto;
+}

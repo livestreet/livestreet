@@ -13,7 +13,7 @@
 	{if !$sImgToLoad}
 		{assign var="sImgToLoad" value="topic_text"}
 	{/if}
-	{include file='window_load_img.tpl' sToLoad=$sImgToLoad}
+	{include file='modals/modal_load_img.tpl' sToLoad=$sImgToLoad}
 
 	{if !$sSettingsTinymce}
 		{assign var="sSettingsMarkitup" value="ls.settings.getMarkitup()"}

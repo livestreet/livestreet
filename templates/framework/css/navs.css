@@ -3,7 +3,7 @@
  */
 
 
-/* Base class 
+/* Base class
 -------------------------------------------------- */
 .nav                 {  }
 .nav > li            { float: left; position: relative; }
@@ -77,8 +77,7 @@
 .nav.nav-tabs .dropdown-toggle:hover:after              { border-top-color: #058; }
 
 /* Tabs content */
-.tabs-content           {  }
-.tabs-content .tab-pane { display: none; }
+.tab-pane { display: none; }
 
 
 /* Userbar
