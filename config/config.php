@@ -236,6 +236,9 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.charcount.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
 	"___path.root.server___/templates/framework/js/main.js",
+	"___path.root.server___/templates/framework/js/dropdown.js",
+	"___path.root.server___/templates/framework/js/modal.js",
+	"___path.root.server___/templates/framework/js/tab.js",
 	"___path.root.server___/templates/framework/js/hook.js",
 );
 $config['head']['default']['css'] = array(

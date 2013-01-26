@@ -284,7 +284,7 @@ class ModuleViewer extends Module {
 		$this->Assign("sHtmlDescription",htmlspecialchars($this->sHtmlDescription));
 		$this->Assign("aHtmlHeadFiles",$this->aHtmlHeadFiles);
 		$this->Assign("aHtmlRssAlternate",$this->aHtmlRssAlternate);
-		$this->Assign("sHtmlCanonical",$this->sHtmlCanonical);
+		$this->Assign("sHtmlCanonical",$this->Tools_Urlspecialchars($this->sHtmlCanonical));
 		/**
 		 * Загружаем список активных плагинов
 		 */
@@ -1365,7 +1365,7 @@ class ModuleViewer extends Module {
 			'iCurrentPage' => $iCurrentPage,
 			'iNextPage' => $iNextPage,
 			'iPrevPage' => $iPrevPage,
-			'sBaseUrl' => rtrim($sBaseUrl,'/'),
+			'sBaseUrl' => rtrim($this->Tools_Urlspecialchars($sBaseUrl),'/'),
 			'sGetParams' => $sGetParams,
 		);
 		/**
