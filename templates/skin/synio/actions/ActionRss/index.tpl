@@ -3,7 +3,7 @@
 <channel>
 	<title>{$aChannel.title}</title>
 	<link>{$aChannel.link}</link>
-	<atom:link href="{$PATH_WEB_CURRENT}/" rel="self" type="application/rss+xml" />
+	<atom:link href="{$PATH_WEB_CURRENT|escape:'html'}/" rel="self" type="application/rss+xml" />
 	<description><![CDATA[{$aChannel.description}]]></description>
 	<language>{$aChannel.language}</language>
 	<managingEditor>{$aChannel.managingEditor} ({cfg name='path.root.web'})</managingEditor>
