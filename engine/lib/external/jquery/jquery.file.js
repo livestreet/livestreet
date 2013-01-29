@@ -29,7 +29,7 @@ jQuery.fn.file = function(options) {
 			'display': 'none'
 		}).appendTo('body');
 
-		var file = $('<div><form></form></div>').appendTo('body').css({
+		var file = $('<div id="area-form-file-'+config.name+'"><form></form></div>').appendTo('body').css({
 			'position': 'absolute',
 			'overflow': 'hidden',
 			'-moz-opacity': '0',

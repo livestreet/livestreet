@@ -1,1 +1,29 @@
-.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun{color:#660}.pln{color:#000}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec{color:#606}pre.prettyprint{padding:2px;border:1px solid #888}@media print{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun{color:#440}.pln{color:#000}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}
+/* Tomorrow Theme */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+/* Pretty printing styles. Used with prettify.js. */
+/* SPAN elements with the classes below are added by prettyprint. */
+/* plain text */
+
+.pln { color: #4d4d4c; }
+
+ol.linenums { margin-top: 0; margin-bottom: 0; }
+
+@media screen { 
+    .str             { color: #718c00; }
+    .kwd             { color: #8959a8; }
+    .com             { color: #8e908c; }
+    .atv             { color: #3e999f; }
+    .typ, .fun       { color: #4271ae; }
+    .lit, .atn, .dec { color: #f5871f; }
+    .pun, .opn, .clo { color: #4d4d4c; }
+    .tag, .var       { color: #c82829; }
+}
+@media print, projection { 
+    .com             { color: #600; font-style: italic; }
+    .typ             { color: #404; font-weight: 700; }
+    .lit             { color: #044; }
+    .pun, .opn, .clo { color: #440; }
+    .atn             { color: #404; }
+    .str, .atv       { color: #060; }
+    .kwd, .tag       { color: #006; font-weight: 700; }
+}

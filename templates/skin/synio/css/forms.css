@@ -2,6 +2,13 @@
 	ФОРМЫ
 ------------------------------------------------------------------- */
 
+button,
+input,
+select,
+textarea {
+	font-family: Verdana, sans-serif;
+}
+
 .input-text {
 	width: 150px;
 	padding: 5px;
@@ -61,9 +68,13 @@ dl.form-item dd { float: left; width: 250px; }
 .form-profile .avatar-change img { width: 80px; vertical-align: top; }
 .form-profile .avatar-change a { color: #727a90; border-color: #727a90; }
 
+
 /* Placeholder */
-:-moz-placeholder { color: #aaa; }
-.placeholder { color: #aaa; }
+:-moz-placeholder           { color: #aaa; }
+::-webkit-input-placeholder { color: #aaa; }
+
+/* IE placeholder */
+.placeholder                { color: #aaa; }
 
 
 .mceEditor { display: block; margin-bottom: 20px; }

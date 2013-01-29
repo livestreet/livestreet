@@ -1,0 +1,59 @@
+/*
+ * Dropdowns
+ *
+ * TODO: Add submenu
+ * TODO: Add arrow support in IE7
+ */
+
+
+/* Base class */
+.dropdown {
+	display: inline-block;
+	*display: inline; *zoom: 1; /* IE7 */
+	background: #2891d3;
+	color: #fff;
+	border-radius: 2px; 
+	padding: 5px 12px;
+	margin-bottom: 10px;
+}
+
+
+ /* Dropdown toggle */
+.dropdown-toggle {
+	padding-right: 25px !important;
+	position: relative; 
+	*zoom: 1;
+	cursor: pointer;
+}
+.dropdown-toggle:after {
+	content: "";
+	position: absolute;
+	top: 50%; right: 9px; 
+	height: 0; width: 0; 
+	margin-top: -1px;
+	border: 4px solid transparent; /* IE7 */
+	border: 4px solid rgba(255,255,255,0);
+	border-top-color: #fff;
+}
+.dropdown-toggle.open       { background: #0088cc; color: #fff; }
+.dropdown-toggle.open:after { border-top-color: #fff; }
+
+
+/* Dropdown menu */
+.dropdown-menu {
+	position: absolute;
+	top: 0; left: 0;
+	z-index: 900;
+	display: none;
+	min-width: 150px;
+	padding: 5px 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.dropdown-menu li > a          { display: block; padding: 5px 12px; white-space: nowrap; }
+.dropdown-menu > li.active > a { background: #c8ecff; color: #48a4d5; }
+.dropdown-menu > li > a:hover  { background: #0088cc; color: #fff; }
+
+.dropdown-menu > li.divider    { height: 0; border-top: 1px solid #e1e1e1; margin: 5px 0; }

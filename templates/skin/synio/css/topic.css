@@ -65,10 +65,11 @@
 .topic .topic-footer .topic-info li.topic-info-comments span.count 	{ color: #27a736; text-decoration: none; }
 .topic .topic-footer .topic-info li.topic-info-comments i 			{ float: left; margin-right: 7px; }
 
-.topic .topic-footer .topic-info li.topic-info-favourite 			{ padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
-.topic .topic-footer .topic-info li.topic-info-favourite i 			{ float: left; margin-right: 3px; }
-.topic .topic-footer .topic-info li.topic-info-favourite:hover		{ background: #64ceff; color: #fff; }
-.topic .topic-footer .topic-info li.topic-info-favourite:hover i	{ background-position: 0 -51px; }
+.topic .topic-footer .topic-info li.topic-info-favourite                   { padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
+.topic .topic-footer .topic-info li.topic-info-favourite .favourite        { float: left; }
+.topic .topic-footer .topic-info li.topic-info-favourite .favourite-count  { margin-left: 4px;}
+.topic .topic-footer .topic-info li.topic-info-favourite:hover             { background: #64ceff; color: #fff; }
+.topic .topic-footer .topic-info li.topic-info-favourite:hover .favourite  { background-position: 0 -51px; }
 
 /* Share */
 .topic .topic-share 				{ display: none; border: 3px solid #edf8fd; padding: 3px 35px 3px 3px; border-radius: 10px; margin-bottom: 10px; position: relative; }
@@ -77,27 +78,27 @@
 .topic .topic-share .arrow 			{ position: absolute; border: none; width: 15px; height: 11px; background: url(../images/icons-synio.png) no-repeat; background-position: -53px -107px; bottom: -11px; }
 
 /* Poll */
-.topic .poll { margin-bottom: 15px; }
+.topic .poll                                { margin-bottom: 15px; }
 
-.topic .poll .poll-vote { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
-.topic .poll .poll-vote li { margin-bottom: 10px; }
-.topic .poll .poll-vote li:last-child { margin-bottom: 0; }
-.topic .poll .poll-vote li label { display: inline; }
-.topic .poll .poll-vote li input { position: relative; top: 1px; margin-right: 2px; }
+.topic .poll .poll-vote                     { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.topic .poll .poll-vote li                  { margin-bottom: 10px; }
+.topic .poll .poll-vote li:last-child       { margin-bottom: 0; }
+.topic .poll .poll-vote li label            { display: inline; }
+.topic .poll .poll-vote li input            { position: relative; top: 1px; margin-right: 2px; }
 
-.topic .poll .poll-result { margin-bottom: 10px; list-style-type: none; background: #fff; overflow: hidden; }
-.topic .poll .poll-result li { margin-bottom: 20px; }
-.topic .poll .poll-result li dl { overflow: hidden; zoom: 1; }
-.topic .poll .poll-result li dl dt { float: left; width: 80px; }
-.topic .poll .poll-result li dl dt span { font-size: 11px; color: #aaa; }
-.topic .poll .poll-result li dl dd { float: left; width: 400px; }
-.topic .poll .poll-result li dl dd div { height: 7px; margin-top: 3px; background: #ccc; overflow: hidden; border-radius: 4px; }
+.topic .poll .poll-result                   { margin-bottom: 10px; list-style-type: none; background: #fff; overflow: hidden; }
+.topic .poll .poll-result li                { margin-bottom: 20px; }
+.topic .poll .poll-result li dl             { overflow: hidden; zoom: 1; }
+.topic .poll .poll-result li dl dt          { float: left; width: 80px; }
+.topic .poll .poll-result li dl dt span     { font-size: 11px; color: #aaa; }
+.topic .poll .poll-result li dl dd          { padding-left: 80px; }
+.topic .poll .poll-result li dl dd div      { height: 7px; margin-top: 3px; background: #ccc; overflow: hidden; border-radius: 4px; }
 .topic .poll .poll-result li.most dl dd div { background: #1999e2; background: url(../images/poll-most.png) repeat-x; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2); box-shadow: 0 1px 2px rgba(0,0,0,.2); }
-.topic .poll .poll-result li.most dl dt { color: #12aaeb; }
+.topic .poll .poll-result li.most dl dt     { color: #12aaeb; }
 
-.topic .poll .poll-total { position: relative; color: #818189; font-size: 11px; line-height: 16px; padding-left: 80px; margin-bottom: 30px; }
-.topic .poll .poll-total .poll-sort { position: absolute; top: 2px; left: 0; width: 23px; height: 23px; background: url(../images/icons-synio.png) -161px 0 no-repeat; cursor: pointer; }
-.topic .poll .poll-total .poll-sort.active { background-position: -184px 0; }
+.topic .poll .poll-total                    { position: relative; color: #818189; font-size: 11px; line-height: 16px; padding-left: 80px; margin-bottom: 30px; }
+.topic .poll .poll-total .poll-sort         { position: absolute; top: 2px; left: 0; width: 23px; height: 23px; background: url(../images/icons-synio.png) -161px 0 no-repeat; cursor: pointer; }
+.topic .poll .poll-total .poll-sort.active  { background-position: -184px 0; }
 
 /* Topic Photo */
 .topic.topic-type-photoset {  }

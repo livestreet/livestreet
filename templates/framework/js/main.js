@@ -416,7 +416,7 @@ ls = (function ($) {
 			}.bind(this)
 		};
 		
-		ls.hook.run('ls_ajax_before', [ajaxOptions], this);
+		ls.hook.run('ls_ajax_before', [ajaxOptions,callback,more], this);
 
 		return $.ajax(ajaxOptions);
 	};
@@ -449,7 +449,7 @@ ls = (function ($) {
 
 		};
 
-		ls.hook.run('ls_ajaxsubmit_before', [options], this);
+		ls.hook.run('ls_ajaxsubmit_before', [options,form,callback,more], this);
 		
 		form.ajaxSubmit(options);
 	};

@@ -7,7 +7,7 @@
 	<header class="topic-header">
 		<h1 class="topic-title word-wrap">
 			{if $oTopic->getPublish() == 0}   
-				<i class="icon-tag" title="{$aLang.topic_unpublish}"></i>
+				<i class="icon-file" title="{$aLang.topic_unpublish}"></i>
 			{/if}
 			
 			{if $oTopic->getType() == 'link'} 

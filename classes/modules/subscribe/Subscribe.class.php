@@ -254,11 +254,11 @@ class ModuleSubscribe extends Module {
 	public function CheckTargetTopicNewComment($iTargetId,$iStatus) {
 		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
 			/**
-			 * Топик может быть в закрытом блоге, поэтому необходимо разрешить подписку только если пользователь в нем состоит
+			 * Топик может быть в закрытом блоге, поэтому необходимо разрешить подписку только если пользователь в нем состоит, или является автором блога
 			 * Отписываться разрешаем с любого топика
 			 */
 			if ($iStatus==1 and $oTopic->getBlog()->getType()=='close') {
-				if (!$this->oUserCurrent or !$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId())) {
+				if (!$this->oUserCurrent or !($oTopic->getBlog()->getOwnerId()==$this->oUserCurrent->getId() or $this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$this->oUserCurrent->getId()))) {
 					return false;
 				}
 			}

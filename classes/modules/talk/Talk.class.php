@@ -587,7 +587,10 @@ class ModuleTalk extends Module {
 	 * @param  int $sTalkId	ID разговора
 	 * @return array
 	 */
-	public function GetTalkUsersByTalkId($sTalkId) {
+	public function GetTalkUsersByTalkId($sTalkId,$aAllowData=null) {
+		if (is_null($aAllowData)) {
+			$aAllowData=array('user'=>array());
+		}
 		if (false === ($aTalkUsers = $this->Cache_Get("talk_relation_user_by_talk_id_{$sTalkId}"))) {
 			$aTalkUsers = $this->oMapper->GetTalkUsers($sTalkId);
 			$this->Cache_Set($aTalkUsers, "talk_relation_user_by_talk_id_{$sTalkId}", array("update_talk_user_{$sTalkId}"), 60*60*24*1);
@@ -598,7 +601,7 @@ class ModuleTalk extends Module {
 			foreach ($aTalkUsers as $oTalkUser) {
 				$aUserId[]=$oTalkUser->getUserId();
 			}
-			$aUsers = $this->User_GetUsersAdditionalData($aUserId);
+			$aUsers = $this->User_GetUsersAdditionalData($aUserId,isset($aAllowData['user']) && is_array($aAllowData['user']) ? $aAllowData['user'] : null);
 
 			foreach ($aTalkUsers as $oTalkUser){
 				if(isset($aUsers[$oTalkUser->getUserId()])) {

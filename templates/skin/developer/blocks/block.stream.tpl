@@ -13,14 +13,18 @@
 			{$sItemsHook}
 		</ul>
 		
-		<ul class="nav nav-pills js-block-stream-dropdown" {if !$sItemsHook}style="display: none;"{/if}>
-			<li class="dropdown active js-block-stream-dropdown-trigger"><a href="#">{$aLang.block_stream_comments}</a> <i class="arrow"></i>
-				<ul class="dropdown-menu js-block-stream-dropdown-items">
-					<li class="active js-block-stream-item" data-type="comment"><a href="#">{$aLang.block_stream_comments}</a></li>
-					<li class="js-block-stream-item" data-type="topic"><a href="#">{$aLang.block_stream_topics}</a></li>
-					{$sItemsHook}
-				</ul>
-			</li>
+		
+		<div 
+			class="dropdown dropdown-toggle js-block-stream-dropdown" 
+			data-toggle="dropdown" 
+			data-dropdown-menu="js-dropdown-stream" 
+			data-dropdown-ajax="true" 
+			{if !$sItemsHook}style="display: none;"{/if}>{$aLang.block_stream_comments}</a></div>
+		
+		<ul class="dropdown-menu js-block-stream-dropdown-items" id="js-dropdown-stream">
+			<li class="active js-block-stream-item" data-type="comment"><a href="#">{$aLang.block_stream_comments}</a></li>
+			<li class="js-block-stream-item" data-type="topic"><a href="#">{$aLang.block_stream_topics}</a></li>
+			{$sItemsHook}
 		</ul>
 		
 		

@@ -296,40 +296,10 @@
 
 /* Хелперы
 ---------------------------------------------------- */
-.mt-10 { margin-top: 10px !important; }
-.mt-15 { margin-top: 15px !important; }
-.mt-20 { margin-top: 20px !important; }
-.mt-30 { margin-top: 30px !important; }
-
-.mb-10 { margin-bottom: 10px !important; }
-.mb-15 { margin-bottom: 15px !important; }
-.mb-20 { margin-bottom: 20px !important; }
-.mb-30 { margin-bottom: 30px !important; }
-
-.ta-c { text-align: center !important; }
-.ta-r { text-align: right !important; }
-.va-m { vertical-align: middle; }
-.fl-r { float: right !important; }
-.fl-l { float: left !important; }
-
-.clearfix:before,
-.clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-.clearfix 		{ zoom: 1; }
-
 .wrapper 			{ overflow: hidden; zoom: 1; }
 .wrapper-content 	{ padding: 20px 20px; background: #f8fbfe; }
 .wrapper-content h3 { font-size: 15px; margin-bottom: 10px; font-family: Verdana, sans-serif; }
 .wrapper-content.wrapper-content-dark 	{ padding: 15px 20px; background: #f1f7fd; }
-
-.word-wrap {
-	white-space: -moz-pre-wrap !important;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap; 
-	white-space: pre-wrap;
-	word-wrap: break-word;
-	white-space: normal;
-}
 
 
 

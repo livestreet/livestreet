@@ -1,50 +1,22 @@
-<script type="text/javascript">
-	jQuery(function($){
-		var trigger = $('#dropdown-create-trigger');
-		var menu 	= $('#dropdown-create-menu');
-		var pos 	= trigger.position();
+<h2 class="page-header page-header-publish">
+	{$aLang.block_create}
 	
-	
-		// Dropdown
-		menu.css({ 'left': pos.left - 5 });
-	
-		trigger.click(function(){
-			menu.slideToggle(); 
-			return false;
-		});
-		
-		
-		// Hide menu
-		$(document).click(function(){
-			menu.slideUp();
-		});
-	
-		$('body').on("click", "#dropdown-create-trigger, #dropdown-create-menu", function(e) {
-			e.stopPropagation();
-		});
-	});
-</script>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-dropdown-menu="js-dropdown-publish">
+		{if $sMenuItemSelect=='topic'}
+			{$aLang.topic_menu_add}
+		{elseif $sMenuItemSelect=='blog'}
+			{$aLang.blog_menu_create}
+		{else}
+			{hook run='menu_create_item_select' sMenuItemSelect=$sMenuItemSelect}
+		{/if}
+	</a>
+</h2>
 
-
-<div class="dropdown-create">
-	{strip}
-		<h2 class="page-header">{$aLang.block_create} <a href="#" class="dropdown-create-trigger link-dashed" id="dropdown-create-trigger">
-			{if $sMenuItemSelect=='topic'}
-				{$aLang.topic_menu_add}
-			{elseif $sMenuItemSelect=='blog'}
-				{$aLang.blog_menu_create}
-			{else}
-				{hook run='menu_create_item_select' sMenuItemSelect=$sMenuItemSelect}
-			{/if}
-		</a></h2>
-	{/strip}
-	
-	<ul class="dropdown-menu" id="dropdown-create-menu" style="display: none">
-		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
-		<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
-		{hook run='menu_create_item' sMenuItemSelect=$sMenuItemSelect}
-	</ul>
-</div>
+<ul class="dropdown-menu" id="js-dropdown-publish">
+	<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
+	<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
+	{hook run='menu_create_item' sMenuItemSelect=$sMenuItemSelect}
+</ul>
 
 
 {if $sMenuItemSelect=='topic'}

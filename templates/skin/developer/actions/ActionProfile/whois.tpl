@@ -15,7 +15,10 @@
 {if $oUserProfile->getProfileAbout()}					
 	<div class="profile-info-about">
 		<h3>{$aLang.profile_about}</h3>
-		{$oUserProfile->getProfileAbout()}
+		
+		<div class="text">
+			{$oUserProfile->getProfileAbout()}
+		</div>
 	</div>
 {/if}
 
