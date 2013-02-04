@@ -96,7 +96,7 @@ class ActionIndex extends Action {
 	 * Вывод рейтинговых топиков
 	 */
 	protected function EventTop() {
-		$sPeriod=Config::Get('defaults.top_period'); // по дефолт берется из конфига
+		$sPeriod=Config::Get('defaults.top_period'); // берем период из конфига
 		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
 			$sPeriod=getRequestStr('period');
 		}
@@ -147,7 +147,7 @@ class ActionIndex extends Action {
 	 * Вывод обсуждаемых топиков
 	 */
 	protected function EventDiscussed() {
-		$sPeriod=Config::Get('defaults.discussed_period'); // по дефолту 1 день
+		$sPeriod=Config::Get('defaults.discussed_period'); // берем период из конфига
 		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
 			$sPeriod=getRequestStr('period');
 		}
