@@ -24,9 +24,6 @@ jQuery(document).ready(function($){
 	// Dropdowns
 	$('[data-toggle=dropdown]').dropdown();
 
-	// Modal
-	$('[data-toggle=modal]').modal();
-
 
 	$('.js-registration-form-show').click(function(){
 		if (ls.blocks.switchTab('registration','popup-login')) {

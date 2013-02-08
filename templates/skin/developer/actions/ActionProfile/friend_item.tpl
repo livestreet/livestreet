@@ -9,20 +9,9 @@
 {elseif $oUserFriend and $oUserFriend->getFriendStatus()==$USER_FRIEND_OFFER+$USER_FRIEND_NULL and $oUserFriend->getUserTo()==$oUserCurrent->getId()}
 	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'accept');">{$aLang.user_friend_add}</a></li>
 {elseif !$oUserFriend}
-	<div id="add_friend_form" class="modal">
-		<header class="modal-header">
-			<h3>{$aLang.profile_add_friend}</h3>
-			<a href="#" class="modal-close" data-toggle="modal-close"></a>
-		</header>
-
-		<form onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');" class="modal-content">
-			<p><label for="add_friend_text">{$aLang.user_friend_add_text_label}</label>
-			<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea></p>
-
-			<button type="submit" class="button button-primary">{$aLang.user_friend_add_submit}</button>
-		</form>
-	</div>
-	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" data-toggle="modal" data-modal-target="add_friend_form">{$aLang.user_friend_add}</a></li>
+	{include file='modals/modal_add_friend.tpl'}
+	
+	<li id="add_friend_item"><a href="#"  title="{$aLang.user_friend_add}" data-type="modal-toggle" data-modal-target="add_friend_form">{$aLang.user_friend_add}</a></li>
 {else}
 	<li id="add_friend_item"><a href="#" title="{$aLang.user_friend_add}" onclick="return ls.user.addFriend(this,{$oUserProfile->getId()},'link');">{$aLang.user_friend_add}</a></li>
 {/if}

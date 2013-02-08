@@ -1,63 +1,79 @@
-<div class="modal modal-image-upload" id="window_upload_img">
-	<header class="modal-header">
-		<h3>{$aLang.uploadimg}</h3>
-		<a href="#" class="modal-close" data-toggle="modal-close"></a>
-	</header>
+{extends file='modals/modal_base.tpl'}
 
-	<div class="modal-content">
-		<ul class="nav nav-pills nav-pills-tabs">
-			<li class="active js-block-upload-img-item" data-type="pc"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
-			<li class="js-block-upload-img-item" data-type="link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
-		</ul>
+{block name='options'}
+	{assign var='noContent' value=true}
+	{assign var='noFooter' value=true}
+{/block}
 
-		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_pc" onsubmit="return false;" class="tab-content js-block-upload-img-content" data-type="pc">
-			<p><label for="img_file">{$aLang.uploadimg_file}:</label>
-			<input type="file" name="img_file" id="img_file" value="" class="input-text input-width-full" /></p>
+{block name='id'}window_upload_img{/block}
+{block name='class'}modal-image-upload{/block}
+{block name='title'}{$aLang.uploadimg}{/block}
 
-			{hook run="uploadimg_source"}
+{block name='header_after'}
+	<ul class="nav nav-pills nav-pills-tabs" data-toggle="tabs">
+		<li data-toggle="tab" data-tab-target="tab-upload-pc"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
+		<li data-toggle="tab" data-tab-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
+	</ul>
+{/block}
 
-			<p>
-				<label for="form-image-align">{$aLang.uploadimg_align}:</label>
-				<select name="align" id="form-image-align" class="input-width-full">
-					<option value="">{$aLang.uploadimg_align_no}</option>
-					<option value="left">{$aLang.uploadimg_align_left}</option>
-					<option value="right">{$aLang.uploadimg_align_right}</option>
-					<option value="center">{$aLang.uploadimg_align_center}</option>
-				</select>
-			</p>
+{block name='content_after'}
+	<div data-toggle="tab-content">
+		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-pc" onsubmit="return false;" data-toggle="tab-pane">
+			<div class="modal-content">
+				<p><label for="img_file">{$aLang.uploadimg_file}:</label>
+				<input type="file" name="img_file" id="img_file" value="" class="input-text input-width-full" /></p>
 
-			<p><label for="form-image-title">{$aLang.uploadimg_title}:</label>
-			<input type="text" name="title" id="form-image-title" value="" class="input-text input-width-full" /></p>
+				{hook run="uploadimg_source"}
 
-			{hook run="uploadimg_additional"}
+				<p>
+					<label for="form-image-align">{$aLang.uploadimg_align}:</label>
+					<select name="align" id="form-image-align" class="input-width-full">
+						<option value="">{$aLang.uploadimg_align_no}</option>
+						<option value="left">{$aLang.uploadimg_align_left}</option>
+						<option value="right">{$aLang.uploadimg_align_right}</option>
+						<option value="center">{$aLang.uploadimg_align_center}</option>
+					</select>
+				</p>
 
-			<button type="submit" class="button button-primary" onclick="ls.ajaxUploadImg('block_upload_img_content_pc','{$sToLoad}');">{$aLang.uploadimg_submit}</button>
-			<button type="submit" class="button " data-toggle="modal-close">{$aLang.uploadimg_cancel}</button>
+				<p><label for="form-image-title">{$aLang.uploadimg_title}:</label>
+				<input type="text" name="title" id="form-image-title" value="" class="input-text input-width-full" /></p>
+
+				{hook run="uploadimg_additional"}
+			</div>
+			
+			<div class="modal-footer">
+				<button type="submit" class="button button-primary" onclick="ls.ajaxUploadImg('block_upload_img_content_pc','{$sToLoad}');">{$aLang.uploadimg_submit}</button>
+				<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+			</div>
 		</form>
 
 
-		<form method="POST" action="" enctype="multipart/form-data" id="block_upload_img_content_link" onsubmit="return false;" style="display: none;" class="tab-content js-block-upload-img-content" data-type="link">
-			<p><label for="img_file">{$aLang.uploadimg_url}:</label>
-			<input type="text" name="img_url" id="img_url" value="http://" class="input-text input-width-full" /></p>
+		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-link" onsubmit="return false;" data-toggle="tab-pane">
+			<div class="modal-content">
+				<p><label for="img_file">{$aLang.uploadimg_url}:</label>
+				<input type="text" name="img_url" id="img_url" value="http://" class="input-text input-width-full" /></p>
 
-			<p>
-				<label for="form-image-url-align">{$aLang.uploadimg_align}:</label>
-				<select name="align" id="form-image-url-align" class="input-width-full">
-					<option value="">{$aLang.uploadimg_align_no}</option>
-					<option value="left">{$aLang.uploadimg_align_left}</option>
-					<option value="right">{$aLang.uploadimg_align_right}</option>
-					<option value="center">{$aLang.uploadimg_align_center}</option>
-				</select>
-			</p>
+				<p>
+					<label for="form-image-url-align">{$aLang.uploadimg_align}:</label>
+					<select name="align" id="form-image-url-align" class="input-width-full">
+						<option value="">{$aLang.uploadimg_align_no}</option>
+						<option value="left">{$aLang.uploadimg_align_left}</option>
+						<option value="right">{$aLang.uploadimg_align_right}</option>
+						<option value="center">{$aLang.uploadimg_align_center}</option>
+					</select>
+				</p>
 
-			<p><label for="form-image-url-title">{$aLang.uploadimg_title}:</label>
-				<input type="text" name="title" id="form-image-url-title" value="" class="input-text input-width-full" /></p>
+				<p><label for="form-image-url-title">{$aLang.uploadimg_title}:</label>
+					<input type="text" name="title" id="form-image-url-title" value="" class="input-text input-width-full" /></p>
 
-			{hook run="uploadimg_link_additional"}
+				{hook run="uploadimg_link_additional"}
+			</div>
 
-			<button type="submit" class="button button-primary" onclick="ls.topic.insertImageToEditor(jQuery('#img_url').val(),jQuery('#form-image-url-align').val(),jQuery('#form-image-url-title').val());">{$aLang.uploadimg_link_submit_paste}</button>
-			<button type="submit" class="button button-primary" onclick="ls.ajaxUploadImg('block_upload_img_content_link','{$sToLoad}');">{$aLang.uploadimg_link_submit_load}</button>
-			<button type="submit" class="button" data-toggle="modal-close">{$aLang.uploadimg_cancel}</button>
+			<div class="modal-footer">
+				<button type="submit" class="button button-primary" onclick="ls.topic.insertImageToEditor(jQuery('#img_url').val(),jQuery('#form-image-url-align').val(),jQuery('#form-image-url-title').val());">{$aLang.uploadimg_link_submit_paste}</button>
+				<button type="submit" class="button button-primary" onclick="ls.ajaxUploadImg('block_upload_img_content_link','{$sToLoad}');">{$aLang.uploadimg_link_submit_load}</button>
+				<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+			</div>
 		</form>
 	</div>
-</div>
+{/block}
