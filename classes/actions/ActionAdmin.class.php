@@ -251,7 +251,7 @@ class ActionAdmin extends Action {
 					$oField->setType('');
 				}
 
-				if ($this->User_updateUserField($oField)) {
+				if (!$this->User_updateUserField($oField)) {
 					$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 					return;
 				}

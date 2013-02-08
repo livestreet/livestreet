@@ -84,7 +84,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		$this->Viewer_AddBlock('right','streamConfig');
 		/**
@@ -128,7 +128,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		if (!getRequest('type')) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -152,7 +152,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
@@ -193,7 +193,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
@@ -234,7 +234,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
@@ -279,7 +279,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		/**
 		 * Проверяем существование пользователя
@@ -310,7 +310,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		if (!getRequest('login') or !is_string(getRequest('login'))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -351,7 +351,7 @@ class ActionStream extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			parent::EventNotFound();
+			return parent::EventNotFound();
 		}
 		/**
 		 * Пользователь с таким ID существует?

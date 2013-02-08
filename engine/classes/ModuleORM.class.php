@@ -391,6 +391,13 @@ abstract class ModuleORM extends Module {
 			if (!is_array($aFilter['#with'])) {
 				$aFilter['#with']=array($aFilter['#with']);
 			}
+			/**
+			 * Формируем список примари ключей
+			 */
+			$aEntityPrimaryKeys=array();
+			foreach ($aEntities as $oEntity) {
+				$aEntityPrimaryKeys[]=$oEntity->_getPrimaryKeyValue();
+			}
 			$oEntityEmpty=Engine::GetEntity($sEntityFull);
 			$aRelations=$oEntityEmpty->_getRelations();
 			$aEntityKeys=array();
@@ -419,14 +426,25 @@ abstract class ModuleORM extends Module {
 				$sRelEntityName=Engine::GetEntityName($sRelEntity);
 				$sRelPluginPrefix=Engine::GetPluginPrefix($sRelEntity);
 				$sRelPrimaryKey = method_exists($oRelEntityEmpty,'_getPrimaryKey') ? func_camelize($oRelEntityEmpty->_getPrimaryKey()) : 'Id';
-				$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
-
+				if ($sRelType==EntityORM::RELATION_TYPE_BELONGS_TO) {
+					$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByArray{$sRelPrimaryKey}", array($aEntityKeys[$sRelKey]));
+				} elseif ($sRelType==EntityORM::RELATION_TYPE_HAS_ONE) {
+					$aFilterRel=array($sRelKey.' in'=>$aEntityPrimaryKeys,'#index-from'=>$sRelKey);
+					$aRelData=Engine::GetInstance()->_CallModule("{$sRelPluginPrefix}{$sRelModuleName}_get{$sRelEntityName}ItemsByFilter", array($aFilterRel));
+				}
 				/**
 				 * Собираем набор
 				 */
 				foreach ($aEntities as $oEntity) {
-					if (isset($aRelData[$oEntity->_getDataOne($sRelKey)])) {
-						$oEntity->_setData(array($sRelationName => $aRelData[$oEntity->_getDataOne($sRelKey)]));
+					if ($sRelType==EntityORM::RELATION_TYPE_BELONGS_TO) {
+						$sKeyData=$oEntity->_getDataOne($sRelKey);
+					} elseif ($sRelType==EntityORM::RELATION_TYPE_HAS_ONE) {
+						$sKeyData=$oEntity->_getPrimaryKeyValue();
+					} else {
+						break;
+					}
+					if (isset($aRelData[$sKeyData])) {
+						$oEntity->_setData(array($sRelationName => $aRelData[$sKeyData]));
 					}
 				}
 			}
