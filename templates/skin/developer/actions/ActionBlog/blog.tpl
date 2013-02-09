@@ -11,32 +11,8 @@
 
 
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<div id="modal-blog-delete" class="modal">
-		<header class="modal-header">
-			<h3>{$aLang.blog_admin_delete_title}</h3>
-			<a href="#" class="modal-close" data-toggle="modal-close"></a>
-		</header>
-
-
-		<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" class="modal-content">
-			<p><label for="topic_move_to">{$aLang.blog_admin_delete_move}:</label>
-			<select name="topic_move_to" id="topic_move_to" class="input-width-full">
-				<option value="-1">{$aLang.blog_delete_clear}</option>
-				{if $aBlogs}
-					<optgroup label="{$aLang.blogs}">
-						{foreach from=$aBlogs item=oBlogDelete}
-							<option value="{$oBlogDelete->getId()}">{$oBlogDelete->getTitle()|escape:'html'}</option>
-						{/foreach}
-					</optgroup>
-				{/if}
-			</select></p>
-
-			<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" />
-			<button type="submit" class="button button-primary">{$aLang.blog_delete}</button>
-		</form>
-	</div>
+	{include file='modals/modal_blog_delete.tpl'}
 {/if}
-
 
 
 <div class="blog">
@@ -64,7 +40,7 @@
 				<li>
 					<a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}" class="edit">{$aLang.blog_edit}</a></li>
 					{if $oUserCurrent->isAdministrator()}
-						<li><a href="#" title="{$aLang.blog_delete}" data-toggle="modal" data-modal-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a>
+						<li><a href="#" title="{$aLang.blog_delete}" data-type="modal-toggle" data-modal-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a>
 					{else}
 						<a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.blog_delete}" onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a>
 					{/if}

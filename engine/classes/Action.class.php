@@ -92,8 +92,8 @@ abstract class Action extends LsObject {
 	 * @param string $sAction Название экшена
 	 */
 	public function __construct(Engine $oEngine, $sAction) {
-		$this->RegisterEvent();
 		$this->oEngine=$oEngine;
+		$this->RegisterEvent();
 		$this->sCurrentAction=$sAction;
 		$this->aParams=Router::GetParams();
 	}

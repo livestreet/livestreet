@@ -42,6 +42,7 @@
 	background: linear-gradient(top,  #66cfff 0%,#2abcfe 100%);
 	
 	border-color: #27ace8;
+	text-shadow: none;
 }
 .button.button-primary:hover { background: #2abcfe; }
 

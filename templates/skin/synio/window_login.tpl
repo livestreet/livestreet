@@ -42,7 +42,7 @@
 					<small class="validate-error-hide validate-error-login"></small>
 					{hook run='form_login_popup_end'}
 
-					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
+					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT}">
 				</form>
 				{hook run='login_popup_end'}
 			</div>
@@ -111,7 +111,7 @@
 
 					{hook run='form_registration_end' isPopup=true}
 
-					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT|escape:'html'}">
+					<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT}">
 					<button type="submit"  name="submit_register" class="button button-primary" id="popup-registration-form-submit" disabled="disabled">{$aLang.registration_submit}</button>
 				</form>
 				{hook run='registration_end' isPopup=true}

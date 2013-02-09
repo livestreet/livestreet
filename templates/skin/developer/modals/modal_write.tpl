@@ -1,11 +1,15 @@
-<div class="modal modal-write" id="modal-write">
-	<header class="modal-header">
-		<h3>{$aLang.block_create}</h3>
-		<a href="#" class="modal-close" data-toggle="modal-close"></a>
-	</header>
+{extends file='modals/modal_base.tpl'}
 
+{block name='options'}
+	{assign var='noFooter' value=true}
+{/block}
+
+{block name='id'}modal-write{/block}
+{block name='class'}modal-write{/block}
+{block name='title'}{$aLang.block_create}{/block}
+
+{block name='content'}
 	{strip}
-	<div class="modal-content">
 		<ul class="write-list">
 			<li class="write-item-type-topic">
 				<a href="{router page='topic'}add" class="write-item-image"></a>
@@ -33,6 +37,5 @@
 			</li>
 			{hook run='write_item' isPopup=true}
 		</ul>
-	</div>
 	{/strip}
-</div>
+{/block}

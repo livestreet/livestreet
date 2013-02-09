@@ -1,5 +1,8 @@
 {hook run='profile_sidebar_begin' oUserProfile=$oUserProfile}
 
+{include file='modals/modal_profile_photo_upload.tpl'}
+
+
 <section class="block block-type-profile">
 	<div class="profile-photo-wrapper">
 		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
@@ -19,18 +22,6 @@
 			<a href="#" id="foto-upload" class="link-dotted">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_photo_change}{else}{$aLang.settings_profile_photo_upload}{/if}</a>&nbsp;&nbsp;&nbsp;
 			<a href="#" id="foto-remove" class="link-dotted" onclick="return ls.user.removeFoto();" style="{if !$oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
 		</p>
-
-		<div class="modal" id="foto-resize">
-			<header class="modal-header">
-				<h3>{$aLang.uploadimg}</h3>
-			</header>
-			
-			<div class="modal-content">
-				<img src="" alt="" id="foto-resize-original-img"><br />
-				<button type="submit" class="button button-primary" onclick="return ls.user.resizeFoto();">{$aLang.settings_profile_avatar_resize_apply}</button>
-				<button type="submit" class="button" onclick="return ls.user.cancelFoto();">{$aLang.settings_profile_avatar_resize_cancel}</button>
-			</div>
-		</div>
 	{/if}
 </section>
 
