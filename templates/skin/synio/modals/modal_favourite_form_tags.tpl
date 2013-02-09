@@ -4,7 +4,7 @@
 {block name='title'}{$aLang.add_favourite_tags}{/block}
 
 {block name='content'}
-	<form onsubmit="return ls.favourite.saveTags(this);">
+	<form onsubmit="return ls.favourite.saveTags(this);" id="js-favourite-form">
 		<input type="hidden" name="target_type" value="" id="favourite-form-tags-target-type">
 		<input type="hidden" name="target_id" value="" id="favourite-form-tags-target-id">
 

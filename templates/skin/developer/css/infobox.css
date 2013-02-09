@@ -7,7 +7,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 9999;
+	z-index: 10000;
 	text-align: left;
 	padding: 15px;
 	min-width: 50px;
