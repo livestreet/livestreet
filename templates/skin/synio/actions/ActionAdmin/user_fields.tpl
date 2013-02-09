@@ -1,42 +1,11 @@
 {include file='header.tpl'}
+{include file='modals/modal_userfields.tpl'}
 
 
 <h2 class="page-header">{$aLang.user_field_admin_title}</h2>
 
-
-<div class="modal" id="userfield_form">
-	<header class="modal-header">
-		<h3>{$aLang.user_field_admin_title_add}</h3>
-		<a href="#" class="close jqmClose"></a>
-	</header>
-
-	<form class="modal-content">
-		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
-		<select id="user_fields_form_type" class="input-text input-width-full">
-			<option value=""></option>
-			{foreach from=$aUserFieldTypes item=sFieldType}
-				<option value="{$sFieldType}">{$sFieldType}</option>
-			{/foreach}
-		</select></p>
-
-		<p><label for="user_fields_form_name">{$aLang.userfield_form_name}:</label>
-		<input type="text" id="user_fields_form_name" class="input-text input-width-full" /></p>
-		
-		<p><label for="user_fields_form_title">{$aLang.userfield_form_title}:</label>
-		<input type="text" id="user_fields_form_title" class="input-text input-width-full" /></p>
-		
-		<p><label for="user_fields_form_pattern">{$aLang.userfield_form_pattern}:</label>
-		<input type="text" id="user_fields_form_pattern" class="input-text input-width-full" /></p>
-		
-		<input type="hidden" id="user_fields_form_action" />
-		<input type="hidden" id="user_fields_form_id" />
-		
-		<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
-	</form>
-</div>
-
  
-<a href="javascript:ls.userfield.showAddForm()" class="link-dotted" id="userfield_form_show">{$aLang.user_field_add}</a>
+<a href="javascript:ls.userfield.showAddForm()" class="link-dotted">{$aLang.user_field_add}</a>
 <br /><br />
 
 <ul class="userfield-list" id="user_field_list">

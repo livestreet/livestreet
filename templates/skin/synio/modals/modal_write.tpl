@@ -1,10 +1,16 @@
-<div class="modal modal-write" id="modal_write">
-	<header class="modal-header">
-		<a href="#" class="close jqmClose"></a>
-	</header>
+{extends file='modals/modal_base.tpl'}
+
+{block name='options'}
+	{assign var='noTitle' value=true}
+	{assign var='noFooter' value=true}
+{/block}
+
+{block name='id'}modal-write{/block}
+{block name='class'}modal-write{/block}
+{block name='title'}{$aLang.block_create}{/block}
 	
+{block name='content'}
 	{strip}
-	<div class="modal-content">
 		<ul class="write-list">
 			{if $iUserCurrentCountTopicDraft}
 			<li class="write-item-type-draft">
@@ -26,7 +32,5 @@
 			</li>
 			{hook run='write_item' isPopup=true}
 		</ul>
-	</div>
 	{/strip}
-</div>
-	
+{/block}

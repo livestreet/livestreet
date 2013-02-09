@@ -4,7 +4,7 @@
 
 <h2 class="page-header">{$aLang.user_field_admin_title}</h2>
 
-<a href="#" data-type="modal-toggle" data-modal-target="userfield_form" class="link-dotted">{$aLang.user_field_add}</a>
+<a href="javascript:ls.userfield.showAddForm()" class="link-dotted">{$aLang.user_field_add}</a>
 <br /><br />
 
 <ul class="userfield-list" id="user_field_list">
