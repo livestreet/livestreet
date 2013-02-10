@@ -190,12 +190,6 @@ class ActionStream extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
-		}
-		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
 		$iFromId = getRequestStr('last_id');
@@ -230,12 +224,6 @@ class ActionStream extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
-		}
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
