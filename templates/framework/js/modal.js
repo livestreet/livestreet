@@ -66,6 +66,8 @@
              * Hide overlay, loader and all modals
              */
             _hideOverlay:   function (callback) {
+                                if (!Modal.settings._overlay.is(':visible')) return false;
+
                                 Modal.settings._overlay.fadeOut(300, function () {
                                     if ($('html').hasClass('ie7')) {
                                         $('html').css('overflow', 'auto');
