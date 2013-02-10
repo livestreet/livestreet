@@ -22,8 +22,8 @@ jQuery(document).ready(function($){
 	}
 
 	$('.js-registration-form-show').click(function(){
-		if (ls.blocks.switchTab('registration','popup-login')) {
-			$('#window_login_form').jqmShow();
+		if ($('[data-tab-target=tab-pane-registration]')) {
+			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-registration]').tabActivate()});
 		} else {
 			window.location=aRouter.registration;
 		}
@@ -31,8 +31,8 @@ jQuery(document).ready(function($){
 	});
 
 	$('.js-login-form-show').click(function(){
-		if (ls.blocks.switchTab('login','popup-login')) {
-			$('#window_login_form').jqmShow();
+		if ($('[data-tab-target=tab-pane-login]')) {
+			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-login]').tabActivate()});
 		} else {
 			window.location=aRouter.login;
 		}
