@@ -384,6 +384,14 @@ abstract class EntityORM extends Entity {
 		return $this->_aOriginalData;
 	}
 	/**
+	 * Возвращает данные для списка полей сущности
+	 *
+	 * @return array
+	 */
+	public function _getDataFields() {
+		return $this->_getData($this->_getFields());
+	}
+	/**
 	 * Возвращает список полей сущности
 	 *
 	 * @return array
