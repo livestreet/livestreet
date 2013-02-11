@@ -32,6 +32,7 @@
         this.$element.find(Modal.settings.closeSelector).on('click.modal', function () {
             Modal.settings._hideOverlay();
             if ($this.options.isAjax) $this.$element.remove();
+            return false;
         });
     };
 
