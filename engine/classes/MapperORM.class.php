@@ -32,7 +32,7 @@ class MapperORM extends Mapper {
 		$sTableName = self::GetTableName($oEntity);
 
 		$sql = "INSERT INTO ".$sTableName." SET ?a ";
-		return $this->oDb->query($sql,$oEntity->_getData());
+		return $this->oDb->query($sql,$oEntity->_getDataFields());
 	}
 	/**
 	 * Обновление сущности
@@ -53,7 +53,7 @@ class MapperORM extends Mapper {
 				$sWhere.=' and '.$this->oDb->escape($sField,true)." = ".$this->oDb->escape($oEntity->_getDataOne($sField));
 			}
 			$sql = "UPDATE ".$sTableName." SET ?a WHERE {$sWhere}";
-			return $this->oDb->query($sql,$oEntity->_getData());
+			return $this->oDb->query($sql,$oEntity->_getDataFields());
 		} else {
 			$aOriginalData = $oEntity->_getOriginalData();
 			$sWhere = implode(' AND ',array_map(create_function(
@@ -61,7 +61,7 @@ class MapperORM extends Mapper {
 													'return "{$oDb->escape($k,true)} = {$oDb->escape($v)}";'
 												),array_keys($aOriginalData),array_values($aOriginalData),array_fill(0,count($aOriginalData),$this->oDb)));
 			$sql = "UPDATE ".$sTableName." SET ?a WHERE 1=1 AND ". $sWhere;
-			return $this->oDb->query($sql,$oEntity->_getData());
+			return $this->oDb->query($sql,$oEntity->_getDataFields());
 		}
 	}
 	/**
