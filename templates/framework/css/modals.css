@@ -22,7 +22,7 @@
 
 /* Close button */
 .modal .modal-close:before,
-.modal .close:before { display: block;  content: "×";}
+.modal .close:before { display: block;  content: "×"; }
 .modal .modal-close,
 .modal .close {
 	position: absolute;
@@ -40,8 +40,18 @@
 
 
 /* Header */
-.modal .modal-header    { background: #fafafa; border-bottom: 1px solid #f7f7f7; padding: 5px 20px; position: relative; }
+.modal .modal-header    {
+	background: #fafafa;
+	border-bottom: 1px solid #f7f7f7;
+	padding: 5px 20px;
+	position: relative;
+	min-height: 10px;
+}
 .modal .modal-header h3 { font-size: 20px; font-weight: bold; margin-right: 20px; }
+
+
+/* Nav */
+.modal > .nav { padding: 20px 20px 0; }
 
 
 /* Content */
@@ -50,6 +60,17 @@
 
 /* Footer */
 .modal .modal-footer    { background: #fafafa; border-top: 1px solid #f7f7f7; padding: 15px 20px; }
+
+
+/* Loader */
+.modal-loader {
+	display: none;
+	width: 100px; height: 50px;
+	position: fixed;
+	top: 50%; left: 50%;
+	border-radius: 5px;
+	background: rgba(0,0,0,.8) url(../img/modal-loader.gif) 50% 50% no-repeat;
+}
 
 
 /* Overlay */
