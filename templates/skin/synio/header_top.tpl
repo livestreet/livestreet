@@ -54,8 +54,8 @@
 	{else}
 		<ul class="auth">
 			{hook run='userbar_item'}
-			<li><a href="{router page='registration'}" onclick="jQuery('#modal-login').modalShow({ onShow: $('[data-tab-target=tab-pane-registration]').tabActivate(), center: false }); return false;">{$aLang.registration_submit}</a></li>
-			<li><a href="{router page='login'}" onclick="jQuery('#modal-login').modalShow({ onShow: $('[data-tab-target=tab-pane-login]').tabActivate(), center: false }); return false;">{$aLang.user_login_submit}</a></li>
+			<li><a href="{router page='registration'}" class="js-registration-form-show">{$aLang.registration_submit}</a></li>
+			<li><a href="{router page='login'}" class="js-login-form-show">{$aLang.user_login_submit}</a></li>
 		</ul>
 	{/if}
 	
