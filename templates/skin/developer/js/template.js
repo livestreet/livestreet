@@ -21,9 +21,6 @@ jQuery(document).ready(function($){
 		}
 	}
 
-	// Dropdowns
-	$('[data-toggle=dropdown]').dropdown();
-
 
 	$('.js-registration-form-show').click(function(){
 		if ($('[data-tab-target=tab-pane-registration]').length) {

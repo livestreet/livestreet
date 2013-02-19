@@ -33,7 +33,7 @@
 			{block name='footer'}{/block}
 			
 			{if !$noCancel}
-				<button type="button" class="button" data-type="modal-close" />{$aLang.favourite_form_tags_button_cancel}</button>
+				<button type="button" class="button" data-type="modal-close">{$aLang.favourite_form_tags_button_cancel}</button>
 			{/if}
 		</div>
 		

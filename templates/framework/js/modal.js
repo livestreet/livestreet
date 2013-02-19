@@ -25,9 +25,7 @@
 
         this.$element.appendTo(Modal.settings._overlay);
 
-        this.$element.on('click.modal', function (e) {
-            e.stopPropagation();
-        });
+        
 
         this.$element.find(Modal.settings.closeSelector).on('click.modal', function () {
             Modal.settings._hideOverlay();
@@ -137,8 +135,10 @@
         Modal.settings._loader = $('<div class="' + Modal.settings.loaderClass + '" />').height(Modal.settings._windowHeight).appendTo(Modal.settings._overlay);
         Modal.settings._resize();
 
-        Modal.settings._overlay.on('click.modal', function () {
-            Modal.settings._hideOverlay();
+        Modal.settings._overlay.on('click.modal', function (e) {
+            if (e.target === this) {
+                Modal.settings._hideOverlay();
+            }
         });
 
         $(window).on('resize.modal', function () {
@@ -174,7 +174,10 @@
                     Modal.settings._loader.show();
                     Modal.settings._showOverlay();
 
-                    ls.ajax(url, null, function (result) {
+                    // TODO: Fix params selector
+                    var params = $(this).data() || {};
+
+                    ls.ajax(url, params, function (result) {
                         if (result.bStateError) {
                             Modal.settings._hideOverlay();
                             ls.msg.error('Error', result.sMsg);
@@ -182,7 +185,7 @@
                             var modal = $(result[Modal.settings.ajaxVar]);
                             Modal.settings._loader.hide();
                             modal.data('object', (object = new Modal(modal, { isAjax: true })));
-                            modal.data('object').show();
+                            object.show();
                         }
                     }, {
                         error: function () {
