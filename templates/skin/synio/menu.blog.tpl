@@ -1,6 +1,6 @@
 <ul class="nav nav-menu">
 	<li {if $sMenuItemSelect=='index'}class="active"{/if}>
-		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a>
+		<a href="{router page='index'}">{$aLang.blog_menu_all}</a>
 	</li>
 
 	<li {if $sMenuItemSelect=='blog'}class="active"{/if}>

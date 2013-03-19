@@ -1,6 +1,6 @@
 <header id="header" role="banner">
 	{hook run='header_banner_begin'}
-	<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
+	<h1 class="site-name"><a href="{router page='index'}">{cfg name='view.name'}</a></h1>
 	
 	
 	<ul class="nav nav-main" id="nav-main">
