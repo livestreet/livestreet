@@ -17,7 +17,7 @@
 
 error_reporting(E_ALL);
 set_time_limit(0);
-define('LS_VERSION','1.0.2');
+define('LS_VERSION','1.0.3');
 
 class Install {
 	/**
@@ -637,7 +637,7 @@ class Install {
 					/**
 					 * Если указана конвертация старой базы данных
 					 */
-					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.5.1_to_1.0.2.sql',$aParams));
+					list($bResult,$aErrors) = array_values($this->ConvertDatabase('convert_0.5.1_to_1.0.3.sql',$aParams));
 					if(!$bResult) {
 						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 						$this->Layout('steps/db.tpl');
@@ -645,9 +645,9 @@ class Install {
 					}
 				} elseif ($aParams['convert_from_10']) {
 					/**
-					 * Если указана конвертация старой базы данных (1.0 -> 1.0.2)
+					 * Если указана конвертация старой базы данных (1.0 -> 1.0.3)
 					 */
-					list($bResult,$aErrors) = array_values($this->ConvertDatabaseFrom10('convert_1.0_to_1.0.2.sql',$aParams));
+					list($bResult,$aErrors) = array_values($this->ConvertDatabaseFrom10('convert_1.0_to_1.0.3.sql',$aParams));
 					if(!$bResult) {
 						foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 						$this->Layout('steps/db.tpl');
@@ -1181,7 +1181,7 @@ class Install {
 		return !in_array($aParams['prefix'].'user_note',$aDbTables);
 	}
 	/**
-	 * Конвертирует базу данных версии 0.5.1 в базу данных версии 1.0.2
+	 * Конвертирует базу данных версии 0.5.1 в базу данных версии 1.0.3
 	 *
 	 * @return bool
 	 */
@@ -1216,7 +1216,7 @@ class Install {
 			}
 		}
 		/**
-		 * Необходимая конвертация в 1.0.2 из 0.5.1
+		 * Необходимая конвертация в 1.0.3 из 0.5.1
 		 */
 
 		/**
@@ -1690,7 +1690,7 @@ class Install {
 		return !$this->isFieldExistsDatabase($sTable,'user_settings_timezone');
 	}
 	/**
-	 * Конвертирует базу данных версии 1.0 в базу данных версии 1.0.2
+	 * Конвертирует базу данных версии 1.0 в базу данных версии 1.0.3
 	 *
 	 * @return bool
 	 */

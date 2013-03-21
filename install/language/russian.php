@@ -55,7 +55,7 @@ return array(
 	'install_title'=>'Установка LiveStreet',
 	'step'=>'Шаг',
 	
-	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 1.0.2. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на /config/config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
+	'start_paragraph'=>'<p>Добро пожаловать в инсталлятор LiveStreet &copy; 1.0.3. Ознакомьтесь с результатами и следуйте подсказкам.</p><p><b>Внимание.</b> Для успешной иснталяции вы должны переименовать файл /config/config.local.php.dist на /config/config.local.php и дать этому файлу права на запись.</p><p><b>Внимание.</b> Директории /tmp, /logs, /uploads, /templates/compiled, /templates/cache должны иметь права на запись.</p>',
 	
 	'php_params'=>'Основные настройки PHP',
 	'php_params_version'=>'PHP версии не ниже 5.2.0',
@@ -79,8 +79,8 @@ return array(
 	'db_params_port_notice'=>'Скорее всего правильным решение будет оставить 3306 :)',
 	'db_params_name'=>'Название базы данных',
 	'db_params_create'=>'Создать базу данных',
-	'db_params_convert'=>'Конвертировать базу 0.5.1 в 1.0.2',
-	'db_params_convert_from_10'=>'Конвертировать базу 1.0 в 1.0.2',
+	'db_params_convert'=>'Конвертировать базу 0.5.1 в 1.0.3',
+	'db_params_convert_from_10'=>'Конвертировать базу 1.0 в 1.0.3',
 	'db_params_user'=>'Имя пользователя',
 	'db_params_password'=>'Пароль',
 	'db_params_prefix'=>'Префикс таблиц',
@@ -89,7 +89,7 @@ return array(
 	'db_params_engine_notice'=>'Рекомендуется использовать InnoDB',
 	
 	'error_table_select'=>'Ошибка запроса на выборку данных из таблицы %%table%%',
-	'error_database_converted_already'=>'Конвертация отменена, так как структура базы данных соответствует версии 1.0.2',
+	'error_database_converted_already'=>'Конвертация отменена, так как структура базы данных соответствует версии 1.0.3',
 	
 	'admin_params'=>'Настройка данных администратора',
 	'admin_params_login'=>'Логин',
