@@ -157,6 +157,7 @@ class Jevix{
 	const TR_TAG_CALLBACK = 15;      // Тег обрабатывается callback-функцией - в обработку уходит только контент тега(короткие теги не обрабатываются)
 	const TR_TAG_BLOCK_TYPE = 16;    // Тег после которого не нужна автоподстановка доп. <br> 
 	const TR_TAG_CALLBACK_FULL = 17;    // Тег обрабатывается callback-функцией - в обработку уходит весь тег
+	const TR_PARAM_COMBINATION = 18;    // Проверка на возможные комбинации значений параметров тега
 
 	/**
 	 * Классы символов генерируются symclass.php
@@ -362,7 +363,46 @@ class Jevix{
 		if(!isset($this->tagsRules[$tag])) throw new Exception("Тег $tag отсутствует в списке разрешённых тегов");
 		$this->tagsRules[$tag][self::TR_TAG_CALLBACK_FULL] = $callback;
 	}
-	
+
+	/**
+	 * КОНФИГУРАЦИЯ: Устанавливаем комбинации значений параметров для тега
+	 *
+	 * @param string $tag тег
+	 * @param string $param атрибут
+	 * @param array $aCombinations Список комбинаций значений. Пример: array('myvalue'=>array('attr1'=>array('one','two'),'attr2'=>'other'))
+	 * @param bool $bRemove Удаляеть тег или нет, если в списке нет значения основного атрибута
+	 */
+	function cfgSetTagParamCombination($tag, $param, $aCombinations,$bRemove=false){
+		if(!isset($this->tagsRules[$tag])) throw new Exception("Tag $tag is missing in allowed tags list");
+
+		if(!isset($this->tagsRules[$tag][self::TR_PARAM_COMBINATION])) {
+			$this->tagsRules[$tag][self::TR_PARAM_COMBINATION] = array();
+		}
+
+		/**
+		 * Переводим в нижний регистр значений параметров
+		 * Ужасный код
+		 */
+		$aCombinationsResult=array();
+		foreach($aCombinations as $k=>$aAttr) {
+			$aAttrResult=array();
+			foreach($aAttr as $kk => $mValue) {
+				if (is_string($mValue)) {
+					$mValue=mb_strtolower($mValue);
+				} elseif (is_array($mValue)) {
+					foreach($mValue as $kkk=>$vvv) {
+						if (is_string($vvv)) {
+							$mValue[$kkk]=mb_strtolower($vvv);
+						}
+					}
+				}
+				$aAttrResult[$kk]=$mValue;
+			}
+			$aCombinationsResult[mb_strtolower($k)]=$aAttrResult;
+		}
+		$this->tagsRules[$tag][self::TR_PARAM_COMBINATION][$param] = array('combination'=>$aCombinationsResult,'remove'=>$bRemove);
+	}
+
 	/**
 	 * Автозамена
 	 *
@@ -1050,7 +1090,52 @@ class Jevix{
 		if (!isset($tagRules[self::TR_TAG_IS_EMPTY]) or !$tagRules[self::TR_TAG_IS_EMPTY]) {
 			if(!$short && $content == '') return '';
 		}
-		
+
+		// Проверка на допустимые комбинации
+		if (isset($tagRules[self::TR_PARAM_COMBINATION])) {
+			$aRuleCombin=$tagRules[self::TR_PARAM_COMBINATION];
+			$resParamsList=$resParams;
+			foreach($resParamsList as $param => $value) {
+				$value=mb_strtolower($value);
+				if (isset($aRuleCombin[$param]['combination'][$value])) {
+					foreach($aRuleCombin[$param]['combination'][$value] as $sAttr=>$mValue) {
+						if (isset($resParams[$sAttr])) {
+							$bOK=false;
+							$sValueParam=mb_strtolower($resParams[$sAttr]);
+
+							if (is_string($mValue)) {
+								if ($mValue==$sValueParam) {
+									$bOK=true;
+								}
+							} elseif(is_array($mValue)) {
+								if (isset($mValue['#domain']) and is_array($mValue['#domain'])) {
+									if(!preg_match('/javascript:/ui', $sValueParam)) {
+										foreach ($mValue['#domain'] as $sDomain) {
+											$sDomain=preg_quote($sDomain);
+											if (preg_match("@^(http|https|ftp)://([\w\d]+\.)?{$sDomain}/@ui",$sValueParam)) {
+												$bOK=true;
+												break;
+											}
+										}
+									}
+								} elseif (in_array($sValueParam, $mValue)) {
+									$bOK=true;
+								}
+							} elseif($mValue===true) {
+								$bOK=true;
+							}
+
+							if (!$bOK) {
+								unset($resParams[$sAttr]);
+							}
+						}
+					}
+				} elseif(isset($aRuleCombin[$param]['remove']) and $aRuleCombin[$param]['remove']) {
+					return '';
+				}
+			}
+		}
+
 		// Если тег обрабатывает "полным" колбеком
 		if (isset($tagRules[self::TR_TAG_CALLBACK_FULL])) {
 			$text = call_user_func($tagRules[self::TR_TAG_CALLBACK_FULL], $tag, $resParams, $content);
