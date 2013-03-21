@@ -121,9 +121,6 @@ return array(
 					'scale' => array(
 						'value'=>array('scale','showall','noborder','exactfit'),
 					),
-					'style' => array(
-						'value'=>true,
-					),
 					'tabindex' => array(
 						'value'=>true,
 					),
