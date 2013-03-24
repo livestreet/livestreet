@@ -219,12 +219,10 @@ class Engine extends LsObject {
 	 * @return Engine
 	 */
 	static public function getInstance() {
-		if (isset(self::$oInstance) and (self::$oInstance instanceof self)) {
-			return self::$oInstance;
-		} else {
-			self::$oInstance= new self();
-			return self::$oInstance;
+		if (!isset(self::$oInstance) or (!self::$oInstance instanceof self)) {
+			self::$oInstance = new self();
 		}
+    return self::$oInstance;
 	}
 
 	/**
@@ -502,22 +500,9 @@ class Engine extends LsObject {
 	 * @param  int $iTime	Время жизни кеша
 	 * @return bool
 	 */
-	public function isFileExists($sFile,$iTime=3600) {
-		// пока так
+	public function isFileExists($sFile) {
+		// данный метод нигде не используется
 		return file_exists($sFile);
-
-		if(
-			!$this->isInit('cache')
-			|| !Config::Get('sys.cache.use')
-			|| Config::Get('sys.cache.type') != 'memory'
-		){
-			return file_exists($sFile);
-		}
-		if (false === ($data = $this->Cache_Get("file_exists_{$sFile}"))) {
-			$data=file_exists($sFile);
-			$this->Cache_Set((int)$data, "file_exists_{$sFile}", array(), $iTime);
-		}
-		return $data;
 	}
 	/**
 	 * Вызывает метод нужного модуля
