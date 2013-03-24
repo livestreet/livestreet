@@ -24,9 +24,9 @@ set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
 
 // Проверка на наличие директории install
-if (is_dir (dirname(__FILE__) . '/install/') and $_SERVER ['HTTP_APP_ENV'] != 'test') {
+if (is_dir (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'install') and $_SERVER ['HTTP_APP_ENV'] != 'test') {
   header("HTTP/1.1 301 Moved Permanently");
-  header("Location: install");
+  die("Location: " . $_SERVER ['HTTP_HOST'] . "/install");
   exit();
 }
 
