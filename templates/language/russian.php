@@ -1136,7 +1136,6 @@ return array(
 	'or' => 'или',
 	'window_close' => 'закрыть',
 	'not_access' => 'Нет доступа',
-	'install_directory_exists' => 'Для работы с сайтом удалите директорию /install.',
 	'login' => 'Вход на сайт',
 	'delete' => 'Удалить',
 	'date_day' => 'день',
