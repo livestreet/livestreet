@@ -23,10 +23,12 @@ header('X-Powered-By: LiveStreet CMS');
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 chdir(dirname(__FILE__));
 
+//print_r($_SERVER);die();
+
 // Проверка на наличие директории install
-if (is_dir (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'install') and $_SERVER ['HTTP_APP_ENV'] != 'test') {
-  header("HTTP/1.1 301 Moved Permanently");
-  die("Location: " . $_SERVER ['HTTP_HOST'] . "/install");
+if (is_dir (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'install') and (!isset ($_SERVER ['HTTP_APP_ENV']) or $_SERVER ['HTTP_APP_ENV'] != 'test')) {
+  //header("HTTP/1.1 301 Moved Permanently");
+  header ("Location: http://" . $_SERVER ['HTTP_HOST'] . "/install");
   exit();
 }
 
