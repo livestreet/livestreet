@@ -226,7 +226,13 @@ jQuery(document).ready(function($){
 				$(this).attr('src',ifr_source+'?'+wmode);
 		}
 	});
-
+	
+  // Закрыть системное сообщение
+  $ (document).on ('click', '.TriggerCloseWrapper', function () {
+    $ (this).closest ('.WrapperToClose').slideUp (200, function () {
+      $ (this).remove ();
+    });
+  });
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
