@@ -1024,7 +1024,11 @@ class ActionBlog extends Action {
      */
     protected function CheckParentComment($oTopic, $sText, $oCommentParent) {
 
-        $sParentId = (int)getRequest('reply');
+        $sParentId = 0;
+        if ($oCommentParent) {
+            $sParentId = $oCommentParent->GetCommentId();
+        }
+
         $bOk = true;
         /**
          * Проверям на какой коммент отвечаем
