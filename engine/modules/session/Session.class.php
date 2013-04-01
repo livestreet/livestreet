@@ -77,10 +77,23 @@ class ModuleSession extends Module {
 			);
 			if(!session_id()) {
 				/**
+				 * Попытка подменить идентификатор имени сессии через куку
+				 */
+				if (isset($_COOKIE[Config::Get ('sys.session.name')]) and !is_string($_COOKIE[Config::Get ('sys.session.name')])) {
+					die("Hacking attemp! Please check cookie PHP session name.");
+				}
+				/**
+				 * Попытка подменить идентификатор имени сессии в реквесте
+				 */
+				$aRequest=array_merge($_GET,$_POST); // Исключаем попадаение $_COOKIE в реквест
+				if (@ini_get ('session.use_only_cookies') === "0" and isset($aRequest[Config::Get ('sys.session.name')]) and !is_string($aRequest[Config::Get ('sys.session.name')])) {
+					die("Hacking attemp! Please check cookie PHP session name.");
+				}
+				/**
 				 * Даем возможность флешу задавать id сессии
 				 */
 				$sUserAgent=isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
-				if ($sUserAgent and (in_array($sUserAgent,$this->aFlashUserAgent) or strpos($sUserAgent,"Adobe Flash Player")===0) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
+				if ($sUserAgent and (in_array($sUserAgent,$this->aFlashUserAgent) or strpos($sUserAgent,"Adobe Flash Player")===0) and is_string(getRequest('SSID')) and preg_match("/^[\w\d]{5,40}$/",getRequest('SSID'))) {
 					session_id(getRequest('SSID'));
 				} else {
 					session_regenerate_id();
