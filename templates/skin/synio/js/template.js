@@ -21,22 +21,9 @@ jQuery(document).ready(function($){
 		}
 	}
 
-	// Всплывающие окна
-	$('#window_login_form').jqm();
-	$('#blog_delete_form').jqm({trigger: '#blog_delete_show', toTop: true});
-	$('#add_friend_form').jqm({trigger: '#add_friend_show', toTop: true});
-	$('#window_upload_img').jqm();
-	$('#userfield_form').jqm();
-	$('#favourite-form-tags').jqm();
-	$('#modal_write').jqm({trigger: '.js-write-window-show'});
-	$('#foto-resize').jqm({modal: true, toTop: true});
-	$('#avatar-resize').jqm({modal: true, toTop: true});
-	$('#userfield_form').jqm({toTop: true});
-	$('#photoset-upload-form').jqm({trigger: '#photoset-start-upload'});
-
 	$('.js-registration-form-show').click(function(){
-		if (ls.blocks.switchTab('registration','popup-login')) {
-			$('#window_login_form').jqmShow();
+		if ($('[data-tab-target=tab-pane-registration]').length) {
+			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-registration]').tabActivate()});
 		} else {
 			window.location=aRouter.registration;
 		}
@@ -44,8 +31,8 @@ jQuery(document).ready(function($){
 	});
 
 	$('.js-login-form-show').click(function(){
-		if (ls.blocks.switchTab('login','popup-login')) {
-			$('#window_login_form').jqmShow();
+		if ($('[data-tab-target=tab-pane-login]').length) {
+			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-login]').tabActivate()});
 		} else {
 			window.location=aRouter.login;
 		}

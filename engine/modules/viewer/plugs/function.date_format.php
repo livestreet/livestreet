@@ -29,6 +29,8 @@
  * 								В указанном формате 'day' будет заменено на соответствующее значение.
  * 		minutes_back*  [int]    Количество минут, в течении которых событие имеет статус "... минут назад"
  * 		hours_back*    [int]    Количество часов, в течении которых событие имеет статус "... часов назад"
+ * 		tz*    		   [float]  Временная зона
+ * 		notz*    	   [bool]   Не учитывать зону
  *
  * (* - параметр является необязательным)
  *
@@ -39,15 +41,25 @@
 function smarty_function_date_format($aParams,&$oSmarty) {
 	require_once(Config::Get('path.root.engine').'/classes/Engine.class.php');
 	$oEngine = Engine::getInstance();
-	$oUserCurrent=$oEngine->User_GetUserCurrent();
 
 	$sFormatDefault = "d F Y, H:i";  //  формат даты по умолчанию
 	$iDeclinationDefault  = 1;       //  индекс склонения по умолчанию
 	/**
 	 * Текущая дата и сдвиг времени для пользователя
 	 */
-	if ($oUserCurrent and $oUserCurrent->getSettingsTimezone()) {
-		$iDiff=(date('I') + $oUserCurrent->getSettingsTimezone() - (strtotime(date("Y-m-d H:i:s"))-strtotime(gmdate("Y-m-d H:i:s")))/3600)*3600;
+	$iTz=false;
+	if (!isset($aParams['notz'])) {
+		if (isset($aParams['tz'])) {
+			$iTz=$aParams['tz'];
+		}
+		if ($iTz===false) {
+			if ($oUserCurrent=$oEngine->User_GetUserCurrent() and $oUserCurrent->getSettingsTimezone()) {
+				$iTz=$oUserCurrent->getSettingsTimezone();
+			}
+		}
+	}
+	if ($iTz!==false) {
+		$iDiff=(date('I') + $iTz - (strtotime(date("Y-m-d H:i:s"))-strtotime(gmdate("Y-m-d H:i:s")))/3600)*3600;
 	} else {
 		$iDiff=0; // пользователю показываем время от зоны из основного конфига
 	}
@@ -55,7 +67,7 @@ function smarty_function_date_format($aParams,&$oSmarty) {
 	/**
 	 * Определяем дату
 	 */
-	$sDate = (empty($aParams['date'])) ? $iNow : $aParams['date'];
+	$sDate = (empty($aParams['date'])) ? time() : $aParams['date'];
 	$iDeclination = (!isset($aParams['declination'])) ? $iDeclinationDefault : $aParams['declination'];
 	$sFormat = (empty($aParams['format'])) ? $sFormatDefault : $aParams['format'];
 	/**

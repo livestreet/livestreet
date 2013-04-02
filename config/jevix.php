@@ -79,6 +79,67 @@ return array(
 				array('border'=>'#int','cellpadding'=>'#int','cellspacing'=>'#int','align'=>array('right', 'left', 'center'),'height'=>'#int','width'=>'#int')
 			),
 		),
+		// допустимые комбинации значений у параметров
+		'cfgSetTagParamCombination' => array(
+			array(
+				'param',
+				'name',
+				array(
+					'allowScriptAccess' => array(
+						'value'=>array('sameDomain'),
+					),
+					'movie' => array(
+						'value'=>array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')),
+					),
+					'align' => array(
+						'value'=>array('bottom','middle','top','left','right'),
+					),
+					'base' => array(
+						'value'=>true,
+					),
+					'bgcolor' => array(
+						'value'=>true,
+					),
+					'border' => array(
+						'value'=>true,
+					),
+					'devicefont' => array(
+						'value'=>true,
+					),
+					'flashVars' => array(
+						'value'=>true,
+					),
+					'hspace' => array(
+						'value'=>true,
+					),
+					'quality' => array(
+						'value'=>array('low','medium','high','autolow','autohigh','best'),
+					),
+					'salign' => array(
+						'value'=>array('L','T','R','B','TL','TR','BL','BR'),
+					),
+					'scale' => array(
+						'value'=>array('scale','showall','noborder','exactfit'),
+					),
+					'tabindex' => array(
+						'value'=>true,
+					),
+					'title' => array(
+						'value'=>true,
+					),
+					'type' => array(
+						'value'=>true,
+					),
+					'vspace' => array(
+						'value'=>true,
+					),
+					'wmode' => array(
+						'value'=>array('window','opaque','transparent'),
+					),
+				),
+				true, // Удалять тег, если нет основного значения параметра в списке комбинаций
+			),
+		),
 		// Параметры тегов являющиеся обязательными
 		'cfgSetTagParamsRequired' => array(
 			array(

@@ -140,10 +140,8 @@ class ModuleTopic_MapperTopic extends Mapper {
 			WHERE
 				topic_id = ?d				
 		";
-		if ($this->oDb->query($sql,$sTopicId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$sTopicId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получает топик по уникальному хешу(текст топика)

@@ -56,7 +56,7 @@
 				{if $oUserProfile->getProfileBirthday()}
 					<li>
 						<span>{$aLang.profile_birthday}:</span>
-						<strong>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y"}</strong>
+						<strong>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y" notz=true}</strong>
 					</li>
 				{/if}
 				

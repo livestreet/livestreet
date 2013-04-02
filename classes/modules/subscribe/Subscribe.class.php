@@ -148,7 +148,7 @@ class ModuleSubscribe extends Module {
 	 * @param string $sMail	Емайл
 	 * @return ModuleSubscribe_EntitySubscribe|bool
 	 */
-	public function AddSubscribeSimple($sTargetType,$sTargetId,$sMail) {
+	public function AddSubscribeSimple($sTargetType,$sTargetId,$sMail,$sUserId=null) {
 		if (!$sMail) {
 			return false;
 		}
@@ -161,6 +161,12 @@ class ModuleSubscribe extends Module {
 			$oSubscribe->setKey(func_generator(32));
 			$oSubscribe->setIp(func_getIp());
 			$oSubscribe->setStatus(1);
+			/**
+			 * Если только для авторизованных, то добавляем user_id
+			 */
+			if ($sUserId and !$this->IsAllowTargetForGuest($sTargetType)) {
+				$oSubscribe->setUserId($sUserId);
+			}
 			$this->Subscribe_AddSubscribe($oSubscribe);
 		}
 		return $oSubscribe;
@@ -173,6 +179,18 @@ class ModuleSubscribe extends Module {
 	 */
 	public function UpdateSubscribe($oSubscribe) {
 		return $this->oMapper->UpdateSubscribe($oSubscribe);
+	}
+	/**
+	 * Смена емайла в подписках
+	 *
+	 * @param string $sMailOld Старый емайл
+	 * @param string $sMailNew Новый емайл
+	 * @param int|null $iUserId Id пользователя
+	 *
+	 * @return int
+	 */
+	public function ChangeSubscribeMail($sMailOld,$sMailNew,$iUserId=null) {
+		return $this->oMapper->ChangeSubscribeMail($sMailOld,$sMailNew,$iUserId);
 	}
 	/**
 	 * Возвращает список подписок по фильтру

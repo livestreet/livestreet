@@ -8,90 +8,114 @@
  */
 
 (function($) {
-	$.fn.dropdown = function (options) {
-        var defaults = {
-            menuTopOffset: 2,
-            defaultActiveText: '...'
+    /**
+     * Constructs dropdown objects
+     * @constructor
+     * @class Dropdown
+     * @param {Object} options Options
+     */
+    var Dropdown = function (element) {
+        var self = this;
+
+        this.$element = $(element);
+        this.options = {
+            menuId         : ls.tools.getOption(this.$element,'dropdown-menu'),
+            align          : ls.tools.getOption(this.$element,'dropdown-align', 'left'),
+            isAjax         : ls.tools.getOption(this.$element,'dropdown-ajax', false),
+            isAppendToBody : ls.tools.getOption(this.$element,'dropdown-append-to-body', true),
+            isChangeText   : ls.tools.getOption(this.$element,'dropdown-change-text', true),
+            defaultText    : this.$element.text()
         };
-        var objects = this;
-        var options = $.extend(defaults, options);
+        this.menu = $('#' + this.options.menuId);
 
-        // Hide menu when click anywhere but menu
-        $('body').click(function () {
-			hideDropdowns();
-		});
+        if (this.options.isAppendToBody) this.menu.appendTo('body');
 
-        $('body').on("click", this, function(e) {
-			e.stopPropagation();
-		});
+        this.options.defaultText = this.options.defaultText || Dropdown.settings.defaultActiveText;
 
-		this.each(function () {
-			// TODO: Fix options
-			var 
-				$this          = $(this),
-				$menu          = $('#' + $this.data('dropdown-menu')),
-				isPullRight    = $this.data('dropdown-align') != undefined,
-				isAjax         = $this.data('dropdown-ajax') != undefined,
-				isChangeText   = $this.data('dropdown-change-text') == undefined,
-				isAppendToBody = $this.data('dropdown-append-to-body') == undefined;
+        if (this.options.isChangeText) {
+            var activeText = this.menu.find('li.active').text();
+            this.$element.text(this.menu.find('li.active').text() || this.options.defaultText);
+        }
 
-			if (isAppendToBody) $menu.appendTo('body');
+        // Resize
+        $(window).resize(function () {
+            self.position();
+        });
 
-			// Set text
-			options.defaultActiveText = $this.data('dropdown-default-text') || options.defaultActiveText;
+        if (this.options.isAjax) {
+            this.menu.find('li > a').on('click', function () {
+                $this = $(this);
+                if (self.options.isChangeText) self.$element.text($this.text());
+                self.menu.find('li').removeClass('active');
+                $this.parent('li').addClass('active');
+                self.toggle();
+            });
+        }
+    };
 
-			if (isChangeText)  {
-				var activeText = $menu.find('li.active').text();
-				$this.text(activeText.length > 0 ? activeText : options.defaultActiveText);
-			}
+    // Common settings
+    Dropdown.settings = {
+        dropdownSelector: '[data-toggle=dropdown]',
+        menuSelector: '.dropdown-menu',
+        menuTopOffset: 2,
+        defaultActiveText: '...'
+    };
 
-			// Resize
-			$(window).resize(function () {
-				positionMenu($this, $menu, isPullRight , isAppendToBody);
-			});
+    // Static methods
+    Dropdown.methods = {
+        hideAll: function (currentDropdown) {
+            $(Dropdown.settings.dropdownSelector).removeClass('open');
+            $(Dropdown.settings.menuSelector).hide();
+        }
+    };
 
-			// Click
-			$this.click(function () {
-				positionMenu($this, $menu, isPullRight , isAppendToBody);
-				menuToggle($this, $menu);
-				hideDropdowns($this, $menu);
-				return false;
-			});
+    Dropdown.prototype = {
+        /**
+         * Toggle dropdown
+         */
+        toggle: function () {
+            if (!this.menu.is(':visible')) {
+                Dropdown.methods.hideAll();
+                this.position();
+            }
+            this.$element.toggleClass('open');
+            this.menu.toggle();
+        },
 
-			if (isAjax) {
-				$menu.find('li > a').click(function () {
-					if (isChangeText) $this.text($(this).text());
-					$menu.find('li').removeClass('active');
-					$(this).parent('li').addClass('active');
-					menuToggle($this, $menu);
-				});
-			}
-		});
+        /**
+         * Position menu
+         */
+        position: function () {
+            var
+                pos    = this.$element.offset(),
+                height = this.$element.outerHeight(),
+                width  = this.$element.outerWidth();
 
-		// Hide dropdowns
-		function hideDropdowns (currentDropdown, currentMenu) {
-			objects.not(currentDropdown).removeClass('open');
-			$('.dropdown-menu:visible').not(currentMenu).hide(); // TODO: Fix selector
-		}
+            this.menu.css({
+                'top': this.options.isAppendToBody ? pos.top + height + Dropdown.settings.menuTopOffset : height + Dropdown.settings.menuTopOffset,
+                'left': this.options.isAppendToBody ? ( this.options.align == 'right' ? 'auto' : pos.left ) : ( this.options.align == 'right' ? 'auto' : 0 ),
+                'right': this.options.isAppendToBody ? ( this.options.align == 'right' ? $(window).width() - pos.left - width : 'auto' ) : ( this.options.align == 'right' ? 0 : 'auto' )
+            });
+        }
+    };
 
-		// Position menu
-		function positionMenu (toggle, menu, isPullRight , isAppendToBody) {
-			var
-				pos    = toggle.offset(),
-				height = toggle.outerHeight(),
-				width  = toggle.outerWidth();
+    // Init
+    $(document).ready(function($) {
+        $('body').on('click', function (e) {
+            var $target = $(e.target);
+            // TODO: Fix hide function
+            if ($target.data('toggle') != 'dropdown' && !$target.hasClass('dropdown-menu')) Dropdown.methods.hideAll();
+        });
+    });
 
-			menu.css({
-				'top': isAppendToBody ? pos.top + height + options.menuTopOffset : height + options.menuTopOffset,
-				'left': isAppendToBody ? ( isPullRight  ? 'auto' : pos.left ) : 0,
-				'right': isAppendToBody ? ( isPullRight  ? $(window).width() - pos.left - width : 'auto' ) : 'auto'
-			});
-		}
+    $(document).on('click', Dropdown.settings.dropdownSelector, function () {
+        var 
+            dropdown = $(this),
+            object = dropdown.data('object');
 
-		// Menu toggle
-		function menuToggle(toggle, menu) {
-			toggle.toggleClass('open');
-			menu.toggle();
-		}
-	};
+        if (!object) dropdown.data('object', (object = new Dropdown(this)));
+
+        object.toggle();
+        return false;
+    });
 })(jQuery);

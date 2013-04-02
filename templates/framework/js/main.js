@@ -364,6 +364,24 @@ ls.tools = (function ($) {
 		return text;
 	};
 
+	/**
+	 * Получает значение атрибута data
+	 */
+	this.getOption = function (element, data, defaultValue) {
+		var option = element.data(data);
+
+		switch (option) {
+			case 'true':
+				return true;
+			case 'false':
+				return false;
+			case undefined:
+				return defaultValue
+			default:
+				return option;
+		}
+	};
+
 
 	return this;
 }).call(ls.tools || {},jQuery);

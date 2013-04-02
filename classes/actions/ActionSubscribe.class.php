@@ -125,7 +125,7 @@ class ActionSubscribe extends Action {
 		/**
 		 * Если подписка еще не существовала, то создаем её
 		 */
-		if ($oSubscribe=$this->Subscribe_AddSubscribeSimple($sTargetType,$sTargetId,$sMail)) {
+		if ($oSubscribe=$this->Subscribe_AddSubscribeSimple($sTargetType,$sTargetId,$sMail,$this->oUserCurrent ? $this->oUserCurrent->getId() : null)) {
 			$oSubscribe->setStatus($iValue);
 			$this->Subscribe_UpdateSubscribe($oSubscribe);
 			$this->Message_AddNotice($this->Lang_Get('subscribe_change_ok'),$this->Lang_Get('attention'));

@@ -15,6 +15,11 @@
 	border-radius: 2px; 
 	padding: 5px 12px;
 	margin-bottom: 10px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none; 
 }
 
 

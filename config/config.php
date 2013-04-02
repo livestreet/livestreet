@@ -481,7 +481,6 @@ $config['head']['default']['js']  = array(
 	"___path.root.engine_lib___/external/jquery/jquery.js",
 	"___path.root.engine_lib___/external/jquery/jquery-ui.js",
 	"___path.root.engine_lib___/external/jquery/jquery.notifier.js",
-	"___path.root.engine_lib___/external/jquery/jquery.jqmodal.js",
 	"___path.root.engine_lib___/external/jquery/jquery.scrollto.js",
 	"___path.root.engine_lib___/external/jquery/jquery.rich-array.min.js",
 	"___path.root.engine_lib___/external/jquery/markitup/jquery.markitup.js",
@@ -516,6 +515,8 @@ $config['head']['default']['js']  = array(
 	"___path.root.server___/templates/framework/js/toolbar.js",
 	"___path.root.server___/templates/framework/js/settings.js",
 	"___path.root.server___/templates/framework/js/topic.js",
+	"___path.root.server___/templates/framework/js/tab.js",
+	"___path.root.server___/templates/framework/js/modal.js",
 	"___path.root.server___/templates/framework/js/hook.js",
 	"http://yandex.st/share/share.js" => array('merge'=>false),
 );

@@ -8,7 +8,7 @@
 .nav                 {  }
 .nav > li            { float: left; position: relative; }
 .nav > li:last-child { border-right: none; }
-.nav > li > a        { display: block; padding: 10px 15px; }
+.nav > li > a        { display: block; padding: 10px 15px; text-decoration: none; }
 .nav > li > a:hover  { background: #f3f3f3; }
 .nav > li.active > a { background: #f3f3f3; }
 
