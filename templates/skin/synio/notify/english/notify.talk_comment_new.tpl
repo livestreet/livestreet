@@ -1,8 +1,10 @@
-The user <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a> left a new comment to the letter <b>«{$oTalk->getTitle()|escape:'html'}»</b>, you can read it by clicking on <a href="{router page='talk'}read/{$oTalk->getId()}/#comment{$oTalkComment->getId()}">this link</a><br>							
+<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a> has left a new comment to the message<b>«{$oTalk->getTitle()|escape:'html'}»</b>.<br><br>						
 {if $oConfig->GetValue('sys.mail.include_talk')}
-	Message: <i>{$oTalkComment->getText()}</i>	<br>			
+Their comment reads as follows: <i>{$oTalkComment->getText()}</i>	<br>			
 {/if}
 <br>
-Do not forget to register before!							
+ To view the comment and reply to it, follow <a href="{router page='talk'}read/{$oTalk->getId()}/#comment{$oTalkComment->getId()}">this link</a>					
 <br><br>
-Best regards, site administration <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
+Best regards, 
+<br>
+<a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
