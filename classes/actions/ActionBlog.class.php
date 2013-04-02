@@ -975,7 +975,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем разрешено ли постить комменты
 		 */
-		if (!$this->ACL_CanPostComment($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
+		if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic) and !$this->oUserCurrent->isAdministrator()) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
 			return;
 		}
@@ -1127,6 +1127,13 @@ class ActionBlog extends Action {
 		 */
 		$idTopic=getRequestStr('idTarget',null,'post');
 		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Есть доступ к комментариям этого топика? Закрытый блог?
+		 */
+		if (!$this->ACL_IsAllowShowBlog($oTopic->getBlog(),$this->oUserCurrent)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}

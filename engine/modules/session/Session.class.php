@@ -80,15 +80,14 @@ class ModuleSession extends Module {
 				 * Попытка подменить идентификатор имени сессии через куку
 				 */
 				if (isset($_COOKIE[Config::Get ('sys.session.name')]) and !is_string($_COOKIE[Config::Get ('sys.session.name')])) {
-					unset($_COOKIE[Config::Get ('sys.session.name')]);
-					setcookie(Config::Get ('sys.session.name').'[]','',1,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+					die("Hacking attemp! Please check cookie PHP session name.");
 				}
 				/**
 				 * Попытка подменить идентификатор имени сессии в реквесте
 				 */
 				$aRequest=array_merge($_GET,$_POST); // Исключаем попадаение $_COOKIE в реквест
 				if (@ini_get ('session.use_only_cookies') === "0" and isset($aRequest[Config::Get ('sys.session.name')]) and !is_string($aRequest[Config::Get ('sys.session.name')])) {
-					session_name($this->GenerateId());
+					die("Hacking attemp! Please check cookie PHP session name.");
 				}
 				/**
 				 * Даем возможность флешу задавать id сессии

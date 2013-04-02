@@ -782,21 +782,13 @@ class ModuleBlog extends Module {
 			 * Удаляем топики
 			 */
 			foreach ($aTopicIds as $iTopicId) {
-				$this->Cache_Delete("topic_{$iTopicId}");
-				if(Config::Get('db.tables.engine')=="InnoDB") {
-					$this->Topic_DeleteTopicAdditionalData($iTopicId);
-				} else {
-					$this->Topic_DeleteTopic($iTopicId);
-				}
+				$this->Topic_DeleteTopic($iTopicId);
 			}
-
 		}
 		/**
 		 * Удаляем связи пользователей блога.
 		 */
-		if(Config::Get('db.tables.engine')!="InnoDB"){
-			$this->oMapperBlog->DeleteBlogUsersByBlogId($iBlogId);
-		}
+		$this->oMapperBlog->DeleteBlogUsersByBlogId($iBlogId);
 		/**
 		 * Удаляем голосование за блог
 		 */

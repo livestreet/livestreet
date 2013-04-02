@@ -1250,6 +1250,13 @@ class ActionProfile extends Action {
 		$oUser->setMail($oChangemail->getMailTo());
 		$this->User_Update($oUser);
 
+		/**
+		 * Меняем емайл в подписках
+		 */
+		if ($oChangemail->getMailFrom()) {
+			$this->Subscribe_ChangeSubscribeMail($oChangemail->getMailFrom(),$oChangemail->getMailTo(),$oUser->getId());
+		}
+
 		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
 		$this->SetTemplateAction('changemail_confirm');
 	}

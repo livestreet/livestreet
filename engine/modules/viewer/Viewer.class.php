@@ -731,7 +731,7 @@ class ModuleViewer extends Module {
 		 * Сортируем блоки по приоритетности
 		 */
 		foreach($this->aBlocks as $sGroup=>$aBlocks) {
-			uasort($aBlocks,array(&$this,'_SortBlocks'));
+			uasort($aBlocks,array($this,'_SortBlocks'));
 			$this->aBlocks[$sGroup] = array_reverse($aBlocks);
 		}
 	}
