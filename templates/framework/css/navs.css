@@ -80,45 +80,10 @@
 .tab-pane { display: none; }
 
 
-/* Userbar
- * TODO: Fix
--------------------------------------------------- */
-#userbar {
-	border: 1px solid #ddd;
-	border-top: none;
-	border-radius: 0 0 4px 4px;
-	-webkit-box-shadow: 0 0 5px #ddd; box-shadow: 0 0 5px #ddd;
-
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f3f3f3));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
-}
-#userbar .search { float: left; margin: 5px 0 0 6px; *margin: 4px 0 0 4px; }
-
-.nav.nav-userbar 									{ float: right; }
-.nav.nav-userbar li 								{ border-radius: 0 0 0 4px; border-left: 1px solid #eaeaea; }
-.nav.nav-userbar li a 								{ color: #555; }
-.nav.nav-userbar li:first-child a 					{ border-radius: 0 0 0 4px; }
-.nav.nav-userbar li:last-child a 					{ border-radius: 0 0 4px 0; }
-.nav.nav-userbar li.nav-userbar-username a 			{ position: relative; padding-left: 47px; font-weight: bold; color: #333; }
-.nav.nav-userbar li.nav-userbar-username .avatar 	{ position: absolute; top: 7px; left: 15px; }
-.nav.nav-userbar li .new-messages 					{ color: #4AA731; font-weight: bold; }
-
-/* Dropdown support */
-.nav.nav-userbar .dropdown-toggle:after      { border-top-color: #000; }
-.nav.nav-userbar .dropdown-toggle.open       { background: #08c; color: #fff; }
-.nav.nav-userbar .dropdown-toggle.open:after { border-top-color: #fff; }
-
-
 /* Main
  * TODO: Fix
 -------------------------------------------------- */
-.nav.nav-main 					{ border-radius: 4px; background: #222; background: -moz-linear-gradient(top, #333 0%, #222 100%); }
+.nav.nav-main 					{ background: #222; background: -moz-linear-gradient(top, #333 0%, #222 100%); }
 .nav.nav-main li a 				{ color: #ddd; }
 .nav.nav-main li a:hover 		{ background: #333; }
 .nav.nav-main li:first-child a 	{ border-radius: 4px 0 0 4px; }

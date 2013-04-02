@@ -1,6 +1,7 @@
 {extends file='modals/modal_base.tpl'}
 
 {block name='id'}favourite-form-tags{/block}
+{block name='class'}modal-favourite-tags js-modal-default{/block}
 {block name='title'}{$aLang.add_favourite_tags}{/block}
 
 {block name='content'}

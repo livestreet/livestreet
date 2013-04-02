@@ -11,7 +11,7 @@
 
 
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
-	{include file='modals/modal_blog_delete.tpl'}
+	{include file='modals/modal.blog_delete.tpl'}
 {/if}
 
 
@@ -40,7 +40,7 @@
 				<li>
 					<a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}" class="edit">{$aLang.blog_edit}</a></li>
 					{if $oUserCurrent->isAdministrator()}
-						<li><a href="#" title="{$aLang.blog_delete}" data-type="modal-toggle" data-modal-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a>
+						<li><a href="#" title="{$aLang.blog_delete}" data-type="modal-toggle" data-option-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a>
 					{else}
 						<a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.blog_delete}" onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a>
 					{/if}
@@ -101,27 +101,7 @@
 
 {hook run='blog_info' oBlog=$oBlog}
 
-<div class="nav-filter-wrapper">
-	<ul class="nav nav-filter">
-		<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></li>
-		<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><a href="{$sMenuSubBlogUrl}newall/">{$aLang.blog_menu_collective_new}</a>{if $iCountTopicsBlogNew>0} <a href="{$sMenuSubBlogUrl}new/">+{$iCountTopicsBlogNew}</a>{/if}</li>
-		<li {if $sMenuSubItemSelect=='discussed'}class="active"{/if}><a href="{$sMenuSubBlogUrl}discussed/">{$aLang.blog_menu_collective_discussed}</a></li>
-		<li {if $sMenuSubItemSelect=='top'}class="active"{/if}><a href="{$sMenuSubBlogUrl}top/">{$aLang.blog_menu_collective_top}</a></li>
-		{hook run='menu_blog_blog_item'}
-	</ul>
-
-	{if $sPeriodSelectCurrent}
-		<ul class="nav nav-filter nav-filter-sub">
-			<li {if $sPeriodSelectCurrent=='1'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=1">{$aLang.blog_menu_top_period_24h}</a></li>
-			<li {if $sPeriodSelectCurrent=='7'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=7">{$aLang.blog_menu_top_period_7d}</a></li>
-			<li {if $sPeriodSelectCurrent=='30'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=30">{$aLang.blog_menu_top_period_30d}</a></li>
-			<li {if $sPeriodSelectCurrent=='all'}class="active"{/if}><a href="{$sPeriodSelectRoot}?period=all">{$aLang.blog_menu_top_period_all}</a></li>
-		</ul>
-	{/if}
-</div>
-
-
-
+{include file='menu.blog_single.tpl'}
 
 {if $bCloseBlog}
 	{$aLang.blog_close_show}

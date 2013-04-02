@@ -5,6 +5,7 @@
 {/block}
 
 {block name='id'}avatar-resize{/block}
+{block name='class'}modal-avatar-resize js-modal-default{/block}
 {block name='title'}{$aLang.uploadimg}{/block}
 
 {block name='content'}

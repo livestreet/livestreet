@@ -1,6 +1,7 @@
 {extends file='modals/modal_base.tpl'}
 
 {block name='id'}userfield_form{/block}
+{block name='class'}modal-userfield js-modal-default{/block}
 {block name='title'}{$aLang.user_field_admin_title_add}{/block}
 
 {block name='content'}

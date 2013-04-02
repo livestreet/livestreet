@@ -382,6 +382,21 @@ ls.tools = (function ($) {
 		}
 	};
 
+	this.getDataOptions = function (element, prefix) {
+		var prefix = prefix || 'option',
+			resultOptions = {},
+			dataOptions = typeof element === 'string' ? $(element).data() : element.data();
+
+		for (option in dataOptions) {
+			// Remove 'option' prefix
+			if (option.substring(0, prefix.length) == prefix) {
+				var str = option.substring(prefix.length);
+				resultOptions[str[0].toLowerCase() + str.substring(1)] = dataOptions[option];
+			}
+		}
+
+		return resultOptions;
+	};
 
 	return this;
 }).call(ls.tools || {},jQuery);
@@ -574,11 +589,9 @@ ls.autocomplete = (function ($) {
 	return this;
 }).call(ls.autocomplete || {},jQuery);
 
-
-
 /**
-* Костыли для ИЕ
-*/
+ * Костыли для ИЕ
+ */
 ls.ie = (function ($) {
 
 	// эмуляция border-sizing в IE

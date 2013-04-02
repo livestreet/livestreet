@@ -1,6 +1,7 @@
 {extends file='modals/modal_base.tpl'}
 
 {block name='id'}add_friend_form{/block}
+{block name='class'}js-modal-default{/block}
 {block name='title'}{$aLang.profile_add_friend}{/block}
 
 {block name='content'}

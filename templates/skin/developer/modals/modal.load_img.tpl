@@ -6,19 +6,19 @@
 {/block}
 
 {block name='id'}window_upload_img{/block}
-{block name='class'}modal-image-upload{/block}
+{block name='class'}modal-image-upload js-modal-default{/block}
 {block name='title'}{$aLang.uploadimg}{/block}
 
 {block name='header_after'}
-	<ul class="nav nav-pills nav-pills-tabs" data-toggle="tabs">
-		<li data-toggle="tab" data-tab-target="tab-upload-pc"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
-		<li data-toggle="tab" data-tab-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
+	<ul class="nav nav-pills nav-pills-tabs" data-type="tabs">
+		<li data-type="tab" data-option-target="tab-upload-pc" class="active"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
+		<li data-type="tab" data-option-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
 	</ul>
 {/block}
 
 {block name='content_after'}
-	<div data-toggle="tab-content">
-		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-pc" onsubmit="return false;" data-toggle="tab-pane">
+	<div data-type="tab-content">
+		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-pc" onsubmit="return false;" data-type="tab-pane" class="tab-pane" style="display: block">
 			<div class="modal-content">
 				<p><label for="img_file">{$aLang.uploadimg_file}:</label>
 				<input type="file" name="img_file" id="img_file" value="" class="input-text input-width-full" /></p>
@@ -48,7 +48,7 @@
 		</form>
 
 
-		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-link" onsubmit="return false;" data-toggle="tab-pane">
+		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-link" onsubmit="return false;" data-type="tab-pane" class="tab-pane">
 			<div class="modal-content">
 				<p><label for="img_file">{$aLang.uploadimg_url}:</label>
 				<input type="text" name="img_url" id="img_url" value="http://" class="input-text input-width-full" /></p>

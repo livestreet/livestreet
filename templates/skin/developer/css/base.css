@@ -29,7 +29,7 @@ a:hover { color: #058; }
 .page-header span { color: #aaa; }
 
 /* Dropdown support */
-.page-header.page-header-publish .dropdown-toggle            { text-transform: lowercase; }
+.page-header.page-header-publish .dropdown-toggle            { text-transform: lowercase; padding-right: 18px !important; }
 .page-header.page-header-publish .dropdown-toggle:after      { border-top-color: #5055B2; }
 .page-header.page-header-publish .dropdown-toggle.open       { background: transparent; color: #9496ea; }
 .page-header.page-header-publish .dropdown-toggle.open:after { border-top-color: #9496ea; }

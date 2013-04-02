@@ -11,12 +11,12 @@
     color: #333;
     border: 1px solid #666;
     background-color: #fff;
-	border-radius: 5px;
 	-webkit-box-shadow: 0 0 15px rgba(0,0,0,.5);
 	   -moz-box-shadow: 0 0 15px rgba(0,0,0,.5);
 	        box-shadow: 0 0 15px rgba(0,0,0,.5);
 	overflow: hidden;
-	z-index: 9999;
+	z-index: 1000;
+	position: relative;
 }
 
 
@@ -58,6 +58,22 @@
 .modal .modal-content   { padding: 20px; }
 
 
+/* Lock */
+.modal .modal-lock {
+	position: absolute; 
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .2;
+	filter: alpha(opacity=20);
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+}
+
+
 /* Footer */
 .modal .modal-footer    { background: #fafafa; border-top: 1px solid #f7f7f7; padding: 15px 20px; }
 
@@ -70,7 +86,20 @@
 	position: fixed;
 	top: 50%; left: 50%;
 	border-radius: 5px;
-	background: rgba(0,0,0,.8) url(../img/modal-loader.gif) 50% 50% no-repeat;
+	background-color: #000;
+	background: rgba(0,0,0,.8) url(../images/modal-loader.gif) 50% 50% no-repeat;
+	z-index: 1001;
+}
+.modal-loader.modal-loader-text {
+	background-image: none;
+	color: #eee;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.2em;
+	padding: 15px;
+	width: 300px;
+	margin-left: -150px;
+	height: auto;
 }
 
 
@@ -82,6 +111,6 @@
 	width: 100%;
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9JREFUeNpiYmBgaAAIMAAAjwCD5Hc2/AAAAABJRU5ErkJggg==);;
 	background: rgba(0,0,0,.5);
-	z-index: 9998;
+	z-index: 999;
 	overflow: auto;
 }

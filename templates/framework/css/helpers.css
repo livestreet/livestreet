@@ -75,3 +75,14 @@
 /* Links */
 .link-dashed { text-decoration: none; border-bottom: 1px dashed; }
 .link-dotted { text-decoration: none; border-bottom: 1px dotted; }
+
+
+/* Loader */
+/* TODO: Change gif */
+.loading { 
+	width: 100px;
+	height: 100px;
+	background-image: url(../images/modal-loader.gif) ;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}

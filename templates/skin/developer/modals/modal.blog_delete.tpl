@@ -1,6 +1,7 @@
 {extends file='modals/modal_base.tpl'}
 
 {block name='id'}modal-blog-delete{/block}
+{block name='class'}modal-blog-delete js-modal-default{/block}
 {block name='title'}{$aLang.blog_admin_delete_title}{/block}
 
 {block name='content'}
