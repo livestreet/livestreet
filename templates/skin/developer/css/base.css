@@ -135,3 +135,14 @@ a:hover { color: #058; }
 .help .help-item:last-child { margin-bottom: 0; }
 .help .help-item h4 { font-family: monospace; font-weight: bold; margin-bottom: 3px; }
 .help .help-item h4 a { color: #5055B2; border-bottom: 1px dotted #727a90; }
+
+/* close button for system notices and errors */
+.WrapperToClose .TriggerCloseWrapper {
+    cursor: pointer;
+    float: right;
+    opacity: 0.7;
+}
+
+.WrapperToClose .TriggerCloseWrapper:hover {
+    opacity: 1;
+}

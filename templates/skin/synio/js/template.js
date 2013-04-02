@@ -547,7 +547,13 @@ jQuery(document).ready(function($){
 		offsetX: -16
 	});
 	ls.infobox.sTemplateProcess=['<div class="infobox-process"><img src="'+DIR_STATIC_SKIN+'/images/loader-circle.gif" />', '</div>'].join('');
-
+	
+  // Закрыть системное сообщение
+  $ (document).on ('click', '.TriggerCloseWrapper', function () {
+    $ (this).closest ('.WrapperToClose').slideUp (200, function () {
+      $ (this).remove ();
+    });
+  });
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

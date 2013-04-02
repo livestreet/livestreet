@@ -1135,7 +1135,6 @@ return array(
 	'or' => 'or',
 	'window_close' => 'close',
 	'not_access' => 'No access',
-	'install_directory_exists' => 'To continue your work with portal please delete /install directory.',
 	'login' => 'Login',
 	'delete' => 'Delete',
 	'date_day' => 'day',

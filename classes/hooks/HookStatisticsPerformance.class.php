@@ -34,6 +34,15 @@ class HookStatisticsPerformance extends Hook {
 	 * @return string
 	 */
 	public function Statistics() {
+    /*
+      Не нужно рендерить шаблон если не админ
+    */
+    if (!$oUserCurrent = $this -> User_GetUserCurrent () or !$oUserCurrent -> isAdministrator ()) return false;
+    /*
+      Не нужно рендерить шаблон если запрещено показывать статистику (для RSS и т.п.)
+    */
+    if (!Router::GetIsShowStats()) return false;
+
 		$oEngine=Engine::getInstance();
 		/**
 		 * Подсчитываем время выполнения
@@ -47,11 +56,11 @@ class HookStatisticsPerformance extends Hook {
 		$aStats=$oEngine->getStats();
 		$aStats['cache']['time']=round($aStats['cache']['time'],5);
 		$this->Viewer_Assign('aStatsPerformance',$aStats);
-		$this->Viewer_Assign('bIsShowStatsPerformance',Router::GetIsShowStats());
 		/**
 		 * В ответ рендерим шаблон статистики
 		 */
 		return $this->Viewer_Fetch('statistics_performance.tpl');
 	}
 }
+
 ?>

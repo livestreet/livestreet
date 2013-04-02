@@ -1,6 +1,7 @@
 {if !$noShowSystemMessage}
 	{if $aMsgError}
-		<ul class="system-message-error">
+		<ul class="system-message-error WrapperToClose">
+      <div class="TriggerCloseWrapper icon-synio-close"></div>
 			{foreach from=$aMsgError item=aMsg}
 				<li>
 					{if $aMsg.title!=''}
@@ -14,7 +15,8 @@
 
 
 	{if $aMsgNotice}
-		<ul class="system-message-notice">
+		<ul class="system-message-notice WrapperToClose">
+      <div class="TriggerCloseWrapper icon-synio-close"></div>
 			{foreach from=$aMsgNotice item=aMsg}
 				<li>
 					{if $aMsg.title!=''}

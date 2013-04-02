@@ -97,7 +97,7 @@ return array(
 	'admin_params_pass'=>'Password',
 	'admin_params_repass'=>'Confirm password',
 	
-	'end_paragraph' => 'Congratulations! LiveStreet successfully installed.<br />To ensure that your installation is secure, please delete [Install] directory.<br /><br />You can continue configuration in extended mode.<br /><br /><a href="../">Go to the main page</a><br /><br />',
+	'end_paragraph' => 'Congratulations! LiveStreet successfully installed.<br />Please, delete [Install] directory.<br /><br />You can continue configuration in extended mode.<br /><br /><a href="../">Go to the main page</a><br /><br />',
 	'extend_mode'=> 'Extended mode',
 	
 	'view_params'=> 'HTML view configuration',
@@ -119,5 +119,5 @@ return array(
 	'language_params_current'=> 'Current language',
 	'language_params_default'=> 'Default language',
 	
-	'finish_paragraph' => 'Congratulations! LiveStreet successfully installed.<br />To ensure that your installation is secure, please delete [Install] directory.<br /><br /><a href="../">Then to go to the main page by clicking this link.</a>',
+	'finish_paragraph' => 'Congratulations! LiveStreet successfully installed.<br />Please delete [Install] directory.<br /><br /><a href="../">Then to go to the main page by clicking this link.</a>',
 );
