@@ -1053,6 +1053,8 @@ class ActionBlog extends Action {
                 $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
                 $bOk = false;
             }
+        } else {
+            $sParentId = NULL;
         }
 
         /**
