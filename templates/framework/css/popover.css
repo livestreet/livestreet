@@ -1,0 +1,34 @@
+/**
+ * Popover
+ */
+
+.popover {
+	position: absolute;
+	z-index: 9999;
+	min-width: 100px;
+	max-width: 300px;
+	background-color: #fafafa;
+	color: #000;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
+	        box-shadow: 0 0 5px rgba(0,0,0,.1);
+}
+.popover .popover-title { background: #eee; padding: 10px 15px; font-weight: bold; }
+.popover .popover-content { padding: 10px 15px; }
+
+
+.popover .tip-arrow {
+	content: '';
+	position: absolute;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
+	width: 0;
+	height: 0;
+	border: 7px solid transparent;
+}
+.popover.alignx-center.aligny-top    .tip-arrow { left: 50%; bottom: -14px; margin-left: -7px; border-top-color: #ccc; }
+.popover.alignx-center.aligny-bottom .tip-arrow { left: 50%; top: -14px; margin-left: -7px; border-bottom-color: #ccc; }
+.popover.alignx-left.aligny-center   .tip-arrow { right: -14px; top: 50%; margin-top: -7px; border-left-color: #ccc; }
+.popover.alignx-right.aligny-center  .tip-arrow { left: -14px; top: 50%; margin-top: -7px; border-right-color: #ccc; }

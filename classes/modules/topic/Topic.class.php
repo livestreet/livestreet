@@ -255,7 +255,7 @@ class ModuleTopic extends Module {
 		/**
 		 * Если топик успешно удален, удаляем связанные данные
 		 */
-		if($bResult=$this->oMapperTopic->DeleteTopic($sTopicId)){
+		if($this->oMapperTopic->DeleteTopic($sTopicId)){
 			return $this->DeleteTopicAdditionalData($sTopicId,$aPhotos);
 		}
 

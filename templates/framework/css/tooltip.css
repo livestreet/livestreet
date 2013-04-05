@@ -1,0 +1,33 @@
+/**
+ * Tooltip
+ */
+
+.tooltip {
+	display: none;
+	padding: 12px 15px;
+	position: absolute;
+	z-index: 9999;
+	min-width: 50px;
+	max-width: 300px;
+	background: #222;
+	color: #fff;
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,.2);
+	        box-shadow: 0 0 5px rgba(0,0,0,.2);
+}
+.tooltip .tip-arrow {
+	content: '';
+	position: absolute;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+}
+
+/* Arrow */
+.tooltip.alignx-center.aligny-top    .tip-arrow { left: 50%; bottom: -12px; margin-left: -6px; border-top-color: #222; }
+.tooltip.alignx-center.aligny-bottom .tip-arrow { left: 50%; top: -12px; margin-left: -6px; border-bottom-color: #222; }
+.tooltip.alignx-left.aligny-center .tip-arrow   { right: -12px; top: 50%; margin-top: -6px; border-left-color: #222; }
+.tooltip.alignx-right.aligny-center .tip-arrow  { left: -12px; top: 50%; margin-top: -6px; border-right-color: #222; }

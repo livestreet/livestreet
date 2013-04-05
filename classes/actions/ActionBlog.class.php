@@ -1200,6 +1200,13 @@ class ActionBlog extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
+		/**
+		 * Есть доступ к комментариям этого топика? Закрытый блог?
+		 */
+		if (!$this->ACL_IsAllowShowBlog($oTopic->getBlog(),$this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
 
 		$idCommentLast=getRequestStr('idCommentLast',null,'post');
 		$selfIdComment=getRequestStr('selfIdComment',null,'post');

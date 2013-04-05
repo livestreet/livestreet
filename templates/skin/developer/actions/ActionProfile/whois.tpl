@@ -46,7 +46,7 @@
 		{if $oUserProfile->getProfileBirthday()}
 			<tr>
 				<td class="cell-label">{$aLang.profile_birthday}:</td>
-				<td>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y"}</td>
+				<td>{date_format date=$oUserProfile->getProfileBirthday() format="j F Y" notz=true}</td>
 			</tr>
 		{/if}
 		

@@ -67,6 +67,23 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 								 $oSubscribe->getId());
 	}
 	/**
+	 * Смена емайла в подписках
+	 *
+	 * @param string $sMailOld Старый емайл
+	 * @param string $sMailNew Новый емайл
+	 * @param int|null $iUserId Id пользователя
+	 *
+	 * @return int
+	 */
+	public function ChangeSubscribeMail($sMailOld,$sMailNew,$iUserId=null) {
+		$sql = "UPDATE ".Config::Get('db.table.subscribe')."
+			SET
+			 	mail = ?
+			WHERE mail = ? { and user_id = ?d }
+		";
+		return $this->oDb->query($sql,$sMailNew,$sMailOld,$iUserId ? $iUserId : DBSIMPLE_SKIP);
+	}
+	/**
 	 * Возвращает список подписок по фильтру
 	 *
 	 * @param array $aFilter	Фильтр

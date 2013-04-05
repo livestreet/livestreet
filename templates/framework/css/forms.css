@@ -9,7 +9,6 @@ input[type="text"],
 .input-text {
 	padding: 5px;
 	border: 1px solid #ddd;
-	border-radius: 3px;
 	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset; 
 	        box-shadow: 0 2px 4px rgba(0,0,0,.07) inset;
 	-webkit-box-sizing: border-box;

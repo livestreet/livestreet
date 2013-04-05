@@ -23,8 +23,9 @@ jQuery(document).ready(function($){
 
 
 	$('.js-registration-form-show').click(function(){
-		if ($('[data-tab-target=tab-pane-registration]').length) {
-			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-registration]').tabActivate()});
+		if ($('[data-option-target=tab-pane-registration]').length) {
+			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-registration]').tab('activate') });
+			$('#modal-login').modal('show');
 		} else {
 			window.location=aRouter.registration;
 		}
@@ -32,8 +33,9 @@ jQuery(document).ready(function($){
 	});
 
 	$('.js-login-form-show').click(function(){
-		if ($('[data-tab-target=tab-pane-login]').length) {
-			$('#modal-login').jqmShow({onShow: $('[data-tab-target=tab-pane-login]').tabActivate()});
+		if ($('[data-option-target=tab-pane-login]').length) {
+			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-login]').tab('activate') });
+			$('#modal-login').modal('show');
 		} else {
 			window.location=aRouter.login;
 		}
@@ -41,16 +43,9 @@ jQuery(document).ready(function($){
 	});
 
 	// Datepicker
-	 /**
-	  * TODO: навесить языки на datepicker
-	  */
-	$('.date-picker').datepicker({
-		dateFormat: 'dd.mm.yy',
-		dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-		monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-		firstDay: 1
-	});
+	$('.date-picker').datepicker();
 
+	$('.js-popover-blog-info').popover();
 
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){
@@ -76,58 +71,36 @@ jQuery(document).ready(function($){
 	ls.toolbar.up.init();
 
 
-	// Всплывающие сообщения
+	/**
+	 * Modals
+	 */
+	$('.js-modal-default').modal();
+
+
+	/**
+	 * Tooltips
+	 */
+	$('.js-tooltip').tooltip();
+
+	$('.js-title-talk').tooltip({
+		alignX: 'left',
+		alignY: 'center'
+	});
+
+	$('.js-tip-help').tooltip({
+		alignX: 'right',
+		alignY: 'center'
+	});
+
 	if (ls.registry.get('block_stream_show_tip')) {
-		$('.js-title-comment, .js-title-topic').poshytip({
-			className: 'infobox-yellow',
-			alignTo: 'target',
+		$('.js-title-comment, .js-title-topic').tooltip({
 			alignX: 'left',
-			alignY: 'center',
-			offsetX: 10,
-			liveEvents: true,
-			showTimeout: 1000
+			alignY: 'center'
 		});
 	}
 
-	$('.js-title-talk').poshytip({
-		className: 'infobox-yellow',
-		alignTo: 'target',
-		alignX: 'left',
-		alignY: 'center',
-		offsetX: 10,
-		liveEvents: true,
-		showTimeout: 500
-	});
 
-	$('.js-infobox-vote-topic').poshytip({
-		content: function() {
-			var id = $(this).attr('id').replace('vote_total_topic_','vote-info-topic-');
-			return $('#'+id).html();
-		},
-		className: 'infobox-standart',
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 2,
-		liveEvents: true,
-		showTimeout: 100
-	});
 
-	$('.js-tip-help').poshytip({
-		className: 'infobox-standart',
-		alignTo: 'target',
-		alignX: 'right',
-		alignY: 'center',
-		offsetX: 5,
-		liveEvents: true,
-		showTimeout: 500
-	});
-
-	$('.js-infobox').poshytip({
-		className: 'infobox-standart',
-		liveEvents: true,
-		showTimeout: 300
-	});
 
 	// подсветка кода
 	prettyPrint();

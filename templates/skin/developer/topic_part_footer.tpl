@@ -62,7 +62,12 @@
 					{assign var="bVoteInfoShow" value=true}
 				{/if}
 				<div class="vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"></div>
-				<div class="vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" id="vote_total_topic_{$oTopic->getId()}" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+				<div 
+					class="vote-count {if $bVoteInfoShow}js-infobox-vote-topic{/if}" 
+					id="vote_total_topic_{$oTopic->getId()}" 
+					data-type="tooltip-toggle" 
+					data-option-target="vote-info-topic-{$oTopic->getId()}">
+
 					{if $bVoteInfoShow}
 						{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 					{else} 
@@ -70,12 +75,19 @@
 					{/if}
 				</div>
 				<div class="vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"></div>
+
+
 				{if $bVoteInfoShow}
-					<div id="vote-info-topic-{$oTopic->getId()}" style="display: none;">
-						+ {$oTopic->getCountVoteUp()}<br/>
-						- {$oTopic->getCountVoteDown()}<br/>
-						&nbsp; {$oTopic->getCountVoteAbstain()}<br/>
-						{hook run='topic_show_vote_stats' topic=$oTopic}
+					<div id="vote-info-topic-{$oTopic->getId()}" class="tooltip" data-type="tooltip-target">
+						<div class="tip-arrow"></div>
+						<div class="tooltip-content" data-type="tooltip-content">
+							<i class="icon-plus icon-white"></i> {$oTopic->getCountVoteUp()}<br />
+							<i class="icon-minus icon-white"></i> {$oTopic->getCountVoteDown()}<br />
+							<i class="icon-eye-open icon-white"></i> {$oTopic->getCountVoteAbstain()}<br />
+							{$aLang.topic_vote_count}: {$oTopic->getCountVote()}<br />
+
+							{hook run='topic_show_vote_stats' topic=$oTopic}
+						</div>
 					</div>
 				{/if}
 			</li>

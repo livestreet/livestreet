@@ -194,6 +194,16 @@ class BaseFeatureContext extends BehatContext
     }
 
     /**
+     * @Then /^I want to logout$/
+     */
+    public function iWantToLogout()
+    {
+        $this->getMinkContext()->getSession()->getDriver()->setCookie("key", NULL);
+        $this->getMinkContext()->getSession()->getDriver()->setCookie('PHPSESSID', NULL);
+        $this->getMinkContext()->getSession()->reload();
+    }
+
+    /**
      * Checking for activity of plugin
      *
      * @Then /^check is plugin active "([^"]*)"$/

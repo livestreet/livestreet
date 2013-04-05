@@ -6,6 +6,7 @@
 	display: inline-block;
 	
 	padding: 4px 12px;
+	padding: 5px 12px;
 	margin: 0;
 
 	text-align: center;
@@ -14,31 +15,19 @@
 
 	font-size: 14px;
 	line-height: 20px;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-	
-	border: 1px solid #ddd;
-	border-radius: 4px;
+	border: none;
 	
 	color: #333;
 	
 	background: #fafafa;
-	background: -moz-linear-gradient(top,  #fff 0%, #e6e6e6 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#e6e6e6));
-	background: -webkit-linear-gradient(top,  #fff 0%,#e6e6e6 100%);
-	background: -o-linear-gradient(top,  #fff 0%,#e6e6e6 100%);
-	background: -ms-linear-gradient(top,  #fff 0%,#e6e6e6 100%);
-	background: linear-gradient(top,  #fff 0%,#e6e6e6 100%);
-
-	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
-	   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
-	        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	background: #eee;
 
 	cursor: pointer;
 	
 	*margin-right: 5px;
 	*border: 0;
 }
-.button:hover  { text-decoration: none; background: #eee; }
+.button:hover  { text-decoration: none; background: #ddd; }
 .button:active,
 .button.active { 
 	background: #eaeaea;
@@ -53,16 +42,8 @@
 /* Button Primary */
 .button.button-primary { 
 	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 
 	background: #006DCC;
-	background: -moz-linear-gradient(top,  #0088cc 0%, #0044cc 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0088cc), color-stop(100%,#0044cc));
-	background: -webkit-linear-gradient(top,  #0088cc 0%,#0044cc 100%);
-	background: -o-linear-gradient(top,  #0088cc 0%,#0044cc 100%);
-	background: -ms-linear-gradient(top,  #0088cc 0%,#0044cc 100%);
-	background: linear-gradient(top,  #0088cc 0%,#0044cc 100%);
 }
 .button.button-primary:hover  { background: #0044cc; }
 .button.button-primary.active { background: #006DCC; }

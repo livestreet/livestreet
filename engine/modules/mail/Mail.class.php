@@ -173,6 +173,7 @@ class ModuleMail extends Module {
 		$this->oMailer->CharSet=$this->sCharSet;
 
 		$this->oMailer->From=$this->sFrom;
+		$this->oMailer->Sender=$this->sFrom;
 		$this->oMailer->FromName=$this->sFromName;
 	}
 	/**
