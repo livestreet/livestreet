@@ -222,7 +222,7 @@ class Engine extends LsObject {
 		if (!isset(self::$oInstance) or (!self::$oInstance instanceof self)) {
 			self::$oInstance = new self();
 		}
-    return self::$oInstance;
+		return self::$oInstance;
 	}
 
 	/**

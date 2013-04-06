@@ -25,8 +25,8 @@ chdir(dirname(__FILE__));
 
 // Проверка на наличие директории install
 if (is_dir (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'install') and (!isset ($_SERVER ['HTTP_APP_ENV']) or $_SERVER ['HTTP_APP_ENV'] != 'test')) {
-  header ("Location: http://" . $_SERVER ['HTTP_HOST'] . "/install");
-  exit ();
+	header ("Location: http://" . $_SERVER ['HTTP_HOST'] . "/install");
+	exit ();
 }
 
 // Получаем объект конфигурации

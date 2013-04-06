@@ -94,7 +94,7 @@ class ActionSettings extends Action {
 		/**
 		 * Устанавливаем формат Ajax ответа
 		 */
-		$this->Viewer_SetResponseAjax('jsonIframe',false);
+		$this->Viewer_SetDefaultAjaxAnswer();
 
 		if(!isset($_FILES['foto']['tmp_name'])) {
 			return false;
@@ -235,7 +235,7 @@ class ActionSettings extends Action {
 		/**
 		 * Устанавливаем формат Ajax ответа
 		 */
-		$this->Viewer_SetResponseAjax('jsonIframe',false);
+		$this->Viewer_SetDefaultAjaxAnswer();
 
 		if(!isset($_FILES['avatar']['tmp_name'])) {
 			return false;

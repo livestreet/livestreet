@@ -212,6 +212,7 @@ class ActionPhotoset extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 * В зависимости от типа загрузчика устанавливается тип ответа
 		 */
+    // todo: вполне возможно позже поменять на $this->Viewer_SetDefaultAjaxAnswer();
 		if (getRequest('is_iframe')) {
 			$this->Viewer_SetResponseAjax('jsonIframe', false);
 		} else {

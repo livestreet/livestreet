@@ -417,6 +417,21 @@ class ModuleViewer extends Module {
 		$this->sResponseAjax=$sResponseAjax;
 		$this->bResponseSpecificHeader=$bResponseSpecificHeader;
 	}
+
+	/**
+	 * Устанавливает тип ajax ответа, основываясь на том, каким образом были отправлены данные: через ифрейм или через нормальный аякс
+	 */
+	public function SetDefaultAjaxAnswer () {
+    if (!isAjaxRequest ()) {
+			/**
+			 * Устанавливаем тип ответа 'jsonIframe' (тот же JSON только обернутый в textarea)
+			 * Это позволяет избежать ошибок в некоторых браузерах, например, Opera
+			 */
+      $this -> SetResponseAjax ('jsonIframe', false);		// for old browsers that doesnt support XMLHttpRequest
+    } else {
+      $this -> SetResponseAjax ('json');								// new FormData lib send data via XMLHttpRequest if it is supported
+    }
+	}
 	/**
 	 * Загружает переменную в шаблон
 	 *

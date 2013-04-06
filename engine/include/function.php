@@ -219,8 +219,8 @@ function func_encrypt($sData) {
  * @return unknown
  */
 function func_getIp() {
-  // Если запускаем через консоль, то REMOTE_ADDR не определен
-  return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+	// Если запускаем через консоль, то REMOTE_ADDR не определен
+	return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 } 
 
 
@@ -230,10 +230,10 @@ function func_getIp() {
  * @param unknown_type $sLocation
  */
 function func_header_location($sLocation) {
-  $sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-  header("{$sProtocol} 301 Moved Permanently");
-  header('Location: '.$sLocation);
-  exit();
+	$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+	header("{$sProtocol} 301 Moved Permanently");
+	header('Location: '.$sLocation);
+	exit();
 }
 
 /**

@@ -463,6 +463,15 @@ ls = (function ($) {
 			error: more.error || function(){
 				ls.debug("ajax error: ");
 				ls.debug.apply(this,arguments);
+			}.bind(this),
+			beforeSend: more.beforeSend || function(){
+				ls.debug("ajax before send: ");
+				ls.debug.apply(this,arguments);
+			}.bind(this),
+			uploadProgress: more.uploadProgress || function(){}.bind(this),
+			complete: more.complete || function(){
+				ls.debug("ajax complete: ");
+				ls.debug.apply(this,arguments);
 			}.bind(this)
 
 		};
