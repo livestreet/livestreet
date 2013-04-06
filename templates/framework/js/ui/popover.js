@@ -20,6 +20,7 @@ var ls = ls || {};
         hooks : {
             onInitTarget: function () {
                 if ( ! this.options.target ) { 
+                    console.log(this.options.target);
                     if ( ! this.options.title ) { 
                         this.options.title = this.$toggle.attr('title'); 
                         this.$toggle.removeAttr('title');
@@ -49,7 +50,7 @@ var ls = ls || {};
 
     $.fn.popover.defaults = $.extend({} , $.fn.popup.defaults, {
     	template: '<div class="popover" data-type="popover-target">' +
-                       '<div class="tip-arrow"></div>' +
+                       '<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>' +
                        '<div class="popover-title" data-type="popover-title"></div>' +
                        '<div class="popover-content" data-type="popover-content"></div>' +
                    '</div>',

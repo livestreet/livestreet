@@ -24,7 +24,7 @@ var ls = ls || {};
     };
 
     /**
-     * Hide all dropdowns
+     * Hide all popups
      */
     Popup.hideAll = function (type) {
         $($.fn[type].settings.toggleSelector + '.' + $.fn[type].settings.openClass).each(function () {
@@ -37,9 +37,9 @@ var ls = ls || {};
      */
     Popup.initPlugin = function (type, elements, options, variable, value) {
         var returnValue = false;
-
+        
         // Hide when click anywhere but target
-        $('body').on('click', function (e) {
+        $('body').off('click.' + type).on('click.' + type, function (e) {
             var el = $($.fn[type].settings.toggleSelector + ', ' + $.fn[type].settings.targetSelector);
 
             if (el.length && ! el.is(e.target) && el.has(e.target).length === 0) {
@@ -54,6 +54,22 @@ var ls = ls || {};
             });
         });
 
+        // Events
+        if (typeof options !== 'string') options = $.extend({}, $.fn[type].defaults, options);
+
+        if (options.selector) {
+            $(elements).on(options.event + '.' + type, options.selector, function (e) {
+                ! $(this).data('object') && Popup.initPluginElements(type, $(this), options, variable, value);
+                $(this).data('object').toggle(e);
+            });
+        } else {
+            Popup.initPluginElements(type, elements, options, variable, value);
+        }
+
+        return returnValue;
+    };
+
+    Popup.initPluginElements = function (type, elements, options, variable, value) {
         elements.each(function () {
             var element = $(this),
                 object = element.data('object');
@@ -70,9 +86,7 @@ var ls = ls || {};
                 }
             }
         });
-
-        return returnValue;
-    };
+    }
 
     Popup.prototype = {
         constructor: Popup,
@@ -95,6 +109,7 @@ var ls = ls || {};
             this.type = type;
             this.timeout = false;
             this.open = false;
+            this.state = 'out';
 
             this.togglePosition = {};
             this.targetPosition = {};
@@ -106,10 +121,13 @@ var ls = ls || {};
             this.$toggle = $(toggle);
 
             // Events
-            this.$toggle.on(this.options.event + '.' + this.type, this.options.selector, $.proxy(this.toggle, this));
+            ! this.options.selector && this.$toggle.on(this.options.event + '.' + this.type, $.proxy(this.toggle, this));
 
             // Init target
             ! this.options.template && this.initTarget(this);
+
+            // onInit callback
+            typeof this.options.onInit === 'function' && $.proxy(this.options.onInit, this)();
         },
 
         /**
@@ -132,10 +150,10 @@ var ls = ls || {};
             this.options.content && this.setContent(this.options.content);
 
             // Add classes
-            this.options.class && this.$target.addClass(this.options.class);
+            this.options.classes && this.$target.addClass(this.options.classes);
 
             // Hide
-            this.$target.find('[data-type=dropdown-hide]').on('click', this.hide);
+            this.$target.find('[data-type=' + this.type + '-hide]').on('click', this.hide);
 
             // Hook
             if (this.hooks.onInitTarget) $.proxy(this.hooks.onInitTarget, this)();
@@ -147,10 +165,15 @@ var ls = ls || {};
         enter: function () {
             var self = this;
 
-            if ( ! this.options.delay ) {
+            this.state = 'in';
+
+            if ( ! this.options.delay || this.open) {
                 this.show();
             } else {
-                this.timeout = setTimeout(function() { self.show(); }, this.options.delay);
+                this.timeout = setTimeout(function() { 
+                    self.show();
+                    self.timeout = false; 
+                }, this.options.delay);
             }
         },
 
@@ -158,40 +181,40 @@ var ls = ls || {};
          * Mouse leave
          */
         leave: function () {
-            if ( ! this.options.delay ) {
+            this.state = 'out';
+
+            if ( ! this.options.delay || ! this.timeout ) {
                 this.hide();
             } else {
-                this.open && this.hide();
                 clearTimeout(this.timeout);
                 this.timeout = false;
             }
         },
 
         /**
-         * Toggle dropdown
+         * Toggle popup
          */
         toggle: function (e) {
-            if ( ! this.options.delay) {
-                ! this.open ? this.enter() : this.leave();
-            } else {
-                this.open || (this.timeout && ! this.open) ? this.leave() : this.enter();
-            }
+            (this.options.event == 'hover' && this.state === 'in') || (this.options.event != 'hover' && this.open) ? this.leave() : this.enter();
             this.options.preventDefault && e.preventDefault();
         },
 
         /**
-         * Show dropdown
+         * Show popup
          */
         show: function () {
             var self = this;
+            Popup.hideAll(this.type);
+
+            if (this.options.template && ! this.open) this.initTarget();
+
+            this.$toggle.addClass($.fn[this.type].settings.openClass);
+
+            this.$target.stop(true, true)[this.options.effect == 'show' ? 'show' : (this.options.effect == 'fade' ? 'fadeIn' : 'slideDown')](this.options.duration);
 
             typeof this.options.onShow === 'function' && $.proxy(this.options.onShow, this)();
 
-            this.options.template && this.initTarget();
-            Popup.hideAll(this.type);
             this.position();
-            this.$toggle.addClass($.fn[this.type].settings.openClass);
-            this.$target[this.options.effect == 'show' ? 'show' : (this.options.effect == 'fade' ? 'fadeIn' : 'slideDown')](this.options.duration);
             this.open = true;
 
             // Ajax
@@ -219,21 +242,27 @@ var ls = ls || {};
         },
 
         /**
-         * Hide dropdown
+         * Hide popup
          */
         hide: function () {
-            var self = this;
+            var self = this,
+                duration = this.options.duration;
+
+            if ( ! this.open ) return;
 
             typeof this.options.onHide === 'function' && $.proxy(this.options.onHide, this)();
 
             this.$toggle.removeClass($.fn[this.type].settings.openClass);
-            this.$target[this.options.effect == 'show' ? 'hide' : (this.options.effect == 'fade' ? 'fadeOut' : 'slideUp')](this.options.duration, function () {
-                if (self.options.template && ! self.options.target) {
+
+            this.$target.is(':animated') && (duration = 0);
+
+            this.$target.stop(true, true)[this.options.effect == 'show' ? 'hide' : (this.options.effect == 'fade' ? 'fadeOut' : 'slideUp')](duration, function () {
+                if (self.options.template && ! self.options.target && self.state === 'out') {
                     self.$target.remove();
                     self.$target = false;
                 }
-                self.open = false;
             });
+            this.open = false;
         },
 
         /**
@@ -333,7 +362,7 @@ var ls = ls || {};
 
         url            : false,
         params         : {},
-        class          : false,
+        classes        : false,
         title          : false,
         content        : false,
         template       : false,
@@ -341,6 +370,7 @@ var ls = ls || {};
 
         onShow         : false,
         onHide         : false,
+        onInit         : false,
         preventDefault : true
     };
 

@@ -42,7 +42,7 @@
 						</a>
 						
 						<p>
-							<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="icon-question-sign js-popover-blog-info"></a>
+							<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="icon-question-sign js-popover-default"></a>
 
 							{if $oBlog->getType() == 'close'}
 								<i title="{$aLang.blog_closed}" class="icon-lock"></i>

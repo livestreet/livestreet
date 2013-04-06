@@ -12,7 +12,7 @@
 {block name='options'}{/block}
 
 
-<div class="modal {block name='class'}{/block}" id="{block name='id'}{/block}" data-type="modal">
+<div class="modal {block name='class'}{/block}" id="{block name='id'}{/block}" data-type="modal" {block name='attributes'}{/block}>
 	<header class="modal-header">
 		{if !$noTitle}<h3>{block name='title'}Modal window{/block}</h3>{/if}
 		<a href="#" class="modal-close" data-type="modal-close"></a>

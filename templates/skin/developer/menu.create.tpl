@@ -1,7 +1,7 @@
 <h2 class="page-header page-header-publish">
 	{$aLang.block_create}
 	
-	<a href="#" class="dropdown-toggle" data-type="dropdown-toggle" data-option-target="js-dropdown-publish">
+	<a href="#" class="dropdown-toggle js-dropdown-default" data-type="dropdown-toggle" data-option-target="js-dropdown-publish">
 		{if $sMenuItemSelect=='topic'}
 			{$aLang.topic_menu_add}
 		{elseif $sMenuItemSelect=='blog'}

@@ -14,6 +14,8 @@
 	-webkit-box-shadow: 0 0 5px rgba(0,0,0,.2);
 	        box-shadow: 0 0 5px rgba(0,0,0,.2);
 }
+
+/* Arrow */
 .tooltip .tip-arrow {
 	content: '';
 	position: absolute;
@@ -23,11 +25,10 @@
 	left: auto;
 	width: 0;
 	height: 0;
-	border: 6px solid transparent;
+	border: 6px solid #222;
 }
 
-/* Arrow */
-.tooltip.alignx-center.aligny-top    .tip-arrow { left: 50%; bottom: -12px; margin-left: -6px; border-top-color: #222; }
-.tooltip.alignx-center.aligny-bottom .tip-arrow { left: 50%; top: -12px; margin-left: -6px; border-bottom-color: #222; }
-.tooltip.alignx-left.aligny-center .tip-arrow   { right: -12px; top: 50%; margin-top: -6px; border-left-color: #222; }
-.tooltip.alignx-right.aligny-center .tip-arrow  { left: -12px; top: 50%; margin-top: -6px; border-right-color: #222; }
+.tooltip.alignx-center.aligny-top    .tip-arrow { left: 50%; bottom: -12px; margin-left: -6px; border-bottom-color: transparent; border-left-color: transparent; border-right-color: transparent; }
+.tooltip.alignx-center.aligny-bottom .tip-arrow { left: 50%; top: -12px; margin-left: -6px; border-top-color: transparent; border-left-color: transparent; border-right-color: transparent; }
+.tooltip.alignx-left.aligny-center .tip-arrow   { right: -12px; top: 50%; margin-top: -6px; border-bottom-color: transparent; border-top-color: transparent; border-right-color: transparent; }
+.tooltip.alignx-right.aligny-center .tip-arrow  { left: -12px; top: 50%; margin-top: -6px; border-bottom-color: transparent; border-left-color: transparent; border-top-color: transparent; }

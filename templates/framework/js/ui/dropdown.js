@@ -24,7 +24,7 @@ var ls = ls || {};
                 // Toggle's text
                 if (this.options.changeText) {
                     var activeText = this.$target.find('li.active').text();
-                    activeText && this.$toggle.text(activeText);
+                    activeText && this.$toggle.find('[data-type=dropdown-text]').text(activeText);
                 }
 
                 // Change dropdown's text on item click and add 'active' class to clicked item
@@ -53,16 +53,12 @@ var ls = ls || {};
     $.fn.dropdown.Constructor = Dropdown;
 
     $.fn.dropdown.defaults = $.extend({} , $.fn.popup.defaults, { 
-        effect: 'show',
-        duration: 0
+        effect: 'slide',
+        duration: 300
     });
 
     $.fn.dropdown.settings = $.extend({} , $.fn.popup.settings, { 
         toggleSelector: '[data-type=dropdown-toggle]',
         targetSelector: '[data-type=dropdown-target]'
-    });
-
-    $(document).ready(function($) {
-        $($.fn.dropdown.settings.toggleSelector).dropdown();
     });
 })(jQuery);

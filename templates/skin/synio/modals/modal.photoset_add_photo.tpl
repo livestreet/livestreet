@@ -1,6 +1,7 @@
 {extends file='modals/modal_base.tpl'}
 
 {block name='id'}photoset-upload-form{/block}
+{block name='class'}photoset-upload-form js-modal-default{/block}
 {block name='title'}{$aLang.uploadimg}{/block}
 
 {block name='content'}

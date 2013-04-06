@@ -114,10 +114,10 @@
 	
 	
 	{if $oUserCurrent}
-		{include file='modals/modal_write.tpl'}
-		{include file='modals/modal_favourite_form_tags.tpl'}
+		{include file='modals/modal.write.tpl'}
+		{include file='modals/modal.favourite_form_tags.tpl'}
 	{else}
-		{include file='modals/modal_login.tpl'}
+		{include file='modals/modal.login.tpl'}
 	{/if}
 	
 
