@@ -20,7 +20,6 @@ var ls = ls || {};
         hooks : {
             onInitTarget: function () {
                 if ( ! this.options.target ) { 
-                    console.log(this.options.target);
                     if ( ! this.options.title ) { 
                         this.options.title = this.$toggle.attr('title'); 
                         this.$toggle.removeAttr('title');
