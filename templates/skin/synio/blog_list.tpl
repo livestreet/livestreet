@@ -45,7 +45,7 @@
 
 				<tr>
 					<td class="cell-info">
-						<a href="#" onclick="return ls.infobox.showInfoBlog(this,{$oBlog->getId()});" class="blog-list-info"></a>
+						<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="blog-list-info js-popover-blog-info"></a>
 					</td>
 					<td class="cell-name">
 						<p>

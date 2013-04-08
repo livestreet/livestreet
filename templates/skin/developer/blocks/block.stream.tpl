@@ -14,8 +14,8 @@
 		</ul>
 		
 		
-		<div 
-			class="dropdown dropdown-toggle js-block-stream-dropdown" 
+		<div
+			class="dropdown dropdown-toggle js-block-stream-dropdown js-dropdown-default" 
 			data-type="dropdown-toggle" 
 			data-option-target="js-dropdown-stream"
 			data-option-change-text="true"

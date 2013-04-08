@@ -207,21 +207,17 @@ var ls = ls || {};
      * @param  {Object} options Options
      */
     Modal.load = function (url, params, options) {
-        var self = this;
-
         showOverlay();
         Modal.showLoader();
 
-        var options = options || {};
-        options.url = url;
-        options.params = params;
+        options = $.extend({}, $.fn.modal.defaults, options);
 
         ls.ajax(url, params, function (result) {
             if (result.bStateError) {
                 Modal.hideAll();
                 ls.msg.error('Error', result.sMsg);
             } else {
-                var modal = $(result[self.options.ajaxVar]), 
+                var modal = $(result[options.ajaxVar]), 
                     object;
 
                 Modal.hideLoader(false);

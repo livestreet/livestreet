@@ -4,7 +4,7 @@
 	{/if}
 	
 	{if $oUserCurrent}
-		<a href="{router page='topic'}add/" class="button button-write" data-type="modal-toggle" data-modal-target="modal-write">{$aLang.block_create}</a>
+		<a href="{router page='topic'}add/" class="button button-write" data-type="modal-toggle" data-option-target="modal-write">{$aLang.block_create}</a>
 	{/if}
 	
 	<div class="search-header">

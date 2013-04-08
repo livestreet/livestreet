@@ -7,7 +7,7 @@
 
 
 {include file='editor.tpl'}
-{include file='modals/modal_photoset_add_photo.tpl'}
+{include file='modals/modal.photoset_add_photo.tpl'}
 
 
 <script type="text/javascript">
@@ -96,7 +96,7 @@
 			{/if}
 		</ul>
 		
-		<a href="#" data-type="modal-toggle" data-modal-target="photoset-upload-form" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
+		<a href="#" data-type="modal-toggle" data-option-target="photoset-upload-form" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
 	</div>
 	
 	  

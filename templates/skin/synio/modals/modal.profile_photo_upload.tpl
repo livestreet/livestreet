@@ -5,7 +5,7 @@
 {/block}
 
 {block name='id'}foto-resize{/block}
-{block name='class'}modal-upload-photo{/block}
+{block name='class'}modal-upload-photo js-modal-default{/block}
 {block name='title'}{$aLang.uploadimg}{/block}
 
 {block name='content'}

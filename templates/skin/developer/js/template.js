@@ -2,6 +2,7 @@ jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
 
+
 	$('html').removeClass('no-js');
 
 	// Определение браузера
@@ -21,7 +22,116 @@ jQuery(document).ready(function($){
 		}
 	}
 
+	/**
+	 * Popovers
+	 */
+	$(document).popover({ selector: '.js-popover-default' });
 
+
+	/**
+	 * Modals
+	 */
+	$('.js-modal-default').modal();
+
+
+	/**
+	 * Datepicker
+	 */
+	$('.date-picker').datepicker();
+
+
+	/**
+	 * Dropdowns
+	 */
+	$('.js-dropdown-default').dropdown();
+
+
+	/**
+	 * Tooltips
+	 */
+	$('.js-tooltip').tooltip();
+
+	$('.js-title-talk').tooltip({
+		alignX: 'left',
+		alignY: 'center'
+	});
+
+	$('.js-tip-help').tooltip({
+		alignX: 'right',
+		alignY: 'center'
+	});
+
+	if (ls.registry.get('block_stream_show_tip')) {
+		$(document).tooltip({
+			selector: '.js-title-comment, .js-title-topic',
+			alignX: 'left',
+			alignY: 'center',
+			delay: 1500
+		});
+	}
+
+
+	/**
+	 * Autocomplete
+	 */
+	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
+	ls.autocomplete.add($(".autocomplete-tags"), aRouter['ajax']+'autocompleter/tag/', false);
+	ls.autocomplete.add($(".autocomplete-users-sep"), aRouter['ajax']+'autocompleter/user/', true);
+	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
+
+
+	/**
+	 * Scroll
+	 */
+	$(window)._scrollable();
+
+
+	/**
+	 * Toolbar
+	 */
+	ls.toolbar.topic.init(); // Тул-бар топиков
+	ls.toolbar.up.init();    // Кнопка "UP"
+
+
+	/**
+	 * Code highlight
+	 */
+	prettyPrint();
+
+
+	/**
+	 * Blocks
+	 */
+	ls.blocks.init('stream',{group_items: true, group_min: 3});
+	ls.blocks.init('blogs');
+	ls.blocks.initSwitch('tags');
+	ls.blocks.initSwitch('upload-img');
+	ls.blocks.initSwitch('favourite-topic-tags');
+	ls.blocks.initSwitch('popup-login');
+
+
+	/**
+	 * Misc
+	 */
+	
+	// Фикс бага с z-index у встроенных видео
+	$("iframe").each(function(){
+		var ifr_source = $(this).attr('src');
+
+		if(ifr_source) {
+			var wmode = "wmode=opaque";
+
+			if (ifr_source.indexOf('?') != -1)
+				$(this).attr('src',ifr_source+'&'+wmode);
+			else
+				$(this).attr('src',ifr_source+'?'+wmode);
+		}
+	});
+
+
+	/**
+	 * Auth modal
+	 */
 	$('.js-registration-form-show').click(function(){
 		if ($('[data-option-target=tab-pane-registration]').length) {
 			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-registration]').tab('activate') });
@@ -42,83 +152,18 @@ jQuery(document).ready(function($){
 		return false;
 	});
 
-	// Datepicker
-	$('.date-picker').datepicker();
 
-	$('.js-popover-blog-info').popover();
 
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){
-		window.location = aRouter['tag']+encodeURIComponent($(this).find('.js-tag-search').val())+'/';
+		var val=$(this).find('.js-tag-search').val();
+		if (val) {
+			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
+		}
 		return false;
 	});
 
 
-	// Автокомплит
-	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
-	ls.autocomplete.add($(".autocomplete-tags"), aRouter['ajax']+'autocompleter/tag/', false);
-	ls.autocomplete.add($(".autocomplete-users-sep"), aRouter['ajax']+'autocompleter/user/', true);
-	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
-
-
-	// Скролл
-	$(window)._scrollable();
-
-
-	// Тул-бар топиков
-	ls.toolbar.topic.init();
-	// Кнопка "UP"
-	ls.toolbar.up.init();
-
-
-	/**
-	 * Modals
-	 */
-	$('.js-modal-default').modal();
-
-
-	/**
-	 * Tooltips
-	 */
-	$('.js-tooltip').tooltip();
-
-	$('.js-title-talk').tooltip({
-		alignX: 'left',
-		alignY: 'center'
-	});
-
-	$('.js-tip-help').tooltip({
-		alignX: 'right',
-		alignY: 'center'
-	});
-
-	if (ls.registry.get('block_stream_show_tip')) {
-		$('.js-title-comment, .js-title-topic').tooltip({
-			alignX: 'left',
-			alignY: 'center'
-		});
-	}
-
-
-
-
-	// подсветка кода
-	prettyPrint();
-
-	// эмуляция border-sizing в IE
-	var inputs = $('input.input-text, textarea');
-	ls.ie.bordersizing(inputs);
-
-	// эмуляция placeholder'ов в IE
-	inputs.placeholder();
-
-	// инизиализация блоков
-	ls.blocks.init('stream',{group_items: true, group_min: 3});
-	ls.blocks.init('blogs');
-	ls.blocks.initSwitch('tags');
-	ls.blocks.initSwitch('upload-img');
-	ls.blocks.initSwitch('favourite-topic-tags');
-	ls.blocks.initSwitch('popup-login');
 
 	// комментарии
 	ls.comments.options.folding = false;
@@ -184,22 +229,18 @@ jQuery(document).ready(function($){
 		$.markItUp({target: target, replaceWith: s});
 		return false;
 	});
+	
+	/**
+	 * IE
+	 * TODO: Check browser
+	 */
+	
+	// эмуляция border-sizing в IE
+	var inputs = $('input.input-text, textarea');
+	ls.ie.bordersizing(inputs);
 
-
-	// Фикс бага с z-index у встроенных видео
-	$("iframe").each(function(){
-		var ifr_source = $(this).attr('src');
-
-		if(ifr_source) {
-			var wmode = "wmode=opaque";
-
-			if (ifr_source.indexOf('?') != -1)
-				$(this).attr('src',ifr_source+'&'+wmode);
-			else
-				$(this).attr('src',ifr_source+'?'+wmode);
-		}
-	});
-
+	// эмуляция placeholder'ов в IE
+	inputs.placeholder();
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

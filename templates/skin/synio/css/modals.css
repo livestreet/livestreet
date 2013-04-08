@@ -106,6 +106,7 @@
 /* Upload Image
 -------------------------------------------------- */
 .modal.modal-image-upload { width: 500px; }
+.modal.modal-image-upload .nav.nav-pills { margin-bottom: 0; }
 .modal.modal-upload-photo .image-border, 
 .modal.modal-upload-avatar .image-border {
 	float: left;

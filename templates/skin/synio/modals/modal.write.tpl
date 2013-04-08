@@ -6,7 +6,7 @@
 {/block}
 
 {block name='id'}modal-write{/block}
-{block name='class'}modal-write{/block}
+{block name='class'}modal-write js-modal-default{/block}
 {block name='title'}{$aLang.block_create}{/block}
 	
 {block name='content'}

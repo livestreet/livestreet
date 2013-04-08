@@ -1,42 +1,6 @@
-<script type="text/javascript">
-	jQuery(window).load(function () {
-		var trigger = $('#dropdown-create-trigger');
-		var menu 	= $('#dropdown-create-menu');
-		var pos 	= trigger.offset();
-	
-	
-		// Dropdown
-		menu.find('li.active').prependTo(menu).click(function(){
-			menu.hide();
-			return false;
-		});
-		menu.appendTo('body').css({ 'left': pos.left - 18, 'top': pos.top - 13, 'display': 'none' });
-	
-		trigger.click(function(){
-			menu.toggle(); 
-			return false;
-		});
-		
-		
-		// Hide menu
-		$(document).click(function(){
-			menu.hide();
-		});
-	
-		$('body').on("click", "#dropdown-create-trigger, #dropdown-create-menu", function(e) {
-			e.stopPropagation();
-		});
-		
-		$(window).resize(function(){
-			menu.css({ 'left': $('#dropdown-create-trigger').offset().left - 18 });
-		});
-	});
-</script>
-
-
 <div class="dropdown-create">
 	{strip}
-		<h2 class="page-header">{$aLang.block_create} <a href="#" class="dropdown-create-trigger link-dashed" id="dropdown-create-trigger">
+		<h2 class="page-header">{$aLang.block_create} <a href="#" class="dropdown-create-trigger link-dashed js-dropdown-create" data-type="dropdown-toggle" data-option-target="dropdown-create-menu" id="dropdown-create-trigger">
 			{if $sMenuItemSelect=='topic'}
 				{$aLang.topic_menu_add}
 			{elseif $sMenuItemSelect=='blog'}
@@ -49,7 +13,7 @@
 		</a></h2>
 	{/strip}
 	
-	<ul class="dropdown-menu-create" id="dropdown-create-menu" style="display: none">
+	<ul class="dropdown-menu-create" id="dropdown-create-menu" data-type="dropdown-target" style="display: none">
 		<li {if $sMenuItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add}</a></li>
 		<li {if $sMenuItemSelect=='blog'}class="active"{/if}><a href="{router page='blog'}add/">{$aLang.blog_menu_create}</a></li>
 		<li {if $sMenuItemSelect=='talk'}class="active"{/if}><a href="{router page='talk'}add/">{$aLang.block_create_talk}</a></li>

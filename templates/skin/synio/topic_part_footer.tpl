@@ -32,12 +32,14 @@
 		</ul>
 		
 		
-		<div class="topic-share" id="topic_share_{$oTopic->getId()}">
-			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-			{/hookb}
-			<div class="arrow"></div>
-			<div class="close" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"></div>
+		{* Share block *}
+		<div class="popover" data-type="popover-target" id="topic_share_{$oTopic->getId()}">
+			<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>
+			<div class="popover-content" data-type="popover-content">
+				{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+					<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+				{/hookb}
+			</div>
 		</div>
 
 
@@ -51,7 +53,9 @@
 					{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 				</time>
 			</li>
-			<li class="topic-info-share" data-topic-id="{$oTopic->getId()}" onclick="jQuery('#topic_share_{$oTopic->getId()}').slideToggle(); return false;"><i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i></li>
+			<li class="topic-info-share js-popover-default" data-type="popover-toggle" data-option-target="topic_share_{$oTopic->getId()}">
+				<i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i>
+			</li>
 			
 			<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTopic->getId()},$('#fav_topic_{$oTopic->getId()}'),'topic');">
 				<i id="fav_topic_{$oTopic->getId()}" class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"></i>
@@ -86,7 +90,7 @@
 			{/if}
 			
 			<li class="topic-info-vote">
-				<div id="vote_area_topic_{$oTopic->getId()}" class="vote-topic
+				<div id="vote_area_topic_{$oTopic->getId()}" data-type="tooltip-toggle" data-option-target="vote-info-topic-{$oTopic->getId()}" class="vote-topic
 																	{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 																		{if $oTopic->getRating() > 0}
 																			vote-count-positive
@@ -123,7 +127,7 @@
 																		vote-not-expired
 																	{/if}
 
-																	{if $bVoteInfoShow}js-infobox-vote-topic{/if}">
+																	{if $bVoteInfoShow}js-tooltip-vote-topic{/if}">
 					<div class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
 					<div class="vote-item vote-count" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
 						<span id="vote_total_topic_{$oTopic->getId()}">
@@ -135,9 +139,11 @@
 						</span>
 					</div>
 					<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>
+
 					{if $bVoteInfoShow}
-						<div id="vote-info-topic-{$oTopic->getId()}" style="display: none;">
-							<ul class="vote-topic-info">
+						<div id="vote-info-topic-{$oTopic->getId()}" class="tooltip" data-type="tooltip-target">
+							<div class="tip-arrow"></div>
+							<ul class="tooltip-content vote-topic-info" data-type="tooltip-content">
 								<li><i class="icon-synio-vote-info-up"></i> {$oTopic->getCountVoteUp()}</li>
 								<li><i class="icon-synio-vote-info-down"></i> {$oTopic->getCountVoteDown()}</li>
 								<li><i class="icon-synio-vote-info-zero"></i> {$oTopic->getCountVoteAbstain()}</li>

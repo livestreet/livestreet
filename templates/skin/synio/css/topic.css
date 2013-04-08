@@ -53,9 +53,9 @@
 
 .topic .topic-footer .topic-info li.topic-info-share			{ padding: 6px; cursor: pointer; border-radius: 4px; position: relative; }
 .topic .topic-footer .topic-info li.topic-info-share i			{ float: left; }
-.topic .topic-footer .topic-info li.topic-info-share.active,
+.topic .topic-footer .topic-info li.topic-info-share.open,
 .topic .topic-footer .topic-info li.topic-info-share:hover		{ background: #64ceff; }
-.topic .topic-footer .topic-info li.topic-info-share.active i,
+.topic .topic-footer .topic-info li.topic-info-share.open i,
 .topic .topic-footer .topic-info li.topic-info-share:hover i	{ background-position: -12px -51px; }
 
 .topic .topic-footer .topic-info li.topic-info-comments a			{ color: #727fa0; float: left; }

@@ -1,5 +1,5 @@
 {hook run='profile_sidebar_begin' oUserProfile=$oUserProfile}
-{include file='modals/modal_profile_photo_upload.tpl'}
+{include file='modals/modal.profile_photo_upload.tpl'}
 
 
 <section class="block block-type-profile">

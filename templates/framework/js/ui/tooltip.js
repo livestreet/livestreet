@@ -55,6 +55,6 @@ var ls = ls || {};
     });
 
     $(document).ready(function($) {
-        $($.fn.tooltip.settings.toggleSelector).tooltip();
+        //$($.fn.tooltip.settings.toggleSelector).tooltip();
     });
 })(jQuery);

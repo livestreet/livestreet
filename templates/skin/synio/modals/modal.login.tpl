@@ -5,7 +5,7 @@
 {/block}
 
 {block name='id'}modal-login{/block}
-{block name='class'}modal-login{/block}
+{block name='class'}modal-login js-modal-default{/block}
 {block name='title'}{$aLang.user_authorization}{/block}
 
 {block name='content'}
@@ -20,18 +20,18 @@
 	</script>
 	
 	
-	<ul class="nav nav-pills nav-pills-tabs" data-toggle="tabs">
-		<li data-toggle="tab" data-tab-target="tab-pane-login"><a href="#">{$aLang.user_login_submit}</a></li>
+	<ul class="nav nav-pills nav-pills-tabs" data-type="tabs">
+		<li data-type="tab" data-option-target="tab-pane-login" class="active"><a href="#">{$aLang.user_login_submit}</a></li>
 		{if !$oConfig->GetValue('general.reg.invite')}
-			<li data-toggle="tab" data-tab-target="tab-pane-registration"><a href="#">{$aLang.registration}</a></li>
+			<li data-type="tab" data-option-target="tab-pane-registration"><a href="#">{$aLang.registration}</a></li>
 		{else}
 			<li><a href="{router page='registration'}">{$aLang.registration}</a></li>
 		{/if}
-		<li data-toggle="tab" data-tab-target="tab-pane-reminder"><a href="#">{$aLang.password_reminder}</a></li>
+		<li data-type="tab" data-option-target="tab-pane-reminder"><a href="#">{$aLang.password_reminder}</a></li>
 	</ul>
 	
-	<div data-toggle="tab-content">
-		<div id="tab-pane-login" data-toggle="tab-pane">
+	<div data-type="tab-content">
+		<div id="tab-pane-login" data-type="tab-pane" style="display: block">
 			{hook run='login_popup_begin'}
 			<form action="{router page='login'}" method="post" id="popup-login-form">
 				{hook run='form_login_popup_begin'}
@@ -53,7 +53,7 @@
 
 
 		{if !$oConfig->GetValue('general.reg.invite')}
-		<div id="tab-pane-registration" data-toggle="tab-pane">
+		<div id="tab-pane-registration" data-type="tab-pane">
 			<script type="text/javascript">
 				jQuery(document).ready(function($){
 					$('#popup-registration-form').find('input.js-ajax-validate').blur(function(e){
@@ -123,7 +123,7 @@
 		{/if}
 		
 		
-		<div id="tab-pane-reminder" data-toggle="tab-pane">
+		<div id="tab-pane-reminder" data-type="tab-pane">
 			<script type="text/javascript">
 				jQuery(document).ready(function($){
 					$('#popup-reminder-form').bind('submit',function(){

@@ -4,7 +4,7 @@
 	<ul class="nav nav-userbar">
 		{if $oUserCurrent}
 			<li class="nav-userbar-username">
-				<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle" data-type="dropdown-toggle" data-option-offset-y="2" data-option-target="js-dropdown-usermenu" onclick="return false">
+				<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle js-dropdown-default" data-type="dropdown-toggle" data-option-offset-y="2" data-option-target="js-dropdown-usermenu" onclick="return false">
 					<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" class="avatar" />
 					{$oUserCurrent->getLogin()}
 				</a>
