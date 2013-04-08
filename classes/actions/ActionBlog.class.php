@@ -187,6 +187,11 @@ class ActionBlog extends Action {
 		}
 		$this->Hook_Run('blog_add_show');
 		/**
+		 * Прогружаем категории блогов
+		 */
+		$aCategories=$this->Blog_GetCategoriesTree();
+		$this->Viewer_Assign('aBlogCategories',$aCategories);
+		/**
 		 * Запускаем проверку корректности ввода полей при добалении блога.
 		 * Дополнительно проверяем, что был отправлен POST запрос.
 		 */
@@ -221,6 +226,16 @@ class ActionBlog extends Action {
 			}
 		}
 		/**
+		 * Устанавливаем категорию для блога
+		 */
+		if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
+			if (getRequestStr('blog_category')) {
+				$oBlog->setCategoryId(getRequestStr('blog_category'));
+			} elseif (Config::Get('module.blog.category_allow_empty')) {
+				$oBlog->setCategoryId(null);
+			}
+		}
+		/**
 		 * Создаём блог
 		 */
 		$this->Hook_Run('blog_add_before', array('oBlog'=>$oBlog));
@@ -230,6 +245,12 @@ class ActionBlog extends Action {
 			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
+			/**
+			 * Меняем количество блогов в категории
+			 */
+			if ($oBlog->getCategoryId()) {
+				$this->Blog_IncreaseCategoryCountBlogs($oBlog->getCategoryId());
+			}
 
 			/**
 			 * Добавляем событие в ленту
@@ -279,6 +300,11 @@ class ActionBlog extends Action {
 
 		$this->Hook_Run('blog_edit_show',array('oBlog'=>$oBlog));
 		/**
+		 * Прогружаем категории блогов
+		 */
+		$aCategories=$this->Blog_GetCategoriesTree();
+		$this->Viewer_Assign('aBlogCategories',$aCategories);
+		/**
 		 * Устанавливаем title страницы
 		 */
 		$this->Viewer_AddHtmlTitle($oBlog->getTitle());
@@ -318,6 +344,17 @@ class ActionBlog extends Action {
 				$oBlog->setUrl(getRequestStr('blog_url'));	// разрешаем смену URL блога только админу
 			}
 			/**
+			 * Устанавливаем категорию для блога
+			 */
+			$iCategoryIdOld=$oBlog->getCategoryId();
+			if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
+				if (getRequestStr('blog_category')) {
+					$oBlog->setCategoryId(getRequestStr('blog_category'));
+				} elseif (Config::Get('module.blog.category_allow_empty')) {
+					$oBlog->setCategoryId(null);
+				}
+			}
+			/**
 			 * Загрузка аватара, делаем ресайзы
 			 */
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
@@ -341,6 +378,17 @@ class ActionBlog extends Action {
 			$this->Hook_Run('blog_edit_before', array('oBlog'=>$oBlog));
 			if ($this->Blog_UpdateBlog($oBlog)) {
 				$this->Hook_Run('blog_edit_after', array('oBlog'=>$oBlog));
+
+				/**
+				 * Меняем количество блогов в категории
+				 */
+				if ($iCategoryIdOld and $iCategoryIdOld!=$oBlog->getCategoryId()) {
+					$this->Blog_DecreaseCategoryCountBlogs($iCategoryIdOld);
+				}
+				if ($oBlog->getCategoryId()) {
+					$this->Blog_IncreaseCategoryCountBlogs($oBlog->getCategoryId());
+				}
+
 				Router::Location($oBlog->getUrlFull());
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
@@ -353,6 +401,7 @@ class ActionBlog extends Action {
 			$_REQUEST['blog_title']=$oBlog->getTitle();
 			$_REQUEST['blog_url']=$oBlog->getUrl();
 			$_REQUEST['blog_type']=$oBlog->getType();
+			$_REQUEST['blog_category']=$oBlog->getCategoryId();
 			$_REQUEST['blog_description']=$oBlog->getDescription();
 			$_REQUEST['blog_limit_rating_topic']=$oBlog->getLimitRatingTopic();
 			$_REQUEST['blog_id']=$oBlog->getId();
@@ -561,6 +610,26 @@ class ActionBlog extends Action {
 		if (!func_check(getRequestStr('blog_limit_rating_topic'),'float')) {
 			$this->Message_AddError($this->Lang_Get('blog_create_rating_error'),$this->Lang_Get('error'));
 			$bOk=false;
+		}
+		/**
+		 * Проверяем категорию блога
+		 */
+		if (Config::Get('module.blog.category_allow')) {
+			if ($oCategory=$this->Blog_GetCategoryById(getRequestStr('blog_category'))) {
+				/**
+				 * Проверяем есть ли у этой категории дочернии
+				 */
+				if (Config::Get('module.blog.category_only_children') and $this->Blog_GetCategoriesByPid($oCategory->getId())) {
+					$this->Message_AddError($this->Lang_Get('blog_create_category_error_only_children'),$this->Lang_Get('error'));
+					$bOk=false;
+				}
+			} else {
+				$_REQUEST['blog_category']=null;
+				if (!Config::Get('module.blog.category_allow_empty')) {
+					$this->Message_AddError($this->Lang_Get('blog_create_category_error'),$this->Lang_Get('error'));
+					$bOk=false;
+				}
+			}
 		}
 		/**
 		 * Выполнение хуков

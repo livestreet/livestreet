@@ -62,6 +62,11 @@ class ActionAdmin extends Action {
 		$this->AddEvent('recalcfavourite','EventRecalculateFavourite');
 		$this->AddEvent('recalcvote','EventRecalculateVote');
 		$this->AddEvent('recalctopic','EventRecalculateTopic');
+		$this->AddEventPreg('/^blogcategory$/i','/^modal-add$/i','EventBlogCategoryModalAdd');
+		$this->AddEventPreg('/^blogcategory$/i','/^modal-edit$/i','EventBlogCategoryModalEdit');
+		$this->AddEventPreg('/^blogcategory$/i','/^add$/i','EventBlogCategoryAdd');
+		$this->AddEventPreg('/^blogcategory$/i','/^edit$/i','EventBlogCategoryEdit');
+		$this->AddEvent('blogcategory','EventBlogCategory');
 	}
 
 
@@ -76,6 +81,146 @@ class ActionAdmin extends Action {
 	 */
 	protected function EventIndex() {
 
+	}
+
+	/**
+	 * Список категорий блогов
+	 */
+	protected function EventBlogCategory() {
+		/**
+		 * Обработка удаления
+		 */
+		if ($this->GetParam(0)=='delete' and $oCategory=$this->Blog_GetCategoryById($this->GetParam(1))) {
+			$this->Security_ValidateSendForm();
+			/**
+			 * Получаем все дочернии категории
+			 */
+			$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
+			$aCategoriesId[]=$oCategory->getId();
+			/**
+			 * У блогов проставляем category_id = null
+			 */
+			$this->Blog_ReplaceBlogsCategoryByCategoryId($aCategoriesId,null);
+			/**
+			 * Удаляем категории
+			 */
+			$this->Blog_DeleteCategoryByArrayId($aCategoriesId);
+		}
+		/**
+		 * Обработка изменения сортировки
+		 */
+		if ($this->GetParam(0)=='sort' and $oCategory=$this->Blog_GetCategoryById($this->GetParam(1))) {
+			$this->Security_ValidateSendForm();
+			$sWay=$this->GetParam(2)=='down' ? 'down' : 'up';
+			$iSortOld=$oCategory->getSort();
+			if ($oCategoryPrev=$this->Blog_GetNextCategoryBySort($iSortOld,$oCategory->getPid(),$sWay)) {
+				$iSortNew=$oCategoryPrev->getSort();
+				$oCategoryPrev->setSort($iSortOld);
+				$this->Blog_UpdateCategory($oCategoryPrev);
+			} else {
+				if ($sWay=='down') {
+					$iSortNew=$iSortOld-1;
+				} else {
+					$iSortNew=$iSortOld+1;
+				}
+			}
+			/**
+			 * Меняем значения сортировки местами
+			 */
+			$oCategory->setSort($iSortNew);
+			$this->Blog_UpdateCategory($oCategory);
+		}
+		$aCategories=$this->Blog_GetCategoriesTree();
+		$this->Viewer_Assign("aCategories",$aCategories);
+	}
+
+	/**
+	 * Загружает модальное окно создания категории бога
+	 */
+	protected function EventBlogCategoryModalAdd() {
+		$this->Viewer_SetResponseAjax('json');
+		$aCategories=$this->Blog_GetCategoriesTree();
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aCategories',$aCategories);
+		/**
+		 * Устанавливаем переменные для ajax ответа
+		 */
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionAdmin/blogcategory_form_add.tpl"));
+	}
+
+	/**
+	 * Загружает модальное окно редактирования категории бога
+	 */
+	protected function EventBlogCategoryModalEdit() {
+		$this->Viewer_SetResponseAjax('json');
+		if (!($oCategory=$this->Blog_GetCategoryById(getRequestStr('id')))) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		$aCategories=$this->Blog_GetCategoriesTree();
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('oCategory',$oCategory);
+		$oViewer->Assign('aCategories',$aCategories);
+		/**
+		 * Устанавливаем переменные для ajax ответа
+		 */
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionAdmin/blogcategory_form_add.tpl"));
+	}
+
+	protected function EventBlogCategoryAdd() {
+		$this->Viewer_SetResponseAjax('json');
+
+		/**
+		 * Создаем категорию
+		 */
+		$oCategory=Engine::GetEntity('ModuleBlog_EntityBlogCategory');
+		$oCategory->setTitle(getRequestStr('title'));
+		$oCategory->setUrl(getRequestStr('url'));
+		$oCategory->setSort(getRequestStr('sort'));
+		$oCategory->setPid(getRequestStr('pid'));
+
+		if ($oCategory->_Validate()) {
+			if ($this->Blog_AddCategory($oCategory)) {
+				return;
+			}
+		} else {
+			$this->Message_AddError($oCategory->_getValidateError(),$this->Lang_Get('error'));
+		}
+		$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+	}
+
+	protected function EventBlogCategoryEdit() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if (!($oCategory=$this->Blog_GetCategoryById(getRequestStr('id')))) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Создаем категорию
+		 */
+		$oCategory->setTitle(getRequestStr('title'));
+		$oCategory->setUrl(getRequestStr('url'));
+		$oCategory->setSort(getRequestStr('sort'));
+		$oCategory->setPid(getRequestStr('pid'));
+
+		if ($oCategory->_Validate()) {
+			if ($this->Blog_UpdateCategory($oCategory)) {
+				/**
+				 * Проверяем корректность вложений
+				 */
+				if (count($this->Blog_GetCategoriesTree())<$this->Blog_GetCountCategories()) {
+					$oCategory->setPid(null);
+					$oCategory->setUrlFull($oCategory->getUrl());
+					$this->Blog_UpdateCategory($oCategory);
+				}
+				$this->Blog_RebuildCategoryUrlFull($oCategory);
+				return;
+			}
+		} else {
+			$this->Message_AddError($oCategory->_getValidateError(),$this->Lang_Get('error'));
+		}
+		$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 	}
 	/**
 	 * Перестроение дерева комментариев, актуально при $config['module']['comment']['use_nested'] = true;

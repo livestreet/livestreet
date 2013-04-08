@@ -115,6 +115,10 @@ return array(
 	'blog_delete' => 'Удалить',
 	'blog_create' => 'Создание нового блога',
 	'blog_create_acl' => 'Вы еще не достаточно окрепли, чтобы создавать свой блог',
+	'blog_create_category' => 'Категория бога',
+	'blog_create_category_notice' => 'Блогу можно назначить категорию, что позволяет более глубоко структурировать сайт',
+	'blog_create_category_error' => 'Не удалось найти категорию блога',
+	'blog_create_category_error_only_children' => 'Можно выбрать только конечную категорию (без дочерних)',
 	'blog_create_title' => 'Название блога',
 	'blog_create_title_notice' => 'Название блога должно быть наполнено смыслом, чтобы можно было понять, о чем будет блог.',
 	'blog_create_title_error' => 'Название блога должно быть от 2 до 200 символов',
@@ -764,6 +768,8 @@ return array(
 	'block_friends_check' => 'Отметить всех',
 	'block_friends_uncheck' => 'Снять отметку',
 	'block_friends_empty' => 'Список ваших друзей пуст',
+	'block_category_blog' => 'Категории',
+	'block_category_blog_all' => 'Все',
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
 	/**
@@ -926,10 +932,27 @@ return array(
 	'admin_header' => 'Админка',
 	'admin_list_plugins' => 'Управление плагинами',
 	'admin_list_userfields' => 'Настройка пользовательских полей',
+	'admin_list_blogcategory' => 'Настройка категорий блогов',
 	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
 	'admin_list_recalcfavourite' => 'Пересчитать счетчики избранных',
 	'admin_list_recalcvote' => 'Пересчитать счетчики голосований',
 	'admin_list_recalctopic' => 'Пересчитать количество топиков в блогах',
+	/**
+	 * Управление категориями блогов
+	 */
+	'admin_blogcategory_add' => 'Добавить новую категорию',
+	'admin_blogcategory_items_title' => 'Название',
+	'admin_blogcategory_items_url' => 'УРЛ',
+	'admin_blogcategory_items_action' => 'Действие',
+	'admin_blogcategory_items_delete_confirm' => 'Действительно удалить категорию со всеми вложенными?',
+	'admin_blogcategory_form_add' => 'Добавление категории',
+	'admin_blogcategory_form_edit' => 'Редактирование категории',
+	'admin_blogcategory_form_field_parent' => 'Вложить в',
+	'admin_blogcategory_form_field_title' => 'Название',
+	'admin_blogcategory_form_field_url' => 'УРЛ',
+	'admin_blogcategory_form_field_sort' => 'Сортировка',
+	'admin_blogcategory_form_add_submit' => 'Добавить',
+	'admin_blogcategory_form_edit_submit' => 'Сохранить',
 	/**
 	 * Рейтинг TOP
 	 */
@@ -1045,7 +1068,7 @@ return array(
 	'validate_compare_must_less' => 'Поле %%field%% должно быть меньше чем %%compare_value%%',
 	'validate_compare_must_less_equal' => 'Поле %%field%% должно быть меньше или равно %%compare_value%%',
 	'validate_compare_invalid_operator' => 'У поля %%field%% неверный оператор сравнения %%operator%%',
-	'validate_regexp_not_valid' => 'Поля %%field%% неверное',
+	'validate_regexp_not_valid' => 'Поле %%field%% неверное',
 	'validate_regexp_invalid_pattern' => 'У поля %%field%% неверное регулярное выражение',
 	'validate_tags_count_more' => 'Поле %%field%% содержит слишком много тегов (максимально допустимо %%count%%)',
 	'validate_tags_empty' => 'Поле %%field%% не содержит тегов, либо содержит неверные теги (размер тега допустим от %%min%% до %%max%% символов)',

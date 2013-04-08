@@ -115,6 +115,10 @@ return array(
 	'blog_delete' => 'Delete',
 	'blog_create' => 'Create new blog',
 	'blog_create_acl' => "You don't have enough power to create a blog",
+	'blog_create_category' => 'Category',
+	'blog_create_category_notice' => 'Blogs can assign a category, it will allow a more structured site',
+	'blog_create_category_error' => 'Could not find the category',
+	'blog_create_category_error_only_children' => 'You can select only the final category (without children)',
 	'blog_create_title' => "Blog's title",
 	'blog_create_title_notice' => "Blog's title should be meaningful.",
 	'blog_create_title_error' => "Blog's title should be at least 2 and upto 200 characters",
@@ -762,6 +766,8 @@ return array(
 	'block_friends_check' => 'Check all',
 	'block_friends_uncheck' => 'Uncheck',
 	'block_friends_empty' => 'Empty friends list',
+	'block_category_blog' => 'Categories',
+	'block_category_blog_all' => 'All',
 	'site_history_back' => 'Go back',
 	'site_go_main' => 'Go to the main page',
 	/**
@@ -925,10 +931,27 @@ return array(
 	'admin_header' => 'Admin panel',
 	'admin_list_plugins' => 'Manage plugins',
 	'admin_list_userfields' => 'Configuring custom fields',
+	'admin_list_blogcategory' => 'Settings categories of blogs',
 	'admin_list_restorecomment' => 'Rebuilding a tree comments',
 	'admin_list_recalcfavourite' => 'Recalculate counters of favorites',
 	'admin_list_recalcvote' => 'Recalculate counters of votes',
 	'admin_list_recalctopic' => 'Recalculate count topics of blogs',
+	/**
+	 * Setting categories of blogs
+	 */
+	'admin_blogcategory_add' => 'Create new category',
+	'admin_blogcategory_items_title' => 'Title',
+	'admin_blogcategory_items_url' => 'URL',
+	'admin_blogcategory_items_action' => 'Action',
+	'admin_blogcategory_items_delete_confirm' => 'Really delete this category with all attachments?',
+	'admin_blogcategory_form_add' => 'Create category',
+	'admin_blogcategory_form_edit' => 'Update category',
+	'admin_blogcategory_form_field_parent' => 'Attach to',
+	'admin_blogcategory_form_field_title' => 'Title',
+	'admin_blogcategory_form_field_url' => 'URL',
+	'admin_blogcategory_form_field_sort' => 'Sort',
+	'admin_blogcategory_form_add_submit' => 'Add',
+	'admin_blogcategory_form_edit_submit' => 'Save',
 	/**
 	 * Rating TOP
 	 */
