@@ -490,7 +490,7 @@ ls = (function ($) {
 	/**
 	* Загрузка изображения
 	*/
-	this.ajaxUploadImg = function(form, sToLoad) {
+	this.ajaxUploadImg = function(form) {
 		ls.hook.marker('ajaxUploadImgBefore');
 		ls.ajaxSubmit('upload/image/',form,function(data){
 			if (data.bStateError) {

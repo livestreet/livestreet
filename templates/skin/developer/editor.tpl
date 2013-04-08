@@ -10,10 +10,7 @@
 		});
 	</script>
 {else}
-	{if !$sImgToLoad}
-		{assign var="sImgToLoad" value="topic_text"}
-	{/if}
-	{include file='modals/modal.load_img.tpl' sToLoad=$sImgToLoad}
+	{include file='modals/modal.load_img.tpl'}
 
 	{if !$sSettingsTinymce}
 		{assign var="sSettingsMarkitup" value="ls.settings.getMarkitup()"}

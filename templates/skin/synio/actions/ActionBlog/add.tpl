@@ -6,7 +6,7 @@
 {/if}
 
 
-{include file='editor.tpl' sImgToLoad='blog_description' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
+{include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
 	
 <script type="text/javascript">
 	jQuery(document).ready(function($){
