@@ -11,10 +11,17 @@
 
 		{hook run='main_menu_item'}
 
-		<li class="nav-main-more"><a href="#" id="dropdown-mainmenu-trigger" onclick="return false">{$aLang.more}</a></li>
+		<li id="nav-main-more">
+			<a href="#" 
+			   id="dropdown-mainmenu-trigger" 
+			   class="dropdown-nav-main dropdown-toggle js-dropdown-default" 
+			   data-type="dropdown-toggle" 
+			   data-option-target="dropdown-mainmenu-menu"
+			   data-option-align-x="right">{$aLang.more}</a>
+		</li>
 	</ul>
 
-	<ul class="dropdown-nav-main dropdown-menu" id="dropdown-mainmenu-menu"></ul>
+	<ul class="dropdown-menu dropdown-menu-nav-main" id="dropdown-mainmenu-menu"></ul>
 
 	{hook run='main_menu'}
 	

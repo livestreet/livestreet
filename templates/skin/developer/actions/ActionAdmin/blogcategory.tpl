@@ -1,8 +1,11 @@
+{assign var="noSidebar" value=true}
 {include file='header.tpl'}
 
-<h3>{$aLang.admin_list_blogcategory}</h3>
+<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}</h2>
 
-<a href="#" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</a>
+<button class="button button-primary" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</button>
+<br />
+<br />
 
 <table cellspacing="0" class="table">
     <thead>
@@ -17,18 +20,18 @@
 	{foreach from=$aCategories item=oCategory}
     <tr>
         <td>
-            <img src="{$aTemplateWebPathPlugin.page|cat:'images/'}{if $oCategory->getLevel()==0}folder{else}document{/if}.gif" alt="" title="" style="margin-left: {$oCategory->getLevel()*20}px;" />
+            <i class="icon-file" style="margin-left: {$oCategory->getLevel()*20}px;"></i>
             <a href="{$oCategory->getUrlWeb()}" border="0">{$oCategory->getTitle()|escape:'html'}</a>
         </td>
         <td>
             /{$oCategory->getUrlFull()}/
         </td>
         <td align="center">
-            <a href="#" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-edit/" data-param-id="{$oCategory->getId()}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/edit.png'}" /></a>
-            <a href="{router page='admin'}blogcategory/delete/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oCategory->getTitle()|escape:'html'}»: {$aLang.admin_blogcategory_items_delete_confirm}');"><img src="{$aTemplateWebPathPlugin.page|cat:'images/delete.png'}" /></a>
+            <a href="#" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-edit/" data-param-id="{$oCategory->getId()}" class="icon-edit"></a>
+            <a href="{router page='admin'}blogcategory/delete/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oCategory->getTitle()|escape:'html'}»: {$aLang.admin_blogcategory_items_delete_confirm}');" class="icon-remove"></a>
 
-            <a href="{router page='admin'}blogcategory/sort/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/up.png'}"  /></a>
-            <a href="{router page='admin'}blogcategory/sort/{$oCategory->getId()}/down/?security_ls_key={$LIVESTREET_SECURITY_KEY}"><img src="{$aTemplateWebPathPlugin.page|cat:'images/down.png'}" /></a>
+            <a href="{router page='admin'}blogcategory/sort/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-arrow-up"></a>
+            <a href="{router page='admin'}blogcategory/sort/{$oCategory->getId()}/down/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-arrow-down"></a>
         </td>
     </tr>
 	{/foreach}

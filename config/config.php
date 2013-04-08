@@ -538,6 +538,7 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/livestreet/settings.js",
 	"___path.static.framework___/js/livestreet/topic.js",
 	"___path.static.framework___/js/livestreet/admin.js",
+	"___path.static.framework___/js/livestreet/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),
 );
