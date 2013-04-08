@@ -178,7 +178,7 @@ class Router extends LsObject {
 	 * @return array
 	 */
 	protected function GetRequestArray($sReq) {
-		$aRequestUrl = ($sReq=='') ? array() : explode('/',$sReq);
+		$aRequestUrl = ($sReq=='') ? array() : explode('/',trim($sReq,'/'));
 		for ($i=0;$i<Config::Get('path.offset_request_url');$i++) {
 			array_shift($aRequestUrl);
 		}
