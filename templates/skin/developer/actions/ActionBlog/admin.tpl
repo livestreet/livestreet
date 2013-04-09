@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='menu.blog_edit.tpl'}
+{include file='navs/nav.blog_edit.tpl'}
 
 
 

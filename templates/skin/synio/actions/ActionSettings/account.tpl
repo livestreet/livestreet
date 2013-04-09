@@ -3,7 +3,7 @@
 
 
 
-{include file='menu.settings.tpl'}
+{include file='navs/nav.settings.tpl'}
 
 {hook run='settings_account_begin'}
 

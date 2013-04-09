@@ -1,5 +1,5 @@
 {assign var="sidebarPosition" value='left'}
-{include file='header.tpl' menu='people'}
+{include file='header.tpl' nav='people'}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
 {assign var="oVote" value=$oUserProfile->getVote()}

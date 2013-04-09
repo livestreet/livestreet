@@ -2,7 +2,7 @@
 	{include file='header.tpl' menu_content='create'}
 {else}
 	{include file='header.tpl'}
-	{include file='menu.blog_edit.tpl'}
+	{include file='navs/nav.blog_edit.tpl'}
 {/if}
 
 

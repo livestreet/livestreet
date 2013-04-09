@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='people'}
+{include file='header.tpl' nav='people'}
 
 <table class="table table-users">
 	<thead>

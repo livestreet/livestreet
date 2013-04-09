@@ -5,7 +5,7 @@
 
 {include file='actions/ActionProfile/profile_top.tpl'}
 
-{include file='menu.profile_favourite.tpl'}
+{include file='navs/nav.profile_favourite.tpl'}
 
 {if $oUserCurrent and $oUserCurrent->getId()==$oUserProfile->getId()}
 	{$aBlockParams.user=$oUserProfile}

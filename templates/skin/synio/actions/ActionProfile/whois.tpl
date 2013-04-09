@@ -1,6 +1,6 @@
 {assign var="sidebarPosition" value='left'}
 {assign var="sMenuItemSelect" value='profile'}
-{include file='header.tpl' menu='people'}
+{include file='header.tpl' nav='people'}
 
 {assign var="oSession" value=$oUserProfile->getSession()}
 {assign var="oVote" value=$oUserProfile->getVote()}
@@ -9,7 +9,7 @@
 
 			
 {include file='actions/ActionProfile/profile_top.tpl'}
-{include file='menu.profile_whois.tpl'}
+{include file='navs/nav.profile_whois.tpl'}
 
 
 

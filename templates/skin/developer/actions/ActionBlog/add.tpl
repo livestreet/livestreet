@@ -1,8 +1,8 @@
 {if $sEvent=='add'}
-	{include file='header.tpl' menu='create'}
+	{include file='header.tpl' nav='create'}
 {else}
 	{include file='header.tpl'}
-	{include file='menu.blog_edit.tpl'}
+	{include file='navs/nav.blog_edit.tpl'}
 {/if}
 
 {include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}

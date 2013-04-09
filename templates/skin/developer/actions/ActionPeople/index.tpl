@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='people'}
+{include file='header.tpl' nav='people'}
 
 <form action="" method="POST" id="form-users-search" onsubmit="return false;" class="search search-item">
 	<input id="search-user-login" type="text" placeholder="{$aLang.user_search_title_hint}" autocomplete="off" name="user_login" value="" class="input-text" onkeyup="ls.timer.run(ls.user.searchUsers,'users_search',['form-users-search'],1000);">

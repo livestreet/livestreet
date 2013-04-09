@@ -2,7 +2,7 @@
 {include file='header.tpl'}
 
 {include file='actions/ActionProfile/profile_top.tpl'}
-{include file='menu.talk.tpl'}
+{include file='navs/nav.talk.tpl'}
 
 {assign var="oUser" value=$oTalk->getUser()}
 

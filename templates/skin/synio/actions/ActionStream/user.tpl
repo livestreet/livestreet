@@ -1,4 +1,4 @@
-{include file='header.tpl' menu="stream"}
+{include file='header.tpl' nav="stream"}
 
 <h2 class="page-header">{$aLang.stream_menu}</h2>
 
