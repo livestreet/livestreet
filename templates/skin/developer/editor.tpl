@@ -12,7 +12,7 @@
 {else}
 	{include file='modals/modal.load_img.tpl'}
 
-	{if !$sSettingsTinymce}
+	{if !$sSettingsMarkitup}
 		{assign var="sSettingsMarkitup" value="ls.settings.getMarkitup()"}
 	{/if}
 	<script type="text/javascript">
