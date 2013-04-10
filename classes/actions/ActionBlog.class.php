@@ -1015,98 +1015,168 @@ class ActionBlog extends Action {
 		$this->Viewer_SetResponseAjax('json');
 		$this->SubmitComment();
 	}
+
+    /**
+     * Проверка на соответсвие коментария требованиям безопасности
+     *
+     * @param ModuleTopic_EntityTopic $oTopic
+     * @param string $sText
+     *
+     * @return bool result
+     */
+    protected function CheckComment($oTopic, $sText) {
+
+        $bOk = true;
+        /**
+         * Проверям авторизован ли пользователь
+         */
+        if (!$this->User_IsAuthorization()) {
+            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+        /**
+         * Проверяем топик
+         */
+        if (!$oTopic) {
+            $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+        /**
+         * Возможность постить коммент в топик в черновиках
+         */
+        if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
+            $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+        /**
+         * Проверяем разрешено ли постить комменты
+         */
+        if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic) and !$this->oUserCurrent->isAdministrator()) {
+            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
+            return;
+        }
+        /**
+         * Проверяем разрешено ли постить комменты по времени
+         */
+        if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
+            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+        /**
+         * Проверяем запрет на добавления коммента автором топика
+         */
+        if ($oTopic->getForbidComment()) {
+            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+        /**
+         * Проверяем текст комментария
+         */
+        if (!func_check($sText,'text',2,10000)) {
+            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+
+        $this->Hook_Run('comment_check', array('oTopic'=>$oTopic, 'sText'=>$sText, 'bOk'=>&$bOk));
+
+        return $bOk;
+    }
+
+    /**
+     * Проверка на соответсвие коментария родительскому коментарию
+     *
+     * @param ModuleTopic_EntityTopic $oTopic
+     * @param string $sText
+     * @param ModuleComment_EntityComment $oCommentParent
+     *
+     * @return bool result
+     */
+    protected function CheckParentComment($oTopic, $sText, $oCommentParent) {
+
+        $sParentId = 0;
+        if ($oCommentParent) {
+            $sParentId = $oCommentParent->GetCommentId();
+        }
+
+        $bOk = true;
+        /**
+         * Проверям на какой коммент отвечаем
+         */
+        if (!func_check($sParentId,'id')) {
+            $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+
+        if ($sParentId) {
+            /**
+             * Проверяем существует ли комментарий на который отвечаем
+             */
+            if (!($oCommentParent)) {
+                $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                $bOk = false;
+            }
+            /**
+             * Проверяем из одного топика ли новый коммент и тот на который отвечаем
+             */
+            if ($oCommentParent->getTargetId()!=$oTopic->getId()) {
+                $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+                $bOk = false;
+            }
+        } else {
+            $sParentId = NULL;
+        }
+
+        /**
+         * Проверка на дублирующий коммент
+         */
+        if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
+            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
+            $bOk = false;
+        }
+
+        $this->Hook_Run('comment_check_parent', array('oTopic'=>$oTopic, 'sText'=>$sText, 'oCommentParent'=>$oCommentParent, 'bOk'=>&$bOk));
+
+        return $bOk;
+    }
+
 	/**
 	 * Обработка добавление комментария к топику
 	 *
 	 */
 	protected function SubmitComment() {
-		/**
-		 * Проверям авторизован ли пользователь
-		 */
-		if (!$this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверяем топик
-		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('cmt_target_id')))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Возможность постить коммент в топик в черновиках
-		 */
-		if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверяем разрешено ли постить комменты
-		 */
-		if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверяем разрешено ли постить комменты по времени
-		 */
-		if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверяем запрет на добавления коммента автором топика
-		 */
-		if ($oTopic->getForbidComment()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверяем текст комментария
-		 */
-		$sText=$this->Text_Parser(getRequestStr('comment_text'));
-		if (!func_check($sText,'text',2,10000)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Проверям на какой коммент отвечаем
-		 */
-		$sParentId=(int)getRequest('reply');
-		if (!func_check($sParentId,'id')) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		$oCommentParent=null;
-		if ($sParentId!=0) {
-			/**
-			 * Проверяем существует ли комментарий на который отвечаем
-			 */
-			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return;
-			}
-			/**
-			 * Проверяем из одного топика ли новый коммент и тот на который отвечаем
-			 */
-			if ($oCommentParent->getTargetId()!=$oTopic->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return;
-			}
-		} else {
-			/**
-			 * Корневой комментарий
-			 */
-			$sParentId=null;
-		}
-		/**
-		 * Проверка на дублирующий коммент
-		 */
-		if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
-			return;
-		}
+
+        $oTopic = $this->Topic_GetTopicById(getRequestStr('cmt_target_id'));
+        $sText = $this->Text_Parser(getRequestStr('comment_text'));
+        $sParentId = (int)getRequest('reply');
+        $oCommentParent = null;
+
+        if (!$sParentId) {
+            /**
+             * Корневой комментарий
+             */
+            $sParentId=null;
+        }
+        else {
+            /**
+             * Родительский комментарий
+             */
+            $oCommentParent=$this->Comment_GetCommentById($sParentId);
+        }
+
+        /**
+         * Проверка на соответсвие коментария требованиям безопасности
+         */
+        if (!$this->CheckComment($oTopic, $sText)) {
+            return;
+        }
+
+        /**
+         * Проверка на соответсвие коментария родительскому коментарию
+         */
+        if (!$this->CheckParentComment($oTopic, $sText, $oCommentParent)) {
+            return;
+        }
+
 		/**
 		 * Создаём коммент
 		 */

@@ -36,7 +36,7 @@ before_script:
   - sleep 5
 
   # download and launch Selenium
-  - wget -O /tmp/selenium-server-standalone.jar http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar
+  - wget -O /tmp/selenium-server-standalone.jar http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar
   - java -jar /tmp/selenium-server-standalone.jar > /dev/null &
   - sleep 5
 
