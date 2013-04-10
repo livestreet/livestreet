@@ -1,4 +1,4 @@
-{include file='header.tpl'  menu='people'}
+{include file='header.tpl'  nav='people'}
 
 <h2 class="page-header">{$aLang.user_list}: <span>{$oCity->getName()|escape:'html'}{if $aPaging} ({$aPaging.iCount}){/if}</span></h2>
 

@@ -42,7 +42,7 @@
 			</div>
 			
 			<div class="modal-footer">
-				<button type="submit"  class="button button-primary" onclick="ls.ajaxUploadImg('tab-upload-pc','{$sToLoad}');">{$aLang.uploadimg_submit}</button>
+				<button type="submit"  class="button button-primary" onclick="ls.ajaxUploadImg('tab-upload-pc');">{$aLang.uploadimg_submit}</button>
 				<button type="submit"  class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 			</div>
 		</form>
@@ -72,7 +72,7 @@
 			<div class="modal-footer">
 				<button type="submit"  class="button button-primary" onclick="ls.topic.insertImageToEditor(jQuery('#img_url').val(),jQuery('#form-image-url-align').val(),jQuery('#form-image-url-title').val());">{$aLang.uploadimg_link_submit_paste}</button>
 				{$aLang.or}
-				<button type="submit"  class="button button-primary" onclick="ls.ajaxUploadImg('tab-upload-link','{$sToLoad}');">{$aLang.uploadimg_link_submit_load}</button>
+				<button type="submit"  class="button button-primary" onclick="ls.ajaxUploadImg('tab-upload-link');">{$aLang.uploadimg_link_submit_load}</button>
 				<button type="submit"  class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 			</div>
 		</form>

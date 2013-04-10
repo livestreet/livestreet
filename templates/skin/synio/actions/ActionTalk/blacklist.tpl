@@ -1,7 +1,7 @@
 {assign var="sidebarPosition" value='left'}
 {include file='header.tpl'}
 
-{include file='menu.talk.tpl'}
+{include file='navs/nav.talk.tpl'}
 
 <div class="talk-blacklist-form">
 	<h3>{$aLang.talk_blacklist_title}</h3>

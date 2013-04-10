@@ -1,7 +1,7 @@
 {assign var="sidebarPosition" value='left'}
 {include file='header.tpl'}
 
-{include file='menu.talk.tpl'}
+{include file='navs/nav.talk.tpl'}
 
 
 {include file='actions/ActionTalk/friends.tpl'}
@@ -12,7 +12,7 @@
 	<div class="content" id="text_preview"></div>
 </div>
 
-{include file='editor.tpl' sImgToLoad='talk_text' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
+{include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
 
 <form action="" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_talk_begin'}

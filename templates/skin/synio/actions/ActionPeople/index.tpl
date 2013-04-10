@@ -1,4 +1,4 @@
-{include file='header.tpl' menu='people'}
+{include file='header.tpl' nav='people'}
 
 <h2 class="page-header">{$aLang.people}</h2>
 

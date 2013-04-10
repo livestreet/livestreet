@@ -1,4 +1,4 @@
-{include file='header.tpl' menu="stream"}
+{include file='header.tpl' nav="stream"}
 
 {if count($aStreamEvents)}
 	<ul class="stream-list" id="stream-list">

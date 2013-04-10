@@ -145,7 +145,7 @@
 {hook run='blog_info' oBlog=$oBlog}
 
 
-{include file='menu.blog_single.tpl'}
+{include file='navs/nav.blog_single.tpl'}
 
 
 {if $bCloseBlog}

@@ -1,11 +1,11 @@
 {if $sEvent=='add'}
-	{include file='header.tpl' menu='create'}
+	{include file='header.tpl' nav='create'}
 {else}
 	{include file='header.tpl'}
-	{include file='menu.blog_edit.tpl'}
+	{include file='navs/nav.blog_edit.tpl'}
 {/if}
 
-{include file='editor.tpl' sImgToLoad='blog_description' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
+{include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
 	
 <script type="text/javascript">
 	jQuery(document).ready(function($){
@@ -29,7 +29,19 @@
 	<p><label for="blog_url">{$aLang.blog_create_url}:</label>
 	<input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" class="input-text input-width-full" {if $_aRequest.blog_id and !$oUserCurrent->isAdministrator()}disabled{/if} />
 	<small class="note">{$aLang.blog_create_url_notice}</small></p>
-	
+
+	{if Config::Get('module.blog.category_allow') and ($oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))}
+		<p><label for="blog_category">{$aLang.blog_create_category}:</label>
+		<select name="blog_category" id="blog_category" class="input-width-200" >
+			{if Config::Get('module.blog.category_allow_empty')}
+				<option value="0"></option>
+			{/if}
+			{foreach from=$aBlogCategories item=oBlogCategory}
+				<option {if $_aRequest.blog_category==$oBlogCategory->getId()}selected{/if} value="{$oBlogCategory->getId()}" style="margin-left: {$oBlogCategory->getLevel()*20}px;">{$oBlogCategory->getTitle()|escape:'html'}</option>
+			{/foreach}
+		</select>
+		<small class="note" id="blog_category_note">{$aLang.blog_create_category_notice}</small></p>
+	{/if}
 
 	<p><label for="blog_type">{$aLang.blog_create_type}:</label>
 	<select name="blog_type" id="blog_type" class="input-width-200" onChange="ls.blog.loadInfoType(jQuery(this).val());">

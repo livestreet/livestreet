@@ -39,6 +39,14 @@ class ModuleBlog_EntityBlog extends Entity {
 		return $this->_getDataOne('user_owner_id');
 	}
 	/**
+	 * Возвращает ID категории
+	 *
+	 * @return int|null
+	 */
+	public function getCategoryId() {
+		return $this->_getDataOne('category_id');
+	}
+	/**
 	 * Возвращает название блога
 	 *
 	 * @return string|null
@@ -225,6 +233,14 @@ class ModuleBlog_EntityBlog extends Entity {
 	 */
 	public function setOwnerId($data) {
 		$this->_aData['user_owner_id']=$data;
+	}
+	/**
+	 * Устанавливает ID категории блога
+	 *
+	 * @param int $data
+	 */
+	public function setCategoryId($data) {
+		$this->_aData['category_id']=$data;
 	}
 	/**
 	 * Устанавливает заголовок блога

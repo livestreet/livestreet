@@ -754,7 +754,10 @@ class ModuleBlog extends Module {
 	 */
 	public function DeleteBlog($iBlogId) {
 		if($iBlogId instanceof ModuleBlog_EntityBlog){
-			$iBlogId = $iBlogId->getId();
+			$oBlog=$iBlogId;
+			$iBlogId = $oBlog->getId();
+		} else {
+			$oBlog=$this->Blog_GetBlogById($iBlogId);
 		}
 		/**
 		 * Получаем идентификаторы топиков блога. Удаляем топики блога.
@@ -793,6 +796,12 @@ class ModuleBlog extends Module {
 		 * Удаляем голосование за блог
 		 */
 		$this->Vote_DeleteVoteByTarget($iBlogId, 'blog');
+		/**
+		 * Обновляем категорию блога
+		 */
+		if ($oBlog->getCategoryId()) {
+			$this->DecreaseCategoryCountBlogs($oBlog->getCategoryId());
+		}
 		return true;
 	}
 	/**
@@ -900,6 +909,233 @@ class ModuleBlog extends Module {
 	 */
 	public function GetBlogItemsByArrayId($aBlogId) {
 		return $this->GetBlogsByArrayId($aBlogId);
+	}
+	/**
+	 * Получает список категорий блогов
+	 *
+	 * @param int|null|bool $iPid ID родительской категории, если false, то не учитывается в выборке
+	 * @return array
+	 */
+	public function GetCategoriesByPid($iPid) {
+		return $this->oMapperBlog->GetCategoriesByPid($iPid);
+	}
+	/**
+	 * Получает категорию по полному урлу
+	 *
+	 * @param string $sUrl УРЛ
+	 * @return ModuleBlog_EntityBlogCategory|null
+	 */
+	public function GetCategoryByUrlFull($sUrl) {
+		return $this->oMapperBlog->GetCategoryByUrlFull($sUrl);
+	}
+
+	/**
+	 * Возвращает дерево категорий блогов
+	 *
+	 * @return array
+	 */
+	public function GetCategoriesTree() {
+		$aResult=array();
+		$aCategoriesRow=$this->oMapperBlog->GetCategoriesTree();
+		if (count($aCategoriesRow)) {
+			$aResult=$this->BuildCategoriesRecursive($aCategoriesRow);
+		}
+		return $aResult;
+	}
+
+	/**
+	 * Возвращает дочерние категории
+	 *
+	 * @param int  $iId	ID Основной категории
+	 * @param bool  $bOnlyIds	Возвращать сами объекты или только ID
+	 * @param array $aCategories	Служебный параметр - дочерний список категорий
+	 * @param bool  $bBegin	Служебный параметр - старт рекурсии
+	 * @param null  $iIdParent	Служебный параметр - ID родительской категории
+	 *
+	 * @return array
+	 */
+	public  function GetChildrenCategoriesById($iId,$bOnlyIds=false,$aCategories=array(),$bBegin=true,$iIdParent=null) {
+		static $aResult;
+		if ($bBegin) {
+			$aResult=array();
+			$aCategories=$this->oMapperBlog->GetCategoriesTree();
+		}
+
+		foreach ($aCategories as $aCategory) {
+			$aCategory['children']=array();
+			$aTmp=$aCategory;
+			unset($aTmp['childNodes']);
+			$aResult[$aCategory['id']]=$aTmp;
+
+			if ($iIdParent) {
+				$aResult[$iIdParent]['children'][]=$bOnlyIds ? $aCategory['id'] : Engine::GetEntity('ModuleBlog_EntityBlogCategory',$aTmp);
+			}
+			if (isset($aCategory['childNodes']) and count($aCategory['childNodes'])>0) {
+				$this->GetChildrenCategoriesById($iId,$bOnlyIds,$aCategory['childNodes'],false,$aCategory['id']);
+				if ($iIdParent) {
+					$aResult[$iIdParent]['children']=array_merge($aResult[$iIdParent]['children'],$aResult[$aCategory['id']]['children']);
+				}
+			}
+		}
+
+		if (isset($aResult[$iId])) {
+			return $aResult[$iId]['children'];
+		}
+
+		return array();
+	}
+	/**
+	 * Строит дерево категорий блогов
+	 *
+	 * @param array $aCategories
+	 * @param bool $bBegin
+	 * @param ModuleBlog_EntityBlogCategory|null $oCategoryParent
+	 * @return array
+	 */
+	protected function BuildCategoriesRecursive($aCategories,$bBegin=true,$oCategoryParent=null) {
+		static $aResult;
+		static $iLevel;
+		if ($bBegin) {
+			$aResult=array();
+			$iLevel=0;
+		}
+		foreach ($aCategories as $aCategory) {
+			$aTemp=$aCategory;
+			$aTemp['level']=$iLevel;
+			unset($aTemp['childNodes']);
+			$oCategory=Engine::GetEntity('ModuleBlog_EntityBlogCategory',$aTemp);
+
+			$aResult[]=$oCategory;
+			if (isset($aCategory['childNodes']) and count($aCategory['childNodes'])>0) {
+				$iLevel++;
+				$this->BuildCategoriesRecursive($aCategory['childNodes'],false,$oCategory);
+			}
+			if ($oCategoryParent) {
+				$oCategoryParent->setCountBlogs($oCategory->getCountBlogs()+$oCategoryParent->getCountBlogs());
+			}
+		}
+		$iLevel--;
+
+		return $aResult;
+	}
+	/**
+	 * Получает категорию по ID
+	 *
+	 * @param int $iId УРЛ
+	 * @return ModuleBlog_EntityBlogCategory|null
+	 */
+	public function GetCategoryById($iId) {
+		return $this->oMapperBlog->GetCategoryById($iId);
+	}
+	/**
+	 * Получает следующую категорию по сортировке
+	 *
+	 * @param $iSort
+	 * @param $sPid
+	 * @param $sWay
+	 *
+	 * @return ModuleBlog_EntityBlogCategory|null
+	 */
+	public function GetNextCategoryBySort($iSort,$sPid,$sWay='up') {
+		return $this->oMapperBlog->GetNextCategoryBySort($iSort,$sPid,$sWay);
+	}
+	/**
+	 * Обновление категории
+	 *
+	 * @param ModuleBlog_EntityBlogCategory $oObject Объект категории
+	 *
+	 * @return bool
+	 */
+	public function UpdateCategory($oObject) {
+		return $this->oMapperBlog->UpdateCategory($oObject);
+	}
+	/**
+	 * Добавление категории
+	 *
+	 * @param ModuleBlog_EntityBlogCategory $oObject
+	 *
+	 * @return int|bool
+	 */
+	public function AddCategory($oObject) {
+		return $this->oMapperBlog->AddCategory($oObject);
+	}
+	/**
+	 * Возвращает максимальное значение сортировки для родительской категории
+	 *
+	 * @param int|null $sPid
+	 *
+	 * @return int
+	 */
+	public function GetCategoryMaxSortByPid($sPid) {
+		return $this->oMapperBlog->GetCategoryMaxSortByPid($sPid);
+	}
+	public function RebuildCategoryUrlFull($oCategoryStart,$bStart=true) {
+		static $aRebuildIds;
+		if ($bStart) {
+			$aRebuildIds=array();
+		}
+		$aCategories=$this->GetCategoriesByPid($oCategoryStart->getId());
+		foreach ($aCategories as $oCategory) {
+			if ($oCategory->getId()==$oCategoryStart->getId()) {
+				continue;
+			}
+			if (in_array($oCategory->getId(),$aRebuildIds)) {
+				continue;
+			}
+			$aRebuildIds[]=$oCategory->getId();
+			$oCategory->setUrlFull($oCategoryStart->getUrlFull().'/'.$oCategory->getUrl());
+			$this->UpdateCategory($oCategory);
+			$this->RebuildCategoryUrlFull($oCategory,false);
+		}
+	}
+	/**
+	 * Возвращает количество категорий
+	 *
+	 * @return int
+	 */
+	public function GetCountCategories() {
+		return $this->oMapperBlog->GetCountCategories();
+	}
+	/**
+	 * Увеличивает количество блогов у категории
+	 *
+	 * @param int $sId	ID категории
+	 * @return bool
+	 */
+	public function IncreaseCategoryCountBlogs($sId) {
+		return $this->oMapperBlog->IncreaseCategoryCountBlogs($sId);
+	}
+	/**
+	 * Уменьшает количество блогов у категории
+	 *
+	 * @param int $sId	ID категории
+	 * @return bool
+	 */
+	public function DecreaseCategoryCountBlogs($sId) {
+		return $this->oMapperBlog->DecreaseCategoryCountBlogs($sId);
+	}
+	/**
+	 * Удаляет категории по списку их ID
+	 *
+	 * @param array $aArrayId Список ID категорий
+	 *
+	 * @return bool
+	 */
+	public function DeleteCategoryByArrayId($aArrayId) {
+		return $this->oMapperBlog->DeleteCategoryByArrayId($aArrayId);
+	}
+	/**
+	 * Заменяет категорию на новую у блогов
+	 *
+	 * @param int| null $iIdOld Старая категори
+	 * @param int| null $iIdNew Новая категория
+	 *
+	 * @return bool
+	 */
+	public function ReplaceBlogsCategoryByCategoryId($iIdOld,$iIdNew) {
+		$res=$this->oMapperBlog->ReplaceBlogsCategoryByCategoryId($iIdOld,$iIdNew);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('blog_update'));
+		return $res;
 	}
 }
 ?>

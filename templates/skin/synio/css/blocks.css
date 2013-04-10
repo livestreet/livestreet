@@ -119,3 +119,10 @@
 /* Block Type - Tags */
 .block.block-type-tags .search-form-wrapper { margin-bottom: 15px; }
 
+
+/* Block Type - Blog Categories */
+.block.block-type-blog-categories .block-header .blog-categories-admin       { position: absolute; top: 7px; right: 0; opacity: .3; }
+.block.block-type-blog-categories .block-header .blog-categories-admin:hover { opacity: 1; }
+
+.block.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 3px 7px; border-radius: 3px; }
+.block.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #3ABCFF; }

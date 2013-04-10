@@ -56,3 +56,10 @@
 
 .block.block-type-talk-search { margin-bottom: 10px; }
 .block.block-type-talk-friends { margin-bottom: 10px; }
+
+
+/* Block Type - Blog Categories */
+.block.block-type-blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
+
+.block.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
+.block.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #5560D5; }

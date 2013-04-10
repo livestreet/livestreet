@@ -188,6 +188,10 @@ $config['module']['blog']['collective_good'] = -3;   // рейтинг топи�
 $config['module']['blog']['index_good']      =  8;   // Рейтинг топика выше которого(включительно) он попадает на главную
 $config['module']['blog']['encrypt']         = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках приглашения в блоги
 $config['module']['blog']['avatar_size'] = array(100,64,48,24,0); // Список размеров аватаров у блога. 0 - исходный размер
+$config['module']['blog']['category_allow'] = true;  		// Разрешить использование категорий бля блогов
+$config['module']['blog']['category_only_admin'] = true;  	// Задавать и менять категории для блога может только админ
+$config['module']['blog']['category_only_children'] = true;	// Для блога можно выбрать только конечную категорию, у которой нет других вложенных
+$config['module']['blog']['category_allow_empty'] = true;	// Разрешить блоги без категории
 // Модуль Topic
 $config['module']['topic']['new_time']   = 60*60*24*1;  // Время в секундах в течении которого топик считается новым
 $config['module']['topic']['per_page']   = 10;          // Число топиков на одну страницу
@@ -323,6 +327,7 @@ $config['db']['table']['prefix'] = 'prefix_';
 
 $config['db']['table']['user']                = '___db.table.prefix___user';
 $config['db']['table']['blog']                = '___db.table.prefix___blog';
+$config['db']['table']['blog_category']                = '___db.table.prefix___blog_category';
 $config['db']['table']['topic']               = '___db.table.prefix___topic';
 $config['db']['table']['topic_tag']           = '___db.table.prefix___topic_tag';
 $config['db']['table']['comment']             = '___db.table.prefix___comment';
@@ -447,7 +452,7 @@ $config['block']['rule_tag'] = array(
 );
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
-	'blocks'  => array( 'right' => array('stream') ),
+	'blocks'  => array( 'right' => array('categoryBlog') ),
 );
 
 $config['block']['userfeedBlogs'] = array(
@@ -532,6 +537,8 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/livestreet/toolbar.js",
 	"___path.static.framework___/js/livestreet/settings.js",
 	"___path.static.framework___/js/livestreet/topic.js",
+	"___path.static.framework___/js/livestreet/admin.js",
+	"___path.static.framework___/js/livestreet/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),
 );

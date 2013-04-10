@@ -1,11 +1,11 @@
-{if $menu or $menu_content}
+{if $nav or $nav_content}
 	<div class="nav-group">
-		{if $menu}
-			{if in_array($menu,$aMenuContainers)}{$aMenuFetch.$menu}{else}{include file="menu.$menu.tpl"}{/if}
+		{if $nav}
+			{if in_array($nav,$aMenuContainers)}{$aMenuFetch.$nav}{else}{include file="navs/nav.$nav.tpl"}{/if}
 		{/if}
 		
-		{if $menu_content}
-			{include file="menu.$menu_content.content.tpl"}
+		{if $nav_content}
+			{include file="navs/nav.$nav_content.content.tpl"}
 		{/if}
 	</div>
 {/if}
