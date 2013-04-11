@@ -3,7 +3,7 @@
 		{assign var="sSettingsTinymce" value="ls.settings.getTinymce()"}
 	{/if}
 
-	<script src="{cfg name='path.root.engine_lib'}/external/tinymce-jq/tiny_mce.js"></script>
+	<script src="{cfg name='path.static.framework'}/js/vendor/tinymce/tiny_mce.js"></script>
 	<script type="text/javascript">
 		jQuery(function($){
 			tinyMCE.init({$sSettingsTinymce});
