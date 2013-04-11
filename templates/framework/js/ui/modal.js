@@ -217,7 +217,7 @@ var ls = ls || {};
                 Modal.hideAll();
                 ls.msg.error('Error', result.sMsg);
             } else {
-                var modal = $(result[options.ajaxVar]), 
+                var modal = $($.trim(result[options.ajaxVar])), 
                     object;
 
                 Modal.hideLoader(false);

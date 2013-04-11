@@ -56,9 +56,10 @@ var ls = ls || {};
 
         // Events
         if (typeof options !== 'string') options = $.extend({}, $.fn[type].defaults, options);
+        options.event = options.event == 'hover' ? 'mouseenter.' + type + ' mouseleave.' + type : options.event;
 
         if (options.selector) {
-            $(elements).on(options.event + '.' + type, options.selector, function (e) {
+            $(elements).on(options.event, options.selector, function (e) {
                 ! $(this).data('object') && Popup.initPluginElements(type, $(this), options, variable, value);
                 $(this).data('object').toggle(e);
             });
@@ -121,7 +122,7 @@ var ls = ls || {};
             this.$toggle = $(toggle);
 
             // Events
-            ! this.options.selector && this.$toggle.on(this.options.event + '.' + this.type, $.proxy(this.toggle, this));
+            ! this.options.selector && this.$toggle.on(this.options.event, $.proxy(this.toggle, this));
 
             // Init target
             ! this.options.template && this.initTarget(this);
@@ -195,7 +196,7 @@ var ls = ls || {};
          * Toggle popup
          */
         toggle: function (e) {
-            (this.options.event == 'hover' && this.state === 'in') || (this.options.event != 'hover' && this.open) ? this.leave() : this.enter();
+            (this.options.event != 'click' && this.state === 'in') || (this.options.event == 'click' && this.open) ? this.leave() : this.enter();
             this.options.preventDefault && e.preventDefault();
         },
 
@@ -331,7 +332,7 @@ var ls = ls || {};
      * Plugin defenition
      */
     $.fn.popup = function (options, variable, value) {
-        //Popup.initPlugin('popup', this, options);
+        Popup.initPlugin('popup', this, options);
     };
 
     $.fn.popup.Constructor = Popup;

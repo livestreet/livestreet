@@ -486,10 +486,10 @@ $config['block']['rule_blog_info'] = array(
 $config['head']['default']['js'] = array(
 	/* Vendor libs */
 	"___path.static.framework___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
-	"___path.static.framework___/js/vendor/jquery.js",
-	//"___path.static.framework___/js/vendor/jquery-1.9.1.min.js",
+	"___path.static.framework___/js/vendor/jquery-1.9.1.min.js",
 	"___path.static.framework___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
 	"___path.static.framework___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+	"___path.static.framework___/js/vendor/jquery.browser.js",
 	"___path.static.framework___/js/vendor/jquery.notifier.js",
 	"___path.static.framework___/js/vendor/jquery.scrollto.js",
 	"___path.static.framework___/js/vendor/jquery.rich-array.min.js",
@@ -501,7 +501,6 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/jcrop/jquery.Jcrop.js",
 	"___path.static.framework___/js/vendor/jquery.placeholder.min.js",
 	"___path.static.framework___/js/vendor/jquery.charcount.js",
-	"___path.static.framework___/js/vendor/poshytip/jquery.poshytip.js",
 	"___path.static.framework___/js/vendor/markitup/jquery.markitup.js",
 	"___path.static.framework___/js/vendor/prettify/prettify.js",
 

@@ -64,9 +64,4 @@ var ls = ls || {};
         toggleSelector: '[data-type=popover-toggle]',
         targetSelector: '[data-type=popover-target]'
     });
-
-    // Init
-    $(document).ready(function($) {
-        //$($.fn.popover.settings.toggleSelector).popover();
-    });
 })(jQuery);

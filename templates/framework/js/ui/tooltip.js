@@ -53,8 +53,4 @@ var ls = ls || {};
         toggleSelector: '[data-type=tooltip-toggle]',
         targetSelector: '[data-type=tooltip-target]'
     });
-
-    $(document).ready(function($) {
-        //$($.fn.tooltip.settings.toggleSelector).tooltip();
-    });
 })(jQuery);

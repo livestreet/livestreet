@@ -115,7 +115,7 @@ return array(
 	'blog_delete' => 'Удалить',
 	'blog_create' => 'Создание нового блога',
 	'blog_create_acl' => 'Вы еще не достаточно окрепли, чтобы создавать свой блог',
-	'blog_create_category' => 'Категория бога',
+	'blog_create_category' => 'Категория блога',
 	'blog_create_category_notice' => 'Блогу можно назначить категорию, что позволяет более глубоко структурировать сайт',
 	'blog_create_category_error' => 'Не удалось найти категорию блога',
 	'blog_create_category_error_only_children' => 'Можно выбрать только конечную категорию (без дочерних)',
