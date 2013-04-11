@@ -85,7 +85,7 @@
 
 /* Nav main 
 -------------------------------------------*/
-.nav.nav-main .dropdown-nav-main                       { display: inline; border: 1px solid #595959; border-radius: 3px; padding: 0 5px 2px; position: relative; padding-right: 15px; }
+.nav.nav-main .dropdown-nav-main                       { display: inline; float: none; border: 1px solid #595959; border-radius: 3px; padding: 0 5px 2px; position: relative; padding-right: 15px; }
 .nav.nav-main .dropdown-nav-main.dropdown-toggle       { padding-right: 16px !important; }
 .nav.nav-main .dropdown-nav-main.dropdown-toggle:after { border-width: 3px; right: 5px; }
 

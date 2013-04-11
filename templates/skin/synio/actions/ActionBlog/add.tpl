@@ -1,5 +1,5 @@
 {if $sEvent=='add'}
-	{include file='header.tpl' menu_content='create'}
+	{include file='header.tpl' nav_content='create'}
 {else}
 	{include file='header.tpl'}
 	{include file='navs/nav.blog_edit.tpl'}
