@@ -37,6 +37,10 @@ class ActionBlogs extends Action {
 								  'blog_join','blog_leave'
 							  ));
 		$this->sPageRoot=Router::GetPath('blogs');
+		/**
+		 * Устанавливаем title страницы
+		 */
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_menu_all_list'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -104,6 +108,7 @@ class ActionBlogs extends Action {
 		 * Получаем текущую категорию
 		 */
 		if ($oCategory=$this->Blog_GetCategoryByUrlFull($sUrlFull)) {
+			$this->Viewer_AddHtmlTitle($oCategory->getTitle());
 			/**
 			 * Получаем все дочерние категории
 			 */
@@ -171,10 +176,6 @@ class ActionBlogs extends Action {
 		$this->Viewer_Assign("sBlogOrder",htmlspecialchars($sOrder));
 		$this->Viewer_Assign("sBlogOrderWay",htmlspecialchars($sOrderWay));
 		$this->Viewer_Assign("sBlogOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
-		/**
-		 * Устанавливаем title страницы
-		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_menu_all_list'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
