@@ -21,11 +21,14 @@
  * @package blocks
  * @since 1.1
  */
-class BlockCategoryBlog extends Block {
+class BlockBlogCategory extends Block {
 	/**
 	 * Запуск обработки
 	 */
 	public function Exec() {
+		if (!Config::Get('module.blog.category_allow')) {
+			return;
+		}
 		$aCategories=$this->Blog_GetCategoriesTree();
 		$aBlogsAll=$this->Blog_GetBlogsByFilter(array('exclude_type' => 'personal'),array(),1,1,array());
 		$this->Viewer_Assign("aBlogCategories",$aCategories);
