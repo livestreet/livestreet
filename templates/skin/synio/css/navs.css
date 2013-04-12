@@ -100,7 +100,7 @@
 /* Nav Main */
 .nav.nav-main 					{ height: 51px; overflow: hidden; background: none; }
 .nav.nav-main li 				{ margin-right: 22px; position: relative; height: 51px; line-height: 49px; background: none; }
-.nav.nav-main li:last-child 	{ margin-right: 0; }
+.nav.nav-main li.nav-main-more 	{ margin-right: 0; display: none; }
 .nav.nav-main li a 				{ color: #cfcfcf; text-decoration: none; padding: 0; }
 .nav.nav-main li a:hover 		{ color: #aaa; background: none; }
 .nav.nav-main li.active a 		{ color: #aed6e9; background: none; }

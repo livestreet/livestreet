@@ -11,7 +11,7 @@
 
 		{hook run='main_menu_item'}
 
-		<li id="nav-main-more">
+		<li id="nav-main-more" class="nav-main-more">
 			<a href="#" 
 			   id="dropdown-mainmenu-trigger" 
 			   class="dropdown-nav-main dropdown-toggle js-dropdown-default" 
