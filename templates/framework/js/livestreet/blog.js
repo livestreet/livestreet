@@ -177,5 +177,30 @@ ls.blog = (function ($) {
 		return false;
 	};
 
+	this.loadBlogsByCategory = function(id) {
+		var url = aRouter['ajax']+'blogs/get-by-category/';
+		var params = {id: id};
+
+		ls.hook.marker('loadBlogsByCategoryBefore');
+		ls.ajax(url, params, function(result){
+			var $blogs=$('#blog-navigator-blog').empty();
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$(result.aBlogs).each(function(k,v){
+					$('<option value="'+v.id+'" data-url="'+v.url_full+'">'+v.title+'</option>').appendTo($blogs);
+				});
+				ls.hook.run('ls_blog_load_blogs_by_category_after',[id,result]);
+			}
+		});
+	};
+
+	this.navigatorGoSelectBlog = function() {
+		var $sel=$('#blog-navigator-blog').find('option:selected');
+		if ($sel.length) {
+			window.location.href=$sel.data('url');
+		}
+	};
+
 	return this;
 }).call(ls.blog || {},jQuery);

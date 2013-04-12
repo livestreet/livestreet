@@ -63,6 +63,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^blogs$/i','/^top$/','EventBlogsTop');
 		$this->AddEventPreg('/^blogs$/i','/^self$/','EventBlogsSelf');
 		$this->AddEventPreg('/^blogs$/i','/^join$/','EventBlogsJoin');
+		$this->AddEventPreg('/^blogs$/i','/^get-by-category$/','EventBlogsGetByCategory');
 
 		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
 		$this->AddEventPreg('/^preview$/i','/^topic/','EventPreviewTopic');
@@ -942,6 +943,54 @@ class ActionAjax extends Action {
 			$this->Viewer_AssignAjax('sText',$sTextResult);
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('block_blogs_join_error'),$this->Lang_Get('attention'));
+			return;
+		}
+	}
+
+	/**
+	 * Загружает список блогов конкретной категории
+	 */
+	protected function EventBlogsGetByCategory() {
+		if (!($oCategory=$this->Blog_GetCategoryById(getRequestStr('id')))) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Получаем все дочерние категории
+		 */
+		$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
+		$aCategoriesId[]=$oCategory->getId();
+		/**
+		 * Формируем фильтр для получения списка блогов
+		 */
+		$aFilter=array(
+			'exclude_type' => 'personal',
+			'category_id'  => $aCategoriesId
+		);
+		/**
+		 * Получаем список блогов(все по фильтру)
+		 */
+		$aResult=$this->Blog_GetBlogsByFilter($aFilter,array('blog_title'=>'asc'),1,PHP_INT_MAX);
+		$aBlogs=$aResult['collection'];
+		/**
+		 * Получаем список блогов и формируем ответ
+		 */
+		if ($aBlogs) {
+			$aResult=array();
+			foreach($aBlogs as $oBlog) {
+				$aResult[]=array(
+					'id' => $oBlog->getId(),
+					'title' => htmlspecialchars($oBlog->getTitle()),
+					'category_id' => $oBlog->getCategoryId(),
+					'type' => $oBlog->getType(),
+					'rating' => $oBlog->getRating(),
+					'url' => $oBlog->getUrl(),
+					'url_full' => $oBlog->getUrlFull(),
+				);
+			}
+			$this->Viewer_AssignAjax('aBlogs',$aResult);
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('blog_by_category_empty'),$this->Lang_Get('attention'));
 			return;
 		}
 	}

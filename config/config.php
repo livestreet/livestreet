@@ -424,7 +424,10 @@ $config['block']['rule_index_blog'] = array(
 		),
 	'clear' => false,
 );
-
+$config['block']['rule_index'] = array(
+	'action'  => array( 'index' ),
+	'blocks'  => array( 'right' => array('blogNavigator'=>array('priority'=>500)) ),
+);
 $config['block']['rule_topic_type'] = array(
 	'action'  => array(
 		'link'     => array('add','edit'),

@@ -41,6 +41,7 @@ return array(
 	'blog_about' => 'О блоге',
 	'blog_expand_info' => 'Подробнее &darr;',
 	'blog_fold_info' => 'Свернуть &uarr;',
+	'blog_by_category_empty' => 'В данной категории нет блогов',
 	/**
 	 * Declensions
 	 */
@@ -770,6 +771,8 @@ return array(
 	'block_friends_empty' => 'Список ваших друзей пуст',
 	'block_category_blog' => 'Категории',
 	'block_category_blog_all' => 'Все',
+	'block_blog_navigator' => 'Навигация по блогам',
+	'block_blog_navigator_button' => 'Смотреть',
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
 	/**

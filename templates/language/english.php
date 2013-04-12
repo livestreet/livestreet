@@ -41,6 +41,7 @@ return array(
 	'blog_about' => 'About this blog',
 	'blog_expand_info' => 'More &darr;',
 	'blog_fold_info' => 'Fold &uarr;',
+	'blog_by_category_empty' => 'In this category, no blogs',
 	/**
 	 * Declensions
 	 */
@@ -768,6 +769,8 @@ return array(
 	'block_friends_empty' => 'Empty friends list',
 	'block_category_blog' => 'Categories',
 	'block_category_blog_all' => 'All',
+	'block_blog_navigator' => 'Navigation for blogs',
+	'block_blog_navigator_button' => 'View',
 	'site_history_back' => 'Go back',
 	'site_go_main' => 'Go to the main page',
 	/**
