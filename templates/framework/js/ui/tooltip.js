@@ -35,7 +35,6 @@ var ls = ls || {};
                     this.options.content = title;
                     this.$toggle.removeAttr('title');
                 }
-                //this.$toggle;
             },
         }
     });
