@@ -27,7 +27,16 @@ var ls = ls || {};
 
                     this.setContent(this.options.content);
                 }
-            }
+            },
+
+            onEnter: function () {
+                var title = this.$toggle.attr('title');
+                if (title) {
+                    this.options.content = title;
+                    this.$toggle.removeAttr('title');
+                }
+                //this.$toggle;
+            },
         }
     });
 

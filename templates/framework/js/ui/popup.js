@@ -97,7 +97,9 @@ var ls = ls || {};
          * @type {Object}
          */
         hooks : {
-            onInitTarget: false
+            onInitTarget: false,
+            onEnter: false,
+            onLeave: false
         },
 
         /**
@@ -168,6 +170,8 @@ var ls = ls || {};
 
             this.state = 'in';
 
+            if (this.hooks.onEnter) $.proxy(this.hooks.onEnter, this)();
+
             if ( ! this.options.delay || this.open) {
                 this.show();
             } else {
@@ -183,6 +187,8 @@ var ls = ls || {};
          */
         leave: function () {
             this.state = 'out';
+
+            if (this.hooks.onLeave) $.proxy(this.hooks.onLeave, this)();
 
             if ( ! this.options.delay || ! this.timeout ) {
                 this.hide();
