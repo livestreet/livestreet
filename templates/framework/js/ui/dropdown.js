@@ -27,21 +27,22 @@ var ls = ls || {};
                     activeText && this.$toggle.find('[data-type=dropdown-text]').text(activeText);
                 }
 
-                // Change dropdown's text on item click and add 'active' class to clicked item
-                if (this.options.activateItems || this.options.changeText) {
-                    this.$target.find('li > a').on('click', function (e) {
-                        var $link = $(this);
+                this.$target.on('click', 'li > a', function (e) {
+                    var $link = $(this),
+                        duration = self.options.duration;
 
-                        if (self.options.activateItems) {
-                            self.$target.find('li').removeClass('active');
-                            $link.parent('li').addClass('active');
-                        }
-                        if (self.options.changeText) {
-                            self.$toggle.find('[data-type=dropdown-text]').text($link.text());
-                        }
-                        self.hide();
-                    });
-                }
+                    if (self.options.activateItems) {
+                        self.$target.find('li').removeClass('active');
+                        $link.parent('li').addClass('active');
+                    }
+                    if (self.options.changeText) {
+                        self.$toggle.find('[data-type=dropdown-text]').text($link.text());
+                    }
+                    
+                    self.options.duration = 0;
+                    self.hide();
+                    self.options.duration = duration;
+                });
             }
         }
     });

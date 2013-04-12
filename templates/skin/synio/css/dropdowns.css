@@ -89,7 +89,7 @@
 .nav.nav-main .dropdown-nav-main.dropdown-toggle       { padding-right: 16px !important; }
 .nav.nav-main .dropdown-nav-main.dropdown-toggle:after { border-width: 3px; right: 5px; }
 
-.dropdown-menu.dropdown-menu-nav-main             { background: #090909; border: 1px solid #333; }
+.dropdown-menu.dropdown-menu-nav-main             { background: #090909; border: 1px solid #333; min-width: 100px; }
 .dropdown-menu.dropdown-menu-nav-main li a        { color: #cfcfcf; text-decoration: none; }
 .dropdown-menu.dropdown-menu-nav-main li a:hover  { color: #aaa; background: none; }
 .dropdown-menu.dropdown-menu-nav-main li.active a { color: #aed6e9; background: none; }
