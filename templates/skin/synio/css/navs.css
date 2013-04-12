@@ -109,7 +109,7 @@
 /* Nav Profile */
 .nav.nav-profile 				{ margin-bottom: 15px; }
 .nav.nav-profile li 			{ float: none; font-size: 15px; border-bottom: 1px dotted #dce1e6; padding: 8px 10px 10px 30px; }
-.nav.nav-profile li a 			{ text-decoration: underline; color: #275ec2; }
+.nav.nav-profile li a 			{ float: none; text-decoration: underline; color: #275ec2; padding: 0; }
 .nav.nav-profile li a:hover 	{ color: #f00; }
 .nav.nav-profile li.active a 	{ text-decoration: none; color: #000; }
 
