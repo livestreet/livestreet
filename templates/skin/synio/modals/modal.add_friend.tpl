@@ -1,11 +1,11 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='id'}add_friend_form{/block}
+{block name='id'}modal-add-friend{/block}
 {block name='class'}add_friend_form js-modal-default{/block}
 {block name='title'}{$aLang.profile_add_friend}{/block}
 
 {block name='content'}
-	<form onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
+	<form id="add_friend_form" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
 		<label for="add_friend_text">{$aLang.user_friend_add_text_label}</label>
 		<textarea id="add_friend_text" rows="3" class="input-text input-width-full"></textarea>
 	</form>
