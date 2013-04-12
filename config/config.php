@@ -455,7 +455,7 @@ $config['block']['rule_tag'] = array(
 );
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
-	'blocks'  => array( 'right' => array('categoryBlog') ),
+	'blocks'  => array( 'right' => array('blogCategory') ),
 );
 
 $config['block']['userfeedBlogs'] = array(
