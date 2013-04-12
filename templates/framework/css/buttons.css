@@ -39,11 +39,28 @@
 .button.fl-r { *margin-right: 0; }
 
 
-/* Button Primary */
-.button.button-primary { 
-	color: #fff;
+/* Button Disabled */
+.button.disabled,
+.button.disabled:hover,
+.button[disabled],
+.button[disabled]:hover {
+	border-color: #ccc;
+	background: #eee;
+	color: #999;
+}
 
+.button.disabled:active,
+.button[disabled]:active {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+
+/* Button Primary */
+.button-primary { 
+	color: #fff;
 	background: #006DCC;
 }
-.button.button-primary:hover  { background: #0044cc; }
-.button.button-primary.active { background: #006DCC; }
+.button-primary:hover  { background: #0044cc; }
+.button-primary.active { background: #006DCC; }

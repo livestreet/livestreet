@@ -24,7 +24,10 @@ return array(
 	/**
 	 * Блоги
 	 */
+	'blog' => 'Блог',
 	'blogs' => 'Блоги',
+	'blog_category' => 'Категория',
+	'blog_categories' => 'Категории',
 	'blogs_search_title_hint' => 'Поиск по названию',
 	'blogs_search_empty' => 'Поиск не дал результатов',
 	'blogs_title' => 'Название',

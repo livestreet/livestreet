@@ -115,4 +115,4 @@
 
 /* Nav Group */
 .nav-group { position: relative; }
-.nav-group .dropdown.dropdown-timespan { position: absolute; top: 0; right: 0; }
+.nav-group .dropdown.dropdown-timespan { position: absolute; top: 0; right: 0; margin: 0; }

@@ -177,28 +177,46 @@ ls.blog = (function ($) {
 		return false;
 	};
 
+	/**
+	 * Подгружает блоги из категории
+	 * @param {String} id ID категории
+	 */
 	this.loadBlogsByCategory = function(id) {
-		var url = aRouter['ajax']+'blogs/get-by-category/';
-		var params = {id: id};
+		var url     = aRouter['ajax'] + 'blogs/get-by-category/',
+			params  = {id: id},
+			$blogs  = $('#blog-navigator-blog').empty().prop('disabled', true),
+			$button = $('#blog-navigator-button').prop('disabled', true);
 
 		ls.hook.marker('loadBlogsByCategoryBefore');
-		ls.ajax(url, params, function(result){
-			var $blogs=$('#blog-navigator-blog').empty();
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				$(result.aBlogs).each(function(k,v){
-					$('<option value="'+v.id+'" data-url="'+v.url_full+'">'+v.title+'</option>').appendTo($blogs);
-				});
-				ls.hook.run('ls_blog_load_blogs_by_category_after',[id,result]);
-			}
-		});
+
+		if (id !== '0') {
+			ls.ajax(url, params, function(result){
+				if (result.bStateError) {
+					$blogs.append('<option>' + result.sMsg + '</option>');
+				} else {
+					$(result.aBlogs).each(function(k,v){
+						$('<option value="' + v.id + '" data-url="' + v.url_full + '">' + v.title+'</option>').appendTo($blogs);
+					});
+
+					$blogs.prop('disabled', false);
+					$button.prop('disabled', false);
+
+					ls.hook.run('ls_blog_load_blogs_by_category_after', [id, result]);
+				}
+			});
+		} else {
+			$blogs.append('<option>' + ls.lang.get('blog') + '</option>');
+		}
 	};
 
+	/**
+	 * Переход на страницу выбранного блога
+	 */
 	this.navigatorGoSelectBlog = function() {
-		var $sel=$('#blog-navigator-blog').find('option:selected');
+		var $sel = $('#blog-navigator-blog').find('option:selected');
+
 		if ($sel.length) {
-			window.location.href=$sel.data('url');
+			window.location.href = $sel.data('url');
 		}
 	};
 

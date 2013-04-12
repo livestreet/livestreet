@@ -63,3 +63,7 @@
 
 .block.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
 .block.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #5560D5; }
+
+
+/* Block Type - Blog Navigation */
+.block.block-type-blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }
