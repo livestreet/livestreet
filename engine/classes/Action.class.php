@@ -15,6 +15,7 @@
 ---------------------------------------------------------
 */
 
+require_once("Event.class.php");
 /**
  * Абстрактный класс экшена.
  *
@@ -31,6 +32,12 @@ abstract class Action extends LsObject {
 	 * @var array
 	 */
 	protected $aRegisterEvent=array();
+	/**
+	 * Список евентов, которые нужно обрабатывать внешним обработчиком
+	 *
+	 * @var array
+	 */
+	protected $aRegisterEventExternal=array();
 	/**
 	 * Список параметров из URL
 	 * <pre>/action/event/param0/param1/../paramN/</pre>
@@ -126,13 +133,25 @@ abstract class Action extends LsObject {
 		 */
 		$aNames=(array)func_get_arg($iCountArgs-1);
 		$aEvent['method']=$aNames[0];
+		/**
+		 * Определяем наличие внешнего обработчика евента
+		 */
+		$aEvent['external']=null;
+		$aMethod=explode('::',$aEvent['method']);
+		if (count($aMethod)>1) {
+			$aEvent['method']=$aMethod[1];
+			$aEvent['external']=$aMethod[0];
+		}
+
 		if (isset($aNames[1])) {
 			$aEvent['name']=$aNames[1];
 		} else {
 			$aEvent['name']=$aEvent['method'];
 		}
-		if (!method_exists($this,$aEvent['method'])) {
-			throw new Exception("Method of the event not found: ".$aEvent['method']);
+		if (!$aEvent['external']) {
+			if (!method_exists($this,$aEvent['method'])) {
+				throw new Exception("Method of the event not found: ".$aEvent['method']);
+			}
 		}
 		$aEvent['preg']=func_get_arg(0);
 		$aEvent['params_preg']=array();
@@ -140,6 +159,16 @@ abstract class Action extends LsObject {
 			$aEvent['params_preg'][]=func_get_arg($i);
 		}
 		$this->aRegisterEvent[]=$aEvent;
+	}
+
+	/**
+	 * Регистрируем внешние обработчики для евентов
+	 *
+	 * @param string $sEventName
+	 * @param string|array $sExternalClass
+	 */
+	protected function RegisterEventExternal($sEventName,$sExternalClass) {
+		$this->aRegisterEventExternal[$sEventName]=$sExternalClass;
 	}
 
 	/**
@@ -166,8 +195,27 @@ abstract class Action extends LsObject {
 					}
 				}
 				$this->sCurrentEventName=$aEvent['name'];
+				if ($aEvent['external']) {
+					if (!isset($this->aRegisterEventExternal[$aEvent['external']])) {
+						throw new Exception("External processing for event not found: ".$aEvent['external']);
+					}
+				}
 				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_before",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
-				$result=call_user_func_array(array($this,$aEvent['method']),array());
+				/**
+				 * Проверяем на наличие внешнего обработчика евента
+				 */
+				if ($aEvent['external']) {
+					$oEvent=new $this->aRegisterEventExternal[$aEvent['external']];
+					$oEvent->SetActionObject($this);
+					$oEvent->Init();
+					if (!$aEvent['method']) {
+						$result=$oEvent->Exec();
+					} else {
+						$result=call_user_func_array(array($oEvent,$aEvent['method']),array());
+					}
+				} else {
+					$result=call_user_func_array(array($this,$aEvent['method']),array());
+				}
 				$this->Hook_Run("action_event_".strtolower($this->sCurrentAction)."_after",array('event'=>$this->sCurrentEvent,'params'=>$this->GetParams()));
 				return $result;
 			}
