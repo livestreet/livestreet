@@ -108,7 +108,7 @@ abstract class Action extends LsObject {
 	/**
 	 * Позволяет запускать не публичные методы экшена через объект
 	 *
-	 * @param $sCall
+	 * @param string $sCall
 	 *
 	 * @return mixed
 	 */
@@ -120,13 +120,35 @@ abstract class Action extends LsObject {
 	/**
 	 * Проверяет метод экшена на существование
 	 *
-	 * @param $sCall
+	 * @param string $sCall
 	 *
 	 * @return bool
 	 */
 	public function ActionCallExists($sCall) {
 		return method_exists($this,$sCall);
 	}
+
+	/**
+	 * Возвращает свойство объекта экшена
+	 *
+	 * @param string $sVar
+	 *
+	 * @return mixed
+	 */
+	public function ActionGet($sVar) {
+		return $this->$sVar;
+	}
+
+	/**
+	 * Устанавливает свойство объекта экшена
+	 *
+	 * @param string $sVar
+	 * @param null|mixed $mValue
+	 */
+	public function ActionSet($sVar,$mValue=null) {
+		$this->$sVar=$mValue;
+	}
+
 	/**
 	 * Добавляет евент в экшен
 	 * По сути является оберткой для AddEventPreg(), оставлен для простоты и совместимости с прошлыми версиями ядра

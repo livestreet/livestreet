@@ -68,17 +68,13 @@ abstract class Event extends LsObject {
 
 	public function __get($sName) {
 		if ($this->oActionReflection->hasProperty($sName)) {
-			$oProperty = $this->oActionReflection->getProperty($sName);
-			$oProperty->setAccessible(true);
-			return $oProperty->getValue($this->oAction);
+			return call_user_func_array(array($this->oAction,'ActionGet'),array($sName));
 		}
 	}
 
 	public function __set($sName,$mValue) {
 		if ($this->oActionReflection->hasProperty($sName)) {
-			$oProperty = $this->oActionReflection->getProperty($sName);
-			$oProperty->setAccessible(true);
-			$oProperty->setValue($this->oAction,$mValue);
+			return call_user_func_array(array($this->oAction,'ActionSet'),array($sName,$mValue));
 		}
 	}
 
