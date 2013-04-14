@@ -32,24 +32,14 @@ abstract class Event extends LsObject {
 	 */
 	protected $oAction=null;
 	/**
-	 * Список приватных методов экшена для проксирования из внешнего евента
+	 * Объект для анализа структуры класса экшена
 	 *
-	 * @var array
+	 * @var null
 	 */
-	protected $aMethodProxyAction=array(
-		'GetDefaultEvent','GetEventMatch','GetParamEventMatch','GetParam','GetParams',
-		'SetParam','SetTemplate','SetTemplateAction','EventNotFound',
-	);
+	protected $oActionReflection=null;
 
 	public function __construct() {
-		/**
-		 * Переводим доступные методы к нижнему регистру
-		 */
-		$aMethods=array();
-		foreach($this->aMethodProxyAction as $sMethod) {
-			$aMethods[]=strtolower($sMethod);
-		}
-		$this->aMethodProxyAction=$aMethods;
+
 	}
 
 	/**
@@ -59,6 +49,7 @@ abstract class Event extends LsObject {
 	 */
 	public function SetActionObject($oAction) {
 		$this->oAction=$oAction;
+		$this->oActionReflection=new ReflectionClass($this->oAction);
 	}
 
 	/**
@@ -76,31 +67,30 @@ abstract class Event extends LsObject {
 	}
 
 	public function __get($sName) {
-		if (property_exists($this->oAction,$sName)) {
-			return $this->oAction->$sName;
+		if ($this->oActionReflection->hasProperty($sName)) {
+			$oProperty = $this->oActionReflection->getProperty($sName);
+			$oProperty->setAccessible(true);
+			return $oProperty->getValue($this->oAction);
 		}
 	}
 
 	public function __set($sName,$mValue) {
-		if (property_exists($this->oAction,$sName)) {
-			return $this->oAction->$sName=$mValue;
+		if ($this->oActionReflection->hasProperty($sName)) {
+			$oProperty = $this->oActionReflection->getProperty($sName);
+			$oProperty->setAccessible(true);
+			$oProperty->setValue($this->oAction,$mValue);
 		}
 	}
 
 	public function __call($sName,$aArgs) {
 		/**
-		 * Обработка вызова приватных методов экшена
+		 * Обработка вызова методов экшена
 		 */
-		if (in_array(strtolower($sName),$this->aMethodProxyAction)) {
+		if ($this->oAction->ActionCallExists($sName)) {
 			array_unshift($aArgs,$sName);
 			return call_user_func_array(array($this->oAction,'ActionCall'),$aArgs);
 		}
-		/**
-		 * Обработка вызова публичных методов экшена
-		 */
-		if (method_exists($this->oAction,$sName)) {
-			return call_user_func_array(array($this->oAction,$sName),$aArgs);
-		}
+
 		return Engine::getInstance()->_CallModule($sName,$aArgs);
 	}
 }

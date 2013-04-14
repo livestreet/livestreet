@@ -118,6 +118,16 @@ abstract class Action extends LsObject {
 		return call_user_func_array(array($this,$sCall),$aArgs);
 	}
 	/**
+	 * Проверяет метод экшена на существование
+	 *
+	 * @param $sCall
+	 *
+	 * @return bool
+	 */
+	public function ActionCallExists($sCall) {
+		return method_exists($this,$sCall);
+	}
+	/**
 	 * Добавляет евент в экшен
 	 * По сути является оберткой для AddEventPreg(), оставлен для простоты и совместимости с прошлыми версиями ядра
 	 * @see AddEventPreg
