@@ -227,7 +227,8 @@ abstract class Action extends LsObject {
 				 * Проверяем на наличие внешнего обработчика евента
 				 */
 				if ($aEvent['external']) {
-					$oEvent=new $this->aRegisterEventExternal[$aEvent['external']];
+					$sEventClass=$this->Plugin_GetDelegate('event',$this->aRegisterEventExternal[$aEvent['external']]);
+					$oEvent=new $sEventClass;
 					$oEvent->SetActionObject($this);
 					$oEvent->Init();
 					if (!$aEvent['method']) {
