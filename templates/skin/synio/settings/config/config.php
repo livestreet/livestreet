@@ -54,6 +54,7 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.skin___/css/popovers.css",
 	"___path.static.skin___/css/modals.css",
 	"___path.static.skin___/css/dropdowns.css",
+	"___path.static.skin___/css/toolbar.css",
 
 	"___path.static.skin___/css/navs.css",
 	"___path.static.skin___/css/icons.css",

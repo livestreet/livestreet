@@ -1,0 +1,37 @@
+/**
+ * Toolbar
+ */
+
+.toolbar                 { position: absolute; z-index: 20; }
+.toolbar section         { width: 25px; padding: 8px; overflow: hidden; line-height: 14px; background: #fff; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.03); box-shadow: 0 0 5px rgba(0,0,0,.03); margin-bottom: 10px; border-radius: 10px; }
+.toolbar section a       { padding: 0; }
+.toolbar section a:hover { background: none; }
+.toolbar section i       { display: block; width: 25px; height: 25px; }
+
+/* Admin button */
+.toolbar .toolbar-admin i 			{ background: url(../images/icons-synio.png) -268px -23px no-repeat; }
+.toolbar .toolbar-admin i:hover 	{ background-position: -268px -48px; }
+.toolbar .toolbar-admin i:active 	{ background-position: -268px -73px; }
+
+/* Update comments button */
+.toolbar .toolbar-update {  }
+.toolbar .toolbar-update .update-comments 			{ padding: 0; }
+.toolbar .toolbar-update .update-comments i 		{ width: 25px; height: 25px; background: url(../images/update.gif) no-repeat; }
+.toolbar .toolbar-update .update-comments.active i 	{ background-position: -25px 0; }
+.toolbar .toolbar-update .new-comments 				{ display: block; border: none; padding: 5px 0 3px; font-size: 11px; color: #51983c; text-align: center; text-decoration: none; width: 25px; }
+
+/* Topic navigation */
+.toolbar .toolbar-topic 								{ width: 19px; padding: 11px; }
+.toolbar .toolbar-topic a.toolbar-topic-prev 			{ border: none; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i 			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -23px no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:hover 	{ background-position: -230px -23px; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:active 	{ background-position: -249px -23px; }
+.toolbar .toolbar-topic a.toolbar-topic-next i			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -55px no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-next i:hover 	{ background-position: -230px -55px; }
+.toolbar .toolbar-topic a.toolbar-topic-next i:active 	{ background-position: -249px -55px; }
+
+/* Scroll up */
+.toolbar .toolbar-scrollup 			{ display: none; }
+.toolbar .toolbar-scrollup i 		{ background: url(../images/icons-synio.png) -294px -23px no-repeat; }
+.toolbar .toolbar-scrollup i:hover 	{ background-position: -294px -48px; }
+.toolbar .toolbar-scrollup i:active { background-position: -294px -73px; }

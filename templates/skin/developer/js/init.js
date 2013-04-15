@@ -69,6 +69,13 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
+	$('#toolbar').toolbar({
+		alignTo: '#wrapper',
+		align: 'right',
+		offsetX: 10,
+		offsetY: 0
+	});
+
 	ls.toolbar.topic.init(); // Тул-бар топиков
 	ls.toolbar.up.init();    // Кнопка "UP"
 

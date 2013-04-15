@@ -518,6 +518,7 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/ui/popover.js",
 	"___path.static.framework___/js/ui/tab.js",
 	"___path.static.framework___/js/ui/modal.js",
+	"___path.static.framework___/js/ui/toolbar.js",
 
 	/* LiveStreet */
 	"___path.static.framework___/js/livestreet/favourite.js",
@@ -557,6 +558,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.framework___/css/modals.css",
 	"___path.static.framework___/css/tooltip.css",
 	"___path.static.framework___/css/popover.css",
+	"___path.static.framework___/css/toolbar.css"
 );
 
 /**

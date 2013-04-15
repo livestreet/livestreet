@@ -110,6 +110,24 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
+	$('#toolbar').toolbar({
+		alignTo: '#wrapper',
+		align: 'right',
+		offsetX: 7,
+		offsetY: 0,
+		onPosition: function () {
+			if (this.$toolbar.find('section').length) {
+				var $cont = $('#container');
+
+				if ($(document).width() <= 1100) {
+					! $cont.hasClass('no-resize') && $cont.addClass('toolbar-margin');
+				} else {
+					$cont.removeClass('toolbar-margin');
+				}
+			}
+		}
+	});
+
 	ls.toolbar.topic.init(); // Тул-бар топиков
 	ls.toolbar.up.init();    // Кнопка "UP"
 
@@ -397,41 +415,6 @@ jQuery(document).ready(function($){
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
-});
-
-
-
-
-/**
- * Toolbar
- */
-function toolbarPos() {
-	var $=jQuery;
-	if ($('#toolbar section').length) {
-		if ($(document).width() <= 1100) {
-			if (!$('#container').hasClass('no-resize')) {
-				$('#container').addClass('toolbar-margin');
-			}
-			$('#toolbar').css({'position': 'absolute', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top' : $(document).scrollTop() + 136, 'display': 'block'});
-		} else {
-			$('#container').removeClass('toolbar-margin');
-			$('#toolbar').css({'position': 'fixed', 'left': $('#wrapper').offset().left + $('#wrapper').outerWidth() + 7, 'top': 136, 'display': 'block'});
-		}
-	}
-};
-
-jQuery(document).ready(function($) {
-	toolbarPos();
-});
-
-$(window).resize(function(){
-	toolbarPos();
-});
-
-$(window).scroll(function(){
-	if ($(document).width() <= 1100) {
-		toolbarPos();
-	}
 });
 
 
