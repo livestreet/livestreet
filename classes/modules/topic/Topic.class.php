@@ -1857,5 +1857,16 @@ class ModuleTopic extends Module {
 	public function GetTopicItemsByArrayId($aTopocId) {
 		return $this->GetTopicsByArrayId($aTopocId);
 	}
+	
+	/**
+         * Update topic content
+         * 
+         * @param ModuleTopic_EntityTopic $oTopic
+         */
+     	public function UpdateTopicContent($oTopic) {
+	        $this->oMapperTopic->UpdateTopicContent($oTopic);
+	        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}"));
+	        $this->Cache_Delete("topic_{$oTopic->getId()}");
+	 }
 }
 ?>
