@@ -96,7 +96,7 @@
 			{/if}
 		</ul>
 		
-		<a href="#" data-type="modal-toggle" data-option-target="photoset-upload-form" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
+		<a href="#" data-type="modal-toggle" data-option-target="modal-photoset-upload" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
 	</div>
 	
 	  

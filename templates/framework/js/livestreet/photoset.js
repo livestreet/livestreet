@@ -61,7 +61,7 @@ ls.photoset =( function ($) {
 		} else {
 			ls.msg.error(response.sMsgTitle,response.sMsg);
 		}
-		ls.photoset.closeForm();
+		$('#modal-photoset-upload').modal('hide');
 	}
 
 	this.deletePhoto = function(id)
@@ -144,17 +144,7 @@ ls.photoset =( function ($) {
 				ls.photoset.addPhoto(data);
 			}
 		});
-		ls.photoset.closeForm();
-	}
-
-	this.closeForm = function()
-	{
-		$('#photoset-upload-form').jqmHide();
-	}
-
-	this.showForm = function()
-	{
-		$('#photoset-upload-form').jqmShow();
+		$('#modal-photoset-upload').modal('hide');
 	}
 
 	this.showMainPhoto = function(id) {
