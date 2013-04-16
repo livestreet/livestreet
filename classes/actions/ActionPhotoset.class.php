@@ -238,7 +238,7 @@ class ActionPhotoset extends Action {
 		// Если от сервера не пришёл id топика, то пытаемся определить временный код для нового топика. Если и его нет. то это ошибка
 		if (!$iTopicId) {
 			$sTargetId = empty($_COOKIE['ls_photoset_target_tmp']) ? getRequestStr('ls_photoset_target_tmp') : $_COOKIE['ls_photoset_target_tmp'];
-			if (!is_numeric($sTargetId) or !$sTargetId) {
+			if (!is_string($sTargetId) or !$sTargetId) {
 				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 				return false;
 			}
@@ -402,7 +402,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Если нет временного ключа для нового топика, то генерируеи. если есть, то загружаем фото по этому ключу
 		 */
-		if (empty($_COOKIE['ls_photoset_target_tmp']) or !is_numeric($_COOKIE['ls_photoset_target_tmp'])) {
+		if (empty($_COOKIE['ls_photoset_target_tmp']) or !is_string($_COOKIE['ls_photoset_target_tmp'])) {
 			setcookie('ls_photoset_target_tmp',  func_generator(), time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
 		} else {
 			setcookie('ls_photoset_target_tmp', $_COOKIE['ls_photoset_target_tmp'], time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
@@ -732,7 +732,7 @@ class ActionPhotoset extends Action {
 		$sTargetId = null;
 		$iCountPhotos = 0;
 		if (!$oTopic->getTopicId()) {
-			if (isset($_COOKIE['ls_photoset_target_tmp']) and is_numeric($_COOKIE['ls_photoset_target_tmp'])) {
+			if (isset($_COOKIE['ls_photoset_target_tmp']) and is_string($_COOKIE['ls_photoset_target_tmp'])) {
 				$iCountPhotos = $this->Topic_getCountPhotosByTargetTmp($_COOKIE['ls_photoset_target_tmp']);
 			} else {
 				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
