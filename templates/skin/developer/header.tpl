@@ -37,6 +37,7 @@
 	<script type="text/javascript">
 		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
 		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
+        var DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}';
 		var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
 		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
 		var SESSION_ID				= '{$_sPhpSessionId}';
