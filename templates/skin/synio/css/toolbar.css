@@ -2,7 +2,7 @@
  * Toolbar
  */
 
-.toolbar                 { position: absolute; z-index: 20; }
+.toolbar                 { position: fixed; z-index: 20; }
 .toolbar section         { width: 25px; padding: 8px; overflow: hidden; line-height: 14px; background: #fff; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.03); box-shadow: 0 0 5px rgba(0,0,0,.03); margin-bottom: 10px; border-radius: 10px; }
 .toolbar section a       { padding: 0; }
 .toolbar section a:hover { background: none; }

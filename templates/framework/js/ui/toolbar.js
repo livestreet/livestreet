@@ -35,8 +35,8 @@ var ls = ls || {};
             var targetPos = this.$target.offset();
 
             this.$toolbar.css({
-                'top': targetPos.top + $(document).scrollTop() + this.options.offsetY,
-                'left': this.options.align == 'right' ? targetPos.left + this.$target.outerWidth() + this.options.offsetX : targetPos.left - this.$toolbar.outerWidth() - this.options.offsetX
+                'top': targetPos.top + this.options.offsetY,
+                'left': (this.options.align == 'right' ? targetPos.left + this.$target.outerWidth() + this.options.offsetX : targetPos.left - this.$toolbar.outerWidth() - this.options.offsetX) - $(document).scrollLeft()
             })
     	}
     };

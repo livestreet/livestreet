@@ -2,7 +2,7 @@
 	СЕТКА
 -------------------------------------------- */
 
-#container       { margin: 0 auto; margin-bottom: 20px; }
+#container       { margin: 0 auto; margin-bottom: 20px; padding: 0 50px; }
 #header          { padding: 50px 0; position: relative; }
 #nav             { margin-bottom: 15px; overflow: hidden; }
 #wrapper         { overflow: hidden; zoom: 1; padding: 30px; background: #fff; border-bottom: 1px solid #eee; -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1); box-shadow: 0 0 3px rgba(0,0,0,.1); }

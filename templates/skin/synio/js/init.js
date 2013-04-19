@@ -59,7 +59,7 @@ jQuery(document).ready(function($){
 		alignY:   'bottom',
 		classes:  'popover-blog-info',
 		offsetX:  -20,
-		offsetY:  10,
+		offsetY:  10
 	});
 
 
@@ -67,7 +67,7 @@ jQuery(document).ready(function($){
 	 * Tooltips
 	 */
 	$(document).tooltip({
-		selector: '.js-tooltip, .js-tooltip-vote-topic',
+		selector: '.js-tooltip, .js-tooltip-vote-topic'
 	});
 
 	$('.js-title-talk').tooltip({
