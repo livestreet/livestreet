@@ -391,7 +391,7 @@ ls.tools = (function ($) {
 			// Remove 'option' prefix
 			if (option.substring(0, prefix.length) == prefix) {
 				var str = option.substring(prefix.length);
-				resultOptions[str[0].toLowerCase() + str.substring(1)] = dataOptions[option];
+				resultOptions[str.charAt(0).toLowerCase() + str.substring(1)] = dataOptions[option];
 			}
 		}
 

@@ -173,6 +173,16 @@ jQuery(document).ready(function($){
 	});
 
 
+	/**
+	 * Preview image
+	 */
+	$('.js-topic-preview-image').imagesLoaded(function () {
+		var $this = $(this),
+			$preview = $this.closest('.js-topic-preview-loader').removeClass('loading');
+			
+		$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
+	});
+
 
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function(){

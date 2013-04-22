@@ -156,7 +156,9 @@ var ls = ls || {};
             this.options.classes && this.$target.addClass(this.options.classes);
 
             // Hide
-            this.$target.find('[data-type=' + this.type + '-hide]').on('click', this.hide);
+            this.$target.find('[data-type=' + this.type + '-hide]').on('click', function () {
+                self.hide();
+            });
 
             // Hook
             if (this.hooks.onInitTarget) $.proxy(this.hooks.onInitTarget, this)();

@@ -17,11 +17,11 @@ $config['view']['theme'] = 'default';
  * fluid - резина
  * fixed - фиксированная ширина
  */
-$config['view']['grid']['type'] = 'fixed';
+$config['view']['grid']['type'] = 'fluid';
 
 /* Fluid settings */
 $config['view']['grid']['fluid_min_width'] = 976; // Min - 976px
-$config['view']['grid']['fluid_max_width'] = 1300;
+$config['view']['grid']['fluid_max_width'] = 1100;
 
 /* Fixed settings */
 $config['view']['grid']['fixed_width'] = 976;
@@ -61,6 +61,7 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.skin___/css/icons.css",
 	"___path.static.skin___/css/tables.css",
 	"___path.static.skin___/css/topic.css",
+	"___path.static.skin___/css/photoset.css",
 	"___path.static.skin___/css/comments.css",
 	"___path.static.skin___/css/blocks.css",
 	"___path.static.skin___/css/blog.css",

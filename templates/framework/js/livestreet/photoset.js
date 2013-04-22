@@ -53,8 +53,8 @@ ls.photoset =( function ($) {
 		$('#photoset_photo_empty').remove();
 		if (!response.bStateError) {
 			template = '<li id="photo_'+response.id+'"><img src="'+response.file+'" alt="image" />'
-						+'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)"></textarea><br />'
-						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="image-delete">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
+						+'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)" class="width-full"></textarea><br />'
+						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
 						+'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a></span></li>';
 			$('#swfu_images').append(template);
 			ls.msg.notice(response.sMsgTitle,response.sMsg);
@@ -84,7 +84,7 @@ ls.photoset =( function ($) {
 		$('.marked-as-preview').each(function (index, el) {
 			$(el).removeClass('marked-as-preview');
 			tmpId = $(el).attr('id').slice($(el).attr('id').lastIndexOf('_')+1);
-			$('#photo_preview_state_'+tmpId).html('<a href="javascript:ls.photoset.setPreview('+tmpId+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a>');
+			$('#photo_preview_state_'+tmpId).html('<a href="javascript:ls.photoset.setPreview('+tmpId+')" class="mark-as-preview link-dotted">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a>');
 		});
 		$('#photo_'+id).addClass('marked-as-preview');
 		$('#photo_preview_state_'+id).html(ls.lang.get('topic_photoset_is_preview'));
@@ -145,12 +145,6 @@ ls.photoset =( function ($) {
 			}
 		});
 		$('#modal-photoset-upload').modal('hide');
-	}
-
-	this.showMainPhoto = function(id) {
-		$('#photoset-main-preview-'+id).css('width',$('#photoset-main-image-'+id).outerWidth());
-		$('#photoset-photo-count-'+id).show();
-		$('#photoset-photo-desc-'+id).show();
 	}
 
 	return this;

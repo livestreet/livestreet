@@ -22,6 +22,55 @@
 .topic .topic-header .topic-actions li.delete a	{ color: #da4242; }
 .topic .topic-header .topic-actions li i		{ margin-right: 3px; }
 
+/* Preview */
+.topic-preview-image { display: inline-block; max-width: 100%; }
+
+.topic-preview-image .topic-preview-image-inner {
+	border: 10px solid #F1F4F7;
+	margin-bottom: 25px;
+	cursor: pointer;
+	position: relative;
+	min-width: 300px;
+
+	min-height: 200px;
+	background: #fafafa;
+}
+.topic-preview-image img         { vertical-align: top; display: block; margin: 0 auto; max-width: 100%; position: relative; z-index: 1; }
+
+.topic-preview-image.loading     { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
+.topic-preview-image.loading img { display: none; }
+
+.topic-preview-image .topic-preview-image-count {
+	font-size: 13px;
+	font-family: Arial;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: #000;
+	padding: 4px 7px;
+	background: rgba(0,0,0,.6);
+	z-index: 2;
+}
+.ie7 .topic-preview-image .topic-preview-image-count i { margin-right: 3px; }
+.topic-preview-image .topic-preview-image-desc {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	color: #fff;
+	overflow: hidden;
+	line-height: 20px;
+	background: #000;
+	background: rgba(0,0,0,.7);
+	max-height: 20%;
+	border: 15px solid transparent;
+	z-index: 2;
+}
+.oldie .topic-preview-image .topic-preview-image-desc { border-color: #000; }
+
 /* Content */
 .topic .topic-content 		{ margin-bottom: 15px; }
 .topic .topic-content.text 	{ color: #333; }
@@ -100,38 +149,9 @@
 .topic .poll .poll-total .poll-sort         { position: absolute; top: 2px; left: 0; width: 23px; height: 23px; background: url(../images/icons-synio.png) -161px 0 no-repeat; cursor: pointer; }
 .topic .poll .poll-total .poll-sort.active  { background-position: -184px 0; }
 
-/* Topic Photo */
+/* Photoset */
 .topic.topic-type-photoset {  }
-.topic.topic-type-photoset .topic-photo-preview { position: relative; margin-bottom: 15px; cursor: pointer; }
-.topic.topic-type-photoset .topic-photo-preview img { vertical-align: top; }
-.topic.topic-type-photoset .topic-photo-preview .topic-photo-count { display: none; cursor: pointer; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 4px 7px; background: rgba(0,0,0,.6); }
-.topic.topic-type-photoset .topic-photo-preview .topic-photo-desc { display: none; width: 96%; padding: 7px 2%; position: absolute; bottom: 0; left: 0; background: #000; color: #6bd24b; color: #fff; line-height: 16px; background: rgba(0,0,0,.7); }
-
-.topic.topic-type-photoset .topic-photo-images { padding-top: 10px; margin-bottom: 15px; }
-.topic.topic-type-photoset .topic-photo-images h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; font-size: 25px; }
-.topic.topic-type-photoset .topic-photo-images ul { overflow: hidden; zoom: 1; }
-.topic.topic-type-photoset .topic-photo-images ul li { float: left; margin: 0 9px 9px 0; position: relative; }
-.topic.topic-type-photoset .topic-photo-images ul li .image-number { display: none; position: absolute; top: 5px; right: 5px; background: #000; color: #6bd24b; padding: 1px 6px; font-size: 11px; background: rgba(0,0,0,.6); }
-.topic.topic-type-photoset .topic-photo-images ul li:hover .image-number { display: block; }
-.topic.topic-type-photoset .topic-photo-images ul li img { vertical-align: top; }
-.topic.topic-type-photoset .topic-photo-images .topic-photo-more { display: block; border-top: 1px solid #dbe6f0; text-align: center; padding: 10px 0; margin-bottom: 15px; text-decoration: none; background: #f3f7fa; color: #7b90a5; }
-.topic.topic-type-photoset .topic-photo-images .topic-photo-more:hover { background: #eaf2f8; }
-
-.topic-photo-upload { background: #F1F7FD; padding: 15px 15px 15px; margin-bottom: 20px; }
-.topic-photo-upload h2 { margin-bottom: 15px; }
-.topic-photo-upload ul { overflow: hidden; zoom: 1; }
-.topic-photo-upload ul li { min-height: 100px; _height: 100px; margin-bottom: 10px; padding-left: 110px; position: relative; }
-.topic-photo-upload ul li img { position: absolute; top: 0; left: 0; }
-.topic-photo-upload ul li label { color: #aaa; }
-.topic-photo-upload ul li textarea { border: 1px solid #ddd; width: 350px; height: 60px; padding: 3px; font-size: 12px; font-family: Arial, sans-serif; color: #333; }
-.topic-photo-upload ul li .image-delete { text-decoration: none; margin-right: 15px; }
-.topic-photo-upload ul li .image-delete:hover { color: #f00; }
-.topic-photo-upload ul li.marked-as-preview .mark-as-preview { display: inline; color: #43c70f; font-weight: bold; }
-.topic-photo-upload ul li .mark-as-preview { display: none; text-decoration: none; }
-.topic-photo-upload ul li:hover .mark-as-preview { display: inline; }
-.topic-photo-upload .topic-photo-upload-rules { color: #888; margin-bottom: 15px; }
-.topic-photo-upload .topic-photo-upload-input { margin-bottom: 20px; }
-.topic-photo-upload .topic-photo-upload-input input { margin-top: 3px; }
+.topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
 
 /* Topic Talk */
 .topic.topic-type-talk header .topic-info 			{ background: #f8fbfe; font-size: 11px; padding: 15px; border-radius: 5px; margin-bottom: 0; }

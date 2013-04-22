@@ -50,12 +50,12 @@
 
 /* Word Wrap */
 .word-wrap {
-  white-space: -moz-pre-wrap !important;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap; 
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  white-space: normal;
+	white-space: -moz-pre-wrap !important;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap; 
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	white-space: normal;
 }
 
 
@@ -79,9 +79,7 @@
 
 /* Loader */
 /* TODO: Change gif */
-.loading { 
-	width: 100px;
-	height: 100px;
+.loading {
 	background-image: url(../images/modal-loader.gif) ;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;

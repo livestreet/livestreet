@@ -11,11 +11,11 @@ $config['view']['theme'] = 'default';
  * fluid - резина
  * fixed - фиксированная ширина
  */
-$config['view']['grid']['type'] = 'fixed';
+$config['view']['grid']['type'] = 'fluid';
 
 /* Fluid settings */
-$config['view']['grid']['fluid_min_width'] = 1000;
-$config['view']['grid']['fluid_max_width'] = 1400;
+$config['view']['grid']['fluid_min_width'] = 900;
+$config['view']['grid']['fluid_max_width'] = 1200;
 
 /* Fixed settings */
 $config['view']['grid']['fixed_width'] = 1000;
@@ -31,13 +31,14 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.framework___/js/vendor/markitup/sets/synio/style.css",
 	"___path.static.framework___/js/vendor/jcrop/jquery.Jcrop.css",
 	"___path.static.framework___/js/vendor/prettify/prettify.css",
-	"___path.static.framework___/js/vendor/prettyPhoto/css/prettyPhoto.css",
+	"___path.static.framework___/js/vendor/prettyphoto/css/prettyphoto.css",
 	"___path.static.skin___/css/grid.css",
 	"___path.static.skin___/css/common.css",
 	"___path.static.skin___/css/icons.css",
 	"___path.static.skin___/css/navs.css",
 	"___path.static.skin___/css/tables.css",
 	"___path.static.skin___/css/topic.css",
+	"___path.static.skin___/css/photoset.css",
 	"___path.static.skin___/css/comments.css",
 	"___path.static.skin___/css/blocks.css",
 	"___path.static.skin___/css/blog.css",

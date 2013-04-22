@@ -17,6 +17,9 @@
 .popover .popover-title { background: #eee; padding: 10px 15px; font-weight: bold; }
 .popover .popover-content { padding: 15px 20px; }
 
+/* Loading */
+.popover.loading { width: 100px; height: 100px; }
+
 /* Arrow */
 .popover .popover-arrow,
 .popover .popover-arrow-inner {

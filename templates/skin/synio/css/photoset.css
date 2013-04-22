@@ -1,0 +1,38 @@
+/**
+ * Photoset
+ */
+
+/* Base */
+.photoset { margin-bottom: 15px; }
+
+
+/* Default */
+.photoset-type-default                         { padding-top: 10px; }
+
+.photoset-type-default .photoset-title         { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; font-size: 25px; }
+
+.photoset-type-default .photoset-images        { overflow: hidden; zoom: 1; }
+.photoset-type-default .photoset-images li     { float: left; margin: 0 9px 9px 0; position: relative; border: 3px solid #eee; }
+.photoset-type-default .photoset-images li img { vertical-align: top; }
+
+.photoset-type-default .photoset-more          { display: block; border-top: 1px solid #dbe6f0; text-align: center; padding: 10px 0; margin-bottom: 15px; text-decoration: none; background: #f3f7fa; color: #7b90a5; }
+.photoset-type-default .photoset-more:hover    { background: #eaf2f8; }
+
+
+/* Upload */
+.photoset-upload        { margin-bottom: 20px; background: #F1F7FD; }
+.photoset-upload header,
+.photoset-upload footer { padding: 15px; }
+.photoset-upload h2     { font-size: 24px; margin-bottom: 15px; }
+.photoset-upload .note  { font-size: 12px; line-height: 20px; }
+
+.photoset-upload-images                               { overflow: hidden; zoom: 1; }
+.photoset-upload-images li                            { padding: 15px 15px 15px 130px; min-height: 100px; position: relative; }
+.photoset-upload-images li.marked-as-preview          { background: #DEEEFF; }
+.photoset-upload-images li.marked-as-preview textarea { border-color: #B3CFED; }
+.photoset-upload-images li img                        { position: absolute; top: 15px; left: 15px; }
+.photoset-upload-images li label                      { color: #aaa; }
+.photoset-upload-images li textarea                   { height: 80px; margin-bottom: 10px; }
+.photoset-upload-images li a                          { margin-right: 15px; }
+.photoset-upload-images li .mark-as-preview           { display: none; text-decoration: none; }
+.photoset-upload-images li:hover .mark-as-preview     { display: inline; }
