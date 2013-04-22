@@ -124,11 +124,13 @@ jQuery(document).ready(function($){
 	/**
 	 * Preview image
 	 */
-	$('.js-topic-preview-image').imagesLoaded(function () {
-		var $this = $(this),
-			$preview = $this.closest('.js-topic-preview-loader').removeClass('loading');
-			
-		$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
+	$('.js-topic-preview-image').each(function () {
+		$(this).imagesLoaded(function () {
+			var $this = $(this),
+				$preview = $this.closest('.js-topic-preview-loader').removeClass('loading');
+				
+			$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
+		});
 	});
 
 

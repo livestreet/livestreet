@@ -45,7 +45,7 @@ ls.photoset =( function ($) {
 
 	this.addPhotoEmpty = function() {
 		template = '<li id="photoset_photo_empty"><img src="'+DIR_STATIC_SKIN + '/images/loader.gif'+'" alt="image" style="margin-left: 35px;margin-top: 20px;" />'
-					+'<div id="photoset_photo_empty_progress" style="height: 60px;width: 350px;padding: 3px;border: 1px solid #DDDDDD;"></div><br /></li>';
+					+'<div id="photoset_photo_empty_progress" style="height: 60px;padding: 3px;border: 1px solid #DDDDDD;" class="width: full"></div></li>';
 		$('#swfu_images').append(template);
 	}
 
@@ -54,8 +54,8 @@ ls.photoset =( function ($) {
 		if (!response.bStateError) {
 			template = '<li id="photo_'+response.id+'"><img src="'+response.file+'" alt="image" />'
 						+'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)" class="width-full"></textarea><br />'
-						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
-						+'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a></span></li>';
+						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="link-dotted">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
+						+'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="link-dotted mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a></span></li>';
 			$('#swfu_images').append(template);
 			ls.msg.notice(response.sMsgTitle,response.sMsg);
 		} else {
