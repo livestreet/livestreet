@@ -507,7 +507,7 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/jquery.imagesloaded.js",
 	"___path.static.framework___/js/vendor/markitup/jquery.markitup.js",
 	"___path.static.framework___/js/vendor/prettify/prettify.js",
-	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+	"___path.static.framework___/js/vendor/prettyPhoto/js/jquery.prettyphoto.js",
 
 	/* Core */
 	"___path.static.framework___/js/core/main.js",
