@@ -217,7 +217,9 @@
 						}).bind('click.markItUp', function(e) {
 							e.preventDefault();
 						}).bind("focusin.markItUp", function(){
-                            $$.focus();
+							/*----------------------- LIVESTREET FIX -------------------*/
+                            //$$.focus();
+                            /*----------------------- END LIVESTREET FIX -------------------*/
 						}).bind('mouseup', function() {
 							if (button.call) {
 								eval(button.call)();
@@ -341,6 +343,9 @@
 						 			root:options.root,
 									textarea:textarea, 
 									selection:(selection||''), 
+									/*----------------------- LIVESTREET FIX -------------------*/
+									selectionOuter:(selectionOuter||''),
+									/*----------------------- END LIVESTREET FIX -------------------*/
 									caretPosition:caretPosition,
 									ctrlKey:ctrlKey, 
 									shiftKey:shiftKey, 
@@ -469,6 +474,23 @@
 
 			// get the selection
 			function get() {
+				/*----------------------- LIVESTREET FIX -------------------*/
+				selectionOuter = '';
+
+				if(window.getSelection){
+					selectionOuter = window.getSelection().toString();
+				} else if (window.document.selection){
+					var sel = window.document.selection.createRange();
+					selectionOuter = sel.text || sel;
+
+					if (selectionOuter.toString) {
+						selectionOuter = selectionOuter.toString();
+					} else {
+						selectionOuter = '';
+					}
+				}
+				/*----------------------- END LIVESTREET FIX -------------------*/
+
 				textarea.focus();
 
 				scrollPosition = textarea.scrollTop;
