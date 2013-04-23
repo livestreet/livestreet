@@ -28,7 +28,8 @@ var ls = ls || {};
     	 * Activate tab
     	 */
     	activate: function () {
-			var dropdown = this.$tab.closest('ul').parent('li');
+			var self = this,
+                dropdown = this.$tab.closest('ul').parent('li');
 
 			this.$tab
 				.addClass('active')
@@ -40,6 +41,22 @@ var ls = ls || {};
 			if (dropdown.length > 0) dropdown.addClass('active');
 
 			this.$pane.show().parent($.fn.tab.settings.contentSelector).find($.fn.tab.settings.paneSelector).not(this.$pane).hide();
+
+            if (this.options.url) {
+                this.$pane.empty().addClass('loading');
+
+                ls.ajax(this.options.url, this.options.params, function (result) {
+                    if (result.bStateError) {
+                        ls.msg.error('Error', result.sMsg);
+                    } else {
+                        self.$pane.removeClass('loading').html(result[self.options.ajaxVar]);
+                    }
+                }, {
+                    error: function () {
+                        ls.msg.error('Error', 'Please try again later');
+                    }
+                });
+            }
     	}
     };
 
@@ -50,7 +67,10 @@ var ls = ls || {};
             var tab      = $(this),
                 object   = tab.data('object');
 
-            if ( ! object ) tab.data('object', (object = new Tab(this, $.extend({}, options, ls.tools.getDataOptions(tab)))));
+            if ( ! object ) {
+                tab.data('object', (object = new Tab(this, $.extend({}, options, ls.tools.getDataOptions(tab)))));
+                object.options.params = ls.tools.getDataOptions(tab, 'param');
+            }
             if (typeof options === 'string') {
                 if (options === "option") {
                     if (value) object.options[variable] = value; else returnValue = object.options[variable];
@@ -69,7 +89,10 @@ var ls = ls || {};
      * @type {Object}
      */
     $.fn.tab.defaults = {
-        target: false
+        target: false,
+        ajaxVar: 'sText',
+        url: false,
+        params: {}
     };
 
 

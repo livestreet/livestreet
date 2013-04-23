@@ -33,8 +33,8 @@
 
 
 /* Floats */
-.fl-r, .float-right { float: right !important; }
-.fl-l, .float-left  { float: left !important; }
+.fl-r, .float-right, .pull-right { float: right !important; }
+.fl-l, .float-left, .pull-left  { float: left !important; }
 
 
 /* Misc */
@@ -80,7 +80,5 @@
 /* Loader */
 /* TODO: Change gif */
 .loading {
-	background-image: url(../images/modal-loader.gif) ;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
+	background: url(../images/modal-loader.gif) 50% 50% no-repeat;
 }
