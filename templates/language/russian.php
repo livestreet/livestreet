@@ -147,7 +147,8 @@ return array(
 	'blog_create_avatar' => 'Аватар',
 	'blog_create_avatar_error' => 'Не удалось загрузить аватар',
 	'blog_create_avatar_delete' => 'удалить',
-	'blog_create_submit' => 'Сохранить',
+	'blog_create_submit' => 'Создать',
+	'blog_create_update' => 'Сохранить изменения',
 	'blog_create_submit_notice' => 'После нажатия на кнопку «Сохранить» блог будет создан',
 	/**
 	 * Управление блогом
@@ -267,6 +268,7 @@ return array(
 	'topic_create_publish_index' => 'Принудительно вывести на главную',
 	'topic_create_publish_index_notice' => 'Если отметить эту галку, то топик сразу попадёт на главную страницу (опция доступна только администраторам)',
 	'topic_create_submit_publish' => 'Опубликовать',
+	'topic_create_submit_update' => 'Сохранить изменения',
 	'topic_create_submit_save' => 'Сохранить в черновиках',
 	'topic_create_submit_preview' => 'Предпросмотр',
 	'topic_create_submit_preview_close' => 'свернуть',

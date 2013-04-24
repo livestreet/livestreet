@@ -144,7 +144,8 @@ return array(
 	'blog_create_avatar' => 'Avatar',
 	'blog_create_avatar_error' => "Can't create avatar",
 	'blog_create_avatar_delete' => 'Remove',
-	'blog_create_submit' => 'Save',
+	'blog_create_submit' => 'Create',
+	'blog_create_update' => 'Update',
 	'blog_create_submit_notice' => 'Blog will be created after pushing "Save" button',
 	/**
 	 * Blog Administration
@@ -264,6 +265,7 @@ return array(
 	'topic_create_publish_index' => 'force exit to the main page',
 	'topic_create_publish_index_notice' => "If you check this option you'll post this topic directly to the main page (option availiable to administrators only)",
 	'topic_create_submit_publish' => 'Publish',
+	'topic_create_submit_update' => 'Update',
 	'topic_create_submit_save' => 'Save to drafts',
 	'topic_create_submit_preview' => 'Preview',
 	'topic_create_submit_preview_close' => 'Close',

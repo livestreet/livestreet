@@ -80,7 +80,7 @@
 	
 	{hook run='form_add_blog_end'}
 
-	<button type="submit"  name="submit_blog_add" class="button button-primary">{$aLang.blog_create_submit}</button>
+	<button type="submit"  name="submit_blog_add" class="button button-primary">{if $sEvent == 'add'}{$aLang.blog_create_submit}{else}{$aLang.blog_create_update}{/if}</button>
 </form>
 
 

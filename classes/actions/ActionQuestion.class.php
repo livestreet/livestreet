@@ -151,6 +151,8 @@ class ActionQuestion extends Action {
 			foreach ($aAnswers as $aAnswer) {
 				$_REQUEST['answer'][]=$aAnswer['text'];
 			}
+
+			$this->Viewer_Assign('oTopic', $oTopic);
 		}
 	}
 	/**
