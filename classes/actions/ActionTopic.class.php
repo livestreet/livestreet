@@ -143,9 +143,9 @@ class ActionTopic extends Action {
 			$_REQUEST['topic_id']=$oTopic->getId();
 			$_REQUEST['topic_publish_index']=$oTopic->getPublishIndex();
 			$_REQUEST['topic_forbid_comment']=$oTopic->getForbidComment();
-
-			$this->Viewer_Assign('oTopic', $oTopic);
 		}
+
+		$this->Viewer_Assign('oTopicEdit', $oTopic);
 	}
 	/**
 	 * Удаление топика
