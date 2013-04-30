@@ -396,7 +396,6 @@ class ActionPhotoset extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
-		$this->Viewer_Assign('oTopic', $oTopic);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_photoset_title_create'));
 
 		if (!is_numeric(getRequest('topic_id'))) {
