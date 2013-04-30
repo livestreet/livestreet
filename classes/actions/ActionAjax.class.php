@@ -51,6 +51,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
 		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
+		$this->AddEventPreg('/^vote/i','/^get/','/^info/','EventVoteGetInfo');
 
 		$this->AddEventPreg('/^favourite$/i','/^save-tags/','EventFavouriteSaveTags');
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
@@ -121,6 +122,34 @@ class ActionAjax extends Action {
 		 */
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("infobox.info.blog.tpl"));
 	}
+
+	/**
+	 * Получение информации о голосовании за топик
+	 */
+	protected function EventVoteGetInfo() {
+		if ( ! is_string(getRequest('iTopicId')) ) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+
+		if ( ! ($oTopic = $this->Topic_GetTopicById(getRequestStr('iTopicId', null, 'post'))) ) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return;
+		}
+
+		if ( ! $oTopic->getVote() && ($this->oUserCurrent && $oTopic->getUserId() != $this->oUserCurrent->getId()) && (strtotime($oTopic->getDateAdd()) + Config::Get('acl.vote.topic.limit_time') > time())) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return;
+		}
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+
+		$oViewer->Assign('oTopic', $oTopic);
+		$oViewer->Assign('oUserCurrent', $this->oUserCurrent);
+
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("tooltip.topic_vote_info.tpl"));
+	}
+
 	/**
 	 * Получение списка регионов по стране
 	 */

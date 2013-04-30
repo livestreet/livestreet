@@ -90,46 +90,50 @@
 			{/if}
 			
 			<li class="topic-info-vote">
-				<div id="vote_area_topic_{$oTopic->getId()}" data-type="tooltip-toggle" data-option-target="vote-info-topic-{$oTopic->getId()}" class="vote-topic
-																	{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-																		{if $oTopic->getRating() > 0}
-																			vote-count-positive
-																		{elseif $oTopic->getRating() < 0}
-																			vote-count-negative
-																		{elseif $oTopic->getRating() == 0}
-																			vote-count-zero
-																		{/if}
-																	{/if}
-																	
-																	{if !$oUserCurrent or ($oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId())}
-																		vote-not-self
-																	{/if}
-																	
-																	{if $oVote} 
-																		voted
-																		
-																		{if $oVote->getDirection() > 0}
-																			voted-up
-																		{elseif $oVote->getDirection() < 0}
-																			voted-down
-																		{elseif $oVote->getDirection() == 0}
-																			voted-zero
-																		{/if}
-																	{else}
-																		not-voted
-																	{/if}
-																	
-																	{if (strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time') && !$oVote) || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}
-																		vote-nobuttons
-																	{/if}
-																	
-																	{if strtotime($oTopic->getDateAdd()) > $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-																		vote-not-expired
-																	{/if}
+				<div id="vote_area_topic_{$oTopic->getId()}" 
+					 data-type="tooltip-toggle"
+					 data-param-i-topic-id="{$oTopic->getId()}"
+					 data-option-url="{router page='ajax'}vote/get/info/"
+					 class="vote-topic
+							{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+								{if $oTopic->getRating() > 0}
+									vote-count-positive
+								{elseif $oTopic->getRating() < 0}
+									vote-count-negative
+								{elseif $oTopic->getRating() == 0}
+									vote-count-zero
+								{/if}
+							{/if}
+							
+							{if !$oUserCurrent or ($oUserCurrent && $oTopic->getUserId() != $oUserCurrent->getId())}
+								vote-not-self
+							{/if}
+							
+							{if $oVote} 
+								voted
+								
+								{if $oVote->getDirection() > 0}
+									voted-up
+								{elseif $oVote->getDirection() < 0}
+									voted-down
+								{elseif $oVote->getDirection() == 0}
+									voted-zero
+								{/if}
+							{else}
+								not-voted
+							{/if}
+							
+							{if (strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time') && !$oVote) || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}
+								vote-nobuttons
+							{/if}
+							
+							{if strtotime($oTopic->getDateAdd()) > $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+								vote-not-expired
+							{/if}
 
-																	{if $bVoteInfoShow}js-tooltip-vote-topic{/if}">
+							{if $bVoteInfoShow}js-tooltip-vote-topic{/if}">
 					<div class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
-					<div class="vote-item vote-count" title="{$aLang.topic_vote_count}: {$oTopic->getCountVote()}">
+					<div class="vote-item vote-count">
 						<span id="vote_total_topic_{$oTopic->getId()}">
 							{if $bVoteInfoShow}
 								{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
@@ -139,18 +143,6 @@
 						</span>
 					</div>
 					<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>
-
-					{if $bVoteInfoShow}
-						<div id="vote-info-topic-{$oTopic->getId()}" class="tooltip" data-type="tooltip-target">
-							<div class="tip-arrow"></div>
-							<ul class="tooltip-content vote-topic-info" data-type="tooltip-content">
-								<li><i class="icon-synio-vote-info-up"></i> {$oTopic->getCountVoteUp()}</li>
-								<li><i class="icon-synio-vote-info-down"></i> {$oTopic->getCountVoteDown()}</li>
-								<li><i class="icon-synio-vote-info-zero"></i> {$oTopic->getCountVoteAbstain()}</li>
-								{hook run='topic_show_vote_stats' topic=$oTopic}
-							</ul>
-						</div>
-					{/if}
 				</div>
 			</li>
 			

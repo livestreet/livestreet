@@ -19,7 +19,7 @@ var ls = ls || {};
 
         hooks : {
             onInitTarget: function () {
-                if ( ! this.options.target ) { 
+                if ( ! this.options.target && ! this.options.url ) { 
                     if ( ! this.options.content ) { 
                         this.options.content = this.$toggle.attr('title'); 
                         this.$toggle.removeAttr('title');
@@ -31,6 +31,7 @@ var ls = ls || {};
 
             onEnter: function () {
                 var title = this.$toggle.attr('title');
+                
                 if (title) {
                     this.options.content = title;
                     this.$toggle.removeAttr('title');

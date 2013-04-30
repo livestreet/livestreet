@@ -19,7 +19,7 @@ var ls = ls || {};
 
         hooks : {
             onInitTarget: function () {
-                if ( ! this.options.target ) { 
+                if ( ! this.options.target && ! this.options.url ) { 
                     if ( ! this.options.title ) { 
                         this.options.title = this.$toggle.attr('title'); 
                         this.$toggle.removeAttr('title');
@@ -28,6 +28,8 @@ var ls = ls || {};
                     this.setTitle(this.options.title);
                     this.setContent(this.options.content);
                 }
+
+                ! this.options.title && this.$target.find('[data-type=' + this.type + '-title]').hide();
             }
         },
 
@@ -35,9 +37,7 @@ var ls = ls || {};
          * Set header
          */
         setTitle: function (title) {
-            var $title = this.$target.find('[data-type=' + this.type + '-title]');
-
-            title ? $title.show().html(title) : $title.hide();
+            this.$target.find('[data-type=' + this.type + '-title]').show().html(title);
         }
     });
 

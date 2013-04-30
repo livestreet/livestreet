@@ -80,5 +80,7 @@
 /* Loader */
 /* TODO: Change gif */
 .loading {
-	background: url(../images/modal-loader.gif) 50% 50% no-repeat;
+	background-image: url(../images/modal-loader.gif);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
 }

@@ -213,6 +213,7 @@ var ls = ls || {};
          */
         show: function () {
             var self = this;
+
             Popup.hideAll(this.type);
 
             if (this.options.template && ! this.open) this.initTarget();
@@ -237,9 +238,11 @@ var ls = ls || {};
                         self.hide();
                         ls.msg.error('Error', result.sMsg);
                     } else {
-                        self.$target.removeClass('loading');
-                        self.setContent(result[self.options.ajaxVar]);
-                        self.position();
+                        if (self.$target) {
+                            self.$target.removeClass('loading');
+                            self.setContent(result[self.options.ajaxVar]);
+                            self.position();
+                        }
                     }
                 }, {
                     error: function () {
@@ -301,7 +304,7 @@ var ls = ls || {};
             
             switch(this.options.alignY) {
                 case 'top':
-                    this.targetPosition.top = this.togglePosition.top - targetHeight - this.options.offsetY;
+                    this.targetPosition.bottom = $(window).height() - this.togglePosition.top + this.options.offsetY;
                     break;
                 case 'center':
                     this.targetPosition.top = this.togglePosition.top + (toggleHeight - targetHeight) / 2;
@@ -315,13 +318,21 @@ var ls = ls || {};
 
             switch(this.options.alignX) {
                 case 'left':
-                    this.targetPosition.left = this.options.alignY == 'center' ? this.togglePosition.left - targetWidth - this.options.offsetY : this.togglePosition.left + this.options.offsetX;
+                    if (this.options.alignY == 'center') {
+                        this.targetPosition.right = $(window).width() - this.togglePosition.left + this.options.offsetY;
+                    } else {
+                        this.targetPosition.left = this.togglePosition.left + this.options.offsetX;
+                    }
                     break;
                 case 'center':
                     this.targetPosition.left = this.togglePosition.left + (toggleWidth - targetWidth) / 2;
                     break;
                 case 'right':
-                    this.targetPosition.left = this.options.alignY == 'center' ? this.togglePosition.left + toggleWidth + this.options.offsetY : this.togglePosition.left + toggleWidth - targetWidth - this.options.offsetX;
+                    if (this.options.alignY == 'center') {
+                        this.targetPosition.left = this.togglePosition.left + toggleWidth + this.options.offsetY;
+                    } else {
+                        this.targetPosition.right = $(window).width() - this.togglePosition.left - toggleWidth + this.options.offsetX;
+                    }
                     break;
                 default:
                     this.targetPosition.left = 0;
@@ -330,8 +341,8 @@ var ls = ls || {};
             this.$target.css({
                 'top'     : this.targetPosition.top,
                 'left'    : this.targetPosition.left,
-                'bottom'  : 'auto',
-                'right'   : 'auto'
+                'bottom'  : this.targetPosition.bottom,
+                'right'   : this.targetPosition.right
             });
         }
     };

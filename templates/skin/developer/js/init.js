@@ -29,7 +29,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Tooltips
 	 */
-	$('.js-tooltip').tooltip();
+	$(document).tooltip({
+		selector: '.js-tooltip, .js-tooltip-vote-topic'
+	});
 
 	$('.js-title-talk').tooltip({
 		alignX: 'left',

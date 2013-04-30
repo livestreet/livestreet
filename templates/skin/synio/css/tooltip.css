@@ -6,10 +6,16 @@
 	border-radius: 5px;
 }
 
+/* Loading */
+.tooltip.loading {
+	width: 70px;
+	height: 70px;
+}
+
 
 /* Yellow
 ------------------------------ */
-.tooltip.tooltip-yellow 				{
+.tooltip.tooltip-yellow {
 	background: #fffea8;
 	color: #3e3e16;
 	border-radius: 10px;

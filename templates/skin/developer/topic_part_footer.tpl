@@ -43,35 +43,37 @@
 		</div>
 
 
-		<ul class="topic-info">
-			<li id="vote_area_topic_{$oTopic->getId()}" class="vote 
-																{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-																	{if $oTopic->getRating() > 0}
-																		vote-count-positive
-																	{elseif $oTopic->getRating() < 0}
-																		vote-count-negative
-																	{/if}
-																{/if}
-																
-																{if $oVote} 
-																	voted
-																	
-																	{if $oVote->getDirection() > 0}
-																		voted-up
-																	{elseif $oVote->getDirection() < 0}
-																		voted-down
-																	{/if}
-																{/if}">
-				{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-					{assign var="bVoteInfoShow" value=true}
-				{/if}
-				<div class="vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"></div>
-				<div 
-					class="vote-count {if $bVoteInfoShow}js-tooltip{/if}" 
-					id="vote_total_topic_{$oTopic->getId()}" 
-					data-type="tooltip-toggle" 
-					data-option-target="vote-info-topic-{$oTopic->getId()}">
+		{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+			{assign var="bVoteInfoShow" value=true}
+		{/if}
 
+		<ul class="topic-info">
+			<li id="vote_area_topic_{$oTopic->getId()}"
+				data-type="tooltip-toggle"
+				data-param-i-topic-id="{$oTopic->getId()}"
+				data-option-url="{router page='ajax'}vote/get/info/"
+				class="vote 
+						{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+							{if $oTopic->getRating() > 0}
+								vote-count-positive
+							{elseif $oTopic->getRating() < 0}
+								vote-count-negative
+							{/if}
+						{/if}
+						
+						{if $oVote} 
+							voted
+							
+							{if $oVote->getDirection() > 0}
+								voted-up
+							{elseif $oVote->getDirection() < 0}
+								voted-down
+							{/if}
+						{/if}
+
+						{if $bVoteInfoShow}js-tooltip-vote-topic{/if}">
+				<div class="vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"></div>
+				<div class="vote-count" id="vote_total_topic_{$oTopic->getId()}">
 					{if $bVoteInfoShow}
 						{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 					{else} 
@@ -79,21 +81,6 @@
 					{/if}
 				</div>
 				<div class="vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"></div>
-
-
-				{if $bVoteInfoShow}
-					<div id="vote-info-topic-{$oTopic->getId()}" class="tooltip" data-type="tooltip-target">
-						<div class="tip-arrow"></div>
-						<div class="tooltip-content" data-type="tooltip-content">
-							<i class="icon-plus icon-white"></i> {$oTopic->getCountVoteUp()}<br />
-							<i class="icon-minus icon-white"></i> {$oTopic->getCountVoteDown()}<br />
-							<i class="icon-eye-open icon-white"></i> {$oTopic->getCountVoteAbstain()}<br />
-							{$aLang.topic_vote_count}: {$oTopic->getCountVote()}<br />
-
-							{hook run='topic_show_vote_stats' topic=$oTopic}
-						</div>
-					</div>
-				{/if}
 			</li>
 
 			<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>

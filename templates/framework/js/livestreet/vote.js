@@ -107,7 +107,10 @@ ls.vote = (function ($) {
 			if ($.type(this[method])=='function') {
 				this[method].apply(this,[idTarget, objVote, value, type, result]);
 			}
-
+			
+			if (type == 'topic') {
+				$('#' + this.options.prefix_area + type + '_' + idTarget).addClass('js-tooltip-vote-topic').tooltip('enter');
+			}
 		}
 		
 		$(this).trigger('vote',[idTarget, objVote, value, type, result]);
