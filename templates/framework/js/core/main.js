@@ -415,41 +415,41 @@ ls = (function ($) {
 	/**
 	* Выполнение AJAX запроса, автоматически передает security key
 	*/
-	this.ajax = function(url,params,callback,more){
-		more=more || {};
-		params=params || {};
-		params.security_ls_key=LIVESTREET_SECURITY_KEY;
+	this.ajax = function(url, params, callback, more) {
+		more = more || {};
+		params = params || {};
+		params.security_ls_key = LIVESTREET_SECURITY_KEY;
 
-		$.each(params,function(k,v){
+		$.each(params, function(k, v){
 			if (typeof(v) == "boolean") {
-				params[k]=v ? 1 : 0;
+				params[k] = v ? 1 : 0;
 			}
 		});
 
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
-			url=aRouter['ajax']+url+'/';
+		if (url.indexOf('http://') != 0 && url.indexOf('https://') != 0 && url.indexOf('/') != 0) {
+			url=aRouter['ajax'] + url + '/';
 		}
 
-		var ajaxOptions = {
-			type: more.type || "POST",
+		var ajaxOptions = $.extend({}, {
+			type: "POST",
 			url: url,
 			data: params,
-			dataType: more.dataType || 'json',
+			dataType: 'json',
 			success: callback || function(){
 				ls.debug("ajax success: ");
 				ls.debug.apply(this,arguments);
 			}.bind(this),
-			error: more.error || function(msg){
+			error: function(msg){
 				ls.debug("ajax error: ");
-				ls.debug.apply(this,arguments);
+				ls.debug.apply(this, arguments);
 			}.bind(this),
-			complete: more.complete || function(msg){
+			complete: function(msg){
 				ls.debug("ajax complete: ");
-				ls.debug.apply(this,arguments);
+				ls.debug.apply(this, arguments);
 			}.bind(this)
-		};
+		}, more);
 		
-		ls.hook.run('ls_ajax_before', [ajaxOptions,callback,more], this);
+		ls.hook.run('ls_ajax_before', [ajaxOptions, callback, more], this);
 
 		return $.ajax(ajaxOptions);
 	};
