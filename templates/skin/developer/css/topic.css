@@ -6,17 +6,19 @@
 .topic:last-child { margin-bottom: 0; }
 
 /* Header */
-.topic .topic-header .topic-title 				{ font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
-.topic .topic-header .topic-title a 			{ text-decoration: none; }
-.topic .topic-header .topic-title i 			{ position: relative; top: 8px; cursor: help; }
-.topic .topic-header .topic-url 				{ margin-bottom: 15px; }
-.topic .topic-header .topic-url a 				{ background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
-.topic .topic-header .topic-info 				{ margin-bottom: 25px; color: #777; }
-.topic .topic-header .topic-info time 			{ margin-right: 15px; }
-.topic .topic-header .topic-info .topic-blog 	{ margin-right: 15px; }
+.topic .topic-header .topic-title            { font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
+.topic .topic-header .topic-title a          { text-decoration: none; }
+.topic .topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
+
+.topic .topic-header .topic-info             { margin-bottom: 25px; color: #777; }
+.topic .topic-header .topic-info time        { margin-right: 15px; }
+.topic .topic-header .topic-info .topic-blog { margin-right: 15px; }
 .topic .topic-header .topic-info .actions,
-.topic .topic-header .topic-info .actions li	{ display: inline; float: none; margin-bottom: 0; }
-.topic .topic-header .topic-info .actions li	{ margin-right: 10px; }
+.topic .topic-header .topic-info .actions li { display: inline; float: none; margin-bottom: 0; }
+.topic .topic-header .topic-info .actions li { margin-right: 10px; }
+
+.topic .topic-url              { margin-bottom: 30px; }
+.topic .topic-url a            { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
 
 /* Preview */
 .topic-preview-image { display: inline-block; max-width: 100%; }

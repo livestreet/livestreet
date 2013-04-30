@@ -1,9 +1,7 @@
-{include file='topic_part_header.tpl'}
-   
-   
-<div class="topic-content text">
-	{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
-	
+{extends file='topics/topic_base.tpl'}
+
+
+{block name='content'}
 	{if $bTopicList}
 		{$oTopic->getTextShort()}
 		
@@ -20,9 +18,4 @@
 	{else}
 		{$oTopic->getText()}
 	{/if}
-	
-	{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
-</div> 
-
-
-{include file='topic_part_footer.tpl'}
+{/block}
