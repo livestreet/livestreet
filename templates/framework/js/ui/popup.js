@@ -296,6 +296,11 @@ var ls = ls || {};
                 targetWidth  = this.$target.outerWidth(),
                 targetHeight = this.$target.outerHeight();
 
+            this.targetPosition.top =
+            this.targetPosition.bottom =
+            this.targetPosition.left =
+            this.targetPosition.right = 'auto';
+
             this.togglePosition = this.$toggle.offset();
 
             if ( ! this.options.appendToBody ) {
