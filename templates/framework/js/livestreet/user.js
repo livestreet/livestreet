@@ -60,7 +60,7 @@ ls.user = (function ($) {
 			} else {
 				ls.msg.notice(null,result.sMsg);
 				$('#delete_friend_item').remove();
-				$('#profile_actions').prepend($(result.sToggleText));
+				$('#profile_actions').prepend($($.trim(result.sToggleText)));
 				ls.hook.run('ls_user_remove_friend_after', [idUser,sAction,result], obj);
 			}
 		});
