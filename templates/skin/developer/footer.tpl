@@ -3,7 +3,7 @@
 		</div> <!-- /content-wrapper -->
 
 
-		{if !$noSidebar && $sidebarPosition != 'left'}
+		{if !$noSidebar}
 			{include file='sidebar.tpl'}
 		{/if}
 	</div> <!-- /wrapper -->

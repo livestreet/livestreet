@@ -35,13 +35,13 @@
 
 
 	<script type="text/javascript">
-		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}';
-		var DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}';
-        var DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}';
-		var DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}';
-		var LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}';
-		var SESSION_ID				= '{$_sPhpSessionId}';
-		var BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
+		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}',
+			DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}',
+        	DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}',
+			DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}',
+			LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
+			SESSION_ID				= '{$_sPhpSessionId}',
+			BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
 
 		var TINYMCE_LANG = 'en';
 		{if $oConfig->GetValue('lang.current') == 'russian'}
@@ -128,11 +128,7 @@
 		{include file='nav.tpl'}
 
 		<div id="wrapper" class="{hook run='wrapper_class'}">
-			{if !$noSidebar && $sidebarPosition == 'left'}
-				{include file='sidebar.tpl'}
-			{/if}
-
-			<div id="content-wrapper" class="{if $sidebarPosition == 'left'}content-right{/if}">
+			<div id="content-wrapper">
 				<div id="content" role="main"
 					class="{if $noSidebar}content-full-width{/if}"
 					{if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
