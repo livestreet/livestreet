@@ -1,69 +1,107 @@
-/* -------------------------------------------------------------------
-	БЛОКИ
-------------------------------------------------------------------- */
+/**
+ * Blocks
+ */
 
-.block 					{ background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
-.block:last-child 		{ margin-bottom: 0; }
-.sidebar-left .block 	{ margin-bottom: 10px; }
-.block .text            { font-size: 13px; line-height: 18px; }
+/**
+ * Base
+ */
+.block                 { background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
+.block:last-child      { margin-bottom: 0; }
 
-.block .block-header 					{ padding: 13px 20px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
-.block .block-header h3 				{ font-size: 16px; line-height: 1em; font-weight: normal; }
-.block .block-header h3 a 				{ text-decoration: none; color: #333; }
-.block .block-header h3 a.link-dotted 	{ color: #5055B2; }
-.block .block-content 					{ padding: 20px; }
-.block footer 							{ margin-top: 15px; font-size: 12px; }
+.block .text           { font-size: 13px; line-height: 18px; }
+.block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
+.block .loading        { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
 
-.block .max-height-200 		{ overflow: auto; max-height: 200px; _height: expression( this.scrollHeight > 200 ? "200px" : "auto" ); position: relative; }
+/* Header */
+.block-header              { padding: 13px 15px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
+.block-header .block-title { font-size: 16px; line-height: 1em; font-weight: normal; }
 
+/* Nav */
+.block-nav      { padding: 15px; border-bottom: 1px solid #eee; }
+.block-nav .nav,
+.block-nav .dropdown { margin-bottom: 0; }
 
-/* Block Type - Stream */
-.block .block-update 		{ position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
-.block .block-update.active 	{ background-position: -16px 0; }
+/* Content */
+.block-content { padding: 15px; }
 
+/* Footer */
+.block-footer { border-top: 1px solid #eee; padding: 15px 20px; font-size: 12px; }
 
-/* Block Type - Activity Settings */
-.block.block-type-activity p 		{ margin-bottom: 15px; }
-.block.block-type-activity ul li 	{ margin-bottom: 5px; }
-.block.block-type-activity .note 	{ display: block; margin-bottom: 15px; color: #aaa; }
+/* Update button */
+.block-update        { position: absolute; top: 13px; right: 15px; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; cursor: pointer; }
+.block-update.active { background-position: -16px 0; }
 
+/**
+ * @type stream
+ * @file blocks/block.stream.tpl
+ * @file blocks/block.stream_comment.tpl
+ * @file blocks/block.stream_topic.tpl
+ */
+.block-type-stream .block-content { padding: 0; }
 
-/* Block Type - Profile */
-.block.block-type-profile 							{ background: none; border: none; padding: 0; }
-.block.block-type-profile .profile-photo-wrapper 	{ position: relative; min-height: 50px; }
-.block.block-type-profile .profile-photo 			{ vertical-align: top; }
-.block.block-type-profile .status 					{ position: absolute; top: 5px; left: 5px; padding: 0 5px; border-radius: 2px; font-size: 11px; }
-.block.block-type-profile .status.status-online 	{ background: #B7BC1C; color: #fff; }
-.block.block-type-profile .status.status-offline 	{ background: #333; color: #fff; opacity: .5; filter: alpha(opacity=50); }
-.block.block-type-profile .upload-photo 			{ padding: 7px 10px 10px; background: #f7f7f7; }
+/**
+ * @type blogs
+ * @file blocks/block.blogs.tpl
+ */
+.block-type-blogs .block-content { padding: 0; }
 
-.block.block-type-profile-note	 			{ background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
-.block.block-type-profile-note p 			{ margin-bottom: 10px; }
-.block.block-type-profile-note .actions 	{ margin-bottom: 0; }
+/**
+ * @type blog categories
+ * @file blocks/block.blogCategories.tpl
+ */
+.block-type-blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
 
-.block.block-type-profile-nav 				{ padding: 0; background: none; }
+.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
+.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #5560D5; }
 
-.block.block-type-profile-actions .block-content 		{ padding: 10px 15px; }
-.block.block-type-profile-actions ul li					{ margin-bottom: 5px; }
-.block.block-type-profile-actions ul li:last-child		{ margin-bottom: 0; }
-.block.block-type-profile-actions ul li a.followed		{ color: #f00; }
+/**
+ * @type blog navigation
+ * @file blocks/block.blogNav.tpl
+ */
+.block-type-blog-navigation p { margin-bottom: 15px; }
+.block-type-blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }
 
+/**
+ * @type profile
+ * @file blocks/block.profilePhoto.tpl
+ */
+.block-type-profile-photo                        { background: none; border: none; padding: 0; }
+.block-type-profile-photo .profile-photo-wrapper { position: relative; min-height: 50px; }
+.block-type-profile-photo .profile-photo         { vertical-align: top; }
 
-/* Block Type - Foldable */
-.block.block-type-foldable { background: none; }
-.block.block-type-foldable .block-header { background: none; border: none; padding: 0 0 10px; }
-.block.block-type-foldable .block-content { display: none; background: #fafafa; }
+.block-type-profile-photo .status                { position: absolute; top: 5px; left: 5px; padding: 1px 7px; font-size: 11px; }
+.block-type-profile-photo .status.status-online  { background: #B7BC1C; color: #fff; }
+.block-type-profile-photo .status.status-offline { background: #333; color: #fff; opacity: .5; filter: alpha(opacity=50); }
 
-.block.block-type-talk-search { margin-bottom: 10px; }
-.block.block-type-talk-friends { margin-bottom: 10px; }
+.block-type-profile-photo .upload-photo          { padding: 7px 10px 10px; background: #f7f7f7; }
 
+/**
+ * @type profile note
+ * @file blocks/block.profileNote.tpl
+ */
+.block-type-profile-note          { background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
+.block-type-profile-note p        { margin-bottom: 10px; }
+.block-type-profile-note .actions { margin-bottom: 0; }
 
-/* Block Type - Blog Categories */
-.block.block-type-blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
+/**
+ * @type profile nav
+ * @file blocks/block.profileNav.tpl
+ */
+.block-type-profile-nav { padding: 0; background: none; }
 
-.block.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
-.block.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #5560D5; }
+/**
+ * @type profile actions
+ * @file blocks/block.profileActions.tpl
+ */
+.block-type-profile-actions .block-content   { padding: 10px 15px; }
+.block-type-profile-actions ul li            { margin-bottom: 5px; }
+.block-type-profile-actions ul li:last-child { margin-bottom: 0; }
+.block-type-profile-actions ul li a.followed { color: #f00; }
 
-
-/* Block Type - Blog Navigation */
-.block.block-type-blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }
+/**
+ * @type activity
+ * @file blocks/block.activityX.tpl
+ */
+.block-type-activity p     { margin-bottom: 15px; }
+.block-type-activity ul li { margin-bottom: 5px; }
+.block-type-activity .note { display: block; margin-bottom: 15px; color: #aaa; }

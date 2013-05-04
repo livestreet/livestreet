@@ -141,36 +141,25 @@ jQuery(document).ready(function($){
 	/**
 	 * Blocks
 	 */
-	ls.blocks.init('stream',{group_items: true, group_min: 3});
-	ls.blocks.init('blogs');
-	ls.blocks.initSwitch('tags');
-	ls.blocks.initSwitch('upload-img');
-	ls.blocks.initSwitch('favourite-topic-tags');
-	ls.blocks.initSwitch('popup-login');
+	ls.blocks.init();
 
 
 	/**
-	 * Auth modal
+	 * Activity
 	 */
-	$('.js-registration-form-show').click(function(){
-		if ($('[data-option-target=tab-pane-registration]').length) {
-			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-registration]').tab('activate') });
-			$('#modal-login').modal('show');
-		} else {
-			window.location=aRouter.registration;
-		}
-		return false;
-	});
+	ls.stream.init();
 
-	$('.js-login-form-show').click(function(){
-		if ($('[data-option-target=tab-pane-login]').length) {
-			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-login]').tab('activate') });
-			$('#modal-login').modal('show');
-		} else {
-			window.location=aRouter.login;
-		}
-		return false;
-	});
+
+	/**
+	 * Userfeed
+	 */
+	ls.userfeed.init();
+
+
+	/**
+	 * Comments
+	 */
+	ls.comments.init();
 
 
 	/**
@@ -193,68 +182,6 @@ jQuery(document).ready(function($){
 			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
 		}
 		return false;
-	});
-
-
-
-	// блоки
-	ls.hook.add('ls_blocks_init_navigation_after',function(block,count){
-		if ($('.js-block-'+block+'-nav').find('li').length >= count) {
-			$('.js-block-'+block+'-dropdown-items').css({ 'top': $('.js-block-'+block+'-dropdown-trigger').offset().top + 25 });
-		}
-	});
-
-	// комментарии
-	ls.comments.init();
-
-	// It will be deleted soon
-	// TODO: Delete
-	ls.blocks.initNavigation = function(block,count) {
-		count=count || 3;
-		if ($('.js-block-'+block+'-nav').find('li').length >= count) {
-			$('.js-block-'+block+'-nav').hide();
-			$('.js-block-'+block+'-dropdown').show();
-			// Dropdown
-			var trigger = $('.js-block-'+block+'-dropdown-trigger');
-			var menu 	= $('.js-block-'+block+'-dropdown-items');
-
-			menu.appendTo('body').css({'display': 'none'});
-			trigger.click(function(){
-				var pos = $(this).offset();
-				menu.css({ 'left': pos.left, 'top': pos.top + 30, 'z-index': 2100 });
-				menu.slideToggle();
-				$(this).toggleClass('opened');
-				return false;
-			});
-			menu.find('a').click(function(){
-				trigger.removeClass('opened').find('a').text( $(this).text() );
-				menu.slideToggle();
-			});
-			// Hide menu
-			$(document).click(function(){
-				trigger.removeClass('opened');
-				menu.slideUp();
-			});
-			$('body').on('click', '.js-block-'+block+'-dropdown-trigger, .js-block-'+block+'-dropdown-items', function(e) {
-				e.stopPropagation();
-			});
-		
-			$(window).resize(function(){
-				menu.css({ 'left': $('.js-block-'+block+'-dropdown-trigger').offset().left });
-			});
-		} else {
-			// Transform nav to dropdown
-			$('.js-block-'+block+'-nav').show();
-			$('.js-block-'+block+'-dropdown').hide();
-		}
-		ls.hook.run('ls_blocks_init_navigation_after',[block,count],this);
-	};
-
-	// избранное
-	ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,params,result){
-		var favCount = $('#fav_count_'+type+'_'+idTarget);
-		favCount.text(result.iCount);
-		result.iCount > 0 ? favCount.show() : favCount.hide();
 	});
 
 	// вступление в блог
@@ -411,8 +338,6 @@ jQuery(document).ready(function($){
 		$('.talk-search').toggleClass('opened'); return false;
 	};
 
-	ls.blocks.options.loader = DIR_STATIC_SKIN + '/images/loader-circle.gif';
-
 	ls.blog.toggleInfo = function() {
 		if ($('#blog-mini').is(':visible')) {
 			$('#blog-mini').hide();
@@ -468,6 +393,7 @@ jQuery(document).ready(function($){
 		});
 	}
 
+	// TODO: load deprecated jQuery 1.9
 	$(window).load(function () {
 		navMainGroup();
 	});

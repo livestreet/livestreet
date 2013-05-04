@@ -525,7 +525,7 @@ class ActionBlog extends Action {
 		if($oBlog->getType()=='close') {
 			$aBlogUsersInvited=$this->Blog_GetBlogUsersByBlogId($oBlog->getId(),ModuleBlog::BLOG_USER_ROLE_INVITE,null);
 			$this->Viewer_Assign('aBlogUsersInvited',$aBlogUsersInvited['collection']);
-			$this->Viewer_AddBlock('right','actions/ActionBlog/invited.tpl');
+			$this->Viewer_AddBlock('right','blocks/block.blogInvite.tpl');
 		}
 	}
 	/**

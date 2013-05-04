@@ -35,7 +35,6 @@ jQuery(document).ready(function($) {
 	
 	/**
 	 * IE
-	 * TODO: Check browser
 	 */
 	
 	// эмуляция border-sizing в IE

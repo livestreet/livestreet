@@ -43,14 +43,20 @@ ls.favourite = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
+				var counter = $('#fav_count_' + type + '_'+idTarget);
+
 				ls.msg.notice(null, result.sMsg);
 				this.objFavourite.removeClass(this.options.active);
+
 				if (result.bState) {
 					this.objFavourite.addClass(this.options.active);
 					this.showTags(type,idTarget);
 				} else {
 					this.hideTags(type,idTarget);
 				}
+
+				result.iCount > 0 ? counter.show().text(result.iCount) : counter.hide();
+
 				ls.hook.run('ls_favourite_toggle_after',[idTarget,objFavourite,type,params,result],this);
 			}
 		}.bind(this));

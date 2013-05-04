@@ -83,20 +83,20 @@
 
 				<p>
 				<input type="text" name="login" placeholder="{$aLang.registration_login}" id="popup-registration-login" value="{$_aRequest.login}" class="input-text input-width-300 js-ajax-validate" />
-				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
 				<i class="icon-ok-green validate-ok-field-login" style="display: none"></i>
+				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_login_notice}"></i>
 				<small class="validate-error-hide validate-error-field-login"></small></p>
 
 				<p>
 				<input type="text" name="mail" placeholder="{$aLang.registration_mail}" id="popup-registration-mail" value="{$_aRequest.mail}" class="input-text input-width-300 js-ajax-validate" />
-				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
 				<i class="icon-ok-green validate-ok-field-mail" style="display: none"></i>
+				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_mail_notice}"></i>
 				<small class="validate-error-hide validate-error-field-mail"></small></p>
 
 				<p>
 				<input type="password" name="password" placeholder="{$aLang.registration_password}" id="popup-registration-user-password" value="" class="input-text input-width-300 js-ajax-validate" />
-				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
 				<i class="icon-ok-green validate-ok-field-password" style="display: none"></i>
+				<i class="icon-question-sign js-tip-help" title="{$aLang.registration_password_notice}"></i>
 				<small class="validate-error-hide validate-error-field-password"></small></p>
 
 				<p>

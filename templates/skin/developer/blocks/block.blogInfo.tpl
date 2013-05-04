@@ -1,20 +1,15 @@
-<section class="block">
-	<header class="block-header">
-		<h3>{$aLang.block_blog_info}</h3>
-	</header>
-	
-	<div class="block-content">
-		<p id="block_blog_info" class="text"></p>
-	</div>	
-</section>
+{**
+ * Информация о блоге показываемая при создании топика
+ *
+ * @styles css/blocks.css
+ *}
 
+{extends file='blocks/block.aside.base.tpl'}
 
-<section class="block">
-	<header class="block-header">
-		<h3>{$aLang.block_blog_info_note}</h3>
-	</header>
-	
-	<div class="block-content">	
-		<p>{$aLang.block_blog_info_note_text}</p>
-	</div>	
-</section>
+{block name='options'}
+	{assign var='noFooter' value=true}
+	{assign var='noNav' value=true}
+{/block}
+
+{block name='title'}{$aLang.block_blog_info}{/block}
+{block name='content'}<p id="block_blog_info" class="text"></p>{/block}

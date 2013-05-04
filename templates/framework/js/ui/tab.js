@@ -31,6 +31,8 @@ var ls = ls || {};
 			var self = this,
                 dropdown = this.$tab.closest('ul').parent('li');
 
+            typeof this.options.onActivate === 'function' && $.proxy(this.options.onActivate, this)();
+
 			this.$tab
 				.addClass('active')
 				.closest($.fn.tab.settings.tabsSelector)
@@ -46,16 +48,22 @@ var ls = ls || {};
                 this.$pane.empty().addClass('loading');
 
                 ls.ajax(this.options.url, this.options.params, function (result) {
+                    self.$pane.removeClass('loading');
+
                     if (result.bStateError) {
                         ls.msg.error('Error', result.sMsg);
                     } else {
-                        self.$pane.removeClass('loading').html(result[self.options.ajaxVar]);
+                        self.$pane.html(result[self.options.ajaxVar]);
                     }
+                    
+                    typeof self.options.onActivated === 'function' && $.proxy(self.options.onActivated, self)();
                 }, {
                     error: function () {
                         ls.msg.error('Error', 'Please try again later');
                     }
                 });
+            } else {
+                typeof this.options.onActivated === 'function' && $.proxy(this.options.onActivated, this)();
             }
     	}
     };
@@ -73,7 +81,15 @@ var ls = ls || {};
             }
             if (typeof options === 'string') {
                 if (options === "option") {
-                    if (value) object.options[variable] = value; else returnValue = object.options[variable];
+                    if (value) {
+                        object.options[variable] = value; 
+                    } else {
+                        if (typeof variable === "object") {
+                            $.extend(object.options, variable);
+                        } else {
+                            returnValue = object.options[variable];
+                        }
+                    }
                 } else {
                     object[options]();
                 }
@@ -92,7 +108,9 @@ var ls = ls || {};
         target: false,
         ajaxVar: 'sText',
         url: false,
-        params: {}
+        params: {},
+        onActivate: false,
+        onActivated: false
     };
 
 
@@ -110,10 +128,5 @@ var ls = ls || {};
     $(document).on('click.tab', $.fn.tab.settings.tabSelector, function (e) {
         $(this).tab('activate');
         e.preventDefault();
-    });
-
-    // Init
-    $(document).ready(function($) {
-        $($.fn.tab.settings.tabSelector).tab();
     });
 })(jQuery);

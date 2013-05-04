@@ -1,14 +1,62 @@
+/**
+ * Активность
+ */
+
 var ls = ls || {};
 
 ls.stream =( function ($) {
 	this.isBusy = false;
 	this.dateLast = null;
 
-	this.subscribe = function (iTargetUserId) {
-		var url = aRouter['stream']+'subscribe/';
-		var params = {'id':iTargetUserId};
+	this.options = {
+		selectors: {
+			userList:       'js-activity-block-users',
+			userListId:     'activity-block-users',
+			inputId:        'activity-block-users-input',
+			noticeId:       'activity-block-users-notice',
+			userListItemId: 'activity-block-users-item-'
+		},
+		elements: {
+			userItem: function (element) {
+				return $('<li id="' + ls.stream.options.selectors.userListItemId + element.uid + '">' +
+							 '<input type="checkbox" ' + 
+							        'class="input-checkbox" ' +
+							        'data-user-id="' + element.uid + '" ' +
+							        'checked="checked" />' +
+							        '<a href="' + element.user_web_path + '">' + element.user_login + '</a>' +
+						 '</li>');
+			}
+		}
+	}
+
+	/**
+	 * Init
+	 */
+	this.init = function () {
+		var self = this;
+
+		$('.' + this.options.selectors.userList).on('change', 'input[type=checkbox]', function () {
+			var userId = $(this).data('user-id');
+
+			$(this).prop('checked') ? self.subscribe(userId) : self.unsubscribe(userId);	
+		});
+
+		$('#' + this.options.selectors.inputId).keydown(function (event) {
+			event.which == 13 && ls.stream.appendUser();
+		});
+	};
+
+	/**
+	 * Подписаться на пользователя
+	 * @param  {Number} iUserId ID пользователя
+	 */
+	this.subscribe = function (iUserId) {
+		var self = this,
+			url = aRouter['stream'] + 'subscribe/',
+			params = { 'id': iUserId };
 
 		ls.hook.marker('subscribeBefore');
+
 		ls.ajax(url, params, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -19,15 +67,58 @@ ls.stream =( function ($) {
 		});
 	};
 
-	this.unsubscribe = function (iId) {
-		var url = aRouter['stream']+'unsubscribe/';
-		var params = {'id':iId};
+	/**
+	 * Отписаться от пользователя
+	 * @param  {Number} iUserId ID пользователя
+	 */
+	this.unsubscribe = function (iUserId) {
+		var self = this,
+			url = aRouter['stream'] + 'unsubscribe/',
+			params = { 'id': iUserId };
 
 		ls.hook.marker('unsubscribeBefore');
+
 		ls.ajax(url, params, function(data) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_unsubscribe_after',[params,data]);
+			}
+		});
+	};
+
+	/**
+	 * Подписаться на пользователя
+	 */
+	this.appendUser = function() {
+		var self = this,
+			sLogin = $('#' + self.options.selectors.inputId).val();
+
+		if ( ! sLogin ) return;
+
+		ls.hook.marker('appendUserBefore');
+
+		ls.ajax(aRouter['stream'] + 'subscribeByLogin/', { 'login' : sLogin }, function(data) {
+			if ( ! data.bStateError ) {
+				var checkbox = $('.' + self.options.selectors.userList).find('input[data-user-id=' + data.uid + ']');
+
+				$('#' + self.options.selectors.noticeId).remove();
+
+				if (checkbox.length) {
+					if (checkbox.prop("checked")) {
+						ls.msg.error(ls.lang.get('error'), ls.lang.get('stream_subscribes_already_subscribed'));
+					} else {
+						checkbox.prop("checked", true);
+						ls.msg.notice(data.sMsgTitle,data.sMsg);
+					}
+				} else {
+					$('#' + self.options.selectors.inputId).autocomplete('close').val('');
+					$('#' + self.options.selectors.userListId).show().append(self.options.elements.userItem(data));
+					ls.msg.notice(data.sMsgTitle,data.sMsg);
+				}
+
+				ls.hook.run('ls_stream_append_user_after',[checkbox.length,data]);
+			} else {
+				ls.msg.error(data.sMsgTitle, data.sMsg);
 			}
 		});
 	};
@@ -41,37 +132,6 @@ ls.stream =( function ($) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_switch_event_type_after',[params,data]);
-			}
-		});
-	};
-
-	this.appendUser = function() {
-		var sLogin = $('#stream_users_complete').val();
-		if (!sLogin) return;
-
-		var url = aRouter['stream']+'subscribeByLogin/';
-		var params = {'login':sLogin};
-
-		ls.hook.marker('appendUserBefore');
-		ls.ajax(url, params, function(data) {
-			if (!data.bStateError) {
-				$('#stream_no_subscribed_users').remove();
-				var checkbox = $('#strm_u_'+data.uid);
-				if (checkbox.length) {
-					if (checkbox.attr('checked')) {
-						ls.msg.error(ls.lang.get('error'),ls.lang.get('stream_subscribes_already_subscribed'));
-					} else {
-						checkbox.attr('checked', 'on');
-						ls.msg.notice(data.sMsgTitle,data.sMsg);
-					}
-				} else {
-					var liElement=$('<li><input type="checkbox" class="streamUserCheckbox input-checkbox" id="strm_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.stream.subscribe('+data.uid+')} else {ls.stream.unsubscribe('+data.uid+')}" /> <a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
-					$('#stream_block_users_list').append(liElement);
-					ls.msg.notice(data.sMsgTitle,data.sMsg);
-				}
-				ls.hook.run('ls_stream_append_user_after',[checkbox.length,data]);
-			} else {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
 			}
 		});
 	};

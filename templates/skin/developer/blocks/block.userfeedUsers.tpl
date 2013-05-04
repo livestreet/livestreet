@@ -1,76 +1,45 @@
+{**
+ * Выбор пользователей для чтения в ленте
+ *
+ * @styles css/blocks.css
+ *}
+
+{extends file='blocks/block.aside.base.tpl'}
+
+{block name='options'}
+	{assign var='noNav' value=true}
+	{assign var='noFooter' value=true}
+{/block}
+
+{block name='title'}{$aLang.userfeed_block_users_title}{/block}
+{block name='type'}activity{/block}
+
 {if $oUserCurrent}
-	{literal}
-	<script language="JavaScript" type="text/javascript">
-		jQuery(document).ready( function() {
-			jQuery('#userfeed_users_complete').keydown(function (event) {
-				if (event.which == 13) {
-					ls.userfeed.appendUser()
-				}
-			});
-		 });
-	</script>
-	{/literal}
-
-
-	<section class="block block-type-activity">
-		<header class="block-header">
-			<h3>{$aLang.userfeed_block_users_title}</h3>
-		</header>
+	{block name='content'}
+		<small class="note">{$aLang.userfeed_settings_note_follow_user}</small>
 		
-		<div class="block-content">
-			<small class="note">{$aLang.userfeed_settings_note_follow_user}</small>
+		<div class="stream-settings-userlist">
+			<p><input type="text" id="userfeed-block-users-input" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="autocomplete-users input-text input-width-full" /></p>
 			
-			<div class="stream-settings-userlist">
-				<p><input type="text" id="userfeed_users_complete" autocomplete="off" class="autocomplete-users input-text input-width-200" />
-				<a href="javascript:ls.userfeed.appendUser()" class="button">{$aLang.userfeed_block_users_append}</a></p>
-				
-				{if count($aUserfeedSubscribedUsers)}
-					<ul id="userfeed_block_users_list" class="max-height-200">
-						{foreach from=$aUserfeedSubscribedUsers item=oUser}
-							{assign var=iUserId value=$oUser->getId()}
-							
-							{if !isset($aUserfeedFriends.$iUserId)}
-								<li><input class="userfeedUserCheckbox input-checkbox"
-											type="checkbox"
-											id="usf_u_{$iUserId}"
-											checked="checked"
-											onClick="if (jQuery(this).prop('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
-									<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-								</li>
-							{/if}
-						{/foreach}
-					 </ul>
-				{else}
-					<ul id="userfeed_block_users_list"></ul>
-				{/if}
-			</div>
-		</div>
-	</section>
-	
-	
-	{if count($aUserfeedFriends)}
-		<section class="block block-type-activity">
-			<header class="block-header">
-				<h3>{$aLang.userfeed_block_users_friends}</h3>
-			</header>
-			
-			<div class="block-content">
-				<small class="note">{$aLang.userfeed_settings_note_follow_friend}</small>
-				
-				<ul class="stream-settings-friends max-height-200">
-					{foreach from=$aUserfeedFriends item=oUser}
+			{if count($aUserfeedSubscribedUsers)}
+				<ul id="userfeed-block-users" class="user-list-mini max-height-200 js-userfeed-block-users">
+					{foreach from=$aUserfeedSubscribedUsers item=oUser}
 						{assign var=iUserId value=$oUser->getId()}
 						
-						<li><input class="userfeedUserCheckbox input-checkbox"
-									type="checkbox"
-									id="usf_u_{$iUserId}"
-									{if isset($aUserfeedSubscribedUsers.$iUserId)} checked="checked"{/if}
-									onClick="if (jQuery(this).prop('checked')) { ls.userfeed.subscribe('users',{$iUserId}) } else { ls.userfeed.unsubscribe('users',{$iUserId}) } " />
-							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
-						</li>
+						{if !isset($aUserfeedFriends.$iUserId)}
+							<li id="userfeed-block-users-item-{$iUserId}">
+								<input class="input-checkbox"
+										type="checkbox"
+										checked="checked"
+										data-user-id="{$iUserId}" />
+								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+							</li>
+						{/if}
 					{/foreach}
-				</ul>
-			</div>
-		</section>
-	{/if}
+				 </ul>
+			{else}
+				<ul id="userfeed_block_users_list"></ul>
+			{/if}
+		</div>
+	{/block}
 {/if}

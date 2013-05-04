@@ -16,12 +16,12 @@
 */
 
 /**
- * Блок настройки ленты активности
+ * Блок выбора друзей для чтения в ленте активности
  *
  * @package blocks
  * @since 1.0
  */
-class BlockStreamConfig extends Block {
+class BlockActivityFriends extends Block {
 	/**
 	 * Запуск обработки
 	 */
@@ -33,10 +33,8 @@ class BlockStreamConfig extends Block {
 			/**
 			 * Получаем и прогружаем необходимые переменные в шаблон
 			 */
-			$aTypesList = $this->Stream_getTypesList($oUserCurrent->getId());
-			$this->Viewer_Assign('aStreamTypesList', $aTypesList);
-			$aUserSubscribes = $this->Stream_getUserSubscribes($oUserCurrent->getId());
 			$aFriends = $this->User_getUsersFriend($oUserCurrent->getId());
+			$aUserSubscribes = $this->Stream_getUserSubscribes($oUserCurrent->getId());
 			$this->Viewer_Assign('aStreamSubscribedUsers', $aUserSubscribes);
 			$this->Viewer_Assign('aStreamFriends', $aFriends['collection']);
 		}

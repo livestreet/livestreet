@@ -21,7 +21,7 @@
  * @package blocks
  * @since 1.1
  */
-class BlockBlogNavigator extends Block {
+class BlockBlogNav extends Block {
 	/**
 	 * Запуск обработки
 	 */

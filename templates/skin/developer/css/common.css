@@ -102,11 +102,12 @@
 
 /* Item List 
 ---------------------------------------------------- */
-.item-list 					{ border-top: 1px solid #eee; }
-.item-list li 				{ min-height: 51px; padding: 7px 0 10px 58px; border-bottom: 1px solid #eee; position: relative; zoom: 1; }
+.item-list 					{ }
+.item-list li 				{ min-height: 51px; padding: 17px 15px 20px 75px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
+.item-list li:first-child 	{ border: none; }
 .item-list li p 			{ padding-top: 2px; font-size: 11px; }
 .item-list li a 			{ text-decoration: none; }
-.item-list li .avatar 		{ position: absolute; top: 10px; left: 0; margin-right: 10px; }
+.item-list li .avatar 		{ position: absolute; top: 20px; left: 15px; margin-right: 10px; }
 .item-list li .author 		{ font-weight: bold; color: #333; }
 .item-list li .blog-name 	{ font-weight: bold; }
 

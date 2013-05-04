@@ -1,7 +1,43 @@
+/**
+ * Лента
+ */
+
 var ls = ls || {};
 
-ls.userfeed =( function ($) {
+ls.userfeed = (function ($) {
 	this.isBusy = false;
+	
+	this.options = {
+		selectors: {
+			userList:       'js-userfeed-block-users',
+			userListId:     'userfeed-block-users',
+			inputId:        'userfeed-block-users-input',
+			noticeId:       'userfeed-block-users-notice',
+			userListItemId: 'userfeed-block-users-item-'
+		},
+		elements: {
+			userItem: function (element) {
+				return ls.stream.options.elements.userItem(element);
+			}
+		}
+	}
+
+	/**
+	 * Init
+	 */
+	this.init = function () {
+		var self = this;
+
+		$('.' + this.options.selectors.userList).on('change', 'input[type=checkbox]', function () {
+			var userId = $(this).data('user-id');
+
+			$(this).prop('checked') ? self.subscribe('users', userId) : self.unsubscribe('users', userId);
+		});
+
+		$('#' + this.options.selectors.inputId).keydown(function (event) {
+			event.which == 13 && ls.userfeed.appendUser();
+		});
+	};
 	
 	this.subscribe = function (sType, iId) {
 		var url = aRouter['feed']+'subscribe/';
@@ -30,30 +66,32 @@ ls.userfeed =( function ($) {
 	}
 	
 	this.appendUser = function() {
-		var sLogin = $('#userfeed_users_complete').val();
-		if (!sLogin) return;
-		
-		var url = aRouter['feed']+'subscribeByLogin/';
-		var params = {'login':sLogin};
+		var self = this,
+			sLogin = $('#' + self.options.selectors.inputId).val();
+
+		if ( ! sLogin ) return;
 		
 		ls.hook.marker('appendUserBefore');
-		ls.ajax(url, params, function(data) {
+
+		ls.ajax(aRouter['feed']+'subscribeByLogin/', {'login':sLogin}, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
-				$('#userfeed_no_subscribed_users').remove();
-				var checkbox = $('#usf_u_'+data.uid);
+				var checkbox = $('.' + self.options.selectors.userList).find('input[data-user-id=' + data.uid + ']');
+
+				$('#' + self.options.selectors.noticeId).remove();
+
 				if (checkbox.length) {
-					if (checkbox.attr('checked')) {
+					if (checkbox.prop('checked')) {
 						ls.msg.error(data.lang_error_title,data.lang_error_msg);
 						return;
 					} else {
-						checkbox.attr('checked', 'on');
+						checkbox.prop('checked', true);
 						ls.msg.notice(data.sMsgTitle,data.sMsg);
 					}
 				} else {
-					var liElement=$('<li><input type="checkbox" class="userfeedUserCheckbox input-checkbox" id="usf_u_'+data.uid+'" checked="checked" onClick="if ($(this).get(\'checked\')) {ls.userfeed.subscribe(\'users\','+data.uid+')} else {ls.userfeed.unsubscribe(\'users\','+data.uid+')}" /><a href="'+data.user_web_path+'">'+data.user_login+'</a></li>');
-					$('#userfeed_block_users_list').append(liElement);
+					$('#' + self.options.selectors.inputId).autocomplete('close').val('');
+					$('#' + self.options.selectors.userListId).append(self.options.elements.userItem(data));
 					ls.msg.notice(data.sMsgTitle,data.sMsg);
 				}
 			}

@@ -19,8 +19,8 @@
 			<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
 		{else}
 			{hook run='userbar_item'}
-			<li><a href="{router page='login'}" class="js-login-form-show">{$aLang.user_login_submit}</a></li>
-			<li><a href="#" class="js-registration-form-show">{$aLang.registration_submit}</a></li>
+			<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-login]').tab('activate');">{$aLang.user_login_submit}</a></li>
+			<li><a href="#" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-registration]').tab('activate');">{$aLang.registration_submit}</a></li>
 		{/if}
 	</ul>
 

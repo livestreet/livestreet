@@ -34,6 +34,7 @@ $config['view']['grid']['fixed_width'] = 976;
 /* Styles */
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.static.skin___/js/init.js';
+$config['head']['default']['js'][] = '___path.static.skin___/js/stream.js';
 
 /* JavaScript */
 $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), array(

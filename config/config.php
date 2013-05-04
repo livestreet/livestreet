@@ -426,16 +426,16 @@ $config['block']['rule_index_blog'] = array(
 );
 $config['block']['rule_index'] = array(
 	'action'  => array( 'index' ),
-	'blocks'  => array( 'right' => array('blogNavigator'=>array('priority'=>500)) ),
+	'blocks'  => array( 'right' => array('blogNav'=>array('priority'=>500)) ),
 );
 $config['block']['rule_topic_type'] = array(
 	'action'  => array(
 		'link'     => array('add','edit'),
 		'question' => array('add','edit'),
 		'topic'    => array('add','edit'),
-		'photoset'    => array('add','edit')
+		'photoset' => array('add','edit')
 	),
-	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl') ),
+	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl') ),
 );
 $config['block']['rule_people'] = array(
 	'action'  => array( 'people' ),
@@ -455,7 +455,7 @@ $config['block']['rule_tag'] = array(
 );
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
-	'blocks'  => array( 'right' => array('blogCategory') ),
+	'blocks'  => array( 'right' => array('blogCategories') ),
 );
 
 $config['block']['userfeedBlogs'] = array(
@@ -470,6 +470,7 @@ $config['block']['userfeedUsers'] = array(
 	'action'  => array('feed'),
 	'blocks'  => array(
                     'right' => array(
+                        'userfeedFriends'=> array(),
                         'userfeedUsers'=> array()
                     )
                 )

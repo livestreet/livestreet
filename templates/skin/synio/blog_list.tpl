@@ -82,10 +82,13 @@
 		{else}
 			<tr>
 				<td colspan="5">
+					{* TODO: Fix error message *}
 					{if $sBlogsEmptyList}
 						{$sBlogsEmptyList}
-					{else}
+					{/if}
 
+					{if !$aBlogs && !$sBlogsEmptyList}
+						{$aLang.blog_by_category_empty}
 					{/if}
 				</td>
 			</tr>

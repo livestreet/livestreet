@@ -21,7 +21,7 @@
  * @package blocks
  * @since 1.1
  */
-class BlockBlogCategory extends Block {
+class BlockBlogCategories extends Block {
 	/**
 	 * Запуск обработки
 	 */

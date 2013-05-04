@@ -91,36 +91,19 @@ jQuery(document).ready(function($){
 	/**
 	 * Blocks
 	 */
-	ls.blocks.init('stream',{group_items: true, group_min: 3});
-	ls.blocks.init('blogs');
-	ls.blocks.initSwitch('tags');
-	ls.blocks.initSwitch('upload-img');
-	ls.blocks.initSwitch('favourite-topic-tags');
-	ls.blocks.initSwitch('popup-login');
+	ls.blocks.init();
 
 
 	/**
-	 * Auth modal
+	 * Activity
 	 */
-	$('.js-registration-form-show').click(function(){
-		if ($('[data-option-target=tab-pane-registration]').length) {
-			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-registration]').tab('activate') });
-			$('#modal-login').modal('show');
-		} else {
-			window.location=aRouter.registration;
-		}
-		return false;
-	});
+	ls.stream.init();
 
-	$('.js-login-form-show').click(function(){
-		if ($('[data-option-target=tab-pane-login]').length) {
-			$('#modal-login').modal('option', 'onShow', function () { $('[data-option-target=tab-pane-login]').tab('activate') });
-			$('#modal-login').modal('show');
-		} else {
-			window.location=aRouter.login;
-		}
-		return false;
-	});
+
+	/**
+	 * Userfeed
+	 */
+	ls.userfeed.init();
 
 
 	/**
@@ -136,7 +119,9 @@ jQuery(document).ready(function($){
 	});
 
 
-	// Поиск по тегам
+	/**
+	 * Tag search
+	 */
 	$('.js-tag-search-form').submit(function(){
 		var val=$(this).find('.js-tag-search').val();
 		if (val) {
@@ -146,18 +131,15 @@ jQuery(document).ready(function($){
 	});
 
 
-
-	// комментарии
+	/**
+	 * Comments
+	 */
 	ls.comments.options.folding = false;
 	ls.comments.init();
 
-	// избранное
-	ls.hook.add('ls_favourite_toggle_after',function(idTarget,objFavourite,type,params,result){
-		$('#fav_count_'+type+'_'+idTarget).text((result.iCount>0) ? result.iCount : '');
-	});
 
-	/****************
-	 * TALK
+	/**
+	 * Talk
 	 */
 
 	// Добавляем или удаляем друга из списка получателей
@@ -196,7 +178,9 @@ jQuery(document).ready(function($){
 	});
 
 
-	// Help-tags link
+	/**
+	 * Editor help
+	 */
 	$('.js-tags-help-link').click(function(){
 		var target=ls.registry.get('tags-help-target-id');
 		if (!target || !$('#'+target).length) {
@@ -212,17 +196,6 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	
-	/**
-	 * IE
-	 * TODO: Check browser
-	 */
-	
-	// эмуляция border-sizing в IE
-	var inputs = $('input.input-text, textarea');
-	ls.ie.bordersizing(inputs);
-
-	// эмуляция placeholder'ов в IE
-	inputs.placeholder();
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

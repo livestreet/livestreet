@@ -1,19 +1,17 @@
-<section class="block block-type-foldable block-type-favourite-topic">
-	<header class="block-header">
-		<h3><a href="#" class="link-dotted" onclick="jQuery('#block_favourite_topic_content').toggle(); return false;">{$aLang.topic_favourite_tags_block}</a></h3>
-	</header>
+{* TODO: Slider *}
+<a href="#" class="link-dotted" onclick="jQuery('#block_favourite_topic_content').toggle(); return false;">{$aLang.topic_favourite_tags_block}</a>
 	
-	
-	<div class="block-content" id="block_favourite_topic_content">
-		<ul class="nav nav-pills">
-			<li class="active js-block-favourite-topic-tags-item" data-type="all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
-			<li class="js-block-favourite-topic-tags-item" data-type="user"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
+<div id="block_favourite_topic_content">
+	<ul class="nav nav-pills" data-type="tabs">
+		<li class="active" data-type="tab" data-option-target="js-tab-pane-tags-favourite-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
+		<li data-type="tab" data-option-target="js-tab-pane-tags-favourite-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
 
-			{hook run='block_favourite_topic_tags_nav_item'}
-		</ul>
-		
-		
-		<div class="js-block-favourite-topic-tags-content" data-type="all">
+		{hook run='block_favourite_topic_tags_nav_item'}
+	</ul>
+	
+	
+	<div data-type="tab-content">
+		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
 			{if $aFavouriteTopicTags}
 				<ul class="tag-cloud word-wrap">
 					{foreach from=$aFavouriteTopicTags item=oTag}
@@ -25,7 +23,7 @@
 			{/if}
 		</div>
 		
-		<div class="js-block-favourite-topic-tags-content" data-type="user" style="display: none;">
+		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-my">
 			{if $aFavouriteTopicUserTags}
 				<ul class="tag-cloud word-wrap">
 					{foreach from=$aFavouriteTopicUserTags item=oTag}
@@ -37,4 +35,4 @@
 			{/if}
 		</div>
 	</div>
-</section>
+</div>

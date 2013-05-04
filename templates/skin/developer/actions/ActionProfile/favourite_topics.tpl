@@ -8,8 +8,7 @@
 {include file='navs/nav.profile_favourite.tpl'}
 
 {if $oUserCurrent and $oUserCurrent->getId()==$oUserProfile->getId()}
-	{$aBlockParams.user=$oUserProfile}
-	{insert name="block" block=tagsFavouriteTopic params=$aBlock.params}
+	{insert name="block" block=tagsFavouriteTopic params={$aBlockParams.user=$oUserProfile}}
 {/if}
 
 {include file='topic_list.tpl'}

@@ -1,3 +1,10 @@
+{**
+ * Блок со списоком блогов
+ * Список блогов
+ *
+ * @styles css/blocks.css
+ *}
+
 <ul class="item-list">
 	{foreach from=$aBlogs item=oBlog}
 		<li>
