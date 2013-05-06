@@ -1,3 +1,9 @@
+{**
+ * Результат опроса
+ *
+ * @styles css/topic.css
+ *}
+
 <ul class="poll-result" id="poll-result-original-{$oTopic->getId()}">
 	{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
 		<li {if $oTopic->getQuestionAnswerMax()==$aAnswer.count}class="most"{/if}>
@@ -28,6 +34,10 @@
 </ul>
 
 
-<button type="submit" class="button" title="{$aLang.topic_question_vote_result_sort}" onclick="return ls.poll.switchResult(this, {$oTopic->getId()});"><i class="icon-align-left"></i></button>
 
-<span class="poll-total poll-total-result">{$aLang.topic_question_vote_result}: {$oTopic->getQuestionCountVote()} | {$aLang.topic_question_abstain_result}: {$oTopic->getQuestionCountVoteAbstain()}</span>
+<div class="poll-total">
+	<i class="poll-sort" title="{$aLang.topic_question_vote_result_sort}" onclick="return ls.poll.switchResult(this, {$oTopic->getId()});"></i>
+	
+	{$aLang.topic_question_vote_result} &mdash; {$oTopic->getQuestionCountVote()}<br />
+	{$aLang.topic_question_abstain_result} &mdash; {$oTopic->getQuestionCountVoteAbstain()}
+</div>
