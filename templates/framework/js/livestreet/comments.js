@@ -139,12 +139,9 @@ ls.comments = (function ($) {
 				if (aCmt.length > 0 && result.iMaxIdComment) { 
 					$("#comment_last_id").val(result.iMaxIdComment);
 					$('#count-comments').text(parseInt($('#count-comments').text())+aCmt.length);
-					if (ls.blocks) {
-						var curItemBlock=ls.blocks.getCurrentItem('stream');
-						if (curItemBlock.data('type')=='comment') {
-							ls.blocks.load(curItemBlock, 'stream');
-						}
-					}
+
+					var streamComments = $('#js-stream-tabs').is(':visible') ? $('#js-stream-tabs [data-name=block-stream-comments]') : $('#js-stream-dropdown [data-name=block-stream-comments]') ;
+					(streamComments.length && streamComments.hasClass('active')) && streamComments.tab('activate');
 				}
 				var iCountOld=0;
 				if (bNotFlushNew) {
