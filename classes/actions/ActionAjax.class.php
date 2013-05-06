@@ -1079,9 +1079,9 @@ class ActionAjax extends Action {
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('oTopic',$oTopic);
-		$sTemplate="topic_preview_{$oTopic->getType()}.tpl";
+		$sTemplate="topics/topic_preview_{$oTopic->getType()}.tpl";
 		if (!$this->Viewer_TemplateExists($sTemplate)) {
-			$sTemplate='topic_preview_topic.tpl';
+			$sTemplate='topics/topic_preview_topic.tpl';
 		}
 		$sTextResult=$oViewer->Fetch($sTemplate);
 		/**

@@ -10,7 +10,7 @@
 	{insert name="block" block=tagsFavouriteTopic params={$aBlockParams.user=$oUserProfile}}
 {/if}
 
-{include file='topic_list.tpl'}
+{include file='topics/topic_list.tpl'}
 
 
 

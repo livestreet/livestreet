@@ -11,7 +11,7 @@
 	{insert name="block" block=tagsFavouriteTopic params=$aBlock.params}
 {/if}
 
-{include file='topic_list.tpl'}
+{include file='topics/topic_list.tpl'}
 
 
 

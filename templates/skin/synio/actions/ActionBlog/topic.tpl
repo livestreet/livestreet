@@ -1,6 +1,6 @@
 {include file='header.tpl' nav='blog'}
 
-{include file='topic.tpl'}
+{include file='topics/topic.tpl'}
 {include 
 	file='comment_tree.tpl' 	
 	iTargetId=$oTopic->getId()

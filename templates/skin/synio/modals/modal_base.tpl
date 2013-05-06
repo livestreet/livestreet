@@ -13,15 +13,18 @@
 
 
 <div class="modal {block name='modal_class'}{/block}" id="{block name='modal_id'}{/block}" data-type="modal" {block name='modal_attributes'}{/block}>
-	<header class="modal-header">
-		{if !$noTitle}<h3>{block name='modal_title'}Modal window{/block}</h3>{/if}
-		<a href="#" class="modal-close" data-type="modal-close"></a>
-	</header>
+	{* Header *}
+	{if !$noModalHeader}
+		<header class="modal-header">
+			{if !$noModalTitle}<h3>{block name='modal_title'}Modal window{/block}</h3>{/if}
+			<a href="#" class="modal-close" data-type="modal-close"></a>
+		</header>
+	{/if}
 	
 	{block name='modal_header_after'}{/block}
 	
-
-	{if !$noContent}
+	{* Content *}
+	{if !$noModalContent}
 		<div class="modal-content">
 			{block name='modal_content'}{/block}
 		</div>
@@ -29,12 +32,12 @@
 	
 	{block name='modal_content_after'}{/block}
 
-
-	{if !$noFooter}
+	{* Footer *}
+	{if !$noModalFooter}
 		<div class="modal-footer">
 			{block name='modal_footer'}{/block}
 			
-			{if !$noCancel}
+			{if !$noModalCancel}
 				<button type="button" class="button" data-type="modal-close">{$aLang.favourite_form_tags_button_cancel}</button>
 			{/if}
 		</div>	

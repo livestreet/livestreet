@@ -13,7 +13,6 @@
 
 {block name='modal_id'}modal-write{/block}
 {block name='modal_class'}modal-write js-modal-default{/block}
-{block name='modal_title'}{$aLang.block_create}{/block}
 	
 {block name='modal_content'}
 	{strip}

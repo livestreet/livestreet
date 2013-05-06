@@ -33,7 +33,7 @@
 	
 
 	{if $aReq.sType == 'topics'}
-		{include file='topic_list.tpl'}
+		{include file='topics/topic_list.tpl'}
 	{elseif $aReq.sType == 'comments'}
 		{include file='comment_list.tpl'}
 	{else}

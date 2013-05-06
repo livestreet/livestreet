@@ -151,7 +151,7 @@
 {if $bCloseBlog}
 	{$aLang.blog_close_show}
 {else}
-	{include file='topic_list.tpl'}
+	{include file='topics/topic_list.tpl'}
 {/if}
 
 
