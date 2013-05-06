@@ -6,15 +6,15 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
-	{assign var='noNav' value=true}
+{block name='block_options'}
+	{assign var='noBlockFooter' value=true}
+	{assign var='noBlockNav' value=true}
 {/block}
 
-{block name='title'}{$aLang.block_blog_navigator}{/block}
-{block name='type'}blog-navigation{/block}
+{block name='block_title'}{$aLang.block_blog_navigator}{/block}
+{block name='block_type'}blog-navigation{/block}
 
-{block name='content'}
+{block name='block_content'}
 	{if $aNavigatorBlogCategories}
 		<p><select id="blog-navigator-category" class="width-full blog-navigator-categories" onchange="ls.blog.loadBlogsByCategory($(this).val());">
 			<option value="0">{$aLang.blog_category}</option>

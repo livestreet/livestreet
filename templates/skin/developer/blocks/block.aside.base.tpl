@@ -2,51 +2,51 @@
  * Базовый шаблон блоков
  *
  * Доступные опции:
- *     noHeader (bool)  - Не выводить шапку блока
- *     noNav (bool)     - Не выводить навигацию
- *     noContent (bool) - Не выводить контент
- *     noFooter (bool)  - Не выводить подвал блока
+ *     noBlockHeader (bool)  - Не выводить шапку блока
+ *     noBlockNav (bool)     - Не выводить навигацию
+ *     noBlockContent (bool) - Не выводить контент
+ *     noBlockFooter (bool)  - Не выводить подвал блока
  *}
 
-{block name='options'}{/block}
+{block name='block_options'}{/block}
 
 
-<div class="block block-type-{block name='type'}default{/block} {block name='class'}{/block}" id="{block name='id'}{/block}" {block name='attributes'}{/block}>
+<div class="block block-type-{block name='block_type'}default{/block} {block name='block_class'}{/block}" id="{block name='block_id'}{/block}" {block name='block_attributes'}{/block}>
 	{* Header *}
-	{if !$noHeader}
+	{if !$noBlockHeader}
 		<header class="block-header">
-			<h3 class="block-title">{block name='title'}No title{/block}</h3>
+			<h3 class="block-title">{block name='block_title'}No title{/block}</h3>
 
-			{block name='header_end'}{/block}
+			{block name='block_header_end'}{/block}
 		</header>
 	{/if}
 	
-	{block name='header_after'}{/block}
+	{block name='block_header_after'}{/block}
 
 	{* Navigation *}
-	{if !$noNav}
+	{if !$noBlockNav}
 		<nav class="block-nav">
-			{block name='nav'}No nav{/block}
+			{block name='block_nav'}No nav{/block}
 		</nav>
 	{/if}
 	
-	{block name='nav_after'}{/block}
+	{block name='block_nav_after'}{/block}
 
 	{* Content *}
-	{if !$noContent}
+	{if !$noBlockContent}
 		<div class="block-content">
-			{block name='content'}No content{/block}
+			{block name='block_content'}No content{/block}
 		</div>
 	{/if}
 	
-	{block name='content_after'}{/block}
+	{block name='block_content_after'}{/block}
 
 	{* Footer *}
-	{if !$noFooter}
+	{if !$noBlockFooter}
 		<footer class="block-footer">
-			{block name='footer'}No footer{/block}
+			{block name='block_footer'}No footer{/block}
 		</footer>
 	{/if}
 	
-	{block name='footer_after'}{/block}
+	{block name='block_footer_after'}{/block}
 </div>

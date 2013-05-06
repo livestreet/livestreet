@@ -6,21 +6,21 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noContent' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockContent' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='title'}<a href="{router page='comments'}" title="{$aLang.block_stream_comments_all}">{$aLang.block_stream}</a>{/block}
-{block name='type'}stream{/block}
+{block name='block_title'}<a href="{router page='comments'}" title="{$aLang.block_stream_comments_all}">{$aLang.block_stream}</a>{/block}
+{block name='block_type'}stream{/block}
 
 {* Кнопка обновления *}
-{block name='header_end'}
+{block name='block_header_end'}
 	<div class="block-update" id="js-stream-update"></div>
 {/block}
 
 {* Навигация *}
-{block name='nav'}
+{block name='block_nav'}
 	{hook run='block_stream_nav_item' assign="sItemsHook"}
 
 	<ul class="nav nav-pills js-block-nav" data-type="tabs" id="js-stream-tabs" {if $sItemsHook}style="display: none;"{/if}>
@@ -52,7 +52,7 @@
 
 
 {* Контент *}
-{block name='content_after'}
+{block name='block_content_after'}
 	<div id="js-tab-pane-stream">
 		{$sStreamComments}
 	</div>

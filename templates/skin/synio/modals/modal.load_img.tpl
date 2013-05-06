@@ -1,22 +1,22 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='options'}
-	{assign var='noContent' value=true}
-	{assign var='noFooter' value=true}
+{block name='modal_options'}
+	{assign var='noModalContent' value=true}
+	{assign var='noModalFooter' value=true}
 {/block}
 
-{block name='id'}window_upload_img{/block}
-{block name='class'}modal-image-upload js-modal-default{/block}
-{block name='title'}{$aLang.uploadimg}{/block}
+{block name='modal_id'}window_upload_img{/block}
+{block name='modal_class'}modal-image-upload js-modal-default{/block}
+{block name='modal_title'}{$aLang.uploadimg}{/block}
 
-{block name='header_after'}
+{block name='modal_header_after'}
 	<ul class="nav nav-pills nav-pills-tabs" data-type="tabs">
 		<li data-type="tab" data-option-target="tab-upload-pc" class="active"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
 		<li data-type="tab" data-option-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
 	</ul>
 {/block}
 
-{block name='content_after'}
+{block name='modal_content_after'}
 	<div data-type="tab-content">
 		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-pc" onsubmit="return false;" class="tab-pane" data-type="tab-pane" style="display: block">
 			<div class="modal-content">

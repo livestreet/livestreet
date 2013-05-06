@@ -1,79 +1,83 @@
-{* 
-	TOPIC BASE TEMPLATE
+{**
+ * Базовый шаблон топика
+ *
+ * Доступные опции:
+ *     noTopicHeader (bool)  - Не выводить шапку
+ *     noTopicContent (bool) - Не выводить контент
+ *     noTopicFooter (bool)  - Не выводить подвал
+ *}
 
-	Available options:
-	------------------
-	noContent (bool) - Hide content
-	noFooter (bool) - Hide footer
-*}
-
-{block name='options'}{/block}
+{block name='topic_options'}{/block}
 
 {assign var="oBlog" value=$oTopic->getBlog()}
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()}
 {assign var="oFavourite" value=$oTopic->getFavourite()}
 
-<div class="topic topic-type-{$oTopic->getType()} js-topic {block name='class'}{/block}" id="{block name='id'}{/block}" {block name='attributes'}{/block}>
+<div class="topic topic-type-{$oTopic->getType()} js-topic {block name='topic_class'}{/block}" id="{block name='topic_id'}{/block}" {block name='topic_attributes'}{/block}>
 	{* Header *}
-	<header class="topic-header">
-		<h1 class="topic-title word-wrap">
-			{if $bTopicList}
-				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
-			{else}
-				{$oTopic->getTitle()|escape:'html'}
-			{/if}
+	{if !$noTopicHeader}
+		<header class="topic-header">
+			<h1 class="topic-title word-wrap">
+				{if $bTopicList}
+					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+				{else}
+					{$oTopic->getTitle()|escape:'html'}
+				{/if}
 
-			{if $oTopic->getPublish() == 0}   
-				<i class="icon-synio-topic-draft" title="{$aLang.topic_unpublish}"></i>
-			{/if}
-			
-			{block name='icon'}{/block}
-		</h1>
-
-
-		<div class="topic-info">
-			<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
-
-			{if $oBlog->getType() != 'personal'}
-				<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="blog-list-info js-popover-blog-info"></a>
-			{/if}
-		</div>
-
-
-		{if $oTopic->getIsAllowAction()}
-			<ul class="topic-actions">								   
-				{if $oTopic->getIsAllowEdit()}
-					<li class="edit"><i class="icon-synio-actions-edit"></i><a href="{$oTopic->getUrlEdit()}" title="{$aLang.topic_edit}" class="actions-edit">{$aLang.topic_edit}</a></li>
+				{if $oTopic->getPublish() == 0}   
+					<i class="icon-synio-topic-draft" title="{$aLang.topic_unpublish}"></i>
 				{/if}
 				
-				{if $oTopic->getIsAllowDelete()}
-					<li class="delete"><i class="icon-synio-actions-delete"></i><a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');" class="actions-delete">{$aLang.topic_delete}</a></li>
+				{block name='topic_icon'}{/block}
+			</h1>
+
+
+			<div class="topic-info">
+				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
+
+				{if $oBlog->getType() != 'personal'}
+					<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="blog-list-info js-popover-blog-info"></a>
 				{/if}
-			</ul>
-		{/if}
-	</header>
+			</div>
+
+
+			{if $oTopic->getIsAllowAction()}
+				<ul class="topic-actions">								   
+					{if $oTopic->getIsAllowEdit()}
+						<li class="edit"><i class="icon-synio-actions-edit"></i><a href="{$oTopic->getUrlEdit()}" title="{$aLang.topic_edit}" class="actions-edit">{$aLang.topic_edit}</a></li>
+					{/if}
+					
+					{if $oTopic->getIsAllowDelete()}
+						<li class="delete"><i class="icon-synio-actions-delete"></i><a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');" class="actions-delete">{$aLang.topic_delete}</a></li>
+					{/if}
+				</ul>
+			{/if}
+		</header>
+	{/if}
 	
-	{block name='header_after'}{/block}
+	{block name='topic_header_after'}{/block}
 
 
 	{* Content *}
-	{if !$noContent}
+	{if !$noTopicContent}
 		<div class="topic-content text">
 			{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
 
-			{block name='content'}{$oTopic->getText()}{/block}
+			{block name='topic_content'}{$oTopic->getText()}{/block}
 
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
 	{/if}
 	
-	{block name='content_after'}{/block}
+	{block name='topic_content_after'}{/block}
 
 
 	{* Footer *}
-	{if !$noFooter}
+	{if !$noTopicFooter}
 		<footer class="topic-footer">
+			{block name='topic_footer_begin'}{/block}
+			
 			<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
 				<li><i class="icon-synio-tags"></i></li>
 				
@@ -156,6 +160,8 @@
 					</li>
 				{/if}
 
+				{block name='topic_footer_info_end'}{/block}
+
 				<li class="topic-info-vote">
 					<div id="vote_area_topic_{$oTopic->getId()}" 
 						 data-type="tooltip-toggle"
@@ -212,6 +218,8 @@
 						<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>
 					</div>
 				</li>
+
+				{block name='topic_footer_end'}{/block}
 				
 				{hook run='topic_show_info' topic=$oTopic}
 			</ul>
@@ -221,9 +229,9 @@
 				{hook run='topic_show_end' topic=$oTopic}
 			{/if}
 		</footer>
-		
-		{block name='footer_after'}{/block}
 	{/if}
+	
+	{block name='topic_footer_after'}{/block}
 </div>
 
-{block name='topic_after'}{/block}
+{block name='topic_topic_after'}{/block}

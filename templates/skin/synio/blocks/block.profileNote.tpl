@@ -6,16 +6,16 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noHeader' value=true}
-	{assign var='noNav' value=true}
-	{assign var='noContent' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockHeader' value=true}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockContent' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='type'}profile-note{/block}
+{block name='block_type'}profile-note{/block}
 
-{block name='content_after'}
+{block name='block_content_after'}
 	{if $oUserNote}
 		<script type="text/javascript">
 			ls.usernote.sText = {json var = $oUserNote->getText()};

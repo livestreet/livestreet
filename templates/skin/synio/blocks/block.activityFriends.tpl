@@ -6,15 +6,15 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
-	{assign var='noNav' value=true}
+{block name='block_options'}
+	{assign var='noBlockFooter' value=true}
+	{assign var='noBlockNav' value=true}
 {/block}
 
-{block name='title'}{$aLang.stream_block_users_friends}{/block}
-{block name='type'}activity{/block}
+{block name='block_title'}{$aLang.stream_block_users_friends}{/block}
+{block name='block_type'}activity{/block}
 
-{block name='content'}
+{block name='block_content'}
 	{if $oUserCurrent}
 		<small class="note">{$aLang.stream_settings_note_follow_friend}</small>
 		

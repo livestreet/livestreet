@@ -6,14 +6,14 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='title'}{$aLang.block_tags}{/block}
-{block name='type'}tags{/block}
+{block name='block_title'}{$aLang.block_tags}{/block}
+{block name='block_type'}tags{/block}
 
-{block name='nav'}
+{block name='block_nav'}
 	<ul class="nav nav-pills" data-type="tabs">
 		<li class="active" data-type="tab" data-option-target="js-tab-pane-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
 		{if $oUserCurrent}
@@ -24,7 +24,7 @@
 	</ul>
 {/block}
 
-{block name='content'}
+{block name='block_content'}
 	<form action="" method="GET" class="js-tag-search-form search-tags">
 		<input type="text" name="tag" placeholder="{$aLang.block_tags_search}" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
 	</form>

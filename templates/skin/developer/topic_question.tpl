@@ -1,7 +1,7 @@
 {extends file='topics/topic_base.tpl'}
 
 
-{block name='header_after'}
+{block name='topic_header_after'}
 	<div id="topic_question_area_{$oTopic->getId()}" class="poll">
 		{if !$oTopic->getUserQuestionIsVote()}
 			<ul class="poll-vote">

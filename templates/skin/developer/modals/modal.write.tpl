@@ -1,14 +1,14 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
+{block name='modal_options'}
+	{assign var='noModalFooter' value=true}
 {/block}
 
-{block name='id'}modal-write{/block}
-{block name='class'}modal-write js-modal-default{/block}
-{block name='title'}{$aLang.block_create}{/block}
+{block name='modal_id'}modal-write{/block}
+{block name='modal_class'}modal-write js-modal-default{/block}
+{block name='modal_title'}{$aLang.block_create}{/block}
 
-{block name='content'}
+{block name='modal_content'}
 	{strip}
 		<ul class="write-list">
 			<li class="write-item-type-topic">

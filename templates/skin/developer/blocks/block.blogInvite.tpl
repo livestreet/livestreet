@@ -7,15 +7,15 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
-	{assign var='noNav' value=true}
+{block name='block_options'}
+	{assign var='noBlockFooter' value=true}
+	{assign var='noBlockNav' value=true}
 {/block}
 
-{block name='title'}{$aLang.blog_admin_user_add_header}{/block}
-{block name='type'}blog-invite{/block}
+{block name='block_title'}{$aLang.blog_admin_user_add_header}{/block}
+{block name='block_type'}blog-invite{/block}
 
-{block name='content'}
+{block name='block_content'}
 	<form onsubmit="return ls.blog.addInvite({$oBlogEdit->getId()});">
 		<p>
 			<label for="blog_admin_user_add">{$aLang.blog_admin_user_add_label}:</label>

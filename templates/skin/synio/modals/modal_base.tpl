@@ -9,30 +9,30 @@
 	noCancel (bool) - Hide cancel button
 *}
 
-{block name='options'}{/block}
+{block name='modal_options'}{/block}
 
 
-<div class="modal {block name='class'}{/block}" id="{block name='id'}{/block}" data-type="modal" {block name='attributes'}{/block}>
+<div class="modal {block name='modal_class'}{/block}" id="{block name='modal_id'}{/block}" data-type="modal" {block name='modal_attributes'}{/block}>
 	<header class="modal-header">
-		{if !$noTitle}<h3>{block name='title'}Modal window{/block}</h3>{/if}
+		{if !$noTitle}<h3>{block name='modal_title'}Modal window{/block}</h3>{/if}
 		<a href="#" class="modal-close" data-type="modal-close"></a>
 	</header>
 	
-	{block name='header_after'}{/block}
+	{block name='modal_header_after'}{/block}
 	
 
 	{if !$noContent}
 		<div class="modal-content">
-			{block name='content'}{/block}
+			{block name='modal_content'}{/block}
 		</div>
 	{/if}
 	
-	{block name='content_after'}{/block}
+	{block name='modal_content_after'}{/block}
 
 
 	{if !$noFooter}
 		<div class="modal-footer">
-			{block name='footer'}{/block}
+			{block name='modal_footer'}{/block}
 			
 			{if !$noCancel}
 				<button type="button" class="button" data-type="modal-close">{$aLang.favourite_form_tags_button_cancel}</button>
@@ -40,5 +40,5 @@
 		</div>	
 	{/if}
 	
-	{block name='footer_after'}{/block}
+	{block name='modal_footer_after'}{/block}
 </div>

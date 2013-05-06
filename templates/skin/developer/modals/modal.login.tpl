@@ -1,14 +1,14 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
+{block name='modal_options'}
+	{assign var='noModalFooter' value=true}
 {/block}
 
-{block name='id'}modal-login{/block}
-{block name='class'}modal-login js-modal-default{/block}
-{block name='title'}{$aLang.user_authorization}{/block}
+{block name='modal_id'}modal-login{/block}
+{block name='modal_class'}modal-login js-modal-default{/block}
+{block name='modal_title'}{$aLang.user_authorization}{/block}
 
-{block name='content'}
+{block name='modal_content'}
 	<script type="text/javascript">
 		jQuery(function($){
 			$('#popup-login-form').bind('submit',function(){

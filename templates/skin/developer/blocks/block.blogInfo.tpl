@@ -6,10 +6,10 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noFooter' value=true}
-	{assign var='noNav' value=true}
+{block name='block_options'}
+	{assign var='noBlockFooter' value=true}
+	{assign var='noBlockNav' value=true}
 {/block}
 
-{block name='title'}{$aLang.block_blog_info}{/block}
-{block name='content'}<p id="block_blog_info" class="text"></p>{/block}
+{block name='block_title'}{$aLang.block_blog_info}{/block}
+{block name='block_content'}<p id="block_blog_info" class="text"></p>{/block}

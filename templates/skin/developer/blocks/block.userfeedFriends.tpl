@@ -6,17 +6,17 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noNav' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='title'}{$aLang.userfeed_block_users_friends}{/block}
-{block name='type'}activity{/block}
+{block name='block_title'}{$aLang.userfeed_block_users_friends}{/block}
+{block name='block_type'}activity{/block}
 	
 	
 {if $oUserCurrent && count($aUserfeedFriends)}
-	{block name='content'}
+	{block name='block_content'}
 		<small class="note">{$aLang.userfeed_settings_note_follow_friend}</small>
 		
 		<ul class="user-list-mini max-height-200 js-userfeed-block-users">

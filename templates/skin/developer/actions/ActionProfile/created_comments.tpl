@@ -1,4 +1,3 @@
-{assign var="sidebarPosition" value='left'}
 {include file='header.tpl'}
 
 

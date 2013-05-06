@@ -6,15 +6,15 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noNav' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='title'}{$aLang.userfeed_block_blogs_title}{/block}
-{block name='type'}activity{/block}
+{block name='block_title'}{$aLang.userfeed_block_blogs_title}{/block}
+{block name='block_type'}activity{/block}
 
-{block name='content'}
+{block name='block_content'}
 	<small class="note">{$aLang.userfeed_settings_note_follow_blogs}</small>
 
 	{if count($aUserfeedBlogs)}

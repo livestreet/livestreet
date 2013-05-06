@@ -6,15 +6,15 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noHeader' value=true}
-	{assign var='noNav' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockHeader' value=true}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='type'}profile-actions{/block}
+{block name='block_type'}profile-actions{/block}
 
-{block name='content'}
+{block name='block_content'}
 	<script type="text/javascript">
 		jQuery(function($){
 			ls.lang.load({lang_load name="profile_user_unfollow,profile_user_follow"});

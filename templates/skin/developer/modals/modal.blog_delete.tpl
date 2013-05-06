@@ -1,10 +1,10 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='id'}modal-blog-delete{/block}
-{block name='class'}modal-blog-delete js-modal-default{/block}
-{block name='title'}{$aLang.blog_admin_delete_title}{/block}
+{block name='modal_id'}modal-blog-delete{/block}
+{block name='modal_class'}modal-blog-delete js-modal-default{/block}
+{block name='modal_title'}{$aLang.blog_admin_delete_title}{/block}
 
-{block name='content'}
+{block name='modal_content'}
 	<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-delete-form">
 		<label for="topic_move_to">{$aLang.blog_admin_delete_move}:</label>
 		<select name="topic_move_to" id="topic_move_to" class="input-width-full">
@@ -22,6 +22,6 @@
 	</form>
 {/block}
 
-{block name='footer'}
+{block name='modal_footer'}
 	<button type="submit" class="button button-primary" onclick="jQuery('#js-blog-delete-form').submit()">{$aLang.blog_delete}</button>
 {/block}

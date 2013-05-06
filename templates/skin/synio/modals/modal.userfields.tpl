@@ -1,10 +1,10 @@
 {extends file='modals/modal_base.tpl'}
 
-{block name='id'}userfield_form{/block}
-{block name='class'}userfield_form js-modal-default{/block}
-{block name='title'}{$aLang.user_field_admin_title_add}{/block}
+{block name='modal_id'}userfield_form{/block}
+{block name='modal_class'}userfield_form js-modal-default{/block}
+{block name='modal_title'}{$aLang.user_field_admin_title_add}{/block}
 
-{block name='content'}
+{block name='modal_content'}
 	<form>
 		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
 		<select id="user_fields_form_type" class="input-text input-width-full">
@@ -28,6 +28,6 @@
 	</form>
 {/block}
 
-{block name='footer'}
+{block name='modal_footer'}
 	<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
 {/block}

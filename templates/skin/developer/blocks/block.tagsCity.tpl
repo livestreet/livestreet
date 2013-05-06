@@ -6,14 +6,14 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noNav' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='title'}{$aLang.block_city_tags}{/block}
+{block name='block_title'}{$aLang.block_city_tags}{/block}
 
-{block name='content'}
+{block name='block_content'}
 	{if $aCityList && count($aCityList) > 0}
 		<ul class="tag-cloud word-wrap">
 			{foreach from=$aCityList item=oCity}

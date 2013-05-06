@@ -6,16 +6,16 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='options'}
-	{assign var='noHeader' value=true}
-	{assign var='noNav' value=true}
-	{assign var='noContent' value=true}
-	{assign var='noFooter' value=true}
+{block name='block_options'}
+	{assign var='noBlockHeader' value=true}
+	{assign var='noBlockNav' value=true}
+	{assign var='noBlockContent' value=true}
+	{assign var='noBlockFooter' value=true}
 {/block}
 
-{block name='type'}profile-photo{/block}
+{block name='block_type'}profile-photo{/block}
 
-{block name='content_after'}
+{block name='block_content_after'}
 	<div class="profile-photo-wrapper">
 		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
 		<a href="{$oUserProfile->getUserWebPath()}"><img src="{$oUserProfile->getProfileFotoPath()}" alt="photo" class="profile-photo" id="foto-img" /></a>

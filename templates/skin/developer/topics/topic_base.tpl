@@ -1,78 +1,81 @@
-{* 
-	TOPIC BASE TEMPLATE
+{**
+ * Базовый шаблон топика
+ *
+ * Доступные опции:
+ *     noTopicHeader (bool)  - Не выводить шапку
+ *     noTopicContent (bool) - Не выводить контент
+ *     noTopicFooter (bool)  - Не выводить подвал
+ *}
 
-	Available options:
-	------------------
-	noTitle (bool) - Hide content
-	noContent (bool) - Hide content
-	noFooter (bool) - Hide footer
-*}
-
-{block name='options'}{/block}
+{block name='topic_options'}{/block}
 
 {assign var="oBlog" value=$oTopic->getBlog()}
 {assign var="oUser" value=$oTopic->getUser()}
 {assign var="oVote" value=$oTopic->getVote()}
 {assign var="oFavourite" value=$oTopic->getFavourite()}
 
-<div class="topic topic-type-{$oTopic->getType()} js-topic {block name='class'}{/block}" id="{block name='id'}{/block}" {block name='attributes'}{/block}>
+<div class="topic topic-type-{$oTopic->getType()} js-topic {block name='topic_class'}{/block}" id="{block name='topic_id'}{/block}" {block name='topic_attributes'}{/block}>
 	{* Header *}
-	<header class="topic-header">
-		<h1 class="topic-title word-wrap">
-			{if $oTopic->getPublish() == 0}   
-				<i class="icon-file" title="{$aLang.topic_unpublish}"></i>
-			{/if}
+	{if !$noTopicHeader}
+		<header class="topic-header">
+			<h1 class="topic-title word-wrap">
+				{if $oTopic->getPublish() == 0}   
+					<i class="icon-file" title="{$aLang.topic_unpublish}"></i>
+				{/if}
+				
+				{block name='topic_icon'}{/block}
+				
+				{if $bTopicList}
+					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+				{else}
+					{$oTopic->getTitle()|escape:'html'}
+				{/if}
+			</h1>
 			
-			{block name='icon'}{/block}
-			
-			{if $bTopicList}
-				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
-			{else}
-				{$oTopic->getTitle()|escape:'html'}
-			{/if}
-		</h1>
-		
-		<div class="topic-info">
-			<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
-			
-			<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
-				{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
-			</time>
+			<div class="topic-info">
+				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
+				
+				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
+					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
+				</time>
 
-			{if $oTopic->getIsAllowAction()}
-				<ul class="actions">
-					{if $oTopic->getIsAllowEdit()}
-						<li><a href="{$oTopic->getUrlEdit()}" title="{$aLang.topic_edit}" class="actions-edit">{$aLang.topic_edit}</a></li>
-					{/if}
+				{if $oTopic->getIsAllowAction()}
+					<ul class="actions">
+						{if $oTopic->getIsAllowEdit()}
+							<li><a href="{$oTopic->getUrlEdit()}" title="{$aLang.topic_edit}" class="actions-edit">{$aLang.topic_edit}</a></li>
+						{/if}
 
-					{if $oTopic->getIsAllowDelete()}
-						<li><a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');" class="actions-delete">{$aLang.topic_delete}</a></li>
-					{/if}
-				</ul>
-			{/if}
-		</div>
-	</header>
-	
-	{block name='header_after'}{/block}
+						{if $oTopic->getIsAllowDelete()}
+							<li><a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.topic_delete}" onclick="return confirm('{$aLang.topic_delete_confirm}');" class="actions-delete">{$aLang.topic_delete}</a></li>
+						{/if}
+					</ul>
+				{/if}
+			</div>
+		</header>
+	{/if}
+
+	{block name='topic_header_after'}{/block}
 
 
 	{* Content *}
-	{if !$noContent}
+	{if !$noTopicContent}
 		<div class="topic-content text">
 			{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
 
-			{block name='content'}{$oTopic->getText()}{/block}
+			{block name='topic_content'}{$oTopic->getText()}{/block}
 
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
 	{/if}
 	
-	{block name='content_after'}{/block}
+	{block name='topic_content_after'}{/block}
 
 
 	{* Footer *}
-	{if !$noFooter}
+	{if !$noTopicFooter}
 		<footer class="topic-footer">
+			{block name='topic_footer_begin'}{/block}
+
 			<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
 				<li>{$aLang.topic_tags}:</li>
 				
@@ -164,6 +167,8 @@
 						{if $oTopic->getCountCommentNew()}<span>+{$oTopic->getCountCommentNew()}</span>{/if}
 					</li>
 				{/if}
+
+				{block name='topic_footer_info_end'}{/block}
 				
 				{hook run='topic_show_info' topic=$oTopic}
 			</ul>
@@ -172,10 +177,12 @@
 			{if !$bTopicList}
 				{hook run='topic_show_end' topic=$oTopic}
 			{/if}
+
+			{block name='topic_footer_end'}{/block}
 		</footer>
-		
-		{block name='footer_after'}{/block}
 	{/if}
+	
+	{block name='topic_footer_after'}{/block}
 </div>
 
-{block name='topic_after'}{/block}
+{block name='topic_topic_after'}{/block}
