@@ -1,26 +1,26 @@
-/* --------------------------------------------
-	ТОПИК
--------------------------------------------- */
+/**
+ * Топики
+ */
 
-.topic { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+/**
+ * Основные стили
+ */
+.topic            { overflow: hidden; zoom: 1; margin-bottom: 50px; }
 .topic:last-child { margin-bottom: 0; }
 
-/* Header */
-.topic .topic-header .topic-title            { font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
-.topic .topic-header .topic-title a          { text-decoration: none; }
-.topic .topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
+/* Хидер */
+.topic-header .topic-title            { font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
+.topic-header .topic-title a          { text-decoration: none; }
+.topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
 
-.topic .topic-header .topic-info             { margin-bottom: 25px; color: #777; }
-.topic .topic-header .topic-info time        { margin-right: 15px; }
-.topic .topic-header .topic-info .topic-blog { margin-right: 15px; }
-.topic .topic-header .topic-info .actions,
-.topic .topic-header .topic-info .actions li { display: inline; float: none; margin-bottom: 0; }
-.topic .topic-header .topic-info .actions li { margin-right: 10px; }
+.topic-header .topic-info             { margin-bottom: 25px; color: #777; }
+.topic-header .topic-info time        { margin-right: 15px; }
+.topic-header .topic-info .topic-blog { margin-right: 15px; }
+.topic-header .topic-info .actions,
+.topic-header .topic-info .actions li { display: inline; float: none; margin-bottom: 0; }
+.topic-header .topic-info .actions li { margin-right: 10px; }
 
-.topic .topic-url              { margin-bottom: 30px; }
-.topic .topic-url a            { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
-
-/* Preview */
+/* Превью */
 .topic-preview-image { display: inline-block; max-width: 100%; }
 
 .topic-preview-image .topic-preview-image-inner {
@@ -52,6 +52,7 @@
 	z-index: 2;
 }
 .ie7 .topic-preview-image .topic-preview-image-count i { margin-right: 3px; }
+
 .topic-preview-image .topic-preview-image-desc {
 	position: absolute;
 	bottom: 0;
@@ -68,70 +69,97 @@
 }
 .oldie .topic-preview-image .topic-preview-image-desc { border-color: #000; }
 
-/* Content */
-.topic .topic-content 		{ margin-bottom: 15px; }
-.topic .topic-content.text 	{ color: #333; }
+/* Содержимое топика */
+.topic-content      { margin-bottom: 15px; }
+.topic-content.text { color: #333; }
 
-/* Tags */
-.topic .topic-footer .topic-tags 						{ margin: 0 0 15px; }
-.topic .topic-footer .topic-tags li 					{ display: inline; color: #888; }
-.topic .topic-footer .topic-tags li.topic-tags-edit 	{ margin-left: 20px; }
-.topic .topic-footer .topic-tags li.topic-tags-user a 	{ color: #3CA023; }
+/* Теги */
+.topic-tags                      { margin: 0 0 15px; }
+.topic-tags li                   { display: inline; color: #888; }
+.topic-tags li.topic-tags-edit   { margin-left: 20px; }
+.topic-tags li.topic-tags-user a { color: #3CA023; }
 
-/* Info */
-.topic .topic-footer .topic-info 		{ overflow: hidden; background: #f7f7f7; border-radius: 3px; }
-.topic .topic-footer .topic-info li 	{ float: left; height: 19px; padding: 8px 15px; border-right: 1px solid #fff; }
-.topic .topic-footer .topic-info li a 	{ text-decoration: none; }
+/* Подвал топика */
+.topic-footer .topic-info      { overflow: hidden; background: #f7f7f7; border-radius: 3px; }
+.topic-footer .topic-info li   { float: left; height: 19px; padding: 8px 15px; border-right: 1px solid #fff; }
+.topic-footer .topic-info li a { text-decoration: none; }
 
-.topic .topic-footer .topic-info li.topic-info-author a 		{ font-weight: bold; color: #333; }
-.topic .topic-footer .topic-info li.topic-info-author a:hover 	{ text-decoration: underline; }
-.topic .topic-footer .topic-info li.topic-info-comments a		{  }
-.topic .topic-footer .topic-info li.topic-info-comments a span 	{ color: #777; }
-.topic .topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
+.topic-footer .topic-info li.topic-info-author a         { font-weight: bold; color: #333; }
+.topic-footer .topic-info li.topic-info-author a:hover   { text-decoration: underline; }
+.topic-footer .topic-info li.topic-info-comments a span  { color: #777; }
+.topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
 
-/* Share */
-.topic .topic-share { display: none; padding: 3px; margin-bottom: 10px; border: 5px solid #eee; }
 
-/* Poll */
-.topic .poll                                { margin-bottom: 15px; background: #fafafa; padding: 15px; }
+/**
+ * Топик опрос
+ * 
+ * @type question
+ * @file topics/topic.question.tpl
+ * @file topics/question_result.tpl
+ */
+.poll                                { margin-bottom: 15px; background: #fafafa; padding: 15px; }
 
-.topic .poll .poll-vote                     { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
-.topic .poll .poll-vote li                  { margin-bottom: 10px; }
-.topic .poll .poll-vote li:last-child       { margin-bottom: 0; }
-.topic .poll .poll-vote li label            { display: inline; }
-.topic .poll .poll-vote li input            { position: relative; top: 1px; margin-right: 2px; }
+.poll .poll-vote                     { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.poll .poll-vote li                  { margin-bottom: 10px; }
+.poll .poll-vote li:last-child       { margin-bottom: 0; }
+.poll .poll-vote li label            { display: inline; }
+.poll .poll-vote li input            { position: relative; top: 1px; margin-right: 2px; }
 
-.topic .poll .poll-result                   { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
-.topic .poll .poll-result li                { margin-bottom: 20px; }
-.topic .poll .poll-result li dl             { overflow: hidden; zoom: 1; }
-.topic .poll .poll-result li dl dt          { float: left; width: 50px; text-align: right; padding-right: 15px; }
-.topic .poll .poll-result li dl dt span     { color: #aaa; }
-.topic .poll .poll-result li dl dd          { padding-left: 65px; }
-.topic .poll .poll-result li dl dd div      { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
-.topic .poll .poll-result li.most dl dd div { background: #60CC4E; }
+.poll .poll-result                   { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
+.poll .poll-result li                { margin-bottom: 20px; }
+.poll .poll-result li dl             { overflow: hidden; zoom: 1; }
+.poll .poll-result li dl dt          { float: left; width: 50px; text-align: right; padding-right: 15px; }
+.poll .poll-result li dl dt span     { color: #aaa; }
+.poll .poll-result li dl dd          { padding-left: 65px; }
+.poll .poll-result li dl dd div      { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
+.poll .poll-result li.most dl dd div { background: #60CC4E; }
 
-.topic .poll .poll-total                    { color: #aaa; margin-left: 10px; }
+.poll .poll-total                    { color: #aaa; margin-left: 10px; }
 
-/* Photset */
-.topic.topic-type-photoset {  }
+/**
+ * Топик фотосет
+ * 
+ * @type photoset
+ * @file topics/topic.photoset.tpl
+ */
 .topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
 
-/* Topic Talk */
-.topic.topic-type-talk { }
-.topic.topic-type-talk .topic-header { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
-.topic.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
-.topic.topic-type-talk .topic-header .topic-info { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
-.topic.topic-type-talk .topic-header .topic-info .avatar { position: absolute; top: 0; left: 0; }
-.topic.topic-type-talk .topic-header .topic-info .author-wrapper { margin-bottom: 4px; position: relative; top: -2px; }
-.topic.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
-.topic.topic-type-talk .topic-header .topic-info .recipient { margin-right: 10px; }
-.topic.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
-.topic.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
+/**
+ * Топик ссылка
+ * 
+ * @type link
+ * @file topics/topic.link.tpl
+ */
+.topic-url   { margin-bottom: 30px; }
+.topic-url a { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
 
-.topic.topic-type-talk .talk-recipients 	{ padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
-.topic.topic-type-talk .talk-recipients h3 	{ font-size: 16px; font-weight: bold; margin-bottom: 10px; }
-
-/* Topic Preview */
-.topic-preview { margin-top: 30px; }
+/**
+ * Предпросмотр топика
+ * 
+ * @file topics/topic_preview_X.tpl
+ */
+.topic-preview                      { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
-.topic-preview .topic { margin-bottom: 20px; }
+.topic-preview .topic               { margin-bottom: 20px; }
+
+/**
+ * Личное сообщение
+ * TODO: Move to talk.css
+ * 
+ * @file actions/ActionTalk/read.tpl
+ */
+.topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
+.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
+
+.topic-type-talk .topic-header .topic-info                         { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
+.topic-type-talk .topic-header .topic-info .avatar                 { position: absolute; top: 0; left: 0; }
+.topic-type-talk .topic-header .topic-info .author-wrapper         { margin-bottom: 4px; position: relative; top: -2px; }
+.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
+.topic-type-talk .topic-header .topic-info .recipient              { margin-right: 10px; }
+
+.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
+
+.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
+
+.topic-type-talk .talk-recipients    { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
+.topic-type-talk .talk-recipients h3 { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
