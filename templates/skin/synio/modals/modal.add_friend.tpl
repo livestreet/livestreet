@@ -17,6 +17,6 @@
 	</form>
 {/block}
 
-{block name='modal_footer'}
+{block name='modal_footer_begin'}
 	<button type="submit" class="button button-primary" onclick="jQuery('#add_friend_form').submit()">{$aLang.user_friend_add_submit}</button>
 {/block}

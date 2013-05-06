@@ -1,11 +1,5 @@
 {**
  * Базовый шаблон блоков
- *
- * Доступные опции:
- *     noBlockHeader (bool)  - Не выводить шапку блока
- *     noBlockNav (bool)     - Не выводить навигацию
- *     noBlockContent (bool) - Не выводить контент
- *     noBlockFooter (bool)  - Не выводить подвал блока
  *}
 
 {block name='block_options'}{/block}
@@ -13,40 +7,40 @@
 
 <div class="block block-type-{block name='block_type'}default{/block} {block name='block_class'}{/block}" id="{block name='block_id'}{/block}" {block name='block_attributes'}{/block}>
 	{* Header *}
-	{if !$noBlockHeader}
+	{block name='block_title' hide}
 		<header class="block-header">
-			<h3 class="block-title">{block name='block_title'}No title{/block}</h3>
+			<h3 class="block-title">{$smarty.block.child}</h3>
 
 			{block name='block_header_end'}{/block}
 		</header>
-	{/if}
+	{/block}
 	
 	{block name='block_header_after'}{/block}
 
 	{* Navigation *}
-	{if !$noBlockNav}
+	{block name='block_nav' hide}
 		<nav class="block-nav">
-			{block name='block_nav'}No nav{/block}
+			{$smarty.block.child}
 		</nav>
-	{/if}
+	{/block}
 	
 	{block name='block_nav_after'}{/block}
 
 	{* Content *}
-	{if !$noBlockContent}
+	{block name='block_content' hide}
 		<div class="block-content">
-			{block name='block_content'}No content{/block}
+			{$smarty.block.child}
 		</div>
-	{/if}
+	{/block}
 	
 	{block name='block_content_after'}{/block}
 
 	{* Footer *}
-	{if !$noBlockFooter}
+	{block name='block_footer' hide}
 		<footer class="block-footer">
-			{block name='block_footer'}No footer{/block}
+			{$smarty.block.child}
 		</footer>
-	{/if}
+	{/block}
 	
 	{block name='block_footer_after'}{/block}
 </div>

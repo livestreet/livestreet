@@ -6,11 +6,6 @@
 
 {extends file='modals/modal_base.tpl'}
 
-{block name='modal_options'}
-	{assign var='noModalContent' value=true}
-	{assign var='noModalFooter' value=true}
-{/block}
-
 {block name='modal_id'}window_upload_img{/block}
 {block name='modal_class'}modal-image-upload js-modal-default{/block}
 {block name='modal_title'}{$aLang.uploadimg}{/block}
@@ -83,3 +78,5 @@
 		</form>
 	</div>
 {/block}
+
+{block name='modal_footer'}{/block}

@@ -1,10 +1,5 @@
 {**
  * Базовый шаблон топика
- *
- * Доступные опции:
- *     noTopicHeader (bool)  - Не выводить шапку
- *     noTopicContent (bool) - Не выводить контент
- *     noTopicFooter (bool)  - Не выводить подвал
  *}
 
 {block name='topic_options'}{/block}
@@ -14,9 +9,9 @@
 {assign var="oVote" value=$oTopic->getVote()}
 {assign var="oFavourite" value=$oTopic->getFavourite()}
 
-<div class="topic topic-type-{$oTopic->getType()} js-topic {block name='topic_class'}{/block}" id="{block name='topic_id'}{/block}" {block name='topic_attributes'}{/block}>
+<article class="topic topic-type-{$oTopic->getType()} js-topic {if ! $bTopicList}topic-single{/if} {block name='topic_class'}{/block}" id="{block name='topic_id'}{/block}" {block name='topic_attributes'}{/block}>
 	{* Header *}
-	{if !$noTopicHeader}
+	{block name='topic_header'}
 		<header class="topic-header">
 			<h1 class="topic-title word-wrap">
 				{if $oTopic->getPublish() == 0}   
@@ -52,27 +47,27 @@
 				{/if}
 			</div>
 		</header>
-	{/if}
+	{/block}
 
 	{block name='topic_header_after'}{/block}
 
 
 	{* Content *}
-	{if !$noTopicContent}
+	{block name='topic_content'}
 		<div class="topic-content text">
 			{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
 
-			{block name='topic_content'}{$oTopic->getText()}{/block}
+			{block name='topic_content_text'}{$oTopic->getText()}{/block}
 
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
-	{/if}
+	{/block}
 	
 	{block name='topic_content_after'}{/block}
 
 
 	{* Footer *}
-	{if !$noTopicFooter}
+	{block name='topic_footer'}
 		<footer class="topic-footer">
 			{block name='topic_footer_begin'}{/block}
 
@@ -180,9 +175,9 @@
 
 			{block name='topic_footer_end'}{/block}
 		</footer>
-	{/if}
+	{/block}
 	
 	{block name='topic_footer_after'}{/block}
-</div>
+</article>
 
 {block name='topic_topic_after'}{/block}

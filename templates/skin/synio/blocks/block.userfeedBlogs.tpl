@@ -6,11 +6,6 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='block_options'}
-	{assign var='noBlockNav' value=true}
-	{assign var='noBlockFooter' value=true}
-{/block}
-
 {block name='block_title'}{$aLang.userfeed_block_blogs_title}{/block}
 {block name='block_type'}activity{/block}
 

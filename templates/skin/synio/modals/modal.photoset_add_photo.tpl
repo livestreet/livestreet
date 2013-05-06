@@ -20,6 +20,6 @@
 	</form>
 {/block}
 
-{block name='modal_footer'}
+{block name='modal_footer_begin'}
 	<button type="submit" class="button button-primary" onclick="ls.photoset.upload();">{$aLang.topic_photoset_upload_choose}</button>
 {/block}

@@ -6,10 +6,6 @@
 
 {extends file='modals/modal_base.tpl'}
 
-{block name='modal_options'}
-	{assign var='noModalFooter' value=true}
-{/block}
-
 {block name='modal_id'}modal-login{/block}
 {block name='modal_class'}modal-login js-modal-default{/block}
 {block name='modal_title'}{$aLang.user_authorization}{/block}
@@ -149,3 +145,5 @@
 		</div>
 	</div>
 {/block}
+
+{block name='modal_footer'}{/block}

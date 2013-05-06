@@ -28,7 +28,7 @@
 
 
 {* Content *}
-{block name='topic_content'}
+{block name='topic_content_text'}
 	{if $bTopicList}
 		{$oTopic->getTextShort()}
 

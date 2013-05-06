@@ -7,7 +7,7 @@
 {extends file='topics/topic_base.tpl'}
 
 
-{block name='topic_content'}
+{block name='topic_content_text'}
 	{if $bTopicList}
 		{$oTopic->getTextShort()}
 		

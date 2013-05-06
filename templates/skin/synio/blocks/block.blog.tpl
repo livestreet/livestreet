@@ -8,7 +8,6 @@
 
 {block name='block_options'}
 	{assign var="oBlog" value=$oTopic->getBlog()}
-	{assign var='noBlockNav' value=true}
 {/block}
 
 {if $oTopic && $oBlog->getType() != 'personal'}

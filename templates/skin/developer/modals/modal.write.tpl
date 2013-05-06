@@ -6,10 +6,6 @@
 
 {extends file='modals/modal_base.tpl'}
 
-{block name='modal_options'}
-	{assign var='noModalFooter' value=true}
-{/block}
-
 {block name='modal_id'}modal-write{/block}
 {block name='modal_class'}modal-write js-modal-default{/block}
 {block name='modal_title'}{$aLang.block_create}{/block}
@@ -45,3 +41,5 @@
 		</ul>
 	{/strip}
 {/block}
+
+{block name='modal_footer'}{/block}

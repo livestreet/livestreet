@@ -6,12 +6,6 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='block_options'}
-	{assign var='noBlockHeader' value=true}
-	{assign var='noBlockNav' value=true}
-	{assign var='noBlockFooter' value=true}
-{/block}
-
 {block name='block_type'}profile-actions{/block}
 
 {block name='block_content'}

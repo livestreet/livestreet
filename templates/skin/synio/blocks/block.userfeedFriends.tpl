@@ -6,15 +6,9 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='block_options'}
-	{assign var='noBlockNav' value=true}
-	{assign var='noBlockFooter' value=true}
-{/block}
-
 {block name='block_title'}{$aLang.userfeed_block_users_friends}{/block}
 {block name='block_type'}activity{/block}
-	
-	
+
 {if $oUserCurrent && count($aUserfeedFriends)}
 	{block name='block_content'}
 		<small class="note">{$aLang.userfeed_settings_note_follow_friend}</small>

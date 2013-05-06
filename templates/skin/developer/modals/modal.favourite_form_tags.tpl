@@ -19,6 +19,6 @@
 	</form>
 {/block}
 
-{block name='modal_footer'}
+{block name='modal_footer_begin'}
 	<button type="submit" class="button button-primary" onclick="jQuery('#js-favourite-form').submit()" />{$aLang.favourite_form_tags_button_save}</button>
 {/block}

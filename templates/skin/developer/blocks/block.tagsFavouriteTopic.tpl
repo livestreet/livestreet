@@ -1,38 +1,45 @@
-{* TODO: Slider *}
-<a href="#" class="link-dotted" onclick="jQuery('#block_favourite_topic_content').toggle(); return false;">{$aLang.topic_favourite_tags_block}</a>
-	
-<div id="block_favourite_topic_content">
-	<ul class="nav nav-pills" data-type="tabs">
-		<li class="active" data-type="tab" data-option-target="js-tab-pane-tags-favourite-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
-		<li data-type="tab" data-option-target="js-tab-pane-tags-favourite-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
+{**
+ * Избранные теги пользователя.
+ * Блок находится в профиле пользователя в разделе "Избранные топики".
+ *
+ * @styles css/common.css
+ *}
 
-		{hook run='block_favourite_topic_tags_nav_item'}
-	</ul>
+<div class="accordion">
+	<h3 class="accordion-header" onclick="jQuery('#block_favourite_topic_content').toggle(); return false;"><span class="link-dotted">{$aLang.topic_favourite_tags_block}</span></h3>
 	
-	
-	<div data-type="tab-content">
-		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
-			{if $aFavouriteTopicTags}
-				<ul class="tag-cloud word-wrap">
-					{foreach from=$aFavouriteTopicTags item=oTag}
-						<li><a class="tag-size-{$oTag->getSize()} {if $sFavouriteTag==$oTag->getText()}tag-current{/if}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
-					{/foreach}
-				</ul>
-			{else}
-				<div class="notice-empty">{$aLang.block_tags_empty}</div>
-			{/if}
-		</div>
+	<div class="accordion-content" id="block_favourite_topic_content">
+		<ul class="nav nav-pills" data-type="tabs">
+			<li class="active" data-type="tab" data-option-target="js-tab-pane-tags-favourite-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
+			<li data-type="tab" data-option-target="js-tab-pane-tags-favourite-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
+
+			{hook run='block_favourite_topic_tags_nav_item'}
+		</ul>
 		
-		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-my">
-			{if $aFavouriteTopicUserTags}
-				<ul class="tag-cloud word-wrap">
-					{foreach from=$aFavouriteTopicUserTags item=oTag}
-						<li><a class="tag-size-{$oTag->getSize()}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
-					{/foreach}
-				</ul>
-			{else}
-				<div class="notice-empty">{$aLang.block_tags_empty}</div>
-			{/if}
+		<div data-type="tab-content">
+			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
+				{if $aFavouriteTopicTags}
+					<ul class="tag-cloud word-wrap">
+						{foreach from=$aFavouriteTopicTags item=oTag}
+							<li><a class="tag-size-{$oTag->getSize()} {if $sFavouriteTag==$oTag->getText()}tag-current{/if}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
+						{/foreach}
+					</ul>
+				{else}
+					<div class="notice-empty">{$aLang.block_tags_empty}</div>
+				{/if}
+			</div>
+			
+			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-my">
+				{if $aFavouriteTopicUserTags}
+					<ul class="tag-cloud word-wrap">
+						{foreach from=$aFavouriteTopicUserTags item=oTag}
+							<li><a class="tag-size-{$oTag->getSize()}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
+						{/foreach}
+					</ul>
+				{else}
+					<div class="notice-empty">{$aLang.block_tags_empty}</div>
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>

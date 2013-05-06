@@ -6,13 +6,14 @@
 
 {extends file='modals/modal_base.tpl'}
 
-{block name='modal_options'}
-	{assign var='noModalTitle' value=true}
-	{assign var='noModalFooter' value=true}
-{/block}
-
 {block name='modal_id'}modal-write{/block}
 {block name='modal_class'}modal-write js-modal-default{/block}
+
+{block name='modal_header_after'}
+	<header class="modal-header">
+		<a href="#" class="modal-close" data-type="modal-close"></a>
+	</header>
+{/block}
 	
 {block name='modal_content'}
 	{strip}
@@ -39,3 +40,5 @@
 		</ul>
 	{/strip}
 {/block}
+
+{block name='modal_footer'}{/block}
