@@ -1,3 +1,9 @@
+{**
+ * Добавление пользовательских тегов к топику
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_id'}favourite-form-tags{/block}

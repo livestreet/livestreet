@@ -1,3 +1,9 @@
+{**
+ * Предпросмотр топика
+ *
+ * @styles css/topic.css
+ *}
+
 {assign var="oUser" value=$oTopic->getUser()}
 
 <h3 class="profile-page-header">{$aLang.topic_preview}</h3>

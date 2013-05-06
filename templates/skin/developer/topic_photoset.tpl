@@ -1,3 +1,9 @@
+{**
+ * Топик фотосет
+ *
+ * @styles css/topic.css
+ *}
+
 {extends file='topics/topic_base.tpl'}
 
 

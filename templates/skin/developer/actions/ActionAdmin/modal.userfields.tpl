@@ -1,3 +1,9 @@
+{**
+ * Настройка пользовательских полей в админке
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_id'}userfield_form{/block}

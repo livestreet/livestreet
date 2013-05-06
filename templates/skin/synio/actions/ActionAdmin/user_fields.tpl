@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='modals/modal.userfields.tpl'}
+{include file='actions/ActionAdmin/modal.userfields.tpl'}
 
 
 <h2 class="page-header">{$aLang.user_field_admin_title}</h2>

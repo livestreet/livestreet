@@ -1,3 +1,9 @@
+{**
+ * Модальное окно с формами входа, регистрации и напоминанием пароля
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_options'}

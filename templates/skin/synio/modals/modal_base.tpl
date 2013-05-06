@@ -1,13 +1,13 @@
-{* 
-	MODAL BASE TEMPLATE
-
-	Available options:
-	------------------
-	noTitle (bool) - Hide content
-	noContent (bool) - Hide content
-	noFooter (bool) - Hide footer
-	noCancel (bool) - Hide cancel button
-*}
+{**
+ * Базовый шаблон модальных окон
+ *
+ * Доступные опции:
+ *     noModalHeader (bool)  - Не выводить шапку
+ *     noModalTitle (bool)   - Не выводить заголовок
+ *     noModalContent (bool) - Не выводить контент
+ *     noModalFooter (bool)  - Не выводить подвал
+ *     noModalCancel (bool)  - Не выводить кнопку "Отмена"
+ *}
 
 {block name='modal_options'}{/block}
 

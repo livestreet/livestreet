@@ -1,3 +1,9 @@
+{**
+ * Загрузка аватара пользователя
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_options'}

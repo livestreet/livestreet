@@ -1,3 +1,9 @@
+{**
+ * Модальное с меню "Создать"
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_options'}
