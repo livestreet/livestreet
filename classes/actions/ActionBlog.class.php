@@ -600,7 +600,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем доступные типы блога для создания
 		 */
-		if (!in_array(getRequestStr('blog_type'),array('open','close'))) {
+		if (!$this->Blog_IsAllowBlogType(getRequestStr('blog_type'))) {
 			$this->Message_AddError($this->Lang_Get('blog_create_type_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
