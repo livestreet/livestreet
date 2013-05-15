@@ -407,7 +407,7 @@ abstract class ModuleORM extends Module {
 				$sRelKey=$aRelations[$sRelationName][2];
 
 				if (!array_key_exists($sRelationName,$aRelations) or !in_array($sRelType,array(EntityORM::RELATION_TYPE_BELONGS_TO,EntityORM::RELATION_TYPE_HAS_ONE))) {
-					throw new Exception("The entity <{$sEntityFull}> not have relation <{$sRelationName}>");
+					throw new Exception("The entity <{$sEntityFull}> doesn`t have relation <{$sRelationName}> or relation type is not RELATION_TYPE_BELONGS_TO or RELATION_TYPE_HAS_ONE");
 				}
 
 				/**
@@ -477,7 +477,7 @@ abstract class ModuleORM extends Module {
 			$sKey = in_array('#index-from-primary', $aFilter) || ( !empty($aFilter['#index-from']) && $aFilter['#index-from'] == '#primary' ) ?
 				$oEntity->_getPrimaryKey() :
 				$oEntity->_getField($aFilter['#index-from']);
-			$aIndexedEntities[$oEntity->_getDataOne($sKey)]=$oEntity;
+			$aIndexedEntities[$oEntity->_getDataOne($sKey)][]=$oEntity;
 		}
 		return $aIndexedEntities;
 	}
