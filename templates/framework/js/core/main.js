@@ -321,7 +321,7 @@ ls.tools = (function ($) {
 	* Предпросмотр
 	*/
 	this.textPreview = function(textId, save, divPreview) {
-		var text =(BLOG_USE_TINYMCE) ? tinyMCE.activeEditor.getContent()  : $('#'+textId).val();
+		var text = WYSIWIG ? tinyMCE.activeEditor.getContent() : $('#' + textId).val();
 		var ajaxUrl = aRouter['ajax']+'preview/text/';
 		var ajaxOptions = {text: text, save: save};
 		ls.hook.marker('textPreviewAjaxBefore');
@@ -597,7 +597,7 @@ ls.ie = (function ($) {
 	// эмуляция border-sizing в IE
 	this.bordersizing = function(inputs) {
 		if ($('html').hasClass('ie7')) {
-			if (!tinyMCE) $('textarea.mce-editor').addClass('markItUpEditor');
+			if ( ! WYSIWIG ) $('textarea.js-editor').addClass('markItUpEditor');
 			
 			inputs.each(function(i){
 				var obj = $(this);

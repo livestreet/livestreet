@@ -5,6 +5,7 @@
  *}
 
 {extends file='blocks/block.aside.base.tpl'}
+
 {block name='block_title'}{$aLang.stream_block_config_title}{/block}
 {block name='block_type'}activity{/block}
 

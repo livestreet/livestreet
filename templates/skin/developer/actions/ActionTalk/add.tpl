@@ -12,7 +12,7 @@
 	<div class="content" id="text_preview"></div>
 </div>
 
-{include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
+{include file='editor.tpl' sEditorType='comment'}
 
 <form action="" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_talk_begin'}
@@ -26,7 +26,7 @@
 	<input type="text" class="input-text input-width-full" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}" /></p>
 
 	<p><label for="talk_text">{$aLang.talk_create_text}:</label>
-	<textarea name="talk_text" id="talk_text" rows="12" class="input-text input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.talk_text}</textarea></p>
+	<textarea name="talk_text" id="talk_text" rows="12" class="input-text input-width-full js-editor input-width-full">{$_aRequest.talk_text}</textarea></p>
 	
 	{hook run='form_add_talk_end'}
 	

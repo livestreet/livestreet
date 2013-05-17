@@ -331,7 +331,7 @@ ls.comments = (function ($) {
 		this.toggleCommentForm(this.iCurrentShowFormComment);
 		
 		if (typeof(this.options.wysiwyg)!='number') {
-			this.options.wysiwyg = Boolean(BLOG_USE_TINYMCE && tinyMCE);
+			this.options.wysiwyg = Boolean(WYSIWIG && tinyMCE);
 		}
 		ls.hook.run('ls_comments_init_after',[],this);
 	};

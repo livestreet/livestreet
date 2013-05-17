@@ -1,8 +1,9 @@
+/**
+ * Различные настройки
+ */
+
 var ls = ls || {};
 
-/**
-* Различные настройки
-*/
 ls.settings = (function ($) {
 
 	this.getMarkitup = function() {
@@ -83,7 +84,7 @@ ls.settings = (function ($) {
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",
 			media_strict : 							false,
-			language : 								TINYMCE_LANG,
+			language : 								'ru',
 			inline_styles:							false,
 			formats : {
 				underline : 	{inline : 'u', exact : true},
@@ -116,7 +117,7 @@ ls.settings = (function ($) {
 			extended_valid_elements : 				"embed[src|type|allowscriptaccess|allowfullscreen|width|height]",
 			pagebreak_separator :					"<cut>",
 			media_strict : 							false,
-			language : 								TINYMCE_LANG,
+			language : 								'ru',
 			inline_styles:							false,
 			formats : {
 				underline : 	{inline : 'u', exact : true},

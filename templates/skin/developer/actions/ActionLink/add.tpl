@@ -44,7 +44,7 @@
 
 	
 	<p><label for="topic_text">{$aLang.topic_link_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.topic_text}</textarea></p>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-width-full js-editor input-width-full">{$_aRequest.topic_text}</textarea></p>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

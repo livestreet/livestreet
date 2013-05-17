@@ -61,9 +61,11 @@ dl.form-item dd { float: left; width: 300px; }
 
 
 /* Placeholder */
-:-moz-placeholder           { color: #aaa; }
-::-webkit-input-placeholder { color: #aaa; }
-.placeholder                { color: #aaa; } /* IE */
+:-moz-placeholder           { color: #afafaf; }
+::-moz-placeholder          { color: #afafaf; opacity: 1; }
+::-webkit-input-placeholder { color: #afafaf; }
+:-ms-input-placeholder      { color: #afafaf; }
+.placeholder                { color: #afafaf; } /* Old IE */
 
 
 /* Editor */

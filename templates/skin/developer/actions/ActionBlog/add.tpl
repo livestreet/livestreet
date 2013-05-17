@@ -5,7 +5,7 @@
 	{include file='navs/nav.blog_edit.tpl'}
 {/if}
 
-{include file='editor.tpl' sSettingsTinymce='ls.settings.getTinymceComment()' sSettingsMarkitup='ls.settings.getMarkitupComment()'}
+{include file='editor.tpl' sEditorType='comment'}
 	
 <script type="text/javascript">
 	jQuery(document).ready(function($){
@@ -52,7 +52,7 @@
 
 	
 	<p><label for="blog_description">{$aLang.blog_create_description}:</label>
-	<textarea name="blog_description" id="blog_description" rows="15" class="input-text input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.blog_description}</textarea>
+	<textarea name="blog_description" id="blog_description" rows="15" class="input-text input-width-full js-editor input-width-full">{$_aRequest.blog_description}</textarea>
 	<small class="note">{$aLang.blog_create_description_notice}</small></p>
 
 	

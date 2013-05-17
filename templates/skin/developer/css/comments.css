@@ -71,7 +71,7 @@
 .reply-header { font-size: 20px; line-height: 1.3em; margin-bottom: 15px; }
 
 .reply { padding-bottom: 10px; }
-.reply textarea { height: 100px; }
+.reply textarea { height: 150px; }
 .reply textarea.loader { background: #f7f7f7 url(../images/loader.gif) no-repeat center; }
 
 .reply .mceEditor { display: block; margin-bottom: 10px; }

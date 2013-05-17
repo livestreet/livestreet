@@ -42,12 +42,10 @@
 
 	
 	<label for="topic_text">{$aLang.topic_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" class="mce-editor markitup-editor input-width-full" rows="20">{$_aRequest.topic_text}</textarea>
+	<textarea name="topic_text" id="topic_text" class="js-editor input-width-full" rows="20">{$_aRequest.topic_text}</textarea>
 
-	{if !$oConfig->GetValue('view.tinymce')}
+	{if !$oConfig->GetValue('view.wysiwyg')}
 		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
-		<br />
-		<br />
 	{/if}
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

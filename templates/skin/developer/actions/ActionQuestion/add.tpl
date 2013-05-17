@@ -58,12 +58,11 @@
 	</div>
 
 	
-	<p><label for="topic_text">{$aLang.topic_question_create_text}:</label>
-	<textarea name="topic_text" id="topic_text" rows="10" class="input-width-full mce-editor markitup-editor input-width-full">{$_aRequest.topic_text}</textarea>
-	{if !$oConfig->GetValue('view.tinymce')}
+	<label for="topic_text">{$aLang.topic_question_create_text}:</label>
+	<textarea name="topic_text" id="topic_text" rows="10" class="input-width-full js-editor input-width-full">{$_aRequest.topic_text}</textarea>
+	{if !$oConfig->GetValue('view.wysiwyg')}
 		{include file='tags_help.tpl' sTagsTargetId="topic_text"}
 	{/if}
-	</p>
 
 	
 	<p><label for="topic_tags">{$aLang.topic_create_tags}:</label>

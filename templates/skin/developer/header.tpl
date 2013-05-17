@@ -16,11 +16,18 @@
 	<meta name="description" content="{$sHtmlDescription}">
 	<meta name="keywords" content="{$sHtmlKeywords}">
 
+	{**
+	 * Стили
+	 * CSS файлы подключаются в конфиге шаблона (your_skin/settings/config.php)
+	 *}
 	{$aHtmlHeadFiles.css}
 
 	<link href="{cfg name='path.static.skin'}/images/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
+	{**
+	 * RSS
+	 *}
 	{if $aHtmlRssAlternate}
 		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
 	{/if}
@@ -34,36 +41,33 @@
 	{/if}
 
 
-	<script type="text/javascript">
+	<script>
 		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}',
 			DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}',
-        	DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}',
-			DIR_ROOT_ENGINE_LIB 	= '{cfg name="path.root.engine_lib"}',
+			DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}',
 			LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
 			SESSION_ID				= '{$_sPhpSessionId}',
-			BLOG_USE_TINYMCE		= '{cfg name="view.tinymce"}';
+			LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
+			WYSIWIG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
 
-		var TINYMCE_LANG = 'en';
-		{if $oConfig->GetValue('lang.current') == 'russian'}
-			TINYMCE_LANG = 'ru';
-		{/if}
-
-		var aRouter = new Array();
+		var aRouter = [];
 		{foreach from=$aRouter key=sPage item=sPath}
 			aRouter['{$sPage}'] = '{$sPath}';
 		{/foreach}
 	</script>
 
-
+	{**
+	 * JavaScript файлы
+	 * JS файлы подключаются в конфиге шаблона (your_skin/settings/config.php)
+	 *}
 	{$aHtmlHeadFiles.js}
 
-
-	<script type="text/javascript">
-		var tinyMCE = false;
+	<script>
 		ls.lang.load({json var = $aLangJs});
 		ls.lang.load({lang_load name="blog"});
-		ls.registry.set('comment_max_tree',{json var=$oConfig->Get('module.comment.max_tree')});
-		ls.registry.set('block_stream_show_tip',{json var=$oConfig->Get('block.stream.show_tip')});
+
+		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
+		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
 
 
@@ -76,9 +80,7 @@
 		</style>
 	{else}
 		<style>
-			#container {
-				width: {cfg name='view.grid.fixed_width'}px;
-			}
+			#container { width: {cfg name='view.grid.fixed_width'}px; }
 		</style>
 	{/if}
 
@@ -87,7 +89,9 @@
 </head>
 
 
-
+{**
+ * Вспомогательные классы
+ *}
 {if $oUserCurrent}
 	{assign var=body_classes value=$body_classes|cat:' ls-user-role-user'}
 
@@ -105,10 +109,11 @@
 {assign var=body_classes value=$body_classes|cat:' ls-template-'|cat:{cfg name="view.skin"}}
 
 
+{**
+ * Добавление кнопок в тулбар
+ *}
 {add_block group='toolbar' name='toolbar_admin.tpl' priority=100}
 {add_block group='toolbar' name='toolbar_scrollup.tpl' priority=-100}
-
-
 
 
 <body class="{$body_classes} width-{cfg name='view.grid.type'}">
