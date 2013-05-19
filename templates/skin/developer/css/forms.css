@@ -1,0 +1,49 @@
+/**
+ * Формы
+ */
+
+
+/**
+ * Блок редактирования аватара
+ *
+ * @file actions/ActionSettings/profile.tpl
+ */
+.avatar-edit       { margin-bottom: 15px; }
+.avatar-edit img   { vertical-align: bottom; }
+.avatar-edit label { margin-top: 10px; }
+
+
+/**
+ * Создание топика-опроса
+ *
+ * @file actions/ActionQuestion/add.tpl
+ */
+.poll-add { padding: 15px 20px; margin-bottom: 20px; background: #f7f7f7; }
+
+.poll-add-list                       { margin-bottom: 15px; }
+.poll-add-list li                    { margin-bottom: 5px; }
+.poll-add-list li input[type="text"] { margin-right: 10px; }
+
+
+/**
+ * Справка по разметке редактора
+ *
+ * @file editor_help.tpl
+ */
+.editor-help header { margin-bottom: 20px; } 
+
+.editor-help-body { 
+	display: none;
+	padding: 20px;
+	margin-bottom: 20px;
+	background: #f7f7f7; 
+	color: #333;
+}
+.editor-help-body h3 { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+
+.editor-help-col             { float: left; width: 47%; margin-left: 6%; }
+.editor-help-col:first-child { margin-left: 0; }
+
+.editor-help-item            { margin-bottom: 20px; }
+.editor-help-item:last-child { margin-bottom: 0; }
+.editor-help-item h4         { font-family: monospace; font-weight: bold; margin-bottom: 3px; }

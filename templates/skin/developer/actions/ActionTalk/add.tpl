@@ -12,7 +12,7 @@
 	<div class="content" id="text_preview"></div>
 </div>
 
-{include file='editor.tpl' sEditorType='comment'}
+{include file='editor_init.tpl' sEditorType='comment'}
 
 <form action="" method="POST" enctype="multipart/form-data">
 	{hook run='form_add_talk_begin'}

@@ -54,7 +54,7 @@
 	{$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
-		{include file='editor.tpl' sEditorType='comment'}
+		{include file='editor_init.tpl' sEditorType='comment'}
 
 		<h4 class="reply-header" id="comment_id_0">
 			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>

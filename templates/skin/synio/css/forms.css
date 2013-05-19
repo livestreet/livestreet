@@ -1,6 +1,6 @@
-/* -------------------------------------------------------------------
-	ФОРМЫ
-------------------------------------------------------------------- */
+/**
+ * Формы
+ */
 
 button,
 input,
@@ -22,15 +22,6 @@ textarea {
 .input-text:focus 	{ border-color: #57BCEB; -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #00A8FF; box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #00A8FF; outline: none; }
 .input-checkbox 	{ position: relative; top: 1px; margin: 0 2px 0 1px; }
 
-.input-width-full 	{ width: 100%; }
-.input-width-50 	{ width: 50px; }
-.input-width-100 	{ width: 100px; }
-.input-width-150 	{ width: 150px; }
-.input-width-200 	{ width: 200px; }
-.input-width-250 	{ width: 250px; }
-.input-width-300 	{ width: 300px; }
-.input-width-400 	{ width: 400px; }
-.input-width-500 	{ width: 500px; }
 
 textarea { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
@@ -52,12 +43,6 @@ form .icon-question-sign { cursor: help; }
 .counter-wrapper .counter { color: #777; position: absolute; top: 0; right: 0; }
 .counter-wrapper label { margin-right: 50px; }
 
-.poll-create 					{ padding: 15px 20px; margin-bottom: 20px; background: #F1F7FD; }
-
-.question-list 					{ margin-bottom: 15px; }
-.question-list li 				{ margin-bottom: 5px; }
-.question-list li .input-text	{ margin-right: 5px; }
-
 dl.form-item { overflow: hidden; zoom: 1; margin-bottom: 20px; }
 dl.form-item dt { float: left; width: 125px; padding-top: 4px; padding-right: 15px; overflow: hidden; }
 dl.form-item dd { float: left; width: 250px; }
@@ -67,17 +52,6 @@ dl.form-item dd { float: left; width: 250px; }
 .form-profile .avatar-change .avatar { width: 80px; border-radius: 5px; margin-bottom: 10px; background: #fff; padding: 5px; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2); }
 .form-profile .avatar-change img { width: 80px; vertical-align: top; }
 .form-profile .avatar-change a { color: #727a90; border-color: #727a90; }
-
-
-/* Placeholder */
-:-moz-placeholder           { color: #aaa; }
-::-webkit-input-placeholder { color: #aaa; }
-
-/* IE placeholder */
-.placeholder                { color: #aaa; }
-
-
-.mceEditor { display: block; margin-bottom: 20px; }
 
 
 /* Registration form
@@ -107,3 +81,68 @@ dl.form-item dd { float: left; width: 250px; }
 }
 .validate-error-show:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
 
+
+/**
+ * Блок редактирования аватара
+ *
+ * @file actions/ActionSettings/profile.tpl
+ */
+.avatar-edit       { margin-bottom: 15px; }
+.avatar-edit img   { vertical-align: bottom; }
+.avatar-edit label { margin-top: 10px; }
+
+
+/**
+ * Создание топика-опроса
+ *
+ * @file actions/ActionQuestion/add.tpl
+ */
+.poll-add { padding: 15px 20px; margin-bottom: 20px; background: #F1F7FD; }
+
+.poll-add-list                       { margin-bottom: 15px; }
+.poll-add-list li                    { margin-bottom: 5px; }
+.poll-add-list li input[type="text"] { margin-right: 5px; }
+
+
+/**
+ * Справка по разметке редактора
+ *
+ * @file editor_help.tpl
+ */
+.editor-help header   { margin-bottom: 20px; } 
+.editor-help header a { font-size: 11px; color: #000; border-color: #000; } 
+
+.editor-help-body { 
+	display: none;
+	position: relative; 
+	padding: 15px 20px;
+	margin-bottom: 20px;
+	background: #fefef1; 
+	color: #363636; 
+	margin-top: 13px; 
+	font-size: 11px; 
+	border-radius: 3px; 
+	-webkit-box-shadow: 0 0 5px #e8e8c0 inset; 
+	        box-shadow: 0 0 5px #e8e8c0 inset; 
+}
+.editor-help-body:before 	{
+	display: block;
+	content: "";
+	position: absolute;
+	top: -12px;
+	left: 15px;
+	width: 0;
+	height: 0;
+	border-width: 6px;
+	border-color: transparent transparent #F2F2DD transparent;
+	border-style: solid;
+}
+.editor-help-body h3 { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+
+.editor-help-col             { float: left; width: 47%; margin-left: 6%; }
+.editor-help-col:first-child { margin-left: 0; }
+
+.editor-help-item            { margin-bottom: 20px; }
+.editor-help-item:last-child { margin-bottom: 0; }
+.editor-help-item h4         { font-family: Verdana, sans-serif; font-size: 11px; color: #727a90; font-weight: bold; }
+.editor-help-item h4 a       { color: #727a90; border-bottom: 1px dotted #727a90; }

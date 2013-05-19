@@ -31,6 +31,8 @@
 			{$sSettings = 'getTinymce()'}
 		{/if}
 
+		{hook run='editor_init_wysiwyg_settings'}
+
 		<script src="{cfg name='path.static.framework'}/js/vendor/tinymce/tiny_mce.js"></script>
 
 		<script>
@@ -53,6 +55,8 @@
 		{else}
 			{$sSettings = 'getMarkitup()'}
 		{/if}
+
+		{hook run='editor_init_markup_settings'}
 
 		<script>
 			jQuery(function($) {

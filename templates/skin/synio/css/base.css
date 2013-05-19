@@ -197,33 +197,9 @@ h2.header-table span { color: #949aa1; }
 
 /* Misc
 ---------------------------------------------------- */
-.avatar-edit { margin-bottom: 15px; }
-.avatar-edit img { vertical-align: bottom; }
-.avatar-edit label { margin-top: 10px; }
-
 .drafts { float: right; font-size: 11px; color: #275ec2; }
 
 .content-error { padding: 110px 160px; }
 .content-error h2.page-header { font-weight: bold; font-size: 30px; margin-bottom: 35px; }
 .content-error a { color: #727a90; }
 .content-error a:hover { color: #f00; }
-
-.help { 
-	display: none;
-	position: relative; 
-	padding: 10px 7px 13px;
-	background: #fefef1; 
-	color: #363636; 
-	margin-top: 13px; 
-	font-size: 11px; 
-	border-radius: 3px; 
-	-webkit-box-shadow: 0 0 5px #e8e8c0 inset; box-shadow: 0 0 5px #e8e8c0 inset; 
-}
-.help:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
-.help .help-col { float: left; width: 230px; padding: 0 10px; }
-.help .help-col.help-wide { float: none; width: 96%; }
-.help .help-item { margin-bottom: 20px; }
-.help .help-item:last-child { margin-bottom: 0; }
-.help .help-item h4 { font-family: Verdana, sans-serif; font-size: 11px; color: #727a90; font-weight: bold; }
-.help .help-item h4 a { color: #727a90; border-bottom: 1px dotted #727a90; }
-.link-dotted.help-link { font-size: 11px; color: #000; border-color: #000; }
