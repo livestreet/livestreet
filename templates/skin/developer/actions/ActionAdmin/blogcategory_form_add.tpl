@@ -1,9 +1,9 @@
 {extends file='modals/modal_base.tpl'}
 
 
-{block name='id'}modal-category-add{/block}
-{block name='class'}js-modal-default{/block}
-{block name='title'}
+{block name='modal_id'}modal-category-add{/block}
+{block name='modal_class'}js-modal-default{/block}
+{block name='modal_title'}
 	{if $oCategory}
 		{$aLang.admin_blogcategory_form_edit}
 	{else}
@@ -11,7 +11,7 @@
 	{/if}
 {/block}
 
-{block name='content'}
+{block name='modal_content'}
 	<form action="" method="post" id="form-category-blog-add" onsubmit="ls.admin.{if $oCategory}editCategoryBlog{else}addCategoryBlog{/if}('form-category-blog-add'); return false;">
 		<p><label for="pid">{$aLang.admin_blogcategory_form_field_parent}</label>
 		<select name="pid" id="pid" class="width-full">
@@ -37,7 +37,7 @@
 	</form>
 {/block}
 
-{block name='footer'}
+{block name='modal_footer_begin'}
 	<button type="submit" name="submit" class="button button-primary" onclick="jQuery('#form-category-blog-add').submit()">
 		{if $oCategory}{$aLang.admin_blogcategory_form_edit_submit}{else}{$aLang.admin_blogcategory_form_add_submit}{/if}
 	</button>
