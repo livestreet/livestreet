@@ -85,7 +85,7 @@
 
 	{* Скрытые поля *}
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-	<input type="hidden" name="topic_type" value="topic" />
+	<input type="hidden" name="topic_type" value="{block name='add_topic_type'}topic{/block}" />
 	
 
 	{* Кнопки *}

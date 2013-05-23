@@ -6,6 +6,9 @@
 
 {extends file='add.topic.base.tpl'}
 
+
+{block name='add_topic_type'}question{/block}
+
 {block name='add_topic_form_text_before'}
 	<div class="poll-add">
 		<label>{$aLang.topic_question_create_answers}:</label>

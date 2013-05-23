@@ -7,6 +7,8 @@
 {extends file='add.topic.base.tpl'}
 
 
+{block name='add_topic_type'}photoset{/block}
+
 {block name='add_topic_header_after'}
 	{include file='modals/modal.photoset_add_photo.tpl'}
 {/block}
