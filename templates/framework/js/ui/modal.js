@@ -207,6 +207,8 @@ var ls = ls || {};
      * @param  {Object} options Options
      */
     Modal.load = function (url, params, options) {
+        ! $($.fn.modal.settings.overlaySelector).length && Modal.initOverlay();
+
         showOverlay();
         Modal.showLoader();
 
@@ -222,6 +224,7 @@ var ls = ls || {};
 
                 Modal.hideLoader(false);
                 modal.data('object', (object = new Modal(modal, options)));
+                object.options.params = params;
                 object.show();
             }
         }, {
@@ -235,6 +238,14 @@ var ls = ls || {};
         });
     };
 
+    /**
+     * Reload active ajax modal
+     */
+    ls.modal.reload = function () {
+        var modal = $($.fn.modal.settings.modalSelector + ':visible').data('object');
+        ls.modal.load(modal.options.url, modal.options.params, modal.options);
+    };
+    
 
     Modal.prototype = {
         /**

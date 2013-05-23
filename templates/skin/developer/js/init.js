@@ -134,8 +134,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Comments
 	 */
-	ls.comments.options.folding = false;
-	ls.comments.init();
+	ls.comments.init({
+		folding: false
+	});
 
 
 	/**

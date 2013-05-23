@@ -1,3 +1,10 @@
+{**
+ * Комментарии
+ *
+ * @styles css/comments.css
+ *}
+
+{* Добавляем в тулбар кнопку обновления комментариев *}
 {add_block group='toolbar' name='toolbar_comment.tpl'
 	aPagingCmt=$aPagingCmt
 	iTargetId=$iTargetId
@@ -5,65 +12,91 @@
 	iMaxIdComment=$iMaxIdComment
 }
 
+
 {hook run='comment_tree_begin' iTargetId=$iTargetId sTargetType=$sTargetType}
+
 
 <div class="comments" id="comments">
 	<header class="comments-header">
-		<h3><span id="count-comments">{$iCountComment}</span> {$iCountComment|declension:$aLang.comment_declension:'russian'}</h3>
+		<h3>
+			<span id="count-comments">{$iCountComment}</span> 
+			{$iCountComment|declension:$aLang.comment_declension:'russian'}
+		</h3>
 		
+		{* Подписка на комментарии *}
 		{if $bAllowSubscribe and $oUserCurrent}
-			<div class="subscribe">
-				<input {if $oSubscribeComment and $oSubscribeComment->getStatus()}checked="checked"{/if} type="checkbox" id="comment_subscribe" class="input-checkbox" onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);">
-				<label for="comment_subscribe">{$aLang.comment_subscribe}</label>
-			</div>
+			<label class="comments-subscribe">
+				<input 
+					type="checkbox" 
+					id="comment_subscribe" 
+					class="input-checkbox" 
+					onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"
+					{if $oSubscribeComment and $oSubscribeComment->getStatus()}checked{/if}>
+				{$aLang.comment_subscribe}
+			</label>
 		{/if}
 	
 		<a name="comments"></a>
 	</header>
 
-	{assign var="nesting" value="-1"}
+	{**
+	 * Комментарии
+	 *}
+	{$nesting = -1}
+
 	{foreach from=$aComments item=oComment name=rublist}
-		{assign var="cmtlevel" value=$oComment->getLevel()}
+		{$cmtlevel = $oComment->getLevel()}
 		
-		{if $cmtlevel>$oConfig->GetValue('module.comment.max_tree')}
-			{assign var="cmtlevel" value=$oConfig->GetValue('module.comment.max_tree')}
+		{if $cmtlevel > $oConfig->GetValue('module.comment.max_tree')}
+			{$cmtlevel = $oConfig->GetValue('module.comment.max_tree')}
 		{/if}
 		
 		{if $nesting < $cmtlevel} 
+
 		{elseif $nesting > $cmtlevel}    	
-			{section name=closelist1  loop=$nesting-$cmtlevel+1}</div>{/section}
+			{section name=closelist1 loop=$nesting - $cmtlevel + 1}</div>{/section}
 		{elseif not $smarty.foreach.rublist.first}
 			</div>
 		{/if}
 		
 		<div class="comment-wrapper" id="comment_wrapper_id_{$oComment->getId()}">
 		
-		{include file='comment.tpl'} 
-		{assign var="nesting" value=$cmtlevel}
+		{include file='comment.tpl'}
+
+		{$nesting = $cmtlevel}
+
 		{if $smarty.foreach.rublist.last}
-			{section name=closelist2 loop=$nesting+1}</div>{/section}    
+			{section name=closelist2 loop=$nesting + 1}</div>{/section}    
 		{/if}
 	{/foreach}
-</div>				
+</div>
 	
-	
+
+{**
+ * Страницы
+ *}
 {include file='comment_paging.tpl' aPagingCmt=$aPagingCmt}
 
 {hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
+
+{**
+ * Форма добавления комментария
+ *}
 {if $bAllowNewComment}
 	{$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
-
+		{* Подключение редактора *}
 		{include file='editor_init.tpl' sEditorType='comment'}
-	
-		<h4 class="reply-header" id="comment_id_0">
+
+		{* Ссылка открывающая форму *}
+		<h4 class="comment-reply-header" id="comment_id_0">
 			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>
 		</h4>
 		
-		
-		<div id="reply" class="reply">		
+		{* Форма *}
+		<div id="reply" class="comment-reply">		
 			<form method="post" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 				{hook run='form_add_comment_begin'}
 				
@@ -71,19 +104,17 @@
 				
 				{hook run='form_add_comment_end'}
 				
-				<button type="submit"  name="submit_comment" 
+				<input type="hidden" name="reply" value="0" id="form_comment_reply" />
+				<input type="hidden" name="cmt_target_id" value="{$iTargetId}" />
+				
+				<button type="submit" name="submit_comment" 
 						id="comment-button-submit" 
 						onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" 
 						class="button button-primary">{$aLang.comment_add}</button>
 				<button type="button" onclick="ls.comments.preview();" class="button">{$aLang.comment_preview}</button>
-				
-				<input type="hidden" name="reply" value="0" id="form_comment_reply" />
-				<input type="hidden" name="cmt_target_id" value="{$iTargetId}" />
 			</form>
 		</div>
 	{else}
 		{$aLang.comment_unregistered}
 	{/if}
-{/if}	
-
-
+{/if}

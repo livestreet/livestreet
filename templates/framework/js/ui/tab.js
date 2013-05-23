@@ -3,6 +3,8 @@
  *
  * @version 1.0
  * @author Denis Shakhov <denis.shakhov@gmail.com>
+ *
+ * TODO: Dropdown support
  */
 
 var ls = ls || {};
@@ -36,13 +38,13 @@ var ls = ls || {};
 			this.$tab
 				.addClass('active')
 				.closest($.fn.tab.settings.tabsSelector)
-				.find('li') // TODO: Fix selector
+				.find($.fn.tab.settings.tabSelector)
 				.not(this.$tab)
 				.removeClass('active');
 
 			if (dropdown.length > 0) dropdown.addClass('active');
 
-			this.$pane.show().parent($.fn.tab.settings.contentSelector).find($.fn.tab.settings.paneSelector).not(this.$pane).hide();
+			this.$pane.show().parent($.fn.tab.settings.panesSelector).children($.fn.tab.settings.paneSelector).not(this.$pane).hide();
 
             if (this.options.url) {
                 this.$pane.empty().addClass('loading');
@@ -121,7 +123,7 @@ var ls = ls || {};
     $.fn.tab.settings = {
         tabsSelector:    '[data-type=tabs]',
         tabSelector:     '[data-type=tab]',
-        contentSelector: '[data-type=tab-content]',
+        panesSelector:   '[data-type=tab-content]',
         paneSelector:    '[data-type=tab-pane]'
     };
 

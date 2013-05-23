@@ -67,3 +67,6 @@
 .wall-more.loader .wall-more-inner 	{ visibility: hidden; }
 
 .wall-note h3 { font-size: 15px; margin-bottom: 20px; font-family: Verdana, sans-serif; }
+
+.wall-submit.wall-submit-reply.wall-submit-comment { -webkit-box-shadow: none; box-shadow: none; margin-top: 0; margin-bottom: 50px; }
+.wall-submit.wall-submit-reply.wall-submit-comment:after { display: none; }
