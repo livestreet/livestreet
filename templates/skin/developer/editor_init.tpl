@@ -28,10 +28,12 @@
 		{if $sEditorType == 'comment'}
 			{$sSettings = 'ls.settings.getTinymceComment()'}
 		{else}
-			{$sSettings = 'ls.settings.getTinymce()'}
+			{hook run='editor_init_wysiwyg_settings' sEditorType=$sEditorType assign='sSettings'}
+			
+			{if ! $sSettings}
+				{$sSettings = 'ls.settings.getTinymce()'}
+			{/if}
 		{/if}
-
-		{hook run='editor_init_wysiwyg_settings'}
 
 		<script src="{cfg name='path.static.framework'}/js/vendor/tinymce/tiny_mce.js"></script>
 
@@ -53,7 +55,11 @@
 		{if $sEditorType == 'comment'}
 			{$sSettings = 'ls.settings.getMarkitupComment()'}
 		{else}
-			{$sSettings = 'ls.settings.getMarkitup()'}
+			{hook run='editor_init_markup_settings' sEditorType=$sEditorType assign='sSettings'}
+			
+			{if ! $sSettings}
+				{$sSettings = 'ls.settings.getMarkitup()'}
+			{/if}
 		{/if}
 
 		<script>
