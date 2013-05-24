@@ -9,7 +9,6 @@ Disallow: /ajax
 Disallow: /admin
 Disallow: /subscribe/
 Disallow: /tag/$
-Disallow: /topic/$
 Disallow: /page/$
 Disallow: /error/$
 Disallow: /settings/$
