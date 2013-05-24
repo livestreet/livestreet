@@ -24,7 +24,7 @@
 {if $oConfig->GetValue('view.wysiwyg')}
 	{* WYSIWYG редактор *}
 
-	{hookb run='editor_init_wysiwyg'}
+	{hookb run='editor_init_wysiwyg' sEditorType=$sEditorType sEditorSelector=$sEditorSelector}
 		{if $sEditorType == 'comment'}
 			{$sSettings = 'ls.settings.getTinymceComment()'}
 		{else}
@@ -49,7 +49,7 @@
 {else}
 	{* Markup редактор *}
 
-	{hookb run='editor_init_markup'}
+	{hookb run='editor_init_markup' sEditorType=$sEditorType sEditorSelector=$sEditorSelector}
 		{include file='modals/modal.upload_image.tpl'}
 
 		{if $sEditorType == 'comment'}
