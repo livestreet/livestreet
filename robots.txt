@@ -16,4 +16,3 @@ Disallow: /photoset/$
 Disallow: /topic/$
 Disallow: /link/$
 Disallow: /question/$
-Disallow: /message/$
