@@ -1,4 +1,5 @@
-Вам присвоен новый пароль: {$sNewPassword}
+{extends file='notify/notify.base.tpl'}
 
-<br><br>
-С уважением, администрация сайта <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
+{block name='content'}
+	Вам присвоен новый пароль: <b>{$sNewPassword}</b>
+{/block}

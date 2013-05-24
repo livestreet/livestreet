@@ -1022,6 +1022,7 @@ return array(
 	'notify_subject_wall_new' => 'Новое сообщение на вашей стене',
 	'notify_subject_reactvation' => 'Повторный запрос активации',
 	'notify_subject_user_changemail' => 'Подтверждение смены емайла',
+	'notify_regards' => 'С уважением, администрация сайта',
 	/**
 	 * Админка
 	 */
