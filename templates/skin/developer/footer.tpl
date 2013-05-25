@@ -16,7 +16,7 @@
 
 </div> <!-- /container -->
 
-{include file='toolbar.tpl'}
+{include file='toolbar/toolbar.tpl'}
 
 {hook run='body_end'}
 

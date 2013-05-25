@@ -3,7 +3,7 @@
  *}
 
 {if count($aTopics) > 0}
-	{add_block group='toolbar' name='toolbar_topic.tpl' iCountTopic=count($aTopics)}
+	{add_block group='toolbar' name='toolbar/toolbar_topic.tpl' iCountTopic=count($aTopics)}
 
 	{foreach from=$aTopics item=oTopic}
 		{if $LS->Topic_IsAllowTopicType($oTopic->getType())}
