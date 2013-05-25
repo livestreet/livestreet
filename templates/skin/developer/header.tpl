@@ -130,7 +130,7 @@
 
 	<div id="container" class="{hook run='container_class'}">
 		{include file='header_top.tpl'}
-		{include file='nav.tpl'}
+		{include file='navs/nav.tpl'}
 
 		<div id="wrapper" class="{hook run='wrapper_class'}">
 			<div id="content-wrapper">
@@ -138,7 +138,7 @@
 					class="{if $noSidebar}content-full-width{/if}"
 					{if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-					{include file='nav_content.tpl'}
+					{include file='navs/nav_content.tpl'}
 					{include file='system_message.tpl'}
 
 					{hook run='content_begin'}
