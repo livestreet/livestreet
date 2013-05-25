@@ -4,6 +4,8 @@
  * @styles css/topic.css
  *}
 
+{block name='add_topic_options'}{/block}
+
 {if $sEvent=='add'}
 	{include file='header.tpl' nav_content='create'}
 {else}
@@ -20,10 +22,12 @@
 {include file='editor_init.tpl'}
 
 
+{hook run="add_topic_`$sTopicType`_begin"}
 {block name='add_topic_header_after'}{/block}
 
 
 <form action="" method="POST" enctype="multipart/form-data" id="form-topic-add">
+	{hook run="form_add_topic_`$sTopicType`_begin"}
 	{block name='add_topic_form_begin'}{/block}
 
 
@@ -81,11 +85,11 @@
 	
 
 	{block name='add_topic_form_end'}{/block}
-
+	{hook run="form_add_topic_`$sTopicType`_end"}
 
 	{* Скрытые поля *}
 	<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-	<input type="hidden" name="topic_type" value="{block name='add_topic_type'}topic{/block}" />
+	<input type="hidden" name="topic_type" value="{$sTopicType}" />
 	
 
 	{* Кнопки *}
@@ -106,6 +110,7 @@
 
 
 {block name='add_topic_end'}{/block}
+{hook run="add_topic_`$sTopicType`_end"}
 
 
 {include file='footer.tpl'}
