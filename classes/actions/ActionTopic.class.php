@@ -46,6 +46,12 @@ class ActionTopic extends Action {
 	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
+	/**
+	 * Тип топика
+	 *
+	 * @var string
+	 */
+	protected $sType = 'topic';
 
 	/**
 	 * Инициализация
@@ -118,6 +124,7 @@ class ActionTopic extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
@@ -190,6 +197,7 @@ class ActionTopic extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_create'));
 		/**
 		 * Обрабатываем отправку формы

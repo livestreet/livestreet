@@ -46,6 +46,12 @@ class ActionQuestion extends Action {
 	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
+	/**
+	 * Тип топика
+	 *
+	 * @var string
+	 */
+	protected $sType = 'question';
 
 	/**
 	 * Инициализация
@@ -120,6 +126,7 @@ class ActionQuestion extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_Assign('bEditDisabled',$oTopic->getQuestionCountVote()==0 ? false : true);
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
@@ -169,6 +176,7 @@ class ActionQuestion extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_Assign('bEditDisabled',false);
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_question_title_create'));
 		/**
 		 * Обрабатываем отправку формы

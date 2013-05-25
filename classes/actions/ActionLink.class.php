@@ -46,6 +46,12 @@ class ActionLink extends Action {
 	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent=null;
+	/**
+	 * Тип топика
+	 *
+	 * @var string
+	 */
+	protected $sType = 'link';
 
 	/**
 	 * Инициализация
@@ -96,7 +102,7 @@ class ActionLink extends Action {
 		/**
 		 * проверяем является ли топик ссылкой
 		 */
-		if ($oTopic->getType()!='link') {
+		if ($oTopic->getType()!=$this->sType) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -131,7 +137,7 @@ class ActionLink extends Action {
 		/**
 		 * Проверяем тип топика
 		 */
-		if ($oTopic->getType()!='link') {
+		if ($oTopic->getType()!=$this->sType) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -148,6 +154,7 @@ class ActionLink extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_link_title_edit'));
 		/**
 		 * Устанавливаем шаблон вывода
@@ -198,6 +205,7 @@ class ActionLink extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+		$this->Viewer_Assign('sTopicType', $this->sType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_link_title_create'));
 		/**
 		 * Обрабатываем отправку формы
@@ -217,7 +225,7 @@ class ActionLink extends Action {
 			return false;
 		}
 		$oTopic=Engine::GetEntity('Topic');
-		$oTopic->_setValidateScenario('link');
+		$oTopic->_setValidateScenario($this->sType);
 		/**
 		 * Заполняем поля для валидации
 		 */
@@ -226,7 +234,7 @@ class ActionLink extends Action {
 		$oTopic->setTextSource(getRequestStr('topic_text'));
 		$oTopic->setTags(getRequestStr('topic_tags'));
 		$oTopic->setUserId($this->oUserCurrent->getId());
-		$oTopic->setType('link');
+		$oTopic->setType($this->sType);
 		$oTopic->setLinkUrl(getRequestStr('topic_link_url'));
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
