@@ -640,7 +640,7 @@ class ModuleComment extends Module {
 	 * @return string
 	 */
 	public function GetTemplateCommentByTarget($iTargetId,$sTargetType) {
-		return "comment.tpl";
+		return "comments/comment.tpl";
 	}
 	/**
 	 * Строит дерево комментариев

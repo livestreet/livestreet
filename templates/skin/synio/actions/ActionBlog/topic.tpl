@@ -2,7 +2,7 @@
 
 {include file='topics/topic.tpl'}
 {include 
-	file='comment_tree.tpl' 	
+	file='comments/comment_tree.tpl' 	
 	iTargetId=$oTopic->getId()
 	iAuthorId=$oTopic->getUserId()
 	sAuthorNotice=$aLang.topic_author

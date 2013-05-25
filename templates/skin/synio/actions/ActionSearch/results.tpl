@@ -35,7 +35,7 @@
 	{if $aReq.sType == 'topics'}
 		{include file='topics/topic_list.tpl'}
 	{elseif $aReq.sType == 'comments'}
-		{include file='comment_list.tpl'}
+		{include file='comments/comment_list.tpl'}
 	{else}
 		{hook run='search_result' sType=$aReq.sType}
 	{/if}

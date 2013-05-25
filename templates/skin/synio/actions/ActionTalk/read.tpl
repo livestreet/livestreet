@@ -42,7 +42,7 @@
 
 {if !$bNoComments}
 {include
-	file='comment_tree.tpl'
+	file='comments/comment_tree.tpl'
 	iTargetId=$oTalk->getId()
 	sTargetType='talk'
 	iCountComment=$oTalk->getCountComment()
