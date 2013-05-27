@@ -1,7 +1,6 @@
 {hook run='profile_sidebar_begin' oUserProfile=$oUserProfile}
 
 {include file='modals/modal.profile_photo_upload.tpl'}
-
 {include file='blocks/block.profilePhoto.tpl'}
 
 {if $oUserCurrent && $oUserCurrent->getId() != $oUserProfile->getId()}

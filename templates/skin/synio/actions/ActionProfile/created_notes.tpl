@@ -1,11 +1,6 @@
-{assign var="sidebarPosition" value='left'}
 {include file='header.tpl' nav='people'}
-
-
-
 {include file='actions/ActionProfile/profile_top.tpl'}
 {include file='navs/nav.profile_created.tpl'}
-
 
 {if $aNotes}
 	<table class="table table-profile-notes" cellspacing="0">
@@ -21,9 +16,5 @@
 	<div class="notice-empty">{$aLang.user_note_list_empty}</div>
 {/if}
 
-
 {include file='paging.tpl' aPaging=$aPaging}
-
-
-
 {include file='footer.tpl'}

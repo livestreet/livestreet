@@ -1,16 +1,11 @@
-{assign var="sidebarPosition" value='left'}
-{assign var="sMenuItemSelect" value='profile'}
+{$sMenuItemSelect = 'profile'}
+{$oSession = $oUserProfile->getSession()}
+{$oVote = $oUserProfile->getVote()}
+{$oGeoTarget = $oUserProfile->getGeoTarget()}
 {include file='header.tpl'}
-
-{assign var="oSession" value=$oUserProfile->getSession()}
-{assign var="oVote" value=$oUserProfile->getVote()}
-{assign var="oGeoTarget" value=$oUserProfile->getGeoTarget()}
-
-
-			
 {include file='actions/ActionProfile/profile_top.tpl'}
-<h3 class="profile-page-header">{$aLang.user_menu_profile_whois}</h3>
 
+<h3 class="profile-page-header">{$aLang.user_menu_profile_whois}</h3>
 
 {if $oUserProfile->getProfileAbout()}					
 	<div class="profile-info-about">
@@ -22,7 +17,8 @@
 	</div>
 {/if}
 
-{assign var="aUserFieldValues" value=$oUserProfile->getUserFieldValues(true,array(''))}
+
+{$aUserFieldValues = $oUserProfile->getUserFieldValues(true,array(''))}
 
 {if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
 	<h2 class="header-table">{$aLang.profile_privat}</h2>
@@ -81,7 +77,7 @@
 
 {hook run='profile_whois_item_after_privat' oUserProfile=$oUserProfile}
 
-{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact'))}
+{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true,array('contact'))}
 {if $aUserFieldContactValues}
 	<h2 class="header-table">{$aLang.profile_contacts}</h2>
 	
@@ -96,7 +92,7 @@
 {/if}
 
 
-{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('social'))}
+{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true,array('social'))}
 {if $aUserFieldContactValues}
 	<h2 class="header-table">{$aLang.profile_social}</h2>
 	
@@ -157,7 +153,7 @@
 			<td class="cell-label">{$aLang.profile_blogs_administration}:</td>
 			<td>
 				{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
-					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					{$oBlog = $oBlogUser->getBlog()}
 					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
@@ -170,7 +166,7 @@
 			<td class="cell-label">{$aLang.profile_blogs_moderation}:</td>
 			<td>
 				{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
-					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					{$oBlog = $oBlogUser->getBlog()}
 					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
@@ -183,7 +179,7 @@
 			<td class="cell-label">{$aLang.profile_blogs_join}:</td>
 			<td>
 				{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
-					{assign var="oBlog" value=$oBlogUser->getBlog()}
+					{$oBlog = $oBlogUser->getBlog()}
 					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 				{/foreach}
 			</td>
@@ -207,7 +203,6 @@
 		</tr>
 	{/if}
 </table>
-
 
 
 {if $aUsersFriend}

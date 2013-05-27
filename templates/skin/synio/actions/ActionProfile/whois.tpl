@@ -1,49 +1,47 @@
-{assign var="sidebarPosition" value='left'}
-{assign var="sMenuItemSelect" value='profile'}
+{$sMenuItemSelect = 'profile'}
+{$oSession = $oUserProfile->getSession()}
+{$oVote = $oUserProfile->getVote()}
+{$oGeoTarget = $oUserProfile->getGeoTarget()}
 {include file='header.tpl' nav='people'}
-
-{assign var="oSession" value=$oUserProfile->getSession()}
-{assign var="oVote" value=$oUserProfile->getVote()}
-{assign var="oGeoTarget" value=$oUserProfile->getGeoTarget()}
-
-
-			
 {include file='actions/ActionProfile/profile_top.tpl'}
 {include file='navs/nav.profile_whois.tpl'}
 
 
-
 <div class="profile-info-about">
-	<a href="{$oUserProfile->getUserWebPath()}" class="avatar"><img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" itemprop="photo" /></a>
+	<a href="{$oUserProfile->getUserWebPath()}" class="avatar">
+		<img src="{$oUserProfile->getProfileAvatarPath(100)}" alt="avatar" itemprop="photo" />
+	</a>
 
 	<h3>{$aLang.profile_about}</h3>
+
 	{if $oUserProfile->getProfileAbout()}	
 		<p class="text">{$oUserProfile->getProfileAbout()}</p>
 	{else}
 		<p>{$aLang.profile_about_empty}</p>
 	{/if}
+
 	<br />
+
 	{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
 		<a href="{router page='settings'}" class="edit">{$aLang.profile_about_edit}</a>
 	{/if}
 </div>
 
 
-
-<div class="wrapper">
+<div class="clearfix">
 	<div class="profile-left">
-		{assign var="aUserFieldValues" value=$oUserProfile->getUserFieldValues(true,array(''))}
+		{$aUserFieldValues = $oUserProfile->getUserFieldValues(true,array(''))}
 
-		{if $oUserProfile->getProfileSex()!='other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
+		{if $oUserProfile->getProfileSex() != 'other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
 			<h2 class="header-table">{$aLang.profile_privat}</h2>
 			
 			
 			<ul class="profile-dotted-list">		
-				{if $oUserProfile->getProfileSex()!='other'}
+				{if $oUserProfile->getProfileSex() != 'other'}
 					<li>
 						<span>{$aLang.profile_sex}:</span>
 						<strong>
-							{if $oUserProfile->getProfileSex()=='man'}
+							{if $oUserProfile->getProfileSex() == 'man'}
 								{$aLang.profile_sex_man}
 							{else}
 								{$aLang.profile_sex_woman}
@@ -96,7 +94,6 @@
 		<h2 class="header-table">{$aLang.profile_activity}</h2>
 
 		<ul class="profile-dotted-list">
-
 			{if $oConfig->GetValue('general.reg.invite') and $oUserInviteFrom}
 				<li>
 					<span>{$aLang.profile_invite_from}:</span>
@@ -136,7 +133,7 @@
 					<span>{$aLang.profile_blogs_administration}:</span>
 					<strong>
 						{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
-							{assign var="oBlog" value=$oBlogUser->getBlog()}
+							{$oBlog = $oBlogUser->getBlog()}
 							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 						{/foreach}
 					</strong>
@@ -149,7 +146,7 @@
 					<span>{$aLang.profile_blogs_moderation}:</span>
 					<strong>
 						{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
-							{assign var="oBlog" value=$oBlogUser->getBlog()}
+							{$oBlog = $oBlogUser->getBlog()}
 							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 						{/foreach}
 					</strong>
@@ -162,7 +159,7 @@
 					<span>{$aLang.profile_blogs_join}:</span>
 					<strong>
 						{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
-							{assign var="oBlog" value=$oBlogUser->getBlog()}
+							{$oBlog = $oBlogUser->getBlog()}
 							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
 						{/foreach}
 					</strong>
@@ -201,10 +198,9 @@
 	
 	
 	
-	
-	
 	<div class="profile-right">
-		{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('contact'))}
+		{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true,array('contact'))}
+
 		{if $aUserFieldContactValues}
 			<h2 class="header-table">{$aLang.profile_contacts}</h2>
 			
@@ -216,7 +212,8 @@
 		{/if}
 
 
-		{assign var="aUserFieldContactValues" value=$oUserProfile->getUserFieldValues(true,array('social'))}
+		{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true,array('social'))}
+
 		{if $aUserFieldContactValues}
 			<h2 class="header-table">{$aLang.profile_social}</h2>
 			
@@ -230,8 +227,6 @@
 		{hook run='profile_whois_item' oUserProfile=$oUserProfile}
 	</div>
 </div>
-
-
 
 
 {include file='footer.tpl'}

@@ -133,7 +133,7 @@
 		{include file='navs/nav.tpl'}
 
 		<div id="wrapper" class="{if $noSidebar}no-sidebar{/if}{hook run='wrapper_class'}">
-			<div id="content-wrapper" {if $sidebarPosition == 'left'}class="content-profile"{/if}>
+			<div id="content-wrapper">
 				<div id="content" role="main" {if $sMenuItemSelect=='profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 					{include file='navs/nav_content.tpl'}
 					{include file='system_message.tpl'}
