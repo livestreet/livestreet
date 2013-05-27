@@ -39,7 +39,7 @@
 		
 		{* Аватар пользователя *}
 		<a href="{$oUser->getUserWebPath()}">
-			<img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" />
+			<img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="comment-avatar" />
 		</a>
 		
 		{* Информация *}

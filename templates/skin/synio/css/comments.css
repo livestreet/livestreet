@@ -27,17 +27,17 @@
  *
  * @file comments/comment.tpl
  */
-.comment                 { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 40px; position: relative; }
+.comment                 { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 0; position: relative; }
 
 /* Аватар */
-.comment-avatar { position: absolute; top: 10px; left: 0; width: 30px; height: 30px; }
+.comment-avatar { position: absolute; top: 8px; left: 0; width: 24px; height: 24px; }
 
 /* Кнопка сворачивания ветки комментариев */
 .comment-folding {
 	width: 13px;
 	height: 13px;
 	position: absolute;
-	top: 18px;
+	top: 14px;
 	left: -20px;
 	background: url(../images/icons-synio.png) 0 -94px no-repeat;
 	cursor: pointer;
@@ -45,7 +45,7 @@
 .comment-folding.folded { background-position: -13px -94px; }
 
 /* Информация */
-.comment-info                    { padding: 0 70px 0 0; margin-bottom: 10px; line-height: 17px; position: relative; overflow: hidden; zoom: 1; font-size: 11px; }
+.comment-info                    { padding: 0 70px 0 0; margin-bottom: 10px; margin-left: 33px; line-height: 17px; position: relative; overflow: hidden; zoom: 1; font-size: 11px; }
 .comment-info li                 { float: left; height: 20px; margin-right: 13px; }
 
 .comment-info .comment-author a { font-weight: bold; color: #727fa0; }
@@ -91,7 +91,7 @@
 .comment-content                  { margin-bottom: 5px; padding: 9px 10px 10px; border: 1px solid #e7ebed; border-radius: 3px; position: relative; }
 
 .comment-content:after,
-.comment-content:before { display: block; content: ""; position: absolute; top: -11px; left: 10px; width: 0; height: 0; border-width: 6px; }
+.comment-content:before { display: block; content: ""; position: absolute; top: -11px; left: 50px; width: 0; height: 0; border-width: 6px; }
 .comment-content:after  { border-color: transparent transparent #e7ebed; border-style: solid; top: -12px; }
 .comment-content:before { border-color: transparent transparent #fff; border-style: solid; z-index: 10; }
 
@@ -140,11 +140,11 @@
  */
 .comment-reply-header { font-size: 20px; line-height: 1.3em; margin-bottom: 15px; }
 
-.comment-reply          { background: #f8fbfe; padding: 15px; border-radius: 5px; }
-.comment-reply textarea { height: 150px; }
+.comment-reply                  { background: #f8fbfe; padding: 15px; border-radius: 5px; }
+.comment-reply textarea         { height: 150px; }
 .comment-reply textarea.loading { background-image: url(../images/loader-circle.gif); }
 
-.comment-wrapper .comment-reply { margin-left: 80px; }
+.comment-wrapper .comment-reply { margin-left: 40px; }
 
 
 /**
