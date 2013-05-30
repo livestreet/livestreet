@@ -9,6 +9,58 @@ ls.user = (function ($) {
 	this.jcropFoto=null;
 
 	/**
+	 * Инициализация
+	 */
+	this.init = function() {
+		$('.js-form-login').on('submit', function() {
+			ls.user.login($(this));
+			return false;
+		});
+
+		$('.js-form-recovery').on('submit', function() {
+			ls.user.reminder($(this));
+			return false;
+		});
+
+		$('.js-form-signup').on('submit', function() {
+			ls.user.registration($(this));
+			return false;
+		});
+
+		$('#reactivation-form').on('submit', function() {
+			ls.user.reactivation($(this));
+			return false;
+		});
+
+
+		$('.js-form-signup').find('.js-ajax-validate').blur(function(e) {
+			var aParams = {},
+				$this   = $(e.target),
+				$form   = $this.closest('.js-form-signup');
+
+			if ($this.attr('name') == 'password_confirm') {
+				aParams['password'] = $form.find('.js-form-signup-password').val();
+			}
+
+			if ($this.attr('name') == 'password') {
+				aParams['password'] = $this.val();
+
+				var passwordConfirmValue = $form.find('.js-form-signup-password-confirm').val();
+				if (passwordConfirmValue) {
+					ls.user.validateRegistrationField('password_confirm', passwordConfirmValue, $form, { 'password': $this.val() });
+				}
+			}
+
+			ls.user.validateRegistrationField($this.attr('name'), $this.val(), $form, aParams);
+		});
+
+		$('.js-form-login-submit').attr('disabled', false);
+		$('.js-form-signup-submit').attr('disabled',false);
+		$('.js-form-recovery-submit').attr('disabled',false);
+		$('#reactivation-form-submit').attr('disabled',false);
+	};
+
+	/**
 	 * Добавление в друзья
 	 */
 	this.addFriend = function(obj, idUser, sAction){

@@ -1,15 +1,5 @@
-{assign var="noSidebar" value=true}
+{$noSidebar = true}
 {include file='header.tpl'}
-
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-		$('#reactivation-form').bind('submit',function(){
-			ls.user.reactivation('reactivation-form');
-			return false;
-		});
-		$('#reactivation-form-submit').attr('disabled',false);
-	});
-</script>
 
 <h2 class="page-header">{$aLang.reactivation}</h2>
 
@@ -20,7 +10,5 @@
 
 	<button type="submit"  name="submit_reactivation" class="button button-primary" id="reactivation-form-submit" disabled="disabled">{$aLang.reactivation_submit}</button>
 </form>
-
-
 
 {include file='footer.tpl'}

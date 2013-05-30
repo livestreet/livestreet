@@ -163,6 +163,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * User
+	 */
+	ls.user.init();
+
+
+	/**
 	 * Preview image
 	 */
 	$('.js-topic-preview-image').each(function () {

@@ -140,6 +140,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * User
+	 */
+	ls.user.init();
+
+
+	/**
 	 * Talk
 	 */
 

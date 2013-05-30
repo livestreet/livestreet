@@ -1,4 +1,4 @@
-{assign var="noSidebar" value=true}
+{$noSidebar = true}
 {include file='header.tpl'}
 
 <h2 class="page-header">{$aLang.user_exit_notice}</h2>
