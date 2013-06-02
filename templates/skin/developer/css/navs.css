@@ -23,7 +23,7 @@
 	background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
 }
-#userbar .search { float: right; margin: 5px 5px 0 6px; *margin: 4px 0 0 4px; }
+#userbar .search-form { float: right; width: 200px; position: relative; margin: 5px 5px 0 5px; padding: 0; }
 
 .nav.nav-userbar                                 { float: left; }
 .nav.nav-userbar li                              { border-right: 1px solid #eaeaea; }

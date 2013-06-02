@@ -21,9 +21,7 @@
 {/block}
 
 {block name='block_content'}
-	<form action="" method="GET" class="js-tag-search-form search-tags">
-		<input type="text" name="tag" placeholder="{$aLang.block_tags_search}" value="" class="input-text input-width-full autocomplete-tags js-tag-search" />
-	</form>
+	{include file='form.search.tags.tpl'}
 	
 	<div data-type="tab-content">
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">

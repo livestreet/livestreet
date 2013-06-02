@@ -14,10 +14,10 @@
 		<small class="note">{$aLang.userfeed_settings_note_follow_user}</small>
 		
 		<div class="stream-settings-userlist">
-			<div class="search-form-wrapper">
-				<div class="search-input-wrapper">
-					<input type="text" id="userfeed-block-users-input" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="autocomplete-users input-text input-width-full" />
-					<div onclick="ls.userfeed.appendUser();" class="input-submit"></div>
+			<div class="search-form">
+				<div class="search-form-search">
+					<input type="text" id="userfeed-block-users-input" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="search-form-input autocomplete-users width-full" />
+					<div onclick="ls.userfeed.appendUser();" class="search-form-submit"></div>
 				</div>
 			</div>
 			

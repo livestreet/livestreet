@@ -10,6 +10,7 @@
 
 .block .loading        { min-height: 100px; background-image: url(../images/loader-circle.gif); background-position: 50% 0; }
 .block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
+.block .search-form    { margin-bottom: 15px; background: #f9fbfb; }
 
 /* Header */
 .block .block-header                { position: relative; margin-bottom: 15px; }

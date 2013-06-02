@@ -320,14 +320,14 @@ jQuery(document).ready(function($){
 		var write 		= $('#modal_write_show');
 
 		search_show.click(function(){
-			search_form.toggle().find('.input-text').focus();
+			search_form.toggle().find('input[type=text]').focus();
 			$(this).toggle();
 			write.toggle();
 			return false;
 		});
 
 		$(document).click(function(){
-			if (search_form.find('.input-text').val() == '') {
+			if (search_form.find('input[type=text]').val() == '') {
 				search_form.hide();
 				search_show.show();
 				write.show();

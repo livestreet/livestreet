@@ -43,9 +43,9 @@
 		</ul>
 	{/if}
 
-	<form action="{router page='search'}topics/" class="search">
-		<input type="text" placeholder="{$aLang.search}" maxlength="255" name="q" class="input-text">
-		<input type="submit" value="" title="{$aLang.search_submit}" class="input-submit icon icon-search">
+	<form action="{router page='search'}topics/" class="search-form">
+		<input type="text" placeholder="{$aLang.search}" maxlength="255" name="q" class="search-form-input width-full">
+		<input type="submit" value="" title="{$aLang.search_submit}" class="search-form-submit icon-search">
 	</form>
 </nav>
 

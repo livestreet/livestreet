@@ -14,7 +14,12 @@
 		<small class="note">{$aLang.userfeed_settings_note_follow_user}</small>
 		
 		<div class="stream-settings-userlist">
-			<p><input type="text" id="userfeed-block-users-input" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="autocomplete-users input-text input-width-full" /></p>
+			<div class="search-form">
+				<div class="search-form-search">
+					<input type="text" id="userfeed-block-users-input" autocomplete="off" placeholder="{$aLang.userfeed_block_users_append}" class="search-form-input autocomplete-users width-full" />
+					<div onclick="ls.userfeed.appendUser();" class="search-form-submit icon-search"></div>
+				</div>
+			</div>
 			
 			{if count($aUserfeedSubscribedUsers)}
 				<ul id="userfeed-block-users" class="user-list-mini max-height-200 js-userfeed-block-users">

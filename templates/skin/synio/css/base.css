@@ -105,13 +105,12 @@ h2.header-table span { color: #949aa1; }
 /* Навигация
 ---------------------------------------------------- */
 #nav .button.button-write { float: right; margin-left: 35px; margin-top: 1px; }
+#nav .nav.nav-menu { margin-top: 1px; }
 #nav .search-header { float: right; }
 #nav .search-header .search-header-show { font-size: 11px; margin-top: 4px; }
 #nav .search-header .search-header-show a { color: #878e96; border-color: #878e96; }
 #nav .search-header .search-header-show a:hover { color: #f00; border-color: #f00; }
-#nav .search-header .search-header-form { position: relative; top: 0px; }
-#nav .search-header .search-header-form .input-text { padding: 4px 25px 4px 5px; width: 290px; }
-#nav .search-header .search-header-form .input-submit { position: absolute; top: 5px; right: 5px; width: 16px; height: 16px; border: none; background: url(../images/icons-synio.png) -115px -55px no-repeat; }
+#nav .search-header .search-form { position: relative; top: 0px; padding: 0; margin: 0; border-radius: 0; }
 
 
 

@@ -13,7 +13,12 @@
 	{if $oUserCurrent}
 		<small class="note">{$aLang.stream_settings_note_follow_user}</small>
 		
-		<p><input type="text" id="activity-block-users-input" autocomplete="off" placeholder="{$aLang.stream_block_config_append}" class="autocomplete-users input-text input-width-full" /></p>
+		<div class="search-form">
+			<div class="search-form-search">
+				<input type="text" id="activity-block-users-input" autocomplete="off" placeholder="{$aLang.stream_block_config_append}" class="search-form-input autocomplete-users width-full" />
+				<div onclick="ls.stream.appendUser();" class="search-form-submit icon-search"></div>
+			</div>
+		</div>
 		
 		{if $aStreamSubscribedUsers}
 			<ul id="activity-block-users" class="user-list-mini max-height-200 js-activity-block-users">
