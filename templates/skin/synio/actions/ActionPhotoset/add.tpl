@@ -4,7 +4,7 @@
  * @styles css/topic.css
  *}
 
-{extends file='add.topic.base.tpl'}
+{extends file='form.add.topic.base.tpl'}
 
 
 {block name='add_topic_type'}photoset{/block}
