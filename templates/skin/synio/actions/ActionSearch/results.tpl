@@ -2,7 +2,7 @@
 
 <h2 class="page-header">{$aLang.search_results}</h2>
 
-{include file='form.search.main.tpl'}
+{include file='forms/form.search.main.tpl'}
 
 {if $bIsResults}
 	<ul class="nav nav-pills">

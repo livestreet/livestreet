@@ -4,7 +4,7 @@
  * @styles css/forms.css
  *}
 
-{extends file='form.search.base.tpl'}
+{extends file='forms/form.search.base.tpl'}
 
 {block name='search_before'}
 	{$bNoSubmitButton = true}

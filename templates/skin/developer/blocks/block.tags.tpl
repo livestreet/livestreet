@@ -21,7 +21,7 @@
 {/block}
 
 {block name='block_content'}
-	{include file='form.search.tags.tpl'}
+	{include file='forms/form.search.tags.tpl'}
 	
 	<div data-type="tab-content">
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">

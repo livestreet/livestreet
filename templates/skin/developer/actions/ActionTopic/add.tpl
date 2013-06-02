@@ -4,4 +4,4 @@
  * @styles css/topic.css
  *}
 
-{extends file='form.add.topic.base.tpl'}
+{extends file='forms/form.add.topic.base.tpl'}

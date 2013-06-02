@@ -2,7 +2,7 @@
 
 <h2 class="page-header">{$aLang.people}</h2>
 
-{include file='form.search.users.tpl'}
+{include file='forms/form.search.users.tpl'}
 
 <div id="users-list-search" style="display:none;"></div>
 

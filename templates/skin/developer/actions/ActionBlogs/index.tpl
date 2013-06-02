@@ -2,7 +2,7 @@
 
 <h2 class="page-header">{$aLang.blogs}</h2>
 
-{include file='form.search.blogs.tpl'}
+{include file='forms/form.search.blogs.tpl'}
 
 <div id="blogs-list-search" style="display:none;"></div>
 

@@ -2,5 +2,5 @@
 
 <h2 class="page-header">{$aLang.search}</h2>
 
-{include file='form.search.main.tpl'}
+{include file='forms/form.search.main.tpl'}
 {include file='footer.tpl'}

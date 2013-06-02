@@ -19,19 +19,19 @@
 	
 	<div data-type="tab-content">
 		<div class="tab-pane" id="tab-pane-login" data-type="tab-pane">
-			{include file='form.auth.login.tpl' isModal=true}
+			{include file='forms/form.auth.login.tpl' isModal=true}
 		</div>
 
 		<div class="tab-pane" id="tab-pane-registration" data-type="tab-pane">
 			{if ! $oConfig->GetValue('general.reg.invite')}
-				{include file='form.auth.signup.tpl' isModal=true}
+				{include file='forms/form.auth.signup.tpl' isModal=true}
 			{else}
-				{include file='form.auth.invite.tpl' isModal=true}
+				{include file='forms/form.auth.invite.tpl' isModal=true}
 			{/if}
 		</div>
 
 		<div class="tab-pane" id="tab-pane-reminder" data-type="tab-pane">
-			{include file='form.auth.recovery.tpl' isModal=true}
+			{include file='forms/form.auth.recovery.tpl' isModal=true}
 		</div>
 	</div>
 {/block}

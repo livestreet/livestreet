@@ -4,7 +4,7 @@
  * @styles css/forms.css
  *}
 
-{extends file='form.search.base.tpl'}
+{extends file='forms/form.search.base.tpl'}
 
 {* Форма *}
 {block name='search_action'}{router page='search'}topics/{/block}
