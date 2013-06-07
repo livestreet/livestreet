@@ -344,18 +344,6 @@ jQuery(document).ready(function($){
 		$('.talk-search').toggleClass('opened'); return false;
 	};
 
-	ls.blog.toggleInfo = function() {
-		if ($('#blog-mini').is(':visible')) {
-			$('#blog-mini').hide();
-			$('#blog').show();
-		} else {
-			$('#blog-mini').show();
-			$('#blog').hide();
-		}
-
-		return false;
-	};
-
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });

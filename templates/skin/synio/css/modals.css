@@ -56,8 +56,6 @@
 .modal.modal-login .remember-label input      { top: 2px; }
 .modal.modal-login .icon-question-sign        { position: relative; top: -3px; }
 .modal.modal-login .icon-ok-green             { position: relative; top: -1px; }
-.modal.modal-login .modal-content .button     { position: relative; top: -1px; margin-left: 1px; }
-.ie .modal.modal-login .modal-content .button { margin-left: 1px; }
 
 
 /* Write
