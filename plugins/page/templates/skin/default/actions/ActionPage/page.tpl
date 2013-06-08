@@ -1,9 +1,13 @@
-{assign var="noSidebar" value=true}
-{include file='header.tpl'}
+{extends file='layout.base.tpl'}
 
+{block name='layout_options'}
+	{$bNoSidebar = true}
+{/block}
 
-<div class="topic">
-	<div class="topic-content text">
+{block name='layout_content'}
+	<h2 class="page-header">{$oPage->getTitle()}</h2>
+	
+	<div class="text">
 		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
 		{else}
@@ -14,7 +18,4 @@
 			{/if}
 		{/if}
 	</div>
-</div>
-
-
-{include file='footer.tpl'}
+{/block}
