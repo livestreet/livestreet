@@ -4,7 +4,7 @@
 	<a href="#" class="profiler query {if $sAction=='query'}active{/if}"  onclick="ls.profiler.toggleEntriesByClass('{$oReport->getId()}','query',this); return false;">{$aLang.plugin.profiler.entries_show_query} ({$oReport->getStat('query')})</a>
 	
 	<div class="profiler-table">
-		<table class="profiler entries">
+		<table class="profiler entries table">
 			{foreach from=$oReport->getAllEntries() item=oEntry}
 			<tr class="entry_{$oReport->getId()}_all entry_{$oReport->getId()}_{$oEntry->getName()}{if $oEntry->getChildCount()!=0} child{/if}">
 				<td></td>

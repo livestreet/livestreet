@@ -17,6 +17,6 @@
 	</requires>
 	<description>
 		<lang name="default">Profiling the engine`s working.</lang>
-		<lang name="russian">Профилирование работы движка LiveStreet-движка.</lang>
+		<lang name="russian">Профилирование работы движка LiveStreet.</lang>
 	</description>
 </plugin>

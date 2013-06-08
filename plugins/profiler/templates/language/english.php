@@ -27,6 +27,7 @@ return array(
 	'table_count_id' => 'Number of profiles',
 	'report_delete' => 'Delete',
 	'report_delete_confirm' => 'Are you sure you want to delete the selected reports?',
+	'no_reports' => 'No reports',
 	
 	'dbstat_title' => 'Information on the database',
 	'dbstat_count' => 'Data entries total',

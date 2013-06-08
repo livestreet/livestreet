@@ -5,8 +5,6 @@
 {/block}
 
 {block name='layout_content'}
-	<link rel="stylesheet" type="text/css" href="{$aTemplateWebPathPlugin.page|cat:'css/style.css'}" media="all" />
-
 	<h2 class="page-header">{$aLang.plugin.page.admin}</h2>
 	
 	{if $aParams.0=='new'}
