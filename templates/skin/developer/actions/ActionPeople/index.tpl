@@ -1,11 +1,16 @@
-{include file='header.tpl' nav='people'}
-{include file='forms/form.search.users.tpl'}
+{extends file='layout.base.tpl'}
 
-<div id="users-list-search" style="display:none;"></div>
+{block name='layout_options'}
+	{$sNav = 'people'}
+{/block}
 
-<div id="users-list-original">
-	{router page='people' assign=sUsersRootPage}
-	{include file='user_list.tpl' aUsersList=$aUsersRating bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
-</div>
+{block name='layout_content'}
+	{include file='forms/form.search.users.tpl'}
 
-{include file='footer.tpl'}
+	<div id="users-list-search" style="display:none;"></div>
+
+	<div id="users-list-original">
+		{router page='people' assign=sUsersRootPage}
+		{include file='user_list.tpl' aUsersList=$aUsersRating bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
+	</div>
+{/block}

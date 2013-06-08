@@ -1,18 +1,21 @@
-{assign var="noSidebar" value=true}
-{include file='header.tpl' nav="stream"}
+{extends file='layout.base.tpl'}
 
-{if count($aStreamEvents)}
-	<ul class="stream-list" id="stream-list">
-		{include file='actions/ActionStream/events.tpl'}
-	</ul>
+{block name='layout_options'}
+	{$bNoSidebar = true}
+	{$sNav = 'stream'}
+{/block}
 
-    {if !$bDisableGetMoreButton}
-        <input type="hidden" id="stream_last_id" value="{$iStreamLastId}" />
-        <a class="stream-get-more" id="stream_get_more" href="javascript:ls.stream.getMoreAll()">{$aLang.stream_get_more} &darr;</a>
-    {/if}
-{else}
-    {$aLang.stream_no_events}
-{/if}
+{block name='layout_content'}
+	{if count($aStreamEvents)}
+		<ul class="stream-list" id="stream-list">
+			{include file='actions/ActionStream/events.tpl'}
+		</ul>
 
-
-{include file='footer.tpl'}
+	    {if !$bDisableGetMoreButton}
+	        <input type="hidden" id="stream_last_id" value="{$iStreamLastId}" />
+	        <a class="stream-get-more" id="stream_get_more" href="javascript:ls.stream.getMoreAll()">{$aLang.stream_get_more} &darr;</a>
+	    {/if}
+	{else}
+	    {$aLang.stream_no_events}
+	{/if}
+{/block}

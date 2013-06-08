@@ -294,7 +294,8 @@ var ls = ls || {};
             var toggleWidth  = this.$toggle.outerWidth(),
                 toggleHeight = this.$toggle.outerHeight(),
                 targetWidth  = this.$target.outerWidth(),
-                targetHeight = this.$target.outerHeight();
+                targetHeight = this.$target.outerHeight(),
+                hasRelative = $('body').css('position') == 'relative' || $('html').css('position') == 'relative';
 
             this.targetPosition.top =
             this.targetPosition.bottom =
@@ -303,13 +304,14 @@ var ls = ls || {};
 
             this.togglePosition = this.$toggle.offset();
 
-            if ( ! this.options.appendToBody ) {
-                this.togglePosition.top = this.togglePosition.left = 0;
-            }
+            // TODO: Fix position when appenToBody is false
+            // if ( ! this.options.appendToBody ) {
+            //     this.togglePosition.top = this.togglePosition.left = 0;
+            // }
             
             switch(this.options.alignY) {
                 case 'top':
-                    this.targetPosition.bottom = $(window).height() - this.togglePosition.top + this.options.offsetY;
+                    this.targetPosition.bottom = (hasRelative ? $(document).height() : $(window).height()) - this.togglePosition.top + this.options.offsetY;
                     break;
                 case 'center':
                     this.targetPosition.top = this.togglePosition.top + (toggleHeight - targetHeight) / 2;

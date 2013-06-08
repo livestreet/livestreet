@@ -1,7 +1,11 @@
-{include file='header.tpl'  nav='people'}
+{extends file='layout.base.tpl'}
 
-<h2 class="page-header">{$aLang.user_list}: <span>{$oCity->getName()|escape:'html'}{if $aPaging} ({$aPaging.iCount}){/if}</span></h2>
+{block name='layout_options'}
+	{$sNav = 'people'}
+{/block}
 
-{include file='user_list.tpl' aUsersList=$aUsersCity}
+{block name='layout_content'}
+	<h2 class="page-header">{$aLang.user_list}: <span>{$oCity->getName()|escape:'html'}{if $aPaging} ({$aPaging.iCount}){/if}</span></h2>
 
-{include file='footer.tpl'}
+	{include file='user_list.tpl' aUsersList=$aUsersCity}
+{/block}

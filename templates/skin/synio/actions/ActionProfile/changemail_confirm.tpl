@@ -1,8 +1,12 @@
-{$noSidebar = true}
-{include file='header.tpl' noShowSystemMessage=true}
+{extends file='layout.base.tpl'}
 
-<div class="content-error">
-	<p>{$sText}</p>
-</div>
+{block name='layout_options'}
+	{$bNoSidebar = true}
+	{$noShowSystemMessage = true}
+{/block}
 
-{include file='footer.tpl'}
+{block name='layout_content'}
+	<div class="content-error">
+		<p>{$sText}</p>
+	</div>
+{/block}

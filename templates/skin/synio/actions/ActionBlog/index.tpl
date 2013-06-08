@@ -1,3 +1,9 @@
-{include file='header.tpl' nav='blog' nav_content='blog'}
-{include file='topics/topic_list.tpl'}
-{include file='footer.tpl'}
+{extends file='layout.base.tpl'}
+
+{block name='layout_options'}
+	{$sNav = 'blog'}
+{/block}
+
+{block name='layout_content'}
+	{include file='topics/topic_list.tpl'}
+{/block}

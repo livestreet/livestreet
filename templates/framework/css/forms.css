@@ -6,22 +6,34 @@
 /* Input Text */
 textarea,
 input[type="password"],
-input[type="text"],
-.input-text {
+input[type="text"] {
 	padding: 5px;
 	border: 1px solid #ddd;
+	vertical-align: middle;
 	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset; 
 	        box-shadow: 0 2px 4px rgba(0,0,0,.07) inset;
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
+textarea:focus,
 input[type="text"]:focus,
-input[type="password"]:focus,
-.input-text:focus {
+input[type="password"]:focus {
 	border-color: #4d90fe;
 	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
 	        box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+}
+
+input[type="password"],
+input[type="text"] {
+	height: 28px;
+	line-height: 18px;
+}
+
+.ie7 input[type="password"],
+.ie7 input[type="text"] {
+	height: 18px;
+	padding: 3px 5px 4px;
 }
 
 
@@ -32,6 +44,8 @@ input[type="checkbox"],
 	top: 1px;
 	margin: 0 2px 0 1px;
 }
+
+textarea { line-height: 1.4em; }
 
 
 /* Select */

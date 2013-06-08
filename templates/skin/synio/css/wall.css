@@ -66,7 +66,7 @@
 .wall-more.loader 					{ background: #F4F4D9 url(../images/loader.gif) 50% 50% no-repeat; }
 .wall-more.loader .wall-more-inner 	{ visibility: hidden; }
 
-.wall-note h3 { font-size: 15px; margin-bottom: 20px; font-family: Verdana, sans-serif; }
+.wall-note { margin-bottom: 20px; font-family: Verdana, sans-serif; }
 
 .wall-submit.wall-submit-reply.wall-submit-comment { -webkit-box-shadow: none; box-shadow: none; margin-top: 0; margin-bottom: 50px; }
 .wall-submit.wall-submit-reply.wall-submit-comment:after { display: none; }

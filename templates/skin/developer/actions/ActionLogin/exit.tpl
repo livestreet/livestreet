@@ -1,6 +1,9 @@
-{$noSidebar = true}
-{include file='header.tpl'}
+{extends file='layout.base.tpl'}
 
-<h2 class="page-header">{$aLang.user_exit_notice}</h2>
+{block name='layout_options'}
+	{$bNoSidebar = true}
+{/block}
 
-{include file='footer.tpl'}
+{block name='layout_content'}
+	<h2 class="page-header">{$aLang.user_exit_notice}</h2>
+{/block}

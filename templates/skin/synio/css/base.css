@@ -24,6 +24,14 @@ a:hover { color: #f00; }
 /* Заголовки
 ---------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 { font-family: 'PT Sans', Arial, sans-serif; }
+.h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'PT Sans', Arial, sans-serif; margin-bottom: 15px; line-height: 1.2em; }
+
+.h1 { font-size: 28px; }
+.h2 { font-size: 26px; }
+.h3 { font-size: 24px; }
+.h4 { font-size: 22px; }
+.h5 { font-size: 20px; }
+.h6 { font-size: 18px; }
 
 h2.page-header { color: #333; font-size: 27px; line-height: 1em; font-weight: normal; margin-bottom: 20px; }
 h2.page-header span { color: #aaa; }

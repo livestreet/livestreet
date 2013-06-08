@@ -1,5 +1,9 @@
-{include file='header.tpl' nav='people'}
+{extends file='layout.base.tpl'}
 
-{include file='user_list.tpl' aUsersList=$aUsersLast}
+{block name='layout_options'}
+	{$sNav = 'people'}
+{/block}
 
-{include file='footer.tpl'}
+{block name='layout_content'}
+	{include file='user_list.tpl' aUsersList=$aUsersLast}
+{/block}
