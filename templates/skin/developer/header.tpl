@@ -52,9 +52,9 @@
 
 <header id="header" role="banner">
 	{hook run='header_banner_begin'}
-	<hgroup class="site-info">
+	<div class="site-info">
 		<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
 		<h2 class="site-description">{cfg name='view.description'}</h2>
-	</hgroup>
+	</div>
 	{hook run='header_banner_end'}
 </header>

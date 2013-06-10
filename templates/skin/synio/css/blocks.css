@@ -6,7 +6,7 @@
  * Base
  */
 .block                 { padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px dotted #dce1e6; }
-.block:last-child      { margin-bottom: 0; border: none; }
+.block:last-child      { margin-bottom: 0; border-bottom: none; }
 
 .block .loading        { min-height: 100px; background-image: url(../images/loader-circle.gif); background-position: 50% 0; }
 .block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
@@ -117,7 +117,8 @@
  * @type profile note
  * @file blocks/block.profileNote.tpl
  */
-.block-type-profile-note                  { border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
+.block-type-profile-note                  { border: none; margin-bottom: 0; }
+.block-type-profile-note .block-content   { border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
 .block-type-profile-note p                { margin-bottom: 10px; }
 .block-type-profile-note .actions         { margin-bottom: 0; font-size: 11px; }
 .block-type-profile-note .actions a       { color: #275ec2; border-color: #275ec2; }
