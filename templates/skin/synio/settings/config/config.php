@@ -74,5 +74,21 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.skin___/css/print.css",
 ));
 
+
+/**
+ * Blocks
+ */
+$config['block']['rule_profile'] = array(
+	'action' => array( 'profile', 'talk', 'settings' ),
+	'blocks' => array( 
+		'right' => array(
+			'blocks/block.profilePhoto.tpl'   =>array('priority' => 100),
+			'blocks/block.profileNav.tpl'     =>array('priority' => 50),
+			'blocks/block.profileNote.tpl'    =>array('priority' => 25),
+			'blocks/block.profileActions.tpl' =>array('priority' => 1),
+		) 
+	)
+);
+
 return $config;
 ?>

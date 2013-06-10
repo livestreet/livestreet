@@ -437,17 +437,9 @@ $config['block']['rule_topic_type'] = array(
 	),
 	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl') ),
 );
-$config['block']['rule_people'] = array(
-	'action'  => array( 'people' ),
-	'blocks'  => array( 'right' => array('actions/ActionPeople/sidebar.tpl') ),
-);
 $config['block']['rule_personal_blog'] = array(
 	'action'  => array( 'personal_blog' ),
 	'blocks'  => array( 'right' => array('stream','tags') ),
-);
-$config['block']['rule_profile'] = array(
-	'action'  => array( 'profile', 'talk', 'settings' ),
-	'blocks'  => array( 'right' => array('actions/ActionProfile/sidebar.tpl') ),
 );
 $config['block']['rule_tag'] = array(
 	'action'  => array( 'tag' ),
@@ -483,6 +475,27 @@ $config['block']['rule_blog_info'] = array(
 			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
 		),
 	'clear' => false,
+);
+$config['block']['rule_users'] = array(
+	'action' => array('people'),
+	'blocks' => array(
+		'right' => array(
+			'blocks/block.usersStatistics.tpl',
+			'tagsCountry',
+			'tagsCity',
+		)
+	)
+);
+$config['block']['rule_profile'] = array(
+	'action' => array( 'profile', 'talk', 'settings' ),
+	'blocks' => array( 
+		'right' => array(
+			'blocks/block.profilePhoto.tpl'   =>array('priority' => 100),
+			'blocks/block.profileActions.tpl' =>array('priority' => 50),
+			'blocks/block.profileNote.tpl'    =>array('priority' => 25),
+			'blocks/block.profileNav.tpl'     =>array('priority' => 1),
+		) 
+	)
 );
 
 

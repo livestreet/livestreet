@@ -6,6 +6,11 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
+{block name='block_options'}
+	{if ! $oUserCurrent or ( $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId() )}
+		{$bBlockNotShow = true}
+	{/if}
+{/block}
 {block name='block_type'}profile-note{/block}
 
 {block name='block_content_after'}

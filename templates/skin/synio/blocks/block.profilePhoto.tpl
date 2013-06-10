@@ -6,6 +6,9 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
+{block name='block_options'}
+	{include file='modals/modal.profile_photo_upload.tpl'}
+{/block}
 {block name='block_type'}profile-photo{/block}
 
 {block name='block_content_after'}
