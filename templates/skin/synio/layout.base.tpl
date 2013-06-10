@@ -14,10 +14,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title>{block name='layout_title'}{$sHtmlTitle}{/block}</title>
-
 	<meta name="description" content="{block name='layout_description'}{$sHtmlDescription}{/block}">
 	<meta name="keywords" content="{block name='layout_keywords'}{$sHtmlKeywords}{/block}">
+
+
+	<title>{block name='layout_title'}{$sHtmlTitle}{/block}</title>
 
 	{**
 	 * Стили
@@ -38,10 +39,6 @@
 
 	{if $sHtmlCanonical}
 		<link rel="canonical" href="{$sHtmlCanonical}" />
-	{/if}
-
-	{if $bRefreshToHome}
-		<meta  HTTP-EQUIV="Refresh" CONTENT="3; URL={cfg name='path.root.web'}/">
 	{/if}
 
 
@@ -192,7 +189,7 @@
 
 				{* Сайдбар *}
 				{if ! $bNoSidebar}
-					<aside id="sidebar">
+					<aside id="sidebar" role="complementary">
 						{include file='blocks.tpl' group='right'}
 					</aside>
 				{/if}

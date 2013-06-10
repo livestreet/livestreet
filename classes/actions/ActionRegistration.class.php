@@ -278,7 +278,6 @@ class ActionRegistration extends Action {
 		 */
 		if ($this->User_Update($oUser)) {
 			$this->DropInviteRegister();
-			$this->Viewer_Assign('bRefreshToHome',true);
 			$this->User_Authorization($oUser,false);
 			return;
 		} else {
