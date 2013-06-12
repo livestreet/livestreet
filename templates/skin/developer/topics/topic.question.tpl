@@ -21,7 +21,7 @@
 			
 			<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
 		{else}
-			{include file='topics/question_result.tpl'}
+			{include file='topics/poll_result.tpl'}
 		{/if}
 	</div>
 {/block}

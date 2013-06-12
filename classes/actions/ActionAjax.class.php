@@ -605,7 +605,7 @@ class ActionAjax extends Action {
 			$this->Message_AddNoticeSingle($this->Lang_Get('topic_question_vote_ok'),$this->Lang_Get('attention'));
 			$oViewer=$this->Viewer_GetLocalViewer();
 			$oViewer->Assign('oTopic',$oTopic);
-			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("topics/question_result.tpl"));
+			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("topics/poll_result.tpl"));
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;

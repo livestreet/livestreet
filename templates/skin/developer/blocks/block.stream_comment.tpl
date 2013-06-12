@@ -21,7 +21,7 @@
 				
 				<p>
 					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time> |
-					{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comment_declension:'russian'}
+					{$oTopic->getCountComment()}&nbsp;{$oTopic->getCountComment()|declension:$aLang.comment_declension:'russian'}
 				</p>
 			</li>
 		{/foreach}
