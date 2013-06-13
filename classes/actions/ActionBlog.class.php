@@ -1808,6 +1808,13 @@ class ActionBlog extends Action {
 		 */
 		if ($oBlog) {
 			$sText=$oBlog->getDescription();
+			
+			/**
+			 * если блог персональный — возвращаем текущий языковой эквивалент
+			 */
+			if ($sBlogId==0) {
+				$sText = $this->Lang_Get('blogs_personal_description');
+			}
 			$this->Viewer_AssignAjax('sText',$sText);
 		}
 	}
