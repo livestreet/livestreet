@@ -1,8 +1,8 @@
 {extends file='layout.base.tpl'}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.search_results}</h2>
+{block name='layout_page_title'}{$aLang.search_results}{/block}
 
+{block name='layout_content'}
 	{include file='forms/form.search.main.tpl'}
 
 	{if $bIsResults}

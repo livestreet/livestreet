@@ -96,7 +96,7 @@
  * ls-user-role-guest        Посетитель - гость
  * ls-user-role-user         Залогиненый пользователь - обычный пользователь
  * ls-user-role-admin        Залогиненый пользователь - админ
- * ls-user-role-not-admin    Залогиненый пользователь не админ
+ * ls-user-role-not-admin    Залогиненый пользователь - не админ
  * ls-template-*             Класс с названием активного шаблона
  *}
 {if $oUserCurrent}
@@ -150,6 +150,10 @@
 
 						{hook run='content_begin'}
 						{block name='layout_content_begin'}{/block}
+
+						{block name='layout_page_title' hide}
+							<h2 class="page-header">{$smarty.block.child}</h2>
+						{/block}
 
 						{* Навигация *}
 						{if $sNav or $sNavContent}

@@ -4,6 +4,8 @@
 	{$sNavContent = 'talk'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.talk_menu_inbox}{/block}
+
 {block name='layout_content'}
 	<div class="talk-blacklist-form">
 		<h3>{$aLang.talk_blacklist_title}</h3>

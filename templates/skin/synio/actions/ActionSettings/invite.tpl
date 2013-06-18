@@ -4,6 +4,8 @@
 	{$sNavContent = 'settings'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.settings_menu}{/block}
+
 {block name='layout_content'}
 	<p class="mb-20">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</p>
 

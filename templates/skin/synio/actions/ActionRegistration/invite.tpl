@@ -4,8 +4,8 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.registration_invite}</h2>
+{block name='layout_page_title'}{$aLang.registration_invite}{/block}
 
+{block name='layout_content'}
 	{include file='forms/form.auth.invite.tpl'}
 {/block}

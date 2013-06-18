@@ -4,9 +4,9 @@
 	{$sMenuHeadItemSelect = 'blogs'}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.blogs}</h2>
+{block name='layout_page_title'}{$aLang.blogs}{/block}
 
+{block name='layout_content'}
 	{include file='forms/form.search.blogs.tpl'}
 
 	<div id="blogs-list-search" style="display:none;"></div>

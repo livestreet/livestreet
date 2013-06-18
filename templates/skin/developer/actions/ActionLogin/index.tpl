@@ -4,8 +4,8 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.user_authorization}</h2>
+{block name='layout_page_title'}{$aLang.user_authorization}{/block}
 
+{block name='layout_content'}
 	{include file='forms/form.auth.login.tpl'}
 {/block}

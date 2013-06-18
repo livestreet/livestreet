@@ -4,6 +4,8 @@
 	{$sNavContent = 'talk'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.talk_menu_inbox}{/block}
+
 {block name='layout_content'}
 	{include file='actions/ActionTalk/friends.tpl'}
 

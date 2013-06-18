@@ -12,16 +12,16 @@
 	{/if}
 {/block}
 
+{block name='layout_page_title'}
+	{if $sEvent == 'add'}
+		{$aLang.topic_create}
+	{else}
+		{$aLang.topic_topic_edit}
+	{/if}
+{/block}
+
 {block name='layout_content'}
 	{block name='add_topic_options'}{/block}
-
-	{if $sEvent != 'add'}
-		<h2 class="page-header">
-			{block name='add_topic_title'}
-				{$aLang.topic_topic_edit}
-			{/block}
-		</h2>
-	{/if}
 
 	{* Подключение редактора *}
 	{include file='editor_init.tpl'}

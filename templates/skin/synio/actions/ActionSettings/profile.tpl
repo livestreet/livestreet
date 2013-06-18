@@ -4,6 +4,8 @@
 	{$sNavContent = 'settings'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.settings_menu}{/block}
+
 {block name='layout_content'}
 	{include file='modals/modal.profile_avatar_upload.tpl'}
 

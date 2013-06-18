@@ -5,10 +5,18 @@
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}
-	{if $sEvent=='add'}
-		{$sNav = 'create'}
-	{else}
+	{$bNoSidebar = true}
+
+	{if $sEvent == 'edit'}
 		{$sNav = 'blog_edit'}
+	{/if}
+{/block}
+
+{block name='layout_page_title'}
+	{if $sEvent == 'add'}
+		{$aLang.blog_create}
+	{else}
+		{$aLang.blog_admin}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape:'html'}</a>
 	{/if}
 {/block}
 

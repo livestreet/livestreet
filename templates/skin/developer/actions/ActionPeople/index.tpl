@@ -4,6 +4,8 @@
 	{$sNav = 'people'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.user_list}{/block}
+
 {block name='layout_content'}
 	{include file='forms/form.search.users.tpl'}
 

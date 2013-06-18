@@ -4,6 +4,10 @@
 	{$sNav = 'blog_edit'}
 {/block}
 
+{block name='layout_page_title'}
+	{$aLang.blog_admin}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape:'html'}</a>
+{/block}
+
 {block name='layout_content'}
 	{if $aBlogUsers}
 		<form method="post" enctype="multipart/form-data" class="mb-20">

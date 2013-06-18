@@ -1,5 +1,3 @@
-<h2 class="page-header">{$aLang.user_list}</h2>
-
 <ul class="nav nav-pills">
 	<li {if $sMenuItemSelect=='all'}class="active"{/if}><a href="{router page='people'}">{$aLang.people_menu_users_all}</a></li>
 	<li {if $sMenuItemSelect=='online'}class="active"{/if}><a href="{router page='people'}online/">{$aLang.people_menu_users_online}</a></li>

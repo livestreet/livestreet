@@ -5,11 +5,13 @@
 	{$noShowSystemMessage = true}
 {/block}
 
-{block name='layout_content'}
+{block name='layout_page_title'}
 	{if $aMsgError[0].title}
-		<h2 class="page-header">{$aLang.error}: <span>{$aMsgError[0].title}</span></h2>
+		{$aLang.error}: <span>{$aMsgError[0].title}</span>
 	{/if}
+{/block}
 
+{block name='layout_content'}
 	<p>{$aMsgError[0].msg}</p>
 	<p>
 		<a href="javascript:history.go(-1);">{$aLang.site_history_back}</a>, 

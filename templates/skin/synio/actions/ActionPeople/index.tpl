@@ -4,9 +4,9 @@
 	{$sNav = 'people'}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.people}</h2>
+{block name='layout_page_title'}{$aLang.people}{/block}
 
+{block name='layout_content'}
 	{include file='forms/form.search.users.tpl'}
 
 	<div id="users-list-search" style="display:none;"></div>

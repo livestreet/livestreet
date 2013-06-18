@@ -4,9 +4,9 @@
 	{$sNav = 'stream'}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.stream_menu}</h2>
+{block name='layout_page_title'}{$aLang.stream_menu}{/block}
 
+{block name='layout_content'}
 	{if count($aStreamEvents)}
 		<ul class="stream-list" id="stream-list">
 			{include file='actions/ActionStream/events.tpl'}

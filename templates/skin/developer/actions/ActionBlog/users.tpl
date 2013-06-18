@@ -1,11 +1,11 @@
 {extends file='layout.base.tpl'}
 
-{block name='layout_content'}
-	<h2 class="page-header">
-		{$aLang.blog_user_readers_all} ({$iCountBlogUsers}): 
-		<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
-	</h2>
+{block name='layout_page_title'}
+	{$aLang.blog_user_readers_all} ({$iCountBlogUsers}): 
+	<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
+{/block}
 
+{block name='layout_content'}
 	{if $aBlogUsers}
 		{$aUsersList = []}
 

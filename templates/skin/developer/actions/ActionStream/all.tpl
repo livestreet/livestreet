@@ -5,6 +5,8 @@
 	{$sNav = 'stream'}
 {/block}
 
+{block name='layout_page_title'}{$aLang.stream_menu}{/block}
+
 {block name='layout_content'}
 	{if count($aStreamEvents)}
 		<ul class="stream-list" id="stream-list">
