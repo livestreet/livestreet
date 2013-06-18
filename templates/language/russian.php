@@ -45,6 +45,9 @@ return array(
 	'blog_expand_info' => 'Подробнее &darr;',
 	'blog_fold_info' => 'Свернуть &uarr;',
 	'blog_by_category_empty' => 'В данной категории нет блогов',
+	'blog_add' => 'Создать блог',
+	'blog_can_add' => 'Вы можете создать свой блог!',
+	'blog_cant_add' => 'Для возможности создавать блоги, ваш рейтинг должен быть больше %%rating%%.',
 	/**
 	 * Declensions
 	 */

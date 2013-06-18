@@ -175,6 +175,21 @@
 .block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #3ABCFF; }
 
 /**
+ * @type blog add
+ * @file blocks/block.blogAdd.tpl
+ */
+.block.block-type-blog-add {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #D9E3EC;
+	background: #F1F7FD;
+	padding: 20px 15px;
+	text-align: center;
+}
+.block.block-type-blog-add p { margin-bottom: 25px; }
+
+/**
  * @type blog navigation
  * @file blocks/block.blogNav.tpl
  */

@@ -447,7 +447,12 @@ $config['block']['rule_tag'] = array(
 );
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
-	'blocks'  => array( 'right' => array('blogCategories') ),
+	'blocks'  => array( 
+		'right' => array(
+			'blocks/block.blogAdd.tpl' => array('priority' => 100),
+			'blogCategories' => array('priority' => 50)
+		) 
+	),
 );
 
 $config['block']['userfeedBlogs'] = array(
