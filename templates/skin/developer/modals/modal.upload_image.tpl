@@ -18,7 +18,7 @@
 {/block}
 
 {block name='modal_content_after'}
-	<div data-type="tab-content">
+	<div data-type="tab-panes">
 		<form method="POST" action="" enctype="multipart/form-data" id="tab-upload-pc" onsubmit="return false;" data-type="tab-pane" class="tab-pane" style="display: block">
 			<div class="modal-content">
 				<p><label for="img_file">{$aLang.uploadimg_file}:</label>

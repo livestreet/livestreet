@@ -123,7 +123,7 @@ var ls = ls || {};
     $.fn.tab.settings = {
         tabsSelector:    '[data-type=tabs]',
         tabSelector:     '[data-type=tab]',
-        panesSelector:   '[data-type=tab-content]',
+        panesSelector:   '[data-type=tab-panes]',
         paneSelector:    '[data-type=tab-pane]'
     };
 

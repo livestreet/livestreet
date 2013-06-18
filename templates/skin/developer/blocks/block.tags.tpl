@@ -23,7 +23,7 @@
 {block name='block_content'}
 	{include file='forms/form.search.tags.tpl'}
 	
-	<div data-type="tab-content">
+	<div data-type="tab-panes">
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">
 			{if $aTags}
 				<ul class="tag-cloud word-wrap">

@@ -17,7 +17,7 @@
 		<li data-type="tab" data-option-target="tab-pane-reminder"><a href="#">{$aLang.password_reminder}</a></li>
 	</ul>
 
-	<div data-type="tab-content">
+	<div data-type="tab-panes">
 		<div class="tab-pane" id="tab-pane-login" data-type="tab-pane">
 			{include file='forms/form.auth.login.tpl' isModal=true}
 		</div>

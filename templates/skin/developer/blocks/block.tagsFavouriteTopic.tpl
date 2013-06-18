@@ -16,7 +16,7 @@
 			{hook run='block_favourite_topic_tags_nav_item'}
 		</ul>
 		
-		<div data-type="tab-content">
+		<div data-type="tab-panes">
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
 				{if $aFavouriteTopicTags}
 					<ul class="tag-cloud word-wrap">
