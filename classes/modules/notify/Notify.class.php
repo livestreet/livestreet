@@ -50,14 +50,14 @@ class ModuleNotify extends Module {
 	 *
 	 * @var string
 	 */
-	protected $sPrefix = 'email';
+	protected $sPrefix = '';
 
 	/**
 	 * Название директории с шаблономи
 	 *
 	 * @var string
 	 */
-	protected $sDir = 'emails';
+	protected $sDir = '';
 
 	/**
 	 * Инициализация модуля
@@ -68,6 +68,8 @@ class ModuleNotify extends Module {
 	public function Init() {
 		$this->oViewerLocal=$this->Viewer_GetLocalViewer();
 		$this->oMapper=Engine::GetMapper(__CLASS__);
+		$this->sDir = Config::Get('module.notify.dir');
+		$this->sPrefix = Config::Get('module.notify.prefix');
 	}
 	/**
 	 * Отправляет юзеру уведомление о новом комментарии в его топике
