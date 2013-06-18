@@ -3,7 +3,7 @@
 $config = array();
 
 $config['view']['theme'] = 'default';
-
+$config['module']['user']['profile_photo_width'] = 300;
 
 /** 
  * Grid type:
