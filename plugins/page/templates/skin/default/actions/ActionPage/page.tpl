@@ -4,9 +4,9 @@
 	{$bNoSidebar = true}
 {/block}
 
+{block name='layout_page_title'}{$oPage->getTitle()}{/block}
+
 {block name='layout_content'}
-	<h2 class="page-header">{$oPage->getTitle()}</h2>
-	
 	<div class="text">
 		{if $oConfig->GetValue('view.tinymce')}
 			{$oPage->getText()}
@@ -18,4 +18,9 @@
 			{/if}
 		{/if}
 	</div>
+
+	{if $oUserCurrent and $oUserCurrent->isAdministrator()}
+		<br />
+		<a href="{router page='page'}admin/edit/{$oPage->getId()}/">{$aLang.plugin.page.admin_action_edit}</a>
+	{/if}
 {/block}

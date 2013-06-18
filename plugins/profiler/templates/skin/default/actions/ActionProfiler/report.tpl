@@ -4,16 +4,18 @@
 	{$noShowSystemMessage = false}
 {/block}
 
-{block name='layout_content'}
+{block name='layout_page_title'}{$aLang.plugin.profiler.reports_title}{/block}
+
+{block name='layout_head_end'}
 	<script>
-		var DIR_PLUGIN_SKIN='{$aTemplateWebPathPlugin.profiler}';
+		var DIR_PLUGIN_SKIN = '{$aTemplateWebPathPlugin.profiler}';
 	</script>
 
 	<script type="text/javascript" src="{$aTemplateWebPathPlugin.profiler}js/profiler.js"></script>
 	<link rel="stylesheet" type="text/css" href="{$aTemplateWebPathPlugin.profiler}css/style.css" media="all" />
+{/block}
 
-	<h2 class="page-header">{$aLang.plugin.profiler.reports_title}</h2>
-
+{block name='layout_content'}
 	<form action="{router page='profiler'}" method="post" id="form_report_list">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" /> 
 		
@@ -52,6 +54,5 @@
 		{/if}
 	</form>
 
-					
 	{include file='paging.tpl' aPaging="$aPaging"}
 {/block}

@@ -4,9 +4,9 @@
 	{$bNoSidebar = true}
 {/block}
 
+{block name='layout_page_title'}{$aLang.plugin.page.admin}{/block}
+
 {block name='layout_content'}
-	<h2 class="page-header">{$aLang.plugin.page.admin}</h2>
-	
 	{if $aParams.0=='new'}
 		<h3 class="h6">{$aLang.plugin.page.create}</h3>
 		{include file=$aTemplatePathPlugin.page|cat:'actions/ActionPage/add.tpl'}
@@ -14,7 +14,7 @@
 		<h3 class="h6">{$aLang.plugin.page.edit} «{$oPageEdit->getTitle()}»</h3>
 		{include file=$aTemplatePathPlugin.page|cat:'actions/ActionPage/add.tpl'}
 	{else}
-		<a href="{router page='page'}admin/new/" class="button">{$aLang.plugin.page.new}</a><br /><br />
+		<a href="{router page='page'}admin/new/" class="button button-primary">{$aLang.plugin.page.new}</a><br /><br />
 	{/if}
 
 
