@@ -5,7 +5,7 @@
 
 /* Write
 -------------------------------------------------- */
-.modal.modal-write                                  { width: 740px; }
+.modal.modal-write                                  { width: 500px; }
 .modal.modal-write .modal-content                   { padding: 20px 10px 0; *padding: 20px 10px 15px; }
 .modal.modal-write .write-list                      { *overflow: hidden; *zoom: 1; }
 .modal.modal-write .write-list li                   { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; display: inline-table; *float: left; }

@@ -43,7 +43,9 @@
 	</div>
 
 	{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
-		<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}"><button type="submit"  class="button button-action button-action-send-message"><i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span></button></a>
+		<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}" class="button button-action button-action-send-message button-icon js-tooltip" title="{$aLang.user_write_prvmsg}">
+			<i class="icon-synio-send-message"></i>
+		</a>
 	{/if}
 
 	<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getLogin()}</h2>

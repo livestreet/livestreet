@@ -56,8 +56,8 @@
 
 
 /* Images */
-.text img[align="right"] { margin: 4px 0 5px 15px; }
-.text img[align="left"]  { margin: 4px 15px 10px 0; }
+.text img[align="right"] { margin: 4px 0 5px 25px; }
+.text img[align="left"]  { margin: 4px 25px 10px 0; }
 .text img.image-center   { display: block; margin: 0 auto; }
 
 
