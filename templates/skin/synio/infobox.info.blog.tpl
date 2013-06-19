@@ -1,3 +1,7 @@
+{**
+ * Содержимое поповера с информацией о блоге
+ *}
+
 <img src="{$oBlog->getAvatarPath(48)}" alt="avatar" /><br /><br />
 
 <ul class="blog-info">

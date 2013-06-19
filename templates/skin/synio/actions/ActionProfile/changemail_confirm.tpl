@@ -1,3 +1,7 @@
+{**
+ * Уведомления о смене емэйла
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

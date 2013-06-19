@@ -1,3 +1,7 @@
+{**
+ * Список пользователей которые подключены к блогу
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_page_title'}

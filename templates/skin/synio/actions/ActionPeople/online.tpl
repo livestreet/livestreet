@@ -1,3 +1,7 @@
+{**
+ * Список пользователей которые недавно были на сайте
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

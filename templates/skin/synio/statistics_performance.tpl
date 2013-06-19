@@ -1,3 +1,7 @@
+{**
+ * Информация о производительности движка
+ *}
+
 {if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
 	<div class="stat-performance">
 		{hook run='statistics_performance_begin'}

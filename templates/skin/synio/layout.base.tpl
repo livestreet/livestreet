@@ -122,6 +122,8 @@
 	{hook run='body_begin'}
 
 	{block name='layout_body'}
+		<div id="header-back"></div>
+		
 		<div id="container" class="{hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
 			{* Шапка *}
 			{include file='header.tpl'}

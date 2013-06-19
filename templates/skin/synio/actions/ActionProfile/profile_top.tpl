@@ -1,3 +1,7 @@
+{**
+ * Шапка профиля
+ *}
+
 {$oVote = $oUserProfile->getVote()}
 
 <div class="profile">

@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице настроек
+ *}
+
 <h3 class="profile-page-header">{$aLang.settings_menu}</h3>
 
 

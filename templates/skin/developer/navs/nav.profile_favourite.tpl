@@ -1,3 +1,7 @@
+{**
+ * Навигация в профиле пользователя в разделе "Избранное"
+ *}
+
 <h3 class="profile-page-header">{$aLang.user_menu_profile_favourites}</h3>
 
 <ul class="nav nav-pills mb-30">

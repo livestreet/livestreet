@@ -1,3 +1,7 @@
+{**
+ * Навигация по топикам
+ *}
+
 <ul class="nav nav-pills">
 	<li {if $sMenuItemSelect=='index'}class="active"{/if}>
 		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a> {if $iCountTopicsNew>0}<a href="{router page='index'}new/" class="new">+{$iCountTopicsNew}</a>{/if}

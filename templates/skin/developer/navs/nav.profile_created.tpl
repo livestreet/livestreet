@@ -1,3 +1,7 @@
+{**
+ * Навигация в профиле пользователя в разделе "Публикации"
+ *}
+
 <h3 class="profile-page-header">{$aLang.user_menu_publication}</h3>
 
 <ul class="nav nav-pills mb-30">
@@ -17,4 +21,5 @@
 	
 	{hook run='menu_profile_created_item' oUserProfile=$oUserProfile}
 </ul>
+
 {hook run='menu_profile_created' oUserProfile=$oUserProfile}

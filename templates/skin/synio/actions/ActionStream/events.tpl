@@ -1,3 +1,7 @@
+{**
+ * События (добавлен комментарий, добавлен топик и т.д.)
+ *}
+
 {if count($aStreamEvents)}
 	{foreach from=$aStreamEvents item=oStreamEvent}		
 		{assign var=oTarget value=$oStreamEvent->getTarget()}

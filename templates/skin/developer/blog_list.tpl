@@ -1,3 +1,9 @@
+{**
+ * Список блогов
+ *
+ * @styles css/tables.css
+ *}
+
 <table class="table table-blogs">
 	{if $bBlogsUseOrder}
 		<thead>

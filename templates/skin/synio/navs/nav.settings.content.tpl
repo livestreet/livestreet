@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице настроек
+ *}
+
 <ul class="nav nav-pills">
 	<li {if $sMenuSubItemSelect=='profile'}class="active"{/if}><a href="{router page='settings'}profile/">{$aLang.settings_menu_profile}</a></li>
 	<li {if $sMenuSubItemSelect=='account'}class="active"{/if}><a href="{router page='settings'}account/">{$aLang.settings_menu_account}</a></li>

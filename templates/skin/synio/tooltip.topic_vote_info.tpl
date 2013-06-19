@@ -1,3 +1,7 @@
+{**
+ * Содержимое тултипа с информацией о голосовании за топик
+ *}
+
 <div class="tip-arrow"></div>
 <ul class="tooltip-content" data-type="tooltip-content">
 	<ul class="vote-topic-info">

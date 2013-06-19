@@ -1,3 +1,7 @@
+{**
+ * Вывод блоков определенной группы
+ *}
+
 {get_blocks assign='aBlocksLoad'}
 
 {if isset($aBlocksLoad.$group)}

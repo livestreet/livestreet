@@ -1,3 +1,7 @@
+{**
+ * Просьба перейти по ссылке отправленной на емэйл для активации аккаунта
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

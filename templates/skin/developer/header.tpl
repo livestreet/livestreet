@@ -1,3 +1,10 @@
+{**
+ * Хидер сайта
+ *}
+
+{**
+ * Юзербар
+ *}
 <nav id="userbar" class="clearfix">
 	{hook run='userbar_nav'}
 
@@ -50,6 +57,9 @@
 </nav>
 
 
+{**
+ * Хидер
+ *}
 <header id="header" role="banner">
 	{hook run='header_banner_begin'}
 	<div class="site-info">

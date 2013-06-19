@@ -1,3 +1,7 @@
+{**
+ * Навгиация создания топика
+ *}
+
 {if $sMenuItemSelect == 'topic'}
 	<ul class="nav nav-pills mb-30">
 		<li {if $sMenuSubItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add_topic}</a></li>

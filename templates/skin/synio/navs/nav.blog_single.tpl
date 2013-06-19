@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице блога
+ *}
+
 <div class="nav-group">
 	<ul class="nav nav-pills">
 		<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></li>

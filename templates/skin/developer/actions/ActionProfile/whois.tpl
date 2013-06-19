@@ -1,3 +1,10 @@
+{**
+ * Профиль пользователя с информацией о нем
+ *
+ * @styles css/profile.css
+ * @styles css/tables.css
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}
@@ -9,6 +16,7 @@
 
 {block name='layout_content'}
 	{include file='actions/ActionProfile/profile_top.tpl'}
+	{include file='navs/nav.profile_whois.tpl'}
 
 	<h3 class="profile-page-header">{$aLang.user_menu_profile_whois}</h3>
 

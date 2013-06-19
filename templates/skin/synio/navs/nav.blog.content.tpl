@@ -1,3 +1,7 @@
+{**
+ * Навигация по топикам
+ *}
+
 {if $sMenuItemSelect=='index'}
 	<ul class="nav nav-pills mb-30">
 		<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all_good}</a></li>

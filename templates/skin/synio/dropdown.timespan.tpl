@@ -1,3 +1,7 @@
+{**
+ * Выпадающее меню выбора временного периода (за 24 часа, за месяц и т.д.)
+ *}
+
 {if $sPeriodSelectCurrent}
 	<div class="dropdown dropdown-timespan js-dropdown-default" 
 		data-type="dropdown-toggle" 

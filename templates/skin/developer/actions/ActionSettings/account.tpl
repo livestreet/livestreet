@@ -1,3 +1,7 @@
+{**
+ * Настройки аккаунта (емэйл, пароль)
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_content'}

@@ -1,3 +1,7 @@
+{**
+ * Хидер сайта
+ *}
+
 <header id="header" role="banner">
 	{hook run='header_banner_begin'}
 	<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
@@ -28,6 +32,10 @@
 	
 	{hook run='userbar_nav'}
 	
+
+	{**
+	 * Юзербар
+	 *}
 	{if $oUserCurrent}
 		<div class="dropdown-user" id="user-menu">
 			<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>

@@ -1,3 +1,7 @@
+{**
+ * Участники личного сообщения
+ *}
+
 {if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 	<div class="talk-recipients" id="talk_recipients">
 		<h3>{$aLang.talk_speaker_title}</h3>

@@ -1,3 +1,7 @@
+{**
+ * Список всех пользователей
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

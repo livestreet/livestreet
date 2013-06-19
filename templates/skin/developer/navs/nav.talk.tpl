@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице личных сообщений
+ *}
+
 <h3 class="profile-page-header">{$aLang.talk_menu_inbox}</h3>
 
 <ul class="nav nav-pills">					

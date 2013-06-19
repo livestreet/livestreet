@@ -1,3 +1,7 @@
+{**
+ * Навигация в профиле пользователя в разделе "Публикации"
+ *}
+
 <ul class="nav nav-pills nav-pills-profile">
 	<li {if $sMenuSubItemSelect=='topics'}class="active"{/if}>
 		<a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.topic_title}  {if $iCountTopicUser} ({$iCountTopicUser}) {/if}</a>
@@ -15,4 +19,5 @@
 	
 	{hook run='menu_profile_created_item' oUserProfile=$oUserProfile}
 </ul>
+
 {hook run='menu_profile_created' oUserProfile=$oUserProfile}

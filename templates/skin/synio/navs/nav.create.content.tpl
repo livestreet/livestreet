@@ -1,3 +1,7 @@
+{**
+ * Навгиация создания топика
+ *}
+
 <div class="dropdown-create">
 	{strip}
 		<h2 class="page-header">{$aLang.block_create} <a href="#" class="dropdown-create-trigger link-dashed js-dropdown-create" data-type="dropdown-toggle" data-option-target="dropdown-create-menu" id="dropdown-create-trigger">

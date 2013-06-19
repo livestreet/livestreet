@@ -1,3 +1,7 @@
+{**
+ * Уведомление об успешной регистрации
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

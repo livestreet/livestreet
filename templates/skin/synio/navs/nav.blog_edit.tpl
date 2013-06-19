@@ -1,3 +1,7 @@
+{**
+ * Навгиация редактирования блога
+ *}
+
 <h2 class="page-header">{$aLang.blog_admin}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape:'html'}</a></h2>
 
 <ul class="nav nav-pills">

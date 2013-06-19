@@ -1,3 +1,9 @@
+{**
+ * Поиск по личным сообщениям
+ *
+ * @styles css/common.css
+ *}
+
 <div class="talk-search" id="block_talk_search">
 	<header>
 		<button type="submit"  onclick="ls.talk.makeReadTalks()" class="button">{$aLang.talk_inbox_make_read}</button>

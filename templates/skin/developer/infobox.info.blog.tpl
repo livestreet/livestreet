@@ -1,3 +1,7 @@
+{**
+ * Содержимое поповера с информацией о блоге
+ *}
+
 {$aLang.infobox_blog_create} &mdash; {$oBlog->getDateAdd()}<br/>
 {$aLang.infobox_blog_topics} &mdash; {$oBlog->getCountTopic()}<br/>
 {$aLang.infobox_blog_users} &mdash; {$oBlog->getCountUser()}<br/>

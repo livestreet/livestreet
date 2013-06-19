@@ -1,3 +1,7 @@
+{**
+ * Участники личного сообщения
+ *}
+
 <div class="talk-search talk-recipients">
 	<header class="talk-recipients-header">
 		{$aLang.talk_speaker_title}:

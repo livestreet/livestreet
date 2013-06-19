@@ -1,3 +1,7 @@
+{**
+ * Навигация в профиле пользователя в разделе "Избранное"
+ *}
+
 <ul class="nav nav-pills nav-pills-profile">
 	<li {if $sMenuSubItemSelect=='topics'}class="active"{/if}>
 		<a href="{$oUserProfile->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites_topics}  {if $iCountTopicFavourite} ({$iCountTopicFavourite}) {/if}</a>

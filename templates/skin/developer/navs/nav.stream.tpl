@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице активности
+ *}
+
 <ul class="nav nav-pills">
 	{if $oUserCurrent}
 		<li {if $sMenuItemSelect=='user'}class="active"{/if}><a href="{router page='stream'}user/">{$aLang.stream_menu_user}</a></li>

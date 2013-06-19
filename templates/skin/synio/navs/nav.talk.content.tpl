@@ -1,3 +1,7 @@
+{**
+ * Навигация на странице личных сообщений
+ *}
+
 <ul class="nav nav-pills">					
 	<li {if $sMenuSubItemSelect=='inbox'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox}</a></li>
 	{if $iUserCurrentCountTalkNew}

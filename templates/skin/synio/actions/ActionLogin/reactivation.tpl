@@ -1,3 +1,7 @@
+{**
+ * Форма запроса повторной активации аккаунта
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

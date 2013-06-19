@@ -1,3 +1,9 @@
+{**
+ * Выбор адресата среди друзей на странице создания личного сообщения
+ *
+ * @styles css/common.css
+ *}
+
 <div class="talk-search talk-friends" id="block_talk_search">
 	<header>
 		<a href="#" class="link-dotted close" onclick="ls.talk.toggleSearchForm(); return false;">{$aLang.block_friends}</a>

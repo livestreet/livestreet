@@ -1,3 +1,7 @@
+{**
+ * Список пользователей (таблица)
+ *}
+
 <table class="table table-users">
 	{if $bUsersUseOrder}
 		<thead>

@@ -1,3 +1,8 @@
+{**
+ * Восстановление пароля.
+ * Пароль отправлен не емэйл пользователя.
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}

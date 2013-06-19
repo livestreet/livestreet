@@ -1,3 +1,7 @@
+{**
+ * Пагинация
+ *}
+
 {if $aPaging and $aPaging.iCountPage>1} 
 	<div class="pagination">
 		<ul>

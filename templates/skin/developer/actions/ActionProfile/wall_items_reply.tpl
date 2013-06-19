@@ -1,3 +1,7 @@
+{**
+ * Список комментариев к записи на стене
+ *}
+
 {foreach from=$aReplyWall item=oReplyWall}
 	{$oReplyUser = $oReplyWall->getUser()}
 

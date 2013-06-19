@@ -1,3 +1,7 @@
+{**
+ * Список пользователей (аватары)
+ *}
+
 {if $aUsersList}
 	<ul class="user-list-avatar">
 		{foreach from=$aUsersList item=oUserList}

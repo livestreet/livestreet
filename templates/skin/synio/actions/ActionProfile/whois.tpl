@@ -1,3 +1,10 @@
+{**
+ * Профиль пользователя с информацией о нем
+ *
+ * @styles css/profile.css
+ * @styles css/tables.css
+ *}
+
 {extends file='layout.base.tpl'}
 
 {block name='layout_options'}
