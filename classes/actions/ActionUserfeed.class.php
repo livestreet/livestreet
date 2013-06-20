@@ -110,7 +110,7 @@ class ActionUserfeed extends Action {
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aTopics',  $aTopics);
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('topic_list.tpl'));
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('topics/topic_list.tpl'));
 		$this->Viewer_AssignAjax('topics_count', count($aTopics));
 
 		if (count($aTopics)) {

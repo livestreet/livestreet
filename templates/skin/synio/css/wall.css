@@ -42,32 +42,28 @@
 .wall-item-reply .comment-content:before,
 .wall-item-reply .comment-content:after { display: none; }
 
-.wall-more 							{  }
-.wall-more:hover 					{ background: #F4F4D9; }
-.wall-more-reply { 
-	display: block; 
-	border-radius: 5px; 
-	text-decoration: none; 
-	text-align: center;
-	padding: 7px 0; 
-	font-size: 11px; 
-	margin-bottom: 10px; 
+.get-more.get-more-wall-comments {
+	margin: 0 0 10px;
+	border-radius: 5px;
+	padding: 7px 0;
+	font-size: 11px;
 	color: #898953;
 	border: 1px solid #eaeac4;
-	-webkit-box-shadow: 0 1px 2px #dbdbba, 0 1px 0 #fff inset; box-shadow: 0 1px 2px #dbdbba, 0 1px 0 #fff inset;
+
+	-webkit-box-shadow: 0 1px 2px #dbdbba, 0 1px 0 #fff inset; 
+	box-shadow: 0 1px 2px #dbdbba, 0 1px 0 #fff inset;
 
 	background: #fffffa;
-	background: -moz-linear-gradient(top,  #fffffa 0%, #fefef1 100%);
+	background: -moz-linear-gradient(top, #fffffa 0%, #fefef1 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fffffa), color-stop(100%,#fefef1));
-	background: -webkit-linear-gradient(top,  #fffffa 0%,#fefef1 100%);
-	background: -o-linear-gradient(top,  #fffffa 0%,#fefef1 100%);
-	background: -ms-linear-gradient(top,  #fffffa 0%,#fefef1 100%);
-	background: linear-gradient(top,  #fffffa 0%,#fefef1 100%);
+	background: -webkit-linear-gradient(top, #fffffa 0%,#fefef1 100%);
+	background: -o-linear-gradient(top, #fffffa 0%,#fefef1 100%);
+	background: -ms-linear-gradient(top, #fffffa 0%,#fefef1 100%);
+	background: linear-gradient(top, #fffffa 0%,#fefef1 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffffa', endColorstr='#fefef1',GradientType=0 );
 }
-.wall-more-reply:hover 				{ color: #898953; }
-.wall-more.loader 					{ background: #F4F4D9 url(../images/loader.gif) 50% 50% no-repeat; }
-.wall-more.loader .wall-more-inner 	{ visibility: hidden; }
+.get-more.get-more-wall-comments:hover { color: #898953; background: #fefef1; }
+.get-more.get-more-wall-comments.loading { background: #fefef1 url(../images/loader.gif) 50% 50% no-repeat; }
 
 .wall-note { margin-bottom: 20px; font-family: Verdana, sans-serif; }
 

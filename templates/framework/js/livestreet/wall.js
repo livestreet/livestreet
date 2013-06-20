@@ -79,7 +79,7 @@ ls.wall = (function ($) {
 		} else {
 			return false;
 		}
-		$('#wall-button-next').addClass('loader');
+		$('#wall-button-next').addClass('loading');
 		this.load(idLess,'',function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -95,7 +95,7 @@ ls.wall = (function ($) {
 				}
 				ls.hook.run('ls_wall_loadnext_after',[idLess, result]);
 			}
-			$('#wall-button-next').removeClass('loader');
+			$('#wall-button-next').removeClass('loading');
 		}.bind(this));
 		return false;
 	};
@@ -147,7 +147,7 @@ ls.wall = (function ($) {
 		} else {
 			return false;
 		}
-		$('#wall-reply-button-next-' + iPid).addClass('loader');
+		$('#wall-reply-button-next-' + iPid).addClass('loading');
 		this.loadReply(idLess,'',iPid,function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -163,7 +163,7 @@ ls.wall = (function ($) {
 				}
 				ls.hook.run('ls_wall_loadreplynext_after',[iPid, idLess, result]);
 			}
-			$('#wall-reply-button-next-' + iPid).removeClass('loader');
+			$('#wall-reply-button-next-' + iPid).removeClass('loading');
 		}.bind(this));
 		return false;
 	};

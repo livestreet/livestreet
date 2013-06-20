@@ -6,11 +6,12 @@ var ls = ls || {};
 
 ls.stream =( function ($) {
 	this.isBusy = false;
-	this.dateLast = null;
+	this.sDateLast = null;
 
 	this.options = {
 		selectors: {
 			userList:       'js-activity-block-users',
+			getMoreButton:  'activity-get-more',
 			userListId:     'activity-block-users',
 			inputId:        'activity-block-users-input',
 			noticeId:       'activity-block-users-notice',
@@ -39,6 +40,10 @@ ls.stream =( function ($) {
 			var userId = $(this).data('user-id');
 
 			$(this).prop('checked') ? self.subscribe(userId) : self.unsubscribe(userId);	
+		});
+
+		$('#' + this.options.selectors.getMoreButton).on('click', function () {
+			self.getMore(this);
 		});
 
 		$('#' + this.options.selectors.inputId).keydown(function (event) {
@@ -136,83 +141,45 @@ ls.stream =( function ($) {
 		});
 	};
 
-	this.getMore = function () {
-		if (this.isBusy) {
-			return;
-		}
-		var lastId = $('#stream_last_id').val();
-		if (!lastId) return;
-		$('#stream_get_more').addClass('stream_loading');
+	/**
+	 * Подгрузка событий
+	 * @param  {Object} oGetMoreButton Кнопка
+	 */
+	this.getMore = function (oGetMoreButton) {
+		if (this.isBusy) return;
+
+		var $oGetMoreButton = $(oGetMoreButton),
+			$oLastId = $('#activity-last-id');
+			iLastId = $oLastId.val();
+
+		if ( ! iLastId ) return;
+
+		$oGetMoreButton.addClass('loading');
 		this.isBusy = true;
 
-		var url = aRouter['stream']+'get_more/';
-		var params = {'last_id':lastId,'date_last':this.dateLast};
+		var params = $.extend({}, {
+			'iLastId':   iLastId,
+			'sDateLast': this.sDateLast
+		}, ls.tools.getDataOptions($oGetMoreButton, 'param'));
+
+		var url = aRouter['stream'] + 'get_more' + (params.type ? '_' + params.type : '') + '/';
 
 		ls.hook.marker('getMoreBefore');
+
 		ls.ajax(url, params, function(data) {
-			if (!data.bStateError && data.events_count) {
-				$('#stream-list').append(data.result);
-				$('#stream_last_id').attr('value', data.iStreamLastId);
+			if ( ! data.bStateError && data.events_count ) {
+				$('#activity-event-list').append(data.result);
+				$oLastId.attr('value', data.iStreamLastId);
 			}
-			if (!data.events_count) {
-				$('#stream_get_more').hide();
+
+			if ( ! data.events_count) {
+				$oGetMoreButton.hide();
 			}
-			$('#stream_get_more').removeClass('stream_loading');
-			ls.hook.run('ls_stream_get_more_after',[lastId, data]);
-			this.isBusy = false;
-		}.bind(this));
-	};
 
-	this.getMoreAll = function () {
-		if (this.isBusy) {
-			return;
-		}
-		var lastId = $('#stream_last_id').val();
-		if (!lastId) return;
-		$('#stream_get_more').addClass('stream_loading');
-		this.isBusy = true;
+			$oGetMoreButton.removeClass('loading');
 
-		var url = aRouter['stream']+'get_more_all/';
-		var params = {'last_id':lastId,'date_last':this.dateLast};
+			ls.hook.run('ls_stream_get_more_after',[iLastId, data]);
 
-		ls.hook.marker('getMoreAllBefore');
-		ls.ajax(url, params, function(data) {
-			if (!data.bStateError && data.events_count) {
-				$('#stream-list').append(data.result);
-				$('#stream_last_id').attr('value', data.iStreamLastId);
-			}
-			if (!data.events_count) {
-				$('#stream_get_more').hide();
-			}
-			$('#stream_get_more').removeClass('stream_loading');
-			ls.hook.run('ls_stream_get_more_all_after',[lastId, data]);
-			this.isBusy = false;
-		}.bind(this));
-	};
-
-	this.getMoreByUser = function (iUserId) {
-		if (this.isBusy) {
-			return;
-		}
-		var lastId = $('#stream_last_id').val();
-		if (!lastId) return;
-		$('#stream_get_more').addClass('stream_loading');
-		this.isBusy = true;
-
-		var url = aRouter['stream']+'get_more_user/';
-		var params = {'last_id':lastId, user_id: iUserId,'date_last':this.dateLast};
-
-		ls.hook.marker('getMoreByUserBefore');
-		ls.ajax(url, params, function(data) {
-			if (!data.bStateError && data.events_count) {
-				$('#stream-list').append(data.result);
-				$('#stream_last_id').attr('value', data.iStreamLastId);
-			}
-			if (!data.events_count) {
-				$('#stream_get_more').hide();
-			}
-			$('#stream_get_more').removeClass('stream_loading');
-			ls.hook.run('ls_stream_get_more_by_user_after',[lastId, iUserId, data]);
 			this.isBusy = false;
 		}.bind(this));
 	};

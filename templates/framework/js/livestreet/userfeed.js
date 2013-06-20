@@ -104,7 +104,7 @@ ls.userfeed = (function ($) {
 		}
 		var lastId = $('#userfeed_last_id').val();
 		if (!lastId) return;
-		$('#userfeed_get_more').addClass('userfeed_loading');
+		$('#userfeed_get_more').addClass('loading');
 		this.isBusy = true;
 		
 		var url = aRouter['feed']+'get_more/';
@@ -119,7 +119,7 @@ ls.userfeed = (function ($) {
 			if (!data.topics_count) {
 				$('#userfeed_get_more').hide();
 			}
-			$('#userfeed_get_more').removeClass('userfeed_loading');
+			$('#userfeed_get_more').removeClass('loading');
 			ls.hook.run('ls_userfeed_get_more_after',[lastId, data]);
 			this.isBusy = false;
 		}.bind(this));

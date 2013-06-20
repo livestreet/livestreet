@@ -46,7 +46,9 @@
 		{include file='actions/ActionProfile/wall_items.tpl'}
 	</div>
 
-	{if $iCountWall-count($aWall)}
-		<a href="#" onclick="return ls.wall.loadNext();" id="wall-button-next" class="stream-get-more"><span class="wall-more-inner">{$aLang.wall_load_more} (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)</span></a>
+	{if $iCountWall - count($aWall)}
+		<div onclick="return ls.wall.loadNext();" id="wall-button-next" class="get-more">
+			{$aLang.wall_load_more} (<span id="wall-count-next">{$iCountWall-count($aWall)}</span>)
+		</div>
 	{/if}
 {/block}

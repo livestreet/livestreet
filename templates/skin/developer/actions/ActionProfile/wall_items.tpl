@@ -37,7 +37,7 @@
 		</div>
 		
 		{if count($aReplyWall) < $oWall->getCountReply()}
-			<a href="#" onclick="return ls.wall.loadReplyNext({$oWall->getId()});" id="wall-reply-button-next-{$oWall->getId()}" class="wall-more wall-more-reply">
+			<a href="#" onclick="return ls.wall.loadReplyNext({$oWall->getId()});" id="wall-reply-button-next-{$oWall->getId()}" class="get-more get-more-wall-comments">
 				<span class="wall-more-inner">
 					{$aLang.wall_load_reply_more} 
 					<span id="wall-reply-count-next-{$oWall->getId()}">{$oWall->getCountReply()}</span> 

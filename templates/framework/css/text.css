@@ -2,7 +2,14 @@
  * Text
  */
 
-.text { font-size: 15px; line-height: 1.6em; overflow: hidden; zoom: 1; }
+.text { font-size: 15px; line-height: 1.6em; }
+
+
+/* Clearfix */
+.text:before,
+.text:after { content: ""; display: table; }
+.text:after { clear: both; }
+.text       { zoom: 1; }
 
 
 /* Links */
