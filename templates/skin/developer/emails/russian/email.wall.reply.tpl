@@ -1,4 +1,4 @@
-{extends file='notify/email.base.tpl'}
+{extends file='emails/email.base.tpl'}
 
 {block name='content'}
 	Пользователь <a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a> ответил на ваше сообщение на <a href="{$oUserWall->getUserWebPath()}wall/">стене</a>

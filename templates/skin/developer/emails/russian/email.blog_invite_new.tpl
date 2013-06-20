@@ -1,4 +1,4 @@
-{extends file='notify/email.base.tpl'}
+{extends file='emails/email.base.tpl'}
 
 {block name='content'}
 	Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a>» приглашает вас вступить в блог <a href="{$oBlog->getUrlFull()}">"{$oBlog->getTitle()|escape:'html'}"</a>.

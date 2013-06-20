@@ -1,4 +1,4 @@
-{extends file='notify/email.base.tpl'}
+{extends file='emails/email.base.tpl'}
 
 {block name='content'}
 	Пользователь <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a> пригласил вас зарегистрироваться на сайте <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>

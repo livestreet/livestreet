@@ -1,4 +1,4 @@
-{extends file='notify/email.base.tpl'}
+{extends file='emails/email.base.tpl'}
 
 {block name='content'}
 	Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a>» хочет добавить вас в друзья.						
