@@ -1,12 +1,16 @@
 /**
- * Photoset
+ * Фотосет
  */
 
-/* Base */
+
 .photoset { margin-bottom: 15px; }
 
 
-/* Default */
+/**
+ * Дефолтный фотосет
+ * 
+ * @template topics/topic.photoset.tpl
+ */
 .photoset-type-default                         { padding-top: 10px; }
 
 .photoset-type-default .photoset-title         { border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 15px; font-size: 16px; }
@@ -19,7 +23,11 @@
 .photoset-type-default .photoset-more:hover    { background: #eaf2f8; }
 
 
-/* Upload */
+/**
+ * Загрузка изображений
+ * 
+ * @template actions/ActionPhotoset/add.tpl
+ */
 .photoset-upload        { margin-bottom: 20px; background: #F1F7FD; }
 .photoset-upload header,
 .photoset-upload footer { padding: 15px; }

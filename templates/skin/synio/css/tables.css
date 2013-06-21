@@ -1,6 +1,6 @@
-/* -------------------------------------------------------------------
-	ТАБЛИЦЫ
-------------------------------------------------------------------- */
+/**
+ * Таблицы
+ */
 
 .table 					{ width: 100%; margin-bottom: 15px; border-collapse: separate; }
 .table th 				{ text-align: left; font-weight: normal; border-bottom: 1px solid #c3d4dc; }
@@ -38,10 +38,6 @@
 .table.table-blogs tbody .cell-readers 	{ text-align: center; vertical-align: middle; font-size: 11px; }
 .table.table-blogs .cell-join 			{ width: 130px; text-align: center; vertical-align: middle; }
 .table.table-blogs .cell-rating 		{ width: 90px; text-align: center; vertical-align: middle; }
-
-/* Table Plugins */
-.table.table-plugins .cell-checkbox 	{ width: 20px; padding: 12px 0 10px 10px; }
-.table.table-plugins h3 				{ font-weight: bold; font-size: 17px; line-height: 20px; margin-bottom: 5px; }
 
 /* Table Profile Notes */
 .table.table-profile-notes 					{ border-top: 1px solid #eee; }

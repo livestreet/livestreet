@@ -4,10 +4,9 @@
 	{$bNoSidebar = true}
 {/block}
 
+{block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_plugins}{/block}
+
 {block name='layout_content'}
-	<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_plugins}</h2>
-
-
 	<form action="{router page='admin'}plugins/" method="post" id="form_plugins_list">
 		<table class="table table-plugins">
 			<thead>
@@ -43,11 +42,11 @@
 								{/if}
 							{/if}
 						</td>
-						<td>
+						<td align="center">
 							{if $aPlugin.is_active}
-								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_deactivate}</a>
+								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button">{$aLang.plugins_plugin_deactivate}</a>
 							{else}
-								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugins_plugin_activate}</a>
+								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button button-primary">{$aLang.plugins_plugin_activate}</a>
 							{/if}
 						</td>
 					</tr>

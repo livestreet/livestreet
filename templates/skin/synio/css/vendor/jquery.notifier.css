@@ -11,11 +11,7 @@
 	
 	font-size: 11px;
 	line-height: 16px;
-	z-index: 9999; 
-	
-	/* IE 6 Fix */
-	_position: absolute; 
-	_top: expression( eval(document.documentElement.scrollBottom) + 10 +"px" );
+	z-index: 9999;
 }
 
 #notifier .n-box { 

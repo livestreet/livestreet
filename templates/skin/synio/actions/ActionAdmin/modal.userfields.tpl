@@ -1,7 +1,13 @@
+{**
+ * Настройка пользовательских полей в админке
+ *
+ * @styles css/modals.css
+ *}
+
 {extends file='modals/modal_base.tpl'}
 
 {block name='modal_id'}userfield_form{/block}
-{block name='modal_class'}userfield_form js-modal-default{/block}
+{block name='modal_class'}modal-userfield js-modal-default{/block}
 {block name='modal_title'}{$aLang.user_field_admin_title_add}{/block}
 
 {block name='modal_content'}
@@ -28,6 +34,6 @@
 	</form>
 {/block}
 
-{block name='modal_footer'}
+{block name='modal_footer_begin'}
 	<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
 {/block}

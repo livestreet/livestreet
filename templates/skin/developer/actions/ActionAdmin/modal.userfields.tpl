@@ -34,6 +34,6 @@
 	</form>
 {/block}
 
-{block name='modal_footer'}
+{block name='modal_footer_begin'}
 	<button type="button" onclick="ls.userfield.applyForm(); return false;" class="button button-primary">{$aLang.user_field_add}</button>
 {/block}

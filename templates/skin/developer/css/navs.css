@@ -1,5 +1,13 @@
-/* Synio's nav-menu support
--------------------------------------------------- */
+/**
+ * Навигация
+ *
+ * @template navs/*.tpl
+ */
+
+
+/**
+ * Навгиация для совместимости с шаблоном synio
+ */
 .nav.nav-menu                 { margin-bottom: 15px; }
 .nav.nav-menu > li            { margin-right: 3px; }
 .nav.nav-menu > li > a        { border-radius: 2px; padding: 5px 12px; background: #f5f5f5; color: #888; }
@@ -7,8 +15,11 @@
 .nav.nav-menu > li.active > a { background: #2891d3; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2); color: #fff; }
 
 
-/* Userbar
--------------------------------------------------- */
+/**
+ * Юзербар
+ *
+ * @template header.tpl
+ */
 #userbar {
 	border: 1px solid #ddd;
 	border-top: none;

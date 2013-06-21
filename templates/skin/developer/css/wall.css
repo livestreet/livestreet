@@ -1,7 +1,13 @@
-/* --------------------------------------------
-	СТЕНА
--------------------------------------------- */
+/**
+ * Стена
+ *
+ * @template actions/ActionProfile/wall_*.tpl
+ */
 
+
+/**
+ * Форма добавления сообщения на стену
+ */
 .wall-submit 									{ margin-bottom: 30px; }
 .wall-submit.wall-submit-reply 					{ margin: 2px 0 2px 25px; padding: 7px; background: #fafafa; }
 .wall-submit.wall-submit-reply textarea 		{ height: 28px; *height: 16px; *width: 590px; margin: 0; }
@@ -10,14 +16,24 @@
 .wall-submit.wall-submit-reply.active button 	{ display: block; }
 .wall-submit p 									{ margin-bottom: 5px; }
 
+
+/**
+ * Сообщения
+ */
 .comments.wall,
 .wall .comment 					{ margin-bottom: 2px; }
 .wall .comment .comment-info	{ padding-bottom: 0; }
 .wall .comment .comment-content	{ margin-bottom: 3px; }
 
+
+/**
+ * Комментарии
+ */
 .comment.wall-comment-reply 					{ min-height: 0; padding-left: 48px; }
 .comment.wall-comment-reply .comment-avatar 	{ width: 30px; height: 30px; }
 
-.wall-note { margin-bottom: 20px; font-family: Verdana, sans-serif; }
 
+/**
+ * Кнопка подгрузки комментариев
+ */
 .get-more.get-more-wall-comments { border: none; margin: 0 0 2px 25px; }

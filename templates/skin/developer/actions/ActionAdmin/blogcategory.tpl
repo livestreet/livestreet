@@ -4,9 +4,9 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}</h2>
+{block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}{/block}
 
+{block name='layout_content'}
 	<button class="button button-primary" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</button>
 	<br />
 	<br />

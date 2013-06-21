@@ -1,7 +1,15 @@
-/* --------------------------------------------
-	СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
--------------------------------------------- */
+/**
+ * Профиль пользователя
+ *
+ * @template actions/ActionProfile/*.tpl
+ */
 
+
+/**
+ * Шапка профиля
+ *
+ * @template actions/ActionProfile/profile_top.tpl
+ */
 .profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 300px 20px 65px; position: relative; }
 
 .profile .avatar 		{ position: absolute; top: 0; left: 0; }

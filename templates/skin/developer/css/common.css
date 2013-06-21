@@ -1,9 +1,11 @@
-/* -------------------------------------------------------------------
-	ОБЩИЕ СТИЛИ
-------------------------------------------------------------------- */
+/**
+ * Общие стили
+ */
 
-/* Голосование 
----------------------------------------------------- */
+
+/**
+ * Голосование 
+ */
 .vote .vote-count 							{ display: inline-block; font-weight: bold; color: #aaa; font-size: 14px; }
 .vote .vote-count a 						{ text-decoration: none; color: #999; outline: none; }
 
@@ -11,7 +13,16 @@
 .vote.vote-count-negative .vote-count 		{ color: #f00; }
 
 .vote .vote-up,
-.vote .vote-down 							{ display: inline-block; cursor: pointer; vertical-align: text-top; width: 14px; height: 14px; background: url(../images/icons.png) no-repeat; opacity: .3; filter: alpha(opacity=30); }
+.vote .vote-down {
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: text-top;
+	width: 14px;
+	height: 14px;
+	background: url(../images/icons.png) no-repeat;
+	opacity: .3;
+	filter: alpha(opacity=30);
+}
 .vote .vote-up 								{ background-position: -408px -96px; }
 .vote .vote-down 							{ background-position: -433px -96px; }
 .vote .vote-up:hover 						{ opacity: .8; filter: alpha(opacity=80); }
@@ -23,18 +34,18 @@
 .vote.voted.voted-down 	.vote-up:hover 		{ opacity: .3; filter: alpha(opacity=30); }
 
 
-
-/* Избранное 
----------------------------------------------------- */
+/**
+ * Избранное 
+ */
 .favourite 			{ display: inline-block; width: 14px; height: 14px; vertical-align: text-top; background: url(../images/icons.png) -96px 0 no-repeat; opacity: .3; filter: alpha(opacity=30); cursor: pointer; }
 .favourite.active 	{ opacity: 1; filter: alpha(opacity=100); }
 .favourite:hover 	{ opacity: .8; filter: alpha(opacity=80); }
 .favourite-count    { margin-left: 0; font-weight: bold; }
 
 
-
-/* Пагинация 
----------------------------------------------------- */
+/**
+ * Пагинация 
+ */
 .pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; }
 .pagination ul li 				{ float: left; margin-right: 5px; }
 .pagination ul li span,
@@ -44,9 +55,9 @@
 .pagination ul li i 			{ opacity: .5; filter: alpha(opacity=50); }
 
 
-
-/* Actions 
----------------------------------------------------- */
+/**
+ * Actions 
+ */
 .actions 						{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
 .actions li 					{ float: left; margin-right: 10px; }
 .actions li a 					{ color: #D23232; }
@@ -55,17 +66,17 @@
 .actions li a.link-dotted:hover { border-color: #06e; color: #06e; text-decoration: none; }
 
 
-
-/* Список пользователей 
----------------------------------------------------- */
+/**
+ * Список пользователей 
+ */
 .user-list-avatar 			{ overflow: hidden; zoom: 1; }
 .user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; font-size: 11px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
 
 
-
-/* Облако тегов 
----------------------------------------------------- */
+/**
+ * Облако тегов 
+ */
 .tag-cloud 					{ width: 100%; }
 .tag-cloud li 				{ display: inline; margin-right: 5px; line-height: 22px; }
 .tag-cloud li a 			{ text-decoration: none; }
@@ -81,9 +92,9 @@
 .tag-cloud li .tag-size-10 	{ font-size: 22px; }
 
 
-
-/* Accordion
----------------------------------------------------- */
+/**
+ * Accordion
+ */
 .accordion { margin-bottom: 15px; }
 
 .accordion-header { padding: 10px 15px; background: #f7f7f7; cursor: pointer; }
@@ -91,9 +102,9 @@
 
 .accordion-content { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #eee; }
 
-
-/* Item List 
----------------------------------------------------- */
+/**
+ * Item List 
+ */
 .item-list 					{ }
 .item-list li 				{ min-height: 51px; padding: 17px 15px 20px 75px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
 .item-list li:first-child 	{ border: none; }
@@ -104,15 +115,10 @@
 .item-list li .blog-name 	{ font-weight: bold; }
 
 
-
-/* Разное
----------------------------------------------------- */
-.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
-.system-message-notice 	{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
-
+/**
+ * Разное
+ */
 .notice-empty 			{ color: #aaa; }
-
-.loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 	{ font-weight: bold; color: #333; }
 .ls-user 	        { display: inline-block; }

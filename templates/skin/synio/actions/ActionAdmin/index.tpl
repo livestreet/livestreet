@@ -1,8 +1,8 @@
 {extends file='layout.base.tpl'}
 
-{block name='layout_content'}
-	<h2 class="page-header">{$aLang.admin_header}</h2>
+{block name='layout_page_title'}{$aLang.admin_header}{/block}
 
+{block name='layout_content'}
 	<ul>
 	    <li><a href="{router page="admin"}plugins/">{$aLang.admin_list_plugins}</a></li>
 	    <li><a href="{router page="admin"}userfields/">{$aLang.admin_list_userfields}</a></li>

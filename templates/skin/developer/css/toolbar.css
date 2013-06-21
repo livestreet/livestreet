@@ -1,0 +1,40 @@
+/**
+ * Тулбар
+ *
+ * @template toolbar/*.tpl
+ */
+
+
+/**
+ * Кнопка перехода в админку
+ *
+ * @template toolbar/toolbar.admin.tpl
+ */
+.toolbar .toolbar-admin a { display: block; }
+
+
+/**
+ * Кнопка обновления комментариев 
+ *
+ * @template toolbar/toolbar.comment.tpl
+ */
+.toolbar .toolbar-update .update-comments 			{ padding: 9px; }
+.toolbar .toolbar-update .update-comments i 		{ display: block; width: 16px; height: 16px; background: url(../images/update.gif) no-repeat; }
+.toolbar .toolbar-update .update-comments.active i 	{ background-position: -16px 0; }
+.toolbar .toolbar-update .new-comments 				{ border-top: 1px solid #eee; padding: 10px 0; color: #333; text-align: center; font-size: 11px; }
+
+
+/**
+ * Кнопка навигации по топикам
+ *
+ * @template toolbar/toolbar.topic.tpl
+ */
+.toolbar .toolbar-topic a.toolbar-topic-prev { border-bottom: 1px solid #eee; }
+
+
+/**
+ * Кнопка прокрутки вверх
+ *
+ * @template toolbar/toolbar.scrollup.tpl
+ */
+.toolbar .toolbar-scrollup { display: none; }

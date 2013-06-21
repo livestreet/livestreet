@@ -28,7 +28,7 @@
 		</ul>
 	
 		{if ! $bEditDisabled}
-			<a href="#" onсlick="ls.poll.addAnswer(); return false;" class="link-dotted">{$aLang.topic_question_create_answers_add}</a>
+			<a href="#" onclick="ls.poll.addAnswer(); return false;" class="link-dotted">{$aLang.topic_question_create_answers_add}</a>
 		{/if}
 	</div>
 {/block}

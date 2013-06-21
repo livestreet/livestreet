@@ -4,20 +4,20 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_content'}
-	<h2 class="page-header"><a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}</h2>
+{block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}{/block}
 
+{block name='layout_content'}
 	<button class="button button-primary" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</button>
 	<br />
 	<br />
 
 	<table cellspacing="0" class="table">
 		<thead>
-		<tr>
-			<th width="180px">{$aLang.admin_blogcategory_items_title}</th>
-			<th align="center" >{$aLang.admin_blogcategory_items_url}</th>
-			<th align="center" width="80px">{$aLang.admin_blogcategory_items_action}</th>
-		</tr>
+			<tr>
+				<th width="180px">{$aLang.admin_blogcategory_items_title}</th>
+				<th align="center" >{$aLang.admin_blogcategory_items_url}</th>
+				<th align="center" width="80px">{$aLang.admin_blogcategory_items_action}</th>
+			</tr>
 		</thead>
 
 		<tbody>

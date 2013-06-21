@@ -514,7 +514,6 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
 	"___path.static.framework___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
 	"___path.static.framework___/js/vendor/jquery.browser.js",
-	"___path.static.framework___/js/vendor/jquery.notifier.js",
 	"___path.static.framework___/js/vendor/jquery.scrollto.js",
 	"___path.static.framework___/js/vendor/jquery.rich-array.min.js",
 	"___path.static.framework___/js/vendor/jquery.form.js",
@@ -526,6 +525,7 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/jquery.placeholder.min.js",
 	"___path.static.framework___/js/vendor/jquery.charcount.js",
 	"___path.static.framework___/js/vendor/jquery.imagesloaded.js",
+	"___path.static.framework___/js/vendor/notifier/jquery.notifier.js",
 	"___path.static.framework___/js/vendor/markitup/jquery.markitup.js",
 	"___path.static.framework___/js/vendor/prettify/prettify.js",
 	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
@@ -581,6 +581,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.framework___/css/modals.css",
 	"___path.static.framework___/css/tooltip.css",
 	"___path.static.framework___/css/popover.css",
+	"___path.static.framework___/css/alerts.css",
 	"___path.static.framework___/css/toolbar.css"
 );
 

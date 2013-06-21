@@ -1,16 +1,22 @@
 {extends file='layout.base.tpl'}
 
+{block name='layout_options'}
+	{$bNoSidebar = true}
+{/block}
+
+{block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.user_field_admin_title}{/block}
+
 {block name='layout_content'}
 	{include file='actions/ActionAdmin/modal.userfields.tpl'}
 
-	<h2 class="page-header">{$aLang.user_field_admin_title}</h2>
-
-	<a href="javascript:ls.userfield.showAddForm()" class="link-dotted">{$aLang.user_field_add}</a>
+	<button onclick="ls.userfield.showAddForm()" class="button button-primary">{$aLang.user_field_add}</button>
 	<br /><br />
 
 	<ul class="userfield-list" id="user_field_list">
 		{foreach from=$aUserFields item=oField}
-			<li id="field_{$oField->getId()}"><strong class="userfield_admin_name">{$oField->getName()|escape:"html"}</strong>
+			<li id="field_{$oField->getId()}">
+				<strong>{$oField->getName()|escape:"html"}</strong>
+
 				/ <span class="userfield_admin_title">{$oField->getTitle()|escape:"html"}</span>
 	            / <span class="userfield_admin_type">{$oField->getType()|escape:"html"}</span>
 	            / <span class="userfield_admin_pattern">{$oField->getPattern()|escape:"html"}</span>

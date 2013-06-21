@@ -1,9 +1,11 @@
-/* -------------------------------------------------------------------
-	ОБЩИЕ СТИЛИ
-------------------------------------------------------------------- */
+/**
+ * Общие стили
+ */
 
-/* Голосование 
----------------------------------------------------- */
+
+/**
+ * Голосование 
+ */
 .vote-topic { height: 24px; border-radius: 15px; overflow: hidden; font-size: 11px; float: left; zoom: 1; }
 .vote-topic .vote-item { 
 	cursor: pointer;
@@ -146,9 +148,9 @@
 .vote-topic.vote-count-zero.vote-nobuttons								{ background: #edf8fd; }
 
 
-
-/* Избранное 
----------------------------------------------------- */
+/**
+ * Избранное 
+ */
 .favourite 			{ display: inline-block; width: 11px; height: 11px; vertical-align: text-top; background: url(../images/icons-synio.png) 0 -37px no-repeat; cursor: pointer; }
 .favourite.active 	{ background-position: 0 -65px; }
 .favourite-count    { margin-left: 0; }
@@ -157,9 +159,9 @@
 .follow.active 		{ background-position: -17px -76px; }
 
 
-
-/* Пагинация 
----------------------------------------------------- */
+/**
+ * Пагинация 
+ */
 .pagination 					{ overflow: hidden; zoom: 1; }
 .pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; float: left; margin-top: 5px; }
 .pagination ul li 				{ float: left; margin-right: 5px; }
@@ -174,16 +176,16 @@
 .pagination ul li.next			{ margin-right: 50px; }
 
 
-
-/* Actions 
----------------------------------------------------- */
+/**
+ * Actions 
+ */
 .actions 						{ overflow: hidden; zoom: 1; margin-bottom: 10px; font-size: 11px; }
 .actions li 					{ float: left; margin-right: 10px; }
 
 
-
-/* Список пользователей 
----------------------------------------------------- */
+/**
+ * Список пользователей 
+ */
 .user-list-avatar 			{ overflow: hidden; zoom: 1; }
 .user-list-avatar li 		{ width: 48px; overflow: hidden; float: left; margin-right: 12px; margin-bottom: 12px; text-align: center; font-size: 11px; }
 .user-list-avatar li img	{ margin-bottom: 2px; display: block; }
@@ -196,9 +198,9 @@
 .user-list-mini li:hover i	{ display: block; }
 
 
-
-/* Облако тегов 
----------------------------------------------------- */
+/**
+ * Облако тегов 
+ */
 .tag-cloud	 				{ text-align: center; width: 100%; }
 .tag-cloud li 				{ display: inline; margin-right: 5px; line-height: 22px; }
 .tag-cloud li a 			{ color: #727a90; }
@@ -215,9 +217,9 @@
 .tag-cloud li .tag-size-10 	{ font-size: 22px; }
 
 
-
-/* Item List 
----------------------------------------------------- */
+/**
+ * Item List 
+ */
 .item-list 					{ border-top: 1px solid #eee; }
 .item-list li 				{ min-height: 51px; padding: 7px 0 10px 58px; border-bottom: 1px solid #eee; position: relative; zoom: 1; }
 .item-list li p 			{ padding-top: 2px; font-size: 11px; }
@@ -227,24 +229,19 @@
 .item-list li .blog-name 	{ font-weight: bold; }
 
 
-
-/* Хелперы
----------------------------------------------------- */
+/**
+ * Хелперы
+ */
 .wrapper 			{ overflow: hidden; zoom: 1; }
 .wrapper-content 	{ padding: 20px 20px; background: #f8fbfe; }
 .wrapper-content h3 { font-size: 15px; margin-bottom: 10px; font-family: Verdana, sans-serif; }
 .wrapper-content.wrapper-content-dark 	{ padding: 15px 20px; background: #f1f7fd; }
 
 
-
-/* Разное
----------------------------------------------------- */
-.system-message-error 	{ background: #f0c8c8; color: #b22626; padding: 10px 15px; margin-bottom: 15px; }
-.system-message-notice 	{ background: #dafad8; color: #4bb23b; padding: 10px 15px; margin-bottom: 15px; }
-
+/**
+ * Разное
+ */
 .notice-empty 			{ color: #aaa; }
-
-.loader { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
 
 .user, .ls-user 				{ font-weight: bold; color: #333; }
 .ls-user 				        { display: inline-block; }

@@ -1,10 +1,13 @@
 {**
  * Информация о производительности движка
+ *
+ * @styles css/admin.css
  *}
 
 {if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<div class="stat-performance">
+	<div class="alert alert-info stat-performance">
 		{hook run='statistics_performance_begin'}
+
 		<table>
 			<tr>
 				<td>
@@ -24,9 +27,11 @@
 					time load modules: <strong>{$aStatsPerformance.engine.time_load_module}</strong><br />
 					full time: <strong>{$iTimeFullPerformance}</strong>
 				</td>
+				
 				{hook run='statistics_performance_item'}
 			</tr>
 		</table>
+
 		{hook run='statistics_performance_end'}
 	</div>
 {/if}

@@ -1,6 +1,8 @@
-/* --------------------------------------------
-	СЕТКА
--------------------------------------------- */
+/**
+ * Сетка
+ *
+ * @template layout.base.tpl
+ */
 
 #container       { margin: 0 auto; margin-bottom: 20px; padding: 0 50px; }
 #header          { padding: 50px 0; position: relative; }

@@ -1,16 +1,13 @@
-/* -------------------------------------------------------------------
-
-	ИКОНКИ 
-	
-	Иконки Glyphicons
-	http://glyphicons.com/
-
-	
-	Пример использования:
-	
-	<a href="#"><i class="icon icon-remove"></i> Remove</a>
-
-------------------------------------------------------------------- */
+/**
+ * Иконки
+ * 
+ * Иконки Glyphicons
+ * http://glyphicons.com/
+ * 
+ * Пример использования:
+ * 
+ * <a href="#"><i class="icon icon-remove"></i> Remove</a>
+ */
 
 [class^="icon-"],
 [class*=" icon-"]  { 
