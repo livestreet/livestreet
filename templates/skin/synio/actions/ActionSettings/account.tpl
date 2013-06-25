@@ -2,13 +2,7 @@
  * Настройки аккаунта (емэйл, пароль)
  *}
 
-{extends file='layout.base.tpl'}
-
-{block name='layout_options'}
-	{$sNavContent = 'settings'}
-{/block}
-
-{block name='layout_page_title'}{$aLang.settings_menu}{/block}
+{extends file='layout.user.settings.tpl'}
 
 {block name='layout_content'}
 	{hook run='settings_account_begin'}

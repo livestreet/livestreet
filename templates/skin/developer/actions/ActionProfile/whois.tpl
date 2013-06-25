@@ -5,20 +5,18 @@
  * @styles css/tables.css
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.tpl'}
 
 {block name='layout_options'}
-	{$sMenuItemSelect = 'profile'}
 	{$oSession = $oUserProfile->getSession()}
-	{$oVote = $oUserProfile->getVote()}
 	{$oGeoTarget = $oUserProfile->getGeoTarget()}
 {/block}
 
-{block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.profile_whois.tpl'}
+{block name='layout_user_page_title'}{$aLang.user_menu_profile_whois}{/block}
 
-	<h3 class="profile-page-header">{$aLang.user_menu_profile_whois}</h3>
+{block name='layout_content'}
+	{include file='navs/nav.profile_whois.tpl'}
+	
 
 	{if $oUserProfile->getProfileAbout()}					
 		<div class="profile-info-about">

@@ -2,13 +2,9 @@
  * Список избранных сообщений
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.messages.tpl'}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.talk.tpl'}
-
-
 	{if $aTalks}
 		<table class="table table-talk">
 			<thead>

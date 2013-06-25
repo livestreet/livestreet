@@ -2,13 +2,9 @@
  * Настройка уведомлений
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.settings.tpl'}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.settings.tpl'}
-
-
 	{hook run='settings_tuning_begin'}
 
 	<form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">

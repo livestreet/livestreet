@@ -2,12 +2,9 @@
  * Личное сообщение
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.messages.tpl'}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.talk.tpl'}
-
 	{assign var="oUser" value=$oTalk->getUser()}
 
 

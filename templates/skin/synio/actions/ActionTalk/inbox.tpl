@@ -2,14 +2,11 @@
  * Список сообщений
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.messages.tpl'}
 
-{block name='layout_options'}
-	{$sNavContent = 'talk'}
+{block name='layout_options' append}
 	{$noShowSystemMessage = false}
 {/block}
-
-{block name='layout_page_title'}{$aLang.talk_menu_inbox}{/block}
 
 {block name='layout_content'}
 	{if $aTalks}

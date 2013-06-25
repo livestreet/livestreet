@@ -8,7 +8,7 @@
 /**
  * Шапка профиля
  *
- * @template actions/ActionProfile/profile_top.tpl
+ * @template layouts/layout.user.tpl
  */
 .profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 300px 20px 65px; position: relative; }
 

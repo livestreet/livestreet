@@ -2,12 +2,9 @@
  * Черный список
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.messages.tpl'}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.talk.tpl'}
-
 	<form onsubmit="return ls.talk.addToBlackList();">
 		<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label>
 		<input type="text" id="talk_blacklist_add" name="add" class="input-text input-width-full autocomplete-users-sep" /></p>

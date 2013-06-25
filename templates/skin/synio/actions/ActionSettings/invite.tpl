@@ -2,13 +2,7 @@
  * Управление инвайтами
  *}
 
-{extends file='layout.base.tpl'}
-
-{block name='layout_options'}
-	{$sNavContent = 'settings'}
-{/block}
-
-{block name='layout_page_title'}{$aLang.settings_menu}{/block}
+{extends file='layout.user.settings.tpl'}
 
 {block name='layout_content'}
 	<p class="mb-20">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</p>

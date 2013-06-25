@@ -2,11 +2,9 @@
  * Основные настройки профиля
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.settings.tpl'}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-	{include file='navs/nav.settings.tpl'}
 	{include file='modals/modal.profile_avatar_upload.tpl'}
 
 

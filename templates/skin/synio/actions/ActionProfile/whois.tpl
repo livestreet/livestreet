@@ -5,17 +5,14 @@
  * @styles css/tables.css
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.tpl'}
 
-{block name='layout_options'}
-	{$sNav = 'people'}
-	{$sMenuItemSelect = 'profile'}
+{block name='layout_options' append}
 	{$oSession = $oUserProfile->getSession()}
 	{$oGeoTarget = $oUserProfile->getGeoTarget()}
 {/block}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
 	{include file='navs/nav.profile_whois.tpl'}
 
 

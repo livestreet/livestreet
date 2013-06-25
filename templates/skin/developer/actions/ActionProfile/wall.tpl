@@ -2,13 +2,11 @@
  * Стена
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layout.user.tpl'}
+
+{block name='layout_user_page_title'}{$aLang.user_menu_profile_wall}{/block}
 
 {block name='layout_content'}
-	{include file='actions/ActionProfile/profile_top.tpl'}
-
-	<h3 class="profile-page-header">{$aLang.user_menu_profile_wall}</h3>
-
 	<script>
 		ls.wall.init({
 			login:'{$oUserProfile->getLogin()}'
