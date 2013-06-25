@@ -2,7 +2,7 @@
  * Список сообщений
  *}
 
-{extends file='layout.user.messages.tpl'}
+{extends file='layouts/layout.user.messages.tpl'}
 
 {block name='layout_options' append}
 	{$noShowSystemMessage = false}

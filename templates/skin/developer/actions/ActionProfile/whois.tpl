@@ -5,7 +5,7 @@
  * @styles css/tables.css
  *}
 
-{extends file='layout.user.tpl'}
+{extends file='layouts/layout.user.tpl'}
 
 {block name='layout_options'}
 	{$oSession = $oUserProfile->getSession()}

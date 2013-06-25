@@ -2,7 +2,7 @@
  * Основные настройки профиля
  *}
 
-{extends file='layout.user.settings.tpl'}
+{extends file='layouts/layout.user.settings.tpl'}
 
 {block name='layout_content'}
 	{include file='modals/modal.profile_avatar_upload.tpl'}

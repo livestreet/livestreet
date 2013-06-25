@@ -2,7 +2,7 @@
  * Список пользователей которые подключены к блогу
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layouts/layout.base.tpl'}
 
 {block name='layout_page_title'}
 	{$aLang.blog_user_readers_all} ({$iCountBlogUsers}): <a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>

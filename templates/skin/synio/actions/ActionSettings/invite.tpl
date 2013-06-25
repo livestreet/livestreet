@@ -2,7 +2,7 @@
  * Управление инвайтами
  *}
 
-{extends file='layout.user.settings.tpl'}
+{extends file='layouts/layout.user.settings.tpl'}
 
 {block name='layout_content'}
 	<p class="mb-20">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</p>

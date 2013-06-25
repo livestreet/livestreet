@@ -2,7 +2,7 @@
  * Базовый шаблон настроек пользователя
  *}
 
-{extends file='layout.user.tpl'}
+{extends file='layouts/layout.user.tpl'}
 
 {block name='layout_user_page_title'}{$aLang.settings_menu}{/block}
 

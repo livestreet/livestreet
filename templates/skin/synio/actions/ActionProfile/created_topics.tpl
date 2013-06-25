@@ -2,7 +2,7 @@
  * Список топиков созданных пользователем
  *}
 
-{extends file='layout.user.tpl'}
+{extends file='layouts/layout.user.tpl'}
 
 {block name='layout_content'}
 	{include file='navs/nav.profile_created.tpl'}

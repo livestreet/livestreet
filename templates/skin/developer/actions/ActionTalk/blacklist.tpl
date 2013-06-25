@@ -2,7 +2,7 @@
  * Черный список
  *}
 
-{extends file='layout.user.messages.tpl'}
+{extends file='layouts/layout.user.messages.tpl'}
 
 {block name='layout_content'}
 	<form onsubmit="return ls.talk.addToBlackList();">

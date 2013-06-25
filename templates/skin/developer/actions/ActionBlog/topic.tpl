@@ -2,7 +2,7 @@
  * Топик
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layouts/layout.base.tpl'}
 
 {block name='layout_content'}
 	{include file='topics/topic.tpl'}

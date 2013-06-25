@@ -2,7 +2,7 @@
  * Черновики
  *}
 
-{extends file='layout.base.tpl'}
+{extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
 	{$sNav = 'create'}

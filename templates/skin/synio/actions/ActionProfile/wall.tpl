@@ -2,7 +2,7 @@
  * Стена
  *}
 
-{extends file='layout.user.tpl'}
+{extends file='layouts/layout.user.tpl'}
 
 {block name='layout_content'}
 	<script>

@@ -2,7 +2,7 @@
  * Настройки аккаунта (емэйл, пароль)
  *}
 
-{extends file='layout.user.settings.tpl'}
+{extends file='layouts/layout.user.settings.tpl'}
 
 {block name='layout_content'}
 	{hook run='settings_account_begin'}
