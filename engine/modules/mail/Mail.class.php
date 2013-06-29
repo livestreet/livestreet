@@ -204,6 +204,19 @@ class ModuleMail extends Module {
 		$this->sError = ob_get_clean();
 	}
 	/**
+	 * Добавляем прикрепляемый файл
+	 *
+	 * @param string $sPath	Абсолютный путь к файлу
+	 * @param string $sName	Свое имя файла
+	 * @param string $sEncoding Кодированик файла
+	 * @param string $sType	Расширение файла (MIME).
+	 */
+	public function AddAttachment($sPath,$sName='',$sEncoding='base64',$sType='application/octet-stream') {
+		ob_start();
+		$this->oMailer->AddAttachment($sPath,$sName,$sEncoding,$sType);
+		$this->sError = ob_get_clean();
+	}
+	/**
 	 * Отправляет сообщение(мыло)
 	 *
 	 * @return bool
