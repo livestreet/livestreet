@@ -5,7 +5,7 @@
 {extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
-	{$sNav = 'people'}
+	{$sNav = 'users'}
 {/block}
 
 {block name='layout_content_begin'}

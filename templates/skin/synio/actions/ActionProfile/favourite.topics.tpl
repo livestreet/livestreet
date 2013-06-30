@@ -5,7 +5,7 @@
 {extends file='layouts/layout.user.tpl'}
 
 {block name='layout_content'}
-	{include file='navs/nav.profile_favourite.tpl'}
+	{include file='navs/nav.user.favourite.tpl'}
 
 	{if $oUserCurrent and $oUserCurrent->getId()==$oUserProfile->getId()}
 		{$aBlockParams.user = $oUserProfile}

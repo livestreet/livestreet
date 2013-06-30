@@ -6,7 +6,7 @@
 
 {block name='layout_options'}
 	{$bNoSidebar = true}
-	{$noShowSystemMessage = true}
+	{$bNoSystemMessages = true}
 {/block}
 
 {block name='layout_content'}

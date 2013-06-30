@@ -73,7 +73,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadNext = function() {
-		var divLast=$('#wall-container').find('.js-wall-item:last');
+		var divLast=$('#wall-container').find('.js-wall-item:last-child');
 		if (divLast.length) {
 			var idLess=divLast.attr('id').replace('wall-item-','');
 		} else {
@@ -101,7 +101,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadNew = function() {
-		var divFirst=$('#wall-container').find('.js-wall-item:first');
+		var divFirst=$('#wall-container').find('.js-wall-item:first-child');
 		if (divFirst.length) {
 			var idMore=divFirst.attr('id').replace('wall-item-','');
 		} else {
@@ -121,7 +121,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNew = function(iPid) {
-		var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item::last');
+		var divFirst=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:last-child');
 		if (divFirst.length) {
 			var idMore=divFirst.attr('id').replace('wall-reply-item-','');
 		} else {
@@ -141,7 +141,7 @@ ls.wall = (function ($) {
 	};
 
 	this.loadReplyNext = function(iPid) {
-		var divLast=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:first');
+		var divLast=$('#wall-reply-container-'+iPid).find('.js-wall-reply-item:first-child');
 		if (divLast.length) {
 			var idLess=divLast.attr('id').replace('wall-reply-item-','');
 		} else {

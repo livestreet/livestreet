@@ -104,11 +104,23 @@
 				<div class="blog-description text">{$oBlog->getDescription()}</div>
 			
 				
-				<ul class="blog-info">
-					<li><span>{$aLang.infobox_blog_create}</span> <strong>{date_format date=$oBlog->getDateAdd() format="j F Y"}</strong></li>
-					<li><span>{$aLang.infobox_blog_topics}</span> <strong>{$oBlog->getCountTopic()}</strong></li>
-					<li><span><a href="{$oBlog->getUrlFull()}users/">{$aLang.infobox_blog_users}</a></span> <strong>{$oBlog->getCountUser()}</strong></li>
-					<li class="rating"><span>{$aLang.infobox_blog_rating}</span> <strong>{$oBlog->getRating()}</strong></li>
+				<ul class="dotted-list blog-info">
+					<li class="dotted-list-item">
+						<span class="dotted-list-item-label">{$aLang.infobox_blog_create}</span>
+						<span class="dotted-list-item-value">{date_format date=$oBlog->getDateAdd() format="j F Y"}</span>
+					</li>
+					<li class="dotted-list-item">
+						<span class="dotted-list-item-label">{$aLang.infobox_blog_topics}</span>
+						<span class="dotted-list-item-value">{$oBlog->getCountTopic()}</span>
+					</li>
+					<li class="dotted-list-item">
+						<span class="dotted-list-item-label"><a href="{$oBlog->getUrlFull()}users/">{$aLang.infobox_blog_users}</a></span>
+						<span class="dotted-list-item-value">{$oBlog->getCountUser()}</span>
+					</li>
+					<li class="dotted-list-item blog-info-rating">
+						<span class="dotted-list-item-label">{$aLang.infobox_blog_rating}</span>
+						<span class="dotted-list-item-value">{$oBlog->getRating()}</span>
+					</li>
 				</ul>
 				
 				
@@ -187,7 +199,7 @@
 
 	{hook run='blog_info' oBlog=$oBlog}
 
-	{include file='navs/nav.blog_single.tpl'}
+	{include file='navs/nav.blog.tpl'}
 
 
 	{if $bCloseBlog}

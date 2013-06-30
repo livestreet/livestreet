@@ -123,7 +123,7 @@ class ActionProfile extends Action {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
 		}
-		$this->SetTemplateAction('stream');
+		$this->SetTemplateAction('activity');
 	}
 	/**
 	 * Список друзей пользователей
@@ -194,7 +194,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('created_topics');
+		$this->SetTemplateAction('created.topics');
 	}
 	/**
 	 * Вывод комментариев пользователя
@@ -227,7 +227,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('created_comments');
+		$this->SetTemplateAction('created.comments');
 	}
 	/**
 	 * Выводит список избранноего юзера
@@ -269,7 +269,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('favourite_topics');
+		$this->SetTemplateAction('favourite.topics');
 	}
 	/**
 	 * Список топиков из избранного по тегу
@@ -314,7 +314,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('favourite_topics');
+		$this->SetTemplateAction('favourite.topics');
 	}
 	/**
 	 * Выводит список избранноего юзера
@@ -348,7 +348,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('favourite_comments');
+		$this->SetTemplateAction('favourite.comments');
 	}
 	/**
 	 * Показывает инфу профиля
@@ -410,7 +410,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('whois');
+		$this->SetTemplateAction('info');
 	}
 	/**
 	 * Отображение стены пользователя
@@ -550,7 +550,7 @@ class ActionProfile extends Action {
 		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
 		$this->Viewer_Assign('aWall',$aWall['collection']);
 		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
-		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items.tpl'));
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall.posts.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
 	}
@@ -589,7 +589,7 @@ class ActionProfile extends Action {
 		 */
 		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,300);
 		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
-		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall_items_reply.tpl'));
+		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall.comments.tpl'));
 		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
 		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
 	}
@@ -686,7 +686,7 @@ class ActionProfile extends Action {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('created_notes');
+		$this->SetTemplateAction('created.notes');
 	}
 	/**
 	 * Добавление пользователя в друзья, по отправленной заявке
@@ -1202,6 +1202,7 @@ class ActionProfile extends Action {
 	}
 	/**
 	 * Обработка подтверждения старого емайла при его смене
+	 * TODO: Перенести в экшн Settings
 	 */
 	public function EventChangemailConfirmFrom() {
 		if (!($oChangemail=$this->User_GetUserChangemailByCodeFrom($this->GetParamEventMatch(1,0)))) {
@@ -1220,7 +1221,7 @@ class ActionProfile extends Action {
 		 */
 		$oUser=$this->User_GetUserById($oChangemail->getUserId());
 		$this->Notify_Send($oChangemail->getMailTo(),
-						   'notify.user_changemail_to.tpl',
+						   Config::Get('module.notify.prefix').'.user_changemail_to.tpl',
 						   $this->Lang_Get('notify_subject_user_changemail'),
 						   array(
 							   'oUser' => $oUser,
@@ -1228,7 +1229,7 @@ class ActionProfile extends Action {
 						   ));
 
 		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_to_notice'));
-		$this->SetTemplateAction('changemail_confirm');
+		$this->SetTemplate('actions/ActionSettings/account.change_email_confirm.tpl');
 	}
 	/**
 	 * Обработка подтверждения нового емайла при смене старого
@@ -1258,7 +1259,7 @@ class ActionProfile extends Action {
 		}
 
 		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
-		$this->SetTemplateAction('changemail_confirm');
+		$this->SetTemplate('actions/ActionSettings/account.change_email_confirm.tpl');
 	}
 	/**
 	 * Выполняется при завершении работы экшена

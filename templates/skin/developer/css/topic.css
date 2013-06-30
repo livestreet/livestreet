@@ -146,7 +146,7 @@
  * Личное сообщение
  * TODO: Move to talk.css
  * 
- * @file actions/ActionTalk/read.tpl
+ * @file actions/ActionTalk/message.tpl
  */
 .topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
 .topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }

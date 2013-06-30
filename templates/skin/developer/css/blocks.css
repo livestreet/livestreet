@@ -52,9 +52,6 @@
  */
 .block-type-blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
 
-.block-type-blog-categories li a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
-.block-type-blog-categories li.active a { color: #fff; text-decoration: none; background: #5560D5; }
-
 /**
  * @type blog add
  * @file blocks/block.blogAdd.tpl

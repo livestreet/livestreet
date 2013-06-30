@@ -48,11 +48,10 @@
 .blog-content .user-avatar      { margin-right: 10px; }
 
 /* Info */
-.blog-info                  { width: 300px; margin-bottom: 50px; }
-.blog-info li               { margin-bottom: 5px; background: url(../images/dots.png)  0% 14px repeat-x; position: relative; padding-right: 50px; }
-.blog-info li span          { background: #f8fbfe; padding-right: 2px; }
-.blog-info li strong        { width: 150px; position: absolute; top: 0; right: 0; background: #f8fbfe; padding-left: 2px; font-weight: normal; }
-.blog-info li.rating strong { color: #5fa459; }
+.dotted-list.blog-info { width: 300px; margin-bottom: 50px; }
+.dotted-list.blog-info .dotted-list-item-label,
+.dotted-list.blog-info .dotted-list-item-value { background: #f8fbfe; }
+.dotted-list.blog-info .dotted-list-item-value.blog-info-rating { color: #5fa459; }
 
 /* Footer */
 .blog-footer             { padding: 20px 25px; background: #f1f7fd; font-size: 11px; border-radius: 0 0 5px 5px; }

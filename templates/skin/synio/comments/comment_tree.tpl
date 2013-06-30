@@ -5,7 +5,7 @@
  *}
 
 {* Добавляем в тулбар кнопку обновления комментариев *}
-{add_block group='toolbar' name='toolbar/toolbar_comment.tpl'
+{add_block group='toolbar' name='toolbar/toolbar.comment.tpl'
 	aPagingCmt=$aPagingCmt
 	iTargetId=$iTargetId
 	sTargetType=$sTargetType

@@ -1549,7 +1549,7 @@ class ModuleUser extends Module {
 				 * Отправляем уведомление на новый емайл
 				 */
 				$this->Notify_Send($oChangemail->getMailTo(),
-								   'notify.user_changemail_to.tpl',
+								   Config::Get('module.notify.prefix').'.user_changemail_to.tpl',
 								   $this->Lang_Get('notify_subject_user_changemail'),
 								   array(
 									   'oUser' => $oUser,
@@ -1561,7 +1561,7 @@ class ModuleUser extends Module {
 				 * Отправляем уведомление на старый емайл
 				 */
 				$this->Notify_Send($oUser,
-								   'notify.user_changemail_from.tpl',
+								   Config::Get('module.notify.prefix').'.user_changemail_from.tpl',
 								   $this->Lang_Get('notify_subject_user_changemail'),
 								   array(
 									   'oUser' => $oUser,

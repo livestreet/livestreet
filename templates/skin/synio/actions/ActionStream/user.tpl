@@ -5,7 +5,7 @@
 {extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
-	{$sNav = 'stream'}
+	{$sNav = 'activity'}
 {/block}
 
 {block name='layout_page_title'}{$aLang.stream_menu}{/block}

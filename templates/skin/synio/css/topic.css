@@ -149,7 +149,18 @@
 .poll .poll-result li dl dt span     { font-size: 11px; color: #aaa; }
 .poll .poll-result li dl dd          { padding-left: 80px; }
 .poll .poll-result li dl dd div      { height: 7px; margin-top: 3px; background: #ccc; overflow: hidden; border-radius: 4px; }
-.poll .poll-result li.most dl dd div { background: #1999e2; background: url(../images/poll-most.png) repeat-x; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2); box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.poll .poll-result li.most dl dd div { 
+	background: #1999e2;
+	background: -moz-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, #25dcfc), color-stop(70%, #198bdd), color-stop(100%, #38d1f7));
+	background: -webkit-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
+	background: -o-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
+	background: -ms-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
+	background: linear-gradient(to bottom, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#25dcfc', endColorstr='#38d1f7', GradientType=0 );
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2); 
+	box-shadow: 0 1px 2px rgba(0,0,0,.2); 
+}
 .poll .poll-result li.most dl dt     { color: #12aaeb; }
 
 .poll .poll-total                    { position: relative; color: #818189; font-size: 11px; line-height: 16px; padding-left: 80px; margin-bottom: 30px; }
@@ -189,7 +200,7 @@
  * Личное сообщение
  * TODO: Move to talk.css
  * 
- * @file actions/ActionTalk/read.tpl
+ * @file actions/ActionTalk/message.tpl
  */
 .topic.topic-type-talk header .topic-info { background: #f8fbfe; font-size: 11px; padding: 15px; border-radius: 5px; margin-bottom: 0; }
 

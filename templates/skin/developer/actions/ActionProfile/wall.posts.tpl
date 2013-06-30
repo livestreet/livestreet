@@ -48,7 +48,7 @@
 
 		<div id="wall-reply-container-{$oWall->getId()}" class="comment-wrapper">
 			{if $aReplyWall}
-				{include file='actions/ActionProfile/wall_items_reply.tpl'}
+				{include file='actions/ActionProfile/wall.comments.tpl'}
 			{/if}
 		</div>
 

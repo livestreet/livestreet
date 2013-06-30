@@ -15,7 +15,7 @@
 {block name='layout_user_page_title'}{$aLang.user_menu_profile_whois}{/block}
 
 {block name='layout_content'}
-	{include file='navs/nav.profile_whois.tpl'}
+	{include file='navs/nav.user.whois.tpl'}
 	
 
 	{if $oUserProfile->getProfileAbout()}					

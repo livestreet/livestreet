@@ -233,7 +233,7 @@ return array(
 	'topic_menu_add_question' => 'Question',
 	'topic_menu_add_link' => 'Link',
 	'topic_menu_add_photoset' => 'Photoset',
-	'topic_menu_saved' => 'Drafts',
+	'topic_menu_drafts' => 'Drafts',
 	'topic_menu_published' => 'Published',
 	/**
 	 * Topic Creation

@@ -71,8 +71,26 @@ dl.form-item dd { float: left; width: 250px; }
 	border-radius: 3px; 
 	-webkit-box-shadow: 0 1px 5px #e8e8c0 inset; box-shadow: 0 1px 5px #e8e8c0 inset; 
 }
-.validate-error-show:before 	{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #F2F2DD transparent; border-style: solid; }
-
+.validate-error-show:after {
+	content: "";
+	position: absolute;
+	top: 12px;
+	left: 15px;
+	width: 15px;
+	height: 14px;
+	background: url(../images/icons/validation-error.png) 0 0 no-repeat;
+}
+.validate-error-show:before {
+	content: "";
+	position: absolute;
+	top: -12px;
+	left: 15px;
+	width: 0;
+	height: 0;
+	border-width: 6px;
+	border-color: transparent transparent #F2F2DD transparent;
+	border-style: solid;
+}
 
 /**
  * Блок редактирования аватара
@@ -156,8 +174,8 @@ dl.form-item dd { float: left; width: 250px; }
 .form-signup-page p label                     { float: left; width: 135px; padding: 4px 15px 0 0; }
 .form-signup-page p small                     { margin-left: 150px; width: 247px; }
 .form-signup-page p i                         { top: -4px; }
-.form-signup-page p .icon-ok-green            { position: absolute; top: 14px; left: 545px; }
-.form-signup-page p .icon-ok-green:after {
+.form-signup-page p .icon-validation-success            { position: absolute; top: 14px; left: 545px; }
+.form-signup-page p .icon-validation-success:after {
 	width: 64px;
 	height: 0;
 	content: "";

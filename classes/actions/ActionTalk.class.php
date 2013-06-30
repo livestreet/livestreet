@@ -450,6 +450,8 @@ class ActionTalk extends Action {
 				$this->Viewer_Assign('bNoComments',true);
 			}
 		}
+
+		$this->SetTemplateAction('message');
 	}
 	/**
 	 * Проверка полей при создании письма

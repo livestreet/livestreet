@@ -12,7 +12,7 @@
 		{hook run='menu_create_topic_item'}
 
 		{if $iUserCurrentCountTopicDraft}
-			<li class="{if $sMenuSubItemSelect=='saved'}active{/if}"><a href="{router page='topic'}saved/">{$aLang.topic_menu_saved} ({$iUserCurrentCountTopicDraft})</a></li>
+			<li class="{if $sMenuSubItemSelect == 'drafts'}active{/if}"><a href="{router page='topic'}drafts/">{$aLang.topic_menu_drafts} ({$iUserCurrentCountTopicDraft})</a></li>
 		{/if}
 	</ul>
 {/if}

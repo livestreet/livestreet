@@ -23,13 +23,12 @@
 .activity-event-avatar       { position: absolute; top: 0; left: 0; }
 .activity-event .user-avatar { margin-left: 3px; }
 
-.activity-event-text       {
+.activity-event-text {
 	position: relative;
-	padding: 5px 10px 6px;
+	padding: 10px 15px;
 	background: #fefef1;
 	color: #363636;
 	margin-top: 13px;
-	font-size: 11px;
 	border-radius: 3px;
 	-webkit-box-shadow: 0 2px 4px #e8e8c0 inset;
 	        box-shadow: 0 2px 4px #e8e8c0 inset;

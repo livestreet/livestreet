@@ -264,10 +264,10 @@
 
 	{* Подключение модальных окон *}
 	{if $oUserCurrent}
-		{include file='modals/modal.write.tpl'}
-		{include file='modals/modal.favourite_form_tags.tpl'}
+		{include file='modals/modal.create.tpl'}
+		{include file='modals/modal.favourite_tags.tpl'}
 	{else}
-		{include file='modals/modal.login.tpl'}
+		{include file='modals/modal.auth.tpl'}
 	{/if}
 
 
@@ -275,8 +275,8 @@
 	 * Тулбар
 	 * Добавление кнопок в тулбар
 	 *}
-	{add_block group='toolbar' name='toolbar/toolbar_admin.tpl' priority=100}
-	{add_block group='toolbar' name='toolbar/toolbar_scrollup.tpl' priority=-100}
+	{add_block group='toolbar' name='toolbar/toolbar.admin.tpl' priority=100}
+	{add_block group='toolbar' name='toolbar/toolbar.scrollup.tpl' priority=-100}
 
 	{* Подключение тулбара *}
 	{include file='toolbar/toolbar.tpl'}

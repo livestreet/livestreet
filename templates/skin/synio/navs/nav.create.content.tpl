@@ -28,7 +28,7 @@
 
 {if $sMenuItemSelect=='topic'}
 	{if $iUserCurrentCountTopicDraft}
-		<a href="{router page='topic'}saved/" class="drafts">{$aLang.topic_menu_saved} ({$iUserCurrentCountTopicDraft})</a>
+		<a href="{router page='topic'}drafts/" class="drafts">{$aLang.topic_menu_drafts} ({$iUserCurrentCountTopicDraft})</a>
 	{/if}
 	<ul class="nav nav-pills mb-30">
 		<li {if $sMenuSubItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add_topic}</a></li>

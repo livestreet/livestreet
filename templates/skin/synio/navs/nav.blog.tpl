@@ -1,25 +1,15 @@
 {**
- * Навигация по топикам
+ * Навигация на странице блога
  *}
 
-<ul class="nav nav-menu">
-	<li {if $sMenuItemSelect=='index'}class="active"{/if}>
-		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a>
-	</li>
+<div class="nav-group">
+	<ul class="nav nav-pills">
+		<li {if $sMenuSubItemSelect=='good'}class="active"{/if}><a href="{$sMenuSubBlogUrl}">{$aLang.blog_menu_collective_good}</a></li>
+		<li {if $sMenuSubItemSelect=='new'}class="active"{/if}><a href="{$sMenuSubBlogUrl}newall/">{$aLang.blog_menu_collective_new}</a>{if $iCountTopicsBlogNew>0} <a href="{$sMenuSubBlogUrl}new/" class="new">+{$iCountTopicsBlogNew}</a>{/if}</li>
+		<li {if $sMenuSubItemSelect=='discussed'}class="active"{/if}><a href="{$sMenuSubBlogUrl}discussed/">{$aLang.blog_menu_collective_discussed}</a></li>
+		<li {if $sMenuSubItemSelect=='top'}class="active"{/if}><a href="{$sMenuSubBlogUrl}top/">{$aLang.blog_menu_collective_top}</a></li>
+		{hook run='menu_blog_blog_item'}
+	</ul>
 
-	<li {if $sMenuItemSelect=='blog'}class="active"{/if}>
-		<a href="{router page='blog'}">{$aLang.blog_menu_collective}</a>
-	</li>
-
-	<li {if $sMenuItemSelect=='log'}class="active"{/if}>
-		<a href="{router page='personal_blog'}">{$aLang.blog_menu_personal}</a>
-	</li>
-	
-	{if $oUserCurrent}
-		<li {if $sMenuItemSelect=='feed'}class="active"{/if}>
-			<a href="{router page='feed'}">{$aLang.userfeed_title}</a>
-		</li>
-	{/if}
-
-	{hook run='menu_blog'}
-</ul>
+	{include file='dropdown.timespan.tpl'}
+</div>

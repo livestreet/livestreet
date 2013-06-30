@@ -7,14 +7,12 @@
 {block name='layout_options'}
 	{if $sEvent == 'add'}
 		{$sNavContent = 'create'}
+	{else}
+		{$sNavContent = 'blog.edit'}
 	{/if}
 {/block}
 
 {block name='layout_content'}
-	{if $sEvent != 'add'}
-		{include file='navs/nav.blog_edit.tpl'}
-	{/if}
-
 
 	{* Подключение редактора *}
 	{include file='editor_init.tpl' sEditorType='comment'}

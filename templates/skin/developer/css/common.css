@@ -150,3 +150,10 @@
 }
 .get-more:hover { background: #f7f7f7; color: #555; }
 .get-more.loading { background: #f7f7f7 url(../images/loader.gif) 50% 50% no-repeat; text-indent: -9999px; }
+
+
+/**
+ * Вложенный список
+ */
+.nested-list .nested-list-item a        { display: block; margin-bottom: 1px; padding: 5px 9px; }
+.nested-list .nested-list-item.active a { color: #fff; text-decoration: none; background: #5560D5; }

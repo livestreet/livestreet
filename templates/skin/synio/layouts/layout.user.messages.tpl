@@ -5,7 +5,7 @@
 {extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options' append}
-	{$sNavContent = 'talk'}
+	{$sNavContent = 'messages'}
 {/block}
 
 {block name='layout_page_title'}{$aLang.talk_menu_inbox}{/block}

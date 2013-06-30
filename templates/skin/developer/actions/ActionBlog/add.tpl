@@ -8,7 +8,7 @@
 	{$bNoSidebar = true}
 
 	{if $sEvent == 'edit'}
-		{$sNav = 'blog_edit'}
+		{$sNav = 'blog.edit'}
 	{/if}
 {/block}
 

@@ -68,7 +68,11 @@
 				{$sTextEvent = $oTarget->getText()}
 
 				{if trim($sTextEvent)}
-					<div class="activity-event-text text">{$sTextEvent}</div>
+					<div class="activity-event-text">
+						<div class="text">
+							{$sTextEvent}
+						</div>
+					</div>
 				{/if}
 			{elseif $oStreamEvent->getEventType() == 'add_blog'}
 				{* Создан блог *}
@@ -163,7 +167,11 @@
 				{$sTextEvent = $oTarget->getText()}
 
 				{if trim($sTextEvent)}
-					<div class="activity-event-text text">{$sTextEvent}</div>
+					<div class="activity-event-text">
+						<div class="text">
+							{$sTextEvent}
+						</div>
+					</div>
 				{/if}
 			{else}
 				{hook run="stream_list_event_`$oStreamEvent->getEventType()`" oStreamEvent=$oStreamEvent}

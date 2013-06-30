@@ -57,11 +57,14 @@
 .popover.loading { background: url(../images/loader-circle.gif) 50% 50% no-repeat; }
 
 
-/* Popover Blog Info
------------------------------------------ */
-.popover.popover-blog-info .blog-info           { margin-bottom: 30px; }
-.popover.popover-blog-info .blog-info li span   { background: #fff; }
-.popover.popover-blog-info .blog-info li strong { background: #fff; }
-.popover.popover-blog-info .popover-topic       { color: #727a90; font-size: 11px; }
-.popover.popover-blog-info .popover-actions     { font-size: 11px; }
-.popover.popover-blog-info .popover-content     { padding: 25px 30px; }
+/**
+ * Popover Blog Info
+ */
+.popover.popover-blog-info .popover-content { padding: 25px 30px; }
+
+.popover-blog-info-topic   { color: #727a90; font-size: 11px; }
+.popover-blog-info-actions { font-size: 11px; }
+
+.popover.popover-blog-info .dotted-list.blog-info { margin-bottom: 30px; }
+.popover.popover-blog-info .dotted-list.blog-info .dotted-list-item-label,
+.popover.popover-blog-info .dotted-list.blog-info .dotted-list-item-value { background: #fff; }

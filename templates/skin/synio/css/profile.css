@@ -47,11 +47,6 @@
 .profile-left  { width: 360px; float: left; margin-right: 40px; }
 .profile-right { width: 185px; float: left; }
 
-.profile-dotted-list           { margin-bottom: 50px; }
-.profile-dotted-list li        { overflow: hidden; zoom: 1; margin-bottom: 5px; background: url(../images/dots.png)  0% 14px repeat-x; }
-.profile-dotted-list li span   { background: #fff; }
-.profile-dotted-list li strong { float: right; width: 190px; font-weight: normal; background: #fff; }
-
 .profile-contact-list      { margin-bottom: 50px; }
 .profile-contact-list li   { margin-bottom: 5px; padding-left: 21px; position: relative; }
 .profile-contact-list li i { position: absolute; top: 2px; left: 0; }

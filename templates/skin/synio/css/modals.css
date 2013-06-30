@@ -59,7 +59,7 @@
 .modal.modal-login .remember-label            { font-size: 11px; color: #6c7272; }
 .modal.modal-login .remember-label input      { top: 2px; }
 .modal.modal-login .icon-question-sign        { position: relative; top: -3px; }
-.modal.modal-login .icon-ok-green             { position: relative; top: -1px; }
+.modal.modal-login .icon-validation-success   { position: relative; top: -1px; }
 
 
 /**

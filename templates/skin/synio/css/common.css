@@ -298,3 +298,24 @@
 }
 .get-more:hover { background: #eefbfc; color: #258fa7; }
 .get-more.loading { background: #eefbfc url(../images/loader.gif) 50% 50% no-repeat; text-indent: -9999px; }
+
+
+/**
+ * Вложенный список
+ */
+.nested-list .nested-list-item          { margin-bottom: 3px; }
+.nested-list .nested-list-item a        { display: block; margin-bottom: 1px; padding: 5px 10px; border-radius: 3px; }
+.nested-list .nested-list-item.active a { color: #fff; text-decoration: none; background: #3ABCFF; }
+
+
+/**
+ * Список с пунктиром
+ */
+.dotted-list            { margin-bottom: 50px; }
+
+.dotted-list-item       { margin-bottom: 5px; position: relative; overflow: hidden; }
+.dotted-list-item:after { content: ""; position: absolute; top: 14px; left: 0; width: 100%; height: 0; border-bottom: 1px dotted #bbb; z-index: 5; }
+
+.dotted-list-item-label { padding-right: 3px; float: left; background: #fff; position: relative; z-index: 10; }
+
+.dotted-list-item-value { padding-left: 3px; float: right; width: 190px; font-weight: normal; background: #fff; position: relative; z-index: 10; }

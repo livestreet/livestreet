@@ -5,9 +5,6 @@
 {extends file='layouts/layout.user.settings.tpl'}
 
 {block name='layout_content'}
-	{include file='modals/modal.profile_avatar_upload.tpl'}
-
-
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.lang.load({lang_load name="geo_select_city,geo_select_region"});

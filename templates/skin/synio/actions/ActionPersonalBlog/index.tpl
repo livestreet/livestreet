@@ -5,8 +5,8 @@
 {extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
-	{$sNav = 'blog'}
-	{$sNavContent = 'blog'}
+	{$sNav = 'topics'}
+	{$sNavContent = 'topics'}
 {/block}
 
 {block name='layout_content'}

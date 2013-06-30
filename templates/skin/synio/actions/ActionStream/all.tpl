@@ -6,7 +6,7 @@
 
 {block name='layout_options'}
 	{$bNoSidebar = true}
-	{$sNav = 'stream'}
+	{$sNav = 'activity'}
 {/block}
 
 {block name='layout_page_title'}{$aLang.stream_menu}{/block}

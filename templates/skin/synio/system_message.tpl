@@ -2,7 +2,7 @@
  * Системные сообщения
  *}
 
-{if ! $noShowSystemMessage}
+{if ! $bNoSystemMessages}
 	{if $aMsgError}
 		<ul class="alert alert-error">
 			{foreach from=$aMsgError item=aMsg}
