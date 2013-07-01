@@ -10,7 +10,5 @@
 {/block}
 
 {block name='layout_content'}
-	<div class="content-error">
-		<p>{$sText}</p>
-	</div>
+	{$sText}
 {/block}

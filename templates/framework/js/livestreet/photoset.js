@@ -24,7 +24,9 @@ ls.photoset =( function ($) {
 	}
 
 	this.swfHandlerUploadProgress = function(e, file, bytesLoaded, percent) {
-		$('#photoset_photo_empty_progress').text(file.name+': '+( percent==100 ? 'resize..' : percent +'%'));
+		$('#photoset_photo_empty_filename').text(file.name);
+		$('#photoset_photo_empty_progress').find('.js-upload-label').text(percent >= 100  ? 'resize..' : percent +'%');
+		$('#photoset_photo_empty_progress').find('.js-upload-percents').css({ 'width' : percent + '%' });
 	}
 
 	this.swfHandlerFileDialogComplete = function(e, numFilesSelected, numFilesQueued) {
@@ -44,20 +46,24 @@ ls.photoset =( function ($) {
 	}
 
 	this.addPhotoEmpty = function() {
-		template = '<li id="photoset_photo_empty"><img src="'+DIR_STATIC_SKIN + '/images/loader.gif'+'" alt="image" style="margin-left: 35px;margin-top: 20px;" />'
-					+'<div id="photoset_photo_empty_progress" style="height: 60px;padding: 3px;border: 1px solid #DDDDDD;" class="width: full"></div></li>';
+		template = '<li id="photoset_photo_empty" class="photoset-upload-progress">' +
+		               '<div id="photoset_photo_empty_filename" class="photoset-upload-progress-filename"></div>' +
+		               '<div id="photoset_photo_empty_progress" class="progress-bar">' +
+		                   '<div class="progress-bar-value js-upload-percents"></div>' +
+		                   '<div class="progress-bar-label js-upload-label"></div>' +
+		               '</div>' +
+		           '</li>';
 		$('#swfu_images').append(template);
 	}
 
 	this.addPhoto = function(response) {
 		$('#photoset_photo_empty').remove();
 		if (!response.bStateError) {
-			template = '<li id="photo_'+response.id+'"><img src="'+response.file+'" alt="image" />'
+			template = '<li id="photo_'+response.id+'" class="photoset-upload-images-item"><img src="'+response.file+'" alt="image" />'
 						+'<textarea onBlur="ls.photoset.setPreviewDescription('+response.id+', this.value)" class="width-full"></textarea><br />'
 						+'<a href="javascript:ls.photoset.deletePhoto('+response.id+')" class="link-dotted">'+ls.lang.get('topic_photoset_photo_delete')+'</a>'
 						+'<span id="photo_preview_state_'+response.id+'" class="photo-preview-state"><a href="javascript:ls.photoset.setPreview('+response.id+')" class="link-dotted mark-as-preview">'+ls.lang.get('topic_photoset_mark_as_preview')+'</a></span></li>';
 			$('#swfu_images').append(template);
-			ls.msg.notice(response.sMsgTitle,response.sMsg);
 		} else {
 			ls.msg.error(response.sMsgTitle,response.sMsg);
 		}

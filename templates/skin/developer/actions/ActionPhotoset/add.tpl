@@ -43,7 +43,7 @@
 						{assign var=bIsMainPhoto value=true}
 					{/if}
 					
-					<li id="photo_{$oPhoto->getId()}" {if $bIsMainPhoto}class="marked-as-preview"{/if}>
+					<li id="photo_{$oPhoto->getId()}" class="photoset-upload-images-item {if $bIsMainPhoto}marked-as-preview{/if}">
 						<img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
 						<textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)" class="width-full">{$oPhoto->getDescription()}</textarea><br />
 						<a href="javascript:ls.photoset.deletePhoto({$oPhoto->getId()})" class="link-dotted ">{$aLang.topic_photoset_photo_delete}</a>

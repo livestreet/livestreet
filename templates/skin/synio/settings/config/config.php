@@ -33,46 +33,46 @@ $config['view']['grid']['fixed_width'] = 976;
 
 /* Styles */
 $config['head']['default']['js'] = Config::Get('head.default.js');
-$config['head']['default']['js'][] = '___path.static.skin___/js/init.js';
-$config['head']['default']['js'][] = '___path.static.skin___/js/stream.js';
-$config['head']['default']['js'][] = '___path.static.skin___/js/blog.js';
+$config['head']['default']['js'][] = '___path.static.assets___/js/init.js';
+$config['head']['default']['js'][] = '___path.static.assets___/js/stream.js';
+$config['head']['default']['js'][] = '___path.static.assets___/js/blog.js';
 
 /* JavaScript */
 $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), array(
 	// Template styles
-	"___path.static.skin___/css/base.css",
+	"___path.static.assets___/css/base.css",
 	"___path.static.framework___/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
 	"___path.static.framework___/js/vendor/markitup/skins/synio/style.css",
 	"___path.static.framework___/js/vendor/markitup/sets/synio/style.css",
 	"___path.static.framework___/js/vendor/jcrop/jquery.Jcrop.css",
 	"___path.static.framework___/js/vendor/prettify/prettify.css",
 	"___path.static.framework___/js/vendor/prettyphoto/css/prettyphoto.css",
-	"___path.static.skin___/css/grid.css",
-	"___path.static.skin___/css/common.css",
-	"___path.static.skin___/css/text.css",
-	"___path.static.skin___/css/forms.css",
+	"___path.static.assets___/css/grid.css",
+	"___path.static.assets___/css/common.css",
+	"___path.static.assets___/css/text.css",
+	"___path.static.assets___/css/forms.css",
 
-	"___path.static.skin___/css/buttons.css",
-	"___path.static.skin___/css/tooltip.css",
-	"___path.static.skin___/css/popovers.css",
-	"___path.static.skin___/css/modals.css",
-	"___path.static.skin___/css/dropdowns.css",
-	"___path.static.skin___/css/toolbar.css",
-	"___path.static.skin___/css/vendor/jquery.notifier.css",
-	"___path.static.skin___/css/navs.css",
-	"___path.static.skin___/css/icons.css",
-	"___path.static.skin___/css/tables.css",
-	"___path.static.skin___/css/topic.css",
-	"___path.static.skin___/css/photoset.css",
-	"___path.static.skin___/css/comments.css",
-	"___path.static.skin___/css/blocks.css",
-	"___path.static.skin___/css/blog.css",
-	"___path.static.skin___/css/profile.css",
-	"___path.static.skin___/css/wall.css",
-	"___path.static.skin___/css/activity.css",
-	"___path.static.skin___/css/admin.css",
+	"___path.static.assets___/css/buttons.css",
+	"___path.static.assets___/css/tooltip.css",
+	"___path.static.assets___/css/popovers.css",
+	"___path.static.assets___/css/modals.css",
+	"___path.static.assets___/css/dropdowns.css",
+	"___path.static.assets___/css/toolbar.css",
+	"___path.static.assets___/css/vendor/jquery.notifier.css",
+	"___path.static.assets___/css/navs.css",
+	"___path.static.assets___/css/icons.css",
+	"___path.static.assets___/css/tables.css",
+	"___path.static.assets___/css/topic.css",
+	"___path.static.assets___/css/photoset.css",
+	"___path.static.assets___/css/comments.css",
+	"___path.static.assets___/css/blocks.css",
+	"___path.static.assets___/css/blog.css",
+	"___path.static.assets___/css/profile.css",
+	"___path.static.assets___/css/wall.css",
+	"___path.static.assets___/css/activity.css",
+	"___path.static.assets___/css/admin.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
-	"___path.static.skin___/css/print.css",
+	"___path.static.assets___/css/print.css",
 ));
 
 

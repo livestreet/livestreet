@@ -44,3 +44,6 @@
 .photoset-upload-images li a                          { margin-right: 15px; }
 .photoset-upload-images li .mark-as-preview           { display: none; text-decoration: none; }
 .photoset-upload-images li:hover .mark-as-preview     { display: inline; }
+
+.photoset-upload-progress          { margin: 15px; }
+.photoset-upload-progress-filename { margin-bottom: 5px; }

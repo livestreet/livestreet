@@ -35,12 +35,15 @@
 .photoset-upload .note  { font-size: 12px; line-height: 20px; }
 
 .photoset-upload-images                               { overflow: hidden; zoom: 1; }
-.photoset-upload-images li                            { padding: 15px 15px 15px 130px; min-height: 100px; position: relative; }
-.photoset-upload-images li.marked-as-preview          { background: #DEEEFF; }
-.photoset-upload-images li.marked-as-preview textarea { border-color: #B3CFED; }
-.photoset-upload-images li img                        { position: absolute; top: 15px; left: 15px; }
-.photoset-upload-images li label                      { color: #aaa; }
-.photoset-upload-images li textarea                   { height: 80px; margin-bottom: 10px; }
-.photoset-upload-images li a                          { margin-right: 15px; }
-.photoset-upload-images li .mark-as-preview           { display: none; text-decoration: none; }
-.photoset-upload-images li:hover .mark-as-preview     { display: inline; }
+.photoset-upload-images-item                            { padding: 15px 15px 15px 130px; min-height: 100px; position: relative; }
+.photoset-upload-images-item.marked-as-preview          { background: #DEEEFF; }
+.photoset-upload-images-item.marked-as-preview textarea { border-color: #B3CFED; }
+.photoset-upload-images-item img                        { position: absolute; top: 15px; left: 15px; }
+.photoset-upload-images-item label                      { color: #aaa; }
+.photoset-upload-images-item textarea                   { height: 80px; margin-bottom: 10px; }
+.photoset-upload-images-item a                          { margin-right: 15px; }
+.photoset-upload-images-item .mark-as-preview           { display: none; text-decoration: none; }
+.photoset-upload-images-item:hover .mark-as-preview     { display: inline; }
+
+.photoset-upload-progress          { margin: 15px; }
+.photoset-upload-progress-filename { margin-bottom: 5px; }

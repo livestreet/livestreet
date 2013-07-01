@@ -18,7 +18,8 @@
 {$sFooterTextColor = '949fa3'}           {* Цвет текста в футере *}
 {$sFooterLinkColor = '949fa3'}           {* Цвет ссылки в футере *}
 
-{$sImagesDir = 'images/emails'}           {* Цвет ссылки в футере *}
+{* Путь до папки с изображенями *}
+{$sImagesDir = "{cfg name='path.static.assets'}/images/emails"}
 
 
 {* Фон *}
@@ -36,7 +37,7 @@
 						<tr>
 							<td style="font-size: 11px; line-height: 1em;">	
 								<span style="font: normal 29px Arial, sans-serif; line-height: 1em; color: #{$sHeaderTitleColor}"><strong>{cfg name='view.name'}</strong></span>
-								<div style="line-height: 0; height: 10px;"><img src="{cfg name='path.static.skin'}/{$sImagesDir}/blank.gif" width="10" height="10"/></div>
+								<div style="line-height: 0; height: 10px;"><img src="{$sImagesDir}/blank.gif" width="10" height="10"/></div>
 								<span style="color: #{$sHeaderDescriptionColor}">{cfg name='view.description'}</span>
 							</td>
 						</tr>
@@ -58,7 +59,7 @@
 												<span style="font: normal 19px Arial; line-height: 1.3em; color: #{$sContentTitleColor}">{$sTitle}</span>
 											</td>
 										</tr>
-										<tr><td height="10"><div style="line-height: 0;"><img src="{cfg name='path.static.skin'}/{$sImagesDir}/blank.gif" width="15" height="15"/></div></td></tr>
+										<tr><td height="10"><div style="line-height: 0;"><img src="{$sImagesDir}/blank.gif" width="15" height="15"/></div></td></tr>
 									{/if}
 
 									{* Текст *}
@@ -79,7 +80,7 @@
 					<table width="100%" bgcolor="#{$sFooterBackgroundColor}" cellpadding="20" cellspacing="0" style="border-collapse: collapse; font: normal 11px Verdana, Arial; line-height: 1.3em; color: #{$sFooterTextColor};">
 						<tr>
 							<td valign="center">
-								<img src="{cfg name='path.static.skin'}/{$sImagesDir}/blank.gif" width="27" height="10" style="vertical-align: middle">
+								<img src="{$sImagesDir}/blank.gif" width="27" height="10" style="vertical-align: middle">
 								<a href="{cfg name='path.root.web'}" style="color: #{$sFooterLinkColor} !important;">{cfg name='view.name'}</a>
 							</td>
 						</tr>

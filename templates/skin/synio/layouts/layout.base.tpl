@@ -27,7 +27,7 @@
 	{$aHtmlHeadFiles.css}
 
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-	<link href="{cfg name='path.static.skin'}/images/favicon.ico?v1" rel="shortcut icon" />
+	<link href="{cfg name='path.static.assets'}/images/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
 	{**
@@ -250,7 +250,7 @@
 					{hook run='copyright'}
 					
 					<div class="design-by">
-						<img src="{cfg name='path.static.skin'}/images/xeoart.png" alt="xeoart" />
+						<img src="{cfg name='path.static.assets'}/images/xeoart.png" alt="xeoart" />
 						Design by <a href="http://xeoart.com">xeoart</a>
 						<div>2012</div>
 					</div>
