@@ -88,7 +88,7 @@
 {else}
 	{if $oUserCurrent}
 		{* Подключение редактора *}
-		{include file='editor_init.tpl' sEditorType='comment'}
+		{include file='forms/editor.init.tpl' sEditorType='comment'}
 
 		{* Ссылка открывающая форму *}
 		<h4 class="comment-reply-header" id="comment_id_0">

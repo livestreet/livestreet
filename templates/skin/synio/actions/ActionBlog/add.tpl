@@ -15,7 +15,7 @@
 {block name='layout_content'}
 
 	{* Подключение редактора *}
-	{include file='editor_init.tpl' sEditorType='comment'}
+	{include file='forms/editor.init.tpl' sEditorType='comment'}
 
 
 	{* Подгрузка инфорамации о типе блога *}
@@ -73,7 +73,7 @@
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
 		{if ! $oConfig->GetValue('view.wysiwyg')}
-			{include file='editor_help.tpl' sTagsTargetId='blog_description'}
+			{include file='forms/editor.help.tpl' sTagsTargetId='blog_description'}
 		{/if}
 
 		

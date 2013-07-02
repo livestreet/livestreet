@@ -4,6 +4,46 @@ var ls = ls || {};
 * Функционал личных сообщений
 */
 ls.talk = (function ($) {
+
+	/**
+	 * Init
+	 */
+	this.init = function () {
+		// Добавляем или удаляем друга из списка получателей
+		$('#friends input:checkbox').change(function(){
+			ls.talk.toggleRecipient($('#'+$(this).attr('id')+'_label').text(), $(this).prop('checked'));
+		});
+
+		// Добавляем всех друзей в список получателей
+		$('#friend_check_all').click(function(){
+			$('#friends input:checkbox').each(function(index, item){
+				ls.talk.toggleRecipient($('#'+$(item).attr('id')+'_label').text(), true);
+				$(item).attr('checked', true);
+			});
+			return false;
+		});
+
+		// Удаляем всех друзей из списка получателей
+		$('#friend_uncheck_all').click(function(){
+			$('#friends input:checkbox').each(function(index, item){
+				ls.talk.toggleRecipient($('#'+$(item).attr('id')+'_label').text(), false);
+				$(item).attr('checked', false);
+			});
+			return false;
+		});
+
+		// Удаляем пользователя из черного списка
+		$("#black_list_block").on("click", "a.delete", function(){
+			ls.talk.removeFromBlackList(this);
+			return false;
+		});
+
+		// Удаляем пользователя из переписки
+		$("#speaker_list_block").on("click", "a.delete", function(){
+			ls.talk.removeFromTalk(this, $('#talk_id').val());
+			return false;
+		});
+	};
 	
 	/**
 	* Добавляет пользователя к переписке

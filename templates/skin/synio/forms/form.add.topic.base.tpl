@@ -24,7 +24,7 @@
 	{/if}
 
 	{* Подключение редактора *}
-	{include file='editor_init.tpl'}
+	{include file='forms/editor.init.tpl'}
 
 
 	{hook run="add_topic_`$sTopicType`_begin"}
@@ -62,7 +62,7 @@
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
 		{if ! $oConfig->GetValue('view.wysiwyg')}
-			{include file='editor_help.tpl' sTagsTargetId='topic_text'}
+			{include file='forms/editor.help.tpl' sTagsTargetId='topic_text'}
 		{/if}
 
 

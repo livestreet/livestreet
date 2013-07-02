@@ -52,17 +52,33 @@ ls.poll = (function ($) {
 		return false;
 	};
 
-	this.switchResult = function(obj, iTopicId) {
-		if ($('#poll-result-sort-'+iTopicId).css('display') == 'none') {
-			$('#poll-result-original-'+iTopicId).hide();
-			$('#poll-result-sort-'+iTopicId).show();
-			$(obj).toggleClass('active');
-		} else {
-			$('#poll-result-sort-'+iTopicId).hide();
-			$('#poll-result-original-'+iTopicId).show();
-			$(obj).toggleClass('active');
-		}
-		return false;
+	/**
+	 * Сортировка результатов
+	 * 
+	 * @param  {Object} obj      Кнопка сортировки
+	 * @param  {Number} iTopicId ID опроса
+	 */
+	this.toggleSortResult = function(oButton, iTopicId) {
+		var oButton   = $(oButton),
+			oPoll     = $('#poll-result-' + iTopicId),
+			aItems    = oPoll.find('li'),
+			sSortType = oButton.hasClass('active') ? 'poll-item-pos' : 'poll-item-count';
+
+		aItems.sort(function (a, b) {
+			a = $(a).data(sSortType);
+    		b = $(b).data(sSortType);
+
+		    if (a > b) {
+		        return -1;
+		    } else if (a < b) {
+		        return 1;
+		    } else {
+		        return 0;
+		    }
+		});
+
+		oButton.toggleClass('active');
+		oPoll.empty().append(aItems);
 	};
 	
 	return this;

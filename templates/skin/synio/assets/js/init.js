@@ -167,29 +167,6 @@ jQuery(document).ready(function($){
 	 */
 	ls.user.init();
 
-
-	/**
-	 * Preview image
-	 */
-	$('.js-topic-preview-image').each(function () {
-		$(this).imagesLoaded(function () {
-			var $this = $(this),
-				$preview = $this.closest('.js-topic-preview-loader').removeClass('loading');
-				
-			$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
-		});
-	});
-
-
-	// Поиск по тегам
-	$('.js-tag-search-form').submit(function(){
-		var val=$(this).find('.js-tag-search').val();
-		if (val) {
-			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
-		}
-		return false;
-	});
-
 	// вступление в блог
 	ls.hook.add('ls_blog_toggle_join_after',function(idBlog,result){
 		if (!this.data('onlyText')) {
@@ -252,62 +229,6 @@ jQuery(document).ready(function($){
 				sForm.find('.form-item-help-'+aField.field).addClass('active');
 			}
 		});
-	});
-
-	/****************
-	 * TALK
-	 */
-
-		// Добавляем или удаляем друга из списка получателей
-	$('#friends input:checkbox').change(function(){
-		ls.talk.toggleRecipient($('#'+$(this).attr('id')+'_label').text(), $(this).attr('checked'));
-	});
-
-	// Добавляем всех друзей в список получателей
-	$('#friend_check_all').click(function(){
-		$('#friends input:checkbox').each(function(index, item){
-			ls.talk.toggleRecipient($('#'+$(item).attr('id')+'_label').text(), true);
-			$(item).attr('checked', true);
-		});
-		return false;
-	});
-
-	// Удаляем всех друзей из списка получателей
-	$('#friend_uncheck_all').click(function(){
-		$('#friends input:checkbox').each(function(index, item){
-			ls.talk.toggleRecipient($('#'+$(item).attr('id')+'_label').text(), false);
-			$(item).attr('checked', false);
-		});
-		return false;
-	});
-
-	// Удаляем пользователя из черного списка
-	$("#black_list_block").delegate("a.delete", "click", function(){
-		ls.talk.removeFromBlackList(this);
-		return false;
-	});
-
-	// Удаляем пользователя из переписки
-	$("#speaker_list_block").delegate("a.delete", "click", function(){
-		ls.talk.removeFromTalk(this, $('#talk_id').val());
-		return false;
-	});
-
-
-	// Help-tags link
-	$('.js-tags-help-link').click(function(){
-		var target=ls.registry.get('tags-help-target-id');
-		if (!target || !$('#'+target).length) {
-			return false;
-		}
-		target=$('#'+target);
-		if ($(this).data('insert')) {
-			var s=$(this).data('insert');
-		} else {
-			var s=$(this).text();
-		}
-		$.markItUp({target: target, replaceWith: s});
-		return false;
 	});
 
 	// Инициализация строчки поиска

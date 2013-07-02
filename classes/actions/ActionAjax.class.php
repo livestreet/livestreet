@@ -120,7 +120,7 @@ class ActionAjax extends Action {
 		/**
 		 * Устанавливаем переменные для ajax ответа
 		 */
-		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("infobox.info.blog.tpl"));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionBlogs/popover.blog.info.tpl"));
 	}
 
 	/**
@@ -147,7 +147,7 @@ class ActionAjax extends Action {
 		$oViewer->Assign('oTopic', $oTopic);
 		$oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
-		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("tooltip.topic_vote_info.tpl"));
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("topics/tooltip.topic_vote_info.tpl"));
 	}
 
 	/**

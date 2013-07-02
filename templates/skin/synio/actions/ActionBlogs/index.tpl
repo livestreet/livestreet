@@ -19,7 +19,7 @@
 		{if !$sBlogsRootPage}
 			{router page='blogs' assign=sBlogsRootPage}
 		{/if}
-		{include file='blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
+		{include file='actions/ActionBlogs/blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
 		{include file='paging.tpl' aPaging=$aPaging}
 	</div>
 {/block}

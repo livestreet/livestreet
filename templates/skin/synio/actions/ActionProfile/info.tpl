@@ -13,7 +13,7 @@
 {/block}
 
 {block name='layout_content'}
-	{include file='navs/nav.user.whois.tpl'}
+	{include file='navs/nav.user.info.tpl'}
 
 
 	<div class="profile-info-about">

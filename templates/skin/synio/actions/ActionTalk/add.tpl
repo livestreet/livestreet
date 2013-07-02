@@ -37,7 +37,7 @@
 
 	{hook run='talk_add_begin'}
 
-	{include file='editor_init.tpl' sEditorType='comment'}
+	{include file='forms/editor.init.tpl' sEditorType='comment'}
 
 	<form action="" method="POST" enctype="multipart/form-data">
 		{hook run='form_add_talk_begin'}
