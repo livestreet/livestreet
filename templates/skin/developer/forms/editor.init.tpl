@@ -26,12 +26,12 @@
 
 	{hookb run='editor_init_wysiwyg' sEditorType=$sEditorType sEditorSelector=$sEditorSelector}
 		{if $sEditorType == 'comment'}
-			{$sSettings = 'ls.settings.getTinymceComment()'}
+			{$sSettings = 'ls.settings.get("tinymceComment")'}
 		{else}
 			{hook run='editor_init_wysiwyg_settings' sEditorType=$sEditorType assign='sSettings'}
 			
 			{if ! $sSettings}
-				{$sSettings = 'ls.settings.getTinymce()'}
+				{$sSettings = 'ls.settings.get("tinymce")'}
 			{/if}
 		{/if}
 
@@ -53,12 +53,12 @@
 		{include file='modals/modal.upload_image.tpl'}
 
 		{if $sEditorType == 'comment'}
-			{$sSettings = 'ls.settings.getMarkitupComment()'}
+			{$sSettings = 'ls.settings.get("markitupComment")'}
 		{else}
 			{hook run='editor_init_markup_settings' sEditorType=$sEditorType assign='sSettings'}
 			
 			{if ! $sSettings}
-				{$sSettings = 'ls.settings.getMarkitup()'}
+				{$sSettings = 'ls.settings.get("markitup")'}
 			{/if}
 		{/if}
 
