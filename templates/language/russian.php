@@ -1201,6 +1201,7 @@ return array(
 	'date_hours_back_less' => 'Менее часа назад',
 	'today' => 'Сегодня',
 	'more' => 'еще',
+	'favourite_add_remove' => 'Добавить / удалить из избранного',
 
 	'timezone_list'=> array(
 		'-12' => '[UTC − 12] Меридиан смены дат (запад)',
