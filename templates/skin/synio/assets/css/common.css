@@ -258,7 +258,7 @@
 }
 .user .icon-user 				{ margin-right: 3px; }
 .username.inactive,
-.user.inactive 					{ color: #aaa !important; }
+.user.inactive 					{ color: #aaa !important; cursor: help; }
 
 .user-avatar img { width: 16px; height: 16px; vertical-align: middle; margin-right: 1px; }
 .user-avatar a { color: #000; font-size: 11px; }

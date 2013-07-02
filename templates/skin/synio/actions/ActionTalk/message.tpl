@@ -26,8 +26,11 @@
 				{$aLang.talk_speaker_title}:
 
 				{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
-					{assign var="oUserRecipient" value=$oTalkUser->getUser()}
-					<a class="username {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" href="{$oUserRecipient->getUserWebPath()}">{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
+					{$oUserRecipient = $oTalkUser->getUser()}
+					
+					<a class="username {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
+					   href="{$oUserRecipient->getUserWebPath()}"
+					   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
 				{/foreach}
 
 				{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
@@ -99,5 +102,7 @@
 			sDateReadLast=$oTalkUser->getDateLast()
 			sNoticeCommentAdd=$aLang.topic_comment_add
 			bNoCommentFavourites=true}
+	{else}
+		<div class="notice-empty">{$aLang.talk_deleted}</div>
 	{/if}
 {/block}

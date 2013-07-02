@@ -36,7 +36,7 @@
 						{foreach from=$aTalkUserOther item=oTalkUser name=users}
 							{$oUser = $oTalkUser->getUser()}
 
-							{if ! $smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="username {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}">{$oUser->getLogin()}</a>
+							{if ! $smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="username {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getLogin()}</a>
 						{/foreach}
 					{/strip}
 				</td>

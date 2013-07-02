@@ -23,9 +23,12 @@
 					{$aLang.talk_speaker_title}:
 					
 					{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
-						{assign var="oUserRecipient" value=$oTalkUser->getUser()}
+						{$oUserRecipient = $oTalkUser->getUser()}
+
 						{if $oUser->getId() != $oUserRecipient->getId()}
-							<a class="{if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" href="{$oUserRecipient->getUserWebPath()}">{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
+							<a class="user {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
+							   href="{$oUserRecipient->getUserWebPath()}"
+							   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
 						{/if}
 					{/foreach}
 
@@ -94,7 +97,7 @@
 
 	{assign var="oTalkUser" value=$oTalk->getTalkUser()}
 
-	{if !$bNoComments}
+	{if ! $bNoComments}
 		{include
 			file='comments/comment_tree.tpl'
 			iTargetId=$oTalk->getId()
@@ -103,5 +106,7 @@
 			sDateReadLast=$oTalkUser->getDateLast()
 			sNoticeCommentAdd=$aLang.topic_comment_add
 			bNoCommentFavourites=true}
+	{else}
+		<div class="notice-empty">{$aLang.talk_deleted}</div>
 	{/if}
 {/block}

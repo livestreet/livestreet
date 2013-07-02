@@ -131,7 +131,7 @@
 	background: url(../images/icons.png) -168px 0 no-repeat;
 	vertical-align: middle;
 }
-.user.inactive 		{ color: #aaa; }
+.user.inactive 		{ color: #aaa; cursor: help; }
 
 
 /**

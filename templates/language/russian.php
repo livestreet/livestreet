@@ -864,10 +864,12 @@ return array(
 	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
 	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
 	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
+	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
 	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
 	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
 	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
 	'talk_not_found' => 'Разговор не найден',
+	'talk_deleted' => 'Отправитель удалил сообщение',
 	/**
 	 * Userfeed
 	 */
