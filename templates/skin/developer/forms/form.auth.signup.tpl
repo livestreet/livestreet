@@ -38,10 +38,14 @@
 
 	{* Каптча *}
 	{hookb run="registration_captcha"}
+		<script>
+			ls.user.captcha_url = '{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n=' + Math.random();
+		</script>
+
 		<p><label for="js-form-signup-captcha">{$aLang.registration_captcha}</label>
-		<span style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"
+		<span {if ! $isModal}style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if}
 			  onclick="this.style.backgroundImage='url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random() + ')'"
-			  class="form-auth-captcha"></span>
+			  class="form-auth-captcha js-form-auth-captcha"></span>
 		<input type="text" name="captcha" value="" maxlength="3" id="js-form-signup-login" class="width-100 js-ajax-validate js-form-signup-captcha" />
 		<small class="validate-error-hide validate-error-field-captcha"></small></p>
 	{/hookb}
