@@ -15,6 +15,7 @@
 {block name='layout_content'}
 	{include file='navs/nav.user.info.tpl'}
 
+	{hook run='user_info_begin' oUserProfile=$oUserProfile}
 
 	<div class="profile-info-about">
 		<a href="{$oUserProfile->getUserWebPath()}" class="avatar">
@@ -36,6 +37,7 @@
 		{/if}
 	</div>
 
+	{hook run='user_info_about_after' oUserProfile=$oUserProfile}
 
 	<div class="clearfix">
 		<div class="profile-left">
@@ -236,4 +238,6 @@
 			{hook run='profile_whois_item' oUserProfile=$oUserProfile}
 		</div>
 	</div>
+
+	{hook run='user_info_end' oUserProfile=$oUserProfile}
 {/block}

@@ -16,7 +16,8 @@
 
 {block name='layout_content'}
 	{include file='navs/nav.user.info.tpl'}
-	
+
+	{hook run='user_info_begin' oUserProfile=$oUserProfile}
 
 	{if $oUserProfile->getProfileAbout()}					
 		<div class="profile-info-about">
@@ -27,6 +28,8 @@
 			</div>
 		</div>
 	{/if}
+
+	{hook run='user_info_about_after' oUserProfile=$oUserProfile}
 
 
 	{$aUserFieldValues = $oUserProfile->getUserFieldValues(true,array(''))}
@@ -223,4 +226,6 @@
 	{/if}
 
 	{hook run='profile_whois_item_end' oUserProfile=$oUserProfile}
+
+	{hook run='user_info_end' oUserProfile=$oUserProfile}
 {/block}
