@@ -64,3 +64,19 @@
 .search-form-alphabet             { margin-top: 10px; overflow: hidden; }
 .search-form-alphabet li          { float: left; margin-right: 10px; }
 .search-form-alphabet li.active a { color: #333; border: none; }
+
+
+/**
+ * Форма авторизации
+ *
+ * @template forms/form.auth.*.tpl
+ */
+.form-auth-captcha {
+	width: 80px;
+	height: 60px;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-color: #eee;
+}

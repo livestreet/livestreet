@@ -217,3 +217,19 @@ dl.form-item dd { float: left; width: 250px; }
 .search-form-alphabet li.active a       { color: #333; }
 .search-form-alphabet li.active a:hover { color: #333; background: none; }
 .search-form-alphabet li.active a span  { border: none; }
+
+
+/**
+ * Форма авторизации
+ *
+ * @template forms/form.auth.*.tpl
+ */
+.form-auth-captcha {
+	width: 80px;
+	height: 60px;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-color: #eee;
+}
