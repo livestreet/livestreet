@@ -36,17 +36,15 @@
 	<i class="icon-validation-success validate-ok-field-password_confirm" style="display: none"></i>
 	<small class="validate-error-hide validate-error-field-password_confirm"></small></p>
 
-	{* Каптча *}
-	{hookb run="registration_captcha"}
-		<script>
-			ls.user.captcha_url = '{cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n=' + Math.random();
-		</script>
-		
+	{**
+	 * Каптча 
+	 *
+	 * @scripts <framework>/js/livestreet/captcha.js
+	 *}
+	{hookb run="registration_captcha" isPopup=$isModal}
 		<p class="form-signup-field-captcha"><label for="js-form-signup-captcha">{$aLang.registration_captcha}</label>
-		<span {if ! $isModal}style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if}
-			  onclick="this.style.backgroundImage='url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n='+Math.random() + ')'"
-			  class="form-auth-captcha js-form-auth-captcha"></span>
-		<input type="text" name="captcha" value="" maxlength="3" id="js-form-signup-login" class="width-100 js-ajax-validate js-form-signup-captcha" />
+		<span {if ! $isModal}style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if} class="form-auth-captcha js-form-auth-captcha"></span>
+		<input type="text" name="captcha" value="" maxlength="3" id="js-form-signup-captcha" class="width-100 js-ajax-validate js-form-signup-captcha" />
 		<small class="validate-error-hide validate-error-field-captcha"></small></p>
 	{/hookb}
 

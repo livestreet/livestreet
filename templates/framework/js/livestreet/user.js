@@ -32,10 +32,6 @@ ls.user = (function ($) {
 			return false;
 		});
 
-		$('[data-option-target=tab-pane-registration]').tab('option', 'onActivate', function () {
-			$('.js-form-auth-captcha').css({ 'background-image': 'url(' + ls.user.captcha_url + ')' });
-		});
-
 		$('.js-form-signup').find('.js-ajax-validate').blur(function(e) {
 			var aParams = {},
 				$this   = $(e.target),

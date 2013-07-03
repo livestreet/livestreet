@@ -121,6 +121,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Captcha
+	 */
+	ls.captcha.init();
+
+
+	/**
 	 * Talk
 	 */
 	ls.talk.init();

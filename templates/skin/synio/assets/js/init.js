@@ -167,6 +167,13 @@ jQuery(document).ready(function($){
 	 */
 	ls.user.init();
 
+
+	/**
+	 * Captcha
+	 */
+	ls.captcha.init();
+	
+
 	// вступление в блог
 	ls.hook.add('ls_blog_toggle_join_after',function(idBlog,result){
 		if (!this.data('onlyText')) {
