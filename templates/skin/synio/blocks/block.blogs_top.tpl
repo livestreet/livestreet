@@ -5,15 +5,17 @@
  * @styles css/blocks.css
  *}
 
-<ul class="block-blog-list">
+<ul class="dotted-list blog-list-compact">
 	{foreach from=$aBlogs item=oBlog}
-		<li>
+		<li class="dotted-list-item">
+			<span class="dotted-list-item-value">{$oBlog->getRating()}</span>
+
 			{strip}
-				<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
-				{if $oBlog->getType()=='close'}<i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>{/if}
+				<span class="dotted-list-item-label">
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
+					{if $oBlog->getType()=='close'}<i title="{$aLang.blog_closed}" class="icon-synio-topic-private"></i>{/if}
+				</span>
 			{/strip}
-			
-			<strong>{$oBlog->getRating()}</strong>
 		</li>
 	{/foreach}
 </ul>				

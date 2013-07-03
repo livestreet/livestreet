@@ -76,10 +76,12 @@
  * @type blogs
  * @file blocks/block.blogs.tpl
  */
-.block-type-blogs .block-blog-list li { margin-bottom: 10px; background: url(../images/dots.png)  0% 14px repeat-x; position: relative; padding-right: 50px; }
-.block-type-blogs .block-blog-list li a { background: #fff; padding-right: 5px; }
-.block-type-blogs .block-blog-list li i { background-color: #fff; position: relative; top: -2px; }
-.block-type-blogs .block-blog-list li strong { position: absolute; top: 0; right: 0; background: #fff; padding-left: 2px; font-weight: normal; font-size: 11px; }
+.blog-list-compact                           { margin-bottom: 0; }
+.blog-list-compact .dotted-list-item         { margin-bottom: 10px; position: relative; }
+.blog-list-compact .dotted-list-item-label   { float: none; display: block; background-color: transparent; margin-right: 60px; padding: 0; }
+.blog-list-compact .dotted-list-item-label a { padding-right: 5px; background: #fff; }
+.blog-list-compact .dotted-list-item-label i { background-color: #fff; position: relative; top: -2px; }
+.blog-list-compact .dotted-list-item-value   { width: auto; font-size: 11px; padding: 0; }
 
 /**
  * @type tags

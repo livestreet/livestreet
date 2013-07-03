@@ -819,7 +819,7 @@ return array(
 	'talk_favourite_add_ok' => 'Message added to favourites',
 	'talk_favourite_add_no' => 'This message is not in your Favourites\' list',
 	'talk_favourite_add_already' => 'This message is already in your Favourites\' list',
-	'talk_favourite_del' => 'remove from favourites',
+	'talk_favourite_del' => 'Remove from favourites',
 	'talk_favourite_del_ok' => 'Message removed from Favourites\' list',
 	'talk_favourite_empty' => 'No letters to favorites',
 	'talk_filter_title' => 'Filter',
@@ -856,10 +856,12 @@ return array(
 	'talk_speaker_delete_ok' => 'Member <b>%%login%%</b> deleted successfully',
 	'talk_speaker_user_not_found' => 'User <b>%%login%%</b> is not a member of this message',
 	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> is a member of this message already',
+	'talk_speaker_not_found' => 'User is not a member of this message', 
 	'talk_speaker_add_ok' => 'User <b>%%login%%</b> added successfully',
 	'talk_speaker_delete_by_self' => 'Member <b>%%login%%</b> deleted this message',
 	'talk_speaker_add_self' => 'You can\'t add yourself as a member',
 	'talk_not_found' => 'Message not found',
+	'talk_deleted' => 'This message has been deleted', 
 	/**
 	 * Userfeed
 	 */
