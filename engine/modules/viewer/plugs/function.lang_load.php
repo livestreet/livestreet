@@ -34,7 +34,7 @@ function smarty_function_lang_load($params, &$smarty)
 
 	$aLangMsg=array();
 	foreach ($aLangName as $sName) {
-		$aLangMsg[$sName]=Engine::getInstance()->Lang_Get(trim($sName),array(),false);
+		$aLangMsg[trim($sName)]=Engine::getInstance()->Lang_Get(trim($sName),array(),false);
 	}
 
 	if (!isset($params['json']) or $params['json']!==false) {
