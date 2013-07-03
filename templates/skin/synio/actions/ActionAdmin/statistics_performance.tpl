@@ -27,6 +27,11 @@
 					time load modules: <strong>{$aStatsPerformance.engine.time_load_module}</strong><br />
 					full time: <strong>{$iTimeFullPerformance}</strong>
 				</td>
+				<td>
+					<h4>Memory</h4>	
+					memory usage: <strong>{memory_get_usage(true) / 1024 / 1024} Mb</strong><br />
+					memory peak usage: <strong>{memory_get_peak_usage(true) / 1024 / 1024} Mb</strong>
+				</td>
 				
 				{hook run='statistics_performance_item'}
 			</tr>
