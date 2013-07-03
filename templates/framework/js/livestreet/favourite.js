@@ -49,9 +49,10 @@ ls.favourite = (function ($) {
 				this.objFavourite.removeClass(this.options.active);
 
 				if (result.bState) {
-					this.objFavourite.addClass(this.options.active);
+					this.objFavourite.addClass(this.options.active).attr('title', ls.lang.get('talk_favourite_del'));
 					this.showTags(type,idTarget);
 				} else {
+					this.objFavourite.attr('title', ls.lang.get('talk_favourite_add'));
 					this.hideTags(type,idTarget);
 				}
 

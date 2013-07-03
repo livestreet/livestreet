@@ -41,7 +41,10 @@
 					{/strip}
 				</td>
 				<td class="cell-favourite">
-					<a href="#" onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" class="favourite {if $oTalk->getIsFavourite()}active{/if}" title="{$aLang.favourite_add_remove}"></a>
+					<a href="#" 
+					   onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" 
+					   class="favourite {if $oTalk->getIsFavourite()}active{/if}" 
+					   title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></a>
 				</td>
 				<td class="cell-title">
 					{strip}

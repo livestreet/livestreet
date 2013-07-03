@@ -80,7 +80,9 @@
 					</time>
 				</li>
 				<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTalk->getId()},$('#fav_topic_{$oTalk->getId()}'),'talk');">
-					<i id="fav_topic_{$oTalk->getId()}" class="favourite {if $oTalk->getIsFavourite()}active{/if}" title="{$aLang.favourite_add_remove}"></i>
+					<i id="fav_topic_{$oTalk->getId()}" 
+					   class="favourite {if $oTalk->getIsFavourite()}active{/if}"
+					   title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></i>
 				</li>
 				<li class="delete">
 					<a href="{router page='talk'}delete/{$oTalk->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');" class="delete">{$aLang.delete}</a>

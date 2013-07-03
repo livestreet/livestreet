@@ -59,7 +59,9 @@
 			{* Кнопка добавления в избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
 				<li class="comment-favourite">
-					<div onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" class="favourite {if $oComment->getIsFavourite()}active{/if}" title="{$aLang.favourite_add_remove}"></div>
+					<div onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" 
+						 class="favourite {if $oComment->getIsFavourite()}active{/if}" 
+						 title="{if $oComment->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
 					<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}" {if $oComment->getCountFavourite() == 0}style="display: none"{/if}>{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 				</li>
 			{/if}

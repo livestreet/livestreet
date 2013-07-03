@@ -823,11 +823,11 @@ return array(
 	'talk_create_submit' => 'Отправить',
 	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
 	'talk_favourite_inbox' => 'Избранные письма',
-	'talk_favourite_add' => 'добавить в избранное',
+	'talk_favourite_add' => 'Добавить в избранное',
 	'talk_favourite_add_ok' => 'Письмо добавлено в избранное',
 	'talk_favourite_add_no' => 'Этого письма нет в вашем избранном',
 	'talk_favourite_add_already' => 'Это письмо уже есть в вашем избранном',
-	'talk_favourite_del' => 'удалить из избранного',
+	'talk_favourite_del' => 'Удалить из избранного',
 	'talk_favourite_del_ok' => 'Письмо удалено из избранного',
 	'talk_favourite_empty' => 'Нет писем в избранном',
 	'talk_filter_title' => 'Поиск сообщений',
@@ -1203,7 +1203,6 @@ return array(
 	'date_hours_back_less' => 'Менее часа назад',
 	'today' => 'Сегодня',
 	'more' => 'еще',
-	'favourite_add_remove' => 'Добавить / удалить из избранного',
 
 	'timezone_list'=> array(
 		'-12' => '[UTC − 12] Меридиан смены дат (запад)',
