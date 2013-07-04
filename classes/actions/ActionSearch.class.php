@@ -250,7 +250,7 @@ class ActionSearch extends Action {
 			$this->Viewer_Assign('aPaging', $aPaging);
 		}
 
-		$this->SetTemplateAction('results');
+		$this->SetTemplateAction('index');
 		$this->Viewer_AddHtmlTitle($aReq['q']);
 		$this->Viewer_Assign('bIsResults', $this->bIsResults);
 		return $aRes;
