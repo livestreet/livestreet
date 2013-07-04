@@ -27,7 +27,7 @@
 	{$aHtmlHeadFiles.css}
 
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-	<link href="{cfg name='path.static.assets'}/images/favicon.ico?v1" rel="shortcut icon" />
+	<link href="{cfg name='path.static.assets'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
 	{**
