@@ -71,6 +71,7 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.assets___/css/wall.css",
 	"___path.static.assets___/css/activity.css",
 	"___path.static.assets___/css/admin.css",
+	"___path.static.assets___/css/poll.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
 	"___path.static.assets___/css/print.css",
 ));

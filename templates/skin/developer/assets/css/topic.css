@@ -91,38 +91,13 @@
 
 
 /**
- * Топик опрос
- * 
- * @type question
- * @file topics/topic.question.tpl
- * @file topics/question_result.tpl
- */
-.poll                                { margin-bottom: 15px; background: #fafafa; padding: 15px; }
-
-.poll .poll-vote                     { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
-.poll .poll-vote li                  { margin-bottom: 10px; }
-.poll .poll-vote li:last-child       { margin-bottom: 0; }
-.poll .poll-vote li label            { display: inline; }
-.poll .poll-vote li input            { position: relative; top: 1px; margin-right: 2px; }
-
-.poll .poll-result                   { margin-bottom: 10px; margin-left: 0; list-style-type: none; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
-.poll .poll-result li                { margin-bottom: 20px; }
-.poll .poll-result li dl             { overflow: hidden; zoom: 1; }
-.poll .poll-result li dl dt          { float: left; width: 50px; text-align: right; padding-right: 15px; }
-.poll .poll-result li dl dt span     { color: #aaa; }
-.poll .poll-result li dl dd          { padding-left: 65px; }
-.poll .poll-result li dl dd div      { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
-.poll .poll-result li.most dl dd div { background: #60CC4E; }
-
-.poll .poll-total                    { color: #aaa; margin-left: 10px; }
-
-/**
  * Топик фотосет
  * 
  * @type photoset
  * @file topics/topic.photoset.tpl
  */
 .topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
+
 
 /**
  * Топик ссылка
@@ -133,6 +108,7 @@
 .topic-url   { margin-bottom: 30px; }
 .topic-url a { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
 
+
 /**
  * Предпросмотр топика
  * 
@@ -141,6 +117,7 @@
 .topic-preview                      { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
 .topic-preview .topic               { margin-bottom: 20px; }
+
 
 /**
  * Личное сообщение

@@ -4,7 +4,7 @@
  * bCloseBlog    true если блог закрытый
  *
  * @styles css/blog.css
- * @scripts _framework_/js/livestreet/blog.js
+ * @scripts <framework>/js/livestreet/blog.js
  *}
 
 {extends file='layouts/layout.base.tpl'}

@@ -92,9 +92,7 @@
  * @type profile note
  * @file blocks/block.profileNote.tpl
  */
-.block-type-profile-note          { background: #F1F7AF; border: 1px solid #E1EA83; padding: 15px; }
-.block-type-profile-note p        { margin-bottom: 10px; }
-.block-type-profile-note .actions { margin-bottom: 0; }
+.block-type-profile-note { border: none; padding: 0; }
 
 /**
  * @type profile nav

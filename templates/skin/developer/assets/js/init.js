@@ -130,6 +130,18 @@ jQuery(document).ready(function($){
 	 * Talk
 	 */
 	ls.talk.init();
+
+
+	/**
+	 * Poll
+	 */
+	ls.poll.init();
+
+
+	/**
+	 * User Note
+	 */
+	ls.usernote.init();
 	
 
 	// Хук конца инициализации javascript-составляющих шаблона

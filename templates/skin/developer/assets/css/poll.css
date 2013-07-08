@@ -1,0 +1,43 @@
+/**
+ * Опросы
+ * 
+ * @template topics/topic.question.tpl
+ */
+
+.poll                 { margin-bottom: 15px; background: #fafafa; padding: 15px; }
+
+.poll-list            { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+
+.poll-item            { margin-bottom: 10px; }
+.poll-item:last-child { margin-bottom: 0; }
+.poll-item label      { display: inline; }
+
+
+/**
+ * Результат опроса
+ *
+ * @template topics/poll_result.tpl
+ */
+.poll-result                   { margin-bottom: 10px; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
+.poll-result-item              { margin-bottom: 20px; overflow: hidden; zoom: 1; }
+.poll-result-item-count        { float: left; width: 50px; text-align: right; padding-right: 15px; }
+.poll-result-item-count strong { display: block; }
+.poll-result-item-count span   { color: #aaa; }
+.poll-result-item-chart        { padding-left: 65px; }
+.poll-result-item-bar          { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
+
+.poll-result-item-most .poll-result-item-bar { background: #60CC4E; }
+
+.poll-result-total { color: #aaa; margin-left: 10px; }
+
+
+/**
+ * Создание опроса
+ *
+ * @template actions/ActionQuestion/add.tpl
+ */
+.poll-add             { padding: 20px; margin-bottom: 20px; background: #f7f7f7; }
+.poll-add-list        { margin-bottom: 15px; }
+.poll-add-item        { margin-bottom: 10px; padding-right: 25px; position: relative; }
+.poll-add-item-input  { width: 100%; }
+.poll-add-item-remove { position: absolute; top: 7px; right: 0; cursor: pointer; }

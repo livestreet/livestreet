@@ -19,6 +19,14 @@
 }
 .button:hover { background: #f0f2f5; color: #434343; }
 
+.button:active,
+.button.active {
+	background: #edf8fd;
+	color: #628fa5;
+	box-shadow: inset 0 1px 2px #b4d5e2;
+	border-color: #D1ECF7;
+}
+
 a.button { padding-top: 4px; }
 
 .button i { top: 1px; }
@@ -77,6 +85,14 @@ a.button-large { padding-top: 7px; }
 	color: #fff;
 }
 .button-primary:hover { background: #2abcfe; color: #fff; }
+
+.button-primary:active,
+.button-primary.active {
+	background: #2abcfe;
+	color: #fff;
+	box-shadow: inset 0 2px 3px rgba(0,0,0,.1);
+	border-color: #27ace8;
+}
 
 
 /* Button Write */
