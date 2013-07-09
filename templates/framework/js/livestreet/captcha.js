@@ -12,7 +12,9 @@ ls.captcha = (function ($) {
 	 */
 	var defaults = {
 		// Селектор каптчи
-		sCaptchaSelector: '.js-form-auth-captcha'
+		selectors: {
+			captcha: '.js-form-auth-captcha'
+		}
 	};
 
 	/**
@@ -21,7 +23,7 @@ ls.captcha = (function ($) {
 	this.init = function(options) {
 		this.options = $.extend({}, defaults, options);
 
-		oCaptcha = $(this.options.sCaptchaSelector);
+		oCaptcha = $(this.options.selectors.captcha);
 
 		// Подгружаем каптчу при открытии окна регистрации
 		$('[data-option-target=tab-pane-registration]').tab('option', 'onActivate', function () {

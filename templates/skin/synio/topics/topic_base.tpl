@@ -1,18 +1,24 @@
 {**
  * Базовый шаблон топика
+ *
+ * @styles assets/css/topic.css
+ * @scripts <framework>/js/livestreet/topic.js
  *}
 
 {block name='topic_options'}{/block}
 
-{assign var="oBlog" value=$oTopic->getBlog()}
-{assign var="oUser" value=$oTopic->getUser()}
-{assign var="oVote" value=$oTopic->getVote()}
-{assign var="oFavourite" value=$oTopic->getFavourite()}
+{$oBlog = $oTopic->getBlog()}
+{$oUser = $oTopic->getUser()}
+{$oVote = $oTopic->getVote()}
+{$oFavourite = $oTopic->getFavourite()}
 
 <article class="topic topic-type-{$oTopic->getType()} js-topic {if ! $bTopicList}topic-single{/if} {block name='topic_class'}{/block}" id="{block name='topic_id'}{/block}" {block name='topic_attributes'}{/block}>
-	{* Header *}
+	{**
+	 * Хидер
+	 *}
 	{block name='topic_header'}
 		<header class="topic-header">
+			{* Заголовок *}
 			<h1 class="topic-title word-wrap">
 				{if $bTopicList}
 					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
@@ -27,7 +33,7 @@
 				{block name='topic_icon'}{/block}
 			</h1>
 
-
+			{* Информация *}
 			<div class="topic-info">
 				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
 
@@ -36,7 +42,7 @@
 				{/if}
 			</div>
 
-
+			{* Управление *}
 			{if $oTopic->getIsAllowAction()}
 				<ul class="topic-actions">								   
 					{if $oTopic->getIsAllowEdit()}
@@ -54,7 +60,9 @@
 	{block name='topic_header_after'}{/block}
 
 
-	{* Content *}
+	{**
+	 * Текст
+	 *}
 	{block name='topic_content'}
 		<div class="topic-content text">
 			{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
@@ -68,11 +76,14 @@
 	{block name='topic_content_after'}{/block}
 
 
-	{* Footer *}
+	{**
+	 * Футер
+	 *}
 	{block name='topic_footer'}
 		<footer class="topic-footer">
 			{block name='topic_footer_begin'}{/block}
 			
+			{* Теги *}
 			<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
 				<li><i class="icon-synio-tags"></i></li>
 				
@@ -98,36 +109,29 @@
 					{/if}
 				{/strip}
 			</ul>
-			
-			
-			{* Share block *}
-			<div class="popover" data-type="popover-target" id="topic_share_{$oTopic->getId()}">
-				<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>
-				<div class="popover-content" data-type="popover-content">
-					{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-					{/hookb}
-				</div>
-			</div>
 
 
-			{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-				{assign var="bVoteInfoShow" value=true}
-			{/if}
-
+			{* Информация *}
 			<ul class="topic-info">
+				{* Автор топика *}
 				<li class="topic-info-author">
 					<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 					<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 				</li>
+
+				{* Дата публикации *}
 				<li class="topic-info-date">
 					<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
 						{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 					</time>
 				</li>
+
+				{* Поделиться *}
 				<li class="topic-info-share js-popover-default" data-type="popover-toggle" data-option-target="topic_share_{$oTopic->getId()}">
 					<i class="icon-synio-share-blue" title="{$aLang.topic_share}"></i>
 				</li>
+
+				{* Избранное *}
 				<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTopic->getId()},$('#fav_topic_{$oTopic->getId()}'),'topic');">
 					<i id="fav_topic_{$oTopic->getId()}" 
 					   class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}" 
@@ -135,6 +139,7 @@
 					<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{/if}</span>
 				</li>
 			
+				{* Ссылка на комментарии *}
 				{if $bTopicList}
 					<li class="topic-info-comments">
 						{if $oTopic->getCountCommentNew()}
@@ -159,12 +164,18 @@
 
 				{block name='topic_footer_info_end'}{/block}
 
+				{* Голосование *}
 				<li class="topic-info-vote">
-					<div id="vote_area_topic_{$oTopic->getId()}" 
-						 data-type="tooltip-toggle"
+					{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
+						{$bShowVoteInfo = true}
+					{/if}
+
+					<div data-type="tooltip-toggle"
 						 data-param-i-topic-id="{$oTopic->getId()}"
 						 data-option-url="{router page='ajax'}vote/get/info/"
-						 class="vote-topic
+						 data-vote-type="topic"
+						 data-vote-id="{$oTopic->getId()}"
+						 class="vote-topic js-vote 
 								{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 									{if $oTopic->getRating() > 0}
 										vote-count-positive
@@ -201,18 +212,18 @@
 									vote-not-expired
 								{/if}
 
-								{if $bVoteInfoShow}js-tooltip-vote-topic{/if}">
-						<div class="vote-item vote-down" onclick="return ls.vote.vote({$oTopic->getId()},this,-1,'topic');"><span><i></i></span></div>
+								{if $bShowVoteInfo}js-tooltip-vote-topic{/if}">
+						<div class="vote-item vote-down js-vote-down"><span><i></i></span></div>
 						<div class="vote-item vote-count">
-							<span id="vote_total_topic_{$oTopic->getId()}">
-								{if $bVoteInfoShow}
+							<span class="js-vote-rating">
+								{if $bShowVoteInfo}
 									{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
 								{else}
-									<i onclick="return ls.vote.vote({$oTopic->getId()},this,0,'topic');"></i>
+									<i class="js-vote-abstain"></i>
 								{/if}
 							</span>
 						</div>
-						<div class="vote-item vote-up" onclick="return ls.vote.vote({$oTopic->getId()},this,1,'topic');"><span><i></i></span></div>
+						<div class="vote-item vote-up js-vote-up"><span><i></i></span></div>
 					</div>
 				</li>
 
@@ -220,11 +231,24 @@
 				
 				{hook run='topic_show_info' topic=$oTopic}
 			</ul>
+			
+			
+			{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
+			<div class="popover" data-type="popover-target" id="topic_share_{$oTopic->getId()}">
+				<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>
+				<div class="popover-content" data-type="popover-content">
+					{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+					{/hookb}
+				</div>
+			</div>
 
 			
-			{if !$bTopicList}
+			{if ! $bTopicList}
 				{hook run='topic_show_end' topic=$oTopic}
 			{/if}
+
+			{block name='topic_footer_end'}{/block}
 		</footer>
 	{/block}
 	

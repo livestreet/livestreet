@@ -12,9 +12,11 @@ ls.editor = (function($) {
 	 */
 	var defaults = {
 		// Селекторы
-		sInsertImageButtonSelector:  '.js-insert-image-button',
-		sUploadImageButtonSelector:  '.js-upload-image-button',
-		sPreviewImageLoaderSelector: '.js-topic-preview-loader',
+		selectors: {
+			insertImageButton:  '.js-insert-image-button',
+			uploadImageButton:  '.js-upload-image-button',
+			previewImageLoader: '.js-topic-preview-loader',
+		}
 	};
 
 	/**
@@ -28,7 +30,7 @@ ls.editor = (function($) {
 		this.options = $.extend({}, defaults, options);
 
 		// Вставка ссылки
-		$(this.options.sInsertImageButtonSelector).on('click', function (e) {
+		$(this.options.selectors.insertImageButton).on('click', function (e) {
 			var sUrl   = $('#img_url').val(),
 				sAlign = $('#form-image-url-align').val(),
 				sTitle = $('#form-image-url-title').val();
@@ -37,7 +39,7 @@ ls.editor = (function($) {
 		});
 
 		// Вставка ссылки
-		$(this.options.sUploadImageButtonSelector).on('click', function (e) {
+		$(this.options.selectors.uploadImageButton).on('click', function (e) {
 			var sFormId   = $(this).data('form-id');
 
 			self.ajaxUploadImg(sFormId);

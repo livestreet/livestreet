@@ -212,6 +212,12 @@ jQuery(document).ready(function($){
 	 * Topic
 	 */
 	ls.topic.init();
+
+
+	/**
+	 * Vote
+	 */
+	ls.vote.init();
 	
 
 	// вступление в блог

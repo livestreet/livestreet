@@ -12,24 +12,26 @@ ls.usernote = (function($) {
 	 */
 	var defaults = {
 		// Роутеры
-		oRouters: {
+		routers: {
 			save:   aRouter['profile'] + 'ajax-note-save/',
 			remove: aRouter['profile'] + 'ajax-note-remove/',
 		},
 
 		// Селекторы
-		sNoteSelector:             '.js-user-note',
-		sNoteContentSelector:      '.js-user-note-content',
-		sNoteTextSelector:         '.js-user-note-text',
-		sNoteAddButtonSelector:    '.js-user-note-add-button',
-		sNoteActionsSelector:      '.js-user-note-actions',
-		sNoteEditButtonSelector:   '.js-user-note-edit-button',
-		sNoteRemoveButtonSelector: '.js-user-note-remove-button',
+		selectors: {
+			note:             '.js-user-note',
+			noteContent:      '.js-user-note-content',
+			noteText:         '.js-user-note-text',
+			noteAddButton:    '.js-user-note-add-button',
+			noteActions:      '.js-user-note-actions',
+			noteEditButton:   '.js-user-note-edit-button',
+			noteRemoveButton: '.js-user-note-remove-button',
 
-		sNoteEditSelector:             '.js-user-note-edit',
-		sNoteEditTextSelector:         '.js-user-note-edit-text',
-		sNoteEditSaveButtonSelector:   '.js-user-note-edit-save',
-		sNoteEditCancelButtonSelector: '.js-user-note-edit-cancel',
+			noteEdit:             '.js-user-note-edit',
+			noteEditText:         '.js-user-note-edit-text',
+			noteEditSaveButton:   '.js-user-note-edit-save',
+			noteEditCancelButton: '.js-user-note-edit-cancel',
+		}
 	};
 
 	/**
@@ -43,44 +45,44 @@ ls.usernote = (function($) {
 		this.options = $.extend({}, defaults, options);
 
 		// Добавление
-		$(this.options.sNoteSelector).each(function () {
+		$(this.options.selectors.note).each(function () {
 			var oNote = $(this);
 
 			var oVars = {
 				oNote:         oNote,
-				oNoteText:     oNote.find(self.options.sNoteTextSelector),
-				oNoteEditText: oNote.find(self.options.sNoteEditTextSelector),
-				oNoteContent:  oNote.find(self.options.sNoteContentSelector),
-				oNoteEdit:     oNote.find(self.options.sNoteEditSelector),
-				oNoteAdd:      oNote.find(self.options.sNoteAddButtonSelector),
-				oNoteActions:  oNote.find(self.options.sNoteActionsSelector),
+				oNoteText:     oNote.find(self.options.selectors.noteText),
+				oNoteEditText: oNote.find(self.options.selectors.noteEditText),
+				oNoteContent:  oNote.find(self.options.selectors.noteContent),
+				oNoteEdit:     oNote.find(self.options.selectors.noteEdit),
+				oNoteAdd:      oNote.find(self.options.selectors.noteAddButton),
+				oNoteActions:  oNote.find(self.options.selectors.noteActions),
 				iUserId:       oNote.data('user-id')
 			};
 
 			// Показывает форму добавления
-			oVars.oNote.find(self.options.sNoteAddButtonSelector).on('click', function (e) {
+			oVars.oNote.find(self.options.selectors.noteAddButton).on('click', function (e) {
 				self.showForm(oVars);
 				e.preventDefault();
 			}.bind(self));
 
 			// Отмена
-			oVars.oNote.find(self.options.sNoteEditCancelButtonSelector).on('click', function (e) {
+			oVars.oNote.find(self.options.selectors.noteEditCancelButton).on('click', function (e) {
 				self.hideForm(oVars);
 			});
 
 			// Сохранение заметки
-			oVars.oNote.find(self.options.sNoteEditSaveButtonSelector).on('click', function (e) {
+			oVars.oNote.find(self.options.selectors.noteEditSaveButton).on('click', function (e) {
 				self.save(oVars);
 			});
 
 			// Удаление заметки
-			oVars.oNote.find(self.options.sNoteRemoveButtonSelector).on('click', function (e) {
+			oVars.oNote.find(self.options.selectors.noteRemoveButton).on('click', function (e) {
 				self.remove(oVars);
 				e.preventDefault();
 			});
 
 			// Редактирование заметки
-			oVars.oNote.find(self.options.sNoteEditButtonSelector).on('click', function (e) {
+			oVars.oNote.find(self.options.selectors.noteEditButton).on('click', function (e) {
 				self.showForm(oVars);
 				oVars.oNoteEditText.val( $.trim(oVars.oNoteText.html()) );
 				e.preventDefault();
@@ -122,7 +124,7 @@ ls.usernote = (function($) {
 
 		ls.hook.marker('saveBefore');
 
-		ls.ajax(this.options.oRouters.save, params, function (result) {
+		ls.ajax(this.options.routers.save, params, function (result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -148,7 +150,7 @@ ls.usernote = (function($) {
 
 		ls.hook.marker('removeBefore');
 
-		ls.ajax(this.options.oRouters.remove, params, function (result) {
+		ls.ajax(this.options.routers.remove, params, function (result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

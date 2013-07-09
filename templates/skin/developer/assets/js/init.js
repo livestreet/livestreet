@@ -157,6 +157,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Vote
+	 */
+	ls.vote.init();
+
+
+	/**
 	 * Photoset
 	 */
 	$('.js-photoset-type-default-image').prettyPhoto({

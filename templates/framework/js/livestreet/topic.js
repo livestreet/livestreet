@@ -17,10 +17,12 @@ ls.topic = (function ($) {
 		},
 
 		// Селекторы
-		sPreviewImageSelector:               '.js-topic-preview-image',
-		sPreviewImageLoaderSelector:         '.js-topic-preview-loader',
-		sPreviewTopicTextButtonSelector:     '.js-topic-preview-text-button',
-		sPreviewTopicTextHideButtonSelector: '.js-topic-preview-text-hide-button',
+		selectors: {
+			previewImage:               '.js-topic-preview-image',
+			previewImageLoader:         '.js-topic-preview-loader',
+			previewTopicTextButton:     '.js-topic-preview-text-button',
+			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
+		}
 	};
 
 	/**
@@ -34,22 +36,22 @@ ls.topic = (function ($) {
 		this.options = $.extend({}, defaults, options);
 
 		// Подгрузка избражений-превью
-		$(this.options.sPreviewImageSelector).each(function () {
+		$(this.options.selectors.previewImage).each(function () {
 			$(this).imagesLoaded(function () {
 				var $this = $(this),
-					$preview = $this.closest(self.options.sPreviewImageLoaderSelector).removeClass('loading');
+					$preview = $this.closest(self.options.selectors.previewImageLoader).removeClass('loading');
 					
 				$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
 			});
 		});
 
 		// Превью текста
-		$(this.options.sPreviewTopicTextButtonSelector).on('click', function (e) {
+		$(this.options.selectors.previewTopicTextButton).on('click', function (e) {
 			self.showPreviewText('form-topic-add', 'topic-text-preview');
 		});
 
 		// Закрытие превью
-		$(document).on('click', this.options.sPreviewTopicTextHideButtonSelector, function (e) {
+		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
 			self.hidePreviewText();
 		});
 	};
