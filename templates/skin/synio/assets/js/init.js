@@ -189,6 +189,29 @@ jQuery(document).ready(function($){
 					      '<i class="icon-synio-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
 					  '</li>',
 	});
+
+
+	/**
+	 * Photoset
+	 */
+	$('.js-photoset-type-default-image').prettyPhoto({
+		social_tools: '',
+		show_title:   false,
+		slideshow:    false,
+		deeplinking:  false
+	});
+
+
+	/**
+	 * Editor
+	 */
+	ls.editor.init();
+
+
+	/**
+	 * Topic
+	 */
+	ls.topic.init();
 	
 
 	// вступление в блог

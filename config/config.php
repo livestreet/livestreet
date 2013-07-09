@@ -505,10 +505,10 @@ $config['block']['rule_profile'] = array(
 	'action' => array( 'profile', 'talk', 'settings' ),
 	'blocks' => array( 
 		'right' => array(
-			'blocks/block.profilePhoto.tpl'   =>array('priority' => 100),
-			'blocks/block.profileActions.tpl' =>array('priority' => 50),
-			'blocks/block.profileNote.tpl'    =>array('priority' => 25),
-			'blocks/block.profileNav.tpl'     =>array('priority' => 1),
+			'blocks/block.userPhoto.tpl'   =>array('priority' => 100),
+			'blocks/block.userActions.tpl' =>array('priority' => 50),
+			'blocks/block.userNote.tpl'    =>array('priority' => 25),
+			'blocks/block.userNav.tpl'     =>array('priority' => 1),
 		) 
 	)
 );
@@ -534,7 +534,6 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/jquery.charcount.js",
 	"___path.static.framework___/js/vendor/jquery.imagesloaded.js",
 	"___path.static.framework___/js/vendor/notifier/jquery.notifier.js",
-	"___path.static.framework___/js/vendor/markitup/jquery.markitup.js",
 	"___path.static.framework___/js/vendor/prettify/prettify.js",
 	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
 
@@ -554,6 +553,7 @@ $config['head']['default']['js'] = array(
 	/* LiveStreet */
 	"___path.static.framework___/js/livestreet/favourite.js",
 	"___path.static.framework___/js/livestreet/blocks.js",
+	"___path.static.framework___/js/livestreet/editor.js",
 	"___path.static.framework___/js/livestreet/talk.js",
 	"___path.static.framework___/js/livestreet/vote.js",
 	"___path.static.framework___/js/livestreet/poll.js",

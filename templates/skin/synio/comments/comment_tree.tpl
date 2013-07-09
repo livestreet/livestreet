@@ -75,7 +75,7 @@
 {**
  * Страницы
  *}
-{include file='comments/comment_paging.tpl' aPagingCmt=$aPagingCmt}
+{include file='comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt}
 
 {hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
