@@ -228,7 +228,7 @@ abstract class Plugin extends LsObject {
 	 */
 	public function GetVersion() {
 		preg_match('/^Plugin([\w]+)$/i',get_class($this),$aMatches);
-		$sPluginXML = Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/'.ModulePlugin::PLUGIN_XML_FILE;
+		$sPluginXML = Config::Get('path.root.server').'/plugins/'.func_underscore($aMatches[1]).'/'.ModulePlugin::PLUGIN_XML_FILE;
 		if($oXml = @simplexml_load_file($sPluginXML)) {
 			return (string)$oXml->version;
 		}
@@ -253,8 +253,8 @@ abstract class Plugin extends LsObject {
 	 */
 	static public function GetPath($sName) {
 		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
-			? strtolower($aMatches[1])
-			: strtolower($sName);
+			? func_underscore($aMatches[1])
+			: func_underscore($sName);
 
 		return Config::Get('path.root.server').'/plugins/'.$sName.'/';
 	}
@@ -266,8 +266,8 @@ abstract class Plugin extends LsObject {
 	 */
 	static public function GetWebPath($sName) {
 		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
-			? strtolower($aMatches[1])
-			: strtolower($sName);
+			? func_underscore($aMatches[1])
+			: func_underscore($sName);
 
 		return Config::Get('path.root.web').'/plugins/'.$sName.'/';
 	}
@@ -280,8 +280,8 @@ abstract class Plugin extends LsObject {
 	 */
 	static public function GetTemplatePath($sName) {
 		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
-			? strtolower($aMatches[1])
-			: strtolower($sName);
+			? func_underscore($aMatches[1])
+			: func_underscore($sName);
 		if(!isset(self::$aTemplatePath[$sName])) {
 			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
@@ -302,8 +302,8 @@ abstract class Plugin extends LsObject {
 	 */
 	static public function GetTemplateWebPath($sName) {
 		$sName = preg_match('/^Plugin([\w]+)(_[\w]+)?$/Ui',$sName,$aMatches)
-			? strtolower($aMatches[1])
-			: strtolower($sName);
+			? func_underscore($aMatches[1])
+			: func_underscore($sName);
 		if(!isset(self::$aTemplateWebPath[$sName])) {
 			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
