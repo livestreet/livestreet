@@ -60,7 +60,8 @@ class ModuleStream_MapperStream extends Mapper {
 	 */
 	public function UpdateEvent($oObject) {
 		$sql = "UPDATE ".Config::Get('db.table.stream_event')." SET ?a WHERE id = ?d ";
-		return $this->oDb->query($sql,$oObject->_getData(array('publish')),$oObject->getId());
+		$res=$this->oDb->query($sql,$oObject->_getData(array('publish')),$oObject->getId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получение типов событий, на которые подписан пользователь

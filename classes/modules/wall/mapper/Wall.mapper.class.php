@@ -48,9 +48,10 @@ class ModuleWall_MapperWall extends Mapper {
 			 	last_reply = ?
 			WHERE id = ?d
 		";
-		return $this->oDb->query($sql,$oWall->getCountReply(),
+		$res=$this->oDb->query($sql,$oWall->getCountReply(),
 								 $oWall->getLastReply(),
 								 $oWall->getId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Удаление записи
@@ -60,7 +61,8 @@ class ModuleWall_MapperWall extends Mapper {
 	 */
 	public function DeleteWallById($iId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE id = ?d ";
-		return $this->oDb->query($sql,$iId);
+		$res=$this->oDb->query($sql,$iId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * @param int $iPid	ID родительской записи
@@ -68,7 +70,8 @@ class ModuleWall_MapperWall extends Mapper {
 	 */
 	public function DeleteWallsByPid($iPid) {
 		$sql = "DELETE FROM ".Config::Get('db.table.wall')." WHERE pid = ?d ";
-		return $this->oDb->query($sql,$iPid);
+		$res=$this->oDb->query($sql,$iPid);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получение списка записей по фильтру

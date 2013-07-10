@@ -74,7 +74,8 @@ class ModuleTalk_MapperTalk extends Mapper {
 			WHERE 
 				talk_id = ?d
 		";
-		return $this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCommentIdLast(),$oTalk->getCountComment(),$oTalk->getId());
+		$res=$this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCommentIdLast(),$oTalk->getCountComment(),$oTalk->getId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получить список разговоров по списку айдишников
@@ -203,8 +204,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				user_id = ?d
 		";
 
-		if (
-			$this->oDb->query(
+		$res=$this->oDb->query(
 				$sql,
 				$oTalkUser->getDateLast(),
 				$oTalkUser->getCommentIdLast(),
@@ -212,11 +212,8 @@ class ModuleTalk_MapperTalk extends Mapper {
 				$oTalkUser->getUserActive(),
 				$oTalkUser->getTalkId(),
 				$oTalkUser->getUserId()
-			)
-		) {
-			return true;
-		}
-		return false;
+			);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Удаляет юзера из разговора
@@ -239,11 +236,8 @@ class ModuleTalk_MapperTalk extends Mapper {
 				AND
 				user_id = ?d				
 		";
-		if ($this->oDb->query($sql,$iActive,$aTalkId,$sUserId))
-		{
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$iActive,$aTalkId,$sUserId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Возвращает количество новых комментариев
@@ -370,7 +364,8 @@ class ModuleTalk_MapperTalk extends Mapper {
 			WHERE
 				talk_id = ? 
 				{ AND user_id NOT IN (?a) }";
-		return $this->oDb->select($sql,$sTalkId,!is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
+		$res=$this->oDb->select($sql,$sTalkId,!is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Возвращает массив пользователей, участвующих в разговоре
@@ -534,10 +529,8 @@ class ModuleTalk_MapperTalk extends Mapper {
 			AND
 				user_target_id = ?d
 		";
-		if ($this->oDb->query($sql,$sUserId,$sTargetId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$sUserId,$sTargetId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Добавление пользователя в блеклист по списку идентификаторов

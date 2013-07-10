@@ -170,7 +170,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 					{ AND region_id = ?d }
 					{ AND city_id = ?d }
 				";
-		return $this->oDb->query($sql,
+		$res=$this->oDb->query($sql,
 								 isset($aFilter['geo_type']) ? $aFilter['geo_type'] : DBSIMPLE_SKIP,
 								 isset($aFilter['geo_id']) ? $aFilter['geo_id'] : DBSIMPLE_SKIP,
 								 isset($aFilter['target_type']) ? $aFilter['target_type'] : DBSIMPLE_SKIP,
@@ -179,6 +179,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 								 isset($aFilter['region_id']) ? $aFilter['region_id'] : DBSIMPLE_SKIP,
 								 isset($aFilter['city_id']) ? $aFilter['city_id'] : DBSIMPLE_SKIP
 		);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Возвращает список стран по фильтру

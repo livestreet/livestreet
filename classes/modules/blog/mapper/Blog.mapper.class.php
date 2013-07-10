@@ -71,10 +71,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			WHERE
 				blog_id = ?d
 		";
-		if ($this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getCategoryId(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getCountTopic(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId())) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$oBlog->getTitle(),$oBlog->getDescription(),$oBlog->getType(),$oBlog->getCategoryId(),$oBlog->getDateEdit(),$oBlog->getRating(),$oBlog->getCountVote(),$oBlog->getCountUser(),$oBlog->getCountTopic(),$oBlog->getLimitRatingTopic(),$oBlog->getUrl(),$oBlog->getAvatar(),$oBlog->getId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получает список блогов по ID
@@ -286,10 +284,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			WHERE
 				id = ?
 		";
-		if ($this->oDb->query($sql,$sId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$sId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Уменьшает количество блогов у категории
@@ -304,10 +300,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			WHERE
 				id = ?
 		";
-		if ($this->oDb->query($sql,$sId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$sId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Удаляет категории по списку их ID
@@ -324,10 +318,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			WHERE
 				id IN (?a)
 		";
-		if ($this->oDb->query($sql,$aArrayId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$aArrayId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Заменяет категорию на новую у блогов
@@ -349,10 +341,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 				{ and category_id IN ( ?a ) }
 				{ and category_id IS NULL and 1 = ?d }
 		";
-		if ($this->oDb->query($sql,$iIdNew,is_null($iIdOld) ? DBSIMPLE_SKIP : $iIdOld,!is_null($iIdOld) ? DBSIMPLE_SKIP : 1)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$iIdNew,is_null($iIdOld) ? DBSIMPLE_SKIP : $iIdOld,!is_null($iIdOld) ? DBSIMPLE_SKIP : 1);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Добавляет свзяь пользователя с блогом в БД
@@ -386,10 +376,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 				AND
 				user_id = ?d
 		";
-		if ($this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$oBlogUser->getBlogId(),$oBlogUser->getUserId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Обновляет отношение пользователя с блогом
@@ -406,10 +394,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 				AND
 				user_id = ?d
 		";
-		if ($this->oDb->query($sql,$oBlogUser->getUserRole(),$oBlogUser->getBlogId(),$oBlogUser->getUserId())) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$oBlogUser->getUserRole(),$oBlogUser->getBlogId(),$oBlogUser->getUserId());
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получает список отношений пользователей с блогами
@@ -689,10 +675,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			DELETE FROM ".Config::Get('db.table.blog')." 
 			WHERE blog_id = ?d				
 		";
-		if ($this->oDb->query($sql,$iBlogId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$iBlogId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Удалить пользователей блога по идентификатору блога
@@ -705,10 +689,8 @@ class ModuleBlog_MapperBlog extends Mapper {
 			DELETE FROM ".Config::Get('db.table.blog_user')." 
 			WHERE blog_id = ?d
 		";
-		if ($this->oDb->query($sql,$iBlogId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$iBlogId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Пересчитывает число топиков в блогах
@@ -730,10 +712,8 @@ class ModuleBlog_MapperBlog extends Mapper {
                 WHERE 1=1
                 	{ and b.blog_id = ?d }
             ";
-		if ($this->oDb->query($sql,is_null($iBlogId) ? DBSIMPLE_SKIP : $iBlogId)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,is_null($iBlogId) ? DBSIMPLE_SKIP : $iBlogId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получает список блогов по фильтру

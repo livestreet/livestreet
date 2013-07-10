@@ -52,8 +52,8 @@ class ModuleUserfeed_MapperUserfeed extends Mapper {
 	public function unsubscribeUser($iUserId, $iSubscribeType, $iTargetId) {
 		$sql = 'DELETE FROM ' . Config::Get('db.table.userfeed_subscribe') . ' WHERE
                 user_id = ?d AND subscribe_type = ?d AND target_id = ?d';
-		$this->oDb->query($sql, $iUserId, $iSubscribeType, $iTargetId);
-		return true;
+		$res=$this->oDb->query($sql, $iUserId, $iSubscribeType, $iTargetId);
+		return $res===false or is_null($res) ? false : true;
 	}
 	/**
 	 * Получить список подписок пользователя

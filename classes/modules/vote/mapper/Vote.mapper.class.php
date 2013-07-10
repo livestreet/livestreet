@@ -91,10 +91,8 @@ class ModuleVote_MapperVote extends Mapper {
 				AND
 				target_type = ?				
 		";
-		if ($this->oDb->query($sql,$aTargetId,$sTargetType)) {
-			return true;
-		}
-		return false;
+		$res=$this->oDb->query($sql,$aTargetId,$sTargetType);
+		return $res===false or is_null($res) ? false : true;
 	}
 }
 ?>
