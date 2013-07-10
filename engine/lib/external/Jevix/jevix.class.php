@@ -1000,7 +1000,7 @@ class Jevix{
 					$bOK=false;
 					foreach ($paramAllowedValues['#domain'] as $sDomain) {
 						$sDomain=preg_quote($sDomain);						
-						if (preg_match("@^(http|https|ftp)://([\w\d]+\.)?{$sDomain}/@ui",$value)) {							
+						if (preg_match("@^((http|https|ftp):)?//([\w\d]+\.)?{$sDomain}/@ui",$value)) {
 							$bOK=true;
 							break;
 						}
@@ -1044,7 +1044,7 @@ class Jevix{
 						}
 						// HTTP в начале если нет
 						$sProtocols=join('|',$this->linkProtocolAllow ? $this->linkProtocolAllow : $this->linkProtocolAllowDefault);
-						if(!preg_match('/^('.$sProtocols.'):\/\//ui', $value) && !preg_match('/^(\/|\#)/ui', $value) && !preg_match('/^(mailto):/ui', $value) ) $value = 'http://'.$value;
+						if(!preg_match('/^(('.$sProtocols.'):)?\/\//ui', $value) && !preg_match('/^(\/|\#)/ui', $value) && !preg_match('/^(mailto):/ui', $value) ) $value = 'http://'.$value;
 						break;
 
 					case '#image':
@@ -1054,7 +1054,7 @@ class Jevix{
 							continue(2);
 						}
 						// HTTP в начале если нет
-						if(!preg_match('/^(http|https):\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
+						if(!preg_match('/^((http|https):)?\/\//ui', $value) && !preg_match('/^\//ui', $value)) $value = 'http://'.$value;
 						break;
 
 					default:
@@ -1112,7 +1112,7 @@ class Jevix{
 									if(!preg_match('/javascript:/ui', $sValueParam)) {
 										foreach ($mValue['#domain'] as $sDomain) {
 											$sDomain=preg_quote($sDomain);
-											if (preg_match("@^(http|https|ftp)://([\w\d]+\.)?{$sDomain}/@ui",$sValueParam)) {
+											if (preg_match("@^((http|https|ftp):)?//([\w\d]+\.)?{$sDomain}/@ui",$sValueParam)) {
 												$bOK=true;
 												break;
 											}
