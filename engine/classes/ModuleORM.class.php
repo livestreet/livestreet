@@ -73,7 +73,6 @@ abstract class ModuleORM extends Module {
 			// есть автоинкремент, устанавливаем его
 			$oEntity->_setData(array($oEntity->_getPrimaryKey() => $res));
 			// Обновление связей many_to_many
-			$aRelationsData = $oEntity->_getRelationsData();
 			foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
 				if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
 					// Сброс кэша по связям
@@ -96,7 +95,6 @@ abstract class ModuleORM extends Module {
 		$res=$this->oMapperORM->UpdateEntity($oEntity);
 		if ($res===0 or $res) { // запись не изменилась, либо изменилась
 			// Обновление связей many_to_many
-			$aRelationsData = $oEntity->_getRelationsData();
 			foreach ($oEntity->_getRelations() as $sRelName => $aRelation) {
 				if ($aRelation[0] == EntityORM::RELATION_TYPE_MANY_TO_MANY && $oEntity->$sRelName->isUpdated()) {
 					// Сброс кэша по связям
