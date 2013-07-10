@@ -35,26 +35,6 @@ jQuery(document).ready(function($) {
 
 
 	/**
-	 * Editor help
-	 */
-	$('.js-tags-help-link').click(function(){
-		var target=ls.registry.get('tags-help-target-id');
-		if (!target || !$('#'+target).length) {
-			return false;
-		}
-		target=$('#'+target);
-		if ($(this).data('insert')) {
-			var s=$(this).data('insert');
-		} else {
-			var s=$(this).text();
-		}
-		$.markItUp({target: target, replaceWith: s});
-		return false;
-	});
-
-
-
-	/**
 	 * Tag search
 	 */
 	$('.js-tag-search-form').submit(function(){
@@ -63,19 +43,6 @@ jQuery(document).ready(function($) {
 			window.location = aRouter['tag']+encodeURIComponent(val)+'/';
 		}
 		return false;
-	});
-
-
-	/**
-	 * Preview image
-	 */
-	$('.js-topic-preview-image').each(function () {
-		$(this).imagesLoaded(function () {
-			var $this = $(this),
-				$preview = $this.closest('.js-topic-preview-loader').removeClass('loading');
-				
-			$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
-		});
 	});
 
 	

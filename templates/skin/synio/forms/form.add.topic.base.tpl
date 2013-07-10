@@ -105,13 +105,13 @@
 				{$aLang.topic_create_submit_update}
 			{/if}
 		</button>
-		<button type="submit" name="submit_preview" onclick="ls.topic.preview('form-topic-add','text_preview'); return false;" class="button">{$aLang.topic_create_submit_preview}</button>
+		<button type="button" name="submit_preview" class="button js-topic-preview-text-button">{$aLang.topic_create_submit_preview}</button>
 		<button type="submit" name="submit_topic_save" id="submit_topic_save" class="button">{$aLang.topic_create_submit_save}</button>
 	</form>
 
 
 	{* Блок с превью текста *}
-	<div class="topic-preview" style="display: none;" id="text_preview"></div>
+	<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
 
 
 	{block name='add_topic_end'}{/block}

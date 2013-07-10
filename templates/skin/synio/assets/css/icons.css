@@ -221,6 +221,9 @@
 .icon-synio-vote-info-zero			{ width: 16px; height: 16px; background-position: -99px -71px; }
 .icon-synio-vote-info-view			{ width: 16px; height: 16px; background-position: -179px -39px; }
 
+.icon-poll-sort                     { width: 11px; height: 11px; background: url(../images/icons/poll-sort.png) 0 0 no-repeat; }
+.icon-xeoart                        { width: 87px; height: 25px; background: url(../images/icons/xeoart.png) 0 0 no-repeat; }
+
 
 
 

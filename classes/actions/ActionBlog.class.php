@@ -600,7 +600,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем доступные типы блога для создания
 		 */
-		if (!in_array(getRequestStr('blog_type'),array('open','close'))) {
+		if (!$this->Blog_IsAllowBlogType(getRequestStr('blog_type'))) {
 			$this->Message_AddError($this->Lang_Get('blog_create_type_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
@@ -1808,6 +1808,13 @@ class ActionBlog extends Action {
 		 */
 		if ($oBlog) {
 			$sText=$oBlog->getDescription();
+			
+			/**
+			 * если блог персональный — возвращаем текущий языковой эквивалент
+			 */
+			if ($sBlogId==0) {
+				$sText = $this->Lang_Get('blogs_personal_description');
+			}
 			$this->Viewer_AssignAjax('sText',$sText);
 		}
 	}

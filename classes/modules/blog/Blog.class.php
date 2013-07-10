@@ -41,6 +41,14 @@ class ModuleBlog extends Module {
 	 * Забаненный в блоге пользователь
 	 */
 	const BLOG_USER_ROLE_BAN           = -4;
+	/**
+	 * Список типов блога
+	 *
+	 * @var array
+	 */
+	protected $aBlogTypes=array(
+		'open','close'
+	);
 
 	/**
 	 * Объект маппера
@@ -62,6 +70,36 @@ class ModuleBlog extends Module {
 	public function Init() {
 		$this->oMapperBlog=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+	}
+	/**
+	 * Возвращает список типов блога
+	 *
+	 * @return array
+	 */
+	public function GetBlogTypes() {
+		return $this->aBlogTypes;
+	}
+	/**
+	 * Добавляет в новый тип блога
+	 *
+	 * @param string $sType	Новый тип
+	 * @return bool
+	 */
+	public function AddBlogType($sType) {
+		if (!in_array($sType,$this->aBlogTypes)) {
+			$this->aBlogTypes[]=$sType;
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет разрешен ли данный тип блога
+	 *
+	 * @param string $sType	Тип
+	 * @return bool
+	 */
+	public function IsAllowBlogType($sType) {
+		return in_array($sType,$this->aBlogTypes);
 	}
 	/**
 	 * Получает дополнительные данные(объекты) для блогов по их ID

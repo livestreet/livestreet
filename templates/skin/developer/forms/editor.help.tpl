@@ -2,12 +2,7 @@
  * Справка по разметке редактора
  *}
 
-<script type="text/javascript">
-	ls.registry.set('tags-help-target-id','{$sTagsTargetId}');
-</script>
-
-
-<div class="editor-help">
+<div class="editor-help js-editor-help" data-form-id="{$sTagsTargetId}">
 	<header class="editor-help-header clearfix">
 		<a href="#" class="link-dotted help-link" onclick="jQuery('#js-editor-help').toggle(); return false;">{$aLang.tags_help_link_show}</a>
 	</header>

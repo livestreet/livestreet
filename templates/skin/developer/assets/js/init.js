@@ -130,6 +130,47 @@ jQuery(document).ready(function($){
 	 * Talk
 	 */
 	ls.talk.init();
+
+
+	/**
+	 * Poll
+	 */
+	ls.poll.init();
+
+
+	/**
+	 * User Note
+	 */
+	ls.usernote.init();
+
+
+	/**
+	 * Editor
+	 */
+	ls.editor.init();
+
+
+	/**
+	 * Topic
+	 */
+	ls.topic.init();
+
+
+	/**
+	 * Vote
+	 */
+	ls.vote.init();
+
+
+	/**
+	 * Photoset
+	 */
+	$('.js-photoset-type-default-image').prettyPhoto({
+		social_tools: '',
+		show_title:   false,
+		slideshow:    false,
+		deeplinking:  false
+	});
 	
 
 	// Хук конца инициализации javascript-составляющих шаблона

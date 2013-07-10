@@ -128,46 +128,6 @@
 
 
 /**
- * Топик опрос
- * 
- * @type question
- * @file topics/topic.question.tpl
- * @file topics/question_result.tpl
- */
-.poll { margin-bottom: 15px; }
-
-.poll .poll-vote               { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
-.poll .poll-vote li            { margin-bottom: 10px; }
-.poll .poll-vote li:last-child { margin-bottom: 0; }
-.poll .poll-vote li label      { display: inline; }
-.poll .poll-vote li input      { position: relative; top: 1px; margin-right: 2px; }
-
-.poll .poll-result                   { margin-bottom: 10px; list-style-type: none; background: #fff; overflow: hidden; }
-.poll .poll-result li                { margin-bottom: 20px; }
-.poll .poll-result li dl             { overflow: hidden; zoom: 1; }
-.poll .poll-result li dl dt          { float: left; width: 80px; }
-.poll .poll-result li dl dt span     { font-size: 11px; color: #aaa; }
-.poll .poll-result li dl dd          { padding-left: 80px; }
-.poll .poll-result li dl dd div      { height: 7px; margin-top: 3px; background: #ccc; overflow: hidden; border-radius: 4px; }
-.poll .poll-result li.most dl dd div { 
-	background: #1999e2;
-	background: -moz-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, #25dcfc), color-stop(70%, #198bdd), color-stop(100%, #38d1f7));
-	background: -webkit-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
-	background: -o-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
-	background: -ms-linear-gradient(top, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
-	background: linear-gradient(to bottom, #25dcfc 0%, #198bdd 70%, #38d1f7 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#25dcfc', endColorstr='#38d1f7', GradientType=0 );
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2); 
-	box-shadow: 0 1px 2px rgba(0,0,0,.2); 
-}
-.poll .poll-result li.most dl dt     { color: #12aaeb; }
-
-.poll .poll-total                    { position: relative; color: #818189; font-size: 11px; line-height: 16px; padding-left: 80px; margin-bottom: 30px; }
-.poll .poll-total .poll-sort         { position: absolute; top: 2px; left: 0; width: 23px; height: 23px; background: url(../images/icons-synio.png) -161px 0 no-repeat; cursor: pointer; }
-.poll .poll-total .poll-sort.active  { background-position: -184px 0; }
-
-/**
  * Топик фотосет
  * 
  * @type photoset

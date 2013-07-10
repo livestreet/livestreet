@@ -2,24 +2,22 @@
  * Топик опрос
  *
  * @styles css/topic.css
+ * @scripts <framework>/js/livestreet/poll.js
  *}
 
 {extends file='topics/topic_base.tpl'}
 
-
 {block name='topic_header_after'}
-	<div id="topic_question_area_{$oTopic->getId()}" class="poll">
-		{if !$oTopic->getUserQuestionIsVote()}
-			<ul class="poll-vote">
-				{foreach from=$oTopic->getQuestionAnswers() key=key item=aAnswer}
-					<li><label><input type="radio" id="topic_answer_{$oTopic->getId()}_{$key}" name="topic_answer_{$oTopic->getId()}" value="{$key}" onchange="jQuery('#topic_answer_{$oTopic->getId()}_value').val(jQuery(this).val());" /> {$aAnswer.text|escape:'html'}</label></li>
+	<div class="poll js-poll" data-poll-id="{$oTopic->getId()}">
+		{if ! $oTopic->getUserQuestionIsVote()}
+			<ul class="poll-list js-poll-list">
+				{foreach from=$oTopic->getQuestionAnswers() key=iItemId item=aAnswer}
+					<li class="poll-item js-poll-item"><label><input type="radio" name="poll-{$oTopic->getId()}" value="{$iItemId}" class="js-poll-item-option" /> {$aAnswer.text|escape:'html'}</label></li>
 				{/foreach}
 			</ul>
 
-			<button type="submit" onclick="ls.poll.vote({$oTopic->getId()},jQuery('#topic_answer_{$oTopic->getId()}_value').val());" class="button button-primary">{$aLang.topic_question_vote}</button>
-			<button type="submit" onclick="ls.poll.vote({$oTopic->getId()},-1)" class="button">{$aLang.topic_question_abstain}</button>
-			
-			<input type="hidden" id="topic_answer_{$oTopic->getId()}_value" value="-1" />
+			<button type="submit" class="button button-primary js-poll-button-vote">{$aLang.topic_question_vote}</button>
+			<button type="submit" class="button js-poll-button-abstain">{$aLang.topic_question_abstain}</button>
 		{else}
 			{include file='topics/poll_result.tpl'}
 		{/if}

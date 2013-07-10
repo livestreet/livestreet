@@ -172,6 +172,52 @@ jQuery(document).ready(function($){
 	 * Captcha
 	 */
 	ls.captcha.init();
+
+
+	/**
+	 * User Note
+	 */
+	ls.usernote.init();
+
+
+	/**
+	 * Poll
+	 */
+	ls.poll.init({
+		sAddItemHtml: '<li class="poll-add-item js-poll-add-item">' +
+					      '<input type="text" name="answer[]" class="poll-add-item-input js-poll-add-item-input">' +
+					      '<i class="icon-synio-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
+					  '</li>',
+	});
+
+
+	/**
+	 * Photoset
+	 */
+	$('.js-photoset-type-default-image').prettyPhoto({
+		social_tools: '',
+		show_title:   false,
+		slideshow:    false,
+		deeplinking:  false
+	});
+
+
+	/**
+	 * Editor
+	 */
+	ls.editor.init();
+
+
+	/**
+	 * Topic
+	 */
+	ls.topic.init();
+
+
+	/**
+	 * Vote
+	 */
+	ls.vote.init();
 	
 
 	// вступление в блог
@@ -215,16 +261,6 @@ jQuery(document).ready(function($){
 	});
 	ls.hook.add('ls_wall_remove_item_fade',function(iId, result){
 		$(this).remove();
-	});
-
-	// опрос
-	ls.hook.add('ls_pool_add_answer_after',function(removeAnchor){
-		var removeAnchor = $('<a href="#" class="icon-synio-remove" />').attr('title', ls.lang.get('delete')).click(function(e){
-			e.preventDefault();
-			return this.removeAnswer(e.target);
-		}.bind(ls.poll));
-		$(this).find('a').remove();
-		$(this).append(removeAnchor);
 	});
 
 	// регистрация

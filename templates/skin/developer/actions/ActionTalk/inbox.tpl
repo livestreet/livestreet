@@ -61,5 +61,5 @@
 	{/if}
 
 				
-	{include file='paging.tpl' aPaging=$aPaging}
+	{include file='pagination.tpl' aPaging=$aPaging}
 {/block}

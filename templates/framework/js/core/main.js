@@ -488,23 +488,6 @@ ls = (function ($) {
 	};
 
 	/**
-	* Загрузка изображения
-	*/
-	this.ajaxUploadImg = function(form) {
-		ls.hook.marker('ajaxUploadImgBefore');
-		ls.ajaxSubmit('upload/image/',form,function(data){
-			if (data.bStateError) {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
-			} else {
-				$.markItUp({replaceWith: data.sText} );
-				$('#window_upload_img').find('input[type="text"], input[type="file"]').val('');
-				$('#window_upload_img').jqmHide();
-				ls.hook.marker('ajaxUploadImgAfter');
-			}
-		});
-	};
-
-	/**
 	* Дебаг сообщений
 	*/
 	this.debug = function() {

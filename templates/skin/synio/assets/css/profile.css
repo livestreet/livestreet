@@ -50,3 +50,12 @@
 .profile-contact-list      { margin-bottom: 50px; }
 .profile-contact-list li   { margin-bottom: 5px; padding-left: 21px; position: relative; }
 .profile-contact-list li i { position: absolute; top: 2px; left: 0; }
+
+/**
+ * Заметка
+ * 
+ * @template blocks/block.profileNote.tpl
+ */
+.user-note                 { border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
+.user-note .user-note-text { margin-bottom: 10px; }
+.user-note .actions        { margin-bottom: 0; font-size: 11px; }

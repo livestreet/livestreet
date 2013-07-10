@@ -4,7 +4,7 @@
  * bCloseBlog    true если блог закрытый
  *
  * @styles css/blog.css
- * @scripts _framework_/js/livestreet/blog.js
+ * @scripts <framework>/js/livestreet/blog.js
  *}
 
 {extends file='layouts/layout.base.tpl'}
@@ -28,26 +28,28 @@
 	<div class="blog">
 		<header class="blog-header">
 			{* Голосование за блог *}
-			<div id="vote_area_blog_{$oBlog->getId()}" class="vote
-																{if $oBlog->getRating() > 0}
-																	vote-count-positive
-																{elseif $oBlog->getRating() < 0}
-																	vote-count-negative
-																{/if} 
+			<div data-vote-type="blog"
+				 data-vote-id="{$oBlog->getId()}"
+				 class="vote js-vote
+					{if $oBlog->getRating() > 0}
+						vote-count-positive
+					{elseif $oBlog->getRating() < 0}
+						vote-count-negative
+					{/if} 
 
-																{if $oVote}
-																	voted
+					{if $oVote}
+						voted
 
-																	{if $oVote->getDirection() > 0}
-																		voted-up
-																	{elseif $oVote->getDirection() < 0}
-																		voted-down
-																	{/if}
-																{/if}">
+						{if $oVote->getDirection() > 0}
+							voted-up
+						{elseif $oVote->getDirection() < 0}
+							voted-down
+						{/if}
+					{/if}">
 				<div class="vote-label">{$aLang.blog_rating}</div>
-				<a href="#" class="vote-up" onclick="return ls.vote.vote({$oBlog->getId()},this,1,'blog');"></a>
-				<a href="#" class="vote-down" onclick="return ls.vote.vote({$oBlog->getId()},this,-1,'blog');"></a>
-				<div id="vote_total_blog_{$oBlog->getId()}" class="vote-count count" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{if $oBlog->getRating() > 0}+{/if}{$oBlog->getRating()}</div>
+				<a href="#" class="vote-up js-vote-up"></a>
+				<a href="#" class="vote-down js-vote-down"></a>
+				<div class="vote-count count js-vote-rating" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{if $oBlog->getRating() > 0}+{/if}{$oBlog->getRating()}</div>
 			</div>
 
 			{* Аватар *}

@@ -1,32 +1,90 @@
+/**
+ * Топик
+ */
+
 var ls = ls || {};
 
-/**
- * Опросы
- */
 ls.topic = (function ($) {
+	"use strict";
 
-	this.preview = function(form, preview) {
-		form=$('#'+form);
-		preview=$('#'+preview);
-		var url = aRouter['ajax']+'preview/topic/';
+	/**
+	 * Дефолтные опции
+	 */
+	var defaults = {
+		// Роутеры
+		oRouters: {
+			preview: aRouter['ajax'] + 'preview/topic/',
+		},
+
+		// Селекторы
+		selectors: {
+			previewImage:               '.js-topic-preview-image',
+			previewImageLoader:         '.js-topic-preview-loader',
+			previewTopicTextButton:     '.js-topic-preview-text-button',
+			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
+		}
+	};
+
+	/**
+	 * Инициализация
+	 *
+	 * @param  {Object} options Опции
+	 */
+	this.init = function(options) {
+		var self = this;
+
+		this.options = $.extend({}, defaults, options);
+
+		// Подгрузка избражений-превью
+		$(this.options.selectors.previewImage).each(function () {
+			$(this).imagesLoaded(function () {
+				var $this = $(this),
+					$preview = $this.closest(self.options.selectors.previewImageLoader).removeClass('loading');
+					
+				$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
+			});
+		});
+
+		// Превью текста
+		$(this.options.selectors.previewTopicTextButton).on('click', function (e) {
+			self.showPreviewText('form-topic-add', 'topic-text-preview');
+		});
+
+		// Закрытие превью
+		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
+			self.hidePreviewText();
+		});
+	};
+
+	/**
+	 * Превью текста
+	 *
+	 * @param  {String} sFormId ID формы
+	 * @param  {String} sPreviewId ID блока превью
+	 */
+	this.showPreviewText = function(sFormId, sPreviewId) {
+		var oForm = $('#' + sFormId);
+		var oPreview = $('#' + sPreviewId);
+
 		ls.hook.marker('previewBefore');
-		ls.ajaxSubmit(url, form, function(result) {
+
+		ls.ajaxSubmit(this.options.oRouters.preview, oForm, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				preview.show().html(result.sText);
-				ls.hook.run('ls_topic_preview_after',[form, preview, result]);
+				oPreview.show().html(result.sText);
+
+				ls.hook.run('ls_topic_preview_after', [oForm, oPreview, result]);
 			}
 		});
 	};
 
-	this.insertImageToEditor = function(sUrl,sAlign,sTitle) {
-		sAlign=sAlign=='center' ? 'class="image-center"' : 'align="'+sAlign+'"';
-		$.markItUp({replaceWith: '<img src="'+sUrl+'" title="'+sTitle+'" '+sAlign+' />'} );
-		$('#window_upload_img').find('input[type="text"]').val('');
-		$('#window_upload_img').jqmHide();
-		return false;
+	/**
+	 * Закрытие превью
+	 */
+	this.hidePreviewText = function() {
+		$('#topic-text-preview').hide();
 	};
 
 	return this;
-}).call(ls.topic || {},jQuery);
+}).call(ls.topic || {}, jQuery);

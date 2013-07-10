@@ -54,5 +54,5 @@
 
 
 <button type="submit" name="submit_topic_publish" class="button button-primary fl-r" onclick="jQuery('#submit_topic_publish').trigger('click');">{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}{$aLang.topic_create_submit_publish}{else}{$aLang.topic_create_submit_update}{/if}</button>
-<button type="submit" name="submit_preview" onclick="jQuery('#text_preview').html('').hide(); return false;" class="button">{$aLang.topic_create_submit_preview_close}</button>
+<button type="button" name="submit_preview" class="button js-topic-preview-text-hide-button">{$aLang.topic_create_submit_preview_close}</button>
 <button type="submit" name="submit_topic_save" class="button" onclick="jQuery('#submit_topic_save').trigger('click');">{$aLang.topic_create_submit_save}</button>

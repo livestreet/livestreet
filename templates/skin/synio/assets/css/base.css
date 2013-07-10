@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'PT Sans', Arial, sans-serif; }
  */
 #footer .copyright { float: right; width: 255px; }
 #footer .copyright .design-by { overflow: hidden; line-height: 15px; margin-top: 30px; }
-#footer .copyright .design-by img { float: left; margin-right: 10px; margin-top: 3px; }
+#footer .copyright .design-by .icon-xeoart { float: left; margin-right: 10px; margin-top: 3px; }
 #footer .copyright .design-by div { font-size: 10px; color: #8b9191; margin-top: 1px; }
 #footer a { color: #000; }
 #footer a:hover { color: #333; }

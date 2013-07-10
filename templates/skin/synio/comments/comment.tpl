@@ -87,29 +87,31 @@
 			 * Не выводим блок голосования в личных сообщениях и списках
 			 *}
 			{if $oComment->getTargetType() != 'talk'}						
-				<li id="vote_area_comment_{$oComment->getId()}" class="vote 
-																		{if $oComment->getRating() > 0}
-																			vote-count-positive
-																		{elseif $oComment->getRating() < 0}
-																			vote-count-negative
-																		{/if}    
-																
-																		{if (strtotime($oComment->getDate()) < $smarty.now - $oConfig->GetValue('acl.vote.comment.limit_time') && ! $oVote) || ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}
-																			vote-expired
-																		{/if}
-																		
-																		{if $oVote} 
-																			voted 
-																			
-																			{if $oVote->getDirection() > 0}
-																				voted-up
-																			{else}
-																				voted-down
-																			{/if}
-																		{/if}">
-					<span class="vote-count" id="vote_total_comment_{$oComment->getId()}">{if $oComment->getRating() > 0}+{/if}{$oComment->getRating()}</span>
-					<div class="vote-down" onclick="return ls.vote.vote({$oComment->getId()},this,-1,'comment');"></div>
-					<div class="vote-up" onclick="return ls.vote.vote({$oComment->getId()},this,1,'comment');"></div>
+				<li data-vote-type="comment"
+					data-vote-id="{$oComment->getId()}"
+					class="vote js-vote
+						{if $oComment->getRating() > 0}
+							vote-count-positive
+						{elseif $oComment->getRating() < 0}
+							vote-count-negative
+						{/if}    
+				
+						{if (strtotime($oComment->getDate()) < $smarty.now - $oConfig->GetValue('acl.vote.comment.limit_time') && ! $oVote) || ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}
+							vote-expired
+						{/if}
+						
+						{if $oVote} 
+							voted 
+							
+							{if $oVote->getDirection() > 0}
+								voted-up
+							{else}
+								voted-down
+							{/if}
+						{/if}">
+					<span class="vote-count js-vote-rating">{if $oComment->getRating() > 0}+{/if}{$oComment->getRating()}</span>
+					<div class="vote-down js-vote-down"></div>
+					<div class="vote-up js-vote-up"></div>
 				</li>
 			{/if}
 		</ul>

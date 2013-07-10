@@ -20,6 +20,6 @@
 			{router page='blogs' assign=sBlogsRootPage}
 		{/if}
 		{include file='actions/ActionBlogs/blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
-		{include file='paging.tpl' aPaging=$aPaging}
+		{include file='pagination.tpl' aPaging=$aPaging}
 	</div>
 {/block}

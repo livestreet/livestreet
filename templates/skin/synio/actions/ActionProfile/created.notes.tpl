@@ -21,5 +21,5 @@
 		<div class="notice-empty">{$aLang.user_note_list_empty}</div>
 	{/if}
 
-	{include file='paging.tpl' aPaging=$aPaging}
+	{include file='pagination.tpl' aPaging=$aPaging}
 {/block}

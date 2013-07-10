@@ -71,6 +71,7 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.static.assets___/css/wall.css",
 	"___path.static.assets___/css/activity.css",
 	"___path.static.assets___/css/admin.css",
+	"___path.static.assets___/css/poll.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
 	"___path.static.assets___/css/print.css",
 ));
@@ -83,10 +84,10 @@ $config['block']['rule_profile'] = array(
 	'action' => array( 'profile', 'talk', 'settings' ),
 	'blocks' => array( 
 		'right' => array(
-			'blocks/block.profilePhoto.tpl'   =>array('priority' => 100),
-			'blocks/block.profileNav.tpl'     =>array('priority' => 50),
-			'blocks/block.profileNote.tpl'    =>array('priority' => 25),
-			'blocks/block.profileActions.tpl' =>array('priority' => 1),
+			'blocks/block.userPhoto.tpl'   =>array('priority' => 100),
+			'blocks/block.userNav.tpl'     =>array('priority' => 50),
+			'blocks/block.userNote.tpl'    =>array('priority' => 25),
+			'blocks/block.userActions.tpl' =>array('priority' => 1),
 		) 
 	)
 );

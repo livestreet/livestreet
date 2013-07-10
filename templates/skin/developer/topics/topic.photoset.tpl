@@ -32,7 +32,7 @@
 		{$oTopic->getTextShort()}
 
 		{if $oTopic->getTextShort() != $oTopic->getText()}
-			{assign var=iPhotosCount value=$oTopic->getPhotosetCount()}
+			{$iPhotosCount = $oTopic->getPhotosetCount()}
 
 			<br />
 			<a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
@@ -51,37 +51,34 @@
 
 {* Photoset *}
 {block name='topic_content_after'}
-	{if !$bTopicList}
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {	
-				$('.photoset-image').prettyPhoto({
-					social_tools:'',
-					show_title: false,
-					slideshow:false,
-					deeplinking: false
-				});
-			});
-		</script>
-		
-		
+	{if ! $bTopicList}
 		<div class="photoset photoset-type-default">
 			<h2 class="photoset-title">{$oTopic->getPhotosetCount()} {$oTopic->getPhotosetCount()|declension:$aLang.topic_photoset_count_images}</h2>
 			
 			<ul class="photoset-images" id="topic-photo-images">
-				{assign var=aPhotos value=$oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
+				{$aPhotos = $oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
+
 				{if count($aPhotos)}                                
 					{foreach from=$aPhotos item=oPhoto}
-						<li><a class="photoset-image" href="{$oPhoto->getWebPath(1000)}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>                                    
-						{assign var=iLastPhotoId value=$oPhoto->getId()}
+						<li>
+							<a class="js-photoset-type-default-image" 
+							   href="{$oPhoto->getWebPath(1000)}" 
+							   rel="[photoset]"  title="{$oPhoto->getDescription()}">
+
+							   <img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a>
+						</li>
+
+						{$iLastPhotoId = $oPhoto->getId()}
 					{/foreach}
 				{/if}
+				
 				<script type="text/javascript">
 					ls.photoset.idLast='{$iLastPhotoId}';
 				</script>
 			</ul>
 			
 			{if count($aPhotos) < $oTopic->getPhotosetCount()}
-				<a href="javascript:ls.photoset.getMore({$oTopic->getId()})" id="topic-photo-more" class="photoset-more">{$aLang.topic_photoset_show_more} &darr;</a>
+				<a href="javascript:ls.photoset.getMore({$oTopic->getId()})" id="topic-photo-more" class="get-more">{$aLang.topic_photoset_show_more} &darr;</a>
 			{/if}
 		</div>
 	{/if}

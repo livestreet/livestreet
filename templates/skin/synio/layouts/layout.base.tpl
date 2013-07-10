@@ -67,7 +67,7 @@
 
 	<script>
 		ls.lang.load({json var = $aLangJs});
-		ls.lang.load({lang_load name="blog,talk_favourite_add,talk_favourite_del"});
+		ls.lang.load({lang_load name="blog, talk_favourite_add, talk_favourite_del, topic_question_create_answers_error_max"});
 
 		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
 		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
@@ -332,7 +332,7 @@
 					{hook run='copyright'}
 					
 					<div class="design-by">
-						<img src="{cfg name='path.static.assets'}/images/xeoart.png" alt="xeoart" />
+						<i class="icon-xeoart"></i>
 						Design by <a href="http://xeoart.com">xeoart</a>
 						<div>2012</div>
 					</div>

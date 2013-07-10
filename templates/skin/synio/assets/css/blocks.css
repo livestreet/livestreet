@@ -119,15 +119,18 @@
  * @type profile note
  * @file blocks/block.profileNote.tpl
  */
-.block-type-profile-note                  { border: none; margin-bottom: 0; }
-.block-type-profile-note .block-content   { border: 2px solid #ffe25d; padding: 15px; border-radius: 5px; }
-.block-type-profile-note p                { margin-bottom: 10px; }
-.block-type-profile-note .actions         { margin-bottom: 0; font-size: 11px; }
-.block-type-profile-note .actions a       { color: #275ec2; border-color: #275ec2; }
-.block-type-profile-note .actions a:hover { color: #f00; border-color: #f00; }
+.block-type-profile-note { border: none; margin-bottom: 0; }
 
+/**
+ * @type profile nav
+ * @file blocks/block.profileNav.tpl
+ */
 .block.block-type-profile-nav 					{ padding: 0; background: none; border: none; }
 
+/**
+ * @type profile actions
+ * @file blocks/block.profileActions.tpl
+ */
 .block.block-type-profile-actions 						{ border: none; }
 .block.block-type-profile-actions .block-content 		{ padding: 0 0 0 30px; }
 .block.block-type-profile-actions ul li					{ margin-bottom: 5px; font-size: 11px; }

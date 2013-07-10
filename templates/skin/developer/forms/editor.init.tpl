@@ -61,6 +61,8 @@
 				{$sSettings = 'ls.settings.get("markitup")'}
 			{/if}
 		{/if}
+		
+		<script src="{cfg name='path.static.framework'}/js/vendor/markitup/jquery.markitup.js"></script>
 
 		<script>
 			jQuery(function($) {
