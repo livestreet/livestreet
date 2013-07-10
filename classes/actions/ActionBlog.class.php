@@ -1735,7 +1735,7 @@ class ActionBlog extends Action {
 		if (!$bAccess=$this->ACL_IsAllowDeleteBlog($oBlog,$this->oUserCurrent)) {
 			return parent::EventNotFound();
 		}
-		$aTopics =  $this->Topic_GetTopicsByBlogId($sBlogId);
+		$aTopics =  $this->Topic_GetTopicsByBlogId($sBlogId,1,100000); // нужно переделать функционал переноса топиков в дргугой блог
 		switch ($bAccess) {
 			case ModuleACL::CAN_DELETE_BLOG_EMPTY_ONLY :
 				if(is_array($aTopics) and count($aTopics)) {
