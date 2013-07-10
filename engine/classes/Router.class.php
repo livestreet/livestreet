@@ -254,7 +254,7 @@ class Router extends LsObject {
 		if(!preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sActionClass,$aMatches)) {
 			require_once(Config::Get('path.root.server').'/classes/actions/'.$sActionClass.'.class.php');
 		} else {
-			require_once(Config::Get('path.root.server').'/plugins/'.strtolower($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
+			require_once(Config::Get('path.root.server').'/plugins/'.func_underscore($aMatches[1]).'/classes/actions/Action'.ucfirst($aMatches[2]).'.class.php');
 		}
 
 		$sClassName=$sActionClass;
