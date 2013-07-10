@@ -20,7 +20,7 @@
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
 				{if $aFavouriteTopicTags}
 					<ul class="tag-cloud word-wrap">
-						{foreach from=$aFavouriteTopicTags item=oTag}
+						{foreach $aFavouriteTopicTags as $oTag}
 							<li><a class="tag-size-{$oTag->getSize()} {if $sFavouriteTag==$oTag->getText()}tag-current{/if}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
 						{/foreach}
 					</ul>
@@ -32,7 +32,7 @@
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-my">
 				{if $aFavouriteTopicUserTags}
 					<ul class="tag-cloud word-wrap">
-						{foreach from=$aFavouriteTopicUserTags item=oTag}
+						{foreach $aFavouriteTopicUserTags as $oTag}
 							<li><a class="tag-size-{$oTag->getSize()}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
 						{/foreach}
 					</ul>

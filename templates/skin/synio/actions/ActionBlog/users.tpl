@@ -10,8 +10,8 @@
 
 {block name='layout_content'}
 	{if $aBlogUsers}
-		{assign var="aUsersList" value=[]}
-		{foreach from=$aBlogUsers item=oBlogUser}
+		{$aUsersList = []}
+		{foreach $aBlogUsers as $oBlogUser}
 			{$aUsersList[]=$oBlogUser->getUser()}
 		{/foreach}
 		{include file='user_list.tpl' aUsersList=$aUsersList sUsersRootPage=$sUsersRootPage}

@@ -2,11 +2,11 @@
  * Пагинация
  *}
 
-{if $aPaging and $aPaging.iCountPage>1} 
+{if $aPaging and $aPaging.iCountPage > 1} 
 	<div class="pagination">
 		<ul>
 			{if $aPaging.iPrevPage}
-				<li class="prev"><a href="{$aPaging.sBaseUrl}{if $aPaging.iPrevPage>1}/page{$aPaging.iPrevPage}{/if}/{$aPaging.sGetParams}" class="js-paging-prev-page" title="{$aLang.paging_previos}">&larr; {$aLang.paging_previos}</a></li>
+				<li class="prev"><a href="{$aPaging.sBaseUrl}{if $aPaging.iPrevPage > 1}/page{$aPaging.iPrevPage}{/if}/{$aPaging.sGetParams}" class="js-paging-prev-page" title="{$aLang.paging_previos}">&larr; {$aLang.paging_previos}</a></li>
 			{else}
 				<li class="prev"><span>&larr; {$aLang.paging_previos}</span></li>
 			{/if}
@@ -19,16 +19,16 @@
 			{/if}
 		</ul>
 		<ul>
-			{if $aPaging.iCurrentPage>1}<li><a href="{$aPaging.sBaseUrl}/{$aPaging.sGetParams}" title="{$aLang.paging_first}">{$aLang.paging_first}</a></li>{/if}
+			{if $aPaging.iCurrentPage > 1}<li><a href="{$aPaging.sBaseUrl}/{$aPaging.sGetParams}" title="{$aLang.paging_first}">{$aLang.paging_first}</a></li>{/if}
 			
-			{foreach from=$aPaging.aPagesLeft item=iPage}
-				<li><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
+			{foreach $aPaging.aPagesLeft as $iPage}
+				<li><a href="{$aPaging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
 			{/foreach}
 			
 			<li class="active"><span>{$aPaging.iCurrentPage}</span></li>
 			
-			{foreach from=$aPaging.aPagesRight item=iPage}
-				<li><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
+			{foreach $aPaging.aPagesRight as $iPage}
+				<li><a href="{$aPaging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
 			{/foreach}
 			
 			

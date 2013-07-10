@@ -13,7 +13,7 @@
 	{if $aBlogUsers}
 		{$aUsersList = []}
 
-		{foreach from=$aBlogUsers item=oBlogUser}
+		{foreach $aBlogUsers as $oBlogUser}
 			{$aUsersList[] = $oBlogUser->getUser()}
 		{/foreach}
 

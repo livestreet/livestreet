@@ -7,7 +7,7 @@
 {extends file='blocks/block.aside.base.tpl'}
 
 {block name='block_options'}
-	{assign var="oBlog" value=$oTopic->getBlog()}
+	{$oBlog = $oTopic->getBlog()}
 {/block}
 
 {if $oTopic && $oBlog->getType() != 'personal'}

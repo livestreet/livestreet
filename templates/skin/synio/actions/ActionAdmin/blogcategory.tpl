@@ -21,7 +21,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from=$aCategories item=oCategory}
+			{foreach $aCategories as $oCategory}
 				<tr>
 					<td>
 						<i class="icon-file" style="margin-left: {$oCategory->getLevel()*20}px;"></i>

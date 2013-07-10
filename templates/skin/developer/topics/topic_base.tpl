@@ -93,18 +93,16 @@
 				<li>{$aLang.topic_tags}:</li>
 				
 				{strip}
-					{if $oTopic->getTagsArray()}
-						{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-							<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
-						{/foreach}
-					{else}
+					{foreach $oTopic->getTagsArray() as $sTag}
+						<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
+					{foreachelse}
 						<li>{$aLang.topic_tags_empty}</li>
-					{/if}
+					{/foreach}
 					
 					{if $oUserCurrent}
 						{if $oFavourite}
-							{foreach from=$oFavourite->getTagsArray() item=sTag name=tags_list_user}
-								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+							{foreach $oFavourite->getTagsArray() as $sTag}
+								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 							{/foreach}
 						{/if}
 						

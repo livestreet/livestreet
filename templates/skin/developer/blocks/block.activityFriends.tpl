@@ -13,15 +13,15 @@
 	{if $oUserCurrent}
 		<small class="note">{$aLang.stream_settings_note_follow_friend}</small>
 		
-		{if count($aStreamFriends)}
+		{if $aStreamFriends}
 			<ul class="user-list-mini max-height-200 js-activity-block-users">
-				{foreach from=$aStreamFriends item=oUser}
-					{assign var=iUserId value=$oUser->getId()}
+				{foreach $aStreamFriends as $oUser}
+					{$iUserId = $oUser->getId()}
 
 					<li id="activity-block-users-item-{$iUserId}">
 						<input class="input-checkbox"
 							   type="checkbox"
-							   {if isset($aStreamSubscribedUsers.$iUserId)}checked="checked"{/if}
+							   {if $aStreamSubscribedUsers.$iUserId}checked{/if}
 							   data-user-id="{$iUserId}" />
 						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 					</li>

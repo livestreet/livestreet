@@ -11,7 +11,7 @@
 		<copyright>{cfg name='path.root.web'}</copyright>
 		<generator>{$aChannel.generator}</generator>
 		
-		{foreach from=$aItems item=oItem}
+		{foreach $aItems as $oItem}
 			<item>
 				<title>{$oItem.title|escape:'html'}</title>
 				<guid isPermaLink="true">{$oItem.guid}</guid>

@@ -14,14 +14,14 @@
 		<small class="note">{$aLang.userfeed_settings_note_follow_friend}</small>
 		
 		<ul class="user-list-mini max-height-200 js-userfeed-block-users">
-			{foreach from=$aUserfeedFriends item=oUser}
-				{assign var=iUserId value=$oUser->getId()}
+			{foreach $aUserfeedFriends as $oUser}
+				{$iUserId = $oUser->getId()}
 						
 				<li id="userfeed-block-users-item-{$iUserId}">
 					<input class="input-checkbox"
 							type="checkbox"
 							data-user-id="{$iUserId}"
-							{if isset($aUserfeedSubscribedUsers.$iUserId)} checked="checked"{/if} />
+							{if isset($aUserfeedSubscribedUsers.$iUserId)} checked{/if} />
 					<a href="{$oUser->getUserWebPath()}" title="{$oUser->getLogin()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 					<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 				</li>

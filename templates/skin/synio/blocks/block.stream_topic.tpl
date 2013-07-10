@@ -7,9 +7,9 @@
 
 <div class="block-content">
 	<ul class="latest-list">
-		{foreach from=$oTopics item=oTopic name="cmt"}
-			{assign var="oUser" value=$oTopic->getUser()}							
-			{assign var="oBlog" value=$oTopic->getBlog()}
+		{foreach $oTopics as $oTopic}
+			{$oUser = $oTopic->getUser()}							
+			{$oBlog = $oTopic->getBlog()}
 			
 			<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape:'html'}">
 				<p>

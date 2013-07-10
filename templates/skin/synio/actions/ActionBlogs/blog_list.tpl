@@ -46,8 +46,8 @@
 	
 	<tbody>
 		{if $aBlogs}
-			{foreach from=$aBlogs item=oBlog}
-				{assign var="oUserOwner" value=$oBlog->getOwner()}
+			{foreach $aBlogs as $oBlog}
+				{$oUserOwner = $oBlog->getOwner()}
 
 				<tr>
 					<td class="cell-info">

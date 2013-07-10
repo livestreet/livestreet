@@ -17,7 +17,7 @@
 			<option value="-1">{$aLang.blog_delete_clear}</option>
 			{if $aBlogs}
 				<optgroup label="{$aLang.blogs}">
-					{foreach from=$aBlogs item=oBlogDelete}
+					{foreach $aBlogs as $oBlogDelete}
 						<option value="{$oBlogDelete->getId()}">{$oBlogDelete->getTitle()|escape:'html'}</option>
 					{/foreach}
 				</optgroup>

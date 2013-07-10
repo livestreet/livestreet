@@ -21,9 +21,9 @@
 
 		<tbody>
 			{if $aUsersLast}
-				{foreach from=$aUsersLast item=oUserList}
-					{assign var="oSession" value=$oUserList->getSession()}
-					{assign var="oUserNote" value=$oUserList->getUserNote()}
+				{foreach $aUsersLast as $oUserList}
+					{$oSession = $oUserList->getSession()}
+					{$oUserNote = $oUserList->getUserNote()}
 					<tr>
 						<td class="cell-name">
 							<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>

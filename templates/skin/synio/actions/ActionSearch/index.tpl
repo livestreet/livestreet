@@ -15,7 +15,7 @@
 
 	{if $bIsResults}
 		<ul class="nav nav-pills">
-			{foreach from=$aRes.aCounts item=iCount key=sType name="sTypes"}
+			{foreach $aRes.aCounts as $sType => $iCount}
 				<li {if $aReq.sType == $sType}class="active"{/if}>					
 					<a href="{router page='search'}{$sType}/?q={$aReq.q|escape:'html'}">
 						{$iCount} 

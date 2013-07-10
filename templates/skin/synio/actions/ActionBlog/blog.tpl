@@ -138,7 +138,7 @@
 
 				{* Список администраторов блога *}
 				{if $aBlogAdministrators}			
-					{foreach from=$aBlogAdministrators item=oBlogUser}
+					{foreach $aBlogAdministrators as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
 						<span class="user-avatar">
@@ -153,7 +153,7 @@
 				<h4>{$aLang.blog_user_moderators} ({$iCountBlogModerators})</h4>
 
 				{if $aBlogModerators}						
-					{foreach from=$aBlogModerators item=oBlogUser}  
+					{foreach $aBlogModerators as $oBlogUser}  
 						{$oUser = $oBlogUser->getUser()}
 
 						<span class="user-avatar">

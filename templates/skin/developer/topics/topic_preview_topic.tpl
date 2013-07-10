@@ -4,7 +4,7 @@
  * @styles css/topic.css
  *}
 
-{assign var="oUser" value=$oTopic->getUser()}
+{$oUser = $oTopic->getUser()}
 
 <h3 class="profile-page-header">{$aLang.topic_preview}</h3>
 
@@ -33,13 +33,11 @@
 		<ul class="topic-tags">
 			<li>{$aLang.block_tags}:</li>
 			{strip}
-				{if $oTopic->getTagsArray()}
-					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-						<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
-					{/foreach}
-				{else}
+				{foreach $oTopic->getTagsArray() as $sTag}
+					<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
+				{foreachelse}
 					<li>{$aLang.topic_tags_empty}</li>
-				{/if}
+				{/foreach}
 			{/strip}
 		</ul>
 
@@ -53,6 +51,12 @@
 </article>
 
 
-<button type="submit" name="submit_topic_publish" class="button button-primary fl-r" onclick="jQuery('#submit_topic_publish').trigger('click');">{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}{$aLang.topic_create_submit_publish}{else}{$aLang.topic_create_submit_update}{/if}</button>
+<button type="submit" name="submit_topic_publish" class="button button-primary fl-r" onclick="jQuery('#submit_topic_publish').trigger('click');">
+	{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}
+		{$aLang.topic_create_submit_publish}
+	{else}
+		{$aLang.topic_create_submit_update}
+	{/if}
+</button>
 <button type="button" name="submit_preview" class="button js-topic-preview-text-hide-button">{$aLang.topic_create_submit_preview_close}</button>
 <button type="submit" name="submit_topic_save" class="button" onclick="jQuery('#submit_topic_save').trigger('click');">{$aLang.topic_create_submit_save}</button>

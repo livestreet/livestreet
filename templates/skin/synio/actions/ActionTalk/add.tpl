@@ -17,7 +17,7 @@
 		<div class="talk-search-content" id="block_talk_friends_content">
 			{if $aUsersFriend}
 				<ul class="friend-list" id="friends">
-					{foreach from=$aUsersFriend item=oFriend}
+					{foreach $aUsersFriend as $oFriend}
 						<li>
 							<input id="talk_friend_{$oFriend->getId()}" type="checkbox" name="friend[{$oFriend->getId()}]" class="input-checkbox" /> 
 							<label for="talk_friend_{$oFriend->getId()}" id="talk_friend_{$oFriend->getId()}_label">{$oFriend->getLogin()}</label>

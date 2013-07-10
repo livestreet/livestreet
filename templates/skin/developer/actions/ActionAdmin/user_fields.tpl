@@ -13,7 +13,7 @@
 	<br /><br />
 
 	<ul class="userfield-list" id="user_field_list">
-		{foreach from=$aUserFields item=oField}
+		{foreach $aUserFields as $oField}
 			<li id="field_{$oField->getId()}">
 				<strong>{$oField->getName()|escape:"html"}</strong>
 

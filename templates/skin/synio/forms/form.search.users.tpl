@@ -28,7 +28,7 @@
 	<ul id="user-prefix-filter" class="search-form-alphabet">
 		<li class="active"><a href="#" onclick="return ls.user.searchUsersByPrefix('',this);"><span>{$aLang.user_search_filter_all}</span></a></li>
 
-		{foreach from=$aPrefixUser item=sPrefixUser}
+		{foreach $aPrefixUser as $sPrefixUser}
 			<li><a href="#" onclick="return ls.user.searchUsersByPrefix('{$sPrefixUser}',this);"><span>{$sPrefixUser}</span></a></li>
 		{/foreach}
 	</ul>

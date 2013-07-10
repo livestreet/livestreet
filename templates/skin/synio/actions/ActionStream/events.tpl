@@ -3,7 +3,7 @@
  *}
 
 {if count($aStreamEvents)}
-	{foreach from=$aStreamEvents item=oStreamEvent}		
+	{foreach $aStreamEvents as $oStreamEvent}		
 		{$oTarget = $oStreamEvent->getTarget()}
 		{$oUser = $oStreamEvent->getUser()}
 		{$bUserIsMale = $oUser->getProfileSex() != 'woman'}

@@ -15,13 +15,13 @@
 		
 		{if count($aStreamFriends)}
 			<ul class="user-list-mini max-height-200 js-activity-block-users">
-				{foreach from=$aStreamFriends item=oUser}
-					{assign var=iUserId value=$oUser->getId()}
+				{foreach $aStreamFriends as $oUser}
+					{$iUserId = $oUser->getId()}
 
 					<li id="activity-block-users-item-{$iUserId}">
 						<input class="input-checkbox"
 							   type="checkbox"
-							   {if isset($aStreamSubscribedUsers.$iUserId)}checked="checked"{/if}
+							   {if isset($aStreamSubscribedUsers.$iUserId)}checked{/if}
 							   data-user-id="{$iUserId}" />
 						<a href="{$oUser->getUserWebPath()}" title="{$oUser->getLogin()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>

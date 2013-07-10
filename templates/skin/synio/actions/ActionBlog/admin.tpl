@@ -25,8 +25,8 @@
 				</thead>
 				
 				<tbody>
-					{foreach from=$aBlogUsers item=oBlogUser}
-						{assign var="oUser" value=$oBlogUser->getUser()}
+					{foreach $aBlogUsers as $oBlogUser}
+						{$oUser = $oBlogUser->getUser()}
 						
 						<tr>
 							<td class="cell-name">

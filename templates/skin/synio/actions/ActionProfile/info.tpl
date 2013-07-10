@@ -86,7 +86,7 @@
 					{/if}
 
 					{if $aUserFieldValues}
-						{foreach from=$aUserFieldValues item=oField}
+						{foreach $aUserFieldValues as $oField}
 							<li class="dotted-list-item">
 								<span class="dotted-list-item-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}</span>
 								<strong class="dotted-list-item-value">{$oField->getValue(true,true)}</strong>
@@ -119,7 +119,7 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_invite_to}</span>
 						<strong class="dotted-list-item-value">
-							{foreach from=$aUsersInvite item=oUserInvite}        						
+							{foreach $aUsersInvite as $oUserInvite}        						
 								<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getLogin()}</a>&nbsp; 
 							{/foreach}
 						</strong>
@@ -131,8 +131,8 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_blogs_self}</span>
 						<strong class="dotted-list-item-value">							
-							{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
-								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
+							{foreach $aBlogsOwner as $oBlog}
+								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if ! $oBlog@last}, {/if}								      		
 							{/foreach}
 						</strong>
 					</li>
@@ -143,9 +143,9 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_blogs_administration}</span>
 						<strong class="dotted-list-item-value">
-							{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
+							{foreach $aBlogAdministrators as $oBlogUser}
 								{$oBlog = $oBlogUser->getBlog()}
-								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if ! $oBlogUser@last}, {/if}
 							{/foreach}
 						</strong>
 					</li>
@@ -156,9 +156,9 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_blogs_moderation}</span>
 						<strong class="dotted-list-item-value">
-							{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
+							{foreach $aBlogModerators as $oBlogUser}
 								{$oBlog = $oBlogUser->getBlog()}
-								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if ! $oBlogUser@last}, {/if}
 							{/foreach}
 						</strong>
 					</li>
@@ -169,9 +169,9 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_blogs_join}</span>
 						<strong class="dotted-list-item-value">
-							{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
+							{foreach $aBlogUsers as $oBlogUser}
 								{$oBlog = $oBlogUser->getBlog()}
-								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+								<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if ! $oBlogUser@last}, {/if}
 							{/foreach}
 						</strong>
 					</li>
@@ -216,7 +216,7 @@
 				<h2 class="header-table">{$aLang.profile_contacts}</h2>
 				
 				<ul class="profile-contact-list">
-					{foreach from=$aUserFieldContactValues item=oField}
+					{foreach $aUserFieldContactValues as $oField}
 						<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
 					{/foreach}
 				</ul>
@@ -229,7 +229,7 @@
 				<h2 class="header-table">{$aLang.profile_social}</h2>
 				
 				<ul class="profile-contact-list">
-					{foreach from=$aUserFieldContactValues item=oField}
+					{foreach $aUserFieldContactValues as $oField}
 						<li><i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i> {$oField->getValue(true,true)}</li>
 					{/foreach}
 				</ul>

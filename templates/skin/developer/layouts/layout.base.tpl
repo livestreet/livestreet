@@ -52,7 +52,7 @@
 			WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
 
 		var aRouter = [];
-		{foreach from=$aRouter key=sPage item=sPath}
+		{foreach $aRouter as $sPage => $sPath}
 			aRouter['{$sPage}'] = '{$sPath}';
 		{/foreach}
 	</script>

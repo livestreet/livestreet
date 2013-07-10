@@ -23,14 +23,14 @@
 			
 			{if count($aUserfeedSubscribedUsers)}
 				<ul id="userfeed-block-users" class="user-list-mini max-height-200 js-userfeed-block-users">
-					{foreach from=$aUserfeedSubscribedUsers item=oUser}
-						{assign var=iUserId value=$oUser->getId()}
+					{foreach $aUserfeedSubscribedUsers as $oUser}
+						{$iUserId = $oUser->getId()}
 						
 						{if !isset($aUserfeedFriends.$iUserId)}
 							<li id="userfeed-block-users-item-{$iUserId}">
 								<input class="input-checkbox"
 										type="checkbox"
-										checked="checked"
+										checked
 										data-user-id="{$iUserId}" />
 								<a href="{$oUser->getUserWebPath()}" title="{$oUser->getLogin()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
 								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>

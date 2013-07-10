@@ -11,7 +11,7 @@
 {block name='block_content'}
 	{if $aCityList && count($aCityList) > 0}
 		<ul class="tag-cloud word-wrap">
-			{foreach from=$aCityList item=oCity}
+			{foreach $aCityList as $oCity}
 				<li><a class="tag-size-{$oCity->getSize()}" href="{router page='people'}city/{$oCity->getId()}/">{$oCity->getName()|escape:'html'}</a></li>
 			{/foreach}					
 		</ul>

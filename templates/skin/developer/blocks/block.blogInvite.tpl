@@ -24,8 +24,8 @@
 	<div id="invited_list_block">
 		{if $aBlogUsersInvited}
 			<ul id="invited_list">
-				{foreach from=$aBlogUsersInvited item=oBlogUser}
-					{assign var='oUser' value=$oBlogUser->getUser()}
+				{foreach $aBlogUsersInvited as $oBlogUser}
+					{$oUser = $oBlogUser->getUser()}
 					
 					<li id="blog-invite-remove-item-{$oBlogEdit->getId()}-{$oUser->getId()}">
 						<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getLogin()}</a> - 

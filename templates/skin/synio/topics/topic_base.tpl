@@ -21,9 +21,9 @@
 			{* Заголовок *}
 			<h1 class="topic-title word-wrap">
 				{if $bTopicList}
-					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape}</a>
 				{else}
-					{$oTopic->getTitle()|escape:'html'}
+					{$oTopic->getTitle()|escape}
 				{/if}
 
 				{if $oTopic->getPublish() == 0}   
@@ -35,7 +35,7 @@
 
 			{* Информация *}
 			<div class="topic-info">
-				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
+				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape}</a>
 
 				{if $oBlog->getType() != 'personal'}
 					<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="blog-list-info js-popover-blog-info"></a>
@@ -89,8 +89,8 @@
 				
 				{strip}
 					{if $oTopic->getTagsArray()}
-						{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-							<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+						{foreach $oTopic->getTagsArray() as $sTag}
+							<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 						{/foreach}
 					{else}
 						<li>{$aLang.topic_tags_empty}</li>
@@ -98,8 +98,8 @@
 					
 					{if $oUserCurrent}
 						{if $oFavourite}
-							{foreach from=$oFavourite->getTagsArray() item=sTag name=tags_list_user}
-								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+							{foreach $oFavourite->getTagsArray() as $sTag}
+								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 							{/foreach}
 						{/if}
 						
@@ -238,7 +238,7 @@
 				<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>
 				<div class="popover-content" data-type="popover-content">
 					{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
 					{/hookb}
 				</div>
 			</div>

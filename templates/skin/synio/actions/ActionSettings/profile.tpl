@@ -19,7 +19,7 @@
 		<div class="wrapper-content">
 			<p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
 				<select name="profile_user_field_type[]" onchange="ls.userfield.changeFormField(this);">
-				{foreach from=$aUserFieldsContact item=oFieldAll}
+				{foreach $aUserFieldsContact as $oFieldAll}
 					<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
 				{/foreach}
 				</select>
@@ -102,7 +102,7 @@
 				<select class="js-geo-country input-width-200" name="geo_country">
 					<option value="">{$aLang.geo_select_country}</option>
 					{if $aGeoCountries}
-						{foreach from=$aGeoCountries item=oGeoCountry}
+						{foreach $aGeoCountries as $oGeoCountry}
 							<option value="{$oGeoCountry->getId()}" {if $oGeoTarget and $oGeoTarget->getCountryId()==$oGeoCountry->getId()}selected="selected"{/if}>{$oGeoCountry->getName()}</option>
 						{/foreach}
 					{/if}
@@ -113,7 +113,7 @@
 				<select class="js-geo-region input-width-200" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
 					<option value="">{$aLang.geo_select_region}</option>
 					{if $aGeoRegions}
-						{foreach from=$aGeoRegions item=oGeoRegion}
+						{foreach $aGeoRegions as $oGeoRegion}
 							<option value="{$oGeoRegion->getId()}" {if $oGeoTarget and $oGeoTarget->getRegionId()==$oGeoRegion->getId()}selected="selected"{/if}>{$oGeoRegion->getName()}</option>
 						{/foreach}
 					{/if}
@@ -124,7 +124,7 @@
 				<select class="js-geo-city input-width-200" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
 					<option value="">{$aLang.geo_select_city}</option>
 					{if $aGeoCities}
-						{foreach from=$aGeoCities item=oGeoCity}
+						{foreach $aGeoCities as $oGeoCity}
 							<option value="{$oGeoCity->getId()}" {if $oGeoTarget and $oGeoTarget->getCityId()==$oGeoCity->getId()}selected="selected"{/if}>{$oGeoCity->getName()}</option>
 						{/foreach}
 					{/if}
@@ -132,9 +132,9 @@
 			</p>
 			</div>
 			
-			{assign var="aUserFieldValues" value=$oUserCurrent->getUserFieldValues(false,'')}
+			{$aUserFieldValues = $oUserCurrent->getUserFieldValues(false,'')}
 			{if count($aUserFieldValues)}
-				{foreach from=$aUserFieldValues item=oField}
+				{foreach $aUserFieldValues as $oField}
 					<dl class="form-item">
 						<dt><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label></dt>
 						<dd><input type="text" class="input-text input-width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
@@ -148,12 +148,12 @@
 		<div class="wrapper-content wrapper-content-dark">
 			<h3>{$aLang.settings_profile_section_contacts}</h3>
 
-			{assign var="aUserFieldContactValues" value=$oUserCurrent->getUserFieldValues(true,array('contact','social'))}
+			{$aUserFieldContactValues = $oUserCurrent->getUserFieldValues(true,array('contact','social'))}
 			<div id="user-field-contact-contener">
-			{foreach from=$aUserFieldContactValues item=oField}
+			{foreach $aUserFieldContactValues as $oField}
 				<p class="js-user-field-item">
 					<select name="profile_user_field_type[]" onchange="ls.userfield.changeFormField(this);">
-					{foreach from=$aUserFieldsContact item=oFieldAll}
+					{foreach $aUserFieldsContact as $oFieldAll}
 						<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
 					{/foreach}
 					</select>

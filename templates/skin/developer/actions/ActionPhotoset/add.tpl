@@ -38,9 +38,9 @@
 		
 		<ul class="photoset-upload-images" id="swfu_images">
 			{if count($aPhotos)}
-				{foreach from=$aPhotos item=oPhoto}
+				{foreach $aPhotos as $oPhoto}
 					{if $_aRequest.topic_main_photo && $_aRequest.topic_main_photo == $oPhoto->getId()}
-						{assign var=bIsMainPhoto value=true}
+						{$bIsMainPhoto = true}
 					{/if}
 					
 					<li id="photo_{$oPhoto->getId()}" class="photoset-upload-images-item {if $bIsMainPhoto}marked-as-preview{/if}">
@@ -56,7 +56,7 @@
 						</span>
 					</li>
 					
-					{assign var=bIsMainPhoto value=false}
+					{$bIsMainPhoto = false}
 				{/foreach}
 			{/if}
 		</ul>

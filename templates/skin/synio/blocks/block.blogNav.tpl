@@ -13,14 +13,14 @@
 	{if $aNavigatorBlogCategories}
 		<p><select id="blog-navigator-category" class="width-full blog-navigator-categories" onchange="ls.blog.loadBlogsByCategory($(this).val());">
 			<option value="0">{$aLang.blog_category}</option>
-			{foreach from=$aNavigatorBlogCategories item=oCategoryItem}
+			{foreach $aNavigatorBlogCategories as $oCategoryItem}
 				<option style="margin-left: {$oCategoryItem->getLevel()*20}px;" value="{$oCategoryItem->getId()}">{$oCategoryItem->getTitle()|escape:'html'}</option>
 			{/foreach}
 		</select></p>
 
 		<p><select id="blog-navigator-blog" class="width-full" disabled>
 			<option value="0">{$aLang.blog}</option>
-			{foreach from=$aNavigatorBlogs item=oBlogItem}
+			{foreach $aNavigatorBlogs as $oBlogItem}
 				<option value="{$oBlogItem->getId()}" data-url="{$oBlogItem->getUrlFull()}">{$oBlogItem->getTitle()|escape:'html'}</option>
 			{/foreach}
 		</select></p>

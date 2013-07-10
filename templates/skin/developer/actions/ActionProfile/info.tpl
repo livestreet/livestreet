@@ -66,20 +66,20 @@
 					<td class="cell-label">{$aLang.profile_place}:</td>
 					<td itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
 						{if $oGeoTarget->getCountryId()}
-							<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
+							<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape}</a>{if $oGeoTarget->getCityId()},{/if}
 						{/if}
 						
 						{if $oGeoTarget->getCityId()}
-							<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape:'html'}</a>
+							<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape}</a>
 						{/if}
 					</td>
 				</tr>
 			{/if}
 
 			{if $aUserFieldValues}
-				{foreach from=$aUserFieldValues item=oField}
+				{foreach $aUserFieldValues as $oField}
 					<tr>
-						<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
+						<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape}:</td>
 						<td>{$oField->getValue(true,true)}</td>
 					</tr>
 				{/foreach}
@@ -96,9 +96,9 @@
 		<h2 class="header-table">{$aLang.profile_contacts}</h2>
 		
 		<table class="table table-profile-info">
-			{foreach from=$aUserFieldContactValues item=oField}
+			{foreach $aUserFieldContactValues as $oField}
 				<tr>
-					<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
+					<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape}:</td>
 					<td>{$oField->getValue(true,true)}</td>
 				</tr>
 			{/foreach}
@@ -111,7 +111,7 @@
 		<h2 class="header-table">{$aLang.profile_social}</h2>
 		
 		<table class="table table-profile-info">
-			{foreach from=$aUserFieldContactValues item=oField}
+			{foreach $aUserFieldContactValues as $oField}
 				<tr>
 					<td class="cell-label"><i class="icon-contact icon-contact-{$oField->getName()}"></i> {$oField->getTitle()|escape:'html'}:</td>
 					<td>{$oField->getValue(true,true)}</td>
@@ -142,7 +142,7 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_invite_to}:</td>
 				<td>
-					{foreach from=$aUsersInvite item=oUserInvite}        						
+					{foreach $aUsersInvite as $oUserInvite}        						
 						<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getLogin()}</a>&nbsp; 
 					{/foreach}
 				</td>
@@ -154,8 +154,8 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_blogs_self}:</td>
 				<td>							
-					{foreach from=$aBlogsOwner item=oBlog name=blog_owner}
-						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_owner.last}, {/if}								      		
+					{foreach $aBlogsOwner as $oBlog}
+						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>{if ! $oBlog@last}, {/if}								      		
 					{/foreach}
 				</td>
 			</tr>
@@ -166,9 +166,9 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_blogs_administration}:</td>
 				<td>
-					{foreach from=$aBlogAdministrators item=oBlogUser name=blog_user}
+					{foreach $aBlogAdministrators as $oBlogUser}
 						{$oBlog = $oBlogUser->getBlog()}
-						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}
 					{/foreach}
 				</td>
 			</tr>
@@ -179,9 +179,9 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_blogs_moderation}:</td>
 				<td>
-					{foreach from=$aBlogModerators item=oBlogUser name=blog_user}
+					{foreach $aBlogModerators as $oBlogUser}
 						{$oBlog = $oBlogUser->getBlog()}
-						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}
 					{/foreach}
 				</td>
 			</tr>
@@ -192,9 +192,9 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_blogs_join}:</td>
 				<td>
-					{foreach from=$aBlogUsers item=oBlogUser name=blog_user}
+					{foreach $aBlogUsers as $oBlogUser}
 						{$oBlog = $oBlogUser->getBlog()}
-						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>{if !$smarty.foreach.blog_user.last}, {/if}
+						<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}
 					{/foreach}
 				</td>
 			</tr>

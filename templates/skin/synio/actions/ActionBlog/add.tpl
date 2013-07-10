@@ -50,7 +50,7 @@
 				{if Config::Get('module.blog.category_allow_empty')}
 					<option value="0"></option>
 				{/if}
-				{foreach from=$aBlogCategories item=oBlogCategory}
+				{foreach $aBlogCategories as $oBlogCategory}
 					<option {if $_aRequest.blog_category==$oBlogCategory->getId()}selected{/if} value="{$oBlogCategory->getId()}" style="margin-left: {$oBlogCategory->getLevel()*20}px;">{$oBlogCategory->getTitle()|escape:'html'}</option>
 				{/foreach}
 			</select>
@@ -87,7 +87,7 @@
 		<p>
 			{if $oBlogEdit and $oBlogEdit->getAvatar()}
 				<div class="avatar-edit">
-					{foreach from=$oConfig->GetValue('module.blog.avatar_size') item=iSize}
+					{foreach $oConfig->GetValue('module.blog.avatar_size') as $iSize}
 						{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
 					{/foreach}
 					

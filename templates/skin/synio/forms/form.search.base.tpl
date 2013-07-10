@@ -41,7 +41,7 @@
 			<ul>
 				<li class="active"><a href="#" class="link-dotted" data-letter="">{$aLang.user_search_filter_all}</a></li>
 
-				{foreach from=$aPrefixes item=sPrefixUser}
+				{foreach $aPrefixes as $sPrefixUser}
 					<li><a href="#" class="link-dotted" data-letter="{$sPrefixUser}">{$sPrefixUser}</a></li>
 				{/foreach}
 			</ul>

@@ -116,7 +116,7 @@
 
 				{* Список администраторов блога *}
 				{if $aBlogAdministrators}
-					{foreach from=$aBlogAdministrators item=oBlogUser}
+					{foreach $aBlogAdministrators as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
 						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
@@ -129,7 +129,7 @@
 				<strong>{$aLang.blog_user_moderators} ({$iCountBlogModerators}):</strong>
 
 				{if $aBlogModerators}
-					{foreach from=$aBlogModerators item=oBlogUser}
+					{foreach $aBlogModerators as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
 						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
@@ -144,7 +144,7 @@
 				<strong>{$aLang.blog_user_readers} ({$iCountBlogUsers}):</strong>
 
 				{if $aBlogUsers}
-					{foreach from=$aBlogUsers item=oBlogUser}
+					{foreach $aBlogUsers as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
 						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>

@@ -2,7 +2,7 @@
  * Список записей на стене
  *}
 
-{foreach from=$aWall item=oWall}
+{foreach $aWall as $oWall}
 	{$oWallUser = $oWall->getUser()}
 	{$aReplyWall = $oWall->getLastReplyWall()}
 

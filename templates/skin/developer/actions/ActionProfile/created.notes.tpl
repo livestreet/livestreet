@@ -11,7 +11,7 @@
 
 	{if $aNotes}
 		<table class="table table-profile-notes" cellspacing="0">
-			{foreach from=$aNotes item=oNote}
+			{foreach $aNotes as $oNote}
 				<tr>
 					<td class="cell-username"><a href="{$oNote->getTargetUser()->getUserWebPath()}">{$oNote->getTargetUser()->getLogin()}</a></td>
 					<td class="cell-note">{$oNote->getText()}</td>

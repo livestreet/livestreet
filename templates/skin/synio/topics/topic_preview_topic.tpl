@@ -4,7 +4,7 @@
  * @styles css/topic.css
  *}
 
-{assign var="oUser" value=$oTopic->getUser()}
+{$oUser = $oTopic->getUser()}
 
 <h3 class="profile-page-header">{$aLang.topic_preview}</h3>
 
@@ -34,8 +34,8 @@
 			<li>{$aLang.block_tags}:</li>
 			{strip}
 				{if $oTopic->getTagsArray()}
-					{foreach from=$oTopic->getTagsArray() item=sTag name=tags_list}
-						<li>{if !$smarty.foreach.tags_list.first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape:'html'}</a></li>
+					{foreach $oTopic->getTagsArray() as $sTag}
+						<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 					{/foreach}
 				{else}
 					<li>{$aLang.topic_tags_empty}</li>

@@ -6,7 +6,7 @@
  *}
 
 <ul class="dotted-list blog-list-compact">
-	{foreach from=$aBlogs item=oBlog}
+	{foreach $aBlogs as $oBlog}
 		<li class="dotted-list-item">
 			<span class="dotted-list-item-value">{$oBlog->getRating()}</span>
 

@@ -2,7 +2,7 @@
  * Список комментариев к записи на стене
  *}
 
-{foreach from=$aReplyWall item=oReplyWall}
+{foreach $aReplyWall as $oReplyWall}
 	{$oReplyUser = $oReplyWall->getUser()}
 
 	<div id="wall-reply-item-{$oReplyWall->getId()}" class="js-wall-reply-item wall-item-reply">

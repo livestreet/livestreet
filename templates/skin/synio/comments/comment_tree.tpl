@@ -42,20 +42,19 @@
 	{**
 	 * Комментарии
 	 *}
-	{$nesting = -1}
+	{$iCurrentLevel = -1}
+	{$iMaxLevel = $oConfig->GetValue('module.comment.max_tree')}
 
-	{foreach from=$aComments item=oComment name=rublist}
-		{$cmtlevel = $oComment->getLevel()}
+	{foreach $aComments as $oComment}
+		{$iCommentLevel = $oComment->getLevel()}
 		
-		{if $cmtlevel > $oConfig->GetValue('module.comment.max_tree')}
-			{$cmtlevel = $oConfig->GetValue('module.comment.max_tree')}
+		{if $iCommentLevel > $iMaxLevel}
+			{$iCommentLevel = $iMaxLevel}
 		{/if}
 		
-		{if $nesting < $cmtlevel} 
-
-		{elseif $nesting > $cmtlevel}    	
-			{section name=closelist1 loop=$nesting - $cmtlevel + 1}</div>{/section}
-		{elseif not $smarty.foreach.rublist.first}
+		{if $iCurrentLevel > $iCommentLevel}    	
+			{section name=closelist1 loop=$iCurrentLevel - $iCommentLevel + 1}</div>{/section}
+		{elseif $iCurrentLevel == $iCommentLevel && ! $oComment@first}
 			</div>
 		{/if}
 		
@@ -63,10 +62,10 @@
 		
 		{include file='comments/comment.tpl'}
 
-		{$nesting = $cmtlevel}
+		{$iCurrentLevel = $iCommentLevel}
 
-		{if $smarty.foreach.rublist.last}
-			{section name=closelist2 loop=$nesting + 1}</div>{/section}    
+		{if $oComment@last}
+			{section name=closelist2 loop=$iCurrentLevel + 1}</div>{/section}    
 		{/if}
 	{/foreach}
 </div>

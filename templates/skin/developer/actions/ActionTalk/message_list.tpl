@@ -16,7 +16,7 @@
 	</thead>
 
 	<tbody>
-		{foreach from=$aTalks item=oTalk}
+		{foreach $aTalks as $oTalk}
 			{$oTalkUserAuthor = $oTalk->getTalkUser()}
 
 			<tr>
@@ -33,16 +33,16 @@
 					{strip}
 						{$aTalkUserOther = []}
 
-						{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+						{foreach $oTalk->getTalkUsers() as $oTalkUser}
 							{if $oTalkUser->getUserId() != $oUserCurrent->getId()}
 								{$aTalkUserOther[] = $oTalkUser}
 							{/if}
 						{/foreach}
 
-						{foreach from=$aTalkUserOther item=oTalkUser name=users}
+						{foreach $aTalkUserOther as $oTalkUser}
 							{$oUser = $oTalkUser->getUser()}
 
-							{if ! $smarty.foreach.users.first}, {/if}<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getLogin()}</a>
+							{if ! $oTalkUser@first}, {/if}<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getLogin()}</a>
 						{/foreach}
 					{/strip}
 				</td>

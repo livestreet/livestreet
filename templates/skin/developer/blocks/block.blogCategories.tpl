@@ -22,9 +22,9 @@
 				<a href="{router page='blogs'}">{$aLang.block_category_blog_all} ({$iCountBlogsAll})</a>
 			</li>
 
-			{foreach from=$aBlogCategories item=oCategory}
+			{foreach $aBlogCategories as $oCategory}
 				<li class="nested-list-item {if $oBlogCategoryCurrent and $oBlogCategoryCurrent->getId()==$oCategory->getId()}active{/if}">
-					<a style="margin-left: {$oCategory->getLevel()*20}px;" href="{$oCategory->getUrlWeb()}">{$oCategory->getTitle()|escape:'html'} ({$oCategory->getCountBlogs()})</a>
+					<a style="margin-left: {$oCategory->getLevel()*20}px;" href="{$oCategory->getUrlWeb()}">{$oCategory->getTitle()|escape} ({$oCategory->getCountBlogs()})</a>
 				</li>
 			{/foreach}
         </ul>

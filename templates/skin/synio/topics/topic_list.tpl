@@ -2,13 +2,12 @@
  * Список топиков
  *}
 
-{if count($aTopics) > 0}
+{if $aTopics}
 	{add_block group='toolbar' name='toolbar/toolbar.topic.tpl' iCountTopic=count($aTopics)}
 
-	{foreach from=$aTopics item=oTopic}
+	{foreach $aTopics as $oTopic}
 		{if $LS->Topic_IsAllowTopicType($oTopic->getType())}
-			{assign var="sTopicTemplateName" value="topics/topic.`$oTopic->getType()`.tpl"}
-			{include file=$sTopicTemplateName bTopicList=true}
+			{include file="topics/topic.{$oTopic->getType()}.tpl" bTopicList=true}
 		{/if}
 	{/foreach}
 

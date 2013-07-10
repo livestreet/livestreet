@@ -5,9 +5,9 @@
 {if ! $bNoSystemMessages}
 	{if $aMsgError}
 		<ul class="alert alert-error">
-			{foreach from=$aMsgError item=aMsg}
+			{foreach $aMsgError as $aMsg}
 				<li>
-					{if $aMsg.title != ''}
+					{if $aMsg.title}
 						<strong>{$aMsg.title}</strong>:
 					{/if}
 
@@ -20,9 +20,9 @@
 
 	{if $aMsgNotice}
 		<ul class="alert alert-success">
-			{foreach from=$aMsgNotice item=aMsg}
+			{foreach $aMsgNotice as $aMsg}
 				<li>
-					{if $aMsg.title != ''}
+					{if $aMsg.title}
 						<strong>{$aMsg.title}</strong>:
 					{/if}
 

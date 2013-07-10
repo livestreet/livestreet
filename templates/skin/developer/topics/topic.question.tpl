@@ -11,8 +11,8 @@
 	<div class="poll js-poll" data-poll-id="{$oTopic->getId()}">
 		{if ! $oTopic->getUserQuestionIsVote()}
 			<ul class="poll-list js-poll-list">
-				{foreach from=$oTopic->getQuestionAnswers() key=iItemId item=aAnswer}
-					<li class="poll-item js-poll-item"><label><input type="radio" name="poll-{$oTopic->getId()}" value="{$iItemId}" class="js-poll-item-option" /> {$aAnswer.text|escape:'html'}</label></li>
+				{foreach $oTopic->getQuestionAnswers() as $iItemId => $aAnswer}
+					<li class="poll-item js-poll-item"><label><input type="radio" name="poll-{$oTopic->getId()}" value="{$iItemId}" class="js-poll-item-option" /> {$aAnswer.text|escape}</label></li>
 				{/foreach}
 			</ul>
 

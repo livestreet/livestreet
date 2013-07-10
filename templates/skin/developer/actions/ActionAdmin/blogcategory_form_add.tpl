@@ -16,7 +16,7 @@
 		<p><label for="pid">{$aLang.admin_blogcategory_form_field_parent}</label>
 		<select name="pid" id="pid" class="width-full">
 			<option value="0"></option>
-			{foreach from=$aCategories item=oCategoryItem}
+			{foreach $aCategories as $oCategoryItem}
                 <option {if $oCategory and $oCategory->getPid()==$oCategoryItem->getId()}selected="selected"{/if} style="margin-left: {$oCategoryItem->getLevel()*20}px;" value="{$oCategoryItem->getId()}">{$oCategoryItem->getTitle()|escape:'html'}</option>
 			{/foreach}
 		</select></p>

@@ -9,7 +9,7 @@
 
 {* Preview Image *}
 {block name='topic_header_after'}
-	{assign var=oMainPhoto value=$oTopic->getPhotosetMainPhoto()}
+	{$oMainPhoto = $oTopic->getPhotosetMainPhoto()}
 
 	{if $oMainPhoto}
 		<div class="topic-preview-image">
@@ -27,6 +27,7 @@
 {/block}
 
 
+{* Текст *}
 {block name='topic_content_text'}
 	{if $bTopicList}
 		{$oTopic->getTextShort()}
@@ -58,8 +59,8 @@
 			<ul class="photoset-images" id="topic-photo-images">
 				{$aPhotos = $oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
 
-				{if count($aPhotos)}                                
-					{foreach from=$aPhotos item=oPhoto}
+				{if $aPhotos}
+					{foreach $aPhotos as $oPhoto}
 						<li>
 							<a class="js-photoset-type-default-image" 
 							   href="{$oPhoto->getWebPath(1000)}" 

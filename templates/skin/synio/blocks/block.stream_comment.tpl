@@ -7,10 +7,10 @@
 
 <div class="block-content">
 	<ul class="latest-list">
-		{foreach from=$aComments item=oComment name="cmt"}
-			{assign var="oUser" value=$oComment->getUser()}
-			{assign var="oTopic" value=$oComment->getTarget()}
-			{assign var="oBlog" value=$oTopic->getBlog()}
+		{foreach $aComments as $oComment}
+			{$oUser = $oComment->getUser()}
+			{$oTopic = $oComment->getTarget()}
+			{$oBlog = $oTopic->getBlog()}
 			
 			<li class="js-title-comment" title="{$oComment->getText()|strip_tags|trim|truncate:100:'...'|escape:'html'}">
 				<p>

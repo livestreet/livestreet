@@ -4,9 +4,9 @@
 
 {if $aPagingCmt and $aPagingCmt.iCountPage>1}
 	{if $aPagingCmt.sGetParams}
-		{assign var="sGetSep" value='&'}
+		{$sGetSep = '&'}
 	{else}
-		{assign var="sGetSep" value='?'}
+		{$sGetSep = '?'}
 	{/if}
 	
 	<div class="pagination pagination-comments">				
@@ -18,13 +18,13 @@
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">&larr;</a></li>
 				{/if}
 
-				{foreach from=$aPagingCmt.aPagesLeft item=iPage}
+				{foreach $aPagingCmt.aPagesLeft as $iPage}
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
 				{/foreach}
 
 				<li class="active">{$aPagingCmt.iCurrentPage}</li>
 
-				{foreach from=$aPagingCmt.aPagesRight item=iPage}
+				{foreach $aPagingCmt.aPagesRight as $iPage}
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
 				{/foreach}
 
@@ -36,13 +36,13 @@
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}">{$aLang.paging_last}</a></li>
 				{/if}
 				
-				{foreach from=$aPagingCmt.aPagesRight item=iPage}
+				{foreach $aPagingCmt.aPagesRight as $iPage}
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
 				{/foreach}
 
 				<li class="active">{$aPagingCmt.iCurrentPage}</li>
 
-				{foreach from=$aPagingCmt.aPagesLeft item=iPage}
+				{foreach $aPagingCmt.aPagesLeft as $iPage}
 					<li><a href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$iPage}">{$iPage}</a></li>
 				{/foreach}
 				

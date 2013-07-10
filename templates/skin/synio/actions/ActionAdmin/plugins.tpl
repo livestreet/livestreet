@@ -21,7 +21,7 @@
 			</thead>
 			
 			<tbody>
-				{foreach from=$aPlugins item=aPlugin}
+				{foreach $aPlugins as $aPlugin}
 					<tr {if $aPlugin.is_active}class="active"{/if}>
 						<td class="cell-checkbox"><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
 						<td>

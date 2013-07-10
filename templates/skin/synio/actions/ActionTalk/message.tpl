@@ -5,7 +5,7 @@
 {extends file='layouts/layout.user.messages.tpl'}
 
 {block name='layout_content'}
-	{assign var="oUser" value=$oTalk->getUser()}
+	{$oUser = $oTalk->getUser()}
 
 	<article class="topic topic-type-talk">
 		<header class="topic-header">
@@ -25,12 +25,12 @@
 			<header class="talk-recipients-header">
 				{$aLang.talk_speaker_title}:
 
-				{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+				{foreach $oTalk->getTalkUsers() as $oTalkUser}
 					{$oUserRecipient = $oTalkUser->getUser()}
 					
 					<a class="username {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
 					   href="{$oUserRecipient->getUserWebPath()}"
-					   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if !$smarty.foreach.users.last}, {/if}
+					   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if ! $oTalkUser@last}, {/if}
 				{/foreach}
 
 				{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
@@ -48,9 +48,9 @@
 					<div id="speaker_list_block">
 					{if $oTalk->getTalkUsers()}
 						<ul class="list" id="speaker_list">
-							{foreach from=$oTalk->getTalkUsers() item=oTalkUser name=users}
+							{foreach $oTalk->getTalkUsers() as $oTalkUser}
 								{if $oTalkUser->getUserId()!=$oUserCurrent->getId()}
-									{assign var="oUser" value=$oTalkUser->getUser()}
+									{$oUser = $oTalkUser->getUser()}
 
 									{if $oTalkUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}
 										<li id="speaker_item_{$oTalkUser->getUserId()}_area">
@@ -93,7 +93,7 @@
 		</footer>
 	</article>
 
-	{assign var="oTalkUser" value=$oTalk->getTalkUser()}
+	{$oTalkUser = $oTalk->getTalkUser()}
 
 	{if !$bNoComments}
 		{include

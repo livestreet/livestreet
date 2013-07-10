@@ -27,7 +27,7 @@
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">
 			{if $aTags}
 				<ul class="tag-cloud word-wrap">
-					{foreach from=$aTags item=oTag}
+					{foreach $aTags as $oTag}
 						<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 					{/foreach}
 				</ul>
@@ -40,7 +40,7 @@
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-my">
 				{if $aTagsUser}
 					<ul class="tag-cloud word-wrap">
-						{foreach from=$aTagsUser item=oTag}
+						{foreach $aTagsUser as $oTag}
 							<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
 						{/foreach}
 					</ul>

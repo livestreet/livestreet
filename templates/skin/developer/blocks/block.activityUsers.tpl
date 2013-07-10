@@ -22,14 +22,13 @@
 		
 		{if $aStreamSubscribedUsers}
 			<ul id="activity-block-users" class="user-list-mini max-height-200 js-activity-block-users">
-				{foreach from=$aStreamSubscribedUsers item=oUser}
-					{assign var=iUserId value=$oUser->getId()}
+				{foreach $aStreamSubscribedUsers as $oUser}
+					{$iUserId = $oUser->getId()}
 					
-					{if !isset($aStreamFriends.$iUserId)}
+					{if ! $aStreamFriends.$iUserId}
 						<li id="activity-block-users-item-{$iUserId}">
-							<input class="input-checkbox"
-								   type="checkbox"
-								   checked="checked"
+							<input type="checkbox"
+								   checked
 								   data-user-id="{$iUserId}" />
 							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 						</li>
