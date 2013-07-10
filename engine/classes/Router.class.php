@@ -205,7 +205,7 @@ class Router extends LsObject {
 	 * Выполняет загрузку конфигов роутинга
 	 *
 	 */
-	protected function LoadConfig() {
+	public function LoadConfig() {
 		//Конфиг роутинга, содержит соответствия URL и классов экшенов
 		$this->aConfigRoute = Config::Get('router');
 		// Переписываем конфиг согласно правилу rewrite
