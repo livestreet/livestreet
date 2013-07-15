@@ -9,6 +9,7 @@ ls.toolbar.topic = (function ($) {
 	this.iCurrentTopic=-1;
 
 	this.init = function() {
+		var self = this;
 		var vars = [], hash;
 		var hashes = window.location.hash.replace('#','').split('&');
 		for(var i = 0; i < hashes.length; i++) {
@@ -25,6 +26,23 @@ ls.toolbar.topic = (function ($) {
 			}
 			this.goNext();
 		}
+
+
+		// Переход по страницам
+		$(document).on('keyup', function (e) {
+			var key = e.keyCode || e.which;
+
+			if (e.ctrlKey) {
+				switch (key) {
+					case 38: // Up Arrow
+						self.goPrev();
+						break;
+					case 40: // Down Arrow
+						self.goNext();
+						break;
+				}
+			}
+		});
 	};
 
 	this.reset = function() {
@@ -42,10 +60,7 @@ ls.toolbar.topic = (function ($) {
 		} else {
 			this.iCurrentTopic=$('.js-topic').length-1;
 			// переход на следующую страницу
-			var page=$('.js-paging-next-page');
-			if (page.length && page.attr('href')) {
-				window.location=page.attr('href')+'#goTopic=0';
-			}
+			ls.pagination.next(true);
 		}
 
 		return false;
@@ -59,10 +74,7 @@ ls.toolbar.topic = (function ($) {
 		if (this.iCurrentTopic<0) {
 			this.iCurrentTopic=0;
 			// на предыдущую страницу
-			var page=$('.js-paging-prev-page');
-			if (page.length && page.attr('href')) {
-				window.location=page.attr('href')+'#goTopic=last';
-			}
+			ls.pagination.prev(true);
 		} else {
 			var topic=$('.js-topic:eq('+this.iCurrentTopic+')');
 			if (topic.length) {

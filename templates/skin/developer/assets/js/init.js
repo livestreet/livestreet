@@ -163,6 +163,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Pagination
+	 */
+	ls.pagination.init();
+
+
+	/**
 	 * Photoset
 	 */
 	$('.js-photoset-type-default-image').prettyPhoto({

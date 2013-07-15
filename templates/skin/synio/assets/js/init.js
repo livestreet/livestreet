@@ -218,6 +218,12 @@ jQuery(document).ready(function($){
 	 * Vote
 	 */
 	ls.vote.init();
+
+
+	/**
+	 * Pagination
+	 */
+	ls.pagination.init();
 	
 
 	// вступление в блог

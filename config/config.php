@@ -553,6 +553,7 @@ $config['head']['default']['js'] = array(
 	/* LiveStreet */
 	"___path.static.framework___/js/livestreet/favourite.js",
 	"___path.static.framework___/js/livestreet/blocks.js",
+	"___path.static.framework___/js/livestreet/pagination.js",
 	"___path.static.framework___/js/livestreet/editor.js",
 	"___path.static.framework___/js/livestreet/talk.js",
 	"___path.static.framework___/js/livestreet/vote.js",

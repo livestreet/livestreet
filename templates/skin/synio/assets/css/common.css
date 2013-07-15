@@ -161,19 +161,18 @@
 
 /**
  * Пагинация 
+ *
+ * @template pagination.tpl
+ * @template comments/comment_pagination.tpl
  */
-.pagination 					{ overflow: hidden; zoom: 1; }
-.pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; float: left; margin-top: 5px; }
-.pagination ul li 				{ float: left; margin-right: 5px; }
-.pagination ul li span			{ color: #aaa; }
-.pagination ul li span,
-.pagination ul li a 			{ float: left; padding: 4px 6px;}
-.pagination ul li a:hover 		{  }
-.pagination ul li.active span 	{ color: #333; border: 1px solid #eee; border-radius: 4px; }
-.pagination ul li i 			{ opacity: .5; filter: alpha(opacity=50); }
-.pagination ul li.prev span,
-.pagination ul li.prev a		{ padding-left: 0; }
-.pagination ul li.next			{ margin-right: 50px; }
+.pagination                   { overflow: hidden; zoom: 1; color: #aaa; line-height: 1em; margin-top: 5px; }
+
+.pagination--list             { overflow: hidden; zoom: 1; float: left; margin-left: 50px; }
+.pagination--list:first-child { margin-left: 0; }
+
+.pagination--item                                { float: left; margin-right: 5px; }
+.pagination--item-inner                          { float: left; padding: 4px 6px; }
+.pagination--item.active .pagination--item-inner { color: #333; border: 1px solid #eee; border-radius: 4px; }
 
 
 /**

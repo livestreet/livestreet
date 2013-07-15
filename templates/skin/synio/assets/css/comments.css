@@ -160,3 +160,11 @@
 .comment-path .comment-path-blog,
 .comment-path .comment-path-comments { color: #000; }
 .comment-path .comment-path-topic { color: #275ec2; }
+
+
+/**
+ * Пагинация комментариев
+ *
+ * @template comments/comment_pagination.tpl
+ */
+.pagination.pagination-comments { margin-bottom: 20px; }

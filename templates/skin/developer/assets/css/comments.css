@@ -91,3 +91,11 @@
 
 .comment-path                    { background: #eee; padding: 5px 10px 6px; border-top: 1px solid #ddd; }
 .comment-path .comment-path-blog { color: #777; }
+
+
+/**
+ * Пагинация комментариев
+ *
+ * @template comments/comment_pagination.tpl
+ */
+.pagination.pagination-comments { margin-bottom: 20px; }
