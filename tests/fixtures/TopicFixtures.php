@@ -35,12 +35,11 @@ class TopicFixtures extends AbstractFixtures
             'sony, flash, gadget', '2012-10-21 2:30:40');
         $this->addReference('topic-sony', $oTopicSony);
 
-        $oPersonalBlogGolfer = $this->oEngine->Blog_GetPersonalBlogByUserId($oUserFirst->getId());
-        $oTopicSony = $this->_createTopic($oPersonalBlogGolfer->getBlogId(), $oUserFirst->getId(),
+        $oTopicDraft = $this->_createTopic($oPersonalBlogGolfer->getBlogId(), $oUserFirst->getId(),
             'Draft Topic',
             'draft text draft text draft text draft text draft text draft text draft text',
             'sony, ipad', '2012-10-21 2:40:50', false);
-        $this->addReference('topic-sony', $oTopicSony);
+        $this->addReference('topic-draft', $oTopicDraft);
     }
 
     /**
