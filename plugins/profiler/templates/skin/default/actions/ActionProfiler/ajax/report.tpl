@@ -5,7 +5,7 @@
 	
 	<div class="profiler-table">
 		<table class="profiler entries table">
-			{foreach from=$oReport->getAllEntries() item=oEntry}
+			{foreach $oReport->getAllEntries() as $oEntry}
 			<tr class="entry_{$oReport->getId()}_all entry_{$oReport->getId()}_{$oEntry->getName()}{if $oEntry->getChildCount()!=0} child{/if}">
 				<td></td>
 				<td width="5%">{$oEntry->getId()}</td>

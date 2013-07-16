@@ -32,7 +32,7 @@
 				</thead>
 				
 				<tbody>
-					{foreach from=$aReports item=oReport}
+					{foreach $aReports as $oReport}
 						<tr>
 							<td><input type="checkbox" name="report_del[{$oReport.request_id}]" class="form_reports_checkbox"></td>
 							<td align="center"><img src="{$aTemplateWebPathPlugin.profiler}images/open.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding" id="img_{$oReport.request_id}" /></td>
@@ -54,5 +54,5 @@
 		{/if}
 	</form>
 
-	{include file='paging.tpl' aPaging="$aPaging"}
+	{include file='pagination.tpl' aPaging="$aPaging"}
 {/block}

@@ -1,4 +1,4 @@
-{include file='editor_init.tpl'}
+{include file='forms/editor.init.tpl'}
 
 
 <form action="" method="POST">
@@ -8,7 +8,7 @@
 	<p><label for="page_pid">{$aLang.plugin.page.create_parent_page}</label>
 	<select name="page_pid" id="page_pid" class="width-300">
 		<option value="0"></option>
-		{foreach from=$aPages item=oPage}
+		{foreach $aPages as $oPage}
 			<option style="margin-left: {$oPage->getLevel()*20}px;" value="{$oPage->getId()}" {if $_aRequest.page_pid==$oPage->getId()}selected{/if}>{$oPage->getTitle()}(/{$oPage->getUrlFull()}/)</option>
 		{/foreach}
 	</select></p>

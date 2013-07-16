@@ -4,7 +4,9 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}{$aLang.plugin.page.admin}{/block}
+{block name='layout_page_title'}
+	<a href="{router page='page'}admin">{$aLang.plugin.page.admin}</a>
+{/block}
 
 {block name='layout_content'}
 	{if $aParams.0=='new'}
@@ -30,7 +32,7 @@
 		</thead>
 		
 		<tbody>
-			{foreach from=$aPages item=oPage name=el2} 	
+			{foreach $aPages as $oPage} 	
 				<tr>
 					<td>
 						<i class="{if $oPage->getLevel() == 0}icon-folder-close{else}icon-file{/if}" style="margin-left: {$oPage->getLevel()*20}px;"></i>

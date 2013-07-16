@@ -1,7 +1,7 @@
 <div class="profiler-table">
 	<table class="profiler entries table">
 		<tbody>
-			{foreach from=$oReport->getAllEntries() item=oEntry}
+			{foreach $oReport->getAllEntries() as $oEntry}
 				<tr class="entry_{$oReport->getId()}_all entry_{$oReport->getId()}_{$oEntry->getName()}{if $oEntry->getChildCount()!=0} has-child{/if}">
 					<td align="center" width="20px">{if $oEntry->getChildCount()!=0}<img src="{$aTemplateWebPathPlugin.profiler}images/open.gif" alt="+" title="{$aLang.comment_collapse}/{$aLang.comment_expand}" class="folding lsProfiler_tree" id="tree_{$oReport->getId()}_{$oEntry->getId()}" style="margin-right:3px;"/>{/if}</td>
 					<td width="5%">{$oEntry->getId()}</td>
