@@ -55,7 +55,7 @@ class TopicFixtures extends AbstractFixtures
      *
      * @return ModuleTopic_EntityTopic
      */
-    private function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate)
+    private function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate, $isPublished = true)
     {
         $this->aActivePlugins = $this->oEngine->Plugin_GetActivePlugins();
 
@@ -67,7 +67,7 @@ class TopicFixtures extends AbstractFixtures
         $oTopic->setForbidComment(false);
         $oTopic->setType('topic');
         $oTopic->setTitle($sTitle);
-        $oTopic->setPublish(true);
+        $oTopic->setPublish($isPublished);
         $oTopic->setPublishIndex(true);
         $oTopic->setPublishDraft(true);
         $oTopic->setDateAdd($sDate);
