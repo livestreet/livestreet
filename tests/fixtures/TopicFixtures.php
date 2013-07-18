@@ -34,6 +34,12 @@ class TopicFixtures extends AbstractFixtures
             'Want more speeds and better protection for your data? The Sony MicroVault Mach flash USB 3.0 drive is what you need. It offers the USB 3.0 interface that delivers data at super high speeds of up to 5Gbps. It’s also backward compatible with USB 2.0.',
             'sony, flash, gadget', '2012-10-21 2:30:40');
         $this->addReference('topic-sony', $oTopicSony);
+
+        $oTopicDraft = $this->_createTopic($oPersonalBlogGolfer->getBlogId(), $oUserFirst->getId(),
+            'Draft Topic',
+            'draft text draft text draft text draft text draft text draft text draft text',
+            'sony, ipad', '2012-10-21 2:40:50', false);
+        $this->addReference('topic-draft', $oTopicDraft);
     }
 
     /**
@@ -48,7 +54,7 @@ class TopicFixtures extends AbstractFixtures
      *
      * @return ModuleTopic_EntityTopic
      */
-    private function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate)
+    private function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate, $isPublished = true)
     {
         $this->aActivePlugins = $this->oEngine->Plugin_GetActivePlugins();
 
@@ -60,7 +66,7 @@ class TopicFixtures extends AbstractFixtures
         $oTopic->setForbidComment(false);
         $oTopic->setType('topic');
         $oTopic->setTitle($sTitle);
-        $oTopic->setPublish(true);
+        $oTopic->setPublish($isPublished);
         $oTopic->setPublishIndex(true);
         $oTopic->setPublishDraft(true);
         $oTopic->setDateAdd($sDate);
