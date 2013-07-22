@@ -17,7 +17,7 @@
 
 
 <div class="comments" id="comments">
-    {hookb run="topic_comments_header"}
+    {hookb run="comments_header"}
 	<header class="comments-header">
 		<h3>
 			<span id="count-comments">{$iCountComment}</span> 
