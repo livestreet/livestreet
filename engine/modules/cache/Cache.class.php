@@ -368,7 +368,7 @@ class ModuleCache extends Module {
 	 * @return mixed
 	 */
 	public function GetLife($sName) {
-		if (key_exists($sName,$this->aStoreLife)) {
+		if (array_key_exists($sName,$this->aStoreLife)) {
 			return $this->aStoreLife[$sName];
 		}
 		return false;
