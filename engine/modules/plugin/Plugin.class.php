@@ -405,6 +405,21 @@ class ModulePlugin extends Module {
 		$this->aInherits[trim($sFrom)]['position']=count($this->aInherits[trim($sFrom)]['items'])-1;
 	}
 	/**
+	 * Сбрасывает текущее положение в цепочке наследования на начало
+	 *
+	 * @param string $sFrom
+	 *
+	 * @return bool
+	 */
+	public function ResetInheritPosition($sFrom) {
+		$sFrom=trim($sFrom);
+		if (!isset($this->aInherits[$sFrom]['position'])) {
+			return false;
+		}
+		$this->aInherits[$sFrom]['position']=count($this->aInherits[$sFrom]['items'])-1;
+		return $this->aInherits[$sFrom]['position'];
+	}
+	/**
 	 * Получает следующего родителя у наследника.
 	 * ВНИМАНИЕ! Данный метод нужно вызвать только из __autoload()
 	 *
