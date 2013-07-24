@@ -37,31 +37,4 @@ class UserFixtures extends AbstractFixtures
         $this->oEngine->User_AddFriend($friend);
 
     }
-
-    /**
-     * Create user with default values
-     *
-     * @param string $sUserName
-     * @param string $sPassword
-     * @param string $sMail
-     * @param string $sDate
-     *
-     * @return ModuleTopic_EntityUser
-     */
-    private function _createUser($sUserName, $sPassword,$sMail,$sDate)
-    {
-        $oUser = Engine::GetEntity('User');
-        $oUser->setLogin($sUserName);
-        $oUser->setPassword(md5($sPassword));
-        $oUser->setMail($sMail);
-        $oUser->setUserDateRegister($sDate);
-        $oUser->setUserIpRegister('127.0.0.1');
-        $oUser->setUserActivate('1');
-        $oUser->setUserActivateKey('0');
-
-        $this->oEngine->User_Add($oUser);
-
-        return $oUser;
-    }
-
 }

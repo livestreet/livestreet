@@ -4,13 +4,21 @@ require_once(realpath((dirname(__FILE__)) . "/../AbstractFixtures.php"));
 
 class TopicFixtures extends AbstractFixtures
 {
-
-    protected $aActivePlugins = array();
+    /**
+     * @return int
+     */
     public static function getOrder()
     {
-        return 2;
+        return 3;
     }
 
+    /**
+     * Create Topics:
+     * Toshiba unveils 13.3-inch AT330 Android ICS 4.0 tablet,
+     * iPad 3 rumored to come this March with quad-core chip and 4G LTE,
+     * Sony MicroVault Mach USB 3.0 flash drive,
+     * Draft Topic
+     */
     public function load()
     {
         $oUserFirst = $this->getReference('user-golfer');
@@ -34,55 +42,11 @@ class TopicFixtures extends AbstractFixtures
             'Want more speeds and better protection for your data? The Sony MicroVault Mach flash USB 3.0 drive is what you need. It offers the USB 3.0 interface that delivers data at super high speeds of up to 5Gbps. It’s also backward compatible with USB 2.0.',
             'sony, flash, gadget', '2012-10-21 2:30:40');
         $this->addReference('topic-sony', $oTopicSony);
-    }
 
-    /**
-     * Create topic with default values
-     *
-     * @param int $iBlogId
-     * @param int $iUserId
-     * @param string $sTitle
-     * @param string $sText
-     * @param string $sTags
-     * @param string $sDate
-     *
-     * @return ModuleTopic_EntityTopic
-     */
-    private function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate)
-    {
-        $this->aActivePlugins = $this->oEngine->Plugin_GetActivePlugins();
-
-        $oTopic = Engine::GetEntity('Topic');
-        /* @var $oTopic ModuleTopic_EntityTopic */
-        $oTopic->setBlogId($iBlogId);
-        $oTopic->setUserId($iUserId);
-        $oTopic->setUserIp('127.0.0.1');
-        $oTopic->setForbidComment(false);
-        $oTopic->setType('topic');
-        $oTopic->setTitle($sTitle);
-        $oTopic->setPublish(true);
-        $oTopic->setPublishIndex(true);
-        $oTopic->setPublishDraft(true);
-        $oTopic->setDateAdd($sDate);
-        $oTopic->setTextSource($sText);
-        list($sTextShort, $sTextNew, $sTextCut) = $this->oEngine->Text_Cut($oTopic->getTextSource());
-
-        $oTopic->setCutText($sTextCut);
-        $oTopic->setText($this->oEngine->Text_Parser($sTextNew));
-        $oTopic->setTextShort($this->oEngine->Text_Parser($sTextShort));
-
-        $oTopic->setTextHash(md5($oTopic->getType() . $oTopic->getTextSource() . $oTopic->getTitle()));
-        $oTopic->setTags($sTags);
-        //with active plugin l10n added a field topic_lang
-        if (in_array('l10n', $this->aActivePlugins)) {
-             $oTopic->setTopicLang(Config::Get('lang.current'));
-        }
-        // @todo refact this
-        $oTopic->_setValidateScenario('topic');
-        $oTopic->_Validate();
-
-        $this->oEngine->Topic_AddTopic($oTopic);
-
-        return $oTopic;
+        $oTopicDraft = $this->_createTopic($oPersonalBlogGolfer->getBlogId(), $oUserFirst->getId(),
+            'Draft Topic',
+            'draft text draft text draft text draft text draft text draft text draft text',
+            'sony, ipad', '2012-10-21 2:40:50', false);
+        $this->addReference('topic-draft', $oTopicDraft);
     }
 }
