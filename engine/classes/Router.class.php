@@ -448,18 +448,23 @@ class Router extends LsObject {
 	/**
 	 * Возвращает правильную адресацию по переданому названию страницы(экшену)
 	 *
-	 * @param  string $action	Экшен
+	 * @param  string $sAction	Экшен или путь, например, "people/top" или "/"
 	 * @return string
 	 */
-	static public function GetPath($action) {
+	static public function GetPath($sAction) {
+		if (!$sAction or $sAction=='/') {
+			return rtrim(Config::Get('path.root.web'),'/').'/';
+		}
 		// Если пользователь запросил action по умолчанию
-		$sPage = ($action == 'default')
+		$sPage = ($sAction == 'default')
 			? self::getInstance()->aConfigRoute['config']['action_default']
-			: $action;
-
+			: $sAction;
+		$aUrl=explode('/',$sPage);
+		$sPage=array_shift($aUrl);
+		$sAdditional=join('/',$aUrl);
 		// Смотрим, есть ли правило rewrite
 		$sPage = self::getInstance()->Rewrite($sPage);
-		return rtrim(Config::Get('path.root.web'),'/')."/$sPage/";
+		return rtrim(Config::Get('path.root.web'),'/')."/$sPage/".($sAdditional ? "{$sAdditional}/" : '');
 	}
 	/**
 	 * Try to find rewrite rule for given page.
