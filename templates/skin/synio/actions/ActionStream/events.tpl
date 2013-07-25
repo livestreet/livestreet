@@ -56,24 +56,7 @@
 				<a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 			{elseif $oStreamEvent->getEventType() == 'add_comment'}
 				{* Добавлен комментарий *}
-
-				{if $bUserIsMale}
-					{$aLang.stream_list_event_add_comment}
-				{else}
-					{$aLang.stream_list_event_add_comment_female}
-				{/if}
-
-				<a href="{$oTarget->getTarget()->getUrl()}#comment{$oTarget->getId()}">{$oTarget->getTarget()->getTitle()|escape:'html'}</a>
-
-				{$sTextEvent = $oTarget->getText()}
-
-				{if trim($sTextEvent)}
-					<div class="activity-event-text">
-						<div class="text">
-							{$sTextEvent}
-						</div>
-					</div>
-				{/if}
+                {include file="actions/ActionStream/add_comment.{$oTarget->getTargetType()}.tpl" }
 			{elseif $oStreamEvent->getEventType() == 'add_blog'}
 				{* Создан блог *}
 
@@ -106,14 +89,7 @@
 				<a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
 			{elseif $oStreamEvent->getEventType() == 'vote_comment'}
 				{* Проголосовали за комментарий *}
-
-				{if $bUserIsMale}
-					{$aLang.stream_list_event_vote_comment}
-				{else}
-					{$aLang.stream_list_event_vote_comment_female}
-				{/if}
-
-				<a href="{$oTarget->getTarget()->getUrl()}#comment{$oTarget->getId()}">{$oTarget->getTarget()->getTitle()|escape:'html'}</a>
+                {include file="actions/ActionStream/vote_comment.{$oTarget->getTargetType()}.tpl" }
 			{elseif $oStreamEvent->getEventType() == 'vote_user'}
 				{* Проголосовали за пользователя *}
 
