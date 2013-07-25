@@ -422,20 +422,32 @@ class ModuleViewer extends Module {
 	/**
 	 * Загружает переменную в шаблон
 	 *
-	 * @param string $sName	Имя переменной в шаблоне
+	 * @param string|array $sName	Имя переменной в шаблоне или ассоциативный массив со списком параметров
 	 * @param mixed $value	Значение переменной
 	 */
-	public function Assign($sName,$value) {
-		$this->oSmarty->assign($sName, $value);
+	public function Assign($sName,$value=null) {
+		if (is_array($sName)) {
+			foreach($sName as $sKey=>$mVal) {
+				$this->oSmarty->assign($sKey, $mVal);
+			}
+		} else {
+			$this->oSmarty->assign($sName, $value);
+		}
 	}
 	/**
 	 * Загружаем переменную в ajax ответ
 	 *
-	 * @param string $sName	Имя переменной в шаблоне
+	 * @param string|array $sName	Имя переменной в шаблоне или ассоциативный массив со списком параметров
 	 * @param mixed $value	Значение переменной
 	 */
-	public function AssignAjax($sName,$value) {
-		$this->aVarsAjax[$sName]=$value;
+	public function AssignAjax($sName,$value=null) {
+		if (is_array($sName)) {
+			foreach($sName as $sKey=>$mVal) {
+				$this->aVarsAjax[$sKey]=$mVal;
+			}
+		} else {
+			$this->aVarsAjax[$sName]=$value;
+		}
 	}
 	/**
 	 * Возвращает обработанный шаблон
