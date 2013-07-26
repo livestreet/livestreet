@@ -563,6 +563,17 @@ class ModuleUser extends Module {
 		return $this->oUserCurrent;
 	}
 	/**
+	 * Проверяет является ли текущий пользователь администратором
+	 *
+	 * @return bool
+	 */
+	public function IsAdmin() {
+		if ($this->oUserCurrent and $this->oUserCurrent->isAdministrator()) {
+			return true;
+		}
+		return false;
+	}
+	/**
 	 * Разлогинивание
 	 *
 	 */
