@@ -83,6 +83,19 @@ class LoadFixtures
                 }
                 echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
                 // Load dump from geo_base.sql
+
+                if(file_exists(Config::Get('path.root.server') . '/tests/fixtures/sql/patch.sql')) {
+                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/patch.sql');
+
+                    if (!$result['result']) {
+                        // exception
+                        throw new Exception("DB is not exported with file patch.sql");
+                        return $result['errors'];
+                    }
+                    echo "ExportSQL DATABASE $sDbname -> patch.sql \n";
+                    // Load dump from patch.sql
+                }
+
                 $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/geo_base.sql');
 
                 if (!$result['result']) {

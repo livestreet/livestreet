@@ -13,9 +13,12 @@ before_script:
   - chmod -R 0777 ./uploads
   - chmod -R 0777 ./templates/cache/
   - chmod -R 0777 ./templates/compiled/
+  - cp ./install/*.sql tests/fixtures/sql/
+  - rm -rf ./install
 
   # install required PHP stuff
-  - sudo apt-get install php5 php5-cli php5-mysql php5-mcrypt php5-xsl php5-xdebug php-apc php5-gd php5-curl php5-intl 
+  - sudo apt-get update
+  - sudo apt-get install php5 php5-cli php5-mysql php5-mcrypt php5-xsl php5-xdebug php-apc php5-gd php5-curl php5-intl mysql-server mysql-client
 
   # launch apache, MySQL and PHPUnit Selenium installers
   - ./tests/travis/apache_setup.sh
@@ -28,6 +31,7 @@ before_script:
   - sleep 5
 
   # get HTML of main page (for debug)
+
   - firefox --version
   - wget -S http://livestreet.test -O /dev/null
 
@@ -36,7 +40,7 @@ before_script:
   - sleep 5
 
   # download and launch Selenium
-  - wget -O /tmp/selenium-server-standalone.jar http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar
+  - wget -O /tmp/selenium-server-standalone.jar http://selenium.dev.stfalcon.com/selenium-server-standalone-latest.jar
   - java -jar /tmp/selenium-server-standalone.jar > /dev/null &
   - sleep 5
 
