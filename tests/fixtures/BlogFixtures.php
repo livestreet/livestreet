@@ -4,14 +4,21 @@ require_once(realpath((dirname(__FILE__)) . "/../AbstractFixtures.php"));
 
 class BlogFixtures extends AbstractFixtures
 {
+    /**
+     * @return int
+     */
     public static function getOrder()
     {
-        return 1;
+        return 2;
     }
 
+    /**
+     * Create Blog
+     */
     public function load()
     {
         $oUserFirst = $this->getReference('user-golfer');
+        $oCategory = $this->getReference('blog-category');
 
         /* @var $oBlogGadgets ModuleBlog_EntityBlog */
         $oBlogGadgets = Engine::GetEntity('Blog');
@@ -22,6 +29,7 @@ class BlogFixtures extends AbstractFixtures
         $oBlogGadgets->setDateAdd(date("Y-m-d H:i:s")); // @todo freeze
         $oBlogGadgets->setUrl('gadgets');
         $oBlogGadgets->setLimitRatingTopic(0);
+        $oBlogGadgets->setCategoryId($oCategory->getCategoryId());
 
         $this->oEngine->Blog_AddBlog($oBlogGadgets);
 
