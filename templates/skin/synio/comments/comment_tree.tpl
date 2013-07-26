@@ -17,6 +17,7 @@
 
 
 <div class="comments" id="comments">
+    {hookb run="comments_header"}
 	<header class="comments-header">
 		<h3>
 			<span id="count-comments">{$iCountComment}</span> 
@@ -38,6 +39,7 @@
 	
 		<a name="comments"></a>
 	</header>
+    {/hookb}
 
 	{**
 	 * Комментарии
