@@ -84,6 +84,7 @@ var ls = ls || {};
      * @param  {Number}  iLockTime    Lock time
      */
     Modal.showLoader = function (bText, sText, bLock, iLockTime) {
+        ! overlay && Modal.initOverlay();
         overlay.find('.' + $.fn.modal.settings.lockClass).remove();
 
         if ( ! overlay.is(':visible')) showOverlay();
@@ -100,13 +101,13 @@ var ls = ls || {};
                     Modal.hideAll();
                     ls.msg.error('Ошибка', 'Ошибка загрузки');
                 }
-            }, (iLockTime || this.options.lockTime) * 1000);
+            }, (iLockTime || $.fn.modal.defaults.lockTime) * 1000);
         }
 
         if (bText) {
             loader
                 .addClass($.fn.modal.settings.loaderTextClass)
-                .text(sText || this.options.loaderText)
+                .text(sText || $.fn.modal.defaults.loaderText)
                 .show();
         } else {
             loader.show();
@@ -164,6 +165,7 @@ var ls = ls || {};
             if (options.url) {
                 Modal.load(options.url, ls.tools.getDataOptions(toggle, 'param'), options);
             } else {
+                // TODO: Options extend
                 $('#' + options.target).data('object').show();
             }
             e.preventDefault();
@@ -207,7 +209,7 @@ var ls = ls || {};
      * @param  {Object} options Options
      */
     Modal.load = function (url, params, options) {
-        ! $($.fn.modal.settings.overlaySelector).length && Modal.initOverlay();
+        ! overlay && Modal.initOverlay();
 
         showOverlay();
         Modal.showLoader();

@@ -21,7 +21,7 @@
 					<li id="activity-block-users-item-{$iUserId}">
 						<input class="input-checkbox"
 							   type="checkbox"
-							   {if $aStreamSubscribedUsers.$iUserId}checked{/if}
+							   {if isset($aStreamSubscribedUsers.$iUserId)}checked{/if}
 							   data-user-id="{$iUserId}" />
 						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 					</li>

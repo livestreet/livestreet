@@ -25,7 +25,7 @@
 				{foreach $aStreamSubscribedUsers as $oUser}
 					{$iUserId = $oUser->getId()}
 					
-					{if ! $aStreamFriends.$iUserId}
+					{if ! isset($aStreamFriends.$iUserId)}
 						<li id="activity-block-users-item-{$iUserId}">
 							<input type="checkbox"
 								   checked

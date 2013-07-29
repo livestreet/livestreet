@@ -114,6 +114,6 @@
 			</form>
 		</div>
 	{else}
-		{$aLang.comment_unregistered}
+		<div class="alert alert-info">{$aLang.comment_unregistered}</div>
 	{/if}
 {/if}

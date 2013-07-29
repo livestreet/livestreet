@@ -4,7 +4,7 @@
 
 {get_blocks assign='aBlocksLoad'}
 
-{if $aBlocksLoad.$group}
+{if isset($aBlocksLoad.$group)}
 	{foreach $aBlocksLoad.$group as $aBlock}
 		{if $aBlock.type == 'block'}
 			{insert name="block" block=$aBlock.name params=$aBlock.params}
