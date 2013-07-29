@@ -536,6 +536,8 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/vendor/notifier/jquery.notifier.js",
 	"___path.static.framework___/js/vendor/prettify/prettify.js",
 	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+	"___path.static.framework___/js/vendor/parsley/parsley.js",
+	"___path.static.framework___/js/vendor/parsley/i18n/messages.ru.js",
 
 	/* Core */
 	"___path.static.framework___/js/core/main.js",
