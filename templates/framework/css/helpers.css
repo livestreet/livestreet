@@ -14,6 +14,8 @@
 .mb-20 { margin-bottom: 20px !important; }
 .mb-30 { margin-bottom: 30px !important; }
 
+.m-0 { margin: 0 !important; }
+
 
 /* Paddings */
 .pt-10 { padding-top: 10px !important; }
@@ -25,6 +27,8 @@
 .pb-15 { padding-bottom: 15px !important; }
 .pb-20 { padding-bottom: 20px !important; }
 .pb-30 { padding-bottom: 30px !important; }
+
+.p-0 { padding: 0 !important; }
 
 
 /* Text Align */
@@ -68,8 +72,13 @@
 .input-width-200,  .width-200  { width: 200px; }
 .input-width-250,  .width-250  { width: 250px; }
 .input-width-300,  .width-300  { width: 300px; }
+.input-width-350,  .width-350  { width: 350px; }
 .input-width-400,  .width-400  { width: 400px; }
+.input-width-450,  .width-450  { width: 450px; }
 .input-width-500,  .width-500  { width: 500px; }
+.input-width-550,  .width-550  { width: 550px; }
+.input-width-600,  .width-600  { width: 600px; }
+.input-width-650,  .width-650  { width: 650px; }
 
 
 /* Links */

@@ -8,6 +8,5 @@
 
 {block name='layout_content_begin' append}
 	{include file='navs/nav.settings.tpl'}
-	{include file='modals/modal.settings.avatar_upload.tpl'}
-	{include file='modals/modal.settings.photo_upload.tpl'}
+	{include file='modals/modal.image_crop.tpl'}
 {/block}

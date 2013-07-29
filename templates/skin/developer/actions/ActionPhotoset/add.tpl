@@ -25,18 +25,16 @@
 	</script>
 
 
-	<div class="photoset-upload">
-		<header>
-			<h2>{$aLang.topic_photoset_upload_title}</h2>
-			
-			<div class="note">
+	<div class="fieldset photoset-upload">
+		<header class="fieldset-header">
+			<h2 class="fieldset-title">{$aLang.topic_photoset_upload_title}</h2>
+
+			<div class="note fieldset-note">
 				{$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
-
-			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 		</header>
 		
-		<ul class="photoset-upload-images" id="swfu_images">
+		<ul class="fieldset-body photoset-upload-images" id="swfu_images">
 			{if count($aPhotos)}
 				{foreach $aPhotos as $oPhoto}
 					{if $_aRequest.topic_main_photo && $_aRequest.topic_main_photo == $oPhoto->getId()}
@@ -61,7 +59,8 @@
 			{/if}
 		</ul>
 		
-		<footer>
+		<footer class="fieldset-footer">
+			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
 			<a href="#" data-type="modal-toggle" data-option-target="modal-photoset-upload" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
 		</footer>
 	</div>

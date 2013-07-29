@@ -10,21 +10,27 @@
 	{hook run='form_login_begin' isModal=$isModal}
 
 	{* Логин *}
-	<p><label for="login">{$aLang.user_login}:</label>
-	<input type="text" name="login" id="login" class="js-form-login-login width-300"></p>
+    {include file='forms/form.field.text.tpl'
+             sFieldName   = 'login'
+             sFieldRules  = 'required="true" rangelength="[2,20]"'
+             sFieldLabel  = $aLang.user_login}
 
 	{* Пароль *}
-	<p><label for="password">{$aLang.user_password}:</label>
-	<input type="password" name="password" id="password" class="js-form-login-password width-300">
-	<small class="validate-error-hide validate-error-login"></small></p>
+    {include file='forms/form.field.text.tpl'
+             sFieldName   = 'password'
+             sFieldType   = 'password'
+             sFieldRules  = 'required="true" rangelength="[2,20]"'
+             sFieldLabel  = $aLang.user_password}
 
 	{* Запомнить *}
-	<p><label><input type="checkbox" name="remember" class="input-checkbox" checked> {$aLang.user_login_remember}</label></p>
+    {include file='forms/form.field.checkbox.tpl'
+             sFieldName='remember'
+             sFieldLabel=$aLang.user_login_remember}
 
 	{hook run='form_login_end' isModal=$isModal}
 
-	<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT}">
-	<button type="submit" name="submit_login" class="button button-primary js-form-login-submit" disabled>{$aLang.user_login_submit}</button>
+    {include file='forms/form.field.hidden.tpl' sFieldName='return-path' value=$PATH_WEB_CURRENT}
+    {include file='forms/form.field.button.tpl' sFieldName='submit_login' sFieldStyle='primary' sFieldText=$aLang.user_login_submit}
 </form>
 
 {if ! $isModal}

@@ -9,6 +9,8 @@
 	{$bNoSystemMessages = true}
 {/block}
 
+{block name='layout_body_test'}{/block}
+
 {block name='layout_page_title'}
 	{if $aMsgError[0].title}
 		{$aLang.error}: <span>{$aMsgError[0].title}</span>

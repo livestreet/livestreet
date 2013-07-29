@@ -2,10 +2,12 @@
  * Форма запроса повторной активации аккаунта
  *}
 
-<form action="{router page='login'}reactivation/" method="POST" id="reactivation-form">
-	<p><label for="reactivation-mail">{$aLang.password_reminder_email}</label>
-	<input type="text" name="mail" id="reactivation-mail" class="width-200" />
-	<small class="validate-error-hide validate-error-reactivation"></small></p>
+<form action="{router page='login'}reactivation/" method="post" class="js-form-reactivation">
+	{* E-mail *}
+    {include file='forms/form.field.text.tpl'
+             sFieldName   = 'mail'
+             sFieldRules  = 'required="true" type="email"'
+             sFieldLabel  = $aLang.password_reminder_email}
 
-	<button type="submit"  name="submit_reactivation" class="button button-primary" id="reactivation-form-submit" disabled>{$aLang.reactivation_submit}</button>
+	{include file='forms/form.field.button.tpl' sFieldName='submit_reactivation' sFieldStyle='primary' sFieldText=$aLang.reactivation_submit}
 </form>

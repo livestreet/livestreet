@@ -47,21 +47,21 @@
 							<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
 						</a>
 						
-						<p>
+						<h4>
 							<a href="#" data-type="popover-toggle" data-option-url="{router page='ajax'}infobox/info/blog/" data-param-i-blog-id="{$oBlog->getId()}" class="icon-question-sign js-popover-default"></a>
 
 							{if $oBlog->getType() == 'close'}
 								<i title="{$aLang.blog_closed}" class="icon-lock"></i>
 							{/if}
-
 							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
-						</p>
+						</h4>
+						<p>{$oBlog->getDescription()|strip_tags|truncate:120}</p>
 					</td>
 
 					{if $oUserCurrent}
 						<td class="cell-join">
 							{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
-								<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="link-dotted">
+								<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button">
 									{if $oBlog->getUserIsJoin()}
 										{$aLang.blog_leave}
 									{else}

@@ -11,10 +11,12 @@
 {block name='add_topic_type'}question{/block}
 
 {block name='add_topic_form_text_before'}
-	<div class="poll-add js-poll-add">
-		<h3 class="h6">{$aLang.topic_question_create_answers}</h3>
+	<div class="fieldset poll-add js-poll-add">
+		<header class="fieldset-header">
+			<h3 class="fieldset-title">{$aLang.topic_question_create_answers}</h3>
+		</header>
 
-		<ul class="poll-add-list js-poll-add-list">
+		<ul class="fieldset-body poll-add-list js-poll-add-list">
 			{if count($_aRequest.answer) >= 2}
 				{foreach $_aRequest.answer as $sAnswer}
 					<li class="poll-add-item js-poll-add-item">
@@ -32,7 +34,9 @@
 		</ul>
 
 		{if ! $bEditDisabled}
-			<button type="button" class="button button-primary js-poll-add-button" title="[Ctrl + Enter]">{$aLang.topic_question_create_answers_add}</button>
+			<footer class="fieldset-footer">
+				<button type="button" class="button button-primary js-poll-add-button" title="[Ctrl + Enter]">{$aLang.topic_question_create_answers_add}</button>
+			</footer>
 		{/if}
 	</div>
 {/block}

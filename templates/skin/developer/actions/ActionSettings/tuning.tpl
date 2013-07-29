@@ -10,33 +10,63 @@
 	<form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">
 		{hook run='form_settings_tuning_begin'}
 
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+		{include file='forms/form.field.hidden.security_key.tpl'}
 		
 		<fieldset>
 			<legend>{$aLang.settings_tuning_notice}</legend>
 
-			<label><input {if $oUserCurrent->getSettingsNoticeNewTopic()}checked{/if} type="checkbox" id="settings_notice_new_topic" name="settings_notice_new_topic" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_new_topic}</label>
-			<label><input {if $oUserCurrent->getSettingsNoticeNewComment()}checked{/if} type="checkbox" id="settings_notice_new_comment" name="settings_notice_new_comment" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_new_comment}</label>
-			<label><input {if $oUserCurrent->getSettingsNoticeNewTalk()}checked{/if} type="checkbox" id="settings_notice_new_talk" name="settings_notice_new_talk" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_new_talk}</label>
-			<label><input {if $oUserCurrent->getSettingsNoticeReplyComment()}checked{/if} type="checkbox" id="settings_notice_reply_comment" name="settings_notice_reply_comment" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_reply_comment}</label>
-			<label><input {if $oUserCurrent->getSettingsNoticeNewFriend()}checked{/if} type="checkbox" id="settings_notice_new_friend" name="settings_notice_new_friend" value="1" class="input-checkbox" /> {$aLang.settings_tuning_notice_new_friend}</label>
+			{include file='forms/form.field.checkbox.tpl' 
+					 sFieldName        = 'settings_notice_new_topic'
+					 bFieldChecked     = $oUserCurrent->getSettingsNoticeNewTopic() != 0
+					 bFieldNoMargin = true
+					 sFieldLabel       = $aLang.settings_tuning_notice_new_topic}
+
+			{include file='forms/form.field.checkbox.tpl' 
+					 sFieldName        = 'settings_notice_new_comment'
+					 bFieldChecked     = $oUserCurrent->getSettingsNoticeNewComment() != 0
+					 bFieldNoMargin = true
+					 sFieldLabel       = $aLang.settings_tuning_notice_new_comment}
+
+			{include file='forms/form.field.checkbox.tpl' 
+					 sFieldName        = 'settings_notice_new_talk'
+					 bFieldChecked     = $oUserCurrent->getSettingsNoticeNewTalk() != 0
+					 bFieldNoMargin = true
+					 sFieldLabel       = $aLang.settings_tuning_notice_new_talk}
+
+			{include file='forms/form.field.checkbox.tpl' 
+					 sFieldName        = 'settings_notice_reply_comment'
+					 bFieldChecked     = $oUserCurrent->getSettingsNoticeReplyComment() != 0
+					 bFieldNoMargin = true
+					 sFieldLabel       = $aLang.settings_tuning_notice_reply_comment}
+
+			{include file='forms/form.field.checkbox.tpl' 
+					 sFieldName        = 'settings_notice_new_friend'
+					 bFieldChecked     = $oUserCurrent->getSettingsNoticeNewFriend() != 0
+					 bFieldNoMargin = true
+					 sFieldLabel       = $aLang.settings_tuning_notice_new_friend}
 		</fieldset>
 
 		<fieldset>
 			<legend>{$aLang.settings_tuning_general}</legend>
 
-			<label>{$aLang.settings_tuning_general_timezone}:
-				<select name="settings_general_timezone" class="input-width-400">
-				{foreach $aTimezoneList as $sTimezone}
-					<option value="{$sTimezone}" {if $_aRequest.settings_general_timezone==$sTimezone}selected="selected"{/if}>{$aLang.timezone_list[$sTimezone]}</option>
-				{/foreach}
-				</select>
-			</label>
+			{foreach $aTimezoneList as $sTimezone}
+				{$aTimezones[] = [
+					'value' => $sTimezone,
+					'text' => $aLang.timezone_list[$sTimezone]
+				]}
+			{/foreach}
+
+			{include file='forms/form.field.select.tpl' 
+					 sFieldName          = 'settings_general_timezone'
+					 sFieldLabel         = $aLang.settings_tuning_general_timezone
+					 sFieldClasses       = 'width-500 js-topic-add-title' 
+					 aFieldItems         = $aTimezones
+					 sFieldSelectedValue = $_aRequest.settings_general_timezone}
 		</fieldset>
 		
 		{hook run='form_settings_tuning_end'}
-		
-		<button type="submit" name="submit_settings_tuning" class="button button-primary">{$aLang.settings_profile_submit}</button>
+
+        {include file='forms/form.field.button.tpl' sFieldName='submit_settings_tuning' sFieldText=$aLang.settings_profile_submit sFieldStyle='primary'}
 	</form>
 
 	{hook run='settings_tuning_end'}

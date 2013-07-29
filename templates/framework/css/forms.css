@@ -54,6 +54,13 @@ select { padding: 4px; border: 1px solid #ddd; border-radius: 3px; }
 fieldset        { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
 fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
 
+.fieldset        { margin-bottom: 20px; background: #f7f7f7; }
+.fieldset-header { padding: 15px; }
+.fieldset-body,
+.fieldset-footer { padding: 0 15px 15px; }
+.fieldset-title  { font-size: 20px; line-height: 1em; }
+.note.fieldset-note   { font-size: 13px; margin-top: 15px; }
+
 
 form p                   { margin-bottom: 20px; }
 form label               { display: block; margin-bottom: 3px; }
@@ -66,12 +73,24 @@ form .icon-question-sign { cursor: help; }
 
 .captcha-image { vertical-align: top; }
 
-dl.form-item { overflow: hidden; zoom: 1; margin-bottom: 20px; }
-dl.form-item dt { float: left; width: 135px; padding-top: 4px; padding-right: 15px; overflow: hidden; }
-dl.form-item dd { float: left; width: 300px; }
+
+/**
+ * Form field
+ */
+.form-field { margin-bottom: 15px; }
+.form-field:before,
+.form-field:after { content: ""; display: table; }
+.form-field:after { clear: both; }
+.form-field       { zoom: 1; }
+
+.form-field .note { padding-top: 3px; }
+
+.form-field-inline .form-field-label  { float: left; width: 135px; padding-top: 5px; }
+.form-field-inline .form-field-holder { padding-left: 150px; min-width: 200px; }
+
 
 .form-profile { position: relative; }
-.form-profile .avatar-change { position: absolute; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
+.form-profile .avatar-change { position: absolute; width: 100px; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
 
 
 /* Placeholder */
@@ -88,5 +107,18 @@ dl.form-item dd { float: left; width: 300px; }
 
 
 /* Validate */
-.validate-error-hide { display: none; }
-.validate-error-show { display: block; color: #f00; font-weight: bold; font-size: 12px; }
+.parsley-error-list {
+    background: #ffe4e4;
+    color: #ff0000;
+    margin-top: 5px;
+    padding: 5px 10px;
+}
+.parsley-validated.parsley-error {
+    border-color: #FF9B9B;
+    background: #ffe4e4;
+}
+
+
+/* Input File Replacer */
+.form-input-file { position: relative; overflow: hidden; cursor: pointer; display: inline; }
+.form-input-file input[type=file] { position: absolute; top: -999px; left: -999px; }

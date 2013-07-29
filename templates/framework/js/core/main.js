@@ -457,34 +457,70 @@ ls = (function ($) {
 	/**
 	* Выполнение AJAX отправки формы, включая загрузку файлов
 	*/
-	this.ajaxSubmit = function(url,form,callback,more) {
-		more=more || {};
-		if (typeof(form)=='string') {
-			form=$('#'+form);
-		}
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
-			url=aRouter['ajax']+url+'/';
+	this.ajaxSubmit = function(url, form, callback, more) {
+		var more = more || {}
+			form = typeof form == 'string' ? $(form) : form;
+
+		if (url.indexOf('http://') != 0 && url.indexOf('https://') != 0 && url.indexOf('/') != 0) {
+			url = aRouter['ajax'] + url + '/';
 		}
 
-		var options={
+		var options = {
 			type: 'POST',
 			url: url,
 			dataType: more.dataType || 'json',
-			data: {security_ls_key: LIVESTREET_SECURITY_KEY},
-			success: callback || function(){
+			data: {
+				security_ls_key: LIVESTREET_SECURITY_KEY
+			},
+			beforeSubmit: function (arr, form, options) {
+                form.find('[type=submit]').prop('disabled', true).addClass('loading');
+            },
+            beforeSerialize: function (form, options) {
+                return form.parsley('validate');
+            },
+			success: typeof callback == 'function' ? function (result, status, xhr, form) {
+				if (result.bStateError) {
+	            	form.find('[type=submit]').prop('disabled', false).removeClass('loading');
+	                ls.msg.error(null, result.sMsg);
+
+	                more.warning(result, status, xhr, form);
+	            } else {
+	                if (result.sMsg) {
+	                    form.find('[type=submit]').prop('disabled', false).removeClass('loading');
+	                    ls.msg.notice(null, result.sMsg);
+	                }
+					callback(result, status, xhr, form);
+	            }
+			} : function () {
 				ls.debug("ajax success: ");
-				ls.debug.apply(this,arguments);
+				ls.debug.apply(this, arguments);
 			}.bind(this),
 			error: more.error || function(){
 				ls.debug("ajax error: ");
-				ls.debug.apply(this,arguments);
+				ls.debug.apply(this, arguments);
 			}.bind(this)
-
 		};
 
 		ls.hook.run('ls_ajaxsubmit_before', [options,form,callback,more], this);
 		
 		form.ajaxSubmit(options);
+	};
+
+	/**
+	 * Создание ajax формы
+	 * 
+	 * @param  {string}          url      Ссылка
+	 * @param  {jquery, string}  form     Селектор формы либо объект jquery
+	 * @param  {Function}        callback Success коллбэк
+	 * @param  {[type]}          more     Дополнительные параметры
+	 */
+	this.ajaxForm = function(url, form, callback, more) {
+		var form = typeof form == 'string' ? $(form) : form;
+
+		form.on('submit', function (e) {
+			ls.ajaxSubmit(url, form, callback, more);
+			e.preventDefault();
+		});
 	};
 
 	/**

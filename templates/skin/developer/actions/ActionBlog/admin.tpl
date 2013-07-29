@@ -6,6 +6,7 @@
 
 {block name='layout_options'}
 	{$sNav = 'blog.edit'}
+	{$bNoSidebar = true}
 {/block}
 
 {block name='layout_page_title'}
@@ -39,7 +40,7 @@
 							</td>
 							
 							{if $oUser->getId()==$oUserCurrent->getId()}
-								<td colspan="3">{$aLang.blog_admin_users_current_administrator}</td>
+								<td colspan="10" class="ta-c">{$aLang.blog_admin_users_current_administrator}</td>
 							{else}
 								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if} /></td>
 								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="moderator" {if $oBlogUser->getIsModerator()}checked{/if} /></td>

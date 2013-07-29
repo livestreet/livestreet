@@ -65,7 +65,7 @@
 
 	<script>
 		ls.lang.load({json var = $aLangJs});
-		ls.lang.load({lang_load name="blog, talk_favourite_add, talk_favourite_del, topic_question_create_answers_error_max"});
+		ls.lang.load({lang_load name="blog, talk_favourite_add, talk_favourite_del, topic_question_create_answers_error_max, geo_select_city, geo_select_region, blog_create_type_open_notice, blog_create_type_close_notice"});
 
 		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
 		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
@@ -147,7 +147,7 @@
 						<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
 					{else}
 						{hook run='userbar_item'}
-						<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-login]').tab('activate');">{$aLang.user_login_submit}</a></li>
+						<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" data-option-center="false" onclick="jQuery('[data-option-target=tab-pane-login]').tab('activate');">{$aLang.user_login_submit}</a></li>
 						<li><a href="#" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-registration]').tab('activate');">{$aLang.registration_submit}</a></li>
 					{/if}
 				</ul>

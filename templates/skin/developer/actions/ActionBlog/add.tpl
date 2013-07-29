@@ -1,5 +1,6 @@
 {**
  * Создание блога
+ * TODO: Вынести rangelength в конфиг
  *}
 
 {extends file='layouts/layout.base.tpl'}
@@ -25,58 +26,70 @@
 	{include file='forms/editor.init.tpl' sEditorType='comment'}
 
 
-	{* Подгрузка инфорамации о типе блога *}
-	<script type="text/javascript">
-		jQuery(document).ready(function($){
-			ls.lang.load({lang_load name="blog_create_type_open_notice,blog_create_type_close_notice"});
-			ls.blog.loadInfoType($('#blog_type').val());
-		});
-	</script>
-
-
-	<form method="post" enctype="multipart/form-data">
+	<form method="post" enctype="multipart/form-data" data-validate="parsley">
 		{hook run='form_add_blog_begin'}
 
 
 		{* Название блога *}
-		<p><label for="blog_title">{$aLang.blog_create_title}:</label>
-		<input type="text" id="blog_title" name="blog_title" value="{$_aRequest.blog_title}" class="width-full" />
-		<small class="note">{$aLang.blog_create_title_notice}</small></p>
-
+		{include file='forms/form.field.text.tpl' 
+				 sFieldName  = 'blog_title' 
+				 sFieldRules = 'required="true" rangelength="[2,200]"'
+				 sFieldNote  = $aLang.blog_create_title_notice 
+				 sFieldLabel = $aLang.blog_create_title}
 
 		{* URL блога *}
-		<p><label for="blog_url">{$aLang.blog_create_url}:</label>
-		<input type="text" id="blog_url" name="blog_url" value="{$_aRequest.blog_url}" class="width-full" {if $_aRequest.blog_id and !$oUserCurrent->isAdministrator()}disabled{/if} />
-		<small class="note">{$aLang.blog_create_url_notice}</small></p>
+		{include file='forms/form.field.text.tpl' 
+				 sFieldName       = 'blog_url' 
+				 sFieldRules      = 'required="true" type="alphanum" rangelength="[2,50]"'
+				 bFieldIsDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
+				 sFieldNote       = $aLang.blog_create_url_notice 
+				 sFieldLabel      = $aLang.blog_create_url}
 
 
 		{* Категория блога *}
-		{if Config::Get('module.blog.category_allow') and ($oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))}
-			<p><label for="blog_category">{$aLang.blog_create_category}:</label>
-			<select name="blog_category" id="blog_category" class="width-200" >
-				{if Config::Get('module.blog.category_allow_empty')}
-					<option value="0"></option>
-				{/if}
-				{foreach $aBlogCategories as $oBlogCategory}
-					<option {if $_aRequest.blog_category==$oBlogCategory->getId()}selected{/if} value="{$oBlogCategory->getId()}" style="margin-left: {$oBlogCategory->getLevel()*20}px;">{$oBlogCategory->getTitle()|escape:'html'}</option>
-				{/foreach}
-			</select>
-			<small class="note" id="blog_category_note">{$aLang.blog_create_category_notice}</small></p>
+		{if Config::Get('module.blog.category_allow') and ($oUserCurrent->isAdministrator() or ! Config::Get('module.blog.category_only_admin'))}
+			{$aBlogCategoriesCustom = [
+				[ 'value' => 0, 'text' => '&mdash;' ]
+			]}
+
+			{foreach $aBlogCategories as $oBlogCategory}
+				{$aBlogCategoriesCustom[] = [
+					'value' => $oBlogCategory->getId(),
+					'text' => $oBlogCategory->getTitle()|escape
+				]}
+			{/foreach}
+
+			{include file='forms/form.field.select.tpl' 
+					 sFieldName          = 'blog_category'
+					 sFieldLabel         = $aLang.blog_create_category
+					 sFieldNote          = $aLang.blog_create_category_notice
+					 sFieldClasses       = 'width-200'
+					 aFieldItems         = $aBlogCategoriesCustom
+					 sFieldSelectedValue = $_aRequest.blog_category}
 		{/if}
 
 
 		{* Тип блога *}
-		<p><label for="blog_type">{$aLang.blog_create_type}:</label>
-		<select name="blog_type" id="blog_type" class="width-200" onChange="ls.blog.loadInfoType(jQuery(this).val());">
-			<option value="open" {if $_aRequest.blog_type=='open'}selected{/if}>{$aLang.blog_create_type_open}</option>
-			<option value="close" {if $_aRequest.blog_type=='close'}selected{/if}>{$aLang.blog_create_type_close}</option>
-		</select>
-		<small class="note" id="blog_type_note">{$aLang.blog_create_type_open_notice}</small></p>
+		{$aBlogsType = [
+			[ 'value' => 'open', 'text' => $aLang.blog_create_type_open ],
+			[ 'value' => 'close', 'text' => $aLang.blog_create_type_close ]
+        ]}
+
+		{include file='forms/form.field.select.tpl' 
+				 sFieldName          = 'blog_type'
+				 sFieldLabel         = $aLang.blog_create_type
+				 sFieldNote          = $aLang.blog_create_type_open_notice
+				 sFieldClasses       = 'width-200 js-blog-add-type'
+				 aFieldItems         = $aBlogsType
+				 sFieldSelectedValue = $_aRequest.blog_type} {* TODO: Подсказка при смене типа *}
 
 
 		{* Описание блога *}
-		<label for="blog_description">{$aLang.blog_create_description}:</label>
-		<textarea name="blog_description" id="blog_description" rows="15" class="js-editor width-full">{$_aRequest.blog_description}</textarea>
+		{include file='forms/form.field.textarea.tpl' 
+				 sFieldName    = 'blog_description'
+				 sFieldRules   = 'required="true" rangelength="[10,3000]"' 
+				 sFieldLabel   = $aLang.blog_create_description
+				 sFieldClasses = 'width-full js-editor'}
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
 		{if ! $oConfig->GetValue('view.wysiwyg')}
@@ -85,42 +98,42 @@
 
 		
 		{* Ограничение по рейтингу *}
-		<p><label for="blog_limit_rating_topic">{$aLang.blog_create_rating}:</label>
-		<input type="text" id="blog_limit_rating_topic" name="blog_limit_rating_topic" value="{$_aRequest.blog_limit_rating_topic}" class="width-100" />
-		<small class="note">{$aLang.blog_create_rating_notice}</small></p>
+		{include file='forms/form.field.text.tpl' 
+				 sFieldName    = 'blog_limit_rating_topic'
+				 sFieldRules   = 'required="true" type="number"'
+				 sFieldValue   = '0'
+				 sFieldClasses = 'width-100'
+				 sFieldNote    = $aLang.blog_create_rating_notice
+				 sFieldLabel   = $aLang.blog_create_rating}
 
 
 		{* Аватар *}
-		<p>
-			{if $oBlogEdit and $oBlogEdit->getAvatar()}
-				<div class="avatar-edit">
-					{foreach $oConfig->GetValue('module.blog.avatar_size') as $iSize}
-						{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
-					{/foreach}
-					
-					<label><input type="checkbox" id="avatar_delete" name="avatar_delete" value="on"> {$aLang.blog_create_avatar_delete}</label>
-				</div>
-			{/if}
-			
-			<label for="avatar">{$aLang.blog_create_avatar}:</label>
-			<input type="file" name="avatar" id="avatar">
-		</p>
+		{if $oBlogEdit and $oBlogEdit->getAvatar()}
+			{foreach $oConfig->GetValue('module.blog.avatar_size') as $iSize}
+				{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
+			{/foreach}
+
+			{include file='forms/form.field.checkbox.tpl' sFieldName='avatar_delete' bFieldNoMargin=true sFieldValue='on' sFieldLabel=$aLang.blog_create_avatar_delete}
+		{/if}
+
+		{include file='forms/form.field.file.tpl' 
+				 sFieldName  = 'avatar'
+				 sFieldLabel = $aLang.blog_create_avatar}
 
 
 		{hook run='form_add_blog_end'}
 		
 
 		{* Скрытые поля *}
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+		{include file='forms/form.field.hidden.security_key.tpl'}
 
 
 		{* Кнопки *}
-		<button type="submit" name="submit_blog_add" class="button button-primary">
-			{if $sEvent == 'add'}
-				{$aLang.blog_create_submit}
-			{else}
-				{$aLang.topic_create_submit_update}
-			{/if}
-		</button>
+		{if $sEvent == 'add'}
+			{$sSubmitInputText = $aLang.blog_create_submit}
+		{else}
+			{$sSubmitInputText = $aLang.topic_create_submit_update}
+		{/if}
+		{include file='forms/form.field.button.tpl' sFieldName='submit_blog_add' sFieldText=$sSubmitInputText sFieldStyle='primary'}
 	</form>
 {/block}

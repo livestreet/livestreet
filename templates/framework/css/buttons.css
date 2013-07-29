@@ -111,3 +111,15 @@ a.button-large { padding-top: 8px; }
 .button.button-large.button-icon { padding-left: 9px; padding-right: 9px; }
 
 .ie7 a.button-large { height: 18px; padding: 8px 12px 6px; }
+
+
+/**
+ * Loading
+ */
+.button[disabled].loading,
+.button.loading {
+	color: transparent;
+	background-image: url(../images/loader.gif);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}

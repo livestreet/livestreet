@@ -10,46 +10,54 @@
 	<form method="post" enctype="multipart/form-data">
 		{hook run='form_settings_account_begin'}
 
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}">
-		
-		
 		<fieldset>
 			<legend>{$aLang.settings_account}</legend>
-			
-			<dl class="form-item">
-				<dt><label for="mail">{$aLang.settings_profile_mail}:</label></dt>
-				<dd>	
-					<input type="email" name="mail" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" class="input-text input-width-300" required />
-					<small class="note">{$aLang.settings_profile_mail_notice}</small>
-				</dd>
-			</dl>
+
+            {* E-mail *}
+            {include file='forms/form.field.text.tpl'
+                     sFieldName  = 'mail'
+                     sFieldRules = 'required'
+                     sFieldValue = $oUserCurrent->getMail()|escape
+                     sFieldNote  = $aLang.settings_profile_mail_notice
+                     sFieldLabel = $aLang.settings_profile_mail}
 		</fieldset>
+
 			
 		<fieldset>
 			<legend>{$aLang.settings_account_password}</legend>
 			
-			<small class="note note-header">{$aLang.settings_account_password_notice}</small>
-				
-			<dl class="form-item">
-				<dt><label for="password_now">{$aLang.settings_profile_password_current}:</label></dt>
-				<dd><input type="password" name="password_now" id="password_now" value="" class="input-text input-width-200" /></dd>
-			</dl>
-			
-			<dl class="form-item">
-				<dt><label for="password">{$aLang.settings_profile_password_new}:</label></dt>
-				<dd><input type="password" id="password" name="password" value="" class="input-text input-width-200" /></dd>
-			</dl>
-			
-			<dl class="form-item">
-				<dt><label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label></dt>
-				<dd><input type="password" id="password_confirm" name="password_confirm" value="" class="input-text input-width-200" /></dd>
-			</dl>
+			<small class="note mb-20">{$aLang.settings_account_password_notice}</small>
+
+            {* Текущий пароль *}
+            {include file='forms/form.field.text.tpl'
+                     sFieldName    = 'password_now'
+                     sFieldType    = 'password'
+                     sFieldClasses = 'width-200'
+                     sFieldLabel   = $aLang.settings_profile_password_current}
+
+            {* Новый пароль *}
+            {include file='forms/form.field.text.tpl'
+                     sFieldName    = 'password'
+                     sFieldType    = 'password'
+                     sFieldClasses = 'width-200'
+                     sFieldLabel   = $aLang.settings_profile_password_new}
+
+            {* Новый пароль *}
+            {include file='forms/form.field.text.tpl'
+                     sFieldName    = 'password_confirm'
+                     sFieldType    = 'password'
+                     sFieldClasses = 'width-200'
+                     sFieldLabel   = $aLang.settings_profile_password_confirm}
 		</fieldset>
+
 		
 		{hook run='form_settings_account_end'}
-		
-		
-		<button type="submit" name="submit_account_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
+
+        {* Скрытые поля *}
+        {include file='forms/form.field.hidden.security_key.tpl'}
+
+        {* Кнопки *}
+        {include file='forms/form.field.button.tpl' sFieldName='submit_account_edit' sFieldStyle='primary' sFieldText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_account_end'}

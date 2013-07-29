@@ -7,181 +7,143 @@
 {block name='layout_content'}
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-			ls.lang.load({lang_load name="geo_select_city,geo_select_region"});
 			ls.geo.initSelect();
 			ls.userfield.iCountMax='{cfg name="module.user.userfield_max_identical"}';
 		});
 	</script>
 
 
-	<p id="profile_user_field_template" style="display:none;" class="js-user-field-item">
-		<select name="profile_user_field_type[]" onchange="ls.userfield.changeFormField(this);">
-		{foreach $aUserFieldsContact as $oFieldAll}
-			<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
-		{/foreach}
-		</select>
-		<input type="text" name="profile_user_field_value[]" value="" class="input-text input-width-200">
-		<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
-	</p>
+    {function name=userfield}
+        <div class="form-field js-user-field-item" {if ! $oField}id="profile_user_field_template" style="display:none;"{/if}>
+            <select name="profile_user_field_type[]"  onchange="ls.userfield.changeFormField(this);">
+                {foreach $aUserFieldsContact as $oFieldAll}
+                    <option value="{$oFieldAll->getId()}" {if $oField && $oFieldAll->getId() == $oField->getId()}selected{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
+                {/foreach}
+            </select>
+
+            <input type="text" name="profile_user_field_value[]" value="{if $oField}{$oField->getValue()|escape}{/if}" class="width-200">
+            <a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+        </div>
+    {/function}
+
+    {call userfield oField=false}
+
 
 	{hook run='settings_profile_begin'}
 
 	<form method="post" enctype="multipart/form-data" class="form-profile">
 		{hook run='form_settings_profile_begin'}
 
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}">
-		
-		
-		<fieldset>
+        {* Основная информация *}
+		<fieldset class="width-500">
 			<legend>{$aLang.settings_profile_section_base}</legend>
-			
-			<dl class="form-item">
-				<dt><label for="profile_name">{$aLang.settings_profile_name}:</label></dt>
-				<dd>
-					<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="input-text input-width-300">
-					<small class="note">{$aLang.settings_profile_name_notice}</small>
-				</dd>
-			</dl>
-			
-			<dl class="form-item">
-				<dt><label for="profile_sex">{$aLang.settings_profile_sex}:</label></dt>
-				<dd>
-					<select name="profile_sex" id="profile_sex" class="input-width-300">
-						<option value="man" {if $oUserCurrent->getProfileSex()=='man'}selected{/if}>{$aLang.settings_profile_sex_man}</option>
-						<option value="woman" {if $oUserCurrent->getProfileSex()=='woman'}selected{/if}>{$aLang.settings_profile_sex_woman}</option>
-						<option value="other" {if $oUserCurrent->getProfileSex()=='other'}selected{/if}>{$aLang.settings_profile_sex_other}</option>
-					</select>
-				</dd>
-			</dl>
-			
-			<dl class="form-item">
-				<dt><label for="">{$aLang.settings_profile_birthday}:</label></dt>
-				<dd>
-					<select name="profile_birthday_day">
-						<option value="">{$aLang.date_day}</option>
-						{section name=date_day start=1 loop=32 step=1}
-							<option value="{$smarty.section.date_day.index}" {if $smarty.section.date_day.index==$oUserCurrent->getProfileBirthday()|date_format:"%d"}selected{/if}>{$smarty.section.date_day.index}</option>
-						{/section}
-					</select>
-					
-					<select name="profile_birthday_month" style="width: 165px">
-						<option value="">{$aLang.date_month}</option>
-						{section name=date_month start=1 loop=13 step=1}
-							<option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$oUserCurrent->getProfileBirthday()|date_format:"%m"}selected{/if}>{$aLang.month_array[$smarty.section.date_month.index][0]}</option>
-						{/section}
-					</select>
-					
-					<select name="profile_birthday_year">
-						<option value="">{$aLang.date_year}</option>
-						{section name=date_year loop=$smarty.now|date_format:"%Y"+1 max=$smarty.now|date_format:"%Y"-2012+130 step=-1}
-							<option value="{$smarty.section.date_year.index}" {if $smarty.section.date_year.index==$oUserCurrent->getProfileBirthday()|date_format:"%Y"}selected{/if}>{$smarty.section.date_year.index}</option>
-						{/section}
-					</select>
-				</dd>
-			</dl>
 
-			<dl class="form-item js-geo-select">
-				<dt><label for="">{$aLang.profile_place}:</label></dt>
-				<dd>
-					<p>
-						<select class="js-geo-country input-width-300" name="geo_country">
-							<option value="">{$aLang.geo_select_country}</option>
-							{if $aGeoCountries}
-								{foreach $aGeoCountries as $oGeoCountry}
-									<option value="{$oGeoCountry->getId()}" {if $oGeoTarget and $oGeoTarget->getCountryId()==$oGeoCountry->getId()}selected="selected"{/if}>{$oGeoCountry->getName()}</option>
-								{/foreach}
-							{/if}
-						</select>
-					</p>
+			{* Имя *}
+			{include file='forms/form.field.text.tpl' 
+					 sFieldName   = 'profile_name'
+					 bFieldInline = true 
+					 sFieldValue  = $oUserCurrent->getProfileName()|escape
+					 sFieldNote   = $aLang.settings_profile_name_notice 
+					 sFieldLabel  = $aLang.settings_profile_name}
 
-					<p>
-						<select class="js-geo-region input-width-300" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
-							<option value="">{$aLang.geo_select_region}</option>
-							{if $aGeoRegions}
-								{foreach $aGeoRegions as $oGeoRegion}
-									<option value="{$oGeoRegion->getId()}" {if $oGeoTarget and $oGeoTarget->getRegionId()==$oGeoRegion->getId()}selected="selected"{/if}>{$oGeoRegion->getName()}</option>
-								{/foreach}
-							{/if}
-						</select>
-					</p>
 
-					
-					<select class="js-geo-city input-width-300" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
-						<option value="">{$aLang.geo_select_city}</option>
-						{if $aGeoCities}
-							{foreach $aGeoCities as $oGeoCity}
-								<option value="{$oGeoCity->getId()}" {if $oGeoTarget and $oGeoTarget->getCityId()==$oGeoCity->getId()}selected="selected"{/if}>{$oGeoCity->getName()}</option>
-							{/foreach}
-						{/if}
-					</select>
-				</dd>
-			</dl>
-			
-			<dl class="form-item">
-				<dt><label for="profile_about">{$aLang.settings_profile_about}:</label></dt>
-				<dd><textarea name="profile_about" id="profile_about" class="input-text input-width-300" rows="5">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea></dd>
-			</dl>
+			{* Пол *}
+            {$aSex = [
+                [ 'value' => 'man',   'text' => $aLang.settings_profile_sex_man ],
+                [ 'value' => 'woman', 'text' => $aLang.settings_profile_sex_woman ],
+                [ 'value' => 'other', 'text' => $aLang.settings_profile_sex_other ]
+            ]}
 
-			{$aUserFieldValues = $oUserCurrent->getUserFieldValues(false,'')}
-			{if count($aUserFieldValues)}
-				{foreach $aUserFieldValues as $oField}
-					<dl class="form-item">
-						<dt><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label></dt>
-						<dd><input type="text" class="input-text input-width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
-					</dl>
-				{/foreach}
-			{/if}
+            {include file='forms/form.field.select.tpl'
+                     sFieldName          = 'profile_sex'
+                     bFieldInline        = true
+                     sFieldLabel         = $aLang.settings_profile_sex
+                     aFieldItems         = $aSex
+                     sFieldSelectedValue = $oUserCurrent->getProfileSex()}
 
+
+            {* Дата рождения *}
+            {include file='forms/form.field.select.date.tpl'
+                    sFieldNamePrefix    = 'profile_birthday'
+                    aFieldItems         = $oUserCurrent->getProfileBirthday()
+                    bFieldInline        = true
+                    sFieldLabel         = $aLang.settings_profile_birthday}
+
+
+            {* Местоположение *}
+            {include file='forms/form.field.select.geo.tpl'
+                    sFieldNamePrefix    = 'geo'
+                    bFieldInline        = true
+                    sFieldLabel         = $aLang.profile_place
+                    oInputGeoTarget     = $oGeoTarget}
+
+
+			{* О себе *}
+			{include file='forms/form.field.textarea.tpl'
+					 sFieldName   = 'profile_about' 
+					 bFieldInline = true 
+					 iFieldRows   = 5 
+					 sFieldValue  = $oUserCurrent->getProfileAbout()|escape
+					 sFieldLabel  = $aLang.settings_profile_about}
+
+
+            {* Пользовательские поля *}
+			{$aUserFieldValues = $oUserCurrent->getUserFieldValues(false, '')}
+
+            {foreach $aUserFieldValues as $oField}
+                {include file='forms/form.field.text.tpl'
+                         sFieldName   = "profile_user_field_`$oField->getId()`"
+                         bFieldInline = true
+                         sFieldValue  = $oField->getValue()|escape
+                         sFieldLabel  = $oField->getTitle()|escape}
+            {/foreach}
 		</fieldset>
-		
-		
-		
+
+
+        {* Контакты *}
 		<fieldset>
 			<legend>{$aLang.settings_profile_section_contacts}</legend>
 
 			{$aUserFieldContactValues = $oUserCurrent->getUserFieldValues(true,array('contact','social'))}
+
 			<div id="user-field-contact-contener">
-			{foreach $aUserFieldContactValues as $oField}
-				<p class="js-user-field-item">
-					<select name="profile_user_field_type[]"  onchange="ls.userfield.changeFormField(this);">
-					{foreach $aUserFieldsContact as $oFieldAll}
-						<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
-					{/foreach}
-					</select>
-					<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
-					<a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
-				</p>
-			{/foreach}
+                {foreach $aUserFieldContactValues as $oField}
+                    {call userfield oField=$oField}
+                {/foreach}
 			</div>
+
 			{if $aUserFieldsContact}
-				<a href="#" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</a>
+				<button type="button" class="button" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</button>
 			{/if}
 		</fieldset>
 
-		
-		<script type="text/javascript">
-			jQuery(function($){
-				$('#avatar-upload').file({ name:'avatar' }).choose(function(e, input) {
-					ls.user.uploadAvatar(null,input);
-				});
-			});
-		</script>
 
-
-		<div class="avatar-change">
-			<img src="{$oUserCurrent->getProfileAvatarPath(100)}" id="avatar-img" />
+        {* Аватар *}
+		<div class="js-ajax-avatar-upload avatar-change">
+			<img src="{$oUserCurrent->getProfileAvatarPath(100)}" class="js-ajax-image-upload-image" />
 
 			<div>
-				<a href="#" id="avatar-upload" class="link-dotted">{if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}</a><br />
-				<a href="#" id="avatar-remove" class="link-dotted" onclick="return ls.user.removeAvatar();" style="{if !$oUserCurrent->getProfileAvatar()}display:none;{/if}">{$aLang.settings_profile_avatar_delete}</a>
+				<label for="avatar" class="form-input-file">
+                    <span class="link-dotted js-ajax-image-upload-choose">
+                        {if $oUserCurrent->getProfileAvatar()}{$aLang.settings_profile_avatar_change}{else}{$aLang.settings_profile_avatar_upload}{/if}
+                    </span>
+                    <input type="file" name="avatar" id="avatar" class="js-ajax-image-upload-file">
+                </label>
+
+				<a href="#" class="js-ajax-image-upload-remove link-dotted" style="{if ! $oUserCurrent->getProfileAvatar()}display:none;{/if}">
+                    {$aLang.settings_profile_avatar_delete}
+                </a>
 			</div>
 		</div>
-		
-		
-		{hook run='form_settings_profile_end'}
-		
-		
-		<button type="submit" name="submit_profile_edit" class="button button-primary" />{$aLang.settings_profile_submit}</button>
+
+
+        {hook run='form_settings_profile_end'}
+
+        {* Скрытые поля *}
+        {include file='forms/form.field.hidden.security_key.tpl'}
+
+        {* Кнопки *}
+        {include file='forms/form.field.button.tpl' sFieldName='submit_profile_edit' sFieldStyle='primary' sFieldText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_profile_end'}

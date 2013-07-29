@@ -2,61 +2,77 @@ var ls = ls || {};
 
 /**
  * Управление пользователями
+ * TODO: Вынести аякс загрузку изображений в отдельный модуль
  */
 ls.user = (function ($) {
 
-	this.jcropAvatar=null;
-	this.jcropFoto=null;
+	this.jcropImage = null;
 
 	/**
 	 * Инициализация
 	 */
 	this.init = function() {
-		$('.js-form-login').on('submit', function() {
-			ls.user.login($(this));
-			return false;
+		var self = this;
+
+		/* Авторизация */
+		ls.ajaxForm(aRouter.login + 'ajax-login', '.js-form-login', function (result, status, xhr, form) {
+            result.sUrlRedirect && (window.location = result.sUrlRedirect);
+            ls.hook.run('ls_user_login_after', [form, result]);
 		});
 
-		$('.js-form-recovery').on('submit', function() {
-			ls.user.reminder($(this));
-			return false;
+		/* Регистрация */
+		ls.ajaxForm(aRouter.registration + 'ajax-registration', '.js-form-signup', function (result, status, xhr, form) {
+            result.sUrlRedirect && (window.location = result.sUrlRedirect);
+            ls.hook.run('ls_user_registration_after', [form, result]);
 		});
 
-		$('.js-form-signup').on('submit', function() {
-			ls.user.registration($(this));
-			return false;
+		/* Восстановление пароля */
+		ls.ajaxForm(aRouter.login + 'ajax-reminder', '.js-form-recovery', function (result, status, xhr, form) {
+            result.sUrlRedirect && (window.location = result.sUrlRedirect);
+            ls.hook.run('ls_user_recovery_after', [form, result]);
 		});
 
-		$('#reactivation-form').on('submit', function() {
-			ls.user.reactivation($(this));
-			return false;
+		/* Повторный запрос на ссылку активации */
+		ls.ajaxForm(aRouter.login + 'ajax-reactivation', '.js-form-reactivation', function (result, status, xhr, form) {
+            form.find('input').val('');
+            ls.hook.run('ls_user_reactivation_after', [form, result]);
 		});
 
-		$('.js-form-signup').find('.js-ajax-validate').blur(function(e) {
-			var aParams = {},
-				$this   = $(e.target),
-				$form   = $this.closest('.js-form-signup');
-
-			if ($this.attr('name') == 'password_confirm') {
-				aParams['password'] = $form.find('.js-form-signup-password').val();
+		/* Аякс загрузка изображений */
+		this.ajaxUploadImageInit({
+			selectors: {
+				element: '.js-ajax-avatar-upload'
+			},
+			cropOptions: {
+				aspectRatio: 1
+			},
+			urls: {
+				upload: aRouter['settings'] + 'profile/upload-avatar/',
+				remove: aRouter['settings'] + 'profile/remove-avatar/',
+				cancel: aRouter['settings'] + 'profile/cancel-avatar/',
+				crop:   aRouter['settings'] + 'profile/resize-avatar/'
 			}
-
-			if ($this.attr('name') == 'password') {
-				aParams['password'] = $this.val();
-
-				var passwordConfirmValue = $form.find('.js-form-signup-password-confirm').val();
-				if (passwordConfirmValue) {
-					ls.user.validateRegistrationField('password_confirm', passwordConfirmValue, $form, { 'password': $this.val() });
-				}
-			}
-
-			ls.user.validateRegistrationField($this.attr('name'), $this.val(), $form, aParams);
 		});
 
-		$('.js-form-login-submit').attr('disabled', false);
-		$('.js-form-signup-submit').attr('disabled',false);
-		$('.js-form-recovery-submit').attr('disabled',false);
-		$('#reactivation-form-submit').attr('disabled',false);
+		this.ajaxUploadImageInit({
+			selectors: {
+				element: '.js-ajax-photo-upload'
+			},
+			urls: {
+				upload: aRouter['settings'] + 'profile/upload-foto/',
+				remove: aRouter['settings'] + 'profile/remove-foto/',
+				cancel: aRouter['settings'] + 'profile/cancel-foto/',
+				crop:   aRouter['settings'] + 'profile/resize-foto/'
+			}
+		});
+
+		$('.js-ajax-image-upload-crop-cancel').on('click', function (e) {
+			self.ajaxUploadImageCropCancel();
+		});
+
+		$('.js-ajax-image-upload-crop-submit').on('click', function (e) {
+			self.ajaxUploadImageCropSubmit();
+		});
 	};
 
 	/**
@@ -119,436 +135,6 @@ ls.user = (function ($) {
 	};
 
 	/**
-	 * Загрузка временной аватарки
-	 * @param form
-	 * @param input
-	 */
-	this.uploadAvatar = function(form,input) {
-		if (!form && input) {
-			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
-				'display': 'none'
-			}).appendTo('body');
-			var clone=input.clone(true);
-			input.hide();
-			clone.insertAfter(input);
-			input.appendTo(form);
-		}
-
-		ls.ajaxSubmit(aRouter['settings']+'profile/upload-avatar/',form,function(data){
-			if (data.bStateError) {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
-			} else {
-				this.showResizeAvatar(data.sTmpFile);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Показывает форму для ресайза аватарки
-	 * @param sImgFile
-	 */
-	this.showResizeAvatar = function(sImgFile) {
-		if (this.jcropAvatar) {
-			this.jcropAvatar.destroy();
-		}
-		$('#avatar-resize-original-img').attr('src',sImgFile+'?'+Math.random());
-		$('#avatar-resize').jqmShow();
-		var $this=this;
-		$('#avatar-resize-original-img').Jcrop({
-			aspectRatio: 1,
-			minSize: [32,32]
-		},function(){
-			$this.jcropAvatar=this;
-			this.setSelect([0,0,500,500]);
-		});
-	};
-
-	/**
-	 * Выполняет ресайз аватарки
-	 */
-	this.resizeAvatar = function() {
-		if (!this.jcropAvatar) {
-			return false;
-		}
-		var url = aRouter.settings+'profile/resize-avatar/';
-		var params = {size: this.jcropAvatar.tellSelect()};
-
-		ls.hook.marker('resizeAvatarBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#avatar-img').attr('src',result.sFile+'?'+Math.random());
-				$('#avatar-resize').jqmHide();
-				$('#avatar-remove').show();
-				$('#avatar-upload').text(result.sTitleUpload);
-				ls.hook.run('ls_user_resize_avatar_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Удаление аватарки
-	 */
-	this.removeAvatar = function() {
-		var url = aRouter.settings+'profile/remove-avatar/';
-		var params = {};
-
-		ls.hook.marker('removeAvatarBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#avatar-img').attr('src',result.sFile+'?'+Math.random());
-				$('#avatar-remove').hide();
-				$('#avatar-upload').text(result.sTitleUpload);
-				ls.hook.run('ls_user_remove_avatar_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Отмена ресайза аватарки, подчищаем временный данные
-	 */
-	this.cancelAvatar = function() {
-		var url = aRouter.settings+'profile/cancel-avatar/';
-		var params = {};
-
-		ls.hook.marker('cancelAvatarBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#avatar-resize').jqmHide();
-				ls.hook.run('ls_user_cancel_avatar_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Загрузка временной фотки
-	 * @param form
-	 * @param input
-	 */
-	this.uploadFoto = function(form,input) {
-		if (!form && input) {
-			var form = $('<form method="post" enctype="multipart/form-data"></form>').css({
-				'display': 'none'
-			}).appendTo('body');
-			var clone=input.clone(true);
-			input.hide();
-			clone.insertAfter(input);
-			input.appendTo(form);
-		}
-
-		ls.ajaxSubmit(aRouter['settings']+'profile/upload-foto/',form,function(data){
-			if (data.bStateError) {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
-			} else {
-				this.showResizeFoto(data.sTmpFile);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Показывает форму для ресайза фотки
-	 * @param sImgFile
-	 */
-	this.showResizeFoto = function(sImgFile) {
-		if (this.jcropFoto) {
-			this.jcropFoto.destroy();
-		}
-		$('#foto-resize-original-img').attr('src',sImgFile+'?'+Math.random());
-		$('#foto-resize').jqmShow();
-		var $this=this;
-		$('#foto-resize-original-img').Jcrop({
-			minSize: [32,32]
-		},function(){
-			$this.jcropFoto=this;
-			this.setSelect([0,0,500,500]);
-		});
-	};
-
-	/**
-	 * Выполняет ресайз фотки
-	 */
-	this.resizeFoto = function() {
-		if (!this.jcropFoto) {
-			return false;
-		}
-		var url = aRouter.settings+'profile/resize-foto/';
-		var params = {size: this.jcropFoto.tellSelect()};
-
-		ls.hook.marker('resizeFotoBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#foto-img').attr('src',result.sFile+'?'+Math.random());
-				$('#foto-resize').jqmHide();
-				$('#foto-remove').show();
-				$('#foto-upload').text(result.sTitleUpload);
-				ls.hook.run('ls_user_resize_foto_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Удаление фотки
-	 */
-	this.removeFoto = function() {
-		var url = aRouter.settings+'profile/remove-foto/';
-		var params = {};
-
-		ls.hook.marker('removeFotoBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#foto-img').attr('src',result.sFile+'?'+Math.random());
-				$('#foto-remove').hide();
-				$('#foto-upload').text(result.sTitleUpload);
-				ls.hook.run('ls_user_remove_foto_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Отмена ресайза фотки, подчищаем временный данные
-	 */
-	this.cancelFoto = function() {
-		var url = aRouter.settings+'profile/cancel-foto/';
-		var params = {};
-
-		ls.hook.marker('cancelFotoBefore');
-		ls.ajax(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#foto-resize').jqmHide();
-				ls.hook.run('ls_user_cancel_foto_after', [params, result]);
-			}
-		});
-
-		return false;
-	};
-
-	/**
-	 * Валидация полей формы при регистрации
-	 * @param aFields
-	 */
-	this.validateRegistrationFields = function(aFields,sForm) {
-		var url = aRouter.registration+'ajax-validate-fields/';
-		var params = {fields: aFields};
-		if (typeof(sForm)=='string') {
-			sForm=$('#'+sForm);
-		}
-
-		ls.hook.marker('validateRegistrationFieldsBefore');
-		ls.ajax(url, params, function(result) {
-			if (!sForm) {
-				sForm=$('body'); // поиск полей по всей странице
-			}
-			$.each(aFields,function(i,aField){
-				if (result.aErrors && result.aErrors[aField.field][0]) {
-					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-hide').addClass('validate-error-show').text(result.aErrors[aField.field][0]);
-					sForm.find('.validate-ok-field-'+aField.field).hide();
-				} else {
-					sForm.find('.validate-error-field-'+aField.field).removeClass('validate-error-show').addClass('validate-error-hide');
-					sForm.find('.validate-ok-field-'+aField.field).show();
-				}
-			});
-			ls.hook.run('ls_user_validate_registration_fields_after', [aFields, sForm, result]);
-		});
-	};
-
-	/**
-	 * Валидация конкретного поля формы
-	 * @param sField
-	 * @param sValue
-	 * @param aParams
-	 */
-	this.validateRegistrationField = function(sField,sValue,sForm,aParams) {
-		var aFields=[];
-		aFields.push({field: sField, value: sValue, params: aParams || {}});
-		this.validateRegistrationFields(aFields,sForm);
-	};
-
-	/**
-	 * Ajax регистрация пользователя с проверкой полей формы
-	 * @param form
-	 */
-	this.registration = function(form) {
-		var url = aRouter.registration+'ajax-registration/';
-
-		this.formLoader(form);
-		ls.hook.marker('registrationBefore');
-		ls.ajaxSubmit(url, form, function(result) {
-			this.formLoader(form,true);
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				if (typeof(form)=='string') {
-					form=$('#'+form);
-				}
-				form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
-				if (result.aErrors) {
-					$.each(result.aErrors,function(sField,aErrors){
-						if (aErrors[0]) {
-							form.find('.validate-error-field-'+sField).removeClass('validate-error-hide').addClass('validate-error-show').text(aErrors[0]);
-						}
-					});
-				} else {
-					if (result.sMsg) {
-						ls.msg.notice(null,result.sMsg);
-					}
-					if (result.sUrlRedirect) {
-						window.location=result.sUrlRedirect;
-					}
-				}
-				ls.hook.run('ls_user_registration_after', [form, result]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Ajax авторизация пользователя с проверкой полей формы
-	 * @param form
-	 */
-	this.login = function(form) {
-		var url = aRouter.login+'ajax-login/';
-
-		this.formLoader(form);
-		ls.hook.marker('loginBefore');
-		ls.ajaxSubmit(url, form, function(result) {
-			this.formLoader(form,true);
-			if (typeof(form)=='string') {
-				form=$('#'+form);
-			}
-			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
-
-			if (result.bStateError) {
-				form.find('.validate-error-login').removeClass('validate-error-hide').addClass('validate-error-show').html(result.sMsg);
-			} else {
-				if (result.sMsg) {
-					ls.msg.notice(null,result.sMsg);
-				}
-				if (result.sUrlRedirect) {
-					window.location=result.sUrlRedirect;
-				}
-				ls.hook.run('ls_user_login_after', [form, result]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Показывает лоадер в полях формы
-	 * @param form
-	 * @param bHide
-	 */
-	this.formLoader = function(form,bHide) {
-		if (typeof(form)=='string') {
-			form=$('#'+form);
-		}
-		form.find('input[type="text"], input[type="password"]').each(function(k,v){
-			if (bHide) {
-				$(v).removeClass('loader');
-			} else {
-				$(v).addClass('loader');
-			}
-		});
-	};
-
-	/**
-	 * Ajax запрос на смену пароля
-	 * @param form
-	 */
-	this.reminder = function(form) {
-		var url = aRouter.login+'ajax-reminder/';
-
-		this.formLoader(form);
-		ls.hook.marker('reminderBefore');
-		ls.ajaxSubmit(url, form, function(result) {
-			this.formLoader(form,true);
-			if (typeof(form)=='string') {
-				form=$('#'+form);
-			}
-			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
-
-			if (result.bStateError) {
-				form.find('.validate-error-reminder').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
-			} else {
-				form.find('input').val('');
-				if (result.sMsg) {
-					ls.msg.notice(null,result.sMsg);
-				}
-				if (result.sUrlRedirect) {
-					window.location=result.sUrlRedirect;
-				}
-				ls.hook.run('ls_user_reminder_after', [form, result]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Ajax запрос на ссылку активации
-	 * @param form
-	 */
-	this.reactivation = function(form) {
-		var url = aRouter.login+'ajax-reactivation/';
-
-		ls.hook.marker('reactivationBefore');
-		ls.ajaxSubmit(url, form, function(result) {
-			if (typeof(form)=='string') {
-				form=$('#'+form);
-			}
-			form.find('.validate-error-show').removeClass('validate-error-show').addClass('validate-error-hide');
-
-			if (result.bStateError) {
-				form.find('.validate-error-reactivation').removeClass('validate-error-hide').addClass('validate-error-show').text(result.sMsg);
-			} else {
-				form.find('input').val('');
-				if (result.sMsg) {
-					ls.msg.notice(null,result.sMsg);
-				}
-				ls.hook.run('ls_user_reactivation_after', [form, result]);
-			}
-		});
-	};
-
-	/**
-	 * Поиск пользователей
-	 */
-	this.searchUsers = function(form) {
-		var url = aRouter['people']+'ajax-search/';
-		var inputSearch=$('#'+form).find('input');
-		inputSearch.addClass('loader');
-
-		ls.hook.marker('searchUsersBefore');
-		ls.ajaxSubmit(url, form, function(result){
-			inputSearch.removeClass('loader');
-			if (result.bStateError) {
-				$('#users-list-search').hide();
-				$('#users-list-original').show();
-			} else {
-				$('#users-list-original').hide();
-				$('#users-list-search').html(result.sText).show();
-				ls.hook.run('ls_user_search_users_after',[form, result]);
-			}
-		});
-	};
-
-	/**
 	 * Поиск пользователей по началу логина
 	 */
 	this.searchUsersByPrefix = function(sPrefix,obj) {
@@ -585,6 +171,202 @@ ls.user = (function ($) {
 			ls.stream.subscribe(iUserId);
 			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_unfollow'));
 		}
+		return false;
+	};
+
+	/**
+	 * Поиск пользователей
+	 */
+	this.searchUsers = function(form) {
+		var url = aRouter['people']+'ajax-search/';
+		var inputSearch=$('#'+form).find('input');
+		inputSearch.addClass('loader');
+
+		ls.hook.marker('searchUsersBefore');
+		ls.ajaxSubmit(url, form, function(result){
+			inputSearch.removeClass('loader');
+			if (result.bStateError) {
+				$('#users-list-search').hide();
+				$('#users-list-original').show();
+			} else {
+				$('#users-list-original').hide();
+				$('#users-list-search').html(result.sText).show();
+				ls.hook.run('ls_user_search_users_after',[form, result]);
+			}
+		});
+	};
+
+	
+
+	/**
+	 * Загрузка временной аватарки
+	 * @param form
+	 * @param input
+	 */
+	this.ajaxUploadImageInit = function(options) {
+		var self = this;
+
+		var defaults = {
+			cropOptions: {
+				minSize: [32, 32]
+			},
+			selectors: {
+				element: '.js-ajax-image-upload',
+				image: '.js-ajax-image-upload-image',
+				image_crop: '.js-image-crop',
+				remove_button: '.js-ajax-image-upload-remove',
+				choose_button: '.js-ajax-image-upload-choose',
+				input_file: '.js-ajax-image-upload-file',
+				crop_cancel_button: '.js-ajax-image-upload-crop-cancel',
+				crop_submit_button: '.js-ajax-image-upload-crop-submit',
+			},
+			urls: {
+				upload: aRouter['settings'] + 'profile/upload-avatar/',
+				remove: aRouter['settings'] + 'profile/remove-avatar/',
+				cancel: aRouter['settings'] + 'profile/cancel-avatar/',
+				crop:   aRouter['settings'] + 'profile/resize-avatar/',
+			}
+		};
+
+		var options = $.extend(true, {}, defaults, options);
+
+		$(options.selectors.element).each(function () {
+			var $element = $(this);
+			
+			var elements = {
+				element: $element,
+				remove_button:  $element.find(options.selectors.remove_button),
+				choose_button:  $element.find(options.selectors.choose_button),
+				image:  $element.find(options.selectors.image),
+				image_crop:  $element.find(options.selectors.image_crop),
+			};
+
+			$element.find(options.selectors.input_file).on('change', function () {
+				self.currentElements = elements;
+				self.currentOptions = options;
+				self.ajaxUploadImage(null, $(this), options);
+			});
+
+			elements.remove_button.on('click', function (e) {
+				self.ajaxUploadImageRemove(options, elements);
+				e.preventDefault();
+			});
+		});
+	};
+
+	/**
+	 * Загрузка временной аватарки
+	 * @param form
+	 * @param input
+	 */
+	this.ajaxUploadImage = function(form, input, options) {
+		if ( ! form && input ) {
+			var form = $('<form method="post" enctype="multipart/form-data"></form>').hide().appendTo('body');
+
+			input.clone(true).insertAfter(input);
+			input.appendTo(form);
+		}
+
+		ls.ajaxSubmit(options.urls.upload, form, function (data) {
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				this.ajaxUploadImageModalCrop(data.sTmpFile, options);
+				form.remove();
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Показывает форму для ресайза аватарки
+	 * @param sImgFile
+	 */
+	this.ajaxUploadImageModalCrop = function(sImgFile, options) {
+		var self = this;
+
+		this.jcropImage && this.jcropImage.destroy();
+
+		$('.js-image-crop').attr('src', sImgFile + '?' + Math.random()).css({
+			'width': 'auto',
+			'height': 'auto'
+		});
+
+		if ($('#modal-image-crop').length)
+			$('#modal-image-crop').modal('show');
+		else {
+			ls.debug('Error [Ajax Image Upload]:\nМодальное окно ресайза изображения не найдено');
+		}
+
+		$('.js-image-crop').Jcrop(options.cropOptions, function () {
+			self.jcropImage = this;
+			this.setSelect([0, 0, 500, 500]);
+		});
+	};
+
+	/**
+	 * Удаление аватарки
+	 */
+	this.ajaxUploadImageRemove = function(options, elements) {
+		ls.hook.marker('removeAvatarBefore');
+
+		ls.ajax(options.urls.remove, {}, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				elements.image.attr('src', result.sFile + '?' + Math.random());
+				elements.remove_button.hide();
+				elements.choose_button.text(result.sTitleUpload);
+
+				ls.hook.run('ls_user_remove_avatar_after', [result]);
+			}
+		});
+	};
+
+	/**
+	 * Отмена ресайза аватарки, подчищаем временный данные
+	 */
+	this.ajaxUploadImageCropCancel = function() {
+		ls.hook.marker('cancelAvatarBefore');
+
+		ls.ajax(this.currentOptions.urls.cancel, {}, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				$('#modal-image-crop').modal('hide');
+				ls.hook.run('ls_user_cancel_avatar_after', [result]);
+			}
+		});
+	};
+
+	/**
+	 * Выполняет ресайз аватарки
+	 */
+	this.ajaxUploadImageCropSubmit = function() {
+		var self = this;
+
+		if ( ! this.jcropImage ) {
+			return false;
+		}
+
+		var params = {
+			size: this.jcropImage.tellSelect()
+		};
+
+		ls.hook.marker('resizeAvatarBefore');
+
+		ls.ajax(self.currentOptions.urls.crop, params, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null,result.sMsg);
+			} else {
+				self.currentElements.image.attr('src',result.sFile+'?'+Math.random());
+				$('#modal-image-crop').modal('hide');
+				self.currentElements.remove_button.show();
+				self.currentElements.choose_button.text(result.sTitleUpload);
+
+				ls.hook.run('ls_user_resize_avatar_after', [params, result]);
+			}
+		});
+
 		return false;
 	};
 

@@ -5,9 +5,11 @@
  *}
 
 <form action="{router page='login'}reminder/" method="post" class="js-form-recovery">
-	<p><label for="mail">{$aLang.password_reminder_email}</label>
-	<input type="text" name="mail" id="mail" class="width-300" />
-	<small class="validate-error-hide validate-error-reminder"></small></p>
+	{* E-mail *}
+    {include file='forms/form.field.text.tpl'
+             sFieldName   = 'mail'
+             sFieldRules  = 'required="true" type="email"'
+             sFieldLabel  = $aLang.password_reminder_email}
 
-	<button type="submit" name="submit_reminder" class="button button-primary js-form-recovery-submit" disabled>{$aLang.password_reminder_submit}</button>
+	{include file='forms/form.field.button.tpl' sFieldName='submit_reactivation' sFieldStyle='primary' sFieldText=$aLang.password_reminder_submit}
 </form>

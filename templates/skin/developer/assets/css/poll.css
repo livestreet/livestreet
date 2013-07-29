@@ -36,8 +36,7 @@
  *
  * @template actions/ActionQuestion/add.tpl
  */
-.poll-add             { padding: 20px; margin-bottom: 20px; background: #f7f7f7; }
-.poll-add-list        { margin-bottom: 15px; }
-.poll-add-item        { margin-bottom: 10px; padding-right: 25px; position: relative; }
-.poll-add-item-input  { width: 100%; }
-.poll-add-item-remove { position: absolute; top: 7px; right: 0; cursor: pointer; }
+.poll-add-item            { margin-bottom: 10px; padding-right: 25px; position: relative; }
+.poll-add-item:last-child { margin-bottom: 0; }
+.poll-add-item-input      { width: 100%; }
+.poll-add-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }
