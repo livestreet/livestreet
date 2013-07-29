@@ -21,7 +21,7 @@ ls.pagination = (function($) {
 		selectors: {
 			pagination: '.js-pagination',
 			next:       '.js-pagination-next',
-			prev:       '.js-pagination-prev',
+			prev:       '.js-pagination-prev'
 		}
 	};
 

@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/stfalcon-studio/livestreet.png?branch=master)](https://travis-ci.org/stfalcon-studio/livestreet)
+[![Build Status](https://secure.travis-ci.org/livestreet/livestreet.png?branch=master)](https://travis-ci.org/livestreet/livestreet)
 
 Documentation
 -------------

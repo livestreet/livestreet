@@ -92,6 +92,7 @@ $config['path']['smarty']['compiled'] = '___path.root.server___/templates/compil
 $config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
 $config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
 $config['smarty']['compile_check']    = true; // Проверять или нет файлы шаблона на изменения перед компиляцией, false может значительно увеличить быстродействие, но потребует ручного удаления кеша при изменения шаблона
+$config['smarty']['force_compile']    = false; // Принудительно компилировать шаблоны при каждом запросе, true - существенно снижает производительность
 /**
  * Настройки плагинов
  */

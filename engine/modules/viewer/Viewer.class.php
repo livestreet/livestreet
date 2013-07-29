@@ -16,6 +16,7 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty/libs/Smarty.class.php');
+require_once(Config::Get('path.root.engine').'/lib/internal/SmartyLS/SmartyLS.class.php');
 require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
 require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
 
@@ -208,6 +209,7 @@ class ModuleViewer extends Module {
 		$this->oSmarty->error_reporting=error_reporting() & ~E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
 		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
 		$this->oSmarty->compile_check=Config::Get('smarty.compile_check');
+		$this->oSmarty->force_compile=Config::Get('smarty.force_compile');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */
@@ -345,7 +347,7 @@ class ModuleViewer extends Module {
 	 * @return Smarty
 	 */
 	public function CreateSmartyObject() {
-		return new Smarty();
+		return new SmartyLS();
 	}
 	/**
 	 * Ответ на ajax запрос
@@ -420,20 +422,32 @@ class ModuleViewer extends Module {
 	/**
 	 * Загружает переменную в шаблон
 	 *
-	 * @param string $sName	Имя переменной в шаблоне
+	 * @param string|array $sName	Имя переменной в шаблоне или ассоциативный массив со списком параметров
 	 * @param mixed $value	Значение переменной
 	 */
-	public function Assign($sName,$value) {
-		$this->oSmarty->assign($sName, $value);
+	public function Assign($sName,$value=null) {
+		if (is_array($sName)) {
+			foreach($sName as $sKey=>$mVal) {
+				$this->oSmarty->assign($sKey, $mVal);
+			}
+		} else {
+			$this->oSmarty->assign($sName, $value);
+		}
 	}
 	/**
 	 * Загружаем переменную в ajax ответ
 	 *
-	 * @param string $sName	Имя переменной в шаблоне
+	 * @param string|array $sName	Имя переменной в шаблоне или ассоциативный массив со списком параметров
 	 * @param mixed $value	Значение переменной
 	 */
-	public function AssignAjax($sName,$value) {
-		$this->aVarsAjax[$sName]=$value;
+	public function AssignAjax($sName,$value=null) {
+		if (is_array($sName)) {
+			foreach($sName as $sKey=>$mVal) {
+				$this->aVarsAjax[$sKey]=$mVal;
+			}
+		} else {
+			$this->aVarsAjax[$sName]=$value;
+		}
 	}
 	/**
 	 * Возвращает обработанный шаблон

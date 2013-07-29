@@ -35,6 +35,12 @@ abstract class Block extends LsObject {
 	 * @var array
 	 */
 	protected $aParams=array();
+	/**
+	 * Шаблон блока
+	 *
+	 * @var string|null
+	 */
+	protected $sTemplate=null;
 
 	/**
 	 * При создании блока передаем в него параметры
@@ -58,6 +64,22 @@ abstract class Block extends LsObject {
 		} else {
 			return $def;
 		}
+	}
+	/**
+	 * Возврашает шаблон блока
+	 *
+	 * @return null|string
+	 */
+	public function GetTemplate() {
+		return $this->sTemplate;
+	}
+	/**
+	 * Устанавливает шаблон блока
+	 *
+	 * @param string $sTemplate Путь до файла шаблона
+	 */
+	public function SetTemplate($sTemplate) {
+		$this->sTemplate=$sTemplate;
 	}
 	/**
 	 * Ставим хук на вызов неизвестного метода и считаем что хотели вызвать метод какого либо модуля

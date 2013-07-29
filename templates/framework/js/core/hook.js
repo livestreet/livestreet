@@ -19,6 +19,8 @@
  * @author Sergey S Yaglov
  * @link http://livestreet.ru/profile/1d10t
  */
+var ls = ls || {};
+
 ls.hook = (function ($) {
 	this.hooks = {};
 

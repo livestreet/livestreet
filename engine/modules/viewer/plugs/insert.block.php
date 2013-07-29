@@ -24,6 +24,10 @@
  * @return string
  */
 function smarty_insert_block($aParams,&$oSmarty) {
+	if (!isset($aParams['block'])) {
+		trigger_error('Not found param "block"',E_USER_WARNING);
+		return ;
+	}
 	/**
 	 * Устанавливаем шаблон
 	 */
@@ -36,16 +40,11 @@ function smarty_insert_block($aParams,&$oSmarty) {
 		$sBlockTemplate = Plugin::GetTemplatePath($aParams['params']['plugin']).'/blocks/block.'.$aParams['block'].'.tpl';
 		$sBlock ='Plugin'.ucfirst($aParams['params']['plugin']).'_Block'.$sBlock;
 	} else {
-		$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template','blocks/block.'.$aParams['block'].'.tpl');
+		$sBlockTemplate = 'blocks/block.'.$aParams['block'].'.tpl';
 		$sBlock ='Block'.$sBlock;
 	}
 
 	$sBlock=Engine::getInstance()->Plugin_GetDelegate('block',$sBlock);
-
-	if (!isset($aParams['block']) or !$oSmarty->templateExists($sBlockTemplate)) {
-		trigger_error("Not found template for block: ".$sBlockTemplate,E_USER_WARNING);
-		return ;
-	}
 	/**
 	 * параметры
 	 */
@@ -57,10 +56,18 @@ function smarty_insert_block($aParams,&$oSmarty) {
 	 * Подключаем необходимый обработчик
 	 */
 	$oBlock = new $sBlock($aParamsBlock);
+	$oBlock->SetTemplate($sBlockTemplate);
 	/**
 	 * Запускаем обработчик
 	 */
 	$oBlock->Exec();
+	/**
+	 * Получаем шаблон, возможно его переопределили в обработчике блока
+	 */
+	$sBlockTemplate = Engine::getInstance()->Plugin_GetDelegate('template',$oBlock->GetTemplate());
+	if (!$oSmarty->templateExists($sBlockTemplate)) {
+		return "<b>Not found template for block: <i>{$sBlockTemplate} ({$sBlock})</i></b>";
+	}
 	/**
 	 * Возвращаем результат в виде обработанного шаблона блока
 	 */
