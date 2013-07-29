@@ -565,11 +565,13 @@ class ModuleUser extends Module {
 	/**
 	 * Проверяет является ли текущий пользователь администратором
 	 *
-	 * @return bool
+	 * @param bool $bReturnUser Возвращать или нет объект пользователя
+	 *
+	 * @return bool|ModuleUser_EntityUser
 	 */
-	public function IsAdmin() {
+	public function GetIsAdmin($bReturnUser=false) {
 		if ($this->oUserCurrent and $this->oUserCurrent->isAdministrator()) {
-			return true;
+			return $bReturnUser ? $this->oUserCurrent : true;
 		}
 		return false;
 	}
