@@ -41,7 +41,7 @@ ls.poll = (function ($) {
 		sAddItemHtml: '<li class="poll-add-item js-poll-add-item">' +
 					      '<input type="text" name="answer[]" class="poll-add-item-input js-poll-add-item-input">' +
 					      '<i class="icon-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
-					  '</li>',
+					  '</li>'
 	};
 
 	/**

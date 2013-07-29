@@ -14,7 +14,7 @@ ls.usernote = (function($) {
 		// Роутеры
 		routers: {
 			save:   aRouter['profile'] + 'ajax-note-save/',
-			remove: aRouter['profile'] + 'ajax-note-remove/',
+			remove: aRouter['profile'] + 'ajax-note-remove/'
 		},
 
 		// Селекторы
@@ -30,7 +30,7 @@ ls.usernote = (function($) {
 			noteEdit:             '.js-user-note-edit',
 			noteEditText:         '.js-user-note-edit-text',
 			noteEditSaveButton:   '.js-user-note-edit-save',
-			noteEditCancelButton: '.js-user-note-edit-cancel',
+			noteEditCancelButton: '.js-user-note-edit-cancel'
 		}
 	};
 

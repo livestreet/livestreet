@@ -218,13 +218,13 @@ ls.user = (function ($) {
 				choose_button: '.js-ajax-image-upload-choose',
 				input_file: '.js-ajax-image-upload-file',
 				crop_cancel_button: '.js-ajax-image-upload-crop-cancel',
-				crop_submit_button: '.js-ajax-image-upload-crop-submit',
+				crop_submit_button: '.js-ajax-image-upload-crop-submit'
 			},
 			urls: {
 				upload: aRouter['settings'] + 'profile/upload-avatar/',
 				remove: aRouter['settings'] + 'profile/remove-avatar/',
 				cancel: aRouter['settings'] + 'profile/cancel-avatar/',
-				crop:   aRouter['settings'] + 'profile/resize-avatar/',
+				crop:   aRouter['settings'] + 'profile/resize-avatar/'
 			}
 		};
 
@@ -238,7 +238,7 @@ ls.user = (function ($) {
 				remove_button:  $element.find(options.selectors.remove_button),
 				choose_button:  $element.find(options.selectors.choose_button),
 				image:  $element.find(options.selectors.image),
-				image_crop:  $element.find(options.selectors.image_crop),
+				image_crop:  $element.find(options.selectors.image_crop)
 			};
 
 			$element.find(options.selectors.input_file).on('change', function () {

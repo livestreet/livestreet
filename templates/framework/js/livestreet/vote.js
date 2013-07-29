@@ -17,7 +17,7 @@ ls.vote = (function ($) {
 			down:    '.js-vote-down',
 			abstain: '.js-vote-abstain',
 			count:   '.js-vote-count',
-			rating:  '.js-vote-rating',
+			rating:  '.js-vote-rating'
 		},
 
 		// Классы
@@ -73,7 +73,7 @@ ls.vote = (function ($) {
 				count:    oVote.find(self.options.selectors.count),
 				rating:   oVote.find(self.options.selectors.rating),
 				id:       oVote.data('vote-id'),
-				type:     oVote.data('vote-type'),
+				type:     oVote.data('vote-type')
 			};
 
 			// Плюс

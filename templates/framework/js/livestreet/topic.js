@@ -13,7 +13,7 @@ ls.topic = (function ($) {
 	var defaults = {
 		// Роутеры
 		oRouters: {
-			preview: aRouter['ajax'] + 'preview/topic/',
+			preview: aRouter['ajax'] + 'preview/topic/'
 		},
 
 		// Селекторы
@@ -21,7 +21,7 @@ ls.topic = (function ($) {
 			previewImage:               '.js-topic-preview-image',
 			previewImageLoader:         '.js-topic-preview-loader',
 			previewTopicTextButton:     '.js-topic-preview-text-button',
-			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
+			previewTopicTextHideButton: '.js-topic-preview-text-hide-button'
 		}
 	};
 

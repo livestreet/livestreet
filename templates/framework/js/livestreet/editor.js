@@ -15,7 +15,7 @@ ls.editor = (function($) {
 		selectors: {
 			insertImageButton:  '.js-insert-image-button',
 			uploadImageButton:  '.js-upload-image-button',
-			previewImageLoader: '.js-topic-preview-loader',
+			previewImageLoader: '.js-topic-preview-loader'
 		}
 	};
 
