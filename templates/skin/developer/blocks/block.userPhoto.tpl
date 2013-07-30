@@ -2,6 +2,7 @@
  * Блок с фотографией пользователя в профиле
  *
  * @styles css/blocks.css
+ * @scripts <framework>/js/livestreet/user.js
  *}
 
 {extends file='blocks/block.aside.base.tpl'}

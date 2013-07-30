@@ -6,6 +6,17 @@ ls.photoset =( function ($) {
 	this.isLoading=false;
 	this.swfu;
 
+	/**
+	 * Инициализация
+	 */
+	this.init = function() {
+		var self = this;
+
+		$('#js-photoset-image-upload').on('change', function (e) {
+			self.upload();
+		});
+	};
+
 	this.initSwfUpload = function(opt) {
 		opt=opt || {};
 		opt.button_placeholder_id = 'photoset-start-upload';
@@ -50,7 +61,7 @@ ls.photoset =( function ($) {
 		               '<div id="photoset_photo_empty_filename" class="photoset-upload-progress-filename"></div>' +
 		               '<div id="photoset_photo_empty_progress" class="progress-bar">' +
 		                   '<div class="progress-bar-value js-upload-percents"></div>' +
-		                   '<div class="progress-bar-label js-upload-label"></div>' +
+		                   '<div class="progress-bar-label js-upload-label">Uploading...</div>' +
 		               '</div>' +
 		           '</li>';
 		$('#swfu_images').append(template);
@@ -139,18 +150,24 @@ ls.photoset =( function ($) {
 		}.bind(this));
 	}
 
-	this.upload = function()
-	{
+	this.upload = function() {
 		ls.photoset.addPhotoEmpty();
-		ls.ajaxSubmit(aRouter['photoset']+'upload/',$('#photoset-upload-form'),function(data){
+
+		var input = $('#js-photoset-image-upload');
+		var form = $('<form method="post" enctype="multipart/form-data"></form>').hide().appendTo('body');
+
+		input.clone(true).insertAfter(input);
+		input.appendTo(form);
+
+		ls.ajaxSubmit(aRouter['photoset'] + 'upload/', form, function (data) {
 			if (data.bStateError) {
 				$('#photoset_photo_empty').remove();
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
 				ls.photoset.addPhoto(data);
 			}
+			form.remove();
 		});
-		$('#modal-photoset-upload').modal('hide');
 	}
 
 	return this;

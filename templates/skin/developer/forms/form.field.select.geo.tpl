@@ -2,10 +2,10 @@
  * Выбор местоположения
  *}
 
-{extends file='forms/form.field.select.tpl'}
+{extends file='forms/form.field.base.tpl'}
 
-{block name='field_item_classes'}js-geo-select{/block}
-{block name='field_holder_input'}
+{block name='field_classes'}js-geo-select{/block}
+{block name='field_holder' prepend}
     <select class="js-geo-country width-full" name="{$sFieldNamePrefix}_country">
         <option value="">{$aLang.geo_select_country}</option>
 

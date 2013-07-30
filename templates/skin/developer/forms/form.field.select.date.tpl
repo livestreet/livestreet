@@ -2,9 +2,9 @@
  * Выбор даты
  *}
 
-{extends file='forms/form.field.select.tpl'}
+{extends file='forms/form.field.base.tpl'}
 
-{block name='field_holder_input'}
+{block name='field_holder' prepend}
     <select name="{$sFieldNamePrefix}_day">
         <option value="">{$aLang.date_day}</option>
         {section name=date_day start=1 loop=32 step=1}

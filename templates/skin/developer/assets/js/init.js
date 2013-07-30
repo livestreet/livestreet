@@ -171,13 +171,19 @@ jQuery(document).ready(function($){
 	/**
 	 * Photoset
 	 */
+	ls.photoset.init();
+
+
+	/**
+	 * Photoset
+	 */
 	$('.js-photoset-type-default-image').prettyPhoto({
 		social_tools: '',
 		show_title:   false,
 		slideshow:    false,
 		deeplinking:  false
 	});
-	
+
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

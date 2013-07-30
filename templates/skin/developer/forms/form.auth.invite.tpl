@@ -5,7 +5,7 @@
 <form action="{router page='registration'}invite/" method="post">
 	{include file='forms/form.field.text.tpl' 
 			 sFieldName    = 'invite_code' 
-			 sFieldRules   = 'required'
+			 sFieldRules   = 'required="true" type="alphanum'
 			 sFieldLabel   = $aLang.registration_invite_code
 			 sFieldClasses = 'width-300'}
 			 

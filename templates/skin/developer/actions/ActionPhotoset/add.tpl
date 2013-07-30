@@ -16,7 +16,7 @@
 {block name='add_topic_form_text_after'}
 	<script type="text/javascript">
 		jQuery(function($){
-			if (jQuery.browser.flash) {
+			if (!jQuery.browser.flash) {
 				ls.photoset.initSwfUpload({
 					post_params: { 'topic_id': {json var=$_aRequest.topic_id} }
 				});
@@ -33,14 +33,14 @@
 				{$aLang.topic_photoset_upload_rules|ls_lang:"SIZE%%`$oConfig->get('module.topic.photoset.photo_max_size')`":"COUNT%%`$oConfig->get('module.topic.photoset.count_photos_max')`"}
 			</div>
 		</header>
-		
+
 		<ul class="fieldset-body photoset-upload-images" id="swfu_images">
 			{if count($aPhotos)}
 				{foreach $aPhotos as $oPhoto}
 					{if $_aRequest.topic_main_photo && $_aRequest.topic_main_photo == $oPhoto->getId()}
 						{$bIsMainPhoto = true}
 					{/if}
-					
+
 					<li id="photo_{$oPhoto->getId()}" class="photoset-upload-images-item {if $bIsMainPhoto}marked-as-preview{/if}">
 						<img src="{$oPhoto->getWebPath('100crop')}" alt="image" />
 						<textarea onBlur="ls.photoset.setPreviewDescription({$oPhoto->getId()}, this.value)" class="width-full">{$oPhoto->getDescription()}</textarea><br />
@@ -53,15 +53,19 @@
 							{/if}
 						</span>
 					</li>
-					
+
 					{$bIsMainPhoto = false}
 				{/foreach}
 			{/if}
 		</ul>
-		
+
 		<footer class="fieldset-footer">
-			<input type="hidden" name="topic_main_photo" id="topic_main_photo" value="{$_aRequest.topic_main_photo}" />
-			<a href="#" data-type="modal-toggle" data-option-target="modal-photoset-upload" class="link-dotted" id="photoset-start-upload">{$aLang.topic_photoset_upload_choose}</a>
+			{include file='forms/form.field.hidden.tpl' sFieldName='topic_main_photo' value=$_aRequest.topic_main_photo}
+
+			<label class="form-input-file">
+				<span class="button">{$aLang.topic_photoset_upload_choose}</span>
+				<input type="file" name="Filedata" id="js-photoset-image-upload">
+			</label>
 		</footer>
 	</div>
 {/block}

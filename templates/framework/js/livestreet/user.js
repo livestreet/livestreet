@@ -196,7 +196,7 @@ ls.user = (function ($) {
 		});
 	};
 
-	
+
 
 	/**
 	 * Загрузка временной аватарки
@@ -232,7 +232,7 @@ ls.user = (function ($) {
 
 		$(options.selectors.element).each(function () {
 			var $element = $(this);
-			
+
 			var elements = {
 				element: $element,
 				remove_button:  $element.find(options.selectors.remove_button),
@@ -272,8 +272,8 @@ ls.user = (function ($) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
 				this.ajaxUploadImageModalCrop(data.sTmpFile, options);
-				form.remove();
 			}
+			form.remove();
 		}.bind(this));
 	};
 

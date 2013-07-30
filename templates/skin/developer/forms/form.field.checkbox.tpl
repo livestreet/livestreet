@@ -4,7 +4,11 @@
 
 {extends file='forms/form.field.base.tpl'}
 
-{block name='field_holder_input'}
+{block name='field_before'}
+	{$bFieldNoLabel = true}
+{/block}
+
+{block name='field_holder' prepend}
 	{if $sFieldLabel}<label>{/if}
 	<input type="checkbox" 
 		   id="{$sFieldName}" 

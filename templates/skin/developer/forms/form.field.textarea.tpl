@@ -1,6 +1,6 @@
 {extends file='forms/form.field.base.tpl'}
 
-{block name='field_holder_input'}
+{block name='field_holder' prepend}
 	{strip}
 		<textarea id="{$sFieldName}" 
 				  name="{$sFieldName}" 

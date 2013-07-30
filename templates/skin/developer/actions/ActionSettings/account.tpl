@@ -7,7 +7,7 @@
 {block name='layout_content'}
 	{hook run='settings_account_begin'}
 
-	<form method="post" enctype="multipart/form-data">
+	<form method="post" enctype="multipart/form-data" data-validate="parsley">
 		{hook run='form_settings_account_begin'}
 
 		<fieldset>
@@ -16,7 +16,7 @@
             {* E-mail *}
             {include file='forms/form.field.text.tpl'
                      sFieldName  = 'mail'
-                     sFieldRules = 'required'
+                     sFieldRules = 'required="true" type="email"'
                      sFieldValue = $oUserCurrent->getMail()|escape
                      sFieldNote  = $aLang.settings_profile_mail_notice
                      sFieldLabel = $aLang.settings_profile_mail}
@@ -38,13 +38,15 @@
             {* Новый пароль *}
             {include file='forms/form.field.text.tpl'
                      sFieldName    = 'password'
+                     sFieldRules   = 'rangelength="[5,20]"'
                      sFieldType    = 'password'
                      sFieldClasses = 'width-200'
                      sFieldLabel   = $aLang.settings_profile_password_new}
 
-            {* Новый пароль *}
+            {* Повторить овый пароль *}
             {include file='forms/form.field.text.tpl'
                      sFieldName    = 'password_confirm'
+                     sFieldRules   = 'rangelength="[5,20]" equalto=".js-input-password"'
                      sFieldType    = 'password'
                      sFieldClasses = 'width-200'
                      sFieldLabel   = $aLang.settings_profile_password_confirm}

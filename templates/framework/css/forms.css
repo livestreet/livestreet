@@ -89,10 +89,6 @@ form .icon-question-sign { cursor: help; }
 .form-field-inline .form-field-holder { padding-left: 150px; min-width: 200px; }
 
 
-.form-profile { position: relative; }
-.form-profile .avatar-change { position: absolute; width: 100px; top: 40px; right: 0; padding: 10px; background: #f7f7f7; font-size: 11px; }
-
-
 /* Placeholder */
 :-moz-placeholder           { color: #afafaf; }
 ::-moz-placeholder          { color: #afafaf; opacity: 1; }

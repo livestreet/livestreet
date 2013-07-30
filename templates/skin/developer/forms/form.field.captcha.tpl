@@ -6,7 +6,7 @@
 
 {extends file='forms/form.field.base.tpl'}
 
-{block name='field_holder_input'}
+{block name='field_holder' prepend}
     {hookb run="registration_captcha" isPopup=$isModal}
         <span {if ! $isModal}style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if}
               class="form-auth-captcha js-form-auth-captcha"></span>

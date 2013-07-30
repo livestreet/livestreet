@@ -4,7 +4,7 @@
 
 {extends file='forms/form.field.base.tpl'}
 
-{block name='field_holder_input'}
+{block name='field_holder' prepend}
 	<input type="{if $sFieldType}{$sFieldType}{else}text{/if}"
 		   id="{$sFieldName}" 
 		   name="{$sFieldName}" 

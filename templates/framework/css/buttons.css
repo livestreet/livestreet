@@ -1,4 +1,4 @@
-/* 
+/*
  * Buttons
  */
 
@@ -26,7 +26,7 @@
 }
 .button:hover  { text-decoration: none; background: #eaeaea; color: #333; }
 .button:active,
-.button.active { 
+.button.active {
 	background: #eaeaea;
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .2) inset;
 	   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .2) inset;
@@ -36,7 +36,7 @@ a.button { padding-top: 5px; }
 
 /* Icon */
 .button [class^="icon-"],
-.button [class*=" icon-"] { 
+.button [class*=" icon-"] {
 	float: left;
 	position: relative;
 	margin-right: 5px;
@@ -55,7 +55,7 @@ a.button { padding-top: 5px; }
 .ie7 .button [class*=" icon-"] { float: none; display: inline; zoom: 1; vertical-align: middle; }
 
 
-/* 
+/*
  * Button Disabled
  */
 .button.disabled,
