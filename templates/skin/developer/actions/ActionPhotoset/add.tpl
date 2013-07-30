@@ -59,7 +59,7 @@
 			{include file='forms/form.field.hidden.tpl' sFieldName='topic_main_photo' value=$_aRequest.topic_main_photo}
 
 			<label class="form-input-file">
-				<span class="button">{$aLang.topic_photoset_upload_choose}</span>
+				<span class="button" id="js-photoset-image-upload-flash">{$aLang.topic_photoset_upload_choose}</span>
 				<input type="file" name="Filedata" id="js-photoset-image-upload" data-topic-id="{$_aRequest.topic_id}">
 			</label>
 		</footer>
