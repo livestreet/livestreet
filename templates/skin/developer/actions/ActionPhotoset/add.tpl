@@ -9,14 +9,10 @@
 
 {block name='add_topic_type'}photoset{/block}
 
-{block name='add_topic_header_after'}
-	{include file='modals/modal.photoset_add_photo.tpl'}
-{/block}
-
 {block name='add_topic_form_text_after'}
 	<script type="text/javascript">
 		jQuery(function($){
-			if (!jQuery.browser.flash) {
+			if (jQuery.browser.flash) {
 				ls.photoset.initSwfUpload({
 					post_params: { 'topic_id': {json var=$_aRequest.topic_id} }
 				});
