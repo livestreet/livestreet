@@ -60,7 +60,7 @@
 
 			<label class="form-input-file">
 				<span class="button">{$aLang.topic_photoset_upload_choose}</span>
-				<input type="file" name="Filedata" id="js-photoset-image-upload">
+				<input type="file" name="Filedata" id="js-photoset-image-upload" data-topic-id="{$_aRequest.topic_id}">
 			</label>
 		</footer>
 	</div>
