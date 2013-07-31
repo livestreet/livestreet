@@ -1,17 +1,50 @@
- var ls = ls || {};
-
 /**
-* JS функционал для блогов
-*/
+ * Блоги
+ */
+
+var ls = ls || {};
+
 ls.blog = (function ($) {
-	
+	"use strict";
+
+	/**
+	 * Дефолтные опции
+	 */
+	var defaults = {
+		// Роутеры
+		oRouters: {
+
+		},
+
+		// Селекторы
+		selectors: {
+			addBlogSelectType: '.js-blog-add-type'
+		}
+	};
+
+	/**
+	 * Инициализация
+	 *
+	 * @param  {Object} options Опции
+	 */
+	this.init = function(options) {
+		var self = this;
+
+		this.options = $.extend({}, defaults, options);
+
+		// Подгрузка информации о выбранном типе блога при создании блога
+		$(this.options.selectors.addBlogSelectType).on('change', function (e) {
+			ls.blog.loadInfoType($(this).val());
+		});
+	};
+
 	/**
 	* Вступить или покинуть блог
 	*/
 	this.toggleJoin = function(obj, idBlog){
 		var url = aRouter['blog']+'ajaxblogjoin/';
 		var params = {idBlog: idBlog};
-		
+
 		ls.hook.marker('toggleJoinBefore');
 		ls.ajax(url,params,function(result) {
 			if (result.bStateError) {
@@ -19,15 +52,15 @@ ls.blog = (function ($) {
 			} else {
 				obj = $(obj);
 				ls.msg.notice(null, result.sMsg);
-				
+
 				var text = result.bState
 					? ls.lang.get('blog_leave')
 					: ls.lang.get('blog_join')
 				;
-				
+
 				obj.empty().text(text);
 				obj.toggleClass('active');
-				
+
 				$('#blog_user_count_'+idBlog).text(result.iCountUser);
 				ls.hook.run('ls_blog_toggle_join_after',[idBlog,result],obj);
 			}
@@ -41,10 +74,10 @@ ls.blog = (function ($) {
 		var sUsers = $('#blog_admin_user_add').val();
 		if(!sUsers) return false;
 		$('#blog_admin_user_add').val('');
-		
+
 		var url = aRouter['blog']+'ajaxaddbloginvite/';
 		var params = {users: sUsers, idBlog: idBlog};
-		
+
 		ls.hook.marker('addInviteBefore');
 		ls.ajax(url, params, function(result) {
 			if (result.bStateError) {
@@ -66,7 +99,7 @@ ls.blog = (function ($) {
 				ls.hook.run('ls_blog_add_invite_after',[idBlog,sUsers,result]);
 			}
 		});
-		
+
 		return false;
 	};
 
@@ -76,7 +109,7 @@ ls.blog = (function ($) {
 	this.repeatInvite = function(idUser,idBlog) {
 		var url = aRouter['blog']+'ajaxrebloginvite/';
 		var params = {idUser: idUser, idBlog: idBlog};
-		
+
 		ls.hook.marker('repeatInviteBefore');
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
@@ -86,7 +119,7 @@ ls.blog = (function ($) {
 				ls.hook.run('ls_blog_repeat_invite_after',[idUser,idBlog,result]);
 			}
 		});
-		
+
 		return false;
 	};
 
@@ -111,26 +144,28 @@ ls.blog = (function ($) {
 
 		return false;
 	};
-	
+
 	/**
 	* Отображение информации о блоге
 	*/
 	this.loadInfo = function(idBlog) {
 		var url = aRouter['blog']+'ajaxbloginfo/';
 		var params = {idBlog: idBlog};
-		
+		var block = $('#block_blog_info');
+
+		block.empty().addClass('loading');
+
 		ls.hook.marker('loadInfoBefore');
 		ls.ajax(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				var block = $('#block_blog_info');
-				block.html(result.sText);
+				block.removeClass('loading').html(result.sText);
 				ls.hook.run('ls_blog_load_info_after',[idBlog,result],block);
 			}
 		});
 	};
-	
+
 	/**
 	* Отображение информации о типе блога
 	*/
@@ -167,13 +202,13 @@ ls.blog = (function ($) {
 		$('#blog-more-content').slideToggle();
 		var more = $('#blog-more');
 		more.toggleClass('expanded');
-		
+
 		if(more.hasClass('expanded')) {
 			more.html(ls.lang.get('blog_fold_info'));
 		} else {
 			more.html(ls.lang.get('blog_expand_info'));
 		}
-		
+
 		return false;
 	};
 

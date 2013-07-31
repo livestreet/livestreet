@@ -21,7 +21,8 @@ ls.topic = (function ($) {
 			previewImage:               '.js-topic-preview-image',
 			previewImageLoader:         '.js-topic-preview-loader',
 			previewTopicTextButton:     '.js-topic-preview-text-button',
-			previewTopicTextHideButton: '.js-topic-preview-text-hide-button'
+			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
+			addTopicTitle:              '.js-topic-add-title'
 		}
 	};
 
@@ -40,7 +41,7 @@ ls.topic = (function ($) {
 			$(this).imagesLoaded(function () {
 				var $this = $(this),
 					$preview = $this.closest(self.options.selectors.previewImageLoader).removeClass('loading');
-					
+
 				$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
 			});
 		});
@@ -50,9 +51,14 @@ ls.topic = (function ($) {
 			self.showPreviewText('form-topic-add', 'topic-text-preview');
 		});
 
-		// Закрытие превью
+		// Закрытие превью текста
 		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
 			self.hidePreviewText();
+		});
+
+		// Подгрузка информации о выбранном блоге при создании топика
+		$(this.options.selectors.addTopicTitle).on('change', function (e) {
+			ls.blog.loadInfo($(this).val());
 		});
 	};
 

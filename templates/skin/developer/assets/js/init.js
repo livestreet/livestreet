@@ -169,6 +169,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Blog
+	 */
+	ls.blog.init();
+
+
+	/**
 	 * Photoset
 	 */
 	ls.photoset.init();

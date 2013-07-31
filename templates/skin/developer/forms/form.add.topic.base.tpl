@@ -49,20 +49,20 @@
 			]}
 		{/foreach}
 
-		{include file='forms/form.field.select.tpl' 
+		{include file='forms/form.field.select.tpl'
 				 sFieldName          = 'blog_id'
 				 sFieldLabel         = $aLang.topic_create_blog
 				 sFieldNote          = $aLang.topic_create_blog_notice
-				 sFieldClasses       = 'width-full js-topic-add-title' 
+				 sFieldClasses       = 'width-full js-topic-add-title'
 				 aFieldItems         = $aBlogs
-				 sFieldSelectedValue = $_aRequest.blog_id} {* TODO: Подгрузка инфы при смене блога *}
+				 sFieldSelectedValue = $_aRequest.blog_id}
 
 
 		{* Заголовок топика *}
-		{include file='forms/form.field.text.tpl' 
-				 sFieldName  = 'topic_title' 
-				 sFieldRules = 'required="true" rangelength="[2,200]"' 
-				 sFieldNote  = $aLang.topic_create_title_notice 
+		{include file='forms/form.field.text.tpl'
+				 sFieldName  = 'topic_title'
+				 sFieldRules = 'required="true" rangelength="[2,200]"'
+				 sFieldNote  = $aLang.topic_create_title_notice
 				 sFieldLabel = $aLang.topic_create_title}
 
 
@@ -71,10 +71,10 @@
 
 		{* Текст топика *}
 		{* TODO: Max length for poll and link *}
-		{include file='forms/form.field.textarea.tpl' 
+		{include file='forms/form.field.textarea.tpl'
 				 sFieldName    = 'topic_text'
-				 sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"' 
-				 sFieldLabel   = $aLang.topic_create_text 
+				 sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"'
+				 sFieldLabel   = $aLang.topic_create_text
 				 sFieldClasses = 'width-full js-editor'}
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
@@ -84,30 +84,30 @@
 
 
 		{block name='add_topic_form_text_after'}{/block}
-		
+
 
 		{* Теги *}
 		{* TODO: Валидатор кол-ва тегов *}
-		{include file='forms/form.field.text.tpl' 
+		{include file='forms/form.field.text.tpl'
 				 sFieldName    = 'topic_tags'
 				 sFieldRules   = 'required="true"'
-				 sFieldNote    = $aLang.topic_create_tags_notice 
-				 sFieldLabel   = $aLang.topic_create_tags 
+				 sFieldNote    = $aLang.topic_create_tags_notice
+				 sFieldLabel   = $aLang.topic_create_tags
 				 sFieldClasses = 'width-full autocomplete-tags-sep'}
 
 
 		{* Запретить комментарии *}
-		{include file='forms/form.field.checkbox.tpl' 
+		{include file='forms/form.field.checkbox.tpl'
 				 sFieldName  = 'topic_forbid_comment'
-				 sFieldNote  = $aLang.topic_create_forbid_comment_notice 
+				 sFieldNote  = $aLang.topic_create_forbid_comment_notice
 				 sFieldLabel = $aLang.topic_create_forbid_comment}
 
 
 		{* Принудительный вывод топиков на главную (доступно только админам) *}
 		{if $oUserCurrent->isAdministrator()}
-			{include file='forms/form.field.checkbox.tpl' 
+			{include file='forms/form.field.checkbox.tpl'
 					 sFieldName  = 'topic_publish_index'
-					 sFieldNote  = $aLang.topic_create_publish_index_notice 
+					 sFieldNote  = $aLang.topic_create_publish_index_notice
 					 sFieldLabel = $aLang.topic_create_publish_index}
 		{/if}
 
@@ -119,7 +119,7 @@
 		{* Скрытые поля *}
 		{include file='forms/form.field.hidden.tpl' sFieldName='topic_type' value=$sTopicType}
 		{include file='forms/form.field.hidden.security_key.tpl'}
-		
+
 
 		{* Кнопки *}
 		{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}
@@ -128,9 +128,9 @@
 			{$sSubmitInputText = $aLang.topic_create_submit_update}
 		{/if}
 
-		{include file='forms/form.field.button.tpl' 
-				 sFieldName    = 'submit_topic_publish' 
-				 sFieldStyle   = 'primary' 
+		{include file='forms/form.field.button.tpl'
+				 sFieldName    = 'submit_topic_publish'
+				 sFieldStyle   = 'primary'
 				 sFieldClasses = 'fl-r'
 				 sFieldText    = $sSubmitInputText}
 		{include file='forms/form.field.button.tpl' sFieldType='button' sFieldClasses='js-topic-preview-text-button' sFieldText=$aLang.topic_create_submit_preview}

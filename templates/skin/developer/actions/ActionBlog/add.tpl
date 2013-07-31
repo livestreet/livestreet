@@ -31,18 +31,18 @@
 
 
 		{* Название блога *}
-		{include file='forms/form.field.text.tpl' 
-				 sFieldName  = 'blog_title' 
+		{include file='forms/form.field.text.tpl'
+				 sFieldName  = 'blog_title'
 				 sFieldRules = 'required="true" rangelength="[2,200]"'
-				 sFieldNote  = $aLang.blog_create_title_notice 
+				 sFieldNote  = $aLang.blog_create_title_notice
 				 sFieldLabel = $aLang.blog_create_title}
 
 		{* URL блога *}
-		{include file='forms/form.field.text.tpl' 
-				 sFieldName       = 'blog_url' 
+		{include file='forms/form.field.text.tpl'
+				 sFieldName       = 'blog_url'
 				 sFieldRules      = 'required="true" type="alphanum" rangelength="[2,50]"'
 				 bFieldIsDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
-				 sFieldNote       = $aLang.blog_create_url_notice 
+				 sFieldNote       = $aLang.blog_create_url_notice
 				 sFieldLabel      = $aLang.blog_create_url}
 
 
@@ -59,7 +59,7 @@
 				]}
 			{/foreach}
 
-			{include file='forms/form.field.select.tpl' 
+			{include file='forms/form.field.select.tpl'
 					 sFieldName          = 'blog_category'
 					 sFieldLabel         = $aLang.blog_create_category
 					 sFieldNote          = $aLang.blog_create_category_notice
@@ -75,19 +75,19 @@
 			[ 'value' => 'close', 'text' => $aLang.blog_create_type_close ]
         ]}
 
-		{include file='forms/form.field.select.tpl' 
+		{include file='forms/form.field.select.tpl'
 				 sFieldName          = 'blog_type'
 				 sFieldLabel         = $aLang.blog_create_type
 				 sFieldNote          = $aLang.blog_create_type_open_notice
 				 sFieldClasses       = 'width-200 js-blog-add-type'
 				 aFieldItems         = $aBlogsType
-				 sFieldSelectedValue = $_aRequest.blog_type} {* TODO: Подсказка при смене типа *}
+				 sFieldSelectedValue = $_aRequest.blog_type}
 
 
 		{* Описание блога *}
-		{include file='forms/form.field.textarea.tpl' 
+		{include file='forms/form.field.textarea.tpl'
 				 sFieldName    = 'blog_description'
-				 sFieldRules   = 'required="true" rangelength="[10,3000]"' 
+				 sFieldRules   = 'required="true" rangelength="[10,3000]"'
 				 sFieldLabel   = $aLang.blog_create_description
 				 sFieldClasses = 'width-full js-editor'}
 
@@ -96,9 +96,9 @@
 			{include file='forms/editor.help.tpl' sTagsTargetId='blog_description'}
 		{/if}
 
-		
+
 		{* Ограничение по рейтингу *}
-		{include file='forms/form.field.text.tpl' 
+		{include file='forms/form.field.text.tpl'
 				 sFieldName    = 'blog_limit_rating_topic'
 				 sFieldRules   = 'required="true" type="number"'
 				 sFieldValue   = '0'
@@ -116,13 +116,13 @@
 			{include file='forms/form.field.checkbox.tpl' sFieldName='avatar_delete' bFieldNoMargin=true sFieldValue='on' sFieldLabel=$aLang.blog_create_avatar_delete}
 		{/if}
 
-		{include file='forms/form.field.file.tpl' 
+		{include file='forms/form.field.file.tpl'
 				 sFieldName  = 'avatar'
 				 sFieldLabel = $aLang.blog_create_avatar}
 
 
 		{hook run='form_add_blog_end'}
-		
+
 
 		{* Скрытые поля *}
 		{include file='forms/form.field.hidden.security_key.tpl'}
