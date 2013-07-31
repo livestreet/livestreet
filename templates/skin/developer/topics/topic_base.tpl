@@ -20,23 +20,23 @@
 		<header class="topic-header">
 			{* Заголовок *}
 			<h1 class="topic-title word-wrap">
-				{if $oTopic->getPublish() == 0}   
+				{if $oTopic->getPublish() == 0}
 					<i class="icon-file" title="{$aLang.topic_unpublish}"></i>
 				{/if}
-				
+
 				{block name='topic_icon'}{/block}
-				
+
 				{if $bTopicList}
 					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
 				{else}
 					{$oTopic->getTitle()|escape:'html'}
 				{/if}
 			</h1>
-			
+
 			{* Информация *}
 			<div class="topic-info">
 				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
-				
+
 				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
 				</time>
@@ -50,9 +50,9 @@
 
 						{if $oTopic->getIsAllowDelete()}
 							<li>
-								<a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" 
-								   title="{$aLang.topic_delete}" 
-								   onclick="return confirm('{$aLang.topic_delete_confirm}');" 
+								<a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+								   title="{$aLang.topic_delete}"
+								   onclick="return confirm('{$aLang.topic_delete_confirm}');"
 								   class="actions-delete">{$aLang.topic_delete}</a>
 							</li>
 						{/if}
@@ -77,7 +77,7 @@
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
 	{/block}
-	
+
 	{block name='topic_content_after'}{/block}
 
 
@@ -91,21 +91,21 @@
 			{* Теги *}
 			<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
 				<li>{$aLang.topic_tags}:</li>
-				
+
 				{strip}
 					{foreach $oTopic->getTagsArray() as $sTag}
 						<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 					{foreachelse}
 						<li>{$aLang.topic_tags_empty}</li>
 					{/foreach}
-					
+
 					{if $oUserCurrent}
 						{if $oFavourite}
 							{foreach $oFavourite->getTagsArray() as $sTag}
 								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
 							{/foreach}
 						{/if}
-						
+
 						<li class="topic-tags-edit js-favourite-tag-edit" {if !$oFavourite}style="display:none;"{/if}>
 							<a href="#" onclick="return ls.favourite.showEditTags({$oTopic->getId()},'topic',this);" class="link-dotted">{$aLang.favourite_form_tags_button_show}</a>
 						</li>
@@ -126,7 +126,7 @@
 					data-option-url="{router page='ajax'}vote/get/info/"
 					data-vote-type="topic"
 					data-vote-id="{$oTopic->getId()}"
-					class="vote js-vote 
+					class="vote js-vote
 							{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
 								{if $oTopic->getRating() > 0}
 									vote-count-positive
@@ -134,10 +134,10 @@
 									vote-count-negative
 								{/if}
 							{/if}
-							
-							{if $oVote} 
+
+							{if $oVote}
 								voted
-								
+
 								{if $oVote->getDirection() > 0}
 									voted-up
 								{elseif $oVote->getDirection() < 0}
@@ -150,8 +150,8 @@
 					<div class="vote-count js-vote-rating">
 						{if $bShowVoteInfo}
 							{if $oTopic->getRating() > 0}+{/if}{$oTopic->getRating()}
-						{else} 
-							<a href="#" class="js-vote-abstain">?</a> 
+						{else}
+							<a href="#" class="js-vote-abstain">?</a>
 						{/if}
 					</div>
 					<div class="vote-down js-vote-down"></div>
@@ -162,19 +162,19 @@
 
 				{* Избранное *}
 				<li class="topic-info-favourite">
-					<div onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');" 
-						 class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}" 
+					<div onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');"
+						 class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"
 						 title="{if $oTopic->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
 					<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{$oTopic->getCountFavourite()}</span>
 				</li>
 
 				{* Поделиться *}
 				<li class="topic-info-share"><a href="#" class="icon-share js-popover-default" title="{$aLang.topic_share}" data-type="popover-toggle" data-option-target="topic_share_{$oTopic->getId()}"></a></li>
-				
+
 				{* Ссылка на комментарии *}
 				{if $bTopicList}
 					<li class="topic-info-comments">
-						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comment_declension:'russian'}</a>
+						<a href="{$oTopic->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comment_declension}</a>
 						{if $oTopic->getCountCommentNew()}<span>+{$oTopic->getCountCommentNew()}</span>{/if}
 					</li>
 				{/if}
@@ -183,7 +183,7 @@
 				{hook run='topic_show_info' topic=$oTopic}
 			</ul>
 
-			
+
 			{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
 			<div class="popover" data-type="popover-target" id="topic_share_{$oTopic->getId()}">
 				<div class="popover-arrow"></div><div class="popover-arrow-inner"></div>
@@ -201,7 +201,7 @@
 			{block name='topic_footer_end'}{/block}
 		</footer>
 	{/block}
-	
+
 	{block name='topic_footer_after'}{/block}
 </article>
 

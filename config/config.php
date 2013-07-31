@@ -17,7 +17,7 @@
 
 /**
  * !!!!! ВНИМАНИЕ !!!!!
- * 
+ *
  * Ничего не изменяйте в этом файле!
  * Все изменения нужно вносить в файл config/config.local.php
  */
@@ -160,10 +160,12 @@ $config['general']['reg']['activation'] = false; // использовать а�
 /**
  * Языковые настройки
  */
-$config['lang']['current'] = 'russian';                                                // текущий язык текстовок
-$config['lang']['default'] = 'russian';                                                // язык, который будет использовать на сайте по умолчанию
-$config['lang']['path']    = '___path.root.server___/templates/language'; 				// полный путь до языковых файлов
-$config['lang']['load_to_js'] = array();												// Массив текстовок, которые необходимо прогружать на страницу в виде JS хеша, позволяет использовать текстовки внутри js
+$config['lang']['current']     = 'ru';                                                // текущий язык текстовок
+$config['lang']['default']     = 'ru';                                                // язык, который будет использовать на сайте по умолчанию
+$config['lang']['dir']         = 'i18n';                                              // название директории с языковыми файлами
+$config['lang']['path']        = '___path.root.server___/templates/___lang.dir___';   // полный путь до языковых файлов
+$config['lang']['load_to_js']  = array();                                             // Массив текстовок, которые необходимо прогружать на страницу в виде JS хеша, позволяет использовать текстовки внутри js
+
 /**
  * Настройки ACL(Access Control List — список контроля доступа)
  */
@@ -458,11 +460,11 @@ $config['block']['rule_tag'] = array(
 );
 $config['block']['rule_blogs'] = array(
 	'action'  => array( 'blogs' ),
-	'blocks'  => array( 
+	'blocks'  => array(
 		'right' => array(
 			'blocks/block.blogAdd.tpl' => array('priority' => 100),
 			'blogCategories' => array('priority' => 50)
-		) 
+		)
 	),
 );
 
@@ -504,13 +506,13 @@ $config['block']['rule_users'] = array(
 );
 $config['block']['rule_profile'] = array(
 	'action' => array( 'profile', 'talk', 'settings' ),
-	'blocks' => array( 
+	'blocks' => array(
 		'right' => array(
 			'blocks/block.userPhoto.tpl'   =>array('priority' => 100),
 			'blocks/block.userActions.tpl' =>array('priority' => 50),
 			'blocks/block.userNote.tpl'    =>array('priority' => 25),
 			'blocks/block.userNav.tpl'     =>array('priority' => 1),
-		) 
+		)
 	)
 );
 

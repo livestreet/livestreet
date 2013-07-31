@@ -14,14 +14,14 @@
 		<a href="#" class="modal-close" data-type="modal-close"></a>
 	</header>
 {/block}
-	
+
 {block name='modal_content'}
 	{strip}
 		<ul class="write-list">
 			{if $iUserCurrentCountTopicDraft}
 			<li class="write-item-type-draft">
 				<a href="{router page='topic'}drafts/" class="write-item-image"></a>
-				<a href="{router page='topic'}drafts/" class="write-item-link">{$iUserCurrentCountTopicDraft} {$iUserCurrentCountTopicDraft|declension:$aLang.draft_declension:'russian'}</a>
+				<a href="{router page='topic'}drafts/" class="write-item-link">{$iUserCurrentCountTopicDraft} {$iUserCurrentCountTopicDraft|declension:$aLang.draft_declension}</a>
 			</li>
 			{/if}
 			<li class="write-item-type-topic">

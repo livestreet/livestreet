@@ -29,7 +29,7 @@
 			{$sSettings = 'ls.settings.get("tinymceComment")'}
 		{else}
 			{hook run='editor_init_wysiwyg_settings' sEditorType=$sEditorType assign='sSettings'}
-			
+
 			{if ! $sSettings}
 				{$sSettings = 'ls.settings.get("tinymce")'}
 			{/if}
@@ -39,9 +39,9 @@
 
 		<script>
 			jQuery(function($) {
-				tinyMCE.init($.extend({ }, {$sSettings}, { 
+				tinyMCE.init($.extend({ }, {$sSettings}, {
 					editor_selector : '{$sEditorSelector}',
-					language : {if $oConfig->GetValue('lang.current') == 'russian'}'ru'{else}'en'{/if}
+					language : {$oConfig->GetValue('lang.current')}
 				}));
 			});
 		</script>
@@ -56,18 +56,18 @@
 			{$sSettings = 'ls.settings.get("markitupComment")'}
 		{else}
 			{hook run='editor_init_markup_settings' sEditorType=$sEditorType assign='sSettings'}
-			
+
 			{if ! $sSettings}
 				{$sSettings = 'ls.settings.get("markitup")'}
 			{/if}
 		{/if}
-		
+
 		<script src="{cfg name='path.static.framework'}/js/vendor/markitup/jquery.markitup.js"></script>
 
 		<script>
 			jQuery(function($) {
 				ls.lang.load({lang_load name="panel_b,panel_i,panel_u,panel_s,panel_url,panel_url_promt,panel_code,panel_video,panel_image,panel_cut,panel_quote,panel_list,panel_list_ul,panel_list_ol,panel_title,panel_clear_tags,panel_video_promt,panel_list_li,panel_image_promt,panel_user,panel_user_promt"});
-				
+
 				$('.{$sEditorSelector}').markItUp({$sSettings});
 			});
 		</script>

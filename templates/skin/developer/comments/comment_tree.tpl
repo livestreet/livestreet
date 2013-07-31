@@ -19,23 +19,23 @@
 <div class="comments" id="comments">
 	<header class="comments-header">
 		<h3>
-			<span id="count-comments">{$iCountComment}</span> 
-			{$iCountComment|declension:$aLang.comment_declension:'russian'}
+			<span id="count-comments">{$iCountComment}</span>
+			{$iCountComment|declension:$aLang.comment_declension}
 		</h3>
-		
+
 		{* Подписка на комментарии *}
 		{if $bAllowSubscribe and $oUserCurrent}
 			<label class="comments-subscribe">
-				<input 
-					type="checkbox" 
-					id="comment_subscribe" 
-					class="input-checkbox" 
+				<input
+					type="checkbox"
+					id="comment_subscribe"
+					class="input-checkbox"
 					onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"
 					{if $oSubscribeComment and $oSubscribeComment->getStatus()}checked{/if}>
 				{$aLang.comment_subscribe}
 			</label>
 		{/if}
-	
+
 		<a name="comments"></a>
 	</header>
 
@@ -47,29 +47,29 @@
 
 	{foreach $aComments as $oComment}
 		{$iCommentLevel = $oComment->getLevel()}
-		
+
 		{if $iCommentLevel > $iMaxLevel}
 			{$iCommentLevel = $iMaxLevel}
 		{/if}
-		
-		{if $iCurrentLevel > $iCommentLevel}    	
+
+		{if $iCurrentLevel > $iCommentLevel}
 			{section name=closelist1 loop=$iCurrentLevel - $iCommentLevel + 1}</div>{/section}
 		{elseif $iCurrentLevel == $iCommentLevel && ! $oComment@first}
 			</div>
 		{/if}
-		
+
 		<div class="comment-wrapper" id="comment_wrapper_id_{$oComment->getId()}">
-		
+
 		{include file='comments/comment.tpl'}
 
 		{$iCurrentLevel = $iCommentLevel}
 
 		{if $oComment@last}
-			{section name=closelist2 loop=$iCurrentLevel + 1}</div>{/section}    
+			{section name=closelist2 loop=$iCurrentLevel + 1}</div>{/section}
 		{/if}
 	{/foreach}
 </div>
-	
+
 
 {**
  * Страницы
@@ -93,22 +93,22 @@
 		<h4 class="comment-reply-header" id="comment_id_0">
 			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>
 		</h4>
-		
+
 		{* Форма *}
-		<div id="reply" class="comment-reply">		
+		<div id="reply" class="comment-reply">
 			<form method="post" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
 				{hook run='form_add_comment_begin'}
-				
+
 				<textarea name="comment_text" id="form_comment_text" class="js-editor input-width-full"></textarea>
-				
+
 				{hook run='form_add_comment_end'}
-				
+
 				<input type="hidden" name="reply" value="0" id="form_comment_reply" />
 				<input type="hidden" name="cmt_target_id" value="{$iTargetId}" />
-				
-				<button type="submit" name="submit_comment" 
-						id="comment-button-submit" 
-						onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;" 
+
+				<button type="submit" name="submit_comment"
+						id="comment-button-submit"
+						onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;"
 						class="button button-primary">{$aLang.comment_add}</button>
 				<button type="button" onclick="ls.comments.preview();" class="button">{$aLang.comment_preview}</button>
 			</form>

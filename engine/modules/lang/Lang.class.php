@@ -155,7 +155,7 @@ class ModuleLang extends Module {
 			$sDir=Config::Get('path.root.server').'/plugins/';
 
 			foreach ($aPluginList as $sPluginName) {
-				$aFiles=glob($sDir.$sPluginName.'/templates/language/'.$sLangName.'.php');
+				$aFiles=glob($sDir.$sPluginName.'/templates/'.Config::Get('lang.dir').'/'.$sLangName.'.php');
 				if($aFiles and count($aFiles)) {
 					foreach ($aFiles as $sFile) {
 						if (file_exists($sFile)) {
@@ -177,7 +177,7 @@ class ModuleLang extends Module {
 	 * @param string $sLangName	Язык для загрузки
 	 */
 	public function LoadLangFileTemplate($sLangName) {
-		$sFile=Config::Get('path.smarty.template').'/settings/language/'.$sLangName.'.php';
+		$sFile=Config::Get('path.smarty.template').'/settings/'.Config::Get('lang.dir').'/'.$sLangName.'.php';
 		if (file_exists($sFile)) {
 			$this->AddMessages(include($sFile));
 		}

@@ -15,16 +15,16 @@
 	{block name='block_class'}block-type-blog{/block}
 
 	{block name='block_content'}
-			<span id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</span> {$oBlog->getCountUser()|declension:$aLang.reader_declension:'russian'}<br />
-			{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension:'russian'}
+			<span id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</span> {$oBlog->getCountUser()|declension:$aLang.reader_declension}<br />
+			{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension}
 	{/block}
 
 	{block name='block_footer'}
 		{if $oUserCurrent and $oUserCurrent->getId() != $oBlog->getOwnerId()}
-			<button type="submit" 
-					class="button button-small" 
-					id="blog-join" 
-					data-only-text="1" 
+			<button type="submit"
+					class="button button-small"
+					id="blog-join"
+					data-only-text="1"
 					onclick="ls.blog.toggleJoin(this,{$oBlog->getId()}); return false;">{if $oBlog->getUserIsJoin()}{$aLang.blog_leave}{else}{$aLang.blog_join}{/if}</button>
 		{/if}
 

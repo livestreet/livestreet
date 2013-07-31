@@ -11,7 +11,7 @@
 			<a href="{$oWallUser->getUserWebPath()}">
 				<img src="{$oWallUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" />
 			</a>
-			
+
 			<ul class="comment-info">
 				<li class="comment-author"><a href="{$oWallUser->getUserWebPath()}">{$oWallUser->getLogin()}</a></li>
 				<li class="comment-date">
@@ -28,20 +28,20 @@
 			<div class="comment-content text">
 				{$oWall->getText()}
 			</div>
-			
+
 			{if $oUserCurrent and ! $aReplyWall}
 				<ul class="comment-actions">
 					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">{$aLang.wall_action_reply}</a></li>
 				</ul>
 			{/if}
 		</div>
-		
+
 		{if count($aReplyWall) < $oWall->getCountReply()}
 			<a href="#" onclick="return ls.wall.loadReplyNext({$oWall->getId()});" id="wall-reply-button-next-{$oWall->getId()}" class="get-more get-more-wall-comments">
 				<span class="wall-more-inner">
-					{$aLang.wall_load_reply_more} 
-					<span id="wall-reply-count-next-{$oWall->getId()}">{$oWall->getCountReply()}</span> 
-					{$oWall->getCountReply()|declension:$aLang.comment_declension:'russian'}
+					{$aLang.wall_load_reply_more}
+					<span id="wall-reply-count-next-{$oWall->getId()}">{$oWall->getCountReply()}</span>
+					{$oWall->getCountReply()|declension:$aLang.comment_declension}
 				</span>
 			</a>
 		{/if}
@@ -54,10 +54,10 @@
 
 		{if $oUserCurrent}
 			<form class="wall-submit wall-submit-reply" {if !$aReplyWall}style="display: none"{/if}>
-				<textarea rows="4" 
-						  id="wall-reply-text-{$oWall->getId()}" 
-						  class="input-text input-width-full js-wall-reply-text" 
-						  placeholder="{$aLang.wall_reply_placeholder}" 
+				<textarea rows="4"
+						  id="wall-reply-text-{$oWall->getId()}"
+						  class="input-text input-width-full js-wall-reply-text"
+						  placeholder="{$aLang.wall_reply_placeholder}"
 						  onclick="return ls.wall.expandReply({$oWall->getId()});"></textarea>
 				<button type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text-{$oWall->getId()}').val(), {$oWall->getId()});" class="button button-primary js-button-wall-submit">{$aLang.wall_reply_submit}</button>
 			</form>
