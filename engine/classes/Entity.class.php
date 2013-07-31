@@ -97,6 +97,28 @@ abstract class Entity extends LsObject {
 		}
 	}
 	/**
+	 * Устанавливает данные, но только те, которые есть в $this->aValidateRules
+	 *
+	 * @param array $aData Ассоциативный массив данных сущности
+	 */
+	public function _setDataSafe($aData) {
+		/**
+		 * Составляем список доступных полей
+		 */
+		if(is_array($aData)) {
+			$aFields=array();
+			foreach($this->aValidateRules as $aRule) {
+				$aFields=array_merge($aFields,preg_split('/[\s,]+/',$aRule[0],-1,PREG_SPLIT_NO_EMPTY));
+			}
+			$aFields=array_unique($aFields);
+			foreach ($aData as $sKey => $val)    {
+				if (in_array($sKey,$aFields)) {
+					$this->_aData[$sKey] = $val;
+				}
+			}
+		}
+	}
+	/**
 	 * Получает массив данных сущности
 	 *
 	 * @param array|null $aKeys	Список полей, данные по которым необходимо вернуть, если не передан, то возвращаются все данные
