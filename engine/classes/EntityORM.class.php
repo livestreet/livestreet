@@ -547,6 +547,11 @@ abstract class EntityORM extends Entity {
 							$mCmdArgs=array_merge(array($sRelationKey => $iPrimaryKeyValue),$aFilterAdd);
 							break;
 						case self::RELATION_TYPE_MANY_TO_MANY :
+							if (isset($this->aRelations[$sKey][5])) {
+								$aFilterAdd=$this->aRelations[$sKey][5];
+							} else {
+								$aFilterAdd=array();
+							}
 							$sCmd="{$sRelPluginPrefix}Module{$sRelModuleName}_get{$sRelEntityName}ItemsByJoinTable";
 							$mCmdArgs=array(
 								'#join_table'		=> Config::Get($sRelationJoinTable),
@@ -555,6 +560,7 @@ abstract class EntityORM extends Entity {
 								'#by_value'			=> $iPrimaryKeyValue,
 								'#index-from-primary' => true // Для MANY_TO_MANY необходимо индексами в $aRelationsData иметь первичные ключи сущностей
 							);
+							$mCmdArgs=array_merge($mCmdArgs,$aFilterAdd);
 							break;
 						default:
 							break;
