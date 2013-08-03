@@ -31,7 +31,7 @@
 	{block name='add_topic_header_after'}{/block}
 
 
-	<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" data-validate="parsley">
+	<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="js-form-validate">
 		{hook run="form_add_topic_`$sTopicType`_begin"}
 		{block name='add_topic_form_begin'}{/block}
 
@@ -87,10 +87,9 @@
 
 
 		{* Теги *}
-		{* TODO: Валидатор кол-ва тегов *}
 		{include file='forms/form.field.text.tpl'
 				 sFieldName    = 'topic_tags'
-				 sFieldRules   = 'required="true"'
+				 sFieldRules   = 'required="true" rangetags="[1,15]"'
 				 sFieldNote    = $aLang.topic_create_tags_notice
 				 sFieldLabel   = $aLang.topic_create_tags
 				 sFieldClasses = 'width-full autocomplete-tags-sep'}

@@ -34,7 +34,7 @@
 
 	{hook run='settings_profile_begin'}
 
-	<form method="post" enctype="multipart/form-data" class="form-profile" data-validate="parsley">
+	<form method="post" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_settings_profile_begin'}
 
         {* Основная информация *}

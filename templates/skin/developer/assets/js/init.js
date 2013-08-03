@@ -191,6 +191,23 @@ jQuery(document).ready(function($){
 	});
 
 
+	/**
+	 * Form validate
+	 */
+	$('.js-form-validate').parsley({
+		validators: {
+			rangetags: function (val, arrayRange) {
+				var tag_count = val.replace(" ", "").match(/[^\s,]+(,|)/gi);
+				return tag_count && tag_count.length >= arrayRange[0] && tag_count.length <= arrayRange[1];
+			}
+		},
+		// TODO: Вынести в лок-ию
+		messages: {
+			rangetags: "Кол-во тегов должно быть от %s до %s"
+		}
+	})
+
+
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
