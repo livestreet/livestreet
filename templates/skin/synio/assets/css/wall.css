@@ -14,7 +14,7 @@
 .wall-submit.wall-submit-reply 					{ margin: 15px 0 2px 0; -webkit-box-shadow: 0 0 7px #E2EAF1 inset; box-shadow: 0 0 7px #E2EAF1 inset; }
 .wall-submit.wall-submit-reply:after 			{ display: block; content: ""; position: absolute; top: -12px; left: 15px; width: 0; height: 0; border-width: 6px; border-color: transparent transparent #eaf1f7 transparent; border-style: solid; }
 .wall-submit.wall-submit-reply .counter			{ display: none; }
-.wall-submit.wall-submit-reply textarea 		{ margin-bottom: 0; height: 28px; *height: 16px; *width: 590px; }
+.wall-submit.wall-submit-reply textarea 		{ margin-bottom: 0; height: 28px; }
 .wall-submit.wall-submit-reply button 			{ display: none; }
 .wall-submit.wall-submit-reply.active textarea 	{ height: 80px; margin-bottom: 10px; }
 .wall-submit.wall-submit-reply.active button 	{ display: block; }

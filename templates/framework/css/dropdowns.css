@@ -2,14 +2,12 @@
  * Dropdowns
  *
  * TODO: Add submenu
- * TODO: Add arrow support in IE7
  */
 
 
 /* Base class */
 .dropdown {
 	display: inline-block;
-	*display: inline; *zoom: 1; /* IE7 */
 	background: #2891d3;
 	color: #fff;
 	padding: 5px 12px;
@@ -27,7 +25,6 @@
 .dropdown-toggle {
 	padding-right: 25px !important;
 	position: relative; 
-	*zoom: 1;
 	cursor: pointer;
 }
 .dropdown-toggle:after {

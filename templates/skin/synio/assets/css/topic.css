@@ -60,7 +60,6 @@
 	background: rgba(0,0,0,.6);
 	z-index: 2;
 }
-.ie7 .topic-preview-image .topic-preview-image-count i { margin-right: 3px; }
 .topic-preview-image .topic-preview-image-desc {
 	position: absolute;
 	bottom: 0;

@@ -138,11 +138,6 @@ ls.comments = (function ($) {
 			tinyMCE.execCommand('mceAddControl',true,'form_comment_text');
 		}
 		if (!bNoFocus) $('#form_comment_text').focus();
-		
-		if ($('html').hasClass('ie7')) {
-			var inputs = $('input.input-text, textarea');
-			ls.ie.bordersizing(inputs);
-		}
 	};
 
 

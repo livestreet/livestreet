@@ -28,12 +28,6 @@ input[type="text"] {
 	line-height: 18px;
 }
 
-.ie7 input[type="password"],
-.ie7 input[type="text"] {
-	height: 18px;
-	padding: 3px 5px 4px;
-}
-
 
 /* Checkboxes */
 input[type="checkbox"],
@@ -81,7 +75,6 @@ form .icon-question-sign { cursor: help; }
 .form-field:before,
 .form-field:after { content: ""; display: table; }
 .form-field:after { clear: both; }
-.form-field       { zoom: 1; }
 
 .form-field .note { padding-top: 3px; }
 

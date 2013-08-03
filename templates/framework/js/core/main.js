@@ -156,7 +156,7 @@ ls.swfupload = (function ($) {
 	this.swfOptions = {};
 
 	this.initOptions = function() {
-		
+
 		this.swfOptions = {
 			// Backend Settings
 			upload_url: aRouter['photoset']+"upload",
@@ -195,14 +195,14 @@ ls.swfupload = (function ($) {
 			// Debug Settings
 			debug: false
 		};
-		
+
 		ls.hook.run('ls_swfupload_init_options_after',arguments,this.swfOptions);
-		
+
 	};
 
 	this.loadSwf = function() {
 		var f = {};
-		
+
 		f.onSwfobject = function(){
 			if(window.swfobject && swfobject.swfupload){
 				f.onSwfobjectSwfupload();
@@ -214,7 +214,7 @@ ls.swfupload = (function ($) {
 				);
 			}
 		}.bind(this);
-		
+
 		f.onSwfobjectSwfupload = function(){
 			if(window.SWFUpload){
 				f.onSwfupload();
@@ -226,13 +226,13 @@ ls.swfupload = (function ($) {
 				);
 			}
 		}.bind(this);
-		
+
 		f.onSwfupload = function(){
 			this.initOptions();
 			$(this).trigger('load');
 		}.bind(this);
-		
-		
+
+
 		(function(){
 			if(window.swfobject){
 				f.onSwfobject();
@@ -245,7 +245,7 @@ ls.swfupload = (function ($) {
 			}
 		}.bind(this))();
 	};
-	
+
 
 	this.init = function(opt) {
 		if (opt) {
@@ -448,7 +448,7 @@ ls = (function ($) {
 				ls.debug.apply(this, arguments);
 			}.bind(this)
 		}, more);
-		
+
 		ls.hook.run('ls_ajax_before', [ajaxOptions, callback, more], this);
 
 		return $.ajax(ajaxOptions);
@@ -502,13 +502,13 @@ ls = (function ($) {
 		};
 
 		ls.hook.run('ls_ajaxsubmit_before', [options,form,callback,more], this);
-		
+
 		form.ajaxSubmit(options);
 	};
 
 	/**
 	 * Создание ajax формы
-	 * 
+	 *
 	 * @param  {string}          url      Ссылка
 	 * @param  {jquery, string}  form     Селектор формы либо объект jquery
 	 * @param  {Function}        callback Success коллбэк
@@ -613,21 +613,6 @@ ls.autocomplete = (function ($) {
  */
 ls.ie = (function ($) {
 
-	// эмуляция border-sizing в IE
-	this.bordersizing = function(inputs) {
-		if ($('html').hasClass('ie7')) {
-			if ( ! WYSIWYG ) $('textarea.js-editor').addClass('markItUpEditor');
-			
-			inputs.each(function(i){
-				var obj = $(this);
-				if (obj.css('box-sizing') == 'border-box') {
-					obj.css('width', '100%');
-					obj.width(2 * obj.width() - obj.outerWidth());
-				}
-			});
-		}
-	};
-	
 	return this;
 }).call(ls.ie || {},jQuery);
 

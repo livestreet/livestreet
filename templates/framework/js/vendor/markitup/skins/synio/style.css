@@ -56,7 +56,6 @@
 	overflow: visible;
 	zoom: 1;
 	display: inline-block;
-	*display: inline; /* ie <= 7 */
 }
 .markItUpHeader ul li	{ list-style: none; float: left; position: relative; margin-right: 10px; }
 .markItUpHeader ul li: hover > ul{ display: block; }

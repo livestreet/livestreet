@@ -14,7 +14,6 @@
 .nav:before,
 .nav:after { content: ""; display: table; }
 .nav:after { clear: both; }
-.nav       { zoom: 1; }
 
 
 /* Group
@@ -53,7 +52,6 @@
 .nav-tabs > li > a {
 	border: 1px solid transparent;
 	padding: 10px 15px;
-	*padding: 10px 13px;
 	border-radius: 3px 3px 0 0;
 	cursor: pointer;
 	font-size: 14px;

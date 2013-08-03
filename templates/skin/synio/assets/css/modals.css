@@ -68,9 +68,8 @@
  * @template modals/modal.login.tpl
  */
 .modal.modal-write                                      { width: 620px; background: #e0eff9; }
-.modal.modal-write .modal-content                       { padding: 10px 10px 20px; *padding: 10px 10px 25px; }
+.modal.modal-write .modal-content                       { padding: 10px 10px 20px; }
 
-.write-list { *overflow: hidden; *zoom: 1; }
 .write-list li {
 	width: 125px;
 	margin: 0 10px 20px;
@@ -79,7 +78,6 @@
 	text-align: center;
 	overflow: hidden;
 	display: inline-table;
-	*float: left;
 }
 .write-list li a { color: #727a90; }
 .write-list li:hover a  { color: #275ec2; }
