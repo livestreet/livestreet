@@ -197,7 +197,7 @@ jQuery(document).ready(function($){
 	$('.js-form-validate').parsley({
 		validators: {
 			rangetags: function (val, arrayRange) {
-				var tag_count = val.replace(" ", "").match(/[^\s,]+(,|)/gi);
+				var tag_count = val.replace(/ /g, "").match(/[^\s,]+(,|)/gi);
 				return tag_count && tag_count.length >= arrayRange[0] && tag_count.length <= arrayRange[1];
 			}
 		},

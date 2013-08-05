@@ -31,16 +31,16 @@ class ModuleGeo_EntityGeo extends Entity {
 	public function getName() {
 		$sName='';
 		$sLangDef=Config::get('lang.default');
-		if ($sLangDef=='russian') {
+		if ($sLangDef=='ru') {
 			$sName=$this->getNameRu();
-		} elseif ($sLangDef=='english') {
+		} elseif ($sLangDef=='en') {
 			$sName=$this->getNameEn();
 		}
 
 		$sLang=Config::get('lang.current');
-		if ($sLang=='russian' and $this->getNameRu()) {
+		if ($sLang=='ru' and $this->getNameRu()) {
 			$sName=$this->getNameRu();
-		} elseif ($sLang=='english' and $this->getNameEn()) {
+		} elseif ($sLang=='en' and $this->getNameEn()) {
 			$sName=$this->getNameEn();
 		}
 		return $sName;

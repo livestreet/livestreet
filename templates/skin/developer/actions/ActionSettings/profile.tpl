@@ -79,7 +79,7 @@
                     sFieldNamePrefix    = 'geo'
                     bFieldInline        = true
                     sFieldLabel         = $aLang.profile_place
-                    oInputGeoTarget     = $oGeoTarget}
+                    oFieldGeoTarget     = $oGeoTarget}
 
 
 			{* О себе *}
