@@ -174,6 +174,18 @@ class ModuleViewer extends Module {
 	 * @var array
 	 */
 	protected $aMenuFetch=array();
+	/**
+	 * Список путей в файловой системе до шаблонов плагинов
+	 * 
+	 * @var array
+	 */
+	protected $aTemplatePathPlugin=array();
+	/**
+	 * Список web путей относительно document root до шаблонов плагинов
+	 * 
+	 * @var array
+	 */
+	protected $aTemplateWebPathPlugin=array();
 
 	/**
 	 * Инициализация модуля
@@ -207,9 +219,17 @@ class ModuleViewer extends Module {
 		 */
 		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=error_reporting() & ~E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
-		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
 		$this->oSmarty->compile_check=Config::Get('smarty.compile_check');
 		$this->oSmarty->force_compile=Config::Get('smarty.force_compile');
+		/**
+		 * Загружаем пути до шаблонов плагинов
+		 */
+		$aPlugins=$this->oEngine->GetPlugins();
+		foreach ($aPlugins as $k=>$oPlugin) {
+			$this->aTemplatePathPlugin[$k]=Plugin::GetTemplatePath(get_class($oPlugin));
+			$this->aTemplateWebPathPlugin[$k]=Plugin::GetTemplateWebPath(get_class($oPlugin));
+		}
+		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/'), $this->aTemplatePathPlugin));
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */
@@ -295,14 +315,8 @@ class ModuleViewer extends Module {
 		/**
 		 * Загружаем пути до шаблонов плагинов
 		 */
-		$aTemplateWebPathPlugin=array();
-		$aTemplatePathPlugin=array();
-		foreach ($aPlugins as $k=>$oPlugin) {
-			$aTemplateWebPathPlugin[$k]=Plugin::GetTemplateWebPath(get_class($oPlugin));
-			$aTemplatePathPlugin[$k]=Plugin::GetTemplatePath(get_class($oPlugin));
-		}
-		$this->Assign("aTemplateWebPathPlugin",$aTemplateWebPathPlugin);
-		$this->Assign("aTemplatePathPlugin",$aTemplatePathPlugin);
+		$this->Assign("aTemplateWebPathPlugin",$this->aTemplateWebPathPlugin);
+		$this->Assign("aTemplatePathPlugin",$this->aTemplatePathPlugin);
 	}
 	/**
 	 * Загружаем содержимое menu-контейнеров
