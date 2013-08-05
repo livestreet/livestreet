@@ -114,6 +114,6 @@
 			</form>
 		</div>
 	{else}
-        <div class="alert alert-info">{$aLang.comment_unregistered}</div>
+        {include file='alert.tpl' sAlertStyle='info' mAlerts=$aLang.comment_unregistered}
 	{/if}
 {/if}

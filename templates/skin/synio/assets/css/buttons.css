@@ -36,8 +36,6 @@ a.button { padding-top: 4px; }
 .mozilla .button i { top: 2px; }
 .mozilla .button.button-icon i { top: 1px; }
 
-.ie7 a.button { padding-top: 4px; padding-bottom: 6px; }
-
 
 /**
  * Button Small
@@ -47,8 +45,6 @@ a.button { padding-top: 4px; }
 
 .mozilla .button-small { padding-bottom: 2px; }
 .mozilla .button-small i { top: 1px; }
-
-.ie7 a.button-small { padding-top: 4px; padding-bottom: 4px; }
 
 
 /**
@@ -65,10 +61,6 @@ a.button-large { padding-top: 7px; }
 
 .ie .button-large.button-icon i,
 .webkit .button-large.button-icon i { top: 0; }
-
-.ie7 a.button-large { padding-top: 7px; padding-bottom: 7px; }
-.ie7 .button-large i { top: 0; }
-.ie7 .button-large.button-icon i { top: 1px; }
 
 
 /* Button Primary */

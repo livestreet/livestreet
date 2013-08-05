@@ -21,9 +21,7 @@
 			<button type="button" onclick="ls.wall.add(jQuery('#wall-text').val(),0);" class="button button-primary js-button-wall-submit">{$aLang.wall_add_submit}</button>
 		</form>
 	{else}
-		<div class="alert alert-info" id="wall-note-list-empty">
-			{$aLang.wall_add_quest}
-		</div>
+		{include file='alert.tpl' sAlertStyle='info' mAlerts=$aLang.wall_add_quest sAlertAttributes='id="wall-note-list-empty"'}
 	{/if}
 
 	{if ! count($aWall)}

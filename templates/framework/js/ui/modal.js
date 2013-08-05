@@ -135,12 +135,6 @@ var ls = ls || {};
      * Init overlay
      */
     Modal.initOverlay = function () {
-        // Hide scrollbar in IE7
-        if ($('html').hasClass('ie7')) {
-            $('body').attr('scroll', 'no');
-            $('html').css('overflow', 'auto');
-        }
-
         overlay = $('<div class="' + $.fn.modal.settings.overlayClass + '" data-type="modal-overlay" />').height(windowHeight).appendTo('body');
         loader = $('<div class="' + $.fn.modal.settings.loaderClass + '" data-type="modal-loader" />').height(windowHeight).css('z-index', 9999).appendTo(overlay);
         resize();
@@ -182,11 +176,7 @@ var ls = ls || {};
         }
 
         overlay.fadeOut(300, function () {
-            if ($('html').hasClass('ie7')) {
-                $('html').css('overflow', 'auto');
-            } else {
-                $('html').css('overflow', 'visible');
-            }
+            $('html').css('overflow', 'visible');
             $('body').css({'margin-right': 0});
 
             Modal.hideLoader(false);

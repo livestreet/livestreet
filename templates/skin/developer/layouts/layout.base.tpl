@@ -219,6 +219,7 @@
 						{hook run='content_begin'}
 						{block name='layout_content_begin'}{/block}
 
+						{* Основной заголовок страницы *}
 						{block name='layout_page_title' hide}
 							<h2 class="page-header">{$smarty.block.child}</h2>
 						{/block}
@@ -239,8 +240,17 @@
 						{/if}
 
 						{* Системные сообщения *}
-						{include file='system_message.tpl'}
+						{if ! $bNoSystemMessages}
+							{if $aMsgError}
+								{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError}
+							{/if}
 
+							{if $aMsgNotice}
+								{include file='alert.tpl' mAlerts=$aMsgNotice}
+							{/if}
+						{/if}
+
+						{* Контент *}
 						{block name='layout_content'}{/block}
 
 						{block name='layout_content_end'}{/block}

@@ -42,18 +42,6 @@ a.button { padding-top: 5px; }
 	margin-right: 5px;
 }
 
-/* IE7 */
-.ie7 .button { overflow: visible; display: inline; zoom: 1; }
-.ie7 .button i { float: none; display: inline; zoom: 1; vertical-align: middle; }
-.ie7 .button.fl-r { margin-right: 0; }
-.ie7 a.button { height: 16px; padding: 5px 10px 5px; }
-.ie7 a.button,
-.ie7 button.button { margin-right: 5px; }
-.ie7 a.button + input.button,
-.ie7 button.button + input.button { margin-left: -5px; }
-.ie7 .button [class^="icon-"],
-.ie7 .button [class*=" icon-"] { float: none; display: inline; zoom: 1; vertical-align: middle; }
-
 
 /*
  * Button Disabled
@@ -99,8 +87,6 @@ a.button-small { padding-top: 4px; }
 
 .button.button-small.button-icon { padding-left: 5px; padding-right: 5px; }
 
-.ie7 a.button-small { height: 14px; padding: 4px 8px 4px; }
-
 
 /**
  * Button Large
@@ -109,8 +95,6 @@ a.button-small { padding-top: 4px; }
 a.button-large { padding-top: 8px; }
 
 .button.button-large.button-icon { padding-left: 9px; padding-right: 9px; }
-
-.ie7 a.button-large { height: 18px; padding: 8px 12px 6px; }
 
 
 /**

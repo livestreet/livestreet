@@ -12,7 +12,7 @@
 	   -moz-border-radius: 3px;
 	        border-radius: 3px;
 }
-.alert-title { font-size: 14px; font-weight: bold; }
+.alert--title { font-size: 14px; font-weight: bold; }
 
 
 /* Error */

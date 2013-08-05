@@ -26,7 +26,7 @@
 	{include file='forms/editor.init.tpl' sEditorType='comment'}
 
 
-	<form method="post" enctype="multipart/form-data" data-validate="parsley">
+	<form method="post" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_add_blog_begin'}
 
 

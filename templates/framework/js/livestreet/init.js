@@ -45,15 +45,13 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	
+
 	/**
 	 * IE
 	 */
-	
-	// эмуляция border-sizing в IE
-	var inputs = $('input.input-text, textarea');
-	ls.ie.bordersizing(inputs);
 
 	// эмуляция placeholder'ов в IE
-	inputs.placeholder();
+	if ($('html').hasClass('oldie')) {
+		$('input[type=text], textarea').placeholder();
+	}
 });

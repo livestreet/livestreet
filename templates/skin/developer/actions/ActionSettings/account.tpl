@@ -7,7 +7,7 @@
 {block name='layout_content'}
 	{hook run='settings_account_begin'}
 
-	<form method="post" enctype="multipart/form-data" data-validate="parsley">
+	<form method="post" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_settings_account_begin'}
 
 		<fieldset>

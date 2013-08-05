@@ -67,7 +67,7 @@
 .dropdown-user-menu li.item-stat .arrow 				{ position: relative; top: 3px; }
 .dropdown-user-menu li.item-stat .icon-synio-star-small { position: relative; top: 2px; }
 .dropdown-user-menu li.item-stat .icon-synio-strength 	{ position: relative; top: 1px; }
-.dropdown-user-menu li a 								{ display: block; zoom: 1; *width: 138px; height: 50px; padding: 0 10px 0 55px; line-height: 50px; color: #fff; text-decoration: none; }
+.dropdown-user-menu li a 								{ display: block; zoom: 1; height: 50px; padding: 0 10px 0 55px; line-height: 50px; color: #fff; text-decoration: none; }
 .dropdown-user-menu li a:hover 							{ background: #093357; color: #fff; }
 .dropdown-user-menu li .item-icon 						{ position: absolute; top: 15px; left: 17px; width: 21px; height: 21px; background: url(../images/icons-synio.png) no-repeat; }
 .dropdown-user-menu li.item-messages .item-icon 		{ background-position: 0 0; }
