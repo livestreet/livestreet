@@ -71,11 +71,23 @@ class ActionBlog extends Action {
 	 */
 	protected $iCountTopicsBlogNew=0;
 	/**
-	 * Число новых топиков
+	 * Общее число новых топиков
 	 *
 	 * @var int
 	 */
 	protected $iCountTopicsNew=0;
+	/**
+	 * Число новых топиков в выбранном разделе
+	 *
+	 * @var int
+	 */
+	protected $iCountTopicsSubNew = 0;
+	/**
+	 * URL-префикс для навигации по топикам
+	 * 
+	 * @var string
+	 */
+	protected $sNavTopicsSubUrl = '';
 	/**
 	 * Список URL с котрыми запрещено создавать блог
 	 *
@@ -104,6 +116,8 @@ class ActionBlog extends Action {
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsBlogNew=$this->iCountTopicsCollectiveNew;
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+		$this->iCountTopicsSubNew=$this->iCountTopicsCollectiveNew;
+		$this->sNavTopicsSubUrl = Router::GetPath('blog');
 		/**
 		 * Загружаем в шаблон JS текстовки
 		 */
@@ -916,7 +930,7 @@ class ActionBlog extends Action {
 		 * Меню
 		 */
 		$this->sMenuSubItemSelect=$sShowType=='newall' ? 'new' : $sShowType;
-		$this->sMenuSubBlogUrl=$oBlog->getUrlFull();
+		$this->sNavTopicsSubUrl=$oBlog->getUrlFull();
 		/**
 		 * Передан ли номер страницы
 		 */
@@ -947,7 +961,7 @@ class ActionBlog extends Action {
 			/**
 			 * Получаем число новых топиков в текущем блоге
 			 */
-			$this->iCountTopicsBlogNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
+			$this->iCountTopicsSubNew=$this->Topic_GetCountTopicsByBlogNew($oBlog);
 
 			$this->Viewer_Assign('aPaging',$aPaging);
 			$this->Viewer_Assign('aTopics',$aTopics);
@@ -1937,6 +1951,8 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsBlogNew',$this->iCountTopicsBlogNew);
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
+		$this->Viewer_Assign('iCountTopicsSubNew',$this->iCountTopicsSubNew);
+		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 
 		$this->Viewer_Assign('BLOG_USER_ROLE_GUEST', ModuleBlog::BLOG_USER_ROLE_GUEST);
 		$this->Viewer_Assign('BLOG_USER_ROLE_USER', ModuleBlog::BLOG_USER_ROLE_USER);

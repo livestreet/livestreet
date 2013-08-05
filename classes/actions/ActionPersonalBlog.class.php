@@ -40,6 +40,12 @@ class ActionPersonalBlog extends Action {
 	 * @var string
 	 */
 	protected $sMenuSubItemSelect='good';
+	/**
+	 * URL-префикс для навигации по топикам
+	 * 
+	 * @var string
+	 */
+	protected $sNavTopicsSubUrl = '';
 
 	/**
 	 * Инициализация
@@ -47,6 +53,7 @@ class ActionPersonalBlog extends Action {
 	 */
 	public function Init() {
 		$this->SetDefaultEvent('good');
+		$this->sNavTopicsSubUrl = Router::GetPath('personal_blog');
 	}
 	/**
 	 * Регистрируем необходимые евенты
@@ -150,6 +157,8 @@ class ActionPersonalBlog extends Action {
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$iCountTopicsCollectiveNew);
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$iCountTopicsPersonalNew);
 		$this->Viewer_Assign('iCountTopicsNew',$iCountTopicsNew);
+		$this->Viewer_Assign('iCountTopicsSubNew',$iCountTopicsPersonalNew);
+		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 	}
 }
 ?>

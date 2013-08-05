@@ -58,6 +58,12 @@ class ActionIndex extends Action {
 	 * @var int
 	 */
 	protected $iCountTopicsPersonalNew=0;
+	/**
+	 * URL-префикс для навигации по топикам
+	 * 
+	 * @var string
+	 */
+	protected $sNavTopicsSubUrl = '';
 
 	/**
 	 * Инициализация
@@ -70,6 +76,7 @@ class ActionIndex extends Action {
 		$this->iCountTopicsCollectiveNew=$this->Topic_GetCountTopicsCollectiveNew();
 		$this->iCountTopicsPersonalNew=$this->Topic_GetCountTopicsPersonalNew();
 		$this->iCountTopicsNew=$this->iCountTopicsCollectiveNew+$this->iCountTopicsPersonalNew;
+		$this->sNavTopicsSubUrl = Router::GetPath('index');
 	}
 	/**
 	 * Регистрация евентов
@@ -317,6 +324,8 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('iCountTopicsNew',$this->iCountTopicsNew);
 		$this->Viewer_Assign('iCountTopicsCollectiveNew',$this->iCountTopicsCollectiveNew);
 		$this->Viewer_Assign('iCountTopicsPersonalNew',$this->iCountTopicsPersonalNew);
+		$this->Viewer_Assign('iCountTopicsSubNew',$this->iCountTopicsNew);
+		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 	}
 }
 ?>

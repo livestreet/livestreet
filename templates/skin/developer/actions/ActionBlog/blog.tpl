@@ -171,7 +171,7 @@
 
 	{hook run='blog_info' oBlog=$oBlog}
 
-	{include file='navs/nav.blog.tpl'}
+	{include file='navs/nav.topics.sub.tpl'}
 
 	{if $bCloseBlog}
 		{$aLang.blog_close_show}
