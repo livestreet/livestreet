@@ -53,11 +53,6 @@
 			</div>
 			<div class="vote-label">{$aLang.user_rating}</div>
 		</div>
-		
-		<div class="strength">
-			<div class="count" id="user_skill_{$oUserProfile->getId()}">{$oUserProfile->getSkill()}</div>
-			<div class="vote-label">{$aLang.user_skill}</div>
-		</div>
 
 		{if $oUserCurrent && $oUserCurrent->getId()!=$oUserProfile->getId()}
 			<a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}" class="button button-action button-action-send-message button-icon js-tooltip" title="{$aLang.user_write_prvmsg}">

@@ -10,14 +10,14 @@
  *
  * @template layouts/layout.user.tpl
  */
-.profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 300px 20px 65px; position: relative; }
+.profile 				{ min-height: 48px; margin-bottom: 0; padding: 0 150px 20px 65px; position: relative; }
 
 .profile .avatar 		{ position: absolute; top: 0; left: 0; }
 
 .profile .vote-label	{ text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
 .profile .count 		{ font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
 
-.profile .vote 									{ position: absolute; top: 0; right: 140px; background: #fff; }
+.profile .vote 									{ position: absolute; top: 0; right: 0; background: #fff; }
 .profile .vote .vote-count 						{ padding-left: 25px; display: block; }
 .profile .vote .vote-up 						{ position: absolute; top: 22px; left: 0; display: none; }
 .profile .vote .vote-down 						{ position: absolute; top: 35px; left: 0; display: none; }
@@ -26,8 +26,6 @@
 .profile .vote.voted .vote-up,
 .profile .vote.voted .vote-down 				{ display: inline-block; }
 .profile .vote.vote-count-positive .vote-count 	{ color: #5055B2; }
-
-.profile .strength 					{ position: absolute; top: 0; right: 0; }
 
 .profile .user-login 				{ width: 270px; font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
 .profile .user-login.no-user-name 	{ position: relative; top: 9px; }

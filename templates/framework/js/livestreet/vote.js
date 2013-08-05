@@ -175,19 +175,6 @@ ls.vote = (function ($) {
 	};
 
 	/**
-	 * Голосование за пользователя
-	 * 
-	 * @param  {Number} iTargetId ID объекта
-	 * @param  {Number} iValue    Значение
-	 * @param  {String} sType     Тип голосования
-	 * @param  {Object} oVars     Переменные текущего голосования
-	 * @param  {Object} result    Объект возвращемый сервером
-	 */
-	this.onVoteUser = function(iTargetId, iValue, sType, oVars, result) {
-		$('#user_skill_' + iTargetId).text(result.iSkill);
-	};
-
-	/**
 	 * Голосование за топик
 	 * 
 	 * @param  {Number} iTargetId ID объекта

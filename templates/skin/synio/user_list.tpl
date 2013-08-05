@@ -10,9 +10,9 @@
 					<div class="cell-tab-inner {if $sUsersOrder=='user_login'}active{/if}"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user}</span></a></div>
 				</th>
 				<th>&nbsp;</th>
-				<th class="cell-skill cell-tab">
-					<div class="cell-tab-inner {if $sUsersOrder=='user_skill'}active{/if}"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_skill'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user_skill}</span></a></div>
-				</th>
+				{if $bTableShowDateLast}
+					<th class="cell-date cell-tab"><div class="cell-tab-inner"><span>{$aLang.user_date_last}</span></div></th>
+				{/if}
 				<th class="cell-rating cell-tab">
 					<div class="cell-tab-inner {if $sUsersOrder=='user_rating'}active{/if}"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_rating'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user_rating}</span></a></div>
 				</th>
@@ -23,7 +23,9 @@
 			<tr>
 				<th class="cell-name cell-tab"><div class="cell-tab-inner">{$aLang.user}</div></th>
 				<th>&nbsp;</th>
-				<th class="cell-skill cell-tab"><div class="cell-tab-inner">{$aLang.user_skill}</div></th>
+				{if $bTableShowDateLast}
+					<th class="cell-date cell-tab"><div class="cell-tab-inner"><span>{$aLang.user_date_last}</span></div></th>
+				{/if}
 				<th class="cell-rating cell-tab">
 					<div class="cell-tab-inner active"><span>{$aLang.user_rating}</span></div>
 				</th>
@@ -46,16 +48,22 @@
 				</td>
 				<td>
 					{if $oUserCurrent}
+						<a href="{router page='talk'}add/?talk_users={$oUserList->getLogin()}" class="button button-action button-action-send-message button-icon" title="{$aLang.user_write_prvmsg}">
+							<i class="icon-synio-send-message"></i>
+						</a>
+						
 						{if $oUserNote}
 							<button type="button" class="button button-icon button-note js-tooltip" title="{$oUserNote->getText()|escape:'html'}"><i class="icon-synio-comments-green"></i></button>
 						{/if}
-
-						<a href="{router page='talk'}add/?talk_users={$oUserList->getLogin()}" class="button button-slider button-action button-action-send-message button-icon">
-							<i class="icon-synio-send-message"></i><span>{$aLang.user_write_prvmsg}</span>
-						</a>
 					{/if}
 				</td>
-				<td class="cell-skill">{$oUserList->getSkill()}</td>
+				{if $bTableShowDateLast}
+					<td class="cell-date">
+						{if $oSession}
+							{date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F, H:i"}
+						{/if}
+					</td>
+				{/if}
 				<td class="cell-rating {if $oUserList->getRating() < 0}negative{/if}"><strong>{$oUserList->getRating()}</strong></td>
 			</tr>
 		{foreachelse}

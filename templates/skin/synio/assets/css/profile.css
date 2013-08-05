@@ -20,9 +20,6 @@
 .profile .vote-profile .vote-topic                       { float: none; }
 .profile .vote-profile .vote-topic .vote-item.vote-count { cursor: text; }
 
-.profile .strength        { float: right; margin-left: 18px; }
-.profile .strength .count { font-size: 11px; line-height: 1em; text-align: center; padding: 0 10px; line-height: 23px; color: #628fa5; margin-bottom: 0px; background: #edf8fd; border-radius: 15px; height: 24px; -webkit-box-shadow: 0 2px 3px rgba(0,0,0,.1) inset; box-shadow: 0 2px 3px rgba(0,0,0,.1) inset; }
-
 .profile .user-login      { width: 240px; font-size: 27px; line-height: 26px; font-weight: normal; margin-bottom: 5px; }
 .profile .user-name       { color: #949aa1; font-size: 17px; font-family: 'PT Sans', sans-serif; }
 

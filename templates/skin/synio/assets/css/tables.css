@@ -62,13 +62,9 @@
 .table.table-users .cell-name .name.no-realname		{ margin-top: 11px; }
 .table.table-users .cell-name .username { width: 125px; position: relative; top: 1px; margin-bottom: 3px; }
 .table.table-users .cell-name .realname { font-size: 11px; }
-.table.table-users tbody .cell-date 	{ font-size: 11px; }
 .table.table-users .cell-rating			{ text-align: center; width: 70px; }
-.table.table-users .cell-skill 			{ text-align: center; width: 70px; }
-.table.table-users .cell-date 			{ text-align: center; width: 130px; }
-.table.table-users tbody .cell-skill 	{ color: #628fa5; font-size: 11px; font-weight: bold; }
+.table.table-users .cell-date 			{ text-align: center; width: 150px; }
 .table.table-users tbody .cell-rating	{ color: #5fa459; font-size: 11px; }
-.table.table-users button				{ float: left; margin-right: 5px; }
 
 /* Table Talk */
 .table.table-talk .cell-checkbox 			{ width: 20px; padding: 15px 0 10px 10px; }

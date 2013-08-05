@@ -36,8 +36,7 @@
 .table.table-users .cell-name img 		{ float: left; }
 .table.table-users .cell-name .username { margin-left: 32px; width: 120px; position: relative; top: 1px; }
 .table.table-users tbody .cell-date 	{ font-size: 11px; }
-.table.table-users .cell-rating,
-.table.table-users .cell-skill 			{ text-align: center; width: 50px; }
+.table.table-users .cell-rating         { text-align: center; width: 50px; }
 
 /* Table Talk */
 .table.table-talk .cell-checkbox 		{ width: 20px; padding: 12px 0 10px 10px; }

@@ -124,8 +124,9 @@ a.button.button-write {
 /**
  * Button Slide
  */
+.button-slider            { white-space: nowrap; }
 .button-slider span       { display: none; padding-left: 5px; }
-.button-slider:hover span { display: inline; }
+.button-slider:hover span { display: inline; white-space: nowrap; }
 
 
 /**

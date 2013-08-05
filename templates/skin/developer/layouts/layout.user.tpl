@@ -40,11 +40,6 @@
 			<div class="vote-count count js-vote-rating" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{if $oUserProfile->getRating() > 0}+{/if}{$oUserProfile->getRating()}</div>
 		</div>
 		
-		<div class="strength">
-			<div class="vote-label">{$aLang.user_skill}</div>
-			<div class="count" id="user_skill_{$oUserProfile->getId()}">{$oUserProfile->getSkill()}</div>
-		</div>
-		
 		<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getLogin()}</h2>
 		
 		{if $oUserProfile->getProfileName()}
