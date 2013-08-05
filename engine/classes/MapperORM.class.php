@@ -157,9 +157,19 @@ class MapperORM extends Mapper {
 		list($aFilterFields,$sFilterFields)=$this->BuildFilter($aFilter,$oEntitySample);
 		list($sOrder,$sLimit,$sGroup)=$this->BuildFilterMore($aFilter,$oEntitySample);
 
-		$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sGroup} ";
+		if ($sGroup) {
+			/**
+			 * Т.к. count меняет свою логику при наличии группировки
+			 */
+			$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `".$sTableName."` WHERE 1=1 {$sFilterFields} {$sGroup} ";
+		} else {
+			$sql = "SELECT count(*) as c FROM ".$sTableName." WHERE 1=1 {$sFilterFields} {$sGroup} ";
+		}
 		$aQueryParams=array_merge(array($sql),array_values($aFilterFields));
 		if($aRow=call_user_func_array(array($this->oDb,'selectRow'),$aQueryParams)) {
+			if ($sGroup) {
+				$aRow=$this->oDb->selectRow('SELECT FOUND_ROWS() as c;');
+			}
 			return $aRow['c'];
 		}
 		return 0;
