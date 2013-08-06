@@ -19,19 +19,26 @@
  * Основные константы
  */
 define('LS_VERSION','1.1.0.dev');
-
+define('LS_FRAMEWORK_PATH',dirname(dirname(__FILE__)));
 /**
  * Operations with Config object
  */
-require_once(dirname(dirname(__FILE__))."/engine/lib/internal/ConfigSimple/Config.class.php");
+require_once(LS_FRAMEWORK_PATH."/libs/application/ConfigSimple/Config.class.php");
+/**
+ * Загружаем основной конфиг фреймворка
+ */
 Config::LoadFromFile(dirname(__FILE__).'/config.php');
+/**
+ * Загружаем основной конфиг приложения
+ */
+Config::LoadFromFile(Config::Get('path.root.application').'/config/config.php',false);
 
 $fGetConfig = create_function('$sPath', '$config=array(); return include $sPath;');
 
 /**
  * Загружает конфиги модулей вида /config/modules/[module_name]/config.php
  */
-$sDirConfig=Config::get('path.root.server').'/config/modules/';
+$sDirConfig=Config::get('path.root.application').'/config/modules/';
 if ($hDirConfig = opendir($sDirConfig)) {
 	while (false !== ($sDirModule = readdir($hDirConfig))) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
@@ -60,9 +67,9 @@ if ($hDirConfig = opendir($sDirConfig)) {
 
 
 /**
- * Инклудим все *.php файлы из каталога {path.root.engine}/include/ - это файлы ядра
+ * Инклудим все *.php файлы из каталога {path.root.framework}/include/ - это файлы ядра
  */
-$sDirInclude=Config::get('path.root.engine').'/include/';
+$sDirInclude=Config::get('path.root.framework').'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {
 	while (false !== ($sFileInclude = readdir($hDirInclude))) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
@@ -77,9 +84,9 @@ if ($hDirInclude = opendir($sDirInclude)) {
 }
 
 /**
- * Инклудим все *.php файлы из каталога {path.root.server}/include/ - пользовательские файлы
+ * Инклудим все *.php файлы из каталога {path.root.application}/include/ - пользовательские файлы
  */
-$sDirInclude=Config::get('path.root.server').'/include/';
+$sDirInclude=Config::get('path.root.application').'/include/';
 if ($hDirInclude = opendir($sDirInclude)) {
 	while (false !== ($sFileInclude = readdir($hDirInclude))) {
 		$sFileIncludePathFull=$sDirInclude.$sFileInclude;
@@ -97,7 +104,7 @@ if ($hDirInclude = opendir($sDirInclude)) {
  * Ищет routes-конфиги модулей и объединяет их с текущим
  * @see Router.class.php
  */
-$sDirConfig=Config::get('path.root.server').'/config/modules/';
+$sDirConfig=Config::get('path.root.application').'/config/modules/';
 if ($hDirConfig = opendir($sDirConfig)) {
 	while (false !== ($sDirModule = readdir($hDirConfig))) {
 		if ($sDirModule !='.' and $sDirModule !='..' and is_dir($sDirConfig.$sDirModule)) {
@@ -128,8 +135,8 @@ if(isset($_SERVER['HTTP_APP_ENV']) && $_SERVER['HTTP_APP_ENV']=='test') {
     /**
      * Подгружаем файл тестового конфига
      */
-    if(file_exists(Config::Get('path.root.server').'/config/config.test.php')) {
-        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.test.php',false);
+    if(file_exists(Config::Get('path.root.application').'/config/config.test.php')) {
+        Config::LoadFromFile(Config::Get('path.root.application').'/config/config.test.php',false);
     } else {
         throw new Exception("Config for test envirenment is not found.
             Rename /config/config.test.php.dist to /config/config.test.php and rewrite DB settings.
@@ -139,11 +146,11 @@ if(isset($_SERVER['HTTP_APP_ENV']) && $_SERVER['HTTP_APP_ENV']=='test') {
     /**
      * Подгружаем файлы локального и продакшн-конфига
      */
-    if(file_exists(Config::Get('path.root.server').'/config/config.local.php')) {
-        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.local.php',false);
+    if(file_exists(Config::Get('path.root.application').'/config/config.local.php')) {
+        Config::LoadFromFile(Config::Get('path.root.application').'/config/config.local.php',false);
     }
-    if(file_exists(Config::Get('path.root.server').'/config/config.stable.php')) {
-        Config::LoadFromFile(Config::Get('path.root.server').'/config/config.stable.php',false);
+    if(file_exists(Config::Get('path.root.application').'/config/config.stable.php')) {
+        Config::LoadFromFile(Config::Get('path.root.application').'/config/config.stable.php',false);
     }
 }
 
@@ -151,7 +158,7 @@ if(isset($_SERVER['HTTP_APP_ENV']) && $_SERVER['HTTP_APP_ENV']=='test') {
  * Загружает конфиги плагинов вида /plugins/[plugin_name]/config/*.php
  * и include-файлы /plugins/[plugin_name]/include/*.php
  */
-$sPluginsDir = Config::Get('path.root.server').'/plugins';
+$sPluginsDir = Config::Get('path.root.application').'/plugins';
 $sPluginsListFile = $sPluginsDir.'/'.Config::Get('sys.plugins.activation_file');
 if($aPluginsList=@file($sPluginsListFile)) {
 	$aPluginsList=array_map('trim',$aPluginsList);
@@ -187,5 +194,3 @@ if($aPluginsList=@file($sPluginsListFile)) {
 		}
 	}
 }
-
-?>

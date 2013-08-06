@@ -51,120 +51,12 @@ $config['block']['tags']['tags_count'] = 70;                  // сколько 
 $config['block']['tags']['personal_tags_count'] = 70;         // сколько тегов пользователя выводить в блоке "теги"
 
 /**
- * Настройка пагинации
- */
-$config['pagination']['pages']['count'] = 4;                  // количество ссылок на другие страницы в пагинации
-
-
-/**
- * Настройка путей
- * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
- * $config['path']['root']['web']    = 'http://'.$_SERVER['HTTP_HOST'].'/subdir';
- * $config['path']['root']['server'] = $_SERVER['DOCUMENT_ROOT'].'/subdir';
- * и возможно придёться увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
- * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
- */
-if (isset($_SERVER['HTTP_HOST'])) {
-    $config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
-} else {
-    // for CLI scripts. or you can append "HTTP_HOST=http://yoursite.url" before script run command
-    $config['path']['root']['web']        = null;
-}
-$config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
-/**
- * Для CLI режима использовать
- * $config['path']['root']['server']     = dirname(dirname(__FILE__));           // полный путь до сайта в файловой системе
- */
-$config['path']['root']['engine']           = '___path.root.server___/engine';                         // полный путь до сайта в файловой системе;
-$config['path']['root']['engine_lib']       = '___path.root.web___/engine/lib';                        // полный путь до сайта в файловой системе
-$config['path']['static']['root']           = '___path.root.web___';                                   // чтоб можно было статику засунуть на отдельный сервер
-$config['path']['static']['skin']           = '___path.static.root___/templates/skin/___view.skin___';
-$config['path']['static']['assets']         = '___path.static.skin___/assets';                         // Папка с ассетами (js, css, images)
-$config['path']['static']['framework']      = "___path.static.root___/templates/framework";            // Front-end framework
-$config['path']['uploads']['root']          = '/uploads';                                              // директория для загрузки файлов
-$config['path']['uploads']['images']        ='___path.uploads.root___/images';
-$config['path']['offset_request_url']       = 0;                                                       // иногда помогает если сервер использует внутренние реврайты
-/**
- * Настройки шаблонизатора Smarty
- */
-$config['path']['smarty']['template'] = '___path.root.server___/templates/skin/___view.skin___';
-$config['path']['smarty']['compiled'] = '___path.root.server___/templates/compiled';
-$config['path']['smarty']['cache']    = '___path.root.server___/templates/cache';
-$config['path']['smarty']['plug']     = '___path.root.engine___/modules/viewer/plugs';
-$config['smarty']['compile_check']    = true; // Проверять или нет файлы шаблона на изменения перед компиляцией, false может значительно увеличить быстродействие, но потребует ручного удаления кеша при изменения шаблона
-$config['smarty']['force_compile']    = false; // Принудительно компилировать шаблоны при каждом запросе, true - существенно снижает производительность
-/**
- * Настройки плагинов
- */
-$config['sys']['plugins']['activation_file'] = 'plugins.dat'; // файл со списком активных плагинов в каталоге /plugins/
-/**
- * Настройки куков
- */
-$config['sys']['cookie']['host'] = null;                    // хост для установки куков
-$config['sys']['cookie']['path'] = '/';                     // путь для установки куков
-$config['sys']['cookie']['time'] = 60 * 60 * 24 * 3;        // время жизни куки когда пользователь остается залогиненым на сайте, 3 дня
-/**
- * Настройки сессий
- */
-$config['sys']['session']['standart'] = true;                             // Использовать или нет стандартный механизм сессий
-$config['sys']['session']['name']     = 'PHPSESSID';                      // название сессии
-$config['sys']['session']['timeout']  = null;                             // Тайм-аут сессии в секундах
-$config['sys']['session']['host']     = '___sys.cookie.host___'; // хост сессии в куках
-$config['sys']['session']['path']     = '___sys.cookie.path___'; // путь сессии в куках
-/**
- * Настройки почтовых уведомлений
- */
-$config['sys']['mail']['type']             = 'mail';                 // Какой тип отправки использовать
-$config['sys']['mail']['from_email']       = 'admin@admin.adm';      // Мыло с которого отправляются все уведомления
-$config['sys']['mail']['from_name']        = 'Почтовик Your Site';  // Имя с которого отправляются все уведомления
-$config['sys']['mail']['charset']          = 'UTF-8';                // Какую кодировку использовать в письмах
-$config['sys']['mail']['smtp']['host']     = 'localhost';            // Настройки SMTP - хост
-$config['sys']['mail']['smtp']['port']     = 25;                     // Настройки SMTP - порт
-$config['sys']['mail']['smtp']['user']     = '';                     // Настройки SMTP - пользователь
-$config['sys']['mail']['smtp']['password'] = '';                     // Настройки SMTP - пароль
-$config['sys']['mail']['smtp']['secure']   = '';                     // Настройки SMTP - протокол шифрования: tls, ssl
-$config['sys']['mail']['smtp']['auth']     = true;                   // Использовать авторизацию при отправке
-$config['sys']['mail']['include_comment']  = true;                   // Включает в уведомление о новых комментах текст коммента
-$config['sys']['mail']['include_talk']     = true;                   // Включает в уведомление о новых личных сообщениях текст сообщения
-/**
- * Настройки кеширования
- */
-// Устанавливаем настройки кеширования
-$config['sys']['cache']['use']    = true;               // использовать кеширование или нет
-$config['sys']['cache']['type']   = 'file';             // тип кеширования: file, xcache и memory. memory использует мемкеш, xcache - использует XCache
-$config['sys']['cache']['dir']    = '___path.root.server___/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
-$config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
-$config['sys']['cache']['directory_level'] = 1;         // уровень вложенности директорий файлового кеша
-$config['sys']['cache']['solid']  = true;               // Настройка использования раздельного и монолитного кеша для отдельных операций
-
-/**
- * Настройки логирования
- */
-$config['sys']['logs']['file']           = 'log.log';       // файл общего лога
-$config['sys']['logs']['sql_query']      = false;           // логировать или нет SQL запросы
-$config['sys']['logs']['sql_query_file'] = 'sql_query.log'; // файл лога SQL запросов
-$config['sys']['logs']['sql_error']      = true;            // логировать или нет ошибки SQl
-$config['sys']['logs']['sql_error_file'] = 'sql_error.log'; // файл лога ошибок SQL
-$config['sys']['logs']['cron']     		 = true;    	    // логировать или нет cron скрипты
-$config['sys']['logs']['cron_file']      = 'cron.log';      // файл лога запуска крон-процессов
-$config['sys']['logs']['profiler']       = false;           // логировать или нет профилирование процессов
-$config['sys']['logs']['profiler_file']  = 'profiler.log';  // файл лога профилирования процессов
-$config['sys']['logs']['hacker_console']  = false;  		// позволяет удобно выводить логи дебага через функцию dump(), использя "хакерскую" консоль Дмитрия Котерова
-/**
  * Общие настройки
  */
 $config['general']['close']             = false; // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
 $config['general']['rss_editor_mail']   = '___sys.mail.from_email___'; // мыло редактора РСС
 $config['general']['reg']['invite']     = false; // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 $config['general']['reg']['activation'] = false; // использовать активацию при регистрации или нет
-/**
- * Языковые настройки
- */
-$config['lang']['current']     = 'ru';                                                // текущий язык текстовок
-$config['lang']['default']     = 'ru';                                                // язык, который будет использовать на сайте по умолчанию
-$config['lang']['dir']         = 'i18n';                                              // название директории с языковыми файлами
-$config['lang']['path']        = '___path.root.server___/templates/___lang.dir___';   // полный путь до языковых файлов
-$config['lang']['load_to_js']  = array();                                             // Массив текстовок, которые необходимо прогружать на страницу в виде JS хеша, позволяет использовать текстовки внутри js
 
 /**
  * Настройки ACL(Access Control List — список контроля доступа)
@@ -379,13 +271,7 @@ $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target
 $config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
-/**
- * Настройка memcache
- */
-$config['memcache']['servers'][0]['host'] = 'localhost';
-$config['memcache']['servers'][0]['port'] = '11211';
-$config['memcache']['servers'][0]['persistent'] = true;
-$config['memcache']['compression'] = true;
+
 /**
  * Настройки роутинга
  */
@@ -601,23 +487,6 @@ $config['head']['default']['css'] = array(
 );
 
 /**
- * Параметры компрессии css-файлов
- */
-$config['compress']['css']['merge'] = true;       // указывает на необходимость слияния файлов по указанным блокам.
-$config['compress']['css']['use']   = false;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
-$config['compress']['css']['case_properties']     = 1;
-$config['compress']['css']['merge_selectors']     = 0;
-$config['compress']['css']['optimise_shorthands'] = 1;
-$config['compress']['css']['remove_last_;']       = true;
-$config['compress']['css']['css_level']           = 'CSS2.1';
-$config['compress']['css']['template']            = "highest_compression";
-/**
- * Параметры компрессии js-файлов
- */
-$config['compress']['js']['merge']  = true;    // указывает на необходимость слияния файлов по указанным блокам.
-$config['compress']['js']['use']    = true;    // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
-
-/**
  * Установка локали
  */
 setlocale(LC_ALL, "ru_RU.UTF-8");
@@ -626,8 +495,7 @@ date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/time
 /**
  * Настройки типографа текста Jevix
  */
-$config['jevix']=require(dirname(__FILE__).'/jevix.php');
+//$config['jevix']=require(dirname(__FILE__).'/jevix.php');
 
 
 return $config;
-?>

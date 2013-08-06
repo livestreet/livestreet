@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/DklabCache/config.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/DklabCache/config.php');
 require_once(LS_DKCACHE_PATH.'Zend/Cache.php');
 require_once(LS_DKCACHE_PATH.'Cache/Backend/MemcachedMultiload.php');
 require_once(LS_DKCACHE_PATH.'Cache/Backend/TagEmuWrapper.php');
@@ -137,9 +137,11 @@ class ModuleCache extends Module {
 		 */
 		if ($this->sCacheType==SYS_CACHE_TYPE_FILE) {
 			require_once(LS_DKCACHE_PATH.'Zend/Cache/Backend/File.php');
+			$sDirCache=Config::Get('sys.cache.dir').'/system/';
+			if (!is_dir($sDirCache)) @mkdir($sDirCache,0777,true);
 			$oCahe = new Zend_Cache_Backend_File(
 				array(
-					'cache_dir' => Config::Get('sys.cache.dir'),
+					'cache_dir' => $sDirCache,
 					'file_name_prefix'	=> Config::Get('sys.cache.prefix'),
 					'read_control_type' => 'crc32',
 					'hashed_directory_level' => Config::Get('sys.cache.directory_level'),

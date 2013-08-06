@@ -16,7 +16,7 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once(Config::Get('path.root.engine').'/lib/internal/ProfilerSimple/Profiler.class.php');
+require_once(Config::Get('path.root.framework').'/libs/application/ProfilerSimple/Profiler.class.php');
 
 require_once("LsObject.class.php");
 require_once("Plugin.class.php");
@@ -422,7 +422,7 @@ class Engine extends LsObject {
 	 *
 	 */
 	protected function InitHooks() {
-		$sDirHooks=Config::Get('path.root.server').'/classes/hooks/';
+		$sDirHooks=Config::Get('path.root.application').'/classes/hooks/';
 		$aFiles=glob($sDirHooks.'Hook*.class.php');
 
 		if($aFiles and count($aFiles)) {
@@ -448,7 +448,7 @@ class Engine extends LsObject {
 	 */
 	protected function InitPluginHooks() {
 		if($aPluginList = func_list_plugins()) {
-			$sDirHooks=Config::Get('path.root.server').'/plugins/';
+			$sDirHooks=Config::Get('path.root.application').'/plugins/';
 
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDirHooks.$sPluginName.'/classes/hooks/Hook*.class.php');
@@ -1004,7 +1004,8 @@ class Engine extends LsObject {
 			$oObject,
 			self::CI_OBJECT
 		);
-		$sPath = Config::get('path.root.server').'/';
+		$sPath = Config::get('path.root.application').'/';
+		$sPathFramework = Config::get('path.root.framework').'/';
 		if($aInfo[self::CI_ENTITY]){
 			// Сущность
 			if($aInfo[self::CI_PLUGIN]){
@@ -1015,11 +1016,12 @@ class Engine extends LsObject {
 				;
 			}else{
 				// Сущность модуля ядра
-				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
+				$sFile='classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/entity/'.$aInfo[self::CI_ENTITY].'.entity.class.php'
 				;
+				$sPath.=$sFile;
 				if(!is_file($sPath)){
-					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+					$sPath = $sPathFramework.$sFile;
 				}
 			}
 		}elseif($aInfo[self::CI_MAPPER]){
@@ -1032,11 +1034,12 @@ class Engine extends LsObject {
 				;
 			}else{
 				// Маппер модуля ядра
-				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
+				$sFile='classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/mapper/'.$aInfo[self::CI_MAPPER].'.mapper.class.php'
 				;
+				$sPath.=$sFile;
 				if(!is_file($sPath)){
-					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+					$sPath = $sPathFramework.$sFile;
 				}
 			}
 		}elseif($aInfo[self::CI_EVENT]){
@@ -1075,11 +1078,12 @@ class Engine extends LsObject {
 				;
 			}else{
 				// Модуль ядра
-				$sPath .= 'classes/modules/'.strtolower($aInfo[self::CI_MODULE])
+				$sFile='classes/modules/'.strtolower($aInfo[self::CI_MODULE])
 					.'/'.$aInfo[self::CI_MODULE].'.class.php'
 				;
+				$sPath.=$sFile;
 				if(!is_file($sPath)){
-					$sPath = str_replace('/classes/modules/','/engine/modules/',$sPath);
+					$sPath = $sPathFramework.$sFile;
 				}
 			}
 		}elseif($aInfo[self::CI_HOOK]){
@@ -1114,7 +1118,7 @@ class Engine extends LsObject {
 			;
 		}else{
 			$sClassName = is_string($oObject) ? $oObject : get_class($oObject);
-			$sPath .= 'engine/classes/'.$sClassName.'.class.php';
+			$sPath=$sPathFramework.'classes/engine/'.$sClassName.'.class.php';
 		}
 		return is_file($sPath) ? $sPath : null;
 	}
@@ -1250,5 +1254,3 @@ class LS extends LsObject {
 		return call_user_func_array(array(self::E(),$sName),$aArgs);
 	}
 }
-
-?>

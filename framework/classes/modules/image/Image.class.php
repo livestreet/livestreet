@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once Config::Get('path.root.engine').'/lib/external/LiveImage/Image.php';
+require_once Config::Get('path.root.framework').'/libs/vendor/LiveImage/Image.php';
 
 /**
  * Модуль обработки изображений

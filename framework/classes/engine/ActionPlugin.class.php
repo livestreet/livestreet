@@ -43,7 +43,7 @@ abstract class ActionPlugin extends Action {
 			 * Проверяем в списке шаблонов
 			 */
 			$aMatches[1]=strtolower($aMatches[1]);
-			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$aMatches[1].'/templates/skin/*/actions/Action'.ucfirst($aMatches[2]),GLOB_ONLYDIR);
+			$aPaths=glob(Config::Get('path.root.application').'/plugins/'.$aMatches[1].'/templates/skin/*/actions/Action'.ucfirst($aMatches[2]),GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(
 				Config::Get('view.skin'),
 				array_map(
@@ -57,7 +57,7 @@ abstract class ActionPlugin extends Action {
 				? Config::Get('view.skin')
 				: 'default';
 
-			$sDir=Config::Get('path.root.server')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}/";
+			$sDir=Config::Get('path.root.application')."/plugins/{$aMatches[1]}/templates/skin/{$sTemplateName}/";
 			$this->sTemplatePathPlugin = is_dir($sDir) ? $sDir : null;
 		}
 

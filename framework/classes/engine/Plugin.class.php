@@ -228,7 +228,7 @@ abstract class Plugin extends LsObject {
 	 */
 	public function GetVersion() {
 		preg_match('/^Plugin([\w]+)$/i',get_class($this),$aMatches);
-		$sPluginXML = Config::Get('path.root.server').'/plugins/'.func_underscore($aMatches[1]).'/'.ModulePlugin::PLUGIN_XML_FILE;
+		$sPluginXML = Config::Get('path.root.application').'/plugins/'.func_underscore($aMatches[1]).'/'.ModulePlugin::PLUGIN_XML_FILE;
 		if($oXml = @simplexml_load_file($sPluginXML)) {
 			return (string)$oXml->version;
 		}
@@ -256,7 +256,7 @@ abstract class Plugin extends LsObject {
 			? func_underscore($aMatches[1])
 			: func_underscore($sName);
 
-		return Config::Get('path.root.server').'/plugins/'.$sName.'/';
+		return Config::Get('path.root.application').'/plugins/'.$sName.'/';
 	}
 	/**
 	 * Возвращает полный web-адрес до плагина
@@ -269,7 +269,7 @@ abstract class Plugin extends LsObject {
 			? func_underscore($aMatches[1])
 			: func_underscore($sName);
 
-		return Config::Get('path.root.web').'/plugins/'.$sName.'/';
+		return Config::Get('path.root.web').'/application/plugins/'.$sName.'/';
 	}
 	/**
 	 * Возвращает правильный серверный путь к директории шаблонов с учетом текущего шаблона
@@ -283,12 +283,12 @@ abstract class Plugin extends LsObject {
 			? func_underscore($aMatches[1])
 			: func_underscore($sName);
 		if(!isset(self::$aTemplatePath[$sName])) {
-			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
+			$aPaths=glob(Config::Get('path.root.application').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
 				? Config::Get('view.skin')
 				: 'default';
 
-			$sDir=Config::Get('path.root.server')."/plugins/{$sName}/templates/skin/{$sTemplateName}/";
+			$sDir=Config::Get('path.root.application')."/plugins/{$sName}/templates/skin/{$sTemplateName}/";
 			self::$aTemplatePath[$sName] = is_dir($sDir) ? $sDir : null;
 		}
 		return self::$aTemplatePath[$sName];
@@ -305,12 +305,12 @@ abstract class Plugin extends LsObject {
 			? func_underscore($aMatches[1])
 			: func_underscore($sName);
 		if(!isset(self::$aTemplateWebPath[$sName])) {
-			$aPaths=glob(Config::Get('path.root.server').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
+			$aPaths=glob(Config::Get('path.root.application').'/plugins/'.$sName.'/templates/skin/*',GLOB_ONLYDIR);
 			$sTemplateName=($aPaths and in_array(Config::Get('view.skin'),array_map('basename',$aPaths)))
 				? Config::Get('view.skin')
 				: 'default';
 
-			self::$aTemplateWebPath[$sName]=Config::Get('path.root.web')."/plugins/{$sName}/templates/skin/{$sTemplateName}/";
+			self::$aTemplateWebPath[$sName]=Config::Get('path.root.web')."/application/plugins/{$sName}/templates/skin/{$sTemplateName}/";
 		}
 		return self::$aTemplateWebPath[$sName];
 	}

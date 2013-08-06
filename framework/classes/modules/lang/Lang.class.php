@@ -152,7 +152,7 @@ class ModuleLang extends Module {
 		 */
 		if($aPluginList = Engine::getInstance()->GetPlugins()) {
 			$aPluginList=array_keys($aPluginList);
-			$sDir=Config::Get('path.root.server').'/plugins/';
+			$sDir=Config::Get('path.root.application').'/plugins/';
 
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDir.$sPluginName.'/templates/'.Config::Get('lang.dir').'/'.$sLangName.'.php');

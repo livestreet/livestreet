@@ -67,7 +67,7 @@ class ModulePlugin extends Module {
 	 *
 	 */
 	public function Init() {
-		$this->sPluginsDir=Config::Get('path.root.server').'/plugins/';
+		$this->sPluginsDir=Config::Get('path.root.application').'/plugins/';
 	}
 	/**
 	 * Получает список информации о всех плагинах, загруженных в plugin-директорию

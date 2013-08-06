@@ -15,10 +15,10 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/Smarty/libs/Smarty.class.php');
-require_once(Config::Get('path.root.engine').'/lib/internal/SmartyLS/SmartyLS.class.php');
-require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.3/class.csstidy.php');
-require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/Smarty/libs/Smarty.class.php');
+require_once(Config::Get('path.root.framework').'/libs/application/SmartyLS/SmartyLS.class.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/CSSTidy-1.3/class.csstidy.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/JSMin-1.1.1/jsmin.php');
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
@@ -207,16 +207,18 @@ class ModuleViewer extends Module {
 		 */
 		$this->oSmarty = $this->CreateSmartyObject();
 		$this->oSmarty->error_reporting=error_reporting() & ~E_NOTICE; // подавляем NOTICE ошибки - в этом вся прелесть смарти )
-		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.server').'/plugins/')));
+		$this->oSmarty->setTemplateDir(array_merge((array)Config::Get('path.smarty.template'),array(Config::Get('path.root.application').'/plugins/')));
 		$this->oSmarty->compile_check=Config::Get('smarty.compile_check');
 		$this->oSmarty->force_compile=Config::Get('smarty.force_compile');
 		/**
 		 * Для каждого скина устанавливаем свою директорию компиляции шаблонов
 		 */
 		$sCompilePath = Config::Get('path.smarty.compiled').'/'.Config::Get('view.skin');
-		if(!is_dir($sCompilePath)) @mkdir($sCompilePath);
+		if(!is_dir($sCompilePath)) @mkdir($sCompilePath,0777,true);
 		$this->oSmarty->setCompileDir($sCompilePath);
-		$this->oSmarty->setCacheDir(Config::Get('path.smarty.cache'));
+		$sCachePath=Config::Get('path.smarty.cache');
+		if(!is_dir($sCachePath)) @mkdir($sCachePath,0777,true);
+		$this->oSmarty->setCacheDir($sCachePath);
 		$this->oSmarty->addPluginsDir(array(Config::Get('path.smarty.plug'),'plugins'));
 		$this->oSmarty->default_template_handler_func=array($this,'SmartyDefaultTemplateHandler');
 		/**
@@ -1428,15 +1430,15 @@ class ModuleViewer extends Module {
 		 */
 		if (Config::Get('view.skin')!='default') {
 			// /root/plugins/[plugin name]/templates/skin/[skin name]/dir/test.tpl
-			if (preg_match('@^'.preg_quote(Config::Get('path.root.server')).'/plugins/([\w\-_]+)/templates/skin/'.preg_quote(Config::Get('view.skin')).'/@i',$sName,$aMatch)) {
-				$sFile=str_replace($aMatch[0],Config::Get('path.root.server').'/plugins/'.$aMatch[1].'/templates/skin/default/',$sName);
+			if (preg_match('@^'.preg_quote(Config::Get('path.root.application')).'/plugins/([\w\-_]+)/templates/skin/'.preg_quote(Config::Get('view.skin')).'/@i',$sName,$aMatch)) {
+				$sFile=str_replace($aMatch[0],Config::Get('path.root.application').'/plugins/'.$aMatch[1].'/templates/skin/default/',$sName);
 				if ($this->TemplateExists($sFile)) {
 					return $sFile;
 				}
 			}
 			// [plugin name]/templates/skin/[skin name]/dir/test.tpl
 			if (preg_match('@^([\w\-_]+)/templates/skin/'.preg_quote(Config::Get('view.skin')).'/@i',$sName,$aMatch)) {
-				$sFile=Config::Get('path.root.server').'/plugins/'.str_replace($aMatch[0],$aMatch[1].'/templates/skin/default/',$sName);
+				$sFile=Config::Get('path.root.application').'/plugins/'.str_replace($aMatch[0],$aMatch[1].'/templates/skin/default/',$sName);
 				if ($this->TemplateExists($sFile)) {
 					return $sFile;
 				}

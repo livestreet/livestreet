@@ -80,7 +80,7 @@ class ModuleLogger extends Module {
 	 *
 	 */
 	public function Init() {
-		$this->sPathLogs=Config::Get('path.root.server').'/logs/';
+		$this->sPathLogs=Config::Get('path.root.application').'/logs/';
 		$this->SetFileName(Config::Get('sys.logs.file'));
 		$this->iRandom=rand(1000,9999);
 	}

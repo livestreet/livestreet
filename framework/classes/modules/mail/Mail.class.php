@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/class.phpmailer.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/phpMailer/class.phpmailer.php');
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer

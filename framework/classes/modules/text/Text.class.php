@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/Jevix/jevix.class.php');
+require_once(Config::Get('path.root.framework').'/libs/vendor/Jevix/jevix.class.php');
 
 /**
  * Модуль обработки текста на основе типографа Jevix
