@@ -56,7 +56,7 @@ function isAjaxRequest() {
 function dump($msg) {
 	if (Config::Get('sys.logs.hacker_console') && !isAjaxRequest()) {
 		if (!class_exists('Debug_HackerConsole_Main')) {
-			require_once Config::Get('path.root.server')."/engine/lib/external/HackerConsole/Main.php";
+			require_once Config::Get('path.root.framework')."/libs/vendor/HackerConsole/Main.php";
 			new Debug_HackerConsole_Main(true);
 		}
 		call_user_func(array('Debug_HackerConsole_Main', 'out'), $msg);
@@ -429,7 +429,7 @@ function func_camelize($sStr) {
 
 
 function func_list_plugins($bAll = false){
-	$sPluginsDir = Config::Get('path.root.server').'/plugins';
+	$sPluginsDir = Config::Get('path.root.application').'/plugins';
 	$sPluginsListFile = $sPluginsDir.'/'.Config::Get('sys.plugins.activation_file');
 	$aPlugin = array();
 	if($bAll){
@@ -470,5 +470,3 @@ function func_convert_entity_to_array(Entity $oEntity, $aMethods = null, $sPrefi
 	}
 	return $aEntity;
 }
-
-?>
