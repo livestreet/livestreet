@@ -55,7 +55,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
 $config['path']['root']['server']     		= dirname(dirname(dirname(__FILE__)));           // полный путь до сайта в файловой системе
 $config['path']['root']['application']     	= '___path.root.server___/application';           // полный путь до сайта в файловой системе
 $config['path']['root']['engine']           = LS_FRAMEWORK_PATH;                         // полный путь до сайта в файловой системе;
-$config['path']['root']['engine_lib']       = '___path.root.engine___/libs';                        // полный путь до сайта в файловой системе
+$config['path']['root']['engine_lib']       = '___path.root.web___/framework/libs';                        // полный путь до сайта в файловой системе
 $config['path']['root']['framework']		= '___path.root.engine___';
 $config['path']['static']['root']           = '___path.root.web___';                                   // чтоб можно было статику засунуть на отдельный сервер
 $config['path']['static']['skin']           = '___path.static.root___/application/frontend/skin/___view.skin___';
@@ -250,32 +250,6 @@ $config['head']['default']['js'] = array(
 	"___path.static.framework___/js/ui/tab.js",
 	"___path.static.framework___/js/ui/modal.js",
 	"___path.static.framework___/js/ui/toolbar.js",
-
-	/* LiveStreet */
-	"___path.static.framework___/js/livestreet/favourite.js",
-	"___path.static.framework___/js/livestreet/blocks.js",
-	"___path.static.framework___/js/livestreet/pagination.js",
-	"___path.static.framework___/js/livestreet/editor.js",
-	"___path.static.framework___/js/livestreet/talk.js",
-	"___path.static.framework___/js/livestreet/vote.js",
-	"___path.static.framework___/js/livestreet/poll.js",
-	"___path.static.framework___/js/livestreet/subscribe.js",
-	"___path.static.framework___/js/livestreet/geo.js",
-	"___path.static.framework___/js/livestreet/wall.js",
-	"___path.static.framework___/js/livestreet/usernote.js",
-	"___path.static.framework___/js/livestreet/comments.js",
-	"___path.static.framework___/js/livestreet/blog.js",
-	"___path.static.framework___/js/livestreet/user.js",
-	"___path.static.framework___/js/livestreet/userfeed.js",
-	"___path.static.framework___/js/livestreet/stream.js",
-	"___path.static.framework___/js/livestreet/photoset.js",
-	"___path.static.framework___/js/livestreet/toolbar.js",
-	"___path.static.framework___/js/livestreet/settings.js",
-	"___path.static.framework___/js/livestreet/topic.js",
-	"___path.static.framework___/js/livestreet/admin.js",
-	"___path.static.framework___/js/livestreet/admin.userfield.js",
-	"___path.static.framework___/js/livestreet/captcha.js",
-	"___path.static.framework___/js/livestreet/init.js",
 );
 
 $config['head']['default']['css'] = array(
