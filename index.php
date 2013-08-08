@@ -23,9 +23,9 @@ header('X-Powered-By: LiveStreet CMS');
 // Получаем объект конфигурации
 $sPathToFramework=dirname(__FILE__).'/framework/';
 require_once("{$sPathToFramework}/config/loader.php");
-require_once(Config::Get('path.root.framework')."/classes/engine/Engine.class.php");
+require_once(Config::Get('path.framework.server')."/classes/engine/Engine.class.php");
 
-$oProfiler=ProfilerSimple::getInstance(Config::Get('path.root.application').'/logs/'.Config::Get('sys.logs.profiler_file'),Config::Get('sys.logs.profiler'));
+$oProfiler=ProfilerSimple::getInstance(Config::Get('path.application.server').'/logs/'.Config::Get('sys.logs.profiler_file'),Config::Get('sys.logs.profiler'));
 $iTimeId=$oProfiler->Start('full_time');
 
 $oRouter=Router::getInstance();

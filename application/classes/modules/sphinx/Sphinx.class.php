@@ -1,5 +1,5 @@
 <?php
-require_once(Config::Get('path.root.engine').'/lib/external/Sphinx/sphinxapi.php');
+require_once(Config::Get('path.framework.libs_vendor.server').'/Sphinx/sphinxapi.php');
 
 /**
  * Модуль для работы с машиной полнотекстового поиска Sphinx

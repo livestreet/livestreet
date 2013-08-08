@@ -28,7 +28,7 @@ function smarty_function_router($aParams,&$oSmarty) {
 		trigger_error("Router: missing 'page' parametr",E_USER_WARNING);
 		return ;
 	}
-	require_once(Config::Get('path.root.framework').'/classes/engine/Router.class.php');
+	require_once(Config::Get('path.framework.server').'/classes/engine/Router.class.php');
 	
 	if(!$sPath = Router::GetPath($aParams['page'])) {
 		trigger_error("Router: unknown 'page' given",E_USER_WARNING);

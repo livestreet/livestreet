@@ -19,7 +19,7 @@
  * !!!!! ВНИМАНИЕ !!!!!
  *
  * Ничего не изменяйте в этом файле!
- * Все изменения нужно вносить в файл /config/config.local.php
+ * Все изменения нужно вносить в файл /application/config/config.local.php
  */
 
 /**
@@ -37,40 +37,52 @@ $config['view']['noindex']          = true;   // "прятать" или нет 
  */
 $config['pagination']['pages']['count'] = 4;                  // количество ссылок на другие страницы в пагинации
 
-
 /**
- * Настройка путей
- * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
- * $config['path']['root']['web']    = 'http://'.$_SERVER['HTTP_HOST'].'/subdir';
- * $config['path']['root']['server'] = $_SERVER['DOCUMENT_ROOT'].'/subdir';
- * и возможно придёться увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
- * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
+ * Настройки путей
+ * Основные
  */
-if (isset($_SERVER['HTTP_HOST'])) {
-    $config['path']['root']['web']        = 'http://'.$_SERVER['HTTP_HOST'];     // полный WEB адрес сайта
-} else {
-    // for CLI scripts. or you can append "HTTP_HOST=http://yoursite.url" before script run command
-    $config['path']['root']['web']        = null;
-}
-$config['path']['root']['server']     		= dirname(dirname(dirname(__FILE__)));           // полный путь до сайта в файловой системе
-$config['path']['root']['application']     	= '___path.root.server___/application';           // полный путь до сайта в файловой системе
-$config['path']['root']['engine']           = LS_FRAMEWORK_PATH;                         // полный путь до сайта в файловой системе;
-$config['path']['root']['engine_lib']       = '___path.root.web___/framework/libs';                        // полный путь до сайта в файловой системе
-$config['path']['root']['framework']		= '___path.root.engine___';
-$config['path']['static']['root']           = '___path.root.web___';                                   // чтоб можно было статику засунуть на отдельный сервер
-$config['path']['static']['skin']           = '___path.static.root___/application/frontend/skin/___view.skin___';
-$config['path']['static']['assets']         = '___path.static.skin___/assets';                         // Папка с ассетами (js, css, images)
-$config['path']['static']['framework']      = "___path.static.root___/framework/frontend/framework";   // Front-end framework todo: need fix path
-$config['path']['uploads']['root']          = '/uploads';                                              // директория для загрузки файлов
-$config['path']['uploads']['images']        ='___path.uploads.root___/images';
+$config['path']['root']['server']=dirname(dirname(dirname(__FILE__))); // Из расчета, что каталог с фреймворком лежит в корне сайта, иначе нужно переопределить настройку в конфиге /application/config/config.php
+$config['path']['root']['web']=isset($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : null;
+$config['path']['application']['server']='___path.root.server___/application';
+$config['path']['application']['web']='___path.root.web___/application';
+$config['path']['framework']['server']=dirname(dirname(__FILE__));
+$config['path']['framework']['web']='___path.root.web___/'.trim(str_replace(dirname(dirname(dirname(__FILE__))),'',$config['path']['framework']['server']),'/'); // Подставляет название каталога в котором фреймворк, относительно корня сайта. Необходимо переопределить при изменении расположения фреймворка.
+/**
+ * Производные
+ */
+$config['path']['application']['plugins']['server']='___path.application.server___/plugins';
+$config['path']['application']['plugins']['web']='___path.application.web___/plugins';
+$config['path']['framework']['libs_vendor']['server']='___path.framework.server___/libs/vendor';
+$config['path']['framework']['libs_vendor']['web']='___path.framework.web___/libs/vendor';
+$config['path']['framework']['libs_application']['server']='___path.framework.server___/libs/application';
+$config['path']['framework']['libs_application']['web']='___path.framework.web___/libs/application';
+$config['path']['framework']['frontend']['web']='___path.framework.web___/frontend/framework';
+$config['path']['skin']['web']='___path.application.web___/frontend/skin/___view.skin___';
+$config['path']['skin']['assets']['web']='___path.skin.web___/assets';
+$config['path']['uploads']['base']='/uploads';
+$config['path']['uploads']['images']='___path.uploads.base___/images';
 $config['path']['offset_request_url']       = 0;                                                       // иногда помогает если сервер использует внутренние реврайты
+/**
+ * Для совместимости с прошлыми версиями
+ * Данные настройки будут удалены
+ */
+//$config['path']['root']['application']     	= '___path.root.server___/application';           // полный путь до сайта в файловой системе
+$config['path']['root']['engine']           = '___path.framework.server___';                         // полный путь до сайта в файловой системе;
+$config['path']['root']['engine_lib']       = '___path.framework.web___/libs';                        // полный путь до сайта в файловой системе
+//$config['path']['root']['framework']		= '___path.root.engine___';
+$config['path']['static']['root']           = '___path.root.web___';                                   // чтоб можно было статику засунуть на отдельный сервер
+$config['path']['static']['skin']           = '___path.skin.web___';
+//$config['path']['static']['assets']         = '___path.static.skin___/assets';                         // Папка с ассетами (js, css, images)
+//$config['path']['static']['framework']      = "___path.static.root___/framework/frontend/framework";   // Front-end framework todo: need fix path
+$config['path']['uploads']['root']          = '___path.uploads.base___';                                              // директория для загрузки файлов
+
 /**
  * Настройки шаблонизатора Smarty
  */
-$config['path']['smarty']['template'] = '___path.root.application___/frontend/skin/___view.skin___';
-$config['path']['smarty']['compiled'] = '___path.root.application___/tmp/templates/compiled';
-$config['path']['smarty']['cache']    = '___path.root.application___/tmp/templates/cache';
-$config['path']['smarty']['plug']     = '___path.root.framework___/classes/modules/viewer/plugs';
+$config['path']['smarty']['template'] = '___path.application.server___/frontend/skin/___view.skin___';
+$config['path']['smarty']['compiled'] = '___path.application.server___/tmp/templates/compiled';
+$config['path']['smarty']['cache']    = '___path.application.server___/tmp/templates/cache';
+$config['path']['smarty']['plug']     = '___path.framework.server___/classes/modules/viewer/plugs';
 $config['smarty']['compile_check']    = true; // Проверять или нет файлы шаблона на изменения перед компиляцией, false может значительно увеличить быстродействие, но потребует ручного удаления кеша при изменения шаблона
 $config['smarty']['force_compile']    = false; // Принудительно компилировать шаблоны при каждом запросе, true - существенно снижает производительность
 /**
@@ -112,7 +124,7 @@ $config['sys']['mail']['include_talk']     = true;                   // Вклю
 // Устанавливаем настройки кеширования
 $config['sys']['cache']['use']    = true;               // использовать кеширование или нет
 $config['sys']['cache']['type']   = 'file';             // тип кеширования: file, xcache и memory. memory использует мемкеш, xcache - использует XCache
-$config['sys']['cache']['dir']    = '___path.root.application___/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
+$config['sys']['cache']['dir']    = '___path.application.server___/tmp/';       // каталог для файлового кеша, также используется для временных картинок. По умолчанию подставляем каталог для хранения сессий
 $config['sys']['cache']['prefix'] = 'livestreet_cache'; // префикс кеширования, чтоб можно было на одной машине держать несколько сайтов с общим кешевым хранилищем
 $config['sys']['cache']['directory_level'] = 1;         // уровень вложенности директорий файлового кеша
 $config['sys']['cache']['solid']  = true;               // Настройка использования раздельного и монолитного кеша для отдельных операций
@@ -136,7 +148,7 @@ $config['sys']['logs']['hacker_console']  = false;  		// позволяет уд
 $config['lang']['current']     = 'ru';                                                // текущий язык текстовок
 $config['lang']['default']     = 'ru';                                                // язык, который будет использовать на сайте по умолчанию
 $config['lang']['dir']         = 'i18n';                                              // название директории с языковыми файлами
-$config['lang']['path']        = '___path.root.application___/frontend/___lang.dir___';   // полный путь до языковых файлов
+$config['lang']['path']        = '___path.application.server___/frontend/___lang.dir___';   // полный путь до языковых файлов
 $config['lang']['load_to_js']  = array();                                             // Массив текстовок, которые необходимо прогружать на страницу в виде JS хеша, позволяет использовать текстовки внутри js
 /**
  * Настройки модулей
@@ -166,8 +178,8 @@ $config['module']['image']['default']['watermark_min_height'] = 130;
 $config['module']['image']['default']['round_corner']         = false;
 $config['module']['image']['default']['round_corner_radius']  = '18';
 $config['module']['image']['default']['round_corner_rate']    = '40';
-$config['module']['image']['default']['path']['watermarks']   = '___path.root.framework___/libs/vendor/LiveImage/watermarks/';
-$config['module']['image']['default']['path']['fonts']        = '___path.root.framework___/libs/vendor/LiveImage/fonts/';
+$config['module']['image']['default']['path']['watermarks']   = '___path.framework.libs_vendor.server___/LiveImage/watermarks/';
+$config['module']['image']['default']['path']['fonts']        = '___path.framework.libs_vendor.server___/LiveImage/fonts/';
 $config['module']['image']['default']['jpg_quality']          = 95;  // Число от 0 до 100
 
 // Модуль Security
@@ -216,56 +228,56 @@ $config['router']['config']['action_not_found'] = 'error';
 
 $config['head']['default']['js'] = array(
 	/* Vendor libs */
-	"___path.static.framework___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
-	"___path.static.framework___/js/vendor/jquery-1.9.1.min.js",
-	"___path.static.framework___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
-	"___path.static.framework___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
-	"___path.static.framework___/js/vendor/jquery.browser.js",
-	"___path.static.framework___/js/vendor/jquery.scrollto.js",
-	"___path.static.framework___/js/vendor/jquery.rich-array.min.js",
-	"___path.static.framework___/js/vendor/jquery.form.js",
-	"___path.static.framework___/js/vendor/jquery.jqplugin.js",
-	"___path.static.framework___/js/vendor/jquery.cookie.js",
-	"___path.static.framework___/js/vendor/jquery.serializejson.js",
-	"___path.static.framework___/js/vendor/jquery.file.js",
-	"___path.static.framework___/js/vendor/jcrop/jquery.Jcrop.js",
-	"___path.static.framework___/js/vendor/jquery.placeholder.min.js",
-	"___path.static.framework___/js/vendor/jquery.charcount.js",
-	"___path.static.framework___/js/vendor/jquery.imagesloaded.js",
-	"___path.static.framework___/js/vendor/notifier/jquery.notifier.js",
-	"___path.static.framework___/js/vendor/prettify/prettify.js",
-	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
-	"___path.static.framework___/js/vendor/parsley/parsley.js",
-	"___path.static.framework___/js/vendor/parsley/i18n/messages.ru.js",
+	"___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
+	"___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.browser.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.form.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.file.js",
+	"___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
+	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
+	"___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
+	"___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
 
 	/* Core */
-	"___path.static.framework___/js/core/main.js",
-	"___path.static.framework___/js/core/hook.js",
+	"___path.framework.frontend.web___/js/core/main.js",
+	"___path.framework.frontend.web___/js/core/hook.js",
 
 	/* User Interface */
-	"___path.static.framework___/js/ui/popup.js",
-	"___path.static.framework___/js/ui/dropdown.js",
-	"___path.static.framework___/js/ui/tooltip.js",
-	"___path.static.framework___/js/ui/popover.js",
-	"___path.static.framework___/js/ui/tab.js",
-	"___path.static.framework___/js/ui/modal.js",
-	"___path.static.framework___/js/ui/toolbar.js",
+	"___path.framework.frontend.web___/js/ui/popup.js",
+	"___path.framework.frontend.web___/js/ui/dropdown.js",
+	"___path.framework.frontend.web___/js/ui/tooltip.js",
+	"___path.framework.frontend.web___/js/ui/popover.js",
+	"___path.framework.frontend.web___/js/ui/tab.js",
+	"___path.framework.frontend.web___/js/ui/modal.js",
+	"___path.framework.frontend.web___/js/ui/toolbar.js",
 );
 
 $config['head']['default']['css'] = array(
 	// Framework styles
-	"___path.static.framework___/css/reset.css",
-	"___path.static.framework___/css/helpers.css",
-	"___path.static.framework___/css/text.css",
-	"___path.static.framework___/css/dropdowns.css",
-	"___path.static.framework___/css/buttons.css",
-	"___path.static.framework___/css/forms.css",
-	"___path.static.framework___/css/navs.css",
-	"___path.static.framework___/css/modals.css",
-	"___path.static.framework___/css/tooltip.css",
-	"___path.static.framework___/css/popover.css",
-	"___path.static.framework___/css/alerts.css",
-	"___path.static.framework___/css/toolbar.css"
+	"___path.framework.frontend.web___/css/reset.css",
+	"___path.framework.frontend.web___/css/helpers.css",
+	"___path.framework.frontend.web___/css/text.css",
+	"___path.framework.frontend.web___/css/dropdowns.css",
+	"___path.framework.frontend.web___/css/buttons.css",
+	"___path.framework.frontend.web___/css/forms.css",
+	"___path.framework.frontend.web___/css/navs.css",
+	"___path.framework.frontend.web___/css/modals.css",
+	"___path.framework.frontend.web___/css/tooltip.css",
+	"___path.framework.frontend.web___/css/popover.css",
+	"___path.framework.frontend.web___/css/alerts.css",
+	"___path.framework.frontend.web___/css/toolbar.css"
 );
 
 /**

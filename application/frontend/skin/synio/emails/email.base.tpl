@@ -19,7 +19,7 @@
 {$sFooterLinkColor = '949fa3'}           {* Цвет ссылки в футере *}
 
 {* Путь до папки с изображенями *}
-{$sImagesDir = "{cfg name='path.static.assets'}/images/emails"}
+{$sImagesDir = "{cfg name='path.skin.assets.web'}/images/emails"}
 
 
 {* Фон *}

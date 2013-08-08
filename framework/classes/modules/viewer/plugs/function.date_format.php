@@ -39,7 +39,7 @@
  * @return  string
  */
 function smarty_function_date_format($aParams,&$oSmarty) {
-	require_once(Config::Get('path.root.framework').'/classes/engine/Engine.class.php');
+	require_once(Config::Get('path.framework.server').'/classes/engine/Engine.class.php');
 	$oEngine = Engine::getInstance();
 
 	$sFormatDefault = "d F Y, H:i";  //  формат даты по умолчанию

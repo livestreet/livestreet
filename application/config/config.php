@@ -22,6 +22,19 @@
  * Все изменения нужно вносить в файл config/config.local.php
  */
 
+
+/**
+ * Основные настройки путей
+ * Если необходимо установить движек в директорию(не корень сайта) то следует сделать так:
+ * $config['path']['root']['web']    = 'http://'.$_SERVER['HTTP_HOST'].'/subdir';
+ * и увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
+ * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
+ */
+$config['path']['root']['server']		= dirname(dirname(dirname(__FILE__)));
+$config['path']['root']['web']			= isset($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : null;
+$config['path']['offset_request_url']	= 0;
+
+
 /**
  * Настройки HTML вида
  */
@@ -406,84 +419,84 @@ $config['block']['rule_profile'] = array(
 
 $config['head']['default']['js'] = array(
 	/* Vendor libs */
-	"___path.static.framework___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
-	"___path.static.framework___/js/vendor/jquery-1.9.1.min.js",
-	"___path.static.framework___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
-	"___path.static.framework___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
-	"___path.static.framework___/js/vendor/jquery.browser.js",
-	"___path.static.framework___/js/vendor/jquery.scrollto.js",
-	"___path.static.framework___/js/vendor/jquery.rich-array.min.js",
-	"___path.static.framework___/js/vendor/jquery.form.js",
-	"___path.static.framework___/js/vendor/jquery.jqplugin.js",
-	"___path.static.framework___/js/vendor/jquery.cookie.js",
-	"___path.static.framework___/js/vendor/jquery.serializejson.js",
-	"___path.static.framework___/js/vendor/jquery.file.js",
-	"___path.static.framework___/js/vendor/jcrop/jquery.Jcrop.js",
-	"___path.static.framework___/js/vendor/jquery.placeholder.min.js",
-	"___path.static.framework___/js/vendor/jquery.charcount.js",
-	"___path.static.framework___/js/vendor/jquery.imagesloaded.js",
-	"___path.static.framework___/js/vendor/notifier/jquery.notifier.js",
-	"___path.static.framework___/js/vendor/prettify/prettify.js",
-	"___path.static.framework___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
-	"___path.static.framework___/js/vendor/parsley/parsley.js",
-	"___path.static.framework___/js/vendor/parsley/i18n/messages.ru.js",
+	"___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
+	"___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.browser.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.form.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.file.js",
+	"___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
+	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
+	"___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
+	"___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
 
 	/* Core */
-	"___path.static.framework___/js/core/main.js",
-	"___path.static.framework___/js/core/hook.js",
+	"___path.framework.frontend.web___/js/core/main.js",
+	"___path.framework.frontend.web___/js/core/hook.js",
 
 	/* User Interface */
-	"___path.static.framework___/js/ui/popup.js",
-	"___path.static.framework___/js/ui/dropdown.js",
-	"___path.static.framework___/js/ui/tooltip.js",
-	"___path.static.framework___/js/ui/popover.js",
-	"___path.static.framework___/js/ui/tab.js",
-	"___path.static.framework___/js/ui/modal.js",
-	"___path.static.framework___/js/ui/toolbar.js",
+	"___path.framework.frontend.web___/js/ui/popup.js",
+	"___path.framework.frontend.web___/js/ui/dropdown.js",
+	"___path.framework.frontend.web___/js/ui/tooltip.js",
+	"___path.framework.frontend.web___/js/ui/popover.js",
+	"___path.framework.frontend.web___/js/ui/tab.js",
+	"___path.framework.frontend.web___/js/ui/modal.js",
+	"___path.framework.frontend.web___/js/ui/toolbar.js",
 
 	/* LiveStreet */
-	"___path.root.web___/application/frontend/common/js/favourite.js",
-	"___path.root.web___/application/frontend/common/js/blocks.js",
-	"___path.root.web___/application/frontend/common/js/pagination.js",
-	"___path.root.web___/application/frontend/common/js/editor.js",
-	"___path.root.web___/application/frontend/common/js/talk.js",
-	"___path.root.web___/application/frontend/common/js/vote.js",
-	"___path.root.web___/application/frontend/common/js/poll.js",
-	"___path.root.web___/application/frontend/common/js/subscribe.js",
-	"___path.root.web___/application/frontend/common/js/geo.js",
-	"___path.root.web___/application/frontend/common/js/wall.js",
-	"___path.root.web___/application/frontend/common/js/usernote.js",
-	"___path.root.web___/application/frontend/common/js/comments.js",
-	"___path.root.web___/application/frontend/common/js/blog.js",
-	"___path.root.web___/application/frontend/common/js/user.js",
-	"___path.root.web___/application/frontend/common/js/userfeed.js",
-	"___path.root.web___/application/frontend/common/js/stream.js",
-	"___path.root.web___/application/frontend/common/js/photoset.js",
-	"___path.root.web___/application/frontend/common/js/toolbar.js",
-	"___path.root.web___/application/frontend/common/js/settings.js",
-	"___path.root.web___/application/frontend/common/js/topic.js",
-	"___path.root.web___/application/frontend/common/js/admin.js",
-	"___path.root.web___/application/frontend/common/js/admin.userfield.js",
-	"___path.root.web___/application/frontend/common/js/captcha.js",
-	"___path.root.web___/application/frontend/common/js/init.js",
+	"___path.application.web___/frontend/common/js/favourite.js",
+	"___path.application.web___/frontend/common/js/blocks.js",
+	"___path.application.web___/frontend/common/js/pagination.js",
+	"___path.application.web___/frontend/common/js/editor.js",
+	"___path.application.web___/frontend/common/js/talk.js",
+	"___path.application.web___/frontend/common/js/vote.js",
+	"___path.application.web___/frontend/common/js/poll.js",
+	"___path.application.web___/frontend/common/js/subscribe.js",
+	"___path.application.web___/frontend/common/js/geo.js",
+	"___path.application.web___/frontend/common/js/wall.js",
+	"___path.application.web___/frontend/common/js/usernote.js",
+	"___path.application.web___/frontend/common/js/comments.js",
+	"___path.application.web___/frontend/common/js/blog.js",
+	"___path.application.web___/frontend/common/js/user.js",
+	"___path.application.web___/frontend/common/js/userfeed.js",
+	"___path.application.web___/frontend/common/js/stream.js",
+	"___path.application.web___/frontend/common/js/photoset.js",
+	"___path.application.web___/frontend/common/js/toolbar.js",
+	"___path.application.web___/frontend/common/js/settings.js",
+	"___path.application.web___/frontend/common/js/topic.js",
+	"___path.application.web___/frontend/common/js/admin.js",
+	"___path.application.web___/frontend/common/js/admin.userfield.js",
+	"___path.application.web___/frontend/common/js/captcha.js",
+	"___path.application.web___/frontend/common/js/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),
 );
 
 $config['head']['default']['css'] = array(
 	// Framework styles
-	"___path.static.framework___/css/reset.css",
-	"___path.static.framework___/css/helpers.css",
-	"___path.static.framework___/css/text.css",
-	"___path.static.framework___/css/dropdowns.css",
-	"___path.static.framework___/css/buttons.css",
-	"___path.static.framework___/css/forms.css",
-	"___path.static.framework___/css/navs.css",
-	"___path.static.framework___/css/modals.css",
-	"___path.static.framework___/css/tooltip.css",
-	"___path.static.framework___/css/popover.css",
-	"___path.static.framework___/css/alerts.css",
-	"___path.static.framework___/css/toolbar.css"
+	"___path.framework.frontend.web___/css/reset.css",
+	"___path.framework.frontend.web___/css/helpers.css",
+	"___path.framework.frontend.web___/css/text.css",
+	"___path.framework.frontend.web___/css/dropdowns.css",
+	"___path.framework.frontend.web___/css/buttons.css",
+	"___path.framework.frontend.web___/css/forms.css",
+	"___path.framework.frontend.web___/css/navs.css",
+	"___path.framework.frontend.web___/css/modals.css",
+	"___path.framework.frontend.web___/css/tooltip.css",
+	"___path.framework.frontend.web___/css/popover.css",
+	"___path.framework.frontend.web___/css/alerts.css",
+	"___path.framework.frontend.web___/css/toolbar.css"
 );
 
 /**

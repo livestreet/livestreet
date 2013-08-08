@@ -35,7 +35,7 @@
 			{/if}
 		{/if}
 
-		<script src="{cfg name='path.static.framework'}/js/vendor/tinymce/tiny_mce.js"></script>
+		<script src="{cfg name='path.framework.frontend.web'}/js/vendor/tinymce/tiny_mce.js"></script>
 
 		<script>
 			jQuery(function($) {
@@ -62,7 +62,7 @@
 			{/if}
 		{/if}
 
-		<script src="{cfg name='path.static.framework'}/js/vendor/markitup/jquery.markitup.js"></script>
+		<script src="{cfg name='path.framework.frontend.web'}/js/vendor/markitup/jquery.markitup.js"></script>
 
 		<script>
 			jQuery(function($) {

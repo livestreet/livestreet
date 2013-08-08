@@ -1608,7 +1608,7 @@ class ActionBlog extends Action {
 			)
 		);
 
-		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		require_once Config::Get('path.framework.libs_vendor.server').'/XXTEA/encrypt.php';
 		/**
 		 * Формируем код подтверждения в URL
 		 */
@@ -1646,7 +1646,7 @@ class ActionBlog extends Action {
 	 * Обработка отправленого пользователю приглашения вступить в блог
 	 */
 	protected function EventInviteBlog() {
-		require_once Config::Get('path.root.engine').'/lib/external/XXTEA/encrypt.php';
+		require_once Config::Get('path.framework.libs_vendor.server').'/XXTEA/encrypt.php';
 		/**
 		 * Получаем код подтверждения из ревеста и дешефруем его
 		 */

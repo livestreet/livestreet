@@ -187,7 +187,7 @@ ls.swfupload = (function ($) {
 			button_cursor: SWFUpload.CURSOR.HAND,
 
 			// Flash Settings
-			flash_url : DIR_STATIC_FRAMEWORK+'/js/vendor/swfupload/swfupload.swf',
+			flash_url : PATH_FRAMEWORK_FRONTEND+'/js/vendor/swfupload/swfupload.swf',
 
 			custom_settings : {
 			},
@@ -209,7 +209,7 @@ ls.swfupload = (function ($) {
 			}else{
 				ls.debug('window.swfobject && swfobject.swfupload is undefined, load swfobject/plugin/swfupload.js');
 				$.getScript(
-					DIR_STATIC_FRAMEWORK+'/js/vendor/swfobject/plugin/swfupload.js',
+					PATH_FRAMEWORK_FRONTEND+'/js/vendor/swfobject/plugin/swfupload.js',
 					f.onSwfobjectSwfupload
 				);
 			}
@@ -221,7 +221,7 @@ ls.swfupload = (function ($) {
 			}else{
 				ls.debug('window.SWFUpload is undefined, load swfupload/swfupload.js');
 				$.getScript(
-					DIR_STATIC_FRAMEWORK+'/js/vendor/swfupload/swfupload.js',
+					PATH_FRAMEWORK_FRONTEND+'/js/vendor/swfupload/swfupload.js',
 					f.onSwfupload
 				);
 			}
@@ -239,7 +239,7 @@ ls.swfupload = (function ($) {
 			}else{
 				ls.debug('window.swfobject is undefined, load swfobject/swfobject.js');
 				$.getScript(
-					DIR_STATIC_FRAMEWORK+'/js/vendor/swfobject/swfobject.js',
+					PATH_FRAMEWORK_FRONTEND+'/js/vendor/swfobject/swfobject.js',
 					f.onSwfobject
 				);
 			}

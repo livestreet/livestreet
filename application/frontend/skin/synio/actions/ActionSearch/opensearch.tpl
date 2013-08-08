@@ -4,8 +4,8 @@
 	<Contact>{$sAdminMail}</Contact> 
 	<Url type="text/html" template="{router page='search'}topics/?q={literal}{searchTerms}{/literal}" /> 
 	<LongName>{$sHtmlDescription}</LongName> 
-	<Image height="64" width="64" type="image/png">{cfg name='path.static.assets'}/images/favicons/logo.png</Image> 
-	<Image height="16" width="16" type="image/vnd.microsoft.icon">{cfg name='path.static.assets'}/images/favicons/favicon.ico</Image> 
+	<Image height="64" width="64" type="image/png">{cfg name='path.skin.assets.web'}/images/favicons/logo.png</Image>
+	<Image height="16" width="16" type="image/vnd.microsoft.icon">{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico</Image>
 	<Developer>{cfg name='view.name'} ({cfg name='path.root.web'})</Developer> 
 	<Attribution> 
 		© «{cfg name='view.name'}»

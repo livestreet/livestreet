@@ -15,7 +15,7 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.framework').'/libs/vendor/DbSimple/Generic.php');
+require_once(Config::Get('path.framework.libs_vendor.server').'/DbSimple/Generic.php');
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова

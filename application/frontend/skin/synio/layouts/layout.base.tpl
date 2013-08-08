@@ -27,7 +27,7 @@
 	{$aHtmlHeadFiles.css}
 
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-	<link href="{cfg name='path.static.assets'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
+	<link href="{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
 	{**
@@ -43,15 +43,23 @@
 
 
 	<script>
-		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}',
-			DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}',
-			DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}',
-			DIR_ENGINE_LIBS	 		= '{cfg name="path.root.engine_lib"}',
-			LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
-			SESSION_ID				= '{$_sPhpSessionId}',
-			SESSION_NAME			= '{$_sPhpSessionName}',
-			LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
-			WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
+        var 	PATH_ROOT 					= '{cfg name="path.root.web"}',
+                PATH_SKIN		 			= '{cfg name="path.skin.web"}',
+                PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
+                PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
+                /**
+                 * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
+                 */
+                DIR_WEB_ROOT 				= '{cfg name="path.root.web"}',
+                DIR_STATIC_SKIN 			= '{cfg name="path.skin.web"}',
+                DIR_STATIC_FRAMEWORK 		= '{cfg name="path.framework.frontend.web"}',
+                DIR_ENGINE_LIBS	 			= '{cfg name="path.framework.web"}/libs',
+
+                LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
+                SESSION_ID				= '{$_sPhpSessionId}',
+                SESSION_NAME			= '{$_sPhpSessionName}',
+                LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
+                WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
 
 		var aRouter = [];
 		{foreach $aRouter as $sPage => $sPath}

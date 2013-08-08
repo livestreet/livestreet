@@ -43,7 +43,7 @@
 	 *}
 	{hookb run="registration_captcha" isPopup=$isModal}
 		<p class="form-signup-field-captcha"><label for="js-form-signup-captcha">{$aLang.registration_captcha}</label>
-		<span {if ! $isModal}style="background-image: url({cfg name='path.root.engine_lib'}/external/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if} class="form-auth-captcha js-form-auth-captcha"></span>
+		<span {if ! $isModal}style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if} class="form-auth-captcha js-form-auth-captcha"></span>
 		<input type="text" name="captcha" value="" maxlength="3" id="js-form-signup-captcha" class="width-100 js-ajax-validate js-form-signup-captcha" />
 		<small class="validate-error-hide validate-error-field-captcha"></small></p>
 	{/hookb}

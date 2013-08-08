@@ -22,9 +22,9 @@
 					inline : 1
 				}, {
 					plugin_url : url,
-					DIR_WEB_ROOT: DIR_WEB_ROOT,
+					PATH_ROOT: PATH_ROOT,
 					ajaxurl: aRouter['ajax'],
-					LIVESTREET_SECURITY_KEY: LIVESTREET_SECURITY_KEY,
+					LIVESTREET_SECURITY_KEY: LIVESTREET_SECURITY_KEY
 				});        		
 			});		
 			ed.addButton('lsimage', {title : 'lseditor.image_title', cmd : 'mceLsEditorImage', image : url + '/img/img.gif'});	
@@ -65,7 +65,7 @@
 					inline : 1
 				}, {
 					plugin_url : url,
-					DIR_WEB_ROOT: DIR_WEB_ROOT,
+					PATH_ROOT: PATH_ROOT
 				});        		
 			});		
 			ed.addButton('lsvideo', {title : 'lseditor.video_title', cmd : 'mceLsEditorVideo', image : url + '/img/video.gif'});

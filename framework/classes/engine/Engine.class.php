@@ -16,7 +16,7 @@
 */
 
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require_once(Config::Get('path.root.framework').'/libs/application/ProfilerSimple/Profiler.class.php');
+require_once(Config::Get('path.framework.libs_application.server').'/ProfilerSimple/Profiler.class.php');
 
 require_once("LsObject.class.php");
 require_once("Plugin.class.php");
@@ -422,7 +422,7 @@ class Engine extends LsObject {
 	 *
 	 */
 	protected function InitHooks() {
-		$sDirHooks=Config::Get('path.root.application').'/classes/hooks/';
+		$sDirHooks=Config::Get('path.application.server').'/classes/hooks/';
 		$aFiles=glob($sDirHooks.'Hook*.class.php');
 
 		if($aFiles and count($aFiles)) {
@@ -448,7 +448,7 @@ class Engine extends LsObject {
 	 */
 	protected function InitPluginHooks() {
 		if($aPluginList = func_list_plugins()) {
-			$sDirHooks=Config::Get('path.root.application').'/plugins/';
+			$sDirHooks=Config::Get('path.application.plugins.server').'/';
 
 			foreach ($aPluginList as $sPluginName) {
 				$aFiles=glob($sDirHooks.$sPluginName.'/classes/hooks/Hook*.class.php');
@@ -1004,8 +1004,8 @@ class Engine extends LsObject {
 			$oObject,
 			self::CI_OBJECT
 		);
-		$sPath = Config::get('path.root.application').'/';
-		$sPathFramework = Config::get('path.root.framework').'/';
+		$sPath = Config::get('path.application.server').'/';
+		$sPathFramework = Config::get('path.framework.server').'/';
 		if($aInfo[self::CI_ENTITY]){
 			// Сущность
 			if($aInfo[self::CI_PLUGIN]){

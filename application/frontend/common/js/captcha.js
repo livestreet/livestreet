@@ -41,7 +41,7 @@ ls.captcha = (function ($) {
 	 * @return {String} URL каптчи
 	 */
 	this.getCaptchaUrl = function () {
-		return DIR_ENGINE_LIBS + '/vendor/kcaptcha/index.php?' + SESSION_NAME + '=' + SESSION_ID + '&n=' + Math.random();
+		return PATH_FRAMEWORK_LIBS_VENDOR + '/kcaptcha/index.php?' + SESSION_NAME + '=' + SESSION_ID + '&n=' + Math.random();
 	};
 
 	/**
