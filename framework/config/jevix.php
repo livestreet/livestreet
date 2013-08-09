@@ -255,14 +255,8 @@ return array(
 				array('h4','h5','h6','ol','ul','blockquote','pre','table','iframe')
 			)
 		),
-		'cfgSetTagCallbackFull' => array(
-			array(
-				'ls',
-				array('_this_','CallbackTagLs'),
-			),
-		),
 	),
-	
+
 	// настройки для обработки текста в результатах поиска
 	'search' => array(
 		// Разрешённые теги
@@ -270,14 +264,14 @@ return array(
 			// вызов метода с параметрами
 			array(
 				array('span'),
-			),			
+			),
 		),
 		// Разрешённые параметры тегов
 		'cfgAllowTagParams' => array(
 			array(
 				'span',
 				array('class' => '#text')
-			),			
+			),
 		),
 	),
 );

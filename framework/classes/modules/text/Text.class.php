@@ -239,24 +239,5 @@ class ModuleText extends Module {
 
 		return array($sTextShort,$sTextNew,$sTextCut ? htmlspecialchars($sTextCut) : null);
 	}
-	/**
-	 * Обработка тега ls в тексте
-	 * <pre>
-	 * <ls user="admin" />
-	 * </pre>
-	 *
-	 * @param string $sTag	Тег на ктором сработал колбэк
-	 * @param array $aParams Список параметров тега
-	 * @return string
-	 */
-	public function CallbackTagLs($sTag,$aParams) {
-		$sText='';
-		if (isset($aParams['user'])) {
-			if ($oUser=$this->User_getUserByLogin($aParams['user'])) {
-				$sText.="<a href=\"{$oUser->getUserWebPath()}\" class=\"ls-user\">{$oUser->getLogin()}</a> ";
-			}
-		}
-		return $sText;
-	}
 }
 ?>

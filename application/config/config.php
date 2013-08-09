@@ -507,8 +507,9 @@ date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/time
 
 /**
  * Настройки типографа текста Jevix
+ * Добавляем к настройках из /framework/config/jevix.php
  */
-//$config['jevix']=require(dirname(__FILE__).'/jevix.php');
+$config['jevix']=array_merge_recursive((array)Config::Get('jevix'),require(dirname(__FILE__).'/jevix.php'));
 
 
 return $config;
