@@ -5,5 +5,3 @@
 return array(
     'name' => 'text',
 );
-
-?>

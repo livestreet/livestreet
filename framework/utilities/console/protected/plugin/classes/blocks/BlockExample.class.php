@@ -5,4 +5,3 @@ class PluginExample_BlockExample extends Block {
 
     }
 }
-?>

@@ -25,7 +25,8 @@ class PluginExample_ActionExample extends ActionPlugin {
      * Завершение работы экшена
      */
     public function EventShutdown() {
-
+		/**
+		 * Здесь можно прогрузить в шаблон какие-то общие переменные для всех евентов
+		 */
     }
 }
-?>

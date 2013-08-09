@@ -16,10 +16,10 @@ class PluginExample extends Plugin {
              * Замена экшна ActionIndex на ActionSomepage из папки плагина
              *
              * 'template' => array('index.tpl'=>'_my_plugin_index.tpl'),
-             * Замена index.tpl из корня скина файлом /plugins/abcplugin/templates/skin/default/my_plugin_index.tpl
+             * Замена index.tpl из корня скина файлом /application/plugins/abcplugin/templates/skin/default/my_plugin_index.tpl
              *
              * 'template'=>array('actions/ActionIndex/index.tpl'=>'_actions/ActionTest/index.tpl'),
-             * Замена index.tpl из скина из папки actions/ActionIndex/ файлом /plugins/abcplugin/templates/skin/default/actions/ActionTest/index.tpl
+             * Замена index.tpl из скина из папки actions/ActionIndex/ файлом /application/plugins/abcplugin/templates/skin/default/actions/ActionTest/index.tpl
              */
 
 
@@ -32,7 +32,7 @@ class PluginExample extends Plugin {
         * 'module'  =>array('ModuleTopic'=>'_ModuleTopic'),
         *
         * К классу ModuleTopic (/classes/modules/Topic.class.php) добавляются методы из
-        * PluginAbcplugin_ModuleTopic (/plugins/abcplugin/classes/modules/Topic.class.php) - новые или замена существующих
+        * PluginAbcplugin_ModuleTopic (/application/plugins/abcplugin/classes/modules/Topic.class.php) - новые или замена существующих
         *
         *
         *
@@ -40,7 +40,7 @@ class PluginExample extends Plugin {
         * 'mapper'  =>array('ModuleTopic_MapperTopic' => '_ModuleTopic_MapperTopic'),
         *
         * К классу ModuleTopic_MapperTopic (/classes/modules/mapper/Topic.mapper.class.php) добавляются методы из
-        * PluginAbcplugin_ModuleTopic_EntityTopic (/plugins/abcplugin/classes/modules/mapper/Topic.mapper.class.php) - новые или замена существующих
+        * PluginAbcplugin_ModuleTopic_EntityTopic (/application/plugins/abcplugin/classes/modules/mapper/Topic.mapper.class.php) - новые или замена существующих
         *
         *
         *
@@ -48,7 +48,7 @@ class PluginExample extends Plugin {
         * 'entity'  =>array('ModuleTopic_EntityTopic' => '_ModuleTopic_EntityTopic'),
         *
         * К классу ModuleTopic_EntityTopic (/classes/modules/entity/Topic.entity.class.php) добавляются методы из
-        * PluginAbcplugin_ModuleTopic_EntityTopic (/plugins/abcplugin/classes/modules/entity/Topic.entity.class.php) - новые или замена существующих
+        * PluginAbcplugin_ModuleTopic_EntityTopic (/application/plugins/abcplugin/classes/modules/entity/Topic.entity.class.php) - новые или замена существующих
         *
         */
     );
@@ -80,4 +80,3 @@ class PluginExample extends Plugin {
         //$this->Viewer_AddMenu('blog',Plugin::GetTemplatePath(__CLASS__).'menu.blog.tpl'); // например, задаем свой вид меню
     }
 }
-?>

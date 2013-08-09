@@ -24,7 +24,7 @@ EOD;
         $this->_name = $aArgs[0];
 
         $path=strtr($aArgs[0],'/\\',DIRECTORY_SEPARATOR);
-        $path=Config::Get('path.root.server').'/plugins/'.$path;
+        $path=Config::Get('path.application.plugins.server').'/'.$path;
         if(strpos($path,DIRECTORY_SEPARATOR)===false)
             $path='.'.DIRECTORY_SEPARATOR.$path;
 

@@ -7,7 +7,8 @@ $config = array();
 
 // Переопределить имеющуюся переменную в конфиге:
 // Переопределение роутера на наш новый Action - добавляем свой урл  http://domain.com/example
-// Config::Set('router.page.example', 'PluginExample_ActionExample');
+// Обратите внимание на '$root$' - говорит о том, что конфиг применяется к корневым настройкам движка, а не плагина
+// $config['$root$']['router']['page']['example'] = 'PluginExample_ActionExample';
 
 // Добавить новую переменную:
 // $config['per_page'] = 15;

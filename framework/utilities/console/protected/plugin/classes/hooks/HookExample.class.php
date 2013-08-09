@@ -10,7 +10,7 @@ class PluginExample_HookExample extends Hook {
 
 
         /*
-         * Хук в начало функции AddTopic() в модуле Topic (файл /classes/modules/topic/Topic.class.php , если этот модуль не переопределен в других плагинах):
+         * Хук в начало функции AddTopic() в модуле Topic (файл /application/classes/modules/topic/Topic.class.php , если этот модуль не переопределен в других плагинах):
          *
          * $this->AddHook('module_topic_addtopic_before','func_topic_addtopic_before');
          *
@@ -20,7 +20,7 @@ class PluginExample_HookExample extends Hook {
 
 
         /*
-         * Хук в конец функции AddTopic() в модуле Topic (файл /classes/modules/topic/Topic.class.php , если этот модуль не переопределен в других плагинах):
+         * Хук в конец функции AddTopic() в модуле Topic (файл /application/classes/modules/topic/Topic.class.php , если этот модуль не переопределен в других плагинах):
          *
          * $this->AddHook('module_topic_addtopic_after','func_topic_addtopic_after');
          *
