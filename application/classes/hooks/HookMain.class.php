@@ -35,7 +35,7 @@ class HookMain extends Hook {
 		/**
 		 * Проверяем наличие директории install
 		 */
-		if(is_dir(rtrim(Config::Get('path.root.server'),'/').'/install') && $_SERVER['HTTP_APP_ENV']!='test'){
+		if(is_dir(rtrim(Config::Get('path.root.server'),'/').'/install') && (!isset($_SERVER['HTTP_APP_ENV']) or $_SERVER['HTTP_APP_ENV']!='test')){
 			$this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
 			Router::Action('error');
 		}

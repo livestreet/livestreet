@@ -167,9 +167,9 @@ class Install {
      *
      */
     public function __construct() {
-    	$this->sConfigDir = dirname(__FILE__).'/../config';
-    	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
-    	$this->sLangDir   = dirname(__FILE__).'/../templates/i18n';
+    	$this->sConfigDir = dirname(__FILE__).'/../application/config';
+    	$this->sSkinDir   = dirname(__FILE__).'/../application/frontend/skin';
+    	$this->sLangDir   = dirname(__FILE__).'/../application/frontend/i18n';
     	/**
     	 * Загружаем языковые файлы
     	 */
@@ -1011,7 +1011,7 @@ class Install {
 		 * Проверяем доступность и достаточность прав у директории
 		 * для сохранения файлового кеша, /logs, /uploads, /templates/compiled, /plugins
 		 */
-		$sTempDir = dirname(dirname(__FILE__)).'/tmp';
+		$sTempDir = dirname(dirname(__FILE__)).'/application/tmp';
 		if(!is_dir($sTempDir) or !is_writable($sTempDir)) {
 			$bOk = false;
 			$this->Assign('validate_local_temp', '<span style="color:red;">'.$this->Lang('no').'</span>');
@@ -1019,7 +1019,7 @@ class Install {
 			$this->Assign('validate_local_temp', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-		$sLogsDir = dirname(dirname(__FILE__)).'/logs';
+		$sLogsDir = dirname(dirname(__FILE__)).'/application/logs';
 		if(!is_dir($sLogsDir) or !is_writable($sLogsDir)) {
 			$bOk = false;
 			$this->Assign('validate_local_logs', '<span style="color:red;">'.$this->Lang('no').'</span>');
@@ -1035,24 +1035,7 @@ class Install {
 			$this->Assign('validate_local_uploads', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-		$sTemplatesDir = dirname(dirname(__FILE__)).'/templates/compiled';
-		if(!is_dir($sTemplatesDir) or !is_writable($sTemplatesDir)) {
-			$bOk = false;
-			$this->Assign('validate_local_templates', '<span style="color:red;">'.$this->Lang('no').'</span>');
-		} else {
-			$this->Assign('validate_local_templates', '<span style="color:green;">'.$this->Lang('yes').'</span>');
-		}
-
-
-		$sTemplatesCacheDir = dirname(dirname(__FILE__)).'/templates/cache';
-		if(!is_dir($sTemplatesCacheDir) or !is_writable($sTemplatesCacheDir)) {
-			$bOk = false;
-			$this->Assign('validate_local_templates_cache', '<span style="color:red;">'.$this->Lang('no').'</span>');
-		} else {
-			$this->Assign('validate_local_templates_cache', '<span style="color:green;">'.$this->Lang('yes').'</span>');
-		}
-
-		$sPluginsDir = dirname(dirname(__FILE__)).'/plugins';
+		$sPluginsDir = dirname(dirname(__FILE__)).'/application/plugins';
 		if(!is_dir($sPluginsDir) or !is_writable($sPluginsDir)) {
 			$bOk = false;
 			$this->Assign('validate_local_plugins', '<span style="color:red;">'.$this->Lang('no').'</span>');
