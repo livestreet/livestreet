@@ -170,8 +170,8 @@ $config['module']['image']['default']['watermark_min_height'] = 130;
 $config['module']['image']['default']['round_corner']         = false;
 $config['module']['image']['default']['round_corner_radius']  = '18';
 $config['module']['image']['default']['round_corner_rate']    = '40';
-$config['module']['image']['default']['path']['watermarks']   = '___path.root.server___/engine/lib/external/LiveImage/watermarks/';
-$config['module']['image']['default']['path']['fonts']        = '___path.root.server___/engine/lib/external/LiveImage/fonts/';
+$config['module']['image']['default']['path']['watermarks']   = '___path.framework.libs_vendor.server___/LiveImage/watermarks/';
+$config['module']['image']['default']['path']['fonts']        = '___path.framework.libs_vendor.server___/LiveImage/fonts/';
 $config['module']['image']['default']['jpg_quality']          = 95;  // Число от 0 до 100
 
 $config['module']['image']['foto']['watermark_use']  = false;

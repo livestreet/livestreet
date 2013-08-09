@@ -84,7 +84,7 @@ class LoadFixtures
                 echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
                 // Load dump from geo_base.sql
 
-                if(file_exists(Config::Get('path.root.server') . '/tests/fixtures/sql/patch.sql')) {
+                if(file_exists(Config::Get('path.application.server') . '/tests/fixtures/sql/patch.sql')) {
                 $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/patch.sql');
 
                     if (!$result['result']) {
@@ -165,7 +165,7 @@ class LoadFixtures
      * @return void
      */
     public function loadPluginFixtures($plugin) {
-        $sPath = Config::Get('path.root.server') . '/plugins/' . $plugin . '/tests/fixtures';
+        $sPath = Config::Get('path.application.plugins.server') . '/' . $plugin . '/tests/fixtures';
         if (!is_dir($sPath)) {
             throw new InvalidArgumentException('Plugin not found by LS directory: ' . $sPath, 10);
         }

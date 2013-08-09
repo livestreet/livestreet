@@ -44,7 +44,7 @@ class PluginProfiler_ModuleProfiler extends Module {
 	 */
 	public function Init() {
 		$this->oMapper=Engine::GetMapper(__CLASS__);
-		$this->hLog = @fopen(Config::Get('path.root.server').'/logs/'.Config::Get('sys.logs.profiler_file'),'r+');
+		$this->hLog = @fopen(Config::Get('path.application.server').'/logs/'.Config::Get('sys.logs.profiler_file'),'r+');
 	}
 
 	/**
