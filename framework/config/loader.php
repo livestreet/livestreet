@@ -18,7 +18,6 @@
 /**
  * Основные константы
  */
-define('LS_VERSION','1.1.0.dev');
 define('LS_VERSION_FRAMEWORK','2.0.0.dev');
 /**
  * Operations with Config object
