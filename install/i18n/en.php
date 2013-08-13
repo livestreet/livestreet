@@ -69,8 +69,6 @@ return array(
 	'local_temp_dir'=>'Directory /tmp exists and writable',
 	'local_logs_dir'=>'Directory /logs exists and writable',
 	'local_uploads_dir'=>'Directory /uploads exists and writable',
-	'local_templates_dir'=>'Directory /templates/compiled exists and writable',
-	'local_templates_cache_dir'=>'Directory /templates/cache exists and writable',
 	'local_plugins_dir'=>'Directory /plugins exists and writable',
 	
 	'db_params'=>'Database (DB) configuration',
