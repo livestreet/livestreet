@@ -79,8 +79,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'PT Sans', Arial, sans-serif; }
 #header .dropdown-user.opened .dropdown-user-trigger 	{ background: #093357; }
 #header .dropdown-user .dropdown-user-trigger:hover i,
 #header .dropdown-user.opened .dropdown-user-trigger i	{ border-top-color: #fff; }
-#header .dropdown-user .dropdown-user-shadow			{ height: 51px; width: 51px; background: url(../images/icons-synio.png) 0 -230px no-repeat; position: absolute; top: 0; right: 36px; }
-#header .dropdown-user.opened .dropdown-user-shadow		{ background-position: 0 -281px; }
 #header .dropdown-user .username 						{ color: #cfcfcf; font-size: 11px; text-decoration: underline; white-space: nowrap; max-width: 89px; overflow: hidden; display: block; }
 #header .dropdown-user .username:hover 					{ color: #aaa; }
 #header .dropdown-user .avatar 							{ position: absolute; top: 11px; left: 13px; width: 30px; height: 30px; }

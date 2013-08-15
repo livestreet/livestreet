@@ -39,10 +39,11 @@
 	position: absolute;
 	top: 13px;
 	left: -20px;
-	background: url(../images/icons-synio.png) 0 -94px no-repeat;
+	background-repeat: no-repeat;
+	background-image: url(../images/icons/folding.png);
 	cursor: pointer;
 }
-.comment-folding.folded { background-position: -13px -94px; }
+.comment-folding.folded { background-image: url(../images/icons/folding-active.png); }
 
 /* Информация */
 .comment-info                    { padding: 0 70px 0 0; margin-bottom: 10px; margin-left: 33px; line-height: 17px; position: relative; overflow: hidden; zoom: 1; font-size: 11px; }
@@ -71,17 +72,17 @@
 /* Голосование */
 .comment-info .vote                  { position: absolute; top: 0; right: 0; margin: 0; }
 .comment-info .vote .vote-count      { float: left; color: #949aa1; font-weight: bold; line-height: 19px; margin-right: 6px; }
-.comment-info .vote .vote-down       { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) 0 -130px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment-info .vote .vote-down:hover { background-position: 0 -150px; }
-.comment-info .vote .vote-up         { float: left; width: 20px; height: 20px; background: url(../images/icons-synio.png) -20px -130px no-repeat; cursor: pointer; margin-left: 4px; }
-.comment-info .vote .vote-up:hover   { background-position: -20px -150px; }
+.comment-info .vote .vote-down       { float: left; width: 20px; height: 20px; background: url(../images/icons/vote-comment-down.png) no-repeat; cursor: pointer; margin-left: 4px; }
+.comment-info .vote .vote-down:hover { background-image: url(../images/icons/vote-comment-down-hover.png); }
+.comment-info .vote .vote-up         { float: left; width: 20px; height: 20px; background: url(../images/icons/vote-comment-up.png) no-repeat; cursor: pointer; margin-left: 4px; }
+.comment-info .vote .vote-up:hover   { background-image: url(../images/icons/vote-comment-up-hover.png); }
 
 .comment-info .vote.vote-count-positive .vote-count { color: #51983c; }
 .comment-info .vote.vote-count-negative .vote-count { color: #da4242; }
 
 .comment-info .vote.voted-up .vote-down   { display: none; }
-.comment-info .vote.voted-up .vote-up     { background-position: -20px -170px; }
-.comment-info .vote.voted-down .vote-down { background-position: 0 -170px; }
+.comment-info .vote.voted-up .vote-up     { background-image: url(../images/icons/vote-comment-up-active.png); }
+.comment-info .vote.voted-down .vote-down { background-image: url(../images/icons/vote-comment-down-active.png); }
 .comment-info .vote.voted-down .vote-up   { display: none; }
 
 .comment-info .vote.vote-expired .vote-up,

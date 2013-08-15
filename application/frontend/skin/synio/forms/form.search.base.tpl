@@ -25,11 +25,10 @@
 				   {block name='search_input_attributes'}{/block}>
 
 			{if ! $bNoSubmitButton}
-				<input type="submit" 
-					   value="{block name='search_submit_value'}{/block}" 
-					   title="{block name='search_submit_title'}{$aLang.search_submit}{/block}" 
-					   class="search-form-submit" 
-					   {block name='search_submit_attributes'}{/block}>
+				<button type="submit"
+					    title="{block name='search_submit_title'}{$aLang.search_submit}{/block}" 
+					    class="search-form-submit" 
+					    {block name='search_submit_attributes'}{/block}>{block name='search_submit_value'}{/block}</button>
 			{/if}
 		</div>
 	{/block}

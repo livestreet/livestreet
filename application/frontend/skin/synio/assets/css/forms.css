@@ -190,11 +190,11 @@ dl.form-item dd { float: left; width: 250px; }
 	width: 22px;
 	height: 22px;
 	border: none;
-	background: url(../images/icons-synio.png) -319px -24px no-repeat;
+	background: url(../images/icons/submit.png) no-repeat;
 	cursor: pointer;
 }
-.search-form-submit:hover  { background-position: -341px -24px; }
-.search-form-submit:active { background-position: -363px -24px; }
+.search-form-submit:hover  { background-image: url(../images/icons/submit-hover.png); }
+.search-form-submit:active { background-image: url(../images/icons/submit-active.png); }
 
 .search-form-alphabet                   { overflow: hidden; zoom: 1; margin-top: 15px; }
 .search-form-alphabet li                { float: left; }

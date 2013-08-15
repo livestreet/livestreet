@@ -26,9 +26,9 @@
  *
  * @template toolbar/toolbar.admin.tpl
  */
-.toolbar .toolbar-admin i 			{ background: url(../images/icons-synio.png) -268px -23px no-repeat; }
-.toolbar .toolbar-admin i:hover 	{ background-position: -268px -48px; }
-.toolbar .toolbar-admin i:active 	{ background-position: -268px -73px; }
+.toolbar .toolbar-admin i 			{ background: url(../images/icons/toolbar-settings.png) no-repeat; }
+.toolbar .toolbar-admin i:hover 	{ background-image: url(../images/icons/toolbar-settings-hover.png); }
+.toolbar .toolbar-admin i:active 	{ background-image: url(../images/icons/toolbar-settings-active.png); }
 
 
 /**
@@ -49,12 +49,12 @@
  */
 .toolbar .toolbar-topic 								{ width: 19px; padding: 11px; }
 .toolbar .toolbar-topic a.toolbar-topic-prev 			{ border: none; }
-.toolbar .toolbar-topic a.toolbar-topic-prev i 			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -23px no-repeat; }
-.toolbar .toolbar-topic a.toolbar-topic-prev i:hover 	{ background-position: -230px -23px; }
-.toolbar .toolbar-topic a.toolbar-topic-prev i:active 	{ background-position: -249px -23px; }
-.toolbar .toolbar-topic a.toolbar-topic-next i			{ display: block; width: 19px; height: 32px; background: url(../images/icons-synio.png) -211px -55px no-repeat; }
-.toolbar .toolbar-topic a.toolbar-topic-next i:hover 	{ background-position: -230px -55px; }
-.toolbar .toolbar-topic a.toolbar-topic-next i:active 	{ background-position: -249px -55px; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i 			{ display: block; width: 19px; height: 32px; background: url(../images/icons/toolbar-topic-prev.png) no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:hover 	{ background-image: url(../images/icons/toolbar-topic-prev-hover.png); }
+.toolbar .toolbar-topic a.toolbar-topic-prev i:active 	{ background-image: url(../images/icons/toolbar-topic-prev-active.png); }
+.toolbar .toolbar-topic a.toolbar-topic-next i			{ display: block; width: 19px; height: 32px; background: url(../images/icons/toolbar-topic-next.png) no-repeat; }
+.toolbar .toolbar-topic a.toolbar-topic-next i:hover 	{ background-image: url(../images/icons/toolbar-topic-next-hover.png); }
+.toolbar .toolbar-topic a.toolbar-topic-next i:active 	{ background-image: url(../images/icons/toolbar-topic-next-active.png); }
 
 
 /**
@@ -63,6 +63,6 @@
  * @template toolbar/toolbar.scrollup.tpl
  */
 .toolbar .toolbar-scrollup 			{ display: none; }
-.toolbar .toolbar-scrollup i 		{ background: url(../images/icons-synio.png) -294px -23px no-repeat; }
-.toolbar .toolbar-scrollup i:hover 	{ background-position: -294px -48px; }
-.toolbar .toolbar-scrollup i:active { background-position: -294px -73px; }
+.toolbar .toolbar-scrollup i 		{ background: url(../images/icons/toolbar-scrollup.png) no-repeat; }
+.toolbar .toolbar-scrollup i:hover 	{ background-image: url(../images/icons/toolbar-scrollup-hover.png); }
+.toolbar .toolbar-scrollup i:active { background-image: url(../images/icons/toolbar-scrollup-active.png); }

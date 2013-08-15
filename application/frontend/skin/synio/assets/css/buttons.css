@@ -157,10 +157,9 @@ a.button.button-write {
 }
 
 
-.button-action-add-friend:hover i { background-position: -147px -39px; }
-.button-action-send-message:hover i { background-position: -163px -39px; }
+.button-action-send-message:hover i { background: url(../images/icons/message-hover.png) 0 0 no-repeat; }
 .button-action-join.active i,
-.button-action-join:hover i { background-position: -179px -39px; }
+.button-action-join:hover i { background: url(../images/icons/join-hover.png) 0 0 no-repeat; }
 
 
 /**
@@ -188,4 +187,4 @@ a.button.button-write {
 
 /* TODO: Remove hack */
 .button-note i { top: 1px; }
-.button-note:hover i { background-position: -46px -65px; }
+.button-note:hover i { background-image: url(../images/icons/user-note-hover.png); }

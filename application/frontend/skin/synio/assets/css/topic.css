@@ -26,7 +26,7 @@
 .topic-actions li          { float: left; margin-right: 18px; }
 .topic-actions li.draft a  { color: #27964c; }
 .topic-actions li.delete a { color: #da4242; }
-.topic-actions li i        { margin-right: 3px; }
+.topic-actions li i        { margin-right: 5px; margin-top: 2px; }
 
 /* Превью */
 .topic-preview-image { display: inline-block; max-width: 100%; }
@@ -83,7 +83,7 @@
 /* Теги */
 .topic-tags                        { margin: 0 0 10px; font-size: 11px; }
 .topic-tags li                     { display: inline; color: #888; }
-.topic-tags li i                   { position: relative; top: 4px; margin-right: 3px; }
+.topic-tags li i                   { position: relative; top: 2px; margin-right: 3px; }
 .topic-tags li a                   { color: #4c4c4c; text-decoration: underline; }
 .topic-tags li a:hover             { text-decoration: none; }
 .topic-tags li a.link-dotted       { text-decoration: none; color: #7b848d; border-color: #7b848d; }
@@ -110,7 +110,7 @@
 .topic-footer .topic-info li.topic-info-share.open,
 .topic-footer .topic-info li.topic-info-share:hover   { background: #64ceff; }
 .topic-footer .topic-info li.topic-info-share.open i,
-.topic-footer .topic-info li.topic-info-share:hover i { background-position: -12px -51px; }
+.topic-footer .topic-info li.topic-info-share:hover i { background: url(../images/icons/share-hover.png) no-repeat; }
 
 .topic-footer .topic-info li.topic-info-comments a          { color: #727fa0; float: left; }
 .topic-footer .topic-info li.topic-info-comments a:hover    { color: #f00; }
@@ -123,7 +123,7 @@
 .topic-footer .topic-info li.topic-info-favourite .favourite        { float: left; }
 .topic-footer .topic-info li.topic-info-favourite .favourite-count  { margin-left: 4px;}
 .topic-footer .topic-info li.topic-info-favourite:hover             { background: #64ceff; color: #fff; }
-.topic-footer .topic-info li.topic-info-favourite:hover .favourite  { background-position: 0 -51px; }
+.topic-footer .topic-info li.topic-info-favourite:hover .favourite  { background: url(../images/icons/favourite-hover.png) no-repeat; }
 
 
 /**
