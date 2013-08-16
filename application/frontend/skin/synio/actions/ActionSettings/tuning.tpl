@@ -23,7 +23,7 @@
 		<br />
 		<h3>{$aLang.settings_tuning_general}</h3>
 		<label>{$aLang.settings_tuning_general_timezone}:
-			<select name="settings_general_timezone" class="input-width-400">
+			<select name="settings_general_timezone" class="width-400">
 				{foreach $aTimezoneList as $sTimezone}
 					<option value="{$sTimezone}" {if $_aRequest.settings_general_timezone==$sTimezone}selected="selected"{/if}>{$aLang.timezone_list[$sTimezone]}</option>
 				{/foreach}

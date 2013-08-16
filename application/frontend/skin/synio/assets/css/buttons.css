@@ -184,7 +184,4 @@ a.button.button-write {
 	background: linear-gradient(top,  #6ce777 0%,#4ace56 100%);
 	cursor: help;
 }
-
-/* TODO: Remove hack */
-.button-note i { top: 1px; }
 .button-note:hover i { background-image: url(../images/icons/user-note-hover.png); }

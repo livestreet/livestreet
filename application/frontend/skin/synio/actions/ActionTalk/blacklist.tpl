@@ -10,7 +10,7 @@
 
 		
 		<form onsubmit="return ls.talk.addToBlackList();">
-			<input type="text" id="talk_blacklist_add" name="add" placeholder="{$aLang.talk_balcklist_add_label}" class="input-text input-width-full autocomplete-users-sep" />
+			<input type="text" id="talk_blacklist_add" name="add" placeholder="{$aLang.talk_balcklist_add_label}" class="input-text width-full autocomplete-users-sep" />
 		</form>
 	</div>
 

@@ -162,7 +162,7 @@
 						</span>
 					{/foreach}
 				{else}
-					<span class="notice-empty">{$aLang.blog_user_moderators_empty}</span>
+					{include file='alert.tpl' mAlerts=$aLang.blog_user_moderators_empty sAlertStyle='empty'}
 				{/if}
 
 				{hook run='blog_info_end' oBlog=$oBlog}

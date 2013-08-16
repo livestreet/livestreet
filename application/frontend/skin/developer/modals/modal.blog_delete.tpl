@@ -13,7 +13,7 @@
 {block name='modal_content'}
 	<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-delete-form">
 		<label for="topic_move_to">{$aLang.blog_admin_delete_move}:</label>
-		<select name="topic_move_to" id="topic_move_to" class="input-width-full">
+		<select name="topic_move_to" id="topic_move_to" class="width-full">
 			<option value="-1">{$aLang.blog_delete_clear}</option>
 			{if $aBlogs}
 				<optgroup label="{$aLang.blogs}">

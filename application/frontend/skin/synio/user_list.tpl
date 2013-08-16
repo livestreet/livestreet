@@ -53,7 +53,7 @@
 						</a>
 						
 						{if $oUserNote}
-							<button type="button" class="button button-icon button-note js-tooltip" title="{$oUserNote->getText()|escape:'html'}"><i class="icon-synio-comments-green"></i></button>
+							<button type="button" class="button button-icon button-note js-tooltip" title="{$oUserNote->getText()|escape:'html'}"><i class="icon-synio-user-note"></i></button>
 						{/if}
 					{/if}
 				</td>

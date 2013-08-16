@@ -182,7 +182,6 @@
 						
 						<ul class="dropdown-user-menu" id="dropdown-user-menu" style="display: none" data-type="dropdown-target">
 							<li class="item-stat">
-								<span class="strength" title="{$aLang.user_skill}"><i class="icon-synio-star-green"></i> {$oUserCurrent->getSkill()}</span>
 								<span class="rating {if $oUserCurrent->getRating() < 0}negative{/if}" title="{$aLang.user_rating}"><i class="icon-synio-rating"></i> {$oUserCurrent->getRating()}</span>
 								{hook run='userbar_stat_item'}
 							</li>

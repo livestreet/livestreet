@@ -41,7 +41,7 @@
 			{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
 				<div class="talk-search-content talk-recipients-content" id="talk_recipients">
 					<form onsubmit="return ls.talk.addToTalk({$oTalk->getId()});">
-						<p><input type="text" id="talk_speaker_add" name="add" placeholder="{$aLang.talk_speaker_add_label}" class="input-text input-width-300 autocomplete-users-sep" /></p>
+						<p><input type="text" id="talk_speaker_add" name="add" placeholder="{$aLang.talk_speaker_add_label}" class="input-text width-300 autocomplete-users-sep" /></p>
 						<input type="hidden" id="talk_id" value="{$oTalk->getId()}" />
 					</form>
 
@@ -105,6 +105,6 @@
 			sNoticeCommentAdd=$aLang.topic_comment_add
 			bNoCommentFavourites=true}
 	{else}
-		<div class="notice-empty">{$aLang.talk_deleted}</div>
+		{include file='alert.tpl' mAlerts=$aLang.talk_deleted sAlertStyle='empty'}
 	{/if}
 {/block}

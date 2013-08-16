@@ -174,7 +174,7 @@
 .icon-synio-rating                { width: 11px; height: 11px; background-image: url(../images/icons/rating.png); }
 .icon-synio-arrows                { width: 11px; height: 11px; background-image: url(../images/icons/dropdown-arrow.png); }
 
-.icon-synio-comments-green        { width: 16px; height: 16px; background-image: url(../images/icons/user-note.png); } /* TODO: Rename to user-note */
+.icon-synio-user-note             { width: 16px; height: 16px; background-image: url(../images/icons/user-note.png); }
 .icon-synio-comments-green-filled { width: 11px; height: 11px; background-image: url(../images/icons/comments-green-filled.png); }
 .icon-synio-comments-blue         { width: 11px; height: 11px; background-image: url(../images/icons/comments-blue.png); }
 .icon-synio-comments-small        { width: 11px; height: 11px; background-image: url(../images/icons/comments-small.png); }

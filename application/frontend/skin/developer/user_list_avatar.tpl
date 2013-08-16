@@ -15,9 +15,9 @@
 	</ul>
 {else}
 	{if $sUserListEmpty}
-		<div class="notice-empty">{$sUserListEmpty}</div>
+		{include file='alert.tpl' mAlerts=$sUserListEmpty sAlertStyle='empty'}
 	{else}
-		<div class="notice-empty">{$aLang.user_empty}</div>
+		{include file='alert.tpl' mAlerts=$aLang.user_empty sAlertStyle='empty'}
 	{/if}
 {/if}
 

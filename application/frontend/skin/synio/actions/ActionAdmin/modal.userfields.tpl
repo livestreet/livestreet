@@ -13,7 +13,7 @@
 {block name='modal_content'}
 	<form>
 		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
-		<select id="user_fields_form_type" class="input-text input-width-full">
+		<select id="user_fields_form_type" class="input-text width-full">
 			<option value=""></option>
 			{foreach $aUserFieldTypes as $sFieldType}
 				<option value="{$sFieldType}">{$sFieldType}</option>
@@ -21,13 +21,13 @@
 		</select></p>
 
 		<p><label for="user_fields_form_name">{$aLang.userfield_form_name}:</label>
-		<input type="text" id="user_fields_form_name" class="input-text input-width-full" /></p>
+		<input type="text" id="user_fields_form_name" class="input-text width-full" /></p>
 
 		<p><label for="user_fields_form_title">{$aLang.userfield_form_title}:</label>
-		<input type="text" id="user_fields_form_title" class="input-text input-width-full" /></p>
+		<input type="text" id="user_fields_form_title" class="input-text width-full" /></p>
 
 		<p><label for="user_fields_form_pattern">{$aLang.userfield_form_pattern}:</label>
-		<input type="text" id="user_fields_form_pattern" class="input-text input-width-full" /></p>
+		<input type="text" id="user_fields_form_pattern" class="input-text width-full" /></p>
 
 		<input type="hidden" id="user_fields_form_action" />
 		<input type="hidden" id="user_fields_form_id" />

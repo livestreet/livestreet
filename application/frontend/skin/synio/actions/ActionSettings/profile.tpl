@@ -23,7 +23,7 @@
 					<option value="{$oFieldAll->getId()}">{$oFieldAll->getTitle()|escape:'html'}</option>
 				{/foreach}
 				</select>
-				<input type="text" name="profile_user_field_value[]" value="" class="input-text input-width-200">
+				<input type="text" name="profile_user_field_value[]" value="" class="input-text width-200">
 				<a class="icon-synio-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
 			</p>
 			
@@ -47,14 +47,14 @@
 			<dl class="form-item">
 				<dt><label for="profile_name">{$aLang.settings_profile_name}:</label></dt>
 				<dd>
-					<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="input-text input-width-250">
+					<input type="text" name="profile_name" id="profile_name" value="{$oUserCurrent->getProfileName()|escape:'html'}" class="input-text width-250">
 				</dd>
 			</dl>
 			
 			<dl class="form-item">
 				<dt><label for="profile_sex">{$aLang.settings_profile_sex}:</label></dt>
 				<dd>
-					<select name="profile_sex" id="profile_sex" class="input-width-250">
+					<select name="profile_sex" id="profile_sex" class="width-250">
 						<option value="man" {if $oUserCurrent->getProfileSex()=='man'}selected{/if}>{$aLang.settings_profile_sex_man}</option>
 						<option value="woman" {if $oUserCurrent->getProfileSex()=='woman'}selected{/if}>{$aLang.settings_profile_sex_woman}</option>
 						<option value="other" {if $oUserCurrent->getProfileSex()=='other'}selected{/if}>{$aLang.settings_profile_sex_other}</option>
@@ -91,7 +91,7 @@
 			
 			<br />
 			<label for="profile_about" style="margin-bottom: 7px">{$aLang.settings_profile_about}:</label>
-			<textarea name="profile_about" id="profile_about" class="input-text input-width-full" rows="7">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>
+			<textarea name="profile_about" id="profile_about" class="input-text width-full" rows="7">{$oUserCurrent->getProfileAbout()|escape:'html'}</textarea>
 			<br />
 			<br />
 			<br />
@@ -99,7 +99,7 @@
 			<div class="js-geo-select">
 			<label for="" style="margin-bottom: 7px">{$aLang.profile_place}:</label>
 			<p style="margin-bottom: 15px">
-				<select class="js-geo-country input-width-200" name="geo_country">
+				<select class="js-geo-country width-200" name="geo_country">
 					<option value="">{$aLang.geo_select_country}</option>
 					{if $aGeoCountries}
 						{foreach $aGeoCountries as $oGeoCountry}
@@ -110,7 +110,7 @@
 			</p>
 
 			<p style="margin-bottom: 15px">
-				<select class="js-geo-region input-width-200" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
+				<select class="js-geo-region width-200" name="geo_region" {if !$oGeoTarget or !$oGeoTarget->getCountryId()}style="display:none;"{/if}>
 					<option value="">{$aLang.geo_select_region}</option>
 					{if $aGeoRegions}
 						{foreach $aGeoRegions as $oGeoRegion}
@@ -121,7 +121,7 @@
 			</p>
 
 			<p style="margin-bottom: 15px">
-				<select class="js-geo-city input-width-200" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
+				<select class="js-geo-city width-200" name="geo_city" {if !$oGeoTarget or !$oGeoTarget->getRegionId()}style="display:none;"{/if}>
 					<option value="">{$aLang.geo_select_city}</option>
 					{if $aGeoCities}
 						{foreach $aGeoCities as $oGeoCity}
@@ -137,7 +137,7 @@
 				{foreach $aUserFieldValues as $oField}
 					<dl class="form-item">
 						<dt><label for="profile_user_field_{$oField->getId()}">{$oField->getTitle()|escape:'html'}:</label></dt>
-						<dd><input type="text" class="input-text input-width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
+						<dd><input type="text" class="input-text width-300" name="profile_user_field_{$oField->getId()}" id="profile_user_field_{$oField->getId()}" value="{$oField->getValue()|escape:'html'}"/></dd>
 					</dl>
 				{/foreach}
 			{/if}
@@ -157,7 +157,7 @@
 						<option value="{$oFieldAll->getId()}" {if $oFieldAll->getId()==$oField->getId()}selected="selected"{/if}>{$oFieldAll->getTitle()|escape:'html'}</option>
 					{/foreach}
 					</select>
-					<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text input-width-200">
+					<input type="text" name="profile_user_field_value[]" value="{$oField->getValue()|escape:'html'}" class="input-text width-200">
 					<a class="icon-synio-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
 				</p>
 			{/foreach}

@@ -25,9 +25,7 @@
 	{/if}
 
 	{if ! count($aWall)}
-		<div class="notice-empty" id="wall-note-list-empty">
-			{$aLang.wall_list_empty}
-		</div>
+		{include file='alert.tpl' mAlerts=$aLang.wall_list_empty sAlertStyle='empty' sAlertAttributes='id="wall-note-list-empty"'}
 	{/if}
 
 	<div id="wall-container" class="comments wall">

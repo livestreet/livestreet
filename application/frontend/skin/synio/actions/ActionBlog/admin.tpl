@@ -6,7 +6,6 @@
 
 {block name='layout_options'}
 	{$sNavContent = 'blog.edit'}
-	{$bNoSidebar = true}
 {/block}
 
 {block name='layout_content'}

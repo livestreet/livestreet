@@ -25,6 +25,6 @@
 			{/foreach}
 		</ul>
 	{else}
-		<small class="notice-empty">{$aLang.userfeed_no_blogs}</small>
+		{include file='alert.tpl' mAlerts=$aLang.userfeed_no_blogs sAlertStyle='info'}
 	{/if}
 {/block}

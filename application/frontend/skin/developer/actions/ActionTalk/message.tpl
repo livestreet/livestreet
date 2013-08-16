@@ -50,7 +50,7 @@
 
 				<form onsubmit="return ls.talk.addToTalk({$oTalk->getId()});">
 					<p><label for="talk_speaker_add">{$aLang.talk_speaker_add_label}:</label>
-					<input type="text" id="talk_speaker_add" name="add" class="input-text input-width-300 autocomplete-users-sep" /></p>
+					<input type="text" id="talk_speaker_add" name="add" class="input-text width-300 autocomplete-users-sep" /></p>
 					<input type="hidden" id="talk_id" value="{$oTalk->getId()}" />
 				</form>
 
@@ -110,6 +110,6 @@
 			sNoticeCommentAdd=$aLang.topic_comment_add
 			bNoCommentFavourites=true}
 	{else}
-		<div class="notice-empty">{$aLang.talk_deleted}</div>
+		{include file='alert.tpl' mAlerts=$aLang.talk_deleted sAlertStyle='empty'}
 	{/if}
 {/block}

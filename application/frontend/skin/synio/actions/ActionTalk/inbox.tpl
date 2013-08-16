@@ -23,15 +23,15 @@
 			
 			<div class="talk-search-content" id="block_talk_search_content" >
 				<form action="{router page='talk'}" method="GET" name="talk_filter_form">
-					<p><input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" placeholder="{$aLang.talk_filter_label_sender}" class="input-text input-width-250" /></p>
+					<p><input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" placeholder="{$aLang.talk_filter_label_sender}" class="input-text width-250" /></p>
 
-					<p><input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" placeholder="{$aLang.talk_filter_label_keyword}" class="input-text input-width-250" /></p>
+					<p><input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" placeholder="{$aLang.talk_filter_label_keyword}" class="input-text width-250" /></p>
 
-					<p><input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" placeholder="{$aLang.talk_filter_label_keyword_text}" class="input-text input-width-250" /></p>
+					<p><input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" placeholder="{$aLang.talk_filter_label_keyword_text}" class="input-text width-250" /></p>
 
 					<p><label for="talk_filter_start">{$aLang.talk_filter_label_date}:</label>
-					<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" class="input-text input-text input-width-250 date-picker" readonly="readonly" /> &mdash;
-					<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" class="input-text input-text input-width-250 date-picker" readonly="readonly" /></p>
+					<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" class="input-text input-text width-250 date-picker" readonly="readonly" /> &mdash;
+					<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" class="input-text input-text width-250 date-picker" readonly="readonly" /></p>
 
 					<p><label for="talk_filter_favourite"><input type="checkbox" {if $_aRequest.favourite}checked {/if} class="input-checkbox" name="favourite" value="1" id="talk_filter_favourite" />
 					{$aLang.talk_filter_label_favourite}</label></p>
@@ -54,7 +54,7 @@
 			{include file='actions/ActionTalk/message_list.tpl' bMessageListCheckboxes=true}
 		</form>
 	{else}
-		<div class="notice-empty">{$aLang.talk_inbox_empty}</div>
+		{include file='alert.tpl' mAlerts=$aLang.talk_inbox_empty sAlertStyle='empty'}
 	{/if}
 
 				

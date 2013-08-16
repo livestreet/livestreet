@@ -7,7 +7,7 @@
 {block name='layout_content'}
 	<form onsubmit="return ls.talk.addToBlackList();">
 		<p><label for="talk_blacklist_add">{$aLang.talk_balcklist_add_label}:</label>
-		<input type="text" id="talk_blacklist_add" name="add" class="input-text input-width-full autocomplete-users-sep" /></p>
+		<input type="text" id="talk_blacklist_add" name="add" class="input-text width-full autocomplete-users-sep" /></p>
 	</form>
 
 	<div id="black_list_block">

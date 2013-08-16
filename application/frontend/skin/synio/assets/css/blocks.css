@@ -57,6 +57,7 @@
 	background-repeat: no-repeat;
 	background-image: url(../images/icons/update-hover.png);
 	cursor: pointer;
+	z-index: 10;
 }
 .block-update:hover  { background-image: url(../images/icons/update-hover.png); }
 .block-update:active,

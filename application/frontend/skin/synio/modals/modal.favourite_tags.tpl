@@ -15,7 +15,7 @@
 		<input type="hidden" name="target_type" value="" id="favourite-form-tags-target-type">
 		<input type="hidden" name="target_id" value="" id="favourite-form-tags-target-id">
 
-		<input type="text" name="tags" value="" id="favourite-form-tags-tags" class="autocomplete-tags-sep input-text input-width-full">
+		<input type="text" name="tags" value="" id="favourite-form-tags-tags" class="autocomplete-tags-sep input-text width-full">
 	</form>
 {/block}
 

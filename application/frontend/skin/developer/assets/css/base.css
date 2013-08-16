@@ -47,4 +47,4 @@ a:hover { color: #058; }
 
 #header .site-name         { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; text-align: center; }
 #header .site-name a:hover { color: #3a41b8; }
-#header .site-description  { max-width: 500px; margin: 0 auto; color: #777; font-size: 15px; }
+#header .site-description  { max-width: 500px; margin: 0 auto; color: #777; font-size: 15px; text-align: center; }

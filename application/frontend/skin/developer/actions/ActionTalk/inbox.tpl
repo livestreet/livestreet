@@ -18,15 +18,15 @@
 				
 			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if $_aRequest.submit_talk_filter}style="display:block;"{/if}>
 				<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label>
-				<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-text input-width-full" />
+				<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-text width-full" />
 				<small class="note">{$aLang.talk_filter_notice_sender}</small></p>
 
 				<p><label for="talk_filter_keyword">{$aLang.talk_filter_label_keyword}:</label>
-				<input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" class="input-text input-width-full" />
+				<input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" class="input-text width-full" />
 				<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
 
 				<p><label for="talk_filter_keyword_text">{$aLang.talk_filter_label_keyword_text}:</label>
-					<input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" class="input-text input-width-full" />
+					<input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" class="input-text width-full" />
 					<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
 
 				<p><label for="talk_filter_start">{$aLang.talk_filter_label_date}:</label>
@@ -57,7 +57,7 @@
 			{include file='actions/ActionTalk/message_list.tpl' bMessageListCheckboxes=true}
 		</form>
 	{else}
-		<div class="notice-empty">{$aLang.talk_inbox_empty}</div>
+		{include file='alert.tpl' mAlerts=$aLang.talk_inbox_empty sAlertStyle='empty'}
 	{/if}
 
 				

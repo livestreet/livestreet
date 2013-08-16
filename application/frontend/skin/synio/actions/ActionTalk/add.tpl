@@ -30,7 +30,7 @@
 					<li><a href="#" id="friend_uncheck_all" class="link-dotted">{$aLang.block_friends_uncheck}</a></li>
 				</ul>
 			{else}
-				<div class="notice-empty">{$aLang.block_friends_empty}</div>
+				{include file='alert.tpl' mAlerts=$aLang.block_friends_empty sAlertStyle='empty'}
 			{/if}
 		</div>
 	</div>
@@ -45,13 +45,13 @@
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 		<p><label for="talk_users">{$aLang.talk_create_users}:</label>
-		<input type="text" class="input-text input-width-full autocomplete-users-sep" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}" /></p>
+		<input type="text" class="input-text width-full autocomplete-users-sep" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}" /></p>
 
 		<p><label for="talk_title">{$aLang.talk_create_title}:</label>
-		<input type="text" class="input-text input-width-full" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}" /></p>
+		<input type="text" class="input-text width-full" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}" /></p>
 
 		<p><label for="talk_text">{$aLang.talk_create_text}:</label>
-		<textarea name="talk_text" id="talk_text" rows="12" class="input-text input-width-full js-editor input-width-full">{$_aRequest.talk_text}</textarea></p>
+		<textarea name="talk_text" id="talk_text" rows="12" class="input-text width-full js-editor width-full">{$_aRequest.talk_text}</textarea></p>
 
 		{* Preview *}
 		<div class="text mb-20" id="text_preview" style="display: none;"></div>

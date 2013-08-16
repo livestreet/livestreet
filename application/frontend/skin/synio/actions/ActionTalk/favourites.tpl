@@ -8,7 +8,7 @@
 	{if $aTalks}
 		{include file='actions/ActionTalk/message_list.tpl'}
 	{else}
-		<div class="notice-empty">{$aLang.talk_favourite_empty}</div>
+		{include file='alert.tpl' mAlerts=$aLang.talk_favourite_empty sAlertStyle='empty'}
 	{/if}
 
 	{include file='pagination.tpl' aPaging=$aPaging}

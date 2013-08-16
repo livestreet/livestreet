@@ -13,7 +13,7 @@
 {block name='block_content'}
 	<form onsubmit="return ls.blog.addInvite({$oBlogEdit->getId()});" class="mb-15">
 		<label for="blog_admin_user_add">{$aLang.blog_admin_user_add_label}:</label>
-		<input type="text" id="blog_admin_user_add" name="add" class="input-text input-width-full autocomplete-users-sep" />
+		<input type="text" id="blog_admin_user_add" name="add" class="input-text width-full autocomplete-users-sep" />
 	</form>
 
 	{$aLang.blog_admin_user_invited}:
@@ -36,6 +36,10 @@
 			</ul>
 		{/if}
 
-		<span id="blog-invite-empty" class="notice-empty" {if $aBlogUsersInvited}style="display: none"{/if}>{$aLang.blog_admin_user_add_empty}</span>
+		{include file='alert.tpl'
+		         mAlerts          = $aLang.user_note_list_empty
+		         sAlertStyle      = 'info'
+		         bAlertVisible    = ! count($aBlogUsersInvited)
+		         sAlertAttributes = 'id="blog-invite-empty"'}
 	</div>
 {/block}

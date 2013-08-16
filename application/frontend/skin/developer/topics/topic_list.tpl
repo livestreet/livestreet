@@ -13,5 +13,5 @@
 
 	{include file='pagination.tpl' aPaging=$aPaging}
 {else}
-	{$aLang.blog_no_topic}
+	{include file='alert.tpl' mAlerts=$aLang.blog_no_topic sAlertStyle='empty'}
 {/if}

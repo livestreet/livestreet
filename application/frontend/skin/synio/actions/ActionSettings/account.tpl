@@ -18,7 +18,7 @@
 		<dl class="form-item">
 			<dt><label for="mail">{$aLang.settings_profile_mail}:</label></dt>
 			<dd>	
-				<input type="email" name="mail" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" class="input-text input-width-300" required />
+				<input type="email" name="mail" id="mail" value="{$oUserCurrent->getMail()|escape:'html'}" class="input-text width-300" required />
 				<small class="note">{$aLang.settings_profile_mail_notice}</small>
 			</dd>
 		</dl>
@@ -32,17 +32,17 @@
 			
 		<dl class="form-item">
 			<dt><label for="password_now">{$aLang.settings_profile_password_current}:</label></dt>
-			<dd><input type="password" name="password_now" id="password_now" value="" class="input-text input-width-200" /></dd>
+			<dd><input type="password" name="password_now" id="password_now" value="" class="input-text width-200" /></dd>
 		</dl>
 		
 		<dl class="form-item">
 			<dt><label for="password">{$aLang.settings_profile_password_new}:</label></dt>
-			<dd><input type="password" id="password" name="password" value="" class="input-text input-width-200" /></dd>
+			<dd><input type="password" id="password" name="password" value="" class="input-text width-200" /></dd>
 		</dl>
 		
 		<dl class="form-item">
 			<dt><label for="password_confirm">{$aLang.settings_profile_password_confirm}:</label></dt>
-			<dd><input type="password" id="password_confirm" name="password_confirm" value="" class="input-text input-width-200" /></dd>
+			<dd><input type="password" id="password_confirm" name="password_confirm" value="" class="input-text width-200" /></dd>
 		</dl>
 		
 		{hook run='form_settings_account_end'}

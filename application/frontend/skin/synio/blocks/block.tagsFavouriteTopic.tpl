@@ -21,7 +21,7 @@
 						{/foreach}
 					</ul>
 				{else}
-					<div class="notice-empty">{$aLang.block_tags_empty}</div>
+					{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
 				{/if}
 			</div>
 			
@@ -33,7 +33,7 @@
 						{/foreach}
 					</ul>
 				{else}
-					<div class="notice-empty">{$aLang.block_tags_empty}</div>
+					{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
 				{/if}
 			</div>
 		</div>
