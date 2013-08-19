@@ -222,6 +222,14 @@ abstract class Entity extends LsObject {
 		return $this->_getDataOne($this->_getPrimaryKey());
 	}
 	/**
+	 * Возвращает список правил для валидации
+	 *
+	 * @return array
+	 */
+	public function _getValidateRules() {
+		return $this->aValidateRules;
+	}
+	/**
 	 * Выполняет валидацию данных сущности
 	 * Если $aFields=null, то выполняется валидация по всем полям из $this->aValidateRules, иначе по пересечению
 	 *

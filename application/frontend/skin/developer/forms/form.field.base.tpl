@@ -14,6 +14,13 @@
 {* Правила валидации *}
 {$aFieldRules = " "|explode:$sFieldRules}
 
+{if $sFieldEntity}
+	{if !$sFieldEntityField}
+    	{$sFieldEntityField=$sFieldName}
+	{/if}
+	{field_make_rule entity=$sFieldEntity field=$sFieldEntityField scenario=$sFieldEntityScenario assign=aFieldRules}
+{/if}
+
 {block name='field_before'}{/block}
 
 <div class="form-field {if $bFieldInline}form-field-inline{/if} {block name='field_classes'}{/block} {if $bFieldNoMargin}m-0{/if}">

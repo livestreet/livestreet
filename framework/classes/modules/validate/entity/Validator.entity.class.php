@@ -197,5 +197,13 @@ abstract class ModuleValidate_EntityValidator extends Entity {
 			call_user_func_array(array($this->oEntityCurrent,'set'.func_camelize($sField)),array($sValue));
 		}
 	}
+	/**
+	 * Возвращает тип валидатора
+	 *
+	 * @return string
+	 */
+	public function getTypeValidator() {
+		return func_underscore(str_ireplace('ModuleValidate_EntityValidator','',get_class($this)));
+	}
 }
 ?>
