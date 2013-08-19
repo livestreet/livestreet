@@ -60,10 +60,11 @@
 
 		{* Заголовок топика *}
 		{include file='forms/form.field.text.tpl'
-				 sFieldName  = 'topic_title'
-				 sFieldRules = 'required="true" rangelength="[2,200]"'
-				 sFieldNote  = $aLang.topic_create_title_notice
-				 sFieldLabel = $aLang.topic_create_title}
+				 sFieldName				= 'topic_title'
+				 sFieldEntity			= 'ModuleTopic_EntityTopic'
+				 sFieldEntityScenario	= 'topic'
+				 sFieldNote				= $aLang.topic_create_title_notice
+				 sFieldLabel			= $aLang.topic_create_title}
 
 
 		{block name='add_topic_form_text_before'}{/block}
