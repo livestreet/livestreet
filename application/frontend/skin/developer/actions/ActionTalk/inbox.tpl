@@ -16,28 +16,55 @@
 		<div class="accordion">
 			<h3 class="accordion-header" onclick="jQuery('#block_talk_search_content').toggle(); return false;"><span class="link-dotted">{$aLang.talk_filter_title}</span></h3>
 				
-			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if $_aRequest.submit_talk_filter}style="display:block;"{/if}>
-				<p><label for="talk_filter_sender">{$aLang.talk_filter_label_sender}:</label>
-				<input type="text" id="talk_filter_sender" name="sender" value="{$_aRequest.sender}" class="input-text width-full" />
-				<small class="note">{$aLang.talk_filter_notice_sender}</small></p>
+			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if ! $_aRequest.submit_talk_filter}style="display:block;"{/if}>
+				{* Отправитель *}
+				{include file='forms/form.field.text.tpl'
+						 sFieldName    = 'sender'
+						 sFieldClasses = 'width-full autocomplete-users-sep'
+						 sFieldLabel   = $aLang.talk_filter_label_sender
+						 sFieldNote    = $aLang.talk_filter_notice_sender}
 
-				<p><label for="talk_filter_keyword">{$aLang.talk_filter_label_keyword}:</label>
-				<input type="text" id="talk_filter_keyword" name="keyword" value="{$_aRequest.keyword}" class="input-text width-full" />
-				<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
 
-				<p><label for="talk_filter_keyword_text">{$aLang.talk_filter_label_keyword_text}:</label>
-					<input type="text" id="talk_filter_keyword_text" name="keyword_text" value="{$_aRequest.keyword_text}" class="input-text width-full" />
-					<small class="note">{$aLang.talk_filter_notice_keyword}</small></p>
+				{* Искать в заголовке *}
+				{include file='forms/form.field.text.tpl'
+						 sFieldName    = 'keyword'
+						 sFieldLabel   = $aLang.talk_filter_label_keyword
+						 sFieldNote    = $aLang.talk_filter_notice_keyword}
 
-				<p><label for="talk_filter_start">{$aLang.talk_filter_label_date}:</label>
-				<input type="text" id="talk_filter_start" name="start" value="{$_aRequest.start}" style="width: 43%" class="input-text date-picker" readonly="readonly" /> &mdash;
-				<input type="text" id="talk_filter_end" name="end" value="{$_aRequest.end}" style="width: 43%" class="input-text date-picker" readonly="readonly" /></p>
 
-				<p><label for="talk_filter_favourite"><input type="checkbox" {if $_aRequest.favourite}checked {/if} class="input-checkbox" name="favourite" value="1" id="talk_filter_favourite" />
-				{$aLang.talk_filter_label_favourite}</label></p>
+				{* Искать в тексте *}
+				{include file='forms/form.field.text.tpl'
+						 sFieldName    = 'keyword_text'
+						 sFieldLabel   = $aLang.talk_filter_label_keyword_text
+						 sFieldNote    = $aLang.talk_filter_notice_keyword}
 
-				<input type="submit" name="submit_talk_filter" value="{$aLang.talk_filter_submit}" class="button button-primary" />
-				<input type="submit" name="" value="{$aLang.talk_filter_submit_clear}" class="button" onclick="return ls.talk.clearFilter();" />
+
+				{* Ограничения по дате *}
+				{* TODO: i18n *}
+				{include file='forms/form.field.text.tpl'
+						 sFieldName        = 'start'
+						 sFieldClasses     = 'width-200 date-picker'
+						 sFieldPlaceholder = 'From'
+						 sFieldLabel       = $aLang.talk_filter_label_date}
+
+				{include file='forms/form.field.text.tpl'
+						 sFieldName        = 'end'
+						 sFieldPlaceholder = 'To'
+						 sFieldClasses     = 'width-200 date-picker'}
+
+
+				{* Искать только в избранном *}
+				{include file='forms/form.field.checkbox.tpl'
+						 sFieldName  = 'favourite'
+						 sFieldLabel = $aLang.talk_filter_label_favourite}
+
+
+				{* Кнопки *}
+				{include file='forms/form.field.button.tpl'
+				 		 sFieldName    = 'submit_talk_filter'
+				 		 sFieldStyle   = 'primary'
+				 		 sFieldText    = $aLang.talk_filter_submit}
+				{include file='forms/form.field.button.tpl' sFieldType='reset' sFieldText=$aLang.talk_filter_submit_clear}
 			</form>
 		</div>
 		

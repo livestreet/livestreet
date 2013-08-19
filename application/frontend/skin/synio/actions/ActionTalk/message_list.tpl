@@ -2,7 +2,7 @@
  * Список сообщений
  *}
 
-<table class="table table-talk">
+<table class="table table-talk js-message-list">
 	<thead>
 		<tr>
 			{if $bMessageListCheckboxes}

@@ -72,7 +72,7 @@
 
 
 {**
- * Страницы
+ * Пагинация
  *}
 {include file='comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt}
 
@@ -83,7 +83,7 @@
  * Форма добавления комментария
  *}
 {if $bAllowNewComment}
-	{$sNoticeNotAllow}
+	{include file='alert.tpl' sAlertStyle='info' mAlerts=$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
 		{* Подключение редактора *}

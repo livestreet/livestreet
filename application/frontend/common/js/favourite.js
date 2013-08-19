@@ -1,28 +1,54 @@
+/**
+ * Избранное
+ */
+
 var ls = ls || {};
 
-/**
-* Добавление в избранное
-*/
 ls.favourite = (function ($) {
+	"use strict";
+
 	/**
-	* Опции
-	*/
-	this.options = {
+	 * ID объекта
+	 * @type {Number}
+	 */
+	var _targetId = 0;
+
+	/**
+	 * Тип объекта
+	 * @type {Number}
+	 */
+	var _targetType = false;
+
+	/**
+	 * Дефолтные опции
+	 */
+	var _defaults = {
 		active: 'active',
 		type: {
 			topic: {
-				url: 			aRouter['ajax']+'favourite/topic/',
-				targetName: 	'idTopic'
+				url:         aRouter['ajax'] + 'favourite/topic/',
+				targetName:  'idTopic'
 			},
 			talk: {
-				url: 			aRouter['ajax']+'favourite/talk/',
-				targetName: 	'idTalk'
+				url:         aRouter['ajax'] + 'favourite/talk/',
+				targetName:  'idTalk'
 			},
 			comment: {
-				url: 			aRouter['ajax']+'favourite/comment/',
-				targetName: 	'idComment'
+				url:         aRouter['ajax'] + 'favourite/comment/',
+				targetName:  'idComment'
 			}
 		}
+	};
+
+	/**
+	 * Инициализация
+	 *
+	 * @param  {Object} options Опции
+	 */
+	this.init = function(options) {
+		var self = this;
+
+		this.options = $.extend({}, _defaults, options);
 	};
 
 	/**
@@ -64,50 +90,65 @@ ls.favourite = (function ($) {
 		return false;
 	};
 
-	this.showEditTags = function(idTarget,type,obj) {
-		var form=$('#favourite-form-tags');
-		$('#favourite-form-tags-target-type').val(type);
-		$('#favourite-form-tags-target-id').val(idTarget);
-		var text='';
-		var tags=$('.js-favourite-tags-'+$('#favourite-form-tags-target-type').val()+'-'+$('#favourite-form-tags-target-id').val());
-		tags.find('.js-favourite-tag-user a').each(function(k,tag){
+	this.showEditTags = function(targetId, type, obj) {
+		_targetType = type;
+		_targetId = targetId;
+
+		var form = $('#favourite-form-tags'),
+			text = '',
+			tags = $('.js-favourite-tags-' + _targetType + '-' + _targetId);
+
+		tags.find('.js-favourite-tag-user-link').each(function(k, tag){
 			if (text) {
-				text=text+', '+$(tag).text();
+				text = text + ', ' + $(tag).text();
 			} else {
-				text=$(tag).text();
+				text = $(tag).text();
 			}
 		});
-		$('#favourite-form-tags-tags').val(text);
-		//$(obj).parents('.js-favourite-insert-after-form').after(form);
-		form.jqmShow();
+
+		form.find('.js-form-favourite-tags-list').val(text);
+		form.modal('show');
 
 		return false;
 	};
 
 	this.hideEditTags = function() {
-		$('#favourite-form-tags').jqmHide();
+		$('#favourite-form-tags').modal('hide');
 		return false;
 	};
 
+	/**
+	 * Save user tags
+	 * 
+	 * @param  {Object} form
+	 */
 	this.saveTags = function(form) {
-		var url=aRouter['ajax']+'favourite/save-tags/';
+		var url = aRouter['ajax'] + 'favourite/save-tags/';
+		var submitButton = $('.js-favourite-form-submit');
+
 		ls.hook.marker('saveTagsBefore');
+
 		ls.ajaxSubmit(url, $(form), function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				this.hideEditTags();
-				var type=$('#favourite-form-tags-target-type').val();
-				var tags=$('.js-favourite-tags-'+type+'-'+$('#favourite-form-tags-target-id').val());
+				var tags = $('.js-favourite-tags-' + _targetType + '-' + _targetId);
 				tags.find('.js-favourite-tag-user').detach();
-				var edit=tags.find('.js-favourite-tag-edit');
+				var edit = tags.find('.js-favourite-tag-edit');
 				$.each(result.aTags,function(k,v){
-					edit.before('<li class="'+type+'-tags-user js-favourite-tag-user">, <a rel="tag" href="'+v.url+'">'+v.tag+'</a></li>');
+					edit.before('<li class="' + _targetType + '-tags-tag ' + _targetType + '-tags-tag-user js-favourite-tag-user">, <a rel="tag" href="'+v.url+'" class="topic-tags-tag-link js-topic-tags-tag-link">'+v.tag+'</a></li>');
 				});
 
 				ls.hook.run('ls_favourite_save_tags_after',[form,result],this);
 			}
-		}.bind(this));
+		}.bind(this), {
+			submitButton: submitButton,
+			params: {
+				target_id: _targetId,
+				target_type: _targetType
+			}
+		});
 		return false;
 	};
 

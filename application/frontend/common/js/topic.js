@@ -71,6 +71,7 @@ ls.topic = (function ($) {
 	this.showPreviewText = function(sFormId, sPreviewId) {
 		var oForm = $('#' + sFormId);
 		var oPreview = $('#' + sPreviewId);
+		var oButton = oForm.find(this.options.selectors.previewTopicTextButton);
 
 		ls.hook.marker('previewBefore');
 
@@ -82,6 +83,8 @@ ls.topic = (function ($) {
 
 				ls.hook.run('ls_topic_preview_after', [oForm, oPreview, result]);
 			}
+		}, {
+			submitButton: oButton
 		});
 	};
 

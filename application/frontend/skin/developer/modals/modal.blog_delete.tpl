@@ -12,19 +12,26 @@
 
 {block name='modal_content'}
 	<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-delete-form">
-		<label for="topic_move_to">{$aLang.blog_admin_delete_move}:</label>
-		<select name="topic_move_to" id="topic_move_to" class="width-full">
-			<option value="-1">{$aLang.blog_delete_clear}</option>
-			{if $aBlogs}
-				<optgroup label="{$aLang.blogs}">
-					{foreach $aBlogs as $oBlogDelete}
-						<option value="{$oBlogDelete->getId()}">{$oBlogDelete->getTitle()|escape:'html'}</option>
-					{/foreach}
-				</optgroup>
-			{/if}
-		</select>
+		{* Переместить топики в блог *}
+		{$aBlogsCustom = [
+			[ 'value' => -1, 'text' => $aLang.blog_delete_clear ]
+		]}
 
-		<input type="hidden" value="{$LIVESTREET_SECURITY_KEY}" name="security_ls_key" />
+		{foreach $aBlogs as $oBlog}
+			{$aBlogsCustom[] = [
+				'value' => $oBlog->getId(),
+				'text' => $oBlog->getTitle()|escape:'html'
+			]}
+		{/foreach}
+
+		{include file='forms/form.field.select.tpl'
+				 sFieldName          = 'topic_move_to'
+				 sFieldLabel         = $aLang.blog_admin_delete_move
+				 aFieldItems         = $aBlogsCustom}
+
+
+		{* Скрытые поля *}
+		{include file='forms/form.field.hidden.security_key.tpl'}
 	</form>
 {/block}
 

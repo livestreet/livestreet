@@ -20,25 +20,13 @@
  *
  * @template header.tpl
  */
-#userbar {
-	border: 1px solid #ddd;
-	border-top: none;
-	-webkit-box-shadow: 0 0 5px #ddd; box-shadow: 0 0 5px #ddd;
-
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f3f3f3));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
-}
+#userbar { border: 1px solid #E7E7E7; border-top: none; background: #ffffff; }
 #userbar .search-form { float: right; width: 200px; position: relative; margin: 5px 5px 0 5px; padding: 0; }
 
 .nav.nav-userbar                                 { float: left; }
-.nav.nav-userbar li                              { border-right: 1px solid #eaeaea; }
+.nav.nav-userbar li                              { border-right: 1px solid #E7E7E7; }
 .nav.nav-userbar li a                            { color: #555; }
+.nav.nav-userbar li a:hover                      { color: #555; background: #fafafa; }
 .nav.nav-userbar li.nav-userbar-username a       { position: relative; padding-left: 40px; font-weight: bold; color: #333; }
 .nav.nav-userbar li.nav-userbar-username .avatar { position: absolute; top: 7px; left: 8px; }
 .nav.nav-userbar li .new-messages                { color: #4AA731; font-weight: bold; }

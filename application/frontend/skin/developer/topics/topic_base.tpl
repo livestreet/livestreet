@@ -90,19 +90,19 @@
 
 			{* Теги *}
 			<ul class="topic-tags js-favourite-insert-after-form js-favourite-tags-topic-{$oTopic->getId()}">
-				<li>{$aLang.topic_tags}:</li>
+				<li class="topic-tags-label">{$aLang.topic_tags}:</li>
 
 				{strip}
 					{foreach $oTopic->getTagsArray() as $sTag}
-						<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
+						<li class="topic-tags-tag">{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/" class="topic-tags-tag-link js-favourite-tag-link">{$sTag|escape}</a></li>
 					{foreachelse}
-						<li>{$aLang.topic_tags_empty}</li>
+						<li class="topic-tags-label">{$aLang.topic_tags_empty}</li>
 					{/foreach}
 
 					{if $oUserCurrent}
 						{if $oFavourite}
 							{foreach $oFavourite->getTagsArray() as $sTag}
-								<li class="topic-tags-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
+								<li class="topic-tags-tag topic-tags-tag-user js-favourite-tag-user">, <a rel="tag" href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/" class="topic-tags-tag-link js-favourite-tag-link js-favourite-tag-user-link">{$sTag|escape}</a></li>
 							{/foreach}
 						{/if}
 

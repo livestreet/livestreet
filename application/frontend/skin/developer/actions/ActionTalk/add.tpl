@@ -36,27 +36,40 @@
 
 	{include file='forms/editor.init.tpl' sEditorType='comment'}
 
-	<form action="" method="POST" enctype="multipart/form-data">
+	<form action="" method="POST" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_add_talk_begin'}
 		
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+		{include file='forms/form.field.hidden.security_key.tpl'}
 
-		<p><label for="talk_users">{$aLang.talk_create_users}:</label>
-		<input type="text" class="input-text width-full autocomplete-users-sep" id="talk_users" name="talk_users" value="{$_aRequest.talk_users}" /></p>
+		{* Получатели *}
+		{include file='forms/form.field.text.tpl'
+				 sFieldName    = 'talk_users'
+				 sFieldRules   = 'required="true" rangetags="[1,99]"'
+				 sFieldLabel   = $aLang.talk_create_users
+				 sFieldClasses = 'width-full autocomplete-users-sep'}
 
-		<p><label for="talk_title">{$aLang.talk_create_title}:</label>
-		<input type="text" class="input-text width-full" id="talk_title" name="talk_title" value="{$_aRequest.talk_title}" /></p>
+		{* Заголовок *}
+		{include file='forms/form.field.text.tpl'
+				 sFieldName    = 'talk_title'
+				 sFieldRules   = 'required="true" rangelength="[2,200]"'
+				 sFieldLabel   = $aLang.talk_create_title}
 
-		<p><label for="talk_text">{$aLang.talk_create_text}:</label>
-		<textarea name="talk_text" id="talk_text" rows="12" class="input-text width-full js-editor width-full">{$_aRequest.talk_text}</textarea></p>
+		{* Текст сообщения *}	 
+		{include file='forms/form.field.textarea.tpl'
+				 sFieldName    = 'talk_text'
+				 sFieldRules   = 'required="true" rangelength="[2,3000]"'
+				 sFieldLabel   = $aLang.topic_create_text
+				 sFieldClasses = 'width-full js-editor'}
 
 		{* Preview *}
 		<div class="text mb-20" id="text_preview" style="display: none;"></div>
 		
 		{hook run='form_add_talk_end'}
 		
-		<button type="submit" class="button button-primary" name="submit_talk_add">{$aLang.talk_create_submit}</button>
-		<button type="submit" class="button" name="submit_preview" onclick="jQuery('#text_preview').show(); ls.tools.textPreview('talk_text',false); return false;">{$aLang.topic_create_submit_preview}</button>		
+		{* Кнопки *}
+		{* TODO: js *}
+		{include file='forms/form.field.button.tpl' sFieldName='submit_talk_add' sFieldStyle='primary' sFieldText=$aLang.talk_create_submit}
+		{include file='forms/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.topic_create_submit_save sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.tools.textPreview(\'talk_text\',false); return false;"'}
 	</form>
 
 	{hook run='talk_add_end'}

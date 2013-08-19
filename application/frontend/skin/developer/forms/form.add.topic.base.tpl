@@ -116,7 +116,7 @@
 
 
 		{* Скрытые поля *}
-		{include file='forms/form.field.hidden.tpl' sFieldName='topic_type' value=$sTopicType}
+		{include file='forms/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$sTopicType}
 		{include file='forms/form.field.hidden.security_key.tpl'}
 
 

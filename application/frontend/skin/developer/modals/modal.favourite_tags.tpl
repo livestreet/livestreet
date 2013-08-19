@@ -12,13 +12,13 @@
 
 {block name='modal_content'}
 	<form onsubmit="return ls.favourite.saveTags(this);" id="js-favourite-form">
-		<input type="hidden" name="target_type" value="" id="favourite-form-tags-target-type">
-		<input type="hidden" name="target_id" value="" id="favourite-form-tags-target-id">
-
-		<input type="text" name="tags" value="" id="favourite-form-tags-tags" class="autocomplete-tags-sep input-text width-full">
+		{include file='forms/form.field.text.tpl'
+				 sFieldName     = 'tags'
+				 bFieldNoMargin = true
+				 sFieldClasses  = 'width-full autocomplete-tags-sep js-form-favourite-tags-list'}
 	</form>
 {/block}
 
 {block name='modal_footer_begin'}
-	<button type="submit" class="button button-primary" onclick="jQuery('#js-favourite-form').submit()">{$aLang.favourite_form_tags_button_save}</button>
+	<button type="submit" class="button button-primary js-favourite-form-submit" onclick="jQuery('#js-favourite-form').submit()">{$aLang.favourite_form_tags_button_save}</button>
 {/block}

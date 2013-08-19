@@ -1,14 +1,12 @@
 {**
  * Базовый шаблон поля формы
  *
- * Параметры
- * ---------
- * sFieldName      Имя поля (параметр name)
- * sFieldLabel     Текст лэйбла
- * sFieldNote      Подсказка (отображается под полем)
- * sFieldRules     Правила валидации через пробел без префикса 'data-' (Плагин Parsley)
- * bFieldInline    Отображать поле как инлайновое или нет
- * bFieldNoMargin  Убрать отступы
+ * @param string  sFieldName      Имя поля (параметр name)
+ * @param string  sFieldLabel     Текст лэйбла
+ * @param string  sFieldNote      Подсказка (отображается под полем)
+ * @param string  sFieldRules     Правила валидации через пробел без префикса 'data-' (Плагин Parsley)
+ * @param boolean bFieldInline    Отображать поле как инлайновое или нет
+ * @param boolean bFieldNoMargin  Убрать отступы
  *}
 
 {* Правила валидации *}

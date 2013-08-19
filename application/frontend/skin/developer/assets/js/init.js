@@ -181,6 +181,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Избраноое
+	 */
+	ls.favourite.init();
+
+
+	/**
 	 * Photoset
 	 */
 	$('.js-photoset-type-default-image').prettyPhoto({

@@ -74,10 +74,14 @@
 .topic-content.text { color: #333; }
 
 /* Теги */
-.topic-tags                      { margin: 0 0 15px; }
-.topic-tags li                   { display: inline; color: #888; }
-.topic-tags li.topic-tags-edit   { margin-left: 20px; }
-.topic-tags li.topic-tags-user a { color: #3CA023; }
+.topic-tags                                     { margin: 0 0 15px; }
+.topic-tags-label,
+.topic-tags-edit,
+.topic-tags-tag                                 { display: inline; }
+.topic-tags-tag                                 { color: #888; }
+.topic-tags-edit                                { margin-left: 20px; }
+.topic-tags-tag-user .topic-tags-tag-link       { color: #3CA023; }
+.topic-tags-tag-user .topic-tags-tag-link:hover { color: #f00; }
 
 /* Подвал топика */
 .topic-footer .topic-info      { overflow: hidden; background: #f7f7f7; border-radius: 3px; }

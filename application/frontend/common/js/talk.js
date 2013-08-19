@@ -190,15 +190,6 @@ ls.talk = (function ($) {
 	};
 
 	/**
-	 * Очищает поля фильтра
-	 */
-	this.clearFilter = function() {
-		$('#block_talk_search_content').find('input[type="text"]').val('');
-		$('#block_talk_search_content').find('input[type="checkbox"]').removeAttr("checked");
-		return false;
-	};
-
-	/**
 	 * Удаление списка писем
 	 */
 	this.removeTalks = function() {
