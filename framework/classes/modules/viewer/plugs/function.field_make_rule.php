@@ -47,10 +47,39 @@ function smarty_function_field_make_rule($params, &$smarty) {
 			 * Конвертация строкового валидатора
 			 */
 			if ($sType=='string') {
-				$aResult[]='rangelength="['.$oValidator->min.','.$oValidator->max.']" ';
-				if (!$oValidator->allowEmpty) {
-					$aResult[]='required="true" ';
+				if (!is_null($oValidator->min) and !is_null($oValidator->max)) {
+					$aResult[]='rangelength="['.$oValidator->min.','.$oValidator->max.']" ';
+				} elseif (!is_null($oValidator->min)) {
+					$aResult[]='minlength="'.$oValidator->min.'" ';
+				} else {
+					$aResult[]='maxlength="'.$oValidator->max.'" ';
 				}
+			}
+			/**
+			 * Конвертация числового валидатора
+			 */
+			if ($sType=='number') {
+				if ($oValidator->integerOnly) {
+					$aResult[]='type="digits" ';
+				} else {
+					$aResult[]='type="number" ';
+				}
+				if (!is_null($oValidator->max)) {
+					$aResult[]='max="'.$oValidator->max.'" ';
+				}
+				if (!is_null($oValidator->min)) {
+					$aResult[]='min="'.$oValidator->min.'" ';
+				}
+			}
+			/**
+			 * Конвертация почтового валидатора
+			 */
+			if ($sType=='email') {
+				$aResult[]='type="email" ';
+			}
+
+			if (!$oValidator->allowEmpty) {
+				$aResult[]='required="true" ';
 			}
 		}
 	}
