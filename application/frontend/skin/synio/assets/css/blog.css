@@ -1,7 +1,7 @@
 /**
  * Блог
  *
- * @file actions/ActionBlog/blog.tpl
+ * @template actions/ActionBlog/blog.tpl
  */
 
 .blog { margin-bottom: 15px; }

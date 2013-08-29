@@ -1,3 +1,11 @@
+/**
+ * Инициализации модулей
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
 jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
@@ -110,13 +118,13 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
-	$('#toolbar').toolbar({
-		alignTo: '#wrapper',
+	$('.js-toolbar').toolbar({
+		target: '#wrapper',
 		align: 'right',
 		offsetX: 7,
 		offsetY: 0,
-		onPosition: function () {
-			if (this.$toolbar.find('section').length) {
+		onReposition: function (e, data) {
+			if (data.element.find('section').length) {
 				var $cont = $('#container');
 
 				if ($(document).width() <= 1100) {
@@ -224,6 +232,12 @@ jQuery(document).ready(function($){
 	 * Pagination
 	 */
 	ls.pagination.init();
+
+
+	/**
+	 * Избраноое
+	 */
+	ls.favourite.init();
 	
 
 	// вступление в блог

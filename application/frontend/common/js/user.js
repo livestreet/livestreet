@@ -1,9 +1,15 @@
-var ls = ls || {};
-
 /**
  * Управление пользователями
- * TODO: Вынести аякс загрузку изображений в отдельный модуль
+ * 
+ * @module ls/user
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
+
+var ls = ls || {};
+
 ls.user = (function ($) {
 
 	this.jcropImage = null;
@@ -72,6 +78,15 @@ ls.user = (function ($) {
 
 		$('.js-ajax-image-upload-crop-submit').on('click', function (e) {
 			self.ajaxUploadImageCropSubmit();
+		});
+
+		$('.js-modal-toggle-registration').on('click', function (e) {
+			$('[data-option-target=tab-pane-registration]').tab('activate');
+			ls.captcha.update();
+		});
+
+		$('.js-modal-toggle-login').on('click', function (e) {
+			$('[data-option-target=tab-pane-login]').tab('activate');
 		});
 	};
 

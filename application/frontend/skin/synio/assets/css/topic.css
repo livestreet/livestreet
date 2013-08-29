@@ -119,18 +119,16 @@
 .topic-footer .topic-info li.topic-info-comments span.count { color: #27a736; text-decoration: none; }
 .topic-footer .topic-info li.topic-info-comments i          { float: left; margin-right: 7px; }
 
-.topic-footer .topic-info li.topic-info-favourite                   { padding: 6px; color: #828a93; border-radius: 4px; cursor: pointer; }
-.topic-footer .topic-info li.topic-info-favourite .favourite        { float: left; }
-.topic-footer .topic-info li.topic-info-favourite .favourite-count  { margin-left: 4px;}
-.topic-footer .topic-info li.topic-info-favourite:hover             { background: #64ceff; color: #fff; }
-.topic-footer .topic-info li.topic-info-favourite:hover .favourite  { background: url(../images/icons/favourite-hover.png) no-repeat; }
+.favourite.topic-info-favourite                         { padding: 6px; color: #828a93; border-radius: 4px; }
+.favourite.topic-info-favourite:hover                   { background: #64ceff; color: #fff; }
+.favourite.topic-info-favourite:hover .favourite-toggle { background: url(../images/icons/favourite-hover.png) no-repeat; }
 
 
 /**
  * Топик фотосет
  * 
  * @type photoset
- * @file topics/topic.photoset.tpl
+ * @template topics/topic.photoset.tpl
  */
 .topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
 
@@ -138,7 +136,7 @@
  * Топик ссылка
  * 
  * @type link
- * @file topics/topic.link.tpl
+ * @template topics/topic.link.tpl
  */
 .topic-type-link .topic-header .topic-title a { color: #27964C; }
 
@@ -149,7 +147,7 @@
 /**
  * Предпросмотр топика
  * 
- * @file topics/topic_preview_X.tpl
+ * @template topics/topic_preview_X.tpl
  */
 .topic-preview                      { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
@@ -159,7 +157,7 @@
  * Личное сообщение
  * TODO: Move to talk.css
  * 
- * @file actions/ActionTalk/message.tpl
+ * @template actions/ActionTalk/message.tpl
  */
 .topic.topic-type-talk header .topic-info { background: #f8fbfe; font-size: 11px; padding: 15px; border-radius: 5px; margin-bottom: 0; }
 

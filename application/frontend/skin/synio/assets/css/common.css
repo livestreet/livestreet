@@ -152,9 +152,16 @@
 /**
  * Избранное 
  */
-.favourite 			{ display: inline-block; width: 11px; height: 11px; vertical-align: text-top; background: url(../images/icons/favourite.png) no-repeat; cursor: pointer; }
-.favourite.active 	{ background: url(../images/icons/favourite-active.png) no-repeat; }
-.favourite-count    { margin-left: 0; }
+.favourite { cursor: pointer; }
+.favourite-toggle { 
+	display: inline-block; 
+	width: 11px; 
+	height: 11px; 
+	vertical-align: text-top; 
+	background: url(../images/icons/favourite.png) no-repeat; 
+}
+.favourite-toggle.active { background: url(../images/icons/favourite-active.png) no-repeat; }
+.favourite-count { margin-left: 1px; font-size: 11px; line-height: 11px; position: relative; top: -1px; }
 
 
 /**

@@ -1,5 +1,11 @@
 /**
  * Блоги
+ * 
+ * @module ls/blogs
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 var ls = ls || {};
@@ -9,8 +15,11 @@ ls.blog = (function ($) {
 
 	/**
 	 * Дефолтные опции
+	 * 
+	 * @member {Object}
+	 * @private
 	 */
-	var defaults = {
+	var _defaults = {
 		// Роутеры
 		oRouters: {
 
@@ -30,7 +39,7 @@ ls.blog = (function ($) {
 	this.init = function(options) {
 		var self = this;
 
-		this.options = $.extend({}, defaults, options);
+		this.options = $.extend({}, _defaults, options);
 
 		// Подгрузка информации о выбранном типе блога при создании блога
 		$(this.options.selectors.addBlogSelectType).on('change', function (e) {

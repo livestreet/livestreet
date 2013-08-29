@@ -1,8 +1,19 @@
+/**
+ * Кнопки тулбара
+ * 
+ * @module ls/toolbar
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
 var ls = ls || {};
+
 ls.toolbar = ls.toolbar || {};
 
 /**
- * Функционал тул-бара (плавающая пимпа) списка топиков
+ * Кнопка навигации по топикам
  */
 ls.toolbar.topic = (function ($) {
 
@@ -22,7 +33,7 @@ ls.toolbar.topic = (function ($) {
 			if (vars.goTopic=='last') {
 				this.iCurrentTopic=$('.js-topic').length-2;
 			} else {
-				this.iCurrentTopic=parseInt(vars.goTopic)-1;
+				this.iCurrentTopic=parseInt(vars.goTopic, 10)-1;
 			}
 			this.goNext();
 		}
@@ -87,8 +98,9 @@ ls.toolbar.topic = (function ($) {
 	return this;
 }).call(ls.toolbar.topic || {},jQuery);
 
+
 /**
- * Функционал кнопки "UP"
+ * Кнопка прокрутки вверх
  */
 ls.toolbar.up = (function ($) {
 

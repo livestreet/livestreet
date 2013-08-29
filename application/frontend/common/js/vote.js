@@ -1,15 +1,25 @@
+/**
+ * Голосование
+ * 
+ * @module ls/vote
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
 var ls = ls || {};
 
-/**
-* Голосование
-*/
 ls.vote = (function ($) {
 	"use strict";
 
 	/**
 	 * Дефолтные опции
+	 * 
+	 * @member {Object}
+	 * @private
 	 */
-	var defaults = {
+	var _defaults = {
 		// Селекторы
 		selectors : {
 			vote:    '.js-vote',
@@ -55,12 +65,12 @@ ls.vote = (function ($) {
 	/**
 	 * Инициализация
 	 *
-	 * @param  {Object} options Опции
+	 * @param {Object} options Опции
 	 */
 	this.init = function(options) {
 		var self = this;
 
-		this.options = $.extend({}, defaults, options);
+		this.options = $.extend({}, _defaults, options);
 		
 		$(this.options.selectors.vote).each(function () {
 			var oVote = $(this);
@@ -101,7 +111,7 @@ ls.vote = (function ($) {
 	 * 
 	 * @param  {Number} iTargetId ID объекта
 	 * @param  {Number} iValue    Значение
-	 * @param  {String} sType     Тип голосования
+	 * @param  {String} sType     Тип объекта за который голосуют
 	 * @param  {Object} oVars     Переменные текущего голосования
 	 */
 	this.vote = function(iTargetId, iValue, sType, oVars) {

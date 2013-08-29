@@ -75,9 +75,9 @@
 
 /**
  * @type stream
- * @file blocks/block.stream.tpl
- * @file blocks/block.stream_comment.tpl
- * @file blocks/block.stream_topic.tpl
+ * @template blocks/block.stream.tpl
+ * @template blocks/block.stream_comment.tpl
+ * @template blocks/block.stream_topic.tpl
  */
 .block-type-stream .latest-list { }
 .block-type-stream .latest-list li { margin-bottom: 15px; color: #818189; }
@@ -92,7 +92,7 @@
 
 /**
  * @type blogs
- * @file blocks/block.blogs.tpl
+ * @template blocks/block.blogs.tpl
  */
 .blog-list-compact                           { margin-bottom: 0; }
 .blog-list-compact .dotted-list-item         { margin-bottom: 10px; position: relative; }
@@ -103,13 +103,13 @@
 
 /**
  * @type tags
- * @file blocks/block.tags.tpl
+ * @template blocks/block.tags.tpl
  */
 .block.block-type-tags .search-form-wrapper { margin-bottom: 15px; }
 
 /**
  * @type activity
- * @file blocks/block.activityX.tpl
+ * @template blocks/block.activityX.tpl
  */
 .block-type-activity p                            { margin-bottom: 15px; }
 .block-type-activity .note                        { display: block; margin-bottom: 15px; color: #aaa; }
@@ -117,7 +117,7 @@
 
 /**
  * @type profile
- * @file blocks/block.profilePhoto.tpl
+ * @template blocks/block.profilePhoto.tpl
  */
 .block-type-profile-photo                               { background: none; border: none; padding: 0; }
 .block-type-profile-photo .profile-photo-wrapper        { position: relative; min-height: 50px; }
@@ -135,19 +135,19 @@
 
 /**
  * @type profile note
- * @file blocks/block.profileNote.tpl
+ * @template blocks/block.profileNote.tpl
  */
 .block-type-profile-note { border: none; margin-bottom: 0; }
 
 /**
  * @type profile nav
- * @file blocks/block.profileNav.tpl
+ * @template blocks/block.profileNav.tpl
  */
 .block.block-type-profile-nav 					{ padding: 0; background: none; border: none; }
 
 /**
  * @type profile actions
- * @file blocks/block.profileActions.tpl
+ * @template blocks/block.profileActions.tpl
  */
 .block.block-type-profile-actions 						{ border: none; }
 .block.block-type-profile-actions .block-content 		{ padding: 0 0 0 30px; }
@@ -159,7 +159,7 @@
 
 /**
  * @type blog
- * @file blocks/block.blog.tpl
+ * @template blocks/block.blog.tpl
  */
 .block-type-blog {
 	border-radius: 5px;
@@ -188,14 +188,14 @@
 
 /**
  * @type blog categories
- * @file blocks/block.blogCategories.tpl
+ * @template blocks/block.blogCategories.tpl
  */
 .block-type-blog-categories .block-header .blog-categories-admin       { position: absolute; top: 7px; right: 0; opacity: .3; }
 .block-type-blog-categories .block-header .blog-categories-admin:hover { opacity: 1; }
 
 /**
  * @type blog add
- * @file blocks/block.blogAdd.tpl
+ * @template blocks/block.blogAdd.tpl
  */
 .block.block-type-blog-add {
 	-webkit-border-radius: 5px;
@@ -210,7 +210,7 @@
 
 /**
  * @type blog navigation
- * @file blocks/block.blogNav.tpl
+ * @template blocks/block.blogNav.tpl
  */
 .block-type-blog-navigation p { margin-bottom: 15px; }
 .block-type-blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }

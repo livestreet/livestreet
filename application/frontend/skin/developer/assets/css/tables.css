@@ -1,5 +1,11 @@
 /**
  * Таблицы
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ *
+ * TODO: Перенести таблицы
  */
 
 .table 					{ width: 100%; margin-bottom: 15px; }
@@ -10,7 +16,10 @@
 .table a.asc:after		{ content: "▲"; }
 .table a.desc:after		{ content: "▼"; }
 
-/* Table Blogs */
+
+/**
+ * Список блогов
+ */
 .table.table-blogs .cell-name .avatar 	{ float: left; margin-right: 10px; clear: right; }
 .table.table-blogs .cell-name p		 	{ overflow: hidden; }
 .table.table-blogs .cell-rating 		{ width: 70px; font-weight: bold; }
@@ -18,19 +27,28 @@
 .table.table-blogs .cell-join 			{ width: 130px; text-align: center; vertical-align: middle; }
 .table.table-blogs .cell-rating 		{ text-align: center; vertical-align: middle; }
 
-/* Table Profile Notes */
+
+/**
+ * Список заметок
+ */
 .table.table-profile-notes 					{ border-top: 1px solid #eee; }
 .table.table-profile-notes td 				{ vertical-align: top; }
 .table.table-profile-notes .cell-username 	{ width: 20%; font-weight: bold; }
 .table.table-profile-notes .cell-note 		{ width: 50%; }
 .table.table-profile-notes .cell-date 		{ text-align: right; }
 
-/* Table Profile Info */
+
+/**
+ * Информация о пользователе
+ */
 .table.table-profile-info 				{ margin-bottom: 40px; }
 .table.table-profile-info td 			{ vertical-align: top; }
 .table.table-profile-info .cell-label 	{ width: 30%; color: #777; }
 
-/* Table Users */
+
+/**
+ * Список пользователей
+ */
 .table.table-users th 					{ font-size: 11px; }
 .table.table-users .cell-name 			{ font-weight: bold; }
 .table.table-users .cell-name img 		{ float: left; }
@@ -38,7 +56,10 @@
 .table.table-users tbody .cell-date 	{ font-size: 11px; }
 .table.table-users .cell-rating         { text-align: center; width: 50px; }
 
-/* Table Talk */
+
+/**
+ * Список сообщений
+ */
 .table.table-talk .cell-checkbox 		{ width: 20px; padding: 12px 0 10px 10px; }
 .table.table-talk thead .cell-checkbox 	{ padding: 10px 0 10px 10px; }
 .table.table-talk .cell-favourite 		{ width: 20px; padding: 10px 0; text-align: center; }

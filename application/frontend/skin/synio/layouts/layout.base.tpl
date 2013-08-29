@@ -205,8 +205,8 @@
 					<ul class="auth">
 						{hook run='userbar_item'}
 						
-						<li><a href="{router page='registration'}" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-registration]').tab('activate');">{$aLang.registration_submit}</a></li>
-						<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" onclick="jQuery('[data-option-target=tab-pane-login]').tab('activate');">{$aLang.user_login_submit}</a></li>
+						<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" data-option-center="false" class="js-modal-toggle-login">{$aLang.user_login_submit}</a></li>
+						<li><a href="{router page='registration'}" data-type="modal-toggle" data-option-target="modal-login" class="js-modal-toggle-registration">{$aLang.registration_submit}</a></li>
 					</ul>
 				{/if}
 				

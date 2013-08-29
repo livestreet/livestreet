@@ -1,7 +1,7 @@
 /**
  * Комментарии
  *
- * @file comments/*.tpl
+ * @template comments/*.tpl
  */
 
 /* Блок с комментариями */
@@ -25,7 +25,7 @@
 /**
  * Комментарий
  *
- * @file comments/comment.tpl
+ * @template comments/comment.tpl
  */
 .comment                 { min-height: 48px; margin-bottom: 10px; padding: 10px 0 0 0; position: relative; }
 
@@ -67,7 +67,7 @@
 .comment-info .comment-link       { position: relative; top: 1px; }
 .comment-info .comment-goto a     { color: #a2b6cd; text-decoration: none; }
 .comment-info .comment-goto-child { display: none; }
-.comment-info .favourite-count    { font-size: 10px; color: #a2b6cd; position: relative; top: -2px; }
+.comment-info .favourite-count    { color: #a2b6cd; }
 
 /* Голосование */
 .comment-info .vote                  { position: absolute; top: 0; right: 0; margin: 0; }
@@ -137,7 +137,7 @@
 /**
  * Форма комментирования
  *
- * @file comments/comment_tree.tpl
+ * @template comments/comment_tree.tpl
  */
 .comment-reply-header { font-size: 20px; line-height: 1.3em; margin-bottom: 15px; }
 
@@ -151,7 +151,7 @@
 /**
  * Стили для списка комментариев
  *
- * @file comments/comment_list.tpl
+ * @template comments/comment_list.tpl
  */
 .comment.comment-list-item { margin-bottom: 20px; }
 .comment.comment-list-item .vote .vote-up,

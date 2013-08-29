@@ -1,11 +1,24 @@
 /**
  * Блоки
+ * 
+ * @module ls/blocks
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 var ls = ls || {};
 
 ls.blocks = (function ($) {
-	this.init = function() {
+	"use strict";
+	
+	/**
+	 * Инициализация
+	 *
+	 * @param {Object} options Опции
+	 */
+	this.init = function(options) {
 		// Заменяет навигацию на выпадающий список если пунктов больше
 		// определенного значения
 		// TODO: Вынести в отдельный функционал
@@ -25,14 +38,13 @@ ls.blocks = (function ($) {
 		});
 
 		// Сохраняем высоту блока при переключении табов
-		$('.js-block-nav ' + $.fn.tab.settings.tabSelector).tab('option', {
-			onActivate: function () {
-				this.$pane.css('height', this.$pane.height());
-			},
-			onActivated: function () {
-				this.$pane.css('height', 'auto');
-			}
-		});
+		$('.js-block-nav li')
+			.on('tabbeforeactivate', function (e, data) {
+				data.pane.css('height', data.pane.height());
+			})
+			.on('tabactivate', function (e, data) {
+				data.pane.css('height', 'auto');
+			});
 	};
 
 	return this;

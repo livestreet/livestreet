@@ -161,11 +161,12 @@
 				<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
 
 				{* Избранное *}
-				<li class="topic-info-favourite">
-					<div onclick="return ls.favourite.toggle({$oTopic->getId()},this,'topic');"
-						 class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"
+				<li class="topic-info-favourite favourite js-favourite">
+					<div data-favourite-type="topic"
+						 data-favourite-id="{$oTopic->getId()}"
+						 class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"
 						 title="{if $oTopic->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
-					<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{$oTopic->getCountFavourite()}</span>
+					<span class="favourite-count js-favourite-count" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{$oTopic->getCountFavourite()}</span>
 				</li>
 
 				{* Поделиться *}

@@ -1,11 +1,11 @@
 {**
  * Комментарий
  *
- * bAllowNewComment      true если разрешно добавлять новые комментарии
- * bOneComment
- * bNoCommentFavourites  true если не нужно выводить кнопку добавления в избранное
- * iAuthorId             ID автора топика
- * bList                 true если комментарий выводится в списках (например на странице Избранные комментарии)
+ * @param boolean bAllowNewComment      true если разрешно добавлять новые комментарии
+ * @param boolean bOneComment
+ * @param boolean bNoCommentFavourites  true если не нужно выводить кнопку добавления в избранное
+ * @param integer iAuthorId             ID автора топика
+ * @param boolean bList                 true если комментарий выводится в списках (например на странице Избранные комментарии)
  *
  * @styles css/comments.css
  *}
@@ -55,11 +55,7 @@
 		{* Информация *}
 		<ul class="comment-info">
 			{* Автор комментария *}
-			<li class="comment-author">
-				{if $iAuthorId == $oUser->getId()}
-					<span class="comment-topic-author" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">{$aLang.comment_target_author}</span>
-				{/if}
-
+			<li class="comment-username {if $iAuthorId == $oUser->getId()}comment-username-author{/if}" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">
 				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 			</li>
 			
@@ -108,13 +104,14 @@
 				</li>
 			{/if}
 			
-			{* Кнопка добавления в избранное *}
+			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li class="comment-favourite">
-					<div onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" 
-						 class="favourite {if $oComment->getIsFavourite()}active{/if}" 
+				<li class="favourite comment-favourite js-favourite">
+					<div data-favourite-type="comment"
+						 data-favourite-id="{$oComment->getId()}"
+						 class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oComment->getIsFavourite()}active{/if} js-favourite"
 						 title="{if $oComment->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
-					<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
+					<span class="favourite-count js-favourite-count">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 				</li>
 			{/if}
 		</ul>

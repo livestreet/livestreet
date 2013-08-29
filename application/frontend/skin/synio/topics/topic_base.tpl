@@ -132,11 +132,12 @@
 				</li>
 
 				{* Избранное *}
-				<li class="topic-info-favourite" onclick="return ls.favourite.toggle({$oTopic->getId()},$('#fav_topic_{$oTopic->getId()}'),'topic');">
-					<i id="fav_topic_{$oTopic->getId()}" 
-					   class="favourite {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}" 
-					   title="{if $oTopic->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></i>
-					<span class="favourite-count" id="fav_count_topic_{$oTopic->getId()}" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{if $oTopic->getCountFavourite()>0}{$oTopic->getCountFavourite()}{/if}</span>
+				<li class="topic-info-favourite favourite js-favourite">
+					<div data-favourite-type="topic"
+						 data-favourite-id="{$oTopic->getId()}"
+						 class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"
+						 title="{if $oTopic->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
+					<span class="favourite-count js-favourite-count" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{$oTopic->getCountFavourite()}</span>
 				</li>
 			
 				{* Ссылка на комментарии *}

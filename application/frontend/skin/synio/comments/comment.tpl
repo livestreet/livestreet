@@ -56,13 +56,14 @@
 				</time>
 			</li>
 			
-			{* Кнопка добавления в избранное *}
+			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li class="comment-favourite">
-					<div onclick="return ls.favourite.toggle({$oComment->getId()},this,'comment');" 
-						 class="favourite {if $oComment->getIsFavourite()}active{/if}" 
+				<li class="favourite comment-favourite js-favourite">
+					<div data-favourite-type="comment"
+						 data-favourite-id="{$oComment->getId()}"
+						 class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oComment->getIsFavourite()}active{/if} js-favourite"
 						 title="{if $oComment->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
-					<span class="favourite-count" id="fav_count_comment_{$oComment->getId()}" {if $oComment->getCountFavourite() == 0}style="display: none"{/if}>{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
+					<span class="favourite-count js-favourite-count">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 				</li>
 			{/if}
 

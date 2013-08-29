@@ -16,7 +16,7 @@
 		<div class="accordion">
 			<h3 class="accordion-header" onclick="jQuery('#block_talk_search_content').toggle(); return false;"><span class="link-dotted">{$aLang.talk_filter_title}</span></h3>
 				
-			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if ! $_aRequest.submit_talk_filter}style="display:block;"{/if}>
+			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if $_aRequest.submit_talk_filter}style="display:block;"{/if}>
 				{* Отправитель *}
 				{include file='forms/form.field.text.tpl'
 						 sFieldName    = 'sender'

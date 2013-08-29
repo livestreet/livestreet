@@ -1,8 +1,15 @@
-var ls = ls || {};
-
 /**
  * Стена пользователя
+ * 
+ * @module ls/wall
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
+
+var ls = ls || {};
+
 ls.wall = (function ($) {
 
 	this.options = {

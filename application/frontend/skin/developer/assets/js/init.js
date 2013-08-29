@@ -1,3 +1,11 @@
+/**
+ * Инициализации модулей
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
 jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
@@ -72,10 +80,8 @@ jQuery(document).ready(function($){
 	 * Toolbar
 	 */
 	$('#toolbar').toolbar({
-		alignTo: '#wrapper',
-		align: 'right',
-		offsetX: 10,
-		offsetY: 0
+		target: '#wrapper',
+		offsetX: 10
 	});
 
 	ls.toolbar.topic.init(); // Тул-бар топиков
@@ -211,7 +217,7 @@ jQuery(document).ready(function($){
 		messages: {
 			rangetags: "Кол-во тегов должно быть от %s до %s"
 		}
-	})
+	});
 
 
 	// Хук конца инициализации javascript-составляющих шаблона

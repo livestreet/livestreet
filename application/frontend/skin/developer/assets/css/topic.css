@@ -1,6 +1,14 @@
 /**
  * Топики
+ *
+ * @template topics/*.tpl
+ * @scripts <frontend>/common/js/topics.js
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
+
 
 /**
  * Основные стили
@@ -97,8 +105,7 @@
 /**
  * Топик фотосет
  * 
- * @type photoset
- * @file topics/topic.photoset.tpl
+ * @template topics/topic.photoset.tpl
  */
 .topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
 
@@ -106,8 +113,7 @@
 /**
  * Топик ссылка
  * 
- * @type link
- * @file topics/topic.link.tpl
+ * @template topics/topic.link.tpl
  */
 .topic-url   { margin-bottom: 30px; }
 .topic-url a { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
@@ -116,7 +122,7 @@
 /**
  * Предпросмотр топика
  * 
- * @file topics/topic_preview_X.tpl
+ * @template topics/topic_preview_X.tpl
  */
 .topic-preview                      { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
@@ -127,7 +133,7 @@
  * Личное сообщение
  * TODO: Move to talk.css
  * 
- * @file actions/ActionTalk/message.tpl
+ * @template actions/ActionTalk/message.tpl
  */
 .topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
 .topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }

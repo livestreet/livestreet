@@ -1,12 +1,16 @@
 /**
  * Формы
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 
 /**
  * Блок редактирования аватара
  *
- * @file actions/ActionSettings/profile.tpl
+ * @template actions/ActionSettings/profile.tpl
  */
 .avatar-edit       { margin-bottom: 15px; }
 .avatar-edit img   { vertical-align: bottom; }
@@ -16,7 +20,7 @@
 /**
  * Справка по разметке редактора
  *
- * @file editor_help.tpl
+ * @template editor_help.tpl
  */
 .editor-help header { margin-bottom: 20px; } 
 
@@ -40,7 +44,7 @@
 /**
  * Форма поиска
  *
- * @file forms/form.search.base.tpl
+ * @template forms/form.search.base.tpl
  */
 .search-form                    { padding: 15px; margin-bottom: 20px; background: #f7f7f7; }
 .search-form-search             { position: relative; }

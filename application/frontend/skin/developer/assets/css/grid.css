@@ -1,7 +1,9 @@
 /**
  * Сетка
- *
- * @template layout.base.tpl
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 #container       { margin: 0 auto; margin-bottom: 20px; padding: 0 50px; }

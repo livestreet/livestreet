@@ -95,7 +95,7 @@ dl.form-item dd { float: left; width: 250px; }
 /**
  * Блок редактирования аватара
  *
- * @file actions/ActionSettings/profile.tpl
+ * @template actions/ActionSettings/profile.tpl
  */
 .avatar-edit       { margin-bottom: 15px; }
 .avatar-edit img   { vertical-align: bottom; }
@@ -105,7 +105,7 @@ dl.form-item dd { float: left; width: 250px; }
 /**
  * Справка по разметке редактора
  *
- * @file editor_help.tpl
+ * @template editor_help.tpl
  */
 .editor-help header   { margin-bottom: 20px; } 
 .editor-help header a { font-size: 11px; color: #000; border-color: #000; } 
@@ -149,7 +149,7 @@ dl.form-item dd { float: left; width: 250px; }
 /**
  * Форма регистрации
  *
- * @file form.auth.signup.tpl
+ * @template form.auth.signup.tpl
  */
 .form-signup p i                        { position: relative; top: -1px; }
 .form-signup p.form-signup-field-submit { margin: 0; }
@@ -177,7 +177,7 @@ dl.form-item dd { float: left; width: 250px; }
 /**
  * Форма поиска
  *
- * @file forms/form.search.base.tpl
+ * @template forms/form.search.base.tpl
  */
 .search-form                    { margin-bottom: 35px; padding: 15px; background: #f8fbfe; border-radius: 5px; }
 .search-form-search             { position: relative; }

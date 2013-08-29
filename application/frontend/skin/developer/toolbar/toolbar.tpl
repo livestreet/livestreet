@@ -6,6 +6,6 @@
  * @scripts js/livestreet/toolbar.js
  *}
 
-<aside class="toolbar" id="toolbar" data-type="toolbar">
+<aside class="toolbar js-toolbar">
 	{include file='blocks.tpl' group='toolbar'}
 </aside>

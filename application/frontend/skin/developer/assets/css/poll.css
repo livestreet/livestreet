@@ -1,7 +1,11 @@
 /**
  * Опросы
- * 
+ *
  * @template topics/topic.question.tpl
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 .poll                 { margin-bottom: 15px; background: #fafafa; padding: 15px; }

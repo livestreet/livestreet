@@ -1,17 +1,32 @@
 /**
  * Каптча
+ * 
+ * @module ls/captcha
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 var ls = ls || {};
 
 ls.captcha = (function ($) {
-	var oCaptcha = null;
+	"use strict";
+
+	/**
+	 * jQuery объект каптчи
+	 * 
+	 * @private
+	 */
+	var _oCaptcha = null;
 
 	/**
 	 * Дефолтные опции
+	 * 
+	 * @private
 	 */
-	var defaults = {
-		// Селектор каптчи
+	var _defaults = {
+		// Селекторы
 		selectors: {
 			captcha: '.js-form-auth-captcha'
 		}
@@ -19,36 +34,32 @@ ls.captcha = (function ($) {
 
 	/**
 	 * Инициализация
+	 *
+	 * @param {Object} options Опции
 	 */
 	this.init = function(options) {
-		this.options = $.extend({}, defaults, options);
+		this.options = $.extend({}, _defaults, options);
 
-		oCaptcha = $(this.options.selectors.captcha);
-
-		// Подгружаем каптчу при открытии окна регистрации
-		$('[data-option-target=tab-pane-registration]').tab('option', 'onActivate', function () {
-			this.updateCaptcha();
-		}.bind(this));
+		_oCaptcha = $(this.options.selectors.captcha);
 
 		// Обновляем каптчу при клике на нее
-		oCaptcha.on('click', function () {
-			this.updateCaptcha();
+		_oCaptcha.on('click', function () {
+			this.update();
 		}.bind(this));
 	};
 
 	/**
 	 * Получает url каптчи
-	 * @return {String} URL каптчи
 	 */
-	this.getCaptchaUrl = function () {
+	this.getUrl = function () {
 		return PATH_FRAMEWORK_LIBS_VENDOR + '/kcaptcha/index.php?' + SESSION_NAME + '=' + SESSION_ID + '&n=' + Math.random();
 	};
 
 	/**
 	 * Обновляет каптчу
 	 */
-	this.updateCaptcha = function () {
-		oCaptcha.css('background-image', 'url(' + this.getCaptchaUrl() + ')');
+	this.update = function () {
+		_oCaptcha.css('background-image', 'url(' + this.getUrl() + ')');
 	};
 
 	return this;
