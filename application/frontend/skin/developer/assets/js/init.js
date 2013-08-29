@@ -79,7 +79,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
-	$('#toolbar').toolbar({
+	$('.js-toolbar').toolbar({
 		target: '#wrapper',
 		offsetX: 10
 	});
