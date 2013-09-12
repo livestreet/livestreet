@@ -307,6 +307,7 @@ $config['router']['page']['login']         = 'ActionLogin';
 $config['router']['page']['people']        = 'ActionPeople';
 $config['router']['page']['settings']      = 'ActionSettings';
 $config['router']['page']['tag']           = 'ActionTag';
+$config['router']['page']['tags']          = 'ActionTags';
 $config['router']['page']['talk']          = 'ActionTalk';
 $config['router']['page']['comments']      = 'ActionComments';
 $config['router']['page']['rss']           = 'ActionRss';
