@@ -1012,5 +1012,21 @@ class ModuleTopic_MapperTopic extends Mapper {
 		$res=$this->oDb->query($sql);
 		return $res===false or is_null($res) ? false : true;
 	}
+    /**
+     * Поиск топиков, в тексте которых есть искомая строка
+     * 
+     * @param string $sNeedle
+     * @return array|null
+     */
+    public function GetMatchedTopicsByText($sNeedle) {
+        $sql = "SELECT topic_id FROM ".Config::Get('db.table.topic_content')." 
+			WHERE 				
+				topic_text LIKE ?
+				";
+		if ($aRow=$this->oDb->selectRow($sql,$sNeedle)) {
+			return $aRow['topic_id'];
+		}
+		return null;
+    }
 }
 ?>
