@@ -1,0 +1,46 @@
+/**
+ * Фотосет
+ */
+
+
+.photoset { margin-bottom: 15px; }
+
+
+/**
+ * Дефолтный фотосет
+ * 
+ * @template topics/topic.photoset.tpl
+ */
+.photoset-type-default                         { padding-top: 10px; }
+
+.photoset-type-default .photoset-title         { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; font-size: 25px; }
+
+.photoset-type-default .photoset-images        { overflow: hidden; zoom: 1; }
+.photoset-type-default .photoset-images li     { float: left; margin: 0 9px 9px 0; position: relative; border: 3px solid #eee; }
+.photoset-type-default .photoset-images li img { vertical-align: top; }
+
+
+/**
+ * Загрузка изображений
+ * 
+ * @template actions/ActionPhotoset/add.tpl
+ */
+.photoset-upload        { margin-bottom: 20px; background: #F1F7FD; }
+.photoset-upload header,
+.photoset-upload footer { padding: 15px; }
+.photoset-upload h2     { font-size: 24px; margin-bottom: 15px; }
+.photoset-upload .note  { font-size: 12px; line-height: 20px; }
+
+.photoset-upload-images                                 { overflow: hidden; zoom: 1; }
+.photoset-upload-images-item                            { padding: 15px 15px 15px 130px; min-height: 100px; position: relative; }
+.photoset-upload-images-item.marked-as-preview          { background: #DEEEFF; }
+.photoset-upload-images-item.marked-as-preview textarea { border-color: #B3CFED; }
+.photoset-upload-images-item img                        { position: absolute; top: 15px; left: 15px; }
+.photoset-upload-images-item label                      { color: #aaa; }
+.photoset-upload-images-item textarea                   { height: 80px; margin-bottom: 10px; }
+.photoset-upload-images-item a                          { margin-right: 15px; }
+.photoset-upload-images-item .mark-as-preview           { display: none; text-decoration: none; }
+.photoset-upload-images-item:hover .mark-as-preview     { display: inline; }
+
+.photoset-upload-progress          { margin: 15px; }
+.photoset-upload-progress-filename { margin-bottom: 5px; }

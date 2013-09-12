@@ -35,13 +35,7 @@ ___LANG_START_PARAGRAPH___
 	</tr>
 	<tr>
 		<td>___LANG_LOCAL_UPLOADS_DIR___</td><td class="result">___VALIDATE_LOCAL_UPLOADS___</td>
-	</tr>	
-	<tr>
-		<td>___LANG_LOCAL_TEMPLATES_DIR___</td><td class="result">___VALIDATE_LOCAL_TEMPLATES___</td>
-	</tr>		
-	<tr>
-		<td>___LANG_LOCAL_TEMPLATES_CACHE_DIR___</td><td class="result">___VALIDATE_LOCAL_TEMPLATES_CACHE___</td>
-	</tr>			
+	</tr>
 	<tr>
 		<td>___LANG_LOCAL_PLUGINS_DIR___</td><td class="result">___VALIDATE_LOCAL_PLUGINS___</td>
 	</tr>		

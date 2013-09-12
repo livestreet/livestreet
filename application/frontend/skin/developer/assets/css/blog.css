@@ -1,0 +1,40 @@
+/**
+ * Блог
+ *
+ * @template actions/ActionBlog/blog.tpl
+ * @scripts <frontend>/common/js/blog.js
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.blog { background: #fafafa; margin-bottom: 10px; border: 1px solid #eee; overflow: hidden; }
+
+/* Хидер */
+.blog-header               { position: relative; padding: 15px 130px 15px 78px; border-bottom: 1px solid #eee; }
+
+.blog-header .blog-title   { font-size: 20px; font-weight: bold; line-height: 1em; margin-top: 3px; margin-bottom: 7px; }
+.blog-header .blog-title i { position: relative; top: 5px; }
+
+.blog-header .avatar       { position: absolute; top: 15px; left: 15px; }
+
+.blog-header .vote                                 { position: absolute; top: 15px; right: 15px; }
+.blog-header .vote .vote-count                     { padding-left: 25px; display: block; color: #333; }
+.blog-header .vote .vote-up                        { position: absolute; top: 22px; left: 0; }
+.blog-header .vote .vote-down                      { position: absolute; top: 35px; left: 0; }
+.blog-header .vote.vote-count-positive .vote-count { color: #5055B2; }
+.blog-header .vote-label                           { text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
+.blog-header .count                                { font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
+
+.blog-header .actions { margin-bottom: 0; }
+
+/* Описание */
+.blog-description { padding: 15px; border-bottom: 1px solid #eee; }
+
+/* Информация о блоге */
+.blog-info { padding: 15px; border-bottom: 1px solid #eee; }
+
+/* Кнопка показывающая/скрывающая информацию о блоге */
+.blog-more       { display: block; padding: 10px 0; text-align: center; text-decoration: none; background: #fafafa; }
+.blog-more:hover { background: #eee; }

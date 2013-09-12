@@ -34,15 +34,15 @@ class Install {
 	const SESSSION_KEY_STEP_NAME = 'livestreet_install_step';
 	/**
 	 * Название файла локальной конфигурации
-	 * 
+	 *
 	 * @var string
 	 */
 	const LOCAL_CONFIG_FILE_NAME = 'config.local.php';
 	/**
 	 * Передача этого ключа как параметра, указавает функции извлечения параметра
 	 * запросить значение переменной сначала из сессии, в случае не нахождения нужного
-	 * ключа - установить значение по умолчанию. 
-	 * 
+	 * ключа - установить значение по умолчанию.
+	 *
 	 * Используется в фукнциях Assign(), GetRequest().
 	 *
 	 * @see $this->Assign()
@@ -53,13 +53,13 @@ class Install {
 	/**
 	 * Передача этого ключа как параметра, указавает функции предварительно сохранить
 	 * переменную в сессию с одноименным ключем.
-	 * 
+	 *
 	 * Используется в фукнциях Assign(), GetRequest().
 	 *
 	 * @see $this->Assign()
 	 * @see $this->GetRequest()
 	 * @var string
-	 */	
+	 */
 	const SET_VAR_IN_SESSION = 'set';
 	/**
 	 * Массив разрешенных шагов инсталяции
@@ -75,7 +75,7 @@ class Install {
 	protected $aSimpleModeSteps = array('Start','Db','Admin','End');
 	/**
 	 * Количество шагов, которые необходимо указывать в инсталляционных параметрах
-	 * 
+	 *
 	 * @var int
 	 */
 	protected $iStepCount = null;
@@ -96,7 +96,7 @@ class Install {
 	 *
 	 * @var string
 	 */
-	protected $sLangInstallDir = 'language';	
+	protected $sLangInstallDir = 'i18n';
 	/**
 	 * Массив с переменными шаблонизатора
 	 *
@@ -118,13 +118,13 @@ class Install {
 	 * @var array
 	 */
 	protected $aValidEnv = array(
-        'safe_mode'  => array ('0','off',''), 
-        'register_globals' => array ('0','off',''), 
-        'allow_url_fopen' => array ('1','on'), 
-        'UTF8_support' => '1', 
-        'http_input' => array ('','pass'), 
-        'http_output' => array ('0','pass'), 
-        'func_overload' => array ('0','4', 'no overload'), 
+        'safe_mode'  => array ('0','off',''),
+        'register_globals' => array ('0','off',''),
+        'allow_url_fopen' => array ('1','on'),
+        'UTF8_support' => '1',
+        'http_input' => array ('','pass'),
+        'http_output' => array ('0','pass'),
+        'func_overload' => array ('0','4', 'no overload'),
     );
     /**
      * Директория, в которой хранятся конфиг-файлы
@@ -133,7 +133,7 @@ class Install {
      */
     protected $sConfigDir="";
     /**
-     * Директория хранения скинов сайта 
+     * Директория хранения скинов сайта
      *
      * @var string
      */
@@ -155,21 +155,21 @@ class Install {
      *
      * @var string
      */
-    protected $sLangDefault = 'russian';
+    protected $sLangDefault = 'ru';
     /**
      * Языковые текстовки
      *
      * @var array
      */
-    protected $aLang = array();    
+    protected $aLang = array();
     /**
      * Инициализация основных настроек
      *
      */
     public function __construct() {
-    	$this->sConfigDir = dirname(__FILE__).'/../config';
-    	$this->sSkinDir   = dirname(__FILE__).'/../templates/skin';
-    	$this->sLangDir   = dirname(__FILE__).'/../templates/language';
+    	$this->sConfigDir = dirname(__FILE__).'/../application/config';
+    	$this->sSkinDir   = dirname(__FILE__).'/../application/frontend/skin';
+    	$this->sLangDir   = dirname(__FILE__).'/../application/frontend/i18n';
     	/**
     	 * Загружаем языковые файлы
     	 */
@@ -193,8 +193,9 @@ class Install {
      */
     protected function LoadLanguageFile($sLang) {
     	$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
+
     	if(!file_exists($sFilePath)) return false;
-    	
+
     	$aLang = include($sFilePath);
     	$this->aLang = array_merge($this->aLang,$aLang);
     }
@@ -208,10 +209,10 @@ class Install {
     protected function Lang($sKey,$aParams=array()) {
     	if(!array_key_exists($sKey,$this->aLang))
     		return 'Unknown language key';
-    	
+
     	$sValue=$this->aLang[$sKey];
     	if(count($aParams)==0) return $sValue;
-    	
+
     	foreach ($aParams as $k=>$v) {
     		$sValue=str_replace("%%{$k}%%",$v,$sValue);
     	}
@@ -245,11 +246,11 @@ class Install {
 	 */
 	protected function DestroySessionVar($sKey) {
 		if(!array_key_exists($sKey,$_SESSION)) return false;
-		
+
 		unset($_SESSION[$sKey]);
 		return true;
 	}
-	
+
 	/**
 	 * Выполняет рендеринг указанного шаблона
 	 *
@@ -258,7 +259,7 @@ class Install {
 	 */
 	protected function Fetch($sTemplateName) {
 		if(!file_exists($this->sTemplatesDir.'/'.$sTemplateName)) return false;
-		
+
 		$sTemplate = file_get_contents($this->sTemplatesDir.'/'.$sTemplateName);
 		return $this->FetchString($sTemplate);
 	}
@@ -269,15 +270,15 @@ class Install {
 	 * @return string
 	 */
 	protected function FetchString($sTempString) {
-		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTempString);		
+		return str_replace(array_keys($this->aTemplateVars),array_values($this->aTemplateVars),$sTempString);
 	}
 	/**
 	 * Добавляет переменную для отображение в шаблоне.
-	 * 
-	 * Если параметр $sFromSession установлен в значение GET, 
+	 *
+	 * Если параметр $sFromSession установлен в значение GET,
 	 * то переменная сначала будет запрошена из сессии.
-	 * 
-	 * Если параметр $sFromSession установлен в значение SET, 
+	 *
+	 * Если параметр $sFromSession установлен в значение SET,
 	 * то переменная сначала вложена в сессию с одноименным ключем.
 	 *
 	 * @param string $sName
@@ -287,7 +288,7 @@ class Install {
 	protected function Assign($sName,$sValue,$sFromSession=null) {
 		if($sFromSession==self::GET_VAR_FROM_SESSION) $sValue=$this->GetSessionVar($sName,$sValue);
 		if($sFromSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sValue);
-		
+
 		$this->aTemplateVars['___'.strtoupper($sName).'___'] = $sValue;
 	}
 	/**
@@ -310,12 +311,12 @@ class Install {
 			$aMessages = array();
 			foreach ($this->aMessages as &$sMessage) {
 				if(array_key_exists('type',$sMessage) and array_key_exists('text',$sMessage)) {
-					$aMessages[$sMessage['type']][md5(serialize($sMessage))] = "<b>".ucfirst($sMessage['type'])."</b>: ".$sMessage['text'];				
+					$aMessages[$sMessage['type']][md5(serialize($sMessage))] = "<b>".ucfirst($sMessage['type'])."</b>: ".$sMessage['text'];
 				}
 				unset($sMessage);
 			}
 			$this->aMessages = $aMessages;
-			
+
 			$sMessageContent = "";
 			foreach ($this->aMessages as $sType => $aMessageTexts) {
 				$this->Assign('message_style_class', $sType);
@@ -324,11 +325,11 @@ class Install {
 			}
 			$this->Assign('system_messages',$sMessageContent);
 		}
-		
+
 		$this->Assign('content', $sLayoutContent);
 		print $this->Fetch('layout.tpl');
 	}
-	
+
 	/**
 	 * Сохранить данные в конфиг-файл
 	 *
@@ -339,20 +340,20 @@ class Install {
 	 */
 	protected function SaveConfig($sName,$sVar,$sPath) {
 		if(!file_exists($sPath)) {
-			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_exists',array('path'=>$sPath)));			
+			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_exists',array('path'=>$sPath)));
 			return false;
 		}
-		if(!is_writeable($sPath)) { 
+		if(!is_writeable($sPath)) {
 			$this->aMessages[] = array('type'=>'error', 'text'=>$this->Lang('config_file_not_writable',array('path'=>$sPath)));
-			return false; 
+			return false;
 		}
-		
+
 		$sConfig = file_get_contents($sPath);
 		$sName   = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
 		$sVar    = $this->ConvertToString($sVar);
-		
+
 		/**
-		 * Если переменная уже определена в конфиге, 
+		 * Если переменная уже определена в конфиге,
 		 * то меняем значение.
 		 */
 		if(substr_count($sConfig, $sName)) {
@@ -373,23 +374,23 @@ class Install {
 		switch(true) {
 			case is_string($mVar):
 				return "'".addslashes($mVar)."'";
-					
+
 			case is_bool($mVar):
 				return ($mVar)?"true":"false";
-				
+
 			case is_array($mVar):
 				$sArrayString="";
 				foreach($mVar as $sKey=>$sValue) {
 					$sArrayString .= "'{$sKey}'=>".$this->ConvertToString($sValue).",";
 				}
 				return "array(".$sArrayString.")";
-				
-			default:	
+
+			default:
 			case is_numeric($mVar):
 				return "'".(string)$mVar."'";
 		}
 	}
-	
+
 	/**
 	 * Получает значение переданных параметров
 	 *
@@ -397,9 +398,9 @@ class Install {
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	protected function GetRequest($sName,$default=null,$bSession=null) {		
+	protected function GetRequest($sName,$default=null,$bSession=null) {
 		if (array_key_exists($sName,$_REQUEST)) {
-			$sResult = (is_string($_REQUEST[$sName])) 
+			$sResult = (is_string($_REQUEST[$sName]))
 				? trim(stripslashes($_REQUEST[$sName]))
 				: $_REQUEST[$sName];
 		} else {
@@ -411,25 +412,25 @@ class Install {
 		 * При необходимости сохраняем в сессию
 		 */
 		if($bSession==self::SET_VAR_IN_SESSION) $this->SetSessionVar($sName,$sResult);
-		
+
 		return $sResult;
-	}	
-	
+	}
+
 	/**
 	 * Функция отвечающая за проверку входных параметров
 	 * и передающая управление на фукнцию текущего шага
 	 *
-	 * @call $this->Step{__Name__} 
+	 * @call $this->Step{__Name__}
 	 */
 	public function Run($sStepName=null) {
-		if(is_null($sStepName)){ 
+		if(is_null($sStepName)){
 			$sStepName = $this->GetSessionVar(self::SESSSION_KEY_STEP_NAME, self::INSTALL_DEFAULT_STEP);
 		} else {
 			$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,$sStepName);
 		}
-		
+
 		if(!in_array($sStepName,$this->aSteps)) die('Unknown step');
-		
+
 		$iKey = array_search($sStepName,$this->aSteps);
 		/**
 		 * Если была нажата кнопка "Назад", перемещаемся на шаг назад
@@ -441,11 +442,11 @@ class Install {
 
 		$this->Assign('next_step_display', ($iKey == count($this->aSteps)-1)?'none':'inline-block');
 		$this->Assign('prev_step_display', ($iKey == 0) ? 'none' : 'inline-block');
-		
+
 		/**
 		 * Если шаг отновиться к simple mode, то корректируем количество шагов
 		 */
-		if(in_array($sStepName,$this->aSimpleModeSteps)) 
+		if(in_array($sStepName,$this->aSimpleModeSteps))
 			$this->SetStepCount(count($this->aSimpleModeSteps));
 		/**
 		 * Передаем во вьевер данные для формирование таймлайна шагов
@@ -456,7 +457,7 @@ class Install {
 		 * Пердаем управление на метод текущего шага
 		 */
 		$sFunctionName = 'Step'.$sStepName;
-		if(@method_exists($this,$sFunctionName)) { 
+		if(@method_exists($this,$sFunctionName)) {
 			$this->$sFunctionName();
 		} else {
 			$sFunctionName = 'Step'.self::INSTALL_DEFAULT_STEP;
@@ -472,7 +473,7 @@ class Install {
 	 */
 	protected function SetStep($sStepName) {
 		if(!$sStepName or !in_array($sStepName,$this->aSteps)) return null;
-		$this->Assign('install_step_number',array_search($sStepName,$this->aSteps)+1);		
+		$this->Assign('install_step_number',array_search($sStepName,$this->aSteps)+1);
 	}
 	/**
 	 * Устанавливает количество шагов для отображения в шаблонах
@@ -482,7 +483,7 @@ class Install {
 	protected function SetStepCount($iStepCount) {
 		$this->iStepCount = $iStepCount;
 	}
-	
+
 	/**
 	 * Первый шаг инсталяции.
 	 * Валидация окружения.
@@ -506,7 +507,7 @@ class Install {
 	/**
 	 * Запрос данных соединения с базой данных.
 	 * Запись полученных данных в лог.
-	 */	
+	 */
 	protected function StepDb() {
 		if(!$this->GetRequest('install_db_params')) {
 			/**
@@ -522,7 +523,7 @@ class Install {
 			$this->Assign('install_db_engine',   'InnoDB',    self::GET_VAR_FROM_SESSION);
 			$this->Assign('install_db_engine_innodb', '',     self::GET_VAR_FROM_SESSION);
 			$this->Assign('install_db_engine_myisam', '',     self::GET_VAR_FROM_SESSION);
-			
+
 			$this->Layout('steps/db.tpl');
 			return true;
 		}
@@ -555,7 +556,7 @@ class Install {
 		 */
 		$this->Assign('install_db_engine_innodb', ($aParams['engine']=='InnoDB')?'selected="selected"':'', self::SET_VAR_IN_SESSION);
 		$this->Assign('install_db_engine_myisam', ($aParams['engine']=='MyISAM')?'selected="selected"':'', self::SET_VAR_IN_SESSION);
-		
+
 		if($oDb=$this->ValidateDBConnection($aParams)) {
 			$bSelect = $this->SelectDatabase($aParams['name'],$aParams['create']);
 			/**
@@ -566,7 +567,7 @@ class Install {
 				$this->Layout('steps/db.tpl');
 				return false;
 			}
-			
+
 			/**
 			 * Сохраняем в config.local.php настройки соединения
 			 */
@@ -577,25 +578,25 @@ class Install {
 				return false;
 			}
 			@chmod($sLocalConfigFile, 0777);
-			
+
 			$this->SaveConfig('db.params.host',  $aParams['server'],   $sLocalConfigFile);
 			$this->SaveConfig('db.params.port',  $aParams['port'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.user',  $aParams['user'],     $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
 			$this->SaveConfig('db.params.dbname',$aParams['name'],     $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
-			
+
 			if($aParams['engine']=='InnoDB') {
 				/**
 				 * Проверяем поддержку InnoDB в MySQL
 				 */
-				$aParams['engine']='MyISAM';				
+				$aParams['engine']='MyISAM';
 				if($aRes = @mysql_query('SHOW ENGINES')) {
-					while ($aRow = mysql_fetch_assoc($aRes)) {						
-						if ($aRow['Engine']=='InnoDB' and in_array($aRow['Support'],array('DEFAULT','YES'))) {							
+					while ($aRow = mysql_fetch_assoc($aRes)) {
+						if ($aRow['Engine']=='InnoDB' and in_array($aRow['Support'],array('DEFAULT','YES'))) {
 							$aParams['engine']='InnoDB';
 						}
-					}					
+					}
 				}
 			}
 			$this->SaveConfig('db.tables.engine',$aParams['engine'],   $sLocalConfigFile);
@@ -673,7 +674,7 @@ class Install {
 	}
 	/**
 	 * Запрос данных администратора и сохранение их в базе данных
-	 * 
+	 *
 	 */
 	protected function StepAdmin() {
 		$this->SetSessionVar(self::SESSSION_KEY_STEP_NAME,'Admin');
@@ -696,7 +697,7 @@ class Install {
 		if(!$bResult) {
 			foreach($aErrors as $sError) $this->aMessages[] = array('type'=>'error','text'=>$sError);
 			$this->Layout('steps/admin.tpl');
-			return false;			
+			return false;
 		}
 		/**
 		 * Подключаемся к базе данных и сохраняем новые данные администратора
@@ -708,7 +709,7 @@ class Install {
 			return false;
 		}
 		$this->SelectDatabase($aParams['name']);
-		
+
 		$bUpdated = $this->UpdateDBUser(
 			$this->GetRequest('install_admin_login'),
 			$this->GetRequest('install_admin_pass'),
@@ -718,13 +719,13 @@ class Install {
 		if(!$bUpdated) {
 			$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_saved').'<br />'.mysql_error());
 			$this->Layout('steps/admin.tpl');
-			return false;	
+			return false;
 		}
 		/**
 		 * Обновляем данные о пользовательском блоге
 		 */
 		$this->UpdateUserBlog("Blog by ".$this->GetRequest('install_admin_login'),$aParams['prefix']);
-		
+
 		/**
 		 * Передаем управление на следующий шаг
 		 */
@@ -740,8 +741,8 @@ class Install {
 		/**
 		 * Если пользователь выбрал расширенный режим, переводим на новый шаг
 		 */
-		return ($this->GetRequest('install_step_extend')) 
-			? $this->StepExtend() 
+		return ($this->GetRequest('install_step_extend'))
+			? $this->StepExtend()
 			: $this->Layout('steps/end.tpl');
 	}
 	/**
@@ -764,17 +765,17 @@ class Install {
 		$aParams['install_view_description']= $this->GetRequest('install_view_description','Description your site',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','site, google, internet',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','synio',self::GET_VAR_FROM_SESSION);
-		
+
 		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
 		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик Your Site',self::GET_VAR_FROM_SESSION);
-		
+
 		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false,self::GET_VAR_FROM_SESSION);
-		
-		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','russian',self::GET_VAR_FROM_SESSION);
-		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','russian',self::GET_VAR_FROM_SESSION);
-		
+
+		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','ru',self::GET_VAR_FROM_SESSION);
+		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','ru',self::GET_VAR_FROM_SESSION);
+
 		/**
 		 * Передаем параметры во Viewer
 		 */
@@ -795,7 +796,7 @@ class Install {
 		$sLangOptions = "";
 		foreach ($aLangs as $sLang) {
 			$this->Assign('language_array_item',$sLang);
-			$this->Assign('language_array_item_selected', ($aParams['install_lang_current']==$sLang)?'selected="selected"':'');			
+			$this->Assign('language_array_item_selected', ($aParams['install_lang_current']==$sLang)?'selected="selected"':'');
 			$sLangOptions.=$this->FetchString("<option value='___LANGUAGE_ARRAY_ITEM___' ___LANGUAGE_ARRAY_ITEM_SELECTED___>___LANGUAGE_ARRAY_ITEM___</option>");
 		}
 		$this->Assign('install_lang_options',$sLangOptions);
@@ -805,7 +806,7 @@ class Install {
 		$sLangOptions = "";
 		foreach ($aLangs as $sLang) {
 			$this->Assign('language_array_item',$sLang);
-			$this->Assign('language_array_item_selected', ($aParams['install_lang_default']==$sLang)?'selected="selected"':'');			
+			$this->Assign('language_array_item_selected', ($aParams['install_lang_default']==$sLang)?'selected="selected"':'');
 			$sLangOptions.=$this->FetchString("<option value='___LANGUAGE_ARRAY_ITEM___' ___LANGUAGE_ARRAY_ITEM_SELECTED___>___LANGUAGE_ARRAY_ITEM___</option>");
 		}
 		$this->Assign('install_lang_default_options',$sLangOptions);
@@ -816,18 +817,18 @@ class Install {
 		$sSkinOptions = "";
 		foreach ($aSkins as $sSkin) {
 			$this->Assign('skin_array_item',$sSkin);
-			$this->Assign('skin_array_item_selected', ($aParams['install_view_skin']==$sSkin)?'selected="selected"':'');			
+			$this->Assign('skin_array_item_selected', ($aParams['install_view_skin']==$sSkin)?'selected="selected"':'');
 			$sSkinOptions.=$this->FetchString("<option value='___SKIN_ARRAY_ITEM___' ___SKIN_ARRAY_ITEM_SELECTED___>___SKIN_ARRAY_ITEM___</option>");
 		}
-		$this->Assign('install_view_skin_options',$sSkinOptions);		
-		
+		$this->Assign('install_view_skin_options',$sSkinOptions);
+
 		/**
 		 * Если были переданные данные формы, то обрабатываем добавление
 		 */
 		if($this->GetRequest('install_extend_params')) {
 			$bOk = true;
 			$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
-			
+
 			/**
 			 * Название сайта
 			 */
@@ -840,7 +841,7 @@ class Install {
 			}
 			/**
 			 * Описание сайта
-			 */			
+			 */
 			if($aParams['install_view_description']){
 				if($this->SaveConfig('view.description',$aParams['install_view_description'],$sLocalConfigFile))
 				 $this->SetSessionVar('install_view_description',$aParams['install_view_description']);
@@ -853,7 +854,7 @@ class Install {
 			 */
 			if($aParams['install_view_keywords'] && strlen($aParams['install_view_keywords'])>2){
 				if($this->SaveConfig('view.keywords',$aParams['install_view_keywords'],$sLocalConfigFile))
-					$this->SetSessionVar('install_view_keywords',$aParams['install_view_keywords']);				
+					$this->SetSessionVar('install_view_keywords',$aParams['install_view_keywords']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('site_keywords_invalid'));
@@ -868,7 +869,7 @@ class Install {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>'skin_name_invalid');
 			}
-			
+
 			/**
 			 * E-mail, с которого отправляются уведомления
 			 */
@@ -905,7 +906,7 @@ class Install {
 			 */
 			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
-					
+
 			/**
 			 * Текущий язык
 			 */
@@ -915,10 +916,10 @@ class Install {
 					/**
 					 * Если выбран русский язык, то перезаписываем название блога
 					 */
-					if($aParams['install_lang_current']=='russian'){ 
+					if($aParams['install_lang_current']=='ru'){
 						$aDbParams = $this->GetSessionVar('INSTALL_DATABASE_PARAMS');
 						$oDb = $this->ValidateDBConnection($aDbParams);
-						
+
 						if($oDb and $this->SelectDatabase($aDbParams['name'])) $this->UpdateUserBlog("Блог им. ".$this->GetSessionVar('install_admin_login'),$aDbParams['prefix']);
 					}
 				}
@@ -935,11 +936,11 @@ class Install {
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('lang_default_invalid'));
-			}		
+			}
 		}
-		
-		return ($this->GetRequest('install_step_next')) 
-					? $this->StepFinish() 
+
+		return ($this->GetRequest('install_step_next'))
+					? $this->StepFinish()
 					: $this->Layout('steps/extend.tpl');
 	}
 	/**
@@ -953,24 +954,24 @@ class Install {
 	}
 	/**
 	 * Проверяем возможность инсталяции
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function ValidateEnviroment() {
 		$bOk = true;
-		
+
 		if(!version_compare(PHP_VERSION, '5.2.0', '>=')) {
 			$bOk = false;
-			$this->Assign('validate_php_version', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_php_version', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_php_version', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_php_version', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
-		
+
 		if(!in_array(strtolower(@ini_get('safe_mode')), $this->aValidEnv['safe_mode'])) {
 			$bOk = false;
 			$this->Assign('validate_safe_mode', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_safe_mode', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_safe_mode', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
 		if(@preg_match('//u', '')!=$this->aValidEnv['UTF8_support']) {
@@ -984,16 +985,16 @@ class Install {
 	        $this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 	    } else {
    			$bOk = false;
-   			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	
+   			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
 	    }
-	    
+
 	    if (@extension_loaded('SimpleXML')){
-	        $this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');	        
+	        $this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 	    } else {
    			$bOk = false;
-   			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');	    	
+   			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');
 	    }
-	    
+
 	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
 	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
 	    	// пытаемся создать файл локального конфига
@@ -1003,64 +1004,47 @@ class Install {
 			$bOk = false;
 			$this->Assign('validate_local_config', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_config', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_local_config', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
-	    
+
 		/**
 		 * Проверяем доступность и достаточность прав у директории
 		 * для сохранения файлового кеша, /logs, /uploads, /templates/compiled, /plugins
 		 */
-		$sTempDir = dirname(dirname(__FILE__)).'/tmp';
+		$sTempDir = dirname(dirname(__FILE__)).'/application/tmp';
 		if(!is_dir($sTempDir) or !is_writable($sTempDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_temp', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_temp', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_temp', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_local_temp', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-		$sLogsDir = dirname(dirname(__FILE__)).'/logs';
+		$sLogsDir = dirname(dirname(__FILE__)).'/application/logs';
 		if(!is_dir($sLogsDir) or !is_writable($sLogsDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_logs', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_logs', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_logs', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_local_logs', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
-		
+
 		$sUploadsDir = dirname(dirname(__FILE__)).'/uploads';
 		if(!is_dir($sUploadsDir) or !is_writable($sUploadsDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_uploads', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_uploads', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_uploads', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_local_uploads', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-		$sTemplatesDir = dirname(dirname(__FILE__)).'/templates/compiled';
-		if(!is_dir($sTemplatesDir) or !is_writable($sTemplatesDir)) {
-			$bOk = false;
-			$this->Assign('validate_local_templates', '<span style="color:red;">'.$this->Lang('no').'</span>');			
-		} else {
-			$this->Assign('validate_local_templates', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
-		}			
-
-
-		$sTemplatesCacheDir = dirname(dirname(__FILE__)).'/templates/cache';
-		if(!is_dir($sTemplatesCacheDir) or !is_writable($sTemplatesCacheDir)) {
-			$bOk = false;
-			$this->Assign('validate_local_templates_cache', '<span style="color:red;">'.$this->Lang('no').'</span>');			
-		} else {
-			$this->Assign('validate_local_templates_cache', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
-		}
-
-		$sPluginsDir = dirname(dirname(__FILE__)).'/plugins';
+		$sPluginsDir = dirname(dirname(__FILE__)).'/application/plugins';
 		if(!is_dir($sPluginsDir) or !is_writable($sPluginsDir)) {
 			$bOk = false;
-			$this->Assign('validate_local_plugins', '<span style="color:red;">'.$this->Lang('no').'</span>');			
+			$this->Assign('validate_local_plugins', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
-			$this->Assign('validate_local_plugins', '<span style="color:green;">'.$this->Lang('yes').'</span>');			
+			$this->Assign('validate_local_plugins', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
-		
+
 	    return $bOk;
-	}	
+	}
 	/**
 	 * Проверяет соединение с базой данных
 	 *
@@ -1077,11 +1061,11 @@ class Install {
 				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('valid_mysql_server'));
 				return false;
 			}
-			
+
 			mysql_query('set names utf8');
 			return $oDb;
 		}
-		
+
 		$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('error_db_connection_invalid'));
 		return null;
 	}
@@ -1095,10 +1079,10 @@ class Install {
 	protected function SelectDatabase($sName,$bCreate=false) {
 		if(@mysql_select_db($sName)) return true;
 
-		if($bCreate){ 
+		if($bCreate){
 			@mysql_query("CREATE DATABASE $sName");
 			return @mysql_select_db($sName);
-		} 
+		}
 		return false;
 	}
 	/**
@@ -1110,7 +1094,7 @@ class Install {
 	protected function CreateTables($sFilePath,$aParams) {
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
-		
+
 		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
 		$aQuery=explode(';',$sFileQuery);
 		/**
@@ -1119,10 +1103,10 @@ class Install {
 		$aErrors = array();
 		/**
 		 * Смотрим, какие таблицы существуют в базе данных
-		 */ 
+		 */
 		$aDbTables = array();
 		$aResult = @mysql_query("SHOW TABLES");
-		if(!$aResult){  
+		if(!$aResult){
 			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
 		}
         while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
@@ -1133,7 +1117,7 @@ class Install {
 		 */
 		if (in_array($aParams['prefix'].$aParams['check_table'],$aDbTables)) {
 			return false;
-		}		
+		}
 		/**
 		 * Выполняем запросы по очереди
 		 */
@@ -1143,19 +1127,19 @@ class Install {
 			 * Заменяем движек, если таковой указан в запросе
 			 */
 			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
-			
+
 			if($sQuery!='' and !$this->IsUseDbTable($sQuery,$aDbTables)) {
 				$bResult=mysql_query($sQuery);
 				if(!$bResult) $aErrors[] = mysql_error();
 			}
 		}
-		
+
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
 		}
 		return array('result'=>false,'errors'=>$aErrors);
 	}
-	
+
 	/**
 	 * Проверяем, нуждается ли база в конвертации или нет
 	 *
@@ -1166,10 +1150,10 @@ class Install {
 		/**
 		 * Проверяем, нуждается ли база в конвертации или нет
 		 * Смотрим, какие таблицы существуют в базе данных
-		 */ 
+		 */
 		$aDbTables = array();
 		$aResult = @mysql_query("SHOW TABLES");
-		if(!$aResult){  
+		if(!$aResult){
 			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
 		}
         while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
@@ -1185,20 +1169,20 @@ class Install {
 	 *
 	 * @return bool
 	 */
-	protected function ConvertDatabase($sFilePath,$aParams) {	
+	protected function ConvertDatabase($sFilePath,$aParams) {
 		if(!$this->ValidateConvertDatabase($aParams)) {
 			return array('result'=>true,'errors'=>array($this->Lang("error_database_converted_already")));
 		}
-		
+
 		$sFileQuery = @file_get_contents($sFilePath);
 		if(!$sFileQuery) return array('result'=>false,'errors'=>array($this->Lang("config_file_not_exists", array('path'=>$sFilePath))));
-		
+
 		if(isset($aParams['prefix'])) $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
 		$aQuery=explode(';',$sFileQuery);
 		/**
 		 * Массив для сбора ошибок
 		 */
-		$aErrors = array();	
+		$aErrors = array();
 
 		/**
 		 * Выполняем запросы по очереди
@@ -1209,7 +1193,7 @@ class Install {
 			 * Заменяем движек, если таковой указан в запросе
 			 */
 			if(isset($aParams['engine'])) $sQuery=str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}",$sQuery);
-			
+
 			if($sQuery!='') {
 				$bResult=mysql_query($sQuery);
 				if(!$bResult) $aErrors[] = mysql_error();
@@ -1673,7 +1657,7 @@ class Install {
 		if(count($aErrors)==0) {
 			return array('result'=>true,'errors'=>null);
 		}
-		return array('result'=>false,'errors'=>$aErrors);		
+		return array('result'=>false,'errors'=>$aErrors);
 	}
 	/**
 	 * Проверяем, нуждается ли база в конвертации или нет
@@ -1791,7 +1775,7 @@ class Install {
 	protected function ValidateAdminFields() {
 		$bOk = true;
 		$aErrors = array();
-		
+
 		if(!$sLogin=$this->GetRequest('install_admin_login',false) or !preg_match("/^[\da-z\_\-]{3,30}$/i",$sLogin)) {
 			$bOk = false;
 			$aErrors[] = $this->Lang('admin_login_invalid');
@@ -1809,9 +1793,9 @@ class Install {
 			$bOk = false;
 			$aErrors[] = $this->Lang('admin_repassword_invalid');
 		}
-		
+
 		return array($bOk, $aErrors);
-	}	
+	}
 	/**
 	 * Сохраняет данные об администраторе в базу данных
 	 *
@@ -1824,13 +1808,13 @@ class Install {
 	protected function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
         $sQuery = "
         	UPDATE `{$sPrefix}user`
-        	SET 
+        	SET
         		`user_login`    = '{$sLogin}',
         		`user_mail`     = '{$sMail}',
         		`user_password` = md5('{$sPassword}')
 			WHERE `user_id` = 1";
 
-		return mysql_query($sQuery);		
+		return mysql_query($sQuery);
 	}
 	/**
 	 * Перезаписывает название блога в базе данных
@@ -1842,7 +1826,7 @@ class Install {
 	protected function UpdateUserBlog($sBlogName,$sPrefix="prefix_") {
         $sQuery = "
         	UPDATE `{$sPrefix}blog`
-        	SET 
+        	SET
         		`blog_title`    = '".mysql_real_escape_string($sBlogName)."'
 			WHERE `blog_id` = 1";
 
@@ -1860,7 +1844,7 @@ class Install {
 			if(substr_count($sQuery, "`{$sTable}`")) return true;
 		}
 		return false;
-	}	
+	}
 	/**
 	 * Отдает список доступных шаблонов
 	 *
@@ -1871,7 +1855,7 @@ class Install {
 		 * Получаем список каталогов
 		 */
 		$aDir=glob($this->sSkinDir.'/*', GLOB_ONLYDIR);
-		
+
 		if(!is_array($aDir)) return array();
 		return array_map(create_function('$sDir', 'return basename($sDir);'),$aDir);
 	}
@@ -1885,33 +1869,33 @@ class Install {
 		 * Получаем список каталогов
 		 */
 		$aDir=glob($this->sLangDir.'/*.php');
-		
+
 		if(!is_array($aDir)) return array();
 		return array_map(create_function('$sDir', 'return basename($sDir,".php");'),$aDir);
-	}	
+	}
 	/**
-	 * Сохраняет в конфигурации абсолютные пути 
+	 * Сохраняет в конфигурации абсолютные пути
 	 *
 	 * @access protected
 	 * @return null
 	 */
 	protected function SavePath() {
 		$sLocalConfigFile = $this->sConfigDir.'/'.self::LOCAL_CONFIG_FILE_NAME;
-		$this->SaveConfig('path.root.web',$this->GetPathRootWeb(), $sLocalConfigFile); 
-		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile);		
-		
+		$this->SaveConfig('path.root.web',$this->GetPathRootWeb(), $sLocalConfigFile);
+		$this->SaveConfig('path.root.server', $this->GetPathRootServer(), $sLocalConfigFile);
+
 		$aDirs=array();
 		$sDirs=trim(str_replace('http://'.$_SERVER['HTTP_HOST'],'',$this->GetPathRootWeb()),'/');
 		if ($sDirs!='') {
 			$aDirs=explode('/',$sDirs);
-		}		
+		}
 		$this->SaveConfig('path.offset_request_url', count($aDirs), $sLocalConfigFile);
 	}
-	
+
 	protected function GetPathRootWeb() {
 		return rtrim('http://'.$_SERVER['HTTP_HOST'],'/').str_replace('/install/index.php','',$_SERVER['PHP_SELF']);
 	}
-	
+
 	protected function GetPathRootServer() {
 		return rtrim(dirname(dirname(__FILE__)),'/');
 	}

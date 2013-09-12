@@ -1,0 +1,152 @@
+/**
+ * Топики
+ *
+ * @template topics/*.tpl
+ * @scripts <frontend>/common/js/topics.js
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/**
+ * Основные стили
+ */
+.topic            { overflow: hidden; zoom: 1; margin-bottom: 50px; }
+.topic:last-child { margin-bottom: 0; }
+
+/* Хидер */
+.topic-header .topic-title            { font-size: 26px; line-height: 1.1em; font-weight: bold; margin: 0 0 15px; }
+.topic-header .topic-title a          { text-decoration: none; }
+.topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
+
+.topic-header .topic-info             { margin-bottom: 25px; color: #777; }
+.topic-header .topic-info time        { margin-right: 15px; }
+.topic-header .topic-info .topic-blog { margin-right: 15px; }
+.topic-header .topic-info .actions,
+.topic-header .topic-info .actions li { display: inline; float: none; margin-bottom: 0; }
+.topic-header .topic-info .actions li { margin-right: 10px; }
+
+/* Превью */
+.topic-preview-image { display: inline-block; max-width: 100%; }
+
+.topic-preview-image .topic-preview-image-inner {
+	border: 10px solid #eee;
+	margin-bottom: 25px;
+	cursor: pointer;
+	position: relative;
+	min-width: 300px;
+
+	min-height: 200px;
+	background: #fafafa;
+}
+.topic-preview-image img         { vertical-align: top; display: block; margin: 0 auto; max-width: 100%; position: relative; z-index: 1; }
+
+.topic-preview-image.loading     { background: #fafafa url(../images/loader.gif) 50% 50% no-repeat; }
+.topic-preview-image.loading img { display: none; }
+
+.topic-preview-image .topic-preview-image-count {
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: #000;
+	padding: 4px 7px;
+	background: rgba(0,0,0,.6);
+	z-index: 2;
+}
+.ie7 .topic-preview-image .topic-preview-image-count i { margin-right: 3px; }
+
+.topic-preview-image .topic-preview-image-desc {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	color: #fff;
+	overflow: hidden;
+	line-height: 20px;
+	background: #000;
+	background: rgba(0,0,0,.7);
+	max-height: 20%;
+	border: 15px solid transparent;
+	z-index: 2;
+}
+.oldie .topic-preview-image .topic-preview-image-desc { border-color: #000; }
+
+/* Содержимое топика */
+.topic-content      { margin-bottom: 15px; }
+.topic-content.text { color: #333; }
+
+/* Теги */
+.topic-tags                                     { margin: 0 0 15px; }
+.topic-tags-label,
+.topic-tags-edit,
+.topic-tags-tag                                 { display: inline; }
+.topic-tags-tag                                 { color: #888; }
+.topic-tags-edit                                { margin-left: 20px; }
+.topic-tags-tag-user .topic-tags-tag-link       { color: #3CA023; }
+.topic-tags-tag-user .topic-tags-tag-link:hover { color: #f00; }
+
+/* Подвал топика */
+.topic-footer .topic-info      { overflow: hidden; background: #f7f7f7; border-radius: 3px; }
+.topic-footer .topic-info li   { float: left; height: 19px; padding: 8px 15px; border-right: 1px solid #fff; }
+.topic-footer .topic-info li a { text-decoration: none; }
+
+.topic-footer .topic-info li.topic-info-author a         { font-weight: bold; color: #333; }
+.topic-footer .topic-info li.topic-info-author a:hover   { text-decoration: underline; }
+.topic-footer .topic-info li.topic-info-comments a span  { color: #777; }
+.topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
+
+
+/**
+ * Топик фотосет
+ * 
+ * @template topics/topic.photoset.tpl
+ */
+.topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
+
+
+/**
+ * Топик ссылка
+ * 
+ * @template topics/topic.link.tpl
+ */
+.topic-url   { margin-bottom: 30px; }
+.topic-url a { background: #eee; border-radius: 3px; padding: 3px 10px 4px; text-decoration: none; }
+
+
+/**
+ * Предпросмотр топика
+ * 
+ * @template topics/topic_preview_X.tpl
+ */
+.topic-preview                      { margin-top: 30px; }
+.topic-preview .profile-page-header { border-top: 1px solid #ddd; }
+.topic-preview .topic               { margin-bottom: 20px; }
+
+
+/**
+ * Личное сообщение
+ * TODO: Move to talk.css
+ * 
+ * @template actions/ActionTalk/message.tpl
+ */
+.topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
+.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
+
+.topic-type-talk .topic-header .topic-info                         { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
+.topic-type-talk .topic-header .topic-info .avatar                 { position: absolute; top: 0; left: 0; }
+.topic-type-talk .topic-header .topic-info .author-wrapper         { margin-bottom: 4px; position: relative; top: -2px; }
+.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
+.topic-type-talk .topic-header .topic-info .recipient              { margin-right: 10px; }
+
+.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
+
+.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
+
+.topic-type-talk .talk-recipients    { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
+.topic-type-talk .talk-recipients h3 { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
