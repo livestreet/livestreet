@@ -339,31 +339,27 @@ class ModuleFavourite extends Module {
 		/**
 		 * Добавляем новые
 		 */
-		if ($bAddNew) {
-            
+		if ($bAddNew and $oFavourite->getTags()) {
 			/**
 			 * Добавляем теги объекта избранного, если есть
 			 */
 			if ($aTags=$this->GetTagsTarget($oFavourite->getTargetType(),$oFavourite->getTargetId())) {
-                foreach($aTags as $sTag) {
-                    $oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
-                    $oTag->setText(htmlspecialchars($sTag));
-                    $oTag->setIsUser(0);
-                    $this->oMapper->AddTag($oTag);
-                }
-            }
-            if ($oFavourite->getTags()) {
-                /**
-                 * Добавляем пользовательские теги
-                 */
-                $aTags=$oFavourite->getTagsArray();
-                foreach($aTags as $sTag) {
-                    $oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
-                    $oTag->setText($sTag); // htmlspecialchars уже используется при установке тегов
-                    $oTag->setIsUser(1);
-                    $this->oMapper->AddTag($oTag);
-                }
-            }
+				foreach($aTags as $sTag) {
+					$oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
+					$oTag->setText(htmlspecialchars($sTag));
+					$oTag->setIsUser(0);
+					$this->oMapper->AddTag($oTag);
+				}
+			}
+			/**
+			 * Добавляем пользовательские теги
+			 */
+			foreach($oFavourite->getTagsArray() as $sTag) {
+				$oTag=Engine::GetEntity('ModuleFavourite_EntityTag',$oFavourite->_getData());
+				$oTag->setText($sTag); // htmlspecialchars уже используется при установке тегов
+				$oTag->setIsUser(1);
+				$this->oMapper->AddTag($oTag);
+			}
 		}
 	}
 	/**
