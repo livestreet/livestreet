@@ -80,8 +80,6 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^geo/i','/^get/','/^cities/','EventGeoGetCities');
 
 		$this->AddEventPreg('/^infobox/i','/^info/','/^blog/','EventInfoboxInfoBlog');
-
-                $this->AddEventPreg('/^admin/i','/^auto/','/^tags/','EventAdminAutoTags');
 	}
 
 
@@ -89,40 +87,6 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-
-	/**
-	 * Поиск топиков для тега
-	 */
-	protected function EventAdminAutoTags() {
-		/**
-		 * Если нет прав доступа - перекидываем на 404 страницу
-		 */
-		if (!$this->User_IsAuthorization() or !$oUserCurrent = $this->User_GetUserCurrent() or !$oUserCurrent->isAdministrator()) {
-			return parent::EventNotFound();
-		}
-		/**
-		 * Проверка на не пустой параметр
-		 */
-		if (!is_string(getRequest('sTag'))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
-		}
-		$sTag = '%' . getRequest('sTag') . '%';
-		$aMatchedTopics = $this->Topic_GetMatchedTopicsByText($sTag);
-
-		/**
-		 * Получаем локальный вьюер для рендеринга шаблона
-		 */
-		$oViewer = $this->Viewer_GetLocalViewer();
-
-		/**
-		 * Устанавливаем переменные для ajax ответа
-		 */
-		$oViewer->Assign('aTopicIds', $aMatchedTopics);
-		$sText = $oViewer->Fetch("admin.auto.tags.tpl");
-
-		$this->Viewer_AssignAjax('sText', $sText);
-	}
 
 	/**
 	 * Вывод информации о блоге

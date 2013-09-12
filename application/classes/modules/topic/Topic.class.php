@@ -1857,14 +1857,5 @@ class ModuleTopic extends Module {
 	public function GetTopicItemsByArrayId($aTopocId) {
 		return $this->GetTopicsByArrayId($aTopocId);
 	}
-    /**
-     * Поиск топиков, в тексте которых есть искомая строка
-     * 
-     * @param string $sNeedle
-     * @return array
-     */
-    public function GetMatchedTopicsByText($sNeedle) {
-        return $this->oMapperTopic->GetMatchedTopicsByText($sNeedle);
-    }
 }
 ?>
