@@ -8,8 +8,11 @@
 
 {block name='field_holder' prepend}
     {hookb run="registration_captcha" isPopup=$isModal}
-        <span {if ! $isModal}style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if}
-              class="form-auth-captcha js-form-auth-captcha"></span>
+        {if ! $isModal}
+            <img src="{cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId})" class="form-auth-captcha js-form-auth-captcha"></span>
+        {else}
+            <span style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});" class="form-auth-captcha js-form-auth-captcha"></span>
+        {/if}
         <input type="text"
                id="{$sFieldName}"
                name="{$sFieldName}"
