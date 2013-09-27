@@ -6,7 +6,7 @@
 
 {hook run='registration_begin' isPopup=$isModal}
 
-<form action="{router page='registration'}" method="post" class="js-form-signup">
+<form action="{router page='registration'}" method="post" class="{if $isModal}js-form-signup{else}js-form-registration{/if}">
 	{hook run='form_registration_begin' isPopup=$isModal}
 
 	{* Логин *}
@@ -23,16 +23,17 @@
 
 	{* Пароль *}
     {include file='forms/form.field.text.tpl'
-             sFieldName   = 'password'
-             sFieldType   = 'password'
-             sFieldRules  = 'required="true" rangelength="[2,20]"'
-             sFieldLabel  = $aLang.registration_password}
+             sFieldName    = 'password'
+             sFieldType    = 'password'
+             sFieldRules   = 'required="true" rangelength="[2,20]"'
+             sFieldLabel   = $aLang.registration_password
+             sFieldClasses = 'js-input-password-reg'}
 
 	{* Повторите пароль *}
     {include file='forms/form.field.text.tpl'
              sFieldName   = 'password_confirm'
              sFieldType   = 'password'
-             sFieldRules  = 'required="true" rangelength="[2,20]" equalto=".js-input-password"'
+             sFieldRules  = 'required="true" rangelength="[2,20]" equalto=".js-input-password-reg"'
              sFieldLabel  = $aLang.registration_password_retry}
 
     {* Каптча *}
