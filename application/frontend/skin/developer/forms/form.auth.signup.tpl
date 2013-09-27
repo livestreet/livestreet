@@ -43,7 +43,9 @@
 
 	{hook run='form_registration_end' isPopup=$isModal}
 
-    {include file='forms/form.field.hidden.tpl' sFieldName='return-path' value=$PATH_WEB_CURRENT}
+    {if $isModal}
+        {include file='forms/form.field.hidden.tpl' sFieldName='return-path' sFieldValue=$PATH_WEB_CURRENT}
+    {/if}
     {include file='forms/form.field.button.tpl' sFieldName='submit_register' sFieldStyle='primary' sFieldText=$aLang.registration_submit}
 </form>
 
