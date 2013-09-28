@@ -21,7 +21,12 @@
              sFieldType   = 'password'
              sFieldRules  = 'required="true" rangelength="[2,20]"'
              sFieldLabel  = $aLang.user_password}
-
+    {* Каптча *}
+    {if {cfg name='general.reg.sign.in.captcha'}}
+    {include file='forms/form.field.captcha.tpl'
+            sFieldName   = 'captcha'
+            sFieldLabel  = $aLang.registration_captcha}
+    {/if}
 	{* Запомнить *}
     {include file='forms/form.field.checkbox.tpl'
              sFieldName='remember'
