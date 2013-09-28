@@ -112,7 +112,8 @@ return array(
 	'general_params_close'=> 'Использовать закрытый режим работы сайта',
 	'general_params_active'=> 'Использовать активацию при регистрации',
 	'general_params_invite'=> 'Использовать режим регистрации по приглашению',
-	
+	'general_params_sign_in_captcha'=> 'Использовать captcha при входе',
+
 	'language_params'=> 'Языковые настройки',
 	'language_params_current'=> 'Текущий язык',
 	'language_params_default'=> 'Язык, который будет использоваться по умолчанию',

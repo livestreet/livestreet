@@ -772,6 +772,7 @@ class Install {
 		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false,self::GET_VAR_FROM_SESSION);
+		$aParams['install_general_sign_in_captcha'] = (bool)$this->GetRequest('install_general_sign_in_captcha',false,self::GET_VAR_FROM_SESSION);
 
 		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','ru',self::GET_VAR_FROM_SESSION);
 		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','ru',self::GET_VAR_FROM_SESSION);
@@ -906,6 +907,11 @@ class Install {
 			 */
 			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
+            /**
+             * Использоватьт captcha при входе
+             */
+            if($this->SaveConfig('general.reg.sign.in.captcha',$aParams['install_general_sign_in_captcha'],$sLocalConfigFile))
+                $this->SetSessionVar('install_general_sign_in_captcha',$aParams['install_general_sign_in_captcha']);
 
 			/**
 			 * Текущий язык
