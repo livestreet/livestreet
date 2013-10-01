@@ -23,7 +23,7 @@
 	 * @scripts <framework>/js/livestreet/captcha.js
 	 *}
 
-    {if {cfg name='general.reg.sign.in.captcha'}}
+    {if $oConfig->GetValue('general.reg.login.captcha')}
         {hookb run="registration_captcha" isPopup=$isModal}
             <p class="form-login-field-captcha"><label for="js-form-login-captcha">{$aLang.registration_captcha}</label>
                 <span {if ! $isModal}style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});"{/if} class="form-auth-captcha js-form-auth-captcha"></span>

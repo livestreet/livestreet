@@ -35,7 +35,7 @@
 <label><input type="checkbox" class="input-checkbox" name="install_general_close" value="1" ___INSTALL_GENERAL_CLOSE_CHECK___ /> ___LANG_GENERAL_PARAMS_CLOSE___</label>
 <label><input type="checkbox" class="input-checkbox" name="install_general_active" value="1" ___INSTALL_GENERAL_ACTIVE_CHECK___ /> ___LANG_GENERAL_PARAMS_ACTIVE___</label>
 <label><input type="checkbox" class="input-checkbox" name="install_general_invite" value="1" ___INSTALL_GENERAL_INVITE_CHECK___ /> ___LANG_GENERAL_PARAMS_INVITE___</label>
-<label><input type="checkbox" class="input-checkbox" name="install_general_sign_in_captcha" value="1" ___INSTALL_GENERAL_SIGN_IN_CAPTCHA___ /> ___LANG_GENERAL_PARAMS_SIGN_IN_CAPTCHA___</label>
+<label><input type="checkbox" class="input-checkbox" name="install_general_login_captcha" value="1" ___INSTALL_GENERAL_LOGIN_CAPTCHA___ /> ___LANG_GENERAL_PARAMS_LOGIN_CAPTCHA___</label>
 <br />
 <br />
 

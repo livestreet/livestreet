@@ -908,11 +908,10 @@ class Install {
 			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
             /**
-             * Использоватьт captcha при входе
-             */
-            if($this->SaveConfig('general.reg.sign.in.captcha',$aParams['install_general_sign_in_captcha'],$sLocalConfigFile))
-                $this->SetSessionVar('install_general_sign_in_captcha',$aParams['install_general_sign_in_captcha']);
-
+            * Использоватьт captcha при входе
+            */
+            if($this->SaveConfig('general.reg.login.captcha',$aParams['install_general_login_captcha'],$sLocalConfigFile))
+                $this->SetSessionVar('install_general_login_captcha',$aParams['install_general_login_captcha']);
 			/**
 			 * Текущий язык
 			 */

@@ -22,7 +22,7 @@
              sFieldRules  = 'required="true" rangelength="[2,20]"'
              sFieldLabel  = $aLang.user_password}
     {* Каптча *}
-    {if {cfg name='general.reg.sign.in.captcha'}}
+    {if $oConfig->GetValue('general.reg.login.captcha')}
     {include file='forms/form.field.captcha.tpl'
             sFieldName   = 'captcha'
             sFieldLabel  = $aLang.registration_captcha}
