@@ -49,14 +49,14 @@
 		
 		{* Аватар пользователя *}
 		<a href="{$oUser->getUserWebPath()}">
-			<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getLogin()}" class="comment-avatar" />
+			<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="comment-avatar" />
 		</a>
 		
 		{* Информация *}
 		<ul class="comment-info">
 			{* Автор комментария *}
 			<li class="comment-username {if $iAuthorId == $oUser->getId()}comment-username-author{/if}" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">
-				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+				<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 			</li>
 			
 			{* Дата *}

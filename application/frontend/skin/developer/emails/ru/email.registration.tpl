@@ -5,6 +5,6 @@
 	<br>
 	<br>
 	Ваши регистрационные данные:<br>
-	&nbsp;&nbsp;&nbsp;логин: <b>{$oUser->getLogin()}</b><br>
+	&nbsp;&nbsp;&nbsp;логин: <b>{$oUser->getDisplayName()}</b><br>
 	&nbsp;&nbsp;&nbsp;пароль: <b>{$sPassword}</b>
 {/block}

@@ -1,6 +1,6 @@
 Thank you for registering at <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>!<br><br>
 Your access details are:<br>
-&nbsp;&nbsp;&nbsp;login: <b>{$oUser->getLogin()}</b><br>
+&nbsp;&nbsp;&nbsp;login: <b>{$oUser->getDisplayName()}</b><br>
 &nbsp;&nbsp;&nbsp;password: <b>{$sPassword}</b><br>
 <br>
 To complete registration, you need to activate your account by clicking the below link: 

@@ -23,7 +23,7 @@
 	{hook run='form_login_end' isModal=$isModal}
 
 	<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT}">
-	<button type="submit" name="submit_login" class="button button-primary js-form-login-submit" disabled>{$aLang.user_login_submit}</button>
+	<button type="submit" name="submit_login" class="button button-primary js-form-login-submit">{$aLang.user_login_submit}</button>
 </form>
 
 {if ! $isModal}
