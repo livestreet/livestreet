@@ -46,7 +46,7 @@
 		<ul class="comment-info">
 			{* Автор комментария *}
 			<li class="comment-author {if $iAuthorId == $oUser->getId()}comment-topic-author{/if}" title="{if $iAuthorId == $oUser->getId() and $sAuthorNotice}{$sAuthorNotice}{/if}">
-				<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+				<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 			</li>
 
 			{* Дата *}

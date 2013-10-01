@@ -31,7 +31,7 @@
 			<tr>
 				<td class="cell-name">
 					<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-					<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a>
+					<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getDisplayName()}</a>
 						{if $oUserNote}
 							<i class="icon-comment js-tooltip" title="{$oUserNote->getText()|escape:'html'}"></i>
 						{/if}

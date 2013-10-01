@@ -26,7 +26,7 @@
 		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()}">
 			{* Аватар *}
 			<a href="{$oUser->getUserWebPath()}">
-				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getLogin()}" class="activity-event-avatar" />
+				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="activity-event-avatar" />
 			</a>
 
 			{* Дата *}
@@ -37,7 +37,7 @@
 			</time>
 
 			{* Логин *}
-			<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getLogin()}</strong></a>
+			<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getDisplayName()}</strong></a>
 
 			{* 
 			 * Текст события 

@@ -142,7 +142,7 @@
 						<li class="nav-userbar-username">
 							<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle js-dropdown-default" data-type="dropdown-toggle" data-option-offset-y="2" data-option-target="js-dropdown-usermenu" onclick="return false">
 								<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" class="avatar" />
-								{$oUserCurrent->getLogin()}
+								{$oUserCurrent->getDisplayName()}
 							</a>
 						</li>
 						<li><a href="{router page='topic'}add/" data-type="modal-toggle" data-option-target="modal-write">{$aLang.block_create}</a></li>

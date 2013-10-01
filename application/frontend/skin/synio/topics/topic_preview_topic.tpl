@@ -46,7 +46,7 @@
 		<ul class="topic-info">
 			<li class="topic-info-author">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+				<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 			</li>
 
 			{hook run='topic_preview_show_info' topic=$oTopic}

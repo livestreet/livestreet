@@ -51,7 +51,7 @@
 	{hook run='form_registration_end' isPopup=$isModal}
 
 	<input type="hidden" name="return-path" value="{$PATH_WEB_CURRENT}">
-	<p class="form-signup-field-submit"><button type="submit" name="submit_register" class="button button-primary js-form-signup-submit" disabled>{$aLang.registration_submit}</button></p>
+	<p class="form-signup-field-submit"><button type="submit" name="submit_register" class="button button-primary js-form-signup-submit">{$aLang.registration_submit}</button></p>
 </form>
 
 {hook run='registration_end' isPopup=$isModal}

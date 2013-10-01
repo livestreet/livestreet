@@ -143,7 +143,7 @@
 
 						<span class="user-avatar">
 							<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a>
-							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+							<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 						</span>
 					{/foreach}
 				{/if}<br /><br />
@@ -158,7 +158,7 @@
 
 						<span class="user-avatar">
 							<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" /></a>
-							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+							<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 						</span>
 					{/foreach}
 				{else}

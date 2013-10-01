@@ -158,7 +158,7 @@
 				</li>
 
 				{* Автор топика *}
-				<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
+				<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a></li>
 
 				{* Избранное *}
 				<li class="topic-info-favourite favourite js-favourite">

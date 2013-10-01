@@ -1,4 +1,4 @@
-The user <a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a> post on <a href="{$oUserWall->getUserWebPath()}wall/">your wall</a><br/>
+The user <a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a> post on <a href="{$oUserWall->getUserWebPath()}wall/">your wall</a><br/>
 
 Post: <i>{$oWall->getText()}</i>
 

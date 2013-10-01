@@ -201,6 +201,16 @@ class ModuleUser_EntityUser extends Entity {
 	public function getProfileName() {
 		return $this->_getDataOne('user_profile_name');
 	}
+        /**
+	 * Возвращает имя, если заполнено, иначе логин
+	 *
+	 * @return string|null
+	 */
+	public function getDisplayName() {
+                if(is_null($this->_getDataOne('user_profile_name')))
+                        return $this->getLogin();
+		return $this->_getDataOne('user_profile_name');
+	}
 	/**
 	 * Возвращает пол
 	 *

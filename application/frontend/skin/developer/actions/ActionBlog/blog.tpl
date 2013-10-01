@@ -119,7 +119,7 @@
 					{foreach $aBlogAdministrators as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
-						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getDisplayName()}</a>
 					{/foreach}
 				{/if}
 				<br />
@@ -132,7 +132,7 @@
 					{foreach $aBlogModerators as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
-						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getDisplayName()}</a>
 					{/foreach}
 				{else}
 					{$aLang.blog_user_moderators_empty}
@@ -147,7 +147,7 @@
 					{foreach $aBlogUsers as $oBlogUser}
 						{$oUser = $oBlogUser->getUser()}
 
-						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getLogin()}</a>
+						<a href="{$oUser->getUserWebPath()}" class="user"><i class="icon-user"></i>{$oUser->getDisplayName()}</a>
 					{/foreach}
 
 					{* Если пользователей слишком много, то показываем ссылку на страницу со всеми пользователями *}
