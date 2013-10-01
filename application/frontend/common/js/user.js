@@ -1,8 +1,8 @@
 /**
  * Управление пользователями
- * 
+ *
  * @module ls/user
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -27,6 +27,12 @@ ls.user = (function ($) {
 		});
 
 		/* Регистрация */
+		ls.ajaxForm(aRouter.registration + 'ajax-registration', '.js-form-registration', function (result, status, xhr, form) {
+            result.sUrlRedirect && (window.location = result.sUrlRedirect);
+            ls.hook.run('ls_user_registration_after', [form, result]);
+		});
+
+		/* Регистрация Modal */
 		ls.ajaxForm(aRouter.registration + 'ajax-registration', '.js-form-signup', function (result, status, xhr, form) {
             result.sUrlRedirect && (window.location = result.sUrlRedirect);
             ls.hook.run('ls_user_registration_after', [form, result]);
