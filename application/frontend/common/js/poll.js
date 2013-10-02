@@ -152,7 +152,7 @@ ls.poll = (function ($) {
 
 		ls.hook.marker('voteBefore');
 
-		ls.ajax(this.options.sRouterVoteUrl, oParams, function(result) {
+		ls.ajax.load(this.options.sRouterVoteUrl, oParams, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

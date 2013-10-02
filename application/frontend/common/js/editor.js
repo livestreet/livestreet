@@ -100,7 +100,7 @@ ls.editor = (function($) {
 
 		ls.hook.marker('ajaxUploadImgBefore');
 
-		ls.ajaxSubmit('upload/image/', sFormId, function (data){
+		ls.ajax.submit('upload/image/', sFormId, function (data){
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {

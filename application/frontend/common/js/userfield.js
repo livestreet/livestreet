@@ -57,7 +57,7 @@ ls.userfield =( function ($) {
 		var params = {'action':'add', 'name':name,  'title':title,  'pattern':pattern,  'type':type};
 		
 		ls.hook.marker('addUserfieldBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax.load(url, params, function(data) { 
 			if (!data.bStateError) {
 				liElement = $('<li id="field_'+data.id+'"><span class="userfield_admin_name"></span > / <span class="userfield_admin_title"></span> / <span class="userfield_admin_pattern"></span> / <span class="userfield_admin_type"></span>'
 					+'<div class="userfield-actions"><a class="icon-edit" href="javascript:ls.userfield.showEditForm('+data.id+')"></a> '
@@ -87,7 +87,7 @@ ls.userfield =( function ($) {
 		var params = {'action':'update', 'id':id, 'name':name,  'title':title,  'pattern':pattern, 'type':type};
 		
 		ls.hook.marker('updateUserfieldBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax.load(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id+' .userfield_admin_name').text(name);
 				$('#field_'+id+' .userfield_admin_title').text(title);
@@ -108,7 +108,7 @@ ls.userfield =( function ($) {
 		var params = {'action':'delete', 'id':id};
 		
 		ls.hook.marker('deleteUserfieldBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax.load(url, params, function(data) { 
 			if (!data.bStateError) {
 				$('#field_'+id).remove();
 				ls.msg.notice(data.sMsgTitle,data.sMsg);

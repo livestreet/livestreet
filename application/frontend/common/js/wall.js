@@ -27,7 +27,7 @@ ls.wall = (function ($) {
 
 		ls.hook.marker('addBefore');
 		$('#wall-text').addClass('loader');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			$('.js-button-wall-submit').attr('disabled',false);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -49,7 +49,7 @@ ls.wall = (function ($) {
 
 		ls.hook.marker('addReplyBefore');
 		$('#wall-reply-text-' + iPid).addClass('loader');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			$('.js-button-wall-submit').attr('disabled',false);
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
@@ -67,7 +67,7 @@ ls.wall = (function ($) {
 		var url = aRouter['profile']+this.options.login+'/wall/load/';
 		var params = {iIdLess: iIdLess ? iIdLess : '', iIdMore: iIdMore ? iIdMore : ''};
 		ls.hook.marker('loadBefore');
-		ls.ajax(url, params, callback);
+		ls.ajax.load(url, params, callback);
 		return false;
 	};
 
@@ -75,7 +75,7 @@ ls.wall = (function ($) {
 		var url = aRouter['profile']+this.options.login+'/wall/load-reply/';
 		var params = {iIdLess: iIdLess ? iIdLess : '', iIdMore: iIdMore ? iIdMore : '', iPid: iPid};
 		ls.hook.marker('loadReplyBefore');
-		ls.ajax(url, params, callback);
+		ls.ajax.load(url, params, callback);
 		return false;
 	};
 
@@ -226,7 +226,7 @@ ls.wall = (function ($) {
 		var url = aRouter['profile']+this.options.login+'/wall/remove/';
 		var params = {iId: iId};
 		ls.hook.marker('removeBefore');
-		ls.ajax(url, params, function(result){
+		ls.ajax.load(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

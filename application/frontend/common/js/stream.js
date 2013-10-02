@@ -68,7 +68,7 @@ ls.stream =( function ($) {
 
 		ls.hook.marker('subscribeBefore');
 
-		ls.ajax(url, params, function(data) {
+		ls.ajax.load(url, params, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
@@ -89,7 +89,7 @@ ls.stream =( function ($) {
 
 		ls.hook.marker('unsubscribeBefore');
 
-		ls.ajax(url, params, function(data) {
+		ls.ajax.load(url, params, function(data) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_unsubscribe_after',[params,data]);
@@ -108,7 +108,7 @@ ls.stream =( function ($) {
 
 		ls.hook.marker('appendUserBefore');
 
-		ls.ajax(aRouter['stream'] + 'subscribeByLogin/', { 'login' : sLogin }, function(data) {
+		ls.ajax.load(aRouter['stream'] + 'subscribeByLogin/', { 'login' : sLogin }, function(data) {
 			if ( ! data.bStateError ) {
 				var checkbox = $('.' + self.options.selectors.userList).find('input[data-user-id=' + data.uid + ']');
 
@@ -139,7 +139,7 @@ ls.stream =( function ($) {
 		var params = {'type':iType};
 
 		ls.hook.marker('switchEventTypeBefore');
-		ls.ajax(url, params, function(data) {
+		ls.ajax.load(url, params, function(data) {
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_stream_switch_event_type_after',[params,data]);
@@ -166,13 +166,13 @@ ls.stream =( function ($) {
 		var params = $.extend({}, {
 			'iLastId':   iLastId,
 			'sDateLast': this.sDateLast
-		}, ls.tools.getDataOptions($oGetMoreButton, 'param'));
+		}, ls.utilities.getDataOptions($oGetMoreButton, 'param'));
 
 		var url = aRouter['stream'] + 'get_more' + (params.type ? '_' + params.type : '') + '/';
 
 		ls.hook.marker('getMoreBefore');
 
-		ls.ajax(url, params, function(data) {
+		ls.ajax.load(url, params, function(data) {
 			if ( ! data.bStateError && data.events_count ) {
 				$('#activity-event-list').append(data.result);
 				$oLastId.attr('value', data.iStreamLastId);

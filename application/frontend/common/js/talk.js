@@ -64,7 +64,7 @@ ls.talk = (function ($) {
 		var params = {users: sUsers, idTalk: idTalk};
 		
 		ls.hook.marker('addToTalkBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -104,7 +104,7 @@ ls.talk = (function ($) {
 		var params = {idTarget: idTarget, idTalk: idTalk};
 
 		ls.hook.marker('removeFromTalkBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 				link.parent('li').show();
@@ -131,7 +131,7 @@ ls.talk = (function ($) {
 		var params = {users: sUsers};
 
 		ls.hook.marker('addToBlackListBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -170,7 +170,7 @@ ls.talk = (function ($) {
 		var params = {idTarget: idTarget};
 		
 		ls.hook.marker('removeFromBlackListBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 				link.parent('li').show();

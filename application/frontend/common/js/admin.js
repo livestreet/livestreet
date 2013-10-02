@@ -14,7 +14,7 @@ ls.admin = (function ($) {
 
 	this.addCategoryBlog = function(form) {
 		var url = aRouter.admin+'blogcategory/add/';
-		ls.ajaxSubmit(url, form, function(result) {
+		ls.ajax.submit(url, form, function(result) {
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}
@@ -30,7 +30,7 @@ ls.admin = (function ($) {
 
 	this.editCategoryBlog = function(form) {
 		var url = aRouter.admin+'blogcategory/edit/';
-		ls.ajaxSubmit(url, form, function(result) {
+		ls.ajax.submit(url, form, function(result) {
 			if (typeof(form)=='string') {
 				form=$('#'+form);
 			}

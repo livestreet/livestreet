@@ -92,7 +92,7 @@ ls.comments = (function ($) {
 		$('#form_comment_text').addClass(this.options.classes.form_loader).attr('readonly',true);
 		$('#comment-button-submit').attr('disabled', 'disabled');
 		
-		ls.ajax(this.options.type[targetType].url_add, formObj.serializeJSON(), function(result){
+		ls.ajax.load(this.options.type[targetType].url_add, formObj.serializeJSON(), function(result){
 			$('#comment-button-submit').removeAttr('disabled');
 			if (!result) {
 				this.enableFormComment();
@@ -169,7 +169,7 @@ ls.comments = (function ($) {
 			params.bUsePaging = 1; 
 		}
 
-		ls.ajax(this.options.type[typeTarget].url_response, params, function(result) {
+		ls.ajax.load(this.options.type[typeTarget].url_response, params, function(result) {
 			objImg.removeClass('active');
 
 			if (!result) { ls.msg.error('Error','Please try again later'); }
@@ -239,7 +239,7 @@ ls.comments = (function ($) {
 		var params = { idComment: commentId };
 		
 		ls.hook.marker('toggleBefore');
-		ls.ajax(url, params, function(result){
+		ls.ajax.load(url, params, function(result){
 			if (!result) {
 				ls.msg.error('Error','Please try again later');
 			}
@@ -267,7 +267,7 @@ ls.comments = (function ($) {
 		if ($("#form_comment_text").val() == '') return;
 		$("#comment_preview_" + this.iCurrentShowFormComment).remove();
 		$('#reply').before('<div id="comment_preview_' + this.iCurrentShowFormComment +'" class="comment-preview text"></div>');
-		ls.tools.textPreview('form_comment_text', false, 'comment_preview_' + this.iCurrentShowFormComment);
+		ls.utilities.textPreview('form_comment_text', false, 'comment_preview_' + this.iCurrentShowFormComment);
 	};
 
 
