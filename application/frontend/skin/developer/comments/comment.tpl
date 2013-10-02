@@ -98,18 +98,16 @@
 								voted-down
 							{/if}
 						{/if}">
-					<div class="vote-down js-vote-down"></div>
-					<span class="vote-count js-vote-rating">{if $oComment->getRating() > 0}+{/if}{$oComment->getRating()}</span>
-					<div class="vote-up js-vote-up"></div>
+					<div class="vote-item vote-down js-vote-down"><i></i></div>
+					<span class="vote-item vote-count js-vote-rating">{$oComment->getRating()}</span>
+					<div class="vote-item vote-up js-vote-up"><i></i></div>
 				</li>
 			{/if}
 			
 			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li class="favourite comment-favourite js-favourite">
-					<div data-favourite-type="comment"
-						 data-favourite-id="{$oComment->getId()}"
-						 class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oComment->getIsFavourite()}active{/if} js-favourite"
+				<li class="favourite comment-favourite js-favourite" data-favourite-type="comment" data-favourite-id="{$oComment->getId()}">
+					<div class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oComment->getIsFavourite()}active{/if} js-favourite"
 						 title="{if $oComment->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
 					<span class="favourite-count js-favourite-count">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
 				</li>

@@ -15,19 +15,26 @@
 .vote.vote-count-positive .vote-count 		{ color: #390; }
 .vote.vote-count-negative .vote-count 		{ color: #f00; }
 
+.vote .vote-item {
+	float: left;
+	cursor: pointer;
+	padding-left: 5px;
+}
 .vote .vote-up,
 .vote .vote-down {
+	opacity: .3;
+	filter: alpha(opacity=30);
+}
+.vote .vote-up i,
+.vote .vote-down i {
 	display: inline-block;
-	cursor: pointer;
 	vertical-align: text-top;
 	width: 14px;
 	height: 14px;
 	background: url(../images/icons.png) no-repeat;
-	opacity: .3;
-	filter: alpha(opacity=30);
 }
-.vote .vote-up 								{ background-position: -408px -96px; }
-.vote .vote-down 							{ background-position: -433px -96px; }
+.vote .vote-up i 							{ background-position: -408px -96px; }
+.vote .vote-down i 							{ background-position: -433px -96px; }
 .vote .vote-up:hover 						{ opacity: .8; filter: alpha(opacity=80); }
 .vote .vote-down:hover 						{ opacity: .8; filter: alpha(opacity=80); }
 
@@ -79,7 +86,7 @@
  */
 .actions 						{ overflow: hidden; zoom: 1; margin-bottom: 10px; }
 .actions li 					{ float: left; margin-right: 10px; }
-.actions li a 					{ color: #D23232; }
+.actions li a 					{  }
 .actions li a:hover 			{ text-decoration: underline; }
 .actions li a.link-dotted 		{ border-color: #f00; }
 .actions li a.link-dotted:hover { border-color: #06e; color: #06e; text-decoration: none; }
@@ -127,11 +134,11 @@
  * Item List 
  */
 .item-list 					{ }
-.item-list li 				{ min-height: 51px; padding: 17px 15px 20px 75px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
+.item-list li 				{ min-height: 51px; padding: 17px 15px 20px 80px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
 .item-list li:first-child 	{ border: none; }
 .item-list li p 			{ padding-top: 2px; font-size: 11px; }
 .item-list li a 			{ text-decoration: none; }
-.item-list li .avatar 		{ position: absolute; top: 20px; left: 15px; margin-right: 10px; }
+.item-list li .avatar 		{ position: absolute; top: 20px; left: 20px; margin-right: 10px; }
 .item-list li .author 		{ font-weight: bold; color: #333; }
 .item-list li .blog-name 	{ font-weight: bold; }
 

@@ -24,10 +24,8 @@
 					<td class="cell-checkbox"><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
 				{/if}
 				<td class="cell-favourite">
-					<div class="favourite js-favourite">
-						<div data-favourite-type="talk"
-						     data-favourite-id="{$oTalk->getId()}"
-						     class="favourite-toggle js-favourite-toggle {if $oTalk->getIsFavourite()}active{/if}" 
+					<div class="favourite js-favourite" data-favourite-type="talk" data-favourite-id="{$oTalk->getId()}">
+						<div class="favourite-toggle js-favourite-toggle {if $oTalk->getIsFavourite()}active{/if}" 
 						     title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></a>
 					</div>
 				</td>
@@ -49,25 +47,27 @@
 					{/strip}
 				</td>
 				<td>
-					{strip}
-						<a href="{router page='talk'}read/{$oTalk->getId()}/" class="js-title-talk" title="{$oTalk->getTextLast()|strip_tags|truncate:100:'...'|escape:'html'}">
+					<h2>
+						<a href="{router page='talk'}read/{$oTalk->getId()}/">
 							{if $oTalkUserAuthor->getCommentCountNew() or ! $oTalkUserAuthor->getDateLast()}
 								<strong>{$oTalk->getTitle()|escape:'html'}</strong>
 							{else}
 								{$oTalk->getTitle()|escape:'html'}
 							{/if}
 						</a>
-					{/strip}
-					
-					{if $oTalk->getCountComment()}
-						({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
-					{/if}
 
-					{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
-						&rarr;
-					{else}
-						&larr;
-					{/if}
+						{if $oTalk->getCountComment()}
+							({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
+						{/if}
+
+						{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
+							&rarr;
+						{else}
+							&larr;
+						{/if}
+					</h2>
+
+					{$oTalk->getText()|strip_tags|truncate:120:"..."|escape}
 				</td>
 				<td class="cell-date ta-r">{date_format date=$oTalk->getDate() format="j F Y, H:i"}</td>
 			</tr>

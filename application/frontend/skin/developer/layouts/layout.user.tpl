@@ -35,8 +35,8 @@
 			 		{/if}
 			 	{/if}">
 			<div class="vote-label">{$aLang.user_rating}</div>
-			<a href="#" class="vote-up js-vote-up"></a>
-			<a href="#" class="vote-down js-vote-down"></a>
+			<a href="#" class="vote-up js-vote-up"><i></i></a>
+			<a href="#" class="vote-down js-vote-down"><i></i></a>
 			<div class="vote-count count js-vote-rating" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{if $oUserProfile->getRating() > 0}+{/if}{$oUserProfile->getRating()}</div>
 		</div>
 		

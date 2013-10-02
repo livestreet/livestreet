@@ -12,8 +12,8 @@
 
 {block name='modal_header_after'}
 	<ul class="nav nav-pills nav-pills-tabs" data-type="tabs">
-		<li data-type="tab" data-option-target="tab-upload-pc" class="active"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
-		<li data-type="tab" data-option-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
+		<li data-type="tab" data-tab-target="tab-upload-pc" class="active"><a href="#">{$aLang.uploadimg_from_pc}</a></li>
+		<li data-type="tab" data-tab-target="tab-upload-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>
 	</ul>
 {/block}
 

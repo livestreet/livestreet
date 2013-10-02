@@ -14,7 +14,7 @@
  *
  * @template blocks/block.aside.base.tpl
  */
-.block                 { background: #fafafa; margin-bottom: 30px; border-radius: 3px; }
+.block                 { background: #fff; margin-bottom: 30px; border-top: 3px solid #AC90DF; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
 .block:last-child      { margin-bottom: 0; }
 
 .block .text           { font-size: 13px; line-height: 18px; }
@@ -23,16 +23,16 @@
 .block .search-form    { padding: 0; margin-bottom: 20px; }
 
 /* Шапка */
-.block-header              { padding: 13px 15px; background: #f5f5f5; border-top: 1px solid #eee; position: relative; }
+.block-header              { padding: 18px 20px 0; position: relative; }
 .block-header .block-title { font-size: 16px; line-height: 1em; font-weight: normal; }
 
 /* Навигация */
-.block-nav { padding: 15px; border-bottom: 1px solid #eee; }
+.block-nav { padding: 20px; border-bottom: 1px solid #eee; }
 .block-nav .nav,
 .block-nav .dropdown { margin-bottom: 0; }
 
 /* Контент */
-.block-content { padding: 15px; }
+.block-content { padding: 20px; }
 
 /* Подвал */
 .block-footer { border-top: 1px solid #eee; padding: 15px 20px; font-size: 12px; }
@@ -40,7 +40,7 @@
 /* Кнопка обновления блока */
 .block-update        { 
 	position: absolute;
-	top: 13px;
+	top: 19px;
 	right: 15px;
 	width: 16px;
 	height: 16px;
@@ -84,15 +84,7 @@
  * @modifier blog-add
  * @template blocks/block.blogAdd.tpl
  */
-.block.block-type-blog-add {
-	border: 1px solid #eee;
-	background: #fafafa;
-	padding: 10px;
-	text-align: center;
-	-webkit-border-radius: 5px;
-	   -moz-border-radius: 5px;
-	        border-radius: 5px;
-}
+.block.block-type-blog-add .block-content { padding: 30px; text-align: center; }
 .block.block-type-blog-add p { margin-bottom: 25px; }
 
 
@@ -112,7 +104,7 @@
  * @modifier profile
  * @template blocks/block.profilePhoto.tpl
  */
-.block-type-profile-photo                        { background: none; border: none; padding: 0; text-align: center; }
+.block-type-profile-photo                        { text-align: center; }
 .block-type-profile-photo .profile-photo-wrapper { position: relative; min-height: 50px; display: inline-block; }
 .block-type-profile-photo .profile-photo         { vertical-align: top; }
 

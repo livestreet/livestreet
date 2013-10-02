@@ -7,7 +7,7 @@
 {block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_blogcategory}{/block}
 
 {block name='layout_content'}
-	<button class="button button-primary" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</button>
+	<button class="button button-primary" data-type="modal-toggle" data-modal-url="{router page='admin'}blogcategory/modal-add/">{$aLang.admin_blogcategory_add}</button>
 	<br />
 	<br />
 
@@ -31,7 +31,7 @@
 						/{$oCategory->getUrlFull()}/
 					</td>
 					<td align="center">
-						<a href="#" data-type="modal-toggle" data-option-url="{router page='admin'}blogcategory/modal-edit/" data-param-id="{$oCategory->getId()}" class="icon-edit"></a>
+						<a href="#" data-type="modal-toggle" data-modal-url="{router page='admin'}blogcategory/modal-edit/" data-param-id="{$oCategory->getId()}" class="icon-edit"></a>
 						<a href="{router page='admin'}blogcategory/delete/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('«{$oCategory->getTitle()|escape:'html'}»: {$aLang.admin_blogcategory_items_delete_confirm}');" class="icon-remove"></a>
 
 						<a href="{router page='admin'}blogcategory/sort/{$oCategory->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-arrow-up"></a>

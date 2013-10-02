@@ -19,8 +19,8 @@
 	{hook run='block_stream_nav_item' assign="sItemsHook"}
 
 	<ul class="nav nav-pills js-block-nav" data-type="tabs" id="js-stream-tabs" {if $sItemsHook}style="display: none;"{/if}>
-		<li data-type="tab" data-option-url="{router page='ajax'}stream/comment" data-option-target="js-tab-pane-stream" data-name="block-stream-comments" class="active"><a href="#">{$aLang.block_stream_comments}</a></li>
-		<li data-type="tab" data-option-url="{router page='ajax'}stream/topic" data-option-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
+		<li data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments" class="active"><a href="#">{$aLang.block_stream_comments}</a></li>
+		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
 
 		{$sItemsHook}
 	</ul>
@@ -33,13 +33,13 @@
 		class="dropdown dropdown-toggle js-dropdown-default"
 		id="js-stream-dropdown"
 		data-type="dropdown-toggle" 
-		data-option-target="js-dropdown-menu-stream"
-		data-option-change-text="true"
-		{if !$sItemsHook}style="display: none;"{/if}><span data-type="dropdown-text">{$aLang.block_stream_comments}</span></div>
+		data-dropdown-target="js-dropdown-menu-stream"
+		data-dropdown-selectable="true"
+		{if !$sItemsHook}style="display: none;"{/if}>{$aLang.block_stream_comments}</div>
 	
 	<ul class="dropdown-menu js-block-nav" id="js-dropdown-menu-stream" data-type="tabs">
-		<li class="active" data-type="tab" data-option-url="{router page='ajax'}stream/comment" data-option-target="js-tab-pane-stream" data-name="block-stream-comments"><a href="#">{$aLang.block_stream_comments}</a></li>
-		<li data-type="tab" data-option-url="{router page='ajax'}stream/topic" data-option-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
+		<li class="active" data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments"><a href="#">{$aLang.block_stream_comments}</a></li>
+		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
 
 		{$sItemsHook}
 	</ul>

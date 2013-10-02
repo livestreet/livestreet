@@ -47,8 +47,8 @@
 						{/if}
 					{/if}">
 				<div class="vote-label">{$aLang.blog_rating}</div>
-				<a href="#" class="vote-up js-vote-up"></a>
-				<a href="#" class="vote-down js-vote-down"></a>
+				<a href="#" class="vote-up js-vote-up"><i></i></a>
+				<a href="#" class="vote-down js-vote-down"><i></i></a>
 				<div class="vote-count count js-vote-rating" title="{$aLang.blog_vote_count}: {$oBlog->getCountVote()}">{if $oBlog->getRating() > 0}+{/if}{$oBlog->getRating()}</div>
 			</div>
 
@@ -56,7 +56,7 @@
 			<img src="{$oBlog->getAvatarPath(48)}" alt="avatar" class="avatar" />
 
 			{* Заголовок *}
-			<h2 class="blog-title">
+			<h2 class="page-header blog-title">
 				{if $oBlog->getType() == 'close'}
 					<i title="{$aLang.blog_closed}" class="icon icon-lock"></i>
 				{/if}
@@ -85,15 +85,15 @@
 				{if $oUserCurrent and ($oUserCurrent->getId() == $oBlog->getOwnerId() or $oUserCurrent->isAdministrator() or $oBlog->getUserIsAdministrator() )}
 					<li>
 						<a href="{router page='blog'}edit/{$oBlog->getId()}/" title="{$aLang.blog_edit}" class="edit">{$aLang.blog_edit}</a>
-
-						{if $oUserCurrent->isAdministrator()}
-							<a href="#" title="{$aLang.blog_delete}" data-type="modal-toggle" data-option-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a>
-						{else}
-							<a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" 
-							   title="{$aLang.blog_delete}" 
-							   onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a>
-						{/if}
 					</li>
+
+					{if $oUserCurrent->isAdministrator()}
+						<li><a href="#" title="{$aLang.blog_delete}" data-type="modal-toggle" data-modal-target="modal-blog-delete" class="delete">{$aLang.blog_delete}</a></li>
+					{else}
+						<li><a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" 
+						   title="{$aLang.blog_delete}" 
+						   onclick="return confirm('{$aLang.blog_admin_delete_confirm}');" >{$aLang.blog_delete}</a></li>
+					{/if}
 				{/if}
 			</ul>
 		</header>
@@ -165,13 +165,15 @@
 
 		{* Кнопка показывающая/скрывающая информацию о блоге *}
 		<footer class="blog-footer">
-			<a href="#" class="blog-more" id="blog-more" onclick="return ls.blog.toggleInfo()">{$aLang.blog_expand_info}</a>
+			<a href="#" class="get-more" id="blog-more" onclick="return ls.blog.toggleInfo()">{$aLang.blog_expand_info}</a>
 		</footer>
 	</div>
 
 	{hook run='blog_info' oBlog=$oBlog}
 
-	{include file='navs/nav.topics.sub.tpl'}
+	<div class="nav-group">
+		{include file='navs/nav.topics.sub.tpl'}
+	</div>
 
 	{if $bCloseBlog}
 		{$aLang.blog_close_show}
