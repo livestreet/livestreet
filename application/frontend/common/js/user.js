@@ -27,6 +27,12 @@ ls.user = (function ($) {
 		});
 
 		/* Регистрация */
+		ls.ajax.form(aRouter.registration + 'ajax-registration', '.js-form-registration', function (result, status, xhr, form) {
+            result.sUrlRedirect && (window.location = result.sUrlRedirect);
+            ls.hook.run('ls_user_registration_after', [form, result]);
+		});
+
+		/* Регистрация Modal */
 		ls.ajax.form(aRouter.registration + 'ajax-registration', '.js-form-signup', function (result, status, xhr, form) {
             result.sUrlRedirect && (window.location = result.sUrlRedirect);
             ls.hook.run('ls_user_registration_after', [form, result]);

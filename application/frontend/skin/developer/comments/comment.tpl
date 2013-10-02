@@ -44,7 +44,7 @@
 														{else}
 															comment-list-item
 														{/if}">
-	{if ! $oComment->getDelete() or $bOneComment or ($oUserCurrent and $oUserCurrent->isAdministrator())}
+	{if ! $oComment->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
 		<a name="comment{$oComment->getId()}"></a>
 		
 		{* Аватар пользователя *}
