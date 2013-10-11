@@ -118,106 +118,106 @@ class Install {
 	 * @var array
 	 */
 	protected $aValidEnv = array(
-        'safe_mode'  => array ('0','off',''),
-        'register_globals' => array ('0','off',''),
-        'allow_url_fopen' => array ('1','on'),
-        'UTF8_support' => '1',
-        'http_input' => array ('','pass'),
-        'http_output' => array ('0','pass'),
-        'func_overload' => array ('0','4', 'no overload'),
-    );
-    /**
-     * Директория, в которой хранятся конфиг-файлы
-     *
-     * @var string
-     */
-    protected $sConfigDir="";
-    /**
-     * Директория хранения скинов сайта
-     *
-     * @var string
-     */
-    protected $sSkinDir="";
-    /**
-     * Директория хранения языковых файлов движка
-     *
-     * @var string
-     */
-    protected $sLangDir="";
-    /**
-     * Текущий язык инсталлятора
-     *
-     * @var string
-     */
-    protected $sLangCurrent = '';
-    /**
-     * Язык инсталлятора, который будет использован по умолчанию
-     *
-     * @var string
-     */
-    protected $sLangDefault = 'ru';
-    /**
-     * Языковые текстовки
-     *
-     * @var array
-     */
-    protected $aLang = array();
-    /**
-     * Инициализация основных настроек
-     *
-     */
-    public function __construct() {
-    	$this->sConfigDir = dirname(__FILE__).'/../application/config';
-    	$this->sSkinDir   = dirname(__FILE__).'/../application/frontend/skin';
-    	$this->sLangDir   = dirname(__FILE__).'/../application/frontend/i18n';
-    	/**
-    	 * Загружаем языковые файлы
-    	 */
-    	$this->LoadLanguageFile($this->sLangDefault);
-    	if($sLang=$this->GetRequest('lang')) {
-    		$this->sLangCurrent = $sLang;
-    		if($this->sLangCurrent!=$this->sLangDefault) $this->LoadLanguageFile($this->sLangCurrent);
-    	}
-    	/**
-    	 * Передаем языковые тикеты во вьювер
-    	 */
-    	foreach ($this->aLang as $sKey=>$sItem) {
-    		$this->Assign("lang_{$sKey}",$sItem);
-    	}
-    }
-    /**
-     * Подгружает указанный языковой файл и записывает поверх существующего языкового массива
-     *
-     * @access protected
-     * @param  string $sLang
-     */
-    protected function LoadLanguageFile($sLang) {
-    	$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
+		'safe_mode'  => array ('0','off',''),
+		'register_globals' => array ('0','off',''),
+		'allow_url_fopen' => array ('1','on'),
+		'UTF8_support' => '1',
+		'http_input' => array ('','pass'),
+		'http_output' => array ('0','pass'),
+		'func_overload' => array ('0','4', 'no overload'),
+	);
+	/**
+	 * Директория, в которой хранятся конфиг-файлы
+	 *
+	 * @var string
+	 */
+	protected $sConfigDir="";
+	/**
+	 * Директория хранения скинов сайта
+	 *
+	 * @var string
+	 */
+	protected $sSkinDir="";
+	/**
+	 * Директория хранения языковых файлов движка
+	 *
+	 * @var string
+	 */
+	protected $sLangDir="";
+	/**
+	 * Текущий язык инсталлятора
+	 *
+	 * @var string
+	 */
+	protected $sLangCurrent = '';
+	/**
+	 * Язык инсталлятора, который будет использован по умолчанию
+	 *
+	 * @var string
+	 */
+	protected $sLangDefault = 'ru';
+	/**
+	 * Языковые текстовки
+	 *
+	 * @var array
+	 */
+	protected $aLang = array();
+	/**
+	 * Инициализация основных настроек
+	 *
+	 */
+	public function __construct() {
+		$this->sConfigDir = dirname(__FILE__).'/../application/config';
+		$this->sSkinDir   = dirname(__FILE__).'/../application/frontend/skin';
+		$this->sLangDir   = dirname(__FILE__).'/../application/frontend/i18n';
+		/**
+		 * Загружаем языковые файлы
+		 */
+		$this->LoadLanguageFile($this->sLangDefault);
+		if($sLang=$this->GetRequest('lang')) {
+			$this->sLangCurrent = $sLang;
+			if($this->sLangCurrent!=$this->sLangDefault) $this->LoadLanguageFile($this->sLangCurrent);
+		}
+		/**
+		 * Передаем языковые тикеты во вьювер
+		 */
+		foreach ($this->aLang as $sKey=>$sItem) {
+			$this->Assign("lang_{$sKey}",$sItem);
+		}
+	}
+	/**
+	 * Подгружает указанный языковой файл и записывает поверх существующего языкового массива
+	 *
+	 * @access protected
+	 * @param  string $sLang
+	 */
+	protected function LoadLanguageFile($sLang) {
+		$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
 
-    	if(!file_exists($sFilePath)) return false;
+		if(!file_exists($sFilePath)) return false;
 
-    	$aLang = include($sFilePath);
-    	$this->aLang = array_merge($this->aLang,$aLang);
-    }
-    /**
-     * Возвращает языковую текстовку
-     *
-     * @param  string $sKey
-     * @param  array  $aParams
-     * @return string
-     */
-    protected function Lang($sKey,$aParams=array()) {
-    	if(!array_key_exists($sKey,$this->aLang))
-    		return 'Unknown language key';
+		$aLang = include($sFilePath);
+		$this->aLang = array_merge($this->aLang,$aLang);
+	}
+	/**
+	 * Возвращает языковую текстовку
+	 *
+	 * @param  string $sKey
+	 * @param  array  $aParams
+	 * @return string
+	 */
+	protected function Lang($sKey,$aParams=array()) {
+		if(!array_key_exists($sKey,$this->aLang))
+			return 'Unknown language key';
 
-    	$sValue=$this->aLang[$sKey];
-    	if(count($aParams)==0) return $sValue;
+		$sValue=$this->aLang[$sKey];
+		if(count($aParams)==0) return $sValue;
 
-    	foreach ($aParams as $k=>$v) {
-    		$sValue=str_replace("%%{$k}%%",$v,$sValue);
-    	}
-    	return $sValue;
-    }
+		foreach ($aParams as $k=>$v) {
+			$sValue=str_replace("%%{$k}%%",$v,$sValue);
+		}
+		return $sValue;
+	}
 	/**
 	 * Вытягивает переменную из сессии
 	 *
@@ -350,7 +350,7 @@ class Install {
 
 		$sConfig = file_get_contents($sPath);
 		$sName   = '$config[\''.implode('\'][\'', explode('.',$sName)).'\']';
-		$sVar    = $this->ConvertToString($sVar);
+		$sVar	= $this->ConvertToString($sVar);
 
 		/**
 		 * Если переменная уже определена в конфиге,
@@ -514,15 +514,15 @@ class Install {
 			 * Получаем данные из сессии (если они туда были вложены на предыдущих итерациях шага)
 			 */
 			$this->Assign('install_db_server',   'localhost', self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_port',     '3306',      self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_name',     'social',    self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_user',     'root',      self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_password', '',          self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_create_check', '',      self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_port',	 '3306',	  self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_name',	 'social',	self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_user',	 'root',	  self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_password', '',		  self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_create_check', '',	  self::GET_VAR_FROM_SESSION);
 			$this->Assign('install_db_prefix',   'prefix_',   self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine',   'InnoDB',    self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine_innodb', '',     self::GET_VAR_FROM_SESSION);
-			$this->Assign('install_db_engine_myisam', '',     self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine',   'InnoDB',	self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_innodb', '',	 self::GET_VAR_FROM_SESSION);
+			$this->Assign('install_db_engine_myisam', '',	 self::GET_VAR_FROM_SESSION);
 
 			$this->Layout('steps/db.tpl');
 			return true;
@@ -531,9 +531,9 @@ class Install {
 		 * Если переданны данные формы, проверяем их на валидность
 		 */
 		$aParams['server']   = $this->GetRequest('install_db_server','');
-		$aParams['port']     = $this->GetRequest('install_db_port','');
-		$aParams['name']     = $this->GetRequest('install_db_name','');
-		$aParams['user']     = $this->GetRequest('install_db_user','');
+		$aParams['port']	 = $this->GetRequest('install_db_port','');
+		$aParams['name']	 = $this->GetRequest('install_db_name','');
+		$aParams['user']	 = $this->GetRequest('install_db_user','');
 		$aParams['password'] = $this->GetRequest('install_db_password','');
 		$aParams['create']   = $this->GetRequest('install_db_create',0);
 		$aParams['convert']  = $this->GetRequest('install_db_convert',0);
@@ -580,10 +580,10 @@ class Install {
 			@chmod($sLocalConfigFile, 0777);
 
 			$this->SaveConfig('db.params.host',  $aParams['server'],   $sLocalConfigFile);
-			$this->SaveConfig('db.params.port',  $aParams['port'],     $sLocalConfigFile);
-			$this->SaveConfig('db.params.user',  $aParams['user'],     $sLocalConfigFile);
+			$this->SaveConfig('db.params.port',  $aParams['port'],	 $sLocalConfigFile);
+			$this->SaveConfig('db.params.user',  $aParams['user'],	 $sLocalConfigFile);
 			$this->SaveConfig('db.params.pass',  $aParams['password'], $sLocalConfigFile);
-			$this->SaveConfig('db.params.dbname',$aParams['name'],     $sLocalConfigFile);
+			$this->SaveConfig('db.params.dbname',$aParams['name'],	 $sLocalConfigFile);
 			$this->SaveConfig('db.table.prefix', $aParams['prefix'],   $sLocalConfigFile);
 
 			if($aParams['engine']=='InnoDB') {
@@ -761,21 +761,21 @@ class Install {
 		/**
 		 * Получаем значения запрашиваемых данных либо устанавливаем принятые по умолчанию
 		 */
-		$aParams['install_view_name']       = $this->GetRequest('install_view_name','Your Site',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_name']	   = $this->GetRequest('install_view_name','Your Site',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_description']= $this->GetRequest('install_view_description','Description your site',self::GET_VAR_FROM_SESSION);
 		$aParams['install_view_keywords']   = $this->GetRequest('install_view_keywords','site, google, internet',self::GET_VAR_FROM_SESSION);
-		$aParams['install_view_skin']       = $this->GetRequest('install_view_skin','synio',self::GET_VAR_FROM_SESSION);
+		$aParams['install_view_skin']	   = $this->GetRequest('install_view_skin','synio',self::GET_VAR_FROM_SESSION);
 
-		$aParams['install_mail_sender']     = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
-		$aParams['install_mail_name']       = $this->GetRequest('install_mail_name','Почтовик Your Site',self::GET_VAR_FROM_SESSION);
+		$aParams['install_mail_sender']	 = $this->GetRequest('install_mail_sender',$this->GetSessionVar('install_admin_mail','rus.engine@gmail.com'),self::GET_VAR_FROM_SESSION);
+		$aParams['install_mail_name']	   = $this->GetRequest('install_mail_name','Почтовик Your Site',self::GET_VAR_FROM_SESSION);
 
 		$aParams['install_general_close']  = (bool)$this->GetRequest('install_general_close',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_invite'] = (bool)$this->GetRequest('install_general_invite',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_active'] = (bool)$this->GetRequest('install_general_active',false,self::GET_VAR_FROM_SESSION);
 		$aParams['install_general_sign_in_captcha'] = (bool)$this->GetRequest('install_general_sign_in_captcha',false,self::GET_VAR_FROM_SESSION);
 
-		$aParams['install_lang_current']    = $this->GetRequest('install_lang_current','ru',self::GET_VAR_FROM_SESSION);
-		$aParams['install_lang_default']    = $this->GetRequest('install_lang_default','ru',self::GET_VAR_FROM_SESSION);
+		$aParams['install_lang_current']	= $this->GetRequest('install_lang_current','ru',self::GET_VAR_FROM_SESSION);
+		$aParams['install_lang_default']	= $this->GetRequest('install_lang_default','ru',self::GET_VAR_FROM_SESSION);
 
 		/**
 		 * Передаем параметры во Viewer
@@ -907,11 +907,11 @@ class Install {
 			 */
 			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
-            /**
-            * Использоватьт captcha при входе
-            */
-            if($this->SaveConfig('general.reg.login.captcha',$aParams['install_general_login_captcha'],$sLocalConfigFile))
-                $this->SetSessionVar('install_general_login_captcha',$aParams['install_general_login_captcha']);
+			/**
+			* Использоватьт captcha при входе
+			*/
+			if($this->SaveConfig('general.reg.login.captcha',$aParams['install_general_login_captcha'],$sLocalConfigFile))
+				$this->SetSessionVar('install_general_login_captcha',$aParams['install_general_login_captcha']);
 			/**
 			 * Текущий язык
 			 */
@@ -986,26 +986,26 @@ class Install {
 			$this->Assign('validate_utf8', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-	    if (@extension_loaded('mbstring')){
-	        $this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
-	    } else {
-   			$bOk = false;
-   			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
-	    }
+		if (@extension_loaded('mbstring')){
+			$this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
+		} else {
+				$bOk = false;
+				$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
+		}
 
-	    if (@extension_loaded('SimpleXML')){
-	        $this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');
-	    } else {
+		if (@extension_loaded('SimpleXML')){
+			$this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');
+		} else {
    			$bOk = false;
    			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');
-	    }
+		}
 
-	    $sLocalConfigPath = $this->sConfigDir.'/config.local.php';
-	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
-	    	// пытаемся создать файл локального конфига
-	    	@copy($this->sConfigDir.'/config.local.php.dist',$sLocalConfigPath);
-	    }
-	    if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
+		$sLocalConfigPath = $this->sConfigDir.'/config.local.php';
+		if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
+			// пытаемся создать файл локального конфига
+			@copy($this->sConfigDir.'/config.local.php.dist',$sLocalConfigPath);
+		}
+		if(!file_exists($sLocalConfigPath) or !is_writeable($sLocalConfigPath)) {
 			$bOk = false;
 			$this->Assign('validate_local_config', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		} else {
@@ -1048,7 +1048,7 @@ class Install {
 			$this->Assign('validate_local_plugins', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		}
 
-	    return $bOk;
+		return $bOk;
 	}
 	/**
 	 * Проверяет соединение с базой данных
@@ -1114,7 +1114,7 @@ class Install {
 		if(!$aResult){
 			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
 		}
-        while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
+		while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
 			$aDbTables[] = $aRow[0];
 		}
 		/**
@@ -1161,7 +1161,7 @@ class Install {
 		if(!$aResult){
 			return array('result'=>false,'errors'=>array($this->Lang('error_db_no_data')));
 		}
-        while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
+		while($aRow = mysql_fetch_array($aResult, MYSQL_NUM)){
 			$aDbTables[] = $aRow[0];
 		}
 		/**
@@ -1214,35 +1214,35 @@ class Install {
 		$sTable1=$aParams['prefix'].'topic';
 		$sTable2=$aParams['prefix'].'favourite';
 		$sQuery = "
-                UPDATE {$sTable1} t
-                SET t.topic_count_favourite = (
-                    SELECT count(f.user_id)
-                    FROM {$sTable2} f
-                    WHERE
-                        f.target_id = t.topic_id
-                    AND
-                        f.target_publish = 1
-                    AND
-                        f.target_type = 'topic'
-                )
-            ";
+				UPDATE {$sTable1} t
+				SET t.topic_count_favourite = (
+					SELECT count(f.user_id)
+					FROM {$sTable2} f
+					WHERE
+						f.target_id = t.topic_id
+					AND
+						f.target_publish = 1
+					AND
+						f.target_type = 'topic'
+				)
+			";
 		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 		/**
 		 * Пересчет количества избранного для комментов
 		 */
 		$sTable1=$aParams['prefix'].'comment';
 		$sQuery = "
-            UPDATE {$sTable1} c
-            SET c.comment_count_favourite = (
-                SELECT count(f.user_id)
-                FROM {$sTable2} f
-                WHERE
-                    f.target_id = c.comment_id
-                AND
+			UPDATE {$sTable1} c
+			SET c.comment_count_favourite = (
+				SELECT count(f.user_id)
+				FROM {$sTable2} f
+				WHERE
+					f.target_id = c.comment_id
+				AND
 					f.target_publish = 1
 				AND
 					f.target_type = 'comment'
-            )
+			)
 		";
 		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 		/**
@@ -1251,36 +1251,36 @@ class Install {
 		$sTable1=$aParams['prefix'].'topic';
 		$sTable2=$aParams['prefix'].'vote';
 		$sQuery = "
-                UPDATE {$sTable1} t
-                SET t.topic_count_vote_up = (
-                    SELECT count(*)
-                    FROM {$sTable2} v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = 1
-                    AND
-                        v.target_type = 'topic'
-                ), t.topic_count_vote_down = (
-                    SELECT count(*)
-                    FROM {$sTable2} v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = -1
-                    AND
-                        v.target_type = 'topic'
-                ), t.topic_count_vote_abstain = (
-                    SELECT count(*)
-                    FROM {$sTable2} v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = 0
-                    AND
-                        v.target_type = 'topic'
-                )
-            ";
+				UPDATE {$sTable1} t
+				SET t.topic_count_vote_up = (
+					SELECT count(*)
+					FROM {$sTable2} v
+					WHERE
+						v.target_id = t.topic_id
+					AND
+						v.vote_direction = 1
+					AND
+						v.target_type = 'topic'
+				), t.topic_count_vote_down = (
+					SELECT count(*)
+					FROM {$sTable2} v
+					WHERE
+						v.target_id = t.topic_id
+					AND
+						v.vote_direction = -1
+					AND
+						v.target_type = 'topic'
+				), t.topic_count_vote_abstain = (
+					SELECT count(*)
+					FROM {$sTable2} v
+					WHERE
+						v.target_id = t.topic_id
+					AND
+						v.vote_direction = 0
+					AND
+						v.target_type = 'topic'
+				)
+			";
 		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 		/**
 		 * Пересчет количества топиков в блогах
@@ -1288,16 +1288,16 @@ class Install {
 		$sTable1=$aParams['prefix'].'blog';
 		$sTable2=$aParams['prefix'].'topic';
 		$sQuery = "
-                UPDATE {$sTable1} b
-                SET b.blog_count_topic = (
-                    SELECT count(*)
-                    FROM {$sTable2} t
-                    WHERE
-                        t.blog_id = b.blog_id
-                    AND
-                        t.topic_publish = 1
-                )
-            ";
+				UPDATE {$sTable1} b
+				SET b.blog_count_topic = (
+					SELECT count(*)
+					FROM {$sTable2} t
+					WHERE
+						t.blog_id = b.blog_id
+					AND
+						t.topic_publish = 1
+				)
+			";
 		if(!mysql_query($sQuery)) $aErrors[] = mysql_error();
 		/**
 		 * Проставляем последнего пользователя и последний комментарий во всех личных сообщениях
@@ -1811,12 +1811,12 @@ class Install {
 	 * @return bool
 	 */
 	protected function UpdateDBUser($sLogin,$sPassword,$sMail,$sPrefix="prefix_") {
-        $sQuery = "
-        	UPDATE `{$sPrefix}user`
-        	SET
-        		`user_login`    = '{$sLogin}',
-        		`user_mail`     = '{$sMail}',
-        		`user_password` = md5('{$sPassword}')
+		$sQuery = "
+			UPDATE `{$sPrefix}user`
+			SET
+				`user_login`	= '{$sLogin}',
+				`user_mail`	 = '{$sMail}',
+				`user_password` = md5('{$sPassword}')
 			WHERE `user_id` = 1";
 
 		return mysql_query($sQuery);
@@ -1829,10 +1829,10 @@ class Install {
 	 * @return bool
 	 */
 	protected function UpdateUserBlog($sBlogName,$sPrefix="prefix_") {
-        $sQuery = "
-        	UPDATE `{$sPrefix}blog`
-        	SET
-        		`blog_title`    = '".mysql_real_escape_string($sBlogName)."'
+		$sQuery = "
+			UPDATE `{$sPrefix}blog`
+			SET
+				`blog_title`	= '".mysql_real_escape_string($sBlogName)."'
 			WHERE `blog_id` = 1";
 
 		return mysql_query($sQuery);
