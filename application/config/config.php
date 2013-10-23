@@ -333,11 +333,11 @@ $config['router']['config']['action_not_found'] = 'error';
  */
 $config['block']['rule_index_blog'] = array(
 	'action'  => array(
-			'index', 'blog' => array('{topics}','{topic}','{blog}')
-		),
+		'index', 'blog' => array('{topics}','{topic}','{blog}')
+	),
 	'blocks'  => array(
-			'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
-		),
+		'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
+	),
 	'clear' => false,
 );
 $config['block']['rule_index'] = array(
@@ -374,27 +374,27 @@ $config['block']['rule_blogs'] = array(
 $config['block']['userfeedBlogs'] = array(
 	'action'  => array('feed'),
 	'blocks'  => array(
-                    'right' => array(
-                        'userfeedBlogs'=> array()
-                    )
-                )
+		'right' => array(
+			'userfeedBlogs'=> array()
+		)
+	)
 );
 $config['block']['userfeedUsers'] = array(
 	'action'  => array('feed'),
 	'blocks'  => array(
-                    'right' => array(
-                        'userfeedFriends'=> array(),
-                        'userfeedUsers'=> array()
-                    )
-                )
+		'right' => array(
+			'userfeedFriends'=> array(),
+			'userfeedUsers'=> array()
+		)
+	)
 );
 $config['block']['rule_blog_info'] = array(
 	'action'  => array(
-			'blog' => array('{topic}')
-		),
+		'blog' => array('{topic}')
+	),
 	'blocks'  => array(
-			'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
-		),
+		'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+	),
 	'clear' => false,
 );
 $config['block']['rule_users'] = array(

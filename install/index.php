@@ -845,7 +845,7 @@ class Install {
 			 */
 			if($aParams['install_view_description']){
 				if($this->SaveConfig('view.description',$aParams['install_view_description'],$sLocalConfigFile))
-				 $this->SetSessionVar('install_view_description',$aParams['install_view_description']);
+					$this->SetSessionVar('install_view_description',$aParams['install_view_description']);
 			} else {
 				$bOk = false;
 				$this->aMessages[] = array('type'=>'error','text'=>$this->Lang('site_description_invalid'));
@@ -908,8 +908,8 @@ class Install {
 			if($this->SaveConfig('general.reg.invite',$aParams['install_general_invite'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_invite',$aParams['install_general_invite']);
 			/**
-			* Использоватьт captcha при входе
-			*/
+			 * Использоватьт captcha при входе
+			 */
 			if($this->SaveConfig('general.reg.login.captcha',$aParams['install_general_login_captcha'],$sLocalConfigFile))
 				$this->SetSessionVar('install_general_login_captcha',$aParams['install_general_login_captcha']);
 			/**
@@ -945,8 +945,8 @@ class Install {
 		}
 
 		return ($this->GetRequest('install_step_next'))
-					? $this->StepFinish()
-					: $this->Layout('steps/extend.tpl');
+			? $this->StepFinish()
+			: $this->Layout('steps/extend.tpl');
 	}
 	/**
 	 * Окончание работы инсталлятора. Предупреждение о необходимости удаления.
@@ -989,15 +989,15 @@ class Install {
 		if (@extension_loaded('mbstring')){
 			$this->Assign('validate_mbstring', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		} else {
-				$bOk = false;
-				$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
+			$bOk = false;
+			$this->Assign('validate_mbstring', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		}
 
 		if (@extension_loaded('SimpleXML')){
 			$this->Assign('validate_simplexml', '<span style="color:green;">'.$this->Lang('yes').'</span>');
 		} else {
-   			$bOk = false;
-   			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');
+			$bOk = false;
+			$this->Assign('validate_simplexml', '<span style="color:red;">'.$this->Lang('no').'</span>');
 		}
 
 		$sLocalConfigPath = $this->sConfigDir.'/config.local.php';
