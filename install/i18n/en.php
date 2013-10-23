@@ -112,8 +112,9 @@ return array(
 	'general_params_close'=> 'Use "closed mode" for your site',
 	'general_params_active'=> 'Use registration activation',
 	'general_params_invite'=> 'Use registration by invitation',
-	
-	'language_params'=> 'Language settings',
+    'general_params_login_captcha'=> 'Use captcha on sign in',
+
+    'language_params'=> 'Language settings',
 	'language_params_current'=> 'Current language',
 	'language_params_default'=> 'Default language',
 	
