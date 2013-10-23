@@ -159,7 +159,7 @@
 				</li>
 
 				{* Автор топика *}
-				<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
+				<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a></li>
 
 				{if ! $bTopicList}
 					{* Избранное *}

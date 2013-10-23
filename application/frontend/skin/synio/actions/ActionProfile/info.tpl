@@ -109,7 +109,7 @@
 					<li class="dotted-list-item">
 						<span class="dotted-list-item-label">{$aLang.profile_invite_from}</span>
 						<strong class="dotted-list-item-value">							       						
-							<a href="{$oUserInviteFrom->getUserWebPath()}">{$oUserInviteFrom->getLogin()}</a>&nbsp;         					
+							<a href="{$oUserInviteFrom->getUserWebPath()}">{$oUserInviteFrom->getDisplayName()}</a>&nbsp;
 						</strong>
 					</li>
 				{/if}
@@ -120,7 +120,7 @@
 						<span class="dotted-list-item-label">{$aLang.profile_invite_to}</span>
 						<strong class="dotted-list-item-value">
 							{foreach $aUsersInvite as $oUserInvite}        						
-								<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getLogin()}</a>&nbsp; 
+								<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getDisplayName()}</a>&nbsp;
 							{/foreach}
 						</strong>
 					</li>

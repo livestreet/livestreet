@@ -26,12 +26,12 @@
 		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()}">
 			{* Аватар *}
 			<a href="{$oUser->getUserWebPath()}">
-				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getLogin()}" class="activity-event-avatar" />
+				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="activity-event-avatar" />
 			</a>
 			
 			<p class="activity-event-info">
 				{* Логин *}
-				<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getLogin()}</strong></a> ·
+				<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getDisplayName()}</strong></a> ·
 
 				{* Дата *}
 				<time datetime="{date_format date=$oStreamEvent->getDateAdded() format='c'}"
@@ -125,7 +125,7 @@
 
 				<span class="user-avatar user-avatar-n">
 					<a href="{$oTarget->getUserWebPath()}"><img src="{$oTarget->getProfileAvatarPath(24)}" alt="avatar" /></a>
-					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getDisplayName()}</a>
 				</span>
 			{elseif $oStreamEvent->getEventType() == 'join_blog'}
 				{* Вступили в блог *}
@@ -148,7 +148,7 @@
 
 				<span class="user-avatar user-avatar-n">
 					<a href="{$oTarget->getUserWebPath()}"><img src="{$oTarget->getProfileAvatarPath(24)}" alt="avatar" /></a>
-					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+					<a href="{$oTarget->getUserWebPath()}">{$oTarget->getDisplayName()}</a>
 				</span>
 			{elseif $oStreamEvent->getEventType() == 'add_wall'}
 				{* Написали на стене *}
@@ -161,7 +161,7 @@
 
 				<span class="user-avatar user-avatar-n">
 					<a href="{$oTarget->getWallUser()->getUserWebPath()}"><img src="{$oTarget->getWallUser()->getProfileAvatarPath(24)}" alt="avatar" /></a>
-					<a href="{$oTarget->getUrlWall()}">{$oTarget->getWallUser()->getLogin()}</a>
+					<a href="{$oTarget->getUrlWall()}">{$oTarget->getWallUser()->getDisplayName()}</a>
 				</span>
 
 				{$sTextEvent = $oTarget->getText()}

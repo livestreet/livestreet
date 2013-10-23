@@ -23,7 +23,7 @@
 							   type="checkbox"
 							   {if isset($aStreamSubscribedUsers.$iUserId)}checked{/if}
 							   data-user-id="{$iUserId}" />
-						<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+						<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 					</li>
 				{/foreach}
 			</ul>

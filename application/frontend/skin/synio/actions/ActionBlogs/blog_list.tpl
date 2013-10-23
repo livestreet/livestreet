@@ -64,7 +64,7 @@
 						
 						<span class="user-avatar">
 							<a href="{$oUserOwner->getUserWebPath()}"><img src="{$oUserOwner->getProfileAvatarPath(24)}" alt="avatar" /></a>
-							<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getLogin()}</a>
+							<a href="{$oUserOwner->getUserWebPath()}">{$oUserOwner->getDisplayName()}</a>
 						</span>
 					</td>
 

@@ -42,7 +42,7 @@
 						{foreach $aTalkUserOther as $oTalkUser}
 							{$oUser = $oTalkUser->getUser()}
 
-							{if ! $oTalkUser@first}, {/if}<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getLogin()}</a>
+							{if ! $oTalkUser@first}, {/if}<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getDisplayName()}</a>
 						{/foreach}
 					{/strip}
 				</td>

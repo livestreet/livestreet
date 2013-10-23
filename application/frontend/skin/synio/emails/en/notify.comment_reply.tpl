@@ -1,4 +1,4 @@
-<a href="{$oUserComment->getUserWebPath()}">{$oUserComment->getLogin()}</a> has replied to your comment on the topic <b>«{$oTopic->getTitle()|escape:'html'}»</b>.
+<a href="{$oUserComment->getUserWebPath()}">{$oUserComment->getDisplayName()}</a> has replied to your comment on the topic <b>«{$oTopic->getTitle()|escape:'html'}»</b>.
 <br /><br />				
 {if $oConfig->GetValue('sys.mail.include_comment')}
 Their reply reads as follows: <i>{$oComment->getText()}</i>	

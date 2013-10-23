@@ -175,7 +175,7 @@
 				{if $oUserCurrent}
 					<div class="dropdown-user" id="user-menu">
 						<a href="{$oUserCurrent->getUserWebPath()}"><img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
-						<a href="{$oUserCurrent->getUserWebPath()}" class="username">{$oUserCurrent->getLogin()}</a>
+						<a href="{$oUserCurrent->getUserWebPath()}" class="username">{$oUserCurrent->getDisplayName()}</a>
 						
 						<div class="dropdown-user-shadow"></div>
 						<div class="dropdown-user-trigger js-dropdown-usermenu" data-type="dropdown-toggle" data-option-target="dropdown-user-menu"><i></i></div>
@@ -305,7 +305,7 @@
 			<footer id="footer">
 				{if $oUserCurrent}
 					<ul class="footer-list">
-						<li class="footer-list-header word-wrap">{$oUserCurrent->getLogin()}</li>
+						<li class="footer-list-header word-wrap">{$oUserCurrent->getDisplayName()}</li>
 						<li><a href="{$oUserCurrent->getUserWebPath()}">{$aLang.footer_menu_user_profile}</a></li>
 						<li><a href="{router page='settings'}profile/">{$aLang.user_settings}</a></li>
 						<li><a href="{router page='topic'}add/" class="js-write-window-show">{$aLang.block_create}</a></li>

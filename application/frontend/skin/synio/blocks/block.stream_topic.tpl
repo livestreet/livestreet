@@ -13,7 +13,7 @@
 			
 			<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape:'html'}">
 				<p>
-					<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
+					<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a>
 					<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}">
 						{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 					</time>

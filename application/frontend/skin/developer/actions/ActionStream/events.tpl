@@ -26,7 +26,7 @@
 		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()}">
 			{* Аватар *}
 			<a href="{$oUser->getUserWebPath()}">
-				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getLogin()}" class="activity-event-avatar" />
+				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="activity-event-avatar" />
 			</a>
 
 			{* Дата *}
@@ -37,7 +37,7 @@
 			</time>
 
 			{* Логин *}
-			<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getLogin()}</strong></a>
+			<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getDisplayName()}</strong></a>
 
 			{* 
 			 * Текст события 
@@ -117,7 +117,7 @@
 					{$aLang.stream_list_event_vote_user_female}
 				{/if}
 
-				<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+				<a href="{$oTarget->getUserWebPath()}">{$oTarget->getDisplayName()}</a>
 			{elseif $oStreamEvent->getEventType() == 'join_blog'}
 				{* Вступили в блог *}
 
@@ -137,7 +137,7 @@
 					{$aLang.stream_list_event_add_friend_female}
 				{/if}
 
-				<a href="{$oTarget->getUserWebPath()}">{$oTarget->getLogin()}</a>
+				<a href="{$oTarget->getUserWebPath()}">{$oTarget->getDisplayName()}</a>
 			{elseif $oStreamEvent->getEventType() == 'add_wall'}
 				{* Написали на стене *}
 
@@ -147,7 +147,7 @@
 					{$aLang.stream_list_event_add_wall_female}
 				{/if}
 
-				<a href="{$oTarget->getUrlWall()}">{$oTarget->getWallUser()->getLogin()}</a>
+				<a href="{$oTarget->getUrlWall()}">{$oTarget->getWallUser()->getDisplayName()}</a>
 
 				{$sTextEvent = $oTarget->getText()}
 

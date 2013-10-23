@@ -13,7 +13,7 @@
 		<table class="table table-profile-notes" cellspacing="0">
 			{foreach $aNotes as $oNote}
 				<tr>
-					<td class="cell-username"><a href="{$oNote->getTargetUser()->getUserWebPath()}">{$oNote->getTargetUser()->getLogin()}</a></td>
+					<td class="cell-username"><a href="{$oNote->getTargetUser()->getUserWebPath()}">{$oNote->getTargetUser()->getDisplayName()}</a></td>
 					<td class="cell-note">{$oNote->getText()}</td>
 					<td class="cell-date">{date_format date=$oNote->getDateAdd() format="j F Y"}</td>
 				</tr>

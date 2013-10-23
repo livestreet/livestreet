@@ -9,7 +9,7 @@
 			
 			<li>
 				<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(64)}" alt="avatar" class="avatar" /></a>
-				<a href="{$oUserList->getUserWebPath()}">{$oUserList->getLogin()}</a>
+				<a href="{$oUserList->getUserWebPath()}">{$oUserList->getDisplayName()}</a>
 			</li>
 		{/foreach}
 	</ul>

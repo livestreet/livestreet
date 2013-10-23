@@ -454,6 +454,15 @@ class ModuleUser_EntityUser extends Entity {
 		}
 		return $this->_getDataOne('user_note');
 	}
+	/**
+	 * Возвращает имя пользователя для отображения на сайте
+	 * В дефолте логин пользователя
+	 *
+	 * @return null|string
+	 */
+	public function getDisplayName() {
+		return $this->getLogin();
+	}
 
 
 	/**

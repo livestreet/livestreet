@@ -30,7 +30,7 @@
 					
 					<a class="username {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
 					   href="{$oUserRecipient->getUserWebPath()}"
-					   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if ! $oTalkUser@last}, {/if}
+					   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getDisplayName()}</a>{if ! $oTalkUser@last}, {/if}
 				{/foreach}
 
 				{if $oTalk->getUserId()==$oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
@@ -54,7 +54,7 @@
 
 									{if $oTalkUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}
 										<li id="speaker_item_{$oTalkUser->getUserId()}_area">
-											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 											{if $oTalkUser->getUserActive()==$TALK_USER_ACTIVE}- <a href="#" id="speaker_item_{$oTalkUser->getUserId()}" class="delete">{$aLang.blog_delete}</a>{/if}
 										</li>
 									{/if}
@@ -72,7 +72,7 @@
 			<ul class="topic-info">
 				<li class="topic-info-author">
 					<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-					<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+					<a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 				</li>
 				<li class="topic-info-date">
 					<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate title="{date_format date=$oTalk->getDate() format='j F Y, H:i'}">

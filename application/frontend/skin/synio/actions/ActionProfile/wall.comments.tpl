@@ -10,7 +10,7 @@
 			<img src="{$oReplyUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" />
 		</a>
 		
-		<a href="{$oReplyUser->getUserWebPath()}" class="author">{$oReplyUser->getLogin()}</a> ·
+		<a href="{$oReplyUser->getUserWebPath()}" class="author">{$oReplyUser->getDisplayName()}</a> ·
 		<span class="comment-content text">{$oReplyWall->getText()}</span>
 		
 		<ul class="actions">

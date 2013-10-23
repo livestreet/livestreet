@@ -14,7 +14,7 @@
 			
 			<div class="topic-info">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" width="32px" alt="avatar" class="avatar" /></a>
-				<p class="author-wrapper"><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
+				<p class="author-wrapper"><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a>
 					<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate>
 						{date_format date=$oTalk->getDate() format="j F Y, H:i"}
 					</time>
@@ -28,7 +28,7 @@
 						{if $oUser->getId() != $oUserRecipient->getId()}
 							<a class="user {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
 							   href="{$oUserRecipient->getUserWebPath()}"
-							   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if ! $oTalkUser@last}, {/if}
+							   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getDisplayName()}</a>{if ! $oTalkUser@last}, {/if}
 						{/if}
 					{/foreach}
 
@@ -63,7 +63,7 @@
 
 									{if $oTalkUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}
 										<li id="speaker_item_{$oTalkUser->getUserId()}_area">
-											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 											{if $oTalkUser->getUserActive()==$TALK_USER_ACTIVE}- <a href="#" id="speaker_item_{$oTalkUser->getUserId()}" class="delete">{$aLang.blog_delete}</a>{/if}
 										</li>
 									{/if}
