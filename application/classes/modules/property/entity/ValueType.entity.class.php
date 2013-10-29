@@ -69,6 +69,10 @@ class ModuleProperty_EntityValueType extends Entity {
 		 * Удаляем из таблицы тегов
 		 */
 		$this->Property_RemoveValueTagsByTarget($oValue->getTargetType(),$oValue->getTargetId(),$oValue->getPropertyId());
+		/**
+		 * Удаляем из таблицы селектов
+		 */
+		$this->Property_RemoveValueSelectsByTarget($oValue->getTargetType(),$oValue->getTargetId(),$oValue->getPropertyId());
 	}
 
 	public function prepareValidateRulesRaw($aRulesRaw) {

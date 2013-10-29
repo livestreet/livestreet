@@ -284,8 +284,10 @@ $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
 $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
 $config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
 $config['db']['table']['property'] 			  = '___db.table.prefix___property';
+$config['db']['table']['property_select'] 	  = '___db.table.prefix___property_select';
 $config['db']['table']['property_value'] 	  = '___db.table.prefix___property_value';
 $config['db']['table']['property_value_tag']  = '___db.table.prefix___property_value_tag';
+$config['db']['table']['property_value_select']  = '___db.table.prefix___property_value_select';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 

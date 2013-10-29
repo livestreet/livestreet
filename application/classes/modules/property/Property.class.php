@@ -29,6 +29,7 @@ class ModuleProperty extends ModuleORM {
 	const PROPERTY_TYPE_CHECKBOX='checkbox';
 	const PROPERTY_TYPE_TAGS='tags';
 	const PROPERTY_TYPE_VIDEO_LINK='video_link';
+	const PROPERTY_TYPE_SELECT='select';
 
 	protected $oMapper=null;
 	/**
@@ -37,7 +38,7 @@ class ModuleProperty extends ModuleORM {
 	 * @var array
 	 */
 	protected $aPropertyTypes=array(
-		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK
+		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK,self::PROPERTY_TYPE_SELECT
 	);
 	/**
 	 * Список разрешенных типов
@@ -493,6 +494,7 @@ class ModuleProperty extends ModuleORM {
 		return array_combine($aKeys,array_values($aArray));
 	}
 	/**
+	 * TODO: нужно учитывать сброс кеша
 	 * Удаляет теги свойства у сущности
 	 *
 	 * @param string $sTargetType	Тип объекта сущности
@@ -503,6 +505,19 @@ class ModuleProperty extends ModuleORM {
 	 */
 	public function RemoveValueTagsByTarget($sTargetType,$iTargetId,$iPropertyId) {
 		return $this->oMapper->RemoveValueTagsByTarget($sTargetType,$iTargetId,$iPropertyId);
+	}
+	/**
+	 * TODO: нужно учитывать сброс кеша
+	 * Удаляет значения типа select
+	 *
+	 * @param string $sTargetType	Тип объекта сущности
+	 * @param int $iTargetId	ID объекта сущности
+	 * @param int $iPropertyId	ID свойства
+	 *
+	 * @return mixed
+	 */
+	public function RemoveValueSelectsByTarget($sTargetType,$iTargetId,$iPropertyId) {
+		return $this->oMapper->RemoveValueSelectsByTarget($sTargetType,$iTargetId,$iPropertyId);
 	}
 	/**
 	 * Возвращает список тегов/знаяений свойства. Используется для авкомплиттера тегов.

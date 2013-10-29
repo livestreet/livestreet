@@ -32,7 +32,7 @@ class ModuleProperty_EntityProperty extends EntityORM {
 	);
 
 	protected $aRelations=array(
-
+		'selects' => array(self::RELATION_TYPE_HAS_MANY,'ModuleProperty_EntitySelect','property_id',array('#order'=>array('sort'=>'desc'))),
 	);
 
 	public function ValidateCheckType() {
@@ -88,6 +88,20 @@ class ModuleProperty_EntityProperty extends EntityORM {
 			$aData=array();
 		}
 		return $aData;
+	}
+	/**
+	 * Возвращает конкретное правило валидации
+	 *
+	 * @param string $sRule
+	 *
+	 * @return null|mixed
+	 */
+	public function getValidateRuleOne($sRule) {
+		$aData=$this->getValidateRules();
+		if (isset($aData[$sRule])) {
+			return $aData[$sRule];
+		}
+		return null;
 	}
 	/**
 	 * Устанавливает правила валидации поля

@@ -118,6 +118,22 @@ class ModuleProperty_MapperProperty extends Mapper {
 		return false;
 	}
 
+	public function RemoveValueSelectsByTarget($sTargetType,$iTargetId,$iPropertyId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.property_value_select')."
+                WHERE
+                	target_id = ?d
+                	and
+                	target_type = ?
+                	and
+                	property_id = ?d
+                	";
+		if ($this->oDb->query($sql,$iTargetId, $sTargetType, $iPropertyId)!==false) {
+			return true;
+		}
+		return false;
+	}
+
 	public function GetPropertyTagsByLike($sTag,$iPropertyId,$iLimit) {
 		$sTag=mb_strtolower($sTag,"UTF-8");
 		$sql = "SELECT

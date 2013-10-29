@@ -102,3 +102,41 @@ CREATE TABLE IF NOT EXISTS `prefix_property_value_tag` (
   KEY `text` (`text`),
   KEY `property_id` (`property_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 29-10-2013
+
+--
+-- Структура таблицы `prefix_property_select`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_property_select` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `property_id` int(11) NOT NULL,
+  `target_type` varchar(50) NOT NULL,
+  `value` varchar(250) NOT NULL,
+  `sort` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `property_id` (`property_id`),
+  KEY `target_type` (`target_type`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_property_value_select`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_property_value_select` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `property_id` int(11) NOT NULL,
+  `target_type` varchar(50) NOT NULL,
+  `target_id` int(11) NOT NULL,
+  `select_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `target_type` (`target_type`),
+  KEY `target_id` (`target_id`),
+  KEY `property_id` (`property_id`),
+  KEY `select_id` (`select_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
