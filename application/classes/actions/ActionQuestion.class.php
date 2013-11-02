@@ -304,10 +304,15 @@ class ActionQuestion extends Action {
 			/**
 			 * Добавляем автора топика в подписчики на новые комментарии к этому топику
 			 */
-			$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$this->oUserCurrent->getMail(),$this->oUserCurrent->getId());
-			//Делаем рассылку спама всем, кто состоит в этом блоге
+			$oUser=$oTopic->getUser();
+			if ($oUser) {
+				$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$oUser->getMail());
+			}
+			/**
+			 * Делаем рассылку спама всем, кто состоит в этом блоге
+			 */
 			if ($oTopic->getPublish()==1 and $oBlog->getType()!='personal') {
-				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
+				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$oUser);
 			}
 			/**
 			 * Добавляем событие в ленту
@@ -452,7 +457,7 @@ class ActionQuestion extends Action {
 			 * Рассылаем о новом топике подписчикам блога
 			 */
 			if ($bSendNotify)	 {
-				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$this->oUserCurrent);
+				$this->Topic_SendNotifyTopicNew($oBlog,$oTopic,$oTopic->getUser());
 			}
 			if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId()!=$oTopic->getUserId()) {
 				Router::Location($oBlog->getUrlFull());
