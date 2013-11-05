@@ -1,7 +1,7 @@
 {extends file='emails/email.base.tpl'}
 
 {block name='content'}
-	Вам пришло новое письмо от пользователя <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a>, прочитать и ответить на него можно перейдя по <a href="{router page='talk'}read/{$oTalk->getId()}/">этой ссылке</a>
+	Вам пришло новое письмо от пользователя <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>, прочитать и ответить на него можно перейдя по <a href="{router page='talk'}read/{$oTalk->getId()}/">этой ссылке</a>
 	<br>
 	<br>
 	Тема письма: <b>{$oTalk->getTitle()|escape:'html'}</b>

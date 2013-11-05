@@ -32,6 +32,10 @@ class ModuleUser_EntityUser extends Entity {
 			$this->aValidateRules[] = array('captcha', 'captcha', 'on' => array('registration'));
 		}
 
+		if (Config::Get('general.login.captcha')){
+			$this->aValidateRules[] = array('captcha', 'captcha', 'on' => array('signIn'));
+		}
+
 		parent::__construct($aParam);
 	}
 
@@ -449,6 +453,15 @@ class ModuleUser_EntityUser extends Entity {
 			$this->_aData['user_note']=$this->User_GetUserNote($this->getId(),$oUserCurrent->getId());
 		}
 		return $this->_getDataOne('user_note');
+	}
+	/**
+	 * Возвращает имя пользователя для отображения на сайте
+	 * В дефолте логин пользователя
+	 *
+	 * @return null|string
+	 */
+	public function getDisplayName() {
+		return $this->getLogin();
 	}
 
 

@@ -59,14 +59,4 @@ jQuery(document).ready(function($) {
 		}
 		return false;
 	});
-
-
-	/**
-	 * Эмуляция placeholder'ов в IE
-	 *
-	 * TODO: Вынести в ie.js
-	 */
-	if ($('html').hasClass('oldie')) {
-		$('input[type=text], textarea').placeholder();
-	}
 });

@@ -50,7 +50,7 @@ ls.userfeed = (function ($) {
 		var params = {'type':sType, 'id':iId};
 		
 		ls.hook.marker('subscribeBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax.load(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_userfeed_subscribe_after',[sType, iId, data]);
@@ -63,7 +63,7 @@ ls.userfeed = (function ($) {
 		var params = {'type':sType, 'id':iId};
 		
 		ls.hook.marker('unsubscribeBefore');
-		ls.ajax(url, params, function(data) { 
+		ls.ajax.load(url, params, function(data) { 
 			if (!data.bStateError) {
 				ls.msg.notice(data.sMsgTitle,data.sMsg);
 				ls.hook.run('ls_userfeed_unsubscribe_after',[sType, iId, data]);
@@ -79,7 +79,7 @@ ls.userfeed = (function ($) {
 		
 		ls.hook.marker('appendUserBefore');
 
-		ls.ajax(aRouter['feed']+'subscribeByLogin/', {'login':sLogin}, function(data) {
+		ls.ajax.load(aRouter['feed']+'subscribeByLogin/', {'login':sLogin}, function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
@@ -117,7 +117,7 @@ ls.userfeed = (function ($) {
 		var params = {'last_id':lastId};
 		
 		ls.hook.marker('getMoreBefore');
-		ls.ajax(url, params, function(data) {
+		ls.ajax.load(url, params, function(data) {
 			if (!data.bStateError && data.topics_count) {
 				$('#userfeed_loaded_topics').append(data.result);
 				$('#userfeed_last_id').attr('value', data.iUserfeedLastId);

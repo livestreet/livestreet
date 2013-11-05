@@ -8,7 +8,7 @@
 			{$oSession = $oUserList->getSession()}
 			
 			<li>
-				<a href="{$oUserList->getUserWebPath()}" title="{$oUserList->getLogin()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+				<a href="{$oUserList->getUserWebPath()}" title="{$oUserList->getDisplayName()}"><img src="{$oUserList->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 			</li>
 		{/foreach}
 	</ul>

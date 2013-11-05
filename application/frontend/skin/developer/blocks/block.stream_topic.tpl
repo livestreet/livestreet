@@ -14,7 +14,7 @@
 			<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape:'html'}">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 
-				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a> &rarr;
+				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a> &rarr;
 				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
 				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
 

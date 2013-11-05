@@ -10,11 +10,11 @@
 {block name='block_type'}profile-photo{/block}
 {block name='block_class'}js-ajax-photo-upload{/block}
 
-{block name='block_content_after'}
+{block name='block_content'}
 	<div class="profile-photo-wrapper">
 		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
 		<a href="{$oUserProfile->getUserWebPath()}">
-			<img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getLogin()} photo" class="profile-photo js-ajax-image-upload-image" />
+			<img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="profile-photo js-ajax-image-upload-image" />
 		</a>
 	</div>
 	

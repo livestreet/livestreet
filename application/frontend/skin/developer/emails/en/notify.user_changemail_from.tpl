@@ -1,4 +1,4 @@
-You have sent a request to change user email <a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a> on site <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>.<br/>
+You have sent a request to change user email <a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a> on site <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>.<br/>
 Old email: <b>{$oChangemail->getMailFrom()}</b><br/>
 New email: <b>{$oChangemail->getMailTo()}</b><br/>
 

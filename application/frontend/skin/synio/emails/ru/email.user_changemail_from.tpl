@@ -1,7 +1,7 @@
 {extends file='emails/email.base.tpl'}
 
 {block name='content'}
-	Вами отправлен запрос на смену e-mail адреса пользователя <a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a> на сайте <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>.
+	Вами отправлен запрос на смену e-mail адреса пользователя <a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a> на сайте <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>.
 	<br>
 	<br>
 	Старый e-mail: <b>{$oChangemail->getMailFrom()}</b><br>

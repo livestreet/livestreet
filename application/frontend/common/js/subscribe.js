@@ -19,7 +19,7 @@ ls.subscribe = (function ($) {
 		var url = aRouter['subscribe']+'ajax-subscribe-toggle/';
 		var params = {target_type: sTargetType, target_id: iTargetId, mail: sMail, value: iValue};
 		ls.hook.marker('toggleBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

@@ -11,11 +11,11 @@
 
 {block name='block_nav'}
 	<ul class="nav nav-pills js-block-nav" data-type="tabs">
-		<li data-type="tab" data-option-url="{router page='ajax'}blogs/top" data-option-target="js-tab-pane-blogs" class="active"><a href="#">{$aLang.block_blogs_top}</a></li>
+		<li data-type="tab" data-tab-url="{router page='ajax'}blogs/top" data-tab-target="js-tab-pane-blogs" class="active"><a href="#">{$aLang.block_blogs_top}</a></li>
 
 		{if $oUserCurrent}
-			<li data-type="tab" data-option-url="{router page='ajax'}blogs/join" data-option-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_join}</a></li>
-			<li data-type="tab" data-option-url="{router page='ajax'}blogs/self" data-option-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_self}</a></li>
+			<li data-type="tab" data-tab-url="{router page='ajax'}blogs/join" data-tab-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_join}</a></li>
+			<li data-type="tab" data-tab-url="{router page='ajax'}blogs/self" data-tab-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_self}</a></li>
 		{/if}
 	</ul>
 {/block}

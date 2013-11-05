@@ -11,9 +11,9 @@
 
 {block name='block_nav'}
 	<ul class="nav nav-pills" data-type="tabs">
-		<li class="active" data-type="tab" data-option-target="js-tab-pane-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
+		<li class="active" data-type="tab" data-tab-target="js-tab-pane-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
 		{if $oUserCurrent}
-			<li data-type="tab" data-option-target="js-tab-pane-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
+			<li data-type="tab" data-tab-target="js-tab-pane-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
 		{/if}
 
 		{hook run='block_tags_nav_item'}

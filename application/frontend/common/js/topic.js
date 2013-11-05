@@ -81,7 +81,7 @@ ls.topic = (function ($) {
 
 		ls.hook.marker('previewBefore');
 
-		ls.ajaxSubmit(this.options.oRouters.preview, oForm, function(result) {
+		ls.ajax.submit(this.options.oRouters.preview, oForm, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

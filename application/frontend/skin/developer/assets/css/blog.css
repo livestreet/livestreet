@@ -9,17 +9,17 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.blog { background: #fafafa; margin-bottom: 10px; border: 1px solid #eee; overflow: hidden; }
+.blog { margin-bottom: 15px; overflow: hidden; }
 
 /* Хидер */
-.blog-header               { position: relative; padding: 15px 130px 15px 78px; border-bottom: 1px solid #eee; }
+.blog-header               { position: relative; padding: 0 130px 15px 68px; }
 
-.blog-header .blog-title   { font-size: 20px; font-weight: bold; line-height: 1em; margin-top: 3px; margin-bottom: 7px; }
-.blog-header .blog-title i { position: relative; top: 5px; }
+.blog-header .blog-title   {  margin-bottom: 7px; }
+.blog-header .blog-title i { position: relative; top: -2px; vertical-align: middle; }
 
-.blog-header .avatar       { position: absolute; top: 15px; left: 15px; }
+.blog-header .avatar       { position: absolute; top: 4px; left: 0; }
 
-.blog-header .vote                                 { position: absolute; top: 15px; right: 15px; }
+.blog-header .vote                                 { position: absolute; top: 0; right: 0; }
 .blog-header .vote .vote-count                     { padding-left: 25px; display: block; color: #333; }
 .blog-header .vote .vote-up                        { position: absolute; top: 22px; left: 0; }
 .blog-header .vote .vote-down                      { position: absolute; top: 35px; left: 0; }
@@ -29,12 +29,8 @@
 
 .blog-header .actions { margin-bottom: 0; }
 
-/* Описание */
-.blog-description { padding: 15px; border-bottom: 1px solid #eee; }
-
 /* Информация о блоге */
-.blog-info { padding: 15px; border-bottom: 1px solid #eee; }
+.blog-info { padding: 15px 0; line-height: 20px; }
 
 /* Кнопка показывающая/скрывающая информацию о блоге */
-.blog-more       { display: block; padding: 10px 0; text-align: center; text-decoration: none; background: #fafafa; }
-.blog-more:hover { background: #eee; }
+.blog .get-more { margin-top: 0; }

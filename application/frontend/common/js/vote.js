@@ -126,7 +126,7 @@ ls.vote = (function ($) {
 
 		ls.hook.marker('voteBefore');
 
-		ls.ajax(this.options.type[sType].url, params, function (result) {
+		ls.ajax.load(this.options.type[sType].url, params, function (result) {
 			var args = [iTargetId, iValue, sType, oVars, result];
 			this.onVote.apply(this, args);
 		}.bind(this));
@@ -176,7 +176,7 @@ ls.vote = (function ($) {
 				oVars.rating.text(0);
 			}
 
-			var method = 'onVote' + ls.tools.ucfirst(sType);
+			var method = 'onVote' + ls.utilities.ucfirst(sType);
 
 			if (typeof this[method] == 'function') {
 				this[method].apply(this, [iTargetId, iValue, sType, oVars, result]);

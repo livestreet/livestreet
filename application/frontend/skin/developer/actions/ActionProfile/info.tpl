@@ -132,7 +132,7 @@
 			<tr>
 				<td class="cell-label">{$aLang.profile_invite_from}:</td>
 				<td>							       						
-					<a href="{$oUserInviteFrom->getUserWebPath()}">{$oUserInviteFrom->getLogin()}</a>&nbsp;         					
+					<a href="{$oUserInviteFrom->getUserWebPath()}">{$oUserInviteFrom->getDisplayName()}</a>&nbsp;
 				</td>
 			</tr>
 		{/if}
@@ -143,7 +143,7 @@
 				<td class="cell-label">{$aLang.profile_invite_to}:</td>
 				<td>
 					{foreach $aUsersInvite as $oUserInvite}        						
-						<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getLogin()}</a>&nbsp; 
+						<a href="{$oUserInvite->getUserWebPath()}">{$oUserInvite->getDisplayName()}</a>&nbsp;
 					{/foreach}
 				</td>
 			</tr>

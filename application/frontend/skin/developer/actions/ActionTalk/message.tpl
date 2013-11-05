@@ -14,7 +14,7 @@
 			
 			<div class="topic-info">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" width="32px" alt="avatar" class="avatar" /></a>
-				<p class="author-wrapper"><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getLogin()}</a>
+				<p class="author-wrapper"><a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a>
 					<time datetime="{date_format date=$oTalk->getDate() format='c'}" pubdate>
 						{date_format date=$oTalk->getDate() format="j F Y, H:i"}
 					</time>
@@ -28,7 +28,7 @@
 						{if $oUser->getId() != $oUserRecipient->getId()}
 							<a class="user {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}" 
 							   href="{$oUserRecipient->getUserWebPath()}"
-							   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getLogin()}</a>{if ! $oTalkUser@last}, {/if}
+							   {if $oTalkUser->getUserActive() != $TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUserRecipient->getDisplayName()}</a>{if ! $oTalkUser@last}, {/if}
 						{/if}
 					{/foreach}
 
@@ -63,7 +63,7 @@
 
 									{if $oTalkUser->getUserActive()!=$TALK_USER_DELETE_BY_AUTHOR}
 										<li id="speaker_item_{$oTalkUser->getUserId()}_area">
-											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+											<a class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 											{if $oTalkUser->getUserActive()==$TALK_USER_ACTIVE}- <a href="#" id="speaker_item_{$oTalkUser->getUserId()}" class="delete">{$aLang.blog_delete}</a>{/if}
 										</li>
 									{/if}
@@ -83,11 +83,9 @@
 		
 		<footer class="topic-footer">
 			<ul class="topic-info">
-				<li class="topic-info-favourite">
-					<a href="#"
-					   onclick="return ls.favourite.toggle({$oTalk->getId()},this,'talk');" 
-					   class="favourite {if $oTalk->getIsFavourite()}active{/if}" 
-					   title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></a>
+				<li class="favourite topic-info-favourite js-favourite" data-favourite-type="talk" data-favourite-id="{$oTalk->getId()}">
+					<div class="favourite-toggle js-favourite-toggle {if $oTalk->getIsFavourite()}active{/if}" 
+					     title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></a>
 				</li>
 				<li class="delete">
 					<a href="{router page='talk'}delete/{$oTalk->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" onclick="return confirm('{$aLang.talk_inbox_delete_confirm}');" class="delete">{$aLang.delete}</a>

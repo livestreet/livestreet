@@ -9,7 +9,7 @@
 	{* Header *}
 	{block name='modal_title' hide}
 		<header class="modal-header">
-			<h3>{$smarty.block.child}</h3>
+			<h3 class="modal-title">{$smarty.block.child}</h3>
 			<a href="#" class="modal-close" data-type="modal-close"></a>
 		</header>
 	{/block}

@@ -70,29 +70,50 @@ class ActionLogin extends Action {
 		 */
 		if ((func_check(getRequest('login'),'mail') and $oUser=$this->User_GetUserByMail(getRequest('login')))  or  $oUser=$this->User_GetUserByLogin(getRequest('login'))) {
 			/**
-			 * Сверяем хеши паролей и проверяем активен ли юзер
+			 *  Выбираем сценарий валидации
 			 */
+			$oUser->_setValidateScenario('signIn');
+			/**
+			 * Заполняем поля (данные)
+			 */
+			$oUser->setCaptcha(getRequestStr('captcha'));
+			/**
+			 * Запускаем валидацию
+			 */
+			if ($oUser->_Validate()) {
+				/**
+				 * Сверяем хеши паролей и проверяем активен ли юзер
+				 */
 
-			if ($oUser->getPassword()==func_encrypt(getRequest('password'))) {
-				if (!$oUser->getActivate()) {
-					$this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
+				if ($oUser->getPassword()==func_encrypt(getRequest('password'))) {
+					if (!$oUser->getActivate()) {
+						$this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
+						return;
+					}
+					$bRemember=getRequest('remember',false) ? true : false;
+					/**
+					 * Авторизуем
+					 */
+					$this->User_Authorization($oUser,$bRemember);
+					/**
+					 * Определяем редирект
+					 */
+					$sUrl=Config::Get('module.user.redirect_after_login');
+					if (getRequestStr('return-path')) {
+						$sUrl=getRequestStr('return-path');
+					}
+					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
 					return;
 				}
-				$bRemember=getRequest('remember',false) ? true : false;
+			} else {
 				/**
-				 * Авторизуем
+				 * Получаем ошибки
 				 */
-				$this->User_Authorization($oUser,$bRemember);
-				/**
-				 * Определяем редирект
-				 */
-				$sUrl=Config::Get('module.user.redirect_after_login');
-				if (getRequestStr('return-path')) {
-					$sUrl=getRequestStr('return-path');
-				}
-				$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
-				return;
+				$this->Viewer_AssignAjax('aErrors',$oUser->_getValidateErrors());
 			}
+
+
+
 		}
 		$this->Message_AddErrorSingle($this->Lang_Get('user_login_bad'));
 	}

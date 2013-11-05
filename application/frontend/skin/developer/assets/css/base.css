@@ -18,17 +18,17 @@ body {
 /**
  * Ссылки
  */
-a 		{ color: #08c; text-decoration: none; }
+a 		{ color: #1A80DB; text-decoration: none; }
 a:hover { color: #058; }
 
-.text a:visited, 
-.topic .topic-header .topic-title a:visited,
+.text a:visited,
 .item-list li a:visited { color: #1D2273; }
 
 
 /**
  * Заголовки
  */
+h1, h2, h3, h4, h5, h6 { font-family: "Open Sans", sans-serif; }
 .h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 15px; line-height: 1.2em; }
 
 .h1 { font-size: 28px; }
@@ -38,7 +38,7 @@ a:hover { color: #058; }
 .h5 { font-size: 20px; }
 .h6 { font-size: 18px; }
 
-.page-header      { color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
+.page-header      { color: #333; font-size: 30px; line-height: 1em; margin-bottom: 20px; }
 .page-header span { color: #aaa; }
 
 .header-table     { margin-bottom: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; font-weight: bold; }
@@ -47,8 +47,9 @@ a:hover { color: #058; }
 /**
  * Шапка сайта
  */
-#header a                  { text-decoration: none; color: #000; }
+.grid-role-header a                  { text-decoration: none; color: #fff; }
 
-#header .site-name         { margin: 0 0 10px; font-size: 54px; line-height: 1em; font-weight: bold; text-align: center; }
-#header .site-name a:hover { color: #3a41b8; }
-#header .site-description  { max-width: 500px; margin: 0 auto; color: #777; font-size: 15px; text-align: center; }
+.grid-role-header .site-info { margin: 0 auto; }
+.grid-role-header .site-name         { margin: 0 0 10px; font-size: 65px; line-height: 1em; font-weight: bold; }
+.grid-role-header .site-name a:hover { color: #fff; opacity: .9; }
+.grid-role-header .site-description  { max-width: 600px; color: #fff; font-size: 15px; }

@@ -55,7 +55,7 @@ ls.blog = (function ($) {
 		var params = {idBlog: idBlog};
 
 		ls.hook.marker('toggleJoinBefore');
-		ls.ajax(url,params,function(result) {
+		ls.ajax.load(url,params,function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -88,7 +88,7 @@ ls.blog = (function ($) {
 		var params = {users: sUsers, idBlog: idBlog};
 
 		ls.hook.marker('addInviteBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -120,7 +120,7 @@ ls.blog = (function ($) {
 		var params = {idUser: idUser, idBlog: idBlog};
 
 		ls.hook.marker('repeatInviteBefore');
-		ls.ajax(url, params, function(result){
+		ls.ajax.load(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -140,7 +140,7 @@ ls.blog = (function ($) {
 		var params = {idUser: idUser, idBlog: idBlog};
 
 		ls.hook.marker('removeInviteBefore');
-		ls.ajax(url, params, function(result){
+		ls.ajax.load(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -165,7 +165,7 @@ ls.blog = (function ($) {
 		block.empty().addClass('loading');
 
 		ls.hook.marker('loadInfoBefore');
-		ls.ajax(url, params, function(result){
+		ls.ajax.load(url, params, function(result){
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -191,7 +191,7 @@ ls.blog = (function ($) {
 		inputSearch.addClass('loader');
 
 		ls.hook.marker('searchBlogsBefore');
-		ls.ajaxSubmit(url, form, function(result){
+		ls.ajax.submit(url, form, function(result){
 			inputSearch.removeClass('loader');
 			if (result.bStateError) {
 				$('#blogs-list-search').hide();
@@ -234,7 +234,7 @@ ls.blog = (function ($) {
 		ls.hook.marker('loadBlogsByCategoryBefore');
 
 		if (id !== '0') {
-			ls.ajax(url, params, function(result){
+			ls.ajax.load(url, params, function(result){
 				if (result.bStateError) {
 					$blogs.append('<option>' + result.sMsg + '</option>');
 				} else {

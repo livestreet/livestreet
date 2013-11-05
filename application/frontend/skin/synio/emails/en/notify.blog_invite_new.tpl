@@ -1,4 +1,4 @@
-<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a> invites you to join the blog <a href="{$oBlog->getUrlFull()}">"{$oBlog->getTitle()|escape:'html'}"</a>.
+<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a> invites you to join the blog <a href="{$oBlog->getUrlFull()}">"{$oBlog->getTitle()|escape:'html'}"</a>.
 <br /><br />
 <a href='{$sPath}'>Have a look at the invitation</a>
 <br><br>

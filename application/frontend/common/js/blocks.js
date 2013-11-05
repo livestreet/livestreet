@@ -32,7 +32,7 @@ ls.blocks = (function ($) {
 
 		// Кнопка обновления блока
 		$('#js-stream-update').on('click', function () {
-			((tabs.is(':visible')) ? tabs : $('#js-dropdown-menu-stream')).find('li.active').tab('activate');
+			((tabs.is(':visible')) ? tabs : $('#js-dropdown-menu-stream')).find('.active').tab('activate');
 			$(this).addClass('active');
 			setTimeout( function() { $(this).removeClass('active'); }.bind(this), 600 );
 		});

@@ -42,7 +42,7 @@
 		</ul>
 
 		<ul class="topic-info">
-			<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a></li>
+			<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a></li>
 			{hook run='topic_preview_show_info' topic=$oTopic}
 		</ul>
 

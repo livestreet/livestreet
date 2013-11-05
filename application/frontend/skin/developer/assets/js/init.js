@@ -11,9 +11,9 @@ jQuery(document).ready(function($){
 	ls.hook.run('ls_template_init_start',[],window);
 
 	/**
-	 * Popovers
+	 * Main init
 	 */
-	$(document).popover({ selector: '.js-popover-default' });
+	ls.setOption('debug', true);
 
 
 	/**
@@ -35,28 +35,43 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Tabs
+	 */
+	$('[data-type=tab]').tab();
+
+
+	/**
+	 * Alerts
+	 */
+	$('.js-alert').alert();
+
+
+	/**
 	 * Tooltips
 	 */
-	$(document).tooltip({
-		selector: '.js-tooltip, .js-tooltip-vote-topic'
+	$('.js-tooltip').tooltip();
+
+	$('.js-tooltip-vote-topic').livequery(function () {
+		$(this).tooltip();
 	});
 
-	$('.js-title-talk').tooltip({
-		alignX: 'left',
-		alignY: 'center'
-	});
-
-	$('.js-tip-help').tooltip({
-		alignX: 'right',
-		alignY: 'center'
+	$('.js-popover-default').tooltip({
+		useAttrTitle: false,
+		trigger: 'click',
+		classes: 'tooltip-light'
 	});
 
 	if (ls.registry.get('block_stream_show_tip')) {
-		$(document).tooltip({
-			selector: '.js-title-comment, .js-title-topic',
-			alignX: 'left',
-			alignY: 'center',
-			delay: 1500
+		$('.js-title-comment, .js-title-topic').livequery(function () {
+			$(this).tooltip({
+				position: {
+					my: "right center",
+					at: "left left"
+				},
+				show: {
+					delay: 1500
+				}
+			});
 		});
 	}
 
@@ -80,8 +95,8 @@ jQuery(document).ready(function($){
 	 * Toolbar
 	 */
 	$('.js-toolbar').toolbar({
-		target: '#wrapper',
-		offsetX: 10
+		target: '.grid-role-wrapper',
+		offsetX: 20
 	});
 
 	ls.toolbar.topic.init(); // Тул-бар топиков

@@ -70,6 +70,7 @@ $config['general']['close']             = false; // использовать з�
 $config['general']['rss_editor_mail']   = '___sys.mail.from_email___'; // мыло редактора РСС
 $config['general']['reg']['invite']     = false; // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 $config['general']['reg']['activation'] = false; // использовать активацию при регистрации или нет
+$config['general']['login']['captcha']  = false; // использовать каптчу при входе или нет
 
 /**
  * Настройки ACL(Access Control List — список контроля доступа)
@@ -282,6 +283,11 @@ $config['db']['table']['geo_region']          = '___db.table.prefix___geo_region
 $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
 $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
 $config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
+$config['db']['table']['property']            = '___db.table.prefix___property';
+$config['db']['table']['property_select']     = '___db.table.prefix___property_select';
+$config['db']['table']['property_value']      = '___db.table.prefix___property_value';
+$config['db']['table']['property_value_tag']  = '___db.table.prefix___property_value_tag';
+$config['db']['table']['property_value_select']  = '___db.table.prefix___property_value_select';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 
@@ -368,6 +374,7 @@ $config['block']['rule_blogs'] = array(
 );
 
 $config['block']['userfeedBlogs'] = array(
+<<<<<<< HEAD
     'action'  => array('feed'),
     'blocks'  => array(
                     'right' => array(
@@ -392,6 +399,32 @@ $config['block']['rule_blog_info'] = array(
             'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
         ),
     'clear' => false,
+=======
+    'action'  => array('feed'),
+    'blocks'  => array(
+        'right' => array(
+            'userfeedBlogs'=> array()
+        )
+    )
+);
+$config['block']['userfeedUsers'] = array(
+    'action'  => array('feed'),
+    'blocks'  => array(
+        'right' => array(
+            'userfeedFriends'=> array(),
+            'userfeedUsers'=> array()
+        )
+    )
+);
+$config['block']['rule_blog_info'] = array(
+    'action'  => array(
+        'blog' => array('{topic}')
+    ),
+    'blocks'  => array(
+        'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+    ),
+    'clear' => false,
+>>>>>>> 0c57b9188a59bdbb6125003c649fd950a80e1ddf
 );
 $config['block']['rule_users'] = array(
     'action' => array('people'),
@@ -418,6 +451,7 @@ $config['block']['rule_profile'] = array(
 
 
 $config['head']['default']['js'] = array(
+<<<<<<< HEAD
     /* Vendor libs */
     "___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
     "___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
@@ -497,6 +531,97 @@ $config['head']['default']['css'] = array(
     "___path.framework.frontend.web___/css/popover.css",
     "___path.framework.frontend.web___/css/alerts.css",
     "___path.framework.frontend.web___/css/toolbar.css"
+=======
+    /* Vendor libs */
+    "___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
+    "___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.browser.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.form.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.file.js",
+    "___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+    "___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
+    "___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
+    "___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.livequery.js",
+
+    /* Core */
+    "___path.framework.frontend.web___/js/core/main.js",
+    "___path.framework.frontend.web___/js/core/hook.js",
+    "___path.framework.frontend.web___/js/core/i18n.js",
+    "___path.framework.frontend.web___/js/core/ie.js",
+    "___path.framework.frontend.web___/js/core/ajax.js",
+    "___path.framework.frontend.web___/js/core/registry.js",
+    "___path.framework.frontend.web___/js/core/swfupload.js",
+    "___path.framework.frontend.web___/js/core/utilities.js",
+    "___path.framework.frontend.web___/js/core/timer.js",
+
+    /* User Interface */
+    "___path.framework.frontend.web___/js/ui/dropdown.js",
+    "___path.framework.frontend.web___/js/ui/tab.js",
+    "___path.framework.frontend.web___/js/ui/modal.js",
+    "___path.framework.frontend.web___/js/ui/toolbar.js",
+    "___path.framework.frontend.web___/js/ui/tooltip.js",
+    "___path.framework.frontend.web___/js/ui/autocomplete.js",
+    "___path.framework.frontend.web___/js/ui/notification.js",
+    "___path.framework.frontend.web___/js/ui/alert.js",
+
+    /* LiveStreet */
+    "___path.application.web___/frontend/common/js/favourite.js",
+    "___path.application.web___/frontend/common/js/blocks.js",
+    "___path.application.web___/frontend/common/js/pagination.js",
+    "___path.application.web___/frontend/common/js/editor.js",
+    "___path.application.web___/frontend/common/js/talk.js",
+    "___path.application.web___/frontend/common/js/vote.js",
+    "___path.application.web___/frontend/common/js/poll.js",
+    "___path.application.web___/frontend/common/js/subscribe.js",
+    "___path.application.web___/frontend/common/js/geo.js",
+    "___path.application.web___/frontend/common/js/wall.js",
+    "___path.application.web___/frontend/common/js/usernote.js",
+    "___path.application.web___/frontend/common/js/comments.js",
+    "___path.application.web___/frontend/common/js/blog.js",
+    "___path.application.web___/frontend/common/js/user.js",
+    "___path.application.web___/frontend/common/js/userfeed.js",
+    "___path.application.web___/frontend/common/js/stream.js",
+    "___path.application.web___/frontend/common/js/photoset.js",
+    "___path.application.web___/frontend/common/js/toolbar.js",
+    "___path.application.web___/frontend/common/js/settings.js",
+    "___path.application.web___/frontend/common/js/topic.js",
+    "___path.application.web___/frontend/common/js/admin.js",
+    "___path.application.web___/frontend/common/js/userfield.js",
+    "___path.application.web___/frontend/common/js/captcha.js",
+    "___path.application.web___/frontend/common/js/init.js",
+
+    "http://yandex.st/share/share.js" => array('merge'=>false),
+);
+
+$config['head']['default']['css'] = array(
+    // Framework styles
+    "___path.framework.frontend.web___/css/reset.css",
+    "___path.framework.frontend.web___/css/helpers.css",
+    "___path.framework.frontend.web___/css/text.css",
+    "___path.framework.frontend.web___/css/dropdowns.css",
+    "___path.framework.frontend.web___/css/buttons.css",
+    "___path.framework.frontend.web___/css/forms.css",
+    "___path.framework.frontend.web___/css/navs.css",
+    "___path.framework.frontend.web___/css/modals.css",
+    "___path.framework.frontend.web___/css/tooltip.css",
+    "___path.framework.frontend.web___/css/alerts.css",
+    "___path.framework.frontend.web___/css/toolbar.css",
+    "___path.framework.frontend.web___/css/typography.css",
+    "___path.framework.frontend.web___/css/grid.css"
+>>>>>>> 0c57b9188a59bdbb6125003c649fd950a80e1ddf
 );
 
 /**

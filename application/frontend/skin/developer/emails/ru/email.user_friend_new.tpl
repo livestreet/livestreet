@@ -1,7 +1,7 @@
 {extends file='emails/email.base.tpl'}
 
 {block name='content'}
-	Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getLogin()}</a>» хочет добавить вас в друзья.						
+	Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>» хочет добавить вас в друзья.
 	<br>
 	<br>
 	<i>{$sText}</i>

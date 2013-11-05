@@ -11,7 +11,7 @@
 			<a href="{$oWallUser->getUserWebPath()}"><img src="{$oWallUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 
 			<p class="info">
-				<a href="{$oWallUser->getUserWebPath()}">{$oWallUser->getLogin()}</a> ·
+				<a href="{$oWallUser->getUserWebPath()}">{$oWallUser->getDisplayName()}</a> ·
 				<time class="date" datetime="{date_format date=$oWall->getDateAdd() format='c'}">{date_format date=$oWall->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 			</p>
 

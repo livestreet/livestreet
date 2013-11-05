@@ -42,7 +42,7 @@ ls.geo = (function ($) {
 		var url = aRouter['ajax']+'geo/get/regions/';
 		var params = {country: $country.val()};
 		ls.hook.marker('loadRegionsBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -68,7 +68,7 @@ ls.geo = (function ($) {
 		var url = aRouter['ajax']+'geo/get/cities/';
 		var params = {region: $region.val()};
 		ls.hook.marker('loadCitiesBefore');
-		ls.ajax(url, params, function(result) {
+		ls.ajax.load(url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

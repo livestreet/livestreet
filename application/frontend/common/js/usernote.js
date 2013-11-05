@@ -130,7 +130,7 @@ ls.usernote = (function($) {
 
 		ls.hook.marker('saveBefore');
 
-		ls.ajax(this.options.routers.save, params, function (result) {
+		ls.ajax.load(this.options.routers.save, params, function (result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -156,7 +156,7 @@ ls.usernote = (function($) {
 
 		ls.hook.marker('removeBefore');
 
-		ls.ajax(this.options.routers.remove, params, function (result) {
+		ls.ajax.load(this.options.routers.remove, params, function (result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {

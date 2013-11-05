@@ -25,6 +25,7 @@
 	 *}
 	{$aHtmlHeadFiles.css}
 
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 	<link href="{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
 	<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 
@@ -84,14 +85,20 @@
 	 *}
 	{if {cfg name='view.grid.type'} == 'fluid'}
 		<style>
-			#container {
+			.grid-role-userbar,
+			.grid-role-nav .nav-main,
+			.grid-role-header .site-info,
+			.grid-role-container {
 				min-width: {cfg name='view.grid.fluid_min_width'}px;
 				max-width: {cfg name='view.grid.fluid_max_width'}px;
 			}
 		</style>
 	{else}
 		<style>
-			#container { width: {cfg name='view.grid.fixed_width'}px; } {* *}
+			.grid-role-userbar,
+			.grid-role-nav .nav-main,
+			.grid-role-header .site-info,
+			.grid-role-container { width: {cfg name='view.grid.fixed_width'}px; }
 		</style>
 	{/if}
 
@@ -130,33 +137,33 @@
 	{hook run='body_begin'}
 
 	{block name='layout_body'}
-		<div id="container" class="{hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
-			{**
-			 * Юзербар
-			 *}
-			<nav id="userbar" class="clearfix">
+		{**
+		 * Юзербар
+		 *}
+		<div class="grid-role-userbar-wrapper">
+			<nav class="grid-row grid-role-userbar">
 				{hook run='userbar_nav'}
 
 				<ul class="nav nav-userbar">
 					{if $oUserCurrent}
 						<li class="nav-userbar-username">
-							<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle js-dropdown-default" data-type="dropdown-toggle" data-option-offset-y="2" data-option-target="js-dropdown-usermenu" onclick="return false">
-								<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="avatar" class="avatar" />
-								{$oUserCurrent->getLogin()}
+							<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle js-dropdown-default" data-dropdown-target="js-dropdown-usermenu">
+								<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="{$oUserCurrent->getDisplayName()}" class="avatar" />
+								{$oUserCurrent->getDisplayName()}
 							</a>
 						</li>
-						<li><a href="{router page='topic'}add/" data-type="modal-toggle" data-option-target="modal-write">{$aLang.block_create}</a></li>
+						<li><a href="{router page='topic'}add/" data-modal-target="modal-write">{$aLang.block_create}</a></li>
 
 						{if $iUserCurrentCountTalkNew} 
-							<li><a href="{router page='talk'}" class="new-messages" id="new_messages" title="{if $iUserCurrentCountTalkNew}{$aLang.user_privat_messages_new}{/if}">{$aLang.user_privat_messages} +{$iUserCurrentCountTalkNew}</a></li>
+							<li class="new-messages"><a href="{router page='talk'}" title="{if $iUserCurrentCountTalkNew}{$aLang.user_privat_messages_new}{/if}">{$aLang.user_privat_messages} +{$iUserCurrentCountTalkNew}</a></li>
 						{/if}
 
 						{hook run='userbar_item'}
 						<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
 					{else}
 						{hook run='userbar_item'}
-						<li><a href="{router page='login'}" data-type="modal-toggle" data-option-target="modal-login" data-option-center="false" class="js-modal-toggle-login">{$aLang.user_login_submit}</a></li>
-						<li><a href="{router page='registration'}" data-type="modal-toggle" data-option-target="modal-login" class="js-modal-toggle-registration">{$aLang.registration_submit}</a></li>
+						<li><a href="{router page='login'}" class="js-modal-toggle-login">{$aLang.user_login_submit}</a></li>
+						<li><a href="{router page='registration'}" class="js-modal-toggle-registration">{$aLang.registration_submit}</a></li>
 					{/if}
 				</ul>
 
@@ -176,6 +183,10 @@
 						
 						<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox} {if $iUserCurrentCountTalkNew}<strong>+{$iUserCurrentCountTalkNew}</strong>{/if}</a></li>
 						<li {if $sAction=='settings'}class="active"{/if}><a href="{router page='settings'}">{$aLang.settings_menu}</a></li>
+
+						{if $oUserCurrent and $oUserCurrent->isAdministrator()}
+							<li {if $sAction=='admin'}class="active"{/if}><a href="{router page='admin'}">{$aLang.admin_title}</a></li>
+						{/if}
 					</ul>
 				{/if}
 
@@ -184,92 +195,93 @@
 					<input type="submit" value="" title="{$aLang.search_submit}" class="search-form-submit icon-search">
 				</form>
 			</nav>
+		</div>
 
 
-			{**
-			 * Шапка
-			 *}
-			<header id="header" role="banner">
-				{hook run='header_banner_begin'}
+		{**
+		 * Шапка
+		 *}
+		<header class="grid-row grid-role-header" role="banner">
+			{hook run='header_banner_begin'}
 
-				<div class="site-info">
-					<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
-					<h2 class="site-description">{cfg name='view.description'}</h2>
-				</div>
-				
-				{hook run='header_banner_end'}
-			</header>
+			<div class="site-info">
+				<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
+				<h2 class="site-description">{cfg name='view.description'}</h2>
+			</div>
+			
+			{hook run='header_banner_end'}
+		</header>
 
 
-			{* Основная навигация *}
-			<nav id="nav">
-				<ul class="nav nav-main">
-					<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a></li>
-					<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
-					<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
-					<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
+		{* Основная навигация *}
+		<nav class="grid-row grid-role-nav">
+			<ul class="nav nav-main">
+				<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a></li>
+				<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
+				<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
+				<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
 
-					{hook run='main_menu_item'}
-				</ul>
+				{hook run='main_menu_item'}
+			</ul>
 
-				{hook run='main_menu'}
-			</nav>
+			{hook run='main_menu'}
+		</nav>
+
+		<div id="container" class="grid-row grid-role-container {hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
 
 
 			{* Вспомогательный контейнер-обертка *}
-			<div id="wrapper" class="{hook run='wrapper_class'}">
+			<div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
 				{* Контент *}
-				<div id="content-wrapper">
-					<div id="content" 
-						 role="main"
-						 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+				<div class="grid-col grid-col-8 grid-role-content" 
+					 role="main"
+					 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-						{hook run='content_begin'}
-						{block name='layout_content_begin'}{/block}
+					{hook run='content_begin'}
+					{block name='layout_content_begin'}{/block}
 
-						{* Основной заголовок страницы *}
-						{block name='layout_page_title' hide}
-							<h2 class="page-header">{$smarty.block.child}</h2>
-						{/block}
+					{* Основной заголовок страницы *}
+					{block name='layout_page_title' hide}
+						<h2 class="page-header">{$smarty.block.child}</h2>
+					{/block}
 
-						{* Навигация *}
-						{if $sNav or $sNavContent}
-							<div class="nav-group">
-								{if $sNav}
-									{if in_array($sNav, $aMenuContainers)}
-										{$aMenuFetch.$sNav}
-									{else}
-										{include file="navs/nav.$sNav.tpl"}
-									{/if}
+					{* Навигация *}
+					{if $sNav or $sNavContent}
+						<div class="nav-group">
+							{if $sNav}
+								{if in_array($sNav, $aMenuContainers)}
+									{$aMenuFetch.$sNav}
 								{else}
-									{include file="navs/nav.$sNavContent.content.tpl"}
+									{include file="navs/nav.$sNav.tpl"}
 								{/if}
-							</div>
+							{else}
+								{include file="navs/nav.$sNavContent.content.tpl"}
+							{/if}
+						</div>
+					{/if}
+
+					{* Системные сообщения *}
+					{if ! $bNoSystemMessages}
+						{if $aMsgError}
+							{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError bAlertClose=true}
 						{/if}
 
-						{* Системные сообщения *}
-						{if ! $bNoSystemMessages}
-							{if $aMsgError}
-								{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError}
-							{/if}
-
-							{if $aMsgNotice}
-								{include file='alert.tpl' mAlerts=$aMsgNotice}
-							{/if}
+						{if $aMsgNotice}
+							{include file='alert.tpl' mAlerts=$aMsgNotice bAlertClose=true}
 						{/if}
+					{/if}
 
-						{* Контент *}
-						{block name='layout_content'}{/block}
+					{* Контент *}
+					{block name='layout_content'}{/block}
 
-						{block name='layout_content_end'}{/block}
-						{hook run='content_end'}
-					</div>
+					{block name='layout_content_end'}{/block}
+					{hook run='content_end'}
 				</div>
 
 
 				{* Сайдбар *}
 				{if ! $bNoSidebar}
-					<aside id="sidebar" role="complementary">
+					<aside class="grid-col grid-col-4 grid-role-sidebar" role="complementary">
 						{include file='blocks.tpl' group='right'}
 					</aside>
 				{/if}
@@ -277,7 +289,7 @@
 
 
 			{* Подвал *}
-			<footer id="footer">
+			<footer class="grid-row grid-role-footer">
 				{hook run='footer_begin'}
 
 				{block name='layout_footer_begin'}{/block}

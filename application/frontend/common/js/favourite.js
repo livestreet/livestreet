@@ -37,16 +37,13 @@ ls.favourite = (function ($) {
 		// Типы избранного
 		type: {
 			topic: {
-				url:         aRouter['ajax'] + 'favourite/topic/',
-				targetName:  'idTopic'
+				url:         aRouter['ajax'] + 'favourite/topic/'
 			},
 			talk: {
-				url:         aRouter['ajax'] + 'favourite/talk/',
-				targetName:  'idTalk'
+				url:         aRouter['ajax'] + 'favourite/talk/'
 			},
 			comment: {
-				url:         aRouter['ajax'] + 'favourite/comment/',
-				targetName:  'idComment'
+				url:         aRouter['ajax'] + 'favourite/comment/'
 			}
 		}
 	};
@@ -62,11 +59,14 @@ ls.favourite = (function ($) {
 		this.options = $.extend({}, _defaults, options);
 
 		$(this.options.selectors.favourite).each(function () {
-			var element = $(this);
-			var data = {
-				count: element.find(self.options.selectors.count),
-				toggle: element.find(self.options.selectors.toggle)
-			};
+			var element = $(this),
+				data = {
+					element:  element,
+					type:     element.data('favourite-type'),
+					targetId: element.data('favourite-id'),
+					count:    element.find(self.options.selectors.count),
+					toggle:   element.find(self.options.selectors.toggle)
+				};
 
 			element.on('click', function (e) {
 				self.toggle(data);
@@ -81,55 +81,43 @@ ls.favourite = (function ($) {
 	 * @param {Object} data
 	 */
 	this.toggle = function(data) {
-		var $toggle = data.toggle,
-			type = $toggle.data('favourite-type'),
-			targetId = $toggle.data('favourite-id'),
-			count = data.count;
+		if ( ! this.options.type[data.type] ) return false;
 
-		if ( ! this.options.type[type] ) return false;
-
-		var params = {};
-		params['type'] = ! $toggle.hasClass(this.options.classes.active);
-		params[this.options.type[type].targetName] = targetId;
+		var params = {
+			type: ! data.toggle.hasClass(this.options.classes.active),
+			id: data.targetId
+		};
 		
 		ls.hook.marker('toggleBefore');
 
-		ls.ajax(this.options.type[type].url, params, function(result) {
-			$(this).trigger('toggle',[targetId,$toggle,type,params,result]);
-
+		ls.ajax.load(this.options.type[data.type].url, params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
 				ls.msg.notice(null, result.sMsg);
 
-				$toggle.removeClass(this.options.classes.active);
+				data.toggle.removeClass(this.options.classes.active);
 
 				if (result.bState) {
-					$toggle.addClass(this.options.classes.active).attr('title', ls.lang.get('talk_favourite_del'));
-					this.showTags(type,targetId);
+					data.toggle.addClass(this.options.classes.active).attr('title', ls.lang.get('talk_favourite_del'));
+					this.showTags(data.type,data.targetId);
 				} else {
-					$toggle.attr('title', ls.lang.get('talk_favourite_add'));
-					this.hideTags(type,targetId);
+					data.toggle.attr('title', ls.lang.get('talk_favourite_add'));
+					this.hideTags(data.type,data.targetId);
 				}
 
-				if (count) {
+				if (data.count) {
 					if (result.iCount > 0) {
-						count.show().text(result.iCount);
+						data.count.show().text(result.iCount);
 					} else {
-						count.hide();
+						data.count.hide();
 					}
 				}
 
-				ls.hook.run('ls_favourite_toggle_after',[targetId,$toggle,type,params,result],this);
+				ls.hook.run('ls_favourite_toggle_after',[data.targetId,data.toggle,data.type,params,result],this);
 			}
 		}.bind(this));
 	};
-
-
-
-
-
-
 
 
 	/**
@@ -146,7 +134,12 @@ ls.favourite = (function ($) {
 	 */
 	var _targetType = null;
 
-
+	/**
+	 * Показывает форму редактирования тегов
+	 * 
+	 * @param  {String} targetType
+	 * @param  {String} targetId
+	 */
 	this.showEditTags = function(targetId, type, obj) {
 		_targetType = type;
 		_targetId = targetId;
@@ -169,18 +162,30 @@ ls.favourite = (function ($) {
 		return false;
 	};
 
+	/**
+	 * Скрывает форму редактирования тегов
+	 * 
+	 * @param  {String} targetType
+	 * @param  {String} targetId
+	 */
 	this.hideEditTags = function() {
 		$('#favourite-form-tags').modal('hide');
 		return false;
 	};
 
+	/**
+	 * Сохраняет персональные теги
+	 * 
+	 * @param  {String} targetType
+	 * @param  {String} targetId
+	 */
 	this.saveTags = function(form) {
 		var url = aRouter['ajax'] + 'favourite/save-tags/';
 		var submitButton = $('.js-favourite-form-submit');
 
 		ls.hook.marker('saveTagsBefore');
 
-		ls.ajaxSubmit(url, $(form), function(result) {
+		ls.ajax.submit(url, $(form), function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
@@ -204,15 +209,27 @@ ls.favourite = (function ($) {
 		return false;
 	};
 
+	/**
+	 * Показывает персональные теги
+	 * 
+	 * @param  {String} targetType
+	 * @param  {String} targetId
+	 */
+	this.showTags = function(targetType,targetId) {
+		$('.js-favourite-tags-'+targetType+'-'+targetId).find('.js-favourite-tag-edit').show();
+	};
+
+	/**
+	 * Скрывает персональные теги
+	 * 
+	 * @param  {String} targetType
+	 * @param  {String} targetId
+	 */
 	this.hideTags = function(targetType,targetId) {
 		var tags=$('.js-favourite-tags-'+targetType+'-'+targetId);
 		tags.find('.js-favourite-tag-user').detach();
 		tags.find('.js-favourite-tag-edit').hide();
 		this.hideEditTags();
-	};
-
-	this.showTags = function(targetType,targetId) {
-		$('.js-favourite-tags-'+targetType+'-'+targetId).find('.js-favourite-tag-edit').show();
 	};
 
 	return this;

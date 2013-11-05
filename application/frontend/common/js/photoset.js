@@ -94,7 +94,7 @@ ls.photoset =( function ($) {
 	this.deletePhoto = function(id)
 	{
 		if (!confirm(ls.lang.get('topic_photoset_photo_delete_confirm'))) {return;}
-		ls.ajax(aRouter['photoset']+'deleteimage', {'id':id}, function(response){
+		ls.ajax.load(aRouter['photoset']+'deleteimage', {'id':id}, function(response){
 			if (!response.bStateError) {
 				$('#photo_'+id).remove();
 				ls.msg.notice(response.sMsgTitle,response.sMsg);
@@ -119,7 +119,7 @@ ls.photoset =( function ($) {
 
 	this.setPreviewDescription = function(id, text)
 	{
-		ls.ajax(aRouter['photoset']+'setimagedescription', {'id':id, 'text':text},  function(result){
+		ls.ajax.load(aRouter['photoset']+'setimagedescription', {'id':id, 'text':text},  function(result){
 			if (!result.bStateError) {
 
 			} else {
@@ -134,7 +134,7 @@ ls.photoset =( function ($) {
 		if (this.isLoading) return;
 		this.isLoading=true;
 
-		ls.ajax(aRouter['photoset']+'getmore', {'topic_id':topic_id, 'last_id':this.idLast}, function(result){
+		ls.ajax.load(aRouter['photoset']+'getmore', {'topic_id':topic_id, 'last_id':this.idLast}, function(result){
 			this.isLoading=false;
 			if (!result.bStateError) {
 				if (result.photos) {
@@ -172,7 +172,7 @@ ls.photoset =( function ($) {
 		input.clone(true).insertAfter(input);
 		input.appendTo(form);
 
-		ls.ajaxSubmit(aRouter['photoset'] + 'upload/', form, function (data) {
+		ls.ajax.submit(aRouter['photoset'] + 'upload/', form, function (data) {
 			if (data.bStateError) {
 				$('#photoset_photo_empty').remove();
 				ls.msg.error(data.sMsgTitle,data.sMsg);
