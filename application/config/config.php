@@ -30,9 +30,9 @@ define('LS_VERSION','1.1.0.dev');
  * и увеличить значение $config['path']['offset_request_url'] на число вложенных директорий,
  * например, для директории первой вложенности www.site.ru/livestreet/ поставить значение равное 1
  */
-$config['path']['root']['server']		= dirname(dirname(dirname(__FILE__)));
-$config['path']['root']['web']			= isset($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : null;
-$config['path']['offset_request_url']	= 0;
+$config['path']['root']['server']       = dirname(dirname(dirname(__FILE__)));
+$config['path']['root']['web']          = isset($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : null;
+$config['path']['offset_request_url']   = 0;
 
 
 /**
@@ -81,7 +81,7 @@ $config['acl']['create']['comment']['limit_time']         =  10; // время �
 $config['acl']['create']['comment']['limit_time_rating']  = -1;  // рейтинг, выше которого перестаёт действовать ограничение по времени на постинг комментов. Не имеет смысла при $config['acl']['create']['comment']['limit_time']=0
 $config['acl']['create']['topic']['limit_time']           =  240;// время в секундах между созданием записей, если 0 то ограничение по времени не будет работать
 $config['acl']['create']['topic']['limit_time_rating']    =  5;  // рейтинг, выше которого перестаёт действовать ограничение по времени на создание записей
-$config['acl']['create']['topic']['limit_rating']   	  =  -20;// порог рейтинга при котором юзер может создавать топики (учитываются любые блоги, включая персональные), как дополнительная защита от спама/троллинга
+$config['acl']['create']['topic']['limit_rating']         =  -20;// порог рейтинга при котором юзер может создавать топики (учитываются любые блоги, включая персональные), как дополнительная защита от спама/троллинга
 $config['acl']['create']['talk']['limit_time']        =  300; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать
 $config['acl']['create']['talk']['limit_time_rating'] =  1;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
 $config['acl']['create']['talk_comment']['limit_time']        =  10; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать
@@ -105,10 +105,10 @@ $config['module']['blog']['collective_good'] = -3;   // рейтинг топи�
 $config['module']['blog']['index_good']      =  8;   // Рейтинг топика выше которого(включительно) он попадает на главную
 $config['module']['blog']['encrypt']         = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках приглашения в блоги
 $config['module']['blog']['avatar_size'] = array(100,64,48,24,0); // Список размеров аватаров у блога. 0 - исходный размер
-$config['module']['blog']['category_allow'] = true;  		// Разрешить использование категорий бля блогов
-$config['module']['blog']['category_only_admin'] = true;  	// Задавать и менять категории для блога может только админ
-$config['module']['blog']['category_only_children'] = true;	// Для блога можно выбрать только конечную категорию, у которой нет других вложенных
-$config['module']['blog']['category_allow_empty'] = true;	// Разрешить блоги без категории
+$config['module']['blog']['category_allow'] = true;         // Разрешить использование категорий бля блогов
+$config['module']['blog']['category_only_admin'] = true;    // Задавать и менять категории для блога может только админ
+$config['module']['blog']['category_only_children'] = true; // Для блога можно выбрать только конечную категорию, у которой нет других вложенных
+$config['module']['blog']['category_allow_empty'] = true;   // Разрешить блоги без категории
 // Модуль Topic
 $config['module']['topic']['new_time']   = 60*60*24*1;  // Время в секундах в течении которого топик считается новым
 $config['module']['topic']['per_page']   = 10;          // Число топиков на одну страницу
@@ -126,26 +126,26 @@ $config['module']['user']['avatar_size'] = array(100,64,48,24,0); // Списо�
 $config['module']['user']['login']['min_size'] = 3; // Минимальное количество символов в логине
 $config['module']['user']['login']['max_size'] = 30; // Максимальное количество символов в логине
 $config['module']['user']['login']['charset'] = '0-9a-z_\-'; // Допустимые в имени пользователя символы
-$config['module']['user']['time_active'] = 60*60*24*7; 	// Число секунд с момента последнего посещения пользователем сайта, в течение которых он считается активным
-$config['module']['user']['usernote_text_max'] = 250; 	    // Максимальный размер заметки о пользователе
-$config['module']['user']['usernote_per_page'] = 20; 	      // Число заметок на одну страницу
-$config['module']['user']['userfield_max_identical'] = 2; 	// Максимальное число контактов одного типа
-$config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
-$config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
+$config['module']['user']['time_active'] = 60*60*24*7;  // Число секунд с момента последнего посещения пользователем сайта, в течение которых он считается активным
+$config['module']['user']['usernote_text_max'] = 250;       // Максимальный размер заметки о пользователе
+$config['module']['user']['usernote_per_page'] = 20;          // Число заметок на одну страницу
+$config['module']['user']['userfield_max_identical'] = 2;   // Максимальное число контактов одного типа
+$config['module']['user']['profile_photo_width'] = 250;       // ширина квадрата фотографии в профиле, px
+$config['module']['user']['name_max'] = 30;               // максимальная длинна имени в профиле пользователя
 $config['module']['user']['captcha_use_registration'] = true;  // проверять поле капчи при регистрации пользователя
 
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
 $config['module']['comment']['bad']      = -5;          // Рейтинг комментария, начиная с которого он будет скрыт
 $config['module']['comment']['max_tree'] = 7;           // Максимальная вложенность комментов при отображении
-$config['module']['comment']['use_nested'] = false; 	// Использовать или нет nested set при выборке комментов, увеличивает производительность при большом числе комментариев + позволяет делать постраничное разбиение комментов
-$config['module']['comment']['nested_per_page'] = 0; 	// Число комментов на одну страницу в топике, актуально только при use_nested = true
-$config['module']['comment']['nested_page_reverse'] = true; 	// Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
-$config['module']['comment']['favourite_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено добавлять в избранное
+$config['module']['comment']['use_nested'] = false;     // Использовать или нет nested set при выборке комментов, увеличивает производительность при большом числе комментариев + позволяет делать постраничное разбиение комментов
+$config['module']['comment']['nested_per_page'] = 0;    // Число комментов на одну страницу в топике, актуально только при use_nested = true
+$config['module']['comment']['nested_page_reverse'] = true;     // Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
+$config['module']['comment']['favourite_target_allow'] = array('topic');    // Список типов комментов, которые разрешено добавлять в избранное
 // Модуль Talk
 $config['module']['talk']['per_page']   = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках
-$config['module']['talk']['max_users']	= 15; // Максимальное число адресатов в одном личном сообщении
+$config['module']['talk']['max_users']  = 15; // Максимальное число адресатов в одном личном сообщении
 // Модуль Lang
 $config['module']['lang']['delete_undefined'] = true;   // Если установлена true, то модуль будет автоматически удалять из языковых конструкций переменные вида %%var%%, по которым не была произведена замена
 // Модуль Notify
@@ -188,13 +188,13 @@ $config['module']['userfeed']['count_default'] = 10; // Число топико�
 $config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
 $config['module']['stream']['disable_vote_events'] = false;
 // Модуль Ls
-$config['module']['ls']['send_general'] = true;	// Отправка на сервер LS общей информации о сайте (домен, версия LS и плагинов)
-$config['module']['ls']['use_counter'] = true;	// Использование счетчика GA
+$config['module']['ls']['send_general'] = true; // Отправка на сервер LS общей информации о сайте (домен, версия LS и плагинов)
+$config['module']['ls']['use_counter'] = true;  // Использование счетчика GA
 // Модуль Wall - стена
-$config['module']['wall']['count_last_reply'] = 3;	// Число последних ответов на сообщени на стене для отображения в ленте
-$config['module']['wall']['per_page'] = 10;			    // Число сообщений на стене на одну страницу
-$config['module']['wall']['text_max'] = 250;		    // Ограничение на максимальное количество символов в одном сообщении на стене
-$config['module']['wall']['text_min'] = 1;		      // Ограничение на минимальное количество символов в одном сообщении на стене
+$config['module']['wall']['count_last_reply'] = 3;  // Число последних ответов на сообщени на стене для отображения в ленте
+$config['module']['wall']['per_page'] = 10;             // Число сообщений на стене на одну страницу
+$config['module']['wall']['text_max'] = 250;            // Ограничение на максимальное количество символов в одном сообщении на стене
+$config['module']['wall']['text_min'] = 1;            // Ограничение на минимальное количество символов в одном сообщении на стене
 
 
 /**
@@ -206,26 +206,26 @@ $config['module']['topic']['photoset']['count_photos_min'] = 2;     // мини�
 $config['module']['topic']['photoset']['count_photos_max'] = 30;    // максимальное количество фоток
 $config['module']['topic']['photoset']['per_page'] = 20;            // число фоток для одновременной загрузки
 $config['module']['topic']['photoset']['size'] = array(             // список размеров превью, которые необходимо делать при загрузке фото
-	array(
-		'w' => 1000,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 500,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 100,
-		'h' => 65,
-		'crop' => true,
-	),
-	array(
-		'w' => 50,
-		'h' => 50,
-		'crop' => true,
-	)
+    array(
+        'w' => 1000,
+        'h' => null,
+        'crop' => false,
+    ),
+    array(
+        'w' => 500,
+        'h' => null,
+        'crop' => false,
+    ),
+    array(
+        'w' => 100,
+        'h' => 65,
+        'crop' => true,
+    ),
+    array(
+        'w' => 50,
+        'h' => 50,
+        'crop' => true,
+    )
 );
 
 // Какие модули должны быть загружены на старте
@@ -283,9 +283,9 @@ $config['db']['table']['geo_region']          = '___db.table.prefix___geo_region
 $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
 $config['db']['table']['geo_target']          = '___db.table.prefix___geo_target';
 $config['db']['table']['user_changemail']     = '___db.table.prefix___user_changemail';
-$config['db']['table']['property'] 			  = '___db.table.prefix___property';
-$config['db']['table']['property_select'] 	  = '___db.table.prefix___property_select';
-$config['db']['table']['property_value'] 	  = '___db.table.prefix___property_value';
+$config['db']['table']['property']            = '___db.table.prefix___property';
+$config['db']['table']['property_select']     = '___db.table.prefix___property_select';
+$config['db']['table']['property_value']      = '___db.table.prefix___property_value';
 $config['db']['table']['property_value_tag']  = '___db.table.prefix___property_value_tag';
 $config['db']['table']['property_value_select']  = '___db.table.prefix___property_value_select';
 
@@ -297,8 +297,8 @@ $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 $config['router']['rewrite'] = array();
 // Правила реврайта для REQUEST_URI
 $config['router']['uri'] = array(
-	// короткий вызов топиков из личных блогов
-	'~^(\d+)\.html~i' => "blog/\\1.html",
+    // короткий вызов топиков из личных блогов
+    '~^(\d+)\.html~i' => "blog/\\1.html",
 );
 // Распределение action
 $config['router']['page']['error']         = 'ActionError';
@@ -334,185 +334,294 @@ $config['router']['config']['action_not_found'] = 'error';
  * Настройки вывода блоков
  */
 $config['block']['rule_index_blog'] = array(
-	'action'  => array(
-		'index', 'blog' => array('{topics}','{topic}','{blog}')
-	),
-	'blocks'  => array(
-		'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
-	),
-	'clear' => false,
+    'action'  => array(
+            'index', 'blog' => array('{topics}','{topic}','{blog}')
+        ),
+    'blocks'  => array(
+            'right' => array('stream'=>array('priority'=>100),'tags'=>array('priority'=>50),'blogs'=>array('params'=>array(),'priority'=>1))
+        ),
+    'clear' => false,
 );
 $config['block']['rule_index'] = array(
-	'action'  => array( 'index' ),
-	'blocks'  => array( 'right' => array('blogNav'=>array('priority'=>500)) ),
+    'action'  => array( 'index' ),
+    'blocks'  => array( 'right' => array('blogNav'=>array('priority'=>500)) ),
 );
 $config['block']['rule_topic_type'] = array(
-	'action'  => array(
-		'link'     => array('add','edit'),
-		'question' => array('add','edit'),
-		'topic'    => array('add','edit'),
-		'photoset' => array('add','edit')
-	),
-	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl') ),
+    'action'  => array(
+        'link'     => array('add','edit'),
+        'question' => array('add','edit'),
+        'topic'    => array('add','edit'),
+        'photoset' => array('add','edit')
+    ),
+    'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl') ),
 );
 $config['block']['rule_personal_blog'] = array(
-	'action'  => array( 'personal_blog' ),
-	'blocks'  => array( 'right' => array('stream','tags') ),
+    'action'  => array( 'personal_blog' ),
+    'blocks'  => array( 'right' => array('stream','tags') ),
 );
 $config['block']['rule_tag'] = array(
-	'action'  => array( 'tag' ),
-	'blocks'  => array( 'right' => array('tags','stream') ),
+    'action'  => array( 'tag' ),
+    'blocks'  => array( 'right' => array('tags','stream') ),
 );
 $config['block']['rule_blogs'] = array(
-	'action'  => array( 'blogs' ),
-	'blocks'  => array(
-		'right' => array(
-			'blocks/block.blogAdd.tpl' => array('priority' => 100),
-			'blogCategories' => array('priority' => 50)
-		)
-	),
+    'action'  => array( 'blogs' ),
+    'blocks'  => array(
+        'right' => array(
+            'blocks/block.blogAdd.tpl' => array('priority' => 100),
+            'blogCategories' => array('priority' => 50)
+        )
+    ),
 );
 
 $config['block']['userfeedBlogs'] = array(
-	'action'  => array('feed'),
-	'blocks'  => array(
-		'right' => array(
-			'userfeedBlogs'=> array()
-		)
-	)
+<<<<<<< HEAD
+    'action'  => array('feed'),
+    'blocks'  => array(
+                    'right' => array(
+                        'userfeedBlogs'=> array()
+                    )
+                )
 );
 $config['block']['userfeedUsers'] = array(
-	'action'  => array('feed'),
-	'blocks'  => array(
-		'right' => array(
-			'userfeedFriends'=> array(),
-			'userfeedUsers'=> array()
-		)
-	)
+    'action'  => array('feed'),
+    'blocks'  => array(
+                    'right' => array(
+                        'userfeedFriends'=> array(),
+                        'userfeedUsers'=> array()
+                    )
+                )
 );
 $config['block']['rule_blog_info'] = array(
-	'action'  => array(
-		'blog' => array('{topic}')
-	),
-	'blocks'  => array(
-		'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
-	),
-	'clear' => false,
+    'action'  => array(
+            'blog' => array('{topic}')
+        ),
+    'blocks'  => array(
+            'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+        ),
+    'clear' => false,
+=======
+    'action'  => array('feed'),
+    'blocks'  => array(
+        'right' => array(
+            'userfeedBlogs'=> array()
+        )
+    )
+);
+$config['block']['userfeedUsers'] = array(
+    'action'  => array('feed'),
+    'blocks'  => array(
+        'right' => array(
+            'userfeedFriends'=> array(),
+            'userfeedUsers'=> array()
+        )
+    )
+);
+$config['block']['rule_blog_info'] = array(
+    'action'  => array(
+        'blog' => array('{topic}')
+    ),
+    'blocks'  => array(
+        'right' => array('blocks/block.blog.tpl'=>array('priority'=>300))
+    ),
+    'clear' => false,
+>>>>>>> 0c57b9188a59bdbb6125003c649fd950a80e1ddf
 );
 $config['block']['rule_users'] = array(
-	'action' => array('people'),
-	'blocks' => array(
-		'right' => array(
-			'blocks/block.usersStatistics.tpl',
-			'tagsCountry',
-			'tagsCity',
-		)
-	)
+    'action' => array('people'),
+    'blocks' => array(
+        'right' => array(
+            'blocks/block.usersStatistics.tpl',
+            'tagsCountry',
+            'tagsCity',
+        )
+    )
 );
 $config['block']['rule_profile'] = array(
-	'action' => array( 'profile', 'talk', 'settings' ),
-	'blocks' => array(
-		'right' => array(
-			'blocks/block.userPhoto.tpl'   =>array('priority' => 100),
-			'blocks/block.userActions.tpl' =>array('priority' => 50),
-			'blocks/block.userNote.tpl'    =>array('priority' => 25),
-			'blocks/block.userNav.tpl'     =>array('priority' => 1),
-		)
-	)
+    'action' => array( 'profile', 'talk', 'settings' ),
+    'blocks' => array(
+        'right' => array(
+            'blocks/block.userPhoto.tpl'   =>array('priority' => 100),
+            'blocks/block.userActions.tpl' =>array('priority' => 50),
+            'blocks/block.userNote.tpl'    =>array('priority' => 25),
+            'blocks/block.userNav.tpl'     =>array('priority' => 1),
+        )
+    )
 );
 
 
 
 $config['head']['default']['js'] = array(
-	/* Vendor libs */
-	"___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
-	"___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
-	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
-	"___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.browser.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.form.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.file.js",
-	"___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
-	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
-	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
-	"___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
-	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
-	"___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
-	"___path.framework.frontend.web___/js/vendor/jquery.livequery.js",
+<<<<<<< HEAD
+    /* Vendor libs */
+    "___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
+    "___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.browser.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.form.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.file.js",
+    "___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+    "___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
+    "___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
+    "___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
 
-	/* Core */
-	"___path.framework.frontend.web___/js/core/main.js",
-	"___path.framework.frontend.web___/js/core/hook.js",
-	"___path.framework.frontend.web___/js/core/i18n.js",
-	"___path.framework.frontend.web___/js/core/ie.js",
-	"___path.framework.frontend.web___/js/core/ajax.js",
-	"___path.framework.frontend.web___/js/core/registry.js",
-	"___path.framework.frontend.web___/js/core/swfupload.js",
-	"___path.framework.frontend.web___/js/core/utilities.js",
-	"___path.framework.frontend.web___/js/core/timer.js",
+    /* Core */
+    "___path.framework.frontend.web___/js/core/main.js",
+    "___path.framework.frontend.web___/js/core/hook.js",
 
-	/* User Interface */
-	"___path.framework.frontend.web___/js/ui/dropdown.js",
-	"___path.framework.frontend.web___/js/ui/tab.js",
-	"___path.framework.frontend.web___/js/ui/modal.js",
-	"___path.framework.frontend.web___/js/ui/toolbar.js",
-	"___path.framework.frontend.web___/js/ui/tooltip.js",
-	"___path.framework.frontend.web___/js/ui/autocomplete.js",
-	"___path.framework.frontend.web___/js/ui/notification.js",
-	"___path.framework.frontend.web___/js/ui/alert.js",
+    /* User Interface */
+    "___path.framework.frontend.web___/js/ui/over.js",
+    "___path.framework.frontend.web___/js/ui/dropdown.js",
+    "___path.framework.frontend.web___/js/ui/tooltip.js",
+    "___path.framework.frontend.web___/js/ui/popover.js",
+    "___path.framework.frontend.web___/js/ui/tab.js",
+    "___path.framework.frontend.web___/js/ui/modal.js",
+    "___path.framework.frontend.web___/js/ui/toolbar.js",
 
-	/* LiveStreet */
-	"___path.application.web___/frontend/common/js/favourite.js",
-	"___path.application.web___/frontend/common/js/blocks.js",
-	"___path.application.web___/frontend/common/js/pagination.js",
-	"___path.application.web___/frontend/common/js/editor.js",
-	"___path.application.web___/frontend/common/js/talk.js",
-	"___path.application.web___/frontend/common/js/vote.js",
-	"___path.application.web___/frontend/common/js/poll.js",
-	"___path.application.web___/frontend/common/js/subscribe.js",
-	"___path.application.web___/frontend/common/js/geo.js",
-	"___path.application.web___/frontend/common/js/wall.js",
-	"___path.application.web___/frontend/common/js/usernote.js",
-	"___path.application.web___/frontend/common/js/comments.js",
-	"___path.application.web___/frontend/common/js/blog.js",
-	"___path.application.web___/frontend/common/js/user.js",
-	"___path.application.web___/frontend/common/js/userfeed.js",
-	"___path.application.web___/frontend/common/js/stream.js",
-	"___path.application.web___/frontend/common/js/photoset.js",
-	"___path.application.web___/frontend/common/js/toolbar.js",
-	"___path.application.web___/frontend/common/js/settings.js",
-	"___path.application.web___/frontend/common/js/topic.js",
-	"___path.application.web___/frontend/common/js/admin.js",
-	"___path.application.web___/frontend/common/js/userfield.js",
-	"___path.application.web___/frontend/common/js/captcha.js",
-	"___path.application.web___/frontend/common/js/init.js",
+    /* LiveStreet */
+    "___path.application.web___/frontend/common/js/favourite.js",
+    "___path.application.web___/frontend/common/js/blocks.js",
+    "___path.application.web___/frontend/common/js/pagination.js",
+    "___path.application.web___/frontend/common/js/editor.js",
+    "___path.application.web___/frontend/common/js/talk.js",
+    "___path.application.web___/frontend/common/js/vote.js",
+    "___path.application.web___/frontend/common/js/poll.js",
+    "___path.application.web___/frontend/common/js/subscribe.js",
+    "___path.application.web___/frontend/common/js/geo.js",
+    "___path.application.web___/frontend/common/js/wall.js",
+    "___path.application.web___/frontend/common/js/usernote.js",
+    "___path.application.web___/frontend/common/js/comments.js",
+    "___path.application.web___/frontend/common/js/blog.js",
+    "___path.application.web___/frontend/common/js/user.js",
+    "___path.application.web___/frontend/common/js/userfeed.js",
+    "___path.application.web___/frontend/common/js/stream.js",
+    "___path.application.web___/frontend/common/js/photoset.js",
+    "___path.application.web___/frontend/common/js/toolbar.js",
+    "___path.application.web___/frontend/common/js/settings.js",
+    "___path.application.web___/frontend/common/js/topic.js",
+    "___path.application.web___/frontend/common/js/admin.js",
+    "___path.application.web___/frontend/common/js/userfield.js",
+    "___path.application.web___/frontend/common/js/captcha.js",
+    "___path.application.web___/frontend/common/js/init.js",
 
-	"http://yandex.st/share/share.js" => array('merge'=>false),
+    "http://yandex.st/share/share.js" => array('merge'=>false),
 );
 
 $config['head']['default']['css'] = array(
-	// Framework styles
-	"___path.framework.frontend.web___/css/reset.css",
-	"___path.framework.frontend.web___/css/helpers.css",
-	"___path.framework.frontend.web___/css/text.css",
-	"___path.framework.frontend.web___/css/dropdowns.css",
-	"___path.framework.frontend.web___/css/buttons.css",
-	"___path.framework.frontend.web___/css/forms.css",
-	"___path.framework.frontend.web___/css/navs.css",
-	"___path.framework.frontend.web___/css/modals.css",
-	"___path.framework.frontend.web___/css/tooltip.css",
-	"___path.framework.frontend.web___/css/alerts.css",
-	"___path.framework.frontend.web___/css/toolbar.css",
-	"___path.framework.frontend.web___/css/typography.css",
-	"___path.framework.frontend.web___/css/grid.css"
+    // Framework styles
+    "___path.framework.frontend.web___/css/reset.css",
+    "___path.framework.frontend.web___/css/helpers.css",
+    "___path.framework.frontend.web___/css/text.css",
+    "___path.framework.frontend.web___/css/dropdowns.css",
+    "___path.framework.frontend.web___/css/buttons.css",
+    "___path.framework.frontend.web___/css/forms.css",
+    "___path.framework.frontend.web___/css/navs.css",
+    "___path.framework.frontend.web___/css/modals.css",
+    "___path.framework.frontend.web___/css/tooltip.css",
+    "___path.framework.frontend.web___/css/popover.css",
+    "___path.framework.frontend.web___/css/alerts.css",
+    "___path.framework.frontend.web___/css/toolbar.css"
+=======
+    /* Vendor libs */
+    "___path.framework.frontend.web___/js/vendor/html5shiv.js" => array('browser'=>'lt IE 9'),
+    "___path.framework.frontend.web___/js/vendor/jquery-1.9.1.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.browser.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.scrollto.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.rich-array.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.form.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.jqplugin.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.file.js",
+    "___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+    "___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
+    "___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
+    "___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
+    "___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
+    "___path.framework.frontend.web___/js/vendor/jquery.livequery.js",
+
+    /* Core */
+    "___path.framework.frontend.web___/js/core/main.js",
+    "___path.framework.frontend.web___/js/core/hook.js",
+    "___path.framework.frontend.web___/js/core/i18n.js",
+    "___path.framework.frontend.web___/js/core/ie.js",
+    "___path.framework.frontend.web___/js/core/ajax.js",
+    "___path.framework.frontend.web___/js/core/registry.js",
+    "___path.framework.frontend.web___/js/core/swfupload.js",
+    "___path.framework.frontend.web___/js/core/utilities.js",
+    "___path.framework.frontend.web___/js/core/timer.js",
+
+    /* User Interface */
+    "___path.framework.frontend.web___/js/ui/dropdown.js",
+    "___path.framework.frontend.web___/js/ui/tab.js",
+    "___path.framework.frontend.web___/js/ui/modal.js",
+    "___path.framework.frontend.web___/js/ui/toolbar.js",
+    "___path.framework.frontend.web___/js/ui/tooltip.js",
+    "___path.framework.frontend.web___/js/ui/autocomplete.js",
+    "___path.framework.frontend.web___/js/ui/notification.js",
+    "___path.framework.frontend.web___/js/ui/alert.js",
+
+    /* LiveStreet */
+    "___path.application.web___/frontend/common/js/favourite.js",
+    "___path.application.web___/frontend/common/js/blocks.js",
+    "___path.application.web___/frontend/common/js/pagination.js",
+    "___path.application.web___/frontend/common/js/editor.js",
+    "___path.application.web___/frontend/common/js/talk.js",
+    "___path.application.web___/frontend/common/js/vote.js",
+    "___path.application.web___/frontend/common/js/poll.js",
+    "___path.application.web___/frontend/common/js/subscribe.js",
+    "___path.application.web___/frontend/common/js/geo.js",
+    "___path.application.web___/frontend/common/js/wall.js",
+    "___path.application.web___/frontend/common/js/usernote.js",
+    "___path.application.web___/frontend/common/js/comments.js",
+    "___path.application.web___/frontend/common/js/blog.js",
+    "___path.application.web___/frontend/common/js/user.js",
+    "___path.application.web___/frontend/common/js/userfeed.js",
+    "___path.application.web___/frontend/common/js/stream.js",
+    "___path.application.web___/frontend/common/js/photoset.js",
+    "___path.application.web___/frontend/common/js/toolbar.js",
+    "___path.application.web___/frontend/common/js/settings.js",
+    "___path.application.web___/frontend/common/js/topic.js",
+    "___path.application.web___/frontend/common/js/admin.js",
+    "___path.application.web___/frontend/common/js/userfield.js",
+    "___path.application.web___/frontend/common/js/captcha.js",
+    "___path.application.web___/frontend/common/js/init.js",
+
+    "http://yandex.st/share/share.js" => array('merge'=>false),
+);
+
+$config['head']['default']['css'] = array(
+    // Framework styles
+    "___path.framework.frontend.web___/css/reset.css",
+    "___path.framework.frontend.web___/css/helpers.css",
+    "___path.framework.frontend.web___/css/text.css",
+    "___path.framework.frontend.web___/css/dropdowns.css",
+    "___path.framework.frontend.web___/css/buttons.css",
+    "___path.framework.frontend.web___/css/forms.css",
+    "___path.framework.frontend.web___/css/navs.css",
+    "___path.framework.frontend.web___/css/modals.css",
+    "___path.framework.frontend.web___/css/tooltip.css",
+    "___path.framework.frontend.web___/css/alerts.css",
+    "___path.framework.frontend.web___/css/toolbar.css",
+    "___path.framework.frontend.web___/css/typography.css",
+    "___path.framework.frontend.web___/css/grid.css"
+>>>>>>> 0c57b9188a59bdbb6125003c649fd950a80e1ddf
 );
 
 /**
