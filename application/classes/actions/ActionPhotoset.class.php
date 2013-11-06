@@ -551,7 +551,7 @@ class ActionPhotoset extends Action {
 			 */
 			$oUser=$oTopic->getUser();
 			if ($oUser) {
-				$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$oUser->getMail());
+				$this->Subscribe_AddSubscribeSimple('topic_new_comment',$oTopic->getId(),$oUser->getMail(),$oUser->getId());
 			}
 			/**
 			 * Делаем рассылку спама всем, кто состоит в этом блоге
