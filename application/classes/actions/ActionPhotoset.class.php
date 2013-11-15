@@ -270,7 +270,7 @@ class ActionPhotoset extends Action {
 		/**
 		 * Максимальный размер фото
 		 */
-		if (filesize($_FILES['Filedata']['tmp_name']) > Config::Get('module.topic.photoset.photo_max_size')*1024) {
+		if ($_FILES['Filedata']['size'] > Config::Get('module.topic.photoset.photo_max_size')*1024) {
 			$this->Message_AddError($this->Lang_Get('topic_photoset_error_bad_filesize', array('MAX' => Config::Get('module.topic.photoset.photo_max_size'))), $this->Lang_Get('error'));
 			return false;
 		}
