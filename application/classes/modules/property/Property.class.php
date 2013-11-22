@@ -494,7 +494,6 @@ class ModuleProperty extends ModuleORM {
 		return array_combine($aKeys,array_values($aArray));
 	}
 	/**
-	 * TODO: нужно учитывать сброс кеша
 	 * Удаляет теги свойства у сущности
 	 *
 	 * @param string $sTargetType	Тип объекта сущности
@@ -504,10 +503,11 @@ class ModuleProperty extends ModuleORM {
 	 * @return mixed
 	 */
 	public function RemoveValueTagsByTarget($sTargetType,$iTargetId,$iPropertyId) {
+		// сбрасываем кеш
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntityValueTag_delete'));
 		return $this->oMapper->RemoveValueTagsByTarget($sTargetType,$iTargetId,$iPropertyId);
 	}
 	/**
-	 * TODO: нужно учитывать сброс кеша
 	 * Удаляет значения типа select
 	 *
 	 * @param string $sTargetType	Тип объекта сущности
@@ -517,6 +517,8 @@ class ModuleProperty extends ModuleORM {
 	 * @return mixed
 	 */
 	public function RemoveValueSelectsByTarget($sTargetType,$iTargetId,$iPropertyId) {
+		// сбрасываем кеш
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntityValueSelect_delete'));
 		return $this->oMapper->RemoveValueSelectsByTarget($sTargetType,$iTargetId,$iPropertyId);
 	}
 	/**
