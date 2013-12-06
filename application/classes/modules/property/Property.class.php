@@ -87,6 +87,18 @@ class ModuleProperty extends ModuleORM {
 		return in_array($sTargetType,array_keys($this->aTargetTypes));
 	}
 	/**
+	 * Возвращает парметры нужного типа
+	 *
+	 * @param string $sTargetType
+	 *
+	 * @return mixed
+	 */
+	public function GetTargetTypeParams($sTargetType) {
+		if ($this->IsAllowTargetType($sTargetType)) {
+			return $this->aTargetTypes[$sTargetType];
+		}
+	}
+	/**
 	 * Проверяет разрешен ли тип поля
 	 *
 	 * @param string $sType

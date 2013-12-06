@@ -33,10 +33,17 @@ class ModuleProperty_EntityValueTypeTags extends ModuleProperty_EntityValueType 
 		$this->resetAllValue();
 		$oValue=$this->getValueObject();
 		$oValue->setValueVarchar($mValue ? $mValue : null);
+	}
+
+	/**
+	 * Дополнительная обработка перед сохранением значения
+	 */
+	public function beforeSaveValue() {
 		/**
 		 * Заливаем теги в отдельную таблицу
 		 */
 		if ($aTags=$this->getTagsArray()) {
+			$oValue=$this->getValueObject();
 			foreach($aTags as $sTag) {
 				$oTag=Engine::GetEntity('ModuleProperty_EntityValueTag');
 				$oTag->setPropertyId($oValue->getPropertyId());

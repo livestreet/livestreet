@@ -83,6 +83,10 @@ class ModuleProperty_EntityValueType extends Entity {
 		return array();
 	}
 
+	public function beforeSaveValue() {
+
+	}
+
 	public function removeValue() {
 
 	}

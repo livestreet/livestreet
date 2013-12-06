@@ -25,6 +25,13 @@ class ModuleProperty_EntityValue extends EntityORM {
 
 	);
 
+	protected function beforeSave() {
+		if ($bResult=parent::beforeSave()) {
+			$oValueType=$this->getValueTypeObject();
+			$oValueType->beforeSaveValue();
+		}
+		return $bResult;
+	}
 
 	public function getValueForDisplay() {
 		$oValueType=$this->getValueTypeObject();

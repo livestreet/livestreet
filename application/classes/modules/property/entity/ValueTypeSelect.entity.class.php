@@ -93,15 +93,24 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
 				$aValues[$oSelect->getId()]=$oSelect->getValue();
 			}
 		}
-		foreach($aValues as $k=>$v) {
-			$oSelect=Engine::GetEntity('ModuleProperty_EntityValueSelect');
-			$oSelect->setPropertyId($oValue->getPropertyId());
-			$oSelect->setTargetType($oValue->getTargetType());
-			$oSelect->setTargetId($oValue->getTargetId());
-			$oSelect->setSelectId($k);
-			$oSelect->Add();
-		}
 		$oValue->setData($aValues ? array('values'=>$aValues) : array());
+	}
+
+	/**
+	 * Дополнительная обработка перед сохранением значения
+	 */
+	public function beforeSaveValue() {
+		$oValue=$this->getValueObject();
+		if ($aValues=$oValue->getData()) {
+			foreach($aValues['values'] as $k=>$v) {
+				$oSelect=Engine::GetEntity('ModuleProperty_EntityValueSelect');
+				$oSelect->setPropertyId($oValue->getPropertyId());
+				$oSelect->setTargetType($oValue->getTargetType());
+				$oSelect->setTargetId($oValue->getTargetId());
+				$oSelect->setSelectId($k);
+				$oSelect->Add();
+			}
+		}
 	}
 
 	public function prepareValidateRulesRaw($aRulesRaw) {
