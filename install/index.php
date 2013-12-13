@@ -192,6 +192,9 @@ class Install {
 	 * @param  string $sLang
 	 */
 	protected function LoadLanguageFile($sLang) {
+		if (!preg_match('#^[a-z]+$#',$sLang)) {
+			return false;
+		}
 		$sFilePath=$this->sLangInstallDir.'/'.$sLang.'.php';
 
 		if(!file_exists($sFilePath)) return false;
