@@ -48,7 +48,7 @@ ls.editor = (function($) {
 		$(this.options.selectors.uploadImageButton).on('click', function (e) {
 			var sFormId   = $(this).data('form-id');
 
-			self.ajaxUploadImg(sFormId);
+			self.ajaxUploadImg('#' + sFormId);
 		});
 
 		// Справка по разметке редактора
@@ -112,6 +112,9 @@ ls.editor = (function($) {
 
 				ls.hook.marker('ajaxUploadImgAfter');
 			}
+		}, {
+			// TODO: Fix validation
+			validate: false
 		});
 	};
 
