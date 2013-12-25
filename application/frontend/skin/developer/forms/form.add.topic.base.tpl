@@ -24,7 +24,11 @@
 	{block name='add_topic_options'}{/block}
 
 	{* Подключение редактора *}
-	{include file='forms/editor.init.tpl'}
+	{$sMediaTargetId=''}
+	{if $oTopicEdit}
+		{$sMediaTargetId=$oTopicEdit->getId()}
+	{/if}
+	{include file='forms/editor.init.tpl' sMediaTargetType='topic' sMediaTargetId=$sMediaTargetId}
 
 
 	{hook run="add_topic_`$sTopicType`_begin"}

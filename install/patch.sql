@@ -140,3 +140,56 @@ CREATE TABLE IF NOT EXISTS `prefix_property_value_select` (
   KEY `property_id` (`property_id`),
   KEY `select_id` (`select_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE IF NOT EXISTS `prefix_media` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `file_path` varchar(500) NOT NULL,
+  `file_name` varchar(500) NOT NULL,
+  `file_size` int(11) NOT NULL,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL,
+  `date_add` datetime NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `type` (`type`),
+  KEY `file_size` (`file_size`),
+  KEY `width` (`width`),
+  KEY `height` (`height`),
+  KEY `date_add` (`date_add`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_media_target`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_media_target` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `media_id` int(11) NOT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `target_type` varchar(50) NOT NULL,
+  `target_tmp` varchar(50) DEFAULT NULL,
+  `date_add` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `media_id` (`media_id`),
+  KEY `target_id` (`target_id`),
+  KEY `target_type` (`target_type`),
+  KEY `target_tmp` (`target_tmp`),
+  KEY `date_add` (`date_add`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_media_target`
+--
+ALTER TABLE `prefix_media_target`
+  ADD CONSTRAINT `prefix_media_target_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `prefix_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

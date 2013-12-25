@@ -51,7 +51,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
 		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
-		$this->AddEventPreg('/^vote/i','/^get/','/^info/','EventVoteGetInfo');
+		$this->AddEventPreg('/^vote$/i','/^get$/','/^info$/','EventVoteGetInfo');
 
 		$this->AddEventPreg('/^favourite$/i','/^save-tags/','EventFavouriteSaveTags');
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
@@ -67,7 +67,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^blogs$/i','/^get-by-category$/','EventBlogsGetByCategory');
 
 		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
-		$this->AddEventPreg('/^preview$/i','/^topic/','EventPreviewTopic');
+		$this->AddEventPreg('/^preview$/i','/^topic$/','EventPreviewTopic');
 
 		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
 
@@ -76,10 +76,17 @@ class ActionAjax extends Action {
 
 		$this->AddEventPreg('/^comment$/i','/^delete$/','EventCommentDelete');
 
-		$this->AddEventPreg('/^geo/i','/^get/','/^regions$/','EventGeoGetRegions');
-		$this->AddEventPreg('/^geo/i','/^get/','/^cities/','EventGeoGetCities');
+		$this->AddEventPreg('/^geo$/i','/^get/','/^regions$/','EventGeoGetRegions');
+		$this->AddEventPreg('/^geo$/i','/^get/','/^cities$/','EventGeoGetCities');
 
-		$this->AddEventPreg('/^infobox/i','/^info/','/^blog/','EventInfoboxInfoBlog');
+		$this->AddEventPreg('/^infobox$/i','/^info$/','/^blog$/','EventInfoboxInfoBlog');
+
+		$this->AddEventPreg('/^media$/i','/^upload$/','/^$/','EventMediaUpload');
+		$this->AddEventPreg('/^media$/i','/^generate-target-tmp$/','/^$/','EventMediaGenerateTargetTmp');
+		$this->AddEventPreg('/^media$/i','/^submit-insert$/','/^$/','EventMediaSubmitInsert');
+		$this->AddEventPreg('/^media$/i','/^submit-create-photoset$/','/^$/','EventMediaSubmitCreatePhotoset');
+		$this->AddEventPreg('/^media$/i','/^load-gallery$/','/^$/','EventMediaLoadGallery');
+		$this->AddEventPreg('/^media$/i','/^remove-file$/','/^$/','EventMediaRemoveFile');
 	}
 
 
@@ -87,6 +94,179 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	protected function EventMediaRemoveFile() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$sId=getRequestStr('id');
+		if ($oMedia=$this->Media_GetMediaByIdAndUserId($sId,$this->oUserCurrent->getId())) {
+			$this->Media_DeleteFile($oMedia);
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+		}
+	}
+
+	protected function EventMediaLoadGallery() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$sType=getRequestStr('target_type');
+		$sId=getRequestStr('target_id');
+		$sTmp=getRequestStr('target_tmp');
+
+		$aMediaItems=array();
+		if ($sId) {
+			$aMediaItems=$this->Media_GetMediaByTarget($sType,$sId,$this->oUserCurrent->getId());
+		} elseif($sTmp) {
+			$aMediaItems=$this->Media_GetMediaByTargetTmp($sTmp,$this->oUserCurrent->getId());
+		}
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$sTemplate='';
+		foreach($aMediaItems as $oMediaItem) {
+			$oViewer->Assign('oMediaItem',$oMediaItem);
+			$sTemplate.=$oViewer->Fetch('modals/modal.upload_image.gallery.item.tpl');
+		}
+
+		$this->Viewer_AssignAjax('sTemplate',$sTemplate);
+	}
+
+	protected function EventMediaSubmitInsert() {
+		$aIds=array(0);
+		foreach((array)getRequest('ids') as $iId) {
+			$aIds[]=(int)$iId;
+		}
+
+		$iUserId=$this->oUserCurrent ? $this->oUserCurrent->getId() : null;
+
+		$aMediaItems=$this->Media_GetMediaItemsByFilter(array(
+													   '#where'=>array('id in (?a) AND ( user_id is null OR user_id = ?d )'=>array($aIds,$iUserId))
+												   )
+		);
+		if (!$aMediaItems) {
+			$this->Message_AddError('Необходимо выбрать элементы');
+			return false;
+		}
+
+		$aParams=array(
+			'align'=>getRequestStr('align'),
+			'size'=>getRequestStr('size')
+		);
+
+		$sTextResult='';
+		foreach($aMediaItems as $oMedia) {
+			$sTextResult.=$this->Media_BuildCodeForEditor($oMedia,$aParams)."\r\n";
+		}
+		$this->Viewer_AssignAjax('sTextResult',$sTextResult);
+	}
+
+	protected function EventMediaSubmitCreatePhotoset() {
+		$aIds=array(0);
+		foreach((array)getRequest('ids') as $iId) {
+			$aIds[]=(int)$iId;
+		}
+
+		$iUserId=$this->oUserCurrent ? $this->oUserCurrent->getId() : null;
+
+		$aMediaItems=$this->Media_GetMediaItemsByFilter(array(
+															'#where'=>array('id in (?a) AND ( user_id is null OR user_id = ?d )'=>array($aIds,$iUserId))
+														)
+		);
+		if (!$aMediaItems) {
+			$this->Message_AddError('Необходимо выбрать элементы');
+			return false;
+		}
+
+		$aParams=array(
+			'size'=>'100crop',
+		);
+		$sTextResult='<div class="fotorama" data-nav="thumbs">'."\r\n";
+		foreach($aMediaItems as $oMedia) {
+			$sTextResult.="\t".$this->Media_BuildCodeForEditor($oMedia,$aParams)."\r\n";
+		}
+		$sTextResult.="</div>\r\n";
+		$this->Viewer_AssignAjax('sTextResult',$sTextResult);
+	}
+
+	protected function EventMediaGenerateTargetTmp() {
+		$sType=getRequestStr('type');
+		if ($this->Media_IsAllowTargetType($sType)) {
+			$sTmp=func_generator();
+			setcookie('media_target_tmp_'.$sType,$sTmp, time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+			$this->Viewer_AssignAjax('sTmpKey',$sTmp);
+		}
+	}
+
+	protected function EventMediaUpload() {
+		if (getRequest('is_iframe')) {
+			$this->Viewer_SetResponseAjax('jsonIframe', false);
+		} else {
+			$this->Viewer_SetResponseAjax('json');
+		}
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * Файл был загружен?
+		 */
+		if (!isset($_FILES['filedata']['tmp_name'])) {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return false;
+		}
+		/**
+		 * Проверяем корректность target'а
+		 */
+		$sTargetType=getRequestStr('target_type');
+		$sTargetId=getRequestStr('target_id');
+
+		$sTargetTmp=empty($_COOKIE['media_target_tmp_'.$sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_'.$sTargetType];
+		if ($sTargetId) {
+			$sTargetTmp=null;
+			if (!$this->Media_CheckTarget($sTargetType,$sTargetId)) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+		} else {
+			$sTargetId=null;
+			if (!$sTargetTmp or !$this->Media_IsAllowTargetType($sTargetType)) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+		}
+
+		/**
+		 * TODO: необходима проверка на максимальное общее количество файлов, на максимальный размер файла
+		 * Эти настройки можно хранить в конфиге: module.media.type.topic.max_file_count=30 и т.п.
+		 */
+
+		/**
+		 * Выполняем загрузку файла
+		 */
+		if ($mResult=$this->Media_Upload($_FILES['filedata'],$sTargetType,$sTargetId,$sTargetTmp) and is_object($mResult)) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('oMediaItem',$mResult);
+
+			$sTemplateFile=$oViewer->Fetch('modals/modal.upload_image.gallery.item.tpl');
+
+			$this->Viewer_AssignAjax('sTemplateFile',$sTemplateFile);
+		} else {
+			$this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
+		}
+	}
 
 	/**
 	 * Вывод информации о блоге

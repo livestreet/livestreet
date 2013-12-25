@@ -228,6 +228,34 @@ $config['module']['topic']['photoset']['size'] = array(             // спис�
 	)
 );
 
+/**
+ * Модуль Media
+ */
+$config['module']['media']['image_max_width'] = 5000; // Максимальный размер изображения по ширине
+$config['module']['media']['image_max_height'] = 5000; // Максимальный размер изображения по высоте
+$config['module']['media']['image_sizes'] = array(  // список размеров, которые необходимо делать при загрузке изображения
+	array(
+		'w' => 1000,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 500,
+		'h' => null,
+		'crop' => false,
+	),
+	array(
+		'w' => 100,
+		'h' => 100,
+		'crop' => true,
+	),
+	array(
+		'w' => 50,
+		'h' => 50,
+		'crop' => true,
+	)
+);
+
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
 /**
@@ -288,6 +316,8 @@ $config['db']['table']['property_select'] 	  = '___db.table.prefix___property_se
 $config['db']['table']['property_value'] 	  = '___db.table.prefix___property_value';
 $config['db']['table']['property_value_tag']  = '___db.table.prefix___property_value_tag';
 $config['db']['table']['property_value_select']  = '___db.table.prefix___property_value_select';
+$config['db']['table']['media']  = '___db.table.prefix___media';
+$config['db']['table']['media_target']  = '___db.table.prefix___media_target';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 
@@ -441,6 +471,7 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.fileupload.js",
 	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
 	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
 	"___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
@@ -493,6 +524,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/admin.js",
 	"___path.application.web___/frontend/common/js/userfield.js",
 	"___path.application.web___/frontend/common/js/captcha.js",
+	"___path.application.web___/frontend/common/js/media.js",
 	"___path.application.web___/frontend/common/js/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),
