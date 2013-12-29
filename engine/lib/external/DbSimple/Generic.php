@@ -1140,7 +1140,11 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
     {
         die("This is protected constructor! Do not instantiate directly at ".__FILE__." line ".__LINE__);
     }
-    
+
+	public function getDsnParsed() {
+		return $this->_dsnParsed;
+	}
+
     // Identifiers prefix (used for ?_ placeholder).
     var $_identPrefix = '';
 
@@ -1156,6 +1160,7 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
     var $_cacher = null;
     var $_placeholderArgs, $_placeholderNativeArgs, $_placeholderCache=array();
     var $_placeholderNoValueFound;
+	protected $_dsnParsed=array();
     
     /**
      * When string representation of row (in characters) is greater than this,

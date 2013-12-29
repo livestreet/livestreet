@@ -16,6 +16,7 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/DbSimple/Generic.php');
+require_once('DbSimpleWrapper.class.php');
 /**
  * Модуль для работы с базой данных
  * Создаёт объект БД библиотеки DbSimple Дмитрия Котерова
@@ -35,12 +36,29 @@ class ModuleDatabase extends Module {
 	 */
 	protected $aInstance=array();
 
+	protected $aReplicaInstanceSlave=array();
+	protected $aReplicaMasterByTable=array();
+
 	/**
 	 * Инициализация модуля
 	 *
 	 */
 	public function Init() {
 
+	}
+
+	public function GetReplicaInstanceSlaveByHash($sHash) {
+		return isset($this->aReplicaInstanceSlave[$sHash]) ? $this->aReplicaInstanceSlave[$sHash] : null;
+	}
+	public function SetReplicaInstanceSlave($sHash,$oReplicaInstanceSlave) {
+		return $this->aReplicaInstanceSlave[$sHash]=$oReplicaInstanceSlave;
+	}
+
+	public function GetReplicaMasterByTable() {
+		return $this->aReplicaMasterByTable;
+	}
+	public function SetReplicaMasterByTable($aReplicaMasterByTable) {
+		$this->aReplicaMasterByTable=$aReplicaMasterByTable;
 	}
 	/**
 	 * Получает объект БД
@@ -55,7 +73,11 @@ class ModuleDatabase extends Module {
 		if (is_null($aConfig)) {
 			$aConfig = Config::Get('db.params');
 		}
-		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'];
+		$sParams='';
+		if (isset($aConfig['params']) and is_array($aConfig['params'])){
+			$sParams='?'.http_build_query($aConfig['params'],'','&');
+		}
+		$sDSN=$aConfig['type'].'wrapper://'.$aConfig['user'].':'.$aConfig['pass'].'@'.$aConfig['host'].':'.$aConfig['port'].'/'.$aConfig['dbname'].$sParams;
 		/**
 		 * Создаём хеш подключения, уникальный для каждого конфига
 		 */
@@ -85,14 +107,15 @@ class ModuleDatabase extends Module {
 			 * считайте это костылём
 			 */
 			$oDbSimple->query("set character_set_client='utf8', character_set_results='utf8', collation_connection='utf8_bin' ");
+			$oWrapper=new ModuleDatabase_DbSimpleWrapper($oDbSimple);
 			/**
 			 * Сохраняем коннект
 			 */
-			$this->aInstance[$sDSNKey]=$oDbSimple;
+			$this->aInstance[$sDSNKey]=$oWrapper;
 			/**
 			 * Возвращаем коннект
 			 */
-			return $oDbSimple;
+			return $oWrapper;
 		}
 	}
 	/**
@@ -103,7 +126,7 @@ class ModuleDatabase extends Module {
 	public function GetStats() {
 		$aQueryStats=array('time'=>0,'count'=>-1); // не считаем тот самый костыльный запрос, который устанавливает настройки DB соединения
 		foreach ($this->aInstance as $oDb) {
-			$aStats=$oDb->_statistics;
+			$aStats=$oDb->getStatistics();
 			$aQueryStats['time']+=$aStats['time'];
 			$aQueryStats['count']+=$aStats['count'];
 		}
@@ -280,13 +303,16 @@ function databaseLogger($db, $sql) {
 	 */
 	$caller = $db->findLibraryCaller();
 	$msg=print_r($sql,true);
+	$aDsnParsed=$db->getDsnParsed();
+	$sDbPrefix='[DB:'.(isset($aDsnParsed['path']) ? $aDsnParsed['path'] : '').']';
+
 	/**
 	 * Получаем ядро и сохраняем в логе SQL запрос
 	 */
 	$oEngine=Engine::getInstance();
 	$sOldName=$oEngine->Logger_GetFileName();
 	$oEngine->Logger_SetFileName(Config::Get('sys.logs.sql_query_file'));
-	$oEngine->Logger_Debug($msg);
+	$oEngine->Logger_Debug($sDbPrefix.$msg);
 	$oEngine->Logger_SetFileName($sOldName);
 }
 ?>

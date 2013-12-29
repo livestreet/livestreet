@@ -315,6 +315,18 @@ $config['db']['params']['user']   = 'root';
 $config['db']['params']['pass']   = '';
 $config['db']['params']['type']   = 'mysql';
 $config['db']['params']['dbname'] = 'social';
+$config['db']['params']['replication']['slave'] = array(
+	/*
+	array(
+		'host'=>'slave1',
+		'port'=>'3306',
+		'user'=>'root',
+		'pass'=>'',
+		'type'=>'mysql',
+		'dbname'=>'___db.params.dbname___',
+	),
+	*/
+);
 /**
  * Настройка таблиц базы данных
  */

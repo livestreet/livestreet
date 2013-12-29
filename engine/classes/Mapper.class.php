@@ -33,9 +33,9 @@ abstract class Mapper extends LsObject {
 	/**
 	 * Передаем коннект к БД
 	 *
-	 * @param DbSimple_Generic_Database $oDb
+	 * @param DbSimple_Generic_Database|object $oDb
 	 */
-	public function __construct(DbSimple_Generic_Database $oDb) {
+	public function __construct($oDb) {
 		$this->oDb = $oDb;
 	}
 

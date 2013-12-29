@@ -33,6 +33,7 @@ class DbSimple_Mysql extends DbSimple_Generic_Database
     function DbSimple_Mysql($dsn)
     {
         $p = DbSimple_Generic::parseDSN($dsn);
+		$this->_dsnParsed=$p;
         if (!is_callable('mysql_connect')) {
             return $this->_setLastError("-1", "MySQL extension is not loaded", "mysql_connect");
         }
