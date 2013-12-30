@@ -87,6 +87,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^media$/i','/^submit-create-photoset$/','/^$/','EventMediaSubmitCreatePhotoset');
 		$this->AddEventPreg('/^media$/i','/^load-gallery$/','/^$/','EventMediaLoadGallery');
 		$this->AddEventPreg('/^media$/i','/^remove-file$/','/^$/','EventMediaRemoveFile');
+		$this->AddEventPreg('/^media$/i','/^save-data-file$/','/^$/','EventMediaSaveDataFile');
 	}
 
 
@@ -94,6 +95,30 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	protected function EventMediaSaveDataFile() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$aAllowData=array('title');
+		$sName=getRequestStr('name');
+		$sValue=getRequestStr('value');
+		if (!in_array($sName,$aAllowData)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			return;
+		}
+		$sId=getRequestStr('id');
+		if ($oMedia=$this->Media_GetMediaByIdAndUserId($sId,$this->oUserCurrent->getId())) {
+			$oMedia->setDataOne($sName,$sValue);
+			$oMedia->Update();
+		} else {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+		}
+	}
 
 	protected function EventMediaRemoveFile() {
 		/**
@@ -190,8 +215,15 @@ class ActionAjax extends Action {
 		$aParams=array(
 			'size'=>'100crop',
 		);
-		$sTextResult='<div class="fotorama" data-nav="thumbs">'."\r\n";
+		$sProperties='';
+		if (getRequest('use_thumbs')) {
+			$sProperties.=' data-nav="thumbs" ';
+		}
+		$sTextResult='<div class="fotorama" '.$sProperties.'>'."\r\n";
 		foreach($aMediaItems as $oMedia) {
+			if (getRequest('show_caption')) {
+				$aParams['data']['caption']=$oMedia->getDataOne('title');
+			}
 			$sTextResult.="\t".$this->Media_BuildCodeForEditor($oMedia,$aParams)."\r\n";
 		}
 		$sTextResult.="</div>\r\n";

@@ -59,7 +59,16 @@
 
         <div class="js-media-settings-mode" id="media-settings-mode-create-photoset" style="display: none;">
 			Опции фотосета
-
+			<p>
+				<label>
+                    <input type="checkbox" name="use_thumbs" value="1" checked="checked"> &mdash; показывать ленту с превьюшками
+				</label>
+			</p>
+            <p>
+                <label>
+                    <input type="checkbox" name="show_caption" value="1"> &mdash; показывать описания фотографий
+                </label>
+            </p>
         </div>
 
 	</div>

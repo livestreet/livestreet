@@ -329,6 +329,13 @@ class ModuleMedia extends ModuleORM {
 					$sCode.=' align="'.htmlspecialchars($aParams['align']).'" ';
 				}
 			}
+			if (isset($aParams['data']) and is_array($aParams['data'])) {
+				foreach($aParams['data'] as $sDataName=>$sDataValue) {
+					if ($sDataValue) {
+						$sCode.=' data-'.$sDataName.'="'.htmlspecialchars($sDataValue).'"';
+					}
+				}
+			}
 			$sCode.=' />';
 			if ($bNeedHref) {
 				$sCode='<a href="'.$oMedia->getFileWebPath().'">'.$sCode.'</a>';

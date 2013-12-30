@@ -99,6 +99,9 @@ ls.media =( function ($) {
 		$('.js-media-upload-file').bind('fileuploadprogress',function(e,data) {
 			data.context.html(parseInt(data.loaded / data.total * 100, 10)+'%');
 		});
+		$('.js-media-detail-area .js-input-title').on('blur',function(e){
+			this.saveDataFile($(e.currentTarget).attr('name'),$(e.currentTarget).val());
+		}.bind(this));
 
 		this.loadGallery();
 		this.bindFileEvents();
@@ -111,6 +114,16 @@ ls.media =( function ($) {
 	 */
 	this.init = function() {
 
+	};
+
+	this.saveDataFile = function(name,value) {
+		var $item=this.getCurrent();
+		if ($item.length) {
+			var id=$item.data('mediaId');
+			ls.ajax.load(aRouter['ajax']+"media/save-data-file/", { name: name, value: value, id: id }, function(result) {
+				$('.js-media-upload-gallery-item[data-media-id='+id+']').data('mediaData'+name.charAt(0).toUpperCase()+name.slice(1),value);
+			});
+		}
 	};
 
 	this.removeCurrentFile = function() {
@@ -247,6 +260,7 @@ ls.media =( function ($) {
 		$('.js-media-detail-date').html($item.data('mediaDateAdd'));
 		$('.js-media-detail-dimensions').html($item.data('mediaWidth')+' × '+$item.data('mediaHeight'));
 		$('.js-media-detail-file-size').html(parseInt($item.data('mediaFileSize')/1024)+'kB');
+		$('.js-media-detail-area .js-input-title').val($item.data('mediaDataTitle'));
 		$('.js-media-detail-area').show();
 
 		this.showSettingsMode($item);
@@ -302,7 +316,9 @@ ls.media =( function ($) {
 			aIds.push($item.data('mediaId'));
 		});
 		var params={
-			ids: aIds
+			ids: aIds,
+			use_thumbs: $('#media-settings-mode-create-photoset').find('input[name=use_thumbs]').val(),
+			show_caption: $('#media-settings-mode-create-photoset').find('input[name=show_caption]').val()
 		}
 
 		ls.ajax.load(aRouter['ajax']+"media/submit-create-photoset/", params, function(result) {
