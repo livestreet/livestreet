@@ -2,8 +2,6 @@
  * Добавление медиа-файла / Список изображений / Блок с изображением
  *
  * @styles css/modals.css
- *
- * TODO: Передавать сюда объект изображения вместо отдельных переменных
  *}
 <li class="js-media-upload-gallery-item modal-upload-image-gallery-list-item {if $bIsSelected}is-selected{/if} {if $bIsActive}active{/if}"
 		data-media-id="{$oMediaItem->getId()}"

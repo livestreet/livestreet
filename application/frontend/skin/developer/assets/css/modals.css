@@ -59,8 +59,8 @@
 }
 
 /* Manager */
-.modal-upload-image-gallery { overflow: hidden; }
-.modal-upload-image-gallery-list { overflow: auto; width: 68%; margin-right: 2%; max-height: 354px; float: left; }
+.modal-upload-image-gallery { overflow: hidden; min-height: 150px; }
+.modal-upload-image-gallery-list { overflow: auto; width: 68%; min-height: 150px; margin-right: 2%; max-height: 354px; float: left; }
 .modal-upload-image-gallery-list-item {
 	position: relative;
 	cursor: pointer;
@@ -72,16 +72,25 @@
 .modal-upload-image-gallery-list-item img { vertical-align: top; width: 100px; height: 100px; }
 .modal-upload-image-gallery-list-item:hover { border-color: #eee; }
 
+/* Progress bar */
+.modal-upload-image-gallery-list-item .progress {
+	width: 100px;
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	background-color: #f5f5f5;
+}
+
 /* Selected */
 .modal-upload-image-gallery-list-item.is-selected { border-color: #D5CE3D; }
 
 /* Active */
 .modal-upload-image-gallery-list-item.is-selected.active { border-color: #7979FC; }
-.modal-upload-image-gallery-list-item.is-selected.active .modal-upload-image-gallery-list-item-checkbox {background: #7979FC; }
+.modal-upload-image-gallery-list-item.is-selected.active .modal-upload-image-gallery-list-item-checkbox { background: #7979FC; }
 
 /* Checkbox */
 .modal-upload-image-gallery-list-item input { display: none; }
-.modal-upload-image-gallery-list-item.is-selected .modal-upload-image-gallery-list-item-checkbox { position: absolute; right: 0; bottom: 0; width: 20px; height: 20px; background: #D5CE3D; cursor: pointer; }
+.modal-upload-image-gallery-list-item.is-selected .modal-upload-image-gallery-list-item-checkbox { display: none; position: absolute; right: 0; bottom: 0; width: 20px; height: 20px; background: #D5CE3D; cursor: pointer; }
 .modal-upload-image-gallery-list-item.is-selected input:checked + .modal-upload-image-gallery-list-item-checkbox { background: #000; }
 
 /* Info */

@@ -15,19 +15,10 @@
 
 	<script type="text/javascript">
 		jQuery(function($){
-			$('.js-tab-show-gallery').on('tabbeforeactivate',function(event,tab){
-				$('#upload-gallery-image').appendTo($('#'+tab.options.target).find('.modal-content'));
-				ls.media.setMode($(event.target).data('mediaMode'));
-			});
-
-            ls.media.setMode('insert');
-			ls.media.initUpload({
+			ls.media.init({
 				target_type: {json var=$sMediaTargetType},
 				target_id: {json var=$sMediaTargetId},
-				target_tmp: {json var=$sMediaTargetTmp},
-                fileupload: {
-                    dropZone: $('.js-media-upload-area')
-                }
+				target_tmp: {json var=$sMediaTargetTmp}
 			});
 		});
 	</script>
@@ -51,7 +42,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary" onclick="ls.media.submitInsert();">Вставить</button>
+					<button type="submit" class="button button-primary js-media-insert">Вставить</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
@@ -96,7 +87,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary" onclick="ls.media.submitCreatePhotoset();">Создать фотосет</button>
+					<button type="submit" class="button button-primary js-media-insert-photoset">Создать фотосет</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
