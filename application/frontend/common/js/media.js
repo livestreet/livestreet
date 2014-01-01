@@ -49,7 +49,8 @@ ls.media = (function ($) {
 			load_gallery:        aRouter['ajax'] + "media/load-gallery/",
 			generate_target_tmp: aRouter['ajax'] + "media/generate-target-tmp/",
 			submit_insert:       aRouter['ajax'] + "media/submit-insert/",
-			submit_photoset:     aRouter['ajax'] + "media/submit-create-photoset/"
+			submit_photoset:     aRouter['ajax'] + "media/submit-create-photoset/",
+			save_data_file:      aRouter['ajax'] + "media/save-data-file/"
 		},
 		// HTML
 		html: {
@@ -382,9 +383,9 @@ ls.media = (function ($) {
 		if ($item.length) {
 			var id = $item.data('mediaId');
 
-			ls.ajax.load(aRouter['ajax']+"media/save-data-file/", { name: name, value: value, id: id }, function(result) {
+			ls.ajax.load(this.options.routers.save_data_file, { name: name, value: value, id: id }, function(result) {
 				$(this.options.selectors.gallery.file + '[data-media-id=' + id + ']').data('mediaData' + name.charAt(0).toUpperCase() + name.slice(1), value);
-			});
+			}.bind(this));
 		}
 	};
 
