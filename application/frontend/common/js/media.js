@@ -95,7 +95,7 @@ ls.media = (function ($) {
 
 		$.each(this.options.fileupload.formData, function(k, v) {
 			if (v === null) this.options.fileupload.formData[k] = '';
-		});
+		}.bind(this));
 
 		this.elements.uploadInput.fileupload(this.options.fileupload);
 
@@ -122,7 +122,6 @@ ls.media = (function ($) {
 		}.bind(this));
 
 		this.elements.buttonInsertPhotoset.on('click', function () {
-			console.log('asdf')
 			var params = {
 				use_thumbs: $('#media-settings-mode-create-photoset').find('input[name=use_thumbs]').val(),
 				show_caption: $('#media-settings-mode-create-photoset').find('input[name=show_caption]').val()
