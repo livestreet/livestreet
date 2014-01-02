@@ -31,14 +31,14 @@
 
 
 		{* Название блога *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName  = 'blog_title'
 				 sFieldRules = 'required="true" rangelength="[2,200]"'
 				 sFieldNote  = $aLang.blog_create_title_notice
 				 sFieldLabel = $aLang.blog_create_title}
 
 		{* URL блога *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName       = 'blog_url'
 				 sFieldRules      = 'required="true" type="alphanum" rangelength="[2,50]"'
 				 bFieldIsDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
@@ -59,7 +59,7 @@
 				]}
 			{/foreach}
 
-			{include file='forms/form.field.select.tpl'
+			{include file='forms/fields/form.field.select.tpl'
 					 sFieldName          = 'blog_category'
 					 sFieldLabel         = $aLang.blog_create_category
 					 sFieldNote          = $aLang.blog_create_category_notice
@@ -75,7 +75,7 @@
 			[ 'value' => 'close', 'text' => $aLang.blog_create_type_close ]
         ]}
 
-		{include file='forms/form.field.select.tpl'
+		{include file='forms/fields/form.field.select.tpl'
 				 sFieldName          = 'blog_type'
 				 sFieldLabel         = $aLang.blog_create_type
 				 sFieldNote          = $aLang.blog_create_type_open_notice
@@ -85,7 +85,7 @@
 
 
 		{* Описание блога *}
-		{include file='forms/form.field.textarea.tpl'
+		{include file='forms/fields/form.field.textarea.tpl'
 				 sFieldName    = 'blog_description'
 				 sFieldRules   = 'required="true" rangelength="[10,3000]"'
 				 sFieldLabel   = $aLang.blog_create_description
@@ -98,7 +98,7 @@
 
 
 		{* Ограничение по рейтингу *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName    = 'blog_limit_rating_topic'
 				 sFieldRules   = 'required="true" type="number"'
 				 sFieldValue   = '0'
@@ -113,10 +113,10 @@
 				{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
 			{/foreach}
 
-			{include file='forms/form.field.checkbox.tpl' sFieldName='avatar_delete' bFieldNoMargin=true sFieldValue='on' sFieldLabel=$aLang.blog_create_avatar_delete}
+			{include file='forms/fields/form.field.checkbox.tpl' sFieldName='avatar_delete' bFieldNoMargin=true sFieldValue='on' sFieldLabel=$aLang.blog_create_avatar_delete}
 		{/if}
 
-		{include file='forms/form.field.file.tpl'
+		{include file='forms/fields/form.field.file.tpl'
 				 sFieldName  = 'avatar'
 				 sFieldLabel = $aLang.blog_create_avatar}
 
@@ -125,7 +125,7 @@
 
 
 		{* Скрытые поля *}
-		{include file='forms/form.field.hidden.security_key.tpl'}
+		{include file='forms/fields/form.field.hidden.security_key.tpl'}
 
 
 		{* Кнопки *}
@@ -134,6 +134,6 @@
 		{else}
 			{$sSubmitInputText = $aLang.topic_create_submit_update}
 		{/if}
-		{include file='forms/form.field.button.tpl' sFieldName='submit_blog_add' sFieldText=$sSubmitInputText sFieldStyle='primary'}
+		{include file='forms/fields/form.field.button.tpl' sFieldName='submit_blog_add' sFieldText=$sSubmitInputText sFieldStyle='primary'}
 	</form>
 {/block}

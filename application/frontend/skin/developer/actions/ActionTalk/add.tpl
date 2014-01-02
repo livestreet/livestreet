@@ -39,23 +39,23 @@
 	<form action="" method="POST" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_add_talk_begin'}
 		
-		{include file='forms/form.field.hidden.security_key.tpl'}
+		{include file='forms/fields/form.field.hidden.security_key.tpl'}
 
 		{* Получатели *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName    = 'talk_users'
 				 sFieldRules   = 'required="true" rangetags="[1,99]"'
 				 sFieldLabel   = $aLang.talk_create_users
 				 sFieldClasses = 'width-full autocomplete-users-sep'}
 
 		{* Заголовок *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName    = 'talk_title'
 				 sFieldRules   = 'required="true" rangelength="[2,200]"'
 				 sFieldLabel   = $aLang.talk_create_title}
 
 		{* Текст сообщения *}	 
-		{include file='forms/form.field.textarea.tpl'
+		{include file='forms/fields/form.field.textarea.tpl'
 				 sFieldName    = 'talk_text'
 				 sFieldRules   = 'required="true" rangelength="[2,3000]"'
 				 sFieldLabel   = $aLang.topic_create_text
@@ -68,8 +68,8 @@
 		
 		{* Кнопки *}
 		{* TODO: js *}
-		{include file='forms/form.field.button.tpl' sFieldName='submit_talk_add' sFieldStyle='primary' sFieldText=$aLang.talk_create_submit}
-		{include file='forms/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.topic_create_submit_save sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.tools.textPreview(\'talk_text\',false); return false;"'}
+		{include file='forms/fields/form.field.button.tpl' sFieldName='submit_talk_add' sFieldStyle='primary' sFieldText=$aLang.talk_create_submit}
+		{include file='forms/fields/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.topic_create_submit_save sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.tools.textPreview(\'talk_text\',false); return false;"'}
 	</form>
 
 	{hook run='talk_add_end'}

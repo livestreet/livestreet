@@ -24,14 +24,14 @@
 			]}
 		{/foreach}
 
-		{include file='forms/form.field.select.tpl'
+		{include file='forms/fields/form.field.select.tpl'
 				 sFieldName          = 'topic_move_to'
 				 sFieldLabel         = $aLang.blog_admin_delete_move
 				 aFieldItems         = $aBlogsCustom}
 
 
 		{* Скрытые поля *}
-		{include file='forms/form.field.hidden.security_key.tpl'}
+		{include file='forms/fields/form.field.hidden.security_key.tpl'}
 	</form>
 {/block}
 

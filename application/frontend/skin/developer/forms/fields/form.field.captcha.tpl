@@ -4,7 +4,7 @@
  * @scripts <framework>/js/livestreet/captcha.js
  *}
 
-{extends file='forms/form.field.base.tpl'}
+{extends file='forms/fields/form.field.base.tpl'}
 
 {block name='field_holder' prepend}
     {hookb run="registration_captcha" isPopup=$isModal}

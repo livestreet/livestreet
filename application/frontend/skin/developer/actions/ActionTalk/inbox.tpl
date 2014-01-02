@@ -18,7 +18,7 @@
 				
 			<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if $_aRequest.submit_talk_filter}style="display:block;"{/if}>
 				{* Отправитель *}
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName    = 'sender'
 						 sFieldClasses = 'width-full autocomplete-users-sep'
 						 sFieldLabel   = $aLang.talk_filter_label_sender
@@ -26,14 +26,14 @@
 
 
 				{* Искать в заголовке *}
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName    = 'keyword'
 						 sFieldLabel   = $aLang.talk_filter_label_keyword
 						 sFieldNote    = $aLang.talk_filter_notice_keyword}
 
 
 				{* Искать в тексте *}
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName    = 'keyword_text'
 						 sFieldLabel   = $aLang.talk_filter_label_keyword_text
 						 sFieldNote    = $aLang.talk_filter_notice_keyword}
@@ -41,30 +41,30 @@
 
 				{* Ограничения по дате *}
 				{* TODO: i18n *}
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName        = 'start'
 						 sFieldClasses     = 'width-200 date-picker'
 						 sFieldPlaceholder = 'From'
 						 sFieldLabel       = $aLang.talk_filter_label_date}
 
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName        = 'end'
 						 sFieldPlaceholder = 'To'
 						 sFieldClasses     = 'width-200 date-picker'}
 
 
 				{* Искать только в избранном *}
-				{include file='forms/form.field.checkbox.tpl'
+				{include file='forms/fields/form.field.checkbox.tpl'
 						 sFieldName  = 'favourite'
 						 sFieldLabel = $aLang.talk_filter_label_favourite}
 
 
 				{* Кнопки *}
-				{include file='forms/form.field.button.tpl'
+				{include file='forms/fields/form.field.button.tpl'
 				 		 sFieldName    = 'submit_talk_filter'
 				 		 sFieldStyle   = 'primary'
 				 		 sFieldText    = $aLang.talk_filter_submit}
-				{include file='forms/form.field.button.tpl' sFieldType='reset' sFieldText=$aLang.talk_filter_submit_clear}
+				{include file='forms/fields/form.field.button.tpl' sFieldType='reset' sFieldText=$aLang.talk_filter_submit_clear}
 			</form>
 		</div>
 		

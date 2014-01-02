@@ -42,7 +42,7 @@
 			<legend>{$aLang.settings_profile_section_base}</legend>
 
 			{* Имя *}
-			{include file='forms/form.field.text.tpl'
+			{include file='forms/fields/form.field.text.tpl'
                      sFieldName   = 'profile_name'
 					 sFieldRules  = 'rangelength="[2,'|cat:$oConfig->Get('module.user.name_max')|cat:']"'
 					 bFieldInline = true
@@ -58,7 +58,7 @@
                 [ 'value' => 'other', 'text' => $aLang.settings_profile_sex_other ]
             ]}
 
-            {include file='forms/form.field.select.tpl'
+            {include file='forms/fields/form.field.select.tpl'
                      sFieldName          = 'profile_sex'
                      bFieldInline        = true
                      sFieldLabel         = $aLang.settings_profile_sex
@@ -67,7 +67,7 @@
 
 
             {* Дата рождения *}
-            {include file='forms/form.field.select.date.tpl'
+            {include file='forms/fields/form.field.select.date.tpl'
                     sFieldNamePrefix    = 'profile_birthday'
                     aFieldItems         = $oUserCurrent->getProfileBirthday()
                     bFieldInline        = true
@@ -75,7 +75,7 @@
 
 
             {* Местоположение *}
-            {include file='forms/form.field.select.geo.tpl'
+            {include file='forms/fields/form.field.select.geo.tpl'
                     sFieldNamePrefix    = 'geo'
                     bFieldInline        = true
                     sFieldLabel         = $aLang.profile_place
@@ -83,7 +83,7 @@
 
 
 			{* О себе *}
-			{include file='forms/form.field.textarea.tpl'
+			{include file='forms/fields/form.field.textarea.tpl'
 					 sFieldName   = 'profile_about'
                      sFieldRules  = 'rangelength="[1,3000]"'
 					 bFieldInline = true
@@ -96,7 +96,7 @@
 			{$aUserFieldValues = $oUserCurrent->getUserFieldValues(false, '')}
 
             {foreach $aUserFieldValues as $oField}
-                {include file='forms/form.field.text.tpl'
+                {include file='forms/fields/form.field.text.tpl'
                          sFieldName   = "profile_user_field_`$oField->getId()`"
                          bFieldInline = true
                          sFieldValue  = $oField->getValue()|escape
@@ -125,7 +125,7 @@
 
 
         {* Аватар *}
-		{include file='forms/form.field.file.image.tpl'
+		{include file='forms/fields/form.field.file.image.tpl'
                  sFieldName      = 'avatar'
                  sFieldImagePath = $oUserCurrent->getProfileAvatarPath(100)
                  bFieldIsImage   = $oUserCurrent->getProfileAvatar()}
@@ -134,10 +134,10 @@
         {hook run='form_settings_profile_end'}
 
         {* Скрытые поля *}
-        {include file='forms/form.field.hidden.security_key.tpl'}
+        {include file='forms/fields/form.field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='forms/form.field.button.tpl' sFieldName='submit_profile_edit' sFieldStyle='primary' sFieldText=$aLang.settings_profile_submit}
+        {include file='forms/fields/form.field.button.tpl' sFieldName='submit_profile_edit' sFieldStyle='primary' sFieldText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_profile_end'}

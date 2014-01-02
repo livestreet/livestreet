@@ -18,7 +18,7 @@
 		</p>
 
         {* E-mail *}
-        {include file='forms/form.field.text.tpl'
+        {include file='forms/fields/form.field.text.tpl'
                  sFieldName  = 'invite_mail'
                  sFieldNote  = $aLang.settings_invite_mail_notice
                  sFieldLabel = $aLang.settings_invite_mail}
@@ -26,10 +26,10 @@
 		{hook run='form_settings_invite_end'}
 
         {* Скрытые поля *}
-        {include file='forms/form.field.hidden.security_key.tpl'}
+        {include file='forms/fields/form.field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='forms/form.field.button.tpl' sFieldName='submit_invite' sFieldStyle='primary' sFieldText=$aLang.settings_invite_submit}
+        {include file='forms/fields/form.field.button.tpl' sFieldName='submit_invite' sFieldStyle='primary' sFieldText=$aLang.settings_invite_submit}
 	</form>
 
 	{hook run='settings_invite_end'}

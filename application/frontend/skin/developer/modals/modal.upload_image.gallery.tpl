@@ -33,7 +33,7 @@
 				</ul>
 
 				{* Описание *}
-				{include file='forms/form.field.text.tpl'
+				{include file='forms/fields/form.field.text.tpl'
 						 sFieldName  = 'title'
 						 sFieldLabel = $aLang.uploadimg_title}
 	        </div>
@@ -70,12 +70,12 @@
 				Опции фотосета
 				<br><br>
 
-				{include file='forms/form.field.checkbox.tpl'
+				{include file='forms/fields/form.field.checkbox.tpl'
 						 sFieldName    = 'use_thumbs'
 						 bFieldChecked = true
 						 sFieldLabel   = 'Показывать ленту с превьюшками'}
 
-				{include file='forms/form.field.checkbox.tpl'
+				{include file='forms/fields/form.field.checkbox.tpl'
 						 sFieldName    = 'show_caption'
 						 sFieldLabel   = 'Показывать описания фотографий'}
 	        </div>

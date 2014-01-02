@@ -56,7 +56,7 @@
 		</ul>
 
 		<footer class="fieldset-footer">
-			{include file='forms/form.field.hidden.tpl' sFieldName='topic_main_photo' value=$_aRequest.topic_main_photo}
+			{include file='forms/fields/form.field.hidden.tpl' sFieldName='topic_main_photo' value=$_aRequest.topic_main_photo}
 
 			<label class="form-input-file">
 				<span class="button" id="js-photoset-image-upload-flash">{$aLang.topic_photoset_upload_choose}</span>

@@ -4,7 +4,7 @@
  * @scripts <framework>/js/livestreet/user.js
  *}
 
-{extends file='forms/form.field.base.tpl'}
+{extends file='forms/fields/form.field.base.tpl'}
 
 {block name='field_holder' prepend}
 	<div class="js-ajax-{$sFieldName}-upload {$sFieldClasses}">

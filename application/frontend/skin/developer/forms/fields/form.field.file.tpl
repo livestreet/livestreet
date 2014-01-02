@@ -2,7 +2,7 @@
  * Выбор файла
  *}
 
-{extends file='forms/form.field.base.tpl'}
+{extends file='forms/fields/form.field.base.tpl'}
 
 {block name='field_holder' prepend}
 	<input type="file" 

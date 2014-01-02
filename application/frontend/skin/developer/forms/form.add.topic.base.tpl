@@ -53,7 +53,7 @@
 			]}
 		{/foreach}
 
-		{include file='forms/form.field.select.tpl'
+		{include file='forms/fields/form.field.select.tpl'
 				 sFieldName          = 'blog_id'
 				 sFieldLabel         = $aLang.topic_create_blog
 				 sFieldNote          = $aLang.topic_create_blog_notice
@@ -63,7 +63,7 @@
 
 
 		{* Заголовок топика *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName				= 'topic_title'
 				 sFieldEntity			= 'ModuleTopic_EntityTopic'
 				 sFieldEntityScenario	= 'topic'
@@ -76,7 +76,7 @@
 
 		{* Текст топика *}
 		{* TODO: Max length for poll and link *}
-		{include file='forms/form.field.textarea.tpl'
+		{include file='forms/fields/form.field.textarea.tpl'
 				 sFieldName    = 'topic_text'
 				 sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"'
 				 sFieldLabel   = $aLang.topic_create_text
@@ -92,7 +92,7 @@
 
 
 		{* Теги *}
-		{include file='forms/form.field.text.tpl'
+		{include file='forms/fields/form.field.text.tpl'
 				 sFieldName    = 'topic_tags'
 				 sFieldRules   = 'required="true" rangetags="[1,15]"'
 				 sFieldNote    = $aLang.topic_create_tags_notice
@@ -101,7 +101,7 @@
 
 
 		{* Запретить комментарии *}
-		{include file='forms/form.field.checkbox.tpl'
+		{include file='forms/fields/form.field.checkbox.tpl'
 				 sFieldName  = 'topic_forbid_comment'
 				 sFieldNote  = $aLang.topic_create_forbid_comment_notice
 				 sFieldLabel = $aLang.topic_create_forbid_comment}
@@ -109,7 +109,7 @@
 
 		{* Принудительный вывод топиков на главную (доступно только админам) *}
 		{if $oUserCurrent->isAdministrator()}
-			{include file='forms/form.field.checkbox.tpl'
+			{include file='forms/fields/form.field.checkbox.tpl'
 					 sFieldName  = 'topic_publish_index'
 					 sFieldNote  = $aLang.topic_create_publish_index_notice
 					 sFieldLabel = $aLang.topic_create_publish_index}
@@ -121,8 +121,8 @@
 
 
 		{* Скрытые поля *}
-		{include file='forms/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$sTopicType}
-		{include file='forms/form.field.hidden.security_key.tpl'}
+		{include file='forms/fields/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$sTopicType}
+		{include file='forms/fields/form.field.hidden.security_key.tpl'}
 
 
 		{* Кнопки *}
@@ -132,13 +132,13 @@
 			{$sSubmitInputText = $aLang.topic_create_submit_update}
 		{/if}
 
-		{include file='forms/form.field.button.tpl'
+		{include file='forms/fields/form.field.button.tpl'
 				 sFieldName    = 'submit_topic_publish'
 				 sFieldStyle   = 'primary'
 				 sFieldClasses = 'fl-r'
 				 sFieldText    = $sSubmitInputText}
-		{include file='forms/form.field.button.tpl' sFieldType='button' sFieldClasses='js-topic-preview-text-button' sFieldText=$aLang.topic_create_submit_preview}
-		{include file='forms/form.field.button.tpl' sFieldName='submit_topic_save' sFieldText=$aLang.topic_create_submit_save}
+		{include file='forms/fields/form.field.button.tpl' sFieldType='button' sFieldClasses='js-topic-preview-text-button' sFieldText=$aLang.topic_create_submit_preview}
+		{include file='forms/fields/form.field.button.tpl' sFieldName='submit_topic_save' sFieldText=$aLang.topic_create_submit_save}
 	</form>
 
 
