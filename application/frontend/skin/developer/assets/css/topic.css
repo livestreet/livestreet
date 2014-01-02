@@ -17,17 +17,16 @@
 .topic:last-child { margin-bottom: 0; }
 
 /* Хидер */
+.topic-header                         { margin-bottom: 25px; }
+
 .topic-header .topic-title            { font: 400 32px/1.3em "Open Sans", sans-serif; margin: 0 0 15px; }
 .topic-header .topic-title a          { text-decoration: none; }
 .topic-header .topic-title a:visited  { color: #000; }
 .topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
 
-.topic-header .topic-info             { margin-bottom: 25px; color: #777; }
+.topic-header .topic-info             { color: #777; margin-bottom: 15px; }
 .topic-header .topic-info time        { margin-right: 15px; }
 .topic-header .topic-info .topic-blog { margin-right: 15px; }
-.topic-header .topic-info .actions,
-.topic-header .topic-info .actions li { display: inline; float: none; margin-bottom: 0; }
-.topic-header .topic-info .actions li { margin-right: 10px; }
 
 /* Превью */
 .topic-preview-image { display: inline-block; max-width: 100%; }
@@ -60,7 +59,6 @@
 	background: rgba(0,0,0,.6);
 	z-index: 2;
 }
-.ie7 .topic-preview-image .topic-preview-image-count i { margin-right: 3px; }
 
 .topic-preview-image .topic-preview-image-desc {
 	position: absolute;
@@ -82,32 +80,32 @@
 .topic-content      { margin-bottom: 20px; }
 .topic-content.text { color: #333; }
 
-/* Теги */
-.topic-tags                                     { margin: 0 0 20px; }
-.topic-tags-label,
-.topic-tags-edit,
-.topic-tags-tag                                 { display: inline; }
-.topic-tags-tag                                 { color: #888; }
-.topic-tags-edit                                { margin-left: 20px; }
-.topic-tags-tag-user .topic-tags-tag-link       { color: #3CA023; }
-.topic-tags-tag-user .topic-tags-tag-link:hover { color: #f00; }
 
-/* Подвал топика */
-.topic-footer .topic-info      { overflow: hidden; }
-.topic-footer .topic-info li   { float: left; height: 19px; padding: 8px 15px; border-right: 1px solid #fff; }
-.topic-footer .topic-info li a { text-decoration: none; }
+/**
+ * Подвал
+ */
+.topic-footer .topic-info-item         { float: left; padding: 8px; margin-right: 20px; }
+.topic-footer .topic-info-item a       { text-decoration: none; }
+.topic-footer .topic-info-item a:hover { text-decoration: underline; }
 
-.topic-footer .topic-info li.topic-info-author a         { font-weight: bold; color: #333; }
-.topic-footer .topic-info li.topic-info-author a:hover   { text-decoration: underline; }
-.topic-footer .topic-info li.topic-info-comments a span  { color: #777; }
-.topic-footer .topic-info li.topic-info-comments a:hover { text-decoration: underline; }
+/* Автор */
+.topic-info-item.topic-info-item-author { padding: 2px; }
+.topic-info-item-author-avatar          { border-radius: 50%; width: 30px; height: 30px; vertical-align: middle; margin-right: 3px; }
+.topic-info-item-author-login           { font-weight: bold; color: #333; vertical-align: middle; }
+
+/* Ссылка на комментарии */
+.topic-info-item.topic-info-item-comments a span { color: #777; }
 
 /* Голосование */
-.topic-footer .topic-info li.vote { padding: 0; margin-right: 5px; height: auto; }
+.topic-info-item.topic-info-item-vote { padding: 0; }
+
 .topic .vote { border-radius: 3px; overflow: hidden; }
 
 .topic .vote .vote-up,
 .topic .vote .vote-down { opacity: 1; filter: alpha(opacity=100); }
+
+.topic .vote-locked .vote-up,
+.topic .vote-locked .vote-down { display: none; }
 
 .topic .vote .vote-item i { background-image: url(../images/icons-white.png); opacity: 1; }
 .topic .vote .vote-item { background: #ac90df; padding: 8px 10px; }
@@ -122,6 +120,7 @@
 .topic .vote.vote-count-negative .vote-count { color: #fff; }
 
 .topic .vote.vote-count-negative .vote-item { background: #DA3A3A; }
+
 
 /**
  * Топик фотосет
@@ -148,26 +147,3 @@
 .topic-preview                      { margin-top: 30px; }
 .topic-preview .profile-page-header { border-top: 1px solid #ddd; }
 .topic-preview .topic               { margin-bottom: 20px; }
-
-
-/**
- * Личное сообщение
- * TODO: Move to talk.css
- * 
- * @template actions/ActionTalk/message.tpl
- */
-.topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
-.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
-
-.topic-type-talk .topic-header .topic-info                         { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
-.topic-type-talk .topic-header .topic-info .avatar                 { position: absolute; top: 0; left: 0; }
-.topic-type-talk .topic-header .topic-info .author-wrapper         { margin-bottom: 4px; position: relative; top: -2px; }
-.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
-.topic-type-talk .topic-header .topic-info .recipient              { margin-right: 10px; }
-
-.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
-
-.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
-
-.topic-type-talk .talk-recipients    { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
-.topic-type-talk .talk-recipients h3 { font-size: 16px; font-weight: bold; margin-bottom: 10px; }

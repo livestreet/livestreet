@@ -28,8 +28,8 @@ a:hover { color: #058; }
 /**
  * Заголовки
  */
-h1, h2, h3, h4, h5, h6 { font-family: "Open Sans", sans-serif; }
-.h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 15px; line-height: 1.2em; }
+h1, h2, h3, h4, h5, h6 { font-family: "Open Sans", sans-serif; font-weight: 300; }
+.h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 15px; line-height: 1.2em; font-weight: 300; font-family: "Open Sans", sans-serif; }
 
 .h1 { font-size: 28px; }
 .h2 { font-size: 26px; }
@@ -49,7 +49,7 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans", sans-serif; }
  */
 .grid-role-header a                  { text-decoration: none; color: #fff; }
 
-.grid-role-header .site-info { margin: 0 auto; }
-.grid-role-header .site-name         { margin: 0 0 10px; font-size: 65px; line-height: 1em; font-weight: bold; }
+.grid-role-header .site-info         { margin: 0 auto; }
+.grid-role-header .site-name         { margin: 0 0 10px; font-size: 65px; line-height: 1em; font-weight: 300; }
 .grid-role-header .site-name a:hover { color: #fff; opacity: .9; }
 .grid-role-header .site-description  { max-width: 600px; color: #fff; font-size: 15px; }

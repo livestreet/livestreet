@@ -30,19 +30,28 @@
 	</div>
 
 	<footer class="topic-footer">
-		<ul class="topic-tags">
-			<li>{$aLang.block_tags}:</li>
+		<ul class="tag-list tag-list-topic">
+			<li class="tag-list-item tag-list-item-label">{$aLang.topic_tags}:</li>
 			{strip}
 				{foreach $oTopic->getTagsArray() as $sTag}
-					<li>{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a></li>
+					<li class="tag-list-item tag-list-item-tag">
+						{if ! $sTag@first}, {/if}<a rel="tag" href="{router page='tag'}{$sTag|escape:'url'}/">{$sTag|escape}</a>
+					</li>
 				{foreachelse}
-					<li>{$aLang.topic_tags_empty}</li>
+					<li class="tag-list-item tag-list-item-empty">{$aLang.topic_tags_empty}</li>
 				{/foreach}
 			{/strip}
 		</ul>
 
-		<ul class="topic-info">
-			<li class="topic-info-author"><a rel="author" href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a></li>
+		<ul class="topic-info clearfix">
+			{* Автор топика *}
+			<li class="topic-info-item topic-info-item-author">
+				<a href="{$oUser->getUserWebPath()}">
+					<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="topic-info-item-author-avatar" />
+				</a>
+				<a rel="author" href="{$oUser->getUserWebPath()}" class="topic-info-item-author-login">{$oUser->getDisplayName()}</a>
+			</li>
+			
 			{hook run='topic_preview_show_info' topic=$oTopic}
 		</ul>
 

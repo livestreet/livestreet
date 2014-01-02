@@ -208,6 +208,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Теги
+	 */
+	ls.tags.init();
+
+
+	/**
 	 * Photoset
 	 */
 	$('.js-photoset-type-default-image').prettyPhoto({
@@ -232,6 +238,19 @@ jQuery(document).ready(function($){
 		messages: {
 			rangetags: "Кол-во тегов должно быть от %s до %s"
 		}
+	});
+
+
+	/**
+	 * Медиа файлы
+	 */
+	//ls.media.init();
+
+
+	// Временный костыль для сабмита форм
+	// TODO: Перенести в плагин button
+	$('button[data-button-submit-form]').on('click', function () {
+		$( '#' + $(this).data('button-submit-form') ).submit();
 	});
 
 
