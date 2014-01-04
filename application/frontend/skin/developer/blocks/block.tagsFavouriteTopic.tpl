@@ -18,27 +18,17 @@
 		
 		<div data-type="tab-panes">
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-all" style="display: block;">
-				{if $aFavouriteTopicTags}
-					<ul class="tag-cloud word-wrap">
-						{foreach $aFavouriteTopicTags as $oTag}
-							<li><a class="tag-size-{$oTag->getSize()} {if $sFavouriteTag==$oTag->getText()}tag-current{/if}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
-						{/foreach}
-					</ul>
-				{else}
-					{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
-				{/if}
+				{include file='tag_cloud.tpl' 
+						 aTags       = $aFavouriteTopicTags 
+						 sTagsUrl    = '{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:\'url\'}/'
+						 sTagsActive = $sFavouriteTag}
 			</div>
 			
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-favourite-my">
-				{if $aFavouriteTopicUserTags}
-					<ul class="tag-cloud word-wrap">
-						{foreach $aFavouriteTopicUserTags as $oTag}
-							<li><a class="tag-size-{$oTag->getSize()}" title="{$oTag->getCount()}" href="{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:'url'}/">{$oTag->getText()}</a></li>
-						{/foreach}
-					</ul>
-				{else}
-					{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
-				{/if}
+				{include file='tag_cloud.tpl' 
+						 aTags       = $aFavouriteTopicUserTags 
+						 sTagsUrl    = '{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:\'url\'}/'
+						 sTagsActive = $sFavouriteTag}
 			</div>
 		</div>
 	</div>

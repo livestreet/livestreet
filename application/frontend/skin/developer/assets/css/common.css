@@ -200,10 +200,11 @@
 /**
  * Облако тегов 
  */
-.tag-cloud        { width: 100%; }
+.tag-cloud { width: 100%; }
 
-.tag-cloud-item   { display: inline; margin-right: 5px; line-height: 22px; }
-.tag-cloud-item a { text-decoration: none; }
+.tag-cloud-item          { display: inline; margin-right: 5px; line-height: 22px; }
+.tag-cloud-item a        { text-decoration: none; }
+.tag-cloud-item.active a { color: #3CA023; }
 
 .tag-size-1  { font-size: 12px; }
 .tag-size-2  { font-size: 12px; }
