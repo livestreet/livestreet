@@ -4,7 +4,7 @@
  * @param array  $aTags       Массив с тегами
  * @param string $sTagsUrl    Код для получения ссылки тега
  * @param string $sTagsText   Код для получения названия тега
- * @param string $sTagsActive Текст активного комментария
+ * @param string $sTagsActive Текст активного тега
  *
  * @styles css/common.css
  *}

@@ -22,3 +22,9 @@
 .grid-role-footer { padding: 20px 0 50px; color: #777; position: relative; }
 
 .grid-role-container.no-sidebar .grid-role-content { width: 100%; margin-right: 0; }
+
+/* Responsive */
+@media (max-width: 999px)  {
+	.grid-role-content { width: 100%; margin-bottom: 30px; }
+	.grid-role-sidebar { width: 100%; margin-bottom: 30px; padding: 0; }
+}

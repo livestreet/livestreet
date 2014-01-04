@@ -14,7 +14,7 @@ $config['module']['user']['profile_photo_width'] = 300;
 $config['view']['grid']['type'] = 'fluid';
 
 /* Fluid settings */
-$config['view']['grid']['fluid_min_width'] = 900;
+$config['view']['grid']['fluid_min_width'] = 320;
 $config['view']['grid']['fluid_max_width'] = 1200;
 
 /* Fixed settings */
@@ -51,6 +51,8 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.skin.assets.web___/css/admin.css",
 	"___path.skin.assets.web___/css/toolbar.css",
 	"___path.skin.assets.web___/css/poll.css",
+	"___path.skin.assets.web___/css/messages.css",
+	"___path.skin.assets.web___/css/sort.css",
 	"___path.skin.web___/themes/___view.theme___/style.css",
 	"___path.skin.assets.web___/css/print.css",
 ));

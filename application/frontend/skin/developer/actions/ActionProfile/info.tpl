@@ -41,7 +41,7 @@
 	{**
 	 * О себе
 	 *}
-	{if $oUserProfile->getProfileAbout()}                                        
+	{if $oUserProfile->getProfileAbout()}
 		<div class="profile-info-about">
 			<h3 class="h5">{$aLang.profile_about}</h3>
 			
