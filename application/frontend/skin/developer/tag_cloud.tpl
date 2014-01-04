@@ -12,7 +12,7 @@
 {if $aTags}
 	<ul class="tag-cloud word-wrap">
 		{foreach $aTags as $oTag}
-			<li class="tag-cloud-item {if $sTagsActive == $oTag->getText()}active{/if}">
+			<li class="tag-cloud-item {if $oTag->getText() && $sTagsActive == $oTag->getText()}active{/if}">
 				<a class="tag-size-{$oTag->getSize()}" href="{eval var=$sTagsUrl}" title="{$oTag->getCount()}">
 					{if $sTagsText}
 						{eval var=$sTagsText}
