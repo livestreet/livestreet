@@ -25,28 +25,12 @@
 	
 	<div data-type="tab-panes">
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">
-			{if $aTags}
-				<ul class="tag-cloud word-wrap">
-					{foreach $aTags as $oTag}
-						<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
-					{/foreach}
-				</ul>
-			{else}
-				{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
-			{/if}
+			{include file='tag_cloud.tpl' aTags=$aTags sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
 		</div>
 
 		{if $oUserCurrent}
 			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-my">
-				{if $aTagsUser}
-					<ul class="tag-cloud word-wrap">
-						{foreach $aTagsUser as $oTag}
-							<li><a class="tag-size-{$oTag->getSize()}" href="{router page='tag'}{$oTag->getText()|escape:'url'}/">{$oTag->getText()|escape:'html'}</a></li>
-						{/foreach}
-					</ul>
-				{else}
-					{include file='alert.tpl' mAlerts=$aLang.block_tags_empty sAlertStyle='info'}
-				{/if}
+				{include file='tag_cloud.tpl' aTags=$aTagsUser sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
 			</div>
 		{/if}
 	</div>
