@@ -11,27 +11,23 @@
 {block name='modal_title'}{$aLang.block_create}{/block}
 
 {block name='modal_content'}
-	{strip}
-		<ul class="write-list">
-			<li class="write-item-type-topic">
-				<a href="{router page='topic'}add" class="write-item-image"></a>
-				<a href="{router page='topic'}add" class="write-item-link">{$aLang.block_create_topic_topic}</a>
-			</li>
-			<li class="write-item-type-blog">
-				<a href="{router page='blog'}add" class="write-item-image"></a>
-				<a href="{router page='blog'}add" class="write-item-link">{$aLang.block_create_blog}</a>
-			</li>
-			<li class="write-item-type-message">
-				<a href="{router page='talk'}add" class="write-item-image"></a>
-				<a href="{router page='talk'}add" class="write-item-link">{$aLang.block_create_talk}</a>
-			</li>
-			<li class="write-item-type-draft">
-				<a href="{router page='topic'}drafts/" class="write-item-image"></a>
-				<a href="{router page='topic'}drafts/" class="write-item-link">{$aLang.topic_menu_drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}</a>
-			</li>
-			{hook run='write_item' isPopup=true}
-		</ul>
-	{/strip}
+	{function modal_create_item}
+		<li class="write-item-type-{$sName}">
+			{$sUrl = "{if ! $url}{router page=$sName}add{else}{$url}{/if}"}
+
+			<a href="{$sUrl}" class="write-item-image"></a>
+			<a href="{$sUrl}" class="write-item-link">{$sTitle}</a>
+		</li>
+	{/function}
+
+	<ul class="write-list clearfix">
+		{modal_create_item sName='topic' sTitle=$aLang.block_create_topic_topic}
+		{modal_create_item sName='blog' sTitle=$aLang.block_create_blog}
+		{modal_create_item sName='talk' sTitle=$aLang.block_create_talk}
+		{modal_create_item sName='draft' url="{router page='topic'}drafts/" sTitle="{$aLang.topic_menu_drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
+
+		{hook run='write_item' isPopup=true}
+	</ul>
 {/block}
 
 {block name='modal_footer'}{/block}
