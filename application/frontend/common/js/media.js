@@ -141,6 +141,11 @@ ls.media = (function ($) {
 			this.saveDataFile($(e.currentTarget).attr('name'),$(e.currentTarget).val());
 		}.bind(this));
 
+		// инициализация фоторамы при предпросмотре
+		ls.hook.add('ls_topic_preview_after',function(){
+			$('.fotorama').fotorama();
+		});
+
 		this.loadImageList();
 		this.bindFileEvents();
 	};

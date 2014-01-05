@@ -478,6 +478,7 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
 	"___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.livequery.js",
+	"___path.framework.frontend.web___/js/vendor/fotorama/fotorama.js",
 
 	/* Core */
 	"___path.framework.frontend.web___/js/core/main.js",

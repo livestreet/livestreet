@@ -196,37 +196,26 @@ class ActionAjax extends Action {
 	}
 
 	protected function EventMediaSubmitCreatePhotoset() {
-		$aIds=array(0);
-		foreach((array)getRequest('ids') as $iId) {
-			$aIds[]=(int)$iId;
-		}
-
-		$iUserId=$this->oUserCurrent ? $this->oUserCurrent->getId() : null;
-
-		$aMediaItems=$this->Media_GetMediaItemsByFilter(array(
-															'#where'=>array('id in (?a) AND ( user_id is null OR user_id = ?d )'=>array($aIds,$iUserId))
-														)
-		);
+		$aMediaItems=$this->Media_GetAllowMediaItemsById(getRequest('ids'));
 		if (!$aMediaItems) {
 			$this->Message_AddError('Необходимо выбрать элементы');
 			return false;
 		}
 
-		$aParams=array(
-			'size'=>'100crop',
-		);
-		$sProperties='';
-		if (getRequest('use_thumbs')) {
-			$sProperties.=' data-nav="thumbs" ';
-		}
-		$sTextResult='<div class="fotorama" '.$sProperties.'>'."\r\n";
+		$aItems=array();
 		foreach($aMediaItems as $oMedia) {
-			if (getRequest('show_caption')) {
-				$aParams['data']['caption']=$oMedia->getDataOne('title');
-			}
-			$sTextResult.="\t".$this->Media_BuildCodeForEditor($oMedia,$aParams)."\r\n";
+			$aItems[]=$oMedia->getId();
 		}
-		$sTextResult.="</div>\r\n";
+
+		$sTextResult='<gallery items="'.join(',',$aItems).'"';
+		if (getRequest('use_thumbs')) {
+			$sTextResult.=' nav="thumbs" ';
+		}
+		if (getRequest('show_caption')) {
+			$sTextResult.=' caption="1" ';
+		}
+		$sTextResult.=' />';
+
 		$this->Viewer_AssignAjax('sTextResult',$sTextResult);
 	}
 

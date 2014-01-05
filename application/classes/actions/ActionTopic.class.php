@@ -446,8 +446,9 @@ class ActionTopic extends Action {
 		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
 
 		$oTopic->setCutText($sTextCut);
-		$oTopic->setText($this->Text_Parser($sTextNew));
-		$oTopic->setTextShort($this->Text_Parser($sTextShort));
+		// TODO: передача параметров в Topic_Parser пока не используется - нужно заменить на этот вызов все места с парсингом топика
+		$oTopic->setText($this->Topic_Parser($sTextNew,$oTopic));
+		$oTopic->setTextShort($this->Topic_Parser($sTextShort,$oTopic));
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */

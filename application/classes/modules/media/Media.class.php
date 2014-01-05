@@ -318,7 +318,7 @@ class ModuleMedia extends ModuleORM {
 			$sPath=$oMedia->getFileWebPath($sSize=='original' ? null : $sSize);
 
 			$sCode='<img src="'.$sPath.'" ';
-			if ($oMedia->getDataOne('title')) {
+			if (!isset($aParams['skip_title']) and $oMedia->getDataOne('title')) {
 				$sCode.=' title="'.htmlspecialchars($oMedia->getDataOne('title')).'" ';
 				$sCode.=' alt="'.htmlspecialchars($oMedia->getDataOne('title')).'" ';
 			}
@@ -329,16 +329,19 @@ class ModuleMedia extends ModuleORM {
 					$sCode.=' align="'.htmlspecialchars($aParams['align']).'" ';
 				}
 			}
+			$sDataParams='';
 			if (isset($aParams['data']) and is_array($aParams['data'])) {
 				foreach($aParams['data'] as $sDataName=>$sDataValue) {
 					if ($sDataValue) {
-						$sCode.=' data-'.$sDataName.'="'.htmlspecialchars($sDataValue).'"';
+						$sDataParams.=' data-'.$sDataName.'="'.htmlspecialchars($sDataValue).'"';
 					}
 				}
 			}
-			$sCode.=' />';
 			if ($bNeedHref) {
-				$sCode='<a href="'.$oMedia->getFileWebPath().'">'.$sCode.'</a>';
+				$sCode.=' />';
+				$sCode='<a href="'.$oMedia->getFileWebPath().'" '.$sDataParams.'>'.$sCode.'</a>';
+			} else {
+				$sCode.=$sDataParams.' />';
 			}
 		}
 
@@ -400,5 +403,66 @@ class ModuleMedia extends ModuleORM {
 		}
 
 		return $oMedia->Delete();
+	}
+
+	/**
+	 * Возвращает список media с учетов прав доступа текущего пользователя
+	 *
+	 * @param array $aId
+	 *
+	 * @return array
+	 */
+	public function GetAllowMediaItemsById($aId) {
+		$aIdItems=array();
+		foreach((array)$aId as $iId) {
+			$aIdItems[]=(int)$iId;
+		}
+
+		if (is_array($aIdItems) and count($aIdItems)) {
+			$iUserId=$this->oUserCurrent ? $this->oUserCurrent->getId() : null;
+			return $this->Media_GetMediaItemsByFilter(array(
+														  '#where'=>array('id in (?a) AND ( user_id is null OR user_id = ?d )'=>array($aIdItems,$iUserId))
+													  )
+			);
+		}
+		return array();
+	}
+
+	/**
+	 * Обработка тега gallery в тексте
+	 * <pre>
+	 * <gallery items="12,55,38" />
+	 * </pre>
+	 *
+	 * @param string $sTag	Тег на ктором сработал колбэк
+	 * @param array $aParams Список параметров тега
+	 * @return string
+	 */
+	public function CallbackParserTagGallery($sTag,$aParams) {
+		if (isset($aParams['items'])) {
+			$aItems=explode(',',$aParams['items']);
+		}
+
+		if (!(isset($aItems) and $aMediaItems=$this->Media_GetAllowMediaItemsById($aItems))) {
+			return '';
+		}
+
+		$aParamsMedia=array(
+			'size'=>'100crop',
+			'skip_title'=>true
+		);
+		$sProperties='';
+		if (isset($aParams['nav']) and in_array($aParams['nav'],array('thumbs'))) {
+			$sProperties.=' data-nav="'.$aParams['nav'].'" ';
+		}
+		$sTextResult='<div class="fotorama" '.$sProperties.'>'."\r\n";
+		foreach($aMediaItems as $oMedia) {
+			if (isset($aParams['caption']) and $aParams['caption']) {
+				$aParamsMedia['data']['caption']=htmlspecialchars($oMedia->getDataOne('title'));
+			}
+			$sTextResult.="\t".$this->Media_BuildCodeForEditor($oMedia,$aParamsMedia)."\r\n";
+		}
+		$sTextResult.="</div>\r\n";
+		return $sTextResult;
 	}
 }

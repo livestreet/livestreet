@@ -1857,5 +1857,19 @@ class ModuleTopic extends Module {
 	public function GetTopicItemsByArrayId($aTopocId) {
 		return $this->GetTopicsByArrayId($aTopocId);
 	}
+	/**
+	 * Парсинг текста с учетом конкретного топика
+	 *
+	 * @param string $sText
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 *
+	 * @return string
+	 */
+	public function Parser($sText,$oTopic) {
+		$this->Text_AddParams(array('oTopic'=>$oTopic));
+		$sResult=$this->Text_Parser($sText);
+		$this->Text_RemoveParams(array('oTopic'));
+		return $sResult;
+	}
 }
 ?>
