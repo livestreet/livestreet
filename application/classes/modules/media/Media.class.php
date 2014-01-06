@@ -168,9 +168,51 @@ class ModuleMedia extends ModuleORM {
 
 	public function UploadUrl($sFileUrl,$sTargetType,$sTargetId,$sTargetTmp=null) {
 		/**
-		 * TODO: сделать загрузку по урлу
+		 * Проверяем, является ли файл изображением
+		 * TODO: файл может быть не только изображением, поэтому требуется рефакторинг
 		 */
-		return false;
+		if(!$aImageInfo=(@getimagesize($sFileUrl))) {
+			return 'Файл не является изображением';
+		}
+		$aTypeImage=array(1=>'gif',2=>'jpg',3=>'png'); // see http://php.net/manual/en/function.exif-imagetype.php
+		$sExtension=isset($aTypeImage[$aImageInfo[2]]) ? $aTypeImage[$aImageInfo[2]] : 'jpg';
+		/**
+		 * Открываем файловый поток и считываем файл поблочно,
+		 * контролируя максимальный размер изображения
+		 */
+		$rFile=fopen($sFileUrl,'r');
+		if(!$rFile) {
+			return 'Не удалось загрузить файл';
+		}
+
+		$iMaxSizeKb=Config::Get('module.media.image_max_size_url');
+		$iSizeKb=0;
+		$sContent='';
+		while (!feof($rFile) and $iSizeKb<$iMaxSizeKb) {
+			$sContent.=fread($rFile ,1024*2);
+			$iSizeKb++;
+		}
+		/**
+		 * Если конец файла не достигнут,
+		 * значит файл имеет недопустимый размер
+		 */
+		if(!feof($rFile)) {
+			return 'Превышен максимальный размер файла: '.Config::Get('module.media.image_max_size_url').'Kb';
+		}
+		fclose($rFile);
+		/**
+		 * Копируем загруженный файл
+		 */
+		$sDirTmp=Config::Get('path.tmp.server').'/media/';
+		if (!is_dir($sDirTmp)) {
+			@mkdir($sDirTmp,0777,true);
+		}
+		$sFileTmp=$sDirTmp.func_generator().'.'.$sExtension;
+		$rFile=fopen($sFileTmp,'w');
+		fwrite($rFile,$sContent);
+		fclose($rFile);
+
+		return $this->ProcessingFile($sFileTmp,$sTargetType,$sTargetId,$sTargetTmp);
 	}
 
 	public function ProcessingFile($sFileTmp,$sTargetType,$sTargetId,$sTargetTmp=null) {
@@ -178,7 +220,7 @@ class ModuleMedia extends ModuleORM {
 		 * Определяем тип файла по расширенияю и запускаем обработку
 		 */
 		$aPathInfo=pathinfo($sFileTmp);
-		$sExtension=strtolower($aPathInfo['extension']);
+		$sExtension=@strtolower($aPathInfo['extension']);
 		if (in_array($sExtension,array('jpg','jpeg','gif','png'))) {
 			return $this->ProcessingFileImage($sFileTmp,$sTargetType,$sTargetId,$sTargetTmp);
 		}
@@ -318,9 +360,12 @@ class ModuleMedia extends ModuleORM {
 			$sPath=$oMedia->getFileWebPath($sSize=='original' ? null : $sSize);
 
 			$sCode='<img src="'.$sPath.'" ';
-			if (!isset($aParams['skip_title']) and $oMedia->getDataOne('title')) {
-				$sCode.=' title="'.htmlspecialchars($oMedia->getDataOne('title')).'" ';
-				$sCode.=' alt="'.htmlspecialchars($oMedia->getDataOne('title')).'" ';
+			if (!isset($aParams['title'])) {
+				$aParams['title']=$oMedia->getDataOne('title');
+			}
+			if (!isset($aParams['skip_title']) and $aParams['title']) {
+				$sCode.=' title="'.htmlspecialchars($aParams['title']).'" ';
+				$sCode.=' alt="'.htmlspecialchars($aParams['title']).'" ';
 			}
 			if (isset($aParams['align']) and in_array($aParams['align'],array('left','right','center'))) {
 				if ($aParams['align'] == 'center') {

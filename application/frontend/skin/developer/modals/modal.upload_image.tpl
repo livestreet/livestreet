@@ -28,7 +28,7 @@
 		<ul class="modal-upload-image-nav" data-type="tabs">
 			<li data-type="tab" data-tab-target="tab-media-insert" data-media-mode="insert" class="active js-tab-show-gallery"><a href="#">Вставить</a></li>
             <li data-type="tab" data-tab-target="tab-media-create-photoset" data-media-mode="create-photoset" class="js-tab-show-gallery"><a href="#">Создать фотосет</a></li>
-			<!--<li data-type="tab" data-tab-target="tab-media-link"><a href="#">{$aLang.uploadimg_from_link}</a></li>-->
+			<li data-type="tab" data-tab-target="tab-media-link"><a href="#">Вставить по ссылке</a></li>
 		</ul>
 
 		{* Side navigation content *}
@@ -51,28 +51,42 @@
 			{**
 			 * Ссылка
 			 *}
-			<form method="POST" action="" enctype="multipart/form-data" id="tab-media-link" onsubmit="return false;" data-type="tab-pane" class="tab-pane modal-upload-image-pane">
+			<form method="POST" action="" enctype="multipart/form-data" id="tab-media-link" onsubmit="return false;" data-type="tab-pane" class="tab-pane modal-upload-image-pane js-media-link-form">
 				<div class="modal-content">
-					<p><label for="img_url">{$aLang.uploadimg_url}:</label>
-					<input type="text" name="img_url" id="img_url" value="http://" class="width-full" /></p>
-
 					<p>
-						<label for="form-image-url-align">{$aLang.uploadimg_align}:</label>
-						<select name="align" id="form-image-url-align" class="width-full">
-							<option value="">{$aLang.uploadimg_align_no}</option>
-							<option value="left">{$aLang.uploadimg_align_left}</option>
-							<option value="right">{$aLang.uploadimg_align_right}</option>
-							<option value="center">{$aLang.uploadimg_align_center}</option>
-						</select>
+						<input type="text" name="url" value="http://" class="width-full" />
 					</p>
 
-					<p><label for="form-image-url-title">{$aLang.uploadimg_title}:</label>
-					<input type="text" name="title" id="form-image-url-title" value="" class="width-full" /></p>
+                    <p>
+						<label>
+							{$aLang.uploadimg_title}:
+                        	<input type="text" name="title" value="" class="width-full" />
+                        </label>
+					</p>
+
+					<div style="display: none;" class="js-media-link-settings-image">
+						<p>
+							<img src="" width="200" class="js-media-link-settings-image-preview">
+						</p>
+                        <p>
+                            <label>
+								{$aLang.uploadimg_align}:
+								<select name="align" class="width-full">
+									<option value="">{$aLang.uploadimg_align_no}</option>
+									<option value="left">{$aLang.uploadimg_align_left}</option>
+									<option value="right">{$aLang.uploadimg_align_right}</option>
+									<option value="center">{$aLang.uploadimg_align_center}</option>
+								</select>
+                            </label>
+                        </p>
+					</div>
+
+
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-insert-image-button">Вставить</button>
-					<button type="submit" class="button button-primary js-upload-image-button" data-form-id="tab-upload-link">{$aLang.uploadimg_link_submit_load}</button>
+					<button type="submit" class="button button-primary js-media-link-insert-button">Вставить как ссылку</button>
+					<button type="submit" class="button button-primary js-media-link-upload-button">Загрузить и вставить</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</form>

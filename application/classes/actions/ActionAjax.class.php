@@ -82,6 +82,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^infobox$/i','/^info$/','/^blog$/','EventInfoboxInfoBlog');
 
 		$this->AddEventPreg('/^media$/i','/^upload$/','/^$/','EventMediaUpload');
+		$this->AddEventPreg('/^media$/i','/^upload-link$/','/^$/','EventMediaUploadLink');
 		$this->AddEventPreg('/^media$/i','/^generate-target-tmp$/','/^$/','EventMediaGenerateTargetTmp');
 		$this->AddEventPreg('/^media$/i','/^submit-insert$/','/^$/','EventMediaSubmitInsert');
 		$this->AddEventPreg('/^media$/i','/^submit-create-photoset$/','/^$/','EventMediaSubmitCreatePhotoset');
@@ -95,6 +96,57 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+
+	protected function EventMediaUploadLink() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		/**
+		 * URL передали?
+		 */
+		if (!($sUrl=getRequestStr('url'))) {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return false;
+		}
+		/**
+		 * Проверяем корректность target'а
+		 */
+		$sTargetType=getRequestStr('target_type');
+		$sTargetId=getRequestStr('target_id');
+
+		$sTargetTmp=empty($_COOKIE['media_target_tmp_'.$sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_'.$sTargetType];
+		if ($sTargetId) {
+			$sTargetTmp=null;
+			if (!$this->Media_CheckTarget($sTargetType,$sTargetId)) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+		} else {
+			$sTargetId=null;
+			if (!$sTargetTmp or !$this->Media_IsAllowTargetType($sTargetType)) {
+				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
+			}
+		}
+
+		/**
+		 * Выполняем загрузку файла
+		 */
+		if ($mResult=$this->Media_UploadUrl($sUrl,$sTargetType,$sTargetId,$sTargetTmp) and is_object($mResult)) {
+			$aParams=array(
+				'align'=>getRequestStr('align'),
+				'title'=>getRequestStr('title')
+			);
+			$this->Viewer_AssignAjax('sText',$this->Media_BuildCodeForEditor($mResult,$aParams));
+		} else {
+			$this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
+		}
+	}
 
 	protected function EventMediaSaveDataFile() {
 		/**
