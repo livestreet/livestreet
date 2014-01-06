@@ -20,6 +20,12 @@
 
 		{* Информация о выделенном файле *}
 		<div class="modal-upload-image-gallery-info js-media-item-info">
+			{* Блок отображаемый когда нет выделенных файлов *}
+			<div class="media-item-info-empty js-media-item-info-empty" style="display: none;">
+				Выберите файл
+			</div>
+
+			{* Основная информация о файле *}
 			<div class="js-media-detail-area" style="display: none;">
 				{* Превью *}
 				<img src="" alt="" class="js-media-detail-preview" width="100" height="100">
@@ -38,7 +44,7 @@
 						 sFieldLabel = $aLang.uploadimg_title}
 	        </div>
 
-			{* Основные опции *}
+			{* Основные настройки *}
 			<div class="js-media-settings-mode" id="media-settings-mode-insert" style="display: none;">
 				Опции вставки
 				{* Выравнивание *}
@@ -70,11 +76,13 @@
 				Опции фотосета
 				<br><br>
 
+				{* Показывать ленту с превьюшками *}
 				{include file='forms/fields/form.field.checkbox.tpl'
 						 sFieldName    = 'use_thumbs'
 						 bFieldChecked = true
 						 sFieldLabel   = 'Показывать ленту с превьюшками'}
 
+				{* Показывать описания фотографий *}
 				{include file='forms/fields/form.field.checkbox.tpl'
 						 sFieldName    = 'show_caption'
 						 sFieldLabel   = 'Показывать описания фотографий'}

@@ -42,7 +42,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-media-insert">Вставить</button>
+					<button type="submit" class="button button-primary js-media-insert-button js-media-insert">Вставить</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
@@ -82,12 +82,10 @@
 			 * Фотосет
 			 *}
 			<div id="tab-media-create-photoset" data-type="tab-pane" class="tab-pane modal-upload-image-pane">
-				<div class="modal-content">
-
-				</div>
+				<div class="modal-content"></div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-media-insert-photoset">Создать фотосет</button>
+					<button type="submit" class="button button-primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
