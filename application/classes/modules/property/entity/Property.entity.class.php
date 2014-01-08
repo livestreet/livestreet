@@ -151,6 +151,14 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		return Router::GetPath('admin/properties/'.$this->getTargetType().'/update/'.$this->getId());
 	}
 	/**
+	 * Возвращает URL админки для редактирования поля
+	 *
+	 * @return string
+	 */
+	public function getUrlAdminRemove() {
+		return Router::GetPath('admin/properties/'.$this->getTargetType().'/remove/'.$this->getId());
+	}
+	/**
 	 * Возвращает описание типа поля
 	 *
 	 * @return mixed

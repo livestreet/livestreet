@@ -22,7 +22,9 @@
 class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueType {
 
 	public function getValueForDisplay() {
-		return $this->getValueObject()->getValueText();
+		$oValue=$this->getValueObject();
+		$aValues=$oValue->getDataOne('values');
+		return join(', ',$aValues);
 	}
 
 	public function getValueForForm() {
@@ -83,14 +85,16 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
 		/**
 		 * Сохраняем с data, т.к. может быть множественный выбор
 		 */
-		if (is_array($mValue)) {
-			$aSelectItems=$this->Property_GetSelectItemsByFilter(array('property_id'=>$oProperty->getId(),'id in'=>$mValue));
-			foreach($aSelectItems as $oSelect) {
-				$aValues[$oSelect->getId()]=$oSelect->getValue();
-			}
-		} else {
-			if ($oSelect=$this->Property_GetSelectByIdAndPropertyId($mValue,$oProperty->getId())) {
-				$aValues[$oSelect->getId()]=$oSelect->getValue();
+		if ($mValue) {
+			if (is_array($mValue)) {
+				$aSelectItems=$this->Property_GetSelectItemsByFilter(array('property_id'=>$oProperty->getId(),'id in'=>$mValue));
+				foreach($aSelectItems as $oSelect) {
+					$aValues[$oSelect->getId()]=$oSelect->getValue();
+				}
+			} else {
+				if ($oSelect=$this->Property_GetSelectByIdAndPropertyId($mValue,$oProperty->getId())) {
+					$aValues[$oSelect->getId()]=$oSelect->getValue();
+				}
 			}
 		}
 		$oValue->setData($aValues ? array('values'=>$aValues) : array());
@@ -125,5 +129,17 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
 			$aRules['min']=(int)$aRulesRaw['min'];
 		}
 		return $aRules;
+	}
+
+	public function removeValue() {
+		$oValue=$this->getValueObject();
+		/**
+		 * Удаляем значения select'а из дополнительной таблицы
+		 */
+		if ($aSelects=$this->Property_GetValueSelectItemsByFilter(array('property_id'=>$oValue->getPropertyId(),'target_id'=>$oValue->getTargetId()))) {
+			foreach($aSelects as $oSelect) {
+				$oSelect->Delete();
+			}
+		}
 	}
 }

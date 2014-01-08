@@ -22,7 +22,7 @@
 class ModuleProperty_EntityValueTypeTags extends ModuleProperty_EntityValueType {
 
 	public function getValueForDisplay() {
-		return $this->getValueObject()->getValueVarchar();
+		return htmlspecialchars($this->getValueObject()->getValueVarchar());
 	}
 
 	public function validate() {

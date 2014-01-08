@@ -149,13 +149,13 @@ class ModuleProperty extends ModuleORM {
 	 * Сохраняет текущие значения свойств
 	 *
 	 * @param array $aProperties
-	 * @param Entity $oTarget
+	 * @param Entity|int $oTarget Объект сущности или ID сущности
 	 */
 	public function UpdatePropertiesValue($aProperties,$oTarget) {
 		if ($aProperties) {
 			foreach($aProperties as $oProperty) {
 				$oValue=$oProperty->getValue();
-				$oValue->setTargetId($oTarget->getId());
+				$oValue->setTargetId(is_object($oTarget) ? $oTarget->getId() : $oTarget);
 				$oValue->setPropertyType($oProperty->getType());
 				$oValue->Save();
 			}

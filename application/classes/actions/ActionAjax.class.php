@@ -89,6 +89,8 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^media$/i','/^load-gallery$/','/^$/','EventMediaLoadGallery');
 		$this->AddEventPreg('/^media$/i','/^remove-file$/','/^$/','EventMediaRemoveFile');
 		$this->AddEventPreg('/^media$/i','/^save-data-file$/','/^$/','EventMediaSaveDataFile');
+
+		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
 	}
 
 
@@ -97,6 +99,27 @@ class ActionAjax extends Action {
 	 **********************************************************************************
 	 */
 
+
+	protected function EventPropertyTagsAutocompleter() {
+		/**
+		 * Первые буквы тега переданы?
+		 */
+		if (!($sValue=getRequest('value',null,'post')) or !is_string($sValue)) {
+			return ;
+		}
+		$aItems=array();
+		/**
+		 * Формируем список тегов
+		 */
+		$aTags=$this->Property_GetPropertyTagsByLike($sValue,getRequestStr('property_id'),10);
+		foreach ($aTags as $oTag) {
+			$aItems[]=$oTag->getText();
+		}
+		/**
+		 * Передаем результат в ajax ответ
+		 */
+		$this->Viewer_AssignAjax('aItems',$aItems);
+	}
 
 	protected function EventMediaUploadLink() {
 		/**
