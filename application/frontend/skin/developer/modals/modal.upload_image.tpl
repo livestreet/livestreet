@@ -12,6 +12,13 @@
 {block name='modal_attributes'}data-modal-center="false"{/block}
 
 {block name='modal_content_after'}
+	{* Массив со значениями для селекта Выравнивание *}
+	{$aSelectImageAlign = [
+		[ 'value' => '',       'text' => $aLang.uploadimg_align_no ],
+		[ 'value' => 'left',   'text' => $aLang.uploadimg_align_left ],
+		[ 'value' => 'right',  'text' => $aLang.uploadimg_align_right ],
+		[ 'value' => 'center', 'text' => $aLang.uploadimg_align_center ]
+	]}
 
 	<script type="text/javascript">
 		jQuery(function($){
@@ -53,35 +60,27 @@
 			 *}
 			<form method="POST" action="" enctype="multipart/form-data" id="tab-media-link" onsubmit="return false;" data-type="tab-pane" class="tab-pane modal-upload-image-pane js-media-link-form">
 				<div class="modal-content">
-					<p>
-						<input type="text" name="url" value="http://" class="width-full" />
-					</p>
+					{* Ссылка *}
+					{include file='forms/fields/form.field.text.tpl'
+							 sFieldName  = 'url'
+							 sFieldValue = 'http://'
+							 sFieldLabel = 'Ссылка'}
 
-                    <p>
-						<label>
-							{$aLang.uploadimg_title}:
-                        	<input type="text" name="title" value="" class="width-full" />
-                        </label>
-					</p>
+					{* Описание *}
+					{include file='forms/fields/form.field.text.tpl'
+							 sFieldName  = 'title'
+							 sFieldLabel = $aLang.uploadimg_title}
 
 					<div style="display: none;" class="js-media-link-settings-image">
-						<p>
-							<img src="" width="200" class="js-media-link-settings-image-preview">
-						</p>
-                        <p>
-                            <label>
-								{$aLang.uploadimg_align}:
-								<select name="align" class="width-full">
-									<option value="">{$aLang.uploadimg_align_no}</option>
-									<option value="left">{$aLang.uploadimg_align_left}</option>
-									<option value="right">{$aLang.uploadimg_align_right}</option>
-									<option value="center">{$aLang.uploadimg_align_center}</option>
-								</select>
-                            </label>
-                        </p>
+						<p><img src="" width="200" class="js-media-link-settings-image-preview"></p>
+
+						{* Выравнивание *}
+						{include file='forms/fields/form.field.select.tpl'
+								 sFieldName    = 'align'
+								 sFieldClasses = 'width-200'
+								 sFieldLabel   = $aLang.uploadimg_align
+								 aFieldItems   = $aSelectImageAlign}
 					</div>
-
-
 				</div>
 
 				<div class="modal-footer">

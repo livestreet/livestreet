@@ -4,7 +4,7 @@
  * @styles css/modals.css
  *}
 
-<div id="upload-gallery-image">
+<div id="upload-gallery-image" class="media-gallery js-media-gallery">
 	{* Drag & drop зона *}
 	<label for="upload-file" class="form-input-file form-input-file-media js-media-upload-area">
 		<span>Перетащите сюда файлы или кликните по этому тексту</span>
@@ -12,30 +12,26 @@
 	</label>
 
 	{* Галерея *}
-	<div class="modal-upload-image-gallery">
-		<div id="media-empty" class="alert alert-empty">Нет загруженных файлов</div>
-
+	<div class="media-gallery-content">
 		{* Список файлов *}
-		<ul class="modal-upload-image-gallery-list js-media-upload-gallery-list"></ul>
+		<ul class="media-gallery-list js-media-upload-gallery-list"></ul>
 
 		{* Информация о выделенном файле *}
-		<div class="modal-upload-image-gallery-info js-media-item-info">
+		<div class="media-gallery-item-info js-media-item-info">
 			{* Блок отображаемый когда нет выделенных файлов *}
-			<div class="media-item-info-empty js-media-item-info-empty" style="display: none;">
-				Выберите файл
-			</div>
+			<div class="media-item-info-empty js-media-item-info-empty" style="display: none;">Выберите файл</div>
 
 			{* Основная информация о файле *}
 			<div class="js-media-detail-area" style="display: none;">
 				{* Превью *}
-				<img src="" alt="" class="js-media-detail-preview" width="100" height="100">
+				<img src="" alt="" class="media-gallery-item-info-image js-media-detail-preview" width="100" height="100">
 
 				{* Информация *}
 				<ul class="mb-20">
-					<li><strong class="js-media-detail-name"></strong></li>
+					<li><strong class="word-wrap js-media-detail-name"></strong></li>
 					<li class="js-media-detail-date"></li>
 					<li><span class="js-media-detail-dimensions"></span>, <span class="js-media-detail-file-size"></span></li>
-					<li><a href="#" onclick="if (confirm('Удалить текущий файл?')) { ls.media.removeCurrentFile(); }; return false;">Удалить файл</a></li>
+					<li><a href="#" class="link-dotted js-media-item-info-remove">{$aLang.delete}</a></li>
 				</ul>
 
 				{* Описание *}
@@ -46,35 +42,35 @@
 
 			{* Основные настройки *}
 			<div class="js-media-settings-mode" id="media-settings-mode-insert" style="display: none;">
-				Опции вставки
+				<h3>Опции вставки</h3>
+
 				{* Выравнивание *}
-	            <p>
-	                <label>{$aLang.uploadimg_align}:</label>
-	                <select name="align" class="width-full">
-	                    <option value="">{$aLang.uploadimg_align_no}</option>
-	                    <option value="left">{$aLang.uploadimg_align_left}</option>
-	                    <option value="right">{$aLang.uploadimg_align_right}</option>
-	                    <option value="center" selected="selected">{$aLang.uploadimg_align_center}</option>
-	                </select>
-	            </p>
+				{include file='forms/fields/form.field.select.tpl'
+						 sFieldName  = 'align'
+						 sFieldLabel = $aLang.uploadimg_align
+						 aFieldItems = $aSelectImageAlign}
 
 	            {* Размер *}
-				<p>
-	                <label>Размер:</label>
-	                <select name="size" class="width-full">
-						{$aImageSizes = Config::Get('module.media.image_sizes')}
-						{foreach $aImageSizes as $aSize}
-	                        <option value="{$aSize.w}{if $aSize.crop}crop{/if}">{$aSize.w} × {if $aSize.h}{$aSize.h}{else}*{/if}</option>
-						{/foreach}
-	                    <option value="original">Оригинал</option>
-	                </select>
-				</p>
+	            {$aSelectImageSizes = [ [ 'value' => 'original', 'text' => 'Оригинал' ] ]}
+				{$aImageSizes = Config::Get('module.media.image_sizes')}
+
+				{foreach $aImageSizes as $aSize}
+					{$aSelectImageSizes[] = [
+						'value' => "{$aSize.w}{if $aSize.crop}crop{/if}",
+						'text' => "{$aSize.w} × {if $aSize.h}{$aSize.h}{else}*{/if}"
+					]}
+				{/foreach}
+
+				{include file='forms/fields/form.field.select.tpl'
+						 sFieldName          = 'size'
+						 sFieldLabel         = 'Размер'
+						 sFieldSelectedValue = $_aRequest.blog_category
+						 aFieldItems         = $aSelectImageSizes}
 			</div>
 
 			{* Опции фотосета *}
 	        <div class="js-media-settings-mode" id="media-settings-mode-create-photoset" style="display: none;">
-				Опции фотосета
-				<br><br>
+				<h3>Опции фотосета</h3>
 
 				{* Показывать ленту с превьюшками *}
 				{include file='forms/fields/form.field.checkbox.tpl'

@@ -30,6 +30,7 @@ ls.media = (function ($) {
 		// Селекторы
 		selectors: {
 			gallery: {
+				self:         '.js-media-gallery',
 				upload_area:  '.js-media-upload-area',
 				upload_input: '.js-media-upload-file',
 				file_list:    '.js-media-upload-gallery-list',
@@ -44,8 +45,10 @@ ls.media = (function ($) {
 				uploadButton: '.js-media-link-upload-button'
 			},
 			info: {
-				sizes: 'select[name=size]',
-				empty: '.js-media-item-info-empty'
+				self:   '.js-media-item-info',
+				remove: '.js-media-item-info-remove',
+				sizes:  'select[name=size]',
+				empty:  '.js-media-item-info-empty'
 			},
 			buttons_insert:         '.js-media-insert-button',
 			button_insert:          '.js-media-insert',
@@ -73,13 +76,17 @@ ls.media = (function ($) {
 		},
 		// HTML
 		html: {
-			progress: '<div class="progress"><div class="progress-value js-progress-value"></div><span class="progress-info js-progress-info"></span></div>'
-		}
+			progress: '<div class="progress"><div class="progress-value js-progress-value"></div><span class="progress-info js-progress-info">0%</span></div>'
+		},
+		// Дефолтная высота списка файлов
+		file_list_max_height: 354
 	};
 
+	var _countCheckLink = 0;
+
+	var _blockCheckLink = -1;
+
 	this.mode = 'insert';
-	this._countCheckLink=0;
-	this._blockCheckLink=-1;
 
 	/**
 	 * Инициализация
@@ -95,6 +102,7 @@ ls.media = (function ($) {
 			buttonInsertPhotoset: $(this.options.selectors.button_insert_photoset),
 			modal:                $(this.options.selectors.modal),
 			gallery: {
+				self: $(this.options.selectors.gallery.self),
 				fileList: $(this.options.selectors.gallery.file_list)
 			},
 			link: {
@@ -105,8 +113,10 @@ ls.media = (function ($) {
 				uploadButton: $(this.options.selectors.link.uploadButton)
 			},
 			info: {
-				sizes: $(this.options.selectors.info.sizes),
-				empty: $(this.options.selectors.info.empty)
+				self:   $(this.options.selectors.info.self),
+				remove: $(this.options.selectors.info.remove),
+				sizes:  $(this.options.selectors.info.sizes),
+				empty:  $(this.options.selectors.info.empty)
 			}
 		};
 
@@ -172,7 +182,7 @@ ls.media = (function ($) {
 		}.bind(this));
 
 		// Перемещение галереи из одного таба в другой
-		$('.js-tab-show-gallery').on('tabbeforeactivate',function(event,tab){
+		$('.js-tab-show-gallery').on('tabactivate', function(event, tab) {
 			$('#upload-gallery-image').appendTo($('#' + tab.options.target).find('.modal-content'));
 			ls.media.setMode($(event.target).data('mediaMode'));
 		});
@@ -188,21 +198,21 @@ ls.media = (function ($) {
 		});
 
 		// Проверка корректности урла при вставке ссылки на медиа-объект
-		this.elements.link.url.on('input',function(){
+		this.elements.link.url.on('input', function() {
 			this.checkLinkUrl(this.elements.link.url.val());
 		}.bind(this));
 
 		// Вставка медиа ссылки в текст
-		this.elements.link.insertButton.on('click',function(){
-			var sTitle=this.elements.link.title.val();
-			var sTextInsert;
+		this.elements.link.insertButton.on('click', function() {
+			var sTitle = this.elements.link.title.val(),
+			    sTextInsert;
 
 			if ($('.js-media-link-settings-image').is(':visible')) {
-				var sAlign=this.elements.link.align.val();
+				var sAlign = this.elements.link.align.val();
 				sAlign = sAlign == 'center' ? 'class="image-center"' : 'align="' + sAlign + '"';
-				sTextInsert='<img src="' + this.elements.link.url.val() + '" title="' + sTitle + '" ' + sAlign + ' />';
+				sTextInsert = '<img src="' + this.elements.link.url.val() + '" title="' + sTitle + '" ' + sAlign + ' />';
 			} else {
-				sTextInsert='<a href="'+this.elements.link.url.val()+'">'+sTitle+'</a>';
+				sTextInsert = '<a href="'+this.elements.link.url.val() + '">' + sTitle + '</a>';
 			}
 
 			this.insertTextToEditor(sTextInsert);
@@ -210,7 +220,7 @@ ls.media = (function ($) {
 		}.bind(this));
 
 		// Загрузка медиа файлы по ссылке
-		this.elements.link.uploadButton.on('click',function(){
+		this.elements.link.uploadButton.on('click', function() {
 			ls.ajax.submit(this.options.routers.upload_link, $('.js-media-link-form'), function (data){
 				if (data.bStateError) {
 					ls.msg.error(data.sMsgTitle,data.sMsg);
@@ -227,6 +237,14 @@ ls.media = (function ($) {
 			});
 		}.bind(this));
 
+		// Удаление файла
+		this.elements.info.remove.on('click', function(e) {
+			if (confirm('Удалить текущий файл?')) { 
+				ls.media.removeActiveFile(); 
+			}
+			e.preventDefault();
+		}.bind(this));
+
 		this.loadImageList();
 		this.bindFileEvents();
 	};
@@ -239,22 +257,20 @@ ls.media = (function ($) {
 	this.checkLinkUrl = function(url) {
 		// TODO: здесь нужно показывать спинер загрузки в инпуте
 
-		this._countCheckLink++;
-		this.checkLinkUrlImage(url,function(src,result){
-			if (!result) {
+		_countCheckLink++;
+		this.checkLinkUrlImage(url, function(src, result) {
+			if ( ! result) {
 				// если не изображение, то проверяем на другой тип, например, видео
 
 				// разрешаем скрытие настроек только след итерациям после успешной проверки
-				if (this._blockCheckLink<this._countCheckLink) {
+				if (_blockCheckLink < _countCheckLink) {
 					this.hideSettingsLinkImage();
 				}
 			} else {
-				this._blockCheckLink=this._countCheckLink;
+				_blockCheckLink = _countCheckLink;
 				this.showSettingsLinkImage(src);
 			}
 		}.bind(this));
-
-
 	};
 
 	/**
@@ -263,25 +279,34 @@ ls.media = (function ($) {
 	 * @param url
 	 * @param callback
 	 */
-	this.checkLinkUrlImage = function(url,callback) {
-		$this=this;
-		$('<img>',{
+	this.checkLinkUrlImage = function(url, callback) {
+		var _this = this;
+
+		$('<img>', {
 			src: url,
 			error: function() {
-				callback.call($this,this.src,false);
+				callback.call(_this, this.src, false);
 			},
 			load: function() {
-				callback.call($this,this.src,true);
+				callback.call(_this, this.src, true);
 			}
 		});
 	};
 
+	/**
+	 * Вставка по ссылке - Показывает настройки изображения
+	 *
+	 * @param src Ссылка на изображения
+	 */
 	this.showSettingsLinkImage = function(src) {
 		this.elements.link.uploadButton.prop('disabled', false);
-		$('.js-media-link-settings-image-preview').attr('src',src);
+		$('.js-media-link-settings-image-preview').attr('src', src);
 		$('.js-media-link-settings-image').show();
 	};
 
+	/**
+	 * Вставка по ссылке - Скрывает настройки изображения
+	 */
 	this.hideSettingsLinkImage = function() {
 		this.elements.link.uploadButton.prop('disabled', true);
 		$('.js-media-link-settings-image').hide();
@@ -293,6 +318,7 @@ ls.media = (function ($) {
 	this.setMode = function(mode) {
 		this.mode = mode;
 		this.showSettingsMode();
+		this.resizeFileList();
 	};
 
 	/**
@@ -306,7 +332,7 @@ ls.media = (function ($) {
 		/* Показываем только если есть выделенные элементы */
 		if (this.getSelected().length) {
 			$('#media-settings-mode-' + this.mode).show();
-			item = item || this.getCurrent();
+			item = item || this.getActive();
 
 			/* Выставляем настройки по вставке медиа */
 			this.elements.info.sizes.find('option:not([value=original])').remove();
@@ -329,8 +355,8 @@ ls.media = (function ($) {
 	/**
 	 * Удаление активного файла
 	 */
-	this.removeCurrentFile = function() {
-		var item = this.getCurrent();
+	this.removeActiveFile = function() {
+		var item = this.getActive();
 
 		return item.length ? this.removeFile(item.data('mediaId')) : false;
 	};
@@ -348,12 +374,12 @@ ls.media = (function ($) {
 				$(this).remove();
 
 				if (itemNext = _this.searchNextSelected()) {
-					_this.setCurrent(itemNext, true);
+					_this.setActive(itemNext, true);
 				} else {
 					_this.hideDetail();
 				}
 
-				if ($(_this.options.selectors.gallery.file).length === 0) _this.showEmptyAlert();
+				if ($(_this.options.selectors.gallery.file).length === 0) _this.markAsEmpty();
 			});
 		});
 	};
@@ -366,7 +392,7 @@ ls.media = (function ($) {
 
 		ls.ajax.load(this.options.routers.load_gallery, { target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
 			this.elements.gallery.fileList.removeClass( ls.options.classes.states.loading ).html(result.sTemplate);
-			this[result.sTemplate ? 'hideEmptyAlert' : 'showEmptyAlert']();
+			this[result.sTemplate ? 'markAsNotEmpty' : 'markAsEmpty']();
 		}.bind(this));
 	};
 
@@ -383,8 +409,8 @@ ls.media = (function ($) {
 	 * Индикация загрузки изображения
 	 */
 	this.addPreload = function(data) {
-		this.hideEmptyAlert();
-		data.context = $('<li class="modal-upload-image-gallery-list-item">' + this.options.html.progress + '</li>');
+		this.markAsNotEmpty();
+		data.context = $('<li class="media-gallery-list-item">' + this.options.html.progress + '</li>');
 		this.elements.gallery.fileList.prepend(data.context);
 	};
 
@@ -402,38 +428,36 @@ ls.media = (function ($) {
 
 				/* Делаем активным другой выделенный элемент */
 				if (itemNext = this.searchNextSelected(item)) {
-					this.setCurrent(itemNext,true);
+					this.setActive(itemNext,true);
 				} else {
 					this.hideDetail();
 				}
 			} else {
 				/* Делаем текущим и показываем детальную информацию */
-				this.setCurrent(item,allowMany);
+				this.setActive(item,allowMany);
 			}
 		}.bind(this));
 	};
 
 	/**
-	 * 
+	 * Помечает галерею как пустую
 	 */
-	this.showEmptyAlert = function(data) {
-		$('#media-empty').show();
-		$('.js-media-item-info').hide();
+	this.markAsEmpty = function() {
+		this.elements.gallery.self.addClass('is-empty');
 	};
 
 	/**
-	 * 
+	 * Помечает галерею как не пустую
 	 */
-	this.hideEmptyAlert = function(data) {
-		$('#media-empty').hide();
-		$('.js-media-item-info').show();
+	this.markAsNotEmpty = function() {
+		this.elements.gallery.self.removeClass('is-empty');
 	};
 
 	/**
 	 * Завершение загрузки файла
 	 */
 	this.onUploadDone = function(context, response) {
-		var item = $(response.sTemplateFile);
+		var item = $($.trim(response.sTemplateFile));
 
 		context.replaceWith(item);
 		this.setSelected(item, true);
@@ -463,11 +487,12 @@ ls.media = (function ($) {
 	 * @param {Object}  item     Помечаемый файл
 	 * @param {Boolean} allowMany Выделение нескольких файлов
 	 */
-	this.setCurrent = function(item, allowMany) {
+	this.setActive = function(item, allowMany) {
 		$(this.options.selectors.gallery.file + '.' + ls.options.classes.states.active).removeClass(ls.options.classes.states.active);
 		item.addClass(ls.options.classes.states.active);
 		this.setSelected(item, allowMany);
 		this.showDetail(item);
+		this.resizeFileList();
 	};
 
 	/**
@@ -475,7 +500,7 @@ ls.media = (function ($) {
 	 * 
 	 * @return {Object} Активный файл
 	 */
-	this.getCurrent = function() {
+	this.getActive = function() {
 		return $(this.options.selectors.gallery.file + '.' + ls.options.classes.states.active);
 	};
 
@@ -495,8 +520,8 @@ ls.media = (function ($) {
 		this.elements.info.empty.hide();
 
 		/* Если нет еще нет активного элемента, то делаем активным текущий */
-		if (this.getCurrent().length === 0) {
-			this.setCurrent(item, allowMany);
+		if (this.getActive().length === 0) {
+			this.setActive(item, allowMany);
 		}
 	};
 
@@ -516,7 +541,7 @@ ls.media = (function ($) {
 	 * @param {String} value Значение переменной
 	 */
 	this.saveDataFile = function(name, value) {
-		var item = this.getCurrent();
+		var item = this.getActive();
 
 		if (item.length) {
 			var id = item.data('mediaId');
@@ -528,7 +553,7 @@ ls.media = (function ($) {
 	};
 
 	/**
-	 * 
+	 * Показывает общую информацию о файле
 	 */
 	this.showDetail = function(item) {
 		$('.js-media-detail-preview').attr('src', item.data('mediaPreview'));
@@ -550,6 +575,7 @@ ls.media = (function ($) {
 		this.elements.buttonsInsert.prop('disabled', true);
 		this.elements.info.empty.show();
 		this.hideSettingsMode();
+		this.resizeFileList();
 	};
 
 	/**
@@ -575,9 +601,25 @@ ls.media = (function ($) {
 		}.bind(this));
 	};
 
+	/**
+	 * Вставляет текст в редактор
+	 * @param  {String} text Текст
+	 */
 	this.insertTextToEditor = function(text) {
 		$.markItUp({
 			replaceWith: text
+		});
+	};
+
+	/**
+	 * Ресайз списка файлов, чтобы его высота была не меньше блока с инфой
+	 */
+	this.resizeFileList = function() {
+		var fileListHeight = this.elements.gallery.fileList.outerHeight(),
+			infoHeight = this.elements.info.self.outerHeight();
+
+		this.elements.gallery.fileList.css({
+			'min-height' : fileListHeight <= infoHeight || ( fileListHeight > this.options.file_list_max_height && fileListHeight > infoHeight ) ? infoHeight : this.options.file_list_max_height
 		});
 	};
 
