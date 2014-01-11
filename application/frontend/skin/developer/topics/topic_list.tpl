@@ -7,7 +7,12 @@
 
 	{foreach $aTopics as $oTopic}
 		{if $LS->Topic_IsAllowTopicType($oTopic->getType())}
-			{include file="topics/topic.{$oTopic->getType()}.tpl" bTopicList=true}
+			{$sTemplateType="topics/topic.type.{$oTopic->getType()}.tpl"}
+			{if $LS->Viewer_TemplateExists($sTemplateType)}
+				{include file=$sTemplateType bTopicList=true}
+			{else}
+				{include file="topics/topic_base.tpl" bTopicList=true}
+			{/if}
 		{/if}
 	{/foreach}
 

@@ -175,6 +175,7 @@ jQuery(document).ready(function($){
 	 * Topic
 	 */
 	ls.topic.init();
+	ls.content.init();
 
 
 	/**
@@ -193,12 +194,6 @@ jQuery(document).ready(function($){
 	 * Blog
 	 */
 	ls.blog.init();
-
-
-	/**
-	 * Photoset
-	 */
-	ls.photoset.init();
 
 
 	/**

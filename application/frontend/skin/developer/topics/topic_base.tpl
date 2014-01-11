@@ -55,7 +55,7 @@
 					{if $oTopic->getIsAllowDelete()}
 						<li>
 							<i class="icon-trash"></i>
-							<a href="{router page='topic'}delete/{$oTopic->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+							<a href="{$oTopic->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 							   title="{$aLang.topic_delete}"
 							   onclick="return confirm('{$aLang.topic_delete_confirm}');"
 							   class="actions-delete">{$aLang.topic_delete}</a>
@@ -76,7 +76,28 @@
 		<div class="topic-content text">
 			{hook run='topic_content_begin' topic=$oTopic bTopicList=$bTopicList}
 
-			{block name='topic_content_text'}{$oTopic->getText()}{/block}
+			{block name='topic_content_text'}
+				{if $bTopicList}
+					{$oTopic->getTextShort()}
+
+					{if $oTopic->getTextShort() != $oTopic->getText()}
+                        <br/>
+                        <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
+							{$oTopic->getCutText()|default:$aLang.topic_read_more}
+                        </a>
+					{/if}
+				{else}
+					{$oTopic->getText()}
+				{/if}
+			{/block}
+
+			{$aProperties = $oTopic->getPropertyList()}
+			{foreach $aProperties as $oProperty}
+                <br/>
+				{$mValue = $oProperty->getValue()->getValueForDisplay()}
+
+                <b>{$oProperty->getTitle()}</b>: {$mValue}
+			{/foreach}
 
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>

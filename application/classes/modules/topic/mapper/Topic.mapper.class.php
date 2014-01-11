@@ -814,143 +814,6 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return $res===false or is_null($res) ? false : true;
 	}
 	/**
-	 * Возвращает список фотографий к топику-фотосет по списку id фоток
-	 *
-	 * @param array $aPhotoId	Список ID фото
-	 * @return array
-	 */
-	public function GetTopicPhotosByArrayId($aArrayId) {
-		if (!is_array($aArrayId) or count($aArrayId)==0) {
-			return array();
-		}
-
-		$sql = "SELECT
-					*							 
-				FROM 
-					".Config::Get('db.table.topic_photo')."		
-				WHERE 
-					id IN(?a) 								
-				ORDER BY FIELD(id,?a) ";
-		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$aArrayId)) {
-			foreach ($aRows as $aPhoto) {
-				$aReturn[]=Engine::GetEntity('Topic_TopicPhoto',$aPhoto);
-			}
-		}
-		return $aReturn;
-	}
-	/**
-	 * Получить список изображений из фотосета по id топика
-	 *
-	 * @param int $iTopicId	ID топика
-	 * @param int|null $iFromId	ID с которого начинать выборку
-	 * @param int|null $iCount	Количество
-	 * @return array
-	 */
-	public function getPhotosByTopicId($iTopicId, $iFromId, $iCount) {
-		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d {AND id > ?d LIMIT 0, ?d}';
-		$aPhotos = $this->oDb->select($sql, $iTopicId, ($iFromId !== null) ? $iFromId : DBSIMPLE_SKIP, $iCount);
-		$aReturn = array();
-		if (is_array($aPhotos) && count($aPhotos)) {
-			foreach($aPhotos as $aPhoto) {
-				$aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-			}
-		}
-		return $aReturn;
-	}
-	/**
-	 * Получить список изображений из фотосета по временному коду
-	 *
-	 * @param string $sTargetTmp	Временный ключ
-	 * @return array
-	 */
-	public function getPhotosByTargetTmp($sTargetTmp) {
-		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
-		$aPhotos = $this->oDb->select($sql, $sTargetTmp);
-		$aReturn = array();
-		if (is_array($aPhotos) && count($aPhotos)) {
-			foreach($aPhotos as $aPhoto) {
-				$aReturn[] = Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-			}
-		}
-		return $aReturn;
-	}
-	/**
-	 * Получить изображение из фотосета по его id
-	 *
-	 * @param int $iPhotoId	ID фото
-	 * @return ModuleTopic_EntityTopicPhoto|null
-	 */
-	public function getTopicPhotoById($iPhotoId) {
-		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_photo') . ' WHERE id = ?d';
-		$aPhoto = $this->oDb->selectRow($sql, $iPhotoId);
-		if ($aPhoto) {
-			return Engine::GetEntity('Topic_TopicPhoto', $aPhoto);
-		} else {
-			return null;
-		}
-	}
-	/**
-	 * Получить число изображений из фотосета по id топика
-	 *
-	 * @param int $iTopicId	ID топика
-	 * @return int
-	 */
-	public function getCountPhotosByTopicId($iTopicId) {
-		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE topic_id = ?d';
-		$aPhotosCount = $this->oDb->selectCol($sql, $iTopicId);
-		return $aPhotosCount[0];
-	}
-	/**
-	 * Получить число изображений из фотосета по id топика
-	 *
-	 * @param string $sTargetTmp	Временный ключ
-	 * @return int
-	 */
-	public function getCountPhotosByTargetTmp($sTargetTmp) {
-		$sql = 'SELECT count(id) FROM ' . Config::Get('db.table.topic_photo') . ' WHERE target_tmp = ?';
-		$aPhotosCount = $this->oDb->selectCol($sql, $sTargetTmp);
-		return $aPhotosCount[0];
-	}
-	/**
-	 * Добавить к топику изображение
-	 *
-	 * @param ModuleTopic_EntityTopicPhoto $oPhoto	Объект фото к топику-фотосету
-	 * @return bool
-	 */
-	public function addTopicPhoto($oPhoto) {
-		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
-		$sTargetType = ($oPhoto->getTopicId()) ? 'topic_id' : 'target_tmp';
-		$iTargetId = ($sTargetType == 'topic_id') ? $oPhoto->getTopicId() : $oPhoto->getTargetTmp();
-		$sql = 'INSERT INTO '. Config::Get('db.table.topic_photo') . ' SET
-                        path = ?, description = ?, ?# = ?';
-		return $this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $sTargetType, $iTargetId);
-	}
-	/**
-	 * Обновить данные по изображению
-	 *
-	 * @param ModuleTopic_EntityTopicPhoto $oPhoto Объект фото
-	 */
-	public function updateTopicPhoto($oPhoto) {
-		if (!$oPhoto->getTopicId() && !$oPhoto->getTargetTmp()) return false;
-		if ($oPhoto->getTopicId()) {
-			$oPhoto->setTargetTmp = null;
-		}
-		$sql = 'UPDATE '. Config::Get('db.table.topic_photo') . ' SET
-                        path = ?, description = ?, topic_id = ?d, target_tmp=? WHERE id = ?d';
-		$this->oDb->query($sql, $oPhoto->getPath(), $oPhoto->getDescription(), $oPhoto->getTopicId(), $oPhoto->getTargetTmp(), $oPhoto->getId());
-	}
-	/**
-	 * Удалить изображение
-	 *
-	 * @param int $iPhotoId	ID фото
-	 */
-	public function deleteTopicPhoto($iPhotoId) {
-		$sql = 'DELETE FROM '. Config::Get('db.table.topic_photo') . ' WHERE
-                        id= ?d';
-		$this->oDb->query($sql, $iPhotoId);
-	}
-	/**
 	 * Пересчитывает счетчик избранных топиков
 	 *
 	 * @return bool
@@ -1012,5 +875,51 @@ class ModuleTopic_MapperTopic extends Mapper {
 		$res=$this->oDb->query($sql);
 		return $res===false or is_null($res) ? false : true;
 	}
+
+
+	public function GetTopicTypeByCode($sCode) {
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_type') . ' WHERE code = ?';
+		if ($aRow = $this->oDb->selectRow($sql, $sCode)) {
+			return Engine::GetEntity('ModuleTopic_EntityTopicType',$aRow);
+		}
+		return null;
+	}
+
+	public function AddTopicType($oType) {
+		$sql = "INSERT INTO ".Config::Get('db.table.topic_type')."
+			(name,
+			name_many,
+			code,
+			allow_remove,
+			date_create,
+			state,
+			params
+			)
+			VALUES(?,  ?,	?,	?d,	?,	?d,	?)
+		";
+		if ($iId=$this->oDb->query($sql,$oType->getName(),$oType->getNameMany(),$oType->getCode(),$oType->getAllowRemove(),
+								   $oType->getDateCreate(),$oType->getState(),$oType->getParams())) {
+			return $iId;
+		}
+		return false;
+	}
+
+	public function GetTopicTypeItems($aFilter=array()) {
+		$sql = "SELECT
+				*
+			FROM
+				".Config::Get('db.table.topic_type')."
+			WHERE
+				1 = 1
+				{ and state = ?d }
+			LIMIT 0, 500
+				";
+		$aReturn=array();
+		if ($aRows=$this->oDb->select($sql,isset($aFilter['state']) ? $aFilter['state'] : DBSIMPLE_SKIP)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=Engine::GetEntity('ModuleTopic_EntityTopicType',$aRow);
+			}
+		}
+		return $aReturn;
+	}
 }
-?>

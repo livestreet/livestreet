@@ -7,5 +7,5 @@
 			  rows="{$iFieldRows}"
 			  {if $sFieldPlaceholder}placeholder="{$sFieldPlaceholder}"{/if}
 			  {if $bFieldIsDisabled}disabled{/if}
-			  {foreach $aFieldRules as $sRule}data-{$sRule} {/foreach}>{if $sFieldValue}{$sFieldValue}{else}{if $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}{/if}</textarea>
+			  {foreach $aFieldRules as $sRule}data-{$sRule} {/foreach}>{if $sFieldValue}{$sFieldValue|escape:'html'}{else}{if $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}{/if}</textarea>
 {/block}

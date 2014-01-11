@@ -21,10 +21,13 @@
 	{/function}
 
 	<ul class="write-list clearfix">
-		{modal_create_item sName='topic' sTitle=$aLang.block_create_topic_topic}
+		{$aTopicTypes=$LS->Topic_GetTopicTypes()}
+		{foreach $aTopicTypes as $oTopicType}
+			{modal_create_item sName='topic' url=$oTopicType->getUrlForAdd() sTitle=$oTopicType->getName()}
+		{/foreach}
 		{modal_create_item sName='blog' sTitle=$aLang.block_create_blog}
 		{modal_create_item sName='talk' sTitle=$aLang.block_create_talk}
-		{modal_create_item sName='draft' url="{router page='topic'}drafts/" sTitle="{$aLang.topic_menu_drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
+		{modal_create_item sName='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic_menu_drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
 
 		{hook run='write_item' isPopup=true}
 	</ul>

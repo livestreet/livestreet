@@ -340,34 +340,6 @@ return array(
 	'topic_vote_ok_abstain' => 'You\'ve abstained to view the topic rating',
 	'topic_vote_count' => 'all votes',
 	/**
-	 * Photoset
-	 */
-	'topic_photoset_create' => 'Create a photoset',
-	'topic_photoset_edit' => 'Update a photoset',
-	'topic_photoset_upload_title' => 'Upload images',
-	'topic_photoset_upload_choose' => 'Upload photo',
-	'topic_photoset_upload_close' => 'Close',
-	'topic_photoset_upload_rules' => 'Image upload is available for JPG, PNG, GIF.<br/> Image size should not exceed %%SIZE%% Kb.<br /> Maximum number of images uploaded: %%COUNT%%',
-	'topic_photoset_choose_image' => 'Select the image to upload',
-	'topic_photoset_is_preview' => 'Marked as a topic preview',
-	'topic_photoset_mark_as_preview' => 'Mark as preview',
-	'topic_photoset_show_all' => 'Display all %%COUNT%% photos',
-	'topic_photoset_count_images' => 'image;images;images',
-	'topic_photoset_show_more' => 'View more photos',
-	'topic_photoset_error_count_photos' => 'There can be from %%MIN%% to %%MAX%% images in the topic ',
-	'topic_photoset_error_size' => 'The image resolution is too large',
-	'topic_photoset_title' => 'Photoset',
-	'topic_photoset_photo_deleted' => 'Photo removed',
-	'topic_photoset_photo_deleted_error_last' => 'You can not delete the last photo',
-	'topic_photoset_photo_delete' => 'Delete',
-	'topic_photoset_photo_delete_confirm' => 'Delete photo?',
-	'topic_photoset_photo_added' => 'Photo added',
-	'topic_photoset_error_too_much_photos' => 'Topic can contain no more than %%MAX%% photos',
-	'topic_photoset_title_edit' => 'Edit photoset',
-	'topic_photoset_title_create' => 'Create a photoset',
-	'topic_photoset_error_bad_filesize' => 'Photo size must be less than %%MAX%% Kb',
-	'topic_photoset_photos' => 'photos',
-	/**
 	 * Comments
 	 */
 	'comment_title' => 'Comments',
@@ -1059,6 +1031,7 @@ return array(
 	/**
 	 * Validation
 	 */
+	'validate_empty_error' => 'Field %%field%% is required',
 	'validate_string_too_long' => 'Field %%field%% is too long (maximum is %%max%% characters).',
 	'validate_string_too_short' => 'Field %%field%% is too short (minimum is %%min%% characters)',
 	'validate_string_no_lenght' => 'Field %%field%% has the wrong length (should be %%length%% characters)',

@@ -340,34 +340,6 @@ return array(
 	'topic_vote_ok_abstain' => 'Вы воздержались для просмотра рейтинга топика',
 	'topic_vote_count' => 'всего проголосовало',
 	/**
-	 * Фотосет
-	 */
-	'topic_photoset_create' => 'Создание фотосета',
-	'topic_photoset_edit' => 'Редактирование фотосета',
-	'topic_photoset_upload_title' => 'Загрузка изображений',
-	'topic_photoset_upload_choose' => 'Загрузить фото',
-	'topic_photoset_upload_close' => 'Закрыть',
-	'topic_photoset_upload_rules' => 'Доступна загрузка изображений в формат JPG, PNG, GIF<br />Размер изображений не должен превышать %%SIZE%% Kб<br />Максимальное число загружаемых изображений: %%COUNT%%',
-	'topic_photoset_choose_image' => 'Выберите изображение для загрузки',
-	'topic_photoset_is_preview' => 'Отмечено как превью к топику',
-	'topic_photoset_mark_as_preview' => 'Отметить как превью',
-	'topic_photoset_show_all' => 'Показать все %%COUNT%% фото',
-	'topic_photoset_count_images' => 'изображение;изображения;изображений',
-	'topic_photoset_show_more' => 'Показать ещё фото',
-	'topic_photoset_error_count_photos' => 'В топике может быть от %%MIN%% до %%MAX%% фото',
-	'topic_photoset_error_size' => 'У изображения слишком большое разрешение',
-	'topic_photoset_title' => 'Фотосет',
-	'topic_photoset_photo_deleted' => 'Фото удалено',
-	'topic_photoset_photo_deleted_error_last' => 'Нельзя удалить последню фотографию',
-	'topic_photoset_photo_delete' => 'Удалить',
-	'topic_photoset_photo_delete_confirm' => 'Удалить фото?',
-	'topic_photoset_photo_added' => 'Фото добавлено',
-	'topic_photoset_error_too_much_photos' => 'Топик может содержать не более %%MAX%% фото',
-	'topic_photoset_title_edit' => 'Редактирование фотосета',
-	'topic_photoset_title_create' => 'Создание фотосета',
-	'topic_photoset_error_bad_filesize' => 'Размер фото должен быть не более %%MAX%% Кб',
-	'topic_photoset_photos' => 'фото',
-	/**
 	 * Комментарии
 	 */
 	'comment_title' => 'Комментарии',
@@ -1060,6 +1032,7 @@ return array(
 	/**
 	 * Валидация данных
 	 */
+	'validate_empty_error' => 'Необходимо заполнить поле %%field%%',
 	'validate_string_too_long' => 'Поле %%field%% слишком длинное (максимально допустимо %%max%% символов)',
 	'validate_string_too_short' => 'Поле %%field%% слишком короткое (минимально допустимо %%min%% символов)',
 	'validate_string_no_lenght' => 'Поле %%field%% неверной длины (необходимо %%length%% символов)',

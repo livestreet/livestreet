@@ -196,38 +196,6 @@ $config['module']['wall']['per_page'] = 10;			    // Число сообщени
 $config['module']['wall']['text_max'] = 250;		    // Ограничение на максимальное количество символов в одном сообщении на стене
 $config['module']['wall']['text_min'] = 1;		      // Ограничение на минимальное количество символов в одном сообщении на стене
 
-
-/**
- * Настройка топика-фотосета
- */
-$config['module']['image']['photoset']['jpg_quality'] = 100;        // настройка модуля Image, качество обработки фото
-$config['module']['topic']['photoset']['photo_max_size'] = 6*1024;  // максимально допустимый размер фото, Kb
-$config['module']['topic']['photoset']['count_photos_min'] = 2;     // минимальное количество фоток
-$config['module']['topic']['photoset']['count_photos_max'] = 30;    // максимальное количество фоток
-$config['module']['topic']['photoset']['per_page'] = 20;            // число фоток для одновременной загрузки
-$config['module']['topic']['photoset']['size'] = array(             // список размеров превью, которые необходимо делать при загрузке фото
-	array(
-		'w' => 1000,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 500,
-		'h' => null,
-		'crop' => false,
-	),
-	array(
-		'w' => 100,
-		'h' => 65,
-		'crop' => true,
-	),
-	array(
-		'w' => 50,
-		'h' => 50,
-		'crop' => true,
-	)
-);
-
 /**
  * Модуль Media
  */
@@ -275,9 +243,10 @@ $config['db']['table']['prefix'] = 'prefix_';
 
 $config['db']['table']['user']                = '___db.table.prefix___user';
 $config['db']['table']['blog']                = '___db.table.prefix___blog';
-$config['db']['table']['blog_category']                = '___db.table.prefix___blog_category';
+$config['db']['table']['blog_category']       = '___db.table.prefix___blog_category';
 $config['db']['table']['topic']               = '___db.table.prefix___topic';
 $config['db']['table']['topic_tag']           = '___db.table.prefix___topic_tag';
+$config['db']['table']['topic_type']          = '___db.table.prefix___topic_type';
 $config['db']['table']['comment']             = '___db.table.prefix___comment';
 $config['db']['table']['vote']                = '___db.table.prefix___vote';
 $config['db']['table']['topic_read']          = '___db.table.prefix___topic_read';
@@ -303,7 +272,6 @@ $config['db']['table']['stream_event']        = '___db.table.prefix___stream_eve
 $config['db']['table']['stream_user_type']    = '___db.table.prefix___stream_user_type';
 $config['db']['table']['user_field']          = '___db.table.prefix___user_field';
 $config['db']['table']['user_field_value']    = '___db.table.prefix___user_field_value';
-$config['db']['table']['topic_photo']         = '___db.table.prefix___topic_photo';
 $config['db']['table']['subscribe']           = '___db.table.prefix___subscribe';
 $config['db']['table']['wall']                = '___db.table.prefix___wall';
 $config['db']['table']['user_note']           = '___db.table.prefix___user_note';
@@ -339,7 +307,6 @@ $config['router']['page']['my']            = 'ActionMy';
 $config['router']['page']['blog']          = 'ActionBlog';
 $config['router']['page']['personal_blog'] = 'ActionPersonalBlog';
 $config['router']['page']['index']         = 'ActionIndex';
-$config['router']['page']['topic']         = 'ActionTopic';
 $config['router']['page']['login']         = 'ActionLogin';
 $config['router']['page']['people']        = 'ActionPeople';
 $config['router']['page']['settings']      = 'ActionSettings';
@@ -347,16 +314,14 @@ $config['router']['page']['tag']           = 'ActionTag';
 $config['router']['page']['talk']          = 'ActionTalk';
 $config['router']['page']['comments']      = 'ActionComments';
 $config['router']['page']['rss']           = 'ActionRss';
-$config['router']['page']['link']          = 'ActionLink';
-$config['router']['page']['question']      = 'ActionQuestion';
 $config['router']['page']['blogs']         = 'ActionBlogs';
 $config['router']['page']['search']        = 'ActionSearch';
 $config['router']['page']['admin']         = 'ActionAdmin';
 $config['router']['page']['ajax']          = 'ActionAjax';
 $config['router']['page']['feed']          = 'ActionUserfeed';
 $config['router']['page']['stream']        = 'ActionStream';
-$config['router']['page']['photoset']      = 'ActionPhotoset';
 $config['router']['page']['subscribe']     = 'ActionSubscribe';
+$config['router']['page']['content']     = 'ActionContent';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';
@@ -379,10 +344,7 @@ $config['block']['rule_index'] = array(
 );
 $config['block']['rule_topic_type'] = array(
 	'action'  => array(
-		'link'     => array('add','edit'),
-		'question' => array('add','edit'),
-		'topic'    => array('add','edit'),
-		'photoset' => array('add','edit')
+		'content'     => array('add','edit'),
 	),
 	'blocks'  => array( 'right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl') ),
 );
@@ -519,7 +481,6 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/user.js",
 	"___path.application.web___/frontend/common/js/userfeed.js",
 	"___path.application.web___/frontend/common/js/stream.js",
-	"___path.application.web___/frontend/common/js/photoset.js",
 	"___path.application.web___/frontend/common/js/toolbar.js",
 	"___path.application.web___/frontend/common/js/settings.js",
 	"___path.application.web___/frontend/common/js/topic.js",
@@ -528,6 +489,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/captcha.js",
 	"___path.application.web___/frontend/common/js/media.js",
 	"___path.application.web___/frontend/common/js/tags.js",
+	"___path.application.web___/frontend/common/js/content.js",
 	"___path.application.web___/frontend/common/js/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),

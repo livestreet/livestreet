@@ -67,9 +67,6 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^blogs$/i','/^get-by-category$/','EventBlogsGetByCategory');
 
 		$this->AddEventPreg('/^preview$/i','/^text$/','EventPreviewText');
-		$this->AddEventPreg('/^preview$/i','/^topic$/','EventPreviewTopic');
-
-		$this->AddEventPreg('/^upload$/i','/^image$/','EventUploadImage');
 
 		$this->AddEventPreg('/^autocompleter$/i','/^tag$/','EventAutocompleterTag');
 		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
@@ -1300,73 +1297,6 @@ class ActionAjax extends Action {
 		}
 	}
 	/**
-	 * Предпросмотр топика
-	 *
-	 */
-	protected function EventPreviewTopic() {
-		/**
-		 * Т.к. используется обработка отправки формы, то устанавливаем тип ответа 'jsonIframe' (тот же JSON только обернутый в textarea)
-		 * Это позволяет избежать ошибок в некоторых браузерах, например, Opera
-		 */
-		$this->Viewer_SetResponseAjax('jsonIframe',false);
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
-			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Допустимый тип топика?
-		 */
-		if (!$this->Topic_IsAllowTopicType($sType=getRequestStr('topic_type'))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_type_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Создаем объект топика для валидации данных
-		 */
-		$oTopic=Engine::GetEntity('ModuleTopic_EntityTopic');
-		$oTopic->_setValidateScenario($sType); // зависит от типа топика
-
-		$oTopic->setTitle(strip_tags(getRequestStr('topic_title')));
-		$oTopic->setTextSource(getRequestStr('topic_text'));
-		$oTopic->setTags(getRequestStr('topic_tags'));
-		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
-		$oTopic->setUserId($this->oUserCurrent->getId());
-		$oTopic->setType($sType);
-		/**
-		 * Валидируем необходимые поля топика
-		 */
-		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type'),false);
-		if ($oTopic->_hasValidateErrors()) {
-			$this->Message_AddErrorSingle($oTopic->_getValidateError());
-			return false;
-		}
-		/**
-		 * Формируем текст топика
-		 */
-		list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
-		$oTopic->setCutText($sTextCut);
-		$oTopic->setText($this->Text_Parser($sTextNew));
-		$oTopic->setTextShort($this->Text_Parser($sTextShort));
-		/**
-		 * Рендерим шаблон для предпросмотра топика
-		 */
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('oTopic',$oTopic);
-		$sTemplate="topics/topic_preview_{$oTopic->getType()}.tpl";
-		if (!$this->Viewer_TemplateExists($sTemplate)) {
-			$sTemplate='topics/topic_preview_topic.tpl';
-		}
-		$sTextResult=$oViewer->Fetch($sTemplate);
-		/**
-		 * Передаем результат в ajax ответ
-		 */
-		$this->Viewer_AssignAjax('sText',$sTextResult);
-		return true;
-	}
-	/**
 	 * Предпросмотр текста
 	 *
 	 */
@@ -1385,68 +1315,6 @@ class ActionAjax extends Action {
 		 * Передаем результат в ajax ответ
 		 */
 		$this->Viewer_AssignAjax('sText',$sTextResult);
-	}
-	/**
-	 * Загрузка изображения
-	 *
-	 */
-	protected function EventUploadImage() {
-		/**
-		 * Т.к. используется обработка отправки формы, то устанавливаем тип ответа 'jsonIframe' (тот же JSON только обернутый в textarea)
-		 * Это позволяет избежать ошибок в некоторых браузерах, например, Opera
-		 */
-		$this->Viewer_SetResponseAjax('jsonIframe',false);
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
-			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
-			return;
-		}
-		$sFile=null;
-		/**
-		 * Был выбран файл с компьютера и он успешно зугрузился?
-		 */
-		if (is_uploaded_file($_FILES['img_file']['tmp_name'])) {
-			if(!$sFile=$this->Topic_UploadTopicImageFile($_FILES['img_file'],$this->oUserCurrent)) {
-				$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_file_error'),$this->Lang_Get('error'));
-				return;
-			}
-		} elseif (isPost('img_url') && $_REQUEST['img_url']!='' && $_REQUEST['img_url']!='http://') {
-			/**
-			 * Загрузка файла по URl
-			 */
-			$sFile=$this->Topic_UploadTopicImageUrl($_REQUEST['img_url'],$this->oUserCurrent);
-			switch (true) {
-				case is_string($sFile):
-
-					break;
-
-				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_READ):
-					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_read'),$this->Lang_Get('error'));
-					return;
-
-				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_SIZE):
-					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_size'),$this->Lang_Get('error'));
-					return;
-
-				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR_TYPE):
-					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error_type'),$this->Lang_Get('error'));
-					return;
-
-				default:
-				case ($sFile==ModuleImage::UPLOAD_IMAGE_ERROR):
-					$this->Message_AddErrorSingle($this->Lang_Get('uploadimg_url_error'),$this->Lang_Get('error'));
-					return;
-			}
-		}
-		/**
-		 * Если файл успешно загружен, формируем HTML вставки и возвращаем в ajax ответе
-		 */
-		if ($sFile) {
-			$sText=$this->Image_BuildHTML($sFile, $_REQUEST);
-			$this->Viewer_AssignAjax('sText',$sText);
-		}
 	}
 	/**
 	 * Автоподставновка тегов

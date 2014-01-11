@@ -19,7 +19,7 @@ ls.topic = (function ($) {
 	var defaults = {
 		// Роутеры
 		oRouters: {
-			preview: aRouter['ajax'] + 'preview/topic/'
+			preview: aRouter['content'] + 'ajax/preview/'
 		},
 
 		// Селекторы

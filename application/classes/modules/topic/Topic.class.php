@@ -22,6 +22,9 @@
  * @since 1.0
  */
 class ModuleTopic extends Module {
+
+	const TOPIC_TYPE_STATE_ACTIVE=1;
+	const TOPIC_TYPE_STATE_NOT_ACTIVE=0;
 	/**
 	 * Объект маппера
 	 *
@@ -40,7 +43,7 @@ class ModuleTopic extends Module {
 	 * @var array
 	 */
 	protected $aTopicTypes=array(
-		'topic','link','question','photoset'
+
 	);
 
 	/**
@@ -50,27 +53,22 @@ class ModuleTopic extends Module {
 	public function Init() {
 		$this->oMapperTopic=Engine::GetMapper(__CLASS__);
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+
+		$aTopicTypeItems=$this->GetTopicTypeItems(array('state'=>self::TOPIC_TYPE_STATE_ACTIVE));
+		foreach($aTopicTypeItems as $oTypeItem) {
+			$this->aTopicTypes[$oTypeItem->getCode()]=$oTypeItem;
+		}
 	}
+
 	/**
-	 * Возвращает список типов топика
+	 * Возвращает список типов топика, возвращаются только активные типы
+	 *
+	 * @param bool $bOnlyCode	Вернуть только коды типов
 	 *
 	 * @return array
 	 */
-	public function GetTopicTypes() {
-		return $this->aTopicTypes;
-	}
-	/**
-	 * Добавляет в новый тип топика
-	 *
-	 * @param string $sType	Новый тип
-	 * @return bool
-	 */
-	public function AddTopicType($sType) {
-		if (!in_array($sType,$this->aTopicTypes)) {
-			$this->aTopicTypes[]=$sType;
-			return true;
-		}
-		return false;
+	public function GetTopicTypes($bOnlyCode=false) {
+		return $bOnlyCode ? array_keys($this->aTopicTypes) : $this->aTopicTypes;
 	}
 	/**
 	 * Проверяет разрешен ли данный тип топика
@@ -79,7 +77,7 @@ class ModuleTopic extends Module {
 	 * @return bool
 	 */
 	public function IsAllowTopicType($sType) {
-		return in_array($sType,$this->aTopicTypes);
+		return array_key_exists($sType,$this->aTopicTypes);
 	}
 	/**
 	 * Получает дополнительные данные(объекты) для топиков по их ID
@@ -106,7 +104,6 @@ class ModuleTopic extends Module {
 		$aUserId=array();
 		$aBlogId=array();
 		$aTopicIdQuestion=array();
-		$aPhotoMainId=array();
 		foreach ($aTopics as $oTopic) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oTopic->getUserId();
@@ -116,9 +113,6 @@ class ModuleTopic extends Module {
 			}
 			if ($oTopic->getType()=='question')	{
 				$aTopicIdQuestion[]=$oTopic->getId();
-			}
-			if ($oTopic->getType()=='photoset' and $oTopic->getPhotosetMainPhotoId())	{
-				$aPhotoMainId[]=$oTopic->getPhotosetMainPhotoId();
 			}
 		}
 		/**
@@ -140,7 +134,6 @@ class ModuleTopic extends Module {
 		if (isset($aAllowData['comment_new']) and $this->oUserCurrent) {
 			$aTopicsRead=$this->GetTopicsReadByArray($aTopicId,$this->oUserCurrent->getId());
 		}
-		$aPhotosetMainPhotos=$this->GetTopicPhotosByArrayId($aPhotoMainId);
 		/**
 		 * Добавляем данные к результату - списку топиков
 		 */
@@ -177,11 +170,6 @@ class ModuleTopic extends Module {
 				$oTopic->setCountCommentNew(0);
 				$oTopic->setDateRead(date("Y-m-d H:i:s"));
 			}
-			if (isset($aPhotosetMainPhotos[$oTopic->getPhotosetMainPhotoId()])) {
-				$oTopic->setPhotosetMainPhoto($aPhotosetMainPhotos[$oTopic->getPhotosetMainPhotoId()]);
-			} else {
-				$oTopic->setPhotosetMainPhoto(null);
-			}
 		}
 		return $aTopics;
 	}
@@ -205,6 +193,13 @@ class ModuleTopic extends Module {
 					$this->AddTopicTag($oTag);
 				}
 			}
+			/**
+			 * Обновляем дополнительные поля
+			 * Здесь важный момент - перед сохранением топика всегда нужно вызывать валидацию полей $this->Property_ValidateEntityPropertiesCheck($oTopic);
+			 * т.к. она подготавливает данные полей для сохранений
+			 * Валидация вызывается автоматически при вызове $oTopic->_Validate();
+			 */
+			$this->Property_UpdatePropertiesValue($oTopic->getPropertiesObject(),$oTopic);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_new',"topic_update_user_{$oTopic->getUserId()}","topic_new_blog_{$oTopic->getBlogId()}"));
 			return $oTopic;
@@ -244,19 +239,19 @@ class ModuleTopic extends Module {
 			$sTopicId=$oTopicId;
 		}
 		/**
+		 * Удаляем дополнительные поля
+		 */
+		$this->Property_RemovePropertiesValue(($oTopicId instanceof ModuleTopic_EntityTopic) ? $oTopicId : $this->GetTopicById($oTopicId));
+		/**
 		 * Чистим зависимые кеши
 		 */
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
 		$this->Cache_Delete("topic_{$sTopicId}");
 		/**
-		 * Список изображений
-		 */
-		$aPhotos=$this->getPhotosByTopicId($sTopicId);
-		/**
 		 * Если топик успешно удален, удаляем связанные данные
 		 */
 		if($this->oMapperTopic->DeleteTopic($sTopicId)){
-			return $this->DeleteTopicAdditionalData($sTopicId,$aPhotos);
+			return $this->DeleteTopicAdditionalData($sTopicId);
 		}
 
 		return false;
@@ -267,7 +262,7 @@ class ModuleTopic extends Module {
 	 * @param  int  $iTopicId	ID топика
 	 * @return bool
 	 */
-	public function DeleteTopicAdditionalData($iTopicId,$aPhotos=array()) {
+	public function DeleteTopicAdditionalData($iTopicId) {
 		/**
 		 * Чистим зависимые кеши
 		 */
@@ -298,14 +293,6 @@ class ModuleTopic extends Module {
 		 * Удаляем теги
 		 */
 		$this->DeleteTopicTagsByTopicId($iTopicId);
-		/**
-		 * Удаляем фото у топика фотосета
-		 */
-		if (count($aPhotos)) {
-			foreach ($aPhotos as $oPhoto) {
-				$this->deleteTopicPhoto($oPhoto);
-			}
-		}
 		return true;
 	}
 	/**
@@ -357,6 +344,13 @@ class ModuleTopic extends Module {
 				 */
 				$this->Comment_SetCommentsPublish($oTopic->getId(),'topic',$oTopic->getPublish());
 			}
+			/**
+			 * Обновляем дополнительные поля
+			 * Здесь важный момент - перед сохранением топика всегда нужно вызывать валидацию полей $this->Property_ValidateEntityPropertiesCheck($oTopic);
+			 * т.к. она подготавливает данные полей для сохранений
+			 * Валидация вызывается автоматически при вызове $oTopic->_Validate();
+			 */
+			$this->Property_UpdatePropertiesValue($oTopic->getPropertiesObject(),$oTopic);
 			//чистим зависимые кеши			
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}"));
 			$this->Cache_Delete("topic_{$oTopic->getId()}");
@@ -1561,278 +1555,6 @@ class ModuleTopic extends Module {
 		return false;
 	}
 	/**
-	 * Загрузка изображений при написании топика
-	 *
-	 * @param  array           $aFile	Массив $_FILES
-	 * @param  ModuleUser_EntityUser $oUser	Объект пользователя
-	 * @return string|bool
-	 */
-	public function UploadTopicImageFile($aFile,$oUser) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
-			return false;
-		}
-		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
-		$aParams=$this->Image_BuildParams('topic');
-
-		if ($sFileImage=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('view.img_resize_width'),null,true,$aParams)) {
-			@unlink($sFileTmp);
-			return $this->Image_GetWebPath($sFileImage);
-		}
-		@unlink($sFileTmp);
-		return false;
-	}
-	/**
-	 * Загрузка изображений по переданному URL
-	 *
-	 * @param  string          $sUrl	URL изображения
-	 * @param  ModuleUser_EntityUser $oUser
-	 * @return string|int
-	 */
-	public function UploadTopicImageUrl($sUrl, $oUser) {
-		/**
-		 * Проверяем, является ли файл изображением
-		 */
-		if(!@getimagesize($sUrl)) {
-			return ModuleImage::UPLOAD_IMAGE_ERROR_TYPE;
-		}
-		/**
-		 * Открываем файловый поток и считываем файл поблочно,
-		 * контролируя максимальный размер изображения
-		 */
-		$oFile=fopen($sUrl,'r');
-		if(!$oFile) {
-			return ModuleImage::UPLOAD_IMAGE_ERROR_READ;
-		}
-
-		$iMaxSizeKb=Config::Get('view.img_max_size_url');
-		$iSizeKb=0;
-		$sContent='';
-		while (!feof($oFile) and $iSizeKb<$iMaxSizeKb) {
-			$sContent.=fread($oFile ,1024*1);
-			$iSizeKb++;
-		}
-		/**
-		 * Если конец файла не достигнут,
-		 * значит файл имеет недопустимый размер
-		 */
-		if(!feof($oFile)) {
-			return ModuleImage::UPLOAD_IMAGE_ERROR_SIZE;
-		}
-		fclose($oFile);
-		/**
-		 * Создаем tmp-файл, для временного хранения изображения
-		 */
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-
-		$fp=fopen($sFileTmp,'w');
-		fwrite($fp,$sContent);
-		fclose($fp);
-
-		$sDirSave=$this->Image_GetIdDir($oUser->getId());
-		$aParams=$this->Image_BuildParams('topic');
-		/**
-		 * Передаем изображение на обработку
-		 */
-		if ($sFileImg=$this->Image_Resize($sFileTmp,$sDirSave,func_generator(),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('view.img_resize_width'),null,true,$aParams)) {
-			@unlink($sFileTmp);
-			return $this->Image_GetWebPath($sFileImg);
-		}
-
-		@unlink($sFileTmp);
-		return ModuleImage::UPLOAD_IMAGE_ERROR;
-	}
-	/**
-	 * Возвращает список фотографий к топику-фотосет по списку id фоток
-	 *
-	 * @param array $aPhotoId	Список ID фото
-	 * @return array
-	 */
-	public function GetTopicPhotosByArrayId($aPhotoId) {
-		if (!$aPhotoId) {
-			return array();
-		}
-		if (!is_array($aPhotoId)) {
-			$aPhotoId=array($aPhotoId);
-		}
-		$aPhotoId=array_unique($aPhotoId);
-		$aPhotos=array();
-		$s=join(',',$aPhotoId);
-		if (false === ($data = $this->Cache_Get("photoset_photo_id_{$s}"))) {
-			$data = $this->oMapperTopic->GetTopicPhotosByArrayId($aPhotoId);
-			foreach ($data as $oPhoto) {
-				$aPhotos[$oPhoto->getId()]=$oPhoto;
-			}
-			$this->Cache_Set($aPhotos, "photoset_photo_id_{$s}", array("photoset_photo_update"), 60*60*24*1);
-			return $aPhotos;
-		}
-		return $data;
-	}
-	/**
-	 * Добавить к топику изображение
-	 *
-	 * @param ModuleTopic_EntityTopicPhoto $oPhoto	Объект фото к топику-фотосету
-	 * @return ModuleTopic_EntityTopicPhoto|bool
-	 */
-	public function addTopicPhoto($oPhoto) {
-		if ($sId=$this->oMapperTopic->addTopicPhoto($oPhoto)) {
-			$oPhoto->setId($sId);
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("photoset_photo_update"));
-			return $oPhoto;
-		}
-		return false;
-	}
-	/**
-	 * Получить изображение из фотосета по его id
-	 *
-	 * @param int $sId	ID фото
-	 * @return ModuleTopic_EntityTopicPhoto|null
-	 */
-	public function getTopicPhotoById($sId) {
-		$aPhotos=$this->GetTopicPhotosByArrayId($sId);
-		if (isset($aPhotos[$sId])) {
-			return $aPhotos[$sId];
-		}
-		return null;
-	}
-	/**
-	 * Получить список изображений из фотосета по id топика
-	 *
-	 * @param int $iTopicId	ID топика
-	 * @param int|null $iFromId	ID с которого начинать выборку
-	 * @param int|null $iCount	Количество
-	 * @return array
-	 */
-	public function getPhotosByTopicId($iTopicId, $iFromId = null, $iCount = null) {
-		return $this->oMapperTopic->getPhotosByTopicId($iTopicId, $iFromId, $iCount);
-	}
-	/**
-	 * Получить список изображений из фотосета по временному коду
-	 *
-	 * @param string $sTargetTmp	Временный ключ
-	 * @return array
-	 */
-	public function getPhotosByTargetTmp($sTargetTmp) {
-		return $this->oMapperTopic->getPhotosByTargetTmp($sTargetTmp);
-	}
-	/**
-	 * Получить число изображений из фотосета по id топика
-	 *
-	 * @param int $iTopicId	ID топика
-	 * @return int
-	 */
-	public function getCountPhotosByTopicId($iTopicId) {
-		return $this->oMapperTopic->getCountPhotosByTopicId($iTopicId);
-	}
-	/**
-	 * Получить число изображений из фотосета по id топика
-	 *
-	 * @param string $sTargetTmp	Временный ключ
-	 * @return int
-	 */
-	public function getCountPhotosByTargetTmp($sTargetTmp) {
-		return $this->oMapperTopic->getCountPhotosByTargetTmp($sTargetTmp);
-	}
-	/**
-	 * Обновить данные по изображению
-	 *
-	 * @param ModuleTopic_EntityTopicPhoto $oPhoto Объект фото
-	 */
-	public function updateTopicPhoto($oPhoto) {
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("photoset_photo_update"));
-		$this->oMapperTopic->updateTopicPhoto($oPhoto);
-	}
-	/**
-	 * Удалить изображение
-	 *
-	 * @param ModuleTopic_EntityTopicPhoto $oPhoto	Объект фото
-	 */
-	public function deleteTopicPhoto($oPhoto) {
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("photoset_photo_update"));
-		$this->oMapperTopic->deleteTopicPhoto($oPhoto->getId());
-
-		$this->Image_RemoveFile($this->Image_GetServerPath($oPhoto->getWebPath()));
-		$aSizes=Config::Get('module.topic.photoset.size');
-		// Удаляем все сгенерированные миниатюры основываясь на данных из конфига.
-		foreach ($aSizes as $aSize) {
-			$sSize = $aSize['w'];
-			if ($aSize['crop']) {
-				$sSize .= 'crop';
-			}
-			$this->Image_RemoveFile($this->Image_GetServerPath($oPhoto->getWebPath($sSize)));
-		}
-	}
-	/**
-	 * Загрузить изображение
-	 *
-	 * @param array $aFile	Массив $_FILES
-	 * @return string|bool
-	 */
-	public function UploadTopicPhoto($aFile) {
-		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
-			return false;
-		}
-
-		$sFileName = func_generator(10);
-		$sPath = Config::Get('path.uploads.images').'/topic/'.date('Y/m/d').'/';
-
-		if (!is_dir(Config::Get('path.root.server').$sPath)) {
-			mkdir(Config::Get('path.root.server').$sPath, 0755, true);
-		}
-
-		$sFileTmp = Config::Get('path.root.server').$sPath.$sFileName;
-		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
-			return false;
-		}
-
-
-		$aParams=$this->Image_BuildParams('photoset');
-
-		$oImage =$this->Image_CreateImageObject($sFileTmp);
-		/**
-		 * Если объект изображения не создан,
-		 * возвращаем ошибку
-		 */
-		if($sError=$oImage->get_last_error()) {
-			// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
-			$this->Message_AddError($sError,$this->Lang_Get('error'));
-			@unlink($sFileTmp);
-			return false;
-		}
-		/**
-		 * Превышает максимальные размеры из конфига
-		 */
-		if (($oImage->get_image_params('width')>Config::Get('view.img_max_width')) or ($oImage->get_image_params('height')>Config::Get('view.img_max_height'))) {
-			$this->Message_AddError($this->Lang_Get('topic_photoset_error_size'),$this->Lang_Get('error'));
-			@unlink($sFileTmp);
-			return false;
-		}
-		/**
-		 * Добавляем к загруженному файлу расширение
-		 */
-		$sFile=$sFileTmp.'.'.$oImage->get_image_params('format');
-		rename($sFileTmp,$sFile);
-
-		$aSizes=Config::Get('module.topic.photoset.size');
-		foreach ($aSizes as $aSize) {
-			/**
-			 * Для каждого указанного в конфиге размера генерируем картинку
-			 */
-			$sNewFileName = $sFileName.'_'.$aSize['w'];
-			$oImage = $this->Image_CreateImageObject($sFile);
-			if ($aSize['crop']) {
-				$this->Image_CropProportion($oImage, $aSize['w'], $aSize['h'], true);
-				$sNewFileName .= 'crop';
-			}
-			$this->Image_Resize($sFile,$sPath,$sNewFileName,Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$aSize['w'],$aSize['h'],true,$aParams,$oImage);
-		}
-		return $this->Image_GetWebPath($sFile);
-	}
-	/**
 	 * Пересчитывает счетчик избранных топиков
 	 *
 	 * @return bool
@@ -1871,5 +1593,38 @@ class ModuleTopic extends Module {
 		$this->Text_RemoveParams(array('oTopic'));
 		return $sResult;
 	}
+	/**
+	 * Возвращает объект типа топика по его коду
+	 *
+	 * @param string $sCode
+	 *
+	 * @return ModuleTopic_EntityTopicType|null
+	 */
+	public function GetTopicTypeByCode($sCode) {
+		return $this->oMapperTopic->GetTopicTypeByCode($sCode);
+	}
+	/**
+	 * Добавляет новый тип топика в БД
+	 *
+	 * @param ModuleTopic_EntityTopicType $oType
+	 *
+	 * @return ModuleTopic_EntityTopicType|bool
+	 */
+	public function AddTopicType($oType) {
+		if ($sId=$this->oMapperTopic->AddTopicType($oType)) {
+			$oType->setId($sId);
+			//чистим зависимые кеши
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_type_new'));
+			return $oType;
+		}
+		return false;
+	}
+	/**
+	 * @param array $aFilter
+	 *
+	 * @return mixed
+	 */
+	public function GetTopicTypeItems($aFilter=array()) {
+		return $this->oMapperTopic->GetTopicTypeItems($aFilter);
+	}
 }
-?>

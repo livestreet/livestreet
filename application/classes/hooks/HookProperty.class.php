@@ -40,8 +40,15 @@ class HookProperty extends Hook {
 		 * Добавляем через наследование в объекты необходимый функционал по работе со свойствами EAV
 		 */
 		$aTargetTypes=$this->Property_GetTargetTypes();
+		$aUseEntities=array();
 		foreach($aTargetTypes as $sType=>$aParams) {
-			$this->Plugin_Inherit($aParams['entity'],'ModuleProperty_Target_'.$aParams['entity'],'ModuleProperty');
+			/**
+			 * Защита от дубля при наследовании
+			 */
+			if (!in_array($aParams['entity'],$aUseEntities)) {
+				$this->Plugin_Inherit($aParams['entity'],'ModuleProperty_Target_'.$aParams['entity'],'ModuleProperty');
+				$aUseEntities[]=$aParams['entity'];
+			}
 		}
 	}
 	/**
@@ -66,6 +73,8 @@ class HookProperty extends Hook {
 	/**
 	 * Автозагрузчик классов
 	 * Создает новый фейковый класс для создания цепочки наследования
+	 * Поддерживаются только ORM сущности
+	 * TODO: продумать использование сценариев валидации отличных от дефолтного
 	 *
 	 * @param string $sClassName
 	 */

@@ -123,14 +123,6 @@
 
 
 /**
- * Топик фотосет
- * 
- * @template topics/topic.photoset.tpl
- */
-.topic.topic-type-photoset .topic-content { margin-bottom: 25px; }
-
-
-/**
  * Топик ссылка
  * 
  * @template topics/topic.link.tpl

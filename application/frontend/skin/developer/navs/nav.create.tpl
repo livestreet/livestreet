@@ -4,15 +4,15 @@
 
 {if $sMenuItemSelect == 'topic'}
 	<ul class="nav nav-pills mb-30">
-		<li {if $sMenuSubItemSelect=='topic'}class="active"{/if}><a href="{router page='topic'}add/">{$aLang.topic_menu_add_topic}</a></li>
-		<li {if $sMenuSubItemSelect=='question'}class="active"{/if}><a href="{router page='question'}add/">{$aLang.topic_menu_add_question}</a></li>
-		<li {if $sMenuSubItemSelect=='link'}class="active"{/if}><a href="{router page='link'}add/">{$aLang.topic_menu_add_link}</a></li>
-		<li {if $sMenuSubItemSelect=='photoset'}class="active"{/if}><a href="{router page='photoset'}add/">{$aLang.topic_menu_add_photoset}</a></li>
-		
+		{$aTopicTypes=$LS->Topic_GetTopicTypes()}
+		{foreach $aTopicTypes as $oTopicType}
+			<li {if $sMenuSubItemSelect==$oTopicType->getCode()}class="active"{/if}><a href="{$oTopicType->getUrlForAdd()}">{$oTopicType->getName()}</a></li>
+		{/foreach}
+
 		{hook run='menu_create_topic_item'}
 
 		{if $iUserCurrentCountTopicDraft}
-			<li class="{if $sMenuSubItemSelect == 'drafts'}active{/if}"><a href="{router page='topic'}drafts/">{$aLang.topic_menu_drafts} ({$iUserCurrentCountTopicDraft})</a></li>
+			<li class="{if $sMenuSubItemSelect == 'drafts'}active{/if}"><a href="{router page='content'}drafts/">{$aLang.topic_menu_drafts} ({$iUserCurrentCountTopicDraft})</a></li>
 		{/if}
 	</ul>
 {/if}

@@ -24,14 +24,18 @@
 	{block name='add_topic_options'}{/block}
 
 	{* Подключение редактора *}
-	{include file='forms/editor.init.tpl' sMediaTargetType='topic'}
+	{$sMediaTargetId=''}
+	{if $oTopicEdit}
+		{$sMediaTargetId=$oTopicEdit->getId()}
+	{/if}
+	{include file='forms/editor.init.tpl' sMediaTargetType='topic' sMediaTargetId=$sMediaTargetId}
 
 
 	{hook run="add_topic_begin"}
 	{block name='add_topic_header_after'}{/block}
 
 
-	<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="js-form-validate" onsubmit="return ls.content.add('form-topic-add');">
+	<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="js-form-validate" onsubmit="return false;">
 		{hook run="form_add_topic_begin"}
 		{block name='add_topic_form_begin'}{/block}
 
@@ -49,22 +53,23 @@
 			]}
 		{/foreach}
 
-		{include file='forms/form.field.select.tpl'
-				 sFieldName          = 'topic[blog_id]'
-				 sFieldLabel         = $aLang.topic_create_blog
-				 sFieldNote          = $aLang.topic_create_blog_notice
-				 sFieldClasses       = 'width-full js-topic-add-title'
-				 aFieldItems         = $aBlogs
-				 sFieldSelectedValue = $_aRequest.blog_id}
+		{include file='forms/fields/form.field.select.tpl'
+			sFieldName          = 'topic[blog_id]'
+			sFieldLabel         = $aLang.topic_create_blog
+			sFieldNote          = $aLang.topic_create_blog_notice
+			sFieldClasses       = 'width-full js-topic-add-title'
+			aFieldItems         = $aBlogs
+			sFieldSelectedValue = {($oTopicEdit) ? $oTopicEdit->getBlogId() : '' }}
 
 
 		{* Заголовок топика *}
-		{include file='forms/form.field.text.tpl'
-				 sFieldName				= 'topic[topic_title]'
-				 sFieldEntityField		= 'topic_title'
-				 sFieldEntity			= 'ModuleTopic_EntityTopic'
-				 sFieldNote				= $aLang.topic_create_title_notice
-				 sFieldLabel			= $aLang.topic_create_title}
+		{include file='forms/fields/form.field.text.tpl'
+			sFieldName				= 'topic[topic_title]'
+			sFieldValue				= {($oTopicEdit) ? $oTopicEdit->getTitle() : '' }
+			sFieldEntityField		= 'topic_title'
+			sFieldEntity			= 'ModuleTopic_EntityTopic'
+			sFieldNote				= $aLang.topic_create_title_notice
+			sFieldLabel			= $aLang.topic_create_title}
 
 
 		{block name='add_topic_form_text_before'}{/block}
@@ -72,11 +77,12 @@
 
 		{* Текст топика *}
 		{* TODO: Max length for poll and link *}
-		{include file='forms/form.field.textarea.tpl'
-				 sFieldName    = 'topic[topic_text_source]'
-				 sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"'
-				 sFieldLabel   = $aLang.topic_create_text
-				 sFieldClasses = 'width-full js-editor'}
+		{include file='forms/fields/form.field.textarea.tpl'
+			sFieldName    = 'topic[topic_text_source]'
+			sFieldValue	  = {($oTopicEdit) ? $oTopicEdit->getTextSource() : '' }
+			sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"'
+			sFieldLabel   = $aLang.topic_create_text
+			sFieldClasses = 'width-full js-editor'}
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
 		{if ! $oConfig->GetValue('view.wysiwyg')}
@@ -88,32 +94,48 @@
 
 
 		{* Теги *}
-		{include file='forms/form.field.text.tpl'
-				 sFieldName    = 'topic[topic_tags]'
-				 sFieldRules   = 'required="true" rangetags="[1,15]"'
-				 sFieldNote    = $aLang.topic_create_tags_notice
-				 sFieldLabel   = $aLang.topic_create_tags
-				 sFieldClasses = 'width-full autocomplete-tags-sep'}
+		{include file='forms/fields/form.field.text.tpl'
+			sFieldName    = 'topic[topic_tags]'
+			sFieldValue	  = {($oTopicEdit) ? $oTopicEdit->getTags() : '' }
+			sFieldRules   = 'required="true" rangetags="[1,15]"'
+			sFieldNote    = $aLang.topic_create_tags_notice
+			sFieldLabel   = $aLang.topic_create_tags
+			sFieldClasses = 'width-full autocomplete-tags-sep'}
 
+		{* Показывает дополнительные поля *}
+		{$aBlockParams = []}
+		{$aBlockParams.plugin = 'admin'}
+		{$aBlockParams.target_type = 'topic_'|cat:$sTopicType}
+		{if $oTopicEdit}
+			{$aBlockParams.target_id = $oTopicEdit->getId()}
+		{/if}
+
+		{insert name="block" block="propertyUpdate" params=$aBlockParams}
 
 		{* Запретить комментарии *}
-		{include file='forms/form.field.checkbox.tpl'
-				 sFieldName  = 'topic[topic_forbid_comment]'
-				 sFieldNote  = $aLang.topic_create_forbid_comment_notice
-				 sFieldLabel = $aLang.topic_create_forbid_comment}
+		{include file='forms/fields/form.field.checkbox.tpl'
+			sFieldName  = 'topic[topic_forbid_comment]'
+			bFieldChecked = {($oTopicEdit && $oTopicEdit->getForbidComment()) ? true : false }
+			sFieldNote  = $aLang.topic_create_forbid_comment_notice
+			sFieldLabel = $aLang.topic_create_forbid_comment}
 
 
 		{* Принудительный вывод топиков на главную (доступно только админам) *}
 		{if $oUserCurrent->isAdministrator()}
-			{include file='forms/form.field.checkbox.tpl'
-					 sFieldName  = 'topic[topic_publish_index]'
-					 sFieldNote  = $aLang.topic_create_publish_index_notice
-					 sFieldLabel = $aLang.topic_create_publish_index}
+			{include file='forms/fields/form.field.checkbox.tpl'
+				sFieldName  = 'topic[topic_publish_index]'
+				bFieldChecked = {($oTopicEdit && $oTopicEdit->getPublishIndex()) ? true : false }
+				sFieldNote  = $aLang.topic_create_publish_index_notice
+				sFieldLabel = $aLang.topic_create_publish_index}
 		{/if}
 
 
 		{block name='add_topic_form_end'}{/block}
 		{hook run="form_add_topic_end"}
+
+
+		{* Скрытые поля *}
+		{include file='forms/fields/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$sTopicType}
 
 
 		{* Кнопки *}
@@ -123,18 +145,22 @@
 			{$sSubmitInputText = $aLang.topic_create_submit_update}
 		{/if}
 
-		{include file='forms/form.field.button.tpl'
-				 sFieldName    = 'submit_topic_publish'
-				 sFieldStyle   = 'primary'
-				 sFieldClasses = 'fl-r'
-				 sFieldText    = $sSubmitInputText}
-		{include file='forms/form.field.button.tpl' sFieldType='button' sFieldClasses='js-topic-preview-text-button' sFieldText=$aLang.topic_create_submit_preview}
-		{include file='forms/form.field.button.tpl' sFieldName='submit_topic_save' sFieldText=$aLang.topic_create_submit_save}
-	</form>
+		{if $oTopicEdit}
+			{include file="forms/fields/form.field.hidden.tpl" sFieldName='topic[id]' sFieldValue=$oTopicEdit->getId()}
+		{/if}
+
+		{include file='forms/fields/form.field.button.tpl'
+			sFieldId    = {($oTopicEdit) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
+			sFieldStyle   = 'primary'
+			sFieldClasses = 'fl-r'
+			sFieldText    = $sSubmitInputText}
+		{include file='forms/fields/form.field.button.tpl' sFieldType='button' sFieldClasses='js-topic-preview-text-button' sFieldText=$aLang.topic_create_submit_preview}
+		{include file='forms/fields/form.field.button.tpl' sFieldId={($oTopicEdit) ? 'submit-edit-topic-save' : 'submit-add-topic-save' } sFieldText=$aLang.topic_create_submit_save}
+</form>
 
 
-	{* Блок с превью текста *}
-	<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
+{* Блок с превью текста *}
+<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
 
 
 	{block name='add_topic_end'}{/block}

@@ -12,8 +12,5 @@ Disallow: /tag/$
 Disallow: /page/$
 Disallow: /error/$
 Disallow: /settings/$
-Disallow: /photoset/$
-Disallow: /topic/$
-Disallow: /link/$
-Disallow: /question/$
+Disallow: /content/$
 Disallow: /talk/$

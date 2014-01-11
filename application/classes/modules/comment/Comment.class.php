@@ -558,7 +558,7 @@ class ModuleComment extends Module {
 		if(!$aComments = $this->GetCommentsByTargetId($sTargetId,$sTargetType)) {
 			return false;
 		}
-		if(!isset($aComments['comments']) or count($aComments)==0) {
+		if(!isset($aComments['comments']) or count($aComments['comments'])==0) {
 			return;
 		}
 

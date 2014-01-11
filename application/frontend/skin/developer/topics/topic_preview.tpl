@@ -59,7 +59,7 @@
 	</footer>
 </article>
 
-
+{* TODO: Пофиксить кнопки сабмита *}
 <button type="submit" name="submit_topic_publish" class="button button-primary fl-r" onclick="jQuery('#submit_topic_publish').trigger('click');">
 	{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}
 		{$aLang.topic_create_submit_publish}

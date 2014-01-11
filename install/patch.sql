@@ -193,3 +193,28 @@ CREATE TABLE IF NOT EXISTS `prefix_media_target` (
 --
 ALTER TABLE `prefix_media_target`
   ADD CONSTRAINT `prefix_media_target_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `prefix_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- 10-01-2014
+ALTER TABLE `prefix_topic` CHANGE `topic_type` `topic_type` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
+
+-- 11-01-2014
+CREATE TABLE IF NOT EXISTS `prefix_topic_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) NOT NULL,
+  `name_many` varchar(250) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `allow_remove` tinyint(1) NOT NULL DEFAULT '0',
+  `date_create` datetime NOT NULL,
+  `state` tinyint(4) NOT NULL DEFAULT '1',
+  `params` text,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`),
+  KEY `state` (`state`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_topic_type`
+--
+INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remove`, `date_create`, `state`, `params`) VALUES
+(1, 'Топик', 'Топики', 'topic', 0, '2014-01-11 00:00:00', 1, NULL);
