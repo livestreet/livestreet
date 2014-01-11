@@ -26,7 +26,7 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		array('code','regexp','allowEmpty'=>false,'pattern'=>'#^[a-z0-9\_]+$#i','on'=>array('create','update')),
 		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250,'on'=>array('create','update')),
 		array('sort','number','allowEmpty'=>false,'integerOnly'=>true,'min'=>0,'on'=>array('update')),
-		array('validate_rules_raw','check_validate_rules_raw','on'=>array('update')),
+		array('validate_rules_raw','check_validate_rules_raw','on'=>array('create','update')),
 		array('params_raw','check_params_raw','on'=>array('update')),
 		array('title','check_title','on'=>array('create','update')),
 	);

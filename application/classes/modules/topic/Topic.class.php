@@ -88,7 +88,7 @@ class ModuleTopic extends Module {
 	 */
 	public function GetTopicsAdditionalData($aTopicId,$aAllowData=null) {
 		if (is_null($aAllowData)) {
-			$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array(),'relation_user'),'vote','favourite','comment_new');
+			$aAllowData=array('user'=>array(),'blog'=>array('owner'=>array(),'relation_user'),'vote','favourite','comment_new','properties');
 		}
 		func_array_simpleflip($aAllowData);
 		if (!is_array($aTopicId)) {
@@ -170,6 +170,12 @@ class ModuleTopic extends Module {
 				$oTopic->setCountCommentNew(0);
 				$oTopic->setDateRead(date("Y-m-d H:i:s"));
 			}
+		}
+		/**
+		 * Цепляем дополнительные поля
+		 */
+		if (isset($aAllowData['properties'])) {
+			$this->Property_RewriteGetItemsByFilter($aTopics,array('#properties'=>true));
 		}
 		return $aTopics;
 	}

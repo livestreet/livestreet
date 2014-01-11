@@ -91,13 +91,17 @@
 				{/if}
 			{/block}
 
-			{$aProperties = $oTopic->getPropertyList()}
-			{foreach $aProperties as $oProperty}
-                <br/>
-				{$mValue = $oProperty->getValue()->getValueForDisplay()}
+			{block name='topic_content_properties'}
+				{if !$bTopicList}
+					{$aProperties = $oTopic->getPropertyList()}
+					{foreach $aProperties as $oProperty}
+						<br/>
+						{$mValue = $oProperty->getValue()->getValueForDisplay()}
 
-                <b>{$oProperty->getTitle()}</b>: {$mValue}
-			{/foreach}
+						<b>{$oProperty->getTitle()}</b>: {$mValue}
+					{/foreach}
+				{/if}
+			{/block}
 
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
