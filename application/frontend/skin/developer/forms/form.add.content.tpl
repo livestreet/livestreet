@@ -65,7 +65,7 @@
 		{* Заголовок топика *}
 		{include file='forms/fields/form.field.text.tpl'
 			sFieldName				= 'topic[topic_title]'
-			sFieldValue				= {($oTopicEdit) ? $oTopicEdit->getTitle() : '' }
+			sFieldValue				= {(($oTopicEdit) ? $oTopicEdit->getTitle() : '')|escape:'html' }
 			sFieldEntityField		= 'topic_title'
 			sFieldEntity			= 'ModuleTopic_EntityTopic'
 			sFieldNote				= $aLang.topic_create_title_notice
@@ -79,7 +79,7 @@
 		{* TODO: Max length for poll and link *}
 		{include file='forms/fields/form.field.textarea.tpl'
 			sFieldName    = 'topic[topic_text_source]'
-			sFieldValue	  = {($oTopicEdit) ? $oTopicEdit->getTextSource() : '' }
+			sFieldValue	  = {(($oTopicEdit) ? $oTopicEdit->getTextSource() : '')|escape:'html' }
 			sFieldRules   = 'required="true" rangelength="[2,'|cat:$oConfig->Get('module.topic.max_length')|cat:']"'
 			sFieldLabel   = $aLang.topic_create_text
 			sFieldClasses = 'width-full js-editor'}
@@ -96,7 +96,7 @@
 		{* Теги *}
 		{include file='forms/fields/form.field.text.tpl'
 			sFieldName    = 'topic[topic_tags]'
-			sFieldValue	  = {($oTopicEdit) ? $oTopicEdit->getTags() : '' }
+			sFieldValue	  = {(($oTopicEdit) ? $oTopicEdit->getTags() : '')|escape:'html' }
 			sFieldRules   = 'required="true" rangetags="[1,15]"'
 			sFieldNote    = $aLang.topic_create_tags_notice
 			sFieldLabel   = $aLang.topic_create_tags

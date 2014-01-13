@@ -32,7 +32,19 @@ class ModuleTopic_EntityTopicType extends Entity {
 		array('name, name_many','string','max'=>200,'min'=>1,'allowEmpty'=>false),
 		array('code','regexp','pattern'=>"#^[a-z0-9_]{1,30}$#",'allowEmpty'=>false),
 		array('code','code_unique'),
+		array('name','check_name'),
+		array('name_many','check_name_many'),
 	);
+
+	public function ValidateCheckName() {
+		$this->setName(htmlspecialchars($this->getName()));
+		return true;
+	}
+
+	public function ValidateCheckNameMany() {
+		$this->setNameMany(htmlspecialchars($this->getNameMany()));
+		return true;
+	}
 
 	public function ValidateCodeUnique() {
 		if ($oType=$this->Topic_GetTopicTypeByCode($this->getCode())) {
