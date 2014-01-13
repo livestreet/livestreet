@@ -104,7 +104,6 @@
 
 		{* Показывает дополнительные поля *}
 		{$aBlockParams = []}
-		{$aBlockParams.plugin = 'admin'}
 		{$aBlockParams.target_type = 'topic_'|cat:$sTopicType}
 		{if $oTopicEdit}
 			{$aBlockParams.target_id = $oTopicEdit->getId()}
