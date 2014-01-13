@@ -4,6 +4,7 @@
  * @param string  $sAlertTitle       Заголовок
  * @param string  $sAlertStyle       Стиль уведомления (error, info и т.д.), по умолчанию - success
  * @param string  $sAlertAttributes  Дополнительные атрибуты основного блока
+ * @param string  $sAlertClasses     Дополнительные классы
  * @param boolean $bAlertVisible     Показывать или нет уведомление, по умолчанию - true
  * @param boolean $bAlertClose       Показывать или нет кнопку закрытия, по умолчанию - false
  * @param mixed   $mAlerts           Массив либо строка с текстом уведомления
@@ -11,7 +12,7 @@
  * @styles <framework>/css/alerts.css
  *}
 
-<div class="alert alert-{if $sAlertStyle}{$sAlertStyle}{else}success{/if} js-alert"
+<div class="alert alert-{if $sAlertStyle}{$sAlertStyle}{else}success{/if} js-alert {$sAlertClasses}"
      {if isset($bAlertVisible) && $bAlertVisible == false}style="display: none"{/if}
      {$sAlertAttributes}>
 

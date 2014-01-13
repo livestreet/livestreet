@@ -75,13 +75,13 @@ ls.wall = (function ($) {
 		this.elements.document
 			.on('keyup', this.options.selectors.form.text, function(e) {
 				if (e.ctrlKey && (e.keyCode || e.which) == 13) {
-					$(this).closest('form').submit();
+					$(this).closest(_this.options.selectors.form.self).submit();
 				}
 			})
 			.on('click', this.options.selectors.form.text, function(e) {
 				// TODO: IE8 support
 				if (e.which == 1) {
-					_this.form.open($(this).closest('form'));
+					_this.form.open($(this).closest(_this.options.selectors.form.self));
 				}
 			});
 
@@ -116,7 +116,7 @@ ls.wall = (function ($) {
 						 oForm.has(event.target).length === 0 && 
 						 ! oReply.is(event.target) && 
 						 ! oForm.find(_this.options.selectors.form.text).val() ) {
-						if ( $(_this.options.selectors.entry_container + '[data-id=' + iId + ']' ).find(_this.options.selectors.entry.self).length ) {
+						if ( $(_this.options.selectors.entry_container + '[data-id=' + iId + ']' ).find(_this.options.selectors.entry.self).length || iId === 0 ) {
 							_this.form.close(oForm);
 						} else {
 							_this.form.toggle(oForm);

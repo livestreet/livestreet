@@ -11,11 +11,11 @@
 	{if $oUserCurrent}
 		{include 'actions/ActionProfile/wall.form.tpl'}
 	{else}
-		{include 'alert.tpl' sAlertStyle='info' mAlerts=$aLang.wall_add_quest}
+		{include 'alert.tpl' sAlertStyle='info' sAlertClasses='mt-15' mAlerts=$aLang.wall_add_quest}
 	{/if}
 
 	{if ! count($aWall)}
-		{include 'alert.tpl' mAlerts=$aLang.wall_list_empty sAlertStyle='empty' sAlertAttributes='id="wall-empty"'}
+		{include 'alert.tpl' mAlerts=$aLang.wall_list_empty sAlertStyle='empty' sAlertClasses='mt-15' sAlertAttributes='id="wall-empty"'}
 	{/if}
 
 	{* Список записей *}
