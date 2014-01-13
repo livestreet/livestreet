@@ -218,3 +218,7 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_type` (
 --
 INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remove`, `date_create`, `state`, `params`) VALUES
 (1, 'Топик', 'Топики', 'topic', 0, '2014-01-11 00:00:00', 1, NULL);
+
+-- 12.01.2014
+ALTER TABLE `prefix_topic_type` ADD `sort` INT NOT NULL DEFAULT '0' AFTER `state` ,
+ADD INDEX ( `sort` ) ;
