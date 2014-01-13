@@ -59,7 +59,7 @@
                 SESSION_NAME			= '{$_sPhpSessionName}',
                 LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
                 WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if},
-                USER_PROFILE_LOGIN		= {if $oUserProfile}'{$oUserProfile->getLogin()}'{else}''{/if};
+                USER_PROFILE_LOGIN		= {if $oUserProfile}{json var=$oUserProfile->getLogin()}{else}''{/if};
 
 		var aRouter = [];
 		{foreach $aRouter as $sPage => $sPath}

@@ -10,7 +10,9 @@
  *}
 
 {* Правила валидации *}
-{$aFieldRules = " "|explode:$sFieldRules}
+{if $sFieldRules}
+	{$aFieldRules = " "|explode:$sFieldRules}
+{/if}
 
 {if $sFieldEntity}
 	{if !$sFieldEntityField}
