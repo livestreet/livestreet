@@ -1,7 +1,7 @@
 /**
  * Стена
  *
- * @template actions/ActionProfile/wall_*.tpl
+ * @template actions/ActionProfile/wall.*.tpl
  * @scripts <frontend>/common/js/wall.js
  * 
  * @license   GNU General Public License, version 2
@@ -13,32 +13,32 @@
 /**
  * Форма добавления сообщения на стену
  */
-.wall-submit 									{ margin-bottom: 30px; }
-.wall-submit.wall-submit-reply 					{ margin: 2px 0 2px 25px; padding: 7px; background: #fafafa; }
-.wall-submit.wall-submit-reply textarea 		{ height: 28px; margin: 0; }
-.wall-submit.wall-submit-reply button 			{ display: none; }
-.wall-submit.wall-submit-reply.active textarea 	{ height: 80px; margin-bottom: 5px; }
-.wall-submit.wall-submit-reply.active button 	{ display: block; }
-.wall-submit p 									{ margin-bottom: 5px; }
+.wall-form             { margin-bottom: 0; padding: 15px; background: #fafafa; }
+.wall-form .form-field { margin-bottom: 0; }
+.wall-form textarea    { height: 30px; min-height: 30px; max-height: 30px; resize: none; }
+
+.wall-form-footer { display: none; }
+
+/* Open */
+.wall-form.open .form-field { margin-bottom: 15px; }
+.wall-form.open textarea    { height: 90px; max-height: 300px; resize: vertical; }
+
+.wall-form.open .wall-form-footer { display: block; }
 
 
 /**
  * Сообщения
  */
-.comments.wall,
-.wall .comment 					{ margin-bottom: 2px; }
-.wall .comment .comment-info	{ padding-bottom: 0; }
-.wall .comment .comment-content	{ margin-bottom: 3px; }
+.comment.wall-post                     { padding-left: 70px; }
 
+.comment.wall-comment                  { padding-left: 50px; }
+.comment.wall-comment .comment-content { margin-bottom: 3px; }
+.comment.wall-comment .comment-avatar  { width: 30px; height: 30px; }
 
-/**
- * Комментарии
- */
-.comment.wall-comment-reply 					{ min-height: 0; padding-left: 48px; }
-.comment.wall-comment-reply .comment-avatar 	{ width: 30px; height: 30px; }
+.wall-comments { padding-left: 70px; }
 
 
 /**
  * Кнопка подгрузки комментариев
  */
-.get-more.get-more-wall-comments { border: none; margin: 0 0 0 25px; }
+.get-more.get-more-wall-comments { border: none; margin: 0; }

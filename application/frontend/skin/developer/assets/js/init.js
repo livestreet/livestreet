@@ -242,6 +242,12 @@ jQuery(document).ready(function($){
 	//ls.media.init();
 
 
+	/**
+	 * Стена
+	 */
+	ls.wall.init();
+	
+
 	// Временный костыль для сабмита форм
 	// TODO: Перенести в плагин button
 	$('button[data-button-submit-form]').on('click', function () {

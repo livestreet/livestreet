@@ -1,66 +1,33 @@
 {**
- * Список записей на стене
+ * Список постов на стене
+ *
+ * @param array $aWall Список постов
  *}
 
-{foreach $aWall as $oWall}
-	{$oWallUser = $oWall->getUser()}
-	{$aReplyWall = $oWall->getLastReplyWall()}
+{foreach $aWall as $oPost}
+	{$aPostComments = $oPost->getLastReplyWall()}
 
-	<div id="wall-item-{$oWall->getId()}" class="js-wall-item comment-wrapper">
-		<div class="comment">
-			<a href="{$oWallUser->getUserWebPath()}">
-				<img src="{$oWallUser->getProfileAvatarPath(48)}" alt="avatar" class="comment-avatar" />
-			</a>
+	{* Запись *}
+	{include 'actions/ActionProfile/wall.entry.tpl' oWallEntry=$oPost bWallEntryShowReply=!$aPostComments sWallEntryClasses='wall-post'}
 
-			<ul class="comment-info">
-				<li class="comment-author"><a href="{$oWallUser->getUserWebPath()}">{$oWallUser->getDisplayName()}</a></li>
-				<li class="comment-date">
-					<time datetime="{date_format date=$oWall->getDateAdd() format='c'}">
-						{date_format date=$oWall->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
-					</time>
-				</li>
-
-				{if $oWall->isAllowDelete()}
-					<li><a href="#" onclick="return ls.wall.remove({$oWall->getId()});" class="link-dotted">{$aLang.wall_action_delete}</a></li>
-				{/if}
-			</ul>
-
-			<div class="comment-content text">
-				{$oWall->getText()}
+	<div class="wall-comments js-wall-comment-wrapper" data-id="{$oPost->getId()}">
+		{* Кнопка подгрузки комментариев *}
+		{if count($aPostComments) < $oPost->getCountReply()}
+			<div class="get-more get-more-wall-comments js-wall-get-more" data-id="{$oPost->getId()}">
+				{$aLang.wall_load_reply_more} <span class="js-wall-get-more-count">{$oPost->getCountReply()}</span> {$oPost->getCountReply()|declension:$aLang.comment_declension}
 			</div>
-
-			{if $oUserCurrent and ! $aReplyWall}
-				<ul class="comment-actions">
-					<li><a href="#" class="link-dotted" onclick="return ls.wall.toggleReply({$oWall->getId()});">{$aLang.wall_action_reply}</a></li>
-				</ul>
-			{/if}
-		</div>
-
-		{if count($aReplyWall) < $oWall->getCountReply()}
-			<a href="#" onclick="return ls.wall.loadReplyNext({$oWall->getId()});" id="wall-reply-button-next-{$oWall->getId()}" class="get-more get-more-wall-comments">
-				<span class="wall-more-inner">
-					{$aLang.wall_load_reply_more}
-					<span id="wall-reply-count-next-{$oWall->getId()}">{$oWall->getCountReply()}</span>
-					{$oWall->getCountReply()|declension:$aLang.comment_declension}
-				</span>
-			</a>
 		{/if}
 
-		<div id="wall-reply-container-{$oWall->getId()}" class="comment-wrapper">
-			{if $aReplyWall}
-				{include file='actions/ActionProfile/wall.comments.tpl'}
+		{* Комментарии *}
+		<div class="js-wall-entry-container" data-id="{$oPost->getId()}">
+			{if $aPostComments}
+				{include 'actions/ActionProfile/wall.comments.tpl' aReplyWall=$aPostComments}
 			{/if}
 		</div>
 
+		{* Форма добавления комментария *}
 		{if $oUserCurrent}
-			<form class="wall-submit wall-submit-reply" {if !$aReplyWall}style="display: none"{/if}>
-				<textarea rows="4"
-						  id="wall-reply-text-{$oWall->getId()}"
-						  class="input-text width-full js-wall-reply-text"
-						  placeholder="{$aLang.wall_reply_placeholder}"
-						  onclick="return ls.wall.expandReply({$oWall->getId()});"></textarea>
-				<button type="button" onclick="ls.wall.addReply(jQuery('#wall-reply-text-{$oWall->getId()}').val(), {$oWall->getId()});" class="button button-primary js-button-wall-submit">{$aLang.wall_reply_submit}</button>
-			</form>
+			{include 'actions/ActionProfile/wall.form.tpl' iWallFormId=$oPost->getId() bWallFormDisplay=$aPostComments sWallFormPlaceholder=$aLang.wall_reply_placeholder}
 		{/if}
 	</div>
 {/foreach}
