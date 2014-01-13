@@ -222,3 +222,6 @@ INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remov
 -- 12.01.2014
 ALTER TABLE `prefix_topic_type` ADD `sort` INT NOT NULL DEFAULT '0' AFTER `state` ,
 ADD INDEX ( `sort` ) ;
+
+-- 12.01.2014
+ALTER TABLE `prefix_property` ADD `description` VARCHAR( 500 ) NOT NULL AFTER `title` ;

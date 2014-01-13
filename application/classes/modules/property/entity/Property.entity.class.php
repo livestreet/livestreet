@@ -25,10 +25,12 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		array('type','check_type','on'=>array('create')),
 		array('code','regexp','allowEmpty'=>false,'pattern'=>'#^[a-z0-9\_]+$#i','on'=>array('create','update')),
 		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250,'on'=>array('create','update')),
+		array('description','string','allowEmpty'=>true,'max'=>500,'on'=>array('update')),
 		array('sort','number','allowEmpty'=>false,'integerOnly'=>true,'min'=>0,'on'=>array('update')),
 		array('validate_rules_raw','check_validate_rules_raw','on'=>array('create','update')),
 		array('params_raw','check_params_raw','on'=>array('update')),
 		array('title','check_title','on'=>array('create','update')),
+		array('description','check_description','on'=>array('update')),
 	);
 
 	protected $aRelations=array(
@@ -44,6 +46,11 @@ class ModuleProperty_EntityProperty extends EntityORM {
 
 	public function ValidateCheckTitle() {
 		$this->setTitle(htmlspecialchars($this->getTitle()));
+		return true;
+	}
+
+	public function ValidateCheckDescription() {
+		$this->setDescription(htmlspecialchars($this->getDescription()));
 		return true;
 	}
 

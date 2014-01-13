@@ -4,6 +4,7 @@
 		 sFieldName    = "property[{$oProperty->getId()}]"
 		 sFieldValue   = $oValue->getValueVarchar()
 		 sFieldClasses = 'width-300'
+		 sFieldNote = $oProperty->getDescription()
 		 sFieldLabel   = $oProperty->getTitle()}
 
 {include file="modals/modal.property_type_video.tpl" oValue=$oValue}

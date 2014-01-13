@@ -23,7 +23,7 @@
 
 <div class="form-field {if $bFieldInline}form-field-inline{/if} {block name='field_classes'}{/block} {if $bFieldNoMargin}m-0{/if}">
     {if $sFieldLabel && ! $bFieldNoLabel}
-        <label for="{$sFieldName}" class="form-field-label">{$sFieldLabel}:</label>
+        <label for="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" class="form-field-label">{$sFieldLabel}:</label>
     {/if}
 
     <div class="form-field-holder">

@@ -6,7 +6,7 @@
 
 {block name='field_holder' prepend}
 	<input type="file" 
-		   id="{$sFieldName}" 
+		   id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" 
 		   name="{$sFieldName}"
 		   class="{if $sFieldClasses}{$sFieldClasses}{/if}"
 		   {if $bFieldIsDisabled}disabled{/if} />

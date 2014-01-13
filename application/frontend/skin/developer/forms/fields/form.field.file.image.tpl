@@ -22,7 +22,7 @@
 					</span>
 				{/strip}
 
-				<input type="file" name="{$sFieldName}" id="{$sFieldName}" class="js-ajax-image-upload-file">
+				<input type="file" name="{$sFieldName}" id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" class="js-ajax-image-upload-file">
 			</label>
 
 			<a href="#" class="js-ajax-image-upload-remove link-dotted" {if ! $bFieldIsImage}style="display: none;"{/if}>

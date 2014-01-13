@@ -4,4 +4,5 @@
 		 sFieldName    = "property[{$oProperty->getId()}]"
 		 sFieldValue   = $oValue->getValueFloat()
 		 sFieldClasses = 'width-150'
+		 sFieldNote = $oProperty->getDescription()
 		 sFieldLabel   = $oProperty->getTitle()}

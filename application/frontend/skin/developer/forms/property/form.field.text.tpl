@@ -4,4 +4,5 @@
 		 sFieldName  = "property[{$oProperty->getId()}]"
 		 sFieldValue = $oValue->getValueForForm()
 		 iFieldRows  = 10
+		 sFieldNote = $oProperty->getDescription()
 		 sFieldLabel = $oProperty->getTitle()}

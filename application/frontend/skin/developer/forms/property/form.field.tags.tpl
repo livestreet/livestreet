@@ -4,6 +4,7 @@
 		 sFieldName  = "property[{$oProperty->getId()}]"
 		 sFieldValue = $oValue->getValueVarchar()
 		 sFieldId    = "property-value-tags-{$oProperty->getId()}"
+		 sFieldNote = $oProperty->getDescription()
 		 sFieldLabel = $oProperty->getTitle()}
 
 <script>

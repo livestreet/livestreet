@@ -3,6 +3,6 @@
  *}
 
 <input type="hidden" 
-	   id="{$sFieldName}" 
+	   id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" 
 	   name="{$sFieldName}" 
-	   value="{if $sFieldValue}{$sFieldValue|escape:'html'}{else}{if $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}{/if}" />
+	   value="{if $sFieldValue}{$sFieldValue}{elseif $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}" />
