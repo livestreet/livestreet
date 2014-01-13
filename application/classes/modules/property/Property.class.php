@@ -584,4 +584,27 @@ class ModuleProperty extends ModuleORM {
 	public function GetTargetsByTag($iPropertyId,$sTag,$iCurrPage,$iPerPage) {
 		return array('collection'=>$this->oMapper->GetTargetsByTag($iPropertyId,$sTag,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
 	}
+	/**
+	 * Производит изменение названия типа объекта, например "article" меняем на "news"
+	 *
+	 * @param $sType
+	 * @param $sTypeNew
+	 */
+	public function ChangeTargetType($sType,$sTypeNew) {
+		$this->oMapper->UpdatePropertyByTargetType($sType,$sTypeNew);
+		$this->oMapper->UpdatePropertySelectByTargetType($sType,$sTypeNew);
+		$this->oMapper->UpdatePropertyValueByTargetType($sType,$sTypeNew);
+		$this->oMapper->UpdatePropertyValueSelectByTargetType($sType,$sTypeNew);
+		$this->oMapper->UpdatePropertyValueTagByTargetType($sType,$sTypeNew);
+		/**
+		 * Сбрасываем кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array(
+			'ModuleProperty_EntityProperty_save',
+			'ModuleProperty_EntitySelect_save',
+			'ModuleProperty_EntityValue_save',
+			'ModuleProperty_EntityValueSelect_save',
+			'ModuleProperty_EntityValueTag_save',
+		));
+	}
 }

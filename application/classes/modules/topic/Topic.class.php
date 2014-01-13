@@ -1610,6 +1610,16 @@ class ModuleTopic extends Module {
 		return $this->oMapperTopic->GetTopicTypeByCode($sCode);
 	}
 	/**
+	 * Возвращает объект типа топика по его ID
+	 *
+	 * @param int $iId
+	 *
+	 * @return ModuleTopic_EntityTopicType|null
+	 */
+	public function GetTopicTypeById($iId) {
+		return $this->oMapperTopic->GetTopicTypeById($iId);
+	}
+	/**
 	 * Добавляет новый тип топика в БД
 	 *
 	 * @param ModuleTopic_EntityTopicType $oType
@@ -1632,5 +1642,21 @@ class ModuleTopic extends Module {
 	 */
 	public function GetTopicTypeItems($aFilter=array()) {
 		return $this->oMapperTopic->GetTopicTypeItems($aFilter);
+	}
+	/**
+	 * Обновляет тип топика в БД
+	 *
+	 * @param ModuleTopic_EntityTopicType $oType
+	 *
+	 * @return bool
+	 */
+	public function UpdateTopicType($oType) {
+		return $this->oMapperTopic->UpdateTopicType($oType);
+	}
+
+	public function UpdateTopicByType($sType,$sTypeNew) {
+		$res=$this->oMapperTopic->UpdateTopicByType($sType,$sTypeNew);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_update"));
+		return $res;
 	}
 }

@@ -885,6 +885,14 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return null;
 	}
 
+	public function GetTopicTypeById($iId) {
+		$sql = 'SELECT * FROM ' . Config::Get('db.table.topic_type') . ' WHERE id = ?d';
+		if ($aRow = $this->oDb->selectRow($sql, $iId)) {
+			return Engine::GetEntity('ModuleTopic_EntityTopicType',$aRow);
+		}
+		return null;
+	}
+
 	public function AddTopicType($oType) {
 		$sql = "INSERT INTO ".Config::Get('db.table.topic_type')."
 			(name,
@@ -912,6 +920,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 			WHERE
 				1 = 1
 				{ and state = ?d }
+			ORDER BY sort desc
 			LIMIT 0, 500
 				";
 		$aReturn=array();
@@ -921,5 +930,34 @@ class ModuleTopic_MapperTopic extends Mapper {
 			}
 		}
 		return $aReturn;
+	}
+
+	public function UpdateTopicType($oType) {
+		$sql = "UPDATE ".Config::Get('db.table.topic_type')."
+			SET
+				name= ?,
+				name_many= ?,
+				code= ?,
+				state= ?d,
+				sort= ?d,
+				params= ?
+			WHERE
+				id = ?d
+		";
+		$res=$this->oDb->query($sql,$oType->getName(),$oType->getNameMany(),$oType->getCode(),$oType->getState(),$oType->getSort(),$oType->getParams(),$oType->getId());
+		return $res===false or is_null($res) ? false : true;
+	}
+
+	public function UpdateTopicByType($sType,$sTypeNew) {
+		$sql = "UPDATE
+                 ".Config::Get('db.table.topic')."
+                SET topic_type = ?
+                WHERE
+                	topic_type = ?
+                	";
+		if ($this->oDb->query($sql,$sTypeNew, $sType)!==false) {
+			return true;
+		}
+		return false;
 	}
 }

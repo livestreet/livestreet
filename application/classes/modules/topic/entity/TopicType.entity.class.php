@@ -87,4 +87,8 @@ class ModuleTopic_EntityTopicType extends Entity {
 	public function getUrlForAdd() {
 		return Router::GetPath('content/add').$this->getCode().'/';
 	}
+
+	public function getPropertyTargetType() {
+		return 'topic_'.$this->getCode();
+	}
 }
