@@ -315,7 +315,7 @@ $config['db']['params']['user']   = 'root';
 $config['db']['params']['pass']   = '';
 $config['db']['params']['type']   = 'mysql';
 $config['db']['params']['dbname'] = 'social';
-$config['db']['params']['replication']['slave'] = array(
+$config['db']['params']['params']['replication']['slave'] = array(
 	/*
 	array(
 		'host'=>'slave1',
