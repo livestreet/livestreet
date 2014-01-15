@@ -1230,7 +1230,10 @@ class ActionBlog extends Action {
 			 */
 			$this->oUserCurrent->setDateCommentLast(date("Y-m-d H:i:s"));
 			$this->User_Update($this->oUserCurrent);
-
+			/**
+			 * Фиксируем ID у media файлов комментария
+			 */
+			$this->Media_ReplaceTargetTmpById('comment',$oCommentNew->getId());
 			/**
 			 * Список емайлов на которые не нужно отправлять уведомление
 			 */

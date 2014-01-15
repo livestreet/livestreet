@@ -41,6 +41,7 @@ class ModuleMedia extends ModuleORM {
 
 	protected $aTargetTypes=array(
 		'topic'=>array(),
+		'comment'=>array(),
 	);
 
 	/**
@@ -313,25 +314,6 @@ class ModuleMedia extends ModuleORM {
 		return Config::Get('path.uploads.base')."/media/{$sTargetType}/".date('Y/m/d/H/');
 	}
 
-	/**
-	 * Проверка владельца с типом "topic"
-	 * Название метода формируется автоматически
-	 *
-	 * @param int $iTargetId	ID владельца
-	 * @return bool
-	 */
-	public function CheckTargetTopic($iTargetId) {
-		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
-			/**
-			 * Проверяем права на редактирование топика
-			 */
-			if ($this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function BuildCodeForEditor($oMedia,$aParams) {
 		$sCode='';
 		if ($oMedia->getType()==self::TYPE_IMAGE) {
@@ -509,5 +491,66 @@ class ModuleMedia extends ModuleORM {
 		}
 		$sTextResult.="</div>\r\n";
 		return $sTextResult;
+	}
+	/**
+	 * Заменяет временный идентификатор на необходимый ID объекта
+	 *
+	 * @param string	$sTargetType
+	 * @param string	$sTargetId
+	 * @param null|string	$sTargetTmp	Если не задан, то берется их куки "media_target_tmp_{$sTargetType}"
+	 */
+	public function ReplaceTargetTmpById($sTargetType,$sTargetId,$sTargetTmp=null) {
+		$sCookieKey='media_target_tmp_'.$sTargetType;
+		if (is_null($sTargetTmp) and isset($_COOKIE[$sCookieKey])) {
+			$sTargetTmp=$_COOKIE[$sCookieKey];
+			setcookie($sCookieKey,null,-1,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+		}
+		if (is_string($sTargetTmp)) {
+			$aTargetItems=$this->Media_GetTargetItemsByTargetTmpAndTargetType($sTargetTmp,$sTargetType);
+			foreach($aTargetItems as $oTarget) {
+				$oTarget->setTargetTmp(null);
+				$oTarget->setTargetId($sTargetId);
+				$oTarget->Update();
+			}
+		}
+	}
+
+
+
+	/**
+	 * Проверка владельца с типом "topic"
+	 * Название метода формируется автоматически
+	 *
+	 * @param int $iTargetId	ID владельца
+	 * @return bool
+	 */
+	public function CheckTargetTopic($iTargetId) {
+		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+			/**
+			 * Проверяем права на редактирование топика
+			 */
+			if ($this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Проверка владельца с типом "comment"
+	 * Название метода формируется автоматически
+	 *
+	 * @param int $iTargetId	ID владельца
+	 * @return bool
+	 */
+	public function CheckTargetComment($iTargetId) {
+		if ($oComment=$this->Comment_GetCommentById($iTargetId)) {
+			/**
+			 * Проверяем права на редактирование топика
+			 */
+			if ($this->ACL_IsAllowEditComment($oComment,$this->oUserCurrent)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

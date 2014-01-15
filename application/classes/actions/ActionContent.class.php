@@ -420,15 +420,7 @@ class ActionContent extends Action {
 				/**
 				 * Фиксируем ID у media файлов топика
 				 */
-				if (isset($_COOKIE['media_target_tmp_topic']) and is_string($_COOKIE['media_target_tmp_topic'])) {
-					$aTargetItems=$this->Media_GetTargetItemsByTargetTmpAndTargetType($_COOKIE['media_target_tmp_topic'],'topic');
-					foreach($aTargetItems as $oTarget) {
-						$oTarget->setTargetTmp(null);
-						$oTarget->setTargetId($oTopic->getId());
-						$oTarget->Update();
-					}
-				}
-				setcookie('media_target_tmp_topic',null);
+				$this->Media_ReplaceTargetTmpById('topic',$oTopic->getId());
 				/**
 				 * Добавляем автора топика в подписчики на новые комментарии к этому топику
 				 */

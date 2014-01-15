@@ -191,10 +191,30 @@ ls.media = (function ($) {
 			this.saveDataFile($(e.currentTarget).attr('name'),$(e.currentTarget).val());
 		}.bind(this));
 
-		// Инициализация фоторамы при предпросмотре
+		// Инициализация фоторамы при предпросмотре топика
 		ls.hook.add('ls_topic_preview_after',function(){
 			$('.fotorama').fotorama();
 		});
+
+		// Инициализация фоторамы после обновления комментов
+		ls.hook.add('ls_comments_load_after',function(){
+			$('.fotorama').fotorama();
+		}.bind(this));
+
+		// После добавления комментария необходимо получить новый временный идентификатор и очистить галлерею
+		ls.hook.add('ls_comments_add_after',function(){
+			this.options.target_id='';
+			this.options.target_tmp='';
+			ls.media.generateTargetTmp(this.options.target_type);
+			this.clearSelected();
+			this.elements.gallery.fileList.empty();
+			this.markAsEmpty();
+		}.bind(this));
+
+		// Инициализация фоторамы при предпросмотре
+		ls.hook.inject([ls.utilities,'textPreview'], function() {
+			$('.fotorama').fotorama();
+		},'textPreviewDisplayAfter');
 
 		// Проверка корректности урла при вставке ссылки на медиа-объект
 		this.elements.link.url.on('input', function() {
@@ -387,6 +407,7 @@ ls.media = (function ($) {
 	 * Подгрузка списка файлов
 	 */
 	this.loadImageList = function() {
+		this.clearSelected();
 		this.elements.gallery.fileList.empty().addClass( ls.options.classes.states.loading );
 
 		ls.ajax.load(this.options.routers.load_gallery, { target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
@@ -524,6 +545,11 @@ ls.media = (function ($) {
 		}
 	};
 
+	this.clearSelected = function() {
+		this.getSelected().removeClass(this.options.classes.selected);
+		this.getActive().removeClass(ls.options.classes.states.active);
+		this.hideDetail();
+	}
 	/**
 	 * Получает выделенные файлы
 	 * 

@@ -357,6 +357,21 @@ class ModuleACL extends Module {
 		return false;
 	}
 	/**
+	 * @param ModuleComment_EntityComment $oComment
+	 * @param ModuleUser_EntityUser $oUser
+	 *
+	 * @return bool
+	 */
+	public function IsAllowEditComment($oComment,$oUser) {
+		/**
+		 * Разрешаем если это админ сайта или автор комментария
+		 */
+		if ($oComment->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+			return true;
+		}
+		return false;
+	}
+	/**
 	 * Проверяет можно или нет пользователю удалять данный топик
 	 *
 	 * @param ModuleTopic_EntityTopic $oTopic	Топик
