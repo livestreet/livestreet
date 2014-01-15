@@ -174,10 +174,9 @@ ls.media = (function ($) {
 
 		this.elements.buttonInsertPhotoset.on('click', function () {
 			var params = {
-				use_thumbs: $('#media-settings-mode-create-photoset').find('input[name=use_thumbs]').val(),
-				show_caption: $('#media-settings-mode-create-photoset').find('input[name=show_caption]').val()
+				use_thumbs: $('#media-settings-mode-create-photoset').find('input[name=use_thumbs]').is(':checked'),
+				show_caption: $('#media-settings-mode-create-photoset').find('input[name=show_caption]').is(':checked')
 			}
-
 			this.insert(this.options.routers.submit_photoset, params);
 		}.bind(this));
 
