@@ -6,10 +6,7 @@
  * @param string  $sWallFormPlaceholder Плейсхолдер
  *}
 
-{if ! isset($iWallFormId)}{$iWallFormId = 0}{/if}
-{if ! isset($bWallFormDisplay)}{$bWallFormDisplay = true}{/if}
-
-<form class="wall-form js-wall-form {$sWallFormClasses}" data-id="{$iWallFormId}"  {if ! $bWallFormDisplay}style="display: none"{/if}>
+<form class="wall-form js-wall-form {$sWallFormClasses}" data-id="{$iWallFormId|default:0}" {if ! $bWallFormDisplay|default:true}style="display: none"{/if}>
 	{* Текст *}
 	{include 'forms/fields/form.field.textarea.tpl'
 			 sFieldPlaceholder = "{if $sWallFormPlaceholder}{$sWallFormPlaceholder}{else}{$aLang.wall_add_title}{/if}"

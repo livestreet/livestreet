@@ -84,14 +84,16 @@
 /**
  * Подвал
  */
-.topic-footer .topic-info-item         { float: left; padding: 8px; margin-right: 20px; }
-.topic-footer .topic-info-item a       { text-decoration: none; }
-.topic-footer .topic-info-item a:hover { text-decoration: underline; }
+.topic-footer .topic-info-item { float: left; padding: 8px; margin-right: 20px; }
+
+.topic-info a       { text-decoration: none; }
+.topic-info a:hover { text-decoration: underline; }
 
 /* Автор */
-.topic-info-item.topic-info-item-author { padding: 2px; }
-.topic-info-item-author-avatar          { border-radius: 50%; width: 30px; height: 30px; vertical-align: middle; margin-right: 3px; }
-.topic-info-item-author-login           { font-weight: bold; color: #333; vertical-align: middle; }
+.topic-info-item.topic-info-item-author               { padding: 2px; }
+.topic-info .topic-info-item-author-avatar-link:hover { text-decoration: none; }
+.topic-info-item-author-avatar                        { border-radius: 50%; width: 30px; height: 30px; vertical-align: middle; margin-right: 3px; }
+.topic-info-item-author-login                         { font-weight: bold; color: #333; vertical-align: middle; }
 
 /* Ссылка на комментарии */
 .topic-info-item.topic-info-item-comments a span { color: #777; }
@@ -116,6 +118,7 @@
 
 .topic .vote .vote-count { color: #fff; padding-right: 13px; padding-left: 13px; opacity: .9; }
 .topic .vote .vote-count a { color: #fff; }
+.topic .vote .vote-count a:hover { text-decoration: none; }
 .topic .vote.vote-count-positive .vote-count { color: #fff; }
 .topic .vote.vote-count-negative .vote-count { color: #fff; }
 

@@ -80,6 +80,7 @@
 				{if $bTopicList}
 					{$oTopic->getTextShort()}
 
+					{* Кат *}
 					{if $oTopic->getTextShort() != $oTopic->getText()}
                         <br/>
                         <a href="{$oTopic->getUrl()}#cut" title="{$aLang.topic_read_more}">
@@ -91,9 +92,11 @@
 				{/if}
 			{/block}
 
+			{* Дополнительные поля *}
 			{block name='topic_content_properties'}
-				{if !$bTopicList}
+				{if ! $bTopicList}
 					{$aProperties = $oTopic->getPropertyList()}
+
 					{foreach $aProperties as $oProperty}
 						<br/>
 						{$mValue = $oProperty->getValue()->getValueForDisplay()}
@@ -187,11 +190,11 @@
 							{/if}
 
 							{if $bShowVoteInfo}js-tooltip-vote-topic{/if}">
-					<div class="vote-item vote-count js-vote-rating">
+					<div class="vote-item vote-count js-vote-rating {if ! $bShowVoteInfo}js-vote-abstain{/if}" {if ! $bShowVoteInfo}title="{$aLang.topic_vote_abstain}"{/if}>
 						{if $bShowVoteInfo}
 							{$oTopic->getRating()}
 						{else}
-							<a href="#" class="js-vote-abstain">?</a>
+							?
 						{/if}
 					</div>
 					<div class="vote-item vote-up js-vote-up"><i></i></div>
@@ -200,7 +203,7 @@
 
 				{* Автор топика *}
 				<li class="topic-info-item topic-info-item-author">
-					<a href="{$oUser->getUserWebPath()}">
+					<a href="{$oUser->getUserWebPath()}" class="topic-info-item-author-avatar-link">
 						<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="topic-info-item-author-avatar" />
 					</a>
 					<a rel="author" href="{$oUser->getUserWebPath()}" class="topic-info-item-author-login">{$oUser->getDisplayName()}</a>
