@@ -112,9 +112,9 @@ ls.wall = (function ($) {
 						iId    = oForm.data('id'),
 						oReply = $(_this.options.selectors.entry.reply + '[data-id=' + iId + ']');
 
-					if ( ! oForm.is(event.target) && 
-						 oForm.has(event.target).length === 0 && 
-						 ! oReply.is(event.target) && 
+					if ( ! oForm.is(e.target) && 
+						 oForm.has(e.target).length === 0 && 
+						 ! oReply.is(e.target) && 
 						 ! oForm.find(_this.options.selectors.form.text).val() ) {
 						if ( $(_this.options.selectors.entry_container + '[data-id=' + iId + ']' ).find(_this.options.selectors.entry.self).length || iId === 0 ) {
 							_this.form.close(oForm);
